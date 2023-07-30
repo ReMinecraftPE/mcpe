@@ -1,0 +1,1 @@
+This folder contains compatibility crap since Microsoft never updated from OpenGL V1.2.

@@ -1,0 +1,20 @@
+#include "Tile.hpp"
+#include "Level.hpp"
+
+TransparentTile::TransparentTile(int ID, int texture, Material* mtl, bool bTransparent) :Tile(ID, texture, mtl)
+{
+	m_bTransparent = bTransparent;
+}
+
+bool TransparentTile::isSolidRender()
+{
+	return false;
+}
+
+bool TransparentTile::shouldRenderFace(LevelSource* level, int x, int y, int z, int dir)
+{
+	if (!m_bTransparent && level->getTile(x, y, z) == m_ID)
+		return false;
+
+	return Tile::shouldRenderFace(level, x, y, z, dir);
+}

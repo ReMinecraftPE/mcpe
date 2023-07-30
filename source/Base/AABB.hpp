@@ -1,0 +1,69 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+
+	AABB.hpp
+
+	The following code is licensed under the following license:
+	< no license yet :( >
+ ********************************************************************/
+
+#pragma once
+
+#include "Vec3.hpp"
+#include "HitResult.hpp"
+
+class AABB
+{
+public:
+	Vec3 min, max;
+
+	AABB();
+	AABB(Vec3 min, Vec3 max);
+	AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
+
+public:
+	HitResult clip(const Vec3&, const Vec3&);
+	float clipXCollide(const AABB& bud, float f) const;
+	float clipYCollide(const AABB& bud, float f) const;
+	float clipZCollide(const AABB& bud, float f) const;
+
+	bool intersect(const AABB& other) const;
+
+	// @NOTE: Names for `move`, `grow` and `expand` were taken from really early minecraft (rd-132211 to be exact).
+	void move(float x, float y, float z)
+	{
+		min += Vec3(x, y, z);
+		max += Vec3(x, y, z);
+	}
+
+	// same thing
+	void grow(float x, float y, float z)
+	{
+		min -= Vec3(x, y, z);
+		max += Vec3(x, y, z);
+	}
+
+	// same thing
+	void grow(float x)
+	{
+		min -= Vec3(x, x, x);
+		max += Vec3(x, x, x);
+	}
+
+	void expand(float x, float y, float z)
+	{
+		if (x < 0) min.x += x;
+		if (x > 0) max.x += x;
+		if (y < 0) min.y += y;
+		if (y > 0) max.y += y;
+		if (z < 0) min.z += z;
+		if (z > 0) max.z += z;
+	}
+
+	bool contains(const Vec3& v) const
+	{
+		return v.x > min.x && v.x < max.x && v.y > min.y && v.y < max.y && v.z > min.z && v.z < max.z;
+	}
+};
+
