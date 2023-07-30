@@ -1,11 +1,9 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-
-	Util.cpp
-
-	The following code is licensed under the following license:
-	< no license yet :( >
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
 #include "Util.hpp"
@@ -15,7 +13,7 @@ std::string Util::stringTrim(const std::string& str, const std::string& filter, 
 	if (str.empty() || filter.empty())
 		return "";
 
-	// don't know what the fuck this does. TODO: clean this crap up
+	// don't know what the hell this does. TODO: clean this crap up
 	if (!a4 && !a5)
 		return "";
 

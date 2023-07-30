@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #pragma once
 
 // @NOTE: This class appears to reference a mythical "std::hashtable", but I couldn't find any traces of it.

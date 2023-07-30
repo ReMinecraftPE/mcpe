@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #include "LevelRenderer.hpp"
 #include "Minecraft.hpp"
 
@@ -678,7 +686,7 @@ typedef ChunkVector::iterator ChunkVectorIterator;
 
 bool LevelRenderer::updateDirtyChunks(Mob* pMob, bool b)
 {
-	// @TODO: untangle this shit
+	// @TODO: untangle this thing
 
 	int v3; // r4
 	ChunkVectorIterator field_88_Beg; // r3

@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #include "FrustumCuller.hpp"
 
 bool FrustumCuller::cubeFullyInFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)

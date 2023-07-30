@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #include "Utils.hpp" // include the utils only to let us know what enhancements we have
 #if defined(ENH_ALLOW_SAND_GRAVITY)
 #include "FallingTileRenderer.hpp"

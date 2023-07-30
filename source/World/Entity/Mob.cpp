@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #include "Mob.hpp"
 #include "Level.hpp"
 
@@ -55,7 +63,7 @@ void Mob::tick()
 	aiStep();
 	updateWalkAnim();
 
-	//@TODO: unf*ck this variable mess
+	//@TODO: untangle this variable mess
 	float deltaX, deltaZ, dist, x1, x2, x3, x4, x5, x6, x7, field_E8_2, field_E8_new, v36;
 	bool angleOOB = false;
 

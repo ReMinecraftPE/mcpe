@@ -1,12 +1,11 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-
-	Tesselator.cpp
-
-	The following code is licensed under the following license:
-	< no license yet :( >
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
+
 #include "compat/GL.hpp"
 #include "Tesselator.hpp"
 #include "Utils.hpp"

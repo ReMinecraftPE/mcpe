@@ -1,11 +1,9 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-
-	Utils.cpp
-
-	The following code is licensed under the following license:
-	< no license yet :( >
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
 // note: not an official file name

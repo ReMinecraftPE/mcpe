@@ -1,17 +1,15 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-
-	Random.cpp
-
-	The following code is licensed under the following license:
-	< no license yet :( >
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
 #include "Utils.hpp"
 #include "Random.hpp"
 
- /* Period parameters */
+/* Period parameters */
 #define N 624
 #define M 397
 #define MATRIX_A 0x9908b0dfUL   /* constant vector a */

@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #include "Level.hpp"
 #include "ChunkCache.hpp"
 #include "Util.hpp"
@@ -463,7 +471,7 @@ void Level::updateLight(const LightLayer& ll, int a, int b, int c, int d, int e,
 
 	for (int i = 0; i < int(m_lightUpdates.size()); i++)
 	{
-		//dont know what the fuck this is v19 = &v15[~v17 - 0x49249249 * (i >> 2)];
+		//dont know what the hell this is v19 = &v15[~v17 - 0x49249249 * (i >> 2)];
 
 		LightUpdate* pUpd = &m_lightUpdates[i];
 		if (pUpd->m_lightLayer == &ll && pUpd->expandToContain(a, b, c, d, e, f))
