@@ -341,6 +341,35 @@ void Minecraft::tickInput()
 				handleMouseClick(2);
 				field_DAC = field_DA8;
 			}
+#ifdef ENH_ALLOW_SCROLL_WHEEL
+			if (input.field_0 == 3)
+			{
+				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+
+#ifdef ENH_ENABLE_9TH_SLOT
+#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 1)
+#else
+#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
+#endif
+
+				if (input.field_4 > 0) // @NOTE: Scroll up
+				{
+					if (slot-- == 0)
+					{
+						slot = MAX_ITEMS;
+					}
+				}
+				else
+				{
+					if (slot++ == MAX_ITEMS) // @NOTE: Scroll down
+					{
+						slot = 0;
+					}
+				}
+
+				m_pLocalPlayer->m_pInventory->selectSlot(slot);
+			}
+#endif
 		}
 
 	}
