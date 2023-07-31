@@ -145,7 +145,9 @@ void OptionsScreen::render(int a, int b, float c)
 
 void OptionsScreen::removed()
 {
+#ifdef ORIGINAL_CODE
 	m_pMinecraft->reloadOptions();
+#endif
 }
 
 #ifndef ORIGINAL_CODE
