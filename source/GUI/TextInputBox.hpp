@@ -35,7 +35,7 @@ public:
 	void onClick(int x, int y);
 	bool clicked(int x, int y);
 
-private:
+public:
 	int m_ID = 0;
 	int m_xPos = 0;
 	int m_yPos = 0;
