@@ -14,12 +14,17 @@
 #include "Random.hpp"
 
 // Platform specific type for the sound system.
+
+#ifdef _WIN32
+#include "../../platforms/windows/SoundSystem_windows.hpp"
+#define SOUND_SYSTEM_TYPE SoundSystemWindows
+#else
 #define SOUND_SYSTEM_TYPE SoundSystem
+#endif
+
 //#define SOUND_SYSTEM_TYPE SoundSystemSL
-//#define SOUND_SYSTEM_TYPE SoundSystemWindows
 
 // @TODO: SoundSystemSL - Use this for the Android port
-// @TODO: SoundSystemWindows - Sound system for Windows.
 
 class SoundEngine
 {

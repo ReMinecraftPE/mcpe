@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="..\compat\AKeyCodes.hpp" />
     <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp" />
+    <ClInclude Include="..\platforms\windows\SoundSystem_windows.hpp" />
     <ClInclude Include="..\source\App\App.hpp" />
     <ClInclude Include="..\source\App\AppPlatform.hpp" />
     <ClInclude Include="..\source\App\Minecraft.hpp" />
@@ -318,6 +319,7 @@
     <ClCompile Include="..\compat\GLExt.cpp" />
     <ClCompile Include="..\platforms\windows\AppPlatform_windows.cpp" />
     <ClCompile Include="..\platforms\windows\main.cpp" />
+    <ClCompile Include="..\platforms\windows\SoundSystem_windows.cpp" />
     <ClCompile Include="..\source\App\App.cpp" />
     <ClCompile Include="..\source\App\AppPlatform.cpp" />
     <ClCompile Include="..\source\App\Minecraft.cpp" />
