@@ -18,8 +18,11 @@ Want to help this project? [Here's a list of things left to do.](TODO.md)
 ## Setup
 
 Before opening the VS2022 project or trying to build, load the sound assets into the `sound_data/` folder in the root of the project
-by running the following command:
+by **running the following command**:
 * `tools/grabsounds.py /path/to/the/mcpe01_canada/lib/armeabi-v7a/libminecraftpe.so`.
+
+After that, **copy the assets folder** from mcpe01_canada.apk, such that there is a folder called `assets` in the current directory of the executable
+(`windows_vs` if you are running from VS, or the same dir as the executable otherwise)
 
 ## Have seams when playing?
 
