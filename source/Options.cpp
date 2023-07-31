@@ -113,6 +113,11 @@ void Options::save()
 	// stub
 }
 
+std::string Options::getMessage(const Options::Option& option)
+{
+	return "Options::getMessage - Not implemented";
+}
+
 bool Options::readBool(const std::string& str)
 {
 	std::string trimmed = Util::stringTrim(str);
@@ -120,8 +125,21 @@ bool Options::readBool(const std::string& str)
 		return true;
 	if (trimmed == "false" || trimmed == "0")
 		return false;
+
 	return false;
 }
+
+#ifndef ORIGINAL_CODE
+int Options::readInt(const std::string& str)
+{
+	int f;
+	
+	if (!sscanf(str.c_str(), "%d", &f))
+		f = 0;
+
+	return f;
+}
+#endif
 
 void Options::update(const std::vector<std::string>& strings)
 {
@@ -137,5 +155,11 @@ void Options::update(const std::vector<std::string>& strings)
 			m_bFancyGraphics = readBool(value);
 		else if (key == "mp_server_visible_default")
 			m_bServerVisibleDefault = readBool(value);
+#ifndef ORIGINAL_CODE
+		else if (key == "gfx_smoothlighting")
+			Minecraft::useAmbientOcclusion = field_18 = readBool(value);
+		else if (key == "gfx_viewdistance")
+			field_10 = readInt(value);
+#endif
 	}
 }

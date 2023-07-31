@@ -26,6 +26,9 @@ public:
 
 public:
 	static bool readBool(const std::string& str);
+#ifndef ORIGINAL_CODE
+	static int readInt(const std::string& str);
+#endif
 
 public:
 	enum KeyBindIndex

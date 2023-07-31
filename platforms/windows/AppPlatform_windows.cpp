@@ -12,6 +12,8 @@
 #include "thirdparty/stb_image.h"
 #include "thirdparty/stb_image_write.h"
 
+#include <fstream>
+#include <sstream>
 #include <shlobj.h>
 
 extern LPCTSTR g_GameTitle;
@@ -157,8 +159,32 @@ std::vector<std::string> AppPlatform_windows::getOptionStrings()
 {
 	std::vector<std::string> o;
 
-	o.push_back("mp_username");
-	o.push_back("iProgramInCpp");
+	//o.push_back("mp_username");
+	//o.push_back("iProgramInCpp");
+
+	std::ifstream ifs("options.txt");
+	if (!ifs.is_open())
+		return o;
+
+	std::string str;
+	while (true)
+	{
+		if (!std::getline(ifs, str, '\n'))
+			break;
+
+		if (str.empty() || str[0] == '#')
+			continue;
+
+		std::stringstream ss;
+		ss << str;
+
+		std::string key, value;
+		if (std::getline(ss, key, '|') && std::getline(ss, value))
+		{
+			o.push_back(key);
+			o.push_back(value);
+		}
+	}
 
 	return o;
 }
