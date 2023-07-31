@@ -148,6 +148,7 @@ void TextInputBox::setFocused(bool b)
 	{
 		m_lastFlashed = getTimeMs();
 		m_bCursorOn = true;
+		m_insertHead = int(m_text.size());
 	}
 }
 
