@@ -28,9 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\compat\AKeyCodes.hpp" />
+    <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp" />
     <ClInclude Include="..\source\App\App.hpp" />
     <ClInclude Include="..\source\App\AppPlatform.hpp" />
-    <ClInclude Include="..\source\App\AppPlatform_windows.hpp" />
     <ClInclude Include="..\source\App\Minecraft.hpp" />
     <ClInclude Include="..\source\App\NinecraftApp.hpp" />
     <ClInclude Include="..\source\Base\AABB.hpp" />
@@ -316,9 +316,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\compat\GLExt.cpp" />
+    <ClCompile Include="..\platforms\windows\AppPlatform_windows.cpp" />
+    <ClCompile Include="..\platforms\windows\main.cpp" />
     <ClCompile Include="..\source\App\App.cpp" />
     <ClCompile Include="..\source\App\AppPlatform.cpp" />
-    <ClCompile Include="..\source\App\AppPlatform_windows.cpp" />
     <ClCompile Include="..\source\App\Minecraft.cpp" />
     <ClCompile Include="..\source\App\NinecraftApp.cpp" />
     <ClCompile Include="..\source\Base\AABB.cpp" />
@@ -359,7 +360,6 @@
     <ClCompile Include="..\source\GUI\TextInputBox.cpp" />
     <ClCompile Include="..\source\GUI\WorldSelectionList.cpp" />
     <ClCompile Include="..\source\Inventory.cpp" />
-    <ClCompile Include="..\source\main.cpp" />
     <ClCompile Include="..\source\Network\ClientSideNetworkHandler.cpp" />
     <ClCompile Include="..\source\Network\MinecraftPackets.cpp" />
     <ClCompile Include="..\source\Network\NetEventCallback.cpp" />
@@ -702,32 +702,32 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|Win32'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|x64'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(ProjectDir)/../source/Network;$(ProjectDir)/../source/Sound;$(ProjectDir)/../source/GameMode;$(ProjectDir)/../source/App;$(ProjectDir)/../source/Base;$(ProjectDir)/../source/GUI;$(ProjectDir)/../source/GUI/Screen;$(ProjectDir)/../source/Renderer;$(ProjectDir)/../source/UserInput;$(ProjectDir)/../source/World;$(ProjectDir)/../source/World/Generator;$(ProjectDir)/../source/World/Item;$(ProjectDir)/../source/World/Tile;$(ProjectDir)/../source/World/Renderer;$(ProjectDir)/../source/World/Entity;$(ProjectDir)/../source/World/Entity/Models;$(ProjectDir)/../source/World/Particle;$(ProjectDir)/../source/World/Storage;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
