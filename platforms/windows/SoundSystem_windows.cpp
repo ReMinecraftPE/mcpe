@@ -105,12 +105,6 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		}
 	}
 
-
-	if (sound.m_pHeader->m_id == 1) //for some reason if the id is 1 you need to pitch the sound down
-	{
-		pitch /= 2.f;
-	}
-
 	HRESULT result;
 	IDirectSoundBuffer* tempBuffer;
 	unsigned char* bufferPtr;
@@ -123,8 +117,8 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	WAVEFORMATEX waveFormat;
 	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
 	waveFormat.nSamplesPerSec = DWORD(float(sound.m_pHeader->m_sample_rate) * pitch);
-	waveFormat.wBitsPerSample = 16;
-	waveFormat.nChannels = sound.m_header.m_channels;
+	waveFormat.wBitsPerSample = 8 * sound.m_pHeader->m_bytes_per_sample;
+	waveFormat.nChannels = sound.m_pHeader->m_channels;
 	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
 	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 	waveFormat.cbSize = 0;
@@ -184,7 +178,6 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		printf("SoundSystemWindows unlock failed\n");
 		return;
 	}
-
 
 	(*soundbuffer)->Play(0, 0, 0);
 	m_buffers.push_back(soundbuffer);
