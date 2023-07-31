@@ -1054,7 +1054,7 @@
       <Filter>Source Files\App</Filter>
     </ClCompile>
     <ClCompile Include="..\platforms\windows\main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
