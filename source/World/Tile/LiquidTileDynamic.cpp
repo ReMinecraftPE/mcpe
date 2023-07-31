@@ -40,7 +40,7 @@ int LiquidTileDynamic::getSlopeDistance(Level* level, int x, int y, int z, int d
 	
 	for (int i = 0; i < 4; i++)
 	{
-		if (i == 0 && a7 == 1 || i == 1 && a7 == 0 || i == 2 && a7 == 3 || i == 3 && a7 == 2)
+		if ((i == 0 && a7 == 1) || (i == 1 && a7 == 0) || (i == 2 && a7 == 3) || (i == 3 && a7 == 2))
 			continue;
 
 		int checkX = x, checkY = y, checkZ = z;

@@ -64,7 +64,7 @@ float* Dimension::getSunriseColor(float a, float b)
 	return m_sunriseColor;
 }
 
-float Dimension::getTimeOfDay(long l, float f)
+float Dimension::getTimeOfDay(TLong l, float f)
 {
 #ifndef ENH_RUN_DAY_NIGHT_CYCLE
 	//@QUIRK: This is a constant.

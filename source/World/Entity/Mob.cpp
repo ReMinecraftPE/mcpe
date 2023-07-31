@@ -157,7 +157,7 @@ LABEL_31:
 	while (field_E8 - field_EC >= 180.0f)
 		field_EC += 360.0f;
 	
-	while (m_pitch - field_60 < -180.0f);
+	while (m_pitch - field_60 < -180.0f)
 		field_60 -= 360.0f;
 
 	while (m_pitch - field_60 >= 180.0f)

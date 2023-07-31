@@ -33,8 +33,8 @@ typedef std::vector<AABB> AABBVector;
 class Level : public LevelSource
 {
 public:
-	Level(LevelStorage*, const std::string&, long seed, int);
-	Level(LevelStorage*, const std::string&, long seed, int, Dimension*);
+	Level(LevelStorage*, const std::string&, TLong seed, int);
+	Level(LevelStorage*, const std::string&, TLong seed, int, Dimension*);
 	~Level();
 
 	// TODO
@@ -44,7 +44,7 @@ public:
 	Material* getMaterial(int x, int y, int z) override;
 	bool isSolidTile(int x, int y, int z) override;
 
-	void _init(const std::string& str, long  seed, int x, Dimension* pDimension);
+	void _init(const std::string& str, TLong  seed, int x, Dimension* pDimension);
 	ChunkSource* getChunkSource();
 	ChunkSource* createChunkSource();
 	LevelChunk* getChunk(int x, int z);
@@ -55,7 +55,7 @@ public:
 	void setBrightness(const LightLayer&, int x, int y, int z, int bright);
 	int getSeaLevel();
 	int getSeed();
-	long getTime();
+	TLong getTime();
 	int getHeightmap(int x, int z);
 	bool isDay();
 	bool isSkyLit(int x, int y, int z);
@@ -139,7 +139,7 @@ public:
 	int  getLightDepth(int x, int z);
 	float getStarBrightness(float f);
 	float getSunAngle(float f);
-	void setTime(long time);
+	void setTime(TLong time);
 	void swap(int x1, int y1, int z1, int x2, int y2, int z2);
 
 	HitResult clip(const Vec3& a, const Vec3& b);

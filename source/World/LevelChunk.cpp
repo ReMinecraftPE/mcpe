@@ -10,6 +10,13 @@
 
 bool LevelChunk::touchedSky = false;
 
+LevelChunk::~LevelChunk()
+{
+	SAFE_DELETE(m_lightBlk);
+	SAFE_DELETE(m_lightSky);
+	SAFE_DELETE(m_tileData);
+}
+
 constexpr int MakeBlockDataIndex (int x, int y, int z)
 {
 	return (x << 11) | (z << 7) | y;
@@ -894,7 +901,7 @@ int LevelChunk::getBlocksAndData(uint8_t* pData, int a3, int a4, int a5, int a6,
 	return a9;
 }
 
-Random LevelChunk::getRandom(long l)
+Random LevelChunk::getRandom(TLong l)
 {
 	Random random;
 

@@ -8,8 +8,11 @@
 
 #pragma once
 
+#include <cstring>
+#include <algorithm>
 #include <string>
 #include <vector>
+#include "LongHack.hpp"
 
 class Util
 {
@@ -56,9 +59,9 @@ public:
 		}
 	}
 
-	static long hashCode(const std::string& str)
+	static TLong hashCode(const std::string& str)
 	{
-		long result = 0;
+		TLong result = 0;
 
 		for (auto chr : str)
 		{

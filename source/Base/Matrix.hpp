@@ -8,8 +8,9 @@
 
 #pragma once
 
-#include "compat/GL.hpp"
+#include <cstring>
 #include "Mth.hpp"
+#include "compat/GL.hpp"
 
 class Matrix
 {

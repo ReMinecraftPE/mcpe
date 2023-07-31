@@ -12,14 +12,14 @@
 #include "Explosion.hpp"
 #include "Region.hpp"
 
-Level::Level(LevelStorage* pStor, const std::string& str, long seed, int x) :
+Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x) :
 	field_38(1), // initialize with a seed of 1
 	m_pLevelStorage(pStor)
 {
 	_init(str, seed, x, nullptr);
 }
 
-Level::Level(LevelStorage* pStor, const std::string& str, long seed, int x, Dimension *pDimension) :
+Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dimension *pDimension) :
 	field_38(1), // initialize with a seed of 1
 	m_pLevelStorage(pStor)
 {
@@ -37,7 +37,7 @@ Level::~Level()
 	m_entities.clear();
 }
 
-void Level::_init(const std::string& str, long  seed, int x, Dimension* pDimension)
+void Level::_init(const std::string& str, TLong  seed, int x, Dimension* pDimension)
 {
 	field_12 = 0;
 
@@ -221,12 +221,12 @@ int Level::getSeed()
 	return m_levelData.m_seed;
 }
 
-long Level::getTime()
+TLong Level::getTime()
 {
 	return m_levelData.field_10;
 }
 
-void Level::setTime(long time)
+void Level::setTime(TLong time)
 {
 	m_levelData.field_10 = time;
 }
