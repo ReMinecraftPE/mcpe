@@ -5,6 +5,8 @@ via binary reverse engineering.
 
 An Android build will come soon.
 
+### The default build is **enhanced**. If you want the original experience, comment every define and uncomment the demo define from GameMods.hpp.
+
 * Note: The original mcpe01_canada.apk does not work on newer Android devices. A port of this likely will.
 
 Eventually, I plan on creating a new repository, `mcpe01_canada`, which will include just the port of the Canada demo.
