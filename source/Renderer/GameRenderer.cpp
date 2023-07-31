@@ -501,7 +501,13 @@ void GameRenderer::render(float f)
 			// TODO
 		}
 
+		// Kleadron: All of the above code is pointless if you're not using a gamepad. Mouse input should be instant.
+		// Leaving it tho incase gamepad gets added.
+#ifndef ORIGINAL_CODE
+		pMC->m_pLocalPlayer->turn(delta.x, delta.y * multPitch);
+#else
 		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
+#endif
 	}
 
 	if (m_pMinecraft->isLevelGenerated())
