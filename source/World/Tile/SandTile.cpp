@@ -56,7 +56,7 @@ void SandTile::checkSlide(Level* level, int x, int y, int z)
 		// The original code attempts to spawn a falling tile entity, but it fails since it's not a player.
 		// The falling sand tile
 #if defined(ORIGINAL_CODE) || defined(ENH_ALLOW_SAND_GRAVITY)
-		//level->addEntity(new FallingTile(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, m_ID));
+		level->addEntity(new FallingTile(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, m_ID));
 #endif
 	}
 }
