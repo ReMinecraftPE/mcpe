@@ -477,6 +477,7 @@ void GameRenderer::render(float f)
 		pMC->field_D20 = delta.x;
 		pMC->field_D24 = delta.y;
 
+#ifndef ENH_DISABLE_TURN_ACCEL
 		float multPitch = -1.0f;
 		float mult1 = 2.0f * (0.2f + pMC->m_options.field_8 * 0.6f);
 		mult1 = mult1 * mult1 * mult1;
@@ -519,6 +520,15 @@ void GameRenderer::render(float f)
 				v25 = v24;
 			field_24 = v23 + v25;
 		}
+#else
+		float multPitch = -1.0f;
+		if (pMC->m_options.m_bInvertMouse)
+			multPitch = 1.0f;
+
+		float diff_field_84 = 1.0f;
+		field_7C = pMC->field_D20;
+		field_80 = pMC->field_D24;
+#endif
 
 		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
 	}

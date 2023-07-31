@@ -22,7 +22,7 @@
 class RandomLevelSource : public ChunkSource
 {
 public:
-	RandomLevelSource(Level*, long seed, int);
+	RandomLevelSource(Level*, TLong seed, int);
 	int tick() override;
 	bool shouldSave() override;
 	bool hasChunk(int x, int z) override;

@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <cstring>
 #include "ChunkSource.hpp"
 #include "ChunkStorage.hpp"
 class Level;

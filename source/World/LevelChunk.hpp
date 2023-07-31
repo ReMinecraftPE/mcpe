@@ -8,7 +8,9 @@
 
 #pragma once
 
+#include <cstring>
 #include <vector>
+#include <algorithm>
 #include "AABB.hpp"
 #include "Utils.hpp"
 #include "LightLayer.hpp"
@@ -21,6 +23,7 @@ class LevelChunk
 public:
 	LevelChunk(Level*, int x, int z);
 	LevelChunk(Level*, TileID* pBlockData, int x, int z);
+	virtual ~LevelChunk();
 
 	void init();
 
@@ -57,7 +60,7 @@ public:
 	virtual void setBlocks(uint8_t* pData, int y);
 	virtual int  getBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
 	virtual int  setBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
-	virtual Random getRandom(long l);
+	virtual Random getRandom(TLong l);
 	virtual void recalcHeight(int, int, int);
 	virtual bool isEmpty();
 	//...

@@ -9,6 +9,7 @@
 #pragma once
 
 #include <string>
+#include "LongHack.hpp"
 #include "RakNetTypes.h"
 #include "BitStream.h"
 #include "MessageIdentifiers.h"
@@ -78,7 +79,7 @@ public:
 	void write(RakNet::BitStream*);
 	void read(RakNet::BitStream*);
 public:
-	long field_4;
+	TLong field_4;
 	int field_8;
 	int field_C;
 	float field_10;
@@ -165,7 +166,7 @@ class RemoveBlockPacket : public Packet
 {
 public:
 	RemoveBlockPacket() {}
-	RemoveBlockPacket(int id, int x, int y, int z) :m_playerID(id), m_x(x), m_y(uint8_t(y)), m_z(z) {}
+	RemoveBlockPacket(int id, int x, int y, int z) :m_playerID(id), m_x(x), m_z(z), m_y(uint8_t(y)) {}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*);

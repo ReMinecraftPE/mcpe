@@ -12,7 +12,7 @@ LevelData::LevelData()
 {
 }
 
-LevelData::LevelData(long seed, const std::string& name, int x)
+LevelData::LevelData(TLong seed, const std::string& name, int x)
 {
 	m_seed = seed;
 	field_20 = x;

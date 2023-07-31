@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cstdint>
+#include "LongHack.hpp"
 
 // This appears to be VERY similar to https://github.com/SethRobinson/proton/blob/master/shared/util/CRandom.h#L10
 // It turns out, RTsoft, Mojang, and the author of Game Coding Complete used the same reference implementation of
@@ -38,17 +39,17 @@ int getTimeMs();
 class Random
 {
 	unsigned int rseed;
-	unsigned long mt[CMATH_N];  // the array for the state vector
+	unsigned TLong mt[CMATH_N];  // the array for the state vector
 	int mti;                    // mti==N+1 means mt[N] is not initialized
 
 public:
-	Random(long seed = getTimeMs());
-	void setSeed(long seed);
-	void init_genrand(unsigned long);
+	Random(TLong seed = getTimeMs());
+	void setSeed(TLong seed);
+	void init_genrand(unsigned TLong);
 	int nextInt(int max);
 	unsigned genrand_int32();
 	float nextFloat();
 	double genrand_real2();
-	long nextLong();
+	TLong nextTLong();
 	int nextInt();
 };
