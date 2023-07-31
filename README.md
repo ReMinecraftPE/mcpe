@@ -1,3 +1,6 @@
+# This repository is for a custom version of MCPE.
+If you want to contribute to the actual project, see https://github.com/ReMinecraftPE/mcpe
+
 # Minecraft PE Reverse Engineering Project
 
 This project is an attempt to recreate one of the first released builds of Minecraft: Pocket Edition -- mcpe01_canada.apk -- and port it to other platforms,
