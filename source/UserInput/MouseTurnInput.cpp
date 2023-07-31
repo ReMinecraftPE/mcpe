@@ -9,7 +9,7 @@
 #include "MouseTurnInput.hpp"
 #include "Mouse.hpp"
 
-constexpr float C_SENSITIVITY = 0.5f;
+constexpr float C_SENSITIVITY = 1.0f;
 
 MouseTurnInput::MouseTurnInput(Minecraft* pMC)
 {
