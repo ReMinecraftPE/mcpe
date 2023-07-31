@@ -59,8 +59,11 @@ enum
 	//...
 	AKEYCODE_9 = '9',
 
+	// note: You have to add these here instead of using the
+	// characters themselves, otherwise android won't pick it up
 	AKEYCODE_A = 'A',
-	//...
+	AKEYCODE_Q = 'Q',
+	AKEYCODE_T = 'T',
 	AKEYCODE_Z = 'Z',
 
 	AKEYCODE_F4 = VK_F4,

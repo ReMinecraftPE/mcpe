@@ -10,6 +10,7 @@
 
 #include "Mob.hpp"
 #include "Inventory.hpp"
+#include "ItemEntity.hpp"
 #include "RakNetTypes.h"
 
 class Inventory; // in case we're included from Inventory.hpp
@@ -44,15 +45,15 @@ public:
 	bool canDestroy(Tile*);
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
-	// TODO: void drop(ItemInstance*);
-	// TODO: void drop(ItemInstance*, bool);
+	void drop(ItemInstance*);
+	void drop(ItemInstance*, bool);
 	void drop();
 	float getDestroySpeed();
 	int getInventorySlot(int x);
 	Pos getRespawnPosition();
 	int getScore();
 	void prepareCustomTextures();
-	// TODO: void reallyDrop(ItemEntity* pEnt);
+	void reallyDrop(ItemEntity* pEnt);
 	void respawn();
 	void rideTick();
 	void setDefaultHeadHeight();

@@ -381,6 +381,13 @@ void Minecraft::tickInput()
 				m_pLevelRenderer->allChanged();
 			}
 		#endif
+		#ifdef TEST_DROPPED_ITEMS
+			else if (keyCode == AKEYCODE_Q)
+			{
+				ItemInstance inst(m_pLocalPlayer->m_pInventory->getSelectedItemId(), 1, 0);
+				m_pLocalPlayer->drop(&inst);
+			}
+		#endif
 		}
 
 		if (m_options.field_19)
