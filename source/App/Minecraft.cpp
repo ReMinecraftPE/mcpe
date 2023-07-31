@@ -566,7 +566,9 @@ void Minecraft::update()
 		m_pLevel->updateLights();
 	}
 
+#ifndef ORIGINAL_CODE
 	tickMouse();
+#endif
 
 	m_pGameRenderer->render(m_timer.field_18);
 }
