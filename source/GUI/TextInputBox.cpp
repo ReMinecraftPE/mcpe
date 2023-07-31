@@ -77,6 +77,9 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 		case AKEYCODE_ARROW_RIGHT:
 			chr = '\003';
 			break;
+		case AKEYCODE_SPACE:
+			chr = ' ';
+			break;
 		case AKEYCODE_COMMA:
 			chr = bShiftPressed ? '<' : ',';
 			break;
