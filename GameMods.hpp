@@ -26,6 +26,7 @@
 #define ENH_HIGHLIGHT_BY_HOVER  // Highlight buttons by hovering them instead of the usual way.
 #define ENH_ALLOW_SAND_GRAVITY  // Allow sand to fall.
 #define ENH_USE_GUI_SCALE_2     // Use a 2x GUI scale instead of 3x. Looks better on PC
+#define ENH_ALLOW_SCROLL_WHEEL  // Allow use of the scroll wheel to change selected inventory slots
 
 // Mods
 //#define MOD_USE_FLAT_WORLD         // Use a flat world instead of the regular world generation
