@@ -8,6 +8,10 @@
 
 #pragma once
 
+#if defined(_WIN32)
+#define USE_ACCURATE_TIMER
+#endif
+
 class Timer
 {
 public:
@@ -17,8 +21,13 @@ public:
 
 public:
 	float field_0 = 0;
+#ifndef USE_ACCURATE_TIMER
 	int field_4 = 0;
 	int field_8 = 0;
+#else
+	double field_4 = 0;
+	double field_8 = 0;
+#endif
 	float field_C = 1.0f;
 	float field_10 = 20.0f;
 	int field_14 = 0;

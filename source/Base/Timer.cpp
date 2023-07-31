@@ -9,9 +9,42 @@
 #include "Timer.hpp"
 #include "Utils.hpp"
 
+#if !defined(_WIN32) && defined(USE_ACCURATE_TIMER)
+#error "Implement getAccurateTimeMs() for your platform!"
+#endif
+
+#if defined(_WIN32) && defined(USE_ACCURATE_TIMER)
+static LARGE_INTEGER s_StartTime;
+static bool s_Initted;
+
+double getAccurateTimeMs()
+{
+	// Thanks to @Kleadron for helping out with this!
+	if (!s_Initted)
+	{
+		s_Initted = true;
+		QueryPerformanceCounter(&s_StartTime);
+	}
+
+	LARGE_INTEGER frequency;
+	QueryPerformanceFrequency(&frequency);
+
+	LARGE_INTEGER currentCounter;
+	QueryPerformanceCounter(&currentCounter);
+
+	LONGLONG diff = currentCounter.QuadPart - s_StartTime.QuadPart;
+
+	return double(diff) / double(frequency.QuadPart) * 1000.0;
+}
+#endif
+
 void Timer::advanceTime()
 {
+#ifdef USE_ACCURATE_TIMER
+	double timeMs = getAccurateTimeMs();
+#else
 	int timeMs = getTimeMs();
+#endif
 	if (timeMs - field_4 <= 1000)
 	{
 		if (timeMs - field_4 < 0)
@@ -21,8 +54,13 @@ void Timer::advanceTime()
 	}
 	else
 	{
+#ifdef USE_ACCURATE_TIMER
+		double diff1 = timeMs - field_4;
+		double diff2 = timeMs - field_8;
+#else
 		int diff1 = timeMs - field_4;
 		int diff2 = timeMs - field_8;
+#endif
 		field_C += ((float(diff1) / float(diff2)) - field_C) * 0.2f;
 	}
 
