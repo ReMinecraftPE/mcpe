@@ -109,7 +109,7 @@ public:
 	bool m_bGrabbedMouse = true;
 	HitResult m_hitResult;
 	int m_progressPercent = 0;
-	std::string field_D58;
+	std::string m_externalStorageDir;
 	Timer m_timer;
 	bool m_bPreparingLevel = false;
 	LevelStorageSource* m_pLevelStorageSource = nullptr; // TODO
