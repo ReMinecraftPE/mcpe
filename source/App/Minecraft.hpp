@@ -53,6 +53,10 @@ public:
 	void cancelLocateMultiplayer();
 	void locateMultiplayer();
 
+#ifndef ORIGINAL_CODE
+	void tickMouse();
+#endif
+
 	virtual void onGraphicsReset();
 	virtual void update() override;
 	virtual void init() override;

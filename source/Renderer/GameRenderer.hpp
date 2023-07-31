@@ -49,7 +49,12 @@ public:
 	float field_8 = 0.0f;
 	int field_C = 0;
 	Entity* field_10 = nullptr;
-	//...
+	float field_14 = 0.0f;
+	float field_18 = 0.0f;
+	float field_1C = 0.0f;
+	float field_20 = 0.0f;
+	float field_24 = 0.0f;
+	float field_28 = 0.0f;
 	float field_2C = 4.0f;
 	float field_30 = 4.0f;
 	float field_34 = 0.0f;
