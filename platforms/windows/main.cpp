@@ -180,16 +180,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
-	Random random;
-	random.setSeed(123456);
-
-	for (int i = 0; i < 256; i++)
-	{
-		LogMsg("%d: %d", i, random.nextInt(256 - i) + i);
-	}
-
-
-
 	SetInstance(hInstance);
 
 	g_AppPlatform.initConsts();

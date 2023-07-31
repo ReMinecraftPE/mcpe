@@ -434,6 +434,7 @@ void GameRenderer::renderLevel(float f)
 
 		glEnable(GL_BLEND);
 		glDisable(GL_CULL_FACE);
+		// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
 
 		// render the alpha layer
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);

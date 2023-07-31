@@ -20,34 +20,30 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	printf("numBuffers: %d\n", m_nBuffers);
 	xglGenBuffers(1, &field_D8);
 
+	generateSky(); // inlined in the 0.1.0 demo
+}
+
+void LevelRenderer::generateSky()
+{
 	Tesselator& t = Tesselator::instance;
 	t.begin();
+	field_DC = 0;
 
-	for (int v7 = -128; ; )
+	float m = 16.0f;
+	int n = 4;
+	int p = 128;
+
+	for (int i = n * -p; i <= n * p; i += p)
 	{
-		int v8 = v7 + 128;
-		int v9 = -512;
-		float v10 = -512.0f;
-		float v11 = float(v7);
-		float v12 = float(v7 + 128);
-
-		for (; v9 != 640; )
+		for (int j = n * -p; j <= n * p; j += p)
 		{
-			float v13 = v10;
-			v9 += 128;
+			t.vertex(float(i + 0.0f), 16.0f, float(j + 0.0f));
+			t.vertex(float(i + p)   , 16.0f, float(j + 0.0f));
+			t.vertex(float(i + p)   , 16.0f, float(j + p)   );
+			t.vertex(float(i + 0.0f), 16.0f, float(j + p)   );
 
-			t.vertex(v11, 16.0f, v13);
-			t.vertex(v12, 16.0f, v13);
-			v10 = float(v9);
-			t.vertex(v12, 16.0f, float(v9));
-			t.vertex(v11, 16.0f, float(v9));
 			field_DC += 4;
 		}
-
-		if (v8 == 640)
-			break;
-
-		v7 = v8;
 	}
 
 	t.end(field_D8);

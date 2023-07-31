@@ -81,6 +81,7 @@ public:
 	void addParticle(const std::string&, float, float, float, float, float, float) override;
 	void playSound(const std::string& a, float b, float c, float d, float e, float f) override;
 	void skyColorChanged() override;
+	void generateSky();
 	void cull(Culler*, float);
 	void deleteChunks();
 	void resortChunks(int x, int y, int z);
