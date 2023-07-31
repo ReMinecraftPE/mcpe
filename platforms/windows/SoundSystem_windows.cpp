@@ -6,43 +6,14 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+
+#include "../../source/Base/Utils.hpp"
 #include "SoundSystem_windows.hpp"
 
 SoundSystemWindows::SoundSystemWindows()
 {
 	printf("Init SoundSystemWindows\n");
 
-	WNDCLASSA WndClass;
-
-	memset(&WndClass, 0, sizeof(WndClass));
-	WndClass.lpfnWndProc = DefWindowProcA;
-	WndClass.hInstance = GetModuleHandleA(NULL);
-	WndClass.lpszClassName = "SoundWindow";
-	RegisterClassA(&WndClass);
-	m_hiddenwindow = CreateWindowExA(
-		0,
-		"SoundWindow",
-		"SoundWindow",
-		0x80000000,
-		0,
-		0,
-		0,
-		0,
-		0,
-		0,
-		WndClass.hInstance,
-		0);
-	if (!m_hiddenwindow) {
-		printf("SoundSystemWindows cannot create hidden window for directsound8\n");
-		return;
-	}
-
-	initDirectSound();
-
-}
-
-void SoundSystemWindows::initDirectSound()
-{
 	HRESULT result;
 	DSBUFFERDESC bufferDesc;
 
@@ -54,7 +25,7 @@ void SoundSystemWindows::initDirectSound()
 		return;
 	}
 
-	result = m_directsound->SetCooperativeLevel(m_hiddenwindow, DSSCL_NORMAL);
+	result = m_directsound->SetCooperativeLevel(GetHWND(), DSSCL_NORMAL);
 	if (FAILED(result))
 	{
 		printf("SoundSystemWindows failed set cooperation level\n");
@@ -75,13 +46,15 @@ void SoundSystemWindows::initDirectSound()
 		printf("SoundSystemWindows failed to create primary sound buffer\n");
 		return;
 	}
-
+	
 }
+
 
 
 SoundSystemWindows::~SoundSystemWindows()
 {
 	printf("Destroying SoundSystemWindows\n");
+	m_directsound->Release();
 }
 
 
