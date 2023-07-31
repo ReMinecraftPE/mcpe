@@ -25,7 +25,7 @@
 #include "compat/AKeyCodes.hpp"
 
 // options:
-#include "../Options.hpp"
+#include "GameMods.hpp"
 
 // don't know where to declare these:
 
