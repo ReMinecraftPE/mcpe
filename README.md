@@ -43,7 +43,7 @@ Java Edition Beta 1.4's release. This can be seen because the cookie's texture i
 ## Known bugs
 
 ### Patched bugs
-1. Due to lack of initialization of memory, fire can potentially burn normally inflammable blocks. See [https://www.youtube.com/watch?v=3hrz7KK2EJs](this video) for a demo.
+1. Due to lack of initialization of memory, fire can potentially burn normally inflammable blocks. See [this video](https://www.youtube.com/watch?v=3hrz7KK2EJs) for a demo.
 2. Due to SHAPE_FIRE not being implemented, fire is invisible in this version. Fire rendering was backported from v0.7.1 and can be disabled with the ORIGINAL_CODE define
 3. Due to `GL_BLEND` being disabled, the hotbar renders as fully opaque.
 4. Memory is leaked when leaving a world with particles in it.
