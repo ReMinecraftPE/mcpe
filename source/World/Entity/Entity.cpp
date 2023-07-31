@@ -484,8 +484,10 @@ void Entity::absMoveTo(float x, float y, float z, float yaw, float pitch)
 	return setRot(yaw, pitch);
 }
 
+// Y is some sort of scalar value, not related to the position you're moving to
 void Entity::moveRelative(float x, float z, float y)
 {
+#ifdef ORIGINAL_CODE
 	float d = sqrtf(x * x + z * z);
 	if (d < 0.01f) return;
 	if (d > 1.0f)
@@ -494,6 +496,22 @@ void Entity::moveRelative(float x, float z, float y)
 	y /= d;
 	x *= y;
 	z *= y;
+#else
+	// length of input vector
+	float d = sqrtf((x * x) + (z * z));
+	if (d < 0.01f) return;
+
+	// normalization factor
+	float factor = 1.0f / d;
+
+	// cap length
+	if (d > 1.0f)
+		d = 1.0f;
+
+	// apply factor * length
+	x *= factor * d * y;
+	z *= factor * d * y;
+#endif
 
 	float yaw = m_yaw * float(M_PI);
 	float syaw = sinf(yaw / 180.0f);
