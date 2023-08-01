@@ -47,6 +47,7 @@ public:
 	virtual void setMouseGrabbed(bool b);
 	virtual void getMouseDiff(int& x, int& y);
 	virtual void clearDiff();
+	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
 	virtual bool shiftPressed();
 #endif

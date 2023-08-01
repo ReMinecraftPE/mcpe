@@ -42,6 +42,7 @@ public:
 	void setMouseGrabbed(bool b) override;
 	void getMouseDiff(int& x, int& y) override;
 	void clearDiff() override;
+	void updateFocused(bool focused) override;
 
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
@@ -56,7 +57,9 @@ private:
 	std::vector<std::string> m_UserInput;
 	int m_UserInputStatus = -1;
 
+	bool m_bIsFocused = false;
 	bool m_bGrabbedMouse = false;
+	bool m_bActuallyGrabbedMouse = false;
 	bool m_bWasUnfocused = false;
 	bool m_bShiftPressed = false;
 

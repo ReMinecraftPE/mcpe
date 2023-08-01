@@ -188,7 +188,7 @@ label_5:
 	pInv->setSelectionSlotItemId(0, item);
 	pInv->selectSlot(0);
 
-	// @TODO: SoundEngine
+	m_pMinecraft->m_pSoundEngine->play("random.click");
 
 	m_pMinecraft->setScreen(nullptr);
 }

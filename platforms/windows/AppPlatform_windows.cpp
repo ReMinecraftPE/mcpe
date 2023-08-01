@@ -244,8 +244,13 @@ void AppPlatform_windows::setMouseGrabbed(bool b)
 
 	m_bGrabbedMouse = b;
 
-	if (!b)
+	if (m_bActuallyGrabbedMouse == (b && m_bIsFocused))
+		return;
+
+	if (!b || !m_bIsFocused)
 	{
+		m_bActuallyGrabbedMouse = false;
+
 		//show the cursor
 		ShowCursor(TRUE);
 
@@ -256,6 +261,8 @@ void AppPlatform_windows::setMouseGrabbed(bool b)
 	}
 	else
 	{
+		m_bActuallyGrabbedMouse = true;
+
 		//hide the cursor
 		ShowCursor(FALSE);
 
@@ -288,6 +295,12 @@ void AppPlatform_windows::getMouseDiff(int& x, int& y)
 void AppPlatform_windows::clearDiff()
 {
 	m_MouseDiffX = m_MouseDiffY = 0;
+}
+
+void AppPlatform_windows::updateFocused(bool focused)
+{
+	m_bIsFocused = focused;
+	setMouseGrabbed(m_bGrabbedMouse);
 }
 
 bool AppPlatform_windows::shiftPressed()

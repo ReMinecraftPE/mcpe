@@ -77,6 +77,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		default:
 			return DefWindowProc(hWnd, iMsg, wParam, lParam);
 
+		case WM_SETFOCUS:
+		case WM_KILLFOCUS:
+		{
+			g_AppPlatform.updateFocused(iMsg == WM_SETFOCUS);
+			break;
+		}
+
 		case WM_LBUTTONUP:
 		{
 			if (g_LButtonDown)

@@ -114,6 +114,10 @@ void AppPlatform::clearDiff()
 	
 }
 
+void AppPlatform::updateFocused(bool focused)
+{
+}
+
 bool AppPlatform::shiftPressed()
 {
 	return false;
