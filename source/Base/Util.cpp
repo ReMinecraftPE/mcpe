@@ -19,7 +19,7 @@ std::string Util::stringTrim(const std::string& str, const std::string& filter, 
 
 	int startIndex = 0, endIndex = int(str.size()) - 1;
 
-	// @TODO: This ain't working man
+	// @TODO: Is this accurate?
 	if (a4)
 	{
 		while (startIndex < endIndex && strchr(filter.c_str(), str[startIndex]))
