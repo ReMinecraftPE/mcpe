@@ -137,6 +137,7 @@
     <ClInclude Include="..\source\World\Particle\Particle.hpp" />
     <ClInclude Include="..\source\World\Particle\ParticleEngine.hpp" />
     <ClInclude Include="..\source\World\Region.hpp" />
+    <ClInclude Include="..\source\World\RegionFile.hpp" />
     <ClInclude Include="..\source\World\Renderer\Chunk.hpp" />
     <ClInclude Include="..\source\World\Renderer\Culler.hpp" />
     <ClInclude Include="..\source\World\Renderer\EntityRenderDispatcher.hpp" />
@@ -454,6 +455,7 @@
     <ClCompile Include="..\source\World\Particle\SmokeParticle.cpp" />
     <ClCompile Include="..\source\World\Particle\TerrainParticle.cpp" />
     <ClCompile Include="..\source\World\Region.cpp" />
+    <ClCompile Include="..\source\World\RegionFile.cpp" />
     <ClCompile Include="..\source\World\Renderer\Chunk.cpp" />
     <ClCompile Include="..\source\World\Renderer\Culler.cpp" />
     <ClCompile Include="..\source\World\Renderer\EntityRenderDispatcher.cpp" />

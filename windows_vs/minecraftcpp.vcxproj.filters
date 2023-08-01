@@ -1059,6 +1059,9 @@
     <ClCompile Include="..\platforms\windows\SoundSystem_windows.cpp">
       <Filter>Source Files\App</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\World\RegionFile.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Options.hpp">
@@ -1924,6 +1927,9 @@
     </ClInclude>
     <ClInclude Include="..\GameMods.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\World\RegionFile.hpp">
+      <Filter>Header Files\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
