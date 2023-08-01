@@ -302,7 +302,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 
 			if (wantVSync)
 			{
-				// todo: check if DWM sync is appropriate for versions over 7/vista
 #ifdef USE_DWM_SYNC
 				if (hasDWM && IsWindowsVistaOrGreater())
 				{
