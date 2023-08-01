@@ -5,13 +5,9 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
-#define WIN32_LEAN_AND_MEAN
 
 #include <cstdarg>
-#include <windows.h>
 #include <WindowsX.h>
-//#include <dwmapi.h>
-#include <VersionHelpers.h>
 
 #include "compat/GL.hpp"
 #include "compat/AKeyCodes.hpp"
@@ -22,41 +18,6 @@
 
 LPCTSTR g_GameTitle = TEXT("MINECRAFT");
 LPCTSTR g_WindowClassName = TEXT("MinecraftClass");
-
-BOOL wantVSync = TRUE;
-
-// windows dwm sync functions
-// On windows versions with the DWM compositor enabled, regular opengl vsync isn't accurate to the compositor's display time.
-// Waiting until DWM has flushed to display a frame results in a smoother experience.
-// If you don't want this, or it causes problems, you can comment out this line.
-// The project does not need to be linked against dwmapi.lib and will find the functions if the DLL exists.
-#define USE_DWM_SYNC
-
-#ifdef USE_DWM_SYNC
-BOOL hasDWM;
-typedef HRESULT(WINAPI *DWMFUNC1)(BOOL *pfEnabled);
-typedef HRESULT(WINAPI *DWMFUNC2)();
-DWMFUNC1 p_DwmIsCompositionEnabled;
-DWMFUNC2 p_DwmFlush;
-
-void linkDWM()
-{
-	HMODULE dwmapiLib = LoadLibrary("dwmapi.dll");
-
-	if (dwmapiLib != NULL)
-	{
-		printf("Found dwmapi.dll, vsync will sync to compositor.");
-		p_DwmIsCompositionEnabled = (DWMFUNC1)GetProcAddress(dwmapiLib, "DwmIsCompositionEnabled");
-		p_DwmFlush = (DWMFUNC2)GetProcAddress(dwmapiLib, "DwmFlush");
-		hasDWM = true;
-	}
-	else
-	{
-		printf("No dwmapi.dll, vsync will sync to monitor.");
-		hasDWM = false;
-	}
-}
-#endif
 
 void LogMsg(const char* fmt, ...)
 {
@@ -230,10 +191,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 
 	g_AppPlatform.initConsts();
 
-#ifdef USE_DWM_SYNC
-	linkDWM();
-#endif
-
 	// register the window class:
 	WNDCLASS wc;
 	wc.style = CS_OWNDC;
@@ -273,6 +230,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	if (!xglInitted())
 		goto _cleanup;
 
+	xglSwapIntervalEXT(1);
 
 	g_pApp = new NinecraftApp;
 	g_pApp->m_pPlatform = &g_AppPlatform;
@@ -300,30 +258,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 		{
 			// update our stuff here:
 			g_pApp->update();
-
-			if (wantVSync)
-			{
-#ifdef USE_DWM_SYNC
-				if (hasDWM && IsWindowsVistaOrGreater())
-				{
-					BOOL enabled = FALSE;
-
-					if (SUCCEEDED(p_DwmIsCompositionEnabled(&enabled)) && enabled)
-					{
-						xglSwapIntervalEXT(0);
-						p_DwmFlush();
-					}
-				}
-				else
-#endif
-				{
-					xglSwapIntervalEXT(1);
-				}
-			}
-			else
-			{
-				xglSwapIntervalEXT(0);
-			}
 
 			// note: NinecraftApp would have done this with eglSwapBuffers, but I'd rather do it here:
 			SwapBuffers(hDC);
