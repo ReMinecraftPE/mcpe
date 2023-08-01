@@ -15,12 +15,13 @@
 
 // Platform specific type for the sound system.
 
-#ifdef _WIN32
-#include "../../platforms/windows/SoundSystem_windows.hpp"
-#define SOUND_SYSTEM_TYPE SoundSystemWindows
-#else
+#ifdef ORIGINAL_CODE
 #define SOUND_SYSTEM_TYPE SoundSystem
+#else
+#include "..\..\platforms\Platform_Definitions.hpp"
 #endif
+
+
 
 //#define SOUND_SYSTEM_TYPE SoundSystemSL
 
