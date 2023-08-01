@@ -330,7 +330,6 @@ void Player::startCrafting(int x, int y, int z)
 
 void Player::swing()
 {
-	LogMsg("Swing!");
 	field_BA8 = -1;
 	field_BA4 = true;
 }

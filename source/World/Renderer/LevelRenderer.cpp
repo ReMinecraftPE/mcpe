@@ -1078,7 +1078,7 @@ void LevelRenderer::addParticle(const std::string& name, float x, float y, float
 	}
 
 #ifndef ORIGINAL_CODE
-	LogMsg("Unknown particle type: %s", name.c_str());
+	//LogMsg("Unknown particle type: %s", name.c_str());
 #endif
 }
 

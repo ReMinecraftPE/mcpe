@@ -1274,10 +1274,6 @@ void Level::tickPendingTicks(bool b)
 		if (!b && t.m_delay > m_levelData.field_10)
 			break;
 
-		//int diff = m_levelData.field_10 - t.m_delay;
-		//if (diff != 0)
-			//LogMsg("Late tick at %d,%d,%d! (diff of %d ticks, tile: %d)", t.field_4, t.field_8, t.field_C, diff, t.field_10);
-
 		if (hasChunksAt(t.field_4 - 8, t.field_8 - 8, t.field_C - 8, t.field_4 + 8, t.field_8 + 8, t.field_C + 8))
 		{
 			TileID tile = getTile(t.field_4, t.field_8, t.field_C);
