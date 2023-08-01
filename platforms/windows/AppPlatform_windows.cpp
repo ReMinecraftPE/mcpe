@@ -238,10 +238,6 @@ void AppPlatform_windows::recenterMouse()
 
 void AppPlatform_windows::setMouseGrabbed(bool b)
 {
-	// only if stuff has changed do we update
-	if (m_bGrabbedMouse == b)
-		return;
-
 	m_bGrabbedMouse = b;
 
 	if (m_bActuallyGrabbedMouse == (b && m_bIsFocused))
