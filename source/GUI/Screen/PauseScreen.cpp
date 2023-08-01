@@ -41,7 +41,7 @@ void PauseScreen::init()
 #ifdef ENH_ADD_OPTIONS_PAUSE
 	// TODO: when visible or quit&copy are on, lower this
 	m_btnOptions.m_width = 160;
-	m_btnOptions.m_yPos = 144;
+	m_btnOptions.m_yPos = 112;
 	m_btnOptions.m_xPos = m_btnBack.m_xPos;
 #endif
 
@@ -55,10 +55,13 @@ void PauseScreen::init()
 	
 	//m_buttons.push_back(&m_btnQuitAndCopy);
 
-	if (m_pMinecraft->m_pRakNetInstance)
+	if (m_pMinecraft->m_pRakNetInstance && m_pMinecraft->m_pRakNetInstance->m_bIsHost)
 	{
 		updateServerVisibilityText();
 		m_buttons.push_back(&m_btnVisible);
+#ifdef ENH_ADD_OPTIONS_PAUSE
+		m_btnOptions.m_yPos += 32;
+#endif
 	}
 
 	for (auto thing : m_buttons)

@@ -432,6 +432,10 @@ void GameRenderer::renderLevel(float f)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		setupFog(0);
 
+#ifndef ORIGINAL_CODE
+		glShadeModel(GL_SMOOTH);
+#endif
+
 		glEnable(GL_BLEND);
 		glDisable(GL_CULL_FACE);
 		// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
@@ -441,7 +445,11 @@ void GameRenderer::renderLevel(float f)
 		pLR->render(pMob, 1, f);
 
 		glDepthMask(true);
-		
+
+
+#ifndef ORIGINAL_CODE
+		glShadeModel(GL_FLAT);
+#endif
 		glEnable(GL_CULL_FACE);
 		glDisable(GL_BLEND);
 
