@@ -179,6 +179,23 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		return;
 	}
 
+	// references:
+	// https://gamedev.net/forums/topic/337397-sound-volume-question-directsound/3243306/
+	// https://learn.microsoft.com/en-us/previous-versions/windows/desktop/mt708939(v=vs.85)
+	// Conversion from 0-1 linear volume to directsound logarithmic volume..
+	// This seems to work for the most part, but accuracy testing should be done for actual MCPE, water splashing is pretty quiet.
+	float attenuation = volume;//Lerp(DSBVOLUME_MIN, DSBVOLUME_MAX, volume);
+	if (attenuation == 0)
+	{
+		// no sound would come out, maybe skip playing this sound?
+		attenuation = DSBVOLUME_MIN;
+	}
+	else
+	{
+		attenuation = floorf(2000.0f * log10f((float)(attenuation) / (float)1.0f) + 0.5f);
+	}
+	(*soundbuffer)->SetVolume(LONG(attenuation));
+
 	(*soundbuffer)->Play(0, 0, 0);
 	m_buffers.push_back(soundbuffer);
 }
