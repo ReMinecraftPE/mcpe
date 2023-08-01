@@ -488,7 +488,7 @@ void Entity::moveRelative(float x, float z, float y)
 {
 	float d = sqrtf(x * x + z * z);
 	if (d < 0.01f) return;
-	if (d > 1.0f)
+	if (d < 1.0f)
 		d = 1.0f;
 
 	y /= d;
