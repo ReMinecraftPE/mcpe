@@ -5,6 +5,7 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
+#define WIN32_LEAN_AND_MEAN
 
 #include <cstdarg>
 #include <windows.h>
