@@ -185,6 +185,13 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	// Conversion from 0-1 linear volume to directsound logarithmic volume..
 	// This seems to work for the most part, but accuracy testing should be done for actual MCPE, water splashing is pretty quiet.
 	float attenuation = volume;//Lerp(DSBVOLUME_MIN, DSBVOLUME_MAX, volume);
+
+	// clamp the attenuation value
+	if (attenuation < 0.0f)
+		attenuation = 0.0f;
+	else if (attenuation > 1.0f)
+		attenuation = 1.0f;
+
 	if (attenuation == 0)
 	{
 		// no sound would come out, maybe skip playing this sound?
@@ -192,7 +199,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	}
 	else
 	{
-		attenuation = floorf(2000.0f * log10f((float)(attenuation) / (float)1.0f) + 0.5f);
+		attenuation = floorf(2000.0f * log10f(attenuation) + 0.5f);
 	}
 	(*soundbuffer)->SetVolume(LONG(attenuation));
 
