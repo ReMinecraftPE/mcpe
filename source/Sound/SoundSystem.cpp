@@ -17,9 +17,15 @@ void SoundSystem::setListenerPos(float x, float y, float z)
 {
 }
 
-void SoundSystem::setListenerAngle(float f)
+#ifndef ORIGINAL_CODE
+void SoundSystem::setListenerAngle(float yaw, float pitch)
 {
 }
+#else
+void SoundSystem::setListenerAngle(float yaw)
+{
+}
+#endif
 
 void SoundSystem::load(const std::string& sound)
 {

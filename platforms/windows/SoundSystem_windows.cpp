@@ -46,7 +46,19 @@ SoundSystemWindows::SoundSystemWindows()
 		printf("SoundSystemWindows failed to create primary sound buffer\n");
 		return;
 	}
-	
+
+	m_listener = (LPDIRECTSOUND3DLISTENER8*)calloc(1, sizeof(LPDIRECTSOUND3DLISTENER8));
+
+	result = m_primarybuffer->QueryInterface(IID_IDirectSound3DListener8,
+		(LPVOID*)m_listener);
+	m_primarybuffer->Release();
+
+	if (FAILED(result))
+	{
+		printf("SoundSystemWindows failed to create 3D listener\n");
+	}
+
+	m_available = true;
 }
 
 
@@ -54,23 +66,57 @@ SoundSystemWindows::SoundSystemWindows()
 SoundSystemWindows::~SoundSystemWindows()
 {
 	printf("Destroying SoundSystemWindows\n");
+
+	if (!isAvailable())
+	{
+		return;
+	}
+
 	m_directsound->Release();
+
+	//Delete sounds (Releasing directsound releases sounds for us)
+	for (size_t i = 0; i < m_buffers.size(); i++)
+	{
+		delete m_buffers[i];
+	}
+
 }
 
 
 bool SoundSystemWindows::isAvailable()
 {
-	return false;
+	return m_available;
 }
 
 void SoundSystemWindows::setListenerPos(float x, float y, float z)
 {
-
+	if (!isAvailable())
+	{
+		return;
+	}
+	(*m_listener)->SetPosition(x, y, -z, DS3D_IMMEDIATE);
 }
 
-void SoundSystemWindows::setListenerAngle(float f)
-{
 
+void SoundSystemWindows::setListenerAngle(float degyaw, float degpitch)
+{
+	if (!isAvailable())
+	{
+		return;
+	}
+
+	float yaw = degyaw * M_PI / 180.f;
+	float pitch = degpitch * M_PI / 180.f;
+
+	float lx = cosf(pitch) * sinf(yaw);
+	float ly = -sinf(pitch);
+	float lz = cosf(yaw);
+
+	float ux = sinf(pitch) * sinf(yaw);
+	float uy = cosf(pitch);
+	float uz = sinf(pitch) * cosf(yaw);
+
+	(*m_listener)->SetOrientation(-lx,-ly,-lz, ux,uy,uz, DS3D_IMMEDIATE);
 }
 
 void SoundSystemWindows::load(const std::string& sound)
@@ -92,6 +138,11 @@ void SoundSystemWindows::stop(const std::string& sound)
 
 void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch)
 {
+	//Directsound failed to initialize return to avoid crash.
+	if (!isAvailable())
+	{
+		return;
+	}
 
 	//Release sounds that finished playing
 	for (size_t i = 0; i < m_buffers.size(); i++)
@@ -110,7 +161,8 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	unsigned char* bufferPtr;
 	unsigned long bufferSize;
 
-	int length = sound.m_pHeader->m_length*sizeof(uint16_t);
+	int length = sound.m_pHeader->m_length * sound.m_pHeader->m_bytes_per_sample;
+	bool is2D = sqrtf(x * x + y * y + z * z) == 0.f;
 
 	LPDIRECTSOUNDBUFFER* soundbuffer = (LPDIRECTSOUNDBUFFER*)calloc(1, sizeof(LPDIRECTSOUNDBUFFER));
 
@@ -126,10 +178,14 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	// Set the buffer description of the secondary sound buffer that the wave file will be loaded onto.
 	DSBUFFERDESC bufferDesc;
 	bufferDesc.dwSize = sizeof(DSBUFFERDESC);
-	if (sound.m_header.m_channels == 1) {
+
+	//Because directsound does not support DSBCAPS_CTRL3D on a sound with 2 channels we can only do it on sounds with 1 channel
+	if (sound.m_header.m_channels == 1)
+	{
 		bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRL3D;
 	}
-	else {
+	else
+	{
 		bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS;
 	}
 
@@ -150,7 +206,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (LPVOID*)soundbuffer);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows QueryInterface failed\n");
+		printf("SoundSystemWindows tempBuffer QueryInterface failed\n");
 		return;
 	}
 
@@ -202,6 +258,32 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		attenuation = floorf(2000.0f * log10f(attenuation) + 0.5f);
 	}
 	(*soundbuffer)->SetVolume(LONG(attenuation));
+
+	//Check if position is not 0,0,0 and for mono to play 3D sound
+	if (!is2D && sound.m_pHeader->m_channels == 1) 
+	{
+		LPDIRECTSOUND3DBUFFER8 object3d;
+
+		HRESULT hr = (*soundbuffer)->QueryInterface(IID_IDirectSound3DBuffer8,
+			(LPVOID*)&object3d);
+		if (FAILED(hr)) {
+			printf("SoundSystemWindows QueryInterface failed for 3D Object\n");
+			return;
+		}
+
+		D3DVECTOR listenerpos;
+		(*m_listener)->GetPosition(&listenerpos);
+
+		object3d->SetPosition(
+			x, 
+			y,
+			-z, 
+		DS3D_IMMEDIATE); 
+
+		//Im not really sure what values original MCPE would use.
+		object3d->SetMinDistance(0.f, DS3D_IMMEDIATE); 
+		object3d->SetMaxDistance(100.f, DS3D_IMMEDIATE);
+	}
 
 	(*soundbuffer)->Play(0, 0, 0);
 	m_buffers.push_back(soundbuffer);

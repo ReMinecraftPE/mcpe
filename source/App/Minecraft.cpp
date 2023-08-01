@@ -527,6 +527,15 @@ void Minecraft::tick()
 		{
 			m_pTextures->tick();
 			m_pParticleEngine->tick();
+
+#ifndef ORIGINAL_CODE
+			if (m_pMobPersp)
+			{
+				m_pSoundEngine->m_soundSystem.setListenerPos(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z);
+				m_pSoundEngine->m_soundSystem.setListenerAngle(m_pMobPersp->m_yaw, m_pMobPersp->m_pitch);
+			}
+#endif
+
 		}
 
 		if (field_D14)
