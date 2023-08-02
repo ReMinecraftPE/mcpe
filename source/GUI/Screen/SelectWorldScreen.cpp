@@ -8,6 +8,7 @@
 
 #include "SelectWorldScreen.hpp"
 #include "DeleteWorldScreen.hpp"
+#include "CreateWorldScreen.hpp"
 #include "ProgressScreen.hpp"
 #include "StartMenuScreen.hpp"
 #include "Util.hpp"
@@ -96,6 +97,7 @@ void SelectWorldScreen::tick()
 		}
 
 		std::vector<std::string> userInput = m_pMinecraft->platform()->getUserInput();
+
 		std::string levelNickname = Util::stringTrim(userInput[0]);
 		std::string levelUniqueName = levelNickname;
 
@@ -188,9 +190,13 @@ void SelectWorldScreen::buttonClicked(Button* pButton)
 {
 	if (pButton->field_30 == m_btnCreateNew.field_30)
 	{
+#ifndef ORIGINAL_CODE
+		m_pMinecraft->setScreen(new CreateWorldScreen);
+#else
 		m_pMinecraft->platform()->showDialog(AppPlatform::DLG_CREATE_WORLD);
 		m_pMinecraft->platform()->createUserInput();
 		field_130 = true;
+#endif
 	}
 
 	if (pButton->field_30 == m_btnDelete.field_30)

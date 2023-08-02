@@ -235,23 +235,24 @@ void TextInputBox::charPressed(int k)
 
 void TextInputBox::render()
 {
-	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, 0xFF000000);
+	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, 0xFFAAAAAA);
+	fill(m_xPos + 1, m_yPos + 1, m_xPos + m_width - 1, m_yPos + m_height - 1, 0xFF000000);
 
 	int textYPos = (m_height - 8) / 2;
 
 	if (m_text.empty())
-		drawString(m_pFont, m_placeholder, m_xPos + 1, m_yPos + 1, 0x404040);
+		drawString(m_pFont, m_placeholder, m_xPos + 2, m_yPos + 2, 0x404040);
 	else
-		drawString(m_pFont, m_text, m_xPos + 1, m_yPos + textYPos, 0xFFFFFF);
+		drawString(m_pFont, m_text, m_xPos + 2, m_yPos + textYPos, 0xFFFFFF);
 
 	if (m_bCursorOn)
 	{
-		int xPos = 1;
+		int xPos = 2;
 		
 		std::string substr = m_text.substr(0, m_insertHead);
 		xPos += m_pFont->width(substr);
 
-		drawString(m_pFont, "_", m_xPos + xPos, m_yPos + textYPos + 1, 0xFFFFFF);
+		drawString(m_pFont, "_", m_xPos + xPos, m_yPos + textYPos + 2, 0xFFFFFF);
 	}
 }
 

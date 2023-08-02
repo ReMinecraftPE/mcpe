@@ -57,6 +57,7 @@
     <ClInclude Include="..\source\GUI\RolledSelectionList.hpp" />
     <ClInclude Include="..\source\GUI\Screen\ChatScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\ConfirmScreen.hpp" />
+    <ClInclude Include="..\source\GUI\Screen\CreateWorldScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\DeleteWorldScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\IngameBlockSelectionScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\InvalidLicenseScreen.hpp" />
@@ -351,6 +352,7 @@
     <ClCompile Include="..\source\GUI\RolledSelectionList.cpp" />
     <ClCompile Include="..\source\GUI\Screen\ChatScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\ConfirmScreen.cpp" />
+    <ClCompile Include="..\source\GUI\Screen\CreateWorldScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\DeleteWorldScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\IngameBlockSelectionScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\InvalidLicenseScreen.cpp" />
