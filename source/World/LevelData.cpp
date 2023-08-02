@@ -35,7 +35,7 @@ void LevelData::read(RakNet::BitStream& bs, int version)
 	field_78 = std::string(rs.C_String());
 }
 
-void LevelData::write(RakNet::BitStream& bs, int d)
+void LevelData::write(RakNet::BitStream& bs)
 {
 	bs.Write(m_seed);
 	bs.Write(m_spawnPos.x);

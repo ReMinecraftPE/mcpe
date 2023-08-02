@@ -37,7 +37,7 @@ struct LevelData
 	LevelData(TLong seed, const std::string&, int);
 
 	void read(RakNet::BitStream& bs, int d);
-	void write(RakNet::BitStream& bs, int d);
+	void write(RakNet::BitStream& bs);
 
 	TLong m_seed = 0;
 	Pos m_spawnPos;

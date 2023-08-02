@@ -7,6 +7,13 @@
 
 #ifndef DEMO
 
+struct UnsavedLevelChunk
+{
+	int m_index;
+	int m_foundTime;
+	LevelChunk* m_pChunk;
+};
+
 class ExternalFileLevelStorage : public LevelStorage, ChunkStorage
 {
 public:
@@ -28,6 +35,7 @@ public:
 
 	static bool readLevelData(const std::string& path, LevelData* pLevelData);
 	static bool readPlayerData(const std::string& path, LevelData* pLevelData);
+	static bool writeLevelData(const std::string& path, LevelData* pLevelData);
 
 public:
 	std::string field_8;
@@ -35,6 +43,7 @@ public:
 	LevelData* m_pLevelData = nullptr;
 	RegionFile* m_pRegionFile = nullptr;
 	Level* m_pLevel = nullptr;
+	int m_timer = 0;
 	std::list<UnsavedLevelChunk> m_unsavedLevelChunks;
 };
 

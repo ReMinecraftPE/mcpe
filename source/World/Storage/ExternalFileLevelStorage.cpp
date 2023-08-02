@@ -1,5 +1,8 @@
 #include "ExternalFileLevelStorage.hpp"
-#include "LevelChunk.hpp"
+#include "Level.hpp"
+#include "GetTime.h"
+
+#define C_CHUNKS_TO_SAVE_PER_TICK (2)
 
 ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& a, const std::string& path) :
 	field_8(a),
@@ -76,6 +79,57 @@ void ExternalFileLevelStorage::closeAll()
 
 void ExternalFileLevelStorage::tick()
 {
+	m_timer++;
+	if (m_timer % 50 != 0 || !m_pLevel)
+		return;
+
+	for (int z = 0; z < C_MAX_CHUNKS_Z; z++)
+	{
+		for (int x = 0; x < C_MAX_CHUNKS_X; x++)
+		{
+			LevelChunk* pChunk = m_pLevel->getChunk(x, z);
+			if (!pChunk || !pChunk->m_bUnsaved)
+				continue;
+
+			int index = x + z * 16;
+
+			auto iter = m_unsavedLevelChunks.begin();
+			for (; iter != m_unsavedLevelChunks.end(); ++iter)
+			{
+				if (iter->m_index == index)
+				{
+					iter->m_foundTime = RakNet::GetTimeMS();
+					break;
+				}
+			}
+
+			if (iter == m_unsavedLevelChunks.end())
+			{
+				UnsavedLevelChunk ulc = { index, RakNet::GetTimeMS(), pChunk };
+				m_unsavedLevelChunks.push_back(ulc);
+			}
+
+			pChunk->m_bUnsaved = false;
+		}
+	}
+
+	int count = 0;
+	while (count < C_CHUNKS_TO_SAVE_PER_TICK && !m_unsavedLevelChunks.empty())
+	{
+		count++;
+
+		auto iter = m_unsavedLevelChunks.begin();
+		for (auto it2 = m_unsavedLevelChunks.begin(); it2 != m_unsavedLevelChunks.end(); ++it2)
+		{
+			if (iter->m_foundTime > it2->m_foundTime)
+				iter = it2;
+		}
+
+		LevelChunk* pChunk = iter->m_pChunk;
+		m_unsavedLevelChunks.erase(iter);
+
+		save(m_pLevel, pChunk);
+	}
 }
 
 void ExternalFileLevelStorage::flush()
@@ -222,4 +276,23 @@ bool ExternalFileLevelStorage::readPlayerData(const std::string& path, LevelData
 _cleanup:
 	fclose(pFile);
 	return false;
+}
+
+bool ExternalFileLevelStorage::writeLevelData(const std::string& path, LevelData* pLevelData)
+{
+	FILE* pFile = fopen(path.c_str(), "wb");
+	if (!pFile)
+		return false;
+
+	RakNet::BitStream bs;
+	pLevelData->write(bs);
+
+	fwrite(&pLevelData->field_20, sizeof(int), 1, pFile);
+
+	int length = bs.GetNumberOfBytesUsed();
+	fwrite(&length, sizeof(int), 1, pFile);
+	fwrite(bs.GetData(), 1, length, pFile);
+	fclose(pFile);
+
+	return true;
 }
