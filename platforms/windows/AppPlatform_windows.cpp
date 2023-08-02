@@ -150,7 +150,15 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	if (!f)
 	{
 		LogMsg("File %s couldn't be opened", realPath.c_str());
-		return Texture(0, 0, nullptr, 1, 0);
+
+	_error:
+		char buffer[1024];
+		snprintf(buffer, sizeof buffer, "Error loading %s. Did you unzip the minecraft assets?", realPath.c_str());
+		MessageBoxA(GetHWND(), buffer, g_GameTitle, MB_OK);
+
+		if (f)
+			fclose(f);
+		::exit(1);
 	}
 
 	int width = 0, height = 0, channels = 0;
@@ -159,8 +167,7 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	if (!img)
 	{
 		LogMsg("File %s couldn't be loaded via stb_image", realPath.c_str());
-		fclose(f);
-		return Texture(0, 0, nullptr, 1, 0);
+		goto _error;
 	}
 
 	fclose(f);
