@@ -91,6 +91,10 @@ void Options::initDefaultValues()
 	m_keyBinds[13].value = AKEYCODE_DPAD_UP;
 	m_keyBinds[14].value = AKEYCODE_DPAD_CENTER;
 	m_keyBinds[15].value = AKEYCODE_BACK;
+
+#ifndef ORIGINAL_CODE
+	m_keyBinds[9].value = AKEYCODE_SHIFT_LEFT;
+#endif
 }
 
 Options::Options()

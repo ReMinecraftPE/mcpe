@@ -84,7 +84,7 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 			chr = bShiftPressed ? '<' : ',';
 			break;
 		case AKEYCODE_PERIOD:
-			chr = bShiftPressed ? '>' : ':';
+			chr = bShiftPressed ? '>' : '.';
 			break;
 		case AKEYCODE_PLUS:
 			chr = bShiftPressed ? '+' : '=';
