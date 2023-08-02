@@ -12,6 +12,9 @@
 #include <vector>
 
 #include "Texture.hpp"
+#ifndef ORIGINAL_CODE
+#include "SoundData.hpp"
+#endif
 
 class AppPlatform
 {
@@ -50,6 +53,7 @@ public:
 	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
 	virtual bool shiftPressed();
+	virtual SoundDesc loadSound(const std::string&);
 #endif
 
 

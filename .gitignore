@@ -375,6 +375,7 @@ FodyWeavers.xsd
 
 # Ignore sound data extracted from the game.
 /sound_data
+/sound_data_pcm
 
 /windows_vs/games/com.mojang
 /windows_vs/assets

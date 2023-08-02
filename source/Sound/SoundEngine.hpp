@@ -12,6 +12,7 @@
 #include "SoundRepository.hpp"
 #include "Options.hpp"
 #include "Random.hpp"
+#include "AppPlatform.hpp"
 
 // Platform specific type for the sound system.
 
@@ -30,7 +31,11 @@ class SoundEngine
 {
 public:
 	SoundEngine();
+#ifdef ORIGINAL_CODE
 	void init(Options*);
+#else
+	void init(Options*, AppPlatform*);
+#endif
 	void play(const std::string& name);
 	void play(const std::string& name, float, float, float, float, float);
 

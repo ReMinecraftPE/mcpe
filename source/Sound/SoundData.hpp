@@ -8,6 +8,10 @@
 
 #pragma once
 
+#ifndef ORIGINAL_CODE
+#define USE_PCM_FILES
+#endif
+
 #include <cstdint>
 
 struct PCMSoundHeader
@@ -33,4 +37,14 @@ struct SoundDesc
 		m_pData = data;
 		field_4 = header.m_channels * header.m_length * header.m_bytes_per_sample;
 	}
+
+#ifndef ORIGINAL_CODE
+	SoundDesc(PCMSoundHeader* header, uint16_t* data)
+	{
+		m_pHeader = header;
+		m_header = *header;
+		m_pData = data;
+		field_4 = m_header.m_channels * m_header.m_length * m_header.m_bytes_per_sample;
+	}
+#endif
 };

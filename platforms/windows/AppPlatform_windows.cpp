@@ -308,3 +308,31 @@ void AppPlatform_windows::setShiftPressed(bool b)
 {
 	m_bShiftPressed = b;
 }
+
+SoundDesc AppPlatform_windows::loadSound(const std::string& str)
+{
+	std::string realPath = str;
+	if (realPath.size() && realPath[0] == '/')
+		// trim it off
+		realPath = realPath.substr(1);
+
+	realPath = "assets/" + realPath;
+
+	FILE* f = fopen(realPath.c_str(), "rb");
+	if (!f)
+	{
+		LogMsg("File %s couldn't be opened", realPath.c_str());
+		return SoundDesc();
+	}
+
+	PCMSoundHeader* header = new PCMSoundHeader;
+	uint16_t* data;
+
+	fread(header, sizeof(PCMSoundHeader), 1, f);
+
+	data = new uint16_t[header->m_length];
+	fread(data, sizeof(uint16_t), header->m_length, f);
+
+	fclose(f);
+	return SoundDesc(header, data);
+}

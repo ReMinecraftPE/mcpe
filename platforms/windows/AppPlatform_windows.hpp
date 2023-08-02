@@ -50,6 +50,9 @@ public:
 
 	void setScreenSize(int width, int height);
 
+	// Also add this for binary .PCM sound file loading
+	SoundDesc loadSound(const std::string& str) override;
+
 private:
 	int m_ScreenWidth;
 	int m_ScreenHeight;

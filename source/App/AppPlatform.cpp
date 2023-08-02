@@ -122,3 +122,8 @@ bool AppPlatform::shiftPressed()
 {
 	return false;
 }
+
+SoundDesc AppPlatform::loadSound(const std::string&)
+{
+	return SoundDesc();
+}

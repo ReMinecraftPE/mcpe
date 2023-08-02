@@ -48,7 +48,9 @@ Minecraft::Minecraft() : m_gui(this)
 	m_pRakNetInstance = new RakNetInstance;
 
 	m_pSoundEngine = new SoundEngine;
+#ifdef ORIGINAL_CODE
 	m_pSoundEngine->init(&m_options);
+#endif
 }
 
 int Minecraft::getLicenseId()
@@ -575,6 +577,11 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
+#ifndef ORIGINAL_CODE
+	// Sound engine needs to be initialized here since m_pPlatform isn't set otherwise
+	m_pSoundEngine->init(&m_options, m_pPlatform);
+#endif
+
 	m_pTextures = new Textures(&m_options, platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
