@@ -9,11 +9,18 @@
 #include "ChunkSource.hpp"
 #include "Level.hpp"
 
+ChunkSource::~ChunkSource()
+{
+}
+
 void ChunkSource::saveAll()
 {
 
 }
 
-ChunkSource::~ChunkSource()
+#ifdef ENH_IMPROVED_SAVING
+void ChunkSource::saveUnsaved()
 {
+
 }
+#endif

@@ -8,6 +8,7 @@
 
 #pragma once
 #include <string>
+#include "GameMods.hpp"
 class Level;
 class LevelChunk;
 
@@ -23,5 +24,8 @@ public:
 	virtual bool shouldSave() = 0;
 	virtual void saveAll();
 	virtual std::string gatherStats() = 0;
+#ifdef ENH_IMPROVED_SAVING
+	virtual void saveUnsaved();
+#endif
 };
 

@@ -161,6 +161,10 @@ public:
 	bool hasDirectSignal(int x, int y, int z);
 	bool hasNeighborSignal(int x, int y, int z);
 
+#ifdef ENH_IMPROVED_SAVING
+	void saveUnsavedChunks();
+#endif
+
 public:
 	AABBVector m_aabbs;
 	uint8_t field_10 = 0;

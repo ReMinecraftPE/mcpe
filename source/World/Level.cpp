@@ -1095,6 +1095,13 @@ void Level::saveAllChunks()
 	m_pChunkSource->saveAll();
 }
 
+#ifdef ENH_IMPROVED_SAVING
+void Level::saveUnsavedChunks()
+{
+	m_pChunkSource->saveUnsaved();
+}
+#endif
+
 void Level::setInitialSpawn()
 {
 	field_A00 = true;
