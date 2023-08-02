@@ -17,12 +17,24 @@ Want to help this project? [Here's a list of things left to do.](TODO.md)
 
 ## Setup
 
+There is an optional requirement before trying to build the game.
+The "enhanced" version of the game can use .pcm files extracted from the game's original libminecraftpe.so file, with the ability to replace them, or leave them out entirely.
+Alternatively, the game can be compiled with the sounds included with the executable like the original, by extracting them as header files.
+
+### Getting Sound Data (Integrated)
 Before opening the VS2022 project or trying to build, load the sound assets into the `sound_data/` folder in the root of the project
 by **running the following command**:
-* `tools/grabsounds.py /path/to/the/mcpe01_canada/lib/armeabi-v7a/libminecraftpe.so`.
+* `tools/grabsounds_header.py /path/to/the/mcpe01_canada/lib/armeabi-v7a/libminecraftpe.so`.
+**This is required to build the game using ORIGINAL_CODE configuration.**
+
+### Getting Sound Data (PCM Files)
+Load the sound assets into the `sound_data_pcm/` folder in the root of the project
+by **running the following command**:
+* `tools/grabsounds_pcm.py /path/to/the/mcpe01_canada/lib/armeabi-v7a/libminecraftpe.so`.
 
 After that, **copy the assets folder** from mcpe01_canada.apk, such that there is a folder called `assets` in the current directory of the executable
 (`windows_vs` if you are running from VS, or the same dir as the executable otherwise)
+If you followed the PCM file instructions, copy the contents of `sound_data_pcm/` to `assets/sounds/`. 
 
 ## Have seams when playing?
 
