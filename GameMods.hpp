@@ -29,6 +29,7 @@
 #define ENH_ALLOW_SCROLL_WHEEL  // Allow use of the scroll wheel to change selected inventory slots
 #define ENH_DISABLE_TURN_ACCEL  // Disable the turn acceleration mechanism. It should only be used on Xperia Play
 #define ENH_3D_INVENTORY_TILES  // Uses 3D rendered inventory tiles, use with ENH_SHADE_HELD_TILES to render correctly.
+#define ENH_IMPROVED_SAVING     // Improve world saving. The original Minecraft doesn't always really save for some reason
 
 // Mods
 //#define MOD_USE_FLAT_WORLD         // Use a flat world instead of the regular world generation

@@ -1068,6 +1068,9 @@
     <ClCompile Include="..\source\World\Storage\ExternalFileLevelStorageSource.cpp">
       <Filter>Source Files\World\Storage</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\GUI\Screen\SavingWorldScreen.cpp">
+      <Filter>Source Files\GUI\Screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Options.hpp">
@@ -1937,11 +1940,14 @@
     <ClInclude Include="..\source\World\RegionFile.hpp">
       <Filter>Header Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\World\Storage\ExternalFileLevelStorageSource.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\World\Storage\ExternalFileLevelStorage.hpp">
       <Filter>Header Files\World\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\World\Storage\ExternalFileLevelStorageSource.hpp">
+      <Filter>Header Files\World\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\GUI\Screen\SavingWorldScreen.hpp">
+      <Filter>Header Files\GUI\Screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

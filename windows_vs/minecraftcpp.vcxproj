@@ -65,6 +65,7 @@
     <ClInclude Include="..\source\GUI\Screen\PauseScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\ProgressScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\RenameMPLevelScreen.hpp" />
+    <ClInclude Include="..\source\GUI\Screen\SavingWorldScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\Screen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\SelectWorldScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\StartMenuScreen.hpp" />
@@ -358,6 +359,7 @@
     <ClCompile Include="..\source\GUI\Screen\PauseScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\ProgressScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\RenameMPLevelScreen.cpp" />
+    <ClCompile Include="..\source\GUI\Screen\SavingWorldScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\Screen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\SelectWorldScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\StartMenuScreen.cpp" />
