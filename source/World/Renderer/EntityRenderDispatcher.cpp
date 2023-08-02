@@ -110,7 +110,16 @@ void EntityRenderDispatcher::render(Entity* entity, float a, float b, float c, f
 {
 	EntityRenderer* pRenderer = getRenderer(entity);
 	if (pRenderer)
+	{
+#ifndef ORIGINAL_CODE
+		if (pRenderer == &m_HumanoidMobRenderer)
+			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = entity->isSneaking();
+		else
+			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = false;
+#endif
+
 		pRenderer->render(entity, a, b, c, d, e);
+	}
 }
 
 void EntityRenderDispatcher::setLevel(Level* level)
