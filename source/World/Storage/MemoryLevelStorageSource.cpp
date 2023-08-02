@@ -9,6 +9,8 @@
 #include "MemoryLevelStorage.hpp"
 #include "MemoryLevelStorageSource.hpp"
 
+#ifdef DEMO
+
 std::string MemoryLevelStorageSource::getName()
 {
 	return "Memory Storage";
@@ -52,7 +54,9 @@ bool MemoryLevelStorageSource::requiresConversion(const std::string& x)
 	return false;
 }
 
-void MemoryLevelStorageSource::convertLevel(const std::string& x, ProgressListener* y)
+int MemoryLevelStorageSource::convertLevel(const std::string& x, ProgressListener* y)
 {
-
+	return 0;
 }
+
+#endif

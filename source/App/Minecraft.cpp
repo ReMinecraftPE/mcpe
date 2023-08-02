@@ -10,6 +10,7 @@
 #include "PauseScreen.hpp"
 #include "StartMenuScreen.hpp"
 #include "RenameMPLevelScreen.hpp"
+#include "SavingWorldScreen.hpp"
 #include "ServerSideNetworkHandler.hpp"
 #include "ClientSideNetworkHandler.hpp"
 
@@ -299,7 +300,7 @@ void Minecraft::tickInput()
 	{
 		if (!field_D14->field_10)
 		{
-			field_DB0 = 1;
+			field_DB0 = true;
 			field_D14->updateEvents();
 			field_DB0 = false;
 			if (field_DB1)
@@ -850,6 +851,10 @@ void Minecraft::leaveGame(bool bCopyMap)
 	delete m_pNetEventCallback;
 #endif
 
+#ifdef ENH_IMPROVED_SAVING
+	field_288 = true;
+	setScreen(new SavingWorldScreen(bCopyMap));
+#else
 	if (m_pLevel)
 	{
 		LevelStorage* pStorage = m_pLevel->getLevelStorage();
@@ -858,6 +863,7 @@ void Minecraft::leaveGame(bool bCopyMap)
 
 		m_pLevel = nullptr;
 	}
+#endif
 
 #ifdef ORIGINAL_CODE
 	delete m_pNetEventCallback;
@@ -866,10 +872,12 @@ void Minecraft::leaveGame(bool bCopyMap)
 	m_pNetEventCallback = nullptr;
 	field_D9C = 0;
 
+#ifndef ENH_IMPROVED_SAVING
 	if (bCopyMap)
 		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 	else
 		setScreen(new StartMenuScreen);
+#endif
 }
 
 void Minecraft::hostMultiplayer()

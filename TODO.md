@@ -13,7 +13,7 @@
 
 ### Save data
 * [DONE] `PlayerData`
-* `RegionFile`
+* [DONE] `RegionFile`
 
 ### Multiplayer
 * [DONE] `ServerSideNetworkHandler`
@@ -77,24 +77,67 @@
 * Attempt to recreate the project structure from Mojang. See the [Reconstructed project structure](#reconstructed-project-structure)
 
 ## Reconstructed project structure
-(note: some info is present in v0.1.0demo, some in v0.1.1j. The latter will be marked as [J].)
+Info extracted from:
+* v0.1.0 demo - [D]
+* v0.1.1j alpha - [J]
+* v0.1.0 touch prototype - [T]
 
 Obviously, this is VERY incomplete. This is what we know:
 
 * Root: `C:/dev/subversion/mojang/minecraftcpp/trunk/handheld`
 
 ```
-project/
-  android_java/
-    jni/
+project/android/jni/Android.mk (possibly)             [D]
+project/android/jni/Application.mk (possibly)         [D]
+src/raknet/*                                          [D]
+src/client/gui/components/RolledSelectionList.cpp     [T]
+src/client/gui/components/ScrolledSelectionList.cpp   [T]
+src/client/gui/screens/IngameBlockSelectionScreen.cpp [T]
+src/client/gui/screens/ProgressScreen.cpp
+src/client/gui/Font.cpp
+src/client/gui/Gui.cpp
+src/client/gui/GuiComponent.cpp
+src/client/gui/Screen.cpp
+src/client/model/Cube.cpp
+src/client/renderer/Chunk.cpp
+src/client/renderer/GameRenderer.cpp
+src/client/renderer/ItemInHandRenderer.cpp
+src/client/renderer/LevelRenderer.cpp
+src/client/renderer/RenderList.cpp
+src/client/renderer/Tesselator.cpp
+src/client/renderer/Textures.cpp
+src/client/renderer/gles.cpp
+src/client/renderer/entity/EntityRenderer.cpp
+src/client/renderer/entity/HumanoidMobRenderer.cpp
+src/client/renderer/entity/ItemRenderer.cpp
+src/client/renderer/entity/ItemSpriteRenderer.cpp
+src/client/renderer/entity/MobRenderer.cpp
+src/client/renderer/entity/TntRenderer.cpp
+src/client/renderer/entity/TripodCameraRenderer.cpp
+src/player/input - maybe
+
+project/                                           [D]
+  android_java/                                    [D]
+    jni/                                           [D]
       Possibly: Android.mk, Application.mk
-src/
-  raknet/
-    The RakNet source code resides here.[1]
-  world/ [J]
-    level/ [J]
-      storage/ [J]
-        RegionFile.cpp [J]
+src/                                               [D]
+  raknet/                                          [D]
+    The RakNet source code resides here.           [D]
+  client/                                          [T]
+    gui/                                           [T]
+      components/                                  [T]
+	    RolledSelectionList.cpp                    [T]
+	    ScrolledSelectionList.cpp                  [T]
+	  screens/                                     
+	  Font.cpp                                     [T]
+	  Gui.cpp                                      [T]
+	  GuiComponent.cpp                             [T]
+	  Screen.cpp                                   [T]
+  world/                                           [J]
+    level/                                         [J]
+      storage/                                     [J]
+        RegionFile.cpp                             [J]
+  NinecraftApp.cpp                                 [T]
 ```
 
 * [1] - In v0.1.1j, the RakNet source files are located at: `C:/dev/subversion/mojang/minecraftcpp/trunk/handheld/project/lib_projects//raknet/jni/RakNetSources/`.

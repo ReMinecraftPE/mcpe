@@ -57,6 +57,8 @@ private:
 	std::vector<std::string> m_UserInput;
 	int m_UserInputStatus = -1;
 
+	eDialogType m_DialogType;
+
 	bool m_bIsFocused = false;
 	bool m_bGrabbedMouse = false;
 	bool m_bActuallyGrabbedMouse = false;

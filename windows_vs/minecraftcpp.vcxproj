@@ -65,6 +65,7 @@
     <ClInclude Include="..\source\GUI\Screen\PauseScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\ProgressScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\RenameMPLevelScreen.hpp" />
+    <ClInclude Include="..\source\GUI\Screen\SavingWorldScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\Screen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\SelectWorldScreen.hpp" />
     <ClInclude Include="..\source\GUI\Screen\StartMenuScreen.hpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="..\source\World\Particle\Particle.hpp" />
     <ClInclude Include="..\source\World\Particle\ParticleEngine.hpp" />
     <ClInclude Include="..\source\World\Region.hpp" />
+    <ClInclude Include="..\source\World\RegionFile.hpp" />
     <ClInclude Include="..\source\World\Renderer\Chunk.hpp" />
     <ClInclude Include="..\source\World\Renderer\Culler.hpp" />
     <ClInclude Include="..\source\World\Renderer\EntityRenderDispatcher.hpp" />
@@ -153,6 +155,8 @@
     <ClInclude Include="..\source\World\Renderer\TntRenderer.hpp" />
     <ClInclude Include="..\source\World\Renderer\TripodCameraRenderer.hpp" />
     <ClInclude Include="..\source\World\Storage\ChunkStorage.hpp" />
+    <ClInclude Include="..\source\World\Storage\ExternalFileLevelStorage.hpp" />
+    <ClInclude Include="..\source\World\Storage\ExternalFileLevelStorageSource.hpp" />
     <ClInclude Include="..\source\World\Storage\LevelSource.hpp" />
     <ClInclude Include="..\source\World\Storage\LevelStorage.hpp" />
     <ClInclude Include="..\source\World\Storage\LevelStorageSource.hpp" />
@@ -355,6 +359,7 @@
     <ClCompile Include="..\source\GUI\Screen\PauseScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\ProgressScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\RenameMPLevelScreen.cpp" />
+    <ClCompile Include="..\source\GUI\Screen\SavingWorldScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\Screen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\SelectWorldScreen.cpp" />
     <ClCompile Include="..\source\GUI\Screen\StartMenuScreen.cpp" />
@@ -454,6 +459,7 @@
     <ClCompile Include="..\source\World\Particle\SmokeParticle.cpp" />
     <ClCompile Include="..\source\World\Particle\TerrainParticle.cpp" />
     <ClCompile Include="..\source\World\Region.cpp" />
+    <ClCompile Include="..\source\World\RegionFile.cpp" />
     <ClCompile Include="..\source\World\Renderer\Chunk.cpp" />
     <ClCompile Include="..\source\World\Renderer\Culler.cpp" />
     <ClCompile Include="..\source\World\Renderer\EntityRenderDispatcher.cpp" />
@@ -470,6 +476,8 @@
     <ClCompile Include="..\source\World\Renderer\TntRenderer.cpp" />
     <ClCompile Include="..\source\World\Renderer\TripodCameraRenderer.cpp" />
     <ClCompile Include="..\source\World\Storage\ChunkStorage.cpp" />
+    <ClCompile Include="..\source\World\Storage\ExternalFileLevelStorage.cpp" />
+    <ClCompile Include="..\source\World\Storage\ExternalFileLevelStorageSource.cpp" />
     <ClCompile Include="..\source\World\Storage\LevelSource.cpp" />
     <ClCompile Include="..\source\World\Storage\LevelStorage.cpp" />
     <ClCompile Include="..\source\World\Storage\LevelStorageSource.cpp" />

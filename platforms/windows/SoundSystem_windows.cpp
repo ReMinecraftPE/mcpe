@@ -143,7 +143,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	{
 		return;
 	}
-
+  
 	//Release sounds that finished playing
 	for (size_t i = 0; i < m_buffers.size(); i++)
 	{
