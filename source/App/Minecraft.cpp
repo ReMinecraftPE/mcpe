@@ -839,6 +839,14 @@ void Minecraft::leaveGame(bool bCopyMap)
 	// @BUG: Deleting ServerSideNetworkHandler too late! This causes
 	// access to invalid memory in the destructor seeing as we already deleted the level.
 	delete m_pNetEventCallback;
+
+	// @NOTE: Saving only happens once every 50 ticks. Force it to happen when quitting.
+	if (m_pLevel)
+	{
+		m_pLevel->saveAllChunks();
+		m_pLevel->saveLevelData();
+		m_pLevel->savePlayerData();
+	}
 #endif
 
 	if (m_pLevel)
