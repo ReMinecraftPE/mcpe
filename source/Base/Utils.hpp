@@ -15,16 +15,51 @@
 #include <cassert>
 #include <climits>
 
+#include <string>
+
 #ifdef _WIN32
 
 // @HACK: Include WinSock2.h also
 #include <WinSock2.h>
 #include <Windows.h>
 #include <WS2tcpip.h>
+#include <direct.h>
+#include <io.h>
+
+// XPL means "Cross PLatform"
+#define XPL_ACCESS _access
+#define XPL_MKDIR(path, mode)  _mkdir(path)
+
+// Bare bones non conforming implementation, but good enough
+struct dirent
+{
+	int  d_type;
+	char d_name[_MAX_PATH + 1];
+};
+
+struct DIR
+{
+	HANDLE current;
+	WIN32_FIND_DATA findData;
+	bool returnedFirstFileData;
+};
+
+#define DT_UNKNOWN (0)
+#define DT_DIR     (4)
+#define DT_REG     (8)
+
+DIR* opendir(const char* name);
+dirent* readdir(DIR* dir);
+void closedir(DIR* dir);
 
 #else
 
 #include <unistd.h>
+#include <dirent.h>
+
+ // XPL means "Cross PLatform"
+#define XPL_ACCESS access
+#define XPL_MKDIR(path, mode) mkdir(path, mode)
 
 #endif
 
@@ -505,6 +540,7 @@ constexpr float Lerp(float a, float b, float progress)
 }
 
 bool createFolderIfNotExists(const char* pDir);
+bool DeleteDirectory(const std::string& name, bool unused);
 
 // things that we added:
 #ifndef ORIGINAL_CODE

@@ -15,7 +15,7 @@ RegionFile::RegionFile(const std::string fileName)
 
 	field_20 = new int[1024];
 	field_24 = new int[1024];
-	memset(field_20, 0, 1024 * sizeof(int));
+	memset(field_24, 0, 1024 * sizeof(int));
 }
 
 RegionFile::~RegionFile()
@@ -48,11 +48,14 @@ bool RegionFile::open()
 
 		for (int i = 0; i < 1024; i++)
 		{
-			if (field_20[i])
+			int v13 = this->field_20[i];
+			if (v13)
 			{
-				for (int j = 0; j < uint8_t(field_20[i]); j++)
+				int v12 = v13 >> 8;
+				int v11 = uint8_t(v13);
+				for (int j = 0; j < v11; ++j)
 				{
-					field_28[j + (field_20[i] >> 8)] = false;
+					field_28[j + v12] = false;
 				}
 			}
 		}
@@ -66,6 +69,8 @@ bool RegionFile::open()
 
 	WRITE(field_20, sizeof(int), 1024, m_pFile);
 	field_28[0] = false;
+
+	return true;
 }
 
 bool RegionFile::readChunk(int x, int z, RakNet::BitStream** pBitStream)
@@ -74,8 +79,11 @@ bool RegionFile::readChunk(int x, int z, RakNet::BitStream** pBitStream)
 	if (!idx)
 		return false;
 
+	int thing = (idx >> 8);
+	int offset = (idx & 0xFF);
+
 	int length = 0;
-	fseek(m_pFile, (idx >> 8) * SECTOR_BYTES, SEEK_SET);
+	fseek(m_pFile, thing * SECTOR_BYTES, SEEK_SET);
 	fread(&length, sizeof(int), 1, m_pFile);
 	
 	assert(length < ((offset & 0xff) * SECTOR_BYTES));
@@ -104,7 +112,7 @@ bool RegionFile::writeChunk(int x, int z, RakNet::BitStream& bitStream)
 {
 	int length = bitStream.GetNumberOfBytesUsed();
 	int field20i = field_20[32 * z + x];
-	int lowerIndex = (length + 4) / SECTOR_BYTES;
+	int lowerIndex = (length + 4) / SECTOR_BYTES + 1;
 	if (lowerIndex > 256)
 		return false;
 

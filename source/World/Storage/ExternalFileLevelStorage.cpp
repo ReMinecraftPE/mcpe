@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #include "ExternalFileLevelStorage.hpp"
 #include "Level.hpp"
 #include "GetTime.h"
@@ -237,7 +245,7 @@ bool ExternalFileLevelStorage::readLevelData(const std::string& path, LevelData*
 
 	if (fread(data, sizeof(uint8_t), length, pFile) != length)
 	{
-		SAFE_DELETE(data);
+		SAFE_DELETE_ARRAY(data);
 		goto _cleanup;
 	}
 

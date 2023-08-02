@@ -16,10 +16,6 @@
 #include <io.h>
 #include <direct.h>
 
-// XPL means "Cross PLatform"
-#define XPL_ACCESS _access
-#define XPL_MKDIR(path, mode)  _mkdir(path)
-
 // Why are we not using GetTickCount64()? It's simple -- getTimeMs has the exact same problem as using regular old GetTickCount.
 #pragma warning(disable : 28159)
 
@@ -37,12 +33,101 @@
 
 int g_TimeSecondsOnInit = 0;
 
+DIR* opendir(const char* name)
+{
+	size_t len = strlen(name);
+	if (len == 0)
+		return NULL;
+
+	char buf[1024];
+	if (len >= 1024 - 5)
+		return NULL;
+
+	strcpy(buf, name);
+
+	if (name[len - 1] != '/')
+		strcpy(&buf[len], "/*");
+	else
+		strcpy(&buf[len], "*");
+
+	DIR* pDir = (DIR*)malloc(sizeof(DIR));
+	if (!pDir)
+		return pDir;
+
+	memset(pDir, 0, sizeof * pDir);
+
+	pDir->current = FindFirstFile(buf, &pDir->findData);
+	if (pDir->current == INVALID_HANDLE_VALUE)
+	{
+		free(pDir);
+		return NULL;
+	}
+
+	return pDir;
+}
+
+dirent* readdir(DIR* dir)
+{
+	if (dir->current == INVALID_HANDLE_VALUE)
+		return NULL;
+
+	static dirent de;
+
+	if (!dir->returnedFirstFileData)
+	{
+		dir->returnedFirstFileData = true;
+	}
+	else
+	{
+		if (!FindNextFile(dir->current, &dir->findData))
+			return NULL;
+	}
+
+	strcpy(de.d_name, dir->findData.cFileName);
+	de.d_type = (dir->findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? DT_DIR : DT_REG;
+
+	return &de;
+}
+
+void closedir(DIR* dir)
+{
+	if (dir->current != INVALID_HANDLE_VALUE)
+		FindClose(dir->current);
+
+	free(dir);
+}
+
 bool createFolderIfNotExists(const char* pDir)
 {
 	if (!XPL_ACCESS(pDir, 0))
 		return true;
 
 	return XPL_MKDIR(pDir, 0755) == 0;
+}
+
+bool DeleteDirectory(const std::string& name, bool unused)
+{
+	DIR* dir = opendir(name.c_str());
+	if (!dir)
+		return false;
+
+	char buffer[1024];
+
+	while (true)
+	{
+		dirent* de = readdir(dir);
+		if (!de)
+			break;
+
+		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
+			continue;
+
+		snprintf(buffer, sizeof buffer, "%s/%s", name.c_str(), de->d_name);
+		remove(buffer);
+	}
+
+	closedir(dir);
+	return remove(name.c_str()) == 0;
 }
 
 const char* GetTerrainName()

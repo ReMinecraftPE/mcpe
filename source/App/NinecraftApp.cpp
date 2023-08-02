@@ -8,8 +8,13 @@
 
 #include "NinecraftApp.hpp"
 #include "StartMenuScreen.hpp"
-#include "MemoryLevelStorageSource.hpp"
 #include "Item.hpp"
+
+#ifdef DEMO
+#include "MemoryLevelStorageSource.hpp"
+#else
+#include "ExternalFileLevelStorageSource.hpp"
+#endif
 
 bool NinecraftApp::_hasInitedStatics;
 
@@ -66,7 +71,13 @@ void NinecraftApp::init()
 	initGLStates();
 	Tesselator::instance.init();
 	Minecraft::init();
+
+#ifdef DEMO
 	m_pLevelStorageSource = new MemoryLevelStorageSource;
+#else
+	m_pLevelStorageSource = new ExternalFileLevelStorageSource(m_externalStorageDir);
+#endif
+
 	field_D9C = 0;
 
 	setScreen(new StartMenuScreen);

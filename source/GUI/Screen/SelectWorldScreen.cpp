@@ -126,7 +126,10 @@ void SelectWorldScreen::tick()
 		m_pMinecraft->hostMultiplayer();
 		m_pMinecraft->setScreen(new ProgressScreen);
 
+		// @BUG: Use of deallocated memory. SetScreen frees us
+#ifdef ORIGINAL_CODE
 		field_130 = 0;
+#endif
 
 		return;
 	}

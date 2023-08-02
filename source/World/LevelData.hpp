@@ -55,5 +55,10 @@ struct LevelData
 	{
 		return field_20;
 	}
+
+	void setLevelName(const std::string& name)
+	{
+		field_78 = name;
+	}
 };
 

@@ -48,16 +48,8 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 {
 	if (pButton->field_30 == m_startButton.field_30)
 	{
-#if defined(DEMO) || !defined(ORIGINAL_CODE)
-
-#	ifdef DEMO
-#		define DEMO_SEED int(getEpochTimeS())
-#	else
-		// 1942892620 = long(12345678901324)
-#		define DEMO_SEED 123456
-#	endif
-
-		m_pMinecraft->selectLevel("_DemoLevel", "_DemoLevel", DEMO_SEED);
+#if defined(DEMO)
+		m_pMinecraft->selectLevel("_DemoLevel", "_DemoLevel", int(getEpochTimeS()));
 		m_pMinecraft->hostMultiplayer();
 		m_pMinecraft->setScreen(new ProgressScreen);
 #else

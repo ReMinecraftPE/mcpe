@@ -155,6 +155,7 @@
     <ClInclude Include="..\source\World\Renderer\TripodCameraRenderer.hpp" />
     <ClInclude Include="..\source\World\Storage\ChunkStorage.hpp" />
     <ClInclude Include="..\source\World\Storage\ExternalFileLevelStorage.hpp" />
+    <ClInclude Include="..\source\World\Storage\ExternalFileLevelStorageSource.hpp" />
     <ClInclude Include="..\source\World\Storage\LevelSource.hpp" />
     <ClInclude Include="..\source\World\Storage\LevelStorage.hpp" />
     <ClInclude Include="..\source\World\Storage\LevelStorageSource.hpp" />
@@ -474,6 +475,7 @@
     <ClCompile Include="..\source\World\Renderer\TripodCameraRenderer.cpp" />
     <ClCompile Include="..\source\World\Storage\ChunkStorage.cpp" />
     <ClCompile Include="..\source\World\Storage\ExternalFileLevelStorage.cpp" />
+    <ClCompile Include="..\source\World\Storage\ExternalFileLevelStorageSource.cpp" />
     <ClCompile Include="..\source\World\Storage\LevelSource.cpp" />
     <ClCompile Include="..\source\World\Storage\LevelStorage.cpp" />
     <ClCompile Include="..\source\World\Storage\LevelStorageSource.cpp" />

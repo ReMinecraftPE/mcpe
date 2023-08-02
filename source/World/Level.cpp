@@ -45,6 +45,7 @@ void Level::_init(const std::string& str, TLong  seed, int x, Dimension* pDimens
 
 	field_B0C = pData == 0;
 
+	// @BUG: leaking a Dimension*?
 	if (pDimension)
 		m_pDimension = pDimension;
 	else

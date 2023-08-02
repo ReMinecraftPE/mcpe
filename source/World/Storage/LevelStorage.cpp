@@ -14,6 +14,8 @@ LevelStorage::~LevelStorage()
 
 void LevelStorage::saveLevelData(LevelData* levelData)
 {
+	std::vector<Player*> nothing;
+	saveLevelData(levelData, nothing);
 }
 
 void LevelStorage::savePlayerData(LevelData* levelData, std::vector<Player*>& players)
