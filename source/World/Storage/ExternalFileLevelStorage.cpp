@@ -32,6 +32,14 @@ ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& a, const s
 	readPlayerData(datPlayer, m_pLevelData);
 }
 
+ExternalFileLevelStorage::~ExternalFileLevelStorage()
+{
+	if (m_pRegionFile)
+		delete m_pRegionFile;
+	if (m_pLevelData)
+		delete m_pLevelData;
+}
+
 LevelData* ExternalFileLevelStorage::prepareLevel(Level* level)
 {
 	m_pLevel = level;
@@ -113,7 +121,7 @@ void ExternalFileLevelStorage::tick()
 
 			if (iter == m_unsavedLevelChunks.end())
 			{
-				UnsavedLevelChunk ulc = { index, RakNet::GetTimeMS(), pChunk };
+				UnsavedLevelChunk ulc = { index, int(RakNet::GetTimeMS()), pChunk };
 				m_unsavedLevelChunks.push_back(ulc);
 			}
 

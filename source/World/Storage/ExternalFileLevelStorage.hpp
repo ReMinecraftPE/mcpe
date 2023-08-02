@@ -26,6 +26,7 @@ class ExternalFileLevelStorage : public LevelStorage, ChunkStorage
 {
 public:
 	ExternalFileLevelStorage(const std::string& a, const std::string& path);
+	~ExternalFileLevelStorage();
 
 	// LevelStorage
 	LevelData* prepareLevel(Level* level) override;
