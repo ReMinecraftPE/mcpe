@@ -13,6 +13,7 @@
 #include "Utils.hpp"
 #include "Vec3.hpp"
 #include "Inventory.hpp"
+#include "BitStream.h"
 
 struct PlayerData
 {
@@ -27,6 +28,7 @@ struct PlayerData
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
 
 	void loadPlayer(Player* player);
+	void savePlayer(Player* player);
 };
 
 struct LevelData
@@ -34,15 +36,24 @@ struct LevelData
 	LevelData();
 	LevelData(TLong seed, const std::string&, int);
 
+	void read(RakNet::BitStream& bs, int d);
+	void write(RakNet::BitStream& bs, int d);
+
 	TLong m_seed = 0;
 	Pos m_spawnPos;
 	TLong field_10 = 0;
 	int field_14 = 0;
-	int field_18 = 0;
+	TLong field_18 = 0;
 	int field_1C = 0;
 	int field_20 = 0;
 	PlayerData m_LocalPlayerData;
 	int m_nPlayers = -1;
 	std::string field_78;
+
+	// inlined in 0.1.0 demo
+	int getVersion() const
+	{
+		return field_20;
+	}
 };
 

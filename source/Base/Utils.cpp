@@ -11,16 +11,39 @@
 #include "Utils.hpp"
 
 #ifdef _WIN32
+
 #include <Windows.h>
+#include <io.h>
+#include <direct.h>
+
+// XPL means "Cross PLatform"
+#define XPL_ACCESS _access
+#define XPL_MKDIR(path, mode)  _mkdir(path)
 
 // Why are we not using GetTickCount64()? It's simple -- getTimeMs has the exact same problem as using regular old GetTickCount.
 #pragma warning(disable : 28159)
+
 #else
+
 #include <sys/time.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+#define XPL_ACCESS access
+#define XPL_MKDIR(path, mode)  mkdir(path, mode)
 #endif
+
 #include "compat/GL.hpp"
 
 int g_TimeSecondsOnInit = 0;
+
+bool createFolderIfNotExists(const char* pDir)
+{
+	if (!XPL_ACCESS(pDir, 0))
+		return true;
+
+	return XPL_MKDIR(pDir, 0755) == 0;
+}
 
 const char* GetTerrainName()
 {

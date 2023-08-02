@@ -504,6 +504,7 @@ constexpr float Lerp(float a, float b, float progress)
 	return a + progress * (b - a);
 }
 
+bool createFolderIfNotExists(const char* pDir);
 
 // things that we added:
 #ifndef ORIGINAL_CODE
@@ -535,5 +536,25 @@ void SetHWND(HWND hwnd);
 
 #define LogMsg(...)
 #define LogMsgNoCR(...)
+
+#endif
+
+#ifdef MC_DEBUG
+
+#ifdef PLATFORM_ANDROID
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO,  "MinecraftPE", __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN,  "MinecraftPE", __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "MinecraftPE", __VA_ARGS__)
+#else
+#define LOGI(...) printf("Info:  " __VA_ARGS__)
+#define LOGW(...) printf("WARN:  " __VA_ARGS__)
+#define LOGE(...) printf("ERROR: " __VA_ARGS__)
+#endif
+
+#else
+
+#define LOGI(...) printf(__VA_ARGS__)
+#define LOGW(...) printf(__VA_ARGS__)
+#define LOGE(...) printf(__VA_ARGS__)
 
 #endif
