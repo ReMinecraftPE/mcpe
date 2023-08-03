@@ -138,7 +138,7 @@ void Item::initItems()
 
 	Item::door_iron = NEW_X_ITEM(DoorItem, ITEM_DOOR_IRON, Material::metal)
 		->setIcon(12, 2)
-		->setDescriptionId("doorWood");
+		->setDescriptionId("doorIron");
 
 	Item::leather = NEW_ITEM(ITEM_LEATHER)
 		->setIcon(7, 6)
