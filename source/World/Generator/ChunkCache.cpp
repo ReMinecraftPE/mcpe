@@ -179,6 +179,8 @@ void ChunkCache::saveAll()
 	m_pChunkStorage->saveAll(m_pLevel, chunksToSave);
 }
 
+#ifdef ENH_IMPROVED_SAVING
+
 void ChunkCache::saveUnsaved()
 {
 	if (!m_pChunkStorage) return;
@@ -199,6 +201,8 @@ void ChunkCache::saveUnsaved()
 
 	m_pChunkStorage->saveAll(m_pLevel, chunksToSave);
 }
+
+#endif
 
 bool ChunkCache::shouldSave()
 {

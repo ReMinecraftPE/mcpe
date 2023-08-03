@@ -10,6 +10,8 @@
 #include "Level.hpp"
 #include "GetTime.h"
 
+#ifdef DEMO
+
 #define C_CHUNKS_TO_SAVE_PER_TICK (2)
 
 ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& a, const std::string& path) :
@@ -312,3 +314,5 @@ bool ExternalFileLevelStorage::writeLevelData(const std::string& path, LevelData
 
 	return true;
 }
+
+#endif
