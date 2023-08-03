@@ -150,6 +150,7 @@
     <ClInclude Include="..\source\World\Renderer\HumanoidMobRenderer.hpp" />
     <ClInclude Include="..\source\World\Renderer\ItemInHandRenderer.hpp" />
     <ClInclude Include="..\source\World\Renderer\ItemRenderer.hpp" />
+    <ClInclude Include="..\source\World\Renderer\ItemSpriteRenderer.hpp" />
     <ClInclude Include="..\source\World\Renderer\LevelRenderer.hpp" />
     <ClInclude Include="..\source\World\Renderer\MobRenderer.hpp" />
     <ClInclude Include="..\source\World\Renderer\TileRenderer.hpp" />
@@ -472,6 +473,7 @@
     <ClCompile Include="..\source\World\Renderer\HumanoidMobRenderer.cpp" />
     <ClCompile Include="..\source\World\Renderer\ItemInHandRenderer.cpp" />
     <ClCompile Include="..\source\World\Renderer\ItemRenderer.cpp" />
+    <ClCompile Include="..\source\World\Renderer\ItemSpriteRenderer.cpp" />
     <ClCompile Include="..\source\World\Renderer\LevelRenderer.cpp" />
     <ClCompile Include="..\source\World\Renderer\MobRenderer.cpp" />
     <ClCompile Include="..\source\World\Renderer\TileRenderer.cpp" />

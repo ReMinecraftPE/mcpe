@@ -1074,6 +1074,9 @@
     <ClCompile Include="..\source\GUI\Screen\CreateWorldScreen.cpp">
       <Filter>Source Files\GUI\Screen</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\World\Renderer\ItemSpriteRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Options.hpp">
@@ -1954,6 +1957,9 @@
     </ClInclude>
     <ClInclude Include="..\source\GUI\Screen\CreateWorldScreen.hpp">
       <Filter>Header Files\GUI\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\World\Renderer\ItemSpriteRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
