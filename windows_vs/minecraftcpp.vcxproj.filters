@@ -1075,7 +1075,7 @@
       <Filter>Source Files\GUI\Screen</Filter>
     </ClCompile>
     <ClCompile Include="..\source\World\Renderer\ItemSpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\World\Renderer\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1959,7 +1959,7 @@
       <Filter>Header Files\GUI\Screen</Filter>
     </ClInclude>
     <ClInclude Include="..\source\World\Renderer\ItemSpriteRenderer.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\World\Renderer\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
