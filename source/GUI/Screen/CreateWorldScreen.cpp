@@ -63,7 +63,7 @@ void CreateWorldScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->setScreen(new SelectWorldScreen);
 	}
 
-	if (pButton->field_30 = m_btnCreate.field_30)
+	if (pButton->field_30 == m_btnCreate.field_30)
 	{
 		std::string nameStr = m_textName.m_text;
 		std::string seedStr = m_textSeed.m_text;
