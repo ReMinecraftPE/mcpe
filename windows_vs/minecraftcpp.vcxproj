@@ -489,6 +489,7 @@
     <ClCompile Include="..\source\World\Storage\MemoryLevelStorage.cpp" />
     <ClCompile Include="..\source\World\Storage\MemoryLevelStorageSource.cpp" />
     <ClCompile Include="..\source\World\TickNextTickData.cpp" />
+    <ClCompile Include="..\source\World\Tile\BookshelfTile.cpp" />
     <ClCompile Include="..\source\World\Tile\Bush.cpp" />
     <ClCompile Include="..\source\World\Tile\ClayTile.cpp" />
     <ClCompile Include="..\source\World\Tile\ClothTile.cpp" />

@@ -201,7 +201,10 @@ public: // static variables
 		* door_iron,
 		// custom additions here
 		* sapling,
-		* sponge;
+		* sponge,
+		* lapisBlock,
+		* bookshelf,
+		* mossStone;
 
 public:
 	int m_TextureFrame = 1;
@@ -772,4 +775,14 @@ public:
 
 	void onPlace(Level*, int x, int y, int z) override;
 	void destroy(Level*, int x, int y, int z, int dir) override;
+};
+
+class BookshelfTile : public Tile
+{
+public:
+	BookshelfTile(int ID, int texture, Material*);
+
+	int getTexture(int dir) override;
+	int getResource(int data, Random* random) override;
+	int getResourceCount(Random* random) override;
 };

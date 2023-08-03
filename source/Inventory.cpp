@@ -153,8 +153,8 @@ Inventory::Inventory(Player* pPlayer)
 	m_items[38] = Item::door_wood->m_itemID;
 	m_items[39] = Tile::gravel->m_ID;
 	m_items[40] = Tile::cloth->m_ID;
-	m_items[41] = Tile::clay->m_ID;
-	m_items[42] = Tile::farmland->m_ID;
+	m_items[41] = Tile::mossStone->m_ID;
+	m_items[42] = Tile::bookshelf->m_ID;
 	m_items[43] = Tile::sponge->m_ID;
 	m_items[44] = Tile::sapling->m_ID;
 #endif

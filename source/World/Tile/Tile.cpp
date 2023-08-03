@@ -620,6 +620,26 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("sponge");
 
+	Tile::lapisBlock = (new MetalTile(TILE_BLOCK_LAPIS, TEXTURE_LAPIS, Material::metal))
+		->init()
+		->setDestroyTime(3.0f)
+		->setExplodeable(10.0f)
+		->setSoundType(Tile::SOUND_METAL)
+		->setDescriptionId("blockLapis");
+
+	Tile::bookshelf = (new BookshelfTile(TILE_BOOKSHELF, TEXTURE_BOOKSHELF, Material::wood))
+		->init()
+		->setDestroyTime(1.5f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("bookshelf");
+
+	Tile::mossStone = (new Tile(TILE_MOSS_STONE, TEXTURE_MOSSY_STONE, Material::stone))
+		->init()
+		->setDestroyTime(2.0f)
+		->setExplodeable(10.0f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("stoneMoss");
+
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
 		if (Tile::tiles[i])
@@ -1228,4 +1248,7 @@ Tile
 	*Tile::door_wood,
 	*Tile::door_iron,
 	*Tile::sapling,
-	*Tile::sponge;
+	*Tile::sponge,
+	*Tile::lapisBlock,
+	*Tile::bookshelf,
+	*Tile::mossStone;
