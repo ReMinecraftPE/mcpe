@@ -10,7 +10,7 @@
 #include "Level.hpp"
 #include "GetTime.h"
 
-#ifdef DEMO
+#ifndef DEMO
 
 #define C_CHUNKS_TO_SAVE_PER_TICK (2)
 

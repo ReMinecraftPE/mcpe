@@ -6,8 +6,8 @@
 CreateWorldScreen::CreateWorldScreen() :
 	m_textName(1, 0, 0, 0, 0, "", "Unnamed world"),
 	m_textSeed(2, 0, 0, 0, 0, ""),
-	m_btnBack(3, "Back"),
-	m_btnCreate(4, "Create!")
+	m_btnBack(3, "Cancel"),
+	m_btnCreate(4, "Create New World")
 {
 }
 
@@ -19,11 +19,13 @@ void CreateWorldScreen::init()
 	m_textName.m_yPos = 60;
 	m_textSeed.m_yPos = 100;
 
-	m_btnBack.m_yPos  = m_btnCreate.m_yPos  = m_height - 30;
-	m_btnBack.m_width = m_btnCreate.m_width = 60;
+	m_btnCreate.m_yPos  = m_height - 56;
+	m_btnBack.m_yPos    = m_height - 30;
+	m_btnBack.m_width   = m_btnCreate.m_width  = 200;
+	m_btnBack.m_height  = m_btnCreate.m_height = 20;
 	
-	m_btnBack.m_xPos   = m_width / 2 - 64;
-	m_btnCreate.m_xPos = m_width / 2 + 4;
+	m_btnBack.m_xPos   = m_width / 2 - 200 / 2;
+	m_btnCreate.m_xPos = m_width / 2 - 200 / 2;
 
 	m_textInputs.push_back(&m_textName);
 	m_textInputs.push_back(&m_textSeed);

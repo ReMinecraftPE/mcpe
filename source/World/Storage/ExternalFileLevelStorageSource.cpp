@@ -10,7 +10,7 @@
 #include "ExternalFileLevelStorage.hpp"
 #include "Util.hpp"
 
-#ifdef DEMO
+#ifndef DEMO
 
 ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string& path)
 {
