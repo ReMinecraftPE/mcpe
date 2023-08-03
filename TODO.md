@@ -1,5 +1,25 @@
 ## What is there left to do?
 
+### World gen features
+* `LargeFeature`
+* `LargeCaveFeature` [unused]
+
+### Unused entities and their renderers
+* [DONE] `FallingTile`
+* [DONE] `ItemEntity`
+* `ItemSpriteRenderer`
+
+### Sound system:
+* Mutex [used for SoundSystemSL, most of it is inlined]
+* [DONE] `SoundEngine`
+* [DONE] `SoundRepository`
+* [DONE] `SoundSystem`
+* `SoundSystemSL`
+* [DONE] `SoundSystemWindows` (not original, but needed if you want sound on Windows)
+
+### Miscellanea
+* `StopwatchHandler` -- `Performance::watches`. Unused?! Don't know.
+
 ### GUI stuff
 * [DONE] `ChatScreen`
 * [DONE] `ConfirmScreen`
@@ -38,29 +58,9 @@
 * [DONE] `Controller`
 * [DONE] `ControllerTurnInput`
 
-### World gen features
-* `LargeFeature`
-* `LargeCaveFeature` [unused]
-
-### Sound system:
-* Mutex [used for SoundSystemSL, most of it is inlined]
-* [DONE] `SoundEngine`
-* [DONE] `SoundRepository`
-* [DONE] `SoundSystem`
-* `SoundSystemSL`
-* `SoundSystemWindows` (not original, but needed if you want sound on Windows)
-
-### Unused entities and their renderers
-* [DONE] `FallingTile`
-* [DONE] `ItemEntity`
-* `ItemSpriteRenderer`
-
 ### From the non-demo version
-* `ExternalFileLevelStorage`
-* `ExternalFileLevelStorageSource`
-
-### Miscellanea
-* `StopwatchHandler` -- `Performance::watches`. Unused?! Don't know.
+* [DONE] `ExternalFileLevelStorage`
+* [DONE] `ExternalFileLevelStorageSource`
 
 ## More generic things left to do:
 

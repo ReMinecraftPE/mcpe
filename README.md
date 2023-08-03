@@ -11,6 +11,8 @@ An Android build will come soon.
 
 Eventually, I plan on creating a new repository, `mcpe01_canada`, which will include just the port of the Canada demo.
 
+### This is the main modded version. For the original decompilation, see [ReMinecraftPE/mcped](https://github.com/ReMinecraftPE/mcped)
+
 ## WANT TO HELP?
 
 Want to help this project? [Here's a list of things left to do.](TODO.md)
