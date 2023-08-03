@@ -9,6 +9,8 @@
 #define DEMO
 #else
 
+// TODO: Since this is the modded version, we don't need these anymore. Remove them
+
 // Enhancements
 #define ENH_ENTITY_SHADING      // Allows shading of entities
 #define ENH_SHADE_HELD_TILES    // Allows shading of the item in hand

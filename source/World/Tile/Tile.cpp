@@ -606,11 +606,19 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("cloth");
 
+	// custom additions here
+
 	Tile::sapling = (new Sapling(TILE_SAPLING, TEXTURE_SAPLING))
 		->init()
 		->setDestroyTime(0.0f)
 		->setSoundType(Tile::SOUND_GRASS)
 		->setDescriptionId("sapling");
+
+	Tile::sponge = (new SpongeTile(TILE_SPONGE, TEXTURE_SPONGE))
+		->init()
+		->setDestroyTime(0.5f)
+		->setSoundType(Tile::SOUND_CLOTH)
+		->setDescriptionId("sponge");
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
@@ -1219,4 +1227,5 @@ Tile
 	*Tile::stairs_stone,
 	*Tile::door_wood,
 	*Tile::door_iron,
-	*Tile::sapling;
+	*Tile::sapling,
+	*Tile::sponge;

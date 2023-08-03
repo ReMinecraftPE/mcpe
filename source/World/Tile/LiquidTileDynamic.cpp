@@ -9,8 +9,31 @@
 #include "Tile.hpp"
 #include "Level.hpp"
 
+bool g_bDisableSponges = false;
+
 LiquidTileDynamic::LiquidTileDynamic(int id, Material* pMtl) : LiquidTile(id, pMtl)
 {
+}
+
+bool LiquidTileDynamic::checkSpongesNearby(Level* level, int x, int y, int z)
+{
+	// NOTE: I imagine this could get slow. So you can disable it
+	if (g_bDisableSponges)
+		return false;
+
+	for (int ox = -2; ox <= 2; ox++)
+	{
+		for (int oy = -2; oy <= 2; oy++)
+		{
+			for (int oz = -2; oz <= 2; oz++)
+			{
+				if (level->getTile(x + ox, y + oy, z + oz) == Tile::sponge->m_ID)
+					return true;
+			}
+		}
+	}
+
+	return false;
 }
 
 bool LiquidTileDynamic::isWaterBlocking(Level* level, int x, int y, int z)
@@ -18,6 +41,12 @@ bool LiquidTileDynamic::isWaterBlocking(Level* level, int x, int y, int z)
 	TileID tile = level->getTile(x, y, z);
 	if (tile == Tile::reeds->m_ID)
 		return true;
+
+	if (!g_bDisableSponges)
+	{
+		if (checkSpongesNearby(level, x, y, z))
+			return true;
+	}
 
 	if (!tile)
 		return false;

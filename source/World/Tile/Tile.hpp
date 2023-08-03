@@ -199,7 +199,9 @@ public: // static variables
 		* stairs_stone,
 		* door_wood,
 		* door_iron,
-		* sapling;
+		// custom additions here
+		* sapling,
+		* sponge;
 
 public:
 	int m_TextureFrame = 1;
@@ -563,6 +565,7 @@ public:
 	void onPlace(Level*, int x, int y, int z) override;
 	void tick(Level*, int x, int y, int z, Random*) override;
 
+	bool checkSpongesNearby(Level*, int x, int y, int z);
 	bool isWaterBlocking(Level*, int x, int y, int z);
 	bool canSpreadTo(Level*, int x, int y, int z);
 	int getSlopeDistance(Level*, int, int, int, int, int);
@@ -760,4 +763,13 @@ public:
 	{
 		return (data & 8) != 0;
 	}
+};
+
+class SpongeTile : public Tile
+{
+public:
+	SpongeTile(int ID, int texture);
+
+	void onPlace(Level*, int x, int y, int z) override;
+	void destroy(Level*, int x, int y, int z, int dir) override;
 };
