@@ -606,6 +606,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("cloth");
 
+	Tile::sapling = (new Sapling(TILE_SAPLING, TEXTURE_SAPLING))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_GRASS)
+		->setDescriptionId("sapling");
+
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
 		if (Tile::tiles[i])
@@ -1212,4 +1218,5 @@ Tile
 	*Tile::stairs_wood,
 	*Tile::stairs_stone,
 	*Tile::door_wood,
-	*Tile::door_iron;
+	*Tile::door_iron,
+	*Tile::sapling;

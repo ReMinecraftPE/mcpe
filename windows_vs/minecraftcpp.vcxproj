@@ -514,6 +514,7 @@
     <ClCompile Include="..\source\World\Tile\ReedTile.cpp" />
     <ClCompile Include="..\source\World\Tile\SandStoneTile.cpp" />
     <ClCompile Include="..\source\World\Tile\SandTile.cpp" />
+    <ClCompile Include="..\source\World\Tile\Sapling.cpp" />
     <ClCompile Include="..\source\World\Tile\StairTile.cpp" />
     <ClCompile Include="..\source\World\Tile\StoneSlabTile.cpp" />
     <ClCompile Include="..\source\World\Tile\StoneTile.cpp" />

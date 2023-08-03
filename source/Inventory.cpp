@@ -156,7 +156,7 @@ Inventory::Inventory(Player* pPlayer)
 	m_items[41] = Tile::clay->m_ID;
 	m_items[42] = Tile::farmland->m_ID;
 	m_items[43] = Tile::lapisOre->m_ID;
-	m_items[44] = Item::door_iron->m_itemID;
+	m_items[44] = Tile::sapling->m_ID;
 #endif
 }
 

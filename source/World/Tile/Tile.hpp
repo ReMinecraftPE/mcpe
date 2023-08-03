@@ -198,7 +198,8 @@ public: // static variables
 		* stairs_wood,
 		* stairs_stone,
 		* door_wood,
-		* door_iron;
+		* door_iron,
+		* sapling;
 
 public:
 	int m_TextureFrame = 1;
@@ -365,18 +366,29 @@ class Bush : public Tile
 public:
 	Bush(int id, int texture);
 
-	bool canSurvive(Level*, int x, int y, int z) override;
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	int getRenderShape() override;
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
-	bool mayPlace(Level*, int x, int y, int z) override;
-	void tick(Level*, int x, int y, int z, Random*) override;
-	void neighborChanged(Level*, int x, int y, int z, int dir) override;
+	virtual bool canSurvive(Level*, int x, int y, int z) override;
+	virtual AABB* getAABB(Level*, int x, int y, int z) override;
+	virtual int getRenderShape() override;
+	virtual bool isCubeShaped() override;
+	virtual bool isSolidRender() override;
+	virtual bool mayPlace(Level*, int x, int y, int z) override;
+	virtual void tick(Level*, int x, int y, int z, Random*) override;
+	virtual void neighborChanged(Level*, int x, int y, int z, int dir) override;
 
 	void checkAlive(Level*, int x, int y, int z);
 };
 
+class Sapling : public Bush
+{
+public:
+	Sapling(int id, int texture);
+
+	int getTexture(int dir, int data) override;
+	void tick(Level*, int x, int y, int z, Random*) override;
+
+	void growTree(Level*, int x, int y, int z, Random*);
+	bool maybeGrowTree(Level*, int x, int y, int z, Random*);
+};
 
 class TopSnowTile : public Tile
 {
