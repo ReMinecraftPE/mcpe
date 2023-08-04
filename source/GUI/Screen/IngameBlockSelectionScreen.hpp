@@ -10,12 +10,17 @@
 
 #include "Screen.hpp"
 
+class Inventory;
+
 class IngameBlockSelectionScreen : public Screen
 {
 public:
+	Inventory* getInventory();
+	int getBottomY();
 	int getSelectedSlot(int x, int y);
 	int getSlotPosX(int x);
 	int getSlotPosY(int y);
+	int getSlotsHeight();
 	bool isAllowed(int slot);
 	void renderSlots();
 	void renderDemoOverlay();

@@ -14,8 +14,14 @@ void ItemInstance::init(int itemID, int amount, int auxValue)
 {
 	m_itemID = itemID;
 	m_amount = amount;
+	m_auxValue = auxValue;
 
 	//@BUG? Not using the auxValue.  This is problematic in the case of wool and dyes.
+}
+
+ItemInstance::ItemInstance()
+{
+	init(0, 0, 0);
 }
 
 ItemInstance::ItemInstance(Item* pItem)

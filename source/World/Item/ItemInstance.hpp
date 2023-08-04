@@ -20,6 +20,7 @@ class Player;
 class ItemInstance
 {
 public:
+	ItemInstance();
 	ItemInstance(Item*);
 	ItemInstance(Item*, int amount);
 	ItemInstance(Item*, int amount, int auxValue);

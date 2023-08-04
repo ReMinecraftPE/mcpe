@@ -70,8 +70,9 @@ void PlayerData::loadPlayer(Player* player)
 	// @NOTE: Why are we updating m_pos, field_3C and field_98 above if we do this?
 	player->setPos(m_pos.x, m_pos.y, m_pos.z);
 
+	// TODO: survival mode stuff
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
-		player->m_pInventory->setSelectionSlotItemId(i, m_hotbar[i]);
+		player->m_pInventory->setQuickSlotIndexByItemId(i, m_hotbar[i]);
 }
 
 void PlayerData::savePlayer(Player* player)
@@ -85,6 +86,7 @@ void PlayerData::savePlayer(Player* player)
 	field_26 = player->field_BC;
 	field_28 = player->field_7C;
 
+	// TODO: survival mode stuff
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
-		m_hotbar[i] = player->m_pInventory->getSelectionSlotItemId(i);
+		m_hotbar[i] = player->m_pInventory->getQuickSlotItemId(i);
 }

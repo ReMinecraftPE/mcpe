@@ -335,7 +335,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 		return;
 	}
 
-	pPlayer->m_pInventory->setSelectionSlotItemId(0, pPlayerEquipmentPkt->m_itemID);
+	pPlayer->m_pInventory->selectItemById(pPlayerEquipmentPkt->m_itemID);
 	pPlayer->m_pInventory->selectSlot(0);
 }
 

@@ -315,7 +315,7 @@ void Gui::tick()
 
 void Gui::renderSlot(int slot, int x, int y, float f)
 {
-	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectionSlotItemId(slot);
+	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getQuickSlotItemId(slot);
 	if (itemID < 0)
 		return;
 

@@ -9,16 +9,27 @@
 #include "IngameBlockSelectionScreen.hpp"
 #include "ItemRenderer.hpp"
 
-#define C_SLOTS_HEIGHT ((C_MAX_INVENTORY_ITEMS + 8) / 9)
-
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
+
+Inventory* IngameBlockSelectionScreen::getInventory()
+{
+	return m_pMinecraft->m_pLocalPlayer->m_pInventory;
+}
+
+int IngameBlockSelectionScreen::getBottomY()
+{
+	// -1 for some reason, -2 to make it align between top of screen and top of hotbar instead
+	return (m_height - 22 * (getSlotsHeight() - 2)) / 2;
+}
 
 int IngameBlockSelectionScreen::getSelectedSlot(int x, int y)
 {
-	int bottom = m_height - 151;
+	int slotsHeight = getSlotsHeight();
+	int bottom = m_height - getBottomY();
+	int top = bottom - slotsHeight * 22;
 	int left = m_width / 2 - 87;
 
-	if (y < bottom)
+	if (y < top)
 		return -1;
 	if (x < left)
 		return -1;
@@ -27,7 +38,7 @@ int IngameBlockSelectionScreen::getSelectedSlot(int x, int y)
 	if (idx > 8)
 		return -1;
 
-	return idx + 36 - 9 * ((y - bottom) / 22);
+	return idx + 9 * slotsHeight - 9 * ((y - top) / 22);
 }
 
 int IngameBlockSelectionScreen::getSlotPosX(int x)
@@ -37,27 +48,28 @@ int IngameBlockSelectionScreen::getSlotPosX(int x)
 
 int IngameBlockSelectionScreen::getSlotPosY(int y)
 {
-	return m_height - 63 - 22 * y;
+	return m_height - getBottomY() - 22 * y;
+}
+
+int IngameBlockSelectionScreen::getSlotsHeight()
+{
+	return (getInventory()->getNumSlots() + 8) / 9;
 }
 
 bool IngameBlockSelectionScreen::isAllowed(int slot)
 {
-	if (slot < 0 || slot > C_MAX_INVENTORY_ITEMS-1)
-		return false;
-
-#ifdef DEMO
-	return slot > 17;
-#endif
-	return true;
+	return slot >= 0 && slot < getInventory()->getNumSlots();
 }
 
 void IngameBlockSelectionScreen::init()
 {
-	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
+	Inventory* pInv = getInventory();
 
-	for (int i = 9; i < C_MAX_HOTBAR_ITEMS + C_MAX_INVENTORY_ITEMS; i++)
+	int nItems = pInv->getNumItems();
+
+	for (int i = 0; i < nItems; i++)
 	{
-		if (pInv->getSelectionSlotItemId(i) == pInv->getSelectedItemId())
+		if (pInv->getItem(i)->m_itemID == pInv->getSelectedItemId())
 		{
 			m_selectedSlot = i - 9;
 			break;
@@ -65,17 +77,16 @@ void IngameBlockSelectionScreen::init()
 	}
 
 	if (!isAllowed(m_selectedSlot))
-		m_selectedSlot = 27;
+		m_selectedSlot = 0;
 }
 
 void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 {
-	int item = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectionSlotItemId(index);
-	if (item < 0)
+	ItemInstance* pItem = getInventory()->getItem(index);
+	if (!pItem)
 		return;
 
-	ItemInstance inst(item, 2, 0);
-	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, &inst, x, y, item);
+	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, pItem != nullptr);
 }
 
 void IngameBlockSelectionScreen::renderSlots()
@@ -83,13 +94,13 @@ void IngameBlockSelectionScreen::renderSlots()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
 
-	for (int y = 0; y != -22 * C_SLOTS_HEIGHT; y -= 22)
-		blit(m_width / 2 - 182 / 2, m_height - 66 + y, 0, 0, 182, 22, 0, 0);
+	for (int y = 0; y != -22 * getSlotsHeight(); y -= 22)
+		blit(m_width / 2 - 182 / 2, m_height - 3 - getBottomY() + y, 0, 0, 182, 22, 0, 0);
 
 	if (m_selectedSlot >= 0)
-		blit(m_width / 2 - 92 + 20 * (m_selectedSlot % 9), m_height - 67 - 22 * (m_selectedSlot / 9), 0, 22, 24, 22, 0, 0);
+		blit(m_width / 2 - 92 + 20 * (m_selectedSlot % 9), m_height - 4 - getBottomY() - 22 * (m_selectedSlot / 9), 0, 22, 24, 22, 0, 0);
 
-	for (int y = 0, index = 9; y < C_SLOTS_HEIGHT; y++)
+	for (int y = 0, index = 0; y < getSlotsHeight(); y++)
 	{
 		int posY = getSlotPosY(y);
 		for (int x = 0; x < 9; x++)
@@ -151,44 +162,10 @@ void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 
 void IngameBlockSelectionScreen::selectSlotAndClose()
 {
-	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
-	int item = pInv->getSelectionSlotItemId(m_selectedSlot + 9);
-	int idx = 0;
-
-	// @TODO: Fix gotos
-#ifdef ENH_ENABLE_9TH_SLOT
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 1)
-#else
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
-#endif
-
-	if (item == pInv->getSelectionSlotItemId(0))
-	{
-	label_4:
-		if (!idx)
-			goto label_5;
-	}
-	else while (++idx != MAX_ITEMS)
-	{
-		if (item == pInv->getSelectionSlotItemId(idx))
-			goto label_4;
-	}
-
-	while (true)
-	{
-		int item = pInv->getSelectionSlotItemId(idx - 1);
-		pInv->setSelectionSlotItemId(idx, item);
-
-		if (idx == 1)
-			break;
-
-		--idx;
-	}
-label_5:
-	pInv->setSelectionSlotItemId(0, item);
-	pInv->selectSlot(0);
+	Inventory* pInv = getInventory();
+	
+	pInv->selectItem(m_selectedSlot);
 
 	m_pMinecraft->m_pSoundEngine->play("random.click");
-
 	m_pMinecraft->setScreen(nullptr);
 }

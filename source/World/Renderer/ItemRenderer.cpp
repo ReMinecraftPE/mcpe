@@ -165,87 +165,86 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		return;
 
 	int itemID = instance->m_itemID;
-	if (b)
-	{
-		// @BUG: This is one of the reasons you can't actually hold items in early Minecraft.
-		// There's an attempt to index `Tile::tiles` out of bounds, which of course fails, and likely crashes the game. :(
-		// If only they'd placed the g_ItemFrames[itemID] check before the TileRenderer::canRender check...
+	if (!b)
+		return;
+
+	// @BUG: This is one of the reasons you can't actually hold items in early Minecraft.
+	// There's an attempt to index `Tile::tiles` out of bounds, which of course fails, and likely crashes the game. :(
+	// If only they'd placed the g_ItemFrames[itemID] check before the TileRenderer::canRender check...
 #ifdef ORIGINAL_CODE
 #define COND_PRE
 #else
 #define COND_PRE (0 <= itemID && itemID < C_MAX_TILES) && 
 #endif
 
-		bool bCanRenderAsIs = false;
+	bool bCanRenderAsIs = false;
 
 #ifdef ENH_3D_INVENTORY_TILES
-		// We don't need to care about g_ItemFrames at all since blocks will get 3D rendered and 2D props will use the terrain.png as the texture.
-		if (COND_PRE(TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape())))
-		{
-			bCanRenderAsIs = true;
-		}
+	// We don't need to care about g_ItemFrames at all since blocks will get 3D rendered and 2D props will use the terrain.png as the texture.
+	if (COND_PRE(TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape())))
+	{
+		bCanRenderAsIs = true;
+	}
 #else
-		if (COND_PRE(TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()) || g_ItemFrames[itemID] != 0))
-		{
-			bCanRenderAsIs = true;
-		}
+	if (COND_PRE(TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()) || g_ItemFrames[itemID] != 0))
+	{
+		bCanRenderAsIs = true;
+	}
 #endif
-		
-
-		if (itemID < C_MAX_TILES && bCanRenderAsIs)
-		{
+	
+	if (itemID < C_MAX_TILES && bCanRenderAsIs)
+	{
 #ifndef ENH_3D_INVENTORY_TILES
-			textures->loadAndBindTexture(C_BLOCKS_NAME);
+		textures->loadAndBindTexture(C_BLOCKS_NAME);
 
-			float texU = float(g_ItemFrames[instance->m_itemID] % 10) * 48.0f;
-			float texV = float(g_ItemFrames[instance->m_itemID] / 10) * 48.0f;
+		float texU = float(g_ItemFrames[instance->m_itemID] % 10) * 48.0f;
+		float texV = float(g_ItemFrames[instance->m_itemID] / 10) * 48.0f;
 
-			Tesselator& t = Tesselator::instance;
-			// @NOTE: These do nothing, due to a previous t.voidBeginAndEndCalls call.
-			t.begin();
-			t.vertexUV(float(x +  0), float(y + 16), 0.0f,  texU          / 512.0f, (texV + 48.0f) / 512.0f);
-			t.vertexUV(float(x + 16), float(y + 16), 0.0f, (texU + 48.0f) / 512.0f, (texV + 48.0f) / 512.0f);
-			t.vertexUV(float(x + 16), float(y +  0), 0.0f, (texU + 48.0f) / 512.0f,  texV          / 512.0f);
-			t.vertexUV(float(x +  0), float(y +  0), 0.0f,  texU          / 512.0f,  texV          / 512.0f);
-			t.draw();
+		Tesselator& t = Tesselator::instance;
+		// @NOTE: These do nothing, due to a previous t.voidBeginAndEndCalls call.
+		t.begin();
+		t.vertexUV(float(x +  0), float(y + 16), 0.0f,  texU          / 512.0f, (texV + 48.0f) / 512.0f);
+		t.vertexUV(float(x + 16), float(y + 16), 0.0f, (texU + 48.0f) / 512.0f, (texV + 48.0f) / 512.0f);
+		t.vertexUV(float(x + 16), float(y +  0), 0.0f, (texU + 48.0f) / 512.0f,  texV          / 512.0f);
+		t.vertexUV(float(x +  0), float(y +  0), 0.0f,  texU          / 512.0f,  texV          / 512.0f);
+		t.draw();
 #else
-			textures->loadAndBindTexture(C_TERRAIN_NAME);
+		textures->loadAndBindTexture(C_TERRAIN_NAME);
 
-			//glDisable(GL_BLEND);
-			//glEnable(GL_DEPTH_TEST);
+		//glDisable(GL_BLEND);
+		//glEnable(GL_DEPTH_TEST);
 
-			glPushMatrix();
+		glPushMatrix();
 
-			// scale, rotate, and translate the tile onto the correct screen coordinate
-			glTranslatef((GLfloat)x + 8, (GLfloat)y + 8, -8);
-			glScalef(10, 10, 10);
-			glRotatef(210.0f, 1.0f, 0.0f, 0.0f);
-			glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+		// scale, rotate, and translate the tile onto the correct screen coordinate
+		glTranslatef((GLfloat)x + 8, (GLfloat)y + 8, -8);
+		glScalef(10, 10, 10);
+		glRotatef(210.0f, 1.0f, 0.0f, 0.0f);
+		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 
-			#ifdef ENH_SHADE_HELD_TILES
-			#	define PARM_HACK , 1
-			#else
-			#	define PARM_HACK
-			#endif
-			tileRenderer->renderTile(Tile::tiles[itemID], instance->m_auxValue PARM_HACK);
-			#undef PARM_HACK
+		#ifdef ENH_SHADE_HELD_TILES
+		#	define PARM_HACK , 1
+		#else
+		#	define PARM_HACK
+		#endif
+		tileRenderer->renderTile(Tile::tiles[itemID], instance->m_auxValue PARM_HACK);
+		#undef PARM_HACK
 
-			glPopMatrix();
+		glPopMatrix();
 
-			//glDisable(GL_DEPTH_TEST);
-			//glEnable(GL_BLEND);
+		//glDisable(GL_DEPTH_TEST);
+		//glEnable(GL_BLEND);
 #endif
-		}
-		else if (instance->getIcon() >= 0)
-		{
-			// @BUG: The last bound texture will be the texture that ALL items will take. This is because begin and end calls
-			// have been void'ed by a  t.voidBeginAndEndCalls call in Gui::render.
-			if (instance->m_itemID <= 255)
-				textures->loadAndBindTexture(C_TERRAIN_NAME);
-			else
-				textures->loadAndBindTexture(C_ITEMS_NAME);
+	}
+	else if (instance->getIcon() >= 0)
+	{
+		// @BUG: The last bound texture will be the texture that ALL items will take. This is because begin and end calls
+		// have been void'ed by a  t.voidBeginAndEndCalls call in Gui::render.
+		if (instance->m_itemID <= 255)
+			textures->loadAndBindTexture(C_TERRAIN_NAME);
+		else
+			textures->loadAndBindTexture(C_ITEMS_NAME);
 
-			blit(x, y, 16 * (instance->getIcon() % 16), 16 * (instance->getIcon() / 16), 16, 16);
-		}
+		blit(x, y, 16 * (instance->getIcon() % 16), 16 * (instance->getIcon() / 16), 16, 16);
 	}
 }

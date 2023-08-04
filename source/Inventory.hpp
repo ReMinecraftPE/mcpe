@@ -1,33 +1,41 @@
 #pragma once
 
 #include "Player.hpp"
+#include "ItemInstance.hpp"
 
 class Player; // in case we're included from Player.hpp
 
 #define C_MAX_HOTBAR_ITEMS (9)
 
-#ifdef ENH_EXTRA_ITEMS_IN_INV
-#define C_MAX_INVENTORY_ITEMS (36+9)
-#else
-#define C_MAX_INVENTORY_ITEMS (36)
-#endif
+#define C_NUM_SURVIVAL_SLOTS (36)
 
 class Inventory
 {
 public:
 	Inventory(Player*);
+	void prepareCreativeInventory();
+	void prepareSurvivalInventory();
 
-	int getSelectionSize();
-	int getSelectionSlotItemId(int slotNo);
+	int getNumSlots();
+	int getNumItems();
+
+	void addCreativeItem(int itemID, int auxValue = 0);
+
+	ItemInstance* getItem(int slotNo);
+	int getQuickSlotItemId(int slotNo);
 	int getSelectedItemId();
+	void selectItem(int slotNo); // selects an item by slot number and puts it in the quick slots if needed
 	void selectSlot(int slotNo);
-	void setSelectionSlotItemId(int slotNo, int item);
+
+	void setQuickSlotIndexByItemId(int slotNo, int itemID);
+	void selectItemById(int itemID);
 
 public:
-	int m_SelectedHotbarSlot;
-	Player* m_pPlayer;
+	int m_SelectedHotbarSlot = 0;
+	Player* m_pPlayer = nullptr;
+	bool m_bIsSurvival = false;
 
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
-	int m_items [C_MAX_INVENTORY_ITEMS];
+	std::vector<ItemInstance> m_items;
 };
 
