@@ -114,7 +114,7 @@ Biome::~Biome()
 
 Feature* Biome::getTreeFeature(Random* pRandom)
 {
-	pRandom->genrand_int32(); //! unused result
+	pRandom->nextInt(10); // unused result
 
 	return new TreeFeature;
 }
@@ -202,7 +202,7 @@ void Biome::initBiomes()
 
 Feature* RainforestBiome::getTreeFeature(Random* pRandom)
 {
-	pRandom->genrand_int32(); //! unused result
+	pRandom->nextInt(3); // unused result
 
 	return new TreeFeature;
 }
@@ -210,10 +210,14 @@ Feature* RainforestBiome::getTreeFeature(Random* pRandom)
 Feature* ForestBiome::getTreeFeature(Random* pRandom)
 {
 	if (pRandom->nextInt(5) == 0)
+	{
 		return new BirchFeature;
+	}
 
 	// @NOTE: Here would be code for a big tree with random->nextInt(3).
 	// But PE doesn't have big trees
+
+	pRandom->nextInt(3);
 
 	return new TreeFeature;
 }

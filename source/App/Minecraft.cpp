@@ -854,6 +854,14 @@ ItemInstance* Minecraft::getSelectedItem()
 {
 	ItemInstance* pInst = m_pLocalPlayer->m_pInventory->getSelectedItem();
 
+	if (!pInst)
+	{
+		m_CurrItemInstance.m_itemID = -1;
+		m_CurrItemInstance.m_amount = 999;
+		m_CurrItemInstance.m_auxValue = 0;
+		return &m_CurrItemInstance;
+	}
+
 	if (m_pGameMode->isSurvivalType())
 		return pInst;
 

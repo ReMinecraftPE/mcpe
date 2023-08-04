@@ -394,7 +394,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		xo = m_random.nextInt(16);
 		yo = m_random.nextInt(16);
 		zo = m_random.nextInt(16);
-		OreFeature(Tile::redStoneOre->m_ID, 8).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		OreFeature(Tile::redStoneOre->m_ID, 7).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
 	}
 
 	xo = m_random.nextInt(16);
@@ -469,6 +469,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int zo = m_random.nextInt(16);
 		FlowerFeature(Tile::rose->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
 	}
+
 	if (m_random.nextInt(4) == 0)
 	{
 		int xo = m_random.nextInt(16);
@@ -476,6 +477,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int zo = m_random.nextInt(16);
 		FlowerFeature(Tile::mushroom1->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
 	}
+
 	if (m_random.nextInt(8) == 0)
 	{
 		int xo = m_random.nextInt(16);
