@@ -646,20 +646,20 @@ std::map<std::string, std::string> parseINI(const std::string& fileName) {
 	return data;
 }
 void saveUsernameToINI(const std::string& username) {
-	std::ofstream iniFile("options.txt");
+	std::ofstream iniFile("network.ini");
 
 	if (iniFile.is_open()) {
 		iniFile << "[User]\n";
 		iniFile << "Name = " << username << "\n";
 		iniFile.close();
-		printf("username saved in options.txt");
+		printf("username saved in network.ini");
 	}
 	else {
-		printf("failed to open options.txt");
+		printf("failed to open network.ini");
 	}
 }
 std::string getUsernameFromINI() {
-	std::map<std::string, std::string> data = parseINI("options.txt");
+	std::map<std::string, std::string> data = parseINI("network.ini");
 
 	if (data.find("User.Name") != data.end()) {
 		return data["User.Name"];
