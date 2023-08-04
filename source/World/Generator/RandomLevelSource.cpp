@@ -486,6 +486,14 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		FlowerFeature(Tile::mushroom2->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
 	}
 
+	for (int i = 0; i < 10; i++)
+	{
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		ReedsFeature().place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+	}
+
 	for (int i = 0; i < 50; i++)
 	{
 		int xo = m_random.nextInt(16);

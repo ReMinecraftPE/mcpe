@@ -1089,6 +1089,9 @@
     <ClCompile Include="..\source\GameMode\SurvivalMode.cpp">
       <Filter>Source Files\Game Modes</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\World\Generator\ReedsFeature.cpp">
+      <Filter>Source Files\World\Generator\Features</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Options.hpp">

@@ -86,3 +86,9 @@ private:
 	int m_count;
 };
 
+class ReedsFeature : public Feature
+{
+public:
+	bool place(Level*, Random*, int x, int y, int z) override;
+};
+

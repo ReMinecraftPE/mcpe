@@ -24,7 +24,7 @@ Biome
 
 Biome* Biome::map[4096];
 
-Biome* Biome::_getBiome(float hum, float temp)
+Biome* Biome::_getBiome(float temp, float hum)
 {
 	if (temp < 0.1)
 		return tundra;

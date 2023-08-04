@@ -437,6 +437,7 @@
     <ClCompile Include="..\source\World\Generator\PerformanceTestChunkSource.cpp" />
     <ClCompile Include="..\source\World\Generator\PineFeature.cpp" />
     <ClCompile Include="..\source\World\Generator\RandomLevelSource.cpp" />
+    <ClCompile Include="..\source\World\Generator\ReedsFeature.cpp" />
     <ClCompile Include="..\source\World\Generator\SpringFeature.cpp" />
     <ClCompile Include="..\source\World\Generator\SpruceFeature.cpp" />
     <ClCompile Include="..\source\World\Generator\TestChunkSource.cpp" />
