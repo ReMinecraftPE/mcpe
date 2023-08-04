@@ -180,6 +180,9 @@ ItemInstance* Inventory::getItem(int slotNo)
 	if (slotNo < 0 || slotNo >= int(m_items.size()))
 		return nullptr;
 
+	if (m_items[slotNo].m_amount <= 0)
+		m_items[slotNo].m_itemID = 0;
+
 	return &m_items[slotNo];
 }
 
