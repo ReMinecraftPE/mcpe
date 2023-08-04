@@ -71,7 +71,7 @@ void IngameBlockSelectionScreen::init()
 	{
 		if (pInv->getItem(i)->m_itemID == pInv->getSelectedItemId())
 		{
-			m_selectedSlot = i - 9;
+			m_selectedSlot = i;
 			break;
 		}
 	}
@@ -86,7 +86,11 @@ void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 	if (!pItem)
 		return;
 
-	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, pItem != nullptr);
+	if (!pItem->m_itemID)
+		return;
+
+	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, true);
+	ItemRenderer::renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y);
 }
 
 void IngameBlockSelectionScreen::renderSlots()

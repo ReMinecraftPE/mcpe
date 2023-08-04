@@ -18,7 +18,7 @@
 #include "Level.hpp"
 #include "CThread.hpp"
 #include "LocalPlayer.hpp"
-#include "CreativeMode.hpp"
+#include "GameMode.hpp"
 #include "ITurnInput.hpp"
 #include "EntityRenderDispatcher.hpp"
 #include "ParticleEngine.hpp"
@@ -71,6 +71,8 @@ public:
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
 
+	ItemInstance* getSelectedItem();
+
 public:
 	static int width, height;
 	static bool useAmbientOcclusion;
@@ -122,5 +124,6 @@ public:
 	bool field_DB1 = 0;
 	Screen* m_pScreen = nullptr;
 	int m_licenseID = -2;
+	ItemInstance m_CurrItemInstance;
 };
 

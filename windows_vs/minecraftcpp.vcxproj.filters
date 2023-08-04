@@ -1086,6 +1086,9 @@
     <ClCompile Include="..\source\World\Tile\BookshelfTile.cpp">
       <Filter>Source Files\World\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\GameMode\SurvivalMode.cpp">
+      <Filter>Source Files\Game Modes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Options.hpp">
@@ -1969,6 +1972,9 @@
     </ClInclude>
     <ClInclude Include="..\source\World\Renderer\ItemSpriteRenderer.hpp">
       <Filter>Header Files\World\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\GameMode\SurvivalMode.hpp">
+      <Filter>Header Files\Game Modes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

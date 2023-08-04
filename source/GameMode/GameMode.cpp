@@ -116,3 +116,26 @@ bool GameMode::isSurvivalType()
 {
 	return false;
 }
+
+bool GameMode::useItem(Player* player, Level* level, ItemInstance* instance)
+{
+	int oldAmount = instance->m_amount;
+
+	if (instance == instance->use(level, player))
+		return instance->m_amount != oldAmount;
+
+	return true;
+}
+
+bool GameMode::useItemOn(Player* player, Level* level, ItemInstance* instance, int x, int y, int z, int d)
+{
+	TileID tile = level->getTile(x, y, z);
+	if (tile > 0 && Tile::tiles[tile]->use(level, x, y, z, player))
+		return true;
+
+	if (instance)
+		return instance->useOn(player, level, x, y, z, d);
+
+	return false;
+}
+

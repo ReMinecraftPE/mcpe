@@ -1092,10 +1092,10 @@ void Tile::spawnResources(Level* pLevel, int x, int y, int z, int i)
 
 void Tile::spawnResources(Level* pLevel, int x, int y, int z, int data, float fChance)
 {
-#ifdef TEST_DROPPED_ITEMS
 	if (pLevel->field_11)
 		return;
 
+#ifdef TEST_SURVIVAL_MODE
 	int count = getResourceCount(&pLevel->field_38);
 	for (int i = 0; i < count; i++)
 	{

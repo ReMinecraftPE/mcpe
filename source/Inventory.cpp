@@ -16,7 +16,6 @@ void Inventory::prepareCreativeInventory()
 
 	m_items.clear();
 
-	// add some items
 	addCreativeItem(Tile::rock->m_ID);
 	addCreativeItem(Tile::stoneBrick->m_ID);
 	addCreativeItem(Tile::sandStone->m_ID);
@@ -67,14 +66,24 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Item::door_wood->m_itemID);
 	addCreativeItem(Item::door_iron->m_itemID);
 
-	for (int i = C_MAX_HOTBAR_ITEMS - 1; i >= 0; i--)
-		selectItem(i);
+	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+		m_hotbar[i] = i;
 }
 
 void Inventory::prepareSurvivalInventory()
 {
 	m_bIsSurvival = true;
 	m_items.clear();
+	m_items.resize(C_NUM_SURVIVAL_SLOTS);
+
+	// Add some items for testing
+	addTestItem(Item::stick->m_itemID, 64);
+	addTestItem(Item::wheat->m_itemID, 64);
+	addTestItem(Item::sugar->m_itemID, 64);
+	addTestItem(Item::camera->m_itemID, 64);
+
+	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+		m_hotbar[i] = i;
 }
 
 int Inventory::getNumSlots()
@@ -93,6 +102,77 @@ int Inventory::getNumItems()
 void Inventory::addCreativeItem(int itemID, int auxValue)
 {
 	m_items.emplace_back(ItemInstance(itemID, 1, auxValue));
+}
+
+void Inventory::clear()
+{
+	m_items.clear();
+	m_items.resize(C_NUM_SURVIVAL_SLOTS);
+}
+
+void Inventory::addItem(ItemInstance* pInst)
+{
+	if (!m_bIsSurvival)
+	{
+		// Just get rid of the item.
+		pInst->m_amount = 0;
+		return;
+	}
+
+	// look for an item with the same ID
+	for (int i = 0; i < getNumItems(); i++)
+	{
+		if (m_items[i].m_itemID != pInst->m_itemID)
+			continue;
+
+		int maxStackSize = m_items[i].getMaxStackSize();
+		bool bIsStackedByData = Item::items[pInst->m_itemID]->isStackedByData();
+		if (bIsStackedByData && m_items[i].m_auxValue != pInst->m_auxValue)
+			continue;
+
+		// try to collate.
+		int combinedItemAmount = pInst->m_amount + m_items[i].m_amount;
+
+		int leftover = combinedItemAmount - maxStackSize;
+		if (leftover < 0)
+			leftover = 0;
+		else
+			combinedItemAmount = C_MAX_AMOUNT;
+
+		m_items[i].m_amount = combinedItemAmount;
+
+		pInst->m_amount = leftover;
+
+		if (!bIsStackedByData)
+			m_items[i].m_auxValue = 0;
+	}
+
+	// If there's nothing leftover:
+	if (!pInst->m_amount)
+		return;
+
+	// try to add it to an empty slot
+	for (int i = 0; i < getNumItems(); i++)
+	{
+		if (m_items[i].m_itemID != 0)
+			continue;
+
+		m_items[i] = *pInst;
+		pInst->m_amount = 0;
+		return;
+	}
+}
+
+void Inventory::addTestItem(int itemID, int amount, int auxValue)
+{
+	ItemInstance inst(itemID, amount, auxValue);
+	addItem(&inst);
+
+	if (inst.m_amount != 0)
+	{
+		LogMsg("AddTestItem: Couldn't add all %d of %s, only gave %d",
+			amount, Item::items[itemID]->m_DescriptionID.c_str(), amount - inst.m_amount);
+	}
 }
 
 ItemInstance* Inventory::getItem(int slotNo)
@@ -114,6 +194,19 @@ int Inventory::getQuickSlotItemId(int slotNo)
 		return -1;
 
 	return pInst->m_itemID;
+}
+
+ItemInstance* Inventory::getQuickSlotItem(int slotNo)
+{
+	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
+		return nullptr;
+	
+	return getItem(m_hotbar[slotNo]);
+}
+
+ItemInstance* Inventory::getSelectedItem()
+{
+	return getQuickSlotItem(m_SelectedHotbarSlot);
 }
 
 int Inventory::getSelectedItemId()
@@ -156,7 +249,9 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
 		return;
 
-	// TODO: survival mode handling
+	if (m_bIsSurvival)
+		return; // TODO
+
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		if (m_items[i].m_itemID == itemID)

@@ -234,35 +234,23 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	m->m_pTextures->loadAndBindTexture("gui/gui_blocks.png");
 
-	Tesselator& t = Tesselator::instance;
-	t.begin();
-
-	// if we aren't trying to build the real deal, don't do this. It only does worse
-#ifdef ORIGINAL_CODE
-	t.voidBeginAndEndCalls(true); // to ensure that Gui::renderSlot doesn't end() our tesselator right away?
-#endif
-
 	int slotX = cenX - 88;
-#ifdef ENH_ENABLE_9TH_SLOT
-#define HOTBAR_DIFF 0
-#else
-#define HOTBAR_DIFF 1
-#endif
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS - HOTBAR_DIFF; i++)
+	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 	{
 		renderSlot(i, slotX, height - 19, f);
 
 		slotX += 20;
 	}
-#undef HOTBAR_DIFF
+	
+	slotX = cenX - 88;
+	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+	{
+		renderSlotOverlay(i, slotX, height - 19, f);
+
+		slotX += 20;
+	}
 
 	field_A3C = false;
-
-#ifdef ORIGINAL_CODE
-	t.voidBeginAndEndCalls(false);
-#endif
-
-	t.draw();
 
 	// blit the "more items" button
 #ifndef ENH_ENABLE_9TH_SLOT
@@ -315,12 +303,30 @@ void Gui::tick()
 
 void Gui::renderSlot(int slot, int x, int y, float f)
 {
-	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getQuickSlotItemId(slot);
-	if (itemID < 0)
+	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
+
+	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
+	if (!pInst)
 		return;
 
-	ItemInstance inst(Item::items[itemID], 1, 0);
-	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, &inst, x, y, true);
+	if (!pInst->m_itemID)
+		return;
+
+	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
+}
+
+void Gui::renderSlotOverlay(int slot, int x, int y, float f)
+{
+	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
+
+	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
+	if (!pInst)
+		return;
+
+	if (!pInst->m_itemID)
+		return;
+
+	ItemRenderer::renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
 }
 
 int Gui::getSlotIdAt(int mouseX, int mouseY)

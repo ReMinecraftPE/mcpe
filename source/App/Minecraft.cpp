@@ -14,6 +14,9 @@
 #include "ServerSideNetworkHandler.hpp"
 #include "ClientSideNetworkHandler.hpp"
 
+#include "SurvivalMode.hpp"
+#include "CreativeMode.hpp"
+
 #ifndef ORIGINAL_CODE
 #include "MouseTurnInput.hpp"
 #else
@@ -233,14 +236,15 @@ label_3:
 				return;
 			}
 
-			ItemInstance item(m_pLocalPlayer->m_pInventory->getSelectedItemId(), 999, 0);
-			if (m_pGameMode->useItemOn(m_pLocalPlayer, m_pLevel, item.m_itemID < 0 ? nullptr : &item, hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide))
+			ItemInstance* pItem = getSelectedItem();
+
+			if (m_pGameMode->useItemOn(m_pLocalPlayer, m_pLevel, pItem->m_itemID < 0 ? nullptr : pItem, hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide))
 			{
 				m_pLocalPlayer->swing();
 				if (!isOnline())
 					return;
 
-				if (item.m_itemID > C_MAX_TILES || item.m_itemID < 0)
+				if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
 					return;
 
 				int dx = hr.m_tileX, dz = hr.m_tileZ;
@@ -259,7 +263,7 @@ label_3:
 					}
 				}
 
-				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(item.m_itemID), uint8_t(hr.m_hitSide)));
+				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(pItem->m_itemID), uint8_t(hr.m_hitSide)));
 				return;
 			}
 		}
@@ -286,8 +290,9 @@ label_3:
 			int id = m_pLocalPlayer->m_pInventory->getSelectedItemId();
 			if (id >= 0)
 			{
-				ItemInstance item(m_pLocalPlayer->m_pInventory->getSelectedItemId(), 999, 0);
-				if (m_pGameMode->useItem(m_pLocalPlayer, m_pLevel, &item))
+				ItemInstance* pItem = getSelectedItem();
+
+				if (m_pGameMode->useItem(m_pLocalPlayer, m_pLevel, pItem))
 					m_pGameRenderer->m_pItemInHandRenderer->itemUsed();
 			}
 		}
@@ -402,6 +407,15 @@ void Minecraft::tickInput()
 			{
 				pauseGame();
 			}
+			else if (keyCode == AKEYCODE_Q)
+			{
+				int itemID = m_pLocalPlayer->m_pInventory->getSelectedItemId();
+				if (itemID > 0)
+				{
+					ItemInstance inst(itemID, 1, 0);
+					m_pLocalPlayer->drop(&inst);
+				}
+			}
 		#ifdef ENH_ALLOW_AO
 			else if (keyCode == AKEYCODE_F4)
 			{
@@ -409,13 +423,6 @@ void Minecraft::tickInput()
 				m_options.field_18 ^= 1;
 				Minecraft::useAmbientOcclusion = m_options.field_18;
 				m_pLevelRenderer->allChanged();
-			}
-		#endif
-		#ifdef TEST_DROPPED_ITEMS
-			else if (keyCode == AKEYCODE_Q)
-			{
-				ItemInstance inst(m_pLocalPlayer->m_pInventory->getSelectedItemId(), 1, 0);
-				m_pLocalPlayer->drop(&inst);
 			}
 		#endif
 		}
@@ -592,7 +599,12 @@ void Minecraft::init()
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
 	m_pUser = new User("TestUser", "");
+
+#ifdef TEST_SURVIVAL_MODE
+	m_pGameMode = new SurvivalMode(this);
+#else
 	m_pGameMode = new CreativeMode(this);
+#endif
 
 	reloadOptions();
 
@@ -739,6 +751,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	{
 		pLocalPlayer = m_pGameMode->createPlayer(pLevel);
 		m_pLocalPlayer = pLocalPlayer;
+		m_pGameMode->initPlayer(pLocalPlayer);
 	}
 
 	if (pLocalPlayer)
@@ -835,6 +848,20 @@ const char* Minecraft::getProgressMessage()
 LevelStorageSource* Minecraft::getLevelSource()
 {
 	return m_pLevelStorageSource;
+}
+
+ItemInstance* Minecraft::getSelectedItem()
+{
+	ItemInstance* pInst = m_pLocalPlayer->m_pInventory->getSelectedItem();
+
+	if (m_pGameMode->isSurvivalType())
+		return pInst;
+
+	m_CurrItemInstance.m_itemID = pInst->m_itemID;
+	m_CurrItemInstance.m_amount = 999;
+	m_CurrItemInstance.m_auxValue = pInst->m_auxValue;
+
+	return &m_CurrItemInstance;
 }
 
 void Minecraft::leaveGame(bool bCopyMap)

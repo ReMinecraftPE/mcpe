@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -10,10 +10,10 @@
 
 #include "GameMode.hpp"
 
-class CreativeMode : public GameMode
+class SurvivalMode : public GameMode
 {
 public:
-	CreativeMode(Minecraft*);
+	SurvivalMode(Minecraft*);
 
 	void startDestroyBlock(int x, int y, int z, int i) override;
 	bool destroyBlock(int x, int y, int z, int i);
@@ -25,6 +25,7 @@ public:
 	bool isCreativeType() override;
 	bool isSurvivalType() override;
 	void initPlayer(Player*) override;
+	bool canHurtPlayer() override;
 
 public:
 	int m_destroyingX = -1;

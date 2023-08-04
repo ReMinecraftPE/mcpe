@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <sstream>
 #include "ItemRenderer.hpp"
 #include "TileRenderer.hpp"
 #include "ItemEntity.hpp"
@@ -155,6 +156,23 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	t.vertexUV(ex + uw, ey,      0.0f, float(vx + uw) / 256.0f, float(vy)      / 256.0f);
 	t.vertexUV(ex,      ey,      0.0f, float(vx)      / 256.0f, float(vy)      / 256.0f);
 	t.draw();
+}
+
+void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInstance* instance, int x, int y)
+{
+	if (!instance)
+		return;
+
+	if (instance->m_amount == 1)
+		return;
+
+	std::stringstream ss;
+	ss << instance->m_amount;
+	std::string amtstr = ss.str();
+
+	int width = font->width(amtstr), height = font->height(amtstr) + 8;
+
+	font->drawShadow(amtstr, x + 17 - width, y + 17 - height, 0xFFFFFF);
 }
 
 void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* instance, int x, int y, bool b)

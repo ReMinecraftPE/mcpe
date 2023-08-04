@@ -15,9 +15,6 @@ Player::Player(Level* pLevel) : Mob(pLevel)
 
 	m_pInventory = new Inventory(this);
 
-	// @TODO: GameMode::prepareInventory
-	m_pInventory->prepareCreativeInventory();
-
 	field_84 = 1.62f;
 
 	Pos pos = m_pLevel->getSharedSpawnPos();

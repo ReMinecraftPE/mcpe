@@ -35,6 +35,7 @@ public:
 	void render(float f, bool bHaveScreen, int mouseX, int mouseY);
 	void tick();
 	void renderSlot(int slot, int x, int y, float f);
+	void renderSlotOverlay(int slot, int x, int y, float f);
 	int  getSlotIdAt(int mx, int my);
 	bool isInside(int mx, int my);
 	void handleClick(int id, int mx, int my);

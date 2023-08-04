@@ -70,18 +70,17 @@ bool ItemEntity::isInWater()
 void ItemEntity::playerTouch(Player* player)
 {
 	// Here, this would give the item to the player, and remove the item entity.
-#ifdef TEST_DROPPED_ITEMS
 	if (field_E4 != 0)
 		return;
 
-	// No inventory to add an item to. Just set the amount to 0
-	m_pItemInstance->m_amount = 0;
+	Inventory* pInventory = player->m_pInventory;
+
+	pInventory->addItem(m_pItemInstance);
 
 	// No "random.pop" sound.
 
 	if (m_pItemInstance->m_amount <= 0)
 		remove();
-#endif
 }
 
 void ItemEntity::tick()

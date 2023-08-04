@@ -22,6 +22,7 @@ public:
 
 	static void blit(int, int, int, int, int, int);
 	static void renderGuiItem(Font*, Textures*, ItemInstance*, int, int, bool);
+	static void renderGuiItemOverlay(Font*, Textures*, ItemInstance*, int, int);
 
 public:
 	Random m_random;

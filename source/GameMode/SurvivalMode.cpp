@@ -1,39 +1,50 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "CreativeMode.hpp"
+#include "SurvivalMode.hpp"
 #include "Minecraft.hpp"
 
-CreativeMode::CreativeMode(Minecraft* pMC) : GameMode(pMC)
+SurvivalMode::SurvivalMode(Minecraft* pMC) : GameMode(pMC)
 {
-
 }
 
-void CreativeMode::initPlayer(Player* p)
+void SurvivalMode::initPlayer(Player* p)
 {
 	p->m_yaw = -180.0f;
-	p->m_pInventory->prepareCreativeInventory();
+	p->m_pInventory->prepareSurvivalInventory();
 }
 
-void CreativeMode::startDestroyBlock(int x, int y, int z, int i)
+bool SurvivalMode::canHurtPlayer()
+{
+	return true;
+}
+
+void SurvivalMode::startDestroyBlock(int x, int y, int z, int i)
 {
 	TileID tile = m_pMinecraft->m_pLevel->getTile(x, y, z);
 
 	if (tile <= 0)
 		return;
 
-	if (m_pMinecraft->m_pLocalPlayer->canDestroy(Tile::tiles[tile]))
+	if (field_18 == 0.0f)
+	{
+		Tile::tiles[tile]->attack(m_pMinecraft->m_pLevel, x, y, z, m_pMinecraft->m_pLocalPlayer);
+	}
+
+	if (Tile::tiles[tile]->getDestroyProgress(m_pMinecraft->m_pLocalPlayer) >= 1.0f)
+	{
 		destroyBlock(x, y, z, i);
+	}
 
 	return;
 }
 
-bool CreativeMode::destroyBlock(int x, int y, int z, int i)
+bool SurvivalMode::destroyBlock(int x, int y, int z, int i)
 {
 	m_pMinecraft->m_pParticleEngine->destroy(x, y, z);
 
@@ -49,7 +60,7 @@ bool CreativeMode::destroyBlock(int x, int y, int z, int i)
 	if (bCanDestroy)
 	{
 		Tile::tiles[tile]->playerDestroy(m_pMinecraft->m_pLevel, m_pMinecraft->m_pLocalPlayer, x, y, z, data);
-		
+
 		if (m_pMinecraft->isOnline())
 		{
 			m_pMinecraft->m_pRakNetInstance->send(new RemoveBlockPacket(m_pMinecraft->m_pLocalPlayer->m_EntityID, x, y, z));
@@ -59,7 +70,7 @@ bool CreativeMode::destroyBlock(int x, int y, int z, int i)
 	return true;
 }
 
-void CreativeMode::continueDestroyBlock(int x, int y, int z, int i)
+void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
 {
 	if (field_24 > 0)
 	{
@@ -105,18 +116,18 @@ void CreativeMode::continueDestroyBlock(int x, int y, int z, int i)
 	}
 }
 
-void CreativeMode::stopDestroyBlock()
+void SurvivalMode::stopDestroyBlock()
 {
 	field_18 = 0.0f;
 	field_24 = 0;
 }
 
-void CreativeMode::tick()
+void SurvivalMode::tick()
 {
 	field_1C = field_18;
 }
 
-void CreativeMode::render(float f)
+void SurvivalMode::render(float f)
 {
 	if (field_18 <= 0.0f)
 	{
@@ -131,17 +142,17 @@ void CreativeMode::render(float f)
 	}
 }
 
-float CreativeMode::getPickRange()
+float SurvivalMode::getPickRange()
 {
 	return 5.0f;
 }
 
-bool CreativeMode::isCreativeType()
+bool SurvivalMode::isCreativeType()
 {
 	return false;
 }
 
-bool CreativeMode::isSurvivalType()
+bool SurvivalMode::isSurvivalType()
 {
 	return true;
 }
