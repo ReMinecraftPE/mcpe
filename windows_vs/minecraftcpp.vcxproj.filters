@@ -348,7 +348,7 @@
     <ClCompile Include="..\source\World\Tile\SandTile.cpp">
       <Filter>Source Files\World\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\GameMode\SurvivalMode.cpp">
+    <ClCompile Include="..\source\GameMode\CreativeMode.cpp">
       <Filter>Source Files\Game Modes</Filter>
     </ClCompile>
     <ClCompile Include="..\source\World\Tile\ClayTile.cpp">
@@ -1280,7 +1280,7 @@
     <ClInclude Include="..\source\GameMode\GameMode.hpp">
       <Filter>Header Files\Game Modes</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\GameMode\SurvivalMode.hpp">
+    <ClInclude Include="..\source\GameMode\CreativeMode.hpp">
       <Filter>Header Files\Game Modes</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Renderer\RenderList.hpp">

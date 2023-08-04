@@ -10,10 +10,10 @@
 
 #include "GameMode.hpp"
 
-class SurvivalMode : public GameMode
+class CreativeMode : public GameMode
 {
 public:
-	SurvivalMode(Minecraft*);
+	CreativeMode(Minecraft*);
 
 	virtual void startDestroyBlock(int x, int y, int z, int i) override;
 	virtual bool destroyBlock(int x, int y, int z, int i);

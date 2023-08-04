@@ -49,7 +49,7 @@
     <ClInclude Include="..\source\Base\Utils.hpp" />
     <ClInclude Include="..\source\Base\Vec3.hpp" />
     <ClInclude Include="..\source\GameMode\GameMode.hpp" />
-    <ClInclude Include="..\source\GameMode\SurvivalMode.hpp" />
+    <ClInclude Include="..\source\GameMode\CreativeMode.hpp" />
     <ClInclude Include="..\source\GUI\AvailableGamesList.hpp" />
     <ClInclude Include="..\source\GUI\Button.hpp" />
     <ClInclude Include="..\source\GUI\Gui.hpp" />
@@ -345,7 +345,7 @@
     <ClCompile Include="..\source\Base\Utils.cpp" />
     <ClCompile Include="..\source\Base\Vec3.cpp" />
     <ClCompile Include="..\source\GameMode\GameMode.cpp" />
-    <ClCompile Include="..\source\GameMode\SurvivalMode.cpp" />
+    <ClCompile Include="..\source\GameMode\CreativeMode.cpp" />
     <ClCompile Include="..\source\GUI\AvailableGamesList.cpp" />
     <ClCompile Include="..\source\GUI\Button.cpp" />
     <ClCompile Include="..\source\GUI\Gui.cpp" />

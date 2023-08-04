@@ -6,43 +6,33 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "SurvivalMode.hpp"
+#include "CreativeMode.hpp"
 #include "Minecraft.hpp"
 
-SurvivalMode::SurvivalMode(Minecraft* pMC) : GameMode(pMC)
+CreativeMode::CreativeMode(Minecraft* pMC) : GameMode(pMC)
 {
 
 }
 
-void SurvivalMode::initPlayer(Player* p)
+void CreativeMode::initPlayer(Player* p)
 {
 	p->m_yaw = -180.0;
 }
 
-void SurvivalMode::startDestroyBlock(int x, int y, int z, int i)
+void CreativeMode::startDestroyBlock(int x, int y, int z, int i)
 {
 	TileID tile = m_pMinecraft->m_pLevel->getTile(x, y, z);
 
 	if (tile <= 0)
 		return;
 
-#ifdef ENH_INSTA_BREAK
-	destroyBlock(x, y, z, i);
-	return;
-#endif
-
-	if (field_18 == 0.0f)
-	{
-		Tile::tiles[tile]->attack(m_pMinecraft->m_pLevel, x, y, z, m_pMinecraft->m_pLocalPlayer);
-	}
-
-	if (Tile::tiles[tile]->getDestroyProgress(m_pMinecraft->m_pLocalPlayer) >= 1.0f)
-	{
+	if (m_pMinecraft->m_pLocalPlayer->canDestroy(Tile::tiles[tile]))
 		destroyBlock(x, y, z, i);
-	}
+
+	return;
 }
 
-bool SurvivalMode::destroyBlock(int x, int y, int z, int i)
+bool CreativeMode::destroyBlock(int x, int y, int z, int i)
 {
 	m_pMinecraft->m_pParticleEngine->destroy(x, y, z);
 
@@ -68,7 +58,7 @@ bool SurvivalMode::destroyBlock(int x, int y, int z, int i)
 	return true;
 }
 
-void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
+void CreativeMode::continueDestroyBlock(int x, int y, int z, int i)
 {
 	if (field_24 > 0)
 	{
@@ -114,18 +104,18 @@ void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
 	}
 }
 
-void SurvivalMode::stopDestroyBlock()
+void CreativeMode::stopDestroyBlock()
 {
 	field_18 = 0.0f;
 	field_24 = 0;
 }
 
-void SurvivalMode::tick()
+void CreativeMode::tick()
 {
 	field_1C = field_18;
 }
 
-void SurvivalMode::render(float f)
+void CreativeMode::render(float f)
 {
 	if (field_18 <= 0.0f)
 	{
@@ -140,17 +130,17 @@ void SurvivalMode::render(float f)
 	}
 }
 
-float SurvivalMode::getPickRange()
+float CreativeMode::getPickRange()
 {
 	return 5.0f;
 }
 
-bool SurvivalMode::isCreativeType()
+bool CreativeMode::isCreativeType()
 {
 	return false;
 }
 
-bool SurvivalMode::isSurvivalType()
+bool CreativeMode::isSurvivalType()
 {
 	return true;
 }

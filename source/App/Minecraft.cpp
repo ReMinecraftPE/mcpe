@@ -592,7 +592,7 @@ void Minecraft::init()
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
 	m_pUser = new User("TestUser", "");
-	m_pGameMode = new SurvivalMode(this);
+	m_pGameMode = new CreativeMode(this);
 
 	reloadOptions();
 

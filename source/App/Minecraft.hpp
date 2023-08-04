@@ -18,7 +18,7 @@
 #include "Level.hpp"
 #include "CThread.hpp"
 #include "LocalPlayer.hpp"
-#include "SurvivalMode.hpp"
+#include "CreativeMode.hpp"
 #include "ITurnInput.hpp"
 #include "EntityRenderDispatcher.hpp"
 #include "ParticleEngine.hpp"
