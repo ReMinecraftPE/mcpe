@@ -9,6 +9,11 @@
 #include "Minecraft.hpp"
 #include "PauseScreen.hpp"
 #include "StartMenuScreen.hpp"
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <sstream>
+#include <map>
 #include "RenameMPLevelScreen.hpp"
 #include "SavingWorldScreen.hpp"
 #include "ServerSideNetworkHandler.hpp"
@@ -16,13 +21,11 @@
 
 #include "SurvivalMode.hpp"
 #include "CreativeMode.hpp"
-
 #ifndef ORIGINAL_CODE
 #include "MouseTurnInput.hpp"
 #else
 #include "ControllerTurnInput.hpp"
 #endif
-
 // note: Nothing changes these, so it'll think we're always running at 854x480 even if not
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
@@ -589,16 +592,111 @@ void Minecraft::update()
 
 	m_pGameRenderer->render(m_timer.field_18);
 }
+std::string getRandomName(const std::vector<std::string>& words, int wordscount) {
+	int numwords = words.size();
+	std::string randoname;
+
+	for (int i = 0; i < wordscount; ++i) {
+		randoname += words[rand() % numwords] + " ";
+	}
+
+	// Eliminar el espacio en blanco adicional al final
+	randoname.pop_back();
+
+	return randoname;
+}
+std::map<std::string, std::string> parseINI(const std::string& fileName) {
+	std::map<std::string, std::string> data;
+	std::ifstream file(fileName);
+
+	if (!file.is_open()) {
+		printf("failed to open");
+		return data;
+	}
+
+	std::string line;
+	std::string currentSection;
+
+	while (std::getline(file, line)) {
+		std::istringstream iss(line);
+		std::string key, value;
+		if (std::getline(iss, key, '=') && std::getline(iss, value)) {
+			// Trim leading and trailing whitespaces from key and value
+			size_t firstNonSpace = key.find_first_not_of(' ');
+			size_t lastNonSpace = key.find_last_not_of(' ');
+			key = key.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
+
+			firstNonSpace = value.find_first_not_of(' ');
+			lastNonSpace = value.find_last_not_of(' ');
+			value = value.substr(firstNonSpace, lastNonSpace - firstNonSpace + 1);
+
+			if (!currentSection.empty()) {
+				data[currentSection + "." + key] = value;
+			}
+			else {
+				data[key] = value;
+			}
+		}
+		else if (line.find('[') != std::string::npos && line.find(']') != std::string::npos) {
+			currentSection = line.substr(line.find('[') + 1, line.find(']') - line.find('[') - 1);
+		}
+	}
+
+	file.close();
+	return data;
+}
+void saveUsernameToINI(const std::string& username) {
+	std::ofstream iniFile("options.txt");
+
+	if (iniFile.is_open()) {
+		iniFile << "[User]\n";
+		iniFile << "Name = " << username << "\n";
+		iniFile.close();
+		printf("username saved in options.txt");
+	}
+	else {
+		printf("failed to open options.txt");
+	}
+}
+std::string getUsernameFromINI() {
+	std::map<std::string, std::string> data = parseINI("options.txt");
+
+	if (data.find("User.Name") != data.end()) {
+		return data["User.Name"];
+	}
+	else {
+		return "";
+	}
+}
 
 void Minecraft::init()
 {
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	std::vector<std::string> words = {
+		"Stone", "Pro", "Player", "64", "Dragon",
+		"Lemon", "Purple", "Steve", "Alex", "Herobrine",
+		"Super", "Mario", "Luigi", "Mine", "Crafter",
+		"Wario", "Man", "Gameplays", "Jam", "Radical",
+		"Anthem", "Noise", "Pepper", "Eater", "Guy"
+	};
 	m_pTextures = new Textures(&m_options, platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
-	m_pUser = new User("TestUser", "");
+	int wordcount = rand() % 3 + 1;
+	std::string username = getRandomName(words, wordcount);
+	std::string loadedUsername = getUsernameFromINI();
+	if (!loadedUsername.empty()) {
+		printf("username loaded");
+	}
+	else {
+		printf("the new username");
+		std::string username = getRandomName(words, wordcount);
+		saveUsernameToINI(username);
+	}
+	m_pUser = new User(loadedUsername, "");
 
 #ifdef TEST_SURVIVAL_MODE
 	m_pGameMode = new SurvivalMode(this);
