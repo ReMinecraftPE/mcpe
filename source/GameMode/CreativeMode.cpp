@@ -138,10 +138,10 @@ float CreativeMode::getPickRange()
 
 bool CreativeMode::isCreativeType()
 {
-	return false;
+	return true;
 }
 
 bool CreativeMode::isSurvivalType()
 {
-	return true;
+	return false;
 }
