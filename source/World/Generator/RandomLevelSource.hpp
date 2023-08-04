@@ -18,6 +18,7 @@
 #include "Utils.hpp"
 #include "BiomeSource.hpp"
 #include "Feature.hpp"
+#include "LargeCaveFeature.hpp"
 
 class RandomLevelSource : public ChunkSource
 {
@@ -38,7 +39,7 @@ public:
 
 public:
 	bool field_4 = false;
-	// @TODO: LargeCaveFeature
+	LargeCaveFeature m_largeCaveFeature;
 	int field_9D8[1024];
 	std::unordered_map<int, LevelChunk*> m_chunks;
 	float field_19F0 = 1.0f;

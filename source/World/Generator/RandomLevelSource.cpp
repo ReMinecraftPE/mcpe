@@ -9,6 +9,8 @@
 #include "RandomLevelSource.hpp"
 #include "Level.hpp"
 
+#define TEST_CAVES
+
 const float RandomLevelSource::SNOW_CUTOFF = 0.5f;
 const float RandomLevelSource::SNOW_SCALE  = 0.3f;
 
@@ -75,6 +77,9 @@ LevelChunk* RandomLevelSource::getChunk(int x, int z)
 	pChunk->recalcHeightmap();
 
 	// @NOTE: Java Edition Beta 1.6 uses the m_largeCaveFeature.
+#ifdef TEST_CAVES
+	m_largeCaveFeature.apply(this, m_pLevel, x, z, pLevelData, 0);
+#endif
 
 	return pChunk;
 }

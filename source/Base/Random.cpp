@@ -97,7 +97,7 @@ double Random::genrand_real2()
 	return double(genrand_int32()) * (1.0 / 4294967296.0);
 }
 
-TLong Random::nextTLong()
+TLong Random::nextLong()
 {
 	return TLong(genrand_int32() >> 1);
 }

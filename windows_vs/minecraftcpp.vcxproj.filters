@@ -585,9 +585,6 @@
     <ClCompile Include="..\source\World\Generator\PineFeature.cpp">
       <Filter>Source Files\World\Generator\Features</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\World\Generator\OreFeature.cpp">
-      <Filter>Source Files\World\Generator</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\World\Generator\ClayFeature.cpp">
       <Filter>Source Files\World\Generator\Features</Filter>
     </ClCompile>
@@ -1090,6 +1087,15 @@
       <Filter>Source Files\Game Modes</Filter>
     </ClCompile>
     <ClCompile Include="..\source\World\Generator\ReedsFeature.cpp">
+      <Filter>Source Files\World\Generator\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\World\Generator\LargeFeature.cpp">
+      <Filter>Source Files\World\Generator\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\World\Generator\LargeCaveFeature.cpp">
+      <Filter>Source Files\World\Generator\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\World\Generator\OreFeature.cpp">
       <Filter>Source Files\World\Generator\Features</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1978,6 +1984,12 @@
     </ClInclude>
     <ClInclude Include="..\source\GameMode\SurvivalMode.hpp">
       <Filter>Header Files\Game Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\World\Generator\LargeFeature.hpp">
+      <Filter>Header Files\World\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\World\Generator\LargeCaveFeature.hpp">
+      <Filter>Header Files\World\Generator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

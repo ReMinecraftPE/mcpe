@@ -50,6 +50,6 @@ public:
 	unsigned genrand_int32();
 	float nextFloat();
 	double genrand_real2();
-	TLong nextTLong();
+	TLong nextLong();
 	int nextInt();
 };
