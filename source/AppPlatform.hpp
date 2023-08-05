@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-#include "SoundData.hpp"
+#include "client/sound/SoundData.hpp"
 #include "client/renderer/Texture.hpp"
 
 class AppPlatform
