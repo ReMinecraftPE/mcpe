@@ -87,6 +87,8 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.field_10 = pPlayer->m_pos.x;
 	sgp.field_14 = pPlayer->m_pos.y - pPlayer->field_84;
 	sgp.field_18 = pPlayer->m_pos.z;
+	sgp.m_version = 1;
+	sgp.m_time = m_pLevel->getTime();
 	
 	RakNet::BitStream sgpbs;
 	sgp.write(&sgpbs);

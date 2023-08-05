@@ -22,6 +22,12 @@ void StartGamePacket::write(RakNet::BitStream* bs)
 	bs->Write(field_10);
 	bs->Write(field_14);
 	bs->Write(field_18);
+
+	bs->Write(m_version);
+	if (m_version >= 1)
+	{
+		bs->Write(m_time);
+	}
 }
 
 void StartGamePacket::read(RakNet::BitStream* bs)
@@ -32,4 +38,12 @@ void StartGamePacket::read(RakNet::BitStream* bs)
 	bs->Read(field_10);
 	bs->Read(field_14);
 	bs->Read(field_18);
+
+	if (!bs->Read(m_version))
+		return;
+
+	if (m_version < 1)
+		return;
+	
+	bs->Read(m_time);
 }

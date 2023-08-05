@@ -277,4 +277,6 @@ void Inventory::selectItemById(int itemID)
 		selectItem(i);
 		return;
 	}
+
+	LogMsg("selectItemById: %d doesn't exist", itemID);
 }

@@ -85,6 +85,8 @@ public:
 	float field_10;
 	float field_14;
 	float field_18;
+	int m_version = 0;
+	int m_time = 0;
 };
 
 class AddPlayerPacket : public Packet

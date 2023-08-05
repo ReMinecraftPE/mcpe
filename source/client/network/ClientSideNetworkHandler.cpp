@@ -93,6 +93,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 		pLocalPlayer->m_yaw,
 		pLocalPlayer->m_pitch);
 
+	pLocalPlayer->m_pInventory->prepareCreativeInventory();
+
+	m_pLevel->setTime(pStartGamePkt->m_time);
+
 	m_pMinecraft->setLevel(m_pLevel, "ClientSideNetworkHandler -> setLevel", pLocalPlayer);
 }
 
@@ -115,6 +119,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 
 	pPlayer->m_name = pAddPlayerPkt->m_name;
 	pPlayer->m_guid = pAddPlayerPkt->m_guid;
+
+	pPlayer->m_pInventory->prepareCreativeInventory();
 
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
 }
