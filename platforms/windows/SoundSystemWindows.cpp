@@ -40,18 +40,17 @@ SoundSystemWindows::SoundSystemWindows()
 	bufferDesc.guid3DAlgorithm = GUID_NULL;
 
 	// Get control of the primary sound buffer on the default sound device.
-	result = m_directsound->CreateSoundBuffer(&bufferDesc, &m_primarybuffer, NULL);
+	IDirectSoundBuffer* primaryBuffer;
+	result = m_directsound->CreateSoundBuffer(&bufferDesc, &primaryBuffer, NULL);
 	if (FAILED(result))
 	{
 		printf("SoundSystemWindows failed to create primary sound buffer\n");
 		return;
 	}
 
-	m_listener = (LPDIRECTSOUND3DLISTENER8*)calloc(1, sizeof(LPDIRECTSOUND3DLISTENER8));
-
-	result = m_primarybuffer->QueryInterface(IID_IDirectSound3DListener8,
-		(LPVOID*)m_listener);
-	m_primarybuffer->Release();
+	result = primaryBuffer->QueryInterface(IID_IDirectSound3DListener8,
+		(LPVOID*)&m_listener);
+	primaryBuffer->Release();
 
 	if (FAILED(result))
 	{
@@ -73,13 +72,6 @@ SoundSystemWindows::~SoundSystemWindows()
 	}
 
 	m_directsound->Release();
-
-	//Delete sounds (Releasing directsound releases sounds for us)
-	for (size_t i = 0; i < m_buffers.size(); i++)
-	{
-		delete m_buffers[i];
-	}
-
 }
 
 
@@ -94,7 +86,7 @@ void SoundSystemWindows::setListenerPos(float x, float y, float z)
 	{
 		return;
 	}
-	(*m_listener)->SetPosition(x, y, -z, DS3D_IMMEDIATE);
+	m_listener->SetPosition(x, y, -z, DS3D_IMMEDIATE);
 }
 
 
@@ -105,8 +97,8 @@ void SoundSystemWindows::setListenerAngle(float degyaw, float degpitch)
 		return;
 	}
 
-	float yaw   = degyaw   * float(M_PI) / 180.f;
-	float pitch = degpitch * float(M_PI) / 180.f;
+	float yaw = degyaw * M_PI / 180.f;
+	float pitch = degpitch * M_PI / 180.f;
 
 	float lx = cosf(pitch) * sinf(yaw);
 	float ly = -sinf(pitch);
@@ -116,7 +108,7 @@ void SoundSystemWindows::setListenerAngle(float degyaw, float degpitch)
 	float uy = cosf(pitch);
 	float uz = sinf(pitch) * cosf(yaw);
 
-	(*m_listener)->SetOrientation(-lx,-ly,-lz, ux,uy,uz, DS3D_IMMEDIATE);
+	m_listener->SetOrientation(-lx,-ly,-lz, ux,uy,uz, DS3D_IMMEDIATE);
 }
 
 void SoundSystemWindows::load(const std::string& sound)
@@ -148,10 +140,9 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	for (size_t i = 0; i < m_buffers.size(); i++)
 	{
 		DWORD status;
-		(*m_buffers[i])->GetStatus(&status);
+		m_buffers[i]->GetStatus(&status);
 		if (status != DSBSTATUS_PLAYING) {
-			(*m_buffers[i])->Release();
-			delete m_buffers[i];
+			m_buffers[i]->Release();
 			m_buffers.erase(m_buffers.begin() + i);
 		}
 	}
@@ -164,7 +155,13 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	int length = sound.m_pHeader->m_length * sound.m_pHeader->m_bytes_per_sample;
 	bool is2D = sqrtf(x * x + y * y + z * z) == 0.f;
 
-	LPDIRECTSOUNDBUFFER* soundbuffer = (LPDIRECTSOUNDBUFFER*)calloc(1, sizeof(LPDIRECTSOUNDBUFFER));
+	//For some reason mojang made 3D sounds are REALLY quiet, with some of their volumes literally going below 0.1
+	if (!is2D)
+	{
+		volume *= 5.f;
+	}
+
+	LPDIRECTSOUNDBUFFER soundbuffer; //= (LPDIRECTSOUNDBUFFER*)calloc(1, sizeof(LPDIRECTSOUNDBUFFER));
 
 	WAVEFORMATEX waveFormat;
 	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
@@ -203,7 +200,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	}
 
 	// Test the buffer format against the direct sound 8 interface and create the secondary buffer.
-	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (LPVOID*)soundbuffer);
+	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (LPVOID*)&soundbuffer);
 	if (FAILED(result))
 	{
 		printf("SoundSystemWindows tempBuffer QueryInterface failed\n");
@@ -216,7 +213,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 
 
 	// Lock the secondary buffer to write wave data into it.
-	result = (*soundbuffer)->Lock(0, length, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
+	result = soundbuffer->Lock(0, length, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
 	if (FAILED(result))
 	{
 		printf("SoundSystemWindows lock failed\n");
@@ -228,7 +225,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	memcpy(bufferPtr, sound.m_pData, length);
 
 	// Unlock the secondary buffer after the data has been written to it.
-	result = (*soundbuffer)->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
+	result = soundbuffer->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
 	if (FAILED(result))
 	{
 		printf("SoundSystemWindows unlock failed\n");
@@ -241,7 +238,6 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	// Conversion from 0-1 linear volume to directsound logarithmic volume..
 	// This seems to work for the most part, but accuracy testing should be done for actual MCPE, water splashing is pretty quiet.
 	float attenuation = volume;//Lerp(DSBVOLUME_MIN, DSBVOLUME_MAX, volume);
-
 	// clamp the attenuation value
 	if (attenuation < 0.0f)
 		attenuation = 0.0f;
@@ -257,22 +253,19 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	{
 		attenuation = floorf(2000.0f * log10f(attenuation) + 0.5f);
 	}
-	(*soundbuffer)->SetVolume(LONG(attenuation));
+	soundbuffer->SetVolume(LONG(attenuation));
 
 	//Check if position is not 0,0,0 and for mono to play 3D sound
 	if (!is2D && sound.m_pHeader->m_channels == 1) 
 	{
 		LPDIRECTSOUND3DBUFFER8 object3d;
 
-		HRESULT hr = (*soundbuffer)->QueryInterface(IID_IDirectSound3DBuffer8,
+		HRESULT hr = soundbuffer->QueryInterface(IID_IDirectSound3DBuffer8,
 			(LPVOID*)&object3d);
 		if (FAILED(hr)) {
 			printf("SoundSystemWindows QueryInterface failed for 3D Object\n");
 			return;
 		}
-
-		D3DVECTOR listenerpos;
-		(*m_listener)->GetPosition(&listenerpos);
 
 		object3d->SetPosition(
 			x, 
@@ -281,10 +274,10 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		DS3D_IMMEDIATE); 
 
 		//Im not really sure what values original MCPE would use.
-		object3d->SetMinDistance(0.f, DS3D_IMMEDIATE); 
+		object3d->SetMinDistance(2.f, DS3D_IMMEDIATE); 
 		object3d->SetMaxDistance(100.f, DS3D_IMMEDIATE);
 	}
 
-	(*soundbuffer)->Play(0, 0, 0);
+	soundbuffer->Play(0, 0, 0);
 	m_buffers.push_back(soundbuffer);
 }
