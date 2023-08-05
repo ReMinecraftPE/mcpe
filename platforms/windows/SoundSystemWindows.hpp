@@ -39,7 +39,6 @@ public:
 private:
 	bool m_available = false;
 	IDirectSound8* m_directsound;
-	IDirectSoundBuffer* m_primarybuffer;
-	LPDIRECTSOUND3DLISTENER8* m_listener;
-	std::vector<LPDIRECTSOUNDBUFFER*> m_buffers;
+	LPDIRECTSOUND3DLISTENER8 m_listener;
+	std::vector<LPDIRECTSOUNDBUFFER> m_buffers;
 };
