@@ -379,3 +379,9 @@ FodyWeavers.xsd
 
 /windows_vs/games/com.mojang
 /windows_vs/assets
+/windows_vs/assetsO
+
+/wasm
+/emsdk
+
+/assets/

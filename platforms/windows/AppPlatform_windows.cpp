@@ -6,15 +6,16 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "AppPlatform_windows.hpp"
-#include "Mouse.hpp"
-
-#include "thirdparty/stb_image.h"
-#include "thirdparty/stb_image_write.h"
-
+#define WIN32_LEAN_AND_MEAN
 #include <fstream>
 #include <sstream>
 #include <shlobj.h>
+
+#include "AppPlatform_windows.hpp"
+#include "client/player/input/Mouse.hpp"
+
+#include "thirdparty/stb_image.h"
+#include "thirdparty/stb_image_write.h"
 
 extern LPCTSTR g_GameTitle;
 
@@ -103,11 +104,23 @@ void AppPlatform_windows::createUserInput()
 {
 	m_UserInput.clear();
 	m_UserInputStatus = -1;
+
+	switch (m_DialogType)
+	{
+		case DLG_CREATE_WORLD:
+		{
+			// some placeholder for now
+			m_UserInput.push_back("New World");
+			m_UserInput.push_back("123456");
+			m_UserInputStatus = 1;
+			break;
+		}
+	}
 }
 
 void AppPlatform_windows::showDialog(eDialogType type)
 {
-	// TODO
+	m_DialogType = type;
 }
 
 std::string AppPlatform_windows::getDateString(int time)
@@ -138,7 +151,15 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	if (!f)
 	{
 		LogMsg("File %s couldn't be opened", realPath.c_str());
-		return Texture(0, 0, nullptr, 1, 0);
+
+	_error:
+		char buffer[1024];
+		snprintf(buffer, sizeof buffer, "Error loading %s. Did you unzip the minecraft assets?", realPath.c_str());
+		MessageBoxA(GetHWND(), buffer, g_GameTitle, MB_OK);
+
+		if (f)
+			fclose(f);
+		::exit(1);
 	}
 
 	int width = 0, height = 0, channels = 0;
@@ -147,8 +168,7 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	if (!img)
 	{
 		LogMsg("File %s couldn't be loaded via stb_image", realPath.c_str());
-		fclose(f);
-		return Texture(0, 0, nullptr, 1, 0);
+		goto _error;
 	}
 
 	fclose(f);

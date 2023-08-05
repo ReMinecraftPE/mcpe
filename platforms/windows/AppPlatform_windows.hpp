@@ -10,8 +10,8 @@
 
 #include "compat/GL.hpp"
 #include <ctime>
-#include "Utils.hpp"
 #include "AppPlatform.hpp"
+#include "client/common/Utils.hpp"
 
 #ifdef ORIGINAL_CODE
 #error "This isn't original code. You probably shouldn't try to compile this"
@@ -59,6 +59,8 @@ private:
 
 	std::vector<std::string> m_UserInput;
 	int m_UserInputStatus = -1;
+
+	eDialogType m_DialogType;
 
 	bool m_bIsFocused = false;
 	bool m_bGrabbedMouse = false;

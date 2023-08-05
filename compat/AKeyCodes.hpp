@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -55,6 +55,7 @@ enum
 	AKEYCODE_APOSTROPHE = VK_OEM_7, // ''"'
 	AKEYCODE_SPACE = VK_SPACE,
 
+	AKEYCODE_1 = '1',
 	AKEYCODE_0 = '0',
 	//...
 	AKEYCODE_9 = '9',
@@ -72,6 +73,109 @@ enum
 // this sucks
 #define AKEYCODE_ARROW_LEFT  VK_LEFT
 #define AKEYCODE_ARROW_RIGHT VK_RIGHT
+
+#elif defined(USE_SDL)
+
+#include <SDL2/SDL.h>
+
+enum
+{
+	AKEYCODE_UNKNOWN = 0,
+	AKEYCODE_MENU,
+	AKEYCODE_SEARCH,
+	AKEYCODE_BACK,
+	AKEYCODE_BUTTON_X,
+	AKEYCODE_BUTTON_Y,
+	AKEYCODE_DPAD_UP,
+	AKEYCODE_DPAD_DOWN,
+	AKEYCODE_DPAD_LEFT,
+	AKEYCODE_DPAD_RIGHT,
+	AKEYCODE_DPAD_CENTER,
+	AKEYCODE_BUTTON_L1,
+	AKEYCODE_BUTTON_R1,
+	AKEYCODE_SHIFT_LEFT,
+	AKEYCODE_SHIFT_RIGHT,
+	AKEYCODE_DEL,
+	AKEYCODE_FORWARD_DEL,
+	AKEYCODE_COMMA,
+	AKEYCODE_PERIOD,
+	AKEYCODE_PLUS,
+	AKEYCODE_MINUS,
+	AKEYCODE_SEMICOLON,
+	AKEYCODE_SLASH,
+	AKEYCODE_GRAVE,
+	AKEYCODE_LEFT_BRACKET,
+	AKEYCODE_BACKSLASH,
+	AKEYCODE_RIGHT_BRACKET,
+	AKEYCODE_APOSTROPHE,
+	AKEYCODE_SPACE,
+	AKEYCODE_0,
+	AKEYCODE_1,
+	AKEYCODE_2,
+	AKEYCODE_3,
+	AKEYCODE_4,
+	AKEYCODE_5,
+	AKEYCODE_6,
+	AKEYCODE_7,
+	AKEYCODE_8,
+	AKEYCODE_9,
+	AKEYCODE_A,
+	AKEYCODE_Q,
+	AKEYCODE_T,
+	AKEYCODE_Z,
+	AKEYCODE_F4,
+	AKEYCODE_ARROW_LEFT,
+	AKEYCODE_ARROW_RIGHT
+};
+
+static inline int translate_sdl_key_to_mcpe(int key) {
+	switch (key) {
+		case SDLK_ESCAPE: return AKEYCODE_MENU;
+		case SDLK_F5: return AKEYCODE_SEARCH;
+		case SDLK_y: return AKEYCODE_BACK;
+		case SDLK_u: return AKEYCODE_BUTTON_X;
+		case SDLK_e: return AKEYCODE_BUTTON_Y;
+		case SDLK_w: return AKEYCODE_DPAD_UP;
+		case SDLK_s: return AKEYCODE_DPAD_DOWN;
+		case SDLK_a: return AKEYCODE_DPAD_LEFT;
+		case SDLK_d: return AKEYCODE_DPAD_RIGHT;
+		case SDLK_SPACE: return AKEYCODE_DPAD_CENTER;
+		case SDLK_x: return AKEYCODE_BUTTON_L1;
+		case SDLK_c: return AKEYCODE_BUTTON_R1;
+		case SDLK_LSHIFT: return AKEYCODE_SHIFT_LEFT;
+		case SDLK_RSHIFT: return AKEYCODE_SHIFT_RIGHT;
+		case SDLK_BACKSPACE: return AKEYCODE_DEL;
+		case SDLK_DELETE: return AKEYCODE_FORWARD_DEL;
+		case SDLK_COMMA: return AKEYCODE_COMMA;
+		case SDLK_PERIOD: return AKEYCODE_PERIOD;
+		case SDLK_PLUS: return AKEYCODE_PLUS;
+		case SDLK_MINUS: return AKEYCODE_MINUS;
+		case SDLK_SEMICOLON: return AKEYCODE_SEMICOLON;
+		case SDLK_SLASH: return AKEYCODE_SLASH;
+		case SDLK_BACKQUOTE: return AKEYCODE_GRAVE;
+		case SDLK_LEFTBRACKET: return AKEYCODE_LEFT_BRACKET;
+		case SDLK_BACKSLASH: return AKEYCODE_BACKSLASH;
+		case SDLK_RIGHTBRACKET: return AKEYCODE_RIGHT_BRACKET;
+		case SDLK_QUOTE: return AKEYCODE_APOSTROPHE;
+		case SDLK_1: return AKEYCODE_1;
+		case SDLK_2: return AKEYCODE_2;
+		case SDLK_3: return AKEYCODE_3;
+		case SDLK_4: return AKEYCODE_4;
+		case SDLK_5: return AKEYCODE_5;
+		case SDLK_6: return AKEYCODE_6;
+		case SDLK_7: return AKEYCODE_7;
+		case SDLK_8: return AKEYCODE_8;
+		case SDLK_0: return AKEYCODE_0;
+		case SDLK_9: return AKEYCODE_9;
+		case SDLK_q: return AKEYCODE_Q;
+		case SDLK_t: return AKEYCODE_T;
+		case SDLK_z: return AKEYCODE_Z;
+		case SDLK_F4: return AKEYCODE_F4;
+		case SDLK_LEFT: return AKEYCODE_ARROW_LEFT;
+		case SDLK_RIGHT: return AKEYCODE_ARROW_RIGHT;
+		default: return AKEYCODE_UNKNOWN;
+	}
+}
 
 #else
 #error "Add AKEYCODEs for your platform!"

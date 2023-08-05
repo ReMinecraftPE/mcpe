@@ -9,6 +9,8 @@
 #define DEMO
 #else
 
+// TODO: Since this is the modded version, we don't need these anymore. Remove them
+
 // Enhancements
 #define ENH_ENTITY_SHADING      // Allows shading of entities
 #define ENH_SHADE_HELD_TILES    // Allows shading of the item in hand
@@ -29,6 +31,7 @@
 #define ENH_ALLOW_SCROLL_WHEEL  // Allow use of the scroll wheel to change selected inventory slots
 #define ENH_DISABLE_TURN_ACCEL  // Disable the turn acceleration mechanism. It should only be used on Xperia Play
 #define ENH_3D_INVENTORY_TILES  // Uses 3D rendered inventory tiles, use with ENH_SHADE_HELD_TILES to render correctly.
+#define ENH_IMPROVED_SAVING     // Improve world saving. The original Minecraft doesn't always really save for some reason
 
 // Mods
 //#define MOD_USE_FLAT_WORLD         // Use a flat world instead of the regular world generation
@@ -37,8 +40,12 @@
 
 // Tests
 //#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
+//#define TEST_SURVIVAL_MODE      // Test survival mode.
 
 // Toggle Demo Mode
 //#define DEMO
+
+// Enable Debug Mode
+#define MC_DEBUG
 
 #endif

@@ -16,7 +16,7 @@
 #include "AppPlatform_windows.hpp"
 #include "NinecraftApp.hpp"
 
-LPCTSTR g_GameTitle = TEXT("MINECRAFT");
+LPCTSTR g_GameTitle = TEXT("Minecraft PE");
 LPCTSTR g_WindowClassName = TEXT("MinecraftClass");
 
 void LogMsg(const char* fmt, ...)
@@ -176,6 +176,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			if (wParam == VK_SHIFT)
 				g_AppPlatform.setShiftPressed(false);
 
+			break;
+		}
+		case WM_CHAR:
+		{
+			if (lParam & (1 << 31))
+				break;
+
+			if (wParam >= '~' && wParam < ' ')
+				break;
+
+			g_pApp->handleCharInput(char(wParam));
 			break;
 		}
 		case WM_DESTROY:
