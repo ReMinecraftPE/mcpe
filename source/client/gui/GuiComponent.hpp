@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -21,6 +21,6 @@ public:
 	void fillGradient(int left, int top, int right, int bottom, int colorUp, int colorDown);
 
 public:
-	float field_4;
+	float field_4 = 0;
 };
 

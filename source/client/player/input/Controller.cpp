@@ -8,6 +8,8 @@
 
 #include "Controller.hpp"
 
+#include <cmath>
+
 bool Controller::isTouchedValues[2];
 float Controller::stickValuesX[2];
 float Controller::stickValuesY[2];

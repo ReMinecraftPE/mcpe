@@ -9,6 +9,8 @@
 #include "RenderList.hpp"
 #include "Tesselator.hpp"
 
+#include <cstddef>
+
 constexpr int C_MAX_RENDERS = 3072;
 
 RenderList::RenderList()

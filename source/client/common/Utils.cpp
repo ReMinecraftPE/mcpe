@@ -33,6 +33,8 @@
 
 int g_TimeSecondsOnInit = 0;
 
+#ifndef USE_SDL
+
 DIR* opendir(const char* name)
 {
 	size_t len = strlen(name);
@@ -96,6 +98,13 @@ void closedir(DIR* dir)
 
 	free(dir);
 }
+
+#else
+
+#include <sys/types.h>
+#include <dirent.h>
+
+#endif
 
 bool createFolderIfNotExists(const char* pDir)
 {

@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -30,7 +30,7 @@ void Screen::init(Minecraft* pMinecraft, int a3, int a4)
 
 void Screen::init()
 {
-	
+
 }
 
 void Screen::buttonClicked(Button* pButton)
@@ -65,7 +65,7 @@ bool Screen::isInGameScreen()
 
 void Screen::keyPressed(int key)
 {
-	if (key == '\x1B')//escape
+	if (key == AKEYCODE_MENU)//escape
 	{
 		m_pMinecraft->setScreen(nullptr);
 	}

@@ -9,6 +9,8 @@
 #include "ControllerTurnInput.hpp"
 #include "Controller.hpp"
 
+#include <cmath>
+
 ITurnInput::Delta ControllerTurnInput::getTurnDelta()
 {
 	bool isTouched = Controller::isTouched(m_stickNo);

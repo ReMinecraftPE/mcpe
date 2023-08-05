@@ -128,6 +128,11 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 		case AKEYCODE_ARROW_RIGHT:
 			chr = '\003';
 			break;
+#ifdef USE_SDL
+		case AKEYCODE_DEL:
+			chr = '\b';
+			break;
+#endif
 	}
 #endif
 

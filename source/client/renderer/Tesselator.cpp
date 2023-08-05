@@ -1,13 +1,15 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
 #include "compat/GL.hpp"
 #include "Tesselator.hpp"
+
+#include <cstddef>
 
 int dword_2514A4 = 0;
 

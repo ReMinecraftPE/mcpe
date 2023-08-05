@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -69,7 +69,7 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 	if (texture.field_C)
 		internalFormat = GL_RGBA;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.m_pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, internalFormat, GL_UNSIGNED_BYTE, texture.m_pixels);
 
 	m_textures[name] = textureID;
 
