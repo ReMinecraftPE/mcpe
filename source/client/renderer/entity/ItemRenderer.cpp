@@ -239,6 +239,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		glScalef(10, 10, 10);
 		glRotatef(210.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+		glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
 
 		#ifdef ENH_SHADE_HELD_TILES
 		#	define PARM_HACK , 1
