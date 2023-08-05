@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="..\compat\AKeyCodes.hpp" />
     <ClInclude Include="..\GameMods.hpp" />
+    <ClInclude Include="..\platforms\PlatformDefinitions.hpp" />
     <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp" />
     <ClInclude Include="..\platforms\windows\SoundSystem_windows.hpp" />
     <ClInclude Include="..\source\App\App.hpp" />

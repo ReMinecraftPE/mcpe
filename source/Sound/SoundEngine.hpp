@@ -18,7 +18,7 @@
 #ifdef ORIGINAL_CODE
 #define SOUND_SYSTEM_TYPE SoundSystem
 #else
-#include "..\..\platforms\Platform_Definitions.hpp"
+#include "..\..\platforms\PlatformDefinitions.hpp"
 #endif
 
 
