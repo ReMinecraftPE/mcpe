@@ -108,6 +108,11 @@ void Screen::keyPressed(int key)
 #endif
 	
 }
+void Screen::charInput(char chr)
+{
+	for (auto textInput : m_textInputs)
+		textInput->charPressed(chr);
+}
 
 void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 {
