@@ -13,6 +13,10 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 
+#ifdef _WIN32
+#define CAN_QUIT
+#endif
+
 StartMenuScreen::StartMenuScreen() :
 	m_startButton  (2,   0, 0, 160, 24, "Start Game"),
 	m_joinButton   (3,   0, 0, 160, 24, "Join Game"),
@@ -63,7 +67,11 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 	}
 	else if (pButton->field_30 == m_buyButton.field_30)
 	{
+#if !defined(DEMO) && defined(CAN_QUIT)
+		m_pMinecraft->quit();
+#else
 		m_pMinecraft->platform()->buyGame();
+#endif
 	}
 	else if (pButton->field_30 == m_optionsButton.field_30)
 	{
@@ -101,7 +109,7 @@ void StartMenuScreen::init()
 	m_buttons.push_back(&m_optionsButton);
 	m_buttonTabList.push_back(&m_optionsButton);
 
-#ifdef DEMO 
+#if defined(DEMO) || defined(CAN_QUIT)
 	m_buttons.push_back(&m_buyButton);
 	m_buttonTabList.push_back(&m_buyButton);
 #endif
@@ -116,6 +124,10 @@ void StartMenuScreen::init()
 		;
 
 	field_188 = (m_width - m_pFont->width(field_170)) / 2;
+
+#if !defined(DEMO) && defined(CAN_QUIT)
+	m_buyButton.field_18 = "Quit";
+#endif
 
 	//m_testBox.init(m_pFont);
 	//m_textInputs.push_back(&m_testBox);
