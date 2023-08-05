@@ -10,7 +10,7 @@
 
 #include <set>
 #include "Level.hpp"
-#include "Entity.hpp"
+#include "world/entity/Entity.hpp"
 
 class Explosion
 {

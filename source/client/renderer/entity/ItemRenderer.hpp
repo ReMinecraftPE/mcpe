@@ -9,8 +9,8 @@
 #pragma once
 
 #include "EntityRenderer.hpp"
-#include "ItemInstance.hpp"
-#include "TileRenderer.hpp"
+#include "../TileRenderer.hpp"
+#include "world/item/ItemInstance.hpp"
 
 class ItemRenderer : public EntityRenderer
 {

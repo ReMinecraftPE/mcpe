@@ -11,9 +11,9 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
-#include "AABB.hpp"
-#include "Utils.hpp"
-#include "LightLayer.hpp"
+#include "client/common/AABB.hpp"
+#include "client/common/Utils.hpp"
+#include "client/renderer/LightLayer.hpp"
 
 class Level;
 class Entity;

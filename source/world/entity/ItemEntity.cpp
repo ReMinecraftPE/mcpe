@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "ItemEntity.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 ItemEntity::ItemEntity(Level* level) : Entity(level)
 #ifndef ORIGINAL_CODE

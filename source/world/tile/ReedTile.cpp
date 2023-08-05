@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 ReedTile::ReedTile(int id) : Tile(id, Material::plant)
 {

@@ -27,6 +27,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp" />
+    <ClInclude Include="..\platforms\windows\SoundSystemWindows.hpp" />
     <ClInclude Include="..\source\App.hpp" />
     <ClInclude Include="..\source\AppPlatform.hpp" />
     <ClInclude Include="..\source\client\common\AABB.hpp" />
@@ -323,6 +325,10 @@
     <ClInclude Include="..\thirdparty\raknet\_FindFirst.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\compat\GLExt.cpp" />
+    <ClCompile Include="..\platforms\windows\AppPlatform_windows.cpp" />
+    <ClCompile Include="..\platforms\windows\main.cpp" />
+    <ClCompile Include="..\platforms\windows\SoundSystemWindows.cpp" />
     <ClCompile Include="..\source\App.cpp" />
     <ClCompile Include="..\source\AppPlatform.cpp" />
     <ClCompile Include="..\source\client\common\AABB.cpp" />
@@ -636,6 +642,7 @@
     <ClCompile Include="..\thirdparty\raknet\VitaIncludes.cpp" />
     <ClCompile Include="..\thirdparty\raknet\WSAStartupSingleton.cpp" />
     <ClCompile Include="..\thirdparty\raknet\_FindFirst.cpp" />
+    <ClCompile Include="..\thirdparty\stb_image_impl.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\thirdparty\raknet\CMakeLists.txt" />

@@ -7,9 +7,9 @@
  ********************************************************************/
 
 #include "Dimension.hpp"
-#include "TestChunkSource.hpp"
-#include "RandomLevelSource.hpp"
-#include "ChunkCache.hpp"
+#include "world/level/levelgen/chunk/TestChunkSource.hpp"
+#include "world/level/levelgen/chunk/RandomLevelSource.hpp"
+#include "world/level/levelgen/chunk/ChunkCache.hpp"
 
 Dimension* Dimension::getNew(int type)
 {

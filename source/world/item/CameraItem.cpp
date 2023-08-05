@@ -7,9 +7,9 @@
  ********************************************************************/
 
 #include "Item.hpp"
-#include "TripodCamera.hpp"
-#include "Level.hpp"
-#include "Player.hpp"
+#include "world/level/Level.hpp"
+#include "world/entity/TripodCamera.hpp"
+#include "world/entity/Player.hpp"
 
 CameraItem::CameraItem(int id) : Item(id)
 {

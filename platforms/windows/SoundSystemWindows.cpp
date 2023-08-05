@@ -6,9 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-
-#include "../../source/Base/Utils.hpp"
-#include "SoundSystem_windows.hpp"
+#define WIN32_LEAN_AND_MEAN
+#include "SoundSystemWindows.hpp"
+#include "client/common/Utils.hpp"
 
 SoundSystemWindows::SoundSystemWindows()
 {
@@ -105,8 +105,8 @@ void SoundSystemWindows::setListenerAngle(float degyaw, float degpitch)
 		return;
 	}
 
-	float yaw = degyaw * M_PI / 180.f;
-	float pitch = degpitch * M_PI / 180.f;
+	float yaw   = degyaw   * float(M_PI) / 180.f;
+	float pitch = degpitch * float(M_PI) / 180.f;
 
 	float lx = cosf(pitch) * sinf(yaw);
 	float ly = -sinf(pitch);

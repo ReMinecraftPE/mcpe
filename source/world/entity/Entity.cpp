@@ -8,7 +8,7 @@
 
 #include "Entity.hpp"
 #include "Player.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 int Entity::entityCounter;
 Random Entity::sharedRandom;

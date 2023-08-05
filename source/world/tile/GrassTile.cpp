@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
 {

@@ -9,7 +9,7 @@
 #pragma once
 
 #include "EntityRenderer.hpp"
-#include "TileRenderer.hpp"
+#include "../TileRenderer.hpp"
 
 class TntRenderer : public EntityRenderer
 {

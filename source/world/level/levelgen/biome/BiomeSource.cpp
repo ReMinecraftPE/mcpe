@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "BiomeSource.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 BiomeSource::BiomeSource()
 {

@@ -8,7 +8,6 @@
 
 #include "compat/GL.hpp"
 #include "Tesselator.hpp"
-#include "Utils.hpp"
 
 int dword_2514A4 = 0;
 

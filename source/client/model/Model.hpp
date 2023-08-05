@@ -9,7 +9,8 @@
 #pragma once
 
 #include "Cube.hpp"
-#include "Mob.hpp"
+
+class Mob;
 
 class Model
 {

@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Player.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 Player::Player(Level* pLevel) : Mob(pLevel)
 {

@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 OreTile::OreTile(int id, int texture) : Tile(id, texture, Material::stone)
 {

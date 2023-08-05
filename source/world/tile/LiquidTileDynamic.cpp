@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 bool g_bDisableSponges = false;
 

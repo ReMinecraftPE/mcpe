@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 Bush::Bush(int id, int texture) : Tile(id, Material::plant)
 {

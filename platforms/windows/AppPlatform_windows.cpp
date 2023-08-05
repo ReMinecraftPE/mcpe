@@ -6,15 +6,16 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "AppPlatform_windows.hpp"
-#include "Mouse.hpp"
-
-#include "thirdparty/stb_image.h"
-#include "thirdparty/stb_image_write.h"
-
+#define WIN32_LEAN_AND_MEAN
 #include <fstream>
 #include <sstream>
 #include <shlobj.h>
+
+#include "AppPlatform_windows.hpp"
+#include "client/player/input/Mouse.hpp"
+
+#include "thirdparty/stb_image.h"
+#include "thirdparty/stb_image_write.h"
 
 extern LPCTSTR g_GameTitle;
 

@@ -10,7 +10,9 @@
 
 #include <cstring>
 #include "ChunkSource.hpp"
-#include "ChunkStorage.hpp"
+#include "world/level/storage/ChunkStorage.hpp"
+#include "world/level/Level.hpp"
+
 class Level;
 
 class ChunkCache : public ChunkSource

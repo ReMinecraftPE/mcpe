@@ -21,7 +21,7 @@
 #include <mmsystem.h>
 #include <dsound.h>
 
-#include "SoundData.hpp"
+#include "client/sound/SoundData.hpp"
 
 class SoundSystemWindows
 {

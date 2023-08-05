@@ -7,8 +7,9 @@
  ********************************************************************/
 
 #pragma once
+
 #include <string>
-#include "TripodCamera.hpp"
+#include "world/entity/TripodCamera.hpp"
 
 class LevelListener
 {

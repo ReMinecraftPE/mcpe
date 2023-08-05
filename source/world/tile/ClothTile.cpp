@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 ClothTile::ClothTile(int id, int type) : Tile(id, TEXTURE_CLOTH_64, Material::cloth)
 {

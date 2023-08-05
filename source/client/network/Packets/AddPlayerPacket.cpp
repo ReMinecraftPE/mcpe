@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Packet.hpp"
+#include "../Packet.hpp"
 
 AddPlayerPacket::AddPlayerPacket(const RakNet::RakNetGUID& guid, RakNet::RakString name, int id, float x, float y, float z)
 {

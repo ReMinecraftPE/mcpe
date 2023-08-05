@@ -8,7 +8,7 @@
 
 #include <sstream>
 #include "ItemInstance.hpp"
-#include "Tile.hpp"
+#include "world/tile/Tile.hpp"
 
 void ItemInstance::init(int itemID, int amount, int auxValue)
 {

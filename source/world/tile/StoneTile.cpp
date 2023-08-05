@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 StoneTile::StoneTile(int a, int b, Material* c) : Tile(a, b, c)
 {

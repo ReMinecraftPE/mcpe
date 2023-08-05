@@ -9,10 +9,9 @@
 #pragma once
 
 #include <string>
-
-#include "Feature.hpp"
-#include "PerlinNoise.hpp"
-#include "Utils.hpp"
+#include "client/common/PerlinNoise.hpp"
+#include "client/common/Utils.hpp"
+#include "world/level/levelgen/feature/Feature.hpp"
 
 class Biome
 {

@@ -9,9 +9,9 @@
 #pragma once
 
 #include <utility>
-#include "VertexPT.hpp"
-#include "Tesselator.hpp"
-#include "Utils.hpp" // to configure 1 thing
+#include "client/renderer/VertexPT.hpp"
+#include "client/renderer/Tesselator.hpp"
+#include "GameMods.hpp"
 
 class PolygonQuad
 {

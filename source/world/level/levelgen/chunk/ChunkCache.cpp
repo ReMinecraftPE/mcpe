@@ -8,7 +8,7 @@
 
 #include "LevelChunk.hpp"
 #include "ChunkCache.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 ChunkCache::ChunkCache(Level* pLevel, ChunkStorage* pStor, ChunkSource* pSrc)
 {

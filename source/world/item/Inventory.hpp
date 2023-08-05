@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Player.hpp"
-#include "ItemInstance.hpp"
+#include <vector>
+#include "world/item/ItemInstance.hpp"
+#include "world/entity/Player.hpp"
 
 class Player; // in case we're included from Player.hpp
 

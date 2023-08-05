@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TestChunkSource.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 TestChunkSource::TestChunkSource(Level* pLevel)
 {
