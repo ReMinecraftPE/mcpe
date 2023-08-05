@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -33,28 +33,28 @@ public:
 
 
 public:
-	int field_BEC = 0;
-	float field_BF0 = 0.0f;
-	float field_BF4 = 0.0f;
-	float field_BF8 = 0.0f;
-	float field_BFC = 0.0f;
-	float field_C00 = 0.0f;
-	float field_C04 = 0.0f;
-	float field_C08 = 0.0f;
-	float field_C0C = 0.0f;
-	float field_C10 = 0.0f;
-	float field_C14 = 0.0f;
-	float field_C18 = 0.0f;
-	float field_C1C = 0.0f;
-	int m_nAutoJumpFrames = 0;
+	int field_BEC;
+	float field_BF0;
+	float field_BF4;
+	float field_BF8;
+	float field_BFC;
+	float field_C00;
+	float field_C04;
+	float field_C08;
+	float field_C0C;
+	float field_C10;
+	float field_C14;
+	float field_C18;
+	float field_C1C;
+	int m_nAutoJumpFrames;
 	// multiplayer related
-	float field_C24 = 0.0f;
-	float field_C28 = 0.0f;
-	float field_C2C = 0.0f;
-	float field_C30 = 0.0f;
-	float field_C34 = 0.0f;
+	float field_C24;
+	float field_C28;
+	float field_C2C;
+	float field_C30;
+	float field_C34;
 	// multiplayer related -- end
-	int field_C38 = 0;
+	int field_C38;
 	Minecraft* m_pMinecraft;
-	KeyboardInput* m_pKeyboardInput = nullptr;
+	KeyboardInput* m_pKeyboardInput;
 };

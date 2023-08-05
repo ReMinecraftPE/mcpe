@@ -43,6 +43,43 @@ const char* Minecraft::progressMessages[] =
 
 Minecraft::Minecraft() : m_gui(this)
 {
+	field_18 = false;
+	field_288 = false;
+	m_pLevelRenderer = nullptr;
+	m_pGameRenderer = nullptr;
+	m_pParticleEngine = nullptr;
+	m_pSoundEngine = nullptr;
+	m_pGameMode = nullptr;
+	m_pTextures = nullptr;
+	m_pFont = nullptr;
+	m_pRakNetInstance = nullptr;
+	m_pNetEventCallback = nullptr;
+	field_2B0 = 0;
+	m_pUser = nullptr;
+	m_pLevel = nullptr;
+	m_pLocalPlayer = nullptr;
+	m_pMobPersp = nullptr; // why is there a duplicate?
+	field_D0C = 0;
+	m_pPrepThread = nullptr;
+	m_pScreen = nullptr;
+	field_D18 = 10;
+	m_pTurnInput = nullptr;
+	field_D20 = 0.0f;
+	field_D24 = 0.0f;
+	m_bGrabbedMouse = true;
+	m_progressPercent = 0;
+	m_bPreparingLevel = false;
+	m_pLevelStorageSource = nullptr; // TODO
+	field_D9C = 0;
+	field_DA0 = 0;
+	field_DA4 = 0;
+	field_DA8 = 0;
+	field_DAC = 0;
+	m_bUsingScreen = false;
+	m_bHasQueuedScreen = false;
+	m_pQueuedScreen = nullptr;
+	m_licenseID = -2;
+
 #ifndef ORIGINAL_CODE
 	m_pTurnInput = new MouseTurnInput(this);
 #else

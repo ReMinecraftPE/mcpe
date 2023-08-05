@@ -18,10 +18,13 @@ class DynamicTexture; // in case we are being included from DynamicTexture. We d
 
 struct TextureData
 {
-	int glID = 0;
+	int glID;
 	Texture textureData;
 
-	TextureData() {}
+	TextureData()
+	{
+		glID = 0;
+	}
 	TextureData(int i, Texture& x)
 	{
 		glID = i;
@@ -51,9 +54,9 @@ protected:
 	std::map<std::string, GLuint> m_textures;
 	Options* m_pOptions;
 	AppPlatform* m_pPlatform;
-	int m_currBoundTex = 0;
-	bool field_38 = false;
-	bool field_39 = false;
+	int m_currBoundTex;
+	bool field_38;
+	bool field_39;
 	std::map<GLuint, TextureData> m_textureData;
 	std::vector<DynamicTexture*> m_dynamicTextures;
 

@@ -9,9 +9,10 @@
 #include "GameMode.hpp"
 #include "Minecraft.hpp"
 
-GameMode::GameMode(Minecraft* pMinecraft)
+GameMode::GameMode(Minecraft* pMinecraft) :
+	m_pMinecraft(pMinecraft),
+	field_8(0)
 {
-	m_pMinecraft = pMinecraft;
 }
 
 GameMode::~GameMode()

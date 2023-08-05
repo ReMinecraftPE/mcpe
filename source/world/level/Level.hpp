@@ -33,8 +33,7 @@ typedef std::vector<AABB> AABBVector;
 class Level : public LevelSource
 {
 public:
-	Level(LevelStorage*, const std::string&, TLong seed, int);
-	Level(LevelStorage*, const std::string&, TLong seed, int, Dimension*);
+	Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dimension* pDimension = nullptr);
 	~Level();
 
 	// TODO
@@ -44,7 +43,6 @@ public:
 	Material* getMaterial(int x, int y, int z) override;
 	bool isSolidTile(int x, int y, int z) override;
 
-	void _init(const std::string& str, TLong  seed, int x, Dimension* pDimension);
 	ChunkSource* getChunkSource();
 	ChunkSource* createChunkSource();
 	LevelChunk* getChunk(int x, int z);
@@ -167,30 +165,30 @@ public:
 
 public:
 	AABBVector m_aabbs;
-	uint8_t field_10 = 0;
-	uint8_t field_11 = 0;
-	uint8_t field_12 = 0;
+	uint8_t field_10;
+	bool field_11;
+	uint8_t field_12;
 	EntityVector m_entities;
 	std::vector<Player*> m_players;
-	int m_skyDarken = 0;
-	uint8_t field_30 = 0;
-	Dimension* m_pDimension = nullptr;
+	int m_skyDarken;
+	uint8_t field_30;
+	Dimension* m_pDimension;
 	Random field_38;
-	uint8_t field_A00 = 0;
+	uint8_t field_A00;
 	std::vector<LevelListener*> m_levelListeners;
-	ChunkSource* m_pChunkSource = nullptr;
-	LevelStorage* m_pLevelStorage = nullptr;
+	ChunkSource* m_pChunkSource;
+	LevelStorage* m_pLevelStorage;
 	LevelData m_levelData;
-	int field_AA8 = 42184323;
-	int field_AAC = 1013904223;
+	int field_AA8;
+	int field_AAC;
 	EntityVector m_getEntitiesResult;
 	EntityVector m_pendingEntityRemovals;
 	std::set<TickNextTickData> m_pendingTicks;
 	std::set<ChunkPos> m_chunksToUpdate;
 	std::vector<LightUpdate> m_lightUpdates;
-	bool m_bUpdateLights = true;
-	int field_B08 = 0;
-	uint8_t field_B0C = 0;
+	bool m_bUpdateLights;
+	int field_B08;
+	uint8_t field_B0C;
 	int field_B10;
 };
 

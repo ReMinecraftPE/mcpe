@@ -10,7 +10,7 @@
 
 #include "client/common/Utils.hpp"
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_XBOX)
 
 #include <Windows.h>
 #include <io.h>
@@ -18,6 +18,8 @@
 
 // Why are we not using GetTickCount64()? It's simple -- getTimeMs has the exact same problem as using regular old GetTickCount.
 #pragma warning(disable : 28159)
+
+#elif defined(_XBOX)
 
 #else
 
@@ -120,8 +122,6 @@ bool DeleteDirectory(const std::string& name, bool unused)
 	if (!dir)
 		return false;
 
-	char buffer[1024];
-
 	while (true)
 	{
 		dirent* de = readdir(dir);
@@ -131,8 +131,8 @@ bool DeleteDirectory(const std::string& name, bool unused)
 		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
 			continue;
 
-		snprintf(buffer, sizeof buffer, "%s/%s", name.c_str(), de->d_name);
-		remove(buffer);
+		const std::string dirPath = name + de->d_name;
+		remove(dirPath.c_str());
 	}
 
 	closedir(dir);

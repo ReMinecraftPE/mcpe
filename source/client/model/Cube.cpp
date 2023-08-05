@@ -12,6 +12,19 @@ float Cube::c = 180.0f / float(M_PI);
 
 Cube::Cube(int a, int b)
 {
+	m_posX = 0.0f;
+	m_posY = 0.0f;
+	m_posZ = 0.0f;
+	field_C = 0.0f;
+	field_10 = 0.0f;
+	field_14 = 0.0f;
+	field_18 = false;
+	field_19 = true;
+	field_1A = false;
+	m_bCompiled = false;
+	field_2C0 = 0;
+	m_buffer = 0;
+
 	field_2B4 = a;
 	field_2B8 = b;
 }

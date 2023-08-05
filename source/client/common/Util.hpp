@@ -36,8 +36,10 @@ public:
 	{
 		int removed = 0;
 
-		for (auto rem : toRemove)
+		for (auto it = toRemove.begin(); it != toRemove.end(); it++)
 		{
+			T rem = *it;
+
 			if (remove(vec, rem))
 				removed++;
 		}
@@ -63,10 +65,12 @@ public:
 	{
 		TLong result = 0;
 
-		for (auto chr : str)
+		const size_t size = str.size();
+		for (int i = 0; i < size; i++)
 		{
-			result = result * 31 + chr;
+			result = result * 31 + str.at(i);
 		}
+
 
 		return result;
 	}

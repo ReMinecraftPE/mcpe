@@ -37,14 +37,14 @@ public:
 	void save(LevelChunk*);
 
 public:
-	bool field_4 = true;
-	LevelChunk* m_pEmptyChunk = nullptr;
-	ChunkSource* m_pChunkSource = nullptr;
-	ChunkStorage* m_pChunkStorage = nullptr;
+	bool field_4;
+	LevelChunk* m_pEmptyChunk;
+	ChunkSource* m_pChunkSource;
+	ChunkStorage* m_pChunkStorage;
 	LevelChunk* m_chunkMap[C_MAX_CHUNKS_Z][C_MAX_CHUNKS_X];
-	Level* m_pLevel = nullptr;
-	LevelChunk* m_pLastChunk = nullptr;
-	int m_LastChunkX = -999999999;
-	int m_LastChunkZ = -999999999;
+	Level* m_pLevel;
+	LevelChunk* m_pLastChunk;
+	int m_LastChunkX;
+	int m_LastChunkZ;
 };
 

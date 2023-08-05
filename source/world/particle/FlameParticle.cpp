@@ -11,6 +11,8 @@
 FlameParticle::FlameParticle(Level* level, float x, float y, float z, float vx, float vy, float vz) :
 	Particle(level, x, y, z, vx, vy, vz)
 {
+	field_104 = 0.0f;
+
 	m_vel.x = m_vel.x * 0.01f + vx;
 	m_vel.y = m_vel.y * 0.01f + vy;
 	m_vel.z = m_vel.z * 0.01f + vz;

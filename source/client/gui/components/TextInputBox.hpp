@@ -20,10 +20,7 @@ class Minecraft;
 class TextInputBox : public GuiComponent
 {
 public:
-	TextInputBox(int id, int x, int y);
-	TextInputBox(int id, int x, int y, int width, int height);
-	TextInputBox(int id, int x, int y, int width, int height, const std::string& placeholder);
-	TextInputBox(int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text);
+	TextInputBox(int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
 
 	void init(Font* pFont);
 	void setEnabled(bool bEnabled);
@@ -36,19 +33,19 @@ public:
 	bool clicked(int x, int y);
 
 public:
-	int m_ID = 0;
-	int m_xPos = 0;
-	int m_yPos = 0;
-	int m_width = 0;
-	int m_height = 0;
+	int m_ID;
+	int m_xPos;
+	int m_yPos;
+	int m_width;
+	int m_height;
 	std::string m_placeholder;
 	std::string m_text;
-	bool m_bFocused = false;
-	bool m_bEnabled = true;
-	bool m_bCursorOn = true;
-	int m_insertHead = 0;
-	int m_lastFlashed = 0;
-	Font* m_pFont = nullptr;
+	bool m_bFocused;
+	bool m_bEnabled;
+	bool m_bCursorOn;
+	int m_insertHead;
+	int m_lastFlashed;
+	Font* m_pFont;
 };
 
 #endif

@@ -82,11 +82,12 @@ void Textures::clear()
 {
 	// note: Textures::clear() does not touch the dynamic textures vector
 
-	for (auto x : m_textures)
-		glDeleteTextures(1, &x.second);
+	size_t size = m_textures.size();
+	for (auto it = m_textures.begin(); it != m_textures.end(); it++)
+		glDeleteTextures(1, &it->second);
 
-	for (auto x : m_textureData)
-		delete[] x.second.textureData.m_pixels;
+	for (auto it = m_textureData.begin(); it != m_textureData.end(); it++)
+		delete[] it->second.textureData.m_pixels;
 
 	m_textures.clear();
 	m_textureData.clear();
@@ -94,6 +95,9 @@ void Textures::clear()
 
 Textures::Textures(Options* pOptions, AppPlatform* pAppPlatform)
 {
+	field_38 = false;
+	field_39 = false;
+
 	m_pPlatform = pAppPlatform;
 	m_pOptions = pOptions;
 	m_currBoundTex = -1;
@@ -103,8 +107,11 @@ Textures::~Textures()
 {
 	clear();
 
-	for (auto x : m_dynamicTextures)
-		delete x;
+	for (auto it = m_dynamicTextures.begin(); it != m_dynamicTextures.end(); it++)
+	{
+		DynamicTexture* pDynaTex = *it;
+		SAFE_DELETE(pDynaTex);
+	}
 
 	m_dynamicTextures.clear();
 }
@@ -112,8 +119,10 @@ Textures::~Textures()
 void Textures::tick()
 {
 	// tick dynamic textures here
-	for (auto pDynaTex : m_dynamicTextures)
+	for (auto it = m_dynamicTextures.begin(); it < m_dynamicTextures.end(); it++)
 	{
+		DynamicTexture* pDynaTex = *it;
+
 		pDynaTex->bindTexture(this);
 		pDynaTex->tick();
 

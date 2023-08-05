@@ -27,12 +27,12 @@ public:
 	void initPlayer(Player*) override;
 
 public:
-	int m_destroyingX = -1;
-	int m_destroyingY = -1;
-	int m_destroyingZ = -1;
-	float field_18 = 0.0f;
-	float field_1C = 0.0f;
-	int field_20 = 0;
-	int field_24 = 0;
+	int m_destroyingX;
+	int m_destroyingY;
+	int m_destroyingZ;
+	float field_18;
+	float field_1C;
+	int field_20;
+	int field_24;
 };
 

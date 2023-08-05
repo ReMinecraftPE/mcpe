@@ -17,6 +17,10 @@ HumanoidModel::HumanoidModel(float a, float b):
 	m_legL(0,  16),
 	m_legR(0,  16)
 {
+	field_10BC = false;
+	field_10BD = false;
+	field_10BE = false;
+
 	m_head.addBox(-4, -8, -4, 8, 8, 8, a);
 	m_head.setPos(0, b, 0);
 	m_body.addBox(-4, 0, -2, 8, 12, 4);

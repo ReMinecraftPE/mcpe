@@ -12,6 +12,12 @@
 
 ChunkCache::ChunkCache(Level* pLevel, ChunkStorage* pStor, ChunkSource* pSrc)
 {
+	field_4 = true;
+	m_pLevel = nullptr;
+	m_pLastChunk = nullptr;
+	m_LastChunkX = -999999999;
+	m_LastChunkZ = -999999999;
+
 	m_pChunkSource = pSrc;
 	m_pChunkStorage = pStor;
 	m_pLevel = pLevel;

@@ -28,9 +28,9 @@ public:
 	virtual void onGraphicsReset();
 
 public:
-	float field_4 = 0.0f;
-	float field_8 = 1.0f;
-	EntityRenderDispatcher* m_pDispatcher = nullptr;
+	float field_4;
+	float field_8;
+	EntityRenderDispatcher* m_pDispatcher;
 
 	// @HUH: Why is there a HumanoidModel here? There's another
 	// in HumanoidMobRenderer...

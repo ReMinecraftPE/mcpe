@@ -15,16 +15,23 @@ class RenderChunk
 	static int runningId;
 
 public:
-	GLuint field_0 = -1;
-	int field_4 = 0;
+	GLuint field_0;
+	int field_4;
 	int m_id;
-	float field_C = 0.0f;
-	float field_10 = 0.0f;
-	float field_14 = 0.0f;
+	float field_C;
+	float field_10;
+	float field_14;
 
 public:
 	RenderChunk()
 	{
+		field_0 = -1;
+		field_4 = 0;
+		m_id;
+		field_C = 0.0f;
+		field_10 = 0.0f;
+		field_14 = 0.0f;
+
 		m_id = ++runningId;
 	}
 	RenderChunk(GLuint a1, int a2)

@@ -9,6 +9,6 @@ mp_server_visible_default|true
 
 # Graphics Options
 gfx_fancygraphics|true
-gfx_smoothlighting|false
-gfx_viewdistance|2
-#gfx_viewdistance|0
+gfx_smoothlighting|true
+#gfx_viewdistance|2
+gfx_viewdistance|0

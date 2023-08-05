@@ -16,8 +16,12 @@
 
 ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& a, const std::string& path) :
 	field_8(a),
-	m_levelDirPath(path)
+	m_levelDirPath(path),
+	m_timer(0)
 {
+	m_pRegionFile = nullptr;
+	m_pLevel = nullptr;
+
 	createFolderIfNotExists(m_levelDirPath.c_str());
 
 	std::string datLevel  = m_levelDirPath + "/" + "level.dat";

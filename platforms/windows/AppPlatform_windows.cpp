@@ -19,6 +19,19 @@
 
 extern LPCTSTR g_GameTitle;
 
+AppPlatform_windows::AppPlatform_windows()
+{
+	m_UserInputStatus = -1;
+
+	m_bIsFocused = false;
+	m_bGrabbedMouse = false;
+	m_bActuallyGrabbedMouse = false;
+	m_bWasUnfocused = false;
+	m_bShiftPressed = false;
+
+	m_MouseDiffX = 0, m_MouseDiffY = 0;
+}
+
 void AppPlatform_windows::initConsts()
 {
 	// just assume an 854x480 window for now:
@@ -153,9 +166,8 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 		LogMsg("File %s couldn't be opened", realPath.c_str());
 
 	_error:
-		char buffer[1024];
-		snprintf(buffer, sizeof buffer, "Error loading %s. Did you unzip the minecraft assets?", realPath.c_str());
-		MessageBoxA(GetHWND(), buffer, g_GameTitle, MB_OK);
+		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?";
+		MessageBoxA(GetHWND(), msg.c_str(), g_GameTitle, MB_OK);
 
 		if (f)
 			fclose(f);
@@ -228,13 +240,13 @@ void AppPlatform_windows::recenterMouse()
 		return;
 	}
 
-	POINT oldPos{ 0, 0 };
+	POINT oldPos = { 0, 0 };
 	GetCursorPos(&oldPos);
 
 	RECT rect;
 	GetClientRect(GetHWND(), &rect);
 
-	POINT offs { m_ScreenWidth / 2, m_ScreenHeight / 2 };
+	POINT offs = { m_ScreenWidth / 2, m_ScreenHeight / 2 };
 	ClientToScreen(GetHWND(), &offs);
 
 	SetCursorPos(offs.x, offs.y);
@@ -286,7 +298,7 @@ void AppPlatform_windows::setMouseGrabbed(bool b)
 		RECT rect;
 		GetClientRect(GetHWND(), &rect);
 
-		POINT offs{ 0, 0 };
+		POINT offs = { 0, 0 };
 		ClientToScreen(GetHWND(), &offs);
 		rect.left   += offs.x;
 		rect.top    += offs.y;

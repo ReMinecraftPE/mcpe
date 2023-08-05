@@ -29,22 +29,22 @@ public:
 	void translateTo(float f);
 
 public:
-	float m_posX = 0.0f;
-	float m_posY = 0.0f;
-	float m_posZ = 0.0f;
-	float field_C = 0.0f;
-	float field_10 = 0.0f;
-	float field_14 = 0.0f;
-	bool field_18 = false;
-	bool field_19 = true;
-	bool field_1A = false;
+	float m_posX;
+	float m_posY;
+	float m_posZ;
+	float field_C;
+	float field_10;
+	float field_14;
+	bool field_18;
+	bool field_19;
+	bool field_1A;
 	VertexPT m_verts[8];
 	PolygonQuad m_faces[6];
-	int field_2B4 = 0;
-	int field_2B8 = 0;
-	bool m_bCompiled = false;
-	int field_2C0 = 0;
-	GLuint m_buffer = 0;
+	int field_2B4;
+	int field_2B8;
+	bool m_bCompiled;
+	int field_2C0;
+	GLuint m_buffer;
 
 	static float c;
 };

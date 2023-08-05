@@ -8,6 +8,12 @@
 
 #include "Model.hpp"
 
+Model::Model()
+{
+	field_4 = 0.0f;
+	field_8 = false;
+}
+
 void Model::onGraphicsReset()
 {
 	

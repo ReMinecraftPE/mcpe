@@ -28,7 +28,10 @@ enum eParticleTextureIndex
 
 class Particle : public Entity
 {
+private:
+	void _init();
 public:
+	Particle() { _init(); }
 	Particle(Level*, float y, float x, float z, float vx, float vy, float vz);
 
 	virtual void render(Tesselator&, float, float, float, float, float, float);
@@ -43,22 +46,24 @@ public:
 	Particle* setPower(float);
 
 public:
-	int field_DC = 0;
-	float field_E0 = 0.0f;
-	float field_E4 = 0.0f;
-	int field_E8 = 0;
-	int field_EC = 0;
-	float field_F0 = 0.0f;
-	float field_F4 = 0.0f;
-	float field_F8 = 1.0f;
-	float field_FC = 1.0f;
-	float field_100 = 1.0f;
+	int field_DC;
+	float field_E0;
+	float field_E4;
+	int field_E8;
+	int field_EC;
+	float field_F0;
+	float field_F4;
+	float field_F8;
+	float field_FC;
+	float field_100;
 
 	static float xOff, yOff, zOff;
 };
 
 class TerrainParticle : public Particle
 {
+private:
+	void _init(Tile* tile);
 public:
 	TerrainParticle(Level*, float x, float y, float z, Tile*);
 	TerrainParticle(Level*, float x, float y, float z, float vx, float vy, float vz, Tile*);
@@ -86,7 +91,7 @@ public:
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
 public:
-	float field_104 = 0.0f;
+	float field_104;
 };
 
 class RedDustParticle : public Particle
@@ -97,7 +102,7 @@ public:
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
 public:
-	float field_104 = 0.0f;
+	float field_104;
 };
 
 class ExplodeParticle : public Particle
@@ -107,7 +112,7 @@ public:
 	void tick() override;
 
 public:
-	float field_104 = 0.0f;
+	float field_104;
 };
 
 class FlameParticle : public Particle
@@ -119,7 +124,7 @@ public:
 	float getBrightness(float f) override;
 
 public:
-	float field_104 = 0.0f;
+	float field_104;
 };
 
 class LavaParticle : public Particle
@@ -131,5 +136,5 @@ public:
 	float getBrightness(float f) override;
 
 public:
-	float field_104 = 0.0f;
+	float field_104;
 };

@@ -39,20 +39,20 @@ public:
 	static EntityRenderDispatcher* getInstance();
 
 public:
-	ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
+	ItemInHandRenderer* m_pItemInHandRenderer;
 	HumanoidMobRenderer m_HumanoidMobRenderer;
 	TntRenderer m_TntRenderer;
 	ItemRenderer m_ItemRenderer;
 	TripodCameraRenderer m_CameraRenderer;
-	Textures* m_pTextures = nullptr;
-	Level* m_pLevel = nullptr;
-	Minecraft* m_pMinecraft = nullptr;
-	Mob* m_pMob = nullptr;
-	float m_yaw = 0.0f;
-	float m_pitch = 0.0f;
-	Options* m_pOptions = nullptr;
+	Textures* m_pTextures;
+	Level* m_pLevel;
+	Minecraft* m_pMinecraft;
+	Mob* m_pMob;
+	float m_yaw;
+	float m_pitch;
+	Options* m_pOptions;
 	Vec3 m_pos;
-	Font* m_pFont = nullptr;
+	Font* m_pFont;
 
 #if defined(ENH_ALLOW_SAND_GRAVITY)
 	FallingTileRenderer m_FallingTileRenderer;

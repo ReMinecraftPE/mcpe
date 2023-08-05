@@ -222,7 +222,7 @@ void UDPForwarder::RecvFrom(RakNet::TimeMS curTime, ForwardEntry *forwardEntry)
 
 	if (receivedDataLen<0)
 	{
-#if defined(_WIN32) && defined(_DEBUG) && !defined(WINDOWS_PHONE_8) && !defined(WINDOWS_STORE_RT)
+#if defined(_WIN32) && defined(_DEBUG) && !defined(WINDOWS_PHONE_8) && !defined(WINDOWS_STORE_RT) && !defined(_XBOX)
 		DWORD dwIOError = WSAGetLastError();
 
 		if (dwIOError!=WSAECONNRESET && dwIOError!=WSAEINTR && dwIOError!=WSAETIMEDOUT && dwIOError!=WSAEWOULDBLOCK)

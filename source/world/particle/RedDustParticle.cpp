@@ -11,6 +11,8 @@
 RedDustParticle::RedDustParticle(Level* level, float x, float y, float z, float vx, float vy, float vz) :
 	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
 {
+	field_104 = 0.0f;
+
 	m_vel.x = vx + m_vel.x * 0.1f;
 	m_vel.y = vy + m_vel.y * 0.1f;
 	m_vel.z = vz + m_vel.z * 0.1f;

@@ -11,6 +11,7 @@
 
 HalfTransparentTile::HalfTransparentTile(int a, int b, Material* c) : Tile(a, b, c)
 {
+	field_6C = false;
 }
 
 bool HalfTransparentTile::isSolidRender()

@@ -31,12 +31,12 @@ public:
 	virtual void tick(/* Player* */);
 
 public:
-	float m_horzInput = 0.0f;
-	float m_vertInput = 0.0f;
-	bool field_C = false;
-	bool m_bJumpButton = false;
-	bool m_bSneakButton = false;
+	float m_horzInput;
+	float m_vertInput ;
+	bool field_C;
+	bool m_bJumpButton;
+	bool m_bSneakButton;
 	bool m_keys[10];
-	Options* m_pOptions = nullptr;
+	Options* m_pOptions;
 };
 

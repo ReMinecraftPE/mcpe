@@ -81,5 +81,20 @@ void Timer::advanceTime()
 
 Timer::Timer()
 {
+	field_0 = 0;
+#ifndef USE_ACCURATE_TIMER
+	field_4 = 0;
+	field_8 = 0;
+#else
+	field_4 = 0;
+	field_8 = 0;
+#endif
+	field_C = 1.0f;
+	field_10 = 20.0f;
+	field_14 = 0;
+	field_18 = 0;
+	field_1C = 1.0f;
+	field_20 = 0;
+
 	field_4 = field_8 = getTimeMs();
 }

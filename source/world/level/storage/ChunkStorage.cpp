@@ -27,9 +27,9 @@ void ChunkStorage::saveEntities(Level* a, LevelChunk* b)
 
 void ChunkStorage::saveAll(Level* a, std::vector<LevelChunk*>& b)
 {
-	for (auto chk : b)
+	for (auto it = b.begin(); it != b.end(); it++)
 	{
-		save(a, chk);
+		save(a, *it);
 	}
 }
 

@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -27,9 +27,9 @@ public:
 	void tick() override;
 
 public:
-	int field_B8C = 0;
-	int field_B90 = 80;
-	Player* m_owner = nullptr;
-	bool m_bActive = false;
+	int field_B8C;
+	int field_B90;
+	Player* m_owner;
+	bool m_bActive;
 };
 

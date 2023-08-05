@@ -9,6 +9,11 @@
 #include "PerformanceTestChunkSource.hpp"
 #include "world/level/Level.hpp"
 
+PerformanceTestChunkSource::PerformanceTestChunkSource()
+{
+	m_pLevel = nullptr;
+}
+
 LevelChunk* PerformanceTestChunkSource::create(int x, int z)
 {
 	TileID* pData = new TileID[0x8000u];

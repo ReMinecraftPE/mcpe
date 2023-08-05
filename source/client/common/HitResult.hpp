@@ -34,24 +34,26 @@ public:
 		MAXX, // 5
 	};
 
+private:
+	void _init();
 public:
-	HitResult();
+	HitResult() { _init(); }
 	HitResult(Entity*);
 	HitResult(int x, int y, int z, eHitSide hitSide, const Vec3&);
 
 public:
-	eHitResultType m_hitType = NONE;
+	eHitResultType m_hitType;
 	// block coords?
-	int m_tileX = 0;
-	int m_tileY = 0;
-	int m_tileZ = 0;
+	int m_tileX;
+	int m_tileY;
+	int m_tileZ;
 
-	eHitSide m_hitSide = MINY;
+	eHitSide m_hitSide;
 
 	// hit position
 	Vec3 m_hitPos;
 	
-	Entity* m_pEnt = nullptr;
-	bool m_bUnk24 = 0;
+	Entity* m_pEnt;
+	bool m_bUnk24;
 };
 

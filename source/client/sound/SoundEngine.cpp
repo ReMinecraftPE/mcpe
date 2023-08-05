@@ -11,6 +11,8 @@
 
 SoundEngine::SoundEngine()
 {
+	field_40 = 0;
+	field_A1C = 0;
 #ifndef ORIGINAL_CODE
 	m_pOptions = nullptr;
 	field_A20 = 0;

@@ -66,20 +66,20 @@ public:
 
 public:
 	//TODO
-	Inventory* m_pInventory = nullptr;
-	uint8_t field_B94 = 0;
-	int m_score = 0;
-	float field_B9C = 0.0f;
-	float field_BA0 = 0.0f;
-	bool field_BA4 = false;
-	int field_BA8 = 0;
-	std::string m_name = "";
-	int field_BC4 = 0;
+	Inventory* m_pInventory;
+	uint8_t field_B94;
+	int m_score;
+	float field_B9C;
+	float field_BA0;
+	bool field_BA4;
+	int field_BA8;
+	std::string m_name;
+	int field_BC4;
 	RakNet::RakNetGUID m_guid;
 	//TODO
 	Pos m_respawnPos;
 	//TODO
-	bool m_bHaveRespawnPos = false;
+	bool m_bHaveRespawnPos;
 	//TODO
 };
 

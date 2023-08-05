@@ -23,6 +23,7 @@
 class AppPlatform_windows : public AppPlatform
 {
 public:
+	AppPlatform_windows();
 	void initConsts();
 	void buyGame() override;
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
@@ -55,16 +56,16 @@ private:
 	int m_ScreenHeight;
 
 	std::vector<std::string> m_UserInput;
-	int m_UserInputStatus = -1;
+	int m_UserInputStatus;
 
 	eDialogType m_DialogType;
 
-	bool m_bIsFocused = false;
-	bool m_bGrabbedMouse = false;
-	bool m_bActuallyGrabbedMouse = false;
-	bool m_bWasUnfocused = false;
-	bool m_bShiftPressed = false;
+	bool m_bIsFocused;
+	bool m_bGrabbedMouse;
+	bool m_bActuallyGrabbedMouse;
+	bool m_bWasUnfocused;
+	bool m_bShiftPressed;
 
-	int m_MouseDiffX = 0, m_MouseDiffY = 0;
+	int m_MouseDiffX, m_MouseDiffY;
 };
 

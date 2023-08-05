@@ -33,8 +33,31 @@ void CheckPosition(int x, int y, int z)
 	assert(x >= 0 && y >= 0 && z >= 0 && x < 16 && z < 16 && y < 128);
 }
 
+void LevelChunk::_init()
+{
+	field_4 = 0;
+	m_bLoaded = false;
+	m_tileData = nullptr;
+	m_tileDataCnt = 0;
+	m_lightSky = nullptr;
+	m_lightSkyCnt = 0;
+	m_lightBlk = nullptr;
+	m_lightBlkCnt = 0;
+	m_chunkX = 0;
+	m_chunkZ = 0;
+	field_234 = 0;
+	m_bUnsaved = false;
+	field_236 = 0;
+	field_237 = 0;
+	field_238 = 0;
+	field_23C = 0;
+	m_pBlockData = nullptr;
+}
+
 LevelChunk::LevelChunk(Level* pLevel, int x, int z)
 {
+	_init();
+
 	m_pLevel = pLevel;
 	m_chunkX = x;
 	m_chunkZ = z;
@@ -44,8 +67,14 @@ LevelChunk::LevelChunk(Level* pLevel, int x, int z)
 
 LevelChunk::LevelChunk(Level* pLevel, TileID* pData, int x, int z)
 {
+	_init();
+
 	m_pLevel = pLevel;
 
+	// The game will blow its brains out if this if statement is executed
+	// I have not the slightest idea as to why...
+	/*if (pData)
+	{*/
 	m_tileDataCnt = 0x4000;
 	field_4 = 0x8000;
 	m_tileData = new uint8_t[m_tileDataCnt];
@@ -59,6 +88,9 @@ LevelChunk::LevelChunk(Level* pLevel, TileID* pData, int x, int z)
 	m_lightBlkCnt = 16 * 16 * 128 / 2;
 	m_lightBlk = new uint8_t[m_lightBlkCnt];
 	memset(m_lightBlk, 0, m_lightBlkCnt);
+
+	m_pBlockData = pData;
+	//}
 
 	m_pBlockData = pData;
 	m_chunkX = x;
@@ -551,8 +583,9 @@ void LevelChunk::getEntities(Entity* pEntExclude, const AABB& aabb, std::vector<
 
 	for (int b = lowerBound; b <= upperBound; b++)
 	{
-		for (auto ent : m_entities[b])
+		for (auto it = m_entities[b].begin(); it != m_entities[b].end(); it++)
 		{
+			Entity* ent = *it;
 			if (ent == pEntExclude) continue;
 			
 			if (!aabb.intersect(ent->m_hitbox)) continue;

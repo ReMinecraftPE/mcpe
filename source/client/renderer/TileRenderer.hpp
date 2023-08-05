@@ -20,6 +20,8 @@
 
 class TileRenderer
 {
+private:
+	void _init();
 public:
 	TileRenderer();
 	TileRenderer(LevelSource*);
@@ -61,39 +63,39 @@ public:
 
 private:
 	LevelSource* m_pLevelSource;
-	int m_textureOverride = -1;
-	bool field_8 = false;
-	bool m_bDisableCulling = false;
-	bool m_bAmbientOcclusion = false;
-	float field_C = 0;
-	float field_10 = 0;
-	float field_14 = 0;
-	float field_18 = 0;
-	float field_1C = 0;
-	float field_20 = 0;
-	float field_24 = 0;
-	float field_28 = 0;
-	float field_2C = 0;
-	float field_30 = 0;
-	float field_34 = 0;
-	float field_38 = 0;
-	float field_3C = 0;
-	float field_40 = 0;
-	float field_44 = 0;
-	float field_48 = 0;
-	float field_4C = 0;
-	float field_50 = 0;
-	float field_54 = 0;
-	float field_58 = 0;
-	float field_5C = 0;
-	float field_60 = 0;
-	float field_64 = 0;
-	float field_68 = 0;
-	float field_6C = 0;
-	float field_70 = 0;
-	float field_74 = 0;
+	int m_textureOverride;
+	bool field_8;
+	bool m_bDisableCulling;
+	bool m_bAmbientOcclusion;
+	float field_C;
+	float field_10;
+	float field_14;
+	float field_18;
+	float field_1C;
+	float field_20;
+	float field_24;
+	float field_28;
+	float field_2C;
+	float field_30;
+	float field_34;
+	float field_38;
+	float field_3C;
+	float field_40;
+	float field_44;
+	float field_48;
+	float field_4C;
+	float field_50;
+	float field_54;
+	float field_58;
+	float field_5C;
+	float field_60;
+	float field_64;
+	float field_68;
+	float field_6C;
+	float field_70;
+	float field_74;
 	//...
-	int field_78 = 1;
+	int field_78;
 	// for A.O.
 	//red
 	float m_vtxRed[4];
@@ -102,17 +104,17 @@ private:
 	//blue
 	float m_vtxBlue[4];
 
-	bool field_AC = false;
-	bool field_AD = false;
-	bool field_AE = false;
-	bool field_AF = false;
-	bool field_B0 = false;
-	bool field_B1 = false;
-	bool field_B2 = false;
-	bool field_B3 = false;
-	bool field_B4 = false;
-	bool field_B5 = false;
-	bool field_B6 = false;
-	bool field_B7 = false;
+	bool field_AC;
+	bool field_AD;
+	bool field_AE;
+	bool field_AF;
+	bool field_B0;
+	bool field_B1;
+	bool field_B2;
+	bool field_B3;
+	bool field_B4;
+	bool field_B5;
+	bool field_B6;
+	bool field_B7;
 };
 

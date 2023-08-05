@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -12,6 +12,12 @@
 
 class App
 {
+protected:
+	App()
+	{
+		m_bWantToQuit = false;
+		m_pPlatform = nullptr;
+	}
 
 public:
 	void destroy();
@@ -26,13 +32,13 @@ public:
 	bool wantToQuit();
 
 public:
-	bool m_bWantToQuit = false;
+	bool m_bWantToQuit;
 
 	// don't know what these are ...
 	int field_8;
 	int field_C;
 	int field_10;
 
-	AppPlatform* m_pPlatform = nullptr;
+	AppPlatform* m_pPlatform;
 };
 

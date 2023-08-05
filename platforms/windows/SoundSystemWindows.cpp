@@ -18,6 +18,7 @@ SoundSystemWindows::SoundSystemWindows()
 
 	HRESULT result;
 	DSBUFFERDESC bufferDesc;
+	m_available = false;
 
 
 	result = DirectSoundCreate8(NULL, &m_directsound, NULL);

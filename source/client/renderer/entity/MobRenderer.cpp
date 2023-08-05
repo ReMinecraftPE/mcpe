@@ -11,6 +11,7 @@
 
 MobRenderer::MobRenderer(Model* pModel, float f)
 {
+	m_pArmorModel = nullptr;
 	m_pModel = pModel;
 	field_4 = f;
 }

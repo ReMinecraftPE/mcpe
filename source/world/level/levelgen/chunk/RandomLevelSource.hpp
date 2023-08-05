@@ -38,11 +38,11 @@ public:
 	
 
 public:
-	bool field_4 = false;
+	bool field_4;
 	LargeCaveFeature m_largeCaveFeature;
 	int field_9D8[1024];
 	std::unordered_map<int, LevelChunk*> m_chunks;
-	float field_19F0 = 1.0f;
+	float field_19F0;
 	Random m_random;
 	PerlinNoise m_perlinNoise1;
 	PerlinNoise m_perlinNoise2;
@@ -52,17 +52,17 @@ public:
 	PerlinNoise m_perlinNoise6;
 	PerlinNoise m_perlinNoise7;
 	PerlinNoise m_perlinNoise8;
-	Level* m_pLevel = nullptr;
-	float* field_7280 = nullptr;
+	Level* m_pLevel;
+	float* field_7280;
 	float field_7284[256];
 	float field_7684[256];
 	float field_7A84[256];
 	// @TODO
-	float* field_7E84 = nullptr;
-	float* field_7E88 = nullptr;
-	float* field_7E8C = nullptr;
-	float* field_7E90 = nullptr;
-	float* field_7E94 = nullptr;
+	float* field_7E84;
+	float* field_7E88;
+	float* field_7E8C;
+	float* field_7E90;
+	float* field_7E94;
 	// @TODO
 
 

@@ -15,7 +15,10 @@ class Entity;
 
 class GameRenderer
 {
+private:
+	void _init();
 public:
+	GameRenderer() { _init(); }
 	GameRenderer(Minecraft*);
 	~GameRenderer();
 	void saveMatrices();
@@ -43,41 +46,41 @@ public:
 	float getFov(float f);
 
 public:
-	ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
-	Minecraft* m_pMinecraft = nullptr;
+	ItemInHandRenderer* m_pItemInHandRenderer;
+	Minecraft* m_pMinecraft;
 
-	float field_8 = 0.0f;
-	int field_C = 0;
-	Entity* field_10 = nullptr;
-	float field_14 = 0.0f;
-	float field_18 = 0.0f;
-	float field_1C = 0.0f;
-	float field_20 = 0.0f;
-	float field_24 = 0.0f;
-	float field_28 = 0.0f;
-	float field_2C = 4.0f;
-	float field_30 = 4.0f;
-	float field_34 = 0.0f;
-	float field_38 = 0.0f;
-	float field_3C = 0.0f;
-	float field_40 = 0.0f;
-	float field_44 = 1.0f;
-	float field_48 = 0.0f;
-	float field_4C = 0.0f;
-	float field_50 = 0.0f;
-	float field_54 = 0.0f;
-	float field_58 = 0.0f;
-	float field_5C = 0.0f;
-	float field_60 = 0.0f;
-	float field_64 = 0.0f;
-	float field_68 = 0.0f;
-	float field_6C = 0.0f;
-	float field_70 = 0.0f;
-	float field_74 = 0.0f;
-	float field_78 = 0.0f;
-	float field_7C = 0.0f;
-	float field_80 = 0.0f;
-	float field_84 = 0.0f;
+	float field_8;
+	int field_C;
+	Entity* field_10;
+	float field_14;
+	float field_18;
+	float field_1C;
+	float field_20;
+	float field_24;
+	float field_28;
+	float field_2C;
+	float field_30;
+	float field_34;
+	float field_38;
+	float field_3C;
+	float field_40;
+	float field_44;
+	float field_48;
+	float field_4C;
+	float field_50;
+	float field_54;
+	float field_58;
+	float field_5C;
+	float field_60;
+	float field_64;
+	float field_68;
+	float field_6C;
+	float field_70;
+	float field_74;
+	float field_78;
+	float field_7C;
+	float field_80;
+	float field_84;
 
 	float m_matrix_projection[16];
 	float m_matrix_model_view[16];

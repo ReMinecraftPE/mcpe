@@ -11,6 +11,52 @@
 
 Mob::Mob(Level* pLevel) : Entity(pLevel)
 {
+	field_DC = 10;
+	field_E8 = 0.0f;
+	field_EC = 0.0f;
+	field_F0 = 0;
+	field_F4 = 0.0f;
+	field_F8 = 0.0f;
+	m_health = 10;
+	field_100 = 20;
+	field_104 = 0;
+	field_108 = 0;
+	field_10C = 0.0f;
+	field_110 = 0;
+	field_114 = 0;
+	field_118 = 0.0f;
+	field_11C = 0.0f;
+	field_120 = 0;
+	field_124 = 0;
+	field_128 = 0.0f;
+	field_12C = 0.0f;
+	field_130 = 0.0f;
+	field_AFC = 0;
+	field_B00 = 0.0f;
+	field_B04 = 0.0f;
+	field_B08 = 0.0f;
+	field_B0C = 0;
+	field_B10 = 0;
+	field_B14 = 0.7f;
+	field_B48 = 0;
+	field_B4C = 0.0f;
+	field_B50 = 0.0f;
+	field_B54 = 0.0f;
+	field_B58 = 0.0f;
+	field_B5C = 0.0f;
+	field_B60 = 1.0f;
+	field_B64 = 0;
+	field_B68 = 1;
+	field_B69 = 0;
+	field_B6C = 0;
+	field_B70 = 0.0f;
+	field_B74 = 0.0f;
+	field_B78 = 0.0f;
+	field_B7C = 0.0f;
+	field_B80 = 0.0f;
+	field_B84 = 0;
+	m_pEntLookedAt = nullptr;
+
 	m_texture = "/mob/char.png";
 	m_class = "";
 
@@ -556,8 +602,9 @@ void Mob::aiStep()
 	aabb.grow(0.2f, 0.2f, 0.2f);
 
 	auto pEnts = m_pLevel->getEntities(this, aabb);
-	for (auto pEnt : *pEnts)
+	for (auto it = pEnts->begin(); it != pEnts->end(); it++)
 	{
+		Entity* pEnt = *it;
 		if (pEnt->isPushable())
 			pEnt->push(this);
 	}

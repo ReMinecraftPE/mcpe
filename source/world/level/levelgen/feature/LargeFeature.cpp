@@ -2,6 +2,7 @@
 
 LargeFeature::LargeFeature()
 {
+	m_radius = 8;
 }
 
 LargeFeature::~LargeFeature()

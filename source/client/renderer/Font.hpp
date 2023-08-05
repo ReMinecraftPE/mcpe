@@ -34,7 +34,7 @@ public:
 	int height(const std::string& str);
 
 private:
-	int field_0 = 0; 
+	int field_0; 
 	int m_charWidthInt[256];
 	float m_charWidthFloat[256];
 	// huge gap, don't know why it's there...

@@ -261,6 +261,9 @@ bool SystemAddress::IsLoopback(void) const
 }
 void SystemAddress::ToString_Old(bool writePort, char *dest, char portDelineator) const
 {
+#ifdef _XBOX
+	RakAssert("Not yet supported" && 0);
+#else
 	if (*this==UNASSIGNED_SYSTEM_ADDRESS)
 	{
 		strcpy(dest, "UNASSIGNED_SYSTEM_ADDRESS");
@@ -299,6 +302,7 @@ void SystemAddress::ToString_Old(bool writePort, char *dest, char portDelineator
 		strcat(dest, portStr);
 		Itoa(GetPort(), dest+strlen(dest), 10);
 	}
+#endif
 
 }
 const char *SystemAddress::ToString(bool writePort, char portDelineator) const

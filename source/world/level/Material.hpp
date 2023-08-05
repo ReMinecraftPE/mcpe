@@ -54,7 +54,7 @@ public:
 		*cake;
 
 public:
-	bool m_bFlammable = false;
+	bool m_bFlammable;
 };
 
 class GasMaterial : public Material

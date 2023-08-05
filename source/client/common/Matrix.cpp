@@ -10,6 +10,8 @@
 
 Matrix::Matrix()
 {
+	c[0] = 0.0f;
+
 	memset(c, 0, sizeof c);
 }
 

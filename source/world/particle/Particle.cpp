@@ -10,8 +10,24 @@
 
 float Particle::xOff, Particle::yOff, Particle::zOff;
 
+void Particle::_init()
+{
+	field_DC = 0;
+	field_E0 = 0.0f;
+	field_E4 = 0.0f;
+	field_E8 = 0;
+	field_EC = 0;
+	field_F0 = 0.0f;
+	field_F4 = 0.0f;
+	field_F8 = 1.0f;
+	field_FC = 1.0f;
+	field_100 = 1.0f;
+}
+
 Particle::Particle(Level* level, float x, float y, float z, float vx, float vy, float vz) : Entity(level)
 {
+	_init();
+
 	setSize(0.2f, 0.2f);
 	field_84 = 0.5f * field_8C;
 	

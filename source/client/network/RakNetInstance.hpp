@@ -37,8 +37,8 @@ public:
 	void stopPingForHosts();
 
 public:
-	RakNet::RakPeerInterface* m_pRakPeerInterface = nullptr;
-	bool m_bIsHost = false;
+	RakNet::RakPeerInterface* m_pRakPeerInterface;
+	bool m_bIsHost;
 	int field_C;
 	RakNet::RakNetGUID m_guid;
 	int field_1C;

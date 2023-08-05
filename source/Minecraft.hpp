@@ -79,49 +79,49 @@ public:
 	static int customDebugId;
 
 public:
-	bool field_18 = false;
+	bool field_18;
 	Options m_options;
-	bool field_288 = false;
-	LevelRenderer* m_pLevelRenderer = nullptr;
-	GameRenderer* m_pGameRenderer = nullptr;
-	ParticleEngine* m_pParticleEngine = nullptr;
-	SoundEngine* m_pSoundEngine = nullptr;
-	GameMode* m_pGameMode = nullptr;
-	Textures* m_pTextures = nullptr;
-	Font* m_pFont = nullptr;
-	RakNetInstance* m_pRakNetInstance = nullptr;
-	NetEventCallback* m_pNetEventCallback = nullptr;
-	int field_2B0 = 0;
+	bool field_288;
+	LevelRenderer* m_pLevelRenderer;
+	GameRenderer* m_pGameRenderer;
+	ParticleEngine* m_pParticleEngine;
+	SoundEngine* m_pSoundEngine;
+	GameMode* m_pGameMode;
+	Textures* m_pTextures;
+	Font* m_pFont;
+	RakNetInstance* m_pRakNetInstance;
+	NetEventCallback* m_pNetEventCallback;
+	int field_2B0;
 	int field_2B4;
 	int field_2B8;
-	User* m_pUser = nullptr;
-	Level* m_pLevel = nullptr;
-	LocalPlayer* m_pLocalPlayer = nullptr;
-	Mob* m_pMobPersp = nullptr; // why is there a duplicate?
+	User* m_pUser;
+	Level* m_pLevel;
+	LocalPlayer* m_pLocalPlayer;
+	Mob* m_pMobPersp; // why is there a duplicate?
 	Gui m_gui;
-	int field_D0C = 0;
-	CThread* m_pPrepThread = nullptr;
-	Screen* m_pScreen = nullptr;
-	int field_D18 = 10;
-	ITurnInput* m_pTurnInput = nullptr;
-	float field_D20 = 0.0f;
-	float field_D24 = 0.0f;
-	bool m_bGrabbedMouse = true;
+	int field_D0C;
+	CThread* m_pPrepThread;
+	Screen* m_pScreen;
+	int field_D18;
+	ITurnInput* m_pTurnInput;
+	float field_D20;
+	float field_D24;
+	bool m_bGrabbedMouse;
 	HitResult m_hitResult;
-	int m_progressPercent = 0;
+	int m_progressPercent;
 	std::string m_externalStorageDir;
 	Timer m_timer;
-	bool m_bPreparingLevel = false;
-	LevelStorageSource* m_pLevelStorageSource = nullptr; // TODO
-	int field_D9C = 0;
-	int field_DA0 = 0;
-	int field_DA4 = 0;
-	int field_DA8 = 0;
-	int field_DAC = 0;
-	bool m_bUsingScreen = false;
-	bool m_bHasQueuedScreen = false;
-	Screen* m_pQueuedScreen = nullptr;
-	int m_licenseID = -2;
+	bool m_bPreparingLevel;
+	LevelStorageSource* m_pLevelStorageSource; // TODO
+	int field_D9C;
+	int field_DA0;
+	int field_DA4;
+	int field_DA8;
+	int field_DAC;
+	bool m_bUsingScreen;
+	bool m_bHasQueuedScreen;
+	Screen* m_pQueuedScreen;
+	int m_licenseID;
 	ItemInstance m_CurrItemInstance;
 };
 

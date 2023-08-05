@@ -13,13 +13,14 @@
 class ControllerTurnInput : public ITurnInput
 {
 public:
+	ControllerTurnInput();
 	ITurnInput::Delta getTurnDelta();
 
 private:
-	int field_8 = 2;
-	int m_stickNo = 2;
-	float field_10 = 0.0f;
-	float field_14 = 0.0f;
-	bool field_18 = false;
+	int field_8;
+	int m_stickNo;
+	float field_10;
+	float field_14;
+	bool field_18;
 };
 

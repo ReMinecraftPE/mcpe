@@ -12,6 +12,7 @@
 
 RakNetInstance::RakNetInstance()
 {
+	m_bIsHost = false;
 	m_pRakPeerInterface = RakNet::RakPeerInterface::GetInstance();
 	m_pRakPeerInterface->SetOccasionalPing(true);
 }
@@ -55,7 +56,8 @@ bool RakNetInstance::connect(const char* host, int port)
 	if (m_pRakPeerInterface->Startup(4, &sd, 1) != RakNet::RAKNET_STARTED)
 		return false;
 
-	return m_pRakPeerInterface->Connect(host, port, nullptr, 0);
+	// Was evaluated to a bool, CONNECTION_ATTEMPT_STARTED is 0
+	return m_pRakPeerInterface->Connect(host, port, nullptr, 0) != RakNet::CONNECTION_ATTEMPT_STARTED;
 }
 
 void RakNetInstance::disconnect()
@@ -181,8 +183,9 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 					break;
 
 				// update the info of a pinged compatible server, if possible.
-				for (PingedCompatibleServer& server : m_servers)
+				for (int i = 0; i < m_servers.size(); i++)
 				{
+					PingedCompatibleServer& server = m_servers.at(i);
 					if (server.m_address == pPacket->systemAddress)
 					{
 						server.m_lastPinged = RakNet::GetTimeMS();

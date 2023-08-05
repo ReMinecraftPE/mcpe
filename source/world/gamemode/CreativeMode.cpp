@@ -9,9 +9,10 @@
 #include "CreativeMode.hpp"
 #include "Minecraft.hpp"
 
-CreativeMode::CreativeMode(Minecraft* pMC) : GameMode(pMC)
+CreativeMode::CreativeMode(Minecraft* pMC) : GameMode(pMC),
+	m_destroyingX(-1), m_destroyingY(-1), m_destroyingZ(-1),
+	field_18(0.0f), field_1C(0.0f), field_20(0), field_24(0)
 {
-
 }
 
 void CreativeMode::initPlayer(Player* p)
