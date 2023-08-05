@@ -13,18 +13,7 @@
 #include "SoundSystem.hpp"
 #include "SoundRepository.hpp"
 
-// Platform specific type for the sound system.
-
-#ifdef _WIN32
-#include "../../platforms/windows/SoundSystemWindows.hpp"
-#define SOUND_SYSTEM_TYPE SoundSystemWindows
-#else
-#define SOUND_SYSTEM_TYPE SoundSystem
-#endif
-
-//#define SOUND_SYSTEM_TYPE SoundSystemSL
-
-// @TODO: SoundSystemSL - Use this for the Android port
+#include "platforms/PlatformDefinitions.hpp"
 
 class SoundEngine
 {

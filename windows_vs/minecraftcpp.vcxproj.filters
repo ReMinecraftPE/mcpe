@@ -981,6 +981,9 @@
     <ClInclude Include="..\platforms\windows\SoundSystemWindows.hpp">
       <Filter>source\platforms\windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\platforms\PlatformDefinitions.hpp">
+      <Filter>source\platforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
