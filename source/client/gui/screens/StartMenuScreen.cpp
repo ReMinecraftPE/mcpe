@@ -40,7 +40,11 @@ void StartMenuScreen::_updateLicense()
 	{
 		m_optionsButton.m_bEnabled = true;
 		m_startButton.m_bEnabled = true;
+#ifdef __EMSCRIPTEN__
+		m_joinButton.m_bEnabled = false;
+#else
 		m_joinButton.m_bEnabled = true;
+#endif
 	}
 	else
 	{
