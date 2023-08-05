@@ -8,8 +8,6 @@
 
 #include "Textures.hpp"
 
-#include "GameMode.hpp"
-
 bool Textures::MIPMAP = false;
 
 int Textures::loadTexture(const std::string& name, bool b)
@@ -71,13 +69,7 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 	if (texture.field_C)
 		internalFormat = GL_RGBA;
 
-#ifdef ORIGINAL_CODE
-	GLuint format = GL_RGBA;
-#else
-	GLuint format = internalFormat;
-#endif
-
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, format, GL_UNSIGNED_BYTE, texture.m_pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.m_pixels);
 
 	m_textures[name] = textureID;
 
