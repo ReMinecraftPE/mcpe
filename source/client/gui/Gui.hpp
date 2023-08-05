@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -10,8 +10,8 @@
 
 #include "GuiComponent.hpp"
 #include "Minecraft.hpp"
-#include "client/common/Random.hpp"
-#include "client/common/Utils.hpp"
+#include "Random.hpp"
+#include "Utils.hpp"
 
 class Minecraft; // in case we're included from Minecraft.hpp
 
@@ -20,6 +20,7 @@ struct GuiMessage
 	std::string msg;
 	int field_18;
 
+	GuiMessage() : msg(""), field_18(0) {}
 	GuiMessage(const std::string& x, int a) : msg(x), field_18(a) {}
 };
 
@@ -35,7 +36,6 @@ public:
 	void render(float f, bool bHaveScreen, int mouseX, int mouseY);
 	void tick();
 	void renderSlot(int slot, int x, int y, float f);
-	void renderSlotOverlay(int slot, int x, int y, float f);
 	int  getSlotIdAt(int mx, int my);
 	bool isInside(int mx, int my);
 	void handleClick(int id, int mx, int my);
@@ -61,4 +61,3 @@ public:
 	RenderChunk m_renderChunk;
 	bool field_A3C = true;
 };
-
