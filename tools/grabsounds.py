@@ -108,16 +108,19 @@ def main():
         include_all_str += '#include "' + item[0] + '.h"\n'
         ostr = header_1 + header_2
         
+        channels = read_int_from_bytes(bytes, item[1] + 0)
         data_length = read_int_from_bytes(bytes, item[1] + 12)
         
         # @NOTE: All the PCM sound data is in `.data`. So there's no consts to be found.
         
         ostr += 'PCMSoundHeader '+item[0]+' =\n{\n'
-        ostr += '\t' + str(read_int_from_bytes(bytes, item[1] + 0)) + ',\n'
+        ostr += '\t' + str(channels) + ',\n'
         ostr += '\t' + str(read_int_from_bytes(bytes, item[1] + 4)) + ',\n'
         ostr += '\t' + str(read_int_from_bytes(bytes, item[1] + 8)) + ',\n'
         ostr += '\t' + str(data_length)
         ostr += '\n};\n\n'
+
+        data_length *= channels
         
         ostr += 'uint16_t '+item[0]+'_data['+str(data_length)+'] =\n{'
         

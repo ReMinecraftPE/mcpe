@@ -117,7 +117,7 @@ ALuint SoundSystemAL::get_buffer(const SoundDesc &sound) {
 		}
 
 		// Sound Data Size
-		int size = sound.m_header.m_length * sound.m_header.m_bytes_per_sample;
+		int size = sound.m_header.m_channels * sound.m_header.m_length * sound.m_header.m_bytes_per_sample;
 
 		// Create Buffer
 		ALuint buffer;
