@@ -140,6 +140,9 @@ void Minecraft::onGraphicsReset()
 void Minecraft::reloadOptions()
 {
 	m_options.update(platform()->getOptionStrings());
+
+	// update the user's name.
+	m_pUser->field_0 = m_options.m_playerName;
 }
 
 bool Minecraft::isLevelGenerated()
