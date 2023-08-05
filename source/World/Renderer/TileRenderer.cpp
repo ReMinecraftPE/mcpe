@@ -2308,10 +2308,10 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 		renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
 		SHADE_IF_NEEDED(1.0f);
 		renderFaceDown(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YPOS, data));
-		SHADE_IF_NEEDED(0.6f);
+		SHADE_IF_NEEDED(0.8f);
 		renderNorth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data));
 		renderSouth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data));
-		SHADE_IF_NEEDED(0.8f);
+		SHADE_IF_NEEDED(0.6f);
 		renderWest    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XNEG, data));
 		renderEast    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XPOS, data));
 		SHADE_IF_NEEDED(1.0f);
@@ -2356,7 +2356,7 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 		t.addOffset(-0.5f, -0.5f, -0.5f);
 		for (int i = 0; i < 2; i++)
 		{
-			if (i)
+			if (!i)
 				tile->setShape(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f);
 			else
 				tile->setShape(0.0f, 0.0f, 0.5f, 1.0f, 0.5f, 1.0f);

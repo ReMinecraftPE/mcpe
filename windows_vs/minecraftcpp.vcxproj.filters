@@ -1074,12 +1074,6 @@
     <ClCompile Include="..\source\World\Renderer\ItemSpriteRenderer.cpp">
       <Filter>Source Files\World\Renderer\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\World\Tile\Sapling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\World\Tile\SpongeTile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\World\Tile\BookshelfTile.cpp">
       <Filter>Source Files\World\Tile</Filter>
     </ClCompile>
@@ -1097,6 +1091,12 @@
     </ClCompile>
     <ClCompile Include="..\source\World\Generator\OreFeature.cpp">
       <Filter>Source Files\World\Generator\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\World\Tile\Sapling.cpp">
+      <Filter>Source Files\World\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\World\Tile\SpongeTile.cpp">
+      <Filter>Source Files\World\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

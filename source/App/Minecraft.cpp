@@ -513,6 +513,8 @@ void Minecraft::tick()
 			_levelGenerated();
 		}
 
+		SandTile::instaFall = false;
+
 		if (m_pLevel && !field_288)
 		{
 			m_pGameRenderer->tick();
