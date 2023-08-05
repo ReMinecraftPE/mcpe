@@ -35,4 +35,3 @@ public:
 private:
 	int m_selectedSlot = 0;
 };
-
