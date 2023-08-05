@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Feature.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 ClayFeature::ClayFeature(int id, int count)
 {

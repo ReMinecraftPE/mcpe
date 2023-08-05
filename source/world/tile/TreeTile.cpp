@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 TreeTile::TreeTile(int id) : Tile(id, Material::wood)
 {

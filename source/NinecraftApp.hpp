@@ -9,8 +9,8 @@
 #pragma once
 
 #include "Minecraft.hpp"
-#include "Level.hpp"
-#include "Tile.hpp"
+#include "world/level/Level.hpp"
+#include "world/tile/Tile.hpp"
 
 //@TYPO: This is probably meant to say "MinecraftApp". Still not fixed in V0.3.0 though so not sure
 class NinecraftApp : public Minecraft

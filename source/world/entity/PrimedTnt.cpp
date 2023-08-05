@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "PrimedTnt.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 PrimedTnt::PrimedTnt(Level* level) : Entity(level)
 {

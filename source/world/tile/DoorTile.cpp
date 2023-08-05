@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Item.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
+#include "world/item/Item.hpp"
 
 DoorTile::DoorTile(int ID, Material* pMtl) : Tile(ID, pMtl)
 {

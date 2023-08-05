@@ -8,11 +8,10 @@
 
 #include <sstream>
 #include "ItemRenderer.hpp"
-#include "TileRenderer.hpp"
-#include "ItemEntity.hpp"
 #include "EntityRenderDispatcher.hpp"
+#include "client/renderer/TileRenderer.hpp"
+#include "world/entity/ItemEntity.hpp"
 
-// @TODO: ItemSpriteRenderer. Unused relative
 TileRenderer* ItemRenderer::tileRenderer = new TileRenderer;
 
 const uint8_t g_ItemFrames[C_MAX_TILES] =

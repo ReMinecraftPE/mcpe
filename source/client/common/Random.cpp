@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Random.hpp"
-#include "Utils.hpp"
+#include "client/common/Utils.hpp"
 
 /* Period parameters */
 #define N 624

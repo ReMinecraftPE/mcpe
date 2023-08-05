@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "LightUpdate.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 void LightUpdate::update(Level* pLevel)
 {

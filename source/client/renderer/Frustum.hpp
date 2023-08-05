@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Matrix.hpp"
-#include "AABB.hpp"
+#include "client/common/Matrix.hpp"
+#include "client/common/AABB.hpp"
 
 class Frustum
 {

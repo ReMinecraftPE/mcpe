@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Mob.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 Mob::Mob(Level* pLevel) : Entity(pLevel)
 {

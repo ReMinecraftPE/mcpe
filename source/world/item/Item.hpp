@@ -9,10 +9,9 @@
 #pragma once
 
 #include <string>
-#include "Utils.hpp"
-
+#include "client/common/Utils.hpp"
+#include "world/level/Material.hpp"
 #include "ItemInstance.hpp"
-#include "Material.hpp"
 
 #define C_MAX_ITEMS (C_MAX_TILES * 2)
 

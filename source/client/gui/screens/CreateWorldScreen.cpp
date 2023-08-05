@@ -9,7 +9,7 @@
 #include "CreateWorldScreen.hpp"
 #include "SelectWorldScreen.hpp"
 #include "ProgressScreen.hpp"
-#include "Util.hpp"
+#include "client/common/Util.hpp"
 
 CreateWorldScreen::CreateWorldScreen() :
 	m_textName(1, 0, 0, 0, 0, "", "Unnamed world"),

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Screen.hpp"
+#include "../Screen.hpp"
 
 class ChatScreen : public Screen
 {

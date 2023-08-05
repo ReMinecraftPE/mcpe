@@ -6,9 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Level.hpp"
-#include "Item.hpp"
-#include "ItemEntity.hpp"
+#include "world/level/Level.hpp"
+#include "world/item/Item.hpp"
+#include "world/entity/ItemEntity.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 

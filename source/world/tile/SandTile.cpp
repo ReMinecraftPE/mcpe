@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
-#include "FallingTile.hpp"
+#include "world/level/Level.hpp"
+#include "world/entity/FallingTile.hpp"
 
 //@NOTE: True for now
 bool SandTile::instaFall = true;

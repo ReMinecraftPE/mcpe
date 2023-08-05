@@ -7,20 +7,20 @@
  ********************************************************************/
 
 #include "Minecraft.hpp"
-#include "PauseScreen.hpp"
-#include "StartMenuScreen.hpp"
-#include "RenameMPLevelScreen.hpp"
-#include "SavingWorldScreen.hpp"
-#include "ServerSideNetworkHandler.hpp"
-#include "ClientSideNetworkHandler.hpp"
+#include "client/gui/screens/PauseScreen.hpp"
+#include "client/gui/screens/StartMenuScreen.hpp"
+#include "client/gui/screens/RenameMPLevelScreen.hpp"
+#include "client/gui/screens/SavingWorldScreen.hpp"
+#include "client/network/ServerSideNetworkHandler.hpp"
+#include "client/network/ClientSideNetworkHandler.hpp"
 
-#include "SurvivalMode.hpp"
-#include "CreativeMode.hpp"
+#include "world/gamemode/SurvivalMode.hpp"
+#include "world/gamemode/CreativeMode.hpp"
 
 #ifndef ORIGINAL_CODE
-#include "MouseTurnInput.hpp"
+#include "client/player/input/MouseTurnInput.hpp"
 #else
-#include "ControllerTurnInput.hpp"
+#include "client/player/input/ControllerTurnInput.hpp"
 #endif
 
 // note: Nothing changes these, so it'll think we're always running at 854x480 even if not

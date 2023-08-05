@@ -117,7 +117,7 @@ void LargeCaveFeature::addTunnel(int x, int z, TileID* tiles, float rx, float ry
         {
             float v55 = rx - v65;
             float v54 = rz - v64;
-            float v53 = (x4 - x3);
+            float v53 = float(x4 - x3);
             float v52 = (x1 + 2.0f) + 16.0f;
             if (((((rx - v65) * (rx - v65))
                 + ((rz - v64) * (rz - v64)))
@@ -172,7 +172,7 @@ void LargeCaveFeature::addTunnel(int x, int z, TileID* tiles, float rx, float ry
                             {
                                 for (int n = v48 - 1; n >= v49; --n)
                                 {
-                                    float v35 = ((float(n) + 0.5) - ry) / v58;
+                                    float v35 = ((float(n) + 0.5f) - ry) / v58;
                                     if (v35 > -0.7f
                                         && v40 * v40 + v35 * v35 + v38 * v38 < 1.0f)
                                     {

@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "CThread.hpp"
-#include "Utils.hpp"
+#include "client/common/Utils.hpp"
 
 #ifdef _WIN32
 #include <Windows.h> // for Sleep()

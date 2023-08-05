@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "Vec3.hpp"
-#include "BiomeSource.hpp"
+#include "client/common/Vec3.hpp"
+#include "world/level/levelgen/biome/BiomeSource.hpp"
+#include "world/level/levelgen/chunk/ChunkSource.hpp"
 #include "Level.hpp"
-#include "ChunkSource.hpp"
 
 class Level; // if included from Level.hpp
 

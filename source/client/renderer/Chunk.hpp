@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Utils.hpp"
+#include "client/common/Utils.hpp"
 #include "FrustumCuller.hpp"
 #include "RenderList.hpp"
 #include "Tesselator.hpp"

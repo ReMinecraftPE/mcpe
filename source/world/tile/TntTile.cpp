@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
-#include "PrimedTnt.hpp"
+#include "world/level/Level.hpp"
+#include "world/entity/PrimedTnt.hpp"
 
 TntTile::TntTile(int id, int texture) : Tile(id, texture, Material::explosive)
 {

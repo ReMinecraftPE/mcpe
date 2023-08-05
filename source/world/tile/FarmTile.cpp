@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 FarmTile::FarmTile(int a, Material* c) : Tile(a, c)
 {

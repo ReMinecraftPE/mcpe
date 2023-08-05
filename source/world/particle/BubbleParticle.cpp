@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Particle.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 BubbleParticle::BubbleParticle(Level* level, float x, float y, float z, float vx, float vy, float vz) :
 	Particle(level, x, y, z, vx, vy, vz)

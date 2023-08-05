@@ -6,10 +6,10 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Utils.hpp" // include the utils only to let us know what enhancements we have
+#include "GameMods.hpp"
 #if defined(ENH_ALLOW_SAND_GRAVITY)
 #include "FallingTileRenderer.hpp"
-#include "FallingTile.hpp"
+#include "world/entity/FallingTile.hpp"
 
 FallingTileRenderer::FallingTileRenderer()
 {

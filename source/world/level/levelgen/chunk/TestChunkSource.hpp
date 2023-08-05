@@ -9,8 +9,9 @@
 #pragma once
 
 #include <cstring>
-#include "Utils.hpp"
+#include "client/common/Utils.hpp"
 #include "ChunkSource.hpp"
+
 class Level;
 
 class TestChunkSource : public ChunkSource

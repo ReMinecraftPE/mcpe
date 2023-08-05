@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "GuiComponent.hpp"
+#include "../GuiComponent.hpp"
 #include "Minecraft.hpp"
 
 class ScrolledSelectionList : public GuiComponent

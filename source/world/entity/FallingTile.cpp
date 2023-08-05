@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "FallingTile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 FallingTile::FallingTile(Level* level) : Entity(level)
 {

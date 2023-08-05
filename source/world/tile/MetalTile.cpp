@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 MetalTile::MetalTile(int ID, int texture, Material* pMtl) : Tile(ID, pMtl)
 {

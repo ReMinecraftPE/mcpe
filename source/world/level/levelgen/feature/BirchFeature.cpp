@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Feature.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 bool BirchFeature::place(Level* level, Random* random, int x, int y, int z)
 {

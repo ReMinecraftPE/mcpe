@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Screen.hpp"
-#include "AvailableGamesList.hpp"
+#include "../Screen.hpp"
+#include "../components/AvailableGamesList.hpp"
 
 class JoinGameScreen : public Screen
 {

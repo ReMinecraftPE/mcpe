@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "RandomLevelSource.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 #define TEST_CAVES
 

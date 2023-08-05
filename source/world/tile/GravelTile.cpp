@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 GravelTile::GravelTile(int a, int b, Material* c) : SandTile(a, b, c)
 {

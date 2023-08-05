@@ -6,9 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include "client/common/Util.hpp"
+#include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "Level.hpp"
-#include "ChunkCache.hpp"
-#include "Util.hpp"
 #include "Explosion.hpp"
 #include "Region.hpp"
 

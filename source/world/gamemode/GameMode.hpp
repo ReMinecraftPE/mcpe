@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Level.hpp"
-#include "ItemInstance.hpp"
+#include "world/level/Level.hpp"
+#include "world/item/ItemInstance.hpp"
 
 class Minecraft;
 

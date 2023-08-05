@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "Mouse.hpp"
-#include "Keyboard.hpp"
-#include "Button.hpp"
-#include "TextInputBox.hpp"
+#include "client/player/input/Mouse.hpp"
+#include "client/player/input/Keyboard.hpp"
+#include "components/Button.hpp"
+#include "components/TextInputBox.hpp"
 
 class Button;
 

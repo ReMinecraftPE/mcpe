@@ -1,8 +1,7 @@
 #pragma once
 
-#include "LargeFeature.hpp"
-#include "Random.hpp"
-#include "Level.hpp"
+#include "client/common/Random.hpp"
+#include "world/level/Level.hpp"
 
 class LargeFeature
 {

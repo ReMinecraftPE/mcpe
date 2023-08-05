@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "Utils.hpp"
-
+#include "client/common/Utils.hpp"
 #include "Item.hpp"
+
 class Item; // in case we're included from Item.hpp
 class Tile;
 class Level;

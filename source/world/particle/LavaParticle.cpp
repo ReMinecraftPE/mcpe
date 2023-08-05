@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Particle.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 LavaParticle::LavaParticle(Level* level, float x, float y, float z) :
 	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)

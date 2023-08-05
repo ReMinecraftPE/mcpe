@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TntRenderer.hpp"
-#include "PrimedTnt.hpp"
+#include "world/entity/PrimedTnt.hpp"
 
 TntRenderer::TntRenderer()
 {

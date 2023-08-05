@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 TransparentTile::TransparentTile(int ID, int texture, Material* mtl, bool bTransparent) :Tile(ID, texture, mtl)
 {

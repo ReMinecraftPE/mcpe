@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "DynamicTexture.hpp"
-#include "Utils.hpp"
+#include "client/common/Utils.hpp"
 
 DynamicTexture::DynamicTexture(int a2) : m_textureIndex(a2)
 {

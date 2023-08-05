@@ -8,7 +8,7 @@
 
 #include "TripodCamera.hpp"
 #include "Player.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 TripodCamera::TripodCamera(Level* level, Player* player, float x, float y, float z) : Mob(level)
 {

@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "EntityRenderDispatcher.hpp"
-#include "ItemInHandRenderer.hpp"
 #include "Minecraft.hpp"
+#include "../ItemInHandRenderer.hpp"
 
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 float EntityRenderDispatcher::xOff, EntityRenderDispatcher::yOff, EntityRenderDispatcher::zOff;

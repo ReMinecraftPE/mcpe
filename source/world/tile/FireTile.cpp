@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 FireTile::FireTile(int ID, int texture) : Tile(ID, texture, Material::fire)
 {

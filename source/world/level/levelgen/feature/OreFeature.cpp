@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Feature.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 OreFeature::OreFeature(int id, int count)
 {

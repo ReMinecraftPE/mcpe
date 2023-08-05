@@ -8,10 +8,10 @@
 
 #include "HumanoidMobRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
-#include "ItemInHandRenderer.hpp"
-#include "ItemInstance.hpp"
-#include "TileRenderer.hpp"
-#include "Player.hpp"
+#include "client/renderer/ItemInHandRenderer.hpp"
+#include "client/renderer/TileRenderer.hpp"
+#include "world/entity/Player.hpp"
+#include "world/item/ItemInstance.hpp"
 
 HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRenderer(pModel, f)
 {

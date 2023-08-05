@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "Chunk.hpp"
-#include "Level.hpp"
-#include "Region.hpp"
+#include "world/level/Level.hpp"
+#include "world/level/Region.hpp"
 #include "TileRenderer.hpp"
 
 int Chunk::updates;

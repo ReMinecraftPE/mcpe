@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "SoundRepository.hpp"
-#include "Utils.hpp"
-#include "Mth.hpp"
+#include "client/common/Utils.hpp"
+#include "client/common/Mth.hpp"
 
 void SoundRepository::add(const std::string& name, SoundDesc& sd)
 {

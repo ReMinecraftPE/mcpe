@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "PerformanceTestChunkSource.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 LevelChunk* PerformanceTestChunkSource::create(int x, int z)
 {

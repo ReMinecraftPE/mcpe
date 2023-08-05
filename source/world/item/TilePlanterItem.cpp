@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "Item.hpp"
-#include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
+#include "world/tile/Tile.hpp"
 
 TilePlanterItem::TilePlanterItem(int id, int place) : Item(id)
 {

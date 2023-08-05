@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Biome.hpp"
-#include "Tile.hpp"
+#include "world/tile/Tile.hpp"
 
 Biome
 * Biome::rainForest,

@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "ChunkSource.hpp"
-#include "Level.hpp"
 
 ChunkSource::~ChunkSource()
 {

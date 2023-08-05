@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tile.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {

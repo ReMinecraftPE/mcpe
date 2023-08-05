@@ -11,7 +11,8 @@
 #include "NetEventCallback.hpp"
 #include "Minecraft.hpp"
 #include "RakNetInstance.hpp"
-#include "LevelListener.hpp"
+#include "world/level/LevelListener.hpp"
+
 class Minecraft;
 
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener

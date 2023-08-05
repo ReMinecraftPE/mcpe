@@ -10,18 +10,18 @@
 
 #include <set>
 
-#include "Tile.hpp"
-#include "Entity.hpp"
-#include "LocalPlayer.hpp"
+#include "world/tile/Tile.hpp"
+#include "world/entity/Entity.hpp"
+#include "world/entity/LocalPlayer.hpp"
+#include "world/level/levelgen/chunk/LevelChunk.hpp"
+#include "world/level/levelgen/chunk/ChunkSource.hpp"
+#include "world/level/storage/LevelStorageSource.hpp"
+#include "world/level/storage/LevelSource.hpp"
+#include "world/level/storage/LevelData.hpp"
 #include "Dimension.hpp"
-#include "LevelChunk.hpp"
-#include "ChunkSource.hpp"
-#include "LevelStorageSource.hpp"
-#include "LevelSource.hpp"
-#include "LevelData.hpp"
 #include "LevelListener.hpp"
-#include "LightUpdate.hpp"
 #include "TickNextTickData.hpp"
+#include "client/renderer/LightUpdate.hpp"
 
 class Dimension;
 class Level;

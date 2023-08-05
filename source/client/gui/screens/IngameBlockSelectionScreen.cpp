@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "IngameBlockSelectionScreen.hpp"
-#include "ItemRenderer.hpp"
+#include "client/renderer/entity/ItemRenderer.hpp"
 
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 

@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-#include "Texture.hpp"
+#include "client/renderer/Texture.hpp"
 
 class AppPlatform
 {

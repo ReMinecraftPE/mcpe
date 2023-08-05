@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Particle.hpp"
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 
 TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, Tile* tile) :
 	TerrainParticle(level, x, y, z, 0.0f, 0.0f, 0.0f, tile)

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Level.hpp"
-#include "Textures.hpp"
+#include "world/level/Level.hpp"
+#include "client/renderer/Textures.hpp"
 #include "Particle.hpp"
 
 class ParticleEngine
