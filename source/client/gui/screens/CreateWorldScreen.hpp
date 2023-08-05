@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Screen.hpp"
+#include "../Screen.hpp"
 
 #ifndef ORIGINAL_CODE
 

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Utils.hpp"
-#include "Material.hpp"
+#include "client/common/Utils.hpp"
+#include "world/level/Material.hpp"
 
 class LevelSource
 {

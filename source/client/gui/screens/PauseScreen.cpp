@@ -8,7 +8,7 @@
 
 #include "PauseScreen.hpp"
 #include "OptionsScreen.hpp"
-#include "ServerSideNetworkHandler.hpp"
+#include "client/network/ServerSideNetworkHandler.hpp"
 
 PauseScreen::PauseScreen() :
 	m_btnBack(1, "Back to game"),

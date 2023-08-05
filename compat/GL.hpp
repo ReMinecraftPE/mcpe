@@ -16,7 +16,7 @@
 
 #else
 
-#include "Utils.hpp"
+#include "client/common/Utils.hpp"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glext.h> // it'll include from a different dir, namely thirdparty/GL/glext.h

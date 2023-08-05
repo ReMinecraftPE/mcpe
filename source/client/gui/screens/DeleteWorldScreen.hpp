@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ConfirmScreen.hpp"
+#include "world/level/storage/LevelStorageSource.hpp"
 
 class DeleteWorldScreen : public ConfirmScreen
 {

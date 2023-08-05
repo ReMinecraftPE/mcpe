@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Utils.hpp"
-#include "GuiComponent.hpp"
+#include "../GuiComponent.hpp"
+#include "client/common/Utils.hpp"
 
 class Minecraft;
 

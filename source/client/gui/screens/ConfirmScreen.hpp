@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Screen.hpp"
-#include "SmallButton.hpp"
+#include "../Screen.hpp"
+#include "../components/SmallButton.hpp"
 
 class ConfirmScreen : public Screen
 {

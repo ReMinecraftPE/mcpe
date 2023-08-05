@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "Screen.hpp"
-#include "WorldSelectionList.hpp"
+#include "../Screen.hpp"
+#include "../components/WorldSelectionList.hpp"
 
 class SelectWorldScreen : public Screen
 {

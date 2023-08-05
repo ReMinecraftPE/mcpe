@@ -9,7 +9,7 @@
 #pragma once
 
 #include "ScrolledSelectionList.hpp"
-#include "PingedCompatibleServer.hpp"
+#include "client/network/PingedCompatibleServer.hpp"
 
 class AvailableGamesList : public ScrolledSelectionList
 {

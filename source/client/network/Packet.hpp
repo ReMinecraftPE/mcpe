@@ -9,7 +9,7 @@
 #pragma once
 
 #include <string>
-#include "LongHack.hpp"
+#include "client/common/LongHack.hpp"
 #include "RakNetTypes.h"
 #include "BitStream.h"
 #include "MessageIdentifiers.h"

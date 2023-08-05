@@ -27,14 +27,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\GameMods.hpp" />
-    <ClInclude Include="..\compat\AKeyCodes.hpp" />
-    <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp" />
-    <ClInclude Include="..\platforms\windows\SoundSystem_windows.hpp" />
     <ClInclude Include="..\source\App.hpp" />
     <ClInclude Include="..\source\AppPlatform.hpp" />
-    <ClInclude Include="..\source\Minecraft.hpp" />
-    <ClInclude Include="..\source\NinecraftApp.hpp" />
     <ClInclude Include="..\source\client\common\AABB.hpp" />
     <ClInclude Include="..\source\client\common\CThread.hpp" />
     <ClInclude Include="..\source\client\common\HitResult.hpp" />
@@ -50,9 +44,6 @@
     <ClInclude Include="..\source\client\common\Util.hpp" />
     <ClInclude Include="..\source\client\common\Utils.hpp" />
     <ClInclude Include="..\source\client\common\Vec3.hpp" />
-    <ClInclude Include="..\source\client\gui\Gui.hpp" />
-    <ClInclude Include="..\source\client\gui\GuiComponent.hpp" />
-    <ClInclude Include="..\source\client\gui\Screen.hpp" />
     <ClInclude Include="..\source\client\gui\components\AvailableGamesList.hpp" />
     <ClInclude Include="..\source\client\gui\components\Button.hpp" />
     <ClInclude Include="..\source\client\gui\components\RolledSelectionList.hpp" />
@@ -60,6 +51,9 @@
     <ClInclude Include="..\source\client\gui\components\SmallButton.hpp" />
     <ClInclude Include="..\source\client\gui\components\TextInputBox.hpp" />
     <ClInclude Include="..\source\client\gui\components\WorldSelectionList.hpp" />
+    <ClInclude Include="..\source\client\gui\Gui.hpp" />
+    <ClInclude Include="..\source\client\gui\GuiComponent.hpp" />
+    <ClInclude Include="..\source\client\gui\Screen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\ChatScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\ConfirmScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\CreateWorldScreen.hpp" />
@@ -67,16 +61,17 @@
     <ClInclude Include="..\source\client\gui\screens\IngameBlockSelectionScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\InvalidLicenseScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\JoinGameScreen.hpp" />
+    <ClInclude Include="..\source\client\gui\screens\OptionsScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\PauseScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\ProgressScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\RenameMPLevelScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\SavingWorldScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\SelectWorldScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\StartMenuScreen.hpp" />
-    <ClInclude Include="..\source\client\gui\screens\client\common\OptionsScreen.hpp" />
     <ClInclude Include="..\source\client\model\Cube.hpp" />
     <ClInclude Include="..\source\client\model\HumanoidModel.hpp" />
     <ClInclude Include="..\source\client\model\Model.hpp" />
+    <ClInclude Include="..\source\client\model\PolygonQuad.hpp" />
     <ClInclude Include="..\source\client\network\ClientSideNetworkHandler.hpp" />
     <ClInclude Include="..\source\client\network\MinecraftPackets.hpp" />
     <ClInclude Include="..\source\client\network\NetEventCallback.hpp" />
@@ -95,16 +90,23 @@
     <ClInclude Include="..\source\client\renderer\Chunk.hpp" />
     <ClInclude Include="..\source\client\renderer\Culler.hpp" />
     <ClInclude Include="..\source\client\renderer\DynamicTexture.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\EntityRenderDispatcher.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\EntityRenderer.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\FallingTileRenderer.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\HumanoidMobRenderer.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\ItemRenderer.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\ItemSpriteRenderer.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\MobRenderer.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\TntRenderer.hpp" />
+    <ClInclude Include="..\source\client\renderer\entity\TripodCameraRenderer.hpp" />
     <ClInclude Include="..\source\client\renderer\Font.hpp" />
     <ClInclude Include="..\source\client\renderer\Frustum.hpp" />
     <ClInclude Include="..\source\client\renderer\FrustumCuller.hpp" />
     <ClInclude Include="..\source\client\renderer\GameRenderer.hpp" />
-    <ClInclude Include="..\source\client\renderer\Humanoidentity\MobRenderer.hpp" />
     <ClInclude Include="..\source\client\renderer\ItemInHandRenderer.hpp" />
     <ClInclude Include="..\source\client\renderer\LevelRenderer.hpp" />
     <ClInclude Include="..\source\client\renderer\LightLayer.hpp" />
     <ClInclude Include="..\source\client\renderer\LightUpdate.hpp" />
-    <ClInclude Include="..\source\client\renderer\PolygonQuad.hpp" />
     <ClInclude Include="..\source\client\renderer\RenderChunk.hpp" />
     <ClInclude Include="..\source\client\renderer\RenderList.hpp" />
     <ClInclude Include="..\source\client\renderer\Tesselator.hpp" />
@@ -112,19 +114,13 @@
     <ClInclude Include="..\source\client\renderer\Textures.hpp" />
     <ClInclude Include="..\source\client\renderer\TileRenderer.hpp" />
     <ClInclude Include="..\source\client\renderer\VertexPT.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\EntityRenderDispatcher.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\EntityRenderer.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\FallingTileRenderer.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\ItemRenderer.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\ItemSpriteRenderer.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\MobRenderer.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\TntRenderer.hpp" />
-    <ClInclude Include="..\source\client\renderer\entity\TripodCameraRenderer.hpp" />
     <ClInclude Include="..\source\client\sound\SoundData.hpp" />
     <ClInclude Include="..\source\client\sound\SoundDefs.hpp" />
     <ClInclude Include="..\source\client\sound\SoundEngine.hpp" />
     <ClInclude Include="..\source\client\sound\SoundRepository.hpp" />
     <ClInclude Include="..\source\client\sound\SoundSystem.hpp" />
+    <ClInclude Include="..\source\Minecraft.hpp" />
+    <ClInclude Include="..\source\NinecraftApp.hpp" />
     <ClInclude Include="..\source\world\entity\Entity.hpp" />
     <ClInclude Include="..\source\world\entity\FallingTile.hpp" />
     <ClInclude Include="..\source\world\entity\ItemEntity.hpp" />
@@ -142,25 +138,24 @@
     <ClInclude Include="..\source\world\level\Dimension.hpp" />
     <ClInclude Include="..\source\world\level\Explosion.hpp" />
     <ClInclude Include="..\source\world\level\Level.hpp" />
-    <ClInclude Include="..\source\world\level\LevelData.hpp" />
-    <ClInclude Include="..\source\world\level\LevelListener.hpp" />
-    <ClInclude Include="..\source\world\level\Material.hpp" />
-    <ClInclude Include="..\source\world\level\Region.hpp" />
-    <ClInclude Include="..\source\world\level\TickNextTickData.hpp" />
-    <ClInclude Include="..\source\world\level\levelgen\ChunkCache.hpp" />
     <ClInclude Include="..\source\world\level\levelgen\biome\Biome.hpp" />
     <ClInclude Include="..\source\world\level\levelgen\biome\BiomeSource.hpp" />
+    <ClInclude Include="..\source\world\level\levelgen\chunk\ChunkCache.hpp" />
     <ClInclude Include="..\source\world\level\levelgen\chunk\ChunkSource.hpp" />
     <ClInclude Include="..\source\world\level\levelgen\chunk\LevelChunk.hpp" />
     <ClInclude Include="..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp" />
     <ClInclude Include="..\source\world\level\levelgen\chunk\RandomLevelSource.hpp" />
     <ClInclude Include="..\source\world\level\levelgen\chunk\TestChunkSource.hpp" />
-    <ClInclude Include="..\source\world\level\levelgen\feature\FlowerFeature.hpp" />
-    <ClInclude Include="..\source\world\level\levelgen\feature\LargeCavefeature\FlowerFeature.hpp" />
-    <ClInclude Include="..\source\world\level\levelgen\feature\Largefeature\FlowerFeature.hpp" />
+    <ClInclude Include="..\source\world\level\levelgen\feature\Feature.hpp" />
+    <ClInclude Include="..\source\world\level\levelgen\feature\LargeCaveFeature.hpp" />
+    <ClInclude Include="..\source\world\level\levelgen\feature\LargeFeature.hpp" />
+    <ClInclude Include="..\source\world\level\LevelListener.hpp" />
+    <ClInclude Include="..\source\world\level\Material.hpp" />
+    <ClInclude Include="..\source\world\level\Region.hpp" />
     <ClInclude Include="..\source\world\level\storage\ChunkStorage.hpp" />
     <ClInclude Include="..\source\world\level\storage\ExternalFileLevelStorage.hpp" />
     <ClInclude Include="..\source\world\level\storage\ExternalFileLevelStorageSource.hpp" />
+    <ClInclude Include="..\source\world\level\storage\LevelData.hpp" />
     <ClInclude Include="..\source\world\level\storage\LevelSource.hpp" />
     <ClInclude Include="..\source\world\level\storage\LevelStorage.hpp" />
     <ClInclude Include="..\source\world\level\storage\LevelStorageSource.hpp" />
@@ -168,6 +163,7 @@
     <ClInclude Include="..\source\world\level\storage\MemoryLevelStorage.hpp" />
     <ClInclude Include="..\source\world\level\storage\MemoryLevelStorageSource.hpp" />
     <ClInclude Include="..\source\world\level\storage\RegionFile.hpp" />
+    <ClInclude Include="..\source\world\level\TickNextTickData.hpp" />
     <ClInclude Include="..\source\world\particle\Particle.hpp" />
     <ClInclude Include="..\source\world\particle\ParticleEngine.hpp" />
     <ClInclude Include="..\source\world\tile\Tile.hpp" />
@@ -239,8 +235,8 @@
     <ClInclude Include="..\thirdparty\raknet\MessageFilter.h" />
     <ClInclude Include="..\thirdparty\raknet\MessageIdentifiers.h" />
     <ClInclude Include="..\thirdparty\raknet\MTUSize.h" />
-    <ClInclude Include="..\thirdparty\raknet\Nativefeature\FlowerFeatureIncludes.h" />
-    <ClInclude Include="..\thirdparty\raknet\Nativefeature\FlowerFeatureIncludesOverrides.h" />
+    <ClInclude Include="..\thirdparty\raknet\NativeFeatureIncludes.h" />
+    <ClInclude Include="..\thirdparty\raknet\NativeFeatureIncludesOverrides.h" />
     <ClInclude Include="..\thirdparty\raknet\NativeTypes.h" />
     <ClInclude Include="..\thirdparty\raknet\NatPunchthroughClient.h" />
     <ClInclude Include="..\thirdparty\raknet\NatPunchthroughServer.h" />
@@ -327,14 +323,8 @@
     <ClInclude Include="..\thirdparty\raknet\_FindFirst.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\compat\GLExt.cpp" />
-    <ClCompile Include="..\platforms\windows\AppPlatform_windows.cpp" />
-    <ClCompile Include="..\platforms\windows\SoundSystem_windows.cpp" />
-    <ClCompile Include="..\platforms\windows\main.cpp" />
     <ClCompile Include="..\source\App.cpp" />
     <ClCompile Include="..\source\AppPlatform.cpp" />
-    <ClCompile Include="..\source\Minecraft.cpp" />
-    <ClCompile Include="..\source\NinecraftApp.cpp" />
     <ClCompile Include="..\source\client\common\AABB.cpp" />
     <ClCompile Include="..\source\client\common\CThread.cpp" />
     <ClCompile Include="..\source\client\common\HitResult.cpp" />
@@ -349,9 +339,6 @@
     <ClCompile Include="..\source\client\common\Util.cpp" />
     <ClCompile Include="..\source\client\common\Utils.cpp" />
     <ClCompile Include="..\source\client\common\Vec3.cpp" />
-    <ClCompile Include="..\source\client\gui\Gui.cpp" />
-    <ClCompile Include="..\source\client\gui\GuiComponent.cpp" />
-    <ClCompile Include="..\source\client\gui\Screen.cpp" />
     <ClCompile Include="..\source\client\gui\components\AvailableGamesList.cpp" />
     <ClCompile Include="..\source\client\gui\components\Button.cpp" />
     <ClCompile Include="..\source\client\gui\components\RolledSelectionList.cpp" />
@@ -359,6 +346,9 @@
     <ClCompile Include="..\source\client\gui\components\SmallButton.cpp" />
     <ClCompile Include="..\source\client\gui\components\TextInputBox.cpp" />
     <ClCompile Include="..\source\client\gui\components\WorldSelectionList.cpp" />
+    <ClCompile Include="..\source\client\gui\Gui.cpp" />
+    <ClCompile Include="..\source\client\gui\GuiComponent.cpp" />
+    <ClCompile Include="..\source\client\gui\Screen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\ChatScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\ConfirmScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\CreateWorldScreen.cpp" />
@@ -366,21 +356,20 @@
     <ClCompile Include="..\source\client\gui\screens\IngameBlockSelectionScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\InvalidLicenseScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\JoinGameScreen.cpp" />
+    <ClCompile Include="..\source\client\gui\screens\OptionsScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\PauseScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\ProgressScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\RenameMPLevelScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\SavingWorldScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\SelectWorldScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\StartMenuScreen.cpp" />
-    <ClCompile Include="..\source\client\gui\screens\client\common\OptionsScreen.cpp" />
     <ClCompile Include="..\source\client\model\Cube.cpp" />
     <ClCompile Include="..\source\client\model\HumanoidModel.cpp" />
     <ClCompile Include="..\source\client\model\Model.cpp" />
+    <ClCompile Include="..\source\client\model\PolygonQuad.cpp" />
     <ClCompile Include="..\source\client\network\ClientSideNetworkHandler.cpp" />
     <ClCompile Include="..\source\client\network\MinecraftPackets.cpp" />
     <ClCompile Include="..\source\client\network\NetEventCallback.cpp" />
-    <ClCompile Include="..\source\client\network\RakNetInstance.cpp" />
-    <ClCompile Include="..\source\client\network\ServerSideNetworkHandler.cpp" />
     <ClCompile Include="..\source\client\network\packets\AddPlayerPacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\ChunkDataPacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\LoginPacket.cpp" />
@@ -393,6 +382,8 @@
     <ClCompile Include="..\source\client\network\packets\RequestChunkPacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\StartGamePacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\UpdateBlockPacket.cpp" />
+    <ClCompile Include="..\source\client\network\RakNetInstance.cpp" />
+    <ClCompile Include="..\source\client\network\ServerSideNetworkHandler.cpp" />
     <ClCompile Include="..\source\client\player\input\Controller.cpp" />
     <ClCompile Include="..\source\client\player\input\ControllerTurnInput.cpp" />
     <ClCompile Include="..\source\client\player\input\ITurnInput.cpp" />
@@ -403,16 +394,23 @@
     <ClCompile Include="..\source\client\renderer\Chunk.cpp" />
     <ClCompile Include="..\source\client\renderer\Culler.cpp" />
     <ClCompile Include="..\source\client\renderer\DynamicTexture.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\EntityRenderDispatcher.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\EntityRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\FallingTileRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\HumanoidMobRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\ItemRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\ItemSpriteRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\MobRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\TntRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\entity\TripodCameraRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\Font.cpp" />
     <ClCompile Include="..\source\client\renderer\Frustum.cpp" />
     <ClCompile Include="..\source\client\renderer\FrustumCuller.cpp" />
     <ClCompile Include="..\source\client\renderer\GameRenderer.cpp" />
-    <ClCompile Include="..\source\client\renderer\Humanoidentity\MobRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\ItemInHandRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\LevelRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\LightLayer.cpp" />
     <ClCompile Include="..\source\client\renderer\LightUpdate.cpp" />
-    <ClCompile Include="..\source\client\renderer\PolygonQuad.cpp" />
     <ClCompile Include="..\source\client\renderer\RenderChunk.cpp" />
     <ClCompile Include="..\source\client\renderer\RenderList.cpp" />
     <ClCompile Include="..\source\client\renderer\Tesselator.cpp" />
@@ -420,18 +418,12 @@
     <ClCompile Include="..\source\client\renderer\TileRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\WaterSideTexture.cpp" />
     <ClCompile Include="..\source\client\renderer\WaterTexture.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\EntityRenderDispatcher.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\EntityRenderer.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\FallingTileRenderer.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\ItemRenderer.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\ItemSpriteRenderer.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\MobRenderer.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\TntRenderer.cpp" />
-    <ClCompile Include="..\source\client\renderer\entity\TripodCameraRenderer.cpp" />
     <ClCompile Include="..\source\client\sound\SoundData.cpp" />
     <ClCompile Include="..\source\client\sound\SoundEngine.cpp" />
     <ClCompile Include="..\source\client\sound\SoundRepository.cpp" />
     <ClCompile Include="..\source\client\sound\SoundSystem.cpp" />
+    <ClCompile Include="..\source\Minecraft.cpp" />
+    <ClCompile Include="..\source\NinecraftApp.cpp" />
     <ClCompile Include="..\source\world\entity\Entity.cpp" />
     <ClCompile Include="..\source\world\entity\FallingTile.cpp" />
     <ClCompile Include="..\source\world\entity\ItemEntity.cpp" />
@@ -453,34 +445,33 @@
     <ClCompile Include="..\source\world\level\Dimension.cpp" />
     <ClCompile Include="..\source\world\level\Explosion.cpp" />
     <ClCompile Include="..\source\world\level\Level.cpp" />
-    <ClCompile Include="..\source\world\level\LevelData.cpp" />
-    <ClCompile Include="..\source\world\level\LevelListener.cpp" />
-    <ClCompile Include="..\source\world\level\Material.cpp" />
-    <ClCompile Include="..\source\world\level\Region.cpp" />
-    <ClCompile Include="..\source\world\level\TickNextTickData.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\Birchfeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\ChunkCache.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\Clayfeature\FlowerFeature.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\biome\Biome.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\biome\BiomeSource.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\chunk\ChunkCache.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\chunk\ChunkSource.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\chunk\LevelChunk.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\chunk\RandomLevelSource.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\chunk\TestChunkSource.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\BirchFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\ClayFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\Feature.cpp" />
     <ClCompile Include="..\source\world\level\levelgen\feature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Flowerfeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\LargeCavefeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Largefeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Orefeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Pinefeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Reedsfeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Springfeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Sprucefeature\FlowerFeature.cpp" />
-    <ClCompile Include="..\source\world\level\levelgen\feature\Treefeature\FlowerFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\LargeCaveFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\LargeFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\OreFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\PineFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\ReedsFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\SpringFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\SpruceFeature.cpp" />
+    <ClCompile Include="..\source\world\level\levelgen\feature\TreeFeature.cpp" />
+    <ClCompile Include="..\source\world\level\LevelListener.cpp" />
+    <ClCompile Include="..\source\world\level\Material.cpp" />
+    <ClCompile Include="..\source\world\level\Region.cpp" />
     <ClCompile Include="..\source\world\level\storage\ChunkStorage.cpp" />
     <ClCompile Include="..\source\world\level\storage\ExternalFileLevelStorage.cpp" />
     <ClCompile Include="..\source\world\level\storage\ExternalFileLevelStorageSource.cpp" />
+    <ClCompile Include="..\source\world\level\storage\LevelData.cpp" />
     <ClCompile Include="..\source\world\level\storage\LevelSource.cpp" />
     <ClCompile Include="..\source\world\level\storage\LevelStorage.cpp" />
     <ClCompile Include="..\source\world\level\storage\LevelStorageSource.cpp" />
@@ -488,6 +479,7 @@
     <ClCompile Include="..\source\world\level\storage\MemoryLevelStorage.cpp" />
     <ClCompile Include="..\source\world\level\storage\MemoryLevelStorageSource.cpp" />
     <ClCompile Include="..\source\world\level\storage\RegionFile.cpp" />
+    <ClCompile Include="..\source\world\level\TickNextTickData.cpp" />
     <ClCompile Include="..\source\world\particle\BubbleParticle.cpp" />
     <ClCompile Include="..\source\world\particle\ExplodeParticle.cpp" />
     <ClCompile Include="..\source\world\particle\FlameParticle.cpp" />
@@ -534,7 +526,6 @@
     <ClCompile Include="..\source\world\tile\TorchTile.cpp" />
     <ClCompile Include="..\source\world\tile\TransparentTile.cpp" />
     <ClCompile Include="..\source\world\tile\TreeTile.cpp" />
-    <ClCompile Include="..\thirdparty\stb_image_impl.c" />
     <ClCompile Include="..\thirdparty\raknet\Base64Encoder.cpp" />
     <ClCompile Include="..\thirdparty\raknet\BitStream.cpp" />
     <ClCompile Include="..\thirdparty\raknet\CCRakNetSlidingWindow.cpp" />
@@ -646,6 +637,15 @@
     <ClCompile Include="..\thirdparty\raknet\WSAStartupSingleton.cpp" />
     <ClCompile Include="..\thirdparty\raknet\_FindFirst.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\thirdparty\raknet\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\thirdparty\raknet\LICENSE" />
+    <None Include="..\thirdparty\raknet\RakNet.vcproj" />
+    <None Include="..\thirdparty\raknet\RakNet_vc8.vcproj" />
+    <None Include="..\thirdparty\raknet\RakNet_vc9.vcproj" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -720,32 +720,32 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)/..;$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|Win32'">
-    <IncludePath>$(ProjectDir)/..;$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)/..;$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/..;$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|x64'">
-    <IncludePath>$(ProjectDir)/..;$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)/..;$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -755,7 +755,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
@@ -771,7 +771,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
@@ -789,7 +789,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
@@ -807,7 +807,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
@@ -823,7 +823,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>
@@ -841,7 +841,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
     </ClCompile>

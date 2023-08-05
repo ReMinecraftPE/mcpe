@@ -23,7 +23,7 @@ class UpdateBlockPacket;
 class RequestChunkPacket;
 class ChunkDataPacket;
 class PlayerEquipmentPacket;
-#include "Level.hpp"
+#include "world/level/Level.hpp"
 class Level;
 
 class NetEventCallback
