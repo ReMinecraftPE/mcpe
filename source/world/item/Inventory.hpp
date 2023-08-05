@@ -51,4 +51,3 @@ private:
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
 	std::vector<ItemInstance> m_items;
 };
-
