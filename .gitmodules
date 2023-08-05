@@ -3,4 +3,4 @@
 	url = https://github.com/gzuidhof/coi-serviceworker
 [submodule "thirdparty/gles-compatibility-layer"]
 	path = thirdparty/gles-compatibility-layer
-	url = https://gitea.thebrokenrail.com/minecraft-pi-reborn/gles-compatibility-layer.git
+	url = https://github.com/TheBrokenRail/gles-compatibility-layer.git
