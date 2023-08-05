@@ -124,6 +124,10 @@ void OptionsScreen::init()
 	m_buttonTabList.push_back(&m_BackButton);
 
 	UpdateTexts();
+
+#ifdef __EMSCRIPTEN__
+	m_srvVisButton.m_bEnabled = false;
+#endif
 #endif
 }
 

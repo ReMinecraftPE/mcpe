@@ -66,6 +66,10 @@ void PauseScreen::init()
 
 	for (auto thing : m_buttons)
 		m_buttonTabList.push_back(thing);
+
+#ifdef __EMSCRIPTEN__
+	m_btnVisible.m_bEnabled = false;
+#endif
 }
 
 void PauseScreen::updateServerVisibilityText()
