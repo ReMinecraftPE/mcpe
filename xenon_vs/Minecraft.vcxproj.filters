@@ -94,6 +94,51 @@
     <Filter Include="Header Files\Third Party">
       <UniqueIdentifier>{d754d82a-1cf9-4e4a-9dfd-2cc79f4d1fc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\World\Item">
+      <UniqueIdentifier>{ce62e59f-a5e8-4172-b06b-f829f64fe75c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Entity\Model">
+      <UniqueIdentifier>{9b1cacf0-a01a-40e7-8a40-8d7ba8d700f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World\Entity\Model">
+      <UniqueIdentifier>{c07b19a6-230d-40ee-b0f4-2ec92529465a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World\Renderer\Entity">
+      <UniqueIdentifier>{dc03625a-05bd-49cc-bb8b-16fb025c7a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Renderer\Entity">
+      <UniqueIdentifier>{7275ebeb-aaff-4cec-9201-fba6338fdc6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World\Particle">
+      <UniqueIdentifier>{b14be4c2-775c-4df3-8d97-74ce8d17d4a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Particle">
+      <UniqueIdentifier>{25e70004-24c5-45ab-b162-a66774ab102a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\DynamicTexture">
+      <UniqueIdentifier>{397ab77a-750b-48bc-80e4-2b4b0e591498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World\Generator\Features">
+      <UniqueIdentifier>{4df57bad-28a3-4b35-9ba1-b964c0ae9c52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sound">
+      <UniqueIdentifier>{6c5a6ef7-1c6f-405d-823b-5411ba6d727e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{9dbf1afd-5110-42a3-a056-24fba838acf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Third Party\RakNet">
+      <UniqueIdentifier>{a3d8ebfe-09f1-407e-bfd3-e0daab9f4bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{2eac43a3-0aac-4563-9130-b0d326d94251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{c9f299d9-024a-4720-a257-b4dc21e0eda8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network\Packets">
+      <UniqueIdentifier>{c6b2a319-020f-4079-bef2-db17f90977cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\raknet\ThreadsafePacketLogger.h">
