@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -9,6 +9,9 @@
 #pragma once
 
 #include <vector>
+#include <cstdint>
+
+#define KEYBOARD_STATES_SIZE 256
 
 class Keyboard
 {
@@ -21,7 +24,7 @@ public:
 	};
 
 	static std::vector<Input> _inputs;
-	static int _states[256];
+	static int _states[KEYBOARD_STATES_SIZE];
 	static int _index;
 
 	// likely inlined

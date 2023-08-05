@@ -15,6 +15,12 @@
 
 // Add sound system overrides here
 
+#elif defined(USE_SDL)
+
+// -- OpenAL based sound system for SDL
+#include "sdl/SoundSystemAL.hpp"
+#define SOUND_SYSTEM_TYPE SoundSystemAL
+
 #elif defined(_WIN32)
 
 // -- DirectSound based sound system for Windows

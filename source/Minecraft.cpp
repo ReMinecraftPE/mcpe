@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -48,7 +48,7 @@ Minecraft::Minecraft() : m_gui(this)
 #else
 	m_pTurnInput = new ControllerTurnInput;
 #endif
-	
+
 	m_pRakNetInstance = new RakNetInstance;
 
 	m_pSoundEngine = new SoundEngine;
@@ -59,7 +59,7 @@ int Minecraft::getLicenseId()
 {
 	if (m_licenseID < 0)
 		m_licenseID = m_pPlatform->checkLicense();
-	
+
 	return m_licenseID;
 }
 
@@ -80,7 +80,7 @@ void Minecraft::grabMouse()
 {
 	if (m_bGrabbedMouse)
 		return;
-	
+
 	m_bGrabbedMouse = true;
 	field_D20 = 0.0f;
 	field_D24 = 0.0f;
@@ -91,6 +91,12 @@ void Minecraft::grabMouse()
 
 void Minecraft::setScreen(Screen* pScreen)
 {
+#ifndef ORIGINAL_CODE
+	if (pScreen == nullptr && !isLevelGenerated()) {
+		return;
+	}
+#endif
+
 	if (m_bUsingScreen)
 	{
 		m_bHasQueuedScreen = true;
@@ -396,7 +402,7 @@ void Minecraft::tickInput()
 		{
 			m_gui.handleKeyPressed(keyCode);
 
-			int index = keyCode - '1';
+			int index = keyCode - AKEYCODE_1;
 			if (index <= 8 && index >= 0)
 			{
 				m_pLocalPlayer->m_pInventory->selectSlot(index);
@@ -441,7 +447,7 @@ void Minecraft::tickInput()
 		}
 	}
 
-	// @TODO: fix gotos 
+	// @TODO: fix gotos
 	bool v12 = false;
 
 	if (m_options.field_19)
@@ -484,7 +490,7 @@ void Minecraft::tickMouse()
 {
 	if (!m_bGrabbedMouse)
 		return;
-	
+
 	platform()->recenterMouse();
 }
 
@@ -506,7 +512,7 @@ void Minecraft::tick()
 		field_DA4--;
 
 	tickInput();
-	
+
 	m_gui.tick();
 
 	// if the level has been prepared, delete the prep thread
@@ -547,8 +553,12 @@ void Minecraft::tick()
 #ifndef ORIGINAL_CODE
 			if (m_pMobPersp)
 			{
+#ifdef USE_SDL
+				m_pSoundEngine->m_soundSystem.update(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z, m_pMobPersp->m_yaw);
+#else
 				m_pSoundEngine->m_soundSystem.setListenerPos(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z);
 				m_pSoundEngine->m_soundSystem.setListenerAngle(m_pMobPersp->m_yaw, m_pMobPersp->m_pitch);
+#endif
 			}
 #endif
 
@@ -653,7 +663,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 
 	float startTime = getTimeS();
 	Level* pLevel = m_pLevel;
-	
+
 	if (!pLevel->field_B0C)
 	{
 		pLevel->setUpdateLights(0);
@@ -769,7 +779,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 
 	if (m_pLevelRenderer)
 		m_pLevelRenderer->setLevel(pLevel);
-	
+
 	if (m_pParticleEngine)
 		m_pParticleEngine->setLevel(pLevel);
 
@@ -925,30 +935,38 @@ void Minecraft::leaveGame(bool bCopyMap)
 
 void Minecraft::hostMultiplayer()
 {
+#ifndef __EMSCRIPTEN__
 	m_pRakNetInstance->host(m_pUser->field_0, C_DEFAULT_PORT, C_MAX_CONNECTIONS);
 	m_pNetEventCallback = new ServerSideNetworkHandler(this, m_pRakNetInstance);
+#endif
 }
 
 void Minecraft::joinMultiplayer(const PingedCompatibleServer& serverInfo)
 {
+#ifndef __EMSCRIPTEN__
 	if (field_18 && m_pNetEventCallback)
 	{
 		field_18 = false;
 		m_pRakNetInstance->connect(serverInfo.m_address.ToString(), serverInfo.m_address.GetPort());
 	}
+#endif
 }
 
 void Minecraft::cancelLocateMultiplayer()
 {
+#ifndef __EMSCRIPTEN__
 	field_18 = false;
 	m_pRakNetInstance->stopPingForHosts();
 	delete m_pNetEventCallback;
 	m_pNetEventCallback = nullptr;
+#endif
 }
 
 void Minecraft::locateMultiplayer()
 {
+#ifndef __EMSCRIPTEN__
 	field_18 = true;
 	m_pRakNetInstance->pingForHosts(C_DEFAULT_PORT);
 	m_pNetEventCallback = new ClientSideNetworkHandler(this, m_pRakNetInstance);
+#endif
 }

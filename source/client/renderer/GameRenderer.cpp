@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -328,7 +328,7 @@ void GameRenderer::setupFog(int i)
 float GameRenderer::getFov(float f)
 {
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
-	
+
 	float x1 = 70.0f;
 
 	if (pMob->isUnderLiquid(Material::water))
