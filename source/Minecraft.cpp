@@ -91,38 +91,36 @@ void Minecraft::grabMouse()
 
 void Minecraft::setScreen(Screen* pScreen)
 {
-	if (field_DB0)
+	if (m_bUsingScreen)
 	{
-		field_DB1 = 1;
-		m_pScreen = pScreen; //@BUG: potential memory leak?
+		m_bHasQueuedScreen = true;
+		m_pQueuedScreen = pScreen;
+		return;
 	}
-	else if (!pScreen || !pScreen->isErrorScreen())
+	
+	if (pScreen && pScreen->isErrorScreen())
 	{
-		if (field_D14)
-		{
-			field_D14->removed();
-			delete field_D14;
-		}
+		// not in original
+		delete pScreen;
+		return;
+	}
 
-		field_D14 = pScreen;
-		if (pScreen)
-		{
-			releaseMouse();
-			pScreen->init(this, int(width * Gui::InvGuiScale), int(height * Gui::InvGuiScale));
-		}
-		else
-		{
-			grabMouse();
-		}
+	if (m_pScreen)
+	{
+		m_pScreen->removed();
+		delete m_pScreen;
 	}
-	//@BUG: memory leak?
-#ifndef ORIGINAL_CODE
+
+	m_pScreen = pScreen;
+	if (pScreen)
+	{
+		releaseMouse();
+		pScreen->init(this, int(width * Gui::InvGuiScale), int(height * Gui::InvGuiScale));
+	}
 	else
 	{
-		// @NOTE: Added this to not leak screens. A good idea unless you use the screen instance after calling setScreen()
-		delete pScreen;
+		grabMouse();
 	}
-#endif
 }
 
 void Minecraft::onGraphicsReset()
@@ -301,18 +299,19 @@ label_3:
 
 void Minecraft::tickInput()
 {
-	if (field_D14)
+	if (m_pScreen)
 	{
-		if (!field_D14->field_10)
+		if (!m_pScreen->field_10)
 		{
-			field_DB0 = true;
-			field_D14->updateEvents();
-			field_DB0 = false;
-			if (field_DB1)
+			m_bUsingScreen = true;
+			m_pScreen->updateEvents();
+			m_bUsingScreen = false;
+
+			if (m_bHasQueuedScreen)
 			{
-				setScreen(m_pScreen);
-				m_pScreen = NULL;
-				field_DB1 = false;
+				setScreen(m_pQueuedScreen);
+				m_pQueuedScreen = nullptr;
+				m_bHasQueuedScreen = false;
 			}
 			return;
 		}
@@ -452,7 +451,7 @@ void Minecraft::tickInput()
 		goto label_12;
 	}
 	
-	if (!field_D14 && (field_DA8 - field_DAC) >= (m_timer.field_10 * 0.25f))
+	if (!m_pScreen && (field_DA8 - field_DAC) >= (m_timer.field_10 * 0.25f))
 	{
 		handleMouseClick(1);
 		field_DAC = field_DA8;
@@ -488,8 +487,8 @@ void Minecraft::tickMouse()
 
 void Minecraft::handleCharInput(char chr)
 {
-	if (field_D14)
-		field_D14->charInput(chr);
+	if (m_pScreen)
+		m_pScreen->charInput(chr);
 }
 
 void Minecraft::_levelGenerated()
@@ -552,8 +551,8 @@ void Minecraft::tick()
 
 		}
 
-		if (field_D14)
-			field_D14->tick();
+		if (m_pScreen)
+			m_pScreen->tick();
 	}
 }
 
@@ -801,7 +800,7 @@ void* Minecraft::prepareLevel_tspawn(void* ptr)
 
 void Minecraft::pauseGame()
 {
-	if (field_D14) return;
+	if (m_pScreen) return;
 	m_pLevel->savePlayerData();
 	setScreen(new PauseScreen);
 }

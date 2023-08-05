@@ -549,11 +549,11 @@ void GameRenderer::render(float f)
 			renderLevel(f);
 			if (m_pMinecraft->m_options.field_23C)
 			{
-				if (!m_pMinecraft->field_D14)
+				if (!m_pMinecraft->m_pScreen)
 					return;
 			}
 
-			m_pMinecraft->m_gui.render(f, m_pMinecraft->field_D14 != nullptr, int(Mouse::_x * Gui::InvGuiScale), int(Mouse::_y * Gui::InvGuiScale));
+			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, int(Mouse::_x * Gui::InvGuiScale), int(Mouse::_y * Gui::InvGuiScale));
 		}
 	}
 	else
@@ -566,12 +566,12 @@ void GameRenderer::render(float f)
 		setupGuiScreen();
 	}
 
-	if (m_pMinecraft->field_D14)
+	if (m_pMinecraft->m_pScreen)
 	{
 		glClear(GL_ACCUM);
-		m_pMinecraft->field_D14->render(int(Mouse::_x * Gui::InvGuiScale), int(Mouse::_y * Gui::InvGuiScale), f);
+		m_pMinecraft->m_pScreen->render(int(Mouse::_x * Gui::InvGuiScale), int(Mouse::_y * Gui::InvGuiScale), f);
 
-		if (m_pMinecraft->field_D14 && !m_pMinecraft->field_D14->isInGameScreen())
+		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())
 		{
 #ifdef ORIGINAL_CODE
 			sleepMs(15);

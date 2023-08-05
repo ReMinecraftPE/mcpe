@@ -101,7 +101,7 @@ public:
 	Gui m_gui;
 	int field_D0C = 0;
 	CThread* m_pPrepThread = nullptr;
-	Screen* field_D14 = nullptr;
+	Screen* m_pScreen = nullptr;
 	int field_D18 = 10;
 	ITurnInput* m_pTurnInput = nullptr;
 	float field_D20 = 0.0f;
@@ -118,9 +118,9 @@ public:
 	int field_DA4 = 0;
 	int field_DA8 = 0;
 	int field_DAC = 0;
-	bool field_DB0 = 0;
-	bool field_DB1 = 0;
-	Screen* m_pScreen = nullptr;
+	bool m_bUsingScreen = false;
+	bool m_bHasQueuedScreen = false;
+	Screen* m_pQueuedScreen = nullptr;
 	int m_licenseID = -2;
 	ItemInstance m_CurrItemInstance;
 };

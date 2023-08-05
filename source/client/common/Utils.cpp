@@ -254,11 +254,10 @@ void EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hRC)
 
 	pfd.nSize = sizeof(pfd);
 	pfd.nVersion = 1;
-	pfd.dwFlags = PFD_DRAW_TO_WINDOW |
-		PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 	pfd.iPixelType = PFD_TYPE_RGBA;
 	pfd.cColorBits = 24;
-	pfd.cDepthBits = 16;
+	pfd.cDepthBits = 8;
 	pfd.iLayerType = PFD_MAIN_PLANE;
 
 	iFormat = ChoosePixelFormat(*hDC, &pfd);

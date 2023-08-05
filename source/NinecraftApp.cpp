@@ -25,17 +25,17 @@ bool NinecraftApp::handleBack(bool b)
 
 	if (!m_pLevel)
 	{
-		if (!field_D14)
+		if (!m_pScreen)
 			return false;
-		return field_D14->handleBackEvent(b);
+		return m_pScreen->handleBackEvent(b);
 	}
 
 	if (b)
 		return 1;
 
-	if (!field_D14) return false;
+	if (!m_pScreen) return false;
 
-	if (field_D14->handleBackEvent(b))
+	if (m_pScreen->handleBackEvent(b))
 		return true;
 
 	setScreen(nullptr);
