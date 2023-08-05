@@ -53,6 +53,7 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 
 	bool bShiftPressed = minecraft->platform()->shiftPressed();
 	
+#ifndef HANDLE_CHARS_SEPARATELY
 	char chr = '\0';
 	if (key >= AKEYCODE_A && key <= AKEYCODE_Z)
 	{
@@ -114,6 +115,21 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 			chr = bShiftPressed ? '}' : ']';
 			break;
 	}
+#else
+	char chr = '\0';
+	switch (key)
+	{
+		case AKEYCODE_FORWARD_DEL:
+			chr = '\001';
+			break;
+		case AKEYCODE_ARROW_LEFT:
+			chr = '\002';
+			break;
+		case AKEYCODE_ARROW_RIGHT:
+			chr = '\003';
+			break;
+	}
+#endif
 
 	if (chr)
 		charPressed(chr);

@@ -44,6 +44,7 @@ public:
 	virtual void mouseClicked(int, int, int);
 	virtual void mouseReleased(int, int, int);
 	virtual void keyPressed(int);
+	virtual void charInput(char);
 
 public:
 	int m_width = 1;

@@ -478,7 +478,6 @@ void Minecraft::tickInput()
 	Mouse::_index = -1;
 }
 
-#ifndef ORIGINAL_CODE
 void Minecraft::tickMouse()
 {
 	if (!m_bGrabbedMouse)
@@ -486,7 +485,12 @@ void Minecraft::tickMouse()
 	
 	platform()->recenterMouse();
 }
-#endif
+
+void Minecraft::handleCharInput(char chr)
+{
+	if (field_D14)
+		field_D14->charInput(chr);
+}
 
 void Minecraft::_levelGenerated()
 {

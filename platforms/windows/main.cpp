@@ -178,6 +178,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
+		case WM_CHAR:
+		{
+			if (lParam & (1 << 31))
+				break;
+
+			if (wParam >= '~' && wParam < ' ')
+				break;
+
+			g_pApp->handleCharInput(char(wParam));
+			break;
+		}
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;

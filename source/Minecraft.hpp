@@ -52,10 +52,8 @@ public:
 	void joinMultiplayer(const PingedCompatibleServer& serverInfo);
 	void cancelLocateMultiplayer();
 	void locateMultiplayer();
-
-#ifndef ORIGINAL_CODE
 	void tickMouse();
-#endif
+	void handleCharInput(char chr);
 
 	virtual void onGraphicsReset();
 	virtual void update() override;
