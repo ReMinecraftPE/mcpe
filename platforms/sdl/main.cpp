@@ -13,7 +13,8 @@
 #include <emscripten/html5.h>
 #endif
 
-void LogMsg(const char* fmt, ...) {
+void LogMsg(const char* fmt, ...)
+{
 	va_list lst;
 	va_start(lst, fmt);
 
@@ -23,7 +24,8 @@ void LogMsg(const char* fmt, ...) {
 	va_end(lst);
 }
 // I hate duplicating code, but yeah
-void LogMsgNoCR(const char* fmt, ...) {
+void LogMsgNoCR(const char* fmt, ...)
+{
 	va_list lst;
 	va_start(lst, fmt);
 
@@ -37,8 +39,10 @@ NinecraftApp *g_pApp;
 
 SDL_Window *window = NULL;
 SDL_GLContext context = NULL;
-static void teardown() {
-	if (window != NULL) {
+static void teardown()
+{
+	if (window != NULL)
+	{
 		SDL_GL_DeleteContext(context);
 		SDL_DestroyWindow(window);
 		SDL_Quit();
@@ -48,57 +52,80 @@ static void teardown() {
 
 // Resize From JS
 #ifdef __EMSCRIPTEN__
-extern "C" void resize_from_js(int new_width, int new_height) {
+extern "C" void resize_from_js(int new_width, int new_height)
+{
 	SDL_SetWindowSize(window, new_width, new_height);
 }
 #endif
 
 // Handle Events
 static bool window_resized = false;
-static void handle_events() {
+static void handle_events()
+{
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
 			case SDL_KEYDOWN:
-			case SDL_KEYUP: {
+			case SDL_KEYUP:
+			{
+				if (event.key.keysym.sym == SDLK_F2)
+				{
+					if (event.key.state == SDL_PRESSED && g_AppPlatform != nullptr)
+					{
+						g_AppPlatform->saveScreenshot("", -1, -1);
+					}
+					break;
+				}
 				Keyboard::feed(event.key.state == SDL_PRESSED ? 1 : 0, translate_sdl_key_to_mcpe(event.key.keysym.sym));
-				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT) {
+				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
+				{
 					g_AppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
 				}
 				break;
 			}
 			case SDL_MOUSEBUTTONDOWN:
-			case SDL_MOUSEBUTTONUP: {
+			case SDL_MOUSEBUTTONUP:
+			{
 				Mouse::feed(event.button.button == SDL_BUTTON_LEFT ? 1 : 2, event.button.state == SDL_PRESSED ? 1 : 0, event.button.x, event.button.y);
 				break;
 			}
-			case SDL_MOUSEMOTION: {
+			case SDL_MOUSEMOTION:
+			{
 				Mouse::_x = event.motion.x;
 				Mouse::_y = event.motion.y;
 				Mouse::feed(0, 0, event.motion.x, event.motion.y);
 				g_AppPlatform->setMouseDiff(event.motion.xrel, event.motion.yrel);
 				break;
 			}
-			case SDL_MOUSEWHEEL: {
+			case SDL_MOUSEWHEEL:
+			{
 				Mouse::feed(3, event.wheel.y, Mouse::_x, Mouse::_y);
 				break;
 			}
-			case SDL_TEXTINPUT: {
-				if (g_pApp != nullptr) {
+			case SDL_TEXTINPUT:
+			{
+				if (g_pApp != nullptr)
+				{
 					char x = event.text.text[0];
-					if (x >= ' ' && x <= '~') {
+					if (x >= ' ' && x <= '~')
+					{
 						g_pApp->handleCharInput(x);
 					}
 				}
 				break;
 			}
-			case SDL_WINDOWEVENT: {
-				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+			case SDL_WINDOWEVENT:
+			{
+				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+				{
 					window_resized = true;
 				}
 				break;
 			}
-			case SDL_QUIT: {
+			case SDL_QUIT:
+			{
 				g_pApp->quit();
 				break;
 			}
@@ -107,28 +134,37 @@ static void handle_events() {
 }
 
 // GUI Scale
-static void calulate_gui_scale() {
+static void calulate_gui_scale()
+{
 	int width = Minecraft::width;
 
 	// Modified Version Of https://github.com/MCPI-Revival/Ninecraft/blob/3f71638a10b581f6a50669edb24bc1ef1a92fbea/ninecraft/src/main.c#L243-L255
-	if (width < 1000) {
-		if (width < 400) {
+	if (width < 1000)
+	{
+		if (width < 400)
+		{
 			Gui::InvGuiScale = 1.0;
-		} else {
+		}
+		else
+		{
 			Gui::InvGuiScale = 0.5;
 		}
-	} else {
+	}
+	else
+	{
 		Gui::InvGuiScale = 0.25;
 	}
 }
 
 // Resizing
-static void resize() {
+static void resize()
+{
 	SDL_GL_GetDrawableSize(window, &Minecraft::width, &Minecraft::height);
 
 	calulate_gui_scale();
 
-	if (g_pApp != nullptr && g_pApp->m_pScreen != nullptr) {
+	if (g_pApp != nullptr && g_pApp->m_pScreen != nullptr)
+	{
 		g_pApp->m_pScreen->setSize(Minecraft::width * Gui::InvGuiScale, Minecraft::height * Gui::InvGuiScale);
 	}
 }
@@ -140,12 +176,14 @@ static void resize() {
 #define EM_FALSE false
 #endif
 static bool is_first_window_resize = true;
-static EM_BOOL main_loop(double time, void *user_data) {
+static EM_BOOL main_loop(double time, void *user_data)
+{
 	// Handle Events
 	handle_events();
 
 	// Screen Size
-	if (window_resized) {
+	if (window_resized)
+	{
 		window_resized = false;
 		resize();
 	}
@@ -156,21 +194,26 @@ static EM_BOOL main_loop(double time, void *user_data) {
 	// Swap Buffers
 	SDL_GL_SwapWindow(window);
 
-	if (g_pApp->wantToQuit()) {
+	if (g_pApp->wantToQuit())
+	{
 		delete g_pApp;
 		delete g_AppPlatform;
 		teardown();
 		// Stop Looping
 		return EM_FALSE;
-	} else {
+	}
+	else
+	{
 		// Keep Looping
 		return EM_TRUE;
 	}
 }
 
 // Main
-int main(int argc, char *argv[]) {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+int main(int argc, char *argv[])
+{
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
 		LOGE("Unable To Initialize SDL: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
@@ -196,7 +239,8 @@ int main(int argc, char *argv[]) {
 
 	// Create Window
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	if (!window) {
+	if (!window)
+	{
 		LOGE("Unable To Create SDL Window\n");
 		exit(EXIT_FAILURE);
 	}
@@ -206,7 +250,8 @@ int main(int argc, char *argv[]) {
 
 	// Create OpenGL ES Context
 	context = SDL_GL_CreateContext(window);
-	if (!context) {
+	if (!context)
+	{
 		LOGE("Unable To Create OpenGL Context\n");
 		exit(EXIT_FAILURE);
 	}
@@ -244,9 +289,11 @@ int main(int argc, char *argv[]) {
 
 	// Loop
 #ifndef __EMSCRIPTEN__
-	while (true) {
+	while (true)
+	{
 		EM_BOOL result = main_loop(0, nullptr);
-		if (result == EM_FALSE) {
+		if (result == EM_FALSE)
+		{
 			break;
 		}
 	}

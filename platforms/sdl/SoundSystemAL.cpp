@@ -2,9 +2,11 @@
 
 #include "client/common/Utils.hpp"
 
-SoundSystemAL::SoundSystemAL() {
+SoundSystemAL::SoundSystemAL()
+{
 	device = alcOpenDevice(NULL);
-	if (!device) {
+	if (!device)
+	{
 		LogMsg("Unable To Load Audio Engine");
 		return;
 	}
@@ -12,7 +14,8 @@ SoundSystemAL::SoundSystemAL() {
 	// Create Context
 	context = alcCreateContext(device, NULL);
 	ALCenum err = alcGetError(device);
-	if (err != ALC_NO_ERROR) {
+	if (err != ALC_NO_ERROR)
+	{
 		LogMsg("Unable To Open Audio Context: %s", alcGetString(device, err));
 		return;
 	}
@@ -20,7 +23,8 @@ SoundSystemAL::SoundSystemAL() {
 	// Select Context
 	alcMakeContextCurrent(context);
 	err = alcGetError(device);
-	if (err != ALC_NO_ERROR) {
+	if (err != ALC_NO_ERROR)
+	{
 		LogMsg("Unable To Select Audio Context: %s", alcGetString(device, err));
 		return;
 	}
@@ -32,34 +36,41 @@ SoundSystemAL::SoundSystemAL() {
 	loaded = true;
 }
 
-SoundSystemAL::~SoundSystemAL() {
-	if (loaded) {
-		// Delete Audio Sources
-		delete_sources();
+SoundSystemAL::~SoundSystemAL()
+{
+	if (!loaded)
+	{
+		return;
+	}
 
-		// Delete Audio Buffers
-		delete_buffers();
+	// Delete Audio Sources
+	delete_sources();
 
-		// Deselect Context
-		alcMakeContextCurrent(NULL);
-		ALCenum err = alcGetError(device);
-		if (err != ALC_NO_ERROR) {
-			LogMsg("Unable To Deselect Audio Context: %s", alcGetString(device, err));
-		}
+	// Delete Audio Buffers
+	delete_buffers();
 
-		// Destroy Context
-		alcDestroyContext(context);
-		err = alcGetError(device);
-		if (err != ALC_NO_ERROR) {
-			LogMsg("Unable To Destroy Audio Context: %s", alcGetString(device, err));
-		}
+	// Deselect Context
+	alcMakeContextCurrent(NULL);
+	ALCenum err = alcGetError(device);
+	if (err != ALC_NO_ERROR)
+	{
+		LogMsg("Unable To Deselect Audio Context: %s", alcGetString(device, err));
+	}
 
-		// Close Device
-		alcCloseDevice(device);
-		err = alcGetError(device);
-		if (err != ALC_NO_ERROR) {
-			LogMsg("Unable To Close Audio Device: %s", alcGetString(device, err));
-		}
+	// Destroy Context
+	alcDestroyContext(context);
+	err = alcGetError(device);
+	if (err != ALC_NO_ERROR)
+	{
+		LogMsg("Unable To Destroy Audio Context: %s", alcGetString(device, err));
+	}
+
+	// Close Device
+	alcCloseDevice(device);
+	err = alcGetError(device);
+	if (err != ALC_NO_ERROR)
+	{
+		LogMsg("Unable To Close Audio Device: %s", alcGetString(device, err));
 	}
 }
 
@@ -68,20 +79,25 @@ SoundSystemAL::~SoundSystemAL() {
 #define AL_ERROR_CHECK_MANUAL(val) \
 	{ \
 		ALenum __err = val; \
-		if (__err != AL_NO_ERROR) { \
+		if (__err != AL_NO_ERROR) \
+		{ \
 			LogMsg("(%s:%i) OpenAL Error: %s", __FILE__, __LINE__, alGetString(__err)); \
 			exit(EXIT_FAILURE); \
 		} \
 	}
 
 // Delete Sources
-void SoundSystemAL::delete_sources() {
-	if (loaded) {
-		for (ALuint source : idle_sources) {
+void SoundSystemAL::delete_sources()
+{
+	if (loaded)
+	{
+		for (ALuint source : idle_sources)
+		{
 			alDeleteSources(1, &source);
 			AL_ERROR_CHECK();
 		}
-		for (ALuint source : sources) {
+		for (ALuint source : sources)
+		{
 			alDeleteSources(1, &source);
 			AL_ERROR_CHECK();
 		}
@@ -91,10 +107,14 @@ void SoundSystemAL::delete_sources() {
 }
 
 // Delete Buffers
-void SoundSystemAL::delete_buffers() {
-	if (loaded) {
-		for (auto &it : buffers) {
-			if (it.second && alIsBuffer(it.second)) {
+void SoundSystemAL::delete_buffers()
+{
+	if (loaded)
+	{
+		for (auto &it : buffers)
+		{
+			if (it.second && alIsBuffer(it.second))
+			{
 				alDeleteBuffers(1, &it.second);
 				AL_ERROR_CHECK();
 			}
@@ -104,15 +124,22 @@ void SoundSystemAL::delete_buffers() {
 }
 
 // Get Buffer
-ALuint SoundSystemAL::get_buffer(const SoundDesc &sound) {
-	if (buffers.count(sound.m_pData) > 0) {
+ALuint SoundSystemAL::get_buffer(const SoundDesc& sound)
+{
+	if (buffers.count(sound.m_pData) > 0)
+	{
 		return buffers[sound.m_pData];
-	} else {
+	}
+	else
+	{
 		// Sound Format
 		ALenum format = AL_NONE;
-		if (sound.m_header.m_channels == 1) {
+		if (sound.m_header.m_channels == 1)
+		{
 			format = sound.m_header.m_bytes_per_sample == 2 ? AL_FORMAT_MONO16 : AL_FORMAT_MONO8;
-		} else if (sound.m_header.m_channels == 2) {
+		}
+		else if (sound.m_header.m_channels == 2)
+		{
 			format = sound.m_header.m_bytes_per_sample == 2 ? AL_FORMAT_STEREO16 : AL_FORMAT_STEREO8;
 		}
 
@@ -132,114 +159,140 @@ ALuint SoundSystemAL::get_buffer(const SoundDesc &sound) {
 	}
 }
 
-void SoundSystemAL::update(float x, float y, float z, float yaw) {
+void SoundSystemAL::update(float x, float y, float z, float yaw)
+{
 	// Check
-	if (loaded) {
-		// Update Listener Volume
-		float volume = 1;
-		alListenerf(AL_GAIN, volume);
-		AL_ERROR_CHECK();
+	if (!loaded)
+	{
+		return;
+	}
 
-		// Update Listener Position
-		alListener3f(AL_POSITION, x, y, z);
-		AL_ERROR_CHECK();
+	// Update Listener Volume
+	float volume = 1;
+	alListenerf(AL_GAIN, volume);
+	AL_ERROR_CHECK();
 
-		// Update Listener Orientation
-		float radian_yaw = yaw * (M_PI / 180);
-		ALfloat orientation[] = {-sinf(radian_yaw), 0.0f, cosf(radian_yaw), 0.0f, 1.0f, 0.0f};
-		alListenerfv(AL_ORIENTATION, orientation);
-		AL_ERROR_CHECK();
+	// Update Listener Position
+	alListener3f(AL_POSITION, x, y, z);
+	AL_ERROR_CHECK();
 
-		// Clear Finished Sources
-		std::vector<ALuint>::iterator it = sources.begin();
-		while (it != sources.end()) {
-			ALuint source = *it;
-			bool remove = false;
-			// Check
-			if (source && alIsSource(source)) {
-				// Is Valid Source
-				ALint source_state;
-				alGetSourcei(source, AL_SOURCE_STATE, &source_state);
-				AL_ERROR_CHECK();
-				if (source_state != AL_PLAYING) {
-					// Finished Playing
-					remove = true;
-					if (idle_sources.size() < MAX_IDLE_SOURCES) {
-						idle_sources.push_back(source);
-					} else {
-						alDeleteSources(1, &source);
-						AL_ERROR_CHECK();
-					}
-				}
-			} else {
-				// Not A Source
+	// Update Listener Orientation
+	float radian_yaw = yaw * (M_PI / 180);
+	ALfloat orientation[] = {-sinf(radian_yaw), 0.0f, cosf(radian_yaw), 0.0f, 1.0f, 0.0f};
+	alListenerfv(AL_ORIENTATION, orientation);
+	AL_ERROR_CHECK();
+
+	// Clear Finished Sources
+	std::vector<ALuint>::iterator it = sources.begin();
+	while (it != sources.end())
+	{
+		ALuint source = *it;
+		bool remove = false;
+		// Check
+		if (source && alIsSource(source))
+		{
+			// Is Valid Source
+			ALint source_state;
+			alGetSourcei(source, AL_SOURCE_STATE, &source_state);
+			AL_ERROR_CHECK();
+			if (source_state != AL_PLAYING)
+			{
+				// Finished Playing
 				remove = true;
+				if (idle_sources.size() < MAX_IDLE_SOURCES)
+				{
+					idle_sources.push_back(source);
+				}
+				else
+				{
+					alDeleteSources(1, &source);
+					AL_ERROR_CHECK();
+				}
 			}
-			// Remove If Needed
-			if (remove) {
-				it = sources.erase(it);
-			} else {
-				++it;
-			}
+		}
+		else
+		{
+			// Not A Source
+			remove = true;
+		}
+		// Remove If Needed
+		if (remove) {
+			it = sources.erase(it);
+		}
+		else
+		{
+			++it;
 		}
 	}
 }
 
-void SoundSystemAL::play(const SoundDesc &sound, float x, float y, float z, float volume, float pitch, bool is_ui) {
-	if (loaded) {
-		// Load Sound
-		ALuint buffer = get_buffer(sound);
-		if (volume > 0.0f && buffer) {
-			// Get Source
-			ALuint al_source;
-			if (idle_sources.size() > 0) {
-				// Use Idle Source
-				al_source = idle_sources.back();
-				idle_sources.pop_back();
-			} else {
-				// Create Source
-				alGenSources(1, &al_source);
-				// Special Out-Of-Memory Handling
+void SoundSystemAL::play(const SoundDesc& sound, float x, float y, float z, float volume, float pitch, bool is_ui)
+{
+	// Check
+	if (!loaded)
+	{
+		return;
+	}
+
+	// Load Sound
+	ALuint buffer = get_buffer(sound);
+	if (volume > 0.0f && buffer)
+	{
+		// Get Source
+		ALuint al_source;
+		if (idle_sources.size() > 0)
+		{
+			// Use Idle Source
+			al_source = idle_sources.back();
+			idle_sources.pop_back();
+		}
+		else
+		{
+			// Create Source
+			alGenSources(1, &al_source);
+			// Special Out-Of-Memory Handling
+			{
+				ALenum err = alGetError();
+				if (err == AL_OUT_OF_MEMORY)
 				{
-					ALenum err = alGetError();
-					if (err == AL_OUT_OF_MEMORY) {
-						return;
-					} else {
-						AL_ERROR_CHECK_MANUAL(err);
-					}
+					return;
+				}
+				else
+				{
+					AL_ERROR_CHECK_MANUAL(err);
 				}
 			}
-
-			// Set Properties
-			alSourcef(al_source, AL_PITCH, pitch);
-			AL_ERROR_CHECK();
-			alSourcef(al_source, AL_GAIN, volume);
-			AL_ERROR_CHECK();
-			alSource3f(al_source, AL_POSITION, x, y, z);
-			AL_ERROR_CHECK();
-			alSource3f(al_source, AL_VELOCITY, 0, 0, 0);
-			AL_ERROR_CHECK();
-			alSourcei(al_source, AL_LOOPING, AL_FALSE);
-			AL_ERROR_CHECK();
-			alSourcei(al_source, AL_SOURCE_RELATIVE, is_ui ? AL_TRUE : AL_FALSE);
-			AL_ERROR_CHECK();
-
-			// Set Attenuation
-			alSourcef(al_source, AL_MAX_DISTANCE, 16.0f);
-			AL_ERROR_CHECK();
-			alSourcef(al_source, AL_ROLLOFF_FACTOR, 6.0f);
-			AL_ERROR_CHECK();
-			alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f);
-			AL_ERROR_CHECK();
-
-			// Set Buffer
-			alSourcei(al_source, AL_BUFFER, buffer);
-			AL_ERROR_CHECK();
-
-			// Play
-			alSourcePlay(al_source);
-			AL_ERROR_CHECK();
-			sources.push_back(al_source);
 		}
+
+		// Set Properties
+		alSourcef(al_source, AL_PITCH, pitch);
+		AL_ERROR_CHECK();
+		alSourcef(al_source, AL_GAIN, volume);
+		AL_ERROR_CHECK();
+		alSource3f(al_source, AL_POSITION, x, y, z);
+		AL_ERROR_CHECK();
+		alSource3f(al_source, AL_VELOCITY, 0, 0, 0);
+		AL_ERROR_CHECK();
+		alSourcei(al_source, AL_LOOPING, AL_FALSE);
+		AL_ERROR_CHECK();
+		alSourcei(al_source, AL_SOURCE_RELATIVE, is_ui ? AL_TRUE : AL_FALSE);
+		AL_ERROR_CHECK();
+
+		// Set Attenuation
+		alSourcef(al_source, AL_MAX_DISTANCE, 16.0f);
+		AL_ERROR_CHECK();
+		alSourcef(al_source, AL_ROLLOFF_FACTOR, 6.0f);
+		AL_ERROR_CHECK();
+		alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f);
+		AL_ERROR_CHECK();
+
+		// Set Buffer
+		alSourcei(al_source, AL_BUFFER, buffer);
+		AL_ERROR_CHECK();
+
+		// Play
+		alSourcePlay(al_source);
+		AL_ERROR_CHECK();
+		sources.push_back(al_source);
 	}
 }

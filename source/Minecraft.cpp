@@ -92,7 +92,8 @@ void Minecraft::grabMouse()
 void Minecraft::setScreen(Screen* pScreen)
 {
 #ifndef ORIGINAL_CODE
-	if (pScreen == nullptr && !isLevelGenerated()) {
+	if (pScreen == nullptr && !isLevelGenerated())
+	{
 		return;
 	}
 #endif
