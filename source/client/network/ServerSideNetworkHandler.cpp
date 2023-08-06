@@ -24,7 +24,9 @@ ServerSideNetworkHandler::ServerSideNetworkHandler(Minecraft* minecraft, RakNetI
 	m_pMinecraft = minecraft;
 	m_pRakNetInstance = rakNetInstance;
 	allowIncomingConnections(false);
-	m_pRakNetPeer = m_pRakNetInstance->getPeer();	
+	m_pRakNetPeer = m_pRakNetInstance->getPeer();
+
+	setupCommands();
 }
 
 ServerSideNetworkHandler::~ServerSideNetworkHandler()
@@ -51,7 +53,8 @@ void ServerSideNetworkHandler::levelGenerated(Level* level)
 
 	allowIncomingConnections(m_pMinecraft->m_options.m_bServerVisibleDefault);
 
-	m_onlinePlayers.insert_or_assign(m_pMinecraft->m_pLocalPlayer->m_guid, new OnlinePlayer(m_pMinecraft->m_pLocalPlayer));
+	m_onlinePlayers.insert_or_assign(m_pMinecraft->m_pLocalPlayer->m_guid,
+		new OnlinePlayer(m_pMinecraft->m_pLocalPlayer, m_pMinecraft->m_pLocalPlayer->m_guid));
 }
 
 void ServerSideNetworkHandler::onNewClient(const RakNet::RakNetGUID& guid)
@@ -102,7 +105,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	pPlayer->m_guid = guid;
 	pPlayer->m_name = std::string(packet->m_str.C_String());
 
-	m_onlinePlayers.insert_or_assign(guid, new OnlinePlayer(pPlayer));
+	m_onlinePlayers.insert_or_assign(guid, new OnlinePlayer(pPlayer, guid));
 
 	StartGamePacket sgp;
 	sgp.field_4 = m_pLevel->getSeed();
@@ -154,8 +157,29 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePac
 	if (msg[0] == '/')
 	{
 		printf("CMD: %s: %s\n", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
-		// TODO: Commands
-		sendMessage(guid, "Commands haven't been implemented yet!");
+
+		std::stringstream ss(msg);
+		ss.get(); // skip the /
+		std::vector<std::string> parms;
+		std::string currparm, cmdname;
+		// get cmd name
+		std::getline(ss, cmdname, ' ');
+		// get cmd parms
+		while (std::getline(ss, currparm, ' '))
+			parms.push_back(currparm);
+
+		CommandFunction func;
+		CommandMap::iterator iter = m_commands.find(cmdname);
+		if (iter == m_commands.end())
+		{
+			sendMessage(pOP, "Unknown command. Type /? for a list of commands.");
+			return;
+		}
+
+		func = iter->second;
+
+		(this->*func)(pOP, parms);
+
 		return;
 	}
 
@@ -335,6 +359,11 @@ void ServerSideNetworkHandler::sendMessage(const RakNet::RakNetGUID& guid, const
 	m_pRakNetInstance->send(guid, new MessagePacket(msg));
 }
 
+void ServerSideNetworkHandler::sendMessage(OnlinePlayer* player, const std::string& msg)
+{
+	sendMessage(player->m_guid, msg);
+}
+
 void ServerSideNetworkHandler::redistributePacket(Packet* packet, const RakNet::RakNetGUID& source)
 {
 	RakNet::BitStream bs;
@@ -350,4 +379,49 @@ OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID
 		return nullptr;
 
 	return iter->second;
+}
+
+///////////////// In-Game Commands /////////////////
+
+void ServerSideNetworkHandler::setupCommands()
+{
+	m_commands["?"]     = &ServerSideNetworkHandler::commandHelp;
+	m_commands["help"]  = &ServerSideNetworkHandler::commandHelp;
+	m_commands["stats"] = &ServerSideNetworkHandler::commandStats;
+	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
+}
+
+void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	std::stringstream ss;
+	ss << ">> Available commands:";
+
+	for (CommandMap::iterator it = m_commands.begin(); it != m_commands.end(); ++it)
+	{
+		ss << " /" << it->first;
+	}
+
+	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandStats(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+
+	std::stringstream ss;
+	ss << "Server uptime: " << getTimeS() << " seconds.  Host's name: " << m_pMinecraft->m_pUser->field_0;
+
+	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+
+	std::stringstream ss;
+	ss << "In-game time: ";
+	ss << m_pLevel->getTime();
+	sendMessage(player, ss.str());
 }
