@@ -30,7 +30,7 @@ endif()
 add_executable(reminecraftpe
     main.cpp
     AppPlatform_sdl.cpp
-    ../OpenAL/SoundSystemAL.cpp
+    ../openal/SoundSystemAL.cpp
 )
 
 # Core
