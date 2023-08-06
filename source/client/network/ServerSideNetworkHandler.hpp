@@ -8,12 +8,28 @@
 
 #pragma once
 
+#include <unordered_map>
 #include "NetEventCallback.hpp"
 #include "Minecraft.hpp"
 #include "RakNetInstance.hpp"
 #include "world/level/LevelListener.hpp"
 
 class Minecraft;
+
+struct OnlinePlayer
+{
+	Player* m_pPlayer; // The player avatar this online player controls
+
+	OnlinePlayer(Player* p) : m_pPlayer(p) {}
+};
+
+struct RakNetGUIDHasher
+{
+	size_t operator()(const RakNet::RakNetGUID& guid) const
+	{
+		return size_t(guid.g);
+	}
+};
 
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
 {
@@ -39,13 +55,18 @@ public:
 
 	void allowIncomingConnections(bool b);
 	void displayGameMessage(const std::string&);
+	void sendMessage(const RakNet::RakNetGUID& guid, const std::string&);
 	void redistributePacket(Packet* packet, const RakNet::RakNetGUID& source);
+
+	OnlinePlayer* getPlayerByGUID(const RakNet::RakNetGUID& guid);
 
 public:
 	Minecraft* m_pMinecraft = nullptr;
 	Level* m_pLevel = nullptr;
 	RakNetInstance* m_pRakNetInstance = nullptr;
 	RakNet::RakPeerInterface* m_pRakNetPeer = nullptr;
-	bool m_bAllowIncoming = false;	
+	bool m_bAllowIncoming = false;
+
+	std::unordered_map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> m_onlinePlayers;
 };
 

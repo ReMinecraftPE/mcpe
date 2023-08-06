@@ -543,8 +543,7 @@ void Minecraft::sendMessage(const std::string& message)
 	if (isOnlineClient())
 	{
 		// send the server a message packet
-		MessagePacket mp(message);
-		m_pRakNetInstance->send(&mp);
+		m_pRakNetInstance->send(new MessagePacket(message));
 	}
 	else
 	{
