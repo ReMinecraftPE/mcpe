@@ -538,6 +538,22 @@ void Minecraft::handleCharInput(char chr)
 		m_pScreen->charInput(chr);
 }
 
+void Minecraft::sendMessage(const std::string& message)
+{
+	if (isOnlineClient())
+	{
+		// send the server a message packet
+		MessagePacket mp(message);
+		m_pRakNetInstance->send(&mp);
+	}
+	else
+	{
+		// fake the server having received a packet
+		MessagePacket mp(message);
+		m_pNetEventCallback->handle(m_pRakNetInstance->m_pRakPeerInterface->GetMyGUID(), &mp);
+	}
+}
+
 void Minecraft::_levelGenerated()
 {
 	if (m_pNetEventCallback)

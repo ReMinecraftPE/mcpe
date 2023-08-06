@@ -8,6 +8,7 @@
 
 #include "Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
+#include "client/gui/screens/ChatScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 
 #ifdef _WIN32
@@ -397,6 +398,15 @@ void Gui::handleKeyPressed(int keyCode)
 
 			break;
 		}
+
+		case AKEYCODE_T:
+		{
+			if (m_pMinecraft->m_pScreen)
+				break;
+
+			m_pMinecraft->setScreen(new ChatScreen);
+			break;
+		}
 	}
 }
 
@@ -414,18 +424,23 @@ void Gui::renderMessages(bool bShowAll)
 
 		int bkgdColor = 0x7F000000, textColor = 0xFFFFFFFF;
 
-		float fade = 10.0f * (1.0f - (float(msg.field_18) / 200.0f));
-		if (fade <= 0.0f)
-			continue;
-
-		if (fade < 1.0f)
+		float fade = 1.0f;
+		
+		if (!bShowAll)
 		{
-			int x = int(fade * fade * 255.0f);
-			if (x == 0)
+			fade = 10.0f * (1.0f - (float(msg.field_18) / 200.0f));
+			if (fade <= 0.0f)
 				continue;
 
-			bkgdColor = (x / 2) << 24;
-			textColor = (x << 24) + 0xFFFFFF;
+			if (fade < 1.0f)
+			{
+				int x = int(fade * fade * 255.0f);
+				if (x == 0)
+					continue;
+
+				bkgdColor = (x / 2) << 24;
+				textColor = (x << 24) + 0xFFFFFF;
+			}
 		}
 
 		fill(2, topEdge, 322, topEdge + 9, bkgdColor);

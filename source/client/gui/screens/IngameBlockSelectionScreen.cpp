@@ -164,6 +164,11 @@ void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 		selectSlotAndClose();
 }
 
+void IngameBlockSelectionScreen::removed()
+{
+	m_pMinecraft->m_gui.inventoryUpdated();
+}
+
 void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();

@@ -113,6 +113,11 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, true);
 }
 
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID&, MessagePacket* packet)
+{
+	// TODO
+}
+
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MovePlayerPacket* packet)
 {
 	//not in the original

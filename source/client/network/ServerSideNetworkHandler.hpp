@@ -26,6 +26,7 @@ public:
 	void onNewClient(const RakNet::RakNetGUID&) override;
 	void onDisconnect(const RakNet::RakNetGUID&) override;
 	void handle(const RakNet::RakNetGUID&, LoginPacket*) override;
+	void handle(const RakNet::RakNetGUID&, MessagePacket*) override;
 	void handle(const RakNet::RakNetGUID&, MovePlayerPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveBlockPacket*) override;
