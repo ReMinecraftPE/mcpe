@@ -60,13 +60,15 @@ public:
 	virtual void onGraphicsReset();
 	virtual void update() override;
 	virtual void init() override;
+	virtual void sizeUpdate(int newWidth, int newHeight) override;
 
-	static void* prepareLevel_tspawn(void* pMinecraft);
+	float getBestScaleForThisScreenSize(int width, int height);
 	void generateLevel(const std::string& unused, Level* pLevel);
 	void prepareLevel(const std::string& unused);
 	void _levelGenerated();
 	bool isOnline();
 	bool isOnlineClient();
+	static void* prepareLevel_tspawn(void* pMinecraft);
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();

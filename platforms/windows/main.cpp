@@ -158,6 +158,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			g_AppPlatform.setScreenSize(width, height);
 
+			if (g_pApp)
+				g_pApp->sizeUpdate(width, height);
+
 			break;
 		}
 		case WM_KEYDOWN:

@@ -5,4 +5,4 @@ ctrl_invertmouse|false
 gfx_fancygraphics|true
 mp_server_visible_default|true
 gfx_smoothlighting|true
-gfx_viewdistance|2
+gfx_viewdistance|3

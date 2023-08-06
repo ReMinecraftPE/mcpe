@@ -57,3 +57,7 @@ void App::update()
 {
 
 }
+
+void App::sizeUpdate(int newWidth, int newHeight)
+{
+}
