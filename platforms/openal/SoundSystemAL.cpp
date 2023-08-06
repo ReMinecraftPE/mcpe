@@ -67,11 +67,12 @@ SoundSystemAL::~SoundSystemAL()
 
 	// Close Device
 	alcCloseDevice(device);
-	err = alcGetError(device);
+	// Can't check for error because device is closed
+	/*err = alcGetError(device);
 	if (err != ALC_NO_ERROR)
 	{
 		LogMsg("Unable To Close Audio Device: %s", alcGetString(device, err));
-	}
+	}*/
 }
 
 // Error Checking
@@ -159,7 +160,29 @@ ALuint SoundSystemAL::get_buffer(const SoundDesc& sound)
 	}
 }
 
-void SoundSystemAL::update(float x, float y, float z, float yaw)
+bool SoundSystemAL::isAvailable()
+{
+	return loaded;
+}
+
+void SoundSystemAL::setListenerPos(float x, float y, float z)
+{
+	// Update Listener Position
+	alListener3f(AL_POSITION, x, y, z);
+	AL_ERROR_CHECK();
+	update();
+}
+
+void SoundSystemAL::setListenerAngle(float yaw, float pitch)
+{
+	// Update Listener Orientation
+	float radian_yaw = yaw * (M_PI / 180);
+	ALfloat orientation[] = { -sinf(radian_yaw), 0.0f, cosf(radian_yaw), 0.0f, 1.0f, 0.0f };
+	alListenerfv(AL_ORIENTATION, orientation);
+	AL_ERROR_CHECK();
+}
+
+void SoundSystemAL::update()
 {
 	// Check
 	if (!loaded)
@@ -170,16 +193,6 @@ void SoundSystemAL::update(float x, float y, float z, float yaw)
 	// Update Listener Volume
 	float volume = 1;
 	alListenerf(AL_GAIN, volume);
-	AL_ERROR_CHECK();
-
-	// Update Listener Position
-	alListener3f(AL_POSITION, x, y, z);
-	AL_ERROR_CHECK();
-
-	// Update Listener Orientation
-	float radian_yaw = yaw * (M_PI / 180);
-	ALfloat orientation[] = {-sinf(radian_yaw), 0.0f, cosf(radian_yaw), 0.0f, 1.0f, 0.0f};
-	alListenerfv(AL_ORIENTATION, orientation);
 	AL_ERROR_CHECK();
 
 	// Clear Finished Sources
@@ -226,7 +239,7 @@ void SoundSystemAL::update(float x, float y, float z, float yaw)
 	}
 }
 
-void SoundSystemAL::play(const SoundDesc& sound, float x, float y, float z, float volume, float pitch, bool is_ui)
+void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch)
 {
 	// Check
 	if (!loaded)
@@ -234,65 +247,68 @@ void SoundSystemAL::play(const SoundDesc& sound, float x, float y, float z, floa
 		return;
 	}
 
+	if (volume <= 0.0f)
+		return;
+
 	// Load Sound
 	ALuint buffer = get_buffer(sound);
-	if (volume > 0.0f && buffer)
+	if (!buffer)
+		return;
+	
+	// Get Source
+	ALuint al_source;
+	if (idle_sources.size() > 0)
 	{
-		// Get Source
-		ALuint al_source;
-		if (idle_sources.size() > 0)
+		// Use Idle Source
+		al_source = idle_sources.back();
+		idle_sources.pop_back();
+	}
+	else
+	{
+		// Create Source
+		alGenSources(1, &al_source);
+		// Special Out-Of-Memory Handling
 		{
-			// Use Idle Source
-			al_source = idle_sources.back();
-			idle_sources.pop_back();
-		}
-		else
-		{
-			// Create Source
-			alGenSources(1, &al_source);
-			// Special Out-Of-Memory Handling
+			ALenum err = alGetError();
+			if (err == AL_OUT_OF_MEMORY)
 			{
-				ALenum err = alGetError();
-				if (err == AL_OUT_OF_MEMORY)
-				{
-					return;
-				}
-				else
-				{
-					AL_ERROR_CHECK_MANUAL(err);
-				}
+				return;
+			}
+			else
+			{
+				AL_ERROR_CHECK_MANUAL(err);
 			}
 		}
-
-		// Set Properties
-		alSourcef(al_source, AL_PITCH, pitch);
-		AL_ERROR_CHECK();
-		alSourcef(al_source, AL_GAIN, volume);
-		AL_ERROR_CHECK();
-		alSource3f(al_source, AL_POSITION, x, y, z);
-		AL_ERROR_CHECK();
-		alSource3f(al_source, AL_VELOCITY, 0, 0, 0);
-		AL_ERROR_CHECK();
-		alSourcei(al_source, AL_LOOPING, AL_FALSE);
-		AL_ERROR_CHECK();
-		alSourcei(al_source, AL_SOURCE_RELATIVE, is_ui ? AL_TRUE : AL_FALSE);
-		AL_ERROR_CHECK();
-
-		// Set Attenuation
-		alSourcef(al_source, AL_MAX_DISTANCE, 16.0f);
-		AL_ERROR_CHECK();
-		alSourcef(al_source, AL_ROLLOFF_FACTOR, 6.0f);
-		AL_ERROR_CHECK();
-		alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f);
-		AL_ERROR_CHECK();
-
-		// Set Buffer
-		alSourcei(al_source, AL_BUFFER, buffer);
-		AL_ERROR_CHECK();
-
-		// Play
-		alSourcePlay(al_source);
-		AL_ERROR_CHECK();
-		sources.push_back(al_source);
 	}
+
+	// Set Properties
+	alSourcef(al_source, AL_PITCH, pitch);
+	AL_ERROR_CHECK();
+	alSourcef(al_source, AL_GAIN, volume);
+	AL_ERROR_CHECK();
+	alSource3f(al_source, AL_POSITION, x, y, z);
+	AL_ERROR_CHECK();
+	alSource3f(al_source, AL_VELOCITY, 0, 0, 0);
+	AL_ERROR_CHECK();
+	alSourcei(al_source, AL_LOOPING, AL_FALSE);
+	AL_ERROR_CHECK();
+	alSourcei(al_source, AL_SOURCE_RELATIVE, AL_FALSE);
+	AL_ERROR_CHECK();
+
+	// Set Attenuation
+	alSourcef(al_source, AL_MAX_DISTANCE, 16.0f);
+	AL_ERROR_CHECK();
+	alSourcef(al_source, AL_ROLLOFF_FACTOR, 3.0f);
+	AL_ERROR_CHECK();
+	alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f);
+	AL_ERROR_CHECK();
+
+	// Set Buffer
+	alSourcei(al_source, AL_BUFFER, buffer);
+	AL_ERROR_CHECK();
+
+	// Play
+	alSourcePlay(al_source);
+	AL_ERROR_CHECK();
+	sources.push_back(al_source);
 }

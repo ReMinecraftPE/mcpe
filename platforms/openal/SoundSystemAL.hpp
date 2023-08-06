@@ -7,7 +7,6 @@
 #include <vector>
 #include <unordered_map>
 
-#include "client/sound/SoundData.hpp"
 #include "client/sound/SoundSystem.hpp"
 
 #pragma comment( lib, "OpenAl32.lib" )
@@ -19,8 +18,12 @@ class SoundSystemAL : public SoundSystem
 public:
 	SoundSystemAL();
 	~SoundSystemAL();
-	void update(float x, float y, float z, float yaw);
-	void play(const SoundDesc& sound, float x, float y, float z, float volume, float pitch, bool is_ui);
+	virtual bool isAvailable();
+	void update();
+	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch);
+
+	virtual void setListenerPos(float x, float y, float z);
+	virtual void setListenerAngle(float yaw, float pitch = 0.0f);
 private:
 	void delete_sources();
 	void delete_buffers();

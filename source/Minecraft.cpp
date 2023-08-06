@@ -554,12 +554,8 @@ void Minecraft::tick()
 #ifndef ORIGINAL_CODE
 			if (m_pMobPersp)
 			{
-#ifdef USE_SDL
-				m_pSoundEngine->m_soundSystem.update(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z, m_pMobPersp->m_yaw);
-#else
 				m_pSoundEngine->m_soundSystem.setListenerPos(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z);
 				m_pSoundEngine->m_soundSystem.setListenerAngle(m_pMobPersp->m_yaw, m_pMobPersp->m_pitch);
-#endif
 			}
 #endif
 

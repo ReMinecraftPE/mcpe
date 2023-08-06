@@ -17,7 +17,7 @@
 
 #elif defined(USE_OPENAL)
 
-// -- OpenAL based sound system for SDL
+// -- OpenAL based sound system
 #include "openal/SoundSystemAL.hpp"
 #define SOUND_SYSTEM_TYPE SoundSystemAL
 
