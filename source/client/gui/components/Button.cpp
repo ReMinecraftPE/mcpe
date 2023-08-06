@@ -8,30 +8,30 @@
 
 #include "Button.hpp"
 
-Button::Button(int a2, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text)
+Button::Button(int buttonId, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text)
 {
-	field_30 = a2;
+	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
-	field_18 = text;
+	m_text = text;
 	m_width  = btnWidth;
 	m_height = btnHeight;
 }
 
-Button::Button(int a2, int xPos, int yPos, const std::string& text)
+Button::Button(int buttonId, int xPos, int yPos, const std::string& text)
 {
-	field_30 = a2;
+	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
-	field_18 = text;
+	m_text = text;
 	m_width  = 200;
 	m_height = 24;
 }
 
-Button::Button(int a2, const std::string& text)
+Button::Button(int buttonId, const std::string& text)
 {
-	field_30 = a2;
-	field_18 = text;
+	m_buttonId = buttonId;
+	m_text = text;
 	m_width  = 200;
 	m_height = 24;
 }
@@ -93,5 +93,5 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	else
 		textColor = int(0xE0E0E0U);
 
-	drawCenteredString(pFont, field_18, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
+	drawCenteredString(pFont, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 }

@@ -100,16 +100,16 @@ void PauseScreen::render(int a, int b, float c)
 
 void PauseScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->field_30 == m_btnBack.field_30)
+	if (pButton->buttonId == m_btnBack.buttonId)
 		m_pMinecraft->setScreen(nullptr);
 
-	if (pButton->field_30 == m_btnQuit.field_30)
+	if (pButton->buttonId == m_btnQuit.buttonId)
 		m_pMinecraft->leaveGame(false);
 
-	if (pButton->field_30 == m_btnQuitAndCopy.field_30)
+	if (pButton->buttonId == m_btnQuitAndCopy.buttonId)
 		m_pMinecraft->leaveGame(true);
 
-	if (pButton->field_30 == m_btnVisible.field_30)
+	if (pButton->buttonId == m_btnVisible.buttonId)
 	{
 		if (m_pMinecraft->m_pRakNetInstance && m_pMinecraft->m_pRakNetInstance->m_bIsHost)
 		{
@@ -121,7 +121,7 @@ void PauseScreen::buttonClicked(Button* pButton)
 	}
 
 #ifdef ENH_ADD_OPTIONS_PAUSE
-	if (pButton->field_30 == m_btnOptions.field_30)
+	if (pButton->buttonId == m_btnOptions.buttonId)
 		m_pMinecraft->setScreen(new OptionsScreen);
 #endif
 }

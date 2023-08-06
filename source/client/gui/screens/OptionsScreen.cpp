@@ -161,7 +161,7 @@ void OptionsScreen::buttonClicked(Button* pButton)
 	Options& o = m_pMinecraft->m_options;
 
 	bool* pOption = nullptr;
-	switch (pButton->field_30)
+	switch (pButton->buttonId)
 	{
 		case OB_BACK:
 			if (m_pMinecraft->isLevelGenerated())
