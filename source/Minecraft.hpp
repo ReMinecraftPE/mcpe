@@ -54,6 +54,7 @@ public:
 	void locateMultiplayer();
 	void tickMouse();
 	void handleCharInput(char chr);
+	void sendMessage(const std::string& message);
 
 	virtual void onGraphicsReset();
 	virtual void update() override;
