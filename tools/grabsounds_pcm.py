@@ -109,8 +109,11 @@ def main():
         
         filename = output_dir + item[0] + '.pcm'
         with open(filename, 'wb') as of:
+            channels = read_int_from_bytes(bytes, item[1] + 0)
             data_length = read_int_from_bytes(bytes, item[1] + 12)
         
+            data_length *= channels
+            
             # @NOTE: All the PCM sound data is in `.data`. So there's no consts to be found.
         
             # header - four integers
