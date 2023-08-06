@@ -15,9 +15,9 @@
 #endif
 
 #ifdef ENH_USE_GUI_SCALE_2
-float Gui::InvGuiScale = 0.5f;
+float Gui::InvGuiScale = 1.0f / 2.0f;
 #else
-float Gui::InvGuiScale = 0.333333f;
+float Gui::InvGuiScale = 1.0f / 3.0f;
 #endif
 
 Gui::Gui(Minecraft* pMinecraft)
