@@ -34,8 +34,8 @@ public:
 	int m_height;
 	int m_xPos;
 	int m_yPos;
-	std::string field_18;
-	int field_30;
+	std::string m_text;
+	int m_buttonId;
 	bool m_bEnabled;
 	bool m_bVisible;
 	bool field_36;
