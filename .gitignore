@@ -384,3 +384,5 @@ FodyWeavers.xsd
 /emsdk
 
 /assets/
+/build/
+/dist/

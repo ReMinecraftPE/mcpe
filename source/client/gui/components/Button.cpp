@@ -10,7 +10,7 @@
 
 Button::Button(int a2, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text)
 {
-	field_30 = a2;
+	buttonId = a2;
 	m_xPos = xPos;
 	m_yPos = yPos;
 	field_18 = text;
@@ -20,7 +20,7 @@ Button::Button(int a2, int xPos, int yPos, int btnWidth, int btnHeight, const st
 
 Button::Button(int a2, int xPos, int yPos, const std::string& text)
 {
-	field_30 = a2;
+	buttonId = a2;
 	m_xPos = xPos;
 	m_yPos = yPos;
 	field_18 = text;
@@ -30,7 +30,7 @@ Button::Button(int a2, int xPos, int yPos, const std::string& text)
 
 Button::Button(int a2, const std::string& text)
 {
-	field_30 = a2;
+	buttonId = a2;
 	field_18 = text;
 	m_width  = 200;
 	m_height = 24;

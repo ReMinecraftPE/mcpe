@@ -54,7 +54,7 @@ void StartMenuScreen::_updateLicense()
 
 void StartMenuScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->field_30 == m_startButton.field_30)
+	if (pButton->buttonId == m_startButton.buttonId)
 	{
 #if defined(DEMO)
 		m_pMinecraft->selectLevel("_DemoLevel", "_DemoLevel", int(getEpochTimeS()));
@@ -64,12 +64,12 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->setScreen(new SelectWorldScreen);
 #endif
 	}
-	else if (pButton->field_30 == m_joinButton.field_30)
+	else if (pButton->buttonId == m_joinButton.buttonId)
 	{
 		m_pMinecraft->locateMultiplayer();
 		m_pMinecraft->setScreen(new JoinGameScreen);
 	}
-	else if (pButton->field_30 == m_buyButton.field_30)
+	else if (pButton->buttonId == m_buyButton.buttonId)
 	{
 #if !defined(DEMO) && defined(CAN_QUIT)
 		m_pMinecraft->quit();
@@ -77,7 +77,7 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->platform()->buyGame();
 #endif
 	}
-	else if (pButton->field_30 == m_optionsButton.field_30)
+	else if (pButton->buttonId == m_optionsButton.buttonId)
 	{
 		m_pMinecraft->setScreen(new OptionsScreen);
 	}

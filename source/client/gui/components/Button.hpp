@@ -33,7 +33,7 @@ public:
 	int m_xPos = 0;
 	int m_yPos = 0;
 	std::string field_18 = "";
-	int field_30;
+	int buttonId;
 	bool m_bEnabled = true;
 	bool m_bVisible = true;
 	bool field_36 = false;

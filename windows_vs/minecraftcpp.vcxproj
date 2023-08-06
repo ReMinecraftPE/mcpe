@@ -61,6 +61,7 @@
     <ClInclude Include="..\source\client\gui\screens\ConfirmScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\CreateWorldScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\DeleteWorldScreen.hpp" />
+    <ClInclude Include="..\source\client\gui\screens\DirectConnectScreen.hpp" /> 
     <ClInclude Include="..\source\client\gui\screens\IngameBlockSelectionScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\InvalidLicenseScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\JoinGameScreen.hpp" />
@@ -360,6 +361,7 @@
     <ClCompile Include="..\source\client\gui\screens\ConfirmScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\CreateWorldScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\DeleteWorldScreen.cpp" />
+    <ClCompile Include="..\source\client\gui\screens\DirectConnectScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\IngameBlockSelectionScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\InvalidLicenseScreen.cpp" />
     <ClCompile Include="..\source\client\gui\screens\JoinGameScreen.cpp" />
