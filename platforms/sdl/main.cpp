@@ -161,11 +161,9 @@ static void resize()
 {
 	SDL_GL_GetDrawableSize(window, &Minecraft::width, &Minecraft::height);
 
-	calulate_gui_scale();
-
-	if (g_pApp != nullptr && g_pApp->m_pScreen != nullptr)
+	if (g_pApp != nullptr)
 	{
-		g_pApp->m_pScreen->setSize(Minecraft::width * Gui::InvGuiScale, Minecraft::height * Gui::InvGuiScale);
+		g_pApp->sizeUpdate(Minecraft::width, Minecraft::height);
 	}
 }
 
