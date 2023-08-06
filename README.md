@@ -23,12 +23,28 @@ This project **requires** you to have a copy of the `mcpe01_canada.apk` (sha256:
 
 ## Setup
 
-Before opening the VS2022 project or trying to build, load the sound assets into the `sound_data/` folder in the root of the project
+Before trying to build, load the sound assets into the `sound_data/` folder in the root of the project
 by **running the following command**:
 * `tools/grabsounds.py /path/to/the/mcpe01_canada/lib/armeabi-v7a/libminecraftpe.so`.
 
-After that, **copy the assets folder** from mcpe01_canada.apk, such that there is a folder called `assets` in the current directory of the executable
-(`windows_vs` if you are running from VS, or the same dir as the executable otherwise)
+After that, **prepare the assets folder** from mcpe01_canada.apk. You will need it for the platform specific build.
+
+### Windows
+
+This is simple enough - just open the project and compile.
+
+After building, place the `assets` folder you have prepared in the working directory of the output executable.
+(if running from VS, it's in `windows_vs/`, otherwise, in `windows_vs/bin/[x64/][Debug/Release]/`.
+
+### WebAssembly
+
+First of all, place the `assets` folder into the `platforms/sdl/` directory.
+Then run the `build-wasm` script corresponding to your platform (`-.sh` on linux/WSL, `-.bat` on windows).
+
+The output files will be in `./wasm/dist`, but you need to upload them to a web host (localhost works too) to use. (problem with Emscripten)
+
+**NOTE:** If you are using nginx, make sure the `*.wasm` file is served as `application/wasm`, and not `application/octet-stream`. This can be done by
+opening `/etc/nginx/mime.types` as root and adding `application/wasm wasm;` to the types block.
 
 ## Have seams when playing?
 
