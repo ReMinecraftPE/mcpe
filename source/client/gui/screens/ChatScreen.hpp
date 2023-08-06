@@ -13,8 +13,17 @@
 class ChatScreen : public Screen
 {
 public:
+	ChatScreen();
 	void buttonClicked(Button*) override;
 	void init() override;
+	void removed() override;
 	void render(int mouseX, int mouseY, float f) override;
+	void keyPressed(int keyCode) override;
+
+	void sendMessageAndExit();
+
+private:
+	TextInputBox m_textChat;
+	Button m_btnSend;
 };
 
