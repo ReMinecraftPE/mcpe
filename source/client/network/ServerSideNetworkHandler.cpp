@@ -154,8 +154,15 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePac
 	if (msg[0] == '/')
 	{
 		printf("CMD: %s: %s\n", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
-		// TODO: Commands
-		sendMessage(guid, "Commands haven't been implemented yet!");
+		if (msg.substr(0, 5) == "/seed")
+		{
+			int seed = m_pMinecraft->m_pLevel->getSeed();
+			sendMessage(guid, "Current World Seed: " + std::to_string(seed));
+		}
+		else
+		{
+			sendMessage(guid, "Invalid command!");
+		}
 		return;
 	}
 
