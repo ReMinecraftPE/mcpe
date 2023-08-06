@@ -98,12 +98,16 @@ void Screen::keyPressed(int key)
 #endif
 	}
 
+#ifndef ORIGINAL_CODE
 	for (auto textInput : m_textInputs)
 	{
 		textInput->keyPressed(m_pMinecraft, key);
 	}
+	
+		
+#endif
+	
 }
-
 void Screen::charInput(char chr)
 {
 	for (auto textInput : m_textInputs)
@@ -120,18 +124,20 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		{
 			m_pClickedButton = button;
 			m_pMinecraft->m_pSoundEngine->play("random.click");
-
+			
 			buttonClicked(button);
+			}
+
 		}
-	}
 
 #ifndef ORIGINAL_CODE
-	for (auto textInput : m_textInputs)
-	{
-		textInput->onClick(xPos, yPos);
-	}
+		for (auto textInput : m_textInputs)
+		{
+			textInput->onClick(xPos, yPos);
+		}
 #endif
-}
+	}
+
 
 void Screen::mouseReleased(int xPos, int yPos, int d)
 {
@@ -212,7 +218,10 @@ void Screen::mouseEvent()
 	if (1 <= inp.field_0 && inp.field_0 <= 2)
 	{
 		if (inp.field_4 == 1)
-			mouseClicked(m_width * Mouse::_x / Minecraft::width, m_height * Mouse::_y / Minecraft::height - 1, inp.field_0);
+			
+
+				mouseClicked(m_width * Mouse::_x / Minecraft::width, m_height * Mouse::_y / Minecraft::height - 1, inp.field_0);
+			
 		else
 			mouseReleased(m_width * Mouse::_x / Minecraft::width, m_height * Mouse::_y / Minecraft::height - 1, inp.field_0);
 	}

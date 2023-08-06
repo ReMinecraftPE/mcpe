@@ -1,15 +1,25 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
 #include "Minecraft.hpp"
-#include "client/gui/screens/IngameBlockSelectionScreen.hpp"
-#include "client/renderer/entity/ItemRenderer.hpp"
-
+#include "IngameBlockSelectionScreen.hpp"
+#include "ChatScreen.hpp"
+#include "ItemRenderer.hpp"
+#include <Windows.h>
+#include <unordered_map>
+#include <iostream>
+#include <corecrt_wstring.h>
+#include <string>
+#include <fstream>
+#include <locale>   // For wstring_convert
+#include <codecvt> 
+#include <io.h>
+#include <fcntl.h> 
 #ifdef _WIN32
 #pragma warning(disable : 4244)
 #endif
@@ -20,6 +30,11 @@ float Gui::InvGuiScale = 1.0f / 2.0f;
 float Gui::InvGuiScale = 1.0f / 3.0f;
 #endif
 
+
+
+
+
+
 Gui::Gui(Minecraft* pMinecraft)
 {
 	m_pMinecraft = pMinecraft;
@@ -29,8 +44,10 @@ Gui::Gui(Minecraft* pMinecraft)
 
 void Gui::addMessage(const std::string& s)
 {
+	
 	std::string str = s;
-
+	
+	// Turkish characters for add turkish language support
 	while (m_pMinecraft->m_pFont->width(str) > 320)
 	{
 		int i = 2;
@@ -52,7 +69,7 @@ void Gui::addMessage(const std::string& s)
 	{
 		m_guiMessages.erase(m_guiMessages.end());
 	}
-
+	
 	m_guiMessages.insert(m_guiMessages.begin(), GuiMessage(str, 0));
 }
 
@@ -83,9 +100,9 @@ void Gui::renderVignette(float a2, int a3, int a4)
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
-	t.vertexUV(0.0f, a4,   -90.0f, 0.0f, 1.0f);
-	t.vertexUV(a3,   a4,   -90.0f, 1.0f, 1.0f);
-	t.vertexUV(a3,   0.0f, -90.0f, 1.0f, 0.0f);
+	t.vertexUV(0.0f, a4, -90.0f, 0.0f, 1.0f);
+	t.vertexUV(a3, a4, -90.0f, 1.0f, 1.0f);
+	t.vertexUV(a3, 0.0f, -90.0f, 1.0f, 0.0f);
 	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
 	t.draw();
 
@@ -123,7 +140,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	field_4 = -90.0f;
 
-	int width  = Minecraft::width  * InvGuiScale,
+	int width = Minecraft::width * InvGuiScale,
 		height = Minecraft::height * InvGuiScale;
 
 #ifdef ENH_TRANSPARENT_HOTBAR
@@ -207,8 +224,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		if (m->m_pLocalPlayer->isUnderLiquid(Material::water))
 		{
 			int breathRaw = m->m_pLocalPlayer->field_BC;
-			int breathFull  = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
-			int breathMeter = int(ceilf((float(breathRaw)     * 10.0f) / 300.0f)) - breathFull;
+			int breathFull = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
+			int breathMeter = int(ceilf((float(breathRaw) * 10.0f) / 300.0f)) - breathFull;
 
 			int bubbleX = cenX - 191;
 			int bubbleY = height - 19;
@@ -234,23 +251,35 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	m->m_pTextures->loadAndBindTexture("gui/gui_blocks.png");
 
+	Tesselator& t = Tesselator::instance;
+	t.begin();
+
+	// if we aren't trying to build the real deal, don't do this. It only does worse
+#ifdef ORIGINAL_CODE
+	t.voidBeginAndEndCalls(true); // to ensure that Gui::renderSlot doesn't end() our tesselator right away?
+#endif
+
 	int slotX = cenX - 88;
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+#ifdef ENH_ENABLE_9TH_SLOT
+#define HOTBAR_DIFF 0
+#else
+#define HOTBAR_DIFF 1
+#endif
+	for (int i = 0; i < C_MAX_HOTBAR_ITEMS - HOTBAR_DIFF; i++)
 	{
 		renderSlot(i, slotX, height - 19, f);
 
 		slotX += 20;
 	}
-	
-	slotX = cenX - 88;
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
-	{
-		renderSlotOverlay(i, slotX, height - 19, f);
-
-		slotX += 20;
-	}
+#undef HOTBAR_DIFF
 
 	field_A3C = false;
+
+#ifdef ORIGINAL_CODE
+	t.voidBeginAndEndCalls(false);
+#endif
+
+	t.draw();
 
 	// blit the "more items" button
 #ifndef ENH_ENABLE_9TH_SLOT
@@ -303,30 +332,12 @@ void Gui::tick()
 
 void Gui::renderSlot(int slot, int x, int y, float f)
 {
-	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
-
-	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
-	if (!pInst)
+	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getQuickSlotItemId(slot);
+	if (itemID < 0)
 		return;
 
-	if (!pInst->m_itemID)
-		return;
-
-	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
-}
-
-void Gui::renderSlotOverlay(int slot, int x, int y, float f)
-{
-	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
-
-	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
-	if (!pInst)
-		return;
-
-	if (!pInst->m_itemID)
-		return;
-
-	ItemRenderer::renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
+	ItemInstance inst(Item::items[itemID], 1, 0);
+	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, &inst, x, y, true);
 }
 
 int Gui::getSlotIdAt(int mouseX, int mouseY)
@@ -336,7 +347,7 @@ int Gui::getSlotIdAt(int mouseX, int mouseY)
 
 	if (scaledY >= scaledHeight)
 		return -1;
-	if (scaledY < scaledHeight-19)
+	if (scaledY < scaledHeight - 19)
 		return -1;
 
 	int slotX = (int(InvGuiScale * mouseX) - int(InvGuiScale * Minecraft::width) / 2 + 88 + 20) / 20;
@@ -379,38 +390,45 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 
 void Gui::handleKeyPressed(int keyCode)
 {
+	
 	switch (keyCode)
 	{
-		case AKEYCODE_BUTTON_Y:
-		{
-			m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
-			break;
-		}
+	case AKEYCODE_BUTTON_Y:
+	{
+		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
+		break;
+	}
 
-		case AKEYCODE_BACK:
-		{
-			int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+	case AKEYCODE_BUTTON_T:
+	{
+		m_pMinecraft->setScreen(new ChatScreen);
+		break;
+	
+	}
+	case AKEYCODE_BACK:
+	{
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
 #ifdef ENH_ENABLE_9TH_SLOT
 #define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
 #else
 #define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 3)
 #endif
-			//@HUH: for whatever reason, it ignores the 7th item
-			if (*slot <= MAX_ITEMS)
-				(*slot)++;
+		//@HUH: for whatever reason, it ignores the 7th item
+		if (*slot <= MAX_ITEMS)
+			(*slot)++;
 
-			break;
-		}
+		break;
+	}
 
-		case AKEYCODE_BUTTON_X:
-		{
-			int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+	case AKEYCODE_BUTTON_X:
+	{
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-			if (*slot > 0)
-				(*slot)--;
+		if (*slot > 0)
+			(*slot)--;
 
-			break;
-		}
+		break;
+	}
 	}
 }

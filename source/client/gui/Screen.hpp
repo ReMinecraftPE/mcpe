@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "client/player/input/Mouse.hpp"
-#include "client/player/input/Keyboard.hpp"
-#include "components/Button.hpp"
-#include "components/TextInputBox.hpp"
+#include "Mouse.hpp"
+#include "Keyboard.hpp"
+#include "Button.hpp"
+#include "TextInputBox.hpp"
 
 class Button;
 
@@ -44,7 +44,7 @@ public:
 	virtual void mouseClicked(int, int, int);
 	virtual void mouseReleased(int, int, int);
 	virtual void keyPressed(int);
-	virtual void charInput(char);
+        virtual void charInput(char);
 
 public:
 	int m_width = 1;
