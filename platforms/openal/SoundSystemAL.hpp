@@ -1,17 +1,20 @@
 #pragma once
 
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <thirdparty/OpenAL/Include/al.h>
+#include <thirdparty/OpenAL/Include/alc.h>
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 
 #include "client/sound/SoundData.hpp"
+#include "client/sound/SoundSystem.hpp"
+
+#pragma comment( lib, "OpenAl32.lib" )
 
 #define MAX_IDLE_SOURCES 50
 
-class SoundSystemAL
+class SoundSystemAL : public SoundSystem
 {
 public:
 	SoundSystemAL();
