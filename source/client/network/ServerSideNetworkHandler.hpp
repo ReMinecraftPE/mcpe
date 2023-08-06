@@ -15,12 +15,14 @@
 #include "world/level/LevelListener.hpp"
 
 class Minecraft;
+class ServerSideNetworkHandler;
 
 struct OnlinePlayer
 {
 	Player* m_pPlayer; // The player avatar this online player controls
+	RakNet::RakNetGUID m_guid;
 
-	OnlinePlayer(Player* p) : m_pPlayer(p) {}
+	OnlinePlayer(Player* p, const RakNet::RakNetGUID& guid) : m_pPlayer(p), m_guid(guid) {}
 };
 
 struct RakNetGUIDHasher
@@ -30,6 +32,10 @@ struct RakNetGUIDHasher
 		return size_t(guid.g);
 	}
 };
+
+typedef void(ServerSideNetworkHandler::* CommandFunction)(OnlinePlayer* player, const std::vector<std::string>& parms);
+typedef std::unordered_map<std::string, CommandFunction> CommandMap;
+typedef std::unordered_map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> OnlinePlayerMap;
 
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
 {
@@ -56,9 +62,17 @@ public:
 	void allowIncomingConnections(bool b);
 	void displayGameMessage(const std::string&);
 	void sendMessage(const RakNet::RakNetGUID& guid, const std::string&);
+	void sendMessage(OnlinePlayer*, const std::string&);
 	void redistributePacket(Packet* packet, const RakNet::RakNetGUID& source);
 
+	// Custom
 	OnlinePlayer* getPlayerByGUID(const RakNet::RakNetGUID& guid);
+	void setupCommands();
+
+	// Commands
+	void commandHelp (OnlinePlayer*, const std::vector<std::string>&);
+	void commandStats(OnlinePlayer*, const std::vector<std::string>&);
+	void commandTime (OnlinePlayer*, const std::vector<std::string>&);
 
 public:
 	Minecraft* m_pMinecraft = nullptr;
@@ -67,6 +81,7 @@ public:
 	RakNet::RakPeerInterface* m_pRakNetPeer = nullptr;
 	bool m_bAllowIncoming = false;
 
-	std::unordered_map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> m_onlinePlayers;
+	OnlinePlayerMap m_onlinePlayers;
+	CommandMap m_commands;
 };
 
