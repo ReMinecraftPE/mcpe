@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Minecraft.hpp"
+#include "client/gui/screens/ChatScreen.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 
@@ -356,6 +357,12 @@ void Gui::handleKeyPressed(int keyCode)
 		case AKEYCODE_BUTTON_Y:
 		{
 			m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
+			break;
+		}
+
+		case AKEYCODE_T:
+		{
+			m_pMinecraft->setScreen(new ChatScreen);
 			break;
 		}
 

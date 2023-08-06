@@ -10,11 +10,7 @@
 
 ChatScreen::ChatScreen() :
 	m_btnSend(1, 0, 0, 0, 0, "Send"),
-	m_textChat(2, 0, 0, 0, 0, "G'day!", "")
-{
-}
-
-ChatScreen::ChatScreen() : m_textChat(1, 0, 0), m_btnSend(2, 0, 0, "Send")
+	m_textChat(2, 0, 0)
 {
 }
 
