@@ -48,6 +48,9 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b);
+	
+	// Also add these to allow saving options.
+	void setOptionStrings(const std::vector <std::string>& str) override;
 
 	void setScreenSize(int width, int height);
 

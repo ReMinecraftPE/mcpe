@@ -189,6 +189,11 @@ void Minecraft::reloadOptions()
 	m_pUser->field_0 = m_options.m_playerName;
 }
 
+void Minecraft::saveOptions()
+{
+	platform()->setOptionStrings(m_options.getOptionStrings());
+}
+
 bool Minecraft::isLevelGenerated()
 {
 	if (m_pLevel)

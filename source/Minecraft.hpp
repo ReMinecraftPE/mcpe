@@ -41,6 +41,7 @@ public:
 	void tick();
 	void tickInput();
 	void reloadOptions();
+	void saveOptions();
 	void handleMouseClick(int type);
 	void handleMouseDown(int type, bool b);
 	bool isLevelGenerated();

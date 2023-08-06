@@ -1,14 +1,8 @@
 #Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.
 
-# Multiplayer
 mp_username|ReMinecraftPE
-mp_server_visible_default|true
-
-# Controls
-#ctrl_invertmouse|true
-
-# Graphics Options
+ctrl_invertmouse|false
 gfx_fancygraphics|true
+mp_server_visible_default|true
 gfx_smoothlighting|true
-#gfx_viewdistance|2
-gfx_viewdistance|0
+gfx_viewdistance|2

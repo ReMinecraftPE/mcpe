@@ -276,6 +276,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	}
 
 _cleanup:
+	g_pApp->saveOptions();
+
 	// disable OpenGL for the window
 	DisableOpenGL(hWnd, hDC, hRC);
 
