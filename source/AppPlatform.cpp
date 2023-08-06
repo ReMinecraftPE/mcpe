@@ -122,3 +122,7 @@ bool AppPlatform::shiftPressed()
 {
 	return false;
 }
+
+void AppPlatform::setOptionStrings(const std::vector<std::string>& vec)
+{
+}

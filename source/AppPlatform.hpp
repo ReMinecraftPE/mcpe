@@ -39,7 +39,7 @@ public:
 	virtual void showDialog(eDialogType);
 	virtual void uploadPlatformDependentData(int, void*);
 	virtual Texture loadTexture(const std::string&, bool);
-	virtual std::vector<std::string>  getOptionStrings();
+	virtual std::vector<std::string> getOptionStrings();
 
 #ifndef ORIGINAL_CODE
 	// Also add these to allow proper turning within the game.
@@ -50,6 +50,8 @@ public:
 	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
 	virtual bool shiftPressed();
+	// Also add this to allow option saving.
+	virtual void setOptionStrings(const std::vector<std::string>& vec);
 #endif
 
 

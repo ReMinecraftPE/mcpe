@@ -23,12 +23,13 @@ public:
 	void save();
 	std::string getMessage(const Options::Option&);
 	void update(const std::vector<std::string>& string);
+	std::vector<std::string> getOptionStrings();
 
 public:
 	static bool readBool(const std::string& str);
-#ifndef ORIGINAL_CODE
 	static int readInt(const std::string& str);
-#endif
+	static std::string saveBool(bool b);
+	static std::string saveInt(int i);
 
 public:
 	enum KeyBindIndex
