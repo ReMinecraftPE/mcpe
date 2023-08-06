@@ -810,6 +810,35 @@ void Minecraft::prepareLevel(const std::string& unused)
 	// " - prepr: ";
 }
 
+void Minecraft::sizeUpdate(int newWidth, int newHeight)
+{
+	// re-calculate the GUI scale.
+	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight);
+
+	if (m_pScreen)
+		m_pScreen->setSize(int(newWidth * Gui::InvGuiScale), int(newHeight * Gui::InvGuiScale));
+}
+
+float Minecraft::getBestScaleForThisScreenSize(int width, int height)
+{
+	// phones only
+#if !defined(_WIN32) && !defined(USE_SDL2)
+	if (width > 1000)
+		return 1.0f / 4.0f;
+
+	if (width > 800)
+		return 1.0f / 3.0f;
+#else
+	if (width > 1000)
+		return 1.0f / 3.0f;
+#endif
+
+	if (width > 400)
+		return 1.0f / 2.0f;
+
+	return 1.0f;
+}
+
 void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 {
 	float time = getTimeS(); //@UNUSED

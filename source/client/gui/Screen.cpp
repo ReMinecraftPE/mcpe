@@ -178,6 +178,11 @@ void Screen::setSize(int width, int height)
 {
 	m_width = width;
 	m_height = height;
+
+	// not original code. Will need to re-init again
+	m_buttons.clear();
+	m_textInputs.clear();
+	init();
 }
 
 void Screen::updateEvents()

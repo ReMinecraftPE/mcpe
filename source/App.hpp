@@ -20,15 +20,17 @@ protected:
 	}
 
 public:
-	void destroy();
-	void draw();
 	virtual bool handleBack(bool);
 	virtual void init();
+	virtual void update();
+	virtual void sizeUpdate(int newWidth, int newHeight);
+
+	void destroy();
+	void draw();
 	void loadState(void*, int);
 	AppPlatform* platform();
 	void quit();
 	void saveState(void**, int);
-	virtual void update();
 	bool wantToQuit();
 
 public:
