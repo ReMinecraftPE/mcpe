@@ -16,8 +16,8 @@
 #include "AppPlatform_windows.hpp"
 #include "NinecraftApp.hpp"
 
-LPCTSTR g_GameTitle = TEXT("Minecraft PE");
-LPCTSTR g_WindowClassName = TEXT("MinecraftClass");
+LPCTSTR g_GameTitle = TEXT("ReMinecraftPE");
+LPCTSTR g_WindowClassName = TEXT("MCPEClass");
 
 void LogMsg(const char* fmt, ...)
 {
