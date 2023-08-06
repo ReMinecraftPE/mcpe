@@ -31,6 +31,11 @@ ServerSideNetworkHandler::~ServerSideNetworkHandler()
 {
 	if (m_pLevel)
 		m_pLevel->removeListener(this);
+
+	for (auto plrKVP : m_onlinePlayers)
+		delete plrKVP.second;
+
+	m_onlinePlayers.clear();
 }
 
 void ServerSideNetworkHandler::levelGenerated(Level* level)
@@ -45,6 +50,8 @@ void ServerSideNetworkHandler::levelGenerated(Level* level)
 	level->addListener(this);
 
 	allowIncomingConnections(m_pMinecraft->m_options.m_bServerVisibleDefault);
+
+	m_onlinePlayers.insert_or_assign(m_pMinecraft->m_pLocalPlayer->m_guid, new OnlinePlayer(m_pMinecraft->m_pLocalPlayer));
 }
 
 void ServerSideNetworkHandler::onNewClient(const RakNet::RakNetGUID& guid)
@@ -56,17 +63,25 @@ void ServerSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 {
 	puts_ignorable("onDisconnect");
 
-	for (Player* pPlayer : m_pLevel->m_players)
-	{
-		if (pPlayer->m_guid != guid)
-			continue;
+	OnlinePlayer* pOnlinePlayer = getPlayerByGUID(guid);
 
-		displayGameMessage(pPlayer->m_name + " disconnected from the game");
+	if (!pOnlinePlayer)
+		return;
 
-		m_pRakNetInstance->send(new RemoveEntityPacket(pPlayer->m_EntityID));
+	Player* pPlayer = pOnlinePlayer->m_pPlayer;
 
-		m_pLevel->removeEntity(pPlayer);
-	}
+	// erase it from the map
+	m_onlinePlayers.erase(m_onlinePlayers.find(guid)); // it better be in our map
+
+	// tell everyone that they left the game
+	displayGameMessage(pPlayer->m_name + " disconnected from the game");
+	m_pRakNetInstance->send(new RemoveEntityPacket(pPlayer->m_EntityID));
+
+	// remove it from our world
+	m_pLevel->removeEntity(pPlayer);
+
+	// delete the online player's entry.
+	delete pOnlinePlayer;
 }
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacket* packet)
@@ -76,9 +91,18 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	puts_ignorable("LoginPacket");
 
+	// if they're already online, fail
+	if (getPlayerByGUID(guid))
+	{
+		printf("That player is already in the world!\n");
+		return;
+	}
+
 	Player* pPlayer = new Player(m_pLevel);
 	pPlayer->m_guid = guid;
 	pPlayer->m_name = std::string(packet->m_str.C_String());
+
+	m_onlinePlayers.insert_or_assign(guid, new OnlinePlayer(pPlayer));
 
 	StartGamePacket sgp;
 	sgp.field_4 = m_pLevel->getSeed();
@@ -113,9 +137,33 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, true);
 }
 
-void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID&, MessagePacket* packet)
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePacket* packet)
 {
-	// TODO
+	OnlinePlayer* pOP = getPlayerByGUID(guid);
+	if (!pOP)
+	{
+		printf("MessagePacket: That jerk %s doesn't actually exist\n", guid.ToString());
+		return;
+	}
+
+	// don't let players send empty messages
+	std::string msg(packet->m_str.C_String());
+	if (msg.empty())
+		return;
+
+	if (msg[0] == '/')
+	{
+		printf("CMD: %s: %s\n", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
+		// TODO: Commands
+		sendMessage(guid, "Commands haven't been implemented yet!");
+		return;
+	}
+
+	printf("MSG: <%s> %s\n", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
+
+	// send everyone the message
+	std::string gameMessage = "<" + pOP->m_pPlayer->m_name + "> " + msg;
+	displayGameMessage(gameMessage);
 }
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MovePlayerPacket* packet)
@@ -276,10 +324,30 @@ void ServerSideNetworkHandler::displayGameMessage(const std::string& msg)
 	m_pRakNetInstance->send(new MessagePacket(msg));
 }
 
+void ServerSideNetworkHandler::sendMessage(const RakNet::RakNetGUID& guid, const std::string& msg)
+{
+	if (m_pRakNetPeer->GetMyGUID() == guid)
+	{
+		m_pMinecraft->m_gui.addMessage(msg);
+		return;
+	}
+
+	m_pRakNetInstance->send(guid, new MessagePacket(msg));
+}
+
 void ServerSideNetworkHandler::redistributePacket(Packet* packet, const RakNet::RakNetGUID& source)
 {
 	RakNet::BitStream bs;
 	packet->write(&bs);
 
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, source, true);
+}
+
+OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID& guid)
+{
+	auto iter = m_onlinePlayers.find(guid);
+	if (iter == m_onlinePlayers.end())
+		return nullptr;
+
+	return iter->second;
 }

@@ -8,6 +8,7 @@
 
 #include <RakPeer.h>
 #include "ClientSideNetworkHandler.hpp"
+#include "client/gui/screens/StartMenuScreen.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 #define VERBOSE_CLIENT
@@ -49,6 +50,16 @@ void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // s
 void ClientSideNetworkHandler::onUnableToConnect()
 {
 	puts_ignorable("onUnableToConnect");
+
+	// get rid of the prepare-thread to stop preparation immediately
+	if (m_pMinecraft->m_pPrepThread)
+	{
+		delete m_pMinecraft->m_pPrepThread;
+		m_pMinecraft->m_pPrepThread = nullptr;
+	}
+
+	// throw to the start menu for now
+	m_pMinecraft->setScreen(new StartMenuScreen);
 }
 
 void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
