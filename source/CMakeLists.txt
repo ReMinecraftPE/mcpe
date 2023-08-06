@@ -56,6 +56,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/OptionsScreen.cpp
     client/gui/screens/StartMenuScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
+    client/gui/screens/DirectConnectScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
     client/gui/screens/SavingWorldScreen.cpp
     client/gui/screens/InvalidLicenseScreen.cpp
