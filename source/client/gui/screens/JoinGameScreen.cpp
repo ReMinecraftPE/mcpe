@@ -26,7 +26,7 @@ JoinGameScreen::~JoinGameScreen()
 
 void JoinGameScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->buttonId == m_btnJoin.buttonId)
+	if (pButton->m_buttonId == m_btnJoin.m_buttonId)
 	{
 		if (isIndexValid(m_pAvailableGamesList->m_selectedIndex))
 		{
@@ -39,12 +39,12 @@ void JoinGameScreen::buttonClicked(Button* pButton)
 		}
 	}
 
-	if (pButton->buttonId == m_btnDirectConnect.buttonId)
+	if (pButton->m_buttonId == m_btnDirectConnect.m_buttonId)
 	{
 		m_pMinecraft->setScreen(new DirectConnectScreen);
 	}
 
-	if (pButton->buttonId == m_btnBack.buttonId)
+	if (pButton->m_buttonId == m_btnBack.m_buttonId)
 	{
 		m_pMinecraft->setScreen(new StartMenuScreen);
 	}

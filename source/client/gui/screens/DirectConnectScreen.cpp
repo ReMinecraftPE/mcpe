@@ -59,7 +59,7 @@ void DirectConnectScreen::render(int x, int y, float f)
 
 void DirectConnectScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->buttonId == m_btnJoin.buttonId)
+	if (pButton->m_buttonId == m_btnJoin.m_buttonId)
 	{
 		if (!m_textAddress.m_text.empty())
 		{
@@ -76,7 +76,7 @@ void DirectConnectScreen::buttonClicked(Button* pButton)
 			m_textAddress.m_bEnabled = false;
 		}
 	}
-	else if (pButton->buttonId == m_btnQuit.buttonId)
+	else if (pButton->m_buttonId == m_btnQuit.m_buttonId)
 	{
 		m_pMinecraft->setScreen(new JoinGameScreen);
 	}
