@@ -8,8 +8,27 @@
 
 #include "Button.hpp"
 
+void Button::_init()
+{
+	m_width = 0;
+	m_height = 0;
+	m_xPos = 0;
+	m_yPos = 0;
+	m_text = "";
+	m_bEnabled = true;
+	m_bVisible = true;
+	field_36 = false;
+
+#ifndef ORIGINAL_CODE
+	m_lastX = 0;
+	m_lastY = 0;
+#endif
+}
+
 Button::Button(int buttonId, int xPos, int yPos, int btnWidth, int btnHeight, const std::string& text)
 {
+	_init();
+
 	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
@@ -20,6 +39,8 @@ Button::Button(int buttonId, int xPos, int yPos, int btnWidth, int btnHeight, co
 
 Button::Button(int buttonId, int xPos, int yPos, const std::string& text)
 {
+	_init();
+
 	m_buttonId = buttonId;
 	m_xPos = xPos;
 	m_yPos = yPos;
@@ -30,6 +51,8 @@ Button::Button(int buttonId, int xPos, int yPos, const std::string& text)
 
 Button::Button(int buttonId, const std::string& text)
 {
+	_init();
+
 	m_buttonId = buttonId;
 	m_text = text;
 	m_width  = 200;

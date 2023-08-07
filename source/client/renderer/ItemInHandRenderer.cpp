@@ -9,9 +9,14 @@
 #include "ItemInHandRenderer.hpp"
 #include "Minecraft.hpp"
 
-ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) : m_ItemInstance(0, 1, 0)
+ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
+	m_ItemInstance(0, 1, 0),
+	m_pMinecraft(pMC)
 {
-	m_pMinecraft = pMC;
+	field_0 = -1;
+	field_18 = 0;
+	field_1C = 0.0f;
+	field_20 = 0.0f;
 }
 
 void ItemInHandRenderer::itemPlaced()

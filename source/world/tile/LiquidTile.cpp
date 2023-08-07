@@ -11,6 +11,10 @@
 
 LiquidTile::LiquidTile(int id, Material* pMtl) : Tile(id, pMtl == Material::lava ? TEXTURE_LAVA : TEXTURE_WATER, pMtl)
 {
+	field_6C = 0;
+	field_70[0] = 0;
+	field_74[0] = 0;
+
 	setTicking(true);
 }
 

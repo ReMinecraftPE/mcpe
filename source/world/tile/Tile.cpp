@@ -21,27 +21,26 @@ bool  Tile::translucent  [C_MAX_TILES];
 bool  Tile::isEntityTile [C_MAX_TILES];
 
 
-Tile::Tile(int ID, Material* pMaterial) :
-	m_aabb(0, 0, 0, 1, 1, 1),
-	m_aabbReturned(0, 0, 0, 1, 1, 1)
+void Tile::_init()
 {
-	m_ID = ID;
-	m_pMaterial = pMaterial;
-	m_pSound = &SOUND_NORMAL;
-
-	if (tiles[m_ID])
-		// @BUG: Printing &tiles[m_ID], but probably supposed to print tiles[m_ID]
-		printf("Slot %d is already occupied by %p when adding %p\n", m_ID, &tiles[m_ID], this);
+	m_TextureFrame = 1;
+	m_pSound = nullptr;
+	field_28 = 1.0f;
+	field_30 = 0.6f;
+	m_hardness = 0.0f;
+	m_blastResistance = 0.0f;
+	m_descriptionID = "";
 }
 
-Tile::Tile(int ID, int texture, Material* pMaterial) :
-	m_aabb(0, 0, 0, 1, 1, 1),
-	m_aabbReturned(0, 0, 0, 1, 1, 1)
+void Tile::_init(int ID, Material* pMaterial, int texture)
 {
-	m_TextureFrame = texture;
+	_init();
+
 	m_ID = ID;
+	m_TextureFrame = texture;
 	m_pMaterial = pMaterial;
 	m_pSound = &SOUND_NORMAL;
+	m_aabb = m_aabbReturned = AABB(0, 0, 0, 1, 1, 1);
 
 	if (tiles[m_ID])
 		// @BUG: Printing &tiles[m_ID], but probably supposed to print tiles[m_ID]

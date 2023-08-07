@@ -13,7 +13,7 @@ public:
 
 
 public:
-	int m_radius = 8;
+	int m_radius;
 	Random m_random;
 };
 

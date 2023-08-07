@@ -15,6 +15,8 @@ class Screen;
 
 class Button : public GuiComponent
 {
+private:
+	void _init();
 public:
 	Button(int, int x, int y, int width, int height, const std::string&);
 	Button(int, int x, int y, const std::string&);
@@ -28,19 +30,19 @@ public:
 	void render(Minecraft*, int xPos, int yPos);
 
 public:
-	int m_width = 0;
-	int m_height = 0;
-	int m_xPos = 0;
-	int m_yPos = 0;
-	std::string m_text = "";
+	int m_width;
+	int m_height;
+	int m_xPos;
+	int m_yPos;
+	std::string m_text;
 	int m_buttonId;
-	bool m_bEnabled = true;
-	bool m_bVisible = true;
-	bool field_36 = false;
+	bool m_bEnabled;
+	bool m_bVisible;
+	bool field_36;
 
 #ifndef ORIGINAL_CODE
-	int m_lastX = 0;
-	int m_lastY = 0;
+	int m_lastX;
+	int m_lastY;
 #endif
 };
 

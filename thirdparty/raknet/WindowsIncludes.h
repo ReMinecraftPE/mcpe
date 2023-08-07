@@ -11,7 +11,11 @@
 #if   defined (WINDOWS_STORE_RT)
 #include <windows.h>
 #include <winsock.h>
-#elif defined (_WIN32)
+#elif defined (_XBOX)
+#include <xtl.h>
+#include <winsockx.h>
+#elif defined (_WIN32) && !defined(WINDOWS_PHONE_8) && !defined(WINDOWS_STORE_RT)
+#define _WINPC
 #include <WinSock2.h>
 #include <windows.h>
 #include <Ws2tcpip.h>

@@ -53,7 +53,7 @@ int AppPlatform::getScreenHeight() const
 
 std::vector<std::string> AppPlatform::getUserInput()
 {
-	return {};
+	return std::vector<std::string>();
 }
 
 int AppPlatform::getUserInputStatus()
@@ -91,7 +91,7 @@ Texture AppPlatform::loadTexture(const std::string&, bool)
 
 std::vector<std::string> AppPlatform::getOptionStrings()
 {
-	return {};
+	return std::vector<std::string>();
 }
 
 void AppPlatform::recenterMouse()

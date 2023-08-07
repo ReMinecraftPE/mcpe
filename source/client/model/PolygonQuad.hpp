@@ -15,8 +15,10 @@
 
 class PolygonQuad
 {
+private:
+	void _init();
 public:
-	PolygonQuad() {};
+	PolygonQuad() { _init(); }
 	PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d);
 	PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d, float u1, float v1, float u2, float v2);
 	PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d, int u1i, int v1i, int u2i, int v2i);
@@ -31,9 +33,9 @@ public:
 
 private:
 	VertexPT m_verts[4];
-	bool m_bFlipNormals = false;
+	bool m_bFlipNormals;
 
 #ifdef ENH_ENTITY_SHADING
-	int m_color = 0xFFFFFF;
+	int m_color;
 #endif
 };

@@ -24,14 +24,14 @@ public:
 	void renderChunks();
 
 public:
-	float m_posX = 0.0f;
-	float m_posY = 0.0f;
-	float m_posZ = 0.0f;
-	int* field_C = nullptr;
-	RenderChunk* field_10 = nullptr;
-	int field_14 = 0;
-	bool field_18 = false;
-	bool field_19 = false;
-	int field_1C = 0;
+	float m_posX;
+	float m_posY;
+	float m_posZ;
+	int* field_C;
+	RenderChunk* field_10;
+	int field_14;
+	bool field_18;
+	bool field_19;
+	int field_1C;
 };
 

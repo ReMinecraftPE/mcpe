@@ -49,10 +49,10 @@ public:
 public:
 	std::string field_8;
 	std::string m_levelDirPath;
-	LevelData* m_pLevelData = nullptr;
-	RegionFile* m_pRegionFile = nullptr;
-	Level* m_pLevel = nullptr;
-	int m_timer = 0;
+	LevelData* m_pLevelData;
+	RegionFile* m_pRegionFile;
+	Level* m_pLevel;
+	int m_timer;
 	std::list<UnsavedLevelChunk> m_unsavedLevelChunks;
 };
 

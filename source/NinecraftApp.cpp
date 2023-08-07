@@ -131,6 +131,13 @@ void NinecraftApp::updateStats()
 	}
 }
 
+NinecraftApp::NinecraftApp()
+{
+	field_DBC = 0;
+	field_DC0 = 1;
+	m_fps = 0;
+}
+
 NinecraftApp::~NinecraftApp()
 {
 	teardown();

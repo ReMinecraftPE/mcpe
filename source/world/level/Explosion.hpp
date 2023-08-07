@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -31,10 +31,10 @@ public:
 
 	//field_10, field_14, field_18, field_1C - Likely a set<TilePos>
 	std::set<TilePos> m_tiles;
-	int field_20 = 0;
+	int field_20;
 
-	bool m_bIsFiery = false;
-	Entity* m_pEntity = nullptr;
+	bool m_bIsFiery;
+	Entity* m_pEntity;
 	Random m_random;
 	Level* m_pLevel;
 

@@ -28,6 +28,15 @@ RandomLevelSource::RandomLevelSource(Level* level, TLong seed, int x) :
 	m_perlinNoise8(&m_random, 8),
 	m_pLevel(level)
 {
+	field_4 = false;
+	field_19F0 = 1.0f;
+	field_7280 = nullptr;
+	field_7E84 = nullptr;
+	field_7E88 = nullptr;
+	field_7E8C = nullptr;
+	field_7E90 = nullptr;
+	field_7E94 = nullptr;
+
 	LogMsg("Generating world with seed: %d", seed);
 
 	for (int a = 0; a < 32; a++)
@@ -69,7 +78,7 @@ LevelChunk* RandomLevelSource::getChunk(int x, int z)
 	TileID* pLevelData = new TileID[32768];
 
 	LevelChunk* pChunk = new LevelChunk(m_pLevel, pLevelData, x, z);
-	m_chunks.insert({ hashCode, pChunk });
+	m_chunks.insert(std::pair<int, LevelChunk*>(hashCode, pChunk));
 
 	Biome** pBiomeBlock = m_pLevel->getBiomeSource()->getBiomeBlock(16 * x, 16 * z, 16, 16);
 	prepareHeights(x, z, pLevelData, nullptr, m_pLevel->getBiomeSource()->field_4);

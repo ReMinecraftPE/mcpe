@@ -5,6 +5,7 @@ Inventory::Inventory(Player* pPlayer)
 {
 	m_pPlayer = pPlayer;
 	m_SelectedHotbarSlot = 0;
+	m_bIsSurvival = false;
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = -1;

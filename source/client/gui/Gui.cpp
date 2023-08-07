@@ -23,6 +23,19 @@ float Gui::InvGuiScale = 1.0f / 3.0f;
 
 Gui::Gui(Minecraft* pMinecraft)
 {
+	field_8 = 0;
+	field_C = "";
+	field_24 = 0;
+	field_28 = 0;
+	field_2C = 0;
+	field_9FC = 0;
+	field_A00 = "";
+	field_A18 = 0;
+	field_A1C = false;
+	field_A20 = 1.0f;
+	field_A3C = true;
+	m_bRenderMessages = true;
+
 	m_pMinecraft = pMinecraft;
 
 	xglGenBuffers(1, &m_renderChunk.field_0);

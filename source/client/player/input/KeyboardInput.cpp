@@ -10,6 +10,12 @@
 
 KeyboardInput::KeyboardInput(Options* pOpts)
 {
+	m_horzInput = 0.0f;
+	m_vertInput = 0.0f;
+	field_C = false;
+	m_bJumpButton = false;
+	m_bSneakButton = false;
+
 	for (int i = 0; i < 10; i++)
 		m_keys[i] = false;
 

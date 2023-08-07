@@ -18,6 +18,7 @@ class Level; // if included from Level.hpp
 class Dimension
 {
 public:
+	Dimension();
 	virtual ~Dimension();
 	static Dimension* getNew(int type);
 
@@ -34,13 +35,13 @@ public:
 	ChunkSource* createRandomLevelSource();
 
 public:
-	Level* m_pLevel = nullptr;
-	BiomeSource* m_pBiomeSource = nullptr;
-	bool field_C = false;
-	bool field_D = false;
-	bool field_E = false;
+	Level* m_pLevel;
+	BiomeSource* m_pBiomeSource;
+	bool field_C;
+	bool field_D;
+	bool field_E;
 	float field_10[16];
-	int field_50 = 0;
+	int field_50;
 	float m_sunriseColor[4];
 };
 

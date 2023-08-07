@@ -8,14 +8,20 @@
 
 #include "LevelData.hpp"
 
-LevelData::LevelData()
-{
-}
-
-LevelData::LevelData(TLong seed, const std::string& name, int x)
+void LevelData::_init(TLong seed, int x)
 {
 	m_seed = seed;
+	field_10 = 0;
+	field_14 = 0;
+	field_18 = 0;
+	field_1C = 0;
 	field_20 = x;
+	m_nPlayers = -1;
+}
+
+void LevelData::_init(TLong seed, int x, const std::string& name)
+{
+	_init(seed, x);
 	field_78 = name;
 }
 

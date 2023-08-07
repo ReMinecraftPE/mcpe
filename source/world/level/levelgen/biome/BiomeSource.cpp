@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -9,9 +9,19 @@
 #include "BiomeSource.hpp"
 #include "world/level/Level.hpp"
 
-BiomeSource::BiomeSource()
+BiomeSource* BiomeSource::init()
 {
-	field_20 = new Biome*[256];
+	field_4 = nullptr;
+	field_8 = nullptr;
+	field_C = nullptr;
+	field_10 = 0;
+	field_14 = 0;
+	field_18 = 0;
+	field_1C = 0;
+	field_20 = new Biome * [256];
+	m_pPerlinNoise[3] = nullptr;
+
+	return this;
 }
 
 BiomeSource::BiomeSource(Level* pLevel) :
@@ -19,10 +29,10 @@ BiomeSource::BiomeSource(Level* pLevel) :
 	m_Random2(pLevel->getSeed() * 39811),
 	m_Random3(pLevel->getSeed() * 543321)
 {
+	init();
 	m_pPerlinNoise[0] = new PerlinNoise(&m_Random1, 4);
 	m_pPerlinNoise[1] = new PerlinNoise(&m_Random2, 4);
 	m_pPerlinNoise[2] = new PerlinNoise(&m_Random3, 2);
-	field_20 = new Biome*[256];
 	field_4 = new float[256];
 }
 
@@ -67,7 +77,7 @@ Biome** BiomeSource::getBiomeBlock(Biome** pBiomes, int a, int b, int c, int d)
 			if (d4 < 0.0f) d4 = 0.0f;
 			if (d3 > 1.0f) d3 = 1.0f;
 			if (d4 > 1.0f) d4 = 1.0f;
-			
+
 			field_4[index] = d3;
 			field_8[index] = d4;
 			field_20[index++] = Biome::getBiome(d3, d4);

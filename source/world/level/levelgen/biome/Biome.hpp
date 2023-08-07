@@ -53,11 +53,11 @@ private: // Private Functions
 	static void recalc();
 
 public: // Instance Variables
-	std::string m_name = "";
-	int m_Color = 0;
-	TileID field_20 = 0;
-	TileID field_21 = 0;
-	int m_LeafColor = 0;
+	std::string m_name;
+	int m_Color;
+	TileID field_20;
+	TileID field_21;
+	int m_LeafColor;
 };
 
 class RainforestBiome : public Biome

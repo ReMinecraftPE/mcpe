@@ -26,10 +26,10 @@ public:
 public:
 	SOUND_SYSTEM_TYPE m_soundSystem;
 	Options* m_pOptions;
-	int field_40 = 0;
+	int field_40;
 	Random m_random;
 	SoundRepository m_repository;
-	int field_A1C = 0;
+	int field_A1C;
 	int field_A20;
 };
 

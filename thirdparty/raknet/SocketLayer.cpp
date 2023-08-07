@@ -155,8 +155,7 @@ void SocketLayer::SetSocketOptions( __UDPSOCKET__ listenSocket, bool blockingSoc
 		sock_opt=1;
 		if ( setsockopt__(listenSocket, SOL_SOCKET, SO_BROADCAST, ( char * ) & sock_opt, sizeof( sock_opt ) ) == -1 )
 		{
-#if defined(_WIN32) && defined(_DEBUG)
-#if  !defined(WINDOWS_PHONE_8)
+#if defined(_WINPC) && defined(_DEBUG)
 			DWORD dwIOError = GetLastError();
 			// On Vista, can get WSAEACCESS (10013)
 			// See http://support.microsoft.com/kb/819124
@@ -170,7 +169,6 @@ void SocketLayer::SetSocketOptions( __UDPSOCKET__ listenSocket, bool blockingSoc
 			RAKNET_DEBUG_PRINTF( "setsockopt__(SO_BROADCAST) failed:Error code - %d\n%s", dwIOError, messageBuffer );
 			//Free the buffer.
 			LocalFree( messageBuffer );
-#endif
 #endif
 
 		}
@@ -190,7 +188,7 @@ RakNet::RakString SocketLayer::GetSubNetForSocketAndIp(__UDPSOCKET__ inSock, Rak
 
 
 
-#if   defined(WINDOWS_STORE_RT)
+#if   defined(WINDOWS_STORE_RT) || defined(_XBOX)
 	RakAssert("Not yet supported" && 0);
 	return "";
 #elif defined(_WIN32)
@@ -356,12 +354,14 @@ void GetMyIP_WinRT( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 #else
 void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 {
+#ifdef _WINPC
+
 	int idx=0;
 	idx=0;
 	char ac[ 80 ];
 	if ( gethostname( ac, sizeof( ac ) ) == -1 )
 	{
- #if defined(_WIN32) && !defined(WINDOWS_PHONE_8)
+ #if defined(_WINPC)
 		DWORD dwIOError = GetLastError();
 		LPVOID messageBuffer;
 		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -403,7 +403,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 
 	if ( phe == 0 )
 	{
- #if defined(_WIN32) && !defined(WINDOWS_PHONE_8)
+ #if defined(_WINPC)
 		DWORD dwIOError = GetLastError();
 		LPVOID messageBuffer;
 		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
@@ -432,6 +432,7 @@ void GetMyIP_Win32( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 		addresses[idx]=UNASSIGNED_SYSTEM_ADDRESS;
 		idx++;
 	}
+#endif
 }
 
 #endif
@@ -480,7 +481,7 @@ void SocketLayer::GetSystemAddress_Old ( __UDPSOCKET__ s, SystemAddress *systemA
 	socklen_t len = sizeof(sa);
 	if (getsockname__(s, (sockaddr*)&sa, &len)!=0)
 	{
-#if defined(_WIN32) && defined(_DEBUG) && !defined(WINDOWS_PHONE_8)
+#if defined(_WINPC) && defined(_DEBUG)
 		DWORD dwIOError = GetLastError();
 		LPVOID messageBuffer;
 		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,

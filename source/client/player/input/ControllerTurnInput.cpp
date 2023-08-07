@@ -11,6 +11,15 @@
 
 #include <cmath>
 
+ControllerTurnInput::ControllerTurnInput()
+{
+	field_8 = 2;
+	m_stickNo = 2;
+	field_10 = 0.0f;
+	field_14 = 0.0f;
+	field_18 = false;
+}
+
 ITurnInput::Delta ControllerTurnInput::getTurnDelta()
 {
 	bool isTouched = Controller::isTouched(m_stickNo);

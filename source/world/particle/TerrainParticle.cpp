@@ -9,13 +9,7 @@
 #include "Particle.hpp"
 #include "world/level/Level.hpp"
 
-TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, Tile* tile) :
-	TerrainParticle(level, x, y, z, 0.0f, 0.0f, 0.0f, tile)
-{
-}
-
-TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, float vx, float vy, float vz, Tile* tile) :
-	Particle(level, x, y, z, vx, vy, vz)
+void TerrainParticle::_init(Tile* tile)
 {
 	m_pTile = tile;
 	field_DC = tile->m_TextureFrame;
@@ -24,6 +18,18 @@ TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, float 
 	field_FC = 0.6f;
 	field_F8 = 0.6f;
 	field_F0 *= 0.5f;
+}
+
+TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, Tile* tile) :
+	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
+{
+	_init(tile);
+}
+
+TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, float vx, float vy, float vz, Tile* tile) :
+	Particle(level, x, y, z, vx, vy, vz)
+{
+	_init(tile);
 }
 
 TerrainParticle* TerrainParticle::init(int x, int y, int z)

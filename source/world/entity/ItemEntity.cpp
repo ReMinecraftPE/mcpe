@@ -9,36 +9,27 @@
 #include "ItemEntity.hpp"
 #include "world/level/Level.hpp"
 
-ItemEntity::ItemEntity(Level* level) : Entity(level)
-#ifndef ORIGINAL_CODE
-, m__itemInstance(0, 0, 0)
-#endif
+void ItemEntity::_init(ItemInstance* itemInstance)
 {
+	field_E0 = 0;
+	field_E4 = 0;
+	field_EC = 0;
+	m_health = 5;
+
 	// @NOTE: not setting render type
 	field_E8 = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
 	field_84 = field_8C * 0.5f;
+	m__itemInstance = itemInstance ? *itemInstance : ItemInstance(0, 0, 0);
+	m_pItemInstance = &m__itemInstance;
 }
 
-ItemEntity::ItemEntity(Level* level, float x, float y, float z, ItemInstance* itemInstance) :
-	Entity(level)
-#ifndef ORIGINAL_CODE
-	, m__itemInstance(0, 0, 0)
-#endif
+void ItemEntity::_init(ItemInstance* itemInstance, float x, float y, float z)
 {
-	field_C8 = RENDER_ITEM;
-	field_E8 = 2 * float(M_PI) * Mth::random();
-	setSize(0.25f, 0.25f);
-	field_84 = field_8C * 0.5f;
-	setPos(x, y, z);
+	_init(itemInstance);
 
-	// @BUG: Keeping a pointer to the original ItemInstance may end up storing an invalid one
-#ifdef ORIGINAL_CODE
-	m_pItemInstance = itemInstance;
-#else
-	// copy it
-	m__itemInstance = *itemInstance;
-#endif
+	field_C8 = RENDER_ITEM;
+	setPos(x, y, z);
 
 	m_yaw = 360.0f * Mth::random();
 

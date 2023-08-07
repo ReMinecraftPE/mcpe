@@ -11,8 +11,12 @@
 #ifdef _WIN32
 
 #define NOMINMAX
+#ifdef _XBOX
+#include <xtl.h>
+#else
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#endif
 
 enum
 {

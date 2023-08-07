@@ -16,6 +16,7 @@
 class NinecraftApp : public Minecraft
 {
 public:
+	NinecraftApp();
 	virtual ~NinecraftApp();
 
 	bool handleBack(bool) override;
@@ -28,9 +29,9 @@ public:
 	void initGLStates();
 
 private:
-	int field_DBC = 0;
-	bool field_DC0 = 1;
-	int m_fps = 0;
+	int field_DBC;
+	bool field_DC0;
+	int m_fps;
 
 	static bool _hasInitedStatics;
 };

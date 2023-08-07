@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -10,6 +10,10 @@
 
 Explosion::Explosion(Level* level, Entity* entity, float x, float y, float z, float power)
 {
+	field_20 = 0;
+
+	m_bIsFiery = false;
+
 	m_pos = Vec3(x, y, z);
 	m_power = power;
 	m_pEntity = entity;
@@ -65,7 +69,7 @@ void Explosion::explode()
 						m_tiles.insert(TilePos(pxf, pyf, pzf));
 
 					mult -= 0.225f;
-					
+
 					if (mult < 0)
 						break;
 
@@ -89,25 +93,26 @@ void Explosion::explode()
 	);
 
 	EntityVector* pEnts = m_pLevel->getEntities(m_pEntity, aabb);
-	for (Entity* pEnt : (*pEnts))
+	for (int i = 0; i < pEnts->size(); i++)
 	{
-		float distPowerRatio = pEnt->distanceTo(m_pos.x, m_pos.y, m_pos.z) / m_power;
+		Entity* entity = pEnts->at(i);
+		float distPowerRatio = entity->distanceTo(m_pos.x, m_pos.y, m_pos.z) / m_power;
 		if (distPowerRatio > 1.0f)
 			continue;
 
-		float deltaX = pEnt->m_pos.x - m_pos.x;
-		float deltaY = pEnt->m_pos.y - m_pos.y;
-		float deltaZ = pEnt->m_pos.z - m_pos.z;
+		float deltaX = entity->m_pos.x - m_pos.x;
+		float deltaY = entity->m_pos.y - m_pos.y;
+		float deltaZ = entity->m_pos.z - m_pos.z;
 
 		// @NOTE: They used it here, but not when normalizing the 16*16*16=4096 rays shot before...
 		float normInv = Mth::invSqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-		float hurtPercent = m_pLevel->getSeenPercent(m_pos, pEnt->m_hitbox) * (1.0f - distPowerRatio);
+		float hurtPercent = m_pLevel->getSeenPercent(m_pos, entity->m_hitbox) * (1.0f - distPowerRatio);
 
-		pEnt->hurt(m_pEntity, int((hurtPercent * hurtPercent + hurtPercent) / 2.0f * 8.0f * this->m_power + 1.0f));
+		entity->hurt(m_pEntity, int((hurtPercent * hurtPercent + hurtPercent) / 2.0f * 8.0f * this->m_power + 1.0f));
 
-		pEnt->m_vel.x += deltaX * normInv * hurtPercent;
-		pEnt->m_vel.y += deltaY * normInv * hurtPercent;
-		pEnt->m_vel.z += deltaZ * normInv * hurtPercent;
+		entity->m_vel.x += deltaX * normInv * hurtPercent;
+		entity->m_vel.y += deltaY * normInv * hurtPercent;
+		entity->m_vel.z += deltaZ * normInv * hurtPercent;
 	}
 
 	std::vector<TilePos> vec;

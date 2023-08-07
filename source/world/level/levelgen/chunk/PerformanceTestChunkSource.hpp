@@ -15,6 +15,7 @@ class Level;
 class PerformanceTestChunkSource : public ChunkSource
 {
 public:
+	PerformanceTestChunkSource();
 	LevelChunk* create(int x, int z) override;
 	LevelChunk* getChunk(int x, int z) override;
 	bool hasChunk(int x, int z) override;
@@ -24,5 +25,5 @@ public:
 	int tick() override;
 
 public:
-	Level* m_pLevel = nullptr;
+	Level* m_pLevel;
 };

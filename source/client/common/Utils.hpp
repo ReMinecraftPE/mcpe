@@ -17,14 +17,26 @@
 
 #include <string>
 
-#ifdef _WIN32
+#if defined(_WIN32)
 
+#ifndef _XBOX // assume we're on a normal Windows device
 // @HACK: Include WinSock2.h also
 #include <WinSock2.h>
 #include <Windows.h>
 #include <WS2tcpip.h>
 #include <direct.h>
 #include <io.h>
+#elif defined(_XBOX)
+
+#include <xtl.h>
+#include <winsockx.h>
+
+ //#if __cplusplus < 201103L
+  // We're < C++11
+  //!defined(__cpp_constexpr)
+#define constexpr const
+//#endif
+#endif
 
 // XPL means "Cross PLatform"
 #define XPL_ACCESS _access
@@ -478,8 +490,12 @@ enum eDirection
 
 struct ChunkPos
 {
-	int x = 0, z = 0;
-	ChunkPos() {}
+	int x, z;
+	ChunkPos()
+	{
+		x = 0;
+		z = 0;
+	}
 	ChunkPos(int _x, int _z) : x(_x), z(_z) {}
 
 	bool operator<(const ChunkPos& b) const
@@ -493,17 +509,20 @@ struct ChunkPos
 
 struct Pos
 {
-	int x = 0, y = 0, z = 0;
-	Pos() {}
+	int x, y, z;
+	Pos()
+	{
+		x = 0;
+		y = 0;
+		z = 0;
+	}
 	Pos(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
 };
 
-// @NOTE: Duplicate?
-struct TilePos
+struct TilePos : Pos
 {
-	int x = 0, y = 0, z = 0;
-	TilePos() {}
-	TilePos(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
+	TilePos() : Pos() {}
+	TilePos(int _x, int _y, int _z) : Pos(_x, _y, _z) {}
 
 	bool operator<(const TilePos& b) const
 	{

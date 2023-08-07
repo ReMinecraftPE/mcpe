@@ -15,6 +15,14 @@ constexpr int C_MAX_RENDERS = 3072;
 
 RenderList::RenderList()
 {
+	m_posX = 0.0f;
+	m_posY = 0.0f;
+	m_posZ = 0.0f;
+	field_14 = 0;
+	field_18 = false;
+	field_19 = false;
+	field_1C = 0;
+
 	field_C = new int[C_MAX_RENDERS];
 	field_10 = new RenderChunk[C_MAX_RENDERS];
 }

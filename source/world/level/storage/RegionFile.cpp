@@ -11,6 +11,7 @@ static void void_sub(int a, int b)
 
 RegionFile::RegionFile(const std::string fileName)
 {
+	m_pFile = nullptr;
 	m_fileName = fileName + "/" + "chunks.dat";
 
 	field_20 = new int[1024];

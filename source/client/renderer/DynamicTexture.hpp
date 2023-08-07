@@ -24,8 +24,8 @@ public:
 	virtual ~DynamicTexture();
 
 protected:
-	int m_textureIndex = 0;
-	int m_textureSize = 1;
+	int m_textureIndex;
+	int m_textureSize;
 	uint8_t m_pixels[1024];
 
 	friend class Textures;
@@ -40,12 +40,12 @@ public:
 	void tick() override;
 
 public:
-	int field_40C = 0;
-	int field_410 = 0;
-	float* m_data1 = nullptr;
-	float* m_data2 = nullptr;
-	float* m_data3 = nullptr;
-	float* m_data4 = nullptr;
+	int field_40C;
+	int field_410;
+	float* m_data1;
+	float* m_data2;
+	float* m_data3;
+	float* m_data4;
 };
 
 class WaterSideTexture : public DynamicTexture
@@ -57,11 +57,11 @@ public:
 	void tick() override;
 
 public:
-	int field_40C = 0;
-	int field_410 = 0;
-	int field_414 = 0;
-	float* m_data1 = nullptr;
-	float* m_data2 = nullptr;
-	float* m_data3 = nullptr;
-	float* m_data4 = nullptr;
+	int field_40C;
+	int field_410;
+	int field_414;
+	float* m_data1;
+	float* m_data2;
+	float* m_data3;
+	float* m_data4;
 };

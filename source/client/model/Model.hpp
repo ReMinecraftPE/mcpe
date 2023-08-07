@@ -15,6 +15,7 @@ class Mob;
 class Model
 {
 public:
+	Model();
 	virtual void onGraphicsReset();
 	virtual void prepareMobModel(Mob*, float, float, float);
 	virtual void render(float, float, float, float, float, float);
@@ -23,6 +24,6 @@ public:
 	virtual void setBrightness(float);
 
 public:
-	float field_4 = 0.0f;
-	bool field_8 = false;
+	float field_4;
+	bool field_8;
 };

@@ -16,6 +16,16 @@ float EntityRenderDispatcher::xOff, EntityRenderDispatcher::yOff, EntityRenderDi
 EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f)
 {
+	m_pItemInHandRenderer = nullptr;
+	m_pTextures = nullptr;
+	m_pLevel = nullptr;
+	m_pMinecraft = nullptr;
+	m_pMob = nullptr;
+	m_yaw = 0.0f;
+	m_pitch = 0.0f;
+	m_pOptions = nullptr;
+	m_pFont = nullptr;
+
 	m_HumanoidMobRenderer.init(this);
 	m_TntRenderer.init(this);
 	m_CameraRenderer.init(this);

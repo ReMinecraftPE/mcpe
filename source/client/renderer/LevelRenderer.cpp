@@ -11,6 +11,41 @@
 
 LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 {
+	field_4 = -9999.0f;
+	field_8 = -9999.0f;
+	field_C = -9999.0f;
+	field_10 = 0.0f;
+	field_14 = 2;
+	field_18 = 0;
+	field_1C = 0;
+	field_20 = 0;
+	field_30 = 0;
+	field_54 = 0;
+	field_58 = 0;
+	field_5C = 0;
+	field_60 = 0;
+	field_64 = 0;
+	field_68 = 0;
+	field_6C = 0;
+	field_70 = 0;
+	field_74 = 0;
+	field_78 = 0;
+	field_7C = 0;
+	field_80 = 0;
+	m_pLevel = nullptr;
+	m_chunks = nullptr;
+	field_98 = nullptr;
+	m_chunksLength = 0;
+	m_pTileRenderer = nullptr;
+	field_A4 = 0;
+	field_A8 = 0;
+	field_AC = 0;
+	field_B0 = 0;
+	field_B8 = false;
+	field_BC = -1;
+	field_C0 = 0;
+	m_nBuffers = 26136;
+
 	m_pMinecraft = pMC;
 	m_pTextures = pTexs;
 

@@ -74,7 +74,7 @@ void OptionsScreen::UpdateTexts()
 	m_fancyGfxButton.m_text  = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
 	m_flightHaxButton.m_text = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
 	m_autoJumpButton.m_text  = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
-;	m_viewDistButton.m_text  = "View distance: "   + ViewDistanceStr(o.field_10);
+	m_viewDistButton.m_text  = "View distance: "   + ViewDistanceStr(o.field_10);
 	m_srvVisButton.m_text    = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
 }
 #endif

@@ -30,7 +30,7 @@ public:
 	int tick() override;
 
 public:
-	Level* m_pLevel = nullptr;
+	Level* m_pLevel;
 
 	LevelChunk* m_chunkMap[C_MAX_CHUNKS_Z][C_MAX_CHUNKS_X];
 	LevelChunk* m_pEmptyChunk;

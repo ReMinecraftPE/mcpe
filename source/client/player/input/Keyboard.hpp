@@ -7,6 +7,9 @@
  ********************************************************************/
 
 #pragma once
+#if __cplusplus < 201103L
+#include <stdint.h>
+#endif
 
 #include <vector>
 #include <cstdint>

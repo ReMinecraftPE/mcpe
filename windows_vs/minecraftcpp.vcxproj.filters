@@ -91,6 +91,9 @@
     <Filter Include="source\platforms\windows">
       <UniqueIdentifier>{4cc1a780-f0a9-41b1-bee2-dc28f00fb958}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Third Party">
+      <UniqueIdentifier>{d754d82a-1cf9-4e4a-9dfd-2cc79f4d1fc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\raknet\ThreadsafePacketLogger.h">
@@ -986,6 +989,12 @@
     </ClInclude>
     <ClInclude Include="..\platforms\PlatformDefinitions.hpp">
       <Filter>source\platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\GL\glext.h">
+      <Filter>Header Files\Third Party</Filter>
+    </ClInclude>
+    <ClInclude Include="..\compat\GL.hpp">
+      <Filter>Header Files\Third Party</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
