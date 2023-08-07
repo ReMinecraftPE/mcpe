@@ -1,7 +1,12 @@
 #pragma once
 
+#ifdef _WIN32
 #include <thirdparty/OpenAL/Include/al.h>
 #include <thirdparty/OpenAL/Include/alc.h>
+#else
+#include <AL/al.h>
+#include <AL/alc.h>
+#endif
 
 #include <string>
 #include <vector>

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe)
 
 # SDL Build
-add_compile_definitions(USE_SDL HANDLE_CHARS_SEPARATELY)
+add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
 
 # WASM
 if(EMSCRIPTEN)
