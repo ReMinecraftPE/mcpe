@@ -10,8 +10,10 @@
 
 // @NOTE: This is unused.
 
-ChatScreen::ChatScreen() : m_textChat(1, 0, 0), m_btnSend(2, 0, 0, "Send")
+ChatScreen::ChatScreen(bool slash) : m_textChat(1, 0, 0), m_btnSend(2, 0, 0, "Send")
 {
+	if (slash)
+		m_textChat.m_text = "/";
 }
 
 void ChatScreen::buttonClicked(Button* pButton)
@@ -60,6 +62,8 @@ void ChatScreen::keyPressed(int keyCode)
 {
 	if (keyCode == AKEYCODE_ENTER)
 		sendMessageAndExit();
+
+	Screen::keyPressed(keyCode);
 }
 
 void ChatScreen::sendMessageAndExit()

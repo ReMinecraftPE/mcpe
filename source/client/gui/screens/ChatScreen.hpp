@@ -13,7 +13,7 @@
 class ChatScreen : public Screen
 {
 public:
-	ChatScreen();
+	ChatScreen(bool slash = false);
 	void buttonClicked(Button*) override;
 	void init() override;
 	void removed() override;

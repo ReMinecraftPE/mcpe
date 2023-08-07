@@ -400,11 +400,12 @@ void Gui::handleKeyPressed(int keyCode)
 		}
 
 		case AKEYCODE_T:
+		case AKEYCODE_SLASH:
 		{
 			if (m_pMinecraft->m_pScreen)
 				break;
 
-			m_pMinecraft->setScreen(new ChatScreen);
+			m_pMinecraft->setScreen(new ChatScreen(keyCode == AKEYCODE_SLASH));
 			break;
 		}
 	}
