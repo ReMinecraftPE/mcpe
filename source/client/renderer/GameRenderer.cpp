@@ -115,8 +115,6 @@ void GameRenderer::setupCamera(float f, int i)
 	moveCameraToPlayer(f);
 }
 
-float x = 0, y = 0;
-
 void GameRenderer::moveCameraToPlayer(float f)
 {
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
@@ -792,11 +790,7 @@ void GameRenderer::pick(float f)
 	// picked entities take priority over tiles (?!)
 	if (field_10)
 	{
-		if (!m_pMinecraft->m_pGameMode->isCreativeType())
-		{
-			m_pMinecraft->m_hitResult = HitResult(field_10);
-		}
-
+		m_pMinecraft->m_hitResult = HitResult(field_10);
 		return;
 	}
 
