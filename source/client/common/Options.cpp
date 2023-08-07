@@ -133,7 +133,6 @@ bool Options::readBool(const std::string& str)
 	return false;
 }
 
-#ifndef ORIGINAL_CODE
 int Options::readInt(const std::string& str)
 {
 	int f;
@@ -143,7 +142,18 @@ int Options::readInt(const std::string& str)
 
 	return f;
 }
-#endif
+
+std::string Options::saveBool(bool b)
+{
+	return b ? "true" : "false";
+}
+
+std::string Options::saveInt(int i)
+{
+	std::stringstream ss;
+	ss << i;
+	return ss.str();
+}
 
 void Options::update(const std::vector<std::string>& strings)
 {
@@ -159,11 +169,25 @@ void Options::update(const std::vector<std::string>& strings)
 			m_bFancyGraphics = readBool(value);
 		else if (key == "mp_server_visible_default")
 			m_bServerVisibleDefault = readBool(value);
-#ifndef ORIGINAL_CODE
 		else if (key == "gfx_smoothlighting")
 			Minecraft::useAmbientOcclusion = field_18 = readBool(value);
 		else if (key == "gfx_viewdistance")
 			field_10 = readInt(value);
-#endif
 	}
+}
+
+std::vector<std::string> Options::getOptionStrings()
+{
+	std::vector<std::string> vec;
+
+#define SO(optname, value) do { vec.push_back(optname); vec.push_back(value); } while (0)
+
+	SO("mp_username", m_playerName);
+	SO("ctrl_invertmouse",          saveBool(m_bInvertMouse));
+	SO("gfx_fancygraphics",         saveBool(m_bFancyGraphics));
+	SO("mp_server_visible_default", saveBool(m_bServerVisibleDefault));
+	SO("gfx_smoothlighting",        saveBool(field_18));
+	SO("gfx_viewdistance",          saveInt (field_10));
+
+	return vec;
 }

@@ -16,8 +16,8 @@
 #include "AppPlatform_windows.hpp"
 #include "NinecraftApp.hpp"
 
-LPCTSTR g_GameTitle = TEXT("Minecraft PE");
-LPCTSTR g_WindowClassName = TEXT("MinecraftClass");
+LPCTSTR g_GameTitle = TEXT("ReMinecraftPE");
+LPCTSTR g_WindowClassName = TEXT("MCPEClass");
 
 void LogMsg(const char* fmt, ...)
 {
@@ -158,6 +158,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			g_AppPlatform.setScreenSize(width, height);
 
+			if (g_pApp)
+				g_pApp->sizeUpdate(width, height);
+
 			break;
 		}
 		case WM_KEYDOWN:
@@ -276,6 +279,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	}
 
 _cleanup:
+	g_pApp->saveOptions();
+
 	// disable OpenGL for the window
 	DisableOpenGL(hWnd, hDC, hRC);
 

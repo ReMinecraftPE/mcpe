@@ -8,12 +8,11 @@
 
 #pragma once
 
-#ifndef ORIGINAL_CODE
-
 #ifdef _WIN32
 
 #define NOMINMAX
-#include "Utils.hpp"
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 
 enum
 {
@@ -55,10 +54,12 @@ enum
 	AKEYCODE_APOSTROPHE = VK_OEM_7, // ''"'
 	AKEYCODE_SPACE = VK_SPACE,
 
-	AKEYCODE_1 = '1',
 	AKEYCODE_0 = '0',
+	AKEYCODE_1 = '1',
 	//...
 	AKEYCODE_9 = '9',
+
+	AKEYCODE_ENTER = VK_RETURN,
 
 	// note: You have to add these here instead of using the
 	// characters themselves, otherwise android won't pick it up
@@ -125,7 +126,8 @@ enum
 	AKEYCODE_Z,
 	AKEYCODE_F4,
 	AKEYCODE_ARROW_LEFT,
-	AKEYCODE_ARROW_RIGHT
+	AKEYCODE_ARROW_RIGHT,
+	AKEYCODE_ENTER,
 };
 
 static inline int translate_sdl_key_to_mcpe(int key) {
@@ -173,15 +175,12 @@ static inline int translate_sdl_key_to_mcpe(int key) {
 		case SDLK_F4: return AKEYCODE_F4;
 		case SDLK_LEFT: return AKEYCODE_ARROW_LEFT;
 		case SDLK_RIGHT: return AKEYCODE_ARROW_RIGHT;
+		case SDLK_RETURN: return AKEYCODE_ENTER;
 		default: return AKEYCODE_UNKNOWN;
 	}
 }
 
-#else
-#error "Add AKEYCODEs for your platform!"
-#endif
-
-#else
+#elif defined(PLATFORM_ANDROID)
 
 enum
 {
@@ -480,5 +479,9 @@ enum
 // this sucks
 #define AKEYCODE_ARROW_LEFT  AKEYCODE_DPAD_LEFT
 #define AKEYCODE_ARROW_RIGHT AKEYCODE_DPAD_RIGHT
+
+#else
+
+#error "Provide key codes for your platform!"
 
 #endif

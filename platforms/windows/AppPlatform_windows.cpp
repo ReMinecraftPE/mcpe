@@ -209,6 +209,18 @@ std::vector<std::string> AppPlatform_windows::getOptionStrings()
 	return o;
 }
 
+void AppPlatform_windows::setOptionStrings(const std::vector<std::string>& str)
+{
+	assert(str.size() % 2 == 0);
+
+	std::ofstream os("options.txt");
+
+	os << "#Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.\n\n";
+	
+	for (int i = 0; i < int(str.size()); i += 2)
+		os << str[i] << '|' << str[i + 1] << '\n';
+}
+
 void AppPlatform_windows::setScreenSize(int width, int height)
 {
 	m_ScreenWidth = width;

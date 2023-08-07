@@ -32,7 +32,7 @@ ConfirmScreen::ConfirmScreen(Screen* pScreen, const std::string& line1, const st
 
 void ConfirmScreen::buttonClicked(Button* pButton)
 {
-	postResult(pButton->field_30 == 0);
+	postResult(pButton->m_buttonId == 0);
 }
 
 bool ConfirmScreen::handleBackEvent(bool b)

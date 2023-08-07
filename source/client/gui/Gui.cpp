@@ -8,6 +8,7 @@
 
 #include "Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
+#include "client/gui/screens/ChatScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 
 #ifdef _WIN32
@@ -15,9 +16,9 @@
 #endif
 
 #ifdef ENH_USE_GUI_SCALE_2
-float Gui::InvGuiScale = 0.5f;
+float Gui::InvGuiScale = 1.0f / 2.0f;
 #else
-float Gui::InvGuiScale = 0.333333f;
+float Gui::InvGuiScale = 1.0f / 3.0f;
 #endif
 
 Gui::Gui(Minecraft* pMinecraft)
@@ -259,38 +260,10 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 #endif
 
 	// render messages
-
-	int topEdge = height - 49;
-
-	for (auto& msg : m_guiMessages)
+	if (m_bRenderMessages)
 	{
-		if (msg.field_18 > 199)
-			continue;
-
-		int bkgdColor = 0x7F000000, textColor = 0xFFFFFFFF;
-
-		float fade = 10.0f * (1.0f - (float(msg.field_18) / 200.0f));
-		if (fade <= 0.0f)
-			continue;
-
-		if (fade < 1.0f)
-		{
-			int x = int(fade * fade * 255.0f);
-			if (x == 0)
-				continue;
-
-			bkgdColor = (x / 2) << 24;
-			textColor = (x << 24) + 0xFFFFFF;
-		}
-
-		fill(2, topEdge, 322, topEdge + 9, bkgdColor);
-		glEnable(GL_BLEND);
-		m->m_pFont->drawShadow(msg.msg, 2, topEdge + 1, textColor);
-
-		topEdge -= 9;
+		renderMessages(false);
 	}
-
-	glDisable(GL_BLEND);
 }
 
 void Gui::tick()
@@ -412,5 +385,57 @@ void Gui::handleKeyPressed(int keyCode)
 
 			break;
 		}
+
+		case AKEYCODE_T:
+		{
+			if (m_pMinecraft->m_pScreen)
+				break;
+
+			m_pMinecraft->setScreen(new ChatScreen);
+			break;
+		}
 	}
+}
+
+void Gui::renderMessages(bool bShowAll)
+{
+	int width = Minecraft::width * InvGuiScale,
+		height = Minecraft::height * InvGuiScale;
+
+	int topEdge = height - 49;
+
+	for (auto& msg : m_guiMessages)
+	{
+		if (!bShowAll && msg.field_18 > 199)
+			continue;
+
+		int bkgdColor = 0x7F000000, textColor = 0xFFFFFFFF;
+
+		float fade = 1.0f;
+		
+		if (!bShowAll)
+		{
+			fade = 10.0f * (1.0f - (float(msg.field_18) / 200.0f));
+			if (fade <= 0.0f)
+				continue;
+
+			if (fade < 1.0f)
+			{
+				int x = int(fade * fade * 255.0f);
+				if (x == 0)
+					continue;
+
+				bkgdColor = (x / 2) << 24;
+				textColor = (x << 24) + 0xFFFFFF;
+			}
+		}
+
+		fill(2, topEdge, 322, topEdge + 9, bkgdColor);
+		glEnable(GL_BLEND);
+		m_pMinecraft->m_pFont->drawShadow(msg.msg, 2, topEdge + 1, textColor);
+
+		topEdge -= 9;
+	}
+
+	glDisable(GL_BLEND);
 }

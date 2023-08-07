@@ -31,6 +31,7 @@ public:
 	virtual void render(int x, int y, float f) override;
 	virtual void mouseClicked(int x, int y, int type) override;
 	virtual void mouseReleased(int x, int y, int type) override;
+	virtual void removed() override;
 
 private:
 	int m_selectedSlot = 0;

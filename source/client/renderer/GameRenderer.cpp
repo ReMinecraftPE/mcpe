@@ -167,7 +167,7 @@ void GameRenderer::setupGuiScreen()
 	glClear(GL_ACCUM);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	xglOrthof(0, float(int(x)), float(int(y)), 0, 2000.0f, 3000.0f);
+	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -2000.0f);

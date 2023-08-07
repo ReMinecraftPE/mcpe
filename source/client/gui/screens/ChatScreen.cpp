@@ -10,31 +10,61 @@
 
 // @NOTE: This is unused.
 
+ChatScreen::ChatScreen() : m_textChat(1, 0, 0), m_btnSend(2, 0, 0, "Send")
+{
+}
+
 void ChatScreen::buttonClicked(Button* pButton)
 {
+	if (pButton->m_buttonId == m_btnSend.m_buttonId)
+		sendMessageAndExit();
 }
 
 void ChatScreen::init()
 {
-	m_pMinecraft->platform()->showDialog(AppPlatform::DLG_CHAT);
-	m_pMinecraft->platform()->createUserInput();
+	m_btnSend.m_height = 20;
+	m_btnSend.m_width = 40;
+	m_textChat.m_xPos = 0;
+	m_textChat.m_yPos = m_height - 20;
+	m_textChat.m_width = m_width - m_btnSend.m_width;
+	m_textChat.m_height = 20;
+	m_btnSend.m_yPos = m_height - 20;
+	m_btnSend.m_xPos = m_textChat.m_xPos + m_textChat.m_width;
+	
+	// set focus directly on the chat text box
+	m_textChat.init(m_pFont);
+	m_textChat.setFocused(true);
+
+	m_buttons.push_back(&m_btnSend);
+	m_textInputs.push_back(&m_textChat);
+}
+
+void ChatScreen::removed()
+{
+	// Now let them be rendered.
+	m_pMinecraft->m_gui.m_bRenderMessages = true;
 }
 
 void ChatScreen::render(int mouseX, int mouseY, float f)
 {
-	int userInputStatus = m_pMinecraft->platform()->getUserInputStatus();
-	if (userInputStatus < 0)
-		return;
+	renderBackground();
 
-	if (userInputStatus == 1)
-	{
-		std::vector<std::string> userInput = m_pMinecraft->platform()->getUserInput();
-		if (userInput.size() >= 1)
-		{
-			// @NOTE: No sending multiplayer chats. Weird
-			m_pMinecraft->m_gui.addMessage(userInput[0]);
-		}
-	}
+	// override the default behavior of rendering chat messages
+	m_pMinecraft->m_gui.m_bRenderMessages = false;
+	m_pMinecraft->m_gui.renderMessages(true);
 
+	Screen::render(mouseX, mouseY, f);
+}
+
+void ChatScreen::keyPressed(int keyCode)
+{
+	if (keyCode == AKEYCODE_ENTER)
+		sendMessageAndExit();
+}
+
+void ChatScreen::sendMessageAndExit()
+{
+	m_pMinecraft->sendMessage(m_textChat.m_text);
+	
 	m_pMinecraft->setScreen(nullptr);
 }

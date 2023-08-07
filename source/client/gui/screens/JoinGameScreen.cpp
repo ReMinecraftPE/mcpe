@@ -7,12 +7,14 @@
  ********************************************************************/
 
 #include "JoinGameScreen.hpp"
+#include "DirectConnectScreen.hpp"
 #include "ProgressScreen.hpp"
 #include "StartMenuScreen.hpp"
 
 JoinGameScreen::JoinGameScreen() :
 	m_btnJoin(2, "Join Game"),
-	m_btnBack(3, "Back")
+	m_btnDirectConnect(3, "Direct Connect"),
+	m_btnBack(4, "Back")
 {
 }
 
@@ -24,7 +26,7 @@ JoinGameScreen::~JoinGameScreen()
 
 void JoinGameScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->field_30 == m_btnJoin.field_30)
+	if (pButton->m_buttonId == m_btnJoin.m_buttonId)
 	{
 		if (isIndexValid(m_pAvailableGamesList->m_selectedIndex))
 		{
@@ -32,11 +34,17 @@ void JoinGameScreen::buttonClicked(Button* pButton)
 			m_pMinecraft->setScreen(new ProgressScreen);
 
 			m_btnJoin.m_bEnabled = false;
+			m_btnDirectConnect.m_bEnabled = false;
 			m_btnBack.m_bEnabled = false;
 		}
 	}
 
-	if (pButton->field_30 == m_btnBack.field_30)
+	if (pButton->m_buttonId == m_btnDirectConnect.m_buttonId)
+	{
+		m_pMinecraft->setScreen(new DirectConnectScreen);
+	}
+
+	if (pButton->m_buttonId == m_btnBack.m_buttonId)
 	{
 		m_pMinecraft->setScreen(new StartMenuScreen);
 	}
@@ -55,13 +63,19 @@ bool JoinGameScreen::handleBackEvent(bool b)
 
 void JoinGameScreen::init()
 {
-	m_btnBack.m_yPos = m_btnJoin.m_yPos = m_height - 26;
-	m_btnBack.m_width = m_btnJoin.m_width = 120;
+	const int BUTTON_WIDTH = 100;
 
-	m_btnJoin.m_xPos = m_width / 2 - 124;
-	m_btnBack.m_xPos = m_width / 2 + 4;
+	m_btnBack.m_yPos = m_btnJoin.m_yPos = m_btnDirectConnect.m_yPos = m_height - 27;
+	m_btnBack.m_width = m_btnJoin.m_width = BUTTON_WIDTH;
+
+	m_btnJoin.m_xPos = m_width / 2 - (BUTTON_WIDTH + (BUTTON_WIDTH / 2)) - 4;
+	m_btnDirectConnect.m_xPos = (m_width / 2) - (BUTTON_WIDTH / 2);
+	m_btnBack.m_xPos = m_width / 2 + 4 + (BUTTON_WIDTH / 2);
+
+	m_btnDirectConnect.m_width = BUTTON_WIDTH;
 
 	m_buttons.push_back(&m_btnJoin);
+	m_buttons.push_back(&m_btnDirectConnect);
 	m_buttons.push_back(&m_btnBack);
 	
 	m_pMinecraft->m_pRakNetInstance->clearServerList();
@@ -69,6 +83,7 @@ void JoinGameScreen::init()
 	m_pAvailableGamesList = new AvailableGamesList(m_pMinecraft, m_width, m_height, 24, m_height - 30, 28);
 
 	m_buttonTabList.push_back(&m_btnJoin);
+	m_buttonTabList.push_back(&m_btnDirectConnect);
 	m_buttonTabList.push_back(&m_btnBack);
 }
 

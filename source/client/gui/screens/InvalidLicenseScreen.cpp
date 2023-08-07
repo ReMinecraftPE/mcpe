@@ -15,17 +15,17 @@ InvalidLicenseScreen::InvalidLicenseScreen(int error, bool bHasQuitButton) :
 	m_bHasQuitButton(bHasQuitButton)
 {
 	if (bHasQuitButton)
-		m_btnOk.field_18 = "Quit";
+		m_btnOk.m_text = "Quit";
 }
 
 void InvalidLicenseScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->field_30 == m_btnOk.field_30)
+	if (pButton->m_buttonId == m_btnOk.m_buttonId)
 	{
 		m_pMinecraft->quit();
 	}
 
-	if (pButton->field_30 == m_btnBuy.field_30)
+	if (pButton->m_buttonId == m_btnBuy.m_buttonId)
 	{
 		m_pMinecraft->platform()->buyGame();
 	}

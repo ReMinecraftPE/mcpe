@@ -65,14 +65,14 @@ void OptionsScreen::UpdateTexts()
 {
 	Options& o = m_pMinecraft->m_options;
 
-	m_AOButton.field_18        = "Smooth lighting: " + BoolOptionStr(o.field_18);
-	m_invertYButton.field_18   = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
-	m_viewBobButton.field_18   = "View bobbing: "    + BoolOptionStr(o.field_14);
-	m_anaglyphsButton.field_18 = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
-	m_fancyGfxButton.field_18  = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
-	m_flightHaxButton.field_18 = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
-	m_viewDistButton.field_18  = "View distance: "   + ViewDistanceStr(o.field_10);
-	m_srvVisButton.field_18    = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
+	m_AOButton.m_text        = "Smooth lighting: " + BoolOptionStr(o.field_18);
+	m_invertYButton.m_text   = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
+	m_viewBobButton.m_text   = "View bobbing: "    + BoolOptionStr(o.field_14);
+	m_anaglyphsButton.m_text = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
+	m_fancyGfxButton.m_text  = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
+	m_flightHaxButton.m_text = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
+	m_viewDistButton.m_text  = "View distance: "   + ViewDistanceStr(o.field_10);
+	m_srvVisButton.m_text    = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
 }
 #endif
 
@@ -161,7 +161,7 @@ void OptionsScreen::buttonClicked(Button* pButton)
 	Options& o = m_pMinecraft->m_options;
 
 	bool* pOption = nullptr;
-	switch (pButton->field_30)
+	switch (pButton->m_buttonId)
 	{
 		case OB_BACK:
 			if (m_pMinecraft->isLevelGenerated())

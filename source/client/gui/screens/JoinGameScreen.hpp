@@ -27,6 +27,7 @@ public:
 
 public:
 	Button m_btnJoin;
+	Button m_btnDirectConnect;
 	Button m_btnBack;
 	AvailableGamesList* m_pAvailableGamesList = nullptr;
 };

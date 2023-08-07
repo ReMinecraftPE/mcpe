@@ -54,7 +54,7 @@ void StartMenuScreen::_updateLicense()
 
 void StartMenuScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->field_30 == m_startButton.field_30)
+	if (pButton->m_buttonId == m_startButton.m_buttonId)
 	{
 #if defined(DEMO)
 		m_pMinecraft->selectLevel("_DemoLevel", "_DemoLevel", int(getEpochTimeS()));
@@ -64,12 +64,12 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->setScreen(new SelectWorldScreen);
 #endif
 	}
-	else if (pButton->field_30 == m_joinButton.field_30)
+	else if (pButton->m_buttonId == m_joinButton.m_buttonId)
 	{
 		m_pMinecraft->locateMultiplayer();
 		m_pMinecraft->setScreen(new JoinGameScreen);
 	}
-	else if (pButton->field_30 == m_buyButton.field_30)
+	else if (pButton->m_buttonId == m_buyButton.m_buttonId)
 	{
 #if !defined(DEMO) && defined(CAN_QUIT)
 		m_pMinecraft->quit();
@@ -77,7 +77,7 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->platform()->buyGame();
 #endif
 	}
-	else if (pButton->field_30 == m_optionsButton.field_30)
+	else if (pButton->m_buttonId == m_optionsButton.m_buttonId)
 	{
 		m_pMinecraft->setScreen(new OptionsScreen);
 	}
@@ -130,7 +130,7 @@ void StartMenuScreen::init()
 	field_188 = (m_width - m_pFont->width(field_170)) / 2;
 
 #if !defined(DEMO) && defined(CAN_QUIT)
-	m_buyButton.field_18 = "Quit";
+	m_buyButton.m_text = "Quit";
 #endif
 
 	//m_testBox.init(m_pFont);

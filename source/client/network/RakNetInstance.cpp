@@ -258,7 +258,7 @@ void RakNetInstance::send(const RakNet::RakNetGUID& guid, Packet* packet)
 	RakNet::BitStream bs;
 	packet->write(&bs);
 
-	m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, guid, true);
+	m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, guid, false);
 
 	delete packet;
 	// return 1300; --- ida tells me this returns 1300. Huh

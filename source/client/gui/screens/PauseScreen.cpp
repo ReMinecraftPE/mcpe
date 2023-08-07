@@ -80,9 +80,9 @@ void PauseScreen::updateServerVisibilityText()
 	ServerSideNetworkHandler* pSSNH = (ServerSideNetworkHandler*)m_pMinecraft->m_pNetEventCallback;
 
 	if (pSSNH->m_bAllowIncoming)
-		m_btnVisible.field_18 = "Server is visible";
+		m_btnVisible.m_text = "Server is visible";
 	else
-		m_btnVisible.field_18 = "Server is invisible";
+		m_btnVisible.m_text = "Server is invisible";
 }
 
 void PauseScreen::tick()
@@ -100,16 +100,16 @@ void PauseScreen::render(int a, int b, float c)
 
 void PauseScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->field_30 == m_btnBack.field_30)
+	if (pButton->m_buttonId == m_btnBack.m_buttonId)
 		m_pMinecraft->setScreen(nullptr);
 
-	if (pButton->field_30 == m_btnQuit.field_30)
+	if (pButton->m_buttonId == m_btnQuit.m_buttonId)
 		m_pMinecraft->leaveGame(false);
 
-	if (pButton->field_30 == m_btnQuitAndCopy.field_30)
+	if (pButton->m_buttonId == m_btnQuitAndCopy.m_buttonId)
 		m_pMinecraft->leaveGame(true);
 
-	if (pButton->field_30 == m_btnVisible.field_30)
+	if (pButton->m_buttonId == m_btnVisible.m_buttonId)
 	{
 		if (m_pMinecraft->m_pRakNetInstance && m_pMinecraft->m_pRakNetInstance->m_bIsHost)
 		{
@@ -121,7 +121,7 @@ void PauseScreen::buttonClicked(Button* pButton)
 	}
 
 #ifdef ENH_ADD_OPTIONS_PAUSE
-	if (pButton->field_30 == m_btnOptions.field_30)
+	if (pButton->m_buttonId == m_btnOptions.m_buttonId)
 		m_pMinecraft->setScreen(new OptionsScreen);
 #endif
 }

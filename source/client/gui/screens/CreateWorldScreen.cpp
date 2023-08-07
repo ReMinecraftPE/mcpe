@@ -68,12 +68,12 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 
 void CreateWorldScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->field_30 == m_btnBack.field_30)
+	if (pButton->m_buttonId == m_btnBack.m_buttonId)
 	{
 		m_pMinecraft->setScreen(new SelectWorldScreen);
 	}
 
-	if (pButton->field_30 == m_btnCreate.field_30)
+	if (pButton->m_buttonId == m_btnCreate.m_buttonId)
 	{
 		std::string nameStr = m_textName.m_text;
 		std::string seedStr = m_textSeed.m_text;

@@ -41,6 +41,7 @@ public:
 	void tick();
 	void tickInput();
 	void reloadOptions();
+	void saveOptions();
 	void handleMouseClick(int type);
 	void handleMouseDown(int type, bool b);
 	bool isLevelGenerated();
@@ -54,17 +55,20 @@ public:
 	void locateMultiplayer();
 	void tickMouse();
 	void handleCharInput(char chr);
+	void sendMessage(const std::string& message);
 
 	virtual void onGraphicsReset();
 	virtual void update() override;
 	virtual void init() override;
+	virtual void sizeUpdate(int newWidth, int newHeight) override;
 
-	static void* prepareLevel_tspawn(void* pMinecraft);
+	float getBestScaleForThisScreenSize(int width, int height);
 	void generateLevel(const std::string& unused, Level* pLevel);
 	void prepareLevel(const std::string& unused);
 	void _levelGenerated();
 	bool isOnline();
 	bool isOnlineClient();
+	static void* prepareLevel_tspawn(void* pMinecraft);
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
