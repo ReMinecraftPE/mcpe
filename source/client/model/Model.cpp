@@ -8,6 +8,12 @@
 
 #include "Model.hpp"
 
+Model::Model()
+{
+	field_4 = 0.0f;
+	field_8 = false;
+}
+
 void Model::onGraphicsReset()
 {
 	
@@ -31,4 +37,8 @@ void Model::renderHorrible(float, float, float, float, float, float)
 void Model::setupAnim(float, float, float, float, float, float)
 {
 	
+}
+
+void Model::setBrightness(float)
+{
 }

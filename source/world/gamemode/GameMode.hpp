@@ -41,5 +41,5 @@ public:
 
 public:
 	Minecraft* m_pMinecraft;
-	uint8_t field_8 = 0;
+	uint8_t field_8;
 };

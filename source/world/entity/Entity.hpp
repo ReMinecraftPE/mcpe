@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -33,10 +33,14 @@ enum eEntityRenderType
 struct EntityPos
 {
 	Vec3 m_pos;
-	float m_yaw = 0, m_pitch = 0;
-	bool m_bHasRot = false, m_bHasPos = false;
+	float m_yaw, m_pitch;
+	bool m_bHasRot, m_bHasPos;
 
-	EntityPos() {};
+	EntityPos()
+	{
+		m_yaw = 0, m_pitch = 0;
+		m_bHasRot, m_bHasPos;
+	};
 
 	EntityPos(const Vec3& pos)
 	{
@@ -63,7 +67,10 @@ struct EntityPos
 
 class Entity
 {
+private:
+	void _init();
 public:
+	Entity() { _init(); }
 	Entity(Level*);
 	virtual ~Entity();
 	virtual void setLevel(Level*);
@@ -145,55 +152,55 @@ public:
 	static Random sharedRandom;
 
 	Vec3 m_pos;
-	bool m_bInAChunk = false;
-	int m_chunkX = 0;
-	int m_chunkY = 0;
-	int m_chunkZ = 0;
-	int field_20 = 0;
-	int field_24 = 0;
-	int field_28 = 0;
+	bool m_bInAChunk;
+	int m_chunkX;
+	int m_chunkY;
+	int m_chunkZ;
+	int field_20;
+	int field_24;
+	int field_28;
 	int m_EntityID;
-	float field_30 = 1.0f;
-	uint8_t field_34 = 0;
-	Level* m_pLevel = nullptr;
+	float field_30;
+	uint8_t field_34;
+	Level* m_pLevel;
 	Vec3 field_3C;
 	Vec3 m_vel;
-	float m_yaw   = 0.0f;
-	float m_pitch = 0.0f;
+	float m_yaw;
+	float m_pitch;
 	//maybe these are the actual m_yaw and m_pitch, and
 	//the one I annotated are the destination yaw and pitch.
 	//interpolateTurn doesn't modify them, so I highly suspect
 	//this to be the case.
-	float field_5C = 0.0f;
-	float field_60 = 0.0f;
+	float field_5C;
+	float field_60;
 	AABB m_hitbox;
-	bool field_7C = false;
-	bool field_7D = false;
-	bool field_7E = false;
-	bool field_7F = false;
-	bool m_bHurt = false;
-	uint8_t field_81 = 1;
-	bool m_bRemoved = false;
-	float field_84 = 0.0f;
-	float field_88 = 0.6f;
-	float field_8C = 1.8f;
-	float field_90 = 0.0f;
-	float field_94 = 0.0f;
+	bool field_7C;
+	bool field_7D;
+	bool field_7E;
+	bool field_7F;
+	bool m_bHurt;
+	uint8_t field_81;
+	bool m_bRemoved;
+	float field_84;
+	float field_88;
+	float field_8C;
+	float field_90;
+	float field_94;
 	Vec3 field_98;
-	float field_A4 = 0.0f;
-	float field_A8 = 0.0f;
-	bool m_bNoCollision = false;
-	float field_B0 = 0.0f;
-	int field_B4 = 0;
-	int field_B8 = 0;
-	int field_BC = 300;
-	int field_C0 = 0;
+	float field_A4;
+	float field_A8;
+	bool m_bNoCollision;
+	float field_B0;
+	int field_B4;
+	int field_B8;
+	int field_BC;
+	int field_C0;
 	int field_C4;
-	int field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
-	float m_distanceFallen = 0.0f;
-	int field_D0 = 300;
-	uint8_t field_D4 = 0;
-	bool field_D5 = false;
-	bool field_D6 = true;
-	int field_D8 = 1;
+	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
+	float m_distanceFallen;
+	int field_D0;
+	uint8_t field_D4;
+	bool field_D5;
+	bool field_D6;
+	int field_D8;
 };

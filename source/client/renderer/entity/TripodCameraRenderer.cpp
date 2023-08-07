@@ -10,7 +10,7 @@
 #include "Minecraft.hpp"
 
 TripodCameraRenderer::TripodCameraRenderer() :
-	m_tile(0, 243, Material::plant),
+	m_tile(),
 	m_cube(0, 0)
 {
 	m_cube.addBox(-4.0f, -4.0f, -6.0f, 8, 8, 10);
@@ -36,12 +36,16 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 	Tesselator& t = Tesselator::instance;
 	t.color(1.0f, 1.0f, 1.0f);
 
+	float brightness = entity->getBrightness(1.0f);
+
 	bindTexture("gui/items.png");
 	t.begin();
-	m_renderer.tesselateCrossTexture(&m_tile, 0, -0.5f, -0.5f, -0.5f);
+	//m_renderer.tesselateCrossTexture(&m_tile, 0, -0.5f, -0.5f, -0.5f);
+	m_renderer.renderTile(&m_tile, 0, brightness);
 	t.draw();
 
 	bindTexture("item/camera.png");
+	m_cube.setBrightness(brightness);
 	m_cube.render(0.0625f);
 
 	Entity* pHREntity = m_pDispatcher->m_pMinecraft->m_hitResult.m_pEnt;
@@ -60,11 +64,20 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// @TODO FIX: With ENH_ENTITY_SHADING on, the cube is fully opaque.
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		m_cube.renderHorrible(0.0625f);
+		m_cube.render(0.0625f);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
 	}
 
 	glPopMatrix();
+}
+
+TripodTile::TripodTile() : Tile(0, 243, Material::plant)
+{
+}
+
+int TripodTile::getRenderShape()
+{
+	return SHAPE_CROSS;
 }

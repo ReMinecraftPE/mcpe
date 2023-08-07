@@ -14,10 +14,14 @@ struct LevelSummary
 {
 	std::string field_0;
 	std::string field_18;
-	int field_30 = 0;
-	int field_34 = 0;
+	int field_30;
+	int field_34;
 
-	LevelSummary() {}
+	LevelSummary()
+	{
+		field_30 = 0;
+		field_34 = 0;
+	}
 
 	LevelSummary(const std::string& a, const std::string& b, int c, int d)
 	{

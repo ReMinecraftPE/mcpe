@@ -32,21 +32,27 @@ struct PlayerData
 
 struct LevelData
 {
-	LevelData();
-	LevelData(TLong seed, const std::string&, int);
+private:
+	void _init(TLong seed = 0, int x = 0);
+	void _init(TLong seed, int x, const std::string& name);
+
+public:
+	LevelData() { _init(); }
+	LevelData(TLong seed, const std::string& name, int x) { _init(seed, x, name); }
+
 
 	void read(RakNet::BitStream& bs, int d);
 	void write(RakNet::BitStream& bs);
 
-	TLong m_seed = 0;
+	TLong m_seed ;
 	Pos m_spawnPos;
-	TLong field_10 = 0;
-	int field_14 = 0;
-	TLong field_18 = 0;
-	int field_1C = 0;
-	int field_20 = 0;
+	TLong field_10;
+	int field_14;
+	TLong field_18;
+	int field_1C;
+	int field_20;
 	PlayerData m_LocalPlayerData;
-	int m_nPlayers = -1;
+	int m_nPlayers;
 	std::string field_78;
 
 	// inlined in 0.1.0 demo

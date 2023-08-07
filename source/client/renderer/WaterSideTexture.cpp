@@ -11,6 +11,10 @@
 
 WaterSideTexture::WaterSideTexture() : DynamicTexture(Tile::water->m_TextureFrame + 1)
 {
+	field_40C = 0;
+	field_410 = 0;
+	field_414 = 0;
+
 	m_data1 = new float[0x400];
 	m_data2 = new float[0x400];
 	m_data3 = new float[0x400];

@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -9,7 +9,7 @@
 #include "PrimedTnt.hpp"
 #include "world/level/Level.hpp"
 
-PrimedTnt::PrimedTnt(Level* level) : Entity(level)
+void PrimedTnt::_init()
 {
 	m_fuseTimer = 0;
 	field_C8 = RENDER_TNT;
@@ -18,8 +18,9 @@ PrimedTnt::PrimedTnt(Level* level) : Entity(level)
 	field_84 = field_8C * 0.5f;
 }
 
-PrimedTnt::PrimedTnt(Level* level, float x, float y, float z) : PrimedTnt(level)
+PrimedTnt::PrimedTnt(Level* level, float x, float y, float z) : Entity(level)
 {
+	_init();
 	setPos(x, y, z);
 
 	float fAng = 0.017453f * 2.0f * float(M_PI) * Mth::random();

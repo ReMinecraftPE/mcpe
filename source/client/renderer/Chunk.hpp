@@ -52,15 +52,15 @@ public:
 	AABB m_aabb;
 	int field_48;
 	bool m_bVisible;
-	bool field_4D = true;
-	bool field_4E = false;
+	bool field_4D;
+	bool field_4E;
 	int field_50;
 	bool field_54;
 	RenderChunk m_renderChunks[2];
 	Tesselator* m_pTesselator;
 	int field_8C;
 	GLuint* field_90;
-	bool field_94 = false;
-	bool m_bDirty = false;
+	bool field_94;
+	bool m_bDirty;
 };
 

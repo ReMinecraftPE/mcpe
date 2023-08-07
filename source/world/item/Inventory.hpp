@@ -43,10 +43,10 @@ public:
 	}
 
 public:
-	int m_SelectedHotbarSlot = 0;
+	int m_SelectedHotbarSlot;
 private:
-	Player* m_pPlayer = nullptr;
-	bool m_bIsSurvival = false;
+	Player* m_pPlayer;
+	bool m_bIsSurvival;
 
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
 	std::vector<ItemInstance> m_items;

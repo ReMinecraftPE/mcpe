@@ -20,6 +20,10 @@ class Entity;
 
 class LevelChunk
 {
+private:
+	void _init();
+protected:
+	LevelChunk() { _init(); }
 public:
 	LevelChunk(Level*, int x, int z);
 	LevelChunk(Level*, TileID* pBlockData, int x, int z);
@@ -70,27 +74,27 @@ public:
 
 public:
 
-	int field_4 = 0;
-	bool m_bLoaded = false;
+	int field_4;
+	bool m_bLoaded;
 	Level* m_pLevel;
-	uint8_t* m_tileData = nullptr;
-	int      m_tileDataCnt = 0;
-	uint8_t* m_lightSky = nullptr;
-	int      m_lightSkyCnt = 0;
-	uint8_t* m_lightBlk = nullptr;
-	int      m_lightBlkCnt = 0;
+	uint8_t* m_tileData;
+	int      m_tileDataCnt;
+	uint8_t* m_lightSky;
+	int      m_lightSkyCnt;
+	uint8_t* m_lightBlk;
+	int      m_lightBlkCnt;
 	uint8_t m_heightMap[256];
 	uint8_t m_updateMap[256];
 	int field_228;
-	int m_chunkX = 0;
-	int m_chunkZ = 0;
-	uint8_t field_234 = 0;
-	bool m_bUnsaved = false;
-	uint8_t field_236 = 0;
-	uint8_t field_237 = 0;
-	int field_238 = 0;
-	int field_23C = 0;
-	TileID* m_pBlockData = nullptr;
+	int m_chunkX;
+	int m_chunkZ;
+	uint8_t field_234;
+	bool m_bUnsaved;
+	uint8_t field_236;
+	uint8_t field_237;
+	int field_238;
+	int field_23C;
+	TileID* m_pBlockData;
 	std::vector<Entity*> m_entities[128 / 16];
 };
 

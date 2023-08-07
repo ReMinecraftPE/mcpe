@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -13,8 +13,55 @@
 int Entity::entityCounter;
 Random Entity::sharedRandom;
 
+void Entity::_init()
+{
+	m_bInAChunk = false;
+	m_chunkX = 0;
+	m_chunkY = 0;
+	m_chunkZ = 0;
+	field_20 = 0;
+	field_24 = 0;
+	field_28 = 0;
+	field_30 = 1.0f;
+	field_34 = 0;
+	m_pLevel = nullptr;
+	m_yaw = 0.0f;
+	m_pitch = 0.0f;
+	field_5C = 0.0f;
+	field_60 = 0.0f;
+	field_7C = false;
+	field_7D = false;
+	field_7E = false;
+	field_7F = false;
+	m_bHurt = false;
+	field_81 = 1;
+	m_bRemoved = false;
+	field_84 = 0.0f;
+	field_88 = 0.6f;
+	field_8C = 1.8f;
+	field_90 = 0.0f;
+	field_94 = 0.0f;
+	field_A4 = 0.0f;
+	field_A8 = 0.0f;
+	m_bNoCollision = false;
+	field_B0 = 0.0f;
+	field_B4 = 0;
+	field_B8 = 0;
+	field_BC = 300;
+	field_C0 = 0;
+	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
+	m_distanceFallen = 0.0f;
+	field_D0 = 300;
+	field_D4 = 0;
+	field_D5 = false;
+	field_D6 = true;
+	field_D8 = 1;
+}
+
 Entity::Entity(Level* pLevel)
 {
+	_init();
+
 	m_pLevel = pLevel;
 	m_EntityID = ++entityCounter;
 	setPos(0, 0, 0);
@@ -143,7 +190,7 @@ int Entity::move(float x, float y, float z)
 				x_1 = 0.0f;
 				break;
 			}
-			
+
 			// @BUG: See the z_1 part
 			if (x_1 <= 0.0f)
 				x_1 = x_1 + 0.05f;
@@ -151,8 +198,7 @@ int Entity::move(float x, float y, float z)
 				x_1 = x_1 - 0.05f;
 
 			x_2 = x_1;
-		}
-		while (x_1 != 0.0f);
+		} while (x_1 != 0.0f);
 
 		b1 = x_1 < 0.0f;
 		b2 = x_1 > 0.0f;
@@ -189,8 +235,7 @@ int Entity::move(float x, float y, float z)
 				z_1 = z_1 + 0.05f;
 			else
 				z_1 = z_1 - 0.05f;
-		}
-		while (z_1 != 0.0f);
+		} while (z_1 != 0.0f);
 		b3 = z_1 < 0.0f;
 		b4 = z_1 > 0.0f;
 	}
@@ -206,11 +251,14 @@ label_5:
 	if (b4) x1 += z;
 
 	AABB scanAABB(x6, x5, x4, x3, x2, x1);
-	auto pCubes = m_pLevel->getCubes(this, scanAABB);
+	AABBVector* pCubes = m_pLevel->getCubes(this, scanAABB);
 
 	float newY = y;
-	for (const auto &aabb : (*pCubes))
+	for (int i = 0; i < pCubes->size(); i++)
+	{
+		const AABB& aabb = pCubes->at(i);
 		newY = aabb.clipYCollide(m_hitbox, newY);
+	}
 
 	m_hitbox.move(0, newY, 0);
 
@@ -232,8 +280,11 @@ label_5:
 			b6 = 0;
 	}
 
-	for (const auto& aabb : (*pCubes))
+	for (int i = 0; i < pCubes->size(); i++)
+	{
+		const AABB& aabb = pCubes->at(i);
 		x_1 = aabb.clipXCollide(m_hitbox, x_1);
+	}
 
 	m_hitbox.move(x_1, 0, 0);
 
@@ -244,8 +295,11 @@ label_5:
 		newY = 0.0f;
 	}
 
-	for (const auto& aabb : (*pCubes))
+	for (int i = 0; i < pCubes->size(); i++)
+	{
+		const AABB& aabb = pCubes->at(i);
 		z_1 = aabb.clipZCollide(m_hitbox, z_1);
+	}
 
 	m_hitbox.move(0, 0, z_1);
 
@@ -273,11 +327,11 @@ label_5:
 	m_hitbox = AABB(x12, x11, x10, x9, x8, x7);
 
 	if (b1) x12 += x_2;
-	if (b2) x9  += x_2;
+	if (b2) x9 += x_2;
 	x8 += x20; //@BUG: missing if (x20 > 0) check?
 	if (x20 < 0.0f) x11 += x20;
 	if (b3) x10 += z_2;
-	if (b4) x7  += z_2;
+	if (b4) x7 += z_2;
 
 	{
 		AABB scanAABB2(x12, x11, x10, x9, x8, x7);
@@ -287,8 +341,11 @@ label_5:
 		*pCubes = *m_pLevel->getCubes(this, scanAABB2);
 	}
 
-	for (const auto& aabb : (*pCubes))
+	for (int i = 0; i < pCubes->size(); i++)
+	{
+		const AABB& aabb = pCubes->at(i);
 		x20 = aabb.clipYCollide(m_hitbox, x20);
+	}
 
 	m_hitbox.move(0, x20, 0);
 
@@ -304,8 +361,11 @@ label_5:
 		x_3 = 0.0f;
 	}
 
-	for (const auto& aabb : (*pCubes))
+	for (int i = 0; i < pCubes->size(); i++)
+	{
+		const AABB& aabb = pCubes->at(i);
 		x_3 = aabb.clipXCollide(m_hitbox, x_3);
+	}
 
 	m_hitbox.move(x_3, 0, 0);
 
@@ -316,8 +376,11 @@ label_5:
 		x_3 = 0.0f;
 	}
 
-	for (const auto& aabb : (*pCubes))
+	for (int i = 0; i < pCubes->size(); i++)
+	{
+		const AABB& aabb = pCubes->at(i);
 		z_3 = aabb.clipZCollide(m_hitbox, z_3);
+	}
 
 	m_hitbox.move(0, 0, z_3);
 
@@ -463,8 +526,8 @@ void Entity::absMoveTo(float x, float y, float z, float yaw, float pitch)
 	field_A4 = 0.0f;
 
 	field_5C = yaw;
-	m_yaw    = yaw;
-	m_pitch  = pitch;
+	m_yaw = yaw;
+	m_pitch = pitch;
 	field_60 = pitch;
 
 	m_pos.x = x;
@@ -519,7 +582,7 @@ void Entity::turn(float yaw, float pitch)
 	float y_old = m_yaw;
 	float p_old = m_pitch;
 
-	m_yaw   += yaw   * 0.15f;
+	m_yaw += yaw * 0.15f;
 	m_pitch -= pitch * 0.15f;
 
 	// can't rotate more than facing fully up or fully down
@@ -528,13 +591,13 @@ void Entity::turn(float yaw, float pitch)
 	if (m_pitch > 90.0f)
 		m_pitch = 90.0f;
 
-	field_5C += m_yaw   - y_old;
+	field_5C += m_yaw - y_old;
 	field_60 += m_pitch - p_old;
 }
 
 void Entity::interpolateTurn(float yaw, float pitch)
 {
-	m_yaw   += yaw   * 0.15f;
+	m_yaw += yaw * 0.15f;
 	m_pitch -= pitch * 0.15f;
 
 	// can't rotate more than facing fully up or fully down
@@ -793,7 +856,7 @@ void Entity::push(Entity* bud)
 	float maxDiff = Mth::absMax(diffX, diffZ);
 
 	if (maxDiff < 0.01f) return;
-	
+
 	float x1 = sqrtf(maxDiff);
 	float x2 = 1.0f / x1;
 	if (x2 > 1.0f)
@@ -883,7 +946,7 @@ float Entity::getPickRadius()
 
 void Entity::awardKillScore(Entity* pKilled, int score)
 {
-	
+
 }
 
 void Entity::setEquippedSlot(int a, int b, int c)
@@ -893,7 +956,7 @@ void Entity::setEquippedSlot(int a, int b, int c)
 
 void Entity::setRot(float yaw, float pitch)
 {
-	m_yaw   = yaw;
+	m_yaw = yaw;
 	m_pitch = pitch;
 }
 

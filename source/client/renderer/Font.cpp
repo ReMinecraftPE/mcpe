@@ -11,11 +11,10 @@
 
 constexpr char COLOR_START_CHAR = '\xa7';
 
-Font::Font(Options* pOpts, const std::string& fileName, Textures* pTexs)
+Font::Font(Options* pOpts, const std::string& fileName, Textures* pTexs) :
+	m_fileName(fileName), m_pOptions(pOpts), m_pTextures(pTexs)
 {
-	m_fileName = fileName;
-	m_pOptions = pOpts;
-	m_pTextures = pTexs;
+	field_0 = 0;
 
 	init(pOpts);
 }

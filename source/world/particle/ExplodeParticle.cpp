@@ -11,6 +11,8 @@
 ExplodeParticle::ExplodeParticle(Level* level, float x, float y, float z, float vx, float vy, float vz) :
 	Particle(level, x, y, z, vx, vy, vz)
 {
+	field_104 = 0.0f;
+
 	m_vel.x = vx + 0.05f * (2.0f * Mth::random() - 1.0f);
 	m_vel.y = vy + 0.05f * (2.0f * Mth::random() - 1.0f);
 	m_vel.z = vz + 0.05f * (2.0f * Mth::random() - 1.0f);

@@ -13,9 +13,48 @@
 
 int t_keepPic;
 
-GameRenderer::GameRenderer(Minecraft* pMinecraft)
+void GameRenderer::_init()
 {
-	m_pMinecraft = pMinecraft;
+	ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
+
+	field_8 = 0.0f;
+	field_C = 0;
+	field_10 = nullptr;
+	field_14 = 0.0f;
+	field_18 = 0.0f;
+	field_1C = 0.0f;
+	field_20 = 0.0f;
+	field_24 = 0.0f;
+	field_28 = 0.0f;
+	field_2C = 4.0f;
+	field_30 = 4.0f;
+	field_34 = 0.0f;
+	field_38 = 0.0f;
+	field_3C = 0.0f;
+	field_40 = 0.0f;
+	field_44 = 1.0f;
+	field_48 = 0.0f;
+	field_4C = 0.0f;
+	field_50 = 0.0f;
+	field_54 = 0.0f;
+	field_58 = 0.0f;
+	field_5C = 0.0f;
+	field_60 = 0.0f;
+	field_64 = 0.0f;
+	field_68 = 0.0f;
+	field_6C = 0.0f;
+	field_70 = 0.0f;
+	field_74 = 0.0f;
+	field_78 = 0.0f;
+	field_7C = 0.0f;
+	field_80 = 0.0f;
+	field_84 = 0.0f;
+}
+
+GameRenderer::GameRenderer(Minecraft* pMinecraft) :
+	m_pMinecraft(pMinecraft)
+{
+	_init();
 
 	saveMatrices();
 
@@ -75,8 +114,6 @@ void GameRenderer::setupCamera(float f, int i)
 
 	moveCameraToPlayer(f);
 }
-
-float x = 0, y = 0;
 
 void GameRenderer::moveCameraToPlayer(float f)
 {
@@ -753,11 +790,7 @@ void GameRenderer::pick(float f)
 	// picked entities take priority over tiles (?!)
 	if (field_10)
 	{
-		if (!m_pMinecraft->m_pGameMode->isCreativeType())
-		{
-			m_pMinecraft->m_hitResult = HitResult(field_10);
-		}
-
+		m_pMinecraft->m_hitResult = HitResult(field_10);
 		return;
 	}
 

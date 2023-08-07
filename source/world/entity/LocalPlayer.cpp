@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -13,6 +13,29 @@ int dword_250ADC, dword_250AE0;
 
 LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int i) : Player(pLevel)
 {
+	field_BEC = 0;
+	field_BF0 = 0.0f;
+	field_BF8 = 0.0f;
+	field_BFC = 0.0f;
+	field_C00 = 0.0f;
+	field_C04 = 0.0f;
+	field_C08 = 0.0f;
+	field_C0C = 0.0f;
+	field_C10 = 0.0f;
+	field_C14 = 0.0f;
+	field_C18 = 0.0f;
+	field_C1C = 0.0f;
+	m_nAutoJumpFrames = 0;
+	// multiplayer related
+	field_C24 = 0.0f;
+	field_C28 = 0.0f;
+	field_C2C = 0.0f;
+	field_C30 = 0.0f;
+	field_C34 = 0.0f;
+	// multiplayer related -- end
+	field_C38 = 0;
+	m_pKeyboardInput = nullptr;
+
 	m_pMinecraft = pMinecraft;
 	m_name = pUser->field_0;
 
@@ -166,7 +189,7 @@ int LocalPlayer::move(float x, float y, float z)
 				return 1;
 
 			// are we trying to walk into stairs or a slab?
-			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID)
+			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->m_options.m_bAutoJump)
 				// Nope, we're walking towards a full block. Trigger an auto jump.
 				m_nAutoJumpFrames = 1;
 		}
@@ -181,10 +204,10 @@ void LocalPlayer::tick()
 
 	if (m_pMinecraft->isOnline())
 	{
-		if (fabsf(m_pos.x - field_C24) > 0.1f  ||
+		if (fabsf(m_pos.x - field_C24) > 0.1f ||
 			fabsf(m_pos.y - field_C28) > 0.01f ||
-			fabsf(m_pos.z - field_C2C) > 0.1f  ||
-			fabsf(field_C30 - m_pitch) > 1.0f  ||
+			fabsf(m_pos.z - field_C2C) > 0.1f ||
+			fabsf(field_C30 - m_pitch) > 1.0f ||
 			fabsf(field_C34 - m_yaw) > 1.0f)
 		{
 			m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, m_pos.x, m_pos.y - field_84, m_pos.z, m_pitch, m_yaw));

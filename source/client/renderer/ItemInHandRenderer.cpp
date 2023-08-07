@@ -9,9 +9,14 @@
 #include "ItemInHandRenderer.hpp"
 #include "Minecraft.hpp"
 
-ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) : m_ItemInstance(0, 1, 0)
+ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
+	m_ItemInstance(0, 1, 0),
+	m_pMinecraft(pMC)
 {
-	m_pMinecraft = pMC;
+	field_0 = -1;
+	field_18 = 0;
+	field_1C = 0.0f;
+	field_20 = 0.0f;
 }
 
 void ItemInHandRenderer::itemPlaced()
@@ -316,7 +321,7 @@ void ItemInHandRenderer::renderScreenEffect(float f)
 		renderFire(f);
 	}
 
-	if (m_pMinecraft->m_pLocalPlayer->isInWall())
+	if (m_pMinecraft->m_pLocalPlayer->isInWall() && !m_pMinecraft->m_options.m_bFlyCheat)
 	{
 		int fx = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.x);
 		int fy = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.y);

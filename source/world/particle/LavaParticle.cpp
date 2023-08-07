@@ -12,6 +12,8 @@
 LavaParticle::LavaParticle(Level* level, float x, float y, float z) :
 	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
 {
+	field_104 = 0.0f;
+
 	m_vel *= 0.8f;
 	m_vel.y = sharedRandom.nextFloat() * 0.4f + 0.05f;
 	field_F8 = field_FC = field_100 = 1.0f;

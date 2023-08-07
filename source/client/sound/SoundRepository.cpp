@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -17,7 +17,7 @@ void SoundRepository::add(const std::string& name, SoundDesc& sd)
 	{
 		std::vector<SoundDesc> sdv;
 		sdv.push_back(sd);
-		m_repo.insert({ name, sdv });
+		m_repo.insert(std::pair<std::string, std::vector<SoundDesc>>(name, sdv));
 	}
 	else
 	{

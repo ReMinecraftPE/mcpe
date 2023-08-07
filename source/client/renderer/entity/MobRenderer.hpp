@@ -31,6 +31,6 @@ public:
 
 public:
 	Model* m_pModel;
-	Model* m_pArmorModel = nullptr;
+	Model* m_pArmorModel;
 };
 

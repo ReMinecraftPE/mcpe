@@ -47,15 +47,15 @@ public:
 	virtual void charInput(char);
 
 public:
-	int m_width = 1;
-	int m_height = 1;
-	bool field_10 = false;
+	int m_width;
+	int m_height;
+	bool field_10;
 	Minecraft* m_pMinecraft;
 	std::vector<Button*> m_buttons;
 	std::vector<Button*> m_buttonTabList; 
-	int m_tabButtonIndex = 0;
+	int m_tabButtonIndex;
 	Font* m_pFont;
-	Button* m_pClickedButton = 0;
+	Button* m_pClickedButton;
 
 #ifndef ORIGINAL_CODE
 	std::vector<TextInputBox*> m_textInputs;

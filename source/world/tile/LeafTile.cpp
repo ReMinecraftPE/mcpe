@@ -11,6 +11,8 @@
 
 LeafTile::LeafTile(int id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, Material::leaves, false)
 {
+	field_70 = nullptr;
+
 	m_TextureFrame = TEXTURE_LEAVES_TRANSPARENT;
 	field_74 = TEXTURE_LEAVES_TRANSPARENT;
 

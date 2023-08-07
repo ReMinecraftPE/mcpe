@@ -13,9 +13,7 @@
 class Vec3
 {
 public:
-	float x = 0;
-	float y = 0;
-	float z = 0;
+	float x, y, z;
 
 public:
 	bool clipX(const Vec3& a2, float a3, Vec3& a4) const;

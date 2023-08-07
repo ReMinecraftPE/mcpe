@@ -21,12 +21,13 @@ public:
 	void render(float, float, float, float, float, float) override;
 	void renderHorrible(float, float, float, float, float, float) override;
 	void setupAnim(float, float, float, float, float, float) override;
+	void setBrightness(float) override;
 
 public:
 	// @TODO: swap armL and armR.. Steve punches with the right hand.
 	Cube m_head, m_body, m_armL, m_armR, m_legL, m_legR;
-	bool field_10BC = false;
-	bool field_10BD = false;
-	bool field_10BE = false;
+	bool field_10BC;
+	bool field_10BD;
+	bool field_10BE;
 };
 

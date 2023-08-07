@@ -10,30 +10,21 @@
 #include "Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 
-TextInputBox::TextInputBox(int id, int x, int y) :
-	TextInputBox(id, x, y, 200, 12, "", "")
+TextInputBox::TextInputBox(int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
 {
-}
-
-TextInputBox::TextInputBox(int id, int x, int y, int width, int height) :
-	TextInputBox(id, x, y, width, height, "", "")
-{
-}
-
-TextInputBox::TextInputBox(int id, int x, int y, int width, int height, const std::string& placeholder) :
-	TextInputBox(id, x, y, width, height, placeholder, "")
-{
-}
-
-TextInputBox::TextInputBox(int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text) :
-	m_ID(id),
-	m_xPos(x),
-	m_yPos(y),
-	m_width(width),
-	m_height(height),
-	m_placeholder(placeholder),
-	m_text(text)
-{
+	m_ID = id;
+	m_xPos = x;
+	m_yPos = y;
+	m_width = width;
+	m_height = height;
+	m_placeholder = placeholder;
+	m_text = text;
+	m_bFocused = false;
+	m_bEnabled = true;
+	m_bCursorOn = true;
+	m_insertHead = 0;
+	m_lastFlashed = 0;
+	m_pFont = nullptr;
 }
 
 void TextInputBox::init(Font* pFont)

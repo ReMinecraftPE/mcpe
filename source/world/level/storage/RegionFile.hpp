@@ -18,7 +18,7 @@ public:
 	bool writeChunk(int x, int z, RakNet::BitStream&);
 
 public:
-	FILE* m_pFile = nullptr;
+	FILE* m_pFile;
 	std::string m_fileName;
 	int* field_20;
 	int* field_24;

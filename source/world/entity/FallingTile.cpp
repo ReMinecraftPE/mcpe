@@ -9,11 +9,13 @@
 #include "FallingTile.hpp"
 #include "world/level/Level.hpp"
 
-FallingTile::FallingTile(Level* level) : Entity(level)
+FallingTile::FallingTile(Level* level) : Entity(level),
+	field_E0(0)
 {
 }
 
-FallingTile::FallingTile(Level* level, float x, float y, float z, int id) : Entity(level)
+FallingTile::FallingTile(Level* level, float x, float y, float z, int id) : Entity(level),
+	field_E0(0)
 {
 	m_id = id;
 	field_34 = 1;

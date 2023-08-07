@@ -8,14 +8,14 @@
 
 #include "Material.hpp"
 
-Material::Material()
+Material::Material() :
+	m_bFlammable(false)
 {
-	m_bFlammable = false;
 }
 
-Material::Material(bool bFlammable)
+Material::Material(bool bFlammable) :
+	m_bFlammable(bFlammable)
 {
-	m_bFlammable = bFlammable;
 }
 
 Material::~Material()

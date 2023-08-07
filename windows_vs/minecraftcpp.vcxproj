@@ -62,7 +62,7 @@
     <ClInclude Include="..\source\client\gui\screens\ConfirmScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\CreateWorldScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\DeleteWorldScreen.hpp" />
-    <ClInclude Include="..\source\client\gui\screens\DirectConnectScreen.hpp" /> 
+    <ClInclude Include="..\source\client\gui\screens\DirectConnectScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\IngameBlockSelectionScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\InvalidLicenseScreen.hpp" />
     <ClInclude Include="..\source\client\gui\screens\JoinGameScreen.hpp" />
@@ -770,12 +770,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|Win32'">
@@ -787,12 +789,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -806,6 +810,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -813,7 +819,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -825,12 +831,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\thirdparty\OpenAL\libs\Win64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\x64\;$(SolutionDir)..\thirdparty\OpenAL\libs\Win64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|x64'">
@@ -842,12 +850,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\thirdparty\OpenAL\libs\Win64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\x64\;$(SolutionDir)..\thirdparty\OpenAL\libs\Win64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -861,6 +871,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <ShowIncludes>false</ShowIncludes>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -868,7 +880,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\thirdparty\OpenAL\libs\Win64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\x64\;$(SolutionDir)..\thirdparty\OpenAL\libs\Win64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

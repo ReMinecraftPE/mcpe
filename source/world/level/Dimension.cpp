@@ -116,6 +116,16 @@ void Dimension::init(Level* pLevel)
 	updateLightRamp();
 }
 
+Dimension::Dimension()
+{
+	m_pLevel = nullptr;
+	m_pBiomeSource = nullptr;
+	field_C = false;
+	field_D = false;
+	field_E = false;
+	field_50 = 0;
+}
+
 Dimension::~Dimension()
 {
 	if (m_pBiomeSource)

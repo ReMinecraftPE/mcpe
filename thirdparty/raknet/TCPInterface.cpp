@@ -784,7 +784,7 @@ unsigned int TCPInterface::GetOutgoingDataBufferSize(SystemAddress systemAddress
 }
 __TCPSOCKET__ TCPInterface::SocketConnect(const char* host, unsigned short remotePort, unsigned short socketFamily, const char *bindAddress)
 {
-#ifdef __native_client__
+#if defined(__native_client__) || defined(_XBOX)
 	return 0;
 #else
 	int connectResult;

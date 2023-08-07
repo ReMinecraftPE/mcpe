@@ -24,7 +24,7 @@ public:
 	friend Matrix operator*(const Matrix& a, const Matrix& b);
 
 public:
-	float c[16] = { 0.0f };
+	float c[16];
 };
 
 Matrix operator*(const Matrix& a, const Matrix& b);

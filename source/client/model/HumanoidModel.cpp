@@ -17,6 +17,10 @@ HumanoidModel::HumanoidModel(float a, float b):
 	m_legL(0,  16),
 	m_legR(0,  16)
 {
+	field_10BC = false;
+	field_10BD = false;
+	field_10BE = false;
+
 	m_head.addBox(-4, -8, -4, 8, 8, 8, a);
 	m_head.setPos(0, b, 0);
 	m_body.addBox(-4, 0, -2, 8, 12, 4);
@@ -158,6 +162,16 @@ void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, 
 	m_armR.field_14 -= Mth::cos(a4 * 0.09f) * 0.05f + 0.05f;
 	m_armL.field_C += Mth::sin(a4 * 0.067f) * 0.05f;
 	m_armR.field_C += Mth::sin(a4 * 0.067f) * -0.05f;
+}
+
+void HumanoidModel::setBrightness(float f)
+{
+	m_armL.setBrightness(f);
+	m_armR.setBrightness(f);
+	m_legL.setBrightness(f);
+	m_legR.setBrightness(f);
+	m_body.setBrightness(f);
+	m_head.setBrightness(f);
 }
 
 /* Keeping the original around just in case:

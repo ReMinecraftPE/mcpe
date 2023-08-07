@@ -211,6 +211,11 @@ void Chunk::translateToPos()
 
 Chunk::Chunk(Level* level, int x, int y, int z, int a, int b, GLuint* bufs)
 {
+	field_4D = true;
+	field_4E = false;
+	field_94 = false;
+	m_bDirty = false;
+
 	m_pLevel = level;
 	field_10 = a;
 	field_14 = a;

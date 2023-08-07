@@ -9,8 +9,57 @@
 #include "TileRenderer.hpp"
 #include "Minecraft.hpp"
 
+void TileRenderer::_init()
+{
+	m_textureOverride = -1;
+	field_8 = false;
+	m_bDisableCulling = false;
+	m_bAmbientOcclusion = false;
+	field_C = 0;
+	field_10 = 0;
+	field_14 = 0;
+	field_18 = 0;
+	field_1C = 0;
+	field_20 = 0;
+	field_24 = 0;
+	field_28 = 0;
+	field_2C = 0;
+	field_30 = 0;
+	field_34 = 0;
+	field_38 = 0;
+	field_3C = 0;
+	field_40 = 0;
+	field_44 = 0;
+	field_48 = 0;
+	field_4C = 0;
+	field_50 = 0;
+	field_54 = 0;
+	field_58 = 0;
+	field_5C = 0;
+	field_60 = 0;
+	field_64 = 0;
+	field_68 = 0;
+	field_6C = 0;
+	field_70 = 0;
+	field_74 = 0;
+	field_78 = 1;
+	field_AC = false;
+	field_AD = false;
+	field_AE = false;
+	field_AF = false;
+	field_B0 = false;
+	field_B1 = false;
+	field_B2 = false;
+	field_B3 = false;
+	field_B4 = false;
+	field_B5 = false;
+	field_B6 = false;
+	field_B7 = false;
+}
+
 TileRenderer::TileRenderer()
 {
+	_init();
 #ifndef ORIGINAL_CODE
 	// @BUG: Not initializing level source
 	m_pLevelSource = nullptr;
@@ -19,6 +68,7 @@ TileRenderer::TileRenderer()
 
 TileRenderer::TileRenderer(LevelSource* pLevelSource)
 {
+	_init();
 	m_pLevelSource = pLevelSource;
 }
 

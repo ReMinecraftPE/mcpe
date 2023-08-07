@@ -37,7 +37,7 @@ public:
 	virtual void stop(const std::string& sound);
 	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float a, float b);
 private:
-	bool m_available = false;
+	bool m_available;
 	IDirectSound8* m_directsound;
 	LPDIRECTSOUND3DLISTENER8 m_listener;
 	std::vector<LPDIRECTSOUNDBUFFER> m_buffers;

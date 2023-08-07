@@ -83,7 +83,7 @@ public: // Methods
 	
 public: // Item class fields
 	int m_itemID;
-	int m_maxStackSize = 64;
+	int m_maxStackSize;
 	int m_maxDamage;
 	int m_icon;
 	bool m_bHandEquipped;

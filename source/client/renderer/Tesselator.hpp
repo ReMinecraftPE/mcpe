@@ -67,33 +67,33 @@ public:
 	RenderChunk end(int);
 
 public:
-	Vertex* m_pVertices = nullptr;
-	int field_4 = 0;
-	float m_offsetX = 0.0f;
-	float m_offsetY = 0.0f;
-	float m_offsetZ = 0.0f;
+	Vertex* m_pVertices;
+	int field_4;
+	float m_offsetX;
+	float m_offsetY;
+	float m_offsetZ;
 
-	float m_nextVtxU = 0;
-	float m_nextVtxV = 0;
-	uint32_t m_nextVtxColor = 0;
+	float m_nextVtxU;
+	float m_nextVtxV;
+	uint32_t m_nextVtxColor;
 
-	bool m_bHaveColor = false;
-	bool m_bHaveTex = false;
-	bool field_26 = false;
-	bool m_bBlockColor = false;
-	bool field_28 = false;
-	int field_2C = 0;
-	int field_30 = 0;
-	bool field_34 = false;
+	bool m_bHaveColor;
+	bool m_bHaveTex;
+	bool field_26;
+	bool m_bBlockColor;
+	bool field_28;
+	int field_2C;
+	int field_30;
+	bool field_34;
 
-	int m_vboCount = 1024;
-	int field_3C = -1;
-	GLuint* m_pVBOs = nullptr;
+	int m_vboCount;
+	int field_3C;
+	GLuint* m_pVBOs;
 
-	int field_48 = 0;
-	int m_maxVertices = 0;
-	GLuint m_drawArraysMode = 0;
-	int m_accessMode = 0;
+	int field_48;
+	int m_maxVertices;
+	GLuint m_drawArraysMode;
+	int m_accessMode;
 
 	std::map<uint32_t, uint32_t> m_VboIdxToRenderChunkID;
 };

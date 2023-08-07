@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -12,17 +12,21 @@
 
 TripodCamera::TripodCamera(Level* level, Player* player, float x, float y, float z) : Mob(level)
 {
+	field_B8C = 0;
+	field_B90 = 80;
+	m_bActive = false;
+
 	m_owner = player;
 	field_C8 = RENDER_CAMERA;
 
 	field_60 = m_pitch = player->m_pitch;
-	field_5C = m_yaw   = player->m_yaw;
+	field_5C = m_yaw = player->m_yaw;
 
 	field_34 = 1;
 
 	setSize(1.0f, 1.5f);
 	field_84 = field_8C * 0.5f - 0.25f;
-	
+
 	setPos(x, y, z);
 	field_3C.x = x;
 	field_3C.y = y;

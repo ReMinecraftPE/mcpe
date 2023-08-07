@@ -17,6 +17,34 @@ Tesselator Tesselator::instance;
 
 Tesselator::Tesselator(int allotedSize)
 {
+	m_pVertices = nullptr;
+	field_4 = 0;
+	m_offsetX = 0.0f;
+	m_offsetY = 0.0f;
+	m_offsetZ = 0.0f;
+
+	m_nextVtxU = 0;
+	m_nextVtxV = 0;
+	m_nextVtxColor = 0;
+
+	m_bHaveColor = false;
+	m_bHaveTex = false;
+	field_26 = false;
+	m_bBlockColor = false;
+	field_28 = false;
+	field_2C = 0;
+	field_30 = 0;
+	field_34 = false;
+
+	m_vboCount = 1024;
+	field_3C = -1;
+	m_pVBOs = nullptr;
+
+	field_48 = 0;
+	m_maxVertices = 0;
+	m_drawArraysMode = 0;
+	m_accessMode = 0;
+
 	m_maxVertices = allotedSize / sizeof(Vertex);
 	m_accessMode = 2;
 

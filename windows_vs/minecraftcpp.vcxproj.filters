@@ -94,6 +94,9 @@
     <Filter Include="source\platforms\openal">
       <UniqueIdentifier>{cc57a0f6-733d-44fa-8478-b1826b074d66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Third Party">
+      <UniqueIdentifier>{d754d82a-1cf9-4e4a-9dfd-2cc79f4d1fc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\raknet\ThreadsafePacketLogger.h">
@@ -992,6 +995,12 @@
     </ClInclude>
     <ClInclude Include="..\platforms\openal\SoundSystemAL.hpp">
       <Filter>source\platforms\openal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\GL\glext.h">
+      <Filter>Header Files\Third Party</Filter>
+    </ClInclude>
+    <ClInclude Include="..\compat\GL.hpp">
+      <Filter>Header Files\Third Party</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

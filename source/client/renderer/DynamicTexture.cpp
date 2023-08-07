@@ -11,6 +11,8 @@
 
 DynamicTexture::DynamicTexture(int a2) : m_textureIndex(a2)
 {
+	m_textureSize = 1;
+
 	memset(m_pixels, 0, sizeof m_pixels);
 }
 

@@ -20,19 +20,19 @@ public:
 	void advanceTime();
 
 public:
-	float field_0 = 0;
+	float field_0;
 #ifndef USE_ACCURATE_TIMER
-	int field_4 = 0;
-	int field_8 = 0;
+	int field_4;
+	int field_8;
 #else
-	double field_4 = 0;
-	double field_8 = 0;
+	double field_4;
+	double field_8;
 #endif
-	float field_C = 1.0f;
-	float field_10 = 20.0f;
-	int field_14 = 0;
-	float field_18 = 0;
-	float field_1C = 1.0f;
-	float field_20 = 0;
+	float field_C;
+	float field_10;
+	int field_14;
+	float field_18;
+	float field_1C;
+	float field_20;
 };
 

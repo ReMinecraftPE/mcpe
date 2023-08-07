@@ -10,6 +10,11 @@
 
 Screen::Screen()
 {
+	m_width = 1;
+	m_height = 1;
+	field_10 = false;
+	m_tabButtonIndex = 0;
+	m_pClickedButton = 0;
 }
 
 Screen::~Screen()

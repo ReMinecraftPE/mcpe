@@ -98,9 +98,13 @@ public: // virtual functions
 	virtual Tile* setTicking(bool);
 	virtual int getSpawnResourcesAuxValue(int);
 
+private:
+	void _init();
+	void _init(int ID, Material* pMaterial, int texture = 1);
+	Tile() { _init(); } // consider making public?
 public: // functions
-	Tile(int ID, Material*);
-	Tile(int ID, int texture, Material*);
+	Tile(int ID, Material* pMaterial) { _init(ID, pMaterial); }
+	Tile(int ID, int texture, Material* pMaterial) { _init(ID, pMaterial, texture); }
 
 	Tile* init();
 
@@ -207,17 +211,17 @@ public: // static variables
 		* mossStone;
 
 public:
-	int m_TextureFrame = 1;
+	int m_TextureFrame;
 	int m_ID;
 	AABB m_aabb;
-	const SoundType* m_pSound = nullptr;
-	float field_28 = 1.0f;
+	const SoundType* m_pSound;
+	float field_28;
 	Material* m_pMaterial;
-	float field_30 = 0.6f;
-	float m_hardness = 0.0f;
-	float m_blastResistance = 0.0f;
+	float field_30;
+	float m_hardness;
+	float m_blastResistance;
 	AABB m_aabbReturned;
-	std::string m_descriptionID = "";
+	std::string m_descriptionID;
 };
 
 class SandTile : public Tile
@@ -253,7 +257,7 @@ public:
 	virtual bool shouldRenderFace(LevelSource*, int, int, int, int) override;
 
 public:
-	bool field_6C = false;
+	bool field_6C;
 };
 
 class GlassTile : public HalfTransparentTile
@@ -352,7 +356,7 @@ public:
 	void onPlace(Level*, int x, int y, int z) override;
 	bool shouldRenderFace(LevelSource*, int x, int y, int z, int dir) override;
 
-	bool m_bFull = false;
+	bool m_bFull;
 };
 
 class ClothTile : public Tile
@@ -452,8 +456,8 @@ public:
 
 	void die(Level*, int, int, int);
 
-	int* field_70 = nullptr;
-	int field_74 = 0;
+	int* field_70;
+	int field_74;
 };
 
 class OreTile : public Tile
@@ -484,7 +488,7 @@ public:
 	int poofParticles(Level*, int x, int y, int z);
 	void interact(Level*, int x, int y, int z);
 
-	bool m_bLit = false;
+	bool m_bLit;
 };
 
 class ReedTile : public Tile
@@ -555,9 +559,9 @@ public:
 	}
 
 public:
-	int field_6C = 0;
-	bool field_70[4] = { 0 };
-	int field_74 [4] = { 0 };
+	int field_6C;
+	bool field_70[4];
+	int field_74[4];
 };
 
 class LiquidTileDynamic : public LiquidTile

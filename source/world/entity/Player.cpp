@@ -11,6 +11,17 @@
 
 Player::Player(Level* pLevel) : Mob(pLevel)
 {
+	m_pInventory = nullptr;
+	field_B94 = 0;
+	m_score = 0;
+	field_B9C = 0.0f;
+	field_BA0 = 0.0f;
+	field_BA4 = false;
+	field_BA8 = 0;
+	m_name = "";
+	field_BC4 = 0;
+	m_bHaveRespawnPos = false;
+
 	field_C8 = 2;
 
 	m_pInventory = new Inventory(this);
@@ -147,8 +158,9 @@ void Player::aiStep()
 
 	auto pEnts = m_pLevel->getEntities(this, scanAABB);
 
-	for (auto pEnt : *pEnts)
+	for (auto it = pEnts->begin(); it != pEnts->end(); it++)
 	{
+		Entity* pEnt = *it;
 		if (pEnt->m_bRemoved)
 			continue;
 

@@ -24,6 +24,6 @@ public:
 
 public:
 	int m_id;
-	int field_E0 = 0;
+	int field_E0;
 };
 

@@ -27,12 +27,12 @@ public:
 	void tick();
 
 public:
-	int field_0 = -1;
+	int field_0;
 	ItemInstance m_ItemInstance;
 	Minecraft* m_pMinecraft;
-	int field_18 = 0;
-	float field_1C = 0.0f;
-	float field_20 = 0.0f;
+	int field_18;
+	float field_1C;
+	float field_20;
 	TileRenderer m_tileRenderer;
 };
 

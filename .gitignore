@@ -379,7 +379,12 @@ FodyWeavers.xsd
 /windows_vs/games/com.mojang
 /windows_vs/assets
 /windows_vs/assetsO
+/assets
+/games
 
 /wasm
 
 /assets/
+/games/
+/options.txt
+/windows_vs/options.txt

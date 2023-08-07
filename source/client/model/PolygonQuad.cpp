@@ -8,8 +8,18 @@
 
 #include "PolygonQuad.hpp"
 
+void PolygonQuad::_init()
+{
+	m_bFlipNormals = false;
+#ifdef ENH_ENTITY_SHADING
+	m_color = 0xFFFFFF;
+#endif
+}
+
 PolygonQuad::PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d)
 {
+	_init();
+
 	m_verts[0] = *a;
 	m_verts[1] = *b;
 	m_verts[2] = *c;
@@ -18,6 +28,8 @@ PolygonQuad::PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d)
 
 PolygonQuad::PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d, float u1, float v1, float u2, float v2)
 {
+	_init();
+
 	m_verts[0] = *a;
 	m_verts[1] = *b;
 	m_verts[2] = *c;
@@ -31,6 +43,8 @@ PolygonQuad::PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d, flo
 
 PolygonQuad::PolygonQuad(VertexPT* a, VertexPT* b, VertexPT* c, VertexPT* d, int u1i, int v1i, int u2i, int v2i)
 {
+	_init();
+
 	constexpr float C_F1 = 0.0015625f, C_F2 = 0.003125f;
 	m_verts[0] = *a;
 	m_verts[1] = *b;

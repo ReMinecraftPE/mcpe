@@ -104,6 +104,8 @@ void Biome::recalc()
 Biome::Biome()
 {
 	m_name = "";
+	m_Color = 0;
+	m_LeafColor = 0;
 	field_20 = Tile::grass->m_ID;
 	field_21 = Tile::dirt->m_ID;
 }

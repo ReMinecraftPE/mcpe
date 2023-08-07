@@ -33,6 +33,7 @@ private:
 	Button m_viewBobButton;
 	Button m_viewDistButton;
 	Button m_flightHaxButton;
+	Button m_autoJumpButton;
 #endif
 };
 
