@@ -100,6 +100,7 @@ public:
 	uint8_t field_23D;     // @NOTE: Third person mode?
 	uint8_t field_23E;
 	bool m_bFlyCheat;
+	bool m_bAutoJump;
 	uint8_t field_240;
 	uint8_t field_241;
 	float field_244;
