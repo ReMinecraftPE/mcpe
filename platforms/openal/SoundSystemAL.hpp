@@ -13,10 +13,12 @@
 #include <unordered_map>
 
 #include "client/sound/SoundSystem.hpp"
+#include <client/common/Vec3.hpp>
 
 #pragma comment( lib, "OpenAl32.lib" )
 
 #define MAX_IDLE_SOURCES 50
+#define MAX_DISTANCE 16.0f
 
 class SoundSystemAL : public SoundSystem
 {
@@ -40,4 +42,6 @@ private:
 	std::vector<ALuint> sources;
 	std::vector<ALuint> idle_sources;
 	std::unordered_map<void *, ALuint> buffers;
+
+	Vec3 lastListenerPos;
 };

@@ -170,6 +170,7 @@ void SoundSystemAL::setListenerPos(float x, float y, float z)
 	// Update Listener Position
 	alListener3f(AL_POSITION, x, y, z);
 	AL_ERROR_CHECK();
+	lastListenerPos = Vec3(x, y, z);
 	update();
 }
 
@@ -250,6 +251,10 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	if (volume <= 0.0f)
 		return;
 
+	float distance = Vec3(x, y, z).distanceTo(lastListenerPos);
+	if (distance >= MAX_DISTANCE)
+		return;
+
 	// Load Sound
 	ALuint buffer = get_buffer(sound);
 	if (!buffer)
@@ -300,9 +305,9 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	AL_ERROR_CHECK();
 
 	// Set Attenuation
-	alSourcef(al_source, AL_MAX_DISTANCE, 16.0f);
+	alSourcef(al_source, AL_MAX_DISTANCE, MAX_DISTANCE);
 	AL_ERROR_CHECK();
-	alSourcef(al_source, AL_ROLLOFF_FACTOR, 3.0f);
+	alSourcef(al_source, AL_ROLLOFF_FACTOR, 1.0f);
 	AL_ERROR_CHECK();
 	alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f);
 	AL_ERROR_CHECK();
