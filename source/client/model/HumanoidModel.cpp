@@ -160,6 +160,16 @@ void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, 
 	m_armR.field_C += Mth::sin(a4 * 0.067f) * -0.05f;
 }
 
+void HumanoidModel::setBrightness(float f)
+{
+	m_armL.setBrightness(f);
+	m_armR.setBrightness(f);
+	m_legL.setBrightness(f);
+	m_legR.setBrightness(f);
+	m_body.setBrightness(f);
+	m_head.setBrightness(f);
+}
+
 /* Keeping the original around just in case:
 
 void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, float a7)

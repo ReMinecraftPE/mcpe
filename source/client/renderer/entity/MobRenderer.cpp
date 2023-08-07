@@ -95,6 +95,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	bindTexture("mob/char.png");
 	glEnable(GL_ALPHA_TEST);
 
+	m_pModel->setBrightness(entity->getBrightness(1.0f));
 	m_pModel->prepareMobModel(pMob, x2, x1, f);
 	m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.059375f);
 	additionalRendering(pMob, f);

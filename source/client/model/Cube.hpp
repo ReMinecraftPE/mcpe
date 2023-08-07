@@ -27,6 +27,7 @@ public:
 	void setPos(float x, float y, float z);
 	void setTexOffs(int a, int b);
 	void translateTo(float f);
+	void setBrightness(float f);
 
 public:
 	float m_posX = 0.0f;
@@ -45,6 +46,7 @@ public:
 	bool m_bCompiled = false;
 	int field_2C0 = 0;
 	GLuint m_buffer = 0;
+	float m_brightness = 1.0f;
 
 	static float c;
 };

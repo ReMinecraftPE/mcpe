@@ -32,3 +32,7 @@ void Model::setupAnim(float, float, float, float, float, float)
 {
 	
 }
+
+void Model::setBrightness(float)
+{
+}

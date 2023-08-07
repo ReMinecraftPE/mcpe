@@ -13,6 +13,13 @@
 #include "world/tile/Tile.hpp"
 #include "world/entity/TripodCamera.hpp"
 
+class TripodTile : public Tile
+{
+public:
+	TripodTile();
+	int getRenderShape() override;
+};
+
 class TripodCameraRenderer : public EntityRenderer
 {
 public:
@@ -24,7 +31,7 @@ public:
 
 public:
 	TileRenderer m_renderer;
-	Tile m_tile;
+	TripodTile m_tile;
 	Cube m_cube;
 };
 
