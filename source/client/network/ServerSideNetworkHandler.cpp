@@ -389,6 +389,7 @@ void ServerSideNetworkHandler::setupCommands()
 	m_commands["help"]  = &ServerSideNetworkHandler::commandHelp;
 	m_commands["stats"] = &ServerSideNetworkHandler::commandStats;
 	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
+	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -423,5 +424,16 @@ void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vect
 	std::stringstream ss;
 	ss << "In-game time: ";
 	ss << m_pLevel->getTime();
+	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandSeed(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+
+	std::stringstream ss;
+	ss << "World generation seed: ";
+	ss << m_pLevel->getSeed();
 	sendMessage(player, ss.str());
 }
