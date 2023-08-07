@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <unordered_set>
 #include "client/common/AABB.hpp"
 #include "client/common/Vec3.hpp"
 #include "world/level/Material.hpp"
@@ -39,19 +40,22 @@ struct EntityPos
 	EntityPos()
 	{
 		m_yaw = 0, m_pitch = 0;
-		m_bHasRot, m_bHasPos;
+		m_bHasRot = false, m_bHasPos = false;
 	};
 
 	EntityPos(const Vec3& pos)
 	{
 		m_pos = pos;
+		m_yaw = m_pitch = 0;
 		m_bHasPos = true;
+		m_bHasRot = false;
 	}
 
 	EntityPos(float yaw, float pitch)
 	{
 		m_yaw = yaw;
 		m_pitch = pitch;
+		m_bHasPos = false;
 		m_bHasRot = true;
 	}
 
@@ -64,6 +68,8 @@ struct EntityPos
 		m_bHasRot = true;
 	}
 };
+
+typedef std::unordered_set<int> EntityIDSet;
 
 class Entity
 {
@@ -134,6 +140,7 @@ public:
 	virtual void markHurt();
 	virtual void burn(int);
 	virtual void lavaHurt();
+	virtual bool isUnimportant();
 
 	int hashCode();
 
@@ -147,8 +154,12 @@ public:
 			(m_pos.z - z) * (m_pos.z - z);
 	}
 
+private:
+	int allocateEntityId();
+	void releaseEntityId(int);
+	static EntityIDSet s_EntityIDs;
+	//static int entityCounter;
 public:
-	static int entityCounter;
 	static Random sharedRandom;
 
 	Vec3 m_pos;

@@ -36,6 +36,7 @@ public:
 
 	virtual void render(Tesselator&, float, float, float, float, float, float);
 	virtual int getParticleTexture();
+	virtual bool isUnimportant();
 	//TODO: addAdditonalSaveData
 	//TODO: readAdditionalSaveData
 	//TODO: defineSynchedData

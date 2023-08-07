@@ -279,6 +279,14 @@ Material* Level::getMaterial(int x, int y, int z)
 
 Entity* Level::getEntity(int id)
 {
+	// always prioritize players!!
+	for (auto it = m_entities.begin(); it != m_entities.end(); it++)
+	{
+		Entity* pEnt = *it;
+		if (pEnt->isPlayer() && pEnt->m_EntityID == id)
+			return pEnt;
+	}
+
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++)
 	{
 		Entity* pEnt = *it;
@@ -1062,7 +1070,12 @@ bool Level::addEntity(Entity* pEnt)
 {
 	Entity* pOldEnt = getEntity(pEnt->hashCode());
 	if (pOldEnt)
-		removeEntity(pOldEnt);
+	{
+		if (pOldEnt->isUnimportant())
+			removeEntity(pOldEnt);
+		else
+			LogMsg("Clash of entity IDs! (%d)  This could go bad", pEnt->hashCode());
+	}
 
 	//@NOTE: useless Mth::floor() calls
 	Mth::floor(pEnt->m_pos.x / 16);

@@ -16,6 +16,7 @@ public:
 	HumanoidMobRenderer(HumanoidModel*, float);
 	virtual void additionalRendering(Mob*, float) override;
 	virtual void onGraphicsReset() override;
+	virtual void renderName(Mob*, float, float, float) override;
 
 	void renderHand();
 

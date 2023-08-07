@@ -10,7 +10,7 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
-int Entity::entityCounter;
+EntityIDSet Entity::s_EntityIDs;
 Random Entity::sharedRandom;
 
 void Entity::_init()
@@ -56,6 +56,7 @@ void Entity::_init()
 	field_D5 = false;
 	field_D6 = true;
 	field_D8 = 1;
+	m_EntityID = 0;
 }
 
 Entity::Entity(Level* pLevel)
@@ -63,7 +64,7 @@ Entity::Entity(Level* pLevel)
 	_init();
 
 	m_pLevel = pLevel;
-	m_EntityID = ++entityCounter;
+	m_EntityID = allocateEntityId();
 	setPos(0, 0, 0);
 }
 
@@ -1063,4 +1064,32 @@ int Entity::hashCode()
 bool Entity::operator==(const Entity& other) const
 {
 	return m_EntityID == other.m_EntityID;
+}
+
+bool Entity::isUnimportant()
+{
+	return false;
+}
+
+int Entity::allocateEntityId()
+{
+	int id = 1;
+
+	// TODO: could be improved? While a static monotonically increasing integer
+	// is okay, as long as entities with non-standard entity IDs start to get
+	// added you run into issues with clashing IDs, because Level::addEntity
+	// will actually remove the old entity with the same ID.
+	while (s_EntityIDs.find(id) != s_EntityIDs.end())
+		id++;
+
+	return id;
+}
+
+void Entity::releaseEntityId(int id)
+{
+	EntityIDSet::iterator it = s_EntityIDs.find(id);
+	if (it == s_EntityIDs.end())
+		return;
+
+	s_EntityIDs.erase(it);
 }

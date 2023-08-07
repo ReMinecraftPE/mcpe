@@ -52,6 +52,11 @@ int Particle::getParticleTexture()
 	return PT_PARTICLES;
 }
 
+bool Particle::isUnimportant()
+{
+	return true;
+}
+
 Particle* Particle::scale(float f)
 {
 	setSize(0.2f * f, 0.2f * f);
