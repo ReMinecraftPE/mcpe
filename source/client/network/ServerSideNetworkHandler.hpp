@@ -37,6 +37,18 @@ typedef void(ServerSideNetworkHandler::* CommandFunction)(OnlinePlayer* player, 
 typedef std::unordered_map<std::string, CommandFunction> CommandMap;
 typedef std::unordered_map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> OnlinePlayerMap;
 
+struct RakNetGUIDHasher
+{
+	size_t operator()(const RakNet::RakNetGUID& guid) const
+	{
+		return size_t(guid.g);
+	}
+};
+
+typedef void(ServerSideNetworkHandler::* CommandFunction)(OnlinePlayer* player, const std::vector<std::string>& parms);
+typedef std::unordered_map<std::string, CommandFunction> CommandMap;
+typedef std::unordered_map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> OnlinePlayerMap;
+
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
 {
 public:
@@ -73,6 +85,7 @@ public:
 	void commandHelp (OnlinePlayer*, const std::vector<std::string>&);
 	void commandStats(OnlinePlayer*, const std::vector<std::string>&);
 	void commandTime (OnlinePlayer*, const std::vector<std::string>&);
+	void commandSeed (OnlinePlayer*, const std::vector<std::string>&);
 
 public:
 	Minecraft* m_pMinecraft = nullptr;

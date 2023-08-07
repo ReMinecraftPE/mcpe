@@ -8,6 +8,7 @@
 
 #include "HumanoidMobRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
+#include "Minecraft.hpp"
 #include "client/renderer/ItemInHandRenderer.hpp"
 #include "client/renderer/TileRenderer.hpp"
 #include "world/entity/Player.hpp"
@@ -24,7 +25,7 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	Player* player = (Player*)mob;
 
 	int itemID = player->m_pInventory->getSelectedItemId();
-	if (itemID < 0)
+	if (itemID <= 0)
 		return;
 
 	ItemInstance inst(itemID, 1, 0);
@@ -66,6 +67,7 @@ void HumanoidMobRenderer::onGraphicsReset()
 void HumanoidMobRenderer::renderHand()
 {
 	m_pHumanoidModel->field_4 = 0;
+	m_pHumanoidModel->setBrightness(m_pDispatcher->m_pMinecraft->m_pMobPersp->getBrightness(1.0f));
 	m_pHumanoidModel->setupAnim(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
 	m_pHumanoidModel->m_armL.render(0.0625f);
 }

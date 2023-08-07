@@ -288,7 +288,7 @@ label_3:
 
 			ItemInstance* pItem = getSelectedItem();
 
-			if (m_pGameMode->useItemOn(m_pLocalPlayer, m_pLevel, pItem->m_itemID < 0 ? nullptr : pItem, hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide))
+			if (m_pGameMode->useItemOn(m_pLocalPlayer, m_pLevel, pItem->m_itemID <= 0 ? nullptr : pItem, hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide))
 			{
 				m_pLocalPlayer->swing();
 				if (!isOnline())
@@ -338,7 +338,7 @@ label_3:
 		{
 		label_15:
 			int id = m_pLocalPlayer->m_pInventory->getSelectedItemId();
-			if (id >= 0)
+			if (id > 0)
 			{
 				ItemInstance* pItem = getSelectedItem();
 

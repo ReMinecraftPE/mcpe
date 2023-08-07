@@ -21,6 +21,7 @@ public:
 	virtual void render(float, float, float, float, float, float);
 	virtual void renderHorrible(float, float, float, float, float, float);
 	virtual void setupAnim(float, float, float, float, float, float);
+	virtual void setBrightness(float);
 
 public:
 	float field_4;

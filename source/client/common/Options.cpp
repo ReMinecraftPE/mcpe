@@ -50,6 +50,7 @@ void Options::initDefaultValues()
 	field_240 = 1;
 	field_10  = 2;
 	field_14  = 1;
+	m_bAutoJump = true;
 	m_bFancyGraphics = true;
 	field_19  = 1;
 	field_1C = "Default";
@@ -165,6 +166,8 @@ void Options::update(const std::vector<std::string>& strings)
 			m_playerName = value;
 		else if (key == "ctrl_invertmouse")
 			m_bInvertMouse = readBool(value);
+		else if (key == "ctrl_autojump")
+			m_bAutoJump = readBool(value);
 		else if (key == "gfx_fancygraphics")
 			m_bFancyGraphics = readBool(value);
 		else if (key == "mp_server_visible_default")
@@ -184,6 +187,7 @@ std::vector<std::string> Options::getOptionStrings()
 
 	SO("mp_username", m_playerName);
 	SO("ctrl_invertmouse",          saveBool(m_bInvertMouse));
+	SO("ctrl_autojump",             saveBool(m_bAutoJump));
 	SO("gfx_fancygraphics",         saveBool(m_bFancyGraphics));
 	SO("mp_server_visible_default", saveBool(m_bServerVisibleDefault));
 	SO("gfx_smoothlighting",        saveBool(field_18));

@@ -109,5 +109,6 @@ public:
 	int field_24C;
 	std::string m_playerName;
 	bool m_bServerVisibleDefault;
+	bool m_bAutoJump;
 };
 

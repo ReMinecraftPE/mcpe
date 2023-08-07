@@ -383,3 +383,8 @@ FodyWeavers.xsd
 /games
 
 /wasm
+
+/assets/
+/games/
+/options.txt
+/windows_vs/options.txt
