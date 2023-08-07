@@ -24,7 +24,7 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	Player* player = (Player*)mob;
 
 	int itemID = player->m_pInventory->getSelectedItemId();
-	if (itemID < 0)
+	if (itemID <= 0)
 		return;
 
 	ItemInstance inst(itemID, 1, 0);
