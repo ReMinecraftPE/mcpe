@@ -383,6 +383,6 @@ FodyWeavers.xsd
 /wasm
 
 /assets/
+/games/
 /options.txt
 /windows_vs/options.txt
-/games/com.mojang/minecraftWorlds

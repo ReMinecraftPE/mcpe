@@ -86,9 +86,9 @@ void Cube::compile(float f)
 void Cube::draw()
 {
 #ifdef ENH_ENTITY_SHADING
-	drawArrayVTC(m_buffer, 36, sizeof(Tesselator::Vertex));
-#else
 	drawArrayVT(m_buffer, 36, sizeof(Tesselator::Vertex));
+#else
+	drawArrayVTC(m_buffer, 36, sizeof(Tesselator::Vertex));
 #endif
 }
 
