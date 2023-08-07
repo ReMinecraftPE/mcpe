@@ -3,6 +3,7 @@
 #ifdef _WIN32
 #include <thirdparty/OpenAL/Include/al.h>
 #include <thirdparty/OpenAL/Include/alc.h>
+#pragma comment( lib, "OpenAl32.lib" )
 #else
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -14,8 +15,6 @@
 
 #include "client/sound/SoundSystem.hpp"
 #include <client/common/Vec3.hpp>
-
-#pragma comment( lib, "OpenAl32.lib" )
 
 #define MAX_IDLE_SOURCES 50
 #define MAX_DISTANCE 16.0f
