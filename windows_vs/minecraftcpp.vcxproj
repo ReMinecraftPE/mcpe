@@ -777,7 +777,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;$(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|Win32'">
@@ -796,7 +796,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;$(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -819,7 +819,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ws2_32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(CONTRIB_PATH)\SDK\Lib\;$(SolutionDir)..\thirdparty\OpenAL\libs\Win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
