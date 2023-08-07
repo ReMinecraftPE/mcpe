@@ -50,6 +50,7 @@ void Options::initDefaultValues()
 	field_240 = 1;
 	field_10  = 2;
 	field_14  = 1;
+	m_bAutoJump = true;
 	m_bFancyGraphics = true;
 	field_19  = 1;
 	field_1C = "Default";
