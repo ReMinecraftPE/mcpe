@@ -16,11 +16,7 @@ class SoundSystem
 public:
 	virtual bool isAvailable();
 	virtual void setListenerPos(float x, float y, float z);
-#ifndef ORIGINAL_CODE
 	virtual void setListenerAngle(float yaw, float pitch);
-#else
-	virtual void setListenerAngle(float yaw);
-#endif
 	virtual void load(const std::string& sound);
 	virtual void play(const std::string& sound);
 	virtual void pause(const std::string& sound);

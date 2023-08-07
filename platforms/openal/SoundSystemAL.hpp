@@ -28,7 +28,7 @@ public:
 	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch);
 
 	virtual void setListenerPos(float x, float y, float z);
-	virtual void setListenerAngle(float yaw, float pitch = 0.0f);
+	virtual void setListenerAngle(float yaw, float pitch);
 private:
 	void delete_sources();
 	void delete_buffers();

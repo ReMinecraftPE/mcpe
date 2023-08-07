@@ -281,6 +281,10 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 		}
 	}
 
+	bool isUi = AL_FALSE;
+	if (x == 0 && y == 0 && z == 0)
+		isUi = AL_TRUE;
+
 	// Set Properties
 	alSourcef(al_source, AL_PITCH, pitch);
 	AL_ERROR_CHECK();
@@ -292,7 +296,7 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	AL_ERROR_CHECK();
 	alSourcei(al_source, AL_LOOPING, AL_FALSE);
 	AL_ERROR_CHECK();
-	alSourcei(al_source, AL_SOURCE_RELATIVE, AL_FALSE);
+	alSourcei(al_source, AL_SOURCE_RELATIVE, isUi);
 	AL_ERROR_CHECK();
 
 	// Set Attenuation
