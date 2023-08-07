@@ -75,6 +75,11 @@ public:
 class StartGamePacket : public Packet
 {
 public:
+	StartGamePacket()
+	{
+		m_version = 0;
+		m_time = 0;
+	}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*);
 	void read(RakNet::BitStream*);
@@ -85,8 +90,8 @@ public:
 	float field_10;
 	float field_14;
 	float field_18;
-	int m_version = 0;
-	int m_time = 0;
+	int m_version;
+	int m_time;
 };
 
 class AddPlayerPacket : public Packet

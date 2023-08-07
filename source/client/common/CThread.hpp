@@ -8,8 +8,10 @@
 
 #pragma once
 
- // CThread - Object oriented pthread wrapper
+#if !defined(_XBOX)
+// CThread - Object oriented pthread wrapper
 #define USE_CPP11_THREADS //__cplusplus >= 201103L
+#endif
 
 // USE_CPP11_THREADS - Use a C++11 implementation of threads instead of using pthread
 #ifdef USE_CPP11_THREADS
