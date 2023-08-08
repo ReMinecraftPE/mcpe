@@ -66,11 +66,7 @@ void SoundEngine::play(const std::string& name)
 	SoundDesc sd;
 
 	if (m_repository.get(name, sd)) {
-#ifdef USE_SDL
-		m_soundSystem.play(sd, 0, 0, 0, 1, 1, true);
-#else
 		m_soundSystem.playAt(sd, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f);
-#endif
 	}
 }
 
@@ -82,10 +78,6 @@ void SoundEngine::play(const std::string& name, float a, float b, float c, float
 	SoundDesc sd;
 
 	if (m_repository.get(name, sd)) {
-#ifdef USE_SDL
-		m_soundSystem.play(sd, a, b, c, d, e, false);
-#else
 		m_soundSystem.playAt(sd, a, b, c, d, e);
-#endif
 	}
 }

@@ -91,6 +91,9 @@
     <Filter Include="source\platforms\windows">
       <UniqueIdentifier>{4cc1a780-f0a9-41b1-bee2-dc28f00fb958}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\platforms\openal">
+      <UniqueIdentifier>{cc57a0f6-733d-44fa-8478-b1826b074d66}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Third Party">
       <UniqueIdentifier>{d754d82a-1cf9-4e4a-9dfd-2cc79f4d1fc1}</UniqueIdentifier>
     </Filter>
@@ -989,6 +992,9 @@
     </ClInclude>
     <ClInclude Include="..\platforms\PlatformDefinitions.hpp">
       <Filter>source\platforms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platforms\openal\SoundSystemAL.hpp">
+      <Filter>source\platforms\openal</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\GL\glext.h">
       <Filter>Header Files\Third Party</Filter>
@@ -1954,6 +1960,9 @@
     </ClCompile>
     <ClCompile Include="..\compat\GLExt.cpp">
       <Filter>thirdparty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platforms\openal\SoundSystemAL.cpp">
+      <Filter>source\platforms\openal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
