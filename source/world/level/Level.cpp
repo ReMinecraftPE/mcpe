@@ -279,6 +279,13 @@ Material* Level::getMaterial(int x, int y, int z)
 
 Entity* Level::getEntity(int id)
 {
+	// prioritize players first.
+	for (auto it = m_players.begin(); it != m_players.end(); it++)
+	{
+		Player* pEnt = *it;
+		if (pEnt->m_EntityID == id)
+			return pEnt;
+	}
 	for (auto it = m_entities.begin(); it != m_entities.end(); it++)
 	{
 		Entity* pEnt = *it;
@@ -1062,7 +1069,15 @@ bool Level::addEntity(Entity* pEnt)
 {
 	Entity* pOldEnt = getEntity(pEnt->hashCode());
 	if (pOldEnt)
-		removeEntity(pOldEnt);
+	{
+		LogMsg("Warning: entity %d already exists.", pEnt->hashCode());
+		//removeEntity(pOldEnt);
+	}
+
+	if (!pEnt->isPlayer() && field_11)
+	{
+		LogMsg("Hey, why are you trying to add an non-player entity in a multiplayer world?");
+	}
 
 	//@NOTE: useless Mth::floor() calls
 	Mth::floor(pEnt->m_pos.x / 16);
