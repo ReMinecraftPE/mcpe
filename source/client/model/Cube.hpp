@@ -22,8 +22,6 @@ public:
 	void draw();
 	void drawSlow(float f);
 	void render(float f);
-	void renderHorrible(float f);
-	void renderRollable(float f);
 	void setPos(float x, float y, float z);
 	void setTexOffs(int a, int b);
 	void translateTo(float f);

@@ -29,11 +29,6 @@ void Model::render(float, float, float, float, float, float)
 	
 }
 
-void Model::renderHorrible(float, float, float, float, float, float)
-{
-	
-}
-
 void Model::setupAnim(float, float, float, float, float, float)
 {
 	

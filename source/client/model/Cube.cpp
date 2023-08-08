@@ -148,61 +148,6 @@ void Cube::render(float f)
 	glPopMatrix();
 }
 
-void Cube::renderRollable(float f)
-{
-	if (field_1A)
-		return;
-
-	if (!field_19)
-		return;
-
-	if (!m_bCompiled)
-		compile(f);
-
-	glPushMatrix();
-
-	glTranslatef(m_posX * f, m_posY * f, m_posZ * f);
-	if (field_14 != 0.0f) glRotatef(field_14 * c, 0.0f, 0.0f, 1.0f);
-	if (field_10 != 0.0f) glRotatef(field_10 * c, 0.0f, 1.0f, 0.0f);
-	if (field_C  != 0.0f) glRotatef(field_C  * c, 1.0f, 0.0f, 0.0f);
-	draw();
-
-	glPopMatrix();
-}
-
-void Cube::renderHorrible(float f)
-{
-	if (field_1A)
-		return;
-
-	if (!field_19)
-		return;
-
-	if (field_C == 0.0f && field_10 == 0.0f && field_14 == 0.0f)
-	{
-		if (m_posX == 0.0f && m_posY == 0 && m_posZ == 0)
-		{
-			drawSlow(f);
-			return;
-		}
-
-		glTranslatef( m_posX * f,  m_posY * f,  m_posZ * f);
-		drawSlow(f);
-		glTranslatef(-m_posX * f, -m_posY * f, -m_posZ * f);
-		return;
-	}
-
-	glPushMatrix();
-
-	glTranslatef(m_posX * f, m_posY * f, m_posZ * f);
-	if (field_14 != 0.0f) glRotatef(field_14 * c, 0.0f, 0.0f, 1.0f);
-	if (field_10 != 0.0f) glRotatef(field_10 * c, 0.0f, 1.0f, 0.0f);
-	if (field_C  != 0.0f) glRotatef(field_C  * c, 1.0f, 0.0f, 0.0f);
-	drawSlow(f);
-
-	glPopMatrix();
-}
-
 void Cube::translateTo(float f)
 {
 	if (field_1A)
