@@ -39,19 +39,22 @@ struct EntityPos
 	EntityPos()
 	{
 		m_yaw = 0, m_pitch = 0;
-		m_bHasRot, m_bHasPos;
+		m_bHasRot = false, m_bHasPos = false;
 	};
 
 	EntityPos(const Vec3& pos)
 	{
 		m_pos = pos;
+		m_yaw = 0, m_pitch = 0;
 		m_bHasPos = true;
+		m_bHasRot = false;
 	}
 
 	EntityPos(float yaw, float pitch)
 	{
 		m_yaw = yaw;
 		m_pitch = pitch;
+		m_bHasPos = false;
 		m_bHasRot = true;
 	}
 

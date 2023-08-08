@@ -19,7 +19,9 @@ BiomeSource* BiomeSource::init()
 	field_18 = 0;
 	field_1C = 0;
 	field_20 = new Biome * [256];
-	m_pPerlinNoise[3] = nullptr;
+	m_pPerlinNoise[0] = nullptr;
+	m_pPerlinNoise[1] = nullptr;
+	m_pPerlinNoise[2] = nullptr;
 
 	return this;
 }

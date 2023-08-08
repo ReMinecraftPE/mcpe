@@ -27,7 +27,6 @@ public:
 	{
 		field_0 = -1;
 		field_4 = 0;
-		m_id;
 		field_C = 0.0f;
 		field_10 = 0.0f;
 		field_14 = 0.0f;
@@ -36,6 +35,10 @@ public:
 	}
 	RenderChunk(GLuint a1, int a2)
 	{
+		field_C = 0.0f;
+		field_10 = 0.0f;
+		field_14 = 0.0f;
+
 		m_id = ++runningId;
 		field_0 = a1;
 		field_4 = a2;
