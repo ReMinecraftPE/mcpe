@@ -1,15 +1,12 @@
-# Minecraft PE Reverse Engineering Project
+# ReMinecraftPE
 
-This project is an attempt to recreate one of the first released builds of Minecraft: Pocket Edition -- mcpe01_canada.apk -- and port it to other platforms,
-via binary reverse engineering. This project is similar in terms of goals to [Minecraft Pi](https://minecraft.net/edition/pi), except playable on more devices.
-
-An Android build will come soon.
-
-### The default build is **enhanced**. If you want the original experience, comment every define and uncomment the demo define from GameMods.hpp.
-
+This project aims to create a custom Minecraft experience based on Minecraft: Pocket Edition as of 2011. It's based on the mcpe01_canada.apk build of the game.
+Its goals are similar to [Minecraft Pi](https://minecraft.net/edition/pi) and [ClassiCube](https://github.com/UnknownShadow200/ClassiCube).
 * Note: The original mcpe01_canada.apk does not work on newer Android devices. A port of this likely will.
 
-Eventually, I plan on creating a new repository, `mcpe01_canada`, which will include just the port of the Canada demo.
+### Planned ports:
+* Raspberry Pi / Linux
+* Android
 
 ### This is the main modded version. For the original decompilation, see [ReMinecraftPE/mcped](https://github.com/ReMinecraftPE/mcped)
 
