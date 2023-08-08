@@ -863,9 +863,10 @@ void Entity::push(Entity* bud)
 		x2 = 1.0f;
 	float x3 = 1.0f - this->field_B0;
 	float x4 = x3 * diffX / x1 * x2 * 0.05f;
+	float x5 = x3 * diffZ / x1 * x2 * 0.05f;
 
-	push(-x4, 0.0f, -x4);
-	bud->push(x4, 0.0f, x4);
+	push(-x4, 0.0f, -x5);
+	bud->push(x4, 0.0f, x5);
 }
 
 void Entity::push(float x, float y, float z)
