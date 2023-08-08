@@ -1,3 +1,4 @@
+#ifdef USE_OPENAL
 #include "SoundSystemAL.hpp"
 
 #include "client/common/Utils.hpp"
@@ -251,9 +252,18 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	if (volume <= 0.0f)
 		return;
 
-	float distance = Vec3(x, y, z).distanceTo(lastListenerPos);
-	if (distance >= MAX_DISTANCE)
-		return;
+	bool bIsGUI = AL_FALSE;
+	float distance = 0.0f;
+	if (x == 0 && y == 0 && z == 0)
+	{
+		bIsGUI = AL_TRUE;
+	}
+	else
+	{
+		distance = Vec3(x, y, z).distanceTo(lastListenerPos);
+		if (distance >= MAX_DISTANCE)
+			return;
+	}
 
 	// Load Sound
 	ALuint buffer = get_buffer(sound);
@@ -286,10 +296,6 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 		}
 	}
 
-	bool isUi = AL_FALSE;
-	if (x == 0 && y == 0 && z == 0)
-		isUi = AL_TRUE;
-
 	// Set Properties
 	alSourcef(al_source, AL_PITCH, pitch);
 	AL_ERROR_CHECK();
@@ -301,7 +307,7 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	AL_ERROR_CHECK();
 	alSourcei(al_source, AL_LOOPING, AL_FALSE);
 	AL_ERROR_CHECK();
-	alSourcei(al_source, AL_SOURCE_RELATIVE, isUi);
+	alSourcei(al_source, AL_SOURCE_RELATIVE, bIsGUI);
 	AL_ERROR_CHECK();
 
 	// Set Attenuation
@@ -321,3 +327,5 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	AL_ERROR_CHECK();
 	sources.push_back(al_source);
 }
+
+#endif

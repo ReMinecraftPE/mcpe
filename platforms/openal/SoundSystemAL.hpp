@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef USE_OPENAL
+
 #ifdef _WIN32
 #include <thirdparty/OpenAL/Include/al.h>
 #include <thirdparty/OpenAL/Include/alc.h>
@@ -44,3 +46,5 @@ private:
 
 	Vec3 lastListenerPos;
 };
+
+#endif
