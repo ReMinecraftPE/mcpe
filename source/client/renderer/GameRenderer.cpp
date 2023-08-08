@@ -81,7 +81,7 @@ void GameRenderer::unZoomRegion()
 
 void GameRenderer::setupCamera(float f, int i)
 {
-	field_8 = float(256 >> m_pMinecraft->m_options.field_10);
+	field_8 = float(256 >> m_pMinecraft->m_options.m_iViewDistance);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -109,7 +109,7 @@ void GameRenderer::setupCamera(float f, int i)
 	}
 
 	bobHurt(f);
-	if (m_pMinecraft->m_options.field_14)
+	if (m_pMinecraft->m_options.m_bViewBobbing)
 		bobView(f);
 
 	moveCameraToPlayer(f);
@@ -127,7 +127,7 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
 
-	if (m_pMinecraft->m_options.field_23D)
+	if (m_pMinecraft->m_options.m_iPerspective == 1)
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
 		if (m_pMinecraft->m_options.field_241)
@@ -253,7 +253,7 @@ void GameRenderer::setupClearColor(float f)
 	Level* pLevel = pMC->m_pLevel;
 	Mob* pMob = pMC->m_pMobPersp;
 
-	float x1 = 1.0f - powf(1.0f / float(4 - pMC->m_options.field_10), 0.25f);
+	float x1 = 1.0f - powf(1.0f / float(4 - pMC->m_options.m_iViewDistance), 0.25f);
 
 	Vec3 skyColor = pLevel->getSkyColor(pMob, f), fogColor = pLevel->getFogColor(f);
 
@@ -427,7 +427,7 @@ void GameRenderer::renderLevel(float f)
 		setupCamera(f, i);
 		saveMatrices();
 
-		if (m_pMinecraft->m_options.field_10 <= 1)
+		if (m_pMinecraft->m_options.m_iViewDistance <= 1)
 		{
 #ifndef ORIGINAL_CODE
 			// @NOTE: For whatever reason, Minecraft doesn't enable GL_FOG right away.
@@ -441,7 +441,7 @@ void GameRenderer::renderLevel(float f)
 		glEnable(GL_FOG);
 		setupFog(1);
 
-		if (m_pMinecraft->m_options.field_18)
+		if (m_pMinecraft->m_options.m_bAmbientOcclusion)
 			glShadeModel(GL_SMOOTH);
 
 		Frustum& frust = Frustum::frustum;
@@ -655,7 +655,7 @@ void GameRenderer::tick()
 		}
 
 		float bright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
-		float x3 = float(3 - m_pMinecraft->m_options.field_10);
+		float x3 = float(3 - m_pMinecraft->m_options.m_iViewDistance);
 
 		field_C++;
 
@@ -678,21 +678,21 @@ void GameRenderer::renderItemInHand(float f, int i)
 	glPushMatrix();
 	bobHurt(f);
 
-	if (m_pMinecraft->m_options.field_14)
+	if (m_pMinecraft->m_options.m_bViewBobbing)
 		bobView(f);
 
-	if (!m_pMinecraft->m_options.field_23D && !m_pMinecraft->m_options.field_23C)
+	if (m_pMinecraft->m_options.m_iPerspective == 0 && !m_pMinecraft->m_options.field_23C)
 		m_pItemInHandRenderer->render(f);
 
 	glPopMatrix();
 
-	if (!m_pMinecraft->m_options.field_23D)
+	if (m_pMinecraft->m_options.m_iPerspective == 0)
 	{
 		m_pItemInHandRenderer->renderScreenEffect(f);
 		bobHurt(f);
 	}
 
-	if (m_pMinecraft->m_options.field_14)
+	if (m_pMinecraft->m_options.m_bViewBobbing)
 		bobView(f);
 }
 

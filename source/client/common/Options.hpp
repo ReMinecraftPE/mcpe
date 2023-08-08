@@ -84,22 +84,22 @@ public:
 
 public:
 	float field_0;
-	float field_4;
+	float m_flMasterVolume;
 	float field_8;
 	bool m_bInvertMouse;
-	int field_10;          // @NOTE: Render distance?
-	bool field_14;
+	int m_iViewDistance;
+	bool m_bViewBobbing;
 	bool m_bAnaglyphs;
 	uint8_t field_16;
 	bool m_bFancyGraphics;
-	uint8_t field_18;      // @NOTE: Ambient occlusion?
+	bool m_bAmbientOcclusion;
 	uint8_t field_19;
 	std::string field_1C;
 	KeyBind m_keyBinds[16];
 
 	int field_238;
 	uint8_t field_23C;
-	uint8_t field_23D;     // @NOTE: Third person mode?
+	uint8_t m_iPerspective;
 	uint8_t field_23E;
 	bool m_bFlyCheat;
 	uint8_t field_240;

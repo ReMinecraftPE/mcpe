@@ -67,14 +67,14 @@ void OptionsScreen::UpdateTexts()
 {
 	Options& o = m_pMinecraft->m_options;
 
-	m_AOButton.m_text        = "Smooth lighting: " + BoolOptionStr(o.field_18);
+	m_AOButton.m_text        = "Smooth lighting: " + BoolOptionStr(o.m_bAmbientOcclusion);
 	m_invertYButton.m_text   = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
-	m_viewBobButton.m_text   = "View bobbing: "    + BoolOptionStr(o.field_14);
+	m_viewBobButton.m_text   = "View bobbing: "    + BoolOptionStr(o.m_bViewBobbing);
 	m_anaglyphsButton.m_text = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
 	m_fancyGfxButton.m_text  = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
 	m_flightHaxButton.m_text = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
 	m_autoJumpButton.m_text  = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
-	m_viewDistButton.m_text  = "View distance: "   + ViewDistanceStr(o.field_10);
+	m_viewDistButton.m_text  = "View distance: "   + ViewDistanceStr(o.m_iViewDistance);
 	m_srvVisButton.m_text    = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
 }
 #endif
@@ -178,8 +178,8 @@ void OptionsScreen::buttonClicked(Button* pButton)
 			return;
 
 		case OB_AO:
-			o.field_18 ^= 1;
-			Minecraft::useAmbientOcclusion = o.field_18;
+			o.m_bAmbientOcclusion = !o.m_bAmbientOcclusion;
+			Minecraft::useAmbientOcclusion = o.m_bAmbientOcclusion;
 			m_pMinecraft->m_pLevelRenderer->allChanged();
 			UpdateTexts();
 			return;
@@ -190,7 +190,7 @@ void OptionsScreen::buttonClicked(Button* pButton)
 			return;
 		case OB_VIEW_DIST:
 			// @TODO: fix the 'extreme'  render distance
-			o.field_10 = (o.field_10 + 1) % 4;
+			o.m_iViewDistance = (o.m_iViewDistance + 1) % 4;
 			UpdateTexts();
 			return;
 
@@ -204,7 +204,7 @@ void OptionsScreen::buttonClicked(Button* pButton)
 			pOption = &o.m_bServerVisibleDefault;
 			break;
 		case OB_VIEW_BOB:
-			pOption = &o.field_14;
+			pOption = &o.m_bViewBobbing;
 			break;
 		case OB_FLY_HAX:
 			pOption = &o.m_bFlyCheat;
@@ -217,7 +217,7 @@ void OptionsScreen::buttonClicked(Button* pButton)
 	if (!pOption)
 		return;
 
-	*pOption ^= 1;
+	*pOption = !(*pOption);
 	UpdateTexts();
 }
 

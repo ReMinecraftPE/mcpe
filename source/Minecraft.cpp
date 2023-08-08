@@ -452,7 +452,10 @@ void Minecraft::tickInput()
 			}
 			else if (keyCode == AKEYCODE_SEARCH)
 			{
-				m_options.field_23D ^= 1;
+				m_options.m_iPerspective++;
+				// If the perspective goes over the max loop back
+				if (m_options.m_iPerspective > 1) 
+					m_options.m_iPerspective = 0;
 			}
 			else if (keyCode == AKEYCODE_MENU)
 			{
@@ -471,8 +474,8 @@ void Minecraft::tickInput()
 			else if (keyCode == AKEYCODE_F4)
 			{
 				// Toggle ambient occlusion.
-				m_options.field_18 ^= 1;
-				Minecraft::useAmbientOcclusion = m_options.field_18;
+				m_options.m_bAmbientOcclusion = !m_options.m_bAmbientOcclusion;
+				Minecraft::useAmbientOcclusion = m_options.m_bAmbientOcclusion;
 				m_pLevelRenderer->allChanged();
 			}
 		#endif
