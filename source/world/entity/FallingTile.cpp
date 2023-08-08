@@ -68,7 +68,7 @@ void FallingTile::tick()
 
 	if (!field_7C)
 	{
-		if (field_E0 > 100 && !m_pLevel->field_11)
+		if (field_E0 > 100 && !m_pLevel->m_bIsMultiplayer)
 			remove();
 
 		return;

@@ -51,7 +51,7 @@ int DoorTile::use(Level* level, int x, int y, int z, Player* player)
 		else
 			snd = "random.door_close";
 
-		level->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, snd, 1.0f, 0.9f + 0.1f * level->field_38.nextFloat());
+		level->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, snd, 1.0f, 0.9f + 0.1f * level->m_random.nextFloat());
 	}
 
 	return 1;
@@ -200,7 +200,7 @@ void DoorTile::setOpen(Level* level, int x, int y, int z, bool bOpen)
 		else
 			snd = "random.door_close";
 
-		level->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, snd, 1.0f, 0.9f + 0.1f * level->field_38.nextFloat());
+		level->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, snd, 1.0f, 0.9f + 0.1f * level->m_random.nextFloat());
 	}
 }
 

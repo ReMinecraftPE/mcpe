@@ -1091,7 +1091,7 @@ void Tile::spawnResources(Level* pLevel, int x, int y, int z, int i)
 
 void Tile::spawnResources(Level* pLevel, int x, int y, int z, int data, float fChance)
 {
-	if (pLevel->field_11)
+	if (pLevel->m_bIsMultiplayer)
 		return;
 
 #ifdef TEST_SURVIVAL_MODE

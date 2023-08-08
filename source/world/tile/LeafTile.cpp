@@ -78,7 +78,7 @@ void LeafTile::onRemove(Level* level, int x, int y, int z)
 
 void LeafTile::tick(Level* level, int x, int y, int z, Random* random)
 {
-	if (level->field_11)
+	if (level->m_bIsMultiplayer)
 		return;
 
 	int data = level->getData(x, y, z);

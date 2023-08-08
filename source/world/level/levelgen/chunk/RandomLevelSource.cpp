@@ -341,8 +341,7 @@ void RandomLevelSource::buildSurfaces(int x, int z, TileID* tiles, Biome** biome
 
 void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 {
-	//return;
-	m_pLevel->field_12 = true;
+	m_pLevel->m_bPostProcessing = true;
 	SandTile::instaFall = true;
 	
 	int x16 = x * 16, z16 = z * 16;
@@ -549,7 +548,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 	}
 
 	SandTile::instaFall = false;
-	m_pLevel->field_12 = false;
+	m_pLevel->m_bPostProcessing = false;
 }
 
 int RandomLevelSource::tick()

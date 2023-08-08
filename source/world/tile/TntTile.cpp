@@ -33,7 +33,7 @@ int TntTile::getTexture(int dir)
 void TntTile::destroy(Level* level, int x, int y, int z, int data)
 {
 	// prevent players from using this in multiplayer, to prevent a desync of player IDs
-	if (level->field_11) return;
+	if (level->m_bIsMultiplayer) return;
 
 	level->addEntity(new PrimedTnt(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f));
 }
@@ -41,7 +41,7 @@ void TntTile::destroy(Level* level, int x, int y, int z, int data)
 void TntTile::wasExploded(Level* level, int x, int y, int z)
 {
 	PrimedTnt* tnt = new PrimedTnt(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f);
-	tnt->m_fuseTimer = level->field_38.nextInt(tnt->m_fuseTimer / 4) + tnt->m_fuseTimer / 8;
+	tnt->m_fuseTimer = level->m_random.nextInt(tnt->m_fuseTimer / 4) + tnt->m_fuseTimer / 8;
 	level->addEntity(tnt);
 }
 

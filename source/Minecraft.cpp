@@ -212,7 +212,7 @@ bool Minecraft::isOnlineClient()
 	if (!m_pLevel)
 		return false;
 
-	return m_pLevel->field_11;
+	return m_pLevel->m_bIsMultiplayer;
 }
 
 void Minecraft::handleMouseDown(int type, bool b)

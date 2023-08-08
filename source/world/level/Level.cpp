@@ -16,13 +16,13 @@
 
 Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dimension *pDimension)
 {
-	field_10 = 0;
-	field_11 = false;
-	field_12 = 0;
+	m_bInstantTicking = false;
+	m_bIsMultiplayer = false;
+	m_bPostProcessing = false;
 	m_skyDarken = 0;
 	field_30 = 0;
 	m_pDimension = nullptr;
-	field_A00 = 0;
+	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
 	field_AA8 = 42184323;
@@ -31,7 +31,7 @@ Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dim
 	field_B08 = 0;
 	field_B0C = 0;
 
-	field_38 = 1; // initialize with a seed of 1
+	m_random.setSeed(1); // initialize with a seed of 1
 
 	LevelData* pData = m_pLevelStorage->prepareLevel(this);
 
@@ -628,7 +628,7 @@ void Level::sendTileUpdated(int x, int y, int z)
 
 void Level::neighborChanged(int x, int y, int z, TileID tile)
 {
-	if (field_30 || field_11) return;
+	if (field_30 || m_bIsMultiplayer) return;
 
 	Tile* pTile = Tile::tiles[getTile(x, y, z)];
 	if (pTile)
@@ -984,8 +984,8 @@ void Level::validateSpawn()
 		// While the spawn isn't valid
 		do
 		{
-			spawnX += (field_38.genrand_int32() % 8) - (field_38.genrand_int32() % 8);
-			spawnZ += (field_38.genrand_int32() % 8) - (field_38.genrand_int32() % 8);
+			spawnX += m_random.nextInt(8) - m_random.nextInt(8);
+			spawnZ += m_random.nextInt(8) - m_random.nextInt(8);
 
 			// avoid spawning near world border
 			if (spawnX < 4) spawnX += 8;
@@ -1074,7 +1074,7 @@ bool Level::addEntity(Entity* pEnt)
 		//removeEntity(pOldEnt);
 	}
 
-	if (!pEnt->isPlayer() && field_11)
+	if (!pEnt->isPlayer() && m_bIsMultiplayer)
 	{
 		LogMsg("Hey, why are you trying to add an non-player entity in a multiplayer world?");
 	}
@@ -1142,7 +1142,7 @@ void Level::saveUnsavedChunks()
 
 void Level::setInitialSpawn()
 {
-	field_A00 = true;
+	m_bCalculatingInitialSpawn = true;
 
 	int spawnX = C_MAX_CHUNKS_X * 16 / 2, spawnZ = C_MAX_CHUNKS_Z * 16 / 2;
 #ifndef ORIGINAL_CODE
@@ -1154,8 +1154,8 @@ void Level::setInitialSpawn()
 		if (m_pDimension->isValidSpawn(spawnX, spawnZ))
 			break;
 
-		spawnX += (field_38.genrand_int32() % 32) - (field_38.genrand_int32() % 32);
-		spawnZ += (field_38.genrand_int32() % 32) - (field_38.genrand_int32() % 32);
+		spawnX += m_random.nextInt(32) - m_random.nextInt(32);
+		spawnZ += m_random.nextInt(32) - m_random.nextInt(32);
 
 		if (spawnX < 4) spawnX += 32;
 		if (spawnZ < 4) spawnZ += 32;
@@ -1172,7 +1172,7 @@ void Level::setInitialSpawn()
 	m_levelData.m_spawnPos.z = spawnZ;
 	m_levelData.m_spawnPos.y = 64;
 
-	field_A00 = false;
+	m_bCalculatingInitialSpawn = false;
 
 #ifndef ORIGINAL_CODE
 	return;
@@ -1325,7 +1325,7 @@ void Level::tickPendingTicks(bool b)
 		{
 			TileID tile = getTile(t.field_4, t.field_8, t.field_C);
 			if (tile == t.field_10 && tile > 0)
-				Tile::tiles[tile]->tick(this, t.field_4, t.field_8, t.field_C, &field_38);
+				Tile::tiles[tile]->tick(this, t.field_4, t.field_8, t.field_C, &m_random);
 		}
 
 		m_pendingTicks.erase(m_pendingTicks.begin());
@@ -1369,7 +1369,7 @@ void Level::tickTiles()
 
 			TileID tile = pChunk->getTile(tileX, tileY, tileZ);
 			if (Tile::shouldTick[tile])
-				Tile::tiles[tile]->tick(this, tileX + globX, tileY, tileZ + globZ, &field_38);
+				Tile::tiles[tile]->tick(this, tileX + globX, tileY, tileZ + globZ, &m_random);
 		}
 	}
 }
@@ -1846,7 +1846,7 @@ HitResult Level::clip(const Vec3& a, const Vec3& b)
 void Level::addToTickNextTick(int a, int b, int c, int d, int delay)
 {
 	TickNextTickData tntd(a, b, c, d);
-	if (field_10)
+	if (m_bInstantTicking)
 	{
 		// @NOTE: Don't know why this check wasn't just placed at the beginning.
 		if (!hasChunksAt(a - 8, b - 8, c - 8, a + 8, b + 8, c + 8))
@@ -1854,7 +1854,7 @@ void Level::addToTickNextTick(int a, int b, int c, int d, int delay)
 
 		TileID tile = getTile(tntd.field_4, tntd.field_8, tntd.field_C);
 		if (tile > 0 && tile == tntd.field_10)
-			Tile::tiles[tntd.field_10]->tick(this, tntd.field_4, tntd.field_8, tntd.field_C, &field_38);
+			Tile::tiles[tntd.field_10]->tick(this, tntd.field_4, tntd.field_8, tntd.field_C, &m_random);
 	}
 	else
 	{
@@ -1911,9 +1911,9 @@ void Level::animateTick(int x, int y, int z)
 	for (int i = 0; i < 100; i++)
 	{
 		int x1, y1, z1;
-		x1 = x + (field_38.genrand_int32() & 0xF) - (field_38.genrand_int32() & 0xF);
-		y1 = y + (field_38.genrand_int32() & 0xF) - (field_38.genrand_int32() & 0xF);
-		z1 = z + (field_38.genrand_int32() & 0xF) - (field_38.genrand_int32() & 0xF);
+		x1 = x + m_random.nextInt(16) - m_random.nextInt(16);
+		y1 = y + m_random.nextInt(16) - m_random.nextInt(16);
+		z1 = z + m_random.nextInt(16) - m_random.nextInt(16);
 		TileID tile = getTile(x1, y1, z1);
 		if (tile > 0)
 			Tile::tiles[tile]->animateTick(this, x1, y1, z1, &random);

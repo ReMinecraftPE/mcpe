@@ -638,7 +638,7 @@ bool LevelChunk::setTile(int x, int y, int z, TileID tile)
 	lightGaps(x, z);
 	if (tile)
 	{
-		if (!m_pLevel->field_11)
+		if (!m_pLevel->m_bIsMultiplayer)
 			Tile::tiles[tile]->onPlace(m_pLevel, globalX, y, globalZ);
 	}
 
@@ -704,7 +704,7 @@ bool LevelChunk::setTileAndData(int x, int y, int z, TileID tile, int data)
 	lightGaps(x, z);
 	if (tile)
 	{
-		if (!m_pLevel->field_11)
+		if (!m_pLevel->m_bIsMultiplayer)
 			Tile::tiles[tile]->onPlace(m_pLevel, globalX, y, globalZ);
 	}
 

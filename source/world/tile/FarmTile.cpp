@@ -86,7 +86,7 @@ void FarmTile::neighborChanged(Level* level, int x, int y, int z, int a)
 
 void FarmTile::stepOn(Level* level, int x, int y, int z, Entity* pEnt)
 {
-	if (level->field_38.genrand_int32() % 4 == 0)
+	if (level->m_random.genrand_int32() % 4 == 0)
 		level->setTile(x, y, z, Tile::dirt->m_ID);
 }
 

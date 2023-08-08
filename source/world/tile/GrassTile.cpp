@@ -47,7 +47,7 @@ void GrassTile::tick(Level* level, int x, int y, int z, Random* random)
 {
 	// Controls the spread/death of grass.
 	// It's like a full on automata of sorts. :)
-	if (level->field_11)
+	if (level->m_bIsMultiplayer)
 		return;
 
 	if (level->getRawBrightness(x, y + 1, z) <= 3 &&

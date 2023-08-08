@@ -43,8 +43,8 @@ bool SpringFeature::place(Level* level, Random* random, int x, int y, int z)
 
     level->setTile(x, y, z, m_ID);
 
-    level->field_10 = true;
+    level->m_bInstantTicking = true;
     Tile::tiles[m_ID]->tick(level, x, y, z, random);
-    level->field_10 = false;
+    level->m_bInstantTicking = false;
     return true;
 }

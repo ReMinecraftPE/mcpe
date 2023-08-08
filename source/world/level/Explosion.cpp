@@ -46,7 +46,7 @@ void Explosion::explode()
 				rayY /= length;
 				rayZ /= length;
 
-				float mult = m_power * (0.7f + 0.6f * m_pLevel->field_38.nextFloat());
+				float mult = m_power * (0.7f + 0.6f * m_pLevel->m_random.nextFloat());
 
 				float posX = m_pos.x;
 				float posY = m_pos.y;
@@ -134,7 +134,7 @@ void Explosion::explode()
 
 void Explosion::addParticles()
 {
-	m_pLevel->playSound(m_pos.x, m_pos.y, m_pos.z, "random.explode", 4.0f, 0.7f * (1.0f + 0.2f * (m_pLevel->field_38.nextFloat() - m_pLevel->field_38.nextFloat())));
+	m_pLevel->playSound(m_pos.x, m_pos.y, m_pos.z, "random.explode", 4.0f, 0.7f * (1.0f + 0.2f * (m_pLevel->m_random.nextFloat() - m_pLevel->m_random.nextFloat())));
 
 	std::vector<TilePos> vec;
 	vec.insert(vec.begin(), m_tiles.begin(), m_tiles.end());
@@ -148,9 +148,9 @@ void Explosion::addParticles()
 		if ((i & 0x7) == 0)
 		{
 			float x2, y2, z2, vx, vy, vz, mult;
-			x2 = float(tp.x) + m_pLevel->field_38.nextFloat();
-			y2 = float(tp.y) + m_pLevel->field_38.nextFloat();
-			z2 = float(tp.z) + m_pLevel->field_38.nextFloat();
+			x2 = float(tp.x) + m_pLevel->m_random.nextFloat();
+			y2 = float(tp.y) + m_pLevel->m_random.nextFloat();
+			z2 = float(tp.z) + m_pLevel->m_random.nextFloat();
 
 			float dX, dY, dZ;
 			dX = x2 - m_pos.x;
@@ -166,7 +166,7 @@ void Explosion::addParticles()
 			// @HUH: Dividing by the inverse is the same as multiplying. Thanks, IDA! :)
 			float power1 = m_power / (1.0f / dist) + 0.1f;
 
-			mult = ((m_pLevel->field_38.nextFloat() * m_pLevel->field_38.nextFloat()) + 0.3f) * (0.5f / power1);
+			mult = ((m_pLevel->m_random.nextFloat() * m_pLevel->m_random.nextFloat()) + 0.3f) * (0.5f / power1);
 
 			m_pLevel->addParticle("explode", (x2 + m_pos.x) / 2, (y2 + m_pos.y) / 2, (z2 + m_pos.z) / 2, vx * mult, vy * mult, vz * mult);
 			m_pLevel->addParticle("smoke", x2, y2, z2, vx * mult, vy * mult, vz * mult);

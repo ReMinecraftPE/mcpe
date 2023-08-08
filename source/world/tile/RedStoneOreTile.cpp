@@ -35,9 +35,9 @@ int RedStoneOreTile::poofParticles(Level* level, int x, int y, int z)
 {
 	for (int i = 0; i < 6; i++)
 	{
-		float xo = float(x) + level->field_38.nextFloat();
-		float yo = float(y) + level->field_38.nextFloat();
-		float zo = float(z) + level->field_38.nextFloat();
+		float xo = float(x) + level->m_random.nextFloat();
+		float yo = float(y) + level->m_random.nextFloat();
+		float zo = float(z) + level->m_random.nextFloat();
 
 		switch (i)
 		{

@@ -664,14 +664,14 @@ void Entity::baseTick()
 		field_C0 = 0;
 		m_distanceFallen = 0;
 
-		if (m_pLevel->field_11)
+		if (m_pLevel->m_bIsMultiplayer)
 			goto label_4;
 	}
 	else
 	{
 		field_D4 = false;
 
-		if (m_pLevel->field_11)
+		if (m_pLevel->m_bIsMultiplayer)
 		{
 		label_4:
 			field_C0 = 0;

@@ -308,10 +308,10 @@ bool Mob::isAlive()
 
 bool Mob::hurt(Entity *pAttacker, int damage)
 {
-	if (m_pLevel->field_11)
+	if (m_pLevel->m_bIsMultiplayer)
 		return false;
 
-	field_AFC = m_pLevel->field_11;
+	field_AFC = m_pLevel->m_bIsMultiplayer;
 
 	if (m_health <= 0)
 		return false;
@@ -540,7 +540,7 @@ void Mob::die(Entity* pCulprit)
 
 	field_B69 = true;
 
-	if (!m_pLevel->field_11)
+	if (!m_pLevel->m_bIsMultiplayer)
 		dropDeathLoot();
 }
 

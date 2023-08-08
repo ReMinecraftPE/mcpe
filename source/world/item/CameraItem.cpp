@@ -19,7 +19,7 @@ ItemInstance* CameraItem::use(ItemInstance* inst, Level* level, Player* player)
 {
 #ifndef ORIGINAL_CODE
 	// prevent players from using this in multiplayer, to prevent a desync of entity IDs
-	if (level->field_11)
+	if (level->m_bIsMultiplayer)
 		return inst;
 #endif
 

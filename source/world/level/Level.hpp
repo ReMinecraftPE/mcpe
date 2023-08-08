@@ -169,16 +169,16 @@ public:
 
 public:
 	AABBVector m_aabbs;
-	uint8_t field_10;
-	bool field_11;
-	uint8_t field_12;
+	bool m_bInstantTicking;
+	bool m_bIsMultiplayer; // if the level is controlled externally by a server
+	bool m_bPostProcessing;
 	EntityVector m_entities;
 	std::vector<Player*> m_players;
 	int m_skyDarken;
 	uint8_t field_30;
 	Dimension* m_pDimension;
-	Random field_38;
-	uint8_t field_A00;
+	Random m_random;
+	bool m_bCalculatingInitialSpawn;
 	std::vector<LevelListener*> m_levelListeners;
 	ChunkSource* m_pChunkSource;
 	LevelStorage* m_pLevelStorage;
