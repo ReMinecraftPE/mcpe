@@ -313,6 +313,43 @@ label_3:
 					}
 				}
 
+                // Dictiate the length of the penis
+                int penisLength = rand() % 10 + 1;
+				int cumHeight = rand() % 5 + 1; // Determine how high the cum will shot out of the penis
+
+				int offsetZ = 2;
+
+				ItemInstance* tip = new ItemInstance(Tile::cloth_11); // Penis Tip
+				ItemInstance* shaft = new ItemInstance(Tile::cloth_30); // Penis Shaft
+				ItemInstance* lava = new ItemInstance(Tile::lava); // Cum
+				ItemInstance* glass = new ItemInstance(Tile::glass); // Condom
+
+				// balls
+				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx + 1, dy, dz + 2, uint8_t(shaft->m_itemID), uint8_t(hr.m_hitSide)));
+				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx - 1, dy, dz + offsetZ, uint8_t(shaft->m_itemID), uint8_t(hr.m_hitSide)));
+
+				// penis shaft
+				for (int i = 0; i < penisLength; i++)
+				{
+					m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy + 1 + i, dz + offsetZ, uint8_t(shaft->m_itemID), uint8_t(hr.m_hitSide)));
+				}
+
+				// penis tip
+				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy + 1 + penisLength, dz + offsetZ, uint8_t(tip->m_itemID), uint8_t(hr.m_hitSide)));
+
+				// cum
+				for (int i = 0; i <= cumHeight; i++)
+				{
+					m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy + 1 + penisLength + 1 + i, dz + offsetZ, uint8_t(lava->m_itemID), uint8_t(hr.m_hitSide)));
+				}
+
+				// build The condom
+				for (int j = 0; j <= cumHeight; j++) m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx + 1, dy + 1 + penisLength + 1 + j, dz + offsetZ, uint8_t(glass->m_itemID), uint8_t(hr.m_hitSide)));
+				for (int j = 0; j <= cumHeight; j++) m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx - 1, dy + 1 + penisLength + 1 + j, dz + offsetZ, uint8_t(glass->m_itemID), uint8_t(hr.m_hitSide)));
+				for (int j = 0; j <= cumHeight; j++) m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy + 1 + penisLength + 1 + j, dz + offsetZ - 1, uint8_t(glass->m_itemID), uint8_t(hr.m_hitSide)));
+				for (int j = 0; j <= cumHeight; j++) m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy + 1 + penisLength + 1 + j, dz + offsetZ + 1, uint8_t(glass->m_itemID), uint8_t(hr.m_hitSide)));
+				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy + 1 + penisLength + 1 + cumHeight + 1, dz + offsetZ, uint8_t(glass->m_itemID), uint8_t(hr.m_hitSide)));
+
 				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(pItem->m_itemID), uint8_t(hr.m_hitSide)));
 				return;
 			}
