@@ -143,16 +143,16 @@ static void calulate_gui_scale()
 	{
 		if (width < 400)
 		{
-			Gui::InvGuiScale = 1.0;
+			Gui::InvGuiScale = 1.0f;
 		}
 		else
 		{
-			Gui::InvGuiScale = 0.5;
+			Gui::InvGuiScale = 0.5f;
 		}
 	}
 	else
 	{
-		Gui::InvGuiScale = 0.25;
+		Gui::InvGuiScale = 0.25f;
 	}
 }
 

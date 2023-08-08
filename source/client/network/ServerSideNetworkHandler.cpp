@@ -53,8 +53,7 @@ void ServerSideNetworkHandler::levelGenerated(Level* level)
 
 	allowIncomingConnections(m_pMinecraft->m_options.m_bServerVisibleDefault);
 
-	m_onlinePlayers.insert_or_assign(m_pMinecraft->m_pLocalPlayer->m_guid,
-		new OnlinePlayer(m_pMinecraft->m_pLocalPlayer, m_pMinecraft->m_pLocalPlayer->m_guid));
+	m_onlinePlayers[m_pMinecraft->m_pLocalPlayer->m_guid] = new OnlinePlayer(m_pMinecraft->m_pLocalPlayer, m_pMinecraft->m_pLocalPlayer->m_guid);
 }
 
 void ServerSideNetworkHandler::onNewClient(const RakNet::RakNetGUID& guid)
@@ -105,7 +104,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	pPlayer->m_guid = guid;
 	pPlayer->m_name = std::string(packet->m_str.C_String());
 
-	m_onlinePlayers.insert_or_assign(guid, new OnlinePlayer(pPlayer, guid));
+	m_onlinePlayers[guid] = new OnlinePlayer(pPlayer, guid);
 
 	StartGamePacket sgp;
 	sgp.field_4 = m_pLevel->getSeed();
