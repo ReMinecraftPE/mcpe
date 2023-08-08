@@ -100,7 +100,7 @@ The original Minecraft: Pocket Edition had some missing details that make it fee
 * (`ENH_USE_GUI_SCALE_2`) Use a GUI scale of 2 instead of 3 which looks better on PC (temporary)
 * (`ENH_ALLOW_SCROLL_WHEEL`) Allow use of the scroll wheel to change selected inventory slots
 
-They can be turned on/off in `GameMods.hpp`. All enhancements are enabled by default unless explicitly disabled or `ORIGINAL_CODE` is defined.
+Some of them can be turned on/off in `GameMods.hpp`, but the enhancement system is being phased out.
 
 ### Known bugs with enhancements
 1. The camera's white overlay is fully opaque in shaded entity mode.
@@ -108,6 +108,6 @@ They can be turned on/off in `GameMods.hpp`. All enhancements are enabled by def
 ## Mods
 In addition to enhancements, optional modifications to the base game were made. These mods are disabled by default but can be enabled in `GameMods.hpp`.
 
-* (`MOD_USE_FLAT_WORLD`) Use a flat world instead of regular world generation
+* (`MOD_USE_FLAT_WORLD`) Use a flat world instead of regular world generation (probably broken)
 * (`MOD_USE_BIGGER_SCREEN_SIZE`) Use a bigger screen size of 1280x720 instead of 854x480
 * (`MOD_DONT_COLOR_GRASS`) Don't tint the top of grass tiles with a different color (like Classic)
