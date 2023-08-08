@@ -60,7 +60,7 @@ void SoundEngine::init(Options* options)
 
 void SoundEngine::play(const std::string& name)
 {
-	if (m_pOptions->m_flMasterVolume == 0.0f)
+	if (m_pOptions->m_fMasterVolume == 0.0f)
 		return;
 
 	SoundDesc sd;
@@ -72,7 +72,7 @@ void SoundEngine::play(const std::string& name)
 
 void SoundEngine::play(const std::string& name, float x, float y, float z, float volume, float pitch)
 {
-	if (m_pOptions->m_flMasterVolume == 0.0f || volume <= 0.0f)
+	if (m_pOptions->m_fMasterVolume == 0.0f || volume <= 0.0f)
 		return;
 
 	SoundDesc sd;

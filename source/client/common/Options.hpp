@@ -84,7 +84,7 @@ public:
 
 public:
 	float field_0;
-	float m_flMasterVolume;
+	float m_fMasterVolume;
 	float field_8;
 	bool m_bInvertMouse;
 	int m_iViewDistance;

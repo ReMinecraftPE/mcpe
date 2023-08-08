@@ -34,7 +34,7 @@ void Options::initDefaultValues()
 	m_iPerspective = 0;
 	field_0   = 1.0f;
 	field_23E = 0;
-	m_flMasterVolume = 1.0f;
+	m_fMasterVolume = 1.0f;
 	m_bFlyCheat = false;
 	field_241 = 0;
 	field_8   = 0.5f;
