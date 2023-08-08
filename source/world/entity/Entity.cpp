@@ -70,7 +70,6 @@ Entity::Entity(Level* pLevel)
 
 Entity::~Entity()
 {
-	releaseEntityId(m_EntityID);
 }
 
 void Entity::setLevel(Level* pLvl)
@@ -1082,8 +1081,6 @@ int Entity::allocateEntityId()
 	// will actually remove the old entity with the same ID.
 	while (s_EntityIDs.find(id) != s_EntityIDs.end())
 		id++;
-
-	s_EntityIDs.insert(id);
 
 	return id;
 }
