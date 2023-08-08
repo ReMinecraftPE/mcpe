@@ -31,7 +31,7 @@ void Options::initDefaultValues()
 	field_244 = 1.0f;
 	field_23C = 0;
 	field_248 = 1.0f;
-	m_iPerspective = 0;
+	m_bThirdPerson = false;
 	field_0   = 1.0f;
 	field_23E = 0;
 	m_fMasterVolume = 1.0f;

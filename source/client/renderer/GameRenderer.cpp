@@ -127,7 +127,7 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
 
-	if (m_pMinecraft->m_options.m_iPerspective == 1)
+	if (m_pMinecraft->m_options.m_bThirdPerson)
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
 		if (m_pMinecraft->m_options.field_241)
@@ -681,12 +681,12 @@ void GameRenderer::renderItemInHand(float f, int i)
 	if (m_pMinecraft->m_options.m_bViewBobbing)
 		bobView(f);
 
-	if (m_pMinecraft->m_options.m_iPerspective == 0 && !m_pMinecraft->m_options.field_23C)
+	if (!m_pMinecraft->m_options.m_bThirdPerson && !m_pMinecraft->m_options.field_23C)
 		m_pItemInHandRenderer->render(f);
 
 	glPopMatrix();
 
-	if (m_pMinecraft->m_options.m_iPerspective == 0)
+	if (!m_pMinecraft->m_options.m_bThirdPerson)
 	{
 		m_pItemInHandRenderer->renderScreenEffect(f);
 		bobHurt(f);

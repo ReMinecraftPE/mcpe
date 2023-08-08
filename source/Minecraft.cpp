@@ -452,10 +452,7 @@ void Minecraft::tickInput()
 			}
 			else if (keyCode == AKEYCODE_SEARCH)
 			{
-				m_options.m_iPerspective++;
-				// If the perspective goes over the max loop back
-				if (m_options.m_iPerspective > 1) 
-					m_options.m_iPerspective = 0;
+				m_options.m_bThirdPerson = !m_options.m_bThirdPerson;
 			}
 			else if (keyCode == AKEYCODE_MENU)
 			{

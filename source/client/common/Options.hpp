@@ -99,7 +99,7 @@ public:
 
 	int field_238;
 	uint8_t field_23C;
-	uint8_t m_iPerspective;
+	bool m_bThirdPerson;
 	uint8_t field_23E;
 	bool m_bFlyCheat;
 	uint8_t field_240;
