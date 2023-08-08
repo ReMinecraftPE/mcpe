@@ -1095,19 +1095,19 @@ void Tile::spawnResources(Level* pLevel, int x, int y, int z, int data, float fC
 		return;
 
 #ifdef TEST_SURVIVAL_MODE
-	int count = getResourceCount(&pLevel->field_38);
+	int count = getResourceCount(&pLevel->m_random);
 	for (int i = 0; i < count; i++)
 	{
-		if (pLevel->field_38.nextFloat() > fChance)
+		if (pLevel->m_random.nextFloat() > fChance)
 			continue;
 
-		int id = getResource(data, &pLevel->field_38);
+		int id = getResource(data, &pLevel->m_random);
 		if (id <= 0)
 			continue;
 
-		float xo = (pLevel->field_38.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
-		float yo = (pLevel->field_38.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
-		float zo = (pLevel->field_38.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
+		float xo = (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
+		float yo = (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
+		float zo = (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
 
 		ItemInstance inst(id, 1, getSpawnResourcesAuxValue(data));
 		ItemEntity* pEntity = new ItemEntity(pLevel, float(x) + xo, float(y) + yo, float(z) + zo, &inst);

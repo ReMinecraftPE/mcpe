@@ -27,6 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\GameMods.hpp" />
     <ClInclude Include="..\platforms\openal\SoundSystemAL.hpp" />
     <ClInclude Include="..\platforms\PlatformDefinitions.hpp" />
     <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp" />
