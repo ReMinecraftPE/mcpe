@@ -30,7 +30,6 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 
 	ItemInstance inst(itemID, 1, 0);
 	glPushMatrix();
-
 	m_pHumanoidModel->m_armL.translateTo(0.0625f);
 	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
 	if (itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()))
@@ -63,14 +62,6 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 void HumanoidMobRenderer::onGraphicsReset()
 {
 	m_pHumanoidModel->onGraphicsReset();
-}
-
-void HumanoidMobRenderer::renderName(Mob* mob, float x, float y, float z)
-{
-	if (!mob->isPlayer()) return;
-	Player* player = (Player*)mob;
-
-	renderNameTag(player, player->m_name, x, y, z, player->isSneaking() ? 32 : 64);
 }
 
 void HumanoidMobRenderer::renderHand()

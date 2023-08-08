@@ -81,9 +81,6 @@ bool SandTile::isFree(Level* level, int x, int y, int z)
 
 void SandTile::tick(Level* level, int x, int y, int z, Random* random)
 {
-	if (level->field_11)
-		return;
-
 	checkSlide(level, x, y, z);
 }
 
