@@ -15,10 +15,10 @@ LavaSideTexture::LavaSideTexture() : DynamicTexture(Tile::lava->m_TextureFrame +
 	field_18 = 0;
 	field_1C = 0;
 
-	m_data1 = new float[0x400];
-	m_data2 = new float[0x400];
-	m_data3 = new float[0x400];
-	m_data4 = new float[0x400];
+	m_data1 = new float[256];
+	m_data2 = new float[256];
+	m_data3 = new float[256];
+	m_data4 = new float[256];
 	m_textureSize = 2;
 
 	for (int i = 0; i < 256; i++)

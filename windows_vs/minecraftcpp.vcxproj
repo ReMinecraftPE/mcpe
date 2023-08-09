@@ -415,6 +415,7 @@
     <ClCompile Include="..\source\client\renderer\entity\MobRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\entity\TntRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\entity\TripodCameraRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\FireTexture.cpp" />
     <ClCompile Include="..\source\client\renderer\Font.cpp" />
     <ClCompile Include="..\source\client\renderer\Frustum.cpp" />
     <ClCompile Include="..\source\client\renderer\FrustumCuller.cpp" />

@@ -14,10 +14,10 @@ WaterTexture::WaterTexture() : DynamicTexture(Tile::water->m_TextureFrame)
 	field_40C = 0;
 	field_410 = 0;
 
-	m_data1 = new float[0x400];
-	m_data2 = new float[0x400];
-	m_data3 = new float[0x400];
-	m_data4 = new float[0x400];
+	m_data1 = new float[256];
+	m_data2 = new float[256];
+	m_data3 = new float[256];
+	m_data4 = new float[256];
 
 	for (int i = 0; i < 256; i++)
 	{

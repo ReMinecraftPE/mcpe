@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Textures.hpp"
+#include "client/common/Random.hpp"
 class Textures; // in case we are being included from Textures. We don't need a complete type
 
 // Essentially, the way these work is by patching themselves into terrain.png with a
@@ -99,4 +100,18 @@ public:
 	float* m_data2;
 	float* m_data3;
 	float* m_data4;
+};
+
+class FireTexture : public DynamicTexture
+{
+public:
+	FireTexture(int);
+	~FireTexture();
+
+	void tick() override;
+
+public:
+	float* m_data1;
+	float* m_data2;
+	Random m_random;
 };
