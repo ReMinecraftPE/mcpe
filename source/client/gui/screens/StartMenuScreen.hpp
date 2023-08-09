@@ -22,6 +22,8 @@ public:
 	void render(int, int, float) override;
 	void tick() override;
 
+	std::string getSplashString();
+
 private:
 	Button m_startButton;
 	Button m_joinButton;
@@ -33,6 +35,6 @@ private:
 	std::string field_170;
 	int field_188;
 
-	//TextInputBox m_testBox;
+	int m_chosenSplash;
 };
 
