@@ -420,6 +420,7 @@
     <ClCompile Include="..\source\client\renderer\FrustumCuller.cpp" />
     <ClCompile Include="..\source\client\renderer\GameRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\ItemInHandRenderer.cpp" />
+    <ClCompile Include="..\source\client\renderer\LavaSideTexture.cpp" />
     <ClCompile Include="..\source\client\renderer\LavaTexture.cpp" />
     <ClCompile Include="..\source\client\renderer\LevelRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\LightLayer.cpp" />
