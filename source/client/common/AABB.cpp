@@ -31,10 +31,10 @@ HitResult AABB::clip(const Vec3& vec1, const Vec3& vec2)
 
 	bClipMinX = vec1.clipX(vec2, min.x, clipMinX);
 	bClipMaxX = vec1.clipX(vec2, max.x, clipMaxX);
-	bClipMinY = vec1.clipX(vec2, min.y, clipMinY);
-	bClipMaxY = vec1.clipX(vec2, max.y, clipMaxY);
-	bClipMinZ = vec1.clipX(vec2, min.z, clipMinZ);
-	bClipMaxZ = vec1.clipX(vec2, max.z, clipMaxZ);
+	bClipMinY = vec1.clipY(vec2, min.y, clipMinY);
+	bClipMaxY = vec1.clipY(vec2, max.y, clipMaxY);
+	bClipMinZ = vec1.clipZ(vec2, min.z, clipMinZ);
+	bClipMaxZ = vec1.clipZ(vec2, max.z, clipMaxZ);
 
 	// <sigh>
 	if (bClipMinX)
