@@ -138,14 +138,18 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	{
 		return;
 	}
-  
+
 	//Release sounds that finished playing
 	for (size_t i = 0; i < m_buffers.size(); i++)
 	{
 		DWORD status;
-		m_buffers[i]->GetStatus(&status);
+		m_buffers[i].buffer->GetStatus(&status);
 		if (status != DSBSTATUS_PLAYING) {
-			m_buffers[i]->Release();
+			m_buffers[i].buffer->Release();
+			if (m_buffers[i].object3d != NULL)
+			{
+				m_buffers[i].object3d->Release();
+			}
 			m_buffers.erase(m_buffers.begin() + i);
 			i--;
 		}
@@ -225,7 +229,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		//return false;
 	}
 
-	// Copy the wave data into the buffer.
+	//Move the wave data into the buffer.
 	memcpy(bufferPtr, sound.m_pData, length);
 
 	// Unlock the secondary buffer after the data has been written to it.
@@ -259,6 +263,10 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	}
 	soundbuffer->SetVolume(LONG(attenuation));
 
+	BufferInfo info;
+	info.buffer = soundbuffer;
+	info.object3d = NULL;
+
 	//Check if position is not 0,0,0 and for mono to play 3D sound
 	if (!is2D && sound.m_pHeader->m_channels == 1) 
 	{
@@ -280,8 +288,11 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		//Im not really sure what values original MCPE would use.
 		object3d->SetMinDistance(2.f, DS3D_IMMEDIATE); 
 		object3d->SetMaxDistance(100.f, DS3D_IMMEDIATE);
+
+		info.object3d = object3d;
 	}
 
 	soundbuffer->Play(0, 0, 0);
-	m_buffers.push_back(soundbuffer);
+
+	m_buffers.push_back(info);
 }

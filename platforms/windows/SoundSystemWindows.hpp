@@ -37,8 +37,15 @@ public:
 	virtual void stop(const std::string& sound);
 	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float a, float b);
 private:
+
+	struct BufferInfo
+	{
+		LPDIRECTSOUNDBUFFER buffer;
+		LPDIRECTSOUND3DBUFFER8 object3d;
+	};
+
 	bool m_available;
 	IDirectSound8* m_directsound;
 	LPDIRECTSOUND3DLISTENER8 m_listener;
-	std::vector<LPDIRECTSOUNDBUFFER> m_buffers;
+	std::vector<BufferInfo> m_buffers;
 };
