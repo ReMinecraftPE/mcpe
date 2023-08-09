@@ -147,6 +147,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		if (status != DSBSTATUS_PLAYING) {
 			m_buffers[i]->Release();
 			m_buffers.erase(m_buffers.begin() + i);
+			i--;
 		}
 	}
 
