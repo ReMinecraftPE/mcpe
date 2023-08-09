@@ -134,7 +134,7 @@ void LevelRenderer::allChanged()
 	pLeaves->m_bTransparent = m_pMinecraft->m_options.m_bFancyGraphics;
 	pLeaves->m_TextureFrame = !pLeaves->m_bTransparent + pLeaves->field_74;
 
-	field_BC = m_pMinecraft->m_options.field_10;
+	field_BC = m_pMinecraft->m_options.m_iViewDistance;
 
 	int x1 = 64 << (3 - field_BC);
 	if (x1 >= 400)
@@ -489,7 +489,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		field_88.push_back(pChunk);
 	}
 
-	if (m_pMinecraft->m_options.field_10 != field_BC)
+	if (m_pMinecraft->m_options.m_iViewDistance != field_BC)
 		allChanged();
 
 	if (!a)
@@ -1022,7 +1022,7 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 		if (!culler->isVisible(pEnt->m_hitbox))
 			continue;
 
-		if (m_pMinecraft->m_pMobPersp == pEnt && !m_pMinecraft->m_options.field_23D) // @NOTE: third person ?
+		if (m_pMinecraft->m_pMobPersp == pEnt && !m_pMinecraft->m_options.m_bThirdPerson)
 			continue;
 
 		if (m_pLevel->hasChunkAt(Mth::floor(pEnt->m_pos.x), Mth::floor(pEnt->m_pos.y), Mth::floor(pEnt->m_pos.z)))
@@ -1039,7 +1039,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
 	Mob* pOldMob = m_pMinecraft->m_pMobPersp;
 	bool bOldField23C = m_pMinecraft->m_options.field_23C;
-	bool bOldField23D = m_pMinecraft->m_options.field_23D;
+	bool bOldThirdPerson = m_pMinecraft->m_options.m_bThirdPerson;
 
 #ifdef ENH_CAMERA_NO_PARTICLES
 	extern bool g_bDisableParticles;
@@ -1048,11 +1048,11 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 
 	m_pMinecraft->m_pMobPersp = pCamera;
 	m_pMinecraft->m_options.field_23C = true;
-	m_pMinecraft->m_options.field_23D = false; // really from the perspective of the camera
+	m_pMinecraft->m_options.m_bThirdPerson = false; // really from the perspective of the camera
 	m_pMinecraft->m_pGameRenderer->render(0.0f);
 	m_pMinecraft->m_pMobPersp = pOldMob;
 	m_pMinecraft->m_options.field_23C = bOldField23C;
-	m_pMinecraft->m_options.field_23D = bOldField23D;
+	m_pMinecraft->m_options.m_bThirdPerson = bOldThirdPerson;
 
 #ifdef ENH_CAMERA_NO_PARTICLES
 	g_bDisableParticles = false;

@@ -21,7 +21,7 @@ public:
 	SoundEngine();
 	void init(Options*);
 	void play(const std::string& name);
-	void play(const std::string& name, float, float, float, float, float);
+	void play(const std::string& name, float x, float y, float z, float volume, float pitch);
 
 public:
 	SOUND_SYSTEM_TYPE m_soundSystem;

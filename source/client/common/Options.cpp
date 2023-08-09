@@ -31,10 +31,10 @@ void Options::initDefaultValues()
 	field_244 = 1.0f;
 	field_23C = 0;
 	field_248 = 1.0f;
-	field_23D = 0; // @NOTE: third person?
+	m_bThirdPerson = false;
 	field_0   = 1.0f;
 	field_23E = 0;
-	field_4   = 1.0f;
+	m_fMasterVolume = 1.0f;
 	m_bFlyCheat = false;
 	field_241 = 0;
 	field_8   = 0.5f;
@@ -42,14 +42,10 @@ void Options::initDefaultValues()
 	m_bInvertMouse = false;
 	m_bAnaglyphs = false;
 	field_16  = 0;
-#ifdef ORIGINAL_CODE
-	field_18  = 0;
-#else
-	field_18  = Minecraft::useAmbientOcclusion;
-#endif
+	m_bAmbientOcclusion = Minecraft::useAmbientOcclusion;
 	field_240 = 1;
-	field_10  = 2;
-	field_14  = 1;
+	m_iViewDistance = 2;
+	m_bViewBobbing  = 1;
 	m_bAutoJump = true;
 	m_bFancyGraphics = true;
 	field_19  = 1;
@@ -173,9 +169,9 @@ void Options::update(const std::vector<std::string>& strings)
 		else if (key == "mp_server_visible_default")
 			m_bServerVisibleDefault = readBool(value);
 		else if (key == "gfx_smoothlighting")
-			Minecraft::useAmbientOcclusion = field_18 = readBool(value);
+			Minecraft::useAmbientOcclusion = m_bAmbientOcclusion = readBool(value);
 		else if (key == "gfx_viewdistance")
-			field_10 = readInt(value);
+			m_iViewDistance = readInt(value);
 	}
 }
 
@@ -190,8 +186,8 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("ctrl_autojump",             saveBool(m_bAutoJump));
 	SO("gfx_fancygraphics",         saveBool(m_bFancyGraphics));
 	SO("mp_server_visible_default", saveBool(m_bServerVisibleDefault));
-	SO("gfx_smoothlighting",        saveBool(field_18));
-	SO("gfx_viewdistance",          saveInt (field_10));
+	SO("gfx_smoothlighting",        saveBool(m_bAmbientOcclusion));
+	SO("gfx_viewdistance",          saveInt (m_iViewDistance));
 
 	return vec;
 }
