@@ -1964,6 +1964,9 @@
     <ClCompile Include="..\source\client\renderer\LavaSideTexture.cpp">
       <Filter>source\client\renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\client\renderer\FireTexture.cpp">
+      <Filter>source\client\renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\thirdparty\raknet\CMakeLists.txt">
