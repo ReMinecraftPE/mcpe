@@ -279,7 +279,6 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 	}
 
 	pPlayer->m_pInventory->selectItemById(packet->m_itemID);
-	pPlayer->m_pInventory->selectSlot(0);
 
 	redistributePacket(packet, guid);
 }
