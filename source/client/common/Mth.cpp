@@ -75,6 +75,19 @@ float Mth::sqrt(float a2)
 	return sqrtf(a2);
 }
 
+// ported from 0.6.1
+unsigned Mth::fastRandom()
+{
+	int x0;
+	static int  x1, x2, x3, x4;
+
+	x0 = x1;
+	x1 = x2;
+	x2 = x3;
+	x3 = x4;
+	return(x4 = x4 ^ (unsigned(x4) >> 19) ^ x0 ^ (x0 << 11) ^ ((x0 ^ unsigned(x0 << 11)) >> 8));
+}
+
 int Mth::floor(float f)
 {
 	int result = int(f);

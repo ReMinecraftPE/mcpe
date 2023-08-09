@@ -65,3 +65,20 @@ public:
 	float* m_data3;
 	float* m_data4;
 };
+
+class LavaTexture : public DynamicTexture
+{
+public:
+	LavaTexture();
+	~LavaTexture();
+
+	void tick() override;
+
+public:
+	int field_14;
+	int field_18;
+	float* m_data1;
+	float* m_data2;
+	float* m_data3;
+	float* m_data4;
+};

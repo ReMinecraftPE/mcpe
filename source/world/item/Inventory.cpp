@@ -58,6 +58,7 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Tile::cloth->m_ID);
 	addCreativeItem(Tile::mossStone->m_ID);
 	addCreativeItem(Tile::bookshelf->m_ID);
+	addCreativeItem(Tile::lapisBlock->m_ID);
 	addCreativeItem(Tile::sponge->m_ID);
 	addCreativeItem(Tile::sapling->m_ID);
 	addCreativeItem(Tile::water->m_ID);

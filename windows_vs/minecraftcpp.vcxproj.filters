@@ -1958,6 +1958,9 @@
     <ClCompile Include="..\platforms\openal\SoundSystemAL.cpp">
       <Filter>source\platforms\openal</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\client\renderer\LavaTexture.cpp">
+      <Filter>source\client\renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\thirdparty\raknet\CMakeLists.txt">

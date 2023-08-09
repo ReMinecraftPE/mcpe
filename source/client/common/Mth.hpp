@@ -36,5 +36,6 @@ public:
 	static float random(void);
 	static float sin(float);
 	static float sqrt(float);
+	static unsigned fastRandom();
 };
 

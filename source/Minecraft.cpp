@@ -667,6 +667,7 @@ void Minecraft::init()
 	m_pTextures = new Textures(&m_options, platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
+	m_pTextures->addDynamicTexture(new LavaTexture);
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
