@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 
+# Don't actually ignore our user config - it contains the working directory
+!/windows_vs/minecraftcpp.vcxproj.user
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -376,15 +379,33 @@ FodyWeavers.xsd
 # Ignore sound data extracted from the game.
 /sound_data
 
-/windows_vs/games/com.mojang
-/windows_vs/assets
-/windows_vs/assetsO
-/assets
-/games
+# Ignore linux build artifacts.
+/build
 
+# Ignore wasm build artifacts.
 /wasm
 
-/assets/
-/games/
-/options.txt
-/windows_vs/options.txt
+#-- The 'game' directory is the default working directory for Minecraft PE if running from VS directly.
+
+# Ignore original Minecraft PE assets.
+/game/assets/font/default.png
+/game/assets/gui/background.png
+/game/assets/gui/default_world.png
+/game/assets/gui/gui.png
+/game/assets/gui/gui_blocks.png
+/game/assets/gui/icons.png
+/game/assets/gui/items.png
+/game/assets/gui/title.png
+/game/assets/item/camera.png
+/game/assets/mob/char.png
+/game/assets/particles.png
+/game/assets/terrain.png
+
+# Ignore keep directory - where you can keep files for later use
+/keep
+
+# Ignore the games directory - where levels will be saved
+/game/games
+
+# Ignore options.txt - where your configuration will be saved
+/game/options.txt
