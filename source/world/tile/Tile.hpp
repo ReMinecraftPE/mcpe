@@ -299,6 +299,7 @@ public:
 
 	int getResource(int, Random*) override;
 	int getColor(LevelSource*, int x, int y, int z) override;
+	int getTexture(int dir) override;
 	int getTexture(LevelSource*, int x, int y, int z, int dir) override;
 	void tick(Level*, int x, int y, int z, Random*) override;
 };

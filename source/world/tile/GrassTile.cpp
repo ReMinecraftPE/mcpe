@@ -28,6 +28,15 @@ int GrassTile::getResource(int i, Random* random)
 	return Tile::dirt->getResource(i, random);
 }
 
+int GrassTile::getTexture(int dir)
+{
+	if (dir == DIR_YPOS)
+		return TEXTURE_GRASS_TOP;
+
+	// no one will notice that I omitted the bottom one. Like grass_carried in MCPE
+	return TEXTURE_GRASS_SIDE;
+}
+
 int GrassTile::getTexture(LevelSource* level, int x, int y, int z, int dir)
 {
 	if (dir == DIR_YPOS)

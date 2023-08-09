@@ -2322,19 +2322,38 @@ LABEL_102:
 	return result;
 }
 
+// this is very hacky
 #ifdef ENH_SHADE_HELD_TILES
 
-#define SHADE_PREPARE \
-	float red = bright, grn = bright, blu = bright; \
+#ifdef MOD_DONT_COLOR_GRASS
+#	define SHADE_IS_DECOLOR_GRASS_DEFINED true
+#else
+#	define SHADE_IS_DECOLOR_GRASS_DEFINED false
+#endif
+
+#define SHADE_DEFINE float red = 1, grn = 1, blu = 1
+
+#define SHADE_PREPARE do { \
+	red = bright, grn = bright, blu = bright; \
 	if (tile->m_ID == Tile::leaves->m_ID)           \
-		red *= 0.35f, grn *= 0.65f, blu *= 0.25f;
+		red *= 0.35f, grn *= 0.65f, blu *= 0.25f;   \
+	if (!SHADE_IS_DECOLOR_GRASS_DEFINED && tile->m_ID == Tile::grass->m_ID) \
+		red *= 0.25f, grn *= 0.60f, blu *= 0.25f;   \
+} while (0)
 
 #define SHADE_IF_NEEDED(col) t.color(col*red,col*grn,col*blu,1.0f)
 
+#define SHADE_FIXUP_GRASS do {  \
+	if (tile->m_ID == Tile::grass->m_ID)          \
+		red = bright, grn = bright, blu = bright; \
+} while (0)
+
 #else
 
-#define SHADE_PREPARE ;
-#define SHADE_IF_NEEDED(col) ;
+#define SHADE_DEFINE           0
+#define SHADE_PREPARE          0
+#define SHADE_IF_NEEDED(col)   0
+#define SHADE_FIXUP_GRASS(col) 0
 
 #endif
 
@@ -2353,11 +2372,13 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 	{
 		glTranslatef(-0.5f, -0.5f, -0.5f);
 		t.begin();
+		SHADE_DEFINE;
 		SHADE_PREPARE;
-		SHADE_IF_NEEDED(0.5f);
-		renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
 		SHADE_IF_NEEDED(1.0f);
 		renderFaceDown(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YPOS, data));
+		SHADE_FIXUP_GRASS;
+		SHADE_IF_NEEDED(0.5f);
+		renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
 		SHADE_IF_NEEDED(0.8f);
 		renderNorth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data));
 		renderSouth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data));
@@ -2413,6 +2434,7 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 
 
 			t.begin();
+			SHADE_DEFINE;
 			SHADE_PREPARE;
 			SHADE_IF_NEEDED(0.5f);
 			renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));

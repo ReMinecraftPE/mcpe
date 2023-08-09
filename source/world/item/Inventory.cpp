@@ -17,6 +17,7 @@ void Inventory::prepareCreativeInventory()
 
 	m_items.clear();
 
+	// Original list of items.
 	addCreativeItem(Tile::rock->m_ID);
 	addCreativeItem(Tile::stoneBrick->m_ID);
 	addCreativeItem(Tile::sandStone->m_ID);
@@ -53,6 +54,9 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Tile::reeds->m_ID);
 	addCreativeItem(Tile::obsidian->m_ID);
 	addCreativeItem(Tile::dirt->m_ID);
+
+	// New items that weren't in the inventory before.
+	addCreativeItem(Tile::grass->m_ID);
 	addCreativeItem(Tile::tnt->m_ID);
 	addCreativeItem(Tile::gravel->m_ID);
 	addCreativeItem(Tile::cloth->m_ID);
