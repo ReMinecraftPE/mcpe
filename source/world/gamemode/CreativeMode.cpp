@@ -18,6 +18,7 @@ CreativeMode::CreativeMode(Minecraft* pMC) : GameMode(pMC),
 void CreativeMode::initPlayer(Player* p)
 {
 	p->m_yaw = -180.0f;
+	p->m_pInventory->prepareCreativeInventory();
 }
 
 void CreativeMode::startDestroyBlock(int x, int y, int z, int i)

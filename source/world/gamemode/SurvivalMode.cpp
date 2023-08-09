@@ -18,6 +18,7 @@ SurvivalMode::SurvivalMode(Minecraft* pMC) : GameMode(pMC),
 void SurvivalMode::initPlayer(Player* p)
 {
 	p->m_yaw = -180.0f;
+	p->m_pInventory->prepareSurvivalInventory();
 }
 
 bool SurvivalMode::canHurtPlayer()
