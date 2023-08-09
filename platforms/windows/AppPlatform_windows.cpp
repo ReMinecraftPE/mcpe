@@ -183,8 +183,13 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 		goto _error;
 	}
 
+	uint32_t* img2 = new uint32_t[width * height];
+	memcpy(img2, img, width * height * sizeof(uint32_t));
+	stbi_image_free(img);
+	img = nullptr;
+
 	fclose(f);
-	return Texture(width, height, (uint32_t*)img, 1, 0);
+	return Texture(width, height, img2, 1, 0);
 }
 
 std::vector<std::string> AppPlatform_windows::getOptionStrings()
@@ -231,6 +236,18 @@ void AppPlatform_windows::setOptionStrings(const std::vector<std::string>& str)
 	
 	for (int i = 0; i < int(str.size()); i += 2)
 		os << str[i] << ':' << str[i + 1] << '\n';
+}
+
+std::string AppPlatform_windows::getPatchData()
+{
+	std::ifstream ifs("assets/patches/patch_data.txt");
+	if (!ifs.is_open())
+		return "";
+
+	std::stringstream ss;
+	ss << ifs.rdbuf();
+
+	return ss.str();
 }
 
 void AppPlatform_windows::setScreenSize(int width, int height)

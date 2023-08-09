@@ -996,6 +996,9 @@
     <ClInclude Include="..\GameMods.hpp">
       <Filter>source\client</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\client\renderer\PatchManager.hpp">
+      <Filter>source\client\renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -1965,6 +1968,9 @@
       <Filter>source\client\renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\renderer\FireTexture.cpp">
+      <Filter>source\client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\client\renderer\PatchManager.cpp">
       <Filter>source\client\renderer</Filter>
     </ClCompile>
   </ItemGroup>

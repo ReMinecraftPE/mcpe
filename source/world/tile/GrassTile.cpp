@@ -8,6 +8,7 @@
 
 #include "Tile.hpp"
 #include "world/level/Level.hpp"
+#include "client/renderer/PatchManager.hpp"
 
 GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
 {
@@ -17,10 +18,10 @@ GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
 
 int GrassTile::getColor(LevelSource*, int x, int y, int z)
 {
-#ifdef MOD_DONT_COLOR_GRASS
+	if (GetPatchManager()->IsGrassTinted())
+		return 0x339933;
+
 	return 0xffffff;
-#endif
-	return 0x339933;
 }
 
 int GrassTile::getResource(int i, Random* random)

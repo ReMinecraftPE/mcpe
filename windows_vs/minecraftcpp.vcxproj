@@ -113,6 +113,7 @@
     <ClInclude Include="..\source\client\renderer\LevelRenderer.hpp" />
     <ClInclude Include="..\source\client\renderer\LightLayer.hpp" />
     <ClInclude Include="..\source\client\renderer\LightUpdate.hpp" />
+    <ClInclude Include="..\source\client\renderer\PatchManager.hpp" />
     <ClInclude Include="..\source\client\renderer\RenderChunk.hpp" />
     <ClInclude Include="..\source\client\renderer\RenderList.hpp" />
     <ClInclude Include="..\source\client\renderer\Tesselator.hpp" />
@@ -426,6 +427,7 @@
     <ClCompile Include="..\source\client\renderer\LevelRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\LightLayer.cpp" />
     <ClCompile Include="..\source\client\renderer\LightUpdate.cpp" />
+    <ClCompile Include="..\source\client\renderer\PatchManager.cpp" />
     <ClCompile Include="..\source\client\renderer\RenderChunk.cpp" />
     <ClCompile Include="..\source\client\renderer\RenderList.cpp" />
     <ClCompile Include="..\source\client\renderer\Tesselator.cpp" />

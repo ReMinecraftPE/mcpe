@@ -8,6 +8,7 @@
 
 #include "Tile.hpp"
 #include "world/level/Level.hpp"
+#include "client/renderer/PatchManager.hpp"
 
 MetalTile::MetalTile(int ID, int texture, Material* pMtl) : Tile(ID, pMtl)
 {
@@ -19,5 +20,12 @@ MetalTile::MetalTile(int ID, int texture, Material* pMtl) : Tile(ID, pMtl)
 // textures for these tiles. :)
 int MetalTile::getTexture(int dir)
 {
-	return m_TextureFrame;
+	int yoff = GetPatchManager()->GetMetalSideYOffset();
+	if (yoff < 0)
+		return m_TextureFrame;
+
+	if (dir == DIR_YPOS) return m_TextureFrame;
+	if (dir == DIR_YNEG) return m_TextureFrame + 16 * (yoff + 1);
+
+	return m_TextureFrame + 16 * (yoff + 0);
 }

@@ -8,6 +8,7 @@
 
 #include "Tile.hpp"
 #include "world/level/Level.hpp"
+#include "client/renderer/PatchManager.hpp"
 
 LeafTile::LeafTile(int id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, Material::leaves, false)
 {
@@ -33,10 +34,10 @@ void LeafTile::die(Level* level, int x, int y, int z)
 
 int LeafTile::getColor(LevelSource* level, int x, int y, int z)
 {
-#ifdef MOD_DONT_COLOR_GRASS
+	if (GetPatchManager()->IsGrassTinted())
+		return 0x339933;
+
 	return 0xffffff;
-#endif
-	return 0x339933;
 }
 
 int LeafTile::getTexture(int dir, int data)

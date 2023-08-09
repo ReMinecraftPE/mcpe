@@ -52,6 +52,8 @@ public:
 	virtual bool shiftPressed();
 	// Also add this to allow option saving.
 	virtual void setOptionStrings(const std::vector<std::string>& vec);
+	// Also add this to allow dynamic patching.
+	virtual std::string getPatchData();
 #endif
 
 

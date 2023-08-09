@@ -23,6 +23,9 @@
 #include "client/player/input/ControllerTurnInput.hpp"
 #endif
 
+// custom:
+#include "client/renderer/PatchManager.hpp"
+
 // note: Nothing changes these, so it'll think we're always running at 854x480 even if not
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
@@ -684,6 +687,14 @@ void Minecraft::init()
 	reloadOptions();
 
 	m_pFont = new Font(&m_options, "font/default.png", m_pTextures);
+
+	// Patch Manager
+	GetPatchManager()->LoadPatchData(platform()->getPatchData());
+
+	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
+	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
 }
 
 Minecraft::~Minecraft()

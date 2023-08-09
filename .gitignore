@@ -401,6 +401,9 @@ FodyWeavers.xsd
 /game/assets/particles.png
 /game/assets/terrain.png
 
+# Avoid including Minecraft Classic assets from Mojang, for now.
+/game/assets/patches/*.png
+
 # Ignore keep directory - where you can keep files for later use
 /keep
 

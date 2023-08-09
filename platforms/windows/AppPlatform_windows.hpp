@@ -52,6 +52,9 @@ public:
 	// Also add these to allow saving options.
 	void setOptionStrings(const std::vector <std::string>& str) override;
 
+	// Also add this to allow dynamic texture patching.
+	std::string getPatchData() override;
+
 	void setScreenSize(int width, int height);
 
 private:

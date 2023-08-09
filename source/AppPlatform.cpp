@@ -126,3 +126,8 @@ bool AppPlatform::shiftPressed()
 void AppPlatform::setOptionStrings(const std::vector<std::string>& vec)
 {
 }
+
+std::string AppPlatform::getPatchData()
+{
+	return "";
+}
