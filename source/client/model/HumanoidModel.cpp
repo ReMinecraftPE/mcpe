@@ -70,18 +70,6 @@ void HumanoidModel::render(float a, float b, float c, float d, float e, float f)
 	_logGraphics();
 }
 
-void HumanoidModel::renderHorrible(float a, float b, float c, float d, float e, float f)
-{
-	setupAnim(a, b, c, d, e, f);
-	m_head.renderHorrible(f);
-	m_body.renderHorrible(f);
-	m_armL.renderHorrible(f);
-	m_armR.renderHorrible(f);
-	m_legL.renderHorrible(f);
-	m_legR.renderHorrible(f);
-	_logGraphics();
-}
-
 void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, float a7)
 {
 	//a6 = pitch, a5 = yaw-ish
