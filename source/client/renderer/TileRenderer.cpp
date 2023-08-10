@@ -8,6 +8,7 @@
 
 #include "TileRenderer.hpp"
 #include "Minecraft.hpp"
+#include "client/renderer/PatchManager.hpp"
 
 void TileRenderer::_init()
 {
@@ -2335,10 +2336,12 @@ LABEL_102:
 
 #define SHADE_PREPARE do { \
 	red = bright, grn = bright, blu = bright; \
-	if (tile->m_ID == Tile::leaves->m_ID)           \
-		red *= 0.35f, grn *= 0.65f, blu *= 0.25f;   \
-	if (!SHADE_IS_DECOLOR_GRASS_DEFINED && tile->m_ID == Tile::grass->m_ID) \
-		red *= 0.25f, grn *= 0.60f, blu *= 0.25f;   \
+	if (GetPatchManager()->IsGrassTinted()) {           \
+		if (tile->m_ID == Tile::leaves->m_ID)           \
+			red *= 0.35f, grn *= 0.65f, blu *= 0.25f;   \
+		if (tile->m_ID == Tile::grass->m_ID) \
+			red *= 0.25f, grn *= 0.60f, blu *= 0.25f;   \
+	}                                                   \
 } while (0)
 
 #define SHADE_IF_NEEDED(col) t.color(col*red,col*grn,col*blu,1.0f)

@@ -11,6 +11,7 @@ enum ePatchType
 	TYPE_NONE,
 	TYPE_TERRAIN,
 	TYPE_ITEMS,
+	TYPE_FRAME,
 	TYPE_FEATURE,
 };
 
@@ -25,8 +26,17 @@ struct PatchData
 	ePatchType m_type;
 	ePatchOption m_option;
 	int m_destX, m_destY;
+	int m_destID, m_frameNo;
 	std::string m_filename;
 	bool m_bEnable;
+
+	PatchData(ePatchType type, int id, int frameNo)
+	{
+		_init();
+		m_type = type;
+		m_destID = id;
+		m_frameNo = frameNo;
+	}
 
 	PatchData(ePatchType type, int x, int y, const std::string& fn)
 	{
@@ -50,6 +60,8 @@ struct PatchData
 		m_type = TYPE_NONE;
 		m_option = PO_NONE;
 		m_destX = m_destY = 0;
+		m_destID = 0;
+		m_frameNo = -1;
 		m_bEnable = false;
 	}
 };
@@ -62,6 +74,7 @@ public:
 	void LoadPatchData(const std::string& patchData);
 
 	void PatchTextures(AppPlatform*, ePatchType);
+	void PatchTiles();
 
 	// Features
 	bool IsGrassTinted();

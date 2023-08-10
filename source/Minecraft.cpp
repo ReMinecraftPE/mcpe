@@ -695,6 +695,8 @@ void Minecraft::init()
 	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
 	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
 	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
+
+	GetPatchManager()->PatchTiles();
 }
 
 Minecraft::~Minecraft()

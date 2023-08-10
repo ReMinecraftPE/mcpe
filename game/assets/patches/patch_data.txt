@@ -2,6 +2,7 @@
 # Commands you can use:
 # - terrain|x|y|filename   -- Patches terrain.png
 # - items|x|y|filename     -- Patches gui/items.png
+# - frame|itemid|x|y       -- Sets the base texture frame of the tile or itemID.
 # - vegetation_tint|bool   -- Enables default vegetation tint. (grass and leaves)
 # - metal_block_sides|int  -- Makes metal blocks have separate side textures, and allows specification of their Y offset. -1 to disable.
 
@@ -26,3 +27,5 @@
 #items|7|3|c_i_emerald.png
 #vegetation_tint|false
 #metal_block_sides|10
+
+#frame|blockGold|5|5
