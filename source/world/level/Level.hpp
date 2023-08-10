@@ -170,7 +170,7 @@ public:
 public:
 	AABBVector m_aabbs;
 	bool m_bInstantTicking;
-	bool m_bIsMultiplayer; // if the level is controlled externally by a server
+	bool m_bIsMultiplayer; // m_bIsClientSide TODO
 	bool m_bPostProcessing;
 	EntityVector m_entities;
 	std::vector<Player*> m_players;

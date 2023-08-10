@@ -30,6 +30,18 @@ bool WireTile::isSignalSource()
 	return m_bIsPowerSource;
 }
 
+bool WireTile::canSurvive(Level* level, int x, int y, int z)
+{
+	return level->isSolidTile(x, y - 1, z);
+}
+
+bool WireTile::isSignalSource(LevelSource* level, int x, int y, int z)
+{
+	int tile = level->getTile(x, y, z);
+	if (tile == m_ID) return true;
+	if (!tile) return false;
+	return Tile::tiles[tile]->isSignalSource();
+}
 
 int WireTile::getConnections(LevelSource* level, int x, int y, int z)
 {
@@ -54,8 +66,7 @@ int WireTile::getConnections(LevelSource* level, int x, int y, int z)
 		// check above
 		if (!bIsSolidTileAbove)
 		{
-			tile = Tile::tiles[level->getTile(x + checkXD[i], y + 1, z + checkZD[i])];
-			if (tile && tile->isSignalSource())
+			if (level->getTile(x + checkXD[i], y + 1, z + checkZD[i]) == m_ID)
 			{
 				connFlags |= (1 << i) | (1 << (i + 4));
 				continue;
@@ -66,8 +77,7 @@ int WireTile::getConnections(LevelSource* level, int x, int y, int z)
 		if (level->isSolidTile(x + checkXD[i], y, z + checkXD[i]))
 			continue;
 
-		tile = Tile::tiles[level->getTile(x + checkXD[i], y - 1, z + checkZD[i])];
-		if (tile && tile->isSignalSource())
+		if (level->getTile(x + checkXD[i], y - 1, z + checkZD[i]) == m_ID)
 		{
 			connFlags |= (1 << i);
 			continue;
@@ -81,6 +91,145 @@ int WireTile::getConnections(LevelSource* level, int x, int y, int z)
 	if ((connFlags & CONN_MASK) == (1 << CONN_ZP)) connFlags |= (1 << CONN_ZN);
 
 	return connFlags;
+}
+
+void WireTile::recalculate(Level* level, int x, int y, int z)
+{
+	calculateChanges(level, x, y, z, x, y, z);
+
+	std::vector<TilePos> tpv(m_positionsToUpdate.begin(), m_positionsToUpdate.end());
+	m_positionsToUpdate.clear();
+
+	std::vector<TilePos>::iterator it;
+	for (it = tpv.begin();
+		it != tpv.end();
+		++it)
+	{
+		level->updateNeighborsAt(it->x, it->y, it->z, m_ID);
+	}
+}
+
+void WireTile::calculateChanges(Level* level, int x, int y, int z, int x2, int y2, int z2)
+{
+	int oldPower = level->getData(x, y, z);
+	int newPower = 0;
+
+	m_bIsPowerSource = false;
+ 	bool flag = level->hasNeighborSignal(x, y, z);
+	m_bIsPowerSource = true;
+
+	if (flag)
+	{
+		newPower = 15;
+	}
+	else
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			int checkX = x, checkZ = z;
+			if (i == 0) checkX--;
+			if (i == 1) checkX++;
+			if (i == 2) checkZ--;
+			if (i == 3) checkZ++;
+
+			if (checkX != x2 || y != y2 || checkZ != z2)
+			{
+				newPower = getStrongerSignal(level, checkX, y, checkZ, newPower);
+			}
+
+			if (level->isSolidTile(checkX, y, checkZ) && !level->isSolidTile(checkX, y + 1, checkZ))
+			{
+				if (checkX != x2 || y + 1 != y2 || checkZ != z2)
+				{
+					newPower = getStrongerSignal(level, checkX, y + 1, checkZ, newPower);
+				}
+			}
+
+			if (!level->isSolidTile(checkX, y, checkZ))
+			{
+				if (checkX != x2 || y - 1 != y2 || checkZ != z2)
+				{
+					newPower = getStrongerSignal(level, checkX, y - 1, checkZ, newPower);
+				}
+			}
+		}
+
+		if (newPower > 0)
+			newPower--;
+		else
+			newPower = 0;
+	}
+
+	if (oldPower != newPower)
+	{
+		level->field_30 = true;
+		level->setData(x, y, z, newPower);
+		level->setTilesDirty(x, y, z, x, y, z);
+		level->field_30 = false;
+
+		for (int i = 0; i < 4; i++)
+		{
+			int checkX = x;
+			int checkZ = z;
+			int checkY = y - 1;
+			if (i == 0) checkX--;
+			if (i == 1) checkX++;
+			if (i == 2) checkZ--;
+			if (i == 3) checkZ++;
+
+			if (level->isSolidTile(checkX, y, checkZ))
+				checkY += 2;
+
+			int power = 0;
+			power = getStrongerSignal(level, checkX, y, checkZ, -1);
+			newPower = level->getData(x, y, z);
+			if (newPower > 0)
+				newPower--;
+			
+			if (power >= 0 && power != newPower)
+				calculateChanges(level, checkX, y, checkZ, x, y, z);
+			
+			power = getStrongerSignal(level, checkX, checkY, checkZ, -1);
+			newPower = level->getData(x, y, z);
+			if (newPower > 0)
+				newPower--;
+			if (power >= 0 && power != newPower)
+				calculateChanges(level, checkX, checkY, checkZ, x, y, z);
+		}
+
+		if (oldPower == 0 || newPower == 0)
+		{
+			m_positionsToUpdate.insert(TilePos(x, y, z));
+			m_positionsToUpdate.insert(TilePos(x - 1, y, z));
+			m_positionsToUpdate.insert(TilePos(x + 1, y, z));
+			m_positionsToUpdate.insert(TilePos(x, y - 1, z));
+			m_positionsToUpdate.insert(TilePos(x, y + 1, z));
+			m_positionsToUpdate.insert(TilePos(x, y, z - 1));
+			m_positionsToUpdate.insert(TilePos(x, y, z + 1));
+		}
+	}
+}
+
+int WireTile::getStrongerSignal(Level* level, int x, int y, int z, int prevSignal)
+{
+	if (level->getTile(x, y, z) != m_ID)
+		return prevSignal;
+
+	int newSignal = level->getData(x, y, z);
+	return max(newSignal, prevSignal);
+}
+
+void WireTile::updateWires(Level* level, int x, int y, int z)
+{
+	if (level->getTile(x, y, z) != m_ID) return;
+
+	level->updateNeighborsAt(x, y, z, m_ID);
+	level->updateNeighborsAt(x - 1, y, z, m_ID);
+	level->updateNeighborsAt(x + 1, y, z, m_ID);
+	level->updateNeighborsAt(x, y, z - 1, m_ID);
+	level->updateNeighborsAt(x, y, z + 1, m_ID);
+	level->updateNeighborsAt(x, y - 1, z, m_ID);
+	level->updateNeighborsAt(x, y + 1, z, m_ID);
 }
 
 void WireTile::updateShape(LevelSource* level, int x, int y, int z)
@@ -114,7 +263,108 @@ void WireTile::addAABBs(Level*, int x, int y, int z, const AABB* aabb, std::vect
 	// there is no collision with redstone!!
 }
 
+void WireTile::onPlace(Level* level, int x, int y, int z)
+{
+	Tile::onPlace(level, x, y, z);
+	if (level->m_bIsMultiplayer)
+		return;
+
+	recalculate(level, x, y, z);
+	level->updateNeighborsAt(x, y + 1, z, m_ID);
+	level->updateNeighborsAt(x, y - 1, z, m_ID);
+	updateWires(level, x - 1, y, z);
+	updateWires(level, x + 1, y, z);
+	updateWires(level, x, y, z - 1);
+	updateWires(level, x, y, z + 1);
+
+	updateWires(level, x - 1, level->isSolidTile(x - 1, y, z) ? y + 1 : y - 1, z);
+	updateWires(level, x + 1, level->isSolidTile(x + 1, y, z) ? y + 1 : y - 1, z);
+	updateWires(level, x, level->isSolidTile(x - 1, y, z) ? y + 1 : y - 1, z - 1);
+	updateWires(level, x, level->isSolidTile(x + 1, y, z) ? y + 1 : y - 1, z + 1);
+}
+
+void WireTile::onRemove(Level* level, int x, int y, int z)
+{
+	if (level->m_bIsMultiplayer)
+	{
+		Tile::onRemove(level, x, y, z);
+		return;
+	}
+
+	recalculate(level, x, y, z);
+	level->updateNeighborsAt(x, y + 1, z, m_ID);
+	level->updateNeighborsAt(x, y - 1, z, m_ID);
+	updateWires(level, x - 1, y, z);
+	updateWires(level, x + 1, y, z);
+	updateWires(level, x, y, z - 1);
+	updateWires(level, x, y, z + 1);
+
+	updateWires(level, x - 1, level->isSolidTile(x - 1, y, z) ? y + 1 : y - 1, z);
+	updateWires(level, x + 1, level->isSolidTile(x + 1, y, z) ? y + 1 : y - 1, z);
+	updateWires(level, x, level->isSolidTile(x - 1, y, z) ? y + 1 : y - 1, z - 1);
+	updateWires(level, x, level->isSolidTile(x + 1, y, z) ? y + 1 : y - 1, z + 1);
+
+	Tile::onRemove(level, x, y, z);
+}
+
+void WireTile::neighborChanged(Level* level, int x, int y, int z, int id)
+{
+	if (level->m_bIsMultiplayer)
+		return;
+
+	LogMsg("WireTile neighborChanged %d,%d,%d", x, y, z);
+
+	if (!canSurvive(level, x, y, z))
+	{
+		spawnResources(level, x, y, z, level->getData(x, y, z));
+		level->setTile(x, y, z, TILE_AIR);
+	}
+
+	recalculate(level, x, y, z);
+	Tile::neighborChanged(level, x, y, z, id);
+}
+
+int WireTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
+{
+	if (!m_bIsPowerSource)
+		return 0;
+
+	return getDirectSignal(level, x, y, z, dir);
+}
+
+int WireTile::getDirectSignal(LevelSource* level, int x, int y, int z, int dir)
+{
+	if (!m_bIsPowerSource)
+		return 0;
+
+	if (level->getData(x, y, z) == 0)
+		return 0;
+
+	bool flag0 = isSignalSource(level, x - 1, y, z) || !level->isSolidTile(x - 1, y, z) && isSignalSource(level, x - 1, y - 1, z);
+	bool flag1 = isSignalSource(level, x + 1, y, z) || !level->isSolidTile(x + 1, y, z) && isSignalSource(level, x + 1, y - 1, z);
+	bool flag2 = isSignalSource(level, x, y, z - 1) || !level->isSolidTile(x, y, z - 1) && isSignalSource(level, x, y - 1, z - 1);
+	bool flag3 = isSignalSource(level, x, y, z + 1) || !level->isSolidTile(x, y, z + 1) && isSignalSource(level, x, y - 1, z + 1);
+	if (!level->isSolidTile(x, y + 1, z))
+	{
+		if (level->isSolidTile(x - 1, y, z) && isSignalSource(level, x - 1, y + 1, z)) flag0 = true;
+		if (level->isSolidTile(x + 1, y, z) && isSignalSource(level, x + 1, y + 1, z)) flag1 = true;
+		if (level->isSolidTile(x, y, z - 1) && isSignalSource(level, x, y + 1, z - 1)) flag2 = true;
+		if (level->isSolidTile(x, y, z + 1) && isSignalSource(level, x, y + 1, z + 1)) flag3 = true;
+	}
+	if (!flag2 && !flag1 && !flag0 && !flag3 && dir >= 2 && dir <= 5) return true;
+	if (dir == 2 && flag2 && !flag0 && !flag1) return true;
+	if (dir == 3 && flag3 && !flag0 && !flag1) return true;
+	if (dir == 4 && flag0 && !flag2 && !flag3) return true;
+	if (dir == 5 && flag1 && !flag2 && !flag3) return true;
+	return false;
+}
+
 int WireTile::getRenderShape()
 {
 	return SHAPE_WIRE;
+}
+
+int WireTile::getTickDelay()
+{
+	return 2;
 }

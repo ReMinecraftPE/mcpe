@@ -554,6 +554,20 @@ struct TilePos : Pos
 
 		return z < b.z;
 	}
+
+	bool operator==(const TilePos& b) const
+	{
+		return x == b.x && y == b.y && z == b.z;
+	}
+};
+
+template<>
+struct std::hash<TilePos>
+{
+	std::size_t operator()(const TilePos& t) const noexcept
+	{
+		return t.x * 0x88f9fa + t.y * 0xef88b + t.z;
+	}
 };
 
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)

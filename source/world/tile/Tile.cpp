@@ -48,6 +48,7 @@
 #include "SpongeTile.hpp"
 #include "BookshelfTile.hpp"
 #include "WireTile.hpp"
+#include "RedStoneTorchTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -684,6 +685,18 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("wire");
 
+	Tile::notGate_off = (new RedStoneTorchTile(TILE_REDSTONE_TORCH_OFF, TEXTURE_TORCH_RED_STONE_OFF, Material::decoration))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("notGate");
+
+	Tile::notGate = (new RedStoneTorchTile(TILE_REDSTONE_TORCH_ON, TEXTURE_TORCH_RED_STONE, Material::decoration))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("notGateLit");
+
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
 		if (Tile::tiles[i])
@@ -1088,17 +1101,17 @@ LABEL_51:
 	return HitResult(x, y, z, v29, v43);
 }
 
-int Tile::getSignal(LevelSource* pLevel, int x, int y, int z)
+/*int Tile::getSignal(LevelSource* pLevel, int x, int y, int z)
 {
 	return 0;
-}
+}*/
 
 int Tile::getSignal(LevelSource* pLevel, int x, int y, int z, int dir)
 {
 	return 0;
 }
 
-int Tile::getDirectSignal(Level* pLevel, int x, int y, int z, int dir)
+int Tile::getDirectSignal(LevelSource* pLevel, int x, int y, int z, int dir)
 {
 	return 0;
 }

@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <unordered_set>
 #include "Tile.hpp"
 
 // not an actual name.
@@ -37,14 +38,28 @@ public:
 	bool isSolidRender() override;
 	bool isCubeShaped() override;
 	int getRenderShape() override;
+	int getTickDelay() override;
 	bool isSignalSource() override;
+	bool canSurvive(Level*, int x, int y, int z) override;
 	void updateShape(LevelSource*, int x, int y, int z) override;
 	AABB* getAABB(Level*, int x, int y, int z) override;
 	AABB getTileAABB(Level*, int x, int y, int z) override;
 	void addAABBs(Level*, int x, int y, int z, const AABB* aabb, std::vector<AABB>& out) override;
+	void onPlace(Level*, int x, int y, int z) override;
+	void onRemove(Level*, int x, int y, int z) override;
+	void neighborChanged(Level*, int x, int y, int z, int id) override;
+	int getSignal(LevelSource*, int x, int y, int z, int dir) override;
+	int getDirectSignal(LevelSource*, int x, int y, int z, int dir) override;
 
+	bool isSignalSource(LevelSource*, int x, int y, int z);
 	int getConnections(LevelSource*, int x, int y, int z);
+	void recalculate(Level* level, int x, int y, int z);
+	void calculateChanges(Level* level, int x, int y, int z, int x2, int y2, int z2);
+	int getStrongerSignal(Level* level, int x, int y, int z, int prevSignal);
+	void updateWires(Level* level, int x, int y, int z);
 
 private:
 	bool m_bIsPowerSource;
+
+	std::unordered_set<TilePos> m_positionsToUpdate;
 };

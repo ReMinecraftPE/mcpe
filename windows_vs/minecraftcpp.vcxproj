@@ -196,6 +196,8 @@
     <ClInclude Include="..\source\world\tile\ObsidianTile.hpp" />
     <ClInclude Include="..\source\world\tile\OreTile.hpp" />
     <ClInclude Include="..\source\world\tile\RedStoneOreTile.hpp" />
+    <ClInclude Include="..\source\world\tile\TorchUpdateEvent.hpp" />
+    <ClInclude Include="..\source\world\tile\RedStoneTorchTile.hpp" />
     <ClInclude Include="..\source\world\tile\ReedTile.hpp" />
     <ClInclude Include="..\source\world\tile\SandStoneTile.hpp" />
     <ClInclude Include="..\source\world\tile\SandTile.hpp" />
@@ -566,6 +568,7 @@
     <ClCompile Include="..\source\world\tile\ObsidianTile.cpp" />
     <ClCompile Include="..\source\world\tile\OreTile.cpp" />
     <ClCompile Include="..\source\world\tile\RedStoneOreTile.cpp" />
+    <ClCompile Include="..\source\world\tile\RedStoneTorchTile.cpp" />
     <ClCompile Include="..\source\world\tile\ReedTile.cpp" />
     <ClCompile Include="..\source\world\tile\SandStoneTile.cpp" />
     <ClCompile Include="..\source\world\tile\SandTile.cpp" />

@@ -1303,7 +1303,7 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 	const int CF1 = (1 << WireTile::CONN_XN) | (1 << WireTile::CONN_XP);
 	const int CF2 = (1 << WireTile::CONN_ZN) | (1 << WireTile::CONN_ZP);
 
-	if (connFlags == CF1 || connFlags == CF2)
+	if ((connFlags & WireTile::CONN_MASK) == CF1 || (connFlags & WireTile::CONN_MASK) == CF2)
 	{
 		texture++;
 		bUsingStraightTexture = true;

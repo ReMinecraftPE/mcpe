@@ -1110,6 +1110,12 @@
     <ClInclude Include="..\source\world\tile\SandStoneTile.hpp">
       <Filter>source\world\tile</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\world\tile\RedStoneTorchTile.hpp">
+      <Filter>source\world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\tile\TorchUpdateEvent.hpp">
+      <Filter>source\world\tile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2085,6 +2091,9 @@
       <Filter>source\client\renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\source\world\tile\WireTile.cpp">
+      <Filter>source\world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\tile\RedStoneTorchTile.cpp">
       <Filter>source\world\tile</Filter>
     </ClCompile>
   </ItemGroup>

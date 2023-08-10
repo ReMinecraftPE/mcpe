@@ -82,9 +82,9 @@ public: // virtual functions
 	virtual void handleEntityInside(Level*, int, int, int, Entity*, Vec3&);
 	virtual int getColor(LevelSource*, int, int, int);
 	virtual bool isSignalSource();
-	virtual int getSignal(LevelSource*, int, int, int);
+	//virtual int getSignal(LevelSource*, int, int, int);
 	virtual int getSignal(LevelSource*, int, int, int, int);
-	virtual int getDirectSignal(Level*, int, int, int, int);
+	virtual int getDirectSignal(LevelSource*, int, int, int, int);
 	virtual void entityInside(Level*, int, int, int, Entity*);
 	virtual void playerDestroy(Level*, Player*, int, int, int, int);
 	virtual bool canSurvive(Level*, int, int, int);
