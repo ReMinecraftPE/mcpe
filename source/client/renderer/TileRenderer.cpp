@@ -1354,10 +1354,10 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 
 	if (bRotateWire)
 	{
-		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.1f, float(z) + aabb.max.z, texU_1, texV_2);
-		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.1f, float(z) + aabb.min.z, texU_2, texV_2);
-		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.1f, float(z) + aabb.min.z, texU_2, texV_1);
-		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.1f, float(z) + aabb.max.z, texU_1, texV_1);
+		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.01f, float(z) + aabb.max.z, texU_1, texV_2);
+		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.01f, float(z) + aabb.min.z, texU_2, texV_2);
+		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.01f, float(z) + aabb.min.z, texU_2, texV_1);
+		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.01f, float(z) + aabb.max.z, texU_1, texV_1);
 	}
 	else
 	{
@@ -1367,7 +1367,7 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.01f, float(z) + aabb.max.z, texU_1, texV_2);
 	}
 
-	if (~connFlags & WireTile::CONN_ABOVE_MASK)
+	if ((connFlags & WireTile::CONN_ABOVE_MASK) == 0)
 		return true;
 
 	if (!bUsingStraightTexture)
