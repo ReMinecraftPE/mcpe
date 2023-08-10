@@ -478,7 +478,7 @@ void StartMenuScreen::render(int a, int b, float c)
 		int width  = pTex->m_width;
 		int height = pTex->m_height;
 
-		Tesselator& t = Tesselator::instance;
+		Tessellator& t = Tessellator::instance;
 		glColor4f(1, 1, 1, 1);
 		t.begin();
 		t.vertexUV(float(left),         float(height + titleYPos), field_4, 0.0f, 1.0f);

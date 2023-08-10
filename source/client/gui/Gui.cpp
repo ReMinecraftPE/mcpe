@@ -95,7 +95,7 @@ void Gui::renderVignette(float a2, int a3, int a4)
 	//! This function is unused anyways
 	m_pMinecraft->m_pTextures->loadAndBindTexture("misc/vignette.png");
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	t.begin();
 	t.vertexUV(0.0f, a4,   -90.0f, 0.0f, 1.0f);
 	t.vertexUV(a3,   a4,   -90.0f, 1.0f, 1.0f);

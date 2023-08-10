@@ -158,7 +158,7 @@ void ParticleEngine::render(Entity* ent, float f)
 	Particle::zOff = Lerp(ent->field_98.z, ent->m_pos.z, f);
 
 	// @BUG: Ignoring the last particle array. Invisible?
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	for (int i = 0; i < 3; i++)
 	{
 		if (i == PT_TERRAIN)

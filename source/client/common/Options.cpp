@@ -70,7 +70,7 @@ void Options::initDefaultValues()
 	m_keyBinds[15] = { "key.menu.cancel", '\b' };
 
 #ifdef ORIGINAL_CODE
-	field_10 = 2;
+	m_rotY = 2;
 	field_23D = 0;
 	field_19 = 0;
 #endif

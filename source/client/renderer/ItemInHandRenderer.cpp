@@ -101,7 +101,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 	float texV_1 = C_RATIO * float(textureY + 0.0f);
 	float texV_2 = C_RATIO * float(textureY + 15.99f);
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	glTranslatef(-0.0f, -0.3f, 0.0f);
 	glScalef(1.5f, 1.5f, 1.5f);
 	glRotatef(50.0f, 0.0f, 1.0f, 0.0f);
@@ -249,7 +249,7 @@ void ItemInHandRenderer::renderFire(float f)
 		glTranslatef(float(i) * 0.24f, -0.3f, 0.0f);
 		glRotatef(float(i) * 10.0f, 0.0f, 1.0f, 0.0f);
 
-		Tesselator& t = Tesselator::instance;
+		Tessellator& t = Tessellator::instance;
 		t.begin();
 		t.vertexUV(-0.5f, -0.5f, -0.5f, texU_2, texV_2);
 		t.vertexUV(+0.5f, -0.5f, -0.5f, texU_1, texV_2);
@@ -282,7 +282,7 @@ void ItemInHandRenderer::renderTex(float f, int texture)
 	float texV_1 =  texY           / 256.0f - 1 / 128.0f;
 	float texV_2 = (texY + 15.99f) / 256.0f + 1 / 128.0f;
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	t.begin();
 	t.vertexUV(-1.0f, -1.0f, -0.5f, texU_2, texV_2);
 	t.vertexUV(+1.0f, -1.0f, -0.5f, texU_1, texV_2);

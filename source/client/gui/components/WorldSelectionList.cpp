@@ -129,7 +129,7 @@ void WorldSelectionList::touched()
 	field_D8 = false;
 }
 
-void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Tesselator& t)
+void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Tessellator& t)
 {
 	int xCenter = xPos + m_itemWidth / 2;
 	float mult = Max(1.1f - 0.0055f * float(abs(field_18 / 2 - xCenter)), 0.2f);

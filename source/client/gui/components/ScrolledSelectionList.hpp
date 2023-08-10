@@ -21,8 +21,8 @@ public:
 	virtual void selectItem(int, bool) = 0;
 	virtual bool isSelectedItem(int) = 0;
 	virtual int getMaxPosition();
-	virtual void renderItem(int, int, int, int, Tesselator&) = 0;
-	virtual void renderHeader(int, int, Tesselator&);
+	virtual void renderItem(int, int, int, int, Tessellator&) = 0;
+	virtual void renderHeader(int, int, Tessellator&);
 	virtual void renderBackground() = 0;
 	virtual void renderDecorations(int, int);
 	virtual void clickedHeader(int x, int y);

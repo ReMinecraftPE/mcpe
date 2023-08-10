@@ -252,7 +252,7 @@ void Screen::renderDirtBackground(int unk)
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	glColor4f(1, 1, 1, 1);
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	t.begin();
 	t.color(0x404040);
 	t.vertexUV(0.0f,           float(m_height), 0, 0,                                   float(unk) + float(m_height) / 32.0f);

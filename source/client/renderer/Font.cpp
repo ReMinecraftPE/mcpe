@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Font.hpp"
-#include "Tesselator.hpp"
+#include "Tessellator.hpp"
 
 constexpr char COLOR_START_CHAR = '\xa7';
 
@@ -61,7 +61,7 @@ void Font::init(Options* pOpts)
 
 void Font::buildChar(unsigned char chr, float x, float y)
 {
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 
 	float u = float((chr % 16) * 8);
 	float v = float((chr / 16) * 8);
@@ -117,7 +117,7 @@ void Font::drawSlow(const std::string& str, int x, int y, int colorI, bool bShad
 	glColor4f(float(red) / 255.0f, float(grn) / 255.0f, float(blu) / 255.0f, alpf);
 	glPushMatrix();
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	t.begin();
 
 	glTranslatef(float(x), float(y), 0.0f);

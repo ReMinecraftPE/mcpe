@@ -28,8 +28,8 @@ public:
 	virtual int getMaxPosition();
 	virtual float getPos(float f);
 	virtual void touched();
-	virtual void renderItem(int, int, int, int, Tesselator&) = 0;
-	virtual void renderHeader(int, int, Tesselator&);
+	virtual void renderItem(int, int, int, int, Tessellator&) = 0;
+	virtual void renderHeader(int, int, Tessellator&);
 	virtual void renderBackground() = 0;
 	virtual void renderDecorations(int x, int y);
 	virtual void clickedHeader(int, int);

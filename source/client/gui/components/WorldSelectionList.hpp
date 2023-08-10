@@ -22,7 +22,7 @@ public:
 	bool isSelectedItem(int) override;
 	float getPos(float) override;
 	void touched() override;
-	void renderItem(int, int, int, int, Tesselator&) override;
+	void renderItem(int, int, int, int, Tessellator&) override;
 	void renderBackground() override;
 
 	void commit();

@@ -53,7 +53,7 @@ void LavaParticle::tick()
 	}
 }
 
-void LavaParticle::render(Tesselator& t, float f, float a, float b, float c, float d, float e)
+void LavaParticle::render(Tessellator& t, float f, float a, float b, float c, float d, float e)
 {
 	float mult = float(field_E8 + f) / float(field_EC);
 	field_F0 = field_104 * (1.0f - mult * mult);

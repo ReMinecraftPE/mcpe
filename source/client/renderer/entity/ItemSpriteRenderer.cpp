@@ -22,7 +22,7 @@ void ItemSpriteRenderer::render(Entity* pEntity, float x, float y, float z, floa
 	glRotatef(180.0f - m_pDispatcher->m_yaw, 0.0f, 1.0f, 0.0f);
 	glRotatef(-m_pDispatcher->m_pitch, 1.0f, 0.0f, 0.0f);
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	t.begin();
 	t.color(1.0f, 1.0f, 1.0f);
 	t.vertexUV(-0.5f, -0.25f, 0.0f, float(16 * (m_sprite % 16))     / 256.0f, float(16 * (m_sprite / 16 + 1)) / 256.0f);

@@ -7,15 +7,15 @@
  ********************************************************************/
 
 #include "compat/GL.hpp"
-#include "Tesselator.hpp"
+#include "Tessellator.hpp"
 
 #include <cstddef>
 
 int dword_2514A4 = 0;
 
-Tesselator Tesselator::instance;
+Tessellator Tessellator::instance;
 
-Tesselator::Tesselator(int allotedSize)
+Tessellator::Tessellator(int allotedSize)
 {
 	m_pVertices = nullptr;
 	field_4 = 0;
@@ -52,7 +52,7 @@ Tesselator::Tesselator(int allotedSize)
 	m_pVertices = new Vertex[m_maxVertices];
 }
 
-Tesselator::~Tesselator()
+Tessellator::~Tessellator()
 {
 	if (m_pVBOs)
 		delete[] m_pVBOs;
@@ -60,14 +60,14 @@ Tesselator::~Tesselator()
 		delete[] m_pVertices;
 }
 
-void Tesselator::addOffset(float x, float y, float z)
+void Tessellator::addOffset(float x, float y, float z)
 {
 	m_offsetX += x;
 	m_offsetY += y;
 	m_offsetZ += z;
 }
 
-void Tesselator::clear()
+void Tessellator::clear()
 {
 	m_accessMode = 2;
 	field_4 = 0;
@@ -76,7 +76,7 @@ void Tesselator::clear()
 	field_28 = 0;
 }
 
-void Tesselator::color(int r, int g, int b, int a)
+void Tessellator::color(int r, int g, int b, int a)
 {
 	if (m_bBlockColor) return;
 
@@ -95,42 +95,42 @@ void Tesselator::color(int r, int g, int b, int a)
 	m_nextVtxColor = a << 24 | b << 16 | g << 8 | r;
 }
 
-void Tesselator::color(int r, int g, int b)
+void Tessellator::color(int r, int g, int b)
 {
 	color(r, g, b, 255);
 }
 
-void Tesselator::color(int c, int a)
+void Tessellator::color(int c, int a)
 {
 	color((c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF, a);
 }
 
-void Tesselator::color(int c)
+void Tessellator::color(int c)
 {
 	color((c >> 16) & 0xFF, (c >> 8) & 0xFF, c & 0xFF, 255);
 }
 
-void Tesselator::color(char r, char g, char b)
+void Tessellator::color(char r, char g, char b)
 {
 	color(int(r), int(g), int(b));
 }
 
-void Tesselator::color(float r, float g, float b)
+void Tessellator::color(float r, float g, float b)
 {
 	color(r, g, b, 1.0f);
 }
 
-void Tesselator::color(float r, float g, float b, float a)
+void Tessellator::color(float r, float g, float b, float a)
 {
 	color(int(r * 255), int(g * 255), int(b * 255), int(a * 255));
 }
 
-void Tesselator::begin()
+void Tessellator::begin()
 {
 	begin(GL_QUADS);
 }
 
-void Tesselator::begin(int drawMode)
+void Tessellator::begin(int drawMode)
 {
 	if (field_34 || field_28) return;
 
@@ -143,7 +143,7 @@ void Tesselator::begin(int drawMode)
 	m_bBlockColor = false;
 }
 
-void Tesselator::draw()
+void Tessellator::draw()
 {
 	if (!field_34) return;
 	if (field_28) return;
@@ -192,7 +192,7 @@ void Tesselator::draw()
 	clear();
 }
 
-RenderChunk Tesselator::end(int vboIdx)
+RenderChunk Tessellator::end(int vboIdx)
 {
 	if (!field_34 || field_28)
 		return RenderChunk(); // empty render chunk
@@ -224,53 +224,53 @@ RenderChunk Tesselator::end(int vboIdx)
 	return rchk;
 }
 
-int Tesselator::getVboCount()
+int Tessellator::getVboCount()
 {
 	return m_vboCount;
 }
 
-void Tesselator::init()
+void Tessellator::init()
 {
 	xglGenBuffers(m_vboCount, m_pVBOs);
 }
 
-void Tesselator::noColor()
+void Tessellator::noColor()
 {
 	m_bBlockColor = true;
 }
 
-void Tesselator::normal(float x, float y, float z)
+void Tessellator::normal(float x, float y, float z)
 {
 	// don't get the point of this
 	dword_2514A4++;
 }
 
-void Tesselator::offset(float x, float y, float z)
+void Tessellator::offset(float x, float y, float z)
 {
 	m_offsetX = x;
 	m_offsetY = y;
 	m_offsetZ = z;
 }
 
-void Tesselator::setAccessMode(int mode)
+void Tessellator::setAccessMode(int mode)
 {
 	m_accessMode = mode;
 }
 
-void Tesselator::tex(float u, float v)
+void Tessellator::tex(float u, float v)
 {
 	m_nextVtxU = u;
 	m_nextVtxV = v;
 	m_bHaveTex = true;
 }
 
-void Tesselator::vertexUV(float x, float y, float z, float u, float v)
+void Tessellator::vertexUV(float x, float y, float z, float u, float v)
 {
 	tex(u, v);
 	vertex(x, y, z);
 }
 
-void Tesselator::vertex(float x, float y, float z)
+void Tessellator::vertex(float x, float y, float z)
 {
 	field_30++;
 	if (m_drawArraysMode == GL_QUADS && !(field_30 << 30))
@@ -327,7 +327,7 @@ void Tesselator::vertex(float x, float y, float z)
 	}
 }
 
-void Tesselator::voidBeginAndEndCalls(bool b)
+void Tessellator::voidBeginAndEndCalls(bool b)
 {
 	field_28 = b;
 }

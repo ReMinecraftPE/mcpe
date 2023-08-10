@@ -14,7 +14,7 @@
 
 void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, int sh)
 {
-	auto& t = Tesselator::instance;
+	auto& t = Tessellator::instance;
 
 	if (!sh) sh = th;
 	if (!sw) sw = tw;
@@ -48,7 +48,7 @@ void GuiComponent::fill(int a2, int a3, int a4, int a5, int a6)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(float(GET_RED(a6)) / 255.0f, float(GET_GREEN(a6)) / 255.0f, float(GET_BLUE(a6)) / 255.0f, float(GET_ALPHA(a6)) / 255.0f);
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	t.begin();
 
 	t.vertex(a2, a5, 0.0f);
@@ -70,7 +70,7 @@ void GuiComponent::fillGradient(int a2, int a3, int a4, int a5, int a6, int a7)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glShadeModel(GL_SMOOTH);
 
-	Tesselator& t = Tesselator::instance;
+	Tessellator& t = Tessellator::instance;
 	t.begin();
 
 	// note: for some stupid reason OG uses the float overload.

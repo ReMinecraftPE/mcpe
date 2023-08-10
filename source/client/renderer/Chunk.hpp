@@ -11,7 +11,7 @@
 #include "client/common/Utils.hpp"
 #include "FrustumCuller.hpp"
 #include "RenderList.hpp"
-#include "Tesselator.hpp"
+#include "Tessellator.hpp"
 
 class Level;
 class Entity;
@@ -57,7 +57,7 @@ public:
 	int field_50;
 	bool field_54;
 	RenderChunk m_renderChunks[2];
-	Tesselator* m_pTesselator;
+	Tessellator* m_pTessellator;
 	int field_8C;
 	GLuint* field_90;
 	bool field_94;

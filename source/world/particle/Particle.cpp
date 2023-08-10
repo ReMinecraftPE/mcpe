@@ -67,7 +67,7 @@ Particle* Particle::setPower(float f)
 	return this;
 }
 
-void Particle::render(Tesselator& t, float f, float a4, float a5, float a6, float a7, float a8)
+void Particle::render(Tessellator& t, float f, float a4, float a5, float a6, float a7, float a8)
 {
 	constexpr float C_MAGIC_1 = 0.062438f; // @BUG: Slightly bigger than 1/16.0f
 

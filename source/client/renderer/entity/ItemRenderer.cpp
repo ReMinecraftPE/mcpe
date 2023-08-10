@@ -108,7 +108,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 
 			glRotatef(180.0f - m_pDispatcher->m_yaw, 0.0f, 1.0f, 0.0f);
 
-			Tesselator& t = Tesselator::instance;
+			Tessellator& t = Tessellator::instance;
 			t.begin();
 
 #ifdef ENH_SHADE_HELD_TILES
@@ -130,7 +130,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 	glPopMatrix();
 }
 
-void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color)
+void ItemRenderer::blitRect(Tessellator& t, int x, int y, int w, int h, int color)
 {
 	t.begin();
 	t.color(color);
@@ -143,7 +143,7 @@ void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color
 
 void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 {
-	auto& t = Tesselator::instance;
+	auto& t = Tessellator::instance;
 
 	float ex = float(dx), ey = float(dy);
 	float uw = float(tw), uh = float(th);
@@ -217,7 +217,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		float texU = float(g_ItemFrames[instance->m_itemID] % 10) * 48.0f;
 		float texV = float(g_ItemFrames[instance->m_itemID] / 10) * 48.0f;
 
-		Tesselator& t = Tesselator::instance;
+		Tessellator& t = Tessellator::instance;
 		// @NOTE: These do nothing, due to a previous t.voidBeginAndEndCalls call.
 		t.begin();
 		t.vertexUV(float(x +  0), float(y + 16), 0.0f,  texU          / 512.0f, (texV + 48.0f) / 512.0f);

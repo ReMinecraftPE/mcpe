@@ -50,7 +50,7 @@ int TerrainParticle::getParticleTexture()
 	return PT_TERRAIN;
 }
 
-void TerrainParticle::render(Tesselator& t, float f, float a4, float a5, float a6, float a7, float a8)
+void TerrainParticle::render(Tessellator& t, float f, float a4, float a5, float a6, float a7, float a8)
 {
 	constexpr float C_MAGIC_1 = 0.015609f; // @BUG: Slightly bigger than 1/64.0f
 

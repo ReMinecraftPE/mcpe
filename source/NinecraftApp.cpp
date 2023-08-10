@@ -69,7 +69,7 @@ void NinecraftApp::init()
 	}
 
 	initGLStates();
-	Tesselator::instance.init();
+	Tessellator::instance.init();
 	Minecraft::init();
 
 #ifdef DEMO
@@ -86,7 +86,7 @@ void NinecraftApp::init()
 void NinecraftApp::onGraphicsReset()
 {
 	initGLStates();
-	Tesselator::instance.init();
+	Tessellator::instance.init();
 	Minecraft::onGraphicsReset();
 }
 
@@ -101,7 +101,7 @@ void NinecraftApp::update()
 	Minecraft::update();
 
 #ifdef ORIGINAL_CODE
-	eglSwapBuffers(field_8, field_10);
+	eglSwapBuffers(field_8, m_rotY);
 #endif
 
 	Mouse::_xOld = Mouse::_x;
