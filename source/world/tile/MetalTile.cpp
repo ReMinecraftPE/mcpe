@@ -21,7 +21,7 @@ MetalTile::MetalTile(int ID, int texture, Material* pMtl) : Tile(ID, pMtl)
 int MetalTile::getTexture(int dir)
 {
 	int yoff = GetPatchManager()->GetMetalSideYOffset();
-	if (yoff < 0)
+	if (yoff < 0 || m_ID == Tile::lapisBlock->m_ID)
 		return m_TextureFrame;
 
 	if (dir == DIR_YPOS) return m_TextureFrame;
