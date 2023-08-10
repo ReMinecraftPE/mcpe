@@ -92,7 +92,7 @@ void RedStoneTorchTile::tick(Level* level, int x, int y, int z, Random* random)
 
 int RedStoneTorchTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
 {
-	//if (dir == DIR_YNEG)
+	if (dir == DIR_YNEG)
 		return getDirectSignal(level, x, y, z, dir);
 
 	return 0;
