@@ -8,6 +8,8 @@
 #include "RedStoneTorchTile.hpp"
 #include "world/level/Level.hpp"
 
+TorchUpdateEvents RedStoneTorchTile::m_recentUpdates;
+
 RedStoneTorchTile::RedStoneTorchTile(int id, int texture, Material* pMtl) : TorchTile(id, texture, pMtl)
 {
 	m_bActive = id == TILE_REDSTONE_TORCH_ON;
@@ -64,8 +66,10 @@ void RedStoneTorchTile::tick(Level* level, int x, int y, int z, Random* random)
 	// remove updates that are too old
 	while (!m_recentUpdates.empty())
 	{
-		if (level->getTime() - m_recentUpdates.front().time > 100)
-			m_recentUpdates.pop_front();
+		if (level->getTime() - m_recentUpdates.front().time < 100)
+			break;
+
+		m_recentUpdates.pop_front();
 	}
 
 	if (isActive())
@@ -82,13 +86,13 @@ void RedStoneTorchTile::tick(Level* level, int x, int y, int z, Random* random)
 	}
 	else if (!flag && !checkBurnOut(level, x, y, z, false))
 	{
-		level->setTileAndData(x, y, z, Tile::notGate_off->m_ID, level->getData(x, y, z));
+		level->setTileAndData(x, y, z, Tile::notGate->m_ID, level->getData(x, y, z));
 	}
 }
 
 int RedStoneTorchTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
 {
-	if (dir == DIR_YNEG)
+	//if (dir == DIR_YNEG)
 		return getDirectSignal(level, x, y, z, dir);
 
 	return 0;
@@ -122,11 +126,11 @@ void RedStoneTorchTile::updateNeighbors(Level* level, int x, int y, int z, int i
 bool RedStoneTorchTile::hasSignalFromBehind(Level* level, int x, int y, int z)
 {
 	int data = level->getData(x, y, z);
-	if (data == 5 && level->getSignal(x, y - 1, z, 0)) return true;
-	if (data == 3 && level->getSignal(x, y, z - 1, 2)) return true;
-	if (data == 4 && level->getSignal(x, y, z + 1, 3)) return true;
-	if (data == 1 && level->getSignal(x - 1, y, z, 4)) return true;
-	if (data == 2 && level->getSignal(x + 1, y, z, 5)) return true;
+	if (data == 5 && level->getSignal(x, y - 1, z, DIR_YNEG)) return true;
+	if (data == 3 && level->getSignal(x, y, z - 1, DIR_ZNEG)) return true;
+	if (data == 4 && level->getSignal(x, y, z + 1, DIR_ZPOS)) return true;
+	if (data == 1 && level->getSignal(x - 1, y, z, DIR_XNEG)) return true;
+	if (data == 2 && level->getSignal(x + 1, y, z, DIR_XPOS)) return true;
 	return false;
 }
 

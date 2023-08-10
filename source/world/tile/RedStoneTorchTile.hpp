@@ -37,6 +37,6 @@ public:
 	}
 private:
 	bool m_bActive;
-	TorchUpdateEvents m_recentUpdates;
+	static TorchUpdateEvents m_recentUpdates;
 };
 

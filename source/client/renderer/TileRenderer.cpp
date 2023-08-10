@@ -1382,7 +1382,7 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 	texV_1 = C_RATIO * (texY);
 	texV_2 = C_RATIO * (texY + 15.99f);
 
-	if (connFlags & (1 << WireTile::CONN_ABOVE_ZN))
+	if (connFlags & (1 << WireTile::CONN_ABOVE_ZP))
 	{
 		t.vertexUV(0.0f + x, 1.0f + y, 0.99f + z, texU_1, texV_1);
 		t.vertexUV(1.0f + x, 1.0f + y, 0.99f + z, texU_1, texV_2);
@@ -1390,7 +1390,7 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 		t.vertexUV(0.0f + x, 0.0f + y, 0.99f + z, texU_2, texV_1);
 	}
 
-	if (connFlags & (1 << WireTile::CONN_ABOVE_ZP))
+	if (connFlags & (1 << WireTile::CONN_ABOVE_ZN))
 	{
 		t.vertexUV(1.0f + x, 1.0f + y, 0.01f + z, texU_1, texV_1);
 		t.vertexUV(0.0f + x, 1.0f + y, 0.01f + z, texU_1, texV_2);
