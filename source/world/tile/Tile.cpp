@@ -678,6 +678,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("stoneMoss");
 
+	Tile::wire = (new WireTile(TILE_WIRE))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("wire");
+
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
 		if (Tile::tiles[i])
@@ -1289,4 +1295,13 @@ Tile
 	*Tile::sponge,
 	*Tile::lapisBlock,
 	*Tile::bookshelf,
-	*Tile::mossStone;
+	*Tile::mossStone,
+	*Tile::wire,
+	*Tile::notGate_off,
+	*Tile::notGate,
+	*Tile::lever,
+	*Tile::button,
+	*Tile::plate_stone,
+	*Tile::plate_wood,
+	*Tile::repeater_off,
+	*Tile::repeater_on;

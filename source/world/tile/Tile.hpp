@@ -210,7 +210,16 @@ public: // static variables
 		* sponge,
 		* lapisBlock,
 		* bookshelf,
-		* mossStone;
+		* mossStone,
+		* wire,
+		* notGate_off,
+		* notGate,
+		* lever,
+		* button,
+		* plate_stone,
+		* plate_wood,
+		* repeater_off,
+		* repeater_on;
 
 public:
 	int m_TextureFrame;

@@ -71,6 +71,7 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Item::camera->m_itemID);
 	addCreativeItem(Item::door_wood->m_itemID);
 	addCreativeItem(Item::door_iron->m_itemID);
+	addCreativeItem(Tile::wire->m_ID);
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;

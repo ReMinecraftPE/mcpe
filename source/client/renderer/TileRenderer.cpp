@@ -11,6 +11,7 @@
 #include "client/renderer/PatchManager.hpp"
 #include "world/tile/FireTile.hpp"
 #include "world/tile/LiquidTile.hpp"
+#include "world/tile/WireTile.hpp"
 
 void TileRenderer::_init()
 {
@@ -1283,6 +1284,139 @@ bool TileRenderer::tesselateFireInWorld(Tile* tile, int x, int y, int z)
 	return true;
 }
 
+bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
+{
+	int data = m_pLevelSource->getData(x, y, z);
+	int texture = tile->getTexture(DIR_YPOS, data);
+
+	if (m_textureOverride >= 0)
+		texture = m_textureOverride;
+
+	WireTile* pWireTile = (WireTile*)tile;
+	int connFlags = pWireTile->getConnections(m_pLevelSource, x, y, z);
+
+	tile->updateShape(m_pLevelSource, x, y, z);
+
+	bool bUsingStraightTexture = false;
+
+	// If we are only connected on 2 parallel sides, use the straight wire texture.
+	const int CF1 = (1 << WireTile::CONN_XN) | (1 << WireTile::CONN_XP);
+	const int CF2 = (1 << WireTile::CONN_ZN) | (1 << WireTile::CONN_ZP);
+
+	if (connFlags == CF1 || connFlags == CF2)
+	{
+		texture++;
+		bUsingStraightTexture = true;
+	}
+
+	float texX = 16.0f * float((texture % 16));
+	float texY = 16.0f * float((texture / 16));
+	const float C_RATIO  = 1.0f / 256.0f;
+	const float C_RATIO2 = 1.0f / 16.0f;
+
+	float texU_1, texU_2, texV_1, texV_2;
+	bool bRotateWire = bUsingStraightTexture && (connFlags & (1 << WireTile::CONN_ZP));
+
+	AABB aabb = tile->m_aabb;
+
+	if (bRotateWire)
+	{
+		// this is kind of hacky.
+		texU_1 = C_RATIO2 * aabb.min.z + C_RATIO * (texX);
+		texU_2 = C_RATIO2 * aabb.max.z + C_RATIO * (texX);
+		texV_1 = C_RATIO2 * aabb.min.x + C_RATIO * (texY);
+		texV_2 = C_RATIO2 * aabb.max.x + C_RATIO * (texY);
+	}
+	else
+	{
+		texU_1 = C_RATIO2 * aabb.min.x + C_RATIO * (texX);
+		texU_2 = C_RATIO2 * aabb.max.x + C_RATIO * (texX);
+		texV_1 = C_RATIO2 * aabb.min.z + C_RATIO * (texY);
+		texV_2 = C_RATIO2 * aabb.max.z + C_RATIO * (texY);
+	}
+
+	Tesselator& t = Tesselator::instance;
+
+	// calculate the color based on the wire's current power
+	float bright = tile->getBrightness(m_pLevelSource, x, y, z);
+	float power = float(data) / 15.0f;
+	float rt = power * 0.6f + 0.4f;
+	if (data == 0)
+		rt = 0.3F;
+	float gt = power * power * 0.7f - 0.5f;
+	float bt = power * power * 0.6f - 0.7f;
+	if (gt < 0.0f)
+		gt = 0.0f;
+	if (bt < 0.0f)
+		bt = 0.0f;
+
+	t.color(bright * rt, bright * gt, bright * bt);
+
+	if (bRotateWire)
+	{
+		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.1f, float(z) + aabb.max.z, texU_1, texV_2);
+		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.1f, float(z) + aabb.min.z, texU_2, texV_2);
+		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.1f, float(z) + aabb.min.z, texU_2, texV_1);
+		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.1f, float(z) + aabb.max.z, texU_1, texV_1);
+	}
+	else
+	{
+		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.01f, float(z) + aabb.max.z, texU_2, texV_2);
+		t.vertexUV(float(x) + aabb.max.x, float(y) + 0.01f, float(z) + aabb.min.z, texU_2, texV_1);
+		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.01f, float(z) + aabb.min.z, texU_1, texV_1);
+		t.vertexUV(float(x) + aabb.min.x, float(y) + 0.01f, float(z) + aabb.max.z, texU_1, texV_2);
+	}
+
+	if (~connFlags & WireTile::CONN_ABOVE_MASK)
+		return true;
+
+	if (!bUsingStraightTexture)
+	{
+		texture++;
+		texX = 16.0f * float((texture % 16));
+		texY = 16.0f * float((texture / 16));
+	}
+
+	texU_1 = C_RATIO * (texX);
+	texU_2 = C_RATIO * (texX + 15.99f);
+	texV_1 = C_RATIO * (texY);
+	texV_2 = C_RATIO * (texY + 15.99f);
+
+	if (connFlags & (1 << WireTile::CONN_ABOVE_ZN))
+	{
+		t.vertexUV(0.0f + x, 1.0f + y, 0.99f + z, texU_1, texV_1);
+		t.vertexUV(1.0f + x, 1.0f + y, 0.99f + z, texU_1, texV_2);
+		t.vertexUV(1.0f + x, 0.0f + y, 0.99f + z, texU_2, texV_2);
+		t.vertexUV(0.0f + x, 0.0f + y, 0.99f + z, texU_2, texV_1);
+	}
+
+	if (connFlags & (1 << WireTile::CONN_ABOVE_ZP))
+	{
+		t.vertexUV(1.0f + x, 1.0f + y, 0.01f + z, texU_1, texV_1);
+		t.vertexUV(0.0f + x, 1.0f + y, 0.01f + z, texU_1, texV_2);
+		t.vertexUV(0.0f + x, 0.0f + y, 0.01f + z, texU_2, texV_2);
+		t.vertexUV(1.0f + x, 0.0f + y, 0.01f + z, texU_2, texV_1);
+	}
+
+	if (connFlags & (1 << WireTile::CONN_ABOVE_XN))
+	{
+		t.vertexUV(0.01f + x, 1.0f + y, 0.0f + z, texU_1, texV_1);
+		t.vertexUV(0.01f + x, 1.0f + y, 1.0f + z, texU_1, texV_2);
+		t.vertexUV(0.01f + x, 0.0f + y, 1.0f + z, texU_2, texV_2);
+		t.vertexUV(0.01f + x, 0.0f + y, 0.0f + z, texU_2, texV_1);
+	}
+
+	if (connFlags & (1 << WireTile::CONN_ABOVE_XP))
+	{
+		t.vertexUV(0.99f + x, 1.0f + y, 1.0f + z, texU_1, texV_1);
+		t.vertexUV(0.99f + x, 1.0f + y, 0.0f + z, texU_1, texV_2);
+		t.vertexUV(0.99f + x, 0.0f + y, 0.0f + z, texU_2, texV_2);
+		t.vertexUV(0.99f + x, 0.0f + y, 1.0f + z, texU_2, texV_1);
+	}
+
+	return true;
+}
+
 bool TileRenderer::tesselateInWorld(Tile* tile, int x, int y, int z)
 {
 	int shape = tile->getRenderShape();
@@ -1313,6 +1447,8 @@ bool TileRenderer::tesselateInWorld(Tile* tile, int x, int y, int z)
 			return tesselateDoorInWorld(tile, x, y, z);
 		case SHAPE_STAIRS:
 			return tesselateStairsInWorld(tile, x, y, z);
+		case SHAPE_WIRE:
+			return tesselateWireInWorld(tile, x, y, z);
 	}
 
 	return false;
