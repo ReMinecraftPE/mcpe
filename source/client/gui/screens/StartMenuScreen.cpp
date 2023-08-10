@@ -509,6 +509,13 @@ void StartMenuScreen::render(int a, int b, float c)
 
 	glPopMatrix();
 
+	// for debugging
+	/*
+	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	glColor4f(1, 1, 1, 1);
+	blit(0, 0, 0, 0, 256, 256, 0, 0);
+	*/
+
 	Screen::render(a, b, c);
 }
 

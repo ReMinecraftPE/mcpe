@@ -5,27 +5,35 @@
 # - frame|itemid|x|y       -- Sets the base texture frame of the tile or itemID.
 # - vegetation_tint|bool   -- Enables default vegetation tint. (grass and leaves)
 # - metal_block_sides|int  -- Makes metal blocks have separate side textures, and allows specification of their Y offset. -1 to disable.
+# - stop_now               -- Stops processing at that line. All further commands will be ignored.
 
 # * The filename parameter will be a PNG file that can be found relative to this directory. For example, '../quiver.png' will load it from assets/, 'chain.png' will load it from assets/patches/.
 # * The X and Y destination coordinates will be multiplied by 16.
 # * The texture doesn't have to be 16x16, all of it will be patched on to terrain.png.
 
+# Stop now to ignore the below commands. They're for a patch I'm working on that I don't want to release yet.
+stop_now
 
 # Below is an example of what you can do:
 
-#terrain|0|0|c_grass_top.png
-#terrain|4|3|c_leaves_tra.png
-#terrain|5|3|c_leaves_opa.png
-#terrain|7|0|c_bricks.png
-#terrain|12|0|c_rose.png
-#terrain|6|11|c_iron.png
-#terrain|7|11|c_gold.png
-#terrain|8|11|c_emerald.png
-#items|7|0|c_i_coal.png
-#items|7|1|c_i_iron.png
-#items|7|2|c_i_gold.png
-#items|7|3|c_i_emerald.png
-#vegetation_tint|false
-#metal_block_sides|10
+terrain|0|0|c_grass_top.png
+terrain|4|3|c_leaves_tra.png
+terrain|5|3|c_leaves_opa.png
+terrain|7|0|c_bricks.png
+terrain|12|0|c_rose.png
+terrain|6|2|c_iron.png
+terrain|7|2|c_gold.png
+terrain|8|2|c_emerald.png
+terrain|1|7|c_cloth.png
 
-#frame|blockGold|5|5
+items|7|0|c_i_coal.png
+items|7|1|c_i_iron.png
+items|7|2|c_i_gold.png
+items|7|3|c_i_emerald.png
+
+vegetation_tint|false
+metal_block_sides|1
+
+#update the frame of cryingObsidian, if it's there, so we can place the metals closer together
+terrain|0|14|a_cryingobsidian.png
+frame|cryingObsidian|0|14

@@ -38,6 +38,12 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 		if (!std::getline(lineStream, command, PM_SEPARATOR))
 			continue;
 
+		if (command == "stop_now")
+		{
+			LogMsg("PatchManager: Found stop_now, quitting patch processing earlier, iProgramInCpp probably wanted to test something");
+			return;
+		}
+
 		if (command == "terrain" || command == "items")
 		{
 			bool bIsItems = command == "items";
