@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "BookshelfTile.hpp"
 #include "world/level/Level.hpp"
 
 BookshelfTile::BookshelfTile(int a, int b, Material* c) : Tile(a, b, c)

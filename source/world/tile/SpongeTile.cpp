@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "SpongeTile.hpp"
 #include "world/level/Level.hpp"
 
 SpongeTile::SpongeTile(int id, int texture) : Tile(id, texture, Material::sponge)

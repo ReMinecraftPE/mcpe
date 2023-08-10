@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "ObsidianTile.hpp"
 #include "world/level/Level.hpp"
 
 ObsidianTile::ObsidianTile(int a, int b, Material* c) : Tile(a, b, c)

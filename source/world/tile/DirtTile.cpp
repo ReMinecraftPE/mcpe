@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "DirtTile.hpp"
 #include "world/level/Level.hpp"
 
 DirtTile::DirtTile(int a, int b, Material* c) : Tile(a, b, c)

@@ -8,6 +8,7 @@
 
 #include "RandomLevelSource.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/SandTile.hpp"
 
 #define TEST_CAVES
 

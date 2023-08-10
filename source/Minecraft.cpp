@@ -23,6 +23,8 @@
 #include "client/player/input/ControllerTurnInput.hpp"
 #endif
 
+#include "world/tile/SandTile.hpp"
+
 // custom:
 #include "client/renderer/PatchManager.hpp"
 

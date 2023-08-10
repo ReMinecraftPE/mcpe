@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "DoorTile.hpp"
 #include "world/level/Level.hpp"
 #include "world/item/Item.hpp"
 

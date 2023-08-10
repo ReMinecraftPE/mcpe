@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "IceTile.hpp"
 #include "world/level/Level.hpp"
 
 IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)

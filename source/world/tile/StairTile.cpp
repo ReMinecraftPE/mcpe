@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "StairTile.hpp"
 #include "world/level/Level.hpp"
 
 // @NOTE: All this work for some stairs; damn

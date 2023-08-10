@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "Bush.hpp"
 #include "world/level/Level.hpp"
 
 Bush::Bush(int id, int texture) : Tile(id, Material::plant)

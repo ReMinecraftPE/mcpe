@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "TreeTile.hpp"
 #include "world/level/Level.hpp"
 
 TreeTile::TreeTile(int id) : Tile(id, Material::wood)

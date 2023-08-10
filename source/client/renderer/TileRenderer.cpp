@@ -9,6 +9,8 @@
 #include "TileRenderer.hpp"
 #include "Minecraft.hpp"
 #include "client/renderer/PatchManager.hpp"
+#include "world/tile/FireTile.hpp"
+#include "world/tile/LiquidTile.hpp"
 
 void TileRenderer::_init()
 {

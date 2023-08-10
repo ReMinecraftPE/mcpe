@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "RedStoneOreTile.hpp"
 #include "world/level/Level.hpp"
 
 RedStoneOreTile::RedStoneOreTile(int id, int texture, bool bLit) : Tile(id, texture, Material::stone)

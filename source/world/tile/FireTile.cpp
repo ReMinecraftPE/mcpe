@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "FireTile.hpp"
 #include "world/level/Level.hpp"
 
 FireTile::FireTile(int ID, int texture) : Tile(ID, texture, Material::fire)

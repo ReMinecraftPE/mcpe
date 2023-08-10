@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "HalfTransparentTile.hpp"
 #include "world/level/Level.hpp"
 
 HalfTransparentTile::HalfTransparentTile(int a, int b, Material* c) : Tile(a, b, c)

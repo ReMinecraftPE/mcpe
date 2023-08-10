@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "TntTile.hpp"
 #include "world/level/Level.hpp"
 #include "world/entity/PrimedTnt.hpp"
 

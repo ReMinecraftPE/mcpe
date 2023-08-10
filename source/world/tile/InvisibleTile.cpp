@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Tile.hpp"
+#include "InvisibleTile.hpp"
 #include "world/level/Level.hpp"
 
 InvisibleTile::InvisibleTile(int ID, int texture, Material* pMtl) :

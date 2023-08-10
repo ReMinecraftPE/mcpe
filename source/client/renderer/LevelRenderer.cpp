@@ -8,6 +8,7 @@
 
 #include "LevelRenderer.hpp"
 #include "Minecraft.hpp"
+#include "world/tile/LeafTile.hpp"
 
 LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 {
