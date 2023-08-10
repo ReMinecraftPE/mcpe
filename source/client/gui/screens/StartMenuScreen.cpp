@@ -455,7 +455,8 @@ bool StartMenuScreen::isInGameScreen()
 
 void StartMenuScreen::render(int a, int b, float c)
 {
-	renderBackground();
+	//renderBackground();
+	renderMenuBackground(c);
 
 	Textures* tx = m_pMinecraft->m_pTextures;
 
@@ -521,6 +522,7 @@ void StartMenuScreen::render(int a, int b, float c)
 
 void StartMenuScreen::tick()
 {
+	Screen::tick();
 	_updateLicense();
 }
 

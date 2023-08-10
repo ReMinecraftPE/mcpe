@@ -84,6 +84,8 @@ Minecraft::Minecraft() : m_gui(this)
 	m_bHasQueuedScreen = false;
 	m_pQueuedScreen = nullptr;
 	m_licenseID = -2;
+	m_fLastUpdated = 0;
+	m_fDeltaTime = 0;
 
 #ifndef ORIGINAL_CODE
 	m_pTurnInput = new MouseTurnInput(this);
@@ -665,6 +667,10 @@ void Minecraft::update()
 #endif
 
 	m_pGameRenderer->render(m_timer.field_18);
+
+	double time = double(getTimeS());
+	m_fDeltaTime   = time - m_fLastUpdated;
+	m_fLastUpdated = time;
 }
 
 void Minecraft::init()

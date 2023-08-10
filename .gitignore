@@ -401,6 +401,14 @@ FodyWeavers.xsd
 /game/assets/particles.png
 /game/assets/terrain.png
 
+# Ignore the panorama textures.
+/game/assets/gui/background/panorama_0.png
+/game/assets/gui/background/panorama_1.png
+/game/assets/gui/background/panorama_2.png
+/game/assets/gui/background/panorama_3.png
+/game/assets/gui/background/panorama_4.png
+/game/assets/gui/background/panorama_5.png
+
 # Avoid including Minecraft Classic assets from Mojang, for now.
 /game/assets/patches/*.png
 /game/assets/patches/classic/*.png

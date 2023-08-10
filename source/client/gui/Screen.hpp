@@ -46,6 +46,9 @@ public:
 	virtual void keyPressed(int);
 	virtual void charInput(char);
 
+	// ported from 0.8
+	virtual void renderMenuBackground(float f);
+
 public:
 	int m_width;
 	int m_height;

@@ -419,9 +419,25 @@ void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vect
 	if (!m_pLevel)
 		return;
 
+	if (!parms.empty())
+	{
+		int t = 0;
+		if (!sscanf(parms[0].c_str(), "%d", &t))
+		{
+			sendMessage(player, "Usage: /time [new time value]");
+			return;
+		}
+
+		m_pLevel->setTime(t);
+		sendMessage(player, "Time has been set to " + parms[0]);
+
+		return;
+	}
+
 	std::stringstream ss;
 	ss << "In-game time: ";
 	ss << m_pLevel->getTime();
+	ss << ". Day " << m_pLevel->getTime() / 24000;
 	sendMessage(player, ss.str());
 }
 

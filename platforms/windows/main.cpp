@@ -70,6 +70,8 @@ void UpdateMouse()
 	Mouse::_y = g_MousePosY;
 }
 
+extern bool g_bIsMenuBackgroundAvailable;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
@@ -218,6 +220,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = g_WindowClassName;
 	
+	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
+
 	RECT wr = { 0,0, g_AppPlatform.getScreenWidth(), g_AppPlatform.getScreenHeight() };
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);
 	int w = wr.right - wr.left;

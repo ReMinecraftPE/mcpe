@@ -115,6 +115,109 @@ void Screen::charInput(char chr)
 		textInput->charPressed(chr);
 }
 
+static const char* g_panoramaList[] =
+{
+	"gui/background/panorama_0.png",
+	"gui/background/panorama_1.png",
+	"gui/background/panorama_2.png",
+	"gui/background/panorama_3.png",
+	"gui/background/panorama_4.png",
+	"gui/background/panorama_5.png",
+};
+
+static float g_panoramaAngle = 0.0f;
+bool g_bIsMenuBackgroundAvailable = false;
+
+void Screen::renderMenuBackground(float f)
+{
+	if (!g_bIsMenuBackgroundAvailable)
+	{
+		renderDirtBackground(0);
+		return;
+	}
+
+	g_panoramaAngle += float(30.0 * m_pMinecraft->m_fDeltaTime);
+
+	// not in 0.8
+	glDisable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(120.0f, 1.0f, 0.05f, 10.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef(-0.1f * (f + g_panoramaAngle), 0.0f, 1.0f, 0.0f);
+
+	for (int i = 0; i < 6; i++)
+	{
+		glPushMatrix();
+
+		float xm = 0.0f, ym = 0.0f, ang = 0.0f;
+		switch (i)
+		{
+			case 1:
+				ang = 90.0f;
+				xm = 0.0f;
+				ym = 1.0f;
+				break;
+			case 2:
+				ang = 180.0f;
+				xm = 0.0f;
+				ym = 1.0f;
+				break;
+			case 3:
+				ang = -90.0f;
+				xm = 0.0f;
+				ym = 1.0f;
+				break;
+			case 4:
+				ang = 90.0f;
+				ym = 0.0f;
+				xm = 1.0f;
+				break;
+			case 5:
+				ang = -90.0f;
+				ym = 0.0f;
+				xm = 1.0f;
+				break;
+		}
+
+		glRotatef(ang, xm, ym, 0.0f);
+
+		m_pMinecraft->m_pTextures->setSmoothing(true);
+		m_pMinecraft->m_pTextures->setClampToEdge(true);
+		m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
+		m_pMinecraft->m_pTextures->setSmoothing(false);
+		m_pMinecraft->m_pTextures->setClampToEdge(false);
+
+		Tesselator& t = Tesselator::instance;
+		t.begin();
+		t.vertexUV(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
+		t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
+		t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
+		t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
+		t.draw();
+
+		glPopMatrix();
+	}
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glEnable(GL_BLEND);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+	fillGradient(0, 0, m_width, m_height, 0x89000000, 0x89FFFFFF);
+}
+
 void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 {
 	if (!d) return;
@@ -167,6 +270,7 @@ void Screen::render(int xPos, int yPos, float unused)
 
 void Screen::tick()
 {
+	g_panoramaAngle++;
 }
 
 void Screen::removed()
@@ -255,10 +359,10 @@ void Screen::renderDirtBackground(int unk)
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.color(0x404040);
-	t.vertexUV(0.0f,           float(m_height), 0, 0,                                   float(unk) + float(m_height) / 32.0f);
-	t.vertexUV(float(m_width), float(m_height), 0, float(unk) + float(m_width) / 32.0f, float(unk) + float(m_height) / 32.0f);
-	t.vertexUV(float(m_width), 0,               0, float(unk) + float(m_width) / 32.0f, 0);
-	t.vertexUV(0.0f,           0,               0, 0,                                   0);
+	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(unk) + float(m_height) / 32.0f);
+	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(unk) + float(m_height) / 32.0f);
+	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(unk) + 0.0f);
+	t.vertexUV(0.0f,           0,               0, 0,                      float(unk) + 0.0f);
 	t.draw();
 }
 

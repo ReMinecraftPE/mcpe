@@ -42,6 +42,18 @@ public:
 	void addDynamicTexture(DynamicTexture* pTexture);
 	Texture* getTemporaryTextureData(GLuint id);
 
+	// set smoothing for next texture to be loaded
+	void setSmoothing(bool b)
+	{
+		field_39 = b;
+	}
+
+	// set smoothing for next texture to be loaded
+	void setClampToEdge(bool b)
+	{
+		field_38 = b;
+	}
+
 	Textures(Options*, AppPlatform*);
 	~Textures();
 

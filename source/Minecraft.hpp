@@ -127,5 +127,8 @@ public:
 	Screen* m_pQueuedScreen;
 	int m_licenseID;
 	ItemInstance m_CurrItemInstance;
+
+	// in 0.8. Offset 3368
+	double m_fDeltaTime, m_fLastUpdated;
 };
 

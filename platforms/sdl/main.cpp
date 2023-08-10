@@ -134,7 +134,7 @@ static void handle_events()
 }
 
 // GUI Scale
-static void calulate_gui_scale()
+static void calculate_gui_scale()
 {
 	int width = Minecraft::width;
 
@@ -207,6 +207,8 @@ static EM_BOOL main_loop(double time, void *user_data)
 	}
 }
 
+extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
+
 // Main
 int main(int argc, char *argv[])
 {
@@ -234,6 +236,8 @@ int main(int argc, char *argv[])
 	Minecraft::width = std::stoi(argv[1]);
 	Minecraft::height = std::stoi(argv[2]);
 #endif
+
+	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
 
 	// Create Window
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);

@@ -140,7 +140,10 @@ void OptionsScreen::init()
 
 void OptionsScreen::render(int a, int b, float c)
 {
-	renderBackground();
+	if (!m_pMinecraft->isLevelGenerated())
+		renderMenuBackground(c);
+
+	fillGradient(0, 0, m_width, m_height, 0xC0101010, 0xD0101010);
 
 	if (m_pMinecraft->m_pPlatform->getUserInputStatus() >= 0)
 	{
