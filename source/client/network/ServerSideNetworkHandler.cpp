@@ -131,6 +131,11 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	m_pLevel->addEntity(pPlayer);
 
+	if (m_pMinecraft->m_pGameMode->isCreativeType())
+		pPlayer->m_pInventory->prepareCreativeInventory();
+	else
+		pPlayer->m_pInventory->prepareSurvivalInventory();
+
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
 
 	AddPlayerPacket app(guid, RakNet::RakString(pPlayer->m_name.c_str()), pPlayer->m_EntityID, pPlayer->m_pos.x, pPlayer->m_pos.y - pPlayer->field_84, pPlayer->m_pos.z);
