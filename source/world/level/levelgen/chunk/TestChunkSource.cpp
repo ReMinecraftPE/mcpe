@@ -155,6 +155,25 @@ LevelChunk* TestChunkSource::getChunk(int x, int z)
 	return create(x, z);
 }
 
+LevelChunk* TestChunkSource::getChunkDontCreate(int x, int z)
+{
+	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_X || z >= C_MAX_CHUNKS_Z)
+		return nullptr;
+
+	if (m_chunkMap[z][x])
+		return m_chunkMap[z][x];
+
+	TileID* pData = new TileID[0x8000u];
+	memset(pData, 0, 0x8000u * sizeof(TileID));
+
+	m_chunkMap[z][x] = new LevelChunk(m_pLevel, pData, x, z);
+	m_pLastChunk = m_chunkMap[z][x];
+	m_lastChunkX = x;
+	m_lastChunkZ = z;
+
+	return m_chunkMap[z][x];
+}
+
 bool TestChunkSource::hasChunk(int x, int z)
 {
 	return true;

@@ -94,6 +94,24 @@ LevelChunk* RandomLevelSource::getChunk(int x, int z)
 	return pChunk;
 }
 
+LevelChunk* RandomLevelSource::getChunkDontCreate(int x, int z)
+{
+	int hashCode = GetChunkHash(x, z);
+	auto iter = m_chunks.find(hashCode);
+	if (iter != m_chunks.end())
+		return iter->second;
+
+	// have to create the chunk. Create an empty one
+
+	TileID* pLevelData = new TileID[32768];
+	memset (pLevelData, 0, sizeof *pLevelData * 32768);
+
+	LevelChunk* pChunk = new LevelChunk(m_pLevel, pLevelData, x, z);
+	m_chunks.insert(std::pair<int, LevelChunk*>(hashCode, pChunk));
+
+	return pChunk;
+}
+
 float* RandomLevelSource::getHeights(float* fptr, int a3, int a4, int a5, int a6, int a7, int a8)
 {
 	if (fptr == nullptr)

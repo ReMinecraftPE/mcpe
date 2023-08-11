@@ -113,6 +113,43 @@ LevelChunk* ChunkCache::getChunk(int x, int z)
 	return m_chunkMap[z][x];
 }
 
+LevelChunk* ChunkCache::getChunkDontCreate(int x, int z)
+{
+	// get the last chunk quickly if needed
+	if (m_LastChunkX == x && m_LastChunkZ == z)
+	{
+		if (m_pLastChunk)
+			return m_pLastChunk;
+	}
+
+	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_Z || z >= C_MAX_CHUNKS_X)
+		return m_pEmptyChunk;
+
+	if (!hasChunk(x, z))
+	{
+		LevelChunk* pOldChunk = m_chunkMap[z][x];
+		if (pOldChunk)
+		{
+			pOldChunk->unload();
+			save(pOldChunk);
+			if (m_pChunkStorage)
+				m_pChunkStorage->saveEntities(m_pLevel, pOldChunk);
+		}
+
+		// create an empty chunk
+		LevelChunk* pChunk = m_pEmptyChunk;
+		if (m_pChunkSource)
+			pChunk = m_pChunkSource->getChunkDontCreate(x, z);
+
+		m_chunkMap[z][x] = pChunk;
+	}
+
+	m_LastChunkX = x;
+	m_LastChunkZ = z;
+	m_pLastChunk = m_chunkMap[z][x];
+	return m_chunkMap[z][x];
+}
+
 bool ChunkCache::hasChunk(int x, int z)
 {
 	if (x < 0 || z < 0)

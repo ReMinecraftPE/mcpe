@@ -19,6 +19,7 @@ public:
 	virtual bool hasChunk(int, int) = 0;
 	virtual LevelChunk* getChunk(int, int) = 0;
 	virtual LevelChunk* create(int, int) = 0;
+	virtual LevelChunk* getChunkDontCreate(int, int) = 0;
 	virtual void postProcess(ChunkSource*, int, int) = 0;
 	virtual int  tick() = 0;
 	virtual bool shouldSave() = 0;

@@ -23,6 +23,7 @@ public:
 
 	LevelChunk* create(int x, int z) override;
 	LevelChunk* getChunk(int x, int z) override;
+	LevelChunk* getChunkDontCreate(int x, int z) override;
 	bool hasChunk(int x, int z) override;
 	std::string gatherStats() override;
 	void postProcess(ChunkSource*, int, int) override;

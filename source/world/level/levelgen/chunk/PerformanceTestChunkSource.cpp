@@ -62,6 +62,15 @@ LevelChunk* PerformanceTestChunkSource::getChunk(int x, int z)
 	return create(x, z);
 }
 
+LevelChunk* PerformanceTestChunkSource::getChunkDontCreate(int x, int z)
+{
+	TileID* pData = new TileID[0x8000u];
+	memset(pData, 0, 0x8000u * sizeof(TileID));
+
+	LevelChunk* pChunk = new LevelChunk(m_pLevel, pData, x, z);
+	return pChunk;
+}
+
 bool PerformanceTestChunkSource::hasChunk(int x, int z)
 {
 	return true;
