@@ -84,5 +84,7 @@ public:
 
 	float m_matrix_projection[16];
 	float m_matrix_model_view[16];
+
+	int m_shownFPS, m_shownChunkUpdates, m_lastUpdatedMS;
 };
 

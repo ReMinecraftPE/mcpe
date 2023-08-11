@@ -52,6 +52,8 @@ void Options::initDefaultValues()
 	field_1C = "Default";
 	m_playerName = "Steve";
 	m_bServerVisibleDefault = true;
+	m_bDebugText = false;
+
 	m_keyBinds[0] = { "key.forward", 'W' };
 	m_keyBinds[1] = { "key.left", 'A' };
 	m_keyBinds[2] = { "key.back", 'S' };

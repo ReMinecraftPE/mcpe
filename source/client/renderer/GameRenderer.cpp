@@ -49,6 +49,9 @@ void GameRenderer::_init()
 	field_7C = 0.0f;
 	field_80 = 0.0f;
 	field_84 = 0.0f;
+	m_lastUpdatedMS = 0;
+	m_shownFPS = 0;
+	m_shownChunkUpdates = 0;
 }
 
 GameRenderer::GameRenderer(Minecraft* pMinecraft) :
@@ -621,6 +624,34 @@ void GameRenderer::render(float f)
 			sleepMs(15);
 #endif
 		}
+	}
+
+	std::stringstream debugText;
+	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
+	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
+
+	if (m_pMinecraft->m_options.m_bDebugText)
+	{
+		if (m_pMinecraft->m_pLocalPlayer)
+		{
+			char posStr[64];
+			Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(f);
+			snprintf(posStr, sizeof posStr, "%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
+
+			debugText << "\npos: " << posStr;
+			debugText << "\n" << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+		}
+
+		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
+	}
+
+	int timeMs = getTimeMs();
+	if (timeMs - m_lastUpdatedMS >= 1000)
+	{
+		m_lastUpdatedMS = timeMs;
+		m_shownFPS = m_pMinecraft->getFpsIntlCounter();
+		m_shownChunkUpdates = Chunk::updates;
+		Chunk::updates = 0;
 	}
 }
 

@@ -56,6 +56,7 @@ public:
 	void tickMouse();
 	void handleCharInput(char chr);
 	void sendMessage(const std::string& message);
+	std::string getVersionString();
 
 	virtual void onGraphicsReset();
 	virtual void update() override;
@@ -74,6 +75,8 @@ public:
 	LevelStorageSource* getLevelSource();
 
 	ItemInstance* getSelectedItem();
+
+	virtual int getFpsIntlCounter();
 
 public:
 	static int width, height;

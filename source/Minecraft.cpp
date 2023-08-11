@@ -466,6 +466,10 @@ void Minecraft::tickInput()
 					m_pLocalPlayer->drop(&inst);
 				}
 			}
+			else if (keyCode == AKEYCODE_F3)
+			{
+				m_options.m_bDebugText = !m_options.m_bDebugText;
+			}
 		#ifdef ENH_ALLOW_AO
 			else if (keyCode == AKEYCODE_F4)
 			{
@@ -553,6 +557,11 @@ void Minecraft::sendMessage(const std::string& message)
 		MessagePacket mp(message);
 		m_pNetEventCallback->handle(m_pRakNetInstance->m_pRakPeerInterface->GetMyGUID(), &mp);
 	}
+}
+
+std::string Minecraft::getVersionString()
+{
+	return "v0.1.0 alpha";
 }
 
 void Minecraft::_levelGenerated()
@@ -985,6 +994,11 @@ ItemInstance* Minecraft::getSelectedItem()
 	m_CurrItemInstance.m_auxValue = pInst->m_auxValue;
 
 	return &m_CurrItemInstance;
+}
+
+int Minecraft::getFpsIntlCounter()
+{
+	return 0;
 }
 
 void Minecraft::leaveGame(bool bCopyMap)

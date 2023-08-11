@@ -28,6 +28,8 @@ public:
 	void updateStats();
 	void initGLStates();
 
+	int getFpsIntlCounter() override;
+
 private:
 	int field_DBC;
 	bool field_DC0;

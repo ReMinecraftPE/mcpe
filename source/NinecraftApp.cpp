@@ -55,6 +55,13 @@ void NinecraftApp::initGLStates()
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
 }
 
+int NinecraftApp::getFpsIntlCounter()
+{
+	int ofps = m_fps;
+	m_fps = 0;
+	return ofps;
+}
+
 void NinecraftApp::init()
 {
 	Mth::initMth();
@@ -110,6 +117,7 @@ void NinecraftApp::update()
 
 void NinecraftApp::updateStats()
 {
+	/*
 	int timeMs = getTimeMs();
 	if (timeMs > field_2B0 + 999)
 	{
@@ -128,6 +136,7 @@ void NinecraftApp::updateStats()
 		field_2B0 = timeMs;
 		m_fps = 0;
 	}
+	*/
 }
 
 NinecraftApp::NinecraftApp()

@@ -58,6 +58,9 @@ enum
 	AKEYCODE_APOSTROPHE = VK_OEM_7, // ''"'
 	AKEYCODE_SPACE = VK_SPACE,
 
+	AKEYCODE_F3 = VK_F3,
+	AKEYCODE_F4 = VK_F4,
+
 	AKEYCODE_0 = '0',
 	AKEYCODE_1 = '1',
 	//...
@@ -72,7 +75,6 @@ enum
 	AKEYCODE_T = 'T',
 	AKEYCODE_Z = 'Z',
 
-	AKEYCODE_F4 = VK_F4,
 };
 
 // this sucks
@@ -128,6 +130,7 @@ enum
 	AKEYCODE_Q,
 	AKEYCODE_T,
 	AKEYCODE_Z,
+	AKEYCODE_F3,
 	AKEYCODE_F4,
 	AKEYCODE_ARROW_LEFT,
 	AKEYCODE_ARROW_RIGHT,
@@ -137,6 +140,8 @@ enum
 static inline int translate_sdl_key_to_mcpe(int key) {
 	switch (key) {
 		case SDLK_ESCAPE: return AKEYCODE_MENU;
+		case SDLK_F3: return AKEYCODE_F3;
+		case SDLK_F4: return AKEYCODE_F4;
 		case SDLK_F5: return AKEYCODE_SEARCH;
 		case SDLK_y: return AKEYCODE_BACK;
 		case SDLK_u: return AKEYCODE_BUTTON_X;
@@ -176,7 +181,6 @@ static inline int translate_sdl_key_to_mcpe(int key) {
 		case SDLK_q: return AKEYCODE_Q;
 		case SDLK_t: return AKEYCODE_T;
 		case SDLK_z: return AKEYCODE_Z;
-		case SDLK_F4: return AKEYCODE_F4;
 		case SDLK_LEFT: return AKEYCODE_ARROW_LEFT;
 		case SDLK_RIGHT: return AKEYCODE_ARROW_RIGHT;
 		case SDLK_RETURN: return AKEYCODE_ENTER;

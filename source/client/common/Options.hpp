@@ -110,5 +110,6 @@ public:
 	std::string m_playerName;
 	bool m_bServerVisibleDefault;
 	bool m_bAutoJump;
+	bool m_bDebugText;
 };
 
