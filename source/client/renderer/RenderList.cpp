@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "RenderList.hpp"
-#include "Tessellator.hpp"
+#include "Tesselator.hpp"
 
 #include <cstddef>
 
@@ -121,9 +121,9 @@ void RenderList::renderChunks()
 
 			glTranslatef(chk.field_C, chk.field_10, chk.field_14);
 			xglBindBuffer(GL_ARRAY_BUFFER, chk.field_0);
-			glVertexPointer  (3, GL_FLOAT,         sizeof(Tessellator::Vertex), (void*)offsetof(Tessellator::Vertex, m_x));
-			glTexCoordPointer(2, GL_FLOAT,         sizeof(Tessellator::Vertex), (void*)offsetof(Tessellator::Vertex, m_u));
-			glColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(Tessellator::Vertex), (void*)offsetof(Tessellator::Vertex, m_color));
+			glVertexPointer  (3, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_x));
+			glTexCoordPointer(2, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_u));
+			glColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_color));
 			glDrawArrays(GL_TRIANGLES, 0, chk.field_4);
 
 			glPopMatrix();

@@ -27,7 +27,7 @@ void AvailableGamesList::renderBackground()
 {
 }
 
-void AvailableGamesList::renderItem(int idx, int x, int y, int width, Tessellator& t)
+void AvailableGamesList::renderItem(int idx, int x, int y, int width, Tesselator& t)
 {
     drawString(m_pMinecraft->m_pFont, std::string(m_games[idx].m_name.C_String()),    x, y + 2,  0xFFFFA0);
     drawString(m_pMinecraft->m_pFont, std::string(m_games[idx].m_address.ToString()), x, y + 16, 0xFFFFA0);

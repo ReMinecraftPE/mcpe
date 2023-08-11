@@ -33,7 +33,7 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 	m_cube.m_rotX  = 0.017453f * (180.0f + 0.5f * entity->m_pitch);
 	m_cube.m_rotY = -0.017453f * entity->m_yaw;
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.color(1.0f, 1.0f, 1.0f);
 
 	float brightness = entity->getBrightness(1.0f);

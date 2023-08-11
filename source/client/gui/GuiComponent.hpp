@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/renderer/Tessellator.hpp"
+#include "client/renderer/Tesselator.hpp"
 #include "client/renderer/Font.hpp"
 
 class GuiComponent

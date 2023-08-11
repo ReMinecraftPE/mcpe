@@ -144,7 +144,7 @@ void Chunk::rebuild()
 	Region region(m_pLevel, minX - 1, minY - 1, minZ - 1, maxX + 1, maxY + 1, maxZ + 1);
 	TileRenderer tileRenderer(&region);
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 
 	for (int layer = 0; layer < 2; layer++)
 	{
@@ -220,7 +220,7 @@ Chunk::Chunk(Level* level, int x, int y, int z, int a, int b, GLuint* bufs)
 	field_10 = a;
 	field_14 = a;
 	field_18 = a;
-	m_pTessellator = &Tessellator::instance;
+	m_pTesselator = &Tesselator::instance;
 	field_8C = b;
 	m_pos.x = -999;
 	field_2C = Mth::sqrt(float(field_10 * field_10 + field_14 * field_14 + field_18 * field_18)) / 2;

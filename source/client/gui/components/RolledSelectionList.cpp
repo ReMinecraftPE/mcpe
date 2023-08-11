@@ -159,7 +159,7 @@ _done:
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.color(0x202020);
 	t.vertexUV(field_C,  field_24, 0.0f, (field_C  + float(int(field_30))) / 32.0f, field_24 / 32.0f);
@@ -276,7 +276,7 @@ void RolledSelectionList::renderHoleBackground(float y1, float y2, int a, int b)
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.color(0x505050, b);
 	t.vertexUV(0.0f, y2, 0.0f, 0.0f, y2 / 32.0f);
@@ -312,7 +312,7 @@ void RolledSelectionList::touched()
 
 }
 
-void RolledSelectionList::renderHeader(int a, int b, Tessellator& t)
+void RolledSelectionList::renderHeader(int a, int b, Tesselator& t)
 {
 
 }

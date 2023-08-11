@@ -38,7 +38,7 @@ void EntityRenderer::onGraphicsReset()
 
 void EntityRenderer::render(const AABB& aabb, float offX, float offY, float offZ)
 {
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 
 	glDisable(GL_TEXTURE_2D);
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -75,7 +75,7 @@ void EntityRenderer::render(const AABB& aabb, float offX, float offY, float offZ
 
 void EntityRenderer::renderFlat(const AABB& aabb)
 {
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 
 	t.begin();
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);

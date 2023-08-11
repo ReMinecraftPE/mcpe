@@ -18,10 +18,10 @@
 #define GET_BLUE(c)  (uint8_t(((c) >> 16) & 0xFF))
 #define GET_ALPHA(c) (uint8_t(((c) >> 24) & 0xFF))
 
-class Tessellator
+class Tesselator
 {
 public:
-	static Tessellator instance; // singleton
+	static Tesselator instance; // singleton
 
 public:
 	struct Vertex
@@ -38,8 +38,8 @@ public:
 	};
 
 public:
-	Tessellator(int allotedSize = 0x800000);
-	~Tessellator();
+	Tesselator(int allotedSize = 0x800000);
+	~Tesselator();
 
 	void addOffset(float x, float y, float z);
 	void begin();

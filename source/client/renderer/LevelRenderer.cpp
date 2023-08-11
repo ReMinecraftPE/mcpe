@@ -60,7 +60,7 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 
 void LevelRenderer::generateSky()
 {
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 	field_DC = 0;
 
@@ -381,7 +381,7 @@ void LevelRenderer::onGraphicsReset()
 
 void LevelRenderer::render(const AABB& aabb) const
 {
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 
 	t.begin(GL_LINE_STRIP);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.min.z);
@@ -964,7 +964,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	float py = pPlayer->field_98.y + (pPlayer->m_pos.y - pPlayer->field_98.y) * f;
 	float pz = pPlayer->field_98.z + (pPlayer->m_pos.z - pPlayer->field_98.z) * f;
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.offset(-px, -py, -pz);
 	t.noColor();
@@ -1150,7 +1150,7 @@ void LevelRenderer::renderSky(float f)
 	glColor4f(skyColor.x, skyColor.y, Mth::Min(1.0f, skyColor.z), 1.0f);
 	glDepthMask(false);
 	glColor4f(skyColor.x, skyColor.y, skyColor.z, 1.0f);
-	drawArrayVT(field_D8, field_DC, sizeof(Tessellator::Vertex));
+	drawArrayVT(field_D8, field_DC, sizeof(Tesselator::Vertex));
 	glEnable(GL_TEXTURE_2D);
 	glDepthMask(true);
 }

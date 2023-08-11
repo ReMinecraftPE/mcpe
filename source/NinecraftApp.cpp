@@ -69,7 +69,7 @@ void NinecraftApp::init()
 	}
 
 	initGLStates();
-	Tessellator::instance.init();
+	Tesselator::instance.init();
 	Minecraft::init();
 
 #ifdef DEMO
@@ -86,7 +86,7 @@ void NinecraftApp::init()
 void NinecraftApp::onGraphicsReset()
 {
 	initGLStates();
-	Tessellator::instance.init();
+	Tesselator::instance.init();
 	Minecraft::onGraphicsReset();
 }
 

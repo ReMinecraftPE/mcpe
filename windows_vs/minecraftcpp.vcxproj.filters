@@ -786,7 +786,7 @@
     <ClInclude Include="..\source\client\renderer\RenderList.hpp">
       <Filter>source\client\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\renderer\Tessellator.hpp">
+    <ClInclude Include="..\source\client\renderer\Tesselator.hpp">
       <Filter>source\client\renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\source\client\renderer\Texture.hpp">
@@ -1580,7 +1580,7 @@
     <ClCompile Include="..\source\client\renderer\RenderList.cpp">
       <Filter>source\client\renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\renderer\Tessellator.cpp">
+    <ClCompile Include="..\source\client\renderer\Tesselator.cpp">
       <Filter>source\client\renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\renderer\Textures.cpp">

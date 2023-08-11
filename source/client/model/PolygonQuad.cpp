@@ -68,7 +68,7 @@ void PolygonQuad::mirror()
 	std::swap(m_verts[1], m_verts[2]);
 }
 
-void PolygonQuad::render(Tessellator& t, float scale)
+void PolygonQuad::render(Tesselator& t, float scale)
 {
 	for (int i = 0; i < 4; i++)
 	{

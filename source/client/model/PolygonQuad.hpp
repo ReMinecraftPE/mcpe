@@ -10,7 +10,7 @@
 
 #include <utility>
 #include "client/renderer/VertexPT.hpp"
-#include "client/renderer/Tessellator.hpp"
+#include "client/renderer/Tesselator.hpp"
 #include "GameMods.hpp"
 
 class PolygonQuad
@@ -25,7 +25,7 @@ public:
 
 	void flipNormal();
 	void mirror();
-	void render(Tessellator& t, float scale);
+	void render(Tesselator& t, float scale);
 
 #ifdef ENH_ENTITY_SHADING
 	void setColor(float r, float g, float b);

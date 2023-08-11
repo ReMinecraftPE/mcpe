@@ -78,7 +78,7 @@ void Cube::compile(float scale)
 	xglDeleteBuffers(1, &m_buffer);
 	xglGenBuffers(1, &m_buffer);
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 
 	for (int i = 0; i < 6; i++)
@@ -90,12 +90,12 @@ void Cube::compile(float scale)
 
 void Cube::draw()
 {
-	drawArrayVTC(m_buffer, 36, sizeof(Tessellator::Vertex));
+	drawArrayVTC(m_buffer, 36, sizeof(Tesselator::Vertex));
 }
 
 void Cube::drawSlow(float scale)
 {
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 
 	for (int i = 0; i < 6; i++)

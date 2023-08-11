@@ -116,7 +116,7 @@
     <ClInclude Include="..\source\client\renderer\PatchManager.hpp" />
     <ClInclude Include="..\source\client\renderer\RenderChunk.hpp" />
     <ClInclude Include="..\source\client\renderer\RenderList.hpp" />
-    <ClInclude Include="..\source\client\renderer\Tessellator.hpp" />
+    <ClInclude Include="..\source\client\renderer\Tesselator.hpp" />
     <ClInclude Include="..\source\client\renderer\Texture.hpp" />
     <ClInclude Include="..\source\client\renderer\Textures.hpp" />
     <ClInclude Include="..\source\client\renderer\TileRenderer.hpp" />
@@ -430,7 +430,7 @@
     <ClCompile Include="..\source\client\renderer\PatchManager.cpp" />
     <ClCompile Include="..\source\client\renderer\RenderChunk.cpp" />
     <ClCompile Include="..\source\client\renderer\RenderList.cpp" />
-    <ClCompile Include="..\source\client\renderer\Tessellator.cpp" />
+    <ClCompile Include="..\source\client\renderer\Tesselator.cpp" />
     <ClCompile Include="..\source\client\renderer\Textures.cpp" />
     <ClCompile Include="..\source\client\renderer\TileRenderer.cpp" />
     <ClCompile Include="..\source\client\renderer\WaterSideTexture.cpp" />

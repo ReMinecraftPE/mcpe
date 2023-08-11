@@ -164,7 +164,7 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_TEXTURE_2D);
 	
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 
 	int width = font->width(str);

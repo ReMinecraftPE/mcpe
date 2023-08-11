@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../entity/Entity.hpp"
-#include "client/renderer/Tessellator.hpp"
+#include "client/renderer/Tesselator.hpp"
 
 enum eParticleTexture
 {
@@ -34,7 +34,7 @@ public:
 	Particle() { _init(); }
 	Particle(Level*, float y, float x, float z, float vx, float vy, float vz);
 
-	virtual void render(Tessellator&, float, float, float, float, float, float);
+	virtual void render(Tesselator&, float, float, float, float, float, float);
 	virtual int getParticleTexture();
 	//TODO: addAdditonalSaveData
 	//TODO: readAdditionalSaveData
@@ -68,7 +68,7 @@ public:
 	TerrainParticle(Level*, float x, float y, float z, Tile*);
 	TerrainParticle(Level*, float x, float y, float z, float vx, float vy, float vz, Tile*);
 
-	void render(Tessellator&, float, float, float, float, float, float) override;
+	void render(Tesselator&, float, float, float, float, float, float) override;
 	int getParticleTexture() override;
 	TerrainParticle* init(int x, int y, int z);
 
@@ -88,7 +88,7 @@ class SmokeParticle : public Particle
 public:
 	SmokeParticle(Level*, float x, float y, float z, float vx, float vy, float vz, float a9);
 	void tick() override;
-	void render(Tessellator&, float, float, float, float, float, float) override;
+	void render(Tesselator&, float, float, float, float, float, float) override;
 
 public:
 	float field_104;
@@ -99,7 +99,7 @@ class RedDustParticle : public Particle
 public:
 	RedDustParticle(Level*, float x, float y, float z, float vx, float vy, float vz);
 	void tick() override;
-	void render(Tessellator&, float, float, float, float, float, float) override;
+	void render(Tesselator&, float, float, float, float, float, float) override;
 
 public:
 	float field_104;
@@ -120,7 +120,7 @@ class FlameParticle : public Particle
 public:
 	FlameParticle(Level*, float x, float y, float z, float vx, float vy, float vz);
 	void tick() override;
-	void render(Tessellator&, float, float, float, float, float, float) override;
+	void render(Tesselator&, float, float, float, float, float, float) override;
 	float getBrightness(float f) override;
 
 public:
@@ -132,7 +132,7 @@ class LavaParticle : public Particle
 public:
 	LavaParticle(Level*, float x, float y, float z);
 	void tick() override;
-	void render(Tessellator&, float, float, float, float, float, float) override;
+	void render(Tesselator&, float, float, float, float, float, float) override;
 	float getBrightness(float f) override;
 
 public:

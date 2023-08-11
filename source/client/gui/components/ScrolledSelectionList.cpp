@@ -31,7 +31,7 @@ int ScrolledSelectionList::getMaxPosition()
 	return field_48 + m_itemHeight * getNumberOfItems();
 }
 
-void ScrolledSelectionList::renderHeader(int a, int b, Tessellator& t)
+void ScrolledSelectionList::renderHeader(int a, int b, Tesselator& t)
 {
 }
 
@@ -130,7 +130,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.color(0x202020);
 	t.vertexUV(field_24, field_10, 0.0f, field_24 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
@@ -221,7 +221,7 @@ void ScrolledSelectionList::renderHoleBackground(float a, float b, int c, int d)
 
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.color(0x505050, d);
 	t.vertexUV(0.0f,            b, 0.0f, 0.0f,             b / 32.0f);

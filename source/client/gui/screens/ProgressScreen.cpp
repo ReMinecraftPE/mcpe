@@ -32,7 +32,7 @@ void ProgressScreen::render(int a, int b, float c)
 	int x_width  = int(Minecraft::width  * Gui::InvGuiScale);
 	int x_height = int(Minecraft::height * Gui::InvGuiScale);
 
-	Tessellator& t = Tessellator::instance;
+	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.color(0x404040);
 	t.vertexUV(0.0f,           float(x_height), 0, 0,                      float(x_height) / 32.0f);

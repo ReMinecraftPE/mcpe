@@ -10,7 +10,7 @@
 
 #include "world/level/Region.hpp"
 #include "client/renderer/Chunk.hpp"
-#include "client/renderer/Tessellator.hpp"
+#include "client/renderer/Tesselator.hpp"
 
 #ifndef ENH_SHADE_HELD_TILES
 #define RENDER_TILE_ARG_PATCH

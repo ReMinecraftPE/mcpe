@@ -31,7 +31,7 @@ RedDustParticle::RedDustParticle(Level* level, float x, float y, float z, float 
 	field_EC = int(8.0f / (0.2f + 0.8f * Mth::random()));
 }
 
-void RedDustParticle::render(Tessellator& t, float f, float a, float b, float c, float d, float e)
+void RedDustParticle::render(Tesselator& t, float f, float a, float b, float c, float d, float e)
 {
 	float mult = 32.0f * (float(field_E8 + f) / float(field_EC));
 	if (mult < 0.0f)

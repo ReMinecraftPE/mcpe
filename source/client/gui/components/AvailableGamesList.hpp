@@ -18,7 +18,7 @@ public:
 	int getNumberOfItems() override;
 	bool isSelectedItem(int i) override;
 	void renderBackground() override;
-	void renderItem(int, int, int, int, Tessellator& t) override;
+	void renderItem(int, int, int, int, Tesselator& t) override;
 	void selectItem(int, bool) override;
 
 public:
