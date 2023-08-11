@@ -29,56 +29,12 @@ HitResult AABB::clip(const Vec3& vec1, const Vec3& vec2)
 	bool bClipMinX, bClipMinY, bClipMinZ;
 	bool bClipMaxX, bClipMaxY, bClipMaxZ;
 
-	bClipMinX = vec1.clipX(vec2, min.x, clipMinX);
-	bClipMaxX = vec1.clipX(vec2, max.x, clipMaxX);
-	bClipMinY = vec1.clipY(vec2, min.y, clipMinY);
-	bClipMaxY = vec1.clipY(vec2, max.y, clipMaxY);
-	bClipMinZ = vec1.clipZ(vec2, min.z, clipMinZ);
-	bClipMaxZ = vec1.clipZ(vec2, max.z, clipMaxZ);
-
-	// <sigh>
-	if (bClipMinX)
-	{
-		if (clipMinX.y < this->min.y || clipMinX.y > this->max.y || clipMinX.z < this->min.z)
-			bClipMinX = 0;
-		else
-			bClipMinX = clipMinX.z <= this->max.z;
-	}
-	if (bClipMaxX)
-	{
-		if (clipMaxX.y < this->min.y || clipMaxX.y > this->max.y || clipMaxX.z < this->min.z)
-			bClipMaxX = 0;
-		else
-			bClipMaxX = clipMaxX.z <= this->max.z;
-	}
-	if (bClipMinY)
-	{
-		if (clipMinY.x < this->min.x || clipMinY.x > this->max.x || clipMinY.z < this->min.z)
-			bClipMinY = 0;
-		else
-			bClipMinY = clipMinY.z <= this->max.z;
-	}
-	if (bClipMaxY)
-	{
-		if (clipMaxY.x < this->min.x || clipMaxY.x > this->max.x || clipMaxY.z < this->min.z)
-			bClipMaxY = 0;
-		else
-			bClipMaxY = clipMaxY.z <= this->max.z;
-	}
-	if (bClipMinZ)
-	{
-		if (clipMinZ.x < this->min.x || clipMinZ.x > this->max.x || clipMinZ.y < this->min.y)
-			bClipMinZ = 0;
-		else
-			bClipMinZ = clipMinZ.y <= this->max.y;
-	}
-	if (bClipMaxZ)
-	{
-		if (clipMaxZ.x < this->min.x || clipMaxZ.x > this->max.x || clipMaxZ.y < this->min.y)
-			bClipMaxZ = 0;
-		else
-			bClipMaxZ = clipMaxZ.y <= this->max.y;
-	}
+	bClipMinX = vec1.clipX(vec2, min.x, clipMinX) && containsX(&clipMinX);
+	bClipMaxX = vec1.clipX(vec2, max.x, clipMaxX) && containsX(&clipMaxX);
+	bClipMinY = vec1.clipY(vec2, min.y, clipMinY) && containsY(&clipMinY);
+	bClipMaxY = vec1.clipY(vec2, max.y, clipMaxY) && containsY(&clipMaxY);
+	bClipMinZ = vec1.clipZ(vec2, min.z, clipMinZ) && containsZ(&clipMinZ);
+	bClipMaxZ = vec1.clipZ(vec2, max.z, clipMaxZ) && containsZ(&clipMaxZ);
 
 	// the collided side of our AABB
 	HitResult::eHitSide collType = HitResult::NOHIT;
@@ -90,7 +46,7 @@ HitResult AABB::clip(const Vec3& vec1, const Vec3& vec2)
 
 	if (bClipMaxX)
 	{
-		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+		if (!pVec || clipMaxX.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
 			pVec = &clipMaxX, collType = HitResult::MAXX;
 	}
 
@@ -185,6 +141,21 @@ float AABB::clipZCollide(const AABB& bud, float f) const
 	}
 
 	return f;
+}
+
+bool AABB::containsX(Vec3* pVec)
+{
+	return pVec->y >= this->min.y && pVec->y <= this->max.y && pVec->z >= this->min.z && pVec->z <= this->max.z;
+}
+
+bool AABB::containsY(Vec3* pVec)
+{
+	return pVec->x >= this->min.x && pVec->x <= this->max.x && pVec->z >= this->min.z && pVec->z <= this->max.z;
+}
+
+bool AABB::containsZ(Vec3* pVec)
+{
+	return pVec->x >= this->min.x && pVec->x <= this->max.x && pVec->y >= this->min.y && pVec->y <= this->max.y;
 }
 
 bool AABB::intersect(const AABB& other) const

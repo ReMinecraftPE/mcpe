@@ -26,6 +26,10 @@ public:
 	float clipYCollide(const AABB& bud, float f) const;
 	float clipZCollide(const AABB& bud, float f) const;
 
+	bool containsX(Vec3* pVec);
+	bool containsY(Vec3* pVec);
+	bool containsZ(Vec3* pVec);
+
 	bool intersect(const AABB& other) const;
 
 	// @NOTE: Names for `move`, `grow` and `expand` were taken from really early minecraft (rd-132211 to be exact).
@@ -61,7 +65,11 @@ public:
 
 	bool contains(const Vec3& v) const
 	{
-		return v.x > min.x && v.x < max.x && v.y > min.y && v.y < max.y && v.z > min.z && v.z < max.z;
+		if (v.x <= min.x || v.x >= max.x)
+			return false;
+		if (v.y > min.y && v.y < max.y)
+			return v.z > min.z && v.z < max.z;
+		return false;
 	}
 };
 

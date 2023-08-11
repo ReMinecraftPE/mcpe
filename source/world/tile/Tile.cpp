@@ -810,17 +810,26 @@ void Tile::onRemove(Level* pLevel, int x, int y, int z)
 
 bool Tile::containsX(const Vec3& v)
 {
-	return v.y >= m_aabb.min.y && v.y <= m_aabb.max.y && v.z >= m_aabb.min.z && v.z <= m_aabb.max.z;
+	return v.y >= m_aabb.min.y
+		&& v.y <= m_aabb.max.y
+		&& v.z >= m_aabb.min.z
+		&& v.z <= m_aabb.max.z;
 }
 
 bool Tile::containsY(const Vec3& v)
 {
-	return v.x >= m_aabb.min.x && v.x <= m_aabb.max.x && v.z >= m_aabb.min.z && v.z <= m_aabb.max.z;
+	return v.x >= m_aabb.min.x
+		&& v.x <= m_aabb.max.x
+		&& v.z >= m_aabb.min.z
+		&& v.z <= m_aabb.max.z;
 }
 
 bool Tile::containsZ(const Vec3& v)
 {
-	return v.x >= m_aabb.min.x && v.x <= m_aabb.max.x && v.y >= m_aabb.min.z && v.y <= m_aabb.max.y;
+	return v.x >= m_aabb.min.x
+		&& v.x <= m_aabb.max.x
+		&& v.y >= m_aabb.min.y
+		&& v.y <= m_aabb.max.y;
 }
 
 HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
@@ -852,7 +861,7 @@ HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
 
 	if (bClipMaxX)
 	{
-		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+		if (!pVec || clipMaxX.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
 			pVec = &clipMaxX, collType = HitResult::MAXX;
 	}
 
