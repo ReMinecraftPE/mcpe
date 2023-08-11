@@ -835,56 +835,12 @@ HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
 	vec1 += Vec3(-float(x), -float(y), -float(z));
 	vec2 += Vec3(-float(x), -float(y), -float(z));
 
-	bClipMinX = vec1.clipX(vec2, m_aabb.min.x, clipMinX);
-	bClipMaxX = vec1.clipX(vec2, m_aabb.max.x, clipMaxX);
-	bClipMinY = vec1.clipY(vec2, m_aabb.min.y, clipMinY);
-	bClipMaxY = vec1.clipY(vec2, m_aabb.max.y, clipMaxY);
-	bClipMinZ = vec1.clipZ(vec2, m_aabb.min.z, clipMinZ);
-	bClipMaxZ = vec1.clipZ(vec2, m_aabb.max.z, clipMaxZ);
-
-	// <sigh>
-	if (bClipMinX)
-	{
-		if (clipMinX.y < m_aabb.min.y || clipMinX.y > m_aabb.max.y || clipMinX.z < m_aabb.min.z)
-			bClipMinX = 0;
-		else
-			bClipMinX = clipMinX.z <= m_aabb.max.z;
-	}
-	if (bClipMaxX)
-	{
-		if (clipMaxX.y < m_aabb.min.y || clipMaxX.y > m_aabb.max.y || clipMaxX.z < m_aabb.min.z)
-			bClipMaxX = 0;
-		else
-			bClipMaxX = clipMaxX.z <= m_aabb.max.z;
-	}
-	if (bClipMinY)
-	{
-		if (clipMinY.x < m_aabb.min.x || clipMinY.x > m_aabb.max.x || clipMinY.z < m_aabb.min.z)
-			bClipMinY = 0;
-		else
-			bClipMinY = clipMinY.z <= m_aabb.max.z;
-	}
-	if (bClipMaxY)
-	{
-		if (clipMaxY.x < m_aabb.min.x || clipMaxY.x > m_aabb.max.x || clipMaxY.z < m_aabb.min.z)
-			bClipMaxY = 0;
-		else
-			bClipMaxY = clipMaxY.z <= m_aabb.max.z;
-	}
-	if (bClipMinZ)
-	{
-		if (clipMinZ.x < m_aabb.min.x || clipMinZ.x > m_aabb.max.x || clipMinZ.y < m_aabb.min.y)
-			bClipMinZ = 0;
-		else
-			bClipMinZ = clipMinZ.y <= m_aabb.max.y;
-	}
-	if (bClipMaxZ)
-	{
-		if (clipMaxZ.x < m_aabb.min.x || clipMaxZ.x > m_aabb.max.x || clipMaxZ.y < m_aabb.min.y)
-			bClipMaxZ = 0;
-		else
-			bClipMaxZ = clipMaxZ.y <= m_aabb.max.y;
-	}
+	bClipMinX = vec1.clipX(vec2, m_aabb.min.x, clipMinX) && containsX(clipMinX);
+	bClipMaxX = vec1.clipX(vec2, m_aabb.max.x, clipMaxX) && containsX(clipMaxX);
+	bClipMinY = vec1.clipY(vec2, m_aabb.min.y, clipMinY) && containsY(clipMinY);
+	bClipMaxY = vec1.clipY(vec2, m_aabb.max.y, clipMaxY) && containsY(clipMaxY);
+	bClipMinZ = vec1.clipZ(vec2, m_aabb.min.z, clipMinZ) && containsZ(clipMinZ);
+	bClipMaxZ = vec1.clipZ(vec2, m_aabb.max.z, clipMaxZ) && containsZ(clipMaxZ);
 
 	// the collided side of our AABB
 	HitResult::eHitSide collType = HitResult::NOHIT;
@@ -920,7 +876,7 @@ HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
 
 	if (bClipMaxZ)
 	{
-		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+		if (!pVec || clipMaxZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
 			pVec = &clipMaxZ, collType = HitResult::MAXZ;
 	}
 

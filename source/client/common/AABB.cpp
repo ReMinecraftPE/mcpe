@@ -114,7 +114,7 @@ HitResult AABB::clip(const Vec3& vec1, const Vec3& vec2)
 
 	if (bClipMaxZ)
 	{
-		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+		if (!pVec || clipMaxZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
 			pVec = &clipMaxZ, collType = HitResult::MAXZ;
 	}
 
