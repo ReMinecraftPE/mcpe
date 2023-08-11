@@ -144,9 +144,7 @@ bool FireTile::isValidFireLocation(Level* level, int x, int y, int z)
 
 bool FireTile::mayPick()
 {
-	//return false;
-
-	return true; // @TODO: For testing
+	return false;
 }
 
 bool FireTile::mayPlace(Level* level, int x, int y, int z)
