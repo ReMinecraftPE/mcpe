@@ -532,7 +532,7 @@ void GameRenderer::render(float f)
 		float yd = 4.0f * mult1 * pMC->field_D24;
 
 		float old_field_84 = field_84;
-		field_84 = float(field_C) + f;
+		field_84 = float(m_rotX) + f;
 		float diff_field_84 = field_84 - old_field_84;
 		field_74 += xd;
 		field_78 += yd;
@@ -546,10 +546,10 @@ void GameRenderer::render(float f)
 		if (!pMC->m_options.field_240)
 		{
 			// @TODO: untangle this code
-			float v17 = xd + field_14;
+			float v17 = xd + m_rotZ;
 			float v18 = field_18;
 			float v19 = field_1C;
-			field_14 = v17;
+			m_rotZ = v17;
 			float v20 = mult1 * 0.25f * (v17 - v18);
 			float v21 = v19 + (v20 - v19) * 0.5f;
 			field_1C = v21;

@@ -101,7 +101,7 @@ void NinecraftApp::update()
 	Minecraft::update();
 
 #ifdef ORIGINAL_CODE
-	eglSwapBuffers(field_8, field_10);
+	eglSwapBuffers(field_8, m_rotY);
 #endif
 
 	Mouse::reset2();

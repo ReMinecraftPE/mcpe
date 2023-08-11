@@ -15,25 +15,30 @@ class Cube
 public:
 	Cube(int, int);
 
-	void addBox(float a, float b, float c, int d, int e, int f);
-	void addBox(float a, float b, float c, int d, int e, int f, float g);
+	void addBox(float a, float b, float c, int d, int e, int f, float g = 0);
 	// @TODO: void addTexBox(float a, float b, float c, int d, int e, int f, int g); -- No xrefs
-	void compile(float f);
+	void compile(float scale);
 	void draw();
-	void drawSlow(float f);
-	void render(float f);
+	void drawSlow(float scale);
+	void render(float scale);
 	void setPos(float x, float y, float z);
 	void setTexOffs(int a, int b);
-	void translateTo(float f);
-	void setBrightness(float f);
+	void translateTo(float scale);
+	void setBrightness(float brightness);
+
+private:
+	bool hasDefaultPos() { return m_posX == 0 && m_posY == 0 && m_posZ == 0; }
+	bool hasDefaultRot() { return m_rotX == 0 && m_rotY == 0 && m_rotZ == 0; }
+	void translatePosTo(float scale);
+	void translateRotTo(float scale);
 
 public:
 	float m_posX;
 	float m_posY;
 	float m_posZ;
-	float field_C;
-	float field_10;
-	float field_14;
+	float m_rotX;
+	float m_rotY;
+	float m_rotZ;
 	bool field_18;
 	bool field_19;
 	bool field_1A;
@@ -46,6 +51,6 @@ public:
 	GLuint m_buffer;
 	float m_brightness;
 
-	static float c;
+	static const float c;
 };
 

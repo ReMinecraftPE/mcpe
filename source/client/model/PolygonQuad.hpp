@@ -25,7 +25,7 @@ public:
 
 	void flipNormal();
 	void mirror();
-	void render(Tesselator& t, float scale, int unused);
+	void render(Tesselator& t, float scale);
 
 #ifdef ENH_ENTITY_SHADING
 	void setColor(float r, float g, float b);

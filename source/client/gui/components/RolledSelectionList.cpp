@@ -227,20 +227,20 @@ _done:
 #ifdef ORIGINAL_CODE
 	t.begin();
 	t.color(0, 0);
-	t.vertexUV(field_20, field_C + 4.0f, 0.0f, 0.0f, 1.0f);
-	t.vertexUV(field_24, field_C + 4.0f, 0.0f, 1.0f, 1.0f);
+	t.vertexUV(field_20, m_rotX + 4.0f, 0.0f, 0.0f, 1.0f);
+	t.vertexUV(field_24, m_rotX + 4.0f, 0.0f, 1.0f, 1.0f);
 	t.color(0, 255);
-	t.vertexUV(field_24, field_C, 0.0f, 1.0f, 0.0f);
-	t.vertexUV(field_20, field_C, 0.0f, 0.0f, 0.0f);
+	t.vertexUV(field_24, m_rotX, 0.0f, 1.0f, 0.0f);
+	t.vertexUV(field_20, m_rotX, 0.0f, 0.0f, 0.0f);
 	t.draw();
 
 	t.begin();
 	t.color(0, 255);
-	t.vertexUV(field_20, field_10, 0.0f, 0.0f, 1.0f);
-	t.vertexUV(field_24, field_10, 0.0f, 1.0f, 1.0f);
+	t.vertexUV(field_20, m_rotY, 0.0f, 0.0f, 1.0f);
+	t.vertexUV(field_24, m_rotY, 0.0f, 1.0f, 1.0f);
 	t.color(0, 0);
-	t.vertexUV(field_24, field_10 - 4.0f, 0.0f, 1.0f, 0.0f);
-	t.vertexUV(field_20, field_10 - 4.0f, 0.0f, 0.0f, 0.0f);
+	t.vertexUV(field_24, m_rotY - 4.0f, 0.0f, 1.0f, 0.0f);
+	t.vertexUV(field_20, m_rotY - 4.0f, 0.0f, 0.0f, 0.0f);
 	t.draw();
 #else
 	t.begin();

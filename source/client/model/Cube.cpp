@@ -9,16 +9,13 @@
 #include "Cube.hpp"
 #include "client/common/Utils.hpp"
 
-float Cube::c = 180.0f / float(M_PI);
+const float Cube::c = 180.0f / float(M_PI);
 
 Cube::Cube(int a, int b)
 {
-	m_posX = 0.0f;
-	m_posY = 0.0f;
-	m_posZ = 0.0f;
-	field_C = 0.0f;
-	field_10 = 0.0f;
-	field_14 = 0.0f;
+	m_posX = m_posY = m_posZ = 0.0f;
+	m_rotX = m_rotY = m_rotZ = 0.0f;
+
 	field_18 = false;
 	field_19 = true;
 	field_1A = false;
@@ -29,11 +26,6 @@ Cube::Cube(int a, int b)
 
 	field_2B4 = a;
 	field_2B8 = b;
-}
-
-void Cube::addBox(float a, float b, float c, int d, int e, int f)
-{
-	addBox(a, b, c, d, e, f, 0.0f);
 }
 
 void Cube::addBox(float x, float y, float z, int d, int e, int f, float g)
@@ -81,7 +73,7 @@ void Cube::addBox(float x, float y, float z, int d, int e, int f, float g)
 	}
 }
 
-void Cube::compile(float f)
+void Cube::compile(float scale)
 {
 	xglDeleteBuffers(1, &m_buffer);
 	xglGenBuffers(1, &m_buffer);
@@ -90,7 +82,7 @@ void Cube::compile(float f)
 	t.begin();
 
 	for (int i = 0; i < 6; i++)
-		m_faces[i].render(t, f, m_buffer);
+		m_faces[i].render(t, scale);
 
 	t.end(m_buffer);
 	m_bCompiled = true;
@@ -101,18 +93,18 @@ void Cube::draw()
 	drawArrayVTC(m_buffer, 36, sizeof(Tesselator::Vertex));
 }
 
-void Cube::drawSlow(float f)
+void Cube::drawSlow(float scale)
 {
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 
 	for (int i = 0; i < 6; i++)
-		m_faces[i].render(t, f, m_buffer);
+		m_faces[i].render(t, scale);
 
 	t.draw();
 }
 
-void Cube::render(float f)
+void Cube::render(float scale)
 {
 	if (field_1A)
 		return;
@@ -121,34 +113,43 @@ void Cube::render(float f)
 		return;
 
 	if (!m_bCompiled)
-		compile(f);
+		compile(scale);
 
-	if (field_C == 0.0f && field_10 == 0.0f && field_14 == 0.0f)
+	if (!hasDefaultRot())
 	{
-		if (m_posX == 0.0f && m_posY == 0 && m_posZ == 0)
-		{
-			draw();
-			return;
-		}
+		glPushMatrix();
 
-		glTranslatef( m_posX * f,  m_posY * f,  m_posZ * f);
+		translateRotTo(scale);
 		draw();
-		glTranslatef(-m_posX * f, -m_posY * f, -m_posZ * f);
-		return;
+
+		glPopMatrix();
 	}
-
-	glPushMatrix();
-
-	glTranslatef(m_posX * f, m_posY * f, m_posZ * f);
-	if (field_14 != 0.0f) glRotatef(field_14 * c, 0.0f, 0.0f, 1.0f);
-	if (field_10 != 0.0f) glRotatef(field_10 * c, 0.0f, 1.0f, 0.0f);
-	if (field_C  != 0.0f) glRotatef(field_C  * c, 1.0f, 0.0f, 0.0f);
-	draw();
-
-	glPopMatrix();
+	else if (!hasDefaultPos())
+	{
+		translatePosTo(scale);
+		draw();
+		translatePosTo(-scale);
+	}
+	else
+	{
+		draw();
+	}
 }
 
-void Cube::translateTo(float f)
+void Cube::translatePosTo(float scale)
+{
+	glTranslatef(m_posX * scale, m_posY * scale, m_posZ * scale);
+}
+
+void Cube::translateRotTo(float scale)
+{
+	glTranslatef(m_posX * scale, m_posY * scale, m_posZ * scale);
+	if (m_rotZ != 0) glRotatef(m_rotZ * c, 0, 0, 1);
+	if (m_rotY != 0) glRotatef(m_rotY * c, 0, 1, 0);
+	if (m_rotX != 0) glRotatef(m_rotX * c, 1, 0, 0);
+}
+
+void Cube::translateTo(float scale)
 {
 	if (field_1A)
 		return;
@@ -156,34 +157,25 @@ void Cube::translateTo(float f)
 	if (!field_19)
 		return;
 
-	if (field_C == 0.0f && field_10 == 0.0f && field_14 == 0.0f)
-	{
-		if (m_posX == 0.0f && m_posY == 0 && m_posZ == 0)
-			return;
-
-		glTranslatef( m_posX * f,  m_posY * f,  m_posZ * f);
-		return;
-	}
-
-	glTranslatef(m_posX * f, m_posY * f, m_posZ * f);
-	if (field_14 != 0.0f) glRotatef(field_14 * c, 0.0f, 0.0f, 1.0f);
-	if (field_10 != 0.0f) glRotatef(field_10 * c, 0.0f, 1.0f, 0.0f);
-	if (field_C  != 0.0f) glRotatef(field_C  * c, 1.0f, 0.0f, 0.0f);
+	if (!hasDefaultRot())
+		translateRotTo(scale);
+	else if (!hasDefaultPos())
+		translatePosTo(scale);
 }
 
-void Cube::setBrightness(float f)
+void Cube::setBrightness(float b)
 {
-	if (m_brightness != f)
+	if (m_brightness != b)
 		m_bCompiled = false;
 
-	m_brightness = f;
+	m_brightness = b;
 
-	m_faces[0].setColor(0.6f * f, 0.6f * f, 0.6f * f);
-	m_faces[1].setColor(0.6f * f, 0.6f * f, 0.6f * f);
-	m_faces[2].setColor(1.0f * f, 1.0f * f, 1.0f * f);
-	m_faces[3].setColor(0.5f * f, 0.5f * f, 0.5f * f);
-	m_faces[4].setColor(0.8f * f, 0.8f * f, 0.8f * f);
-	m_faces[5].setColor(0.8f * f, 0.8f * f, 0.8f * f);
+	m_faces[0].setColor(0.6f * b, 0.6f * b, 0.6f * b);
+	m_faces[1].setColor(0.6f * b, 0.6f * b, 0.6f * b);
+	m_faces[2].setColor(1.0f * b, 1.0f * b, 1.0f * b);
+	m_faces[3].setColor(0.5f * b, 0.5f * b, 0.5f * b);
+	m_faces[4].setColor(0.8f * b, 0.8f * b, 0.8f * b);
+	m_faces[5].setColor(0.8f * b, 0.8f * b, 0.8f * b);
 }
 
 void Cube::setPos(float x, float y, float z)
