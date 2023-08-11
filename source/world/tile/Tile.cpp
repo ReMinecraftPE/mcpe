@@ -825,261 +825,112 @@ bool Tile::containsZ(const Vec3& v)
 
 HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
 {
-	// @TODO: clean up this stuff
+	updateShape(level, x, y, z);
 
-	float negX; // s14
-	float aabbMinX; // r2
-	float v13; // s11
-	float negY; // s13
-	float negZ; // s12
-	float v16; // s10
-	float v17; // s9
-	float v18; // s14
-	float v19; // s13
-	float v20; // s12
-	int v21; // r0
-	int v22; // r12
-	int v23; // r5
-	int v24; // r6
-	Vec3* v25; // r3
-	float v26; // s14
-	float v27; // s13
-	float v28; // s15
-	HitResult::eHitSide v29; // r2
-	float v30; // s13
-	float v31; // s14
-	float v32; // s15
-	bool v34; // r0
-	int v35; // [sp+18h] [bp-60h]
-	int v36; // [sp+1Ch] [bp-5Ch]
-	int v37; // [sp+20h] [bp-58h]
-	int v38; // [sp+24h] [bp-54h]
-	int v39; // [sp+28h] [bp-50h]
-	int v40; // [sp+2Ch] [bp-4Ch]
-	int v41; // [sp+30h] [bp-48h]
-	int v42; // [sp+34h] [bp-44h]
-	Vec3 v43; // [sp+3Ch] [bp-3Ch] BYREF
-	Vec3 v44; // [sp+48h] [bp-30h] BYREF
-	Vec3 v45; // [sp+54h] [bp-24h] BYREF
-	Vec3 v46; // [sp+60h] [bp-18h] BYREF
-	Vec3 v47; // [sp+6Ch] [bp-Ch] BYREF
-	Vec3 v48; // [sp+78h] [bp+0h] BYREF
-	Vec3 v49; // [sp+84h] [bp+Ch] BYREF
+	Vec3 clipMinX, clipMinY, clipMinZ;
+	Vec3 clipMaxX, clipMaxY, clipMaxZ;
+	bool bClipMinX, bClipMinY, bClipMinZ;
+	bool bClipMaxX, bClipMaxY, bClipMaxZ;
 
-	HitResult hr;
+	vec1 += Vec3(-float(x), -float(y), -float(z));
+	vec2 += Vec3(-float(x), -float(y), -float(z));
 
-	this->updateShape(level, x, y, z);
-	negX = (float)-x;
-	aabbMinX = this->m_aabb.min.x;
-	v13 = negX + vec1.x;
-	v49.x = 0.0;
-	v49.y = 0.0;
-	v49.z = 0.0;
-	v48.x = 0.0;
-	v48.y = 0.0;
-	v48.z = 0.0;
-	v47.x = 0.0;
-	v47.y = 0.0;
-	v47.z = 0.0;
-	v46.x = 0.0;
-	v46.y = 0.0;
-	v46.z = 0.0;
-	v45.x = 0.0;
-	v45.y = 0.0;
-	v45.z = 0.0;
-	v44.x = 0.0;
-	negY = (float)-y;
-	v44.y = 0.0;
-	v44.z = 0.0;
-	negZ = (float)-z;
-	v16 = negY + vec1.y;
-	v17 = negZ + vec1.z;
-	if ((float)(negX + vec1.x) == 0.0)
-		v13 = 0.0;
-	vec1.x = v13;
-	v18 = negX + vec2.x;
-	v19 = negY + vec2.y;
-	v20 = negZ + vec2.z;
-	if (v16 == 0.0)
-		v16 = 0.0;
-	vec1.y = v16;
-	if (v17 == 0.0)
-		v17 = 0.0;
-	vec1.z = v17;
-	if (v18 == 0.0)
-		v18 = 0.0;
-	vec2.x = v18;
-	if (v19 == 0.0)
-		v19 = 0.0;
-	if (v20 == 0.0)
-		v20 = 0.0;
-	vec2.y = v19;
-	vec2.z = v20;
-	v35 = vec1.clipX(vec2, aabbMinX, v49);
-	v42 = vec1.clipX(vec2, this->m_aabb.max.x, v48);
-	v36 = vec1.clipY(vec2, this->m_aabb.min.y, v47);
-	v41 = v36;
-	v37 = vec1.clipY(vec2, this->m_aabb.max.y, v46);
-	v40 = v37;
-	v38 = vec1.clipZ(vec2, this->m_aabb.min.z, v45);
-	v39 = v38;
-	v21 = vec1.clipZ(vec2, this->m_aabb.max.z, v44);
-	v22 = v42;
-	v23 = v21;
-	v24 = v21;
-	if (!v35 || (v34 = this->containsX(v49), v22 = v42, !v34))
-		v35 = 0;
-	if (!v22 || !this->containsX(v48))
-		v42 = 0;
-	if (!v36 || !this->containsY(v47))
-		v41 = 0;
-	if (!v37 || !this->containsY(v46))
-		v40 = 0;
-	if (!v38 || !this->containsZ(v45))
+	bClipMinX = vec1.clipX(vec2, m_aabb.min.x, clipMinX);
+	bClipMaxX = vec1.clipX(vec2, m_aabb.max.x, clipMaxX);
+	bClipMinY = vec1.clipY(vec2, m_aabb.min.y, clipMinY);
+	bClipMaxY = vec1.clipY(vec2, m_aabb.max.y, clipMaxY);
+	bClipMinZ = vec1.clipZ(vec2, m_aabb.min.z, clipMinZ);
+	bClipMaxZ = vec1.clipZ(vec2, m_aabb.max.z, clipMaxZ);
+
+	// <sigh>
+	if (bClipMinX)
 	{
-		v39 = 0;
-		if (v23)
-			goto LABEL_59;
-	LABEL_23:
-		v24 = 0;
-		goto LABEL_24;
+		if (clipMinX.y < m_aabb.min.y || clipMinX.y > m_aabb.max.y || clipMinX.z < m_aabb.min.z)
+			bClipMinX = 0;
+		else
+			bClipMinX = clipMinX.z <= m_aabb.max.z;
 	}
-	if (!v23)
-		goto LABEL_23;
-LABEL_59:
-	if (!this->containsZ(v44))
-		v24 = 0;
-LABEL_24:
-	if (v35)
-		v25 = &v49;
-	else
-		v25 = 0;
-	if (v42
-		&& (!v25
-			|| (float)((float)((float)((float)(v48.y - vec1.y) * (float)(v48.y - vec1.y))
-				+ (float)((float)(v48.x - vec1.x) * (float)(v48.x - vec1.x)))
-				+ (float)((float)(v48.z - vec1.z) * (float)(v48.z - vec1.z))) < (float)((float)((float)((float)(v25->y - vec1.y) * (float)(v25->y - vec1.y))
-					+ (float)((float)(v25->x - vec1.x) * (float)(v25->x - vec1.x)))
-					+ (float)((float)(v25->z - vec1.z)
-						* (float)(v25->z - vec1.z)))))
+	if (bClipMaxX)
 	{
-		v25 = &v48;
+		if (clipMaxX.y < m_aabb.min.y || clipMaxX.y > m_aabb.max.y || clipMaxX.z < m_aabb.min.z)
+			bClipMaxX = 0;
+		else
+			bClipMaxX = clipMaxX.z <= m_aabb.max.z;
 	}
-	if (v41
-		&& (!v25
-			|| (float)((float)((float)((float)(v47.y - vec1.y) * (float)(v47.y - vec1.y))
-				+ (float)((float)(v47.x - vec1.x) * (float)(v47.x - vec1.x)))
-				+ (float)((float)(v47.z - vec1.z) * (float)(v47.z - vec1.z))) < (float)((float)((float)((float)(v25->y - vec1.y) * (float)(v25->y - vec1.y))
-					+ (float)((float)(v25->x - vec1.x) * (float)(v25->x - vec1.x)))
-					+ (float)((float)(v25->z - vec1.z)
-						* (float)(v25->z - vec1.z)))))
+	if (bClipMinY)
 	{
-		v25 = &v47;
+		if (clipMinY.x < m_aabb.min.x || clipMinY.x > m_aabb.max.x || clipMinY.z < m_aabb.min.z)
+			bClipMinY = 0;
+		else
+			bClipMinY = clipMinY.z <= m_aabb.max.z;
 	}
-	if (v40
-		&& (!v25
-			|| (float)((float)((float)((float)(v46.y - vec1.y) * (float)(v46.y - vec1.y))
-				+ (float)((float)(v46.x - vec1.x) * (float)(v46.x - vec1.x)))
-				+ (float)((float)(v46.z - vec1.z) * (float)(v46.z - vec1.z))) < (float)((float)((float)((float)(v25->y - vec1.y) * (float)(v25->y - vec1.y))
-					+ (float)((float)(v25->x - vec1.x) * (float)(v25->x - vec1.x)))
-					+ (float)((float)(v25->z - vec1.z)
-						* (float)(v25->z - vec1.z)))))
+	if (bClipMaxY)
 	{
-		v25 = &v46;
+		if (clipMaxY.x < m_aabb.min.x || clipMaxY.x > m_aabb.max.x || clipMaxY.z < m_aabb.min.z)
+			bClipMaxY = 0;
+		else
+			bClipMaxY = clipMaxY.z <= m_aabb.max.z;
 	}
-	if (v39
-		&& (!v25
-			|| (float)((float)((float)((float)(v45.y - vec1.y) * (float)(v45.y - vec1.y))
-				+ (float)((float)(v45.x - vec1.x) * (float)(v45.x - vec1.x)))
-				+ (float)((float)(v45.z - vec1.z) * (float)(v45.z - vec1.z))) < (float)((float)((float)((float)(v25->y - vec1.y) * (float)(v25->y - vec1.y))
-					+ (float)((float)(v25->x - vec1.x) * (float)(v25->x - vec1.x)))
-					+ (float)((float)(v25->z - vec1.z)
-						* (float)(v25->z - vec1.z)))))
+	if (bClipMinZ)
 	{
-		v25 = &v45;
-		if (v24)
-			goto LABEL_40;
-	LABEL_62:
-		if (!v25)
-		{
-			hr.m_hitPos.x = 0.0;
-			hr.m_hitPos.y = 0.0;
-			hr.m_hitPos.z = 0.0;
-			hr.m_hitType = HitResult::NONE;
-			return hr;
-		}
-		v27 = v25->x;
-		v26 = v25->y;
-		v28 = v25->z;
-		goto LABEL_64;
+		if (clipMinZ.x < m_aabb.min.x || clipMinZ.x > m_aabb.max.x || clipMinZ.y < m_aabb.min.y)
+			bClipMinZ = 0;
+		else
+			bClipMinZ = clipMinZ.y <= m_aabb.max.y;
 	}
-	if (!v24)
-		goto LABEL_62;
-LABEL_40:
-	if (!v25
-		|| (v26 = v25->y,
-			v27 = v25->x,
-			v28 = v25->z,
-			(float)((float)((float)((float)(v44.y - vec1.y) * (float)(v44.y - vec1.y))
-				+ (float)((float)(v44.x - vec1.x) * (float)(v44.x - vec1.x)))
-				+ (float)((float)(v44.z - vec1.z) * (float)(v44.z - vec1.z))) < (float)((float)((float)((float)(v26 - vec1.y) * (float)(v26 - vec1.y))
-					+ (float)((float)(v25->x - vec1.x) * (float)(v25->x - vec1.x)))
-					+ (float)((float)(v28 - vec1.z)
-						* (float)(v28 - vec1.z)))))
+	if (bClipMaxZ)
 	{
-		v25 = &v44;
-		v27 = v44.x;
-		v26 = v44.y;
-		v28 = v44.z;
-		goto LABEL_43;
+		if (clipMaxZ.x < m_aabb.min.x || clipMaxZ.x > m_aabb.max.x || clipMaxZ.y < m_aabb.min.y)
+			bClipMaxZ = 0;
+		else
+			bClipMaxZ = clipMaxZ.y <= m_aabb.max.y;
 	}
-LABEL_64:
-	if (v25 == &v49)
+
+	// the collided side of our AABB
+	HitResult::eHitSide collType = HitResult::NOHIT;
+
+	// the preferred vector for our collision
+	Vec3* pVec = nullptr;
+	if (bClipMinX)
+		pVec = &clipMinX, collType = HitResult::MINX;
+
+	if (bClipMaxX)
 	{
-		v29 = HitResult::MINX;
-		if (v25 == &v46)
-			goto LABEL_66;
-		goto LABEL_48;
+		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+			pVec = &clipMaxX, collType = HitResult::MAXX;
 	}
-LABEL_43:
-	if (v25 != &v48)
+
+	if (bClipMinY)
 	{
-		if (v25 == &v47)
-		{
-			v29 = HitResult::MINY;
-			goto LABEL_49;
-		}
-		v29 = HitResult::NOHIT;
-		if (v25 != &v46)
-			goto LABEL_48;
-	LABEL_66:
-		v29 = HitResult::MAXY;
-		goto LABEL_51;
+		if (!pVec || clipMinY.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+			pVec = &clipMinY, collType = HitResult::MINY;
 	}
-	v29 = HitResult::MAXX;
-LABEL_48:
-	if (v25 != &v45)
+
+	if (bClipMaxY)
 	{
-	LABEL_49:
-		if (v25 == &v44)
-			v29 = HitResult::MAXZ;
-		goto LABEL_51;
+		if (!pVec || clipMaxY.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+			pVec = &clipMaxY, collType = HitResult::MAXY;
 	}
-	v29 = HitResult::MINZ;
-LABEL_51:
-	v30 = (float)x + v27;
-	v31 = (float)y + v26;
-	v32 = (float)z + v28;
-	if (v30 == 0.0)
-		v30 = 0.0;
-	v43.x = v30;
-	if (v31 == 0.0)
-		v31 = 0.0;
-	if (v32 == 0.0)
-		v32 = 0.0;
-	v43.y = v31;
-	v43.z = v32;
-	return HitResult(x, y, z, v29, v43);
+
+	if (bClipMinZ)
+	{
+		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+			pVec = &clipMinZ, collType = HitResult::MINZ;
+	}
+
+	if (bClipMaxZ)
+	{
+		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
+			pVec = &clipMaxZ, collType = HitResult::MAXZ;
+	}
+
+	if (!pVec)
+	{
+		// return a nothing burger
+		return HitResult();
+	}
+
+	return HitResult(x, y, z, collType, *pVec + Vec3(float(x), float(y), float(z)));
 }
 
 int Tile::getSignal(LevelSource* pLevel, int x, int y, int z)
