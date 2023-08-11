@@ -16,7 +16,10 @@ void Mouse::feed(int x1, int x2, int x3, int x4)
 {
 	_inputs.push_back(MouseInput(x1, x2, x3, x4));
 
-	if (x1)
+	if (x1 >= 3)
+		return;
+
+	if (x1 != 0)
 		Mouse::_buttonStates[x1] = x2;
 
 	_xOld = _x;
