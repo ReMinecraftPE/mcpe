@@ -986,6 +986,44 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	glDisable(GL_BLEND);
 }
 
+void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i, void* vp, float f)
+{
+	if (i != 0 || hr.m_hitType != 0)
+		return;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(1.0f, 1.0f, 1.0f, 0.4f);
+	glLineWidth(10.0f);
+	glDisable(GL_TEXTURE_2D);
+	glDepthMask(false);
+
+	TileID tile = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+	if (tile > 0)
+	{
+		Tile::tiles[tile]->updateShape(
+			m_pLevel,
+			hr.m_tileX,
+			hr.m_tileY,
+			hr.m_tileZ);
+		float posX = pPlayer->field_98.x + ((pPlayer->m_pos.x - pPlayer->field_98.x) * f);
+		float posY = pPlayer->field_98.y + ((pPlayer->m_pos.y - pPlayer->field_98.y) * f);
+		float posZ = pPlayer->field_98.z + ((pPlayer->m_pos.z - pPlayer->field_98.z) * f);
+		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+		aabb.min.y = tileAABB.min.y - 0.002f - posY;
+		aabb.max.y = tileAABB.max.y + 0.002f - posY;
+		aabb.min.z = tileAABB.min.z - 0.002f - posZ;
+		aabb.max.z = tileAABB.max.z + 0.002f - posZ;
+		aabb.min.x = tileAABB.min.x - 0.002f - posX;
+		aabb.max.x = tileAABB.max.x + 0.002f - posX;
+		render(aabb);
+	}
+
+	glDepthMask(true);
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+}
+
 void LevelRenderer::tileChanged(int x, int y, int z)
 {
 	setDirty(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);

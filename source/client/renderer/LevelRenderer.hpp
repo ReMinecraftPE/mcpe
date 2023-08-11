@@ -98,6 +98,7 @@ public:
 	void tick();
 	bool updateDirtyChunks(Mob* pMob, bool b);
 	void renderHitSelect(Player* pPlayer, const HitResult& hr, int, void*, float);
+	void renderHitOutline(Player* pPlayer, const HitResult& hr, int, void*, float);
 
 public:
 	float field_4;
