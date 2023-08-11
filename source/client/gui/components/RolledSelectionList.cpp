@@ -87,7 +87,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	int nItems = getNumberOfItems();
 
 	// @TODO: fix gotos.
-	if (!Mouse::_buttonStates[1])
+	if (!Mouse::isButtonDown(1))
 	{
 		if (field_28 < 0)
 		{

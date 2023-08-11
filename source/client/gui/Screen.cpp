@@ -293,42 +293,28 @@ void Screen::updateEvents()
 {
 	if (field_10) return;
 
-	for (int i = Mouse::_index + 1; i<int(Mouse::_inputs.size()); i++)
-	{
-		Mouse::_index = i;
+	while (Mouse::next())
 		mouseEvent();
-	}
 
-	for (int i = Keyboard::_index + 1; i<int(Keyboard::_inputs.size()); i++)
-	{
-		Keyboard::_index = i;
+	while (Keyboard::next())
 		keyboardEvent();
-	}
 }
 
 void Screen::keyboardEvent()
 {
-	// @UB: This probably behaves in an unexpected way if _inputs is empty
-
-#ifndef ORIGINAL_CODE
-	if (Keyboard::_inputs.empty() || Keyboard::_index < 0)
-		return;
-#endif
-
-	if (Keyboard::_inputs[Keyboard::_index].field_0)
-		keyPressed(Keyboard::_inputs[Keyboard::_index].field_4);
+	if (Keyboard::getEventKeyState())
+		keyPressed(Keyboard::getEventKey());
 }
 
 void Screen::mouseEvent()
 {
-	MouseInput& inp = Mouse::_inputs[Mouse::_index];
-
-	if (1 <= inp.field_0 && inp.field_0 <= 2)
+	MouseAction* pAction = Mouse::getEvent();
+	if (pAction->isButton())
 	{
-		if (inp.field_4 == 1)
-			mouseClicked(m_width * Mouse::_x / Minecraft::width, m_height * Mouse::_y / Minecraft::height - 1, inp.field_0);
+		if (Mouse::getEventButtonState())
+			mouseClicked (m_width * pAction->field_8 / Minecraft::width, m_height * pAction->field_C / Minecraft::height - 1, Mouse::getEventButton());
 		else
-			mouseReleased(m_width * Mouse::_x / Minecraft::width, m_height * Mouse::_y / Minecraft::height - 1, inp.field_0);
+			mouseReleased(m_width * pAction->field_8 / Minecraft::width, m_height * pAction->field_C / Minecraft::height - 1, Mouse::getEventButton());
 	}
 }
 

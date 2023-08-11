@@ -66,8 +66,8 @@ int g_MousePosX, g_MousePosY;
 
 void UpdateMouse()
 {
-	Mouse::_x = g_MousePosX;
-	Mouse::_y = g_MousePosY;
+	Mouse::setX(g_MousePosX);
+	Mouse::setY(g_MousePosY);
 }
 
 extern bool g_bIsMenuBackgroundAvailable;

@@ -42,7 +42,7 @@ void WorldSelectionList::tick()
 {
 	RolledSelectionList::tick();
 	field_D0++;
-	if (Mouse::_buttonStates[1] || !field_28)
+	if (Mouse::isButtonDown(1) || !field_28)
 		return;
 
 	m_selectedIndex = -1;

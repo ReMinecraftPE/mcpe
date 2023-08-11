@@ -104,8 +104,7 @@ void NinecraftApp::update()
 	eglSwapBuffers(field_8, field_10);
 #endif
 
-	Mouse::_xOld = Mouse::_x;
-	Mouse::_yOld = Mouse::_y;
+	Mouse::reset2();
 	updateStats();
 }
 

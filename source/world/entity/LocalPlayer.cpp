@@ -73,9 +73,9 @@ void LocalPlayer::calculateFlight(float x, float y, float z)
 	float z1 = f1 * z;
 
 	float y1 = 0.0f;
-	if (Keyboard::_states[AKEYCODE_BUTTON_R1] == 1)
+	if (Keyboard::isKeyDown(AKEYCODE_BUTTON_R1))
 		y1 = f1 * 0.2f;
-	if (Keyboard::_states[AKEYCODE_BUTTON_L1] == 1)
+	if (Keyboard::isKeyDown(AKEYCODE_BUTTON_L1))
 		y1 = f1 * -0.2f;
 
 	field_BFC += x1;

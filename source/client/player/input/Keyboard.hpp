@@ -16,21 +16,31 @@
 
 #define KEYBOARD_STATES_SIZE 256
 
+struct KeyboardAction
+{
+	int field_0;
+	uint8_t field_4;
+
+	KeyboardAction(uint8_t key, int state)
+	{
+		field_0 = state;
+		field_4 = key;
+	}
+};
+
 class Keyboard
 {
 public:
-	//@TODO: Rename this to KeyboardAction
-	struct Input
-	{
-		int field_0;
-		uint8_t field_4;
-	};
+	static void feed(int down, int key);
+	static bool next();
+	static int  getEventKey();
+	static int  getEventKeyState();
+	static bool isKeyDown(int keyCode);
+	static void reset();
 
-	static std::vector<Input> _inputs;
+private:
+	static std::vector<KeyboardAction> _inputs;
 	static int _states[KEYBOARD_STATES_SIZE];
 	static int _index;
-
-	// likely inlined
-	static void feed(int down, int key);
 };
 

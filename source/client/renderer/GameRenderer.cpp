@@ -579,6 +579,11 @@ void GameRenderer::render(float f)
 		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
 	}
 
+	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
+	int mouseY = int(Mouse::getY() * Gui::InvGuiScale);
+
+	// note: Multitouch code here
+
 	if (m_pMinecraft->isLevelGenerated())
 	{
 		if (t_keepPic < 0)
@@ -590,7 +595,7 @@ void GameRenderer::render(float f)
 					return;
 			}
 
-			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, int(Mouse::_x * Gui::InvGuiScale), int(Mouse::_y * Gui::InvGuiScale));
+			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
 		}
 	}
 	else
@@ -606,11 +611,12 @@ void GameRenderer::render(float f)
 	if (m_pMinecraft->m_pScreen)
 	{
 		glClear(GL_ACCUM);
-		m_pMinecraft->m_pScreen->render(int(Mouse::_x * Gui::InvGuiScale), int(Mouse::_y * Gui::InvGuiScale), f);
+		m_pMinecraft->m_pScreen->render(mouseX, mouseY, f);
 
 		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())
 		{
 #ifdef ORIGINAL_CODE
+			// force some lag for some reason. I guess it's to make it spend more time actually generating the world?
 			sleepMs(15);
 #endif
 		}

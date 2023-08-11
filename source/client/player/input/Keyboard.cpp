@@ -10,7 +10,7 @@
 
 #include "GameMods.hpp"
 
-std::vector<Keyboard::Input> Keyboard::_inputs;
+std::vector<KeyboardAction> Keyboard::_inputs;
 int Keyboard::_index = -1;
 int Keyboard::_states[KEYBOARD_STATES_SIZE];
 
@@ -23,10 +23,40 @@ void Keyboard::feed(int down, int key)
 	}
 #endif
 
-	Input i;
-	i.field_0 = down;
-	i.field_4 = uint8_t(key);
-	_inputs.push_back(i);
+	_inputs.push_back(KeyboardAction(key, down));
 
 	_states[key] = down;
+}
+
+bool Keyboard::next()
+{
+	if (_index + 1 >= _inputs.size())
+		return false;
+
+	_index++;
+	return true;
+}
+
+int Keyboard::getEventKey()
+{
+	return _inputs[_index].field_4;
+}
+
+int Keyboard::getEventKeyState()
+{
+	return _inputs[_index].field_0;
+}
+
+bool Keyboard::isKeyDown(int keyCode)
+{
+	if (keyCode < 0 || keyCode >= KEYBOARD_STATES_SIZE)
+		return false;
+
+	return _states[keyCode] == 1;
+}
+
+void Keyboard::reset()
+{
+	_inputs.clear();
+	_index = -1;
 }

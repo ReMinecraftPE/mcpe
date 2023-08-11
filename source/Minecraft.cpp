@@ -379,34 +379,30 @@ void Minecraft::tickInput()
 	if (!m_pLocalPlayer)
 		return;
 
-	bool bIsInGUI = m_gui.isInside(Mouse::_x, Mouse::_y);
+	bool bIsInGUI = m_gui.isInside(Mouse::getX(), Mouse::getY());
 
-	while (Mouse::_index + 1 < Mouse::_inputs.size())
+	while (Mouse::next())
 	{
-		Mouse::_index++;
-
 		if (getTimeMs() - field_2B4 > 200)
 			continue;
 
-		if (Mouse::_buttonStates[1])
-			m_gui.handleClick(1, Mouse::_x, Mouse::_y);
+		if (Mouse::isButtonDown(1))
+			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
 
 		if (!bIsInGUI && m_options.field_19)
 		{
-			MouseInput& input = Mouse::_inputs[Mouse::_index];
-
-			if (input.field_0 == 1 && input.field_4 == 1)
+			if (Mouse::getEventButton() == 1 && Mouse::getEventButtonState() == 1)
 			{
 				handleMouseClick(1);
 				field_DAC = field_DA8;
 			}
-			if (input.field_0 == 2 && input.field_4 == 1)
+			if (Mouse::getEventButton() == 2 && Mouse::getEventButtonState() == 1)
 			{
 				handleMouseClick(2);
 				field_DAC = field_DA8;
 			}
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-			if (input.field_0 == 3)
+			if (Mouse::getEventButton() == 3)
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
@@ -416,7 +412,7 @@ void Minecraft::tickInput()
 #define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
 #endif
 
-				if (input.field_4 > 0) // @NOTE: Scroll up
+				if (Mouse::getEventButtonState() > 0) // @NOTE: Scroll up
 				{
 					if (slot-- == 0)
 					{
@@ -435,16 +431,12 @@ void Minecraft::tickInput()
 			}
 #endif
 		}
-
 	}
 
-	while (Keyboard::_index + 1 < Keyboard::_inputs.size())
+	while (Keyboard::next())
 	{
-		Keyboard::_index++;
-		Keyboard::Input& input = Keyboard::_inputs[Keyboard::_index];
-
-		int keyCode = input.field_4;
-		bool bPressed = input.field_0 == 1;
+		int keyCode = Keyboard::getEventKey();
+		bool bPressed = Keyboard::getEventKeyState() == 1;
 
 		m_pLocalPlayer->m_pKeyboardInput->setKey(keyCode, bPressed);
 
@@ -502,10 +494,10 @@ void Minecraft::tickInput()
 
 	if (m_options.field_19)
 	{
-		if (!Mouse::_buttonStates[1] || bIsInGUI)
+		if (!Mouse::isButtonDown(1) || bIsInGUI)
 			goto label_12;
 	}
-	else if (Keyboard::_states[m_options.m_keyBinds[Options::DESTROY].value] != 1)
+	else if (Keyboard::isKeyDown(m_options.m_keyBinds[Options::DESTROY].value))
 	{
 		goto label_12;
 	}
@@ -530,10 +522,8 @@ void Minecraft::tickInput()
 
 	field_2B4 = getTimeMs();
 
-	Keyboard::_inputs.clear();
-	Keyboard::_index = -1;
-	Mouse::_inputs.clear();
-	Mouse::_index = -1;
+	Keyboard::reset();
+	Mouse::reset();
 }
 
 void Minecraft::tickMouse()

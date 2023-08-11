@@ -10,26 +10,31 @@
 
 #include <vector>
 
-struct MouseInput
+struct MouseAction
 {
 	int field_0;
 	int field_4;
 	int field_8;
 	int field_C;
 
-	MouseInput()
+	MouseAction()
 	{
 		field_0 = 0;
 		field_4 = 0;
 		field_8 = 0;
 		field_C = 0;
 	}
-	MouseInput(int x1, int x2, int x3, int x4)
+	MouseAction(int x1, int x2, int x3, int x4)
 	{
 		field_0 = x1;
 		field_4 = x2;
 		field_8 = x3;
 		field_C = x4;
+	}
+
+	bool isButton()
+	{
+		return field_0 == 1 || field_0 == 2;
 	}
 };
 
@@ -38,10 +43,23 @@ class Mouse
 public:
 	static void feed(int, int, int, int);
 
+	static short getX();
+	static short getY();
+	static bool  next();
+	static bool  isButtonDown(int btn);
+	static int   getButtonState(int btn);
+	static int   getEventButton();
+	static int   getEventButtonState();
+	static MouseAction* getEvent();
+	static void  setX(int x);
+	static void  setY(int y);
+	static void  reset();
+	static void  reset2();
+
 	// @TODO: There's plenty of inlined code here. Out-line it.
 
-public:
-	static std::vector<MouseInput> _inputs;
+private:
+	static std::vector<MouseAction> _inputs;
 	static int _index;
 	static int _x, _y;
 	static int _xOld, _yOld;
