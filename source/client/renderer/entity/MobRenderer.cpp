@@ -8,6 +8,7 @@
 
 #include "MobRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
+#include "Minecraft.hpp"
 
 MobRenderer::MobRenderer(Model* pModel, float f)
 {
@@ -139,9 +140,17 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	renderName(pMob, x, y, z);
 }
 
-void MobRenderer::renderName(Mob*, float, float, float)
+void MobRenderer::renderName(Mob* mob, float x, float y, float z)
 {
+	if (!mob->isPlayer())
+		return;
 
+	Player* player = (Player*)mob;
+	if (player == m_pDispatcher->m_pMinecraft->m_pLocalPlayer)
+		return;
+
+	// @TODO: don't know why but I have to add this correction. look into it and fix it!
+	renderNameTag(mob, player->m_name, x, y - 1.5f, z, mob->isSneaking() ? 32 : 64);
 }
 
 void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float y, float z, int a)
@@ -156,7 +165,7 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float
 	glNormal3f(0.0f, 1.0f, 0.0f);
 	// billboard the name towards the camera
 	glRotatef(-m_pDispatcher->m_yaw,   0.0f, 1.0f, 0.0f);
-	glRotatef(-m_pDispatcher->m_pitch, 1.0f, 0.0f, 0.0f);
+	glRotatef(+m_pDispatcher->m_pitch, 1.0f, 0.0f, 0.0f);
 	glScalef(-0.026667f, -0.026667f, 0.026667f);
 	glDepthMask(false);
 	glDisable(GL_DEPTH_TEST);
