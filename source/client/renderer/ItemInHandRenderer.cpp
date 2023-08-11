@@ -19,6 +19,7 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
 	field_20 = 0.0f;
 }
 
+// This and itemUsed are probably leftovers from Minecraft Classic
 void ItemInHandRenderer::itemPlaced()
 {
 	field_1C = 0;
@@ -300,15 +301,20 @@ void ItemInHandRenderer::tick()
 
 	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItemId();
 
-	float a = 1.0f - field_1C;
+	bool bSameItem = itemID == m_ItemInstance.m_itemID;
+
+	float b = bSameItem ? 1.0f : 0.0f;
+
+	float a = b - field_1C;
 	if (a < -0.4f)
 		a = -0.4f;
 	if (a >= 0.4f)
 		a  = 0.4f;
 
-	m_ItemInstance.m_itemID = itemID;
-
 	field_1C += a;
+
+	if (field_1C < 0.1f)
+		m_ItemInstance.m_itemID = itemID;
 }
 
 void ItemInHandRenderer::renderScreenEffect(float f)
