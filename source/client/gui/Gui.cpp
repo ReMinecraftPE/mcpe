@@ -43,6 +43,17 @@ Gui::Gui(Minecraft* pMinecraft)
 
 void Gui::addMessage(const std::string& s)
 {
+	// if the message contains a new line, add each line separately:
+	if (s.find("\n") != std::string::npos)
+	{
+		std::stringstream ss(s);
+		std::string line;
+		while (std::getline(ss, line))
+			addMessage(line);
+
+		return;
+	}
+
 	std::string str = s;
 
 	while (m_pMinecraft->m_pFont->width(str) > 320)

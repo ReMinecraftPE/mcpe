@@ -61,7 +61,7 @@ const char* gSplashes[] =
 	"Minecraft!",
 	"Yaaay!",
 	"Multiplayer!",
-	"Touch compatible!",
+	"Not yet touch compatible!",// "Touch compatible!",
 	"Undocumented!",
 	"Ingots!",
 	"Exploding creepers!",
@@ -73,7 +73,7 @@ const char* gSplashes[] =
 	"Exclusive!",
 	"The bee's knees!",
 	"Down with O.P.P.!",
-	"Closed source!",
+	"Open source!", //"Closed source!",
 	"Classy!",
 	"Wow!",
 	"Not on steam!",
@@ -105,7 +105,7 @@ const char* gSplashes[] =
 	"Complex cellular automata!",
 	"Yes, sir!",
 	"Played by cowboys!",
-	"OpenGL ES 1.1!",
+	"OpenGL 1.5!", // "OpenGL ES 1.1!",
 	"Thousands of colors!",
 	"Try it!",
 	"Age of Wonders is better!",
@@ -160,7 +160,7 @@ const char* gSplashes[] =
 	"Lewd with two dudes with food!",
 	"Kiss the sky!",
 	"20 GOTO 10!",
-	"Verlet intregration!",
+	"Verlet intregration!", // [sic]
 	"Peter Griffin!",
 	"Do not distribute!",
 	"Cogito ergo sum!",
@@ -322,10 +322,13 @@ const char* gSplashes[] =
 	"Pretty scary!",
 	"I have a suggestion.",
 	"Now with extra hugs!",
-	"Almost C++11!",
+	"Almost C++03!", // "Almost C++11!",
 	"Woah.",
 	"HURNERJSGER?",
-	"What's up, Doc?"
+	"What's up, Doc?",
+
+	// custom:
+	"https://github.com/ReMinecraftPE/mcpe"
 };
 
 StartMenuScreen::StartMenuScreen() :
