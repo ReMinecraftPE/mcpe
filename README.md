@@ -10,6 +10,13 @@ Its goals are similar to [Minecraft Pi](https://minecraft.net/edition/pi) and [C
 
 ### This is the main modded version. For the original decompilation, see [ReMinecraftPE/mcped](https://github.com/ReMinecraftPE/mcped)
 
+## License information
+
+This project is licensed under the [BSD 1 clause license](LICENSE.md). However, it contains third party software with different but compatible licenses:
+
+- [RakNet](https://github.com/facebookarchive/RakNet): [Licensed under the BSD 2 clause license](thirdparty/raknet/LICENSE)
+- [zlib](https://github.com/madler/zlib): [View license](thirdparty/zlib/LICENSE)
+
 ## WANT TO HELP?
 
 Want to help this project? [Here's a list of things left to do.](TODO.md)

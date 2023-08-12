@@ -94,6 +94,9 @@
     <Filter Include="source\platforms\openal">
       <UniqueIdentifier>{cc57a0f6-733d-44fa-8478-b1826b074d66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="thirdparty\zlib">
+      <UniqueIdentifier>{b413cd08-238d-4e52-90c7-eccb86bc37ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\raknet\ThreadsafePacketLogger.h">
@@ -1110,6 +1113,39 @@
     <ClInclude Include="..\source\world\tile\SandStoneTile.hpp">
       <Filter>source\world\tile</Filter>
     </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\inffast.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\inffixed.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\inflate.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\inftrees.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\trees.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\zconf.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\zlib.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\zutil.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\crc32.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\deflate.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\zlib\gzguts.h">
+      <Filter>thirdparty\zlib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2086,6 +2122,51 @@
     </ClCompile>
     <ClCompile Include="..\source\world\tile\WireTile.cpp">
       <Filter>source\world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\gzlib.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\gzread.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\gzwrite.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\infback.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\inffast.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\inflate.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\inftrees.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\trees.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\uncompr.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\zutil.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\adler32.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\compress.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\crc32.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\deflate.c">
+      <Filter>thirdparty\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\zlib\gzclose.c">
+      <Filter>thirdparty\zlib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
