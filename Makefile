@@ -11,7 +11,7 @@ PLT_DIR=platforms
 TARGET=minecraftcpp
 
 # Compilation flags for C++ source files
-CXXFLAGS=-Isource -I. -Ithirdparty/raknet -DUSE_SDL -DUSE_OPENAL -DUSE_MATH_DEFINES -DHANDLE_CHARS_SEPARATELY -O3 -MMD
+CXXFLAGS=-Isource -I. -Ithirdparty/raknet -Ithirdparty/zlib -DUSE_SDL -DUSE_OPENAL -DUSE_MATH_DEFINES -DHANDLE_CHARS_SEPARATELY -O3 -MMD
 
 # Compilation flags for zlib source files
 ZLIBFLAGS=-O3 -I. -MMD

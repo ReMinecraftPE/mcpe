@@ -33,6 +33,9 @@
 
 #include "compat/GL.hpp"
 
+// include zlib stuff
+#include "zlib.h"
+
 int g_TimeSecondsOnInit = 0;
 
 #ifndef USE_SDL
@@ -329,4 +332,76 @@ float Max(float a, float b)
 	if (a < b)
 		a = b;
 	return a;
+}
+
+// zlib stuff
+uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize)
+{
+	int ret;
+	z_stream strm;
+	memset(&strm, 0, sizeof strm);
+
+	strm.zalloc = Z_NULL;
+	strm.zfree = Z_NULL;
+	strm.opaque = Z_NULL;
+	strm.avail_in = 0;
+	strm.next_in = Z_NULL;
+
+	// initialize the inflation state machine
+	ret = inflateInit(&strm);
+	if (ret != Z_OK)
+		return nullptr;
+
+	uint8_t* pDestBuff = new uint8_t[decompressedSize + 1]; //room for extra null at the end;
+
+	pDestBuff[decompressedSize] = 0; //add the extra null, if we decompressed a text file this can be useful
+	strm.avail_in = compressedSize;
+	strm.next_in = pInput;
+	strm.avail_out = decompressedSize;
+	strm.next_out = pDestBuff;
+
+	ret = inflate(&strm, Z_NO_FLUSH);
+	if (!(ret == Z_OK || ret == Z_STREAM_END))
+	{
+		SAFE_DELETE_ARRAY(pDestBuff);
+		return nullptr;
+	}
+
+	(void)inflateEnd(&strm);
+
+	return pDestBuff;
+}
+
+uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t* compressedSizeOut)
+{
+	z_stream strm;
+	memset(&strm, 0, sizeof strm);
+	int ret;
+
+	// initialize deflate state
+	strm.zalloc = Z_NULL;
+	strm.zfree = Z_NULL;
+	strm.opaque = Z_NULL;
+
+	// initialize deflation state machine
+	ret = deflateInit(&strm, Z_DEFAULT_COMPRESSION);
+	if (ret != Z_OK)
+		return nullptr;
+
+	// padding bytes in case our compressed output is larger than the raw input for some reason
+	const int ZLIB_PADDING_BYTES = (1024 * 5);
+	
+	uint8_t* pOut = new uint8_t[sizeBytes + ZLIB_PADDING_BYTES];
+	strm.avail_in = sizeBytes;
+	strm.next_in = pInput;
+	strm.avail_in = sizeBytes + ZLIB_PADDING_BYTES;
+	strm.next_out = pOut;
+
+	ret = deflate(&strm, Z_FINISH);
+	assert(ret != Z_STREAM_ERROR);
+
+	deflateEnd(&strm);
+	*compressedSizeOut = strm.total_out;
+
+	return pOut;
 }

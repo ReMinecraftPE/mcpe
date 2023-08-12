@@ -802,32 +802,32 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/zlib;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|Win32'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/zlib;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/zlib;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/zlib;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|x64'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/zlib;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../thirdparty;$(ProjectDir)/../platforms/windows;$(ProjectDir)/../thirdparty/zlib;$(ProjectDir)/../thirdparty/raknet;$(ProjectDir);$(ProjectDir)/..;$(ProjectDir)/../source;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>

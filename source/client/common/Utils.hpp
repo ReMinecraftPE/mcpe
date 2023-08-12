@@ -564,6 +564,10 @@ constexpr float Lerp(float a, float b, float progress)
 bool createFolderIfNotExists(const char* pDir);
 bool DeleteDirectory(const std::string& name, bool unused);
 
+// compress and decompress stuff with zlib: ( you must SAFE_DELETE_ARRAY what it returns )
+uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize);
+uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t *compressedSizeOut);
+
 // things that we added:
 #ifndef ORIGINAL_CODE
 
