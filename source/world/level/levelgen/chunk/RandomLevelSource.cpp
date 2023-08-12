@@ -428,16 +428,20 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		zo = m_random.nextInt(16);
 		OreFeature(Tile::redStoneOre->m_ID, 7).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
 	}
-
-	xo = m_random.nextInt(16);
-	yo = m_random.nextInt(16);
-	zo = m_random.nextInt(16);
-	OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
-
-	xo = m_random.nextInt(16);
-	yo = m_random.nextInt(16) + m_random.nextInt(16);
-	zo = m_random.nextInt(16);
-	OreFeature(Tile::lapisOre->m_ID,   6).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+	for (int i = 0; i < 1; i++)
+	{
+		xo = m_random.nextInt(16);
+		yo = m_random.nextInt(16);
+		zo = m_random.nextInt(16);
+		OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+	}
+	for (int i = 0; i < 1; i++)
+	{
+		xo = m_random.nextInt(16);
+		yo = m_random.nextInt(16) + m_random.nextInt(16);
+		zo = m_random.nextInt(16);
+		OreFeature(Tile::lapisOre->m_ID, 6).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+	}
 
 	// End of ore generation
 	// Start of tree generation
@@ -451,7 +455,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		treeCount++;
 
 	if (pBiome == Biome::forest)
-		treeCount += 2 + t3;
+		treeCount += t3 + 2;
 
 	if (pBiome == Biome::rainForest)
 		treeCount += t3 + 2;
