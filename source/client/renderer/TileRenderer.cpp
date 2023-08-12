@@ -2397,6 +2397,7 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 	}
 	if (shape == SHAPE_CROSS)
 	{
+		// unused
 		t.begin();
 		tesselateCrossTexture(tile, data, -0.5f, -0.5f, -0.5f);
 		t.draw();
@@ -2404,30 +2405,6 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 	}
 	if (shape == SHAPE_STAIRS)
 	{
-#ifdef ORIGINAL_CODE
-		for (int i = 0; i < 2; i++)
-		{
-			if (i)
-				tile->setShape(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f);
-			else
-				tile->setShape(0.0f, 0.0f, 0.5f, 1.0f, 0.5f, 1.0f);
-
-			
-			glTranslatef(-0.5f, -0.5f, -0.5f);
-
-			// @BUG: Beginning twice and never drawing
-			// @BUG: Using glTranslatef when it only affects the final thing you're drawing
-			t.begin();
-
-			renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
-			renderFaceDown(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YPOS, data));
-			renderNorth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data));
-			renderSouth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data));
-			renderWest    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XNEG, data));
-			renderEast    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XPOS, data));
-			glTranslatef(0.5f, 0.5f, 0.5f);
-		}
-#else
 		// Fixed version from 0.1.1j+
 		t.addOffset(-0.5f, -0.5f, -0.5f);
 		for (int i = 0; i < 2; i++)
@@ -2455,7 +2432,6 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 			t.draw();
 		}
 		t.addOffset(0.5f, 0.5f, 0.5f);
-#endif
 
 		return;
 	}
