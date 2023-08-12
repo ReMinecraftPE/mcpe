@@ -364,43 +364,52 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
 {
-	int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
+	const int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
 	RakNet::BitStream* bs = &packet->m_data, bs2;
 
-	int thing = 0;
-	bs->Read(thing);
-	if (thing != compMagic && thing != uncompMagic)
+	int magicNum = 0;
+	bs->Read(magicNum);
+	if (magicNum != compMagic && magicNum != uncompMagic)
 	{
-		LogMsg("Error, invalid level data packet with magic %d", thing);
+		LogMsg("Error, invalid level data packet with magic %d", magicNum);
 		return;
 	}
 
-	if (thing == compMagic)
+	// If our data is compressed
+	if (magicNum == compMagic)
 	{
+		// Decompress it before we handle it.
 		int uncompSize = 0, compSize = 0;
 		bs->Read(uncompSize);
 		bs->Read(compSize);
 
-		LogMsg("Decompressing level data. Compressed, uncompressed sizes: %d bytes, %d bytes", compSize, uncompSize);
+		LogMsg("Decompressing level data. Compressed: %d bytes, uncompressed: %d bytes", compSize, uncompSize);
 
+		// Read the compressed data.
 		uint8_t* pCompData = new uint8_t[compSize];
 		bs->Read((char*)pCompData, compSize);
 
+		// Inflate it.
 		uint8_t* pUncompData = ZlibInflateToMemory(pCompData, compSize, uncompSize);
-		delete[] pCompData;
+		SAFE_DELETE_ARRAY(pCompData);
 
+		// If we couldn't, bail
 		if (!pUncompData)
 		{
 			LogMsg("Error, can't decompress level data");
 			return;
 		}
 
+		// Do some small scale hacks to get bs2 contain the uncompressed data.
 		bs2.Reset();
 		bs2.Write((const char*)pUncompData, uncompSize);
 		bs2.ResetReadPointer();
 		bs = &bs2;
 
-		bs->Read(thing);
+		// Delete the uncompressed data, since we've written it to our bitstream.
+		SAFE_DELETE_ARRAY(pUncompData);
+
+		bs->Read(magicNum);
 	}
 
 	int chunksX = 0, chunksZ = 0;
@@ -416,42 +425,51 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 	{
 		for (int z = 0; z < chunksZ; z++)
 		{
-			uint8_t ptype = 0;
-			bs->Read(thing);
+			bs->Read(magicNum);
 
+			if (magicNum != chunkSepMagic)
+			{
+			_FAIL_BECAUSE_INVALID:
+				LogMsg("Error, aborting because level data is invalid, reading chunk %d, %d. Magic: %d", x, z, magicNum);
+				return;
+			}
+			
+			uint8_t ptype = 0;
+
+			// read the data size. This'll let us know how much to read.
 			int dataSize = 0;
 			bs->Read(dataSize);
 
-			if (thing != chunkSepMagic)
-			{
-			_FAIL_BECAUSE_INVALID:
-				LogMsg("Error, aborting because level data is invalid. Reading chunk %d,%d. Thing=%d PType=%d",x,z,thing,ptype);
-				return;
-			}
-
 			LevelChunk* pChunk = m_pLevel->getChunk(x, z);
-			if (!pChunk)
-				LogMsg("No chunk at %d,%d", x, z);
+			if (!pChunk || pChunk->isEmpty())
+				LogMsg("Error, no chunk at %d, %d", x, z);
 			
+			// continue reading anyway to skip over the offending chunk
+
+			// Seems like reading a bitstream from another bitstream reads all the way
+			// to the end, so we need to duplicate in this fashion.
 			RakNet::BitStream bs2;
 			bs2.Write(*bs, 8 * dataSize);
 			
+			// Ensure the packet type is correct.
 			bs2.Read(ptype);
 			if (ptype != PACKET_CHUNK_DATA)
 				goto _FAIL_BECAUSE_INVALID;
 
+			// Read the chunk data packet itself, and handle it.
 			ChunkDataPacket cdp(x, z, pChunk);
 			cdp.read(&bs2);
-			LogMsg("Chunk %d,%d", cdp.m_x, cdp.m_z);
 
 			if (pChunk)
 				handle(guid, &cdp);
 
+			// Handle lighting immediately, to ensure it doesn't get out of control.
 			while (m_pLevel->updateLights());
 		}
 	}
 
-	m_chunksRequested = 256;// all chunks are loaded!!
+	// All chunks are loaded. Also flush all the updates we've buffered.
+	m_chunksRequested = 256;
 	flushAllBufferedUpdates();
 }
 
