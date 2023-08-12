@@ -29,7 +29,10 @@ void CreativeMode::startDestroyBlock(int x, int y, int z, int i)
 		return;
 
 	if (m_pMinecraft->m_pLocalPlayer->canDestroy(Tile::tiles[tile]))
+	{
+		field_24 = 5;
 		destroyBlock(x, y, z, i);
+	}
 
 	return;
 }
