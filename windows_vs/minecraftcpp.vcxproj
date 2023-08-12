@@ -433,6 +433,7 @@
     <ClCompile Include="..\source\client\network\NetEventCallback.cpp" />
     <ClCompile Include="..\source\client\network\packets\AddPlayerPacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\ChunkDataPacket.cpp" />
+    <ClCompile Include="..\source\client\network\packets\LevelDataPacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\LoginPacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\MessagePacket.cpp" />
     <ClCompile Include="..\source\client\network\packets\MovePlayerPacket.cpp" />

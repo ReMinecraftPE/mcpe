@@ -374,6 +374,11 @@ uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t deco
 
 uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t* compressedSizeOut)
 {
+	return ZlibDeflateToMemoryLvl(pInput, sizeBytes, compressedSizeOut, Z_DEFAULT_COMPRESSION);
+}
+
+uint8_t* ZlibDeflateToMemoryLvl(uint8_t* pInput, size_t sizeBytes, size_t* compressedSizeOut, int level)
+{
 	z_stream strm;
 	memset(&strm, 0, sizeof strm);
 	int ret;
@@ -384,7 +389,7 @@ uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t* compress
 	strm.opaque = Z_NULL;
 
 	// initialize deflation state machine
-	ret = deflateInit(&strm, Z_DEFAULT_COMPRESSION);
+	ret = deflateInit(&strm, level);
 	if (ret != Z_OK)
 		return nullptr;
 
@@ -394,7 +399,7 @@ uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t* compress
 	uint8_t* pOut = new uint8_t[sizeBytes + ZLIB_PADDING_BYTES];
 	strm.avail_in = sizeBytes;
 	strm.next_in = pInput;
-	strm.avail_in = sizeBytes + ZLIB_PADDING_BYTES;
+	strm.avail_out = sizeBytes + ZLIB_PADDING_BYTES;
 	strm.next_out = pOut;
 
 	ret = deflate(&strm, Z_FINISH);

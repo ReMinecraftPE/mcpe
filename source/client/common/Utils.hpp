@@ -567,6 +567,7 @@ bool DeleteDirectory(const std::string& name, bool unused);
 // compress and decompress stuff with zlib: ( you must SAFE_DELETE_ARRAY what it returns )
 uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize);
 uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t *compressedSizeOut);
+uint8_t* ZlibDeflateToMemoryLvl(uint8_t* pInput, size_t sizeBytes, size_t* compressedSizeOut, int level);
 
 // things that we added:
 #ifndef ORIGINAL_CODE

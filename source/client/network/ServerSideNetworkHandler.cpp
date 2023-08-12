@@ -113,7 +113,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.field_10 = pPlayer->m_pos.x;
 	sgp.field_14 = pPlayer->m_pos.y - pPlayer->field_84;
 	sgp.field_18 = pPlayer->m_pos.z;
-	sgp.m_version = 1;
+	sgp.m_version = 2;
 	sgp.m_time = m_pLevel->getTime();
 	
 	RakNet::BitStream sgpbs;
@@ -291,6 +291,12 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket* packet)
 {
 	puts_ignorable("RequestChunkPacket");
+
+	if (packet->m_x == -9999)
+	{
+		m_pRakNetInstance->send(guid, new LevelDataPacket(m_pLevel));
+		return;
+	}
 
 	LevelChunk* pChunk = m_pLevel->getChunk(packet->m_x, packet->m_z);
 	if (!pChunk)

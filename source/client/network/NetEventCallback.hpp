@@ -23,8 +23,10 @@ class UpdateBlockPacket;
 class RequestChunkPacket;
 class ChunkDataPacket;
 class PlayerEquipmentPacket;
+class LevelDataPacket;
 #include "world/level/Level.hpp"
 class Level;
+class LevelChunk;
 
 class NetEventCallback
 {
@@ -47,5 +49,6 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, RequestChunkPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, ChunkDataPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*);
+	virtual void handle(const RakNet::RakNetGUID&, LevelDataPacket*);
 };
 

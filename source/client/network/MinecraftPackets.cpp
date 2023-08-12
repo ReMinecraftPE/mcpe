@@ -36,6 +36,9 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new ChunkDataPacket;
 		case PACKET_PLAYER_EQUIPMENT:
 			return new PlayerEquipmentPacket;
+
+		case PACKET_LEVEL_DATA:
+			return new LevelDataPacket;
 	}
 
 	return nullptr;

@@ -16,6 +16,7 @@
 #include "NetEventCallback.hpp"
 
 class NetEventCallback;
+class Level;
 class LevelChunk;
 
 enum ePacketType : uint8_t
@@ -32,6 +33,8 @@ enum ePacketType : uint8_t
 	PACKET_REQUEST_CHUNK,
 	PACKET_CHUNK_DATA,
 	PACKET_PLAYER_EQUIPMENT,
+
+	PACKET_LEVEL_DATA = 200,
 };
 
 class Packet
@@ -225,6 +228,19 @@ public:
 	int m_z;
 	RakNet::BitStream m_data;
 	LevelChunk* m_pChunk;
+};
+
+class LevelDataPacket : public Packet
+{
+public:
+	LevelDataPacket() {}
+	LevelDataPacket(Level* level) : m_pLevel(level) {}
+	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
+	void write(RakNet::BitStream*);
+	void read(RakNet::BitStream*);
+public:
+	RakNet::BitStream m_data;
+	Level* m_pLevel;
 };
 
 class PlayerEquipmentPacket : public Packet

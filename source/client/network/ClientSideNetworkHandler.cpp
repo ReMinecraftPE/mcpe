@@ -26,6 +26,8 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	m_pMinecraft = pMinecraft;
 	m_pRakNetInstance = pRakNetInstance;
 	m_pServerPeer = m_pRakNetInstance->getPeer();
+	m_chunksRequested = 0;
+	m_serverProtocolVersion = 0;
 }
 
 void ClientSideNetworkHandler::levelGenerated(Level* level)
@@ -107,6 +109,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 	pLocalPlayer->m_pInventory->prepareCreativeInventory();
 
 	m_pLevel->setTime(pStartGamePkt->m_time);
+
+	m_serverProtocolVersion = pStartGamePkt->m_version;
 
 	m_pMinecraft->setLevel(m_pLevel, "ClientSideNetworkHandler -> setLevel", pLocalPlayer);
 }
@@ -326,10 +330,13 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 
 	pChunk->m_bUnsaved = true;
 
-	if (areAllChunksLoaded())
-		flushAllBufferedUpdates();
-	else
-		requestNextChunk();
+	if (m_serverProtocolVersion < 2)
+	{
+		if (areAllChunksLoaded())
+			flushAllBufferedUpdates();
+		else
+			requestNextChunk();
+	}
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerEquipmentPacket* pPlayerEquipmentPkt)
@@ -355,6 +362,99 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 	pPlayer->m_pInventory->selectItemById(pPlayerEquipmentPkt->m_itemID);
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
+{
+	int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
+	RakNet::BitStream* bs = &packet->m_data, bs2;
+
+	int thing = 0;
+	bs->Read(thing);
+	if (thing != compMagic && thing != uncompMagic)
+	{
+		LogMsg("Error, invalid level data packet with magic %d", thing);
+		return;
+	}
+
+	if (thing == compMagic)
+	{
+		int uncompSize = 0, compSize = 0;
+		bs->Read(uncompSize);
+		bs->Read(compSize);
+
+		LogMsg("Decompressing level data. Compressed, uncompressed sizes: %d bytes, %d bytes", compSize, uncompSize);
+
+		uint8_t* pCompData = new uint8_t[compSize];
+		bs->Read((char*)pCompData, compSize);
+
+		uint8_t* pUncompData = ZlibInflateToMemory(pCompData, compSize, uncompSize);
+		delete[] pCompData;
+
+		if (!pUncompData)
+		{
+			LogMsg("Error, can't decompress level data");
+			return;
+		}
+
+		bs2.Reset();
+		bs2.Write((const char*)pUncompData, uncompSize);
+		bs2.ResetReadPointer();
+		bs = &bs2;
+
+		bs->Read(thing);
+	}
+
+	int chunksX = 0, chunksZ = 0;
+	bs->Read(chunksX);
+	bs->Read(chunksZ);
+
+	if (chunksX != C_MAX_CHUNKS_X || chunksZ != C_MAX_CHUNKS_Z)
+	{
+		LogMsg("Error, we don't yet support a level of size %d x %d chunks. Some chunks may disappear or be regenerated.", chunksX, chunksZ);
+	}
+
+	for (int x = 0; x < chunksX; x++)
+	{
+		for (int z = 0; z < chunksZ; z++)
+		{
+			uint8_t ptype = 0;
+			bs->Read(thing);
+
+			int dataSize = 0;
+			bs->Read(dataSize);
+
+			if (thing != chunkSepMagic)
+			{
+			_FAIL_BECAUSE_INVALID:
+				LogMsg("Error, aborting because level data is invalid. Reading chunk %d,%d. Thing=%d PType=%d",x,z,thing,ptype);
+				return;
+			}
+
+			LevelChunk* pChunk = m_pLevel->getChunk(x, z);
+			if (!pChunk)
+				LogMsg("No chunk at %d,%d", x, z);
+			
+			RakNet::BitStream bs2;
+			bs2.Write(*bs, 8 * dataSize);
+			
+			bs2.Read(ptype);
+			if (ptype != PACKET_CHUNK_DATA)
+				goto _FAIL_BECAUSE_INVALID;
+
+			ChunkDataPacket cdp(x, z, pChunk);
+			cdp.read(&bs2);
+			LogMsg("Chunk %d,%d", cdp.m_x, cdp.m_z);
+
+			if (pChunk)
+				handle(guid, &cdp);
+
+			while (m_pLevel->updateLights());
+		}
+	}
+
+	m_chunksRequested = 256;// all chunks are loaded!!
+	flushAllBufferedUpdates();
+}
+
 bool ClientSideNetworkHandler::areAllChunksLoaded()
 {
 	return m_chunksRequested > 255;
@@ -368,8 +468,15 @@ void ClientSideNetworkHandler::requestNextChunk()
 	// @BUG: The return value of areAllChunksLoaded() is actually true even before the
 	// 256th chunk is loaded.
 
-	m_pRakNetInstance->send(new RequestChunkPacket(m_chunksRequested % 16, m_chunksRequested / 16));
-	m_chunksRequested++;
+	if (m_serverProtocolVersion < 2)
+	{
+		m_pRakNetInstance->send(new RequestChunkPacket(m_chunksRequested % 16, m_chunksRequested / 16));
+		m_chunksRequested++;
+	}
+	else
+	{
+		m_pRakNetInstance->send(new RequestChunkPacket(-9999, -9999));
+	}
 }
 
 void ClientSideNetworkHandler::flushAllBufferedUpdates()

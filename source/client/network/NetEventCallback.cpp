@@ -76,3 +76,7 @@ void NetEventCallback::handle(const RakNet::RakNetGUID& guid, ChunkDataPacket* p
 void NetEventCallback::handle(const RakNet::RakNetGUID& guid, PlayerEquipmentPacket* packet)
 {
 }
+
+void NetEventCallback::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
+{
+}

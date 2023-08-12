@@ -42,6 +42,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, UpdateBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, ChunkDataPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
+	void handle(const RakNet::RakNetGUID&, LevelDataPacket*) override;
 	
 	bool areAllChunksLoaded();
 	void requestNextChunk();
@@ -56,6 +57,7 @@ private:
 	RakNet::RakNetGUID m_serverGUID;
 	int m_field_24;
 	std::vector<SBufferedBlockUpdate> m_bufferedBlockUpdates;
-	int m_chunksRequested = 0;
+	int m_chunksRequested;
+	int m_serverProtocolVersion;
 };
 

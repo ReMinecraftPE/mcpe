@@ -44,6 +44,7 @@ void ChunkDataPacket::write(RakNet::BitStream* bs)
 		}
 	}
 
+	m_data.ResetReadPointer();
 	bs->Write(m_data);
 }
 
@@ -52,4 +53,5 @@ void ChunkDataPacket::read(RakNet::BitStream* bs)
 	bs->Read(m_x);
 	bs->Read(m_z);
 	bs->Read(m_data);
+	m_data.ResetReadPointer();
 }
