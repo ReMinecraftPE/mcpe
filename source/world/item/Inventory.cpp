@@ -65,9 +65,14 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Tile::lapisBlock->m_ID);
 	addCreativeItem(Tile::sponge->m_ID);
 	addCreativeItem(Tile::sapling->m_ID);
+	addCreativeItem(Tile::cryingObsidian->m_ID);
+	
+	// test stuff
 	addCreativeItem(Tile::water->m_ID);
 	addCreativeItem(Tile::lava->m_ID);
 	addCreativeItem(Tile::fire->m_ID);
+
+	// items
 	addCreativeItem(Item::camera->m_itemID);
 	addCreativeItem(Item::door_wood->m_itemID);
 	addCreativeItem(Item::door_iron->m_itemID);

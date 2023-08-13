@@ -210,7 +210,8 @@ public: // static variables
 		* sponge,
 		* lapisBlock,
 		* bookshelf,
-		* mossStone;
+		* mossStone,
+		* cryingObsidian;
 
 public:
 	int m_TextureFrame;

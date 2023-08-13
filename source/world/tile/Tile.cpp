@@ -678,6 +678,13 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("stoneMoss");
 
+	Tile::cryingObsidian = (new Tile(TILE_OBSIDIAN_CRYING, TEXTURE_OBSIDIAN_CRYING, Material::stone))
+		->init()
+		->setDestroyTime(10.0f)
+		->setExplodeable(2000.0f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("cryingObsidian");
+
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
 		if (Tile::tiles[i])
@@ -1105,4 +1112,5 @@ Tile
 	*Tile::sponge,
 	*Tile::lapisBlock,
 	*Tile::bookshelf,
-	*Tile::mossStone;
+	*Tile::mossStone,
+	*Tile::cryingObsidian;

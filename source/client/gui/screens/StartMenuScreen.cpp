@@ -20,7 +20,7 @@
 // actual name
 const char* gSplashes[] =
 {
-	"1 star! Deal with it notch!",
+	"One star! Deal with it notch!",
 	"100% more yellow text!",
 	"Glowing creepy eyes!",
 	"Toilet friendly!",
