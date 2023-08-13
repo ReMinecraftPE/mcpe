@@ -303,28 +303,28 @@ void sleepMs(int ms)
 void drawArrayVT(GLuint buffer, int count, int stride)
 {
 	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glVertexPointer(3, GL_FLOAT, stride, nullptr);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glDrawArrays(GL_TRIANGLES, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
+	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
+	xglEnableClientState(GL_VERTEX_ARRAY);
+	xglDrawArrays(GL_TRIANGLES, 0, count);
+	xglDisableClientState(GL_VERTEX_ARRAY);
+	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void drawArrayVTC(GLuint buffer, int count, int stride)
 {
 	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glVertexPointer(3, GL_FLOAT, stride, nullptr);
-	glTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	glColorPointer(4, GL_UNSIGNED_BYTE, stride, (void*)20);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glDrawArrays(GL_TRIANGLES, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
+	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
+	xglColorPointer(4, GL_UNSIGNED_BYTE, stride, (void*)20);
+	xglEnableClientState(GL_VERTEX_ARRAY);
+	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	xglEnableClientState(GL_COLOR_ARRAY);
+	xglDrawArrays(GL_TRIANGLES, 0, count);
+	xglDisableClientState(GL_VERTEX_ARRAY);
+	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	xglDisableClientState(GL_COLOR_ARRAY);
 }
 
 float Max(float a, float b)

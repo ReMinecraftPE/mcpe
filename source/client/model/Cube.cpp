@@ -75,7 +75,9 @@ void Cube::addBox(float x, float y, float z, int d, int e, int f, float g)
 
 void Cube::compile(float scale)
 {
-	xglDeleteBuffers(1, &m_buffer);
+	if (m_bCompiled)
+		xglDeleteBuffers(1, &m_buffer);
+
 	xglGenBuffers(1, &m_buffer);
 
 	Tesselator& t = Tesselator::instance;

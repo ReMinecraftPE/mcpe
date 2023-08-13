@@ -162,31 +162,31 @@ void Tesselator::draw()
 		if (m_bHaveTex)
 		{
 			// it won't use address 12, because we've bound a buffer object
-			glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_u));
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			xglTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_u));
+			xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		}
 		if (m_bHaveColor)
 		{
 			// it won't use address 12, because we've bound a buffer object
-			glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, m_color));
-			glEnableClientState(GL_COLOR_ARRAY);
+			xglColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, m_color));
+			xglEnableClientState(GL_COLOR_ARRAY);
 		}
 
-		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_x));
-		glEnableClientState(GL_VERTEX_ARRAY);
+		xglVertexPointer(3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_x));
+		xglEnableClientState(GL_VERTEX_ARRAY);
 
 		// if we want to draw quads, draw triangles actually
 		// otherwise, just pass the mode, it's fine
 		if (m_drawArraysMode == GL_QUADS)
-			glDrawArrays(GL_TRIANGLES, 0, field_4);
+			xglDrawArrays(GL_TRIANGLES, 0, field_4);
 		else
-			glDrawArrays(m_drawArraysMode, 0, field_4);
+			xglDrawArrays(m_drawArraysMode, 0, field_4);
 
-		glDisableClientState(GL_VERTEX_ARRAY);
+		xglDisableClientState(GL_VERTEX_ARRAY);
 		if (m_bHaveColor)
-			glDisableClientState(GL_COLOR_ARRAY);
+			xglDisableClientState(GL_COLOR_ARRAY);
 		if (m_bHaveTex)
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+			xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
 	clear();
