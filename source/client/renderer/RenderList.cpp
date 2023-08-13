@@ -108,9 +108,9 @@ void RenderList::render()
 
 void RenderList::renderChunks()
 {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	xglEnableClientState(GL_VERTEX_ARRAY);
+	xglEnableClientState(GL_COLOR_ARRAY);
+	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	if (field_1C > 0)
 	{
@@ -121,16 +121,16 @@ void RenderList::renderChunks()
 
 			glTranslatef(chk.field_C, chk.field_10, chk.field_14);
 			xglBindBuffer(GL_ARRAY_BUFFER, chk.field_0);
-			glVertexPointer  (3, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_x));
-			glTexCoordPointer(2, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_u));
-			glColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_color));
-			glDrawArrays(GL_TRIANGLES, 0, chk.field_4);
+			xglVertexPointer  (3, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_x));
+			xglTexCoordPointer(2, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_u));
+			xglColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_color));
+			xglDrawArrays(GL_TRIANGLES, 0, chk.field_4);
 
 			glPopMatrix();
 		}
 	}
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	xglDisableClientState(GL_VERTEX_ARRAY);
+	xglDisableClientState(GL_COLOR_ARRAY);
+	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }

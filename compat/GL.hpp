@@ -89,6 +89,12 @@ void xglGenBuffers(GLsizei num, GLuint* buffers);
 void xglDeleteBuffers(GLsizei num, GLuint* buffers);
 void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearpl, GLfloat farpl);
 void xglSwapIntervalEXT(int interval);
+void xglEnableClientState(GLenum _array);
+void xglDisableClientState(GLenum _array);
+void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
 
 // @TODO: not the right place, but er, it's ok
 void drawArrayVT(GLuint buffer, int count, int stride);
