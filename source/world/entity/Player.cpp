@@ -84,7 +84,11 @@ bool Player::isCreativeModeAllowed()
 bool Player::hurt(Entity* pEnt, int damage)
 {
 	//@HUH
+#ifndef TEST_SURVIVAL_MODE
 	return false;
+#endif
+
+	return Mob::hurt(pEnt, damage);
 }
 
 void Player::awardKillScore(Entity* pKilled, int score)

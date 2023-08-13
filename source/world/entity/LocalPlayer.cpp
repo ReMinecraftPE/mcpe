@@ -123,6 +123,9 @@ int LocalPlayer::move(float x, float y, float z)
 	int result = 0;
 
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
+	if (!pLP)
+		return 1300; // TODO
+
 	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->m_options.m_bFlyCheat)
 	{
 		//@HUH: Using m_pMinecraft->m_pLocalPlayer instead of this, even though they're the same
@@ -234,4 +237,16 @@ void LocalPlayer::updateAi()
 	field_B04 = m_pKeyboardInput->m_vertInput;
 
 	field_B0C = m_pKeyboardInput->m_bJumpButton || m_nAutoJumpFrames > 0;
+}
+
+void LocalPlayer::beforeRemove()
+{
+#ifdef TEST_SURVIVAL_MODE
+	LogMsg("The localplayer was removed");
+
+	if (m_pMinecraft->m_pLocalPlayer == this)
+		m_pMinecraft->m_pLocalPlayer = nullptr;
+	if (m_pMinecraft->m_pMobPersp == this)
+		m_pMinecraft->m_pMobPersp = nullptr;
+#endif
 }

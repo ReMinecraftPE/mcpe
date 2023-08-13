@@ -364,7 +364,7 @@ void Mob::causeFallDamage(float level)
 	int x = int(ceilf(level - 3));
 	if (x > 0)
 	{
-		hurt(nullptr, 3);
+		hurt(nullptr, 3*42);
 
 		//@HUH: useless call to getTile? or could this be a return value of some sort
 		//Entity::causeFallDamage returns nothing though, so....
@@ -710,7 +710,9 @@ int Mob::getMaxSpawnClusterSize()
 
 void Mob::actuallyHurt(int damage)
 {
-
+#ifdef TEST_SURVIVAL_MODE
+	m_health -= damage;
+#endif
 }
 
 bool Mob::removeWhenFarAway()

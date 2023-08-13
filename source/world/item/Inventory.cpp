@@ -92,6 +92,7 @@ void Inventory::prepareSurvivalInventory()
 	addTestItem(Item::wheat->m_itemID, 64);
 	addTestItem(Item::sugar->m_itemID, 64);
 	addTestItem(Item::camera->m_itemID, 64);
+	addTestItem(Tile::ladder->m_ID, 64);
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;
