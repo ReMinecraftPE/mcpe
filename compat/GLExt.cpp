@@ -122,6 +122,8 @@ void xglSwapIntervalEXT(int interval)
 
 // ** Incomplete software based emulation of OpenGL vertex buffers.
 
+#define USE_DISPLAY_LISTS
+
 struct GLBuffer
 {
 	GLuint  m_id;
@@ -147,24 +149,72 @@ struct GLBuffer
 	GLsizei m_col_stride;
 	GLint   m_col_offset;
 
+	// associated display list
+	GLuint m_AssociatedDisplayList; // used if USE_DISPLAY_LISTS is on
+
 	GLBuffer(GLuint id)
 	{
 		m_id = id;
 		m_pBufferData = nullptr;
 		m_bufferSize = 0;
 		m_usage = 0;
+		m_AssociatedDisplayList = 0;
+	}
+
+	void DeletePreExistingDLIfNeeded()
+	{
+#ifdef USE_DISPLAY_LISTS
+		if (m_AssociatedDisplayList != 0)
+			glDeleteLists(m_AssociatedDisplayList, 1);
+
+		m_AssociatedDisplayList = 0;
+#endif
+	}
+
+	bool HasDisplayList()
+	{
+#ifndef USE_DISPLAY_LISTS
+		return false;
+#endif
+		return m_AssociatedDisplayList != 0;
+	}
+
+	GLuint GetDisplayList()
+	{
+		return m_AssociatedDisplayList;
+	}
+
+	void SetDisplayList(GLuint dl)
+	{
+		m_AssociatedDisplayList = dl;
 	}
 
 	void SetVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* offset)
 	{
+		int ioffset = int(size_t(offset));
+		if (m_vtx_size   == size   &&
+			m_vtx_type   == type   &&
+			m_vtx_stride == stride &&
+			m_vtx_offset == ioffset)
+			return;
+		
+		DeletePreExistingDLIfNeeded();
 		m_vtx_size = size;
 		m_vtx_type = type;
 		m_vtx_stride = stride;
-		m_vtx_offset = int(size_t(offset));
+		m_vtx_offset = ioffset;
 	}
 
 	void SetTextureCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* offset)
 	{
+		int ioffset = int(size_t(offset));
+		if (m_tc_size   == size   &&
+			m_tc_type   == type   &&
+			m_tc_stride == stride &&
+			m_tc_offset == ioffset)
+			return;
+		
+		DeletePreExistingDLIfNeeded();
 		m_tc_size = size;
 		m_tc_type = type;
 		m_tc_stride = stride;
@@ -173,6 +223,14 @@ struct GLBuffer
 
 	void SetColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* offset)
 	{
+		int ioffset = int(size_t(offset));
+		if (m_col_size   == size   &&
+			m_col_type   == type   &&
+			m_col_stride == stride &&
+			m_col_offset == ioffset)
+			return;
+		
+		DeletePreExistingDLIfNeeded();
 		m_col_size = size;
 		m_col_type = type;
 		m_col_stride = stride;
@@ -248,6 +306,16 @@ void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum us
 
 	GLBuffer* pBuf = g_pCurrentlyBoundGLBuffer;
 
+	// check if the data is the SAME:
+	if (pBuf->m_bufferSize == size && memcmp(pBuf->m_pBufferData, data, size) == 0)
+	{
+		//nope
+		pBuf->m_usage = usage;
+		return;
+	}
+
+	pBuf->DeletePreExistingDLIfNeeded();
+
 	// free the old data, if there was any
 	if (pBuf->m_pBufferData)
 	{
@@ -270,6 +338,8 @@ void xglDeleteBuffer(GLsizei num)
 
 	if (iter->second == g_pCurrentlyBoundGLBuffer)
 		g_pCurrentlyBoundGLBuffer = nullptr;
+
+	iter->second->DeletePreExistingDLIfNeeded();
 
 	delete iter->second;
 	g_GLBuffers.erase(iter);
@@ -331,6 +401,19 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
 	GLBuffer* pBuf = g_pCurrentlyBoundGLBuffer;
 
+#ifdef USE_DISPLAY_LISTS
+	if (pBuf->HasDisplayList())
+	{
+		glCallList(pBuf->GetDisplayList());
+		return;
+	}
+
+	GLuint currDL = glGenLists(1);
+	pBuf->SetDisplayList(currDL);
+
+	glNewList(currDL, GL_COMPILE);
+#endif
+
 	glBegin(mode);
 
 	for (GLsizeiptr i = first, j = 0; j < count; i++, j++)
@@ -381,6 +464,11 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 	}
 
 	glEnd();
+#ifdef USE_DISPLAY_LISTS
+	glEndList();
+
+	glCallList(pBuf->GetDisplayList());
+#endif
 }
 
 #endif
