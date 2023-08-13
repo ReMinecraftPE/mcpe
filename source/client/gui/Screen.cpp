@@ -138,6 +138,11 @@ void Screen::renderMenuBackground(float f)
 
 	g_panoramaAngle += float(30.0 * m_pMinecraft->m_fDeltaTime);
 
+	float aspectRatio;
+
+	aspectRatio = 1.0f;
+	//aspectRatio = float(m_width) / float(m_height);
+
 	// not in 0.8
 	glDisable(GL_BLEND);
 	glDisable(GL_CULL_FACE);
@@ -145,7 +150,7 @@ void Screen::renderMenuBackground(float f)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluPerspective(120.0f, 1.0f, 0.05f, 10.0f);
+	gluPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();

@@ -13,6 +13,7 @@
 class Minecraft;
 class Entity;
 
+class LevelRenderer;
 class GameRenderer
 {
 private:
@@ -42,6 +43,7 @@ public:
 	void setupFog(int i);
 	void pick(float);
 	void renderItemInHand(float, int);
+	void prepareAndRenderClouds(LevelRenderer* pLR, float f);
 
 	float getFov(float f);
 

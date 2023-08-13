@@ -401,13 +401,16 @@ FodyWeavers.xsd
 /game/assets/particles.png
 /game/assets/terrain.png
 
-# Ignore the panorama textures.
+# Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /game/assets/gui/background/panorama_0.png
 /game/assets/gui/background/panorama_1.png
 /game/assets/gui/background/panorama_2.png
 /game/assets/gui/background/panorama_3.png
 /game/assets/gui/background/panorama_4.png
 /game/assets/gui/background/panorama_5.png
+
+# Ignore the clouds texture. Adding them yourself will make the game use them.
+/game/assets/environment/clouds.png
 
 # Avoid including Minecraft Classic assets from Mojang, for now.
 /game/assets/patches/*.png

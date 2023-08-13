@@ -44,7 +44,7 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	field_B0 = 0;
 	field_B8 = false;
 	field_BC = -1;
-	field_C0 = 0;
+	m_ticksSinceStart = 0;
 	m_nBuffers = 26136;
 
 	m_pMinecraft = pMC;
@@ -583,7 +583,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 				float y6 = pChunk->distanceToSqr(pMob);
 				int y7 = int(Mth::sqrt(y6) / 128.0f + 1.0f);
 
-				if (field_C0 % y7 != y3 % y7)
+				if (m_ticksSinceStart % y7 != y3 % y7)
 					goto label_26;
 
 				float fXdiff, fYdiff, fZdiff;
@@ -693,7 +693,7 @@ void LevelRenderer::setTilesDirty(int x1, int y1, int z1, int x2, int y2, int z2
 
 void LevelRenderer::tick()
 {
-	field_C0++;
+	m_ticksSinceStart++;
 }
 
 /*
@@ -1192,6 +1192,62 @@ void LevelRenderer::renderSky(float f)
 	drawArrayVT(field_D8, field_DC, sizeof(Tesselator::Vertex));
 	glEnable(GL_TEXTURE_2D);
 	glDepthMask(true);
+}
+
+bool g_bAreCloudsAvailable = false; // false because 0.1 didn't have them
+
+void LevelRenderer::renderClouds(float f)
+{
+	if (!g_bAreCloudsAvailable)
+		return;
+
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_CULL_FACE);
+
+	float yPos = Lerp(m_pMinecraft->m_pMobPersp->field_98.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
+	m_pTextures->loadAndBindTexture("environment/clouds.png");
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	Vec3 cloudColor = m_pLevel->getCloudColor(f);
+
+	float offX = Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.3f;
+	float offZ = Lerp(m_pMinecraft->m_pMobPersp->field_3C.z, m_pMinecraft->m_pMobPersp->m_pos.z, f);
+	
+	int dx2048 = Mth::floor(offX / 2048.0f);
+	int dz2048 = Mth::floor(offZ / 2048.0f);
+
+	offX -= float(dx2048 * 2048);
+	offZ -= float(dz2048 * 2048);
+
+	Tesselator& t = Tesselator::instance;
+
+	float fYPos = (128.0f - yPos) + 0.33f;
+	offX /= 2048.0f;
+	offZ /= 2048.0f;
+	t.begin();
+	t.color(cloudColor.x, cloudColor.y, cloudColor.z, 0.8f);
+
+	const int incr = 32;
+	const int in2 = 256 / incr;
+	for (int x = -incr * in2; x < incr * in2; x += incr)
+	{
+		for (int z = -incr * in2; z < incr * in2; z += incr)
+		{
+			t.vertexUV(float(x) + 0.0f, fYPos, float(z) + incr, float(x + 0.0f) / 2048.0f + offX, float(z + incr) / 2048.0f + offZ);
+			t.vertexUV(float(x) + incr, fYPos, float(z) + incr, float(x + incr) / 2048.0f + offX, float(z + incr) / 2048.0f + offZ);
+			t.vertexUV(float(x) + incr, fYPos, float(z) + 0.0f, float(x + incr) / 2048.0f + offX, float(z + 0.0f) / 2048.0f + offZ);
+			t.vertexUV(float(x) + 0.0f, fYPos, float(z) + 0.0f, float(x + 0.0f) / 2048.0f + offX, float(z + 0.0f) / 2048.0f + offZ);
+		}
+
+	}
+
+	t.voidBeginAndEndCalls(false); // why??
+	t.draw();
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glDisable(GL_BLEND);
+	glEnable(GL_CULL_FACE);
 }
 
 void LevelRenderer::skyColorChanged()

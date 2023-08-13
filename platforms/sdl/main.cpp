@@ -208,6 +208,13 @@ static EM_BOOL main_loop(double time, void *user_data)
 }
 
 extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
+extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
+
+void CheckOptionalTextureAvailability()
+{
+	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
+	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
+}
 
 // Main
 int main(int argc, char *argv[])
@@ -237,7 +244,7 @@ int main(int argc, char *argv[])
 	Minecraft::height = std::stoi(argv[2]);
 #endif
 
-	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
+	CheckOptionalTextureAvailability();
 
 	// Create Window
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);

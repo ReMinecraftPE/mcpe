@@ -113,6 +113,7 @@ public:
 	bool canSeeSky(int x, int y, int z);
 	Vec3 getSkyColor(Entity* pEnt, float f);
 	Vec3 getFogColor(float f);
+	Vec3 getCloudColor(float f);
 	bool isUnobstructed(AABB*);
 	bool mayInteract(Player* player, int x, int y, int z);
 	bool mayPlace(TileID tid, int x, int y, int z, bool b);

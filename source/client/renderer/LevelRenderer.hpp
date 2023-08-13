@@ -90,6 +90,7 @@ public:
 	void render(Mob* pMob, int a, float b);
 	void renderEntities(Vec3 pos, Culler*, float f);
 	void renderSky(float);
+	void renderClouds(float);
 	void checkQueryResults(int, int);
 	void renderSameAsLast(int, float);
 	int  renderChunks(int start, int end, int a, float b);
@@ -137,7 +138,7 @@ public:
 	Minecraft* m_pMinecraft;
 	bool field_B8;
 	int field_BC;
-	int field_C0;
+	int m_ticksSinceStart;
 	//...
 	int m_nBuffers;
 	GLuint* m_pBuffers;

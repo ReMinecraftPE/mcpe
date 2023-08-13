@@ -2168,6 +2168,9 @@
     <ClCompile Include="..\thirdparty\zlib\gzclose.c">
       <Filter>thirdparty\zlib</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\client\network\packets\LevelDataPacket.cpp">
+      <Filter>source\client\network\packets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\thirdparty\raknet\CMakeLists.txt">

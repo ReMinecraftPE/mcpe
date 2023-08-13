@@ -430,6 +430,7 @@ void GameRenderer::renderLevel(float f)
 		setupCamera(f, i);
 		saveMatrices();
 
+		/*
 		if (m_pMinecraft->m_options.m_iViewDistance <= 1)
 		{
 #ifndef ORIGINAL_CODE
@@ -440,6 +441,7 @@ void GameRenderer::renderLevel(float f)
 			setupFog(-1);
 			pLR->renderSky(f);
 		}
+		*/
 
 		glEnable(GL_FOG);
 		setupFog(1);
@@ -456,6 +458,9 @@ void GameRenderer::renderLevel(float f)
 
 		pLR->cull(&frustumCuller, f);
 		pLR->updateDirtyChunks(pMob, false);
+
+		// TODO[v0.6.1]: what is (this+4)+63 (byte)?
+		prepareAndRenderClouds(pLR, f);
 
 		setupFog(0);
 		glEnable(GL_FOG);
@@ -485,7 +490,6 @@ void GameRenderer::renderLevel(float f)
 		pLR->render(pMob, 1, f);
 
 		glDepthMask(true);
-
 
 #ifndef ORIGINAL_CODE
 		glShadeModel(GL_FLAT);
@@ -732,6 +736,34 @@ void GameRenderer::renderItemInHand(float f, int i)
 
 	if (m_pMinecraft->m_options.m_bViewBobbing)
 		bobView(f);
+}
+
+void GameRenderer::prepareAndRenderClouds(LevelRenderer* pLR, float f)
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(getFov(f), float(Minecraft::width) / float(Minecraft::height), 0.05f, field_8 * 512.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	setupFog(0);
+	glDepthMask(false);
+	glEnable(GL_FOG);
+	glFogf(GL_FOG_START, field_8 * 0.2f);
+	glFogf(GL_FOG_END,   field_8 * 0.75f);
+	pLR->renderSky(f);
+	glFogf(GL_FOG_START, field_8 * 4.2f * 0.6f);
+	glFogf(GL_FOG_END,   field_8 * 4.2f);
+	pLR->renderClouds(f);
+	glFogf(GL_FOG_START, field_8 * 0.6f);
+	glFogf(GL_FOG_END,   field_8);
+	glDisable(GL_FOG);
+	glDepthMask(true);
+	setupFog(1);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
 }
 
 void GameRenderer::onGraphicsReset()

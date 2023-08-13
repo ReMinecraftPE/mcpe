@@ -1246,6 +1246,25 @@ Vec3 Level::getFogColor(float f)
 	return m_pDimension->getFogColor(getTimeOfDay(f), f);
 }
 
+Vec3 Level::getCloudColor(float f)
+{
+	Vec3 result;
+
+	float fTODCosAng = Mth::cos(getSunAngle(f));
+
+	float mult = 2 * fTODCosAng + 0.5f;
+	if (mult < 0.0f)
+		mult = 0.0f;
+	if (mult > 1.0f)
+		mult = 1.0f;
+
+	result.x = mult * 0.9f + 0.1f;
+	result.y = result.x;
+	result.z = mult * 0.85f + 0.15f;
+
+	return result;
+}
+
 bool Level::isUnobstructed(AABB* aabb)
 {
 	EntityVector* entities = getEntities(nullptr, *aabb);

@@ -70,8 +70,6 @@ void UpdateMouse()
 	Mouse::setY(g_MousePosY);
 }
 
-extern bool g_bIsMenuBackgroundAvailable;
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
@@ -201,6 +199,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
+extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
+
+void CheckOptionalTextureAvailability()
+{
+	// Optional features that you really should be able to get away with not including.
+	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
+	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
+}
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
 	SetInstance(hInstance);
@@ -220,7 +228,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = g_WindowClassName;
 	
-	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
+	CheckOptionalTextureAvailability();
 
 	RECT wr = { 0,0, g_AppPlatform.getScreenWidth(), g_AppPlatform.getScreenHeight() };
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);
