@@ -1146,6 +1146,18 @@
     <ClInclude Include="..\thirdparty\zlib\gzguts.h">
       <Filter>thirdparty\zlib</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\world\item\CameraItem.hpp">
+      <Filter>source\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\item\DoorItem.hpp">
+      <Filter>source\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\item\TileItem.hpp">
+      <Filter>source\world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\item\TilePlanterItem.hpp">
+      <Filter>source\world\item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">

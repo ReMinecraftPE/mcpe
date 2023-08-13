@@ -139,9 +139,13 @@
     <ClInclude Include="..\source\world\gamemode\CreativeMode.hpp" />
     <ClInclude Include="..\source\world\gamemode\GameMode.hpp" />
     <ClInclude Include="..\source\world\gamemode\SurvivalMode.hpp" />
+    <ClInclude Include="..\source\world\item\CameraItem.hpp" />
+    <ClInclude Include="..\source\world\item\DoorItem.hpp" />
     <ClInclude Include="..\source\world\item\Inventory.hpp" />
     <ClInclude Include="..\source\world\item\Item.hpp" />
     <ClInclude Include="..\source\world\item\ItemInstance.hpp" />
+    <ClInclude Include="..\source\world\item\TileItem.hpp" />
+    <ClInclude Include="..\source\world\item\TilePlanterItem.hpp" />
     <ClInclude Include="..\source\world\level\Dimension.hpp" />
     <ClInclude Include="..\source\world\level\Explosion.hpp" />
     <ClInclude Include="..\source\world\level\Level.hpp" />

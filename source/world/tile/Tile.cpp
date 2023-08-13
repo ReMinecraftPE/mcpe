@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "world/level/Level.hpp"
-#include "world/item/Item.hpp"
+#include "world/item/TileItem.hpp"
 #include "world/entity/ItemEntity.hpp"
 
 // Include tile definitions here
