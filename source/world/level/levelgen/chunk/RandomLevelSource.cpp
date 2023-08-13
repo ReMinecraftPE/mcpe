@@ -10,7 +10,7 @@
 #include "world/level/Level.hpp"
 #include "world/tile/SandTile.hpp"
 
-#define TEST_CAVES
+//#define TEST_CAVES
 
 const float RandomLevelSource::SNOW_CUTOFF = 0.5f;
 const float RandomLevelSource::SNOW_SCALE  = 0.3f;
