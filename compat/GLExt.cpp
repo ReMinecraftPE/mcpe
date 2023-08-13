@@ -12,7 +12,7 @@
 HWND GetHWND();
 extern LPCTSTR g_GameTitle;
 
-#define USE_HARDWARE_GL_BUFFERS
+//#define USE_HARDWARE_GL_BUFFERS
 #ifdef USE_HARDWARE_GL_BUFFERS
 PFNGLBINDBUFFERPROC p_glBindBuffer;
 PFNGLBUFFERDATAPROC p_glBufferData;
@@ -118,38 +118,267 @@ void xglSwapIntervalEXT(int interval)
 
 #ifndef USE_HARDWARE_GL_BUFFERS
 
-// ** Software based emulation of OpenGL vertex buffers.
+// ** Incomplete software based emulation of OpenGL vertex buffers.
 
 struct GLBuffer
 {
+	GLuint  m_id;
 	GLvoid* m_pBufferData;
 	GLsizei m_bufferSize;
 	GLenum  m_usage; // as passed into glBufferData
 
-	GLBuffer()
+	// vertex pointer
+	GLint   m_vtx_size;
+	GLenum  m_vtx_type;
+	GLsizei m_vtx_stride;
+	GLint   m_vtx_offset;
+
+	// texture coord pointer
+	GLint   m_tc_size;
+	GLenum  m_tc_type;
+	GLsizei m_tc_stride;
+	GLint   m_tc_offset;
+
+	// color pointer
+	GLint   m_col_size;
+	GLenum  m_col_type;
+	GLsizei m_col_stride;
+	GLint   m_col_offset;
+
+	GLBuffer(GLuint id)
 	{
+		m_id = id;
 		m_pBufferData = nullptr;
 		m_bufferSize = 0;
 		m_usage = 0;
 	}
+
+	void SetVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* offset)
+	{
+		m_vtx_size = size;
+		m_vtx_type = type;
+		m_vtx_stride = stride;
+		m_vtx_offset = int(size_t(offset));
+	}
+
+	void SetTextureCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* offset)
+	{
+		m_tc_size = size;
+		m_tc_type = type;
+		m_tc_stride = stride;
+		m_tc_offset = int(size_t(offset));
+	}
+
+	void SetColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* offset)
+	{
+		m_col_size = size;
+		m_col_type = type;
+		m_col_stride = stride;
+		m_col_offset = int(size_t(offset));
+	}
 };
 
-std::unordered_map<int, GLBuffer*> g_GLBuffers;
+typedef std::unordered_map<GLuint, GLBuffer*> GLBufferMap;
+
+GLBufferMap g_GLBuffers;
 GLBuffer* g_pCurrentlyBoundGLBuffer = nullptr;
-int g_NextGLBufferID;
+GLuint g_NextGLBufferID;
+bool g_bUseVertexArrays, g_bUseColorArrays, g_bUseTextureCoordArrays; // modified by xgl[En/Dis]ableClientState
 
 void xglGenBuffers(GLsizei num, GLuint* buffers)
 {
 	for (GLsizei i = 0; i < num; i++)
 	{
 		*buffers++ = ++g_NextGLBufferID;
-		g_GLBuffers[g_NextGLBufferID] = new GLBuffer;
+		g_GLBuffers[g_NextGLBufferID] = new GLBuffer(g_NextGLBufferID);
 	}
+
+	LogMsg("g_NextGLBufferID=%d", g_NextGLBufferID);
+}
+
+void xglAssert2(bool condition, const char* condstr, const char* file, int line)
+{
+	if (condition) return;
+
+	LogMsg("Error: Assertion failed at %s:%d: %s", file, line, condstr);
+
+#ifdef _MSC_VER
+	assert(false);
+#endif
+
+	exit(1);
+}
+#define xglAssert(condition) xglAssert2(condition,#condition,__FILE__,__LINE__)
+
+void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
+	g_pCurrentlyBoundGLBuffer->SetVertexPointer(size, type, stride, pointer);
+}
+
+void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
+	g_pCurrentlyBoundGLBuffer->SetTextureCoordPointer(size, type, stride, pointer);
+}
+
+void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
+	g_pCurrentlyBoundGLBuffer->SetColorPointer(size, type, stride, pointer);
 }
 
 void xglBindBuffer(GLenum target, GLuint bufferID)
 {
-	assert(target == GL_ARRAY_BUFFER);
+	xglAssert(target == GL_ARRAY_BUFFER);
+
+	GLBufferMap::iterator iter = g_GLBuffers.find(bufferID);
+	if (iter == g_GLBuffers.end())
+		return;
+
+	g_pCurrentlyBoundGLBuffer = iter->second;
+}
+
+void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)
+{
+	xglAssert(target == GL_ARRAY_BUFFER);
+	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
+
+	GLBuffer* pBuf = g_pCurrentlyBoundGLBuffer;
+
+	// free the old data, if there was any
+	if (pBuf->m_pBufferData)
+	{
+		free(pBuf->m_pBufferData);
+		pBuf->m_pBufferData = nullptr;
+	}
+
+	pBuf->m_pBufferData = (GLvoid*)malloc(size);
+	xglAssert(pBuf->m_pBufferData != nullptr);
+
+	memcpy(pBuf->m_pBufferData, data, size);
+
+	pBuf->m_usage = usage;
+}
+
+void xglDeleteBuffer(GLsizei num)
+{
+	GLBufferMap::iterator iter = g_GLBuffers.find(num);
+	xglAssert(iter != g_GLBuffers.end());
+
+	if (iter->second == g_pCurrentlyBoundGLBuffer)
+		g_pCurrentlyBoundGLBuffer = nullptr;
+
+	delete iter->second;
+	g_GLBuffers.erase(iter);
+}
+
+void xglDeleteBuffers(GLsizei num, GLuint* buffers)
+{
+	for (GLsizei i = 0; i < num; i++)
+	{
+		xglDeleteBuffer(buffers[i]);
+		buffers[i] = 0;
+	}
+}
+
+void xglEnableClientState(GLenum _array)
+{
+	if (_array == GL_VERTEX_ARRAY)
+	{
+		g_bUseVertexArrays = true;
+		return;
+	}
+	if (_array == GL_COLOR_ARRAY)
+	{
+		g_bUseColorArrays = true;
+		return;
+	}
+	if (_array == GL_TEXTURE_COORD_ARRAY)
+	{
+		g_bUseTextureCoordArrays = true;
+		return;
+	}
+
+	glEnableClientState(_array);
+}
+
+void xglDisableClientState(GLenum _array)
+{
+	if (_array == GL_VERTEX_ARRAY)
+	{
+		g_bUseVertexArrays = false;
+		return;
+	}
+	if (_array == GL_COLOR_ARRAY)
+	{
+		g_bUseColorArrays = false;
+		return;
+	}
+	if (_array == GL_TEXTURE_COORD_ARRAY)
+	{
+		g_bUseTextureCoordArrays = false;
+		return;
+	}
+
+	glDisableClientState(_array);
+}
+
+void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
+{
+	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
+	GLBuffer* pBuf = g_pCurrentlyBoundGLBuffer;
+
+	glBegin(mode);
+
+	for (GLsizeiptr i = first, j = 0; j < count; i++, j++)
+	{
+		uintptr_t addr = uintptr_t(pBuf->m_pBufferData);
+
+		void* pVtx = (void*)(addr + pBuf->m_vtx_offset + i * pBuf->m_vtx_stride);
+		void* pCol = (void*)(addr + pBuf->m_col_offset + i * pBuf->m_col_stride);
+		void* pTC  = (void*)(addr + pBuf->m_tc_offset  + i * pBuf->m_tc_stride);
+
+		if (g_bUseTextureCoordArrays)
+		{
+			if (pBuf->m_tc_type == GL_FLOAT)
+			{
+				float* pfTC = (float*)pTC;
+				/**/ if (pBuf->m_tc_size == 2)
+					glTexCoord2fv(pfTC);
+				else xglAssert(!"Unimplemented texcoord size!");
+			}
+			else xglAssert(!"Unimplemented texcoord type!");
+		}
+
+		if (g_bUseColorArrays)
+		{
+			if (pBuf->m_col_type == GL_UNSIGNED_BYTE)
+			{
+				uint8_t* pfCol = (uint8_t*)pCol;
+				/**/ if (pBuf->m_col_size == 4)
+					glColor4f(float(pfCol[0])/255.0f, float(pfCol[1])/255.0f, float(pfCol[2])/255.0f, float(pfCol[3])/255.0f);
+				else xglAssert(!"Unimplemented color size!");
+			}
+			else xglAssert(!"Unimplemented color type!");
+		}
+
+		if (g_bUseVertexArrays)
+		{
+			if (pBuf->m_vtx_type == GL_FLOAT)
+			{
+				float* pfVtx = (float*)pVtx;
+				/**/ if (pBuf->m_vtx_size == 3)
+					glVertex3fv(pfVtx);
+				else if (pBuf->m_vtx_size == 2)
+					glVertex2fv(pfVtx);
+				else xglAssert(!"Unimplemented texcoord size!");
+			}
+			else xglAssert(!"Unimplemented vertex type!");
+		}
+	}
+
+	glEnd();
 }
 
 #endif
