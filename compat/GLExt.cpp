@@ -12,7 +12,9 @@
 HWND GetHWND();
 extern LPCTSTR g_GameTitle;
 
-//#define USE_HARDWARE_GL_BUFFERS
+// Don't undefine. It will make the game MUCH slower.
+#define USE_HARDWARE_GL_BUFFERS
+
 #ifdef USE_HARDWARE_GL_BUFFERS
 PFNGLBINDBUFFERPROC p_glBindBuffer;
 PFNGLBUFFERDATAPROC p_glBufferData;
