@@ -706,7 +706,7 @@ void Entity::baseTick()
 
 	if (field_C0 % 20 == 0)
 	{
-		hurt(nullptr, true);
+		hurt(nullptr, 1);
 	}
 
 	field_C0--;
