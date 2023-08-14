@@ -11,6 +11,7 @@
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
 #include "client/gui/screens/SavingWorldScreen.hpp"
+#include "client/gui/screens/DeathScreen.hpp"
 #include "client/network/ServerSideNetworkHandler.hpp"
 #include "client/network/ClientSideNetworkHandler.hpp"
 
@@ -559,6 +560,45 @@ void Minecraft::sendMessage(const std::string& message)
 	}
 }
 
+void Minecraft::resetPlayer(Player* player)
+{
+	m_pLevel->validateSpawn();
+	player->reset();
+
+	Pos pos = m_pLevel->getSharedSpawnPos();
+	player->setPos(float(pos.x), float(pos.y), float(pos.z));
+	player->resetPos();
+
+	// Of course we have to add him back into the game, if he isn't already.
+	EntityVector& vec = m_pLevel->m_entities;
+	for (int i = 0; i < int(vec.size()); i++)
+	{
+		if (vec[i] == player)
+			return;
+	}
+
+	std::vector<Player*>& vec2 = m_pLevel->m_players;
+	for (int i = 0; i < int(vec2.size()); i++)
+	{
+		// remove the player if he is already in the player list
+		if (vec2[i] == player)
+		{
+			vec2.erase(vec2.begin() + i);
+			i--;
+		}
+	}
+
+	// add him in!!
+	m_pLevel->addEntity(player);
+}
+
+void Minecraft::respawnPlayer(Player* player)
+{
+	resetPlayer(player);
+
+	// TODO: send a RespawnPacket
+}
+
 std::string Minecraft::getVersionString()
 {
 	return "v0.1.0 alpha";
@@ -574,6 +614,14 @@ void Minecraft::tick()
 {
 	if (field_DA4 > 0)
 		field_DA4--;
+
+	if (!m_pScreen)
+	{
+		if (m_pLocalPlayer && m_pLocalPlayer->m_health <= 0)
+		{
+			setScreen(new DeathScreen);
+		}
+	}
 
 	tickInput();
 

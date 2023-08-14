@@ -595,6 +595,15 @@ void Entity::turn(float yaw, float pitch)
 	field_60 += m_pitch - p_old;
 }
 
+void Entity::reset()
+{
+	// TODO is this it
+	field_98 = field_3C = m_pos;
+	field_5C = m_yaw;
+	field_60 = m_pitch;
+	m_bRemoved = false;
+}
+
 void Entity::interpolateTurn(float yaw, float pitch)
 {
 	m_yaw += yaw * 0.15f;

@@ -73,6 +73,13 @@ Mob::~Mob()
 {
 }
 
+void Mob::reset()
+{
+	Entity::reset();
+	// TODO what fields to reset?
+	m_health = 10;
+}
+
 void Mob::lerpTo(float x, float y, float z, float yaw, float pitch, int i)
 {
 	field_B70 = x;

@@ -31,7 +31,7 @@ public:
 
 	void calculateFlight(float, float, float);
 	void closeContainer(); //@HUH: oddly enough not a virtual/override
-
+	void respawn();
 
 public:
 	int field_BEC;

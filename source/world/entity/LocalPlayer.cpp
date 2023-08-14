@@ -113,6 +113,11 @@ void LocalPlayer::closeContainer()
 	m_pMinecraft->setScreen(nullptr);
 }
 
+void LocalPlayer::respawn()
+{
+	m_pMinecraft->respawnPlayer(this);
+}
+
 bool LocalPlayer::isSneaking()
 {
 	return m_pKeyboardInput->m_bSneakButton;

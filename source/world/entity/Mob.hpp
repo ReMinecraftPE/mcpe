@@ -19,6 +19,7 @@ public:
 	virtual ~Mob();
 
 	//overrides
+	virtual void reset() override;
 	virtual void lerpTo(float x, float y, float z, float yaw, float pitch, int i) override;
 	virtual void tick() override;
 	virtual void baseTick() override;

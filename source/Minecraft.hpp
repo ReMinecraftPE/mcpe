@@ -56,6 +56,8 @@ public:
 	void tickMouse();
 	void handleCharInput(char chr);
 	void sendMessage(const std::string& message);
+	void resetPlayer(Player* player);
+	void respawnPlayer(Player* player);
 	std::string getVersionString();
 
 	virtual void onGraphicsReset();

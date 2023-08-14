@@ -76,6 +76,7 @@ public:
 	Entity() { _init(); }
 	Entity(Level*);
 	virtual ~Entity();
+	virtual void reset();
 	virtual void setLevel(Level*);
 	virtual void removed();
 	virtual void setPos(float x, float y, float z);
