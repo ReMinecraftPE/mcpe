@@ -1065,3 +1065,8 @@ bool Entity::operator==(const Entity& other) const
 {
 	return m_EntityID == other.m_EntityID;
 }
+
+bool Entity::isLocalPlayer()
+{
+	return false;
+}

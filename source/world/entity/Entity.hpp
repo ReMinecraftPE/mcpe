@@ -138,6 +138,8 @@ public:
 	virtual void burn(int);
 	virtual void lavaHurt();
 
+	virtual bool isLocalPlayer();
+
 	int hashCode();
 
 	bool operator==(const Entity& other) const;

@@ -12,10 +12,12 @@
 
 #ifdef ENH_IMPROVED_SAVING
 
+class Entity;
+
 class SavingWorldScreen : public Screen
 {
 public:
-	SavingWorldScreen(bool bCopyMap);
+	SavingWorldScreen(bool bCopyMap, Entity* pEntityToDeleteAfterSave);
 	
 	void render(int mouseX, int mouseY, float f) override;
 	void tick() override;
@@ -23,6 +25,7 @@ public:
 public:
 	bool m_bCopyMapAtEnd;
 	int m_timer = 0;
+	Entity* m_pEntityToDeleteAfterSave;
 };
 
 #endif

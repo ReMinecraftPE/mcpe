@@ -235,3 +235,8 @@ void LocalPlayer::updateAi()
 
 	field_B0C = m_pKeyboardInput->m_bJumpButton || m_nAutoJumpFrames > 0;
 }
+
+bool LocalPlayer::isLocalPlayer()
+{
+	return true;
+}

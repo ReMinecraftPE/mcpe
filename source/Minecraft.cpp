@@ -1017,7 +1017,7 @@ void Minecraft::leaveGame(bool bCopyMap)
 
 #ifdef ENH_IMPROVED_SAVING
 	field_288 = true;
-	setScreen(new SavingWorldScreen(bCopyMap));
+	setScreen(new SavingWorldScreen(bCopyMap, m_pLocalPlayer));
 #else
 	if (m_pLevel)
 	{
@@ -1032,11 +1032,15 @@ void Minecraft::leaveGame(bool bCopyMap)
 #ifdef ORIGINAL_CODE
 	delete m_pNetEventCallback;
 #endif
+
 	m_pLocalPlayer = nullptr;
 	m_pNetEventCallback = nullptr;
 	field_D9C = 0;
 
 #ifndef ENH_IMPROVED_SAVING
+	// this is safe to do, since on destruction, we don't actually delete it.
+	SAFE_DELETE(m_pLocalPlayer);
+
 	if (bCopyMap)
 		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 	else
