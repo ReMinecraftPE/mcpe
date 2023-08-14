@@ -292,6 +292,11 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 void Gui::tick()
 {
+	if (field_A18 > 0)
+		field_A18--;
+
+	field_9FC++;
+
 	for (auto& msg : m_guiMessages)
 	{
 		msg.field_18++;
