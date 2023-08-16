@@ -211,8 +211,6 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MovePlayer
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlockPacket* packet)
 {
-	puts_ignorable("PlaceBlockPacket");
-
 	Mob* pMob = (Mob*)m_pLevel->getEntity(packet->m_playerID);
 	if (!pMob)
 		return;
@@ -222,6 +220,8 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 	int x = packet->m_x;
 	int y = packet->m_y;
 	int z = packet->m_z;
+
+	printf_ignorable("PlaceBlockPacket: %d", tile);
 
 	if (!m_pLevel->mayPlace(tile, x, y, z, true))
 		return;
