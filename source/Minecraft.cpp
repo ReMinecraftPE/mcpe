@@ -641,6 +641,7 @@ void Minecraft::tick()
 
 		if (m_pLevel && !field_288)
 		{
+			m_pGameMode->tick();
 			m_pGameRenderer->tick();
 			m_pLevelRenderer->tick();
 			m_pLevel->tickEntities();

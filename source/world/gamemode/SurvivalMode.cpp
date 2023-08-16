@@ -85,7 +85,6 @@ void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
 
 	if (m_destroyingX != x || m_destroyingY != y || m_destroyingZ != z)
 	{
-		LogMsg("RESET because m_destroying* is different");
 		m_destroyProgress     = 0.0f;
 		m_lastDestroyProgress = 0.0f;
 		m_destroyTicks = 0;
@@ -116,7 +115,6 @@ void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
 		destroyBlock(m_destroyingX, m_destroyingY, m_destroyingZ, i);
 		m_destroyTicks    = 0;
 		m_destroyCooldown = 5;
-		LogMsg("RESET because we destroyed the block");
 		m_destroyProgress     = 0.0f;
 		m_lastDestroyProgress = 0.0f;
 	}
@@ -124,7 +122,6 @@ void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
 
 void SurvivalMode::stopDestroyBlock()
 {
-	LogMsg("RESET because we stopped destroying the block");
 	m_destroyProgress = 0.0f;
 	m_destroyCooldown = 0;
 }

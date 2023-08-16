@@ -1158,6 +1158,9 @@
     <ClInclude Include="..\source\world\item\TilePlanterItem.hpp">
       <Filter>source\world\item</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\client\gui\screens\DeathScreen.hpp">
+      <Filter>source\client\gui\screens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2182,6 +2185,9 @@
     </ClCompile>
     <ClCompile Include="..\source\client\network\packets\LevelDataPacket.cpp">
       <Filter>source\client\network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\client\gui\screens\DeathScreen.cpp">
+      <Filter>source\client\gui\screens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
