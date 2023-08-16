@@ -48,21 +48,21 @@ $(TARGET): $(OBJ_FILES)
 #include header dependencies
 -include $(DEP_FILES)
 
+$(BLD_DIR)/p/%.o: $(PLT_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+$(BLD_DIR)/r/%.o: $(RKN_DIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
+
+$(BLD_DIR)/z/%.o: $(ZLB_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(ZLIBFLAGS) -c -o $@ $<
+
 $(BLD_DIR)/s/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-$(BLD_DIR)/p/%.o: $(PLATFORM_DIR)/%.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-$(BLD_DIR)/r/%.o: $(RAKNET_DIR)/%.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
-
-$(BLD_DIR)/z/%.o: $(ZLIB_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(ZLIBFLAGS) -c -o $@ $<
 
 program:  $(TARGET)
 
