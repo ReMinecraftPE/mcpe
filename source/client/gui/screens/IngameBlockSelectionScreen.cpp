@@ -11,6 +11,11 @@
 
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
+IngameBlockSelectionScreen::IngameBlockSelectionScreen()
+{
+	m_selectedSlot = 0;
+}
+
 Inventory* IngameBlockSelectionScreen::getInventory()
 {
 	return m_pMinecraft->m_pLocalPlayer->m_pInventory;

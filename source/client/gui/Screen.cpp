@@ -102,17 +102,21 @@ void Screen::keyPressed(int key)
 		updateTabButtonSelection();
 #endif
 	}
-
-	for (auto textInput : m_textInputs)
+	
+	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
+		TextInputBox* textInput = m_textInputs[i];
 		textInput->keyPressed(m_pMinecraft, key);
 	}
 }
 
 void Screen::charInput(char chr)
 {
-	for (auto textInput : m_textInputs)
+	for (int i = 0; i < int(m_textInputs.size()); i++)
+	{
+		TextInputBox* textInput = m_textInputs[i];
 		textInput->charPressed(chr);
+	}
 }
 
 static const char* g_panoramaList[] =
@@ -226,9 +230,10 @@ void Screen::renderMenuBackground(float f)
 void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 {
 	if (!d) return;
-
-	for (auto button : m_buttons)
+	
+	for (int i = 0; i < int(m_buttons.size()); i++)
 	{
+		Button* button = m_buttons[i];
 		if (button->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pClickedButton = button;
@@ -239,8 +244,9 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 	}
 
 #ifndef ORIGINAL_CODE
-	for (auto textInput : m_textInputs)
+	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
+		TextInputBox* textInput = m_textInputs[i];
 		textInput->onClick(xPos, yPos);
 	}
 #endif
@@ -259,14 +265,16 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 
 void Screen::render(int xPos, int yPos, float unused)
 {
-	for (auto button : m_buttons)
+	for (int i = 0; i < int(m_buttons.size()); i++)
 	{
+		Button* button = m_buttons[i];
 		button->render(m_pMinecraft, xPos, yPos);
 	}
 
 #ifndef ORIGINAL_CODE
-	for (auto textInput : m_textInputs)
+	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
+		TextInputBox* textInput = m_textInputs[i];
 		textInput->tick();
 		textInput->render();
 	}

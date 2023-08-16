@@ -12,6 +12,7 @@
 
 #if defined(_WIN32) && !defined(_XBOX)
 
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <io.h>
 #include <direct.h>

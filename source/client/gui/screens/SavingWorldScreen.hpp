@@ -24,7 +24,7 @@ public:
 
 public:
 	bool m_bCopyMapAtEnd;
-	int m_timer = 0;
+	int m_timer;
 	Entity* m_pEntityToDeleteAfterSave;
 };
 

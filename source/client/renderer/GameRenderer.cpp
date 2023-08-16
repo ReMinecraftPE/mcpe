@@ -642,9 +642,9 @@ void GameRenderer::render(float f)
 	{
 		if (m_pMinecraft->m_pLocalPlayer)
 		{
-			char posStr[64];
+			char posStr[96];
 			Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(f);
-			snprintf(posStr, sizeof posStr, "%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
+			sprintf(posStr, "%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
 
 			debugText << "\npos: " << posStr;
 			debugText << "\n" << m_pMinecraft->m_pLevelRenderer->gatherStats1();
@@ -825,8 +825,9 @@ void GameRenderer::pick(float f)
 	EntityVector* pEnts = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
 
 	float fDist = 0.0f;
-	for (auto pEnt : *pEnts)
+	for (int i = 0; i < int(pEnts->size()); i++)
 	{
+		Entity *pEnt = (*pEnts)[i];
 		if (!pEnt->isPickable())
 			continue;
 

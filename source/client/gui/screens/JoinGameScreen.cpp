@@ -14,14 +14,14 @@
 JoinGameScreen::JoinGameScreen() :
 	m_btnJoin(2, "Join Game"),
 	m_btnDirectConnect(3, "Direct Connect"),
-	m_btnBack(4, "Back")
+	m_btnBack(4, "Back"),
+	m_pAvailableGamesList(nullptr)
 {
 }
 
 JoinGameScreen::~JoinGameScreen()
 {
-	if (m_pAvailableGamesList)
-		delete m_pAvailableGamesList;
+	SAFE_DELETE(m_pAvailableGamesList);
 }
 
 void JoinGameScreen::buttonClicked(Button* pButton)
@@ -106,8 +106,9 @@ void JoinGameScreen::tick()
 	std::vector<PingedCompatibleServer> *serverList, serverListFiltered;
 	serverList = m_pMinecraft->m_pRakNetInstance->getServerList();
 
-	for (const PingedCompatibleServer& pcs : *serverList)
+	for (int i = 0; i < int(serverList->size()); i++)
 	{
+		const PingedCompatibleServer& pcs = (*serverList)[i];
 		if (pcs.m_name.GetLength())
 			serverListFiltered.push_back(pcs);
 	}

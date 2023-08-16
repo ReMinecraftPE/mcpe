@@ -297,8 +297,9 @@ void Gui::tick()
 
 	field_9FC++;
 
-	for (auto& msg : m_guiMessages)
+	for (int i = 0; i < int(m_guiMessages.size()); i++)
 	{
+		GuiMessage& msg = m_guiMessages[i];
 		msg.field_18++;
 	}
 }
@@ -433,9 +434,10 @@ void Gui::renderMessages(bool bShowAll)
 		height = Minecraft::height * InvGuiScale;
 
 	int topEdge = height - 49;
-
-	for (auto& msg : m_guiMessages)
+	
+	for (int i = 0; i < int(m_guiMessages.size()); i++)
 	{
+		GuiMessage& msg = m_guiMessages[i];
 		if (!bShowAll && msg.field_18 > 199)
 			continue;
 

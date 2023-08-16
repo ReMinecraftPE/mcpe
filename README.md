@@ -33,12 +33,19 @@ by **running the following command**:
 
 After that, **prepare the assets folder** from mcpe01_canada.apk. You will need it for the platform specific build.
 
-### Windows
+### Windows (VS 2022)
 
 This is simple enough - just open the project and compile.
 
 After building, place the `assets` folder you have prepared in the working directory of the output executable.
 (if running from VS, it's in `windows_vs/`, otherwise, in `windows_vs/bin/[x64/][Debug/Release]/`.
+
+### Windows (VS 2010)
+
+This target is only around to target Windows XP (or potentially earlier) versions.
+
+To compile, you will **need the Microsoft Platform SDK and the DirectX (June 2010) SDK**. After that, follow the same steps as
+the VS2022 build. (open the minecraftcpp_vs2010.sln project instead of the minecraftcpp.sln project).
 
 ### WebAssembly
 

@@ -49,10 +49,10 @@ public:
 	void flushAllBufferedUpdates(); // inlined
 
 private:
-	Minecraft* m_pMinecraft = NULL;
-	Level* m_pLevel = NULL;
-	RakNetInstance* m_pRakNetInstance = NULL;
-	RakNet::RakPeerInterface* m_pServerPeer = NULL;
+	Minecraft* m_pMinecraft;
+	Level* m_pLevel;
+	RakNetInstance* m_pRakNetInstance;
+	RakNet::RakPeerInterface* m_pServerPeer;
 	int m_field_14;
 	RakNet::RakNetGUID m_serverGUID;
 	int m_field_24;

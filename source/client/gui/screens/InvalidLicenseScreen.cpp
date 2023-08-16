@@ -12,7 +12,8 @@ InvalidLicenseScreen::InvalidLicenseScreen(int error, bool bHasQuitButton) :
 	m_error(error),
 	m_btnOk (1, "Ok"),
 	m_btnBuy(2, "Buy"),
-	m_bHasQuitButton(bHasQuitButton)
+	m_bHasQuitButton(bHasQuitButton),
+	field_E4(0)
 {
 	if (bHasQuitButton)
 		m_btnOk.m_text = "Quit";

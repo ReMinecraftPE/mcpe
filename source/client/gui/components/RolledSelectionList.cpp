@@ -20,6 +20,16 @@ RolledSelectionList::RolledSelectionList(Minecraft* minecraft, int a, int b, int
 	field_1C = b;
 	field_20 = float(e);
 	field_24 = float(f);
+	field_28 = -2;
+	field_2C = 0.0f;
+	field_38 = 0.0f;
+	field_3C = -1;
+	m_bRenderSelection = true;
+	m_bComponentSelected = false;
+	field_44 = 0;
+	field_48 = false;
+	field_4C = 0;
+	field_50 = 1;
 	g_RolledSelectionListUnk = field_30 = field_34 = float(g - a) / 2.0f;
 }
 

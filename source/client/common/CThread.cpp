@@ -9,9 +9,8 @@
 #include "CThread.hpp"
 #include "client/common/Utils.hpp"
 
-#if	   defined(_XBOX)
-
-#elif defined(_WIN32)
+#if	defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h> // for Sleep()
 #else
 #include <unistd.h>
@@ -33,14 +32,15 @@ CThread::CThread(CThreadFunction func, void* param)
 #ifdef USE_CPP11_THREADS
 	std::thread thr(func, param);
 	m_thrd.swap(thr);
-#elif defined(_XBOX)
+#elif defined(USE_WIN32_THREADS)
+	DWORD dwThreadId = 0;
 	m_thrd = CreateThread(
 		NULL, // not used
 		0, // initial stack size
 		func, // thread function
 		param, // thread argument
 		0, // creation option
-		LPDWORD(1) // thread identifier (but does it really matter if I'm the one managing them...?)
+		&dwThreadId // thread identifier (but does it really matter if I'm the one managing them...?)
 	);
 #else
 	pthread_attr_init(&m_thrd_attr);
@@ -53,8 +53,9 @@ CThread::~CThread()
 {
 #ifdef USE_CPP11_THREADS
 	m_thrd.join();
-#elif defined(_XBOX)
-
+#elif defined(USE_WIN32_THREADS)
+	WaitForSingleObject(m_thrd, INFINITE);
+	CloseHandle(m_thrd);
 #else
 	pthread_join(m_thrd, 0);
 	pthread_attr_destroy(&m_thrd_attr);

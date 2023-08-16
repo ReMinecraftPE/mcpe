@@ -19,8 +19,8 @@ public:
 	Delta getTurnDelta() override;
 
 private:
-	int m_lastX = -1;
-	int m_lastY = -1;
+	int m_lastX;
+	int m_lastY;
 
 	Minecraft* m_pMinecraft;
 };

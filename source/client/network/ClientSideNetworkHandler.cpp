@@ -28,6 +28,9 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	m_pServerPeer = m_pRakNetInstance->getPeer();
 	m_chunksRequested = 0;
 	m_serverProtocolVersion = 0;
+	m_pLevel = nullptr;
+	m_field_14 = 0;
+	m_field_24 = 0;
 }
 
 void ClientSideNetworkHandler::levelGenerated(Level* level)
@@ -499,8 +502,9 @@ void ClientSideNetworkHandler::requestNextChunk()
 
 void ClientSideNetworkHandler::flushAllBufferedUpdates()
 {
-	for (const SBufferedBlockUpdate& u : m_bufferedBlockUpdates)
+	for (int i = 0; i < int(m_bufferedBlockUpdates.size()); i++)
 	{
+		SBufferedBlockUpdate& u = m_bufferedBlockUpdates[i];
 		m_pLevel->setTileAndData(u.x, u.y, u.z, u.tile, u.data);
 	}
 }

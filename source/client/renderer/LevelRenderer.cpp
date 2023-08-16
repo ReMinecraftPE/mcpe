@@ -463,8 +463,9 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 	m_renderList.clear();
 	m_renderList.init(fPosX, fPosY, fPosZ);
 
-	for (auto pChk : field_24)
+	for (int i = 0; i < int(field_24.size()); i++)
 	{
+		Chunk* pChk = field_24[i];
 		m_renderList.addR(*pChk->getRenderChunk(a));
 		m_renderList.field_14++;
 	}

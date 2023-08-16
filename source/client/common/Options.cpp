@@ -54,22 +54,22 @@ void Options::initDefaultValues()
 	m_bServerVisibleDefault = true;
 	m_bDebugText = false;
 
-	m_keyBinds[0] = { "key.forward", 'W' };
-	m_keyBinds[1] = { "key.left", 'A' };
-	m_keyBinds[2] = { "key.back", 'S' };
-	m_keyBinds[3] = { "key.right", 'D' };
-	m_keyBinds[4] = { "key.jump", ' ' };
-	m_keyBinds[5] = { "key.inventory", 'E' };
-	m_keyBinds[6] = { "key.drop", 'Q' };
-	m_keyBinds[7] = { "key.chat", 'T' };
-	m_keyBinds[8] = { "key.fog", 'F' };
-	m_keyBinds[9] = { "key.sneak", '\n' };
-	m_keyBinds[10] = { "key.destroy", 'X' };
-	m_keyBinds[11] = { "key.place", 'C' };
-	m_keyBinds[12] = { "key.menu.next", '(' };
-	m_keyBinds[13] = { "key.menu.previous", '&' };
-	m_keyBinds[14] = { "key.menu.ok", '\r' };
-	m_keyBinds[15] = { "key.menu.cancel", '\b' };
+	m_keyBinds[0] =  KeyBind("key.forward", 'W');
+	m_keyBinds[1] =  KeyBind("key.left", 'A');
+	m_keyBinds[2] =  KeyBind("key.back", 'S');
+	m_keyBinds[3] =  KeyBind("key.right", 'D');
+	m_keyBinds[4] =  KeyBind("key.jump", ' ');
+	m_keyBinds[5] =  KeyBind("key.inventory", 'E');
+	m_keyBinds[6] =  KeyBind("key.drop", 'Q');
+	m_keyBinds[7] =  KeyBind("key.chat", 'T');
+	m_keyBinds[8] =  KeyBind("key.fog", 'F');
+	m_keyBinds[9] =  KeyBind("key.sneak", '\n');
+	m_keyBinds[10] = KeyBind("key.destroy", 'X');
+	m_keyBinds[11] = KeyBind("key.place", 'C');
+	m_keyBinds[12] = KeyBind("key.menu.next", '(');
+	m_keyBinds[13] = KeyBind("key.menu.previous", '&');
+	m_keyBinds[14] = KeyBind("key.menu.ok", '\r');
+	m_keyBinds[15] = KeyBind("key.menu.cancel", '\b');
 
 #ifdef ORIGINAL_CODE
 	m_rotY = 2;

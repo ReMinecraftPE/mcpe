@@ -22,8 +22,8 @@ public:
 	void updateServerVisibilityText();
 
 private:
-	int field_3C = 0;
-	int field_40 = 0;
+	int field_3C;
+	int field_40;
 	Button m_btnBack;
 	Button m_btnQuit;
 	Button m_btnQuitAndCopy;

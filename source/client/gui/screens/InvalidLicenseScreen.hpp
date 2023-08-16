@@ -26,6 +26,6 @@ private:
 	Button m_btnOk;
 	Button m_btnBuy;
 	bool m_bHasQuitButton;
-	int field_E4 = 0;
+	int field_E4;
 };
 

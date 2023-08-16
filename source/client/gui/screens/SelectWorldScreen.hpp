@@ -33,9 +33,9 @@ public:
 	Button m_btnCreateNew;
 	Button m_btnBack;
 	Button m_btnUnknown;
-	WorldSelectionList* m_pWorldSelectionList = nullptr;
+	WorldSelectionList* m_pWorldSelectionList;
 	std::vector<LevelSummary> m_levels;
 	bool field_12C;
-	int field_130 = 0;
+	int field_130;
 };
 

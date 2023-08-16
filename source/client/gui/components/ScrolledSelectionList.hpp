@@ -64,16 +64,16 @@ public:
 	int field_18;
 	int field_1C;
 	float field_20;
-	float field_24 = 0.0f;
+	float field_24;
 	int field_28;
-	int field_2C = -2;
-	float field_30 = 0.0f;
-	float field_34 = 0.0f;
-	float field_38 = 0.0f;
-	int field_3C = -1;
-	int field_40 = 0;
-	bool m_bRenderSelection = true;
-	bool field_45 = false;
-	int field_48 = 0;
+	int field_2C;
+	float field_30;
+	float field_34;
+	float field_38;
+	int field_3C;
+	int field_40;
+	bool m_bRenderSelection;
+	bool field_45;
+	int field_48;
 };
 

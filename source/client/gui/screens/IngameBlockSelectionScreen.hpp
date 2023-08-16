@@ -15,6 +15,8 @@ class Inventory;
 class IngameBlockSelectionScreen : public Screen
 {
 public:
+	IngameBlockSelectionScreen();
+
 	Inventory* getInventory();
 	int getBottomY();
 	int getSelectedSlot(int x, int y);
@@ -34,6 +36,6 @@ public:
 	virtual void removed() override;
 
 private:
-	int m_selectedSlot = 0;
+	int m_selectedSlot;
 };
 
