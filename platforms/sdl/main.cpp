@@ -93,15 +93,13 @@ static void handle_events()
 			}
 			case SDL_MOUSEMOTION:
 			{
-				Mouse::_x = event.motion.x;
-				Mouse::_y = event.motion.y;
 				Mouse::feed(0, 0, event.motion.x, event.motion.y);
 				g_AppPlatform->setMouseDiff(event.motion.xrel, event.motion.yrel);
 				break;
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(3, event.wheel.y, Mouse::_x, Mouse::_y);
+				Mouse::feed(3, event.wheel.y, Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:
