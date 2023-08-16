@@ -54,8 +54,9 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 	std::vector<LevelSummary> vls;
 	pSource->getLevelList(vls);
 
-	for (const auto& ls : vls)
+	for (int i = 0; i < int(vls.size()); i++)
 	{
+		const LevelSummary& ls = vls[i];
 		maps.insert(ls.field_0);
 	}
 

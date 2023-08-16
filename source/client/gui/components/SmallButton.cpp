@@ -12,12 +12,14 @@
 // I reckon this was used in the OptionsScreen as well, since the button sizes are the same.
 
 SmallButton::SmallButton(int id, int x, int y, const std::string& str) :
-	Button(id, x, y, 150, 20, str)
+	Button(id, x, y, 150, 20, str),
+	m_pOption(nullptr)
 {
 }
 
 SmallButton::SmallButton(int id, int x, int y, int width, int height, const std::string& str) :
-	Button(id, x, y, width, height, str)
+	Button(id, x, y, width, height, str),
+	m_pOption(nullptr)
 {
 }
 

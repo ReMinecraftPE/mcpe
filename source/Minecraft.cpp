@@ -11,6 +11,7 @@
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
 #include "client/gui/screens/SavingWorldScreen.hpp"
+#include "client/gui/screens/DeathScreen.hpp"
 #include "client/network/ServerSideNetworkHandler.hpp"
 #include "client/network/ClientSideNetworkHandler.hpp"
 
@@ -559,6 +560,45 @@ void Minecraft::sendMessage(const std::string& message)
 	}
 }
 
+void Minecraft::resetPlayer(Player* player)
+{
+	m_pLevel->validateSpawn();
+	player->reset();
+
+	Pos pos = m_pLevel->getSharedSpawnPos();
+	player->setPos(float(pos.x), float(pos.y), float(pos.z));
+	player->resetPos();
+
+	// Of course we have to add him back into the game, if he isn't already.
+	EntityVector& vec = m_pLevel->m_entities;
+	for (int i = 0; i < int(vec.size()); i++)
+	{
+		if (vec[i] == player)
+			return;
+	}
+
+	std::vector<Player*>& vec2 = m_pLevel->m_players;
+	for (int i = 0; i < int(vec2.size()); i++)
+	{
+		// remove the player if he is already in the player list
+		if (vec2[i] == player)
+		{
+			vec2.erase(vec2.begin() + i);
+			i--;
+		}
+	}
+
+	// add him in!!
+	m_pLevel->addEntity(player);
+}
+
+void Minecraft::respawnPlayer(Player* player)
+{
+	resetPlayer(player);
+
+	// TODO: send a RespawnPacket
+}
+
 std::string Minecraft::getVersionString()
 {
 	return "v0.1.0 alpha";
@@ -574,6 +614,14 @@ void Minecraft::tick()
 {
 	if (field_DA4 > 0)
 		field_DA4--;
+
+	if (!m_pScreen)
+	{
+		if (m_pLocalPlayer && m_pLocalPlayer->m_health <= 0)
+		{
+			setScreen(new DeathScreen);
+		}
+	}
 
 	tickInput();
 
@@ -593,6 +641,7 @@ void Minecraft::tick()
 
 		if (m_pLevel && !field_288)
 		{
+			m_pGameMode->tick();
 			m_pGameRenderer->tick();
 			m_pLevelRenderer->tick();
 			m_pLevel->tickEntities();
@@ -647,13 +696,10 @@ void Minecraft::update()
 		m_pRakNetInstance->runEvents(m_pNetEventCallback);
 	}
 
-	if (m_timer.field_14 > 0)
+	for (int i = 0; i < m_timer.field_14; i++)
 	{
-		for (int i = 0; i < m_timer.field_14; i++)
-		{
-			tick();
-			field_DA8++;
-		}
+		tick();
+		field_DA8++;
 	}
 
 	if (m_pLevel && !m_bPreparingLevel)
@@ -670,6 +716,9 @@ void Minecraft::update()
 	double time = double(getTimeS());
 	m_fDeltaTime   = time - m_fLastUpdated;
 	m_fLastUpdated = time;
+
+	// Added by iProgramInCpp
+	m_pGameMode->render(m_timer.field_18);
 }
 
 void Minecraft::init()
@@ -1017,7 +1066,7 @@ void Minecraft::leaveGame(bool bCopyMap)
 
 #ifdef ENH_IMPROVED_SAVING
 	field_288 = true;
-	setScreen(new SavingWorldScreen(bCopyMap));
+	setScreen(new SavingWorldScreen(bCopyMap, m_pLocalPlayer));
 #else
 	if (m_pLevel)
 	{
@@ -1032,11 +1081,15 @@ void Minecraft::leaveGame(bool bCopyMap)
 #ifdef ORIGINAL_CODE
 	delete m_pNetEventCallback;
 #endif
+
 	m_pLocalPlayer = nullptr;
 	m_pNetEventCallback = nullptr;
 	field_D9C = 0;
 
 #ifndef ENH_IMPROVED_SAVING
+	// this is safe to do, since on destruction, we don't actually delete it.
+	SAFE_DELETE(m_pLocalPlayer);
+
 	if (bCopyMap)
 		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 	else

@@ -40,11 +40,11 @@ public:
 	std::vector<LevelSummary> m_items;
 	std::vector<std::vector<std::string> > m_vvs;
 	std::vector<std::string> m_previewImages;
-	bool field_90 = false;
+	bool field_90;
 	LevelSummary m_levelSummary;
-	int field_CC = -1;
-	int field_D0 = 0;
+	int field_CC;
+	int field_D0;
 	int field_D4;
-	int field_D8 = 0;
+	int field_D8;
 };
 

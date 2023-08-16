@@ -17,7 +17,17 @@ ScrolledSelectionList::ScrolledSelectionList(Minecraft* minecraft, int a3, int a
 	m_itemHeight(a7),
 	field_18(a3),
 	field_1C(a4),
-	field_20(float(a3))
+	field_20(float(a3)),
+	field_24(0.0f),
+	field_2C(-2),
+	field_30(0.0f),
+	field_34(0.0f),
+	field_38(0.0f),
+	field_3C(-1),
+	field_40(0),
+	m_bRenderSelection(true),
+	field_45(false),
+	field_48(0)
 {	
 }
 

@@ -73,6 +73,13 @@ Mob::~Mob()
 {
 }
 
+void Mob::reset()
+{
+	Entity::reset();
+	// TODO what fields to reset?
+	m_health = 10;
+}
+
 void Mob::lerpTo(float x, float y, float z, float yaw, float pitch, int i)
 {
 	field_B70 = x;
@@ -364,7 +371,16 @@ void Mob::causeFallDamage(float level)
 	int x = int(ceilf(level - 3));
 	if (x > 0)
 	{
-		hurt(nullptr, 3*42);
+		// from 0.2.0
+		std::string fallSound;
+		if (x > 4)
+			fallSound = "damage.fallbig";
+		else
+			fallSound = "damage.fallsmall";
+
+		m_pLevel->playSound(this, fallSound, 1.0f, 1.0f);
+
+		hurt(nullptr, x);
 
 		//@HUH: useless call to getTile? or could this be a return value of some sort
 		//Entity::causeFallDamage returns nothing though, so....

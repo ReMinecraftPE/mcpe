@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -10,22 +10,19 @@
 
 #include "../Screen.hpp"
 
-class InvalidLicenseScreen : public Screen
+class DeathScreen : public Screen
 {
 public:
-	InvalidLicenseScreen(int error, bool bHasQuitButton);
-	void buttonClicked(Button* pButton) override;
-	void init() override;
-	void tick() override;
-	void render(int mouseX, int mouseY, float f) override;
+	DeathScreen();
+
+	virtual void init() override;
+	virtual void buttonClicked(Button* pButton) override;
+	virtual void tick() override;
+	virtual void keyPressed(int key) override;
+	virtual void render(int x, int y, float f) override;
 
 private:
-	int m_error;
-	std::string m_textLine1;
-	std::string m_textLine2;
-	Button m_btnOk;
-	Button m_btnBuy;
-	bool m_bHasQuitButton;
-	int field_E4;
+	int m_tickCounter;
+	Button m_btnRespawn;
+	Button m_btnTitle;
 };
-

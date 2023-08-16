@@ -98,6 +98,7 @@ public:
 	void setDirty(int, int, int, int, int, int);
 	void tick();
 	bool updateDirtyChunks(Mob* pMob, bool b);
+	void renderHit(Player* pPlayer, const HitResult& hr, int, void*, float);
 	void renderHitSelect(Player* pPlayer, const HitResult& hr, int, void*, float);
 	void renderHitOutline(Player* pPlayer, const HitResult& hr, int, void*, float);
 

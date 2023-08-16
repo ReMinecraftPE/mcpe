@@ -31,9 +31,9 @@ public:
 	int m_destroyingX;
 	int m_destroyingY;
 	int m_destroyingZ;
-	float field_18;
-	float field_1C;
-	int field_20;
-	int field_24;
+	float m_destroyProgress;
+	float m_lastDestroyProgress;
+	int m_destroyTicks;
+	int m_destroyCooldown;
 };
 

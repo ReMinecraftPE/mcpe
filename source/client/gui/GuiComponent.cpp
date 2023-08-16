@@ -12,6 +12,10 @@
 #pragma warning (disable : 4244)
 #endif
 
+GuiComponent::GuiComponent() : field_4 (0)
+{
+}
+
 void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, int sh)
 {
 	auto& t = Tesselator::instance;

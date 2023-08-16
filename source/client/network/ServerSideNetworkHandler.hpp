@@ -76,11 +76,11 @@ public:
 	void commandSeed (OnlinePlayer*, const std::vector<std::string>&);
 
 public:
-	Minecraft* m_pMinecraft = nullptr;
-	Level* m_pLevel = nullptr;
-	RakNetInstance* m_pRakNetInstance = nullptr;
-	RakNet::RakPeerInterface* m_pRakNetPeer = nullptr;
-	bool m_bAllowIncoming = false;
+	Minecraft* m_pMinecraft;
+	Level* m_pLevel;
+	RakNetInstance* m_pRakNetInstance;
+	RakNet::RakPeerInterface* m_pRakNetPeer;
+	bool m_bAllowIncoming;
 
 	OnlinePlayerMap m_onlinePlayers;
 	CommandMap m_commands;

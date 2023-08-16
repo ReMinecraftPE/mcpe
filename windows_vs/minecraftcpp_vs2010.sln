@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "minecraftcpp", "minecraftcpp.vcxproj", "{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|Win32 = Debug|Win32
+		DebugAsan|x64 = DebugAsan|x64
+		DebugAsan|Win32 = DebugAsan|Win32
+		Release|x64 = Release|x64
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Debug|x64.ActiveCfg = Debug|x64
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Debug|x64.Build.0 = Debug|x64
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Debug|Win32.Build.0 = Debug|Win32
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.DebugAsan|x64.ActiveCfg = DebugAsan|x64
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.DebugAsan|x64.Build.0 = DebugAsan|x64
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.DebugAsan|Win32.ActiveCfg = DebugAsan|Win32
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.DebugAsan|Win32.Build.0 = DebugAsan|Win32
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Release|x64.ActiveCfg = Release|x64
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Release|x64.Build.0 = Release|x64
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Release|Win32.ActiveCfg = Release|Win32
+		{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {469E02FA-FBC4-419C-8EA0-3055EE0AD3AC}
+	EndGlobalSection
+EndGlobal

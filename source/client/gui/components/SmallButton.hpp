@@ -19,6 +19,6 @@ public:
 	Options::Option* getOption();
 
 private:
-	Options::Option* m_pOption = nullptr;
+	Options::Option* m_pOption;
 };
 

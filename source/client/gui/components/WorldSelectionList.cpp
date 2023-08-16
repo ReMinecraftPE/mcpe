@@ -22,7 +22,11 @@ static float WorldSelectionList_Static1(float a, float b, float c, float d)
 }
 
 WorldSelectionList::WorldSelectionList(Minecraft* minecraft, int a, int b) :
-	RolledSelectionList(minecraft, a, b, 0, a, 26, b - 32, 120)
+	RolledSelectionList(minecraft, a, b, 0, a, 26, b - 32, 120),
+	field_90(false),
+	field_CC(-1),
+	field_D0(0),
+	field_D8(0)
 {
 	field_68 = b;
 }
@@ -166,8 +170,10 @@ void WorldSelectionList::renderBackground()
 
 void WorldSelectionList::commit()
 {
-	for (const auto& item : m_items)
+	for (int i = 0; i < int(m_items.size()); i++)
 	{
+		LevelSummary& item = m_items[i];
+
 		// @NOTE: this string stream crap is unused.
 		// Weirdly Java Edition Beta 1.3 did not have world previews, so its interesting to see PE try
 		std::stringstream ss;

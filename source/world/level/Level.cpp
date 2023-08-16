@@ -62,7 +62,12 @@ Level::~Level()
 	const size_t size = m_entities.size();
 	for (int i = 0; i < size; i++)
 	{
-		delete m_entities.at(i);
+		Entity* pEnt = m_entities.at(i);
+		
+		//you better HOPE this is freed by Minecraft!
+		//Really should have used shared pointers and stuff.
+		if (!pEnt->isLocalPlayer())
+			delete pEnt;
 	}
 	
 	m_entities.clear();
@@ -1499,8 +1504,9 @@ void Level::tickEntities()
 
 		entityRemoved(pEnt);
 
-		//@NOTE: Here, they actually delete the entity. In the entity removals thing they don't
-		delete pEnt;
+		// If the entity isn't the local player (managed by Minecraft*), then delete it.
+		if (!pEnt->isLocalPlayer())
+			delete pEnt;
 	}
 }
 /*

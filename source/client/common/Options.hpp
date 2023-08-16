@@ -57,6 +57,9 @@ public:
 	struct KeyBind {
 		std::string key;
 		int value;
+
+		KeyBind() {}
+		KeyBind(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 	};
 
 	struct Option

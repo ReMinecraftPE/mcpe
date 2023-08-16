@@ -8,13 +8,13 @@
 
 #pragma once
 
-#include <ctime>
-#include <cstdio> // have to include this to avoid it being included again later from being a problem
-#include <cstdint>
-#include <cstdarg>
-#include <cassert>
-#include <climits>
-#include <cmath>
+#include <time.h>
+#include <stdio.h> // have to include this to avoid it being included again later from being a problem
+#include <stdint.h>
+#include <stdarg.h>
+#include <assert.h>
+#include <limits.h>
+#include <math.h>
 
 #ifndef M_PI
 #define M_PI (3.14159265358979)
@@ -22,25 +22,25 @@
 
 #include <string>
 
+#ifdef USE_OLD_CPP
+#define constexpr const
+#endif
+
 #if defined(_WIN32)
 
 #ifndef _XBOX // assume we're on a normal Windows device
-// @HACK: Include WinSock2.h also
+#define WIN32_LEAN_AND_MEAN
 #include <WinSock2.h>
 #include <Windows.h>
 #include <WS2tcpip.h>
 #include <direct.h>
 #include <io.h>
+
 #elif defined(_XBOX)
 
 #include <xtl.h>
 #include <winsockx.h>
 
- //#if __cplusplus < 201103L
-  // We're < C++11
-  //!defined(__cpp_constexpr)
-#define constexpr const
-//#endif
 #endif
 
 // XPL means "Cross PLatform"
@@ -592,7 +592,7 @@ float Max(float a, float b);
 void sleepMs(int ms);
 
 // @NOTE: This is inlined.
-constexpr float Lerp(float a, float b, float progress)
+static constexpr float Lerp(float a, float b, float progress)
 {
 	return a + progress * (b - a);
 }

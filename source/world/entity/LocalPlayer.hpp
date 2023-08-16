@@ -27,11 +27,11 @@ public:
 	virtual int move(float x, float y, float z) override;
 	virtual void tick() override;
 	virtual void updateAi() override;
-	virtual void beforeRemove() override;
+	virtual bool isLocalPlayer() override;
 
 	void calculateFlight(float, float, float);
 	void closeContainer(); //@HUH: oddly enough not a virtual/override
-
+	void respawn();
 
 public:
 	int field_BEC;

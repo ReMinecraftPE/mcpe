@@ -51,17 +51,17 @@ public:
 	int field_1C;
 	float field_20;
 	float field_24;
-	int field_28 = -2;
-	float field_2C = 0.0f;
+	int field_28;
+	float field_2C;
 	float field_30;
 	float field_34;
-	float field_38 = 0.0f;
-	int field_3C = -1;
-	bool m_bRenderSelection = true;
-	bool m_bComponentSelected = false;
-	int field_44 = 0;
-	bool field_48 = false;
-	int field_4C = 0;
-	int field_50 = -1;
+	float field_38;
+	int field_3C;
+	bool m_bRenderSelection;
+	bool m_bComponentSelected;
+	int field_44;
+	bool field_48;
+	int field_4C;
+	int field_50;
 };
 

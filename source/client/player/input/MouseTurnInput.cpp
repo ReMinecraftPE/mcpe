@@ -14,6 +14,7 @@ constexpr float C_SENSITIVITY = 1.0f;
 MouseTurnInput::MouseTurnInput(Minecraft* pMC)
 {
 	m_pMinecraft = pMC;
+	m_lastX = m_lastY = -1;
 }
 
 ITurnInput::~ITurnInput()

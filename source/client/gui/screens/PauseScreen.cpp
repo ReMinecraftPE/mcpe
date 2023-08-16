@@ -11,6 +11,8 @@
 #include "client/network/ServerSideNetworkHandler.hpp"
 
 PauseScreen::PauseScreen() :
+	field_3C(0),
+	field_40(0),
 	m_btnBack(1, "Back to game"),
 	m_btnQuit(2, "Quit to title"),
 	m_btnQuitAndCopy(3, "Quit and copy map"),
@@ -67,8 +69,8 @@ void PauseScreen::init()
 	//swap the options and quit buttons around (??)
 	std::swap(m_btnOptions.m_yPos, m_btnQuit.m_yPos);
 
-	for (auto thing : m_buttons)
-		m_buttonTabList.push_back(thing);
+	for (int i = 0; i < int(m_buttons.size()); i++)
+		m_buttonTabList.push_back(m_buttons[i]);
 
 #ifdef __EMSCRIPTEN__
 	m_btnVisible.m_bEnabled = false;

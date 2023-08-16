@@ -46,6 +46,13 @@ Player::~Player()
 	delete m_pInventory;
 }
 
+void Player::reset()
+{
+	Mob::reset();
+
+	// TODO what fields to reset???
+}
+
 void Player::remove()
 {
 	Entity::remove();

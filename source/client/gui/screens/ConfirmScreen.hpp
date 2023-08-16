@@ -25,8 +25,8 @@ public:
 	virtual void postResult(bool b);
 
 private:
-	Screen* m_pScreen = nullptr;
-	int field_40 = 0;
+	Screen* m_pScreen;
+	int field_40;
 	std::string m_textLine1;
 	std::string m_textLine2;
 	SmallButton m_btnOK;

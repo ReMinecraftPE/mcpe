@@ -21,6 +21,7 @@ public:
 	Player(Level*);
 	virtual ~Player();
 
+	virtual void reset() override;
 	virtual void remove() override;
 	virtual void tick() override;
 	virtual bool isInWall() override;

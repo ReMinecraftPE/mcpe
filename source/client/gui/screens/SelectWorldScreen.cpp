@@ -17,9 +17,12 @@ SelectWorldScreen::SelectWorldScreen() :
 	m_btnDelete   (1, "Delete"),
 	m_btnCreateNew(2, "Create new"),
 	m_btnBack     (3, "Back"),
-	m_btnUnknown  (4, "")
+	m_btnUnknown  (4, ""),
+	m_pWorldSelectionList(nullptr)
 {
 	m_btnDelete.m_bEnabled = false;
+	field_12C = false;
+	field_130 = 0;
 }
 
 void SelectWorldScreen::init()
@@ -235,8 +238,9 @@ std::string SelectWorldScreen::getUniqueLevelName(const std::string& in)
 {
 	std::set<std::string> maps;
 
-	for (const auto& ls : m_levels)
+	for (int i = 0; i < int(m_levels.size()); i++)
 	{
+		const LevelSummary& ls = m_levels[i];
 		maps.insert(ls.field_0);
 	}
 
@@ -252,9 +256,11 @@ void SelectWorldScreen::loadLevelSource()
 	m_pMinecraft->getLevelSource()->getLevelList(m_levels);
 
 	std::sort(m_levels.begin(), m_levels.end());
-
-	for (const auto& level : m_levels)
+	
+	for (int i = 0; i < int(m_levels.size()); i++)
 	{
+		const LevelSummary& level = m_levels[i];
+
 		if (level.field_0 == "_LastJoinedServer")
 			continue;
 

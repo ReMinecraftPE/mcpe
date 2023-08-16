@@ -22,9 +22,11 @@
 ServerSideNetworkHandler::ServerSideNetworkHandler(Minecraft* minecraft, RakNetInstance* rakNetInstance)
 {
 	m_pMinecraft = minecraft;
+	m_pLevel = nullptr;
 	m_pRakNetInstance = rakNetInstance;
 	allowIncomingConnections(false);
 	m_pRakNetPeer = m_pRakNetInstance->getPeer();
+	m_bAllowIncoming = false;
 
 	setupCommands();
 }
@@ -34,8 +36,8 @@ ServerSideNetworkHandler::~ServerSideNetworkHandler()
 	if (m_pLevel)
 		m_pLevel->removeListener(this);
 
-	for (auto plrKVP : m_onlinePlayers)
-		delete plrKVP.second;
+	for (auto it = m_onlinePlayers.begin(); it != m_onlinePlayers.end(); ++it)
+		delete it->second;
 
 	m_onlinePlayers.clear();
 }
@@ -121,8 +123,9 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	m_pRakNetPeer->Send(&sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
 	// send the connecting player info about all other players in the world
-	for (Player* player : m_pLevel->m_players)
+	for (int i = 0; i < int(m_pLevel->m_players.size()); i++)
 	{
+		Player* player = m_pLevel->m_players[i];
 		AddPlayerPacket app(player->m_guid, RakNet::RakString(player->m_name.c_str()), player->m_EntityID, player->m_pos.x, player->m_pos.y - player->field_84, player->m_pos.z);
 		RakNet::BitStream appbs;
 		app.write(&appbs);

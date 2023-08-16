@@ -463,8 +463,9 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 	m_renderList.clear();
 	m_renderList.init(fPosX, fPosY, fPosZ);
 
-	for (auto pChk : field_24)
+	for (int i = 0; i < int(field_24.size()); i++)
 	{
+		Chunk* pChk = field_24[i];
 		m_renderList.addR(*pChk->getRenderChunk(a));
 		m_renderList.field_14++;
 	}
@@ -936,6 +937,57 @@ LABEL_34:
 		}
 	}
 	return v27 + v8 == size;
+}
+
+void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void* vp, float f)
+{
+	glEnable(GL_BLEND);
+	glEnable(GL_ALPHA_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
+	glColor4f(1.0f, 1.0f, 1.0f, 0.5f * (0.4f + 0.2f * Mth::sin(float(getTimeMs()) / 100.0f)));
+
+	if (!i && field_10 > 0.0f)
+	{
+		glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
+
+		m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
+		glPushMatrix();
+		Tile* pTile = nullptr;
+		TileID tile = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+		if (tile > 0)
+			pTile = Tile::tiles[tile];
+		glDisable(GL_ALPHA_TEST);
+		glPolygonOffset(-3.0f, -3.0f);
+		glEnable(GL_POLYGON_OFFSET_FILL);
+
+		float px = pPlayer->field_98.x + (pPlayer->m_pos.x - pPlayer->field_98.x) * f;
+		float py = pPlayer->field_98.y + (pPlayer->m_pos.y - pPlayer->field_98.y) * f;
+		float pz = pPlayer->field_98.z + (pPlayer->m_pos.z - pPlayer->field_98.z) * f;
+
+		Tesselator& t = Tesselator::instance;
+		t.begin();
+		t.offset(-px, -py, -pz);
+		t.noColor();
+		if (!pTile)
+			pTile = Tile::rock;
+
+		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tileX, hr.m_tileY, hr.m_tileZ, 240 + int(field_10 * 10.0f));
+
+		t.draw();
+		t.offset(0, 0, 0);
+
+		glPolygonOffset(0.0f, 0.0f);
+		glDisable(GL_POLYGON_OFFSET_FILL);
+
+		glDepthMask(true); //@HUH: What is the reason for this? You never disable the depth mask.
+		glPopMatrix();
+	}
+
+	glDisable(GL_BLEND);
+	glDisable(GL_ALPHA_TEST);
 }
 
 void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i, void* vp, float f)

@@ -8,22 +8,48 @@
 
 #pragma once
 
-#if !defined(_XBOX)
 // CThread - Object oriented pthread wrapper
-#define USE_CPP11_THREADS //__cplusplus >= 201103L
+
+#if defined(_WIN32)
+
+#if defined(_XBOX) || defined(USE_OLD_CPP)
+// USE_WIN32_THREADS - Use a Win32 implementation of threads instead of using pthread
+#define USE_WIN32_THREADS
+#else
+// USE_CPP11_THREADS - Use a C++11 implementation of threads instead of using pthread
+#define USE_CPP11_THREADS
 #endif
 
-// USE_CPP11_THREADS - Use a C++11 implementation of threads instead of using pthread
-#ifdef USE_CPP11_THREADS
-#include <thread>
-#elif defined(_XBOX)
-#include <stdint.h>
-#include <xtl.h>
 #else
-#include <pthread.h>
+
+#define USE_PTHREADS
+
 #endif
+
+#ifdef USE_CPP11_THREADS
+// C++11
+#include <thread>
+
+#elif defined(USE_WIN32_THREADS)
+
+// win32
+#include <stdint.h>
 
 #ifdef _XBOX
+#include <xtl.h>
+#else
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#endif
+
+#else
+
+// pthreads
+#include <pthread.h>
+
+#endif
+
+#ifdef USE_WIN32_THREADS
 typedef LPTHREAD_START_ROUTINE CThreadFunction;
 #else
 typedef void* (*CThreadFunction)(void*);
@@ -42,7 +68,7 @@ private:
 
 #ifdef USE_CPP11_THREADS
 	std::thread m_thrd;
-#elif defined(_XBOX)
+#elif defined (USE_WIN32_THREADS)
 	HANDLE m_thrd;
 #else
 	pthread_t m_thrd;
