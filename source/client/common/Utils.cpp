@@ -178,6 +178,8 @@ float getTimeS()
 #endif
 }
 
+constexpr double C_MULITIPLIER = 0.125f;
+
 int getTimeMs()
 {
 #ifdef _WIN32
@@ -187,7 +189,7 @@ int getTimeMs()
 	if (g_TimeSecondsOnInit == 0)
 		g_TimeSecondsOnInit = time;
 
-	return time - g_TimeSecondsOnInit;
+	return int(double(time - g_TimeSecondsOnInit) * C_MULITIPLIER);
 #else
 	return int(getTimeS() * 1000.0f);
 #endif

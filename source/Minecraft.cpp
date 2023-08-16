@@ -695,13 +695,10 @@ void Minecraft::update()
 		m_pRakNetInstance->runEvents(m_pNetEventCallback);
 	}
 
-	if (m_timer.field_14 > 0)
+	for (int i = 0; i < m_timer.field_14; i++)
 	{
-		for (int i = 0; i < m_timer.field_14; i++)
-		{
-			tick();
-			field_DA8++;
-		}
+		tick();
+		field_DA8++;
 	}
 
 	if (m_pLevel && !m_bPreparingLevel)
@@ -718,6 +715,9 @@ void Minecraft::update()
 	double time = double(getTimeS());
 	m_fDeltaTime   = time - m_fLastUpdated;
 	m_fLastUpdated = time;
+
+	// Added by iProgramInCpp
+	m_pGameMode->render(m_timer.field_18);
 }
 
 void Minecraft::init()

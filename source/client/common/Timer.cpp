@@ -17,6 +17,8 @@
 static LARGE_INTEGER s_StartTime;
 static bool s_Initted;
 
+constexpr double C_MULITIPLIER = 0.125f;
+
 double getAccurateTimeMs()
 {
 	// Thanks to @Kleadron for helping out with this!
@@ -34,7 +36,7 @@ double getAccurateTimeMs()
 
 	LONGLONG diff = currentCounter.QuadPart - s_StartTime.QuadPart;
 
-	return double(diff) / double(frequency.QuadPart) * 1000.0;
+	return double(diff) / double(frequency.QuadPart) * 1000.0 * C_MULITIPLIER;
 }
 #endif
 

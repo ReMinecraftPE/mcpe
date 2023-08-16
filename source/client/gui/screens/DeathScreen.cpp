@@ -39,6 +39,10 @@ void DeathScreen::tick()
 	m_tickCounter++;
 }
 
+void DeathScreen::keyPressed(int key)
+{
+}
+
 void DeathScreen::render(int x, int y, float f)
 {
 	fillGradient(0, 0, m_width, m_height, 0xA0303080, 0x60000050);
