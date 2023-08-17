@@ -28,7 +28,7 @@ int SandTile::getTickDelay()
 
 void SandTile::checkSlide(Level* level, int x, int y, int z)
 {
-	TileID tile = level->getTile(x, y - 1, z);
+	//TileID tile = level->getTile(x, y - 1, z);
 
 	if (!isFree(level, x, y - 1, z))
 		// standing on something, don't fall

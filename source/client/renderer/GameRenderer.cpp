@@ -15,7 +15,7 @@ int t_keepPic;
 
 void GameRenderer::_init()
 {
-	ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
+	//ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
 
 	field_8 = 0.0f;
 	field_C = 0;

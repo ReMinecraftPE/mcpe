@@ -131,7 +131,6 @@ void ImprovedNoise::add(float* a2, float a3, float a4, float a5, int a6, int a7,
 
 				int* x13 = &m_permutation[uint8_t(x10) + m_permutation[*x6]];
 				int* x15 = &m_permutation[uint8_t(x10) + m_permutation[*x8]];
-				int* x14 = x8;
 
 				float x16 = grad2(*x13, x5, x12);
 				float x17 = grad(*x15, x5 - 1, 0, x12);

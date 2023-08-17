@@ -48,7 +48,11 @@ static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, G
 #define GL_GLEXT_PROTOTYPES
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_opengl_glext.h>
+#ifdef __APPLE__
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 #endif
 
 #define xglBindBuffer glBindBuffer

@@ -57,7 +57,7 @@ RandomLevelSource::RandomLevelSource(Level* level, TLong seed, int x) :
 // @BUG: Potential collisions.
 inline int GetChunkHash(int x, int z)
 {
-	int v6 = z & 0x7FFF | ((x & 0x7FFF) << 16) | x & 0x80000000, v7;
+    int v6 = (z & 0x7FFF) | ((x & 0x7FFF) << 16) | (x & 0x80000000), v7;
 	if (z >= 0)
 		v7 = 0;
 	else
@@ -275,7 +275,7 @@ void RandomLevelSource::buildSurfaces(int x, int z, TileID* tiles, Biome** biome
 
 	// @NOTE: Again, extracted from Java Beta 1.6. Probably accurate
 	constexpr int byte0 = 64;
-	constexpr float d = 0.03125f;
+	//constexpr float d = 0.03125f;
 	for (int k = 0; k < 16; k++)
 	{
 		for (int l = 0; l < 16; l++)

@@ -115,8 +115,8 @@ void LargeCaveFeature::addTunnel(int x, int z, TileID* tiles, float rx, float ry
         }
         if (singleStep == 1 || random.nextInt(4) != 0)
         {
-            float v55 = rx - xMid;
-            float v54 = rz - zMid;
+            //float v55 = rx - xMid;
+            //float v54 = rz - zMid;
             float v53 = (dist - step);
             float v52 = (x1 + 2.0f) + 16.0f;
             if (((((rx - xMid) * (rx - xMid))

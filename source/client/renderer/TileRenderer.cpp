@@ -2530,9 +2530,9 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, int 
 	if (tile == Tile::grass)
 		r = g = b = 1.0f;
 
-	Tesselator& t = Tesselator::instance;
+	//Tesselator& t = Tesselator::instance;
 
-	float fLightHere = tile->getBrightness(m_pLevelSource, x, y, z);
+	//float fLightHere = tile->getBrightness(m_pLevelSource, x, y, z);
 
 	float lights[EDIR_COUNT];
 

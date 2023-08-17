@@ -83,7 +83,6 @@ void Textures::clear()
 {
 	// note: Textures::clear() does not touch the dynamic textures vector
 
-	size_t size = m_textures.size();
 	for (auto it = m_textures.begin(); it != m_textures.end(); it++)
 		glDeleteTextures(1, &it->second);
 

@@ -21,7 +21,7 @@ public:
 
 	std::string getName() override;
 	LevelStorage* selectLevel(const std::string&, bool) override;
-	void getLevelList(std::vector<LevelSummary>&);
+	void getLevelList(std::vector<LevelSummary>&) override;
 	void clearAll() override;
 	int getDataTagFor(const std::string&) override;
 	bool isNewLevelIdAcceptable(const std::string&) override;

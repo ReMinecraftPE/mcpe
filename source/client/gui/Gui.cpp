@@ -148,8 +148,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	field_4 = -90.0f;
 
-	int width  = Minecraft::width  * InvGuiScale,
-		height = Minecraft::height * InvGuiScale;
+	int width  = Minecraft::getDrawWidth()  * InvGuiScale,
+		height = Minecraft::getDrawHeight() * InvGuiScale;
 
 #ifdef ENH_TRANSPARENT_HOTBAR
 	glEnable(GL_BLEND);
@@ -430,8 +430,8 @@ void Gui::handleKeyPressed(int keyCode)
 
 void Gui::renderMessages(bool bShowAll)
 {
-	int width = Minecraft::width * InvGuiScale,
-		height = Minecraft::height * InvGuiScale;
+	//int width = Minecraft::width * InvGuiScale,
+    int height = Minecraft::height * InvGuiScale;
 
 	int topEdge = height - 49;
 	

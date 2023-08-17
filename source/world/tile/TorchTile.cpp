@@ -138,8 +138,6 @@ void TorchTile::neighborChanged(Level* level, int x, int y, int z, int dir)
 
 void TorchTile::onPlace(Level* level, int x, int y, int z)
 {
-	int data = 0;
-
 	if (level->isSolidTile(x - 1, y, z))
 		level->setData(x, y, z, 1);
 	else if (level->isSolidTile(x + 1, y, z))

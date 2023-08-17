@@ -13,7 +13,7 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(TARGET_OS_MAC)
 #define CAN_QUIT
 #endif
 
@@ -499,7 +499,8 @@ void StartMenuScreen::render(int a, int b, float c)
 	glPushMatrix();
 
 	std::string splashText = getSplashString();
-	int textWidth = m_pFont->width(splashText), textHeight = m_pFont->height(splashText);
+    int textWidth = m_pFont->width(splashText);
+    //int textHeight = m_pFont->height(splashText);
 
 	glTranslatef(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f);
 	glRotatef(-20.0f, 0.0f, 0.0f, 1.0f);

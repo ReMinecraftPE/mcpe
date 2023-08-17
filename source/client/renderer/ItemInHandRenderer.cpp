@@ -267,7 +267,7 @@ void ItemInHandRenderer::renderFire(float f)
 
 void ItemInHandRenderer::renderTex(float f, int texture)
 {
-	float unused = m_pMinecraft->m_pLocalPlayer->getBrightness(f);
+	//float brightness = m_pMinecraft->m_pLocalPlayer->getBrightness(f);
 	glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
 	glPushMatrix();
 
