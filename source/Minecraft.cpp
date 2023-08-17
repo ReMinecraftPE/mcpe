@@ -33,7 +33,7 @@ int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
 int Minecraft::_windowWidth  = width;
 int Minecraft::_windowHeight = height;
-float Minecraft::_drawScale = 1.0;
+float Minecraft::_drawScale = 1.0f;
 bool Minecraft::useAmbientOcclusion = false;
 int Minecraft::customDebugId = 0;
 
