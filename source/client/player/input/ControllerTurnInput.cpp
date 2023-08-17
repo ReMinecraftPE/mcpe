@@ -71,7 +71,7 @@ ITurnInput::Delta ControllerTurnInput::getTurnDelta()
 		deltaX = deltaTime * xt;
 		deltaY = deltaTime * -yt;
 	}
-	else if (field_8 != 2 || !field_18 && !isTouched)
+    else if (field_8 != 2 || (!field_18 && !isTouched))
 	{
 		deltaX = 0.0f;
 		deltaY = -0.0f;
@@ -108,7 +108,7 @@ ITurnInput::Delta ControllerTurnInput::getTurnDelta()
 			if (fabsf(x1) > 0.0f)
 				x2 = x1 - x3;
 
-			float ndy = 0.0f, x5;
+            float x5;
 			if (x4 >= 0.0f)
 				x5 = 0.0f;
 			else

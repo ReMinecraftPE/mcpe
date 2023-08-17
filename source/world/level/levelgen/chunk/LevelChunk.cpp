@@ -467,7 +467,7 @@ void LevelChunk::recalcHeight(int x, int y, int z)
 			for (int i = 0; i < hmap; i++)
 			{
 				int v15 = (i | index) >> 1;
-				int v16 = (i | index) <<31;
+				//int v16 = (i | index) <<31;
 
 				if ((i | index) & 1)
 				{

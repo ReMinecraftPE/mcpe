@@ -365,6 +365,16 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+## Xcode User settings
+xcuserdata/
+
+## Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
+## Kill .DS_Store
+**/.DS_Store
+
 /minecraftpe/assets/font
 /minecraftpe/assets/gui
 /minecraftpe/assets/item

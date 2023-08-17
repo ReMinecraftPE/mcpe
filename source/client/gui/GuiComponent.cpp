@@ -23,8 +23,6 @@ void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, 
 	if (!sh) sh = th;
 	if (!sw) sw = tw;
 
-	int width = sw, height = sh;
-
 	t.begin();
 	t.vertexUV(dx,      dy + th, field_4, float(sx)      / 256.0f, float(sy + sh) / 256.0f);
 	t.vertexUV(dx + tw, dy + th, field_4, float(sx + sw) / 256.0f, float(sy + sh) / 256.0f);

@@ -60,7 +60,7 @@ bool DoorItem::useOn(ItemInstance* inst, Player* player, Level* level, int x, in
 	int equal6 = level->getTile(x + offsetX, y + 1, z + offsetZ) == pTile->m_ID ||
 	             level->getTile(x + offsetX, y + 2, z + offsetZ) == pTile->m_ID;
 
-	if (equal5 && !equal6 || solid2 + solid1 < solid4 + solid3)
+    if ((equal5 && !equal6) || solid2 + solid1 < solid4 + solid3)
 		faceDir = 4 + ((faceDir - 1) & 3);
 
 	// congratulations! You can now have a door.

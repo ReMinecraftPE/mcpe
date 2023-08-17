@@ -16,8 +16,8 @@ public:
 	SurvivalMode(Minecraft*);
 
 	void startDestroyBlock(int x, int y, int z, int i) override;
-	bool destroyBlock(int x, int y, int z, int i);
-	void continueDestroyBlock(int x, int y, int z, int i);
+	bool destroyBlock(int x, int y, int z, int i) override;
+	void continueDestroyBlock(int x, int y, int z, int i) override;
 	void stopDestroyBlock() override;
 	void tick() override;
 	void render(float f) override;

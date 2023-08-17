@@ -82,11 +82,11 @@ bool BirchFeature::place(Level* level, Random* random, int x, int y, int z)
 			if (c2 < 0)
 				c3 = -c2;
 
-			int c5 = c3;
+			//int c5 = c3;
 
 			for (int az = z - c1; az <= z + c1; az++, c4++)
 			{
-				if ((abs(ax - x) != c1 || abs(az - z) != c1 || random->nextInt(2) != 0 && diff != 0) && !Tile::solid[level->getTile(ax, i, az)])
+                if ((abs(ax - x) != c1 || abs(az - z) != c1 || (random->nextInt(2) != 0 && diff != 0)) && !Tile::solid[level->getTile(ax, i, az)])
 				{
 					level->setTileAndDataNoUpdate(ax, i, az, Tile::leaves->m_ID, 2);
 				}
@@ -96,7 +96,7 @@ bool BirchFeature::place(Level* level, Random* random, int x, int y, int z)
 
 	for (int i = 0; i < treeHeight; i++)
 	{
-		int y1 = i + y;
+		//int y1 = i + y;
 		TileID tile = level->getTile(x, y + i, z);
 		if (tile && tile != Tile::leaves->m_ID)
 			continue;

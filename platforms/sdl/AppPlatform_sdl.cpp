@@ -1,29 +1,16 @@
 #include "AppPlatform_sdl.hpp"
 
-#include <sstream>
-#include <fstream>
 #include <sys/stat.h>
 
-#ifndef __EMSCRIPTEN__
 #include <png.h>
 
 #include "compat/GL.hpp"
-#else
-#include <emscripten.h>
-#endif
 
 #include "client/common/Utils.hpp"
 
 AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
+    : AppPlatform_sdlbase(storageDir, window, loadTexture("gui/default_world.png"))
 {
-	_storageDir = storageDir;
-	_window = window;
-}
-
-int AppPlatform_sdl::checkLicense()
-{
-	// we own the game!!
-	return 1;
 }
 
 // Ensure Screenshots Folder Exists
@@ -48,7 +35,6 @@ void ensure_screenshots_folder(const char *screenshots)
 	}
 }
 
-#ifndef __EMSCRIPTEN__
 // Take Screenshot
 static int save_png(const char *filename, unsigned char *pixels, int line_size, int width, int height)
 {
@@ -123,6 +109,7 @@ ret:
 	// Return
 	return ret;
 }
+
 void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
 {
 	// Get Directory
@@ -199,47 +186,25 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 		free(pixels);
 	}
 }
-#endif
 
-int AppPlatform_sdl::getScreenWidth() const
-{
-	int width;
-	SDL_GL_GetDrawableSize(_window, &width, nullptr);
-	return width;
-}
-
-int AppPlatform_sdl::getScreenHeight() const
-{
-	int height;
-	SDL_GL_GetDrawableSize(_window, nullptr, &height);
-	return height;
-}
-
-#ifndef __EMSCRIPTEN__
 static void png_read_sdl(png_structp png_ptr, png_bytep data, png_size_t length)
 {
 	SDL_RWread((SDL_RWops *) png_get_io_ptr(png_ptr), (char *) data, length, 1);
 }
+
 static void nop_png_warning(png_structp png_ptr, png_const_charp warning_message)
 {
 	// Do Nothing
 }
-#endif
-Texture AppPlatform_sdl::loadTexture(const std::string& str, bool b)
+
+Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 {
 	Texture out;
 	out.field_C = 1;
 	out.field_D = 0;
 
-	std::string realPath = str;
-	if (realPath.size() && realPath[0] == '/')
-	{
-		// trim it off
-		realPath = realPath.substr(1);
-	}
-	realPath = "assets/" + realPath;
+    std::string realPath = getAssetPath(path);
 
-#ifndef __EMSCRIPTEN__
 	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
 
 	if (io != NULL)
@@ -314,57 +279,8 @@ Texture AppPlatform_sdl::loadTexture(const std::string& str, bool b)
 		delete[](png_bytep) rowPtrs;
 		SDL_RWclose(io);
 	}
-#else
-	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &out.m_width, &out.m_height);
-	if (data != NULL)
-	{
-		size_t data_size = out.m_width * out.m_height * 4;
-		out.m_pixels = (uint32_t *) new unsigned char[data_size];
-		memcpy(out.m_pixels, data, data_size);
-		free(data);
-		return out;
-	}
-#endif
 
-	LogMsg("Couldn't find file: %s", str.c_str());
+    // I don't think this logic makes any sense
+	LogMsg("Couldn't find file: %s", path.c_str());
 	return out;
-}
-
-void AppPlatform_sdl::setMouseGrabbed(bool b)
-{
-	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
-	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
-}
-
-void AppPlatform_sdl::setMouseDiff(int x, int y)
-{
-	xrel = x;
-	yrel = y;
-}
-
-void AppPlatform_sdl::getMouseDiff(int& x, int& y)
-{
-	x = xrel;
-	y = yrel;
-}
-
-void AppPlatform_sdl::clearDiff()
-{
-	xrel = 0;
-	yrel = 0;
-}
-
-bool AppPlatform_sdl::shiftPressed()
-{
-	return m_bShiftPressed[0] || m_bShiftPressed[1];
-}
-
-void AppPlatform_sdl::setShiftPressed(bool b, bool isLeft)
-{
-	m_bShiftPressed[isLeft ? 0 : 1] = b;
-}
-
-int AppPlatform_sdl::getUserInputStatus()
-{
-	return -1;
 }

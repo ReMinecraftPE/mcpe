@@ -19,7 +19,7 @@ bool PineFeature::place(Level* level, Random* random, int x, int y, int z)
 		return false;
 
 	int x1 = height - random->nextInt(2) - 3;
-	int p1 = height - x1;
+	//int p1 = height - x1;
 	int x2 = 1 + random->nextInt(1 + x1);
 	int upperY = y + 1 + height;
 

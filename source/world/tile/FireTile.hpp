@@ -15,7 +15,7 @@ class FireTile : public Tile
 public:
 	FireTile(int ID, int texture);
 
-	AABB* getAABB(Level*, int x, int y, int z);
+	AABB* getAABB(Level*, int x, int y, int z) override;
 	int getRenderShape() override;
 	bool isCubeShaped() override;
 	bool isSolidRender() override;

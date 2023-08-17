@@ -131,3 +131,16 @@ std::string AppPlatform::getPatchData()
 {
 	return "";
 }
+
+std::string AppPlatform::getAssetPath(const std::string &path) const
+{
+    std::string realPath = path;
+    if (realPath.size() && realPath[0] == '/')
+    {
+        // trim it off
+        realPath = realPath.substr(1);
+    }
+    realPath = "assets/" + realPath;
+    
+    return realPath;
+}

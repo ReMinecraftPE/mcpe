@@ -19,8 +19,8 @@ public:
 	bool isSolidRender() override;
 	int getRenderShape() override;
 	int getResourceCount(Random* random) override;
-	AABB* getAABB(Level*, int x, int y, int z);
-	AABB getTileAABB(Level*, int x, int y, int z);
+	AABB* getAABB(Level*, int x, int y, int z) override;
+	AABB getTileAABB(Level*, int x, int y, int z) override;
 	void setPlacedOnFace(Level*, int x, int y, int z, int face) override;
 	void neighborChanged(Level*, int, int, int, int) override;
 	bool mayPlace(Level*, int, int, int) override;

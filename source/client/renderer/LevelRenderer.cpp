@@ -65,7 +65,7 @@ void LevelRenderer::generateSky()
 	t.begin();
 	field_DC = 0;
 
-	float m = 16.0f;
+	//float m = 16.0f;
 	int n = 4;
 	int p = 128;
 
@@ -497,11 +497,11 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 	if (!a)
 		field_54 = field_58 = field_5C = field_60 = field_64 = 0;
 
-	float mobX1 = pMob->m_pos.x;
+	//float mobX1 = pMob->m_pos.x;
 	float mobX2 = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;
-	float mobY1 = pMob->m_pos.y;
+	//float mobY1 = pMob->m_pos.y;
 	float mobY2 = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * b;
-	float mobZ1 = pMob->m_pos.z;
+	//float mobZ1 = pMob->m_pos.z;
 	float mobZ2 = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * b;
 
 	float dX = pMob->m_pos.x - field_4, dY = pMob->m_pos.y - field_8, dZ = pMob->m_pos.z - field_C;

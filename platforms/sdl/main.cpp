@@ -5,12 +5,22 @@
 #include "compat/GL.hpp"
 #include "compat/AKeyCodes.hpp"
 #include "App.hpp"
+#ifdef __EMSCRIPTEN__
+#include "../emscripten/AppPlatform_emscripten.hpp"
+#define APP_PLATFORM_TYPE AppPlatform_emscripten
+#else
 #include "AppPlatform_sdl.hpp"
+#define APP_PLATFORM_TYPE AppPlatform_sdl
+#endif
 #include "NinecraftApp.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
+#else
+#define EM_BOOL bool
+#define EM_TRUE true
+#define EM_FALSE false
 #endif
 
 void LogMsg(const char* fmt, ...)
@@ -34,7 +44,7 @@ void LogMsgNoCR(const char* fmt, ...)
 	va_end(lst);
 }
 
-AppPlatform_sdl *g_AppPlatform;
+APP_PLATFORM_TYPE *g_AppPlatform;
 NinecraftApp *g_pApp;
 
 SDL_Window *window = NULL;
@@ -88,18 +98,23 @@ static void handle_events()
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
-				Mouse::feed(event.button.button == SDL_BUTTON_LEFT ? 1 : 2, event.button.state == SDL_PRESSED ? 1 : 0, event.button.x, event.button.y);
+                const float scale = Minecraft::getDrawScale();
+				Mouse::feed(event.button.button == SDL_BUTTON_LEFT ? 1 : 2, event.button.state == SDL_PRESSED ? 1 : 0, event.button.x * scale, event.button.y * scale);
 				break;
 			}
 			case SDL_MOUSEMOTION:
 			{
-				Mouse::feed(0, 0, event.motion.x, event.motion.y);
-				g_AppPlatform->setMouseDiff(event.motion.xrel, event.motion.yrel);
+                const float scale = Minecraft::getDrawScale();
+                float x = event.motion.x * scale;
+                float y = event.motion.y * scale;
+                Mouse::setX(x); Mouse::setY(y);
+				Mouse::feed(0, 0, x, y);
+				g_AppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				break;
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(3, event.wheel.y, Mouse::getX(), Mouse::getY());
+				Mouse::feed(3, event.wheel.y * Minecraft::getDrawScale(), Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:
@@ -131,46 +146,24 @@ static void handle_events()
 	}
 }
 
-// GUI Scale
-static void calculate_gui_scale()
-{
-	int width = Minecraft::width;
-
-	// Modified Version Of https://github.com/MCPI-Revival/Ninecraft/blob/3f71638a10b581f6a50669edb24bc1ef1a92fbea/ninecraft/src/main.c#L243-L255
-	if (width < 1000)
-	{
-		if (width < 400)
-		{
-			Gui::InvGuiScale = 1.0f;
-		}
-		else
-		{
-			Gui::InvGuiScale = 0.5f;
-		}
-	}
-	else
-	{
-		Gui::InvGuiScale = 0.25f;
-	}
-}
-
 // Resizing
 static void resize()
 {
-	SDL_GL_GetDrawableSize(window, &Minecraft::width, &Minecraft::height);
-
-	if (g_pApp != nullptr)
-	{
+    int drawWidth, drawHeight;
+    SDL_GL_GetDrawableSize(window,
+        &drawWidth, &drawHeight);
+    
+    int windowWidth, windowHeight;
+    SDL_GetWindowSize(window,
+        &windowWidth, &windowHeight);
+    
+    Minecraft::setDisplayProperties(drawWidth, drawHeight, windowWidth, windowHeight);
+    
+	if (g_pApp)
 		g_pApp->sizeUpdate(Minecraft::width, Minecraft::height);
-	}
 }
 
 // Main Loop
-#ifndef __EMSCRIPTEN__
-#define EM_BOOL bool
-#define EM_TRUE true
-#define EM_FALSE false
-#endif
 static bool is_first_window_resize = true;
 static EM_BOOL main_loop(double time, void *user_data)
 {
@@ -245,7 +238,8 @@ int main(int argc, char *argv[])
 	CheckOptionalTextureAvailability();
 
 	// Create Window
-	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE |
+        SDL_WINDOW_ALLOW_HIGHDPI);
 	if (!window)
 	{
 		LOGE("Unable To Create SDL Window\n");
@@ -273,26 +267,29 @@ int main(int argc, char *argv[])
 	atexit(teardown);
 #endif
 
-	// Set Size
-	resize();
-
 	// Storage Directory
+    std::string storagePath;
 #ifdef _WIN32
-	std::string storagePath = getenv("APPDATA");
+	storagePath = getenv("APPDATA");
 #elif defined(__EMSCRIPTEN__)
-	std::string storagePath = "";
+	storagePath = "";
 #else
-	std::string storagePath = getenv("HOME");
+	storagePath = getenv("HOME");
 #endif
 	storagePath += "/.reminecraftpe";
+	#ifndef __EMSCRIPTEN__
 	ensure_screenshots_folder(storagePath.c_str());
-
+	#endif
+    
 	// Start MCPE
 	g_pApp = new NinecraftApp;
 	g_pApp->m_externalStorageDir = storagePath;
-	g_AppPlatform = new AppPlatform_sdl(g_pApp->m_externalStorageDir, window);
+	g_AppPlatform = new APP_PLATFORM_TYPE(g_pApp->m_externalStorageDir, window);
 	g_pApp->m_pPlatform = g_AppPlatform;
 	g_pApp->init();
+    
+    // Set Size
+    resize();
 
 	// Loop
 #ifndef __EMSCRIPTEN__

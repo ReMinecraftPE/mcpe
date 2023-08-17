@@ -72,6 +72,14 @@ public:
 	bool isOnline();
 	bool isOnlineClient();
 	static void* prepareLevel_tspawn(void* pMinecraft);
+    static void setDisplayProperties(
+        int drawWidth, int drawHeight,
+        int windowWidth, int windowHeight);
+    static const int getWindowWidth() { return _windowWidth; }
+    static const int getWindowHeight() { return _windowHeight; }
+    static const int getDrawWidth() { return width; }
+    static const int getDrawHeight() { return height; }
+    static const int getDrawScale() { return _drawScale; }
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
@@ -80,7 +88,12 @@ public:
 
 	virtual int getFpsIntlCounter();
 
+private:
+    static int _windowWidth, _windowHeight;
+    //static int _drawWidth, _drawHeight;
+    static float _drawScale;
 public:
+    // DEPRECATED: Use getDrawWidth() & getDrawHeight() instead
 	static int width, height;
 	static bool useAmbientOcclusion;
 	static const char* progressMessages[];

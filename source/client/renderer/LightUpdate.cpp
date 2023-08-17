@@ -136,16 +136,13 @@ void LightUpdate::update(Level* pLevel)
 				x5 = x3;
 			}
 		LABEL_8:
-			m_z2 = this->m_z2;
 			++x3;
 			++x4;
 		} while (x5 <= m_z2);
-		m_x2 = this->m_x2;
 	LABEL_53:
 		++x1;
 		if (x1_1 > m_x2)
 			break;
-		m_z1 = this->m_z1;
 	}
 }
 

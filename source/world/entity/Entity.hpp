@@ -38,14 +38,14 @@ struct EntityPos
 
 	EntityPos()
 	{
-		m_yaw = 0, m_pitch = 0;
-		m_bHasRot = false, m_bHasPos = false;
+        m_yaw = 0; m_pitch = 0;
+        m_bHasRot = false; m_bHasPos = false;
 	};
 
 	EntityPos(const Vec3& pos)
 	{
 		m_pos = pos;
-		m_yaw = 0, m_pitch = 0;
+        m_yaw = 0; m_pitch = 0;
 		m_bHasPos = true;
 		m_bHasRot = false;
 	}

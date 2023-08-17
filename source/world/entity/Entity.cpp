@@ -132,7 +132,7 @@ int Entity::move(float x, float y, float z)
 	bool b1, b2, b3, b4, b5, b6;
 	AABB hitold;
 
-	oldX = m_pos.x, oldZ = m_pos.z;
+    oldX = m_pos.x; oldZ = m_pos.z;
 
 	x7 = m_hitbox.max.z;
 	x8 = m_hitbox.max.y;
@@ -319,7 +319,7 @@ label_5:
 		goto label_45;
 	}
 
-	if (field_A4 >= 0.05f || x_2 == x_1 && z_2 == z_1)
+    if (field_A4 >= 0.05f || (x_2 == x_1 && z_2 == z_1))
 		goto label_44;
 
 	// oh come on, undoing all our work??

@@ -36,7 +36,7 @@ public:
 
 	void updateLiquid(Level*, int x, int y, int z);
 	void fizz(Level*, int x, int y, int z);
-	int getColor(LevelSource*, int x, int y, int z);
+	int getColor(LevelSource*, int x, int y, int z) override;
 	int getDepth(Level*, int x, int y, int z);
 	int getRenderedDepth(LevelSource*, int x, int y, int z);
 	Vec3 getFlow(LevelSource*, int x, int y, int z);

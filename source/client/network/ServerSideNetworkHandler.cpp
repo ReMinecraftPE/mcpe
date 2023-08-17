@@ -251,7 +251,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 	int z = packet->m_z;
 
 	Tile* pTile = Tile::tiles[m_pLevel->getTile(x, y, z)];
-	int data = m_pLevel->getData(x, y, z);
+	//int data = m_pLevel->getData(x, y, z);
 	bool setTileResult = m_pLevel->setTile(x, y, z, TILE_AIR);
 	if (pTile && setTileResult)
 	{

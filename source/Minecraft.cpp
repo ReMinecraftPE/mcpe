@@ -29,9 +29,11 @@
 // custom:
 #include "client/renderer/PatchManager.hpp"
 
-// note: Nothing changes these, so it'll think we're always running at 854x480 even if not
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
+int Minecraft::_windowWidth  = width;
+int Minecraft::_windowHeight = height;
+float Minecraft::_drawScale = 1.0f;
 bool Minecraft::useAmbientOcclusion = false;
 int Minecraft::customDebugId = 0;
 
@@ -47,7 +49,8 @@ const char* Minecraft::progressMessages[] =
 	"Saving chunks",
 };
 
-Minecraft::Minecraft() : m_gui(this)
+Minecraft::Minecraft() :
+    m_gui(this)
 {
 	field_18 = false;
 	field_288 = false;
@@ -286,7 +289,7 @@ label_3:
 					// @BUG: This is only done on the client side.
 					m_pLevel->extinguishFire(hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide);
 
-					if (pTile != Tile::unbreakable || m_pLocalPlayer->field_B94 > 99 && !hr.m_bUnk24)
+                    if (pTile != Tile::unbreakable || (m_pLocalPlayer->field_B94 > 99 && !hr.m_bUnk24))
 					{
 						m_pGameMode->startDestroyBlock(hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide);
 					}
@@ -312,12 +315,13 @@ label_3:
 				{
 					switch (hr.m_hitSide)
 					{
-					case DIR_YNEG: dy--; break;
-					case DIR_YPOS: dy++; break;
-					case DIR_ZNEG: dz--; break;
-					case DIR_ZPOS: dz++; break;
-					case DIR_XNEG: dx--; break;
-					case DIR_XPOS: dx++; break;
+                        case HitResult::eHitSide::NOHIT: break;
+                        case HitResult::eHitSide::MINY: dy--; break;
+                        case HitResult::eHitSide::MAXY: dy++; break;
+                        case HitResult::eHitSide::MINZ: dz--; break;
+                        case HitResult::eHitSide::MAXZ: dz++; break;
+                        case HitResult::eHitSide::MINX: dx--; break;
+                        case HitResult::eHitSide::MAXX: dx++; break;
 					}
 				}
 
@@ -880,6 +884,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 
 void Minecraft::sizeUpdate(int newWidth, int newHeight)
 {
+    
 	// re-calculate the GUI scale.
 	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight);
 
@@ -964,6 +969,17 @@ void* Minecraft::prepareLevel_tspawn(void* ptr)
 	pMinecraft->generateLevel("Currently not used", pMinecraft->m_pLevel);
 
 	return nullptr;
+}
+
+void Minecraft::setDisplayProperties(
+    int drawWidth, int drawHeight,
+    int windowWidth, int windowHeight)
+{
+    width = drawWidth; height = drawHeight;
+    _windowWidth = windowWidth; _windowHeight = windowHeight;
+    // Calculates the scale for the resolution at which the scene is drawn.
+    // This assumes the aspect ratio is the same between the window and the actual drawing process.
+    _drawScale = width / _windowWidth;
 }
 
 void Minecraft::pauseGame()

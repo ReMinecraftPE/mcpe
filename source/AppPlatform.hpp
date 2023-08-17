@@ -56,6 +56,8 @@ public:
 	virtual std::string getPatchData();
 #endif
 
+protected:
+    virtual std::string getAssetPath(const std::string& path) const;
 
 private:
 	virtual void _tick();
