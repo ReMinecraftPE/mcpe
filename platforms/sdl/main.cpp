@@ -159,6 +159,9 @@ static void resize()
     SDL_GetWindowSize(window,
         &windowWidth, &windowHeight);
     
+	Minecraft::width  = drawWidth;
+	Minecraft::height = drawHeight;
+	
 	// recalculate the point to pixel scale.
 	// This currently assumes that the aspect ratio is the same.
 	g_fPointToPixelScale = float(drawWidth) / float(windowWidth);
@@ -213,8 +216,8 @@ extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 
 void CheckOptionalTextureAvailability()
 {
-	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
-	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
+	//g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
+	//g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
 }
 
 // Main

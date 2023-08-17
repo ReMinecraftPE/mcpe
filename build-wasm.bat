@@ -38,8 +38,8 @@ pause > nul
 ::build
 echo * Starting build.
 cmake --build .
-echo * PRESS ANY KEY when CMake is done.
-pause > nul
+:: echo * PRESS ANY KEY when CMake is done. --- Seems like we don't need that for cmake itself.
+:: pause > nul
 
 ::bundle
 echo * Copying bundle data over.
