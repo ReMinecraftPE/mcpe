@@ -6,8 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "compat/GL.hpp"
 #include "Tesselator.hpp"
+#include "compat/GL.hpp"
+#include "client/common/Utils.hpp"
 
 #include <cstddef>
 
