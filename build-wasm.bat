@@ -1,56 +1,56 @@
 @echo off
 
-:set the path where your web server's root is (iProgramInCpp's is at C:\gtcache -- don't ask why)
-set WEBSRVROOT=C:\gtcache
+::set the path where your web server's root is (iProgramInCpp's is at C:\gtcache -- don't ask why)
+set WEBSRVROOT=D:\Minecraft\MinecraftWebSite\mcpe
 
-:set the emscripten root to your emscripten installation (iProgramInCpp's is at C:\emsdk)
+::set the emscripten root to your emscripten installation (iProgramInCpp's is at C:\emsdk)
 echo * Calling emsdk_env.bat.
-set EMSCRIPTEN_ROOT=C:\emsdk
+set EMSCRIPTEN_ROOT=D:\emsdk
 set OLDCD=%cd%
 cd /d %EMSCRIPTEN_ROOT%
 call emsdk_env.bat
 cd %OLDCD%
 
-:working directory
+::working directory
 echo * Creating wasm working directory.
 md wasm
 cd wasm
 
-:create output directory
+::create output directory
 echo * Creating output directory.
 del /s /q dist
 md dist
 
-:create build directory
+::create build directory
 echo * Creating build directory
 md build
 cd build
 
-:note: Why the hell do I need to pop it into a separate window? When I don't, the batch
-:file just stops...
+::note: Why the hell do I need to pop it into a separate window? When I don't, the batch
+::file just stops...
 
-:configure build
+::configure build
 echo * Configuring build.
 start emcmake cmake -GNinja "$@" ..\..\platforms/sdl
 echo * PRESS ANY KEY when emcmake is done.
 pause > nul
 
-:build
+::build
 echo * Starting build.
 start cmake --build .
 echo * PRESS ANY KEY when CMake is done.
 pause > nul
 
-:bundle
+::bundle
 echo * Copying bundle data over.
 copy reminecraftpe.* ..\dist
 copy ..\..\platforms\sdl\wasm_shell.html ..\dist\reminecraftpe.html
 copy ..\..\thirdparty\coi-serviceworker\coi-serviceworker.min.js ..\dist
 
-:for me only
+::for me only
 echo * Copying to your webserver.
 copy ..\dist %WEBSRVROOT%\dist
 
-:cd back
+::cd back
 echo * And we are done!!
 cd %OLDCD%
