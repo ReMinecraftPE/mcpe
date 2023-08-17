@@ -1,11 +1,11 @@
 @echo off
 
 ::set the path where your web server's root is (iProgramInCpp's is at C:\gtcache -- don't ask why)
-set WEBSRVROOT=D:\Minecraft\MinecraftWebSite\mcpe
+set WEBSRVROOT=C:\gtcache
 
 ::set the emscripten root to your emscripten installation (iProgramInCpp's is at C:\emsdk)
 echo * Calling emsdk_env.bat.
-set EMSCRIPTEN_ROOT=D:\emsdk
+set EMSCRIPTEN_ROOT=C:\emsdk
 set OLDCD=%cd%
 cd /d %EMSCRIPTEN_ROOT%
 call emsdk_env.bat
@@ -37,7 +37,7 @@ pause > nul
 
 ::build
 echo * Starting build.
-start cmake --build .
+cmake --build .
 echo * PRESS ANY KEY when CMake is done.
 pause > nul
 
