@@ -56,7 +56,7 @@ public:
 	virtual std::string getPatchData();
 #endif
 
-protected:
+public:
     virtual std::string getAssetPath(const std::string& path) const;
 
 private:

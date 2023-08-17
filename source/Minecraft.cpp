@@ -557,13 +557,19 @@ void Minecraft::sendMessage(const std::string& message)
 	if (isOnlineClient())
 	{
 		// send the server a message packet
-		m_pRakNetInstance->send(new MessagePacket(message));
+		if (m_pRakNetInstance)
+			m_pRakNetInstance->send(new MessagePacket(message));
+		else
+			m_gui.addMessage("You aren't actually playing multiplayer!");
 	}
 	else
 	{
 		// fake the server having received a packet
 		MessagePacket mp(message);
-		m_pNetEventCallback->handle(m_pRakNetInstance->m_pRakPeerInterface->GetMyGUID(), &mp);
+		if (m_pNetEventCallback && m_pRakNetInstance)
+			m_pNetEventCallback->handle(m_pRakNetInstance->m_pRakPeerInterface->GetMyGUID(), &mp);
+		else
+			m_gui.addMessage("You aren't hosting a multiplayer server!");
 	}
 }
 

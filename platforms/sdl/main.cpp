@@ -7,10 +7,10 @@
 #include "App.hpp"
 #ifdef __EMSCRIPTEN__
 #include "../emscripten/AppPlatform_emscripten.hpp"
-#define APP_PLATFORM_TYPE AppPlatform_emscripten
+typedef AppPlatform_emscripten UsedAppPlatform
 #else
 #include "AppPlatform_sdl.hpp"
-#define APP_PLATFORM_TYPE AppPlatform_sdl
+typedef AppPlatform_sdl UsedAppPlatform;
 #endif
 #include "NinecraftApp.hpp"
 
@@ -46,7 +46,7 @@ void LogMsgNoCR(const char* fmt, ...)
 	va_end(lst);
 }
 
-APP_PLATFORM_TYPE *g_AppPlatform;
+UsedAppPlatform *g_pAppPlatform;
 NinecraftApp *g_pApp;
 
 SDL_Window *window = NULL;
@@ -84,16 +84,16 @@ static void handle_events()
 			{
 				if (event.key.keysym.sym == SDLK_F2)
 				{
-					if (event.key.state == SDL_PRESSED && g_AppPlatform != nullptr)
+					if (event.key.state == SDL_PRESSED && g_pAppPlatform != nullptr)
 					{
-						g_AppPlatform->saveScreenshot("", -1, -1);
+						g_pAppPlatform->saveScreenshot("", -1, -1);
 					}
 					break;
 				}
 				Keyboard::feed(event.key.state == SDL_PRESSED ? 1 : 0, translate_sdl_key_to_mcpe(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
-					g_AppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
+					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
 				}
 				break;
 			}
@@ -111,7 +111,7 @@ static void handle_events()
                 float y = event.motion.y * scale;
                 Mouse::setX(x); Mouse::setY(y);
 				Mouse::feed(0, 0, x, y);
-				g_AppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
+				g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				break;
 			}
 			case SDL_MOUSEWHEEL:
@@ -199,7 +199,7 @@ static EM_BOOL main_loop(double time, void *user_data)
 	if (g_pApp->wantToQuit())
 	{
 		delete g_pApp;
-		delete g_AppPlatform;
+		delete g_pAppPlatform;
 		teardown();
 		// Stop Looping
 		return EM_FALSE;
@@ -214,10 +214,30 @@ static EM_BOOL main_loop(double time, void *user_data)
 extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
 extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 
+#ifdef __EMSCRIPTEN__
+bool DoesAssetExist(const std::string & fileName)
+{
+    std::string realPath = g_pAppPlatform->getAssetPath(fileName);
+	int width = 0, height = 0;
+	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &width, &height);
+	if (data == NULL)
+		return false;
+	
+	free(data);
+	return true;
+}
+#endif
+
 void CheckOptionalTextureAvailability()
 {
-	//g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
-	//g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
+#ifdef __EMSCRIPTEN__
+	g_bIsMenuBackgroundAvailable = DoesAssetExist("gui/background/panorama_0.png");
+	g_bAreCloudsAvailable        = DoesAssetExist("environment/clouds.png");
+#else
+	// access works just fine on linux and friends
+	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
+	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
+#endif
 }
 
 // Main
@@ -247,8 +267,6 @@ int main(int argc, char *argv[])
 	Minecraft::width = std::stoi(argv[1]);
 	Minecraft::height = std::stoi(argv[2]);
 #endif
-
-	CheckOptionalTextureAvailability();
 
 	// Create Window
 	int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
@@ -297,9 +315,11 @@ int main(int argc, char *argv[])
 	// Start MCPE
 	g_pApp = new NinecraftApp;
 	g_pApp->m_externalStorageDir = storagePath;
-	g_AppPlatform = new APP_PLATFORM_TYPE(g_pApp->m_externalStorageDir, window);
-	g_pApp->m_pPlatform = g_AppPlatform;
+	g_pAppPlatform = new UsedAppPlatform(g_pApp->m_externalStorageDir, window);
+	g_pApp->m_pPlatform = g_pAppPlatform;
 	g_pApp->init();
+
+	CheckOptionalTextureAvailability();
     
     // Set Size
     resize();
