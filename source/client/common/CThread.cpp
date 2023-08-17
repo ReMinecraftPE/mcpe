@@ -38,7 +38,7 @@ CThread::CThread(CThreadFunction func, void* param)
 	m_thrd = CreateThread(
 		NULL, // not used
 		0, // initial stack size
-		func, // thread function
+		(LPTHREAD_START_ROUTINE)func, // thread function
 		param, // thread argument
 		0, // creation option
 		&dwThreadId // thread identifier (but does it really matter if I'm the one managing them...?)

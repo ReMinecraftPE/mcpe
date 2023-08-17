@@ -11,7 +11,7 @@
 // Sound Systems
 #include "client/sound/SoundSystem.hpp"
 
-#if false
+#if 0
 
 // Add sound system overrides here
 

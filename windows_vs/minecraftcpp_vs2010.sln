@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "minecraftcpp", "minecraftcpp.vcxproj", "{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "minecraftcpp", "minecraftcpp_vs2010.vcxproj", "{AD85F5F3-6AD0-4C11-BB1D-33ADB8EEB0B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

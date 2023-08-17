@@ -49,11 +49,7 @@
 
 #endif
 
-#ifdef USE_WIN32_THREADS
-typedef LPTHREAD_START_ROUTINE CThreadFunction;
-#else
 typedef void* (*CThreadFunction)(void*);
-#endif
 
 class CThread
 {
