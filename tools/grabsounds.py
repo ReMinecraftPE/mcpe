@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Minecraft PE Reverse Engineering Project
 # Copyright (C) 2023 iProgramInCpp
 # -----------------------------------------------
