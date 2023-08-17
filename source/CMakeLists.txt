@@ -208,11 +208,15 @@ add_library(reminecraftpe-core STATIC
     App.cpp
     AppPlatform.cpp
 )
-target_include_directories(reminecraftpe-core PUBLIC . ..)
+target_include_directories(reminecraftpe-core PUBLIC . .. ../thirdparty/zlib)
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
+
+# zlib
+add_subdirectory(../thirdparty/zlib zlib)
+target_link_libraries(reminecraftpe-core PUBLIC zlib)
 
 # SDL
 add_library(SDL INTERFACE)
