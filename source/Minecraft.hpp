@@ -79,7 +79,7 @@ public:
     static const int getWindowHeight() { return _windowHeight; }
     static const int getDrawWidth() { return width; }
     static const int getDrawHeight() { return height; }
-    static const int getDrawScale() { return _drawScale; }
+    static const float getDrawScale() { return _drawScale; }
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
