@@ -7,7 +7,7 @@
 #include "App.hpp"
 #ifdef __EMSCRIPTEN__
 #include "../emscripten/AppPlatform_emscripten.hpp"
-typedef AppPlatform_emscripten UsedAppPlatform
+typedef AppPlatform_emscripten UsedAppPlatform;
 #else
 #include "AppPlatform_sdl.hpp"
 typedef AppPlatform_sdl UsedAppPlatform;

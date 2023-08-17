@@ -195,10 +195,13 @@ void Screen::renderMenuBackground(float f)
 				ym = 0.0f;
 				xm = 1.0f;
 				break;
+			default:
+				goto skip_rotate;
 		}
 
 		glRotatef(ang, xm, ym, 0.0f);
 
+	skip_rotate:
 		m_pMinecraft->m_pTextures->setSmoothing(true);
 		m_pMinecraft->m_pTextures->setClampToEdge(true);
 		m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
