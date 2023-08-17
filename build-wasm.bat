@@ -5,7 +5,7 @@ set WEBSRVROOT=C:\gtcache
 
 ::set the emscripten root to your emscripten installation (iProgramInCpp's is at C:\emsdk)
 echo * Calling emsdk_env.bat.
-set EMSCRIPTEN_ROOT=C:\emsdk
+set EMSCRIPTEN_ROOT=D:\emsdk
 set OLDCD=%cd%
 cd /d %EMSCRIPTEN_ROOT%
 call emsdk_env.bat
