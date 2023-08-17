@@ -31,9 +31,7 @@
 
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
-int Minecraft::_windowWidth  = width;
-int Minecraft::_windowHeight = height;
-float Minecraft::_drawScale = 1.0f;
+float Minecraft::guiScaleMultiplier = 1.0f;
 bool Minecraft::useAmbientOcclusion = false;
 int Minecraft::customDebugId = 0;
 
@@ -224,6 +222,11 @@ bool Minecraft::isOnlineClient()
 		return false;
 
 	return m_pLevel->m_bIsMultiplayer;
+}
+
+void Minecraft::setGuiScaleMultiplier(float f)
+{
+	guiScaleMultiplier = f;
 }
 
 void Minecraft::handleMouseDown(int type, bool b)
@@ -884,30 +887,35 @@ void Minecraft::prepareLevel(const std::string& unused)
 
 void Minecraft::sizeUpdate(int newWidth, int newHeight)
 {
-    
 	// re-calculate the GUI scale.
-	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight);
+	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
 
 	if (m_pScreen)
-		m_pScreen->setSize(int(newWidth * Gui::InvGuiScale), int(newHeight * Gui::InvGuiScale));
+		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
 }
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
-	// phones only
-#if !defined(_WIN32) && !defined(USE_SDL2)
-	if (width > 1000)
+	if (height > 1800)
 		return 1.0f / 4.0f;
 
-	if (width > 800)
-		return 1.0f / 3.0f;
-#else
-	if (width > 1000)
-		return 1.0f / 3.0f;
-#endif
+	// phones only
+#if !defined(_WIN32) && !defined(USE_SDL2)
+	if (height > 600)
+		return 1.0f / 4.0f;
 
-	if (width > 400)
+	if (height > 400)
+		return 1.0f / 3.0f;
+
+	if (height > 300)
 		return 1.0f / 2.0f;
+#else
+	if (height > 1000)
+		return 1.0f / 3.0f;
+
+	if (height > 400)
+		return 1.0f / 2.0f;
+#endif
 
 	return 1.0f;
 }
@@ -969,17 +977,6 @@ void* Minecraft::prepareLevel_tspawn(void* ptr)
 	pMinecraft->generateLevel("Currently not used", pMinecraft->m_pLevel);
 
 	return nullptr;
-}
-
-void Minecraft::setDisplayProperties(
-    int drawWidth, int drawHeight,
-    int windowWidth, int windowHeight)
-{
-    width = drawWidth; height = drawHeight;
-    _windowWidth = windowWidth; _windowHeight = windowHeight;
-    // Calculates the scale for the resolution at which the scene is drawn.
-    // This assumes the aspect ratio is the same between the window and the actual drawing process.
-    _drawScale = width / _windowWidth;
 }
 
 void Minecraft::pauseGame()

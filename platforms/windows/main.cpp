@@ -155,6 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			Minecraft::width  = width;
 			Minecraft::height = height;
+			Minecraft::setGuiScaleMultiplier(1.0f); // assume no meddling with the DPI stuff
 
 			g_AppPlatform.setScreenSize(width, height);
 
@@ -264,6 +265,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 
 	// initialize the app
 	g_pApp->init();
+	g_pApp->sizeUpdate(Minecraft::width, Minecraft::height);
 
 	while (!g_pApp->wantToQuit())
 	{

@@ -60,10 +60,11 @@ public:
 	void respawnPlayer(Player* player);
 	std::string getVersionString();
 
-	virtual void onGraphicsReset();
 	virtual void update() override;
 	virtual void init() override;
+	virtual void onGraphicsReset();
 	virtual void sizeUpdate(int newWidth, int newHeight) override;
+	virtual int getFpsIntlCounter();
 
 	float getBestScaleForThisScreenSize(int width, int height);
 	void generateLevel(const std::string& unused, Level* pLevel);
@@ -72,28 +73,15 @@ public:
 	bool isOnline();
 	bool isOnlineClient();
 	static void* prepareLevel_tspawn(void* pMinecraft);
-    static void setDisplayProperties(
-        int drawWidth, int drawHeight,
-        int windowWidth, int windowHeight);
-    static const int getWindowWidth() { return _windowWidth; }
-    static const int getWindowHeight() { return _windowHeight; }
-    static const int getDrawWidth() { return width; }
-    static const int getDrawHeight() { return height; }
-    static const float getDrawScale() { return _drawScale; }
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
-
 	ItemInstance* getSelectedItem();
 
-	virtual int getFpsIntlCounter();
+	static void setGuiScaleMultiplier(float f);
 
-private:
-    static int _windowWidth, _windowHeight;
-    //static int _drawWidth, _drawHeight;
-    static float _drawScale;
 public:
-    // DEPRECATED: Use getDrawWidth() & getDrawHeight() instead
+	static float guiScaleMultiplier;
 	static int width, height;
 	static bool useAmbientOcclusion;
 	static const char* progressMessages[];

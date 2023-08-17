@@ -23,6 +23,8 @@
 #define EM_FALSE false
 #endif
 
+static float g_fPointToPixelScale = 1.0f;
+
 void LogMsg(const char* fmt, ...)
 {
 	va_list lst;
@@ -98,13 +100,13 @@ static void handle_events()
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
-                const float scale = Minecraft::getDrawScale();
+                float scale = g_fPointToPixelScale;
 				Mouse::feed(event.button.button == SDL_BUTTON_LEFT ? 1 : 2, event.button.state == SDL_PRESSED ? 1 : 0, event.button.x * scale, event.button.y * scale);
 				break;
 			}
 			case SDL_MOUSEMOTION:
 			{
-                const float scale = Minecraft::getDrawScale();
+                float scale = g_fPointToPixelScale;
                 float x = event.motion.x * scale;
                 float y = event.motion.y * scale;
                 Mouse::setX(x); Mouse::setY(y);
@@ -114,7 +116,7 @@ static void handle_events()
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(3, event.wheel.y * Minecraft::getDrawScale(), Mouse::getX(), Mouse::getY());
+				Mouse::feed(3, event.wheel.y * g_fPointToPixelScale, Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:
@@ -157,10 +159,18 @@ static void resize()
     SDL_GetWindowSize(window,
         &windowWidth, &windowHeight);
     
-    Minecraft::setDisplayProperties(drawWidth, drawHeight, windowWidth, windowHeight);
-    
+	// recalculate the point to pixel scale.
+	// This currently assumes that the aspect ratio is the same.
+	g_fPointToPixelScale = float(drawWidth) / float(windowWidth);
+	
+	// Update the scale multiplier. We use the same value, because we pass to `sizeUpdate`, the window width/height.
+	// They will be multiplied by the GUI scale multiplier, becoming the drawwidth and drawheight, times the decided on GUI scale.
+	Minecraft::setGuiScaleMultiplier(g_fPointToPixelScale);
+	
+	// give it an update.
+	// As said before, internally, this multiplies by the GUI scale multiplier
 	if (g_pApp)
-		g_pApp->sizeUpdate(Minecraft::width, Minecraft::height);
+		g_pApp->sizeUpdate(windowWidth, windowHeight);
 }
 
 // Main Loop
@@ -238,11 +248,11 @@ int main(int argc, char *argv[])
 	CheckOptionalTextureAvailability();
 
 	// Create Window
-	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE |
-        SDL_WINDOW_ALLOW_HIGHDPI);
+	int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
+	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
 	if (!window)
 	{
-		LOGE("Unable To Create SDL Window\n");
+		LOGE("Unable to create SDL window\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -253,7 +263,7 @@ int main(int argc, char *argv[])
 	context = SDL_GL_CreateContext(window);
 	if (!context)
 	{
-		LOGE("Unable To Create OpenGL Context\n");
+		LOGE("Unable to create OpenGL context\n");
 		exit(EXIT_FAILURE);
 	}
 
