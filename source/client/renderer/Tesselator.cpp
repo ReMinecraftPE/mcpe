@@ -10,6 +10,7 @@
 #include "Tesselator.hpp"
 
 #include <cstddef>
+#include <cstdio>
 
 int dword_2514A4 = 0;
 

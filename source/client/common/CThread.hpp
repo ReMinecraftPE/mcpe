@@ -10,6 +10,8 @@
 
 // CThread - Object oriented pthread wrapper
 
+#include <cstdint>
+
 #if defined(_WIN32)
 
 #if defined(_XBOX) || defined(USE_OLD_CPP)
@@ -33,7 +35,6 @@
 #elif defined(USE_WIN32_THREADS)
 
 // win32
-#include <stdint.h>
 
 #ifdef _XBOX
 #include <xtl.h>

@@ -13,6 +13,14 @@ TARGET=minecraftcpp
 # Compilation flags for C++ source files
 CXXFLAGS=-Isource -I. -Ithirdparty/raknet -Ithirdparty/zlib -DUSE_SDL -DUSE_OPENAL -DUSE_MATH_DEFINES -DHANDLE_CHARS_SEPARATELY -O3 -MMD
 
+GLFLAGS=\
+	-DxglVertexPointer=glVertexPointer \
+	-DxglEnableClientState=glEnableClientState \
+	-DxglTexCoordPointer=glTexCoordPointer \
+	-DxglColorPointer=glColorPointer \
+	-DxglDrawArrays=glDrawArrays \
+	-DxglDisableClientState=glDisableClientState
+
 # Compilation flags for zlib source files
 ZLIBFLAGS=-O3 -I. -MMD
 
@@ -50,7 +58,7 @@ $(TARGET): $(OBJ_FILES)
 
 $(BLD_DIR)/p/%.o: $(PLT_DIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o $@ $<
 
 $(BLD_DIR)/r/%.o: $(RKN_DIR)/%.cpp
 	@mkdir -p $(dir $@)
@@ -62,7 +70,7 @@ $(BLD_DIR)/z/%.o: $(ZLB_DIR)/%.c
 
 $(BLD_DIR)/s/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) $(GLFLAGS) -c -o $@ $<
 
 program:  $(TARGET)
 
