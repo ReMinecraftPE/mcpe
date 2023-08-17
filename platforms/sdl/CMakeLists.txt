@@ -27,11 +27,21 @@ else()
 endif()
 
 # Build
+if(EMSCRIPTEN)
 add_executable(reminecraftpe
     main.cpp
+	AppPlatform_sdlbase.cpp
+    ../emscripten/AppPlatform_emscripten.cpp
+    ../openal/SoundSystemAL.cpp
+)
+else()
+add_executable(reminecraftpe
+    main.cpp
+	AppPlatform_sdlbase.cpp
     AppPlatform_sdl.cpp
     ../openal/SoundSystemAL.cpp
 )
+endif()
 
 # Core
 add_subdirectory(../../source source)
@@ -58,7 +68,7 @@ endif()
 
 # Assets
 if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/assets@/assets")
+    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets@/assets")
 elseif(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/assets")
     file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
 endif()

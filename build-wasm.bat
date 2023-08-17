@@ -44,12 +44,12 @@ pause > nul
 ::bundle
 echo * Copying bundle data over.
 copy reminecraftpe.* ..\dist
-copy ..\..\platforms\sdl\wasm_shell.html ..\dist\reminecraftpe.html
+copy ..\..\platforms\emscripten\wasm_shell.html ..\dist\reminecraftpe.html
 copy ..\..\thirdparty\coi-serviceworker\coi-serviceworker.min.js ..\dist
 
 ::for me only
 echo * Copying to your webserver.
-copy ..\dist %WEBSRVROOT%\dist
+xcopy /E /Y ..\dist\ %WEBSRVROOT%\dist\
 
 ::cd back
 echo * And we are done!!

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "AppPlatform_sdl.hpp"
+#include "../sdl/AppPlatform_sdl.hpp"
 
 class AppPlatform_emscripten : public AppPlatform_sdlbase
 {

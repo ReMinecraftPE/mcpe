@@ -31,18 +31,22 @@ add_library(reminecraftpe-core STATIC
     client/renderer/TileRenderer.cpp
     client/renderer/LightLayer.cpp
     client/renderer/WaterTexture.cpp
-    client/network/packets/UpdateBlockPacket.cpp
-    client/network/packets/RequestChunkPacket.cpp
-    client/network/packets/PlayerEquipmentPacket.cpp
-    client/network/packets/ChunkDataPacket.cpp
-    client/network/packets/PlaceBlockPacket.cpp
-    client/network/packets/LoginPacket.cpp
-    client/network/packets/StartGamePacket.cpp
-    client/network/packets/RemoveEntityPacket.cpp
-    client/network/packets/AddPlayerPacket.cpp
-    client/network/packets/RemoveBlockPacket.cpp
-    client/network/packets/MovePlayerPacket.cpp
-    client/network/packets/MessagePacket.cpp
+    client/renderer/PatchManager.cpp
+    client/renderer/LavaTexture.cpp
+    client/renderer/LavaSideTexture.cpp
+    client/renderer/FireTexture.cpp
+    client/network/Packets/UpdateBlockPacket.cpp
+    client/network/Packets/RequestChunkPacket.cpp
+    client/network/Packets/PlayerEquipmentPacket.cpp
+    client/network/Packets/ChunkDataPacket.cpp
+    client/network/Packets/PlaceBlockPacket.cpp
+    client/network/Packets/LoginPacket.cpp
+    client/network/Packets/StartGamePacket.cpp
+    client/network/Packets/RemoveEntityPacket.cpp
+    client/network/Packets/AddPlayerPacket.cpp
+    client/network/Packets/RemoveBlockPacket.cpp
+    client/network/Packets/MovePlayerPacket.cpp
+    client/network/Packets/MessagePacket.cpp
     client/network/ServerSideNetworkHandler.cpp
     client/network/RakNetInstance.cpp
     client/network/ClientSideNetworkHandler.cpp

@@ -6,8 +6,8 @@
 #include "compat/AKeyCodes.hpp"
 #include "App.hpp"
 #ifdef __EMSCRIPTEN__
-#include "AppPlatform_emscripten.hpp"
-#define APP_PLATFORM_TYPE AppPlatform_enscripten
+#include "../emscripten/AppPlatform_emscripten.hpp"
+#define APP_PLATFORM_TYPE AppPlatform_emscripten
 #else
 #include "AppPlatform_sdl.hpp"
 #define APP_PLATFORM_TYPE AppPlatform_sdl
@@ -277,7 +277,9 @@ int main(int argc, char *argv[])
 	storagePath = getenv("HOME");
 #endif
 	storagePath += "/.reminecraftpe";
+	#ifndef __EMSCRIPTEN__
 	ensure_screenshots_folder(storagePath.c_str());
+	#endif
     
 	// Start MCPE
 	g_pApp = new NinecraftApp;
