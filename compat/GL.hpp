@@ -55,10 +55,20 @@ static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, G
 #endif
 #endif
 
-#define xglBindBuffer glBindBuffer
-#define xglBufferData glBufferData
-#define xglGenBuffers glGenBuffers
-#define xglDeleteBuffers glDeleteBuffers
+#define xglBindBuffer         glBindBuffer
+#define xglBufferData         glBufferData
+#define xglGenBuffers         glGenBuffers
+#define xglDeleteBuffers      glDeleteBuffers
+#define xglEnableClientState  glEnableClientState
+#define xglDisableClientState glDisableClientState
+#define xglTexCoordPointer    glTexCoordPointer
+#define xglColorPointer       glColorPointer
+#define xglVertexPointer      glVertexPointer
+#define xglDrawArrays         glDrawArrays
+
+// Note: don't use xglSwapIntervalEXT if you want vsync, you don't know if it's supported
+// on your platform so you need to query the extension APIs
+
 #ifdef USE_GLES1_COMPATIBILITY_LAYER
 #define xglOrthof glOrthof
 #else
@@ -73,9 +83,16 @@ void drawArrayVTC(GLuint buffer, int count, int stride);
 
 #ifdef USE_OPENGL_2
 
-#define xglBindBuffer glBindBuffer
-#define xglBufferData glBufferData
-#define xglGenBuffers glGenBuffers
+#define xglBindBuffer         glBindBuffer
+#define xglBufferData         glBufferData
+#define xglGenBuffers         glGenBuffers
+#define xglDeleteBuffers      glDeleteBuffers
+#define xglEnableClientState  glEnableClientState
+#define xglDisableClientState glDisableClientState
+#define xglTexCoordPointer    glTexCoordPointer
+#define xglColorPointer       glColorPointer
+#define xglVertexPointer      glVertexPointer
+#define xglDrawArrays         glDrawArrays
 
 #else
 
