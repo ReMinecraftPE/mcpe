@@ -550,7 +550,6 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 			glDepthMask(true);
 			glColorMask(true, true, true, true);
 			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_LIGHTING);
 			glEnable(GL_ALPHA_TEST);
 			glEnable(GL_FOG);
 
