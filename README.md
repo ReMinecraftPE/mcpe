@@ -9,11 +9,24 @@ Its goals are:
 
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within certain versions of the game, such as the 0.1.0 touch prototype/debug build)
 
-Note: The original mcpe01_canada.apk does not work on newer Android devices. A port of this likely will.
+* To port the game to more platforms, such as Windows (including older versions), Linux, WebGL, Android, and macOS. Currently we have ports for:
+	* Windows 10/8/7
+	* Windows XP/Vista
+	* Linux
+	* WebGL
+	* macOS (port by [BrentDaMage](https://github.com/BrentDaMage))
+	* Xbox 360 (incomplete; port by [BrentDaMage](https://github.com/BrentDaMage))
 
-### Planned ports:
-* Raspberry Pi / Linux
-* Android
+**We will not do the following:**
+* Add features added in or after Java Edition Beta 1.8
+
+* Backport features from versions newer than 0.9.0
+
+* Add The Nether or The End (probably)
+
+* Add Herobrine
+
+Note: The original mcpe01_canada.apk does not work on newer Android devices. A port of this likely will.
 
 ### This is the main modded version. For the original decompilation, see [ReMinecraftPE/mcped](https://github.com/ReMinecraftPE/mcped)
 
