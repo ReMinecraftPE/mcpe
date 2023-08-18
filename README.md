@@ -1,8 +1,15 @@
 # ReMinecraftPE
 
 This project aims to create a custom Minecraft experience based on Minecraft: Pocket Edition as of 2011. It's based on the mcpe01_canada.apk build of the game.
-Its goals are similar to [Minecraft Pi](https://minecraft.net/edition/pi) and [ClassiCube](https://github.com/UnknownShadow200/ClassiCube).
-* Note: The original mcpe01_canada.apk does not work on newer Android devices. A port of this likely will.
+
+Its goals are:
+* To add Quality-of-Life features to Minecraft: Pocket Edition, such as a brighter color gamut, an in-game options menu, etc.
+
+* To add features that were in Minecraft Alpha and the early Betas in 2011. (before and during Minecraft PE's development - this excludes hunger, for example, as it was added in Beta 1.8)
+
+* To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within certain versions of the game, such as the 0.1.0 touch prototype/debug build)
+
+Note: The original mcpe01_canada.apk does not work on newer Android devices. A port of this likely will.
 
 ### Planned ports:
 * Raspberry Pi / Linux
@@ -23,7 +30,8 @@ Want to help this project? [Here's a list of things left to do.](TODO.md)
 
 ## DISCLAIMER
 
-This project **requires** you to have a copy of the `mcpe01_canada.apk` (sha256: ``), before you can build.
+This project **requires** you to have a copy of the `mcpe01_canada.apk` (sha256: `74b1d3b51a174c4dcaaa58d2bbdf7a4f4c9cfe5f2aeec4844427c2b8f1124343`), before you can build.
+
 
 ## Setup
 
@@ -38,7 +46,7 @@ After that, **prepare the assets folder** from mcpe01_canada.apk. You will need 
 This is simple enough - just open the project and compile.
 
 After building, place the `assets` folder you have prepared in the working directory of the output executable.
-(if running from VS, it's in `windows_vs/`, otherwise, in `windows_vs/bin/[x64/][Debug/Release]/`.
+(if running from VS, it's in `game/`, otherwise, where your executable is)
 
 ### Windows (VS 2010)
 
