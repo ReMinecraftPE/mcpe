@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "client/common/Random.hpp"
-#include "client/common/AABB.hpp"
+#include "world/phys/AABB.hpp"
 #include "world/level/storage/LevelSource.hpp"
 #include "world/level/Material.hpp"
 #include "world/entity/Entity.hpp"

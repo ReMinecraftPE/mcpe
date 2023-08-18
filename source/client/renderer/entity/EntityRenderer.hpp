@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/common/AABB.hpp"
+#include "world/phys/AABB.hpp"
 #include "client/model/HumanoidModel.hpp"
 #include "client/renderer/Font.hpp"
 

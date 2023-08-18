@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "client/common/AABB.hpp"
-#include "client/common/Vec3.hpp"
+#include "world/phys/Vec3.hpp"
+#include "world/phys/AABB.hpp"
 #include "world/level/Material.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/ItemInstance.hpp"

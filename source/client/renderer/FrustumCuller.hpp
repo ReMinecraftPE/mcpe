@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/common/Vec3.hpp"
+#include "world/phys/Vec3.hpp"
 #include "Culler.hpp"
 #include "Frustum.hpp"
 

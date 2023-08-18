@@ -100,6 +100,9 @@
     <Filter Include="source\world\level\levelgen\synth">
       <UniqueIdentifier>{4bd8c4f7-8db0-4fa2-b674-5cab5bad2d0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\world\phys">
+      <UniqueIdentifier>{235360f7-6b7c-4029-afef-fd6b9898df39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\raknet\ThreadsafePacketLogger.h">
@@ -576,13 +579,7 @@
     <ClInclude Include="..\source\NinecraftApp.hpp">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\AABB.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\client\common\CThread.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\HitResult.hpp">
       <Filter>source\client\common</Filter>
     </ClInclude>
     <ClInclude Include="..\source\client\common\LongHack.hpp">
@@ -607,9 +604,6 @@
       <Filter>source\client\common</Filter>
     </ClInclude>
     <ClInclude Include="..\source\client\common\Utils.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Vec3.hpp">
       <Filter>source\client\common</Filter>
     </ClInclude>
     <ClInclude Include="..\source\client\gui\Gui.hpp">
@@ -1164,6 +1158,15 @@
     <ClInclude Include="..\source\world\level\levelgen\synth\Synth.hpp">
       <Filter>source\world\level\levelgen\synth</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\world\phys\AABB.hpp">
+      <Filter>source\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\phys\HitResult.hpp">
+      <Filter>source\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\phys\Vec3.hpp">
+      <Filter>source\world\phys</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -1508,13 +1511,7 @@
     <ClCompile Include="..\source\NinecraftApp.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\AABB.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\client\common\CThread.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\HitResult.cpp">
       <Filter>source\client\common</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\common\Matrix.cpp">
@@ -1536,9 +1533,6 @@
       <Filter>source\client\common</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\common\Utils.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Vec3.cpp">
       <Filter>source\client\common</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\gui\Gui.cpp">
@@ -2191,6 +2185,15 @@
     </ClCompile>
     <ClCompile Include="..\source\world\level\levelgen\synth\ImprovedNoise.cpp">
       <Filter>source\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\phys\AABB.cpp">
+      <Filter>source\world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\phys\Vec3.cpp">
+      <Filter>source\world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\phys\HitResult.cpp">
+      <Filter>source\world\phys</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

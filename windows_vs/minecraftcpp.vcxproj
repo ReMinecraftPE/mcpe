@@ -34,9 +34,7 @@
     <ClInclude Include="..\platforms\windows\SoundSystemWindows.hpp" />
     <ClInclude Include="..\source\App.hpp" />
     <ClInclude Include="..\source\AppPlatform.hpp" />
-    <ClInclude Include="..\source\client\common\AABB.hpp" />
     <ClInclude Include="..\source\client\common\CThread.hpp" />
-    <ClInclude Include="..\source\client\common\HitResult.hpp" />
     <ClInclude Include="..\source\client\common\LongHack.hpp" />
     <ClInclude Include="..\source\client\common\Matrix.hpp" />
     <ClInclude Include="..\source\client\common\Mth.hpp" />
@@ -45,7 +43,6 @@
     <ClInclude Include="..\source\client\common\Timer.hpp" />
     <ClInclude Include="..\source\client\common\Util.hpp" />
     <ClInclude Include="..\source\client\common\Utils.hpp" />
-    <ClInclude Include="..\source\client\common\Vec3.hpp" />
     <ClInclude Include="..\source\client\gui\components\AvailableGamesList.hpp" />
     <ClInclude Include="..\source\client\gui\components\Button.hpp" />
     <ClInclude Include="..\source\client\gui\components\RolledSelectionList.hpp" />
@@ -178,6 +175,9 @@
     <ClInclude Include="..\source\world\level\TickNextTickData.hpp" />
     <ClInclude Include="..\source\world\particle\Particle.hpp" />
     <ClInclude Include="..\source\world\particle\ParticleEngine.hpp" />
+    <ClInclude Include="..\source\world\phys\AABB.hpp" />
+    <ClInclude Include="..\source\world\phys\HitResult.hpp" />
+    <ClInclude Include="..\source\world\phys\Vec3.hpp" />
     <ClInclude Include="..\source\world\tile\BookshelfTile.hpp" />
     <ClInclude Include="..\source\world\tile\Bush.hpp" />
     <ClInclude Include="..\source\world\tile\ClayTile.hpp" />
@@ -390,9 +390,7 @@
     <ClCompile Include="..\platforms\windows\SoundSystemWindows.cpp" />
     <ClCompile Include="..\source\App.cpp" />
     <ClCompile Include="..\source\AppPlatform.cpp" />
-    <ClCompile Include="..\source\client\common\AABB.cpp" />
     <ClCompile Include="..\source\client\common\CThread.cpp" />
-    <ClCompile Include="..\source\client\common\HitResult.cpp" />
     <ClCompile Include="..\source\client\common\Matrix.cpp" />
     <ClCompile Include="..\source\client\common\Mth.cpp" />
     <ClCompile Include="..\source\client\common\Options.cpp" />
@@ -400,7 +398,6 @@
     <ClCompile Include="..\source\client\common\Timer.cpp" />
     <ClCompile Include="..\source\client\common\Util.cpp" />
     <ClCompile Include="..\source\client\common\Utils.cpp" />
-    <ClCompile Include="..\source\client\common\Vec3.cpp" />
     <ClCompile Include="..\source\client\gui\components\AvailableGamesList.cpp" />
     <ClCompile Include="..\source\client\gui\components\Button.cpp" />
     <ClCompile Include="..\source\client\gui\components\RolledSelectionList.cpp" />
@@ -561,6 +558,9 @@
     <ClCompile Include="..\source\world\particle\RedDustParticle.cpp" />
     <ClCompile Include="..\source\world\particle\SmokeParticle.cpp" />
     <ClCompile Include="..\source\world\particle\TerrainParticle.cpp" />
+    <ClCompile Include="..\source\world\phys\AABB.cpp" />
+    <ClCompile Include="..\source\world\phys\HitResult.cpp" />
+    <ClCompile Include="..\source\world\phys\Vec3.cpp" />
     <ClCompile Include="..\source\world\tile\BookshelfTile.cpp" />
     <ClCompile Include="..\source\world\tile\Bush.cpp" />
     <ClCompile Include="..\source\world\tile\ClayTile.cpp" />

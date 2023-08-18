@@ -11,7 +11,7 @@
 #include <string>
 #include "BitStream.h"
 #include "client/common/Utils.hpp"
-#include "client/common/Vec3.hpp"
+#include "world/phys/Vec3.hpp"
 #include "world/item/Inventory.hpp"
 
 struct PlayerData

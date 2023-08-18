@@ -9,7 +9,7 @@
 #pragma once
 
 #include "client/common/Matrix.hpp"
-#include "client/common/AABB.hpp"
+#include "world/phys/AABB.hpp"
 
 class Frustum
 {

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/common/AABB.hpp"
+#include "world/phys/AABB.hpp"
 
 class Culler
 {
