@@ -97,6 +97,9 @@
     <Filter Include="thirdparty\zlib">
       <UniqueIdentifier>{b413cd08-238d-4e52-90c7-eccb86bc37ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\world\level\levelgen\synth">
+      <UniqueIdentifier>{4bd8c4f7-8db0-4fa2-b674-5cab5bad2d0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\raknet\ThreadsafePacketLogger.h">
@@ -582,9 +585,6 @@
     <ClInclude Include="..\source\client\common\HitResult.hpp">
       <Filter>source\client\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\ImprovedNoise.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\client\common\LongHack.hpp">
       <Filter>source\client\common</Filter>
     </ClInclude>
@@ -597,13 +597,7 @@
     <ClInclude Include="..\source\client\common\Options.hpp">
       <Filter>source\client\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\PerlinNoise.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\client\common\Random.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Synth.hpp">
       <Filter>source\client\common</Filter>
     </ClInclude>
     <ClInclude Include="..\source\client\common\Timer.hpp">
@@ -1161,6 +1155,15 @@
     <ClInclude Include="..\source\client\gui\screens\DeathScreen.hpp">
       <Filter>source\client\gui\screens</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\world\level\levelgen\synth\ImprovedNoise.hpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\level\levelgen\synth\PerlinNoise.hpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\level\levelgen\synth\Synth.hpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -1514,9 +1517,6 @@
     <ClCompile Include="..\source\client\common\HitResult.cpp">
       <Filter>source\client\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\ImprovedNoise.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\client\common\Matrix.cpp">
       <Filter>source\client\common</Filter>
     </ClCompile>
@@ -1526,13 +1526,7 @@
     <ClCompile Include="..\source\client\common\Options.cpp">
       <Filter>source\client\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\PerlinNoise.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\client\common\Random.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Synth.cpp">
       <Filter>source\client\common</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\common\Timer.cpp">
@@ -2188,6 +2182,15 @@
     </ClCompile>
     <ClCompile Include="..\source\client\gui\screens\DeathScreen.cpp">
       <Filter>source\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\level\levelgen\synth\PerlinNoise.cpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\level\levelgen\synth\Synth.cpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\level\levelgen\synth\ImprovedNoise.cpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

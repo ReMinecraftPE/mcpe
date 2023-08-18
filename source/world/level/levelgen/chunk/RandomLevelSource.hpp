@@ -14,8 +14,8 @@
 
 #include <unordered_map>
 #include "ChunkSource.hpp"
-#include "client/common/PerlinNoise.hpp"
 #include "client/common/Utils.hpp"
+#include "world/level/levelgen/synth/PerlinNoise.hpp"
 #include "world/level/levelgen/biome/BiomeSource.hpp"
 #include "world/level/levelgen/feature/Feature.hpp"
 #include "world/level/levelgen/feature/LargeCaveFeature.hpp"
