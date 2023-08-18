@@ -53,6 +53,7 @@ void NinecraftApp::initGLStates()
 	glCullFace(GL_BACK);
 	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+	glDisable(GL_LIGHTING);
 }
 
 int NinecraftApp::getFpsIntlCounter()

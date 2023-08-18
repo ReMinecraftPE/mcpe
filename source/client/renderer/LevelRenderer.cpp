@@ -539,7 +539,6 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 				x3 = m_chunksLength;
 
 			glDisable(GL_TEXTURE_2D);
-			glDisable(GL_LIGHTING);
 			glDisable(GL_ALPHA_TEST);
 			glDisable(GL_FOG);
 			glColorMask(false, false, false, false);
