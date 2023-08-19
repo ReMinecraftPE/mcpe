@@ -399,12 +399,12 @@ void Minecraft::tickInput()
 
 		if (!bIsInGUI && m_options.field_19)
 		{
-			if (Mouse::getEventButton() == Mouse::ButtonType::LEFT && Mouse::getEventButtonState() == Mouse::ButtonState::UP)
+			if (Mouse::getEventButton() == Mouse::ButtonType::LEFT && Mouse::getEventButtonState() == Mouse::ButtonState::DOWN)
 			{
 				handleMouseClick(1);
 				field_DAC = field_DA8;
 			}
-			if (Mouse::getEventButton() == Mouse::ButtonType::RIGHT && Mouse::getEventButtonState() == Mouse::ButtonState::UP)
+			if (Mouse::getEventButton() == Mouse::ButtonType::RIGHT && Mouse::getEventButtonState() == Mouse::ButtonState::DOWN)
 			{
 				handleMouseClick(2);
 				field_DAC = field_DA8;
@@ -506,7 +506,7 @@ void Minecraft::tickInput()
 
 	if (m_options.field_19)
 	{
-		if (!Mouse::isButtonDown(1) || bIsInGUI)
+		if (!Mouse::isButtonDown(Mouse::ButtonType::LEFT) || bIsInGUI)
 			goto label_12;
 	}
 	else if (Keyboard::isKeyDown(m_options.m_keyBinds[Options::DESTROY].value))
