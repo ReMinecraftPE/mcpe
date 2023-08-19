@@ -10,8 +10,6 @@
 
 #include <vector>
 
-#define MOUSE_STATES_SIZE (Mouse::ButtonState::MAX + 1)
-
 struct MouseAction;
 
 class Mouse
@@ -23,15 +21,17 @@ public:
 		LEFT,
 		RIGHT,
 		MIDDLE,
-		_MIN = LEFT,
-		_MAX = MIDDLE
+		COUNT,
+
+		MIN = LEFT,
+		
+		SCROLLWHEEL,
 	};
 
 	enum ButtonState : bool
 	{
 		UP,
 		DOWN,
-		MAX = DOWN // God yes, I love C++. It doesn't let me name this _MAX despite it being in a DIFFERENT ENUM ENTIRELY...
 	};
 
 	static void feed(ButtonType buttonType, ButtonState buttonState, int posX, int posY);
@@ -56,7 +56,7 @@ private:
 	static int _index;
 	static int _x, _y;
 	static int _xOld, _yOld;
-	static ButtonState _buttonStates[MOUSE_STATES_SIZE];
+	static ButtonState _buttonStates[Mouse::ButtonType::COUNT];
 };
 
 struct MouseAction
@@ -69,7 +69,7 @@ struct MouseAction
 	MouseAction()
 	{
 		_buttonType = Mouse::ButtonType::NONE;
-		_buttonState = Mouse::ButtonState::DOWN;
+		_buttonState = Mouse::ButtonState::UP;
 		_posX = 0;
 		_posY = 0;
 	}
@@ -84,7 +84,8 @@ struct MouseAction
 
 	bool isButton()
 	{
-		return _buttonType == Mouse::ButtonType::LEFT ||
+		return
+			_buttonType == Mouse::ButtonType::LEFT ||
 			_buttonType == Mouse::ButtonType::RIGHT ||
 			_buttonType == Mouse::ButtonType::MIDDLE;
 	}

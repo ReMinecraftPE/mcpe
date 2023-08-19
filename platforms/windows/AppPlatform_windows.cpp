@@ -343,8 +343,9 @@ Mouse::ButtonType AppPlatform_windows::GetMouseButtonType(UINT iMsg)
 		return Mouse::ButtonType::RIGHT;
 	case WM_MBUTTONUP:
 	case WM_MBUTTONDOWN:
-	case WM_MOUSEWHEEL:
 		return Mouse::ButtonType::MIDDLE;
+	case WM_MOUSEWHEEL:
+		return Mouse::ButtonType::SCROLLWHEEL;
 	default:
 		return Mouse::ButtonType::NONE;
 	}

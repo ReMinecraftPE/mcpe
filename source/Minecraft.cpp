@@ -399,18 +399,18 @@ void Minecraft::tickInput()
 
 		if (!bIsInGUI && m_options.field_19)
 		{
-			if (Mouse::getEventButton() == 1 && Mouse::getEventButtonState() == 1)
+			if (Mouse::getEventButton() == Mouse::ButtonType::LEFT && Mouse::getEventButtonState() == Mouse::ButtonState::UP)
 			{
 				handleMouseClick(1);
 				field_DAC = field_DA8;
 			}
-			if (Mouse::getEventButton() == 2 && Mouse::getEventButtonState() == 1)
+			if (Mouse::getEventButton() == Mouse::ButtonType::RIGHT && Mouse::getEventButtonState() == Mouse::ButtonState::UP)
 			{
 				handleMouseClick(2);
 				field_DAC = field_DA8;
 			}
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-			if (Mouse::getEventButton() == 3)
+			if (Mouse::getEventButton() == Mouse::ButtonType::SCROLLWHEEL)
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 

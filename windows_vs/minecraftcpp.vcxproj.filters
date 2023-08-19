@@ -100,6 +100,9 @@
     <Filter Include="source\network\packets">
       <UniqueIdentifier>{bebcc3c4-9696-4e08-8967-6ac4e3d5d671}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\platforms\windows">
+      <UniqueIdentifier>{27e531b5-8c5e-4fcc-aa64-b1f364da0746}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\raknet\ThreadsafePacketLogger.h">
@@ -1158,6 +1161,15 @@
     <ClInclude Include="..\source\network\ClientSideNetworkHandler.hpp">
       <Filter>source\network</Filter>
     </ClInclude>
+    <ClInclude Include="..\platforms\windows\SoundSystemWindows.hpp">
+      <Filter>source\platforms\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp">
+      <Filter>source\platforms\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\compat\AKeyCodes.hpp">
+      <Filter>thirdparty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2176,6 +2188,15 @@
     </ClCompile>
     <ClCompile Include="..\source\network\packets\StartGamePacket.cpp">
       <Filter>source\network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platforms\windows\AppPlatform_windows.cpp">
+      <Filter>source\platforms\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platforms\windows\main.cpp">
+      <Filter>source\platforms\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platforms\windows\SoundSystemWindows.cpp">
+      <Filter>source\platforms\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

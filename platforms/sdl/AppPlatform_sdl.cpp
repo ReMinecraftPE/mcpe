@@ -93,18 +93,18 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 {
 	// Check Screenshots Folder
 	struct stat obj;
-	if (stat(screenshots, &obj) != 0 || !S_ISDIR(obj.st_mode))
+	if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
 	{
 		// Create Screenshots Folder
 #ifdef _WIN32
-		int ret = mkdir(screenshots);
+		int ret = mkdir(path);
 #else
-		int ret = mkdir(screenshots, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		int ret = mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif
 		if (ret != 0)
 		{
 			// Unable To Create Folder
-			LogMsg("Error Creating Directory: %s: %s", screenshots, strerror(errno));
+			LogMsg("Error Creating Directory: %s: %s", path, strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -124,7 +124,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	strftime(time, sizeof (time), "%Y-%m-%d_%H.%M.%S", timeinfo);
 
 	// Ensure Screenshots Folder Exists
-	ensure_screenshots_folder(screenshots.c_str());
+	ensureDirectoryExists(screenshots.c_str());
 
 	// Prevent Overwriting Screenshots
 	int num = 1;
