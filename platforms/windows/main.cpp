@@ -16,8 +16,10 @@
 #include "AppPlatform_windows.hpp"
 #include "NinecraftApp.hpp"
 
-LPCTSTR g_GameTitle = TEXT("ReMinecraftPE");
 LPCTSTR g_WindowClassName = TEXT("MCPEClass");
+
+AppPlatform_windows g_AppPlatform;
+NinecraftApp* g_pApp;
 
 void LogMsg(const char* fmt, ...)
 {
@@ -58,18 +60,6 @@ void LogMsgNoCR(const char* fmt, ...)
 	va_end(lst);
 }
 
-AppPlatform_windows g_AppPlatform;
-NinecraftApp* g_pApp;
-
-bool g_LButtonDown, g_RButtonDown;
-int g_MousePosX, g_MousePosY;
-
-void UpdateMouse()
-{
-	Mouse::setX(g_MousePosX);
-	Mouse::setY(g_MousePosY);
-}
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
@@ -85,69 +75,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		}
 
 		case WM_LBUTTONUP:
-		{
-			if (g_LButtonDown)
-			{
-				g_LButtonDown = false;
-				UpdateMouse();
-
-				Mouse::feed(1, 0, g_MousePosX, g_MousePosY);
-			}
-			break;
-		}
 		case WM_LBUTTONDOWN:
-		{
-			if (!g_LButtonDown)
-			{
-				g_LButtonDown = true;
-				UpdateMouse();
-
-				Mouse::feed(1, 1, g_MousePosX, g_MousePosY);
-			}
-			break;
-		}
 		case WM_RBUTTONUP:
-		{
-			if (g_RButtonDown)
-			{
-				g_RButtonDown = false;
-				UpdateMouse();
-
-				Mouse::feed(2, 0, g_MousePosX, g_MousePosY);
-			}
-			break;
-		}
 		case WM_RBUTTONDOWN:
-		{
-			if (!g_RButtonDown)
-			{
-				g_RButtonDown = true;
-				UpdateMouse();
-
-				Mouse::feed(2, 1, g_MousePosX, g_MousePosY);
-			}
-			break;
-		}
+		case WM_MBUTTONUP:
+		case WM_MBUTTONDOWN:
 		case WM_MOUSEMOVE:
+		case WM_MOUSEWHEEL:
 		{
-			int xPos = GET_X_LPARAM(lParam);
-			int yPos = GET_Y_LPARAM(lParam);
-
-			g_MousePosX = xPos;
-			g_MousePosY = yPos;
-
-			UpdateMouse();
-
-			Mouse::feed(0, 0, g_MousePosX, g_MousePosY);
-
+			Mouse::ButtonType buttonType = AppPlatform_windows::GetMouseButtonType(iMsg);
+			Mouse::ButtonState buttonState = AppPlatform_windows::GetMouseButtonState(iMsg, wParam);
+			int posX, posY;
+			if (iMsg == WM_MOUSEMOVE)
+			{
+				posX = GET_X_LPARAM(lParam);
+				posY = GET_Y_LPARAM(lParam);
+			}
+			else
+			{
+				posX = Mouse::getX();
+				posY = Mouse::getY();
+			}
+			Mouse::feed(buttonType, buttonState, posX, posY);
 			break;
 		}
-#ifdef ENH_ALLOW_SCROLL_WHEEL
-		case WM_MOUSEWHEEL:
-			Mouse::feed(3, GET_WHEEL_DELTA_WPARAM(wParam), g_MousePosX, g_MousePosY);
 
-			break;
-#endif
 		case WM_SIZE:
 		{
 			UINT width = LOWORD(lParam);
@@ -164,24 +116,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
+
+
+		case WM_KEYUP:
 		case WM_KEYDOWN:
 		{
-			Keyboard::feed(1, int(wParam));
-			
+			Keyboard::KeyState state = AppPlatform_windows::GetKeyState(iMsg);
+			Keyboard::feed(state, int(wParam));
+
 			if (wParam == VK_SHIFT)
-				g_AppPlatform.setShiftPressed(true);
+				g_AppPlatform.setShiftPressed(state == Keyboard::KeyState::DOWN);
 
 			break;
 		}
-		case WM_KEYUP:
-		{
-			Keyboard::feed(0, int(wParam));
 
-			if (wParam == VK_SHIFT)
-				g_AppPlatform.setShiftPressed(false);
-
-			break;
-		}
 		case WM_CHAR:
 		{
 			if (lParam & (1 << 31))
@@ -193,6 +141,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			g_pApp->handleCharInput(char(wParam));
 			break;
 		}
+
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
@@ -205,6 +154,7 @@ extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 
 void CheckOptionalTextureAvailability()
 {
+	// TODO: These should be inside of an initialized "Minecraft" instance rather than the global namespace
 	// Optional features that you really should be able to get away with not including.
 	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
 	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
@@ -213,8 +163,6 @@ void CheckOptionalTextureAvailability()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
 	SetInstance(hInstance);
-
-	g_AppPlatform.initConsts();
 
 	// register the window class:
 	WNDCLASS wc;
@@ -238,11 +186,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 
 	if (!RegisterClass(&wc))
 	{
-		MessageBox(NULL, TEXT("Could not register Minecraft class"), g_GameTitle, MB_ICONERROR | MB_OK);
+		MessageBox(NULL, TEXT("Could not register Minecraft class"), g_AppPlatform.getWindowTitle(), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 
-	HWND hWnd = CreateWindowEx(0, g_WindowClassName, g_GameTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w, h, NULL, NULL, hInstance, g_pApp);
+	HWND hWnd = CreateWindowEx(0, g_WindowClassName, g_AppPlatform.getWindowTitle(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w, h, NULL, NULL, hInstance, g_pApp);
 
 	CenterWindow(hWnd);
 	ShowWindow(hWnd, nCmdShow);

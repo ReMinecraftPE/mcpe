@@ -8,35 +8,31 @@
 
 #pragma once
 
-#include "compat/GL.hpp"
 #include <ctime>
+
+#include "compat/GL.hpp"
 #include "AppPlatform.hpp"
+
+#include "client/player/input/Mouse.hpp"
+#include "client/player/input/Keyboard.hpp"
 #include "common/Utils.hpp"
-
-#ifdef ORIGINAL_CODE
-#error "This isn't original code. You probably shouldn't try to compile this"
-#endif
-
-// note: probably won't add AppPlatform_android until it's time
-// to build an Android app
 
 class AppPlatform_windows : public AppPlatform
 {
 public:
 	AppPlatform_windows();
-	void initConsts();
 	void buyGame() override;
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
 	int checkLicense() override;
 	void createUserInput() override;
-	std::vector<std::string> getUserInput() override;
-	int getUserInputStatus() override;
-	int getScreenWidth() const override;
-	int getScreenHeight() const override;
+	std::vector<std::string> getUserInput() override { return m_UserInput; }
+	int getUserInputStatus() override { return m_UserInputStatus; }
+	int getScreenWidth() const override { return m_ScreenWidth; }
+	int getScreenHeight() const override { return m_ScreenHeight; }
 	void showDialog(eDialogType) override;
 	std::string getDateString(int time) override;
 	Texture loadTexture(const std::string& str, bool b) override;
-	std::vector<std::string>  getOptionStrings() override;
+	std::vector<std::string> getOptionStrings() override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;
@@ -46,8 +42,8 @@ public:
 	void updateFocused(bool focused) override;
 
 	// Also add these to allow proper text input within the game.
-	bool shiftPressed() override;
-	void setShiftPressed(bool b);
+	bool shiftPressed() override { return m_bShiftPressed; }
+	void setShiftPressed(bool b) { m_bShiftPressed = b; }
 	
 	// Also add these to allow saving options.
 	void setOptionStrings(const std::vector <std::string>& str) override;
@@ -56,8 +52,14 @@ public:
 	std::string getPatchData() override;
 
 	void setScreenSize(int width, int height);
+	const char* const getWindowTitle() const { return m_WindowTitle; }
+
+	static Mouse::ButtonType GetMouseButtonType(UINT iMsg);
+	static Mouse::ButtonState GetMouseButtonState(UINT iMsg, WPARAM wParam);
+	static Keyboard::KeyState GetKeyState(UINT iMsg);
 
 private:
+	const char* m_WindowTitle;
 	int m_ScreenWidth;
 	int m_ScreenHeight;
 

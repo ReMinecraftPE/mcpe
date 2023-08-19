@@ -130,6 +130,7 @@ static const char* g_panoramaList[] =
 };
 
 static float g_panoramaAngle = 0.0f;
+// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
 bool g_bIsMenuBackgroundAvailable = false;
 
 void Screen::renderMenuBackground(float f)
@@ -328,9 +329,9 @@ void Screen::mouseEvent()
 	if (pAction->isButton())
 	{
 		if (Mouse::getEventButtonState())
-			mouseClicked (m_width * pAction->field_8 / Minecraft::width, m_height * pAction->field_C / Minecraft::height - 1, Mouse::getEventButton());
+			mouseClicked (m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1, Mouse::getEventButton());
 		else
-			mouseReleased(m_width * pAction->field_8 / Minecraft::width, m_height * pAction->field_C / Minecraft::height - 1, Mouse::getEventButton());
+			mouseReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1, Mouse::getEventButton());
 	}
 }
 

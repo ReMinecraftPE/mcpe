@@ -12,9 +12,9 @@
 
 std::vector<KeyboardAction> Keyboard::_inputs;
 int Keyboard::_index = -1;
-int Keyboard::_states[KEYBOARD_STATES_SIZE];
+Keyboard::KeyState Keyboard::_states[KEYBOARD_STATES_SIZE];
 
-void Keyboard::feed(int down, int key)
+void Keyboard::feed(KeyState state, int key)
 {
 #ifndef ORIGINAL_CODE
 	// Prevent Crashes
@@ -23,9 +23,9 @@ void Keyboard::feed(int down, int key)
 	}
 #endif
 
-	_inputs.push_back(KeyboardAction(key, down));
+	_inputs.push_back(KeyboardAction(key, state));
 
-	_states[key] = down;
+	_states[key] = state;
 }
 
 bool Keyboard::next()
@@ -39,12 +39,12 @@ bool Keyboard::next()
 
 int Keyboard::getEventKey()
 {
-	return _inputs[_index].field_4;
+	return _inputs[_index]._keyCode;
 }
 
 int Keyboard::getEventKeyState()
 {
-	return _inputs[_index].field_0;
+	return _inputs[_index]._keyState;
 }
 
 bool Keyboard::isKeyDown(int keyCode)
@@ -52,7 +52,7 @@ bool Keyboard::isKeyDown(int keyCode)
 	if (keyCode < 0 || keyCode >= KEYBOARD_STATES_SIZE)
 		return false;
 
-	return _states[keyCode] == 1;
+	return _states[keyCode] == KeyState::DOWN;
 }
 
 void Keyboard::reset()

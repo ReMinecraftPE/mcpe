@@ -8,80 +8,7 @@
 
 #pragma once
 
-#ifdef _WIN32
-
-#define NOMINMAX
-#ifdef _XBOX
-#include <xtl.h>
-#else
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#endif
-
-enum
-{
-	//fake keycodes for windows
-	AKEYCODE_UNKNOWN = 0,
-
-	AKEYCODE_MENU = VK_ESCAPE, // pause screen
-	AKEYCODE_SEARCH = VK_F5, // toggle third person mode
-
-	AKEYCODE_BACK     = 'Y', // used to go left  1 slot
-	AKEYCODE_BUTTON_X = 'U', // used to go right 1 slot
-	AKEYCODE_BUTTON_Y = 'E', // show inventory
-
-	AKEYCODE_DPAD_UP     = 'W',
-	AKEYCODE_DPAD_DOWN   = 'S',
-	AKEYCODE_DPAD_LEFT   = 'A',
-	AKEYCODE_DPAD_RIGHT  = 'D',
-	AKEYCODE_DPAD_CENTER = ' ',
-
-	AKEYCODE_BUTTON_L1 = 'X',
-	AKEYCODE_BUTTON_R1 = 'C',
-
-	AKEYCODE_SHIFT_LEFT  = VK_SHIFT,
-	AKEYCODE_SHIFT_RIGHT = VK_SHIFT,
-
-	AKEYCODE_DEL = VK_BACK,
-	AKEYCODE_FORWARD_DEL = VK_DELETE,
-
-	AKEYCODE_COMMA  = VK_OEM_COMMA, // ',<'
-	AKEYCODE_PERIOD = VK_OEM_PERIOD,// '.>'
-	AKEYCODE_PLUS   = VK_OEM_PLUS,  // '=+'
-	AKEYCODE_MINUS  = VK_OEM_MINUS, // '-_'
-	AKEYCODE_SEMICOLON = VK_OEM_1,  // ';:'
-	AKEYCODE_SLASH     = VK_OEM_2,  // '/?'
-	AKEYCODE_GRAVE     = VK_OEM_3,  // '`~'
-	AKEYCODE_LEFT_BRACKET=VK_OEM_4, // '[{'
-	AKEYCODE_BACKSLASH = VK_OEM_5,  // '\|'
-	AKEYCODE_RIGHT_BRACKET=VK_OEM_6,// ']}'
-	AKEYCODE_APOSTROPHE = VK_OEM_7, // ''"'
-	AKEYCODE_SPACE = VK_SPACE,
-
-	AKEYCODE_F3 = VK_F3,
-	AKEYCODE_F4 = VK_F4,
-
-	AKEYCODE_0 = '0',
-	AKEYCODE_1 = '1',
-	//...
-	AKEYCODE_9 = '9',
-
-	AKEYCODE_ENTER = VK_RETURN,
-
-	// note: You have to add these here instead of using the
-	// characters themselves, otherwise android won't pick it up
-	AKEYCODE_A = 'A',
-	AKEYCODE_Q = 'Q',
-	AKEYCODE_T = 'T',
-	AKEYCODE_Z = 'Z',
-
-};
-
-// this sucks
-#define AKEYCODE_ARROW_LEFT  VK_LEFT
-#define AKEYCODE_ARROW_RIGHT VK_RIGHT
-
-#elif defined(USE_SDL)
+#if defined(USE_SDL)
 
 #include <SDL2/SDL.h>
 
@@ -187,6 +114,79 @@ static inline int translate_sdl_key_to_mcpe(int key) {
 		default: return AKEYCODE_UNKNOWN;
 	}
 }
+
+#elif defined(_WIN32)
+
+#define NOMINMAX
+#ifdef _XBOX
+#include <xtl.h>
+#else
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#endif
+
+enum
+{
+	//fake keycodes for windows
+	AKEYCODE_UNKNOWN = 0,
+
+	AKEYCODE_MENU = VK_ESCAPE, // pause screen
+	AKEYCODE_SEARCH = VK_F5, // toggle third person mode
+
+	AKEYCODE_BACK = 'Y', // used to go left  1 slot
+	AKEYCODE_BUTTON_X = 'U', // used to go right 1 slot
+	AKEYCODE_BUTTON_Y = 'E', // show inventory
+
+	AKEYCODE_DPAD_UP = 'W',
+	AKEYCODE_DPAD_DOWN = 'S',
+	AKEYCODE_DPAD_LEFT = 'A',
+	AKEYCODE_DPAD_RIGHT = 'D',
+	AKEYCODE_DPAD_CENTER = ' ',
+
+	AKEYCODE_BUTTON_L1 = 'X',
+	AKEYCODE_BUTTON_R1 = 'C',
+
+	AKEYCODE_SHIFT_LEFT = VK_SHIFT,
+	AKEYCODE_SHIFT_RIGHT = VK_SHIFT,
+
+	AKEYCODE_DEL = VK_BACK,
+	AKEYCODE_FORWARD_DEL = VK_DELETE,
+
+	AKEYCODE_COMMA = VK_OEM_COMMA, // ',<'
+	AKEYCODE_PERIOD = VK_OEM_PERIOD,// '.>'
+	AKEYCODE_PLUS = VK_OEM_PLUS,  // '=+'
+	AKEYCODE_MINUS = VK_OEM_MINUS, // '-_'
+	AKEYCODE_SEMICOLON = VK_OEM_1,  // ';:'
+	AKEYCODE_SLASH = VK_OEM_2,  // '/?'
+	AKEYCODE_GRAVE = VK_OEM_3,  // '`~'
+	AKEYCODE_LEFT_BRACKET = VK_OEM_4, // '[{'
+	AKEYCODE_BACKSLASH = VK_OEM_5,  // '\|'
+	AKEYCODE_RIGHT_BRACKET = VK_OEM_6,// ']}'
+	AKEYCODE_APOSTROPHE = VK_OEM_7, // ''"'
+	AKEYCODE_SPACE = VK_SPACE,
+
+	AKEYCODE_F3 = VK_F3,
+	AKEYCODE_F4 = VK_F4,
+
+	AKEYCODE_0 = '0',
+	AKEYCODE_1 = '1',
+	//...
+	AKEYCODE_9 = '9',
+
+	AKEYCODE_ENTER = VK_RETURN,
+
+	// note: You have to add these here instead of using the
+	// characters themselves, otherwise android won't pick it up
+	AKEYCODE_A = 'A',
+	AKEYCODE_Q = 'Q',
+	AKEYCODE_T = 'T',
+	AKEYCODE_Z = 'Z',
+
+};
+
+// this sucks
+#define AKEYCODE_ARROW_LEFT  VK_LEFT
+#define AKEYCODE_ARROW_RIGHT VK_RIGHT
 
 #elif defined(PLATFORM_ANDROID)
 

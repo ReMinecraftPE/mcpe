@@ -10,46 +10,39 @@
 
 #include <vector>
 
-struct MouseAction
-{
-	int field_0;
-	int field_4;
-	int field_8;
-	int field_C;
+#define MOUSE_STATES_SIZE (Mouse::ButtonState::MAX + 1)
 
-	MouseAction()
-	{
-		field_0 = 0;
-		field_4 = 0;
-		field_8 = 0;
-		field_C = 0;
-	}
-	MouseAction(int x1, int x2, int x3, int x4)
-	{
-		field_0 = x1;
-		field_4 = x2;
-		field_8 = x3;
-		field_C = x4;
-	}
-
-	bool isButton()
-	{
-		return field_0 == 1 || field_0 == 2;
-	}
-};
+struct MouseAction;
 
 class Mouse
 {
 public:
-	static void feed(int, int, int, int);
+	enum ButtonType
+	{
+		NONE,
+		LEFT,
+		RIGHT,
+		MIDDLE,
+		_MIN = LEFT,
+		_MAX = MIDDLE
+	};
+
+	enum ButtonState : bool
+	{
+		UP,
+		DOWN,
+		MAX = DOWN // God yes, I love C++. It doesn't let me name this _MAX despite it being in a DIFFERENT ENUM ENTIRELY...
+	};
+
+	static void feed(ButtonType buttonType, ButtonState buttonState, int posX, int posY);
 
 	static short getX();
 	static short getY();
 	static bool  next();
 	static bool  isButtonDown(int btn);
-	static int   getButtonState(int btn);
-	static int   getEventButton();
-	static int   getEventButtonState();
+	static ButtonState getButtonState(ButtonType btn);
+	static ButtonType getEventButton();
+	static ButtonState getEventButtonState();
 	static MouseAction* getEvent();
 	static void  setX(int x);
 	static void  setY(int y);
@@ -63,6 +56,36 @@ private:
 	static int _index;
 	static int _x, _y;
 	static int _xOld, _yOld;
-	static int _buttonStates[3];
+	static ButtonState _buttonStates[MOUSE_STATES_SIZE];
 };
 
+struct MouseAction
+{
+	Mouse::ButtonType _buttonType;
+	Mouse::ButtonState _buttonState;
+	int _posX;
+	int _posY;
+
+	MouseAction()
+	{
+		_buttonType = Mouse::ButtonType::NONE;
+		_buttonState = Mouse::ButtonState::DOWN;
+		_posX = 0;
+		_posY = 0;
+	}
+
+	MouseAction(Mouse::ButtonType buttonType, Mouse::ButtonState buttonState, int posX, int posY)
+	{
+		_buttonType = buttonType;
+		_buttonState = buttonState;
+		_posX = posX;
+		_posY = posY;
+	}
+
+	bool isButton()
+	{
+		return _buttonType == Mouse::ButtonType::LEFT ||
+			_buttonType == Mouse::ButtonType::RIGHT ||
+			_buttonType == Mouse::ButtonType::MIDDLE;
+	}
+};

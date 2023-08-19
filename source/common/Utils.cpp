@@ -39,7 +39,7 @@
 
 int g_TimeSecondsOnInit = 0;
 
-#ifndef USE_SDL
+#if !defined(USE_SDL) || defined(_WIN32)
 
 DIR* opendir(const char* name)
 {

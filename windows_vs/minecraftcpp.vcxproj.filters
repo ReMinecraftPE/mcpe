@@ -79,9 +79,6 @@
     <Filter Include="source\platforms">
       <UniqueIdentifier>{31101b35-f1ce-490e-a6b9-a5a1fab80b27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\platforms\windows">
-      <UniqueIdentifier>{4cc1a780-f0a9-41b1-bee2-dc28f00fb958}</UniqueIdentifier>
-    </Filter>
     <Filter Include="source\platforms\openal">
       <UniqueIdentifier>{cc57a0f6-733d-44fa-8478-b1826b074d66}</UniqueIdentifier>
     </Filter>
@@ -923,12 +920,6 @@
     </ClInclude>
     <ClInclude Include="..\source\world\level\levelgen\biome\BiomeSource.hpp">
       <Filter>source\world\level\levelgen\biome</Filter>
-    </ClInclude>
-    <ClInclude Include="..\platforms\windows\AppPlatform_windows.hpp">
-      <Filter>source\platforms\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\platforms\windows\SoundSystemWindows.hpp">
-      <Filter>source\platforms\windows</Filter>
     </ClInclude>
     <ClInclude Include="..\platforms\PlatformDefinitions.hpp">
       <Filter>source\platforms</Filter>
@@ -2017,15 +2008,6 @@
     </ClCompile>
     <ClCompile Include="..\source\world\level\levelgen\biome\Biome.cpp">
       <Filter>source\world\level\levelgen\biome</Filter>
-    </ClCompile>
-    <ClCompile Include="..\platforms\windows\main.cpp">
-      <Filter>source\platforms\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\platforms\windows\SoundSystemWindows.cpp">
-      <Filter>source\platforms\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\platforms\windows\AppPlatform_windows.cpp">
-      <Filter>source\platforms\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\stb_image_impl.c">
       <Filter>thirdparty</Filter>

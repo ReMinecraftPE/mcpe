@@ -1,16 +1,12 @@
 #pragma once
 
 #include <string>
-
 #include <SDL2/SDL.h>
 
 #include "AppPlatform.hpp"
 
-#ifdef ORIGINAL_CODE
-#error "This isn't original code. You probably shouldn't try to compile this"
-#endif
-
-void ensure_screenshots_folder(const char *screenshots);
+#include "client/player/input/Mouse.hpp"
+#include "client/player/input/Keyboard.hpp"
 
 class AppPlatform_sdlbase : public AppPlatform
 {
@@ -28,6 +24,7 @@ public:
     ~AppPlatform_sdlbase();
 
 	int checkLicense() override;
+	const char* const getWindowTitle() const;
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool b = false) override = 0;
@@ -42,6 +39,10 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
+
+	static Mouse::ButtonType GetMouseButtonType(SDL_Event event);
+	static Mouse::ButtonState GetMouseButtonState(SDL_Event event);
+	static Keyboard::KeyState GetKeyState(SDL_Event event);
 private:
 	SDL_Window *_window;
     
@@ -56,4 +57,6 @@ private:
     static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:
     std::string _storageDir;
+
+	virtual void ensureDirectoryExists(const char* path) { }
 };

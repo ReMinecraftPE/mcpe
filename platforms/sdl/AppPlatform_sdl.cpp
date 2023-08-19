@@ -13,28 +13,6 @@ AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 {
 }
 
-// Ensure Screenshots Folder Exists
-void ensure_screenshots_folder(const char *screenshots)
-{
-	// Check Screenshots Folder
-	struct stat obj;
-	if (stat(screenshots, &obj) != 0 || !S_ISDIR(obj.st_mode))
-	{
-		// Create Screenshots Folder
-#ifdef _WIN32
-		int ret = mkdir(screenshots);
-#else
-		int ret = mkdir(screenshots, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-#endif
-		if (ret != 0)
-		{
-			// Unable To Create Folder
-			LogMsg("Error Creating Directory: %s: %s", screenshots, strerror(errno));
-			exit(EXIT_FAILURE);
-		}
-	}
-}
-
 // Take Screenshot
 static int save_png(const char *filename, unsigned char *pixels, int line_size, int width, int height)
 {
@@ -108,6 +86,28 @@ ret:
 
 	// Return
 	return ret;
+}
+
+// Ensure Screenshots Folder Exists
+void AppPlatform_sdl::ensureDirectoryExists(const char* path)
+{
+	// Check Screenshots Folder
+	struct stat obj;
+	if (stat(screenshots, &obj) != 0 || !S_ISDIR(obj.st_mode))
+	{
+		// Create Screenshots Folder
+#ifdef _WIN32
+		int ret = mkdir(screenshots);
+#else
+		int ret = mkdir(screenshots, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+#endif
+		if (ret != 0)
+		{
+			// Unable To Create Folder
+			LogMsg("Error Creating Directory: %s: %s", screenshots, strerror(errno));
+			exit(EXIT_FAILURE);
+		}
+	}
 }
 
 void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, int glHeight)

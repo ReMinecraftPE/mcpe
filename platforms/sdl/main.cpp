@@ -3,15 +3,16 @@
 #include <SDL2/SDL.h>
 
 #include "compat/GL.hpp"
-#include "compat/AKeyCodes.hpp"
 #include "App.hpp"
-#ifdef __EMSCRIPTEN__
+
+#if	  defined(__EMSCRIPTEN__)
 #include "../emscripten/AppPlatform_emscripten.hpp"
 typedef AppPlatform_emscripten UsedAppPlatform;
 #else
 #include "AppPlatform_sdl.hpp"
 typedef AppPlatform_sdl UsedAppPlatform;
 #endif
+
 #include "NinecraftApp.hpp"
 
 #ifdef __EMSCRIPTEN__
@@ -82,6 +83,7 @@ static void handle_events()
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 			{
+				// TODO: Shouldn't we be handling this in Keyboard?
 				if (event.key.keysym.sym == SDLK_F2)
 				{
 					if (event.key.state == SDL_PRESSED && g_pAppPlatform != nullptr)
@@ -90,7 +92,7 @@ static void handle_events()
 					}
 					break;
 				}
-				Keyboard::feed(event.key.state == SDL_PRESSED ? 1 : 0, translate_sdl_key_to_mcpe(event.key.keysym.sym));
+				Keyboard::feed(AppPlatform_sdlbase::GetKeyState(event), translate_sdl_key_to_mcpe(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
 					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
@@ -100,8 +102,8 @@ static void handle_events()
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
-                float scale = g_fPointToPixelScale;
-				Mouse::feed(event.button.button == SDL_BUTTON_LEFT ? 1 : 2, event.button.state == SDL_PRESSED ? 1 : 0, event.button.x * scale, event.button.y * scale);
+				const float scale = g_fPointToPixelScale;
+				Mouse::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
 				break;
 			}
 			case SDL_MOUSEMOTION:
@@ -109,14 +111,13 @@ static void handle_events()
                 float scale = g_fPointToPixelScale;
                 float x = event.motion.x * scale;
                 float y = event.motion.y * scale;
-                Mouse::setX(x); Mouse::setY(y);
-				Mouse::feed(0, 0, x, y);
-				g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
+				Mouse::feed(Mouse::ButtonType::NONE, Mouse::ButtonState::UP, x, y);
+				g_AppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				break;
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(3, event.wheel.y * g_fPointToPixelScale, Mouse::getX(), Mouse::getY());
+				Mouse::feed(Mouse::ButtonType::MIDDLE, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:
@@ -308,9 +309,6 @@ int main(int argc, char *argv[])
 	storagePath = getenv("HOME");
 #endif
 	storagePath += "/.reminecraftpe";
-	#ifndef __EMSCRIPTEN__
-	ensure_screenshots_folder(storagePath.c_str());
-	#endif
     
 	// Start MCPE
 	g_pApp = new NinecraftApp;
