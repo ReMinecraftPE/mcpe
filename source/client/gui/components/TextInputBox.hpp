@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../GuiComponent.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 class Minecraft;
 

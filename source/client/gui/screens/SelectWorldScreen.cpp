@@ -11,7 +11,7 @@
 #include "CreateWorldScreen.hpp"
 #include "ProgressScreen.hpp"
 #include "StartMenuScreen.hpp"
-#include "client/common/Util.hpp"
+#include "common/Util.hpp"
 
 SelectWorldScreen::SelectWorldScreen() :
 	m_btnDelete   (1, "Delete"),

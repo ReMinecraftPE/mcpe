@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "ImprovedNoise.hpp"
-#include "client/common/Mth.hpp"
+#include "common/Mth.hpp"
 
 ImprovedNoise::ImprovedNoise()
 {

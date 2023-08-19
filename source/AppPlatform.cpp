@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "AppPlatform.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 void AppPlatform::_tick()
 {

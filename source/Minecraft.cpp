@@ -12,8 +12,8 @@
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
 #include "client/gui/screens/SavingWorldScreen.hpp"
 #include "client/gui/screens/DeathScreen.hpp"
-#include "client/network/ServerSideNetworkHandler.hpp"
-#include "client/network/ClientSideNetworkHandler.hpp"
+#include "network/ServerSideNetworkHandler.hpp"
+#include "network/ClientSideNetworkHandler.hpp"
 
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"

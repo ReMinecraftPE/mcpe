@@ -11,7 +11,7 @@
 #include "compat/GL.hpp"
 #include <ctime>
 #include "AppPlatform.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 #ifdef ORIGINAL_CODE
 #error "This isn't original code. You probably shouldn't try to compile this"

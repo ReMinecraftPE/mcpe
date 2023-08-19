@@ -96,7 +96,7 @@ void drawArrayVTC(GLuint buffer, int count, int stride);
 
 #else
 
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glext.h> // it'll include from a different dir, namely thirdparty/GL/glext.h

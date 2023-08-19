@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "WorldSelectionList.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 static float WorldSelectionList_Static1(float a, float b, float c, float d)
 {

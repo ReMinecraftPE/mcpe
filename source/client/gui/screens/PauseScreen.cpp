@@ -8,7 +8,7 @@
 
 #include "PauseScreen.hpp"
 #include "OptionsScreen.hpp"
-#include "client/network/ServerSideNetworkHandler.hpp"
+#include "network/ServerSideNetworkHandler.hpp"
 
 PauseScreen::PauseScreen() :
 	field_3C(0),

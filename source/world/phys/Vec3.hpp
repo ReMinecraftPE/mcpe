@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/common/Mth.hpp"
+#include "common/Mth.hpp"
 
 class Vec3
 {

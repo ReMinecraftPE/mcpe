@@ -1,6 +1,6 @@
 #pragma once
 
-#include "client/common/Random.hpp"
+#include "common/Random.hpp"
 #include "world/level/Level.hpp"
 
 class LargeFeature

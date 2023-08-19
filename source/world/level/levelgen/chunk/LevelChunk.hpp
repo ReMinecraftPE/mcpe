@@ -11,7 +11,7 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 #include "client/renderer/LightLayer.hpp"
 #include "world/phys/AABB.hpp"
 

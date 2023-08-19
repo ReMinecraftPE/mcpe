@@ -1,7 +1,7 @@
 #ifdef USE_OPENAL
 #include "SoundSystemAL.hpp"
 
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 SoundSystemAL::SoundSystemAL()
 {

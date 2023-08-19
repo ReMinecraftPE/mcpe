@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Textures.hpp"
-#include "client/common/Random.hpp"
+#include "common/Random.hpp"
 class Textures; // in case we are being included from Textures. We don't need a complete type
 
 // Essentially, the way these work is by patching themselves into terrain.png with a

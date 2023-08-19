@@ -8,7 +8,7 @@
 
 #include "Tesselator.hpp"
 #include "compat/GL.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 #include <cstddef>
 

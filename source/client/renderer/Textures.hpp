@@ -10,7 +10,7 @@
 #include <map>
 
 #include "compat/GL.hpp"
-#include "client/common/Options.hpp"
+#include "common/Options.hpp"
 #include "AppPlatform.hpp"
 #include "DynamicTexture.hpp"
 

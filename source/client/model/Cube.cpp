@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Cube.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 const float Cube::c = 180.0f / float(M_PI);
 

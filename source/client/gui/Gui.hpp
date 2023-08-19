@@ -10,8 +10,8 @@
 
 #include "GuiComponent.hpp"
 #include "Minecraft.hpp"
-#include "client/common/Random.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Random.hpp"
+#include "common/Utils.hpp"
 
 class Minecraft; // in case we're included from Minecraft.hpp
 

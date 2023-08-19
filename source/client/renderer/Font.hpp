@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Textures.hpp"
-#include "client/common/Options.hpp"
+#include "common/Options.hpp"
 
 class Font
 {

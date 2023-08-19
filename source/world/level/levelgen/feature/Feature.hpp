@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/common/Random.hpp"
+#include "common/Random.hpp"
 
 class Level;
 

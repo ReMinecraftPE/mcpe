@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-#include "client/common/Random.hpp"
+#include "common/Random.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/level/storage/LevelSource.hpp"
 #include "world/level/Material.hpp"

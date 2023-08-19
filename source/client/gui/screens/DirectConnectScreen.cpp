@@ -9,7 +9,7 @@
 #include "DirectConnectScreen.hpp"
 #include "ProgressScreen.hpp"
 #include "JoinGameScreen.hpp"
-#include "client/common/Util.hpp"
+#include "common/Util.hpp"
 
 DirectConnectScreen::DirectConnectScreen() :
 	m_textAddress(1, 0, 0, 0, 0, "Server address"),

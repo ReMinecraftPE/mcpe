@@ -9,7 +9,7 @@
 #include "Level.hpp"
 
 #include <algorithm>
-#include "client/common/Util.hpp"
+#include "common/Util.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "Explosion.hpp"
 #include "Region.hpp"

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/common/Random.hpp"
+#include "common/Random.hpp"
 #include "Synth.hpp"
 
 // note: appears to maybe inherit from a class called Synth?

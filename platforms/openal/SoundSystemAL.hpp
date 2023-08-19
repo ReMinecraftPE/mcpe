@@ -19,7 +19,7 @@
 #include <unordered_map>
 
 #include "client/sound/SoundSystem.hpp"
-#include <client/common/Vec3.hpp>
+#include <common/Vec3.hpp>
 
 #define MAX_IDLE_SOURCES 50
 #define MAX_DISTANCE 16.0f

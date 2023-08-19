@@ -9,7 +9,7 @@
 #pragma once
 
 #include <string>
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 #include "world/level/Material.hpp"
 #include "ItemInstance.hpp"
 

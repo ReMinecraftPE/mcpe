@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 #include "ITurnInput.hpp"
 
 float ITurnInput::getDeltaTime()

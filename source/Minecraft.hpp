@@ -9,13 +9,13 @@
 #pragma once
 
 #include "App.hpp"
-#include "client/common/CThread.hpp"
-#include "client/common/Mth.hpp"
-#include "client/common/Timer.hpp"
+#include "common/CThread.hpp"
+#include "common/Mth.hpp"
+#include "common/Timer.hpp"
 #include "client/gui/Gui.hpp"
 #include "client/gui/Screen.hpp"
-#include "client/network/RakNetInstance.hpp"
-#include "client/network/NetEventCallback.hpp"
+#include "network/RakNetInstance.hpp"
+#include "network/NetEventCallback.hpp"
 #include "client/player/input/ITurnInput.hpp"
 #include "client/renderer/GameRenderer.hpp"
 #include "client/renderer/LevelRenderer.hpp"

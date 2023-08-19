@@ -1,6 +1,6 @@
 #include "PatchManager.hpp"
 #include "AppPlatform.hpp"
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/Item.hpp"
 #include "compat/GL.hpp"

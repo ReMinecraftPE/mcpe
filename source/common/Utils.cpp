@@ -8,7 +8,7 @@
 
 // note: not an official file name
 
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 #if defined(_WIN32) && !defined(_XBOX)
 
