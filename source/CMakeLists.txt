@@ -5,19 +5,13 @@ project(reminecraftpe-core)
 add_library(reminecraftpe-core STATIC
     NinecraftApp.cpp
     common/Random.cpp
-    common/HitResult.cpp
     common/Utils.cpp
-    common/PerlinNoise.cpp
-    common/ImprovedNoise.cpp
     common/Matrix.cpp
     common/Mth.cpp
     common/Options.cpp
     common/Timer.cpp
-    common/Synth.cpp
     common/CThread.cpp
     common/Util.cpp
-    common/Vec3.cpp
-    common/AABB.cpp
     network/packets/UpdateBlockPacket.cpp
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
@@ -109,6 +103,12 @@ add_library(reminecraftpe-core STATIC
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
     Minecraft.cpp
+    world/level/levelgen/synth/Synth.cpp
+    world/level/levelgen/synth/ImprovedNoise.cpp
+    world/level/levelgen/synth/PerlinNoise.cpp
+    world/phys/HitResult.cpp
+    world/phys/Vec3.cpp
+    world/phys/AABB.cpp
     world/gamemode/SurvivalMode.cpp
     world/gamemode/GameMode.cpp
     world/gamemode/CreativeMode.cpp

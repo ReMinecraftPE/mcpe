@@ -12,7 +12,7 @@
 #include "compat/GL.hpp"
 #endif
 
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
 {

@@ -2,7 +2,7 @@
 
 #include <emscripten.h>
 
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 AppPlatform_emscripten::AppPlatform_emscripten(std::string storageDir, SDL_Window *window)
     : AppPlatform_sdlbase(storageDir, window)

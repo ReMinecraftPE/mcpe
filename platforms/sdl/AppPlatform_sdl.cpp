@@ -6,7 +6,7 @@
 
 #include "compat/GL.hpp"
 
-#include "client/common/Utils.hpp"
+#include "common/Utils.hpp"
 
 AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
     : AppPlatform_sdlbase(storageDir, window, loadTexture("gui/default_world.png"))
