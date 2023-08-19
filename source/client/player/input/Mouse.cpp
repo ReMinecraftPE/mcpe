@@ -75,7 +75,7 @@ MouseAction* Mouse::getEvent()
 
 Mouse::ButtonState Mouse::getButtonState(ButtonType btn)
 {
-	if (btn <= ButtonType::MIN || btn > ButtonType::COUNT)
+	if (btn < ButtonType::MIN || btn >= ButtonType::COUNT)
 		return ButtonState::UP;
 
 	return _buttonStates[btn];
