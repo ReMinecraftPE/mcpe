@@ -12,15 +12,16 @@
 #include <shlobj.h>
 
 #include "AppPlatform_windows.hpp"
-#include "client/player/input/Mouse.hpp"
 
 #include "thirdparty/stb_image.h"
 #include "thirdparty/stb_image_write.h"
 
-extern LPCTSTR g_GameTitle;
-
 AppPlatform_windows::AppPlatform_windows()
 {
+	m_WindowTitle = "ReMinecraftPE";
+	// just assume an 854x480 window for now:
+	m_ScreenWidth = C_DEFAULT_SCREEN_WIDTH;
+	m_ScreenHeight = C_DEFAULT_SCREEN_HEIGHT;
 	m_UserInputStatus = -1;
 
 	m_bIsFocused = false;
@@ -32,13 +33,6 @@ AppPlatform_windows::AppPlatform_windows()
 	m_MouseDiffX = 0, m_MouseDiffY = 0;
 }
 
-void AppPlatform_windows::initConsts()
-{
-	// just assume an 854x480 window for now:
-	m_ScreenWidth  = C_DEFAULT_SCREEN_WIDTH;
-	m_ScreenHeight = C_DEFAULT_SCREEN_HEIGHT;
-}
-
 int AppPlatform_windows::checkLicense()
 {
 	// we own the game!!
@@ -47,7 +41,7 @@ int AppPlatform_windows::checkLicense()
 
 void AppPlatform_windows::buyGame()
 {
-	MessageBox(GetHWND(), TEXT("Buying the game!"), g_GameTitle, MB_OK | MB_ICONINFORMATION);
+	MessageBox(GetHWND(), TEXT("Buying the game!"), getWindowTitle(), MB_OK | MB_ICONINFORMATION);
 }
 
 void AppPlatform_windows::saveScreenshot(const std::string& fileName, int width, int height)
@@ -91,26 +85,6 @@ void AppPlatform_windows::saveScreenshot(const std::string& fileName, int width,
 	stbi_write_png(fullpath, width, height, 4, pixels, width * 4);
 
 	delete[] pixels;
-}
-
-int AppPlatform_windows::getScreenWidth() const
-{
-	return m_ScreenWidth;
-}
-
-int AppPlatform_windows::getScreenHeight() const
-{
-	return m_ScreenHeight;
-}
-
-std::vector<std::string> AppPlatform_windows::getUserInput()
-{
-	return m_UserInput;
-}
-
-int AppPlatform_windows::getUserInputStatus()
-{
-	return m_UserInputStatus;
 }
 
 void AppPlatform_windows::createUserInput()
@@ -167,7 +141,7 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 
 	_error:
 		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?";
-		MessageBoxA(GetHWND(), msg.c_str(), g_GameTitle, MB_OK);
+		MessageBoxA(GetHWND(), msg.c_str(), getWindowTitle(), MB_OK);
 
 		if (f)
 			fclose(f);
@@ -195,9 +169,6 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 std::vector<std::string> AppPlatform_windows::getOptionStrings()
 {
 	std::vector<std::string> o;
-
-	//o.push_back("mp_username");
-	//o.push_back("iProgramInCpp");
 
 	std::ifstream ifs("options.txt");
 	if (!ifs.is_open())
@@ -360,12 +331,67 @@ void AppPlatform_windows::updateFocused(bool focused)
 	setMouseGrabbed(m_bGrabbedMouse);
 }
 
-bool AppPlatform_windows::shiftPressed()
+Mouse::ButtonType AppPlatform_windows::GetMouseButtonType(UINT iMsg)
 {
-	return m_bShiftPressed;
+	switch (iMsg)
+	{
+	case WM_LBUTTONUP:
+	case WM_LBUTTONDOWN:
+		return Mouse::ButtonType::LEFT;
+	case WM_RBUTTONUP:
+	case WM_RBUTTONDOWN:
+		return Mouse::ButtonType::RIGHT;
+	case WM_MBUTTONUP:
+	case WM_MBUTTONDOWN:
+	case WM_MOUSEWHEEL:
+		return Mouse::ButtonType::MIDDLE;
+	default:
+		return Mouse::ButtonType::NONE;
+	}
 }
 
-void AppPlatform_windows::setShiftPressed(bool b)
+Mouse::ButtonState AppPlatform_windows::GetMouseButtonState(UINT iMsg, WPARAM wParam)
 {
-	m_bShiftPressed = b;
+	Mouse::ButtonState result;
+
+	switch (iMsg)
+	{
+	case WM_LBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+		result = Mouse::ButtonState::DOWN;
+		break;
+	case WM_MOUSEWHEEL:
+	{
+		short wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+		if (wheelDelta > 0)
+		{
+			// "A positive value indicates that the wheel was rotated forward, away from the user."
+			result = Mouse::ButtonState::UP;
+		}
+		else
+		{
+			// "A negative value indicates that the wheel was rotated backward, toward the user."
+			result = Mouse::ButtonState::DOWN;
+		}
+		break;
+	}
+	default:
+		result = Mouse::ButtonState::UP;
+		break;
+	}
+
+	return result;
+}
+
+Keyboard::KeyState AppPlatform_windows::GetKeyState(UINT iMsg)
+{
+	switch (iMsg)
+	{
+	case WM_KEYUP:
+		return Keyboard::KeyState::UP;
+	case WM_KEYDOWN:
+	default:
+		return Keyboard::KeyState::DOWN;
+	}
 }

@@ -3,15 +3,16 @@
 #include <SDL2/SDL.h>
 
 #include "compat/GL.hpp"
-#include "compat/AKeyCodes.hpp"
 #include "App.hpp"
-#ifdef __EMSCRIPTEN__
+
+#if	  defined(__EMSCRIPTEN__)
 #include "../emscripten/AppPlatform_emscripten.hpp"
 #define APP_PLATFORM_TYPE AppPlatform_emscripten
 #else
 #include "AppPlatform_sdl.hpp"
 #define APP_PLATFORM_TYPE AppPlatform_sdl
 #endif
+
 #include "NinecraftApp.hpp"
 
 #ifdef __EMSCRIPTEN__
@@ -80,6 +81,7 @@ static void handle_events()
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 			{
+				// TODO: Shouldn't we be handling this in Keyboard?
 				if (event.key.keysym.sym == SDLK_F2)
 				{
 					if (event.key.state == SDL_PRESSED && g_AppPlatform != nullptr)
@@ -88,7 +90,7 @@ static void handle_events()
 					}
 					break;
 				}
-				Keyboard::feed(event.key.state == SDL_PRESSED ? 1 : 0, translate_sdl_key_to_mcpe(event.key.keysym.sym));
+				Keyboard::feed(AppPlatform_sdlbase::GetKeyState(event), translate_sdl_key_to_mcpe(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
 					g_AppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
@@ -99,7 +101,7 @@ static void handle_events()
 			case SDL_MOUSEBUTTONUP:
 			{
                 const float scale = Minecraft::getDrawScale();
-				Mouse::feed(event.button.button == SDL_BUTTON_LEFT ? 1 : 2, event.button.state == SDL_PRESSED ? 1 : 0, event.button.x * scale, event.button.y * scale);
+				Mouse::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
 				break;
 			}
 			case SDL_MOUSEMOTION:
@@ -107,14 +109,13 @@ static void handle_events()
                 const float scale = Minecraft::getDrawScale();
                 float x = event.motion.x * scale;
                 float y = event.motion.y * scale;
-                Mouse::setX(x); Mouse::setY(y);
-				Mouse::feed(0, 0, x, y);
+				Mouse::feed(Mouse::ButtonType::NONE, Mouse::ButtonState::UP, x, y);
 				g_AppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				break;
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(3, event.wheel.y * Minecraft::getDrawScale(), Mouse::getX(), Mouse::getY());
+				Mouse::feed(Mouse::ButtonType::MIDDLE, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:
@@ -277,9 +278,6 @@ int main(int argc, char *argv[])
 	storagePath = getenv("HOME");
 #endif
 	storagePath += "/.reminecraftpe";
-	#ifndef __EMSCRIPTEN__
-	ensure_screenshots_folder(storagePath.c_str());
-	#endif
     
 	// Start MCPE
 	g_pApp = new NinecraftApp;

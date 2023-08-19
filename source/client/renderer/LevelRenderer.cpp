@@ -1246,6 +1246,7 @@ void LevelRenderer::renderSky(float f)
 	glDepthMask(true);
 }
 
+// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
 bool g_bAreCloudsAvailable = false; // false because 0.1 didn't have them
 
 void LevelRenderer::renderClouds(float f)

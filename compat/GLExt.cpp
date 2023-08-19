@@ -10,7 +10,6 @@
 #include <unordered_map>
 
 HWND GetHWND();
-extern LPCTSTR g_GameTitle;
 
 // Don't undefine. It will make the game MUCH slower.
 #define USE_HARDWARE_GL_BUFFERS
@@ -49,7 +48,7 @@ void xglInit()
 
 #ifdef USE_HARDWARE_GL_BUFFERS
 	if (!xglInitted())
-		MessageBox(GetHWND(), TEXT("Error initializing GL extensions. Update your graphics drivers!"), g_GameTitle, MB_OK);
+		MessageBox(GetHWND(), TEXT("Error initializing GL extensions. Update your graphics drivers!"), "Error", MB_OK);
 #endif
 }
 

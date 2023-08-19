@@ -10,22 +10,25 @@
 
 std::vector<MouseAction> Mouse::_inputs;
 int Mouse::_index, Mouse::_x, Mouse::_y;
-int Mouse::_xOld, Mouse::_yOld, Mouse::_buttonStates[3];
+int Mouse::_xOld, Mouse::_yOld;
+Mouse::ButtonState Mouse::_buttonStates[MOUSE_STATES_SIZE];
 
-void Mouse::feed(int x1, int x2, int x3, int x4)
+void Mouse::feed(ButtonType buttonType, ButtonState buttonState, int posX, int posY)
 {
-	_inputs.push_back(MouseAction(x1, x2, x3, x4));
+	_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY));
 
-	if (x1 >= 3)
-		return;
+	// Make sure button type is valid
+	if (buttonType <= ButtonType::_MAX)
+	{
+		// Check if we're processing a button-state update
+		if (buttonType != ButtonType::NONE)
+			_buttonStates[buttonType] = buttonState;
 
-	if (x1 != 0)
-		Mouse::_buttonStates[x1] = x2;
-
-	_xOld = _x;
-	_yOld = _y;
-	_x = x3;
-	_y = x4;
+		_xOld = _x;
+		_yOld = _y;
+		_x = posX;
+		_y = posY;
+	}
 }
 
 short Mouse::getX()
@@ -40,16 +43,16 @@ short Mouse::getY()
 
 bool Mouse::next()
 {
-	if (_index + 1 >= int(_inputs.size()))
+	if (_index + 1 >= _inputs.size())
 		return false;
 
 	_index++;
 	return true;
 }
 
-int Mouse::getEventButton()
+Mouse::ButtonType Mouse::getEventButton()
 {
-	return _inputs[_index].field_0;
+	return _inputs[_index]._buttonType;
 }
 
 bool Mouse::isButtonDown(int btn)
@@ -68,10 +71,10 @@ MouseAction* Mouse::getEvent()
 	return &_inputs[_index];
 }
 
-int Mouse::getButtonState(int btn)
+Mouse::ButtonState Mouse::getButtonState(ButtonType btn)
 {
-	if (btn <= 0 || btn >= 3)
-		return 0;
+	if (btn <= ButtonType::_MIN || btn > ButtonType::_MAX)
+		return ButtonState::UP;
 
 	return _buttonStates[btn];
 }
@@ -92,7 +95,7 @@ void Mouse::reset2()
 	_yOld = _y;
 }
 
-int Mouse::getEventButtonState()
+Mouse::ButtonState Mouse::getEventButtonState()
 {
-	return _inputs[_index].field_4;
+	return _inputs[_index]._buttonState;
 }

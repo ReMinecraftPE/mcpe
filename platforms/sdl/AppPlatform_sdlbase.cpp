@@ -7,8 +7,6 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #else
-#include <png.h>
-
 #include "compat/GL.hpp"
 #endif
 
@@ -24,6 +22,8 @@ void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
     
     m_bShiftPressed[0] = false;
     m_bShiftPressed[1] = false;
+
+    ensureDirectoryExists(_storageDir.c_str());
 }
 
 void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window, const Texture& icon)
@@ -66,6 +66,11 @@ int AppPlatform_sdlbase::checkLicense()
 {
 	// we own the game!!
 	return 1;
+}
+
+const char* const AppPlatform_sdlbase::getWindowTitle() const
+{
+    return SDL_GetWindowTitle(_window);
 }
 
 int AppPlatform_sdlbase::getScreenWidth() const
@@ -119,4 +124,66 @@ void AppPlatform_sdlbase::setShiftPressed(bool b, bool isLeft)
 int AppPlatform_sdlbase::getUserInputStatus()
 {
 	return -1;
+}
+
+Mouse::ButtonType AppPlatform_sdlbase::GetMouseButtonType(SDL_Event event)
+{
+	switch (event.button.button)
+	{
+	case SDL_BUTTON_LEFT:
+		return Mouse::ButtonType::LEFT;
+	case SDL_BUTTON_RIGHT:
+		return Mouse::ButtonType::RIGHT;
+	case SDL_BUTTON_MIDDLE:
+		return Mouse::ButtonType::MIDDLE;
+	default:
+		return Mouse::ButtonType::NONE;
+	}
+}
+
+Mouse::ButtonState AppPlatform_sdlbase::GetMouseButtonState(SDL_Event event)
+{
+	Mouse::ButtonState result;
+
+	switch (event.type)
+	{
+	case SDL_MOUSEBUTTONDOWN:
+		result = Mouse::ButtonState::DOWN;
+		break;
+	case SDL_MOUSEBUTTONUP:
+		result = Mouse::ButtonState::UP;
+		break;
+	case SDL_MOUSEWHEEL:
+	{
+		short wheelDelta = event.wheel.y;
+		if (wheelDelta > 0)
+		{
+			// "A positive value indicates that the wheel was rotated forward, away from the user."
+			result = Mouse::ButtonState::UP;
+		}
+		else
+		{
+			// "A negative value indicates that the wheel was rotated backward, toward the user."
+			result = Mouse::ButtonState::DOWN;
+		}
+		break;
+	}
+	default:
+		result = Mouse::ButtonState::UP;
+		break;
+	}
+
+	return result;
+}
+
+Keyboard::KeyState AppPlatform_sdlbase::GetKeyState(SDL_Event event)
+{
+	switch (event.key.state)
+	{
+	case SDL_RELEASED:
+		return Keyboard::KeyState::UP;
+	case SDL_PRESSED:
+	default:
+		return Keyboard::KeyState::DOWN;
+	}
 }

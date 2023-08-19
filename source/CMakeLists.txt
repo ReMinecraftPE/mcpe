@@ -47,6 +47,7 @@ add_library(reminecraftpe-core STATIC
     client/network/Packets/RemoveBlockPacket.cpp
     client/network/Packets/MovePlayerPacket.cpp
     client/network/Packets/MessagePacket.cpp
+    client/network/Packets/LevelDataPacket.cpp
     client/network/ServerSideNetworkHandler.cpp
     client/network/RakNetInstance.cpp
     client/network/ClientSideNetworkHandler.cpp
@@ -66,6 +67,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/InvalidLicenseScreen.cpp
     client/gui/screens/ConfirmScreen.cpp
     client/gui/screens/DeleteWorldScreen.cpp
+    client/gui/screens/DeathScreen.cpp
     client/gui/screens/ChatScreen.cpp
     client/gui/screens/RenameMPLevelScreen.cpp
     client/gui/screens/ProgressScreen.cpp
