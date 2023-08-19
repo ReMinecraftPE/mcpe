@@ -601,7 +601,7 @@ void GameRenderer::render(float f)
 		if (t_keepPic < 0)
 		{
 			renderLevel(f);
-			if (m_pMinecraft->m_options.field_23C)
+			if (m_pMinecraft->m_options.m_bDontRenderGui)
 			{
 				if (!m_pMinecraft->m_pScreen)
 					return;
@@ -727,7 +727,7 @@ void GameRenderer::renderItemInHand(float f, int i)
 	if (m_pMinecraft->m_options.m_bViewBobbing)
 		bobView(f);
 
-	if (!m_pMinecraft->m_options.m_bThirdPerson && !m_pMinecraft->m_options.field_23C)
+	if (!m_pMinecraft->m_options.m_bThirdPerson && !m_pMinecraft->m_options.m_bDontRenderGui)
 		m_pItemInHandRenderer->render(f);
 
 	glPopMatrix();

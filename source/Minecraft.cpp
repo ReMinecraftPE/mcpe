@@ -474,6 +474,10 @@ void Minecraft::tickInput()
 					m_pLocalPlayer->drop(&inst);
 				}
 			}
+			else if (keyCode == AKEYCODE_F1)
+			{
+				m_options.m_bDontRenderGui = !m_options.m_bDontRenderGui;
+			}
 			else if (keyCode == AKEYCODE_F3)
 			{
 				m_options.m_bDebugText = !m_options.m_bDebugText;
