@@ -21,7 +21,7 @@ struct KeyboardAction;
 class Keyboard
 {
 public:
-	enum KeyState : bool
+	enum KeyState
 	{
 		UP,
 		DOWN

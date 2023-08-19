@@ -16,7 +16,7 @@
     <Filter Include="source\world">
       <UniqueIdentifier>{d7db338f-b359-4720-a51e-f2eac0cc6967}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\client\common">
+    <Filter Include="source\common">
       <UniqueIdentifier>{9a0b909e-b8ec-44f1-b6de-74518cd5d0cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="source\client\gui">
@@ -31,10 +31,10 @@
     <Filter Include="source\client\model">
       <UniqueIdentifier>{c3a8e592-56de-40c6-957b-bc22cb059e5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\client\network">
+    <Filter Include="source\network">
       <UniqueIdentifier>{43af5a60-79b9-483d-b7a1-6afaa922d5c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\client\network\packets">
+    <Filter Include="source\network\packets">
       <UniqueIdentifier>{ef5aef49-90c0-42ec-bb7b-f1819f9133ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="source\client\player">
@@ -96,6 +96,12 @@
     </Filter>
     <Filter Include="thirdparty\zlib">
       <UniqueIdentifier>{b413cd08-238d-4e52-90c7-eccb86bc37ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\world\phys">
+      <UniqueIdentifier>{389f72f4-3246-4652-9649-30ac5f44eacb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\world\level\levelgen\synth">
+      <UniqueIdentifier>{27845c14-dcd4-43b3-9087-cfb3a5c7d531}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -573,50 +579,32 @@
     <ClInclude Include="..\source\NinecraftApp.hpp">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\AABB.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\CThread.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\CThread.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\LongHack.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\HitResult.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\Matrix.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\ImprovedNoise.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\Mth.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\LongHack.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\Options.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\Matrix.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\Random.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\Mth.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\Timer.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\Options.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\Util.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\common\PerlinNoise.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Random.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Synth.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Timer.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Util.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Utils.hpp">
-      <Filter>source\client\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\client\common\Vec3.hpp">
-      <Filter>source\client\common</Filter>
+    <ClInclude Include="..\source\common\Utils.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
     <ClInclude Include="..\source\client\gui\Gui.hpp">
       <Filter>source\client\gui</Filter>
@@ -705,26 +693,26 @@
     <ClInclude Include="..\source\client\model\Cube.hpp">
       <Filter>source\client\model</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\network\NetEventCallback.hpp">
-      <Filter>source\client\network</Filter>
+    <ClInclude Include="..\source\network\NetEventCallback.hpp">
+      <Filter>source\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\network\Packet.hpp">
-      <Filter>source\client\network</Filter>
+    <ClInclude Include="..\source\network\Packet.hpp">
+      <Filter>source\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\network\PingedCompatibleServer.hpp">
-      <Filter>source\client\network</Filter>
+    <ClInclude Include="..\source\network\PingedCompatibleServer.hpp">
+      <Filter>source\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\network\RakNetInstance.hpp">
-      <Filter>source\client\network</Filter>
+    <ClInclude Include="..\source\network\RakNetInstance.hpp">
+      <Filter>source\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\network\ServerSideNetworkHandler.hpp">
-      <Filter>source\client\network</Filter>
+    <ClInclude Include="..\source\network\ServerSideNetworkHandler.hpp">
+      <Filter>source\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\network\ClientSideNetworkHandler.hpp">
-      <Filter>source\client\network</Filter>
+    <ClInclude Include="..\source\network\ClientSideNetworkHandler.hpp">
+      <Filter>source\network</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\client\network\MinecraftPackets.hpp">
-      <Filter>source\client\network</Filter>
+    <ClInclude Include="..\source\network\MinecraftPackets.hpp">
+      <Filter>source\network</Filter>
     </ClInclude>
     <ClInclude Include="..\source\client\player\input\ControllerTurnInput.hpp">
       <Filter>source\client\player\input</Filter>
@@ -1161,6 +1149,24 @@
     <ClInclude Include="..\source\client\gui\screens\DeathScreen.hpp">
       <Filter>source\client\gui\screens</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\world\phys\AABB.hpp">
+      <Filter>source\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\phys\Vec3.hpp">
+      <Filter>source\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\phys\HitResult.hpp">
+      <Filter>source\world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\level\levelgen\synth\ImprovedNoise.hpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\level\levelgen\synth\Synth.hpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\world\level\levelgen\synth\PerlinNoise.hpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -1505,47 +1511,29 @@
     <ClCompile Include="..\source\NinecraftApp.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\AABB.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\CThread.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\CThread.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\Matrix.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\HitResult.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\Mth.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\ImprovedNoise.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\Options.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\Matrix.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\Random.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\Mth.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\Timer.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\Options.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\Util.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\common\PerlinNoise.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Random.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Synth.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Timer.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Util.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Utils.cpp">
-      <Filter>source\client\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\client\common\Vec3.cpp">
-      <Filter>source\client\common</Filter>
+    <ClCompile Include="..\source\common\Utils.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\gui\Gui.cpp">
       <Filter>source\client\gui</Filter>
@@ -1634,56 +1622,56 @@
     <ClCompile Include="..\source\client\model\HumanoidModel.cpp">
       <Filter>source\client\model</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\NetEventCallback.cpp">
-      <Filter>source\client\network</Filter>
+    <ClCompile Include="..\source\network\NetEventCallback.cpp">
+      <Filter>source\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\RakNetInstance.cpp">
-      <Filter>source\client\network</Filter>
+    <ClCompile Include="..\source\network\RakNetInstance.cpp">
+      <Filter>source\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\ServerSideNetworkHandler.cpp">
-      <Filter>source\client\network</Filter>
+    <ClCompile Include="..\source\network\ServerSideNetworkHandler.cpp">
+      <Filter>source\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\ClientSideNetworkHandler.cpp">
-      <Filter>source\client\network</Filter>
+    <ClCompile Include="..\source\network\ClientSideNetworkHandler.cpp">
+      <Filter>source\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\MinecraftPackets.cpp">
-      <Filter>source\client\network</Filter>
+    <ClCompile Include="..\source\network\MinecraftPackets.cpp">
+      <Filter>source\network</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\PlaceBlockPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\PlaceBlockPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\PlayerEquipmentPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\PlayerEquipmentPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\RemoveBlockPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\RemoveBlockPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\RemoveEntityPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\RemoveEntityPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\RequestChunkPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\RequestChunkPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\StartGamePacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\StartGamePacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\UpdateBlockPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\UpdateBlockPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\AddPlayerPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\AddPlayerPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\ChunkDataPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\ChunkDataPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\LoginPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\LoginPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\MessagePacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\MessagePacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\MovePlayerPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\MovePlayerPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\player\input\ITurnInput.cpp">
       <Filter>source\client\player\input</Filter>
@@ -2183,11 +2171,29 @@
     <ClCompile Include="..\thirdparty\zlib\gzclose.c">
       <Filter>thirdparty\zlib</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\client\network\packets\LevelDataPacket.cpp">
-      <Filter>source\client\network\packets</Filter>
+    <ClCompile Include="..\source\network\packets\LevelDataPacket.cpp">
+      <Filter>source\network\packets</Filter>
     </ClCompile>
     <ClCompile Include="..\source\client\gui\screens\DeathScreen.cpp">
       <Filter>source\client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\phys\Vec3.cpp">
+      <Filter>source\world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\phys\AABB.cpp">
+      <Filter>source\world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\phys\HitResult.cpp">
+      <Filter>source\world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\level\levelgen\synth\ImprovedNoise.cpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\level\levelgen\synth\PerlinNoise.cpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\world\level\levelgen\synth\Synth.cpp">
+      <Filter>source\world\level\levelgen\synth</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

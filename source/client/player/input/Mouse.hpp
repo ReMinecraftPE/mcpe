@@ -28,7 +28,7 @@ public:
 		SCROLLWHEEL,
 	};
 
-	enum ButtonState : bool
+	enum ButtonState
 	{
 		UP,
 		DOWN,
