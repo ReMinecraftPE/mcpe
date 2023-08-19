@@ -22,10 +22,9 @@ public:
 		RIGHT,
 		MIDDLE,
 		COUNT,
+		SCROLLWHEEL,
 
 		MIN = LEFT,
-		
-		SCROLLWHEEL,
 	};
 
 	enum ButtonState

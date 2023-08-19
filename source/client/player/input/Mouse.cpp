@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Mouse.hpp"
+#include "common/Utils.hpp"
 
 std::vector<MouseAction> Mouse::_inputs;
 int Mouse::_index, Mouse::_x, Mouse::_y;
@@ -19,7 +20,7 @@ void Mouse::feed(ButtonType buttonType, ButtonState buttonState, int posX, int p
 		_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY));
 
 	// Make sure button type is valid
-	if (buttonType <= ButtonType::COUNT)
+	if (buttonType < ButtonType::COUNT)
 	{
 		// Check if we're processing a button-state update
 		if (buttonType != ButtonType::NONE)
