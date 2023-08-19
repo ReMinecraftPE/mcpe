@@ -4,6 +4,38 @@ project(reminecraftpe-core)
 # Build
 add_library(reminecraftpe-core STATIC
     NinecraftApp.cpp
+    common/Random.cpp
+    common/HitResult.cpp
+    common/Utils.cpp
+    common/PerlinNoise.cpp
+    common/ImprovedNoise.cpp
+    common/Matrix.cpp
+    common/Mth.cpp
+    common/Options.cpp
+    common/Timer.cpp
+    common/Synth.cpp
+    common/CThread.cpp
+    common/Util.cpp
+    common/Vec3.cpp
+    common/AABB.cpp
+    network/packets/UpdateBlockPacket.cpp
+    network/packets/RequestChunkPacket.cpp
+    network/packets/PlayerEquipmentPacket.cpp
+    network/packets/ChunkDataPacket.cpp
+    network/packets/LevelDataPacket.cpp
+    network/packets/PlaceBlockPacket.cpp
+    network/packets/LoginPacket.cpp
+    network/packets/StartGamePacket.cpp
+    network/packets/RemoveEntityPacket.cpp
+    network/packets/AddPlayerPacket.cpp
+    network/packets/RemoveBlockPacket.cpp
+    network/packets/MovePlayerPacket.cpp
+    network/packets/MessagePacket.cpp
+    network/ServerSideNetworkHandler.cpp
+    network/RakNetInstance.cpp
+    network/ClientSideNetworkHandler.cpp
+    network/MinecraftPackets.cpp
+    network/NetEventCallback.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
     client/renderer/entity/HumanoidMobRenderer.cpp
@@ -35,24 +67,6 @@ add_library(reminecraftpe-core STATIC
     client/renderer/LavaTexture.cpp
     client/renderer/LavaSideTexture.cpp
     client/renderer/FireTexture.cpp
-    client/network/packets/UpdateBlockPacket.cpp
-    client/network/packets/RequestChunkPacket.cpp
-    client/network/packets/PlayerEquipmentPacket.cpp
-    client/network/packets/ChunkDataPacket.cpp
-    client/network/packets/LevelDataPacket.cpp
-    client/network/packets/PlaceBlockPacket.cpp
-    client/network/packets/LoginPacket.cpp
-    client/network/packets/StartGamePacket.cpp
-    client/network/packets/RemoveEntityPacket.cpp
-    client/network/packets/AddPlayerPacket.cpp
-    client/network/packets/RemoveBlockPacket.cpp
-    client/network/packets/MovePlayerPacket.cpp
-    client/network/packets/MessagePacket.cpp
-    client/network/ServerSideNetworkHandler.cpp
-    client/network/RakNetInstance.cpp
-    client/network/ClientSideNetworkHandler.cpp
-    client/network/MinecraftPackets.cpp
-    client/network/NetEventCallback.cpp
     client/sound/SoundData.cpp
     client/sound/SoundSystem.cpp
     client/sound/SoundRepository.cpp
@@ -87,20 +101,6 @@ add_library(reminecraftpe-core STATIC
     client/model/Model.cpp
     client/model/HumanoidModel.cpp
     client/model/Cube.cpp
-    client/common/Random.cpp
-    client/common/HitResult.cpp
-    client/common/Utils.cpp
-    client/common/PerlinNoise.cpp
-    client/common/ImprovedNoise.cpp
-    client/common/Matrix.cpp
-    client/common/Mth.cpp
-    client/common/Options.cpp
-    client/common/Timer.cpp
-    client/common/Synth.cpp
-    client/common/CThread.cpp
-    client/common/Util.cpp
-    client/common/Vec3.cpp
-    client/common/AABB.cpp
     client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
     client/player/input/Mouse.cpp
