@@ -16,8 +16,6 @@ Mouse::ButtonState Mouse::_buttonStates[Mouse::ButtonType::COUNT];
 
 void Mouse::feed(ButtonType buttonType, ButtonState buttonState, int posX, int posY)
 {
-	if(buttonType!=ButtonType::NONE)
-	LogMsg("Fuck %d %d", buttonType, buttonState);
 	if (buttonType != ButtonType::NONE)
 		_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY));
 
