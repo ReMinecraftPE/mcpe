@@ -45,56 +45,56 @@ void Timer::advanceTime()
 #else
 	int timeMs = getTimeMs();
 #endif
-	if (timeMs - field_4 <= 1000)
+	if (timeMs - m_lastSyncTime <= 1000)
 	{
-		if (timeMs - field_4 < 0)
+		if (timeMs - m_lastSyncTime < 0)
 		{
-			field_4 = field_8 = timeMs;
+			m_lastSyncTime = m_unprocessedTime = timeMs;
 		}
 	}
 	else
 	{
 #ifdef USE_ACCURATE_TIMER
-		double diff1 = timeMs - field_4;
-		double diff2 = timeMs - field_8;
+		double diff1 = timeMs - m_lastSyncTime;
+		double diff2 = timeMs - m_unprocessedTime;
 #else
-		int diff1 = timeMs - field_4;
-		int diff2 = timeMs - field_8;
+		int diff1 = timeMs - m_lastSyncTime;
+		int diff2 = timeMs - m_unprocessedTime;
 #endif
-		field_C += ((float(diff1) / float(diff2)) - field_C) * 0.2f;
+		m_tickAdjustment += ((float(diff1) / float(diff2)) - m_tickAdjustment) * 0.2f;
 	}
 
-	float diff = float(timeMs) / 1000.0f - field_0;
-	field_0 = float(timeMs) / 1000.0f;
+	float diff = float(timeMs) / 1000.0f - m_lastUpdateTime;
+	m_lastUpdateTime = float(timeMs) / 1000.0f;
 
-	float x1 = diff * field_C;
+	float x1 = diff * m_tickAdjustment;
 	if (x1 > 1) x1 = 1;
 	if (x1 < 0) x1 = 0;
 
-	float x2 = field_20 + x1 * field_1C * field_10;
-	field_14 = int(x2);
-	field_20 = x2 - field_14;
-	field_18 = x2 - field_14;
-	if (field_14 > 10)
-		field_14 = 10;
+	float x2 = m_partialTicks + x1 * m_timerSpeed * m_ticksPerSecond;
+	m_ticks = int(x2);
+	m_partialTicks = x2 - m_ticks;
+	m_renderTicks = x2 - m_ticks;
+	if (m_ticks > 10)
+		m_ticks = 10;
 }
 
 Timer::Timer()
 {
-	field_0 = 0;
+	m_lastUpdateTime = 0;
 #ifndef USE_ACCURATE_TIMER
-	field_4 = 0;
-	field_8 = 0;
+	m_lastSyncTime = 0;
+	m_unprocessedTime = 0;
 #else
-	field_4 = 0;
-	field_8 = 0;
+	m_lastSyncTime = 0;
+	m_unprocessedTime = 0;
 #endif
-	field_C = 1.0f;
-	field_10 = 20.0f;
-	field_14 = 0;
-	field_18 = 0;
-	field_1C = 1.0f;
-	field_20 = 0;
+	m_tickAdjustment = 1.0f;
+	m_ticksPerSecond = 20.0f;
+	m_ticks = 0;
+	m_renderTicks = 0;
+	m_timerSpeed = 1.0f;
+	m_partialTicks = 0;
 
-	field_4 = field_8 = getTimeMs();
+	m_lastSyncTime = m_unprocessedTime = getTimeMs();
 }

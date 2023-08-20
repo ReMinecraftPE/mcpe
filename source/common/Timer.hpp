@@ -20,19 +20,19 @@ public:
 	void advanceTime();
 
 public:
-	float field_0;
+	float m_lastUpdateTime;
 #ifndef USE_ACCURATE_TIMER
-	int field_4;
-	int field_8;
+	int m_lastSyncTime;
+	int m_unprocessedTime;
 #else
-	double field_4;
-	double field_8;
+	double m_lastSyncTime;
+	double m_unprocessedTime;
 #endif
-	float field_C;
-	float field_10;
-	int field_14;
-	float field_18;
-	float field_1C;
-	float field_20;
+	float m_tickAdjustment;
+	float m_ticksPerSecond;
+	int m_ticks;
+	float m_renderTicks;
+	float m_timerSpeed;
+	float m_partialTicks;
 };
 
