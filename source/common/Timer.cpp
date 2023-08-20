@@ -45,56 +45,56 @@ void Timer::advanceTime()
 #else
 	int timeMs = getTimeMs();
 #endif
-	if (timeMs - field_4 <= 1000)
+	if (timeMs - lastSyncTime <= 1000)
 	{
-		if (timeMs - field_4 < 0)
+		if (timeMs - lastSyncTime < 0)
 		{
-			field_4 = field_8 = timeMs;
+			lastSyncTime = unprocessedTime = timeMs;
 		}
 	}
 	else
 	{
 #ifdef USE_ACCURATE_TIMER
-		double diff1 = timeMs - field_4;
-		double diff2 = timeMs - field_8;
+		double diff1 = timeMs - lastSyncTime;
+		double diff2 = timeMs - unprocessedTime;
 #else
-		int diff1 = timeMs - field_4;
-		int diff2 = timeMs - field_8;
+		int diff1 = timeMs - lastSyncTime;
+		int diff2 = timeMs - unprocessedTime;
 #endif
-		field_C += ((float(diff1) / float(diff2)) - field_C) * 0.2f;
+		tickAdjustment += ((float(diff1) / float(diff2)) - tickAdjustment) * 0.2f;
 	}
 
-	float diff = float(timeMs) / 1000.0f - field_0;
-	field_0 = float(timeMs) / 1000.0f;
+	float diff = float(timeMs) / 1000.0f - lastUpdateTime;
+	lastUpdateTime = float(timeMs) / 1000.0f;
 
-	float x1 = diff * field_C;
+	float x1 = diff * tickAdjustment;
 	if (x1 > 1) x1 = 1;
 	if (x1 < 0) x1 = 0;
 
-	float x2 = field_20 + x1 * field_1C * field_10;
-	field_14 = int(x2);
-	field_20 = x2 - field_14;
-	field_18 = x2 - field_14;
-	if (field_14 > 10)
-		field_14 = 10;
+	float x2 = partialTicks + x1 * timerSpeed * ticksPerSecond;
+	ticks = int(x2);
+	partialTicks = x2 - ticks;
+	renderTicks = x2 - ticks;
+	if (ticks > 10)
+		ticks = 10;
 }
 
 Timer::Timer()
 {
-	field_0 = 0;
+	lastUpdateTime = 0;
 #ifndef USE_ACCURATE_TIMER
-	field_4 = 0;
-	field_8 = 0;
+	lastSyncTime = 0;
+	unprocessedTime = 0;
 #else
-	field_4 = 0;
-	field_8 = 0;
+	lastSyncTime = 0;
+	unprocessedTime = 0;
 #endif
-	field_C = 1.0f;
-	field_10 = 20.0f;
-	field_14 = 0;
-	field_18 = 0;
-	field_1C = 1.0f;
-	field_20 = 0;
+	tickAdjustment = 1.0f;
+	ticksPerSecond = 20.0f;
+	ticks = 0;
+	renderTicks = 0;
+	timerSpeed = 1.0f;
+	partialTicks = 0;
 
-	field_4 = field_8 = getTimeMs();
+	lastSyncTime = unprocessedTime = getTimeMs();
 }
