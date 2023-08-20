@@ -514,7 +514,7 @@ void Minecraft::tickInput()
 		goto label_12;
 	}
 	
-	if (!m_pScreen && (field_DA8 - field_DAC) >= (m_timer.field_10 * 0.25f))
+	if (!m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
 	{
 		handleMouseClick(1);
 		field_DAC = field_DA8;
@@ -695,9 +695,9 @@ void Minecraft::update()
 {
 	if (field_288 && m_pLevel)
 	{
-		float x = m_timer.field_18;
+		float x = m_timer.m_renderTicks;
 		m_timer.advanceTime();
-		m_timer.field_18 = x;
+		m_timer.m_renderTicks = x;
 	}
 	else
 	{
@@ -709,7 +709,7 @@ void Minecraft::update()
 		m_pRakNetInstance->runEvents(m_pNetEventCallback);
 	}
 
-	for (int i = 0; i < m_timer.field_14; i++)
+	for (int i = 0; i < m_timer.m_ticks; i++)
 	{
 		tick();
 		field_DA8++;
@@ -724,14 +724,14 @@ void Minecraft::update()
 	tickMouse();
 #endif
 
-	m_pGameRenderer->render(m_timer.field_18);
+	m_pGameRenderer->render(m_timer.m_renderTicks);
 
 	double time = double(getTimeS());
 	m_fDeltaTime   = time - m_fLastUpdated;
 	m_fLastUpdated = time;
 
 	// Added by iProgramInCpp
-	m_pGameMode->render(m_timer.field_18);
+	m_pGameMode->render(m_timer.m_renderTicks);
 }
 
 void Minecraft::init()

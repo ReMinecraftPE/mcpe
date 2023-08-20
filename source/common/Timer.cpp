@@ -45,56 +45,56 @@ void Timer::advanceTime()
 #else
 	int timeMs = getTimeMs();
 #endif
-	if (timeMs - lastSyncTime <= 1000)
+	if (timeMs - m_lastSyncTime <= 1000)
 	{
-		if (timeMs - lastSyncTime < 0)
+		if (timeMs - m_lastSyncTime < 0)
 		{
-			lastSyncTime = unprocessedTime = timeMs;
+			m_lastSyncTime = m_unprocessedTime = timeMs;
 		}
 	}
 	else
 	{
 #ifdef USE_ACCURATE_TIMER
-		double diff1 = timeMs - lastSyncTime;
-		double diff2 = timeMs - unprocessedTime;
+		double diff1 = timeMs - m_lastSyncTime;
+		double diff2 = timeMs - m_unprocessedTime;
 #else
-		int diff1 = timeMs - lastSyncTime;
-		int diff2 = timeMs - unprocessedTime;
+		int diff1 = timeMs - m_lastSyncTime;
+		int diff2 = timeMs - m_unprocessedTime;
 #endif
-		tickAdjustment += ((float(diff1) / float(diff2)) - tickAdjustment) * 0.2f;
+		m_tickAdjustment += ((float(diff1) / float(diff2)) - m_tickAdjustment) * 0.2f;
 	}
 
-	float diff = float(timeMs) / 1000.0f - lastUpdateTime;
-	lastUpdateTime = float(timeMs) / 1000.0f;
+	float diff = float(timeMs) / 1000.0f - m_lastUpdateTime;
+	m_lastUpdateTime = float(timeMs) / 1000.0f;
 
-	float x1 = diff * tickAdjustment;
+	float x1 = diff * m_tickAdjustment;
 	if (x1 > 1) x1 = 1;
 	if (x1 < 0) x1 = 0;
 
-	float x2 = partialTicks + x1 * timerSpeed * ticksPerSecond;
-	ticks = int(x2);
-	partialTicks = x2 - ticks;
-	renderTicks = x2 - ticks;
-	if (ticks > 10)
-		ticks = 10;
+	float x2 = m_partialTicks + x1 * m_timerSpeed * m_ticksPerSecond;
+	m_ticks = int(x2);
+	m_partialTicks = x2 - m_ticks;
+	m_renderTicks = x2 - m_ticks;
+	if (m_ticks > 10)
+		m_ticks = 10;
 }
 
 Timer::Timer()
 {
-	lastUpdateTime = 0;
+	m_lastUpdateTime = 0;
 #ifndef USE_ACCURATE_TIMER
-	lastSyncTime = 0;
-	unprocessedTime = 0;
+	m_lastSyncTime = 0;
+	m_unprocessedTime = 0;
 #else
-	lastSyncTime = 0;
-	unprocessedTime = 0;
+	m_lastSyncTime = 0;
+	m_unprocessedTime = 0;
 #endif
-	tickAdjustment = 1.0f;
-	ticksPerSecond = 20.0f;
-	ticks = 0;
-	renderTicks = 0;
-	timerSpeed = 1.0f;
-	partialTicks = 0;
+	m_tickAdjustment = 1.0f;
+	m_ticksPerSecond = 20.0f;
+	m_ticks = 0;
+	m_renderTicks = 0;
+	m_timerSpeed = 1.0f;
+	m_partialTicks = 0;
 
-	lastSyncTime = unprocessedTime = getTimeMs();
+	m_lastSyncTime = m_unprocessedTime = getTimeMs();
 }

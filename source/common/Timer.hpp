@@ -20,19 +20,19 @@ public:
 	void advanceTime();
 
 public:
-	float lastUpdateTime;
+	float m_lastUpdateTime;
 #ifndef USE_ACCURATE_TIMER
-	int lastSyncTime;
-	int unprocessedTime;
+	int m_lastSyncTime;
+	int m_unprocessedTime;
 #else
-	double lastSyncTime;
-	double unprocessedTime;
+	double m_lastSyncTime;
+	double m_unprocessedTime;
 #endif
-	float tickAdjustment;
-	float ticksPerSecond;
-	int ticks;
-	float renderTicks;
-	float timerSpeed;
-	float partialTicks;
+	float m_tickAdjustment;
+	float m_ticksPerSecond;
+	int m_ticks;
+	float m_renderTicks;
+	float m_timerSpeed;
+	float m_partialTicks;
 };
 
