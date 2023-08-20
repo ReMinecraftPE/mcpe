@@ -29,7 +29,7 @@ void Options::initDefaultValues()
 {
 	field_238 = 2;
 	field_244 = 1.0f;
-	field_23C = 0;
+	m_bDontRenderGui = false;
 	field_248 = 1.0f;
 	m_bThirdPerson = false;
 	field_0   = 1.0f;

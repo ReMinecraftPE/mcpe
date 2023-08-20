@@ -101,7 +101,7 @@ public:
 	KeyBind m_keyBinds[16];
 
 	int field_238;
-	uint8_t field_23C;
+	bool m_bDontRenderGui;
 	bool m_bThirdPerson;
 	uint8_t field_23E;
 	bool m_bFlyCheat;
