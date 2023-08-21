@@ -11,7 +11,8 @@
 *.sln.docstates
 
 # Don't actually ignore our user config - it contains the working directory
-!/windows_vs/minecraftcpp.vcxproj.user
+!/platforms/windows/projects/minecraftcpp.vcxproj.user
+!/platforms/windows/projects/minecraftcpp_vs2010.vcxproj.user
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
