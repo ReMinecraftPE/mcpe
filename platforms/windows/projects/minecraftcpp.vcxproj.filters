@@ -1167,7 +1167,7 @@
     <ClInclude Include="$(MC_ROOT)\platforms\windows\AppPlatform_windows.hpp">
       <Filter>source\platforms\windows</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\compat\AKeyCodes.hpp">
+    <ClInclude Include="..\..\..\compat\KeyCodes.hpp">
       <Filter>thirdparty</Filter>
     </ClInclude>
   </ItemGroup>

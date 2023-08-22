@@ -8,6 +8,24 @@
 
 #pragma once
 
+#ifdef USE_SDL
+#include <SDL2/SDL.h>
+
+// because SDL sucks and makes no sense and sets bit 1<<30 for some keycodes for some godamn reason
+enum eSDLVirtualKeys
+{
+	#define CODE(x) SDLVK_ ## x,
+	#include "SDLKeyCodes.h"
+	#undef  CODE
+};
+
+#endif
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#endif
+
 #ifdef PLATFORM_ANDROID
 
 enum

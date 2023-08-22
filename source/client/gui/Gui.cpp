@@ -417,7 +417,7 @@ void Gui::handleKeyPressed(int keyCode)
 #elif defined(_WIN32)
 #define AKEYCODE_SLASH VK_OEM_2
 #elif defined(USE_SDL)
-#define AKEYCODE_SLASH SDLK_SLASH
+#define AKEYCODE_SLASH SDLVK_SLASH
 #else
 #error "Define the slash key here!"
 #endif

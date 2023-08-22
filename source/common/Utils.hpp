@@ -80,7 +80,7 @@ void closedir(DIR* dir);
 
 #endif
 
-#include "compat/AKeyCodes.hpp"
+#include "compat/KeyCodes.hpp"
 
 // options:
 #include "GameMods.hpp"

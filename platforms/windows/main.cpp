@@ -10,7 +10,7 @@
 #include <WindowsX.h>
 
 #include "compat/GL.hpp"
-#include "compat/AKeyCodes.hpp"
+#include "compat/KeyCodes.hpp"
 
 #include "App.hpp"
 #include "AppPlatform_windows.hpp"

@@ -27,7 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\compat\AKeyCodes.hpp" />
     <ClInclude Include="$(MC_ROOT)\GameMods.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\PlatformDefinitions.hpp" />
@@ -382,6 +381,7 @@
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zconf.h" />
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zlib.h" />
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zutil.h" />
+    <ClInclude Include="..\..\..\compat\KeyCodes.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\compat\GLExt.cpp" />

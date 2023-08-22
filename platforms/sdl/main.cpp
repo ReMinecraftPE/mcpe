@@ -63,6 +63,16 @@ static void teardown()
 	}
 }
 
+static int TranslateSDLKeyCodeToVirtual(int sdlCode)
+{
+	switch (sdlCode) {
+		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
+		#include "compat/SDLKeyCodes.h"
+		#undef  CODE
+	}
+	return SDLVK_UNKNOWN;
+}
+
 // Resize From JS
 #ifdef __EMSCRIPTEN__
 extern "C" void resize_from_js(int new_width, int new_height)
@@ -84,6 +94,9 @@ static void handle_events()
 			case SDL_KEYUP:
 			{
 				// TODO: Shouldn't we be handling this in Keyboard?
+				
+				// We really should. We didn't add the f2 key anywhere -iProgramInCpp
+				/*
 				if (event.key.keysym.sym == SDLK_F2)
 				{
 					if (event.key.state == SDL_PRESSED && g_pAppPlatform != nullptr)
@@ -92,7 +105,9 @@ static void handle_events()
 					}
 					break;
 				}
-				Keyboard::feed(AppPlatform_sdlbase::GetKeyState(event), translate_sdl_key_to_mcpe(event.key.keysym.sym));
+				*/
+				
+				Keyboard::feed(AppPlatform_sdlbase::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
 					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);

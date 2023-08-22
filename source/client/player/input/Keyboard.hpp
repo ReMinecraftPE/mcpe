@@ -14,7 +14,7 @@
 #include <vector>
 #include <cstdint>
 
-#define KEYBOARD_STATES_SIZE 256
+#define KEYBOARD_STATES_SIZE (256)
 
 struct KeyboardAction;
 
