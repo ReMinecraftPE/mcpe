@@ -1170,6 +1170,9 @@
     <ClInclude Include="..\..\..\compat\KeyCodes.hpp">
       <Filter>thirdparty</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\compat\SDLKeyCodes.h">
+      <Filter>thirdparty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\TwoWayAuthentication.cpp">

@@ -90,6 +90,7 @@ void Options::initDefaultValues()
 	KM(KM_TOGGLE3RD,    "key.fn.3rd",        0x74); // VK_F5
 	KM(KM_FLY_UP,       "key.fly.up",        'X');
 	KM(KM_FLY_DOWN,     "key.fly.down",      'C');
+	KM(KM_CHAT_CMD,     "key.chat.cmd",      0xBF); // VK_OEM_2
 #undef KM
 
 #ifdef ORIGINAL_CODE
@@ -136,6 +137,7 @@ void Options::initDefaultValues()
 	KM(KM_SLOT_R,        SDLVK_u);
 	KM(KM_FLY_UP,        SDLVK_c);
 	KM(KM_FLY_DOWN,      SDLVK_x);
+	KM(KM_CHAT_CMD,      SDLVK_SLASH);
 #endif
 #ifdef PLATFORM_ANDROID
 	// -- Original xperia play controls
@@ -192,6 +194,7 @@ void Options::initDefaultValues()
 	KM(KM_TOGGLE3RD,     AKEYCODE_F5);
 	KM(KM_FLY_UP,        AKEYCODE_C);
 	KM(KM_FLY_DOWN,      AKEYCODE_X);
+	KM(KM_CHAT_CMD,      AKEYCODE_SLASH);
 #endif
 #undef KM
 }

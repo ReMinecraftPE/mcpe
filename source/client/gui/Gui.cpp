@@ -412,28 +412,14 @@ void Gui::handleKeyPressed(int keyCode)
 		return;
 	}
 
-#ifdef PLATFORM_ANDROID
-// Android already has this defined
-#elif defined(_WIN32)
-#define AKEYCODE_SLASH VK_OEM_2
-#elif defined(USE_SDL)
-#define AKEYCODE_SLASH SDLVK_SLASH
-#else
-#error "Define the slash key here!"
-#endif
-
-	if (keyCode == AKEYCODE_SLASH || m_pMinecraft->m_options.isKey(KM_CHAT, keyCode))
+	if (m_pMinecraft->m_options.isKey(KM_CHAT_CMD, keyCode) || m_pMinecraft->m_options.isKey(KM_CHAT, keyCode))
 	{
 		if (m_pMinecraft->m_pScreen)
 			return;
 
-		m_pMinecraft->setScreen(new ChatScreen(keyCode == AKEYCODE_SLASH));
+		m_pMinecraft->setScreen(new ChatScreen(m_pMinecraft->m_options.isKey(KM_CHAT_CMD, keyCode)));
 		return;
 	}
-
-#ifdef AKEYCODE_SLASH
-#undef AKEYCODE_SLASH
-#endif
 }
 
 void Gui::renderMessages(bool bShowAll)

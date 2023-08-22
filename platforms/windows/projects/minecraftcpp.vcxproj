@@ -382,6 +382,7 @@
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zlib.h" />
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zutil.h" />
     <ClInclude Include="..\..\..\compat\KeyCodes.hpp" />
+    <ClInclude Include="..\..\..\compat\SDLKeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\compat\GLExt.cpp" />
