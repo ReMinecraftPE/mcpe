@@ -32,12 +32,12 @@ void KeyboardInput::setKey(int keyCode, bool b)
 {
 	int index = -1;
 
-	if (m_pOptions->getKey(KM_FORWARD) == keyCode) index = 0;
-	if (m_pOptions->getKey(KM_BACK)    == keyCode) index = 1;
-	if (m_pOptions->getKey(KM_LEFT)    == keyCode) index = 2;
-	if (m_pOptions->getKey(KM_RIGHT)   == keyCode) index = 3;
-	if (m_pOptions->getKey(KM_JUMP)    == keyCode) index = 4;
-	if (m_pOptions->getKey(KM_SNEAK)   == keyCode) index = 5;
+	if (m_pOptions->getKey(KM_FORWARD)  == keyCode) index = 0;
+	if (m_pOptions->getKey(KM_BACKWARD) == keyCode) index = 1;
+	if (m_pOptions->getKey(KM_LEFT)     == keyCode) index = 2;
+	if (m_pOptions->getKey(KM_RIGHT)    == keyCode) index = 3;
+	if (m_pOptions->getKey(KM_JUMP)     == keyCode) index = 4;
+	if (m_pOptions->getKey(KM_SNEAK)    == keyCode) index = 5;
 
 	if (index == -1)
 		return;

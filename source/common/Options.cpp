@@ -54,46 +54,145 @@ void Options::initDefaultValues()
 	m_bServerVisibleDefault = true;
 	m_bDebugText = false;
 
-	m_keyMappings[0] =  KeyMapping("key.forward", 'W');
-	m_keyMappings[1] =  KeyMapping("key.left", 'A');
-	m_keyMappings[2] =  KeyMapping("key.back", 'S');
-	m_keyMappings[3] =  KeyMapping("key.right", 'D');
-	m_keyMappings[4] =  KeyMapping("key.jump", ' ');
-	m_keyMappings[5] =  KeyMapping("key.inventory", 'E');
-	m_keyMappings[6] =  KeyMapping("key.drop", 'Q');
-	m_keyMappings[7] =  KeyMapping("key.chat", 'T');
-	m_keyMappings[8] =  KeyMapping("key.fog", 'F');
-	m_keyMappings[9] =  KeyMapping("key.sneak", '\n');
-	m_keyMappings[10] = KeyMapping("key.destroy", 'X');
-	m_keyMappings[11] = KeyMapping("key.place", 'C');
-	m_keyMappings[12] = KeyMapping("key.menu.next", '(');
-	m_keyMappings[13] = KeyMapping("key.menu.previous", '&');
-	m_keyMappings[14] = KeyMapping("key.menu.ok", '\r');
-	m_keyMappings[15] = KeyMapping("key.menu.cancel", '\b');
+	// Win32 key codes are being used by default
+#define KM(idx, name, code) m_keyMappings[idx] = KeyMapping(name, code)
+	KM(KM_FORWARD,      "key.forward",       'W');
+	KM(KM_LEFT,         "key.left",          'A');
+	KM(KM_BACKWARD,     "key.back",          'S');
+	KM(KM_RIGHT,        "key.right",         'D');
+	KM(KM_JUMP,         "key.jump",          ' ');
+	KM(KM_INVENTORY,    "key.inventory",     'E');
+	KM(KM_DROP,         "key.drop",          'Q');
+	KM(KM_CHAT,         "key.chat",          'T');
+	KM(KM_FOG,          "key.fog",           'F');
+	KM(KM_SNEAK,        "key.sneak",         0x10); // VK_SHIFT. In original, it's 10 (misspelling?)
+	KM(KM_DESTROY,      "key.destroy",       'K'); // was 'X'
+	KM(KM_PLACE,        "key.place",         'L'); // was 'C'
+	KM(KM_MENU_NEXT,    "key.menu.next",     0x28); // VK_DOWN
+	KM(KM_MENU_PREVIOUS,"key.menu.previous", 0x26); // VK_UP
+	KM(KM_MENU_OK,      "key.menu.ok",       0x0D); // VK_RETURN
+	KM(KM_MENU_CANCEL,  "key.menu.cancel",   0x1B); // VK_ESCAPE, was 0x08 = VK_BACK
+	KM(KM_SLOT_1,       "key.slot.1",        '1');
+	KM(KM_SLOT_2,       "key.slot.2",        '2');
+	KM(KM_SLOT_3,       "key.slot.3",        '3');
+	KM(KM_SLOT_4,       "key.slot.4",        '4');
+	KM(KM_SLOT_5,       "key.slot.5",        '5');
+	KM(KM_SLOT_6,       "key.slot.6",        '6');
+	KM(KM_SLOT_7,       "key.slot.7",        '7');
+	KM(KM_SLOT_8,       "key.slot.8",        '8');
+	KM(KM_SLOT_9,       "key.slot.9",        '9');
+	KM(KM_SLOT_L,       "key.slot.left",     'Y');
+	KM(KM_SLOT_R,       "key.slot.right",    'U');
+	KM(KM_TOGGLEGUI,    "key.fn.gui",        0x70); // VK_F1
+	KM(KM_SCREENSHOT,   "key.fn.screenshot", 0x71); // VK_F2
+	KM(KM_TOGGLEDEBUG,  "key.fn.debug",      0x72); // VK_F3
+	KM(KM_TOGGLEAO,     "key.fn.ao",         0x73); // VK_F4
+	KM(KM_TOGGLE3RD,    "key.fn.3rd",        0x74); // VK_F5
+	KM(KM_FLY_UP,       "key.fly.up",        'X');
+	KM(KM_FLY_DOWN,     "key.fly.down",      'C');
+#undef KM
 
 #ifdef ORIGINAL_CODE
-	m_rotY = 2;
-	field_23D = 0;
+	m_iViewDistance = 2;
+	m_bThirdPerson = 0;
 	field_19 = 0;
 #endif
-	m_bFancyGraphics = 1;
-	// keybind now reprograms some the keybinds.
-	// For the restoration, we don't actually need them
-	m_keyMappings[0].value = AKEYCODE_DPAD_UP;
-	m_keyMappings[1].value = AKEYCODE_DPAD_LEFT;
-	m_keyMappings[2].value = AKEYCODE_DPAD_DOWN;
-	m_keyMappings[3].value = AKEYCODE_DPAD_RIGHT;
-	m_keyMappings[4].value = AKEYCODE_DPAD_CENTER; // lmao, how stupid.
-	m_keyMappings[10].value = AKEYCODE_BUTTON_L1;
-	m_keyMappings[11].value = AKEYCODE_BUTTON_R1;
-	m_keyMappings[12].value = AKEYCODE_DPAD_DOWN;
-	m_keyMappings[13].value = AKEYCODE_DPAD_UP;
-	m_keyMappings[14].value = AKEYCODE_DPAD_CENTER;
-	m_keyMappings[15].value = AKEYCODE_BACK;
 
-#ifndef ORIGINAL_CODE
-	m_keyMappings[9].value = AKEYCODE_SHIFT_LEFT;
+	m_bFancyGraphics = 1;
+
+#define KM(idx,code) m_keyMappings[idx].value = code
+#ifdef USE_SDL
+	KM(KM_FORWARD,       SDLK_w);
+	KM(KM_LEFT,          SDLK_a);
+	KM(KM_BACKWARD,      SDLK_s);
+	KM(KM_RIGHT,         SDLK_d);
+	KM(KM_JUMP,          SDLK_SPACE);
+	KM(KM_DESTROY,       SDLK_x);
+	KM(KM_PLACE,         SDLK_c);
+	KM(KM_MENU_NEXT,     SDLK_DPAD_DOWN);
+	KM(KM_MENU_PREVIOUS, SDLK_DPAD_UP);
+	KM(KM_MENU_OK,       SDLK_ENTER);
+	KM(KM_MENU_CANCEL,   SDLK_ESCAPE);
+	KM(KM_DROP,          SDLK_q);
+	KM(KM_CHAT,          SDLK_t);
+	KM(KM_FOG,           SDLK_f);
+	KM(KM_SNEAK,         SDLK_SHIFT_LEFT);
+	KM(KM_SLOT_1,        SDLK_1);
+	KM(KM_SLOT_2,        SDLK_2);
+	KM(KM_SLOT_3,        SDLK_3);
+	KM(KM_SLOT_4,        SDLK_4);
+	KM(KM_SLOT_5,        SDLK_5);
+	KM(KM_SLOT_6,        SDLK_6);
+	KM(KM_SLOT_7,        SDLK_7);
+	KM(KM_SLOT_8,        SDLK_8);
+	KM(KM_SLOT_9,        SDLK_9);
+	KM(KM_TOGGLEGUI,     SDLK_F1);
+	KM(KM_SCREENSHOT,    SDLK_F2);
+	KM(KM_TOGGLEDEBUG,   SDLK_F3);
+	KM(KM_TOGGLEAO,      SDLK_F4);
+	KM(KM_TOGGLE3RD,     SDLK_F5);
+	KM(KM_SLOT_L,        SDLK_y);
+	KM(KM_SLOT_R,        SDLK_u);
+	KM(KM_FLY_UP,        SDLK_c);
+	KM(KM_FLY_DOWN,      SDLK_x);
 #endif
+#ifdef PLATFORM_ANDROID
+	// -- Original xperia play controls
+	//KM(KM_FORWARD,       AKEYCODE_DPAD_UP);
+	//KM(KM_LEFT,          AKEYCODE_DPAD_LEFT);
+	//KM(KM_BACKWARD,      AKEYCODE_DPAD_DOWN);
+	//KM(KM_RIGHT,         AKEYCODE_DPAD_RIGHT);
+	//KM(KM_JUMP,          AKEYCODE_DPAD_CENTER);
+	//KM(KM_DESTROY,       AKEYCODE_BUTTON_L1);
+	//KM(KM_PLACE,         AKEYCODE_BUTTON_R1);
+	//KM(KM_MENU_NEXT,     AKEYCODE_DPAD_DOWN);
+	//KM(KM_MENU_PREVIOUS, AKEYCODE_DPAD_UP);
+	//KM(KM_MENU_OK,       AKEYCODE_DPAD_CENTER);
+	//KM(KM_MENU_CANCEL,   AKEYCODE_BACK);
+	//custom
+	//KM(KM_INVENTORY,     AKEYCODE_BUTTON_Y);
+	//KM(KM_SLOT_R,        AKEYCODE_BACK);
+	//KM(KM_SLOT_L,        AKEYCODE_BUTTON_X);
+	//KM(KM_FLY_UP,        AKEYCODE_BUTTON_R1);
+	//KM(KM_FLY_DOWN,      AKEYCODE_BUTTON_L1);
+
+	KM(KM_FORWARD,       AKEYCODE_W);
+	KM(KM_LEFT,          AKEYCODE_A);
+	KM(KM_BACKWARD,      AKEYCODE_S);
+	KM(KM_RIGHT,         AKEYCODE_D);
+	KM(KM_JUMP,          AKEYCODE_SPACE);
+	KM(KM_DESTROY,       AKEYCODE_X);
+	KM(KM_PLACE,         AKEYCODE_C);
+	KM(KM_MENU_NEXT,     AKEYCODE_DPAD_DOWN);
+	KM(KM_MENU_PREVIOUS, AKEYCODE_DPAD_UP);
+	KM(KM_MENU_OK,       AKEYCODE_ENTER);
+	KM(KM_MENU_CANCEL,   AKEYCODE_ESCAPE);
+	// custom
+	KM(KM_SLOT_L,        AKEYCODE_Y);
+	KM(KM_SLOT_R,        AKEYCODE_U);
+	KM(KM_DROP,          AKEYCODE_Q);
+	KM(KM_CHAT,          AKEYCODE_T);
+	KM(KM_FOG,           AKEYCODE_F);
+	KM(KM_INVENTORY,     AKEYCODE_F);
+	KM(KM_SNEAK,         AKEYCODE_SHIFT_LEFT);
+	KM(KM_SLOT_1,        AKEYCODE_1);
+	KM(KM_SLOT_2,        AKEYCODE_2);
+	KM(KM_SLOT_3,        AKEYCODE_3);
+	KM(KM_SLOT_4,        AKEYCODE_4);
+	KM(KM_SLOT_5,        AKEYCODE_5);
+	KM(KM_SLOT_6,        AKEYCODE_6);
+	KM(KM_SLOT_7,        AKEYCODE_7);
+	KM(KM_SLOT_8,        AKEYCODE_8);
+	KM(KM_SLOT_9,        AKEYCODE_9);
+	KM(KM_TOGGLEGUI,     AKEYCODE_F1);
+	KM(KM_SCREENSHOT,    AKEYCODE_F2);
+	KM(KM_TOGGLEDEBUG,   AKEYCODE_F3);
+	KM(KM_TOGGLEAO,      AKEYCODE_F4);
+	KM(KM_TOGGLE3RD,     AKEYCODE_F5);
+	KM(KM_FLY_UP,        AKEYCODE_C);
+	KM(KM_FLY_DOWN,      AKEYCODE_X);
+#endif
+#undef KM
 }
 
 Options::Options()

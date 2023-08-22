@@ -17,7 +17,7 @@ enum eKeyMappingIndex
 {
 	KM_FORWARD,
 	KM_LEFT,
-	KM_BACK,
+	KM_BACKWARD,
 	KM_RIGHT,
 	KM_JUMP,
 	KM_INVENTORY,
@@ -30,7 +30,25 @@ enum eKeyMappingIndex
 	KM_MENU_NEXT,
 	KM_MENU_PREVIOUS,
 	KM_MENU_OK,
-	KM_MENU_CANCEL,
+	KM_MENU_CANCEL, KM_BACK = KM_MENU_CANCEL,
+	KM_SLOT_1,
+	KM_SLOT_2,
+	KM_SLOT_3,
+	KM_SLOT_4,
+	KM_SLOT_5,
+	KM_SLOT_6,
+	KM_SLOT_7,
+	KM_SLOT_8,
+	KM_SLOT_9,
+	KM_SLOT_L,
+	KM_SLOT_R,
+	KM_TOGGLEGUI,
+	KM_SCREENSHOT,
+	KM_TOGGLEDEBUG,
+	KM_TOGGLEAO,
+	KM_TOGGLE3RD,
+	KM_FLY_UP,
+	KM_FLY_DOWN,
 	KM_COUNT,
 };
 
@@ -90,6 +108,10 @@ public:
 	int getKey(eKeyMappingIndex idx)
 	{
 		return m_keyMappings[idx].value;
+	}
+	bool isKey(eKeyMappingIndex idx, int keyCode)
+	{
+		return getKey(idx) == keyCode;
 	}
 
 public:

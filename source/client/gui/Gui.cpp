@@ -382,50 +382,58 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 
 void Gui::handleKeyPressed(int keyCode)
 {
-	switch (keyCode)
+	if (m_pMinecraft->m_options.isKey(KM_INVENTORY, keyCode))
 	{
-		case AKEYCODE_BUTTON_Y:
-		{
-			m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
-			break;
-		}
-
-		case AKEYCODE_BACK:
-		{
-			int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
+		return;
+	}
+	if (m_pMinecraft->m_options.isKey(KM_SLOT_R, keyCode))
+	{
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
 #ifdef ENH_ENABLE_9TH_SLOT
 #define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
 #else
 #define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 3)
 #endif
-			//@HUH: for whatever reason, it ignores the 7th item
-			if (*slot <= MAX_ITEMS)
-				(*slot)++;
+		//@HUH: for whatever reason, it ignores the 7th item
+		if (*slot <= MAX_ITEMS)
+			(*slot)++;
 
-			break;
-		}
-
-		case AKEYCODE_BUTTON_X:
-		{
-			int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
-
-			if (*slot > 0)
-				(*slot)--;
-
-			break;
-		}
-
-		case AKEYCODE_T:
-		case AKEYCODE_SLASH:
-		{
-			if (m_pMinecraft->m_pScreen)
-				break;
-
-			m_pMinecraft->setScreen(new ChatScreen(keyCode == AKEYCODE_SLASH));
-			break;
-		}
+		return;
 	}
+	if (m_pMinecraft->m_options.isKey(KM_SLOT_L, keyCode))
+	{
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+
+		if (*slot > 0)
+			(*slot)--;
+
+		return;
+	}
+
+#ifdef PLATFORM_ANDROID
+// Android already has this defined
+#elif defined(_WIN32)
+#define AKEYCODE_SLASH VK_OEM_2
+#elif defined(USE_SDL)
+#define AKEYCODE_SLASH SDLK_SLASH
+#else
+#error "Define the slash key here!"
+#endif
+
+	if (keyCode == AKEYCODE_SLASH || m_pMinecraft->m_options.isKey(KM_CHAT, keyCode))
+	{
+		if (m_pMinecraft->m_pScreen)
+			return;
+
+		m_pMinecraft->setScreen(new ChatScreen(keyCode == AKEYCODE_SLASH));
+		return;
+	}
+
+#ifdef AKEYCODE_SLASH
+#undef AKEYCODE_SLASH
+#endif
 }
 
 void Gui::renderMessages(bool bShowAll)

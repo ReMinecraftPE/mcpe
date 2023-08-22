@@ -107,7 +107,22 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 			break;
 	}
 #else
+
 	char chr = '\0';
+
+	// here we'll just use the raw key codes...
+#ifdef _WIN32
+#define AKEYCODE_FORWARD_DEL VK_DELETE
+#define AKEYCODE_ARROW_LEFT  VK_LEFT
+#define AKEYCODE_ARROW_RIGHT VK_RIGHT
+#define AKEYCODE_DEL         VK_BACK
+#elif defined(USE_SDL)
+#define AKEYCODE_FORWARD_DEL SDLK_DELETE
+#define AKEYCODE_ARROW_LEFT  SDLK_LEFT
+#define AKEYCODE_ARROW_RIGHT SDLK_RIGHT
+#define AKEYCODE_DEL         SDLK_BACKSPACE
+#endif
+
 	switch (key)
 	{
 		case AKEYCODE_FORWARD_DEL:
@@ -125,6 +140,15 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 			break;
 #endif
 	}
+#endif
+
+#ifdef AKEYCODE_FORWARD_DEL
+#undef AKEYCODE_FORWARD_DEL
+#undef AKEYCODE_ARROW_LEFT
+#undef AKEYCODE_ARROW_RIGHT
+#endif
+#ifdef AKEYCODE_DEL
+#undef AKEYCODE_DEL
 #endif
 
 	if (chr)

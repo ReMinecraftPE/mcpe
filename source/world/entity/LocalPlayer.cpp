@@ -73,9 +73,9 @@ void LocalPlayer::calculateFlight(float x, float y, float z)
 	float z1 = f1 * z;
 
 	float y1 = 0.0f;
-	if (Keyboard::isKeyDown(AKEYCODE_BUTTON_R1))
+	if (Keyboard::isKeyDown(m_pMinecraft->m_options.getKey(KM_FLY_UP)))
 		y1 = f1 * 0.2f;
-	if (Keyboard::isKeyDown(AKEYCODE_BUTTON_L1))
+	if (Keyboard::isKeyDown(m_pMinecraft->m_options.getKey(KM_FLY_DOWN)))
 		y1 = f1 * -0.2f;
 
 	field_BFC += x1;

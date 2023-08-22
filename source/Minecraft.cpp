@@ -452,20 +452,21 @@ void Minecraft::tickInput()
 		{
 			m_gui.handleKeyPressed(keyCode);
 
-			int index = keyCode - AKEYCODE_1;
-			if (index <= 8 && index >= 0)
+			for (int i = 0; i < 9; i++)
 			{
-				m_pLocalPlayer->m_pInventory->selectSlot(index);
+				if (m_options.isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
+					m_pLocalPlayer->m_pInventory->selectSlot(i);
 			}
-			else if (keyCode == AKEYCODE_SEARCH)
+
+			if (m_options.isKey(KM_TOGGLE3RD, keyCode))
 			{
 				m_options.m_bThirdPerson = !m_options.m_bThirdPerson;
 			}
-			else if (keyCode == AKEYCODE_MENU)
+			else if (m_options.isKey(KM_MENU_CANCEL, keyCode))
 			{
 				pauseGame();
 			}
-			else if (keyCode == AKEYCODE_Q)
+			else if (m_options.isKey(KM_DROP, keyCode))
 			{
 				int itemID = m_pLocalPlayer->m_pInventory->getSelectedItemId();
 				if (itemID > 0)
@@ -474,16 +475,16 @@ void Minecraft::tickInput()
 					m_pLocalPlayer->drop(&inst);
 				}
 			}
-			else if (keyCode == AKEYCODE_F1)
+			else if (m_options.isKey(KM_TOGGLEGUI, keyCode))
 			{
 				m_options.m_bDontRenderGui = !m_options.m_bDontRenderGui;
 			}
-			else if (keyCode == AKEYCODE_F3)
+			else if (m_options.isKey(KM_TOGGLEDEBUG, keyCode))
 			{
 				m_options.m_bDebugText = !m_options.m_bDebugText;
 			}
 		#ifdef ENH_ALLOW_AO
-			else if (keyCode == AKEYCODE_F4)
+			else if (m_options.isKey(KM_TOGGLEAO, keyCode))
 			{
 				// Toggle ambient occlusion.
 				m_options.m_bAmbientOcclusion = !m_options.m_bAmbientOcclusion;
