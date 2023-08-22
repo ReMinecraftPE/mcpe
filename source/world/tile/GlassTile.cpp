@@ -8,6 +8,7 @@
 
 #include "GlassTile.hpp"
 #include "world/level/Level.hpp"
+#include "client/renderer/PatchManager.hpp"
 
 GlassTile::GlassTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {
@@ -16,4 +17,12 @@ GlassTile::GlassTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 int GlassTile::getResourceCount(Random* pRandom)
 {
 	return 0;
+}
+
+int GlassTile::getRenderLayer()
+{
+	if (GetPatchManager()->IsGlassSemiTransparent())
+		return LAYER_ALPHA;
+
+	return LAYER_OPAQUE;
 }

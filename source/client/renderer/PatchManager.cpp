@@ -19,6 +19,7 @@ PatchManager* GetPatchManager()
 PatchManager::PatchManager()
 {
 	m_bGrassTinted = true;
+	m_bGlassSemiTransparent = false;
 	m_nMetalSideYOffset = -1;
 }
 
@@ -130,8 +131,11 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 			ReadBool(lineStream, m_bGrassTinted);
 			continue;
 		}
-
-		// features -- TODO un-hardcode this
+		if (command == "semi_transparent_glass")
+		{
+			ReadBool(lineStream, m_bGlassSemiTransparent);
+			continue;
+		}
 		if (command == "metal_block_sides")
 		{
 			ReadInt(lineStream, m_nMetalSideYOffset);
@@ -206,6 +210,11 @@ bool PatchManager::IsGrassTinted()
 int PatchManager::GetMetalSideYOffset()
 {
 	return m_nMetalSideYOffset;
+}
+
+bool PatchManager::IsGlassSemiTransparent()
+{
+	return m_bGlassSemiTransparent;
 }
 
 void PatchManager::ReadBool(std::istream& is, bool& b)
