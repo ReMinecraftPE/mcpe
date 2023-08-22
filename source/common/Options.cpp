@@ -54,22 +54,22 @@ void Options::initDefaultValues()
 	m_bServerVisibleDefault = true;
 	m_bDebugText = false;
 
-	m_keyBinds[0] =  KeyBind("key.forward", 'W');
-	m_keyBinds[1] =  KeyBind("key.left", 'A');
-	m_keyBinds[2] =  KeyBind("key.back", 'S');
-	m_keyBinds[3] =  KeyBind("key.right", 'D');
-	m_keyBinds[4] =  KeyBind("key.jump", ' ');
-	m_keyBinds[5] =  KeyBind("key.inventory", 'E');
-	m_keyBinds[6] =  KeyBind("key.drop", 'Q');
-	m_keyBinds[7] =  KeyBind("key.chat", 'T');
-	m_keyBinds[8] =  KeyBind("key.fog", 'F');
-	m_keyBinds[9] =  KeyBind("key.sneak", '\n');
-	m_keyBinds[10] = KeyBind("key.destroy", 'X');
-	m_keyBinds[11] = KeyBind("key.place", 'C');
-	m_keyBinds[12] = KeyBind("key.menu.next", '(');
-	m_keyBinds[13] = KeyBind("key.menu.previous", '&');
-	m_keyBinds[14] = KeyBind("key.menu.ok", '\r');
-	m_keyBinds[15] = KeyBind("key.menu.cancel", '\b');
+	m_keyMappings[0] =  KeyMapping("key.forward", 'W');
+	m_keyMappings[1] =  KeyMapping("key.left", 'A');
+	m_keyMappings[2] =  KeyMapping("key.back", 'S');
+	m_keyMappings[3] =  KeyMapping("key.right", 'D');
+	m_keyMappings[4] =  KeyMapping("key.jump", ' ');
+	m_keyMappings[5] =  KeyMapping("key.inventory", 'E');
+	m_keyMappings[6] =  KeyMapping("key.drop", 'Q');
+	m_keyMappings[7] =  KeyMapping("key.chat", 'T');
+	m_keyMappings[8] =  KeyMapping("key.fog", 'F');
+	m_keyMappings[9] =  KeyMapping("key.sneak", '\n');
+	m_keyMappings[10] = KeyMapping("key.destroy", 'X');
+	m_keyMappings[11] = KeyMapping("key.place", 'C');
+	m_keyMappings[12] = KeyMapping("key.menu.next", '(');
+	m_keyMappings[13] = KeyMapping("key.menu.previous", '&');
+	m_keyMappings[14] = KeyMapping("key.menu.ok", '\r');
+	m_keyMappings[15] = KeyMapping("key.menu.cancel", '\b');
 
 #ifdef ORIGINAL_CODE
 	m_rotY = 2;
@@ -79,20 +79,20 @@ void Options::initDefaultValues()
 	m_bFancyGraphics = 1;
 	// keybind now reprograms some the keybinds.
 	// For the restoration, we don't actually need them
-	m_keyBinds[0].value = AKEYCODE_DPAD_UP;
-	m_keyBinds[1].value = AKEYCODE_DPAD_LEFT;
-	m_keyBinds[2].value = AKEYCODE_DPAD_DOWN;
-	m_keyBinds[3].value = AKEYCODE_DPAD_RIGHT;
-	m_keyBinds[4].value = AKEYCODE_DPAD_CENTER; // lmao, how stupid.
-	m_keyBinds[10].value = AKEYCODE_BUTTON_L1;
-	m_keyBinds[11].value = AKEYCODE_BUTTON_R1;
-	m_keyBinds[12].value = AKEYCODE_DPAD_DOWN;
-	m_keyBinds[13].value = AKEYCODE_DPAD_UP;
-	m_keyBinds[14].value = AKEYCODE_DPAD_CENTER;
-	m_keyBinds[15].value = AKEYCODE_BACK;
+	m_keyMappings[0].value = AKEYCODE_DPAD_UP;
+	m_keyMappings[1].value = AKEYCODE_DPAD_LEFT;
+	m_keyMappings[2].value = AKEYCODE_DPAD_DOWN;
+	m_keyMappings[3].value = AKEYCODE_DPAD_RIGHT;
+	m_keyMappings[4].value = AKEYCODE_DPAD_CENTER; // lmao, how stupid.
+	m_keyMappings[10].value = AKEYCODE_BUTTON_L1;
+	m_keyMappings[11].value = AKEYCODE_BUTTON_R1;
+	m_keyMappings[12].value = AKEYCODE_DPAD_DOWN;
+	m_keyMappings[13].value = AKEYCODE_DPAD_UP;
+	m_keyMappings[14].value = AKEYCODE_DPAD_CENTER;
+	m_keyMappings[15].value = AKEYCODE_BACK;
 
 #ifndef ORIGINAL_CODE
-	m_keyBinds[9].value = AKEYCODE_SHIFT_LEFT;
+	m_keyMappings[9].value = AKEYCODE_SHIFT_LEFT;
 #endif
 }
 

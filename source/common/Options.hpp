@@ -13,6 +13,36 @@
 #include <string>
 #include <vector>
 
+enum eKeyMappingIndex
+{
+	KM_FORWARD,
+	KM_LEFT,
+	KM_BACK,
+	KM_RIGHT,
+	KM_JUMP,
+	KM_INVENTORY,
+	KM_DROP,
+	KM_CHAT,
+	KM_FOG,
+	KM_SNEAK,
+	KM_DESTROY,
+	KM_PLACE,
+	KM_MENU_NEXT,
+	KM_MENU_PREVIOUS,
+	KM_MENU_OK,
+	KM_MENU_CANCEL,
+	KM_COUNT,
+};
+
+struct KeyMapping
+{
+	std::string key;
+	int value;
+
+	KeyMapping() {}
+	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
+};
+
 class Options
 {
 public:
@@ -34,34 +64,6 @@ public:
 	static std::string saveInt(int i);
 
 public:
-	enum KeyBindIndex
-	{
-		FORWARD,
-		LEFT,
-		BACK,
-		RIGHT,
-		JUMP,
-		INVENTORY,
-		DROP,
-		CHAT,
-		FOG,
-		SNEAK,
-		DESTROY,
-		PLACE,
-		MENU_NEXT,
-		MENU_PREVIOUS,
-		MENU_OK,
-		MENU_CANCEL,
-	};
-
-	struct KeyBind {
-		std::string key;
-		int value;
-
-		KeyBind() {}
-		KeyBind(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
-	};
-
 	struct Option
 	{
 		bool field_0;
@@ -85,6 +87,11 @@ public:
 		static Option GUI_SCALE;
 	};
 
+	int getKey(eKeyMappingIndex idx)
+	{
+		return m_keyMappings[idx].value;
+	}
+
 public:
 	float field_0;
 	float m_fMasterVolume;
@@ -98,8 +105,7 @@ public:
 	bool m_bAmbientOcclusion;
 	uint8_t field_19;
 	std::string field_1C;
-	KeyBind m_keyBinds[16];
-
+	KeyMapping m_keyMappings[KM_COUNT];
 	int field_238;
 	bool m_bDontRenderGui;
 	bool m_bThirdPerson;

@@ -420,7 +420,7 @@ void Minecraft::tickInput()
 #define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
 #endif
 
-				if (Mouse::getEventButtonState() > 0) // @NOTE: Scroll up
+				if (Mouse::getEventButtonState() <= 0) // @NOTE: Scroll up
 				{
 					if (slot-- == 0)
 					{
@@ -498,9 +498,9 @@ void Minecraft::tickInput()
 
 		if (getTimeMs() - field_2B4 <= 200)
 		{
-			if (m_options.m_keyBinds[Options::DESTROY].value == keyCode && bPressed)
+			if (m_options.getKey(KM_DESTROY) == keyCode && bPressed)
 				handleMouseClick(1);
-			if (m_options.m_keyBinds[Options::PLACE].value == keyCode && bPressed)
+			if (m_options.getKey(KM_PLACE) == keyCode && bPressed)
 				handleMouseClick(2);
 		}
 	}
@@ -513,7 +513,7 @@ void Minecraft::tickInput()
 		if (!Mouse::isButtonDown(Mouse::ButtonType::LEFT) || bIsInGUI)
 			goto label_12;
 	}
-	else if (Keyboard::isKeyDown(m_options.m_keyBinds[Options::DESTROY].value))
+	else if (Keyboard::isKeyDown(m_options.getKey(KM_DESTROY)))
 	{
 		goto label_12;
 	}

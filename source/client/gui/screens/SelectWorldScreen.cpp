@@ -59,7 +59,7 @@ bool SelectWorldScreen::isInGameScreen()
 void SelectWorldScreen::keyPressed(int code)
 {
 #ifndef ORIGINAL_CODE
-	if (m_pMinecraft->m_options.m_keyBinds[Options::MENU_OK].value == code)
+	if (m_pMinecraft->m_options.getKey(KM_MENU_OK) == code)
 		m_pWorldSelectionList->selectItem(m_pWorldSelectionList->getItemAtPosition(m_width / 2, m_height / 2), false);
 
 	m_btnUnknown.field_36 = true;
@@ -67,10 +67,10 @@ void SelectWorldScreen::keyPressed(int code)
 
 	if (m_btnUnknown.field_36)
 	{
-		if (m_pMinecraft->m_options.m_keyBinds[Options::LEFT].value == code)
+		if (m_pMinecraft->m_options.getKey(KM_LEFT) == code)
 			m_pWorldSelectionList->stepLeft();
 
-		if (m_pMinecraft->m_options.m_keyBinds[Options::RIGHT].value == code)
+		if (m_pMinecraft->m_options.getKey(KM_RIGHT) == code)
 			m_pWorldSelectionList->stepRight();
 	}
 
