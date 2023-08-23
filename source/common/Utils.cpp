@@ -120,8 +120,15 @@ bool createFolderIfNotExists(const char* pDir)
 	return XPL_MKDIR(pDir, 0755) == 0;
 }
 
-bool DeleteDirectory(const std::string& name, bool unused)
+bool DeleteDirectory(const std::string& name2, bool unused)
 {
+	std::string name = name2;
+	if (name.empty())
+		return false;
+
+	if (name[name.size() - 1] == '/')
+		name.resize(name.size() - 1);
+
 	DIR* dir = opendir(name.c_str());
 	if (!dir)
 		return false;
@@ -135,12 +142,17 @@ bool DeleteDirectory(const std::string& name, bool unused)
 		if (!strcmp(de->d_name, ".") || !strcmp(de->d_name, ".."))
 			continue;
 
-		const std::string dirPath = name + de->d_name;
+		const std::string dirPath = name + "/" + de->d_name;
 		remove(dirPath.c_str());
 	}
 
 	closedir(dir);
+
+#ifdef _WIN32
+	return RemoveDirectoryA(name.c_str());
+#else
 	return remove(name.c_str()) == 0;
+#endif
 }
 
 const char* GetTerrainName()
