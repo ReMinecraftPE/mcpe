@@ -325,6 +325,9 @@ int main(int argc, char *argv[])
 #endif
 	storagePath += "/.reminecraftpe";
     
+	if (!storagePath.empty())
+		createFolderIfNotExists(storagePath.c_str());
+	
 	// Start MCPE
 	g_pApp = new NinecraftApp;
 	g_pApp->m_externalStorageDir = storagePath;
