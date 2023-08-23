@@ -12,14 +12,9 @@ class AppPlatform_sdlbase : public AppPlatform
 {
 public:
     void _init(std::string storageDir, SDL_Window *window);
-    void _init(std::string storageDir, SDL_Window *window, const Texture& icon);
     AppPlatform_sdlbase(std::string storageDir, SDL_Window *window)
     {
         _init(storageDir, window);
-    }
-	AppPlatform_sdlbase(std::string storageDir, SDL_Window *window, const Texture& icon)
-    {
-        _init(storageDir, window, icon);
     }
     ~AppPlatform_sdlbase();
 
@@ -59,4 +54,6 @@ protected:
     std::string _storageDir;
 
 	virtual void ensureDirectoryExists(const char* path) { }
+	
+	void setIcon(const Texture& icon); // note: this takes ownership of the texture, so no memory leaks!
 };

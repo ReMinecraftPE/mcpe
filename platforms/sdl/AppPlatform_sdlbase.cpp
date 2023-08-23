@@ -26,14 +26,13 @@ void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
     ensureDirectoryExists(_storageDir.c_str());
 }
 
-void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window, const Texture& icon)
+void AppPlatform_sdlbase::setIcon(const Texture& icon)
 {
-    _init(storageDir, window);
-    
     _iconTexture = new Texture(icon);
     _icon = getSurfaceForTexture(_iconTexture);
+	
     if (_icon)
-        SDL_SetWindowIcon(window, _icon);
+        SDL_SetWindowIcon(_window, _icon);
 }
 
 AppPlatform_sdlbase::~AppPlatform_sdlbase()
