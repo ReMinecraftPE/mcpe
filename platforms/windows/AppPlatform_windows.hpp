@@ -51,6 +51,8 @@ public:
 	// Also add this to allow dynamic texture patching.
 	std::string getPatchData() override;
 
+	void SetDefaultBindings(KeyMapping keymap[]) override;
+
 	void setScreenSize(int width, int height);
 	const char* const getWindowTitle() const { return m_WindowTitle; }
 

@@ -54,6 +54,8 @@ void Options::initDefaultValues()
 	m_bServerVisibleDefault = true;
 	m_bDebugText = false;
 
+	/*
+	* Moved to AppPlatform_Windows
 	// Win32 key codes are being used by default
 #define KM(idx, name, code) m_keyMappings[idx] = KeyMapping(name, code)
 	KM(KM_FORWARD,      "key.forward",       'W');
@@ -92,6 +94,7 @@ void Options::initDefaultValues()
 	KM(KM_FLY_DOWN,     "key.fly.down",      'C');
 	KM(KM_CHAT_CMD,     "key.chat.cmd",      0xBF); // VK_OEM_2
 #undef KM
+*/
 
 #ifdef ORIGINAL_CODE
 	m_iViewDistance = 2;
@@ -100,7 +103,8 @@ void Options::initDefaultValues()
 #endif
 
 	m_bFancyGraphics = 1;
-
+	/*
+	* Moved to AppPlatform_sdlbase
 #define KM(idx,code) m_keyMappings[idx].value = code
 #ifdef USE_SDL
 	KM(KM_FORWARD,       SDLVK_w);
@@ -139,6 +143,7 @@ void Options::initDefaultValues()
 	KM(KM_FLY_DOWN,      SDLVK_x);
 	KM(KM_CHAT_CMD,      SDLVK_SLASH);
 #endif
+*/
 #ifdef PLATFORM_ANDROID
 	// -- Original xperia play controls
 	//KM(KM_FORWARD,       AKEYCODE_DPAD_UP);

@@ -1173,6 +1173,9 @@
     <ClInclude Include="..\..\..\compat\SDLKeyCodes.h">
       <Filter>thirdparty</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\client\gui\screens\ControlsScreen.hpp">
+      <Filter>source\client\gui\screens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2200,6 +2203,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemWindows.cpp">
       <Filter>source\platforms\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\client\gui\screens\ControlsScreen.cpp">
+      <Filter>source\client\gui\screens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

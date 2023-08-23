@@ -383,6 +383,7 @@
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zutil.h" />
     <ClInclude Include="..\..\..\compat\KeyCodes.hpp" />
     <ClInclude Include="..\..\..\compat\SDLKeyCodes.h" />
+    <ClInclude Include="..\..\..\source\client\gui\screens\ControlsScreen.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\compat\GLExt.cpp" />
@@ -727,6 +728,7 @@
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\trees.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\uncompr.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\zutil.c" />
+    <ClCompile Include="..\..\..\source\client\gui\screens\ControlsScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MC_ROOT)\thirdparty\raknet\CMakeLists.txt" />

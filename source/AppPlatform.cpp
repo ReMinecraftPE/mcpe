@@ -132,6 +132,11 @@ std::string AppPlatform::getPatchData()
 	return "";
 }
 
+void AppPlatform::SetDefaultBindings(KeyMapping keymap[])
+{
+	
+}
+
 std::string AppPlatform::getAssetPath(const std::string &path) const
 {
     std::string realPath = path;

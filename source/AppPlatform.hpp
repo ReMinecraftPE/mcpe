@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "client/renderer/Texture.hpp"
+#include "common/Options.hpp"
 
 class AppPlatform
 {
@@ -41,7 +42,6 @@ public:
 	virtual Texture loadTexture(const std::string&, bool);
 	virtual std::vector<std::string> getOptionStrings();
 
-#ifndef ORIGINAL_CODE
 	// Also add these to allow proper turning within the game.
 	virtual void recenterMouse();
 	virtual void setMouseGrabbed(bool b);
@@ -54,7 +54,7 @@ public:
 	virtual void setOptionStrings(const std::vector<std::string>& vec);
 	// Also add this to allow dynamic patching.
 	virtual std::string getPatchData();
-#endif
+	virtual void SetDefaultBindings(KeyMapping keymap[]);
 
 public:
     virtual std::string getAssetPath(const std::string& path) const;

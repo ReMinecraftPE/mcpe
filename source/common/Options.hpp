@@ -66,7 +66,6 @@ class Options
 {
 public:
 	struct Option;
-	struct KeyBind;
 public:
 	Options();
 	void initDefaultValues();

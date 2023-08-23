@@ -221,6 +221,45 @@ std::string AppPlatform_windows::getPatchData()
 	return ss.str();
 }
 
+void AppPlatform_windows::SetDefaultBindings(KeyMapping keymap[])
+{
+	keymap[KM_FORWARD] =		KeyMapping("key.forward", 'W');
+	keymap[KM_LEFT] =			KeyMapping("key.left", 'A');
+	keymap[KM_BACKWARD] =		KeyMapping("key.back", 'S');
+	keymap[KM_RIGHT] =			KeyMapping("key.right", 'D');
+	keymap[KM_JUMP] =			KeyMapping("key.jump", ' ');
+	keymap[KM_INVENTORY] =		KeyMapping("key.inventory", 'E');
+	keymap[KM_DROP] =			KeyMapping("key.drop", 'Q');
+	keymap[KM_CHAT] =			KeyMapping("key.chat", 'T');
+	keymap[KM_FOG] =			KeyMapping("key.fog", 'F');
+	keymap[KM_SNEAK] =			KeyMapping("key.sneak", VK_SHIFT);
+	keymap[KM_DESTROY] =		KeyMapping("key.destroy", 'K');
+	keymap[KM_PLACE] =			KeyMapping("key.place", 'L');
+	keymap[KM_MENU_NEXT] =		KeyMapping("key.menu.next", VK_DOWN);
+	keymap[KM_MENU_PREVIOUS] =	KeyMapping("key.menu.previous", VK_UP);
+	keymap[KM_MENU_OK] =		KeyMapping("key.menu.ok", VK_RETURN);
+	keymap[KM_MENU_CANCEL] =	KeyMapping("key.menu.cancel", VK_ESCAPE);
+	keymap[KM_SLOT_1] =			KeyMapping("key.slot.1", '1');
+	keymap[KM_SLOT_2] =			KeyMapping("key.slot.2", '2');
+	keymap[KM_SLOT_3] =			KeyMapping("key.slot.3", '3');
+	keymap[KM_SLOT_4] =			KeyMapping("key.slot.4", '4');
+	keymap[KM_SLOT_5] =			KeyMapping("key.slot.5", '5');
+	keymap[KM_SLOT_6] =			KeyMapping("key.slot.6", '6');
+	keymap[KM_SLOT_7] =			KeyMapping("key.slot.7", '7');
+	keymap[KM_SLOT_8] =			KeyMapping("key.slot.8", '8');
+	keymap[KM_SLOT_9] =			KeyMapping("key.slot.9", '9');
+	keymap[KM_SLOT_L] =			KeyMapping("key.slot.left", 'Y');
+	keymap[KM_SLOT_R] =			KeyMapping("key.slot.right", 'U');
+	keymap[KM_TOGGLEGUI] =		KeyMapping("key.fn.gui", VK_F1);
+	keymap[KM_SCREENSHOT] =		KeyMapping("key.fn.screenshot", VK_F2);
+	keymap[KM_TOGGLEDEBUG] =	KeyMapping("key.fn.debug", VK_F3);
+	keymap[KM_TOGGLEAO] =		KeyMapping("key.fn.ao", VK_F4);
+	keymap[KM_TOGGLE3RD] =		KeyMapping("key.fn.3rd", VK_F5);
+	keymap[KM_FLY_UP] =			KeyMapping("key.fly.up", 'X');
+	keymap[KM_FLY_DOWN] =		KeyMapping("key.fly.down", 'C');
+	keymap[KM_CHAT_CMD] =		KeyMapping("key.chat.cmd", VK_OEM_2);
+}
+
 void AppPlatform_windows::setScreenSize(int width, int height)
 {
 	m_ScreenWidth = width;

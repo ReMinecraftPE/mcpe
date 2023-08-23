@@ -40,6 +40,8 @@ public:
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
 
+	void SetDefaultBindings(KeyMapping keymap[]);
+
 	static Mouse::ButtonType GetMouseButtonType(SDL_Event event);
 	static Mouse::ButtonState GetMouseButtonState(SDL_Event event);
 	static Keyboard::KeyState GetKeyState(SDL_Event event);

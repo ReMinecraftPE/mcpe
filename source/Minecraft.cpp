@@ -758,6 +758,8 @@ void Minecraft::init()
 	m_pGameMode = new CreativeMode(this);
 #endif
 
+	m_pPlatform->SetDefaultBindings(m_options.m_keyMappings);
+
 	reloadOptions();
 
 	m_pFont = new Font(&m_options, "font/default.png", m_pTextures);
