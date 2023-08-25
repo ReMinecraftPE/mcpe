@@ -39,6 +39,10 @@ Player::Player(Level* pLevel) : Mob(pLevel)
 
 	field_C4 = 20;
 	field_B5C = 180.0f;
+
+	// @TEST TEST TEST
+	field_F0 = false;
+	// @TEST TEST TEST
 }
 
 Player::~Player()
