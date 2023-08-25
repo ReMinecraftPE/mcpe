@@ -1,5 +1,6 @@
 #include "AppPlatform_sdl.hpp"
 
+#include <fstream>
 #include <sys/stat.h>
 
 #include <png.h>
