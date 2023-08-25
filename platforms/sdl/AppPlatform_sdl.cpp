@@ -326,7 +326,7 @@ void AppPlatform_sdl::setOptionStrings(const std::vector<std::string>& str)
 	assert(str.size() % 2 == 0);
 
 	std::ofstream os(_storageDir + "/options.txt");
-	if (!ifs.is_open())
+	if (!os.is_open())
 	{
 		LogMsg("Error, options.txt can't be opened");
 		return;
