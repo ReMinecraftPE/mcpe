@@ -225,7 +225,9 @@ void Player::animateRespawn(Player*, Level*)
 
 void Player::attack(Entity* pEnt)
 {
-	
+	int atkDmg = m_pInventory->getAttackDamage(pEnt);
+	if (atkDmg > 0)
+		pEnt->hurt(this, atkDmg);
 }
 
 bool Player::canDestroy(Tile* pTile)

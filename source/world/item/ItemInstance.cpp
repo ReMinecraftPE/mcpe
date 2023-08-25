@@ -176,6 +176,11 @@ bool ItemInstance::matches(ItemInstance* a1, ItemInstance* a2)
 	return a1->matches(a2);
 }
 
+int ItemInstance::getAttackDamage(Entity *pEnt)
+{
+	return getItem()->getAttackDamage(pEnt);
+}
+
 void ItemInstance::mineBlock(int x, int y, int z, int d)
 {
 	return getItem()->mineBlock(this, x, y, z, d);

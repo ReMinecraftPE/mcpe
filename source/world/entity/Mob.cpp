@@ -67,6 +67,10 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_E0 = Mth::random() * 12398.0f;
 	m_yaw = float(Mth::random() * M_PI);
 	field_A8 = 0.5f;
+
+
+
+	field_C8 = RENDER_HUMANOID;
 }
 
 Mob::~Mob()

@@ -60,11 +60,13 @@ void Cube::addBox(float x, float y, float z, int d, int e, int f, float g)
 	m_faces[4] = PolygonQuad(&m_verts[1], &m_verts[0], &m_verts[3], &m_verts[2], m + f,         n + f, m + f + d,         n + f + e);     // z1 face
 	m_faces[5] = PolygonQuad(&m_verts[4], &m_verts[5], &m_verts[6], &m_verts[7], m + f + d + f, n + f, m + f + d + f + d, n + f + e);     // z2 face
 
+#ifdef ENH_ENTITY_SHADING
 	m_faces[0].setColor(0.6f, 0.6f, 0.6f);
 	m_faces[1].setColor(0.6f, 0.6f, 0.6f);
 	m_faces[4].setColor(0.8f, 0.8f, 0.8f);
 	m_faces[5].setColor(0.8f, 0.8f, 0.8f);
 	m_faces[3].setColor(0.5f, 0.5f, 0.5f);
+#endif
 
 	if (field_18)
 	{
@@ -92,7 +94,11 @@ void Cube::compile(float scale)
 
 void Cube::draw()
 {
+#ifdef ENH_ENTITY_SHADING
 	drawArrayVTC(m_buffer, 36, sizeof(Tesselator::Vertex));
+#else
+	drawArrayVT(m_buffer, 36, sizeof(Tesselator::Vertex));
+#endif
 }
 
 void Cube::drawSlow(float scale)
@@ -172,12 +178,14 @@ void Cube::setBrightness(float b)
 
 	m_brightness = b;
 
+#ifdef ENH_ENTITY_SHADING
 	m_faces[0].setColor(0.6f * b, 0.6f * b, 0.6f * b);
 	m_faces[1].setColor(0.6f * b, 0.6f * b, 0.6f * b);
 	m_faces[2].setColor(1.0f * b, 1.0f * b, 1.0f * b);
 	m_faces[3].setColor(0.5f * b, 0.5f * b, 0.5f * b);
 	m_faces[4].setColor(0.8f * b, 0.8f * b, 0.8f * b);
 	m_faces[5].setColor(0.8f * b, 0.8f * b, 0.8f * b);
+#endif
 }
 
 void Cube::setPos(float x, float y, float z)

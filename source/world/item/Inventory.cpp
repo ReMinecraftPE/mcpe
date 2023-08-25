@@ -217,7 +217,11 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
 		return nullptr;
 	
-	return getItem(m_hotbar[slotNo]);
+	ItemInstance* pInst = getItem(m_hotbar[slotNo]);
+	if (pInst->m_itemID == 0)
+		return nullptr;
+
+	return pInst;
 }
 
 ItemInstance* Inventory::getSelectedItem()
@@ -292,4 +296,13 @@ void Inventory::selectItemById(int itemID)
 	}
 
 	LogMsg("selectItemById: %d doesn't exist", itemID);
+}
+
+int Inventory::getAttackDamage(Entity* pEnt)
+{
+	ItemInstance* pInst = getSelected();
+	if (!pInst)
+		return 1;
+
+	return pInst->getAttackDamage(pEnt);
 }
