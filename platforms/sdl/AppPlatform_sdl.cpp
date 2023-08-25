@@ -287,7 +287,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 
 #ifndef __EMSCRIPTEN__
 
-std::vector<std::string> AppPlatform_windows::getOptionStrings()
+std::vector<std::string> AppPlatform_sdl::getOptionStrings()
 {
 	std::vector<std::string> o;
 
