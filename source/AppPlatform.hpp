@@ -41,6 +41,7 @@ public:
 	virtual void uploadPlatformDependentData(int, void*);
 	virtual Texture loadTexture(const std::string&, bool);
 	virtual std::vector<std::string> getOptionStrings();
+	virtual std::string convertKeycodeToString(int keyCode);
 
 	// Also add these to allow proper turning within the game.
 	virtual void recenterMouse();

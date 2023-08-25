@@ -10,6 +10,45 @@
 #include "OptionsScreen.hpp"
 //#include "network/ServerSideNetworkHandler.hpp"
 
+static const std::string g_keymapToString[] =
+{
+	"Forward",
+	"Left",
+	"Back",
+	"Right",
+	"Jump",
+	"Inventory",
+	"Drop",
+	"Chat",
+	"Toggle Fog",
+	"Sneak",
+	"Destroy",
+	"Place",
+	"Menu Next",
+	"Menu Previous",
+	"Menu OK",
+	"Pause",
+	"Select Slot 1",
+	"Select Slot 2",
+	"Select Slot 3",
+	"Select Slot 4",
+	"Select Slot 5",
+	"Select Slot 6",
+	"Select Slot 7",
+	"Select Slot 8",
+	"Select Slot 9",
+	"Select Left Slot",
+	"Select Right Slot",
+	"Hide GUI",
+	"Screenshot",
+	"Debug Info",
+	"Smooth Lighting",
+	"Perspective",
+	"Fly Up",
+	"Fly Down",
+	"Open Command"
+};
+
 ControlsScreen::ControlsScreen() :
 	m_iCurKeybindIndex(-1),
 	m_iFirstRenderable(-1),
@@ -18,14 +57,17 @@ ControlsScreen::ControlsScreen() :
 	m_iScrollHeight(0),
 	m_btnBack(KM_COUNT, 0, 0, 100, 20, "Back")
 {
-
+	bool flipLeft = false;
 	int height = TOP_CUTOFF;
 	for (int i = 0; i < KM_COUNT; i++)
 	{
-		RebindingOption_t newOption;
-		newOption.button = new Button(i, 0, 0, 80, BUTTON_HEIGHT, "");
+		RebindingOption newOption;
+		newOption.button = new Button(i, 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "");
 		newOption.ypos = height;
-		height += BUTTON_GAP;
+		if(flipLeft)
+			height += BUTTON_GAP;
+
+		flipLeft = !flipLeft;
 		m_rebindingOptions[i] = newOption;
 	}
 
@@ -52,36 +94,19 @@ void ControlsScreen::UpdateText()
 
 void ControlsScreen::GetRenderableButtons()
 {
-	int firstRenderable = -1;
+	int firstRenderable = (m_iScrollHeight / BUTTON_GAP) * 2;
+	int visibleArea = (m_height - TOP_CUTOFF - BOTTOM_CUTOFF - 15);
+	int lastRenderable = firstRenderable + ((visibleArea + BUTTON_GAP ) / BUTTON_GAP) * 2;
+
+	if (lastRenderable >= KM_COUNT)
+		lastRenderable = KM_COUNT;
 	for (int i = 0; i < KM_COUNT; i++)
 	{
-		if (m_rebindingOptions[i].ypos - m_iScrollHeight >= TOP_CUTOFF)
+		if (i >= firstRenderable && i < lastRenderable)
 		{
-			firstRenderable = i;
-			break;
+			m_rebindingOptions[i].button->m_bEnabled = true;
+			continue;
 		}
-		m_rebindingOptions[i].button->m_bEnabled = false;
-	}
-	if (firstRenderable == -1)
-		return;
-
-	int lastRenderable = -1;
-	for (int i = firstRenderable; i < KM_COUNT; i++)
-	{
-		if (m_rebindingOptions[i].ypos - m_iScrollHeight >= (m_height - TOP_CUTOFF - BOTTOM_CUTOFF) + BUTTON_GAP )
-		{
-			lastRenderable = i;
-			break;
-		}
-		m_rebindingOptions[i].button->m_bEnabled = true;
-	}
-	if (lastRenderable == -1)
-	{
-		lastRenderable = KM_COUNT;
-	}
-
-	for (int i = lastRenderable; i < KM_COUNT; i++)
-	{
 		m_rebindingOptions[i].button->m_bEnabled = false;
 	}
 
@@ -93,45 +118,8 @@ std::string ControlsScreen::GetCharacterText(int keycode)
 {
 	Options& o = m_pMinecraft->m_options;
 
-	char charValue = o.m_keyMappings[keycode].value;
-
-	switch (charValue)
-	{
-		case ' ':
-			return "Space";
-		case 16:
-			return "Left Shift";
-		case 27:
-			return "ESC";
-		case 112:
-			return "F1";
-		case 113:
-			return "F2";
-		case 114:
-			return "F3";
-		case 115:
-			return "F4";
-		case 116:
-			return "F5";
-		case 117:
-			return "F6";
-		case 118:
-			return "F7";
-		case 119:
-			return "F8";
-		case 120:
-			return "F9";
-		case 121:
-			return "F10";
-		case 122:
-			return "F11";
-		case 123:
-			return "F12";
-		case 191:
-			return "/";
-	}
-
-	return std::string(1, charValue);
+	int keyCode = o.m_keyMappings[keycode].value;
+	return m_pMinecraft->m_pPlatform->convertKeycodeToString(keyCode);
 }
 
 void ControlsScreen::mouseEvent()
@@ -164,16 +152,22 @@ void ControlsScreen::mouseEvent()
 
 void ControlsScreen::init()
 { 
-	m_iHighestScrollHeight = BUTTON_GAP * (KM_COUNT  - ((m_height - TOP_CUTOFF - BOTTOM_CUTOFF / 2) / BUTTON_GAP));
+	m_iHighestScrollHeight = (BUTTON_GAP * ((int)round(KM_COUNT / 2.0f) - ((m_height - TOP_CUTOFF - BOTTOM_CUTOFF / 2) / BUTTON_GAP)));
 
 	m_btnBack.m_xPos = m_width - m_btnBack.m_width - 5;
 	m_btnBack.m_yPos = m_height - 27;
 	m_buttons.push_back(&m_btnBack);
 
+	bool flipLeft = false;
 	for (int i = 0; i < KM_COUNT; i++)
 	{
-		m_rebindingOptions[i].button->m_xPos = m_width / 2 - 90;
+		if (flipLeft)
+			m_rebindingOptions[i].button->m_xPos = m_width / 2;
+		else
+			m_rebindingOptions[i].button->m_xPos = m_width / 12;
+		
 		m_rebindingOptions[i].button->m_yPos = m_rebindingOptions->ypos;
+		flipLeft = !flipLeft;
 	}
 
 	for (int i = 0; i < KM_COUNT; i++)
@@ -200,7 +194,7 @@ void ControlsScreen::render(int a, int b, float c)
 	if(!m_bChangingKeybinds)
 		drawCenteredString(m_pFont, "Click to rebind", m_width / 2, 19, 0xFFFFFF);
 	else
-		drawCenteredString(m_pFont, "Rebinding . . .", m_width / 2, 19, 0xFFFFFF);
+		drawCenteredString(m_pFont, "Rebinding...", m_width / 2, 19, 0xFFFFFF);
 
 	m_btnBack.render(m_pMinecraft, a, b);
 
@@ -209,7 +203,7 @@ void ControlsScreen::render(int a, int b, float c)
 		Button* button = m_rebindingOptions[i].button;
 		button->m_yPos = m_rebindingOptions[i].ypos - m_iScrollHeight;
 		button->render(m_pMinecraft, a, b);
-		drawString(m_pFont, keymapToString[i], button->m_xPos + 100, button->m_yPos + 5, 0xFFFFFF);
+		drawString(m_pFont, g_keymapToString[i], button->m_xPos + BUTTON_WIDTH + 5, button->m_yPos + 5, 0xFFFFFF);
 	}
 }
 
@@ -224,6 +218,8 @@ void ControlsScreen::buttonClicked(Button* pButton)
 		//The buttonIDs should be the same as the keymapEnum due to it creating the buttons from KM_COUNT
 		m_iCurKeybindIndex = pButton->m_buttonId;
 		m_bChangingKeybinds = true;
+
+		pButton->m_text = "> " + GetCharacterText(pButton->m_buttonId) + " <";
 	}
 }
 

@@ -33,6 +33,7 @@ public:
 	std::string getDateString(int time) override;
 	Texture loadTexture(const std::string& str, bool b) override;
 	std::vector<std::string> getOptionStrings() override;
+	std::string convertKeycodeToString(int keyCode) override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;

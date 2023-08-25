@@ -94,6 +94,11 @@ std::vector<std::string> AppPlatform::getOptionStrings()
 	return std::vector<std::string>();
 }
 
+std::string AppPlatform::convertKeycodeToString(int keyCode)
+{
+	return "";
+}
+
 void AppPlatform::recenterMouse()
 {
 

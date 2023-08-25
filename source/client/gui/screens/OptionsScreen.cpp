@@ -38,7 +38,7 @@ OptionsScreen::OptionsScreen()
 	m_viewDistButton (8, 0, 0, 150, 20, ""),
 	m_flightHaxButton(9, 0, 0, 150, 20, ""),
 	m_autoJumpButton (10, 0, 0, 150, 20, ""),
-	m_ControlsButton(11, 0, 0, 150, 20, "Controls")
+	m_ControlsButton(11, 0, 0, 150, 20, "Controls...")
 #endif
 {
 }
@@ -93,11 +93,12 @@ void OptionsScreen::init()
 	m_BackButton.m_height = 20;
 	m_buttons.push_back(&m_BackButton);
 
+	m_ControlsButton.m_xPos = m_width / 2 - m_ControlsButton.m_width / 2;
+
 	m_AOButton.m_xPos       =
 	m_srvVisButton.m_xPos   = 
 	m_fancyGfxButton.m_xPos =
-	m_viewDistButton.m_xPos =
-	m_ControlsButton.m_xPos	= m_width / 2 - m_AOButton.m_width - 5;
+	m_viewDistButton.m_xPos = m_width / 2 - m_AOButton.m_width - 5;
 
 	m_invertYButton.m_xPos   =
 	m_anaglyphsButton.m_xPos =
@@ -110,7 +111,8 @@ void OptionsScreen::init()
 	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos = yPos; yPos += 25;
 	m_fancyGfxButton.m_yPos = m_viewBobButton.m_yPos   = yPos; yPos += 25;
 	m_viewDistButton.m_yPos = m_flightHaxButton.m_yPos = yPos; yPos += 25;
-	m_autoJumpButton.m_yPos = m_ControlsButton.m_yPos  = yPos; yPos += 25;
+	m_autoJumpButton.m_yPos = yPos;
+	m_ControlsButton.m_yPos = yPos + 30;
 
 	m_buttons.push_back(&m_AOButton);
 	m_buttons.push_back(&m_srvVisButton);

@@ -302,6 +302,7 @@ void Screen::setSize(int width, int height)
 
 	// not original code. Will need to re-init again
 	m_buttons.clear();
+	m_buttonTabList.clear();
 	m_textInputs.clear();
 	init();
 }

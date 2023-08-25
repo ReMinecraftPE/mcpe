@@ -197,6 +197,112 @@ std::vector<std::string> AppPlatform_windows::getOptionStrings()
 	return o;
 }
 
+std::string AppPlatform_windows::convertKeycodeToString(int keyCode)
+{
+	if (keyCode >= 'A' && keyCode <= 'Z')
+		return std::string(1, char(keyCode));
+
+	if (keyCode >= '0' && keyCode <= '9')
+		return std::string(1, char(keyCode));
+
+	if (keyCode >= VK_F1 && keyCode <= VK_F24)
+	{
+		std::stringstream ss;
+		ss << "F" << (keyCode - VK_F1 + 1);
+		return ss.str();
+	}
+	if (keyCode >= VK_NUMPAD0 && keyCode <= VK_NUMPAD9)
+	{
+		std::stringstream ss;
+		ss << "NUMPAD " << (keyCode - VK_NUMPAD0);
+		return ss.str();
+	}
+
+	switch (keyCode)
+	{
+		case VK_BACK:     return "BACKSPACE";
+		case VK_TAB:      return "TAB";
+		case VK_RETURN:   return "ENTER";
+		case VK_CONTROL:  return "CTRL";
+		case VK_MENU:     return "ALT";
+		case VK_PAUSE:    return "PAUSE";
+		case VK_CAPITAL:  return "CAPSLOCK";
+		case VK_ESCAPE:   return "ESC";
+		case VK_SPACE:    return "SPACE";
+		case VK_PRIOR:    return "PAGE UP";
+		case VK_NEXT:     return "PAGE DOWN";
+		case VK_HOME:     return "HOME";
+		case VK_END:      return "END";
+		case VK_LEFT:     return "LEFT";
+		case VK_RIGHT:    return "RIGHT";
+		case VK_UP:       return "UP";
+		case VK_DOWN:     return "DOWN";
+		case VK_SNAPSHOT: return "SYSRQ";
+		case VK_INSERT:   return "INSERT";
+		case VK_DELETE:   return "DELETE";
+		case VK_LWIN:     return "LEFT WIN";
+		case VK_RWIN:     return "RIGHT WIN";
+		case VK_MULTIPLY: return "MULTIPLY";
+		case VK_SUBTRACT: return "SUBTRACT";
+		case VK_ADD:      return "ADD";
+		case VK_SEPARATOR:return "SEPARATOR";
+		case VK_DECIMAL:  return "DECIMAL";
+		case VK_DIVIDE:   return "DIVIDE";
+		case VK_NUMLOCK:  return "NUMLOCK";
+		case VK_SCROLL:   return "SCROLLLOCK";
+		case VK_OEM_1:    return "SEMICOLON";
+		case VK_OEM_2:    return "SLASH";
+		case VK_OEM_3:    return "GRAVE";
+		case VK_OEM_4:    return "L BRACKET";
+		case VK_OEM_5:    return "BACKSLASH";
+		case VK_OEM_6:    return "R BRACKET";
+		case VK_OEM_7:    return "APOSTROPHE";
+		case VK_SHIFT:    return "SHIFT";
+	}
+
+	std::stringstream ss;
+	ss << "UNK_" << keyCode;
+	return ss.str();
+
+	switch (keyCode)
+	{
+		case ' ':
+			return "Space";
+		case 16:
+			return "Left Shift";
+		case 27:
+			return "ESC";
+		case 112:
+			return "F1";
+		case 113:
+			return "F2";
+		case 114:
+			return "F3";
+		case 115:
+			return "F4";
+		case 116:
+			return "F5";
+		case 117:
+			return "F6";
+		case 118:
+			return "F7";
+		case 119:
+			return "F8";
+		case 120:
+			return "F9";
+		case 121:
+			return "F10";
+		case 122:
+			return "F11";
+		case 123:
+			return "F12";
+		case 191:
+			return "/";
+	}
+
+	return std::string(1, keyCode);
+}
+
 void AppPlatform_windows::setOptionStrings(const std::vector<std::string>& str)
 {
 	assert(str.size() % 2 == 0);
