@@ -214,6 +214,7 @@ static EM_BOOL main_loop(double time, void *user_data)
 
 	if (g_pApp->wantToQuit())
 	{
+		g_pApp->saveOptions();
 		delete g_pApp;
 		delete g_pAppPlatform;
 		teardown();

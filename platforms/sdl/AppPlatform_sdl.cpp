@@ -287,11 +287,11 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	return out;
 }
 
-#ifndef __EMSCRIPTEN__
-
 std::vector<std::string> AppPlatform_sdl::getOptionStrings()
 {
 	std::vector<std::string> o;
+
+	LogMsg("Storage dir is %s", _storageDir.c_str());
 
 	std::ifstream ifs(_storageDir + "/options.txt");
 	if (!ifs.is_open())
@@ -339,5 +339,3 @@ void AppPlatform_sdl::setOptionStrings(const std::vector<std::string>& str)
 	for (int i = 0; i < int(str.size()); i += 2)
 		os << str[i] << ':' << str[i + 1] << '\n';
 }
-
-#endif
