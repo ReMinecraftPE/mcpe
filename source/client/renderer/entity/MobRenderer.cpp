@@ -64,6 +64,16 @@ void MobRenderer::setupPosition(Entity* entity, float x, float y, float z)
 void MobRenderer::setupRotations(Entity* entity, float x, float y, float z)
 {
 	glRotatef(180.0f - y, 0.0f, 1.0f, 0.0f);
+
+	Mob* mob = (Mob*)entity;
+	if (mob->field_110 > 0)
+	{
+		float t = Mth::sqrt((float(mob->field_110) + z - 1.0f) / 20.0f * 1.6f);
+		if (t > 1.0f)
+			t = 1.0f;
+
+		glRotatef(getFlipDegrees(mob) * t, 0.0f, 0.0f, 1.0f);
+	}
 }
 
 void MobRenderer::render(Entity* entity, float x, float y, float z, float unused, float f)
