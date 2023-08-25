@@ -74,6 +74,7 @@ public:
 	void commandStats(OnlinePlayer*, const std::vector<std::string>&);
 	void commandTime (OnlinePlayer*, const std::vector<std::string>&);
 	void commandSeed (OnlinePlayer*, const std::vector<std::string>&);
+	void commandTP   (OnlinePlayer*, const std::vector<std::string>&);
 
 public:
 	Minecraft* m_pMinecraft;

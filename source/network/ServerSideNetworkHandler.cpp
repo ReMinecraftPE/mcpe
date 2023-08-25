@@ -402,6 +402,7 @@ void ServerSideNetworkHandler::setupCommands()
 	m_commands["stats"] = &ServerSideNetworkHandler::commandStats;
 	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
 	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
+	m_commands["tp"]    = &ServerSideNetworkHandler::commandTP;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -470,5 +471,51 @@ void ServerSideNetworkHandler::commandSeed(OnlinePlayer* player, const std::vect
 	std::stringstream ss;
 	ss << "World generation seed: ";
 	ss << m_pLevel->getSeed();
+	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+
+	if (parms.size() != 3)
+	{
+		sendMessage(player, "Usage: /tp <x> <y> <z>");
+		return;
+	}
+
+	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
+	{
+		sendMessage(player, "Sorry, only the host can use this command at the moment");
+		return;
+	}
+
+	Vec3 pos = player->m_pPlayer->getPos(1.0f);
+
+	float x = pos.x, y = pos.y, z = pos.z;
+
+	std::stringstream ss;
+	if (parms[0] != "~")
+	{
+		ss = std::stringstream(parms[0]);
+		ss >> x;
+	}
+	if (parms[1] != "~")
+	{
+		ss = std::stringstream(parms[1]);
+		ss >> y;
+	}
+	if (parms[2] != "~")
+	{
+		ss = std::stringstream(parms[2]);
+		ss >> z;
+	}
+
+	ss = std::stringstream();
+	ss << "Teleported to " << x << ", " << y << ", " << z;
+
+	player->m_pPlayer->setPos(x, y, z);
+
 	sendMessage(player, ss.str());
 }
