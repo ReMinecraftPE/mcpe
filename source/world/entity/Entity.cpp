@@ -602,6 +602,7 @@ void Entity::reset()
 	field_5C = m_yaw;
 	field_60 = m_pitch;
 	m_bRemoved = false;
+	m_distanceFallen = 0.0f;
 }
 
 void Entity::interpolateTurn(float yaw, float pitch)
