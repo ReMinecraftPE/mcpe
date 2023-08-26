@@ -52,7 +52,7 @@ bool Keyboard::isKeyDown(int keyCode)
 	if (keyCode < 0 || keyCode >= KEYBOARD_STATES_SIZE)
 		return false;
 
-	return _states[keyCode] == KeyState::DOWN;
+	return _states[keyCode] == DOWN;
 }
 
 void Keyboard::reset()

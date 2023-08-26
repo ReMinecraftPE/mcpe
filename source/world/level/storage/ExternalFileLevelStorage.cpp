@@ -115,7 +115,7 @@ void ExternalFileLevelStorage::tick()
 
 			int index = x + z * 16;
 
-			auto iter = m_unsavedLevelChunks.begin();
+			std::list<UnsavedLevelChunk>::iterator iter = m_unsavedLevelChunks.begin();
 			for (; iter != m_unsavedLevelChunks.end(); ++iter)
 			{
 				if (iter->m_index == index)
@@ -140,8 +140,8 @@ void ExternalFileLevelStorage::tick()
 	{
 		count++;
 
-		auto iter = m_unsavedLevelChunks.begin();
-		for (auto it2 = m_unsavedLevelChunks.begin(); it2 != m_unsavedLevelChunks.end(); ++it2)
+		std::list<UnsavedLevelChunk>::iterator iter = m_unsavedLevelChunks.begin();
+		for (std::list<UnsavedLevelChunk>::iterator it2 = m_unsavedLevelChunks.begin(); it2 != m_unsavedLevelChunks.end(); ++it2)
 		{
 			if (iter->m_foundTime > it2->m_foundTime)
 				iter = it2;

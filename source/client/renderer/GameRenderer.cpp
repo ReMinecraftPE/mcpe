@@ -530,8 +530,8 @@ void GameRenderer::render(float f)
 {
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
-		auto pMC = m_pMinecraft;
-		auto delta = pMC->m_pTurnInput->getTurnDelta();
+		Minecraft *pMC = m_pMinecraft;
+		ITurnInput::Delta delta = pMC->m_pTurnInput->getTurnDelta();
 		pMC->field_D20 = delta.x;
 		pMC->field_D24 = delta.y;
 

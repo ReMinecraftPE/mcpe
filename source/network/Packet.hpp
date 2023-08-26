@@ -19,7 +19,10 @@ class NetEventCallback;
 class Level;
 class LevelChunk;
 
-enum ePacketType : uint8_t
+enum ePacketType
+#ifndef USE_OLD_CPP
+: uint8_t
+#endif
 {
 	PACKET_LOGIN = ID_USER_PACKET_ENUM,
 	PACKET_MESSAGE,

@@ -13,7 +13,7 @@ bool Textures::MIPMAP = false;
 
 int Textures::loadTexture(const std::string& name, bool b)
 {
-	auto i = m_textures.find(name);
+	std::map<std::string, GLuint>::iterator i = m_textures.find(name);
 	if (i != m_textures.end())
 		return i->second;
 
@@ -83,10 +83,10 @@ void Textures::clear()
 {
 	// note: Textures::clear() does not touch the dynamic textures vector
 
-	for (auto it = m_textures.begin(); it != m_textures.end(); it++)
+	for (std::map<std::string, GLuint>::iterator it = m_textures.begin(); it != m_textures.end(); it++)
 		glDeleteTextures(1, &it->second);
 
-	for (auto it = m_textureData.begin(); it != m_textureData.end(); it++)
+	for (std::map<GLuint, TextureData>::iterator it = m_textureData.begin(); it != m_textureData.end(); it++)
 		delete[] it->second.textureData.m_pixels;
 
 	m_textures.clear();
@@ -107,7 +107,7 @@ Textures::~Textures()
 {
 	clear();
 
-	for (auto it = m_dynamicTextures.begin(); it != m_dynamicTextures.end(); it++)
+	for (std::vector<DynamicTexture*>::iterator it = m_dynamicTextures.begin(); it != m_dynamicTextures.end(); it++)
 	{
 		DynamicTexture* pDynaTex = *it;
 		SAFE_DELETE(pDynaTex);
@@ -119,7 +119,7 @@ Textures::~Textures()
 void Textures::tick()
 {
 	// tick dynamic textures here
-	for (auto it = m_dynamicTextures.begin(); it < m_dynamicTextures.end(); it++)
+	for (std::vector<DynamicTexture*>::iterator it = m_dynamicTextures.begin(); it < m_dynamicTextures.end(); it++)
 	{
 		DynamicTexture* pDynaTex = *it;
 
@@ -167,7 +167,7 @@ void Textures::addDynamicTexture(DynamicTexture* pTexture)
 
 Texture* Textures::getTemporaryTextureData(GLuint id)
 {
-	auto i = m_textureData.find(id);
+	std::map<GLuint, TextureData>::iterator i = m_textureData.find(id);
 	if (i == m_textureData.end())
 		return nullptr;
 

@@ -43,7 +43,7 @@ void SelectWorldScreen::init()
 	m_buttons.push_back(&m_btnBack);
 	m_buttons.push_back(&m_btnDelete);
 
-	field_12C = Mouse::getButtonState(Mouse::ButtonType::NONE) == Mouse::ButtonState::UP;
+	field_12C = Mouse::getButtonState(Mouse::NONE) == Mouse::UP;
 
 	m_buttonTabList.push_back(&m_btnUnknown);
 	m_buttonTabList.push_back(&m_btnDelete);
@@ -171,7 +171,7 @@ void SelectWorldScreen::render(int mouseX, int mouseY, float f)
 	else
 	{
 		m_pWorldSelectionList->render(0, 0, f);
-		field_12C = Mouse::getButtonState(Mouse::ButtonType::LEFT) == Mouse::ButtonState::UP;
+		field_12C = Mouse::getButtonState(Mouse::LEFT) == Mouse::UP;
 	}
 
 	Screen::render(mouseX, mouseY, f);

@@ -167,9 +167,9 @@ void Player::aiStep()
 	AABB scanAABB = m_hitbox;
 	scanAABB.grow(1, 1, 1);
 
-	auto pEnts = m_pLevel->getEntities(this, scanAABB);
+	EntityVector* pEnts = m_pLevel->getEntities(this, scanAABB);
 
-	for (auto it = pEnts->begin(); it != pEnts->end(); it++)
+	for (EntityVector::iterator it = pEnts->begin(); it != pEnts->end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_bRemoved)

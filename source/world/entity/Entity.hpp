@@ -13,6 +13,7 @@
 #include "world/level/Material.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/ItemInstance.hpp"
+#include "common/Utils.hpp"
 
 class Level;
 class Player;

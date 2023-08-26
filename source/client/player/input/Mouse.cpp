@@ -12,18 +12,18 @@
 std::vector<MouseAction> Mouse::_inputs;
 int Mouse::_index, Mouse::_x, Mouse::_y;
 int Mouse::_xOld, Mouse::_yOld;
-Mouse::ButtonState Mouse::_buttonStates[Mouse::ButtonType::COUNT];
+Mouse::ButtonState Mouse::_buttonStates[Mouse::COUNT];
 
 void Mouse::feed(ButtonType buttonType, ButtonState buttonState, int posX, int posY)
 {
-	if (buttonType != ButtonType::NONE)
+	if (buttonType != NONE)
 		_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY));
 
 	// Make sure button type is valid
-	if (buttonType < ButtonType::COUNT)
+	if (buttonType < COUNT)
 	{
 		// Check if we're processing a button-state update
-		if (buttonType != ButtonType::NONE)
+		if (buttonType != NONE)
 			_buttonStates[buttonType] = buttonState;
 
 		_xOld = _x;
@@ -75,8 +75,8 @@ MouseAction* Mouse::getEvent()
 
 Mouse::ButtonState Mouse::getButtonState(ButtonType btn)
 {
-	if (btn < ButtonType::MIN || btn >= ButtonType::COUNT)
-		return ButtonState::UP;
+	if (btn < MIN || btn >= COUNT)
+		return UP;
 
 	return _buttonStates[btn];
 }

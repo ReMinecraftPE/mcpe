@@ -18,7 +18,7 @@ GuiComponent::GuiComponent() : field_4 (0)
 
 void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, int sh)
 {
-	auto& t = Tesselator::instance;
+	Tesselator& t = Tesselator::instance;
 
 	if (!sh) sh = th;
 	if (!sw) sw = tw;

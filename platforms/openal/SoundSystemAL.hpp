@@ -16,7 +16,7 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
 
 #include "client/sound/SoundSystem.hpp"
 #include "world/phys/Vec3.hpp"
@@ -40,12 +40,12 @@ private:
 	void delete_buffers();
 	ALuint get_buffer(const SoundDesc& sound);
 
-	ALCdevice *device = NULL;
-	ALCcontext *context = NULL;
-	bool loaded = false;
+	ALCdevice *device;
+	ALCcontext *context;
+	bool loaded;
 	std::vector<ALuint> sources;
 	std::vector<ALuint> idle_sources;
-	std::unordered_map<void *, ALuint> buffers;
+	std::map<void *, ALuint> buffers;
 
 	Vec3 lastListenerPos;
 };

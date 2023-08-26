@@ -5,6 +5,8 @@
 
 SoundSystemAL::SoundSystemAL()
 {
+	loaded = false;
+	
 	device = alcOpenDevice(NULL);
 	if (!device)
 	{
@@ -93,14 +95,14 @@ void SoundSystemAL::delete_sources()
 {
 	if (loaded)
 	{
-		for (ALuint source : idle_sources)
+		for (std::vector<ALuint>::iterator source = idle_sources.begin(); source != idle_sources.end(); source++)
 		{
-			alDeleteSources(1, &source);
+			alDeleteSources(1, &*source);
 			AL_ERROR_CHECK();
 		}
-		for (ALuint source : sources)
+		for (std::vector<ALuint>::iterator source = sources.begin(); source != sources.end(); source++)
 		{
-			alDeleteSources(1, &source);
+			alDeleteSources(1, &*source);
 			AL_ERROR_CHECK();
 		}
 	}
@@ -113,11 +115,12 @@ void SoundSystemAL::delete_buffers()
 {
 	if (loaded)
 	{
-		for (auto &it : buffers)
+		for (std::map<void *, ALuint>::iterator it = buffers.begin(); it != buffers.end(); it++)
+		//for (auto &it : buffers)
 		{
-			if (it.second && alIsBuffer(it.second))
+			if (it->second && alIsBuffer(it->second))
 			{
-				alDeleteBuffers(1, &it.second);
+				alDeleteBuffers(1, &it->second);
 				AL_ERROR_CHECK();
 			}
 		}

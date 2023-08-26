@@ -484,7 +484,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		if (!pChunk->m_bDirty)
 			continue;
 
-		auto iter = std::find(field_88.begin(), field_88.end(), pChunk);
+		std::vector<Chunk*>::iterator iter = std::find(field_88.begin(), field_88.end(), pChunk);
 		if (iter != field_88.end())
 			continue;
 

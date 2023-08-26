@@ -9,6 +9,8 @@
 #pragma once
 
 #include "common/Mth.hpp"
+// Needed for when we're missing nullptr in multiple files
+#include "common/Utils.hpp"
 
 class Vec3
 {

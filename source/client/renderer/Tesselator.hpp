@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <cstdint>
+#include <stdint.h>
 #include <map>
 #include "compat/GL.hpp"
 #include "RenderChunk.hpp"

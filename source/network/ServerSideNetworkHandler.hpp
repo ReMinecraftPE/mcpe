@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <unordered_map>
+#include <map>
 #include "NetEventCallback.hpp"
 #include "Minecraft.hpp"
 #include "RakNetInstance.hpp"
@@ -31,11 +31,15 @@ struct RakNetGUIDHasher
 	{
 		return size_t(guid.g);
 	}
+	bool operator()(const RakNet::RakNetGUID& guid1, const RakNet::RakNetGUID& guid2) const
+	{
+		return guid1 == guid2;
+	}
 };
 
 typedef void(ServerSideNetworkHandler::* CommandFunction)(OnlinePlayer* player, const std::vector<std::string>& parms);
-typedef std::unordered_map<std::string, CommandFunction> CommandMap;
-typedef std::unordered_map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> OnlinePlayerMap;
+typedef std::map<std::string, CommandFunction> CommandMap;
+typedef std::map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> OnlinePlayerMap;
 
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
 {

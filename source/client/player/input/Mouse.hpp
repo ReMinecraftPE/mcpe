@@ -55,7 +55,7 @@ private:
 	static int _index;
 	static int _x, _y;
 	static int _xOld, _yOld;
-	static ButtonState _buttonStates[Mouse::ButtonType::COUNT];
+	static ButtonState _buttonStates[Mouse::COUNT];
 };
 
 struct MouseAction
@@ -67,8 +67,8 @@ struct MouseAction
 
 	MouseAction()
 	{
-		_buttonType = Mouse::ButtonType::NONE;
-		_buttonState = Mouse::ButtonState::UP;
+		_buttonType = Mouse::NONE;
+		_buttonState = Mouse::UP;
 		_posX = 0;
 		_posY = 0;
 	}
@@ -84,8 +84,8 @@ struct MouseAction
 	bool isButton()
 	{
 		return
-			_buttonType == Mouse::ButtonType::LEFT ||
-			_buttonType == Mouse::ButtonType::RIGHT ||
-			_buttonType == Mouse::ButtonType::MIDDLE;
+			_buttonType == Mouse::LEFT ||
+			_buttonType == Mouse::RIGHT ||
+			_buttonType == Mouse::MIDDLE;
 	}
 };

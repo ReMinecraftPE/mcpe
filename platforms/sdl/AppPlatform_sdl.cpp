@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <sys/stat.h>
+#include <cerrno>
 
 #include <png.h>
 
@@ -130,10 +131,11 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 
 	// Prevent Overwriting Screenshots
 	int num = 1;
-	std::string file = screenshots + '/' + time + ".png";
+	const std::string path = screenshots + "/";
+	std::string file = path + time + ".png";
 	while (access(file.c_str(), F_OK) != -1)
 	{
-		file = screenshots + '/' + time + '-' + std::to_string(num) + ".png";
+		file = path + SSTR(time << "-" << num << ".png");
 		num++;
 	}
 

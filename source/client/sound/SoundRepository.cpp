@@ -12,12 +12,12 @@
 
 void SoundRepository::add(const std::string& name, SoundDesc& sd)
 {
-	auto iter = m_repo.find(name);
+	std::map<std::string, std::vector<SoundDesc> >::iterator iter = m_repo.find(name);
 	if (iter == m_repo.end())
 	{
 		std::vector<SoundDesc> sdv;
 		sdv.push_back(sd);
-		m_repo.insert(std::pair<std::string, std::vector<SoundDesc>>(name, sdv));
+		m_repo.insert(std::pair<std::string, std::vector<SoundDesc> >(name, sdv));
 	}
 	else
 	{
@@ -27,7 +27,7 @@ void SoundRepository::add(const std::string& name, SoundDesc& sd)
 
 bool SoundRepository::get(const std::string& name, SoundDesc& sd)
 {
-	auto iter = m_repo.find(name);
+	std::map<std::string, std::vector<SoundDesc> >::iterator iter = m_repo.find(name);
 	if (iter == m_repo.end())
 	{
 		printf("Couldn't find a sound with id: %s\n", name.c_str());

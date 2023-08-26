@@ -114,7 +114,7 @@ int Inventory::getNumItems()
 
 void Inventory::addCreativeItem(int itemID, int auxValue)
 {
-	m_items.emplace_back(ItemInstance(itemID, 1, auxValue));
+	m_items.push_back(ItemInstance(itemID, 1, auxValue));
 }
 
 void Inventory::clear()

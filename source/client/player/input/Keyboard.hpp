@@ -12,7 +12,7 @@
 #endif
 
 #include <vector>
-#include <cstdint>
+#include <stdint.h>
 
 #define KEYBOARD_STATES_SIZE (256)
 

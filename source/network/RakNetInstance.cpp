@@ -219,7 +219,7 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 		int timeDiff = RakNet::GetTimeMS() - m_startedPingingAt;
 		if (timeDiff > 1000)
 		{
-			for (auto it = m_servers.begin(); it != m_servers.end(); )
+			for (std::vector<PingedCompatibleServer>::iterator it = m_servers.begin(); it != m_servers.end(); )
 			{
 				if (RakNet::GetTimeMS() - it->m_lastPinged <= 3000)
 				{
