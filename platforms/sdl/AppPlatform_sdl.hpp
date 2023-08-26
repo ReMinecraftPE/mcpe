@@ -16,4 +16,5 @@ public:
 	
 protected:
 	void ensureDirectoryExists(const char* path) override;
+	std::string getOptionsFilePath() const;
 };
