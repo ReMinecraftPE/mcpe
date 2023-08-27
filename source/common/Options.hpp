@@ -79,6 +79,7 @@ private:
 	void _initDefaultValues();
 	void _load();
 public:
+	Options();
 	Options(const std::string& folderPath);
 	void save();
 	std::string getMessage(const Options::Option&);

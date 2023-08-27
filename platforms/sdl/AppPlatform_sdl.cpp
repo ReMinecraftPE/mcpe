@@ -288,3 +288,8 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	LOG_E("Couldn't find file: %s", path.c_str());
 	return out;
 }
+
+bool AppPlatform_sdl::hasFileSystemAccess()
+{
+	return true;
+}

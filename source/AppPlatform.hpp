@@ -56,6 +56,7 @@ public:
 	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
 	virtual bool shiftPressed();
+	virtual bool hasFileSystemAccess();
 	// Also add this to allow dynamic patching.
 	virtual std::string getPatchData();
 #endif

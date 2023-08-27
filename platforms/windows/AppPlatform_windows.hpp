@@ -46,6 +46,8 @@ public:
 	bool shiftPressed() override { return m_bShiftPressed; }
 	void setShiftPressed(bool b) { m_bShiftPressed = b; }
 
+	bool hasFileSystemAccess() override;
+
 	// Also add this to allow dynamic texture patching.
 	std::string getPatchData() override;
 

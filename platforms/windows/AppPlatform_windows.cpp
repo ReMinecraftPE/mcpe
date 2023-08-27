@@ -176,6 +176,11 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	return Texture(width, height, img2, 1, 0);
 }
 
+bool AppPlatform_windows::hasFileSystemAccess()
+{
+	return true;
+}
+
 std::string AppPlatform_windows::getPatchData()
 {
 	std::ifstream ifs("assets/patches/patch_data.txt");

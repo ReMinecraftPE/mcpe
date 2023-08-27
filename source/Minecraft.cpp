@@ -195,7 +195,8 @@ void Minecraft::onGraphicsReset()
 
 void Minecraft::saveOptions()
 {
-	getOptions()->save();
+	if (platform()->hasFileSystemAccess())
+		getOptions()->save();
 }
 
 bool Minecraft::isLevelGenerated()
@@ -736,7 +737,10 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
-	m_options = new Options(m_externalStorageDir);
+	if (platform()->hasFileSystemAccess())
+		m_options = new Options(m_externalStorageDir);
+	else
+		m_options = new Options();
 
 #ifndef ORIGINAL_CODE
 	m_pTurnInput = new MouseTurnInput(this);

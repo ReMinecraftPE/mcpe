@@ -201,6 +201,11 @@ void Options::_initDefaultValues()
 #undef KM
 }
 
+Options::Options()
+{
+	_initDefaultValues();
+}
+
 Options::Options(const std::string& folderPath)
 {
 	m_filePath = folderPath + "/options.txt";

@@ -135,6 +135,11 @@ bool AppPlatform::shiftPressed()
 	return false;
 }
 
+bool AppPlatform::hasFileSystemAccess()
+{
+	return false;
+}
+
 std::string AppPlatform::getPatchData()
 {
 	return "";
