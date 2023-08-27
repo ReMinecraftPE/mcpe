@@ -383,7 +383,7 @@
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zutil.h" />
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
-    <ClInclude Include="..\..\..\source\common\Logger.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\compat\GLExt.cpp" />
@@ -391,7 +391,7 @@
     <ClCompile Include="$(MC_ROOT)\platforms\windows\AppPlatform_windows.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\main.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemWindows.cpp" />
-    <ClInclude Include="..\LoggerWindows.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\windows\LoggerWindows.hpp" />
     <ClCompile Include="$(MC_ROOT)\source\App.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\AppPlatform.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp" />
@@ -729,8 +729,8 @@
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\trees.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\uncompr.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\zutil.c" />
-    <ClCompile Include="..\..\..\source\common\Logger.cpp" />
-    <ClCompile Include="..\LoggerWindows.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\windows\LoggerWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MC_ROOT)\thirdparty\raknet\CMakeLists.txt" />
