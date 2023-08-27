@@ -9,6 +9,23 @@
 #include "AppPlatform.hpp"
 #include "common/Utils.hpp"
 
+AppPlatform* AppPlatform::m_singleton = nullptr;
+
+AppPlatform* const AppPlatform::singleton()
+{
+	return m_singleton;
+}
+
+AppPlatform::AppPlatform()
+{
+	m_singleton = this;
+}
+
+AppPlatform::~AppPlatform()
+{
+
+}
+
 void AppPlatform::_tick()
 {
 
@@ -89,11 +106,6 @@ Texture AppPlatform::loadTexture(const std::string&, bool)
 	return Texture(0, 0, nullptr, 1, 0);
 }
 
-std::vector<std::string> AppPlatform::getOptionStrings()
-{
-	return std::vector<std::string>();
-}
-
 void AppPlatform::recenterMouse()
 {
 
@@ -121,10 +133,6 @@ void AppPlatform::updateFocused(bool focused)
 bool AppPlatform::shiftPressed()
 {
 	return false;
-}
-
-void AppPlatform::setOptionStrings(const std::vector<std::string>& vec)
-{
 }
 
 std::string AppPlatform::getPatchData()

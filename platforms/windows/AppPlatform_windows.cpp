@@ -176,49 +176,6 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	return Texture(width, height, img2, 1, 0);
 }
 
-std::vector<std::string> AppPlatform_windows::getOptionStrings()
-{
-	std::vector<std::string> o;
-
-	std::ifstream ifs("options.txt");
-	if (!ifs.is_open())
-		return o;
-
-	std::string str;
-	while (true)
-	{
-		if (!std::getline(ifs, str, '\n'))
-			break;
-
-		if (str.empty() || str[0] == '#')
-			continue;
-
-		std::stringstream ss;
-		ss << str;
-
-		std::string key, value;
-		if (std::getline(ss, key, ':') && std::getline(ss, value))
-		{
-			o.push_back(key);
-			o.push_back(value);
-		}
-	}
-
-	return o;
-}
-
-void AppPlatform_windows::setOptionStrings(const std::vector<std::string>& str)
-{
-	assert(str.size() % 2 == 0);
-
-	std::ofstream os("options.txt");
-
-	os << "#Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.\n\n";
-	
-	for (int i = 0; i < int(str.size()); i += 2)
-		os << str[i] << ':' << str[i + 1] << '\n';
-}
-
 std::string AppPlatform_windows::getPatchData()
 {
 	std::ifstream ifs("assets/patches/patch_data.txt");

@@ -132,10 +132,10 @@ void LevelRenderer::allChanged()
 
 	LeafTile* pLeaves = (LeafTile*)Tile::leaves;
 
-	pLeaves->m_bTransparent = m_pMinecraft->m_options.m_bFancyGraphics;
+	pLeaves->m_bTransparent = m_pMinecraft->getOptions()->m_bFancyGraphics;
 	pLeaves->m_TextureFrame = !pLeaves->m_bTransparent + pLeaves->field_74;
 
-	field_BC = m_pMinecraft->m_options.m_iViewDistance;
+	field_BC = m_pMinecraft->getOptions()->m_iViewDistance;
 
 	int x1 = 64 << (3 - field_BC);
 	if (x1 >= 400)
@@ -491,7 +491,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		field_88.push_back(pChunk);
 	}
 
-	if (m_pMinecraft->m_options.m_iViewDistance != field_BC)
+	if (m_pMinecraft->getOptions()->m_iViewDistance != field_BC)
 		allChanged();
 
 	if (!a)
@@ -519,7 +519,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 	// @TODO: Fix goto hell
 
 	// @NOTE: Field_B8 doesn't appear to be used??
-	if (field_B8 && !a && !m_pMinecraft->m_options.m_bAnaglyphs)
+	if (field_B8 && !a && !m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
 		checkQueryResults(0, 16);
 
@@ -1089,7 +1089,7 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 
 	Mob* mob = m_pMinecraft->m_pMobPersp;
 
-	EntityRenderDispatcher::getInstance()->prepare(m_pLevel, m_pMinecraft->m_pTextures, m_pMinecraft->m_pFont, mob, &m_pMinecraft->m_options, f);
+	EntityRenderDispatcher::getInstance()->prepare(m_pLevel, m_pMinecraft->m_pTextures, m_pMinecraft->m_pFont, mob, m_pMinecraft->getOptions(), f);
 
 	field_18 = 0;
 	field_1C = 0;
@@ -1111,7 +1111,7 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 		if (!culler->isVisible(pEnt->m_hitbox))
 			continue;
 
-		if (m_pMinecraft->m_pMobPersp == pEnt && !m_pMinecraft->m_options.m_bThirdPerson)
+		if (m_pMinecraft->m_pMobPersp == pEnt && !m_pMinecraft->getOptions()->m_bThirdPerson)
 			continue;
 
 		if (m_pLevel->hasChunkAt(Mth::floor(pEnt->m_pos.x), Mth::floor(pEnt->m_pos.y), Mth::floor(pEnt->m_pos.z)))
@@ -1127,8 +1127,8 @@ extern int t_keepPic;
 void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
 	Mob* pOldMob = m_pMinecraft->m_pMobPersp;
-	bool bOldDontRenderGui = m_pMinecraft->m_options.m_bDontRenderGui;
-	bool bOldThirdPerson = m_pMinecraft->m_options.m_bThirdPerson;
+	bool bOldDontRenderGui = m_pMinecraft->getOptions()->m_bDontRenderGui;
+	bool bOldThirdPerson = m_pMinecraft->getOptions()->m_bThirdPerson;
 
 #ifdef ENH_CAMERA_NO_PARTICLES
 	extern bool g_bDisableParticles;
@@ -1136,12 +1136,12 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 #endif
 
 	m_pMinecraft->m_pMobPersp = pCamera;
-	m_pMinecraft->m_options.m_bDontRenderGui = true;
-	m_pMinecraft->m_options.m_bThirdPerson = false; // really from the perspective of the camera
+	m_pMinecraft->getOptions()->m_bDontRenderGui = true;
+	m_pMinecraft->getOptions()->m_bThirdPerson = false; // really from the perspective of the camera
 	m_pMinecraft->m_pGameRenderer->render(0.0f);
 	m_pMinecraft->m_pMobPersp = pOldMob;
-	m_pMinecraft->m_options.m_bDontRenderGui = bOldDontRenderGui;
-	m_pMinecraft->m_options.m_bThirdPerson = bOldThirdPerson;
+	m_pMinecraft->getOptions()->m_bDontRenderGui = bOldDontRenderGui;
+	m_pMinecraft->getOptions()->m_bThirdPerson = bOldThirdPerson;
 
 #ifdef ENH_CAMERA_NO_PARTICLES
 	g_bDisableParticles = false;
@@ -1229,7 +1229,7 @@ void LevelRenderer::renderSky(float f)
 	glDisable(GL_TEXTURE_2D);
 
 	Vec3 skyColor = m_pLevel->getSkyColor(m_pMinecraft->m_pMobPersp, f);
-	if (m_pMinecraft->m_options.m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
 		skyColor.x = (((skyColor.x * 30.0f) + (skyColor.y * 59.0f)) + (skyColor.z * 11.0f)) / 100.0f;
 		skyColor.y = ((skyColor.x * 30.0f) + (skyColor.y * 70.0f)) / 100.0f;

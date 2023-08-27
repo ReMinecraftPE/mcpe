@@ -34,7 +34,6 @@ public:
 	void showDialog(eDialogType) override;
 	std::string getDateString(int time) override;
 	Texture loadTexture(const std::string& str, bool b) override;
-	std::vector<std::string> getOptionStrings() override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;
@@ -46,9 +45,6 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override { return m_bShiftPressed; }
 	void setShiftPressed(bool b) { m_bShiftPressed = b; }
-	
-	// Also add these to allow saving options.
-	void setOptionStrings(const std::vector <std::string>& str) override;
 
 	// Also add this to allow dynamic texture patching.
 	std::string getPatchData() override;

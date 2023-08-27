@@ -40,7 +40,6 @@ public:
 	void grabMouse();
 	void tick();
 	void tickInput();
-	void reloadOptions();
 	void saveOptions();
 	void handleMouseClick(int type);
 	void handleMouseDown(int type, bool b);
@@ -77,6 +76,7 @@ public:
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
+	Options* getOptions() const { return m_options; }
 
 	static void setGuiScaleMultiplier(float f);
 
@@ -90,10 +90,10 @@ public:
 
 private:
 	Logger *m_Logger;
+	Options *m_options;
 
 public:
 	bool field_18;
-	Options m_options;
 	bool field_288;
 	LevelRenderer* m_pLevelRenderer;
 	GameRenderer* m_pGameRenderer;

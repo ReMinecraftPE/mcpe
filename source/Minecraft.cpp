@@ -50,6 +50,7 @@ const char* Minecraft::progressMessages[] =
 Minecraft::Minecraft() :
     m_gui(this)
 {
+	m_options = nullptr;
 	field_18 = false;
 	field_288 = false;
 	m_pLevelRenderer = nullptr;
@@ -192,17 +193,9 @@ void Minecraft::onGraphicsReset()
 	EntityRenderDispatcher::getInstance()->onGraphicsReset();
 }
 
-void Minecraft::reloadOptions()
-{
-	m_options.update(platform()->getOptionStrings());
-
-	// update the user's name.
-	m_pUser->field_0 = m_options.m_playerName;
-}
-
 void Minecraft::saveOptions()
 {
-	platform()->setOptionStrings(m_options.getOptionStrings());
+	getOptions()->save();
 }
 
 bool Minecraft::isLevelGenerated()
@@ -399,7 +392,7 @@ void Minecraft::tickInput()
 		if (Mouse::isButtonDown(1))
 			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
 
-		if (!bIsInGUI && m_options.field_19)
+		if (!bIsInGUI && getOptions()->field_19)
 		{
 			if (Mouse::getEventButton() == Mouse::LEFT && Mouse::getEventButtonState() == Mouse::DOWN)
 			{
@@ -456,19 +449,19 @@ void Minecraft::tickInput()
 
 			for (int i = 0; i < 9; i++)
 			{
-				if (m_options.isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
+				if (getOptions()->isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
 					m_pLocalPlayer->m_pInventory->selectSlot(i);
 			}
 
-			if (m_options.isKey(KM_TOGGLE3RD, keyCode))
+			if (getOptions()->isKey(KM_TOGGLE3RD, keyCode))
 			{
-				m_options.m_bThirdPerson = !m_options.m_bThirdPerson;
+				getOptions()->m_bThirdPerson = !getOptions()->m_bThirdPerson;
 			}
-			else if (m_options.isKey(KM_MENU_CANCEL, keyCode))
+			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
 			{
 				pauseGame();
 			}
-			else if (m_options.isKey(KM_DROP, keyCode))
+			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
 				int itemID = m_pLocalPlayer->m_pInventory->getSelectedItemId();
 				if (itemID > 0)
@@ -477,33 +470,33 @@ void Minecraft::tickInput()
 					m_pLocalPlayer->drop(&inst);
 				}
 			}
-			else if (m_options.isKey(KM_TOGGLEGUI, keyCode))
+			else if (getOptions()->isKey(KM_TOGGLEGUI, keyCode))
 			{
-				m_options.m_bDontRenderGui = !m_options.m_bDontRenderGui;
+				getOptions()->m_bDontRenderGui = !getOptions()->m_bDontRenderGui;
 			}
-			else if (m_options.isKey(KM_TOGGLEDEBUG, keyCode))
+			else if (getOptions()->isKey(KM_TOGGLEDEBUG, keyCode))
 			{
-				m_options.m_bDebugText = !m_options.m_bDebugText;
+				getOptions()->m_bDebugText = !getOptions()->m_bDebugText;
 			}
 		#ifdef ENH_ALLOW_AO
-			else if (m_options.isKey(KM_TOGGLEAO, keyCode))
+			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
 				// Toggle ambient occlusion.
-				m_options.m_bAmbientOcclusion = !m_options.m_bAmbientOcclusion;
-				Minecraft::useAmbientOcclusion = m_options.m_bAmbientOcclusion;
+				getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
+				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
 				m_pLevelRenderer->allChanged();
 			}
 		#endif
 		}
 
-		if (m_options.field_19)
+		if (getOptions()->field_19)
 			continue;
 
 		if (getTimeMs() - field_2B4 <= 200)
 		{
-			if (m_options.getKey(KM_DESTROY) == keyCode && bPressed)
+			if (getOptions()->getKey(KM_DESTROY) == keyCode && bPressed)
 				handleMouseClick(1);
-			if (m_options.getKey(KM_PLACE) == keyCode && bPressed)
+			if (getOptions()->getKey(KM_PLACE) == keyCode && bPressed)
 				handleMouseClick(2);
 		}
 	}
@@ -511,12 +504,12 @@ void Minecraft::tickInput()
 	// @TODO: fix gotos
 	bool v12 = false;
 
-	if (m_options.field_19)
+	if (getOptions()->field_19)
 	{
 		if (!Mouse::isButtonDown(Mouse::LEFT) || bIsInGUI)
 			goto label_12;
 	}
-	else if (Keyboard::isKeyDown(m_options.getKey(KM_DESTROY)))
+	else if (Keyboard::isKeyDown(getOptions()->getKey(KM_DESTROY)))
 	{
 		goto label_12;
 	}
@@ -743,7 +736,20 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
-	m_pTextures = new Textures(&m_options, platform());
+	m_options = new Options(m_externalStorageDir);
+
+#ifndef ORIGINAL_CODE
+	m_pTurnInput = new MouseTurnInput(this);
+#else
+	m_pTurnInput = new ControllerTurnInput;
+#endif
+
+	m_pRakNetInstance = new RakNetInstance;
+
+	m_pSoundEngine = new SoundEngine;
+	m_pSoundEngine->init(m_options);
+
+	m_pTextures = new Textures(m_options, platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
 	m_pTextures->addDynamicTexture(new LavaTexture);
@@ -752,7 +758,7 @@ void Minecraft::init()
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
-	m_pUser = new User("TestUser", "");
+	m_pUser = new User(getOptions()->m_playerName, "");
 
 #ifdef TEST_SURVIVAL_MODE
 	m_pGameMode = new SurvivalMode(this);
@@ -760,9 +766,7 @@ void Minecraft::init()
 	m_pGameMode = new CreativeMode(this);
 #endif
 
-	reloadOptions();
-
-	m_pFont = new Font(&m_options, "font/default.png", m_pTextures);
+	m_pFont = new Font(m_options, "font/default.png", m_pTextures);
 
 	// Patch Manager
 	GetPatchManager()->LoadPatchData(platform()->getPatchData());
@@ -777,6 +781,7 @@ void Minecraft::init()
 
 Minecraft::~Minecraft()
 {
+	SAFE_DELETE(m_options);
 	SAFE_DELETE(m_pNetEventCallback);
 	SAFE_DELETE(m_pRakNetInstance);
 	SAFE_DELETE(m_pLevelRenderer);
@@ -956,7 +961,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 
 	if (pLocalPlayer)
 	{
-		pLocalPlayer->m_pKeyboardInput = new KeyboardInput(&m_options);
+		pLocalPlayer->m_pKeyboardInput = new KeyboardInput(m_options);
 	}
 
 	if (m_pLevelRenderer)

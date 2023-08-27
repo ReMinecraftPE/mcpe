@@ -67,44 +67,22 @@ class Options
 public:
 	struct Option;
 	struct KeyBind;
-public:
-	Options();
-	void initDefaultValues();
-	void load();
-	void save();
-	std::string getMessage(const Options::Option&);
-	void update(const std::vector<std::string>& string);
-	std::vector<std::string> getOptionStrings();
-
-public:
+private:
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
+	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
+	static void savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties);
 
+private:
+	void _initDefaultValues();
+	void _load();
 public:
-	struct Option
-	{
-		bool field_0;
-		bool field_1;
-		std::string str;
-		int field_1C;
-		
-		Option(int i, const std::string& str, bool b1, bool b2) : field_0(b1), field_1(b2), str(str), field_1C(i) {}
-
-		static Option MUSIC;
-		static Option SOUND;
-		static Option INVERT_MOUSE;
-		static Option SENSITIVITY;
-		static Option RENDER_DISTANCE;
-		static Option VIEW_BOBBING;
-		static Option ANAGLYPH;
-		static Option LIMIT_FRAMERATE;
-		static Option DIFFICULTY;
-		static Option GRAPHICS;
-		static Option AMBIENT_OCCLUSION;
-		static Option GUI_SCALE;
-	};
+	Options(const std::string& folderPath);
+	void save();
+	std::string getMessage(const Options::Option&);
+	std::vector<std::string> getOptionStrings();
 
 	int getKey(eKeyMappingIndex idx)
 	{
@@ -114,6 +92,9 @@ public:
 	{
 		return getKey(idx) == keyCode;
 	}
+
+private:
+	std::string m_filePath;
 
 public:
 	float field_0;
@@ -143,5 +124,29 @@ public:
 	bool m_bServerVisibleDefault;
 	bool m_bAutoJump;
 	bool m_bDebugText;
+
+public:
+	struct Option
+	{
+		bool field_0;
+		bool field_1;
+		std::string str;
+		int field_1C;
+		
+		Option(int i, const std::string& str, bool b1, bool b2) : field_0(b1), field_1(b2), str(str), field_1C(i) {}
+
+		static Option MUSIC;
+		static Option SOUND;
+		static Option INVERT_MOUSE;
+		static Option SENSITIVITY;
+		static Option RENDER_DISTANCE;
+		static Option VIEW_BOBBING;
+		static Option ANAGLYPH;
+		static Option LIMIT_FRAMERATE;
+		static Option DIFFICULTY;
+		static Option GRAPHICS;
+		static Option AMBIENT_OCCLUSION;
+		static Option GUI_SCALE;
+	};
 };
 
