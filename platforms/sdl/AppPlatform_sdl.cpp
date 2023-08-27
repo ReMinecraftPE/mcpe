@@ -107,7 +107,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 		if (ret != 0)
 		{
 			// Unable To Create Folder
-			LogMsg("Error Creating Directory: %s: %s", path, strerror(errno));
+			LOG_E("Error Creating Directory: %s: %s", path, strerror(errno));
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -177,11 +177,11 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	// Save Image
 	if (fail || save_png(file.c_str(), pixels, line_size, width, height))
 	{
-		LogMsg("Screenshot Failed: %s", file.c_str());
+		LOG_E("Screenshot Failed: %s", file.c_str());
 	}
 	else
 	{
-		LogMsg("Screenshot Saved: %s", file.c_str());
+		LOG_I("Screenshot Saved: %s", file.c_str());
 	}
 
 	// Free
@@ -285,7 +285,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	}
 
     // TODO: I don't think this logic makes any sense
-	LogMsg("Couldn't find file: %s", path.c_str());
+	LOG_E("Couldn't find file: %s", path.c_str());
 	return out;
 }
 
@@ -299,12 +299,12 @@ std::vector<std::string> AppPlatform_sdl::getOptionStrings()
 	// TODO: This isn't specific to SDL2. Why isn't it in an AppPlatform base class?
 	std::vector<std::string> o;
 
-	LogMsg("Storage dir is %s", _storageDir.c_str());
+	LOG_I("Storage dir is %s", _storageDir.c_str());
 
 	std::ifstream ifs(getOptionsFilePath().c_str());
 	if (!ifs.is_open())
 	{
-		LogMsg("Warning, options.txt doesn't exist, resetting to defaults");
+		LOG_W("options.txt doesn't exist, resetting to defaults");
 		return o;
 	}
 
@@ -340,7 +340,7 @@ void AppPlatform_sdl::setOptionStrings(const std::vector<std::string>& str)
 	os.open(getOptionsFilePath().c_str());
 	if (!os.is_open())
 	{
-		LogMsg("Error, options.txt can't be opened");
+		LOG_E("Failed to read options.txt");
 		return;
 	}
 

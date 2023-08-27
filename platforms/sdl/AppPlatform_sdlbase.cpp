@@ -56,7 +56,7 @@ SDL_Surface* AppPlatform_sdlbase::getSurfaceForTexture(const Texture* const text
             0xFF000000
     );
     if (!surface)
-        LogMsg("Error loading SDL_Surface from Texture: %s", SDL_GetError());
+        LOG_E("Failed loading SDL_Surface from Texture: %s", SDL_GetError());
     
     return surface;
 }

@@ -41,7 +41,7 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 
 		if (command == "stop_now")
 		{
-			LogMsg("PatchManager: Found stop_now, quitting patch processing earlier, iProgramInCpp probably wanted to test something");
+			LOG_I("PatchManager: Found stop_now, quitting patch processing earlier, iProgramInCpp probably wanted to test something");
 			return;
 		}
 
@@ -116,7 +116,7 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 			if (itemID == -1)
 			{
 			namefailure:
-				LogMsg("Unknown item/tile with the name %s", itemName.c_str());
+				LOG_W("Unknown item/tile with the name %s", itemName.c_str());
 				continue;
 			}
 
@@ -142,7 +142,7 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 			continue;
 		}
 
-		LogMsg("Unknown command %s from patch data.", command.c_str());
+		LOG_W("Unknown command %s from patch data.", command.c_str());
 	}
 }
 
@@ -158,7 +158,7 @@ void PatchManager::PatchTextures(AppPlatform* pAppPlatform, ePatchType patchType
 		Texture texture = pAppPlatform->loadTexture("patches/" + pd.m_filename, true);
 		if (texture.m_width == 0)
 		{
-			LogMsg("Image %s has width 0, not found?! Skipping", pd.m_filename.c_str());
+			LOG_W("Image %s has width 0, not found?! Skipping", pd.m_filename.c_str());
 			continue;
 		}
 
@@ -198,7 +198,7 @@ void PatchManager::PatchTiles()
 			continue;
 		}
 
-		LogMsg("PatchTiles: unknown item ID %d", pd.m_destID);
+		LOG_W("PatchTiles: unknown item ID %d", pd.m_destID);
 	}
 }
 

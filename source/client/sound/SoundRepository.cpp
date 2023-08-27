@@ -27,10 +27,11 @@ void SoundRepository::add(const std::string& name, SoundDesc& sd)
 
 bool SoundRepository::get(const std::string& name, SoundDesc& sd)
 {
+	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	std::map<std::string, std::vector<SoundDesc> >::iterator iter = m_repo.find(name);
 	if (iter == m_repo.end())
 	{
-		printf("Couldn't find a sound with id: %s\n", name.c_str());
+		LOG_E("Couldn't find a sound with id: %s", name.c_str());
 		return false;
 	}
 

@@ -183,7 +183,7 @@ void Inventory::addTestItem(int itemID, int amount, int auxValue)
 
 	if (inst.m_amount != 0)
 	{
-		LogMsg("AddTestItem: Couldn't add all %d of %s, only gave %d",
+		LOG_I("AddTestItem: Couldn't add all %d of %s, only gave %d",
 			amount, Item::items[itemID]->m_DescriptionID.c_str(), amount - inst.m_amount);
 	}
 }
@@ -291,5 +291,5 @@ void Inventory::selectItemById(int itemID)
 		return;
 	}
 
-	LogMsg("selectItemById: %d doesn't exist", itemID);
+	LOG_W("selectItemById: %d doesn't exist", itemID);
 }

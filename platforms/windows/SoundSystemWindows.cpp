@@ -14,7 +14,7 @@
 
 SoundSystemWindows::SoundSystemWindows()
 {
-	printf("Init SoundSystemWindows\n");
+	LOG_I("Init SoundSystemWindows");
 
 	HRESULT result;
 	DSBUFFERDESC bufferDesc;
@@ -24,14 +24,14 @@ SoundSystemWindows::SoundSystemWindows()
 	result = DirectSoundCreate8(NULL, &m_directsound, NULL);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows failed to create directsound8 handle\n");
+		LOG_E("SoundSystemWindows failed to create directsound8 handle");
 		return;
 	}
 
 	result = m_directsound->SetCooperativeLevel(GetHWND(), DSSCL_NORMAL);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows failed set cooperation level\n");
+		LOG_E("SoundSystemWindows failed set cooperation level");
 		return;
 	}
 
@@ -47,7 +47,7 @@ SoundSystemWindows::SoundSystemWindows()
 	result = m_directsound->CreateSoundBuffer(&bufferDesc, &primaryBuffer, NULL);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows failed to create primary sound buffer\n");
+		LOG_E("SoundSystemWindows failed to create primary sound buffer");
 		return;
 	}
 
@@ -57,7 +57,7 @@ SoundSystemWindows::SoundSystemWindows()
 
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows failed to create 3D listener\n");
+		LOG_E("SoundSystemWindows failed to create 3D listener\n");
 	}
 
 	m_available = true;
@@ -67,7 +67,7 @@ SoundSystemWindows::SoundSystemWindows()
 
 SoundSystemWindows::~SoundSystemWindows()
 {
-	printf("Destroying SoundSystemWindows\n");
+	LOG_I("Destroying SoundSystemWindows");
 
 	if (!isAvailable())
 	{
@@ -203,7 +203,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	result = m_directsound->CreateSoundBuffer(&bufferDesc, &tempBuffer, NULL);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows CreateSoundBuffer failed\n");
+		LOG_E("SoundSystemWindows CreateSoundBuffer failed");
 		return;
 	}
 
@@ -211,7 +211,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (LPVOID*)&soundbuffer);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows tempBuffer QueryInterface failed\n");
+		LOG_E("SoundSystemWindows tempBuffer QueryInterface failed");
 		return;
 	}
 
@@ -224,7 +224,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	result = soundbuffer->Lock(0, length, (void**)&bufferPtr, (DWORD*)&bufferSize, NULL, 0, 0);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows lock failed\n");
+		LOG_E("SoundSystemWindows lock failed");
 		return;
 		//return false;
 	}
@@ -236,7 +236,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 	result = soundbuffer->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
 	if (FAILED(result))
 	{
-		printf("SoundSystemWindows unlock failed\n");
+		LOG_E("SoundSystemWindows unlock failed");
 		return;
 	}
 
@@ -275,7 +275,7 @@ void SoundSystemWindows::playAt(const SoundDesc& sound, float x, float y, float 
 		HRESULT hr = soundbuffer->QueryInterface(IID_IDirectSound3DBuffer8,
 			(LPVOID*)&object3d);
 		if (FAILED(hr)) {
-			printf("SoundSystemWindows QueryInterface failed for 3D Object\n");
+			LOG_E("SoundSystemWindows QueryInterface failed for 3D Object");
 			return;
 		}
 

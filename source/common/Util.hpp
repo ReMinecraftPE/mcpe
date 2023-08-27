@@ -20,6 +20,9 @@ public:
 	static std::string stringTrim(const std::string &, const std::string &, bool, bool);
 	static std::string stringTrim(const std::string &);
 
+	static std::string vformat(const char* fmt, va_list argPtr);
+	static std::string format(const char* fmt, ...);
+
 	template<typename T>
 	static bool remove(std::vector<T>& vec, const T& t)
 	{

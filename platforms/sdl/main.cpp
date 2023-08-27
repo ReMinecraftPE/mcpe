@@ -26,27 +26,6 @@ typedef AppPlatform_sdl UsedAppPlatform;
 
 static float g_fPointToPixelScale = 1.0f;
 
-void LogMsg(const char* fmt, ...)
-{
-	va_list lst;
-	va_start(lst, fmt);
-
-	vprintf(fmt, lst);
-	printf("\n");
-
-	va_end(lst);
-}
-// I hate duplicating code, but yeah
-void LogMsgNoCR(const char* fmt, ...)
-{
-	va_list lst;
-	va_start(lst, fmt);
-
-	vprintf(fmt, lst);
-
-	va_end(lst);
-}
-
 UsedAppPlatform *g_pAppPlatform;
 NinecraftApp *g_pApp;
 
@@ -262,7 +241,7 @@ int main(int argc, char *argv[])
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		LOGE("Unable To Initialize SDL: %s\n", SDL_GetError());
+		LOG_E("Unable To Initialize SDL: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 
@@ -290,7 +269,7 @@ int main(int argc, char *argv[])
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
 	if (!window)
 	{
-		LOGE("Unable to create SDL window\n");
+		LOG_E("Unable to create SDL window\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -301,7 +280,7 @@ int main(int argc, char *argv[])
 	context = SDL_GL_CreateContext(window);
 	if (!context)
 	{
-		LOGE("Unable to create OpenGL context\n");
+		LOG_E("Unable to create OpenGL context\n");
 		exit(EXIT_FAILURE);
 	}
 

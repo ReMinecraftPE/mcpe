@@ -322,7 +322,7 @@ void Tesselator::vertex(float x, float y, float z)
 	if (!(field_4 & 3) && field_2C >= m_maxVertices - 1)
 	{
 		for (int i = 0; i < 3; i++)
-			puts("Overwriting the vertex buffer! This chunk/entity won't show up");
+			LOG_W("Overwriting the vertex buffer! This chunk/entity won't show up");
 
 		clear();
 	}

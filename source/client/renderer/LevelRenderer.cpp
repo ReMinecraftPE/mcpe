@@ -53,7 +53,7 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	m_pBuffers = new GLuint[m_nBuffers];
 	xglGenBuffers(m_nBuffers, m_pBuffers);
 
-	printf("numBuffers: %d\n", m_nBuffers);
+	LOG_I("numBuffers: %d", m_nBuffers);
 	xglGenBuffers(1, &field_D8);
 
 	generateSky(); // inlined in the 0.1.0 demo
@@ -146,7 +146,7 @@ void LevelRenderer::allChanged()
 	field_A8 = 8;
 
 	m_chunksLength = field_A8 * field_A4 * field_AC;
-	printf("chunksLength: %d\n", m_chunksLength);
+	LOG_I("chunksLength: %d", m_chunksLength);
 	m_chunks = new Chunk* [m_chunksLength];
 	field_98 = new Chunk* [m_chunksLength];
 
@@ -1162,6 +1162,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 
 void LevelRenderer::addParticle(const std::string& name, float x, float y, float z, float vx, float vy, float vz)
 {
+	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	if (m_pMinecraft->m_pMobPersp->distanceToSqr_inline(x, y, z) > 256.0f)
 		return;
 
@@ -1202,13 +1203,12 @@ void LevelRenderer::addParticle(const std::string& name, float x, float y, float
 		return;
 	}
 
-#ifndef ORIGINAL_CODE
-	//LogMsg("Unknown particle type: %s", name.c_str());
-#endif
+	LOG_W("Unknown particle type: %s", name.c_str());
 }
 
 void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float a, float b)
 {
+	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	float mult = 1.0f, dist = 16.0f;
 
 	if (a > 1.0f)

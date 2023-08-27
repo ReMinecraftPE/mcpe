@@ -745,7 +745,7 @@ void LevelChunk::setData(int x, int y, int z, int data)
 // seems to set block data in 8192 block (4*16*128) chunks for some reason ?
 void LevelChunk::setBlocks(uint8_t* pData, int y)
 {
-	puts("LevelChunk::setBlocks");
+	LOG_I("LevelChunk::setBlocks");
 	for (int i = 0; i < 8192; i++)
 	{
 		m_pBlockData[8192 * y + i] = pData[i];
@@ -774,7 +774,7 @@ void LevelChunk::setBlocks(uint8_t* pData, int y)
 
 int LevelChunk::setBlocksAndData(uint8_t* pData, int a3, int a4, int a5, int a6, int a7, int a8, int a9)
 {
-	puts("LevelChunk::setBlocksAndData");
+	LOG_I("LevelChunk::setBlocksAndData");
 
 	if (a3 >= a6)
 	{

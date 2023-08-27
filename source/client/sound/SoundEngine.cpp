@@ -21,6 +21,7 @@ SoundEngine::SoundEngine()
 
 void SoundEngine::init(Options* options)
 {
+	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	m_pOptions = options;
 
 	m_repository.add("step.cloth", SA_cloth1);

@@ -21,45 +21,6 @@ LPCTSTR g_WindowClassName = TEXT("MCPEClass");
 AppPlatform_windows g_AppPlatform;
 NinecraftApp* g_pApp;
 
-void LogMsg(const char* fmt, ...)
-{
-	va_list lst;
-	va_start(lst, fmt);
-
-#ifdef _WIN32
-	char buf[10240];
-	vsnprintf(buf, sizeof buf, fmt, lst);
-	buf[sizeof buf - 1] = 0;
-
-	OutputDebugStringA(buf);
-	OutputDebugStringA("\n");
-#else
-	vfprintf(stderr, fmt, lst);
-	fprintf(stderr, "\n");
-#endif
-
-	va_end(lst);
-}
-
-// I hate duplicating code, but yeah
-void LogMsgNoCR(const char* fmt, ...)
-{
-	va_list lst;
-	va_start(lst, fmt);
-
-#ifdef _WIN32
-	char buf[10240];
-	vsnprintf(buf, sizeof buf, fmt, lst);
-	buf[sizeof buf - 1] = 0;
-
-	OutputDebugStringA(buf);
-#else
-	vfprintf(stderr, fmt, lst);
-#endif
-
-	va_end(lst);
-}
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
@@ -162,6 +123,15 @@ void CheckOptionalTextureAvailability()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
+#ifdef _DEBUG
+	AllocConsole();
+	FILE* ostream;
+	FILE* istream;
+	freopen_s(&ostream, "CONOUT$", "w", stdout);
+	freopen_s(&istream, "CONIN$", "r", stdin);
+	SetConsoleTitle("Minecraft C++ Debug Console");
+#endif
+
 	SetInstance(hInstance);
 
 	// register the window class:

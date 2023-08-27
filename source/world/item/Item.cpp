@@ -40,7 +40,7 @@ Item::Item(int itemID)
 
 	if (Item::items[m_itemID])
 	{
-		printf("Item conflict id @ %d! Id already used\n", m_itemID);
+		LOG_W("Item conflict id @ %d! Id already used\n", m_itemID);
 	}
 
 	Item::items[m_itemID] = this;
@@ -66,7 +66,7 @@ Item* Item::setMaxStackSize(int mss)
 Item* Item::setCraftingRemainingItem(Item* pItem)
 {
 	if (m_maxStackSize > 1)
-		puts("Max stack size must be 1 for items with crafting results");
+		LOG_W("Max stack size must be 1 for items with crafting results");
 
 	m_pCraftingRemainingItem = pItem;
 

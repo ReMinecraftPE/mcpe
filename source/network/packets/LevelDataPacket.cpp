@@ -61,7 +61,7 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 	if (pCompressedData)
 	{
 		float ratio = 100.0f * float(compSize) / float(uncompSize);
-		//LogMsg("Compression ratio: %.2f (%d comp, %d uncomp)", ratio, int(compSize), int(uncompSize));
+		//LOG_I("Compression ratio: %.2f (%d comp, %d uncomp)", ratio, int(compSize), int(uncompSize));
 
 		int cs2 = int(compSize), us2 = int(uncompSize);
 		bs.Reset();
@@ -73,7 +73,7 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 	}
 	else
 	{
-		//LogMsg("Level not compressed.");
+		//LOG_I("Level not compressed.");
 	}
 
 	pbs->Write(bs);

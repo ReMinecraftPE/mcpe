@@ -83,7 +83,7 @@ void Tile::_init(int ID, Material* pMaterial, int texture)
 
 	if (tiles[m_ID])
 		// @BUG: Printing &tiles[m_ID], but probably supposed to print tiles[m_ID]
-		printf("Slot %d is already occupied by %p when adding %p\n", m_ID, &tiles[m_ID], this);
+		LOG_W("Slot %d is already occupied by %p when adding %p", m_ID, &tiles[m_ID], this);
 }
 
 Tile::~Tile()

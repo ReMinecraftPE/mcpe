@@ -21,7 +21,7 @@ PerlinNoise::PerlinNoise(Random* pRandom, int nOctaves)
 
 	if (nOctaves == 10)
 	{
-		LogMsg("Ok");
+		LOG_I("PerlinNoise octaves are 10");
 	}
 
 	init(nOctaves);
