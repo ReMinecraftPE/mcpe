@@ -89,6 +89,8 @@ Minecraft::Minecraft() :
 	m_fLastUpdated = 0;
 	m_fDeltaTime = 0;
 
+	m_standardOut = new StandardOut();
+
 #ifndef ORIGINAL_CODE
 	m_pTurnInput = new MouseTurnInput(this);
 #else
@@ -797,6 +799,7 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pUser);
 	SAFE_DELETE(m_pLevelStorageSource);
 	SAFE_DELETE(m_pTurnInput);
+	SAFE_DELETE(m_standardOut);
 
 	//@BUG: potentially leaking a CThread instance if this is destroyed early?
 }

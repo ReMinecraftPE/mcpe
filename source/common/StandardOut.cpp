@@ -1,28 +1,32 @@
 #include <iostream>
 #include <stdarg.h>
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
 #include "StandardOut.hpp"
 #include "Util.hpp"
 
+StandardOut* StandardOut::m_singleton = nullptr;
+
 StandardOut* const StandardOut::singleton()
 {
-    // This is automatically allocated when accessed for the first time,
-    // and automatically deallocated when runtime concludes.
-    static StandardOut standardOut = StandardOut();
-    return &standardOut;
+    return m_singleton;
+}
+
+StandardOut::StandardOut()
+{
+    // Stick with the first output handle we get
+    if (!m_singleton)
+        m_singleton = this;
+}
+
+StandardOut::~StandardOut()
+{
+    if (m_singleton == this)
+        m_singleton = nullptr;
 }
 
 void StandardOut::print(const char* const str)
 {
     std::cout << str << std::endl;
-#ifdef _WIN32
-    OutputDebugStringA(str);
-    OutputDebugStringA("\n");
-#endif
 }
 
 void StandardOut::print(std::string str)

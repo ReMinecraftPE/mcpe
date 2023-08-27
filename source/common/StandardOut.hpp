@@ -4,13 +4,18 @@
 
 class StandardOut
 {
+private:
+	static StandardOut* m_singleton;
 public:
 	static StandardOut* const singleton();
 
-	void print(const char* const str);
-	void print(std::string str);
-	void vprintf(const char* const fmt, va_list argPtr);
-	void printf(const char* const fmt, ...);
+	StandardOut();
+	~StandardOut();
+
+	virtual void print(const char* const str);
+	virtual void print(std::string str);
+	virtual void vprintf(const char* const fmt, va_list argPtr);
+	virtual void printf(const char* const fmt, ...);
 };
 
 #ifdef _DEBUG

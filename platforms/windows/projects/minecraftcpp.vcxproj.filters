@@ -1179,6 +1179,9 @@
     <ClInclude Include="..\..\..\source\common\StandardOut.hpp">
       <Filter>source\common</Filter>
     </ClInclude>
+    <ClInclude Include="..\StandardOut_windows.hpp">
+      <Filter>source\platforms\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2209,6 +2212,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\common\StandardOut.cpp">
       <Filter>source\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StandardOut_windows.cpp">
+      <Filter>source\platforms\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

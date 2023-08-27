@@ -88,6 +88,9 @@ public:
 	static const bool DEADMAU5_CAMERA_CHEATS;
 	static int customDebugId;
 
+private:
+	StandardOut *m_standardOut;
+
 public:
 	bool field_18;
 	Options m_options;

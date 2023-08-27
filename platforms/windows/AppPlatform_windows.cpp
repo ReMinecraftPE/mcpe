@@ -12,6 +12,7 @@
 #include <shlobj.h>
 
 #include "AppPlatform_windows.hpp"
+#include "StandardOut_windows.hpp"
 
 #include "thirdparty/stb_image.h"
 #include "thirdparty/stb_image_write.h"
@@ -31,6 +32,15 @@ AppPlatform_windows::AppPlatform_windows()
 	m_bShiftPressed = false;
 
 	m_MouseDiffX = 0, m_MouseDiffY = 0;
+
+	// This initializes the StandardOut singleton to use the Windows-specific variant
+	// If we didn't initialize it here, the Minecraft class would have our back
+	m_standardOut = new StandardOut_windows();
+}
+
+AppPlatform_windows::~AppPlatform_windows()
+{
+	SAFE_DELETE(m_standardOut);
 }
 
 int AppPlatform_windows::checkLicense()

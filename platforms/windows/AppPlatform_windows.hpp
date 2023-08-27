@@ -16,11 +16,13 @@
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "common/Utils.hpp"
+#include "StandardOut_windows.hpp"
 
 class AppPlatform_windows : public AppPlatform
 {
 public:
 	AppPlatform_windows();
+	~AppPlatform_windows();
 	void buyGame() override;
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
 	int checkLicense() override;
@@ -75,5 +77,7 @@ private:
 	bool m_bShiftPressed;
 
 	int m_MouseDiffX, m_MouseDiffY;
+
+	StandardOut_windows *m_standardOut;
 };
 
