@@ -318,13 +318,13 @@ label_3:
 				{
 					switch (hr.m_hitSide)
 					{
-                        case HitResult::eHitSide::NOHIT: break;
-                        case HitResult::eHitSide::MINY: dy--; break;
-                        case HitResult::eHitSide::MAXY: dy++; break;
-                        case HitResult::eHitSide::MINZ: dz--; break;
-                        case HitResult::eHitSide::MAXZ: dz++; break;
-                        case HitResult::eHitSide::MINX: dx--; break;
-                        case HitResult::eHitSide::MAXX: dx++; break;
+                        case HitResult::NOHIT: break;
+                        case HitResult::MINY: dy--; break;
+                        case HitResult::MAXY: dy++; break;
+                        case HitResult::MINZ: dz--; break;
+                        case HitResult::MAXZ: dz++; break;
+                        case HitResult::MINX: dx--; break;
+                        case HitResult::MAXX: dx++; break;
 					}
 				}
 
@@ -399,18 +399,18 @@ void Minecraft::tickInput()
 
 		if (!bIsInGUI && m_options.field_19)
 		{
-			if (Mouse::getEventButton() == Mouse::ButtonType::LEFT && Mouse::getEventButtonState() == Mouse::ButtonState::DOWN)
+			if (Mouse::getEventButton() == Mouse::LEFT && Mouse::getEventButtonState() == Mouse::DOWN)
 			{
 				handleMouseClick(1);
 				field_DAC = field_DA8;
 			}
-			if (Mouse::getEventButton() == Mouse::ButtonType::RIGHT && Mouse::getEventButtonState() == Mouse::ButtonState::DOWN)
+			if (Mouse::getEventButton() == Mouse::RIGHT && Mouse::getEventButtonState() == Mouse::DOWN)
 			{
 				handleMouseClick(2);
 				field_DAC = field_DA8;
 			}
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-			if (Mouse::getEventButton() == Mouse::ButtonType::SCROLLWHEEL)
+			if (Mouse::getEventButton() == Mouse::SCROLLWHEEL)
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
@@ -511,7 +511,7 @@ void Minecraft::tickInput()
 
 	if (m_options.field_19)
 	{
-		if (!Mouse::isButtonDown(Mouse::ButtonType::LEFT) || bIsInGUI)
+		if (!Mouse::isButtonDown(Mouse::LEFT) || bIsInGUI)
 			goto label_12;
 	}
 	else if (Keyboard::isKeyDown(m_options.getKey(KM_DESTROY)))

@@ -179,7 +179,7 @@ int Entity::move(float x, float y, float z)
 			AABB aabb = m_hitbox;
 			aabb.move(x_1, -1.0f, 0);
 
-			auto cubes = m_pLevel->getCubes(this, aabb);
+			AABBVector* cubes = m_pLevel->getCubes(this, aabb);
 
 			if (cubes->size())
 				break;
@@ -218,7 +218,7 @@ int Entity::move(float x, float y, float z)
 			AABB aabb = m_hitbox;
 			aabb.move(0, -1.0f, z_1);
 
-			auto cubes = m_pLevel->getCubes(this, aabb);
+			AABBVector* cubes = m_pLevel->getCubes(this, aabb);
 
 			if (cubes->size())
 				break;
@@ -437,7 +437,7 @@ label_45:
 			++field_D8;
 			bool bPlaySound = true;
 
-			auto sound = Tile::tiles[tileID]->m_pSound;
+			const Tile::SoundType *sound = Tile::tiles[tileID]->m_pSound;
 			if (m_pLevel->getTile(tileX, tileY + 1, tileZ) == Tile::topSnow->m_ID)
 				sound = Tile::topSnow->m_pSound;
 			else if (Tile::tiles[tileID]->m_pMaterial->isLiquid())
@@ -735,7 +735,7 @@ bool Entity::isFree(float offX, float offY, float offZ)
 	AABB aabb = m_hitbox;
 	aabb.move(offX, offY, offZ);
 
-	auto pCubes = m_pLevel->getCubes(this, aabb);
+	AABBVector* pCubes = m_pLevel->getCubes(this, aabb);
 	if (!pCubes)
 		return false;
 
@@ -748,7 +748,7 @@ bool Entity::isFree(float offX, float offY, float offZ, float expand)
 	aabb.move(offX, offY, offZ);
 	aabb.grow(expand, expand, expand);
 
-	auto pCubes = m_pLevel->getCubes(this, aabb);
+	AABBVector* pCubes = m_pLevel->getCubes(this, aabb);
 	if (!pCubes)
 		return false;
 
@@ -1004,7 +1004,7 @@ void Entity::resetPos()
 	{
 		setPos(m_pos.x, m_pos.y, m_pos.z);
 
-		auto pCubes = m_pLevel->getCubes(this, m_hitbox);
+		AABBVector* pCubes = m_pLevel->getCubes(this, m_hitbox);
 
 		// if we aren't inside any tiles, great!
 		if (!pCubes->size())

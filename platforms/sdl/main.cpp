@@ -126,13 +126,13 @@ static void handle_events()
                 float scale = g_fPointToPixelScale;
                 float x = event.motion.x * scale;
                 float y = event.motion.y * scale;
-				Mouse::feed(Mouse::ButtonType::NONE, Mouse::ButtonState::UP, x, y);
+				Mouse::feed(Mouse::NONE, Mouse::UP, x, y);
 				g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				break;
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(Mouse::ButtonType::SCROLLWHEEL, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+				Mouse::feed(Mouse::SCROLLWHEEL, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:

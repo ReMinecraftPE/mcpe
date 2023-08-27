@@ -12,14 +12,16 @@ AABB::AABB()
 {
 }
 
-AABB::AABB(Vec3 _min, Vec3 _max) :
-	min(_min), max(_max)
+AABB::AABB(Vec3 _min, Vec3 _max)
 {
+	min = _min;
+	max = _max;
 }
 
-AABB::AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) :
-	min(minX, minY, minZ), max(maxX, maxY, maxZ)
+AABB::AABB(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
 {
+	min = Vec3(minX, minY, minZ);
+	max = Vec3(maxX, maxY, maxZ);
 }
 
 HitResult AABB::clip(const Vec3& vec1, const Vec3& vec2)

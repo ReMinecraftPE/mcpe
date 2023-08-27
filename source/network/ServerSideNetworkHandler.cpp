@@ -36,7 +36,7 @@ ServerSideNetworkHandler::~ServerSideNetworkHandler()
 	if (m_pLevel)
 		m_pLevel->removeListener(this);
 
-	for (auto it = m_onlinePlayers.begin(); it != m_onlinePlayers.end(); ++it)
+	for (OnlinePlayerMap::iterator it = m_onlinePlayers.begin(); it != m_onlinePlayers.end(); ++it)
 		delete it->second;
 
 	m_onlinePlayers.clear();
@@ -386,7 +386,7 @@ void ServerSideNetworkHandler::redistributePacket(Packet* packet, const RakNet::
 
 OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID& guid)
 {
-	auto iter = m_onlinePlayers.find(guid);
+	OnlinePlayerMap::iterator iter = m_onlinePlayers.find(guid);
 	if (iter == m_onlinePlayers.end())
 		return nullptr;
 

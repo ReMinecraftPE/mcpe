@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include <cstdint>
+#include <stdint.h>
 #include "CThread.hpp"
 #include "common/Utils.hpp"
 

@@ -25,7 +25,7 @@ void ParticleEngine::setLevel(Level* level)
 	for (int i = 0; i < 4; i++)
 	{
 #ifndef ORIGINAL_CODE
-		for (auto it = m_particles[i].begin(); it != m_particles[i].end(); it++)
+		for (std::vector<Particle*>::iterator it = m_particles[i].begin(); it != m_particles[i].end(); it++)
 		{
 			Particle* pParticle = *it;
 			delete pParticle;
@@ -168,7 +168,7 @@ void ParticleEngine::render(Entity* ent, float f)
 
 		t.begin();
 
-		for (auto it = m_particles[i].begin(); it != m_particles[i].end(); it++)
+		for (std::vector<Particle*>::iterator it = m_particles[i].begin(); it != m_particles[i].end(); it++)
 		{
 			Particle* pParticle = *it;
 			pParticle->render(t, f, x1, x2, x3, x4, x5);

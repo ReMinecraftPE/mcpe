@@ -69,7 +69,7 @@ inline int GetChunkHash(int x, int z)
 LevelChunk* RandomLevelSource::getChunk(int x, int z)
 {
 	int hashCode = GetChunkHash(x, z);
-	auto iter = m_chunks.find(hashCode);
+	std::map<int, LevelChunk*>::iterator iter = m_chunks.find(hashCode);
 	if (iter != m_chunks.end())
 		return iter->second;
 
@@ -97,7 +97,7 @@ LevelChunk* RandomLevelSource::getChunk(int x, int z)
 LevelChunk* RandomLevelSource::getChunkDontCreate(int x, int z)
 {
 	int hashCode = GetChunkHash(x, z);
-	auto iter = m_chunks.find(hashCode);
+	std::map<int, LevelChunk*>::iterator iter = m_chunks.find(hashCode);
 	if (iter != m_chunks.end())
 		return iter->second;
 

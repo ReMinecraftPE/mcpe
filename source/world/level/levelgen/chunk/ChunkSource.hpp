@@ -8,6 +8,7 @@
 
 #pragma once
 #include <string>
+#include "common/Utils.hpp"
 #include "GameMods.hpp"
 class Level;
 class LevelChunk;

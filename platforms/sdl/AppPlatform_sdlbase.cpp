@@ -130,13 +130,13 @@ Mouse::ButtonType AppPlatform_sdlbase::GetMouseButtonType(SDL_Event event)
 	switch (event.button.button)
 	{
 	case SDL_BUTTON_LEFT:
-		return Mouse::ButtonType::LEFT;
+		return Mouse::LEFT;
 	case SDL_BUTTON_RIGHT:
-		return Mouse::ButtonType::RIGHT;
+		return Mouse::RIGHT;
 	case SDL_BUTTON_MIDDLE:
-		return Mouse::ButtonType::MIDDLE;
+		return Mouse::MIDDLE;
 	default:
-		return Mouse::ButtonType::NONE;
+		return Mouse::NONE;
 	}
 }
 
@@ -147,10 +147,10 @@ Mouse::ButtonState AppPlatform_sdlbase::GetMouseButtonState(SDL_Event event)
 	switch (event.type)
 	{
 	case SDL_MOUSEBUTTONDOWN:
-		result = Mouse::ButtonState::DOWN;
+		result = Mouse::DOWN;
 		break;
 	case SDL_MOUSEBUTTONUP:
-		result = Mouse::ButtonState::UP;
+		result = Mouse::UP;
 		break;
 	case SDL_MOUSEWHEEL:
 	{
@@ -158,17 +158,17 @@ Mouse::ButtonState AppPlatform_sdlbase::GetMouseButtonState(SDL_Event event)
 		if (wheelDelta > 0)
 		{
 			// "A positive value indicates that the wheel was rotated forward, away from the user."
-			result = Mouse::ButtonState::UP;
+			result = Mouse::UP;
 		}
 		else
 		{
 			// "A negative value indicates that the wheel was rotated backward, toward the user."
-			result = Mouse::ButtonState::DOWN;
+			result = Mouse::DOWN;
 		}
 		break;
 	}
 	default:
-		result = Mouse::ButtonState::UP;
+		result = Mouse::UP;
 		break;
 	}
 
@@ -180,9 +180,9 @@ Keyboard::KeyState AppPlatform_sdlbase::GetKeyState(SDL_Event event)
 	switch (event.key.state)
 	{
 	case SDL_RELEASED:
-		return Keyboard::KeyState::UP;
+		return Keyboard::UP;
 	case SDL_PRESSED:
 	default:
-		return Keyboard::KeyState::DOWN;
+		return Keyboard::DOWN;
 	}
 }

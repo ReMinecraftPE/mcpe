@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <sys/stat.h>
+#include <cerrno>
 
 #include <png.h>
 
@@ -130,10 +131,11 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 
 	// Prevent Overwriting Screenshots
 	int num = 1;
-	std::string file = screenshots + '/' + time + ".png";
+	const std::string path = screenshots + "/";
+	std::string file = path + time + ".png";
 	while (access(file.c_str(), F_OK) != -1)
 	{
-		file = screenshots + '/' + time + '-' + std::to_string(num) + ".png";
+		file = path + SSTR(time << "-" << num << ".png");
 		num++;
 	}
 
@@ -282,18 +284,24 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 		SDL_RWclose(io);
 	}
 
-    // I don't think this logic makes any sense
+    // TODO: I don't think this logic makes any sense
 	LogMsg("Couldn't find file: %s", path.c_str());
 	return out;
 }
 
+std::string AppPlatform_sdl::getOptionsFilePath() const
+{
+	return _storageDir + "/options.txt";
+}
+
 std::vector<std::string> AppPlatform_sdl::getOptionStrings()
 {
+	// TODO: This isn't specific to SDL2. Why isn't it in an AppPlatform base class?
 	std::vector<std::string> o;
 
 	LogMsg("Storage dir is %s", _storageDir.c_str());
 
-	std::ifstream ifs(_storageDir + "/options.txt");
+	std::ifstream ifs(getOptionsFilePath().c_str());
 	if (!ifs.is_open())
 	{
 		LogMsg("Warning, options.txt doesn't exist, resetting to defaults");
@@ -325,9 +333,11 @@ std::vector<std::string> AppPlatform_sdl::getOptionStrings()
 
 void AppPlatform_sdl::setOptionStrings(const std::vector<std::string>& str)
 {
+	// TODO: This isn't specific to SDL2. Why isn't it in an AppPlatform base class?
 	assert(str.size() % 2 == 0);
 
-	std::ofstream os(_storageDir + "/options.txt");
+	std::ofstream os;
+	os.open(getOptionsFilePath().c_str());
 	if (!os.is_open())
 	{
 		LogMsg("Error, options.txt can't be opened");

@@ -21,9 +21,12 @@
 #endif
 
 #include <string>
+#include <sstream>
 
 #ifdef USE_OLD_CPP
 #define constexpr const
+#define nullptr NULL
+#define override
 #endif
 
 #if defined(_WIN32)
@@ -578,6 +581,9 @@ struct TilePos : Pos
 
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)
 #define SAFE_DELETE_ARRAY(ptr) do { if (ptr) delete[] ptr; } while (0)
+
+#define SSTR( x ) static_cast< std::ostringstream & >( \
+		( std::ostringstream() << std::dec << x ) ).str()
 
 typedef uint8_t TileID;
 

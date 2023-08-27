@@ -20,6 +20,6 @@ public:
 	bool get(const std::string& name, SoundDesc& sd);
 
 public:
-	std::map<std::string, std::vector<SoundDesc>> m_repo;
+	std::map<std::string, std::vector<SoundDesc> > m_repo;
 };
 

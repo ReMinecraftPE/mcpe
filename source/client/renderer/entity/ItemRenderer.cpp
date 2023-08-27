@@ -143,7 +143,7 @@ void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color
 
 void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 {
-	auto& t = Tesselator::instance;
+	Tesselator& t = Tesselator::instance;
 
 	float ex = float(dx), ey = float(dy);
 	float uw = float(tw), uh = float(th);

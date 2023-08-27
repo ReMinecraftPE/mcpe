@@ -617,8 +617,8 @@ void Mob::aiStep()
 	AABB aabb = m_hitbox;
 	aabb.grow(0.2f, 0.2f, 0.2f);
 
-	auto pEnts = m_pLevel->getEntities(this, aabb);
-	for (auto it = pEnts->begin(); it != pEnts->end(); it++)
+	EntityVector* pEnts = m_pLevel->getEntities(this, aabb);
+	for (EntityVector::iterator it = pEnts->begin(); it != pEnts->end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->isPushable())

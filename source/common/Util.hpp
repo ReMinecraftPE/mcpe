@@ -23,7 +23,7 @@ public:
 	template<typename T>
 	static bool remove(std::vector<T>& vec, const T& t)
 	{
-		auto iter = std::find(vec.begin(), vec.end(), t);
+		typename std::vector<T>::iterator iter = std::find(vec.begin(), vec.end(), t);
 		if (iter == vec.end())
 			return false;
 
@@ -36,7 +36,7 @@ public:
 	{
 		int removed = 0;
 
-		for (auto it = toRemove.begin(); it != toRemove.end(); it++)
+		for (typename std::vector<T>::const_iterator it = toRemove.begin(); it != toRemove.end(); it++)
 		{
 			T rem = *it;
 

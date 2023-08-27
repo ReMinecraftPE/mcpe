@@ -373,6 +373,10 @@ xcuserdata/
 *.xcscmblueprint
 *.xccheckout
 
+## Xcode 3
+*.mode1v3
+*.pbxuser
+
 ## Kill .DS_Store
 **/.DS_Store
 

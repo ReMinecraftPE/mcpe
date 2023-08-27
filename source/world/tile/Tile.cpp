@@ -736,7 +736,7 @@ void Tile::addAABBs(Level* pLevel, int x, int y, int z, const AABB* aabb, std::v
 
 	if (pTileAABB && pTileAABB->intersect(*aabb))
 	{
-		out.emplace_back(*pTileAABB);
+		out.push_back(*pTileAABB);
 	}
 }
 

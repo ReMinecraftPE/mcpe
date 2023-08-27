@@ -285,13 +285,13 @@ Material* Level::getMaterial(int x, int y, int z)
 Entity* Level::getEntity(int id)
 {
 	// prioritize players first.
-	for (auto it = m_players.begin(); it != m_players.end(); it++)
+	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
 		Player* pEnt = *it;
 		if (pEnt->m_EntityID == id)
 			return pEnt;
 	}
-	for (auto it = m_entities.begin(); it != m_entities.end(); it++)
+	for (std::vector<Entity*>::iterator it = m_entities.begin(); it != m_entities.end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_EntityID == id)
@@ -405,7 +405,7 @@ void Level::setBrightness(const LightLayer& ll, int x, int y, int z, int bright)
 	LevelChunk* pChunk = getChunk(x >> 4, z >> 4);
 	pChunk->setBrightness(ll, x & 0xF, y, z & 0xF, bright);
 
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->tileBrightnessChanged(x, y, z);
@@ -624,7 +624,7 @@ bool Level::setTileNoUpdate(int x, int y, int z, TileID tile)
 
 void Level::sendTileUpdated(int x, int y, int z)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->tileChanged(x, y, z);
@@ -688,7 +688,7 @@ bool Level::setTile(int x, int y, int z, TileID tile)
 
 void Level::setTilesDirty(int x1, int y1, int z1, int x2, int y2, int z2)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->setTilesDirty(x1, y1, z1, x2, y2, z2);
@@ -697,7 +697,7 @@ void Level::setTilesDirty(int x1, int y1, int z1, int x2, int y2, int z2)
 
 void Level::entityAdded(Entity* pEnt)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->entityAdded(pEnt);
@@ -706,7 +706,7 @@ void Level::entityAdded(Entity* pEnt)
 
 void Level::entityRemoved(Entity* pEnt)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->entityRemoved(pEnt);
@@ -757,7 +757,7 @@ Entity* Level::getNearestPlayer(float x, float y, float z, float maxDist)
 	float dist = -1.0f;
 	Player* pPlayer = nullptr;
 
-	for (auto it = m_players.begin(); it != m_players.end(); it++)
+	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
 		Player* player = *it;
 		float ldist = player->distanceToSqr(x, y, z);
@@ -1039,7 +1039,7 @@ void Level::removeAllPendingEntityRemovals()
 {
 	Util::removeAll(m_entities, m_pendingEntityRemovals);
 
-	for (auto it = m_pendingEntityRemovals.begin(); it != m_pendingEntityRemovals.end(); it++)
+	for (EntityVector::iterator it = m_pendingEntityRemovals.begin(); it != m_pendingEntityRemovals.end(); it++)
 	{
 		Entity* ent = *it;
 		ent->removed();
@@ -1276,7 +1276,7 @@ bool Level::isUnobstructed(AABB* aabb)
 	if (entities->size() <= 0)
 		return true;
 
-	for (auto it = entities->begin(); it != entities->end(); it++)
+	for (std::vector<Entity*>::iterator it = entities->begin(); it != entities->end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_bRemoved)
@@ -1323,7 +1323,7 @@ bool Level::mayPlace(TileID tile, int x, int y, int z, bool b)
 
 void Level::removeListener(LevelListener* listener)
 {
-	auto iter = std::find(m_levelListeners.begin(), m_levelListeners.end(), listener);
+	std::vector<LevelListener*>::iterator iter = std::find(m_levelListeners.begin(), m_levelListeners.end(), listener);
 	if (iter != m_levelListeners.end())
 		m_levelListeners.erase(iter);
 }
@@ -1360,7 +1360,7 @@ void Level::tickTiles()
 {
 	m_chunksToUpdate.clear();
 
-	for (auto it = m_players.begin(); it != m_players.end(); it++)
+	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
 		Player* player = *it;
 
@@ -1376,7 +1376,7 @@ void Level::tickTiles()
 		}
 	}
 
-	for (auto it = m_chunksToUpdate.begin(); it != m_chunksToUpdate.end(); it++)
+	for (std::set<ChunkPos>::iterator it = m_chunksToUpdate.begin(); it != m_chunksToUpdate.end(); it++)
 	{
 		ChunkPos pos = *it;
 		LevelChunk* pChunk = getChunk(pos.x, pos.z);
@@ -1469,7 +1469,7 @@ void Level::tick()
 	{
 		m_skyDarken = light;
 
-		for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+		for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 		{
 			LevelListener* pListener = *it;
 			pListener->skyColorChanged();
@@ -1895,7 +1895,7 @@ void Level::addToTickNextTick(int a, int b, int c, int d, int delay)
 
 void Level::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->takePicture(pCamera, pOwner);
@@ -1904,7 +1904,7 @@ void Level::takePicture(TripodCamera* pCamera, Entity* pOwner)
 
 void Level::addParticle(const std::string& name, float a, float b, float c, float d, float e, float f)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->addParticle(name, a, b, c, d, e, f);
@@ -1913,7 +1913,7 @@ void Level::addParticle(const std::string& name, float a, float b, float c, floa
 
 void Level::playSound(Entity* entity, const std::string& name, float a, float b)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->playSound(name, entity->m_pos.x, entity->m_pos.y - entity->field_84, entity->m_pos.z, a, b);
@@ -1922,7 +1922,7 @@ void Level::playSound(Entity* entity, const std::string& name, float a, float b)
 
 void Level::playSound(float x, float y, float z, const std::string& name, float a, float b)
 {
-	for (auto it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->playSound(name, x, y, z, a, b);
@@ -1994,7 +1994,7 @@ void Level::addEntities(const std::vector<Entity*>& entities)
 {
 	m_entities.insert(m_entities.end(), entities.begin(), entities.end());
 
-	for (auto it = m_entities.begin(); it != m_entities.end(); it++)
+	for (std::vector<Entity*>::iterator it = m_entities.begin(); it != m_entities.end(); it++)
 	{
 		Entity* pEnt = *it;
 		entityAdded(pEnt);

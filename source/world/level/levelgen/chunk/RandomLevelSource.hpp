@@ -12,7 +12,7 @@
 // I doubt they used C++11 (since it came out in 2011), but this is weird...
 // We'll use std::unordered_map instead.
 
-#include <unordered_map>
+#include <map>
 #include "ChunkSource.hpp"
 #include "common/Utils.hpp"
 #include "world/level/levelgen/synth/PerlinNoise.hpp"
@@ -42,7 +42,7 @@ public:
 	bool field_4;
 	LargeCaveFeature m_largeCaveFeature;
 	int field_9D8[1024];
-	std::unordered_map<int, LevelChunk*> m_chunks;
+	std::map<int, LevelChunk*> m_chunks;
 	float field_19F0;
 	Random m_random;
 	PerlinNoise m_perlinNoise1;

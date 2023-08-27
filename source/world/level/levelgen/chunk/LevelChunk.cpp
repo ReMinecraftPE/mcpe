@@ -374,7 +374,7 @@ void LevelChunk::removeEntity(Entity* pEnt, int vec)
 	if (vec < 0) vec = 0;
 	if (vec > 7) vec = 7;
 
-	auto it = std::find(m_entities[vec].begin(), m_entities[vec].end(), pEnt);
+	std::vector<Entity*>::iterator it = std::find(m_entities[vec].begin(), m_entities[vec].end(), pEnt);
 
 	if (it != m_entities[vec].end())
 		m_entities[vec].erase(it);
@@ -583,7 +583,7 @@ void LevelChunk::getEntities(Entity* pEntExclude, const AABB& aabb, std::vector<
 
 	for (int b = lowerBound; b <= upperBound; b++)
 	{
-		for (auto it = m_entities[b].begin(); it != m_entities[b].end(); it++)
+		for (std::vector<Entity*>::iterator it = m_entities[b].begin(); it != m_entities[b].end(); it++)
 		{
 			Entity* ent = *it;
 			if (ent == pEntExclude) continue;
