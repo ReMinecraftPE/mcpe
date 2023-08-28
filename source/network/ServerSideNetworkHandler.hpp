@@ -25,21 +25,9 @@ struct OnlinePlayer
 	OnlinePlayer(Player* p, const RakNet::RakNetGUID& guid) : m_pPlayer(p), m_guid(guid) {}
 };
 
-struct RakNetGUIDHasher
-{
-	size_t operator()(const RakNet::RakNetGUID& guid) const
-	{
-		return size_t(guid.g);
-	}
-	bool operator()(const RakNet::RakNetGUID& guid1, const RakNet::RakNetGUID& guid2) const
-	{
-		return guid1 == guid2;
-	}
-};
-
 typedef void(ServerSideNetworkHandler::* CommandFunction)(OnlinePlayer* player, const std::vector<std::string>& parms);
 typedef std::map<std::string, CommandFunction> CommandMap;
-typedef std::map<RakNet::RakNetGUID, OnlinePlayer*, RakNetGUIDHasher> OnlinePlayerMap;
+typedef std::map<RakNet::RakNetGUID, OnlinePlayer*> OnlinePlayerMap;
 
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
 {
