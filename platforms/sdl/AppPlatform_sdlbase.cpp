@@ -24,6 +24,8 @@ void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
     m_bShiftPressed[1] = false;
 
     ensureDirectoryExists(_storageDir.c_str());
+	
+	m_pLogger = new Logger;
 }
 
 void AppPlatform_sdlbase::setIcon(const Texture& icon)

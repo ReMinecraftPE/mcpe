@@ -4,6 +4,8 @@
 #include "Logger.hpp"
 #include "Util.hpp"
 
+extern int logs;
+
 Logger* Logger::m_singleton = nullptr;
 
 Logger* const Logger::singleton()
@@ -26,7 +28,8 @@ Logger::~Logger()
 
 void Logger::print(const char* const str)
 {
-    std::cout << str << std::endl;
+    ::printf("%s\n", str);
+    logs++;
 }
 
 void Logger::print(std::string str)

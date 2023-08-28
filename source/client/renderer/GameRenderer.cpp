@@ -525,7 +525,7 @@ void GameRenderer::renderLevel(float f)
 	if (bAnaglyph)
 		glColorMask(true, true, true, false);
 }
-
+int logs = 0;
 void GameRenderer::render(float f)
 {
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
@@ -636,7 +636,7 @@ void GameRenderer::render(float f)
 
 	std::stringstream debugText;
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
-	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
+	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates" << " logs: " << logs;
 
 	if (m_pMinecraft->m_options.m_bDebugText)
 	{

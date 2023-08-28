@@ -7,6 +7,7 @@
 
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
+#include "common/Logger.hpp"
 
 class AppPlatform_sdlbase : public AppPlatform
 {
@@ -48,6 +49,8 @@ private:
 
 	int xrel;
 	int yrel;
+	
+	Logger* m_pLogger;
     
     static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:

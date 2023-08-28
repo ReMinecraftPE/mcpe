@@ -3,7 +3,7 @@
 #include <string>
 #include "common/Logger.hpp"
 
-class Logger_windows : Logger
+class LoggerWindows : Logger
 {
 	void print(const char* const str) override;
 	void print(std::string str) override;

@@ -12,6 +12,7 @@ add_library(reminecraftpe-core STATIC
     common/Timer.cpp
     common/CThread.cpp
     common/Util.cpp
+	common/Logger.cpp
     network/packets/UpdateBlockPacket.cpp
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp

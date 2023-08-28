@@ -391,7 +391,7 @@
     <ClCompile Include="$(MC_ROOT)\platforms\windows\AppPlatform_windows.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\main.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemWindows.cpp" />
-    <ClInclude Include="..\Logger_windows.hpp" />
+    <ClInclude Include="..\LoggerWindows.hpp" />
     <ClCompile Include="$(MC_ROOT)\source\App.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\AppPlatform.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp" />
@@ -730,7 +730,7 @@
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\uncompr.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\zutil.c" />
     <ClCompile Include="..\..\..\source\common\Logger.cpp" />
-    <ClCompile Include="..\Logger_windows.cpp" />
+    <ClCompile Include="..\LoggerWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MC_ROOT)\thirdparty\raknet\CMakeLists.txt" />

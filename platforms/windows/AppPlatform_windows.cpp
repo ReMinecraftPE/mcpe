@@ -12,7 +12,7 @@
 #include <shlobj.h>
 
 #include "AppPlatform_windows.hpp"
-#include "Logger_windows.hpp"
+#include "LoggerWindows.hpp"
 
 #include "thirdparty/stb_image.h"
 #include "thirdparty/stb_image_write.h"
@@ -35,7 +35,7 @@ AppPlatform_windows::AppPlatform_windows()
 
 	// This initializes the Logger singleton to use the Windows-specific variant
 	// If we didn't initialize it here, the Minecraft class would have our back
-	m_Logger = new Logger_windows();
+	m_Logger = new LoggerWindows();
 }
 
 AppPlatform_windows::~AppPlatform_windows()
