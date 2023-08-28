@@ -89,7 +89,7 @@ public:
 	static int customDebugId;
 
 private:
-	StandardOut *m_standardOut;
+	Logger *m_Logger;
 
 public:
 	bool field_18;

@@ -46,7 +46,7 @@ std::string Util::stringTrim(const std::string& str)
 
 std::string Util::vformat(const char *fmt, va_list argPtr)
 {
-	char str[1024];
+	char str[8192];
 
 	vsnprintf(str, sizeof(str), fmt, argPtr);
 

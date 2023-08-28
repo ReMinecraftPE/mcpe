@@ -84,7 +84,7 @@ void closedir(DIR* dir);
 #endif
 
 #include "../../compat/KeyCodes.hpp"
-#include "StandardOut.hpp"
+#include "Logger.hpp"
 
 // options:
 #include "../../GameMods.hpp"

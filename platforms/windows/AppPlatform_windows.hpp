@@ -16,7 +16,7 @@
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "common/Utils.hpp"
-#include "StandardOut_windows.hpp"
+#include "Logger_windows.hpp"
 
 class AppPlatform_windows : public AppPlatform
 {
@@ -78,6 +78,6 @@ private:
 
 	int m_MouseDiffX, m_MouseDiffY;
 
-	StandardOut_windows *m_standardOut;
+	Logger_windows *m_Logger;
 };
 

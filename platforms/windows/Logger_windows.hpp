@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include "common/StandardOut.hpp"
+#include "common/Logger.hpp"
 
-class StandardOut_windows : StandardOut
+class Logger_windows : Logger
 {
 	void print(const char* const str) override;
 	void print(std::string str) override;

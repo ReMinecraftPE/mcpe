@@ -1,45 +1,45 @@
 #include <iostream>
 #include <stdarg.h>
 
-#include "StandardOut.hpp"
+#include "Logger.hpp"
 #include "Util.hpp"
 
-StandardOut* StandardOut::m_singleton = nullptr;
+Logger* Logger::m_singleton = nullptr;
 
-StandardOut* const StandardOut::singleton()
+Logger* const Logger::singleton()
 {
     return m_singleton;
 }
 
-StandardOut::StandardOut()
+Logger::Logger()
 {
     // Stick with the first output handle we get
     if (!m_singleton)
         m_singleton = this;
 }
 
-StandardOut::~StandardOut()
+Logger::~Logger()
 {
     if (m_singleton == this)
         m_singleton = nullptr;
 }
 
-void StandardOut::print(const char* const str)
+void Logger::print(const char* const str)
 {
     std::cout << str << std::endl;
 }
 
-void StandardOut::print(std::string str)
+void Logger::print(std::string str)
 {
     print(str.c_str());
 }
 
-void StandardOut::vprintf(const char* const fmt, va_list argPtr)
+void Logger::vprintf(const char* const fmt, va_list argPtr)
 {
     print(Util::vformat(fmt, argPtr));
 }
 
-void StandardOut::printf(const char* const fmt, ...)
+void Logger::printf(const char* const fmt, ...)
 {
     va_list argList;
     va_start(argList, fmt);

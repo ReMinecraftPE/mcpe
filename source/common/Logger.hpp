@@ -2,15 +2,15 @@
 
 #include <string>
 
-class StandardOut
+class Logger
 {
 private:
-	static StandardOut* m_singleton;
+	static Logger* m_singleton;
 public:
-	static StandardOut* const singleton();
+	static Logger* const singleton();
 
-	StandardOut();
-	~StandardOut();
+	Logger();
+	~Logger();
 
 	virtual void print(const char* const str);
 	virtual void print(std::string str);
@@ -20,7 +20,7 @@ public:
 
 #ifdef _DEBUG
 
-#define LOG(...) StandardOut::singleton()->printf(__VA_ARGS__)
+#define LOG(...) Logger::singleton()->printf(__VA_ARGS__)
 
 #ifdef PLATFORM_ANDROID
 #define LOG_I(...) __android_log_print(ANDROID_LOG_INFO,  "MinecraftPE", __VA_ARGS__)
