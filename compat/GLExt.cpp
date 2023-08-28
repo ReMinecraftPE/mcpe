@@ -252,14 +252,14 @@ void xglGenBuffers(GLsizei num, GLuint* buffers)
 		g_GLBuffers[g_NextGLBufferID] = new GLBuffer(g_NextGLBufferID);
 	}
 
-	LogMsg("g_NextGLBufferID=%d", g_NextGLBufferID);
+	LOG_I("g_NextGLBufferID=%d", g_NextGLBufferID);
 }
 
 void xglAssert2(bool condition, const char* condstr, const char* file, int line)
 {
 	if (condition) return;
 
-	LogMsg("Error: Assertion failed at %s:%d: %s", file, line, condstr);
+	LOG_E("Error: Assertion failed at %s:%d: %s", file, line, condstr);
 
 #ifdef _MSC_VER
 	assert(false);

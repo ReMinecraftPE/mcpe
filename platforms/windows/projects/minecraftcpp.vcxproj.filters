@@ -103,6 +103,9 @@
     <Filter Include="source\platforms\windows">
       <UniqueIdentifier>{27e531b5-8c5e-4fcc-aa64-b1f364da0746}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\platforms\base">
+      <UniqueIdentifier>{43e2c12c-cafd-47ac-be4b-3689b4c53d30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\thirdparty\raknet\ThreadsafePacketLogger.h">
@@ -1173,6 +1176,12 @@
     <ClInclude Include="..\..\..\compat\SDLKeyCodes.h">
       <Filter>thirdparty</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\common\StandardOut.hpp">
+      <Filter>source\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StandardOut_windows.hpp">
+      <Filter>source\platforms\windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2199,6 +2208,12 @@
       <Filter>source\platforms\windows</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemWindows.cpp">
+      <Filter>source\platforms\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\StandardOut.cpp">
+      <Filter>source\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\StandardOut_windows.cpp">
       <Filter>source\platforms\windows</Filter>
     </ClCompile>
   </ItemGroup>

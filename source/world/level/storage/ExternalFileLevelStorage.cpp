@@ -75,7 +75,7 @@ void ExternalFileLevelStorage::savePlayerData(LevelData* levelData, std::vector<
 	FILE* pFile = fopen((m_levelDirPath + "/" + "player.dat").c_str(), "wb");
 	if (!pFile)
 	{
-		LogMsg("Not saving player data");
+		LOG_W("Not saving player data");
 		return;
 	}
 
@@ -214,7 +214,7 @@ void ExternalFileLevelStorage::save(Level* level, LevelChunk* chunk)
 		SAFE_DELETE(m_pRegionFile);
 		m_pRegionFile = nullptr;
 
-		LogMsg("Not saving :(   (x: %d  z: %d)", chunk->m_chunkX, chunk->m_chunkZ);
+		LOG_W("Not saving :(   (x: %d  z: %d)", chunk->m_chunkX, chunk->m_chunkZ);
 		return;
 	}
 

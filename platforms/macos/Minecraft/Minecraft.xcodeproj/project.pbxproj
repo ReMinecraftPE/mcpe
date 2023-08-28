@@ -352,6 +352,7 @@
 		849B93022A99C3D900CF0DE0 /* SoundEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849B92B72A99C3D900CF0DE0 /* SoundEngine.cpp */; };
 		849B93032A99C3D900CF0DE0 /* SoundRepository.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849B92B92A99C3D900CF0DE0 /* SoundRepository.cpp */; };
 		849B93042A99C3D900CF0DE0 /* SoundSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849B92BB2A99C3D900CF0DE0 /* SoundSystem.cpp */; };
+		84A1072A2A9B183A00850A9C /* StandardOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A107282A9B183A00850A9C /* StandardOut.cpp */; };
 		84C4D86F2A872C0100323E33 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C4D86E2A872C0100323E33 /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
@@ -1079,6 +1080,8 @@
 		849B92BB2A99C3D900CF0DE0 /* SoundSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystem.cpp; sourceTree = "<group>"; };
 		849B92BC2A99C3D900CF0DE0 /* SoundSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystem.hpp; sourceTree = "<group>"; };
 		849B930F2A99C44A00CF0DE0 /* GameMods.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../../GameMods.hpp; sourceTree = SOURCE_ROOT; };
+		84A107282A9B183A00850A9C /* StandardOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardOut.cpp; sourceTree = "<group>"; };
+		84A107292A9B183A00850A9C /* StandardOut.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StandardOut.hpp; sourceTree = "<group>"; };
 		84C4D86E2A872C0100323E33 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -1442,6 +1445,8 @@
 				8443B6942A9865110086730C /* Options.hpp */,
 				8443B6952A9865110086730C /* Random.cpp */,
 				8443B6962A9865110086730C /* Random.hpp */,
+				84A107282A9B183A00850A9C /* StandardOut.cpp */,
+				84A107292A9B183A00850A9C /* StandardOut.hpp */,
 				8443B6972A9865110086730C /* Timer.cpp */,
 				8443B6982A9865110086730C /* Timer.hpp */,
 				8443B6992A9865110086730C /* Util.cpp */,
@@ -2523,6 +2528,7 @@
 				849B93022A99C3D900CF0DE0 /* SoundEngine.cpp in Sources */,
 				849B93032A99C3D900CF0DE0 /* SoundRepository.cpp in Sources */,
 				849B93042A99C3D900CF0DE0 /* SoundSystem.cpp in Sources */,
+				84A1072A2A9B183A00850A9C /* StandardOut.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -83,10 +83,11 @@ void closedir(DIR* dir);
 
 #endif
 
-#include "compat/KeyCodes.hpp"
+#include "../../compat/KeyCodes.hpp"
+#include "StandardOut.hpp"
 
 // options:
-#include "GameMods.hpp"
+#include "../../GameMods.hpp"
 
 // don't know where to declare these:
 
@@ -612,17 +613,6 @@ uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t *compress
 uint8_t* ZlibDeflateToMemoryLvl(uint8_t* pInput, size_t sizeBytes, size_t* compressedSizeOut, int level);
 
 // things that we added:
-#ifndef ORIGINAL_CODE
-
-void LogMsg(const char* fmt, ...);     // not part of actual Minecraft (they use printf), but useful
-void LogMsgNoCR(const char* fmt, ...); // not part of actual Minecraft (they use printf), but useful
-
-#ifdef printf
-#error "printf is defined. Why?"
-#endif
-
-#define printf LogMsgNoCR
-#define puts(str) LogMsg("%s", str);
 
 #ifdef _WIN32
 
@@ -634,32 +624,5 @@ void DisableOpenGL(HWND, HDC, HGLRC);
 
 void SetInstance(HINSTANCE hinst);
 void SetHWND(HWND hwnd);
-
-#endif
-
-#else
-
-#define LogMsg(...)
-#define LogMsgNoCR(...)
-
-#endif
-
-#ifdef MC_DEBUG
-
-#ifdef PLATFORM_ANDROID
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO,  "MinecraftPE", __VA_ARGS__)
-#define LOGW(...) __android_log_print(ANDROID_LOG_WARN,  "MinecraftPE", __VA_ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "MinecraftPE", __VA_ARGS__)
-#else
-#define LOGI(...) printf("Info:  " __VA_ARGS__)
-#define LOGW(...) printf("WARN:  " __VA_ARGS__)
-#define LOGE(...) printf("ERROR: " __VA_ARGS__)
-#endif
-
-#else
-
-#define LOGI(...) printf(__VA_ARGS__)
-#define LOGW(...) printf(__VA_ARGS__)
-#define LOGE(...) printf(__VA_ARGS__)
 
 #endif

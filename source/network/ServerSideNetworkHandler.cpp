@@ -7,13 +7,14 @@
  ********************************************************************/
 
 #include "ServerSideNetworkHandler.hpp"
+#include "common/Utils.hpp"
 
 // This lets you make the server shut up and not log events in the debug console.
 #define VERBOSE_SERVER
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_SERVER)
-#define puts_ignorable(str) puts(str)
-#define printf_ignorable(str, ...) printf(str, __VA_ARGS__)
+#define puts_ignorable(str) LOG_I(str)
+#define printf_ignorable(str, ...) LOG_I(str, __VA_ARGS__)
 #else
 #define puts_ignorable(str)
 #define printf_ignorable(str, ...)
@@ -60,7 +61,7 @@ void ServerSideNetworkHandler::levelGenerated(Level* level)
 
 void ServerSideNetworkHandler::onNewClient(const RakNet::RakNetGUID& guid)
 {
-	printf_ignorable("onNewClient, client guid: %s\n", guid.ToString());
+	printf_ignorable("onNewClient, client guid: %s", guid.ToString());
 }
 
 void ServerSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
@@ -98,7 +99,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	// if they're already online, fail
 	if (getPlayerByGUID(guid))
 	{
-		printf("That player is already in the world!\n");
+		LOG_E("That player is already in the world!");
 		return;
 	}
 
@@ -152,7 +153,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePac
 	OnlinePlayer* pOP = getPlayerByGUID(guid);
 	if (!pOP)
 	{
-		printf("MessagePacket: That jerk %s doesn't actually exist\n", guid.ToString());
+		LOG_W("MessagePacket: That jerk %s doesn't actually exist", guid.ToString());
 		return;
 	}
 
@@ -163,7 +164,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePac
 
 	if (msg[0] == '/')
 	{
-		printf("CMD: %s: %s\n", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
+		LOG_I("CMD: %s: %s", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
 
 		std::stringstream ss(msg);
 		ss.get(); // skip the /
@@ -190,7 +191,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePac
 		return;
 	}
 
-	printf("MSG: <%s> %s\n", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
+	LOG_I("MSG: <%s> %s", pOP->m_pPlayer->m_name.c_str(), msg.c_str());
 
 	// send everyone the message
 	std::string gameMessage = "<" + pOP->m_pPlayer->m_name + "> " + msg;
@@ -268,21 +269,21 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 	Player* pPlayer = (Player*)m_pLevel->getEntity(packet->m_playerID);
 	if (!pPlayer)
 	{
-		LogMsg("No player with id %d", packet->m_playerID);
+		LOG_W("No player with id %d", packet->m_playerID);
 		return;
 	}
 
 #ifndef ORIGINAL_CODE
 	if (!Item::items[packet->m_itemID])
 	{
-		LogMsg("That item %d doesn't actually exist!", packet->m_itemID);
+		LOG_W("That item %d doesn't actually exist!", packet->m_itemID);
 		return;
 	}
 #endif
 
 	if (pPlayer->m_guid == m_pRakNetPeer->GetMyGUID())
 	{
-		puts("Attempted to modify local player's inventory");
+		LOG_W("Attempted to modify local player's inventory");
 		return;
 	}
 
@@ -304,7 +305,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 	LevelChunk* pChunk = m_pLevel->getChunk(packet->m_x, packet->m_z);
 	if (!pChunk)
 	{
-		LogMsg("No chunk at %d, %d", packet->m_x, packet->m_z);
+		LOG_E("No chunk at %d, %d", packet->m_x, packet->m_z);
 		return;
 	}
 

@@ -83,7 +83,7 @@ ChunkSource* Level::createChunkSource()
 	}
 #endif
 
-	puts("no level data, calling dimension->createRandomLevelSource");
+	LOG_I("No level data, calling dimension->createRandomLevelSource");
 	return m_pDimension->createRandomLevelSource();
 }
 
@@ -1029,7 +1029,7 @@ _failure:
 	m_levelData.m_spawnPos.y = 32;
 	m_levelData.m_spawnPos.z = 0;
 
-	printf("Failed to validate spawn point, using (%d, %d, %d)\n", m_levelData.m_spawnPos.x, m_levelData.m_spawnPos.y, m_levelData.m_spawnPos.z);
+	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.m_spawnPos.x, m_levelData.m_spawnPos.y, m_levelData.m_spawnPos.z);
 
 	return;
 #endif
@@ -1075,13 +1075,13 @@ bool Level::addEntity(Entity* pEnt)
 	Entity* pOldEnt = getEntity(pEnt->hashCode());
 	if (pOldEnt)
 	{
-		LogMsg("Warning: entity %d already exists.", pEnt->hashCode());
+		LOG_W("Entity %d already exists.", pEnt->hashCode());
 		//removeEntity(pOldEnt);
 	}
 
 	if (!pEnt->isPlayer() && m_bIsMultiplayer)
 	{
-		LogMsg("Hey, why are you trying to add an non-player entity in a multiplayer world?");
+		LOG_W("Hey, why are you trying to add an non-player entity in a multiplayer world?");
 	}
 
 	//@NOTE: useless Mth::floor() calls
@@ -1194,7 +1194,7 @@ _failure:
 	m_levelData.m_spawnPos.y = 32;
 	m_levelData.m_spawnPos.z = 0;
 
-	printf("Failed to validate spawn point, using (%d, %d, %d)\n", m_levelData.m_spawnPos.x, m_levelData.m_spawnPos.y, m_levelData.m_spawnPos.z);
+	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.m_spawnPos.x, m_levelData.m_spawnPos.y, m_levelData.m_spawnPos.z);
 
 	return;
 #endif
@@ -1406,9 +1406,7 @@ void Level::tick(Entity* pEnt, bool b)
 	{
 		if (!hasChunksAt(tileX - 32, 0, tileZ - 32, tileX + 32, 128, tileZ + 32))
 		{
-#ifndef ORIGINAL_CODE
-			LogMsg("Not updating entity %d because we don't have chunks around it loaded", pEnt->m_EntityID);
-#endif
+			LOG_W("Not updating entity %d because we don't have chunks around it loaded", pEnt->m_EntityID);
 			return;
 		}
 

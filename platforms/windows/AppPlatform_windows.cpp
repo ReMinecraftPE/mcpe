@@ -12,6 +12,7 @@
 #include <shlobj.h>
 
 #include "AppPlatform_windows.hpp"
+#include "StandardOut_windows.hpp"
 
 #include "thirdparty/stb_image.h"
 #include "thirdparty/stb_image_write.h"
@@ -31,6 +32,15 @@ AppPlatform_windows::AppPlatform_windows()
 	m_bShiftPressed = false;
 
 	m_MouseDiffX = 0, m_MouseDiffY = 0;
+
+	// This initializes the StandardOut singleton to use the Windows-specific variant
+	// If we didn't initialize it here, the Minecraft class would have our back
+	m_standardOut = new StandardOut_windows();
+}
+
+AppPlatform_windows::~AppPlatform_windows()
+{
+	SAFE_DELETE(m_standardOut);
 }
 
 int AppPlatform_windows::checkLicense()
@@ -137,7 +147,7 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	FILE* f = fopen(realPath.c_str(), "rb");
 	if (!f)
 	{
-		LogMsg("File %s couldn't be opened", realPath.c_str());
+		LOG_E("File %s couldn't be opened", realPath.c_str());
 
 	_error:
 		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?";
@@ -153,7 +163,7 @@ Texture AppPlatform_windows::loadTexture(const std::string& str, bool b)
 	stbi_uc* img = stbi_load_from_file(f, &width, &height, &channels, STBI_rgb_alpha);
 	if (!img)
 	{
-		LogMsg("File %s couldn't be loaded via stb_image", realPath.c_str());
+		LOG_E("File %s couldn't be loaded via stb_image", realPath.c_str());
 		goto _error;
 	}
 

@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <stdarg.h>
 #include "Util.hpp"
 
 std::string Util::stringTrim(const std::string& str, const std::string& filter, bool a4, bool a5)
@@ -43,3 +44,23 @@ std::string Util::stringTrim(const std::string& str)
 	return stringTrim(str, " \t\n\r", true, true);
 }
 
+std::string Util::vformat(const char *fmt, va_list argPtr)
+{
+	char str[1024];
+
+	vsnprintf(str, sizeof(str), fmt, argPtr);
+
+	return std::string(str);
+}
+
+std::string Util::format(const char *fmt, ...)
+{
+	std::string str;
+	va_list argList;
+
+	va_start(argList, fmt);
+	str = vformat(fmt, argList);
+	va_end(argList);
+
+	return str;
+}

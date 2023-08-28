@@ -56,7 +56,7 @@ void ExternalFileLevelStorageSource::getLevelList(std::vector<LevelSummary>& vls
 		if (!de)
 			break;
 
-		LogMsg("Entry: %s", de->d_name);
+		LOG_I("Entry: %s", de->d_name);
 
 		if (de->d_type == DT_DIR)
 		{

@@ -37,7 +37,7 @@ bool MemoryLevelStorageSource::isNewLevelIdAcceptable(const std::string& x)
 
 void MemoryLevelStorageSource::deleteLevel(const std::string& x)
 {
-	LogMsg("Delete level: %s", x.c_str());
+	LOG_I("Delete level: %s", x.c_str());
 }
 
 void MemoryLevelStorageSource::renameLevel(const std::string& x, const std::string& y)

@@ -8,14 +8,15 @@
 
 #include <RakPeer.h>
 #include "ClientSideNetworkHandler.hpp"
+#include "common/Utils.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 #define VERBOSE_CLIENT
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_CLIENT)
-#define puts_ignorable(str) puts(str)
-#define printf_ignorable(str, ...) printf(str, __VA_ARGS__)
+#define puts_ignorable(str) LOG_I(str)
+#define printf_ignorable(str, ...) LOG_I(str, __VA_ARGS__)
 #else
 #define puts_ignorable(str)
 #define printf_ignorable(str, ...)
@@ -42,7 +43,7 @@ void ClientSideNetworkHandler::levelGenerated(Level* level)
 void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // server guid
 {
 	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
-	printf_ignorable("onConnect, server guid: %s, local guid: %s\n", rakGuid.ToString(), localGuid.ToString());
+	printf_ignorable("onConnect, server guid: %s, local guid: %s", rakGuid.ToString(), localGuid.ToString());
 
 	m_serverGUID = rakGuid;
 
@@ -167,7 +168,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
 	if (!pEntity)
 	{
-		LogMsg("No player with id %d", packet->m_id);
+		LOG_E("No player with id %d", packet->m_id);
 		return;
 	}
 	
@@ -181,7 +182,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 	Player* pPlayer = (Player*)m_pLevel->getEntity(pPlaceBlockPkt->m_playerID);
 	if (!pPlayer)
 	{
-		LogMsg("No player with id %d", pPlaceBlockPkt->m_playerID);
+		LOG_E("No player with id %d", pPlaceBlockPkt->m_playerID);
 		return;
 	}
 
@@ -218,7 +219,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 	Player* pPlayer = (Player*)m_pLevel->getEntity(pRemoveBlockPkt->m_playerID);
 	if (!pPlayer)
 	{
-		LogMsg("No player with id %d", pRemoveBlockPkt->m_playerID);
+		LOG_E("No player with id %d", pRemoveBlockPkt->m_playerID);
 		return;
 	}
 
@@ -260,14 +261,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 {
 	if (!m_pLevel)
 	{
-		puts("Level @ handle ChunkDataPacket is 0");
+		LOG_E("Level @ handle ChunkDataPacket is 0");
 		return;
 	}
 
 	LevelChunk* pChunk = m_pLevel->getChunkSource()->create(pChunkDataPkt->m_x, pChunkDataPkt->m_z);
 	if (!pChunk || pChunk->isEmpty())
 	{
-		puts("Failed to find write-able chunk");
+		LOG_E("Failed to find write-able chunk");
 		// @BUG: Not trying again.
 		return;
 	}
@@ -348,17 +349,15 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 	if (!pPlayer)
 		return;
 
-#ifndef ORIGINAL_CODE
 	if (!Item::items[pPlayerEquipmentPkt->m_itemID])
 	{
-		LogMsg("That item %d doesn't actually exist!", pPlayerEquipmentPkt->m_itemID);
+		LOG_W("That item %d doesn't actually exist!", pPlayerEquipmentPkt->m_itemID);
 		return;
 	}
-#endif
 
 	if (pPlayer->m_guid == m_pServerPeer->GetMyGUID())
 	{
-		puts("Attempted to modify local player's inventory");
+		LOG_W("Attempted to modify local player's inventory");
 		return;
 	}
 
@@ -374,7 +373,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 	bs->Read(magicNum);
 	if (magicNum != compMagic && magicNum != uncompMagic)
 	{
-		LogMsg("Error, invalid level data packet with magic %d", magicNum);
+		LOG_E("Invalid level data packet with magic %d", magicNum);
 		return;
 	}
 
@@ -386,7 +385,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 		bs->Read(uncompSize);
 		bs->Read(compSize);
 
-		LogMsg("Decompressing level data. Compressed: %d bytes, uncompressed: %d bytes", compSize, uncompSize);
+		LOG_I("Decompressing level data. Compressed: %d bytes, uncompressed: %d bytes", compSize, uncompSize);
 
 		// Read the compressed data.
 		uint8_t* pCompData = new uint8_t[compSize];
@@ -399,7 +398,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 		// If we couldn't, bail
 		if (!pUncompData)
 		{
-			LogMsg("Error, can't decompress level data");
+			LOG_E("Failed to decompress level data!");
 			return;
 		}
 
@@ -421,7 +420,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 
 	if (chunksX != C_MAX_CHUNKS_X || chunksZ != C_MAX_CHUNKS_Z)
 	{
-		LogMsg("Error, we don't yet support a level of size %d x %d chunks. Some chunks may disappear or be regenerated.", chunksX, chunksZ);
+		LOG_E("We don't yet support a level of size %d x %d chunks. Some chunks may disappear or be regenerated.", chunksX, chunksZ);
 	}
 
 	for (int x = 0; x < chunksX; x++)
@@ -433,7 +432,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 			if (magicNum != chunkSepMagic)
 			{
 			_FAIL_BECAUSE_INVALID:
-				LogMsg("Error, aborting because level data is invalid, reading chunk %d, %d. Magic: %d", x, z, magicNum);
+				LOG_E("Aborting because level data is invalid, reading chunk %d, %d. Magic: %d", x, z, magicNum);
 				return;
 			}
 			
@@ -445,7 +444,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 
 			LevelChunk* pChunk = m_pLevel->getChunk(x, z);
 			if (!pChunk || pChunk->isEmpty())
-				LogMsg("Error, no chunk at %d, %d", x, z);
+				LOG_E("No chunk at %d, %d", x, z);
 			
 			// continue reading anyway to skip over the offending chunk
 

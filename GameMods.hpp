@@ -46,6 +46,6 @@
 //#define DEMO
 
 // Enable Debug Mode
-#define MC_DEBUG
+//#define MC_DEBUG
 
 #endif

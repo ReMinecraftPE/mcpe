@@ -10,7 +10,7 @@ SoundSystemAL::SoundSystemAL()
 	device = alcOpenDevice(NULL);
 	if (!device)
 	{
-		LogMsg("Unable To Load Audio Engine");
+		LOG_E("Unable To Load Audio Engine");
 		return;
 	}
 
@@ -19,7 +19,7 @@ SoundSystemAL::SoundSystemAL()
 	ALCenum err = alcGetError(device);
 	if (err != ALC_NO_ERROR)
 	{
-		LogMsg("Unable To Open Audio Context: %s", alcGetString(device, err));
+		LOG_E("Unable To Open Audio Context: %s", alcGetString(device, err));
 		return;
 	}
 
@@ -28,7 +28,7 @@ SoundSystemAL::SoundSystemAL()
 	err = alcGetError(device);
 	if (err != ALC_NO_ERROR)
 	{
-		LogMsg("Unable To Select Audio Context: %s", alcGetString(device, err));
+		LOG_E("Unable To Select Audio Context: %s", alcGetString(device, err));
 		return;
 	}
 
@@ -57,7 +57,7 @@ SoundSystemAL::~SoundSystemAL()
 	ALCenum err = alcGetError(device);
 	if (err != ALC_NO_ERROR)
 	{
-		LogMsg("Unable To Deselect Audio Context: %s", alcGetString(device, err));
+		LOG_E("Unable To Deselect Audio Context: %s", alcGetString(device, err));
 	}
 
 	// Destroy Context
@@ -65,7 +65,7 @@ SoundSystemAL::~SoundSystemAL()
 	err = alcGetError(device);
 	if (err != ALC_NO_ERROR)
 	{
-		LogMsg("Unable To Destroy Audio Context: %s", alcGetString(device, err));
+		LOG_E("Unable To Destroy Audio Context: %s", alcGetString(device, err));
 	}
 
 	// Close Device
@@ -74,7 +74,7 @@ SoundSystemAL::~SoundSystemAL()
 	/*err = alcGetError(device);
 	if (err != ALC_NO_ERROR)
 	{
-		LogMsg("Unable To Close Audio Device: %s", alcGetString(device, err));
+		LOG_E("Unable To Close Audio Device: %s", alcGetString(device, err));
 	}*/
 }
 
@@ -85,7 +85,7 @@ SoundSystemAL::~SoundSystemAL()
 		ALenum __err = val; \
 		if (__err != AL_NO_ERROR) \
 		{ \
-			LogMsg("(%s:%i) OpenAL Error: %s", __FILE__, __LINE__, alGetString(__err)); \
+			LOG_E("(%s:%i) OpenAL Error: %s", __FILE__, __LINE__, alGetString(__err)); \
 			exit(EXIT_FAILURE); \
 		} \
 	}

@@ -28,6 +28,6 @@ Texture AppPlatform_emscripten::loadTexture(const std::string& path, bool b)
 	}
 
     // I don't think this logic makes any sense
-	LogMsg("Couldn't find file: %s", realPath.c_str());
+	LOG_E("Couldn't find file: %s", realPath.c_str());
 	return out;
 }

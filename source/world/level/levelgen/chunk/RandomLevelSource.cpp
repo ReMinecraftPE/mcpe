@@ -38,7 +38,7 @@ RandomLevelSource::RandomLevelSource(Level* level, TLong seed, int x) :
 	field_7E90 = nullptr;
 	field_7E94 = nullptr;
 
-	LogMsg("Generating world with seed: %d", seed);
+	LOG_I("Generating world with seed: %d", seed);
 
 	for (int a = 0; a < 32; a++)
 	{
@@ -51,7 +51,7 @@ RandomLevelSource::RandomLevelSource(Level* level, TLong seed, int x) :
 	field_7280 = new float[1024];
 
 	Random random = m_random;
-	printf("random.get : %d\n", random.genrand_int32() >> 1);
+	LOG_I("random.get : %d", random.genrand_int32() >> 1);
 }
 
 // @BUG: Potential collisions.
