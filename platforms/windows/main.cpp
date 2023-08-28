@@ -123,13 +123,13 @@ void CheckOptionalTextureAvailability()
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(MOD_POPOUT_CONSOLE)
 	AllocConsole();
 	FILE* ostream;
 	FILE* istream;
 	freopen_s(&ostream, "CONOUT$", "w", stdout);
 	freopen_s(&istream, "CONIN$", "r", stdin);
-	SetConsoleTitle("Minecraft C++ Debug Console");
+	SetConsoleTitle("ReMinecraftPE Debug Console");
 #endif
 
 	SetInstance(hInstance);

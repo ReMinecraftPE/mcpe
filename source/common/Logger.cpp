@@ -4,8 +4,6 @@
 #include "Logger.hpp"
 #include "Util.hpp"
 
-extern int logs;
-
 Logger* Logger::m_singleton = nullptr;
 
 Logger* const Logger::singleton()
@@ -28,8 +26,9 @@ Logger::~Logger()
 
 void Logger::print(const char* const str)
 {
+    // iProgramInCpp changed this to printf because he was worried that
+    // the std::cout features wouldn't work in emscripten.
     ::printf("%s\n", str);
-    logs++;
 }
 
 void Logger::print(std::string str)
