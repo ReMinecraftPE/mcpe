@@ -5,30 +5,32 @@
 #include "LoggerWindows.hpp"
 #include "common/Util.hpp"
 
-void LoggerWindows::print(const char* const str)
+void LoggerWindows::print(eLogLevel ll, const char* const str)
 {
-    Logger::print(str);
+    Logger::print(ll, str);
 
+    // wellp, this sucks, but it's fine
+    OutputDebugStringA(GetTag(ll));
     OutputDebugStringA(str);
     OutputDebugStringA("\n");
 }
 
-void LoggerWindows::print(std::string str)
+void LoggerWindows::print(eLogLevel ll, std::string str)
 {
-    print(str.c_str());
+    print(ll, str.c_str());
 }
 
-void LoggerWindows::vprintf(const char* const fmt, va_list argPtr)
+void LoggerWindows::vprintf(eLogLevel ll, const char* const fmt, va_list argPtr)
 {
-    print(Util::vformat(fmt, argPtr));
+    print(ll, Util::vformat(fmt, argPtr));
 }
 
-void LoggerWindows::printf(const char* const fmt, ...)
+void LoggerWindows::printf(eLogLevel ll, const char* const fmt, ...)
 {
     va_list argList;
     va_start(argList, fmt);
 
-    vprintf(fmt, argList);
+    vprintf(ll, fmt, argList);
 
     va_end(argList);
 }

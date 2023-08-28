@@ -5,8 +5,8 @@
 
 class LoggerWindows : Logger
 {
-	void print(const char* const str) override;
-	void print(std::string str) override;
-	void vprintf(const char* const fmt, va_list argPtr) override;
-	void printf(const char* const fmt, ...) override;
+	void print(eLogLevel, const char* const str) override;
+	void print(eLogLevel, std::string str) override;
+	void vprintf(eLogLevel, const char* const fmt, va_list argPtr) override;
+	void printf(eLogLevel, const char* const fmt, ...) override;
 };

@@ -24,29 +24,44 @@ Logger::~Logger()
         m_singleton = nullptr;
 }
 
-void Logger::print(const char* const str)
+const char* Logger::GetTag(eLogLevel ll)
+{
+    switch (ll)
+    {
+        default:
+            return "Unk: ";
+        case LOG_INFO:
+            return "";
+        case LOG_WARN:
+            return "Warning: ";
+        case LOG_ERR:
+            return "ERROR: ";
+    }
+}
+
+void Logger::print(eLogLevel ll, const char* const str)
 {
     // iProgramInCpp changed this to printf because he was worried that
     // the std::cout features wouldn't work in emscripten.
-    ::printf("%s\n", str);
+    ::printf("%s%s\n", GetTag(ll), str);
 }
 
-void Logger::print(std::string str)
+void Logger::print(eLogLevel ll, std::string str)
 {
-    print(str.c_str());
+    print(ll, str.c_str());
 }
 
-void Logger::vprintf(const char* const fmt, va_list argPtr)
+void Logger::vprintf(eLogLevel ll, const char* const fmt, va_list argPtr)
 {
-    print(Util::vformat(fmt, argPtr));
+    print(ll, Util::vformat(fmt, argPtr));
 }
 
-void Logger::printf(const char* const fmt, ...)
+void Logger::printf(eLogLevel ll, const char* const fmt, ...)
 {
     va_list argList;
     va_start(argList, fmt);
 
-    vprintf(fmt, argList);
+    vprintf(ll, fmt, argList);
 
     va_end(argList);
 }
