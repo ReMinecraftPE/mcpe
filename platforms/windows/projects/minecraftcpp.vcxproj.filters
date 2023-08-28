@@ -1170,17 +1170,13 @@
     <ClInclude Include="$(MC_ROOT)\platforms\windows\AppPlatform_windows.hpp">
       <Filter>source\platforms\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\compat\KeyCodes.hpp">
-      <Filter>thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\compat\SDLKeyCodes.h">
-      <Filter>thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\StandardOut.hpp">
-      <Filter>source\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\StandardOut_windows.hpp">
+    <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
+    <ClInclude Include="..\LoggerWindows.hpp">
       <Filter>source\platforms\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\common\Logger.hpp">
+      <Filter>source\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2210,11 +2206,11 @@
     <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemWindows.cpp">
       <Filter>source\platforms\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\common\StandardOut.cpp">
-      <Filter>source\common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\StandardOut_windows.cpp">
+    <ClCompile Include="..\LoggerWindows.cpp">
       <Filter>source\platforms\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\Logger.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
