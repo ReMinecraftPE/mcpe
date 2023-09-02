@@ -66,10 +66,10 @@ The project is configured to target Windows XP by default by using "v141_xp" bui
 
 If you would like to strictly target more modern versions of Windows, you can change the build toolset by doing the following:
 1. Right-click the project and click "Properties".
-![image](assets/43089001/29a3e93a-06c4-496c-a26d-812e95c3d261)
-![image](assets/43089001/a42c6dd7-fd60-4cda-b13f-a9d2f6f135f0)
+![Visual Studio Project](screenshots/visualstudio/mcpe_project.png)
+![Visual Studio Project Properties Option](screenshots/visualstudio/properties_contextmenu.png)
 2. Click the dropdown for the "Platform Toolset" property and select "Visual Studio 2022 (v143)" or newer.
-![image](assets/43089001/a9ad0303-5461-49c9-bbae-3240acbd3509)
+![Selecting v143 Platform Toolset](screenshots/visualstudio/mcpe_project_properties_v143.png)
 3. Click "Apply"
 
 Once have the proper build tools installed (v140_xp or newer), just right-click the project and click "Build".
