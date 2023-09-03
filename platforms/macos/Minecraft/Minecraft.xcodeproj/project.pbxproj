@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		843371332AA3375C009ABC2E /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 843371312AA3375C009ABC2E /* Logger.cpp */; };
 		84359EF22A8D1B5F008CBFC0 /* Router2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84359DE82A8D1B5E008CBFC0 /* Router2.cpp */; };
 		84359EF32A8D1B5F008CBFC0 /* DS_Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84359DEA2A8D1B5E008CBFC0 /* DS_Table.cpp */; };
 		84359EF42A8D1B5F008CBFC0 /* RakNetSocket2_Berkley_NativeClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84359DEF2A8D1B5E008CBFC0 /* RakNetSocket2_Berkley_NativeClient.cpp */; };
@@ -352,7 +353,6 @@
 		849B93022A99C3D900CF0DE0 /* SoundEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849B92B72A99C3D900CF0DE0 /* SoundEngine.cpp */; };
 		849B93032A99C3D900CF0DE0 /* SoundRepository.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849B92B92A99C3D900CF0DE0 /* SoundRepository.cpp */; };
 		849B93042A99C3D900CF0DE0 /* SoundSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849B92BB2A99C3D900CF0DE0 /* SoundSystem.cpp */; };
-		84A1072A2A9B183A00850A9C /* StandardOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A107282A9B183A00850A9C /* StandardOut.cpp */; };
 		84C4D86F2A872C0100323E33 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C4D86E2A872C0100323E33 /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
@@ -369,6 +369,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		843371312AA3375C009ABC2E /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
+		843371322AA3375C009ABC2E /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
 		84359DE02A8D1B42008CBFC0 /* GL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GL.hpp; sourceTree = "<group>"; };
 		84359DE12A8D1B42008CBFC0 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		84359DE52A8D1B5E008CBFC0 /* NatTypeDetectionClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NatTypeDetectionClient.h; sourceTree = "<group>"; };
@@ -1080,8 +1082,6 @@
 		849B92BB2A99C3D900CF0DE0 /* SoundSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystem.cpp; sourceTree = "<group>"; };
 		849B92BC2A99C3D900CF0DE0 /* SoundSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystem.hpp; sourceTree = "<group>"; };
 		849B930F2A99C44A00CF0DE0 /* GameMods.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../../GameMods.hpp; sourceTree = SOURCE_ROOT; };
-		84A107282A9B183A00850A9C /* StandardOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StandardOut.cpp; sourceTree = "<group>"; };
-		84A107292A9B183A00850A9C /* StandardOut.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StandardOut.hpp; sourceTree = "<group>"; };
 		84C4D86E2A872C0100323E33 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -1436,6 +1436,8 @@
 			children = (
 				8443B68C2A9865110086730C /* CThread.cpp */,
 				8443B68D2A9865110086730C /* CThread.hpp */,
+				843371312AA3375C009ABC2E /* Logger.cpp */,
+				843371322AA3375C009ABC2E /* Logger.hpp */,
 				8443B68E2A9865110086730C /* LongHack.hpp */,
 				8443B68F2A9865110086730C /* Matrix.cpp */,
 				8443B6902A9865110086730C /* Matrix.hpp */,
@@ -1445,8 +1447,6 @@
 				8443B6942A9865110086730C /* Options.hpp */,
 				8443B6952A9865110086730C /* Random.cpp */,
 				8443B6962A9865110086730C /* Random.hpp */,
-				84A107282A9B183A00850A9C /* StandardOut.cpp */,
-				84A107292A9B183A00850A9C /* StandardOut.hpp */,
 				8443B6972A9865110086730C /* Timer.cpp */,
 				8443B6982A9865110086730C /* Timer.hpp */,
 				8443B6992A9865110086730C /* Util.cpp */,
@@ -2528,18 +2528,17 @@
 				849B93022A99C3D900CF0DE0 /* SoundEngine.cpp in Sources */,
 				849B93032A99C3D900CF0DE0 /* SoundRepository.cpp in Sources */,
 				849B93042A99C3D900CF0DE0 /* SoundSystem.cpp in Sources */,
-				84A1072A2A9B183A00850A9C /* StandardOut.cpp in Sources */,
+				843371332AA3375C009ABC2E /* Logger.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		8489B09C2A86D4B2004CA8EC /* Debug */ = {
+		84845DE52AA523A700ACC776 /* DebugPPC */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2568,13 +2567,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_SDL,
@@ -2601,19 +2596,35 @@
 					/opt/local/lib,
 					/usr/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.6;
 			};
-			name = Debug;
+			name = DebugPPC;
 		};
-		8489B09D2A86D4B2004CA8EC /* Release */ = {
+		84845DE62AA523A700ACC776 /* DebugPPC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/libpng/1.6.40/lib,
+					/usr/local/Cellar/libpng/1.6.40_arm64/lib,
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "ppc ppc64 ppc7400 ppc970";
+			};
+			name = DebugPPC;
+		};
+		84845DE72AA523B100ACC776 /* ReleasePPC */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -2642,12 +2653,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = "compiler-default";
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_SDL,
 					SDL_DISABLE_IMMINTRIN_H,
@@ -2672,11 +2680,160 @@
 					/opt/local/lib,
 					/usr/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx10.6;
+			};
+			name = ReleasePPC;
+		};
+		84845DE82AA523B100ACC776 /* ReleasePPC */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/libpng/1.6.40/lib,
+					/usr/local/Cellar/libpng/1.6.40_arm64/lib,
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "ppc ppc64 ppc7400 ppc970";
+			};
+			name = ReleasePPC;
+		};
+		8489B09C2A86D4B2004CA8EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					USE_SDL,
+					SDL_DISABLE_IMMINTRIN_H,
+					USE_OPENAL,
+					HANDLE_CHARS_SEPARATELY,
+					USE_OLD_CPP,
+					"_DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+					../../../,
+					../../../source,
+					../../../thirdparty/raknet/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/usr/local/lib,
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		8489B09D2A86D4B2004CA8EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					USE_SDL,
+					SDL_DISABLE_IMMINTRIN_H,
+					USE_OPENAL,
+					HANDLE_CHARS_SEPARATELY,
+					USE_OLD_CPP,
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+					../../../,
+					../../../source,
+					../../../thirdparty/raknet/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/usr/local/lib,
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 			};
 			name = Release;
 		};
@@ -2695,6 +2852,7 @@
 					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -2713,6 +2871,7 @@
 					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
@@ -2723,7 +2882,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8489B09C2A86D4B2004CA8EC /* Debug */,
+				84845DE52AA523A700ACC776 /* DebugPPC */,
 				8489B09D2A86D4B2004CA8EC /* Release */,
+				84845DE72AA523B100ACC776 /* ReleasePPC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2732,7 +2893,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8489B09F2A86D4B2004CA8EC /* Debug */,
+				84845DE62AA523A700ACC776 /* DebugPPC */,
 				8489B0A02A86D4B2004CA8EC /* Release */,
+				84845DE82AA523B100ACC776 /* ReleasePPC */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
