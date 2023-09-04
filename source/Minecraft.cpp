@@ -101,7 +101,7 @@ Minecraft::Minecraft() :
 	m_pRakNetInstance = new RakNetInstance;
 
 	m_pSoundEngine = new SoundEngine;
-	m_pSoundEngine->init(&m_options);
+	m_pSoundEngine->init(m_options);
 }
 
 int Minecraft::getLicenseId()
