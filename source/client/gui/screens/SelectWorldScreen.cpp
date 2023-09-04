@@ -27,6 +27,8 @@ SelectWorldScreen::SelectWorldScreen() :
 
 void SelectWorldScreen::init()
 {
+	SAFE_DELETE(m_pWorldSelectionList);
+
 	m_pWorldSelectionList = new WorldSelectionList(m_pMinecraft, m_width, m_height);
 	loadLevelSource();
 	m_pWorldSelectionList->commit();
@@ -253,6 +255,10 @@ std::string SelectWorldScreen::getUniqueLevelName(const std::string& in)
 
 void SelectWorldScreen::loadLevelSource()
 {
+	m_pWorldSelectionList->m_items.clear();
+
+	m_levels.clear();
+
 	m_pMinecraft->getLevelSource()->getLevelList(m_levels);
 
 	std::sort(m_levels.begin(), m_levels.end());
