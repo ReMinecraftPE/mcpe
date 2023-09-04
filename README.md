@@ -62,14 +62,26 @@ build.
 
 ### Windows (VS 2022)
 
-This is simple enough - just open the project and compile.
+The project is configured to target Windows XP by default by using "v141_xp" build tools. If you would like to build with Windows XP support, please follow the guide [here](https://learn.microsoft.com/en-us/cpp/build/configuring-programs-for-windows-xp?view=msvc-170#install-the-windows-xp-platform-toolset) to obtain the build tools via the Visual Studio installer.
+
+If you would like to strictly target more modern versions of Windows, you can change the build toolset by doing the following:
+1. Right-click the project and click "Properties".
+
+![Visual Studio Project](screenshots/visualstudio/mcpe_project.png)
+![Visual Studio Project Properties Option](screenshots/visualstudio/properties_contextmenu.png)
+
+2. Click the dropdown for the "Platform Toolset" property and select "Visual Studio 2022 (v143)" or newer.
+![Selecting v143 Platform Toolset](screenshots/visualstudio/mcpe_project_properties_v143.png)
+3. Click "Apply"
+
+Once have the proper build tools installed (v140_xp or newer), just right-click the project and click "Build".
 
 After building, place the `assets` folder you have prepared in the working directory of the output executable.
 (if running from VS, it's in `game/`, otherwise, where your executable is)
 
 ### Windows (VS 2010)
 
-This target is only around to target Windows XP (or potentially earlier) versions.
+This target is only around to allow for building on older versions of Windows and to allow for the potential targetting of pre-XP versions of Windows.
 
 To compile, you will **need the Microsoft Platform SDK and the DirectX (June 2010) SDK**. After that, follow
 the same steps as the VS2022 build. (open the minecraftcpp_vs2010.sln project instead of the minecraftcpp.sln
