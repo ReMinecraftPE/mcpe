@@ -3,6 +3,7 @@
 
 #include "Logger.hpp"
 #include "Util.hpp"
+#include "Utils.hpp"
 
 Logger* Logger::m_singleton = nullptr;
 
