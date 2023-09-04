@@ -12,8 +12,7 @@ based on the mcpe01_canada.apk build of the game.
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
 * To port the game to more platforms, such as Windows (including older versions), Linux, WebGL, Android, and
   macOS. Currently we have ports for:
-	* Windows 10/8/7
-	* Windows XP/Vista
+	* Windows XP-11
 	* Linux
 	* WebGL
 	* macOS (port by [BrentDaMage](https://github.com/BrentDaMage))
@@ -62,9 +61,13 @@ build.
 
 ### Windows (VS 2022)
 
-The project is configured to target Windows XP by default by using "v141_xp" build tools. If you would like to build with Windows XP support, please follow the guide [here](https://learn.microsoft.com/en-us/cpp/build/configuring-programs-for-windows-xp?view=msvc-170#install-the-windows-xp-platform-toolset) to obtain the build tools via the Visual Studio installer.
+The project is configured to target Windows XP by default by using "v141_xp" build tools. If you would like
+to build with Windows XP support, please follow the guide [here](https://learn.microsoft.com/en-us/cpp/build/configuring-programs-for-windows-xp?view=msvc-170#install-the-windows-xp-platform-toolset)
+to obtain the build tools via the Visual Studio installer.
 
-If you would like to strictly target more modern versions of Windows, you can change the build toolset by doing the following:
+**If you would like to strictly target more modern versions of Windows, you can change the build toolset by
+doing the following:**
+
 1. Right-click the project and click "Properties".
 
 ![Visual Studio Project](screenshots/visualstudio/mcpe_project.png)
@@ -72,16 +75,23 @@ If you would like to strictly target more modern versions of Windows, you can ch
 
 2. Click the dropdown for the "Platform Toolset" property and select "Visual Studio 2022 (v143)" or newer.
 ![Selecting v143 Platform Toolset](screenshots/visualstudio/mcpe_project_properties_v143.png)
-3. Click "Apply"
 
-Once have the proper build tools installed (v140_xp or newer), just right-click the project and click "Build".
+3. Click "Apply".
+
+Install the [DirectX SDK (June 2010)](https://www.microsoft.com/en-US/download/details.aspx?id=6812), unless:
+- You opt to use OpenAL instead (but that will require some hacking)
+- You are using the latest platform toolset
+
+Once you have the proper build tools installed (v140_xp or newer), you can now build it.
 
 After building, place the `assets` folder you have prepared in the working directory of the output executable.
 (if running from VS, it's in `game/`, otherwise, where your executable is)
 
 ### Windows (VS 2010)
 
-This target is only around to allow for building on older versions of Windows and to allow for the potential targetting of pre-XP versions of Windows.
+This target is only around for testing to allow for building on older versions of Windows and to allow for the
+potential targetting of pre-XP versions of Windows. The VS2022 target will also build for XP, so using it over
+the VS2010 one is recommended.
 
 To compile, you will **need the Microsoft Platform SDK and the DirectX (June 2010) SDK**. After that, follow
 the same steps as the VS2022 build. (open the minecraftcpp_vs2010.sln project instead of the minecraftcpp.sln
