@@ -327,7 +327,7 @@ void ItemInHandRenderer::renderScreenEffect(float f)
 		renderFire(f);
 	}
 
-	if (m_pMinecraft->m_pLocalPlayer->isInWall() && !m_pMinecraft->m_options.m_bFlyCheat)
+	if (m_pMinecraft->m_pLocalPlayer->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
 		int fx = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.x);
 		int fy = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.y);

@@ -68,18 +68,18 @@ void LocalPlayer::animateRespawn()
 
 void LocalPlayer::calculateFlight(float x, float y, float z)
 {
-	float f1 = m_pMinecraft->m_options.field_244;
+	float f1 = m_pMinecraft->getOptions()->field_244;
 	float x1 = f1 * x;
 	float z1 = f1 * z;
 
 	float y1 = 0.0f;
-	if (Keyboard::isKeyDown(m_pMinecraft->m_options.getKey(KM_FLY_UP)))
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(KM_FLY_UP)))
 		y1 = f1 * 0.2f;
-	if (Keyboard::isKeyDown(m_pMinecraft->m_options.getKey(KM_FLY_DOWN)))
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(KM_FLY_DOWN)))
 		y1 = f1 * -0.2f;
 
 	field_BFC += x1;
-	float f2 = m_pMinecraft->m_options.field_8 * 0.35f;
+	float f2 = m_pMinecraft->getOptions()->field_8 * 0.35f;
 	float f3 = f2 * (field_BFC - field_C00);
 	float f4 = field_C04 + 0.5f * (f3 - field_C04);
 	field_C04 = f4;
@@ -128,7 +128,7 @@ int LocalPlayer::move(float x, float y, float z)
 	int result = 0;
 
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
-	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->m_options.m_bFlyCheat)
+	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
 		//@HUH: Using m_pMinecraft->m_pLocalPlayer instead of this, even though they're the same
 		pLP->m_bNoCollision = true;
@@ -194,7 +194,7 @@ int LocalPlayer::move(float x, float y, float z)
 				return 1;
 
 			// are we trying to walk into stairs or a slab?
-			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->m_options.m_bAutoJump)
+			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->getOptions()->m_bAutoJump)
 				// Nope, we're walking towards a full block. Trigger an auto jump.
 				m_nAutoJumpFrames = 1;
 		}

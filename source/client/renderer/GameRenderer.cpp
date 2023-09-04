@@ -84,12 +84,12 @@ void GameRenderer::unZoomRegion()
 
 void GameRenderer::setupCamera(float f, int i)
 {
-	field_8 = float(256 >> m_pMinecraft->m_options.m_iViewDistance);
+	field_8 = float(256 >> m_pMinecraft->getOptions()->m_iViewDistance);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	if (m_pMinecraft->m_options.m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
 		glTranslatef(float(1 - 2 * i) * 0.07f, 0.0f, 0.0f);
 	}
@@ -106,13 +106,13 @@ void GameRenderer::setupCamera(float f, int i)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	if (m_pMinecraft->m_options.m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
 		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
 	}
 
 	bobHurt(f);
-	if (m_pMinecraft->m_options.m_bViewBobbing)
+	if (m_pMinecraft->getOptions()->m_bViewBobbing)
 		bobView(f);
 
 	moveCameraToPlayer(f);
@@ -130,10 +130,10 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
 
-	if (m_pMinecraft->m_options.m_bThirdPerson)
+	if (m_pMinecraft->getOptions()->m_bThirdPerson)
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
-		if (m_pMinecraft->m_options.field_241)
+		if (m_pMinecraft->getOptions()->field_241)
 		{
 			glTranslatef(0.0f, 0.0f, -v11);
 			glRotatef(field_38 + (field_34 - field_38) * f, 1.0f, 0.0f, 0.0f);
@@ -185,7 +185,7 @@ void GameRenderer::moveCameraToPlayer(float f)
 		glTranslatef(0.0f, 0.0f, -0.1f);
 	}
 
-	if (!m_pMinecraft->m_options.field_241)
+	if (!m_pMinecraft->getOptions()->field_241)
 	{
 		glRotatef(pMob->field_60 + f * (pMob->m_pitch - pMob->field_60), 1.0f, 0.0f, 0.0f);
 		glRotatef(pMob->field_5C + f * (pMob->m_yaw   - pMob->field_5C) + 180.0f, 0.0f, 1.0f, 0.0f);
@@ -256,7 +256,7 @@ void GameRenderer::setupClearColor(float f)
 	Level* pLevel = pMC->m_pLevel;
 	Mob* pMob = pMC->m_pMobPersp;
 
-	float x1 = 1.0f - powf(1.0f / float(4 - pMC->m_options.m_iViewDistance), 0.25f);
+	float x1 = 1.0f - powf(1.0f / float(4 - pMC->getOptions()->m_iViewDistance), 0.25f);
 
 	Vec3 skyColor = pLevel->getSkyColor(pMob, f), fogColor = pLevel->getFogColor(f);
 
@@ -287,7 +287,7 @@ void GameRenderer::setupClearColor(float f)
 	field_64 *= x2;
 	field_68 *= x2;
 
-	if (pMC->m_options.m_bAnaglyphs)
+	if (pMC->getOptions()->m_bAnaglyphs)
 	{
 		float r = (field_60 * 30.0f + field_64 * 59.0f + field_68 * 11.0f) / 100.0f;
 		float g = (field_60 * 30.0f + field_64 * 70.0f) / 100.0f;
@@ -407,7 +407,7 @@ void GameRenderer::renderLevel(float f)
 	fCamPos.y = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * f;
 	fCamPos.z = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * f;
 
-	bool bAnaglyph = m_pMinecraft->m_options.m_bAnaglyphs;
+	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
 	LevelRenderer* pLR = m_pMinecraft->m_pLevelRenderer;
 	ParticleEngine* pPE = m_pMinecraft->m_pParticleEngine;
@@ -431,7 +431,7 @@ void GameRenderer::renderLevel(float f)
 		saveMatrices();
 
 		/*
-		if (m_pMinecraft->m_options.m_iViewDistance <= 1)
+		if (m_pMinecraft->getOptions()->m_iViewDistance <= 1)
 		{
 #ifndef ORIGINAL_CODE
 			// @NOTE: For whatever reason, Minecraft doesn't enable GL_FOG right away.
@@ -446,7 +446,7 @@ void GameRenderer::renderLevel(float f)
 		glEnable(GL_FOG);
 		setupFog(1);
 
-		if (m_pMinecraft->m_options.m_bAmbientOcclusion)
+		if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
 			glShadeModel(GL_SMOOTH);
 
 		Frustum& frust = Frustum::frustum;
@@ -537,7 +537,7 @@ void GameRenderer::render(float f)
 
 #ifndef ENH_DISABLE_TURN_ACCEL
 		float multPitch = -1.0f;
-		float mult1 = 2.0f * (0.2f + pMC->m_options.field_8 * 0.6f);
+		float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
 		mult1 = mult1 * mult1 * mult1;
 
 		float xd = 4.0f * mult1 * pMC->field_D20;
@@ -552,10 +552,10 @@ void GameRenderer::render(float f)
 		if (diff_field_84 > 3.0f)
 			diff_field_84 = 3.0f;
 
-		if (pMC->m_options.m_bInvertMouse)
+		if (pMC->getOptions()->m_bInvertMouse)
 			multPitch = 1.0f;
 
-		if (!pMC->m_options.field_240)
+		if (!pMC->getOptions()->field_240)
 		{
 			// @TODO: untangle this code
 			float v17 = xd + m_rotZ;
@@ -580,7 +580,7 @@ void GameRenderer::render(float f)
 		}
 #else
 		float multPitch = -1.0f;
-		if (pMC->m_options.m_bInvertMouse)
+		if (pMC->getOptions()->m_bInvertMouse)
 			multPitch = 1.0f;
 
 		float diff_field_84 = 1.0f;
@@ -601,7 +601,7 @@ void GameRenderer::render(float f)
 		if (t_keepPic < 0)
 		{
 			renderLevel(f);
-			if (m_pMinecraft->m_options.m_bDontRenderGui)
+			if (m_pMinecraft->getOptions()->m_bDontRenderGui)
 			{
 				if (!m_pMinecraft->m_pScreen)
 					return;
@@ -638,7 +638,7 @@ void GameRenderer::render(float f)
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
 	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
 
-	if (m_pMinecraft->m_options.m_bDebugText)
+	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
 		if (m_pMinecraft->m_pLocalPlayer)
 		{
@@ -701,7 +701,7 @@ void GameRenderer::tick()
 		}
 
 		float bright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
-		float x3 = float(3 - m_pMinecraft->m_options.m_iViewDistance);
+		float x3 = float(3 - m_pMinecraft->getOptions()->m_iViewDistance);
 
 		field_C++;
 
@@ -718,27 +718,27 @@ void GameRenderer::renderItemInHand(float f, int i)
 {
 	glLoadIdentity();
 
-	if (m_pMinecraft->m_options.m_bAnaglyphs)
+	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
 
 	glPushMatrix();
 	bobHurt(f);
 
-	if (m_pMinecraft->m_options.m_bViewBobbing)
+	if (m_pMinecraft->getOptions()->m_bViewBobbing)
 		bobView(f);
 
-	if (!m_pMinecraft->m_options.m_bThirdPerson && !m_pMinecraft->m_options.m_bDontRenderGui)
+	if (!m_pMinecraft->getOptions()->m_bThirdPerson && !m_pMinecraft->getOptions()->m_bDontRenderGui)
 		m_pItemInHandRenderer->render(f);
 
 	glPopMatrix();
 
-	if (!m_pMinecraft->m_options.m_bThirdPerson)
+	if (!m_pMinecraft->getOptions()->m_bThirdPerson)
 	{
 		m_pItemInHandRenderer->renderScreenEffect(f);
 		bobHurt(f);
 	}
 
-	if (m_pMinecraft->m_options.m_bViewBobbing)
+	if (m_pMinecraft->getOptions()->m_bViewBobbing)
 		bobView(f);
 }
 

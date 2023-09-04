@@ -65,7 +65,7 @@ static std::string ViewDistanceStr(int dist)
 
 void OptionsScreen::UpdateTexts()
 {
-	Options& o = m_pMinecraft->m_options;
+	Options& o = *(m_pMinecraft->getOptions());
 
 	m_AOButton.m_text        = "Smooth lighting: " + BoolOptionStr(o.m_bAmbientOcclusion);
 	m_invertYButton.m_text   = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
@@ -159,16 +159,13 @@ void OptionsScreen::render(int a, int b, float c)
 
 void OptionsScreen::removed()
 {
-#ifdef ORIGINAL_CODE // Reloading options will reload the options.txt we introduced. Don't do this
-	m_pMinecraft->reloadOptions();
-#endif
 }
 
 #ifndef ORIGINAL_CODE
 
 void OptionsScreen::buttonClicked(Button* pButton)
 {
-	Options& o = m_pMinecraft->m_options;
+	Options& o = *(m_pMinecraft->getOptions());
 
 	bool* pOption = nullptr;
 	switch (pButton->m_buttonId)

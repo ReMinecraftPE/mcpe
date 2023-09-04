@@ -60,7 +60,7 @@ void ChatScreen::render(int mouseX, int mouseY, float f)
 
 void ChatScreen::keyPressed(int keyCode)
 {
-	if (m_pMinecraft->m_options.isKey(KM_MENU_OK, keyCode))
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, keyCode))
 		sendMessageAndExit();
 
 	Screen::keyPressed(keyCode);

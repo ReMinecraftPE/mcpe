@@ -54,7 +54,7 @@ void ServerSideNetworkHandler::levelGenerated(Level* level)
 
 	level->addListener(this);
 
-	allowIncomingConnections(m_pMinecraft->m_options.m_bServerVisibleDefault);
+	allowIncomingConnections(m_pMinecraft->getOptions()->m_bServerVisibleDefault);
 
 	m_onlinePlayers[m_pMinecraft->m_pLocalPlayer->m_guid] = new OnlinePlayer(m_pMinecraft->m_pLocalPlayer, m_pMinecraft->m_pLocalPlayer->m_guid);
 }
@@ -345,7 +345,7 @@ void ServerSideNetworkHandler::allowIncomingConnections(bool b)
 {
 	if (b)
 	{
-		m_pRakNetInstance->announceServer(m_pMinecraft->m_options.m_playerName);
+		m_pRakNetInstance->announceServer(m_pMinecraft->getOptions()->m_playerName);
 	}
 	else
 	{

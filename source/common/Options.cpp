@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <fstream>
+
 #include "Options.hpp"
 #include "Util.hpp"
 #include "compat/KeyCodes.hpp"
@@ -25,7 +27,7 @@ Options::Option
 	Options::Option::AMBIENT_OCCLUSION(10, "options.ao",             false, true),
 	Options::Option::GUI_SCALE        (11, "options.guiScale",       false, false);
 
-void Options::initDefaultValues()
+void Options::_initDefaultValues()
 {
 	field_238 = 2;
 	field_244 = 1.0f;
@@ -201,7 +203,14 @@ void Options::initDefaultValues()
 
 Options::Options()
 {
-	initDefaultValues();
+	_initDefaultValues();
+}
+
+Options::Options(const std::string& folderPath)
+{
+	m_filePath = folderPath + "/options.txt";
+	_initDefaultValues();
+	_load();
 }
 
 std::string getMessage(const Options::Option& option)
@@ -209,14 +218,34 @@ std::string getMessage(const Options::Option& option)
 	return "Options::getMessage - Not implemented";
 }
 
-void Options::load()
+void Options::_load()
 {
-	// stub
+	std::vector<std::string> strings = readPropertiesFromFile(m_filePath);
+
+	for (int i = 0; i < strings.size(); i += 2)
+	{
+		std::string key = strings[i], value = strings[i + 1];
+
+		if (key == "mp_username")
+			m_playerName = value;
+		else if (key == "ctrl_invertmouse")
+			m_bInvertMouse = readBool(value);
+		else if (key == "ctrl_autojump")
+			m_bAutoJump = readBool(value);
+		else if (key == "gfx_fancygraphics")
+			m_bFancyGraphics = readBool(value);
+		else if (key == "mp_server_visible_default")
+			m_bServerVisibleDefault = readBool(value);
+		else if (key == "gfx_smoothlighting")
+			Minecraft::useAmbientOcclusion = m_bAmbientOcclusion = readBool(value);
+		else if (key == "gfx_viewdistance")
+			m_iViewDistance = readInt(value);
+	}
 }
 
 void Options::save()
 {
-	// stub
+	savePropertiesToFile(m_filePath, getOptionStrings());
 }
 
 std::string Options::getMessage(const Options::Option& option)
@@ -257,27 +286,59 @@ std::string Options::saveInt(int i)
 	return ss.str();
 }
 
-void Options::update(const std::vector<std::string>& strings)
+std::vector<std::string> Options::readPropertiesFromFile(const std::string& filePath)
 {
-	for (int i = 0; i<int(strings.size()); i += 2)
-	{
-		std::string key = strings[i], value = strings[i + 1];
+	std::vector<std::string> o;
 
-		if (key == "mp_username")
-			m_playerName = value;
-		else if (key == "ctrl_invertmouse")
-			m_bInvertMouse = readBool(value);
-		else if (key == "ctrl_autojump")
-			m_bAutoJump = readBool(value);
-		else if (key == "gfx_fancygraphics")
-			m_bFancyGraphics = readBool(value);
-		else if (key == "mp_server_visible_default")
-			m_bServerVisibleDefault = readBool(value);
-		else if (key == "gfx_smoothlighting")
-			Minecraft::useAmbientOcclusion = m_bAmbientOcclusion = readBool(value);
-		else if (key == "gfx_viewdistance")
-			m_iViewDistance = readInt(value);
+	const char* const path = filePath.c_str();
+	LOG_I("Loading options from %s", path);
+
+	std::ifstream ifs(path);
+	if (!ifs.is_open())
+	{
+		LOG_W("%s doesn't exist, resetting to defaults", path);
+		return o;
 	}
+
+	std::string str;
+	while (true)
+	{
+		if (!std::getline(ifs, str, '\n'))
+			break;
+
+		if (str.empty() || str[0] == '#')
+			continue;
+
+		std::stringstream ss;
+		ss << str;
+
+		std::string key, value;
+		if (std::getline(ss, key, ':') && std::getline(ss, value))
+		{
+			o.push_back(key);
+			o.push_back(value);
+		}
+	}
+
+	return o;
+}
+
+void Options::savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties)
+{
+	assert(properties.size() % 2 == 0);
+
+	std::ofstream os;
+	os.open(filePath.c_str());
+	if (!os.is_open())
+	{
+		LOG_E("Failed to read %s", filePath);
+		return;
+	}
+
+	os << "#Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.\n\n";
+
+	for (int i = 0; i < properties.size(); i += 2)
+		os << properties[i] << ':' << properties[i + 1] << '\n';
 }
 
 std::vector<std::string> Options::getOptionStrings()

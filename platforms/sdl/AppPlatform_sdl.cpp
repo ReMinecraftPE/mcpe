@@ -289,63 +289,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	return out;
 }
 
-std::string AppPlatform_sdl::getOptionsFilePath() const
+bool AppPlatform_sdl::hasFileSystemAccess()
 {
-	return _storageDir + "/options.txt";
-}
-
-std::vector<std::string> AppPlatform_sdl::getOptionStrings()
-{
-	// TODO: This isn't specific to SDL2. Why isn't it in an AppPlatform base class?
-	std::vector<std::string> o;
-
-	LOG_I("Storage dir is %s", _storageDir.c_str());
-
-	std::ifstream ifs(getOptionsFilePath().c_str());
-	if (!ifs.is_open())
-	{
-		LOG_W("options.txt doesn't exist, resetting to defaults");
-		return o;
-	}
-
-	std::string str;
-	while (true)
-	{
-		if (!std::getline(ifs, str, '\n'))
-			break;
-
-		if (str.empty() || str[0] == '#')
-			continue;
-
-		std::stringstream ss;
-		ss << str;
-
-		std::string key, value;
-		if (std::getline(ss, key, ':') && std::getline(ss, value))
-		{
-			o.push_back(key);
-			o.push_back(value);
-		}
-	}
-
-	return o;
-}
-
-void AppPlatform_sdl::setOptionStrings(const std::vector<std::string>& str)
-{
-	// TODO: This isn't specific to SDL2. Why isn't it in an AppPlatform base class?
-	assert(str.size() % 2 == 0);
-
-	std::ofstream os;
-	os.open(getOptionsFilePath().c_str());
-	if (!os.is_open())
-	{
-		LOG_E("Failed to read options.txt");
-		return;
-	}
-
-	os << "#Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.\n\n";
-	
-	for (int i = 0; i < int(str.size()); i += 2)
-		os << str[i] << ':' << str[i + 1] << '\n';
+	return true;
 }

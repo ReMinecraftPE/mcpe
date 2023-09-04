@@ -382,12 +382,12 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 
 void Gui::handleKeyPressed(int keyCode)
 {
-	if (m_pMinecraft->m_options.isKey(KM_INVENTORY, keyCode))
+	if (m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
 	{
 		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
 		return;
 	}
-	if (m_pMinecraft->m_options.isKey(KM_SLOT_R, keyCode))
+	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_R, keyCode))
 	{
 		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
@@ -402,7 +402,7 @@ void Gui::handleKeyPressed(int keyCode)
 
 		return;
 	}
-	if (m_pMinecraft->m_options.isKey(KM_SLOT_L, keyCode))
+	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_L, keyCode))
 	{
 		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
@@ -412,12 +412,12 @@ void Gui::handleKeyPressed(int keyCode)
 		return;
 	}
 
-	if (m_pMinecraft->m_options.isKey(KM_CHAT_CMD, keyCode) || m_pMinecraft->m_options.isKey(KM_CHAT, keyCode))
+	if (m_pMinecraft->getOptions()->isKey(KM_CHAT_CMD, keyCode) || m_pMinecraft->getOptions()->isKey(KM_CHAT, keyCode))
 	{
 		if (m_pMinecraft->m_pScreen)
 			return;
 
-		m_pMinecraft->setScreen(new ChatScreen(m_pMinecraft->m_options.isKey(KM_CHAT_CMD, keyCode)));
+		m_pMinecraft->setScreen(new ChatScreen(m_pMinecraft->getOptions()->isKey(KM_CHAT_CMD, keyCode)));
 		return;
 	}
 }
