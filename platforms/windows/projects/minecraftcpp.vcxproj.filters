@@ -1172,15 +1172,8 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
-    <ClInclude Include="..\LoggerWindows.hpp">
-      <Filter>source\platforms\windows</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\Logger.hpp">
-      <Filter>source\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\common\StandardOut.hpp">
-      <Filter>source\common</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\windows\LoggerWindows.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\TwoWayAuthentication.cpp">
