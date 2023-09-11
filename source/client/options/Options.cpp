@@ -331,7 +331,7 @@ void Options::savePropertiesToFile(const std::string& filePath, std::vector<std:
 	os.open(filePath.c_str());
 	if (!os.is_open())
 	{
-		LOG_E("Failed to read %s", filePath);
+		LOG_E("Failed to read %s", filePath.c_str());
 		return;
 	}
 

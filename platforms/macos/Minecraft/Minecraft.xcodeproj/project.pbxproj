@@ -2684,8 +2684,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/libpng/1.6.40/lib,
-					/usr/local/Cellar/libpng/1.6.40_arm64/lib,
 					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2763,8 +2761,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/libpng/1.6.40/lib,
-					/usr/local/Cellar/libpng/1.6.40_arm64/lib,
 					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2842,8 +2838,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/libpng/1.6.40/lib,
-					/usr/local/Cellar/libpng/1.6.40_arm64/lib,
 					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2982,8 +2976,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/libpng/1.6.40/lib,
-					/usr/local/Cellar/libpng/1.6.40_arm64/lib,
 					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3000,8 +2992,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/libpng/1.6.40/lib,
-					/usr/local/Cellar/libpng/1.6.40_arm64/lib,
 					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
