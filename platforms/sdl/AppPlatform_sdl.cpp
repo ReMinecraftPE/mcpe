@@ -105,9 +105,9 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	{
 		// Create Screenshots Folder
 #ifdef _WIN32
-		int ret = _mkdir(path);
+		int ret = XPL_MKDIR(path);
 #else
-		int ret = _mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif
 		if (ret != 0)
 		{
@@ -138,7 +138,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	int num = 1;
 	const std::string path = screenshots + "/";
 	std::string file = path + time + ".png";
-	while (_access(file.c_str(), F_OK) != -1)
+	while (XPL_ACCESS(file.c_str(), F_OK) != -1)
 	{
 		file = path + SSTR(time << "-" << num << ".png");
 		num++;

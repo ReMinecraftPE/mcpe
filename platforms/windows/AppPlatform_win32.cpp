@@ -38,6 +38,7 @@ AppPlatform_win32::AppPlatform_win32()
 	// This initializes the Logger singleton to use the Windows-specific variant
 	// If we didn't initialize it here, the Minecraft class would have our back
 	m_pLogger = new LoggerWin32();
+	m_pSoundSystem = nullptr;
 }
 
 AppPlatform_win32::~AppPlatform_win32()

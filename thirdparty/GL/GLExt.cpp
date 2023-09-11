@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#ifdef _WIN32
+
 #include "GL.hpp"
 #include <unordered_map>
 
@@ -492,5 +494,7 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 	glCallList(pBuf->GetDisplayList());
 #endif
 }
+
+#endif
 
 #endif

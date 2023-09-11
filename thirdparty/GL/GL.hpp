@@ -78,6 +78,7 @@ static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, G
 
 #endif
 
+#ifdef _WIN32
 void xglInit();
 bool xglInitted();
 
@@ -93,3 +94,23 @@ void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* p
 void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
+#else
+
+#define xglBindBuffer glBindBuffer
+#define xglBufferData glBufferData
+#define xglGenBuffers glGenBuffers
+#define xglDeleteBuffers glDeleteBuffers
+#define xglEnableClientState glEnableClientState
+#define xglDisableClientState glDisableClientState
+#define xglTexCoordPointer glTexCoordPointer
+#define xglColorPointer glColorPointer
+#define xglVertexPointer glVertexPointer
+#define xglDrawArrays glDrawArrays
+
+#ifdef USE_GLES1_COMPATIBILITY_LAYER
+#define xglOrthof glOrthof
+#else
+#define xglOrthof(left, right, bottom, top, nearpl, farpl) glOrtho((GLdouble) (left), (GLdouble) (right), (GLdouble) (bottom), (GLdouble) (top), (GLdouble) (nearpl), (GLdouble) (farpl))
+#endif
+
+#endif

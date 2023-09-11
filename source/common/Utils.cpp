@@ -28,8 +28,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-#define XPL_ACCESS access
-#define XPL_MKDIR(path, mode)  mkdir(path, mode)
 #endif
 
 // include zlib stuff

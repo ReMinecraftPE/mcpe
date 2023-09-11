@@ -28,14 +28,20 @@ void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
     ensureDirectoryExists(_storageDir.c_str());
 	
 	m_pLogger = new Logger;
+	m_pSoundSystem = nullptr;
 }
 
 void AppPlatform_sdlbase::initSoundSystem()
 {
 	if (!m_pSoundSystem)
+	{
 		m_pSoundSystem = new SoundSystemAL();
+		LOG_I("Initializing OpenAL SoundSystem...");
+	}
 	else
+	{
 		LOG_E("Trying to initialize SoundSystem more than once!");
+	}
 }
 
 void AppPlatform_sdlbase::setIcon(const Texture& icon)
@@ -58,8 +64,10 @@ AppPlatform_sdlbase::~AppPlatform_sdlbase()
 	if (_icon) SDL_FreeSurface(_icon);
 	SAFE_DELETE(_iconTexture);
 
-	SAFE_DELETE(m_pLogger);
 	SAFE_DELETE(m_pSoundSystem);
+	
+	// DELETE THIS LAST
+	SAFE_DELETE(m_pLogger);
 }
 
 SDL_Surface* AppPlatform_sdlbase::getSurfaceForTexture(const Texture* const texture)

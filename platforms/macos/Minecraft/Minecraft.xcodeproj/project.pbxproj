@@ -125,12 +125,10 @@
 		8443B6B82A9865110086730C /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B68C2A9865110086730C /* CThread.cpp */; };
 		8443B6B92A9865110086730C /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B68F2A9865110086730C /* Matrix.cpp */; };
 		8443B6BA2A9865110086730C /* Mth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6912A9865110086730C /* Mth.cpp */; };
-		8443B6BB2A9865110086730C /* Options.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6932A9865110086730C /* Options.cpp */; };
 		8443B6BC2A9865110086730C /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6952A9865110086730C /* Random.cpp */; };
 		8443B6BD2A9865110086730C /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6972A9865110086730C /* Timer.cpp */; };
 		8443B6BE2A9865110086730C /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6992A9865110086730C /* Util.cpp */; };
 		8443B6BF2A9865110086730C /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B69B2A9865110086730C /* Utils.cpp */; };
-		8443B6C02A9865110086730C /* ClientSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B69E2A9865110086730C /* ClientSideNetworkHandler.cpp */; };
 		8443B6C12A9865110086730C /* MinecraftPackets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6A02A9865110086730C /* MinecraftPackets.cpp */; };
 		8443B6C22A9865110086730C /* NetEventCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6A22A9865110086730C /* NetEventCallback.cpp */; };
 		8443B6C32A9865110086730C /* AddPlayerPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8443B6A62A9865110086730C /* AddPlayerPacket.cpp */; };
@@ -273,10 +271,14 @@
 		848271812A99123800C8245C /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 848270FF2A99123800C8245C /* trees.c */; };
 		848271822A99123800C8245C /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 848271012A99123800C8245C /* uncompr.c */; };
 		848271832A99123800C8245C /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 848271042A99123800C8245C /* zutil.c */; };
-		8489B2452A86D550004CA8EC /* AppPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8489B0A72A86D54F004CA8EC /* AppPlatform.cpp */; };
-		8489B2AD2A86D551004CA8EC /* Minecraft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8489B1722A86D550004CA8EC /* Minecraft.cpp */; };
-		8489B2AE2A86D551004CA8EC /* NinecraftApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8489B1732A86D550004CA8EC /* NinecraftApp.cpp */; };
-		8489B3152A86D551004CA8EC /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8489B2442A86D550004CA8EC /* App.cpp */; };
+		848499A72AAECC1E00E682C5 /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8484999F2AAECC1E00E682C5 /* App.cpp */; };
+		848499A82AAECC1E00E682C5 /* AppPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848499A12AAECC1E00E682C5 /* AppPlatform.cpp */; };
+		848499A92AAECC1E00E682C5 /* Minecraft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848499A32AAECC1E00E682C5 /* Minecraft.cpp */; };
+		848499AA2AAECC1E00E682C5 /* NinecraftApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848499A52AAECC1E00E682C5 /* NinecraftApp.cpp */; };
+		848499AE2AAECC3700E682C5 /* ClientSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848499AC2AAECC3700E682C5 /* ClientSideNetworkHandler.cpp */; };
+		848499C62AAECDB800E682C5 /* GLExt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848499BE2AAECDB800E682C5 /* GLExt.cpp */; };
+		848499E12AAED3C100E682C5 /* Options.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848499DF2AAED3C100E682C5 /* Options.cpp */; };
+		84849A0D2AAED9B100E682C5 /* GL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84849A0B2AAED9B100E682C5 /* GL.cpp */; };
 		8489B3222A86E464004CA8EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		8489B3242A86E46A004CA8EC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3232A86E46A004CA8EC /* AppKit.framework */; };
 		8489B3262A86E4B0004CA8EC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3252A86E4B0004CA8EC /* OpenGL.framework */; };
@@ -371,8 +373,6 @@
 /* Begin PBXFileReference section */
 		843371312AA3375C009ABC2E /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
 		843371322AA3375C009ABC2E /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
-		84359DE02A8D1B42008CBFC0 /* GL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GL.hpp; sourceTree = "<group>"; };
-		84359DE12A8D1B42008CBFC0 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		84359DE52A8D1B5E008CBFC0 /* NatTypeDetectionClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NatTypeDetectionClient.h; sourceTree = "<group>"; };
 		84359DE62A8D1B5E008CBFC0 /* DS_OrderedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DS_OrderedList.h; sourceTree = "<group>"; };
 		84359DE72A8D1B5E008CBFC0 /* TwoWayAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoWayAuthentication.h; sourceTree = "<group>"; };
@@ -647,7 +647,6 @@
 		84359F6E2A8D1BA2008CBFC0 /* AppPlatform_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl.cpp; sourceTree = "<group>"; };
 		84359F702A8D1BA2008CBFC0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		84359F722A8D1BA2008CBFC0 /* AppPlatform_sdl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl.hpp; sourceTree = "<group>"; };
-		84359F792A8D1BA2008CBFC0 /* PlatformDefinitions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlatformDefinitions.hpp; sourceTree = "<group>"; };
 		8443B68C2A9865110086730C /* CThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CThread.cpp; sourceTree = "<group>"; };
 		8443B68D2A9865110086730C /* CThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CThread.hpp; sourceTree = "<group>"; };
 		8443B68E2A9865110086730C /* LongHack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LongHack.hpp; sourceTree = "<group>"; };
@@ -655,8 +654,6 @@
 		8443B6902A9865110086730C /* Matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		8443B6912A9865110086730C /* Mth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mth.cpp; sourceTree = "<group>"; };
 		8443B6922A9865110086730C /* Mth.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mth.hpp; sourceTree = "<group>"; };
-		8443B6932A9865110086730C /* Options.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Options.cpp; sourceTree = "<group>"; };
-		8443B6942A9865110086730C /* Options.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Options.hpp; sourceTree = "<group>"; };
 		8443B6952A9865110086730C /* Random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
 		8443B6962A9865110086730C /* Random.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Random.hpp; sourceTree = "<group>"; };
 		8443B6972A9865110086730C /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
@@ -665,8 +662,6 @@
 		8443B69A2A9865110086730C /* Util.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Util.hpp; sourceTree = "<group>"; };
 		8443B69B2A9865110086730C /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
 		8443B69C2A9865110086730C /* Utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Utils.hpp; sourceTree = "<group>"; };
-		8443B69E2A9865110086730C /* ClientSideNetworkHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientSideNetworkHandler.cpp; sourceTree = "<group>"; };
-		8443B69F2A9865110086730C /* ClientSideNetworkHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ClientSideNetworkHandler.hpp; sourceTree = "<group>"; };
 		8443B6A02A9865110086730C /* MinecraftPackets.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MinecraftPackets.cpp; sourceTree = "<group>"; };
 		8443B6A12A9865110086730C /* MinecraftPackets.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MinecraftPackets.hpp; sourceTree = "<group>"; };
 		8443B6A22A9865110086730C /* NetEventCallback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetEventCallback.cpp; sourceTree = "<group>"; };
@@ -923,15 +918,27 @@
 		848271032A99123800C8245C /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		848271042A99123800C8245C /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		848271052A99123800C8245C /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		8484999F2AAECC1E00E682C5 /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
+		848499A02AAECC1E00E682C5 /* App.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = App.hpp; sourceTree = "<group>"; };
+		848499A12AAECC1E00E682C5 /* AppPlatform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform.cpp; sourceTree = "<group>"; };
+		848499A22AAECC1E00E682C5 /* AppPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform.hpp; sourceTree = "<group>"; };
+		848499A32AAECC1E00E682C5 /* Minecraft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Minecraft.cpp; sourceTree = "<group>"; };
+		848499A42AAECC1E00E682C5 /* Minecraft.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Minecraft.hpp; sourceTree = "<group>"; };
+		848499A52AAECC1E00E682C5 /* NinecraftApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NinecraftApp.cpp; sourceTree = "<group>"; };
+		848499A62AAECC1E00E682C5 /* NinecraftApp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NinecraftApp.hpp; sourceTree = "<group>"; };
+		848499AC2AAECC3700E682C5 /* ClientSideNetworkHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientSideNetworkHandler.cpp; sourceTree = "<group>"; };
+		848499AD2AAECC3700E682C5 /* ClientSideNetworkHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ClientSideNetworkHandler.hpp; sourceTree = "<group>"; };
+		848499BD2AAECDB800E682C5 /* GL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GL.hpp; sourceTree = "<group>"; };
+		848499BE2AAECDB800E682C5 /* GLExt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLExt.cpp; sourceTree = "<group>"; };
+		848499C02AAECDB800E682C5 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		848499C22AAECDB800E682C5 /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
+		848499C42AAECDB800E682C5 /* SDL2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2.h; sourceTree = "<group>"; };
+		848499C52AAECDB800E682C5 /* SDL_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_opengl.h; sourceTree = "<group>"; };
+		848499DF2AAED3C100E682C5 /* Options.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Options.cpp; sourceTree = "<group>"; };
+		848499E02AAED3C100E682C5 /* Options.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Options.hpp; sourceTree = "<group>"; };
+		84849A0B2AAED9B100E682C5 /* GL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL.cpp; sourceTree = "<group>"; };
+		84849A0C2AAED9B100E682C5 /* GL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GL.hpp; sourceTree = "<group>"; };
 		8489B0972A86D4B2004CA8EC /* Minecraft */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Minecraft; sourceTree = BUILT_PRODUCTS_DIR; };
-		8489B0A72A86D54F004CA8EC /* AppPlatform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform.cpp; sourceTree = "<group>"; };
-		8489B0A92A86D54F004CA8EC /* App.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = App.hpp; sourceTree = "<group>"; };
-		8489B1702A86D550004CA8EC /* Minecraft.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Minecraft.hpp; sourceTree = "<group>"; };
-		8489B1712A86D550004CA8EC /* NinecraftApp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NinecraftApp.hpp; sourceTree = "<group>"; };
-		8489B1722A86D550004CA8EC /* Minecraft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Minecraft.cpp; sourceTree = "<group>"; };
-		8489B1732A86D550004CA8EC /* NinecraftApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NinecraftApp.cpp; sourceTree = "<group>"; };
-		8489B1742A86D550004CA8EC /* AppPlatform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform.hpp; sourceTree = "<group>"; };
-		8489B2442A86D550004CA8EC /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
 		8489B3212A86E464004CA8EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8489B3232A86E46A004CA8EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		8489B3252A86E4B0004CA8EC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -1105,9 +1112,7 @@
 		84359DDE2A8D1B42008CBFC0 /* compat */ = {
 			isa = PBXGroup;
 			children = (
-				84359DE02A8D1B42008CBFC0 /* GL.hpp */,
 				8443B6D42A9865370086730C /* KeyCodes.hpp */,
-				84359DE12A8D1B42008CBFC0 /* readme.txt */,
 				8443B6D52A9865370086730C /* SDLKeyCodes.h */,
 			);
 			name = compat;
@@ -1397,7 +1402,6 @@
 				84359F632A8D1BA2008CBFC0 /* macos */,
 				84359F682A8D1BA2008CBFC0 /* openal */,
 				84359F6C2A8D1BA2008CBFC0 /* sdl */,
-				84359F792A8D1BA2008CBFC0 /* PlatformDefinitions.hpp */,
 			);
 			name = platforms;
 			path = ../platforms;
@@ -1443,8 +1447,6 @@
 				8443B6902A9865110086730C /* Matrix.hpp */,
 				8443B6912A9865110086730C /* Mth.cpp */,
 				8443B6922A9865110086730C /* Mth.hpp */,
-				8443B6932A9865110086730C /* Options.cpp */,
-				8443B6942A9865110086730C /* Options.hpp */,
 				8443B6952A9865110086730C /* Random.cpp */,
 				8443B6962A9865110086730C /* Random.hpp */,
 				8443B6972A9865110086730C /* Timer.cpp */,
@@ -1460,8 +1462,6 @@
 		8443B69D2A9865110086730C /* network */ = {
 			isa = PBXGroup;
 			children = (
-				8443B69E2A9865110086730C /* ClientSideNetworkHandler.cpp */,
-				8443B69F2A9865110086730C /* ClientSideNetworkHandler.hpp */,
 				8443B6A02A9865110086730C /* MinecraftPackets.cpp */,
 				8443B6A12A9865110086730C /* MinecraftPackets.hpp */,
 				8443B6A22A9865110086730C /* NetEventCallback.cpp */,
@@ -1813,6 +1813,9 @@
 		84826FD22A99123700C8245C /* thirdparty */ = {
 			isa = PBXGroup;
 			children = (
+				848499BC2AAECDB800E682C5 /* GL */,
+				848499C12AAECDB800E682C5 /* LibPNG */,
+				848499C32AAECDB800E682C5 /* SDL2 */,
 				848270E92A99123800C8245C /* zlib */,
 			);
 			name = thirdparty;
@@ -1854,6 +1857,83 @@
 			path = zlib;
 			sourceTree = "<group>";
 		};
+		8484999E2AAECC1E00E682C5 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				8484999F2AAECC1E00E682C5 /* App.cpp */,
+				848499A02AAECC1E00E682C5 /* App.hpp */,
+				848499A12AAECC1E00E682C5 /* AppPlatform.cpp */,
+				848499A22AAECC1E00E682C5 /* AppPlatform.hpp */,
+				848499A32AAECC1E00E682C5 /* Minecraft.cpp */,
+				848499A42AAECC1E00E682C5 /* Minecraft.hpp */,
+				848499A52AAECC1E00E682C5 /* NinecraftApp.cpp */,
+				848499A62AAECC1E00E682C5 /* NinecraftApp.hpp */,
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
+		848499AB2AAECC3700E682C5 /* network */ = {
+			isa = PBXGroup;
+			children = (
+				848499AC2AAECC3700E682C5 /* ClientSideNetworkHandler.cpp */,
+				848499AD2AAECC3700E682C5 /* ClientSideNetworkHandler.hpp */,
+			);
+			path = network;
+			sourceTree = "<group>";
+		};
+		848499BC2AAECDB800E682C5 /* GL */ = {
+			isa = PBXGroup;
+			children = (
+				848499BD2AAECDB800E682C5 /* GL.hpp */,
+				848499BE2AAECDB800E682C5 /* GLExt.cpp */,
+				848499C02AAECDB800E682C5 /* readme.txt */,
+			);
+			path = GL;
+			sourceTree = "<group>";
+		};
+		848499C12AAECDB800E682C5 /* LibPNG */ = {
+			isa = PBXGroup;
+			children = (
+				848499C22AAECDB800E682C5 /* png.h */,
+			);
+			path = LibPNG;
+			sourceTree = "<group>";
+		};
+		848499C32AAECDB800E682C5 /* SDL2 */ = {
+			isa = PBXGroup;
+			children = (
+				848499C42AAECDB800E682C5 /* SDL2.h */,
+				848499C52AAECDB800E682C5 /* SDL_opengl.h */,
+			);
+			path = SDL2;
+			sourceTree = "<group>";
+		};
+		848499DE2AAED3C100E682C5 /* options */ = {
+			isa = PBXGroup;
+			children = (
+				848499DF2AAED3C100E682C5 /* Options.cpp */,
+				848499E02AAED3C100E682C5 /* Options.hpp */,
+			);
+			path = options;
+			sourceTree = "<group>";
+		};
+		84849A092AAED9B100E682C5 /* renderer */ = {
+			isa = PBXGroup;
+			children = (
+				84849A0A2AAED9B100E682C5 /* GL */,
+			);
+			path = renderer;
+			sourceTree = "<group>";
+		};
+		84849A0A2AAED9B100E682C5 /* GL */ = {
+			isa = PBXGroup;
+			children = (
+				84849A0B2AAED9B100E682C5 /* GL.cpp */,
+				84849A0C2AAED9B100E682C5 /* GL.hpp */,
+			);
+			path = GL;
+			sourceTree = "<group>";
+		};
 		8489B08E2A86D4B2004CA8EC = {
 			isa = PBXGroup;
 			children = (
@@ -1875,21 +1955,14 @@
 		8489B0A62A86D54F004CA8EC /* source */ = {
 			isa = PBXGroup;
 			children = (
-				8489B2442A86D550004CA8EC /* App.cpp */,
-				8489B0A92A86D54F004CA8EC /* App.hpp */,
-				8489B0A72A86D54F004CA8EC /* AppPlatform.cpp */,
-				8489B1742A86D550004CA8EC /* AppPlatform.hpp */,
 				849B92242A99C3D800CF0DE0 /* client */,
 				8443B68B2A9865110086730C /* common */,
 				84359DDE2A8D1B42008CBFC0 /* compat */,
 				849B930F2A99C44A00CF0DE0 /* GameMods.hpp */,
-				8489B1722A86D550004CA8EC /* Minecraft.cpp */,
-				8489B1702A86D550004CA8EC /* Minecraft.hpp */,
 				8443B69D2A9865110086730C /* network */,
-				8489B1732A86D550004CA8EC /* NinecraftApp.cpp */,
-				8489B1712A86D550004CA8EC /* NinecraftApp.hpp */,
 				84359F622A8D1BA2008CBFC0 /* platforms */,
 				84359DE42A8D1B5E008CBFC0 /* raknet */,
+				84849A092AAED9B100E682C5 /* renderer */,
 				8443B7DA2A98683F0086730C /* world */,
 			);
 			name = source;
@@ -1912,8 +1985,11 @@
 		849B92242A99C3D800CF0DE0 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				8484999E2AAECC1E00E682C5 /* app */,
 				849B92252A99C3D800CF0DE0 /* gui */,
 				849B925C2A99C3D800CF0DE0 /* model */,
+				848499AB2AAECC3700E682C5 /* network */,
+				848499DE2AAED3C100E682C5 /* options */,
 				849B92652A99C3D800CF0DE0 /* player */,
 				849B92762A99C3D800CF0DE0 /* renderer */,
 				849B92B32A99C3D900CF0DE0 /* sound */,
@@ -2226,7 +2302,6 @@
 				84359F5C2A8D1B5F008CBFC0 /* RakNetSocket2_360_720.cpp in Sources */,
 				84359F422A8D1B5F008CBFC0 /* NatTypeDetectionServer.cpp in Sources */,
 				84359EFD2A8D1B5F008CBFC0 /* UDPProxyClient.cpp in Sources */,
-				8489B2AD2A86D551004CA8EC /* Minecraft.cpp in Sources */,
 				84359F552A8D1B5F008CBFC0 /* TableSerializer.cpp in Sources */,
 				84359F492A8D1B5F008CBFC0 /* UDPForwarder.cpp in Sources */,
 				84359F242A8D1B5F008CBFC0 /* HTTPConnection2.cpp in Sources */,
@@ -2240,21 +2315,18 @@
 				84359F052A8D1B5F008CBFC0 /* CheckSum.cpp in Sources */,
 				84359F312A8D1B5F008CBFC0 /* CloudCommon.cpp in Sources */,
 				84359F0A2A8D1B5F008CBFC0 /* FormatString.cpp in Sources */,
-				8489B3152A86D551004CA8EC /* App.cpp in Sources */,
 				84359F3B2A8D1B5F008CBFC0 /* VitaIncludes.cpp in Sources */,
 				84359F262A8D1B5F008CBFC0 /* RakNetSocket2_Berkley.cpp in Sources */,
 				84359F342A8D1B5F008CBFC0 /* IncrementalReadInterface.cpp in Sources */,
 				84359F102A8D1B5F008CBFC0 /* CCRakNetUDT.cpp in Sources */,
 				84359F2A2A8D1B5F008CBFC0 /* ReliabilityLayer.cpp in Sources */,
 				84359F092A8D1B5F008CBFC0 /* CCRakNetSlidingWindow.cpp in Sources */,
-				8489B2AE2A86D551004CA8EC /* NinecraftApp.cpp in Sources */,
 				84359F582A8D1B5F008CBFC0 /* RakString.cpp in Sources */,
 				84359EFB2A8D1B5F008CBFC0 /* ReadyEvent.cpp in Sources */,
 				84359F192A8D1B5F008CBFC0 /* FileOperations.cpp in Sources */,
 				84359F082A8D1B5F008CBFC0 /* RelayPlugin.cpp in Sources */,
 				84359F252A8D1B5F008CBFC0 /* gettimeofday.cpp in Sources */,
 				84359F4B2A8D1B5F008CBFC0 /* WSAStartupSingleton.cpp in Sources */,
-				8489B2452A86D550004CA8EC /* AppPlatform.cpp in Sources */,
 				84359F592A8D1B5F008CBFC0 /* RakNetSocket2_WindowsStore8.cpp in Sources */,
 				84359F0F2A8D1B5F008CBFC0 /* SendToThread.cpp in Sources */,
 				84359F7B2A8D1BA2008CBFC0 /* AppPlatform_sdl.cpp in Sources */,
@@ -2309,12 +2381,10 @@
 				8443B6B82A9865110086730C /* CThread.cpp in Sources */,
 				8443B6B92A9865110086730C /* Matrix.cpp in Sources */,
 				8443B6BA2A9865110086730C /* Mth.cpp in Sources */,
-				8443B6BB2A9865110086730C /* Options.cpp in Sources */,
 				8443B6BC2A9865110086730C /* Random.cpp in Sources */,
 				8443B6BD2A9865110086730C /* Timer.cpp in Sources */,
 				8443B6BE2A9865110086730C /* Util.cpp in Sources */,
 				8443B6BF2A9865110086730C /* Utils.cpp in Sources */,
-				8443B6C02A9865110086730C /* ClientSideNetworkHandler.cpp in Sources */,
 				8443B6C12A9865110086730C /* MinecraftPackets.cpp in Sources */,
 				8443B6C22A9865110086730C /* NetEventCallback.cpp in Sources */,
 				8443B6C32A9865110086730C /* AddPlayerPacket.cpp in Sources */,
@@ -2529,6 +2599,14 @@
 				849B93032A99C3D900CF0DE0 /* SoundRepository.cpp in Sources */,
 				849B93042A99C3D900CF0DE0 /* SoundSystem.cpp in Sources */,
 				843371332AA3375C009ABC2E /* Logger.cpp in Sources */,
+				848499A72AAECC1E00E682C5 /* App.cpp in Sources */,
+				848499A82AAECC1E00E682C5 /* AppPlatform.cpp in Sources */,
+				848499A92AAECC1E00E682C5 /* Minecraft.cpp in Sources */,
+				848499AA2AAECC1E00E682C5 /* NinecraftApp.cpp in Sources */,
+				848499AE2AAECC3700E682C5 /* ClientSideNetworkHandler.cpp in Sources */,
+				848499C62AAECDB800E682C5 /* GLExt.cpp in Sources */,
+				848499E12AAED3C100E682C5 /* Options.cpp in Sources */,
+				84849A0D2AAED9B100E682C5 /* GL.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

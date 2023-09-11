@@ -288,6 +288,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+#ifdef _WIN32
 	xglInit();
 
 	if (!xglInitted())
@@ -297,6 +298,7 @@ int main(int argc, char *argv[])
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
+#endif
 
 	// Setup Compatibility Layer If Needed
 #ifdef USE_GLES1_COMPATIBILITY_LAYER
