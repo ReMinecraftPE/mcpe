@@ -10,7 +10,7 @@
 
 #include <cstring>
 #include "Mth.hpp"
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 
 class Matrix
 {

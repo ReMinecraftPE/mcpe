@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "common/Options.hpp"
+#include "client/options/Options.hpp"
 
 class KeyboardInput
 {

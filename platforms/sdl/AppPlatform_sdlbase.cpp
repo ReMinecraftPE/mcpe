@@ -7,10 +7,12 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #else
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 #endif
 
 #include "common/Utils.hpp"
+
+#include "platforms/openal/SoundSystemAL.hpp"
 
 void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
 {
@@ -28,8 +30,22 @@ void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
 	m_pLogger = new Logger;
 }
 
+void AppPlatform_sdlbase::initSoundSystem()
+{
+	if (!m_pSoundSystem)
+		m_pSoundSystem = new SoundSystemAL();
+	else
+		LOG_E("Trying to initialize SoundSystem more than once!");
+}
+
 void AppPlatform_sdlbase::setIcon(const Texture& icon)
 {
+	if (!icon.m_pixels)
+		return;
+
+	SAFE_DELETE(_iconTexture);
+	if (_icon) SDL_FreeSurface(_icon);
+
     _iconTexture = new Texture(icon);
     _icon = getSurfaceForTexture(_iconTexture);
 	
@@ -39,8 +55,11 @@ void AppPlatform_sdlbase::setIcon(const Texture& icon)
 
 AppPlatform_sdlbase::~AppPlatform_sdlbase()
 {
-    SDL_FreeSurface(_icon);
-    delete _iconTexture;
+	if (_icon) SDL_FreeSurface(_icon);
+	SAFE_DELETE(_iconTexture);
+
+	SAFE_DELETE(m_pLogger);
+	SAFE_DELETE(m_pSoundSystem);
 }
 
 SDL_Surface* AppPlatform_sdlbase::getSurfaceForTexture(const Texture* const texture)

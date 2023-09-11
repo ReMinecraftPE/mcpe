@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Tesselator.hpp"
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 #include "common/Utils.hpp"
 
 #include <cstddef>

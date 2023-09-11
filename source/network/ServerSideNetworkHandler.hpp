@@ -10,7 +10,7 @@
 
 #include <map>
 #include "NetEventCallback.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 #include "RakNetInstance.hpp"
 #include "world/level/LevelListener.hpp"
 
@@ -29,10 +29,14 @@ typedef void(ServerSideNetworkHandler::* CommandFunction)(OnlinePlayer* player, 
 typedef std::map<std::string, CommandFunction> CommandMap;
 typedef std::map<RakNet::RakNetGUID, OnlinePlayer*> OnlinePlayerMap;
 
+// @TODO: Rename to ServerNetworkHandler?
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
 {
 public:
-	ServerSideNetworkHandler(Minecraft*, RakNetInstance*);
+
+	// @TODO: We can do the following to finally split Network code from Client code
+	// ServerSideNetworkHandler(GameCallbacks *gameCallbacks, Level* level, GameMode* gameMode, RakNetInstance* rakNetInstance, PacketSender* packetSender, Player* localPlayer);
+	ServerSideNetworkHandler(Minecraft* minecraft, RakNetInstance* rakNetInstance);
 	~ServerSideNetworkHandler();
 
 	// Overridden from NetEventCallback

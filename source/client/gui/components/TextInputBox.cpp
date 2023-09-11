@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TextInputBox.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 
 TextInputBox::TextInputBox(int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
@@ -111,16 +111,16 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 	char chr = '\0';
 
 	// here we'll just use the raw key codes...
-#ifdef _WIN32
-#define AKEYCODE_FORWARD_DEL VK_DELETE
-#define AKEYCODE_ARROW_LEFT  VK_LEFT
-#define AKEYCODE_ARROW_RIGHT VK_RIGHT
-#define AKEYCODE_DEL         VK_BACK
-#elif defined(USE_SDL)
+#ifdef USE_SDL
 #define AKEYCODE_FORWARD_DEL SDLVK_DELETE
 #define AKEYCODE_ARROW_LEFT  SDLVK_LEFT
 #define AKEYCODE_ARROW_RIGHT SDLVK_RIGHT
 #define AKEYCODE_DEL         SDLVK_BACKSPACE
+#elif defined(_WIN32)
+#define AKEYCODE_FORWARD_DEL VK_DELETE
+#define AKEYCODE_ARROW_LEFT  VK_LEFT
+#define AKEYCODE_ARROW_RIGHT VK_RIGHT
+#define AKEYCODE_DEL         VK_BACK
 #endif
 
 	switch (key)

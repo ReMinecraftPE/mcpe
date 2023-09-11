@@ -9,16 +9,17 @@
 #include <cstdarg>
 #include <WindowsX.h>
 
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 #include "compat/KeyCodes.hpp"
 
-#include "App.hpp"
-#include "AppPlatform_windows.hpp"
-#include "NinecraftApp.hpp"
+#include "client/app/App.hpp"
+#include "client/app/NinecraftApp.hpp"
+
+#include "AppPlatform_win32.hpp"
 
 LPCTSTR g_WindowClassName = TEXT("MCPEClass");
 
-AppPlatform_windows g_AppPlatform;
+AppPlatform_win32 g_AppPlatform;
 NinecraftApp* g_pApp;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
@@ -44,8 +45,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case WM_MOUSEMOVE:
 		case WM_MOUSEWHEEL:
 		{
-			Mouse::ButtonType buttonType = AppPlatform_windows::GetMouseButtonType(iMsg);
-			Mouse::ButtonState buttonState = AppPlatform_windows::GetMouseButtonState(iMsg, wParam);
+			Mouse::ButtonType buttonType = AppPlatform_win32::GetMouseButtonType(iMsg);
+			Mouse::ButtonState buttonState = AppPlatform_win32::GetMouseButtonState(iMsg, wParam);
 			int posX, posY;
 			if (iMsg == WM_MOUSEMOVE)
 			{
@@ -82,7 +83,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case WM_KEYUP:
 		case WM_KEYDOWN:
 		{
-			Keyboard::KeyState state = AppPlatform_windows::GetKeyState(iMsg);
+			Keyboard::KeyState state = AppPlatform_win32::GetKeyState(iMsg);
 			Keyboard::feed(state, int(wParam));
 
 			if (wParam == VK_SHIFT)
@@ -121,7 +122,7 @@ void CheckOptionalTextureAvailability()
 	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 #if defined(_DEBUG) && defined(MOD_POPOUT_CONSOLE)
 	AllocConsole();
@@ -154,13 +155,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	int w = wr.right - wr.left;
 	int h = wr.bottom - wr.top;
 
+	const char* windowTitle = g_AppPlatform.getWindowTitle();
+	// Dumb Unicode bullshit
+	//LPTSTR windowTitle;
+	//mbstowcs(&windowTitle, windowTitleStr, 255);
+
 	if (!RegisterClass(&wc))
 	{
-		MessageBox(NULL, TEXT("Could not register Minecraft class"), g_AppPlatform.getWindowTitle(), MB_ICONERROR | MB_OK);
+		MessageBox(NULL, TEXT("Could not register Minecraft class"), windowTitle, MB_ICONERROR | MB_OK);
 		return 1;
 	}
 
-	HWND hWnd = CreateWindowEx(0, g_WindowClassName, g_AppPlatform.getWindowTitle(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w, h, NULL, NULL, hInstance, g_pApp);
+	HWND hWnd = CreateWindowEx(0, g_WindowClassName, windowTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w, h, NULL, NULL, hInstance, g_pApp);
 
 	CenterWindow(hWnd);
 	ShowWindow(hWnd, nCmdShow);
@@ -173,7 +179,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLin
 	xglInit();
 
 	if (!xglInitted())
+	{
+		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
+		LOG_E(GL_ERROR_MSG);
+		MessageBoxA(GetHWND(), GL_ERROR_MSG, "OpenGL Error", MB_OK);
+
 		goto _cleanup;
+	}
 
 	xglSwapIntervalEXT(1);
 

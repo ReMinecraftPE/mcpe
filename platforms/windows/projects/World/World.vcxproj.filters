@@ -1,0 +1,701 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{8e196d0f-b0c2-4bd7-9959-5f9673ddeafa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{c4c1e349-2a48-400c-a321-67e767542489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameMode">
+      <UniqueIdentifier>{b36492c5-22b7-435d-8810-d37d8890c2e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameMode">
+      <UniqueIdentifier>{a0916567-efd3-4122-8e9c-8d99d0399fb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Item">
+      <UniqueIdentifier>{2d57ad9e-77e2-44af-8bf6-093cea1b3d48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Item">
+      <UniqueIdentifier>{a159d1d1-43d9-4fcc-b16d-56020b822e2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level">
+      <UniqueIdentifier>{52b36ef0-b213-48a6-90fb-4b3a53bf35d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level">
+      <UniqueIdentifier>{5993bd88-cfbf-4b1c-90a8-67262019470d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level\LevelGen">
+      <UniqueIdentifier>{06fe52d1-d53b-42b4-a8b7-17841a0753d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level\LevelGen\Biome">
+      <UniqueIdentifier>{60d7c6d4-bc35-48ab-9548-4e16ce0b90e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level\LevelGen\Chunk">
+      <UniqueIdentifier>{47e37297-ab75-43a2-9179-e65930488e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level\LevelGen\Feature">
+      <UniqueIdentifier>{b2b7429c-ba0b-4ca5-a1af-8741b34ec7df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level\LevelGen\Synth">
+      <UniqueIdentifier>{50ac908a-d9e0-4f2b-9130-900030aee553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level\LevelGen">
+      <UniqueIdentifier>{01cfc8fd-ce93-42a8-9eb7-69a476152cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level\LevelGen\Biome">
+      <UniqueIdentifier>{b3c1b382-77ca-4600-842b-8b1e7a0dd83f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level\LevelGen\Chunk">
+      <UniqueIdentifier>{88719547-e8c2-4324-8938-a1fb04f54057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level\LevelGen\Feature">
+      <UniqueIdentifier>{bee74d7e-5f73-4b3b-a625-e2e291ddafa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level\LevelGen\Synth">
+      <UniqueIdentifier>{d3013a28-dd1a-4f42-9233-d98b74ed0392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level\Storage">
+      <UniqueIdentifier>{6ebf1e1e-6f44-4b31-8aea-c7834e590ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Level\Storage">
+      <UniqueIdentifier>{c527a004-8467-42e3-9e3c-b6d6f985fc3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Particle">
+      <UniqueIdentifier>{42d5edd1-bf33-499c-aa89-f46ac506ef50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Particle">
+      <UniqueIdentifier>{e10546bd-90d8-457a-905c-57a3439d9887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Phys">
+      <UniqueIdentifier>{987e2328-762d-4e87-b12b-9e50dc1fdf49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Phys">
+      <UniqueIdentifier>{61e16385-7d9c-4832-949a-0fe01e93a8f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tile">
+      <UniqueIdentifier>{c0a0879f-328c-4099-83fe-b0e4f8c771a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tile">
+      <UniqueIdentifier>{e95f234e-9d07-4e31-98c2-92b6c56554a8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\source\world\entity\Entity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\FallingTile.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\ItemEntity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\LocalPlayer.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\Mob.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\Player.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\PrimedTnt.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\TripodCamera.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\gamemode\CreativeMode.cpp">
+      <Filter>Source Files\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\gamemode\GameMode.cpp">
+      <Filter>Source Files\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\gamemode\SurvivalMode.cpp">
+      <Filter>Source Files\GameMode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\CameraItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\DoorItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\Inventory.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\Item.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\ItemInstance.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\TileItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\TilePlanterItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\TickNextTickData.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\Dimension.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\Explosion.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\Level.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\LevelListener.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\Material.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\Region.cpp">
+      <Filter>Source Files\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\biome\BiomeSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Biome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\biome\Biome.cpp">
+      <Filter>Source Files\Level\LevelGen\Biome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkCache.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\LevelChunk.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\RandomLevelSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\TestChunkSource.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\BirchFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\ClayFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\Feature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\FlowerFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\LargeCaveFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\LargeFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\OreFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\PineFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\ReedsFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\SpringFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\SpruceFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\TreeFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\ImprovedNoise.cpp">
+      <Filter>Source Files\Level\LevelGen\Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\PerlinNoise.cpp">
+      <Filter>Source Files\Level\LevelGen\Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\Synth.cpp">
+      <Filter>Source Files\Level\LevelGen\Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\ChunkStorage.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorage.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorageSource.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelData.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelSource.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelStorage.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelStorageSource.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryChunkStorage.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryLevelStorage.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryLevelStorageSource.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\storage\RegionFile.cpp">
+      <Filter>Source Files\Level\Storage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\BubbleParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\ExplodeParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\FlameParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\LavaParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\Particle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\ParticleEngine.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\RedDustParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\SmokeParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\particle\TerrainParticle.cpp">
+      <Filter>Source Files\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\phys\Vec3.cpp">
+      <Filter>Source Files\Phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\phys\AABB.cpp">
+      <Filter>Source Files\Phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\phys\HitResult.cpp">
+      <Filter>Source Files\Phys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\BookshelfTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\Bush.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\ClayTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\ClothTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\DirtTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\DoorTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\FarmTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\FireTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\GlassTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\GrassTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\GravelTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\HalfTransparentTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\IceTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\InvisibleTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\LadderTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\LeafTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTileDynamic.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTileStatic.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\MetalTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\ObsidianTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\OreTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\RedStoneOreTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\ReedTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\SandStoneTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\SandTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\Sapling.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\SpongeTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\StairTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\StoneSlabTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\StoneTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\Tile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\TntTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\TopSnowTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\TorchTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\TransparentTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\TreeTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\WireTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\source\world\entity\Entity.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\FallingTile.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\ItemEntity.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\LocalPlayer.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\Mob.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\Player.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\PrimedTnt.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\TripodCamera.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\gamemode\CreativeMode.hpp">
+      <Filter>Header Files\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\gamemode\GameMode.hpp">
+      <Filter>Header Files\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\gamemode\SurvivalMode.hpp">
+      <Filter>Header Files\GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\CameraItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\DoorItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\Inventory.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\Item.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\ItemInstance.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\TileItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\TilePlanterItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\Dimension.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\Explosion.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\Level.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\LevelListener.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\Material.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\Region.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\TickNextTickData.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\biome\Biome.hpp">
+      <Filter>Header Files\Level\LevelGen\Biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\biome\BiomeSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Biome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkCache.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\LevelChunk.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\RandomLevelSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\TestChunkSource.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\Feature.hpp">
+      <Filter>Header Files\Level\LevelGen\Feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\LargeCaveFeature.hpp">
+      <Filter>Header Files\Level\LevelGen\Feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\LargeFeature.hpp">
+      <Filter>Header Files\Level\LevelGen\Feature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\ImprovedNoise.hpp">
+      <Filter>Header Files\Level\LevelGen\Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\PerlinNoise.hpp">
+      <Filter>Header Files\Level\LevelGen\Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\Synth.hpp">
+      <Filter>Header Files\Level\LevelGen\Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\ChunkStorage.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorage.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorageSource.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelData.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelSource.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelStorage.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelStorageSource.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryChunkStorage.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryLevelStorage.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryLevelStorageSource.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\storage\RegionFile.hpp">
+      <Filter>Header Files\Level\Storage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\particle\Particle.hpp">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\particle\ParticleEngine.hpp">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\phys\AABB.hpp">
+      <Filter>Header Files\Phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\phys\HitResult.hpp">
+      <Filter>Header Files\Phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\phys\Vec3.hpp">
+      <Filter>Header Files\Phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\BookshelfTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\Bush.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\ClayTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\ClothTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\DirtTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\DoorTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\FarmTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\FireTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\GlassTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\GrassTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\GravelTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\HalfTransparentTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\IceTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\InvisibleTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\LadderTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\LeafTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTileDynamic.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTileStatic.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\MetalTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\ObsidianTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\OreTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\RedStoneOreTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\ReedTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\SandStoneTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\SandTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\Sapling.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\SpongeTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\StairTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\StoneSlabTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\StoneTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\Tile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\TntTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\TopSnowTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\TorchTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\TransparentTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\TreeTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\WireTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

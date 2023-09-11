@@ -8,7 +8,7 @@
 
 #include "HumanoidMobRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 #include "client/renderer/ItemInHandRenderer.hpp"
 #include "client/renderer/TileRenderer.hpp"
 #include "world/entity/Player.hpp"

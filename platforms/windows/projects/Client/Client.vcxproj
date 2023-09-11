@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_SDL2|Win32">
+      <Configuration>Debug_SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_SDL2|x64">
+      <Configuration>Debug_SDL2</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL2|Win32">
+      <Configuration>Release_SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL2|x64">
+      <Configuration>Release_SDL2</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a6e03dca-99f6-45b8-800d-73060ae407fc}</ProjectGuid>
+    <RootNamespace>Client</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\GameMods.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\app\App.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\app\AppPlatform.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\app\Minecraft.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\app\NinecraftApp.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\AvailableGamesList.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\Button.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\RolledSelectionList.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\ScrolledSelectionList.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\SmallButton.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\TextInputBox.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\WorldSelectionList.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\Gui.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\GuiComponent.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\Screen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\ChatScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\ConfirmScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\CreateWorldScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\DeathScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\DeleteWorldScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\DirectConnectScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\IngameBlockSelectionScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\InvalidLicenseScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\JoinGameScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\OptionsScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\PauseScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\ProgressScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\RenameMPLevelScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\SavingWorldScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\StartMenuScreen.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\Cube.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\HumanoidModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\Model.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\PolygonQuad.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\network\ClientSideNetworkHandler.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\options\Options.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\Controller.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\ControllerTurnInput.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\ITurnInput.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\Keyboard.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\KeyboardInput.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\Mouse.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\MouseTurnInput.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\User.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\Chunk.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\Culler.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\DynamicTexture.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\EntityRenderDispatcher.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\EntityRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\FallingTileRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\HumanoidMobRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ItemRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ItemSpriteRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\MobRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\TntRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\TripodCameraRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\Font.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\Frustum.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\FrustumCuller.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\GameRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\ItemInHandRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\LevelRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\LightLayer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\LightUpdate.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\PatchManager.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\RenderChunk.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\RenderList.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\Tesselator.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\Texture.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\Textures.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\TileRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\VertexPT.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\sound\SoundData.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\sound\SoundDefs.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\sound\SoundEngine.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\sound\SoundRepository.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\sound\SoundSystem.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\source\client\app\App.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\app\AppPlatform.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\app\Minecraft.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\app\NinecraftApp.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\AvailableGamesList.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\Button.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\RolledSelectionList.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\ScrolledSelectionList.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\SmallButton.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\TextInputBox.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\WorldSelectionList.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\Gui.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\GuiComponent.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\Screen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\ChatScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\ConfirmScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\CreateWorldScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\DeathScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\DeleteWorldScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\DirectConnectScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\IngameBlockSelectionScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\InvalidLicenseScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\JoinGameScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\OptionsScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\PauseScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\ProgressScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\RenameMPLevelScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\SavingWorldScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\StartMenuScreen.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\Cube.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\HumanoidModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\Model.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\PolygonQuad.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\network\ClientSideNetworkHandler.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\options\Options.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\Controller.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\ControllerTurnInput.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\ITurnInput.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\Keyboard.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\KeyboardInput.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\Mouse.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\MouseTurnInput.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\Chunk.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\Culler.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\DynamicTexture.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\EntityRenderDispatcher.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\EntityRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\FallingTileRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\HumanoidMobRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ItemRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ItemSpriteRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\MobRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\TntRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\TripodCameraRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\FireTexture.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\Font.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\Frustum.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\FrustumCuller.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\GameRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\ItemInHandRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\LavaSideTexture.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\LavaTexture.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\LevelRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\LightLayer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\LightUpdate.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\PatchManager.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\RenderChunk.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\RenderList.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\Tesselator.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\Textures.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\TileRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\WaterSideTexture.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\WaterTexture.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\sound\SoundData.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\sound\SoundEngine.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\sound\SoundRepository.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\sound\SoundSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Network\Network.vcxproj">
+      <Project>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

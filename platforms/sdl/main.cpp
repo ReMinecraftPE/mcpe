@@ -1,9 +1,9 @@
 #include <cstdarg>
 
-#include <SDL2/SDL.h>
+#include "thirdparty/SDL2/SDL2.h"
 
-#include "compat/GL.hpp"
-#include "App.hpp"
+#include "thirdparty/GL/GL.hpp"
+#include "client/app/App.hpp"
 
 #if	  defined(__EMSCRIPTEN__)
 #include "../emscripten/AppPlatform_emscripten.hpp"
@@ -13,7 +13,7 @@ typedef AppPlatform_emscripten UsedAppPlatform;
 typedef AppPlatform_sdl UsedAppPlatform;
 #endif
 
-#include "NinecraftApp.hpp"
+#include "client/app/NinecraftApp.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -23,6 +23,8 @@ typedef AppPlatform_sdl UsedAppPlatform;
 #define EM_TRUE true
 #define EM_FALSE false
 #endif
+
+#undef main
 
 static float g_fPointToPixelScale = 1.0f;
 
@@ -241,7 +243,7 @@ int main(int argc, char *argv[])
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		LOG_E("Unable To Initialize SDL: %s\n", SDL_GetError());
+		LOG_E("Unable To Initialize SDL: %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 
@@ -269,7 +271,7 @@ int main(int argc, char *argv[])
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
 	if (!window)
 	{
-		LOG_E("Unable to create SDL window\n");
+		LOG_E("Unable to create SDL window");
 		exit(EXIT_FAILURE);
 	}
 
@@ -280,7 +282,19 @@ int main(int argc, char *argv[])
 	context = SDL_GL_CreateContext(window);
 	if (!context)
 	{
-		LOG_E("Unable to create OpenGL context\n");
+		const char* const GL_ERROR_MSG = "Unable to create OpenGL context";
+		LOG_E(GL_ERROR_MSG);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
+		exit(EXIT_FAILURE);
+	}
+
+	xglInit();
+
+	if (!xglInitted())
+	{
+		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
+		LOG_E(GL_ERROR_MSG);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
 

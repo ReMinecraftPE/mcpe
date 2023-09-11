@@ -668,6 +668,7 @@
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zconf.h" />
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zlib.h" />
     <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zutil.h" />
+    <ClInclude Include="..\..\..\source\common\Logger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\compat\GLExt.cpp" />
@@ -1012,6 +1013,7 @@
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\trees.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\uncompr.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\zutil.c" />
+    <ClCompile Include="..\..\..\source\common\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MC_ROOT)\thirdparty\raknet\CMakeLists.txt" />

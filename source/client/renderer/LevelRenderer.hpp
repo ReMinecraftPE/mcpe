@@ -10,7 +10,7 @@
 
 #include <algorithm>
 #include <sstream>
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 #include "world/level/LevelListener.hpp"
 #include "Textures.hpp"
 #include "RenderList.hpp"

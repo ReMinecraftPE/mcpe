@@ -3,8 +3,8 @@
 #ifdef USE_OPENAL
 
 #ifdef _WIN32
-#include <thirdparty/OpenAL/Include/al.h>
-#include <thirdparty/OpenAL/Include/alc.h>
+#include <al.h>
+#include <alc.h>
 #pragma comment( lib, "OpenAl32.lib" )
 #elif defined(__APPLE__)
 #include <OpenAL/al.h>

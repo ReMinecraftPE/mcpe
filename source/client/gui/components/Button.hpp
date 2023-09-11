@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../GuiComponent.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 class Screen;
 

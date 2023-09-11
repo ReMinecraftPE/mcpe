@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_SDL2|Win32">
+      <Configuration>Debug_SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_SDL2|x64">
+      <Configuration>Debug_SDL2</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL2|Win32">
+      <Configuration>Release_SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL2|x64">
+      <Configuration>Release_SDL2</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{5f7cd8c1-413c-4855-a450-2c765f16c5a4}</ProjectGuid>
+    <RootNamespace>World</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\source\world\entity\Entity.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\entity\FallingTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\entity\ItemEntity.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\entity\LocalPlayer.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\entity\Mob.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\entity\Player.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\entity\PrimedTnt.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\entity\TripodCamera.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\gamemode\CreativeMode.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\gamemode\GameMode.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\gamemode\SurvivalMode.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\item\CameraItem.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\item\DoorItem.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\item\Inventory.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\item\Item.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\item\ItemInstance.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\item\TileItem.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\item\TilePlanterItem.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\Dimension.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\Explosion.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\Level.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\biome\Biome.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\biome\BiomeSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkCache.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\LevelChunk.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\RandomLevelSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\TestChunkSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\BirchFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\ClayFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\Feature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\FlowerFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\LargeCaveFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\LargeFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\OreFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\PineFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\ReedsFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\SpringFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\SpruceFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\TreeFeature.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\ImprovedNoise.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\PerlinNoise.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\Synth.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\LevelListener.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\Material.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\Region.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\ChunkStorage.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorage.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorageSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelData.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelStorage.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelStorageSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryChunkStorage.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryLevelStorage.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryLevelStorageSource.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\storage\RegionFile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\level\TickNextTickData.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\BubbleParticle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\ExplodeParticle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\FlameParticle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\LavaParticle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\Particle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\ParticleEngine.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\RedDustParticle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\SmokeParticle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\particle\TerrainParticle.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\phys\AABB.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\phys\HitResult.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\phys\Vec3.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\BookshelfTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\Bush.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\ClayTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\ClothTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\DirtTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\DoorTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\FarmTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\FireTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\GlassTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\GrassTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\GravelTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\HalfTransparentTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\IceTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\InvisibleTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\LadderTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\LeafTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTileDynamic.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTileStatic.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\MetalTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\ObsidianTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\OreTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\RedStoneOreTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\ReedTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\SandStoneTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\SandTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\Sapling.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\SpongeTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\StairTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\StoneSlabTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\StoneTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\Tile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\TntTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\TopSnowTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\TorchTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\TransparentTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\TreeTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\WireTile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\source\world\entity\Entity.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\entity\FallingTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\entity\ItemEntity.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\entity\LocalPlayer.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\entity\Mob.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\entity\Player.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\entity\PrimedTnt.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\entity\TripodCamera.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\gamemode\CreativeMode.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\gamemode\GameMode.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\gamemode\SurvivalMode.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\item\CameraItem.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\item\DoorItem.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\item\Inventory.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\item\Item.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\item\ItemInstance.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\item\TileItem.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\item\TilePlanterItem.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\Dimension.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\Explosion.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\Level.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\biome\Biome.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\biome\BiomeSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkCache.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\LevelChunk.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\RandomLevelSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\TestChunkSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\Feature.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\LargeCaveFeature.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\LargeFeature.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\ImprovedNoise.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\PerlinNoise.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\Synth.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\LevelListener.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\Material.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\Region.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\ChunkStorage.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorage.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorageSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelData.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelStorage.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelStorageSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryChunkStorage.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryLevelStorage.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryLevelStorageSource.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\storage\RegionFile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\level\TickNextTickData.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\particle\Particle.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\particle\ParticleEngine.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\phys\AABB.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\phys\HitResult.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\phys\Vec3.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\BookshelfTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\Bush.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\ClayTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\ClothTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\DirtTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\DoorTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\FarmTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\FireTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\GlassTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\GrassTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\GravelTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\HalfTransparentTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\IceTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\InvisibleTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\LadderTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\LeafTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTileDynamic.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTileStatic.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\MetalTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\ObsidianTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\OreTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\RedStoneOreTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\ReedTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\SandStoneTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\SandTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\Sapling.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\SpongeTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\StairTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\StoneSlabTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\StoneTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\Tile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\TntTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\TopSnowTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\TorchTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\TransparentTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\TreeTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\WireTile.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

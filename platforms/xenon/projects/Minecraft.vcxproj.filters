@@ -1170,6 +1170,9 @@
     <ClInclude Include="$(MC_ROOT)\compat\AKeyCodes.hpp">
       <Filter>thirdparty</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\common\Logger.hpp">
+      <Filter>source\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\TwoWayAuthentication.cpp">
@@ -2197,6 +2200,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemWindows.cpp">
       <Filter>source\platforms\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\common\Logger.cpp">
+      <Filter>source\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

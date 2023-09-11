@@ -5,15 +5,16 @@
 #include <sys/stat.h>
 #include <cerrno>
 
-#include <png.h>
+#include "thirdparty/LibPNG/png.h"
 
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 
 #include "common/Utils.hpp"
 
 AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
     : AppPlatform_sdlbase(storageDir, window)
 {
+	setIcon(loadTexture("icon.png"));
 }
 
 // Take Screenshot
@@ -27,7 +28,7 @@ static int save_png(const char *filename, unsigned char *pixels, int line_size, 
 	png_infop info = NULL;
 	FILE *file = NULL;
 	png_colorp palette = NULL;
-	png_bytep rows[height];
+	png_bytep *rows = new png_bytep[height];
 	for (int i = 0; i < height; ++i)
 	{
 		rows[height - i - 1] = (png_bytep)(&pixels[i * line_size]);
@@ -78,6 +79,10 @@ ret:
 	{
 		png_free(png, palette);
 	}
+	if (rows != NULL)
+	{
+		delete rows;
+	}
 	if (file != NULL)
 	{
 		fclose(file);
@@ -100,9 +105,9 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	{
 		// Create Screenshots Folder
 #ifdef _WIN32
-		int ret = mkdir(path);
+		int ret = _mkdir(path);
 #else
-		int ret = mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+		int ret = _mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif
 		if (ret != 0)
 		{
@@ -133,7 +138,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	int num = 1;
 	const std::string path = screenshots + "/";
 	std::string file = path + time + ".png";
-	while (access(file.c_str(), F_OK) != -1)
+	while (_access(file.c_str(), F_OK) != -1)
 	{
 		file = path + SSTR(time << "-" << num << ".png");
 		num++;
@@ -211,81 +216,82 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 
 	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
 
-	if (io != NULL)
+	if (!io)
 	{
-		png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, nop_png_warning);
-		if (!pngPtr)
-		{
-			return out;
-		}
-
-		png_infop infoPtr = png_create_info_struct(pngPtr);
-		if (!infoPtr)
-		{
-			png_destroy_read_struct(&pngPtr, NULL, NULL);
-			return out;
-		}
-
-		png_set_read_fn(pngPtr, (png_voidp) io, png_read_sdl);
-
-		png_read_info(pngPtr, infoPtr);
-
-		png_set_expand(pngPtr);
-		png_set_strip_16(pngPtr);
-		png_set_gray_to_rgb(pngPtr);
-		png_read_update_info(pngPtr, infoPtr);
-
-		out.m_width = png_get_image_width(pngPtr, infoPtr);
-		out.m_height = png_get_image_height(pngPtr, infoPtr);
-
-		int pixelSize = 4;
-
-		png_bytep *rowPtrs = new png_bytep[out.m_height];
-		unsigned char *pixels = new unsigned char[pixelSize * out.m_width * out.m_height];
-
-		int rowStrideBytes = pixelSize * out.m_width;
-		for (int i = 0; i < out.m_height; i++)
-		{
-			rowPtrs[i] = (png_bytep) &pixels[i * rowStrideBytes];
-		}
-		png_read_image(pngPtr, rowPtrs);
-
-		// Convert RGB Images To RGBA
-		bool opaque = png_get_color_type(pngPtr, infoPtr) != PNG_COLOR_TYPE_RGBA;
-		if (opaque)
-		{
-			for (int y = 0; y < out.m_height; y++)
-			{
-				unsigned char *row = &pixels[y * rowStrideBytes];
-				for (int x = out.m_width - 1; x >= 0; x--)
-				{
-					// Find Indexes
-					int rgb = x * 3;
-					int rgba = x * 4;
-
-					// Read RGB Pixel
-					unsigned char a = row[rgb];
-					unsigned char b = row[rgb + 1];
-					unsigned char c = row[rgb + 2];
-
-					// Store RGBA Pixel
-					row[rgba] = a;
-					row[rgba + 1] = b;
-					row[rgba + 2] = c;
-					row[rgba + 3] = 255;
-				}
-			}
-		}
-
-		out.m_pixels = (uint32_t *) pixels;
-
-		png_destroy_read_struct(&pngPtr, &infoPtr, (png_infopp) 0);
-		delete[](png_bytep) rowPtrs;
-		SDL_RWclose(io);
+		LOG_E("Couldn't find file: %s", path.c_str());
+		return out;
 	}
 
-  // TODO: I don't think this logic makes any sense
-	LOG_E("Couldn't find file: %s", path.c_str());
+	png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, nop_png_warning);
+	if (!pngPtr)
+	{
+		return out;
+	}
+
+	png_infop infoPtr = png_create_info_struct(pngPtr);
+	if (!infoPtr)
+	{
+		png_destroy_read_struct(&pngPtr, NULL, NULL);
+		return out;
+	}
+
+	png_set_read_fn(pngPtr, (png_voidp) io, png_read_sdl);
+
+	png_read_info(pngPtr, infoPtr);
+
+	png_set_expand(pngPtr);
+	png_set_strip_16(pngPtr);
+	png_set_gray_to_rgb(pngPtr);
+	png_read_update_info(pngPtr, infoPtr);
+
+	out.m_width = png_get_image_width(pngPtr, infoPtr);
+	out.m_height = png_get_image_height(pngPtr, infoPtr);
+
+	int pixelSize = 4;
+
+	png_bytep *rowPtrs = new png_bytep[out.m_height];
+	unsigned char *pixels = new unsigned char[pixelSize * out.m_width * out.m_height];
+
+	int rowStrideBytes = pixelSize * out.m_width;
+	for (int i = 0; i < out.m_height; i++)
+	{
+		rowPtrs[i] = (png_bytep) &pixels[i * rowStrideBytes];
+	}
+	png_read_image(pngPtr, rowPtrs);
+
+	// Convert RGB Images To RGBA
+	bool opaque = png_get_color_type(pngPtr, infoPtr) != PNG_COLOR_TYPE_RGBA;
+	if (opaque)
+	{
+		for (int y = 0; y < out.m_height; y++)
+		{
+			unsigned char *row = &pixels[y * rowStrideBytes];
+			for (int x = out.m_width - 1; x >= 0; x--)
+			{
+				// Find Indexes
+				int rgb = x * 3;
+				int rgba = x * 4;
+
+				// Read RGB Pixel
+				unsigned char a = row[rgb];
+				unsigned char b = row[rgb + 1];
+				unsigned char c = row[rgb + 2];
+
+				// Store RGBA Pixel
+				row[rgba] = a;
+				row[rgba + 1] = b;
+				row[rgba + 2] = c;
+				row[rgba + 3] = 255;
+			}
+		}
+	}
+
+	out.m_pixels = (uint32_t *) pixels;
+
+	png_destroy_read_struct(&pngPtr, &infoPtr, (png_infopp) 0);
+	delete[](png_bytep) rowPtrs;
+	SDL_RWclose(io);
+
 	return out;
 }
 

@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "GameMode.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 GameMode::GameMode(Minecraft* pMinecraft) :
 	m_pMinecraft(pMinecraft),

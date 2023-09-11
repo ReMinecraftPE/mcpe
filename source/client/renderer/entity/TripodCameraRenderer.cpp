@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TripodCameraRenderer.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 TripodCameraRenderer::TripodCameraRenderer() :
 	m_tile(),

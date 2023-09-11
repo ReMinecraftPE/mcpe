@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "HumanoidModel.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 HumanoidModel::HumanoidModel(float a, float b):
 	m_head(0,  0),

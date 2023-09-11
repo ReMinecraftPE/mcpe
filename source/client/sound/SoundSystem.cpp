@@ -8,6 +8,10 @@
 
 #include "SoundSystem.hpp"
 
+SoundSystem::~SoundSystem()
+{
+}
+
 bool SoundSystem::isAvailable()
 {
 	return false;

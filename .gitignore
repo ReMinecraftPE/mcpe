@@ -380,6 +380,9 @@ xcuserdata/
 ## Kill .DS_Store
 **/.DS_Store
 
+## Build results
+Win32/
+
 /minecraftpe/assets/font
 /minecraftpe/assets/gui
 /minecraftpe/assets/item

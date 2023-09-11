@@ -9,7 +9,7 @@
 #pragma once
 
 #include "ITurnInput.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 class Minecraft;
 
 class MouseTurnInput : public ITurnInput
