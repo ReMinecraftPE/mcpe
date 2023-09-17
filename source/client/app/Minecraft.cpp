@@ -357,17 +357,119 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 
 void Minecraft::handleMouseClick(int type)
 {
-	if (!isTouchscreen())
+	int a;
+
+	HitResult& hr = m_hitResult;
+
+	// @TODO: fix goto hell
+	if (type == 1)
 	{
-		if (type == 1)
+		if (field_DA4 > 0)
+			return;
+
+		m_pLocalPlayer->swing();
+
+		if (m_hitResult.m_hitType != HitResult::NONE)
+			goto label_3;
+
+	label_9:
+		if (type != 1)
+			goto label_5;
+
+		if (!m_pGameMode->isCreativeType())
+			field_DA4 = 10;
+
+		return;
+	}
+
+	if (m_hitResult.m_hitType == HitResult::NONE)
+		goto label_9;
+
+label_3:
+	if (m_hitResult.m_hitType != HitResult::ENTITY)
+	{
+		if (m_hitResult.m_hitType != HitResult::AABB)
+			goto label_5;
+
+		// @NOTE: extra scope to avoid error
 		{
-			BuildActionIntention bai(INTENT_HELD);
-			handleBuildAction(&bai);
+			Tile* pTile = Tile::tiles[m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ)];
+
+			if (type == 1)
+			{
+				if (pTile)
+				{
+					// @BUG: This is only done on the client side.
+					m_pLevel->extinguishFire(hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide);
+
+                    if (pTile != Tile::unbreakable || (m_pLocalPlayer->field_B94 > 99 && !hr.m_bUnk24))
+					{
+						m_pGameMode->startDestroyBlock(hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide);
+					}
+				}
+				return;
+			}
+
+			ItemInstance* pItem = getSelectedItem();
+
+			if (m_pGameMode->useItemOn(m_pLocalPlayer, m_pLevel, pItem->m_itemID <= 0 ? nullptr : pItem, hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide))
+			{
+				m_pLocalPlayer->swing();
+				if (!isOnline())
+					return;
+
+				if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
+					return;
+
+				int dx = hr.m_tileX, dz = hr.m_tileZ;
+				uint8_t dy = uint8_t(hr.m_tileY);
+
+				if (m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ) != Tile::topSnow->m_ID)
+				{
+					switch (hr.m_hitSide)
+					{
+                        case HitResult::NOHIT: break;
+                        case HitResult::MINY: dy--; break;
+                        case HitResult::MAXY: dy++; break;
+                        case HitResult::MINZ: dz--; break;
+                        case HitResult::MAXZ: dz++; break;
+                        case HitResult::MINX: dx--; break;
+                        case HitResult::MAXX: dx++; break;
+					}
+				}
+
+				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(pItem->m_itemID), uint8_t(hr.m_hitSide)));
+				return;
+			}
 		}
-		if (type == 2)
+
+	label_5:
+		if (type != 2)
+			return;
+		goto label_15;
+	}
+
+	if (type == 1)
+	{
+		m_pGameMode->attack(m_pLocalPlayer, hr.m_pEnt);
+		return;
+	}
+
+	if (type == 2)
+	{
+		a = hr.m_pEnt->interactPreventDefault();
+		m_pGameMode->interact(m_pLocalPlayer, hr.m_pEnt);
+		if (!a)
 		{
-			BuildActionIntention bai(INTENT_CLICKED);
-			handleBuildAction(&bai);
+		label_15:
+			int id = m_pLocalPlayer->m_pInventory->getSelectedItemId();
+			if (id > 0)
+			{
+				ItemInstance* pItem = getSelectedItem();
+
+				if (m_pGameMode->useItem(m_pLocalPlayer, m_pLevel, pItem))
+					m_pGameRenderer->m_pItemInHandRenderer->itemUsed();
+			}
 		}
 	}
 }
