@@ -17,6 +17,7 @@
 #include "network/RakNetInstance.hpp"
 #include "network/NetEventCallback.hpp"
 #include "client/player/input/ITurnInput.hpp"
+#include "client/player/input/BuildActionIntention.hpp"
 #include "client/renderer/GameRenderer.hpp"
 #include "client/renderer/LevelRenderer.hpp"
 #include "client/renderer/entity/EntityRenderDispatcher.hpp"
@@ -43,6 +44,7 @@ public:
 	void saveOptions();
 	void handleMouseClick(int type);
 	void handleMouseDown(int type, bool b);
+	void handleBuildAction(BuildActionIntention*);
 	bool isLevelGenerated();
 	void selectLevel(const std::string&, const std::string&, int);
 	void setLevel(Level*, const std::string&, LocalPlayer*);

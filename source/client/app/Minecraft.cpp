@@ -230,6 +230,114 @@ void Minecraft::handleMouseDown(int type, bool b)
 	}
 }
 
+void Minecraft::handleBuildAction(BuildActionIntention* pAction)
+{
+	if (pAction->isRemove())
+	{
+		if (field_DA4 > 0)
+			return;
+
+		m_pLocalPlayer->swing();
+	}
+
+	bool bInteract = true;
+	if (!m_hitResult.isHit())
+	{
+		if (pAction->isRemove() && !m_pGameMode->isCreativeType())
+			field_DA4 = 10;
+	}
+	else if (m_hitResult.m_hitType == HitResult::ENTITY)
+	{
+		if (pAction->isAttack())
+		{
+			m_pGameMode->attack(m_pLocalPlayer, m_hitResult.m_pEnt);
+		}
+		else if (pAction->isInteract())
+		{
+			if (m_hitResult.m_pEnt->interactPreventDefault())
+				bInteract = false;
+
+			m_pGameMode->interact(m_pLocalPlayer, m_hitResult.m_pEnt);
+		}
+	}
+	else if (m_hitResult.m_hitType == HitResult::AABB)
+	{
+		Tile* pTile = Tile::tiles[m_pLevel->getTile(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ)];
+
+		if (pAction->isRemove())
+		{
+			if (!pTile)
+				return;
+
+			// @BUG: This is only done on the client side.
+			m_pLevel->extinguishFire(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ, m_hitResult.m_hitSide);
+
+			if (pTile != Tile::unbreakable || (m_pLocalPlayer->field_B94 > 99 && m_hitResult.m_bUnk24 != 1))
+			{
+				m_pGameMode->startDestroyBlock(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ, m_hitResult.m_hitSide);
+			}
+		}
+		else
+		{
+			ItemInstance* pItem = getSelectedItem();
+			if (m_pGameMode->useItemOn(
+					m_pLocalPlayer,
+					m_pLevel,
+					pItem->m_itemID <= 0 ? nullptr : pItem,
+					m_hitResult.m_tileX,
+					m_hitResult.m_tileY,
+					m_hitResult.m_tileZ,
+					m_hitResult.m_hitSide))
+			{
+				bInteract = false;
+
+				m_pLocalPlayer->swing();
+
+				if (isOnline())
+				{
+					if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
+						return;
+
+					int dx = m_hitResult.m_tileX, dz = m_hitResult.m_tileZ;
+					uint8_t dy = uint8_t(m_hitResult.m_tileY);
+
+					uint8_t hitSide = m_hitResult.m_hitSide;
+
+					if (m_pLevel->getTile(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ) != Tile::topSnow->m_ID)
+					{
+						switch (m_hitResult.m_hitSide)
+						{
+							case HitResult::NOHIT: break;
+							case HitResult::MINY: dy--; break;
+							case HitResult::MAXY: dy++; break;
+							case HitResult::MINZ: dz--; break;
+							case HitResult::MAXZ: dz++; break;
+							case HitResult::MINX: dx--; break;
+							case HitResult::MAXX: dx++; break;
+						}
+					}
+					else
+					{
+						hitSide = HitResult::MINY;
+					}
+
+					m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(pItem->m_itemID), hitSide));
+				}
+			}
+		}
+	}
+
+	if (bInteract && pAction->isInteract())
+	{
+		ItemInstance* pItem = getSelectedItem();
+		if (pItem)
+		{
+			if (m_pGameMode->useItem(m_pLocalPlayer, m_pLevel, pItem))
+				m_pGameRenderer->m_pItemInHandRenderer->itemUsed();
+		}
+	}
+}
+
 void Minecraft::handleMouseClick(int type)
 {
 	int a;

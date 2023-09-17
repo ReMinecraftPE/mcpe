@@ -40,6 +40,9 @@ public:
 	HitResult() { _init(); }
 	HitResult(Entity*);
 	HitResult(int x, int y, int z, eHitSide hitSide, const Vec3&);
+	bool isHit() const {
+		return m_hitType != NONE;
+	}
 
 public:
 	eHitResultType m_hitType;

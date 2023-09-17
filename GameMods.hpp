@@ -42,6 +42,7 @@
 // Tests
 //#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
 //#define TEST_SURVIVAL_MODE      // Test survival mode.
+#define TEST_TOUCH_SCREEN       // Test touch screen controls. The mouse will simulate one touch finger.
 
 // Toggle Demo Mode
 //#define DEMO
