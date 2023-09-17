@@ -107,7 +107,7 @@ public:
 	float field_B04;
 	float field_B08;
 	char field_B0C;
-	int field_B10;
+	float field_B10;
 	float field_B14;
 	std::string m_texture;
 	std::string m_class;
@@ -129,4 +129,6 @@ public:
 	float field_B80;
 	int field_B84;
 	Entity* m_pEntLookedAt;
+
+	float v020_field_104;
 };

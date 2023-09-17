@@ -12,7 +12,7 @@
 // TODO: Since this is the modded version, we don't need these anymore. Remove them
 
 // Enhancements
-#define ENH_ENTITY_SHADING      // Allows shading of entities
+//#define ENH_ENTITY_SHADING      // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
 #define ENH_SHADE_HELD_TILES    // Allows shading of the item in hand
 #define ENH_FIX_INVIS_STAIRS    // Fixes a bug wherein a 16x16x16 chunk in the world that contains only stairs is invisible
 #define ENH_ALLOW_AO            // Allows using the F4 key to toggle ambient occlusion (buggy)
@@ -41,7 +41,7 @@
 
 // Tests
 //#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
-//#define TEST_SURVIVAL_MODE      // Test survival mode.
+#define TEST_SURVIVAL_MODE      // Test survival mode.
 
 // Toggle Demo Mode
 //#define DEMO

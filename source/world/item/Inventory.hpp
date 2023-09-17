@@ -4,6 +4,7 @@
 #include "world/item/ItemInstance.hpp"
 #include "world/entity/Player.hpp"
 
+class Entity;
 class Player; // in case we're included from Player.hpp
 
 #define C_MAX_HOTBAR_ITEMS (9)
@@ -37,9 +38,16 @@ public:
 	void setQuickSlotIndexByItemId(int slotNo, int itemID);
 	void selectItemById(int itemID);
 
+	int getAttackDamage(Entity*);
+
 	int getSelectedSlotNo() const
 	{
 		return m_SelectedHotbarSlot;
+	}
+
+	// v0.2.0 name alias
+	ItemInstance* getSelected() {
+		return getSelectedItem();
 	}
 
 public:

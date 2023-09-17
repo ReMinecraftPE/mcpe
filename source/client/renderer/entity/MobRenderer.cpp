@@ -64,6 +64,16 @@ void MobRenderer::setupPosition(Entity* entity, float x, float y, float z)
 void MobRenderer::setupRotations(Entity* entity, float x, float y, float z)
 {
 	glRotatef(180.0f - y, 0.0f, 1.0f, 0.0f);
+
+	Mob* mob = (Mob*)entity;
+	if (mob->field_110 > 0)
+	{
+		float t = Mth::sqrt((float(mob->field_110) + z - 1.0f) / 20.0f * 1.6f);
+		if (t > 1.0f)
+			t = 1.0f;
+
+		glRotatef(getFlipDegrees(mob) * t, 0.0f, 0.0f, 1.0f);
+	}
 }
 
 void MobRenderer::render(Entity* entity, float x, float y, float z, float unused, float f)
@@ -116,7 +126,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		if (pMob->field_104 > 0 || pMob->field_110 > 0)
 		{
 			glColor4f(fBright, 0.0f, 0.0f, 0.4f);
-			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.0625f);
+			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.059375f); // was 0.0625f. Why?
 		}
 		if (GET_ALPHA(iOverlayColor))
 		{
@@ -126,7 +136,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 				float(GET_BLUE(iOverlayColor)) / 255.0f,
 				float(GET_ALPHA(iOverlayColor)) / 255.0f);
 
-			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.0625f);
+			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.059375f); // same here
 		}
 
 		glDepthFunc(GL_LEQUAL);

@@ -14,6 +14,7 @@
 class Item; // in case we're included from Item.hpp
 class Tile;
 class Level;
+class Entity;
 class Mob;
 class Player;
 
@@ -60,6 +61,9 @@ public:
 	ItemInstance* copy();
 
 	static bool matches(ItemInstance*, ItemInstance*);
+
+	// v0.2.0
+	int getAttackDamage(Entity *pEnt);
 
 public:
 	int m_auxValue;

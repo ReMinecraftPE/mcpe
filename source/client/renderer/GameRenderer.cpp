@@ -647,6 +647,7 @@ void GameRenderer::render(float f)
 			sprintf(posStr, "%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
 
 			debugText << "\npos: " << posStr;
+			debugText << "\nentities: " << m_pMinecraft->m_pLevel->m_entities.size();
 			debugText << "\n" << m_pMinecraft->m_pLevelRenderer->gatherStats1();
 		}
 

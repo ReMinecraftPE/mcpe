@@ -67,6 +67,13 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_E0 = Mth::random() * 12398.0f;
 	m_yaw = float(Mth::random() * M_PI);
 	field_A8 = 0.5f;
+
+
+	// @TEST TEST TEST
+	field_C8 = RENDER_HUMANOID;
+	field_F0 = true;
+
+	// @TEST TEST TEST
 }
 
 Mob::~Mob()
@@ -332,6 +339,26 @@ bool Mob::hurt(Entity *pAttacker, int damage)
 		actuallyHurt(damage);
 		field_108 = 10;
 		field_104 = 10;
+
+		// not in 0.1
+		markHurt();
+
+		if (pAttacker)
+		{
+			float xd = pAttacker->m_pos.x - m_pos.x;
+			float zd = pAttacker->m_pos.z - m_pos.z;
+
+			while (zd * zd + xd * xd < 0.0001f)
+			{
+				xd = 0.01f * (Mth::random() - Mth::random());
+				zd = 0.01f * (Mth::random() - Mth::random());
+			}
+
+			float ang = atan2f(zd, xd);
+			v020_field_104 = ang * (180.0f / float(M_PI)) - m_yaw;
+
+			knockback(pAttacker, damage, xd, zd);
+		}
 	}
 	else
 	{
@@ -758,7 +785,69 @@ void Mob::jumpFromGround()
 
 void Mob::updateAi()
 {
-	// TODO
+	field_AFC++;
+
+	Entity* nearestPlayer = m_pLevel->getNearestPlayer(this, -1.0f);
+
+	// if we need to remove ourselves when far away, and there's a player around
+	// (if there's no players, we're on a headless server)
+	if (removeWhenFarAway() && nearestPlayer)
+	{
+		float distSqr = nearestPlayer->distanceToSqr_inline(m_pos.x, m_pos.y, m_pos.z);
+		if (distSqr > 16384.0f)
+			remove();
+
+		if (field_AFC > 600)
+		{
+			if (m_random.nextInt(800) == 0)
+			{
+				if (distSqr >= 1024.0f)
+					remove();
+				else
+					field_AFC = 0;
+			}
+		}
+	}
+
+	field_B00 = 0.0f;
+	field_B04 = 0.0f;
+
+	if (m_random.nextFloat() < 0.02f)
+	{
+		Entity* nearestPlayer = m_pLevel->getNearestPlayer(this, 8.0f);
+		if (nearestPlayer)
+		{
+			m_pEntLookedAt = nearestPlayer;
+
+			field_120 = m_random.nextInt(20) + 10;
+		}
+	}
+
+	if (m_pEntLookedAt)
+	{
+		lookAt(m_pEntLookedAt, 10.0f, getMaxHeadXRot());
+
+		// gaze timer
+		field_120--;
+
+		// if the entity was removed, or we're too far away, or our gaze timer is up
+		if (field_120 < 0 || m_pEntLookedAt->m_bRemoved || m_pEntLookedAt->distanceToSqr(this) > 64.0f)
+			// stop staring
+			m_pEntLookedAt = nullptr;
+	}
+	else
+	{
+		if (m_random.nextFloat() < 0.05f)
+			field_B08 = (m_random.nextFloat() - 0.5f) * 20.0f;
+
+		m_yaw += field_B08;
+		m_pitch = field_B10;
+	}
+
+	if (isInWater() || isInLava())
+	{
+		field_B0C = m_random.nextInt() < 0.8f;
+	}
 }
 
 int Mob::getMaxHeadXRot()

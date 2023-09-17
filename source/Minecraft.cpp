@@ -482,10 +482,29 @@ void Minecraft::tickInput()
 		#ifdef ENH_ALLOW_AO
 			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
+				/*
 				// Toggle ambient occlusion.
 				getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
 				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
 				m_pLevelRenderer->allChanged();
+				*/
+
+				// @TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+				// Remove this when merging to master.
+				
+				if (m_pLevel && m_pLocalPlayer)
+				{
+					Mob* pNewMob = new Mob(m_pLevel);
+					Vec3 pos = m_pLocalPlayer->getPos(0.0f);
+					pNewMob->setPos(pos.x, pos.y, pos.z);
+					m_pLevel->addEntity(pNewMob);
+				}
+				else
+				{
+					LogMsg("Sorry, you can't do that without a level or local player");
+				}
+
+				// @TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
 			}
 		#endif
 		}

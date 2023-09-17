@@ -39,6 +39,10 @@ Player::Player(Level* pLevel) : Mob(pLevel)
 
 	field_C4 = 20;
 	field_B5C = 180.0f;
+
+	// @TEST TEST TEST
+	field_F0 = false;
+	// @TEST TEST TEST
 }
 
 Player::~Player()
@@ -225,7 +229,9 @@ void Player::animateRespawn(Player*, Level*)
 
 void Player::attack(Entity* pEnt)
 {
-	
+	int atkDmg = m_pInventory->getAttackDamage(pEnt);
+	if (atkDmg > 0)
+		pEnt->hurt(this, atkDmg);
 }
 
 bool Player::canDestroy(Tile* pTile)
