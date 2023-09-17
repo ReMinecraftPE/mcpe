@@ -41,7 +41,7 @@
 
 // Tests
 //#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
-#define TEST_SURVIVAL_MODE      // Test survival mode.
+//#define TEST_SURVIVAL_MODE      // Test survival mode.
 
 // Toggle Demo Mode
 //#define DEMO
