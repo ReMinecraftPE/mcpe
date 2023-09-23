@@ -8,10 +8,13 @@
 
 #pragma once
 
-#include "common/Utils.hpp"
+#ifdef __ANDROID__
+#include <EGL/egl.h>
+#endif
 
-#ifdef USE_GLES1_COMPATIBILITY_LAYER
+#if defined(USE_SDL) || defined(__ANDROID__)
 
+#if defined(USE_GLES1_COMPATIBILITY_LAYER) || defined(__ANDROID__)
 #include <GLES/gl.h>
 #define GL_QUADS 0x7
 
@@ -62,10 +65,10 @@ static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, G
 #ifdef USE_SDL
 #define USE_OPENGL_2
 
-#define GL_GLEXT_PROTOTYPES
-#include "thirdparty/SDL2/SDL_opengl.h"
-#ifndef _WIN32
-#include <SDL2/SDL_opengl_glext.h>
+#if defined(USE_GLES1_COMPATIBILITY_LAYER) || defined(__ANDROID__)
+#define xglOrthof glOrthof
+#else
+#define xglOrthof(left, right, bottom, top, nearpl, farpl) glOrtho((GLdouble) (left), (GLdouble) (right), (GLdouble) (bottom), (GLdouble) (top), (GLdouble) (nearpl), (GLdouble) (farpl))
 #endif
 
 #else

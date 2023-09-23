@@ -31,11 +31,12 @@
 #endif
 
 // include zlib stuff
+// cant get zlib to build on android, they include prebuilt one anyways. using that one
 #include "zlib.h"
 
 int g_TimeSecondsOnInit = 0;
 
-#if !defined(USE_SDL) || defined(_WIN32)
+#if (!defined(USE_SDL) || defined(_WIN32)) && !defined(__ANDROID__)
 
 DIR* opendir(const char* name)
 {

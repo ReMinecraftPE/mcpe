@@ -207,7 +207,9 @@ void GameRenderer::setupGuiScreen()
 {
 	float x = Gui::InvGuiScale * Minecraft::width;
 	float y = Gui::InvGuiScale * Minecraft::height;
+#ifndef __ANDROID__
 	glClear(GL_ACCUM);
+#endif
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f);
@@ -326,8 +328,8 @@ void GameRenderer::setupFog(int i)
 
 	if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::water))
 	{
-	#ifdef ORIGINAL_CODE
-		glFogx(GL_FOG_MODE, 0x0800);
+	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
+		glFogx(GL_FOG_MODE, GL_EXP);
 	#else
 		glFogi(GL_FOG_MODE, GL_EXP);
 	#endif
@@ -336,8 +338,8 @@ void GameRenderer::setupFog(int i)
 	}
 	else if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::lava))
 	{
-	#ifdef ORIGINAL_CODE
-		glFogx(GL_FOG_MODE, 0x0800);
+	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
+		glFogx(GL_FOG_MODE, GL_EXP);
 	#else
 		glFogi(GL_FOG_MODE, GL_EXP);
 	#endif
@@ -346,23 +348,25 @@ void GameRenderer::setupFog(int i)
 	}
 	else
 	{
-	#ifdef ORIGINAL_CODE
+	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
 		glFogx(GL_FOG_MODE, GL_LINEAR);
 	#else
 		glFogi(GL_FOG_MODE, GL_LINEAR);
+	#endif
+
 		glFogf(GL_FOG_START, field_8 * 0.25f);
-		glFogf(GL_FOG_END,   field_8);
+		glFogf(GL_FOG_END, field_8);
 		if (i < 0)
 		{
 			glFogf(GL_FOG_START, 0.0f);
-			glFogf(GL_FOG_END,   field_8 * 0.8f);
+			glFogf(GL_FOG_END, field_8 * 0.8f);
 		}
 
 		if (m_pMinecraft->m_pLevel->m_pDimension->field_C)
 		{
 			glFogf(GL_FOG_START, 0.0f);
 		}
-	#endif
+
 	}
 
 	glEnable(GL_COLOR_MATERIAL);
@@ -647,7 +651,9 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->m_pScreen)
 	{
-		glClear(GL_ACCUM);
+		#ifndef __ANDROID__
+				glClear(GL_ACCUM);
+		#endif		
 		m_pMinecraft->m_pScreen->render(mouseX, mouseY, f);
 
 		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())

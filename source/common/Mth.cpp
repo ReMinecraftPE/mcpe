@@ -138,7 +138,7 @@ float Mth::abs(float f)
 
 int Mth::abs(int d)
 {
-	return ::abs(d);
+	return Mth::abs((float)d);
 }
 
 float Mth::absMax(float a2, float a3)

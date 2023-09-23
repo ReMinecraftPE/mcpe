@@ -30,7 +30,7 @@ public:
 
 #define LOG(level, ...) Logger::singleton()->printf(level, __VA_ARGS__)
 
-#ifdef PLATFORM_ANDROID
+#ifdef __ANDROID__
 // TODO: Add a LoggerAndroid
 #define LOG(ignored, ...) __android_log_print(ANDROID_LOG_DEFAULT, "ReMinecraftPE", __VA_ARGS__)
 #define LOG_I(...)        __android_log_print(ANDROID_LOG_INFO,    "ReMinecraftPE", __VA_ARGS__)
