@@ -207,9 +207,7 @@ void GameRenderer::setupGuiScreen()
 {
 	float x = Gui::InvGuiScale * Minecraft::width;
 	float y = Gui::InvGuiScale * Minecraft::height;
-#ifndef __ANDROID__
-	glClear(GL_ACCUM);
-#endif
+	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f);
@@ -651,9 +649,7 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->m_pScreen)
 	{
-		#ifndef __ANDROID__
-				glClear(GL_ACCUM);
-		#endif		
+		glClear(GL_DEPTH_BUFFER_BIT);
 		m_pMinecraft->m_pScreen->render(mouseX, mouseY, f);
 
 		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())
