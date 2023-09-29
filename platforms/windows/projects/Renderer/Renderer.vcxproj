@@ -35,10 +35,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\source\renderer\GL\GL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\source\renderer\GL\GL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenGL\OpenGL.vcxproj">

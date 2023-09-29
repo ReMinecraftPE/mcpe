@@ -39,7 +39,6 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{5c1ce194-2dc6-441d-96f5-9780d0a10aab}</ProjectGuid>
     <RootNamespace>MinecraftClientSDL2</RootNamespace>
-    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -83,53 +82,11 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="PropertySheets">
+  <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'">
-    <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'">
-    <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'">
-    <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'">
+  <PropertyGroup>
     <IncludePath>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -257,17 +214,17 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\openal\SoundSystemAL.cpp" />
-    <ClCompile Include="..\..\..\sdl\AppPlatform_sdl.cpp" />
-    <ClCompile Include="..\..\..\sdl\AppPlatform_sdlbase.cpp" />
-    <ClCompile Include="..\..\..\sdl\main.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdl.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdlbase.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\compat\KeyCodes.hpp" />
-    <ClInclude Include="..\..\..\..\compat\SDLKeyCodes.h" />
-    <ClInclude Include="..\..\..\openal\SoundSystemAL.hpp" />
-    <ClInclude Include="..\..\..\sdl\AppPlatform_sdl.hpp" />
-    <ClInclude Include="..\..\..\sdl\AppPlatform_sdlbase.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
+    <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdl.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdlbase.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">
@@ -289,4 +246,8 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <PropertyGroup>
+    <LocalDebuggerWorkingDirectory>$(MC_ROOT)\game</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

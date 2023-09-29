@@ -14,75 +14,75 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\source\network\MinecraftPackets.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\network\MinecraftPackets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\NetEventCallback.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\network\NetEventCallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\RakNetInstance.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\ServerSideNetworkHandler.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ChunkDataPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\AddPlayerPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelDataPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\ChunkDataPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\LevelDataPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MessagePacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\LoginPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MovePlayerPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\MessagePacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\PlaceBlockPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\MovePlayerPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\PlayerEquipmentPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\PlaceBlockPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveBlockPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\PlayerEquipmentPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveEntityPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\RemoveBlockPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RequestChunkPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\RemoveEntityPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\StartGamePacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\RequestChunkPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\StartGamePacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\UpdateBlockPacket.cpp">
-      <Filter>Source Files\Packets</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\source\network\MinecraftPackets.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\NetEventCallback.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\network\NetEventCallback.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\Packet.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\network\Packet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\PingedCompatibleServer.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\network\PingedCompatibleServer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\RakNetInstance.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\ServerSideNetworkHandler.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

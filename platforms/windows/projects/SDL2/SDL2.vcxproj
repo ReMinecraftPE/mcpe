@@ -35,8 +35,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\thirdparty\SDL2\SDL2.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\SDL2\SDL_opengl.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL2\SDL2.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL2\SDL_opengl.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

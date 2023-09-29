@@ -11,7 +11,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\thirdparty\LibPNG\png.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\LibPNG\png.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

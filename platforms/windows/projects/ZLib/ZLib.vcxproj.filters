@@ -11,84 +11,84 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\adler32.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\adler32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\compress.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\compress.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\crc32.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\crc32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\deflate.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\deflate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzclose.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzclose.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzlib.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzlib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzread.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzread.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzwrite.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzwrite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\infback.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\infback.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\inffast.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\inffast.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\inflate.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\inflate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\inftrees.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\inftrees.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\trees.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\trees.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\uncompr.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\uncompr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\zutil.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\zutil.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\crc32.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\crc32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\deflate.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\deflate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\gzguts.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\gzguts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inffast.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inffast.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inffixed.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inffixed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inflate.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inflate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inftrees.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inftrees.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\trees.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\trees.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\zconf.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zconf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\zlib.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\zutil.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

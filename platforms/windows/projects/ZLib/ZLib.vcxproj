@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug_SDL2|Win32">
-      <Configuration>Debug_SDL2</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug_SDL2|x64">
-      <Configuration>Debug_SDL2</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_SDL2|Win32">
-      <Configuration>Release_SDL2</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_SDL2|x64">
-      <Configuration>Release_SDL2</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -47,16 +31,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -65,16 +40,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -87,40 +53,17 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
@@ -146,33 +89,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
@@ -198,50 +115,35 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\adler32.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\compress.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\crc32.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\deflate.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzclose.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzlib.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzread.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\gzwrite.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\infback.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\inffast.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\inflate.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\inftrees.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\trees.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\uncompr.c" />
-    <ClCompile Include="..\..\..\..\thirdparty\zlib\zutil.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\adler32.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\compress.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\crc32.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\deflate.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzclose.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzlib.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzread.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\gzwrite.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\infback.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\inffast.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\inflate.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\inftrees.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\trees.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\uncompr.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\zutil.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\crc32.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\deflate.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\gzguts.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inffast.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inffixed.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inflate.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\inftrees.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\trees.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\zconf.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\zlib.h" />
-    <ClInclude Include="..\..\..\..\thirdparty\zlib\zutil.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\crc32.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\deflate.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\gzguts.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inffast.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inffixed.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inflate.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\inftrees.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\trees.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zconf.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zlib.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\zlib\zutil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

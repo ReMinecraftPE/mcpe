@@ -35,11 +35,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\thirdparty\GL\GL.hpp" />
-    <ClInclude Include="..\..\..\..\thirdparty\GL\glext.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\GL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\glext.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\thirdparty\GL\GLExt.cpp" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\GL\GLExt.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

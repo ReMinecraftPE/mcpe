@@ -237,25 +237,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\source\common\CThread.cpp" />
-    <ClCompile Include="..\..\..\..\source\common\Logger.cpp" />
-    <ClCompile Include="..\..\..\..\source\common\Matrix.cpp" />
-    <ClCompile Include="..\..\..\..\source\common\Mth.cpp" />
-    <ClCompile Include="..\..\..\..\source\common\Random.cpp" />
-    <ClCompile Include="..\..\..\..\source\common\Timer.cpp" />
-    <ClCompile Include="..\..\..\..\source\common\Util.cpp" />
-    <ClCompile Include="..\..\..\..\source\common\Utils.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Matrix.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Random.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Timer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Util.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\source\common\CThread.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\Logger.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\LongHack.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\Matrix.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\Mth.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\Random.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\Timer.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\Util.hpp" />
-    <ClInclude Include="..\..\..\..\source\common\Utils.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\LongHack.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Matrix.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Mth.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Random.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Timer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Util.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

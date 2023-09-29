@@ -11,10 +11,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\thirdparty\SDL2\SDL2.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL2\SDL2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\SDL2\SDL_opengl.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL2\SDL_opengl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

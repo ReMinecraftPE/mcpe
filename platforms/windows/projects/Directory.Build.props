@@ -3,12 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
+    <RAKNET_PATH>$(MC_ROOT)\thirdparty\raknet\</RAKNET_PATH>
   </PropertyGroup>
-  <!--ItemGroup>
-    <BuildMacro Include="MC_ROOT">
-      <Value>$(MC_ROOT)</Value>
-    </BuildMacro>
-  </ItemGroup-->
   <PropertyGroup>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>

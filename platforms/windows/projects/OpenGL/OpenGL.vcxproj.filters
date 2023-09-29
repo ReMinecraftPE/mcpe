@@ -11,15 +11,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\thirdparty\GL\GL.hpp">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\GL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\GL\glext.h">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\glext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\thirdparty\GL\GLExt.cpp">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\GL\GLExt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

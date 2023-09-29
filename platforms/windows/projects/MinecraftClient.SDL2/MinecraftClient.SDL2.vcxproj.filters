@@ -18,33 +18,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\sdl\AppPlatform_sdl.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sdl\AppPlatform_sdlbase.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdlbase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\sdl\main.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\openal\SoundSystemAL.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\sdl\AppPlatform_sdl.hpp">
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\sdl\AppPlatform_sdlbase.hpp">
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdlbase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\compat\KeyCodes.hpp">
+    <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp">
       <Filter>Header Files\Compatibility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\openal\SoundSystemAL.hpp">
+    <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\compat\SDLKeyCodes.h">
+    <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h">
       <Filter>Header Files\Compatibility</Filter>
     </ClInclude>
   </ItemGroup>

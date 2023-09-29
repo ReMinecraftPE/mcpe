@@ -11,57 +11,57 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\source\common\CThread.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Logger.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Matrix.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Mth.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Random.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Timer.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Util.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Utils.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\source\common\CThread.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Logger.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\LongHack.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\LongHack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Matrix.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\Matrix.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Mth.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\Mth.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Random.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\Random.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Timer.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\Timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Util.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\Util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Utils.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
