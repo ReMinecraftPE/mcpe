@@ -13,7 +13,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\raknet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 	  <ConformanceMode>false</ConformanceMode>
     </ClCompile>
