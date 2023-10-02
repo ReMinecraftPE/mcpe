@@ -2733,9 +2733,9 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
 					/usr/local/include,
-					../../../../,
-					../../../../source,
-					../../../../thirdparty/raknet/,
+					"$(MC_ROOT)",
+					"$(MC_ROOT)/source",
+					"$(RAKNET_PATH)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -2805,9 +2805,9 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
 					/usr/local/include,
-					../../../../,
-					../../../../source,
-					../../../../thirdparty/raknet/,
+					"$(MC_ROOT)",
+					"$(MC_ROOT)/source",
+					"$(RAKNET_PATH)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -2877,9 +2877,9 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
 					/usr/local/include,
-					../../../../,
-					../../../../source,
-					../../../../thirdparty/raknet/,
+					"$(MC_ROOT)",
+					"$(MC_ROOT)/source",
+					"$(RAKNET_PATH)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -2951,9 +2951,9 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
 					/usr/local/include,
-					../../../../,
-					../../../../source,
-					../../../../thirdparty/raknet/,
+					"$(MC_ROOT)",
+					"$(MC_ROOT)/source",
+					"$(RAKNET_PATH)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -3014,9 +3014,9 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
 					/usr/local/include,
-					../../../../,
-					../../../../source,
-					../../../../thirdparty/raknet/,
+					"$(MC_ROOT)",
+					"$(MC_ROOT)/source",
+					"$(RAKNET_PATH)",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,

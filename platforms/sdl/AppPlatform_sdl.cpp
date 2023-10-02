@@ -81,7 +81,7 @@ ret:
 	}
 	if (rows != NULL)
 	{
-		delete rows;
+		delete rows[height];
 	}
 	if (file != NULL)
 	{
