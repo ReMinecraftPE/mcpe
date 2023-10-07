@@ -261,19 +261,29 @@ void RakNetInstance::send(Packet* packet)
 	RakNet::BitStream bs;
 	packet->write(&bs);
 
+    uint32_t result;
 	if (m_bIsHost)
 	{
-		m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+		result = m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 	}
 	else
 	{
 		// send it to the host instead
-		m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, m_guid, false);
+		result = m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, m_guid, false);
 	}
     
-	ePacketType packetType;
-    bs.Read(packetType);
-    LOG_PACKET("Sent packet (id: %d)", packetType);
+    if (result != 0)
+    {
+#ifdef LOG_PACKETS
+    uint8_t packetId;
+    bs.Read(packetId);
+    LOG_PACKET("Sent packet (id: %d guid: %s)", packetId, m_bIsHost ? "UNASSIGNED_SYSTEM_ADDRESS" : m_guid.ToString());
+#endif
+    }
+    else
+    {
+        LOG_E("Failed to send packet!");
+    }
 
 	delete packet;
 	// return 1300; --- ida tells me this returns 1300. Huh
