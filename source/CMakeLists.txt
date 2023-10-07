@@ -215,6 +215,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/ObsidianTile.cpp
     world/tile/FarmTile.cpp
     world/tile/DoorTile.cpp
+    renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . .. ../thirdparty/zlib)
 
