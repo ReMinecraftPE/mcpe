@@ -10,7 +10,7 @@
 #include "MinecraftPackets.hpp"
 #include "GetTime.h"
 
-#define LOG_PACKETS
+//#define LOG_PACKETS
 
 #ifdef LOG_PACKETS
 #define LOG_PACKET(str, ...) LOG_I(str, __VA_ARGS__)
