@@ -129,7 +129,7 @@ bool* LiquidTileDynamic::getSpread(Level* level, int x, int y, int z)
 		if (isWaterBlocking(level, xChk, y, zChk))
 			continue;
 
-		if (level->getMaterial(xChk, y, zChk) == m_pMaterial ||
+		if (level->getMaterial(xChk, y, zChk) == m_pMaterial &&
 			level->getData(xChk, y, zChk) == 0)
 			continue;
 
