@@ -89,6 +89,7 @@ add_library(reminecraftpe-core STATIC
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
+    client/network/ClientSideNetworkHandler.cpp
     network/packets/UpdateBlockPacket.cpp
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
@@ -104,7 +105,6 @@ add_library(reminecraftpe-core STATIC
     network/packets/MessagePacket.cpp
     network/ServerSideNetworkHandler.cpp
     network/RakNetInstance.cpp
-    network/ClientSideNetworkHandler.cpp
     network/MinecraftPackets.cpp
     network/NetEventCallback.cpp
     world/level/levelgen/synth/Synth.cpp
