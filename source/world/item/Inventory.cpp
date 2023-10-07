@@ -219,6 +219,9 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 		return nullptr;
 	
 	ItemInstance* pInst = getItem(m_hotbar[slotNo]);
+	if (!pInst)
+		return nullptr;
+
 	if (pInst->m_itemID == 0)
 		return nullptr;
 
