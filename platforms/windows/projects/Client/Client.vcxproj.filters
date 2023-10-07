@@ -317,6 +317,18 @@
     <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\player\input\IArea.hpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\player\input\IncludeExcludeArea.hpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\player\input\PolygonArea.hpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\player\input\RectangleArea.hpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -552,6 +564,15 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp">
       <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\player\input\IncludeExcludeArea.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\player\input\PolygonArea.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\player\input\RectangleArea.cpp">
+      <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
