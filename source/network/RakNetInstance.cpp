@@ -137,7 +137,7 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 		if (!pPacket)
 			break;
 			
-		int packetType = *(pPacket->data);
+		uint8_t packetType = *(pPacket->data);
 
 		RakNet::BitStream* pBitStream = new RakNet::BitStream(pPacket->data + 1, pPacket->length - 1, 0);
         
@@ -153,8 +153,13 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 				pUserPacket->handle(pPacket->guid, callback);
 				delete pUserPacket;
 			}
+			else
+			{
+				LOG_W("Received unrecognized packet type: %d", packetType);
+			}
 		}
-		else switch (packetType)
+		else if (packetType > ID_DETECT_LOST_CONNECTIONS)
+		switch (packetType)
 		{
 			case ID_CONNECTION_REQUEST_ACCEPTED:
 			{
@@ -219,6 +224,9 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 			SKIP_ADDING_NEW_ENTRY:
 				break;
 			}
+			default:
+				LOG_W("Received unrecognized RakNet packet type: %d", packetType);
+				break;
 		}
 
 		m_pRakPeerInterface->DeallocatePacket(pPacket);
@@ -255,7 +263,7 @@ void RakNetInstance::send(Packet* packet)
 
 	if (m_bIsHost)
 	{
-		m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, RakNet::AddressOrGUID(), true);
+		m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 	}
 	else
 	{
@@ -263,9 +271,9 @@ void RakNetInstance::send(Packet* packet)
 		m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, m_guid, false);
 	}
     
-    int packetId;
-    bs.Read(packetId);
-    LOG_PACKET("Sent packet (id: %d)", packetId);
+	ePacketType packetType;
+    bs.Read(packetType);
+    LOG_PACKET("Sent packet (id: %d)", packetType);
 
 	delete packet;
 	// return 1300; --- ida tells me this returns 1300. Huh

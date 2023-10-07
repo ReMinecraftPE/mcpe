@@ -25,7 +25,7 @@ void AddPlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* p
 
 void AddPlayerPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_ADD_PLAYER);
+	bs->Write((unsigned char)PACKET_ADD_PLAYER);
 	bs->Write(m_guid);
 	bs->Write(m_name);
 	bs->Write(m_id);

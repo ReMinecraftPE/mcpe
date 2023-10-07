@@ -15,7 +15,7 @@ void MovePlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* 
 
 void MovePlayerPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_MOVE_PLAYER);
+	bs->Write((unsigned char)PACKET_MOVE_PLAYER);
 	bs->Write(m_id);
 	bs->Write(m_x);
 	bs->Write(m_y);

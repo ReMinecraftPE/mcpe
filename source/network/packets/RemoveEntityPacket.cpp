@@ -15,7 +15,7 @@ void RemoveEntityPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback
 
 void RemoveEntityPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_REMOVE_ENTITY);
+	bs->Write((unsigned char)PACKET_REMOVE_ENTITY);
 	bs->Write(m_id);
 }
 

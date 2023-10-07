@@ -15,7 +15,7 @@ void PlaceBlockPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* 
 
 void PlaceBlockPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_PLACE_BLOCK);
+	bs->Write((unsigned char)PACKET_PLACE_BLOCK);
 	bs->Write(m_playerID);
 	bs->Write(m_x);
 	bs->Write(m_z);
