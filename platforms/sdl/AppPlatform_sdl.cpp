@@ -125,6 +125,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	if (!io)
 	{
 		LOG_E("Couldn't find file: %s", path.c_str());
+	_error:
 		return out;
 	}
 
@@ -133,6 +134,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	stbi_uc* img = stbi_load_from_callbacks(&SdlIoCallbacks, io, &width, &height, &channels, STBI_rgb_alpha);
 	if (!img)
 	{
+		io->close(io);
 		LOG_E("File %s couldn't be loaded via stb_image", realPath.c_str());
 		goto _error;
 	}
