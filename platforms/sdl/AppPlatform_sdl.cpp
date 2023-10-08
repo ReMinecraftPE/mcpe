@@ -105,7 +105,7 @@ int SdlEofWrapper(void* User)
 	return old_pos >= io->size(io);
 }
 
-static const stbi_io_callbacks SdlIoCallbacks[] =
+static const stbi_io_callbacks SdlIoCallbacks =
 {
 	SdlReadWrapper,
 	SdlSkipWrapper,
