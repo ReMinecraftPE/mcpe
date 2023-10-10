@@ -9,15 +9,15 @@
 #include "client/player/input/Keyboard.hpp"
 #include "common/Logger.hpp"
 
-class AppPlatform_sdlbase : public AppPlatform
+class AppPlatform_sdl_base : public AppPlatform
 {
 public:
     void _init(std::string storageDir, SDL_Window *window);
-    AppPlatform_sdlbase(std::string storageDir, SDL_Window *window)
+	AppPlatform_sdl_base(std::string storageDir, SDL_Window *window)
     {
         _init(storageDir, window);
     }
-    ~AppPlatform_sdlbase();
+	~AppPlatform_sdl_base();
 
 	void initSoundSystem() override;
 

@@ -14,8 +14,8 @@ cd emsdk
 
 # Update Emscripten SDK
 git pull
-./emsdk install 3.1.42 # https://github.com/emscripten-core/emscripten/issues/19921
-./emsdk activate 3.1.42 > /dev/null
+./emsdk install latest
+./emsdk activate latest > /dev/null
 
 # Use Emscripten SDK
 export EMSDK_QUIET=1
@@ -38,5 +38,5 @@ cmake --build .
 
 # Bundle
 cp reminecraftpe.* ../dist
-cp ../../platforms/sdl/wasm_shell.html ../dist/reminecraftpe.html
+cp ../../platforms/sdl/emscripten/wasm_shell.html ../dist/reminecraftpe.html
 cp ../../thirdparty/coi-serviceworker/coi-serviceworker.min.js ../dist

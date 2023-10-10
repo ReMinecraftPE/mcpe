@@ -1,4 +1,4 @@
-#include "AppPlatform_sdlbase.hpp"
+#include "AppPlatform_sdl_base.hpp"
 
 #include <sstream>
 #include <fstream>
@@ -12,9 +12,9 @@
 
 #include "common/Utils.hpp"
 
-#include "platforms/openal/SoundSystemAL.hpp"
+#include "SoundSystemAL.hpp"
 
-void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
+void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
     _storageDir = storageDir;
     _window = window;
@@ -31,7 +31,7 @@ void AppPlatform_sdlbase::_init(std::string storageDir, SDL_Window *window)
 	m_pSoundSystem = nullptr;
 }
 
-void AppPlatform_sdlbase::initSoundSystem()
+void AppPlatform_sdl_base::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
@@ -44,7 +44,7 @@ void AppPlatform_sdlbase::initSoundSystem()
 	}
 }
 
-void AppPlatform_sdlbase::setIcon(const Texture& icon)
+void AppPlatform_sdl_base::setIcon(const Texture& icon)
 {
 	if (!icon.m_pixels)
 		return;
@@ -59,7 +59,7 @@ void AppPlatform_sdlbase::setIcon(const Texture& icon)
         SDL_SetWindowIcon(_window, _icon);
 }
 
-AppPlatform_sdlbase::~AppPlatform_sdlbase()
+AppPlatform_sdl_base::~AppPlatform_sdl_base()
 {
 	if (_icon) SDL_FreeSurface(_icon);
 	SAFE_DELETE(_iconTexture);
@@ -70,7 +70,7 @@ AppPlatform_sdlbase::~AppPlatform_sdlbase()
 	SAFE_DELETE(m_pLogger);
 }
 
-SDL_Surface* AppPlatform_sdlbase::getSurfaceForTexture(const Texture* const texture)
+SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const texture)
 {
     if (!texture) return nullptr;
     
@@ -90,71 +90,71 @@ SDL_Surface* AppPlatform_sdlbase::getSurfaceForTexture(const Texture* const text
     return surface;
 }
 
-int AppPlatform_sdlbase::checkLicense()
+int AppPlatform_sdl_base::checkLicense()
 {
 	// we own the game!!
 	return 1;
 }
 
-const char* const AppPlatform_sdlbase::getWindowTitle() const
+const char* const AppPlatform_sdl_base::getWindowTitle() const
 {
     return SDL_GetWindowTitle(_window);
 }
 
-int AppPlatform_sdlbase::getScreenWidth() const
+int AppPlatform_sdl_base::getScreenWidth() const
 {
 	int width;
 	SDL_GL_GetDrawableSize(_window, &width, nullptr);
 	return width;
 }
 
-int AppPlatform_sdlbase::getScreenHeight() const
+int AppPlatform_sdl_base::getScreenHeight() const
 {
 	int height;
 	SDL_GL_GetDrawableSize(_window, nullptr, &height);
 	return height;
 }
 
-void AppPlatform_sdlbase::setMouseGrabbed(bool b)
+void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
 	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
 }
 
-void AppPlatform_sdlbase::setMouseDiff(int x, int y)
+void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 {
 	xrel = x;
 	yrel = y;
 }
 
-void AppPlatform_sdlbase::getMouseDiff(int& x, int& y)
+void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)
 {
 	x = xrel;
 	y = yrel;
 }
 
-void AppPlatform_sdlbase::clearDiff()
+void AppPlatform_sdl_base::clearDiff()
 {
 	xrel = 0;
 	yrel = 0;
 }
 
-bool AppPlatform_sdlbase::shiftPressed()
+bool AppPlatform_sdl_base::shiftPressed()
 {
 	return m_bShiftPressed[0] || m_bShiftPressed[1];
 }
 
-void AppPlatform_sdlbase::setShiftPressed(bool b, bool isLeft)
+void AppPlatform_sdl_base::setShiftPressed(bool b, bool isLeft)
 {
 	m_bShiftPressed[isLeft ? 0 : 1] = b;
 }
 
-int AppPlatform_sdlbase::getUserInputStatus()
+int AppPlatform_sdl_base::getUserInputStatus()
 {
 	return -1;
 }
 
-MouseButtonType AppPlatform_sdlbase::GetMouseButtonType(SDL_Event event)
+MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_Event event)
 {
 	switch (event.button.button)
 	{
@@ -169,7 +169,7 @@ MouseButtonType AppPlatform_sdlbase::GetMouseButtonType(SDL_Event event)
 	}
 }
 
-bool AppPlatform_sdlbase::GetMouseButtonState(SDL_Event event)
+bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
 {
 	bool result;
 
@@ -200,7 +200,7 @@ bool AppPlatform_sdlbase::GetMouseButtonState(SDL_Event event)
 	return result;
 }
 
-Keyboard::KeyState AppPlatform_sdlbase::GetKeyState(SDL_Event event)
+Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(SDL_Event event)
 {
 	switch (event.key.state)
 	{

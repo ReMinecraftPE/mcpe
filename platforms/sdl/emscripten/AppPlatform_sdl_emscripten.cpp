@@ -1,15 +1,15 @@
-#include "AppPlatform_emscripten.hpp"
+#include "AppPlatform_sdl_emscripten.hpp"
 
 #include <emscripten.h>
 
 #include "common/Utils.hpp"
 
-AppPlatform_emscripten::AppPlatform_emscripten(std::string storageDir, SDL_Window *window)
-    : AppPlatform_sdlbase(storageDir, window)
+AppPlatform_sdl_emscripten::AppPlatform_sdl_emscripten(std::string storageDir, SDL_Window *window)
+    : AppPlatform_sdl_base(storageDir, window)
 {
 }
 
-Texture AppPlatform_emscripten::loadTexture(const std::string& path, bool b)
+Texture AppPlatform_sdl_emscripten::loadTexture(const std::string& path, bool b)
 {
 	Texture out;
 	out.field_C = 1;

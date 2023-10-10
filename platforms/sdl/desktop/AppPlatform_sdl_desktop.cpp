@@ -1,4 +1,4 @@
-#include "AppPlatform_sdl.hpp"
+#include "AppPlatform_sdl_desktop.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -11,8 +11,8 @@
 
 #include "common/Utils.hpp"
 
-AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
-    : AppPlatform_sdlbase(storageDir, window)
+AppPlatform_sdl_desktop::AppPlatform_sdl_desktop(std::string storageDir, SDL_Window *window)
+	: AppPlatform_sdl_base(storageDir, window)
 {
 	setIcon(loadTexture("icon.png"));
 }
@@ -97,7 +97,7 @@ ret:
 }
 
 // Ensure Screenshots Folder Exists
-void AppPlatform_sdl::ensureDirectoryExists(const char* path)
+void AppPlatform_sdl_desktop::ensureDirectoryExists(const char* path)
 {
 	// Check Screenshots Folder
 	struct stat obj;
@@ -118,7 +118,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	}
 }
 
-void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
+void AppPlatform_sdl_desktop::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
 {
 	// Get Directory
 	std::string screenshots = _storageDir + "/screenshots";
@@ -206,7 +206,7 @@ static void nop_png_warning(png_structp png_ptr, png_const_charp warning_message
 	// Do Nothing
 }
 
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
+Texture AppPlatform_sdl_desktop::loadTexture(const std::string& path, bool b)
 {
 	Texture out;
 	out.field_C = 1;
@@ -295,7 +295,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	return out;
 }
 
-bool AppPlatform_sdl::hasFileSystemAccess()
+bool AppPlatform_sdl_desktop::hasFileSystemAccess()
 {
 	return true;
 }

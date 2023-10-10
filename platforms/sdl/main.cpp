@@ -5,12 +5,12 @@
 #include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
 
-#if	  defined(__EMSCRIPTEN__)
-#include "AppPlatform_emscripten.hpp"
-typedef AppPlatform_emscripten UsedAppPlatform;
+#if defined(__EMSCRIPTEN__)
+#include "AppPlatform_sdl_emscripten.hpp"
+typedef AppPlatform_sdl_emscripten UsedAppPlatform;
 #else
-#include "AppPlatform_sdl.hpp"
-typedef AppPlatform_sdl UsedAppPlatform;
+#include "AppPlatform_sdl_desktop.hpp"
+typedef AppPlatform_sdl_desktop UsedAppPlatform;
 #endif
 
 #include "client/app/NinecraftApp.hpp"
@@ -23,8 +23,6 @@ typedef AppPlatform_sdl UsedAppPlatform;
 #define EM_TRUE true
 #define EM_FALSE false
 #endif
-
-#undef main
 
 static float g_fPointToPixelScale = 1.0f;
 
@@ -88,7 +86,7 @@ static void handle_events()
 				}
 				*/
 				
-				Keyboard::feed(AppPlatform_sdlbase::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
+				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
 					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
@@ -99,7 +97,7 @@ static void handle_events()
 			case SDL_MOUSEBUTTONUP:
 			{
 				const float scale = g_fPointToPixelScale;
-				Mouse::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
+				Mouse::feed(AppPlatform_sdl_base::GetMouseButtonType(event), AppPlatform_sdl_base::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
 				break;
 			}
 			case SDL_MOUSEMOTION:
@@ -113,7 +111,7 @@ static void handle_events()
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+				Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdl_base::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:

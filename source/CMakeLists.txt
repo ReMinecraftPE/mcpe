@@ -274,11 +274,3 @@ else()
     find_package(OpenGL REQUIRED)
     target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL OpenGL::GLU)
 endif()
-
-# OpenAL
-if(EMSCRIPTEN)
-    target_link_libraries(reminecraftpe-core PUBLIC openal)
-else()
-    find_library(OPENAL_LIBRARY NAMES openal REQUIRED)
-    target_link_libraries(reminecraftpe-core PUBLIC "${OPENAL_LIBRARY}")
-endif()
