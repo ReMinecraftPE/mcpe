@@ -971,6 +971,9 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	}
 	else
 	{
+	    	if (height > 1600)
+		    return 1.0f / 4.0f;
+
 		if (height > 1000)
 			return 1.0f / 3.0f;
 
