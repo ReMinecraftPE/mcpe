@@ -1,0 +1,27 @@
+name: 'Build'
+
+on:
+  - push
+  - pull_request
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                apt-get update
+                apt-get install --no-install-recommends -y build-essential cmake ninja-build libopenal-dev libsdl2-dev
+          - name: Build Desktop
+            run: |
+                cd platforms/sdl
+                mkdir build
+                cd build
+                cmake -GNinja ..
+                cmake --build .
+          - name: Build WASM
+            run: ./build-wasm.sh
