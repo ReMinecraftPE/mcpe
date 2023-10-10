@@ -1044,10 +1044,15 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(1.0f, 1.0f, 1.0f, 0.4f);
-	glLineWidth(10.0f);
+	glColor4f(0, 0, 0, 0.4f);
 	glDisable(GL_TEXTURE_2D);
 	glDepthMask(false);
+
+	// Maximize Line Width
+	glEnable(GL_LINE_SMOOTH);
+	int range[2];
+	glGetIntegerv(GL_SMOOTH_LINE_WIDTH_RANGE, range);
+	glLineWidth(range[1]);
 
 	TileID tile = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
 	if (tile > 0)
