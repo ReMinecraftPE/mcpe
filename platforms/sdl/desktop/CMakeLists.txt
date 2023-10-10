@@ -3,7 +3,7 @@ project(reminecraftpe-sdl-desktop)
 
 # Build
 add_library(reminecraftpe-sdl-platform STATIC
-    AppPlatform_sdl_desktop.cpp
+    AppPlatform_sdl.cpp
 )
 
 # Core

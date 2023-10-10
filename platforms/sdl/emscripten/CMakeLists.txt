@@ -3,7 +3,7 @@ project(reminecraftpe-sdl-emscripten)
 
 # Build
 add_library(reminecraftpe-sdl-platform STATIC
-    AppPlatform_sdl_emscripten.cpp
+    AppPlatform_sdl.cpp
 )
 
 # Core

@@ -5,13 +5,8 @@
 #include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
 
-#if defined(__EMSCRIPTEN__)
-#include "AppPlatform_sdl_emscripten.hpp"
-typedef AppPlatform_sdl_emscripten UsedAppPlatform;
-#else
-#include "AppPlatform_sdl_desktop.hpp"
-typedef AppPlatform_sdl_desktop UsedAppPlatform;
-#endif
+#include "AppPlatform_sdl.hpp"
+typedef AppPlatform_sdl UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 

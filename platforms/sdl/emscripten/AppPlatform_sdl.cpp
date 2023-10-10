@@ -1,15 +1,15 @@
-#include "AppPlatform_sdl_emscripten.hpp"
+#include "AppPlatform_sdl.hpp"
 
 #include <emscripten.h>
 
 #include "common/Utils.hpp"
 
-AppPlatform_sdl_emscripten::AppPlatform_sdl_emscripten(std::string storageDir, SDL_Window *window)
+AppPlatform_sdl::AppPlatform_sdl_emscripten(std::string storageDir, SDL_Window *window)
     : AppPlatform_sdl_base(storageDir, window)
 {
 }
 
-Texture AppPlatform_sdl_emscripten::loadTexture(const std::string& path, bool b)
+Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 {
 	Texture out;
 	out.field_C = 1;
@@ -27,7 +27,6 @@ Texture AppPlatform_sdl_emscripten::loadTexture(const std::string& path, bool b)
 		return out;
 	}
 
-    // I don't think this logic makes any sense
 	LOG_E("Couldn't find file: %s", realPath.c_str());
 	return out;
 }

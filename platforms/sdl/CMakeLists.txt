@@ -56,10 +56,3 @@ if(EMSCRIPTEN)
     # Export Resize Function
     target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
 endif()
-
-# Assets
-if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets@/assets")
-elseif(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/assets")
-    file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
-endif()
