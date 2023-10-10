@@ -1,10 +1,8 @@
 #include "AppPlatform_sdl.hpp"
 
-#include <emscripten.h>
-
 #include "common/Utils.hpp"
 
-AppPlatform_sdl::AppPlatform_sdl_emscripten(std::string storageDir, SDL_Window *window)
+AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
     : AppPlatform_sdl_base(storageDir, window)
 {
 }

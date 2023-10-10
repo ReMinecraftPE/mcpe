@@ -2,6 +2,9 @@
 
 #include <string>
 
+#include <emscripten.h>
+#include <emscripten/html5.h>
+
 #include "AppPlatform_sdl_base.hpp"
 
 class AppPlatform_sdl : public AppPlatform_sdl_base

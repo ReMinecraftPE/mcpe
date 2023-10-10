@@ -4,6 +4,10 @@
 
 #include "AppPlatform_sdl_base.hpp"
 
+#define EM_BOOL bool
+#define EM_TRUE true
+#define EM_FALSE false
+
 class AppPlatform_sdl : public AppPlatform_sdl_base
 {
 public:

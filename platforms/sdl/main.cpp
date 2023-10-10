@@ -10,15 +10,6 @@ typedef AppPlatform_sdl UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#include <emscripten/html5.h>
-#else
-#define EM_BOOL bool
-#define EM_TRUE true
-#define EM_FALSE false
-#endif
-
 static float g_fPointToPixelScale = 1.0f;
 
 UsedAppPlatform *g_pAppPlatform;
@@ -217,18 +208,15 @@ bool DoesAssetExist(const std::string & fileName)
 	free(data);
 	return true;
 }
+#else
+// access works just fine on linux and friends
+#define DoesAssetExist(fileName) (XPL_ACCESS(fileName, 0) == 0)
 #endif
 
 void CheckOptionalTextureAvailability()
 {
-#ifdef __EMSCRIPTEN__
 	g_bIsMenuBackgroundAvailable = DoesAssetExist("gui/background/panorama_0.png");
 	g_bAreCloudsAvailable        = DoesAssetExist("environment/clouds.png");
-#else
-	// access works just fine on linux and friends
-	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
-	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
-#endif
 }
 
 // Main
