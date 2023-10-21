@@ -644,6 +644,18 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("cloth");
 
+	Tile::info_updateGame1 = (new DirtTile(TILE_INFO_UPDATEGAME1, TEXTURE_INFO_UPDATEGAME1, Material::dirt))
+		->init()
+		->setDestroyTime(5.0f)
+		->setSoundType(Tile::SOUND_GRAVEL)
+		->setDescriptionId("info_update");
+
+	Tile::info_updateGame2 = (new DirtTile(TILE_INFO_UPDATEGAME2, TEXTURE_INFO_UPDATEGAME2, Material::dirt))
+		->init()
+		->setDestroyTime(5.0f)
+		->setSoundType(Tile::SOUND_GRAVEL)
+		->setDescriptionId("info_update");
+
 	// custom additions here
 
 	Tile::sapling = (new Sapling(TILE_SAPLING, TEXTURE_SAPLING))
@@ -1108,6 +1120,8 @@ Tile
 	*Tile::stairs_stone,
 	*Tile::door_wood,
 	*Tile::door_iron,
+	*Tile::info_updateGame1,
+	*Tile::info_updateGame2,
 	*Tile::sapling,
 	*Tile::sponge,
 	*Tile::lapisBlock,
