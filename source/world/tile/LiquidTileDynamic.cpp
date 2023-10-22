@@ -9,7 +9,7 @@
 #include "LiquidTileDynamic.hpp"
 #include "world/level/Level.hpp"
 
-bool g_bDisableSponges = false;
+constexpr bool g_bDisableSponges = true; // disable sponges for now
 
 LiquidTileDynamic::LiquidTileDynamic(int id, Material* pMtl) : LiquidTile(id, pMtl)
 {
