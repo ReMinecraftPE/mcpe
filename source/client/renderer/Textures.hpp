@@ -9,9 +9,9 @@
 #pragma once
 #include <map>
 
-#include "compat/GL.hpp"
-#include "common/Options.hpp"
-#include "AppPlatform.hpp"
+#include "thirdparty/GL/GL.hpp"
+#include "client/options/Options.hpp"
+#include "client/app/AppPlatform.hpp"
 #include "DynamicTexture.hpp"
 
 class DynamicTexture; // in case we are being included from DynamicTexture. We don't store complete references to that

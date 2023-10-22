@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 
 class RenderChunk
 {

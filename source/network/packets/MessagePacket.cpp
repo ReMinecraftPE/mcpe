@@ -15,7 +15,7 @@ void MessagePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCa
 
 void MessagePacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_MESSAGE);
+	bs->Write((unsigned char)PACKET_MESSAGE);
 	bs->Write(m_str);
 }
 

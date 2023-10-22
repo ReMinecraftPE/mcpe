@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "SurvivalMode.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 SurvivalMode::SurvivalMode(Minecraft* pMC) : GameMode(pMC),
 	m_destroyingX(-1), m_destroyingY(-1), m_destroyingZ(-1),

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include <SDL2/SDL.h>
+#include "thirdparty/SDL2/SDL2.h"
 
-#include "AppPlatform.hpp"
+#include "client/app/AppPlatform.hpp"
 
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
@@ -19,12 +19,15 @@ public:
     }
     ~AppPlatform_sdlbase();
 
+	void initSoundSystem() override;
+
 	int checkLicense() override;
 	const char* const getWindowTitle() const;
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool b = false) override = 0;
 	int getUserInputStatus() override;
+	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 
 	// Also add these to allow proper turning within the game.
 	void setMouseGrabbed(bool b) override;
@@ -51,6 +54,7 @@ private:
 	int yrel;
 	
 	Logger* m_pLogger;
+	SoundSystem* m_pSoundSystem;
     
     static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:

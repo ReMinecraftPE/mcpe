@@ -3,34 +3,19 @@ project(reminecraftpe-core)
 
 # Build
 add_library(reminecraftpe-core STATIC
-    NinecraftApp.cpp
     common/Random.cpp
     common/Utils.cpp
     common/Matrix.cpp
     common/Mth.cpp
-    common/Options.cpp
     common/Timer.cpp
     common/CThread.cpp
     common/Util.cpp
-	common/Logger.cpp
-    network/packets/UpdateBlockPacket.cpp
-    network/packets/RequestChunkPacket.cpp
-    network/packets/PlayerEquipmentPacket.cpp
-    network/packets/ChunkDataPacket.cpp
-    network/packets/LevelDataPacket.cpp
-    network/packets/PlaceBlockPacket.cpp
-    network/packets/LoginPacket.cpp
-    network/packets/StartGamePacket.cpp
-    network/packets/RemoveEntityPacket.cpp
-    network/packets/AddPlayerPacket.cpp
-    network/packets/RemoveBlockPacket.cpp
-    network/packets/MovePlayerPacket.cpp
-    network/packets/MessagePacket.cpp
-    network/ServerSideNetworkHandler.cpp
-    network/RakNetInstance.cpp
-    network/ClientSideNetworkHandler.cpp
-    network/MinecraftPackets.cpp
-    network/NetEventCallback.cpp
+    common/Logger.cpp
+    client/app/App.cpp
+    client/app/AppPlatform.cpp
+    client/app/Minecraft.cpp
+    client/app/NinecraftApp.cpp
+    client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
     client/renderer/entity/HumanoidMobRenderer.cpp
@@ -104,7 +89,24 @@ add_library(reminecraftpe-core STATIC
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
-    Minecraft.cpp
+    client/network/ClientSideNetworkHandler.cpp
+    network/packets/UpdateBlockPacket.cpp
+    network/packets/RequestChunkPacket.cpp
+    network/packets/PlayerEquipmentPacket.cpp
+    network/packets/ChunkDataPacket.cpp
+    network/packets/LevelDataPacket.cpp
+    network/packets/PlaceBlockPacket.cpp
+    network/packets/LoginPacket.cpp
+    network/packets/StartGamePacket.cpp
+    network/packets/RemoveEntityPacket.cpp
+    network/packets/AddPlayerPacket.cpp
+    network/packets/RemoveBlockPacket.cpp
+    network/packets/MovePlayerPacket.cpp
+    network/packets/MessagePacket.cpp
+    network/ServerSideNetworkHandler.cpp
+    network/RakNetInstance.cpp
+    network/MinecraftPackets.cpp
+    network/NetEventCallback.cpp
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
@@ -213,8 +215,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/ObsidianTile.cpp
     world/tile/FarmTile.cpp
     world/tile/DoorTile.cpp
-    App.cpp
-    AppPlatform.cpp
+    renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . .. ../thirdparty/zlib)
 

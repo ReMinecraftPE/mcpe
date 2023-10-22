@@ -28,11 +28,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-#define XPL_ACCESS access
-#define XPL_MKDIR(path, mode)  mkdir(path, mode)
 #endif
-
-#include "compat/GL.hpp"
 
 // include zlib stuff
 #include "zlib.h"
@@ -48,7 +44,7 @@ DIR* opendir(const char* name)
 		return NULL;
 
 	char buf[1024];
-	if (len >= 1024 - 5)
+	if (len >= sizeof(buf) - 5)
 		return NULL;
 
 	strcpy(buf, name);
@@ -63,6 +59,10 @@ DIR* opendir(const char* name)
 		return pDir;
 
 	memset(pDir, 0, sizeof * pDir);
+
+	// Stupid Unicode bullshit
+	//LPTSTR msBuff;
+	//mbstowcs(&msBuff, buf, sizeof(buf));
 
 	pDir->current = FindFirstFile(buf, &pDir->findData);
 	if (pDir->current == INVALID_HANDLE_VALUE)
@@ -91,7 +91,13 @@ dirent* readdir(DIR* dir)
 			return NULL;
 	}
 
-	strcpy(de.d_name, dir->findData.cFileName);
+	LPTSTR fileName = dir->findData.cFileName;
+
+	// Stupid Unicode bullshit
+	//char* fileName;
+	//wcstombs(fileName, fileNameMs, 255);
+
+	strcpy(de.d_name, fileName);
 	de.d_type = (dir->findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? DT_DIR : DT_REG;
 
 	return &de;
@@ -312,33 +318,6 @@ void sleepMs(int ms)
 }
 
 #endif
-
-void drawArrayVT(GLuint buffer, int count, int stride)
-{
-	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglDrawArrays(GL_TRIANGLES, 0, count);
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-}
-
-void drawArrayVTC(GLuint buffer, int count, int stride)
-{
-	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	xglColorPointer(4, GL_UNSIGNED_BYTE, stride, (void*)20);
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglEnableClientState(GL_COLOR_ARRAY);
-	xglDrawArrays(GL_TRIANGLES, 0, count);
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglDisableClientState(GL_COLOR_ARRAY);
-}
 
 float Max(float a, float b)
 {

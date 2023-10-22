@@ -9,7 +9,7 @@
 #pragma once
 
 #ifdef USE_SDL
-#include <SDL2/SDL.h>
+#include "../thirdparty/SDL2/SDL2.h"
 
 // because SDL sucks and makes no sense and sets bit 1<<30 for some keycodes for some godamn reason
 enum eSDLVirtualKeys

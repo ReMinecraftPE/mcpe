@@ -14,6 +14,8 @@
 class SoundSystem
 {
 public:
+	virtual ~SoundSystem();
+
 	virtual bool isAvailable();
 	virtual void setListenerPos(float x, float y, float z);
 	virtual void setListenerAngle(float yaw, float pitch);

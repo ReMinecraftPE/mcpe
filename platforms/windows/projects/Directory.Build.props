@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <MC_GLOBAL_PROPS>whattimeisit?</MC_GLOBAL_PROPS>
+    <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
+    <RAKNET_PATH>$(MC_ROOT)\thirdparty\raknet\</RAKNET_PATH>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <PlatformToolset Condition="'$(PlatformToolsetVersion)'=='' Or $(PlatformToolsetVersion)&gt;=141">v141_xp</PlatformToolset>
+	<WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	  <ConformanceMode>false</ConformanceMode>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2'))">
+    <ClCompile>
+	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	  <PreprocessorDefinitions>USE_SDL;USE_OPENAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(PlatformToolsetVersion)'!='' And $(PlatformToolsetVersion)&lt;140">
+    <ClCompile>
+	  <PreprocessorDefinitions>USE_OLD_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

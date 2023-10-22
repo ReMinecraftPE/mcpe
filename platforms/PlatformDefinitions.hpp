@@ -6,6 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+// @DEPRECATED: This is a stupid-ass file. Whoever wrote it didn't understand that each of the SoundSystems aren't going to have their own special functions.
+//				Either rename it and move it into Sounds or remove it entirely if possible.
+
 #pragma once
 
 // Sound Systems

@@ -8,7 +8,7 @@
 
 #include "MobRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 MobRenderer::MobRenderer(Model* pModel, float f)
 {

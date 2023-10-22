@@ -15,7 +15,7 @@ void LoginPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCall
 
 void LoginPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_LOGIN);
+	bs->Write((unsigned char)PACKET_LOGIN);
 	bs->Write(m_str);
 }
 

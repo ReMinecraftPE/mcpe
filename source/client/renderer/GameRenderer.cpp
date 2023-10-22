@@ -6,9 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 #include "GameRenderer.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 #include "Frustum.hpp"
 
 int t_keepPic;

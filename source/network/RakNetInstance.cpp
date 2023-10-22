@@ -10,6 +10,14 @@
 #include "MinecraftPackets.hpp"
 #include "GetTime.h"
 
+//#define LOG_PACKETS
+
+#ifdef LOG_PACKETS
+#define LOG_PACKET(str, ...) LOG_I(str, __VA_ARGS__)
+#else
+#define LOG_PACKET(str, ...)
+#endif
+
 RakNetInstance::RakNetInstance()
 {
 	m_bIsHost = false;
@@ -55,6 +63,8 @@ bool RakNetInstance::connect(const char* host, int port)
 	
 	if (m_pRakPeerInterface->Startup(4, &sd, 1) != RakNet::RAKNET_STARTED)
 		return false;
+    
+    LOG_I("Connecting to %s", host);
 
 	// Was evaluated to a bool, CONNECTION_ATTEMPT_STARTED is 0
 	return m_pRakPeerInterface->Connect(host, port, nullptr, 0) != RakNet::CONNECTION_ATTEMPT_STARTED;
@@ -127,9 +137,11 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 		if (!pPacket)
 			break;
 			
-		int packetType = *pPacket->data;
+		uint8_t packetType = *(pPacket->data);
 
 		RakNet::BitStream* pBitStream = new RakNet::BitStream(pPacket->data + 1, pPacket->length - 1, 0);
+        
+        LOG_PACKET("Recieved packet from %s (id: %d bitStream: 0x%x length: %u)", pPacket->systemAddress.ToString(), packetType, pBitStream, pPacket->length);
 
 		// @NOTE: why -1?
 		if (packetType >= PACKET_LOGIN - 1)
@@ -141,8 +153,13 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 				pUserPacket->handle(pPacket->guid, callback);
 				delete pUserPacket;
 			}
+			else
+			{
+				LOG_W("Received unrecognized packet type: %d", packetType);
+			}
 		}
-		else switch (packetType)
+		else if (packetType > ID_DETECT_LOST_CONNECTIONS)
+		switch (packetType)
 		{
 			case ID_CONNECTION_REQUEST_ACCEPTED:
 			{
@@ -207,6 +224,9 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 			SKIP_ADDING_NEW_ENTRY:
 				break;
 			}
+			default:
+				LOG_W("Received unrecognized RakNet packet type: %d", packetType);
+				break;
 		}
 
 		m_pRakPeerInterface->DeallocatePacket(pPacket);
@@ -241,15 +261,29 @@ void RakNetInstance::send(Packet* packet)
 	RakNet::BitStream bs;
 	packet->write(&bs);
 
+    uint32_t result;
 	if (m_bIsHost)
 	{
-		m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, RakNet::AddressOrGUID(), true);
+		result = m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, RakNet::UNASSIGNED_RAKNET_GUID, true);
 	}
 	else
 	{
 		// send it to the host instead
-		m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, m_guid, false);
+		result = m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, m_guid, false);
 	}
+    
+    if (result != 0)
+    {
+#ifdef LOG_PACKETS
+    uint8_t packetId;
+    bs.Read(packetId);
+    LOG_PACKET("Sent packet (id: %d guid: %s)", packetId, m_bIsHost ? "UNASSIGNED_SYSTEM_ADDRESS" : m_guid.ToString());
+#endif
+    }
+    else
+    {
+        LOG_E("Failed to send packet!");
+    }
 
 	delete packet;
 	// return 1300; --- ida tells me this returns 1300. Huh

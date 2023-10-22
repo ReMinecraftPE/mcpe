@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <map>
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 #include "RenderChunk.hpp"
 
 #define GET_RED(c)   (uint8_t(((c) >>  0) & 0xFF))

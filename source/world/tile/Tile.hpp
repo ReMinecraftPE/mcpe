@@ -205,6 +205,8 @@ public: // static variables
 		* stairs_stone,
 		* door_wood,
 		* door_iron,
+		* info_updateGame1,
+		* info_updateGame2,
 		// custom additions here
 		* sapling,
 		* sponge,

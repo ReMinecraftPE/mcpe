@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "LocalPlayer.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 int dword_250ADC, dword_250AE0;
 

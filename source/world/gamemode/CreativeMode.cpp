@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "CreativeMode.hpp"
-#include "Minecraft.hpp"
+#include "client/app/Minecraft.hpp"
 
 CreativeMode::CreativeMode(Minecraft* pMC) : GameMode(pMC)
 {

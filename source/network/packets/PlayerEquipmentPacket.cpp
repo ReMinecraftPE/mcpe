@@ -15,7 +15,7 @@ void PlayerEquipmentPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallb
 
 void PlayerEquipmentPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_PLAYER_EQUIPMENT);
+	bs->Write((unsigned char)PACKET_PLAYER_EQUIPMENT);
 	bs->Write(m_playerID);
 	bs->Write(m_itemID);
 }

@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Cube.hpp"
-#include "common/Utils.hpp"
+#include "renderer/GL/GL.hpp"
 
 const float Cube::c = 180.0f / float(M_PI);
 

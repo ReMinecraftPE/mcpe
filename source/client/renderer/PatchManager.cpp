@@ -1,9 +1,9 @@
 #include "PatchManager.hpp"
-#include "AppPlatform.hpp"
+#include "client/app/AppPlatform.hpp"
 #include "common/Utils.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/Item.hpp"
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 
 #define PM_SEPARATOR ('|')
 

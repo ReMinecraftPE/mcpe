@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 # SDL Build
 add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
 

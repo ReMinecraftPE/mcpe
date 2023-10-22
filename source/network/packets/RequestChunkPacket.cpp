@@ -15,7 +15,7 @@ void RequestChunkPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback
 
 void RequestChunkPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_REQUEST_CHUNK);
+	bs->Write((unsigned char)PACKET_REQUEST_CHUNK);
 	bs->Write(m_x);
 	bs->Write(m_z);
 }

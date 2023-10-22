@@ -9,14 +9,13 @@
 #include "SoundEngine.hpp"
 #include "SoundDefs.hpp"
 
-SoundEngine::SoundEngine()
+SoundEngine::SoundEngine(SoundSystem* soundSystem)
 {
 	field_40 = 0;
 	field_A1C = 0;
-#ifndef ORIGINAL_CODE
 	m_pOptions = nullptr;
 	field_A20 = 0;
-#endif
+	m_pSoundSystem = soundSystem;
 }
 
 void SoundEngine::init(Options* options)
@@ -67,7 +66,7 @@ void SoundEngine::play(const std::string& name)
 	SoundDesc sd;
 
 	if (m_repository.get(name, sd)) {
-		m_soundSystem.playAt(sd, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f);
+		m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f);
 	}
 }
 
@@ -79,6 +78,6 @@ void SoundEngine::play(const std::string& name, float x, float y, float z, float
 	SoundDesc sd;
 
 	if (m_repository.get(name, sd)) {
-		m_soundSystem.playAt(sd, x, y, z, volume, pitch);
+		m_pSoundSystem->playAt(sd, x, y, z, volume, pitch);
 	}
 }

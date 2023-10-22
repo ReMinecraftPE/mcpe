@@ -15,7 +15,7 @@ void UpdateBlockPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback*
 
 void UpdateBlockPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_UPDATE_BLOCK);
+	bs->Write((unsigned char)PACKET_UPDATE_BLOCK);
 	bs->Write(m_x);
 	bs->Write(m_z);
 	bs->Write(m_y);

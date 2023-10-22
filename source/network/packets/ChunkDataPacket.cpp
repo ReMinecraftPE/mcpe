@@ -16,7 +16,7 @@ void ChunkDataPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* p
 
 void ChunkDataPacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_CHUNK_DATA);
+	bs->Write((unsigned char)PACKET_CHUNK_DATA);
 	bs->Write(m_x);
 	bs->Write(m_z);
 	

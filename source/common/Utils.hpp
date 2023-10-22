@@ -14,6 +14,9 @@
 #include <stdarg.h>
 #include <assert.h>
 #include <limits.h>
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
 #include <math.h>
 
 #ifndef M_PI
@@ -77,6 +80,20 @@ struct DIR
 DIR* opendir(const char* name);
 dirent* readdir(DIR* dir);
 void closedir(DIR* dir);
+
+#include <sys/stat.h>
+
+#ifndef S_ISDIR
+#define S_ISDIR(mode)  (((mode) & S_IFMT) == S_IFDIR)
+#endif
+
+// https://stackoverflow.com/questions/341817/is-there-a-replacement-for-unistd-h-for-windows-visual-c
+/* Values for the second argument to access.
+   These may be OR'd together.  */
+#define R_OK    4       /* Test for read permission.  */
+#define W_OK    2       /* Test for write permission.  */
+   //#define   X_OK    1       /* execute permission - unsupported in windows*/
+#define F_OK    0       /* Test for existence.  */
 
 #else
 
@@ -253,6 +270,9 @@ enum eTileID
 	TILE_CLOTH_41,
 	TILE_CLOTH_51,
 	TILE_CLOTH_61,
+
+	TILE_INFO_UPDATEGAME1 = 248,
+	TILE_INFO_UPDATEGAME2 = 249,
 
 	TILE_OBSIDIAN_CRYING = 200, // custom stuff - ID of 200
 
@@ -503,6 +523,9 @@ enum // Textures
 	TEXTURE_SANDSTONE_BOTTOM = 208,
 
 	TEXTURE_LAVA = 237,
+
+	TEXTURE_INFO_UPDATEGAME1 = 252,
+	TEXTURE_INFO_UPDATEGAME2 = 253,
 
 	TEXTURE_LAVA_PLACEHOLDER = 255,
 };

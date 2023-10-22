@@ -15,7 +15,7 @@ void StartGamePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* p
 
 void StartGamePacket::write(RakNet::BitStream* bs)
 {
-	bs->Write(PACKET_START_GAME);
+	bs->Write((unsigned char)PACKET_START_GAME);
 	bs->Write(field_4);
 	bs->Write(field_8);
 	bs->Write(field_C);

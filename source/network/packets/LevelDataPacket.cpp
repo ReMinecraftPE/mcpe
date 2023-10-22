@@ -23,7 +23,7 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 	int chunksZ = C_MAX_CHUNKS_Z;
 	int minus9999 = -9999;
 	RakNet::BitStream bs;
-	pbs->Write(PACKET_LEVEL_DATA);
+	pbs->Write((unsigned char)PACKET_LEVEL_DATA);
 
 	int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
 	bs.Write(uncompMagic);
