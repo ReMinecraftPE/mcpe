@@ -55,6 +55,7 @@ void Options::_initDefaultValues()
 	m_playerName = "Steve";
 	m_bServerVisibleDefault = true;
 	m_bDebugText = false;
+	m_bBlockOutlines = false;
 
 	// Win32 key codes are being used by default
 #define KM(idx, name, code) m_keyMappings[idx] = KeyMapping(name, code)
@@ -240,6 +241,8 @@ void Options::_load()
 			Minecraft::useAmbientOcclusion = m_bAmbientOcclusion = readBool(value);
 		else if (key == "gfx_viewdistance")
 			m_iViewDistance = readInt(value);
+		else if (key == "gfx_blockoutlines")
+			m_bBlockOutlines = readBool(value);
 	}
 }
 
@@ -354,6 +357,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("mp_server_visible_default", saveBool(m_bServerVisibleDefault));
 	SO("gfx_smoothlighting",        saveBool(m_bAmbientOcclusion));
 	SO("gfx_viewdistance",          saveInt (m_iViewDistance));
+	SO("gfx_blockoutlines",         saveBool(m_bBlockOutlines));
 
 	return vec;
 }

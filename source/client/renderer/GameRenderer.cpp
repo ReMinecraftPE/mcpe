@@ -500,10 +500,13 @@ void GameRenderer::renderLevel(float f)
 		if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
 		{
 			glDisable(GL_ALPHA_TEST);
-			//pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-			pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
-			// added by iProgramInCpp
+			if (m_pMinecraft->getOptions()->m_bBlockOutlines)
+				pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+			else
+				pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+
+			// added by iProgramInCpp - renders the cracks
 			pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
 			glEnable(GL_ALPHA_TEST);

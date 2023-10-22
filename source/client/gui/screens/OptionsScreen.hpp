@@ -34,6 +34,7 @@ private:
 	Button m_viewDistButton;
 	Button m_flightHaxButton;
 	Button m_autoJumpButton;
+	Button m_blockLinesButton;
 #endif
 };
 

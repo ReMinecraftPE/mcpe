@@ -125,6 +125,7 @@ public:
 	bool m_bServerVisibleDefault;
 	bool m_bAutoJump;
 	bool m_bDebugText;
+	bool m_bBlockOutlines;
 
 public:
 	struct Option

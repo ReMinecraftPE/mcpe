@@ -10,6 +10,7 @@
 #include "StartMenuScreen.hpp"
 #include "PauseScreen.hpp"
 
+// Note! This enum matches the order in the options screen constructor
 enum eOptionsButton
 {
 	OB_BACK = 1,
@@ -21,21 +22,23 @@ enum eOptionsButton
 	OB_VIEW_BOB,
 	OB_VIEW_DIST,
 	OB_FLY_HAX,
-	OB_AUTO_JUMP
+	OB_AUTO_JUMP,
+	OB_BLOCK_LINES,
 };
 
 OptionsScreen::OptionsScreen()
 #ifndef ORIGINAL_CODE
-	:m_BackButton    (1, 0, 0, 200, 20, "Done"),
-	m_AOButton       (2, 0, 0, 150, 20, ""),
-	m_srvVisButton   (3, 0, 0, 150, 20, ""),
-	m_fancyGfxButton (4, 0, 0, 150, 20, ""),
-	m_invertYButton  (5, 0, 0, 150, 20, ""),
-	m_anaglyphsButton(6, 0, 0, 150, 20, ""),
-	m_viewBobButton  (7, 0, 0, 150, 20, ""),
-	m_viewDistButton (8, 0, 0, 150, 20, ""),
-	m_flightHaxButton(9, 0, 0, 150, 20, ""),
-	m_autoJumpButton (10, 0, 0, 150, 20, "")
+	:m_BackButton     (1, 0, 0, 200, 20, "Done"),
+	m_AOButton        (2, 0, 0, 150, 20, ""),
+	m_srvVisButton    (3, 0, 0, 150, 20, ""),
+	m_fancyGfxButton  (4, 0, 0, 150, 20, ""),
+	m_invertYButton   (5, 0, 0, 150, 20, ""),
+	m_anaglyphsButton (6, 0, 0, 150, 20, ""),
+	m_viewBobButton   (7, 0, 0, 150, 20, ""),
+	m_viewDistButton  (8, 0, 0, 150, 20, ""),
+	m_flightHaxButton (9, 0, 0, 150, 20, ""),
+	m_autoJumpButton  (10, 0, 0, 150, 20, ""),
+	m_blockLinesButton(11, 0, 0, 150, 20, "")
 #endif
 {
 }
@@ -67,15 +70,16 @@ void OptionsScreen::UpdateTexts()
 {
 	Options& o = *(m_pMinecraft->getOptions());
 
-	m_AOButton.m_text        = "Smooth lighting: " + BoolOptionStr(o.m_bAmbientOcclusion);
-	m_invertYButton.m_text   = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
-	m_viewBobButton.m_text   = "View bobbing: "    + BoolOptionStr(o.m_bViewBobbing);
-	m_anaglyphsButton.m_text = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
-	m_fancyGfxButton.m_text  = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
-	m_flightHaxButton.m_text = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
-	m_autoJumpButton.m_text  = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
-	m_viewDistButton.m_text  = "View distance: "   + ViewDistanceStr(o.m_iViewDistance);
-	m_srvVisButton.m_text    = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
+	m_AOButton.m_text         = "Smooth lighting: " + BoolOptionStr(o.m_bAmbientOcclusion);
+	m_invertYButton.m_text    = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
+	m_viewBobButton.m_text    = "View bobbing: "    + BoolOptionStr(o.m_bViewBobbing);
+	m_anaglyphsButton.m_text  = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
+	m_fancyGfxButton.m_text   = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
+	m_flightHaxButton.m_text  = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
+	m_autoJumpButton.m_text   = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
+	m_viewDistButton.m_text   = "View distance: "   + ViewDistanceStr(o.m_iViewDistance);
+	m_srvVisButton.m_text     = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
+	m_blockLinesButton.m_text = "Block outlines: "  + BoolOptionStr(o.m_bBlockOutlines);
 }
 #endif
 
@@ -90,23 +94,24 @@ void OptionsScreen::init()
 	m_BackButton.m_height = 20;
 	m_buttons.push_back(&m_BackButton);
 
-	m_AOButton.m_xPos       =
-	m_srvVisButton.m_xPos   = 
-	m_fancyGfxButton.m_xPos =
-	m_viewDistButton.m_xPos = m_width / 2 - m_AOButton.m_width - 5;
+	m_AOButton.m_xPos         =
+	m_srvVisButton.m_xPos     = 
+	m_fancyGfxButton.m_xPos   =
+	m_viewDistButton.m_xPos   = 
+	m_blockLinesButton.m_xPos = m_width / 2 - m_AOButton.m_width - 5;
 
 	m_invertYButton.m_xPos   =
 	m_anaglyphsButton.m_xPos =
-	m_viewBobButton.m_xPos   = 
+	m_viewBobButton.m_xPos   =
 	m_flightHaxButton.m_xPos =
 	m_autoJumpButton.m_xPos  = m_width / 2 + 5;
 
 	int yPos = 40;
-	m_AOButton.m_yPos       = m_invertYButton.m_yPos   = yPos; yPos += 25;
-	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos = yPos; yPos += 25;
-	m_fancyGfxButton.m_yPos = m_viewBobButton.m_yPos   = yPos; yPos += 25;
-	m_viewDistButton.m_yPos = m_flightHaxButton.m_yPos = yPos; yPos += 25;
-	m_autoJumpButton.m_yPos                            = yPos; yPos += 25;
+	m_AOButton.m_yPos       = m_invertYButton.m_yPos    = yPos; yPos += 25;
+	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos  = yPos; yPos += 25;
+	m_fancyGfxButton.m_yPos = m_viewBobButton.m_yPos    = yPos; yPos += 25;
+	m_viewDistButton.m_yPos = m_flightHaxButton.m_yPos  = yPos; yPos += 25;
+	m_autoJumpButton.m_yPos = m_blockLinesButton.m_yPos = yPos; yPos += 25;
 
 	m_buttons.push_back(&m_AOButton);
 	m_buttons.push_back(&m_srvVisButton);
@@ -117,6 +122,7 @@ void OptionsScreen::init()
 	m_buttons.push_back(&m_viewDistButton);
 	m_buttons.push_back(&m_flightHaxButton);
 	m_buttons.push_back(&m_autoJumpButton);
+	m_buttons.push_back(&m_blockLinesButton);
 
 	m_buttonTabList.push_back(&m_AOButton);
 	m_buttonTabList.push_back(&m_srvVisButton);
@@ -127,6 +133,7 @@ void OptionsScreen::init()
 	m_buttonTabList.push_back(&m_viewBobButton);
 	m_buttonTabList.push_back(&m_flightHaxButton);
 	m_buttonTabList.push_back(&m_autoJumpButton);
+	m_buttonTabList.push_back(&m_blockLinesButton);
 
 	m_buttonTabList.push_back(&m_BackButton);
 
@@ -211,6 +218,9 @@ void OptionsScreen::buttonClicked(Button* pButton)
 			break;
 		case OB_AUTO_JUMP:
 			pOption = &o.m_bAutoJump;
+			break;
+		case OB_BLOCK_LINES:
+			pOption = &o.m_bBlockOutlines;
 			break;
 	}
 
