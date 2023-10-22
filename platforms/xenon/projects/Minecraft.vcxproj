@@ -316,7 +316,6 @@
     <ClInclude Include="$(MC_ROOT)\compat\AKeyCodes.hpp" />
     <ClInclude Include="$(MC_ROOT)\GameMods.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\platforms\PlatformDefinitions.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\windows\AppPlatform_windows.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\windows\SoundSystemWindows.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\App.hpp" />
