@@ -33,7 +33,7 @@ if(EMSCRIPTEN)
 add_executable(reminecraftpe
     main.cpp
 	AppPlatform_sdlbase.cpp
-    ../emscripten/AppPlatform_emscripten.cpp
+    AppPlatform_emscripten.cpp
     ../openal/SoundSystemAL.cpp
 )
 else()
