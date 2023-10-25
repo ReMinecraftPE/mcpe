@@ -85,23 +85,6 @@
 		840DD8B52AC810630006A435 /* SoundEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD61E2AC810620006A435 /* SoundEngine.cpp */; };
 		840DD8B62AC810630006A435 /* SoundRepository.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6202AC810620006A435 /* SoundRepository.cpp */; };
 		840DD8B72AC810630006A435 /* SoundSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6222AC810620006A435 /* SoundSystem.cpp */; };
-		840DD8C12AC810630006A435 /* MinecraftPackets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63A2AC810620006A435 /* MinecraftPackets.cpp */; };
-		840DD8C22AC810630006A435 /* NetEventCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63C2AC810620006A435 /* NetEventCallback.cpp */; };
-		840DD8C32AC810630006A435 /* AddPlayerPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6402AC810620006A435 /* AddPlayerPacket.cpp */; };
-		840DD8C42AC810630006A435 /* ChunkDataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6412AC810620006A435 /* ChunkDataPacket.cpp */; };
-		840DD8C52AC810630006A435 /* LevelDataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6422AC810620006A435 /* LevelDataPacket.cpp */; };
-		840DD8C62AC810630006A435 /* LoginPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6432AC810620006A435 /* LoginPacket.cpp */; };
-		840DD8C72AC810630006A435 /* MessagePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6442AC810620006A435 /* MessagePacket.cpp */; };
-		840DD8C82AC810630006A435 /* MovePlayerPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6452AC810620006A435 /* MovePlayerPacket.cpp */; };
-		840DD8C92AC810630006A435 /* PlaceBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6462AC810620006A435 /* PlaceBlockPacket.cpp */; };
-		840DD8CA2AC810630006A435 /* PlayerEquipmentPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6472AC810620006A435 /* PlayerEquipmentPacket.cpp */; };
-		840DD8CB2AC810630006A435 /* RemoveBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6482AC810620006A435 /* RemoveBlockPacket.cpp */; };
-		840DD8CC2AC810630006A435 /* RemoveEntityPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6492AC810620006A435 /* RemoveEntityPacket.cpp */; };
-		840DD8CD2AC810630006A435 /* RequestChunkPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64A2AC810620006A435 /* RequestChunkPacket.cpp */; };
-		840DD8CE2AC810630006A435 /* StartGamePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64B2AC810620006A435 /* StartGamePacket.cpp */; };
-		840DD8CF2AC810630006A435 /* UpdateBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64C2AC810620006A435 /* UpdateBlockPacket.cpp */; };
-		840DD8D02AC810630006A435 /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
-		840DD8D12AC810630006A435 /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */; };
 		840DD8D22AC810630006A435 /* GL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6542AC810620006A435 /* GL.cpp */; };
 		840DD8D32AC810630006A435 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6582AC810620006A435 /* Entity.cpp */; };
 		840DD8D42AC810630006A435 /* FallingTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD65A2AC810620006A435 /* FallingTile.cpp */; };
@@ -228,7 +211,29 @@
 		840DD9BC2AC810630006A435 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8632AC810630006A435 /* trees.c */; };
 		840DD9BD2AC810630006A435 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8652AC810630006A435 /* uncompr.c */; };
 		840DD9BE2AC810630006A435 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8682AC810630006A435 /* zutil.c */; };
-		84343BD12ACA4D8C00B13105 /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
+		840DEBDF2AC8107E0006A435 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DE3902AC8107B0006A435 /* SoundSystemAL.cpp */; };
+		840DEBE02AC8107E0006A435 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DE3952AC8107B0006A435 /* AppPlatform_sdl.cpp */; };
+		840DEBE12AC8107E0006A435 /* AppPlatform_sdlbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DE3972AC8107B0006A435 /* AppPlatform_sdlbase.cpp */; };
+		840DEBE22AC8107E0006A435 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DE39A2AC8107B0006A435 /* main.cpp */; };
+		8426106F2AE989720065905F /* MinecraftPackets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63A2AC810620006A435 /* MinecraftPackets.cpp */; };
+		842610702AE989720065905F /* NetEventCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63C2AC810620006A435 /* NetEventCallback.cpp */; };
+		842610712AE989720065905F /* AddPlayerPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6402AC810620006A435 /* AddPlayerPacket.cpp */; };
+		842610722AE989720065905F /* ChunkDataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6412AC810620006A435 /* ChunkDataPacket.cpp */; };
+		842610732AE989730065905F /* LevelDataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6422AC810620006A435 /* LevelDataPacket.cpp */; };
+		842610742AE989730065905F /* LoginPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6432AC810620006A435 /* LoginPacket.cpp */; };
+		842610752AE989730065905F /* MessagePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6442AC810620006A435 /* MessagePacket.cpp */; };
+		842610762AE989730065905F /* MovePlayerPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6452AC810620006A435 /* MovePlayerPacket.cpp */; };
+		842610772AE989730065905F /* PlaceBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6462AC810620006A435 /* PlaceBlockPacket.cpp */; };
+		842610782AE989730065905F /* PlayerEquipmentPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6472AC810620006A435 /* PlayerEquipmentPacket.cpp */; };
+		842610792AE989730065905F /* RemoveBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6482AC810620006A435 /* RemoveBlockPacket.cpp */; };
+		8426107A2AE989730065905F /* RemoveEntityPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6492AC810620006A435 /* RemoveEntityPacket.cpp */; };
+		8426107B2AE989730065905F /* RequestChunkPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64A2AC810620006A435 /* RequestChunkPacket.cpp */; };
+		8426107C2AE989730065905F /* StartGamePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64B2AC810620006A435 /* StartGamePacket.cpp */; };
+		8426107D2AE989730065905F /* UpdateBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64C2AC810620006A435 /* UpdateBlockPacket.cpp */; };
+		8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
+		8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */; };
+		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
+		8426108D2AE98A6E0065905F /* libNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842610682AE988D30065905F /* libNetwork.a */; };
 		84359F802A8D1D8D008CBFC0 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B4A82A86FF57004CA8EC /* libpng.a */; };
 		8443B6EA2A98675F0086730C /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8443B6E92A98675F0086730C /* libSDL2.a */; };
 		8489B3222A86E464004CA8EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
@@ -378,19 +383,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		84343BCF2ACA4D8500B13105 /* PBXContainerItemProxy */ = {
+		842610802AE9898E0065905F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 84FFBD7D2ACA2876005A8CCF;
 			remoteInfo = RakNet;
 		};
-		84E4BFBE2AE987050023E16A /* PBXContainerItemProxy */ = {
+		842610892AE98A640065905F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 84E4BFAD2AE9854B0023E16A;
 			remoteInfo = Common;
+		};
+		8426108B2AE98A640065905F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 842610672AE988D30065905F;
+			remoteInfo = Network;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1111,6 +1123,15 @@
 		840DD8672AC810630006A435 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		840DD8682AC810630006A435 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		840DD8692AC810630006A435 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
+		840DE3902AC8107B0006A435 /* SoundSystemAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemAL.cpp; sourceTree = "<group>"; };
+		840DE3912AC8107B0006A435 /* SoundSystemAL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystemAL.hpp; sourceTree = "<group>"; };
+		840DE3952AC8107B0006A435 /* AppPlatform_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl.cpp; sourceTree = "<group>"; };
+		840DE3962AC8107B0006A435 /* AppPlatform_sdl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl.hpp; sourceTree = "<group>"; };
+		840DE3972AC8107B0006A435 /* AppPlatform_sdlbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdlbase.cpp; sourceTree = "<group>"; };
+		840DE3982AC8107B0006A435 /* AppPlatform_sdlbase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdlbase.hpp; sourceTree = "<group>"; };
+		840DE3992AC8107B0006A435 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		840DE39A2AC8107B0006A435 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		842610682AE988D30065905F /* libNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
 		845FE6902AD780B900461C46 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		845FE6932AD780B900461C46 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
@@ -1153,12 +1174,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		842610662AE988D30065905F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				842610882AE98A4C0065905F /* libRakNet.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8489B0942A86D4B2004CA8EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8426108D2AE98A6E0065905F /* libNetwork.a in Frameworks */,
 				84E4BFC02AE987130023E16A /* libCommon.a in Frameworks */,
-				84343BD12ACA4D8C00B13105 /* libRakNet.a in Frameworks */,
 				84359F802A8D1D8D008CBFC0 /* libpng.a in Frameworks */,
 				8489B3262A86E4B0004CA8EC /* OpenGL.framework in Frameworks */,
 				84C4D86F2A872C0100323E33 /* OpenAL.framework in Frameworks */,
@@ -2225,8 +2254,8 @@
 			isa = PBXGroup;
 			children = (
 				84790AEC2AD7DA410076F2A1 /* ios */,
-				8492590A2AD8A7170081F5B9 /* openal */,
-				8492590D2AD8A7170081F5B9 /* sdl */,
+				840DE38F2AC8107B0006A435 /* openal */,
+				840DE3932AC8107B0006A435 /* sdl */,
 			);
 			name = platforms;
 			path = ../../..;
@@ -2272,6 +2301,7 @@
 				84FFBD7E2ACA2876005A8CCF /* libRakNet.a */,
 				8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */,
 				84E4BFAE2AE9854B0023E16A /* libCommon.a */,
+				842610682AE988D30065905F /* libNetwork.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2329,6 +2359,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		842610642AE988D30065905F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84E4BFAA2AE9854B0023E16A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -2346,6 +2383,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		842610672AE988D30065905F /* Network */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8426106E2AE988D30065905F /* Build configuration list for PBXNativeTarget "Network" */;
+			buildPhases = (
+				842610642AE988D30065905F /* Headers */,
+				842610652AE988D30065905F /* Sources */,
+				842610662AE988D30065905F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				842610812AE9898E0065905F /* PBXTargetDependency */,
+			);
+			name = Network;
+			productName = Network;
+			productReference = 842610682AE988D30065905F /* libNetwork.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		8489B0962A86D4B2004CA8EC /* Minecraft */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8489B09E2A86D4B2004CA8EC /* Build configuration list for PBXNativeTarget "Minecraft" */;
@@ -2357,8 +2412,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				84E4BFBF2AE987050023E16A /* PBXTargetDependency */,
-				84343BD02ACA4D8500B13105 /* PBXTargetDependency */,
+				8426108A2AE98A640065905F /* PBXTargetDependency */,
+				8426108C2AE98A640065905F /* PBXTargetDependency */,
 			);
 			name = Minecraft;
 			productName = Minecraft;
@@ -2424,6 +2479,9 @@
 			attributes = {
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					842610672AE988D30065905F = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					8489B0962A86D4B2004CA8EC = {
 						CreatedOnToolsVersion = 14.2;
 						ProvisioningStyle = Automatic;
@@ -2454,6 +2512,7 @@
 				84FFBD7D2ACA2876005A8CCF /* RakNet */,
 				8492591C2AD8FCFC0081F5B9 /* minecraftpe */,
 				84E4BFAD2AE9854B0023E16A /* Common */,
+				842610672AE988D30065905F /* Network */,
 			);
 		};
 /* End PBXProject section */
@@ -2473,6 +2532,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		842610652AE988D30065905F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8426106F2AE989720065905F /* MinecraftPackets.cpp in Sources */,
+				842610702AE989720065905F /* NetEventCallback.cpp in Sources */,
+				842610712AE989720065905F /* AddPlayerPacket.cpp in Sources */,
+				842610722AE989720065905F /* ChunkDataPacket.cpp in Sources */,
+				842610732AE989730065905F /* LevelDataPacket.cpp in Sources */,
+				842610742AE989730065905F /* LoginPacket.cpp in Sources */,
+				842610752AE989730065905F /* MessagePacket.cpp in Sources */,
+				842610762AE989730065905F /* MovePlayerPacket.cpp in Sources */,
+				842610772AE989730065905F /* PlaceBlockPacket.cpp in Sources */,
+				842610782AE989730065905F /* PlayerEquipmentPacket.cpp in Sources */,
+				842610792AE989730065905F /* RemoveBlockPacket.cpp in Sources */,
+				8426107A2AE989730065905F /* RemoveEntityPacket.cpp in Sources */,
+				8426107B2AE989730065905F /* RequestChunkPacket.cpp in Sources */,
+				8426107C2AE989730065905F /* StartGamePacket.cpp in Sources */,
+				8426107D2AE989730065905F /* UpdateBlockPacket.cpp in Sources */,
+				8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */,
+				8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8489B0932A86D4B2004CA8EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2555,23 +2638,6 @@
 				840DD8B52AC810630006A435 /* SoundEngine.cpp in Sources */,
 				840DD8B62AC810630006A435 /* SoundRepository.cpp in Sources */,
 				840DD8B72AC810630006A435 /* SoundSystem.cpp in Sources */,
-				840DD8C12AC810630006A435 /* MinecraftPackets.cpp in Sources */,
-				840DD8C22AC810630006A435 /* NetEventCallback.cpp in Sources */,
-				840DD8C32AC810630006A435 /* AddPlayerPacket.cpp in Sources */,
-				840DD8C42AC810630006A435 /* ChunkDataPacket.cpp in Sources */,
-				840DD8C52AC810630006A435 /* LevelDataPacket.cpp in Sources */,
-				840DD8C62AC810630006A435 /* LoginPacket.cpp in Sources */,
-				840DD8C72AC810630006A435 /* MessagePacket.cpp in Sources */,
-				840DD8C82AC810630006A435 /* MovePlayerPacket.cpp in Sources */,
-				840DD8C92AC810630006A435 /* PlaceBlockPacket.cpp in Sources */,
-				840DD8CA2AC810630006A435 /* PlayerEquipmentPacket.cpp in Sources */,
-				840DD8CB2AC810630006A435 /* RemoveBlockPacket.cpp in Sources */,
-				840DD8CC2AC810630006A435 /* RemoveEntityPacket.cpp in Sources */,
-				840DD8CD2AC810630006A435 /* RequestChunkPacket.cpp in Sources */,
-				840DD8CE2AC810630006A435 /* StartGamePacket.cpp in Sources */,
-				840DD8CF2AC810630006A435 /* UpdateBlockPacket.cpp in Sources */,
-				840DD8D02AC810630006A435 /* RakNetInstance.cpp in Sources */,
-				840DD8D12AC810630006A435 /* ServerSideNetworkHandler.cpp in Sources */,
 				840DD8D22AC810630006A435 /* GL.cpp in Sources */,
 				840DD8D32AC810630006A435 /* Entity.cpp in Sources */,
 				840DD8D42AC810630006A435 /* FallingTile.cpp in Sources */,
@@ -2855,15 +2921,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		84343BD02ACA4D8500B13105 /* PBXTargetDependency */ = {
+		842610812AE9898E0065905F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84FFBD7D2ACA2876005A8CCF /* RakNet */;
-			targetProxy = 84343BCF2ACA4D8500B13105 /* PBXContainerItemProxy */;
+			targetProxy = 842610802AE9898E0065905F /* PBXContainerItemProxy */;
 		};
-		84E4BFBF2AE987050023E16A /* PBXTargetDependency */ = {
+		8426108A2AE98A640065905F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84E4BFAD2AE9854B0023E16A /* Common */;
-			targetProxy = 84E4BFBE2AE987050023E16A /* PBXContainerItemProxy */;
+			targetProxy = 842610892AE98A640065905F /* PBXContainerItemProxy */;
+		};
+		8426108C2AE98A640065905F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 842610672AE988D30065905F /* Network */;
+			targetProxy = 8426108B2AE98A640065905F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3118,6 +3189,46 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (x86-PPC)";
+		};
+		842610692AE988D30065905F /* Debug (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Debug (Default)";
+		};
+		8426106A2AE988D30065905F /* Release (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (Default)";
+		};
+		8426106B2AE988D30065905F /* Release (x86) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (x86)";
+		};
+		8426106C2AE988D30065905F /* Release (PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (PPC)";
+		};
+		8426106D2AE988D30065905F /* Release (x86-PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Release (x86-PPC)";
@@ -3452,6 +3563,18 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8426106E2AE988D30065905F /* Build configuration list for PBXNativeTarget "Network" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				842610692AE988D30065905F /* Debug (Default) */,
+				8426106A2AE988D30065905F /* Release (Default) */,
+				8426106B2AE988D30065905F /* Release (x86) */,
+				8426106C2AE988D30065905F /* Release (PPC) */,
+				8426106D2AE988D30065905F /* Release (x86-PPC) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Release (Default)";
+		};
 		8489B0922A86D4B2004CA8EC /* Build configuration list for PBXProject "Minecraft" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
