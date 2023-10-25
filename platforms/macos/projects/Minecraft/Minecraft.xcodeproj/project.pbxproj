@@ -85,15 +85,6 @@
 		840DD8B52AC810630006A435 /* SoundEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD61E2AC810620006A435 /* SoundEngine.cpp */; };
 		840DD8B62AC810630006A435 /* SoundRepository.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6202AC810620006A435 /* SoundRepository.cpp */; };
 		840DD8B72AC810630006A435 /* SoundSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6222AC810620006A435 /* SoundSystem.cpp */; };
-		840DD8B82AC810630006A435 /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6262AC810620006A435 /* CThread.cpp */; };
-		840DD8B92AC810630006A435 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6282AC810620006A435 /* Logger.cpp */; };
-		840DD8BA2AC810630006A435 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62B2AC810620006A435 /* Matrix.cpp */; };
-		840DD8BB2AC810630006A435 /* Mth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62D2AC810620006A435 /* Mth.cpp */; };
-		840DD8BC2AC810630006A435 /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62F2AC810620006A435 /* Random.cpp */; };
-		840DD8BD2AC810630006A435 /* StandardOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6312AC810620006A435 /* StandardOut.cpp */; };
-		840DD8BE2AC810630006A435 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6332AC810620006A435 /* Timer.cpp */; };
-		840DD8BF2AC810630006A435 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6352AC810620006A435 /* Util.cpp */; };
-		840DD8C02AC810630006A435 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6372AC810620006A435 /* Utils.cpp */; };
 		840DD8C12AC810630006A435 /* MinecraftPackets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63A2AC810620006A435 /* MinecraftPackets.cpp */; };
 		840DD8C22AC810630006A435 /* NetEventCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63C2AC810620006A435 /* NetEventCallback.cpp */; };
 		840DD8C32AC810630006A435 /* AddPlayerPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6402AC810620006A435 /* AddPlayerPacket.cpp */; };
@@ -264,6 +255,16 @@
 		8495E4892AF0905B00A06901 /* AppPlatform_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8495E4882AF0905B00A06901 /* AppPlatform_iOS.mm */; };
 		84C4D86F2A872C0100323E33 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C4D86E2A872C0100323E33 /* OpenAL.framework */; };
 		84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CEF0022AE3C97D006C5829 /* EAGLView.m */; };
+		84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6262AC810620006A435 /* CThread.cpp */; };
+		84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6282AC810620006A435 /* Logger.cpp */; };
+		84E4BFB72AE9869A0023E16A /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62B2AC810620006A435 /* Matrix.cpp */; };
+		84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62D2AC810620006A435 /* Mth.cpp */; };
+		84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62F2AC810620006A435 /* Random.cpp */; };
+		84E4BFBA2AE9869A0023E16A /* StandardOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6312AC810620006A435 /* StandardOut.cpp */; };
+		84E4BFBB2AE9869A0023E16A /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6332AC810620006A435 /* Timer.cpp */; };
+		84E4BFBC2AE9869A0023E16A /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6352AC810620006A435 /* Util.cpp */; };
+		84E4BFBD2AE9869A0023E16A /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6372AC810620006A435 /* Utils.cpp */; };
+		84E4BFC02AE987130023E16A /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E4BFAE2AE9854B0023E16A /* libCommon.a */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
 		84FFBE962ACA3415005A8CCF /* Base64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73E2AC810620006A435 /* Base64Encoder.cpp */; };
 		84FFBE972ACA3415005A8CCF /* BitStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7402AC810620006A435 /* BitStream.cpp */; };
@@ -383,6 +384,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 84FFBD7D2ACA2876005A8CCF;
 			remoteInfo = RakNet;
+		};
+		84E4BFBE2AE987050023E16A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84E4BFAD2AE9854B0023E16A;
+			remoteInfo = Common;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1140,6 +1148,7 @@
 		84C4D86E2A872C0100323E33 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
 		84CEF0012AE3C97D006C5829 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		84CEF0022AE3C97D006C5829 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
+		84E4BFAE2AE9854B0023E16A /* libCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1148,6 +1157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84E4BFC02AE987130023E16A /* libCommon.a in Frameworks */,
 				84343BD12ACA4D8C00B13105 /* libRakNet.a in Frameworks */,
 				84359F802A8D1D8D008CBFC0 /* libpng.a in Frameworks */,
 				8489B3262A86E4B0004CA8EC /* OpenGL.framework in Frameworks */,
@@ -1167,6 +1177,13 @@
 				849259212AD8FCFC0081F5B9 /* CoreGraphics.framework in Frameworks */,
 				849259222AD8FCFC0081F5B9 /* GLKit.framework in Frameworks */,
 				849259232AD8FCFC0081F5B9 /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84E4BFAC2AE9854B0023E16A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2254,6 +2271,7 @@
 				8489B0972A86D4B2004CA8EC /* Minecraft */,
 				84FFBD7E2ACA2876005A8CCF /* libRakNet.a */,
 				8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */,
+				84E4BFAE2AE9854B0023E16A /* libCommon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2311,6 +2329,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		84E4BFAA2AE9854B0023E16A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84FFBD7C2ACA2876005A8CCF /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -2332,6 +2357,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				84E4BFBF2AE987050023E16A /* PBXTargetDependency */,
 				84343BD02ACA4D8500B13105 /* PBXTargetDependency */,
 			);
 			name = Minecraft;
@@ -2355,6 +2381,23 @@
 			productName = minecraftpe;
 			productReference = 8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */;
 			productType = "com.apple.product-type.application";
+		};
+		84E4BFAD2AE9854B0023E16A /* Common */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84E4BFB42AE9854B0023E16A /* Build configuration list for PBXNativeTarget "Common" */;
+			buildPhases = (
+				84E4BFAA2AE9854B0023E16A /* Headers */,
+				84E4BFAB2AE9854B0023E16A /* Sources */,
+				84E4BFAC2AE9854B0023E16A /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Common;
+			productName = Common;
+			productReference = 84E4BFAE2AE9854B0023E16A /* libCommon.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 		84FFBD7D2ACA2876005A8CCF /* RakNet */ = {
 			isa = PBXNativeTarget;
@@ -2385,6 +2428,9 @@
 						CreatedOnToolsVersion = 14.2;
 						ProvisioningStyle = Automatic;
 					};
+					84E4BFAD2AE9854B0023E16A = {
+						CreatedOnToolsVersion = 14.2;
+					};
 				};
 			};
 			buildConfigurationList = 8489B0922A86D4B2004CA8EC /* Build configuration list for PBXProject "Minecraft" */;
@@ -2407,6 +2453,7 @@
 				8489B0962A86D4B2004CA8EC /* Minecraft */,
 				84FFBD7D2ACA2876005A8CCF /* RakNet */,
 				8492591C2AD8FCFC0081F5B9 /* minecraftpe */,
+				84E4BFAD2AE9854B0023E16A /* Common */,
 			);
 		};
 /* End PBXProject section */
@@ -2508,15 +2555,6 @@
 				840DD8B52AC810630006A435 /* SoundEngine.cpp in Sources */,
 				840DD8B62AC810630006A435 /* SoundRepository.cpp in Sources */,
 				840DD8B72AC810630006A435 /* SoundSystem.cpp in Sources */,
-				840DD8B82AC810630006A435 /* CThread.cpp in Sources */,
-				840DD8B92AC810630006A435 /* Logger.cpp in Sources */,
-				840DD8BA2AC810630006A435 /* Matrix.cpp in Sources */,
-				840DD8BB2AC810630006A435 /* Mth.cpp in Sources */,
-				840DD8BC2AC810630006A435 /* Random.cpp in Sources */,
-				840DD8BD2AC810630006A435 /* StandardOut.cpp in Sources */,
-				840DD8BE2AC810630006A435 /* Timer.cpp in Sources */,
-				840DD8BF2AC810630006A435 /* Util.cpp in Sources */,
-				840DD8C02AC810630006A435 /* Utils.cpp in Sources */,
 				840DD8C12AC810630006A435 /* MinecraftPackets.cpp in Sources */,
 				840DD8C22AC810630006A435 /* NetEventCallback.cpp in Sources */,
 				840DD8C32AC810630006A435 /* AddPlayerPacket.cpp in Sources */,
@@ -2681,6 +2719,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84E4BFAB2AE9854B0023E16A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */,
+				84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */,
+				84E4BFB72AE9869A0023E16A /* Matrix.cpp in Sources */,
+				84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */,
+				84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */,
+				84E4BFBA2AE9869A0023E16A /* StandardOut.cpp in Sources */,
+				84E4BFBB2AE9869A0023E16A /* Timer.cpp in Sources */,
+				84E4BFBC2AE9869A0023E16A /* Util.cpp in Sources */,
+				84E4BFBD2AE9869A0023E16A /* Utils.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84FFBD7A2ACA2876005A8CCF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2805,6 +2859,11 @@
 			isa = PBXTargetDependency;
 			target = 84FFBD7D2ACA2876005A8CCF /* RakNet */;
 			targetProxy = 84343BCF2ACA4D8500B13105 /* PBXContainerItemProxy */;
+		};
+		84E4BFBF2AE987050023E16A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84E4BFAD2AE9854B0023E16A /* Common */;
+			targetProxy = 84E4BFBE2AE987050023E16A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3304,6 +3363,52 @@
 			};
 			name = "Release (x86-PPC)";
 		};
+		84E4BFAF2AE9854B0023E16A /* Debug (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Debug (Default)";
+		};
+		84E4BFB02AE9854B0023E16A /* Release (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_NO_COMMON_BLOCKS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (Default)";
+		};
+		84E4BFB12AE9854B0023E16A /* Release (x86) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_NO_COMMON_BLOCKS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (x86)";
+		};
+		84E4BFB22AE9854B0023E16A /* Release (PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_NO_COMMON_BLOCKS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (PPC)";
+		};
+		84E4BFB32AE9854B0023E16A /* Release (x86-PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_NO_COMMON_BLOCKS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release (x86-PPC)";
+		};
 		84FFBD7F2ACA2876005A8CCF /* Debug (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3379,6 +3484,18 @@
 				849259402AD8FCFD0081F5B9 /* Release (x86) */,
 				849259412AD8FCFD0081F5B9 /* Release (PPC) */,
 				849259422AD8FCFD0081F5B9 /* Release (x86-PPC) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Release (Default)";
+		};
+		84E4BFB42AE9854B0023E16A /* Build configuration list for PBXNativeTarget "Common" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84E4BFAF2AE9854B0023E16A /* Debug (Default) */,
+				84E4BFB02AE9854B0023E16A /* Release (Default) */,
+				84E4BFB12AE9854B0023E16A /* Release (x86) */,
+				84E4BFB22AE9854B0023E16A /* Release (PPC) */,
+				84E4BFB32AE9854B0023E16A /* Release (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release (Default)";
