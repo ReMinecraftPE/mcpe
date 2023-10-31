@@ -479,23 +479,23 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 {
 	if (!m_pLevel)
 		return;
-
+    
 	if (parms.size() != 3)
 	{
 		sendMessage(player, "Usage: /tp <x> <y> <z>");
 		return;
 	}
-
+    
 	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
 	{
 		sendMessage(player, "Sorry, only the host can use this command at the moment");
 		return;
 	}
-
+    
 	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-
+    
 	float x = pos.x, y = pos.y, z = pos.z;
-
+    
 	std::stringstream ss;
 	if (parms[0] != "~")
 	{
@@ -512,11 +512,11 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 		ss.str(parms[2]);
 		ss >> z;
 	}
-
+    
 	ss.str(std::string());
 	ss << "Teleported to " << x << ", " << y << ", " << z;
-
+    
 	player->m_pPlayer->setPos(x, y, z);
-
+    
 	sendMessage(player, ss.str());
 }
