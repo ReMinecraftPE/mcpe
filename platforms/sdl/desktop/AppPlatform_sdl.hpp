@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "AppPlatform_sdl_base.hpp"
+#include "../base/AppPlatform_sdl_base.hpp"
 
 #define EM_BOOL bool
 #define EM_TRUE true

@@ -5,7 +5,11 @@
 #include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
 
-#include "AppPlatform_sdl.hpp"
+#ifdef __EMSCRIPTEN__
+#include "emscripten/AppPlatform_sdl.hpp"
+#else
+#include "desktop/AppPlatform_sdl.hpp"
+#endif
 typedef AppPlatform_sdl UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
