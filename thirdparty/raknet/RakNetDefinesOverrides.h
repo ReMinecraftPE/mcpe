@@ -10,5 +10,5 @@
 
 // USER EDITABLE FILE
 
-
+// Needed for C++03 backwards compatibility
 #include "../source/common/Utils.hpp"
