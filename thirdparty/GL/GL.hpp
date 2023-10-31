@@ -180,6 +180,14 @@ static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, G
 	glMultMatrixf(&m[0][0]);
 }
 
+#elif defined(USE_GLES2)
+
+#import <OpenGLES/EAGL.h>
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+
 #else
 
 #ifdef _WIN32

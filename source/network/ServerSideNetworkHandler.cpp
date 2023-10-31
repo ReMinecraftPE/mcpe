@@ -499,21 +499,21 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 	std::stringstream ss;
 	if (parms[0] != "~")
 	{
-		ss = std::stringstream(parms[0]);
+		ss.str(parms[0]);
 		ss >> x;
 	}
 	if (parms[1] != "~")
 	{
-		ss = std::stringstream(parms[1]);
+		ss.str(parms[1]);
 		ss >> y;
 	}
 	if (parms[2] != "~")
 	{
-		ss = std::stringstream(parms[2]);
+		ss.str(parms[2]);
 		ss >> z;
 	}
 
-	ss = std::stringstream();
+	ss.str(std::string());
 	ss << "Teleported to " << x << ", " << y << ", " << z;
 
 	player->m_pPlayer->setPos(x, y, z);
