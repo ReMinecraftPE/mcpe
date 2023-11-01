@@ -175,6 +175,38 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 #ifndef ENH_TRANSPARENT_HOTBAR
 		glEnable(GL_BLEND);
 #endif
+		glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+		blit(cenX - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0);
+#ifndef ENH_TRANSPARENT_HOTBAR
+		glDisable(GL_BLEND);
+#endif
+	}
+	else
+	{
+		// if needed, draw feedback
+		
+		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
+		// "last progress". Well guess what? The game mode in question updates our field_8 with
+		// the pre-interpolated break progress! Isn't that awesome?!
+		float breakProgress = field_8;
+
+		// don't know about this if-structure, it feels like it'd be like
+		// if (field_C >= 0.0f && breakProgress <= 0.0f)
+		//     that;
+		// else
+		//     this;
+		if (breakProgress > 0.0f || m_pMinecraft->m_pInputHolder->field_C < 0.0f)
+		{
+			if (breakProgress > 0.0f)
+			{
+				float xPos = m_pMinecraft->m_pInputHolder->field_4;
+				float yPos = m_pMinecraft->m_pInputHolder->field_8;
+
+				m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
 
 		// draw crosshair
 		glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
