@@ -81,7 +81,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	renderBackground();
 
 	int nItems = getNumberOfItems();
-	if (Mouse::isButtonDown(1))
+	if (Mouse::isButtonDown(BUTTON_LEFT))
 	{
 		if (float(mouseY) >= field_C && float(mouseY) <= field_10 && mouseY != field_28)
 		{

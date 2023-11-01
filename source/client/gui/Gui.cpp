@@ -134,6 +134,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!m->m_pLevel || !m->m_pLocalPlayer)
 		return;
 
+	bool isTouchscreen = m->isTouchscreen();
+
 	field_4 = -90.0f;
 
 #ifndef ENH_TRANSPARENT_HOTBAR
@@ -156,25 +158,86 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 #endif
 
+	int nSlots = getNumSlots();
+	int hotbarWidth = 2 + nSlots * 20;
+
 	// hotbar
 	int cenX = width / 2;
-	blit(cenX - 182 / 2, height - 22, 0, 0, 182, 22, 0, 0);
+	blit(cenX - hotbarWidth / 2, height - 22, 0, 0, hotbarWidth, 22, 0, 0);
 
 	// selection mark
-	blit(cenX - 92 + 20 * pInventory->m_SelectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
+	blit(cenX - 1 - hotbarWidth / 2 + 20 * pInventory->m_SelectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
 
 	m->m_pTextures->loadAndBindTexture("gui/icons.png");
 
+	if (!isTouchscreen)
+	{
 #ifndef ENH_TRANSPARENT_HOTBAR
-	glEnable(GL_BLEND);
+		glEnable(GL_BLEND);
 #endif
+		glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+		blit(cenX - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0);
+#ifndef ENH_TRANSPARENT_HOTBAR
+		glDisable(GL_BLEND);
+#endif
+	}
+	else
+	{
+		// if needed, draw feedback
+		
+		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
+		// "last progress". Well guess what? The game mode in question updates our field_8 with
+		// the pre-interpolated break progress! Isn't that awesome?!
+		float breakProgress = field_8;
 
-	glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+		// don't know about this if-structure, it feels like it'd be like
+		// if (field_C >= 0.0f && breakProgress <= 0.0f)
+		//     that;
+		// else
+		//     this;
+		if (breakProgress > 0.0f || m_pMinecraft->m_pInputHolder->m_feedbackAlpha < 0.0f)
+		{
+			if (breakProgress > 0.0f)
+			{
+				float xPos = m_pMinecraft->m_pInputHolder->m_feedbackX;
+				float yPos = m_pMinecraft->m_pInputHolder->m_feedbackY;
 
-	// crosshair
-	blit(cenX - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0);
+				m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
 
+				glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+				m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_fill.png");
+
+				// note: scale starts from 4.0f
+				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
+
+				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256);
+
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				glDisable(GL_BLEND);
+			}
+		}
+		else
+		{
+			float xPos = m_pMinecraft->m_pInputHolder->m_feedbackX;
+			float yPos = m_pMinecraft->m_pInputHolder->m_feedbackY;
+
+			m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
+			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, m_pMinecraft->m_pInputHolder->m_feedbackAlpha));
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
+			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			glDisable(GL_BLEND);
+		}
+	}
+
+#ifdef ENH_TRANSPARENT_HOTBAR
 	glDisable(GL_BLEND);
+#endif
 
 	if (m_pMinecraft->m_pGameMode->canHurtPlayer())
 	{
@@ -259,29 +322,34 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	m->m_pTextures->loadAndBindTexture("gui/gui_blocks.png");
 
-	int slotX = cenX - 88;
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+	int diff = m->isTouchscreen();
+
+	int slotX = cenX - hotbarWidth / 2 + 3;
+	for (int i = 0; i < nSlots - diff; i++)
 	{
 		renderSlot(i, slotX, height - 19, f);
 
 		slotX += 20;
 	}
 	
-	slotX = cenX - 88;
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+	slotX = cenX - hotbarWidth / 2 + 3;
+	for (int i = 0; i < nSlots - diff; i++)
 	{
 		renderSlotOverlay(i, slotX, height - 19, f);
 
 		slotX += 20;
 	}
 
+#undef DIFF
+
 	field_A3C = false;
 
 	// blit the "more items" button
-#ifndef ENH_ENABLE_9TH_SLOT
-	m->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	blit(cenX + 72, height - 19, 208, 208, 16, 16, 0, 0);
-#endif
+	if (m->isTouchscreen())
+	{
+		m->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		blit(cenX + hotbarWidth / 2 - 19, height - 19, 208, 208, 16, 16, 0, 0);
+	}
 
 	// render messages
 	if (m_bRenderMessages)
@@ -339,16 +407,17 @@ int Gui::getSlotIdAt(int mouseX, int mouseY)
 
 	if (scaledY >= scaledHeight)
 		return -1;
-	if (scaledY < scaledHeight-19)
+	if (scaledY < scaledHeight - 19)
 		return -1;
 
-	int slotX = (int(InvGuiScale * mouseX) - int(InvGuiScale * Minecraft::width) / 2 + 88 + 20) / 20;
+	int hotbarOffset = getNumSlots() * 20 / 2 - 2;
 
-	//@NOTE: Why not just -88?
+	int slotX = (int(InvGuiScale * mouseX) - int(InvGuiScale * Minecraft::width) / 2 + hotbarOffset + 20) / 20;
+
 	if (slotX >= 0)
 		slotX--;
 
-	if (slotX > 8)
+	if (slotX > getNumSlots())
 		slotX = -1;
 
 	return slotX;
@@ -368,16 +437,10 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 	if (slot == -1)
 		return;
 
-#ifndef ENH_ENABLE_9TH_SLOT
-	if (slot == 8)
-	{
+	if (m_pMinecraft->isTouchscreen() && slot == getNumSlots() - 1)
 		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
-	}
 	else
-#endif
-	{
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
-	}
 }
 
 void Gui::handleKeyPressed(int keyCode)
@@ -387,17 +450,16 @@ void Gui::handleKeyPressed(int keyCode)
 		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
 		return;
 	}
+
+	int maxItems = getNumSlots() - 1;
+	if (m_pMinecraft->isTouchscreen())
+		maxItems--;
+
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_R, keyCode))
 	{
 		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-#ifdef ENH_ENABLE_9TH_SLOT
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
-#else
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 3)
-#endif
-		//@HUH: for whatever reason, it ignores the 7th item
-		if (*slot <= MAX_ITEMS)
+		if (*slot <= maxItems)
 			(*slot)++;
 
 		return;
@@ -464,4 +526,23 @@ void Gui::renderMessages(bool bShowAll)
 	}
 
 	glDisable(GL_BLEND);
+}
+
+int Gui::getNumSlots()
+{
+	if (m_pMinecraft->isTouchscreen())
+		return 4;
+
+	return 9;
+}
+
+RectangleArea Gui::getRectangleArea(bool b)
+{
+	float centerX = Minecraft::width / 2;
+	float hotbarWidthHalf = (10 * getNumSlots() + 5) / InvGuiScale;
+	return RectangleArea(
+		b ? (centerX - hotbarWidthHalf) : 0,
+		Minecraft::height - 24.0f / InvGuiScale,
+		centerX + hotbarWidthHalf,
+		Minecraft::height);
 }

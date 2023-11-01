@@ -9,6 +9,7 @@
 #pragma once
 
 #include "GuiComponent.hpp"
+#include "client/player/input/RectangleArea.hpp"
 #include "client/app/Minecraft.hpp"
 #include "common/Random.hpp"
 #include "common/Utils.hpp"
@@ -41,6 +42,8 @@ public:
 	void handleClick(int id, int mx, int my);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
+	int getNumSlots();
+	RectangleArea getRectangleArea(bool b);
 
 public:
 	static float InvGuiScale;

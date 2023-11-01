@@ -14,7 +14,8 @@ class ControllerTurnInput : public ITurnInput
 {
 public:
 	ControllerTurnInput();
-	ITurnInput::Delta getTurnDelta();
+	TurnDelta getTurnDelta() override;
+	bool smoothTurning() override;
 
 private:
 	int field_8;

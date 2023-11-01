@@ -9,8 +9,11 @@
 #include "thirdparty/GL/GL.hpp"
 #include "GameRenderer.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/player/input/Multitouch.hpp"
 #include "Frustum.hpp"
+#include "renderer/GL/GL.hpp"
 
+static int t_keepHitResult; // that is its address in v0.1.1j
 int t_keepPic;
 
 void GameRenderer::_init()
@@ -534,62 +537,64 @@ void GameRenderer::render(float f)
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
 		Minecraft *pMC = m_pMinecraft;
-		ITurnInput::Delta delta = pMC->m_pTurnInput->getTurnDelta();
-		pMC->field_D20 = delta.x;
-		pMC->field_D24 = delta.y;
+		pMC->m_mouseHandler.poll();
 
-#ifndef ENH_DISABLE_TURN_ACCEL
-		float multPitch = -1.0f;
-		float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
-		mult1 = mult1 * mult1 * mult1;
-
-		float xd = 4.0f * mult1 * pMC->field_D20;
-		float yd = 4.0f * mult1 * pMC->field_D24;
-
-		float old_field_84 = field_84;
-		field_84 = float(m_rotX) + f;
-		float diff_field_84 = field_84 - old_field_84;
-		field_74 += xd;
-		field_78 += yd;
-
-		if (diff_field_84 > 3.0f)
-			diff_field_84 = 3.0f;
-
-		if (pMC->getOptions()->m_bInvertMouse)
-			multPitch = 1.0f;
-
-		if (!pMC->getOptions()->field_240)
+		float multPitch, diff_field_84;
+		if (pMC->m_mouseHandler.smoothTurning())
 		{
-			// @TODO: untangle this code
-			float v17 = xd + m_rotZ;
-			float v18 = field_18;
-			float v19 = field_1C;
-			m_rotZ = v17;
-			float v20 = mult1 * 0.25f * (v17 - v18);
-			float v21 = v19 + (v20 - v19) * 0.5f;
-			field_1C = v21;
-			if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
-				v21 = mult1 * 0.25f * (v17 - v18);
-			float v22 = yd + field_20;
-			field_18 = v18 + v21;
-			float v23 = field_24;
-			field_20 = v22;
-			float v24 = mult1 * 0.15f * (v22 - v23);
-			float v25 = field_28 + (v24 - field_28) * 0.5f;
-			field_28 = v25;
-			if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
-				v25 = v24;
-			field_24 = v23 + v25;
-		}
-#else
-		float multPitch = -1.0f;
-		if (pMC->getOptions()->m_bInvertMouse)
-			multPitch = 1.0f;
+			multPitch = -1.0f;
+			float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
+			mult1 = mult1 * mult1 * mult1;
 
-		float diff_field_84 = 1.0f;
-		field_7C = pMC->field_D20;
-		field_80 = pMC->field_D24;
-#endif
+			float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
+			float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
+
+			float old_field_84 = field_84;
+			field_84 = float(field_C) + f;
+			diff_field_84 = field_84 - old_field_84;
+			field_74 += xd;
+			field_78 += yd;
+
+			if (diff_field_84 > 3.0f)
+				diff_field_84 = 3.0f;
+
+			if (pMC->getOptions()->m_bInvertMouse)
+				multPitch = 1.0f;
+
+			if (!pMC->getOptions()->field_240)
+			{
+				// @TODO: untangle this code
+				float v17 = xd + field_14;
+				float v18 = field_18;
+				float v19 = field_1C;
+				field_14 = v17;
+				float v20 = mult1 * 0.25f * (v17 - v18);
+				float v21 = v19 + (v20 - v19) * 0.5f;
+				field_1C = v21;
+				if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
+					v21 = mult1 * 0.25f * (v17 - v18);
+				float v22 = yd + field_20;
+				field_18 = v18 + v21;
+				float v23 = field_24;
+				field_20 = v22;
+				float v24 = mult1 * 0.15f * (v22 - v23);
+				float v25 = field_28 + (v24 - field_28) * 0.5f;
+				field_28 = v25;
+				if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
+					v25 = v24;
+				field_24 = v23 + v25;
+			}
+		}
+		else
+		{
+			multPitch = -1.0f;
+			if (pMC->getOptions()->m_bInvertMouse)
+				multPitch = 1.0f;
+
+			diff_field_84 = 1.0f;
+			field_7C = pMC->m_mouseHandler.m_delta.x;
+			field_80 = pMC->m_mouseHandler.m_delta.y;
+		}
 
 		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
 	}
@@ -597,7 +602,20 @@ void GameRenderer::render(float f)
 	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
 	int mouseY = int(Mouse::getY() * Gui::InvGuiScale);
 
-	// note: Multitouch code here
+	if (m_pMinecraft->isTouchscreen())
+	{
+		int pointerId = Multitouch::getFirstActivePointerIdExThisUpdate();
+		if (pointerId < 0)
+		{
+			mouseX = -9999;
+			mouseY = -9999;
+		}
+		else
+		{
+			mouseX = int(float(Multitouch::getX(pointerId)) * Gui::InvGuiScale);
+			mouseY = int(float(Multitouch::getY(pointerId)) * Gui::InvGuiScale);
+		}
+	}
 
 	if (m_pMinecraft->isLevelGenerated())
 	{
@@ -622,6 +640,10 @@ void GameRenderer::render(float f)
 		glLoadIdentity();
 		setupGuiScreen();
 	}
+
+	if (m_pMinecraft->m_pLocalPlayer &&
+		m_pMinecraft->m_pLocalPlayer->m_pMoveInput)
+		m_pMinecraft->m_pLocalPlayer->m_pMoveInput->render(f);
 
 	if (m_pMinecraft->m_pScreen)
 	{
@@ -677,45 +699,54 @@ void GameRenderer::tick()
 		t_keepPic = -100;
 #endif
 
-	if (m_pMinecraft->m_pLocalPlayer)
+	if (!m_pMinecraft->m_pLocalPlayer)
+		return;
+	
+	if (--t_keepHitResult == 0)
+		m_pMinecraft->m_hitResult.m_hitType = HitResult::NONE;
+
+#ifndef ORIGINAL_CODE
+	// Not harmless to let it underflow, but we won't anyway
+	if (t_keepHitResult < -100)
+		t_keepHitResult = -100;
+#endif
+
+	float x1 = powf(fabsf(field_74), 1.2f);
+	field_7C = x1 * 0.4f;
+	if (field_74 < 0.0f)
+		field_7C = -field_7C;
+
+	float x2 = powf(fabsf(field_78), 1.2f);
+	field_80 = x2 * 0.4f;
+	if (field_78 < 0.0f)
+		field_80 = -field_80;
+
+	field_74 = 0.0f;
+	field_78 = 0.0f;
+	field_6C = field_70;
+	field_30 = field_2C;
+	field_38 = field_34;
+	field_40 = field_3C;
+	field_54 = field_50;
+	field_5C = field_58;
+
+	Mob* pMob = m_pMinecraft->m_pMobPersp;
+	if (!pMob)
 	{
-		float x1 = powf(fabsf(field_74), 1.2f);
-		field_7C = x1 * 0.4f;
-		if (field_74 < 0.0f)
-			field_7C = -field_7C;
-
-		float x2 = powf(fabsf(field_78), 1.2f);
-		field_80 = x2 * 0.4f;
-		if (field_78 < 0.0f)
-			field_80 = -field_80;
-
-		field_74 = 0.0f;
-		field_78 = 0.0f;
-		field_6C = field_70;
-		field_30 = field_2C;
-		field_38 = field_34;
-		field_40 = field_3C;
-		field_54 = field_50;
-		field_5C = field_58;
-
-		Mob* pMob = m_pMinecraft->m_pMobPersp;
-		if (!pMob)
-		{
-			pMob = m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer;
-		}
-
-		float bright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
-		float x3 = float(3 - m_pMinecraft->getOptions()->m_iViewDistance);
-
-		field_C++;
-
-		float x4 = x3 / 3.0f;
-		float x5 = (x4 + bright * (1.0f - x4) - field_70) * 0.1f;
-
-		field_70 += x5;
-
-		m_pItemInHandRenderer->tick();
+		pMob = m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer;
 	}
+
+	float bright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
+	float x3 = float(3 - m_pMinecraft->getOptions()->m_iViewDistance);
+
+	field_C++;
+
+	float x4 = x3 / 3.0f;
+	float x5 = (x4 + bright * (1.0f - x4) - field_70) * 0.1f;
+
+	field_70 += x5;
+
+	m_pItemInHandRenderer->tick();
 }
 
 void GameRenderer::renderItemInHand(float f, int i)
@@ -784,25 +815,95 @@ void GameRenderer::pick(float f)
 	if (!m_pMinecraft->m_pMobPersp || !m_pMinecraft->m_pLevel)
 		return;
 
-	HitResult& mchr = m_pMinecraft->m_hitResult;
-
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
-
+	HitResult& mchr = m_pMinecraft->m_hitResult;
 	float dist = m_pMinecraft->m_pGameMode->getPickRange();
+	bool isFirstPerson = !m_pMinecraft->getOptions()->m_bThirdPerson;
 
-	HitResult hrMob = pMob->pick(dist, f);
-	mchr = hrMob;
+	if (m_pMinecraft->isTouchscreen())
+	{
+		Vec3 mobPos = pMob->getPos(f);
+		Vec3 foundPosNear, foundPosFar;
+		bool flag = true;
+		float offset = isFirstPerson ? 6.0f : 12.0f;
+
+		if (m_pMinecraft->m_pInputHolder->allowPicking())
+		{
+			int viewport[4] = { 0 };
+			viewport[2] = Minecraft::width;
+			viewport[3] = Minecraft::height;
+			float obj_coord[3] = { 0 };
+
+			if (glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
+				              Minecraft::height - m_pMinecraft->m_pInputHolder->m_feedbackY,
+				              1.0f,
+				              m_matrix_model_view,
+				              m_matrix_projection,
+				              viewport,
+				              obj_coord))
+			{
+				foundPosFar = mobPos + Vec3(obj_coord[0], obj_coord[1], obj_coord[2]);
+
+				glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
+				              Minecraft::height - m_pMinecraft->m_pInputHolder->m_feedbackY,
+				              0.0f,
+				              m_matrix_model_view,
+				              m_matrix_projection,
+				              viewport,
+				              obj_coord);
+
+				foundPosNear = mobPos + Vec3(obj_coord[0], obj_coord[1], obj_coord[2]);
+
+				Vec3 diff = foundPosFar - foundPosNear;
+				Vec3 normDiff = diff.normalize();
+				Vec3 normScaledDiff = normDiff.scale(offset);
+				
+				mobPos = foundPosNear + normScaledDiff;
+
+				foundPosFar = mobPos;
+			}
+			
+			// keep the hit result forever
+			t_keepHitResult = -1;
+		}
+		else
+		{
+			t_keepHitResult = 1; // keep the tick result for exactly one frame
+			flag = false;
+		}
+
+		if (flag)
+		{
+			if (isFirstPerson)
+			{
+				mchr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
+			}
+			else
+			{
+				HitResult hr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
+
+				float diffX = float(hr.m_tileX) - m_pMinecraft->m_pMobPersp->m_pos.x;
+				float diffY = float(hr.m_tileY) - m_pMinecraft->m_pMobPersp->m_pos.y;
+				float diffZ = float(hr.m_tileZ) - m_pMinecraft->m_pMobPersp->m_pos.z;
+
+				if (hr.m_hitType == HitResult::NONE || diffX * diffX + diffY * diffY + diffZ * diffZ > offset * offset)
+					mchr.m_hitType = HitResult::NONE;
+				else
+					mchr = hr;
+			}
+		}
+	}
+	else
+	{
+		// easy case: pick from the middle of the screen
+		HitResult hrMob = pMob->pick(dist, f);
+		mchr = hrMob;
+	}
 
 	Vec3 mobPos = pMob->getPos(f);
 
 	if (m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE)
-	{
-		float dX = mobPos.x - mchr.m_hitPos.x;
-		float dY = mobPos.y - mchr.m_hitPos.y;
-		float dZ = mobPos.z - mchr.m_hitPos.z;
-
-		dist = sqrtf(dX * dX + dY * dY + dZ * dZ);
-	}
+		dist = mchr.m_hitPos.distanceTo(mobPos);
 
 	if (m_pMinecraft->m_pGameMode->isCreativeType())
 		dist = 32.0f;

@@ -20,7 +20,7 @@ ControllerTurnInput::ControllerTurnInput()
 	field_18 = false;
 }
 
-ITurnInput::Delta ControllerTurnInput::getTurnDelta()
+TurnDelta ControllerTurnInput::getTurnDelta()
 {
 	bool isTouched = Controller::isTouched(m_stickNo);
 	float deltaX, deltaY;
@@ -129,5 +129,10 @@ ITurnInput::Delta ControllerTurnInput::getTurnDelta()
 	}
 
 	field_18 = isTouched;
-	return Delta(deltaX, deltaY);
+	return TurnDelta(deltaX, deltaY);
+}
+
+bool ControllerTurnInput::smoothTurning()
+{
+	return true;
 }

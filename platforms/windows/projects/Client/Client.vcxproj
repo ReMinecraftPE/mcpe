@@ -120,6 +120,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +131,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +144,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +159,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,6 +172,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -178,6 +183,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -190,6 +196,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -204,6 +211,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -291,6 +299,22 @@
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundEngine.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundRepository.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IBuildInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\PolygonArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\RectangleArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Multitouch.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IMoveInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -371,6 +395,21 @@
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IBuildInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\PolygonArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\RectangleArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Multitouch.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IMoveInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

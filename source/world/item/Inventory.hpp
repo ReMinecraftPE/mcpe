@@ -32,11 +32,11 @@ public:
 	ItemInstance* getSelectedItem();
 	int getQuickSlotItemId(int slotNo);
 	int getSelectedItemId();
-	void selectItem(int slotNo); // selects an item by slot number and puts it in the quick slots if needed
+	void selectItem(int slotNo, int maxHotBarSlot); // selects an item by slot number and puts it in the quick slots if needed
 	void selectSlot(int slotNo);
 
 	void setQuickSlotIndexByItemId(int slotNo, int itemID);
-	void selectItemById(int itemID);
+	void selectItemById(int itemID, int maxHotBarSlot);
 
 	int getAttackDamage(Entity*);
 

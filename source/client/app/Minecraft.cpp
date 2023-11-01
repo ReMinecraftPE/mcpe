@@ -18,11 +18,13 @@
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
 
-#ifndef ORIGINAL_CODE
-#include "client/player/input/MouseTurnInput.hpp"
-#else
 #include "client/player/input/ControllerTurnInput.hpp"
-#endif
+#include "client/player/input/MouseTurnInput.hpp"
+#include "client/player/input/KeyboardInput.hpp"
+#include "client/player/input/IBuildInput.hpp"
+#include "client/player/input/CustomInputHolder.hpp"
+#include "client/player/input/TouchInputHolder.hpp"
+#include "client/player/input/Multitouch.hpp"
 
 #include "world/tile/SandTile.hpp"
 
@@ -71,9 +73,7 @@ Minecraft::Minecraft() :
 	m_pPrepThread = nullptr;
 	m_pScreen = nullptr;
 	field_D18 = 10;
-	m_pTurnInput = nullptr;
-	field_D20 = 0.0f;
-	field_D24 = 0.0f;
+	m_pInputHolder = nullptr;
 	m_bGrabbedMouse = true;
 	m_progressPercent = 0;
 	m_bPreparingLevel = false;
@@ -107,10 +107,14 @@ void Minecraft::releaseMouse()
 		return;
 
 	if (m_pLocalPlayer)
-		m_pLocalPlayer->m_pKeyboardInput->releaseAllKeys();
+		m_pLocalPlayer->m_pMoveInput->releaseAllKeys();
 
 	m_bGrabbedMouse = false;
+	m_mouseHandler.release();
 
+	// Note, normally the platform stuff would be located within
+	// the mouse handler, but we don't have access to the platform
+	// from there!
 	platform()->setMouseGrabbed(false);
 }
 
@@ -120,11 +124,11 @@ void Minecraft::grabMouse()
 		return;
 
 	m_bGrabbedMouse = true;
-	field_D20 = 0.0f;
-	field_D24 = 0.0f;
+	m_mouseHandler.grab();
+
 	setScreen(nullptr);
 
-	platform()->setMouseGrabbed(true);
+	platform()->setMouseGrabbed(!isTouchscreen());
 }
 
 void Minecraft::setScreen(Screen* pScreen)
@@ -209,6 +213,11 @@ bool Minecraft::isOnlineClient()
 	return m_pLevel->m_bIsMultiplayer;
 }
 
+bool Minecraft::isTouchscreen()
+{
+	return m_bIsTouchscreen;
+}
+
 void Minecraft::setGuiScaleMultiplier(float f)
 {
 	guiScaleMultiplier = f;
@@ -230,121 +239,127 @@ void Minecraft::handleMouseDown(int type, bool b)
 	}
 }
 
-void Minecraft::handleMouseClick(int type)
+void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 {
-	int a;
-
-	HitResult& hr = m_hitResult;
-
-	// @TODO: fix goto hell
-	if (type == 1)
+	if (pAction->isRemove())
 	{
 		if (field_DA4 > 0)
 			return;
 
 		m_pLocalPlayer->swing();
-
-		if (m_hitResult.m_hitType != HitResult::NONE)
-			goto label_3;
-
-	label_9:
-		if (type != 1)
-			goto label_5;
-
-		if (!m_pGameMode->isCreativeType())
-			field_DA4 = 10;
-
-		return;
 	}
 
-	if (m_hitResult.m_hitType == HitResult::NONE)
-		goto label_9;
-
-label_3:
-	if (m_hitResult.m_hitType != HitResult::ENTITY)
+	bool bInteract = true;
+	if (!m_hitResult.isHit())
 	{
-		if (m_hitResult.m_hitType != HitResult::AABB)
-			goto label_5;
-
-		// @NOTE: extra scope to avoid error
+		if (pAction->isRemove() && !m_pGameMode->isCreativeType())
+			field_DA4 = 10;
+	}
+	else if (m_hitResult.m_hitType == HitResult::ENTITY)
+	{
+		if (pAction->isAttack())
 		{
-			Tile* pTile = Tile::tiles[m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ)];
+			m_pGameMode->attack(m_pLocalPlayer, m_hitResult.m_pEnt);
+		}
+		else if (pAction->isInteract())
+		{
+			if (m_hitResult.m_pEnt->interactPreventDefault())
+				bInteract = false;
 
-			if (type == 1)
-			{
-				if (pTile)
-				{
-					// @BUG: This is only done on the client side.
-					m_pLevel->extinguishFire(hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide);
+			m_pGameMode->interact(m_pLocalPlayer, m_hitResult.m_pEnt);
+		}
+	}
+	else if (m_hitResult.m_hitType == HitResult::AABB)
+	{
+		Tile* pTile = Tile::tiles[m_pLevel->getTile(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ)];
 
-                    if (pTile != Tile::unbreakable || (m_pLocalPlayer->field_B94 > 99 && !hr.m_bUnk24))
-					{
-						m_pGameMode->startDestroyBlock(hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide);
-					}
-				}
+		if (pAction->isRemove())
+		{
+			if (!pTile)
 				return;
-			}
 
-			ItemInstance* pItem = getSelectedItem();
+			// @BUG: This is only done on the client side.
+			m_pLevel->extinguishFire(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ, m_hitResult.m_hitSide);
 
-			if (m_pGameMode->useItemOn(m_pLocalPlayer, m_pLevel, pItem->m_itemID <= 0 ? nullptr : pItem, hr.m_tileX, hr.m_tileY, hr.m_tileZ, hr.m_hitSide))
+			if (pTile != Tile::unbreakable || (m_pLocalPlayer->field_B94 > 99 && m_hitResult.m_bUnk24 != 1))
 			{
-				m_pLocalPlayer->swing();
-				if (!isOnline())
-					return;
-
-				if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
-					return;
-
-				int dx = hr.m_tileX, dz = hr.m_tileZ;
-				uint8_t dy = uint8_t(hr.m_tileY);
-
-				if (m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ) != Tile::topSnow->m_ID)
-				{
-					switch (hr.m_hitSide)
-					{
-                        case HitResult::NOHIT: break;
-                        case HitResult::MINY: dy--; break;
-                        case HitResult::MAXY: dy++; break;
-                        case HitResult::MINZ: dz--; break;
-                        case HitResult::MAXZ: dz++; break;
-                        case HitResult::MINX: dx--; break;
-                        case HitResult::MAXX: dx++; break;
-					}
-				}
-
-				m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(pItem->m_itemID), uint8_t(hr.m_hitSide)));
-				return;
+				m_pGameMode->startDestroyBlock(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ, m_hitResult.m_hitSide);
 			}
 		}
-
-	label_5:
-		if (type != 2)
-			return;
-		goto label_15;
-	}
-
-	if (type == 1)
-	{
-		m_pGameMode->attack(m_pLocalPlayer, hr.m_pEnt);
-		return;
-	}
-
-	if (type == 2)
-	{
-		a = hr.m_pEnt->interactPreventDefault();
-		m_pGameMode->interact(m_pLocalPlayer, hr.m_pEnt);
-		if (!a)
+		else
 		{
-		label_15:
-			int id = m_pLocalPlayer->m_pInventory->getSelectedItemId();
-			if (id > 0)
+			ItemInstance* pItem = getSelectedItem();
+			if (m_pGameMode->useItemOn(
+					m_pLocalPlayer,
+					m_pLevel,
+					pItem->m_itemID <= 0 ? nullptr : pItem,
+					m_hitResult.m_tileX,
+					m_hitResult.m_tileY,
+					m_hitResult.m_tileZ,
+					m_hitResult.m_hitSide))
 			{
-				ItemInstance* pItem = getSelectedItem();
+				bInteract = false;
 
-				if (m_pGameMode->useItem(m_pLocalPlayer, m_pLevel, pItem))
-					m_pGameRenderer->m_pItemInHandRenderer->itemUsed();
+				m_pLocalPlayer->swing();
+
+				if (isOnline())
+				{
+					if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
+						return;
+
+					int dx = m_hitResult.m_tileX, dz = m_hitResult.m_tileZ;
+					uint8_t dy = uint8_t(m_hitResult.m_tileY);
+
+					uint8_t hitSide = m_hitResult.m_hitSide;
+
+					if (m_pLevel->getTile(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ) != Tile::topSnow->m_ID)
+					{
+						switch (m_hitResult.m_hitSide)
+						{
+							case HitResult::NOHIT: break;
+							case HitResult::MINY: dy--; break;
+							case HitResult::MAXY: dy++; break;
+							case HitResult::MINZ: dz--; break;
+							case HitResult::MAXZ: dz++; break;
+							case HitResult::MINX: dx--; break;
+							case HitResult::MAXX: dx++; break;
+						}
+					}
+					else
+					{
+						hitSide = HitResult::MINY;
+					}
+
+					m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(pItem->m_itemID), hitSide));
+				}
 			}
+		}
+	}
+
+	if (bInteract && pAction->isInteract())
+	{
+		ItemInstance* pItem = getSelectedItem();
+		if (pItem)
+		{
+			if (m_pGameMode->useItem(m_pLocalPlayer, m_pLevel, pItem))
+				m_pGameRenderer->m_pItemInHandRenderer->itemUsed();
+		}
+	}
+}
+
+void Minecraft::handleMouseClick(int type)
+{
+	if (!isTouchscreen())
+	{
+		if (type == 1)
+		{
+			BuildActionIntention bai(INTENT_HELD);
+			handleBuildAction(&bai);
+		}
+		if (type == 2)
+		{
+			BuildActionIntention bai(INTENT_CLICKED);
+			handleBuildAction(&bai);
 		}
 	}
 }
@@ -379,42 +394,40 @@ void Minecraft::tickInput()
 		if (getTimeMs() - field_2B4 > 200)
 			continue;
 
-		if (Mouse::isButtonDown(1))
+		if (Mouse::isButtonDown(BUTTON_LEFT))
 			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
 
 		if (!bIsInGUI && getOptions()->field_19)
 		{
-			if (Mouse::getEventButton() == Mouse::LEFT && Mouse::getEventButtonState() == Mouse::DOWN)
+			if (Mouse::getEventButton() == BUTTON_LEFT && Mouse::getEventButtonState())
 			{
 				handleMouseClick(1);
 				field_DAC = field_DA8;
 			}
-			if (Mouse::getEventButton() == Mouse::RIGHT && Mouse::getEventButtonState() == Mouse::DOWN)
+			if (Mouse::getEventButton() == BUTTON_RIGHT && Mouse::getEventButtonState())
 			{
 				handleMouseClick(2);
 				field_DAC = field_DA8;
 			}
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-			if (Mouse::getEventButton() == Mouse::SCROLLWHEEL)
+			if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-#ifdef ENH_ENABLE_9TH_SLOT
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 1)
-#else
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
-#endif
+				int maxItems = m_gui.getNumSlots() - 1;
+				if (isTouchscreen())
+					maxItems--;
 
-				if (Mouse::getEventButtonState() <= 0) // @NOTE: Scroll up
+				if (Mouse::getEventButtonState() == 0) // @NOTE: Scroll up
 				{
 					if (slot-- == 0)
 					{
-						slot = MAX_ITEMS;
+						slot = maxItems;
 					}
 				}
 				else
 				{
-					if (slot++ == MAX_ITEMS) // @NOTE: Scroll down
+					if (slot++ == maxItems) // @NOTE: Scroll down
 					{
 						slot = 0;
 					}
@@ -431,13 +444,13 @@ void Minecraft::tickInput()
 		int keyCode = Keyboard::getEventKey();
 		bool bPressed = Keyboard::getEventKeyState() == 1;
 
-		m_pLocalPlayer->m_pKeyboardInput->setKey(keyCode, bPressed);
+		m_pLocalPlayer->m_pMoveInput->setKey(keyCode, bPressed);
 
 		if (bPressed)
 		{
 			m_gui.handleKeyPressed(keyCode);
 
-			for (int i = 0; i < 9; i++)
+			for (int i = 0; i < m_gui.getNumSlots(); i++)
 			{
 				if (getOptions()->isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
 					m_pLocalPlayer->m_pInventory->selectSlot(i);
@@ -485,42 +498,41 @@ void Minecraft::tickInput()
 		if (getTimeMs() - field_2B4 <= 200)
 		{
 			if (getOptions()->getKey(KM_DESTROY) == keyCode && bPressed)
-				handleMouseClick(1);
+			{
+				BuildActionIntention intention(INTENT_HELD);
+				handleBuildAction(&intention);
+			}
+
 			if (getOptions()->getKey(KM_PLACE) == keyCode && bPressed)
-				handleMouseClick(2);
+			{
+				BuildActionIntention intention(INTENT_CLICKED);
+				handleBuildAction(&intention);
+			}
 		}
 	}
 
-	// @TODO: fix gotos
-	bool v12 = false;
+	BuildActionIntention bai;
+	bool b = m_pInputHolder->getBuildInput()->tickBuild(m_pLocalPlayer, &bai);
 
-	if (getOptions()->field_19)
-	{
-		if (!Mouse::isButtonDown(Mouse::LEFT) || bIsInGUI)
-			goto label_12;
-	}
-	else if (Keyboard::isKeyDown(getOptions()->getKey(KM_DESTROY)))
-	{
-		goto label_12;
-	}
+	if (b && !bai.isRemoveContinue())
+		handleBuildAction(&bai);
 	
-	if (!m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
+	bool flag =
+		// If we are mouse operated, the LMB is held down and it's not in the GUI
+		((m_options->field_19 && Mouse::isButtonDown(BUTTON_LEFT) && !bIsInGUI) ||
+		// We are instead keyboard operated, so check for the KM_DESTROY key being held down
+		(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
+		// The build action intention is a remove one
+		b && bai.isRemove());
+
+	if (flag && !m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
 	{
-		handleMouseClick(1);
+		bai = BuildActionIntention(INTENT_HELD);
+		handleBuildAction(&bai); // handleMouseClick(BUTTON_LEFT)
 		field_DAC = field_DA8;
 	}
 
-	if (m_bGrabbedMouse)
-	{
-		v12 = true;
-	}
-	else
-	{
-	label_12:
-		v12 = false;
-	}
-
-	handleMouseDown(1, v12);
+	handleMouseDown(BUTTON_LEFT, flag);
 
 	field_2B4 = getTimeMs();
 
@@ -607,6 +619,38 @@ std::string Minecraft::getVersionString()
 	return "v0.1.0 alpha";
 }
 
+void Minecraft::_reloadInput()
+{
+	if (m_pInputHolder)
+		delete m_pInputHolder;
+
+	if (isTouchscreen())
+	{
+		m_pInputHolder = new TouchInputHolder(this, m_options);
+	}
+	else
+	{
+		m_pInputHolder = new CustomInputHolder(
+			new KeyboardInput(m_options),
+		#ifdef ORIGINAL_CODE
+			new ControllerTurnInput,
+		#else
+			new MouseTurnInput(this),
+		#endif
+			new IBuildInput
+		);
+	}
+
+	m_mouseHandler.setTurnInput(m_pInputHolder->getTurnInput());
+
+	if (m_pLevel && m_pLocalPlayer)
+	{
+			m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
+	}
+
+	m_options->field_19 = !isTouchscreen();
+}
+
 void Minecraft::_levelGenerated()
 {
 	if (m_pNetEventCallback)
@@ -678,6 +722,8 @@ void Minecraft::tick()
 
 		if (m_pScreen)
 			m_pScreen->tick();
+
+		Multitouch::reset();
 	}
 }
 
@@ -731,11 +777,9 @@ void Minecraft::init()
 	else
 		m_options = new Options();
 
-#ifndef ORIGINAL_CODE
-	m_pTurnInput = new MouseTurnInput(this);
-#else
-	m_pTurnInput = new ControllerTurnInput;
-#endif
+	m_bIsTouchscreen = platform()->isTouchscreen();
+
+	_reloadInput();
 
 	m_pRakNetInstance = new RakNetInstance;
 
@@ -796,7 +840,7 @@ Minecraft::~Minecraft()
 
 	SAFE_DELETE(m_pUser);
 	SAFE_DELETE(m_pLevelStorageSource);
-	SAFE_DELETE(m_pTurnInput);
+	SAFE_DELETE(m_pInputHolder);
 	SAFE_DELETE(m_Logger);
 
 	//@BUG: potentially leaking a CThread instance if this is destroyed early?
@@ -904,6 +948,9 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 	if (m_pScreen)
 		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
+
+	if (m_pInputHolder)
+		m_pInputHolder->setScreenSize(newWidth, newHeight);
 }
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
@@ -911,23 +958,25 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	if (height > 1800)
 		return 1.0f / 4.0f;
 
-	// phones only
-#if !defined(_WIN32) && !defined(USE_SDL2)
-	if (height > 600)
-		return 1.0f / 4.0f;
+	if (isTouchscreen())
+	{
+		if (height > 600)
+			return 1.0f / 4.0f;
 
-	if (height > 400)
-		return 1.0f / 3.0f;
+		if (height > 400)
+			return 1.0f / 3.0f;
 
-	if (height > 300)
-		return 1.0f / 2.0f;
-#else
-	if (height > 1000)
-		return 1.0f / 3.0f;
+		if (height > 300)
+			return 1.0f / 2.0f;
+	}
+	else
+	{
+		if (height > 1000)
+			return 1.0f / 3.0f;
 
-	if (height > 400)
-		return 1.0f / 2.0f;
-#endif
+		if (height > 400)
+			return 1.0f / 2.0f;
+	}
 
 	return 1.0f;
 }
@@ -953,9 +1002,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	}
 
 	if (pLocalPlayer)
-	{
-		pLocalPlayer->m_pKeyboardInput = new KeyboardInput(m_options);
-	}
+		pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
 
 	if (m_pLevelRenderer)
 		m_pLevelRenderer->setLevel(pLevel);

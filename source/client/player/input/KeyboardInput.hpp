@@ -8,34 +8,22 @@
 
 #pragma once
 
+#include "IMoveInput.hpp"
+
 #include "client/options/Options.hpp"
 
-class KeyboardInput
+class KeyboardInput : public IMoveInput
 {
 public:
-	enum
-	{
-		FORWARD,
-		BACKWARD,
-		LEFT,
-		RIGHT,
-		JUMP,
-		SNEAK,
-	};
 
 public:
 	KeyboardInput(Options*);
 
-	virtual void releaseAllKeys();
-	virtual void setKey(int index, bool b);
-	virtual void tick(/* Player* */);
+	void releaseAllKeys() override;
+	void setKey(int index, bool b) override;
+	void tick(Player*) override;
 
 public:
-	float m_horzInput;
-	float m_vertInput ;
-	bool field_C;
-	bool m_bJumpButton;
-	bool m_bSneakButton;
 	bool m_keys[10];
 	Options* m_pOptions;
 };

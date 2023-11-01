@@ -287,7 +287,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 		return;
 	}
 
-	pPlayer->m_pInventory->selectItemById(packet->m_itemID);
+	pPlayer->m_pInventory->selectItemById(packet->m_itemID, C_MAX_HOTBAR_ITEMS);
 
 	redistributePacket(packet, guid);
 }

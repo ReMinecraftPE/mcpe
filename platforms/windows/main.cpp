@@ -15,6 +15,8 @@
 #include "client/app/App.hpp"
 #include "client/app/NinecraftApp.hpp"
 
+#include "client/player/input/Multitouch.hpp"
+
 #include "AppPlatform_win32.hpp"
 
 LPCTSTR g_WindowClassName = TEXT("MCPEClass");
@@ -45,8 +47,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case WM_MOUSEMOVE:
 		case WM_MOUSEWHEEL:
 		{
-			Mouse::ButtonType buttonType = AppPlatform_win32::GetMouseButtonType(iMsg);
-			Mouse::ButtonState buttonState = AppPlatform_win32::GetMouseButtonState(iMsg, wParam);
+			MouseButtonType buttonType = AppPlatform_win32::GetMouseButtonType(iMsg);
+			bool buttonState = AppPlatform_win32::GetMouseButtonState(iMsg, wParam);
 			int posX, posY;
 			if (iMsg == WM_MOUSEMOVE)
 			{
@@ -59,6 +61,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				posY = Mouse::getY();
 			}
 			Mouse::feed(buttonType, buttonState, posX, posY);
+			Multitouch::feed(buttonType, buttonState, posX, posY, 0);
 			break;
 		}
 

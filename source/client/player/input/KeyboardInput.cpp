@@ -45,20 +45,20 @@ void KeyboardInput::setKey(int keyCode, bool b)
 	m_keys[index] = b;
 }
 
-void KeyboardInput::tick(/* Player* */)
+void KeyboardInput::tick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
 
-	if (m_keys[FORWARD])  m_vertInput += 1.0f;
-	if (m_keys[BACKWARD]) m_vertInput -= 1.0f;
-	if (m_keys[LEFT])     m_horzInput += 1.0f;
-	if (m_keys[RIGHT])    m_horzInput -= 1.0f;
+	if (m_keys[INPUT_FORWARD])  m_vertInput += 1.0f;
+	if (m_keys[INPUT_BACKWARD]) m_vertInput -= 1.0f;
+	if (m_keys[INPUT_LEFT])     m_horzInput += 1.0f;
+	if (m_keys[INPUT_RIGHT])    m_horzInput -= 1.0f;
 
-	m_bJumpButton  = m_keys[JUMP];
-	m_bSneakButton = m_keys[SNEAK];
+	m_bJumpButton  = m_keys[INPUT_JUMP];
+	m_bSneakButton = m_keys[INPUT_SNEAK];
 
-	if (m_keys[SNEAK])
+	if (m_keys[INPUT_SNEAK])
 	{
 		m_horzInput = m_horzInput * 0.3f;
 		m_vertInput = m_vertInput * 0.3f;

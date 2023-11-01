@@ -37,6 +37,9 @@ public:
 	std::string getDateString(int time) override;
 	Texture loadTexture(const std::string& str, bool b) override;
 
+	// From v0.1.1. Also add these to determine touch screen use within the game.
+	bool isTouchscreen() override;
+
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;
 	void setMouseGrabbed(bool b) override;
@@ -57,8 +60,8 @@ public:
 	const char* const getWindowTitle() const { return m_WindowTitle; }
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 
-	static Mouse::ButtonType GetMouseButtonType(UINT iMsg);
-	static Mouse::ButtonState GetMouseButtonState(UINT iMsg, WPARAM wParam);
+	static MouseButtonType GetMouseButtonType(UINT iMsg);
+	static bool GetMouseButtonState(UINT iMsg, WPARAM wParam);
 	static Keyboard::KeyState GetKeyState(UINT iMsg);
 
 private:

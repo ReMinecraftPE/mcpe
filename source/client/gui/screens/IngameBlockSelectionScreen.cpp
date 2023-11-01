@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "IngameBlockSelectionScreen.hpp"
+#include "client/app/Minecraft.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
@@ -178,7 +179,7 @@ void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();
 	
-	pInv->selectItem(m_selectedSlot);
+	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_gui.getNumSlots());
 
 	m_pMinecraft->m_pSoundEngine->play("random.click");
 	m_pMinecraft->setScreen(nullptr);

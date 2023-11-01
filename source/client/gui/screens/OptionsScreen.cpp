@@ -43,11 +43,11 @@ OptionsScreen::OptionsScreen()
 {
 }
 
-#ifndef ORIGINAL_CODE
 static std::string BoolOptionStr(bool b)
 {
 	return b ? "ON" : "OFF";
 }
+
 static std::string ViewDistanceStr(int dist)
 {
 	switch (dist)
@@ -66,7 +66,7 @@ static std::string ViewDistanceStr(int dist)
 	}
 }
 
-void OptionsScreen::UpdateTexts()
+void OptionsScreen::updateTexts()
 {
 	Options& o = *(m_pMinecraft->getOptions());
 
@@ -78,20 +78,62 @@ void OptionsScreen::UpdateTexts()
 	m_flightHaxButton.m_text  = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
 	m_autoJumpButton.m_text   = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
 	m_viewDistButton.m_text   = "View distance: "   + ViewDistanceStr(o.m_iViewDistance);
-	m_srvVisButton.m_text     = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
 	m_blockLinesButton.m_text = "Block outlines: "  + BoolOptionStr(o.m_bBlockOutlines);
+
+	if (!isCramped())
+		m_srvVisButton.m_text = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
+	else
+		m_srvVisButton.m_text = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible");
 }
-#endif
+bool OptionsScreen::isCramped()
+{
+	return m_width < 150 * 2 + 20 || m_height < 200;
+}
+
+void OptionsScreen::setWidthAllButtons(int width)
+{
+	m_AOButton.m_width =
+	m_srvVisButton.m_width =
+	m_fancyGfxButton.m_width =
+	m_viewDistButton.m_width =
+	m_blockLinesButton.m_width =
+	m_invertYButton.m_width =
+	m_anaglyphsButton.m_width =
+	m_viewBobButton.m_width =
+	m_flightHaxButton.m_width =
+	m_autoJumpButton.m_width = width;
+}
 
 void OptionsScreen::init()
 {
 	m_pMinecraft->platform()->showDialog(AppPlatform::DLG_OPTIONS);
 	m_pMinecraft->platform()->createUserInput();
 
-#ifndef ORIGINAL_CODE
+	bool crampedMode = isCramped();
+
+	int incrementY = 25;
+	int yPos = 40;
+	int backGap = 12;
+
+	// If the screen's width can't fit two buttons and a small amount of padding,
+	// consider ourselves cramped.
+	if (crampedMode)
+	{
+		crampedMode = true;
+		incrementY = 22;
+		yPos = 20;
+		backGap = 5;
+		setWidthAllButtons(125);
+	}
+	else
+	{
+		// Initialize the default buttons' widths.
+		setWidthAllButtons(150);
+	}
+
 	m_BackButton.m_xPos = m_width / 2 - m_BackButton.m_width / 2;
-	m_BackButton.m_yPos = m_height - 33;
 	m_BackButton.m_height = 20;
+	m_BackButton.m_yPos = m_height - m_BackButton.m_height - backGap;
 	m_buttons.push_back(&m_BackButton);
 
 	m_AOButton.m_xPos         =
@@ -106,12 +148,11 @@ void OptionsScreen::init()
 	m_flightHaxButton.m_xPos =
 	m_autoJumpButton.m_xPos  = m_width / 2 + 5;
 
-	int yPos = 40;
-	m_AOButton.m_yPos       = m_invertYButton.m_yPos    = yPos; yPos += 25;
-	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos  = yPos; yPos += 25;
-	m_fancyGfxButton.m_yPos = m_viewBobButton.m_yPos    = yPos; yPos += 25;
-	m_viewDistButton.m_yPos = m_flightHaxButton.m_yPos  = yPos; yPos += 25;
-	m_autoJumpButton.m_yPos = m_blockLinesButton.m_yPos = yPos; yPos += 25;
+	m_AOButton.m_yPos       = m_invertYButton.m_yPos    = yPos; yPos += incrementY;
+	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos  = yPos; yPos += incrementY;
+	m_fancyGfxButton.m_yPos = m_viewBobButton.m_yPos    = yPos; yPos += incrementY;
+	m_viewDistButton.m_yPos = m_flightHaxButton.m_yPos  = yPos; yPos += incrementY;
+	m_autoJumpButton.m_yPos = m_blockLinesButton.m_yPos = yPos; yPos += incrementY;
 
 	m_buttons.push_back(&m_AOButton);
 	m_buttons.push_back(&m_srvVisButton);
@@ -137,11 +178,10 @@ void OptionsScreen::init()
 
 	m_buttonTabList.push_back(&m_BackButton);
 
-	UpdateTexts();
+	updateTexts();
 
 #ifdef __EMSCRIPTEN__
 	m_srvVisButton.m_bEnabled = false;
-#endif
 #endif
 }
 
@@ -158,7 +198,7 @@ void OptionsScreen::render(int a, int b, float c)
 	}
 
 #ifndef ORIGINAL_CODE
-	drawCenteredString(m_pFont, "Options", m_width / 2, 20, 0xFFFFFF);
+	drawCenteredString(m_pFont, "Options", m_width / 2, isCramped() ? 5 : 20, 0xFFFFFF);
 
 	Screen::render(a, b, c);
 #endif
@@ -188,17 +228,17 @@ void OptionsScreen::buttonClicked(Button* pButton)
 			o.m_bAmbientOcclusion = !o.m_bAmbientOcclusion;
 			Minecraft::useAmbientOcclusion = o.m_bAmbientOcclusion;
 			m_pMinecraft->m_pLevelRenderer->allChanged();
-			UpdateTexts();
+			updateTexts();
 			return;
 		case OB_FANCY_GFX:
 			o.m_bFancyGraphics ^= 1;
 			m_pMinecraft->m_pLevelRenderer->allChanged();
-			UpdateTexts();
+			updateTexts();
 			return;
 		case OB_VIEW_DIST:
 			// @TODO: fix the 'extreme'  render distance
 			o.m_iViewDistance = (o.m_iViewDistance + 1) % 4;
-			UpdateTexts();
+			updateTexts();
 			return;
 
 		case OB_ANAGLYPHS:
@@ -228,7 +268,7 @@ void OptionsScreen::buttonClicked(Button* pButton)
 		return;
 
 	*pOption = !(*pOption);
-	UpdateTexts();
+	updateTexts();
 }
 
 #endif

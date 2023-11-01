@@ -238,13 +238,13 @@ int Inventory::getSelectedItemId()
 	return getQuickSlotItemId(m_SelectedHotbarSlot);
 }
 
-void Inventory::selectItem(int slotNo)
+void Inventory::selectItem(int slotNo, int maxHotBarSlot)
 {
 	if (slotNo < 0 || slotNo >= getNumItems())
 		return;
 
 	// look for it in the hotbar
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+	for (int i = 0; i < maxHotBarSlot; i++)
 	{
 		if (m_hotbar[i] == slotNo)
 		{
@@ -253,7 +253,7 @@ void Inventory::selectItem(int slotNo)
 		}
 	}
 
-	for (int i = C_MAX_HOTBAR_ITEMS - 2; i >= 0; i--)
+	for (int i = maxHotBarSlot - 2; i >= 0; i--)
 		m_hotbar[i + 1] = m_hotbar[i];
 
 	m_hotbar[0] = slotNo;
@@ -288,14 +288,14 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 	m_hotbar[slotNo] = -1;
 }
 
-void Inventory::selectItemById(int itemID)
+void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 {
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		if (m_items[i].m_itemID != itemID)
 			continue;
 
-		selectItem(i);
+		selectItem(i, maxHotBarSlot);
 		return;
 	}
 

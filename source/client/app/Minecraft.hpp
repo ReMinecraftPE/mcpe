@@ -16,7 +16,9 @@
 #include "client/gui/Screen.hpp"
 #include "network/RakNetInstance.hpp"
 #include "network/NetEventCallback.hpp"
-#include "client/player/input/ITurnInput.hpp"
+#include "client/player/input/IInputHolder.hpp"
+#include "client/player/input/MouseHandler.hpp"
+#include "client/player/input/BuildActionIntention.hpp"
 #include "client/renderer/GameRenderer.hpp"
 #include "client/renderer/LevelRenderer.hpp"
 #include "client/renderer/entity/EntityRenderDispatcher.hpp"
@@ -43,6 +45,7 @@ public:
 	void saveOptions();
 	void handleMouseClick(int type);
 	void handleMouseDown(int type, bool b);
+	void handleBuildAction(BuildActionIntention*);
 	bool isLevelGenerated();
 	void selectLevel(const std::string&, const std::string&, int);
 	void setLevel(Level*, const std::string&, LocalPlayer*);
@@ -58,6 +61,7 @@ public:
 	void resetPlayer(Player* player);
 	void respawnPlayer(Player* player);
 	std::string getVersionString();
+	bool isTouchscreen();
 
 	virtual void update() override;
 	virtual void init() override;
@@ -68,7 +72,6 @@ public:
 	float getBestScaleForThisScreenSize(int width, int height);
 	void generateLevel(const std::string& unused, Level* pLevel);
 	void prepareLevel(const std::string& unused);
-	void _levelGenerated();
 	bool isOnline();
 	bool isOnlineClient();
 	static void* prepareLevel_tspawn(void* pMinecraft);
@@ -79,6 +82,10 @@ public:
 	Options* getOptions() const { return m_options; }
 
 	static void setGuiScaleMultiplier(float f);
+
+private:
+	void _reloadInput();
+	void _levelGenerated();
 
 public:
 	static float guiScaleMultiplier;
@@ -116,10 +123,10 @@ public:
 	CThread* m_pPrepThread;
 	Screen* m_pScreen;
 	int field_D18;
-	ITurnInput* m_pTurnInput;
-	float field_D20;
-	float field_D24;
+	IInputHolder* m_pInputHolder;
+	MouseHandler m_mouseHandler;
 	bool m_bGrabbedMouse;
+	bool m_bIsTouchscreen;
 	HitResult m_hitResult;
 	int m_progressPercent;
 	std::string m_externalStorageDir;

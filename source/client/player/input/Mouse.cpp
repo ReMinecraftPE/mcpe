@@ -9,95 +9,59 @@
 #include "Mouse.hpp"
 #include "common/Utils.hpp"
 
-std::vector<MouseAction> Mouse::_inputs;
-int Mouse::_index, Mouse::_x, Mouse::_y;
-int Mouse::_xOld, Mouse::_yOld;
-Mouse::ButtonState Mouse::_buttonStates[Mouse::COUNT];
+MouseDevice Mouse::_instance;
 
-void Mouse::feed(ButtonType buttonType, ButtonState buttonState, int posX, int posY)
+void Mouse::feed(MouseButtonType buttonType, bool buttonState, int posX, int posY)
 {
-	if (buttonType != NONE)
-		_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY));
-
-	// Make sure button type is valid
-	if (buttonType < COUNT)
-	{
-		// Check if we're processing a button-state update
-		if (buttonType != NONE)
-			_buttonStates[buttonType] = buttonState;
-
-		_xOld = _x;
-		_yOld = _y;
-		_x = posX;
-		_y = posY;
-	}
+	_instance.feed(buttonType, buttonState, posX, posY);
 }
 
 short Mouse::getX()
 {
-	return short(_x);
+	return _instance.getX();
 }
 
 short Mouse::getY()
 {
-	return short(_y);
+	return _instance.getY();
 }
 
 bool Mouse::next()
 {
-	if (_index + 1 >= _inputs.size())
-		return false;
-
-	_index++;
-	return true;
+	return _instance.next();
 }
 
-Mouse::ButtonType Mouse::getEventButton()
+bool Mouse::isButtonDown(MouseButtonType btn)
 {
-	return _inputs[_index]._buttonType;
+	return _instance.isButtonDown(btn);
 }
 
-bool Mouse::isButtonDown(int btn)
+bool Mouse::getButtonState(MouseButtonType btn)
 {
-	return _buttonStates[btn];
+	return _instance.getButtonState(btn);
+}
+
+bool Mouse::getEventButtonState()
+{
+	return _instance.getEventButtonState();
 }
 
 void Mouse::reset()
 {
-	_inputs.clear();
-	_index = -1;
-}
-
-MouseAction* Mouse::getEvent()
-{
-	return &_inputs[_index];
-}
-
-Mouse::ButtonState Mouse::getButtonState(ButtonType btn)
-{
-	if (btn < MIN || btn >= COUNT)
-		return UP;
-
-	return _buttonStates[btn];
-}
-
-void Mouse::setX(int x)
-{
-	_x = x;
-}
-
-void Mouse::setY(int y)
-{
-	_y = y;
+	_instance.reset();
 }
 
 void Mouse::reset2()
 {
-	_xOld = _x;
-	_yOld = _y;
+	_instance.reset2();
 }
 
-Mouse::ButtonState Mouse::getEventButtonState()
+MouseButtonType Mouse::getEventButton()
 {
-	return _inputs[_index]._buttonState;
+	return _instance.getEventButton();
+}
+
+MouseAction* Mouse::getEvent()
+{
+	return _instance.getEvent();
 }

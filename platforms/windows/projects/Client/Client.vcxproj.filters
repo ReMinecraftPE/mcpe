@@ -296,9 +296,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\GameMods.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\app\App.hpp">
       <Filter>Header Files\App</Filter>
     </ClInclude>
@@ -316,6 +313,57 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp">
       <Filter>Header Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\RectangleArea.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\PolygonArea.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseHandler.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IArea.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IBuildInput.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Multitouch.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IInputHolder.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IMoveInput.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\GameMods.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp">
+      <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -552,6 +600,51 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp">
       <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\PolygonArea.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\RectangleArea.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseHandler.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IBuildInput.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Multitouch.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IMoveInput.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IInputHolder.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp">
+      <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
