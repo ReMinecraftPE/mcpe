@@ -119,6 +119,7 @@ void Minecraft::releaseMouse()
 	// the mouse handler, but we don't have access to the platform
 	// from there!
 	platform()->setMouseGrabbed(false);
+#endif
 }
 
 void Minecraft::grabMouse()
@@ -132,6 +133,7 @@ void Minecraft::grabMouse()
 	setScreen(nullptr);
 
 	platform()->setMouseGrabbed(!isTouchscreen());
+#endif
 }
 
 void Minecraft::setScreen(Screen* pScreen)
