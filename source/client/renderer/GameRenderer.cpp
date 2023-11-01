@@ -539,58 +539,62 @@ void GameRenderer::render(float f)
 		Minecraft *pMC = m_pMinecraft;
 		pMC->m_mouseHandler.poll();
 
-#ifndef ENH_DISABLE_TURN_ACCEL
-		float multPitch = -1.0f;
-		float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
-		mult1 = mult1 * mult1 * mult1;
-
-		float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
-		float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
-
-		float old_field_84 = field_84;
-		field_84 = float(field_C) + f;
-		float diff_field_84 = field_84 - old_field_84;
-		field_74 += xd;
-		field_78 += yd;
-
-		if (diff_field_84 > 3.0f)
-			diff_field_84 = 3.0f;
-
-		if (pMC->getOptions()->m_bInvertMouse)
-			multPitch = 1.0f;
-
-		if (!pMC->getOptions()->field_240)
+		float multPitch, diff_field_84;
+		if (pMC->m_mouseHandler.smoothTurning())
 		{
-			// @TODO: untangle this code
-			float v17 = xd + field_14;
-			float v18 = field_18;
-			float v19 = field_1C;
-			field_14 = v17;
-			float v20 = mult1 * 0.25f * (v17 - v18);
-			float v21 = v19 + (v20 - v19) * 0.5f;
-			field_1C = v21;
-			if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
-				v21 = mult1 * 0.25f * (v17 - v18);
-			float v22 = yd + field_20;
-			field_18 = v18 + v21;
-			float v23 = field_24;
-			field_20 = v22;
-			float v24 = mult1 * 0.15f * (v22 - v23);
-			float v25 = field_28 + (v24 - field_28) * 0.5f;
-			field_28 = v25;
-			if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
-				v25 = v24;
-			field_24 = v23 + v25;
-		}
-#else
-		float multPitch = -1.0f;
-		if (pMC->getOptions()->m_bInvertMouse)
-			multPitch = 1.0f;
+			multPitch = -1.0f;
+			float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
+			mult1 = mult1 * mult1 * mult1;
 
-		float diff_field_84 = 1.0f;
-		field_7C = pMC->m_mouseHandler.m_delta.x;
-		field_80 = pMC->m_mouseHandler.m_delta.y;
-#endif
+			float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
+			float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
+
+			float old_field_84 = field_84;
+			field_84 = float(field_C) + f;
+			diff_field_84 = field_84 - old_field_84;
+			field_74 += xd;
+			field_78 += yd;
+
+			if (diff_field_84 > 3.0f)
+				diff_field_84 = 3.0f;
+
+			if (pMC->getOptions()->m_bInvertMouse)
+				multPitch = 1.0f;
+
+			if (!pMC->getOptions()->field_240)
+			{
+				// @TODO: untangle this code
+				float v17 = xd + field_14;
+				float v18 = field_18;
+				float v19 = field_1C;
+				field_14 = v17;
+				float v20 = mult1 * 0.25f * (v17 - v18);
+				float v21 = v19 + (v20 - v19) * 0.5f;
+				field_1C = v21;
+				if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
+					v21 = mult1 * 0.25f * (v17 - v18);
+				float v22 = yd + field_20;
+				field_18 = v18 + v21;
+				float v23 = field_24;
+				field_20 = v22;
+				float v24 = mult1 * 0.15f * (v22 - v23);
+				float v25 = field_28 + (v24 - field_28) * 0.5f;
+				field_28 = v25;
+				if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
+					v25 = v24;
+				field_24 = v23 + v25;
+			}
+		}
+		else
+		{
+			multPitch = -1.0f;
+			if (pMC->getOptions()->m_bInvertMouse)
+				multPitch = 1.0f;
+
+			diff_field_84 = 1.0f;
+			field_7C = pMC->m_mouseHandler.m_delta.x;
+			field_80 = pMC->m_mouseHandler.m_delta.y;
+		}
 
 		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
 	}

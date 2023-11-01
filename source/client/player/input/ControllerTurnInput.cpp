@@ -131,3 +131,8 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 	field_18 = isTouched;
 	return TurnDelta(deltaX, deltaY);
 }
+
+bool ControllerTurnInput::smoothTurning()
+{
+	return true;
+}

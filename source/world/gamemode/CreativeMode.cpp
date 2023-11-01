@@ -45,6 +45,12 @@ bool CreativeMode::destroyBlock(int x, int y, int z, int i)
 
 void CreativeMode::startDestroyBlock(int x, int y, int z, int i)
 {
+	if (!m_pMinecraft->isTouchscreen())
+	{
+		GameMode::startDestroyBlock(x, y, z, i);
+		return;
+	}
+
 	TileID tile = m_pMinecraft->m_pLevel->getTile(x, y, z);
 
 	if (tile <= 0)
@@ -65,6 +71,12 @@ void CreativeMode::startDestroyBlock(int x, int y, int z, int i)
 
 void CreativeMode::continueDestroyBlock(int x, int y, int z, int i)
 {
+	if (!m_pMinecraft->isTouchscreen())
+	{
+		GameMode::continueDestroyBlock(x, y, z, i);
+		return;
+	}
+
 	if (m_destroyCooldown > 0)
 	{
 		m_destroyCooldown--;

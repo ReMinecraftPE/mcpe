@@ -194,9 +194,6 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool b)
 
 bool AppPlatform_win32::isTouchscreen()
 {
-#ifdef TEST_TOUCH_SCREEN
-	return true;
-#endif
 	return false;
 }
 

@@ -17,6 +17,11 @@ void ITurnInput::setScreenSize(int width, int height)
 {
 }
 
+bool ITurnInput::smoothTurning()
+{
+	return false;
+}
+
 float ITurnInput::getDeltaTime()
 {
 	if (m_prevTime == -1.0f)

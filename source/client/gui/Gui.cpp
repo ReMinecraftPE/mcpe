@@ -322,14 +322,10 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	m->m_pTextures->loadAndBindTexture("gui/gui_blocks.png");
 
-#ifdef ENH_ENABLE_9TH_SLOT
-#define DIFF 0
-#else
-#define DIFF 1
-#endif
+	int diff = m->isTouchscreen();
 
 	int slotX = cenX - hotbarWidth / 2 + 3;
-	for (int i = 0; i < nSlots - DIFF; i++)
+	for (int i = 0; i < nSlots - diff; i++)
 	{
 		renderSlot(i, slotX, height - 19, f);
 
@@ -337,7 +333,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	}
 	
 	slotX = cenX - hotbarWidth / 2 + 3;
-	for (int i = 0; i < nSlots - DIFF; i++)
+	for (int i = 0; i < nSlots - diff; i++)
 	{
 		renderSlotOverlay(i, slotX, height - 19, f);
 
@@ -349,10 +345,11 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	field_A3C = false;
 
 	// blit the "more items" button
-#ifndef ENH_ENABLE_9TH_SLOT
-	m->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	blit(cenX + hotbarWidth / 2 - 19, height - 19, 208, 208, 16, 16, 0, 0);
-#endif
+	if (m->isTouchscreen())
+	{
+		m->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		blit(cenX + hotbarWidth / 2 - 19, height - 19, 208, 208, 16, 16, 0, 0);
+	}
 
 	// render messages
 	if (m_bRenderMessages)
@@ -440,16 +437,10 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 	if (slot == -1)
 		return;
 
-#ifndef ENH_ENABLE_9TH_SLOT
-	if (slot == getNumSlots() - 1)
-	{
+	if (m_pMinecraft->isTouchscreen() && slot == getNumSlots() - 1)
 		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
-	}
 	else
-#endif
-	{
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
-	}
 }
 
 void Gui::handleKeyPressed(int keyCode)
@@ -459,16 +450,16 @@ void Gui::handleKeyPressed(int keyCode)
 		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
 		return;
 	}
+
+	int maxItems = getNumSlots() - 1;
+	if (m_pMinecraft->isTouchscreen())
+		maxItems--;
+
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_R, keyCode))
 	{
 		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-#ifdef ENH_ENABLE_9TH_SLOT
-#define MAX_ITEMS (getNumSlots() - 1)
-#else
-#define MAX_ITEMS (getNumSlots() - 2) // note: bug was present in v0.1.0 Canada demo but was fixed
-#endif
-		if (*slot <= MAX_ITEMS)
+		if (*slot <= maxItems)
 			(*slot)++;
 
 		return;

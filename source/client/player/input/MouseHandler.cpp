@@ -24,3 +24,11 @@ void MouseHandler::poll()
 void MouseHandler::release()
 {
 }
+
+bool MouseHandler::smoothTurning()
+{
+	if (!m_pTurnInput)
+		return false;
+
+	return m_pTurnInput->smoothTurning();
+}

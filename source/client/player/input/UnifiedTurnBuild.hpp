@@ -26,6 +26,7 @@ public:
 	// ITurnInput
 	void setScreenSize(int width, int height) override; // actually IBuildInput also has it
 	TurnDelta getTurnDelta() override;
+	bool smoothTurning() override;
 
 	// IBuildInput
 	bool tickBuild(Player*, BuildActionIntention*) override;

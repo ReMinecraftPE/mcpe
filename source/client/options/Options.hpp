@@ -108,7 +108,7 @@ public:
 	uint8_t field_16;
 	bool m_bFancyGraphics;
 	bool m_bAmbientOcclusion;
-	uint8_t field_19;
+	uint8_t field_19; // use Mouse as input for breaking
 	std::string field_1C;
 	KeyMapping m_keyMappings[KM_COUNT];
 	int field_238;

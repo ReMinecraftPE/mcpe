@@ -115,9 +115,7 @@ void Minecraft::releaseMouse()
 	// Note, normally the platform stuff would be located within
 	// the mouse handler, but we don't have access to the platform
 	// from there!
-#ifndef TEST_TOUCH_SCREEN
 	platform()->setMouseGrabbed(false);
-#endif
 }
 
 void Minecraft::grabMouse()
@@ -130,9 +128,7 @@ void Minecraft::grabMouse()
 
 	setScreen(nullptr);
 
-#ifndef TEST_TOUCH_SCREEN
-	platform()->setMouseGrabbed(true);
-#endif
+	platform()->setMouseGrabbed(!isTouchscreen());
 }
 
 void Minecraft::setScreen(Screen* pScreen)
@@ -418,22 +414,20 @@ void Minecraft::tickInput()
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-#ifdef ENH_ENABLE_9TH_SLOT
-#define MAX_ITEMS (m_gui.getNumSlots() - 1)
-#else
-#define MAX_ITEMS (m_gui.getNumSlots() - 2)
-#endif
+				int maxItems = m_gui.getNumSlots() - 1;
+				if (isTouchscreen())
+					maxItems--;
 
-				if (Mouse::getEventButtonState() <= 0) // @NOTE: Scroll up
+				if (Mouse::getEventButtonState() == 0) // @NOTE: Scroll up
 				{
 					if (slot-- == 0)
 					{
-						slot = MAX_ITEMS;
+						slot = maxItems;
 					}
 				}
 				else
 				{
-					if (slot++ == MAX_ITEMS) // @NOTE: Scroll down
+					if (slot++ == maxItems) // @NOTE: Scroll down
 					{
 						slot = 0;
 					}
@@ -649,11 +643,12 @@ void Minecraft::_reloadInput()
 
 	m_mouseHandler.setTurnInput(m_pInputHolder->getTurnInput());
 
-	if (m_pLevel) {
-		if (m_pLocalPlayer) {
+	if (m_pLevel && m_pLocalPlayer)
+	{
 			m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
-		}
 	}
+
+	m_options->field_19 = !isTouchscreen();
 }
 
 void Minecraft::_levelGenerated()

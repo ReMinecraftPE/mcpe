@@ -10,6 +10,7 @@ public:
 	void grab();
 	void poll();
 	void release();
+	bool smoothTurning();
 
 public:
 	TurnDelta m_delta;

@@ -61,9 +61,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				posY = Mouse::getY();
 			}
 			Mouse::feed(buttonType, buttonState, posX, posY);
-		#ifdef TEST_TOUCH_SCREEN
 			Multitouch::feed(buttonType, buttonState, posX, posY, 0);
-		#endif
 			break;
 		}
 

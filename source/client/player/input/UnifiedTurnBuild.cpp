@@ -163,6 +163,11 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 	return TurnDelta(xd, -yd);
 }
 
+bool UnifiedTurnBuild::smoothTurning()
+{
+	return true;
+}
+
 bool UnifiedTurnBuild::tickBuild(Player* pPlayer, BuildActionIntention* pIntention)
 {
 	m_pPlayer = pPlayer;

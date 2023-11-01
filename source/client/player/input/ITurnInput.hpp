@@ -29,6 +29,7 @@ public:
 	virtual ~ITurnInput();
 	virtual void setScreenSize(int width, int height);
 	virtual TurnDelta getTurnDelta() = 0;
+	virtual bool smoothTurning();
 
 private:
 	float m_prevTime;
