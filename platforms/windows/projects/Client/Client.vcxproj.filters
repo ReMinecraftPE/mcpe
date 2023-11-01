@@ -296,9 +296,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\GameMods.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\app\App.hpp">
       <Filter>Header Files\App</Filter>
     </ClInclude>
@@ -340,6 +337,24 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp">
       <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IInputHolder.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IMoveInput.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\GameMods.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -596,6 +611,21 @@
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IMoveInput.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IInputHolder.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
   </ItemGroup>

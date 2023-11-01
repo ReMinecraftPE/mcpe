@@ -307,6 +307,11 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\RectangleArea.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\Multitouch.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IMoveInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -394,6 +399,11 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\RectangleArea.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\Multitouch.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IMoveInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

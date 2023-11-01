@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -9,31 +9,22 @@
 #pragma once
 
 #include "IMoveInput.hpp"
+#include "ITurnInput.hpp"
+#include "IBuildInput.hpp"
 
-#include "client/options/Options.hpp"
-
-class KeyboardInput : public IMoveInput
+class IInputHolder
 {
 public:
-	enum
-	{
-		FORWARD,
-		BACKWARD,
-		LEFT,
-		RIGHT,
-		JUMP,
-		SNEAK,
-	};
+	IInputHolder();
+	virtual ~IInputHolder();
+	virtual bool allowPicking();
+	virtual void setScreenSize(int width, int height);
+	virtual IMoveInput* getMoveInput() = 0;
+	virtual ITurnInput* getTurnInput() = 0;
+	virtual IBuildInput* getBuildInput() = 0;
 
-public:
-	KeyboardInput(Options*);
-
-	void releaseAllKeys() override;
-	void setKey(int index, bool b) override;
-	void tick(/* Player* */) override;
-
-public:
-	bool m_keys[10];
-	Options* m_pOptions;
+private:
+	float field_4;
+	float field_8;
 };
 
