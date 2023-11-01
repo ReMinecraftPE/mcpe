@@ -172,3 +172,5 @@ xcuserdata/
 # Ignore options.txt - where your configuration will be saved
 /game/options.txt
 /game/assetsO
+/game/assets/gui/feedback_fill.png
+/game/assets/gui/feedback_outer.png
