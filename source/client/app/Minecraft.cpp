@@ -18,11 +18,13 @@
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
 
-#ifndef ORIGINAL_CODE
-#include "client/player/input/MouseTurnInput.hpp"
-#else
+// Non touch screen inputs
 #include "client/player/input/ControllerTurnInput.hpp"
-#endif
+#include "client/player/input/MouseTurnInput.hpp"
+#include "client/player/input/KeyboardInput.hpp"
+#include "client/player/input/IBuildInput.hpp"
+#include "client/player/input/CustomInputHolder.hpp"
+// Touch screen inputs TODO
 
 #include "world/tile/SandTile.hpp"
 
@@ -71,7 +73,7 @@ Minecraft::Minecraft() :
 	m_pPrepThread = nullptr;
 	m_pScreen = nullptr;
 	field_D18 = 10;
-	m_pTurnInput = nullptr;
+	m_pInputHolder = nullptr;
 	m_bGrabbedMouse = true;
 	m_progressPercent = 0;
 	m_bPreparingLevel = false;
@@ -105,7 +107,7 @@ void Minecraft::releaseMouse()
 		return;
 
 	if (m_pLocalPlayer)
-		m_pLocalPlayer->m_pKeyboardInput->releaseAllKeys();
+		m_pLocalPlayer->m_pMoveInput->releaseAllKeys();
 
 	m_bGrabbedMouse = false;
 	m_mouseHandler.release();
@@ -213,6 +215,11 @@ bool Minecraft::isOnlineClient()
 		return false;
 
 	return m_pLevel->m_bIsMultiplayer;
+}
+
+bool Minecraft::isTouchscreen()
+{
+	return m_bIsTouchscreen;
 }
 
 void Minecraft::setGuiScaleMultiplier(float f)
@@ -442,7 +449,7 @@ void Minecraft::tickInput()
 		int keyCode = Keyboard::getEventKey();
 		bool bPressed = Keyboard::getEventKeyState() == 1;
 
-		m_pLocalPlayer->m_pKeyboardInput->setKey(keyCode, bPressed);
+		m_pLocalPlayer->m_pMoveInput->setKey(keyCode, bPressed);
 
 		if (bPressed)
 		{
@@ -625,6 +632,37 @@ std::string Minecraft::getVersionString()
 	return "v0.1.0 alpha";
 }
 
+void Minecraft::_reloadInput()
+{
+	if (m_pInputHolder)
+		delete m_pInputHolder;
+
+	if (isTouchscreen())
+	{
+		// TODO
+	}
+	//else
+	{
+		m_pInputHolder = new CustomInputHolder(
+			new KeyboardInput(m_options),
+		#ifdef ORIGINAL_CODE
+			new ControllerTurnInput,
+		#else
+			new MouseTurnInput(this),
+		#endif
+			new IBuildInput
+		);
+	}
+
+	m_mouseHandler.setTurnInput(m_pInputHolder->getTurnInput());
+
+	if (m_pLevel) {
+		if (m_pLocalPlayer) {
+			m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
+		}
+	}
+}
+
 void Minecraft::_levelGenerated()
 {
 	if (m_pNetEventCallback)
@@ -749,11 +787,9 @@ void Minecraft::init()
 	else
 		m_options = new Options();
 
-#ifndef ORIGINAL_CODE
-	m_pTurnInput = new MouseTurnInput(this);
-#else
-	m_pTurnInput = new ControllerTurnInput;
-#endif
+	m_bIsTouchscreen = platform()->isTouchscreen();
+
+	_reloadInput();
 
 	m_pRakNetInstance = new RakNetInstance;
 
@@ -814,7 +850,7 @@ Minecraft::~Minecraft()
 
 	SAFE_DELETE(m_pUser);
 	SAFE_DELETE(m_pLevelStorageSource);
-	SAFE_DELETE(m_pTurnInput);
+	SAFE_DELETE(m_pInputHolder);
 	SAFE_DELETE(m_Logger);
 
 	//@BUG: potentially leaking a CThread instance if this is destroyed early?
@@ -971,9 +1007,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	}
 
 	if (pLocalPlayer)
-	{
-		pLocalPlayer->m_pKeyboardInput = new KeyboardInput(m_options);
-	}
+		pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
 
 	if (m_pLevelRenderer)
 		m_pLevelRenderer->setLevel(pLevel);

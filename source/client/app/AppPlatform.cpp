@@ -106,6 +106,11 @@ Texture AppPlatform::loadTexture(const std::string&, bool)
 	return Texture(0, 0, nullptr, 1, 0);
 }
 
+bool AppPlatform::isTouchscreen()
+{
+	return true;
+}
+
 void AppPlatform::recenterMouse()
 {
 

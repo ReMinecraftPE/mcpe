@@ -34,7 +34,7 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int 
 	field_C34 = 0.0f;
 	// multiplayer related -- end
 	field_C38 = 0;
-	m_pKeyboardInput = nullptr;
+	m_pMoveInput = nullptr;
 
 	m_pMinecraft = pMinecraft;
 	m_name = pUser->field_0;
@@ -45,17 +45,13 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int 
 
 LocalPlayer::~LocalPlayer()
 {
-	if (m_pKeyboardInput)
-		delete m_pKeyboardInput;
 }
 
 void LocalPlayer::aiStep()
 {
-	m_pKeyboardInput->tick(/* this */);
-	if (m_pKeyboardInput->m_bSneakButton && field_A4 < 0.2f)
-	{
+	m_pMoveInput->tick(/* this */);
+	if (m_pMoveInput->m_bSneakButton && field_A4 < 0.2f)
 		field_A4 = 0.2f;
-	}
 
 	Mob::aiStep();
 	Player::aiStep();
@@ -120,7 +116,7 @@ void LocalPlayer::respawn()
 
 bool LocalPlayer::isSneaking()
 {
-	return m_pKeyboardInput->m_bSneakButton;
+	return m_pMoveInput->m_bSneakButton;
 }
 
 int LocalPlayer::move(float x, float y, float z)
@@ -157,7 +153,7 @@ int LocalPlayer::move(float x, float y, float z)
 		if (m_nAutoJumpFrames > 0)
 		{
 			m_nAutoJumpFrames--;
-			m_pKeyboardInput->m_bJumpButton = true;
+			m_pMoveInput->m_bJumpButton = true;
 		}
 
 		float posX = m_pos.x;
@@ -235,10 +231,10 @@ void LocalPlayer::updateAi()
 {
 	Player::updateAi();
 
-	field_B00 = m_pKeyboardInput->m_horzInput;
-	field_B04 = m_pKeyboardInput->m_vertInput;
+	field_B00 = m_pMoveInput->m_horzInput;
+	field_B04 = m_pMoveInput->m_vertInput;
 
-	field_B0C = m_pKeyboardInput->m_bJumpButton || m_nAutoJumpFrames > 0;
+	field_B0C = m_pMoveInput->m_bJumpButton || m_nAutoJumpFrames > 0;
 }
 
 bool LocalPlayer::isLocalPlayer()

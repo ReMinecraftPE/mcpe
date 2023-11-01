@@ -9,7 +9,7 @@
 #pragma once
 
 #include "world/entity/Player.hpp"
-#include "client/player/input/KeyboardInput.hpp"
+#include "client/player/input/IMoveInput.hpp"
 #include "client/player/input/User.hpp"
 
 class Minecraft;
@@ -57,5 +57,5 @@ public:
 	// multiplayer related -- end
 	int field_C38;
 	Minecraft* m_pMinecraft;
-	KeyboardInput* m_pKeyboardInput;
+	IMoveInput* m_pMoveInput;
 };

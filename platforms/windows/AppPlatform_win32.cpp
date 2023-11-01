@@ -11,6 +11,8 @@
 #include <sstream>
 #include <shlobj.h>
 
+#include "GameMods.hpp"
+
 #include "AppPlatform_win32.hpp"
 #include "LoggerWin32.hpp"
 
@@ -188,6 +190,14 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool b)
 
 	fclose(f);
 	return Texture(width, height, img2, 1, 0);
+}
+
+bool AppPlatform_win32::isTouchscreen()
+{
+#ifdef TEST_TOUCH_SCREEN
+	return true;
+#endif
+	return false;
 }
 
 bool AppPlatform_win32::hasFileSystemAccess()

@@ -24,7 +24,7 @@
 // Tests
 //#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
 //#define TEST_SURVIVAL_MODE      // Test survival mode.
-#define TEST_TOUCH_SCREEN       // Test touch screen controls. The mouse will simulate one touch finger.
+//#define TEST_TOUCH_SCREEN       // Test touch screen controls. The mouse will simulate one touch finger.
 
 // Enhancements
 //#define ENH_ENTITY_SHADING      // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
