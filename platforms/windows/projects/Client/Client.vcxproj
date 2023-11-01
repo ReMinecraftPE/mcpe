@@ -299,10 +299,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundEngine.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundRepository.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\player\input\IArea.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\player\input\IncludeExcludeArea.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\player\input\PolygonArea.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\player\input\RectangleArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IBuildInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\PolygonArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\RectangleArea.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -383,9 +385,11 @@
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\player\input\IncludeExcludeArea.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\player\input\PolygonArea.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\player\input\RectangleArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IBuildInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\PolygonArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\RectangleArea.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

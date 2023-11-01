@@ -72,8 +72,6 @@ Minecraft::Minecraft() :
 	m_pScreen = nullptr;
 	field_D18 = 10;
 	m_pTurnInput = nullptr;
-	field_D20 = 0.0f;
-	field_D24 = 0.0f;
 	m_bGrabbedMouse = true;
 	m_progressPercent = 0;
 	m_bPreparingLevel = false;
@@ -110,8 +108,14 @@ void Minecraft::releaseMouse()
 		m_pLocalPlayer->m_pKeyboardInput->releaseAllKeys();
 
 	m_bGrabbedMouse = false;
+	m_mouseHandler.release();
 
+	// Note, normally the platform stuff would be located within
+	// the mouse handler, but we don't have access to the platform
+	// from there!
+#ifndef TEST_TOUCH_SCREEN
 	platform()->setMouseGrabbed(false);
+#endif
 }
 
 void Minecraft::grabMouse()
@@ -120,11 +124,13 @@ void Minecraft::grabMouse()
 		return;
 
 	m_bGrabbedMouse = true;
-	field_D20 = 0.0f;
-	field_D24 = 0.0f;
+	m_mouseHandler.grab();
+
 	setScreen(nullptr);
 
+#ifndef TEST_TOUCH_SCREEN
 	platform()->setMouseGrabbed(true);
+#endif
 }
 
 void Minecraft::setScreen(Screen* pScreen)

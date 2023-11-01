@@ -16,7 +16,7 @@ class MouseTurnInput : public ITurnInput
 {
 public:
 	MouseTurnInput(Minecraft*);
-	Delta getTurnDelta() override;
+	TurnDelta getTurnDelta() override;
 
 private:
 	int m_lastX;

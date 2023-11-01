@@ -8,25 +8,27 @@
 
 #pragma once
 
+struct TurnDelta
+{
+	float x, y;
+	TurnDelta() { x = 0.0f; y = 0.0f; }
+	TurnDelta(float x, float y) : x(x), y(y) {}
+};
+
 class ITurnInput
 {
 public:
-	struct Delta
-	{
-		float x, y;
-        Delta() { x = 0.0f; y = 0.0f; }
-		Delta(float x, float y) : x(x), y(y) {}
-	};
-
-protected:
 	ITurnInput()
 	{
 		m_prevTime = -1.0f;
 	}
 public:
 	float getDeltaTime();
+	float linearTransform(float, float, float, bool);
+
 	virtual ~ITurnInput();
-	virtual Delta getTurnDelta() = 0;
+	virtual void setScreenSize(int width, int height);
+	virtual TurnDelta getTurnDelta() = 0;
 
 private:
 	float m_prevTime;

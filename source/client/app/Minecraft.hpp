@@ -17,6 +17,7 @@
 #include "network/RakNetInstance.hpp"
 #include "network/NetEventCallback.hpp"
 #include "client/player/input/ITurnInput.hpp"
+#include "client/player/input/MouseHandler.hpp"
 #include "client/player/input/BuildActionIntention.hpp"
 #include "client/renderer/GameRenderer.hpp"
 #include "client/renderer/LevelRenderer.hpp"
@@ -119,8 +120,7 @@ public:
 	Screen* m_pScreen;
 	int field_D18;
 	ITurnInput* m_pTurnInput;
-	float field_D20;
-	float field_D24;
+	MouseHandler m_mouseHandler;
 	bool m_bGrabbedMouse;
 	HitResult m_hitResult;
 	int m_progressPercent;
