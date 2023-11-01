@@ -958,23 +958,25 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	if (height > 1800)
 		return 1.0f / 4.0f;
 
-	// phones only
-#if true//!defined(_WIN32) && !defined(USE_SDL2)
-	if (height > 600)
-		return 1.0f / 4.0f;
+	if (isTouchscreen())
+	{
+		if (height > 600)
+			return 1.0f / 4.0f;
 
-	if (height > 400)
-		return 1.0f / 3.0f;
+		if (height > 400)
+			return 1.0f / 3.0f;
 
-	if (height > 300)
-		return 1.0f / 2.0f;
-#else
-	if (height > 1000)
-		return 1.0f / 3.0f;
+		if (height > 300)
+			return 1.0f / 2.0f;
+	}
+	else
+	{
+		if (height > 1000)
+			return 1.0f / 3.0f;
 
-	if (height > 400)
-		return 1.0f / 2.0f;
-#endif
+		if (height > 400)
+			return 1.0f / 2.0f;
+	}
 
 	return 1.0f;
 }
