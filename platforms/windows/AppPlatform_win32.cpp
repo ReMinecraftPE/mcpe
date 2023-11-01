@@ -317,36 +317,36 @@ void AppPlatform_win32::updateFocused(bool focused)
 	setMouseGrabbed(m_bGrabbedMouse);
 }
 
-Mouse::ButtonType AppPlatform_win32::GetMouseButtonType(UINT iMsg)
+MouseButtonType AppPlatform_win32::GetMouseButtonType(UINT iMsg)
 {
 	switch (iMsg)
 	{
 	case WM_LBUTTONUP:
 	case WM_LBUTTONDOWN:
-		return Mouse::ButtonType::LEFT;
+		return BUTTON_LEFT;
 	case WM_RBUTTONUP:
 	case WM_RBUTTONDOWN:
-		return Mouse::ButtonType::RIGHT;
+		return BUTTON_RIGHT;
 	case WM_MBUTTONUP:
 	case WM_MBUTTONDOWN:
-		return Mouse::ButtonType::MIDDLE;
+		return BUTTON_MIDDLE;
 	case WM_MOUSEWHEEL:
-		return Mouse::ButtonType::SCROLLWHEEL;
+		return BUTTON_SCROLLWHEEL;
 	default:
-		return Mouse::ButtonType::NONE;
+		return BUTTON_NONE;
 	}
 }
 
-Mouse::ButtonState AppPlatform_win32::GetMouseButtonState(UINT iMsg, WPARAM wParam)
+bool AppPlatform_win32::GetMouseButtonState(UINT iMsg, WPARAM wParam)
 {
-	Mouse::ButtonState result;
+	bool result;
 
 	switch (iMsg)
 	{
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 	case WM_MBUTTONDOWN:
-		result = Mouse::ButtonState::DOWN;
+		result = true;
 		break;
 	case WM_MOUSEWHEEL:
 	{
@@ -354,17 +354,17 @@ Mouse::ButtonState AppPlatform_win32::GetMouseButtonState(UINT iMsg, WPARAM wPar
 		if (wheelDelta > 0)
 		{
 			// "A positive value indicates that the wheel was rotated forward, away from the user."
-			result = Mouse::ButtonState::UP;
+			result = false;
 		}
 		else
 		{
 			// "A negative value indicates that the wheel was rotated backward, toward the user."
-			result = Mouse::ButtonState::DOWN;
+			result = true;
 		}
 		break;
 	}
 	default:
-		result = Mouse::ButtonState::UP;
+		result = false;
 		break;
 	}
 

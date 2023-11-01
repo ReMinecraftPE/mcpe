@@ -10,82 +10,27 @@
 
 #include <vector>
 
+#include "MouseDevice.hpp"
+
 struct MouseAction;
 
 class Mouse
 {
 public:
-	enum ButtonType
-	{
-		NONE,
-		LEFT,
-		RIGHT,
-		MIDDLE,
-		COUNT,
-		SCROLLWHEEL,
-
-		MIN = LEFT,
-	};
-
-	enum ButtonState
-	{
-		UP,
-		DOWN,
-	};
-
-	static void feed(ButtonType buttonType, ButtonState buttonState, int posX, int posY);
-
+	static void  feed(MouseButtonType buttonType, bool buttonState, int posX, int posY);
 	static short getX();
 	static short getY();
 	static bool  next();
-	static bool  isButtonDown(int btn);
-	static ButtonState getButtonState(ButtonType btn);
-	static ButtonType getEventButton();
-	static ButtonState getEventButtonState();
-	static MouseAction* getEvent();
-	static void  setX(int x);
-	static void  setY(int y);
+	static bool  isButtonDown(MouseButtonType btn);
+	static bool  getButtonState(MouseButtonType btn);
+	static bool  getEventButtonState();
+	//static void  setX(int x);
+	//static void  setY(int y);
 	static void  reset();
 	static void  reset2();
-
-	// @TODO: There's plenty of inlined code here. Out-line it.
+	static MouseButtonType getEventButton();
+	static MouseAction* getEvent();
 
 private:
-	static std::vector<MouseAction> _inputs;
-	static int _index;
-	static int _x, _y;
-	static int _xOld, _yOld;
-	static ButtonState _buttonStates[Mouse::COUNT];
-};
-
-struct MouseAction
-{
-	Mouse::ButtonType _buttonType;
-	Mouse::ButtonState _buttonState;
-	int _posX;
-	int _posY;
-
-	MouseAction()
-	{
-		_buttonType = Mouse::NONE;
-		_buttonState = Mouse::UP;
-		_posX = 0;
-		_posY = 0;
-	}
-
-	MouseAction(Mouse::ButtonType buttonType, Mouse::ButtonState buttonState, int posX, int posY)
-	{
-		_buttonType = buttonType;
-		_buttonState = buttonState;
-		_posX = posX;
-		_posY = posY;
-	}
-
-	bool isButton()
-	{
-		return
-			_buttonType == Mouse::LEFT ||
-			_buttonType == Mouse::RIGHT ||
-			_buttonType == Mouse::MIDDLE;
-	}
+	static MouseDevice _instance;
 };

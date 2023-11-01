@@ -305,6 +305,8 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\PolygonArea.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\RectangleArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Multitouch.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -390,6 +392,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\PolygonArea.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\RectangleArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Multitouch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

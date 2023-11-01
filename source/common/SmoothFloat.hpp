@@ -8,22 +8,15 @@
 
 #pragma once
 
-#include <vector>
-#include "IArea.hpp"
-
-class IncludeExcludeArea : public IArea
+class SmoothFloat
 {
 public:
-	IncludeExcludeArea();
-	~IncludeExcludeArea();
-	void include(IArea*);
-	void exclude(IArea*);
-	void clear();
-
-	bool isInside(float x, float y) override;
+	SmoothFloat();
+	float getNewDeltaValue(float, float);
 
 private:
-	std::vector<IArea*> m_include;
-	std::vector<IArea*> m_exclude;
+	float field_0;
+	float field_4;
+	float field_8;
 };
 

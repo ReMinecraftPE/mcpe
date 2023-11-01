@@ -335,6 +335,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\IBuildInput.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Multitouch.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -584,6 +590,12 @@
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\IBuildInput.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Multitouch.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
   </ItemGroup>

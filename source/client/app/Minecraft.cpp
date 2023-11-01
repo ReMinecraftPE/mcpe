@@ -390,23 +390,23 @@ void Minecraft::tickInput()
 		if (getTimeMs() - field_2B4 > 200)
 			continue;
 
-		if (Mouse::isButtonDown(1))
+		if (Mouse::isButtonDown(BUTTON_LEFT))
 			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
 
 		if (!bIsInGUI && getOptions()->field_19)
 		{
-			if (Mouse::getEventButton() == Mouse::LEFT && Mouse::getEventButtonState() == Mouse::DOWN)
+			if (Mouse::getEventButton() == BUTTON_LEFT && Mouse::getEventButtonState())
 			{
 				handleMouseClick(1);
 				field_DAC = field_DA8;
 			}
-			if (Mouse::getEventButton() == Mouse::RIGHT && Mouse::getEventButtonState() == Mouse::DOWN)
+			if (Mouse::getEventButton() == BUTTON_RIGHT && Mouse::getEventButtonState())
 			{
 				handleMouseClick(2);
 				field_DAC = field_DA8;
 			}
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-			if (Mouse::getEventButton() == Mouse::SCROLLWHEEL)
+			if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
@@ -514,7 +514,7 @@ void Minecraft::tickInput()
 
 	if (getOptions()->field_19)
 	{
-		if (!Mouse::isButtonDown(Mouse::LEFT) || bIsInGUI)
+		if (!Mouse::isButtonDown(BUTTON_LEFT) || bIsInGUI)
 			goto label_12;
 	}
 	else if (Keyboard::isKeyDown(getOptions()->getKey(KM_DESTROY)))

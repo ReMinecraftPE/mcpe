@@ -57,8 +57,8 @@ public:
 	const char* const getWindowTitle() const { return m_WindowTitle; }
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 
-	static Mouse::ButtonType GetMouseButtonType(UINT iMsg);
-	static Mouse::ButtonState GetMouseButtonState(UINT iMsg, WPARAM wParam);
+	static MouseButtonType GetMouseButtonType(UINT iMsg);
+	static bool GetMouseButtonState(UINT iMsg, WPARAM wParam);
 	static Keyboard::KeyState GetKeyState(UINT iMsg);
 
 private:

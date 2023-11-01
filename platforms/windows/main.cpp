@@ -45,8 +45,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case WM_MOUSEMOVE:
 		case WM_MOUSEWHEEL:
 		{
-			Mouse::ButtonType buttonType = AppPlatform_win32::GetMouseButtonType(iMsg);
-			Mouse::ButtonState buttonState = AppPlatform_win32::GetMouseButtonState(iMsg, wParam);
+			MouseButtonType buttonType = AppPlatform_win32::GetMouseButtonType(iMsg);
+			bool buttonState = AppPlatform_win32::GetMouseButtonState(iMsg, wParam);
 			int posX, posY;
 			if (iMsg == WM_MOUSEMOVE)
 			{
