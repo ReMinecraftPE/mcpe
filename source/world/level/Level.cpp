@@ -1507,358 +1507,107 @@ void Level::tickEntities()
 			delete pEnt;
 	}
 }
-/*
-HitResult Level::clip(Vec3 vec1, Vec3 vec2, bool flag)
+
+HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag)
 {
-	// @NOTE: Using a version from Minecraft Java Edition Beta 1.6, decompiled courtesy of the Mod Coder Pack.
-	// The name there is "rayTraceBlocks", but I'm convinced that it's also called "Level.clip" in Notch's original code.
-	// They look pretty alike though, so I believe that this is going to work
-
-	int v2x = Mth::floor(vec2.x);
-	int v2y = Mth::floor(vec2.y);
-	int v2z = Mth::floor(vec2.z);
-	int v1x = Mth::floor(vec1.x);
-	int v1y = Mth::floor(vec1.y);
-	int v1z = Mth::floor(vec1.z);
-
-	TileID tile = getTile(v1x, v1y, v1z);
-	int    data = getData(v1x, v1y, v1z);
-	Tile *pTile = Tile::tiles[tile];
-	/ *
-	if (//(!flag || !pTile || !pTile->getAABB(this, v1x, v1y, v1z)) && 
-		tile > 0 && pTile->mayPick(data, flag))
+	int v2xf = Mth::floor(v2.x);
+	int v2yf = Mth::floor(v2.y);
+	int v2zf = Mth::floor(v2.z);
+	int v1xf = Mth::floor(v1.x);
+	int v1yf = Mth::floor(v1.y);
+	int v1zf = Mth::floor(v1.z);
+	int counter = 200;
+	while (counter-- >= 0)
 	{
-		HitResult hr = pTile->clip(this, v1x, v1y, v1z, vec1, vec2);
-		if (hr.m_hitType != HitResult::NONE)
-			return hr;
-	}
-	* /
+		if (v1xf == v2xf && v1yf == v2yf && v1zf == v2zf)
+			break;
 
-	for (int i = 200; i >= 0; i--)
-	{
-		if (v1x == v2x && v1y == v2y && v1z == v2z)
-			return HitResult();
-
-		float f0 = 999.0f, f1 = 999.0f, f2 = 999.0f;
-		bool flag2 = true, flag3 = true, flag4 = true;
-
-		if (v2x > v1x)
-			f0 = float(v1x) + 1.0f;
-		else if (v2x < v1x)
-			f0 = float(v1x) + 0.0f;
-		else
-			flag2 = false;
-
-		if (v2y > v1y)
-			f1 = float(v1y) + 1.0f;
-		else if (v2y < v1y)
-			f1 = float(v1y) + 0.0f;
-		else
-			flag3 = false;
-
-		if (v2z > v1z)
-			f2 = float(v1z) + 1.0f;
-		else if (v2z < v1z)
-			f2 = float(v1z) + 0.0f;
-		else
-			flag4 = false;
-
-		float f3 = 999.0f, f4 = 999.0f, f5 = 999.0f;
-		float f6 = vec2.x - vec1.z, f7 = vec2.y - vec1.y, f8 = vec2.z - vec1.z;
-
-		if (flag2) f3 = (f0 - vec1.x) / f6;
-		if (flag3) f4 = (f1 - vec1.y) / f7;
-		if (flag4) f5 = (f2 - vec1.z) / f8;
-
-		HitResult::eHitSide hitSide = HitResult::MINY;
-		if (f3 < f4 && f3 < f5)
+		float xd = 999.0f;
+		float yd = 999.0f;
+		float zd = 999.0f;
+		if (v2xf > v1xf) xd = (float)v1xf + 1.0f;
+		if (v2xf < v1xf) xd = (float)v1xf + 0.0f;
+		if (v2yf > v1yf) yd = (float)v1yf + 1.0f;
+		if (v2yf < v1yf) yd = (float)v1yf + 0.0f;
+		if (v2zf > v1zf) zd = (float)v1zf + 1.0f;
+		if (v2zf < v1zf) zd = (float)v1zf + 0.0f;
+		float xe = 999.0f;
+		float ye = 999.0f;
+		float ze = 999.0f;
+		float xl = v2.x - v1.x;
+		float yl = v2.y - v1.y;
+		float zl = v2.z - v1.z;
+		if (xd != 999.0f) xe = (float)(xd - v1.x) / xl;
+		if (yd != 999.0f) ye = (float)(yd - v1.y) / yl;
+		if (zd != 999.0f) ze = (float)(zd - v1.z) / zl;
+		int hitSide = 0;
+		if (xe >= ye || xe >= ze)
 		{
-			if (v2x > v1x) hitSide = HitResult::MINX;
-			else           hitSide = HitResult::MAXX;
-			vec1.x = f0;
-			vec1.y += f7 * f3;
-			vec1.z += f8 * f3;
-		}
-		else if (f4 < f5)
-		{
-			if (v2y > v1y) hitSide = HitResult::MINY;
-			else           hitSide = HitResult::MAXY;
-			vec1.x += f6 * f4;
-			vec1.y = f1;
-			vec1.z += f8 * f4;
+			if (ye >= ze)
+			{
+				hitSide = v2zf <= v1zf ? HitResult::MAXZ : HitResult::MINZ;
+				v1.x = v1.x + (float)(xl * ze);
+				v1.y = v1.y + (float)(yl * ze);
+				v1.z = zd;
+			}
+			else
+			{
+				hitSide = (v2yf <= v1yf) ? HitResult::MAXY : HitResult::MINY;
+				v1.x = v1.x + (float)(xl * ye);
+				v1.y = yd;
+				v1.z = v1.z + (float)(zl * ye);
+			}
 		}
 		else
 		{
-			if (v2z > v1z) hitSide = HitResult::MINZ;
-			else           hitSide = HitResult::MAXZ;
-			vec1.x += f6 * f5;
-			vec1.y += f7 * f5;
-			vec1.z = f2;
+			hitSide = v2xf <= v1xf ? HitResult::MAXX : HitResult::MINX;
+			v1.x = xd;
+			v1.y = v1.y + (float)(yl * xe);
+			v1.z = v1.z + (float)(zl * xe);
 		}
 
-		Vec3 vec = vec1;
+		Vec3 hitVec(v1.x, v1.y, v1.z);
 
-		v1x = int(vec.x = float(Mth::floor(vec1.x)));
+		// Correct the hit positions for each vector
+		hitVec.x = (float)Mth::floor(v1.x);
+		v1xf = (int)hitVec.x;
 		if (hitSide == HitResult::MAXX)
 		{
-			v1x--;
-			vec.x -= 1.0f;
+			v1xf--;
+			hitVec.x += 1.0;
 		}
 
-		v1y = int(vec.y = float(Mth::floor(vec1.y)));
+
+		hitVec.y = (float)Mth::floor(v1.y);
+		v1yf = (int)hitVec.y;
 		if (hitSide == HitResult::MAXY)
 		{
-			v1y--;
-			vec.y -= 1.0f;
+			v1yf--;
+			hitVec.y += 1.0;
 		}
 
-		v1z = int(vec.z = float(Mth::floor(vec1.z)));
+
+		hitVec.z = (float)Mth::floor(v1.z);
+		v1zf = (int)hitVec.z;
 		if (hitSide == HitResult::MAXZ)
 		{
-			v1z--;
-			vec.z -= 1.0f;
+			v1zf--;
+			hitVec.z += 1.0;
 		}
 
-		TileID tile = getTile(v1x, v1y, v1z);
-		int    data = getData(v1x, v1y, v1z);
+		TileID tile = getTile(v1xf, v1yf, v1zf);
+		int    data = getData(v1xf, v1yf, v1zf);
 		Tile* pTile = Tile::tiles[tile];
 
-		if (//(!flag || !pTile || !pTile->getAABB(this, v1x, v1y, v1z)) && 
-			tile > 0 && pTile->mayPick(data, flag))
+		if (tile > 0 && pTile->mayPick(data, false))
 		{
-			HitResult hr = pTile->clip(this, v1x, v1y, v1z, vec1, vec2);
-
-			if (hr.m_hitType != HitResult::NONE)
+			HitResult hr = pTile->clip(this, v1xf, v1yf, v1zf, v1, v2);
+			if (hr.isHit())
 				return hr;
 		}
 	}
 
 	return HitResult();
-}
-*/
-
-HitResult Level::clip(Vec3 vecA, Vec3 vecB, bool b)
-{
-	float v5; // s14
-	int v6; // s15
-	float v7; // s18
-	float v10; // s16
-	bool v11; // r8
-	float v12; // s17
-	float v13; // s19
-	float v14; // s20
-	float v15; // s21
-	int v17; // r11
-	int v18; // r4
-	int v19; // r5
-	int v20; // r10
-	bool v21; // r3
-	float v22; // s10
-	float v23; // s11
-	float v24; // s12
-	float v25; // s9
-	float v26; // s15
-	float v27; // s8
-	float v28; // s7
-	float v29; // s13
-	int v30; // r7
-	TileID v31; // r9
-	int v32; // r1
-	Tile* v33; // r8
-	Vec3 v50; // [sp+8h] [bp-C8h] BYREF
-	Vec3 v51; // [sp+14h] [bp-BCh] BYREF
-	int v52; // [sp+24h] [bp-ACh]
-	int v53; // [sp+28h] [bp-A8h]
-	int v54; // [sp+2Ch] [bp-A4h]
-	Vec3* v56; // [sp+3Ch] [bp-94h]
-	Vec3* v57; // [sp+40h] [bp-90h]
-	bool v58; // [sp+44h] [bp-8Ch]
-	HitResult result; // [sp+50h] [bp-80h] BYREF
-
-	v7 = vecA.z;
-	v10 = vecA.x;
-	v11 = b;
-	v12 = vecA.y;
-	v13 = vecB.x;
-	v14 = vecB.y;
-	v15 = vecB.z;
-	v54 = Mth::floor(vecB.x);
-	v52 = Mth::floor(v14);
-	v53 = Mth::floor(v15);
-	v17 = Mth::floor(vecA.x);
-	v18 = Mth::floor(vecA.y);
-	v56 = &v51;
-	v57 = &vecB;
-	v58 = v11;
-	v19 = Mth::floor(vecA.z);
-	v20 = 199;
-	while (1)
-	{
-		if (v18 == v52)
-			v21 = v17 == v54;
-		else
-			v21 = 0;
-		if (v21)
-		{
-			if (v19 == v53)
-				goto LABEL_43;
-		LABEL_8:
-			v22 = 999.0f;
-			goto LABEL_9;
-		}
-		if (v54 <= v17)
-		{
-			if (v54 >= v17)
-				goto LABEL_8;
-			v6 = v17;
-			v22 = float(v17) + 0.0f;
-		}
-		else
-		{
-			v6 = v17;
-			v22 = float(v17) + 1.0f;
-		}
-	LABEL_9:
-		if (v52 <= v18)
-		{
-			if (v52 >= v18)
-			{
-				v23 = 999.0f;
-			}
-			else
-			{
-				v6 = v18;
-				v23 = float(v18);
-			}
-			if (v52 < v18)
-				v23 = v23 + 0.0f;
-		}
-		else
-		{
-			v6 = v18;
-			v23 = float(v18) + 1.0f;
-		}
-		if (v53 <= v19)
-		{
-			if (v53 >= v19)
-			{
-				v24 = 999.0f;
-			}
-			else
-			{
-				v6 = v19;
-				v24 = float(v19);
-			}
-			if (v53 < v19)
-				v24 = v24 + 0.0f;
-		}
-		else
-		{
-			v6 = v19;
-			v24 = float(v19) + 1.0f;
-		}
-
-		float v6_2;
-
-		v25 = v13 - v10;
-		if (v22 == 999.0f)
-			v5 = 999.0f;
-		else
-			v6_2 = v22 - v10;
-		if (v22 != 999.0f)
-			v5 = v6_2 / v25;
-		if (v23 == 999.0f)
-			v26 = 999.0f;
-		else
-			v26 = v23 - v12;
-		v27 = v14 - v12;
-		if (v23 != 999.0f)
-			v26 = v26 / v27;
-		v28 = v15 - v7;
-		if (v24 == 999.0f)
-			v29 = 999.0f;
-		else
-			v29 = v24 - v7;
-		if (v24 != 999.0f)
-			v29 = v29 / v28;
-		if (v5 >= v26 || v5 >= v29)
-		{
-			if (v26 >= v29)
-			{
-				v10 = v10 + float(v25 * v29);
-				if (v53 <= v19)
-					v30 = 3;
-				else
-					v30 = 2;
-				v12 = v12 + float(v27 * v29);
-				v7 = v24;
-			}
-			else
-			{
-				v10 = v10 + float(v25 * v26);
-				v30 = v18 >= v52;
-				v7 = v7 + float(v28 * v26);
-				v12 = v23;
-			}
-		}
-		else
-		{
-			v12 = v12 + float(v27 * v5);
-			if (v54 <= v17)
-				v30 = 5;
-			else
-				v30 = 4;
-			v7 = v7 + float(v28 * v5);
-			v10 = v22;
-		}
-		v17 = Mth::floor(v10);
-		if (v30 == 5)
-		{
-			--v17;
-			v18 = Mth::floor(v12);
-			goto LABEL_65;
-		}
-		v18 = Mth::floor(v12);
-		if (v30 == 1)
-		{
-			--v18;
-		LABEL_65:
-			v6 = Mth::floor(v7);
-			v19 = v6;
-			goto LABEL_38;
-		}
-		v6 = Mth::floor(v7);
-		v19 = v6;
-		if (v30 == 3)
-			v19 = v6 - 1;
-	LABEL_38:
-		v31 = getTile(v17, v18, v19);
-		v32 = getData(v17, v18, v19);
-		v33 = Tile::tiles[v31];
-		if (v31 > 0)
-		{
-			if (v33->mayPick(v32, v58))
-			{
-				//v34 = v33->m_vtable->clip;
-				vecA.x = v10;
-				vecA.y = v12;
-				vecA.z = v7;
-				result = v33->clip(this, v17, v18, v19, vecA, *v57);
-				if (result.m_hitType != HitResult::NONE)
-					break;
-			}
-		}
-		if (v20 == -1)
-		{
-		LABEL_43:
-			result.m_hitPos = Vec3();
-			result.m_hitType = HitResult::NONE;
-			return result;
-		}
-		--v20;
-	}
-	
-	return result;
 }
 
 HitResult Level::clip(const Vec3& a, const Vec3& b)

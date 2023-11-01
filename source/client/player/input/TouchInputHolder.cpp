@@ -36,7 +36,6 @@ bool TouchInputHolder::allowPicking()
 		}
 	}
 
-
 	return false;
 }
 

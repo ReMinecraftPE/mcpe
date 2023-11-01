@@ -50,12 +50,16 @@ void Options::_initDefaultValues()
 	m_bViewBobbing  = 1;
 	m_bAutoJump = true;
 	m_bFancyGraphics = true;
-	field_19  = 1;
 	field_1C = "Default";
 	m_playerName = "Steve";
 	m_bServerVisibleDefault = true;
 	m_bDebugText = false;
 	m_bBlockOutlines = false;
+#ifdef TEST_TOUCH_SCREEN
+	field_19 = 0;
+#else
+	field_19 = 1;
+#endif
 
 	// Win32 key codes are being used by default
 #define KM(idx, name, code) m_keyMappings[idx] = KeyMapping(name, code)

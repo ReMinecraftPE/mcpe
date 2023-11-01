@@ -79,7 +79,7 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 		}
 	}
 
-	if (touched && m_bWasTouched) // if this is the first frame we were touched
+	if (touched && !m_bWasTouched) // if this is the first frame we were touched
 	{
 		field_B8 = timeS;
 		field_BC = 0.0f;
@@ -99,7 +99,7 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 		// note: return value dropped
 		(void) getDeltaTime();
 
-		if (m_bWasTouched)
+		if (!m_bWasTouched)
 		{
 			field_78 = m1;
 			field_7C = m2;

@@ -13,8 +13,7 @@
 #include "Frustum.hpp"
 #include "renderer/GL/GL.hpp"
 
-static int t_Unknown_1B36F0; // that is its address in v0.1.1j
-
+static int t_keepHitResult; // that is its address in v0.1.1j
 int t_keepPic;
 
 void GameRenderer::_init()
@@ -696,45 +695,54 @@ void GameRenderer::tick()
 		t_keepPic = -100;
 #endif
 
-	if (m_pMinecraft->m_pLocalPlayer)
+	if (!m_pMinecraft->m_pLocalPlayer)
+		return;
+	
+	if (--t_keepHitResult == 0)
+		m_pMinecraft->m_hitResult.m_hitType = HitResult::NONE;
+
+#ifndef ORIGINAL_CODE
+	// Not harmless to let it underflow, but we won't anyway
+	if (t_keepHitResult < -100)
+		t_keepHitResult = -100;
+#endif
+
+	float x1 = powf(fabsf(field_74), 1.2f);
+	field_7C = x1 * 0.4f;
+	if (field_74 < 0.0f)
+		field_7C = -field_7C;
+
+	float x2 = powf(fabsf(field_78), 1.2f);
+	field_80 = x2 * 0.4f;
+	if (field_78 < 0.0f)
+		field_80 = -field_80;
+
+	field_74 = 0.0f;
+	field_78 = 0.0f;
+	field_6C = field_70;
+	field_30 = field_2C;
+	field_38 = field_34;
+	field_40 = field_3C;
+	field_54 = field_50;
+	field_5C = field_58;
+
+	Mob* pMob = m_pMinecraft->m_pMobPersp;
+	if (!pMob)
 	{
-		float x1 = powf(fabsf(field_74), 1.2f);
-		field_7C = x1 * 0.4f;
-		if (field_74 < 0.0f)
-			field_7C = -field_7C;
-
-		float x2 = powf(fabsf(field_78), 1.2f);
-		field_80 = x2 * 0.4f;
-		if (field_78 < 0.0f)
-			field_80 = -field_80;
-
-		field_74 = 0.0f;
-		field_78 = 0.0f;
-		field_6C = field_70;
-		field_30 = field_2C;
-		field_38 = field_34;
-		field_40 = field_3C;
-		field_54 = field_50;
-		field_5C = field_58;
-
-		Mob* pMob = m_pMinecraft->m_pMobPersp;
-		if (!pMob)
-		{
-			pMob = m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer;
-		}
-
-		float bright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
-		float x3 = float(3 - m_pMinecraft->getOptions()->m_iViewDistance);
-
-		field_C++;
-
-		float x4 = x3 / 3.0f;
-		float x5 = (x4 + bright * (1.0f - x4) - field_70) * 0.1f;
-
-		field_70 += x5;
-
-		m_pItemInHandRenderer->tick();
+		pMob = m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer;
 	}
+
+	float bright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
+	float x3 = float(3 - m_pMinecraft->getOptions()->m_iViewDistance);
+
+	field_C++;
+
+	float x4 = x3 / 3.0f;
+	float x5 = (x4 + bright * (1.0f - x4) - field_70) * 0.1f;
+
+	field_70 += x5;
+
+	m_pItemInHandRenderer->tick();
 }
 
 void GameRenderer::renderItemInHand(float f, int i)
@@ -823,7 +831,7 @@ void GameRenderer::pick(float f)
 			float obj_coord[3] = { 0 };
 
 			if (glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
-				              m_pMinecraft->m_pInputHolder->m_feedbackY,
+				              Minecraft::height - m_pMinecraft->m_pInputHolder->m_feedbackY,
 				              1.0f,
 				              m_matrix_model_view,
 				              m_matrix_projection,
@@ -833,7 +841,7 @@ void GameRenderer::pick(float f)
 				foundPosFar = mobPos + Vec3(obj_coord[0], obj_coord[1], obj_coord[2]);
 
 				glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
-				              m_pMinecraft->m_pInputHolder->m_feedbackY,
+				              Minecraft::height - m_pMinecraft->m_pInputHolder->m_feedbackY,
 				              0.0f,
 				              m_matrix_model_view,
 				              m_matrix_projection,
@@ -850,12 +858,13 @@ void GameRenderer::pick(float f)
 
 				foundPosFar = mobPos;
 			}
-
-			t_Unknown_1B36F0 = -1;
+			
+			// keep the hit result forever
+			t_keepHitResult = -1;
 		}
 		else
 		{
-			t_Unknown_1B36F0 = 1;
+			t_keepHitResult = 1; // keep the tick result for exactly one frame
 			flag = false;
 		}
 

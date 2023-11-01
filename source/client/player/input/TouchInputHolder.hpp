@@ -25,7 +25,7 @@ public:
 	IBuildInput* getBuildInput() override;
 	void setScreenSize(int width, int height) override;
 
-private:
+public:
 	TouchscreenInput_TestFps m_touchScreenInput;
 	UnifiedTurnBuild m_unifiedTurnBuild;
 	Minecraft* m_pMinecraft;
