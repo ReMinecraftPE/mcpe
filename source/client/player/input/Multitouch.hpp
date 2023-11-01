@@ -14,12 +14,16 @@
 
 #define MAX_TOUCHES (8)
 
+struct MouseDevice;
 struct MouseAction;
 class MouseDevice;
 
 class Multitouch
 {
 public:
+
+
+private:
 	static int _clampPointerId(int Id);
 	static void commit();
 	static void feed(MouseButtonType, bool state, int x, int y, int fingerId);
