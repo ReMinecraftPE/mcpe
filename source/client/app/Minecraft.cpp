@@ -119,7 +119,6 @@ void Minecraft::releaseMouse()
 	// the mouse handler, but we don't have access to the platform
 	// from there!
 	platform()->setMouseGrabbed(false);
-#endif
 }
 
 void Minecraft::grabMouse()
