@@ -11,6 +11,9 @@
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "Frustum.hpp"
+#include "renderer/GL/GL.hpp"
+
+static int t_Unknown_1B36F0; // that is its address in v0.1.1j
 
 int t_keepPic;
 
@@ -800,25 +803,94 @@ void GameRenderer::pick(float f)
 	if (!m_pMinecraft->m_pMobPersp || !m_pMinecraft->m_pLevel)
 		return;
 
-	HitResult& mchr = m_pMinecraft->m_hitResult;
-
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
-
+	HitResult& mchr = m_pMinecraft->m_hitResult;
 	float dist = m_pMinecraft->m_pGameMode->getPickRange();
+	bool isFirstPerson = !m_pMinecraft->getOptions()->m_bThirdPerson;
 
-	HitResult hrMob = pMob->pick(dist, f);
-	mchr = hrMob;
+	if (m_pMinecraft->isTouchscreen())
+	{
+		Vec3 mobPos = pMob->getPos(f);
+		Vec3 foundPosNear, foundPosFar;
+		bool flag = true;
+		float offset = isFirstPerson ? 6.0f : 12.0f;
+
+		if (m_pMinecraft->m_pInputHolder->allowPicking())
+		{
+			int viewport[4] = { 0 };
+			viewport[2] = Minecraft::width;
+			viewport[3] = Minecraft::height;
+			float obj_coord[3] = { 0 };
+
+			if (glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
+				              m_pMinecraft->m_pInputHolder->m_feedbackY,
+				              1.0f,
+				              m_matrix_model_view,
+				              m_matrix_projection,
+				              viewport,
+				              obj_coord))
+			{
+				foundPosFar = mobPos + Vec3(obj_coord[0], obj_coord[1], obj_coord[2]);
+
+				glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
+				              m_pMinecraft->m_pInputHolder->m_feedbackY,
+				              0.0f,
+				              m_matrix_model_view,
+				              m_matrix_projection,
+				              viewport,
+				              obj_coord);
+
+				foundPosNear = mobPos + Vec3(obj_coord[0], obj_coord[1], obj_coord[2]);
+
+				Vec3 diff = foundPosFar - foundPosNear;
+				Vec3 normDiff = diff.normalize();
+				Vec3 normScaledDiff = normDiff.scale(offset);
+				
+				mobPos = foundPosNear + normScaledDiff;
+
+				foundPosFar = mobPos;
+			}
+
+			t_Unknown_1B36F0 = -1;
+		}
+		else
+		{
+			t_Unknown_1B36F0 = 1;
+			flag = false;
+		}
+
+		if (flag)
+		{
+			if (isFirstPerson)
+			{
+				mchr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
+			}
+			else
+			{
+				HitResult hr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
+
+				float diffX = float(hr.m_tileX) - m_pMinecraft->m_pMobPersp->m_pos.x;
+				float diffY = float(hr.m_tileY) - m_pMinecraft->m_pMobPersp->m_pos.y;
+				float diffZ = float(hr.m_tileZ) - m_pMinecraft->m_pMobPersp->m_pos.z;
+
+				if (hr.m_hitType == HitResult::NONE || diffX * diffX + diffY * diffY + diffZ * diffZ > offset * offset)
+					mchr.m_hitType = HitResult::NONE;
+				else
+					mchr = hr;
+			}
+		}
+	}
+	else
+	{
+		// easy case: pick from the middle of the screen
+		HitResult hrMob = pMob->pick(dist, f);
+		mchr = hrMob;
+	}
 
 	Vec3 mobPos = pMob->getPos(f);
 
 	if (m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE)
-	{
-		float dX = mobPos.x - mchr.m_hitPos.x;
-		float dY = mobPos.y - mchr.m_hitPos.y;
-		float dZ = mobPos.z - mchr.m_hitPos.z;
-
-		dist = sqrtf(dX * dX + dY * dY + dZ * dZ);
-	}
+		dist = mchr.m_hitPos.distanceTo(mobPos);
 
 	if (m_pMinecraft->m_pGameMode->isCreativeType())
 		dist = 32.0f;

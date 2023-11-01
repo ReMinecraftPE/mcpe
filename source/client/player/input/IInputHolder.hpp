@@ -25,9 +25,10 @@ public:
 
 protected:
 	friend class UnifiedTurnBuild;
+	friend class GameRenderer;
 	friend class Gui;
-	float field_4;
-	float field_8;
-	float field_C;
+	float m_feedbackX;
+	float m_feedbackY;
+	float m_feedbackAlpha;
 };
 

@@ -89,5 +89,10 @@ public:
 	{
 		return sqrt(lengthSqr());
 	}
+
+	Vec3 scale(float scale) const
+	{
+		return Vec3(x * scale, y * scale, z * scale);
+	}
 };
 

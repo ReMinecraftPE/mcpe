@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "TouchInputHolder.hpp"
+#include "Multitouch.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/options/Options.hpp"
 
@@ -19,6 +20,23 @@ TouchInputHolder::TouchInputHolder(Minecraft* pMinecraft, Options* pOptions) :
 
 bool TouchInputHolder::allowPicking()
 {
+	const int* ids;
+	int count = Multitouch::getActivePointerIds(&ids);
+
+	for (int i = 0; i < count; ++i)
+	{
+		int finger = ids[i];
+		float x = float(Multitouch::getX(finger));
+		float y = float(Multitouch::getY(finger));
+		if (m_unifiedTurnBuild.isInsideArea(x, y))
+		{
+			m_feedbackX = x;
+			m_feedbackY = y;
+			return true;
+		}
+	}
+
+
 	return false;
 }
 

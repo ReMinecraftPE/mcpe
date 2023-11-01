@@ -10,8 +10,8 @@
 #include "Mouse.hpp"
 
 IInputHolder::IInputHolder() :
-	field_4(0),
-	field_8(0)
+	m_feedbackX(0),
+	m_feedbackY(0)
 {
 }
 
@@ -21,8 +21,8 @@ IInputHolder::~IInputHolder()
 
 bool IInputHolder::allowPicking()
 {
-	field_4 = Mouse::getX();
-	field_8 = Mouse::getY();
+	m_feedbackX = float(Mouse::getX());
+	m_feedbackY = float(Mouse::getY());
 	return Mouse::getButtonState(BUTTON_LEFT);
 }
 

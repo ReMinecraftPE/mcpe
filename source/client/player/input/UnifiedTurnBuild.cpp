@@ -145,17 +145,17 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 		// for some reason forgot to optimize into a jump table, or was actually an if chain.
 		// I believe it's the latter though because the build I'm reversing (0.1.1j) is unoptimized)
 		if (field_D8 == 1)
-			m_pInputHolder->field_C = m_smoothFloat.getNewDeltaValue((timeS - field_B8) / 0.4f, 0.05f);
+			m_pInputHolder->m_feedbackAlpha = m_smoothFloat.getNewDeltaValue((timeS - field_B8) / 0.4f, 0.05f);
 		else if (field_D8 == 3)
-			m_pInputHolder->field_C = m_smoothFloat.getNewDeltaValue(1.0f, 0.25f);
+			m_pInputHolder->m_feedbackAlpha = m_smoothFloat.getNewDeltaValue(1.0f, 0.25f);
 		else if (field_D8 == 2)
-			m_pInputHolder->field_C = m_smoothFloat.getNewDeltaValue(-0.05f, 0.5f);
+			m_pInputHolder->m_feedbackAlpha = m_smoothFloat.getNewDeltaValue(-0.05f, 0.5f);
 		else if (field_D8 == 0)
-			m_pInputHolder->field_C = m_smoothFloat.getNewDeltaValue(-0.05f, 0.5f);
+			m_pInputHolder->m_feedbackAlpha = m_smoothFloat.getNewDeltaValue(-0.05f, 0.5f);
 	}
 	else
 	{
-		m_pInputHolder->field_C = -0.05f;
+		m_pInputHolder->m_feedbackAlpha = -0.05f;
 	}
 
 	m_bWasTouched = touched;

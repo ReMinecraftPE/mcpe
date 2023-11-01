@@ -195,12 +195,12 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		//     that;
 		// else
 		//     this;
-		if (breakProgress > 0.0f || m_pMinecraft->m_pInputHolder->field_C < 0.0f)
+		if (breakProgress > 0.0f || m_pMinecraft->m_pInputHolder->m_feedbackAlpha < 0.0f)
 		{
 			if (breakProgress > 0.0f)
 			{
-				float xPos = m_pMinecraft->m_pInputHolder->field_4;
-				float yPos = m_pMinecraft->m_pInputHolder->field_8;
+				float xPos = m_pMinecraft->m_pInputHolder->m_feedbackX;
+				float yPos = m_pMinecraft->m_pInputHolder->m_feedbackY;
 
 				m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -222,11 +222,11 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		}
 		else
 		{
-			float xPos = m_pMinecraft->m_pInputHolder->field_4;
-			float yPos = m_pMinecraft->m_pInputHolder->field_8;
+			float xPos = m_pMinecraft->m_pInputHolder->m_feedbackX;
+			float yPos = m_pMinecraft->m_pInputHolder->m_feedbackY;
 
 			m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
-			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, m_pMinecraft->m_pInputHolder->field_C));
+			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, m_pMinecraft->m_pInputHolder->m_feedbackAlpha));
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
