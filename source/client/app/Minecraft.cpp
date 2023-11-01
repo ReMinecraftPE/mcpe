@@ -959,7 +959,7 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 		return 1.0f / 4.0f;
 
 	// phones only
-#if !defined(_WIN32) && !defined(USE_SDL2)
+#if true//!defined(_WIN32) && !defined(USE_SDL2)
 	if (height > 600)
 		return 1.0f / 4.0f;
 

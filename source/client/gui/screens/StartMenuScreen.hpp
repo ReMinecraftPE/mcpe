@@ -22,6 +22,8 @@ public:
 	void render(int, int, float) override;
 	void tick() override;
 
+	void drawSplash();
+
 	std::string getSplashString();
 
 private:

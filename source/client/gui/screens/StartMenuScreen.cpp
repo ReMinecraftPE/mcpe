@@ -337,7 +337,6 @@ StartMenuScreen::StartMenuScreen() :
 	m_optionsButton(4,   0, 0,  78, 22, "Options"),
 	m_testButton   (999, 0, 0,  78, 22, "Test"),
 	m_buyButton    (5,   0, 0,  78, 22, "Buy")
-	//, m_testBox(1, 10, 10, 200, 16, "Insert some text...")
 {
 	m_chosenSplash = -1;
 }
@@ -466,9 +465,11 @@ void StartMenuScreen::render(int a, int b, float c)
 	int id = tx->loadTexture("gui/title.png", true);
 	Texture *pTex = tx->getTemporaryTextureData(id);
 
-	//const int titleYPos = 4;
-	//const int titleYPos = 30; // -- MC Java position
-	const int titleYPos = 15;
+	//int titleYPos = 4;
+	//int titleYPos = 30; // -- MC Java position
+	int titleYPos = 15;
+
+	bool crampedMode = false;
 
 	if (pTex)
 	{
@@ -481,6 +482,12 @@ void StartMenuScreen::render(int a, int b, float c)
 		int left = (m_width - pTex->m_width) / 2;
 		int width  = pTex->m_width;
 		int height = pTex->m_height;
+
+		if (m_width * 3 / 4 < width)
+		{
+			crampedMode = true;
+			titleYPos = 4;
+		}
 
 		Tesselator& t = Tesselator::instance;
 		glColor4f(1, 1, 1, 1);
@@ -495,12 +502,26 @@ void StartMenuScreen::render(int a, int b, float c)
 	drawString(m_pFont, field_170, field_188, 58 + titleYPos, 0xFFCCCCCC);
 	drawString(m_pFont, field_154, field_16C, m_height - 10, 0x00FFFFFF);
 
-	// Draw the splash text.
+	// Draw the splash text, if we have enough room.
+	if (!crampedMode)
+		drawSplash();
+
+	Screen::render(a, b, c);
+}
+
+void StartMenuScreen::tick()
+{
+	Screen::tick();
+	_updateLicense();
+}
+
+void StartMenuScreen::drawSplash()
+{
 	glPushMatrix();
 
 	std::string splashText = getSplashString();
-    int textWidth = m_pFont->width(splashText);
-    //int textHeight = m_pFont->height(splashText);
+	int textWidth = m_pFont->width(splashText);
+	//int textHeight = m_pFont->height(splashText);
 
 	glTranslatef(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f);
 	glRotatef(-20.0f, 0.0f, 0.0f, 1.0f);
@@ -513,21 +534,6 @@ void StartMenuScreen::render(int a, int b, float c)
 	drawCenteredString(m_pFont, splashText, 0, -8, 0xFFFF00);
 
 	glPopMatrix();
-
-	// for debugging
-	/*
-	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	glColor4f(1, 1, 1, 1);
-	blit(0, 0, 0, 0, 256, 256, 0, 0);
-	*/
-
-	Screen::render(a, b, c);
-}
-
-void StartMenuScreen::tick()
-{
-	Screen::tick();
-	_updateLicense();
 }
 
 std::string StartMenuScreen::getSplashString()

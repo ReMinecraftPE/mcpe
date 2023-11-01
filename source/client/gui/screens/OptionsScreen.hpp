@@ -21,7 +21,9 @@ public:
 #ifndef ORIGINAL_CODE
 	void buttonClicked(Button* pButton) override;
 
-	void UpdateTexts();
+	void setWidthAllButtons(int width);
+	void updateTexts();
+	bool isCramped();
 
 private:
 	Button m_BackButton;
