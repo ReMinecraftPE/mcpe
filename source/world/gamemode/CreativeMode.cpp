@@ -39,8 +39,6 @@ bool CreativeMode::destroyBlock(int x, int y, int z, int i)
 	return true;
 }
 
-#ifndef ENH_INSTA_BREAK
-
 // @NOTE: Duplicate of SurvivalMode's break logic!
 
 void CreativeMode::startDestroyBlock(int x, int y, int z, int i)
@@ -145,8 +143,6 @@ void CreativeMode::render(float f)
 		m_pMinecraft->m_pLevelRenderer->field_10 = x;
 	}
 }
-
-#endif
 
 void CreativeMode::initPlayer(Player* p)
 {

@@ -19,9 +19,8 @@ public:
 	float getPickRange() override;
 	bool isCreativeType() override;
 	bool isSurvivalType() override;
-	void initPlayer(Player*) override;
 
-#ifndef ENH_INSTA_BREAK
+	void initPlayer(Player*) override;
 	void startDestroyBlock(int x, int y, int z, int i) override;
 	void continueDestroyBlock(int x, int y, int z, int i) override;
 	void stopDestroyBlock() override;
@@ -36,7 +35,5 @@ public:
 	float m_lastDestroyProgress;
 	int m_destroyTicks;
 	int m_destroyCooldown;
-
-#endif
 };
 
