@@ -14,8 +14,8 @@
 
 #define MAX_TOUCHES (8)
 
-struct MouseDevice;
 struct MouseAction;
+class MouseDevice;
 
 class Multitouch
 {

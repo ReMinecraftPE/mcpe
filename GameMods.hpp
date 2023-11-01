@@ -42,13 +42,13 @@
 #define ENH_ALLOW_SAND_GRAVITY  // Allow sand to fall.
 #define ENH_USE_GUI_SCALE_2     // Use a 2x GUI scale instead of 3x. Looks better on PC
 #define ENH_ALLOW_SCROLL_WHEEL  // Allow use of the scroll wheel to change selected inventory slots
-#define ENH_DISABLE_TURN_ACCEL  // Disable the turn acceleration mechanism. It should only be used on Xperia Play
 #define ENH_3D_INVENTORY_TILES  // Uses 3D rendered inventory tiles, use with ENH_SHADE_HELD_TILES to render correctly.
 #define ENH_IMPROVED_SAVING     // Improve world saving. The original Minecraft doesn't always really save for some reason
 
 #ifndef TEST_TOUCH_SCREEN
 #define ENH_INSTA_BREAK         // Allows instant breaking of blocks. @TODO: Fix the mode without this
 #define ENH_ENABLE_9TH_SLOT     // Enable the 9th hotbar slot, instead of it being a "..." placeholder
+#define ENH_DISABLE_TURN_ACCEL  // Disable the turn acceleration mechanism. It should only be used on Xperia Play
 #endif
 
 // Toggle Demo Mode

@@ -24,6 +24,7 @@
 #include "client/player/input/IBuildInput.hpp"
 #include "client/player/input/CustomInputHolder.hpp"
 #include "client/player/input/TouchInputHolder.hpp"
+#include "client/player/input/Multitouch.hpp"
 
 #include "world/tile/SandTile.hpp"
 
@@ -352,18 +353,19 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 
 void Minecraft::handleMouseClick(int type)
 {
-#ifndef MOBILE
-	if (type == 1)
+	if (!isTouchscreen())
 	{
-		BuildActionIntention bai(INTENT_HELD);
-		handleBuildAction(&bai);
+		if (type == 1)
+		{
+			BuildActionIntention bai(INTENT_HELD);
+			handleBuildAction(&bai);
+		}
+		if (type == 2)
+		{
+			BuildActionIntention bai(INTENT_CLICKED);
+			handleBuildAction(&bai);
+		}
 	}
-	if (type == 2)
-	{
-		BuildActionIntention bai(INTENT_CLICKED);
-		handleBuildAction(&bai);
-	}
-#endif
 }
 
 void Minecraft::tickInput()
@@ -515,36 +517,28 @@ void Minecraft::tickInput()
 		}
 	}
 
-	// @TODO: fix gotos
-	bool v12 = false;
+	BuildActionIntention bai;
+	bool b = m_pInputHolder->getBuildInput()->tickBuild(m_pLocalPlayer, &bai);
 
-	if (getOptions()->field_19)
-	{
-		if (!Mouse::isButtonDown(BUTTON_LEFT) || bIsInGUI)
-			goto label_12;
-	}
-	else if (Keyboard::isKeyDown(getOptions()->getKey(KM_DESTROY)))
-	{
-		goto label_12;
-	}
+	if (b && !bai.isRemoveContinue())
+		handleBuildAction(&bai);
 	
-	if (!m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
+	bool flag =
+		// If we are mouse operated, the LMB is held down and it's not in the GUI
+		((m_options->field_19 && Mouse::isButtonDown(BUTTON_LEFT) && !bIsInGUI) ||
+		// We are instead keyboard operated, so check for the KM_DESTROY key being held down
+		(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
+		// The build action intention is a remove one
+		b && bai.isRemove());
+
+	if (flag && !m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
 	{
-		handleMouseClick(1);
+		bai = BuildActionIntention(INTENT_HELD);
+		handleBuildAction(&bai); // handleMouseClick(BUTTON_LEFT)
 		field_DAC = field_DA8;
 	}
 
-	if (m_bGrabbedMouse)
-	{
-		v12 = true;
-	}
-	else
-	{
-	label_12:
-		v12 = false;
-	}
-
-	handleMouseDown(1, v12);
+	handleMouseDown(BUTTON_LEFT, flag);
 
 	field_2B4 = getTimeMs();
 
@@ -733,6 +727,8 @@ void Minecraft::tick()
 
 		if (m_pScreen)
 			m_pScreen->tick();
+
+		Multitouch::reset();
 	}
 }
 
@@ -957,6 +953,9 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 	if (m_pScreen)
 		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
+
+	if (m_pInputHolder)
+		m_pInputHolder->setScreenSize(newWidth, newHeight);
 }
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)

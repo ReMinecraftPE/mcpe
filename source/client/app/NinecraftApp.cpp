@@ -8,6 +8,7 @@
 
 #include "NinecraftApp.hpp"
 #include "world/item/Item.hpp"
+#include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 
 #ifdef DEMO
@@ -107,6 +108,7 @@ void NinecraftApp::teardown()
 void NinecraftApp::update()
 {
 	++m_fps;
+	Multitouch::commit();
 	Minecraft::update();
 
 #ifdef ORIGINAL_CODE

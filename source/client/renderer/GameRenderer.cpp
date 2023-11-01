@@ -9,6 +9,7 @@
 #include "thirdparty/GL/GL.hpp"
 #include "GameRenderer.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/player/input/Multitouch.hpp"
 #include "Frustum.hpp"
 
 int t_keepPic;
@@ -541,11 +542,11 @@ void GameRenderer::render(float f)
 		float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
 		mult1 = mult1 * mult1 * mult1;
 
-		float xd = 4.0f * mult1 * pMC->field_D20;
-		float yd = 4.0f * mult1 * pMC->field_D24;
+		float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
+		float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
 
 		float old_field_84 = field_84;
-		field_84 = float(m_rotX) + f;
+		field_84 = float(field_C) + f;
 		float diff_field_84 = field_84 - old_field_84;
 		field_74 += xd;
 		field_78 += yd;
@@ -559,10 +560,10 @@ void GameRenderer::render(float f)
 		if (!pMC->getOptions()->field_240)
 		{
 			// @TODO: untangle this code
-			float v17 = xd + m_rotZ;
+			float v17 = xd + field_14;
 			float v18 = field_18;
 			float v19 = field_1C;
-			m_rotZ = v17;
+			field_14 = v17;
 			float v20 = mult1 * 0.25f * (v17 - v18);
 			float v21 = v19 + (v20 - v19) * 0.5f;
 			field_1C = v21;
@@ -595,7 +596,20 @@ void GameRenderer::render(float f)
 	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
 	int mouseY = int(Mouse::getY() * Gui::InvGuiScale);
 
-	// note: Multitouch code here
+	if (m_pMinecraft->isTouchscreen())
+	{
+		int pointerId = Multitouch::getFirstActivePointerIdExThisUpdate();
+		if (pointerId < 0)
+		{
+			mouseX = -9999;
+			mouseY = -9999;
+		}
+		else
+		{
+			mouseX = int(float(Multitouch::getX(pointerId)) * Gui::InvGuiScale);
+			mouseY = int(float(Multitouch::getY(pointerId)) * Gui::InvGuiScale);
+		}
+	}
 
 	if (m_pMinecraft->isLevelGenerated())
 	{
@@ -620,6 +634,10 @@ void GameRenderer::render(float f)
 		glLoadIdentity();
 		setupGuiScreen();
 	}
+
+	if (m_pMinecraft->m_pLocalPlayer &&
+		m_pMinecraft->m_pLocalPlayer->m_pMoveInput)
+		m_pMinecraft->m_pLocalPlayer->m_pMoveInput->render(f);
 
 	if (m_pMinecraft->m_pScreen)
 	{

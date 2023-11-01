@@ -25,6 +25,7 @@ public:
 
 protected:
 	friend class UnifiedTurnBuild;
+	friend class Gui;
 	float field_4;
 	float field_8;
 	float field_C;

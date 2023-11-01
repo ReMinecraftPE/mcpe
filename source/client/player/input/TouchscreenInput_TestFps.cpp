@@ -103,26 +103,26 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 
 	m_rectArea = RectangleArea(rx1, ry1, rx2, ry2);
 
-	float middleX = rx1 + widthM;
-	float middleY = offX + widthM;
+	float middleX = offX + widthM;
+	float middleY = ry1 + heightM;
 
-	TransformArray(4, x1, y1, x2, y2, middleY, middleY - heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX, middleY - heightM, 1.0f, 1.0f);
 	m_pAreaForward = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_FORWARD, m_pAreaForward);
 
-	TransformArray(4, x1, y1, x2, y2, middleY, middleY, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX, middleY, 1.0f, 1.0f);
 	m_pAreaJump = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_JUMP, m_pAreaJump);
 
-	TransformArray(4, x1, y1, x2, y2, middleY, middleY + heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX, middleY + heightM, 1.0f, 1.0f);
 	m_pAreaBackward = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_BACKWARD, m_pAreaBackward);
 
-	TransformArray(4, x1, y1, x2, y2, middleY - widthM, ry1 + heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX - widthM, ry1 + heightM, 1.0f, 1.0f);
 	m_pAreaLeft = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_LEFT, m_pAreaLeft);
 
-	TransformArray(4, x1, y1, x2, y2, middleY + widthM, ry1 + heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX + widthM, ry1 + heightM, 1.0f, 1.0f);
 	m_pAreaRight = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_RIGHT, m_pAreaRight);
 
@@ -234,7 +234,7 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 	tc[6] = tc[0];
 	tc[7] = tc[5];
 
-	for (int i = 0; pArea->m_count; i++)
+	for (int i = 0; i < pArea->m_count; i++)
 	{
 		t->vertexUV(
 			Gui::InvGuiScale * pArea->m_xPos[i],
@@ -260,16 +260,18 @@ void TouchscreenInput_TestFps::render(float f)
 	RenderTouchButton(&t, m_pAreaLeft, 64, 112);
 
 	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaLeft, 192, 112);
+	RenderTouchButton(&t, m_pAreaRight, 192, 112);
 
 	t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaLeft, 0, 112);
+	RenderTouchButton(&t, m_pAreaForward, 0, 112);
 
 	t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaLeft, 128, 112);
+	RenderTouchButton(&t, m_pAreaBackward, 128, 112);
 
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaLeft, 0, 176);
+	RenderTouchButton(&t, m_pAreaJump, 0, 176);
+
+	t.draw();
 
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
