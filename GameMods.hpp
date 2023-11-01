@@ -9,6 +9,10 @@
 #define DEMO
 #else
 
+#if defined __ANDROID__ || defined TARGET_OS_IPHONE
+#define MOBILE
+#endif
+
 // TODO: Since this is the modded version, we don't need these anymore. Remove them
 
 // Enhancements
@@ -17,7 +21,6 @@
 #define ENH_FIX_INVIS_STAIRS    // Fixes a bug wherein a 16x16x16 chunk in the world that contains only stairs is invisible
 #define ENH_ALLOW_AO            // Allows using the F4 key to toggle ambient occlusion (buggy)
 #define ENH_TRANSPARENT_HOTBAR  // Allows the hotbar to be transparent. Due to a bug in the code, it is not.
-#define ENH_INSTA_BREAK         // Allows instant breaking of blocks. @TODO: Fix the mode without this
 #define ENH_CAMERA_NO_PARTICLES // Hide particles from the view of a camera, such as smoke, that would otherwise render the resulting image useless.
 #define ENH_USE_JAVA_LIGHT_RAMP // Use Java Beta 1.3 light ramp instead of flawed PE one
 #define ENH_RUN_DAY_NIGHT_CYCLE // Allow the day/night cycle to run.
@@ -32,6 +35,8 @@
 #define ENH_DISABLE_TURN_ACCEL  // Disable the turn acceleration mechanism. It should only be used on Xperia Play
 #define ENH_3D_INVENTORY_TILES  // Uses 3D rendered inventory tiles, use with ENH_SHADE_HELD_TILES to render correctly.
 #define ENH_IMPROVED_SAVING     // Improve world saving. The original Minecraft doesn't always really save for some reason
+
+#define ENH_INSTA_BREAK         // Allows instant breaking of blocks. @TODO: Fix the mode without this
 
 // Mods
 //#define MOD_USE_FLAT_WORLD         // Use a flat world instead of the regular world generation

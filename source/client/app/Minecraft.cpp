@@ -340,6 +340,18 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 
 void Minecraft::handleMouseClick(int type)
 {
+#ifndef MOBILE
+	if (type == 1)
+	{
+		BuildActionIntention bai(INTENT_HELD);
+		handleBuildAction(&bai);
+	}
+	if (type == 2)
+	{
+		BuildActionIntention bai(INTENT_CLICKED);
+		handleBuildAction(&bai);
+	}
+#endif
 }
 
 void Minecraft::tickInput()
@@ -478,9 +490,16 @@ void Minecraft::tickInput()
 		if (getTimeMs() - field_2B4 <= 200)
 		{
 			if (getOptions()->getKey(KM_DESTROY) == keyCode && bPressed)
-				handleMouseClick(1);
+			{
+				BuildActionIntention intention(INTENT_HELD);
+				handleBuildAction(&intention);
+			}
+
 			if (getOptions()->getKey(KM_PLACE) == keyCode && bPressed)
-				handleMouseClick(2);
+			{
+				BuildActionIntention intention(INTENT_CLICKED);
+				handleBuildAction(&intention);
+			}
 		}
 	}
 
