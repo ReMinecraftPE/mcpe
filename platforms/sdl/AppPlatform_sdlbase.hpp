@@ -39,8 +39,8 @@ public:
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
 
-	static Mouse::ButtonType GetMouseButtonType(SDL_Event event);
-	static Mouse::ButtonState GetMouseButtonState(SDL_Event event);
+	static MouseButtonType GetMouseButtonType(SDL_Event event);
+	static bool GetMouseButtonState(SDL_Event event);
 	static Keyboard::KeyState GetKeyState(SDL_Event event);
 private:
 	SDL_Window *_window;

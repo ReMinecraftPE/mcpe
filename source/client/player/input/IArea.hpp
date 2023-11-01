@@ -12,6 +12,7 @@ class IArea
 {
 public:
 	IArea() : field_4(true) {}
+	virtual ~IArea() {}
 	virtual bool isInside(float, float) = 0;
 
 public:

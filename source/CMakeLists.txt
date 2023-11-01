@@ -11,6 +11,7 @@ add_library(reminecraftpe-core STATIC
     common/CThread.cpp
     common/Util.cpp
     common/Logger.cpp
+    common/SmoothFloat.cpp
     client/app/App.cpp
     client/app/AppPlatform.cpp
     client/app/Minecraft.cpp
@@ -89,6 +90,21 @@ add_library(reminecraftpe-core STATIC
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
+	client/player/input/IBuildInput.cpp
+	client/player/input/IncludeExcludeArea.cpp
+	client/player/input/MouseHandler.cpp
+	client/player/input/PolygonArea.cpp
+	client/player/input/RectangleArea.cpp
+	client/player/input/MouseDevice.cpp
+	client/player/input/Multitouch.cpp
+	client/player/input/CustomInputHolder.cpp
+	client/player/input/IInputHolder.cpp
+	client/player/input/IMoveInput.cpp
+	client/player/input/ITouchScreenModel.cpp
+	client/player/input/TouchAreaModel.cpp
+	client/player/input/TouchInputHolder.cpp
+	client/player/input/TouchscreenInput_TestFps.cpp
+	client/player/input/UnifiedTurnBuild.cpp
     client/network/ClientSideNetworkHandler.cpp
     network/packets/UpdateBlockPacket.cpp
     network/packets/RequestChunkPacket.cpp

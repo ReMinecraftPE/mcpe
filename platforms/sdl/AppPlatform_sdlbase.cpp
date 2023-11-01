@@ -154,50 +154,46 @@ int AppPlatform_sdlbase::getUserInputStatus()
 	return -1;
 }
 
-Mouse::ButtonType AppPlatform_sdlbase::GetMouseButtonType(SDL_Event event)
+MouseButtonType AppPlatform_sdlbase::GetMouseButtonType(SDL_Event event)
 {
 	switch (event.button.button)
 	{
 	case SDL_BUTTON_LEFT:
-		return Mouse::LEFT;
+		return BUTTON_LEFT;
 	case SDL_BUTTON_RIGHT:
-		return Mouse::RIGHT;
+		return BUTTON_RIGHT;
 	case SDL_BUTTON_MIDDLE:
-		return Mouse::MIDDLE;
+		return BUTTON_MIDDLE;
 	default:
-		return Mouse::NONE;
+		return BUTTON_NONE;
 	}
 }
 
-Mouse::ButtonState AppPlatform_sdlbase::GetMouseButtonState(SDL_Event event)
+bool AppPlatform_sdlbase::GetMouseButtonState(SDL_Event event)
 {
-	Mouse::ButtonState result;
+	bool result;
 
 	switch (event.type)
 	{
 	case SDL_MOUSEBUTTONDOWN:
-		result = Mouse::DOWN;
+		result = true;
 		break;
 	case SDL_MOUSEBUTTONUP:
-		result = Mouse::UP;
+		result = false;
 		break;
 	case SDL_MOUSEWHEEL:
 	{
 		short wheelDelta = event.wheel.y;
 		if (wheelDelta > 0)
-		{
 			// "A positive value indicates that the wheel was rotated forward, away from the user."
-			result = Mouse::UP;
-		}
+			result = false;
 		else
-		{
 			// "A negative value indicates that the wheel was rotated backward, toward the user."
-			result = Mouse::DOWN;
-		}
+			result = true;
 		break;
 	}
 	default:
-		result = Mouse::UP;
+		result = false;
 		break;
 	}
 
