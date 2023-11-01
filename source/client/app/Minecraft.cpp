@@ -357,6 +357,18 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 
 void Minecraft::handleMouseClick(int type)
 {
+#ifndef MOBILE
+	if (type == 1)
+	{
+		BuildActionIntention bai(INTENT_HELD);
+		handleBuildAction(&bai);
+	}
+	if (type == 2)
+	{
+		BuildActionIntention bai(INTENT_CLICKED);
+		handleBuildAction(&bai);
+	}
+#endif
 }
 
 void Minecraft::tickInput()
