@@ -10,10 +10,11 @@
 
 @class minecraftpeViewController;
 
-@interface minecraftpeAppDelegate : UIResponder <UIApplicationDelegate>
-
+@interface minecraftpeAppDelegate : NSObject <UIApplicationDelegate> {
+    UIWindow *window;
+    minecraftpeViewController *viewController;
+}
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) minecraftpeViewController *viewController;
 
 @end

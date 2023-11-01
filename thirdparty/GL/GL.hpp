@@ -20,8 +20,19 @@
 	#define USE_GLES // GLES or its compatibility layer.
 #endif
 
+
 #ifdef USE_GLES
-	#include <GLES/gl.h>
+	#ifdef TARGET_OS_IOS
+		#import <OpenGLES/EAGL.h>
+		#import <OpenGLES/ES1/gl.h>
+		#import <OpenGLES/ES1/glext.h>
+		 //#import <OpenGLES/ES2/gl.h>
+		 //#import <OpenGLES/ES2/glext.h>
+
+		#define glFogi glFogx
+	#else
+		#include <GLES/gl.h>
+	#endif
 	#define GL_QUADS 0x7
 	
 	#define USE_OPENGL_2_FEATURES

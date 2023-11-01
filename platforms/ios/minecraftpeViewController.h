@@ -7,9 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
 
-@interface minecraftpeViewController : GLKViewController
+@interface minecraftpeViewController : UIViewController
+{
+    EAGLContext *context;
+    GLuint program;
+    
+    BOOL animating;
+    NSInteger animationFrameInterval;
+    CADisplayLink *displayLink;
+}
+
+@property (readonly, nonatomic, getter=isAnimating) BOOL animating;
+@property (nonatomic) NSInteger animationFrameInterval;
+
+- (void)startAnimation;
+- (void)stopAnimation;
 
 - (int)width;
 - (int)height;

@@ -81,9 +81,10 @@ Texture AppPlatform_iOS::loadTexture(const std::string& path, bool b)
     
 	out.m_width = CGImageGetWidth(image.CGImage);
 	out.m_height = CGImageGetHeight(image.CGImage);
+    out.m_pixels = new uint32_t[out.m_width * out.m_height];
     
     CGColorSpace *colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(out.m_pixels, out.m_width, out.m_height, 8u, 4 * out.m_width, colorSpace, 0x4001u);
+    CGContextRef context = CGBitmapContextCreate(out.m_pixels, out.m_width, out.m_height, 8u, sizeof(uint32_t) * out.m_width, colorSpace, 0x4001u);
     CGColorSpaceRelease(colorSpace);
 	
 	CGRect rect;
@@ -95,28 +96,6 @@ Texture AppPlatform_iOS::loadTexture(const std::string& path, bool b)
     CGContextTranslateCTM(context, 0.0, 0.0);
     CGContextDrawImage(context, rect, image.CGImage);
     CGContextRelease(context);
-	
-	// Code for layered textures(?) which we currently do not support
-    /*if ( (out.var8 & 1) != 0 )
-        v19 = *(unsigned __int8 **)(out + 16);
-    else
-        v19 = (unsigned __int8 *)(out + 9);
-    
-    int imageSize = out.width * out.height;
-    if ( 4 * imageSize >= 1 )
-    {
-        v21 = &v19[4 * imageSize];
-        do
-        {
-            // Loop until end
-            v22 = 255.0 / (float)v19[3];
-            *v19 = (int)(float)(v22 * (float)*v19);
-            v19[1] = (int)(float)(v22 * (float)v19[1]);
-            v19[2] = (int)(float)(v22 * (float)v19[2]);
-            v19 += 4;
-        }
-        while ( v19 < v21 );
-    }*/
     
 	return out;
 }
@@ -160,7 +139,7 @@ int AppPlatform_iOS::getUserInputStatus()
 	return -1;
 }
 
-std::string AppPlatform::getAssetPath(const std::string &path) const
+std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
     /*std::string realPath;
     if (realPath.size() && realPath[0] == '/')

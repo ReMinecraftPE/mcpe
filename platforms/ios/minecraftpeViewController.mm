@@ -8,6 +8,8 @@
 
 #import "minecraftpeViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "AppPlatform_iOS.h"
 
 #include <string>
@@ -17,81 +19,15 @@
 #include "client/app/NinecraftApp.hpp"
 #include "AppContext.hpp"
 
+#include "client/gui/screens/ProgressScreen.hpp"
+
 #include "EAGLView.h"
-
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
-
-// Uniform index.
-enum
-{
-    UNIFORM_MODELVIEWPROJECTION_MATRIX,
-    UNIFORM_NORMAL_MATRIX,
-    NUM_UNIFORMS
-};
-GLint uniforms[NUM_UNIFORMS];
-
-// Attribute index.
-enum
-{
-    ATTRIB_VERTEX,
-    ATTRIB_NORMAL,
-    NUM_ATTRIBUTES
-};
-
-GLfloat gCubeVertexData[216] = 
-{
-    // Data layout for each line below is:
-    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
-    0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
-    
-    0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
-    
-    -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
-    
-    -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
-    
-    0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
-    
-    0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
-};
 
 NSThread *G_drawFrameThread = nullptr;
 
 @interface minecraftpeViewController () {
     GLuint _program;
     
-    GLKMatrix4 _modelViewProjectionMatrix;
-    GLKMatrix3 _normalMatrix;
     float _rotation;
     
     GLuint _vertexArray;
@@ -106,45 +42,16 @@ NSThread *G_drawFrameThread = nullptr;
     AppPlatform_iOS *_platform;
     float viewScale;
 }
-@property (nonatomic) int animationFrameInterval;
-@property (strong, nonatomic) CADisplayLink *displayLink;
-@property (strong, nonatomic) EAGLContext *context;
-@property (readonly, nonatomic) BOOL isAnimating;
+@property (nonatomic, retain) EAGLContext *context;
+@property (nonatomic, retain) CADisplayLink *displayLink;
 //@property (strong, nonatomic) IASKAppSettingsViewController *appSettingsViewController;
-@property (strong, nonatomic) GLKBaseEffect *effect;
-
-- (void)setupGL;
-- (void)tearDownGL;
-
-- (BOOL)loadShaders;
-- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
-- (BOOL)linkProgram:(GLuint)prog;
-- (BOOL)validateProgram:(GLuint)prog;
 
 - (void)initView;
-
-- (void)stopAnimation;
-- (void)startAnimation;
 @end
 
 @implementation minecraftpeViewController
 
-@synthesize context;
-@synthesize isAnimating = animating;
-@synthesize effect = _effect;
-
-- (void)setAnimationFrameInterval:(int)animationFrameInterval
-{
-    if (animationFrameInterval >= 1)
-    {
-        self.animationFrameInterval = animationFrameInterval;
-        if (self->animating)
-        {
-            [self stopAnimation];
-            [self startAnimation];
-        }
-    }
-}
+@synthesize animating, context, displayLink;
 
 - (int)width
 {
@@ -160,40 +67,16 @@ NSThread *G_drawFrameThread = nullptr;
 {
     [super awakeFromNib];
     
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    
-    if (!self.context) {
-        NSLog(@"Failed to create ES context");
-    }
-    
-    GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    
-    self->animating = NO;
-    self.animationFrameInterval = 1;
-    self.displayLink = 0;
-    
-    AppPlatform_iOS *platform = new AppPlatform_iOS();
-    self->_platform = platform;
-    
-    AppContext *context = new AppContext();
-    context->platform = platform;
-    self->_context = context;
-    self->viewScale = 1.0;
-    
-    NSString *dir = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 1u, YES) lastObject] objectAtIndex:0];
-    App *app = new NinecraftApp();
-    self->_app = app;
-    context->doRender = [dir UTF8String];
-    
-    [self initView];
+    // Moved to viewDidLoad - wasn't working here & supposedly makes no difference
 }
 
 - (void)initView
 {
     self->viewScale = self.view.contentScaleFactor;
     App *app = self->_app;
+    
+    app->m_pPlatform = self->_context->platform;
+    app->init();
     
     /*var1 = app->field_10;
     app->var3 = *self->_context;
@@ -208,6 +91,11 @@ NSThread *G_drawFrameThread = nullptr;
     }*/
     
     app->sizeUpdate(self.width, self.height);
+    
+    Minecraft *mc = (Minecraft *)app;
+    mc->selectLevel("TestWorld", "Test", (int)"iOS");
+    mc->hostMultiplayer();
+    mc->setScreen(new ProgressScreen);
 }
 
 - (void)drawFrame
@@ -224,52 +112,152 @@ NSThread *G_drawFrameThread = nullptr;
         NSLog(@"Warning! draw-frame thread changed (%@ -> %@)\n", G_drawFrameThread, thread);
         G_drawFrameThread = thread;
     }
+    
     [(EAGLView *)self.view setFramebuffer];
-    self->_app->draw();
+    
+    self->_app->update();
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && __IPHONE_OS_VERSION_MIN_REQUIRED <= __IPHONE_12_0
     int attachments[3] = { 36096 };
     glDiscardFramebufferEXT(36160, 1, attachments);
 #endif
+    
     [(EAGLView *)self.view presentFramebuffer];
-}
-
-- (void)stopAnimation
-{
-}
-
--(void)startAnimation
-{
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self setupGL];
+    //EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    //
+    //if (!aContext)
+    //{
+    //    aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+    //}
+    
+	EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+    
+    if (!aContext)
+        NSLog(@"Failed to create ES context");
+    else if (![EAGLContext setCurrentContext:aContext])
+        NSLog(@"Failed to set ES context current");
+    
+	self.context = aContext;
+	
+    [(EAGLView *)self.view setContext:context];
+    [(EAGLView *)self.view setFramebuffer];
+    
+    //if ([context API] == kEAGLRenderingAPIOpenGLES2)
+    //    [self loadShaders];
+    
+    animating = FALSE;
+    animationFrameInterval = 1;
+    self.displayLink = nil;
+    
+    AppPlatform_iOS *platform = new AppPlatform_iOS();
+    self->_platform = platform;
+    
+    AppContext *context = new AppContext();
+    context->platform = platform;
+    self->_context = context;
+    self->viewScale = 1.0;
+    
+    NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 1u, YES) objectAtIndex:0];
+    App *app = new NinecraftApp();
+    self->_app = app;
+    context->doRender = [dir UTF8String];
+    
+    [self initView];
 }
 
-- (void)viewDidUnload
-{    
-    [super viewDidUnload];
+- (void)dealloc
+{
+    //if (program)
+    //{
+    //    glDeleteProgram(program);
+    //    program = 0;
+    //}
     
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
+    // Tear down context.
+    if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
-    }
-	self.context = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self startAnimation];
+    
     [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self stopAnimation];
+    
     [super viewWillDisappear:animated];
+}
+
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+	
+    //if (program)
+    //{
+    //    glDeleteProgram(program);
+    //    program = 0;
+    //}
+    
+    // Tear down context.
+    if ([EAGLContext currentContext] == context)
+        [EAGLContext setCurrentContext:nil];
+	self.context = nil;	
+}
+
+- (NSInteger)animationFrameInterval
+{
+    return animationFrameInterval;
+}
+
+- (void)setAnimationFrameInterval:(NSInteger)frameInterval
+{
+    /*
+	 Frame interval defines how many display frames must pass between each time the display link fires.
+	 The display link will only fire 30 times a second when the frame internal is two on a display that refreshes 60 times a second. The default frame interval setting of one will fire 60 times a second when the display refreshes at 60 times a second. A frame interval setting of less than one results in undefined behavior.
+	 */
+    if (frameInterval >= 1)
+    {
+        animationFrameInterval = frameInterval;
+        
+        if (animating)
+        {
+            [self stopAnimation];
+            [self startAnimation];
+        }
+    }
+}
+
+- (void)startAnimation
+{
+    if (!animating)
+    {
+        CADisplayLink *aDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawFrame)];
+        [aDisplayLink setFrameInterval:animationFrameInterval];
+        [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        self.displayLink = aDisplayLink;
+        NSLog(@"start-animation: %@\n", [NSThread currentThread]);
+        animating = TRUE;
+    }
+}
+
+- (void)stopAnimation
+{
+    if (animating)
+    {
+        [self.displayLink invalidate];
+        self.displayLink = nil;
+        animating = FALSE;
+        NSLog(@"stop-animation: %@\n", [NSThread currentThread]);
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -286,252 +274,6 @@ NSThread *G_drawFrameThread = nullptr;
     } else {
         return YES;
     }
-}
-
-- (void)setupGL
-{
-    [EAGLContext setCurrentContext:self.context];
-    
-    [self loadShaders];
-    
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
-    
-    glEnable(GL_DEPTH_TEST);
-    
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
-    
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
-    
-    glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribNormal);
-    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-    
-    glBindVertexArrayOES(0);
-}
-
-- (void)tearDownGL
-{
-    [EAGLContext setCurrentContext:self.context];
-    
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteVertexArraysOES(1, &_vertexArray);
-    
-    self.effect = nil;
-    
-    if (_program) {
-        glDeleteProgram(_program);
-        _program = 0;
-    }
-}
-
-#pragma mark - GLKView and GLKViewController delegate methods
-
-- (void)update
-{
-    float aspect = fabsf(self.width / self.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
-    
-    self.effect.transform.projectionMatrix = projectionMatrix;
-    
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
-    
-    // Compute the model view matrix for the object rendered with GLKit
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
-    
-    // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
-    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    
-    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-    
-    _rotation += self.timeSinceLastUpdate * 0.5f;
-}
-
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Render the object with GLKit
-    [self.effect prepareToDraw];
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    
-    // Render the object again with ES2
-    glUseProgram(_program);
-    
-    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-    
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-}
-
-#pragma mark -  OpenGL ES 2 shader compilation
-
-- (BOOL)loadShaders
-{
-    GLuint vertShader, fragShader;
-    NSString *vertShaderPathname, *fragShaderPathname;
-    
-    // Create shader program.
-    _program = glCreateProgram();
-    
-    // Create and compile vertex shader.
-    vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"Shader" ofType:@"vsh"];
-    if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vertShaderPathname]) {
-        NSLog(@"Failed to compile vertex shader");
-        return NO;
-    }
-    
-    // Create and compile fragment shader.
-    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"Shader" ofType:@"fsh"];
-    if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fragShaderPathname]) {
-        NSLog(@"Failed to compile fragment shader");
-        return NO;
-    }
-    
-    // Attach vertex shader to program.
-    glAttachShader(_program, vertShader);
-    
-    // Attach fragment shader to program.
-    glAttachShader(_program, fragShader);
-    
-    // Bind attribute locations.
-    // This needs to be done prior to linking.
-    glBindAttribLocation(_program, ATTRIB_VERTEX, "position");
-    glBindAttribLocation(_program, ATTRIB_NORMAL, "normal");
-    
-    // Link program.
-    if (![self linkProgram:_program]) {
-        NSLog(@"Failed to link program: %d", _program);
-        
-        if (vertShader) {
-            glDeleteShader(vertShader);
-            vertShader = 0;
-        }
-        if (fragShader) {
-            glDeleteShader(fragShader);
-            fragShader = 0;
-        }
-        if (_program) {
-            glDeleteProgram(_program);
-            _program = 0;
-        }
-        
-        return NO;
-    }
-    
-    // Get uniform locations.
-    uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
-    uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
-    
-    // Release vertex and fragment shaders.
-    if (vertShader) {
-        glDetachShader(_program, vertShader);
-        glDeleteShader(vertShader);
-    }
-    if (fragShader) {
-        glDetachShader(_program, fragShader);
-        glDeleteShader(fragShader);
-    }
-    
-    return YES;
-}
-
-- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file
-{
-    GLint status;
-    const GLchar *source;
-    
-    source = (GLchar *)[[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil] UTF8String];
-    if (!source) {
-        NSLog(@"Failed to load vertex shader");
-        return NO;
-    }
-    
-    *shader = glCreateShader(type);
-    glShaderSource(*shader, 1, &source, NULL);
-    glCompileShader(*shader);
-    
-#if defined(DEBUG)
-    GLint logLength;
-    glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
-    if (logLength > 0) {
-        GLchar *log = (GLchar *)malloc(logLength);
-        glGetShaderInfoLog(*shader, logLength, &logLength, log);
-        NSLog(@"Shader compile log:\n%s", log);
-        free(log);
-    }
-#endif
-    
-    glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
-    if (status == 0) {
-        glDeleteShader(*shader);
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (BOOL)linkProgram:(GLuint)prog
-{
-    GLint status;
-    glLinkProgram(prog);
-    
-#if defined(DEBUG)
-    GLint logLength;
-    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
-    if (logLength > 0) {
-        GLchar *log = (GLchar *)malloc(logLength);
-        glGetProgramInfoLog(prog, logLength, &logLength, log);
-        NSLog(@"Program link log:\n%s", log);
-        free(log);
-    }
-#endif
-    
-    glGetProgramiv(prog, GL_LINK_STATUS, &status);
-    if (status == 0) {
-        return NO;
-    }
-    
-    return YES;
-}
-
-- (BOOL)validateProgram:(GLuint)prog
-{
-    GLint logLength, status;
-    
-    glValidateProgram(prog);
-    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
-    if (logLength > 0) {
-        GLchar *log = (GLchar *)malloc(logLength);
-        glGetProgramInfoLog(prog, logLength, &logLength, log);
-        NSLog(@"Program validate log:\n%s", log);
-        free(log);
-    }
-    
-    glGetProgramiv(prog, GL_VALIDATE_STATUS, &status);
-    if (status == 0) {
-        return NO;
-    }
-    
-    return YES;
 }
 
 @end
