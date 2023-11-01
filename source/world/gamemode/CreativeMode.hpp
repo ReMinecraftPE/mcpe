@@ -20,5 +20,23 @@ public:
 	bool isCreativeType() override;
 	bool isSurvivalType() override;
 	void initPlayer(Player*) override;
+
+#ifndef ENH_INSTA_BREAK
+	void startDestroyBlock(int x, int y, int z, int i) override;
+	void continueDestroyBlock(int x, int y, int z, int i) override;
+	void stopDestroyBlock() override;
+	void tick();
+	void render(float f);
+
+public:
+	int m_destroyingX;
+	int m_destroyingY;
+	int m_destroyingZ;
+	float m_destroyProgress;
+	float m_lastDestroyProgress;
+	int m_destroyTicks;
+	int m_destroyCooldown;
+
+#endif
 };
 

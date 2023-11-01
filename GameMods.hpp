@@ -15,6 +15,17 @@
 
 // TODO: Since this is the modded version, we don't need these anymore. Remove them
 
+// Mods
+//#define MOD_USE_FLAT_WORLD         // Use a flat world instead of the regular world generation
+//#define MOD_USE_BIGGER_SCREEN_SIZE // Use a bigger screen size instead of 854x480
+//#define MOD_DONT_COLOR_GRASS       // Don't give the top of grass tiles a different color. (like Classic)
+//#define MOD_POPOUT_CONSOLE         // Open a separate console aside from the game window. By default only the debugger can see our logs. Win32 Debug only.
+
+// Tests
+//#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
+//#define TEST_SURVIVAL_MODE      // Test survival mode.
+#define TEST_TOUCH_SCREEN       // Test touch screen controls. The mouse will simulate one touch finger.
+
 // Enhancements
 //#define ENH_ENTITY_SHADING      // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
 #define ENH_SHADE_HELD_TILES    // Allows shading of the item in hand
@@ -36,18 +47,9 @@
 #define ENH_3D_INVENTORY_TILES  // Uses 3D rendered inventory tiles, use with ENH_SHADE_HELD_TILES to render correctly.
 #define ENH_IMPROVED_SAVING     // Improve world saving. The original Minecraft doesn't always really save for some reason
 
+#ifndef TEST_TOUCH_SCREEN
 #define ENH_INSTA_BREAK         // Allows instant breaking of blocks. @TODO: Fix the mode without this
-
-// Mods
-//#define MOD_USE_FLAT_WORLD         // Use a flat world instead of the regular world generation
-//#define MOD_USE_BIGGER_SCREEN_SIZE // Use a bigger screen size instead of 854x480
-//#define MOD_DONT_COLOR_GRASS       // Don't give the top of grass tiles a different color. (like Classic)
-//#define MOD_POPOUT_CONSOLE         // Open a separate console aside from the game window. By default only the debugger can see our logs. Win32 Debug only.
-
-// Tests
-//#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
-//#define TEST_SURVIVAL_MODE      // Test survival mode.
-#define TEST_TOUCH_SCREEN       // Test touch screen controls. The mouse will simulate one touch finger.
+#endif
 
 // Toggle Demo Mode
 //#define DEMO
