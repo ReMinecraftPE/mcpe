@@ -24,7 +24,7 @@
 // Tests
 //#define TEST_DROPPED_ITEMS      // Allow dropped items to be dropped and collected.
 //#define TEST_SURVIVAL_MODE      // Test survival mode.
-//#define TEST_TOUCH_SCREEN       // Test touch screen controls. The mouse will simulate one touch finger.
+#define TEST_TOUCH_SCREEN       // Test touch screen controls. The mouse will simulate one touch finger.
 
 // Enhancements
 //#define ENH_ENTITY_SHADING      // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
@@ -35,7 +35,6 @@
 #define ENH_CAMERA_NO_PARTICLES // Hide particles from the view of a camera, such as smoke, that would otherwise render the resulting image useless.
 #define ENH_USE_JAVA_LIGHT_RAMP // Use Java Beta 1.3 light ramp instead of flawed PE one
 #define ENH_RUN_DAY_NIGHT_CYCLE // Allow the day/night cycle to run.
-#define ENH_ENABLE_9TH_SLOT     // Enable the 9th hotbar slot, instead of it being a "..." placeholder
 #define ENH_USE_OWN_AO          // Use own ambient occlusion engine - looks pretty much the same except it fixes the corners
 #define ENH_ADD_OPTIONS_PAUSE   // Add an 'options' button in the pause menu
 #define ENH_EXTRA_ITEMS_IN_INV  // Add extra items in a new 5th row in the inventory.
@@ -49,6 +48,7 @@
 
 #ifndef TEST_TOUCH_SCREEN
 #define ENH_INSTA_BREAK         // Allows instant breaking of blocks. @TODO: Fix the mode without this
+#define ENH_ENABLE_9TH_SLOT     // Enable the 9th hotbar slot, instead of it being a "..." placeholder
 #endif
 
 // Toggle Demo Mode

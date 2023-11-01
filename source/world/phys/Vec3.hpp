@@ -12,6 +12,10 @@
 // Needed for when we're missing nullptr in multiple files
 #include "common/Utils.hpp"
 
+// NOTE: I don't think that Vec3 was implemented like that - it was
+// probably implemented just like in Java. However, I think it looks
+// nicer this way :)
+
 class Vec3
 {
 public:
@@ -74,6 +78,16 @@ public:
 	Vec3 translate(float tx, float ty, float tz) const
 	{
 		return Vec3(x + tx, y + ty, z + tz);
+	}
+
+	float lengthSqr() const
+	{
+		return x * x + y * y + z * z;
+	}
+
+	float length() const
+	{
+		return sqrt(lengthSqr());
 	}
 };
 

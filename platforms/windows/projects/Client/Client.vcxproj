@@ -312,6 +312,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\IMoveInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -404,6 +407,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\IMoveInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

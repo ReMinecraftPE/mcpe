@@ -20,9 +20,6 @@ struct MouseAction;
 class Multitouch
 {
 public:
-
-
-private:
 	static int _clampPointerId(int Id);
 	static void commit();
 	static void feed(MouseButtonType, bool state, int x, int y, int fingerId);

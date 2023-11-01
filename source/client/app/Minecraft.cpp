@@ -18,13 +18,12 @@
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
 
-// Non touch screen inputs
 #include "client/player/input/ControllerTurnInput.hpp"
 #include "client/player/input/MouseTurnInput.hpp"
 #include "client/player/input/KeyboardInput.hpp"
 #include "client/player/input/IBuildInput.hpp"
 #include "client/player/input/CustomInputHolder.hpp"
-// Touch screen inputs TODO
+#include "client/player/input/TouchInputHolder.hpp"
 
 #include "world/tile/SandTile.hpp"
 
@@ -418,9 +417,9 @@ void Minecraft::tickInput()
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
 #ifdef ENH_ENABLE_9TH_SLOT
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 1)
+#define MAX_ITEMS (m_gui.getNumSlots() - 1)
 #else
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
+#define MAX_ITEMS (m_gui.getNumSlots() - 2)
 #endif
 
 				if (Mouse::getEventButtonState() <= 0) // @NOTE: Scroll up
@@ -455,7 +454,7 @@ void Minecraft::tickInput()
 		{
 			m_gui.handleKeyPressed(keyCode);
 
-			for (int i = 0; i < 9; i++)
+			for (int i = 0; i < m_gui.getNumSlots(); i++)
 			{
 				if (getOptions()->isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
 					m_pLocalPlayer->m_pInventory->selectSlot(i);
@@ -639,9 +638,9 @@ void Minecraft::_reloadInput()
 
 	if (isTouchscreen())
 	{
-		// TODO
+		m_pInputHolder = new TouchInputHolder(this, m_options);
 	}
-	//else
+	else
 	{
 		m_pInputHolder = new CustomInputHolder(
 			new KeyboardInput(m_options),

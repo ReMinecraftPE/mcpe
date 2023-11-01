@@ -15,22 +15,13 @@
 class KeyboardInput : public IMoveInput
 {
 public:
-	enum
-	{
-		FORWARD,
-		BACKWARD,
-		LEFT,
-		RIGHT,
-		JUMP,
-		SNEAK,
-	};
 
 public:
 	KeyboardInput(Options*);
 
 	void releaseAllKeys() override;
 	void setKey(int index, bool b) override;
-	void tick(/* Player* */) override;
+	void tick(Player*) override;
 
 public:
 	bool m_keys[10];

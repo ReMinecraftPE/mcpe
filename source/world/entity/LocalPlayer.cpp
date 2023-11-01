@@ -49,7 +49,7 @@ LocalPlayer::~LocalPlayer()
 
 void LocalPlayer::aiStep()
 {
-	m_pMoveInput->tick(/* this */);
+	m_pMoveInput->tick(this);
 	if (m_pMoveInput->m_bSneakButton && field_A4 < 0.2f)
 		field_A4 = 0.2f;
 

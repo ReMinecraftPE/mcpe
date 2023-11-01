@@ -23,8 +23,10 @@ public:
 	virtual ITurnInput* getTurnInput() = 0;
 	virtual IBuildInput* getBuildInput() = 0;
 
-private:
+protected:
+	friend class UnifiedTurnBuild;
 	float field_4;
 	float field_8;
+	float field_C;
 };
 

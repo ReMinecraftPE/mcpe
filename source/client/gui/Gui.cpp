@@ -156,12 +156,15 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 #endif
 
+	int nSlots = getNumSlots();
+	int hotbarWidth = 2 + nSlots * 20;
+
 	// hotbar
 	int cenX = width / 2;
-	blit(cenX - 182 / 2, height - 22, 0, 0, 182, 22, 0, 0);
+	blit(cenX - hotbarWidth / 2, height - 22, 0, 0, hotbarWidth, 22, 0, 0);
 
 	// selection mark
-	blit(cenX - 92 + 20 * pInventory->m_SelectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
+	blit(cenX - 1 - hotbarWidth / 2 + 20 * pInventory->m_SelectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
 
 	m->m_pTextures->loadAndBindTexture("gui/icons.png");
 
@@ -259,28 +262,36 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	m->m_pTextures->loadAndBindTexture("gui/gui_blocks.png");
 
-	int slotX = cenX - 88;
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+#ifdef ENH_ENABLE_9TH_SLOT
+#define DIFF 0
+#else
+#define DIFF 1
+#endif
+
+	int slotX = cenX - hotbarWidth / 2 + 3;
+	for (int i = 0; i < nSlots - DIFF; i++)
 	{
 		renderSlot(i, slotX, height - 19, f);
 
 		slotX += 20;
 	}
 	
-	slotX = cenX - 88;
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+	slotX = cenX - hotbarWidth / 2 + 3;
+	for (int i = 0; i < nSlots - DIFF; i++)
 	{
 		renderSlotOverlay(i, slotX, height - 19, f);
 
 		slotX += 20;
 	}
 
+#undef DIFF
+
 	field_A3C = false;
 
 	// blit the "more items" button
 #ifndef ENH_ENABLE_9TH_SLOT
 	m->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	blit(cenX + 72, height - 19, 208, 208, 16, 16, 0, 0);
+	blit(cenX + hotbarWidth / 2 - 19, height - 19, 208, 208, 16, 16, 0, 0);
 #endif
 
 	// render messages
@@ -339,16 +350,17 @@ int Gui::getSlotIdAt(int mouseX, int mouseY)
 
 	if (scaledY >= scaledHeight)
 		return -1;
-	if (scaledY < scaledHeight-19)
+	if (scaledY < scaledHeight - 19)
 		return -1;
 
-	int slotX = (int(InvGuiScale * mouseX) - int(InvGuiScale * Minecraft::width) / 2 + 88 + 20) / 20;
+	int hotbarOffset = getNumSlots() * 20 / 2 - 2;
 
-	//@NOTE: Why not just -88?
+	int slotX = (int(InvGuiScale * mouseX) - int(InvGuiScale * Minecraft::width) / 2 + hotbarOffset + 20) / 20;
+
 	if (slotX >= 0)
 		slotX--;
 
-	if (slotX > 8)
+	if (slotX > getNumSlots())
 		slotX = -1;
 
 	return slotX;
@@ -369,7 +381,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 		return;
 
 #ifndef ENH_ENABLE_9TH_SLOT
-	if (slot == 8)
+	if (slot == getNumSlots() - 1)
 	{
 		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
 	}
@@ -392,11 +404,10 @@ void Gui::handleKeyPressed(int keyCode)
 		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
 #ifdef ENH_ENABLE_9TH_SLOT
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 2)
+#define MAX_ITEMS (getNumSlots() - 1)
 #else
-#define MAX_ITEMS (C_MAX_HOTBAR_ITEMS - 3)
+#define MAX_ITEMS (getNumSlots() - 2) // note: bug was present in v0.1.0 Canada demo but was fixed
 #endif
-		//@HUH: for whatever reason, it ignores the 7th item
 		if (*slot <= MAX_ITEMS)
 			(*slot)++;
 
@@ -464,4 +475,23 @@ void Gui::renderMessages(bool bShowAll)
 	}
 
 	glDisable(GL_BLEND);
+}
+
+int Gui::getNumSlots()
+{
+	if (m_pMinecraft->isTouchscreen())
+		return 4;
+
+	return 9;
+}
+
+RectangleArea Gui::getRectangleArea(bool b)
+{
+	float centerX = Minecraft::width / 2;
+	float hotbarWidthHalf = (10 * getNumSlots() + 5) / InvGuiScale;
+	return RectangleArea(
+		b ? (centerX - hotbarWidthHalf) : 0,
+		Minecraft::height - 24.0f / InvGuiScale,
+		centerX + hotbarWidthHalf,
+		Minecraft::height);
 }

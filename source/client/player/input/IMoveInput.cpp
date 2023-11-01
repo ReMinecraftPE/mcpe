@@ -37,6 +37,6 @@ void IMoveInput::setScreenSize(int width, int height)
 {
 }
 
-void IMoveInput::tick()
+void IMoveInput::tick(Player* pPlayer)
 {
 }

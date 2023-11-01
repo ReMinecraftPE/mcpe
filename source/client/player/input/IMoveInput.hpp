@@ -8,6 +8,18 @@
 
 #pragma once
 
+class Player;
+
+enum
+{
+	INPUT_FORWARD,
+	INPUT_BACKWARD,
+	INPUT_LEFT,
+	INPUT_RIGHT,
+	INPUT_JUMP,
+	INPUT_SNEAK,
+};
+
 class IMoveInput
 {
 public:
@@ -18,7 +30,7 @@ public:
 	virtual void render(float f);
 	virtual void setKey(int key, bool state);
 	virtual void setScreenSize(int width, int height);
-	virtual void tick(/* Player* */);
+	virtual void tick(Player*);
 
 public:
 	float m_horzInput;

@@ -8,6 +8,10 @@
 
 #include "ITouchScreenModel.hpp"
 
+ITouchScreenModel::~ITouchScreenModel()
+{
+}
+
 int ITouchScreenModel::getPointerId(const MouseAction& action)
 {
     return action._fingerId;

@@ -8,7 +8,15 @@
 
 #include "Multitouch.hpp"
 
+int Multitouch::_activePointerCount;
+int Multitouch::_activePointerList[MAX_TOUCHES];
 int Multitouch::_index = -1;
+bool Multitouch::_wasPressed[MAX_TOUCHES];
+bool Multitouch::_wasReleased[MAX_TOUCHES];
+bool Multitouch::_wasPressedThisUpdate[MAX_TOUCHES];
+bool Multitouch::_wasReleasedThisUpdate[MAX_TOUCHES];
+MouseDevice Multitouch::_pointers[MAX_TOUCHES];
+std::vector<MouseAction> Multitouch::_inputs;
 
 int Multitouch::_clampPointerId(int Id)
 {

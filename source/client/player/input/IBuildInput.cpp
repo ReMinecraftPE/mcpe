@@ -8,6 +8,7 @@ void IBuildInput::setScreenSize(int width, int height)
 {
 }
 
-void IBuildInput::tickBuild(Player* pPlayer, BuildActionIntention* pIntention)
+bool IBuildInput::tickBuild(Player* pPlayer, BuildActionIntention* pIntention)
 {
+	return false;
 }
