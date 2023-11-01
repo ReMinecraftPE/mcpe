@@ -635,9 +635,9 @@ void Minecraft::_reloadInput()
 
 	if (isTouchscreen())
 	{
-		// TODO
+		m_pInputHolder = new TouchInputHolder(this, m_options);
 	}
-	//else
+	else
 	{
 		m_pInputHolder = new CustomInputHolder(
 			new KeyboardInput(m_options),
