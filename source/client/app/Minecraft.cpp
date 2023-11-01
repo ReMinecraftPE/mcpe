@@ -635,6 +635,28 @@ void Minecraft::_reloadInput()
 
 	if (isTouchscreen())
 	{
+		// TODO
+	}
+	//else
+	{
+		m_pInputHolder = new CustomInputHolder(
+			new KeyboardInput(m_options),
+		#ifdef ORIGINAL_CODE
+			new ControllerTurnInput,
+		#else
+			new MouseTurnInput(this),
+		#endif
+			new IBuildInput
+		);
+	}
+
+void Minecraft::_reloadInput()
+{
+	if (m_pInputHolder)
+		delete m_pInputHolder;
+
+	if (isTouchscreen())
+	{
 		m_pInputHolder = new TouchInputHolder(this, m_options);
 	}
 	else
