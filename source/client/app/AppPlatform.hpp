@@ -68,6 +68,9 @@ public:
 	virtual std::string getPatchData();
 	virtual void initSoundSystem();
 	virtual SoundSystem* const getSoundSystem() const;
+	// On-screen keyboard
+	virtual void showKeyboard(int x, int y, int w, int h);
+	virtual void hideKeyboard();
 #endif
 
 public:

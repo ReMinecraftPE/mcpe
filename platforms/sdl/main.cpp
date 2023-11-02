@@ -35,6 +35,10 @@ static void teardown()
 
 static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 {
+    if (sdlCode == SDLK_AC_BACK) {
+        // Android Back Button
+        sdlCode = SDLK_ESCAPE;
+    }
 	switch (sdlCode) {
 		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
 		#include "compat/SDLKeyCodes.h"
@@ -330,6 +334,9 @@ int main(int argc, char *argv[])
 	Minecraft::height = std::stoi(argv[2]);
 #endif
 
+	// Lock To Landscape
+	SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
+
 	// Create Window
 	int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
@@ -338,9 +345,6 @@ int main(int argc, char *argv[])
 		LOG_E("Unable to create SDL window");
 		exit(EXIT_FAILURE);
 	}
-
-	// Enable Text Input
-	SDL_StartTextInput();
 
 	// Create OpenGL ES Context
 	context = SDL_GL_CreateContext(window);

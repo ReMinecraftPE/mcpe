@@ -184,3 +184,11 @@ std::string AppPlatform::getAssetPath(const std::string &path) const
     
     return realPath;
 }
+
+void AppPlatform::showKeyboard(int x, int y, int w, int h)
+{
+}
+
+void AppPlatform::hideKeyboard()
+{
+}

@@ -249,10 +249,20 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 	}
 
 #ifndef ORIGINAL_CODE
-	for (int i = 0; i < int(m_textInputs.size()); i++)
+	// Iterate over focused text inputs first. This is because if changing
+	// focus, the previous focus must hide the OSK, before the new focus
+	// shows it.
+	for (int phase = 0; phase < 2; phase++)
 	{
-		TextInputBox* textInput = m_textInputs[i];
-		textInput->onClick(xPos, yPos);
+		bool handleFocused = phase == 0;
+		for (int i = 0; i < int(m_textInputs.size()); i++)
+		{
+			TextInputBox* textInput = m_textInputs[i];
+			if (textInput->m_bFocused == handleFocused)
+			{
+				textInput->onClick(m_pMinecraft, xPos, yPos);
+			}
+		}
 	}
 
 	// if the keyboard is shown:
