@@ -82,7 +82,12 @@ void GetMyIP_Windows_Linux_IPV4( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTER
 
 	if ( phe == 0 )
 	{
+#ifndef TARGET_OS_IOS
+        // iOS 6 SDK makes phones hate this for some reason
+        // gethostbyname didn't return NULL on iPhone 5 running iOS 6.1.4 on iOS 5 SDK,
+        // but did return NULL when running on the same hardware on iOS 6.1 SDK
 		RakAssert(phe!=0);
+#endif
 		return ;
 	}
 	for ( idx = 0; idx < MAXIMUM_NUMBER_OF_INTERNAL_IDS; ++idx )

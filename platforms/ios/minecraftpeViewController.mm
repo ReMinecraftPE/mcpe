@@ -63,6 +63,15 @@ NSThread *G_drawFrameThread = nullptr;
     return [[UIScreen mainScreen] bounds].size.height;
 }
 
+- (void)updateDrawSize
+{
+    // NOTE: Swapping width & height because of device orientation
+    // I guess when the device is sideways, the view doesn't rotate to be upright?
+    Minecraft::width = self.height;
+    Minecraft::height = self.width;
+    self->_app->sizeUpdate(self.height, self.width);
+}
+
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -90,7 +99,9 @@ NSThread *G_drawFrameThread = nullptr;
         app->field_10 = 1;
     }*/
     
-    app->sizeUpdate(self.width, self.height);
+    [self updateDrawSize];
+    // Update draw size when device orientation changes (this accounts for typical view resizes)
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDrawSize) name:UIDeviceOrientationDidChangeNotification object:nil];
     
     Minecraft *mc = (Minecraft *)app;
     mc->selectLevel("TestWorld", "Test", (int)"iOS");
@@ -269,11 +280,9 @@ NSThread *G_drawFrameThread = nullptr;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown &&
+            interfaceOrientation != UIInterfaceOrientationPortrait
+            );
 }
 
 @end
