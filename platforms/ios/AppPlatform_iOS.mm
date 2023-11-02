@@ -139,6 +139,11 @@ int AppPlatform_iOS::getUserInputStatus()
 	return -1;
 }
 
+bool AppPlatform_iOS::isTouchscreen()
+{
+    return true;
+}
+
 std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
     /*std::string realPath;

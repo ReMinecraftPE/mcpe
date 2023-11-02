@@ -18,10 +18,13 @@
 #include "client/app/App.hpp"
 #include "client/app/NinecraftApp.hpp"
 #include "AppContext.hpp"
+#include "client/player/input/Multitouch.hpp"
 
 #include "client/gui/screens/ProgressScreen.hpp"
 
 #include "EAGLView.h"
+
+//extern bool g_bIsMenuBackgroundAvailable;
 
 NSThread *G_drawFrameThread = nullptr;
 
@@ -103,10 +106,10 @@ NSThread *G_drawFrameThread = nullptr;
     // Update draw size when device orientation changes (this accounts for typical view resizes)
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDrawSize) name:UIDeviceOrientationDidChangeNotification object:nil];
     
-    Minecraft *mc = (Minecraft *)app;
+    /*Minecraft *mc = (Minecraft *)app;
     mc->selectLevel("TestWorld", "Test", (int)"iOS");
     mc->hostMultiplayer();
-    mc->setScreen(new ProgressScreen);
+    mc->setScreen(new ProgressScreen);*/
 }
 
 - (void)drawFrame
@@ -164,6 +167,8 @@ NSThread *G_drawFrameThread = nullptr;
     animating = FALSE;
     animationFrameInterval = 1;
     self.displayLink = nil;
+    
+    //g_bIsMenuBackgroundAvailable = true;
     
     AppPlatform_iOS *platform = new AppPlatform_iOS();
     self->_platform = platform;
@@ -283,6 +288,135 @@ NSThread *G_drawFrameThread = nullptr;
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown &&
             interfaceOrientation != UIInterfaceOrientationPortrait
             );
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches)
+    {
+        int touchIndex = [self _startTrackingTouch: touch];
+        if (touchIndex > -1)
+        {
+            CGPoint point;
+            float posX, posY;
+            if (touch)
+            {
+                point = [touch locationInView:self.view];
+            }
+            else
+            {
+                point.x = 0, point.y = 0;
+                //point2.x = 0, point2.y = 0;
+            }
+            posX = viewScale * point.x;
+            posY = viewScale * point.y;
+            
+            Mouse::feed(BUTTON_LEFT, true, posX, posY);
+            Multitouch::feed(BUTTON_LEFT, true, posX, posY, touchIndex);
+        }
+    }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches)
+    {
+        int touchIndex = [self _getIndexForTouch: touch];
+        if (touchIndex > -1)
+        {
+            CGPoint point;
+            float posX, posY;
+            if (touch)
+            {
+                point = [touch locationInView:self.view];
+            }
+            else
+            {
+                point.x = 0, point.y = 0;
+                //point2.x = 0, point2.y = 0;
+            }
+            posX = viewScale * point.x;
+            posY = viewScale * point.y;
+            
+            Mouse::feed(BUTTON_NONE, false, posX, posY);
+            Multitouch::feed(BUTTON_NONE, false, posX, posY, touchIndex);
+        }
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches)
+    {
+        int touchIndex = [self _stopTrackingTouch: touch];
+        if (touchIndex > -1)
+        {
+            CGPoint point;
+            float posX, posY;
+            if (touch)
+            {
+                point = [touch locationInView:self.view];
+            }
+            else
+            {
+                point.x = 0, point.y = 0;
+                //point2.x = 0, point2.y = 0;
+            }
+            posX = viewScale * point.x;
+            posY = viewScale * point.y;
+            
+            Mouse::feed(BUTTON_LEFT, false, posX, posY);
+            Multitouch::feed(BUTTON_LEFT, false, posX, posY, touchIndex);
+        }
+    }
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self touchesEnded:touches withEvent:event];
+}
+
+- (int)_startTrackingTouch:(UITouch *)touch
+{
+    for (int i = 0; i < 12; i++)
+    {
+        UITouch __strong **touchMap = self->_touchMap;
+        if (!touchMap[i])
+        {
+            touchMap[i] = touch;
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
+- (int)_stopTrackingTouch:(UITouch *)touch
+{
+    for (int i = 0; i < 12; i++)
+    {
+        UITouch __strong **touchMap = self->_touchMap;
+        if (touchMap[i] == touch)
+        {
+            touchMap[i] = nil;
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
+
+- (int)_getIndexForTouch:(UITouch *)touch
+{
+    for (int i = 0; i < 12; i++)
+    {
+        UITouch __strong **touchMap = self->_touchMap;
+        if (touchMap[i] == touch)
+            return i;
+    }
+    
+    return -1;
 }
 
 @end
