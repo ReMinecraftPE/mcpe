@@ -22,7 +22,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    applicationVariants.all { variant ->
+    applicationVariants.configureEach { variant ->
+        //noinspection ConfigurationAvoidance
         tasks["merge${variant.name.capitalize()}Assets"]
             .dependsOn("externalNativeBuild${variant.name.capitalize()}")
     }
