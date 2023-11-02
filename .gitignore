@@ -441,3 +441,11 @@ Win32/
 /game/assetsO
 /game/assets/gui/feedback_fill.png
 /game/assets/gui/feedback_outer.png
+/platforms/android/minecraftcpp/minecraftcpp.Packaging/assets/environment
+/platforms/android/minecraftcpp/minecraftcpp.Packaging/assets/font
+/platforms/android/minecraftcpp/minecraftcpp.Packaging/assets/gui
+/platforms/android/minecraftcpp/minecraftcpp.Packaging/assets/item
+/platforms/android/minecraftcpp/minecraftcpp.Packaging/assets/mob/char.png
+/platforms/android/minecraftcpp/minecraftcpp.Packaging/assets/patches
+*.png
+*.txt
