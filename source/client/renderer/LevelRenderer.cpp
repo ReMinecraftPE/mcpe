@@ -53,9 +53,9 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 
 	m_pBuffers = new GLuint[m_nBuffers];
 	xglGenBuffers(m_nBuffers, m_pBuffers);
-
 	LOG_I("numBuffers: %d", m_nBuffers);
-	xglGenBuffers(1, &field_D8);
+
+	xglGenBuffers(1, &m_skyBuffer);
 
 	generateSky(); // inlined in the 0.1.0 demo
 }
@@ -64,7 +64,7 @@ void LevelRenderer::generateSky()
 {
 	Tesselator& t = Tesselator::instance;
 	t.begin();
-	field_DC = 0;
+	m_skyBufferCount = 0;
 
 	//float m = 16.0f;
 	int n = 4;
@@ -79,11 +79,11 @@ void LevelRenderer::generateSky()
 			t.vertex(float(i + p)   , 16.0f, float(j + p)   );
 			t.vertex(float(i + 0.0f), 16.0f, float(j + p)   );
 
-			field_DC += 4;
+			m_skyBufferCount += 4;
 		}
 	}
 
-	t.end(field_D8);
+	t.end(m_skyBuffer);
 }
 
 void LevelRenderer::deleteChunks()
@@ -379,6 +379,9 @@ void LevelRenderer::onGraphicsReset()
 {
 	xglGenBuffers(m_nBuffers, m_pBuffers);
 	allChanged();
+
+	xglGenBuffers(1, &m_skyBuffer);
+	generateSky(); // inlined in the 0.1.0 demo
 }
 
 void LevelRenderer::render(const AABB& aabb) const
@@ -1252,7 +1255,7 @@ void LevelRenderer::renderSky(float f)
 	glColor4f(skyColor.x, skyColor.y, Mth::Min(1.0f, skyColor.z), 1.0f);
 	glDepthMask(false);
 	glColor4f(skyColor.x, skyColor.y, skyColor.z, 1.0f);
-	drawArrayVT(field_D8, field_DC, sizeof(Tesselator::Vertex));
+	drawArrayVT(m_skyBuffer, m_skyBufferCount, sizeof(Tesselator::Vertex));
 	glEnable(GL_TEXTURE_2D);
 	glDepthMask(true);
 }

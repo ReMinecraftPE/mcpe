@@ -30,9 +30,9 @@ struct engine
     EGLSurface surface = nullptr;
     EGLContext context = nullptr;
     int animating = 0;
+    bool initted = false;
     NinecraftApp* ninecraftApp = nullptr;
 };
-
 
 static float mapStick(AInputEvent* event, int32_t axis)
 {
@@ -167,6 +167,48 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
     return 0;
 }
 
+static std::string getExternalStorageDir(struct engine* engine)
+{
+    // Normally we would use the external storage directory. However, late Android is being
+    // very bitchy about giving us the permission. And that's probably a good thing, actually.
+
+    // This returns a directory path that looks something like the following, which is still
+    // exposed to the user, therefore we get the benefits of having it exposed, aside from the
+    // fact that removing the app will delete all your worlds.
+    // /.../Android/data/com.minecraftcpp/files
+#ifndef USE_EXTERNAL_STORAGE
+
+    return std::string(engine->androidApp->activity->externalDataPath);
+
+#else
+
+    ANativeActivity* pActivity = engine->androidApp->activity;
+    JNIEnv* pJNIEnv = pActivity->env;
+
+    pActivity->vm->AttachCurrentThread(&pJNIEnv, nullptr);
+
+    jclass Environment = pJNIEnv->FindClass("android/os/Environment");
+    jmethodID GetDirId = pJNIEnv->GetStaticMethodID(Environment, "getExternalStorageDirectory", "()Ljava/io/File;");
+
+    if (pJNIEnv->ExceptionOccurred())
+        pJNIEnv->ExceptionDescribe();
+
+    // Since it takes a String
+    jobject     FileObject = pJNIEnv->CallStaticObjectMethod(Environment, GetDirId);
+    jclass      FileClass  = pJNIEnv->GetObjectClass(FileObject);
+    jmethodID   AbsPathId  = pJNIEnv->GetMethodID(FileClass, "getAbsolutePath", "()Ljava/lang/String;");
+    jobject     PathObject = pJNIEnv->CallObjectMethod(FileObject, AbsPathId);
+    const char* PathString = pJNIEnv->GetStringUTFChars((jstring) PathObject, nullptr);
+    std::string result(PathString);
+
+    pJNIEnv->ReleaseStringUTFChars((jstring) PathObject, PathString);
+    pActivity->vm->DetachCurrentThread();
+
+    return result;
+
+#endif
+}
+
 /**
 * Process the next main command.
 */
@@ -232,15 +274,22 @@ static void initWindow(struct engine* engine, struct android_app* app)
     g_AppPlatform.setScreenSize(w, h);
     g_AppPlatform.initAndroidApp(app);
 
-    engine->ninecraftApp = new NinecraftApp;
-    engine->ninecraftApp->m_pPlatform = &g_AppPlatform;
-    engine->ninecraftApp->m_externalStorageDir = ".";
     engine->ninecraftApp->width = w;
     engine->ninecraftApp->height = h;
 
-    // initialize the app
-    engine->ninecraftApp->init();
+    if (!engine->initted)
+    {
+        engine->ninecraftApp->m_externalStorageDir = getExternalStorageDir(engine);
+        engine->ninecraftApp->init();
+    }
+    else
+    {
+        engine->ninecraftApp->onGraphicsReset();
+    }
+
     engine->ninecraftApp->sizeUpdate(w, h);
+
+    engine->initted = true;
 
     LOG_I("finished initializing");
     engine->animating = 1; 
@@ -292,6 +341,8 @@ void android_main(struct android_app* state) {
     state->onInputEvent = engine_handle_input;
     engine.androidApp = state;
 
+    engine.ninecraftApp = new NinecraftApp;
+    engine.ninecraftApp->m_pPlatform = &g_AppPlatform;
 
     while (1)
     {

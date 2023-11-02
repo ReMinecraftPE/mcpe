@@ -91,6 +91,7 @@ void Textures::clear()
 
 	m_textures.clear();
 	m_textureData.clear();
+	m_currBoundTex = -1;
 }
 
 Textures::Textures(Options* pOptions, AppPlatform* pAppPlatform)

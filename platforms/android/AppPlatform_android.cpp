@@ -103,9 +103,12 @@ void AppPlatform_android::showDialog(eDialogType type)
 
 std::string AppPlatform_android::getDateString(int time)
 {
-
-
-	return std::string("fuck your time idiot");
+	const time_t t = time_t(time);
+	struct tm tf;
+	struct tm* tp = gmtime_r(&t, &tf);
+	char buffer[128];
+	strftime(buffer, sizeof buffer, "%d/%m/%y %H:%M", tp);
+	return std::string(buffer);
 }
 
 Texture AppPlatform_android::loadTexture(const std::string& str, bool b)

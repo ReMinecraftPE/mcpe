@@ -143,8 +143,8 @@ public:
 	//...
 	int m_nBuffers;
 	GLuint* m_pBuffers;
-	GLuint  field_D8;
-	int     field_DC;
+	GLuint  m_skyBuffer;
+	int     m_skyBufferCount;
 	//...
 	Textures* m_pTextures;
 };

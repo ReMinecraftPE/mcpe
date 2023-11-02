@@ -28,7 +28,9 @@ public:
 
 // TODO: For now
 #ifdef __ANDROID__
-#define _DEBUG
+	#ifndef NDEBUG
+		#define _DEBUG
+	#endif
 #endif
 
 #ifdef _DEBUG
