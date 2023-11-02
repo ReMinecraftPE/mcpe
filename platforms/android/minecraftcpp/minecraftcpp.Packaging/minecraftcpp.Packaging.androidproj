@@ -123,7 +123,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <AntPackage>
       <AndroidAppLibName>$(RootNamespace)</AndroidAppLibName>
-      <AntTarget>release</AntTarget>
+      <AntTarget>debug</AntTarget>
     </AntPackage>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
