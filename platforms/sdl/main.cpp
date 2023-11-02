@@ -51,14 +51,14 @@ static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 #define TOUCH_IDS_SIZE (MAX_TOUCHES - 1) // ID 0 Is Reserved For The Mouse
 struct touch_id_data {
 	bool active = false;
-	int id;
+	int device;
+	int finger;
 };
 static touch_id_data touch_ids[TOUCH_IDS_SIZE];
 static char get_touch_id(int device, int finger) {
-	int real_id = (device * 100) + finger;
 	for (int i = 0; i < TOUCH_IDS_SIZE; i++) {
 		touch_id_data &data = touch_ids[i];
-		if (data.active && data.id == real_id) {
+		if (data.active && data.device == device && data.finger == finger) {
 			return i + 1;
 		}
 	}
@@ -68,7 +68,8 @@ static char get_touch_id(int device, int finger) {
 		touch_id_data &data = touch_ids[i];
 		if (!data.active) {
 			data.active = true;
-			data.id = real_id;
+			data.device = device;
+			data.finger = finger;
 			return i + 1;
 		}
 	}
@@ -241,7 +242,6 @@ static void resize()
 }
 
 // Main Loop
-static bool is_first_window_resize = true;
 static EM_BOOL main_loop(double time, void *user_data)
 {
 	// Handle Events
