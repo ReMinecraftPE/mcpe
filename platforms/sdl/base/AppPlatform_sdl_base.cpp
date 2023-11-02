@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <sys/stat.h>
+#include <cstdlib>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -31,6 +32,26 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 
 	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;
+
+	// Default Touchscreen Mode
+#ifdef ANDROID
+	m_bIsTouchscreen = true;
+#else
+	m_bIsTouchscreen = false;
+#endif
+	// Custom Touchscreen Mode
+	const char *mode = getenv("MCPE_INPUT_MODE");
+	if (mode)
+	{
+		if (strcmp(mode, "touch") == 0)
+		{
+			m_bIsTouchscreen = true;
+		}
+		else if (strcmp(mode, "mouse") == 0)
+		{
+			m_bIsTouchscreen = false;
+		}
+	}
 }
 
 void AppPlatform_sdl_base::initSoundSystem()
@@ -243,4 +264,8 @@ void AppPlatform_sdl_base::hideKeyboard()
 	{
 		SDL_StopTextInput();
 	}
+}
+
+bool AppPlatform_sdl_base::isTouchscreen() {
+    return m_bIsTouchscreen;
 }

@@ -38,8 +38,6 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
-	
-	bool isTouchscreen() override { return false; }
 
 	static MouseButtonType GetMouseButtonType(SDL_Event event);
 	static bool GetMouseButtonState(SDL_Event event);
@@ -48,6 +46,9 @@ public:
 	// On-screen keyboard
 	void showKeyboard(int x, int y, int w, int h) override;
 	void hideKeyboard() override;
+
+	// Configure Touchscreen
+	bool isTouchscreen() override;
 private:
 	SDL_Window *_window;
 
@@ -61,6 +62,8 @@ private:
 
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
+
+	bool m_bIsTouchscreen;
 
 	static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:

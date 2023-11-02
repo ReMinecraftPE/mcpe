@@ -295,7 +295,7 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 
 	if (m_pClickedButton)
 	{
-		if (m_pMinecraft->isTouchscreen() && button->clicked(m_pMinecraft, xPos, yPos))
+		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pMinecraft->m_pSoundEngine->play("random.click");
 			buttonClicked(m_pClickedButton);
