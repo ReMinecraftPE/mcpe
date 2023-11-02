@@ -368,6 +368,11 @@ int main(int argc, char *argv[])
 	}
 #endif
 
+	// Android Immersive Mode
+#ifdef ANDROID
+	SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+#endif
+
 	// Setup Compatibility Layer If Needed
 #ifdef USE_GLES1_COMPATIBILITY_LAYER
 	init_gles_compatibility_layer();
