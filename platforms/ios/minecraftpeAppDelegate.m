@@ -20,11 +20,7 @@
     //[self initAudio];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.viewController = [[minecraftpeViewController alloc] initWithNibName:@"minecraftpeViewController_iPhone" bundle:nil];
-    } else {
-        self.viewController = [[minecraftpeViewController alloc] initWithNibName:@"minecraftpeViewController_iPad" bundle:nil];
-    }
+    self.viewController = [[minecraftpeViewController alloc] initWithNibName:@"minecraftpeViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     NSLog(@"ViewController: %p\n", self.viewController);
     [self.window makeKeyAndVisible];
