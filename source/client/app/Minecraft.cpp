@@ -523,7 +523,7 @@ void Minecraft::tickInput()
 		// We are instead keyboard operated, so check for the KM_DESTROY key being held down
 		(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
 		// The build action intention is a remove one
-		b && bai.isRemove());
+		(b && bai.isRemove()));
 
 	if (flag && !m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
 	{
@@ -868,7 +868,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 			float time1 = getTimeS();
 
 			// generating all the chunks at once
-			TileID unused = m_pLevel->getTile(i, (C_MAX_Y + C_MIN_Y) / 2, j);
+			(void) m_pLevel->getTile(i, (C_MAX_Y + C_MIN_Y) / 2, j);
 
 			if (time1 != -1.0f)
 				getTimeS();
@@ -993,8 +993,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	if (time != -1.0f)
 		getTimeS(); //@QUIRK: unused return value
 
-#pragma warning(disable : 26444) // C26444: Don't try to declare a local variable with no name.
-	std::string("Level generated: "); //@QUIRK: unused string instance
+	// std::string("Level generated: "); //@QUIRK: unused string instance
 
 	LocalPlayer* pLocalPlayer = m_pLocalPlayer;
 	if (!pLocalPlayer)

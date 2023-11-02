@@ -150,13 +150,6 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveE
 
 	Entity* pEnt = m_pLevel->getEntity(pRemoveEntityPkt->m_id);
 
-#if defined(ORIGINAL_CODE) || UINTPTR_MAX == UINT32_MAX
-	// @NOTE: On x64 systems, this won't print the right things.
-	printf_ignorable("RemoveEntityPacket %d %d", pEnt, m_pMinecraft->m_pLocalPlayer);
-#else
-	printf_ignorable("RemoveEntityPacket %p %p", pEnt, m_pMinecraft->m_pLocalPlayer);
-#endif
-
 	if (pEnt)
 		m_pLevel->removeEntity(pEnt);
 }

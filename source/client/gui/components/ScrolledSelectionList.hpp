@@ -15,6 +15,7 @@ class ScrolledSelectionList : public GuiComponent
 {
 public:
 	ScrolledSelectionList(Minecraft*, int, int, int, int, int);
+	virtual ~ScrolledSelectionList() {}
 
 	virtual void setRenderSelection(bool);
 	virtual int getNumberOfItems() = 0;

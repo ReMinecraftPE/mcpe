@@ -12,7 +12,10 @@
 bool Controller::isTouchedValues[2];
 float Controller::stickValuesX[2];
 float Controller::stickValuesY[2];
+
+#ifndef __ANDROID__
 const float Controller_unk_1[3] = { 0.0f, 0.64f, -0.64f };
+#endif
 
 bool Controller::isValidStick(int stickNo)
 {

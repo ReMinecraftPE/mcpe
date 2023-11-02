@@ -15,6 +15,7 @@ class GuiComponent
 {
 public:
 	GuiComponent();
+	virtual ~GuiComponent() {}
 
 	void blit(int dstX, int dstY, int srcX, int srcY, int dstWidth, int dstHeight, int srcWidth, int srcHeight);
 	void drawCenteredString(Font*, const std::string&, int cx, int cy, int color);

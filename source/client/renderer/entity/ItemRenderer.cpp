@@ -14,6 +14,7 @@
 
 TileRenderer* ItemRenderer::tileRenderer = new TileRenderer;
 
+#ifndef ENH_3D_INVENTORY_TILES
 const uint8_t g_ItemFrames[C_MAX_TILES] =
 {
 	0,  1,  2,  3,  4,  5,  0,  6,  0,  0,  0,  0,  7,  8,  9,  10,
@@ -25,6 +26,7 @@ const uint8_t g_ItemFrames[C_MAX_TILES] =
 	0,  0,  0,  0,  0,  44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
 	55, 56, 57, 58, 0
 };
+#endif
 
 ItemRenderer::ItemRenderer()
 {

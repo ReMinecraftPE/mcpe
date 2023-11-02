@@ -22,7 +22,7 @@ float SmoothFloat::getNewDeltaValue(float a1, float a2)
 	float v1 = (field_0 - field_4) * a2;
 	field_8 += 0.5f * (v1 - field_8);
 
-	if (v1 > 0.0f && field_8 < v1 || v1<0.0f && field_8>v1)
+	if ((v1 > 0.0f && field_8 < v1) || (v1 < 0.0f && field_8 > v1))
 		v1 = field_8;
 
 	field_4 += v1;

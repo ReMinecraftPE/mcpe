@@ -220,7 +220,7 @@ static void initWindow(struct engine* engine, struct android_app* app)
 {
     if (engine->androidApp->window == NULL)
     {
-        LOG("no active window?");
+        LOG_E("no active window?");
         return;
     }
 
@@ -230,7 +230,7 @@ static void initWindow(struct engine* engine, struct android_app* app)
 
     if (!eglInitialize(engine->display, 0, 0))
     {
-        LOG("eglInitialize failed %i", eglGetError());
+        LOG_E("eglInitialize failed %i", eglGetError());
         return;
     }
 
@@ -246,7 +246,7 @@ static void initWindow(struct engine* engine, struct android_app* app)
     EGLint numConfigs = 0;
     if (!(eglChooseConfig(engine->display, attribs, &config, 1, &numConfigs) && numConfigs > 0))
     {
-        LOG("eglChooseConfig failed %i", eglGetError());
+        LOG_E("eglChooseConfig failed %i", eglGetError());
         return;
     }
 
@@ -260,13 +260,13 @@ static void initWindow(struct engine* engine, struct android_app* app)
 
     if (!engine->context)
     {
-        LOG("cant create egl context %x", eglGetError());
+        LOG_E("cant create egl context %x", eglGetError());
         return;
     }
 
     if (eglMakeCurrent(engine->display, engine->surface, engine->surface, engine->context) == EGL_FALSE)
     {
-        LOG("Unable to eglMakeCurrent");
+        LOG_E("Unable to eglMakeCurrent");
         return;
     }
 
@@ -287,7 +287,7 @@ static void initWindow(struct engine* engine, struct android_app* app)
     // initialize the app
     engine->ninecraftApp->init();
 
-    LOG("finished initializing");
+    LOG_I("finished initializing");
     engine->animating = 1; 
 }
 
@@ -295,19 +295,19 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
     struct engine* engine = (struct engine*)app->userData;
     switch (cmd) {
     case APP_CMD_CONFIG_CHANGED:
-        LOG("APP_CMD_CONFIG_CHANGED");
+        LOG_I("APP_CMD_CONFIG_CHANGED");
 
         break;
     case APP_CMD_SAVE_STATE:
         //ninecraftApp saveState not implemented do nothing
         break;
     case APP_CMD_INIT_WINDOW:
-        LOG("APP_CMD_INIT_WINDOW");
+        LOG_I("APP_CMD_INIT_WINDOW");
         initWindow(engine, app);
         break;
 
     case APP_CMD_TERM_WINDOW:
-        LOG("APP_CMD_TERM_WINDOW");
+        LOG_I("APP_CMD_TERM_WINDOW");
         if (engine->display)
         {
             eglMakeCurrent(engine->display, 0, 0, 0);

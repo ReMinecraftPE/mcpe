@@ -17,7 +17,7 @@ public:
 	static Logger* const singleton();
 
 	Logger();
-	~Logger();
+	virtual ~Logger();
 
 	const char* GetTag(eLogLevel ll);
 	virtual void print(eLogLevel, const char* const str);
@@ -26,20 +26,35 @@ public:
 	virtual void printf(eLogLevel, const char* const fmt, ...);
 };
 
+// TODO: For now
+#ifdef __ANDROID__
+#define _DEBUG
+#endif
+
 #ifdef _DEBUG
 
 #define LOG(level, ...) Logger::singleton()->printf(level, __VA_ARGS__)
 
 #ifdef __ANDROID__
+
+#undef LOG
+#define LOG_INFO ANDROID_LOG_INFO
+#define LOG_ERR  ANDROID_LOG_ERROR
+#define LOG_WARN ANDROID_LOG_WARN
+
+#include <android/log.h>
 // TODO: Add a LoggerAndroid
-#define LOG(ignored, ...) __android_log_print(ANDROID_LOG_DEFAULT, "ReMinecraftPE", __VA_ARGS__)
-#define LOG_I(...)        __android_log_print(ANDROID_LOG_INFO,    "ReMinecraftPE", __VA_ARGS__)
-#define LOG_W(...)        __android_log_print(ANDROID_LOG_WARN,    "ReMinecraftPE", __VA_ARGS__)
-#define LOG_E(...)        __android_log_print(ANDROID_LOG_ERROR,   "ReMinecraftPE", __VA_ARGS__)
+#define LOG(level, ...) __android_log_print(level,             "ReMinecraftPE", __VA_ARGS__)
+#define LOG_I(...)      __android_log_print(ANDROID_LOG_INFO,  "ReMinecraftPE", __VA_ARGS__)
+#define LOG_W(...)      __android_log_print(ANDROID_LOG_WARN,  "ReMinecraftPE", __VA_ARGS__)
+#define LOG_E(...)      __android_log_print(ANDROID_LOG_ERROR, "ReMinecraftPE", __VA_ARGS__)
+
 #else
+
 #define LOG_I(...) LOG(LOG_INFO, __VA_ARGS__)
 #define LOG_W(...) LOG(LOG_WARN, __VA_ARGS__)
 #define LOG_E(...) LOG(LOG_ERR,  __VA_ARGS__)
+
 #endif
 
 #else
