@@ -47,7 +47,11 @@
 
           return canvas;
         })(),
-        arguments: [String(window.innerWidth), String(window.innerHeight)]
+        arguments: [String(window.innerWidth), String(window.innerHeight)],
+        preRun: [function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          ENV.MCPE_INPUT_MODE = urlParams.get('inputMode');
+        }]
       };
     </script>
     <script async type="text/javascript" src="reminecraftpe.js"></script>
