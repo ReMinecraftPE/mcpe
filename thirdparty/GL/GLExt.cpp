@@ -127,10 +127,14 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 }
 #endif
 
+#ifndef USE_GL_ORTHO_F
+
 void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearpl, GLfloat farpl)
 {
 	return glOrtho(GLdouble(left), GLdouble(right), GLdouble(bottom), GLfloat(top), GLdouble(nearpl), GLdouble(farpl));
 }
+
+#endif
 
 void xglSwapIntervalEXT(int interval)
 {

@@ -24,7 +24,8 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 {
 #ifdef __ANDROID__
 	return TurnDelta(Controller::getX(m_stickNo) * 50.f, Controller::getY(m_stickNo) * 60.f);
-#else
+#endif
+
 	bool isTouched = Controller::isTouched(m_stickNo);
 	float deltaX, deltaY;
 
