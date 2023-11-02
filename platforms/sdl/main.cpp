@@ -214,7 +214,7 @@ bool DoesAssetExist(const std::string & fileName)
 }
 #else
 // access works just fine on linux and friends
-#define DoesAssetExist(fileName) (XPL_ACCESS(fileName, 0) == 0)
+#define DoesAssetExist(fileName) (XPL_ACCESS("assets/" fileName, 0) == 0)
 #endif
 
 void CheckOptionalTextureAvailability()
