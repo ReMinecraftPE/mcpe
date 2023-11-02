@@ -2,2011 +2,687 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="android_native_app_glue.h" />
-    <ClInclude Include="..\..\AppPlatform_android.hpp" />
-    <ClInclude Include="..\..\..\..\source\App.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\AppPlatform.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\Minecraft.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\NinecraftApp.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\AvailableGamesList.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\Button.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\RolledSelectionList.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\ScrolledSelectionList.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\SmallButton.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\TextInputBox.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\WorldSelectionList.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\Gui.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\GuiComponent.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\Screen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\ChatScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\ConfirmScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\CreateWorldScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\DeathScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\DeleteWorldScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\DirectConnectScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\IngameBlockSelectionScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\InvalidLicenseScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\JoinGameScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\OptionsScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\PauseScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\ProgressScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\RenameMPLevelScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\SavingWorldScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\StartMenuScreen.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\Cube.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\HumanoidModel.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\Model.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\PolygonQuad.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\Controller.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\ControllerTurnInput.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\ITurnInput.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\Keyboard.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\KeyboardInput.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\Mouse.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\MouseTurnInput.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\User.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\Chunk.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\Culler.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\DynamicTexture.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\EntityRenderDispatcher.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\EntityRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\FallingTileRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\HumanoidMobRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ItemRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ItemSpriteRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\MobRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\TntRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\TripodCameraRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\Font.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\Frustum.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\FrustumCuller.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\GameRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\ItemInHandRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\LevelRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\LightLayer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\LightUpdate.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\PatchManager.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\RenderChunk.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\RenderList.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\Tesselator.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\Texture.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\Textures.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\TileRenderer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\VertexPT.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\sound\SoundData.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\sound\SoundDefs.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\sound\SoundEngine.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\sound\SoundRepository.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\sound\SoundSystem.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\CThread.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\LongHack.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Matrix.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Mth.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Options.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Random.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Timer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Util.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Utils.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\ClientSideNetworkHandler.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\MinecraftPackets.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\NetEventCallback.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\Packet.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\PingedCompatibleServer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\RakNetInstance.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\network\ServerSideNetworkHandler.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\Entity.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\FallingTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\ItemEntity.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\LocalPlayer.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\Mob.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\Player.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\PrimedTnt.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\TripodCamera.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\gamemode\CreativeMode.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\gamemode\GameMode.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\gamemode\SurvivalMode.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\CameraItem.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\DoorItem.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\Inventory.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\Item.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\ItemInstance.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\TileItem.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\TilePlanterItem.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\Dimension.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\Explosion.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\Level.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\biome\Biome.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\biome\BiomeSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkCache.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\LevelChunk.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\RandomLevelSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\chunk\TestChunkSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\Feature.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\LargeCaveFeature.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\feature\LargeFeature.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\ImprovedNoise.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\PerlinNoise.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\levelgen\synth\Synth.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\LevelListener.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\Material.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\Region.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\ChunkStorage.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorage.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorageSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelData.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelStorage.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\LevelStorageSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryChunkStorage.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryLevelStorage.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\MemoryLevelStorageSource.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\storage\RegionFile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\level\TickNextTickData.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\particle\Particle.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\particle\ParticleEngine.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\phys\AABB.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\phys\HitResult.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\phys\Vec3.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\BookshelfTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\Bush.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\ClayTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\ClothTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\DirtTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\DoorTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\FarmTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\FireTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\GlassTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\GrassTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\GravelTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\HalfTransparentTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\IceTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\InvisibleTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\LadderTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\LeafTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTileDynamic.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\LiquidTileStatic.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\MetalTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\ObsidianTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\OreTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\RedStoneOreTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\ReedTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\SandStoneTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\SandTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\Sapling.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\SpongeTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\StairTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\StoneSlabTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\StoneTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\Tile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\TntTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\TopSnowTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\TorchTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\TransparentTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\TreeTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\tile\WireTile.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\GameMods.hpp" />
-    <ClInclude Include="..\..\..\..\compat\GL.hpp">
-      <Filter>compat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\AutopatcherPatchContext.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\AutopatcherRepositoryInterface.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Base64Encoder.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\BitStream.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\CCRakNetSlidingWindow.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\CCRakNetUDT.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\CheckSum.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\CloudClient.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\CloudCommon.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\CloudServer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\CommandParserInterface.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ConnectionGraph2.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ConsoleServer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DataCompressor.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DirectoryDeltaTransfer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DR_SHA1.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_BinarySearchTree.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_BPlusTree.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_BytePool.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_ByteQueue.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_Hash.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_Heap.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_HuffmanEncodingTree.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_HuffmanEncodingTreeFactory.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_HuffmanEncodingTreeNode.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_LinkedList.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_List.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_Map.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_MemoryPool.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_Multilist.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_OrderedChannelHeap.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_OrderedList.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_Queue.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_QueueLinkedList.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_RangeList.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_Table.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_ThreadsafeAllocatingQueue.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_Tree.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DS_WeightedGraph.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\DynDNS.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\EmailSender.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\EmptyHeader.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\EpochTimeToString.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Export.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\FileList.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\FileListNodeContext.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\FileListTransfer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\FileListTransferCBInterface.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\FileOperations.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\FormatString.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\FullyConnectedMesh2.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Getche.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Gets.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\GetTime.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\gettimeofday.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\GridSectorizer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\HTTPConnection.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\HTTPConnection2.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\IncrementalReadInterface.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\InternalPacket.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Itoa.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Kbhit.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\LinuxStrings.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\LocklessTypes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\LogCommandParser.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\MessageFilter.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\MessageIdentifiers.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\MTUSize.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NativeFeatureIncludes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NativeFeatureIncludesOverrides.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NativeTypes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NatPunchthroughClient.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NatPunchthroughServer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NatTypeDetectionClient.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NatTypeDetectionCommon.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NatTypeDetectionServer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NetworkIDManager.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\NetworkIDObject.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PacketConsoleLogger.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PacketFileLogger.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PacketizedTCP.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PacketLogger.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PacketOutputWindowLogger.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PacketPool.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PacketPriority.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PluginInterface2.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PS3Includes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\PS4Includes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Rackspace.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakAlloca.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakAssert.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakMemoryOverride.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetCommandParser.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetDefines.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetDefinesOverrides.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetSmartPtr.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetSocket.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetSocket2.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetStatistics.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetTime.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetTransport2.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetTypes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakNetVersion.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakPeer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakPeerInterface.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakSleep.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakString.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakThread.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RakWString.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Rand.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RandSync.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ReadyEvent.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RefCountedObj.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RelayPlugin.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ReliabilityLayer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ReplicaEnums.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ReplicaManager3.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\Router2.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\RPC4Plugin.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SecureHandshake.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SendToThread.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SignaledEvent.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SimpleMutex.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SimpleTCPServer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SingleProducerConsumer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SocketDefines.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SocketIncludes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SocketLayer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\StatisticsHistory.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\StringCompressor.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\StringTable.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\SuperFastHash.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\TableSerializer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\TCPInterface.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\TeamBalancer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\TeamManager.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\TelnetTransport.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ThreadPool.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\ThreadsafePacketLogger.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\TransportInterface.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\TwoWayAuthentication.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\UDPForwarder.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\UDPProxyClient.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\UDPProxyCommon.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\UDPProxyCoordinator.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\UDPProxyServer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\VariableDeltaSerializer.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\VariableListDeltaTracker.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\VariadicSQLParser.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\VitaIncludes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\WindowsIncludes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\WSAStartupSingleton.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\XBox360Includes.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\raknet\_FindFirst.h">
-      <Filter>thirdparty\raknet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\stb_image_write.h">
-      <Filter>thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\thirdparty\stb_image.h">
-      <Filter>thirdparty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\source\common\Logger.hpp">
-      <Filter>minecraftcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\compat\KeyCodes.hpp">
-      <Filter>compat</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\GameMods.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\Button.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\RolledSelectionList.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\ScrolledSelectionList.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SmallButton.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TextInputBox.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\Gui.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\GuiComponent.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\Screen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ChatScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\Cube.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\HumanoidModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\Model.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\PolygonQuad.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITurnInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Keyboard.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\KeyboardInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Mouse.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseTurnInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\User.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Chunk.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Culler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\DynamicTexture.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderDispatcher.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\FallingTileRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\HumanoidMobRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ItemRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ItemSpriteRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\MobRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\TntRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\TripodCameraRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Font.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Frustum.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\FrustumCuller.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\GameRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\ItemInHandRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LevelRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LightLayer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LightUpdate.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\PatchManager.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderChunk.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderList.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Tesselator.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Texture.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Textures.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\TileRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\VertexPT.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundData.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundDefs.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundEngine.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundRepository.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\LongHack.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Matrix.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Mth.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Random.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Timer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Util.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\FallingTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\ItemEntity.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\LocalPlayer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Mob.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Player.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\PrimedTnt.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\TripodCamera.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameMode.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\CameraItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\DoorItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Inventory.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Item.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ItemInstance.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\TileItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\TilePlanterItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Dimension.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Explosion.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Level.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeCaveFeature.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeFeature.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\ImprovedNoise.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\PerlinNoise.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\Synth.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelListener.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Material.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Region.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ChunkStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorageSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelData.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelStorageSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryChunkStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorage.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorageSource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\RegionFile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TickNextTickData.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\particle\Particle.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\particle\ParticleEngine.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\AABB.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\HitResult.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\Vec3.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\BookshelfTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Bush.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ClayTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ClothTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DirtTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DoorTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FarmTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FireTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GlassTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GrassTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GravelTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\HalfTransparentTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\IceTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\InvisibleTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LadderTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LeafTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTileDynamic.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTileStatic.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\MetalTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ObsidianTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\OreTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ReedTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SandStoneTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SandTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Sapling.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SpongeTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StairTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StoneSlabTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StoneTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Tile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TntTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TopSnowTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TorchTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TransparentTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TreeTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\WireTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\App.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\AppPlatform.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\Minecraft.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\NinecraftApp.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\options\Options.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IBuildInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\PolygonArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\RectangleArea.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Multitouch.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IMoveInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\GL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\glext.h" />
+    <ClInclude Include="$(RAKNET_PATH)\AutopatcherPatchContext.h" />
+    <ClInclude Include="$(RAKNET_PATH)\AutopatcherRepositoryInterface.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Base64Encoder.h" />
+    <ClInclude Include="$(RAKNET_PATH)\BitStream.h" />
+    <ClInclude Include="$(RAKNET_PATH)\CCRakNetSlidingWindow.h" />
+    <ClInclude Include="$(RAKNET_PATH)\CCRakNetUDT.h" />
+    <ClInclude Include="$(RAKNET_PATH)\CheckSum.h" />
+    <ClInclude Include="$(RAKNET_PATH)\CloudClient.h" />
+    <ClInclude Include="$(RAKNET_PATH)\CloudCommon.h" />
+    <ClInclude Include="$(RAKNET_PATH)\CloudServer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\CommandParserInterface.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ConnectionGraph2.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ConsoleServer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DataCompressor.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DirectoryDeltaTransfer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DR_SHA1.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_BinarySearchTree.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_BPlusTree.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_BytePool.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_ByteQueue.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_Hash.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_Heap.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_HuffmanEncodingTree.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_HuffmanEncodingTreeFactory.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_HuffmanEncodingTreeNode.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_LinkedList.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_List.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_Map.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_MemoryPool.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_Multilist.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_OrderedChannelHeap.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_OrderedList.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_Queue.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_QueueLinkedList.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_RangeList.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_Table.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_ThreadsafeAllocatingQueue.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_Tree.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DS_WeightedGraph.h" />
+    <ClInclude Include="$(RAKNET_PATH)\DynDNS.h" />
+    <ClInclude Include="$(RAKNET_PATH)\EmailSender.h" />
+    <ClInclude Include="$(RAKNET_PATH)\EmptyHeader.h" />
+    <ClInclude Include="$(RAKNET_PATH)\EpochTimeToString.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Export.h" />
+    <ClInclude Include="$(RAKNET_PATH)\FileList.h" />
+    <ClInclude Include="$(RAKNET_PATH)\FileListNodeContext.h" />
+    <ClInclude Include="$(RAKNET_PATH)\FileListTransfer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\FileListTransferCBInterface.h" />
+    <ClInclude Include="$(RAKNET_PATH)\FileOperations.h" />
+    <ClInclude Include="$(RAKNET_PATH)\FormatString.h" />
+    <ClInclude Include="$(RAKNET_PATH)\FullyConnectedMesh2.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Getche.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Gets.h" />
+    <ClInclude Include="$(RAKNET_PATH)\GetTime.h" />
+    <ClInclude Include="$(RAKNET_PATH)\gettimeofday.h" />
+    <ClInclude Include="$(RAKNET_PATH)\GridSectorizer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\HTTPConnection.h" />
+    <ClInclude Include="$(RAKNET_PATH)\HTTPConnection2.h" />
+    <ClInclude Include="$(RAKNET_PATH)\IncrementalReadInterface.h" />
+    <ClInclude Include="$(RAKNET_PATH)\InternalPacket.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Itoa.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Kbhit.h" />
+    <ClInclude Include="$(RAKNET_PATH)\LinuxStrings.h" />
+    <ClInclude Include="$(RAKNET_PATH)\LocklessTypes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\LogCommandParser.h" />
+    <ClInclude Include="$(RAKNET_PATH)\MessageFilter.h" />
+    <ClInclude Include="$(RAKNET_PATH)\MessageIdentifiers.h" />
+    <ClInclude Include="$(RAKNET_PATH)\MTUSize.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NativeFeatureIncludes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NativeFeatureIncludesOverrides.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NativeTypes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NatPunchthroughClient.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NatPunchthroughServer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NatTypeDetectionClient.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NatTypeDetectionCommon.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NatTypeDetectionServer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NetworkIDManager.h" />
+    <ClInclude Include="$(RAKNET_PATH)\NetworkIDObject.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PacketConsoleLogger.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PacketFileLogger.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PacketizedTCP.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PacketLogger.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PacketOutputWindowLogger.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PacketPool.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PacketPriority.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PluginInterface2.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PS3Includes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\PS4Includes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Rackspace.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakAlloca.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakAssert.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakMemoryOverride.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetCommandParser.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetDefines.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetDefinesOverrides.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetSmartPtr.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetSocket.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetSocket2.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetStatistics.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetTime.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetTransport2.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetTypes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakNetVersion.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakPeer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakPeerInterface.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakSleep.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakString.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakThread.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RakWString.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Rand.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RandSync.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ReadyEvent.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RefCountedObj.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RelayPlugin.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ReliabilityLayer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ReplicaEnums.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ReplicaManager3.h" />
+    <ClInclude Include="$(RAKNET_PATH)\Router2.h" />
+    <ClInclude Include="$(RAKNET_PATH)\RPC4Plugin.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SecureHandshake.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SendToThread.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SignaledEvent.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SimpleMutex.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SimpleTCPServer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SingleProducerConsumer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SocketDefines.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SocketIncludes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SocketLayer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\StatisticsHistory.h" />
+    <ClInclude Include="$(RAKNET_PATH)\StringCompressor.h" />
+    <ClInclude Include="$(RAKNET_PATH)\StringTable.h" />
+    <ClInclude Include="$(RAKNET_PATH)\SuperFastHash.h" />
+    <ClInclude Include="$(RAKNET_PATH)\TableSerializer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\TCPInterface.h" />
+    <ClInclude Include="$(RAKNET_PATH)\TeamBalancer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\TeamManager.h" />
+    <ClInclude Include="$(RAKNET_PATH)\TelnetTransport.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ThreadPool.h" />
+    <ClInclude Include="$(RAKNET_PATH)\ThreadsafePacketLogger.h" />
+    <ClInclude Include="$(RAKNET_PATH)\TransportInterface.h" />
+    <ClInclude Include="$(RAKNET_PATH)\TwoWayAuthentication.h" />
+    <ClInclude Include="$(RAKNET_PATH)\UDPForwarder.h" />
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyClient.h" />
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyCommon.h" />
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyCoordinator.h" />
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyServer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\VariableDeltaSerializer.h" />
+    <ClInclude Include="$(RAKNET_PATH)\VariableListDeltaTracker.h" />
+    <ClInclude Include="$(RAKNET_PATH)\VariadicSQLParser.h" />
+    <ClInclude Include="$(RAKNET_PATH)\VitaIncludes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\WindowsIncludes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\WSAStartupSingleton.h" />
+    <ClInclude Include="$(RAKNET_PATH)\XBox360Includes.h" />
+    <ClInclude Include="$(RAKNET_PATH)\_FindFirst.h" />
+    <ClInclude Include="$(MC_ROOT)\platforms\android\AppPlatform_android.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="android_native_app_glue.c" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="..\..\AppPlatform_android.cpp" />
-    <ClCompile Include="..\..\..\..\source\App.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\AppPlatform.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\Minecraft.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\NinecraftApp.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\AvailableGamesList.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\Button.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\RolledSelectionList.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\ScrolledSelectionList.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\SmallButton.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\TextInputBox.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\WorldSelectionList.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\Gui.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\GuiComponent.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\Screen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\ChatScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\ConfirmScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\CreateWorldScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\DeathScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\DeleteWorldScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\DirectConnectScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\IngameBlockSelectionScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\InvalidLicenseScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\JoinGameScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\OptionsScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\PauseScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\ProgressScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\RenameMPLevelScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\SavingWorldScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\SelectWorldScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\StartMenuScreen.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\Cube.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\HumanoidModel.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\Model.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\PolygonQuad.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\Controller.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\ControllerTurnInput.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\ITurnInput.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\Keyboard.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\KeyboardInput.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\Mouse.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\MouseTurnInput.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\Chunk.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\Culler.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\DynamicTexture.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\EntityRenderDispatcher.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\EntityRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\FallingTileRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\HumanoidMobRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ItemRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ItemSpriteRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\MobRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\TntRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\TripodCameraRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\FireTexture.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\Font.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\Frustum.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\FrustumCuller.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\GameRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\ItemInHandRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\LavaSideTexture.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\LavaTexture.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\LevelRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\LightLayer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\LightUpdate.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\PatchManager.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\RenderChunk.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\RenderList.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\Tesselator.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\Textures.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\TileRenderer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\WaterSideTexture.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\WaterTexture.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\sound\SoundData.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\sound\SoundEngine.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\sound\SoundRepository.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\sound\SoundSystem.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\CThread.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Matrix.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Mth.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Options.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Random.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Timer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Util.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Utils.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\ClientSideNetworkHandler.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\MinecraftPackets.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\NetEventCallback.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\AddPlayerPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\ChunkDataPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\LevelDataPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\LoginPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\MessagePacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\MovePlayerPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\PlaceBlockPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\PlayerEquipmentPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\RemoveBlockPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\RemoveEntityPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\RequestChunkPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\StartGamePacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\packets\UpdateBlockPacket.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\RakNetInstance.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\network\ServerSideNetworkHandler.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\Entity.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\FallingTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\ItemEntity.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\LocalPlayer.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\Mob.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\Player.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\PrimedTnt.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\TripodCamera.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\gamemode\CreativeMode.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\gamemode\GameMode.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\gamemode\SurvivalMode.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\CameraItem.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\DoorItem.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\Inventory.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\Item.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\ItemInstance.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\TileItem.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\TilePlanterItem.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\Dimension.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\Explosion.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\Level.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\biome\Biome.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\biome\BiomeSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkCache.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\ChunkSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\LevelChunk.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\RandomLevelSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\chunk\TestChunkSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\BirchFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\ClayFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\Feature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\FlowerFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\LargeCaveFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\LargeFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\OreFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\PineFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\ReedsFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\SpringFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\SpruceFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\feature\TreeFeature.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\ImprovedNoise.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\PerlinNoise.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\levelgen\synth\Synth.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\LevelListener.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\Material.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\Region.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\ChunkStorage.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorage.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\ExternalFileLevelStorageSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelData.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelStorage.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\LevelStorageSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryChunkStorage.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryLevelStorage.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\MemoryLevelStorageSource.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\storage\RegionFile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\level\TickNextTickData.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\BubbleParticle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\ExplodeParticle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\FlameParticle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\LavaParticle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\Particle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\ParticleEngine.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\RedDustParticle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\SmokeParticle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\particle\TerrainParticle.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\phys\AABB.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\phys\HitResult.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\phys\Vec3.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\BookshelfTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\Bush.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\ClayTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\ClothTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\DirtTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\DoorTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\FarmTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\FireTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\GlassTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\GrassTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\GravelTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\HalfTransparentTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\IceTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\InvisibleTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\LadderTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\LeafTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTileDynamic.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\LiquidTileStatic.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\MetalTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\ObsidianTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\OreTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\RedStoneOreTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\ReedTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\SandStoneTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\SandTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\Sapling.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\SpongeTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\StairTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\StoneSlabTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\StoneTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\Tile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\TntTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\TopSnowTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\TorchTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\TransparentTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\TreeTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\tile\WireTile.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\Base64Encoder.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\BitStream.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\CCRakNetSlidingWindow.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\CCRakNetUDT.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\CheckSum.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\CloudClient.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\CloudCommon.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\CloudServer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\CommandParserInterface.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\ConnectionGraph2.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\ConsoleServer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DataCompressor.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DirectoryDeltaTransfer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DR_SHA1.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DS_BytePool.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DS_ByteQueue.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DS_HuffmanEncodingTree.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DS_Table.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\DynDNS.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\EmailSender.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\EpochTimeToString.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\FileList.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\FileListTransfer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\FileOperations.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\FormatString.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\FullyConnectedMesh2.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\Getche.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\Gets.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\GetTime.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\gettimeofday.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\GridSectorizer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\HTTPConnection.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\HTTPConnection2.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\IncrementalReadInterface.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\Itoa.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\LinuxStrings.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\LocklessTypes.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\LogCommandParser.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\MessageFilter.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\NatPunchthroughClient.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\NatPunchthroughServer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\NatTypeDetectionClient.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\NatTypeDetectionCommon.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\NatTypeDetectionServer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\NetworkIDManager.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\NetworkIDObject.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\PacketConsoleLogger.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\PacketFileLogger.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\PacketizedTCP.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\PacketLogger.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\PacketOutputWindowLogger.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\PluginInterface2.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\PS4Includes.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\Rackspace.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakMemoryOverride.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetCommandParser.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_360_720.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_Berkley.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_Berkley_NativeClient.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_NativeClient.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_PS3_PS4.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_PS4.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_Vita.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_WindowsStore8.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_Windows_Linux.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetSocket2_Windows_Linux_360.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetStatistics.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetTransport2.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakNetTypes.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakPeer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakSleep.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakString.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakThread.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RakWString.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\Rand.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RandSync.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\ReadyEvent.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RelayPlugin.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\ReliabilityLayer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\ReplicaManager3.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\Router2.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\RPC4Plugin.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\SecureHandshake.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\SendToThread.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\SignaledEvent.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\SimpleMutex.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\SocketLayer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\StatisticsHistory.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\StringCompressor.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\StringTable.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\SuperFastHash.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\TableSerializer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\TCPInterface.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\TeamBalancer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\TeamManager.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\TelnetTransport.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\ThreadsafePacketLogger.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\TwoWayAuthentication.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\UDPForwarder.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\UDPProxyClient.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\UDPProxyCoordinator.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\UDPProxyServer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\VariableDeltaSerializer.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\VariableListDeltaTracker.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\VariadicSQLParser.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\VitaIncludes.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\WSAStartupSingleton.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\raknet\_FindFirst.cpp">
-      <Filter>thirdparty\raknet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\thirdparty\stb_image_impl.c">
-      <Filter>thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\source\common\Logger.cpp">
-      <Filter>minecraftcpp</Filter>
-    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\Button.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\RolledSelectionList.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\ScrolledSelectionList.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SmallButton.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TextInputBox.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\Gui.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\Screen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ChatScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\Cube.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\HumanoidModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\Model.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\PolygonQuad.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITurnInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Keyboard.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\KeyboardInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Mouse.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseTurnInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Chunk.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Culler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\DynamicTexture.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderDispatcher.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\FallingTileRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\HumanoidMobRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ItemRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ItemSpriteRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\MobRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\TntRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\TripodCameraRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FireTexture.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Font.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Frustum.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FrustumCuller.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\GameRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\ItemInHandRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LavaSideTexture.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LavaTexture.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LevelRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LightLayer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LightUpdate.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\PatchManager.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderChunk.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderList.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Tesselator.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Textures.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\TileRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterTexture.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Matrix.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Random.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Timer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Util.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\FallingTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\ItemEntity.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\LocalPlayer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Mob.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Player.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\PrimedTnt.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\TripodCamera.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\GameMode.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\CameraItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\DoorItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\Inventory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ItemInstance.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Dimension.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Explosion.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Level.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\BirchFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ClayFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\FlowerFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeCaveFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\OreFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\PineFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ReedsFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\SpringFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\SpruceFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\TreeFeature.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\ImprovedNoise.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\PerlinNoise.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\Synth.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\LevelListener.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Material.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Region.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ChunkStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorageSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelData.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelStorageSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryChunkStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorage.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorageSource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\RegionFile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\TickNextTickData.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\BubbleParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\ExplodeParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\FlameParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\LavaParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\Particle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\ParticleEngine.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\RedDustParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\SmokeParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\TerrainParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\AABB.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\HitResult.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec3.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\BookshelfTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Bush.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ClayTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ClothTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DirtTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DoorTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FarmTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FireTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GlassTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GrassTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GravelTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\HalfTransparentTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\IceTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\InvisibleTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LadderTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LeafTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTileDynamic.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTileStatic.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\MetalTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ObsidianTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\OreTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ReedTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SandStoneTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SandTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Sapling.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SpongeTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StairTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StoneSlabTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StoneTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Tile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TntTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TopSnowTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TorchTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TransparentTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TreeTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\WireTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\app\AppPlatform.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\app\Minecraft.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\app\NinecraftApp.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\options\Options.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IBuildInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\PolygonArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\RectangleArea.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Multitouch.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IMoveInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\GL\GLExt.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\Base64Encoder.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\BitStream.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\CCRakNetSlidingWindow.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\CCRakNetUDT.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\CheckSum.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\CloudClient.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\CloudCommon.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\CloudServer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\CommandParserInterface.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\ConnectionGraph2.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\ConsoleServer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DataCompressor.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DirectoryDeltaTransfer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DR_SHA1.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DS_BytePool.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DS_ByteQueue.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DS_HuffmanEncodingTree.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DS_Table.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\DynDNS.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\EmailSender.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\EpochTimeToString.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\FileList.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\FileListTransfer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\FileOperations.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\FormatString.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\FullyConnectedMesh2.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\Getche.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\Gets.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\GetTime.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\gettimeofday.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\GridSectorizer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\HTTPConnection.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\HTTPConnection2.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\IncrementalReadInterface.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\Itoa.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\LinuxStrings.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\LocklessTypes.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\LogCommandParser.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\MessageFilter.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\NatPunchthroughClient.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\NatPunchthroughServer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\NatTypeDetectionClient.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\NatTypeDetectionCommon.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\NatTypeDetectionServer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\NetworkIDManager.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\NetworkIDObject.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\PacketConsoleLogger.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\PacketFileLogger.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\PacketizedTCP.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\PacketLogger.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\PacketOutputWindowLogger.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\PluginInterface2.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\PS4Includes.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\Rackspace.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakMemoryOverride.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetCommandParser.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_360_720.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Berkley.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Berkley_NativeClient.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_NativeClient.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_PS3_PS4.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_PS4.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Vita.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_WindowsStore8.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Windows_Linux.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Windows_Linux_360.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetStatistics.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetTransport2.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakNetTypes.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakPeer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakSleep.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakString.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakThread.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RakWString.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\Rand.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RandSync.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\ReadyEvent.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RelayPlugin.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\ReliabilityLayer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\ReplicaManager3.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\Router2.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\RPC4Plugin.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\SecureHandshake.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\SendToThread.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\SignaledEvent.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\SimpleMutex.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\SocketLayer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\StatisticsHistory.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\StringCompressor.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\StringTable.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\SuperFastHash.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\TableSerializer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\TCPInterface.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\TeamBalancer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\TeamManager.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\TelnetTransport.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\ThreadsafePacketLogger.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\TwoWayAuthentication.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\UDPForwarder.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\UDPProxyClient.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\UDPProxyCoordinator.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\UDPProxyServer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\VariableDeltaSerializer.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\VariableListDeltaTracker.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\VariadicSQLParser.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\VitaIncludes.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\WSAStartupSingleton.cpp" />
+    <ClCompile Include="$(RAKNET_PATH)\_FindFirst.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="minecraftcpp">

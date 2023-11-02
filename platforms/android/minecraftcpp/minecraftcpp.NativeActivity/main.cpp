@@ -8,26 +8,19 @@
 #include <android/sensor.h>
 #include <android/log.h>
 
-#include "compat/GL.hpp"
 #include "compat/KeyCodes.hpp"
-
-#include "App.hpp"
+#include "thirdparty/GL/GL.hpp"
 #include "platforms/android/AppPlatform_android.hpp"
-#include "NinecraftApp.hpp"
+#include "client/app/NinecraftApp.hpp"
 #include "client/gui/screens/ProgressScreen.hpp"
 #include "client/player/input/Controller.hpp"
+#include "client/player/input/Mouse.hpp"
 
 
 AppPlatform_android g_AppPlatform;
 
 bool g_LButtonDown, g_RButtonDown;
 int g_MousePosX, g_MousePosY;
-
-void UpdateMouse()
-{
-    Mouse::setX(g_MousePosX);
-    Mouse::setY(g_MousePosY);
-}
 
 struct engine
 {
@@ -94,16 +87,16 @@ static void evalJoyStick(engine* engine, AInputEvent* event)
 
     bool curL = mapTrigger(event, AMOTION_EVENT_AXIS_LTRIGGER) > 0.3f;
     bool curR = mapTrigger(event, AMOTION_EVENT_AXIS_RTRIGGER) > 0.3f;
-    Mouse::ButtonState lTrigger = Mouse::ButtonState(curL);
-    Mouse::ButtonState rTrigger = Mouse::ButtonState(curR);
+    bool lTrigger = curL;
+    bool rTrigger = curR;
 
     if (s_lastL != curL)
     {
-        Mouse::feed(Mouse::ButtonType::RIGHT, lTrigger, g_MousePosX, g_MousePosY);
+        Mouse::feed(BUTTON_RIGHT, lTrigger, g_MousePosX, g_MousePosY);
     }
     if (s_lastR != curR)
     {
-        Mouse::feed(Mouse::ButtonType::LEFT, rTrigger, g_MousePosX, g_MousePosY);
+        Mouse::feed(BUTTON_LEFT, rTrigger, g_MousePosX, g_MousePosY);
     }
 
     s_lastR = curR;
@@ -153,8 +146,7 @@ static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_
         g_MousePosX = AMotionEvent_getX(event, 0);
         g_MousePosY = AMotionEvent_getY(event, 0);
 
-        UpdateMouse();
-        Mouse::feed(Mouse::ButtonType::NONE, Mouse::ButtonState::UP, g_MousePosX, g_MousePosY);
+        Mouse::feed(BUTTON_NONE, false, g_MousePosX, g_MousePosY);
 
         return 1;
     }
@@ -166,9 +158,7 @@ static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_
         g_MousePosX = AMotionEvent_getX(event, idx);
         g_MousePosY = AMotionEvent_getY(event, idx);
 
-        UpdateMouse();
-
-        Mouse::feed(Mouse::ButtonType::NONE, Mouse::ButtonState::UP, g_MousePosX, g_MousePosY);
+        Mouse::feed(BUTTON_NONE, false, g_MousePosX, g_MousePosY);
 
         return 1;
     }
@@ -181,8 +171,7 @@ static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_
         g_MousePosX = AMotionEvent_getX(event, idx);
         g_MousePosY = AMotionEvent_getY(event, idx);
 
-        UpdateMouse();
-        Mouse::feed(Mouse::ButtonType::LEFT, Mouse::ButtonState::DOWN, g_MousePosX, g_MousePosY);
+        Mouse::feed(BUTTON_LEFT, true, g_MousePosX, g_MousePosY);
 
         return 1;
     }
@@ -195,8 +184,7 @@ static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_
         g_MousePosX = AMotionEvent_getX(event, idx);
         g_MousePosY = AMotionEvent_getY(event, idx);
 
-        UpdateMouse();
-        Mouse::feed(Mouse::ButtonType::LEFT, Mouse::ButtonState::UP, g_MousePosX, g_MousePosY);
+        Mouse::feed(BUTTON_LEFT, false, g_MousePosX, g_MousePosY);
 
         return 1;
     }

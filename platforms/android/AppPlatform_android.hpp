@@ -8,9 +8,9 @@
 
 #pragma once
 
-#include "compat/GL.hpp"
+#include "thirdparty/GL/GL.hpp"
 #include <ctime>
-#include "AppPlatform.hpp"
+#include "client/app/AppPlatform.hpp"
 #include "source/common/Utils.hpp"
 #include "android_native_app_glue.h"
 
