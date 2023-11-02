@@ -35,7 +35,7 @@ void ChatScreen::init()
 	
 	// set focus directly on the chat text box
 	m_textChat.init(m_pFont);
-	m_textChat.setFocused(true);
+	m_textChat.setFocused(m_pMinecraft, true);
 
 	m_buttons.push_back(&m_btnSend);
 	m_textInputs.push_back(&m_textChat);

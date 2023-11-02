@@ -44,6 +44,10 @@ public:
 	static MouseButtonType GetMouseButtonType(SDL_Event event);
 	static bool GetMouseButtonState(SDL_Event event);
 	static Keyboard::KeyState GetKeyState(SDL_Event event);
+
+	// On-screen keyboard
+	void showKeyboard(int x, int y, int w, int h) override;
+	void hideKeyboard() override;
 private:
 	SDL_Window *_window;
 

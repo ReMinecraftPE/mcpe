@@ -179,10 +179,23 @@ void TextInputBox::tick()
 	}
 }
 
-void TextInputBox::setFocused(bool b)
+void TextInputBox::setFocused(Minecraft* minecraft, bool b)
 {
 	if (m_bFocused == b)
 		return;
+
+    if (b)
+    {
+        int x = m_xPos / Gui::InvGuiScale;
+        int y = m_yPos / Gui::InvGuiScale;
+        int w = m_width / Gui::InvGuiScale;
+        int h = m_height / Gui::InvGuiScale;
+        minecraft->platform()->showKeyboard(x, y, w, h);
+    }
+    else
+    {
+        minecraft->platform()->hideKeyboard();
+    }
 
 	m_bFocused = b;
 	if (b)
@@ -198,9 +211,9 @@ void TextInputBox::setFocused(bool b)
 	// - we may be undoing the work of another text box
 }
 
-void TextInputBox::onClick(int x, int y)
+void TextInputBox::onClick(Minecraft* minecraft, int x, int y)
 {
-	setFocused(clicked(x, y));
+	setFocused(minecraft, clicked(x, y));
 }
 
 void TextInputBox::charPressed(int k)

@@ -37,7 +37,7 @@ public:
 	virtual void printf(eLogLevel, const char* const fmt, ...);
 };
 
-#if defined(_DEBUG) || !defined(NDEBUG)
+#ifndef NDEBUG
 
 #ifdef ANDROID
 // TODO: Add a LoggerAndroid

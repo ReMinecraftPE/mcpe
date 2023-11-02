@@ -30,8 +30,8 @@ public:
 	void charPressed(int chr);
 	void render();
 	void tick();
-	void setFocused(bool b);
-	void onClick(int x, int y);
+	void setFocused(Minecraft*, bool b);
+	void onClick(Minecraft*, int x, int y);
 	bool clicked(int x, int y);
 
 public:

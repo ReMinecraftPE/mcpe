@@ -221,3 +221,26 @@ Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(SDL_Event event)
 		return Keyboard::DOWN;
 	}
 }
+
+void AppPlatform_sdl_base::showKeyboard(int x, int y, int w, int h)
+{
+	if (SDL_IsTextInputActive())
+	{
+		SDL_StopTextInput();
+	}
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = w;
+	rect.h = h;
+	SDL_SetTextInputRect(&rect);
+	SDL_StartTextInput();
+}
+
+void AppPlatform_sdl_base::hideKeyboard()
+{
+	if (SDL_IsTextInputActive())
+	{
+		SDL_StopTextInput();
+	}
+}
