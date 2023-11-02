@@ -14,6 +14,7 @@ typedef AppPlatform_sdl UsedAppPlatform;
 #endif
 
 #include "client/app/NinecraftApp.hpp"
+#include "client/player/input/Multitouch.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -52,6 +53,60 @@ static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 		#undef  CODE
 	}
 	return SDLVK_UNKNOWN;
+}
+
+// Touch
+#define TOUCH_IDS_SIZE (MAX_TOUCHES - 1) // ID 0 Is Reserved For The Mouse
+struct touch_id_data {
+	bool active = false;
+	int id;
+};
+static touch_id_data touch_ids[TOUCH_IDS_SIZE];
+static char get_touch_id(int device, int finger) {
+	int real_id = (device * 100) + finger;
+	for (int i = 0; i < TOUCH_IDS_SIZE; i++) {
+		touch_id_data &data = touch_ids[i];
+		if (data.active && data.id == real_id) {
+			return i + 1;
+		}
+	}
+	// Not Found
+	for (int i = 0; i < TOUCH_IDS_SIZE; i++) {
+		// Find First Inactive ID, And Activate It
+		touch_id_data &data = touch_ids[i];
+		if (!data.active) {
+			data.active = true;
+			data.id = real_id;
+			return i + 1;
+		}
+	}
+	// Fail
+	return 0;
+}
+static void drop_touch_id(int id) {
+	touch_ids[id - 1].active = false;
+}
+static void handle_touch(int x, int y, int type, char id) {
+	if (id == 0) {
+		return;
+	}
+	switch (type) {
+		case SDL_FINGERDOWN:
+		case SDL_FINGERUP: {
+			bool data = type == SDL_FINGERUP ? 0 : 1;
+			Mouse::feed(BUTTON_LEFT, data, x, y);
+			Multitouch::feed(BUTTON_LEFT, data, x, y, id);
+			if (type == SDL_FINGERUP) {
+				drop_touch_id(id);
+			}
+			break;
+		}
+		case SDL_FINGERMOTION: {
+			Mouse::feed(BUTTON_NONE, 0, x, y);
+			Multitouch::feed(BUTTON_NONE, 0, x, y, id);
+			break;
+		}
+	}
 }
 
 // Resize From JS
@@ -98,22 +153,42 @@ static void handle_events()
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
-				const float scale = g_fPointToPixelScale;
-				Mouse::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
+				if (event.button.which != SDL_TOUCH_MOUSEID) {
+					const float scale = g_fPointToPixelScale;
+					MouseButtonType type = AppPlatform_sdlbase::GetMouseButtonType(event);
+					bool state = AppPlatform_sdlbase::GetMouseButtonState(event);
+					float x = event.button.x * scale;
+					float y = event.button.y * scale;
+					Mouse::feed(type, state, x, y);
+					Multitouch::feed(type, state, x, y, 0);
+				}
 				break;
 			}
 			case SDL_MOUSEMOTION:
 			{
-                float scale = g_fPointToPixelScale;
-                float x = event.motion.x * scale;
-                float y = event.motion.y * scale;
-				Mouse::feed(BUTTON_NONE, false, x, y);
-				g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
+				if (event.button.which != SDL_TOUCH_MOUSEID) {
+					float scale = g_fPointToPixelScale;
+					float x = event.motion.x * scale;
+					float y = event.motion.y * scale;
+					Multitouch::feed(BUTTON_NONE, 0, x, y, 0);
+					Mouse::feed(BUTTON_NONE, false, x, y);
+					g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
+				}
 				break;
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+				if (event.button.which != SDL_TOUCH_MOUSEID) {
+					Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+				}
+				break;
+			}
+			case SDL_FINGERDOWN:
+			case SDL_FINGERUP:
+			case SDL_FINGERMOTION: {
+				float x = event.tfinger.x * Minecraft::width;
+				float y = event.tfinger.y * Minecraft::height;
+				handle_touch(x, y, event.type, get_touch_id(event.tfinger.touchId, event.tfinger.fingerId));
 				break;
 			}
 			case SDL_TEXTINPUT:
