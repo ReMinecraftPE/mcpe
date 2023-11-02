@@ -9,7 +9,7 @@
 #define DEMO
 #else
 
-#if defined __ANDROID__ || defined TARGET_OS_IPHONE
+#if defined ANDROID || defined TARGET_OS_IPHONE
 #define MOBILE
 #endif
 

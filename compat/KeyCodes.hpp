@@ -26,7 +26,7 @@ enum eSDLVirtualKeys
 #include <Windows.h>
 #endif
 
-#ifdef __ANDROID__
+#if defined(ANDROID) && !defined(USE_SDL)
 #include <android/keycodes.h>
 
 #define AKEYCODE_ARROW_LEFT  AKEYCODE_DPAD_LEFT

@@ -10,7 +10,7 @@
 #include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 
-#ifdef __ANDROID__
+#if defined(ANDROID) && !defined(USE_SDL)
 #define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
 #endif
 

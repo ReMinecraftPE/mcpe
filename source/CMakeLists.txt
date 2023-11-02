@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-core)
 
-if(NOT ANDROID)
-    set(INCLUDES . .. ../thirdparty/zlib)
-else()
-    set(INCLUDES . ..)
-endif()
-
 # Build
 add_library(reminecraftpe-core STATIC
     common/Random.cpp
@@ -275,21 +269,23 @@ add_library(reminecraftpe-core STATIC
     renderer/GL/GL.cpp
 )
 
-target_include_directories(reminecraftpe-core PUBLIC ${INCLUDES})
+target_include_directories(reminecraftpe-core PUBLIC . .. ../thirdparty/zlib)
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
-# zlib - Android builds with its own version
-# Hack - If we're not building for Android, surely we're building with SDL
+# zlib
+add_subdirectory(../thirdparty/zlib zlib)
+target_link_libraries(reminecraftpe-core PUBLIC zlib)
+
+# SDL
 if(USE_SDL)
-    add_subdirectory(../thirdparty/zlib zlib)
-    target_link_libraries(reminecraftpe-core PUBLIC zlib)
-    
-    # SDL
     add_library(SDL INTERFACE)
-    if(EMSCRIPTEN)
+    if(ANDROID)
+        add_subdirectory(../thirdparty/SDL-src SDL EXCLUDE_FROM_ALL)
+        target_link_libraries(SDL INTERFACE SDL2::SDL2)
+    elseif(EMSCRIPTEN)
         set(SDL_FLAG -sUSE_SDL=2)
         target_compile_options(SDL INTERFACE "${SDL_FLAG}")
         target_link_options(SDL INTERFACE "${SDL_FLAG}")
@@ -298,7 +294,7 @@ if(USE_SDL)
         target_link_libraries(SDL INTERFACE SDL2::SDL2)
     endif()
     target_link_libraries(reminecraftpe-core PUBLIC SDL)
-    
+
     # OpenGL
     if(NOT EMSCRIPTEN)
         option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
@@ -318,8 +314,6 @@ if(USE_SDL)
         find_package(OpenGL REQUIRED)
         target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL OpenGL::GLU)
     endif()
-elseif(ANDROID)
-    # Add Android related stuff here.
 endif()
 
 # Sound Data
