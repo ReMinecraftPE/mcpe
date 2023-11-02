@@ -28,6 +28,13 @@ AppPlatform_android::AppPlatform_android()
 	m_bShiftPressed = false;
 
 	m_MouseDiffX = 0, m_MouseDiffY = 0;
+
+	m_pSoundSystem = nullptr;
+}
+
+AppPlatform_android::~AppPlatform_android()
+{
+	SAFE_DELETE(m_pSoundSystem);
 }
 
 void AppPlatform_android::initConsts()
@@ -129,6 +136,26 @@ Texture AppPlatform_android::loadTexture(const std::string& str, bool b)
 	free(buffer);
 	return Texture(width, height, (uint32_t*)img, 1, 0);
 }
+
+SoundSystem* const AppPlatform_android::getSoundSystem() const
+{
+	return m_pSoundSystem;
+}
+
+void AppPlatform_android::initSoundSystem()
+{
+	// TODO: SoundSystemSL!
+	if (!m_pSoundSystem)
+		m_pSoundSystem = new SoundSystem();
+	else
+		LOG_E("Trying to initialize SoundSystem more than once!");
+}
+
+bool AppPlatform_android::isTouchscreen()
+{
+	return true;
+}
+
 /*
 std::vector<std::string> AppPlatform_android::getOptionStrings()
 {

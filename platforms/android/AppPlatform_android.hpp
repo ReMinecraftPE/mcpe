@@ -21,6 +21,7 @@ class AppPlatform_android : public AppPlatform
 {
 public:
 	AppPlatform_android();
+	~AppPlatform_android();
 	void initConsts();
 	void buyGame() override;
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
@@ -49,8 +50,11 @@ public:
 	// Also add these to allow saving options.
 	//void setOptionStrings(const std::vector <std::string>& str) override;
 
-	void setScreenSize(int width, int height);
+	SoundSystem* const getSoundSystem() const override;
+	void initSoundSystem() override;
+	bool isTouchscreen() override;
 
+	void setScreenSize(int width, int height);
 	void initAndroidApp(android_app* ptr);
 
 private:
@@ -72,5 +76,6 @@ private:
 
 	android_app* m_app;
 
+	SoundSystem* m_pSoundSystem;
 };
 
