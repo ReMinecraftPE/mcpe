@@ -194,7 +194,7 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool b)
 
 bool AppPlatform_win32::isTouchscreen()
 {
-	return false;
+	return true;
 }
 
 bool AppPlatform_win32::hasFileSystemAccess()

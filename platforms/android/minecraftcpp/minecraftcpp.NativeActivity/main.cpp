@@ -15,6 +15,7 @@
 #include "client/gui/screens/ProgressScreen.hpp"
 #include "client/player/input/Controller.hpp"
 #include "client/player/input/Mouse.hpp"
+#include "client/player/input/Multitouch.hpp"
 
 
 AppPlatform_android g_AppPlatform;
@@ -58,140 +59,97 @@ static float mapTrigger(AInputEvent* event, int32_t axis)
 static bool s_lastR = false;
 static bool s_lastL = false;
 
-static void evalJoyStick(engine* engine, AInputEvent* event)
+static int evalKeyInput(struct engine* engine, AInputEvent* event)
 {
-    float lx = mapStick(event, AMOTION_EVENT_AXIS_X);
-    float ly = mapStick(event, AMOTION_EVENT_AXIS_Y);
-    float rx = mapStick(event, AMOTION_EVENT_AXIS_Z);
-    float ry = mapStick(event, AMOTION_EVENT_AXIS_RZ);
+    bool keyDown = AKeyEvent_getAction(event) == AKEY_EVENT_ACTION_DOWN;
+    int  keyCode = AKeyEvent_getKeyCode(event);
 
-    if (!engine->ninecraftApp)
+    bool isBack = true;
+
+    if (keyCode != AKEYCODE_BACK || AInputEvent_getDeviceId(event) != 0)
+        isBack = false;
+
+    int repeatCount = AKeyEvent_getRepeatCount(event);
+    if (repeatCount <= 0 && !isBack)
+        Keyboard::feed(keyDown ? Keyboard::UP : Keyboard::DOWN, keyCode);
+
+    if (keyCode == AKEYCODE_BACK)
     {
-        return;
-    }
-    if (!engine->ninecraftApp->m_pLocalPlayer)
-    {
-        return;
-    }
-    if (!engine->ninecraftApp->m_pLocalPlayer->m_pMinecraft)
-    {
-        return;
-    }
+        if (repeatCount == 0)
+            engine->ninecraftApp->handleBack(keyDown);
 
-    //use controller input on android for now.
-    //field_B00 and field_B04 is normally set in LocalPlayer.cpp but is blocked out on android.
-    engine->ninecraftApp->m_pLocalPlayer->field_B00 = -lx;
-    engine->ninecraftApp->m_pLocalPlayer->field_B04 = -ly;
-    //Controller::feed(1, 1, lx, ly); does nothing... doing this above for now
-    Controller::feed(2, 1, rx, ry);
-
-    bool curL = mapTrigger(event, AMOTION_EVENT_AXIS_LTRIGGER) > 0.3f;
-    bool curR = mapTrigger(event, AMOTION_EVENT_AXIS_RTRIGGER) > 0.3f;
-    bool lTrigger = curL;
-    bool rTrigger = curR;
-
-    if (s_lastL != curL)
-    {
-        Mouse::feed(BUTTON_RIGHT, lTrigger, g_MousePosX, g_MousePosY);
-    }
-    if (s_lastR != curR)
-    {
-        Mouse::feed(BUTTON_LEFT, rTrigger, g_MousePosX, g_MousePosY);
-    }
-
-    s_lastR = curR;
-    s_lastL = curL;
-
-}
-
-static int32_t evalKeyInput(struct engine* engine, AInputEvent* event)
-{
-    int32_t action = AKeyEvent_getAction(event);
-    int32_t code = AKeyEvent_getKeyCode(event);
-
-    switch (action)
-    {
-    case AKEY_EVENT_ACTION_DOWN:
-    {
-        Keyboard::feed(Keyboard::KeyState::DOWN, code);
         return 1;
     }
-    case AKEY_EVENT_ACTION_UP:
-    {
-        Keyboard::feed(Keyboard::KeyState::UP, code);
-        return 1;
-    }
-    }
 
-    return 0;
+    // let Android handle those
+    if (keyCode >= AKEYCODE_VOLUME_UP && keyCode <= AKEYCODE_VOLUME_DOWN)
+        return 0;
+
+    return 1;
 }
 
 #define COMPARE_SOURCE(v, s) ((v & s) == s)
 
+static void nativeMouseDown(int id, int x, int y)
+{
+    LOG_I("nativeMouseDown: id %d, x %d, y %d", id, x, y);
+    Mouse::feed(BUTTON_LEFT, true, x, y);
+    Multitouch::feed(BUTTON_LEFT, true, x, y, id);
+}
+
+static void nativeMouseUp(int id, int x, int y)
+{
+    LOG_I("nativeMouseUp: id %d, x %d, y %d", id, x, y);
+    Mouse::feed(BUTTON_LEFT, false, x, y);
+    Multitouch::feed(BUTTON_LEFT, false, x, y, id);
+}
+
+static void nativeMouseMove(int id, int x, int y)
+{
+    LOG_I("nativeMouseMove: id %d, x %d, y %d", id, x, y);
+    Mouse::feed(BUTTON_NONE, false, x, y);
+    Multitouch::feed(BUTTON_NONE, false, x, y, id);
+}
+
 static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_t source)
 {
-    if (COMPARE_SOURCE(source, AINPUT_SOURCE_GAMEPAD) || COMPARE_SOURCE(source, AINPUT_SOURCE_JOYSTICK))
-    {
-        evalJoyStick(engine, event);
+    size_t pointerCount = AMotionEvent_getPointerCount(event);
+
+    //! NOTE: Android documentation clearly states that pointerCount is always >=1.
+    if (pointerCount <= 0)
         return 1;
-    }
 
-    int32_t action = AMotionEvent_getAction(event);
-    unsigned int flags = action & AMOTION_EVENT_ACTION_MASK;
+    int actionp = AMotionEvent_getAction(event);
+    int action = actionp & AMOTION_EVENT_ACTION_MASK;
+    int pointerId = AMotionEvent_getPointerId(event, (actionp & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT);
 
-    switch (flags)
+    int x = AMotionEvent_getX(event, pointerId);
+    int y = AMotionEvent_getY(event, pointerId);
+
+    switch (action)
     {
-    case AMOTION_EVENT_ACTION_HOVER_MOVE:
-    {
-        g_MousePosX = AMotionEvent_getX(event, 0);
-        g_MousePosY = AMotionEvent_getY(event, 0);
-
-        Mouse::feed(BUTTON_NONE, false, g_MousePosX, g_MousePosY);
-
-        return 1;
-    }
-    case AMOTION_EVENT_ACTION_MOVE:
-    {
-        int32_t idx = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
-            AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-        g_MousePosX = AMotionEvent_getX(event, idx);
-        g_MousePosY = AMotionEvent_getY(event, idx);
-
-        Mouse::feed(BUTTON_NONE, false, g_MousePosX, g_MousePosY);
-
-        return 1;
-    }
-    case AMOTION_EVENT_ACTION_POINTER_DOWN:
-    case AMOTION_EVENT_ACTION_DOWN:
-    {
-        int32_t idx = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
-            AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-        g_MousePosX = AMotionEvent_getX(event, idx);
-        g_MousePosY = AMotionEvent_getY(event, idx);
-
-        Mouse::feed(BUTTON_LEFT, true, g_MousePosX, g_MousePosY);
-
-        return 1;
-    }
-    case AMOTION_EVENT_ACTION_UP:
-    case AMOTION_EVENT_ACTION_POINTER_UP:
-    {
-        int32_t idx = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
-            AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-        g_MousePosX = AMotionEvent_getX(event, idx);
-        g_MousePosY = AMotionEvent_getY(event, idx);
-
-        Mouse::feed(BUTTON_LEFT, false, g_MousePosX, g_MousePosY);
-
-        return 1;
-    }
+        case AMOTION_EVENT_ACTION_DOWN:
+        case AMOTION_EVENT_ACTION_POINTER_DOWN:
+            nativeMouseDown(pointerId, x, y);
+            break;
+        case AMOTION_EVENT_ACTION_UP:
+        case AMOTION_EVENT_ACTION_POINTER_UP:
+            nativeMouseUp(pointerId, x, y);
+            break;
+        case AMOTION_EVENT_ACTION_MOVE:
+        {
+            int pc = AMotionEvent_getPointerCount(event);
+            for (int i = 0; i < pc; i++)
+            {
+                nativeMouseMove(AMotionEvent_getPointerId(event, i),
+                                AMotionEvent_getX(event, i),
+                                AMotionEvent_getY(event, i));
+            }
+            break;
+        }
     }
 
-
-    return 0;
+    return 1;
 }
 
 static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
@@ -203,10 +161,10 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event)
 
     switch (type)
     {
-    case AINPUT_EVENT_TYPE_KEY:
-        return evalKeyInput(engine, event);
-    case AINPUT_EVENT_TYPE_MOTION:
-        return evalMotionInput(engine, event, source);
+        case AINPUT_EVENT_TYPE_KEY:
+            return evalKeyInput(engine, event);
+        case AINPUT_EVENT_TYPE_MOTION:
+            return evalMotionInput(engine, event, source);
     }
 
     return 0;
@@ -282,10 +240,10 @@ static void initWindow(struct engine* engine, struct android_app* app)
     engine->ninecraftApp->m_externalStorageDir = ".";
     engine->ninecraftApp->width = w;
     engine->ninecraftApp->height = h;
-    engine->ninecraftApp->sizeUpdate(w, h);
 
     // initialize the app
     engine->ninecraftApp->init();
+    engine->ninecraftApp->sizeUpdate(w, h);
 
     LOG_I("finished initializing");
     engine->animating = 1; 
@@ -350,20 +308,18 @@ void android_main(struct android_app* state) {
             if (source != NULL) {
                 source->process(state, source);
             }
-
         }
+
         if (engine.animating)
         {
             if (engine.ninecraftApp->wantToQuit())
-            {
                 break;
-            }
+
             engine.ninecraftApp->update();
             eglSwapBuffers(engine.display, engine.surface);
         }
     }
+
     engine.ninecraftApp->saveOptions();
-
-
     delete engine.ninecraftApp;
 }

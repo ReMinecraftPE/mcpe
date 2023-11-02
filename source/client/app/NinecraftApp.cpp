@@ -114,11 +114,6 @@ void NinecraftApp::update()
 	++m_fps;
 	Multitouch::commit();
 	Minecraft::update();
-
-#ifdef ORIGINAL_CODE
-	eglSwapBuffers(field_8, m_rotY);
-#endif
-
 	Mouse::reset2();
 	updateStats();
 }
