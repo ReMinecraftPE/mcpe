@@ -90,7 +90,6 @@ add_library(reminecraftpe-core STATIC
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
-    client/network/ClientSideNetworkHandler.cpp
     client/player/input/IBuildInput.cpp
     client/player/input/IncludeExcludeArea.cpp
     client/player/input/MouseHandler.cpp
@@ -106,6 +105,7 @@ add_library(reminecraftpe-core STATIC
     client/player/input/TouchInputHolder.cpp
     client/player/input/TouchscreenInput_TestFps.cpp
     client/player/input/UnifiedTurnBuild.cpp
+    client/network/ClientSideNetworkHandler.cpp
     network/packets/UpdateBlockPacket.cpp
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
