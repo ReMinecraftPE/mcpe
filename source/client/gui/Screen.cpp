@@ -295,12 +295,12 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 
 	if (m_pClickedButton)
 	{
-		m_pClickedButton->released(xPos, yPos);
-		if (m_pMinecraft->isTouchscreen())
+		if (m_pMinecraft->isTouchscreen() && button->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pMinecraft->m_pSoundEngine->play("random.click");
 			buttonClicked(m_pClickedButton);
 		}
+		m_pClickedButton->released(xPos, yPos);
 		m_pClickedButton = nullptr;
 	}
 }
