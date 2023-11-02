@@ -242,9 +242,12 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		if (button->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pClickedButton = button;
-			m_pMinecraft->m_pSoundEngine->play("random.click");
 
-			buttonClicked(button);
+			if (!m_pMinecraft->isTouchscreen())
+			{
+				m_pMinecraft->m_pSoundEngine->play("random.click");
+				buttonClicked(button);
+			}
 		}
 	}
 
@@ -293,6 +296,11 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 	if (m_pClickedButton)
 	{
 		m_pClickedButton->released(xPos, yPos);
+		if (m_pMinecraft->isTouchscreen())
+		{
+			m_pMinecraft->m_pSoundEngine->play("random.click");
+			buttonClicked(m_pClickedButton);
+		}
 		m_pClickedButton = nullptr;
 	}
 }
