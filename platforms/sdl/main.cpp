@@ -385,7 +385,7 @@ int main(int argc, char *argv[])
 #elif defined(__EMSCRIPTEN__)
 	storagePath = "";
 #elif defined(ANDROID)
-	storagePath = SDL_AndroidGetInternalStoragePath();
+	storagePath = SDL_AndroidGetExternalStoragePath();
 #else
 	storagePath = getenv("HOME");
 #endif
