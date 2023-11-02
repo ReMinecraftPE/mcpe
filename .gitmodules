@@ -4,3 +4,9 @@
 [submodule "thirdparty/gles-compatibility-layer"]
 	path = thirdparty/gles-compatibility-layer
 	url = https://github.com/TheBrokenRail/gles-compatibility-layer.git
+[submodule "thirdparty/SDL-src"]
+	path = thirdparty/SDL-src
+	url = https://github.com/libsdl-org/SDL
+[submodule "thirdparty/LibPNG-src"]
+	path = thirdparty/LibPNG-src
+	url = https://github.com/glennrp/libpng

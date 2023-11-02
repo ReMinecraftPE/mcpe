@@ -326,7 +326,7 @@ void GameRenderer::setupFog(int i)
 
 	if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::water))
 	{
-	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
+	#if defined(ORIGINAL_CODE) || defined(ANDROID)
 		glFogx(GL_FOG_MODE, GL_EXP);
 	#else
 		glFogi(GL_FOG_MODE, GL_EXP);
@@ -336,7 +336,7 @@ void GameRenderer::setupFog(int i)
 	}
 	else if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::lava))
 	{
-	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
+	#if defined(ORIGINAL_CODE) || defined(ANDROID)
 		glFogx(GL_FOG_MODE, GL_EXP);
 	#else
 		glFogi(GL_FOG_MODE, GL_EXP);
@@ -346,7 +346,7 @@ void GameRenderer::setupFog(int i)
 	}
 	else
 	{
-	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
+	#if defined(ORIGINAL_CODE) || defined(ANDROID)
 		glFogx(GL_FOG_MODE, GL_LINEAR);
 	#else
 		glFogi(GL_FOG_MODE, GL_LINEAR);

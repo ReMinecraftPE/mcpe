@@ -149,7 +149,7 @@ void Options::_initDefaultValues()
 	KM(KM_FLY_DOWN,      SDLVK_x);
 	KM(KM_CHAT_CMD,      SDLVK_SLASH);
 #endif
-#ifdef __ANDROID__
+#if defined(ANDROID) && !defined(USE_SDL)
 	// -- Original xperia play controls
 	//KM(KM_FORWARD,       AKEYCODE_DPAD_UP);
 	//KM(KM_LEFT,          AKEYCODE_DPAD_LEFT);

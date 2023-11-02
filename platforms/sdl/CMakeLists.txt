@@ -43,20 +43,38 @@ if(EMSCRIPTEN)
 else()
     list(APPEND SOURCES desktop/AppPlatform_sdl.cpp)
 endif()
-add_executable(reminecraftpe ${SOURCES})
+if(ANDROID)
+    add_library(reminecraftpe SHARED ${SOURCES})
+    set_target_properties(reminecraftpe PROPERTIES OUTPUT_NAME main)
+    target_link_libraries(reminecraftpe log)
+else()
+    add_executable(reminecraftpe ${SOURCES})
+endif()
 
 # Core
 add_subdirectory(../../source source)
 target_link_libraries(reminecraftpe reminecraftpe-core)
 
 # OpenAL
-add_subdirectory(../openal openal)
-target_link_libraries(reminecraftpe reminecraftpe-openal)
+if(NOT ANDROID)
+    add_subdirectory(../openal openal)
+    target_link_libraries(reminecraftpe reminecraftpe-openal)
+endif()
 
 # LibPNG (If Needed)
 if(NOT EMSCRIPTEN)
-    find_package(PNG REQUIRED)
-    target_link_libraries(reminecraftpe PNG::PNG)
+    if(ANDROID)
+        # Vendor LibPNG
+        add_subdirectory(../../thirdparty/LibPNG-src libpng EXCLUDE_FROM_ALL)
+        target_include_directories(png_static INTERFACE
+            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/LibPNG-src>"
+            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/libpng>"
+        )
+        target_link_libraries(reminecraftpe png_static)
+    else()
+        find_package(PNG REQUIRED)
+        target_link_libraries(reminecraftpe PNG::PNG)
+    endif()
 endif()
 
 # SDL

@@ -22,7 +22,7 @@ ControllerTurnInput::ControllerTurnInput()
 
 TurnDelta ControllerTurnInput::getTurnDelta()
 {
-#ifdef __ANDROID__
+#if defined(ANDROID) && !defined(USE_SDL)
 	return TurnDelta(Controller::getX(m_stickNo) * 50.f, Controller::getY(m_stickNo) * 60.f);
 #endif
 
