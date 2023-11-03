@@ -13,6 +13,7 @@ if(EMSCRIPTEN)
         add_link_options(${ARGV})
     endfunction()
     set(CMAKE_EXECUTABLE_SUFFIX ".js")
+    add_link_options("$<$<CONFIG:DEBUG>:-gsource-map>")
 endif()
 
 # Clang
