@@ -72,7 +72,7 @@ build.
 
 ## Building
 
-### Windows (VS 2022)
+### Windows
 
 The project is configured to target Windows XP by default by using "v141_xp" build tools. If you would like
 to build with Windows XP support, please follow the guide [here](https://learn.microsoft.com/en-us/cpp/build/configuring-programs-for-windows-xp?view=msvc-170#install-the-windows-xp-platform-toolset)
@@ -99,19 +99,6 @@ Once you have the proper build tools installed (v140_xp or newer), you can now b
 
 After building, place the `assets` folder you have prepared in the working directory of the output executable.
 (if running from VS, it's in `game/`, otherwise, where your executable is)
-
-### Windows (VS 2010)
-
-This target is only around for testing to allow for building on older versions of Windows and to allow for the
-potential targetting of pre-XP versions of Windows. The VS2022 target will also build for XP, so using it over
-the VS2010 one is recommended.
-
-To compile, you will **need the Microsoft Platform SDK and the DirectX (June 2010) SDK**. After that, follow
-the same steps as the VS2022 build. (open the minecraftcpp_vs2010.sln project instead of the minecraftcpp.sln
-project).
-
-**Note!** If you are running from within VirtualBox, disable mouse integration (absolute mouse), or the camera
-won't work properly.
 
 ### WebAssembly
 
