@@ -58,12 +58,38 @@ NSThread *G_drawFrameThread = nullptr;
 
 - (int)width
 {
-    return [[UIScreen mainScreen] bounds].size.width;
+    CGRect bounds;
+    UIScreen *screen = [UIScreen mainScreen];
+    if (screen)
+    {
+        bounds = screen.bounds;
+    }
+    else
+    {
+        bounds.origin.x = 0, bounds.origin.y = 0;
+        bounds.size.width = 0, bounds.size.height = 0;
+    }
+    if (bounds.size.width > bounds.size.height)
+        bounds.size.height = bounds.size.width;
+    return bounds.size.width * self->viewScale;
 }
 
 - (int)height
 {
-    return [[UIScreen mainScreen] bounds].size.height;
+    CGRect bounds;
+    UIScreen *screen = [UIScreen mainScreen];
+    if (screen)
+    {
+        bounds = screen.bounds;
+    }
+    else
+    {
+        bounds.origin.x = 0, bounds.origin.y = 0;
+        bounds.size.width = 0, bounds.size.height = 0;
+    }
+    if (bounds.size.width > bounds.size.height)
+        bounds.size.height = bounds.size.width;
+    return bounds.size.height * self->viewScale;
 }
 
 - (void)updateDrawSize
@@ -173,15 +199,15 @@ NSThread *G_drawFrameThread = nullptr;
     AppPlatform_iOS *platform = new AppPlatform_iOS();
     self->_platform = platform;
     
-    AppContext *context = new AppContext();
-    context->platform = platform;
-    self->_context = context;
+    AppContext *ctx = new AppContext();
+    ctx->platform = platform;
+    self->_context = ctx;
     self->viewScale = 1.0;
     
     NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 1u, YES) objectAtIndex:0];
     App *app = new NinecraftApp();
     self->_app = app;
-    context->doRender = [dir UTF8String];
+    ctx->doRender = [dir UTF8String];
     
     [self initView];
 }

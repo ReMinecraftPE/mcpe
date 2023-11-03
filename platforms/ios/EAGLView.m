@@ -38,6 +38,17 @@
                                         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
                                         kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
                                         nil];
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
+        {
+            if ([self respondsToSelector:@selector(setContentScaleFactor:)])
+            {
+                float scale = [[UIScreen mainScreen] scale];
+                self->viewScale = scale;
+                NSLog(@"Scale is : %f\n", scale);
+                [self setContentScaleFactor:self->viewScale];
+                [eaglLayer setContentsScale:self->viewScale];
+            }
+        }
     }
     
     return self;
@@ -85,12 +96,15 @@
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
 
 		//  Add depth buffer
-		glGenRenderbuffers(1, &depthRenderbuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, 
+		glGenRenderbuffersOES(1, &depthRenderbuffer);
+		glBindRenderbufferOES(GL_RENDERBUFFER, depthRenderbuffer);
+		glRenderbufferStorageOES(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES,
+							  framebufferWidth, framebufferHeight);
+		glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
 								  GL_RENDERBUFFER, depthRenderbuffer );
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, 
-							  self.bounds.size.width, self.bounds.size.height);		
+		glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
+                                     GL_RENDERBUFFER, depthRenderbuffer );
+        NSLog(@"Created framebuffer with size %d, %d\n", framebufferWidth, framebufferHeight);
 		
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));

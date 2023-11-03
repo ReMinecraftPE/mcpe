@@ -811,7 +811,13 @@ void Minecraft::init()
 	m_pGameMode = new CreativeMode(this);
 #endif
 
-	m_pFont = new Font(m_options, "font/default.png", m_pTextures);
+#ifdef TARGET_OS_IOS
+    // "Default.png" for the launch image overwrites "default.png" for the font during app packaging
+    const char *fontImagePath = "font/default8.png";
+#else
+    const char *fontImagePath = "font/default.png";
+#endif
+	m_pFont = new Font(m_options, fontImagePath, m_pTextures);
 
 	if (GrassColor::isAvailable())
 	{

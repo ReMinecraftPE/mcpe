@@ -28,6 +28,8 @@
     // The OpenGL ES names for the framebuffer and renderbuffer used to render to this view.
     GLuint defaultFramebuffer, colorRenderbuffer;
 	GLuint depthRenderbuffer;
+    
+    float viewScale;
 }
 
 @property (nonatomic, retain) EAGLContext *context;
