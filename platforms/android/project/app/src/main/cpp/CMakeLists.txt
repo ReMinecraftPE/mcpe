@@ -10,9 +10,6 @@ cmake_minimum_required(VERSION 3.16.0)
 
 project("reminecraftpe")
 
-# Add the ANDROID flag. Used by our core
-set(ANDROID)
-
 # The root of the project
 SET(MC_ROOT ../../../../../../..)
 
