@@ -49,6 +49,7 @@ target_link_libraries(reminecraftpe reminecraftpe-openal)
 
 # LibPNG (If Needed)
 if(NOT EMSCRIPTEN)
+    # System LibPNG
     find_package(PNG REQUIRED)
     target_link_libraries(reminecraftpe PNG::PNG)
 endif()
