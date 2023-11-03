@@ -1,6 +1,9 @@
 [submodule "thirdparty/coi-serviceworker"]
 	path = thirdparty/coi-serviceworker
-	url = https://github.com/gzuidhof/coi-serviceworker
+	url = https://github.com/gzuidhof/coi-serviceworker.git
 [submodule "thirdparty/gles-compatibility-layer"]
 	path = thirdparty/gles-compatibility-layer
 	url = https://github.com/TheBrokenRail/gles-compatibility-layer.git
+[submodule "thirdparty/zlib"]
+	path = thirdparty/zlib
+	url = https://github.com/madler/zlib.git
