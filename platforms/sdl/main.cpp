@@ -35,10 +35,6 @@ static void teardown()
 
 static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 {
-	if (sdlCode == SDLK_AC_BACK) {
-		// Android Back Button
-		sdlCode = SDLK_ESCAPE;
-	}
 	switch (sdlCode) {
 		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
 		#include "compat/SDLKeyCodes.h"
@@ -135,7 +131,14 @@ static void handle_events()
 					break;
 				}
 				*/
-				
+
+				// Android Back Button
+				if (event.key.keysym.sym == SDLK_AC_BACK) {
+					g_pApp->handleBack(event.key.state == SDL_PRESSED);
+					break;
+				}
+
+				// Normal Key Press
 				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
@@ -339,6 +342,10 @@ int main(int argc, char *argv[])
 
 	// Create Window
 	int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
+#ifdef ANDROID
+	// Android Immersive Mode
+	flags |= SDL_WINDOW_FULLSCREEN;
+#endif
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
 	if (!window)
 	{
@@ -366,11 +373,6 @@ int main(int argc, char *argv[])
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
-#endif
-
-	// Android Immersive Mode
-#ifdef ANDROID
-	SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 #endif
 
 	// Setup Compatibility Layer If Needed

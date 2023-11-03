@@ -546,3 +546,12 @@ std::string StartMenuScreen::getSplashString()
 
 	return std::string(gSplashes[m_chosenSplash]);
 }
+
+bool StartMenuScreen::handleBackEvent(bool b)
+{
+	if (!b)
+	{
+		m_pMinecraft->quit();
+	}
+	return true;
+}
