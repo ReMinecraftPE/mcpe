@@ -8,6 +8,7 @@ jobs:
     linux:
         strategy:
             matrix:
+                fail-fast: false
                 include:
                   - name: OpenGL ES
                     flags: "-DUSE_GLES1_COMPATIBILITY_LAYER=ON"
@@ -48,6 +49,7 @@ jobs:
     android:
         strategy:
             matrix:
+                fail-fast: false
                 include:
                   - name: SDL
                     directory: platforms/sdl/android
