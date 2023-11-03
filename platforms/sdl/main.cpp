@@ -342,10 +342,6 @@ int main(int argc, char *argv[])
 
 	// Create Window
 	int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
-#ifdef ANDROID
-	// Android Immersive Mode
-	flags |= SDL_WINDOW_FULLSCREEN;
-#endif
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
 	if (!window)
 	{

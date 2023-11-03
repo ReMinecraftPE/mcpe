@@ -283,7 +283,17 @@ void AppPlatform_android::setShiftPressed(bool b)
 	m_bShiftPressed = b;
 }
 
-void AppPlatform_android::showKeyboard(bool bShown)
+void AppPlatform_android::showKeyboard(int x, int y, int w, int h)
+{
+	changeKeyboardVisibility(true);
+}
+
+void AppPlatform_android::hideKeyboard()
+{
+	changeKeyboardVisibility(false);
+}
+
+void AppPlatform_android::changeKeyboardVisibility(bool bShown)
 {
 	JavaVM* pVM = m_app->activity->vm;
 	JNIEnv* pEnv = m_app->activity->env;
@@ -338,11 +348,6 @@ void AppPlatform_android::showKeyboard(bool bShown)
 		m_bIsKeyboardShown = false; // just treat it as hidden anyways why not
 	}
 	pVM->DetachCurrentThread();
-}
-
-void AppPlatform_android::onHideKeyboard()
-{
-	m_bIsKeyboardShown = false;
 }
 
 int AppPlatform_android::getKeyboardUpOffset()

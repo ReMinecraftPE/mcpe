@@ -23,6 +23,7 @@ class TextInputBox : public GuiComponent
 {
 public:
 	TextInputBox(Screen*, int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
+	~TextInputBox();
 
 	void init(Font* pFont);
 	void setEnabled(bool bEnabled);
@@ -30,8 +31,8 @@ public:
 	void charPressed(int chr);
 	void render();
 	void tick();
-	void setFocused(Minecraft*, bool b);
-	void onClick(Minecraft*, int x, int y);
+	void setFocused(bool b);
+	void onClick(int x, int y);
 	bool clicked(int x, int y);
 
 public:

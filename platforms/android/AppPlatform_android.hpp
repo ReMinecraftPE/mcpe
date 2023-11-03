@@ -46,8 +46,8 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b);
-	void showKeyboard(bool bShown) override;
-	void onHideKeyboard() override; // This is an event
+	void showKeyboard(int x, int y, int w, int h) override;
+	void hideKeyboard() override;
 	int getKeyboardUpOffset() override;
 	
 	// Also add these to allow saving options.
@@ -63,6 +63,8 @@ public:
 	void setExternalStoragePath(const std::string& path);
 
 private:
+	void changeKeyboardVisibility(bool bShown);
+
 	int m_ScreenWidth;
 	int m_ScreenHeight;
 
