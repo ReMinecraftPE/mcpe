@@ -42,7 +42,8 @@ public:
 	void handleClick(int id, int mx, int my);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
-	int getNumSlots();
+	int getNumSlots();					  // Gets the number of slots in the inventory. Includes the '...' if in touch mode.
+	int getNumUsableSlots();			  // Gets the number of usable slots in the inventory. Does not include the '...' if in touch mode.
 	RectangleArea getRectangleArea(bool b);
 
 public:

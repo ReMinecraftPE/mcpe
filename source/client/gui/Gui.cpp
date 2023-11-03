@@ -536,6 +536,11 @@ int Gui::getNumSlots()
 	return 9;
 }
 
+int Gui::getNumUsableSlots()
+{
+	return getNumSlots() - m_pMinecraft->isTouchscreen();
+}
+
 RectangleArea Gui::getRectangleArea(bool b)
 {
 	float centerX = Minecraft::width / 2;

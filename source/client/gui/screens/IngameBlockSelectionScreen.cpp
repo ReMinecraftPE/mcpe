@@ -179,7 +179,7 @@ void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();
 	
-	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_gui.getNumSlots());
+	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_gui.getNumUsableSlots());
 
 	m_pMinecraft->m_pSoundEngine->play("random.click");
 	m_pMinecraft->setScreen(nullptr);
