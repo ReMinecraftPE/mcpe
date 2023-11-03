@@ -309,7 +309,7 @@ if(USE_SDL)
     target_link_libraries(reminecraftpe-core PUBLIC SDL)
 
     # OpenGL
-    if(NOT EMSCRIPTEN)
+    if(NOT EMSCRIPTEN AND NOT ANDROID)
         option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
     else()
         set(USE_GLES1_COMPATIBILITY_LAYER TRUE CACHE BOOL "" FORCE)
