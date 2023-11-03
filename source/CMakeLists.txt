@@ -233,21 +233,15 @@ add_library(reminecraftpe-core STATIC
     world/tile/DoorTile.cpp
     renderer/GL/GL.cpp
 )
-target_include_directories(reminecraftpe-core PUBLIC . ..)
+target_include_directories(reminecraftpe-core PUBLIC . .. ../thirdparty/zlib)
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
 # zlib
-find_package(ZLIB)
-if(ZLIB_FOUND)
-    target_link_libraries(reminecraftpe-core PUBLIC ZLIB::ZLIB)
-else()
-    add_subdirectory(../thirdparty/zlib zlib EXCLUDE_FROM_ALL)
-    target_link_libraries(reminecraftpe-core PUBLIC zlibstatic)
-    target_include_directories(reminecraftpe-core PUBLIC ../thirdparty/zlib "${CMAKE_CURRENT_BINARY_DIR}/zlib")
-endif()
+add_subdirectory(../thirdparty/zlib zlib)
+target_link_libraries(reminecraftpe-core PUBLIC zlib)
 
 # SDL
 add_library(SDL INTERFACE)
