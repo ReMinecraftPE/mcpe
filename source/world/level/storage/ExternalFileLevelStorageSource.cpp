@@ -58,7 +58,16 @@ void ExternalFileLevelStorageSource::getLevelList(std::vector<LevelSummary>& vls
 
 		LOG_I("Entry: %s", de->d_name);
 
+#if defined( __HAIKU__ )
+		// @HACK: make a temp buffer here
+		char tempbuf[PATH_MAX];
+		snprintf( tempbuf, sizeof( tempbuf ), "%s/%s", m_worldsPath.c_str(), de->d_name );
+
+		struct stat buf;
+		if ( ( lstat( tempbuf, &buf ) == 0 ) && S_ISDIR( buf.st_mode ) )
+#else
 		if (de->d_type == DT_DIR)
+#endif
 		{
 			addLevelSummaryIfExists(vls, de->d_name);
 		}
