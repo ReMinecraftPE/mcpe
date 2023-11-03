@@ -28,7 +28,7 @@ android {
             .dependsOn("externalNativeBuild${variant.name.capitalize()}")
     }
     sourceSets.main {
-        java.srcDir '../../../../thirdparty/SDL-src/android-project/app/src/main/java'
+        java.srcDir '../../../../thirdparty/SDL2/src/android-project/app/src/main/java'
     }
     externalNativeBuild {
         cmake {

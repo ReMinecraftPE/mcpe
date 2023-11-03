@@ -288,13 +288,13 @@ else()
 endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib)
 
-# Extra Dependencies
+# Platform Dependencies
 if(USE_SDL)
     # SDL
     add_library(SDL INTERFACE)
     if(ANDROID)
         # Use Vendored SDL2 (Only For Android)
-        add_subdirectory(../thirdparty/SDL-src SDL EXCLUDE_FROM_ALL)
+        add_subdirectory(../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
         target_link_libraries(SDL INTERFACE SDL2::SDL2)
     elseif(EMSCRIPTEN)
         # Use Emscripten's SDL2
@@ -321,13 +321,14 @@ if(USE_SDL)
         target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
         target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
         if(EMSCRIPTEN)
+            # Use WebGL 2
             target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
         endif()
     else()
         find_package(OpenGL REQUIRED)
         target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
     endif()
-elseif(ANDROID)
+elseif(USE_NATIVE_ANDROID)
     # OpenGL
     target_link_libraries(reminecraftpe-core PUBLIC EGL GLESv1_CM)
 endif()
