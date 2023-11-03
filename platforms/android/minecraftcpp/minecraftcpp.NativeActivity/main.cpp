@@ -59,6 +59,52 @@ static float mapTrigger(AInputEvent* event, int32_t axis)
 static bool s_lastR = false;
 static bool s_lastL = false;
 
+static char getCharFromKey(int32_t keyCode, int32_t metaState)
+{
+    bool bShiftPressed = metaState & AMETA_SHIFT_ON;
+
+    // well you can't really press alt-X or ctrl-X and expect an actual character
+    if (metaState & (AMETA_ALT_ON | AMETA_CTRL_ON))
+        return '\0';
+
+    // Alphabet
+    if (keyCode >= AKEYCODE_A && keyCode <= AKEYCODE_Z)
+        return char((keyCode - AKEYCODE_A) + (bShiftPressed ? 'A' : 'a'));
+
+    // Digits
+    if (keyCode >= AKEYCODE_0 && keyCode <= AKEYCODE_9)
+    {
+        static const char* shiftmap = ")!@#$%^&*(";
+        return char(bShiftPressed ? shiftmap[keyCode - AKEYCODE_0] : (keyCode - AKEYCODE_0 + '0'));
+    }
+
+    // NumPad
+    if (keyCode >= AKEYCODE_NUMPAD_0 && keyCode <= AKEYCODE_NUMPAD_9)
+        return char(keyCode + '0' - AKEYCODE_NUMPAD_0);
+
+    switch (keyCode)
+    {
+        case AKEYCODE_DEL:           return '\b';
+        case AKEYCODE_FORWARD_DEL:   return '\001';
+        case AKEYCODE_ARROW_LEFT:    return '\002';
+        case AKEYCODE_ARROW_RIGHT:   return '\003';
+        case AKEYCODE_SPACE:         return ' ';
+        case AKEYCODE_COMMA:         return bShiftPressed ? '<' : ',';
+        case AKEYCODE_PERIOD:        return bShiftPressed ? '>' : '.';
+        case AKEYCODE_EQUALS:        return bShiftPressed ? '+' : '=';
+        case AKEYCODE_MINUS:         return bShiftPressed ? '_' : '-';
+        case AKEYCODE_SEMICOLON:     return bShiftPressed ? ':' : ';';
+        case AKEYCODE_SLASH:         return bShiftPressed ? '?' : '/';
+        case AKEYCODE_GRAVE:         return bShiftPressed ? '~' : '`';
+        case AKEYCODE_BACKSLASH:     return bShiftPressed ? '|' : '\\';
+        case AKEYCODE_APOSTROPHE:    return bShiftPressed ? '"' : '\'';
+        case AKEYCODE_LEFT_BRACKET:  return bShiftPressed ? '{' : '[';
+        case AKEYCODE_RIGHT_BRACKET: return bShiftPressed ? '}' : ']';
+    }
+
+    return '\0';
+}
+
 static int evalKeyInput(struct engine* engine, AInputEvent* event)
 {
     bool keyDown = AKeyEvent_getAction(event) == AKEY_EVENT_ACTION_DOWN;
@@ -71,8 +117,15 @@ static int evalKeyInput(struct engine* engine, AInputEvent* event)
 
     int repeatCount = AKeyEvent_getRepeatCount(event);
     if (repeatCount <= 0 && !isBack)
-        Keyboard::feed(keyDown ? Keyboard::UP : Keyboard::DOWN, keyCode);
+        Keyboard::feed(keyDown ? Keyboard::DOWN : Keyboard::UP, keyCode);
 
+    // We define HANDLE_CHARS_SEPARATELY but have to fake it
+    if (keyDown) {
+        char chr = getCharFromKey(keyCode, AKeyEvent_getMetaState(event));
+        if (chr != '\0')
+            engine->ninecraftApp->handleCharInput(chr);
+    }
+    
     if (keyCode == AKEYCODE_BACK)
     {
         if (repeatCount == 0)

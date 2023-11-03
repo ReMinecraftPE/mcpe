@@ -650,7 +650,7 @@ void GameRenderer::render(float f)
 	if (m_pMinecraft->m_pScreen)
 	{
 		glClear(GL_DEPTH_BUFFER_BIT);
-		m_pMinecraft->m_pScreen->render(mouseX, mouseY, f);
+		m_pMinecraft->m_pScreen->onRender(mouseX, mouseY, f);
 
 		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())
 		{

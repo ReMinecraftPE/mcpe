@@ -46,6 +46,9 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b);
+	void showKeyboard(bool bShown) override;
+	void onHideKeyboard() override; // This is an event
+	int getKeyboardUpOffset() override;
 	
 	// Also add these to allow saving options.
 	//void setOptionStrings(const std::vector <std::string>& str) override;
@@ -71,6 +74,7 @@ private:
 	bool m_bActuallyGrabbedMouse;
 	bool m_bWasUnfocused;
 	bool m_bShiftPressed;
+	bool m_bIsKeyboardShown;
 
 	int m_MouseDiffX, m_MouseDiffY;
 

@@ -26,6 +26,7 @@ AppPlatform_android::AppPlatform_android()
 	m_bActuallyGrabbedMouse = false;
 	m_bWasUnfocused = false;
 	m_bShiftPressed = false;
+	m_bIsKeyboardShown = false;
 
 	m_MouseDiffX = 0, m_MouseDiffY = 0;
 
@@ -257,4 +258,73 @@ bool AppPlatform_android::shiftPressed()
 void AppPlatform_android::setShiftPressed(bool b)
 {
 	m_bShiftPressed = b;
+}
+
+void AppPlatform_android::showKeyboard(bool bShown)
+{
+	JavaVM* pVM = m_app->activity->vm;
+	JNIEnv* pEnv = m_app->activity->env;
+
+	// This is horrible. However, I refuse to introduce J*va into my code.
+	// Stolen from https://stackoverflow.com/questions/5864790/how-to-show-the-soft-keyboard-on-native-activity
+
+	pVM->AttachCurrentThread(&pEnv, NULL);
+
+	jint flags = 0;
+
+	// Retrieves NativeActivity.
+	jobject lNativeActivity = m_app->activity->clazz;
+	jclass ClassNativeActivity = pEnv->GetObjectClass(lNativeActivity);
+
+	// Retrieves Context.INPUT_METHOD_SERVICE.
+	jclass ClassContext = pEnv->FindClass("android/content/Context");
+	jfieldID FieldINPUT_METHOD_SERVICE = pEnv->GetStaticFieldID(ClassContext, "INPUT_METHOD_SERVICE", "Ljava/lang/String;");
+	jobject INPUT_METHOD_SERVICE = pEnv->GetStaticObjectField(ClassContext, FieldINPUT_METHOD_SERVICE);
+
+	// Runs getSystemService(Context.INPUT_METHOD_SERVICE).
+	jclass ClassInputMethodManager = pEnv->FindClass("android/view/inputmethod/InputMethodManager");
+	jmethodID MethodGetSystemService = pEnv->GetMethodID(ClassNativeActivity, "getSystemService","(Ljava/lang/String;)Ljava/lang/Object;");
+	jobject lInputMethodManager = pEnv->CallObjectMethod(lNativeActivity, MethodGetSystemService,INPUT_METHOD_SERVICE);
+
+	// Runs getWindow().getDecorView().
+	jmethodID MethodGetWindow = pEnv->GetMethodID(ClassNativeActivity, "getWindow","()Landroid/view/Window;");
+	jobject lWindow = pEnv->CallObjectMethod(lNativeActivity,MethodGetWindow);
+	jclass ClassWindow = pEnv->FindClass("android/view/Window");
+	jmethodID MethodGetDecorView = pEnv->GetMethodID(ClassWindow, "getDecorView", "()Landroid/view/View;");
+	jobject lDecorView = pEnv->CallObjectMethod(lWindow,MethodGetDecorView);
+
+	if (bShown)
+	{
+		// Runs lInputMethodManager.showSoftInput(...).
+		jmethodID MethodShowSoftInput = pEnv->GetMethodID(ClassInputMethodManager, "showSoftInput","(Landroid/view/View;I)Z");
+		jboolean lResult = pEnv->CallBooleanMethod(lInputMethodManager, MethodShowSoftInput,lDecorView, flags);
+		
+		m_bIsKeyboardShown = lResult;
+	}
+	else
+	{
+		// Runs lWindow.getViewToken()
+		jclass ClassView = pEnv->FindClass("android/view/View");
+		jmethodID MethodGetWindowToken = pEnv->GetMethodID(ClassView, "getWindowToken", "()Landroid/os/IBinder;");
+		jobject lBinder = pEnv->CallObjectMethod(lDecorView,MethodGetWindowToken);
+
+		// lInputMethodManager.hideSoftInput(...).
+		jmethodID MethodHideSoftInput = pEnv->GetMethodID(ClassInputMethodManager, "hideSoftInputFromWindow","(Landroid/os/IBinder;I)Z");
+		jboolean lResult = pEnv->CallBooleanMethod(lInputMethodManager, MethodHideSoftInput,lBinder, flags);
+
+		m_bIsKeyboardShown = false; // just treat it as hidden anyways why not
+	}
+	pVM->DetachCurrentThread();
+}
+
+void AppPlatform_android::onHideKeyboard()
+{
+	m_bIsKeyboardShown = false;
+}
+
+int AppPlatform_android::getKeyboardUpOffset()
+{
+	// @TODO
+	// For now we'll just return 1/2 of the screen height. That ought to cover most cases.
+	return m_ScreenHeight / 2;
 }
