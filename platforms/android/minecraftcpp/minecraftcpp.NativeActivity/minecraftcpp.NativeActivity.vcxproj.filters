@@ -1,0 +1,2233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\GameMods.hpp" />
+    <ClInclude Include="$(RAKNET_PATH)\Base64Encoder.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\_FindFirst.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\AutopatcherPatchContext.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\AutopatcherRepositoryInterface.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\CCRakNetSlidingWindow.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\BitStream.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\CCRakNetUDT.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\CheckSum.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\CommandParserInterface.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\CloudServer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\CloudCommon.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\CloudClient.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ConsoleServer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ConnectionGraph2.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DataCompressor.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DirectoryDeltaTransfer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DR_SHA1.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_BinarySearchTree.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_BPlusTree.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_BytePool.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_ByteQueue.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_Hash.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_Heap.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_HuffmanEncodingTree.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_HuffmanEncodingTreeFactory.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_HuffmanEncodingTreeNode.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_LinkedList.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_List.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_Map.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_MemoryPool.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_Multilist.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_OrderedChannelHeap.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_OrderedList.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_Queue.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_QueueLinkedList.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_RangeList.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_Table.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_ThreadsafeAllocatingQueue.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_Tree.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DS_WeightedGraph.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\DynDNS.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\EmailSender.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\EmptyHeader.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Export.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\EpochTimeToString.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\FileList.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\FileListNodeContext.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\FileListTransfer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\FileListTransferCBInterface.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\FileOperations.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\FormatString.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\FullyConnectedMesh2.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Getche.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Gets.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\GetTime.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\gettimeofday.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\GridSectorizer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\HTTPConnection.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\HTTPConnection2.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\IncrementalReadInterface.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\InternalPacket.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Itoa.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Kbhit.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="android_native_app_glue.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\platforms\android\AppPlatform_android.hpp">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\LongHack.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\GL.hpp">
+      <Filter>thirdparty\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\thirdparty\GL\glext.h">
+      <Filter>thirdparty\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\LinuxStrings.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\LocklessTypes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\LogCommandParser.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Matrix.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\MessageIdentifiers.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\MessageFilter.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Mth.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\MTUSize.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NetworkIDObject.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NetworkIDManager.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NatTypeDetectionServer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NatTypeDetectionCommon.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NatTypeDetectionClient.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NatPunchthroughServer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NatPunchthroughClient.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NativeTypes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NativeFeatureIncludesOverrides.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\NativeFeatureIncludes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\Packet.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PacketPriority.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PacketPool.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PacketOutputWindowLogger.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PacketLogger.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PacketizedTCP.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PacketFileLogger.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PacketConsoleLogger.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetDefinesOverrides.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetDefines.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetCommandParser.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakMemoryOverride.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakAssert.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakAlloca.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Rackspace.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PS4Includes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PS3Includes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\PluginInterface2.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\PingedCompatibleServer.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Rand.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakWString.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakThread.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakString.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakSleep.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakPeerInterface.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakPeer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetVersion.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetTypes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetTransport2.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetTime.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetStatistics.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetSocket2.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetSocket.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RakNetSmartPtr.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Random.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ReadyEvent.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RandSync.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RefCountedObj.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RelayPlugin.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ReliabilityLayer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ReplicaEnums.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ReplicaManager3.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\Router2.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\RPC4Plugin.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SecureHandshake.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SendToThread.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SignaledEvent.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SimpleMutex.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SimpleTCPServer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SingleProducerConsumer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SocketDefines.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SocketIncludes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SocketLayer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\StatisticsHistory.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\StringCompressor.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\StringTable.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\SuperFastHash.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\TableSerializer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\TCPInterface.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\TeamBalancer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\TeamManager.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\TelnetTransport.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ThreadPool.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\ThreadsafePacketLogger.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\TransportInterface.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\TwoWayAuthentication.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\UDPForwarder.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyCommon.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyClient.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyCoordinator.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\UDPProxyServer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\VariableDeltaSerializer.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\VariableListDeltaTracker.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\VariadicSQLParser.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\VitaIncludes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\WindowsIncludes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\WSAStartupSingleton.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(RAKNET_PATH)\XBox360Includes.h">
+      <Filter>thirdparty\raknet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\NetEventCallback.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Timer.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Util.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\app\AppPlatform.hpp">
+      <Filter>client\app</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\app\App.hpp">
+      <Filter>client\app</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.hpp">
+      <Filter>client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\Button.hpp">
+      <Filter>client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ChatScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Chunk.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp">
+      <Filter>client\network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\Cube.hpp">
+      <Filter>client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Culler.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\DynamicTexture.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderDispatcher.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\FallingTileRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\GameRenderer.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Font.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Frustum.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\FrustumCuller.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\Gui.hpp">
+      <Filter>client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\GuiComponent.hpp">
+      <Filter>client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IMoveInput.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IInputHolder.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IBuildInput.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\IArea.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\HumanoidMobRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\HumanoidModel.hpp">
+      <Filter>client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITurnInput.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Keyboard.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\KeyboardInput.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\app\Minecraft.hpp">
+      <Filter>client\app</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\app\NinecraftApp.hpp">
+      <Filter>client\app</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Mouse.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseDevice.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseHandler.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseTurnInput.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Multitouch.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\PolygonArea.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\RectangleArea.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\User.hpp">
+      <Filter>client\player\input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ItemRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\ItemInHandRenderer.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ItemSpriteRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\MobRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\TntRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\TripodCameraRenderer.hpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LevelRenderer.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LightLayer.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LightUpdate.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\Model.hpp">
+      <Filter>client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\options\Options.hpp">
+      <Filter>client\options</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\PatchManager.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\PolygonQuad.hpp">
+      <Filter>client\model</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.hpp">
+      <Filter>client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\ScrolledSelectionList.hpp">
+      <Filter>client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\RolledSelectionList.hpp">
+      <Filter>client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen.hpp">
+      <Filter>client\gui\screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderChunk.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderList.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\Screen.hpp">
+      <Filter>client\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\SmallButton.hpp">
+      <Filter>client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundData.hpp">
+      <Filter>client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundDefs.hpp">
+      <Filter>client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundEngine.hpp">
+      <Filter>client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundRepository.hpp">
+      <Filter>client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp">
+      <Filter>client\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\TileRenderer.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\VertexPT.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Texture.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Textures.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Tesselator.hpp">
+      <Filter>client\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\TextInputBox.hpp">
+      <Filter>client\gui\components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\AABB.hpp">
+      <Filter>world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.hpp">
+      <Filter>world\level\levelgen\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.hpp">
+      <Filter>world\level\levelgen\biome</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Bush.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\BookshelfTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\CameraItem.hpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ChunkStorage.hpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.hpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.hpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ClayTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ClothTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.hpp">
+      <Filter>world\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Dimension.hpp">
+      <Filter>world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\DoorItem.hpp">
+      <Filter>world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DirtTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DoorTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Explosion.hpp">
+      <Filter>world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorage.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorageSource.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\FallingTile.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FarmTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.hpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FireTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GlassTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GrassTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GravelTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\HalfTransparentTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\IceTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\InvisibleTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LeafTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTileDynamic.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LiquidTileStatic.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\MetalTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ObsidianTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\OreTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\ReedTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SpongeTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Sapling.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SandTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SandStoneTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StoneSlabTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StairTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\StoneTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Tile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TntTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TopSnowTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TorchTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TransparentTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TreeTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\WireTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameMode.hpp">
+      <Filter>world\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\HitResult.hpp">
+      <Filter>world\phys</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\ImprovedNoise.hpp">
+      <Filter>world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Inventory.hpp">
+      <Filter>world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Item.hpp">
+      <Filter>world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\ItemEntity.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ItemInstance.hpp">
+      <Filter>world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\LadderTile.hpp">
+      <Filter>world\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Level.hpp">
+      <Filter>world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.hpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeCaveFeature.hpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeFeature.hpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelData.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelListener.hpp">
+      <Filter>world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelSource.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\LevelStorageSource.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\LocalPlayer.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Material.hpp">
+      <Filter>world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryChunkStorage.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorage.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorageSource.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Mob.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\particle\Particle.hpp">
+      <Filter>world\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\particle\ParticleEngine.hpp">
+      <Filter>world\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.hpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\PerlinNoise.hpp">
+      <Filter>world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\PrimedTnt.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Player.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.hpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\storage\RegionFile.hpp">
+      <Filter>world\level\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\Region.hpp">
+      <Filter>world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.hpp">
+      <Filter>world\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TickNextTickData.hpp">
+      <Filter>world\level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\TilePlanterItem.hpp">
+      <Filter>world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\TileItem.hpp">
+      <Filter>world\item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\TripodCamera.hpp">
+      <Filter>world\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\synth\Synth.hpp">
+      <Filter>world\level\levelgen\synth</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.hpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\Vec3.hpp">
+      <Filter>world\phys</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(RAKNET_PATH)\Base64Encoder.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\_FindFirst.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\CCRakNetSlidingWindow.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\BitStream.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\CCRakNetUDT.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\CheckSum.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\CommandParserInterface.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\CloudServer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\CloudCommon.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\CloudClient.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\ConsoleServer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\ConnectionGraph2.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DataCompressor.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DirectoryDeltaTransfer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DR_SHA1.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DS_BytePool.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DS_ByteQueue.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DS_HuffmanEncodingTree.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DS_Table.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\DynDNS.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\EmailSender.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\EpochTimeToString.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\FileList.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\FileListTransfer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\FileOperations.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\FormatString.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\FullyConnectedMesh2.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\Getche.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\Gets.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\GetTime.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\gettimeofday.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\GridSectorizer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\HTTPConnection.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\HTTPConnection2.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\IncrementalReadInterface.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\Itoa.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="android_native_app_glue.c">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\platforms\android\AppPlatform_android.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\thirdparty\GL\GLExt.cpp">
+      <Filter>thirdparty\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\LinuxStrings.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\LocklessTypes.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\LogCommandParser.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\Matrix.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\MessageFilter.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\MinecraftPackets.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\NetworkIDObject.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\NetworkIDManager.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\NatTypeDetectionServer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\NatTypeDetectionCommon.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\NatTypeDetectionClient.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\NatPunchthroughServer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\NatPunchthroughClient.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\PacketOutputWindowLogger.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\PacketLogger.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\PacketizedTCP.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\PacketFileLogger.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\PacketConsoleLogger.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetCommandParser.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakMemoryOverride.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\Rackspace.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\PS4Includes.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\PluginInterface2.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\Rand.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakWString.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakThread.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakString.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakSleep.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakPeer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetTypes.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetTransport2.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetStatistics.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_WindowsStore8.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Windows_Linux_360.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Windows_Linux.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Vita.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_PS4.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_PS3_PS4.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_NativeClient.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Berkley_NativeClient.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_Berkley.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2_360_720.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket2.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RakNetSocket.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\Random.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\ReadyEvent.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RandSync.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RelayPlugin.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\ReliabilityLayer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\ReplicaManager3.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\Router2.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\RPC4Plugin.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\SecureHandshake.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\SendToThread.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\SignaledEvent.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\SimpleMutex.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\SocketLayer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\StatisticsHistory.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\StringCompressor.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\StringTable.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\SuperFastHash.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\TableSerializer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\TCPInterface.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\TeamBalancer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\TeamManager.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\TelnetTransport.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\ThreadsafePacketLogger.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\TwoWayAuthentication.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\UDPForwarder.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\UDPProxyClient.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\UDPProxyCoordinator.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\UDPProxyServer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\VariableDeltaSerializer.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\VariableListDeltaTracker.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\VariadicSQLParser.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\VitaIncludes.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(RAKNET_PATH)\WSAStartupSingleton.cpp">
+      <Filter>thirdparty\raknet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\NetEventCallback.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image_impl.c">
+      <Filter>thirdparty</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\Timer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\Util.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
+      <Filter>renderer\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\app\AppPlatform.cpp">
+      <Filter>client\app</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp">
+      <Filter>client\app</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
+      <Filter>client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\Button.cpp">
+      <Filter>client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ChatScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Chunk.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp">
+      <Filter>client\network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\Cube.cpp">
+      <Filter>client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Culler.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\CustomInputHolder.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\DynamicTexture.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderDispatcher.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\EntityRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\FallingTileRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FireTexture.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Font.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Frustum.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FrustumCuller.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\GameRenderer.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\Gui.cpp">
+      <Filter>client\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp">
+      <Filter>client\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IMoveInput.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IInputHolder.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\IBuildInput.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\HumanoidMobRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\HumanoidModel.cpp">
+      <Filter>client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITouchScreenModel.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITurnInput.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Keyboard.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\KeyboardInput.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\app\Minecraft.cpp">
+      <Filter>client\app</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\app\NinecraftApp.cpp">
+      <Filter>client\app</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Mouse.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseDevice.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseHandler.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseTurnInput.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Multitouch.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\PolygonArea.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\RectangleArea.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchAreaModel.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.cpp">
+      <Filter>client\player\input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ItemRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\ItemInHandRenderer.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ItemSpriteRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\MobRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\TntRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\TripodCameraRenderer.cpp">
+      <Filter>client\renderer\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LavaSideTexture.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LavaTexture.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LevelRenderer.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LightLayer.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LightUpdate.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\Model.cpp">
+      <Filter>client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\options\Options.cpp">
+      <Filter>client\options</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\OptionsScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\PatchManager.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\PauseScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\PolygonQuad.cpp">
+      <Filter>client\model</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SavingWorldScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\RenameMPLevelScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\WorldSelectionList.cpp">
+      <Filter>client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\ScrolledSelectionList.cpp">
+      <Filter>client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\RolledSelectionList.cpp">
+      <Filter>client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ProgressScreen.cpp">
+      <Filter>client\gui\screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderChunk.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderList.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\Screen.cpp">
+      <Filter>client\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\SmallButton.cpp">
+      <Filter>client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp">
+      <Filter>client\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp">
+      <Filter>client\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp">
+      <Filter>client\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp">
+      <Filter>client\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\TileRenderer.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterTexture.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Textures.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Tesselator.cpp">
+      <Filter>client\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\TextInputBox.cpp">
+      <Filter>client\gui\components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ChunkDataPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelDataPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MessagePacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MovePlayerPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\StartGamePacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RequestChunkPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveEntityPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveBlockPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\PlayerEquipmentPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\PlaceBlockPacket.cpp">
+      <Filter>network\packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\AABB.cpp">
+      <Filter>world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.cpp">
+      <Filter>world\level\levelgen\biome</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\BiomeSource.cpp">
+      <Filter>world\level\levelgen\biome</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\BirchFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\BubbleParticle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\BookshelfTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Bush.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\CameraItem.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ChunkStorage.cpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkSource.cpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkCache.cpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ClayFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ClayTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ClothTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.cpp">
+      <Filter>world\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Dimension.cpp">
+      <Filter>world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\DoorItem.cpp">
+      <Filter>world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DirtTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DoorTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\ExplodeParticle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Explosion.cpp">
+      <Filter>world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorage.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\ExternalFileLevelStorageSource.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\FallingTile.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FarmTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\Feature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FireTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GlassTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GrassTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GravelTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\HalfTransparentTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\IceTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\InvisibleTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LeafTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTileDynamic.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LiquidTileStatic.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\MetalTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ObsidianTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\OreTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\ReedTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SpongeTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Sapling.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SandTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SandStoneTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StoneSlabTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StairTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\StoneTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Tile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TntTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TopSnowTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TorchTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TransparentTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TreeTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\WireTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\FlameParticle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\FlowerFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\GameMode.cpp">
+      <Filter>world\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\HitResult.cpp">
+      <Filter>world\phys</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\ImprovedNoise.cpp">
+      <Filter>world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\Inventory.cpp">
+      <Filter>world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp">
+      <Filter>world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\ItemEntity.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ItemInstance.cpp">
+      <Filter>world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\LadderTile.cpp">
+      <Filter>world\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Level.cpp">
+      <Filter>world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\LevelChunk.cpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeCaveFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\LargeFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\LavaParticle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelData.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\LevelListener.cpp">
+      <Filter>world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelSource.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelStorage.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\LevelStorageSource.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\LocalPlayer.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Material.cpp">
+      <Filter>world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryChunkStorage.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorage.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\MemoryLevelStorageSource.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Mob.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\OreFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\Particle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\ParticleEngine.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\PerformanceTestChunkSource.cpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\PerlinNoise.cpp">
+      <Filter>world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\PineFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\PrimedTnt.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Player.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\RandomLevelSource.cpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\RedDustParticle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\storage\RegionFile.cpp">
+      <Filter>world\level\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\Region.cpp">
+      <Filter>world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ReedsFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\SpringFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\SpruceFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\TreeFeature.cpp">
+      <Filter>world\level\levelgen\feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\SmokeParticle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\TerrainParticle.cpp">
+      <Filter>world\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.cpp">
+      <Filter>world\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\TickNextTickData.cpp">
+      <Filter>world\level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp">
+      <Filter>world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp">
+      <Filter>world\item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\TripodCamera.cpp">
+      <Filter>world\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\Synth.cpp">
+      <Filter>world\level\levelgen\synth</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\TestChunkSource.cpp">
+      <Filter>world\level\levelgen\chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec3.cpp">
+      <Filter>world\phys</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="compat">
+      <UniqueIdentifier>{a268234a-f26d-452a-be36-cf0f89b3a0ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty">
+      <UniqueIdentifier>{e8ff5d8c-42b0-4586-9488-47fc73a48637}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client">
+      <UniqueIdentifier>{cebb3b7f-2cd0-4a09-97ea-0d8e660565bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world">
+      <UniqueIdentifier>{a56e2ec8-a48f-4817-9b83-1f74143db2b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{e54d1497-73f9-475e-bb80-3fc95dce61cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{0d9a83d0-128f-423b-b2bf-ca100bdc1bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{a3fcc48a-4692-4495-a531-eb50a018e1fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\raknet">
+      <UniqueIdentifier>{146ca930-21d2-4de2-ad39-e866bc8ecbaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\GL">
+      <UniqueIdentifier>{c9587ebc-8044-4897-a9f9-2cc296853e05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer">
+      <UniqueIdentifier>{21ac38d1-50c1-4c4b-9232-6ae67f06dd0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer\GL">
+      <UniqueIdentifier>{0f7bf262-0645-4a3e-a0cd-d1066ccc6bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\app">
+      <UniqueIdentifier>{9fb6ef32-42cf-45a9-97de-4f1ee6bc6618}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\gui">
+      <UniqueIdentifier>{71ec127b-ad00-4783-bd76-180fe132d013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\gui\components">
+      <UniqueIdentifier>{6e729a8b-fd69-49a3-b233-f5d2a0fed805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\gui\screens">
+      <UniqueIdentifier>{71cb8075-808f-4010-b294-d8cf50508753}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\renderer">
+      <UniqueIdentifier>{ea287e56-a571-46e3-b328-d0a64be6ba11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\network">
+      <UniqueIdentifier>{865db8a8-265e-4c9a-b97a-2ca3fbfb9a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\player">
+      <UniqueIdentifier>{bd1a727b-7565-4815-81d7-98e02733b492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\player\input">
+      <UniqueIdentifier>{1bf7233b-ec40-4dce-b305-385e20d7755c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\model">
+      <UniqueIdentifier>{cd54144f-33c1-47ec-9398-2d1dc3a6b6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\renderer\entity">
+      <UniqueIdentifier>{5df38120-bf25-4f56-84c3-4122790f1fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\options">
+      <UniqueIdentifier>{43c3bb8d-7bb0-46c1-8f0a-dbda2e86be48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="client\sound">
+      <UniqueIdentifier>{66ea8c4f-3d38-4661-87f3-df78da149b28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\packets">
+      <UniqueIdentifier>{dfb2991e-a4e3-443e-930c-b59df0ca3b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\phys">
+      <UniqueIdentifier>{565e59d5-0261-4822-b65e-d85e56e1950e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\level">
+      <UniqueIdentifier>{b48073d2-41c0-40b2-8336-615fdbd959d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\level\levelgen">
+      <UniqueIdentifier>{123daa30-315a-477a-9aee-157a42110a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\level\levelgen\biome">
+      <UniqueIdentifier>{17500873-bbb2-4b6a-9eda-b48d3a1b344d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\level\levelgen\feature">
+      <UniqueIdentifier>{4cab45ee-a334-4292-8114-81b3e8b81e84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\particle">
+      <UniqueIdentifier>{3fcff278-a4d7-458c-a488-9e6718a802c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\tile">
+      <UniqueIdentifier>{dfd828fb-2c1e-46ae-90c1-d7c33678e708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\item">
+      <UniqueIdentifier>{c929fd25-93fd-4242-869d-5d2b5991ae28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\level\levelgen\chunk">
+      <UniqueIdentifier>{26c6ddf2-97c6-4734-87a3-28a8832bb0f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\gamemode">
+      <UniqueIdentifier>{5487094b-e5e2-4134-a6e6-331b01af2ccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\entity">
+      <UniqueIdentifier>{b3c350c9-8b9c-4bdb-ac40-d9525a892f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\level\storage">
+      <UniqueIdentifier>{a5696a56-61d1-4234-9f2d-4bfe951ac3aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="world\level\levelgen\synth">
+      <UniqueIdentifier>{d5fcfb0a-0b27-4cf0-9fdd-8ef37701c269}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

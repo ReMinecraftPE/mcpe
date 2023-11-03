@@ -1,19 +1,21 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
 #include "Controller.hpp"
-
 #include <cmath>
 
 bool Controller::isTouchedValues[2];
 float Controller::stickValuesX[2];
 float Controller::stickValuesY[2];
+
+#ifndef __ANDROID__
 const float Controller_unk_1[3] = { 0.0f, 0.64f, -0.64f };
+#endif
 
 bool Controller::isValidStick(int stickNo)
 {
@@ -50,12 +52,21 @@ void Controller::feed(int stickNo, int touched, float x, float y)
 	if (!isValidStick(stickNo))
 		return;
 
+#ifdef __ANDROID__
+	int index = stickNo - 1;
+#else
 	int index = (x >= 0.0f) ? 1 : 0;
+#endif
 
 	// maybe the 2 'touch sticks' are actually internally 1 single surface??
 
 	isTouchedValues[index] = touched != 0;
+#ifdef __ANDROID__
+	stickValuesX[index] = x;
+#else
 	stickValuesX[index] = linearTransform(x + Controller_unk_1[index + 1], 0.0f, 2.78f, true);
+#endif
+
 	stickValuesY[index] = y;
 }
 

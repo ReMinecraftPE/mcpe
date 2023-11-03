@@ -19,7 +19,7 @@ struct SBufferedBlockUpdate
 	uint8_t tile, data;
 
 	SBufferedBlockUpdate(int x, int y, int z, TileID tile, int data) :
-		x(x), y(uint8_t(y)), z(z), tile(uint8_t(tile)), data(uint8_t(data))
+		x(x), z(z), y(uint8_t(y)), tile(uint8_t(tile)), data(uint8_t(data))
 	{}
 };
 

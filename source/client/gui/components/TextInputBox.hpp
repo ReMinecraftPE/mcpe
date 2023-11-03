@@ -9,8 +9,10 @@
 #pragma once
 
 #include "../GuiComponent.hpp"
+#include "../Screen.hpp"
 #include "common/Utils.hpp"
 
+class Screen;
 class Minecraft;
 
 // @NOTE: This is NOT original Mojang code.
@@ -20,7 +22,7 @@ class Minecraft;
 class TextInputBox : public GuiComponent
 {
 public:
-	TextInputBox(int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
+	TextInputBox(Screen*, int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
 
 	void init(Font* pFont);
 	void setEnabled(bool bEnabled);
@@ -46,6 +48,7 @@ public:
 	int m_insertHead;
 	int m_lastFlashed;
 	Font* m_pFont;
+	Screen* m_pParent;
 };
 
 #endif

@@ -14,6 +14,7 @@
 #include "components/TextInputBox.hpp"
 
 class Button;
+class TextInputBox;
 
 class Screen : public GuiComponent
 {
@@ -24,6 +25,8 @@ public:
 	void init(Minecraft*, int, int);
 	void updateTabButtonSelection();
 	void setSize(int width, int height);
+	void onRender(int mouseX, int mouseY, float f);
+	int getYOffset();
 
 	virtual void render(int, int, float);
 	virtual void init();
@@ -62,6 +65,7 @@ public:
 
 #ifndef ORIGINAL_CODE
 	std::vector<TextInputBox*> m_textInputs;
+	int m_yOffset;
 #endif
 };
 

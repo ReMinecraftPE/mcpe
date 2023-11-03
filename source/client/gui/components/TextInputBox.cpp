@@ -10,7 +10,11 @@
 #include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 
-TextInputBox::TextInputBox(int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
+#ifdef __ANDROID__
+#define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
+#endif
+
+TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
 {
 	m_ID = id;
 	m_xPos = x;
@@ -25,6 +29,7 @@ TextInputBox::TextInputBox(int id, int x, int y, int width, int height, const st
 	m_insertHead = 0;
 	m_lastFlashed = 0;
 	m_pFont = nullptr;
+	m_pParent = parent;
 }
 
 void TextInputBox::init(Font* pFont)
@@ -185,7 +190,12 @@ void TextInputBox::setFocused(bool b)
 		m_lastFlashed = getTimeMs();
 		m_bCursorOn = true;
 		m_insertHead = int(m_text.size());
+
+		m_pParent->m_pMinecraft->platform()->showKeyboard(true);
 	}
+
+	// don't actually hide the keyboard when unfocusing
+	// - we may be undoing the work of another text box
 }
 
 void TextInputBox::onClick(int x, int y)

@@ -15,6 +15,7 @@ Screen::Screen()
 	field_10 = false;
 	m_tabButtonIndex = 0;
 	m_pClickedButton = 0;
+	m_yOffset = -1;
 }
 
 Screen::~Screen()
@@ -253,6 +254,25 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		TextInputBox* textInput = m_textInputs[i];
 		textInput->onClick(xPos, yPos);
 	}
+
+	// if the keyboard is shown:
+	if (m_pMinecraft->platform()->getKeyboardUpOffset())
+	{
+		// if there are none focused at the moment:
+		bool areAnyFocused = false;
+		for (int i = 0; i < int(m_textInputs.size()); i++)
+		{
+			TextInputBox* textInput = m_textInputs[i];
+			if (textInput->m_bFocused)
+			{
+				areAnyFocused = true;
+				break;
+			}
+		}
+
+		if (!areAnyFocused)
+			m_pMinecraft->platform()->showKeyboard(false);
+	}
 #endif
 }
 
@@ -306,6 +326,59 @@ void Screen::setSize(int width, int height)
 	init();
 }
 
+void Screen::onRender(int mouseX, int mouseY, float f)
+{
+	m_yOffset = getYOffset();
+	if (m_yOffset != 0) {
+		// push the entire screen up
+		glPushMatrix();
+		glTranslatef(0.0f, -float(m_yOffset), 0.0f);
+	}
+
+	render(mouseX, mouseY, f);
+
+	if (m_yOffset != 0)
+		glPopMatrix();
+}
+
+int Screen::getYOffset()
+{
+	int keybOffset = m_pMinecraft->platform()->getKeyboardUpOffset();
+	if (!keybOffset)
+		return 0;
+
+	int offset = 0;
+
+	// look through every text box, see if one's open
+	// and determine its offset from there
+	for (int i = 0; i < int(m_textInputs.size()); i++)
+	{
+		TextInputBox* pBox = m_textInputs[i];
+
+		if (!pBox->m_bFocused)
+			continue;
+		
+		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
+
+		// we want to keep the center of the text box in the center of the screen
+		int textCenterY = pBox->m_yPos + pBox->m_height / 2;
+		int scrnCenterY = heightLeft / 2;
+
+		int diff = textCenterY - scrnCenterY;
+		
+		// Prevent the difference from revealing the outside of the screen.
+		if (diff > m_height - heightLeft)
+			diff = m_height - heightLeft;
+		if (diff < 0)
+			diff = 0;
+
+		offset = diff;
+		break;
+	}
+
+	return offset;
+}
+
 void Screen::updateEvents()
 {
 	if (field_10) return;
@@ -329,9 +402,9 @@ void Screen::mouseEvent()
 	if (pAction->isButton())
 	{
 		if (Mouse::getEventButtonState())
-			mouseClicked (m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1, Mouse::getEventButton());
+			mouseClicked (m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
 		else
-			mouseReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1, Mouse::getEventButton());
+			mouseReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
 	}
 }
 
@@ -339,7 +412,9 @@ void Screen::renderBackground(int unk)
 {
 	if (m_pMinecraft->isLevelGenerated())
 	{
-		fillGradient(0, 0, m_width, m_height, 0xC0101010, 0xD0101010);
+		// draw the background offset by the Y offset so that the smaller virtual
+		// keyboards don't reveal undrawn areas
+		fillGradient(0, m_yOffset, m_width, m_height, 0xC0101010, 0xD0101010);
 	}
 	else
 	{
@@ -361,11 +436,13 @@ void Screen::renderDirtBackground(int unk)
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
+	t.offset(0, m_yOffset, 0);
 	t.color(0x404040);
 	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(unk) + float(m_height) / 32.0f);
 	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(unk) + float(m_height) / 32.0f);
 	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(unk) + 0.0f);
 	t.vertexUV(0.0f,           0,               0, 0,                      float(unk) + 0.0f);
+	t.offset(0, 0, 0);
 	t.draw();
 }
 

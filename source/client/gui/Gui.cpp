@@ -417,7 +417,7 @@ int Gui::getSlotIdAt(int mouseX, int mouseY)
 	if (slotX >= 0)
 		slotX--;
 
-	if (slotX > getNumSlots())
+	if (slotX >= getNumSlots())
 		slotX = -1;
 
 	return slotX;

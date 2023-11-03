@@ -142,7 +142,7 @@ void Options::_initDefaultValues()
 	KM(KM_FLY_DOWN,      SDLVK_x);
 	KM(KM_CHAT_CMD,      SDLVK_SLASH);
 #endif
-#ifdef PLATFORM_ANDROID
+#ifdef __ANDROID__
 	// -- Original xperia play controls
 	//KM(KM_FORWARD,       AKEYCODE_DPAD_UP);
 	//KM(KM_LEFT,          AKEYCODE_DPAD_LEFT);
@@ -162,24 +162,25 @@ void Options::_initDefaultValues()
 	//KM(KM_FLY_UP,        AKEYCODE_BUTTON_R1);
 	//KM(KM_FLY_DOWN,      AKEYCODE_BUTTON_L1);
 
+	//use controller input on android for now.
 	KM(KM_FORWARD,       AKEYCODE_W);
 	KM(KM_LEFT,          AKEYCODE_A);
 	KM(KM_BACKWARD,      AKEYCODE_S);
 	KM(KM_RIGHT,         AKEYCODE_D);
-	KM(KM_JUMP,          AKEYCODE_SPACE);
+	KM(KM_JUMP,			 AKEYCODE_BUTTON_A);
 	KM(KM_DESTROY,       AKEYCODE_X);
 	KM(KM_PLACE,         AKEYCODE_C);
 	KM(KM_MENU_NEXT,     AKEYCODE_DPAD_DOWN);
 	KM(KM_MENU_PREVIOUS, AKEYCODE_DPAD_UP);
 	KM(KM_MENU_OK,       AKEYCODE_ENTER);
-	KM(KM_MENU_CANCEL,   AKEYCODE_ESCAPE);
+	KM(KM_MENU_CANCEL,	 AKEYCODE_BUTTON_START);
 	// custom
-	KM(KM_SLOT_L,        AKEYCODE_Y);
-	KM(KM_SLOT_R,        AKEYCODE_U);
+	KM(KM_SLOT_L,		 AKEYCODE_BUTTON_L1);
+	KM(KM_SLOT_R,		 AKEYCODE_BUTTON_R1);
 	KM(KM_DROP,          AKEYCODE_Q);
 	KM(KM_CHAT,          AKEYCODE_T);
 	KM(KM_FOG,           AKEYCODE_F);
-	KM(KM_INVENTORY,     AKEYCODE_F);
+	KM(KM_INVENTORY,	 AKEYCODE_BUTTON_Y);
 	KM(KM_SNEAK,         AKEYCODE_SHIFT_LEFT);
 	KM(KM_SLOT_1,        AKEYCODE_1);
 	KM(KM_SLOT_2,        AKEYCODE_2);

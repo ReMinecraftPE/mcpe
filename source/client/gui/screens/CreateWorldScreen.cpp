@@ -12,12 +12,14 @@
 #include "common/Util.hpp"
 
 CreateWorldScreen::CreateWorldScreen() :
-	m_textName(1, 0, 0, 0, 0, "", "Unnamed world"),
-	m_textSeed(2, 0, 0, 0, 0, ""),
+	m_textName(this, 1, 0, 0, 0, 0, "", "Unnamed world"),
+	m_textSeed(this, 2, 0, 0, 0, 0, ""),
 	m_btnBack(3, "Cancel"),
 	m_btnCreate(4, "Create New World")
 {
 }
+
+#define CRAMPED() (100 + 32 + 58 > m_height)
 
 void CreateWorldScreen::init()
 {
@@ -43,6 +45,19 @@ void CreateWorldScreen::init()
 	m_buttonTabList.push_back(&m_btnCreate);
 	m_textName.init(m_pFont);
 	m_textSeed.init(m_pFont);
+
+	// 100 - yPos of textSeed
+	// 32  - offset + height of "Leave blank for random" text
+	// 58  - approximately the Y position of the create button
+	bool crampedMode = CRAMPED();
+	if (crampedMode)
+	{
+		// crush everything down as much as we can
+		m_textName.m_yPos = 40;
+		m_textSeed.m_yPos = 80;
+		m_btnCreate.m_yPos += 10;
+		m_btnBack.m_yPos += 5;
+	}
 }
 
 static char g_CreateWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':' };
@@ -114,7 +129,7 @@ void CreateWorldScreen::render(int mouseX, int mouseY, float f)
 	renderBackground();
 	Screen::render(mouseX, mouseY, f);
 
-	drawCenteredString(m_pFont, "Create New World", m_width / 2, 30, 0xFFFFFF);
+	drawCenteredString(m_pFont, "Create New World", m_width / 2, CRAMPED() ? 10 : 30, 0xFFFFFF);
 	drawString(m_pFont, "World name",                    m_textName.m_xPos, m_textName.m_yPos - 10, 0xDDDDDD);
 	drawString(m_pFont, "Seed for the World Generator",  m_textSeed.m_xPos, m_textSeed.m_yPos - 10, 0xDDDDDD);
 	drawString(m_pFont, "Leave blank for a random seed", m_textSeed.m_xPos, m_textSeed.m_yPos + 22, 0x999999);

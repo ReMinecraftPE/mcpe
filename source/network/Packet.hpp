@@ -58,8 +58,8 @@ public:
 	LoginPacket(const std::string& uname) { m_str = RakNet::RakString(uname.c_str()); }
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	RakNet::RakString m_str;
 };
@@ -74,8 +74,8 @@ public:
 	}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	RakNet::RakString m_str;
 };
@@ -89,8 +89,8 @@ public:
 		m_time = 0;
 	}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	TLong field_4;
 	int field_8;
@@ -108,8 +108,8 @@ public:
 	AddPlayerPacket() {}
 	AddPlayerPacket(const RakNet::RakNetGUID& guid, RakNet::RakString name, int id, float x, float y, float z);
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int field_4;
 	RakNet::RakNetGUID m_guid;
@@ -128,8 +128,8 @@ public:
 	RemoveEntityPacket(int id) { m_id = id; }
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_id;
 };
@@ -140,8 +140,8 @@ public:
 	MovePlayerPacket() {}
 	MovePlayerPacket(int id, float x, float y, float z, float pitch, float yaw): m_id(id), m_x(x), m_y(y), m_z(z), m_pitch(pitch), m_yaw(yaw) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_id;
 	float m_x;
@@ -166,8 +166,8 @@ public:
 	}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_playerID;
 	int m_x;
@@ -184,8 +184,8 @@ public:
 	RemoveBlockPacket(int id, int x, int y, int z) :m_playerID(id), m_x(x), m_z(z), m_y(uint8_t(y)) {}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_playerID;
 	int m_x;
@@ -197,8 +197,8 @@ class UpdateBlockPacket : public Packet
 {
 public:
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_x;
 	int m_z;
@@ -213,8 +213,8 @@ public:
 	RequestChunkPacket() {}
 	RequestChunkPacket(int x, int z) { m_x = x; m_z = z; }
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_x;
 	int m_z;
@@ -226,8 +226,8 @@ public:
 	ChunkDataPacket() {}
 	ChunkDataPacket(int x, int z, LevelChunk* c) :m_x(x), m_z(z), m_pChunk(c) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_x;
 	int m_z;
@@ -241,8 +241,8 @@ public:
 	LevelDataPacket() {}
 	LevelDataPacket(Level* level) : m_pLevel(level) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	RakNet::BitStream m_data;
 	Level* m_pLevel;
@@ -254,8 +254,8 @@ public:
 	PlayerEquipmentPacket() {}
 	PlayerEquipmentPacket(int playerID, int itemID): m_playerID(playerID), m_itemID(itemID) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
-	void write(RakNet::BitStream*);
-	void read(RakNet::BitStream*);
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
 public:
 	int m_playerID;
 	uint8_t m_itemID;

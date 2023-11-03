@@ -63,7 +63,12 @@ public:
 	void swing();
 	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);
+
+	// QUIRK: Yes, I did mean it like that, as did Mojang.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
 	void interact(Entity* pEnt);
+#pragma GCC diagnostic pop
 
 public:
 	//TODO

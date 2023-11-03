@@ -12,9 +12,9 @@
 #include "common/Util.hpp"
 
 DirectConnectScreen::DirectConnectScreen() :
-	m_textAddress(1, 0, 0, 0, 0, "Server address"),
-	m_btnJoin(2, "Connect"),
-	m_btnQuit(3, "Cancel")
+	m_textAddress(this, 1, 0, 0, 0, 0, "Server address"),
+	m_btnQuit(3, "Cancel"),
+	m_btnJoin(2, "Connect")
 {}
 
 void DirectConnectScreen::init()

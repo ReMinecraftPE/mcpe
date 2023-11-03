@@ -28,13 +28,18 @@ bool NinecraftApp::handleBack(bool b)
 	{
 		if (!m_pScreen)
 			return false;
+
 		return m_pScreen->handleBackEvent(b);
 	}
 
 	if (b)
 		return 1;
 
-	if (!m_pScreen) return false;
+	if (!m_pScreen)
+	{
+		pauseGame();
+		return false;
+	}
 
 	if (m_pScreen->handleBackEvent(b))
 		return true;
@@ -45,8 +50,6 @@ bool NinecraftApp::handleBack(bool b)
 
 void NinecraftApp::initGLStates()
 {
-	GL_TEXTURE_2D;
-
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_ALPHA_TEST);
@@ -55,6 +58,7 @@ void NinecraftApp::initGLStates()
 	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
 	glDisable(GL_LIGHTING);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 int NinecraftApp::getFpsIntlCounter()
@@ -110,11 +114,6 @@ void NinecraftApp::update()
 	++m_fps;
 	Multitouch::commit();
 	Minecraft::update();
-
-#ifdef ORIGINAL_CODE
-	eglSwapBuffers(field_8, m_rotY);
-#endif
-
 	Mouse::reset2();
 	updateStats();
 }

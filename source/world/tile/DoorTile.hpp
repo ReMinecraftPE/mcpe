@@ -31,8 +31,12 @@ public:
 
 	bool blocksLight();
 	int getDir(int data);
-	void setShape(int dir);
 	void setOpen(Level*, int x, int y, int z, bool bOpen);
+	
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+	void setShape(int dir);
+#pragma GCC diagnostic pop
 
 	// @NOTE: These are inlined.
 	inline bool isOpen(int data)

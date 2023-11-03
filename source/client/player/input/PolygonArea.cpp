@@ -28,7 +28,7 @@ bool PolygonArea::isInside(float x, float y)
 	while (idx < m_count)
 	{
 		// horrible ass condition
-		if ((m_yPos[idx] <= y && m_yPos[idx2] > y || m_yPos[idx2] <= y && m_yPos[idx] > y)
+		if (((m_yPos[idx] <= y && m_yPos[idx2] > y) || (m_yPos[idx2] <= y && m_yPos[idx] > y))
 			&& ((((m_xPos[idx2] - m_xPos[idx]) * (y - m_yPos[idx]))
 				/ (m_yPos[idx2] - m_yPos[idx]))
 				+ m_xPos[idx]) > x)

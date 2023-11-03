@@ -10,7 +10,7 @@
 
 // @NOTE: This is unused.
 
-ChatScreen::ChatScreen(bool slash) : m_textChat(1, 0, 0), m_btnSend(2, 0, 0, "Send")
+ChatScreen::ChatScreen(bool slash) : m_textChat(this, 1, 0, 0), m_btnSend(2, 0, 0, "Send")
 {
 	if (slash)
 		m_textChat.m_text = "/";

@@ -14,7 +14,7 @@ class CreativeMode : public GameMode
 {
 public:
 	CreativeMode(Minecraft*);
-	bool destroyBlock(int, int, int, int);
+	bool destroyBlock(int, int, int, int) override;
 
 	float getPickRange() override;
 	bool isCreativeType() override;
@@ -24,8 +24,8 @@ public:
 	void startDestroyBlock(int x, int y, int z, int i) override;
 	void continueDestroyBlock(int x, int y, int z, int i) override;
 	void stopDestroyBlock() override;
-	void tick();
-	void render(float f);
+	void tick() override;
+	void render(float f) override;
 
 public:
 	int m_destroyingX;
