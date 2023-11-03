@@ -240,16 +240,28 @@ add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
 # zlib
-add_subdirectory(../thirdparty/zlib zlib)
+add_library(zlib INTERFACE)
+if(EMSCRIPTEN)
+    # Use Emscripten's ZLib
+    set(ZLIB_FLAG -sUSE_ZLIB=1)
+    target_compile_options(zlib INTERFACE "${ZLIB_FLAG}")
+    target_link_options(zlib INTERFACE "${ZLIB_FLAG}")
+else()
+    # Use System ZLib
+    find_package(ZLIB REQUIRED)
+    target_link_libraries(zlib INTERFACE ZLIB::ZLIB)
+endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib)
 
 # SDL
 add_library(SDL INTERFACE)
 if(EMSCRIPTEN)
+    # Use Emscripten's SDL2
     set(SDL_FLAG -sUSE_SDL=2)
     target_compile_options(SDL INTERFACE "${SDL_FLAG}")
     target_link_options(SDL INTERFACE "${SDL_FLAG}")
 else()
+    # Use System SDL2
     find_package(SDL2 REQUIRED)
     target_link_libraries(SDL INTERFACE SDL2::SDL2)
 endif()
