@@ -50,7 +50,20 @@ inside: `74b1d3b51a174c4dcaaa58d2bbdf7a4f4c9cfe5f2aeec4844427c2b8f1124343`), bef
 
 ## Setup
 
-Before trying to build, load the sound assets into the `sound_data/` folder in the root of the project
+Before trying to build:
+
+1. Run the following `git` commands, or perform the following actions with Git:
+```
+git submodule init
+git submodule update
+```
+
+This fetches the three dependencies we have:
+- [zlib](https://github.com/madler/zlib)
+- [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker)
+- [gles-compatibility-layer](https://github.com/TheBrokenRail/gles-compatibility-layer.git)
+
+2. Load the sound assets into the `sound_data/` folder in the root of the project
 by **running the following command**:
 * `tools/grabsounds.py /path/to/the/mcpe01_canada/lib/armeabi-v7a/libminecraftpe.so`.
 
