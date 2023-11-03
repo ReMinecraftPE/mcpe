@@ -205,12 +205,12 @@ void GameRenderer::saveMatrices()
 
 void GameRenderer::setupGuiScreen()
 {
-	float x = Gui::InvGuiScale * Minecraft::width;
-	float y = Gui::InvGuiScale * Minecraft::height;
+	int x = (int) (Gui::InvGuiScale * Minecraft::width);
+	int y = (int) (Gui::InvGuiScale * Minecraft::height);
 	glClear(GL_ACCUM);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f);
+	xglOrthof(0, (float) x, (float) y, 0, 2000.0f, 3000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -2000.0f);
