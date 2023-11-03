@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.reminecraftpe'
-    compileSdk 34
+    compileSdk 21
 
     // Employ a hack which copies the assets folder in to the local assets folder.
     task CopyAssets(type: Copy) {
@@ -20,7 +20,9 @@ android {
     defaultConfig {
         applicationId "com.reminecraftpe"
         minSdk 16
-        targetSdk 31
+        // Don't inspect the target SDK. You'd better not intend to upload this to the Google Play Store.
+        //noinspection ExpiredTargetSdkVersion
+        targetSdk 21
         versionCode 1
         versionName "1.0"
 
