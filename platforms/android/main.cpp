@@ -171,10 +171,11 @@ static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_
 
     int actionp = AMotionEvent_getAction(event);
     int action = actionp & AMOTION_EVENT_ACTION_MASK;
-    int pointerId = AMotionEvent_getPointerId(event, (actionp & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT);
+    int pointerIndex = (actionp & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+    int pointerId = AMotionEvent_getPointerId(event, pointerIndex);
 
-    int x = AMotionEvent_getX(event, pointerId);
-    int y = AMotionEvent_getY(event, pointerId);
+    int x = AMotionEvent_getX(event, pointerIndex);
+    int y = AMotionEvent_getY(event, pointerIndex);
 
     switch (action)
     {
