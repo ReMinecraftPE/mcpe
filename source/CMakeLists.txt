@@ -268,7 +268,6 @@ add_library(reminecraftpe-core STATIC
     world/tile/DoorTile.cpp
     renderer/GL/GL.cpp
 )
-
 target_include_directories(reminecraftpe-core PUBLIC . ..)
 
 # RakNet
@@ -289,8 +288,9 @@ else()
 endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib)
 
-# SDL
+# Extra Dependencies
 if(USE_SDL)
+    # SDL
     add_library(SDL INTERFACE)
     if(ANDROID)
         # Use Vendored SDL2 (Only For Android)
@@ -312,7 +312,7 @@ if(USE_SDL)
     if(NOT EMSCRIPTEN)
         option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
     else()
-        set(USE_GLES1_COMPATIBILITY_LAYER TRUE)
+        set(USE_GLES1_COMPATIBILITY_LAYER TRUE CACHE BOOL "" FORCE)
     endif()
     if(USE_GLES1_COMPATIBILITY_LAYER)
         set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
@@ -323,7 +323,15 @@ if(USE_SDL)
         if(EMSCRIPTEN)
             target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
         endif()
+    else()
+        find_package(OpenGL REQUIRED)
+        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
     endif()
+endif()
+
+# Android Logging
+if(ANDROID)
+    target_link_libraries(reminecraftpe-core PUBLIC log)
 endif()
 
 # Sound Data
