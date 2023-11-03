@@ -4,3 +4,7 @@
 [submodule "thirdparty/gles-compatibility-layer"]
 	path = thirdparty/gles-compatibility-layer
 	url = https://github.com/TheBrokenRail/gles-compatibility-layer.git
+[submodule "thirdparty/zlib"]
+	path = thirdparty/zlib
+	url = https://github.com/madler/zlib
+	ignore = dirty
