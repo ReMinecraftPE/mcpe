@@ -38,6 +38,8 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
+	
+	bool isTouchscreen() override { return false; }
 
 	static MouseButtonType GetMouseButtonType(SDL_Event event);
 	static bool GetMouseButtonState(SDL_Event event);

@@ -14,6 +14,7 @@ typedef AppPlatform_sdl UsedAppPlatform;
 #endif
 
 #include "client/app/NinecraftApp.hpp"
+#include "client/player/input/Multitouch.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -100,6 +101,7 @@ static void handle_events()
 			{
 				const float scale = g_fPointToPixelScale;
 				Mouse::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
+				Multitouch::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale, 0);
 				break;
 			}
 			case SDL_MOUSEMOTION:
@@ -108,6 +110,7 @@ static void handle_events()
                 float x = event.motion.x * scale;
                 float y = event.motion.y * scale;
 				Mouse::feed(BUTTON_NONE, false, x, y);
+				Multitouch::feed(BUTTON_NONE, false, x, y, 0);
 				g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				break;
 			}
