@@ -478,7 +478,9 @@ void GameRenderer::renderLevel(float f)
 		pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
 		pPE->render(pMob, f);
 
-		glEnable(GL_ALPHA);
+		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
+		//glEnable(GL_ALPHA);
+		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		setupFog(0);
 
