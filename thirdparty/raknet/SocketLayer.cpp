@@ -24,6 +24,10 @@
 #include <netdb.h>
 #endif
 
+#if defined( __HAIKU__ )
+#include "sys/sockio.h" // for SIOCGIFNETMASK
+#endif
+
 using namespace RakNet;
 
 /*
