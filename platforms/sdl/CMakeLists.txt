@@ -3,7 +3,7 @@ project(reminecraftpe-sdl)
 
 # SDL Build
 add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
-set(USE_SDL 1)
+set(USE_SDL TRUE)
 
 # WASM
 if(EMSCRIPTEN)
@@ -64,7 +64,7 @@ endif()
 # LibPNG (If Needed)
 if(NOT EMSCRIPTEN)
     if(ANDROID)
-        # Vendor LibPNG
+        # Vendor LibPNG (Android Only)
         add_subdirectory(../../thirdparty/LibPNG-src libpng EXCLUDE_FROM_ALL)
         target_include_directories(png_static INTERFACE
             "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/LibPNG-src>"
@@ -72,6 +72,7 @@ if(NOT EMSCRIPTEN)
         )
         target_link_libraries(reminecraftpe png_static)
     else()
+        # System LibPNG
         find_package(PNG REQUIRED)
         target_link_libraries(reminecraftpe PNG::PNG)
     endif()
