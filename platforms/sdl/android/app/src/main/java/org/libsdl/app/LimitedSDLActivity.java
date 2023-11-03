@@ -1,6 +1,7 @@
 package org.libsdl.app;
 
 // Prevent SDL From Controlling Immersive Mode
+// See https://stackoverflow.com/a/58182595/16198887
 public class LimitedSDLActivity extends SDLActivity {
     @Override
     boolean sendCommand(int command, Object data) {

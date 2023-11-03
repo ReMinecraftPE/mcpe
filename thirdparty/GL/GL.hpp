@@ -10,7 +10,7 @@
 
 #include <common/Utils.hpp> // it includes GL/gl.h
 
-#if defined(ANDROID) && !defined(USE_SDL)
+#ifdef USE_NATIVE_ANDROID
 	#define USE_GLES
 	#include <EGL/egl.h>
 #endif

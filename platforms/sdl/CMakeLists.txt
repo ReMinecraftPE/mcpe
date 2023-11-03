@@ -64,12 +64,12 @@ endif()
 if(NOT EMSCRIPTEN)
     if(ANDROID)
         # Vendor LibPNG (Android Only)
-        add_subdirectory(../../thirdparty/LibPNG-src libpng EXCLUDE_FROM_ALL)
-        target_include_directories(png_static INTERFACE
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/LibPNG-src>"
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/libpng>"
-        )
+        add_subdirectory(../../thirdparty/LibPNG/src libpng EXCLUDE_FROM_ALL)
         target_link_libraries(reminecraftpe png_static)
+        target_include_directories(reminecraftpe PUBLIC
+            "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/LibPNG/src"
+            "${CMAKE_CURRENT_BINARY_DIR}/libpng"
+        )
     else()
         # System LibPNG
         find_package(PNG REQUIRED)

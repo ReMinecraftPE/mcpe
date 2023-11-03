@@ -4,8 +4,11 @@ project(reminecraftpe-android)
 # Project Root
 set(MC_ROOT ../../../../../../..)
 
-# Build
+# Native Android Build
 add_compile_definitions(USE_NATIVE_ANDROID)
+set(USE_NATIVE_ANDROID TRUE)
+
+# Build
 add_library(reminecraftpe SHARED
     "${MC_ROOT}/platforms/android/android_native_app_glue.c"
     "${MC_ROOT}/platforms/android/AppPlatform_android.cpp"
