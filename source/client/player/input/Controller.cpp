@@ -13,7 +13,7 @@ bool Controller::isTouchedValues[2];
 float Controller::stickValuesX[2];
 float Controller::stickValuesY[2];
 
-#if !defined(ANDROID) || defined(USE_SDL)
+#ifndef USE_NATIVE_ANDROID
 const float Controller_unk_1[3] = { 0.0f, 0.64f, -0.64f };
 #endif
 
@@ -52,7 +52,7 @@ void Controller::feed(int stickNo, int touched, float x, float y)
 	if (!isValidStick(stickNo))
 		return;
 
-#if defined(ANDROID) && !defined(USE_SDL)
+#ifdef USE_NATIVE_ANDROID
 	int index = stickNo - 1;
 #else
 	int index = (x >= 0.0f) ? 1 : 0;
@@ -61,7 +61,7 @@ void Controller::feed(int stickNo, int touched, float x, float y)
 	// maybe the 2 'touch sticks' are actually internally 1 single surface??
 
 	isTouchedValues[index] = touched != 0;
-#if defined(ANDROID) && !defined(USE_SDL)
+#ifdef USE_NATIVE_ANDROID
 	stickValuesX[index] = x;
 #else
 	stickValuesX[index] = linearTransform(x + Controller_unk_1[index + 1], 0.0f, 2.78f, true);

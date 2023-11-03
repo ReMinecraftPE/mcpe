@@ -263,11 +263,12 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 			TextInputBox* textInput = m_textInputs[i];
 			if (textInput->m_bFocused == handleFocused)
 			{
-				textInput->onClick(m_pMinecraft, xPos, yPos);
+				textInput->onClick(xPos, yPos);
 			}
 		}
 	}
 
+#ifdef USE_NATIVE_ANDROID
 	// if the keyboard is shown:
 	if (m_pMinecraft->platform()->getKeyboardUpOffset())
 	{
@@ -284,8 +285,9 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		}
 
 		if (!areAnyFocused)
-			m_pMinecraft->platform()->showKeyboard(false);
+			m_pMinecraft->platform()->hideKeyboard();
 	}
+#endif
 #endif
 }
 
@@ -361,6 +363,7 @@ void Screen::onRender(int mouseX, int mouseY, float f)
 
 int Screen::getYOffset()
 {
+#ifdef USE_NATIVE_ANDROID
 	int keybOffset = m_pMinecraft->platform()->getKeyboardUpOffset();
 	if (!keybOffset)
 		return 0;
@@ -395,6 +398,9 @@ int Screen::getYOffset()
 	}
 
 	return offset;
+#else
+	return 0;
+#endif
 }
 
 void Screen::updateEvents()

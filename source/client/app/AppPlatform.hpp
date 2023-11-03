@@ -59,9 +59,6 @@ public:
 	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
 	virtual bool shiftPressed();
-	virtual void showKeyboard(bool bShown);
-	virtual void onHideKeyboard(); // called by the runner, not the game
-	virtual int getKeyboardUpOffset();
 
 	virtual bool hasFileSystemAccess();
 	// Also add this to allow dynamic patching.
@@ -71,6 +68,9 @@ public:
 	// On-screen keyboard
 	virtual void showKeyboard(int x, int y, int w, int h);
 	virtual void hideKeyboard();
+#ifdef USE_NATIVE_ANDROID
+	virtual int getKeyboardUpOffset();
+#endif
 #endif
 
 public:

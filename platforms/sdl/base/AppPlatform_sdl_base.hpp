@@ -28,6 +28,7 @@ public:
 	Texture loadTexture(const std::string& path, bool b = false) override = 0;
 	int getUserInputStatus() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
+	std::string getDateString(int time) override;
 	
 	// Also add these to allow proper turning within the game.
 	void setMouseGrabbed(bool b) override;

@@ -71,6 +71,24 @@ void AppPlatform_sdl_base::initSoundSystem()
 	}
 }
 
+std::string AppPlatform_sdl_base::getDateString(int time)
+{
+	time_t tt = time;
+	struct tm t;
+#ifdef _WIN32
+	gmtime_s(&t, &tt);
+#else
+	gmtime_r(&tt, &t);
+#endif
+
+	// Format String
+	char buf[2048];
+	strftime(buf, sizeof buf, "%b %d %Y %H:%M:%S", &t);
+
+	// Return
+	return std::string(buf);
+}
+
 void AppPlatform_sdl_base::setIcon(const Texture& icon)
 {
 	if (!icon.m_pixels)
@@ -185,14 +203,14 @@ MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_Event event)
 {
 	switch (event.button.button)
 	{
-	case SDL_BUTTON_LEFT:
-		return BUTTON_LEFT;
-	case SDL_BUTTON_RIGHT:
-		return BUTTON_RIGHT;
-	case SDL_BUTTON_MIDDLE:
-		return BUTTON_MIDDLE;
-	default:
-		return BUTTON_NONE;
+		case SDL_BUTTON_LEFT:
+			return BUTTON_LEFT;
+		case SDL_BUTTON_RIGHT:
+			return BUTTON_RIGHT;
+		case SDL_BUTTON_MIDDLE:
+			return BUTTON_MIDDLE;
+		default:
+			return BUTTON_NONE;
 	}
 }
 
@@ -202,30 +220,30 @@ bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
 
 	switch (event.type)
 	{
-	case SDL_MOUSEBUTTONDOWN:
-		result = true;
-		break;
-	case SDL_MOUSEBUTTONUP:
-		result = false;
-		break;
-	case SDL_MOUSEWHEEL:
-	{
-		short wheelDelta = event.wheel.y;
-		if (wheelDelta > 0)
-		{
-			// "A positive value indicates that the wheel was rotated forward, away from the user."
-			result = false;
-		}
-		else
-		{
-			// "A negative value indicates that the wheel was rotated backward, toward the user."
+		case SDL_MOUSEBUTTONDOWN:
 			result = true;
+			break;
+		case SDL_MOUSEBUTTONUP:
+			result = false;
+			break;
+		case SDL_MOUSEWHEEL:
+		{
+			short wheelDelta = event.wheel.y;
+			if (wheelDelta > 0)
+			{
+				// "A positive value indicates that the wheel was rotated forward, away from the user."
+				result = false;
+			}
+			else
+			{
+				// "A negative value indicates that the wheel was rotated backward, toward the user."
+				result = true;
+			}
+			break;
 		}
-		break;
-	}
-	default:
-		result = false;
-		break;
+		default:
+			result = false;
+			break;
 	}
 
 	return result;
@@ -235,11 +253,11 @@ Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(SDL_Event event)
 {
 	switch (event.key.state)
 	{
-	case SDL_RELEASED:
-		return Keyboard::UP;
-	case SDL_PRESSED:
-	default:
-		return Keyboard::DOWN;
+		case SDL_RELEASED:
+			return Keyboard::UP;
+		case SDL_PRESSED:
+		default:
+			return Keyboard::DOWN;
 	}
 }
 
@@ -247,7 +265,7 @@ void AppPlatform_sdl_base::showKeyboard(int x, int y, int w, int h)
 {
 	if (SDL_IsTextInputActive())
 	{
-		SDL_StopTextInput();
+		hideKeyboard();
 	}
 	SDL_Rect rect;
 	rect.x = x;

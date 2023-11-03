@@ -140,18 +140,12 @@ bool AppPlatform::shiftPressed()
 	return false;
 }
 
-void AppPlatform::showKeyboard(bool bShown)
-{
-}
-
-void AppPlatform::onHideKeyboard()
-{
-}
-
+#ifdef USE_NATIVE_ANDROID
 int AppPlatform::getKeyboardUpOffset()
 {
 	return 0;
 }
+#endif
 
 bool AppPlatform::hasFileSystemAccess()
 {
