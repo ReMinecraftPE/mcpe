@@ -246,13 +246,12 @@ target_include_directories(reminecraftpe-core PUBLIC ${INCLUDES})
 add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
-# zlib - Android targets the libraries
-if(NOT ANDROID)
+# zlib - Android builds with its own version
+# Hack - If we're not building for Android, surely we're building with SDL
+if(USE_SDL)
 	add_subdirectory(../thirdparty/zlib zlib)
 	target_link_libraries(reminecraftpe-core PUBLIC zlib)
-endif()
-
-if(SDL)
+	
 	# SDL
 	add_library(SDL INTERFACE)
 	if(EMSCRIPTEN)

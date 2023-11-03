@@ -3,6 +3,7 @@ project(reminecraftpe-sdl)
 
 # SDL Build
 add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
+set(USE_SDL 1)
 
 # WASM
 if(EMSCRIPTEN)
