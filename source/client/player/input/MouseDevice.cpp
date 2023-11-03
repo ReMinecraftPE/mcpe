@@ -8,6 +8,18 @@
 
 #include "MouseDevice.hpp"
 
+MouseDevice::MouseDevice()
+{
+	_index = -1;
+	_x = 0;
+	_y = 0;
+	_xOld = 0;
+	_yOld = 0;
+
+	for (int i = 0; i < BUTTON_COUNT; i++)
+		_buttonStates[i] = 0;
+}
+
 void MouseDevice::feed(MouseButtonType buttonType, bool buttonState, int posX, int posY)
 {
 	if (buttonType != BUTTON_NONE)

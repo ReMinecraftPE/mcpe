@@ -59,6 +59,7 @@ struct MouseAction
 class MouseDevice
 {
 public:
+	MouseDevice();
 	void  feed(MouseButtonType buttonType, bool buttonState, int posX, int posY);
 	short getX();
 	short getY();
