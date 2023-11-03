@@ -27,6 +27,37 @@
 
 	#include <cmath>
 
+	#define USE_GL_ORTHO_F
+#else
+	#ifdef USE_SDL
+		#define USE_OPENGL_2_FEATURES
+
+		#define GL_GLEXT_PROTOTYPES
+		#include "thirdparty/SDL2/SDL_opengl.h"
+
+		#ifndef _WIN32
+			#include <SDL2/SDL_opengl_glext.h>
+		#endif
+	#else
+		#ifdef __APPLE__
+			#include <OpenGL/gl.h>
+			#include <OpenGL/glu.h>
+		#else
+			#include <GL/gl.h>
+			#include <GL/glu.h>
+			#include <GL/glext.h> // it'll include from a different dir, namely thirdparty/GL/glext.h
+		#endif
+
+		#ifdef _WIN32
+			#pragma comment(lib, "opengl32.lib")
+			#pragma comment(lib, "glu32.lib")
+		#endif
+	#endif
+
+	// use our macro for glOrtho
+#endif
+
+#if defined(USE_GLES) || defined(USE_SDL)
 	// https://cgit.freedesktop.org/mesa/glu/tree/src/libutil/project.c
 	static inline void __gluMakeIdentityf(GLfloat m[16]) {
 		m[0 + 4 * 0] = 1; m[0 + 4 * 1] = 0; m[0 + 4 * 2] = 0; m[0 + 4 * 3] = 0;
@@ -55,42 +86,6 @@
 		m[3][3] = 0;
 		glMultMatrixf(&m[0][0]);
 	}
-
-	#define USE_GL_ORTHO_F
-
-#else
-	#include <GL/gl.h>
-	#include <GL/glu.h>
-
-	#ifdef _WIN32
-		#pragma comment(lib, "opengl32.lib")
-		#pragma comment(lib, "glu32.lib")
-	#endif
-
-	#ifdef __APPLE__
-		#include <OpenGL/glu.h>
-	#else
-		#include <GL/glu.h>
-	#endif
-
-	#ifdef USE_SDL
-		#define USE_OPENGL_2_FEATURES
-
-		#define GL_GLEXT_PROTOTYPES
-		#include "thirdparty/SDL2/SDL_opengl.h"
-
-		#ifndef _WIN32
-			#include <SDL2/SDL_opengl_glext.h>
-		#endif
-
-		#ifndef __APPLE__
-			#include <GL/glext.h> // it'll include from a different dir, namely thirdparty/GL/glext.h
-		#endif
-	#elif !defined __APPLE__
-		#include <GL/glext.h> // it'll include from a different dir, namely thirdparty/GL/glext.h
-	#endif
-
-	// use our macro for glOrtho
 #endif
 
 #ifdef USE_OPENGL_2_FEATURES
