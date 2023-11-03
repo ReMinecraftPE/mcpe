@@ -61,7 +61,7 @@ void AppPlatform_sdl_base::initSoundSystem()
 #ifndef ANDROID
 		m_pSoundSystem = new SoundSystemAL();
 #else
-        m_pSoundSystem = new SoundSystem();
+		m_pSoundSystem = new SoundSystem();
 #endif
 		LOG_I("Initializing OpenAL SoundSystem...");
 	}

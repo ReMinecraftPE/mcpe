@@ -35,10 +35,10 @@ static void teardown()
 
 static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 {
-    if (sdlCode == SDLK_AC_BACK) {
-        // Android Back Button
-        sdlCode = SDLK_ESCAPE;
-    }
+	if (sdlCode == SDLK_AC_BACK) {
+		// Android Back Button
+		sdlCode = SDLK_ESCAPE;
+	}
 	switch (sdlCode) {
 		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
 		#include "compat/SDLKeyCodes.h"

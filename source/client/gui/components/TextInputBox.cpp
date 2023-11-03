@@ -184,18 +184,18 @@ void TextInputBox::setFocused(Minecraft* minecraft, bool b)
 	if (m_bFocused == b)
 		return;
 
-    if (b)
-    {
-        int x = m_xPos / Gui::InvGuiScale;
-        int y = m_yPos / Gui::InvGuiScale;
-        int w = m_width / Gui::InvGuiScale;
-        int h = m_height / Gui::InvGuiScale;
-        minecraft->platform()->showKeyboard(x, y, w, h);
-    }
-    else
-    {
-        minecraft->platform()->hideKeyboard();
-    }
+	if (b)
+	{
+		int x = m_xPos / Gui::InvGuiScale;
+		int y = m_yPos / Gui::InvGuiScale;
+		int w = m_width / Gui::InvGuiScale;
+		int h = m_height / Gui::InvGuiScale;
+		minecraft->platform()->showKeyboard(x, y, w, h);
+	}
+	else
+	{
+		minecraft->platform()->hideKeyboard();
+	}
 
 	m_bFocused = b;
 	if (b)
