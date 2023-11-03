@@ -15,7 +15,7 @@ jobs:
           - name: Install Dependencies
             run: |
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y build-essential cmake ninja-build libopenal-dev libsdl2-dev
+                sudo apt-get install --no-install-recommends -y build-essential cmake ninja-build libopenal-dev libsdl2-dev libpng-dev zlib1g-dev
           - name: Build Desktop
             run: |
                 cd platforms/sdl
