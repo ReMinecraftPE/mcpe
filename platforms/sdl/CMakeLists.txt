@@ -20,6 +20,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_compile_options(-Wno-inconsistent-missing-override -Wno-enum-compare-switch -Wno-register)
 endif()
 
+# Network library
+if(HAIKU)
+    add_link_options(-lnetwork)
+endif()
+
 # Threads
 if(EMSCRIPTEN)
     add_compile_and_link_options(-pthread)
