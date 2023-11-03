@@ -7,8 +7,8 @@ on:
 jobs:
     linux:
         strategy:
+            fail-fast: false
             matrix:
-                fail-fast: false
                 include:
                   - name: OpenGL ES
                     flags: "-DUSE_GLES1_COMPATIBILITY_LAYER=ON"
@@ -48,8 +48,8 @@ jobs:
             run: ./build-wasm.sh
     android:
         strategy:
+            fail-fast: false
             matrix:
-                fail-fast: false
                 include:
                   - name: SDL
                     directory: platforms/sdl/android
