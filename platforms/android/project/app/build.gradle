@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.reminecraftpe'
+    compileSdk 34
+
+    // Employ a hack which copies the assets folder in to the local assets folder.
+    task CopyAssets(type: Copy) {
+        from '../../../../game/assets'
+        into 'src/main/assets'
+    }
+
+    applicationVariants.all { variant ->
+        // Ensure the custom task is executed before building the APK
+        variant.preBuildProvider.configure { dependsOn(CopyAssets) }
+    }
+
+    defaultConfig {
+        applicationId "com.reminecraftpe"
+        minSdk 16
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.22.1'
+        }
+    }
+}
+
+dependencies {
+}

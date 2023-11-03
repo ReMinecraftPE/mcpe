@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-core)
 
+if(NOT ANDROID)
+	set(INCLUDES . .. ../thirdparty/zlib)
+else()
+	set(INCLUDES . ..)
+endif()
+
 # Build
 add_library(reminecraftpe-core STATIC
     common/Random.cpp
@@ -233,52 +239,59 @@ add_library(reminecraftpe-core STATIC
     world/tile/DoorTile.cpp
     renderer/GL/GL.cpp
 )
-target_include_directories(reminecraftpe-core PUBLIC . .. ../thirdparty/zlib)
+
+target_include_directories(reminecraftpe-core PUBLIC ${INCLUDES})
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
-# zlib
-add_subdirectory(../thirdparty/zlib zlib)
-target_link_libraries(reminecraftpe-core PUBLIC zlib)
-
-# SDL
-add_library(SDL INTERFACE)
-if(EMSCRIPTEN)
-    set(SDL_FLAG -sUSE_SDL=2)
-    target_compile_options(SDL INTERFACE "${SDL_FLAG}")
-    target_link_options(SDL INTERFACE "${SDL_FLAG}")
-else()
-    find_package(SDL2 REQUIRED)
-    target_link_libraries(SDL INTERFACE SDL2::SDL2)
+# zlib - Android targets the libraries
+if(NOT ANDROID)
+	add_subdirectory(../thirdparty/zlib zlib)
+	target_link_libraries(reminecraftpe-core PUBLIC zlib)
 endif()
-target_link_libraries(reminecraftpe-core PUBLIC SDL)
 
-# OpenGL
-if(NOT EMSCRIPTEN)
-    option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
-else()
-    set(USE_GLES1_COMPATIBILITY_LAYER TRUE)
-endif()
-if(USE_GLES1_COMPATIBILITY_LAYER)
-    set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
-    set(GLES_COMPATIBILITY_LAYER_DEPENDENCY SDL CACHE STRING "" FORCE)
-    add_subdirectory(../thirdparty/gles-compatibility-layer gles-compatibility-layer)
-    target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
-    target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
-    if(EMSCRIPTEN)
-        target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
-    endif()
-else()
-    find_package(OpenGL REQUIRED)
-    target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL OpenGL::GLU)
+if(SDL)
+	# SDL
+	add_library(SDL INTERFACE)
+	if(EMSCRIPTEN)
+		set(SDL_FLAG -sUSE_SDL=2)
+		target_compile_options(SDL INTERFACE "${SDL_FLAG}")
+		target_link_options(SDL INTERFACE "${SDL_FLAG}")
+	else()
+		find_package(SDL2 REQUIRED)
+		target_link_libraries(SDL INTERFACE SDL2::SDL2)
+	endif()
+	target_link_libraries(reminecraftpe-core PUBLIC SDL)
+	
+	# OpenGL
+	if(NOT EMSCRIPTEN)
+		option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
+	else()
+		set(USE_GLES1_COMPATIBILITY_LAYER TRUE)
+	endif()
+	if(USE_GLES1_COMPATIBILITY_LAYER)
+		set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
+		set(GLES_COMPATIBILITY_LAYER_DEPENDENCY SDL CACHE STRING "" FORCE)
+		add_subdirectory(../thirdparty/gles-compatibility-layer gles-compatibility-layer)
+		target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
+		target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
+		if(EMSCRIPTEN)
+			target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
+		endif()
+	else()
+		find_package(OpenGL REQUIRED)
+		target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL OpenGL::GLU)
+	endif()
+elseif(ANDROID)
+	# Add Android related stuff here.
 endif()
 
 # Sound Data
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../sound_data/sounds.h")
-    if(NOT DEFINED ENV{CI})
-        message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
-    endif()
-    target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
+	if(NOT DEFINED ENV{CI})
+		message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
+	endif()
+	target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
 endif()

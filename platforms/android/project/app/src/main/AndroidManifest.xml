@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- This is the platform API where NativeActivity was introduced. -->
+	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="31"/>
+
+    <application
+		android:hasCode="false"
+		android:label="@string/app_name"
+		tools:targetApi="21">
+		
+		<!-- Create a native activity class -->
+		<activity
+			android:name="android.app.NativeActivity"
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+			android:label="@string/app_name"
+			android:configChanges="orientation|keyboardHidden"
+			android:exported="true"
+			android:screenOrientation="landscape">
+			
+			<!-- Tell the NativeActivity about our shared object -->
+			<meta-data
+				android:name="android.app.lib_name"
+				android:value="reminecraftpe" />
+			
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			
+		</activity>
+	
+	</application>
+	
+	<!-- Give our app internet access -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	
+</manifest>

@@ -15,7 +15,7 @@
 #include <stdio.h> // RAKNET_DEBUG_PRINTF
 #include "RakAssert.h"
 #if defined(ANDROID)
-#include <asm/io.h>
+//#include <sys/io.h>
 #elif defined(_WIN32) || defined(__CYGWIN__)
 #include <io.h>
 
