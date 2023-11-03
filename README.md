@@ -129,10 +129,29 @@ use. (problem with Emscripten)
 `application/octet-stream`. This can be done by opening `/etc/nginx/mime.types` as root and adding
 `application/wasm wasm;` to the types block.
 
-## Linux
+### Linux
 
-You will need `libopenal-dev` and `libsdl2-dev` to play (the package names for OpenAL and SDL2 respectively,
-if you are using apt). Then simply run the makefile with the `make` command.
+This project uses CMake on Linux. Just like WebAssembly, the game assets must be placed in the `game/` directory.
+
+#### Dependencies (Ubuntu/Debian)
+
+- `build-essential` (C/C++ Toolchain)
+- `cmake` (CMake)
+- `ninja-build` (Ninja)
+- `libsdl2-dev` (SDL2)
+- `libopenal-dev` (OpenAL)
+- `libpng-dev` (LibPNG)
+
+#### How To Build
+
+```sh
+cd platforms/sdl
+mkdir build && cd build
+cmake -GNinja ..
+cmake --build .
+# Run
+./reminecraftpe
+```
 
 ## Have seams when playing?
 
