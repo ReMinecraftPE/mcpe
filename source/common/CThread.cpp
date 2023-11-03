@@ -45,7 +45,7 @@ CThread::CThread(CThreadFunction func, void* param)
 	);
 #else
 	pthread_attr_init(&m_thrd_attr);
-	pthread_attr_setdetachstate(&m_thrd_attr, 1);
+	//pthread_attr_setdetachstate(&m_thrd_attr, 1);
 	pthread_create(&m_thrd, &m_thrd_attr, m_func, param);
 #endif
 }
