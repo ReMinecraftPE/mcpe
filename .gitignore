@@ -147,6 +147,19 @@ xcuserdata/
 /game/assets/mob/char.png
 /game/assets/particles.png
 /game/assets/terrain.png
+/game/assets/gui/buynow.png
+/game/assets/gui/controls/dpad.png
+/game/assets/gui/controls/dpadbutton.png
+/game/assets/gui/controls/dpad_jump.png
+/game/assets/gui/feedback.png
+/game/assets/gui/itemframe.png
+/game/assets/gui/menubuttons.png
+/game/assets/gui/plusknapp.png
+/game/assets/gui/selectworld/add.png
+/game/assets/gui/startmenu/sm_play.png
+/game/assets/gui/startmenu/sm_multi.png
+/game/assets/gui/startmenu/sm_options.png
+/game/assets/gui/touchgui.png
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /game/assets/gui/background/panorama_0.png
