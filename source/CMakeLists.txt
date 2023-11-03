@@ -327,6 +327,9 @@ if(USE_SDL)
         find_package(OpenGL REQUIRED)
         target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
     endif()
+elseif(ANDROID)
+    # OpenGL
+    target_link_libraries(reminecraftpe-core PUBLIC EGL GLESv1_CM)
 endif()
 
 # Android Logging
