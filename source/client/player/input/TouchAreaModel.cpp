@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <cstddef>
+
 #include "TouchAreaModel.hpp"
 
 TouchAreaModel::~TouchAreaModel()

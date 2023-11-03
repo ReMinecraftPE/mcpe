@@ -12,7 +12,7 @@
 #include "common/Utils.hpp"
 
 AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
-    : AppPlatform_sdlbase(storageDir, window)
+	: AppPlatform_sdl_base(storageDir, window)
 {
 	setIcon(loadTexture("icon.png"));
 }

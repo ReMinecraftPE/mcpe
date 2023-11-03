@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe)
-
-set(CMAKE_BUILD_TYPE Debug)
+project(reminecraftpe-sdl)
 
 # SDL Build
 add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
@@ -30,27 +28,26 @@ else()
 endif()
 
 # Build
+set(SOURCES
+    main.cpp
+    base/AppPlatform_sdl_base.cpp
+)
 if(EMSCRIPTEN)
-add_executable(reminecraftpe
-    main.cpp
-	AppPlatform_sdlbase.cpp
-    AppPlatform_emscripten.cpp
-    ../openal/SoundSystemAL.cpp
-)
+    list(APPEND SOURCES emscripten/AppPlatform_sdl.cpp)
 else()
-add_executable(reminecraftpe
-    main.cpp
-	AppPlatform_sdlbase.cpp
-    AppPlatform_sdl.cpp
-    ../openal/SoundSystemAL.cpp
-)
+    list(APPEND SOURCES desktop/AppPlatform_sdl.cpp)
 endif()
+add_executable(reminecraftpe ${SOURCES})
 
 # Core
 add_subdirectory(../../source source)
 target_link_libraries(reminecraftpe reminecraftpe-core)
 
-# LibPNG
+# OpenAL
+add_subdirectory(../openal openal)
+target_link_libraries(reminecraftpe reminecraftpe-openal)
+
+# LibPNG (If Needed)
 if(NOT EMSCRIPTEN)
     find_package(PNG REQUIRED)
     target_link_libraries(reminecraftpe PNG::PNG)
@@ -72,6 +69,6 @@ endif()
 # Assets
 if(EMSCRIPTEN)
     target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets@/assets")
-elseif(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/assets")
-    file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
+else()
+    file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
 endif()

@@ -5,27 +5,15 @@
 #include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
 
-#if	  defined(__EMSCRIPTEN__)
-#include "AppPlatform_emscripten.hpp"
-typedef AppPlatform_emscripten UsedAppPlatform;
+#ifdef __EMSCRIPTEN__
+#include "emscripten/AppPlatform_sdl.hpp"
 #else
-#include "AppPlatform_sdl.hpp"
-typedef AppPlatform_sdl UsedAppPlatform;
+#include "desktop/AppPlatform_sdl.hpp"
 #endif
+typedef AppPlatform_sdl UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
-
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#include <emscripten/html5.h>
-#else
-#define EM_BOOL bool
-#define EM_TRUE true
-#define EM_FALSE false
-#endif
-
-#undef main
 
 static float g_fPointToPixelScale = 1.0f;
 
@@ -89,7 +77,7 @@ static void handle_events()
 				}
 				*/
 				
-				Keyboard::feed(AppPlatform_sdlbase::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
+				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
 					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
@@ -100,15 +88,15 @@ static void handle_events()
 			case SDL_MOUSEBUTTONUP:
 			{
 				const float scale = g_fPointToPixelScale;
-				Mouse::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
-				Multitouch::feed(AppPlatform_sdlbase::GetMouseButtonType(event), AppPlatform_sdlbase::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale, 0);
+				Mouse::feed(AppPlatform_sdl_base::GetMouseButtonType(event), AppPlatform_sdl_base::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale);
+				Multitouch::feed(AppPlatform_sdl_base::GetMouseButtonType(event), AppPlatform_sdl_base::GetMouseButtonState(event), event.button.x * scale, event.button.y * scale, 0);
 				break;
 			}
 			case SDL_MOUSEMOTION:
 			{
-                float scale = g_fPointToPixelScale;
-                float x = event.motion.x * scale;
-                float y = event.motion.y * scale;
+				float scale = g_fPointToPixelScale;
+				float x = event.motion.x * scale;
+				float y = event.motion.y * scale;
 				Mouse::feed(BUTTON_NONE, false, x, y);
 				Multitouch::feed(BUTTON_NONE, false, x, y, 0);
 				g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
@@ -116,7 +104,7 @@ static void handle_events()
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdlbase::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+				Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdl_base::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				break;
 			}
 			case SDL_TEXTINPUT:
@@ -151,14 +139,14 @@ static void handle_events()
 // Resizing
 static void resize()
 {
-    int drawWidth, drawHeight;
-    SDL_GL_GetDrawableSize(window,
-        &drawWidth, &drawHeight);
-    
-    int windowWidth, windowHeight;
-    SDL_GetWindowSize(window,
-        &windowWidth, &windowHeight);
-    
+	int drawWidth, drawHeight;
+	SDL_GL_GetDrawableSize(window,
+		&drawWidth, &drawHeight);
+	
+	int windowWidth, windowHeight;
+	SDL_GetWindowSize(window,
+		&windowWidth, &windowHeight);
+	
 	Minecraft::width  = drawWidth;
 	Minecraft::height = drawHeight;
 	
@@ -218,7 +206,7 @@ extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 #ifdef __EMSCRIPTEN__
 bool DoesAssetExist(const std::string & fileName)
 {
-    std::string realPath = g_pAppPlatform->getAssetPath(fileName);
+	std::string realPath = g_pAppPlatform->getAssetPath(fileName);
 	int width = 0, height = 0;
 	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &width, &height);
 	if (data == NULL)
@@ -227,18 +215,15 @@ bool DoesAssetExist(const std::string & fileName)
 	free(data);
 	return true;
 }
+#else
+// access works just fine on linux and friends
+#define DoesAssetExist(fileName) (XPL_ACCESS("assets/" fileName, 0) == 0)
 #endif
 
 void CheckOptionalTextureAvailability()
 {
-#ifdef __EMSCRIPTEN__
 	g_bIsMenuBackgroundAvailable = DoesAssetExist("gui/background/panorama_0.png");
 	g_bAreCloudsAvailable        = DoesAssetExist("environment/clouds.png");
-#else
-	// access works just fine on linux and friends
-	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
-	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
-#endif
 }
 
 // Main
@@ -314,7 +299,7 @@ int main(int argc, char *argv[])
 #endif
 
 	// Storage Directory
-    std::string storagePath;
+	std::string storagePath;
 #ifdef _WIN32
 	storagePath = getenv("APPDATA");
 #elif defined(__EMSCRIPTEN__)
@@ -323,7 +308,7 @@ int main(int argc, char *argv[])
 	storagePath = getenv("HOME");
 #endif
 	storagePath += "/.reminecraftpe";
-    
+	
 	if (!storagePath.empty())
 		createFolderIfNotExists(storagePath.c_str());
 	
@@ -335,9 +320,9 @@ int main(int argc, char *argv[])
 	g_pApp->init();
 
 	CheckOptionalTextureAvailability();
-    
-    // Set Size
-    resize();
+	
+	// Set Size
+	resize();
 
 	// Loop
 #ifndef __EMSCRIPTEN__

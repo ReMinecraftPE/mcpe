@@ -2,9 +2,13 @@
 
 #include <string>
 
-#include "AppPlatform_sdlbase.hpp"
+#include "../base/AppPlatform_sdl_base.hpp"
 
-class AppPlatform_sdl : public AppPlatform_sdlbase
+#define EM_BOOL bool
+#define EM_TRUE true
+#define EM_FALSE false
+
+class AppPlatform_sdl : public AppPlatform_sdl_base
 {
 public:
 	AppPlatform_sdl(std::string storageDir, SDL_Window *window);
