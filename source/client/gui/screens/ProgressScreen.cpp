@@ -15,12 +15,6 @@ bool ProgressScreen::isInGameScreen()
 
 void ProgressScreen::render(int a, int b, float c)
 {
-	if (m_pMinecraft->isLevelGenerated())
-	{
-		m_pMinecraft->setScreen(nullptr);
-		return;
-	}
-
 	renderBackground();
 
 	// render the dirt background
@@ -83,4 +77,15 @@ void ProgressScreen::render(int a, int b, float c)
 #ifdef ORIGINAL_CODE
 	sleepMs(50);
 #endif
+}
+
+void ProgressScreen::updateEvents()
+{
+	if (m_pMinecraft->isLevelGenerated())
+	{
+		m_pMinecraft->setScreen(nullptr);
+		return;
+	}
+
+	Screen::updateEvents();
 }
