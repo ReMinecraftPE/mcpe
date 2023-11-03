@@ -17,6 +17,7 @@ based on the mcpe01_canada.apk build of the game.
 	* WebGL
 	* macOS (port by [BrentDaMage](https://github.com/BrentDaMage))
 	* Xbox 360 (incomplete; port by [BrentDaMage](https://github.com/BrentDaMage))
+	* HaikuOS
 
 **We will not do the following:**
 * Add features added in or after Java Edition Beta 1.8
@@ -140,6 +141,19 @@ cmake --build .
 ./reminecraftpe
 ```
 
+### HaikuOS
+
+#### Dependencies
+
+- `libsdl2_devel` (SDL2)
+- `glu_devel mesa_devel` (Mesa)
+- `cmake` (CMake)
+- `ninja` (Ninja)
+
+#### How To Build
+
+- Same as for Linux.
+ 
 ## Have seams when playing?
 
 I've had texture seams when playing Minecraft Classic, ClassiCube and this recreation of Minecraft PE, on a
