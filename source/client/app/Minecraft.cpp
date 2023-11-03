@@ -978,7 +978,7 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
 
 	if (m_pInputHolder)
-		m_pInputHolder->setScreenSize(newWidth * guiScaleMultiplier, newHeight * guiScaleMultiplier);
+		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);
 }
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
