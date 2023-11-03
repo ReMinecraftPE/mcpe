@@ -46,23 +46,23 @@ public:
 	static Keyboard::KeyState GetKeyState(SDL_Event event);
 private:
 	SDL_Window *_window;
-    
-    const Texture *_iconTexture;
-    SDL_Surface *_icon;
+
+	const Texture *_iconTexture;
+	SDL_Surface *_icon;
 
 	bool m_bShiftPressed[2];
 
 	int xrel;
 	int yrel;
-	
+
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
-    
-    static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
+
+	static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:
-    std::string _storageDir;
+	std::string _storageDir;
 
 	virtual void ensureDirectoryExists(const char* path) { }
-	
+
 	void setIcon(const Texture& icon); // note: this takes ownership of the texture, so no memory leaks!
 };

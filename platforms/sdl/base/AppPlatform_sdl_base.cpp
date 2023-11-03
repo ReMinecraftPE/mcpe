@@ -16,17 +16,17 @@
 
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
-    _storageDir = storageDir;
-    _window = window;
-    
-    _iconTexture = nullptr;
-    _icon = nullptr;
-    
-    m_bShiftPressed[0] = false;
-    m_bShiftPressed[1] = false;
+	_storageDir = storageDir;
+	_window = window;
 
-    ensureDirectoryExists(_storageDir.c_str());
-	
+	_iconTexture = nullptr;
+	_icon = nullptr;
+
+	m_bShiftPressed[0] = false;
+	m_bShiftPressed[1] = false;
+
+	ensureDirectoryExists(_storageDir.c_str());
+
 	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;
 }
@@ -52,11 +52,11 @@ void AppPlatform_sdl_base::setIcon(const Texture& icon)
 	SAFE_DELETE(_iconTexture);
 	if (_icon) SDL_FreeSurface(_icon);
 
-    _iconTexture = new Texture(icon);
-    _icon = getSurfaceForTexture(_iconTexture);
-	
-    if (_icon)
-        SDL_SetWindowIcon(_window, _icon);
+	_iconTexture = new Texture(icon);
+	_icon = getSurfaceForTexture(_iconTexture);
+
+	if (_icon)
+		SDL_SetWindowIcon(_window, _icon);
 }
 
 AppPlatform_sdl_base::~AppPlatform_sdl_base()
@@ -65,29 +65,29 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 	SAFE_DELETE(_iconTexture);
 
 	SAFE_DELETE(m_pSoundSystem);
-	
+
 	// DELETE THIS LAST
 	SAFE_DELETE(m_pLogger);
 }
 
 SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const texture)
 {
-    if (!texture) return nullptr;
-    
-    void * const pixels = texture->m_pixels;
-    const int width = texture->m_width;
-    const int height = texture->m_height;
-    const int depth = 32; // Color depth (32-bit by default)
-    SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
-            pixels, width, height, depth,
-            width * 4, // Pitch
-            0x000000FF, 0x0000FF00, 0x00FF0000,
-            0xFF000000
-    );
-    if (!surface)
-        LOG_E("Failed loading SDL_Surface from Texture: %s", SDL_GetError());
-    
-    return surface;
+	if (!texture) return nullptr;
+
+	void * const pixels = texture->m_pixels;
+	const int width = texture->m_width;
+	const int height = texture->m_height;
+	const int depth = 32; // Color depth (32-bit by default)
+	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
+			pixels, width, height, depth,
+			width * 4, // Pitch
+			0x000000FF, 0x0000FF00, 0x00FF0000,
+			0xFF000000
+	);
+	if (!surface)
+		LOG_E("Failed loading SDL_Surface from Texture: %s", SDL_GetError());
+
+	return surface;
 }
 
 int AppPlatform_sdl_base::checkLicense()
@@ -98,7 +98,7 @@ int AppPlatform_sdl_base::checkLicense()
 
 const char* const AppPlatform_sdl_base::getWindowTitle() const
 {
-    return SDL_GetWindowTitle(_window);
+	return SDL_GetWindowTitle(_window);
 }
 
 int AppPlatform_sdl_base::getScreenWidth() const
@@ -185,11 +185,15 @@ bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
 	{
 		short wheelDelta = event.wheel.y;
 		if (wheelDelta > 0)
+		{
 			// "A positive value indicates that the wheel was rotated forward, away from the user."
 			result = false;
+		}
 		else
+		{
 			// "A negative value indicates that the wheel was rotated backward, toward the user."
 			result = true;
+		}
 		break;
 	}
 	default:
