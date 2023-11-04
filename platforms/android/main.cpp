@@ -1,3 +1,11 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+	
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
 #include <jni.h>
 #include <errno.h>
 #include "android_native_app_glue.h"
@@ -334,6 +342,7 @@ static void initWindow(struct engine* engine, struct android_app* app)
     if (!engine->initted)
     {
         engine->ninecraftApp->m_externalStorageDir = getExternalStorageDir(engine);
+        g_AppPlatform.setExternalStoragePath(engine->ninecraftApp->m_externalStorageDir);
         engine->ninecraftApp->init();
     }
     else
@@ -366,6 +375,7 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 
     case APP_CMD_TERM_WINDOW:
         LOG_I("APP_CMD_TERM_WINDOW");
+        engine->ninecraftApp->saveOptions();
         if (engine->display)
         {
             eglMakeCurrent(engine->display, 0, 0, 0);
@@ -382,6 +392,7 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
         break;
     case APP_CMD_LOST_FOCUS:
         engine->animating = 0;
+        engine->ninecraftApp->saveOptions();
         break;
     }
 }

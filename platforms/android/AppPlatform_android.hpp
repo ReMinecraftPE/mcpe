@@ -52,6 +52,7 @@ public:
 	
 	// Also add these to allow saving options.
 	//void setOptionStrings(const std::vector <std::string>& str) override;
+	bool hasFileSystemAccess() override;	
 
 	SoundSystem* const getSoundSystem() const override;
 	void initSoundSystem() override;
@@ -59,6 +60,7 @@ public:
 
 	void setScreenSize(int width, int height);
 	void initAndroidApp(android_app* ptr);
+	void setExternalStoragePath(const std::string& path);
 
 private:
 	int m_ScreenWidth;
@@ -81,5 +83,7 @@ private:
 	android_app* m_app;
 
 	SoundSystem* m_pSoundSystem;
+	
+	std::string m_storageDir;
 };
 
