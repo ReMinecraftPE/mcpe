@@ -483,26 +483,31 @@ void Level::updateLight(const LightLayer& ll, int a, int b, int c, int d, int e,
 		return;
 	}
 
-	if (!unimportant || m_lightUpdates.size() <= 0)
+	size_t size = m_lightUpdates.size();
+	if (unimportant)
 	{
-	label_20:
-		m_lightUpdates.push_back(LightUpdate(ll, a, b, c, d, e, f));
-		nUpdateLevels--;
-		return;
-	}
+		size_t count = 5;
+		if (count > size)
+			count = size;
 
-	for (int i = 0; i < int(m_lightUpdates.size()); i++)
-	{
-		//dont know what the hell this is v19 = &v15[~v17 - 0x49249249 * (i >> 2)];
-
-		LightUpdate* pUpd = &m_lightUpdates[i];
-		if (pUpd->m_lightLayer == &ll && pUpd->expandToContain(a, b, c, d, e, f))
+		for (size_t i = 0; i < count; i++)
 		{
-			nUpdateLevels--;
-			return;
+			LightUpdate& update = m_lightUpdates[size - i - 1];
+			if (update.m_lightLayer == &ll && update.expandToContain(a, b, c, d, e, f))
+			{
+				nUpdateLevels--;
+				return;
+			}
 		}
 	}
-	goto label_20;
+
+	m_lightUpdates.push_back(LightUpdate(ll, a, b, c, d, e, f));
+
+	// huh??
+	if (m_lightUpdates.size() > 1000000)
+		m_lightUpdates.clear();
+
+	nUpdateLevels--;
 }
 
 void Level::updateLight(const LightLayer& ll, int a, int b, int c, int d, int e, int f)
