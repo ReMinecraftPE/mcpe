@@ -132,7 +132,6 @@ This project uses CMake on Linux. Just like WebAssembly, the game assets must be
 - `ninja-build` (Ninja)
 - `libsdl2-dev` (SDL2)
 - `libopenal-dev` (OpenAL)
-- `libpng-dev` (LibPNG)
 
 #### How To Build
 
