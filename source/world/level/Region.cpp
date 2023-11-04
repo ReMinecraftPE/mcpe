@@ -61,7 +61,9 @@ int Region::getRawBrightness(int x, int y, int z, bool b)
 	}
 
 	//@BUG: Unsanitized input
-	return field_C[(x >> 4) - field_4][(z >> 4) - field_8]->getRawBrightness(x & 0xF, y, z & 0xF, m_pLevel->m_skyDarken);
+	int xd = (x >> 4) - field_4;
+	int zd = (z >> 4) - field_8;
+	return field_C[zd * field_14 + xd]->getRawBrightness(x & 0xF, y, z & 0xF, m_pLevel->m_skyDarken);
 }
 
 int Region::getRawBrightness(int x, int y, int z)
@@ -79,7 +81,9 @@ int Region::getData(int x, int y, int z)
 	if (y < C_MIN_Y || y >= C_MAX_Y)
 		return 0;
 
-	return field_C[(x >> 4) - field_4][(z >> 4) - field_8]->getData(x & 0xF, y, z & 0xF);
+	int xd = (x >> 4) - field_4;
+	int zd = (z >> 4) - field_8;
+	return field_C[zd * field_14 + xd]->getData(x & 0xF, y, z & 0xF);
 }
 
 Material* Region::getMaterial(int x, int y, int z)
@@ -104,9 +108,6 @@ bool Region::isSolidTile(int x, int y, int z)
 
 Region::~Region()
 {
-	for (int i = 0; i < field_14; i++)
-		delete[] field_C[i];
-
 	delete[] field_C;
 }
 
@@ -128,18 +129,22 @@ Region::Region(Level* level, int x1, int y1, int z1, int x2, int y2, int z2)
 		return;
 #endif
 
+	/*
 	field_C = new LevelChunk ** [field_14];
 
 	for (int i = 0; i < field_14; i++)
 	{
 		field_C[i] = new LevelChunk * [field_18];
 	}
+	*/
+
+	field_C = new LevelChunk * [field_14 * field_18];
 
 	for (int x = field_4; x <= x2 >> 4; x++)
 	{
 		for (int z = field_8; z <= z2 >> 4; z++)
 		{
-			field_C[x - field_4][z - field_8] = level->getChunk(x, z);
+			field_C[(z - field_8) * field_14 + (x - field_4)] = level->getChunk(x, z);
 		}
 	}
 }

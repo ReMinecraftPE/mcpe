@@ -33,13 +33,16 @@ public:
 		if (indexX < 0 || indexZ < 0 || indexX >= field_14 || indexZ >= field_18)
 			return nullptr;
 
-		return field_C[indexX][indexZ];
+		return field_C[indexZ * field_14 + indexX];
 	}
 
 private:
 	int field_4;
 	int field_8;
-	LevelChunk*** field_C;
+	// accesses to the array are performed as follows:
+	// (x = 0..field_14, z = 0..field_18)
+	// z * field_14 + x
+	LevelChunk** field_C;
 	Level* m_pLevel;
 	int field_14;
 	int field_18;
