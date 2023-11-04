@@ -22,7 +22,7 @@ endif()
 
 # Network library
 if(HAIKU)
-    add_link_options(-lnetwork)
+    link_libraries(network)
 endif()
 
 # Threads
