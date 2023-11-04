@@ -118,10 +118,11 @@ static void handle_events()
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 			{
-				// TODO: Shouldn't we be handling this in Keyboard?
-				
-				// We really should. We didn't add the f2 key anywhere -iProgramInCpp
-				/*
+				// This really should be handled somewhere else.
+				// Unforunately, there is no global keyboard handler.
+				// Keyboard events are either handled in Screen::keyboardEvent
+				// when a Screen is visible, or in Minecraft::tickInput
+				// when LocalPlayer exists.
 				if (event.key.keysym.sym == SDLK_F2)
 				{
 					if (event.key.state == SDL_PRESSED && g_pAppPlatform != nullptr)
@@ -130,7 +131,6 @@ static void handle_events()
 					}
 					break;
 				}
-				*/
 
 				// Android Back Button
 				if (event.key.keysym.sym == SDLK_AC_BACK) {

@@ -60,21 +60,10 @@ if(NOT ANDROID)
     target_link_libraries(reminecraftpe reminecraftpe-openal)
 endif()
 
-# LibPNG (If Needed)
+# stb_image (If Needed)
 if(NOT EMSCRIPTEN)
-    if(ANDROID)
-        # Vendor LibPNG (Android Only)
-        add_subdirectory(../../thirdparty/LibPNG/src libpng EXCLUDE_FROM_ALL)
-        target_link_libraries(reminecraftpe png_static)
-        target_include_directories(reminecraftpe PUBLIC
-            "${CMAKE_CURRENT_SOURCE_DIR}/../../thirdparty/LibPNG/src"
-            "${CMAKE_CURRENT_BINARY_DIR}/libpng"
-        )
-    else()
-        # System LibPNG
-        find_package(PNG REQUIRED)
-        target_link_libraries(reminecraftpe PNG::PNG)
-    endif()
+    add_subdirectory(../../thirdparty/stb_image stb_image)
+    target_link_libraries(reminecraftpe stb_image)
 endif()
 
 # SDL

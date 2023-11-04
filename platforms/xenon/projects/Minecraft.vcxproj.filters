@@ -2024,7 +2024,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\biome\Biome.cpp">
       <Filter>source\world\level\levelgen\biome</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image_impl.c">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c">
       <Filter>thirdparty</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\compat\GLExt.cpp">

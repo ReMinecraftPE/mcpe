@@ -13,8 +13,8 @@
 #include "AppPlatform_android.hpp"
 #include "client/player/input/Mouse.hpp"
 
-#include "thirdparty/stb_image.h"
-#include "thirdparty/stb_image_write.h"
+#include "stb_image.h"
+#include "stb_image_write.h"
 
 
 AppPlatform_android::AppPlatform_android()
