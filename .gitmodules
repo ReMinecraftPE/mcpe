@@ -7,6 +7,6 @@
 [submodule "thirdparty/SDL-src"]
 	path = thirdparty/SDL2/src
 	url = https://github.com/libsdl-org/SDL.git
-[submodule "thirdparty/LibPNG-src"]
-	path = thirdparty/LibPNG/src
-	url = https://github.com/glennrp/libpng.git
+[submodule "thirdparty/stb_image/include"]
+	path = thirdparty/stb_image/include
+	url = https://github.com/nothings/stb.git

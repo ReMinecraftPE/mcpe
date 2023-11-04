@@ -13,12 +13,15 @@ add_library(reminecraftpe SHARED
     "${MC_ROOT}/platforms/android/android_native_app_glue.c"
     "${MC_ROOT}/platforms/android/AppPlatform_android.cpp"
     "${MC_ROOT}/platforms/android/main.cpp"
-    "${MC_ROOT}/thirdparty/stb_image_impl.c"
 )
 
 # Core
 add_subdirectory("${MC_ROOT}/source" source)
 target_link_libraries(reminecraftpe reminecraftpe-core)
+
+# stb_image
+add_subdirectory("${MC_ROOT}/thirdparty/stb_image" stb_image)
+target_link_libraries(reminecraftpe stb_image)
 
 # Extra Dependencies
 target_link_libraries(reminecraftpe android)
