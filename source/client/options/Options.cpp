@@ -241,6 +241,8 @@ void Options::_load()
 			m_bInvertMouse = readBool(value);
 		else if (key == "ctrl_autojump")
 			m_bAutoJump = readBool(value);
+		else if (key == "ctrl_split")
+			m_bFancyGraphics = readBool(value);
 		else if (key == "gfx_fancygraphics")
 			m_bFancyGraphics = readBool(value);
 		else if (key == "mp_server_visible_default")
@@ -377,6 +379,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("mp_username", m_playerName);
 	SO("ctrl_invertmouse",          saveBool(m_bInvertMouse));
 	SO("ctrl_autojump",             saveBool(m_bAutoJump));
+	SO("ctrl_split",                saveBool(m_bSplitControls));
 	SO("gfx_fancygraphics",         saveBool(m_bFancyGraphics));
 	SO("mp_server_visible_default", saveBool(m_bServerVisibleDefault));
 	SO("gfx_smoothlighting",        saveBool(m_bAmbientOcclusion));
