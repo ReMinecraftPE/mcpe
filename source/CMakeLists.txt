@@ -85,6 +85,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/TextInputBox.cpp
     client/gui/components/SmallButton.cpp
     client/gui/components/WorldSelectionList.cpp
+    client/gui/components/OptionList.cpp
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
     client/model/PolygonQuad.cpp
