@@ -160,7 +160,7 @@ void OptionsScreen::updateTexts()
 	{
 		m_fancyGrassButton.m_bEnabled = false;
 	}
-	if (!GrassColor::isAvailable() && !FoliageColor::isAvailable())
+	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
 	{
 		m_biomeColorsButton.m_bEnabled = false;
 	}

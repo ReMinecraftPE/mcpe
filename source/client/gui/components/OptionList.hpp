@@ -22,6 +22,7 @@ public:
 	virtual void onClick(OptionList*, int mouseX, int mouseY) = 0;
 	virtual void render(OptionList*, int x, int y) = 0;
 	virtual bool maySelect() { return true; }
+	virtual void setDisabled(bool b) { };
 };
 
 class BooleanOptionItem : public OptionItem
@@ -30,6 +31,7 @@ public:
 	BooleanOptionItem(bool* pValue, const std::string& text);
 	void onClick(OptionList*, int mouseX, int mouseY) override;
 	void render(OptionList*, int x, int y) override;
+	void setDisabled(bool b) override { m_bDisabled = b; }
 
 	virtual void toggleState(OptionList*);
 
@@ -38,6 +40,7 @@ protected:
 
 	std::string m_text;
 	bool* m_pValue; // Reference to the value to be modified by this item
+	bool m_bDisabled;
 };
 
 // An option item that controls the view distance.
@@ -106,9 +109,7 @@ public:
 
 	void clear();
 	void initDefaultMenu();
-	void drawOnOffSwitch(int x, int y, bool state);
-
-
+	void drawOnOffSwitch(int x, int y, bool state, bool disabled = false);
 
 private:
 	int m_selectedItem;

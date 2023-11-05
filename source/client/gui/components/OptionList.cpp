@@ -8,6 +8,9 @@
 
 #include "OptionList.hpp"
 #include "client/options/Options.hpp"
+#include "client/renderer/PatchManager.hpp"
+#include "client/renderer/FoliageColor.hpp"
+#include "client/renderer/GrassColor.hpp"
 
 #define C_OPTION_ITEM_HEIGHT (18)
 
@@ -25,6 +28,9 @@ BooleanOptionItem::BooleanOptionItem(bool* pValue, const std::string& text)
 
 void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 {
+	if (m_bDisabled)
+		return;
+
 	int itemX = pList->field_18 / 2 - (C_SCROLLED_LIST_ITEM_WIDTH - 4) / 2;
 
 	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6)
@@ -41,12 +47,13 @@ void BooleanOptionItem::render(OptionList* pList, int x, int y)
 		m_text,
 		x + 22,
 		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
-		0xCCCCCC);
+		m_bDisabled ? 0x777777 : 0xCCCCCC);
 
 	pList->drawOnOffSwitch(
 		x + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6,
 		y + (C_OPTION_ITEM_HEIGHT - C_ON_OFF_SWITCH_HEIGHT) / 2 - 2,
-		*m_pValue);
+		*m_pValue,
+		m_bDisabled);
 }
 
 void BooleanOptionItem::toggleState(OptionList* pList)
@@ -181,22 +188,38 @@ bool OptionList::isSelectedItem(int index)
 	return m_selectedItem == index;
 }
 
-void OptionList::drawOnOffSwitch(int x, int y, bool state)
+void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 {
 	// Draws a simplistic On/Off switch.
 
+	uint32_t
+		edgeColor = 0xFF444444,
+		backdropEnabled = 0xFFAAAAAA,
+		backdropDisabled = 0xFF333333,
+		leverOn = 0xFFFFFFFF,
+		leverOff = 0xFF888888;
+
+	if (disabled)
+	{
+		edgeColor = 0xFF222222;
+		backdropEnabled = 0xFF555555;
+		backdropDisabled = 0xFF191919,
+		leverOn = 0xFF7F7F7F,
+		leverOff = 0xFF444444;
+	}
+
 	// Draw edges
-	fill(x + 0, y + 0, x + C_ON_OFF_SWITCH_WIDTH - 0, y + C_ON_OFF_SWITCH_HEIGHT - 0, 0xFF444444);
+	fill(x + 0, y + 0, x + C_ON_OFF_SWITCH_WIDTH - 0, y + C_ON_OFF_SWITCH_HEIGHT - 0, edgeColor);
 
 	// Draw backdrop
-	fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, state ? 0xFFAAAAAA : 0xFF333333);
+	fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, state ? backdropEnabled : backdropDisabled);
 
 	if (state)
 		// Draw ON position
-		fill(x + C_ON_OFF_SWITCH_WIDTH / 2 + 2, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, 0xFFFFFFFF);
+		fill(x + C_ON_OFF_SWITCH_WIDTH / 2 + 2, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, leverOn);
 	else
 		// Draw OFF position
-		fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH / 2 - 2, y + C_ON_OFF_SWITCH_HEIGHT - 1, 0xFF888888);
+		fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH / 2 - 2, y + C_ON_OFF_SWITCH_HEIGHT - 1, leverOff);
 }
 
 void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
@@ -278,10 +301,16 @@ void OptionList::initDefaultMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 
-#define HEADER(text) m_items.push_back(new HeaderOptionItem(text))
-#define OPTION(type, name, text) m_items.push_back(new type ## OptionItem(&pOptions->name, text))
+	int currentIndex = -1;
+
+#define HEADER(text) do { m_items.push_back(new HeaderOptionItem(text)); currentIndex++; } while (0)
+#define OPTION(type, name, text) do { m_items.push_back(new type ## OptionItem(&pOptions->name, text)); currentIndex++; } while (0)
+
+	int idxLM = -1;
+	int idxGrass = -1, idxBiome = -1;
 
 	HEADER("Video");
+	{
 		OPTION(Distance, m_iViewDistance,         "View distance");
 		OPTION(AORender, m_bAmbientOcclusion,     "Smooth lighting");
 		OPTION(Render,   m_bFancyGraphics,        "Fancy graphics");
@@ -291,11 +320,28 @@ void OptionList::initDefaultMenu()
 		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
 		OPTION(Boolean,  m_bBlockOutlines,        "Block outlines");
 		OPTION(Boolean,  m_bViewBobbing,          "View bobbing");
+		OPTION(Render,   m_bFancyGrass,           "Fancy grass");  idxGrass = currentIndex; // renders colored grass side overlay
+		OPTION(Render,   m_bBiomeColors,          "Biome colors"); idxBiome = currentIndex; // colors the grass based on the current biome
+	}
 
 	HEADER("Controls");
+	{
 		OPTION(Boolean,  m_bAutoJump,             "Auto jump");
 		OPTION(Boolean,  m_bInvertMouse,          "Invert Y-axis");
+	}
 
 	HEADER("Multiplayer");
-		OPTION(Boolean, m_bServerVisibleDefault, "Local server multiplayer");
+	{
+		OPTION(Boolean, m_bServerVisibleDefault,  "Local server multiplayer"); idxLM = currentIndex;
+	}
+
+#ifdef __EMSCRIPTEN
+	m_items[idxLM]->setDisabled(true);
+#endif
+	
+	if (!GetPatchManager()->IsGrassSidesTinted())
+		m_items[idxGrass]->setDisabled(true);
+
+	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
+		m_items[idxBiome]->setDisabled(true);
 }
