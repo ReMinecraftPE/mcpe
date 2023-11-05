@@ -137,13 +137,9 @@ void LevelRenderer::allChanged()
 
 	pLeaves->m_bTransparent = m_pMinecraft->getOptions()->m_bFancyGraphics;
 	pLeaves->m_TextureFrame = !pLeaves->m_bTransparent + pLeaves->field_74;
-	pLeaves->m_bUseBiomeColors = m_pMinecraft->getOptions()->m_bBiomeColors;
-
-	GrassTile* pGrass = (GrassTile*)Tile::grass;
-
-	pGrass->m_bUseBiomeColors = m_pMinecraft->getOptions()->m_bBiomeColors;
 
 	TileRenderer::m_bFancyGrass = m_pMinecraft->getOptions()->m_bFancyGrass;
+	TileRenderer::m_bBiomeColors = m_pMinecraft->getOptions()->m_bBiomeColors;
 
 	field_BC = m_pMinecraft->getOptions()->m_iViewDistance;
 

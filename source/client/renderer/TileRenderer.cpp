@@ -11,8 +11,11 @@
 #include "client/renderer/PatchManager.hpp"
 #include "world/tile/FireTile.hpp"
 #include "world/tile/LiquidTile.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
 
 bool TileRenderer::m_bFancyGrass = false;
+bool TileRenderer::m_bBiomeColors = false;
 
 void TileRenderer::_init()
 {
@@ -649,7 +652,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 
 bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z)
 {
-	int color = tile->getColor(m_pLevelSource, x, y, z);
+	int color = getTileColor(tile, x, y, z);
 
 	float r = float(GET_RED  (color)) / 255.0f;
 	float g = float(GET_GREEN(color)) / 255.0f;
@@ -2690,3 +2693,35 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, int 
 	return true;
 }
 #endif
+
+int TileRenderer::getTileColor(Tile* tile, int x, int y, int z)
+{
+	if (tile == nullptr)
+	{
+		return 0xffffff;
+	}
+
+	if (tile == Tile::grass && GrassColor::isAvailable() && m_bBiomeColors)
+	{
+		m_pLevelSource->getBiomeSource()->getBiomeBlock(x, z, 1, 1);
+		return GrassColor::get(m_pLevelSource->getBiomeSource()->field_4[0], m_pLevelSource->getBiomeSource()->field_8[0]);
+	}
+	if (tile == Tile::leaves && FoliageColor::isAvailable() && m_bBiomeColors)
+	{
+		int data = m_pLevelSource->getData(x, y, z);
+
+		if ((data & 1) == 1)
+		{
+			return FoliageColor::getEvergreenColor();
+		}
+		if ((data & 2) == 2)
+		{
+			return FoliageColor::getBirchColor();
+		}
+
+		m_pLevelSource->getBiomeSource()->getBiomeBlock(x, z, 1, 1);
+		return FoliageColor::get(m_pLevelSource->getBiomeSource()->field_4[0], m_pLevelSource->getBiomeSource()->field_8[0]);
+	}
+
+	return tile->getColor(m_pLevelSource, x, y, z);
+}

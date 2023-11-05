@@ -14,8 +14,8 @@
 #include "client/app/Minecraft.hpp"
 
 #include "client/renderer/PatchManager.hpp"
-#include "world/level/GrassColor.hpp"
-#include "world/level/FoliageColor.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
 
 Options::Option
 	Options::Option::MUSIC            (0,  "options.music",          true,  false),

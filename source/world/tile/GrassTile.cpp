@@ -9,12 +9,10 @@
 #include "GrassTile.hpp"
 #include "world/level/Level.hpp"
 #include "client/renderer/PatchManager.hpp"
-#include "world/level/GrassColor.hpp"
 
 GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
 {
 	m_TextureFrame = TEXTURE_GRASS_SIDE;
-	m_bUseBiomeColors = false;
 	setTicking(true);
 }
 
@@ -22,15 +20,7 @@ int GrassTile::getColor(LevelSource* levelSource, int x, int y, int z)
 {
 	if (GetPatchManager()->IsGrassTinted())
 	{
-		if (GrassColor::isAvailable() && m_bUseBiomeColors)
-		{
-			levelSource->getBiomeSource()->getBiomeBlock(x, z, 1, 1);
-			return GrassColor::get(levelSource->getBiomeSource()->field_4[0], levelSource->getBiomeSource()->field_8[0]);
-		}
-		else
-		{
-			return 0x339933;
-		}
+		return 0x339933;
 	}
 
 	return 0xffffff;

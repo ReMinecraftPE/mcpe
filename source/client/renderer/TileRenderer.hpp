@@ -59,9 +59,12 @@ public:
 	bool tesselateBlockInWorldWithAmbienceOcclusionV2(Tile*, int x, int y, int z, float r, float g, float b);
 #endif
 
+	int getTileColor(Tile*, int x, int y, int z);
+
 	static bool canRender(int renderShape);
 
 	static bool m_bFancyGrass;
+	static bool m_bBiomeColors;
 
 private:
 	LevelSource* m_pLevelSource;

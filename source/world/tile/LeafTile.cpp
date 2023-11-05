@@ -9,7 +9,6 @@
 #include "LeafTile.hpp"
 #include "world/level/Level.hpp"
 #include "client/renderer/PatchManager.hpp"
-#include "world/level/FoliageColor.hpp"
 
 LeafTile::LeafTile(int id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, Material::leaves, false)
 {
@@ -17,7 +16,6 @@ LeafTile::LeafTile(int id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, Mat
 
 	m_TextureFrame = TEXTURE_LEAVES_TRANSPARENT;
 	field_74 = TEXTURE_LEAVES_TRANSPARENT;
-	m_bUseBiomeColors = false;
 
 	setTicking(true);
 }
@@ -38,26 +36,7 @@ int LeafTile::getColor(LevelSource* level, int x, int y, int z)
 {
 	if (GetPatchManager()->IsGrassTinted())
 	{
-		if (FoliageColor::isAvailable() && m_bUseBiomeColors)
-		{
-			int data = level->getData(x, y, z);
-			if ((data & 1) == 1)
-			{
-				return FoliageColor::getEvergreenColor();
-			}
-			if ((data & 2) == 2)
-			{
-				return FoliageColor::getBirchColor();
-			}
-			level->getBiomeSource()->getBiomeBlock(x, z, 1, 1);
-			double temperature = level->getBiomeSource()->field_4[0];
-			double downfall = level->getBiomeSource()->field_8[0];
-			return FoliageColor::get(temperature, downfall);
-		}
-		else
-		{
-			return 0x339933;
-		}
+		return 0x339933;
 	}
 
 	return 0xffffff;
