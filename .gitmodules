@@ -10,3 +10,6 @@
 [submodule "thirdparty/stb_image/include"]
 	path = thirdparty/stb_image/include
 	url = https://github.com/nothings/stb.git
+[submodule "thirdparty/OpenAL"]
+	path = thirdparty/OpenAL
+	url = https://github.com/kcat/openal-soft.git

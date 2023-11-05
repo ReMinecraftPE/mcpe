@@ -55,10 +55,8 @@ add_subdirectory(../../source source)
 target_link_libraries(reminecraftpe reminecraftpe-core)
 
 # OpenAL
-if(NOT ANDROID)
-    add_subdirectory(../openal openal)
-    target_link_libraries(reminecraftpe reminecraftpe-openal)
-endif()
+add_subdirectory(../openal openal)
+target_link_libraries(reminecraftpe reminecraftpe-openal)
 
 # stb_image (If Needed)
 if(NOT EMSCRIPTEN)
