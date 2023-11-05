@@ -55,7 +55,9 @@ void OptionsScreen::render(int mouseX, int mouseY, float f)
 
 void OptionsScreen::removed()
 {
-
+#ifndef ORIGINAL_CODE
+	m_pMinecraft->saveOptions();
+#endif
 }
 
 void OptionsScreen::buttonClicked(Button* pButton)
