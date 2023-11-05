@@ -85,7 +85,7 @@ public:
 	HeaderOptionItem(const std::string& text);
 	void render(OptionList*, int x, int y) override;
 	bool maySelect() override { return false; }
-	void onClick(OptionList*, int mouseX, int mouseY) {}
+	void onClick(OptionList*, int mouseX, int mouseY) override {}
 
 private:
 	std::string m_text;

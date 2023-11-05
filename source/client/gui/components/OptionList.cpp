@@ -24,6 +24,7 @@ BooleanOptionItem::BooleanOptionItem(bool* pValue, const std::string& text)
 {
 	m_text = text;
 	m_pValue = pValue;
+	m_bDisabled = false;
 }
 
 void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
