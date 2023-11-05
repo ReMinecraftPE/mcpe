@@ -28,8 +28,8 @@
 
 #include "world/tile/SandTile.hpp"
 
-#include "world/level/GrassColor.hpp"
-#include "world/level/FoliageColor.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
 
 // custom:
 #include "client/renderer/PatchManager.hpp"

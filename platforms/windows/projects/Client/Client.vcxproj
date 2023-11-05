@@ -315,6 +315,8 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\FoliageColor.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\GrassColor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -410,6 +412,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\FoliageColor.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\GrassColor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

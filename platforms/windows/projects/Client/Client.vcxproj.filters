@@ -365,6 +365,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\FoliageColor.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\GrassColor.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -645,6 +651,12 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp">
       <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\GrassColor.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\FoliageColor.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

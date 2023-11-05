@@ -11,8 +11,8 @@
 #include "PauseScreen.hpp"
 
 #include "client/renderer/PatchManager.hpp"
-#include "world/level/GrassColor.hpp"
-#include "world/level/FoliageColor.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
 
 // Note! This enum matches the order in the options screen constructor
 enum eOptionsButton
