@@ -54,6 +54,8 @@ add_library(reminecraftpe-core STATIC
     client/renderer/LavaTexture.cpp
     client/renderer/LavaSideTexture.cpp
     client/renderer/FireTexture.cpp
+    client/renderer/FoliageColor.cpp
+    client/renderer/GrassColor.cpp
     client/sound/SoundData.cpp
     client/sound/SoundSystem.cpp
     client/sound/SoundRepository.cpp
