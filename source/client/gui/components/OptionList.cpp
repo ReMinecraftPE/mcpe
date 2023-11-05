@@ -306,28 +306,28 @@ void OptionList::initDefaultMenu()
 #define HEADER(text) do { m_items.push_back(new HeaderOptionItem(text)); currentIndex++; } while (0)
 #define OPTION(type, name, text) do { m_items.push_back(new type ## OptionItem(&pOptions->name, text)); currentIndex++; } while (0)
 
-	int idxLM = -1;
-	int idxGrass = -1, idxBiome = -1;
+	int idxLM = -1, idxGrass = -1, idxBiome = -1, idxSplit = -1;
 
 	HEADER("Video");
 	{
 		OPTION(Distance, m_iViewDistance,         "View distance");
 		OPTION(AORender, m_bAmbientOcclusion,     "Smooth lighting");
 		OPTION(Render,   m_bFancyGraphics,        "Fancy graphics");
-		OPTION(Boolean,  m_bAnaglyphs,            "3d Anaglyphs");
-		OPTION(Boolean,  m_bDebugText,            "Debug text");
-		OPTION(Boolean,  m_bFlyCheat,             "Flight hax");
-		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
-		OPTION(Boolean,  m_bBlockOutlines,        "Block outlines");
 		OPTION(Boolean,  m_bViewBobbing,          "View bobbing");
+		OPTION(Boolean,  m_bAnaglyphs,            "3d Anaglyphs");
+		OPTION(Boolean,  m_bBlockOutlines,        "Block outlines");
 		OPTION(Render,   m_bFancyGrass,           "Fancy grass");  idxGrass = currentIndex; // renders colored grass side overlay
 		OPTION(Render,   m_bBiomeColors,          "Biome colors"); idxBiome = currentIndex; // colors the grass based on the current biome
+		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
+		OPTION(Boolean,  m_bDebugText,            "Debug text");
 	}
 
 	HEADER("Controls");
 	{
 		OPTION(Boolean,  m_bAutoJump,             "Auto jump");
 		OPTION(Boolean,  m_bInvertMouse,          "Invert Y-axis");
+		OPTION(Boolean,  m_bSplitControls,        "Split controls"); idxSplit = currentIndex;
+		OPTION(Boolean,  m_bFlyCheat,             "Flight hax");
 	}
 
 	HEADER("Multiplayer");
@@ -344,4 +344,7 @@ void OptionList::initDefaultMenu()
 
 	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
 		m_items[idxBiome]->setDisabled(true);
+
+	if (!m_pMinecraft->isTouchscreen())
+		m_items[idxSplit]->setDisabled(true);
 }

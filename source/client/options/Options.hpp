@@ -128,6 +128,7 @@ public:
 	bool m_bBlockOutlines;
 	bool m_bFancyGrass;
 	bool m_bBiomeColors;
+	bool m_bSplitControls;
 
 public:
 	struct Option

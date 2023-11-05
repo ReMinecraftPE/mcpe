@@ -61,6 +61,7 @@ void Options::_initDefaultValues()
 	m_bBlockOutlines = false;
 	m_bFancyGrass = false;
 	m_bBiomeColors = false;
+	m_bSplitControls = false;
 	field_19 = 1;
 
 	// Win32 key codes are being used by default

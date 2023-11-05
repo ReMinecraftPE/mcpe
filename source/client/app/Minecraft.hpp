@@ -62,6 +62,7 @@ public:
 	void respawnPlayer(Player* player);
 	std::string getVersionString();
 	bool isTouchscreen();
+	bool useSplitControls();
 
 	virtual void update() override;
 	virtual void init() override;

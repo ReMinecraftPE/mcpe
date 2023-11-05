@@ -824,7 +824,7 @@ void GameRenderer::pick(float f)
 	float dist = m_pMinecraft->m_pGameMode->getPickRange();
 	bool isFirstPerson = !m_pMinecraft->getOptions()->m_bThirdPerson;
 
-	if (m_pMinecraft->isTouchscreen())
+	if (!m_pMinecraft->useSplitControls())
 	{
 		Vec3 mobPos = pMob->getPos(f);
 		Vec3 foundPosNear, foundPosFar;

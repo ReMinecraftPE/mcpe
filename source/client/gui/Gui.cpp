@@ -170,13 +170,16 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	m->m_pTextures->loadAndBindTexture("gui/icons.png");
 
-	if (!isTouchscreen)
+	if (m->useSplitControls())
 	{
 #ifndef ENH_TRANSPARENT_HOTBAR
 		glEnable(GL_BLEND);
 #endif
+
+		// draw crosshair
 		glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
 		blit(cenX - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0);
+
 #ifndef ENH_TRANSPARENT_HOTBAR
 		glDisable(GL_BLEND);
 #endif

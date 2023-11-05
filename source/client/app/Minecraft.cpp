@@ -221,6 +221,11 @@ bool Minecraft::isTouchscreen()
 	return m_bIsTouchscreen;
 }
 
+bool Minecraft::useSplitControls()
+{
+	return !m_bIsTouchscreen || m_options->m_bSplitControls;
+}
+
 void Minecraft::setGuiScaleMultiplier(float f)
 {
 	guiScaleMultiplier = f;
