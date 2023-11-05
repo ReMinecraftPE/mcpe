@@ -294,29 +294,12 @@ extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
 extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
 
-#ifdef __EMSCRIPTEN__
-bool DoesAssetExist(const std::string & fileName)
-{
-	std::string realPath = g_pAppPlatform->getAssetPath(fileName);
-	int width = 0, height = 0;
-	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &width, &height);
-	if (data == NULL)
-		return false;
-	
-	free(data);
-	return true;
-}
-#else
-// access works just fine on linux and friends
-#define DoesAssetExist(fileName) (XPL_ACCESS("assets/" fileName, 0) == 0)
-#endif
-
 void CheckOptionalTextureAvailability()
 {
-	g_bIsMenuBackgroundAvailable = DoesAssetExist("gui/background/panorama_0.png");
-	g_bAreCloudsAvailable        = DoesAssetExist("environment/clouds.png");
-	g_bIsGrassColorAvailable     = DoesAssetExist("misc/grasscolor.png");
-	g_bIsFoliageColorAvailable   = DoesAssetExist("misc/foliagecolor.png");
+	g_bIsMenuBackgroundAvailable = g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png");
+	g_bAreCloudsAvailable        = g_pAppPlatform->doesTextureExist("environment/clouds.png");
+	g_bIsGrassColorAvailable     = g_pAppPlatform->doesTextureExist("misc/grasscolor.png");
+	g_bIsFoliageColorAvailable   = g_pAppPlatform->doesTextureExist("misc/foliagecolor.png");
 }
 
 // Main

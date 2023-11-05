@@ -172,6 +172,25 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	// Return
 	return out;
 }
+bool AppPlatform_sdl::doesTextureExist(const std::string& path)
+{
+	// Get Full Path
+	std::string realPath = getAssetPath(path);
+
+	// Open File
+	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
+	if (!io)
+	{
+		// Does Not Exist
+		return false;
+	}
+	else
+	{
+		// File Exists
+		SDL_RWclose(io);
+		return true;
+	}
+}
 
 bool AppPlatform_sdl::hasFileSystemAccess()
 {
