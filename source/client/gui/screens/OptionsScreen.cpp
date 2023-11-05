@@ -10,6 +10,67 @@
 #include "StartMenuScreen.hpp"
 #include "PauseScreen.hpp"
 
+#ifndef OLD_OPTIONS_SCREEN
+
+OptionsScreen::OptionsScreen() :
+	m_backButton(100, "Done")
+{
+}
+
+OptionsScreen::~OptionsScreen()
+{
+	SAFE_DELETE(m_pList);
+}
+
+void OptionsScreen::init()
+{
+	if (m_pList)
+		SAFE_DELETE(m_pList);
+
+	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
+	m_pList->initDefaultMenu();
+
+	m_backButton.m_width = 100;
+	m_backButton.m_height = 20;
+
+	m_backButton.m_xPos = (m_width - m_backButton.m_width) / 2;
+	m_backButton.m_yPos = m_height - m_backButton.m_height - (28 - m_backButton.m_height) / 2;
+
+	m_buttons.push_back(&m_backButton);
+	m_buttonTabList.push_back(&m_backButton);
+}
+
+void OptionsScreen::render(int mouseX, int mouseY, float f)
+{
+	if (!m_pList)
+		return;
+
+	m_pList->render(mouseX, mouseY, f);
+
+	Screen::render(mouseX, mouseY, f);
+
+	drawCenteredString(m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
+}
+
+void OptionsScreen::removed()
+{
+
+}
+
+void OptionsScreen::buttonClicked(Button* pButton)
+{
+	if (pButton->m_buttonId == 100)
+	{
+		if (m_pMinecraft->isLevelGenerated())
+			m_pMinecraft->setScreen(new PauseScreen);
+		else
+			m_pMinecraft->setScreen(new StartMenuScreen);
+	}
+}
+
+
+#else
+
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
@@ -99,7 +160,7 @@ void OptionsScreen::updateTexts()
 	{
 		m_fancyGrassButton.m_bEnabled = false;
 	}
-	if (!GrassColor::isAvailable() && !FoliageColor::isAvailable())
+	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
 	{
 		m_biomeColorsButton.m_bEnabled = false;
 	}
@@ -308,5 +369,7 @@ void OptionsScreen::buttonClicked(Button* pButton)
 	*pOption = !(*pOption);
 	updateTexts();
 }
+
+#endif
 
 #endif

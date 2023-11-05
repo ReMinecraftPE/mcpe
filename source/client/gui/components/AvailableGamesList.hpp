@@ -17,7 +17,7 @@ public:
 	AvailableGamesList(Minecraft*, int, int, int, int, int);
 	int getNumberOfItems() override;
 	bool isSelectedItem(int i) override;
-	void renderBackground() override;
+	void renderBackground(float f) override;
 	void renderItem(int, int, int, int, Tesselator& t) override;
 	void selectItem(int, bool) override;
 

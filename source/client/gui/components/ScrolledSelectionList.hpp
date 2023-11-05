@@ -11,6 +11,8 @@
 #include "../GuiComponent.hpp"
 #include "client/app/Minecraft.hpp"
 
+#define C_SCROLLED_LIST_ITEM_WIDTH (220)
+
 class ScrolledSelectionList : public GuiComponent
 {
 public:
@@ -24,16 +26,18 @@ public:
 	virtual int getMaxPosition();
 	virtual void renderItem(int, int, int, int, Tesselator&) = 0;
 	virtual void renderHeader(int, int, Tesselator&);
-	virtual void renderBackground() = 0;
+	virtual void renderBackground(float) = 0;
 	virtual void renderDecorations(int, int);
 	virtual void clickedHeader(int x, int y);
 	virtual int getItemAtPosition(int x, int y);
 	virtual void capYPosition();
 	virtual void render(int mouseX, int mouseY, float f);
 	virtual void renderHoleBackground(float, float, int, int);
+	virtual void checkInput(int mouseX, int mouseY);
+	virtual void onClickItem(int index, int mouseX, int mouseY);
+	virtual void renderScrollBackground();
 
 	void setRenderHeader(bool, int);
-
 
 	// @NOTE: This is inlined.
 	inline int getItemAtYPositionRaw(int y)

@@ -38,6 +38,10 @@
 #endif
 #endif
 
+#ifdef _MSC_VER
+#pragma warning (disable : 4068)
+#endif
+
 #if defined(_WIN32)
 
 #ifndef _XBOX // assume we're on a normal Windows device

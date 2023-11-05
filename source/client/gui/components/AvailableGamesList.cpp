@@ -23,7 +23,7 @@ bool AvailableGamesList::isSelectedItem(int i)
     return m_selectedIndex == i;
 }
 
-void AvailableGamesList::renderBackground()
+void AvailableGamesList::renderBackground(float f)
 {
 }
 
