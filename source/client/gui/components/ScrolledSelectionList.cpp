@@ -6,9 +6,11 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+// @TODO: Add keyboard based control
+
 #include "ScrolledSelectionList.hpp"
 
-#define C_ITEM_WIDTH (220)
+#define C_ITEM_WIDTH C_SCROLLED_LIST_ITEM_WIDTH
 
 ScrolledSelectionList::ScrolledSelectionList(Minecraft* minecraft, int a3, int a4, int a5, int a6, int a7) :
 	m_pMinecraft(minecraft),
@@ -76,14 +78,29 @@ void ScrolledSelectionList::capYPosition()
 		field_34 = maxY;
 }
 
-void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
+void ScrolledSelectionList::onClickItem(int index, int mouseX, int mouseY)
 {
-	renderBackground();
+	selectItem(index, false);
+}
 
+void ScrolledSelectionList::renderScrollBackground()
+{
+	Tesselator& t = Tesselator::instance;
+	t.begin();
+	t.color(0x202020);
+	t.vertexUV(field_24, field_10, 0.0f, field_24 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
+	t.vertexUV(field_20, field_10, 0.0f, field_20 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
+	t.vertexUV(field_20, field_C,  0.0f, field_20 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
+	t.vertexUV(field_24, field_C,  0.0f, field_24 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
+	t.draw();
+}
+
+void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
+{
 	int nItems = getNumberOfItems();
 	if (Mouse::isButtonDown(BUTTON_LEFT))
 	{
-		if (float(mouseY) >= field_C && float(mouseY) <= field_10 && mouseY != field_28)
+		if (float(mouseY) >= field_C && float(mouseY) <= field_10 && abs(mouseY - field_28) > 5)
 		{
 			int field_2C_old = field_2C;
 
@@ -120,7 +137,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 			{
 				if (transformY(mouseY) / m_itemHeight >= 0 && m_itemHeight > abs(field_3C - mouseY))
 				{
-					selectItem(transformY(mouseY) / m_itemHeight, false);
+					onClickItem(transformY(mouseY) / m_itemHeight, mouseX, mouseY);
 					field_38 = 0.0f;
 				}
 			}
@@ -129,6 +146,16 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 		field_2C = -1;
 		field_34 -= field_38;
 	}
+}
+
+void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
+{
+	renderBackground(f);
+
+	int nItems = getNumberOfItems();
+	Tesselator& t = Tesselator::instance;
+
+	checkInput(mouseX, mouseY);
 
 	field_30 = float(mouseY);
 	field_38 *= 0.75f;
@@ -140,20 +167,19 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	Tesselator& t = Tesselator::instance;
-	t.begin();
-	t.color(0x202020);
-	t.vertexUV(field_24, field_10, 0.0f, field_24 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
-	t.vertexUV(field_20, field_10, 0.0f, field_20 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
-	t.vertexUV(field_20, field_C,  0.0f, field_20 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
-	t.vertexUV(field_24, field_C,  0.0f, field_24 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
-	t.draw();
+	renderScrollBackground();
 
 	int itemX = field_18 / 2 - (C_ITEM_WIDTH - 4) / 2;
 	int scrollY = int(field_C + 4 - float(int(field_34)));
 
 	if (field_45)
 		renderHeader(itemX, scrollY, t);
+
+	// Note, X/Y are the lower left's X/Y coordinates, not the upper left's.
+	int lowerY = Minecraft::height - int(field_10 / Gui::InvGuiScale);
+	int upperY = Minecraft::height - int(field_C  / Gui::InvGuiScale);
+	glScissor(0, lowerY, Minecraft::width, upperY - lowerY);
+	glEnable(GL_SCISSOR_TEST);
 
 	for (int i = 0; i < nItems; i++)
 	{
@@ -187,6 +213,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 		renderItem(i, itemX, int(itemY), int(m_itemHeight - 4.0f), t);
 	}
 	
+	glDisable(GL_SCISSOR_TEST);
 	glDisable(GL_DEPTH_TEST);
 
 	renderHoleBackground(0.0f, field_C, 255, 255);

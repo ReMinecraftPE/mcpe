@@ -1,0 +1,301 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
+#include "OptionList.hpp"
+#include "client/options/Options.hpp"
+
+#define C_OPTION_ITEM_HEIGHT (18)
+
+#define C_ON_OFF_SWITCH_WIDTH (28)
+#define C_ON_OFF_SWITCH_HEIGHT (16)
+
+#define C_DISTANCE_SWITCH_WIDTH (60)
+#define C_DISTANCE_SWITCH_HEIGHT (16)
+
+BooleanOptionItem::BooleanOptionItem(bool* pValue, const std::string& text)
+{
+	m_text = text;
+	m_pValue = pValue;
+}
+
+void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
+{
+	int itemX = pList->field_18 / 2 - (C_SCROLLED_LIST_ITEM_WIDTH - 4) / 2;
+
+	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6)
+		return;
+
+	// Toggle the value
+	toggleState(pList);
+}
+
+void BooleanOptionItem::render(OptionList* pList, int x, int y)
+{
+	pList->drawString(
+		pList->m_pMinecraft->m_pFont,
+		m_text,
+		x + 22,
+		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
+		0xCCCCCC);
+
+	pList->drawOnOffSwitch(
+		x + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6,
+		y + (C_OPTION_ITEM_HEIGHT - C_ON_OFF_SWITCH_HEIGHT) / 2 - 2,
+		*m_pValue);
+}
+
+void BooleanOptionItem::toggleState(OptionList* pList)
+{
+	*m_pValue ^= 1;
+}
+
+RenderOptionItem::RenderOptionItem(bool* pValue, const std::string& text) :
+	BooleanOptionItem(pValue, text)
+{
+}
+
+void RenderOptionItem::toggleState(OptionList* pList)
+{
+	BooleanOptionItem::toggleState(pList);
+	pList->m_pMinecraft->m_pLevelRenderer->allChanged();
+}
+
+
+AORenderOptionItem::AORenderOptionItem(bool* pValue, const std::string& text) :
+	RenderOptionItem(pValue, text)
+{
+}
+
+void AORenderOptionItem::toggleState(OptionList* pList)
+{
+	BooleanOptionItem::toggleState(pList);
+	Minecraft::useAmbientOcclusion = *m_pValue;
+	pList->m_pMinecraft->m_pLevelRenderer->allChanged();
+}
+
+HeaderOptionItem::HeaderOptionItem(const std::string& text)
+{
+	m_text = text;
+}
+
+void HeaderOptionItem::render(OptionList* pList, int x, int y)
+{
+	pList->drawString(
+		pList->m_pMinecraft->m_pFont,
+		m_text,
+		x + 2,
+		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
+		0xFFFFFF);
+}
+
+DistanceOptionItem::DistanceOptionItem(int* pValue, const std::string& text)
+{
+	m_text = text;
+	m_pValue = pValue;
+}
+
+void DistanceOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
+{
+	int itemX = pList->field_18 / 2 - (C_SCROLLED_LIST_ITEM_WIDTH - 4) / 2;
+
+	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_DISTANCE_SWITCH_WIDTH - 6)
+		return;
+
+	int oldValue = *m_pValue;
+	*m_pValue = (oldValue + 1) % RD_COUNT;
+	
+	// If the old render distance was bigger than the current one
+	if (oldValue < *m_pValue)
+		pList->m_pMinecraft->m_pLevelRenderer->allChanged();
+}
+
+void DistanceOptionItem::render(OptionList* pList, int x, int y)
+{
+	pList->drawString(
+		pList->m_pMinecraft->m_pFont,
+		m_text,
+		x + 22,
+		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
+		0xCCCCCC);
+
+	const char* distanceText = "???";
+	switch (*m_pValue)
+	{
+		case RD_EXTREME: distanceText = "EXTREME"; break;
+		case RD_FAR:     distanceText = "FAR";     break;
+		case RD_NORMAL:  distanceText = "NORMAL";  break;
+		case RD_SHORT:   distanceText = "SHORT";   break;
+	}
+
+	std::string distanceTextStr(distanceText);
+
+	x += C_SCROLLED_LIST_ITEM_WIDTH - C_DISTANCE_SWITCH_WIDTH - 6;
+	y += (C_OPTION_ITEM_HEIGHT - C_DISTANCE_SWITCH_HEIGHT) / 2 - 2;
+
+	pList->fill(x + 0, y + 0, x + C_DISTANCE_SWITCH_WIDTH - 0, y + C_DISTANCE_SWITCH_HEIGHT - 0, 0xFF444444);
+	pList->fill(x + 1, y + 1, x + C_DISTANCE_SWITCH_WIDTH - 1, y + C_DISTANCE_SWITCH_HEIGHT - 1, 0xFF111111);
+	pList->drawCenteredString(
+		pList->m_pMinecraft->m_pFont,
+		distanceTextStr,
+		x + C_DISTANCE_SWITCH_WIDTH / 2,
+		y + (C_DISTANCE_SWITCH_HEIGHT - 8) / 2,
+		0xFFFFFF
+	);
+}
+
+OptionList::OptionList(Minecraft* pMinecraft, int width, int height, int something, int something2) :
+	ScrolledSelectionList(pMinecraft, width, height, something, something2, C_OPTION_ITEM_HEIGHT)
+{
+	m_selectedItem = -1;
+}
+
+OptionList::~OptionList()
+{
+	clear();
+}
+
+int OptionList::getNumberOfItems()
+{
+	return int (m_items.size());
+}
+
+// b appears to be unused
+void OptionList::selectItem(int index, bool b)
+{
+	if (index >= 0 && index < getNumberOfItems())
+	{
+		if (!m_items[index]->maySelect())
+			return;
+	}
+
+	m_selectedItem = index;
+}
+
+bool OptionList::isSelectedItem(int index)
+{
+	return m_selectedItem == index;
+}
+
+void OptionList::drawOnOffSwitch(int x, int y, bool state)
+{
+	// Draws a simplistic On/Off switch.
+
+	// Draw edges
+	fill(x + 0, y + 0, x + C_ON_OFF_SWITCH_WIDTH - 0, y + C_ON_OFF_SWITCH_HEIGHT - 0, 0xFF444444);
+
+	// Draw backdrop
+	fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, state ? 0xFFAAAAAA : 0xFF333333);
+
+	if (state)
+		// Draw ON position
+		fill(x + C_ON_OFF_SWITCH_WIDTH / 2 + 2, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, 0xFFFFFFFF);
+	else
+		// Draw OFF position
+		fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH / 2 - 2, y + C_ON_OFF_SWITCH_HEIGHT - 1, 0xFF888888);
+}
+
+void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
+{
+	Font* f = m_pMinecraft->m_pFont;
+	OptionItem* pItem = m_items[index];
+
+	pItem->render(this, x, y);
+}
+
+void OptionList::renderBackground(float f)
+{
+	if (!m_pMinecraft->isLevelGenerated())
+		m_pMinecraft->m_pScreen->renderMenuBackground(f);
+}
+
+void OptionList::renderHoleBackground(float a, float b, int c, int d)
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_TEXTURE_2D);
+
+	Tesselator& t = Tesselator::instance;
+	t.begin();
+	t.color(0x202020, 0xC0);
+	t.vertexUV(0.0f, b, 0.0f, 0.0f, b / 32.0f);
+	t.vertexUV(float(field_18), b, 0.0f, field_18 / 32.0f, b / 32.0f);
+	t.vertexUV(float(field_18), a, 0.0f, field_18 / 32.0f, a / 32.0f);
+	t.vertexUV(0.0f, a, 0.0f, 0.0f, a / 32.0f);
+	t.draw();
+
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+}
+
+void OptionList::renderScrollBackground()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_TEXTURE_2D);
+
+	Tesselator& t = Tesselator::instance;
+	t.begin();
+	t.color(0x202020, 0x90);
+	t.vertexUV(field_24, field_10, 0.0f, field_24 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
+	t.vertexUV(field_20, field_10, 0.0f, field_20 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
+	t.vertexUV(field_20, field_C,  0.0f, field_20 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
+	t.vertexUV(field_24, field_C,  0.0f, field_24 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
+	t.draw();
+
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+}
+
+void OptionList::onClickItem(int index, int mouseX, int mouseY)
+{
+	if (index >= getNumberOfItems())
+		index = -1;
+
+	selectItem(index, false);
+
+	if (index >= 0)
+		m_items[index]->onClick(this, mouseX, mouseY);
+}
+
+void OptionList::clear()
+{
+	for (std::vector<OptionItem*>::iterator iter = m_items.begin();
+		iter != m_items.end();
+		++iter)
+	{
+		delete (*iter);
+	}
+
+	m_items.clear();
+}
+
+void OptionList::initDefaultMenu()
+{
+	Options* pOptions = m_pMinecraft->getOptions();
+
+#define HEADER(text) m_items.push_back(new HeaderOptionItem(text))
+#define OPTION(type, name, text) m_items.push_back(new type ## OptionItem(&pOptions->name, text))
+
+	HEADER("Video");
+		OPTION(Distance, m_iViewDistance,         "View distance");
+		OPTION(AORender, m_bAmbientOcclusion,     "Smooth lighting");
+		OPTION(Render,   m_bFancyGraphics,        "Fancy graphics");
+		OPTION(Boolean,  m_bAnaglyphs,            "3d Anaglyphs");
+		OPTION(Boolean,  m_bDebugText,            "Debug text");
+		OPTION(Boolean,  m_bFlyCheat,             "Flight hax");
+		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
+		OPTION(Boolean,  m_bBlockOutlines,        "Block outlines");
+		OPTION(Boolean,  m_bViewBobbing,          "View bobbing");
+
+	HEADER("Controls");
+		OPTION(Boolean,  m_bAutoJump,             "Auto jump");
+		OPTION(Boolean,  m_bInvertMouse,          "Invert Y-axis");
+
+	HEADER("Multiplayer");
+		OPTION(Boolean, m_bServerVisibleDefault, "Local server multiplayer");
+}

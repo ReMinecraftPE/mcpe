@@ -371,6 +371,9 @@
     <ClInclude Include="..\..\..\..\source\client\renderer\GrassColor.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\gui\components\OptionList.hpp">
+      <Filter>Header Files\GUI\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -657,6 +660,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\source\client\renderer\FoliageColor.cpp">
       <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\gui\components\OptionList.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

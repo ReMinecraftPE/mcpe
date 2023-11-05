@@ -467,7 +467,7 @@ void Level::updateLight(const LightLayer& ll, int a, int b, int c, int d, int e,
 {
 	static int nUpdateLevels;
 
-    if ((m_pDimension->field_E && &ll == &LightLayer::Sky) || !m_bUpdateLights)
+	if ((m_pDimension->field_E && &ll == &LightLayer::Sky) || !m_bUpdateLights)
 		return;
 
 	nUpdateLevels++;

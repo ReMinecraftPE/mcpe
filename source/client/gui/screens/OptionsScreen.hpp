@@ -10,6 +10,28 @@
 
 #include "../Screen.hpp"
 
+#ifndef OLD_OPTIONS_SCREEN
+
+#include "../components/OptionList.hpp"
+
+class OptionsScreen : public Screen
+{
+public:
+	OptionsScreen();
+	~OptionsScreen();
+	void init() override;
+	void render(int, int, float) override;
+	void removed() override;
+	void buttonClicked(Button* pButton) override;
+
+private:
+	OptionList* m_pList;
+
+	Button m_backButton;
+};
+
+#else
+
 class OptionsScreen : public Screen
 {
 public:
@@ -42,3 +64,4 @@ private:
 #endif
 };
 
+#endif
