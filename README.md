@@ -11,13 +11,14 @@ based on the mcpe01_canada.apk build of the game.
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
 * To port the game to more platforms, such as Windows (including older versions), Linux, WebGL, Android, and
-  macOS. Currently we have ports for:
+  Mac OS. Currently there are ports for:
 	* Windows XP-11
+	* Android (thanks to [Stom](https://github.com/Stommm) for the help)
 	* Linux
 	* WebGL
-	* macOS (port by [BrentDaMage](https://github.com/BrentDaMage))
+	* Mac OS (port by [BrentDaMage](https://github.com/BrentDaMage))
+	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
 	* Xbox 360 (incomplete; port by [BrentDaMage](https://github.com/BrentDaMage))
-	* HaikuOS
 
 **We will not do the following:**
 * Add features added in or after Java Edition Beta 1.8
@@ -28,7 +29,8 @@ based on the mcpe01_canada.apk build of the game.
   will be supported for as long as possible)
 * Modify the project structure
 
-Note: The original mcpe01_canada.apk does not work on newer Android devices. A port of this likely will.
+Note: While the original mcpe01_canada.apk does not work on anything that isn't the Xperia Play, ReMinecraftPE works on most
+Android devices.
 
 ### This is the main modded version. For the original decompilation, see [ReMinecraftPE/mcped](https://github.com/ReMinecraftPE/mcped)
 
@@ -39,6 +41,8 @@ software with different but compatible licenses:
 
 - [RakNet](https://github.com/facebookarchive/RakNet): [Licensed under the BSD 2 clause license](thirdparty/raknet/LICENSE)
 - [zlib](https://github.com/madler/zlib): [View license](thirdparty/zlib/LICENSE)
+- [GLES compatibility layer](https://github.com/TheBrokenRail/gles-compatibility-layer): [View license](https://github.com/TheBrokenRail/gles-compatibility-layer/blob/master/LICENSE). Embedded as a submodule.
+- [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker): [View license](https://github.com/gzuidhof/coi-serviceworker/blob/master/LICENSE). Embedded as a submodule.
 
 ## WANT TO HELP?
 
@@ -143,16 +147,13 @@ cmake --build .
 
 ### HaikuOS
 
-#### Dependencies
-
+Dependencies:
 - `libsdl2_devel` (SDL2)
 - `glu_devel mesa_devel` (Mesa)
 - `cmake` (CMake)
 - `ninja` (Ninja)
 
-#### How To Build
-
-- Same as for Linux.
+To build, perform the same steps as on Linux.
  
 ## Have seams when playing?
 
@@ -166,6 +167,8 @@ The terrain.png and related textures appear to have stayed the same between the 
 for Xperia PLAY. It appears to have been fetched before Java Edition Beta 1.4's release. This can be seen
 because the cookie's texture is missing. (it was added in Java Edition Beta 1.4)
 
+There are plans to create a custom script which downloads and sets up all assets needed for the game.
+
 ## Screenshots (from the decomp)
 
 ![Title screen](screenshots/title_screen.png)
@@ -176,6 +179,5 @@ because the cookie's texture is missing. (it was added in Java Edition Beta 1.4)
 
 ## Enhancements
 
-All enhancements (and more) that are available in the decomp version are turned on by default, but only some
-of them can be disabled, and the GameMods.hpp file used to control them is deprecated and will be removed.
-Check the decomp version's repository for a partial list of enhancements that were added to the game.
+ReMinecraftPE is an enhanced version of the original. To see the original, (mostly) as it was back in the day,
+[see the mcped repository](https://github.com/ReMinecraftPE/mcped).
