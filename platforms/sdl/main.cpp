@@ -138,6 +138,12 @@ static void handle_events()
 					break;
 				}
 
+				// Text Editing
+				if (event.key.keysym.sym == SDLK_BACKSPACE && event.key.state == SDL_PRESSED)
+				{
+					g_pApp->handleCharInput('\b');
+				}
+
 				// Normal Key Press
 				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
@@ -191,10 +197,14 @@ static void handle_events()
 			{
 				if (g_pApp != nullptr)
 				{
-					char x = event.text.text[0];
-					if (x >= ' ' && x <= '~')
+					size_t length = strlen(event.text.text);
+					for (size_t i = 0; i < length; i++)
 					{
-						g_pApp->handleCharInput(x);
+						char x = event.text.text[i];
+						if (x >= ' ' && x <= '~')
+						{
+							g_pApp->handleCharInput(x);
+						}
 					}
 				}
 				break;
