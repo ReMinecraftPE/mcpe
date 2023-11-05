@@ -144,6 +144,11 @@ bool AppPlatform_iOS::isTouchscreen()
     return true;
 }
 
+bool AppPlatform_iOS::hasFileSystemAccess()
+{
+    return true;
+}
+
 std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
     /*std::string realPath;

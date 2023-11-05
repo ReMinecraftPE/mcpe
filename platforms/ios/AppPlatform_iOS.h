@@ -32,6 +32,7 @@ public:
 	Texture loadTexture(const std::string& path, bool b = false) override;
 	int getUserInputStatus() override;
     bool isTouchscreen() override;
+    bool hasFileSystemAccess() override;
     std::string getAssetPath(const std::string &path) const override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
     
