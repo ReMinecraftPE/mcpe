@@ -106,6 +106,11 @@ bool Region::isSolidTile(int x, int y, int z)
 	return pTile->isSolidRender();
 }
 
+BiomeSource* Region::getBiomeSource()
+{
+	return m_pLevel->getBiomeSource();
+}
+
 Region::~Region()
 {
 	delete[] field_C;

@@ -10,6 +10,10 @@
 #include "StartMenuScreen.hpp"
 #include "PauseScreen.hpp"
 
+#include "client/renderer/PatchManager.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
+
 // Note! This enum matches the order in the options screen constructor
 enum eOptionsButton
 {
@@ -24,6 +28,8 @@ enum eOptionsButton
 	OB_FLY_HAX,
 	OB_AUTO_JUMP,
 	OB_BLOCK_LINES,
+	OB_FANCY_GRASS,
+	OB_BIOME_COLORS
 };
 
 OptionsScreen::OptionsScreen()
@@ -38,7 +44,9 @@ OptionsScreen::OptionsScreen()
 	m_viewDistButton  (8, 0, 0, 150, 20, ""),
 	m_flightHaxButton (9, 0, 0, 150, 20, ""),
 	m_autoJumpButton  (10, 0, 0, 150, 20, ""),
-	m_blockLinesButton(11, 0, 0, 150, 20, "")
+	m_blockLinesButton(11, 0, 0, 150, 20, ""),
+	m_fancyGrassButton(12, 0, 0, 150, 20, ""),
+	m_biomeColorsButton(13, 0, 0, 150, 20, "")
 #endif
 {
 }
@@ -70,20 +78,31 @@ void OptionsScreen::updateTexts()
 {
 	Options& o = *(m_pMinecraft->getOptions());
 
-	m_AOButton.m_text         = "Smooth lighting: " + BoolOptionStr(o.m_bAmbientOcclusion);
-	m_invertYButton.m_text    = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
-	m_viewBobButton.m_text    = "View bobbing: "    + BoolOptionStr(o.m_bViewBobbing);
-	m_anaglyphsButton.m_text  = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
-	m_fancyGfxButton.m_text   = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
-	m_flightHaxButton.m_text  = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
-	m_autoJumpButton.m_text   = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
-	m_viewDistButton.m_text   = "View distance: "   + ViewDistanceStr(o.m_iViewDistance);
-	m_blockLinesButton.m_text = "Block outlines: "  + BoolOptionStr(o.m_bBlockOutlines);
+	m_AOButton.m_text          = "Smooth lighting: " + BoolOptionStr(o.m_bAmbientOcclusion);
+	m_invertYButton.m_text     = "Invert Y-axis: "   + BoolOptionStr(o.m_bInvertMouse);
+	m_viewBobButton.m_text     = "View bobbing: "    + BoolOptionStr(o.m_bViewBobbing);
+	m_anaglyphsButton.m_text   = "3d Anaglyphs: "    + BoolOptionStr(o.m_bAnaglyphs);
+	m_fancyGfxButton.m_text    = "Fancy graphics: "  + BoolOptionStr(o.m_bFancyGraphics);
+	m_flightHaxButton.m_text   = "Flight hax: "      + BoolOptionStr(o.m_bFlyCheat);
+	m_autoJumpButton.m_text    = "Auto Jump: "       + BoolOptionStr(o.m_bAutoJump);
+	m_viewDistButton.m_text    = "View distance: "   + ViewDistanceStr(o.m_iViewDistance);
+	m_blockLinesButton.m_text  = "Block outlines: "  + BoolOptionStr(o.m_bBlockOutlines);
+	m_fancyGrassButton.m_text  = "Fancy grass: "     + BoolOptionStr(o.m_bFancyGrass);
+	m_biomeColorsButton.m_text = "Biome colors: "    + BoolOptionStr(o.m_bBiomeColors);
 
 	if (!isCramped())
 		m_srvVisButton.m_text = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible") + " by default";
 	else
 		m_srvVisButton.m_text = "Server " + std::string(o.m_bServerVisibleDefault ? "visible" : "invisible");
+
+	if (!(GetPatchManager()->IsGrassSidesTinted()))
+	{
+		m_fancyGrassButton.m_bEnabled = false;
+	}
+	if (!GrassColor::isAvailable() && !FoliageColor::isAvailable())
+	{
+		m_biomeColorsButton.m_bEnabled = false;
+	}
 }
 bool OptionsScreen::isCramped()
 {
@@ -101,7 +120,9 @@ void OptionsScreen::setWidthAllButtons(int width)
 	m_anaglyphsButton.m_width =
 	m_viewBobButton.m_width =
 	m_flightHaxButton.m_width =
-	m_autoJumpButton.m_width = width;
+	m_autoJumpButton.m_width =
+	m_fancyGrassButton.m_width = 
+	m_biomeColorsButton.m_width = width;
 }
 
 void OptionsScreen::init()
@@ -140,19 +161,22 @@ void OptionsScreen::init()
 	m_srvVisButton.m_xPos     = 
 	m_fancyGfxButton.m_xPos   =
 	m_viewDistButton.m_xPos   = 
-	m_blockLinesButton.m_xPos = m_width / 2 - m_AOButton.m_width - 5;
+	m_blockLinesButton.m_xPos =
+	m_fancyGrassButton.m_xPos = m_width / 2 - m_AOButton.m_width - 5;
 
-	m_invertYButton.m_xPos   =
-	m_anaglyphsButton.m_xPos =
-	m_viewBobButton.m_xPos   =
-	m_flightHaxButton.m_xPos =
-	m_autoJumpButton.m_xPos  = m_width / 2 + 5;
+	m_invertYButton.m_xPos     =
+	m_anaglyphsButton.m_xPos   =
+	m_viewBobButton.m_xPos     =
+	m_flightHaxButton.m_xPos   =
+	m_autoJumpButton.m_xPos    = 
+	m_biomeColorsButton.m_xPos = m_width / 2 + 5;
 
-	m_AOButton.m_yPos       = m_invertYButton.m_yPos    = yPos; yPos += incrementY;
-	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos  = yPos; yPos += incrementY;
-	m_fancyGfxButton.m_yPos = m_viewBobButton.m_yPos    = yPos; yPos += incrementY;
-	m_viewDistButton.m_yPos = m_flightHaxButton.m_yPos  = yPos; yPos += incrementY;
-	m_autoJumpButton.m_yPos = m_blockLinesButton.m_yPos = yPos; yPos += incrementY;
+	m_AOButton.m_yPos       = m_invertYButton.m_yPos       = yPos; yPos += incrementY;
+	m_srvVisButton.m_yPos   = m_anaglyphsButton.m_yPos     = yPos; yPos += incrementY;
+	m_fancyGfxButton.m_yPos = m_viewBobButton.m_yPos       = yPos; yPos += incrementY;
+	m_viewDistButton.m_yPos = m_flightHaxButton.m_yPos     = yPos; yPos += incrementY;
+	m_autoJumpButton.m_yPos = m_blockLinesButton.m_yPos    = yPos; yPos += incrementY;
+	m_fancyGrassButton.m_yPos = m_biomeColorsButton.m_yPos = yPos; yPos += incrementY;
 
 	m_buttons.push_back(&m_AOButton);
 	m_buttons.push_back(&m_srvVisButton);
@@ -164,6 +188,8 @@ void OptionsScreen::init()
 	m_buttons.push_back(&m_flightHaxButton);
 	m_buttons.push_back(&m_autoJumpButton);
 	m_buttons.push_back(&m_blockLinesButton);
+	m_buttons.push_back(&m_fancyGrassButton);
+	m_buttons.push_back(&m_biomeColorsButton);
 
 	m_buttonTabList.push_back(&m_AOButton);
 	m_buttonTabList.push_back(&m_srvVisButton);
@@ -175,6 +201,8 @@ void OptionsScreen::init()
 	m_buttonTabList.push_back(&m_flightHaxButton);
 	m_buttonTabList.push_back(&m_autoJumpButton);
 	m_buttonTabList.push_back(&m_blockLinesButton);
+	m_buttonTabList.push_back(&m_fancyGrassButton);
+	m_buttonTabList.push_back(&m_biomeColorsButton);
 
 	m_buttonTabList.push_back(&m_BackButton);
 
@@ -262,6 +290,16 @@ void OptionsScreen::buttonClicked(Button* pButton)
 		case OB_BLOCK_LINES:
 			pOption = &o.m_bBlockOutlines;
 			break;
+		case OB_FANCY_GRASS:
+			o.m_bFancyGrass ^= 1;
+			m_pMinecraft->m_pLevelRenderer->allChanged();
+			updateTexts();
+			return;
+		case OB_BIOME_COLORS:
+			o.m_bBiomeColors ^= 1;
+			m_pMinecraft->m_pLevelRenderer->allChanged();
+			updateTexts();
+			return;
 	}
 
 	if (!pOption)

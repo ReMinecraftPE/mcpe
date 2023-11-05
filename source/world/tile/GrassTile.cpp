@@ -16,10 +16,12 @@ GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
 	setTicking(true);
 }
 
-int GrassTile::getColor(LevelSource*, int x, int y, int z)
+int GrassTile::getColor(LevelSource* levelSource, int x, int y, int z)
 {
 	if (GetPatchManager()->IsGrassTinted())
+	{
 		return 0x339933;
+	}
 
 	return 0xffffff;
 }

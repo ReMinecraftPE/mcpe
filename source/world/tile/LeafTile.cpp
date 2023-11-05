@@ -35,7 +35,9 @@ void LeafTile::die(Level* level, int x, int y, int z)
 int LeafTile::getColor(LevelSource* level, int x, int y, int z)
 {
 	if (GetPatchManager()->IsGrassTinted())
+	{
 		return 0x339933;
+	}
 
 	return 0xffffff;
 }

@@ -150,7 +150,7 @@ public:
 	Entity* getEntity(int id);
 	EntityVector* getAllEntities();
 	EntityVector* getEntities(Entity* pAvoid, const AABB&);
-	BiomeSource* getBiomeSource();
+	BiomeSource* getBiomeSource() override;
 	LevelStorage* getLevelStorage();
 	LevelData* getLevelData();
 	AABBVector* getCubes(const Entity* pEnt, const AABB& aabb);

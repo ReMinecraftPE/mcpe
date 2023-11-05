@@ -37,6 +37,8 @@ private:
 	Button m_flightHaxButton;
 	Button m_autoJumpButton;
 	Button m_blockLinesButton;
+	Button m_fancyGrassButton;
+	Button m_biomeColorsButton;
 #endif
 };
 

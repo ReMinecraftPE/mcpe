@@ -13,6 +13,10 @@
 #include "compat/KeyCodes.hpp"
 #include "client/app/Minecraft.hpp"
 
+#include "client/renderer/PatchManager.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
+
 Options::Option
 	Options::Option::MUSIC            (0,  "options.music",          true,  false),
 	Options::Option::SOUND            (1,  "options.sound",          true,  false),
@@ -55,6 +59,8 @@ void Options::_initDefaultValues()
 	m_bServerVisibleDefault = true;
 	m_bDebugText = false;
 	m_bBlockOutlines = false;
+	m_bFancyGrass = false;
+	m_bBiomeColors = false;
 	field_19 = 1;
 
 	// Win32 key codes are being used by default
@@ -244,6 +250,22 @@ void Options::_load()
 			m_iViewDistance = readInt(value);
 		else if (key == "gfx_blockoutlines")
 			m_bBlockOutlines = readBool(value);
+		else if (key == "gfx_fancygrass")
+		{
+			m_bFancyGrass = readBool(value);
+			if (!(GetPatchManager()->IsGrassSidesTinted()))
+			{
+				m_bFancyGrass = false;
+			}
+		}
+		else if (key == "gfx_biomecolors")
+		{
+			m_bBiomeColors = readBool(value);
+			if (!GrassColor::isAvailable() && !FoliageColor::isAvailable())
+			{
+				m_bBiomeColors = false;
+			}
+		}
 	}
 }
 
@@ -359,6 +381,8 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("gfx_smoothlighting",        saveBool(m_bAmbientOcclusion));
 	SO("gfx_viewdistance",          saveInt (m_iViewDistance));
 	SO("gfx_blockoutlines",         saveBool(m_bBlockOutlines));
+	SO("gfx_fancygrass", 			saveBool(m_bFancyGrass));
+	SO("gfx_biomecolors",           saveBool(m_bBiomeColors));
 
 	return vec;
 }

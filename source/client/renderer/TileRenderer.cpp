@@ -11,6 +11,11 @@
 #include "client/renderer/PatchManager.hpp"
 #include "world/tile/FireTile.hpp"
 #include "world/tile/LiquidTile.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
+
+bool TileRenderer::m_bFancyGrass = false;
+bool TileRenderer::m_bBiomeColors = false;
 
 void TileRenderer::_init()
 {
@@ -575,8 +580,14 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 			fLight = fLightHere;
 
 		t.color(r * 0.8f * fLight, g * 0.8f * fLight, b * 0.8f * fLight);
+		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_ZNEG);
+		renderNorth(tile, float(x), float(y), float(z), texture);
 
-		renderNorth(tile, float(x), float(y), float(z), tile->getTexture(m_pLevelSource, x, y, z, DIR_ZNEG));
+		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
+		{
+			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
+			renderNorth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+		}
 	}
 
 	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x, y, z + 1, DIR_ZPOS))
@@ -588,8 +599,14 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 			fLight = fLightHere;
 
 		t.color(r * 0.8f * fLight, g * 0.8f * fLight, b * 0.8f * fLight);
+		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_ZPOS);
+		renderSouth(tile, float(x), float(y), float(z), texture);
 
-		renderSouth(tile, float(x), float(y), float(z), tile->getTexture(m_pLevelSource, x, y, z, DIR_ZPOS));
+		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
+		{
+			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
+			renderSouth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+		}
 	}
 
 	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x - 1, y, z, DIR_XNEG))
@@ -601,8 +618,14 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 			fLight = fLightHere;
 
 		t.color(r * 0.6f * fLight, g * 0.6f * fLight, b * 0.6f * fLight);
-		
-		renderWest(tile, float(x), float(y), float(z), tile->getTexture(m_pLevelSource, x, y, z, DIR_XNEG));
+		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_XNEG);
+		renderWest(tile, float(x), float(y), float(z), texture);
+
+		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
+		{
+			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
+			renderWest(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+		}
 	}
 
 	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x + 1, y, z, DIR_XPOS))
@@ -614,8 +637,14 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 			fLight = fLightHere;
 
 		t.color(r * 0.6f * fLight, g * 0.6f * fLight, b * 0.6f * fLight);
+		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_XPOS);
+		renderEast(tile, float(x), float(y), float(z), texture);
 
-		renderEast(tile, float(x), float(y), float(z), tile->getTexture(m_pLevelSource, x, y, z, DIR_XPOS));
+		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
+		{
+			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
+			renderEast(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+		}
 	}
 
 	return bDrewAnything;
@@ -623,7 +652,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 
 bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z)
 {
-	int color = tile->getColor(m_pLevelSource, x, y, z);
+	int color = getTileColor(tile, x, y, z);
 
 	float r = float(GET_RED  (color)) / 255.0f;
 	float g = float(GET_GREEN(color)) / 255.0f;
@@ -2579,7 +2608,6 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, int 
 			m_vtxBlue[i]  = br;
 		}
 
-
 		for (int i = 0; i < 4; i++)
 		{
 			m_vtxRed  [i] *= fR * lightingMult[dir];
@@ -2610,9 +2638,90 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, int 
 				break;
 		}
 
+		if (TileRenderer::m_bFancyGrass && tile->getTexture(m_pLevelSource, x, y, z, dir) == TEXTURE_GRASS_SIDE && (dir == DIR_XNEG || dir == DIR_XPOS || dir == DIR_ZNEG || dir == DIR_ZPOS))
+		{
+			for (int i = 0; i < 4; i++)
+				m_vtxRed[i] = m_vtxGreen[i] = m_vtxBlue[i] = 1.0f;
+
+			for (int i = 0; i < 4; i++)
+			{
+				// average: the light at the tile the face's normal would point towards, and 3 other tiles
+				// chosen based on the vertex corner number
+				float br = lights[dirToEdir[dir]];
+				for (int j = 0; j < 3; j++)
+					br += lights[table[j + i * 3]];
+
+				br *= 0.25f;
+
+				m_vtxRed[i] = br;
+				m_vtxGreen[i] = br;
+				m_vtxBlue[i] = br;
+			}
+
+			for (int i = 0; i < 4; i++)
+			{
+				m_vtxRed[i] *= topR * lightingMult[dir];
+				m_vtxGreen[i] *= topG * lightingMult[dir];
+				m_vtxBlue[i] *= topB * lightingMult[dir];
+			}
+
+			switch (dir) {
+				case DIR_YNEG:
+					renderFaceUp(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					break;
+				case DIR_YPOS:
+					renderFaceDown(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					break;
+				case DIR_ZNEG:
+					renderNorth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					break;
+				case DIR_ZPOS:
+					renderSouth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					break;
+				case DIR_XNEG:
+					renderWest(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					break;
+				case DIR_XPOS:
+					renderEast(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					break;
+			}
+		}
+
 		m_bAmbientOcclusion = false;
 	}
 
 	return true;
 }
 #endif
+
+int TileRenderer::getTileColor(Tile* tile, int x, int y, int z)
+{
+	if (tile == nullptr)
+	{
+		return 0xffffff;
+	}
+
+	if (tile == Tile::grass && GrassColor::isAvailable() && m_bBiomeColors)
+	{
+		m_pLevelSource->getBiomeSource()->getBiomeBlock(x, z, 1, 1);
+		return GrassColor::get(m_pLevelSource->getBiomeSource()->field_4[0], m_pLevelSource->getBiomeSource()->field_8[0]);
+	}
+	if (tile == Tile::leaves && FoliageColor::isAvailable() && m_bBiomeColors)
+	{
+		int data = m_pLevelSource->getData(x, y, z);
+
+		if ((data & 1) == 1)
+		{
+			return FoliageColor::getEvergreenColor();
+		}
+		if ((data & 2) == 2)
+		{
+			return FoliageColor::getBirchColor();
+		}
+
+		m_pLevelSource->getBiomeSource()->getBiomeBlock(x, z, 1, 1);
+		return FoliageColor::get(m_pLevelSource->getBiomeSource()->field_4[0], m_pLevelSource->getBiomeSource()->field_8[0]);
+	}
+
+	return tile->getColor(m_pLevelSource, x, y, z);
+}

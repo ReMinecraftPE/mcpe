@@ -10,6 +10,7 @@
 
 #include "common/Utils.hpp"
 #include "world/level/Material.hpp"
+#include "world/level/levelgen/biome/BiomeSource.hpp"
 
 class LevelSource
 {
@@ -20,5 +21,6 @@ public:
 	virtual int getData(int x, int y, int z) = 0;
 	virtual Material* getMaterial(int x, int y, int z) = 0;
 	virtual bool isSolidTile(int x, int y, int z) = 0;
+	virtual BiomeSource* getBiomeSource() = 0;
 };
 
