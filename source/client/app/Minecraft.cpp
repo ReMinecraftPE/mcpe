@@ -422,9 +422,7 @@ void Minecraft::tickInput()
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-				int maxItems = m_gui.getNumSlots() - 1;
-				if (isTouchscreen())
-					maxItems--;
+				int maxItems = m_gui.getNumUsableSlots() - 1;
 
 				if (Mouse::getEventButtonState() == 0) // @NOTE: Scroll up
 				{
@@ -458,7 +456,7 @@ void Minecraft::tickInput()
 		{
 			m_gui.handleKeyPressed(keyCode);
 
-			for (int i = 0; i < m_gui.getNumSlots(); i++)
+			for (int i = 0; i < m_gui.getNumUsableSlots(); i++)
 			{
 				if (getOptions()->isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
 					m_pLocalPlayer->m_pInventory->selectSlot(i);
