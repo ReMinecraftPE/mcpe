@@ -26,6 +26,7 @@ public:
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool b = false) override = 0;
+	virtual bool doesTextureExist(const std::string& path) = 0;
 	int getUserInputStatus() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 	std::string getDateString(int time) override;

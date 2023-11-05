@@ -28,3 +28,23 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	LOG_E("Couldn't find file: %s", realPath.c_str());
 	return out;
 }
+bool AppPlatform_sdl::doesTextureExist(const std::string& path)
+{
+	// Get Full Path
+	std::string realPath = getAssetPath(path);
+
+	// Open File
+	int width = 0, height = 0;
+	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &width, &height);
+	if (!data)
+	{
+		// Does Not Exist
+		return false;
+	}
+	else
+	{
+		// File Exists
+		free(data);
+		return true;
+	}
+}
