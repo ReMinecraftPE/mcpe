@@ -13,9 +13,7 @@
 
 #include "common/Utils.hpp"
 
-#ifndef ANDROID
 #include "SoundSystemAL.hpp"
-#endif
 
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
@@ -58,11 +56,7 @@ void AppPlatform_sdl_base::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
-#ifndef ANDROID
 		m_pSoundSystem = new SoundSystemAL();
-#else
-		m_pSoundSystem = new SoundSystem();
-#endif
 		LOG_I("Initializing OpenAL SoundSystem...");
 	}
 	else
