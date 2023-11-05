@@ -84,7 +84,7 @@ public:
 	void save();
 	std::string getMessage(const Options::Option&);
 	std::vector<std::string> getOptionStrings();
-
+	
 	int getKey(eKeyMappingIndex idx)
 	{
 		return m_keyMappings[idx].value;
@@ -126,6 +126,8 @@ public:
 	bool m_bAutoJump;
 	bool m_bDebugText;
 	bool m_bBlockOutlines;
+	bool m_bFancyGrass;
+	bool m_bBiomeColors;
 
 public:
 	struct Option

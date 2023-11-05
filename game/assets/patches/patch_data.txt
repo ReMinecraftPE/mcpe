@@ -6,6 +6,7 @@
 # - vegetation_tint|bool        -- Enables default vegetation tint. (grass and leaves)
 # - metal_block_sides|int       -- Makes metal blocks have separate side textures, and allows specification of their Y offset. -1 to disable.
 # - semi_transparent_glass|bool -- Makes glass render on the alpha layer (as opposed to the opaque layer). Allows it to be semi transparent like ice.
+# - grass_sides_tint            -- Allows grass sides to be tinted.
 # - stop_now                    -- Stops processing at that line. All further commands will be ignored.
 
 # * The filename parameter will be a PNG file that can be found relative to this directory. For example, '../quiver.png' will load it from assets/, 'chain.png' will load it from assets/patches/.
@@ -26,6 +27,7 @@ terrain|6|2|c_iron.png
 terrain|7|2|c_gold.png
 terrain|8|2|c_emerald.png
 terrain|1|7|c_cloth.png
+#terrain|4|5|c_grass_side_tra.png
 
 items|7|0|c_i_coal.png
 items|7|1|c_i_iron.png
@@ -34,6 +36,7 @@ items|7|3|c_i_emerald.png
 
 vegetation_tint|false
 metal_block_sides|1
+#grass_sides_tint|true
 
 #update the frame of cryingObsidian, if it's there, so we can place the metals closer together
 terrain|0|14|a_cryingobsidian.png

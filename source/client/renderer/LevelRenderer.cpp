@@ -9,7 +9,9 @@
 #include "LevelRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "renderer/GL/GL.hpp"
+
 #include "world/tile/LeafTile.hpp"
+#include "world/tile/GrassTile.hpp"
 
 LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 {
@@ -135,6 +137,13 @@ void LevelRenderer::allChanged()
 
 	pLeaves->m_bTransparent = m_pMinecraft->getOptions()->m_bFancyGraphics;
 	pLeaves->m_TextureFrame = !pLeaves->m_bTransparent + pLeaves->field_74;
+	pLeaves->m_bUseBiomeColors = m_pMinecraft->getOptions()->m_bBiomeColors;
+
+	GrassTile* pGrass = (GrassTile*)Tile::grass;
+
+	pGrass->m_bUseBiomeColors = m_pMinecraft->getOptions()->m_bBiomeColors;
+
+	TileRenderer::m_bFancyGrass = m_pMinecraft->getOptions()->m_bFancyGrass;
 
 	field_BC = m_pMinecraft->getOptions()->m_iViewDistance;
 

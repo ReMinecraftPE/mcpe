@@ -20,6 +20,7 @@ public:
 	int getData(int x, int y, int z) override;
 	Material* getMaterial(int x, int y, int z) override;
 	bool isSolidTile(int x, int y, int z) override;
+	BiomeSource* getBiomeSource() override;
 
 	virtual ~Region();
 	Region(Level*, int x1, int y1, int z1, int x2, int y2, int z2);

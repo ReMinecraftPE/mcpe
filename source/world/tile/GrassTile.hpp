@@ -20,4 +20,6 @@ public:
 	int getTexture(int dir) override;
 	int getTexture(LevelSource*, int x, int y, int z, int dir) override;
 	void tick(Level*, int x, int y, int z, Random*) override;
+
+	bool m_bUseBiomeColors;
 };

@@ -27,4 +27,5 @@ public:
 
 	int* field_70;
 	int field_74;
+	bool m_bUseBiomeColors;
 };

@@ -61,6 +61,8 @@ public:
 
 	static bool canRender(int renderShape);
 
+	static bool m_bFancyGrass;
+
 private:
 	LevelSource* m_pLevelSource;
 	int m_textureOverride;

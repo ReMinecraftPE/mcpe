@@ -141,6 +141,11 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 			ReadInt(lineStream, m_nMetalSideYOffset);
 			continue;
 		}
+		if (command == "grass_sides_tint")
+		{
+			ReadBool(lineStream, m_bGrassSidesTinted);
+			continue;
+		}
 
 		LOG_W("Unknown command %s from patch data.", command.c_str());
 	}
@@ -215,6 +220,11 @@ int PatchManager::GetMetalSideYOffset()
 bool PatchManager::IsGlassSemiTransparent()
 {
 	return m_bGlassSemiTransparent;
+}
+
+bool PatchManager::IsGrassSidesTinted()
+{
+	return m_bGrassSidesTinted;
 }
 
 void PatchManager::ReadBool(std::istream& is, bool& b)

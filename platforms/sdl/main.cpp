@@ -274,6 +274,8 @@ static EM_BOOL main_loop(double time, void *user_data)
 
 extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
 extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
+extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
+extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
 
 #ifdef __EMSCRIPTEN__
 bool DoesAssetExist(const std::string & fileName)
@@ -296,6 +298,8 @@ void CheckOptionalTextureAvailability()
 {
 	g_bIsMenuBackgroundAvailable = DoesAssetExist("gui/background/panorama_0.png");
 	g_bAreCloudsAvailable        = DoesAssetExist("environment/clouds.png");
+	g_bIsGrassColorAvailable     = DoesAssetExist("misc/grasscolor.png");
+	g_bIsFoliageColorAvailable = DoesAssetExist("misc/foliagecolor.png");
 }
 
 // Main

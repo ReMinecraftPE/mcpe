@@ -28,6 +28,9 @@
 
 #include "world/tile/SandTile.hpp"
 
+#include "world/level/GrassColor.hpp"
+#include "world/level/FoliageColor.hpp"
+
 // custom:
 #include "client/renderer/PatchManager.hpp"
 
@@ -804,6 +807,15 @@ void Minecraft::init()
 #endif
 
 	m_pFont = new Font(m_options, "font/default.png", m_pTextures);
+
+	if (GrassColor::isAvailable())
+	{
+		GrassColor::init(m_pPlatform->loadTexture("misc/grasscolor.png", true));
+	}
+	if (FoliageColor::isAvailable())
+	{
+		FoliageColor::init(m_pPlatform->loadTexture("misc/foliagecolor.png", true));
+	}
 
 	// Patch Manager
 	GetPatchManager()->LoadPatchData(platform()->getPatchData());
