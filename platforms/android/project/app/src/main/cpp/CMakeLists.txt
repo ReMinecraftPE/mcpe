@@ -33,6 +33,23 @@ add_library( # Sets the name of the library.
              ${MC_ROOT}/platforms/android/main.cpp 
              ${MC_ROOT}/thirdparty/stb_image_impl.c)
 
+# Check for the presence of some optional asset based features.
+if(NOT EXISTS "${MC_ROOT}/game/assets/gui/background/panorama_0.png")
+	target_compile_definitions(reminecraftpe PUBLIC FEATURE_MENU_BACKGROUND)
+endif()
+
+if(NOT EXISTS "${MC_ROOT}/game/assets/environment/clouds.png")
+	target_compile_definitions(reminecraftpe PUBLIC FEATURE_CLOUDS)
+endif()
+
+if(NOT EXISTS "${MC_ROOT}/game/assets/misc/grasscolor.png")
+	target_compile_definitions(reminecraftpe PUBLIC FEATURE_GRASS_COLOR)
+endif()
+
+if(NOT EXISTS "${MC_ROOT}/game/assets/misc/foliagecolor.png")
+	target_compile_definitions(reminecraftpe PUBLIC FEATURE_FOLIAGE_COLOR)
+endif()
+
 # Add the core as part of the library.
 add_subdirectory(${MC_ROOT}/source source)
 target_link_libraries(reminecraftpe reminecraftpe-core)

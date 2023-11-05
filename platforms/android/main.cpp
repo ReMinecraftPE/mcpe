@@ -397,8 +397,35 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
     }
 }
 
+extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
+extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
+extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
+extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
+
+static void CheckOptionalTextureAvailability()
+{
+#ifdef FEATURE_MENU_BACKGROUND
+	g_bIsMenuBackgroundAvailable = true;
+#endif
+
+#ifdef FEATURE_CLOUDS
+	g_bAreCloudsAvailable = true;
+#endif
+
+#ifdef FEATURE_GRASS_COLOR
+	g_bIsGrassColorAvailable = true;
+#endif
+
+#ifdef FEATURE_FOLIAGE_COLOR
+	g_bIsFoliageColorAvailable = true;
+#endif
+}
+
+
 void android_main(struct android_app* state) {
     struct engine engine;
+	
+	CheckOptionalTextureAvailability();
 
     memset(&engine, 0, sizeof(engine));
     state->userData = &engine;

@@ -299,7 +299,7 @@ void CheckOptionalTextureAvailability()
 	g_bIsMenuBackgroundAvailable = DoesAssetExist("gui/background/panorama_0.png");
 	g_bAreCloudsAvailable        = DoesAssetExist("environment/clouds.png");
 	g_bIsGrassColorAvailable     = DoesAssetExist("misc/grasscolor.png");
-	g_bIsFoliageColorAvailable = DoesAssetExist("misc/foliagecolor.png");
+	g_bIsFoliageColorAvailable   = DoesAssetExist("misc/foliagecolor.png");
 }
 
 // Main
