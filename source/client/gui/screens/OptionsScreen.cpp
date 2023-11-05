@@ -13,7 +13,8 @@
 #ifndef OLD_OPTIONS_SCREEN
 
 OptionsScreen::OptionsScreen() :
-	m_backButton(100, "Done")
+	m_backButton(100, "Done"),
+	m_pList(nullptr)
 {
 }
 
