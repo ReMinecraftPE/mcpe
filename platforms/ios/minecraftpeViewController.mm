@@ -24,7 +24,7 @@
 
 #include "EAGLView.h"
 
-//extern bool g_bIsMenuBackgroundAvailable;
+extern bool g_bIsMenuBackgroundAvailable;
 
 NSThread *G_drawFrameThread = nullptr;
 
@@ -50,6 +50,10 @@ NSThread *G_drawFrameThread = nullptr;
 //@property (strong, nonatomic) IASKAppSettingsViewController *appSettingsViewController;
 
 - (void)initView;
+- (int)_startTrackingTouch:(UITouch *)touch;
+- (int)_stopTrackingTouch:(UITouch *)touch;
+- (int)_getIndexForTouch:(UITouch *)touch;
+
 @end
 
 @implementation minecraftpeViewController
@@ -194,7 +198,7 @@ NSThread *G_drawFrameThread = nullptr;
     animationFrameInterval = 1;
     self.displayLink = nil;
     
-    //g_bIsMenuBackgroundAvailable = true;
+    g_bIsMenuBackgroundAvailable = true;
     
     AppPlatform_iOS *platform = new AppPlatform_iOS();
     self->_platform = platform;

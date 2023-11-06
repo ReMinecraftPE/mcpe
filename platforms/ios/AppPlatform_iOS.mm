@@ -8,6 +8,8 @@
 
 #include "AppPlatform_iOS.h"
 
+#include <fstream>
+
 #include "common/Utils.hpp"
 
 #include "platforms/openal/SoundSystemAL.hpp"
@@ -150,14 +152,7 @@ bool AppPlatform_iOS::hasFileSystemAccess()
 }
 
 std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
-{
-    /*std::string realPath;
-    if (realPath.size() && realPath[0] == '/')
-    {
-        // trim it off
-        realPath = realPath.substr(1);
-    }*/
-    
+{    
     size_t dotPos = path.rfind(".", -1, 1);
     size_t slashPos = path.rfind("/", -1, 1);
     size_t dotPos2 = path.rfind('.', -1);
@@ -174,4 +169,16 @@ std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
     }
 
     return [[[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:fileName.c_str()] ofType:[NSString stringWithUTF8String:fileExtension.c_str()]] UTF8String];
+}
+
+std::string AppPlatform_iOS::getPatchData()
+{
+	std::ifstream ifs(getAssetPath("patches/patch_data.txt").c_str());
+	if (!ifs.is_open())
+		return "";
+    
+	std::stringstream ss;
+	ss << ifs.rdbuf();
+    
+	return ss.str();
 }

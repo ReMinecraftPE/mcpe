@@ -71,8 +71,6 @@
 	#define USE_GL_ORTHO_F
 	
 #else
-	#include <GL/gl.h>
-	#include <GL/glu.h>
 	
 	#ifdef _WIN32
 		#pragma comment(lib, "opengl32.lib")

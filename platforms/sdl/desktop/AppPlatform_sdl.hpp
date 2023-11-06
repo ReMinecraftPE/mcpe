@@ -17,6 +17,7 @@ public:
 	Texture loadTexture(const std::string& path, bool b = false) override;
 	
 	bool hasFileSystemAccess() override;
+    std::string getPatchData() override;
 	
 protected:
 	void ensureDirectoryExists(const char* path) override;
