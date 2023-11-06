@@ -248,6 +248,7 @@
     <ClCompile Include="$(MC_ROOT)\source\common\Util.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\LegacyCPPCompatibility.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp" />

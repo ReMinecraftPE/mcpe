@@ -26,17 +26,7 @@
 #include <string>
 #include <sstream>
 
-#ifdef USE_OLD_CPP
-#ifndef constexpr
-#define constexpr const
-#endif
-#ifndef nullptr
-#define nullptr NULL
-#endif
-#ifndef override
-#define override
-#endif
-#endif
+#include "LegacyCPPCompatibility.hpp"
 
 #ifdef _MSC_VER
 #pragma warning (disable : 4068)
@@ -44,6 +34,7 @@
 
 #if defined(_WIN32)
 
+// Do we even need all this WinSock stuff anymore?
 #ifndef _XBOX // assume we're on a normal Windows device
 #define WIN32_LEAN_AND_MEAN
 #include <WinSock2.h>
