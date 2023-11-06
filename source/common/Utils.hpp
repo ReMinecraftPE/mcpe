@@ -26,7 +26,7 @@
 #include <string>
 #include <sstream>
 
-#include "LegacyCPPCompatibility.hpp"
+#include "../../compat/LegacyCPPCompatibility.hpp"
 
 #ifdef _MSC_VER
 #pragma warning (disable : 4068)

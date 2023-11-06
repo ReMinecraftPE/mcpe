@@ -38,7 +38,7 @@
     <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\common\LegacyCPPCompatibility.hpp">
+    <ClCompile Include="$(MC_ROOT)\compat\LegacyCPPCompatibility.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
