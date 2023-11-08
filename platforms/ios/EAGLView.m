@@ -2,9 +2,6 @@
 //  EAGLView.m
 //  GLBase
 //
-//  Created by Hideki Kozima on 10/12/24.
-//  Copyright 2010 宮城大学 事業構想学部. All rights reserved.
-//
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -96,18 +93,19 @@
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
 
 		//  Add depth buffer
-		glGenRenderbuffersOES(1, &depthRenderbuffer);
-		glBindRenderbufferOES(GL_RENDERBUFFER, depthRenderbuffer);
-		glRenderbufferStorageOES(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES,
-							  framebufferWidth, framebufferHeight);
+        glGenRenderbuffersOES(1, &depthRenderbuffer);
+        glBindRenderbufferOES(GL_RENDERBUFFER, depthRenderbuffer);
+        glRenderbufferStorageOES(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16 /*GL_DEPTH24_STENCIL8_OES*/,
+                              framebufferWidth, framebufferHeight);
 		glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-								  GL_RENDERBUFFER, depthRenderbuffer );
-		glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
-                                     GL_RENDERBUFFER, depthRenderbuffer );
+                                  GL_RENDERBUFFER, depthRenderbuffer );
+        // Doing stencil stuff isn't supported on iOS 4.1, and I can't see any reason to be using it to begin with
+        /*glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
+                                     GL_RENDERBUFFER, depthRenderbuffer );*/
         NSLog(@"Created framebuffer with size %d, %d\n", framebufferWidth, framebufferHeight);
 		
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-            NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+            NSLog(@"Failed to make complete framebuffer object %x\n", glCheckFramebufferStatus(GL_FRAMEBUFFER));
     }
 }
 

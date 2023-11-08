@@ -2,9 +2,6 @@
 //  EAGLView.h
 //  GLBase
 //
-//  Created by Hideki Kozima on 10/12/24.
-//  Copyright 2010 宮城大学 事業構想学部. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 
