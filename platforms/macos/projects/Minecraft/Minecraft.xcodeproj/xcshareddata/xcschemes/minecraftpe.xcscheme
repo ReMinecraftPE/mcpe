@@ -30,6 +30,7 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug (iOS)"
       debugDocumentVersioning = "YES"
+      enablesOpenGLESFrameCapture = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference

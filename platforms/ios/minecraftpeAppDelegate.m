@@ -10,6 +10,12 @@
 
 #import "minecraftpeViewController.h"
 
+NSError *G_audioSessionError = nil;
+
+@interface minecraftpeAppDelegate ()
+    - (void)initAudio;
+@end
+
 @implementation minecraftpeAppDelegate
 
 @synthesize window;
@@ -17,11 +23,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //[self initAudio];
+    [self initAudio];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.viewController = [[minecraftpeViewController alloc] initWithNibName:@"minecraftpeViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    if ([self.window respondsToSelector:@selector(setRootViewController:)])
+    {
+        [self.window setRootViewController:self.viewController];
+    }
     NSLog(@"ViewController: %p\n", self.viewController);
     [self.window makeKeyAndVisible];
     return YES;
@@ -71,9 +80,74 @@
     [self.viewController stopAnimation];
 }
 
+- (void)beginInterruption
+{
+    NSLog(@"beginInterruption\n");
+    [self setAudioEnabled:NO];
+}
+
+- (void)endInterruption
+{
+    NSLog(@"endInterruption\n");
+    [self setAudioEnabled:YES];
+}
+
 - (void)initAudio
 {
-    // TODO: decompile this
+    self->audioSession = [AVAudioSession sharedInstance];
+    
+    self->audioSessionSoundCategory = AVAudioSessionCategoryAmbient;
+    [audioSession setCategory:audioSessionSoundCategory error:&G_audioSessionError];
+    if (G_audioSessionError)
+        NSLog(@"Warning; Couldn't init audio\n");
+    
+    [audioSession setDelegate:self];
+    
+    G_audioSessionError = nil;
+    [audioSession setActive:YES error:&G_audioSessionError];
+    if (G_audioSessionError)
+        NSLog(@"Warning; Couldn't set audio active\n");
+}
+
+- (void)setAudioEnabled:(BOOL)audioEnabled
+{
+    NSLog(@"set-audio-enabled: :%d %@\n", audioEnabled, [NSThread currentThread]);
+    if (audioEnabled)
+    {
+        [audioSession setCategory:audioSessionSoundCategory error:&G_audioSessionError];
+        if (G_audioSessionError)
+        {
+            NSLog(@"ERROR - SoundManager: Unable to set the audio session category with error: %@\n", G_audioSessionError);
+            return;
+        }
+        [audioSession setActive:YES error:&G_audioSessionError];
+        if (G_audioSessionError)
+        {
+            NSLog(@"ERROR - SoundManager: Unable to set the audio session state to YES with error: %@\n", G_audioSessionError);
+            return;
+        }
+    }
+    else
+    {
+        NSLog(@"INFO - SoundManager: OpenAL Inactive\n");
+        [audioSession setActive:NO error:&G_audioSessionError];
+        if (G_audioSessionError)
+        {
+            NSLog(@"ERROR - SoundManager: Unable to set the audio session state to NO with error: %@\n", G_audioSessionError);
+            return;
+        }
+    }
+    [self.viewController setAudioEnabled:audioEnabled];
+}
+
+- (void)dealloc
+{
+#if !__has_feature(objc_arc)
+    [self.window release];
+    [self.viewController release];
+    
+    [super dealloc];
+#endif
 }
 
 @end

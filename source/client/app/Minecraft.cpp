@@ -811,7 +811,7 @@ void Minecraft::init()
 	m_pGameMode = new CreativeMode(this);
 #endif
 
-#ifdef TARGET_OS_IOS
+#if TARGET_OS_IPHONE != 0
     // "Default.png" for the launch image overwrites "default.png" for the font during app packaging
     const char *fontImagePath = "font/default8.png";
 #else

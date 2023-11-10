@@ -240,6 +240,7 @@
 		84619B3E2AF1FEB700B0DE81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */; };
 		8489B3222A86E464004CA8EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		8489B3242A86E46A004CA8EC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3232A86E46A004CA8EC /* AppKit.framework */; };
+		848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848CBD0F2AFD847C007634F6 /* AVFoundation.framework */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		849259562AD8FD4F0081F5B9 /* minecraftpeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */; };
 		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m */; };
@@ -1663,6 +1664,7 @@
 		8489B3232A86E46A004CA8EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		8489B3252A86E4B0004CA8EC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		8489B4A82A86FF57004CA8EC /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = /opt/local/lib/libpng.a; sourceTree = "<absolute>"; };
+		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
 		8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeAppDelegate.h; sourceTree = "<group>"; };
@@ -1837,6 +1839,7 @@
 				84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */,
 				84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */,
 				84619B3C2AF1FE4C00B0DE81 /* OpenAL.framework in Frameworks */,
+				848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */,
 				84619B3E2AF1FEB700B0DE81 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3031,6 +3034,7 @@
 			isa = PBXGroup;
 			children = (
 				8489B3232A86E46A004CA8EC /* AppKit.framework */,
+				848CBD0F2AFD847C007634F6 /* AVFoundation.framework */,
 				84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */,
 				8489B3212A86E464004CA8EC /* Foundation.framework */,
 				84EAE8E12AF1EAB5000894E8 /* GLKit.framework */,
@@ -4596,7 +4600,7 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -4673,7 +4677,7 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -4750,7 +4754,7 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -4856,6 +4860,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = armv6;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -4917,7 +4922,7 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -4952,10 +4957,13 @@
 		84619B262AF1F32500B0DE81 /* Debug (iOS) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5022,6 +5030,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -5077,7 +5089,7 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -5111,10 +5123,13 @@
 		84619B312AF1F33A00B0DE81 /* Release (iOS) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
@@ -5239,7 +5254,7 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -5307,7 +5322,7 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -5339,10 +5354,13 @@
 		8492593E2AD8FCFD0081F5B9 /* Debug (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
@@ -5352,10 +5370,13 @@
 		8492593F2AD8FCFD0081F5B9 /* Release (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -5366,9 +5387,12 @@
 		849259402AD8FCFD0081F5B9 /* Release (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
@@ -5378,9 +5402,12 @@
 		849259412AD8FCFD0081F5B9 /* Release (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
@@ -5390,9 +5417,12 @@
 		849259422AD8FCFD0081F5B9 /* Release (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;

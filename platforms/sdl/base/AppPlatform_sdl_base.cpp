@@ -35,8 +35,8 @@ void AppPlatform_sdl_base::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
-		m_pSoundSystem = new SoundSystemAL();
 		LOG_I("Initializing OpenAL SoundSystem...");
+		m_pSoundSystem = new SoundSystemAL();
 	}
 	else
 	{

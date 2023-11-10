@@ -31,8 +31,8 @@ void AppPlatform_iOS::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
-		m_pSoundSystem = new SoundSystemAL();
 		LOG_I("Initializing OpenAL SoundSystem...");
+		m_pSoundSystem = new SoundSystemAL();
 	}
 	else
 	{

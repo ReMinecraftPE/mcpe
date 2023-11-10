@@ -26,7 +26,7 @@
 
 extern bool g_bIsMenuBackgroundAvailable;
 
-NSThread *G_drawFrameThread = nullptr;
+NSThread *G_drawFrameThread = nil;
 
 @interface minecraftpeViewController () {
     GLuint _program;
@@ -110,36 +110,6 @@ NSThread *G_drawFrameThread = nullptr;
     [super awakeFromNib];
     
     // Moved to viewDidLoad - wasn't working here & supposedly makes no difference
-}
-
-- (void)initView
-{
-    self->viewScale = self.view.contentScaleFactor;
-    App *app = self->_app;
-    
-    app->m_pPlatform = self->_context->platform;
-    app->init();
-    
-    /*var1 = app->field_10;
-    app->var3 = *self->_context;
-    if ( var1 )
-    {
-        ((void (__fastcall *)(App *))var0[15])(app);
-    }
-    else
-    {
-        ((void (__fastcall *)(App *))var0[14])(app);
-        app->field_10 = 1;
-    }*/
-    
-    [self updateDrawSize];
-    // Update draw size when device orientation changes (this accounts for typical view resizes)
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDrawSize) name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-    /*Minecraft *mc = (Minecraft *)app;
-    mc->selectLevel("TestWorld", "Test", (int)"iOS");
-    mc->hostMultiplayer();
-    mc->setScreen(new ProgressScreen);*/
 }
 
 - (void)drawFrame
@@ -227,6 +197,17 @@ NSThread *G_drawFrameThread = nullptr;
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
+    
+#if !__has_feature(objc_arc)
+    if (_app) delete _app;
+    if (_platform) delete _platform;
+    // This is what was done, but should we really be doing this?
+    if (_touchMap) delete[] (UITouch **)_touchMap;
+    
+    [self.context release];
+    
+    [super dealloc];
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -257,6 +238,39 @@ NSThread *G_drawFrameThread = nullptr;
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
 	self.context = nil;	
+}
+
+- (void)initView
+{
+    if ([self.view respondsToSelector:@selector(contentScaleFactor)])
+    {
+        self->viewScale = [self.view contentScaleFactor];
+    }
+    App *app = self->_app;
+    
+    app->m_pPlatform = self->_context->platform;
+    app->init();
+    
+    /*var1 = app->field_10;
+     app->var3 = *self->_context;
+     if ( var1 )
+     {
+     ((void (__fastcall *)(App *))var0[15])(app);
+     }
+     else
+     {
+     ((void (__fastcall *)(App *))var0[14])(app);
+     app->field_10 = 1;
+     }*/
+    
+    [self updateDrawSize];
+    // Update draw size when device orientation changes (this accounts for typical view resizes)
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDrawSize) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    /*Minecraft *mc = (Minecraft *)app;
+     mc->selectLevel("TestWorld", "Test", (int)"iOS");
+     mc->hostMultiplayer();
+     mc->setScreen(new ProgressScreen);*/
 }
 
 - (NSInteger)animationFrameInterval
@@ -304,6 +318,14 @@ NSThread *G_drawFrameThread = nullptr;
         animating = FALSE;
         NSLog(@"stop-animation: %@\n", [NSThread currentThread]);
     }
+}
+
+- (void)setAudioEnabled:(BOOL)audioEnabled
+{
+    if (audioEnabled)
+        _platform->getSoundSystem()->startEngine();
+    else
+        _platform->getSoundSystem()->stopEngine();
 }
 
 - (void)didReceiveMemoryWarning
@@ -410,10 +432,9 @@ NSThread *G_drawFrameThread = nullptr;
 {
     for (int i = 0; i < 12; i++)
     {
-        UITouch __strong **touchMap = self->_touchMap;
-        if (!touchMap[i])
+        if (!_touchMap[i])
         {
-            touchMap[i] = touch;
+            _touchMap[i] = touch;
             return i;
         }
     }
@@ -425,10 +446,9 @@ NSThread *G_drawFrameThread = nullptr;
 {
     for (int i = 0; i < 12; i++)
     {
-        UITouch __strong **touchMap = self->_touchMap;
-        if (touchMap[i] == touch)
+        if (_touchMap[i] == touch)
         {
-            touchMap[i] = nil;
+            _touchMap[i] = nil;
             return i;
         }
     }
@@ -441,8 +461,7 @@ NSThread *G_drawFrameThread = nullptr;
 {
     for (int i = 0; i < 12; i++)
     {
-        UITouch __strong **touchMap = self->_touchMap;
-        if (touchMap[i] == touch)
+        if (_touchMap[i] == touch)
             return i;
     }
     

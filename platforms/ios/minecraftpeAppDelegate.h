@@ -7,14 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVAudioSession.h>
 
 @class minecraftpeViewController;
 
-@interface minecraftpeAppDelegate : NSObject <UIApplicationDelegate> {
+@interface minecraftpeAppDelegate : NSObject <UIApplicationDelegate, AVAudioSessionDelegate> {
     UIWindow *window;
     minecraftpeViewController *viewController;
+    AVAudioSession *audioSession;
+    NSString *audioSessionSoundCategory;
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) minecraftpeViewController *viewController;
+
+- (void)setAudioEnabled:(BOOL)audioEnabled;
 
 @end

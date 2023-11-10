@@ -54,6 +54,11 @@
 - (void)dealloc
 {
     [self deleteFramebuffer];
+#if !__has_feature(objc_arc)
+    [context release];
+    
+    [super dealloc];
+#endif
 }
 
 - (EAGLContext *)context
@@ -93,14 +98,15 @@
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
 
 		//  Add depth buffer
-        glGenRenderbuffersOES(1, &depthRenderbuffer);
-        glBindRenderbufferOES(GL_RENDERBUFFER, depthRenderbuffer);
-        glRenderbufferStorageOES(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16 /*GL_DEPTH24_STENCIL8_OES*/,
+        glGenRenderbuffers(1, &depthRenderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16 /*GL_DEPTH24_STENCIL8_OES*/,
                               framebufferWidth, framebufferHeight);
-		glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                                   GL_RENDERBUFFER, depthRenderbuffer );
+        
         // Doing stencil stuff isn't supported on iOS 4.1, and I can't see any reason to be using it to begin with
-        /*glFramebufferRenderbufferOES(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
+        /*glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
                                      GL_RENDERBUFFER, depthRenderbuffer );*/
         NSLog(@"Created framebuffer with size %d, %d\n", framebufferWidth, framebufferHeight);
 		

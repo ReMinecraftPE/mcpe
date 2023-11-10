@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
+#import <QuartzCore/CADisplayLink.h>
 
 @interface minecraftpeViewController : UIViewController
 {
@@ -25,6 +26,8 @@
 
 - (void)startAnimation;
 - (void)stopAnimation;
+
+- (void)setAudioEnabled:(BOOL)audioEnabled;
 
 - (int)width;
 - (int)height;
