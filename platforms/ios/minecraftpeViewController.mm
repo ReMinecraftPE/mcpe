@@ -103,6 +103,7 @@ NSThread *G_drawFrameThread = nil;
     Minecraft::width = self.height;
     Minecraft::height = self.width;
     self->_app->sizeUpdate(self.height, self.width);
+    NSLog(@"Updated draw size to %d, %d\n", self.height, self.width);
 }
 
 - (void)awakeFromNib
@@ -135,7 +136,11 @@ NSThread *G_drawFrameThread = nil;
     glDiscardFramebufferEXT(36160, 1, attachments);
 #endif
     
-    [(EAGLView *)self.view presentFramebuffer];
+    BOOL success = [(EAGLView *)self.view presentFramebuffer];
+    if (!success)
+    {
+        NSLog(@"Failed to present renderbuffer object %x\n", glCheckFramebufferStatus(GL_RENDERBUFFER));
+    }
 }
 
 - (void)viewDidLoad
@@ -287,6 +292,7 @@ NSThread *G_drawFrameThread = nil;
     if (frameInterval >= 1)
     {
         animationFrameInterval = frameInterval;
+        NSLog(@"Set animationFrameInterval to %d\n", animationFrameInterval);
         
         if (animating)
         {
@@ -298,6 +304,9 @@ NSThread *G_drawFrameThread = nil;
 
 - (void)startAnimation
 {
+    if (![self isViewLoaded])
+        NSLog(@"Warning! Tried to startAnimation before view was loaded!\n");
+    
     if (!animating)
     {
         CADisplayLink *aDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawFrame)];
@@ -311,6 +320,9 @@ NSThread *G_drawFrameThread = nil;
 
 - (void)stopAnimation
 {
+    if (![self isViewLoaded])
+        NSLog(@"Warning! Tried to stopAnimation before view was loaded!\n");
+    
     if (animating)
     {
         [self.displayLink invalidate];

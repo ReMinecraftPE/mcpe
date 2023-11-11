@@ -35,17 +35,17 @@
                                         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
                                         kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
                                         nil];
+        self->viewScale = 1.0;
         if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)])
         {
+            self->viewScale = [[UIScreen mainScreen] scale];
             if ([self respondsToSelector:@selector(setContentScaleFactor:)])
             {
-                float scale = [[UIScreen mainScreen] scale];
-                self->viewScale = scale;
-                NSLog(@"Scale is : %f\n", scale);
                 [self setContentScaleFactor:self->viewScale];
                 [eaglLayer setContentsScale:self->viewScale];
             }
         }
+        NSLog(@"Scale is : %f\n", self->viewScale);
     }
     
     return self;
@@ -91,7 +91,9 @@
         // Create color render buffer and allocate backing store.
         glGenRenderbuffers(1, &colorRenderbuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-        [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+        BOOL success = [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
+        if (!success)
+            NSLog(@"Failed to bind CAEAGLayer to renderbuffer object!\n");
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &framebufferWidth);
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &framebufferHeight);
         

@@ -718,6 +718,7 @@
 		84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */; };
 		84EAE8F32AF1EAFA000894E8 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */; };
 		84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8F12AF1EAFA000894E8 /* main.cpp */; };
+		84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
 		84FFBE962ACA3415005A8CCF /* Base64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73E2AC810620006A435 /* Base64Encoder.cpp */; };
 		84FFBE972ACA3415005A8CCF /* BitStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7402AC810620006A435 /* BitStream.cpp */; };
@@ -1780,6 +1781,7 @@
 		84EAE8E72AF1EAFA000894E8 /* SoundSystemAL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystemAL.hpp; sourceTree = "<group>"; };
 		84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		84EAE8F12AF1EAFA000894E8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = minecraftpe.entitlements; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -2988,6 +2990,7 @@
 				84CEF0012AE3C97D006C5829 /* EAGLView.h */,
 				84CEF0022AE3C97D006C5829 /* EAGLView.m */,
 				84E001BA2AF3AF9B009B9555 /* MainWindow.xib */,
+				84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */,
 				8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */,
 				8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m */,
 				8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */,
@@ -3946,6 +3949,7 @@
 				849FF0E92AF46BF90013BAE3 /* Default.png in Resources */,
 				84C208532AF88A5000BAE438 /* grass_side_transparent.png in Resources */,
 				84C208542AF88A5000BAE438 /* patch_data.txt in Resources */,
+				84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3963,7 +3967,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ldid -S \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"\necho \"Fake-signed ${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"";
+			shellScript = "ldid -S\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/minecraftpe.entitlements\" \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"\necho \"Fake-signed ${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4580,6 +4584,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
+				GCC_FAST_MATH = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_SDL,
 					SDL_DISABLE_IMMINTRIN_H,
@@ -4657,6 +4662,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
+				GCC_FAST_MATH = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_SDL,
 					SDL_DISABLE_IMMINTRIN_H,
@@ -4734,6 +4740,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
+				GCC_FAST_MATH = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_SDL,
 					SDL_DISABLE_IMMINTRIN_H,
@@ -4895,7 +4902,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_FAST_MATH = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_GLES1_COMPATIBILITY_LAYER,
@@ -4908,6 +4915,7 @@
 					"DEBUG=1",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -4957,7 +4965,8 @@
 		84619B262AF1F32500B0DE81 /* Debug (iOS) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -5066,7 +5075,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
-				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
+				GCC_FAST_MATH = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_GLES1_COMPATIBILITY_LAYER,
 					USE_SDL,
@@ -5075,6 +5084,7 @@
 					HANDLE_CHARS_SEPARATELY,
 					USE_OLD_CPP,
 				);
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -5123,7 +5133,8 @@
 		84619B312AF1F33A00B0DE81 /* Release (iOS) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -5230,6 +5241,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
+				GCC_FAST_MATH = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_SDL,
@@ -5302,6 +5314,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
+				GCC_FAST_MATH = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					USE_SDL,
 					SDL_DISABLE_IMMINTRIN_H,
@@ -5354,7 +5367,8 @@
 		8492593E2AD8FCFD0081F5B9 /* Debug (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -5370,7 +5384,8 @@
 		8492593F2AD8FCFD0081F5B9 /* Release (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -5387,6 +5402,8 @@
 		849259402AD8FCFD0081F5B9 /* Release (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -5402,6 +5419,8 @@
 		849259412AD8FCFD0081F5B9 /* Release (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -5417,6 +5436,8 @@
 		849259422AD8FCFD0081F5B9 /* Release (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (

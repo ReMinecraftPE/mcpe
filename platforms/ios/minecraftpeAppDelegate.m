@@ -31,6 +31,10 @@ NSError *G_audioSessionError = nil;
     {
         [self.window setRootViewController:self.viewController];
     }
+    else
+    {
+        [self.window addSubview:self.viewController.view];
+    }
     NSLog(@"ViewController: %p\n", self.viewController);
     [self.window makeKeyAndVisible];
     return YES;
