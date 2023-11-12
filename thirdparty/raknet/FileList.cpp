@@ -17,8 +17,6 @@
 
 #if defined(_WIN32) || defined(__CYGWIN__)
 #include <io.h>
-#elif !defined ( __APPLE__ ) && !defined ( __APPLE_CC__ ) && !defined ( __PPC__ ) && !defined ( __FreeBSD__ ) && !defined ( __S3E__ ) && !defined ( __EMSCRIPTEN__ ) && !defined ( ANDROID ) && !defined ( __HAIKU__ )
-#include <sys/io.h>
 #endif
 
 
