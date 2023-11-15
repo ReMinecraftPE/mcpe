@@ -30,6 +30,7 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 
 	while (std::getline(patchDataStream, currLine))
 	{
+		if (currLine.empty()) continue;
         if (currLine.at(currLine.size() - 1) == '\r')
         {
             // Ignore Windows line-endings when processing file on Unix systems
