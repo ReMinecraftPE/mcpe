@@ -81,9 +81,7 @@ ret:
 	}
 	if (rows != NULL)
 	{
-        // Somehow this is erroring with the following on Mac OS X: pointer being freed was not allocated
-        // I'm not changing this because I'm quite certain it's correct, and doing the old implementation would certainly leak memory
-		delete rows[height];
+		delete[] rows;
 	}
 	if (file != NULL)
 	{
@@ -304,12 +302,24 @@ bool AppPlatform_sdl::hasFileSystemAccess()
 
 std::string AppPlatform_sdl::getPatchData()
 {
-	std::ifstream ifs(getAssetPath("patches/patch_data.txt").c_str());
-	if (!ifs.is_open())
+    std::string path = getAssetPath("patches/patch_data.txt");
+    SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
+    
+	if (!io)
+	{
+		LOG_W("Couldn't find patch data file!");
 		return "";
+	}
+    size_t size = io->size(io);
+    if (size == -1)
+    {
+        LOG_E("Error determining the size of the patch data file!");
+    }
     
-	std::stringstream ss;
-	ss << ifs.rdbuf();
+	char *buf = new char[size];
+    SDL_RWread(io, buf, size, 1);
     
-	return ss.str();
+    SDL_RWclose(io);
+    
+    return std::string(buf);
 }

@@ -74,8 +74,10 @@ void IngameBlockSelectionScreen::init()
 	m_btnPause.m_width = 40;
 	m_btnPause.m_xPos = 0;
 	m_btnPause.m_yPos = 0;
+#if TARGET_OS_IPHONE != 0
     if (m_pMinecraft->isTouchscreen())
         m_buttons.push_back(&m_btnPause);
+#endif
     
 	Inventory* pInv = getInventory();
 
