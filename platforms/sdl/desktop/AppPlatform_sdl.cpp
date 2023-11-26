@@ -81,6 +81,8 @@ ret:
 	}
 	if (rows != NULL)
 	{
+        // Somehow this is erroring with the following on Mac OS X: pointer being freed was not allocated
+        // I'm not changing this because I'm quite certain it's correct, and doing the old implementation would certainly leak memory
 		delete rows[height];
 	}
 	if (file != NULL)

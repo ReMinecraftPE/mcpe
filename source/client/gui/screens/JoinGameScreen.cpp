@@ -63,7 +63,7 @@ bool JoinGameScreen::handleBackEvent(bool b)
 
 void JoinGameScreen::init()
 {
-	const int BUTTON_WIDTH = 100;
+	const int BUTTON_WIDTH = 84;
 
 	m_btnBack.m_yPos = m_btnJoin.m_yPos = m_btnDirectConnect.m_yPos = m_height - 27;
 	m_btnBack.m_width = m_btnJoin.m_width = BUTTON_WIDTH;

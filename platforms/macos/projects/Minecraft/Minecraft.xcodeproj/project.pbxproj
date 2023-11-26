@@ -243,7 +243,7 @@
 		848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848CBD0F2AFD847C007634F6 /* AVFoundation.framework */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		849259562AD8FD4F0081F5B9 /* minecraftpeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */; };
-		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m */; };
+		849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */; };
 		8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */; };
 		8492595B2AD8FD4F0081F5B9 /* Shader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 849259522AD8FD4F0081F5B9 /* Shader.fsh */; };
 		8492595C2AD8FD4F0081F5B9 /* Shader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 849259532AD8FD4F0081F5B9 /* Shader.vsh */; };
@@ -1669,7 +1669,7 @@
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
 		8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeAppDelegate.h; sourceTree = "<group>"; };
-		8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = minecraftpeAppDelegate.m; sourceTree = "<group>"; };
+		8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeAppDelegate.mm; sourceTree = "<group>"; };
 		8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeViewController.h; sourceTree = "<group>"; };
 		849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeViewController.mm; sourceTree = "<group>"; };
 		849259522AD8FD4F0081F5B9 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
@@ -2992,7 +2992,7 @@
 				84E001BA2AF3AF9B009B9555 /* MainWindow.xib */,
 				84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */,
 				8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */,
-				8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m */,
+				8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */,
 				8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */,
 				849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */,
 				849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */,
@@ -4042,7 +4042,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84619B3A2AF1FE1500B0DE81 /* SoundSystemAL.cpp in Sources */,
-				849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.m in Sources */,
+				849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */,
 				8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */,
 				8492595B2AD8FD4F0081F5B9 /* Shader.fsh in Sources */,
 				8492595C2AD8FD4F0081F5B9 /* Shader.vsh in Sources */,
@@ -4605,7 +4605,6 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -4683,7 +4682,6 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -4761,7 +4759,6 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -4867,7 +4864,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = armv6;
+				ARCHS = armv7;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -4930,7 +4927,6 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -5099,7 +5095,6 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -5266,7 +5261,6 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,
@@ -5335,7 +5329,6 @@
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					/usr/local/lib,

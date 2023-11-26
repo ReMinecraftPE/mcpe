@@ -56,9 +56,5 @@ private:
     
 	int xrel;
 	int yrel;
-protected:
-    std::string _storageDir;
-    
-	virtual void ensureDirectoryExists(const char* path) { }
 };
 

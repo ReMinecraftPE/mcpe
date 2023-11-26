@@ -7,12 +7,14 @@
  ********************************************************************/
 
 #include "IngameBlockSelectionScreen.hpp"
+#include "PauseScreen.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
-IngameBlockSelectionScreen::IngameBlockSelectionScreen()
+IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
+    m_btnPause(0, "Pause")
 {
 	m_selectedSlot = 0;
 }
@@ -69,6 +71,12 @@ bool IngameBlockSelectionScreen::isAllowed(int slot)
 
 void IngameBlockSelectionScreen::init()
 {
+	m_btnPause.m_width = 40;
+	m_btnPause.m_xPos = 0;
+	m_btnPause.m_yPos = 0;
+    if (m_pMinecraft->isTouchscreen())
+        m_buttons.push_back(&m_btnPause);
+    
 	Inventory* pInv = getInventory();
 
 	int nItems = pInv->getNumItems();
@@ -148,8 +156,16 @@ void IngameBlockSelectionScreen::render(int x, int y, float f)
 	glEnable(GL_DEPTH_TEST);
 }
 
+void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
+{
+	if (pButton->m_buttonId == m_btnPause.m_buttonId)
+		m_pMinecraft->setScreen(new PauseScreen);
+}
+
 void IngameBlockSelectionScreen::mouseClicked(int x, int y, int type)
 {
+    Screen::mouseClicked(x, y, type);
+    
 	// not a left click
 	if (type != 1)
 		return;
@@ -161,6 +177,8 @@ void IngameBlockSelectionScreen::mouseClicked(int x, int y, int type)
 
 void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 {
+    Screen::mouseReleased(x, y, type);
+    
 	// not a left click
 	if (type != 1)
 		return;

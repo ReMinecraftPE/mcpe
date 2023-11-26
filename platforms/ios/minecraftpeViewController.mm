@@ -36,7 +36,7 @@ NSThread *G_drawFrameThread = nil;
     GLuint _vertexArray;
     GLuint _vertexBuffer;
     
-    App *_app;
+    Minecraft *_app;
     UITouch *_touchMap[12];
     //BaseDialogController *_dialog;
     int _dialogResultStatus;
@@ -59,6 +59,7 @@ NSThread *G_drawFrameThread = nil;
 @implementation minecraftpeViewController
 
 @synthesize animating, context, displayLink;
+@synthesize platform = _platform;
 
 - (int)width
 {
@@ -130,7 +131,7 @@ NSThread *G_drawFrameThread = nil;
     
     [(EAGLView *)self.view setFramebuffer];
     
-    self->_app->update();
+    _app->update();
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && __IPHONE_OS_VERSION_MIN_REQUIRED <= __IPHONE_12_0
     int attachments[3] = { 36096 };
     glDiscardFramebufferEXT(36160, 1, attachments);
@@ -184,9 +185,9 @@ NSThread *G_drawFrameThread = nil;
     self->viewScale = 1.0;
     
     NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 1u, YES) objectAtIndex:0];
-    App *app = new NinecraftApp();
+    NinecraftApp *app = new NinecraftApp();
+    app->m_externalStorageDir = [dir UTF8String];
     self->_app = app;
-    ctx->doRender = [dir UTF8String];
     
     [self initView];
 }
@@ -242,7 +243,7 @@ NSThread *G_drawFrameThread = nil;
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
-	self.context = nil;	
+	self.context = nil;
 }
 
 - (void)initView
@@ -329,6 +330,9 @@ NSThread *G_drawFrameThread = nil;
         self.displayLink = nil;
         animating = FALSE;
         NSLog(@"stop-animation: %@\n", [NSThread currentThread]);
+        
+        // HACK: applicationWillTerminate simply does not serve its purpose
+        _app->saveOptions();
     }
 }
 

@@ -9,6 +9,7 @@
 #import "minecraftpeAppDelegate.h"
 
 #import "minecraftpeViewController.h"
+#import "AppPlatform_iOS.h"
 
 NSError *G_audioSessionError = nil;
 
@@ -48,6 +49,7 @@ NSError *G_audioSessionError = nil;
      */
     NSLog(@"resign-active: %@\n", [NSThread currentThread]);
     [self.viewController stopAnimation];
+    //AppPlatform_iOS *platform = [self.viewController platform];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -82,6 +84,7 @@ NSError *G_audioSessionError = nil;
      See also applicationDidEnterBackground:.
      */
     [self.viewController stopAnimation];
+    [self.viewController stopGame];
 }
 
 - (void)beginInterruption

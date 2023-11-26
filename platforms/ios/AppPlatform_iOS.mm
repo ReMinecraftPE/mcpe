@@ -16,12 +16,8 @@
 
 AppPlatform_iOS::AppPlatform_iOS()
 {
-    //_storageDir = storageDir;
-    
     m_bShiftPressed[0] = false;
     m_bShiftPressed[1] = false;
-    
-    //ensureDirectoryExists(_storageDir.c_str());
 	
 	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;

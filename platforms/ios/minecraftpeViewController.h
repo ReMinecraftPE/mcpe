@@ -11,6 +11,8 @@
 #import <OpenGLES/ES1/gl.h>
 #import <QuartzCore/CADisplayLink.h>
 
+class AppPlatform_iOS;
+
 @interface minecraftpeViewController : UIViewController
 {
     EAGLContext *context;
@@ -23,6 +25,7 @@
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
+@property (readonly, nonatomic) AppPlatform_iOS* platform;
 
 - (void)startAnimation;
 - (void)stopAnimation;
