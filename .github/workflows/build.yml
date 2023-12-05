@@ -36,8 +36,8 @@ jobs:
             uses: melusina-org/setup-macports@v1
           - name: Install Dependencies
             run: |
-                sudo macports install libsdl2 +universal
-                sudo macports install libpng +universal
+                sudo port install libsdl2 +universal
+                sudo port install libpng +universal
           - name: Build macOS Archive
             run: |
                 cd platforms/macos/projects/Minecraft
