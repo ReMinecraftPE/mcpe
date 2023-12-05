@@ -34,7 +34,7 @@ jobs:
                 submodules: true
           - name: Build iOS Archive
             run: |
-                cd platforms/macos/projects/Minecraft/Minecraft.xcodeproj
+                cd platforms/macos/projects/Minecraft
                 xcodebuild -scheme "minecraftpe" \
                 -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
                 -sdk iphoneos \
