@@ -41,6 +41,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/SheepFurRenderer.cpp
     client/renderer/entity/CreeperRenderer.cpp
     client/renderer/entity/CowRenderer.cpp
+    client/renderer/entity/PigRenderer.cpp
     client/renderer/entity/ChickenRenderer.cpp
     client/renderer/RenderList.cpp
     client/renderer/Chunk.cpp
