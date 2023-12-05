@@ -44,6 +44,7 @@ jobs:
                 -sdk macosx \
                 -configuration "Release (Default)" \
                 -destination generic/platform=macOS \
+                GCC_PREPROCESSOR_DEFINITIONS="MISSING_SOUND_DATA $(inherited)" \
                 clean archive 
     #build-ios:
     #    runs-on: macos-latest
