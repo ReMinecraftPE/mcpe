@@ -25,19 +25,39 @@ jobs:
                 cmake --build .
           - name: Build WASM
             run: ./build-wasm.sh
-    build-ios:
+    build-macos:
         runs-on: macos-latest
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v3
             with:
                 submodules: true
-          - name: Build iOS Archive
+          - name: Install Dependencies
+            run: |
+                brew install sdl2
+                brew install libpng
+          - name: Build macOS Archive
             run: |
                 cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "minecraftpe" \
-                -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
-                -sdk iphoneos \
-                -configuration "Release (iOS)" \
-                -destination generic/platform=iOS \
+                xcodebuild -scheme "MinecraftClient.SDL2" \
+                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_SDL2.xcarchive \
+                -sdk macos \
+                -configuration "Release (Default)" \
+                -destination generic/platform=macOS \
                 clean archive 
+    #build-ios:
+    #    runs-on: macos-latest
+    #    steps:
+    #      - name: Checkout Repository
+    #        uses: actions/checkout@v3
+    #        with:
+    #            submodules: true
+    #      - name: Build iOS Archive
+    #        run: |
+    #            cd platforms/macos/projects/Minecraft
+    #            xcodebuild -scheme "minecraftpe" \
+    #            -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
+    #            -sdk iphoneos \
+    #            -configuration "Release (iOS)" \
+    #            -destination generic/platform=iOS \
+    #            clean archive 
