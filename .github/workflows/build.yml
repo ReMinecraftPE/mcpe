@@ -49,21 +49,21 @@ jobs:
                 GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
                 -quiet \
                 clean archive 
-    build-ios:
-        runs-on: macos-latest
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v3
-            with:
-                submodules: true
-          - name: Build iOS Archive
-            run: |
-                cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "minecraftpe" \
-                -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
-                -sdk iphoneos \
-                -configuration "Release (iOS)" \
-                -destination generic/platform=iOS \
-                GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
-                -quiet \
-                clean archive 
+    #build-ios:
+    #    runs-on: macos-latest
+    #    steps:
+    #      - name: Checkout Repository
+    #        uses: actions/checkout@v3
+    #        with:
+    #            submodules: true
+    #      - name: Build iOS Archive
+    #        run: |
+    #            cd platforms/macos/projects/Minecraft
+    #            xcodebuild -scheme "minecraftpe" \
+    #            -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
+    #            -sdk iphoneos \
+    #            -configuration "Release (iOS)" \
+    #            -destination generic/platform=iOS \
+    #            GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
+    #            -quiet \
+    #            clean archive 
