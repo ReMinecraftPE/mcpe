@@ -10,11 +10,14 @@
 #include "client/app/Minecraft.hpp"
 #include "../ItemInHandRenderer.hpp"
 
+#include "client/model/PigModel.hpp"
+
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 float EntityRenderDispatcher::xOff, EntityRenderDispatcher::yOff, EntityRenderDispatcher::zOff;
 
 EntityRenderDispatcher::EntityRenderDispatcher() :
-	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f)
+	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f),
+	m_PigRenderer(new PigModel(0.0f), 0.0f)
 {
 	m_pItemInHandRenderer = nullptr;
 	m_pTextures = nullptr;
@@ -27,14 +30,13 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_pFont = nullptr;
 
 	m_HumanoidMobRenderer.init(this);
+	m_PigRenderer.init(this);
+	
+	// TODO
+
 	m_TntRenderer.init(this);
 	m_CameraRenderer.init(this);
-
-#ifndef ORIGINAL_CODE
-	// @BUG: Not initializing the item renderer would cause crashes if item7
-	// entities exist, because it references the dispatcher
 	m_ItemRenderer.init(this);
-#endif
 
 #ifdef ENH_ALLOW_SAND_GRAVITY
 	m_FallingTileRenderer.init(this);
@@ -63,9 +65,9 @@ EntityRenderDispatcher* EntityRenderDispatcher::getInstance()
 	return instance;
 }
 
-EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
+EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 {
-	switch (pEnt->field_C8)
+	switch (renderType)
 	{
 		case RENDER_TNT:
 			return &m_TntRenderer;
@@ -75,6 +77,9 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 			return &m_CameraRenderer;
 		case RENDER_HUMANOID:
 			return &m_HumanoidMobRenderer;
+		case RENDER_PIG:
+			return &m_PigRenderer;
+		// TODO
 #ifdef ENH_ALLOW_SAND_GRAVITY
 		case RENDER_FALLING_TILE:
 			return &m_FallingTileRenderer;
@@ -82,6 +87,15 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 	}
 
 	return nullptr;
+}
+
+EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
+{
+	int renderType = pEnt->field_C8;
+	if (renderType == RENDER_DYNAMIC)
+		renderType = pEnt->queryEntityRenderer();
+
+	return getRenderer(renderType);
 }
 
 void EntityRenderDispatcher::onGraphicsReset()

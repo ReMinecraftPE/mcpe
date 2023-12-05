@@ -57,7 +57,7 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_B84 = 0;
 	m_pEntLookedAt = nullptr;
 
-	m_texture = "/mob/char.png";
+	m_texture = "/mob/pig.png";
 	m_class = "";
 
 	field_34 = 1;
@@ -742,6 +742,11 @@ Vec3 Mob::getViewVector(float f)
 int Mob::getMaxSpawnClusterSize()
 {
 	return 4;
+}
+
+bool Mob::isBaby()
+{
+	return false;
 }
 
 void Mob::actuallyHurt(int damage)

@@ -5,7 +5,7 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
-#pragma off
+#pragma once
 
 #include "Model.hpp"
 
@@ -18,8 +18,8 @@ public:
 	void render(float, float, float, float, float, float) override;
 	void setupAnim(float, float, float, float, float, float) override;
 
-private:
-	bool m_bIsBaby;
+protected:
+	friend class PigModel;
 	ModelPart m_head;
 	ModelPart m_unknown;
 	ModelPart m_body;

@@ -22,7 +22,7 @@ Player::Player(Level* pLevel) : Mob(pLevel)
 	field_BC4 = 0;
 	m_bHaveRespawnPos = false;
 
-	field_C8 = 2;
+	field_C8 = RENDER_HUMANOID;
 
 	m_pInventory = new Inventory(this);
 

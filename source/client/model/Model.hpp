@@ -30,4 +30,5 @@ public:
 	int m_textureWidth;
 	int m_textureHeight;
 	std::vector<ModelPart*> m_parts;
+	bool m_bIsBaby;
 };

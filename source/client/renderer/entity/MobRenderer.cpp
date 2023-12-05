@@ -83,9 +83,13 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	glDisable(GL_CULL_FACE);
 	m_pModel->field_4 = getAttackAnim(pMob, f);
 	m_pModel->field_8 = false;
+	m_pModel->m_bIsBaby = pMob->isBaby();
 
 	if (m_pArmorModel)
+	{
 		m_pArmorModel->field_8 = m_pModel->field_8;
+		m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
+	}
 
 	float aYaw   = pMob->field_5C + (pMob->m_yaw   - pMob->field_5C) * f;
 	float aPitch = pMob->field_60 + (pMob->m_pitch - pMob->field_60) * f;
@@ -104,7 +108,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		x1 = 1.0f;
 	float x2 = pMob->field_130 - pMob->field_12C * (1.0f - f);
 
-	bindTexture("mob/char.png");
+	bindTexture(pMob->getTexture());
 	glEnable(GL_ALPHA_TEST);
 
 	m_pModel->setBrightness(entity->getBrightness(1.0f));

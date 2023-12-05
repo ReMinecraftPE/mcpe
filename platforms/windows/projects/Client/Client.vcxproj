@@ -320,6 +320,8 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\FoliageColor.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\GrassColor.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\OptionList.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\PigModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\PigRenderer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -420,6 +422,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\FoliageColor.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\GrassColor.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\OptionList.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\PigModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\PigRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

@@ -380,6 +380,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\QuadrupedModel.hpp">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\PigModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\PigRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -675,6 +681,12 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\model\QuadrupedModel.cpp">
       <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\PigModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\PigRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

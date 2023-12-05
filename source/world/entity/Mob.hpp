@@ -62,6 +62,7 @@ public:
 	virtual Vec3 getLookAngle(float f);
 	virtual Vec3 getViewVector(float f);
 	virtual int getMaxSpawnClusterSize();
+	virtual bool isBaby();
 	virtual void actuallyHurt(int damage);
 	virtual bool removeWhenFarAway();
 	virtual int getDeathLoot();

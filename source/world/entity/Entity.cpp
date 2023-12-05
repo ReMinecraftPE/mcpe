@@ -1068,6 +1068,13 @@ void Entity::lavaHurt()
 	}
 }
 
+int Entity::queryEntityRenderer()
+{
+	// If field_C8 is equal to RENDER_DYNAMIC, EntityRenderDispatcher
+	// calls here. Used for sheared sheep.
+	return 0;
+}
+
 int Entity::hashCode()
 {
 	return m_EntityID;

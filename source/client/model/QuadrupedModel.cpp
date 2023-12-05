@@ -10,7 +10,6 @@
 
 QuadrupedModel::QuadrupedModel(int i, float f) :
 	Model(64, 32),
-	m_bIsBaby(true), // @HUH: Why is this true?
 	m_head(0, 0),
 	m_unknown(0, 0),
 	m_body(28, 8),
