@@ -25,7 +25,6 @@ add_library(reminecraftpe-core STATIC
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
-    client/renderer/entity/HumanoidMobRenderer.cpp
     client/renderer/entity/TntRenderer.cpp
     client/renderer/entity/MobRenderer.cpp
     client/renderer/entity/FallingTileRenderer.cpp
@@ -34,6 +33,15 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/TripodCameraRenderer.cpp
     client/renderer/entity/ItemSpriteRenderer.cpp
     client/renderer/entity/EntityRenderDispatcher.cpp
+    client/renderer/entity/HumanoidMobRenderer.cpp
+    client/renderer/entity/SpiderRenderer.cpp
+    client/renderer/entity/ZombieRenderer.cpp
+    client/renderer/entity/SkeletonRenderer.cpp
+    client/renderer/entity/SheepRenderer.cpp
+    client/renderer/entity/SheepFurRenderer.cpp
+    client/renderer/entity/CreeperRenderer.cpp
+    client/renderer/entity/CowRenderer.cpp
+    client/renderer/entity/ChickenRenderer.cpp
     client/renderer/RenderList.cpp
     client/renderer/Chunk.cpp
     client/renderer/RenderChunk.cpp
@@ -90,10 +98,19 @@ add_library(reminecraftpe-core STATIC
     client/gui/GuiComponent.cpp
     client/model/PolygonQuad.cpp
     client/model/Model.cpp
-    client/model/HumanoidModel.cpp
     client/model/Cube.cpp
     client/model/ModelPart.cpp
     client/model/QuadrupedModel.cpp
+    client/model/PigModel.cpp
+    client/model/HumanoidModel.cpp
+    client/model/SpiderModel.cpp
+    client/model/ZombieModel.cpp
+    client/model/SkeletonModel.cpp
+    client/model/SheepModel.cpp
+    client/model/SheepFurModel.cpp
+    client/model/CreeperModel.cpp
+    client/model/CowModel.cpp
+    client/model/ChickenModel.cpp
     client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
     client/player/input/Mouse.cpp
