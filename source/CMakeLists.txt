@@ -92,6 +92,8 @@ add_library(reminecraftpe-core STATIC
     client/model/Model.cpp
     client/model/HumanoidModel.cpp
     client/model/Cube.cpp
+    client/model/ModelPart.cpp
+    client/model/QuadrupedModel.cpp
     client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
     client/player/input/Mouse.cpp

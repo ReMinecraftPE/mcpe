@@ -5,3 +5,15 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
+#pragma off
+
+#include "Model.hpp"
+
+/*
+
+class QuadrupedModel : public Model
+{
+
+};
+
+*/
