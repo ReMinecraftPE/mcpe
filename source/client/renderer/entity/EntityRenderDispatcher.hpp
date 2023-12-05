@@ -17,6 +17,7 @@
 #include "PigRenderer.hpp"
 #include "CowRenderer.hpp"
 #include "ChickenRenderer.hpp"
+#include "CreeperRenderer.hpp"
 
 class Minecraft;
 class Font;
@@ -51,7 +52,7 @@ public:
 	TntRenderer m_TntRenderer;
 	//padding??
 	ItemRenderer m_ItemRenderer;
-	//CreeperRenderer m_CreeperRenderer;
+	CreeperRenderer m_CreeperRenderer;
 	//SpiderRenderer m_SpiderRenderer;
 	//SkeletonRenderer m_SkeletonRenderer;
 	//ZombieRenderer m_ZombieRenderer;

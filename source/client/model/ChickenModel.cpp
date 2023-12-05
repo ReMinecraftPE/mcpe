@@ -89,17 +89,17 @@ void ChickenModel::render(float a, float b, float c, float d, float e, float f)
 void ChickenModel::setupAnim(float a, float b, float c, float d, float e, float f)
 {
 	// TODO: Why do I need to invert the rotation again?
-	float rotX = e / (float)(-180.0f / 3.1416f);
+	float rotX = e / (-180.0f / 3.1416f);
 	m_head.m_rotX = -rotX;
 	m_beak.m_rotX = -rotX;
 	m_wattle.m_rotX = -rotX;
 
-	float rotY = d / (float)(180.0f / 3.1416f);
+	float rotY = d / (180.0f / 3.1416f);
 	m_head.m_rotY = rotY;
 	m_beak.m_rotY = rotY;
 	m_wattle.m_rotY = rotY;
 
-	m_body.m_rotX = 90.0f / (float)(180.0f / 3.1416f);
+	m_body.m_rotX = 90.0f / (180.0f / 3.1416f);
 	m_wing1.m_rotZ = c;
 	m_wing2.m_rotZ = -c;
 

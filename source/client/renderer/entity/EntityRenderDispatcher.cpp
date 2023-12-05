@@ -13,6 +13,7 @@
 #include "client/model/PigModel.hpp"
 #include "client/model/CowModel.hpp"
 #include "client/model/ChickenModel.hpp"
+#include "client/model/CreeperModel.hpp"
 
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 float EntityRenderDispatcher::xOff, EntityRenderDispatcher::yOff, EntityRenderDispatcher::zOff;
@@ -21,7 +22,8 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f),
 	m_PigRenderer(new PigModel(0.0f), 0.0f),
 	m_CowRenderer(new CowModel, 0.0f),
-	m_ChickenRenderer(new ChickenModel, 0.0f)
+	m_ChickenRenderer(new ChickenModel, 0.0f),
+	m_CreeperRenderer(new CreeperModel, 0.5f)
 {
 	m_pItemInHandRenderer = nullptr;
 	m_pTextures = nullptr;
@@ -37,6 +39,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_PigRenderer.init(this);
 	m_CowRenderer.init(this);
 	m_ChickenRenderer.init(this);
+	m_CreeperRenderer.init(this);
 	
 	// TODO
 
@@ -89,6 +92,8 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 			return &m_CowRenderer;
 		case RENDER_PIG:
 			return &m_PigRenderer;
+		case RENDER_CREEPER:
+			return &m_CreeperRenderer;
 		// TODO
 #ifdef ENH_ALLOW_SAND_GRAVITY
 		case RENDER_FALLING_TILE:
