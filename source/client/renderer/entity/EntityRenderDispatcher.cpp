@@ -123,9 +123,9 @@ void EntityRenderDispatcher::render(Entity* entity, float a, float b, float c, f
 	{
 #ifndef ORIGINAL_CODE
 		if (pRenderer == &m_HumanoidMobRenderer)
-			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = entity->isSneaking();
+			m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = entity->isSneaking();
 		else
-			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = false;
+			m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = false;
 #endif
 
 		pRenderer->render(entity, a, b, c, d, e);

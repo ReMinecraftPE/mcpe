@@ -32,6 +32,6 @@ public:
 public:
 	TileRenderer m_renderer;
 	TripodTile m_tile;
-	Cube m_cube;
+	ModelPart m_modelPart;
 };
 

@@ -365,14 +365,20 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\FoliageColor.hpp">
-      <Filter>Header Files\Renderer</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\FoliageColor.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\GrassColor.hpp">
-      <Filter>Header Files\Renderer</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\GrassColor.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\gui\components\OptionList.hpp">
-      <Filter>Header Files\GUI\Components</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\OptionList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\ModelPart.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\QuadrupedModel.hpp">
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -655,14 +661,20 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\GrassColor.cpp">
-      <Filter>Source Files\Renderer</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FoliageColor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\FoliageColor.cpp">
-      <Filter>Source Files\Renderer</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\GrassColor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\gui\components\OptionList.cpp">
-      <Filter>Source Files\GUI\Components</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\OptionList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\ModelPart.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\QuadrupedModel.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

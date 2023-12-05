@@ -11,10 +11,10 @@
 
 TripodCameraRenderer::TripodCameraRenderer() :
 	m_tile(),
-	m_cube(0, 0)
+	m_modelPart(0, 0)
 {
-	m_cube.addBox(-4.0f, -4.0f, -6.0f, 8, 8, 10);
-	m_cube.m_posY = 11.0f;
+	m_modelPart.addBox(-4.0f, -4.0f, -6.0f, 8, 8, 10);
+	m_modelPart.m_posY = 11.0f;
 	field_4 = 0.5f;
 }
 
@@ -30,8 +30,8 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 {
 	glPushMatrix();
 	glTranslatef(x, y, z);
-	m_cube.m_rotX  = 0.017453f * (180.0f + 0.5f * entity->m_pitch);
-	m_cube.m_rotY = -0.017453f * entity->m_yaw;
+	m_modelPart.m_rotX  = 0.017453f * (180.0f + 0.5f * entity->m_pitch);
+	m_modelPart.m_rotY = -0.017453f * entity->m_yaw;
 
 	Tesselator& t = Tesselator::instance;
 	t.color(1.0f, 1.0f, 1.0f);
@@ -45,8 +45,8 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 	t.draw();
 
 	bindTexture("item/camera.png");
-	m_cube.setBrightness(brightness);
-	m_cube.render(0.0625f);
+	m_modelPart.setBrightness(brightness);
+	m_modelPart.render(0.0625f);
 
 	Entity* pHREntity = m_pDispatcher->m_pMinecraft->m_hitResult.m_pEnt;
 
@@ -64,7 +64,7 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// @TODO FIX: With ENH_ENTITY_SHADING on, the cube is fully opaque.
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		m_cube.render(0.0625f);
+		m_modelPart.renderHorrible(0.0625f);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
