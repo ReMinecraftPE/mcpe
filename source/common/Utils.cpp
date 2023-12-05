@@ -9,7 +9,7 @@
 // note: not an official file name
 
 #include "common/Utils.hpp"
-#include "PlatformDefinitions.h"
+#include "compat/PlatformDefinitions.h"
 
 #if defined(_WIN32) && !defined(_XBOX)
 
