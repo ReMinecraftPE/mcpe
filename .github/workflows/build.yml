@@ -5,7 +5,7 @@ on:
   - pull_request
 
 jobs:
-    build:
+    build-ubuntu:
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repository
@@ -25,3 +25,19 @@ jobs:
                 cmake --build .
           - name: Build WASM
             run: ./build-wasm.sh
+    build-ios:
+        runs-on: macos-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+            with:
+                submodules: true
+          - name: Build iOS Archive
+            run: |
+                cd platforms/macos/projects/Minecraft/Minecraft.xcodeproj \
+                xcodebuild -scheme "minecraftpe" \
+                -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
+                -sdk iphoneos \
+                -configuration "Release (iOS)" \
+                -destination generic/platform=iOS \
+                clean archive 
