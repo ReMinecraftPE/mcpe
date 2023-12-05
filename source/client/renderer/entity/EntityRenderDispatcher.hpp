@@ -15,6 +15,7 @@
 #include "ItemRenderer.hpp"
 #include "FallingTileRenderer.hpp"
 #include "PigRenderer.hpp"
+#include "CowRenderer.hpp"
 
 class Minecraft;
 class Font;
@@ -44,7 +45,7 @@ public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	HumanoidMobRenderer m_HumanoidMobRenderer;
 	PigRenderer m_PigRenderer;
-	//CowRenderer m_CowRenderer;
+	CowRenderer m_CowRenderer;
 	//ChickenRenderer m_ChickenRenderer;
 	TntRenderer m_TntRenderer;
 	//padding??

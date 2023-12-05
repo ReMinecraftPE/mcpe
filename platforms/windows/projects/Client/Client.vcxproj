@@ -320,8 +320,24 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\FoliageColor.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\GrassColor.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\OptionList.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\ChickenModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\CowModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\CreeperModel.hpp" />
     <ClInclude Include="..\..\..\..\source\client\model\PigModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\SheepFurModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\SheepModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\SkeletonModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\SpiderModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\model\ZombieModel.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ChickenRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\CowRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\CreeperRenderer.hpp" />
     <ClInclude Include="..\..\..\..\source\client\renderer\entity\PigRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SheepFurRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SheepRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SkeletonRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SpiderRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ZombieRenderer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -422,8 +438,24 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\FoliageColor.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\GrassColor.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\OptionList.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\ChickenModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\CowModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\CreeperModel.cpp" />
     <ClCompile Include="..\..\..\..\source\client\model\PigModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\SheepFurModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\SheepModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\SkeletonModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\SpiderModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\model\ZombieModel.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ChickenRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\CowRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\CreeperRenderer.cpp" />
     <ClCompile Include="..\..\..\..\source\client\renderer\entity\PigRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SheepFurRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SheepRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SkeletonRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SpiderRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ZombieRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

@@ -386,6 +386,54 @@
     <ClInclude Include="..\..\..\..\source\client\renderer\entity\PigRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\CreeperModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\CowModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\ChickenModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\SheepFurModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\SheepModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\SkeletonModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\SpiderModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\model\ZombieModel.hpp">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\CreeperRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\CowRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ChickenRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SheepFurRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SheepRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SkeletonRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SpiderRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ZombieRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -686,6 +734,54 @@
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\source\client\renderer\entity\PigRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\CreeperModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\SheepFurModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\SheepModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\SkeletonModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\SpiderModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\ZombieModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\ChickenModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\CowModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SheepRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SkeletonRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SpiderRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ZombieRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ChickenRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\CowRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\CreeperRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SheepFurRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
   </ItemGroup>
