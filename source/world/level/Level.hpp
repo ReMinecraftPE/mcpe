@@ -128,8 +128,8 @@ public:
 	void addToTickNextTick(int, int, int, int, int);
 	void takePicture(TripodCamera* pCamera, Entity* pOwner);
 	void addParticle(const std::string& name, float, float, float, float, float, float);
-	void playSound(Entity*, const std::string& name, float, float);
-	void playSound(float x, float y, float z, const std::string& name, float, float);
+	void playSound(Entity*, const std::string& name, float volume, float pitch);
+	void playSound(float x, float y, float z, const std::string& name, float volume, float pitch);
 	void animateTick(int x, int y, int z);
 	float getSeenPercent(Vec3, AABB);
 	void explode(Entity*, float x, float y, float z, float power);

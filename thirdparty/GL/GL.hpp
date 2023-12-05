@@ -9,6 +9,7 @@
 #pragma once
 
 #include <common/Utils.hpp> // it includes GL/gl.h
+#include <compat/PlatformDefinitions.h>
 
 #ifdef __ANDROID__
 	#define USE_GLES
@@ -22,7 +23,7 @@
 
 
 #ifdef USE_GLES
-	#ifdef TARGET_OS_IOS
+	#if MC_TARGET_OS_IOS
 		 #import <OpenGLES/ES1/gl.h>
 		 #import <OpenGLES/ES1/glext.h>
 

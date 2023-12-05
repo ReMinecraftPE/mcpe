@@ -31,6 +31,9 @@ class AppPlatform_iOS;
 - (void)stopAnimation;
 
 - (void)setAudioEnabled:(BOOL)audioEnabled;
+- (void)showKeyboard;
+- (void)hideKeyboard;
+- (void)handleCharInput:(char)c;
 
 - (int)width;
 - (int)height;

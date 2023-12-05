@@ -28,7 +28,7 @@ void LevelListener::allChanged()
 
 }
 
-void LevelListener::playSound(const std::string& a, float b, float c, float d, float e, float f)
+void LevelListener::playSound(const std::string& name, float x, float y, float z, float volume, float pitch)
 {
 
 }

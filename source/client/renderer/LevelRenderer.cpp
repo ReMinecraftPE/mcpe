@@ -1227,19 +1227,19 @@ void LevelRenderer::addParticle(const std::string& name, float x, float y, float
 	LOG_W("Unknown particle type: %s", name.c_str());
 }
 
-void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float a, float b)
+void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float volume, float pitch)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	float mult = 1.0f, dist = 16.0f;
 
-	if (a > 1.0f)
+	if (volume > 1.0f)
 	{
 		mult = 16.0f;
-		dist = a * mult;
+		dist = volume * mult;
 	}
 
 	if (dist * dist > m_pMinecraft->m_pMobPersp->distanceToSqr(x, y, z))
-		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, a, b);
+		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, volume, pitch);
 }
 
 void LevelRenderer::renderSky(float f)

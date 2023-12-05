@@ -23,6 +23,7 @@
 #include "client/gui/screens/ProgressScreen.hpp"
 
 #include "EAGLView.h"
+#include "ShowKeyboardView.h"
 
 extern bool g_bIsMenuBackgroundAvailable;
 
@@ -39,6 +40,7 @@ NSThread *G_drawFrameThread = nil;
     Minecraft *_app;
     UITouch *_touchMap[12];
     //BaseDialogController *_dialog;
+    ShowKeyboardView *_keyboardView;
     int _dialogResultStatus;
     std::vector<std::string> _dialogResultStrings;
     AppContext *_context;
@@ -146,6 +148,7 @@ NSThread *G_drawFrameThread = nil;
 
 - (void)viewDidLoad
 {
+    //_keyboardView = [[ShowKeyboardView alloc] init];
     [super viewDidLoad];
     
     //EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -176,7 +179,7 @@ NSThread *G_drawFrameThread = nil;
     
     g_bIsMenuBackgroundAvailable = true;
     
-    AppPlatform_iOS *platform = new AppPlatform_iOS();
+    AppPlatform_iOS *platform = new AppPlatform_iOS(self);
     self->_platform = platform;
     
     AppContext *ctx = new AppContext();
@@ -248,6 +251,8 @@ NSThread *G_drawFrameThread = nil;
 
 - (void)initView
 {
+    _keyboardView = [[ShowKeyboardView alloc] initWithMinecraft:self->_app];
+    
     if ([self.view respondsToSelector:@selector(contentScaleFactor)])
     {
         self->viewScale = [self.view contentScaleFactor];
@@ -342,6 +347,36 @@ NSThread *G_drawFrameThread = nil;
         _platform->getSoundSystem()->startEngine();
     else
         _platform->getSoundSystem()->stopEngine();
+}
+
+- (void)showKeyboard
+{
+    for (UIView *view in self.view.subviews)
+    {
+        if ([view isKindOfClass:[ShowKeyboardView class]])
+        {
+            [((ShowKeyboardView*)view) showKeyboard];
+        }
+    }
+    [self.view insertSubview:_keyboardView atIndex:0];
+    [_keyboardView showKeyboard];
+}
+
+- (void)hideKeyboard
+{
+    for (UIView *view in self.view.subviews)
+    {
+        if ([view isKindOfClass:[ShowKeyboardView class]])
+        {
+            [((ShowKeyboardView*)view) hideKeyboard];
+            [((ShowKeyboardView*)view) removeFromSuperview];
+        }
+    }
+}
+
+- (void)handleCharInput:(char)c
+{
+    _app->handleCharInput(c);
 }
 
 - (void)didReceiveMemoryWarning

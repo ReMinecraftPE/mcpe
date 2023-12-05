@@ -444,7 +444,7 @@ label_45:
 				bPlaySound = false;
 
 			if (bPlaySound)
-				m_pLevel->playSound(this, "step." + sound->m_name, sound->field_18 * 0.15f, sound->field_1C);
+				m_pLevel->playSound(this, "step." + sound->m_name, sound->volume * 0.15f, sound->pitch);
 
 			Tile::tiles[tileID]->stepOn(m_pLevel, tileX, tileY, tileZ, this);
 		}

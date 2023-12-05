@@ -59,7 +59,9 @@ public:
 	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
 	virtual bool shiftPressed();
-	virtual void showKeyboard(bool bShown);
+	virtual void showKeyboard();
+	virtual void showKeyboard(bool bShown); // @TODO: Why on earth is this here?
+	virtual void hideKeyboard();
 	virtual void onHideKeyboard(); // called by the runner, not the game
 	virtual int getKeyboardUpOffset();
 

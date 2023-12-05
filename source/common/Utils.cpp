@@ -9,6 +9,7 @@
 // note: not an official file name
 
 #include "common/Utils.hpp"
+#include "PlatformDefinitions.h"
 
 #if defined(_WIN32) && !defined(_XBOX)
 
@@ -36,7 +37,7 @@
 
 int g_TimeSecondsOnInit = 0;
 
-#if (!defined(USE_SDL) || defined(_WIN32)) && !defined(__ANDROID__)
+#if (!defined(USE_SDL) || defined(_WIN32)) && !defined(__ANDROID__) && !MC_TARGET_OS_MAC
 
 DIR* opendir(const char* name)
 {

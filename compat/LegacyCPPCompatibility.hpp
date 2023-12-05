@@ -1,3 +1,5 @@
+#pragma once
+
 #ifdef USE_OLD_CPP
 #ifndef constexpr
 #define constexpr const

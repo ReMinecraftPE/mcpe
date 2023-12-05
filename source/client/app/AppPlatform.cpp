@@ -140,7 +140,19 @@ bool AppPlatform::shiftPressed()
 	return false;
 }
 
+void AppPlatform::showKeyboard()
+{
+}
+
 void AppPlatform::showKeyboard(bool bShown)
+{
+    if (bShown)
+        showKeyboard();
+    else
+        hideKeyboard();
+}
+
+void AppPlatform::hideKeyboard()
 {
 }
 

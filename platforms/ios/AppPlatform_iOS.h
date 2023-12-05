@@ -21,7 +21,7 @@
 class AppPlatform_iOS : public AppPlatform
 {
 public:
-    AppPlatform_iOS();
+    AppPlatform_iOS(minecraftpeViewController *viewController);
     ~AppPlatform_iOS();
     
 	void initSoundSystem() override;
@@ -32,20 +32,19 @@ public:
 	Texture loadTexture(const std::string& path, bool b = false) override;
 	int getUserInputStatus() override;
     bool isTouchscreen() override;
-    bool hasFileSystemAccess() override;
     std::string getAssetPath(const std::string &path) const override;
     std::string getPatchData() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
     
-	// Also add these to allow proper turning within the game.
-	void setMouseGrabbed(bool b) override;
-	void setMouseDiff(int x, int y);
-	void getMouseDiff(int& x, int& y) override;
-	void clearDiff() override;
-    
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
+    void showKeyboard() override;
+	void hideKeyboard() override;
+	int getKeyboardUpOffset() override;
+    
+    // Also add these to allow saving options.
+	bool hasFileSystemAccess() override;
 private:
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
@@ -54,7 +53,6 @@ private:
     
 	bool m_bShiftPressed[2];
     
-	int xrel;
-	int yrel;
+    bool m_bIsKeyboardShown;
 };
 

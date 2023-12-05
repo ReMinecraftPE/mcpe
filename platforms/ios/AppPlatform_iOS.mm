@@ -14,13 +14,17 @@
 
 #include "platforms/openal/SoundSystemAL.hpp"
 
-AppPlatform_iOS::AppPlatform_iOS()
+AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
 {
     m_bShiftPressed[0] = false;
     m_bShiftPressed[1] = false;
+    
+    m_bIsKeyboardShown = false;
 	
 	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;
+    
+    m_pViewController = viewController;
 }
 
 void AppPlatform_iOS::initSoundSystem()
@@ -98,30 +102,6 @@ Texture AppPlatform_iOS::loadTexture(const std::string& path, bool b)
 	return out;
 }
 
-
-void AppPlatform_iOS::setMouseGrabbed(bool b)
-{
-	
-}
-
-void AppPlatform_iOS::setMouseDiff(int x, int y)
-{
-	xrel = x;
-	yrel = y;
-}
-
-void AppPlatform_iOS::getMouseDiff(int& x, int& y)
-{
-	x = xrel;
-	y = yrel;
-}
-
-void AppPlatform_iOS::clearDiff()
-{
-	xrel = 0;
-	yrel = 0;
-}
-
 bool AppPlatform_iOS::shiftPressed()
 {
 	return m_bShiftPressed[0] || m_bShiftPressed[1];
@@ -130,6 +110,25 @@ bool AppPlatform_iOS::shiftPressed()
 void AppPlatform_iOS::setShiftPressed(bool b, bool isLeft)
 {
 	m_bShiftPressed[isLeft ? 0 : 1] = b;
+}
+
+void AppPlatform_iOS::showKeyboard()
+{
+    [m_pViewController showKeyboard];
+    m_bIsKeyboardShown = true;
+}
+
+void AppPlatform_iOS::hideKeyboard()
+{
+    [m_pViewController hideKeyboard];
+	m_bIsKeyboardShown = false;
+}
+
+int AppPlatform_iOS::getKeyboardUpOffset()
+{
+	// @TODO
+	// For now we'll just return 1/2 of the screen height. That ought to cover most cases.
+    return m_pViewController.height / 2;
 }
 
 int AppPlatform_iOS::getUserInputStatus()

@@ -240,6 +240,8 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	// Set Properties
 	alSourcef(al_source, AL_PITCH, pitch);
 	AL_ERROR_CHECK();
+    // There is a problem with Apple's OpenAL implementation on older Mac OS X versions
+    // https://stackoverflow.com/questions/6960731/openal-problem-changing-gain-of-source
 	alSourcef(al_source, AL_GAIN, volume);
 	AL_ERROR_CHECK();
 	alSource3f(al_source, AL_POSITION, x, y, z);

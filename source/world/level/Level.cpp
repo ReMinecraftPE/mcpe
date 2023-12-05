@@ -1663,12 +1663,12 @@ void Level::addParticle(const std::string& name, float a, float b, float c, floa
 	}
 }
 
-void Level::playSound(Entity* entity, const std::string& name, float a, float b)
+void Level::playSound(Entity* entity, const std::string& name, float volume, float pitch)
 {
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
-		pListener->playSound(name, entity->m_pos.x, entity->m_pos.y - entity->field_84, entity->m_pos.z, a, b);
+		pListener->playSound(name, entity->m_pos.x, entity->m_pos.y - entity->field_84, entity->m_pos.z, volume, pitch);
 	}
 }
 
