@@ -41,7 +41,7 @@ jobs:
                 cd platforms/macos/projects/Minecraft
                 xcodebuild -scheme "MinecraftClient.SDL2" \
                 -archivePath $RUNNER_TEMP/GitHubActions_MacOS_SDL2.xcarchive \
-                -sdk macos \
+                -sdk macosx \
                 -configuration "Release (Default)" \
                 -destination generic/platform=macOS \
                 clean archive 
