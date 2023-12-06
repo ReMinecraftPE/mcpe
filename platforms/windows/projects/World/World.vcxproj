@@ -340,6 +340,10 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Monster.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\PathfinderMob.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\WaterAnimal.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Chicken.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Cow.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Creeper.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -443,6 +447,10 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Monster.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\PathfinderMob.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\WaterAnimal.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Chicken.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Cow.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Creeper.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Pig.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

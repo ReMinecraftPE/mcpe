@@ -41,6 +41,27 @@ enum eEntityRenderType
 	RENDER_FALLING_TILE = 50,
 };
 
+enum eEntityType
+{
+	TYPE_UNSAVED,
+	
+	TYPE_CHICKEN = 10,
+	TYPE_COW,
+	TYPE_PIG,
+	TYPE_SHEEP,
+
+	TYPE_ZOMBIE = 32,
+
+	TYPE_ITEM = 64,
+};
+
+enum eCreatureBaseType
+{
+	BASE_NONE,
+	BASE_MONSTER,
+	BASE_ANIMAL,
+};
+
 struct EntityPos
 {
 	Vec3 m_pos;
@@ -150,6 +171,8 @@ public:
 	virtual void burn(int);
 	virtual void lavaHurt();
 	virtual int queryEntityRenderer();
+	virtual int getCreatureBaseType();
+	virtual int getEntityTypeId();
 
 	virtual bool isLocalPlayer();
 

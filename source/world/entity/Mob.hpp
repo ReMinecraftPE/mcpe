@@ -71,6 +71,7 @@ public:
 	virtual void jumpFromGround();
 	virtual void updateAi();
 	virtual int getMaxHeadXRot();
+	virtual int getMaxHealth();
 	virtual float getSoundVolume();
 	virtual std::string getAmbientSound();
 	virtual std::string getHurtSound();

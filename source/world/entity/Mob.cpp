@@ -853,6 +853,11 @@ int Mob::getMaxHeadXRot()
 	return 10;
 }
 
+int Mob::getMaxHealth()
+{
+	return 10;
+}
+
 float Mob::getSoundVolume()
 {
 	return 1.0f;

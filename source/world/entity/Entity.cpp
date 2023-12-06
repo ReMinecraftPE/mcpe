@@ -1075,6 +1075,16 @@ int Entity::queryEntityRenderer()
 	return 0;
 }
 
+int Entity::getCreatureBaseType()
+{
+	return BASE_NONE;
+}
+
+int Entity::getEntityTypeId()
+{
+	return TYPE_UNSAVED;
+}
+
 int Entity::hashCode()
 {
 	return m_EntityID;

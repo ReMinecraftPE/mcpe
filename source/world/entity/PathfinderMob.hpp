@@ -31,7 +31,8 @@ public:
 	void setPath(Path& path);
 	bool isPathFinding();
 
-private:
+protected:
+	friend class Animal;
 	Entity* m_pAttackTarget;
 	bool field_BA0;
 	int field_BA4;
