@@ -27,8 +27,8 @@ void Path::setNodes(Node** pNodes, int nodeCount)
 
 	for (int i = 0; i < nodeCount; i++)
 	{
-		// TODO: We are using the pNodes array for storage but duplicating the pNodes?
-		// This might cause a memory leak?
+		// This won't cause a memory leak since the pNodes before are managed
+		// by 
 		Node* oldNode = pNodes[i];
 		m_pNodes[i] = new Node;
 		*m_pNodes[i] = *oldNode;

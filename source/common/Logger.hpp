@@ -61,9 +61,9 @@ public:
 
 #else
 
-#define LOG(...)
-#define LOG_I(...)
-#define LOG_W(...)
-#define LOG_E(...)
+#define LOG(...)	((void)0)
+#define LOG_I(...)	((void)0)
+#define LOG_W(...)	((void)0)
+#define LOG_E(...)	((void)0)
 
 #endif

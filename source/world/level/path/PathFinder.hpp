@@ -12,7 +12,7 @@
 #include "Path.hpp"
 #include "BinaryHeap.hpp"
 
-class Level;
+class LevelSource;
 class Entity;
 
 #define MAX_NODE_COUNT (2048)
@@ -33,12 +33,17 @@ public:
 	bool findPath(Path&, Entity*, Node*, Node*, const Node*, float);
 	bool findPath(Path&, Entity*, float, float, float, float);
 
+	void setLevel(LevelSource* pLevel)
+	{
+		m_pLevel = pLevel;
+	}
+
 private:
 	Node* new_Node(int x, int y, int z);
 	bool inlined_0(Path& path, Node* node2);
 
 private:
-	Level* m_pLevel;
+	LevelSource* m_pLevel;
 	BinaryHeap m_binaryHeap;
 	NodeMap m_nodeMap;
 	Node m_nodeReserve[MAX_NODE_COUNT];

@@ -22,6 +22,7 @@
 #include "world/level/storage/LevelStorageSource.hpp"
 #include "world/level/storage/LevelSource.hpp"
 #include "world/level/storage/LevelData.hpp"
+#include "world/level/path/PathFinder.hpp"
 #include "Dimension.hpp"
 #include "LevelListener.hpp"
 #include "TickNextTickData.hpp"
@@ -137,8 +138,8 @@ public:
 	void addEntities(const std::vector<Entity*>& entities);
 	void ensureAdded(Entity* entity);
 	void extinguishFire(int x, int y, int z, int dir);
-	int  findPath(Entity* ent1, Entity* ent2, float f);
-	int  findPath(Entity* ent1, int x, int y, int z, float f);
+	int  findPath(Path* path, Entity* ent1, Entity* ent2, float f);
+	int  findPath(Path* path, Entity* ent1, int x, int y, int z, float f);
 	int  getLightDepth(int x, int z);
 	float getStarBrightness(float f);
 	float getSunAngle(float f);
@@ -195,5 +196,6 @@ public:
 	int field_B08;
 	uint8_t field_B0C;
 	int field_B10;
+	PathFinder* m_pPathFinder;
 };
 
