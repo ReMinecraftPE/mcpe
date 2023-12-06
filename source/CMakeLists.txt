@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-core)
 
 if(NOT ANDROID)
-	set(INCLUDES . .. ../thirdparty/zlib)
+    set(INCLUDES . .. ../thirdparty/zlib)
 else()
-	set(INCLUDES . ..)
+    set(INCLUDES . ..)
 endif()
 
 # Build
@@ -155,10 +155,10 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
-	world/level/path/Node.cpp
-	world/level/path/Path.cpp
-	world/level/path/BinaryHeap.cpp
-	world/level/path/PathFinder.cpp
+    world/level/path/Node.cpp
+    world/level/path/Path.cpp
+    world/level/path/BinaryHeap.cpp
+    world/level/path/PathFinder.cpp
     world/phys/HitResult.cpp
     world/phys/Vec3.cpp
     world/phys/AABB.cpp
@@ -173,6 +173,10 @@ add_library(reminecraftpe-core STATIC
     world/entity/FallingTile.cpp
     world/entity/TripodCamera.cpp
     world/entity/ItemEntity.cpp
+    world/entity/PathfinderMob.cpp
+    world/entity/Animal.cpp
+    world/entity/WaterAnimal.cpp
+    world/entity/Monster.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp
@@ -189,9 +193,10 @@ add_library(reminecraftpe-core STATIC
     world/level/storage/LevelSource.cpp
     world/level/storage/MemoryChunkStorage.cpp
     world/level/storage/ExternalFileLevelStorageSource.cpp
-	world/level/path/Node.cpp
-	world/level/path/Path.cpp
-	world/level/path/PathFinder.cpp
+    world/level/path/Node.cpp
+    world/level/path/Path.cpp
+    world/level/path/PathFinder.cpp
+    world/level/path/BinaryHeap.cpp
     world/level/levelgen/feature/BirchFeature.cpp
     world/level/levelgen/feature/LargeFeature.cpp
     world/level/levelgen/feature/Feature.cpp
@@ -279,48 +284,48 @@ target_link_libraries(reminecraftpe-core PUBLIC raknet)
 # zlib - Android builds with its own version
 # Hack - If we're not building for Android, surely we're building with SDL
 if(USE_SDL)
-	add_subdirectory(../thirdparty/zlib zlib)
-	target_link_libraries(reminecraftpe-core PUBLIC zlib)
-	
-	# SDL
-	add_library(SDL INTERFACE)
-	if(EMSCRIPTEN)
-		set(SDL_FLAG -sUSE_SDL=2)
-		target_compile_options(SDL INTERFACE "${SDL_FLAG}")
-		target_link_options(SDL INTERFACE "${SDL_FLAG}")
-	else()
-		find_package(SDL2 REQUIRED)
-		target_link_libraries(SDL INTERFACE SDL2::SDL2)
-	endif()
-	target_link_libraries(reminecraftpe-core PUBLIC SDL)
-	
-	# OpenGL
-	if(NOT EMSCRIPTEN)
-		option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
-	else()
-		set(USE_GLES1_COMPATIBILITY_LAYER TRUE)
-	endif()
-	if(USE_GLES1_COMPATIBILITY_LAYER)
-		set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
-		set(GLES_COMPATIBILITY_LAYER_DEPENDENCY SDL CACHE STRING "" FORCE)
-		add_subdirectory(../thirdparty/gles-compatibility-layer gles-compatibility-layer)
-		target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
-		target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
-		if(EMSCRIPTEN)
-			target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
-		endif()
-	else()
-		find_package(OpenGL REQUIRED)
-		target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL OpenGL::GLU)
-	endif()
+    add_subdirectory(../thirdparty/zlib zlib)
+    target_link_libraries(reminecraftpe-core PUBLIC zlib)
+    
+    # SDL
+    add_library(SDL INTERFACE)
+    if(EMSCRIPTEN)
+        set(SDL_FLAG -sUSE_SDL=2)
+        target_compile_options(SDL INTERFACE "${SDL_FLAG}")
+        target_link_options(SDL INTERFACE "${SDL_FLAG}")
+    else()
+        find_package(SDL2 REQUIRED)
+        target_link_libraries(SDL INTERFACE SDL2::SDL2)
+    endif()
+    target_link_libraries(reminecraftpe-core PUBLIC SDL)
+    
+    # OpenGL
+    if(NOT EMSCRIPTEN)
+        option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
+    else()
+        set(USE_GLES1_COMPATIBILITY_LAYER TRUE)
+    endif()
+    if(USE_GLES1_COMPATIBILITY_LAYER)
+        set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
+        set(GLES_COMPATIBILITY_LAYER_DEPENDENCY SDL CACHE STRING "" FORCE)
+        add_subdirectory(../thirdparty/gles-compatibility-layer gles-compatibility-layer)
+        target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
+        target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
+        if(EMSCRIPTEN)
+            target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
+        endif()
+    else()
+        find_package(OpenGL REQUIRED)
+        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL OpenGL::GLU)
+    endif()
 elseif(ANDROID)
-	# Add Android related stuff here.
+    # Add Android related stuff here.
 endif()
 
 # Sound Data
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../sound_data/sounds.h")
-	if(NOT DEFINED ENV{CI})
-		message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
-	endif()
-	target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
+    if(NOT DEFINED ENV{CI})
+        message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
+    endif()
+    target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
 endif()

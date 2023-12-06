@@ -1,3 +1,4 @@
+#include "Mob.hpp"
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
@@ -547,7 +548,6 @@ void Mob::travel(float a2, float a3)
 
 	if (onLadder())
 	{
-
 		m_distanceFallen = 0.0f;
 
 		if (m_vel.y < -0.15f)
@@ -871,6 +871,11 @@ std::string Mob::getHurtSound()
 std::string Mob::getDeathSound()
 {
 	return "random.hurt";
+}
+
+float Mob::getWalkingSpeedModifier()
+{
+	return 0.7f;
 }
 
 void Mob::defineSynchedData()

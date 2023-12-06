@@ -336,6 +336,10 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\path\Path.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\path\PathFinder.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Animal.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Monster.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\PathfinderMob.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\WaterAnimal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -435,6 +439,10 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\path\Path.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\path\PathFinder.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Animal.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Monster.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\PathfinderMob.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\WaterAnimal.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

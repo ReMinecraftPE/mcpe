@@ -32,6 +32,31 @@ public:
 		field_8 = 0;
 	}
 
+	bool empty()
+	{
+		return m_numNodes == 0 || m_pNodes == nullptr;
+	}
+
+	Node* getCurrentNode()
+	{
+		return m_pNodes[field_8];
+	}
+
+	void advance()
+	{
+		field_8++;
+	}
+
+	void rewind()
+	{
+		field_8 = 0;
+	}
+
+	bool endOfPath()
+	{
+		return field_8 >= m_numNodes;
+	}
+
 private:
 	int m_numNodes;
 	Node** m_pNodes;

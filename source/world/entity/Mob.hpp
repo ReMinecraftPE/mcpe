@@ -75,6 +75,7 @@ public:
 	virtual std::string getAmbientSound();
 	virtual std::string getHurtSound();
 	virtual std::string getDeathSound();
+	virtual float getWalkingSpeedModifier();
 	virtual void defineSynchedData();
 
 	float rotlerp(float, float, float);

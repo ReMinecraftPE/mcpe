@@ -422,9 +422,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\WireTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\path\Node.cpp">
       <Filter>Source Files\Level\Path</Filter>
     </ClCompile>
@@ -433,6 +430,21 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\path\PathFinder.cpp">
       <Filter>Source Files\Level\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.cpp">
+      <Filter>Source Files\Level\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\PathfinderMob.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\Animal.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\Monster.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\entity\WaterAnimal.cpp">
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -715,9 +727,6 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\WireTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\path\Node.hpp">
       <Filter>Header Files\Level\Path</Filter>
     </ClInclude>
@@ -726,6 +735,21 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\path\PathFinder.hpp">
       <Filter>Header Files\Level\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.hpp">
+      <Filter>Header Files\Level\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\PathfinderMob.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\WaterAnimal.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\Monster.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\entity\Animal.hpp">
+      <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
