@@ -39,11 +39,11 @@ public:
 #pragma GCC diagnostic pop
 
 	// @NOTE: These are inlined.
-	inline bool isOpen(int data)
+	inline static bool isOpen(int data)
 	{
 		return (data & 4) != 0;
 	}
-	inline bool isTop(int data)
+	inline static bool isTop(int data)
 	{
 		return (data & 8) != 0;
 	}

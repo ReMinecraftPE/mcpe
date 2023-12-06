@@ -155,6 +155,10 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
+	world/level/path/Node.cpp
+	world/level/path/Path.cpp
+	world/level/path/BinaryHeap.cpp
+	world/level/path/PathFinder.cpp
     world/phys/HitResult.cpp
     world/phys/Vec3.cpp
     world/phys/AABB.cpp
@@ -185,6 +189,9 @@ add_library(reminecraftpe-core STATIC
     world/level/storage/LevelSource.cpp
     world/level/storage/MemoryChunkStorage.cpp
     world/level/storage/ExternalFileLevelStorageSource.cpp
+	world/level/path/Node.cpp
+	world/level/path/Path.cpp
+	world/level/path/PathFinder.cpp
     world/level/levelgen/feature/BirchFeature.cpp
     world/level/levelgen/feature/LargeFeature.cpp
     world/level/levelgen/feature/Feature.cpp

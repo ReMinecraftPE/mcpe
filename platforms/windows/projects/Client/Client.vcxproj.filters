@@ -365,74 +365,74 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\FoliageColor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\GrassColor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\OptionList.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\model\ModelPart.hpp">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\model\QuadrupedModel.hpp">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\PigModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\ChickenModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\PigRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\CowModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\CreeperModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\CreeperModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\CowModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\PigModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\ChickenModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SheepFurModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\SheepFurModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SheepModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\SheepModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SkeletonModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\SkeletonModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SpiderModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\SpiderModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\ZombieModel.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\ZombieModel.hpp">
-      <Filter>Header Files\Model</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ChickenRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\CreeperRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\CowRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\CowRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\CreeperRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ChickenRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\PigRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SheepFurRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SheepFurRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SheepRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SheepRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SkeletonRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SkeletonRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\SpiderRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ZombieRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\GrassColor.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\FoliageColor.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\OptionList.hpp">
+      <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -715,74 +715,74 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FoliageColor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\GrassColor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\OptionList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\model\ModelPart.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\model\QuadrupedModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\PigModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\ChickenModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\PigRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\CowModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\CreeperModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\CreeperModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\SheepFurModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\PigModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\SheepModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SheepFurModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\SkeletonModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SheepModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\SpiderModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SkeletonModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\ZombieModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SpiderModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\ChickenModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\CowModel.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ChickenRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SheepRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\CowRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SkeletonRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\CreeperRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SpiderRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\PigRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ZombieRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SheepFurRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ChickenRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SheepRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\CowRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SkeletonRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\CreeperRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\SheepFurRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\OptionList.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\GrassColor.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FoliageColor.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

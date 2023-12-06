@@ -332,6 +332,10 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\TransparentTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\TreeTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\WireTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\Node.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\Path.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\PathFinder.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -427,6 +431,10 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\TransparentTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\TreeTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\WireTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\Node.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\Path.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\PathFinder.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\BinaryHeap.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

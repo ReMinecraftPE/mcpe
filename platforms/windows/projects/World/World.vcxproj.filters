@@ -87,6 +87,12 @@
     <Filter Include="Source Files\Tile">
       <UniqueIdentifier>{e95f234e-9d07-4e31-98c2-92b6c56554a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Level\Path">
+      <UniqueIdentifier>{18b05d59-fc8c-4e89-b303-03efb6800434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level\Path">
+      <UniqueIdentifier>{d3278811-f90d-45d4-9113-122e61ccf540}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp">
@@ -416,6 +422,18 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\WireTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\Path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\path\PathFinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\level\path\BinaryHeap.cpp">
+      <Filter>Source Files\Level\Path</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -696,6 +714,18 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\WireTile.hpp">
       <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\Node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\Path.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\path\PathFinder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\level\path\BinaryHeap.hpp">
+      <Filter>Header Files\Level\Path</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
