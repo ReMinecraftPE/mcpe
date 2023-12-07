@@ -47,7 +47,7 @@ int PathFinder::isFree(Entity* pEntity, int x, int y, int z, const Node* node)
 			for (int z1 = z; z1 < z + node->m_z; z1++)
 			{
 				TileID id = m_pLevel->getTile(x1, y1, z1);
-				if (id < 0)
+				if (id <= 0)
 					continue;
 
 				if (id == Tile::door_iron->m_ID || id == Tile::door_wood->m_ID)

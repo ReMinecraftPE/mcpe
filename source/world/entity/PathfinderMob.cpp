@@ -137,30 +137,17 @@ void PathfinderMob::updateAi()
 			m_pLevel->findPath(&m_path, this, m_pAttackTarget, 16.0f);
 	}
 
-	// @TODO: fix gotos
-
-	if (!field_BA0)
+	if (!field_BA0 && m_pAttackTarget && (m_path.empty() || m_random.nextInt(20) != 0))
 	{
-		if (m_pAttackTarget)
-		{
-			if (m_path.empty() || m_random.nextInt(20) == 0 || m_random.nextInt(20) == 0)
-			{
-				m_pLevel->findPath(&m_path, this, m_pAttackTarget, 16.0f);
-				goto label_1;
-			}
-
-			if (field_BA0)
-				goto label_1;
-		}
-
-		if ((m_path.empty() && m_random.nextInt(180) == 0) || m_random.nextInt(120) == 0 || (field_BA4 > 0 && (field_BA4 & 7) == 1))
-		{
-			if (field_AFC < 100)
-				findRandomStrollLocation();
-		}
+		m_pLevel->findPath(&m_path, this, m_pAttackTarget, 16.0f);
+	}
+	else if (!field_BA0 && ((m_path.empty() && m_random.nextInt(180) == 0) || field_BA4 > 0 || m_random.nextInt(120) == 0))
+	{
+		if (field_AFC < 100)
+			findRandomStrollLocation();
 	}
 
-label_1:
+
 	m_pitch = 0.0f;
 
 	if (m_path.empty() || m_random.nextInt(100) == 0)
@@ -199,6 +186,8 @@ label_1:
 		float ang = Mth::atan2(nodePos.z - m_pos.z, nodePos.x - m_pos.x) * 180.0f / float(M_PI) - 90.0f;
 		float heightDiff = nodePos.y - Mth::floor(m_hitbox.min.y + 0.5f);
 
+		field_B04 = field_B14;
+
 		float angDiff = ang - m_yaw;
 		while (angDiff < -180.0f) angDiff += 360.0f;
 		while (angDiff >= 180.0f) angDiff -= 360.0f;
@@ -221,8 +210,6 @@ label_1:
 			field_B00 = -field_B04 * Mth::sin(thing);
 			field_B04 =  field_B04 * Mth::cos(thing);
 		}
-
-		field_B04 = field_B14;
 
 		if (heightDiff > 0.0f)
 			field_B0C = true;

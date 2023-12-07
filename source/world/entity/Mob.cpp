@@ -661,8 +661,11 @@ void Mob::lookAt(Entity* pEnt, float a3, float a4)
 	float diffX = pEnt->m_pos.x - m_pos.x;
 	float diffZ = pEnt->m_pos.z - m_pos.z;
 
+	float q1 = (pEnt->m_hitbox.min.y + pEnt->m_hitbox.max.y) / 2 - (m_pos.y + getHeadHeight());
+	float p1 = Mth::sqrt(diffX * diffX + diffZ * diffZ);
+
 	float x1 = atan2f(diffZ, diffX);
-	float x2 = atan2f((pEnt->m_hitbox.min.y + pEnt->m_hitbox.max.y) / 2 - m_pos.y - getHeadHeight(), Mth::sqrt(diffX * diffX + diffZ * diffZ));
+	float x2 = atan2f(q1, p1);
 
 	m_pitch = -rotlerp(m_pitch, x2 * 180.0f / float(M_PI), a4);
 	m_yaw = rotlerp(m_yaw, x1 * 180.0f / float(M_PI) - 90.0f, a3);
@@ -792,18 +795,15 @@ void Mob::updateAi()
 	if (removeWhenFarAway() && nearestPlayer)
 	{
 		float distSqr = nearestPlayer->distanceToSqr_inline(m_pos.x, m_pos.y, m_pos.z);
-		if (distSqr > 16384.0f)
+		if (distSqr > 9216.0f)
 			remove();
 
-		if (field_AFC > 600)
+		if (field_AFC > 600 && m_random.nextInt(800) == 0)
 		{
-			if (m_random.nextInt(800) == 0)
-			{
-				if (distSqr >= 1024.0f)
-					remove();
-				else
-					field_AFC = 0;
-			}
+			if (distSqr >= 1024.0f)
+				remove();
+			else
+				field_AFC = 0;
 		}
 	}
 
@@ -818,6 +818,10 @@ void Mob::updateAi()
 			m_pEntLookedAt = nearestPlayer;
 
 			field_120 = m_random.nextInt(20) + 10;
+		}
+		else
+		{
+			field_B08 = (m_random.nextFloat() - 0.5f) * 20.0f;
 		}
 	}
 
@@ -844,7 +848,7 @@ void Mob::updateAi()
 
 	if (isInWater() || isInLava())
 	{
-		field_B0C = m_random.nextInt() < 0.8f;
+		field_B0C = m_random.nextFloat() < 0.8f;
 	}
 }
 
