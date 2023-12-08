@@ -124,7 +124,7 @@ Node* PathFinder::getNode(int x, int y, int z)
 
 	Node* pNode = new_Node(x, y, z);
 	dword_1CD868++;
-	m_nodeMap.insert_or_assign(MakeNodeHash(x, y, z), pNode);
+	m_nodeMap[MakeNodeHash(x, y, z)] = pNode;
 
 	return pNode;
 }
