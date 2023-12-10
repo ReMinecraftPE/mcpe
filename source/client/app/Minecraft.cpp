@@ -294,6 +294,11 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 				m_pGameMode->startDestroyBlock(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ, m_hitResult.m_hitSide);
 			}
 		}
+		else if (pAction->isPick())
+		{
+			// Try to pick the tile.
+			m_pLocalPlayer->m_pInventory->selectItemById(pTile->m_ID, C_MAX_HOTBAR_ITEMS);
+		}
 		else
 		{
 			ItemInstance* pItem = getSelectedItem();
@@ -371,7 +376,8 @@ void Minecraft::handleMouseClick(int type)
 			case BUTTON_MIDDLE:
 				intent = INTENT_MOUSE_MIDDLECLICK;
 				break;
-
+			default:
+				return;
 		}
 
 		BuildActionIntention bai(intent);
@@ -414,16 +420,13 @@ void Minecraft::tickInput()
 
 		if (!bIsInGUI && getOptions()->field_19)
 		{
-			if (Mouse::getEventButton() == BUTTON_LEFT && Mouse::getEventButtonState())
+			MouseButtonType buttonType = Mouse::getEventButton();
+			if (Mouse::getEventButtonState())
 			{
-				handleMouseClick(1);
+				handleMouseClick(buttonType);
 				field_DAC = field_DA8;
 			}
-			if (Mouse::getEventButton() == BUTTON_RIGHT && Mouse::getEventButtonState())
-			{
-				handleMouseClick(2);
-				field_DAC = field_DA8;
-			}
+
 #ifdef ENH_ALLOW_SCROLL_WHEEL
 			if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
 			{
