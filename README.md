@@ -1,7 +1,7 @@
 # ReMinecraftPE
 
 This project aims to create a custom Minecraft experience based on Minecraft: Pocket Edition as of 2011. It's
-based on the mcpe01_canada.apk build of the game.
+based on Minecraft PE v0.1.3.
 
 **Its goals are:**
 * To add Quality-of-Life features to Minecraft: Pocket Edition, such as a brighter color gamut, an in-game
@@ -29,8 +29,7 @@ based on the mcpe01_canada.apk build of the game.
   will be supported for as long as possible)
 * Modify the project structure
 
-Note: While the original mcpe01_canada.apk does not work on anything that isn't the Xperia Play, ReMinecraftPE works on most
-Android devices.
+Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMinecraftPE works on all Android devices.
 
 ### This is the main modded version. For the original decompilation, see [ReMinecraftPE/mcped](https://github.com/ReMinecraftPE/mcped)
 
@@ -50,8 +49,8 @@ Want to help this project? [Here's a list of things left to do.](TODO.md)
 
 ## DISCLAIMER
 
-This project **requires** you to have a copy of the `mcpe01_canada.apk` (sha256 of the `libminecraftpe.so`
-inside: `74b1d3b51a174c4dcaaa58d2bbdf7a4f4c9cfe5f2aeec4844427c2b8f1124343`), before you can build.
+This project **requires** you to have a copy of the Minecraft PE v0.1.3 apk (sha256 of the `libminecraftpe.so`
+inside: `157af341d13a54cc935bbe24c5e1cf3d02d7e40ec20f9859b9853c2e996ebd81`), before you can build.
 
 ## Setup
 
@@ -70,9 +69,9 @@ This fetches the three dependencies we have:
 
 2. Load the sound assets into the `sound_data/` folder in the root of the project
 by **running the following command**:
-* `tools/grabsounds.py /path/to/the/mcpe01_canada/lib/armeabi-v7a/libminecraftpe.so`.
+* `tools/grabsounds.py /path/to/the/apk/lib/armeabi-v7a/libminecraftpe.so`.
 
-After that, **prepare the assets folder** from mcpe01_canada.apk. You will need it for the platform specific
+After that, **prepare the assets folder** from the apk. You will need it for the platform specific
 build.
 
 ## Building

@@ -131,16 +131,32 @@ xcuserdata/
 #-- The 'game' directory is the default working directory for Minecraft PE if running from VS directly.
 
 # Ignore original Minecraft PE assets.
+/game/assets/environment/clouds.png
 /game/assets/font/default.png
+/game/assets/font/default8.png
+/game/assets/gui/feedback.png
 /game/assets/gui/feedback_fill.png
 /game/assets/gui/feedback_outer.png
 /game/assets/gui/background.png
+/game/assets/gui/buynow.png
 /game/assets/gui/default_world.png
 /game/assets/gui/gui.png
 /game/assets/gui/gui_blocks.png
 /game/assets/gui/icons.png
+/game/assets/gui/itemframe.png
 /game/assets/gui/items.png
+/game/assets/gui/menubuttons.png
+/game/assets/gui/plusknapp.png
+/game/assets/gui/raknet.png
 /game/assets/gui/title.png
+/game/assets/gui/touchgui.png
+/game/assets/gui/controls/dpad.png
+/game/assets/gui/controls/dpad_jump.png
+/game/assets/gui/controls/dpadbutton.png
+/game/assets/gui/selectworld/add.png
+/game/assets/gui/startmenu/sm_multi.png
+/game/assets/gui/startmenu/sm_options.png
+/game/assets/gui/startmenu/sm_play.png
 /game/assets/item/camera.png
 /game/assets/misc/foliagecolor.png
 /game/assets/misc/grasscolor.png
@@ -155,9 +171,6 @@ xcuserdata/
 /game/assets/gui/background/panorama_3.png
 /game/assets/gui/background/panorama_4.png
 /game/assets/gui/background/panorama_5.png
-
-# Ignore the clouds texture. Adding them yourself will make the game use them.
-/game/assets/environment/clouds.png
 
 # Avoid including Minecraft Classic assets from Mojang, for now.
 /game/assets/patches/*.png
