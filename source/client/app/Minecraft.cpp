@@ -302,7 +302,8 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 		else
 		{
 			ItemInstance* pItem = getSelectedItem();
-			if (m_pGameMode->useItemOn(
+			if (pItem &&
+				m_pGameMode->useItemOn(
 					m_pLocalPlayer,
 					m_pLevel,
 					pItem->m_itemID <= 0 ? nullptr : pItem,
@@ -1129,15 +1130,13 @@ ItemInstance* Minecraft::getSelectedItem()
 	ItemInstance* pInst = m_pLocalPlayer->m_pInventory->getSelectedItem();
 
 	if (!pInst)
-	{
-		m_CurrItemInstance.m_itemID = -1;
-		m_CurrItemInstance.m_amount = 999;
-		m_CurrItemInstance.m_auxValue = 0;
-		return &m_CurrItemInstance;
-	}
+		return nullptr;
 
 	if (m_pGameMode->isSurvivalType())
 		return pInst;
+
+	if (pInst->m_itemID == 0)
+		return nullptr;
 
 	m_CurrItemInstance.m_itemID = pInst->m_itemID;
 	m_CurrItemInstance.m_amount = 999;
