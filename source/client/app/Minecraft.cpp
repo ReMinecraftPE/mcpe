@@ -359,16 +359,23 @@ void Minecraft::handleMouseClick(int type)
 {
 	if (!isTouchscreen())
 	{
-		if (type == 1)
+		eBuildActionIntent intent;
+		switch (type)
 		{
-			BuildActionIntention bai(INTENT_HELD);
-			handleBuildAction(&bai);
+			case BUTTON_LEFT:
+				intent = INTENT_MOUSE_LEFTCLICK;
+				break;
+			case BUTTON_RIGHT:
+				intent = INTENT_MOUSE_RIGHTCLICK;
+				break;
+			case BUTTON_MIDDLE:
+				intent = INTENT_MOUSE_MIDDLECLICK;
+				break;
+
 		}
-		if (type == 2)
-		{
-			BuildActionIntention bai(INTENT_CLICKED);
-			handleBuildAction(&bai);
-		}
+
+		BuildActionIntention bai(intent);
+		handleBuildAction(&bai);
 	}
 }
 
