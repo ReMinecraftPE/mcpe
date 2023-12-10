@@ -754,18 +754,35 @@ void Tile::addAABBs(Level* pLevel, int x, int y, int z, const AABB* aabb, std::v
 
 bool Tile::shouldRenderFace(LevelSource* pSrc, int x, int y, int z, int dir)
 {
-	if (z == -1                  && dir == DIR_ZNEG) return false;
-	if (z == C_MAX_CHUNKS_Z * 16 && dir == DIR_ZPOS) return false;
-	if (x == -1                  && dir == DIR_XNEG) return false;
-	if (x == C_MAX_CHUNKS_X * 16 && dir == DIR_XPOS) return false;
-	if (y == -1                  && dir == DIR_YNEG) return false;
+	//if ((y | x | z) > C_MAX_CHUNKS_Z * 16)
+	//	return false;
 
-	if (dir == DIR_YNEG && m_aabb.min.y > 0.0f) return true;
-	if (dir == DIR_YPOS && m_aabb.max.y < 1.0f) return true;
-	if (dir == DIR_ZNEG && m_aabb.min.z > 0.0f) return true;
-	if (dir == DIR_ZPOS && m_aabb.max.z < 1.0f) return true;
-	if (dir == DIR_XNEG && m_aabb.min.x > 0.0f) return true;
-	if (dir == DIR_XPOS && m_aabb.max.x < 1.0f) return true;
+	switch (dir)
+	{
+	case DIR_ZNEG:
+		if (z == -1) return false;
+		if (m_aabb.min.z > 0.0f) return true;
+		break;
+	case DIR_ZPOS:
+		if (z == C_MAX_CHUNKS_Z * 16) return false;
+		if (m_aabb.max.z < 1.0f) return true;
+		break;
+	case DIR_XNEG:
+		if (x == -1) return false;
+		if (m_aabb.min.x > 0.0f) return true;
+		break;
+	case DIR_XPOS:
+		if (x == C_MAX_CHUNKS_X * 16) return false;
+		if (m_aabb.max.x < 1.0f) return true;
+		break;
+	case DIR_YNEG:
+		if (y == -1) return false;
+		if (m_aabb.min.y > 0.0f) return true;
+		break;
+	case DIR_YPOS:
+		if (m_aabb.max.y < 1.0f) return true;
+		break;
+	}
 
 	Tile* pTile = Tile::tiles[pSrc->getTile(x, y, z)];
 	if (!pTile)
