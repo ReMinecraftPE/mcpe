@@ -329,6 +329,7 @@ void OptionList::initDefaultMenu()
 		OPTION(Boolean,  m_bInvertMouse,          "Invert Y-axis");
 		OPTION(Boolean,  m_bSplitControls,        "Split controls"); idxSplit = currentIndex;
 		OPTION(Boolean,  m_bFlyCheat,             "Flight hax");
+		OPTION(Boolean,  m_bFlyNoclip,            "Flight noclip");
 	}
 
 	HEADER("Multiplayer");
