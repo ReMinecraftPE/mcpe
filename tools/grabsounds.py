@@ -3,7 +3,10 @@
 # Minecraft PE Reverse Engineering Project
 # Copyright (C) 2023 iProgramInCpp
 # -----------------------------------------------
-# This tool grabs the sound data from the .so file from the mcpe01_canada.apk. Offsets are hardcoded to that version, nothing else will work.
+# This tool grabs the sound data from the .so file from the source Minecraft PE
+# Android *.so file.  Offsets are hardcoded to that version, nothing else will work.
+#
+# TODO: Lookup ELF symbols to un-hardcode the offsets?
 import sys
 import os
 import hashlib
@@ -98,7 +101,7 @@ def main():
     print('* Source file hash: ', src_sha256)
     
     if src_sha256 != so_file_sha256:
-        print('ERROR: Source file does not match mcpe01_canada.apk\'s SO file. Please extract one from the aforementioned APK.')
+        print('ERROR: Source file does not match the Source APK\'s SO file. Please extract one from the aforementioned APK. See the readme for more details.')
         return
     
     print('* Extracting PCM data...')
