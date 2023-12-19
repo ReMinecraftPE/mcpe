@@ -982,14 +982,20 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
 	if (height > 1800)
-		return 1.0f / 4.0f;
+		return 1.0f / 8.0f;
 
 	if (isTouchscreen())
 	{
-		if (height > 600)
+		if (height > 1100)
+			return 1.0f / 6.0f;
+
+		if (height > 900)
+			return 1.0f / 5.0f;
+
+		if (height > 700)
 			return 1.0f / 4.0f;
 
-		if (height > 400)
+		if (height > 500)
 			return 1.0f / 3.0f;
 
 		if (height > 300)
