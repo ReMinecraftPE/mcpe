@@ -208,7 +208,7 @@ const char* gSplashes[] =
 	"Woo, worldofminecraft!",
 	"Woo, reddit!",
 	"Woo, 2pp!",
-	"Google anlyticsed!",
+	"Not Google anlyticsed!",
 	"Give us Gordon!",
 	"Tip your waiter!",
 	"Very fun!",
