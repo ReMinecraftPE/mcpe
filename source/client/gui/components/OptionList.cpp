@@ -36,6 +36,8 @@ void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 
 	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6)
 		return;
+	if (mouseX > itemX + C_SCROLLED_LIST_ITEM_WIDTH - 6)
+		return;
 
 	// Toggle the value
 	toggleState(pList);
