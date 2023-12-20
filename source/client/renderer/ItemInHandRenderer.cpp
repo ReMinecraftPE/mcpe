@@ -8,6 +8,7 @@
 
 #include "ItemInHandRenderer.hpp"
 #include "client/app/Minecraft.hpp"
+#include "common/Mth.hpp"
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
 	m_ItemInstance(0, 1, 0),
