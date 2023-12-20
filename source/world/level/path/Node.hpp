@@ -7,6 +7,9 @@
  ********************************************************************/
 #pragma once
 
+#include <stddef.h>
+#include "compat/LegacyCPPCompatibility.hpp"
+
 struct Node
 {
 	int field_0;
