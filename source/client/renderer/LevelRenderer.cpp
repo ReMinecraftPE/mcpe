@@ -9,6 +9,7 @@
 #include "LevelRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "renderer/GL/GL.hpp"
+#include "common/Mth.hpp"
 
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
