@@ -183,6 +183,7 @@
 		841DD86A2AF8A99000AA3B66 /* LegacyCPPCompatibility.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 841DD8692AF8A99000AA3B66 /* LegacyCPPCompatibility.hpp */; };
 		841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp */; };
 		841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp */; };
+		8420EF302B32B4EE0051910E /* libSystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8420EF2F2B32B4EE0051910E /* libSystem.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8426106F2AE989720065905F /* MinecraftPackets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63A2AC810620006A435 /* MinecraftPackets.cpp */; };
 		842610702AE989720065905F /* NetEventCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63C2AC810620006A435 /* NetEventCallback.cpp */; };
 		842610712AE989720065905F /* AddPlayerPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6402AC810620006A435 /* AddPlayerPacket.cpp */; };
@@ -284,7 +285,6 @@
 		849FF0D32AF465340013BAE3 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001882AF3A28B009B9555 /* title.png */; };
 		849FF0D42AF465340013BAE3 /* touchgui.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001892AF3A28B009B9555 /* touchgui.png */; };
 		849FF0D52AF465340013BAE3 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0018A2AF3A28B009B9555 /* icon.png */; };
-		849FF0D62AF465340013BAE3 /* iconx.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001C82AF3BC5C009B9555 /* iconx.png */; };
 		849FF0D82AF465340013BAE3 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001BE2AF3BB12009B9555 /* Default-Landscape~ipad.png */; };
 		849FF0DA2AF465340013BAE3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001C02AF3BB12009B9555 /* Default@2x.png */; };
 		849FF0DB2AF465340013BAE3 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0018C2AF3A28B009B9555 /* camera.png */; };
@@ -658,7 +658,6 @@
 		84BF63D42AF186C9008A9995 /* TreeTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD72B2AC810620006A435 /* TreeTile.hpp */; };
 		84BF63D52AF186C9008A9995 /* WireTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD72D2AC810620006A435 /* WireTile.hpp */; };
 		84BF63D82AF18771008A9995 /* libWorld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF630B2AF1859D008A9995 /* libWorld.a */; };
-		84C0D8012B159A0E007E1E76 /* GlobalSettings.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 84C0D8002B159A0E007E1E76 /* GlobalSettings.xcconfig */; };
 		84C0D8032B15A1D0007E1E76 /* PlatformDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */; };
 		84C208532AF88A5000BAE438 /* grass_side_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 84C208512AF88A5000BAE438 /* grass_side_transparent.png */; };
 		84C208542AF88A5000BAE438 /* patch_data.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84C208522AF88A5000BAE438 /* patch_data.txt */; };
@@ -1658,6 +1657,7 @@
 		841DD8732AF8AA7A00AA3B66 /* AppPlatform_sdl_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl_base.hpp; sourceTree = "<group>"; };
 		841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl.cpp; sourceTree = "<group>"; };
 		841DD8762AF8AA7A00AA3B66 /* AppPlatform_sdl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl.hpp; sourceTree = "<group>"; };
+		8420EF2F2B32B4EE0051910E /* libSystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSystem.dylib; path = usr/lib/libSystem.dylib; sourceTree = SDKROOT; };
 		842610682AE988D30065905F /* libNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS.xcconfig; path = ../Configuration/Settings_iOS.xcconfig; sourceTree = "<group>"; };
 		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = ../Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
@@ -1665,16 +1665,17 @@
 		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = ../Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
 		84498A832AF18C7A005EF5A5 /* libZLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
-		84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8484ABDC2B32935700076873 /* PlatformDefinitions_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions_iOS.h; sourceTree = "<group>"; };
 		8488C0882B1EDD4F001AEC4F /* ShowKeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowKeyboardView.h; sourceTree = "<group>"; };
 		8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowKeyboardView.mm; sourceTree = "<group>"; };
 		8489B0972A86D4B2004CA8EC /* MinecraftClient.SDL2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftClient.SDL2; sourceTree = BUILT_PRODUCTS_DIR; };
-		8489B3212A86E464004CA8EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		8489B3232A86E46A004CA8EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		8489B3252A86E4B0004CA8EC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		8489B3212A86E464004CA8EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8489B3232A86E46A004CA8EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		8489B3252A86E4B0004CA8EC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		8489B4A82A86FF57004CA8EC /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = /opt/local/lib/libpng.a; sourceTree = "<absolute>"; };
-		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		849259492AD8FD4F0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = minecraftpeViewController.xib; sourceTree = "<group>"; };
 		8492594D2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeAppDelegate.h; sourceTree = "<group>"; };
@@ -1691,17 +1692,15 @@
 		8495E4882AF0905B00A06901 /* AppPlatform_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppPlatform_iOS.mm; sourceTree = "<group>"; };
 		849FF0E62AF46A8D0013BAE3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		849FF0E82AF46BF90013BAE3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		849FF0EA2AF46C500013BAE3 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		84AAF6422AF18B9500BD67F4 /* libOpenGL.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOpenGL.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84AD710C2AF20B6A00DA73F9 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		84B8AEE72AF188D8008DE93D /* libClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84BF630B2AF1859D008A9995 /* libWorld.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWorld.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		84C0D7FE2B1597BA007E1E76 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
 		84C0D8002B159A0E007E1E76 /* GlobalSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = GlobalSettings.xcconfig; path = ../Configuration/GlobalSettings.xcconfig; sourceTree = "<group>"; };
 		84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions.h; sourceTree = "<group>"; };
 		84C208512AF88A5000BAE438 /* grass_side_transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass_side_transparent.png; sourceTree = "<group>"; };
 		84C208522AF88A5000BAE438 /* patch_data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = patch_data.txt; sourceTree = "<group>"; };
-		84C4D86E2A872C0100323E33 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
+		84C4D86E2A872C0100323E33 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		84C90E9F2AF885EF008973F9 /* FoliageColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FoliageColor.cpp; sourceTree = "<group>"; };
 		84C90EA02AF885EF008973F9 /* FoliageColor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FoliageColor.hpp; sourceTree = "<group>"; };
 		84C90EA32AF8861A008973F9 /* OptionList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptionList.cpp; sourceTree = "<group>"; };
@@ -1784,12 +1783,11 @@
 		84E001BA2AF3AF9B009B9555 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		84E001BE2AF3BB12009B9555 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		84E001C02AF3BB12009B9555 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		84E001C82AF3BC5C009B9555 /* iconx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconx.png; sourceTree = "<group>"; };
 		84E4BFAE2AE9854B0023E16A /* libCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
-		84EAE8E12AF1EAB5000894E8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/GLKit.framework; sourceTree = DEVELOPER_DIR; };
-		84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		84EAE8E12AF1EAB5000894E8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemAL.cpp; sourceTree = "<group>"; };
 		84EAE8E72AF1EAFA000894E8 /* SoundSystemAL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystemAL.hpp; sourceTree = "<group>"; };
 		84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -1844,6 +1842,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8420EF302B32B4EE0051910E /* libSystem.dylib in Frameworks */,
 				84619B1E2AF1EDA300B0DE81 /* libClient.a in Frameworks */,
 				84619B1F2AF1EDA300B0DE81 /* libCommon.a in Frameworks */,
 				84619B202AF1EDA300B0DE81 /* libRenderer.a in Frameworks */,
@@ -3028,6 +3027,7 @@
 				8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */,
 				849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */,
 				849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */,
+				8484ABDC2B32935700076873 /* PlatformDefinitions_iOS.h */,
 				849259522AD8FD4F0081F5B9 /* Shader.fsh */,
 				849259532AD8FD4F0081F5B9 /* Shader.vsh */,
 				8488C0882B1EDD4F001AEC4F /* ShowKeyboardView.h */,
@@ -3035,6 +3035,21 @@
 				8492595D2AD8FDB70081F5B9 /* Supporting Files */,
 			);
 			path = ios;
+			sourceTree = "<group>";
+		};
+		84899AF72B32B7F50046B6D1 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				848CBD0F2AFD847C007634F6 /* AVFoundation.framework */,
+				84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */,
+				84EAE8E12AF1EAB5000894E8 /* GLKit.framework */,
+				8420EF2F2B32B4EE0051910E /* libSystem.dylib */,
+				84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */,
+				84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */,
+				84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */,
+				84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		8489B08E2A86D4B2004CA8EC = {
@@ -3071,20 +3086,13 @@
 		8489B31E2A86E428004CA8EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84899AF72B32B7F50046B6D1 /* iOS */,
 				8489B3232A86E46A004CA8EC /* AppKit.framework */,
-				848CBD0F2AFD847C007634F6 /* AVFoundation.framework */,
-				84C0D7FE2B1597BA007E1E76 /* CoreAudio.framework */,
-				84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */,
 				8489B3212A86E464004CA8EC /* Foundation.framework */,
-				84EAE8E12AF1EAB5000894E8 /* GLKit.framework */,
 				8489B4A82A86FF57004CA8EC /* libpng.a */,
 				8443B6E92A98675F0086730C /* libSDL2.a */,
-				84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */,
 				84C4D86E2A872C0100323E33 /* OpenAL.framework */,
 				8489B3252A86E4B0004CA8EC /* OpenGL.framework */,
-				84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */,
-				84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */,
-				84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3135,7 +3143,6 @@
 				84E001652AF3A28B009B9555 /* font */,
 				84E001682AF3A28B009B9555 /* gui */,
 				84E0018A2AF3A28B009B9555 /* icon.png */,
-				84E001C82AF3BC5C009B9555 /* iconx.png */,
 				84E001BC2AF3BB12009B9555 /* ios */,
 				84E0018B2AF3A28B009B9555 /* item */,
 				84E0018D2AF3A28B009B9555 /* mob */,
@@ -3150,7 +3157,6 @@
 		84E001652AF3A28B009B9555 /* font */ = {
 			isa = PBXGroup;
 			children = (
-				849FF0EA2AF46C500013BAE3 /* default.png */,
 				84E001672AF3A28B009B9555 /* default8.png */,
 			);
 			path = font;
@@ -3986,7 +3992,6 @@
 				849FF0D32AF465340013BAE3 /* title.png in Resources */,
 				849FF0D42AF465340013BAE3 /* touchgui.png in Resources */,
 				849FF0D52AF465340013BAE3 /* icon.png in Resources */,
-				849FF0D62AF465340013BAE3 /* iconx.png in Resources */,
 				849FF0D82AF465340013BAE3 /* Default-Landscape~ipad.png in Resources */,
 				849FF0DA2AF465340013BAE3 /* Default@2x.png in Resources */,
 				849FF0DB2AF465340013BAE3 /* camera.png in Resources */,
@@ -3998,7 +4003,6 @@
 				84C208532AF88A5000BAE438 /* grass_side_transparent.png in Resources */,
 				84C208542AF88A5000BAE438 /* patch_data.txt in Resources */,
 				84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */,
-				84C0D8012B159A0E007E1E76 /* GlobalSettings.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4657,7 +4661,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "i386 x86_64";
 			};
 			name = "Release (x86)";
@@ -4732,7 +4735,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "ppc ppc64 ppc7400 ppc970";
 			};
 			name = "Release (PPC)";
@@ -4807,7 +4809,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
 			name = "Release (x86-PPC)";
@@ -4968,11 +4969,8 @@
 				MC_ROOT = "$(PROJECT_DIR)/../../../../";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug (iOS)";
 		};
@@ -5131,8 +5129,6 @@
 				MTL_FAST_MATH = YES;
 				PROVISIONING_PROFILE = "";
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv6 armv7 armv7s arm64";
 			};
 			name = "Release (iOS)";
@@ -5292,9 +5288,7 @@
 				MC_ROOT = "$(PROJECT_DIR)/../../../../";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug (Default)";
 		};
@@ -5355,7 +5349,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Release (Default)";
 		};
@@ -5395,7 +5388,6 @@
 					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Debug (Default)";
@@ -5412,7 +5404,6 @@
 					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -5430,7 +5421,6 @@
 					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Release (x86)";
@@ -5447,7 +5437,6 @@
 					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Release (PPC)";
@@ -5464,7 +5453,6 @@
 					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Release (x86-PPC)";

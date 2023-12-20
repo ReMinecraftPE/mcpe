@@ -102,7 +102,7 @@
 		//  Add depth buffer
         glGenRenderbuffers(1, &depthRenderbuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16 /*GL_DEPTH24_STENCIL8_OES*/,
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16 /*GL_DEPTH24_STENCIL8*/,
                               framebufferWidth, framebufferHeight);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
                                   GL_RENDERBUFFER, depthRenderbuffer );
@@ -167,6 +167,12 @@
         [EAGLContext setCurrentContext:context];
         
         glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, self->defaultFramebuffer);
+        
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && __IPHONE_OS_VERSION_MIN_REQUIRED <= __IPHONE_12_0
+        GLenum discards[] = { GL_DEPTH_ATTACHMENT, GL_COLOR_ATTACHMENT0, GL_STENCIL_ATTACHMENT };
+        glDiscardFramebufferEXT(GL_FRAMEBUFFER, 3, discards);
+#endif
         
         success = [context presentRenderbuffer:GL_RENDERBUFFER];
     }

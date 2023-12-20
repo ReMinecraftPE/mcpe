@@ -1276,7 +1276,7 @@ void LevelRenderer::renderClouds(float f)
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
 
-	float yPos = Lerp(m_pMinecraft->m_pMobPersp->field_98.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
+	float yPos = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_98.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
 
 	glEnable(GL_BLEND);
@@ -1284,8 +1284,8 @@ void LevelRenderer::renderClouds(float f)
 
 	Vec3 cloudColor = m_pLevel->getCloudColor(f);
 
-	float offX = Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.3f;
-	float offZ = Lerp(m_pMinecraft->m_pMobPersp->field_3C.z, m_pMinecraft->m_pMobPersp->m_pos.z, f);
+	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.3f;
+	float offZ = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.z, m_pMinecraft->m_pMobPersp->m_pos.z, f);
 	
 	int dx2048 = Mth::floor(offX / 2048.0f);
 	int dz2048 = Mth::floor(offZ / 2048.0f);

@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <OpenGLES/EAGL.h>
-#import <OpenGLES/ES1/gl.h>
 #import <QuartzCore/CADisplayLink.h>
 
 class AppPlatform_iOS;
@@ -21,11 +19,16 @@ class AppPlatform_iOS;
     BOOL animating;
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
+    //BaseDialogController *dialog;
+    
+    @public
+    bool suspended;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
 @property (readonly, nonatomic) AppPlatform_iOS* platform;
+//@property (readonly, nonatomic) BaseDialogController *dialog;
 
 - (void)startAnimation;
 - (void)stopAnimation;

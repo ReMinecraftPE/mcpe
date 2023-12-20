@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVAudioSession.h>
 
+#import "PlatformDefinitions_iOS.h"
+
 @class minecraftpeViewController;
 
 @interface minecraftpeAppDelegate : NSObject <UIApplicationDelegate, AVAudioSessionDelegate> {
@@ -16,6 +18,7 @@
     minecraftpeViewController *viewController;
     AVAudioSession *audioSession;
     NSString *audioSessionSoundCategory;
+    UIBackgroundTaskIdentifier bgTask NS_AVAILABLE_IOS(4_0);
 }
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) minecraftpeViewController *viewController;

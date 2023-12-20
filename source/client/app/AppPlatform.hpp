@@ -64,6 +64,13 @@ public:
 	virtual void hideKeyboard();
 	virtual void onHideKeyboard(); // called by the runner, not the game
 	virtual int getKeyboardUpOffset();
+    
+    void _fireLowMemory();
+    void _fireAppSuspended();
+    void _fireAppResumed();
+    void _fireAppFocusLost();
+    void _fireAppFocusGained();
+    void _fireAppTerminated();
 
 	virtual bool hasFileSystemAccess();
 	// Also add this to allow dynamic patching.

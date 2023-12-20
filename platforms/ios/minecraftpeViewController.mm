@@ -38,14 +38,17 @@ NSThread *G_drawFrameThread = nil;
     GLuint _vertexBuffer;
     
     Minecraft *_app;
-    UITouch *_touchMap[12];
-    //BaseDialogController *_dialog;
-    ShowKeyboardView *_keyboardView;
-    int _dialogResultStatus;
-    std::vector<std::string> _dialogResultStrings;
     AppContext *_context;
     AppPlatform_iOS *_platform;
+    UITouch *_touchMap[12];
+    int _dialogResultStatus;
+    std::vector<std::string> _dialogResultStrings;
+    ShowKeyboardView *_keyboardView;
+    //ThreadSafeQueue<std::function<void ()> > mMainQueue;
+    //ImagePickingCallback *mPickingCallback
     float viewScale;
+    //GameControllerHandler_iOS *_gameControllerHandler;
+    //UIPopoverController *_imagePickerPopoverController;
 }
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, retain) CADisplayLink *displayLink;
@@ -118,31 +121,31 @@ NSThread *G_drawFrameThread = nil;
 
 - (void)drawFrame
 {
-    NSThread *currentThread = [NSThread currentThread];
-    NSThread *thread = G_drawFrameThread;
-    if (!G_drawFrameThread)
+    if (!suspended)
     {
-        G_drawFrameThread = currentThread;
-        thread = currentThread;
-    }
-    if (currentThread != thread)
-    {
-        NSLog(@"Warning! draw-frame thread changed (%@ -> %@)\n", G_drawFrameThread, thread);
-        G_drawFrameThread = thread;
-    }
+        NSThread *currentThread = [NSThread currentThread];
+        NSThread *thread = G_drawFrameThread;
+        if (!G_drawFrameThread)
+        {
+            G_drawFrameThread = currentThread;
+            thread = currentThread;
+        }
+        if (currentThread != thread)
+        {
+            NSLog(@"Warning! draw-frame thread changed (%@ -> %@)\n", G_drawFrameThread, thread);
+            G_drawFrameThread = thread;
+        }
     
-    [(EAGLView *)self.view setFramebuffer];
+        [(EAGLView *)self.view setFramebuffer];
     
-    _app->update();
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_4_0 && __IPHONE_OS_VERSION_MIN_REQUIRED <= __IPHONE_12_0
-    int attachments[3] = { 36096 };
-    glDiscardFramebufferEXT(36160, 1, attachments);
-#endif
+        // In 0.12.2 we loop through self->mMainQueue & call some functions, then run _app->update() after each. Not sure what it's really doing though...
+        _app->update();
     
-    BOOL success = [(EAGLView *)self.view presentFramebuffer];
-    if (!success)
-    {
-        NSLog(@"Failed to present renderbuffer object %x\n", glCheckFramebufferStatus(GL_RENDERBUFFER));
+        BOOL success = [(EAGLView *)self.view presentFramebuffer];
+        if (!success)
+        {
+            NSLog(@"Failed to present renderbuffer object %x\n", glCheckFramebufferStatus(GL_RENDERBUFFER));
+        }
     }
 }
 
@@ -186,6 +189,7 @@ NSThread *G_drawFrameThread = nil;
     ctx->platform = platform;
     self->_context = ctx;
     self->viewScale = 1.0;
+    self->suspended = NO;
     
     NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 1u, YES) objectAtIndex:0];
     NinecraftApp *app = new NinecraftApp();

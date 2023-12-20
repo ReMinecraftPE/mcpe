@@ -170,3 +170,9 @@ float Mth::random()
 	// divided by 2^32-1
 }
 
+// @NOTE: This is inlined.
+constexpr float Mth::Lerp(float a, float b, float progress)
+{
+	return a + progress * (b - a);
+}
+

@@ -37,5 +37,8 @@ public:
 	static float sin(float);
 	static float sqrt(float);
 	static unsigned fastRandom();
+    
+    // @NOTE: This is inlined.
+    static constexpr float Lerp(float a, float, float progress);
 };
 

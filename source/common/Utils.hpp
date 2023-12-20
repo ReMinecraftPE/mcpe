@@ -622,12 +622,6 @@ float Max(float a, float b);
 
 void sleepMs(int ms);
 
-// @NOTE: This is inlined.
-static constexpr float Lerp(float a, float b, float progress)
-{
-	return a + progress * (b - a);
-}
-
 bool createFolderIfNotExists(const char* pDir);
 bool DeleteDirectory(const std::string& name, bool unused);
 

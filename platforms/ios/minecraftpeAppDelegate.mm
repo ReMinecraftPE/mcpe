@@ -58,6 +58,19 @@ NSError *G_audioSessionError = nil;
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    
+    void (^handler)() = ^()
+    {
+        [application endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+        NSLog(@"TIME RAN OUT %p\n", pthread_self()); // This originally used std::out, not sure why
+    };
+    bgTask = [application beginBackgroundTaskWithExpirationHandler:handler];
+    viewController->suspended = YES;
+    AppPlatform_iOS *platform = [self.viewController platform];
+    platform->_fireAppSuspended();
+    [application endBackgroundTask:bgTask];
+    bgTask = UIBackgroundTaskInvalid;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -65,6 +78,7 @@ NSError *G_audioSessionError = nil;
     /*
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
+    viewController->suspended = NO;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -84,7 +98,6 @@ NSError *G_audioSessionError = nil;
      See also applicationDidEnterBackground:.
      */
     [self.viewController stopAnimation];
-    [self.viewController stopGame];
 }
 
 - (void)beginInterruption

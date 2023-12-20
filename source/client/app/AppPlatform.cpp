@@ -165,6 +165,36 @@ int AppPlatform::getKeyboardUpOffset()
 	return 0;
 }
 
+void AppPlatform::_fireLowMemory()
+{
+    
+}
+
+void AppPlatform::_fireAppSuspended()
+{
+    
+}
+
+void AppPlatform::_fireAppResumed()
+{
+    
+}
+
+void AppPlatform::_fireAppFocusLost()
+{
+    
+}
+
+void AppPlatform::_fireAppFocusGained()
+{
+    
+}
+
+void AppPlatform::_fireAppTerminated()
+{
+    
+}
+
 bool AppPlatform::hasFileSystemAccess()
 {
 	return false;
