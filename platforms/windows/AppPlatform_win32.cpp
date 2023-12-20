@@ -18,8 +18,8 @@
 
 #include "thirdparty/GL/GL.hpp"
 
-#include "thirdparty/stb_image.h"
-#include "thirdparty/stb_image_write.h"
+#include "thirdparty/stb_image/include/stb_image.h"
+#include "thirdparty/stb_image/include/stb_image_write.h"
 
 AppPlatform_win32::AppPlatform_win32()
 {

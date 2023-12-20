@@ -3,7 +3,7 @@ project(reminecraftpe-sdl)
 
 # SDL Build
 add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
-set(USE_SDL 1)
+set(USE_SDL TRUE)
 
 # WASM
 if(EMSCRIPTEN)
@@ -43,7 +43,12 @@ if(EMSCRIPTEN)
 else()
     list(APPEND SOURCES desktop/AppPlatform_sdl.cpp)
 endif()
-add_executable(reminecraftpe ${SOURCES})
+if(ANDROID)
+    add_library(reminecraftpe SHARED ${SOURCES})
+    set_target_properties(reminecraftpe PROPERTIES OUTPUT_NAME main)
+else()
+    add_executable(reminecraftpe ${SOURCES})
+endif()
 
 # Core
 add_subdirectory(../../source source)
@@ -53,10 +58,10 @@ target_link_libraries(reminecraftpe reminecraftpe-core)
 add_subdirectory(../openal openal)
 target_link_libraries(reminecraftpe reminecraftpe-openal)
 
-# LibPNG (If Needed)
+# stb_image (If Needed)
 if(NOT EMSCRIPTEN)
-    find_package(PNG REQUIRED)
-    target_link_libraries(reminecraftpe PNG::PNG)
+    add_subdirectory(../../thirdparty/stb_image stb_image)
+    target_link_libraries(reminecraftpe stb_image)
 endif()
 
 # SDL
@@ -74,7 +79,7 @@ endif()
 
 # Assets
 if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets@/assets")
-else()
+    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/../../game@/")
+elseif(NOT ANDROID)
     file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
 endif()

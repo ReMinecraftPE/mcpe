@@ -46,19 +46,15 @@ static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 // Touch
 #define TOUCH_IDS_SIZE (MAX_TOUCHES - 1) // ID 0 Is Reserved For The Mouse
 struct touch_id_data {
-	bool active;
-	int id;
-    touch_id_data()
-    {
-        active = false;
-    }
+	bool active = false;
+	int device;
+	int finger;
 };
 static touch_id_data touch_ids[TOUCH_IDS_SIZE];
 static char get_touch_id(int device, int finger) {
-	int real_id = (device * 100) + finger;
 	for (int i = 0; i < TOUCH_IDS_SIZE; i++) {
 		touch_id_data &data = touch_ids[i];
-		if (data.active && data.id == real_id) {
+		if (data.active && data.device == device && data.finger == finger) {
 			return i + 1;
 		}
 	}
@@ -68,7 +64,8 @@ static char get_touch_id(int device, int finger) {
 		touch_id_data &data = touch_ids[i];
 		if (!data.active) {
 			data.active = true;
-			data.id = real_id;
+			data.device = device;
+			data.finger = finger;
 			return i + 1;
 		}
 	}
@@ -121,10 +118,11 @@ static void handle_events()
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 			{
-				// TODO: Shouldn't we be handling this in Keyboard?
-				
-				// We really should. We didn't add the f2 key anywhere -iProgramInCpp
-				/*
+				// This really should be handled somewhere else.
+				// Unforunately, there is no global keyboard handler.
+				// Keyboard events are either handled in Screen::keyboardEvent
+				// when a Screen is visible, or in Minecraft::tickInput
+				// when LocalPlayer exists.
 				if (event.key.keysym.sym == SDLK_F2)
 				{
 					if (event.key.state == SDL_PRESSED && g_pAppPlatform != nullptr)
@@ -133,8 +131,20 @@ static void handle_events()
 					}
 					break;
 				}
-				*/
-				
+
+				// Android Back Button
+				if (event.key.keysym.sym == SDLK_AC_BACK) {
+					g_pApp->handleBack(event.key.state == SDL_PRESSED);
+					break;
+				}
+
+				// Text Editing
+				if (event.key.keysym.sym == SDLK_BACKSPACE && event.key.state == SDL_PRESSED)
+				{
+					g_pApp->handleCharInput('\b');
+				}
+
+				// Normal Key Press
 				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
@@ -187,10 +197,14 @@ static void handle_events()
 			{
 				if (g_pApp != nullptr)
 				{
-					char x = event.text.text[0];
-					if (x >= ' ' && x <= '~')
+					size_t length = strlen(event.text.text);
+					for (size_t i = 0; i < length; i++)
 					{
-						g_pApp->handleCharInput(x);
+						char x = event.text.text[i];
+						if (x >= ' ' && x <= '~')
+						{
+							g_pApp->handleCharInput(x);
+						}
 					}
 				}
 				break;
@@ -241,7 +255,6 @@ static void resize()
 }
 
 // Main Loop
-static bool is_first_window_resize = true;
 static EM_BOOL main_loop(double time, void *user_data)
 {
 	// Handle Events
@@ -281,29 +294,12 @@ extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
 extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
 
-#ifdef __EMSCRIPTEN__
-bool DoesAssetExist(const std::string & fileName)
-{
-	std::string realPath = g_pAppPlatform->getAssetPath(fileName);
-	int width = 0, height = 0;
-	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &width, &height);
-	if (data == NULL)
-		return false;
-	
-	free(data);
-	return true;
-}
-#else
-// access works just fine on linux and friends
-#define DoesAssetExist(fileName) (XPL_ACCESS("assets/" fileName, 0) == 0)
-#endif
-
 void CheckOptionalTextureAvailability()
 {
-	g_bIsMenuBackgroundAvailable = DoesAssetExist("gui/background/panorama_0.png");
-	g_bAreCloudsAvailable        = DoesAssetExist("environment/clouds.png");
-	g_bIsGrassColorAvailable     = DoesAssetExist("misc/grasscolor.png");
-	g_bIsFoliageColorAvailable   = DoesAssetExist("misc/foliagecolor.png");
+	g_bIsMenuBackgroundAvailable = g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png");
+	g_bAreCloudsAvailable        = g_pAppPlatform->doesTextureExist("environment/clouds.png");
+	g_bIsGrassColorAvailable     = g_pAppPlatform->doesTextureExist("misc/grasscolor.png");
+	g_bIsFoliageColorAvailable   = g_pAppPlatform->doesTextureExist("misc/foliagecolor.png");
 }
 
 // Main
@@ -319,7 +315,7 @@ int main(int argc, char *argv[])
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 #ifdef USE_GLES1_COMPATIBILITY_LAYER
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #else
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -334,6 +330,9 @@ int main(int argc, char *argv[])
 	Minecraft::height = std::stoi(argv[2]);
 #endif
 
+	// Lock To Landscape
+	SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
+
 	// Create Window
 	int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
@@ -342,9 +341,6 @@ int main(int argc, char *argv[])
 		LOG_E("Unable to create SDL window");
 		exit(EXIT_FAILURE);
 	}
-
-	// Enable Text Input
-	SDL_StartTextInput();
 
 	// Create OpenGL ES Context
 	context = SDL_GL_CreateContext(window);
@@ -384,6 +380,8 @@ int main(int argc, char *argv[])
 	storagePath = getenv("APPDATA");
 #elif defined(__EMSCRIPTEN__)
 	storagePath = "";
+#elif defined(ANDROID)
+	storagePath = SDL_AndroidGetExternalStoragePath();
 #else
 	storagePath = getenv("HOME");
 #endif

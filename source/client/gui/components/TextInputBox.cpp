@@ -10,7 +10,7 @@
 #include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 
-#ifdef __ANDROID__
+#ifdef USE_NATIVE_ANDROID
 #define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
 #endif
 
@@ -30,6 +30,11 @@ TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int 
 	m_lastFlashed = 0;
 	m_pFont = nullptr;
 	m_pParent = parent;
+}
+
+TextInputBox::~TextInputBox()
+{
+	m_pParent->m_pMinecraft->platform()->hideKeyboard();
 }
 
 void TextInputBox::init(Font* pFont)
@@ -139,11 +144,6 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 		case AKEYCODE_ARROW_RIGHT:
 			chr = '\003';
 			break;
-#ifdef USE_SDL
-		case AKEYCODE_DEL:
-			chr = '\b';
-			break;
-#endif
 	}
 #endif
 
@@ -184,14 +184,25 @@ void TextInputBox::setFocused(bool b)
 	if (m_bFocused == b)
 		return;
 
+	if (b)
+	{
+		int x = (int) (((float) m_xPos) / Gui::InvGuiScale);
+		int y = (int) (((float) m_yPos) / Gui::InvGuiScale);
+		int w = (int) (((float) m_width) / Gui::InvGuiScale);
+		int h = (int) (((float) m_height) / Gui::InvGuiScale);
+		m_pParent->m_pMinecraft->platform()->showKeyboard(x, y, w, h);
+	}
+	else
+	{
+		m_pParent->m_pMinecraft->platform()->hideKeyboard();
+	}
+
 	m_bFocused = b;
 	if (b)
 	{
 		m_lastFlashed = getTimeMs();
 		m_bCursorOn = true;
 		m_insertHead = int(m_text.size());
-
-		m_pParent->m_pMinecraft->platform()->showKeyboard(true);
 	}
 
 	// don't actually hide the keyboard when unfocusing

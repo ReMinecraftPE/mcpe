@@ -10,11 +10,20 @@
 #include "client/app/Minecraft.hpp"
 #include "../ItemInHandRenderer.hpp"
 
+#include "client/model/PigModel.hpp"
+#include "client/model/CowModel.hpp"
+#include "client/model/ChickenModel.hpp"
+#include "client/model/CreeperModel.hpp"
+
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 float EntityRenderDispatcher::xOff, EntityRenderDispatcher::yOff, EntityRenderDispatcher::zOff;
 
 EntityRenderDispatcher::EntityRenderDispatcher() :
-	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f)
+	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f),
+	m_PigRenderer(new PigModel(0.0f), 0.0f),
+	m_CowRenderer(new CowModel, 0.0f),
+	m_ChickenRenderer(new ChickenModel, 0.0f),
+	m_CreeperRenderer(new CreeperModel, 0.5f)
 {
 	m_pItemInHandRenderer = nullptr;
 	m_pTextures = nullptr;
@@ -27,14 +36,16 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_pFont = nullptr;
 
 	m_HumanoidMobRenderer.init(this);
+	m_PigRenderer.init(this);
+	m_CowRenderer.init(this);
+	m_ChickenRenderer.init(this);
+	m_CreeperRenderer.init(this);
+	
+	// TODO
+
 	m_TntRenderer.init(this);
 	m_CameraRenderer.init(this);
-
-#ifndef ORIGINAL_CODE
-	// @BUG: Not initializing the item renderer would cause crashes if item7
-	// entities exist, because it references the dispatcher
 	m_ItemRenderer.init(this);
-#endif
 
 #ifdef ENH_ALLOW_SAND_GRAVITY
 	m_FallingTileRenderer.init(this);
@@ -63,18 +74,27 @@ EntityRenderDispatcher* EntityRenderDispatcher::getInstance()
 	return instance;
 }
 
-EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
+EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 {
-	switch (pEnt->field_C8)
+	switch (renderType)
 	{
 		case RENDER_TNT:
 			return &m_TntRenderer;
+		case RENDER_HUMANOID:
+			return &m_HumanoidMobRenderer;
 		case RENDER_ITEM:
 			return &m_ItemRenderer;
 		case RENDER_CAMERA:
 			return &m_CameraRenderer;
-		case RENDER_HUMANOID:
-			return &m_HumanoidMobRenderer;
+		case RENDER_CHICKEN:
+			return &m_ChickenRenderer;
+		case RENDER_COW:
+			return &m_CowRenderer;
+		case RENDER_PIG:
+			return &m_PigRenderer;
+		case RENDER_CREEPER:
+			return &m_CreeperRenderer;
+		// TODO
 #ifdef ENH_ALLOW_SAND_GRAVITY
 		case RENDER_FALLING_TILE:
 			return &m_FallingTileRenderer;
@@ -82,6 +102,15 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 	}
 
 	return nullptr;
+}
+
+EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
+{
+	int renderType = pEnt->field_C8;
+	if (renderType == RENDER_DYNAMIC)
+		renderType = pEnt->queryEntityRenderer();
+
+	return getRenderer(renderType);
 }
 
 void EntityRenderDispatcher::onGraphicsReset()
@@ -123,9 +152,9 @@ void EntityRenderDispatcher::render(Entity* entity, float a, float b, float c, f
 	{
 #ifndef ORIGINAL_CODE
 		if (pRenderer == &m_HumanoidMobRenderer)
-			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = entity->isSneaking();
+			m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = entity->isSneaking();
 		else
-			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = false;
+			m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = false;
 #endif
 
 		pRenderer->render(entity, a, b, c, d, e);

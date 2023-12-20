@@ -23,6 +23,7 @@ class TextInputBox : public GuiComponent
 {
 public:
 	TextInputBox(Screen*, int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
+	~TextInputBox();
 
 	void init(Font* pFont);
 	void setEnabled(bool bEnabled);

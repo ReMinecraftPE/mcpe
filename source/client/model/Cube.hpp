@@ -9,48 +9,27 @@
 #pragma once
 
 #include "PolygonQuad.hpp"
+#include "ModelPart.hpp"
+
+class ModelPart;
 
 class Cube
 {
 public:
-	Cube(int, int);
+	Cube(ModelPart*, int, int, float, float, float, int, int, int, float);
 
-	void addBox(float a, float b, float c, int d, int e, int f, float g = 0);
-	// @TODO: void addTexBox(float a, float b, float c, int d, int e, int f, int g); -- No xrefs
-	void compile(float scale);
-	void draw();
-	void drawSlow(float scale);
-	void render(float scale);
-	void setPos(float x, float y, float z);
-	void setTexOffs(int a, int b);
-	void translateTo(float scale);
-	void setBrightness(float brightness);
-
-private:
-	bool hasDefaultPos() { return m_posX == 0 && m_posY == 0 && m_posZ == 0; }
-	bool hasDefaultRot() { return m_rotX == 0 && m_rotY == 0 && m_rotZ == 0; }
-	void translatePosTo(float scale);
-	void translateRotTo(float scale);
+	void compile(Tesselator& t, float scale);
+	void setId(const std::string& s);
 
 public:
-	float m_posX;
-	float m_posY;
-	float m_posZ;
-	float m_rotX;
-	float m_rotY;
-	float m_rotZ;
-	bool field_18;
-	bool field_19;
-	bool field_1A;
 	VertexPT m_verts[8];
 	PolygonQuad m_faces[6];
-	int field_2B4;
-	int field_2B8;
-	bool m_bCompiled;
-	int field_2C0;
-	GLuint m_buffer;
-	float m_brightness;
-
-	static const float c;
+	std::string m_id;
+	float field_29C;
+	float field_2A0;
+	float field_2A4;
+	float field_2A8;
+	float field_2AC;
+	float field_2B0;
 };
 

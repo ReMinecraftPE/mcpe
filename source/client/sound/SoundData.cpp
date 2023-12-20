@@ -10,10 +10,10 @@
 
 // --------------------------------------------------------------------
 // WARNING! If you have an error here it is most likely because you did
-// not grab the sound data from a working mcpe01_canada.apk.
+// not grab the sound data from a working Minecraft PE 0.1.3 .apk.
 // 
 // Check the readme for a guide on how to extract game sounds from the
-// mcpe01_canada.apk file.
+// Minecraft PE 0.1.3 .apk file.
 // --------------------------------------------------------------------
 #ifndef MISSING_SOUND_DATA
 #include "../../sound_data/sounds.h"

@@ -12,13 +12,13 @@
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/GrassColor.hpp"
 
-#define C_OPTION_ITEM_HEIGHT (18)
+#define C_OPTION_ITEM_HEIGHT (20)
 
-#define C_ON_OFF_SWITCH_WIDTH (28)
-#define C_ON_OFF_SWITCH_HEIGHT (16)
+#define C_ON_OFF_SWITCH_WIDTH (32)
+#define C_ON_OFF_SWITCH_HEIGHT (18)
 
 #define C_DISTANCE_SWITCH_WIDTH (60)
-#define C_DISTANCE_SWITCH_HEIGHT (16)
+#define C_DISTANCE_SWITCH_HEIGHT (18)
 
 BooleanOptionItem::BooleanOptionItem(bool* pValue, const std::string& text)
 {
@@ -35,6 +35,8 @@ void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 	int itemX = pList->field_18 / 2 - (C_SCROLLED_LIST_ITEM_WIDTH - 4) / 2;
 
 	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6)
+		return;
+	if (mouseX > itemX + C_SCROLLED_LIST_ITEM_WIDTH - 6)
 		return;
 
 	// Toggle the value
@@ -112,6 +114,8 @@ void DistanceOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 	int itemX = pList->field_18 / 2 - (C_SCROLLED_LIST_ITEM_WIDTH - 4) / 2;
 
 	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_DISTANCE_SWITCH_WIDTH - 6)
+		return;
+	if (mouseX > itemX + C_SCROLLED_LIST_ITEM_WIDTH - 6)
 		return;
 
 	int oldValue = *m_pValue;
@@ -191,36 +195,11 @@ bool OptionList::isSelectedItem(int index)
 
 void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 {
-	// Draws a simplistic On/Off switch.
+	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui_custom.png");
+	
+	blit(x, y, 0, state ? 18 : 0, C_ON_OFF_SWITCH_WIDTH, C_ON_OFF_SWITCH_HEIGHT, C_ON_OFF_SWITCH_WIDTH, C_ON_OFF_SWITCH_HEIGHT);
 
-	uint32_t
-		edgeColor = 0xFF444444,
-		backdropEnabled = 0xFFAAAAAA,
-		backdropDisabled = 0xFF333333,
-		leverOn = 0xFFFFFFFF,
-		leverOff = 0xFF888888;
-
-	if (disabled)
-	{
-		edgeColor = 0xFF222222;
-		backdropEnabled = 0xFF555555;
-		backdropDisabled = 0xFF191919,
-		leverOn = 0xFF7F7F7F,
-		leverOff = 0xFF444444;
-	}
-
-	// Draw edges
-	fill(x + 0, y + 0, x + C_ON_OFF_SWITCH_WIDTH - 0, y + C_ON_OFF_SWITCH_HEIGHT - 0, edgeColor);
-
-	// Draw backdrop
-	fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, state ? backdropEnabled : backdropDisabled);
-
-	if (state)
-		// Draw ON position
-		fill(x + C_ON_OFF_SWITCH_WIDTH / 2 + 2, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, leverOn);
-	else
-		// Draw OFF position
-		fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH / 2 - 2, y + C_ON_OFF_SWITCH_HEIGHT - 1, leverOff);
+	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");// bind the old texture back
 }
 
 void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)

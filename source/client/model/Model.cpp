@@ -8,10 +8,17 @@
 
 #include "Model.hpp"
 
-Model::Model()
+Model::Model(int width, int height)
 {
 	field_4 = 0.0f;
 	field_8 = false;
+	m_bIsBaby = true; // @HUH: Why is this true?
+	m_textureWidth  = width;
+	m_textureHeight = height;
+}
+
+Model::~Model()
+{
 }
 
 void Model::onGraphicsReset()

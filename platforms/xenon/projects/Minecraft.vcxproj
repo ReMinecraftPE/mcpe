@@ -996,7 +996,7 @@
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\VitaIncludes.cpp" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\WSAStartupSingleton.cpp" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\raknet\_FindFirst.cpp" />
-    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image_impl.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\adler32.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\compress.c" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\zlib\crc32.c" />

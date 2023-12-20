@@ -26,6 +26,8 @@ public:
 
 	std::string getSplashString();
 
+	bool handleBackEvent(bool b) override;
+
 private:
 	Button m_startButton;
 	Button m_joinButton;

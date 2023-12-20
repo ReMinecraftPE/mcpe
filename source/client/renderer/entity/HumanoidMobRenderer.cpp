@@ -30,7 +30,7 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 
 	ItemInstance inst(itemID, 1, 0);
 	glPushMatrix();
-	m_pHumanoidModel->m_armL.translateTo(0.0625f);
+	m_pHumanoidModel->m_arm1.translateTo(0.0625f);
 	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
 	if (itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()))
 	{
@@ -69,5 +69,5 @@ void HumanoidMobRenderer::renderHand()
 	m_pHumanoidModel->field_4 = 0;
 	m_pHumanoidModel->setBrightness(m_pDispatcher->m_pMinecraft->m_pMobPersp->getBrightness(1.0f));
 	m_pHumanoidModel->setupAnim(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
-	m_pHumanoidModel->m_armL.render(0.0625f);
+	m_pHumanoidModel->m_arm1.render(0.0625f);
 }

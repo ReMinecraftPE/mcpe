@@ -22,13 +22,44 @@ class ItemInstance;
 enum eEntityRenderType
 {
 	RENDER_NONE,
+	RENDER_DYNAMIC,
 	RENDER_TNT,
 	RENDER_HUMANOID,
 	RENDER_ITEM,
 	RENDER_CAMERA,
+	RENDER_CHICKEN,
+	RENDER_COW,
+	RENDER_PIG,
+	RENDER_SHEEP,
+	RENDER_SHEEP_FUR,
+	RENDER_ZOMBIE,
+	RENDER_SKELETON,
+	RENDER_SPIDER,
+	RENDER_CREEPER,
 
 	// custom
 	RENDER_FALLING_TILE = 50,
+};
+
+enum eEntityType
+{
+	TYPE_UNSAVED,
+	
+	TYPE_CHICKEN = 10,
+	TYPE_COW,
+	TYPE_PIG,
+	TYPE_SHEEP,
+
+	TYPE_ZOMBIE = 32,
+
+	TYPE_ITEM = 64,
+};
+
+enum eCreatureBaseType
+{
+	BASE_NONE,
+	BASE_MONSTER,
+	BASE_ANIMAL,
 };
 
 struct EntityPos
@@ -139,6 +170,9 @@ public:
 	virtual void markHurt();
 	virtual void burn(int);
 	virtual void lavaHurt();
+	virtual int queryEntityRenderer();
+	virtual int getCreatureBaseType();
+	virtual int getEntityTypeId();
 
 	virtual bool isLocalPlayer();
 

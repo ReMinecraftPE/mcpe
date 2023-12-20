@@ -242,19 +242,33 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		if (button->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pClickedButton = button;
-			m_pMinecraft->m_pSoundEngine->play("random.click");
 
-			buttonClicked(button);
+			if (!m_pMinecraft->isTouchscreen())
+			{
+				m_pMinecraft->m_pSoundEngine->play("random.click");
+				buttonClicked(button);
+			}
 		}
 	}
 
 #ifndef ORIGINAL_CODE
-	for (int i = 0; i < int(m_textInputs.size()); i++)
+	// Iterate over focused text inputs first. This is because if changing
+	// focus, the previous focus must hide the OSK, before the new focus
+	// shows it.
+	for (int phase = 0; phase < 2; phase++)
 	{
-		TextInputBox* textInput = m_textInputs[i];
-		textInput->onClick(xPos, yPos);
+		bool handleFocused = phase == 0;
+		for (int i = 0; i < int(m_textInputs.size()); i++)
+		{
+			TextInputBox* textInput = m_textInputs[i];
+			if (textInput->m_bFocused == handleFocused)
+			{
+				textInput->onClick(xPos, yPos);
+			}
+		}
 	}
 
+#ifdef USE_NATIVE_ANDROID
 	// if the keyboard is shown:
 	if (m_pMinecraft->platform()->getKeyboardUpOffset())
 	{
@@ -271,8 +285,9 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		}
 
 		if (!areAnyFocused)
-			m_pMinecraft->platform()->showKeyboard(false);
+			m_pMinecraft->platform()->hideKeyboard();
 	}
+#endif
 #endif
 }
 
@@ -282,6 +297,11 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 
 	if (m_pClickedButton)
 	{
+		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
+		{
+			m_pMinecraft->m_pSoundEngine->play("random.click");
+			buttonClicked(m_pClickedButton);
+		}
 		m_pClickedButton->released(xPos, yPos);
 		m_pClickedButton = nullptr;
 	}
@@ -343,6 +363,7 @@ void Screen::onRender(int mouseX, int mouseY, float f)
 
 int Screen::getYOffset()
 {
+#ifdef USE_NATIVE_ANDROID
 	int keybOffset = m_pMinecraft->platform()->getKeyboardUpOffset();
 	if (!keybOffset)
 		return 0;
@@ -377,6 +398,9 @@ int Screen::getYOffset()
 	}
 
 	return offset;
+#else
+	return 0;
+#endif
 }
 
 void Screen::updateEvents()

@@ -5,7 +5,8 @@
 #include <sys/stat.h>
 #include <cerrno>
 
-#include "thirdparty/LibPNG/png.h"
+#include "stb_image.h"
+#include "stb_image_write.h"
 
 #include "thirdparty/GL/GL.hpp"
 
@@ -20,80 +21,11 @@ AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 // Take Screenshot
 static int save_png(const char *filename, unsigned char *pixels, int line_size, int width, int height)
 {
-	// Return value
-	int ret = 0;
+	// Setup
+	stbi_flip_vertically_on_write(true);
 
-	// Variables
-	png_structp png = NULL;
-	png_infop info = NULL;
-	FILE *file = NULL;
-	png_colorp palette = NULL;
-	png_bytep *rows = new png_bytep[height];
-	for (int i = 0; i < height; ++i)
-	{
-		rows[height - i - 1] = (png_bytep)(&pixels[i * line_size]);
-	}
-
-	// Init
-	png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	if (!png)
-	{
-		ret = 1;
-		goto ret;
-	}
-	info = png_create_info_struct(png);
-	if (!info)
-	{
-		ret = 1;
-		goto ret;
-	}
-
-	// Open File
-	file = fopen(filename, "wb");
-	if (!file)
-	{
-		ret = 1;
-		goto ret;
-	}
-
-	// Prepare To Write
-	png_init_io(png, file);
-	png_set_IHDR(png, info, width, height, 8 /* Depth */, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-	palette = (png_colorp) png_malloc(png, PNG_MAX_PALETTE_LENGTH * sizeof(png_color));
-	if (!palette)
-	{
-		ret = 1;
-		goto ret;
-	}
-	png_set_PLTE(png, info, palette, PNG_MAX_PALETTE_LENGTH);
-	png_write_info(png, info);
-	png_set_packing(png);
-
-	// Write
-	png_write_image(png, rows);
-	png_write_end(png, info);
-
-ret:
-	// Free
-	if (palette != NULL)
-	{
-		png_free(png, palette);
-	}
-	if (rows != NULL)
-	{
-		delete[] rows;
-	}
-	if (file != NULL)
-	{
-		fclose(file);
-	}
-	if (png != NULL)
-	{
-		png_destroy_write_struct(&png, &info);
-	}
-
-	// Return
-	return ret;
+	// Write Image
+	return stbi_write_png(filename, width, height, 4, pixels, line_size);
 }
 
 // Ensure Screenshots Folder Exists
@@ -169,8 +101,8 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 
 	// Read Pixels
 	bool fail = false;
-	unsigned char *pixels = (unsigned char *) malloc(size);
-	if (pixels == NULL)
+	unsigned char *pixels = new unsigned char[size];
+	if (!pixels)
 	{
 		fail = true;
 	}
@@ -180,7 +112,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	}
 
 	// Save Image
-	if (fail || save_png(file.c_str(), pixels, line_size, width, height))
+	if (fail || !save_png(file.c_str(), pixels, line_size, width, height))
 	{
 		LOG_E("Screenshot Failed: %s", file.c_str());
 	}
@@ -190,20 +122,10 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	}
 
 	// Free
-	if (pixels != NULL)
+	if (!pixels)
 	{
-		free(pixels);
+		delete[] pixels;
 	}
-}
-
-static void png_read_sdl(png_structp png_ptr, png_bytep data, png_size_t length)
-{
-	SDL_RWread((SDL_RWops *) png_get_io_ptr(png_ptr), (char *) data, length, 1);
-}
-
-static void nop_png_warning(png_structp png_ptr, png_const_charp warning_message)
-{
-	// Do Nothing
 }
 
 Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
@@ -212,87 +134,62 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	out.field_C = 1;
 	out.field_D = 0;
 
+	// Get Full Path
     std::string realPath = getAssetPath(path);
 
+	// Read File
 	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
-
 	if (!io)
 	{
 		LOG_E("Couldn't find file: %s", path.c_str());
 		return out;
 	}
-
-	png_structp pngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, nop_png_warning);
-	if (!pngPtr)
-	{
-		return out;
-	}
-
-	png_infop infoPtr = png_create_info_struct(pngPtr);
-	if (!infoPtr)
-	{
-		png_destroy_read_struct(&pngPtr, NULL, NULL);
-		return out;
-	}
-
-	png_set_read_fn(pngPtr, (png_voidp) io, png_read_sdl);
-
-	png_read_info(pngPtr, infoPtr);
-
-	png_set_expand(pngPtr);
-	png_set_strip_16(pngPtr);
-	png_set_gray_to_rgb(pngPtr);
-	png_read_update_info(pngPtr, infoPtr);
-
-	out.m_width = png_get_image_width(pngPtr, infoPtr);
-	out.m_height = png_get_image_height(pngPtr, infoPtr);
-
-	int pixelSize = 4;
-
-	png_bytep *rowPtrs = new png_bytep[out.m_height];
-	unsigned char *pixels = new unsigned char[pixelSize * out.m_width * out.m_height];
-
-	int rowStrideBytes = pixelSize * out.m_width;
-	for (int i = 0; i < out.m_height; i++)
-	{
-		rowPtrs[i] = (png_bytep) &pixels[i * rowStrideBytes];
-	}
-	png_read_image(pngPtr, rowPtrs);
-
-	// Convert RGB Images To RGBA
-	bool opaque = png_get_color_type(pngPtr, infoPtr) != PNG_COLOR_TYPE_RGBA;
-	if (opaque)
-	{
-		for (int y = 0; y < out.m_height; y++)
-		{
-			unsigned char *row = &pixels[y * rowStrideBytes];
-			for (int x = out.m_width - 1; x >= 0; x--)
-			{
-				// Find Indexes
-				int rgb = x * 3;
-				int rgba = x * 4;
-
-				// Read RGB Pixel
-				unsigned char a = row[rgb];
-				unsigned char b = row[rgb + 1];
-				unsigned char c = row[rgb + 2];
-
-				// Store RGBA Pixel
-				row[rgba] = a;
-				row[rgba + 1] = b;
-				row[rgba + 2] = c;
-				row[rgba + 3] = 255;
-			}
-		}
-	}
-
-	out.m_pixels = (uint32_t *) pixels;
-
-	png_destroy_read_struct(&pngPtr, &infoPtr, (png_infopp) 0);
-	delete[](png_bytep) rowPtrs;
+	Sint64 size = SDL_RWsize(io);
+	unsigned char *file = new unsigned char[size];
+	SDL_RWread(io, file, size, 1);
 	SDL_RWclose(io);
 
+	// Parse Image
+	int width = 0, height = 0, channels = 0;
+	stbi_uc *img = stbi_load_from_memory(file, size, &width, &height, &channels, STBI_rgb_alpha);
+	delete[] file;
+	if (!img)
+	{
+		// Failed To Parse Image
+		return out;
+	}
+
+	// Copy Image
+	uint32_t *img2 = new uint32_t[width * height];
+	memcpy(img2, img, width * height * sizeof (uint32_t));
+	stbi_image_free(img);
+
+	// Create Texture
+	out.m_width = width;
+	out.m_height = height;
+	out.m_pixels = img2;
+
+	// Return
 	return out;
+}
+bool AppPlatform_sdl::doesTextureExist(const std::string& path)
+{
+	// Get Full Path
+	std::string realPath = getAssetPath(path);
+
+	// Open File
+	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
+	if (!io)
+	{
+		// Does Not Exist
+		return false;
+	}
+	else
+	{
+		// File Exists
+		SDL_RWclose(io);
+		return true;
+	}
 }
 
 bool AppPlatform_sdl::hasFileSystemAccess()

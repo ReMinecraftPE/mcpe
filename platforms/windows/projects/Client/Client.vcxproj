@@ -253,7 +253,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\model\Cube.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\ModelPart.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\model\HumanoidModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\QuadrupedModel.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\model\Model.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\model\PolygonQuad.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp" />
@@ -315,9 +317,27 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\renderer\FoliageColor.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\renderer\GrassColor.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\gui\components\OptionList.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\FoliageColor.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\GrassColor.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\components\OptionList.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\ChickenModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\CowModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\CreeperModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\PigModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SheepFurModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SheepModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SkeletonModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\SpiderModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\ZombieModel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ChickenRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\CowRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\CreeperRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\PigRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SheepFurRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SheepRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SkeletonRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -351,7 +371,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\SelectWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\StartMenuScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\model\Cube.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\ModelPart.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\model\HumanoidModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\QuadrupedModel.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\model\Model.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\model\PolygonQuad.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp" />
@@ -413,9 +435,27 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchscreenInput_TestFps.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\UnifiedTurnBuild.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\renderer\FoliageColor.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\renderer\GrassColor.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\gui\components\OptionList.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\FoliageColor.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\GrassColor.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\components\OptionList.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\ChickenModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\CowModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\CreeperModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\PigModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SheepFurModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SheepModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SkeletonModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\SpiderModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ChickenRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\CowRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\CreeperRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\PigRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SheepFurRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SheepRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SkeletonRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

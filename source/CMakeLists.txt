@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-core)
 
-if(NOT ANDROID)
-	set(INCLUDES . .. ../thirdparty/zlib)
-else()
-	set(INCLUDES . ..)
-endif()
-
 # Build
 add_library(reminecraftpe-core STATIC
     common/Random.cpp
@@ -25,7 +19,6 @@ add_library(reminecraftpe-core STATIC
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
-    client/renderer/entity/HumanoidMobRenderer.cpp
     client/renderer/entity/TntRenderer.cpp
     client/renderer/entity/MobRenderer.cpp
     client/renderer/entity/FallingTileRenderer.cpp
@@ -34,6 +27,16 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/TripodCameraRenderer.cpp
     client/renderer/entity/ItemSpriteRenderer.cpp
     client/renderer/entity/EntityRenderDispatcher.cpp
+    client/renderer/entity/HumanoidMobRenderer.cpp
+    client/renderer/entity/SpiderRenderer.cpp
+    client/renderer/entity/ZombieRenderer.cpp
+    client/renderer/entity/SkeletonRenderer.cpp
+    client/renderer/entity/SheepRenderer.cpp
+    client/renderer/entity/SheepFurRenderer.cpp
+    client/renderer/entity/CreeperRenderer.cpp
+    client/renderer/entity/CowRenderer.cpp
+    client/renderer/entity/PigRenderer.cpp
+    client/renderer/entity/ChickenRenderer.cpp
     client/renderer/RenderList.cpp
     client/renderer/Chunk.cpp
     client/renderer/RenderChunk.cpp
@@ -90,8 +93,19 @@ add_library(reminecraftpe-core STATIC
     client/gui/GuiComponent.cpp
     client/model/PolygonQuad.cpp
     client/model/Model.cpp
-    client/model/HumanoidModel.cpp
     client/model/Cube.cpp
+    client/model/ModelPart.cpp
+    client/model/QuadrupedModel.cpp
+    client/model/PigModel.cpp
+    client/model/HumanoidModel.cpp
+    client/model/SpiderModel.cpp
+    client/model/ZombieModel.cpp
+    client/model/SkeletonModel.cpp
+    client/model/SheepModel.cpp
+    client/model/SheepFurModel.cpp
+    client/model/CreeperModel.cpp
+    client/model/CowModel.cpp
+    client/model/ChickenModel.cpp
     client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
     client/player/input/Mouse.cpp
@@ -135,6 +149,10 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
+    world/level/path/Node.cpp
+    world/level/path/Path.cpp
+    world/level/path/BinaryHeap.cpp
+    world/level/path/PathFinder.cpp
     world/phys/HitResult.cpp
     world/phys/Vec3.cpp
     world/phys/AABB.cpp
@@ -149,6 +167,10 @@ add_library(reminecraftpe-core STATIC
     world/entity/FallingTile.cpp
     world/entity/TripodCamera.cpp
     world/entity/ItemEntity.cpp
+    world/entity/PathfinderMob.cpp
+    world/entity/Animal.cpp
+    world/entity/WaterAnimal.cpp
+    world/entity/Monster.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp
@@ -165,6 +187,10 @@ add_library(reminecraftpe-core STATIC
     world/level/storage/LevelSource.cpp
     world/level/storage/MemoryChunkStorage.cpp
     world/level/storage/ExternalFileLevelStorageSource.cpp
+    world/level/path/Node.cpp
+    world/level/path/Path.cpp
+    world/level/path/PathFinder.cpp
+    world/level/path/BinaryHeap.cpp
     world/level/levelgen/feature/BirchFeature.cpp
     world/level/levelgen/feature/LargeFeature.cpp
     world/level/levelgen/feature/Feature.cpp
@@ -242,58 +268,81 @@ add_library(reminecraftpe-core STATIC
     world/tile/DoorTile.cpp
     renderer/GL/GL.cpp
 )
-
-target_include_directories(reminecraftpe-core PUBLIC ${INCLUDES})
+target_include_directories(reminecraftpe-core PUBLIC . ..)
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
-# zlib - Android builds with its own version
-# Hack - If we're not building for Android, surely we're building with SDL
+# zlib
+add_library(zlib INTERFACE)
+if(EMSCRIPTEN)
+    # Use Emscripten's ZLib
+    set(ZLIB_FLAG -sUSE_ZLIB=1)
+    target_compile_options(zlib INTERFACE "${ZLIB_FLAG}")
+    target_link_options(zlib INTERFACE "${ZLIB_FLAG}")
+else()
+    # Use System ZLib
+    find_package(ZLIB REQUIRED)
+    target_link_libraries(zlib INTERFACE ZLIB::ZLIB)
+endif()
+target_link_libraries(reminecraftpe-core PUBLIC zlib)
+
+# Platform Dependencies
 if(USE_SDL)
-	add_subdirectory(../thirdparty/zlib zlib)
-	target_link_libraries(reminecraftpe-core PUBLIC zlib)
-	
-	# SDL
-	add_library(SDL INTERFACE)
-	if(EMSCRIPTEN)
-		set(SDL_FLAG -sUSE_SDL=2)
-		target_compile_options(SDL INTERFACE "${SDL_FLAG}")
-		target_link_options(SDL INTERFACE "${SDL_FLAG}")
-	else()
-		find_package(SDL2 REQUIRED)
-		target_link_libraries(SDL INTERFACE SDL2::SDL2)
-	endif()
-	target_link_libraries(reminecraftpe-core PUBLIC SDL)
-	
-	# OpenGL
-	if(NOT EMSCRIPTEN)
-		option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
-	else()
-		set(USE_GLES1_COMPATIBILITY_LAYER TRUE)
-	endif()
-	if(USE_GLES1_COMPATIBILITY_LAYER)
-		set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
-		set(GLES_COMPATIBILITY_LAYER_DEPENDENCY SDL CACHE STRING "" FORCE)
-		add_subdirectory(../thirdparty/gles-compatibility-layer gles-compatibility-layer)
-		target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
-		target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
-		if(EMSCRIPTEN)
-			target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
-		endif()
-	else()
-		find_package(OpenGL REQUIRED)
-		target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL OpenGL::GLU)
-	endif()
-elseif(ANDROID)
-	# Add Android related stuff here.
+    # SDL
+    add_library(SDL INTERFACE)
+    if(ANDROID)
+        # Use Vendored SDL2 (Only For Android)
+        add_subdirectory(../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
+        target_link_libraries(SDL INTERFACE SDL2::SDL2)
+    elseif(EMSCRIPTEN)
+        # Use Emscripten's SDL2
+        set(SDL_FLAG -sUSE_SDL=2)
+        target_compile_options(SDL INTERFACE "${SDL_FLAG}")
+        target_link_options(SDL INTERFACE "${SDL_FLAG}")
+    else()
+        # Use System SDL2
+        find_package(SDL2 REQUIRED)
+        target_link_libraries(SDL INTERFACE SDL2::SDL2)
+    endif()
+    target_link_libraries(reminecraftpe-core PUBLIC SDL)
+
+    # OpenGL
+    if(NOT EMSCRIPTEN AND NOT ANDROID)
+        option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
+    else()
+        set(USE_GLES1_COMPATIBILITY_LAYER TRUE CACHE BOOL "" FORCE)
+    endif()
+    if(USE_GLES1_COMPATIBILITY_LAYER)
+        set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
+        set(GLES_COMPATIBILITY_LAYER_DEPENDENCY SDL CACHE STRING "" FORCE)
+        set(GLES_COMPATIBILITY_LAYER_USE_ES3 FALSE CACHE BOOL "" FORCE)
+        add_subdirectory(../thirdparty/gles-compatibility-layer gles-compatibility-layer)
+        target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
+        target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
+        if(EMSCRIPTEN)
+            # Use WebGL 2
+            target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
+        endif()
+    else()
+        find_package(OpenGL REQUIRED)
+        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
+    endif()
+elseif(USE_NATIVE_ANDROID)
+    # OpenGL
+    target_link_libraries(reminecraftpe-core PUBLIC EGL GLESv1_CM)
+endif()
+
+# Android Logging
+if(ANDROID)
+    target_link_libraries(reminecraftpe-core PUBLIC log)
 endif()
 
 # Sound Data
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../sound_data/sounds.h")
-	if(NOT DEFINED ENV{CI})
-		message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
-	endif()
-	target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
+    if(NOT DEFINED ENV{CI})
+        message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
+    endif()
+    target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
 endif()

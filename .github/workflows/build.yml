@@ -5,7 +5,16 @@ on:
   - pull_request
 
 jobs:
-    build-ubuntu:
+    linux:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: OpenGL ES
+                    flags: "-DUSE_GLES1_COMPATIBILITY_LAYER=ON"
+                  - name: OpenGL
+                    flags: "-DUSE_GLES1_COMPATIBILITY_LAYER=OFF"
+        name: Linux (${{ matrix.name }})
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repository
@@ -15,17 +24,30 @@ jobs:
           - name: Install Dependencies
             run: |
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y build-essential cmake ninja-build libopenal-dev libsdl2-dev
-          - name: Build Desktop
+                sudo apt-get install --no-install-recommends -y build-essential cmake ninja-build libopenal-dev libsdl2-dev zlib1g-dev
+          - name: Build
             run: |
                 cd platforms/sdl
                 mkdir build
                 cd build
-                cmake -GNinja ..
+                cmake -GNinja ${{ matrix.flags }} ..
                 cmake --build .
-          - name: Build WASM
+    wasm:
+        name: WASM
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y cmake ninja-build
+          - name: Build
             run: ./build-wasm.sh
-    build-macos:
+    macos:
+        name: macOS
         runs-on: macos-latest
         steps:
           - name: Checkout Repository
@@ -49,7 +71,8 @@ jobs:
                 GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
                 -quiet \
                 clean archive 
-    #build-ios:
+    # @NOTE: Newer versions of Xcode will complain and refuse to build old XIB files or target old iOS versions
+    #ios:
     #    runs-on: macos-latest
     #    steps:
     #      - name: Checkout Repository
@@ -67,3 +90,29 @@ jobs:
     #            GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
     #            -quiet \
     #            clean archive 
+    android:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL
+                    directory: platforms/sdl/android
+                  - name: Native
+                    directory: platforms/android/project
+        name: Android (${{ matrix.name }})
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+            with:
+                submodules: true
+          - name: Setup JDK
+            uses: actions/setup-java@v3
+            with:
+                java-version: '17'
+                distribution: 'temurin'
+                cache: gradle
+          - name: Build
+            run: |
+                cd ${{ matrix.directory }}
+                ./gradlew build

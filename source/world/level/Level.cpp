@@ -50,6 +50,8 @@ Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dim
 
 	m_pDimension->init(this);
 
+	m_pPathFinder = new PathFinder();
+
 	m_pChunkSource = createChunkSource();
 	updateSkyBrightness();
 }
@@ -58,6 +60,7 @@ Level::~Level()
 {
 	SAFE_DELETE(m_pChunkSource);
 	SAFE_DELETE(m_pDimension);
+	SAFE_DELETE(m_pPathFinder);
 
 	const size_t size = m_entities.size();
 	for (int i = 0; i < size; i++)
@@ -1785,24 +1788,30 @@ void Level::extinguishFire(int x, int y, int z, int dir)
 		setTile(x, y, z, TILE_AIR);
 }
 
-int Level::findPath(Entity* ent1, Entity* ent2, float f)
+int Level::findPath(Path* path, Entity* ent, Entity* target, float f)
 {
-	int fx = Mth::floor(ent1->m_pos.x);
-	int fy = Mth::floor(ent1->m_pos.y);
-	int fz = Mth::floor(ent1->m_pos.z);
+	int fx = Mth::floor(ent->m_pos.x);
+	int fy = Mth::floor(ent->m_pos.y);
+	int fz = Mth::floor(ent->m_pos.z);
 	Region reg(this, fx - int(f + 16), fy - int(f + 16), fz - int(f + 16), fx + int(f + 16), fy + int(f + 16), fz + int(f + 16));
-	// nothing more.
-	return 0;
+
+	m_pPathFinder->setLevel(&reg);
+	m_pPathFinder->findPath(*path, ent, target->m_pos.x, target->m_hitbox.min.y, target->m_pos.z, f);
+
+	return 1;
 }
 
-int Level::findPath(Entity* ent1, int dx, int dy, int dz, float f)
+int Level::findPath(Path* path, Entity* ent, int dx, int dy, int dz, float f)
 {
-	int fx = Mth::floor(ent1->m_pos.x);
-	int fy = Mth::floor(ent1->m_pos.y);
-	int fz = Mth::floor(ent1->m_pos.z);
-	Region reg(this, fx - int(f + 16), fy - int(f + 16), fz - int(f + 16), fx + int(f + 16), fy + int(f + 16), fz + int(f + 16));
-	// nothing more.
-	return 0;
+	int fx = Mth::floor(ent->m_pos.x);
+	int fy = Mth::floor(ent->m_pos.y);
+	int fz = Mth::floor(ent->m_pos.z);
+	Region reg(this, fx - int(f + 8), fy - int(f + 8), fz - int(f + 8), fx + int(f + 8), fy + int(f + 8), fz + int(f + 8));
+	
+	m_pPathFinder->setLevel(&reg);
+	m_pPathFinder->findPath(*path, ent, float(dx) + 0.5f, float(dy) + 0.5f, float(dz) + 0.5f, f);
+
+	return 1;
 }
 
 int Level::getLightDepth(int x, int z)

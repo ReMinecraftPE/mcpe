@@ -140,6 +140,10 @@ bool AppPlatform::shiftPressed()
 	return false;
 }
 
+void AppPlatform::showKeyboard(int x, int y, int w, int h)
+{
+}
+
 void AppPlatform::showKeyboard()
 {
 }
@@ -160,10 +164,12 @@ void AppPlatform::onHideKeyboard()
 {
 }
 
+#ifdef USE_NATIVE_ANDROID
 int AppPlatform::getKeyboardUpOffset()
 {
 	return 0;
 }
+#endif
 
 void AppPlatform::_fireLowMemory()
 {

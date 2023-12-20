@@ -445,21 +445,30 @@ void android_main(struct android_app* state) {
         while ((ident = ALooper_pollAll(engine.animating ? 0 : -1, NULL, &events,
             (void**)&source)) >= 0) {
 
-            if (source != NULL) {
+            if (source != NULL)
+            {
                 source->process(state, source);
+            }
+
+            if (state->destroyRequested != 0)
+            {
+                goto exit;
             }
         }
 
         if (engine.animating)
         {
-            if (engine.ninecraftApp->wantToQuit())
-                break;
-
             engine.ninecraftApp->update();
             eglSwapBuffers(engine.display, engine.surface);
+
+            if (engine.ninecraftApp->wantToQuit())
+            {
+                ANativeActivity_finish(state->activity);
+            }
         }
     }
 
+ exit:
     engine.ninecraftApp->saveOptions();
     delete engine.ninecraftApp;
 }

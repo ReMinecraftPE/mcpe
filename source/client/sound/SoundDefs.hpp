@@ -8,9 +8,10 @@
 
 #pragma once
 #include "SoundData.hpp"
-// Minecraft Pocket Edition Reverse Engineering Project
-// Copyright (C) 2011 Mojang Specifications.
-// Data extracted from libminecraftpe.so (mcpe01_canada.apk).
+
+// These are defined in SoundData.cpp, if MISSING_SOUND_DATA isn't declared.
+
+#ifndef MISSING_SOUND_DATA
 
 extern SoundDesc SA_cloth1;
 extern SoundDesc SA_cloth2;
@@ -39,3 +40,5 @@ extern SoundDesc SA_wood4;
 extern SoundDesc SA_click;
 extern SoundDesc SA_explode;
 extern SoundDesc SA_splash;
+
+#endif

@@ -13,6 +13,10 @@ enum eBuildActionIntent
 	INTENT_CLICKED = 1,        // touch screen was clicked
 	INTENT_HELD = 2,		   // touch screen is being held down
 	INTENT_FIRST_REMOVE = 10,  // after a small delay, starts breaking with this as a signal
+
+	INTENT_MOUSE_LEFTCLICK   = 16,
+	INTENT_MOUSE_RIGHTCLICK  = 17,
+	INTENT_MOUSE_MIDDLECLICK = 18,
 };
 
 class BuildActionIntention
@@ -22,15 +26,19 @@ public:
 	BuildActionIntention(int type) : m_type(type) {}
 
 	bool isAttack() const {
-		return m_type == INTENT_CLICKED;
+		return m_type == INTENT_CLICKED || m_type == INTENT_MOUSE_LEFTCLICK;
 	}
 
 	bool isFirstRemove() const {
-		return m_type == INTENT_FIRST_REMOVE;
+		return m_type == INTENT_FIRST_REMOVE || m_type == INTENT_MOUSE_LEFTCLICK;
 	}
 
 	bool isInteract() const {
-		return m_type == INTENT_HELD;
+		return m_type == INTENT_HELD || m_type == INTENT_MOUSE_RIGHTCLICK;
+	}
+
+	bool isBuild() {
+		return m_type == INTENT_CLICKED || m_type == INTENT_MOUSE_RIGHTCLICK;
 	}
 
 	bool isRemove() const {
@@ -38,7 +46,11 @@ public:
 	}
 
 	bool isRemoveContinue() const {
-		return m_type == INTENT_HELD;
+		return m_type == INTENT_HELD || m_type == INTENT_MOUSE_LEFTCLICK;
+	}
+
+	bool isPick() const {
+		return m_type == INTENT_MOUSE_MIDDLECLICK;
 	}
 
 private:

@@ -208,7 +208,7 @@ const char* gSplashes[] =
 	"Woo, worldofminecraft!",
 	"Woo, reddit!",
 	"Woo, 2pp!",
-	"Google anlyticsed!",
+	"Not Google anlyticsed!",
 	"Give us Gordon!",
 	"Tip your waiter!",
 	"Very fun!",
@@ -545,4 +545,13 @@ std::string StartMenuScreen::getSplashString()
 	}
 
 	return std::string(gSplashes[m_chosenSplash]);
+}
+
+bool StartMenuScreen::handleBackEvent(bool b)
+{
+	if (!b)
+	{
+		m_pMinecraft->quit();
+	}
+	return true;
 }

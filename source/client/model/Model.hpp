@@ -11,11 +11,13 @@
 #include "Cube.hpp"
 
 class Mob;
+class ModelPart;
 
 class Model
 {
 public:
-	Model();
+	Model(int width, int height);
+	virtual ~Model();
 	virtual void onGraphicsReset();
 	virtual void prepareMobModel(Mob*, float, float, float);
 	virtual void render(float, float, float, float, float, float);
@@ -25,4 +27,8 @@ public:
 public:
 	float field_4;
 	bool field_8;
+	int m_textureWidth;
+	int m_textureHeight;
+	std::vector<ModelPart*> m_parts;
+	bool m_bIsBaby;
 };

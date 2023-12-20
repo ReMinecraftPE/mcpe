@@ -14,7 +14,6 @@ class HumanoidModel : public Model
 {
 public:
 	HumanoidModel(float a, float b);
-	void _logGraphics();
 	// @TODO - No xrefs: void render(HumanoidModel* a, float f);
 
 	void onGraphicsReset() override;
@@ -23,10 +22,11 @@ public:
 	void setBrightness(float) override;
 
 public:
-	// @TODO: swap armL and armR.. Steve punches with the right hand.
-	Cube m_head, m_body, m_armL, m_armR, m_legL, m_legR;
-	bool field_10BC;
-	bool field_10BD;
-	bool field_10BE;
+	bool field_20 = false;
+	ModelPart m_head, m_body, m_arm1, m_arm2, m_leg1, m_leg2;
+	bool field_234;
+	bool field_235;
+	bool m_bSneaking;
+	bool field_237;
 };
 

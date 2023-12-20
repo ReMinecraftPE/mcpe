@@ -62,6 +62,7 @@ public:
 	virtual Vec3 getLookAngle(float f);
 	virtual Vec3 getViewVector(float f);
 	virtual int getMaxSpawnClusterSize();
+	virtual bool isBaby();
 	virtual void actuallyHurt(int damage);
 	virtual bool removeWhenFarAway();
 	virtual int getDeathLoot();
@@ -70,10 +71,12 @@ public:
 	virtual void jumpFromGround();
 	virtual void updateAi();
 	virtual int getMaxHeadXRot();
+	virtual int getMaxHealth();
 	virtual float getSoundVolume();
 	virtual std::string getAmbientSound();
 	virtual std::string getHurtSound();
 	virtual std::string getDeathSound();
+	virtual float getWalkingSpeedModifier();
 	virtual void defineSynchedData();
 
 	float rotlerp(float, float, float);

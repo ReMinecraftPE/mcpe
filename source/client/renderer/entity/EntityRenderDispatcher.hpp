@@ -14,6 +14,10 @@
 #include "TntRenderer.hpp"
 #include "ItemRenderer.hpp"
 #include "FallingTileRenderer.hpp"
+#include "PigRenderer.hpp"
+#include "CowRenderer.hpp"
+#include "ChickenRenderer.hpp"
+#include "CreeperRenderer.hpp"
 
 class Minecraft;
 class Font;
@@ -29,6 +33,7 @@ public:
 	float distanceToSqr(float x, float y, float z);
 	Font* getFont();
 	EntityRenderer* getRenderer(Entity* pEnt);
+	EntityRenderer* getRenderer(int renderType);
 	void onGraphicsReset();
 	void prepare(Level*, Textures*, Font*, Mob*, Options*, float);
 	void render(Entity*, float);
@@ -41,8 +46,18 @@ public:
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	HumanoidMobRenderer m_HumanoidMobRenderer;
+	PigRenderer m_PigRenderer;
+	CowRenderer m_CowRenderer;
+	ChickenRenderer m_ChickenRenderer;
 	TntRenderer m_TntRenderer;
+	//padding??
 	ItemRenderer m_ItemRenderer;
+	CreeperRenderer m_CreeperRenderer;
+	//SpiderRenderer m_SpiderRenderer;
+	//SkeletonRenderer m_SkeletonRenderer;
+	//ZombieRenderer m_ZombieRenderer;
+	//SheepRenderer m_SheepRenderer;
+	//SheepFurRenderer m_SheepFurRenderer;
 	TripodCameraRenderer m_CameraRenderer;
 	Textures* m_pTextures;
 	Level* m_pLevel;

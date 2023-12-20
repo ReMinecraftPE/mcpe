@@ -2,12 +2,23 @@
 
 #include <string>
 
+#ifdef ANDROID
+#include <android/log.h>
+
+enum eLogLevel
+{
+	LOG_INFO = ANDROID_LOG_INFO,
+	LOG_WARN = ANDROID_LOG_WARN,
+	LOG_ERR = ANDROID_LOG_ERROR,
+};
+#else
 enum eLogLevel
 {
 	LOG_INFO,
 	LOG_WARN,
 	LOG_ERR,
 };
+#endif
 
 class Logger
 {
@@ -26,44 +37,24 @@ public:
 	virtual void printf(eLogLevel, const char* const fmt, ...);
 };
 
-// TODO: For now
-#ifdef __ANDROID__
-	#ifndef NDEBUG
-		#define _DEBUG
-	#endif
-#endif
+#ifndef NDEBUG
 
-#ifdef _DEBUG
-
-#define LOG(level, ...) Logger::singleton()->printf(level, __VA_ARGS__)
-
-#ifdef __ANDROID__
-
-#undef LOG
-#define LOG_INFO ANDROID_LOG_INFO
-#define LOG_ERR  ANDROID_LOG_ERROR
-#define LOG_WARN ANDROID_LOG_WARN
-
-#include <android/log.h>
+#ifdef ANDROID
 // TODO: Add a LoggerAndroid
-#define LOG(level, ...) __android_log_print(level,             "ReMinecraftPE", __VA_ARGS__)
-#define LOG_I(...)      __android_log_print(ANDROID_LOG_INFO,  "ReMinecraftPE", __VA_ARGS__)
-#define LOG_W(...)      __android_log_print(ANDROID_LOG_WARN,  "ReMinecraftPE", __VA_ARGS__)
-#define LOG_E(...)      __android_log_print(ANDROID_LOG_ERROR, "ReMinecraftPE", __VA_ARGS__)
-
+#define LOG(level, ...) __android_log_print(level, "ReMinecraftPE", __VA_ARGS__)
 #else
+#define LOG(level, ...) Logger::singleton()->printf(level, __VA_ARGS__)
+#endif
 
 #define LOG_I(...) LOG(LOG_INFO, __VA_ARGS__)
 #define LOG_W(...) LOG(LOG_WARN, __VA_ARGS__)
 #define LOG_E(...) LOG(LOG_ERR,  __VA_ARGS__)
 
-#endif
-
 #else
 
-#define LOG(...)
-#define LOG_I(...)
-#define LOG_W(...)
-#define LOG_E(...)
+#define LOG(...)	((void)0)
+#define LOG_I(...)	((void)0)
+#define LOG_W(...)	((void)0)
+#define LOG_E(...)	((void)0)
 
 #endif

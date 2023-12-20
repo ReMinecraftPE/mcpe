@@ -26,8 +26,10 @@ public:
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool b = false) override = 0;
+	virtual bool doesTextureExist(const std::string& path) = 0;
 	int getUserInputStatus() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
+	std::string getDateString(int time) override;
 	
 	// Also add these to allow proper turning within the game.
 	void setMouseGrabbed(bool b) override;
@@ -38,12 +40,17 @@ public:
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
-	
-	bool isTouchscreen() override { return false; }
 
 	static MouseButtonType GetMouseButtonType(SDL_Event event);
 	static bool GetMouseButtonState(SDL_Event event);
 	static Keyboard::KeyState GetKeyState(SDL_Event event);
+
+	// On-screen keyboard
+	void showKeyboard(int x, int y, int w, int h) override;
+	void hideKeyboard() override;
+
+	// Configure Touchscreen
+	bool isTouchscreen() override;
 private:
 	SDL_Window *_window;
 
@@ -57,6 +64,8 @@ private:
 
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
+
+	bool m_bIsTouchscreen;
 
 	static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:

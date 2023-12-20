@@ -30,7 +30,9 @@ enum eSDLVirtualKeys
     #define AKEYCODE_ARROW_LEFT  0x7B
     #define AKEYCODE_ARROW_RIGHT 0x7C
     #define AKEYCODE_DEL         0x33
-#elif defined(__ANDROID__)
+#endif
+
+#ifdef USE_NATIVE_ANDROID
     #include <android/keycodes.h>
 
     #define AKEYCODE_ARROW_LEFT  AKEYCODE_DPAD_LEFT

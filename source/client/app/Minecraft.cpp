@@ -294,17 +294,23 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 				m_pGameMode->startDestroyBlock(m_hitResult.m_tileX, m_hitResult.m_tileY, m_hitResult.m_tileZ, m_hitResult.m_hitSide);
 			}
 		}
+		else if (pAction->isPick())
+		{
+			// Try to pick the tile.
+			m_pLocalPlayer->m_pInventory->selectItemById(pTile->m_ID, C_MAX_HOTBAR_ITEMS);
+		}
 		else
 		{
 			ItemInstance* pItem = getSelectedItem();
-			if (m_pGameMode->useItemOn(
-				m_pLocalPlayer,
-				m_pLevel,
-				pItem->m_itemID <= 0 ? nullptr : pItem,
-				m_hitResult.m_tileX,
-				m_hitResult.m_tileY,
-				m_hitResult.m_tileZ,
-				m_hitResult.m_hitSide))
+			if (pItem &&
+				m_pGameMode->useItemOn(
+					m_pLocalPlayer,
+					m_pLevel,
+					pItem->m_itemID <= 0 ? nullptr : pItem,
+					m_hitResult.m_tileX,
+					m_hitResult.m_tileY,
+					m_hitResult.m_tileZ,
+					m_hitResult.m_hitSide))
 			{
 				bInteract = false;
 
@@ -359,16 +365,24 @@ void Minecraft::handleMouseClick(int type)
 {
 	if (!isTouchscreen())
 	{
-		if (type == 1)
+		eBuildActionIntent intent;
+		switch (type)
 		{
-			BuildActionIntention bai(INTENT_HELD);
-			handleBuildAction(&bai);
+			case BUTTON_LEFT:
+				intent = INTENT_MOUSE_LEFTCLICK;
+				break;
+			case BUTTON_RIGHT:
+				intent = INTENT_MOUSE_RIGHTCLICK;
+				break;
+			case BUTTON_MIDDLE:
+				intent = INTENT_MOUSE_MIDDLECLICK;
+				break;
+			default:
+				return;
 		}
-		if (type == 2)
-		{
-			BuildActionIntention bai(INTENT_CLICKED);
-			handleBuildAction(&bai);
-		}
+
+		BuildActionIntention bai(intent);
+		handleBuildAction(&bai);
 	}
 }
 
@@ -407,24 +421,19 @@ void Minecraft::tickInput()
 
 		if (!bIsInGUI && getOptions()->field_19)
 		{
-			if (Mouse::getEventButton() == BUTTON_LEFT && Mouse::getEventButtonState())
+			MouseButtonType buttonType = Mouse::getEventButton();
+			if (Mouse::getEventButtonState())
 			{
-				handleMouseClick(1);
+				handleMouseClick(buttonType);
 				field_DAC = field_DA8;
 			}
-			if (Mouse::getEventButton() == BUTTON_RIGHT && Mouse::getEventButtonState())
-			{
-				handleMouseClick(2);
-				field_DAC = field_DA8;
-			}
+
 #ifdef ENH_ALLOW_SCROLL_WHEEL
 			if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-				int maxItems = m_gui.getNumSlots() - 1;
-				if (isTouchscreen())
-					maxItems--;
+				int maxItems = m_gui.getNumUsableSlots() - 1;
 
 				if (Mouse::getEventButtonState() == 0) // @NOTE: Scroll up
 				{
@@ -458,7 +467,7 @@ void Minecraft::tickInput()
 		{
 			m_gui.handleKeyPressed(keyCode);
 
-			for (int i = 0; i < m_gui.getNumSlots(); i++)
+			for (int i = 0; i < m_gui.getNumUsableSlots(); i++)
 			{
 				if (getOptions()->isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
 					m_pLocalPlayer->m_pInventory->selectSlot(i);
@@ -968,20 +977,26 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
 
 	if (m_pInputHolder)
-		m_pInputHolder->setScreenSize(newWidth * guiScaleMultiplier, newHeight * guiScaleMultiplier);
+		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);
 }
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
 	if (height > 1800)
-		return 1.0f / 4.0f;
+		return 1.0f / 8.0f;
 
 	if (isTouchscreen())
 	{
-		if (height > 600)
+		if (height > 1100)
+			return 1.0f / 6.0f;
+
+		if (height > 900)
+			return 1.0f / 5.0f;
+
+		if (height > 700)
 			return 1.0f / 4.0f;
 
-		if (height > 400)
+		if (height > 500)
 			return 1.0f / 3.0f;
 
 		if (height > 300)
@@ -1120,15 +1135,13 @@ ItemInstance* Minecraft::getSelectedItem()
 	ItemInstance* pInst = m_pLocalPlayer->m_pInventory->getSelectedItem();
 
 	if (!pInst)
-	{
-		m_CurrItemInstance.m_itemID = -1;
-		m_CurrItemInstance.m_amount = 999;
-		m_CurrItemInstance.m_auxValue = 0;
-		return &m_CurrItemInstance;
-	}
+		return nullptr;
 
 	if (m_pGameMode->isSurvivalType())
 		return pInst;
+
+	if (pInst->m_itemID == 0)
+		return nullptr;
 
 	m_CurrItemInstance.m_itemID = pInst->m_itemID;
 	m_CurrItemInstance.m_amount = 999;
