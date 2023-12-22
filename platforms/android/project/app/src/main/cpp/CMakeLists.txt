@@ -12,6 +12,7 @@ set(USE_NATIVE_ANDROID TRUE)
 add_library(reminecraftpe SHARED
     "${MC_ROOT}/platforms/android/android_native_app_glue.c"
     "${MC_ROOT}/platforms/android/AppPlatform_android.cpp"
+    "${MC_ROOT}/platforms/android/SoundSystemSL.cpp"
     "${MC_ROOT}/platforms/android/main.cpp"
 )
 
@@ -24,7 +25,7 @@ add_subdirectory("${MC_ROOT}/thirdparty/stb_image" stb_image)
 target_link_libraries(reminecraftpe stb_image)
 
 # Extra Dependencies
-target_link_libraries(reminecraftpe android)
+target_link_libraries(reminecraftpe android OpenSLES)
 
 # Check for the presence of some optional asset based features.
 if(EXISTS "${MC_ROOT}/game/assets/gui/background/panorama_0.png")

@@ -5,12 +5,11 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
-
-#define WIN32_LEAN_AND_MEAN
 #include <fstream>
 #include <sstream>
 
 #include "AppPlatform_android.hpp"
+#include "SoundSystemSL.hpp"
 #include "client/player/input/Mouse.hpp"
 
 #include "stb_image.h"
@@ -171,9 +170,8 @@ SoundSystem* const AppPlatform_android::getSoundSystem() const
 
 void AppPlatform_android::initSoundSystem()
 {
-	// TODO: SoundSystemSL!
 	if (!m_pSoundSystem)
-		m_pSoundSystem = new SoundSystem();
+		m_pSoundSystem = new SoundSystemSL();
 	else
 		LOG_E("Trying to initialize SoundSystem more than once!");
 }
