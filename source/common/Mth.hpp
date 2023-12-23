@@ -39,7 +39,7 @@ public:
 	static unsigned fastRandom();
     
 	// @NOTE: This is inlined.
-	static constexpr float Lerp(float a, float, float progress)
+	static constexpr float Lerp(float a, float b, float progress)
 	{
 		return a + progress * (b - a);
 	}
