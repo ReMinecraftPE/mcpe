@@ -38,7 +38,10 @@ public:
 	static float sqrt(float);
 	static unsigned fastRandom();
     
-    // @NOTE: This is inlined.
-    static constexpr float Lerp(float a, float, float progress);
+	// @NOTE: This is inlined.
+	static constexpr float Lerp(float a, float, float progress)
+	{
+		return a + progress * (b - a);
+	}
 };
 
