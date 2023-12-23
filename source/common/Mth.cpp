@@ -169,10 +169,3 @@ float Mth::random()
 	return g_Random.genrand_int32() * (1.0f / 4294967295.0f);
 	// divided by 2^32-1
 }
-
-// @NOTE: This is inlined.
-constexpr float Mth::Lerp(float a, float b, float progress)
-{
-	return a + progress * (b - a);
-}
-
