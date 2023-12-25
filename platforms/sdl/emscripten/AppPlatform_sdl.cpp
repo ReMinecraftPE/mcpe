@@ -7,7 +7,7 @@ AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 {
 }
 
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
+Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
 	out.field_C = 1;
@@ -28,6 +28,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	LOG_E("Couldn't find file: %s", realPath.c_str());
 	return out;
 }
+
 bool AppPlatform_sdl::doesTextureExist(const std::string& path)
 {
 	// Get Full Path

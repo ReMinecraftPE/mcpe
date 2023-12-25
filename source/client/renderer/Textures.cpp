@@ -11,13 +11,13 @@
 
 bool Textures::MIPMAP = false;
 
-int Textures::loadTexture(const std::string& name, bool b)
+int Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
 	std::map<std::string, GLuint>::iterator i = m_textures.find(name);
 	if (i != m_textures.end())
 		return i->second;
 
-	Texture t = m_pPlatform->loadTexture(name, b);
+	Texture t = m_pPlatform->loadTexture(name, bIsRequired);
 
 	int result = -1;
 	if (t.m_pixels)

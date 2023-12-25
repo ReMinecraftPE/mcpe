@@ -258,9 +258,7 @@ void Options::_load()
 		{
 			m_bFancyGrass = readBool(value);
 			if (!(GetPatchManager()->IsGrassSidesTinted()))
-			{
 				m_bFancyGrass = false;
-			}
 		}
 		else if (key == "gfx_biomecolors")
 		{

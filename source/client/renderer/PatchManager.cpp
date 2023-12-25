@@ -144,6 +144,11 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 		if (command == "grass_sides_tint")
 		{
 			ReadBool(lineStream, m_bGrassSidesTinted);
+
+			if (m_bGrassSidesTinted)
+				// push a magic value so we can determine whether to disable it if the file doesn't exist
+				m_patchData.push_back(PatchData(TYPE_TERRAIN, 100, 100, "grass_side_transparent.png"));
+
 			continue;
 		}
 
@@ -160,10 +165,24 @@ void PatchManager::PatchTextures(AppPlatform* pAppPlatform, ePatchType patchType
 		if (pd.m_type != patchType)
 			continue;
 
-		Texture texture = pAppPlatform->loadTexture("patches/" + pd.m_filename, true);
-		if (texture.m_width == 0)
+		bool bDisableFancyGrassIfFailed = false;
+
+		// got the magic value, we can determine whether to disable fancy pants grass if the file doesn't exist
+		if (pd.m_destX == 1600 && pd.m_destY == 1600 && pd.m_type == TYPE_TERRAIN)
 		{
-			LOG_W("Image %s has width 0, not found?! Skipping", pd.m_filename.c_str());
+			pd.m_destX = 4 * 16;
+			pd.m_destY = 5 * 16;
+
+			bDisableFancyGrassIfFailed = true;
+		}
+
+		// N.B. Well, in some cases, you do want things to fail nicely.
+		Texture texture = pAppPlatform->loadTexture("patches/" + pd.m_filename, false);
+		if (!texture.m_pixels || !texture.m_width || !texture.m_height)
+		{
+			LOG_W("Image %s was not found?! Skipping", pd.m_filename.c_str());
+			if (bDisableFancyGrassIfFailed)
+				m_bGrassSidesTinted = false;
 			continue;
 		}
 

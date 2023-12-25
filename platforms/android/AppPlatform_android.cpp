@@ -134,7 +134,7 @@ std::string AppPlatform_android::getDateString(int time)
 	return std::string(buffer);
 }
 
-Texture AppPlatform_android::loadTexture(const std::string& str, bool b)
+Texture AppPlatform_android::loadTexture(const std::string& str, bool bIsRequired)
 {
 	std::string realPath = str;
 	if (realPath.size() && realPath[0] == '/')
@@ -144,12 +144,13 @@ Texture AppPlatform_android::loadTexture(const std::string& str, bool b)
 	AAsset* asset = AAssetManager_open(m_app->activity->assetManager, str.c_str(), AASSET_MODE_BUFFER);
 	if (!asset) {
 		LOG_E("File %s couldn't be opened", realPath.c_str());
+		assert(!bIsRequired && "Hey, a texture couldn't be loaded");
+		return Texture(0, 0, nullptr, 1, 0);
 	}
 	size_t cnt = AAsset_getLength(asset);
 	unsigned char* buffer = (unsigned char*)calloc(cnt, sizeof(unsigned char));
 	AAsset_read(asset, (void*)buffer, cnt);
 	AAsset_close(asset);
-
 
 	int width = 0, height = 0, channels = 0;
 
@@ -157,6 +158,8 @@ Texture AppPlatform_android::loadTexture(const std::string& str, bool b)
 	if (!img)
 	{
 		LOG_E("File %s couldn't be loaded via stb_image", realPath.c_str());
+		assert(!bIsRequired && "Hey, a texture couldn't be loaded");
+		return Texture(0, 0, nullptr, 1, 0);
 	}
 
 	free(buffer);
