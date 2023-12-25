@@ -417,8 +417,7 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 	}
 	else if (pButton->m_buttonId == m_optionsButton.m_buttonId)
 	{
-		//m_pMinecraft->setScreen(new OptionsScreen);
-		TitleTile::regenerate();
+		m_pMinecraft->setScreen(new OptionsScreen);
 	}
 }
 
