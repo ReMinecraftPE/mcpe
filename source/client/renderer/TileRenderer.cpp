@@ -2402,67 +2402,70 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 #endif
 
 	int shape = tile->getRenderShape();
-	if (shape == SHAPE_SOLID)
+	switch (shape)
 	{
-		glTranslatef(-0.5f, -0.5f, -0.5f);
-		t.begin();
-		SHADE_DEFINE;
-		SHADE_PREPARE;
-		SHADE_IF_NEEDED(1.0f);
-		renderFaceDown(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YPOS, data));
-		SHADE_FIXUP_GRASS;
-		SHADE_IF_NEEDED(0.5f);
-		renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
-		SHADE_IF_NEEDED(0.8f);
-		renderNorth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data));
-		renderSouth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data));
-		SHADE_IF_NEEDED(0.6f);
-		renderWest    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XNEG, data));
-		renderEast    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XPOS, data));
-		SHADE_IF_NEEDED(1.0f);
-		t.draw();
-		glTranslatef(0.5f, 0.5f, 0.5f);
-		return;
-	}
-	if (shape == SHAPE_CROSS)
-	{
-		// unused
-		t.begin();
-		tesselateCrossTexture(tile, data, -0.5f, -0.5f, -0.5f);
-		t.draw();
-		return;
-	}
-	if (shape == SHAPE_STAIRS)
-	{
-		// Fixed version from 0.1.1j+
-		t.addOffset(-0.5f, -0.5f, -0.5f);
-		for (int i = 0; i < 2; i++)
+		case SHAPE_SOLID:
+		default:
 		{
-			if (!i)
-				tile->setShape(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f);
-			else
-				tile->setShape(0.0f, 0.0f, 0.5f, 1.0f, 0.5f, 1.0f);
-
-
+			glTranslatef(-0.5f, -0.5f, -0.5f);
 			t.begin();
 			SHADE_DEFINE;
 			SHADE_PREPARE;
-			SHADE_IF_NEEDED(0.5f);
-			renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
 			SHADE_IF_NEEDED(1.0f);
 			renderFaceDown(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YPOS, data));
-			SHADE_IF_NEEDED(0.6f);
+			SHADE_FIXUP_GRASS;
+			SHADE_IF_NEEDED(0.5f);
+			renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
+			SHADE_IF_NEEDED(0.8f);
 			renderNorth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data));
 			renderSouth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data));
-			SHADE_IF_NEEDED(0.8f);
+			SHADE_IF_NEEDED(0.6f);
 			renderWest    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XNEG, data));
 			renderEast    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XPOS, data));
 			SHADE_IF_NEEDED(1.0f);
 			t.draw();
+			glTranslatef(0.5f, 0.5f, 0.5f);
+			break;
 		}
-		t.addOffset(0.5f, 0.5f, 0.5f);
+		case SHAPE_CROSS:
+		{
+			// unused as cross items render like regular items in the hand
+			t.begin();
+			tesselateCrossTexture(tile, data, -0.5f, -0.5f, -0.5f);
+			t.draw();
+			break;
+		}
+		case SHAPE_STAIRS:
+		{
+			// Fixed version from 0.1.1j+
+			t.addOffset(-0.5f, -0.5f, -0.5f);
+			for (int i = 0; i < 2; i++)
+			{
+				if (!i)
+					tile->setShape(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f);
+				else
+					tile->setShape(0.0f, 0.0f, 0.5f, 1.0f, 0.5f, 1.0f);
 
-		return;
+
+				t.begin();
+				SHADE_DEFINE;
+				SHADE_PREPARE;
+				SHADE_IF_NEEDED(0.5f);
+				renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
+				SHADE_IF_NEEDED(1.0f);
+				renderFaceDown(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YPOS, data));
+				SHADE_IF_NEEDED(0.6f);
+				renderNorth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data));
+				renderSouth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data));
+				SHADE_IF_NEEDED(0.8f);
+				renderWest    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XNEG, data));
+				renderEast    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XPOS, data));
+				SHADE_IF_NEEDED(1.0f);
+				t.draw();
+			}
+			t.addOffset(0.5f, 0.5f, 0.5f);
+			break;
+		}
 	}
 }
 

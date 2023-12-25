@@ -17,6 +17,20 @@
 #define CAN_QUIT
 #endif
 
+const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
+const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
+const char gLogoLine3[] = "??  ??  # # # # # # # ##  #   ##  ### ##   #  $$  $$ ";
+const char gLogoLine4[] = "? ? ?   #   # # #  ## #   #   # # # # #    #  $   $  ";
+const char gLogoLine5[] = "? ? ??? #   # # #   # ### ### # # # # #    #  $   $$$";
+
+const char* gLogoLines[] = {
+	gLogoLine1,
+	gLogoLine2,
+	gLogoLine3,
+	gLogoLine4,
+	gLogoLine5,
+};
+
 // actual name
 const char* gSplashes[] =
 {
@@ -338,7 +352,17 @@ StartMenuScreen::StartMenuScreen() :
 	m_testButton   (999, 0, 0,  78, 22, "Test"),
 	m_buyButton    (5,   0, 0,  78, 22, "Buy")
 {
+	m_pTiles = nullptr;
 	m_chosenSplash = -1;
+
+	// note: do it here because we don't want the title to
+	// show up differently when you resize
+	TitleTile::regenerate();
+}
+
+StartMenuScreen::~StartMenuScreen()
+{
+	SAFE_DELETE(m_pTiles);
 }
 
 void StartMenuScreen::_updateLicense()
@@ -455,21 +479,17 @@ bool StartMenuScreen::isInGameScreen()
 	return false;
 }
 
-void StartMenuScreen::render(int a, int b, float c)
+void StartMenuScreen::drawLegacyTitle()
 {
-	//renderBackground();
-	renderMenuBackground(c);
-
 	Textures* tx = m_pMinecraft->m_pTextures;
 
-	int id = tx->loadTexture("gui/title.png", true);
-	Texture *pTex = tx->getTemporaryTextureData(id);
-
+	bool crampedMode = false;
 	//int titleYPos = 4;
 	//int titleYPos = 30; // -- MC Java position
 	int titleYPos = 15;
 
-	bool crampedMode = false;
+	int id = tx->loadTexture("gui/title.png", true);
+	Texture* pTex = tx->getTemporaryTextureData(id);
 
 	if (pTex)
 	{
@@ -480,7 +500,7 @@ void StartMenuScreen::render(int a, int b, float c)
 		}
 
 		int left = (m_width - pTex->m_width) / 2;
-		int width  = pTex->m_width;
+		int width = pTex->m_width;
 		int height = pTex->m_height;
 
 		if (m_width * 3 / 4 < width)
@@ -492,12 +512,33 @@ void StartMenuScreen::render(int a, int b, float c)
 		Tesselator& t = Tesselator::instance;
 		glColor4f(1, 1, 1, 1);
 		t.begin();
-		t.vertexUV(float(left),         float(height + titleYPos), field_4, 0.0f, 1.0f);
+		t.vertexUV(float(left), float(height + titleYPos), field_4, 0.0f, 1.0f);
 		t.vertexUV(float(left + width), float(height + titleYPos), field_4, 1.0f, 1.0f);
-		t.vertexUV(float(left + width),                titleYPos,  field_4, 1.0f, 0.0f);
-		t.vertexUV(float(left),                        titleYPos,  field_4, 0.0f, 0.0f);
+		t.vertexUV(float(left + width), titleYPos, field_4, 1.0f, 0.0f);
+		t.vertexUV(float(left), titleYPos, field_4, 0.0f, 0.0f);
 		t.draw();
 	}
+
+}
+
+void StartMenuScreen::render(int a, int b, float c)
+{
+	//renderBackground();
+	renderMenuBackground(c);
+
+	//int titleYPos = 4;
+	//int titleYPos = 30; // -- MC Java position.
+	int titleYPos = 15;
+	bool crampedMode = false;
+
+	if (m_width * 3 / 4 < 256)
+	{
+		crampedMode = true;
+		titleYPos = 4;
+	}
+
+	//drawLegacyTitle()
+	draw3dTitle(c);
 
 	drawString(m_pFont, field_170, field_188, 58 + titleYPos, 0xFFCCCCCC);
 	drawString(m_pFont, field_154, field_16C, m_height - 10, 0x00FFFFFF);
@@ -512,8 +553,132 @@ void StartMenuScreen::render(int a, int b, float c)
 void StartMenuScreen::tick()
 {
 	Screen::tick();
-
 	_updateLicense();
+
+	if (m_pTiles)
+	{
+		int Width = int(sizeof gLogoLine1 - 1);
+		int Height = int(sizeof gLogoLines / sizeof * gLogoLines);
+		for (int i = 0; i < Width * Height; i++)
+			m_pTiles[i]->tick();
+	}
+}
+
+void StartMenuScreen::draw3dTitle(float f)
+{
+	int Width = int(sizeof gLogoLine1 - 1);
+	int Height = int(sizeof gLogoLines / sizeof * gLogoLines);
+
+	if (!m_pTiles)
+	{
+		m_pTiles = new TitleTile*[Width * Height];
+
+		for (int y = 0; y < Height; y++)
+			for (int x = 0; x < Width; x++)
+				m_pTiles[y * Width + x] = new TitleTile(this, x, y);
+	}
+
+	int titleHeight = int(120 / Gui::InvGuiScale);
+
+	if (m_width * 3 / 4 < 256) // cramped mode
+		titleHeight = int(80 / Gui::InvGuiScale);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(70.0f, float(Minecraft::width) / titleHeight, 0.05f, 100.0f);
+	glViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glDisable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glDepthMask(true);
+
+	for (int i = 0; i < 3; i++)
+	{
+		glPushMatrix();
+		glTranslatef(0.4f, 0.6f, -12.0f);
+		if (i == 0)
+		{
+			glClear(GL_DEPTH_BUFFER_BIT);
+			glTranslatef(0.0f, -0.5f, 0.0f);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glBlendFunc(GL_SRC_COLOR, GL_ZERO);
+			glBlendFunc(GL_DST_COLOR, GL_ZERO);
+		}
+
+		if (i == 1)
+		{
+			glDisable(GL_BLEND);
+			glClear(GL_DEPTH_BUFFER_BIT);
+		}
+
+		if (i == 2)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_COLOR, GL_ONE);
+		}
+
+		glScalef(1.0f, -1.0f, 1.0f);
+		glRotatef(8.0f, 1.0f, 0.0f, 0.0f);
+		//glRotatef(15.0f, 1.0f, 0.0f, 0.0f);
+		glScalef(0.89f, 1.0f, 0.4f);
+		glTranslatef(-Width * 0.5f, -Height * 0.5f, 0.0f);
+
+		m_pMinecraft->m_pTextures->loadAndBindTexture("terrain.png");
+		if (i == 0) {
+			// No title/black.png so we'll just simulate it in a cheap way
+		}
+
+		for (int y = 0; y < Height; y++)
+		{
+			for (int x = 0; x < Width; x++)
+			{
+				if (gLogoLines[y][x] == ' ')
+					continue;
+
+				Tile* pTile = TitleTile::getTileFromChar(gLogoLines[y][x]);
+
+				glPushMatrix();
+
+				TitleTile* pTTile = m_pTiles[y * Width + x];
+				// @TODO: After merging the iOS port, change to Mth::Lerp
+				float z = Lerp(pTTile->lastHeight, pTTile->height, f);
+				float scale = 1.0f;
+				float bright = 1.0f;
+				float rotation = 1.0f;
+
+				if (i == 0)
+				{
+					scale = z * 0.04f + 1.0f;
+					bright = 1.0f / scale;
+					z = 0.0f;
+				}
+
+				glTranslatef(float(x), float(y), z);
+				glScalef(scale, scale, scale);
+				glRotatef(rotation, 0.0f, 1.0f, 0.0f);
+
+				// rotate 180 deg on the Z axis to correct lighting
+				glRotatef(-180.0f, 0.0f, 0.0f, 1.0f);
+				m_tileRenderer.renderTile(pTile, 0, bright);
+
+				glPopMatrix();
+			}
+		}
+
+		glPopMatrix();
+	}
+
+	glDisable(GL_BLEND);
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glViewport(0, 0, Minecraft::width, Minecraft::height);
+	glEnable(GL_CULL_FACE);
 }
 
 void StartMenuScreen::drawSplash()
@@ -555,4 +720,95 @@ bool StartMenuScreen::handleBackEvent(bool b)
 		m_pMinecraft->quit();
 	}
 	return true;
+}
+
+Tile* TitleTile::_tiles[3];
+Random TitleTile::_random;
+
+TitleTile::TitleTile(StartMenuScreen* pScreen, int x, int y)
+{
+	height = float(10 + y) + 32.0f * pScreen->m_random.nextFloat() + float(y);
+	lastHeight = height;
+	dropVel = 0;
+}
+
+void TitleTile::tick()
+{
+	lastHeight = height;
+
+	if (height > 0.0f)
+		dropVel -= 0.6f;
+	
+	height += dropVel;
+	dropVel *= 0.9f;
+
+	if (height < 0.0f)
+	{
+		height = 0.0f;
+		dropVel = 0.0f;
+	}
+}
+
+Tile* TitleTile::getTileFromChar(char c)
+{
+	switch (c)
+	{
+		case '?': return _tiles[1];
+		case '$': return _tiles[2];
+		default:  return _tiles[0];
+	}
+}
+
+// NOTE: Using the tile enum instead of Tile::tileName->id, may want to.. not?
+static const int _tileBlockList[] = {
+	TILE_BOOKSHELF,
+	TILE_CLOTH, // TODO: fix these? There's way too many black wool tiles
+	TILE_CLOTH_00,
+	TILE_CLOTH_01,
+	TILE_CLOTH_10,
+	TILE_CLOTH_41,
+	TILE_STAIRS_WOOD,
+	TILE_STAIRS_STONE,
+	TILE_TOPSNOW,
+	TILE_GRASS,
+	TILE_INFO_UPDATEGAME1,
+	TILE_INFO_UPDATEGAME2,
+	TILE_STONESLAB_HALF,
+};
+static const int _tileBlockListSize = sizeof _tileBlockList / sizeof(int);
+
+Tile* TitleTile::getRandomTile(Tile* except1, Tile* except2)
+{
+	TileID id;
+	for (;;)
+	{
+		id = _random.nextInt(256);
+		for (int i = 0; i < _tileBlockListSize; i++) {
+			if (_tileBlockList[i] == id) {
+				// N.B. Air does not have a tile
+				id = TILE_AIR;
+				break;
+			}
+		}
+
+		if (!Tile::tiles[id])
+			continue;
+
+		// If found a tile, check if it can be rendered
+		Tile* pTile = Tile::tiles[id];
+		if (!TileRenderer::canRender(pTile->getRenderShape()))
+			continue;
+
+		if (pTile == except1 || pTile == except2)
+			continue;
+
+		return pTile;
+	}
+}
+
+void TitleTile::regenerate()
+{
+	_tiles[0] = getRandomTile(nullptr,   nullptr);
+	_tiles[1] = getRandomTile(_tiles[0], nullptr);
+	_tiles[2] = getRandomTile(_tiles[0], _tiles[1]);
 }
