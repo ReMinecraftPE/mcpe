@@ -791,6 +791,10 @@ void Minecraft::init()
 {
 	GetPatchManager()->LoadPatchData(platform()->getPatchData());
 
+	m_bIsTouchscreen = platform()->isTouchscreen();
+
+	m_pRakNetInstance = new RakNetInstance;
+
 	m_pTextures = new Textures(m_options, platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
@@ -798,23 +802,19 @@ void Minecraft::init()
 	m_pTextures->addDynamicTexture(new LavaSideTexture);
 	m_pTextures->addDynamicTexture(new FireTexture(0));
 
+	if (platform()->hasFileSystemAccess())
+		m_options = new Options(m_externalStorageDir);
+	else
+		m_options = new Options();
+
+	_reloadInput();
+
 	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
 	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
 	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
 
 	GetPatchManager()->PatchTiles();
-
-	if (platform()->hasFileSystemAccess())
-		m_options = new Options(m_externalStorageDir);
-	else
-		m_options = new Options();
-
-	m_bIsTouchscreen = platform()->isTouchscreen();
-
-	_reloadInput();
-
-	m_pRakNetInstance = new RakNetInstance;
 
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem());
 	m_pSoundEngine->init(m_options);
