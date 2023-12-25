@@ -591,8 +591,7 @@ void StartMenuScreen::draw3dTitle(float f)
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	glDisable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glDisable(GL_CULL_FACE);
 	glDepthMask(true);
 
 	for (int i = 0; i < 3; i++)
@@ -602,23 +601,24 @@ void StartMenuScreen::draw3dTitle(float f)
 		if (i == 0)
 		{
 			glClear(GL_DEPTH_BUFFER_BIT);
-			glTranslatef(0.0f, -0.5f, 0.0f);
+			glTranslatef(0.0f, -0.5f, -0.5f);
 			glEnable(GL_BLEND);
+			//force set alpha
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glBlendFunc(GL_SRC_COLOR, GL_ZERO);
-			glBlendFunc(GL_DST_COLOR, GL_ZERO);
 		}
 
 		if (i == 1)
 		{
 			glDisable(GL_BLEND);
 			glClear(GL_DEPTH_BUFFER_BIT);
+			//revert
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
 		if (i == 2)
 		{
 			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_COLOR, GL_ONE);
+			//glBlendFunc(GL_SRC_COLOR, GL_ONE);
 		}
 
 		glScalef(1.0f, -1.0f, 1.0f);
@@ -629,7 +629,7 @@ void StartMenuScreen::draw3dTitle(float f)
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture("terrain.png");
 		if (i == 0) {
-			// No title/black.png so we'll just simulate it in a cheap way
+			m_pMinecraft->m_pTextures->loadAndBindTexture("gui/black.png");
 		}
 
 		for (int y = 0; y < Height; y++)
@@ -648,7 +648,7 @@ void StartMenuScreen::draw3dTitle(float f)
 				float z = Lerp(pTTile->lastHeight, pTTile->height, f);
 				float scale = 1.0f;
 				float bright = 1.0f;
-				float rotation = 1.0f;
+				float rotation = 180.0f;
 
 				if (i == 0)
 				{
@@ -659,11 +659,12 @@ void StartMenuScreen::draw3dTitle(float f)
 
 				glTranslatef(float(x), float(y), z);
 				glScalef(scale, scale, scale);
-				glRotatef(rotation, 0.0f, 1.0f, 0.0f);
+				glScalef(-1.0f, 1.0f, 1.0f);
+				glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 
-				// rotate 180 deg on the Z axis to correct lighting
-				glRotatef(-180.0f, 0.0f, 0.0f, 1.0f);
-				m_tileRenderer.renderTile(pTile, 0, bright);
+				// rotate 90 deg on the X axis to correct lighting
+				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+				m_tileRenderer.renderTile(pTile, i == 0 ? 999 : 0, bright);
 
 				glPopMatrix();
 			}
@@ -678,7 +679,7 @@ void StartMenuScreen::draw3dTitle(float f)
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 	glViewport(0, 0, Minecraft::width, Minecraft::height);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 }
 
 void StartMenuScreen::drawSplash()
@@ -724,6 +725,7 @@ bool StartMenuScreen::handleBackEvent(bool b)
 
 Tile* TitleTile::_tiles[3];
 Random TitleTile::_random;
+bool TitleTile::_firstTimeInit = true;
 
 TitleTile::TitleTile(StartMenuScreen* pScreen, int x, int y)
 {
@@ -808,6 +810,12 @@ Tile* TitleTile::getRandomTile(Tile* except1, Tile* except2)
 
 void TitleTile::regenerate()
 {
+	if (_firstTimeInit)
+	{
+		_firstTimeInit = false;
+		_random.setSeed(getTimeMs());
+	}
+
 	_tiles[0] = getRandomTile(nullptr,   nullptr);
 	_tiles[1] = getRandomTile(_tiles[0], nullptr);
 	_tiles[2] = getRandomTile(_tiles[0], _tiles[1]);

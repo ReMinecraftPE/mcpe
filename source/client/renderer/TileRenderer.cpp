@@ -2407,6 +2407,10 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 		case SHAPE_SOLID:
 		default:
 		{
+			// N.B. If caller passes 999, they only want the face-down face.
+			// This is a hack to accomodate the start menu screen procedurally generated title logo.
+#define IF_NEEDED(x) do { if (data != 999) { (x); } } while (0)
+
 			glTranslatef(-0.5f, -0.5f, -0.5f);
 			t.begin();
 			SHADE_DEFINE;
@@ -2415,13 +2419,13 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 			renderFaceDown(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YPOS, data));
 			SHADE_FIXUP_GRASS;
 			SHADE_IF_NEEDED(0.5f);
-			renderFaceUp  (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data));
+			IF_NEEDED(renderFaceUp(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_YNEG, data)));
 			SHADE_IF_NEEDED(0.8f);
-			renderNorth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data));
-			renderSouth   (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data));
+			IF_NEEDED(renderNorth(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZNEG, data)));
+			IF_NEEDED(renderSouth(tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_ZPOS, data)));
 			SHADE_IF_NEEDED(0.6f);
-			renderWest    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XNEG, data));
-			renderEast    (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XPOS, data));
+			IF_NEEDED(renderWest (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XNEG, data)));
+			IF_NEEDED(renderEast (tile, 0.0f, 0.0f, 0.0f, tile->getTexture(DIR_XPOS, data)));
 			SHADE_IF_NEEDED(1.0f);
 			t.draw();
 			glTranslatef(0.5f, 0.5f, 0.5f);
