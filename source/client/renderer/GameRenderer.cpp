@@ -600,7 +600,10 @@ void GameRenderer::render(float f)
 			field_80 = pMC->m_mouseHandler.m_delta.y;
 		}
 
-		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
+		float yawDiff   = diff_field_84 * field_7C;
+		float pitchDiff = diff_field_84 * multPitch * field_80;
+		m_pItemInHandRenderer->turn(yawDiff, pitchDiff);
+		pMC->m_pLocalPlayer->turn(yawDiff, pitchDiff);
 	}
 
 	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);

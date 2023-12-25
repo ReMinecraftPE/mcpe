@@ -129,6 +129,7 @@ public:
 	bool m_bFancyGrass;
 	bool m_bBiomeColors;
 	bool m_bSplitControls;
+	bool m_bDynamicHand;
 
 public:
 	struct Option

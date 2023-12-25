@@ -301,6 +301,7 @@ void OptionList::initDefaultMenu()
 		OPTION(Render,   m_bFancyGrass,           "Fancy grass");  idxGrass = currentIndex; // renders colored grass side overlay
 		OPTION(Render,   m_bBiomeColors,          "Biome colors"); idxBiome = currentIndex; // colors the grass based on the current biome
 		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
+		OPTION(Boolean,  m_bDynamicHand,          "Dynamic hand movement");
 		OPTION(Boolean,  m_bDebugText,            "Debug text");
 	}
 

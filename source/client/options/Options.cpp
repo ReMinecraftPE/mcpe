@@ -62,6 +62,7 @@ void Options::_initDefaultValues()
 	m_bFancyGrass = false;
 	m_bBiomeColors = false;
 	m_bSplitControls = false;
+	m_bDynamicHand = false;
 	field_19 = 1;
 
 	// Win32 key codes are being used by default
@@ -242,7 +243,7 @@ void Options::_load()
 		else if (key == "ctrl_autojump")
 			m_bAutoJump = readBool(value);
 		else if (key == "ctrl_split")
-			m_bFancyGraphics = readBool(value);
+			m_bSplitControls = readBool(value);
 		else if (key == "gfx_fancygraphics")
 			m_bFancyGraphics = readBool(value);
 		else if (key == "mp_server_visible_default")
@@ -269,6 +270,16 @@ void Options::_load()
 				m_bBiomeColors = false;
 			}
 		}
+		else if (key == "gfx_hidegui")
+			m_bDontRenderGui = readBool(value);
+		else if (key == "gfx_thirdperson")
+			m_bThirdPerson = readBool(value);
+		else if (key == "gfx_3danaglyphs")
+			m_bAnaglyphs = readBool(value);
+		else if (key == "gfx_dynamichand")
+			m_bDynamicHand = readBool(value);
+		else if (key == "info_debugtext")
+			m_bDebugText = readBool(value);
 	}
 }
 
@@ -380,13 +391,18 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("ctrl_invertmouse",          saveBool(m_bInvertMouse));
 	SO("ctrl_autojump",             saveBool(m_bAutoJump));
 	SO("ctrl_split",                saveBool(m_bSplitControls));
-	SO("gfx_fancygraphics",         saveBool(m_bFancyGraphics));
 	SO("mp_server_visible_default", saveBool(m_bServerVisibleDefault));
+	SO("gfx_fancygraphics",         saveBool(m_bFancyGraphics));
 	SO("gfx_smoothlighting",        saveBool(m_bAmbientOcclusion));
+	SO("gfx_hidegui",               saveBool(m_bDontRenderGui));
+	SO("gfx_thirdperson",           saveBool(m_bThirdPerson));
+	SO("gfx_3danaglyphs",           saveBool(m_bAnaglyphs));
 	SO("gfx_viewdistance",          saveInt (m_iViewDistance));
 	SO("gfx_blockoutlines",         saveBool(m_bBlockOutlines));
 	SO("gfx_fancygrass", 			saveBool(m_bFancyGrass));
 	SO("gfx_biomecolors",           saveBool(m_bBiomeColors));
+	SO("gfx_dynamichand",           saveBool(m_bDynamicHand));
+	SO("info_debugtext",            saveBool(m_bAutoJump));
 
 	return vec;
 }

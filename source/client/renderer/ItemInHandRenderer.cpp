@@ -17,6 +17,12 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
 	field_18 = 0;
 	field_1C = 0.0f;
 	field_20 = 0.0f;
+	m_yawOffs = 0.0f;
+	m_pitchOffs = 0.0f;
+	m_yawOffsVel = 0.0f;
+	m_pitchOffsVel = 0.0f;
+	m_lastYawOffs = 0.0f;
+	m_lastPitchOffs = 0.0f;
 }
 
 // This and itemUsed are probably leftovers from Minecraft Classic
@@ -163,9 +169,13 @@ void ItemInHandRenderer::render(float f)
 
 	float f1 = field_20 + (field_1C - field_20) * f;
 	glPushMatrix();
-	glRotatef(pLP->field_60 + (pLP->m_pitch - pLP->field_60) * f, 1.0f, 0.0f, 0.0f);
-	glRotatef(pLP->field_5C + (pLP->m_yaw   - pLP->field_5C) * f, 0.0f, 1.0f, 0.0f);
-	glPopMatrix();//huh?
+	//glRotatef(pLP->field_60 + (pLP->m_pitch - pLP->field_60) * f, 1.0f, 0.0f, 0.0f);
+	//glRotatef(pLP->field_5C + (pLP->m_yaw   - pLP->field_5C) * f, 0.0f, 1.0f, 0.0f);
+	//glPopMatrix();//huh?
+
+	// @TODO: Change to Mth::Lerp when iOS port pulled!
+	glRotatef(-Lerp(m_lastPitchOffs, m_pitchOffs, f), 1.0f, 0.0f, 0.0f);
+	glRotatef(+Lerp(m_lastYawOffs,   m_yawOffs,   f), 0.0f, 1.0f, 0.0f);
 
 	float fBright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pLP->m_pos.x), Mth::floor(pLP->m_pos.y), Mth::floor(pLP->m_pos.z));
 	glColor4f(fBright, fBright, fBright, 1.0f);
@@ -228,6 +238,7 @@ void ItemInHandRenderer::render(float f)
 		glPopMatrix();
 	}
 
+	glPopMatrix();
 	glDisable(GL_RESCALE_NORMAL);
 }
 
@@ -313,8 +324,46 @@ void ItemInHandRenderer::tick()
 
 	field_1C += a;
 
+	if (m_pMinecraft->getOptions()->m_bDynamicHand)
+	{
+		m_lastYawOffs = m_yawOffs;
+		m_lastPitchOffs = m_pitchOffs;
+
+		m_yawOffsVel *= 0.3f;
+		m_pitchOffsVel *= 0.3f;
+
+		m_yawOffs *= 0.3f;
+		m_pitchOffs *= 0.3f;
+
+		m_yawOffs += m_yawOffsVel;
+		m_pitchOffs += m_pitchOffsVel;
+
+		if (m_yawOffs      < 0.01f && m_yawOffs      > -0.01f) m_yawOffs = 0.0f;
+		if (m_yawOffsVel   < 0.01f && m_yawOffsVel   > -0.01f) m_yawOffsVel = 0.0f;
+		if (m_pitchOffs    < 0.01f && m_pitchOffs    > -0.01f) m_pitchOffs = 0.0f;
+		if (m_pitchOffsVel < 0.01f && m_pitchOffsVel > -0.01f) m_pitchOffsVel = 0.0f;
+
+		if (m_yawOffsVel > +2.0f) m_yawOffsVel = +2.0f;
+		if (m_yawOffsVel < -2.0f) m_yawOffsVel = -2.0f;
+		if (m_pitchOffsVel > +2.0f) m_pitchOffsVel = +2.0f;
+		if (m_pitchOffsVel < -2.0f) m_pitchOffsVel = -2.0f;
+		if (m_yawOffs > +10.0f) m_yawOffs = +10.0f;
+		if (m_yawOffs < -10.0f) m_yawOffs = -10.0f;
+		if (m_pitchOffs > +10.0f) m_pitchOffs = +10.0f;
+		if (m_pitchOffs < -10.0f) m_pitchOffs = -10.0f;
+	}
+	else
+	{
+		m_yawOffs = m_pitchOffs = m_lastYawOffs = m_lastPitchOffs = m_yawOffsVel = m_pitchOffsVel = 0.0f;
+	}
 	if (field_1C < 0.1f)
 		m_ItemInstance.m_itemID = itemID;
+}
+
+void ItemInHandRenderer::turn(float yd, float pd)
+{
+	m_yawOffsVel += yd * 0.15f;
+	m_pitchOffsVel += pd * 0.15f;
 }
 
 void ItemInHandRenderer::renderScreenEffect(float f)

@@ -789,6 +789,8 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
+	GetPatchManager()->LoadPatchData(platform()->getPatchData());
+
 	if (platform()->hasFileSystemAccess())
 		m_options = new Options(m_externalStorageDir);
 	else
@@ -831,8 +833,6 @@ void Minecraft::init()
 		FoliageColor::init(m_pPlatform->loadTexture("misc/foliagecolor.png", true));
 	}
 
-	// Patch Manager
-	GetPatchManager()->LoadPatchData(platform()->getPatchData());
 
 	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
