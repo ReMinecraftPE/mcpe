@@ -303,6 +303,7 @@ void OptionList::initDefaultMenu()
 		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
 		OPTION(Boolean,  m_bDynamicHand,          "Dynamic hand movement");
 		OPTION(Boolean,  m_bDebugText,            "Debug text");
+		OPTION(Boolean,  m_bOldTitleLogo,         "Old title logo");
 	}
 
 	HEADER("Controls");

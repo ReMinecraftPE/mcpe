@@ -63,6 +63,7 @@ void Options::_initDefaultValues()
 	m_bBiomeColors = false;
 	m_bSplitControls = false;
 	m_bDynamicHand = false;
+	m_bOldTitleLogo = false;
 	field_19 = 1;
 
 	// Win32 key codes are being used by default
@@ -276,6 +277,8 @@ void Options::_load()
 			m_bAnaglyphs = readBool(value);
 		else if (key == "gfx_dynamichand")
 			m_bDynamicHand = readBool(value);
+		else if (key == "misc_oldtitle")
+			m_bOldTitleLogo = readBool(value);
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
 	}
@@ -400,6 +403,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("gfx_fancygrass", 			saveBool(m_bFancyGrass));
 	SO("gfx_biomecolors",           saveBool(m_bBiomeColors));
 	SO("gfx_dynamichand",           saveBool(m_bDynamicHand));
+	SO("misc_oldtitle",             saveBool(m_bOldTitleLogo));
 	SO("info_debugtext",            saveBool(m_bAutoJump));
 
 	return vec;

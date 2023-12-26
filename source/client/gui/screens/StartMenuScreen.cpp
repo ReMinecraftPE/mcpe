@@ -537,8 +537,10 @@ void StartMenuScreen::render(int a, int b, float c)
 		titleYPos = 4;
 	}
 
-	//drawLegacyTitle()
-	draw3dTitle(c);
+	if (m_pMinecraft->getOptions()->m_bOldTitleLogo)
+		drawLegacyTitle();
+	else
+		draw3dTitle(c);
 
 	drawString(m_pFont, field_170, field_188, 58 + titleYPos, 0xFFCCCCCC);
 	drawString(m_pFont, field_154, field_16C, m_height - 10, 0x00FFFFFF);
