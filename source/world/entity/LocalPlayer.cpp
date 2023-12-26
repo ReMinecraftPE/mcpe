@@ -36,6 +36,11 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int 
 	field_C38 = 0;
 	m_pMoveInput = nullptr;
 
+	m_renderArmYaw = 0.0f;
+	m_renderArmPitch = 0.0f;
+	m_lastRenderArmYaw = 0.0f;
+	m_lastRenderArmPitch = 0.0f;
+
 	m_pMinecraft = pMinecraft;
 	m_name = pUser->field_0;
 
@@ -52,6 +57,12 @@ void LocalPlayer::aiStep()
 	m_pMoveInput->tick(this);
 	if (m_pMoveInput->m_bSneakButton && field_A4 < 0.2f)
 		field_A4 = 0.2f;
+
+	m_lastRenderArmYaw = m_renderArmYaw;
+	m_lastRenderArmPitch = m_renderArmPitch;
+	// @TODO: Change to Mth::Lerp when iOS port is pulled!
+	m_renderArmYaw   = Lerp(m_renderArmYaw,   m_yaw,   0.5f);
+	m_renderArmPitch = Lerp(m_renderArmPitch, m_pitch, 0.5f);
 
 	Mob::aiStep();
 	Player::aiStep();

@@ -35,11 +35,5 @@ public:
 	float field_1C;
 	float field_20;
 	TileRenderer m_tileRenderer;
-	float m_yawOffsVel;
-	float m_pitchOffsVel;
-	float m_yawOffs;
-	float m_pitchOffs;
-	float m_lastYawOffs;
-	float m_lastPitchOffs;
 };
 

@@ -58,4 +58,8 @@ public:
 	int field_C38;
 	Minecraft* m_pMinecraft;
 	IMoveInput* m_pMoveInput;
+	float m_renderArmYaw;
+	float m_renderArmPitch;
+	float m_lastRenderArmYaw;
+	float m_lastRenderArmPitch;
 };
