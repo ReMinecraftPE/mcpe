@@ -82,6 +82,7 @@ void GetMyIP_Windows_Linux_IPV4( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTER
 
 	if ( phe == 0 )
 	{
+		printf("gethostbyname hostname: %s, errno: %d\n", ac, h_errno);
 #if !defined(TARGET_OS_IPHONEOS) || TARGET_OS_IPHONEOS == 0
         // iOS 6 SDK makes phones hate this for some reason
         // gethostbyname didn't return NULL on iPhone 5 running iOS 6.1.4 on iOS 5 SDK,

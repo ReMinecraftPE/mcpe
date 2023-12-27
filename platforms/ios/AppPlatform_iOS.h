@@ -21,38 +21,38 @@
 class AppPlatform_iOS : public AppPlatform
 {
 public:
-    AppPlatform_iOS(minecraftpeViewController *viewController);
-    ~AppPlatform_iOS();
-    
+	AppPlatform_iOS(minecraftpeViewController *viewController);
+	~AppPlatform_iOS();
+	
 	void initSoundSystem() override;
-    
+	
 	int checkLicense() override;
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool b = false) override;
 	int getUserInputStatus() override;
-    bool isTouchscreen() override;
-    std::string getAssetPath(const std::string &path) const override;
-    std::string getPatchData() override;
+	bool isTouchscreen() override;
+	std::string getAssetPath(const std::string &path) const override;
+	std::string getPatchData() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
-    
+	
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
-    void showKeyboard() override;
+	void showKeyboard() override;
 	void hideKeyboard() override;
 	int getKeyboardUpOffset() override;
-    
-    // Also add these to allow saving options.
+	
+	// Also add these to allow saving options.
 	bool hasFileSystemAccess() override;
 private:
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
-    
-    minecraftpeViewController* m_pViewController;
-    
+	
+	minecraftpeViewController* m_pViewController;
+	
 	bool m_bShiftPressed[2];
-    
-    bool m_bIsKeyboardShown;
+	
+	bool m_bIsKeyboardShown;
 };
 
