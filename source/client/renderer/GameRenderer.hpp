@@ -44,6 +44,7 @@ public:
 	void pick(float);
 	void renderItemInHand(float, int);
 	void prepareAndRenderClouds(LevelRenderer* pLR, float f);
+	void renderWeather(float f);
 
 	float getFov(float f);
 
@@ -88,5 +89,8 @@ public:
 	float m_matrix_model_view[16];
 
 	int m_shownFPS, m_shownChunkUpdates, m_lastUpdatedMS;
+
+	int m_envTexturePresence;
+	Random m_random;
 };
 

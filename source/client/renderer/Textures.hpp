@@ -35,7 +35,7 @@ struct TextureData
 class Textures
 {
 public:
-	int loadTexture(const std::string& name, bool b);
+	int loadTexture(const std::string& name, bool bRequired);
 	int loadAndBindTexture(const std::string& name);
 	void clear();
 	void tick();

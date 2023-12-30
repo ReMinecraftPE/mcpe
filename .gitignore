@@ -198,3 +198,4 @@ xcuserdata/
 # Ignore options.txt - where your configuration will be saved
 /game/options.txt
 /game/assetsO
+/game/assets/snow.png

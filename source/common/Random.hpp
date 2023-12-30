@@ -42,6 +42,7 @@ class Random
 	unsigned int rseed;
 	unsigned TLong mt[CMATH_N];  // the array for the state vector
 	int mti;                    // mti==N+1 means mt[N] is not initialized
+	double nextNextGaussian;
 
 public:
 	Random(TLong seed = getTimeMs());
@@ -53,4 +54,5 @@ public:
 	double genrand_real2();
 	TLong nextLong();
 	int nextInt();
+	float nextGaussian();
 };
