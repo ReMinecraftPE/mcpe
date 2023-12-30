@@ -219,15 +219,15 @@
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\main.cpp" />
-    <ClCompile Include="..\..\..\sdl\base\AppPlatform_sdl_base.cpp" />
-    <ClCompile Include="..\..\..\sdl\desktop\AppPlatform_sdl.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
     <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.hpp" />
-    <ClInclude Include="..\..\..\sdl\base\AppPlatform_sdl_base.hpp" />
-    <ClInclude Include="..\..\..\sdl\desktop\AppPlatform_sdl.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">
