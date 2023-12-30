@@ -523,7 +523,7 @@ void GameRenderer::renderLevel(float f)
 
 		glDisable(GL_FOG);
 
-		if (false) // @TODO
+		if (true) // @TODO
 			renderWeather(f);
 
 		if (field_44 == 1.0f)
@@ -820,10 +820,7 @@ void GameRenderer::renderWeather(float f)
 {
 	if (m_envTexturePresence == 0)
 	{
-		bool bLoadedSuccessfully =
-			m_pMinecraft->m_pTextures->loadTexture("snow.png", false) &&
-			m_pMinecraft->m_pTextures->loadTexture("rain.png", false);
-
+		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("snow.png", false) >= 0;
 		m_envTexturePresence = bLoadedSuccessfully ? 2 : 1;
 	}
 	
