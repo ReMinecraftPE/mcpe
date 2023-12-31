@@ -172,6 +172,7 @@ add_library(reminecraftpe-core STATIC
     world/entity/Animal.cpp
     world/entity/WaterAnimal.cpp
     world/entity/Monster.cpp
+    world/entity/Rocket.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp
