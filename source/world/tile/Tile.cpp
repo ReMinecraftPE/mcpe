@@ -699,7 +699,7 @@ void Tile::initTiles()
 		->setDescriptionId("cryingObsidian");
 
 	// Jolly
-	Tile::rocketLauncher = (new RocketLauncherTile(TILE_ROCKET_LAUNCHER, 16*14+2))
+	Tile::rocketLauncher = (new RocketLauncherTile(TILE_ROCKET_LAUNCHER))
 		->init()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("rocketLauncher");

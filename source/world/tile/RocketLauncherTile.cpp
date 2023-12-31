@@ -6,10 +6,17 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "RocketLauncherTile.hpp"
-#include "world/item/RocketItem.hpp"
+#include "world/level/Level.hpp"
+#include "world/entity/Rocket.hpp"
 
-RocketLauncherTile::RocketLauncherTile(int id, int texture) : Tile(id, texture, Material::wood)
+RocketLauncherTile::RocketLauncherTile(int id) : Tile(id, 16*14+2, Material::wood)
 {
+	setTicking(true);
+}
+
+int RocketLauncherTile::getTexture(int dir, int data)
+{
+	return data == 1 ? 16*14+3 : 16*14+2;
 }
 
 AABB* RocketLauncherTile::getAABB(Level*, int x, int y, int z)
@@ -32,10 +39,26 @@ bool RocketLauncherTile::isSolidRender()
 	return false;
 }
 
-int RocketLauncherTile::use(Level* pLevel, int x, int y, int z, Player* player)
+int RocketLauncherTile::use(Level* level, int x, int y, int z, Player* player)
 {
-	// spawn a rocket
+	if (level->getData(x, y, z) == 1)
+		return 1;
 
+	level->setData(x, y, z, 1);
+
+	// spawn a rocket
+	level->addEntity(new Rocket(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f));
+
+	// add a tick so that the rocket launcher will reset
+	level->addToTickNextTick(x, y, z, m_ID, 10);
 
 	return 1;
+}
+
+void RocketLauncherTile::tick(Level* level, int x, int y, int z, Random* random)
+{
+	if (level->getData(x, y, z) != 1)
+		return;
+
+	level->setData(x, y, z, 0);
 }

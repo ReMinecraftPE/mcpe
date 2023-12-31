@@ -31,7 +31,7 @@ bool RocketItem::useOn(ItemInstance* inst, Player* player, Level* level, int x, 
 		case DIR_XPOS: x++; break;
 	}
 
-	level->addEntity(new Rocket(level, float(x), float(y), float(z)));
+	level->addEntity(new Rocket(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f));
 
 	inst->m_amount--;
 	return true;

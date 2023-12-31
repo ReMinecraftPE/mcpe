@@ -65,14 +65,14 @@ void Rocket::tick()
 	field_B90--;
 	if (field_B90 == 0)
 	{
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			float yaw = sharedRandom.nextFloat() * float(M_PI) * 2;
 			float pitch = sharedRandom.nextFloat() * float(M_PI) * 2;
 
-			float xo = sharedRandom.nextFloat() * cosf(yaw);
-			float zo = sharedRandom.nextFloat() * sinf(yaw);
-			float yo = sharedRandom.nextFloat() * sinf(pitch);
+			float xo = cosf(yaw);
+			float zo = sinf(yaw);
+			float yo = sinf(pitch);
 
 			m_pLevel->addParticle("explodeColor", m_pos.x, m_pos.y, m_pos.z, xo, yo, zo);
 		}
