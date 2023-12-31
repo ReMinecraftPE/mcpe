@@ -200,26 +200,12 @@ bool AppPlatform_sdl::hasFileSystemAccess()
 
 std::string AppPlatform_sdl::getPatchData()
 {
-
-	// Get Full Path
-    std::string realPath = getAssetPath("patches/patch_data.txt");
-
-	// Read File
-	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
-	if (!io)
-	{
-		LOG_I("Couldn't open assets/patches/patch_data.txt");
+	std::ifstream ifs("assets/patches/patch_data.txt");
+	if (!ifs.is_open())
 		return "";
-	}
 
-	Sint64 size = SDL_RWsize(io);
-	char *buff = static_cast<char*>(calloc(1,size+1));
-	SDL_RWread(io, buff, size, 1);
-	SDL_RWclose(io);
+	std::stringstream ss;
+	ss << ifs.rdbuf();
 
-	std::string result(buff);
-
-	free(buff);
-
-	return result;
+	return ss.str();
 }
