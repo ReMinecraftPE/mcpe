@@ -26,6 +26,8 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 	m_bShiftPressed[0] = false;
 	m_bShiftPressed[1] = false;
 
+	_mousegrabbed = false;
+
 	ensureDirectoryExists(_storageDir.c_str());
 
 	m_pLogger = new Logger;
@@ -156,6 +158,7 @@ int AppPlatform_sdl_base::getScreenHeight() const
 
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
+	_mousegrabbed = b;
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
 	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
 }
@@ -164,6 +167,15 @@ void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 {
 	xrel = x;
 	yrel = y;
+
+	// Keep the mouse centered if its grabbed
+	if (_mousegrabbed)
+	{
+		int w = 0, h = 0;
+		SDL_GetWindowSize(_window,&w,&h);
+		SDL_WarpMouseInWindow(_window,w/2,h/2);
+		Mouse::feed(MouseButtonType::BUTTON_NONE, false, w/2,h/2);
+	}
 }
 
 void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)

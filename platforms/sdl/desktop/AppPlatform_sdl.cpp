@@ -197,3 +197,15 @@ bool AppPlatform_sdl::hasFileSystemAccess()
 {
 	return true;
 }
+
+std::string AppPlatform_sdl::getPatchData()
+{
+	std::ifstream ifs("assets/patches/patch_data.txt");
+	if (!ifs.is_open())
+		return "";
+
+	std::stringstream ss;
+	ss << ifs.rdbuf();
+
+	return ss.str();
+}
