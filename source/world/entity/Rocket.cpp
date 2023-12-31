@@ -14,11 +14,11 @@ Rocket::Rocket(Level* level, float x, float y, float z) : Entity(level)
 {
 	field_B8C = 0;
 	field_B90 = 80;
-	field_C8 = RENDER_CAMERA;
+	field_C8 = RENDER_ROCKET;
 
 	field_34 = 1;
 
-	setSize(1.0f, 1.5f);
+	setSize(0.1f, 1.0f);
 	field_84 = field_8C * 0.5f - 0.25f;
 
 	setPos(x, y, z);
