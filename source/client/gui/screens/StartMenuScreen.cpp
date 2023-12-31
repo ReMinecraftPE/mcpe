@@ -549,6 +549,10 @@ void StartMenuScreen::render(int a, int b, float c)
 	if (!crampedMode)
 		drawSplash();
 
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	m_pMinecraft->m_pTextures->loadAndBindTexture("terrain.png");
+	this->blit(0, 0, 0, 0, 256, 256, 256, 256);
+
 	Screen::render(a, b, c);
 }
 

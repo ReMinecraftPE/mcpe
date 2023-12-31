@@ -12,6 +12,7 @@
 #include "DoorItem.hpp"
 #include "TileItem.hpp"
 #include "TilePlanterItem.hpp"
+#include "RocketItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
@@ -194,6 +195,10 @@ void Item::initItems()
 	Item::camera = NEW_X_ITEMN(CameraItem, ITEM_CAMERA)
 		->setIcon(2, 15)
 		->setDescriptionId("camera");
+
+	Item::rocket = NEW_X_ITEMN(RocketItem, ITEM_ROCKET)
+		->setIcon(14, 2)
+		->setDescriptionId("rocket");
 }
 
 int Item::getIcon(ItemInstance* pInstance)
@@ -411,7 +416,8 @@ Item
 	*Item::diode,
 	*Item::record_01,
 	*Item::record_02,
-	*Item::camera;
+	*Item::camera,
+	*Item::rocket;
 
 Item::Tier
 	Item::Tier::WOOD   (0, 59,   2.0f,  0),

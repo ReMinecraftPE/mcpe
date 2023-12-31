@@ -22,6 +22,7 @@ void Particle::_init()
 	field_F8 = 1.0f;
 	field_FC = 1.0f;
 	field_100 = 1.0f;
+	m_bIsUnlit = false;
 }
 
 Particle::Particle(Level* level, float x, float y, float z, float vx, float vy, float vz) : Entity(level)
@@ -82,7 +83,7 @@ void Particle::render(Tesselator& t, float f, float a4, float a5, float a6, floa
 	float posX = Lerp(field_3C.x, m_pos.x, f) - xOff;
 	float posY = Lerp(field_3C.y, m_pos.y, f) - yOff;
 	float posZ = Lerp(field_3C.z, m_pos.z, f) - zOff;
-	float fBright = getBrightness(f);
+	float fBright = m_bIsUnlit ? 1.0f : getBrightness(f);
 
 	float sizeX = a4 * field_F0 * 0.1f;
 	float sizeY = a5 * field_F0 * 0.1f;

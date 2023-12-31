@@ -279,6 +279,7 @@ enum eTileID
 	TILE_INFO_UPDATEGAME2 = 249,
 
 	TILE_OBSIDIAN_CRYING = 200, // custom stuff - ID of 200
+	TILE_ROCKET_LAUNCHER,
 
 	ITEM_SHOVEL_IRON = 256,
 	ITEM_PICKAXE_IRON,
@@ -385,6 +386,9 @@ enum eTileID
 	ITEM_RECORD_01,
 	ITEM_RECORD_02,
 	ITEM_CAMERA = 456,
+
+	// Custom items
+	ITEM_ROCKET = 470,
 };
 
 enum // Textures

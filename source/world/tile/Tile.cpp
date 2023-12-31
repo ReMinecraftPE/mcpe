@@ -48,6 +48,7 @@
 #include "SpongeTile.hpp"
 #include "BookshelfTile.hpp"
 #include "WireTile.hpp"
+#include "RocketLauncherTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -697,6 +698,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("cryingObsidian");
 
+	// Jolly
+	Tile::rocketLauncher = (new RocketLauncherTile(TILE_ROCKET_LAUNCHER, 16*14+2))
+		->init()
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("rocketLauncher");
+
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
 		if (Tile::tiles[i])
@@ -1144,4 +1151,5 @@ Tile
 	*Tile::lapisBlock,
 	*Tile::bookshelf,
 	*Tile::mossStone,
-	*Tile::cryingObsidian;
+	*Tile::cryingObsidian,
+	*Tile::rocketLauncher;

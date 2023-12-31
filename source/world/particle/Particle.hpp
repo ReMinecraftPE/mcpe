@@ -56,6 +56,7 @@ public:
 	float field_F8;
 	float field_FC;
 	float field_100;
+	bool m_bIsUnlit;
 
 	static float xOff, yOff, zOff;
 };

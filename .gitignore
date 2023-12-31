@@ -188,6 +188,9 @@ xcuserdata/
 # Avoid including Minecraft Classic assets from Mojang, for now.
 /game/assets/patches/*.png
 /game/assets/patches/classic/*.png
+!/game/assets/patches/n_rocket_launcher.png
+!/game/assets/patches/n_rocket_launched.png
+!/game/assets/patches/n_rocket.png
 
 # Ignore keep directory - where you can keep files for later use
 /keep

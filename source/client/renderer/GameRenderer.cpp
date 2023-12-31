@@ -523,7 +523,7 @@ void GameRenderer::renderLevel(float f)
 
 		glDisable(GL_FOG);
 
-		if (true) // @TODO
+		if (false) // TODO: Figure out how to enable weather
 			renderWeather(f);
 
 		if (field_44 == 1.0f)

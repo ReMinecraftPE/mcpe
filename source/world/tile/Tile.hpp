@@ -213,7 +213,8 @@ public: // static variables
 		* lapisBlock,
 		* bookshelf,
 		* mossStone,
-		* cryingObsidian;
+		* cryingObsidian,
+		* rocketLauncher;
 
 public:
 	int m_TextureFrame;

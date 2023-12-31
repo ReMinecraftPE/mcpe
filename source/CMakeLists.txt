@@ -37,6 +37,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/CowRenderer.cpp
     client/renderer/entity/PigRenderer.cpp
     client/renderer/entity/ChickenRenderer.cpp
+    client/renderer/entity/RocketRenderer.cpp
     client/renderer/RenderList.cpp
     client/renderer/Chunk.cpp
     client/renderer/RenderChunk.cpp
@@ -219,6 +220,7 @@ add_library(reminecraftpe-core STATIC
     world/item/Inventory.cpp
     world/item/DoorItem.cpp
     world/item/ItemInstance.cpp
+    world/item/RocketItem.cpp
     world/item/Item.cpp
     world/particle/RedDustParticle.cpp
     world/particle/TerrainParticle.cpp
@@ -229,6 +231,7 @@ add_library(reminecraftpe-core STATIC
     world/particle/SmokeParticle.cpp
     world/particle/Particle.cpp
     world/particle/LavaParticle.cpp
+    world/particle/FireworkParticle.cpp
     world/tile/InvisibleTile.cpp
     world/tile/Sapling.cpp
     world/tile/TreeTile.cpp
@@ -266,6 +269,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/ObsidianTile.cpp
     world/tile/FarmTile.cpp
     world/tile/DoorTile.cpp
+    world/tile/RocketLauncherTile.cpp
     renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)
