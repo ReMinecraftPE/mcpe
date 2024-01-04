@@ -197,3 +197,29 @@ bool AppPlatform_sdl::hasFileSystemAccess()
 {
 	return true;
 }
+
+std::string AppPlatform_sdl::getPatchData()
+{
+
+	// Get Full Path
+    std::string realPath = getAssetPath("patches/patch_data.txt");
+
+	// Read File
+	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
+	if (!io)
+	{
+		LOG_I("Couldn't open assets/patches/patch_data.txt");
+		return "";
+	}
+
+	Sint64 size = SDL_RWsize(io);
+	char *buff = static_cast<char*>(calloc(1,size+1));
+	SDL_RWread(io, buff, size, 1);
+	SDL_RWclose(io);
+
+	std::string result(buff);
+
+	free(buff);
+
+	return result;
+}
