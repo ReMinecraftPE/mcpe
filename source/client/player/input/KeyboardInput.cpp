@@ -32,12 +32,14 @@ void KeyboardInput::setKey(int keyCode, bool b)
 {
 	int index = -1;
 
-	if (m_pOptions->getKey(KM_FORWARD)  == keyCode) index = 0;
-	if (m_pOptions->getKey(KM_BACKWARD) == keyCode) index = 1;
-	if (m_pOptions->getKey(KM_LEFT)     == keyCode) index = 2;
-	if (m_pOptions->getKey(KM_RIGHT)    == keyCode) index = 3;
-	if (m_pOptions->getKey(KM_JUMP)     == keyCode) index = 4;
-	if (m_pOptions->getKey(KM_SNEAK)    == keyCode) index = 5;
+	if (m_pOptions->getKey(KM_FORWARD)  == keyCode) index = INPUT_FORWARD;
+	if (m_pOptions->getKey(KM_BACKWARD) == keyCode) index = INPUT_BACKWARD;
+	if (m_pOptions->getKey(KM_LEFT)     == keyCode) index = INPUT_LEFT;
+	if (m_pOptions->getKey(KM_RIGHT)    == keyCode) index = INPUT_RIGHT;
+	if (m_pOptions->getKey(KM_JUMP)     == keyCode) index = INPUT_JUMP;
+	if (m_pOptions->getKey(KM_SNEAK)    == keyCode) index = INPUT_SNEAK;
+	if (m_pOptions->getKey(KM_FLY_UP)   == keyCode) index = INPUT_FLY_UP;
+	if (m_pOptions->getKey(KM_FLY_DOWN) == keyCode) index = INPUT_FLY_DOWN;
 
 	if (index == -1)
 		return;
@@ -49,11 +51,14 @@ void KeyboardInput::tick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
+	m_flyInput = 0.0f;
 
 	if (m_keys[INPUT_FORWARD])  m_vertInput += 1.0f;
 	if (m_keys[INPUT_BACKWARD]) m_vertInput -= 1.0f;
 	if (m_keys[INPUT_LEFT])     m_horzInput += 1.0f;
 	if (m_keys[INPUT_RIGHT])    m_horzInput -= 1.0f;
+	if (m_keys[INPUT_FLY_UP])   m_flyInput += 0.2f;
+	if (m_keys[INPUT_FLY_DOWN]) m_flyInput -= 0.2f;
 
 	m_bJumpButton  = m_keys[INPUT_JUMP];
 	m_bSneakButton = m_keys[INPUT_SNEAK];
