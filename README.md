@@ -78,6 +78,11 @@ build.
 
 ### Windows
 
+Click the thumbnail below to watch a video guide showcasing how to build ReMCPE.
+<a href="https://youtu.be/Tx1u7C2DCPI" target="_blank">
+  <img alt="How to Compile ReMCPE for Windows" src="http://i.ytimg.com/vi/Tx1u7C2DCPI/maxresdefault.jpg" />
+</a>
+
 The project is configured to target Windows XP by default by using "v141_xp" build tools. If you would like
 to build with Windows XP support, please follow the guide [here](https://learn.microsoft.com/en-us/cpp/build/configuring-programs-for-windows-xp?view=msvc-170#install-the-windows-xp-platform-toolset)
 to obtain the build tools via the Visual Studio installer.
