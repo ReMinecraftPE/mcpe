@@ -170,9 +170,8 @@ void ItemInHandRenderer::render(float f)
 
 	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
 	{
-		// @TODO: Change to Mth::Lerp when iOS port is pulled!
-		float rYaw   = Lerp(pLP->m_lastRenderArmYaw,   pLP->m_renderArmYaw,   f);
-		float rPitch = Lerp(pLP->m_lastRenderArmPitch, pLP->m_renderArmPitch, f);
+		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmYaw,   pLP->m_renderArmYaw,   f);
+		float rPitch = Mth::Lerp(pLP->m_lastRenderArmPitch, pLP->m_renderArmPitch, f);
 		glRotatef((pLP->m_pitch - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
 		glRotatef((pLP->m_yaw   - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
 	}
