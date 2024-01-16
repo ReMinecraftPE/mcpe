@@ -646,8 +646,7 @@ void StartMenuScreen::draw3dTitle(float f)
 				glPushMatrix();
 
 				TitleTile* pTTile = m_pTiles[y * Width + x];
-				// @TODO: After merging the iOS port, change to Mth::Lerp
-				float z = Lerp(pTTile->lastHeight, pTTile->height, f);
+				float z = Mth::Lerp(pTTile->lastHeight, pTTile->height, f);
 				float scale = 1.0f;
 				float bright = 1.0f;
 				float rotation = 180.0f;
