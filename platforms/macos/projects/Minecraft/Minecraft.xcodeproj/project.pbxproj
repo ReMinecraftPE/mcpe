@@ -260,28 +260,14 @@
 		849FF0BC2AF465340013BAE3 /* panorama_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0016E2AF3A28B009B9555 /* panorama_4.png */; };
 		849FF0BD2AF465340013BAE3 /* panorama_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0016F2AF3A28B009B9555 /* panorama_5.png */; };
 		849FF0BE2AF465340013BAE3 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001702AF3A28B009B9555 /* background.png */; };
-		849FF0BF2AF465340013BAE3 /* buynow.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001712AF3A28B009B9555 /* buynow.png */; };
-		849FF0C02AF465340013BAE3 /* dpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001732AF3A28B009B9555 /* dpad.png */; };
-		849FF0C12AF465340013BAE3 /* dpad_jump.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001742AF3A28B009B9555 /* dpad_jump.png */; };
-		849FF0C22AF465340013BAE3 /* dpadbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001752AF3A28B009B9555 /* dpadbutton.png */; };
 		849FF0C32AF465340013BAE3 /* default_world.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001762AF3A28B009B9555 /* default_world.png */; };
-		849FF0C42AF465340013BAE3 /* feedback.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001772AF3A28B009B9555 /* feedback.png */; };
 		849FF0C52AF465340013BAE3 /* feedback_fill.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001782AF3A28B009B9555 /* feedback_fill.png */; };
 		849FF0C62AF465340013BAE3 /* feedback_outer.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001792AF3A28B009B9555 /* feedback_outer.png */; };
 		849FF0C72AF465340013BAE3 /* gui.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0017A2AF3A28B009B9555 /* gui.png */; };
 		849FF0C82AF465340013BAE3 /* gui_blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0017B2AF3A28B009B9555 /* gui_blocks.png */; };
 		849FF0C92AF465340013BAE3 /* icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0017C2AF3A28B009B9555 /* icons.png */; };
-		849FF0CA2AF465340013BAE3 /* itemframe.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0017D2AF3A28B009B9555 /* itemframe.png */; };
 		849FF0CB2AF465340013BAE3 /* items.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0017E2AF3A28B009B9555 /* items.png */; };
-		849FF0CC2AF465340013BAE3 /* menubuttons.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0017F2AF3A28B009B9555 /* menubuttons.png */; };
-		849FF0CD2AF465340013BAE3 /* plusknapp.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001802AF3A28B009B9555 /* plusknapp.png */; };
-		849FF0CE2AF465340013BAE3 /* raknet.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001812AF3A28B009B9555 /* raknet.png */; };
-		849FF0CF2AF465340013BAE3 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001832AF3A28B009B9555 /* add.png */; };
-		849FF0D02AF465340013BAE3 /* sm_multi.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001852AF3A28B009B9555 /* sm_multi.png */; };
-		849FF0D12AF465340013BAE3 /* sm_options.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001862AF3A28B009B9555 /* sm_options.png */; };
-		849FF0D22AF465340013BAE3 /* sm_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001872AF3A28B009B9555 /* sm_play.png */; };
 		849FF0D32AF465340013BAE3 /* title.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001882AF3A28B009B9555 /* title.png */; };
-		849FF0D42AF465340013BAE3 /* touchgui.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001892AF3A28B009B9555 /* touchgui.png */; };
 		849FF0D52AF465340013BAE3 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0018A2AF3A28B009B9555 /* icon.png */; };
 		849FF0D82AF465340013BAE3 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001BE2AF3BB12009B9555 /* Default-Landscape~ipad.png */; };
 		849FF0DA2AF465340013BAE3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001C02AF3BB12009B9555 /* Default@2x.png */; };
@@ -1946,28 +1932,14 @@
 		84E0016E2AF3A28B009B9555 /* panorama_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panorama_4.png; sourceTree = "<group>"; };
 		84E0016F2AF3A28B009B9555 /* panorama_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panorama_5.png; sourceTree = "<group>"; };
 		84E001702AF3A28B009B9555 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
-		84E001712AF3A28B009B9555 /* buynow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buynow.png; sourceTree = "<group>"; };
-		84E001732AF3A28B009B9555 /* dpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dpad.png; sourceTree = "<group>"; };
-		84E001742AF3A28B009B9555 /* dpad_jump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dpad_jump.png; sourceTree = "<group>"; };
-		84E001752AF3A28B009B9555 /* dpadbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dpadbutton.png; sourceTree = "<group>"; };
 		84E001762AF3A28B009B9555 /* default_world.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_world.png; sourceTree = "<group>"; };
-		84E001772AF3A28B009B9555 /* feedback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedback.png; sourceTree = "<group>"; };
 		84E001782AF3A28B009B9555 /* feedback_fill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedback_fill.png; sourceTree = "<group>"; };
 		84E001792AF3A28B009B9555 /* feedback_outer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedback_outer.png; sourceTree = "<group>"; };
 		84E0017A2AF3A28B009B9555 /* gui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gui.png; sourceTree = "<group>"; };
 		84E0017B2AF3A28B009B9555 /* gui_blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gui_blocks.png; sourceTree = "<group>"; };
 		84E0017C2AF3A28B009B9555 /* icons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icons.png; sourceTree = "<group>"; };
-		84E0017D2AF3A28B009B9555 /* itemframe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemframe.png; sourceTree = "<group>"; };
 		84E0017E2AF3A28B009B9555 /* items.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = items.png; sourceTree = "<group>"; };
-		84E0017F2AF3A28B009B9555 /* menubuttons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menubuttons.png; sourceTree = "<group>"; };
-		84E001802AF3A28B009B9555 /* plusknapp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusknapp.png; sourceTree = "<group>"; };
-		84E001812AF3A28B009B9555 /* raknet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raknet.png; sourceTree = "<group>"; };
-		84E001832AF3A28B009B9555 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
-		84E001852AF3A28B009B9555 /* sm_multi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sm_multi.png; sourceTree = "<group>"; };
-		84E001862AF3A28B009B9555 /* sm_options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sm_options.png; sourceTree = "<group>"; };
-		84E001872AF3A28B009B9555 /* sm_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sm_play.png; sourceTree = "<group>"; };
 		84E001882AF3A28B009B9555 /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
-		84E001892AF3A28B009B9555 /* touchgui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = touchgui.png; sourceTree = "<group>"; };
 		84E0018A2AF3A28B009B9555 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		84E0018C2AF3A28B009B9555 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		84E0018E2AF3A28B009B9555 /* char.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = char.png; sourceTree = "<group>"; };
@@ -3501,25 +3473,15 @@
 			children = (
 				84E001692AF3A28B009B9555 /* background */,
 				84E001702AF3A28B009B9555 /* background.png */,
-				84E001712AF3A28B009B9555 /* buynow.png */,
-				84E001722AF3A28B009B9555 /* controls */,
 				84E001762AF3A28B009B9555 /* default_world.png */,
-				84E001772AF3A28B009B9555 /* feedback.png */,
 				84E001782AF3A28B009B9555 /* feedback_fill.png */,
 				84E001792AF3A28B009B9555 /* feedback_outer.png */,
 				84E0017A2AF3A28B009B9555 /* gui.png */,
 				84E0017B2AF3A28B009B9555 /* gui_blocks.png */,
 				84AA8C782B32F578003F5B82 /* gui_custom.png */,
 				84E0017C2AF3A28B009B9555 /* icons.png */,
-				84E0017D2AF3A28B009B9555 /* itemframe.png */,
 				84E0017E2AF3A28B009B9555 /* items.png */,
-				84E0017F2AF3A28B009B9555 /* menubuttons.png */,
-				84E001802AF3A28B009B9555 /* plusknapp.png */,
-				84E001812AF3A28B009B9555 /* raknet.png */,
-				84E001822AF3A28B009B9555 /* selectworld */,
-				84E001842AF3A28B009B9555 /* startmenu */,
 				84E001882AF3A28B009B9555 /* title.png */,
-				84E001892AF3A28B009B9555 /* touchgui.png */,
 			);
 			path = gui;
 			sourceTree = "<group>";
@@ -3535,34 +3497,6 @@
 				84E0016F2AF3A28B009B9555 /* panorama_5.png */,
 			);
 			path = background;
-			sourceTree = "<group>";
-		};
-		84E001722AF3A28B009B9555 /* controls */ = {
-			isa = PBXGroup;
-			children = (
-				84E001732AF3A28B009B9555 /* dpad.png */,
-				84E001742AF3A28B009B9555 /* dpad_jump.png */,
-				84E001752AF3A28B009B9555 /* dpadbutton.png */,
-			);
-			path = controls;
-			sourceTree = "<group>";
-		};
-		84E001822AF3A28B009B9555 /* selectworld */ = {
-			isa = PBXGroup;
-			children = (
-				84E001832AF3A28B009B9555 /* add.png */,
-			);
-			path = selectworld;
-			sourceTree = "<group>";
-		};
-		84E001842AF3A28B009B9555 /* startmenu */ = {
-			isa = PBXGroup;
-			children = (
-				84E001852AF3A28B009B9555 /* sm_multi.png */,
-				84E001862AF3A28B009B9555 /* sm_options.png */,
-				84E001872AF3A28B009B9555 /* sm_play.png */,
-			);
-			path = startmenu;
 			sourceTree = "<group>";
 		};
 		84E0018B2AF3A28B009B9555 /* item */ = {
@@ -4285,7 +4219,7 @@
 		8489B08F2A86D4B2004CA8EC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 0440;
 				TargetAttributes = {
 					842610672AE988D30065905F = {
 						CreatedOnToolsVersion = 14.2;
@@ -4347,28 +4281,14 @@
 				849FF0BC2AF465340013BAE3 /* panorama_4.png in Resources */,
 				849FF0BD2AF465340013BAE3 /* panorama_5.png in Resources */,
 				849FF0BE2AF465340013BAE3 /* background.png in Resources */,
-				849FF0BF2AF465340013BAE3 /* buynow.png in Resources */,
-				849FF0C02AF465340013BAE3 /* dpad.png in Resources */,
-				849FF0C12AF465340013BAE3 /* dpad_jump.png in Resources */,
-				849FF0C22AF465340013BAE3 /* dpadbutton.png in Resources */,
 				849FF0C32AF465340013BAE3 /* default_world.png in Resources */,
-				849FF0C42AF465340013BAE3 /* feedback.png in Resources */,
 				849FF0C52AF465340013BAE3 /* feedback_fill.png in Resources */,
 				849FF0C62AF465340013BAE3 /* feedback_outer.png in Resources */,
 				849FF0C72AF465340013BAE3 /* gui.png in Resources */,
 				849FF0C82AF465340013BAE3 /* gui_blocks.png in Resources */,
 				849FF0C92AF465340013BAE3 /* icons.png in Resources */,
-				849FF0CA2AF465340013BAE3 /* itemframe.png in Resources */,
 				849FF0CB2AF465340013BAE3 /* items.png in Resources */,
-				849FF0CC2AF465340013BAE3 /* menubuttons.png in Resources */,
-				849FF0CD2AF465340013BAE3 /* plusknapp.png in Resources */,
-				849FF0CE2AF465340013BAE3 /* raknet.png in Resources */,
-				849FF0CF2AF465340013BAE3 /* add.png in Resources */,
-				849FF0D02AF465340013BAE3 /* sm_multi.png in Resources */,
-				849FF0D12AF465340013BAE3 /* sm_options.png in Resources */,
-				849FF0D22AF465340013BAE3 /* sm_play.png in Resources */,
 				849FF0D32AF465340013BAE3 /* title.png in Resources */,
-				849FF0D42AF465340013BAE3 /* touchgui.png in Resources */,
 				849FF0D52AF465340013BAE3 /* icon.png in Resources */,
 				849FF0D82AF465340013BAE3 /* Default-Landscape~ipad.png in Resources */,
 				849FF0DA2AF465340013BAE3 /* Default@2x.png in Resources */,
@@ -5057,6 +4977,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5131,6 +5053,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5205,6 +5129,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5359,7 +5285,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -5372,7 +5297,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -5393,7 +5317,6 @@
 				MC_ROOT = "$(PROJECT_DIR)/../../../../";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PROVISIONING_PROFILE = "";
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
 				VALID_ARCHS = "armv6 armv7 armv7s arm64";
 			};
@@ -5423,7 +5346,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5486,7 +5408,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				GCC_INPUT_FILETYPE = automatic;
 				PRODUCT_NAME = ZLib;
 			};
 			name = "Debug (iOS)";
@@ -5521,7 +5442,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5530,7 +5450,6 @@
 				);
 				GCC_FAST_MATH = YES;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -5551,7 +5470,6 @@
 				MC_ROOT = "$(PROJECT_DIR)/../../../../";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PROVISIONING_PROFILE = "";
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
 				VALID_ARCHS = "armv6 armv7 armv7s arm64";
 			};
@@ -5581,7 +5499,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5646,7 +5563,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				GCC_INPUT_FILETYPE = automatic;
 				PRODUCT_NAME = ZLib;
 			};
 			name = "Release (iOS)";
@@ -5680,6 +5596,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -5744,6 +5662,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5801,9 +5721,9 @@
 		};
 		8492593E2AD8FCFD0081F5B9 /* Debug (Default) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5816,9 +5736,9 @@
 		};
 		8492593F2AD8FCFD0081F5B9 /* Release (Default) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5832,9 +5752,9 @@
 		};
 		849259402AD8FCFD0081F5B9 /* Release (x86) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5847,9 +5767,9 @@
 		};
 		849259412AD8FCFD0081F5B9 /* Release (PPC) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5862,9 +5782,9 @@
 		};
 		849259422AD8FCFD0081F5B9 /* Release (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

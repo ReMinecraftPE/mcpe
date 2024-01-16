@@ -19,6 +19,7 @@ HumanoidModel::HumanoidModel(float a, float b):
 	m_leg2(0,  16)
 {
 	field_234 = 0;
+	field_20 = false;
 
 	m_head.setModel(this);
 	m_body.setModel(this);
