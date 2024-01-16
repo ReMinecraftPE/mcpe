@@ -5,12 +5,11 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
-
-#define WIN32_LEAN_AND_MEAN
 #include <fstream>
 #include <sstream>
 
 #include "AppPlatform_android.hpp"
+#include "SoundSystemSL.hpp"
 #include "client/player/input/Mouse.hpp"
 
 #include "stb_image.h"
@@ -135,7 +134,7 @@ std::string AppPlatform_android::getDateString(int time)
 	return std::string(buffer);
 }
 
-Texture AppPlatform_android::loadTexture(const std::string& str, bool b)
+Texture AppPlatform_android::loadTexture(const std::string& str, bool bIsRequired)
 {
 	std::string realPath = str;
 	if (realPath.size() && realPath[0] == '/')
@@ -145,12 +144,13 @@ Texture AppPlatform_android::loadTexture(const std::string& str, bool b)
 	AAsset* asset = AAssetManager_open(m_app->activity->assetManager, str.c_str(), AASSET_MODE_BUFFER);
 	if (!asset) {
 		LOG_E("File %s couldn't be opened", realPath.c_str());
+		assert(!bIsRequired && "Hey, a texture couldn't be loaded");
+		return Texture(0, 0, nullptr, 1, 0);
 	}
 	size_t cnt = AAsset_getLength(asset);
 	unsigned char* buffer = (unsigned char*)calloc(cnt, sizeof(unsigned char));
 	AAsset_read(asset, (void*)buffer, cnt);
 	AAsset_close(asset);
-
 
 	int width = 0, height = 0, channels = 0;
 
@@ -158,6 +158,8 @@ Texture AppPlatform_android::loadTexture(const std::string& str, bool b)
 	if (!img)
 	{
 		LOG_E("File %s couldn't be loaded via stb_image", realPath.c_str());
+		assert(!bIsRequired && "Hey, a texture couldn't be loaded");
+		return Texture(0, 0, nullptr, 1, 0);
 	}
 
 	free(buffer);
@@ -171,9 +173,8 @@ SoundSystem* const AppPlatform_android::getSoundSystem() const
 
 void AppPlatform_android::initSoundSystem()
 {
-	// TODO: SoundSystemSL!
 	if (!m_pSoundSystem)
-		m_pSoundSystem = new SoundSystem();
+		m_pSoundSystem = new SoundSystemSL();
 	else
 		LOG_E("Trying to initialize SoundSystem more than once!");
 }

@@ -55,6 +55,8 @@ void GameRenderer::_init()
 	m_lastUpdatedMS = 0;
 	m_shownFPS = 0;
 	m_shownChunkUpdates = 0;
+
+	m_envTexturePresence = 0;
 }
 
 GameRenderer::GameRenderer(Minecraft* pMinecraft) :
@@ -508,19 +510,21 @@ void GameRenderer::renderLevel(float f)
 		{
 			glDisable(GL_ALPHA_TEST);
 
+			// added by iProgramInCpp - renders the cracks
+			pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+
 			if (m_pMinecraft->getOptions()->m_bBlockOutlines)
 				pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 			else
 				pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
-			// added by iProgramInCpp - renders the cracks
-			pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-
 			glEnable(GL_ALPHA_TEST);
 		}
 
-		// @BUG?
 		glDisable(GL_FOG);
+
+		if (false) // TODO: Figure out how to enable weather
+			renderWeather(f);
 
 		if (field_44 == 1.0f)
 		{
@@ -600,7 +604,10 @@ void GameRenderer::render(float f)
 			field_80 = pMC->m_mouseHandler.m_delta.y;
 		}
 
-		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
+		float yawDiff   = diff_field_84 * field_7C;
+		float pitchDiff = diff_field_84 * multPitch * field_80;
+		m_pItemInHandRenderer->turn(yawDiff, pitchDiff);
+		pMC->m_pLocalPlayer->turn(yawDiff, pitchDiff);
 	}
 
 	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
@@ -807,6 +814,83 @@ void GameRenderer::prepareAndRenderClouds(LevelRenderer* pLR, float f)
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
+}
+
+void GameRenderer::renderWeather(float f)
+{
+	if (m_envTexturePresence == 0)
+	{
+		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("snow.png", false) >= 0;
+		m_envTexturePresence = bLoadedSuccessfully ? 2 : 1;
+	}
+	
+	if (m_envTexturePresence == 1)
+		return;
+
+	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
+	int bPosX = Mth::floor(pLP->m_pos.x);
+	int bPosY = Mth::floor(pLP->m_pos.y);
+	int bPosZ = Mth::floor(pLP->m_pos.z);
+	Vec3 pos = pLP->getPos(f);
+	Tesselator& t = Tesselator::instance;
+	Level* pLevel = m_pMinecraft->m_pLevel;
+
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_pMinecraft->m_pTextures->loadAndBindTexture("snow.png");
+
+	int range = m_pMinecraft->getOptions()->m_bFancyGraphics ? 10 : 5;
+
+	for (int currX = bPosX - range; currX <= bPosX + range; currX++)
+	{
+		for (int currZ = bPosZ - range; currZ <= bPosZ + range; currZ++)
+		{
+			int tsb = pLevel->getTopSolidBlock(currX, currZ);
+			if (tsb < 0)
+				tsb = 0;
+
+			int minY = bPosY - range;
+			int maxY = bPosY + range;
+
+			if (minY < tsb)
+				minY = tsb;
+			if (maxY < tsb)
+				maxY = tsb;
+
+			float offs = 2.0f;
+			if (minY == maxY)
+				continue;
+
+			m_random.setSeed(currX * currX * 3121 + currX * 45238971 + currZ * currZ * 418711 + currZ * 13761);
+
+			float x1 = float(field_C) + f;
+			float x2 = (float(field_C & 0x1FF) + f) / 512.0f;
+			float x3 = m_random.nextFloat() + x1 * 0.01f * m_random.nextGaussian();
+			float x4 = m_random.nextFloat() + x1 * 0.001f * m_random.nextGaussian();
+			float f1 = float(currX + 0.5f) - pLP->m_pos.x;
+			float f2 = float(currZ + 0.5f) - pLP->m_pos.z;
+			float f3 = Mth::sqrt(f1 * f1 + f2 * f2) / float(range);
+			float f4 = pLevel->getBrightness(currX, 128, currZ);
+			t.begin();
+			glColor4f(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
+			t.offset(-pos.x, -pos.y, -pos.z);
+			t.vertexUV(float(currX + 0), float(minY), float(currZ + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(currX + 1), float(minY), float(currZ + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(currX + 1), float(maxY), float(currZ + 1), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(currX + 0), float(maxY), float(currZ + 0), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(currX + 0), float(minY), float(currZ + 1), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(currX + 1), float(minY), float(currZ + 0), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(currX + 1), float(maxY), float(currZ + 0), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(currX + 0), float(maxY), float(currZ + 1), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.offset(0.0f, 0.0f, 0.0f);
+			t.draw();
+		}
+	}
+
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glEnable(GL_CULL_FACE);
+	glDisable(GL_BLEND);
 }
 
 void GameRenderer::onGraphicsReset()

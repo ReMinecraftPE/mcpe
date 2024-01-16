@@ -434,6 +434,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\SpiderModel.hpp">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.hpp">
+      <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -782,6 +785,9 @@
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.cpp">
+      <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
   </ItemGroup>

@@ -151,7 +151,7 @@ std::string AppPlatform_win32::getDateString(int time)
 	return std::string(buf);
 }
 
-Texture AppPlatform_win32::loadTexture(const std::string& str, bool b)
+Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
 {
 	std::string realPath = str;
 	if (realPath.size() && realPath[0] == '/')
@@ -166,6 +166,9 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool b)
 		LOG_E("File %s couldn't be opened", realPath.c_str());
 
 	_error:
+		if (!bIsRequired)
+			return Texture(0, 0, nullptr, 1, 0);
+
 		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?";
 		MessageBoxA(GetHWND(), msg.c_str(), getWindowTitle(), MB_OK);
 

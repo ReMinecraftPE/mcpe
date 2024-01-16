@@ -15,7 +15,7 @@
 AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 	: AppPlatform_sdl_base(storageDir, window)
 {
-	setIcon(loadTexture("icon.png"));
+	setIcon(loadTexture("icon.png", false));
 }
 
 // Take Screenshot
@@ -128,7 +128,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	}
 }
 
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
+Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
 	out.field_C = 1;
@@ -156,6 +156,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool b)
 	if (!img)
 	{
 		// Failed To Parse Image
+		LOG_E("The image could not be loaded properly: %s", path.c_str());
 		return out;
 	}
 

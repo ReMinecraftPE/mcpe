@@ -195,9 +195,11 @@ bool OptionList::isSelectedItem(int index)
 
 void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 {
+	// Obs: The color setting that affected disabled items' texts will also affect this.
+
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui_custom.png");
 	
-	blit(x, y, 0, state ? 18 : 0, C_ON_OFF_SWITCH_WIDTH, C_ON_OFF_SWITCH_HEIGHT, C_ON_OFF_SWITCH_WIDTH, C_ON_OFF_SWITCH_HEIGHT);
+	blit(x, y, 0, state ? 0 : 18, C_ON_OFF_SWITCH_WIDTH, C_ON_OFF_SWITCH_HEIGHT, C_ON_OFF_SWITCH_WIDTH, C_ON_OFF_SWITCH_HEIGHT);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");// bind the old texture back
 }
@@ -299,7 +301,9 @@ void OptionList::initDefaultMenu()
 		OPTION(Render,   m_bFancyGrass,           "Fancy grass");  idxGrass = currentIndex; // renders colored grass side overlay
 		OPTION(Render,   m_bBiomeColors,          "Biome colors"); idxBiome = currentIndex; // colors the grass based on the current biome
 		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
+		OPTION(Boolean,  m_bDynamicHand,          "Dynamic hand movement");
 		OPTION(Boolean,  m_bDebugText,            "Debug text");
+		OPTION(Boolean,  m_bOldTitleLogo,         "Old title logo");
 	}
 
 	HEADER("Controls");

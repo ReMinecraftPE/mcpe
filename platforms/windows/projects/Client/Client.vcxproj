@@ -338,6 +338,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SkeletonRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -456,6 +457,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SkeletonRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

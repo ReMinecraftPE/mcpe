@@ -166,6 +166,5 @@ int Mth::random(int max)
 
 float Mth::random()
 {
-	return g_Random.genrand_int32() * (1.0f / 4294967295.0f);
-	// divided by 2^32-1
+	return g_Random.nextFloat();
 }

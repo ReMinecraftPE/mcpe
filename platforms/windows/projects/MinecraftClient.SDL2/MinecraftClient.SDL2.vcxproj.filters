@@ -18,10 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdlbase.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\main.cpp">
@@ -30,12 +27,12 @@
     <ClCompile Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdl.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\platforms\sdl\AppPlatform_sdlbase.hpp">
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp">
@@ -46,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h">
       <Filter>Header Files\Compatibility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

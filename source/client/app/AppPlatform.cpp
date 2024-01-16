@@ -101,7 +101,7 @@ void AppPlatform::uploadPlatformDependentData(int, void*)
 }
 
 
-Texture AppPlatform::loadTexture(const std::string&, bool)
+Texture AppPlatform::loadTexture(const std::string&, bool bIsRequired)
 {
 	return Texture(0, 0, nullptr, 1, 0);
 }

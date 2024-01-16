@@ -25,7 +25,7 @@ public:
 	const char* const getWindowTitle() const;
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
-	Texture loadTexture(const std::string& path, bool b = false) override = 0;
+	Texture loadTexture(const std::string& path, bool bIsRequired = false) override = 0;
 	virtual bool doesTextureExist(const std::string& path) = 0;
 	int getUserInputStatus() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }

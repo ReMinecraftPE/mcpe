@@ -789,19 +789,11 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
-	if (platform()->hasFileSystemAccess())
-		m_options = new Options(m_externalStorageDir);
-	else
-		m_options = new Options();
+	GetPatchManager()->LoadPatchData(platform()->getPatchData());
 
 	m_bIsTouchscreen = platform()->isTouchscreen();
 
-	_reloadInput();
-
 	m_pRakNetInstance = new RakNetInstance;
-
-	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem());
-	m_pSoundEngine->init(m_options);
 
 	m_pTextures = new Textures(m_options, platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
@@ -809,6 +801,24 @@ void Minecraft::init()
 	m_pTextures->addDynamicTexture(new LavaTexture);
 	m_pTextures->addDynamicTexture(new LavaSideTexture);
 	m_pTextures->addDynamicTexture(new FireTexture(0));
+
+	if (platform()->hasFileSystemAccess())
+		m_options = new Options(m_externalStorageDir);
+	else
+		m_options = new Options();
+
+	_reloadInput();
+
+	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
+	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
+
+	GetPatchManager()->PatchTiles();
+
+	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem());
+	m_pSoundEngine->init(m_options);
+
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
@@ -831,16 +841,6 @@ void Minecraft::init()
 	{
 		FoliageColor::init(m_pPlatform->loadTexture("misc/foliagecolor.png", true));
 	}
-
-	// Patch Manager
-	GetPatchManager()->LoadPatchData(platform()->getPatchData());
-
-	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
-	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
-
-	GetPatchManager()->PatchTiles();
 }
 
 Minecraft::~Minecraft()

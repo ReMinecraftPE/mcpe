@@ -231,6 +231,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Player.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\PrimedTnt.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\TripodCamera.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Rocket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\gamemode\GameMode.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.cpp" />
@@ -241,6 +242,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\ItemInstance.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\TilePlanterItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\RocketItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\Dimension.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\Explosion.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\Level.cpp" />
@@ -291,9 +293,11 @@
     <ClCompile Include="$(MC_ROOT)\source\world\particle\RedDustParticle.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\particle\SmokeParticle.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\particle\TerrainParticle.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\particle\FireworkParticle.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\phys\AABB.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\phys\HitResult.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec3.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\RocketLauncherTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\BookshelfTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\Bush.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\ClayTile.cpp" />
@@ -364,6 +368,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\ItemInstance.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\TileItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\TilePlanterItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\RocketItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\Dimension.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\Explosion.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\Level.hpp" />
@@ -401,6 +406,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\phys\AABB.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\phys\HitResult.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\phys\Vec3.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\RocketLauncherTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\BookshelfTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\Bush.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\ClayTile.hpp" />
@@ -451,6 +457,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Cow.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Creeper.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Pig.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

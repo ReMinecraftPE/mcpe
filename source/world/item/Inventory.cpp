@@ -66,6 +66,8 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Tile::sponge->m_ID);
 	addCreativeItem(Tile::sapling->m_ID);
 	addCreativeItem(Tile::cryingObsidian->m_ID);
+	addCreativeItem(Tile::rocketLauncher->m_ID);
+	addCreativeItem(Tile::redStoneOre->m_ID);
 	
 	// test stuff
 	addCreativeItem(Tile::water->m_ID);
@@ -76,6 +78,7 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Item::camera->m_itemID);
 	addCreativeItem(Item::door_wood->m_itemID);
 	addCreativeItem(Item::door_iron->m_itemID);
+	addCreativeItem(Item::rocket->m_itemID);
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;

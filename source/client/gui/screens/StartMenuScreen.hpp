@@ -9,11 +9,38 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "client/renderer/TileRenderer.hpp"
+
+class StartMenuScreen;
+
+class TitleTile
+{
+public:
+	TitleTile(StartMenuScreen*, int x, int y);
+	void tick();
+
+	static Tile* getTileFromChar(char c);
+	static void regenerate();
+
+protected:
+	friend class StartMenuScreen;
+	float height;
+	float lastHeight;
+	float dropVel;
+
+private:
+	static Tile* _tiles[3];
+	static bool _firstTimeInit;
+	static Random _random;
+	static Tile* getRandomTile(Tile* except1, Tile* except2);
+};
 
 class StartMenuScreen : public Screen
 {
 public:
 	StartMenuScreen();
+	~StartMenuScreen();
+
 	void _updateLicense();
 
 	void init() override;
@@ -23,12 +50,16 @@ public:
 	void tick() override;
 
 	void drawSplash();
+	void draw3dTitle(float f);
+	void drawLegacyTitle();
 
 	std::string getSplashString();
 
 	bool handleBackEvent(bool b) override;
 
-private:
+protected:
+	friend class TitleTile;
+
 	Button m_startButton;
 	Button m_joinButton;
 	Button m_optionsButton;
@@ -40,5 +71,9 @@ private:
 	int field_188;
 
 	int m_chosenSplash;
+
+	TileRenderer m_tileRenderer;
+	Random m_random;
+	TitleTile** m_pTiles;
 };
 

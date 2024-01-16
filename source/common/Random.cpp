@@ -18,6 +18,7 @@
 Random::Random(TLong seed)
 {
 	setSeed(seed);
+	nextNextGaussian = INFINITY;
 }
 
 void Random::setSeed(TLong seed)
@@ -104,4 +105,26 @@ TLong Random::nextLong()
 int Random::nextInt()
 {
 	return int(genrand_int32() >> 1);
+}
+
+float Random::nextGaussian()
+{
+	if (!isinf(nextNextGaussian))
+	{
+		double backup = nextNextGaussian;
+		nextNextGaussian = INFINITY;
+		return backup;
+	}
+	// See Knuth, ACP, Section 3.4.1 Algorithm C.
+	float v1, v2, s;
+	do
+	{
+		v1 = 2 * nextFloat() - 1;
+		v2 = 2 * nextFloat() - 1;
+		s = v1 * v1 + v2 * v2;
+	}
+	while (s >= 1 || s == 0);
+	float mult = sqrtf(-2 * log(s) / s);
+	nextNextGaussian = v2 * mult;
+	return v1 * mult;
 }

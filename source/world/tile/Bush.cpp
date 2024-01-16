@@ -18,7 +18,7 @@ Bush::Bush(int id, int texture) : Tile(id, Material::plant)
 
 int Bush::getRenderShape()
 {
-	return 1;
+	return SHAPE_CROSS;
 }
 
 bool Bush::isCubeShaped()

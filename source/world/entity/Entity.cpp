@@ -438,7 +438,9 @@ label_45:
 			bool bPlaySound = true;
 
 			const Tile::SoundType *sound = Tile::tiles[tileID]->m_pSound;
-			if (m_pLevel->getTile(tileX, tileY + 1, tileZ) == Tile::topSnow->m_ID)
+			if (!isPlayer()) // no idea why this wasn't already a thing
+				bPlaySound = false;
+			else if (m_pLevel->getTile(tileX, tileY + 1, tileZ) == Tile::topSnow->m_ID)
 				sound = Tile::topSnow->m_pSound;
 			else if (Tile::tiles[tileID]->m_pMaterial->isLiquid())
 				bPlaySound = false;

@@ -1185,7 +1185,11 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 void LevelRenderer::addParticle(const std::string& name, float x, float y, float z, float vx, float vy, float vz)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
-	if (m_pMinecraft->m_pMobPersp->distanceToSqr_inline(x, y, z) > 256.0f)
+	float maxDist = 256.0f;
+	if (name == "explodeColor")
+		maxDist = 16384.0f;
+
+	if (m_pMinecraft->m_pMobPersp->distanceToSqr_inline(x, y, z) > maxDist)
 		return;
 
 	ParticleEngine* pe = m_pMinecraft->m_pParticleEngine;
@@ -1204,9 +1208,27 @@ void LevelRenderer::addParticle(const std::string& name, float x, float y, float
 		pe->add(new ExplodeParticle(m_pLevel, x, y, z, vx, vy, vz));
 		return;
 	}
+	if (name == "explodeColor")
+	{
+		ExplodeParticle* pExplPart = new ExplodeParticle(m_pLevel, x, y, z, vx, vy, vz);
+		pExplPart->m_bIsUnlit = true;
+		pExplPart->field_F8 = Mth::random();
+		pExplPart->field_FC = Mth::random();
+		pExplPart->field_100 = Mth::random();
+		pExplPart->scale(3.0f);
+		pe->add(pExplPart);
+		return;
+	}
 	if (name == "flame")
 	{
 		pe->add(new FlameParticle(m_pLevel, x, y, z, vx, vy, vz));
+		return;
+	}
+	if (name == "flame2")
+	{
+		FlameParticle* pFlamePart = new FlameParticle(m_pLevel, x, y, z, vx, vy, vz);
+		pFlamePart->scale(4.0f);
+		pe->add(pFlamePart);
 		return;
 	}
 	if (name == "lava")
@@ -1231,16 +1253,25 @@ void LevelRenderer::addParticle(const std::string& name, float x, float y, float
 void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float volume, float pitch)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
-	float mult = 1.0f, dist = 16.0f;
+	float mult = 1.0f, maxDist = 16.0f;
+	float playerDist = m_pMinecraft->m_pMobPersp->distanceToSqr(x, y, z);
 
 	if (volume > 1.0f)
 	{
 		mult = 16.0f;
-		dist = volume * mult;
+		maxDist = a * mult;
 	}
 
-	if (dist * dist > m_pMinecraft->m_pMobPersp->distanceToSqr(x, y, z))
-		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, volume, pitch);
+	if (name == "random.explode")
+	{
+		a *= 1.0f - playerDist / 65536.0f;
+		if (a < 0)
+			return;
+		maxDist = 256.0f;
+	}
+
+	if (maxDist * maxDist > playerDist)
+		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, a, b);
 }
 
 void LevelRenderer::renderSky(float f)

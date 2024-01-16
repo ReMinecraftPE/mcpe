@@ -164,9 +164,18 @@ void ItemInHandRenderer::render(float f)
 
 	float f1 = field_20 + (field_1C - field_20) * f;
 	glPushMatrix();
-	glRotatef(pLP->field_60 + (pLP->m_pitch - pLP->field_60) * f, 1.0f, 0.0f, 0.0f);
-	glRotatef(pLP->field_5C + (pLP->m_yaw   - pLP->field_5C) * f, 0.0f, 1.0f, 0.0f);
-	glPopMatrix();//huh?
+	//glRotatef(pLP->field_60 + (pLP->m_pitch - pLP->field_60) * f, 1.0f, 0.0f, 0.0f);
+	//glRotatef(pLP->field_5C + (pLP->m_yaw   - pLP->field_5C) * f, 0.0f, 1.0f, 0.0f);
+	//glPopMatrix();//huh?
+
+	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
+	{
+		// @TODO: Change to Mth::Lerp when iOS port is pulled!
+		float rYaw   = Lerp(pLP->m_lastRenderArmYaw,   pLP->m_renderArmYaw,   f);
+		float rPitch = Lerp(pLP->m_lastRenderArmPitch, pLP->m_renderArmPitch, f);
+		glRotatef((pLP->m_pitch - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
+		glRotatef((pLP->m_yaw   - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
+	}
 
 	float fBright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pLP->m_pos.x), Mth::floor(pLP->m_pos.y), Mth::floor(pLP->m_pos.z));
 	glColor4f(fBright, fBright, fBright, 1.0f);
@@ -229,6 +238,7 @@ void ItemInHandRenderer::render(float f)
 		glPopMatrix();
 	}
 
+	glPopMatrix();
 	glDisable(GL_RESCALE_NORMAL);
 }
 
@@ -316,6 +326,10 @@ void ItemInHandRenderer::tick()
 
 	if (field_1C < 0.1f)
 		m_ItemInstance.m_itemID = itemID;
+}
+
+void ItemInHandRenderer::turn(float yd, float pd)
+{
 }
 
 void ItemInHandRenderer::renderScreenEffect(float f)

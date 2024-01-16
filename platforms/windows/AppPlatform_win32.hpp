@@ -35,7 +35,7 @@ public:
 	int getScreenHeight() const override { return m_ScreenHeight; }
 	void showDialog(eDialogType) override;
 	std::string getDateString(int time) override;
-	Texture loadTexture(const std::string& str, bool b) override;
+	Texture loadTexture(const std::string& str, bool bIsRequired) override;
 
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	bool isTouchscreen() override;
