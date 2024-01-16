@@ -9,7 +9,7 @@
  */
 
 #include "EmptyHeader.h"
-#include "compat/PlatformDefinitions.h"
+#include "../../compat/PlatformDefinitions.h"
 
 #ifdef RAKNET_SOCKET_2_INLINE_FUNCTIONS
 
