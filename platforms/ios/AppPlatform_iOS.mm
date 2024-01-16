@@ -174,6 +174,7 @@ std::string AppPlatform_iOS::getPatchData()
 	
 	std::stringstream ss;
 	ss << ifs.rdbuf();
+	ifs.close();
 	
 	return ss.str();
 }
