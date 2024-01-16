@@ -1259,19 +1259,19 @@ void LevelRenderer::playSound(const std::string& name, float x, float y, float z
 	if (volume > 1.0f)
 	{
 		mult = 16.0f;
-		maxDist = a * mult;
+		maxDist = volume * mult;
 	}
 
 	if (name == "random.explode")
 	{
-		a *= 1.0f - playerDist / 65536.0f;
-		if (a < 0)
+		volume *= 1.0f - playerDist / 65536.0f;
+		if (volume < 0)
 			return;
 		maxDist = 256.0f;
 	}
 
 	if (maxDist * maxDist > playerDist)
-		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, a, b);
+		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, volume, pitch);
 }
 
 void LevelRenderer::renderSky(float f)
