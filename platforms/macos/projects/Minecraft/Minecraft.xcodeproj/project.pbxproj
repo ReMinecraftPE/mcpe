@@ -789,6 +789,18 @@
 		84E4BFBC2AE9869A0023E16A /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6352AC810620006A435 /* Util.cpp */; };
 		84E4BFBD2AE9869A0023E16A /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6372AC810620006A435 /* Utils.cpp */; };
 		84E4BFC02AE987130023E16A /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E4BFAE2AE9854B0023E16A /* libCommon.a */; };
+		84E78C7B2B58B3E000D515EF /* Rocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E78C792B58B3E000D515EF /* Rocket.cpp */; };
+		84E78C7C2B58B3E000D515EF /* Rocket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E78C7A2B58B3E000D515EF /* Rocket.hpp */; };
+		84E78C7F2B58B5CC00D515EF /* RocketRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E78C7D2B58B5CC00D515EF /* RocketRenderer.cpp */; };
+		84E78C802B58B5CC00D515EF /* RocketRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E78C7E2B58B5CC00D515EF /* RocketRenderer.hpp */; };
+		84E78C832B58B5FB00D515EF /* RocketItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E78C812B58B5FB00D515EF /* RocketItem.cpp */; };
+		84E78C842B58B5FB00D515EF /* RocketItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E78C822B58B5FB00D515EF /* RocketItem.hpp */; };
+		84E78C872B58B66B00D515EF /* RocketLauncherTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */; };
+		84E78C882B58B66B00D515EF /* RocketLauncherTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E78C862B58B66B00D515EF /* RocketLauncherTile.hpp */; };
+		84E78C8C2B58BB7400D515EF /* n_rocket_launched.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E78C892B58BB7400D515EF /* n_rocket_launched.png */; };
+		84E78C8D2B58BB7400D515EF /* n_rocket_launcher.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E78C8A2B58BB7400D515EF /* n_rocket_launcher.png */; };
+		84E78C8E2B58BB7400D515EF /* n_rocket.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E78C8B2B58BB7400D515EF /* n_rocket.png */; };
+		84E78C902B58C18C00D515EF /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E78C8F2B58C18C00D515EF /* black.png */; };
 		84EAE8DE2AF1EAA1000894E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */; };
 		84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */; };
 		84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */; };
@@ -1952,6 +1964,18 @@
 		84E001BE2AF3BB12009B9555 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		84E001C02AF3BB12009B9555 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		84E4BFAE2AE9854B0023E16A /* libCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		84E78C792B58B3E000D515EF /* Rocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rocket.cpp; sourceTree = "<group>"; };
+		84E78C7A2B58B3E000D515EF /* Rocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rocket.hpp; sourceTree = "<group>"; };
+		84E78C7D2B58B5CC00D515EF /* RocketRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RocketRenderer.cpp; sourceTree = "<group>"; };
+		84E78C7E2B58B5CC00D515EF /* RocketRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RocketRenderer.hpp; sourceTree = "<group>"; };
+		84E78C812B58B5FB00D515EF /* RocketItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RocketItem.cpp; sourceTree = "<group>"; };
+		84E78C822B58B5FB00D515EF /* RocketItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RocketItem.hpp; sourceTree = "<group>"; };
+		84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RocketLauncherTile.cpp; sourceTree = "<group>"; };
+		84E78C862B58B66B00D515EF /* RocketLauncherTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RocketLauncherTile.hpp; sourceTree = "<group>"; };
+		84E78C892B58BB7400D515EF /* n_rocket_launched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = n_rocket_launched.png; sourceTree = "<group>"; };
+		84E78C8A2B58BB7400D515EF /* n_rocket_launcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = n_rocket_launcher.png; sourceTree = "<group>"; };
+		84E78C8B2B58BB7400D515EF /* n_rocket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = n_rocket.png; sourceTree = "<group>"; };
+		84E78C8F2B58C18C00D515EF /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black.png; sourceTree = "<group>"; };
 		84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		84EAE8E12AF1EAB5000894E8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -2466,6 +2490,8 @@
 				840DD6632AC810620006A435 /* Player.hpp */,
 				84AA8B722B32F3B5003F5B82 /* PrimedTnt.cpp */,
 				840DD6652AC810620006A435 /* PrimedTnt.hpp */,
+				84E78C792B58B3E000D515EF /* Rocket.cpp */,
+				84E78C7A2B58B3E000D515EF /* Rocket.hpp */,
 				84AA8B742B32F3B5003F5B82 /* TripodCamera.cpp */,
 				840DD6672AC810620006A435 /* TripodCamera.hpp */,
 				84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */,
@@ -2516,6 +2542,8 @@
 				840DD6772AC810620006A435 /* Item.hpp */,
 				840DD6782AC810620006A435 /* ItemInstance.cpp */,
 				840DD6792AC810620006A435 /* ItemInstance.hpp */,
+				84E78C812B58B5FB00D515EF /* RocketItem.cpp */,
+				84E78C822B58B5FB00D515EF /* RocketItem.hpp */,
 				840DD67A2AC810620006A435 /* TileItem.cpp */,
 				840DD67B2AC810620006A435 /* TileItem.hpp */,
 				840DD67C2AC810620006A435 /* TilePlanterItem.cpp */,
@@ -2735,6 +2763,8 @@
 				840DD70F2AC810620006A435 /* RedStoneOreTile.hpp */,
 				840DD7102AC810620006A435 /* ReedTile.cpp */,
 				840DD7112AC810620006A435 /* ReedTile.hpp */,
+				84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */,
+				84E78C862B58B66B00D515EF /* RocketLauncherTile.hpp */,
 				840DD7122AC810620006A435 /* SandStoneTile.cpp */,
 				840DD7132AC810620006A435 /* SandStoneTile.hpp */,
 				840DD7142AC810620006A435 /* SandTile.cpp */,
@@ -3350,6 +3380,8 @@
 				84AA8BB32B32F3F3003F5B82 /* MobRenderer.hpp */,
 				84AA8BB42B32F3F3003F5B82 /* PigRenderer.cpp */,
 				84AA8BB52B32F3F3003F5B82 /* PigRenderer.hpp */,
+				84E78C7D2B58B5CC00D515EF /* RocketRenderer.cpp */,
+				84E78C7E2B58B5CC00D515EF /* RocketRenderer.hpp */,
 				84AA8BB62B32F3F3003F5B82 /* SheepFurRenderer.cpp */,
 				84AA8BB72B32F3F3003F5B82 /* SheepFurRenderer.hpp */,
 				84AA8BB82B32F3F3003F5B82 /* SheepRenderer.cpp */,
@@ -3427,6 +3459,9 @@
 			isa = PBXGroup;
 			children = (
 				84C208512AF88A5000BAE438 /* grass_side_transparent.png */,
+				84E78C8B2B58BB7400D515EF /* n_rocket.png */,
+				84E78C892B58BB7400D515EF /* n_rocket_launched.png */,
+				84E78C8A2B58BB7400D515EF /* n_rocket_launcher.png */,
 				84C208522AF88A5000BAE438 /* patch_data.txt */,
 			);
 			path = patches;
@@ -3473,6 +3508,7 @@
 			children = (
 				84E001692AF3A28B009B9555 /* background */,
 				84E001702AF3A28B009B9555 /* background.png */,
+				84E78C8F2B58C18C00D515EF /* black.png */,
 				84E001762AF3A28B009B9555 /* default_world.png */,
 				84E001782AF3A28B009B9555 /* feedback_fill.png */,
 				84E001792AF3A28B009B9555 /* feedback_outer.png */,
@@ -3722,6 +3758,7 @@
 				84AA8C732B32F535003F5B82 /* SkeletonModel.hpp in Headers */,
 				84AA8C752B32F536003F5B82 /* SpiderModel.hpp in Headers */,
 				84AA8C772B32F536003F5B82 /* ZombieModel.hpp in Headers */,
+				84E78C802B58B5CC00D515EF /* RocketRenderer.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3842,6 +3879,9 @@
 				84AA8B932B32F3B5003F5B82 /* PrimedTnt.hpp in Headers */,
 				84AA8B952B32F3B5003F5B82 /* TripodCamera.hpp in Headers */,
 				84AA8B972B32F3B5003F5B82 /* WaterAnimal.hpp in Headers */,
+				84E78C7C2B58B3E000D515EF /* Rocket.hpp in Headers */,
+				84E78C842B58B5FB00D515EF /* RocketItem.hpp in Headers */,
+				84E78C882B58B66B00D515EF /* RocketLauncherTile.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4302,6 +4342,10 @@
 				84C208542AF88A5000BAE438 /* patch_data.txt in Resources */,
 				84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */,
 				84AA8C792B32F578003F5B82 /* gui_custom.png in Resources */,
+				84E78C8C2B58BB7400D515EF /* n_rocket_launched.png in Resources */,
+				84E78C8D2B58BB7400D515EF /* n_rocket_launcher.png in Resources */,
+				84E78C8E2B58BB7400D515EF /* n_rocket.png in Resources */,
+				84E78C902B58C18C00D515EF /* black.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4540,6 +4584,7 @@
 				84AA8C722B32F535003F5B82 /* SkeletonModel.cpp in Sources */,
 				84AA8C742B32F535003F5B82 /* SpiderModel.cpp in Sources */,
 				84AA8C762B32F536003F5B82 /* ZombieModel.cpp in Sources */,
+				84E78C7F2B58B5CC00D515EF /* RocketRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4676,6 +4721,9 @@
 				84AA8B922B32F3B5003F5B82 /* PrimedTnt.cpp in Sources */,
 				84AA8B942B32F3B5003F5B82 /* TripodCamera.cpp in Sources */,
 				84AA8B962B32F3B5003F5B82 /* WaterAnimal.cpp in Sources */,
+				84E78C7B2B58B3E000D515EF /* Rocket.cpp in Sources */,
+				84E78C832B58B5FB00D515EF /* RocketItem.cpp in Sources */,
+				84E78C872B58B66B00D515EF /* RocketLauncherTile.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
