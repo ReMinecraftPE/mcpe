@@ -18,6 +18,7 @@ HumanoidModel::HumanoidModel(float a, float b):
 	m_leg1(0,  16),
 	m_leg2(0,  16)
 {
+	field_20 = false;
 	field_234 = 0;
 	field_20 = false;
 
