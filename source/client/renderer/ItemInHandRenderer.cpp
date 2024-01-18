@@ -11,7 +11,7 @@
 #include "common/Mth.hpp"
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
-	m_ItemInstance(0, 1, 0),
+	m_ItemInstance(0u, 1, 0),
 	m_pMinecraft(pMC)
 {
 	field_0 = -1;

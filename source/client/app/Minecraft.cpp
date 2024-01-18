@@ -167,7 +167,8 @@ void Minecraft::setScreen(Screen* pScreen)
 	if (pScreen)
 	{
 		releaseMouse();
-		pScreen->init(this, int(width * Gui::InvGuiScale), int(height * Gui::InvGuiScale));
+		// the ceil prevents under-drawing
+		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
 	}
 	else
 	{
@@ -318,7 +319,7 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 
 				if (isOnline())
 				{
-					if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
+					if (pItem->m_itemID > C_MAX_TILES)
 						return;
 
 					int dx = m_hitResult.m_tileX, dz = m_hitResult.m_tileZ;
@@ -431,7 +432,7 @@ void Minecraft::tickInput()
 #ifdef ENH_ALLOW_SCROLL_WHEEL
 			if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
 			{
-				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+				int slot = m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 				int maxItems = m_gui.getNumUsableSlots() - 1;
 
@@ -973,8 +974,9 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 	// re-calculate the GUI scale.
 	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
 
+	// the ceil prevents under-drawing
 	if (m_pScreen)
-		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
+		m_pScreen->setSize(ceil(Minecraft::width * Gui::InvGuiScale), ceil(Minecraft::height * Gui::InvGuiScale));
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);

@@ -63,6 +63,7 @@ public:
 	virtual void showKeyboard(int x, int y, int w, int h);
 	virtual void showKeyboard();
 	virtual void showKeyboard(bool bShown); // @TODO: Why on earth is this here?
+	// virtual void showKeyboard(std::string const &currentText, int maxLength, bool limitInput);
 	virtual void hideKeyboard();
 	virtual void onHideKeyboard(); // called by the runner, not the game
   #ifdef USE_NATIVE_ANDROID

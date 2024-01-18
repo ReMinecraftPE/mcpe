@@ -28,9 +28,9 @@ public:
 	ItemInstance(Tile*);
 	ItemInstance(Tile*, int amount);
 	ItemInstance(Tile*, int amount, int auxValue);
-	ItemInstance(int itemID, int amount, int auxValue);
+	ItemInstance(unsigned int itemID, int amount, int auxValue);
 
-	void init(int itemID, int amount, int auxValue);
+	void init(unsigned int itemID, int amount, int auxValue);
 
 	int getAuxValue();
 	int getDamageValue();
@@ -69,6 +69,6 @@ public:
 	int m_auxValue;
 	int m_amount;
 	int m_field_8;
-	int m_itemID;
+	unsigned int m_itemID;
 };
 

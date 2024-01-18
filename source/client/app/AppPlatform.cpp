@@ -57,6 +57,7 @@ std::string AppPlatform::getDateString(int time)
 }
 
 // ??? AppPlatform::getOptionStrings()
+// To whoever is confused about the above, we moved it to Options::getOptionStrings()
 
 int AppPlatform::getScreenWidth() const
 {
@@ -142,6 +143,7 @@ bool AppPlatform::shiftPressed()
 
 void AppPlatform::showKeyboard(int x, int y, int w, int h)
 {
+	showKeyboard();
 }
 
 void AppPlatform::showKeyboard()

@@ -10,7 +10,7 @@
 #include "ItemInstance.hpp"
 #include "world/tile/Tile.hpp"
 
-void ItemInstance::init(int itemID, int amount, int auxValue)
+void ItemInstance::init(unsigned int itemID, int amount, int auxValue)
 {
 	m_itemID = itemID;
 	m_amount = amount;
@@ -21,7 +21,7 @@ void ItemInstance::init(int itemID, int amount, int auxValue)
 
 ItemInstance::ItemInstance()
 {
-	init(0, 0, 0);
+	init(0u, 0, 0);
 }
 
 ItemInstance::ItemInstance(Item* pItem)
@@ -54,7 +54,7 @@ ItemInstance::ItemInstance(Tile* pTile, int amount, int auxValue)
 	init(pTile->m_ID, amount, auxValue);
 }
 
-ItemInstance::ItemInstance(int itemID, int amount, int auxValue)
+ItemInstance::ItemInstance(unsigned int itemID, int amount, int auxValue)
 {
 	init(itemID, amount, auxValue);
 }

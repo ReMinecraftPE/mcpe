@@ -4,11 +4,12 @@
 Inventory::Inventory(Player* pPlayer)
 {
 	m_pPlayer = pPlayer;
-	m_SelectedHotbarSlot = 0;
+	m_selectedHotbarSlot = 0;
 	m_bIsSurvival = false;
 
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
-		m_hotbar[i] = -1;
+	for (unsigned int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+		m_hotbar[i] = 0;
+	m_items = std::vector<ItemInstance>(0);
 }
 
 void Inventory::prepareCreativeInventory()
@@ -80,7 +81,7 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Item::door_iron->m_itemID);
 	addCreativeItem(Item::rocket->m_itemID);
 
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+	for (unsigned int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;
 }
 
@@ -99,11 +100,11 @@ void Inventory::prepareSurvivalInventory()
 	addTestItem(Tile::obsidian->m_ID, 64);
 	addTestItem(Tile::fire->m_ID, 64);
 
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
+	for (unsigned int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;
 }
 
-int Inventory::getNumSlots()
+unsigned int Inventory::getNumSlots()
 {
 	if (m_bIsSurvival)
 		return C_NUM_SURVIVAL_SLOTS;
@@ -111,12 +112,12 @@ int Inventory::getNumSlots()
 	return getNumItems();
 }
 
-int Inventory::getNumItems()
+unsigned int Inventory::getNumItems()
 {
-	return int(m_items.size());
+	return m_items.size();
 }
 
-void Inventory::addCreativeItem(int itemID, int auxValue)
+void Inventory::addCreativeItem(unsigned int itemID, int auxValue)
 {
 	m_items.push_back(ItemInstance(itemID, 1, auxValue));
 }
@@ -180,7 +181,7 @@ void Inventory::addItem(ItemInstance* pInst)
 	}
 }
 
-void Inventory::addTestItem(int itemID, int amount, int auxValue)
+void Inventory::addTestItem(unsigned int itemID, int amount, int auxValue)
 {
 	ItemInstance inst(itemID, amount, auxValue);
 	addItem(&inst);
@@ -192,10 +193,13 @@ void Inventory::addTestItem(int itemID, int amount, int auxValue)
 	}
 }
 
-ItemInstance* Inventory::getItem(int slotNo)
+ItemInstance* Inventory::getItem(unsigned int slotNo)
 {
-	if (slotNo < 0 || slotNo >= int(m_items.size()))
+	// BUG: m_items is randomly uninitialized for peer players somehow????
+	if (slotNo >= int(m_items.size()))
 		return nullptr;
+	
+	//LOG_I("%d < %d", slotNo, m_items.size());
 
 	if (m_items[slotNo].m_amount <= 0)
 		m_items[slotNo].m_itemID = 0;
@@ -203,22 +207,22 @@ ItemInstance* Inventory::getItem(int slotNo)
 	return &m_items[slotNo];
 }
 
-int Inventory::getQuickSlotItemId(int slotNo)
+unsigned int Inventory::getQuickSlotItemId(unsigned int slotNo)
 {
-	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
-		return -1;
+	if (slotNo >= C_MAX_HOTBAR_ITEMS)
+		return 0;
 	
-	int idx = m_hotbar[slotNo];
+	unsigned int idx = m_hotbar[slotNo];
 	ItemInstance* pInst = getItem(idx);
 	if (!pInst)
-		return -1;
+		return 0;
 
 	return pInst->m_itemID;
 }
 
-ItemInstance* Inventory::getQuickSlotItem(int slotNo)
+ItemInstance* Inventory::getQuickSlotItem(unsigned int slotNo)
 {
-	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
+	if (slotNo >= C_MAX_HOTBAR_ITEMS)
 		return nullptr;
 	
 	ItemInstance* pInst = getItem(m_hotbar[slotNo]);
@@ -233,53 +237,53 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 
 ItemInstance* Inventory::getSelectedItem()
 {
-	return getQuickSlotItem(m_SelectedHotbarSlot);
+	return getQuickSlotItem(m_selectedHotbarSlot);
 }
 
-int Inventory::getSelectedItemId()
+unsigned int Inventory::getSelectedItemId()
 {
-	return getQuickSlotItemId(m_SelectedHotbarSlot);
+	return getQuickSlotItemId(m_selectedHotbarSlot);
 }
 
-void Inventory::selectItem(int slotNo, int maxHotBarSlot)
+void Inventory::selectItem(unsigned int slotNo, unsigned int maxHotBarSlot)
 {
-	if (slotNo < 0 || slotNo >= getNumItems())
+	if (slotNo >= getNumItems())
 		return;
 
 	// look for it in the hotbar
-	for (int i = 0; i < maxHotBarSlot; i++)
+	for (unsigned int i = 0; i < maxHotBarSlot; i++)
 	{
 		if (m_hotbar[i] == slotNo)
 		{
-			m_SelectedHotbarSlot = i;
+			m_selectedHotbarSlot = i;
 			return;
 		}
 	}
 
-	for (int i = maxHotBarSlot - 2; i >= 0; i--)
-		m_hotbar[i + 1] = m_hotbar[i];
+	for (unsigned int i = maxHotBarSlot - 1; i >= 1; i--)
+		m_hotbar[i + 2] = m_hotbar[i + 1];
 
 	m_hotbar[0] = slotNo;
-	m_SelectedHotbarSlot = 0;
+	m_selectedHotbarSlot = 0;
 }
 
-void Inventory::selectSlot(int slotNo)
+void Inventory::selectSlot(unsigned int slotNo)
 {
-	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
+	if (slotNo >= C_MAX_HOTBAR_ITEMS)
 		return;
 
-	m_SelectedHotbarSlot = slotNo;
+	m_selectedHotbarSlot = slotNo;
 }
 
-void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
+void Inventory::setQuickSlotIndexByItemId(unsigned int slotNo, unsigned int itemID)
 {
-	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
+	if (slotNo >= C_MAX_HOTBAR_ITEMS)
 		return;
 
 	if (m_bIsSurvival)
 		return; // TODO
 
-	for (int i = 0; i < getNumItems(); i++)
+	for (unsigned int i = 0; i < getNumItems(); i++)
 	{
 		if (m_items[i].m_itemID == itemID)
 		{
@@ -288,12 +292,12 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 		}
 	}
 
-	m_hotbar[slotNo] = -1;
+	m_hotbar[slotNo] = 0;
 }
 
-void Inventory::selectItemById(int itemID, int maxHotBarSlot)
+void Inventory::selectItemById(unsigned int itemID, unsigned int maxHotBarSlot)
 {
-	for (int i = 0; i < getNumItems(); i++)
+	for (unsigned int i = 0; i < getNumItems(); i++)
 	{
 		if (m_items[i].m_itemID != itemID)
 			continue;

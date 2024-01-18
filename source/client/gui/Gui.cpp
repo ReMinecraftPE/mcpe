@@ -134,7 +134,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!m->m_pLevel || !m->m_pLocalPlayer)
 		return;
 
-	bool isTouchscreen = m->isTouchscreen();
+	//bool isTouchscreen = m->isTouchscreen();
 
 	field_4 = -90.0f;
 
@@ -166,7 +166,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	blit(cenX - hotbarWidth / 2, height - 22, 0, 0, hotbarWidth, 22, 0, 0);
 
 	// selection mark
-	blit(cenX - 1 - hotbarWidth / 2 + 20 * pInventory->m_SelectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
+	blit(cenX - 1 - hotbarWidth / 2 + 20 * pInventory->m_selectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
 
 	m->m_pTextures->loadAndBindTexture("gui/icons.png");
 
@@ -460,7 +460,7 @@ void Gui::handleKeyPressed(int keyCode)
 
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_R, keyCode))
 	{
-		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+		unsigned int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 		if (*slot <= maxItems)
 			(*slot)++;
@@ -469,7 +469,7 @@ void Gui::handleKeyPressed(int keyCode)
 	}
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_L, keyCode))
 	{
-		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+		unsigned int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 		if (*slot > 0)
 			(*slot)--;

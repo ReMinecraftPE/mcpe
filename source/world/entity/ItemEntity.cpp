@@ -20,7 +20,7 @@ void ItemEntity::_init(ItemInstance* itemInstance)
 	field_E8 = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
 	field_84 = field_8C * 0.5f;
-	m__itemInstance = itemInstance ? *itemInstance : ItemInstance(0, 0, 0);
+	m__itemInstance = itemInstance ? *itemInstance : ItemInstance();
 	m_pItemInstance = &m__itemInstance;
 }
 
