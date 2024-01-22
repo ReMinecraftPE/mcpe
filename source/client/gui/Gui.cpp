@@ -460,7 +460,7 @@ void Gui::handleKeyPressed(int keyCode)
 
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_R, keyCode))
 	{
-		unsigned int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 		if (*slot <= maxItems)
 			(*slot)++;
@@ -469,7 +469,7 @@ void Gui::handleKeyPressed(int keyCode)
 	}
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_L, keyCode))
 	{
-		unsigned int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 		if (*slot > 0)
 			(*slot)--;

@@ -319,7 +319,7 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 
 				if (isOnline())
 				{
-					if (pItem->m_itemID > C_MAX_TILES)
+					if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
 						return;
 
 					int dx = m_hitResult.m_tileX, dz = m_hitResult.m_tileZ;

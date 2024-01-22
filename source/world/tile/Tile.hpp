@@ -218,7 +218,7 @@ public: // static variables
 
 public:
 	int m_TextureFrame;
-	unsigned int m_ID;
+	int m_ID;
 	AABB m_aabb;
 	const SoundType* m_pSound;
 	float field_28;

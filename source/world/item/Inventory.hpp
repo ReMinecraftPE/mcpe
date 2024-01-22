@@ -18,29 +18,29 @@ public:
 	void prepareCreativeInventory();
 	void prepareSurvivalInventory();
 
-	unsigned int getNumSlots();
-	unsigned int getNumItems();
+	int getNumSlots();
+	int getNumItems();
 
-	void addCreativeItem(unsigned int itemID, int auxValue = 0);
-	void addTestItem(unsigned int itemID, int amount, int auxValue = 0);
+	void addCreativeItem(int itemID, int auxValue = 0);
+	void addTestItem(int itemID, int amount, int auxValue = 0);
 
 	void clear();
 	void addItem(ItemInstance* pInst);
 
-	ItemInstance* getItem(unsigned int slotNo);
-	ItemInstance* getQuickSlotItem(unsigned int slotNo);
+	ItemInstance* getItem(int slotNo);
+	ItemInstance* getQuickSlotItem(int slotNo);
 	ItemInstance* getSelectedItem();
-	unsigned int getQuickSlotItemId(unsigned int slotNo);
-	unsigned int getSelectedItemId();
-	void selectItem(unsigned int slotNo, unsigned int maxHotBarSlot); // selects an item by slot number and puts it in the quick slots if needed
-	void selectSlot(unsigned int slotNo);
+	int getQuickSlotItemId(int slotNo);
+	int getSelectedItemId();
+	void selectItem(int slotNo, int maxHotBarSlot); // selects an item by slot number and puts it in the quick slots if needed
+	void selectSlot(int slotNo);
 
-	void setQuickSlotIndexByItemId(unsigned int slotNo, unsigned int itemID);
-	void selectItemById(unsigned int itemID, unsigned int maxHotBarSlot);
+	void setQuickSlotIndexByItemId(int slotNo, int itemID);
+	void selectItemById(int itemID, int maxHotBarSlot);
 
 	int getAttackDamage(Entity*);
 
-	unsigned int getSelectedSlotNo() const
+	int getSelectedSlotNo() const
 	{
 		return m_selectedHotbarSlot;
 	}
@@ -51,12 +51,11 @@ public:
 	}
 
 public:
-	unsigned int m_selectedHotbarSlot;
+	int m_selectedHotbarSlot;
 private:
 	Player* m_pPlayer;
 	bool m_bIsSurvival;
 
-	unsigned int m_hotbar[C_MAX_HOTBAR_ITEMS];
+	int m_hotbar[C_MAX_HOTBAR_ITEMS];
 	std::vector<ItemInstance> m_items;
 };
-
