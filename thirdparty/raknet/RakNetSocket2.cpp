@@ -74,7 +74,7 @@ RakNetSocket2* RakNetSocket2Allocator::AllocRNS2(void)
 	s2 = RakNet::OP_NEW<RNS2_WindowsStore8>(_FILE_AND_LINE_);
 	s2->SetSocketType(RNS2T_WINDOWS_STORE_8);
 
-
+	
 
 
 
