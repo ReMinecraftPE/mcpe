@@ -152,10 +152,10 @@ void AppPlatform::showKeyboard()
 
 void AppPlatform::showKeyboard(bool bShown)
 {
-    if (bShown)
-        showKeyboard();
-    else
-        hideKeyboard();
+	if (bShown)
+		showKeyboard();
+	else
+		hideKeyboard();
 }
 
 void AppPlatform::hideKeyboard()
@@ -175,32 +175,32 @@ int AppPlatform::getKeyboardUpOffset()
 
 void AppPlatform::_fireLowMemory()
 {
-    
+	
 }
 
 void AppPlatform::_fireAppSuspended()
 {
-    
+	
 }
 
 void AppPlatform::_fireAppResumed()
 {
-    
+	
 }
 
 void AppPlatform::_fireAppFocusLost()
 {
-    
+	
 }
 
 void AppPlatform::_fireAppFocusGained()
 {
-    
+	
 }
 
 void AppPlatform::_fireAppTerminated()
 {
-    
+	
 }
 
 bool AppPlatform::hasFileSystemAccess()
@@ -224,13 +224,13 @@ SoundSystem* const AppPlatform::getSoundSystem() const
 
 std::string AppPlatform::getAssetPath(const std::string &path) const
 {
-    std::string realPath = path;
-    if (realPath.size() && realPath[0] == '/')
-    {
-        // trim it off
-        realPath = realPath.substr(1);
-    }
-    realPath = "assets/" + realPath;
-    
-    return realPath;
+	std::string realPath = path;
+	if (realPath.size() && realPath[0] == '/')
+	{
+		// trim it off
+		realPath = realPath.substr(1);
+	}
+	realPath = "assets/" + realPath;
+	
+	return realPath;
 }

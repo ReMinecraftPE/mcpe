@@ -108,9 +108,9 @@ void Gui::renderVignette(float a2, int a3, int a4)
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
-	t.vertexUV(0.0f, a4, -90.0f, 0.0f, 1.0f);
-	t.vertexUV(a3, a4, -90.0f, 1.0f, 1.0f);
-	t.vertexUV(a3, 0.0f, -90.0f, 1.0f, 0.0f);
+	t.vertexUV(0.0f, a4,   -90.0f, 0.0f, 1.0f);
+	t.vertexUV(a3,   a4,   -90.0f, 1.0f, 1.0f);
+	t.vertexUV(a3,   0.0f, -90.0f, 1.0f, 0.0f);
 	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
 	t.draw();
 
@@ -150,8 +150,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	field_4 = -90.0f;
 
-	int width = Minecraft::width * InvGuiScale,
-		height = Minecraft::height * InvGuiScale;
+	int width  = int(ceilf(Minecraft::width * InvGuiScale)),
+		height = int(ceilf(Minecraft::height * InvGuiScale));
 
 #ifdef ENH_TRANSPARENT_HOTBAR
 	glEnable(GL_BLEND);
@@ -298,8 +298,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		if (m->m_pLocalPlayer->isUnderLiquid(Material::water))
 		{
 			int breathRaw = m->m_pLocalPlayer->field_BC;
-			int breathFull = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
-			int breathMeter = int(ceilf((float(breathRaw) * 10.0f) / 300.0f)) - breathFull;
+			int breathFull  = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
+			int breathMeter = int(ceilf((float(breathRaw)     * 10.0f) / 300.0f)) - breathFull;
 
 			int bubbleX = cenX - 191;
 			int bubbleY = height - 19;
@@ -490,7 +490,7 @@ void Gui::handleKeyPressed(int keyCode)
 void Gui::renderMessages(bool bShowAll)
 {
 	//int width = Minecraft::width * InvGuiScale,
-	int height = Minecraft::height * InvGuiScale;
+	int height = int(ceilf(Minecraft::height * InvGuiScale));
 
 	int topEdge = height - 49;
 

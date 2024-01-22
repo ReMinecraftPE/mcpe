@@ -31,10 +31,10 @@
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
 
- // custom:
+// custom:
 #include "client/renderer/PatchManager.hpp"
 
-int Minecraft::width = C_DEFAULT_SCREEN_WIDTH;
+int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
 float Minecraft::guiScaleMultiplier = 1.0f;
 bool Minecraft::useAmbientOcclusion = false;
@@ -331,13 +331,13 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 					{
 						switch (m_hitResult.m_hitSide)
 						{
-						case HitResult::NOHIT: break;
-						case HitResult::MINY: dy--; break;
-						case HitResult::MAXY: dy++; break;
-						case HitResult::MINZ: dz--; break;
-						case HitResult::MAXZ: dz++; break;
-						case HitResult::MINX: dx--; break;
-						case HitResult::MAXX: dx++; break;
+							case HitResult::NOHIT: break;
+							case HitResult::MINY: dy--; break;
+							case HitResult::MAXY: dy++; break;
+							case HitResult::MINZ: dz--; break;
+							case HitResult::MAXZ: dz++; break;
+							case HitResult::MINX: dx--; break;
+							case HitResult::MAXX: dx++; break;
 						}
 					}
 					else
@@ -538,10 +538,10 @@ void Minecraft::tickInput()
 	bool flag =
 		// If we are mouse operated, the LMB is held down and it's not in the GUI
 		((m_options->field_19 && Mouse::isButtonDown(BUTTON_LEFT) && !bIsInGUI) ||
-			// We are instead keyboard operated, so check for the KM_DESTROY key being held down
-			(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
-			// The build action intention is a remove one
-			(b && bai.isRemove()));
+		// We are instead keyboard operated, so check for the KM_DESTROY key being held down
+		(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
+		// The build action intention is a remove one
+		(b && bai.isRemove()));
 
 	if (flag && !m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
 	{
@@ -831,7 +831,7 @@ void Minecraft::init()
 	m_pGameMode = new CreativeMode(this);
 #endif
 
-    // "Default.png" for the launch image overwrites "default.png" for the font during app packaging
+	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
 	m_pFont = new Font(m_options, "font/default8.png", m_pTextures);
 
 	if (GrassColor::isAvailable())
@@ -974,9 +974,13 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 	// re-calculate the GUI scale.
 	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
 
-	// the ceil prevents under-drawing
+	// The ceil gives an extra pixel to the screen's width and height, in case the GUI scale doesn't
+	// divide evenly into width or height, so that none of the game screen is uncovered.
 	if (m_pScreen)
-		m_pScreen->setSize(ceil(Minecraft::width * Gui::InvGuiScale), ceil(Minecraft::height * Gui::InvGuiScale));
+		m_pScreen->setSize(
+			int(ceilf(Minecraft::width * Gui::InvGuiScale)),
+			int(ceilf(Minecraft::height * Gui::InvGuiScale))
+		);
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);

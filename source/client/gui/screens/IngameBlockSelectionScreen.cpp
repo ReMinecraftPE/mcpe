@@ -14,7 +14,7 @@
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
 IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
-    m_btnPause(0, "Pause")
+	m_btnPause(0, "Pause")
 {
 	m_selectedSlot = 0;
 }
@@ -75,10 +75,10 @@ void IngameBlockSelectionScreen::init()
 	m_btnPause.m_xPos = 0;
 	m_btnPause.m_yPos = 0;
 #if TARGET_OS_IPHONE != 0
-    if (m_pMinecraft->isTouchscreen())
-        m_buttons.push_back(&m_btnPause);
+	if (m_pMinecraft->isTouchscreen())
+		m_buttons.push_back(&m_btnPause);
 #endif
-    
+	
 	Inventory* pInv = getInventory();
 
 	int nItems = pInv->getNumItems();
@@ -166,8 +166,8 @@ void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
 
 void IngameBlockSelectionScreen::mouseClicked(int x, int y, int type)
 {
-    Screen::mouseClicked(x, y, type);
-    
+	Screen::mouseClicked(x, y, type);
+	
 	// not a left click
 	if (type != 1)
 		return;
@@ -179,8 +179,8 @@ void IngameBlockSelectionScreen::mouseClicked(int x, int y, int type)
 
 void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 {
-    Screen::mouseReleased(x, y, type);
-    
+	Screen::mouseReleased(x, y, type);
+	
 	// not a left click
 	if (type != 1)
 		return;
