@@ -608,16 +608,19 @@ void StartMenuScreen::draw3dTitle(float f)
 				glEnable(GL_BLEND);
 				//force set alpha
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				break;
 
 			case 1:
 				glDisable(GL_BLEND);
 				glClear(GL_DEPTH_BUFFER_BIT);
 				//revert
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				break;
 				
 			case 2:
 				glEnable(GL_BLEND);
 				//glBlendFunc(GL_SRC_COLOR, GL_ONE);
+				break;
 		}
 
 		glScalef(1.0f, -1.0f, 1.0f);
