@@ -57,6 +57,7 @@ std::string AppPlatform::getDateString(int time)
 }
 
 // ??? AppPlatform::getOptionStrings()
+// To whoever is confused about the above, we moved it to Options::getOptionStrings()
 
 int AppPlatform::getScreenWidth() const
 {
@@ -140,12 +141,67 @@ bool AppPlatform::shiftPressed()
 	return false;
 }
 
+void AppPlatform::showKeyboard(int x, int y, int w, int h)
+{
+	showKeyboard();
+}
+
+void AppPlatform::showKeyboard()
+{
+}
+
+void AppPlatform::showKeyboard(bool bShown)
+{
+    if (bShown)
+        showKeyboard();
+    else
+        hideKeyboard();
+}
+
+void AppPlatform::hideKeyboard()
+{
+}
+
+void AppPlatform::onHideKeyboard()
+{
+}
+
 #ifdef USE_NATIVE_ANDROID
 int AppPlatform::getKeyboardUpOffset()
 {
 	return 0;
 }
 #endif
+
+void AppPlatform::_fireLowMemory()
+{
+    
+}
+
+void AppPlatform::_fireAppSuspended()
+{
+    
+}
+
+void AppPlatform::_fireAppResumed()
+{
+    
+}
+
+void AppPlatform::_fireAppFocusLost()
+{
+    
+}
+
+void AppPlatform::_fireAppFocusGained()
+{
+    
+}
+
+void AppPlatform::_fireAppTerminated()
+{
+    
+}
 
 bool AppPlatform::hasFileSystemAccess()
 {
@@ -177,12 +233,4 @@ std::string AppPlatform::getAssetPath(const std::string &path) const
     realPath = "assets/" + realPath;
     
     return realPath;
-}
-
-void AppPlatform::showKeyboard(int x, int y, int w, int h)
-{
-}
-
-void AppPlatform::hideKeyboard()
-{
 }

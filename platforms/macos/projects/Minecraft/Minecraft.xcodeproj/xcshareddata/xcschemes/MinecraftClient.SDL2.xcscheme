@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1420"
-   version = "1.3">
+   LastUpgradeVersion = "0440"
+   version = "1.8">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -15,37 +15,37 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-               BuildableName = "Minecraft"
-               BlueprintName = "Minecraft"
+               BuildableName = "MinecraftClient.SDL2"
+               BlueprintName = "MinecraftClient.SDL2"
                ReferencedContainer = "container:Minecraft.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug (Default)"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      buildConfiguration = "Debug (Default)">
+      <Testables>
+      </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "Minecraft"
-            BlueprintName = "Minecraft"
+            BuildableName = "MinecraftClient.SDL2"
+            BlueprintName = "MinecraftClient.SDL2"
             ReferencedContainer = "container:Minecraft.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <Testables>
-      </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug (Default)"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
       customWorkingDirectory = "$(MC_ROOT)/game"
+      buildConfiguration = "Debug (Default)"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -57,25 +57,27 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "Minecraft"
-            BlueprintName = "Minecraft"
+            BuildableName = "MinecraftClient.SDL2"
+            BlueprintName = "MinecraftClient.SDL2"
             ReferencedContainer = "container:Minecraft.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release (Default)"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
+      buildConfiguration = "Release (Default)"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "Minecraft"
-            BlueprintName = "Minecraft"
+            BuildableName = "MinecraftClient.SDL2"
+            BlueprintName = "MinecraftClient.SDL2"
             ReferencedContainer = "container:Minecraft.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

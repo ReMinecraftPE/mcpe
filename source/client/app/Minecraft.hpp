@@ -83,9 +83,9 @@ public:
 	Options* getOptions() const { return m_options; }
 
 	static void setGuiScaleMultiplier(float f);
-
+    
 private:
-	void _reloadInput();
+    void _reloadInput();
 	void _levelGenerated();
 
 public:

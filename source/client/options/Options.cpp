@@ -404,7 +404,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("gfx_biomecolors",           saveBool(m_bBiomeColors));
 	SO("gfx_dynamichand",           saveBool(m_bDynamicHand));
 	SO("misc_oldtitle",             saveBool(m_bOldTitleLogo));
-	SO("info_debugtext",            saveBool(m_bAutoJump));
+	SO("info_debugtext",            saveBool(m_bDebugText));
 
 	return vec;
 }

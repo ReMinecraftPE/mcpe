@@ -9,6 +9,7 @@
 #pragma once
 
 #include <common/Utils.hpp> // it includes GL/gl.h
+#include <compat/PlatformDefinitions.h>
 
 #ifdef USE_NATIVE_ANDROID
 	#define USE_GLES
@@ -19,8 +20,16 @@
 	#define USE_GLES // GLES or its compatibility layer.
 #endif
 
+
 #ifdef USE_GLES
-	#include <GLES/gl.h>
+	#if MC_TARGET_OS_IOS
+		 #import <OpenGLES/ES1/gl.h>
+		 #import <OpenGLES/ES1/glext.h>
+
+		#define glFogi glFogx
+	#else
+		#include <GLES/gl.h>
+	#endif
 	#define GL_QUADS 0x7
 
 	#define USE_OPENGL_2_FEATURES

@@ -1,0 +1,12 @@
+//
+//  Settings_iOS_Debug.xcconfig
+//  Minecraft
+//
+//  Created by Brent on 12/4/23.
+//
+//
+
+#include "Settings_iOS.xcconfig"
+#include "GlobalDebugSettings.xcconfig"
+
+GCC_PREPROCESSOR_DEFINITIONS = $(GCC_PREPROCESSOR_DEFINITIONS_IOS) $(GCC_PREPROCESSOR_DEFINITIONS_DEBUG)

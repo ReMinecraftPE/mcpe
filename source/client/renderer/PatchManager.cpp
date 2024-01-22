@@ -31,6 +31,13 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 	while (std::getline(patchDataStream, currLine))
 	{
 		if (currLine.empty()) continue;
+        if (currLine.at(currLine.size() - 1) == '\r')
+        {
+            // Ignore Windows line-endings when processing file on Unix systems
+            // How would we possibly standardize this if the game isn't the thing writing the file?
+            currLine = currLine.substr(0, currLine.size() - 1);
+        }
+		if (currLine.empty()) continue;
 		if (currLine[0] == '#') continue;
 
 		std::string command;
@@ -38,6 +45,13 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 		// read command type
 		if (!std::getline(lineStream, command, PM_SEPARATOR))
 			continue;
+        
+        /*if (command[0] == '\n')
+        {
+            // We'll end up here if we're on a platform that doesn't use Windows line-endings
+            // So let's just ignore them
+            command = command.erase(0, 1);
+        }*/
 
 		if (command == "stop_now")
 		{

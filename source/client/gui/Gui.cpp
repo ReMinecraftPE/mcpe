@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -108,9 +108,9 @@ void Gui::renderVignette(float a2, int a3, int a4)
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
-	t.vertexUV(0.0f, a4,   -90.0f, 0.0f, 1.0f);
-	t.vertexUV(a3,   a4,   -90.0f, 1.0f, 1.0f);
-	t.vertexUV(a3,   0.0f, -90.0f, 1.0f, 0.0f);
+	t.vertexUV(0.0f, a4, -90.0f, 0.0f, 1.0f);
+	t.vertexUV(a3, a4, -90.0f, 1.0f, 1.0f);
+	t.vertexUV(a3, 0.0f, -90.0f, 1.0f, 0.0f);
 	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
 	t.draw();
 
@@ -134,7 +134,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!m->m_pLevel || !m->m_pLocalPlayer)
 		return;
 
-	bool isTouchscreen = m->isTouchscreen();
+	//bool isTouchscreen = m->isTouchscreen();
 
 	field_4 = -90.0f;
 
@@ -150,7 +150,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	field_4 = -90.0f;
 
-	int width  = Minecraft::width  * InvGuiScale,
+	int width = Minecraft::width * InvGuiScale,
 		height = Minecraft::height * InvGuiScale;
 
 #ifdef ENH_TRANSPARENT_HOTBAR
@@ -166,7 +166,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	blit(cenX - hotbarWidth / 2, height - 22, 0, 0, hotbarWidth, 22, 0, 0);
 
 	// selection mark
-	blit(cenX - 1 - hotbarWidth / 2 + 20 * pInventory->m_SelectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
+	blit(cenX - 1 - hotbarWidth / 2 + 20 * pInventory->m_selectedHotbarSlot, height - 23, 0, 22, 24, 22, 0, 0);
 
 	m->m_pTextures->loadAndBindTexture("gui/icons.png");
 
@@ -187,7 +187,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	else
 	{
 		// if needed, draw feedback
-		
+
 		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
 		// "last progress". Well guess what? The game mode in question updates our field_8 with
 		// the pre-interpolated break progress! Isn't that awesome?!
@@ -298,8 +298,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		if (m->m_pLocalPlayer->isUnderLiquid(Material::water))
 		{
 			int breathRaw = m->m_pLocalPlayer->field_BC;
-			int breathFull  = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
-			int breathMeter = int(ceilf((float(breathRaw)     * 10.0f) / 300.0f)) - breathFull;
+			int breathFull = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
+			int breathMeter = int(ceilf((float(breathRaw) * 10.0f) / 300.0f)) - breathFull;
 
 			int bubbleX = cenX - 191;
 			int bubbleY = height - 19;
@@ -334,7 +334,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 		slotX += 20;
 	}
-	
+
 	slotX = cenX - hotbarWidth / 2 + 3;
 	for (int i = 0; i < nSlots - diff; i++)
 	{
@@ -460,7 +460,7 @@ void Gui::handleKeyPressed(int keyCode)
 
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_R, keyCode))
 	{
-		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 		if (*slot <= maxItems)
 			(*slot)++;
@@ -469,7 +469,7 @@ void Gui::handleKeyPressed(int keyCode)
 	}
 	if (m_pMinecraft->getOptions()->isKey(KM_SLOT_L, keyCode))
 	{
-		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 		if (*slot > 0)
 			(*slot)--;
@@ -490,10 +490,10 @@ void Gui::handleKeyPressed(int keyCode)
 void Gui::renderMessages(bool bShowAll)
 {
 	//int width = Minecraft::width * InvGuiScale,
-    int height = Minecraft::height * InvGuiScale;
+	int height = Minecraft::height * InvGuiScale;
 
 	int topEdge = height - 49;
-	
+
 	for (int i = 0; i < int(m_guiMessages.size()); i++)
 	{
 		GuiMessage& msg = m_guiMessages[i];
@@ -503,7 +503,7 @@ void Gui::renderMessages(bool bShowAll)
 		int bkgdColor = 0x7F000000, textColor = 0xFFFFFFFF;
 
 		float fade = 1.0f;
-		
+
 		if (!bShowAll)
 		{
 			fade = 10.0f * (1.0f - (float(msg.field_18) / 200.0f));

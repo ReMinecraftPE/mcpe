@@ -123,7 +123,7 @@ float WorldSelectionList::getPos(float f)
 	if (field_D8 != 1)
 		return RolledSelectionList::getPos(f);
 
-	return Lerp(WorldSelectionList_Static1(field_54,        field_58, field_5C, field_60),
+	return Mth::Lerp(WorldSelectionList_Static1(field_54,        field_58, field_5C, field_60),
 	            WorldSelectionList_Static1(field_54 + 1.0f, field_58, field_5C, field_60),
 	            f);
 }

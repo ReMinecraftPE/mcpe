@@ -233,7 +233,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 		Tile::tiles[tile]->setPlacedBy(m_pLevel, x, y, z, pMob);
 
 		const Tile::SoundType* pSound = Tile::tiles[tile]->m_pSound;
-		m_pLevel->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->field_18 + 1.0f), pSound->field_1C * 0.8f);
+		m_pLevel->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
 	}
 
 	redistributePacket(packet, guid);
@@ -257,7 +257,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
-		m_pMinecraft->m_pSoundEngine->play("step." + pSound->m_name, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, 0.5f * (pSound->field_18 + 1.0f), pSound->field_1C * 0.8f);
+		m_pMinecraft->m_pSoundEngine->play("step." + pSound->m_name, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
 
 		// redistribute the packet only if needed
 		redistributePacket(packet, guid);
@@ -479,44 +479,44 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 {
 	if (!m_pLevel)
 		return;
-
+    
 	if (parms.size() != 3)
 	{
 		sendMessage(player, "Usage: /tp <x> <y> <z>");
 		return;
 	}
-
+    
 	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
 	{
 		sendMessage(player, "Sorry, only the host can use this command at the moment");
 		return;
 	}
-
+    
 	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-
+    
 	float x = pos.x, y = pos.y, z = pos.z;
-
+    
 	std::stringstream ss;
 	if (parms[0] != "~")
 	{
-		ss = std::stringstream(parms[0]);
+		ss.str(parms[0]);
 		ss >> x;
 	}
 	if (parms[1] != "~")
 	{
-		ss = std::stringstream(parms[1]);
+		ss.str(parms[1]);
 		ss >> y;
 	}
 	if (parms[2] != "~")
 	{
-		ss = std::stringstream(parms[2]);
+		ss.str(parms[2]);
 		ss >> z;
 	}
-
-	ss = std::stringstream();
+    
+	ss.str(std::string());
 	ss << "Teleported to " << x << ", " << y << ", " << z;
-
+    
 	player->m_pPlayer->setPos(x, y, z);
-
+    
 	sendMessage(player, ss.str());
 }

@@ -22,7 +22,7 @@ public:
 	void setBrightness(float) override;
 
 public:
-	bool field_20 = false;
+	bool field_20;
 	ModelPart m_head, m_body, m_arm1, m_arm2, m_leg1, m_leg2;
 	bool field_234;
 	bool field_235;

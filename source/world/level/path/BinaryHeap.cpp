@@ -71,7 +71,7 @@ void BinaryHeap::downHeap(int num)
 		float var9;
 		if (var5 >= m_count) {
 			var8 = nullptr;
-			var9 = INFINITY;
+			var9 = std::numeric_limits<float>::infinity();
 		}
 		else {
 			var8 = m_items[var5];

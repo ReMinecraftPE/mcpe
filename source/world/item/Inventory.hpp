@@ -42,7 +42,7 @@ public:
 
 	int getSelectedSlotNo() const
 	{
-		return m_SelectedHotbarSlot;
+		return m_selectedHotbarSlot;
 	}
 
 	// v0.2.0 name alias
@@ -51,7 +51,7 @@ public:
 	}
 
 public:
-	int m_SelectedHotbarSlot;
+	int m_selectedHotbarSlot;
 private:
 	Player* m_pPlayer;
 	bool m_bIsSurvival;
@@ -59,4 +59,3 @@ private:
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
 	std::vector<ItemInstance> m_items;
 };
-

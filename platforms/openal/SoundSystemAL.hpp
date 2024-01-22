@@ -35,19 +35,27 @@ public:
 
 	virtual void setListenerPos(float x, float y, float z);
 	virtual void setListenerAngle(float yaw, float pitch);
+    
+    virtual void startEngine();
+    virtual void stopEngine();
+    virtual void muteAudio();
+    virtual void unMuteAudio();
+    
 private:
 	void delete_sources();
 	void delete_buffers();
 	ALuint get_buffer(const SoundDesc& sound);
 
-	ALCdevice *device;
-	ALCcontext *context;
-	bool loaded;
-	std::vector<ALuint> sources;
-	std::vector<ALuint> idle_sources;
-	std::map<void *, ALuint> buffers;
+	ALCdevice *_device;
+	ALCcontext *_context;
+	bool _initialized;
+	std::vector<ALuint> _sources;
+	std::vector<ALuint> _sources_idle;
+	std::map<void *, ALuint> _buffers;
 
-	Vec3 lastListenerPos;
+	Vec3 _lastListenerPos;
+    float _listenerVolume;
+    bool _audioMuted;
 };
 
 #endif

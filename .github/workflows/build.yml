@@ -46,6 +46,50 @@ jobs:
                 sudo apt-get install --no-install-recommends -y cmake ninja-build
           - name: Build
             run: ./build-wasm.sh
+    macos:
+        name: macOS
+        runs-on: macos-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+            with:
+                submodules: true
+          - name: Install MacPorts
+            uses: melusina-org/setup-macports@v1
+          - name: Install Dependencies
+            run: |
+                sudo port install libsdl2 +universal
+                sudo port install libpng +universal
+          - name: Build macOS Archive
+            run: |
+                cd platforms/macos/projects/Minecraft
+                xcodebuild -scheme "MinecraftClient.SDL2" \
+                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_SDL2.xcarchive \
+                -sdk macosx \
+                -configuration "Release (Default)" \
+                -destination generic/platform=macOS \
+                GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
+                -quiet \
+                clean archive 
+    # @NOTE: Newer versions of Xcode will complain and refuse to build old XIB files or target old iOS versions
+    #ios:
+    #    runs-on: macos-latest
+    #    steps:
+    #      - name: Checkout Repository
+    #        uses: actions/checkout@v3
+    #        with:
+    #            submodules: true
+    #      - name: Build iOS Archive
+    #        run: |
+    #            cd platforms/macos/projects/Minecraft
+    #            xcodebuild -scheme "minecraftpe" \
+    #            -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
+    #            -sdk iphoneos \
+    #            -configuration "Release (iOS)" \
+    #            -destination generic/platform=iOS \
+    #            GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
+    #            -quiet \
+    #            clean archive 
     android:
         strategy:
             fail-fast: false

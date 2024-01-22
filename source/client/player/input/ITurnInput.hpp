@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "compat/LegacyCPPCompatibility.hpp"
+
 struct TurnDelta
 {
 	float x, y;

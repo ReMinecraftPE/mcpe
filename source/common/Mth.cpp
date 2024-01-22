@@ -168,4 +168,3 @@ float Mth::random()
 {
 	return g_Random.nextFloat();
 }
-

@@ -5,77 +5,16 @@
 
 SoundSystemAL::SoundSystemAL()
 {
-	loaded = false;
-	
-	device = alcOpenDevice(NULL);
-	if (!device)
-	{
-		LOG_E("Unable To Load Audio Engine");
-		return;
-	}
-
-	// Create Context
-	context = alcCreateContext(device, NULL);
-	ALCenum err = alcGetError(device);
-	if (err != ALC_NO_ERROR)
-	{
-		LOG_E("Unable To Open Audio Context: %s", alcGetString(device, err));
-		return;
-	}
-
-	// Select Context
-	alcMakeContextCurrent(context);
-	err = alcGetError(device);
-	if (err != ALC_NO_ERROR)
-	{
-		LOG_E("Unable To Select Audio Context: %s", alcGetString(device, err));
-		return;
-	}
-
-	// Set Distance Model
-	alDistanceModel(AL_LINEAR_DISTANCE_CLAMPED);
-
-	// Mark As Loaded
-	loaded = true;
+	_initialized = false;
+    _listenerVolume = 1.0;
+    _audioMuted = false;
+    
+    startEngine();
 }
 
 SoundSystemAL::~SoundSystemAL()
 {
-	if (!loaded)
-	{
-		return;
-	}
-
-	// Delete Audio Sources
-	delete_sources();
-
-	// Delete Audio Buffers
-	delete_buffers();
-
-	// Deselect Context
-	alcMakeContextCurrent(NULL);
-	ALCenum err = alcGetError(device);
-	if (err != ALC_NO_ERROR)
-	{
-		LOG_E("Unable To Deselect Audio Context: %s", alcGetString(device, err));
-	}
-
-	// Destroy Context
-	alcDestroyContext(context);
-	err = alcGetError(device);
-	if (err != ALC_NO_ERROR)
-	{
-		LOG_E("Unable To Destroy Audio Context: %s", alcGetString(device, err));
-	}
-
-	// Close Device
-	alcCloseDevice(device);
-	// Can't check for error because device is closed
-	/*err = alcGetError(device);
-	if (err != ALC_NO_ERROR)
-	{
-		LOG_E("Unable To Close Audio Device: %s", alcGetString(device, err));
-	}*/
+    stopEngine();
 }
 
 // Error Checking
@@ -93,30 +32,30 @@ SoundSystemAL::~SoundSystemAL()
 // Delete Sources
 void SoundSystemAL::delete_sources()
 {
-	if (loaded)
+	if (_initialized)
 	{
-		for (std::vector<ALuint>::iterator source = idle_sources.begin(); source != idle_sources.end(); source++)
+		for (std::vector<ALuint>::iterator source = _sources_idle.begin(); source != _sources_idle.end(); source++)
 		{
 			alDeleteSources(1, &*source);
 			AL_ERROR_CHECK();
 		}
-		for (std::vector<ALuint>::iterator source = sources.begin(); source != sources.end(); source++)
+		for (std::vector<ALuint>::iterator source = _sources.begin(); source != _sources.end(); source++)
 		{
 			alDeleteSources(1, &*source);
 			AL_ERROR_CHECK();
 		}
 	}
-	idle_sources.clear();
-	sources.clear();
+	_sources_idle.clear();
+	_sources.clear();
 }
 
 // Delete Buffers
 void SoundSystemAL::delete_buffers()
 {
-	if (loaded)
+	if (_initialized)
 	{
-		for (std::map<void *, ALuint>::iterator it = buffers.begin(); it != buffers.end(); it++)
-		//for (auto &it : buffers)
+		for (std::map<void *, ALuint>::iterator it = _buffers.begin(); it != _buffers.end(); it++)
+		//for (auto &it : _buffers)
 		{
 			if (it->second && alIsBuffer(it->second))
 			{
@@ -125,15 +64,15 @@ void SoundSystemAL::delete_buffers()
 			}
 		}
 	}
-	buffers.clear();
+	_buffers.clear();
 }
 
 // Get Buffer
 ALuint SoundSystemAL::get_buffer(const SoundDesc& sound)
 {
-	if (buffers.count(sound.m_pData) > 0)
+	if (_buffers.count(sound.m_pData) > 0)
 	{
-		return buffers[sound.m_pData];
+		return _buffers[sound.m_pData];
 	}
 	else
 	{
@@ -159,14 +98,14 @@ ALuint SoundSystemAL::get_buffer(const SoundDesc& sound)
 		AL_ERROR_CHECK();
 
 		// Store
-		buffers[sound.m_pData] = buffer;
+		_buffers[sound.m_pData] = buffer;
 		return buffer;
 	}
 }
 
 bool SoundSystemAL::isAvailable()
 {
-	return loaded;
+	return _initialized;
 }
 
 void SoundSystemAL::setListenerPos(float x, float y, float z)
@@ -174,7 +113,7 @@ void SoundSystemAL::setListenerPos(float x, float y, float z)
 	// Update Listener Position
 	alListener3f(AL_POSITION, x, y, z);
 	AL_ERROR_CHECK();
-	lastListenerPos = Vec3(x, y, z);
+	_lastListenerPos = Vec3(x, y, z);
 	update();
 }
 
@@ -190,19 +129,18 @@ void SoundSystemAL::setListenerAngle(float yaw, float pitch)
 void SoundSystemAL::update()
 {
 	// Check
-	if (!loaded)
+	if (!_initialized)
 	{
 		return;
 	}
 
 	// Update Listener Volume
-	float volume = 1;
-	alListenerf(AL_GAIN, volume);
+	alListenerf(AL_GAIN, _listenerVolume);
 	AL_ERROR_CHECK();
 
 	// Clear Finished Sources
-	std::vector<ALuint>::iterator it = sources.begin();
-	while (it != sources.end())
+	std::vector<ALuint>::iterator it = _sources.begin();
+	while (it != _sources.end())
 	{
 		ALuint source = *it;
 		bool remove = false;
@@ -217,9 +155,9 @@ void SoundSystemAL::update()
 			{
 				// Finished Playing
 				remove = true;
-				if (idle_sources.size() < MAX_IDLE_SOURCES)
+				if (_sources_idle.size() < MAX_IDLE_SOURCES)
 				{
-					idle_sources.push_back(source);
+					_sources_idle.push_back(source);
 				}
 				else
 				{
@@ -235,7 +173,7 @@ void SoundSystemAL::update()
 		}
 		// Remove If Needed
 		if (remove) {
-			it = sources.erase(it);
+			it = _sources.erase(it);
 		}
 		else
 		{
@@ -247,12 +185,12 @@ void SoundSystemAL::update()
 void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch)
 {
 	// Check
-	if (!loaded)
+	if (!_initialized)
 	{
 		return;
 	}
 
-	if (volume <= 0.0f)
+	if (_audioMuted || volume <= 0.0f)
 		return;
 
 	bool bIsGUI = AL_FALSE;
@@ -263,7 +201,7 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	}
 	else
 	{
-		distance = Vec3(x, y, z).distanceTo(lastListenerPos);
+		distance = Vec3(x, y, z).distanceTo(_lastListenerPos);
 		if (distance >= MAX_DISTANCE)
 			return;
 	}
@@ -275,11 +213,11 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	
 	// Get Source
 	ALuint al_source;
-	if (idle_sources.size() > 0)
+	if (_sources_idle.size() > 0)
 	{
 		// Use Idle Source
-		al_source = idle_sources.back();
-		idle_sources.pop_back();
+		al_source = _sources_idle.back();
+		_sources_idle.pop_back();
 	}
 	else
 	{
@@ -302,6 +240,8 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	// Set Properties
 	alSourcef(al_source, AL_PITCH, pitch);
 	AL_ERROR_CHECK();
+    // There is a problem with Apple's OpenAL implementation on older Mac OS X versions
+    // https://stackoverflow.com/questions/6960731/openal-problem-changing-gain-of-source
 	alSourcef(al_source, AL_GAIN, volume);
 	AL_ERROR_CHECK();
 	alSource3f(al_source, AL_POSITION, x, y, z);
@@ -328,7 +268,92 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	// Play
 	alSourcePlay(al_source);
 	AL_ERROR_CHECK();
-	sources.push_back(al_source);
+	_sources.push_back(al_source);
+}
+
+void SoundSystemAL::startEngine()
+{
+    if (_initialized) return;
+    
+    _device = alcOpenDevice(NULL);
+	if (!_device)
+	{
+		LOG_E("Unable To Load Audio Engine");
+		return;
+	}
+    
+	// Create Context
+	_context = alcCreateContext(_device, NULL);
+	ALCenum err = alcGetError(_device);
+	if (err != ALC_NO_ERROR)
+	{
+		LOG_E("Unable To Open Audio Context: %s", alcGetString(_device, err));
+		return;
+	}
+    
+	// Select Context
+	alcMakeContextCurrent(_context);
+	err = alcGetError(_device);
+	if (err != ALC_NO_ERROR)
+	{
+		LOG_E("Unable To Select Audio Context: %s", alcGetString(_device, err));
+		return;
+	}
+    
+	// Set Distance Model
+	alDistanceModel(AL_LINEAR_DISTANCE_CLAMPED);
+    
+	// Mark As loaded
+	_initialized = true;
+}
+
+void SoundSystemAL::stopEngine()
+{
+    if (!_initialized) return;
+    
+	// Delete Audio Sources
+	delete_sources();
+    
+	// Delete Audio Buffers
+	delete_buffers();
+    
+	// Deselect Context
+	alcMakeContextCurrent(NULL);
+	ALCenum err = alcGetError(_device);
+	if (err != ALC_NO_ERROR)
+	{
+		LOG_E("Unable To Deselect Audio Context: %s", alcGetString(_device, err));
+	}
+    
+	// Destroy Context
+	alcDestroyContext(_context);
+	err = alcGetError(_device);
+	if (err != ALC_NO_ERROR)
+	{
+		LOG_E("Unable To Destroy Audio Context: %s", alcGetString(_device, err));
+	}
+    
+	// Close Device
+	alcCloseDevice(_device);
+	// Can't check for error because _device is closed
+	/*err = alcGetError(_device);
+     if (err != ALC_NO_ERROR)
+     {
+     LOG_E("Unable To Close Audio Device: %s", alcGetString(_device, err));
+     }*/
+    
+    // Mark as unloaded
+    _initialized = false;
+}
+
+void SoundSystemAL::muteAudio()
+{
+    _audioMuted = true;
+}
+
+void SoundSystemAL::unMuteAudio()
+{
+    _audioMuted = false;
 }
 
 #endif

@@ -65,33 +65,33 @@ void ParticleEngine::crack(int x, int y, int z, int dir)
 	switch (dir)
 	{
 		case DIR_YNEG:
-			posX = float(x) + Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
 			posY = float(y) + pTile->m_aabb.min.y - 0.1f;
 			break;
 		case DIR_YPOS:
-			posX = float(x) + Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
 			posY = float(y) + pTile->m_aabb.max.y + 0.1f;
 			break;
 		case DIR_ZNEG:
-			posX = float(x) + Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posY = float(y) + Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
 			posZ = float(z) + pTile->m_aabb.min.z - 0.1f;
 			break;
 		case DIR_ZPOS:
-			posX = float(x) + Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posY = float(y) + Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
 			posZ = float(z) + pTile->m_aabb.max.z + 0.1f;
 			break;
 		case DIR_XNEG:
-			posY = float(y) + Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
 			posX = float(x) + pTile->m_aabb.min.x - 0.1f;
 			break;
 		case DIR_XPOS:
-			posY = float(y) + Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
 			posX = float(x) + pTile->m_aabb.max.x + 0.1f;
 			break;
 		default:
@@ -153,9 +153,9 @@ void ParticleEngine::render(Entity* ent, float f)
 	float x5 = x1 * Mth::sin(float(M_PI) * ent->m_pitch / 180.0f);
 	float x2 = Mth::cos(float(M_PI) * ent->m_pitch / 180.0f);
 
-	Particle::xOff = Lerp(ent->field_98.x, ent->m_pos.x, f);
-	Particle::yOff = Lerp(ent->field_98.y, ent->m_pos.y, f);
-	Particle::zOff = Lerp(ent->field_98.z, ent->m_pos.z, f);
+	Particle::xOff = Mth::Lerp(ent->field_98.x, ent->m_pos.x, f);
+	Particle::yOff = Mth::Lerp(ent->field_98.y, ent->m_pos.y, f);
+	Particle::zOff = Mth::Lerp(ent->field_98.z, ent->m_pos.z, f);
 
 	// @BUG: Ignoring the last particle array. Invisible?
 	Tesselator& t = Tesselator::instance;

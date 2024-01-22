@@ -59,18 +59,29 @@ public:
 	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
 	virtual bool shiftPressed();
+ 	// On-screen keyboard
+	virtual void showKeyboard(int x, int y, int w, int h);
+	virtual void showKeyboard();
+	virtual void showKeyboard(bool bShown); // @TODO: Why on earth is this here?
+	// virtual void showKeyboard(std::string const &currentText, int maxLength, bool limitInput);
+	virtual void hideKeyboard();
+	virtual void onHideKeyboard(); // called by the runner, not the game
+  #ifdef USE_NATIVE_ANDROID
+	virtual int getKeyboardUpOffset();
+  #endif
+    
+  void _fireLowMemory();
+  void _fireAppSuspended();
+  void _fireAppResumed();
+  void _fireAppFocusLost();
+  void _fireAppFocusGained();
+  void _fireAppTerminated();
 
 	virtual bool hasFileSystemAccess();
 	// Also add this to allow dynamic patching.
 	virtual std::string getPatchData();
 	virtual void initSoundSystem();
 	virtual SoundSystem* const getSoundSystem() const;
-	// On-screen keyboard
-	virtual void showKeyboard(int x, int y, int w, int h);
-	virtual void hideKeyboard();
-#ifdef USE_NATIVE_ANDROID
-	virtual int getKeyboardUpOffset();
-#endif
 #endif
 
 public:

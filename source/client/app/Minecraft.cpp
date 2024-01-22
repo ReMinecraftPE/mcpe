@@ -31,10 +31,10 @@
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
 
-// custom:
+ // custom:
 #include "client/renderer/PatchManager.hpp"
 
-int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
+int Minecraft::width = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
 float Minecraft::guiScaleMultiplier = 1.0f;
 bool Minecraft::useAmbientOcclusion = false;
@@ -53,7 +53,7 @@ const char* Minecraft::progressMessages[] =
 };
 
 Minecraft::Minecraft() :
-    m_gui(this)
+	m_gui(this)
 {
 	m_options = nullptr;
 	field_18 = false;
@@ -149,7 +149,7 @@ void Minecraft::setScreen(Screen* pScreen)
 		m_pQueuedScreen = pScreen;
 		return;
 	}
-	
+
 	if (pScreen && pScreen->isErrorScreen())
 	{
 		// not in original
@@ -167,7 +167,8 @@ void Minecraft::setScreen(Screen* pScreen)
 	if (pScreen)
 	{
 		releaseMouse();
-		pScreen->init(this, int(width * Gui::InvGuiScale), int(height * Gui::InvGuiScale));
+		// the ceil prevents under-drawing
+		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
 	}
 	else
 	{
@@ -330,13 +331,13 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 					{
 						switch (m_hitResult.m_hitSide)
 						{
-							case HitResult::NOHIT: break;
-							case HitResult::MINY: dy--; break;
-							case HitResult::MAXY: dy++; break;
-							case HitResult::MINZ: dz--; break;
-							case HitResult::MAXZ: dz++; break;
-							case HitResult::MINX: dx--; break;
-							case HitResult::MAXX: dx++; break;
+						case HitResult::NOHIT: break;
+						case HitResult::MINY: dy--; break;
+						case HitResult::MAXY: dy++; break;
+						case HitResult::MINZ: dz--; break;
+						case HitResult::MAXZ: dz++; break;
+						case HitResult::MINX: dx--; break;
+						case HitResult::MAXX: dx++; break;
 						}
 					}
 					else
@@ -431,7 +432,7 @@ void Minecraft::tickInput()
 #ifdef ENH_ALLOW_SCROLL_WHEEL
 			if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
 			{
-				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
+				int slot = m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
 				int maxItems = m_gui.getNumUsableSlots() - 1;
 
@@ -498,7 +499,7 @@ void Minecraft::tickInput()
 			{
 				getOptions()->m_bDebugText = !getOptions()->m_bDebugText;
 			}
-		#ifdef ENH_ALLOW_AO
+#ifdef ENH_ALLOW_AO
 			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
 				// Toggle ambient occlusion.
@@ -506,7 +507,7 @@ void Minecraft::tickInput()
 				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
 				m_pLevelRenderer->allChanged();
 			}
-		#endif
+#endif
 		}
 
 		if (getOptions()->field_19)
@@ -533,14 +534,14 @@ void Minecraft::tickInput()
 
 	if (b && !bai.isRemoveContinue())
 		handleBuildAction(&bai);
-	
+
 	bool flag =
 		// If we are mouse operated, the LMB is held down and it's not in the GUI
 		((m_options->field_19 && Mouse::isButtonDown(BUTTON_LEFT) && !bIsInGUI) ||
-		// We are instead keyboard operated, so check for the KM_DESTROY key being held down
-		(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
-		// The build action intention is a remove one
-		(b && bai.isRemove()));
+			// We are instead keyboard operated, so check for the KM_DESTROY key being held down
+			(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
+			// The build action intention is a remove one
+			(b && bai.isRemove()));
 
 	if (flag && !m_pScreen && (field_DA8 - field_DAC) >= (m_timer.m_ticksPerSecond * 0.25f))
 	{
@@ -649,11 +650,11 @@ void Minecraft::_reloadInput()
 	{
 		m_pInputHolder = new CustomInputHolder(
 			new KeyboardInput(m_options),
-		#ifdef ORIGINAL_CODE
+#ifdef ORIGINAL_CODE
 			new ControllerTurnInput,
-		#else
+#else
 			new MouseTurnInput(this),
-		#endif
+#endif
 			new IBuildInput
 		);
 	}
@@ -662,7 +663,7 @@ void Minecraft::_reloadInput()
 
 	if (m_pLevel && m_pLocalPlayer)
 	{
-			m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
+		m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
 	}
 
 	m_options->field_19 = !isTouchscreen();
@@ -780,7 +781,7 @@ void Minecraft::update()
 	m_pGameRenderer->render(m_timer.m_renderTicks);
 
 	double time = double(getTimeS());
-	m_fDeltaTime   = time - m_fLastUpdated;
+	m_fDeltaTime = time - m_fLastUpdated;
 	m_fLastUpdated = time;
 
 	// Added by iProgramInCpp
@@ -830,7 +831,8 @@ void Minecraft::init()
 	m_pGameMode = new CreativeMode(this);
 #endif
 
-	m_pFont = new Font(m_options, "font/default.png", m_pTextures);
+    // "Default.png" for the launch image overwrites "default.png" for the font during app packaging
+	m_pFont = new Font(m_options, "font/default8.png", m_pTextures);
 
 	if (GrassColor::isAvailable())
 	{
@@ -894,7 +896,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 			float time1 = getTimeS();
 
 			// generating all the chunks at once
-			(void) m_pLevel->getTile(i, (C_MAX_Y + C_MIN_Y) / 2, j);
+			(void)m_pLevel->getTile(i, (C_MAX_Y + C_MIN_Y) / 2, j);
 
 			if (time1 != -1.0f)
 				getTimeS();
@@ -972,8 +974,9 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 	// re-calculate the GUI scale.
 	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
 
+	// the ceil prevents under-drawing
 	if (m_pScreen)
-		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
+		m_pScreen->setSize(ceil(Minecraft::width * Gui::InvGuiScale), ceil(Minecraft::height * Gui::InvGuiScale));
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);
@@ -1003,8 +1006,8 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	}
 	else
 	{
-	    if (height > 1600)
-		    return 1.0f / 4.0f;
+		if (height > 1600)
+			return 1.0f / 4.0f;
 
 		if (height > 800)
 			return 1.0f / 3.0f;

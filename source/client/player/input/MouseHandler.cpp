@@ -1,5 +1,7 @@
 #include "MouseHandler.hpp"
 
+#include "common/Utils.hpp"
+
 MouseHandler::MouseHandler() :
 	m_pTurnInput(nullptr)
 {

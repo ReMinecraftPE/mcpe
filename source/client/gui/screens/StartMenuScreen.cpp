@@ -13,7 +13,7 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 
-#if defined(_WIN32) || defined(TARGET_OS_MAC)
+#if defined(_WIN32) || (defined(TARGET_OS_MAC) && TARGET_OS_IPHONE == 0)
 #define CAN_QUIT
 #endif
 
@@ -75,7 +75,7 @@ const char* gSplashes[] =
 	"Minecraft!",
 	"Yaaay!",
 	"Multiplayer!",
-	"Not yet touch compatible!",// "Touch compatible!",
+	"Touch compatible!",
 	"Undocumented!",
 	"Ingots!",
 	"Exploding creepers!",
@@ -600,27 +600,27 @@ void StartMenuScreen::draw3dTitle(float f)
 	{
 		glPushMatrix();
 		glTranslatef(0.4f, 0.6f, -12.0f);
-		if (i == 0)
+		switch (i)
 		{
-			glClear(GL_DEPTH_BUFFER_BIT);
-			glTranslatef(0.0f, -0.5f, -0.5f);
-			glEnable(GL_BLEND);
-			//force set alpha
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}
+			case 0:
+				glClear(GL_DEPTH_BUFFER_BIT);
+				glTranslatef(0.0f, -0.5f, -0.5f);
+				glEnable(GL_BLEND);
+				//force set alpha
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				break;
 
-		if (i == 1)
-		{
-			glDisable(GL_BLEND);
-			glClear(GL_DEPTH_BUFFER_BIT);
-			//revert
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}
-
-		if (i == 2)
-		{
-			glEnable(GL_BLEND);
-			//glBlendFunc(GL_SRC_COLOR, GL_ONE);
+			case 1:
+				glDisable(GL_BLEND);
+				glClear(GL_DEPTH_BUFFER_BIT);
+				//revert
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				break;
+				
+			case 2:
+				glEnable(GL_BLEND);
+				//glBlendFunc(GL_SRC_COLOR, GL_ONE);
+				break;
 		}
 
 		glScalef(1.0f, -1.0f, 1.0f);
@@ -646,8 +646,7 @@ void StartMenuScreen::draw3dTitle(float f)
 				glPushMatrix();
 
 				TitleTile* pTTile = m_pTiles[y * Width + x];
-				// @TODO: After merging the iOS port, change to Mth::Lerp
-				float z = Lerp(pTTile->lastHeight, pTTile->height, f);
+				float z = Mth::Lerp(pTTile->lastHeight, pTTile->height, f);
 				float scale = 1.0f;
 				float bright = 1.0f;
 				float rotation = 180.0f;

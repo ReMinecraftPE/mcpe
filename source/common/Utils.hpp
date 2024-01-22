@@ -26,17 +26,7 @@
 #include <string>
 #include <sstream>
 
-#ifdef USE_OLD_CPP
-#ifndef constexpr
-#define constexpr const
-#endif
-#ifndef nullptr
-#define nullptr NULL
-#endif
-#ifndef override
-#define override
-#endif
-#endif
+#include "../../compat/LegacyCPPCompatibility.hpp"
 
 #ifdef _MSC_VER
 #pragma warning (disable : 4068)
@@ -44,6 +34,7 @@
 
 #if defined(_WIN32)
 
+// Do we even need all this WinSock stuff anymore?
 #ifndef _XBOX // assume we're on a normal Windows device
 #define WIN32_LEAN_AND_MEAN
 #include <WinSock2.h>
@@ -186,7 +177,7 @@ enum eTileID
 	TILE_NOTE_BLOCK,
 	TILE_BED,
 	TILE_RAIL_POWERED,
-	TYPE_RAIL_ACTIVATOR,
+	TILE_RAIL_ACTIVATOR,
 	TILE_PISTON_STICKY,
 	TILE_COBWEB,
 	TILE_TALLGRASS,
@@ -634,12 +625,6 @@ int getTimeMs();
 float Max(float a, float b);
 
 void sleepMs(int ms);
-
-// @NOTE: This is inlined.
-static constexpr float Lerp(float a, float b, float progress)
-{
-	return a + progress * (b - a);
-}
 
 bool createFolderIfNotExists(const char* pDir);
 bool DeleteDirectory(const std::string& name, bool unused);

@@ -8,6 +8,7 @@
 
 #include "ItemInHandRenderer.hpp"
 #include "client/app/Minecraft.hpp"
+#include "common/Mth.hpp"
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
 	m_ItemInstance(0, 1, 0),
@@ -124,33 +125,33 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 	SHADE_IF_NEEDED(0.8f);
 	for (int i = 0; i < 16; i++)
 	{
-		t.vertexUV(i * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
-		t.vertexUV(i * C_ONE_PIXEL, 0.0f, 0.0f,         Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
-		t.vertexUV(i * C_ONE_PIXEL, 1.0f, 0.0f,         Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
-		t.vertexUV(i * C_ONE_PIXEL, 1.0f, -C_ONE_PIXEL, Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
+		t.vertexUV(i * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
+		t.vertexUV(i * C_ONE_PIXEL, 0.0f, 0.0f,         Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
+		t.vertexUV(i * C_ONE_PIXEL, 1.0f, 0.0f,         Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
+		t.vertexUV(i * C_ONE_PIXEL, 1.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
 	}
 	for (int i = 0; i < 16; i++)
 	{
-		t.vertexUV((i + 1) * C_ONE_PIXEL, 1.0f, -C_ONE_PIXEL, Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
-		t.vertexUV((i + 1) * C_ONE_PIXEL, 1.0f, 0.0f,         Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
-		t.vertexUV((i + 1) * C_ONE_PIXEL, 0.0f, 0.0f,         Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
-		t.vertexUV((i + 1) * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
+		t.vertexUV((i + 1) * C_ONE_PIXEL, 1.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
+		t.vertexUV((i + 1) * C_ONE_PIXEL, 1.0f, 0.0f,         Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_1);
+		t.vertexUV((i + 1) * C_ONE_PIXEL, 0.0f, 0.0f,         Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
+		t.vertexUV((i + 1) * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
 	}
 
 	SHADE_IF_NEEDED(0.6f);
 	for (int i = 0; i < 16; i++)
 	{
-		t.vertexUV(0.0f, (i + 1) * C_ONE_PIXEL, 0.0f,         texU_2, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
-		t.vertexUV(1.0f, (i + 1) * C_ONE_PIXEL, 0.0f,         texU_1, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
-		t.vertexUV(1.0f, (i + 1) * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
-		t.vertexUV(0.0f, (i + 1) * C_ONE_PIXEL, -C_ONE_PIXEL, texU_2, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(0.0f, (i + 1) * C_ONE_PIXEL, 0.0f,         texU_2, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(1.0f, (i + 1) * C_ONE_PIXEL, 0.0f,         texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(1.0f, (i + 1) * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(0.0f, (i + 1) * C_ONE_PIXEL, -C_ONE_PIXEL, texU_2, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
 	}
 	for (int i = 0; i < 16; i++)
 	{
-		t.vertexUV(1.0f, i * C_ONE_PIXEL, 0.0f,         texU_1, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
-		t.vertexUV(0.0f, i * C_ONE_PIXEL, 0.0f,         texU_2, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
-		t.vertexUV(0.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_2, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
-		t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(1.0f, i * C_ONE_PIXEL, 0.0f,         texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(0.0f, i * C_ONE_PIXEL, 0.0f,         texU_2, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(0.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_2, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
+		t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
 	}
 
 	t.draw();
@@ -169,9 +170,8 @@ void ItemInHandRenderer::render(float f)
 
 	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
 	{
-		// @TODO: Change to Mth::Lerp when iOS port is pulled!
-		float rYaw   = Lerp(pLP->m_lastRenderArmYaw,   pLP->m_renderArmYaw,   f);
-		float rPitch = Lerp(pLP->m_lastRenderArmPitch, pLP->m_renderArmPitch, f);
+		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmYaw,   pLP->m_renderArmYaw,   f);
+		float rPitch = Mth::Lerp(pLP->m_lastRenderArmPitch, pLP->m_renderArmPitch, f);
 		glRotatef((pLP->m_pitch - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
 		glRotatef((pLP->m_yaw   - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
 	}

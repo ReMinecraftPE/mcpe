@@ -60,9 +60,8 @@ void LocalPlayer::aiStep()
 
 	m_lastRenderArmYaw = m_renderArmYaw;
 	m_lastRenderArmPitch = m_renderArmPitch;
-	// @TODO: Change to Mth::Lerp when iOS port is pulled!
-	m_renderArmYaw   = Lerp(m_renderArmYaw,   m_yaw,   0.5f);
-	m_renderArmPitch = Lerp(m_renderArmPitch, m_pitch, 0.5f);
+	m_renderArmYaw   = Mth::Lerp(m_renderArmYaw,   m_yaw,   0.5f);
+	m_renderArmPitch = Mth::Lerp(m_renderArmPitch, m_pitch, 0.5f);
 
 	Mob::aiStep();
 	Player::aiStep();

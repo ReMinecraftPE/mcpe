@@ -31,9 +31,9 @@ public: // structs
 	struct SoundType
 	{
 		std::string m_name;
-		float field_18, field_1C;
+		float volume, pitch;
 
-		SoundType(const std::string& a, float b, float c) : m_name(a), field_18(b), field_1C(c) {}
+		SoundType(const std::string& name, float volume, float pitch) : m_name(name), volume(volume), pitch(pitch) {}
 	};
 
 public: // virtual functions

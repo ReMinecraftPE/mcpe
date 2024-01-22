@@ -9,6 +9,7 @@
 #include "LevelRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "renderer/GL/GL.hpp"
+#include "common/Mth.hpp"
 
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
@@ -1249,28 +1250,28 @@ void LevelRenderer::addParticle(const std::string& name, float x, float y, float
 	LOG_W("Unknown particle type: %s", name.c_str());
 }
 
-void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float a, float b)
+void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float volume, float pitch)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	float mult = 1.0f, maxDist = 16.0f;
 	float playerDist = m_pMinecraft->m_pMobPersp->distanceToSqr(x, y, z);
 
-	if (a > 1.0f)
+	if (volume > 1.0f)
 	{
 		mult = 16.0f;
-		maxDist = a * mult;
+		maxDist = volume * mult;
 	}
 
 	if (name == "random.explode")
 	{
-		a *= 1.0f - playerDist / 65536.0f;
-		if (a < 0)
+		volume *= 1.0f - playerDist / 65536.0f;
+		if (volume < 0)
 			return;
 		maxDist = 256.0f;
 	}
 
 	if (maxDist * maxDist > playerDist)
-		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, a, b);
+		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, volume, pitch);
 }
 
 void LevelRenderer::renderSky(float f)
@@ -1307,7 +1308,7 @@ void LevelRenderer::renderClouds(float f)
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
 
-	float yPos = Lerp(m_pMinecraft->m_pMobPersp->field_98.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
+	float yPos = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_98.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
 
 	glEnable(GL_BLEND);
@@ -1315,8 +1316,8 @@ void LevelRenderer::renderClouds(float f)
 
 	Vec3 cloudColor = m_pLevel->getCloudColor(f);
 
-	float offX = Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.3f;
-	float offZ = Lerp(m_pMinecraft->m_pMobPersp->field_3C.z, m_pMinecraft->m_pMobPersp->m_pos.z, f);
+	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.3f;
+	float offZ = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.z, m_pMinecraft->m_pMobPersp->m_pos.z, f);
 	
 	int dx2048 = Mth::floor(offX / 2048.0f);
 	int dz2048 = Mth::floor(offZ / 2048.0f);

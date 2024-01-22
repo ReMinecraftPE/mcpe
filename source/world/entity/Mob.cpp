@@ -707,9 +707,9 @@ Vec3 Mob::getPos(float f)
 		return m_pos;
 
 	return Vec3(
-		Lerp(field_3C.x, m_pos.x, f),
-		Lerp(field_3C.y, m_pos.y, f),
-		Lerp(field_3C.z, m_pos.z, f)
+        Mth::Lerp(field_3C.x, m_pos.x, f),
+		Mth::Lerp(field_3C.y, m_pos.y, f),
+		Mth::Lerp(field_3C.z, m_pos.z, f)
 	);
 }
 

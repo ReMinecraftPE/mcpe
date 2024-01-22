@@ -24,5 +24,12 @@ public:
 	virtual void pause(const std::string& sound);
 	virtual void stop(const std::string& sound);
 	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float a, float b);
+    
+    // Be prepared for these to be called regardless of engine state
+    virtual void startEngine();
+    virtual void stopEngine();
+    
+    virtual void muteAudio();
+    virtual void unMuteAudio();
 };
 

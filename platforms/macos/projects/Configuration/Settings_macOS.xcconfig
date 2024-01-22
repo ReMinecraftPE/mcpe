@@ -1,0 +1,26 @@
+//
+//  Settings_macOS.xcconfig
+//  Minecraft
+//
+//  Created by Brent on 12/4/23.
+//
+//
+
+#include "GlobalSettings.xcconfig"
+
+GCC_PREPROCESSOR_DEFINITIONS_MACOS = USE_SDL SDL_DISABLE_IMMINTRIN_H $(GCC_PREPROCESSOR_DEFINITIONS_GLOBAL)
+GCC_PREPROCESSOR_DEFINITIONS = $(GCC_PREPROCESSOR_DEFINITIONS_MACOS)
+
+ARCHS_MACOS_PPC = ppc ppc64 ppc7400 ppc970
+ARCHS_MACOS_X86 = i386 x86_64
+ARCHS_MACOS_ARM = arm64
+
+VALID_ARCHS_MACOS = $(ARCHS_MACOS_PPC) $(ARCHS_MACOS_X86) $(ARCHS_MACOS_ARM)
+VALID_ARCHS = $(VALID_ARCHS_MACOS)
+
+// Compile for (almost) everything ever
+// @NOTE: New Xcode versions will bitch and moan about having to compile for i386
+//ARCHS_MACOS = $(ARCHS_MACOS_X86) $(ARCHS_MACOS_ARM)
+//ARCHS = $(ARCHS_MACOS)
+// Just use whatever Xcode is trying to use...
+ARCHS = $(ARCHS)

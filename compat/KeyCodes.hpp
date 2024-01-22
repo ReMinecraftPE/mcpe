@@ -22,13 +22,19 @@ enum eSDLVirtualKeys
 #endif
 
 #ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+    #define WIN32_LEAN_AND_MEAN
+    #include <Windows.h>
+#elif __APPLE__
+    // https://i.stack.imgur.com/LD8pT.png
+    #define AKEYCODE_FORWARD_DEL 0x75
+    #define AKEYCODE_ARROW_LEFT  0x7B
+    #define AKEYCODE_ARROW_RIGHT 0x7C
+    #define AKEYCODE_DEL         0x33
 #endif
 
 #ifdef USE_NATIVE_ANDROID
-#include <android/keycodes.h>
+    #include <android/keycodes.h>
 
-#define AKEYCODE_ARROW_LEFT  AKEYCODE_DPAD_LEFT
-#define AKEYCODE_ARROW_RIGHT AKEYCODE_DPAD_RIGHT
+    #define AKEYCODE_ARROW_LEFT  AKEYCODE_DPAD_LEFT
+    #define AKEYCODE_ARROW_RIGHT AKEYCODE_DPAD_RIGHT
 #endif

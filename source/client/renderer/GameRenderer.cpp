@@ -129,9 +129,9 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	float headHeightDiff = pMob->field_84 - 1.62f;
 
-	float posX = Lerp(pMob->field_3C.x, pMob->m_pos.x, f);
-	float posY = Lerp(pMob->field_3C.y, pMob->m_pos.y, f);
-	float posZ = Lerp(pMob->field_3C.z, pMob->m_pos.z, f);
+	float posX = Mth::Lerp(pMob->field_3C.x, pMob->m_pos.x, f);
+	float posY = Mth::Lerp(pMob->field_3C.y, pMob->m_pos.y, f);
+	float posZ = Mth::Lerp(pMob->field_3C.z, pMob->m_pos.z, f);
 
 	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
 
@@ -241,8 +241,8 @@ void GameRenderer::bobView(float f)
 		return;
 
 	Player* player = (Player*)m_pMinecraft->m_pMobPersp;
-	float f1 = Lerp(player->field_B9C, player->field_BA0, f);
-	float f2 = Lerp(player->field_118, player->field_11C, f);
+	float f1 = Mth::Lerp(player->field_B9C, player->field_BA0, f);
+	float f2 = Mth::Lerp(player->field_118, player->field_11C, f);
 	// @NOTE: Multiplying by M_PI inside of the paren makes it stuttery for some reason? Anyways it works now :)
 	float f3 = -(player->field_94 + (player->field_94 - player->field_90) * f) * float(M_PI);
 	float f4 = Mth::sin(f3);

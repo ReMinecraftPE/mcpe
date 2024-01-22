@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "compat/LegacyCPPCompatibility.hpp"
+
 class Player;
 
 enum

@@ -4,7 +4,7 @@
 Inventory::Inventory(Player* pPlayer)
 {
 	m_pPlayer = pPlayer;
-	m_SelectedHotbarSlot = 0;
+	m_selectedHotbarSlot = 0;
 	m_bIsSurvival = false;
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
@@ -233,12 +233,12 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 
 ItemInstance* Inventory::getSelectedItem()
 {
-	return getQuickSlotItem(m_SelectedHotbarSlot);
+	return getQuickSlotItem(m_selectedHotbarSlot);
 }
 
 int Inventory::getSelectedItemId()
 {
-	return getQuickSlotItemId(m_SelectedHotbarSlot);
+	return getQuickSlotItemId(m_selectedHotbarSlot);
 }
 
 void Inventory::selectItem(int slotNo, int maxHotBarSlot)
@@ -251,7 +251,7 @@ void Inventory::selectItem(int slotNo, int maxHotBarSlot)
 	{
 		if (m_hotbar[i] == slotNo)
 		{
-			m_SelectedHotbarSlot = i;
+			m_selectedHotbarSlot = i;
 			return;
 		}
 	}
@@ -260,7 +260,7 @@ void Inventory::selectItem(int slotNo, int maxHotBarSlot)
 		m_hotbar[i + 1] = m_hotbar[i];
 
 	m_hotbar[0] = slotNo;
-	m_SelectedHotbarSlot = 0;
+	m_selectedHotbarSlot = 0;
 }
 
 void Inventory::selectSlot(int slotNo)
@@ -268,7 +268,7 @@ void Inventory::selectSlot(int slotNo)
 	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
 		return;
 
-	m_SelectedHotbarSlot = slotNo;
+	m_selectedHotbarSlot = slotNo;
 }
 
 void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)

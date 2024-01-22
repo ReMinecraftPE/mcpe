@@ -107,7 +107,7 @@ void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
 	{
 		m_pMinecraft->m_pSoundEngine->play("step." + pTile->m_pSound->m_name,
 			float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f,
-			0.5f * (1.0f + pTile->m_pSound->field_18), 0.8f * pTile->m_pSound->field_1C);
+			0.5f * (1.0f + pTile->m_pSound->volume), 0.8f * pTile->m_pSound->pitch);
 	}
 
 	if (m_destroyProgress >= 1.0f)

@@ -258,5 +258,5 @@ public:
 	void read(RakNet::BitStream*) override;
 public:
 	int m_playerID;
-	uint8_t m_itemID;
+	uint16_t m_itemID;
 };
