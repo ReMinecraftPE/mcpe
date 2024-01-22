@@ -3,7 +3,7 @@
 //  minecraftpe
 //
 //  Created by Brent on 10/12/23.
-//  Copyright (c) 2023 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
 //
 
 #import "minecraftpeAppDelegate.h"
