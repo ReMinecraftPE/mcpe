@@ -30,6 +30,8 @@
 #include <ifaddrs.h>   // used for getifaddrs()
 #endif // _WIN32
 
+#include <string> // used for std::string
+
 // based on https://stackoverflow.com/questions/212528/get-the-ip-address-of-the-machine#265978
 void GetMyIP_Linux(SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS], const bool includeIPv6)
 {
