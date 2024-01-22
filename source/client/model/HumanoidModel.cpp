@@ -1,6 +1,6 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
-	Copyright (C) 2023 iProgramInCpp
+	Copyright (C) 2023-2024 iProgramInCpp
 	
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
@@ -20,7 +20,6 @@ HumanoidModel::HumanoidModel(float a, float b):
 {
 	field_20 = false;
 	field_234 = 0;
-	field_20 = false;
 
 	m_head.setModel(this);
 	m_body.setModel(this);

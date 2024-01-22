@@ -3,7 +3,7 @@
 //  Minecraft
 //
 //  Created by Brent on 10/13/23.
-//  Copyright (c) 2023 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2023 ReMinecraftPE. All rights reserved.
 //
 
 #pragma once
