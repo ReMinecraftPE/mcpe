@@ -67,7 +67,9 @@ void DomainNameToIP_Berkley_IPV4And6(const char* domainName, char ip[65])
 #endif // #if RAKNET_SUPPORT_IPV6==1
 }
 
-
+#if (defined(__GNUC__)  || defined(__GCCXML__)) && !defined(__WIN32__)
+#include <netdb.h>
+#endif
 void DomainNameToIP_Berkley_IPV4(const char* domainName, char ip[65])
 {
 	static struct in_addr addr;
