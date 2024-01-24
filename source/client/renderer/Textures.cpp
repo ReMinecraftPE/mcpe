@@ -19,9 +19,19 @@ int Textures::loadTexture(const std::string& name, bool bIsRequired)
 
 	Texture t = m_pPlatform->loadTexture(name, bIsRequired);
 
-	int result = -1;
-	if (t.m_pixels)
-		result = assignTexture(name, t);
+	if (!t.m_pixels) {
+		t.field_C = 1;
+		t.field_D = 0;
+		t.m_width = 2;
+		t.m_height = 2;
+		t.m_pixels = new uint32_t[4];
+		t.m_pixels[0] = 0xfff800f8;
+		t.m_pixels[1] = 0xff000000;
+		t.m_pixels[3] = 0xfff800f8;
+		t.m_pixels[2] = 0xff000000;
+	}
+
+	int result = assignTexture(name, t);
 
 	return result;
 }
