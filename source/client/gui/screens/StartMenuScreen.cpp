@@ -18,7 +18,7 @@
 #endif
 
 // special mode so that we can crop out the title:
-#define TITLE_CROP_MODE
+//#define TITLE_CROP_MODE
 
 const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
 const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
