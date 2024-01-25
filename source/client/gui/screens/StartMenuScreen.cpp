@@ -17,6 +17,9 @@
 #define CAN_QUIT
 #endif
 
+// special mode so that we can crop out the title:
+#define TITLE_CROP_MODE
+
 const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
 const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
 const char gLogoLine3[] = "??  ??  # # # # # # # ##  #   ##  ### ##   #  $$  $$ ";
@@ -409,6 +412,10 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 	}
 	else if (pButton->m_buttonId == m_buyButton.m_buttonId)
 	{
+#ifdef TITLE_CROP_MODE
+		TitleTile::regenerate();
+		return;
+#endif
 #if !defined(DEMO) && defined(CAN_QUIT)
 		m_pMinecraft->quit();
 #else
@@ -523,8 +530,12 @@ void StartMenuScreen::drawLegacyTitle()
 
 void StartMenuScreen::render(int a, int b, float c)
 {
+#ifdef TITLE_CROP_MODE
+	fill(0, 0, m_width, m_height, 0xFF00FF00);
+#else
 	//renderBackground();
 	renderMenuBackground(c);
+#endif
 
 	//int titleYPos = 4;
 	//int titleYPos = 30; // -- MC Java position.
@@ -546,8 +557,10 @@ void StartMenuScreen::render(int a, int b, float c)
 	drawString(m_pFont, field_154, field_16C, m_height - 10, 0x00FFFFFF);
 
 	// Draw the splash text, if we have enough room.
+#ifndef TITLE_CROP_MODE
 	if (!crampedMode)
 		drawSplash();
+#endif
 
 	Screen::render(a, b, c);
 }
