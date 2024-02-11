@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros">
     <MC_GLOBAL_PROPS>whattimeisit?</MC_GLOBAL_PROPS>
     <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
-    <RAKNET_PATH>$(MC_ROOT)\thirdparty\raknet\</RAKNET_PATH>
+    <RAKNET_PATH>$(MC_ROOT)thirdparty\raknet\</RAKNET_PATH>
   </PropertyGroup>
   <PropertyGroup>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
