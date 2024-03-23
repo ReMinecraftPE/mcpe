@@ -6,11 +6,17 @@
     <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
     <RAKNET_PATH>$(MC_ROOT)thirdparty\raknet\</RAKNET_PATH>
   </PropertyGroup>
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <PlatformToolset Condition="'$(PlatformToolsetVersion)'=='' Or $(PlatformToolsetVersion)&gt;=141">v141_xp</PlatformToolset>
 	<WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <PlatformToolset Condition="'$(PlatformToolsetVersion)'=='' Or $(PlatformToolsetVersion)&gt;=143">v143</PlatformToolset>
+	<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
