@@ -21,14 +21,14 @@
   <ItemDefinitionGroup>
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 	  <ConformanceMode>false</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2'))">
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>USE_SDL;USE_OPENAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	  <PreprocessorDefinitions>USE_SDL;USE_OPENAL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(PlatformToolsetVersion)'!='' And $(PlatformToolsetVersion)&lt;140">
