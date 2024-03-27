@@ -11,6 +11,7 @@
 IMoveInput::IMoveInput() :
 	m_horzInput(0.0f),
 	m_vertInput(0.0f),
+	m_flyInput(0.0f),
 	field_C(false),
 	m_bJumpButton(false),
 	m_bSneakButton(false)

@@ -116,6 +116,7 @@ public:
 	bool m_bThirdPerson;
 	uint8_t field_23E;
 	bool m_bFlyCheat;
+	bool m_bFlyNoclip;
 	uint8_t field_240;
 	uint8_t field_241;
 	float field_244;
