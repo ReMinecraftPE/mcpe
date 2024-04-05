@@ -13,6 +13,12 @@
 #include "Frustum.hpp"
 #include "renderer/GL/GL.hpp"
 
+// #define SHOW_VERTEX_COUNTER_GRAPHIC
+
+#if defined SHOW_VERTEX_COUNTER_GRAPHIC && !defined _DEBUG
+#undef  SHOW_VERTEX_COUNTER_GRAPHIC
+#endif
+
 static int t_keepHitResult; // that is its address in v0.1.1j
 int t_keepPic;
 
@@ -686,8 +692,60 @@ void GameRenderer::render(float f)
 			debugText << "\nentities: " << m_pMinecraft->m_pLevel->m_entities.size();
 			debugText << "\n" << m_pMinecraft->m_pLevelRenderer->gatherStats1();
 		}
+#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
+		extern int g_nVertices; // Tesselator.cpp
+		debugText << "\nverts: " << g_nVertices;
+
+		static int vertGraph[200];
+		memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
+		vertGraph [ (sizeof(vertGraph) / sizeof(vertGraph[0])) - 1 ] = g_nVertices;
+
+		g_nVertices = 0;
+
+		Tesselator& t = Tesselator::instance;
+
+		int max = 0;
+		for (int i = 0; i < 200; i++)
+			max = std::max(max, vertGraph[i]);
+
+		int maxht = 100;
+		int h = int(Minecraft::height * Gui::InvGuiScale);
+
+		glDisable(GL_DEPTH_TEST);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+		t.begin();
+		t.color(1.0f, 1.0f, 1.0f, 0.15f);
+		t.vertex(000, h-maxht, 0);
+		t.vertex(000, h,       0);
+		t.vertex(200, h,       0);
+		t.vertex(200, h-maxht, 0);
+		t.draw();
+
+		t.begin();
+		t.color(0.0f, 1.0f, 0.0f, 1.0f);
+
+		for (int i = 0; i < 200 && max != 0; i++)
+		{
+			t.vertex(i + 0, h - (vertGraph[i] * maxht / max), 0);
+			t.vertex(i + 0, h - 0, 0);
+			t.vertex(i + 1, h - 0, 0);
+			t.vertex(i + 1, h - (vertGraph[i] * maxht / max), 0);
+		}
+
+		t.draw();
+		glEnable(GL_DEPTH_TEST);
+
+
+		m_pMinecraft->m_pFont->drawShadow(std::to_string(max), 200, h - maxht, 0xFFFFFF);
+#endif
 
 		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
+
+#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
+		g_nVertices = 0;
+#endif
 	}
 
 	int timeMs = getTimeMs();

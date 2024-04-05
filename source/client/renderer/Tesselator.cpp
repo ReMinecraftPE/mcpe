@@ -14,6 +14,8 @@
 
 int dword_2514A4 = 0;
 
+int g_nVertices = 0, g_nTriangles = 0;
+
 Tesselator Tesselator::instance;
 
 Tesselator::Tesselator(int allotedSize)
@@ -33,7 +35,7 @@ Tesselator::Tesselator(int allotedSize)
 	field_26 = false;
 	m_bBlockColor = false;
 	field_28 = false;
-	field_2C = 0;
+	m_nVertices = 0;
 	field_30 = 0;
 	field_34 = false;
 
@@ -73,7 +75,7 @@ void Tesselator::clear()
 	m_accessMode = 2;
 	field_4 = 0;
 	field_30 = 0;
-	field_2C = 0;
+	m_nVertices = 0;
 	field_28 = 0;
 }
 
@@ -158,7 +160,7 @@ void Tesselator::draw()
 			field_3C = 0;
 
 		xglBindBuffer(GL_ARRAY_BUFFER, m_pVBOs[field_3C]);
-		xglBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * field_2C, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+		xglBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_nVertices, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
 		if (m_bHaveTex)
 		{
@@ -211,9 +213,9 @@ RenderChunk Tesselator::end(int vboIdx)
 			vboIdx = m_pVBOs[field_3C];
 
 		xglBindBuffer(GL_ARRAY_BUFFER, vboIdx);
-		xglBufferData(GL_ARRAY_BUFFER, sizeof (Vertex) * field_2C, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+		xglBufferData(GL_ARRAY_BUFFER, sizeof (Vertex) * m_nVertices, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 
-		field_48 += sizeof (Vertex) * field_2C;
+		field_48 += sizeof (Vertex) * m_nVertices;
 	}
 
 	clear();
@@ -273,13 +275,18 @@ void Tesselator::vertexUV(float x, float y, float z, float u, float v)
 
 void Tesselator::vertex(float x, float y, float z)
 {
+	if (m_nVertices >= m_maxVertices) {
+		LOG_W("Overwriting the vertex buffer! This chunk/entity won't show up");
+		clear();
+	}
+
 	field_30++;
-	if (m_drawArraysMode == GL_QUADS && !(field_30 << 30))
+	if (m_drawArraysMode == GL_QUADS && (field_30 & 3) == 0)
 	{
-		for (int v18 = 3; v18 != 1; v18--)
+		for (int idx = 3; idx != 1; idx--)
 		{
-			// why the hell is it doing this
-			Vertex *pVert1 = &m_pVertices[field_2C - v18], *pVert2 = &m_pVertices[field_2C];
+			// duplicate the last 2 added vertices in quad mode
+			Vertex *pVert1 = &m_pVertices[m_nVertices - idx], *pVert2 = &m_pVertices[m_nVertices];
 			if (m_bHaveTex)
 			{
 				pVert2->m_u = pVert1->m_u;
@@ -296,11 +303,18 @@ void Tesselator::vertex(float x, float y, float z)
 			pVert2->m_z = pVert1->m_z;
 
 			field_4++;
-			field_2C++;
+			m_nVertices++;
+
+#ifdef _DEBUG
+			g_nVertices++;
+#endif
+
+			if (m_nVertices >= m_maxVertices)
+				return;
 		}
 	}
 
-	Vertex* pVert = &m_pVertices[field_2C];
+	Vertex* pVert = &m_pVertices[m_nVertices];
 	if (m_bHaveTex)
 	{
 		pVert->m_u = m_nextVtxU;
@@ -317,15 +331,7 @@ void Tesselator::vertex(float x, float y, float z)
 	pVert->m_z = m_offsetZ + z;
 
 	field_4++;
-	field_2C++;
-
-	if (!(field_4 & 3) && field_2C >= m_maxVertices - 1)
-	{
-		for (int i = 0; i < 3; i++)
-			LOG_W("Overwriting the vertex buffer! This chunk/entity won't show up");
-
-		clear();
-	}
+	m_nVertices++;
 }
 
 void Tesselator::voidBeginAndEndCalls(bool b)

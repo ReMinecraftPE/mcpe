@@ -82,7 +82,7 @@ public:
 	bool field_26;
 	bool m_bBlockColor;
 	bool field_28;
-	int field_2C;
+	int m_nVertices;
 	int field_30;
 	bool field_34;
 
