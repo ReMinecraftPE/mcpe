@@ -14,6 +14,12 @@
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
 
+bool WireframeEnabled()
+{
+	extern bool g_bWireframe;
+	return g_bWireframe;
+}
+
 LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 {
 	field_4 = -9999.0f;
@@ -526,6 +532,12 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		std::sort(&field_98[0], &field_98[m_chunksLength], DistanceChunkSorter(pMob));
 	}
 
+	if (WireframeEnabled())
+	{
+		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_BACK, GL_LINE);
+	}
+
 	// @TODO: Fix goto hell
 
 	// @NOTE: Field_B8 doesn't appear to be used??
@@ -631,6 +643,13 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 	}
 
 	renderChunks(0, m_chunksLength, a, b);
+
+
+	if (WireframeEnabled())
+	{
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_FILL);
+	}
 }
 
 void LevelRenderer::setLevel(Level* level)

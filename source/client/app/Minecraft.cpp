@@ -386,7 +386,7 @@ void Minecraft::handleMouseClick(int type)
 		handleBuildAction(&bai);
 	}
 }
-
+bool g_bWireframe = false;
 void Minecraft::tickInput()
 {
 	if (m_pScreen)
@@ -502,10 +502,14 @@ void Minecraft::tickInput()
 #ifdef ENH_ALLOW_AO
 			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
+				g_bWireframe ^= 1;
+
+				/*
 				// Toggle ambient occlusion.
 				getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
 				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
 				m_pLevelRenderer->allChanged();
+				*/
 			}
 #endif
 		}
