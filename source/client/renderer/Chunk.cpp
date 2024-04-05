@@ -33,8 +33,8 @@ float Chunk::squishedDistanceToSqr(const Entity* pEnt) const
 
 void Chunk::reset()
 {
-	field_1C[0] = true;
-	field_1C[1] = true;
+	m_bIsEmptyLayer[0] = true;
+	m_bIsEmptyLayer[1] = true;
 	m_bVisible = false;
 	field_94 = false;
 }
@@ -44,7 +44,7 @@ int Chunk::getList(int idx)
 	if (!m_bVisible)
 		return -1;
 
-	if (field_1C[idx])
+	if (m_bIsEmptyLayer[idx])
 		return -1;
 
 	return field_8C + idx;
@@ -60,7 +60,7 @@ int Chunk::getAllLists(int* arr, int arr_idx, int idx)
 	if (!m_bVisible)
 		return arr_idx;
 
-	if (field_1C[idx])
+	if (m_bIsEmptyLayer[idx])
 		return arr_idx;
 
 	arr[arr_idx++] = field_8C + idx;
@@ -83,10 +83,10 @@ bool Chunk::isEmpty()
 	if (!field_94)
 		return false;
 
-	if (!field_1C[0])
+	if (!m_bIsEmptyLayer[0])
 		return false;
 
-	if (!field_1C[1])
+	if (!m_bIsEmptyLayer[1])
 		return false;
 
 	return true;
@@ -152,7 +152,10 @@ void Chunk::renderEast()
 bool Chunk::renderLayer(TileRenderer& tileRenderer, Region& region, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int layer)
 {
 	Tesselator& t = Tesselator::instance;
-	bool bTesselatedAnything = false, bDrewThisLayer = false, bNeedAnotherLayer = false;
+	t.begin();
+	t.offset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
+
+	bool bDrewThisLayer = false, bNeedAnotherLayer = false;
 	for (int y = minY; y < maxY; y++)
 	{
 		for (int z = minZ; z < maxZ; z++)
@@ -162,29 +165,17 @@ bool Chunk::renderLayer(TileRenderer& tileRenderer, Region& region, int minX, in
 				TileID tile = region.getTile(x, y, z);
 				if (tile <= 0) continue;
 
-				if (!bTesselatedAnything)
-				{
-					bTesselatedAnything = true;
-					t.begin();
-					t.offset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
-				}
-
 				Tile* pTile = Tile::tiles[tile];
 
 				if (layer == pTile->getRenderLayer())
-				{
-					if (tileRenderer.tesselateInWorld(pTile, x, y, z))
-						bDrewThisLayer = true;
-				}
+					tileRenderer.tesselateInWorld(pTile, x, y, z);
 				else
-				{
 					bNeedAnotherLayer = true;
-				}
 			}
 		}
 	}
 
-	if (bTesselatedAnything)
+	if (!t.empty())
 	{
 		RenderChunk rchk = t.end(field_90[layer]);
 		RenderChunk* pRChk = &m_renderChunks[layer];
@@ -196,8 +187,12 @@ bool Chunk::renderLayer(TileRenderer& tileRenderer, Region& region, int minX, in
 
 		t.offset(0.0f, 0.0f, 0.0f);
 
-		if (bDrewThisLayer)
-			field_1C[layer] = false;
+		m_bIsEmptyLayer[layer] = false;
+	}
+	else
+	{
+		t.offset(0.0f, 0.0f, 0.0f);
+		t.endDrop();
 	}
 
 	return bNeedAnotherLayer;
@@ -212,8 +207,8 @@ void Chunk::rebuild()
 
 	LevelChunk::touchedSky = false;
 
-	field_1C[0] = true;
-	field_1C[1] = true;
+	m_bIsEmptyLayer[0] = true;
+	m_bIsEmptyLayer[1] = true;
 
 	int minX = m_pos.x, maxX = m_pos.x + field_10;
 	int minY = m_pos.y, maxY = m_pos.y + field_14;

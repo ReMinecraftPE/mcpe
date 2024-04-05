@@ -195,6 +195,12 @@ void Tesselator::draw()
 	clear();
 }
 
+void Tesselator::endDrop()
+{
+	field_34 = false;
+	clear();
+}
+
 RenderChunk Tesselator::end(int vboIdx)
 {
 	if (!field_34 || field_28)
@@ -202,7 +208,7 @@ RenderChunk Tesselator::end(int vboIdx)
 
 	int count = field_4;
 
-	field_34 = 0;
+	field_34 = false;
 
 	if (count > 0)
 	{
@@ -337,4 +343,9 @@ void Tesselator::vertex(float x, float y, float z)
 void Tesselator::voidBeginAndEndCalls(bool b)
 {
 	field_28 = b;
+}
+
+bool Tesselator::empty()
+{
+	return m_nVertices == 0;
 }

@@ -31,11 +31,11 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	field_1C = 0;
 	field_20 = 0;
 	field_30 = 0;
-	field_54 = 0;
-	field_58 = 0;
-	field_5C = 0;
-	field_60 = 0;
-	field_64 = 0;
+	m_nTotalChunks = 0;
+	m_nFrustumChunks = 0;
+	m_nOccludedChunks = 0;
+	m_nRenderedChunks = 0;
+	m_nEmptyChunks = 0;
 	field_68 = 0;
 	field_6C = 0;
 	field_70 = 0;
@@ -380,10 +380,10 @@ std::string LevelRenderer::gatherStats1()
 	//@NOTE: This data is based on the Java Edition pre-1.8 legend. This may not be accurate, but it's a good guideline.
 	//See https://minecraft.fandom.com/wiki/Debug_screen#Pre-1.8_legend
 	std::stringstream ss;
-	ss  << "C: " << field_60 << "/" << field_54 // Number of chunk sections rendered over total number of chunks.
-		<< ". F: " << field_58 // Number of chunk sections loaded outside the viewing distance.
-		<< ", O: " << field_5C // Number of occluded chunk sections.
-		<< ", E: " << field_64 // Number of empty chunk sections.
+	ss  << "C: " << m_nRenderedChunks << "/" << m_nTotalChunks // Number of chunk sections rendered over total number of chunks.
+		<< ". F: " << m_nFrustumChunks // Number of chunk sections loaded outside the viewing distance.
+		<< ", O: " << m_nOccludedChunks // Number of occluded chunk sections.
+		<< ", E: " << m_nEmptyChunks // Number of empty chunk sections.
 		<< "\n";
 
 	return ss.str();
@@ -447,25 +447,25 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 		Chunk* pChunk = field_98[i];
 		if (!a)
 		{
-			field_54++;
-			if (pChunk->field_1C[0])
+			m_nTotalChunks++;
+			if (pChunk->m_bIsEmptyLayer[LAYER_OPAQUE])
 			{
-				field_64++;
+				m_nEmptyChunks++;
 			}
 			else if (pChunk->m_bVisible)
 			{
 				if (!field_B8 || pChunk->field_4D)
-					field_60++;
+					m_nRenderedChunks++;
 				else
-					field_5C++;
+					m_nOccludedChunks++;
 			}
 			else
 			{
-				field_58++;
+				m_nFrustumChunks++;
 			}
 		}
 
-		if (!pChunk->field_1C[a] && pChunk->m_bVisible && pChunk->field_4D && pChunk->getList(a) >= 0)
+		if (!pChunk->m_bIsEmptyLayer[a] && pChunk->m_bVisible && pChunk->field_4D && pChunk->getList(a) >= 0)
 		{
 			result++;
 			field_24.push_back(pChunk);
@@ -513,7 +513,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		allChanged();
 
 	if (!a)
-		field_54 = field_58 = field_5C = field_60 = field_64 = 0;
+		m_nTotalChunks = m_nFrustumChunks = m_nOccludedChunks = m_nRenderedChunks = m_nEmptyChunks = 0;
 
 	//float mobX1 = pMob->m_pos.x;
 	float mobX2 = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;

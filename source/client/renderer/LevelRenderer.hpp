@@ -114,11 +114,11 @@ public:
 	std::vector<Chunk*> field_24;
 	int field_30;
 	RenderList m_renderList;
-	int field_54;
-	int field_58;
-	int field_5C;
-	int field_60;
-	int field_64;
+	int m_nTotalChunks;
+	int m_nFrustumChunks; // Chunks occluded by the frustum culler
+	int m_nOccludedChunks;
+	int m_nRenderedChunks;
+	int m_nEmptyChunks;
 	int field_68;
 	int field_6C;
 	int field_70;

@@ -63,7 +63,8 @@ public:
 	void vertex(float x, float y, float z);
 	void vertexUV(float x, float y, float z, float u, float v);
 	void voidBeginAndEndCalls(bool b);
-
+	bool empty();
+	void endDrop(); // Ends drawing and drops all verts.
 	RenderChunk end(int);
 
 public:

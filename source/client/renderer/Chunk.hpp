@@ -48,7 +48,7 @@ public:
 	int field_10;
 	int field_14;
 	int field_18;
-	bool field_1C[2];
+	bool m_bIsEmptyLayer[2];
 	Pos m_pos2;
 	float field_2C;
 	AABB m_aabb;
