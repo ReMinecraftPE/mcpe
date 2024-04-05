@@ -536,8 +536,10 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 
 	if (WireframeEnabled())
 	{
+#ifdef _WIN32 // disable the wire frame crap on non windows
 		glPolygonMode(GL_FRONT, GL_LINE);
 		glPolygonMode(GL_BACK, GL_LINE);
+#endif
 	}
 
 	// @TODO: Fix goto hell
@@ -649,8 +651,10 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 
 	if (WireframeEnabled())
 	{
+#ifdef _WIN32 // disable the wire frame crap on non windows
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glPolygonMode(GL_BACK, GL_FILL);
+#endif
 	}
 }
 
