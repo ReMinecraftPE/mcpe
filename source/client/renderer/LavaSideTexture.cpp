@@ -9,19 +9,19 @@
 #include "DynamicTexture.hpp"
 #include "world/tile/Tile.hpp"
 
-LavaSideTexture::LavaSideTexture() : DynamicTexture(Tile::lava->m_TextureFrame + 1)
+LavaSideTexture::LavaSideTexture() : DynamicTexture(Tile::lava->m_TextureFrame + 1, 2)
 {
 	field_14 = 0;
 	field_18 = 0;
 	field_1C = 0;
 
-	m_data1 = new float[256];
-	m_data2 = new float[256];
-	m_data3 = new float[256];
-	m_data4 = new float[256];
-	m_textureSize = 2;
+	const int tsts = m_tileSize * m_tileSize;
+	m_data1 = new float[tsts];
+	m_data2 = new float[tsts];
+	m_data3 = new float[tsts];
+	m_data4 = new float[tsts];
 
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < tsts; i++)
 	{
 		m_data1[i] = 0.0f;
 		m_data2[i] = 0.0f;
@@ -40,11 +40,16 @@ LavaSideTexture::~LavaSideTexture()
 
 void LavaSideTexture::tick()
 {
+	const int ts = m_tileSize;
+	const int tsm = ts - 1;
+	const int tsts = ts * ts;
+	// NOTE: ts MUST be a power of 2!
+
 	field_1C++;
 
-	for (int x = 0; x < 16; x++)
+	for (int x = 0; x < ts; x++)
 	{
-		for (int y = 0; y < 16; y++)
+		for (int y = 0; y < ts; y++)
 		{
 			float f = 0.0F;
 			int ax = int(Mth::sin((float(x) * float(M_PI) * 2) / 16.0f) * 1.2f);
@@ -54,29 +59,29 @@ void LavaSideTexture::tick()
 			{
 				for (int by = y - 1; by <= y + 1; by++)
 				{
-					int k2 = bx + ay & 0xf;
-					int i3 = by + ax & 0xf;
-					f += m_data1[k2 + i3 * 16];
+					int k2 = bx + ay & tsm;
+					int i3 = by + ax & tsm;
+					f += m_data1[k2 + i3 * ts];
 				}
 			}
 
-			m_data2[x + y * 16] = f / 10.0f + ((m_data3[(x & 0xf) + (y + 0 & 0xf) * 16] + m_data3[(x + 1 & 0xf) + (y & 0xf) * 16] + m_data3[(x + 1 & 0xf) + (y + 1 & 0xf) * 16] + m_data3[(x & 0xf) + (y + 1 & 0xf) * 16]) * 0.25f) * 0.8f;
-			m_data3[x + y * 16] += m_data4[x + y * 16] * 0.01f;
+			m_data2[x + y * ts] = f / 10.0f + ((m_data3[(x & tsm) + (y + 0 & tsm) * ts] + m_data3[(x + 1 & tsm) + (y & tsm) * ts] + m_data3[(x + 1 & tsm) + (y + 1 & tsm) * ts] + m_data3[(x & tsm) + (y + 1 & tsm) * ts]) * 0.25f) * 0.8f;
+			m_data3[x + y * ts] += m_data4[x + y * ts] * 0.01f;
 
-			if (m_data3[x + y * 16] < 0.0f)
-				m_data3[x + y * 16] = 0.0f;
+			if (m_data3[x + y * ts] < 0.0f)
+				m_data3[x + y * ts] = 0.0f;
 
-			m_data4[x + y * 16] -= 0.06f;
+			m_data4[x + y * ts] -= 0.06f;
 			if (Mth::random() < 0.005f)
-				m_data4[x + y * 16] = 1.5f;
+				m_data4[x + y * ts] = 1.5f;
 		}
 	}
 
 	std::swap(m_data1, m_data2);
 
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < tsts; i++)
 	{
-		float x1 = m_data1[(i - 16 * (field_1C / 3)) & 0xFF] * 2.0f;
+		float x1 = m_data1[(i - ts * (field_1C / 3)) & 0xFF] * 2.0f;
 		if (x1 > 1.0f)
 			x1 = 1.0f;
 		if (x1 < 0.0f)

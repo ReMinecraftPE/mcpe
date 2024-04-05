@@ -1,5 +1,6 @@
 #include "PatchManager.hpp"
 #include "client/app/AppPlatform.hpp"
+#include "Textures.hpp"
 #include "common/Utils.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/Item.hpp"
@@ -200,11 +201,14 @@ void PatchManager::PatchTextures(AppPlatform* pAppPlatform, ePatchType patchType
 			continue;
 		}
 
+		int actualX = 0;
+		int actualY = pd.m_destY * Textures::terrainTileSize + pd.m_destX;
+
 		glTexSubImage2D(
 			GL_TEXTURE_2D,
 			0,
-			pd.m_destX,
-			pd.m_destY,
+			actualX,
+			actualY,
 			texture.m_width,
 			texture.m_height,
 			GL_RGBA,

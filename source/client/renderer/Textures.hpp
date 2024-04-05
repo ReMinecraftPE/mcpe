@@ -57,12 +57,14 @@ public:
 	Textures(Options*, AppPlatform*);
 	~Textures();
 
-private:
+protected:
 	static bool MIPMAP;
+	static int terrainWidth;
+	static int terrainHeight;
+	static int terrainTileSize;
 
 	int assignTexture(const std::string& name, Texture& t);
 
-protected:
 	std::map<std::string, GLuint> m_textures;
 	Options* m_pOptions;
 	AppPlatform* m_pPlatform;
@@ -73,5 +75,7 @@ protected:
 	std::vector<DynamicTexture*> m_dynamicTextures;
 
 	friend class StartMenuScreen;
+	friend class DynamicTexture;
+	friend class PatchManager;
 };
 

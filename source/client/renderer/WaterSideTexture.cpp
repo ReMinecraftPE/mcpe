@@ -9,19 +9,19 @@
 #include "DynamicTexture.hpp"
 #include "world/tile/Tile.hpp"
 
-WaterSideTexture::WaterSideTexture() : DynamicTexture(Tile::water->m_TextureFrame + 1)
+WaterSideTexture::WaterSideTexture() : DynamicTexture(Tile::water->m_TextureFrame + 1, 2)
 {
 	field_40C = 0;
 	field_410 = 0;
 	field_414 = 0;
 
-	m_data1 = new float[256];
-	m_data2 = new float[256];
-	m_data3 = new float[256];
-	m_data4 = new float[256];
-	m_textureSize = 2;
+	const int tsts = m_tileSize * m_tileSize;
+	m_data1 = new float[tsts];
+	m_data2 = new float[tsts];
+	m_data3 = new float[tsts];
+	m_data4 = new float[tsts];
 
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < tsts; i++)
 	{
 		m_data1[i] = 0.0f;
 		m_data2[i] = 0.0f;
@@ -40,40 +40,45 @@ WaterSideTexture::~WaterSideTexture()
 
 void WaterSideTexture::tick()
 {
+	const int ts = m_tileSize;
+	const int tsm = ts - 1;
+	const int tsts = ts * ts;
+	// NOTE: ts MUST be a power of 2!
+
 	field_414++;
 	
-	for (int x = 0; x < 16; x++)
+	for (int x = 0; x < ts; x++)
 	{
-		for (int y = 0; y < 16; y++)
+		for (int y = 0; y < ts; y++)
 		{
 			float f = 0.0f;
 			for (int i = y - 2; i <= y; i++)
-				f += m_data1[16 * (i & 0xF) + (x & 0xF)];
+				f += m_data1[ts * (i & tsm) + (x & tsm)];
 
-			m_data2[16 * y + x] = f / 3.2f + m_data3[16 * y + x] * 0.8f;
+			m_data2[ts * y + x] = f / 3.2f + m_data3[ts * y + x] * 0.8f;
 		}
 	}
 
-	for (int x = 0; x < 16; x++)
+	for (int x = 0; x < ts; x++)
 	{
-		for (int y = 0; y < 16; y++)
+		for (int y = 0; y < ts; y++)
 		{
-			m_data3[16 * y + x] += m_data4[16 * y + x] * 0.05f;
+			m_data3[ts * y + x] += m_data4[ts * y + x] * 0.05f;
 
-			if (m_data3[16 * y + x] < 0)
-				m_data3[16 * y + x] = 0;
+			if (m_data3[ts * y + x] < 0)
+				m_data3[ts * y + x] = 0;
 
-			m_data4[16 * y + x] -= 0.3f;
+			m_data4[ts * y + x] -= 0.3f;
 			if (Mth::random() < 0.2f)
-				m_data4[16 * y + x] = 0.5f;
+				m_data4[ts * y + x] = 0.5f;
 		}
 	}
 
 	std::swap(m_data1, m_data2);
 
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < tsts; i++)
 	{
-		float m = m_data1[(i - 16 * field_414) & 0xFF];
+		float m = m_data1[(i - ts * field_414) & 0xFF];
 		if (m < 0.0f)
 			m = 0.0f;
 		if (m > 1.0f)

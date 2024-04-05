@@ -21,13 +21,15 @@ public:
 	virtual void tick() = 0;
 	virtual void bindTexture(Textures*);
 
-	DynamicTexture(int a2);
+	DynamicTexture(int texIndex, int texSize = 1);
 	virtual ~DynamicTexture();
 
 protected:
 	int m_textureIndex;
 	int m_textureSize;
-	uint8_t m_pixels[1024];
+	int m_tileSize;
+	uint8_t* m_pixels;
+	size_t m_pixelsSize;
 
 	friend class Textures;
 };

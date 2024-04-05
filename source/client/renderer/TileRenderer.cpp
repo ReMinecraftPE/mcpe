@@ -126,13 +126,14 @@ bool TileRenderer::canRender(int renderShape)
 // @NOTE: This sucks! Very badly! But it's how they did it.
 void TileRenderer::renderEast(Tile* tile, float x, float y, float z, int texture)
 {
-	static constexpr float C_RATIO = 1.0f / 256.0f;
+	static constexpr float C_RATIO_X = 1.0f / 16.0f;
+	static constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	if (m_textureOverride >= 0)
 		texture = m_textureOverride;
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
 	float texU_l, texU_r, texV_u, texV_d;
 
@@ -140,30 +141,30 @@ void TileRenderer::renderEast(Tile* tile, float x, float y, float z, int texture
 
 	if (aabb.min.z < 0.0f || aabb.max.z > 1.0f)
 	{
-		texU_l = C_RATIO * (texX);
-		texU_r = C_RATIO * (texX + 15.99f);
+		texU_l = C_RATIO_X * (texX);
+		texU_r = C_RATIO_X * (texX + 15.99f);
 	}
 	// if flipping on the Z coordinate
 	else if (field_8)
 	{
-		texU_r = C_RATIO * (texX + aabb.min.z * 16);
-		texU_l = C_RATIO * (texX + aabb.max.z * 16 - 0.01f);
+		texU_r = C_RATIO_X * (texX + aabb.min.z * 16);
+		texU_l = C_RATIO_X * (texX + aabb.max.z * 16 - 0.01f);
 	}
 	else
 	{
-		texU_l = C_RATIO * (texX + aabb.min.z * 16);
-		texU_r = C_RATIO * (texX + aabb.max.z * 16 - 0.01f);
+		texU_l = C_RATIO_X * (texX + aabb.min.z * 16);
+		texU_r = C_RATIO_X * (texX + aabb.max.z * 16 - 0.01f);
 	}
 
 	if (aabb.min.y < 0.0f || aabb.max.y > 1.0f)
 	{
-		texV_u = C_RATIO * (texY);
-		texV_d = C_RATIO * (texY + 15.99f);
+		texV_u = C_RATIO_Y * (texY);
+		texV_d = C_RATIO_Y * (texY + 15.99f);
 	}
 	else
 	{
-		texV_u = C_RATIO * (texY + aabb.min.y * 16.0f);
-		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
+		texV_u = C_RATIO_Y * (texY + aabb.min.y * 16.0f);
+		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
 	Tesselator& t = Tesselator::instance;
@@ -189,13 +190,14 @@ void TileRenderer::renderEast(Tile* tile, float x, float y, float z, int texture
 
 void TileRenderer::renderWest(Tile* tile, float x, float y, float z, int texture)
 {
-	static constexpr float C_RATIO = 1.0f / 256.0f;
+	static constexpr float C_RATIO_X = 1.0f / 16.0f;
+	static constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	if (m_textureOverride >= 0)
 		texture = m_textureOverride;
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
 	float texU_l, texU_r, texV_u, texV_d;
 
@@ -203,30 +205,30 @@ void TileRenderer::renderWest(Tile* tile, float x, float y, float z, int texture
 
 	if (aabb.min.z < 0.0f || aabb.max.z > 1.0f)
 	{
-		texU_l = C_RATIO * (texX);
-		texU_r = C_RATIO * (texX + 15.99f);
+		texU_l = C_RATIO_X * (texX);
+		texU_r = C_RATIO_X * (texX + 15.99f);
 	}
 	// if flipping on the Z coordinate
 	else if (field_8)
 	{
-		texU_r = C_RATIO * (texX + aabb.min.z * 16);
-		texU_l = C_RATIO * (texX + aabb.max.z * 16 - 0.01f);
+		texU_r = C_RATIO_X * (texX + aabb.min.z * 16);
+		texU_l = C_RATIO_X * (texX + aabb.max.z * 16 - 0.01f);
 	}
 	else
 	{
-		texU_l = C_RATIO * (texX + aabb.min.z * 16);
-		texU_r = C_RATIO * (texX + aabb.max.z * 16 - 0.01f);
+		texU_l = C_RATIO_X * (texX + aabb.min.z * 16);
+		texU_r = C_RATIO_X * (texX + aabb.max.z * 16 - 0.01f);
 	}
 
 	if (aabb.min.y < 0.0f || aabb.max.y>1.0f)
 	{
-		texV_u = C_RATIO * (texY);
-		texV_d = C_RATIO * (texY + 15.99f);
+		texV_u = C_RATIO_Y * (texY);
+		texV_d = C_RATIO_Y * (texY + 15.99f);
 	}
 	else
 	{
-		texV_u = C_RATIO * (texY + aabb.min.y * 16.0f);
-		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
+		texV_u = C_RATIO_Y * (texY + aabb.min.y * 16.0f);
+		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
 	Tesselator& t = Tesselator::instance;
@@ -252,13 +254,14 @@ void TileRenderer::renderWest(Tile* tile, float x, float y, float z, int texture
 
 void TileRenderer::renderSouth(Tile* tile, float x, float y, float z, int texture)
 {
-	static constexpr float C_RATIO = 1.0f / 256.0f;
+	static constexpr float C_RATIO_X = 1.0f / 16.0f;
+	static constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	if (m_textureOverride >= 0)
 		texture = m_textureOverride;
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
 	float texU_l, texU_r, texV_u, texV_d;
 
@@ -266,30 +269,30 @@ void TileRenderer::renderSouth(Tile* tile, float x, float y, float z, int textur
 
 	if (aabb.min.x < 0.0f || aabb.max.x > 1.0f)
 	{
-		texU_l = C_RATIO * (texX);
-		texU_r = C_RATIO * (texX + 15.99f);
+		texU_l = C_RATIO_X * (texX);
+		texU_r = C_RATIO_X * (texX + 15.99f);
 	}
 	// if flipping on the X coordinate
 	else if (field_8)
 	{
-		texU_r = C_RATIO * (texX + aabb.min.x * 16);
-		texU_l = C_RATIO * (texX + aabb.max.x * 16 - 0.01f);
+		texU_r = C_RATIO_X * (texX + aabb.min.x * 16);
+		texU_l = C_RATIO_X * (texX + aabb.max.x * 16 - 0.01f);
 	}
 	else
 	{
-		texU_l = C_RATIO * (texX + aabb.min.x * 16);
-		texU_r = C_RATIO * (texX + aabb.max.x * 16 - 0.01f);
+		texU_l = C_RATIO_X * (texX + aabb.min.x * 16);
+		texU_r = C_RATIO_X * (texX + aabb.max.x * 16 - 0.01f);
 	}
 
 	if (aabb.min.y < 0.0f || aabb.max.y>1.0f)
 	{
-		texV_u = C_RATIO * (texY);
-		texV_d = C_RATIO * (texY + 15.99f);
+		texV_u = C_RATIO_Y * (texY);
+		texV_d = C_RATIO_Y * (texY + 15.99f);
 	}
 	else
 	{
-		texV_u = C_RATIO * (texY + aabb.min.y * 16.0f);
-		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
+		texV_u = C_RATIO_Y * (texY + aabb.min.y * 16.0f);
+		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
 	Tesselator& t = Tesselator::instance;
@@ -315,13 +318,14 @@ void TileRenderer::renderSouth(Tile* tile, float x, float y, float z, int textur
 
 void TileRenderer::renderNorth(Tile* tile, float x, float y, float z, int texture)
 {
-	static constexpr float C_RATIO = 1.0f / 256.0f;
+	static constexpr float C_RATIO_X = 1.0f / 16.0f;
+	static constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	if (m_textureOverride >= 0)
 		texture = m_textureOverride;
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
 	float texU_l, texU_r, texV_u, texV_d;
 
@@ -329,30 +333,30 @@ void TileRenderer::renderNorth(Tile* tile, float x, float y, float z, int textur
 
 	if (aabb.min.x < 0.0f || aabb.max.x > 1.0f)
 	{
-		texU_l = C_RATIO * (texX);
-		texU_r = C_RATIO * (texX + 15.99f);
+		texU_l = C_RATIO_X * (texX);
+		texU_r = C_RATIO_X * (texX + 15.99f);
 	}
 	// if flipping on the X coordinate
 	else if (field_8)
 	{
-		texU_r = C_RATIO * (texX + aabb.min.x * 16);
-		texU_l = C_RATIO * (texX + aabb.max.x * 16 - 0.01f);
+		texU_r = C_RATIO_X * (texX + aabb.min.x * 16);
+		texU_l = C_RATIO_X * (texX + aabb.max.x * 16 - 0.01f);
 	}
 	else
 	{
-		texU_l = C_RATIO * (texX + aabb.min.x * 16);
-		texU_r = C_RATIO * (texX + aabb.max.x * 16 - 0.01f);
+		texU_l = C_RATIO_X * (texX + aabb.min.x * 16);
+		texU_r = C_RATIO_X * (texX + aabb.max.x * 16 - 0.01f);
 	}
 
 	if (aabb.min.y < 0.0f || aabb.max.y>1.0f)
 	{
-		texV_u = C_RATIO * (texY);
-		texV_d = C_RATIO * (texY + 15.99f);
+		texV_u = C_RATIO_Y * (texY);
+		texV_d = C_RATIO_Y * (texY + 15.99f);
 	}
 	else
 	{
-		texV_u = C_RATIO * (texY + aabb.min.y * 16.0f);
-		texV_d = C_RATIO * (texY + aabb.max.y * 16.0f - 0.01f);
+		texV_u = C_RATIO_Y * (texY + aabb.min.y * 16.0f);
+		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
 	Tesselator& t = Tesselator::instance;
@@ -378,13 +382,14 @@ void TileRenderer::renderNorth(Tile* tile, float x, float y, float z, int textur
 
 void TileRenderer::renderFaceDown(Tile* tile, float x, float y, float z, int texture)
 {
-	static constexpr float C_RATIO = 1.0f / 256.0f;
+	static constexpr float C_RATIO_X = 1.0f / 16.0f;
+	static constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	if (m_textureOverride >= 0)
 		texture = m_textureOverride;
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
 	float texU_1, texU_2, texV_1, texV_2;
 
@@ -392,24 +397,24 @@ void TileRenderer::renderFaceDown(Tile* tile, float x, float y, float z, int tex
 
 	if (aabb.min.x >= 0.0f && aabb.max.x <= 1.0f)
 	{
-		texU_1 = C_RATIO * (texX + 16.0f * aabb.min.x);
-		texU_2 = C_RATIO * (texX + 16.0f * aabb.max.x - 0.01f);
+		texU_1 = C_RATIO_X * (texX + 16.0f * aabb.min.x);
+		texU_2 = C_RATIO_X * (texX + 16.0f * aabb.max.x - 0.01f);
 	}
 	else
 	{
-		texU_1 = C_RATIO * (texX);
-		texU_2 = C_RATIO * (texX + 15.99f);
+		texU_1 = C_RATIO_X * (texX);
+		texU_2 = C_RATIO_X * (texX + 15.99f);
 	}
 
 	if (aabb.min.z >= 0.0f && aabb.max.z <= 1.0f)
 	{
-		texV_1 = C_RATIO * (texY + 16.0f * aabb.min.z);
-		texV_2 = C_RATIO * (texY + 16.0f * aabb.max.z - 0.01f);
+		texV_1 = C_RATIO_Y * (texY + 16.0f * aabb.min.z);
+		texV_2 = C_RATIO_Y * (texY + 16.0f * aabb.max.z - 0.01f);
 	}
 	else
 	{
-		texV_1 = C_RATIO * (texY);
-		texV_2 = C_RATIO * (texY + 15.99f);
+		texV_1 = C_RATIO_Y * (texY);
+		texV_2 = C_RATIO_Y * (texY + 15.99f);
 	}
 
 	Tesselator& t = Tesselator::instance;
@@ -435,13 +440,14 @@ void TileRenderer::renderFaceDown(Tile* tile, float x, float y, float z, int tex
 
 void TileRenderer::renderFaceUp(Tile* tile, float x, float y, float z, int texture)
 {
-	static constexpr float C_RATIO = 1.0f / 256.0f;
+	static constexpr float C_RATIO_X = 1.0f / 16.0f;
+	static constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	if (m_textureOverride >= 0)
 		texture = m_textureOverride;
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
 	float texU_1, texU_2, texV_1, texV_2;
 
@@ -449,24 +455,24 @@ void TileRenderer::renderFaceUp(Tile* tile, float x, float y, float z, int textu
 
 	if (aabb.min.x >= 0.0f && aabb.max.x <= 1.0f)
 	{
-		texU_1 = C_RATIO * (texX + 16.0f * aabb.min.x);
-		texU_2 = C_RATIO * (texX + 16.0f * aabb.max.x - 0.01f);
+		texU_1 = C_RATIO_X * (texX + 16.0f * aabb.min.x);
+		texU_2 = C_RATIO_X * (texX + 16.0f * aabb.max.x - 0.01f);
 	}
 	else
 	{
-		texU_1 = C_RATIO * (texX);
-		texU_2 = C_RATIO * (texX + 15.99f);
+		texU_1 = C_RATIO_X * (texX);
+		texU_2 = C_RATIO_X * (texX + 15.99f);
 	}
 
 	if (aabb.min.z >= 0.0f && aabb.max.z <= 1.0f)
 	{
-		texV_1 = C_RATIO * (texY + 16.0f * aabb.min.z);
-		texV_2 = C_RATIO * (texY + 16.0f * aabb.max.z - 0.01f);
+		texV_1 = C_RATIO_Y * (texY + 16.0f * aabb.min.z);
+		texV_2 = C_RATIO_Y * (texY + 16.0f * aabb.max.z - 0.01f);
 	}
 	else
 	{
-		texV_1 = C_RATIO * (texY);
-		texV_2 = C_RATIO * (texY + 15.99f);
+		texV_1 = C_RATIO_Y * (texY);
+		texV_2 = C_RATIO_Y * (texY + 15.99f);
 	}
 
 	Tesselator& t = Tesselator::instance;
@@ -492,18 +498,19 @@ void TileRenderer::renderFaceUp(Tile* tile, float x, float y, float z, int textu
 
 void TileRenderer::tesselateCrossTexture(Tile* tile, int data, float x, float y, float z)
 {
-	static constexpr float C_RATIO = 1.0f / 256.0f;
+	static constexpr float C_RATIO_X = 1.0f / 16.0f;
+	static constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	int texture = m_textureOverride;
 	if (texture < 0)
 		texture = tile->getTexture(DIR_YNEG, data);
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
 	// calculate U and V coordinates
-	float texU_l = texX * C_RATIO, texU_r = (texX + 15.99f) * C_RATIO;
-	float texV_u = texY * C_RATIO, texV_d = (texY + 15.99f) * C_RATIO;
+	float texU_l = texX * C_RATIO_X, texU_r = (texX + 15.99f) * C_RATIO_X;
+	float texV_u = texY * C_RATIO_Y, texV_d = (texY + 15.99f) * C_RATIO_Y;
 
 	float cenX = x + 0.5f, cenZ = z + 0.5f;
 	
@@ -997,7 +1004,8 @@ bool TileRenderer::tesselateDoorInWorld(Tile* tile, int x, int y, int z)
 
 void TileRenderer::tesselateTorch(Tile* tile, float x, float y, float z, float a, float b)
 {
-	constexpr float C_RATIO = 1.0f / 256.0f;
+	constexpr float C_RATIO_X = 1.0f / 16.0f;
+	constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 	constexpr float C_ONE_PIXEL = 1.0f / 16.0f;
 	constexpr float C_HALF_TILE = 1.0f / 2.0f;
 	constexpr float C_UNK_1 = 0.375f;
@@ -1009,13 +1017,13 @@ void TileRenderer::tesselateTorch(Tile* tile, float x, float y, float z, float a
 
 	// @TODO: Clean up a bit
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0;// float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
-	float texU_1 = texX * C_RATIO;
-	float texU_2 = (texX + 15.99f) * C_RATIO;
-	float texV_1 = (texY * C_RATIO) + 1.0f / 32.0f;
-	float texV_2 = (texY + 15.99f) * C_RATIO;
+	float texU_1 = texX * C_RATIO_X;
+	float texU_2 = (texX + 15.99f) * C_RATIO_X;
+	float texV_1 = (texY * C_RATIO_Y) + 1.0f / 32.0f;
+	float texV_2 = (texY + 15.99f) * C_RATIO_Y;
 
 	float x1 = x + 0.5f, z1 = z + 0.5f;
 	float z2 = z1 + (float)(b * C_UNK_1);
@@ -1050,8 +1058,8 @@ void TileRenderer::tesselateTorch(Tile* tile, float x, float y, float z, float a
 
 	float texU_3 = texU_1 + 0.027344f;
 	float texU_4 = texU_1 + 0.035156f;
-	float texV_3 = texY * C_RATIO;
-	float texV_4 = texY * C_RATIO + 0.023438f;
+	float texV_3 = texY * C_RATIO_Y;
+	float texV_4 = texY * C_RATIO_Y + 0.023438f;
 
 	t.vertexUV(x_1, y_1, z_1, texU_3, texV_4);
 	t.vertexUV(x_1, y_1, z_2, texU_3, texV_1);
@@ -1110,7 +1118,8 @@ bool TileRenderer::tesselateTorchInWorld(Tile* tile, int x, int y, int z)
 
 bool TileRenderer::tesselateLadderInWorld(Tile* tile, int x, int y, int z)
 {
-	constexpr float C_RATIO = 1.0f / 256.0f;
+	constexpr float C_RATIO_X = 1.0f / 16.0f;
+	constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	Tesselator& t = Tesselator::instance;
 
@@ -1122,13 +1131,13 @@ bool TileRenderer::tesselateLadderInWorld(Tile* tile, int x, int y, int z)
 	float bright = m_pLevelSource->getBrightness(x, y, z);
 	t.color(bright, bright, bright);
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
-	float texU_1 = C_RATIO * texX;
-	float texU_2 = C_RATIO * (texX + 15.99f);
-	float texV_1 = C_RATIO * texY;
-	float texV_2 = C_RATIO * (texY + 15.99f);
+	float texU_1 = C_RATIO_X * texX;
+	float texU_2 = C_RATIO_X * (texX + 15.99f);
+	float texV_1 = C_RATIO_Y * texY;
+	float texV_2 = C_RATIO_Y * (texY + 15.99f);
 
 	switch (m_pLevelSource->getData(x, y, z))
 	{
@@ -1163,7 +1172,8 @@ bool TileRenderer::tesselateLadderInWorld(Tile* tile, int x, int y, int z)
 
 bool TileRenderer::tesselateFireInWorld(Tile* tile, int x, int y, int z)
 {
-	constexpr float C_RATIO = 1.0f / 256.0f;
+	constexpr float C_RATIO_X = 1.0f / 16.0f;
+	constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	Tesselator& t = Tesselator::instance;
 
@@ -1174,13 +1184,13 @@ bool TileRenderer::tesselateFireInWorld(Tile* tile, int x, int y, int z)
 
 	FireTile* pFireTile = (FireTile*)Tile::fire;
 
-	float texX = float(16 * (texture % 16));
-	float texY = float(16 * (texture / 16));
+	float texX = 0; // float(16 * (texture % 16));
+	float texY = float(16 * texture); // float(16 * (texture / 16));
 
-	float texU_1 = C_RATIO * (texX);
-	float texU_2 = C_RATIO * (texX + 15.99f);
-	float texV_1 = C_RATIO * (texY);
-	float texV_2 = C_RATIO * (texY + 15.99f);
+	float texU_1 = C_RATIO_X * (texX);
+	float texU_2 = C_RATIO_X * (texX + 15.99f);
+	float texV_1 = C_RATIO_Y * (texY);
+	float texV_2 = C_RATIO_Y * (texY + 15.99f);
 	float xf = float(x), yf = float(y), zf = float(z);
 
 	if (m_pLevelSource->isSolidTile(x, y - 1, z) || pFireTile->canBurn(m_pLevelSource, x, y - 1, z))
@@ -2660,16 +2670,16 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, int 
 
 				br *= 0.25f;
 
-				m_vtxRed[i] = br;
+				m_vtxRed  [i] = br;
 				m_vtxGreen[i] = br;
-				m_vtxBlue[i] = br;
+				m_vtxBlue [i] = br;
 			}
 
 			for (int i = 0; i < 4; i++)
 			{
-				m_vtxRed[i] *= topR * lightingMult[dir];
+				m_vtxRed  [i] *= topR * lightingMult[dir];
 				m_vtxGreen[i] *= topG * lightingMult[dir];
-				m_vtxBlue[i] *= topB * lightingMult[dir];
+				m_vtxBlue [i] *= topB * lightingMult[dir];
 			}
 
 			switch (dir) {

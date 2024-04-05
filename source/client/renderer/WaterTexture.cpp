@@ -14,12 +14,13 @@ WaterTexture::WaterTexture() : DynamicTexture(Tile::water->m_TextureFrame)
 	field_40C = 0;
 	field_410 = 0;
 
-	m_data1 = new float[256];
-	m_data2 = new float[256];
-	m_data3 = new float[256];
-	m_data4 = new float[256];
+	const int tsts = m_tileSize * m_tileSize;
+	m_data1 = new float[tsts];
+	m_data2 = new float[tsts];
+	m_data3 = new float[tsts];
+	m_data4 = new float[tsts];
 
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < tsts; i++)
 	{
 		m_data1[i] = 0.0f;
 		m_data2[i] = 0.0f;
@@ -38,36 +39,41 @@ WaterTexture::~WaterTexture()
 
 void WaterTexture::tick()
 {
-	for (int x = 0; x < 16; x++)
+	const int ts = m_tileSize;
+	const int tsm = ts - 1;
+	const int tsts = ts * ts;
+	// NOTE: ts MUST be a power of 2!
+
+	for (int x = 0; x < ts; x++)
 	{
-		for (int y = 0; y < 16; y++)
+		for (int y = 0; y < ts; y++)
 		{
 			float f = 0.0f;
 			for (int i = x - 1; i <= x + 1; i++)
-				f += m_data1[16 * (y & 0xF) + (i & 0xF)];
+				f += m_data1[ts * (y & tsm) + (i & tsm)];
 
-			m_data2[16 * y + x] = f / 3.3f + m_data3[16 * y + x] * 0.8f;
+			m_data2[ts * y + x] = f / 3.3f + m_data3[ts * y + x] * 0.8f;
 		}
 	}
 
-	for (int x = 0; x < 16; x++)
+	for (int x = 0; x < ts; x++)
 	{
-		for (int y = 0; y < 16; y++)
+		for (int y = 0; y < ts; y++)
 		{
-			m_data3[16 * y + x] += m_data4[16 * y + x] * 0.05f;
+			m_data3[ts * y + x] += m_data4[ts * y + x] * 0.05f;
 
-			if (m_data3[16 * y + x] < 0)
-				m_data3[16 * y + x] = 0;
+			if (m_data3[ts * y + x] < 0)
+				m_data3[ts * y + x] = 0;
 
-			m_data4[16 * y + x] -= 0.1f;
+			m_data4[ts * y + x] -= 0.1f;
 			if (Mth::random() < 0.05f)
-				m_data4[16 * y + x] = 0.5f;
+				m_data4[ts * y + x] = 0.5f;
 		}
 	}
 
 	std::swap(m_data1, m_data2);
 
-	for (int i = 0; i < 256; i++)
+	for (int i = 0; i < tsts; i++)
 	{
 		float m = m_data1[i];
 		if (m < 0.0f)

@@ -9,6 +9,9 @@
 #include "Textures.hpp"
 #include "common/Utils.hpp"
 
+int Textures::terrainWidth = 256;
+int Textures::terrainHeight = 256;
+int Textures::terrainTileSize = 16;
 bool Textures::MIPMAP = false;
 
 int Textures::loadTexture(const std::string& name, bool bIsRequired)
@@ -70,12 +73,42 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 	if (texture.field_C)
 		internalFormat = GL_RGBA;
 
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.m_pixels);
+	// If the texture is called "terrain.png", perform some transformations to turn it into a strip.
+	uint32_t* pixelData = texture.m_pixels;
+	int width = texture.m_width, height = texture.m_height;
+	bool deletePixelData = false;
+
+	if (name == "terrain.png")
+	{
+		const int tileSize = texture.m_width / 16;
+		width  = tileSize;
+		height = tileSize * 256;
+		pixelData = new uint32_t[width * height];
+		deletePixelData = true;
+
+		for (int i = 0; i < 256; i++)
+		{
+			int dstY = i * tileSize;
+			int srcX = (i & 0xF) * tileSize;
+			int srcY = (i >>  4) * tileSize;
+
+			for (int x = 0; x < tileSize; x++)
+				for (int y = 0; y < tileSize; y++)
+					pixelData[(dstY + y) * width + x] = texture.m_pixels[(srcY + y) * texture.m_width + (srcX + x)];
+		}
+
+		terrainWidth  = width;
+		terrainHeight = height;
+		terrainTileSize = tileSize;
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
+
+	if (deletePixelData)
+		delete[] pixelData;
 
 	m_textures[name] = textureID;
-
 	m_textureData[textureID] = TextureData(textureID, texture);
-
 	return textureID;
 }
 
@@ -131,19 +164,31 @@ void Textures::tick()
 		{
 			for (int y = 0; y < pDynaTex->m_textureSize; y++)
 			{
+				int texIndex = y * 16 + x + pDynaTex->m_textureIndex;
+
 				// texture is already bound so this is fine:
 				glTexSubImage2D(
 					GL_TEXTURE_2D,
 					0,
-					16 * (x + pDynaTex->m_textureIndex % 16),
-					16 * (y + pDynaTex->m_textureIndex / 16),
-					16, 16,
+					0,
+					terrainTileSize * texIndex,
+					terrainTileSize, terrainTileSize,
 					GL_RGBA,
 					GL_UNSIGNED_BYTE,
 					pDynaTex->m_pixels
 				);
 			}
 		}
+	}
+
+	if (rand() % 70 == 0) {
+		LOG_I("Output!");
+		FILE* f = fopen("C:\\growalone_maps\\test.bin", "wb");
+		char* buf = new char[16 * 4096 * sizeof(uint32_t)];
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+		fwrite(buf, 1, 16 * 4096 * sizeof(uint32_t), f);
+		fclose(f);
+		delete[] buf;
 	}
 }
 
