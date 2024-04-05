@@ -692,7 +692,8 @@ bool TileRenderer::tesselateCrossInWorld(Tile* tile, int x, int y, int z)
 
 bool TileRenderer::tesselateWaterInWorld(Tile* tile1, int x, int y, int z)
 {
-	constexpr float C_RATIO = 1.0f / 256.0f;
+	constexpr float C_RATIO_X = 1.0f / 16.0f;
+	constexpr float C_RATIO_Y = 1.0f / 4096.0f;
 
 	LiquidTile* tile = (LiquidTile*)tile1;
 	bool bRenderFaceDown, bRenderFaceUp, bRenderSides[4];
@@ -747,44 +748,46 @@ bool TileRenderer::tesselateWaterInWorld(Tile* tile1, int x, int y, int z)
 		if (slopeAngle > -999.0f)
 		{
 			int texNorth = tile->getTexture(DIR_ZNEG, tileData);
-			texX = texNorth & 0xF0;
-			texY = (texNorth & 0xF) * 16;
+			texX = 0;
+			texY = texNorth * 16;
 		}
 		else
 		{
-			texX = texFaceDown & 0xF0;
-			texY = (texFaceDown & 0xF) * 16;
+			texX = 0;
+			texY = texFaceDown * 16;
 		}
 
-		float texUV_1, texUV_2, texUV_3, texUV_4, texUV_5, texUV_6, texUV_7, texUV_8;
+		float texUV_1, texUV_2, texUV_3X, texUV_3Y, texUV_4X, texUV_4Y, texUV_5, texUV_6, texUV_7, texUV_8;
 		if (slopeAngle >= -999.0f)
 		{
-			texUV_1 = float(texY + 16) * C_RATIO;
-			texUV_2 = float(texX + 16) * C_RATIO;
+			texUV_1 = float(texX + 16) * C_RATIO_X;
+			texUV_2 = float(texY + 16) * C_RATIO_Y;
 		}
 		else
 		{
 			slopeAngle = 0.0f;
-			texUV_1 = float(texY + 8) * C_RATIO;
-			texUV_2 = float(texX + 8) * C_RATIO;
+			texUV_1 = float(texX + 8) * C_RATIO_X;
+			texUV_2 = float(texY + 8) * C_RATIO_Y;
 		}
 
-		texUV_3 = C_RATIO * 8.0f * Mth::sin(slopeAngle);
-		texUV_4 = C_RATIO * 8.0f * Mth::cos(slopeAngle);
+		texUV_3X = C_RATIO_X * 8.0f * Mth::sin(slopeAngle);
+		texUV_3Y = C_RATIO_Y * 8.0f * Mth::sin(slopeAngle);
+		texUV_4X = C_RATIO_X * 8.0f * Mth::cos(slopeAngle);
+		texUV_4Y = C_RATIO_Y * 8.0f * Mth::cos(slopeAngle);
 
 		float bright = tile->getBrightness(m_pLevelSource, x, y, z);
 
-		texUV_5 = texUV_1 - texUV_4;
-		texUV_6 = texUV_2 - texUV_4;
+		texUV_5 = texUV_1 - texUV_4X;
+		texUV_6 = texUV_2 - texUV_4Y;
 
 		t.color(bright, bright, bright);
-		texUV_7 = texUV_2 + texUV_4;
-		texUV_8 = texUV_1 + texUV_4;
+		texUV_7 = texUV_2 + texUV_4Y;
+		texUV_8 = texUV_1 + texUV_4X;
 
-		t.vertexUV(x + 0.0f, y + fHeight1, z + 0.0f, (texUV_1 - texUV_4) - texUV_3, texUV_6 + texUV_3);
-		t.vertexUV(x + 0.0f, y + fHeight2, z + 1.0f, texUV_3 + texUV_5, texUV_7 + texUV_3);
-		t.vertexUV(x + 1.0f, y + fHeight3, z + 1.0f, texUV_8 + texUV_3, texUV_7 - texUV_3);
-		t.vertexUV(x + 1.0f, y + fHeight4, z + 0.0f, texUV_8 - texUV_3, texUV_6 - texUV_3);
+		t.vertexUV(x + 0.0f, y + fHeight1, z + 0.0f, (texUV_1 - texUV_4X) - texUV_3X, texUV_6 + texUV_3Y);
+		t.vertexUV(x + 0.0f, y + fHeight2, z + 1.0f, texUV_3X + texUV_5, texUV_7 + texUV_3Y);
+		t.vertexUV(x + 1.0f, y + fHeight3, z + 1.0f, texUV_8 + texUV_3X, texUV_7 - texUV_3Y);
+		t.vertexUV(x + 1.0f, y + fHeight4, z + 0.0f, texUV_8 - texUV_3X, texUV_6 - texUV_3Y);
 	}
 
 	if (m_bDisableCulling)
@@ -867,13 +870,13 @@ label_8:
 
 		float texU_1, texU_2, texV_1, texV_2, texV_3;
 
-		int texX = (texture & 0xF) * 16;
-		int texY = (texture >> 4) * 16;
-		texU_1 = C_RATIO * float(texX);
-		texU_2 = C_RATIO * (float(texX) + 15.99f);
-		texV_1 = C_RATIO * (float(texY) + (1.0f - height1) * 16.0f);
-		texV_2 = C_RATIO * (float(texY) + (1.0f - height2) * 16.0f);
-		texV_3 = C_RATIO * (float(texY + 16.0f) - 0.01f);
+		int texX = 0; // (texture & 0xF) * 16;
+		int texY = texture * 16; // (texture >> 4) * 16;
+		texU_1 = C_RATIO_X * float(texX);
+		texU_2 = C_RATIO_X * (float(texX) + 15.99f);
+		texV_1 = C_RATIO_Y * (float(texY) + (1.0f - height1) * 16.0f);
+		texV_2 = C_RATIO_Y * (float(texY) + (1.0f - height2) * 16.0f);
+		texV_3 = C_RATIO_Y * (float(texY + 16.0f) - 0.01f);
 		bFlag2 = true;
 		bRenderedSides = true;
 

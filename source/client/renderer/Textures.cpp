@@ -181,7 +181,7 @@ void Textures::tick()
 		}
 	}
 
-	if (rand() % 70 == 0) {
+	/*if (rand() % 70 == 0) {
 		LOG_I("Output!");
 		FILE* f = fopen("C:\\growalone_maps\\test.bin", "wb");
 		char* buf = new char[16 * 4096 * sizeof(uint32_t)];
@@ -189,7 +189,7 @@ void Textures::tick()
 		fwrite(buf, 1, 16 * 4096 * sizeof(uint32_t), f);
 		fclose(f);
 		delete[] buf;
-	}
+	}*/
 }
 
 int Textures::loadAndBindTexture(const std::string& name)
