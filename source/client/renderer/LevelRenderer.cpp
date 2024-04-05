@@ -205,6 +205,8 @@ void LevelRenderer::allChanged()
 		}
 	}
 
+	LOG_I("Amount of buffer spaces reserved: %d", x3);
+
 	if (m_pLevel)
 	{
 		Mob* pMob = m_pMinecraft->m_pMobPersp;
