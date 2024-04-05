@@ -543,118 +543,74 @@ void TileRenderer::tesselateCrossTexture(Tile* tile, int data, float x, float y,
 	t.vertexUV(x1, y + 1, z2, texU_r, texV_u);
 }
 
-bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float r, float g, float b)
+bool TileRenderer::tesselateBlockInWorldDir(Tile* tile, int x, int y, int z, float r, float g, float b, int dir)
 {
-	float topR = r, topG = g, topB = b;
+	typedef void(TileRenderer::*RenderFaceFuncPtr)(Tile* tile, float x, float y, float z, int tex);
+	static const RenderFaceFuncPtr renderFace[] = {
+		&TileRenderer::renderFaceUp,
+		&TileRenderer::renderFaceDown,
+		&TileRenderer::renderNorth,
+		&TileRenderer::renderSouth,
+		&TileRenderer::renderWest,
+		&TileRenderer::renderEast,
+	};
+	static const int offsetX[] = { 0, 0, 0, 0, -1, +1 };
+	static const int offsetY[] = { -1, +1, 0, 0, 0, 0 };
+	static const int offsetZ[] = { 0, 0, -1, +1, 0, 0 };
+	static const float brightMult[] = { 0.5f, 1.0f, 0.8f, 0.8f, 0.6f, 0.6f };
 
-	if (tile == Tile::grass)
+	float r2 = r, g2 = g, b2 = b;
+	if (tile == Tile::grass && dir != DIR_YPOS)
 		r = g = b = 1.0f;
+
+	int xf = x + offsetX[dir];
+	int yf = y + offsetY[dir];
+	int zf = z + offsetZ[dir];
+
+	if (!m_bDisableCulling)
+	{
+		if (!tile->shouldRenderFace(m_pLevelSource, xf, yf, zf, dir))
+			return false;
+	}
 
 	Tesselator& t = Tesselator::instance;
 
-	float fLightHere = tile->getBrightness(m_pLevelSource, x, y, z);
-	bool bDrewAnything = false;
+	float fLight = brightMult[dir];
 
-	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x, y - 1, z, DIR_YNEG))
+	if ((dir == DIR_YPOS && (tile->m_aabb.max.y != 1.0f && !tile->m_pMaterial->isLiquid())) ||
+		(dir == DIR_ZNEG && tile->m_aabb.min.z > 0.0f) ||
+		(dir == DIR_ZPOS && tile->m_aabb.max.z < 1.0f) ||
+		(dir == DIR_XNEG && tile->m_aabb.min.x > 0.0f) ||
+		(dir == DIR_XPOS && tile->m_aabb.max.x < 1.0f))
+		fLight *= tile->getBrightness(m_pLevelSource, x, y, z);
+	else
+		fLight *= tile->getBrightness(m_pLevelSource, xf, yf, zf);
+
+	t.color(r * fLight, g * fLight, b * fLight);
+
+	int texture = tile->getTexture(m_pLevelSource, x, y, z, dir);
+	(this->*(renderFace[dir]))(tile, float(x), float(y), float(z), texture);
+
+	if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && dir > DIR_ZNEG && m_textureOverride < 0)
 	{
-		bDrewAnything = true;
-
-		float fLight = tile->getBrightness(m_pLevelSource, x, y - 1, z);
-		t.color(r * 0.5f * fLight, g * 0.5f * fLight, b * 0.5f * fLight);
-
-		renderFaceUp(tile, float(x), float(y), float(z), tile->getTexture(m_pLevelSource, x, y, z, DIR_YNEG));
+		t.color(r2 * fLight, g2 * fLight, b2 * fLight);
+		(this->*(renderFace[dir]))(tile, float(x), float(y), float(z), TEXTURE_NONE84);
 	}
 
-	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x, y + 1, z, DIR_YPOS))
+	return true;
+}
+
+bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float r, float g, float b)
+{
+	bool bRenderedAnything = false;
+
+	for (int dir = 0; dir < 6; dir++)
 	{
-		bDrewAnything = true;
-
-		float fLight = tile->getBrightness(m_pLevelSource, x, y + 1, z);
-		if (tile->m_aabb.max.y != 1.0f && !tile->m_pMaterial->isLiquid())
-			fLight = fLightHere;
-
-		t.color(topR * fLight, topG * fLight, topB * fLight);
-
-		renderFaceDown(tile, float(x), float(y), float(z), tile->getTexture(m_pLevelSource, x, y, z, DIR_YPOS));
+		if (tesselateBlockInWorldDir(tile, x, y, z, r, g, b, dir))
+			bRenderedAnything = true;
 	}
 
-	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x, y, z - 1, DIR_ZNEG))
-	{
-		bDrewAnything = true;
-
-		float fLight = tile->getBrightness(m_pLevelSource, x, y, z - 1);
-		if (tile->m_aabb.min.z > 0.0f)
-			fLight = fLightHere;
-
-		t.color(r * 0.8f * fLight, g * 0.8f * fLight, b * 0.8f * fLight);
-		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_ZNEG);
-		renderNorth(tile, float(x), float(y), float(z), texture);
-
-		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
-		{
-			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderNorth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
-		}
-	}
-
-	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x, y, z + 1, DIR_ZPOS))
-	{
-		bDrewAnything = true;
-
-		float fLight = tile->getBrightness(m_pLevelSource, x, y, z + 1);
-		if (tile->m_aabb.max.z < 1.0f)
-			fLight = fLightHere;
-
-		t.color(r * 0.8f * fLight, g * 0.8f * fLight, b * 0.8f * fLight);
-		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_ZPOS);
-		renderSouth(tile, float(x), float(y), float(z), texture);
-
-		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
-		{
-			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderSouth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
-		}
-	}
-
-	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x - 1, y, z, DIR_XNEG))
-	{
-		bDrewAnything = true;
-
-		float fLight = tile->getBrightness(m_pLevelSource, x - 1, y, z);
-		if (tile->m_aabb.min.x > 0.0f)
-			fLight = fLightHere;
-
-		t.color(r * 0.6f * fLight, g * 0.6f * fLight, b * 0.6f * fLight);
-		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_XNEG);
-		renderWest(tile, float(x), float(y), float(z), texture);
-
-		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
-		{
-			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderWest(tile, float(x), float(y), float(z), TEXTURE_NONE84);
-		}
-	}
-
-	if (m_bDisableCulling || tile->shouldRenderFace(m_pLevelSource, x + 1, y, z, DIR_XPOS))
-	{
-		bDrewAnything = true;
-
-		float fLight = tile->getBrightness(m_pLevelSource, x + 1, y, z);
-		if (tile->m_aabb.max.x < 1.0f)
-			fLight = fLightHere;
-
-		t.color(r * 0.6f * fLight, g * 0.6f * fLight, b * 0.6f * fLight);
-		int texture = tile->getTexture(m_pLevelSource, x, y, z, DIR_XPOS);
-		renderEast(tile, float(x), float(y), float(z), texture);
-
-		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
-		{
-			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderEast(tile, float(x), float(y), float(z), TEXTURE_NONE84);
-		}
-	}
-
-	return bDrewAnything;
+	return bRenderedAnything;
 }
 
 bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z)

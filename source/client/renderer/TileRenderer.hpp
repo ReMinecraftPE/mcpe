@@ -121,5 +121,9 @@ private:
 	bool field_B5;
 	bool field_B6;
 	bool field_B7;
+
+protected:
+	friend class Chunk;
+	bool tesselateBlockInWorldDir(Tile* tile, int x, int y, int z, float r, float g, float b, int dir);
 };
 
