@@ -125,6 +125,84 @@ bool Chunk::isDirty()
 	return m_bDirty;
 }
 
+void Chunk::renderFaceDown()
+{
+}
+
+void Chunk::renderFaceUp()
+{
+}
+
+void Chunk::renderNorth()
+{
+}
+
+void Chunk::renderSouth()
+{
+}
+
+void Chunk::renderWest()
+{
+}
+
+void Chunk::renderEast()
+{
+}
+
+bool Chunk::renderLayer(TileRenderer& tileRenderer, Region& region, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int layer)
+{
+	Tesselator& t = Tesselator::instance;
+	bool bTesselatedAnything = false, bDrewThisLayer = false, bNeedAnotherLayer = false;
+	for (int y = minY; y < maxY; y++)
+	{
+		for (int z = minZ; z < maxZ; z++)
+		{
+			for (int x = minX; x < maxX; x++)
+			{
+				TileID tile = region.getTile(x, y, z);
+				if (tile <= 0) continue;
+
+				if (!bTesselatedAnything)
+				{
+					bTesselatedAnything = true;
+					t.begin();
+					t.offset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
+				}
+
+				Tile* pTile = Tile::tiles[tile];
+
+				if (layer == pTile->getRenderLayer())
+				{
+					if (tileRenderer.tesselateInWorld(pTile, x, y, z))
+						bDrewThisLayer = true;
+				}
+				else
+				{
+					bNeedAnotherLayer = true;
+				}
+			}
+		}
+	}
+
+	if (bTesselatedAnything)
+	{
+		RenderChunk rchk = t.end(field_90[layer]);
+		RenderChunk* pRChk = &m_renderChunks[layer];
+
+		*pRChk = rchk;
+		pRChk->field_C  = float(m_pos.x);
+		pRChk->field_10 = float(m_pos.y);
+		pRChk->field_14 = float(m_pos.z);
+
+		t.offset(0.0f, 0.0f, 0.0f);
+
+		if (bDrewThisLayer)
+			field_1C[layer] = false;
+	}
+
+	return bNeedAnotherLayer;
+}
+
 void Chunk::rebuild()
 {
 	if (!m_bDirty)
@@ -144,59 +222,10 @@ void Chunk::rebuild()
 	Region region(m_pLevel, minX - 1, minY - 1, minZ - 1, maxX + 1, maxY + 1, maxZ + 1);
 	TileRenderer tileRenderer(&region);
 
-	Tesselator& t = Tesselator::instance;
-
 	for (int layer = 0; layer < 2; layer++)
 	{
-		bool bTesselatedAnything = false, bDrewThisLayer = false, bNeedAnotherLayer = false;
-		for (int y = minY; y < maxY; y++)
-		{
-			for (int z = minZ; z < maxZ; z++)
-			{
-				for (int x = minX; x < maxX; x++)
-				{
-					TileID tile = region.getTile(x, y, z);
-					if (tile <= 0) continue;
-
-					if (!bTesselatedAnything)
-					{
-						bTesselatedAnything = true;
-						t.begin();
-						t.offset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
-					}
-
-					Tile* pTile = Tile::tiles[tile];
-
-					if (layer == pTile->getRenderLayer())
-					{
-						if (tileRenderer.tesselateInWorld(pTile, x, y, z))
-							bDrewThisLayer = true;
-					}
-					else
-					{
-						bNeedAnotherLayer = true;
-					}
-				}
-			}
-		}
-
-		if (bTesselatedAnything)
-		{
-			RenderChunk rchk = t.end(field_90[layer]);
-			RenderChunk* pRChk = &m_renderChunks[layer];
-
-			*pRChk = rchk;
-			pRChk->field_C  = float(m_pos.x);
-			pRChk->field_10 = float(m_pos.y);
-			pRChk->field_14 = float(m_pos.z);
-
-			t.offset(0.0f, 0.0f, 0.0f);
-
-			if (bDrewThisLayer)
-				field_1C[layer] = false;
-		}
-
-		if (!bNeedAnotherLayer)
+		bool stop = renderLayer(tileRenderer, region, minX, minY, minZ, maxX, maxY, maxZ, layer);
+		if (stop)
 			break;
 	}
 

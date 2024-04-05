@@ -15,6 +15,8 @@
 
 class Level;
 class Entity;
+class Region;
+class TileRenderer;
 
 class Chunk
 {
@@ -62,5 +64,15 @@ public:
 	GLuint* field_90;
 	bool field_94;
 	bool m_bDirty;
+
+private:
+	void renderFaceDown();
+	void renderFaceUp();
+	void renderNorth();
+	void renderSouth();
+	void renderWest();
+	void renderEast();
+
+	bool renderLayer(TileRenderer& tre, Region& rgn, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int layerNo);
 };
 
