@@ -225,7 +225,7 @@ void Chunk::rebuild()
 	for (int layer = 0; layer < 2; layer++)
 	{
 		bool stop = renderLayer(tileRenderer, region, minX, minY, minZ, maxX, maxY, maxZ, layer);
-		if (stop)
+		if (!stop)
 			break;
 	}
 
