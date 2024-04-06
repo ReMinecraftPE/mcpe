@@ -80,21 +80,34 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 
 	if (name == "terrain.png" || name == "gui/items.png")
 	{
+		// 1024x1024 texture.
+
+		// How it works is that we repeat the texture 16 times per column, as that's the max
+		// that the game will greedy mesh up to.  So we have 4 columns, each with 64 frames.
+
 		const int tileSize = texture.m_width / 16;
-		width  = tileSize;
-		height = tileSize * 256;
+		width  = tileSize * 16 * 4;
+		height = tileSize * 64;
 		pixelData = new uint32_t[width * height];
 		deletePixelData = true;
 
 		for (int i = 0; i < 256; i++)
 		{
-			int dstY = i * tileSize;
+			int dstX = (i / 64) * tileSize * 16;
+			int dstY = (i % 64) * tileSize;
 			int srcX = (i & 0xF) * tileSize;
 			int srcY = (i >>  4) * tileSize;
 
 			for (int x = 0; x < tileSize; x++)
+			{
 				for (int y = 0; y < tileSize; y++)
-					pixelData[(dstY + y) * width + x] = texture.m_pixels[(srcY + y) * texture.m_width + (srcX + x)];
+				{
+					uint32_t pixel = texture.m_pixels[(srcY + y) * texture.m_width + (srcX + x)];
+
+					for (int z = 0; z < 16; z++)
+						pixelData[(dstY + y) * width + (dstX + x) + tileSize * z] = pixel;
+				}
+			}
 		}
 
 		terrainWidth  = width;
