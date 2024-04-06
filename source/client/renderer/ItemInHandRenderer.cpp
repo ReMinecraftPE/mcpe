@@ -85,23 +85,28 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 	}
 
 	std::string toBind;
-	if (inst->m_itemID <= C_MAX_TILES)
+	if (inst->m_itemID < C_MAX_TILES)
 		toBind = C_TERRAIN_NAME;
 	else
 		toBind = "gui/items.png";
 	m_pMinecraft->m_pTextures->loadAndBindTexture(toBind);
 
-	constexpr float C_RATIO     = 1.0f / 256.0f;
+	constexpr float C_RATIO_X   = 1.0f / 16.0f;
+	constexpr float C_RATIO_Y   = 1.0f / 4096.0f;
+	constexpr float C_RATIO_I   = 1.0f / 256.0f;
 	constexpr float C_RATIO_2   = 1.0f / 512.0f;
 	constexpr float C_ONE_PIXEL = 1.0f / 16.0f;
 
-	int textureX = inst->getIcon() % 16 * 16;
-	int textureY = inst->getIcon() / 16 * 16;
+	int textureX, textureY;
+	float texU_1, texU_2, texV_1, texV_2;
 
-	float texU_1 = C_RATIO * float(textureX + 0.0f);
-	float texU_2 = C_RATIO * float(textureX + 15.99f);
-	float texV_1 = C_RATIO * float(textureY + 0.0f);
-	float texV_2 = C_RATIO * float(textureY + 15.99f);
+	textureX = 0;
+	textureY = inst->getIcon() * 16;
+	texU_1 = C_RATIO_X * float(textureX + 0.0f);
+	texU_2 = C_RATIO_X * float(textureX + 15.99f);
+	texV_1 = C_RATIO_Y * float(textureY + 0.0f);
+	texV_2 = C_RATIO_Y * float(textureY + 15.99f);
+
 
 	Tesselator& t = Tesselator::instance;
 	glTranslatef(-0.0f, -0.3f, 0.0f);

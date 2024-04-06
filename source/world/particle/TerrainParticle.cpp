@@ -52,15 +52,16 @@ int TerrainParticle::getParticleTexture()
 
 void TerrainParticle::render(Tesselator& t, float f, float a4, float a5, float a6, float a7, float a8)
 {
-	constexpr float C_MAGIC_1 = 0.015609f; // @BUG: Slightly bigger than 1/64.0f
+	constexpr float C_MAGIC_1_X = 0.015609f * (256.0f / 16.0f);
+	constexpr float C_MAGIC_1_Y = 0.015609f * (256.0f / 4096.0f);
 
 	int texture = field_DC;
-	int texX = texture % 16;
-	if (texture < 0)
-		texture += 15;
 
-	float texU_1 = (float(texX)         + 0.25f * field_E0) / 16.0f;
-	float texV_1 = (float(texture >> 4) + 0.25f * field_E4) / 16.0f;
+	//float texU_1 = (float(texture & 0xF) + 0.25f * field_E0) / 16.0f;
+	//float texV_1 = (float(texture >> 4)  + 0.25f * field_E4) / 16.0f;
+
+	float texU_1 = (0.25f * field_E0);
+	float texV_1 = (float(texture) + 0.25f * field_E4) / 256.0f;
 
 	float posX = Mth::Lerp(field_3C.x, m_pos.x, f) - xOff;
 	float posY = Mth::Lerp(field_3C.y, m_pos.y, f) - yOff;
@@ -74,8 +75,8 @@ void TerrainParticle::render(Tesselator& t, float f, float a4, float a5, float a
 	float siz2Z = a8 * field_F0 * 0.1f;
 
 	t.color(field_F8 * fBright, field_FC * fBright, field_100 * fBright);
-	t.vertexUV(posX - sizeX - siz2X, posY - sizeY, posZ - sizeZ - siz2Z, texU_1 + C_MAGIC_1, texV_1 + C_MAGIC_1);
-	t.vertexUV(posX - sizeX + siz2X, posY + sizeY, posZ - sizeZ + siz2Z, texU_1 + C_MAGIC_1, texV_1);
+	t.vertexUV(posX - sizeX - siz2X, posY - sizeY, posZ - sizeZ - siz2Z, texU_1 + C_MAGIC_1_X, texV_1 + C_MAGIC_1_Y);
+	t.vertexUV(posX - sizeX + siz2X, posY + sizeY, posZ - sizeZ + siz2Z, texU_1 + C_MAGIC_1_X, texV_1);
 	t.vertexUV(posX + sizeX + siz2X, posY + sizeY, posZ + sizeZ + siz2Z, texU_1, texV_1);
-	t.vertexUV(posX + sizeX - siz2X, posY - sizeY, posZ + sizeZ - siz2Z, texU_1, texV_1 + C_MAGIC_1);
+	t.vertexUV(posX + sizeX - siz2X, posY - sizeY, posZ + sizeZ - siz2Z, texU_1, texV_1 + C_MAGIC_1_Y);
 }

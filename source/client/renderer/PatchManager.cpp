@@ -201,8 +201,18 @@ void PatchManager::PatchTextures(AppPlatform* pAppPlatform, ePatchType patchType
 			continue;
 		}
 
-		int actualX = 0;
-		int actualY = pd.m_destY * Textures::terrainTileSize + pd.m_destX;
+		int actualX, actualY;
+
+		if (patchType == TYPE_TERRAIN || patchType == TYPE_ITEMS)
+		{
+			actualX = 0;
+			actualY = pd.m_destY * Textures::terrainTileSize + pd.m_destX;
+		}
+		else
+		{
+			actualX = pd.m_destX;
+			actualY = pd.m_destY;
+		}
 
 		glTexSubImage2D(
 			GL_TEXTURE_2D,

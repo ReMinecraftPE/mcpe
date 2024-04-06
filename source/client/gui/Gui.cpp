@@ -351,7 +351,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (m->isTouchscreen())
 	{
 		m->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-		blit(cenX + hotbarWidth / 2 - 19, height - 19, 208, 208, 16, 16, 0, 0);
+		blit(cenX + hotbarWidth / 2 - 19, height - 19, 0, 221 * 16, 16, 16, 0, 0, 16, 4096);
 	}
 
 	// render messages

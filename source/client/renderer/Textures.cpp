@@ -78,7 +78,7 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 	int width = texture.m_width, height = texture.m_height;
 	bool deletePixelData = false;
 
-	if (name == "terrain.png")
+	if (name == "terrain.png" || name == "gui/items.png")
 	{
 		const int tileSize = texture.m_width / 16;
 		width  = tileSize;

@@ -16,7 +16,7 @@ GuiComponent::GuiComponent() : field_4 (0)
 {
 }
 
-void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, int sh)
+void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, int sh, float tew, float teh)
 {
 	Tesselator& t = Tesselator::instance;
 
@@ -24,10 +24,10 @@ void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, 
 	if (!sw) sw = tw;
 
 	t.begin();
-	t.vertexUV(dx,      dy + th, field_4, float(sx)      / 256.0f, float(sy + sh) / 256.0f);
-	t.vertexUV(dx + tw, dy + th, field_4, float(sx + sw) / 256.0f, float(sy + sh) / 256.0f);
-	t.vertexUV(dx + tw, dy,      field_4, float(sx + sw) / 256.0f, float(sy)      / 256.0f);
-	t.vertexUV(dx,      dy,      field_4, float(sx)      / 256.0f, float(sy)      / 256.0f);
+	t.vertexUV(dx,      dy + th, field_4, float(sx)      / tew, float(sy + sh) / teh);
+	t.vertexUV(dx + tw, dy + th, field_4, float(sx + sw) / tew, float(sy + sh) / teh);
+	t.vertexUV(dx + tw, dy,      field_4, float(sx + sw) / tew, float(sy)      / teh);
+	t.vertexUV(dx,      dy,      field_4, float(sx)      / tew, float(sy)      / teh);
 	t.draw();
 }
 

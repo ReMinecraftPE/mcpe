@@ -20,7 +20,7 @@ public:
 	void render(Entity*, float, float, float, float, float) override;
 	void blitRect(Tesselator&, int, int, int, int, int);
 
-	static void blit(int, int, int, int, int, int);
+	static void blit(int, int, int, int, int, int, float texWidth = 256.0f, float texHeight = 256.0f);
 	static void renderGuiItem(Font*, Textures*, ItemInstance*, int, int, bool);
 	static void renderGuiItemOverlay(Font*, Textures*, ItemInstance*, int, int);
 

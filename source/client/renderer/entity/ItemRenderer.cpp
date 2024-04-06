@@ -143,7 +143,7 @@ void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color
 	t.draw();
 }
 
-void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
+void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th, float tew, float teh)
 {
 	Tesselator& t = Tesselator::instance;
 
@@ -152,10 +152,10 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	float vx = float(sx), vy = float(sy);
 
 	t.begin();
-	t.vertexUV(ex,      ey + uh, 0.0f, float(vx)      / 256.0f, float(vy + uh) / 256.0f);
-	t.vertexUV(ex + uw, ey + uh, 0.0f, float(vx + uw) / 256.0f, float(vy + uh) / 256.0f);
-	t.vertexUV(ex + uw, ey,      0.0f, float(vx + uw) / 256.0f, float(vy)      / 256.0f);
-	t.vertexUV(ex,      ey,      0.0f, float(vx)      / 256.0f, float(vy)      / 256.0f);
+	t.vertexUV(ex,      ey + uh, 0.0f, float(vx)      / tew, float(vy + uh) / teh);
+	t.vertexUV(ex + uw, ey + uh, 0.0f, float(vx + uw) / tew, float(vy + uh) / teh);
+	t.vertexUV(ex + uw, ey,      0.0f, float(vx + uw) / tew, float(vy)      / teh);
+	t.vertexUV(ex,      ey,      0.0f, float(vx)      / tew, float(vy)      / teh);
 	t.draw();
 }
 
@@ -263,11 +263,11 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 	{
 		// @BUG: The last bound texture will be the texture that ALL items will take. This is because begin and end calls
 		// have been void'ed by a  t.voidBeginAndEndCalls call in Gui::render.
-		if (instance->m_itemID <= 255)
+		if (instance->m_itemID < C_MAX_TILES)
 			textures->loadAndBindTexture(C_TERRAIN_NAME);
 		else
 			textures->loadAndBindTexture(C_ITEMS_NAME);
 
-		blit(x, y, 16 * (instance->getIcon() % 16), 16 * (instance->getIcon() / 16), 16, 16);
+		blit(x, y, 0, instance->getIcon() * 16, 16, 16, 16, 4096);
 	}
 }
