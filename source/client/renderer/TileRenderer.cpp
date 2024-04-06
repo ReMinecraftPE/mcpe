@@ -63,6 +63,7 @@ void TileRenderer::_init()
 	field_B5 = false;
 	field_B6 = false;
 	field_B7 = false;
+	m_groupSize = 1;
 }
 
 TileRenderer::TileRenderer()
@@ -167,25 +168,28 @@ void TileRenderer::renderEast(Tile* tile, float x, float y, float z, int texture
 		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
+	float offX = float(m_groupSize - 1);
+	texU_r += offX;
+
 	Tesselator& t = Tesselator::instance;
 
 	if (m_bAmbientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
-		t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z, texU_l, texV_d);
+		t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z + offX, texU_l, texV_d);
 		t.color(m_vtxRed[1], m_vtxGreen[1], m_vtxBlue[1]);
 		t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.min.z + z, texU_r, texV_d);
 		t.color(m_vtxRed[2], m_vtxGreen[2], m_vtxBlue[2]);
 		t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.min.z + z, texU_r, texV_u);
 		t.color(m_vtxRed[3], m_vtxGreen[3], m_vtxBlue[3]);
-		t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z, texU_l, texV_u);
+		t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z + offX, texU_l, texV_u);
 		return;
 	}
-	
-	t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z, texU_l, texV_d);
+
+	t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z + offX, texU_l, texV_d);
 	t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.min.z + z, texU_r, texV_d);
 	t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.min.z + z, texU_r, texV_u);
-	t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z, texU_l, texV_u);
+	t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z + offX, texU_l, texV_u);
 }
 
 void TileRenderer::renderWest(Tile* tile, float x, float y, float z, int texture)
@@ -231,25 +235,28 @@ void TileRenderer::renderWest(Tile* tile, float x, float y, float z, int texture
 		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
+	float offX = float(m_groupSize - 1);
+	texU_r += offX;
+
 	Tesselator& t = Tesselator::instance;
 
 	if (m_bAmbientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
-		t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.max.z + z, texU_r, texV_u);
+		t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.max.z + z + offX, texU_r, texV_u);
 		t.color(m_vtxRed[1], m_vtxGreen[1], m_vtxBlue[1]);
 		t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.min.z + z, texU_l, texV_u);
 		t.color(m_vtxRed[2], m_vtxGreen[2], m_vtxBlue[2]);
 		t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.min.z + z, texU_l, texV_d);
 		t.color(m_vtxRed[3], m_vtxGreen[3], m_vtxBlue[3]);
-		t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.max.z + z, texU_r, texV_d);
+		t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.max.z + z + offX, texU_r, texV_d);
 		return;
 	}
 	
-	t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.max.z + z, texU_r, texV_u);
+	t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.max.z + z + offX, texU_r, texV_u);
 	t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.min.z + z, texU_l, texV_u);
 	t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.min.z + z, texU_l, texV_d);
-	t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.max.z + z, texU_r, texV_d);
+	t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.max.z + z + offX, texU_r, texV_d);
 }
 
 void TileRenderer::renderSouth(Tile* tile, float x, float y, float z, int texture)
@@ -295,6 +302,9 @@ void TileRenderer::renderSouth(Tile* tile, float x, float y, float z, int textur
 		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
+	float offX = float(m_groupSize - 1);
+	texU_r += offX;
+
 	Tesselator& t = Tesselator::instance;
 
 	if (m_bAmbientOcclusion)
@@ -304,16 +314,16 @@ void TileRenderer::renderSouth(Tile* tile, float x, float y, float z, int textur
 		t.color(m_vtxRed[1], m_vtxGreen[1], m_vtxBlue[1]);
 		t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.max.z + z, texU_l, texV_d);
 		t.color(m_vtxRed[2], m_vtxGreen[2], m_vtxBlue[2]);
-		t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z, texU_r, texV_d);
+		t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.max.z + z, texU_r, texV_d);
 		t.color(m_vtxRed[3], m_vtxGreen[3], m_vtxBlue[3]);
-		t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z, texU_r, texV_u);
+		t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.max.z + z, texU_r, texV_u);
 		return;
 	}
 
 	t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.max.z + z, texU_l, texV_u);
 	t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.max.z + z, texU_l, texV_d);
-	t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z, texU_r, texV_d);
-	t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z, texU_r, texV_u);
+	t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.max.z + z, texU_r, texV_d);
+	t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.max.z + z, texU_r, texV_u);
 }
 
 void TileRenderer::renderNorth(Tile* tile, float x, float y, float z, int texture)
@@ -359,6 +369,9 @@ void TileRenderer::renderNorth(Tile* tile, float x, float y, float z, int textur
 		texV_d = C_RATIO_Y * (texY + aabb.max.y * 16.0f - 0.01f);
 	}
 
+	float offX = float(m_groupSize - 1);
+	texU_r += offX;
+
 	Tesselator& t = Tesselator::instance;
 
 	if (m_bAmbientOcclusion)
@@ -366,17 +379,17 @@ void TileRenderer::renderNorth(Tile* tile, float x, float y, float z, int textur
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
 		t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.min.z + z, texU_r, texV_u);
 		t.color(m_vtxRed[1], m_vtxGreen[1], m_vtxBlue[1]);
-		t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.min.z + z, texU_l, texV_u);
+		t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.min.z + z, texU_l, texV_u);
 		t.color(m_vtxRed[2], m_vtxGreen[2], m_vtxBlue[2]);
-		t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.min.z + z, texU_l, texV_d);
+		t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.min.z + z, texU_l, texV_d);
 		t.color(m_vtxRed[3], m_vtxGreen[3], m_vtxBlue[3]);
 		t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.min.z + z, texU_r, texV_d);
 		return;
 	}
 
 	t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.min.z + z, texU_r, texV_u);
-	t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.min.z + z, texU_l, texV_u);
-	t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.min.z + z, texU_l, texV_d);
+	t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.min.z + z, texU_l, texV_u);
+	t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.min.z + z, texU_l, texV_d);
 	t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.min.z + z, texU_r, texV_d);
 }
 
@@ -417,14 +430,17 @@ void TileRenderer::renderFaceDown(Tile* tile, float x, float y, float z, int tex
 		texV_2 = C_RATIO_Y * (texY + 15.99f);
 	}
 
+	float offX = float(m_groupSize - 1);
+	texU_2 += offX;
+
 	Tesselator& t = Tesselator::instance;
 
 	if (m_bAmbientOcclusion)
 	{
 		t.color(m_vtxRed[0], m_vtxGreen[0], m_vtxBlue[0]);
-		t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z, texU_2, texV_2);
+		t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.max.z + z, texU_2, texV_2);
 		t.color(m_vtxRed[1], m_vtxGreen[1], m_vtxBlue[1]);
-		t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.min.z + z, texU_2, texV_1);
+		t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.min.z + z, texU_2, texV_1);
 		t.color(m_vtxRed[2], m_vtxGreen[2], m_vtxBlue[2]);
 		t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.min.z + z, texU_1, texV_1);
 		t.color(m_vtxRed[3], m_vtxGreen[3], m_vtxBlue[3]);
@@ -432,8 +448,8 @@ void TileRenderer::renderFaceDown(Tile* tile, float x, float y, float z, int tex
 		return;
 	}
 
-	t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.max.z + z, texU_2, texV_2);
-	t.vertexUV(aabb.max.x + x, aabb.max.y + y, aabb.min.z + z, texU_2, texV_1);
+	t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.max.z + z, texU_2, texV_2);
+	t.vertexUV(aabb.max.x + x + offX, aabb.max.y + y, aabb.min.z + z, texU_2, texV_1);
 	t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.min.z + z, texU_1, texV_1);
 	t.vertexUV(aabb.min.x + x, aabb.max.y + y, aabb.max.z + z, texU_1, texV_2);
 }
@@ -475,6 +491,9 @@ void TileRenderer::renderFaceUp(Tile* tile, float x, float y, float z, int textu
 		texV_2 = C_RATIO_Y * (texY + 15.99f);
 	}
 
+	float offX = float(m_groupSize - 1);
+	texU_2 += offX;
+
 	Tesselator& t = Tesselator::instance;
 
 	if (m_bAmbientOcclusion)
@@ -484,16 +503,16 @@ void TileRenderer::renderFaceUp(Tile* tile, float x, float y, float z, int textu
 		t.color(m_vtxRed[1], m_vtxGreen[1], m_vtxBlue[1]);
 		t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.min.z + z, texU_1, texV_1);
 		t.color(m_vtxRed[2], m_vtxGreen[2], m_vtxBlue[2]);
-		t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.min.z + z, texU_2, texV_1);
+		t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.min.z + z, texU_2, texV_1);
 		t.color(m_vtxRed[3], m_vtxGreen[3], m_vtxBlue[3]);
-		t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z, texU_2, texV_2);
+		t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.max.z + z, texU_2, texV_2);
 		return;
 	}
 
 	t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.max.z + z, texU_1, texV_2);
 	t.vertexUV(aabb.min.x + x, aabb.min.y + y, aabb.min.z + z, texU_1, texV_1);
-	t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.min.z + z, texU_2, texV_1);
-	t.vertexUV(aabb.max.x + x, aabb.min.y + y, aabb.max.z + z, texU_2, texV_2);
+	t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.min.z + z, texU_2, texV_1);
+	t.vertexUV(aabb.max.x + x + offX, aabb.min.y + y, aabb.max.z + z, texU_2, texV_2);
 }
 
 void TileRenderer::tesselateCrossTexture(Tile* tile, int data, float x, float y, float z)
@@ -545,6 +564,13 @@ void TileRenderer::tesselateCrossTexture(Tile* tile, int data, float x, float y,
 
 bool TileRenderer::tesselateBlockInWorldDir(Tile* tile, int x, int y, int z, float r, float g, float b, int dir)
 {
+	if (r < 0) {
+		int color = getTileColor(tile, x, y, z);
+		r = float(GET_RED  (color)) / 255.0f;
+		g = float(GET_GREEN(color)) / 255.0f;
+		b = float(GET_BLUE (color)) / 255.0f;
+	}
+
 	typedef void(TileRenderer::*RenderFaceFuncPtr)(Tile* tile, float x, float y, float z, int tex);
 	static const RenderFaceFuncPtr renderFace[] = {
 		&TileRenderer::renderFaceUp,
@@ -587,17 +613,25 @@ bool TileRenderer::tesselateBlockInWorldDir(Tile* tile, int x, int y, int z, flo
 		fLight *= tile->getBrightness(m_pLevelSource, xf, yf, zf);
 
 	t.color(r * fLight, g * fLight, b * fLight);
+	
+	int oldGroupSize = m_groupSize; // since renderFace will reset it to one
 
 	int texture = tile->getTexture(m_pLevelSource, x, y, z, dir);
 	(this->*(renderFace[dir]))(tile, float(x), float(y), float(z), texture);
 
-	if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && dir > DIR_ZNEG && m_textureOverride < 0)
+	if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && dir >= DIR_ZNEG && m_textureOverride < 0)
 	{
 		t.color(r2 * fLight, g2 * fLight, b2 * fLight);
 		(this->*(renderFace[dir]))(tile, float(x), float(y), float(z), TEXTURE_NONE84);
 	}
 
+	m_groupSize = 1;
 	return true;
+}
+
+void TileRenderer::setGroupSize(int sz)
+{
+	m_groupSize = sz;
 }
 
 bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float r, float g, float b)

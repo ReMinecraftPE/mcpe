@@ -62,6 +62,9 @@ public:
 	int getTileColor(Tile*, int x, int y, int z);
 
 	static bool canRender(int renderShape);
+	static bool canRenderGreedy(int renderShape) {
+		return renderShape == SHAPE_SOLID;
+	}
 
 	static bool m_bFancyGrass;
 	static bool m_bBiomeColors;
@@ -121,9 +124,11 @@ private:
 	bool field_B5;
 	bool field_B6;
 	bool field_B7;
+	int m_groupSize;
 
 protected:
 	friend class Chunk;
 	bool tesselateBlockInWorldDir(Tile* tile, int x, int y, int z, float r, float g, float b, int dir);
+	void setGroupSize(int sz);
 };
 

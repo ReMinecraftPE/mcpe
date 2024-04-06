@@ -66,13 +66,9 @@ public:
 	bool m_bDirty;
 
 private:
-	void renderFaceDown();
-	void renderFaceUp();
-	void renderNorth();
-	void renderSouth();
-	void renderWest();
-	void renderEast();
+	void renderXExpandableFaces(TileRenderer& tre, Region& rgn, int layerNo, int direction, bool& bNeedAnotherLayer);
+	void renderZExpandableFaces(TileRenderer& tre, Region& rgn, int layerNo, int direction, bool& bNeedAnotherLayer);
 
-	bool renderLayer(TileRenderer& tre, Region& rgn, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int layerNo);
+	bool renderLayer(TileRenderer& tre, Region& rgn, int layerNo);
 };
 
