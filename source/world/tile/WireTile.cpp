@@ -152,7 +152,7 @@ void WireTile::calculateChanges(Level* level, int x, int y, int z, int x2, int y
 				newPower = getStrongerSignal(level, checkX, y, checkZ, newPower);
 			}
 
-			if (level->isSolidTile(checkX, y, checkZ) && !level->isSolidTile(checkX, y + 1, checkZ))
+			if (level->isSolidTile(checkX, y, checkZ) && !level->isSolidTile(x, y + 1, z))
 			{
 				if (checkX != x2 || y + 1 != y2 || checkZ != z2)
 				{
