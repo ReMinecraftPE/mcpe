@@ -74,7 +74,7 @@ int WireTile::getConnections(LevelSource* level, int x, int y, int z)
 		}
 
 		// check below:
-		if (level->isSolidTile(x + checkXD[i], y, z + checkXD[i]))
+		if (level->isSolidTile(x + checkXD[i], y, z + checkZD[i]))
 			continue;
 
 		if (level->getTile(x + checkXD[i], y - 1, z + checkZD[i]) == m_ID)

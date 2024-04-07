@@ -80,7 +80,13 @@ void RedStoneTorchTile::tick(Level* level, int x, int y, int z, Random* random)
 
 			if (checkBurnOut(level, x, y, z, true))
 			{
-				// TODO - Particle related
+				level->addParticle(
+					"smoke",
+					float(x) + random->nextFloat() * 0.6f + 0.2f,
+					float(y) + random->nextFloat() * 0.6f + 0.2f,
+					float(z) + random->nextFloat() * 0.6f + 0.2f,
+					0.0f, 0.0f, 0.0f
+				);
 			}
 		}
 	}
