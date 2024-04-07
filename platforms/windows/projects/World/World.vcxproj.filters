@@ -470,6 +470,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\particle\FireworkParticle.cpp">
       <Filter>Source Files\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\RedStoneTorchTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -795,6 +798,9 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp">
       <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\RedStoneTorchTile.hpp">
+      <Filter>Header Files\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

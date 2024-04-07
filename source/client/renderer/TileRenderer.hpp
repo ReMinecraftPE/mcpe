@@ -52,9 +52,9 @@ public:
 	bool tesselateLadderInWorld(Tile*, int x, int y, int z);
 	bool tesselateTorchInWorld(Tile*, int x, int y, int z);
 	bool tesselateDoorInWorld(Tile*, int x, int y, int z);
-#ifndef ORIGINAL_CODE
 	bool tesselateFireInWorld(Tile*, int x, int y, int z);
-#endif
+	bool tesselateWireInWorld(Tile*, int x, int y, int z);
+
 #ifdef ENH_USE_OWN_AO
 	bool tesselateBlockInWorldWithAmbienceOcclusionV2(Tile*, int x, int y, int z, float r, float g, float b);
 #endif
