@@ -96,15 +96,15 @@ void RedStoneTorchTile::tick(Level* level, int x, int y, int z, Random* random)
 	}
 }
 
-int RedStoneTorchTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
+int RedStoneTorchTile::getDirectSignal(LevelSource* level, int x, int y, int z, int dir)
 {
 	if (dir == DIR_YNEG)
-		return getDirectSignal(level, x, y, z, dir);
+		return getSignal(level, x, y, z, dir);
 
 	return 0;
 }
 
-int RedStoneTorchTile::getDirectSignal(LevelSource* level, int x, int y, int z, int dir)
+int RedStoneTorchTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
 {
 	if (!isActive()) return 0;
 	int data = level->getData(x, y, z);
