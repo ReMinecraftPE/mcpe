@@ -9,6 +9,20 @@
 #include "WireTile.hpp"
 #include "world/level/Level.hpp"
 
+#ifdef __APPLE__
+
+// HACK HACK HACK: This is crap
+
+// Include the C++ source directly, because Apple made it purposely
+// difficult to add more source files by modifying the PBXPROJ.  I
+// have to allocate GUIDs and .. ugh, it's a pain.  Apple can suck
+// a big, fat one.
+//
+// Brent, please help.  I don't want to merge it into master like this.
+#include "RedStoneTorchTile.cpp"
+
+#endif
+
 WireTile::WireTile(int id) : Tile(id, Material::decoration)
 {
 	m_TextureFrame = 164;
