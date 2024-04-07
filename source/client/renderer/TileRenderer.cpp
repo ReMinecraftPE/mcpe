@@ -1446,6 +1446,148 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 	return true;
 }
 
+bool TileRenderer::tesselateLeverInWorld(Tile* tile, int x, int y, int z)
+{
+	int data = m_pLevelSource->getData(x, y, z);
+	int dir = data & 0x7;
+	bool on = data & 0x8;
+	constexpr float C_RATIO = 1.0f / 256.0f;
+	constexpr float f = 0.25f;
+	constexpr float f1 = 0.1875f;
+	constexpr float f2 = 0.1875f;
+
+	switch (dir)
+	{
+		case 1:
+			tile->setShape(0.0f, 0.5f - f, 0.5f - f1, f2, 0.5f + f, 0.5f + f1);
+			break;
+		case 2:
+			tile->setShape(1.0f - f2, 0.5f - f, 0.5f - f1, 1.0f, 0.5f + f, 0.5f + f1);
+			break;
+		case 3:
+			tile->setShape(0.5f - f1, 0.5f - f, 0.0f, 0.5f + f1, 0.5f + f, f2);
+			break;
+		case 4:
+			tile->setShape(0.5f - f1, 0.5f - f, 1.0f - f2, 0.5f + f1, 0.5f + f, 1.0f);
+			break;
+		case 5:
+			tile->setShape(0.5f - f1, 0.0f, 0.5f - f, 0.5f + f1, f2, 0.5f + f);
+			break;
+		case 6:
+			tile->setShape(0.5f - f, 0.0f, 0.5f - f1, 0.5f + f, f2, 0.5f + f1);
+			break;
+	}
+
+	int oldOverride = m_textureOverride;
+	if (m_textureOverride < 0)
+		m_textureOverride = Tile::stoneBrick->m_TextureFrame;
+
+	tesselateBlockInWorld(tile, x, y, z);
+	m_textureOverride = oldOverride;
+
+	float bright = tile->getBrightness(m_pLevelSource, x, y, z);
+	if (Tile::lightEmission[tile->m_ID] > 0)
+		bright = 1.0f;
+
+	Tesselator& t = Tesselator::instance;
+	t.color(bright, bright, bright);
+
+	int texture = tile->getTexture(0);
+	if (m_textureOverride >= 0)
+		texture = m_textureOverride;
+	
+	int textureX = (texture & 0xf) << 4;
+	int textureY = texture & 0xf0;
+	float f4 = C_RATIO * float(textureX);
+	float f5 = C_RATIO * float(textureX + 15.99f);
+	float f6 = C_RATIO * float(textureY);
+	float f7 = C_RATIO * float(textureY + 15.99f);
+	Vec3 verts[8];
+	constexpr float f8 = 0.0625f;
+	constexpr float f9 = 0.0625f;
+	constexpr float f10 = 0.625f;
+	verts[0] = Vec3(-f8, 0.0f, -f9);
+	verts[1] = Vec3(f8, 0.0f, -f9);
+	verts[2] = Vec3(f8, 0.0f, f9);
+	verts[3] = Vec3(-f8, 0.0f, f9);
+	verts[4] = Vec3(-f8, f10, -f9);
+	verts[5] = Vec3(f8, f10, -f9);
+	verts[6] = Vec3(f8, f10, f9);
+	verts[7] = Vec3(-f8, f10, f9);
+	for (int vidx = 0; vidx < 8; vidx++)
+	{
+		if (on)
+		{
+			verts[vidx].z -= 0.0625f;
+			verts[vidx].rotateAroundX(M_PI / 4.5f);
+		}
+		else
+		{
+			verts[vidx].z += 0.0625f;
+			verts[vidx].rotateAroundX(-M_PI / 4.5f);
+		}
+
+		if (dir == 6)
+		{
+			verts[vidx].rotateAroundY(M_PI / 2);
+		}
+		if (dir < 5)
+		{
+			verts[vidx].y -= 0.375f;
+			verts[vidx].rotateAroundX(M_PI / 2);
+
+			switch (dir)
+			{
+				case 1: verts[vidx].rotateAroundY(-M_PI / 2); break;
+				case 2: verts[vidx].rotateAroundY(M_PI / 2);  break;
+				case 3: verts[vidx].rotateAroundY(M_PI);      break;
+				case 4: verts[vidx].rotateAroundY(0.0f);      break;
+			}
+
+			verts[vidx] += Vec3(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f);
+		}
+		else
+		{
+			verts[vidx] += Vec3(float(x) + 0.5f, float(y) + 0.125f, float(z) + 0.5f);
+		}
+	}
+
+	for (int fidx = 0; fidx < 6; fidx++)
+	{
+		if (fidx == 0) // top & bottom
+		{
+			f4 = C_RATIO * float(textureX + 7);
+			f5 = C_RATIO * (float(textureX + 9) - 0.01f);
+			f6 = C_RATIO * float(textureY + 6);
+			f7 = C_RATIO * (float(textureY + 8) - 0.01f);
+		}
+		else if (fidx == 2) // sides
+		{
+			f4 = C_RATIO * float(textureX + 7);
+			f5 = C_RATIO * (float(textureX + 9) - 0.01f);
+			f6 = C_RATIO * float(textureY + 6);
+			f7 = C_RATIO * (float(textureY + 16) - 0.01f);
+		}
+
+		int idx1, idx2, idx3, idx4;
+		switch (fidx) {
+			case 0: idx1 = 0, idx2 = 1, idx3 = 2, idx4 = 3; break;
+			case 1: idx1 = 7, idx2 = 6, idx3 = 5, idx4 = 4; break;
+			case 2: idx1 = 1, idx2 = 0, idx3 = 4, idx4 = 5; break;
+			case 3: idx1 = 2, idx2 = 1, idx3 = 5, idx4 = 6; break;
+			case 4: idx1 = 3, idx2 = 2, idx3 = 6, idx4 = 7; break;
+			case 5: idx1 = 0, idx2 = 3, idx3 = 7, idx4 = 4; break;
+		}
+
+		t.vertexUV(verts[idx1].x, verts[idx1].y, verts[idx1].z, f4, f7);
+		t.vertexUV(verts[idx2].x, verts[idx2].y, verts[idx2].z, f5, f7);
+		t.vertexUV(verts[idx3].x, verts[idx3].y, verts[idx3].z, f5, f6);
+		t.vertexUV(verts[idx4].x, verts[idx4].y, verts[idx4].z, f4, f6);
+	}
+
+	return true;
+}
+
 bool TileRenderer::tesselateInWorld(Tile* tile, int x, int y, int z)
 {
 	int shape = tile->getRenderShape();
@@ -1478,6 +1620,8 @@ bool TileRenderer::tesselateInWorld(Tile* tile, int x, int y, int z)
 			return tesselateStairsInWorld(tile, x, y, z);
 		case SHAPE_WIRE:
 			return tesselateWireInWorld(tile, x, y, z);
+		case SHAPE_LEVER:
+			return tesselateLeverInWorld(tile, x, y, z);
 	}
 
 	return false;

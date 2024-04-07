@@ -54,6 +54,7 @@ public:
 	bool tesselateDoorInWorld(Tile*, int x, int y, int z);
 	bool tesselateFireInWorld(Tile*, int x, int y, int z);
 	bool tesselateWireInWorld(Tile*, int x, int y, int z);
+	bool tesselateLeverInWorld(Tile*, int x, int y, int z);
 
 #ifdef ENH_USE_OWN_AO
 	bool tesselateBlockInWorldWithAmbienceOcclusionV2(Tile*, int x, int y, int z, float r, float g, float b);

@@ -20,7 +20,7 @@ AABB* LeverTile::getAABB(Level*, int x, int y, int z)
 
 int LeverTile::getRenderShape()
 {
-	return SHAPE_TORCH; // SHAPE_LEVER
+	return SHAPE_LEVER;
 }
 
 bool LeverTile::isCubeShaped()
@@ -67,7 +67,7 @@ HitResult LeverTile::clip(Level* level, int x, int y, int z, Vec3 a, Vec3 b)
 			setShape(0.5f - f1, 0.0f, 0.5f - f1, 0.5f + f1, 0.6f, 0.5f + f1);
 			break;
 	}
-
+	updateShape(level, x, y, z);
 	return Tile::clip(level, x, y, z, a, b);
 }
 
@@ -130,7 +130,7 @@ void LeverTile::setPlacedOnFace(Level* level, int x, int y, int z, int dir)
 	{
 		case DIR_YPOS:
 			if (level->isSolidTile(x, y - 1, z))
-				data = 5; // TODO: +level->m_random.nextInt(2)
+				data = 5 + level->m_random.nextInt(2);
 			break;
 		case DIR_ZNEG:
 			if (level->isSolidTile(x, y, z + 1))

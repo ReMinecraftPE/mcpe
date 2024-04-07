@@ -94,5 +94,25 @@ public:
 	{
 		return Vec3(x * scale, y * scale, z * scale);
 	}
+
+	void rotateAroundX(float ang)
+	{
+		float sn = Mth::sin(ang);
+		float cs = Mth::cos(ang);
+		float ny = y * cs + z * sn;
+		float nz = z * cs - y * sn;
+		y = ny;
+		z = nz;
+	}
+
+	void rotateAroundY(float ang)
+	{
+		float sn = Mth::sin(ang);
+		float cs = Mth::cos(ang);
+		float nx = x * cs + z * sn;
+		float nz = z * cs - x * sn;
+		x = nx;
+		z = nz;
+	}
 };
 
