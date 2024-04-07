@@ -273,6 +273,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/RocketLauncherTile.cpp
     world/tile/WireTile.cpp
     world/tile/RedStoneTorchTile.cpp
+    world/tile/LeverTile.cpp
     renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)

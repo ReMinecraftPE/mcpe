@@ -50,6 +50,7 @@
 #include "RocketLauncherTile.hpp"
 #include "WireTile.hpp"
 #include "RedStoneTorchTile.hpp"
+#include "LeverTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -708,7 +709,7 @@ void Tile::initTiles()
 	Tile::wire = (new WireTile(TILE_WIRE))
 		->init()
 		->setDestroyTime(0.0f)
-		->setSoundType(Tile::SOUND_STONE)
+		->setSoundType(Tile::SOUND_NORMAL)
 		->setDescriptionId("wire");
 
 	Tile::notGate_off = (new RedStoneTorchTile(TILE_NOT_GATE_OFF, TEXTURE_TORCH_RED_STONE_OFF, Material::decoration))
@@ -722,6 +723,12 @@ void Tile::initTiles()
 		->setDestroyTime(0.0f)
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("notGateLit");
+
+	Tile::lever = (new LeverTile(TILE_LEVER, TEXTURE_LEVER, Material::decoration))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("lever");
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{

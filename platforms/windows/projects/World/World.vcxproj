@@ -348,6 +348,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Cow.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Creeper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\LeverTile.cpp" />
     <ClCompile Include="..\..\..\..\source\world\tile\RedStoneTorchTile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +460,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Creeper.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Pig.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\LeverTile.hpp" />
     <ClInclude Include="..\..\..\..\source\world\tile\RedStoneTorchTile.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -13,13 +13,14 @@
 
 // HACK HACK HACK: This is crap
 
-// Include the C++ source directly, because Apple made it purposely
+// Include other C++ sources directly, because Apple made it purposely
 // difficult to add more source files by modifying the PBXPROJ.  I
 // have to allocate GUIDs and .. ugh, it's a pain.  Apple can suck
 // a big, fat one.
 //
 // Brent, please help.  I don't want to merge it into master like this.
 #include "RedStoneTorchTile.cpp"
+#include "LeverTile.cpp"
 
 #endif
 
@@ -353,6 +354,9 @@ int WireTile::getDirectSignal(LevelSource* level, int x, int y, int z, int dir)
 
 	if (level->getData(x, y, z) == 0)
 		return 0;
+
+	if (dir == DIR_YPOS)
+		return true;
 
 	bool flag0 = isSignalSource(level, x - 1, y, z) || !level->isSolidTile(x - 1, y, z) && isSignalSource(level, x - 1, y - 1, z);
 	bool flag1 = isSignalSource(level, x + 1, y, z) || !level->isSolidTile(x + 1, y, z) && isSignalSource(level, x + 1, y - 1, z);
