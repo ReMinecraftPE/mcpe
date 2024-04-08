@@ -1346,22 +1346,28 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 	float texU_1, texU_2, texV_1, texV_2;
 	bool bRotateWire = bUsingStraightTexture && (connFlags & (1 << WireTile::CONN_ZP));
 
-	AABB aabb = tile->m_aabb;
+	float cxn = 0.0f, cxp = 1.0f, czn = 0.0f, czp = 1.0f;
+	if (~connFlags & (1 << WireTile::CONN_XN)) cxn += 5.0f / 16.0f;
+	if (~connFlags & (1 << WireTile::CONN_XP)) cxp -= 5.0f / 16.0f;
+	if (~connFlags & (1 << WireTile::CONN_ZN)) czn += 5.0f / 16.0f;
+	if (~connFlags & (1 << WireTile::CONN_ZP)) czp -= 5.0f / 16.0f;
+
+	AABB aabb = AABB(cxn, 0.0f, czn, cxp, 0.0625f, czp);
 
 	if (bRotateWire)
 	{
 		// this is kind of hacky.
-		texU_1 = C_RATIO2 * aabb.min.z + C_RATIO * (texX);
-		texU_2 = C_RATIO2 * aabb.max.z + C_RATIO * (texX);
-		texV_1 = C_RATIO2 * aabb.min.x + C_RATIO * (texY);
-		texV_2 = C_RATIO2 * aabb.max.x + C_RATIO * (texY);
+		texU_1 = C_RATIO2 * aabb.min.z + C_RATIO * texX;
+		texU_2 = C_RATIO2 * aabb.max.z + C_RATIO * texX;
+		texV_1 = C_RATIO2 * aabb.min.x + C_RATIO * texY;
+		texV_2 = C_RATIO2 * aabb.max.x + C_RATIO * texY;
 	}
 	else
 	{
-		texU_1 = C_RATIO2 * aabb.min.x + C_RATIO * (texX);
-		texU_2 = C_RATIO2 * aabb.max.x + C_RATIO * (texX);
-		texV_1 = C_RATIO2 * aabb.min.z + C_RATIO * (texY);
-		texV_2 = C_RATIO2 * aabb.max.z + C_RATIO * (texY);
+		texU_1 = C_RATIO2 * aabb.min.x + C_RATIO * texX;
+		texU_2 = C_RATIO2 * aabb.max.x + C_RATIO * texX;
+		texV_1 = C_RATIO2 * aabb.min.z + C_RATIO * texY;
+		texV_2 = C_RATIO2 * aabb.max.z + C_RATIO * texY;
 	}
 
 	Tesselator& t = Tesselator::instance;
@@ -1371,13 +1377,11 @@ bool TileRenderer::tesselateWireInWorld(Tile* tile, int x, int y, int z)
 	float power = float(data) / 15.0f;
 	float rt = power * 0.6f + 0.4f;
 	if (data == 0)
-		rt = 0.3F;
+		rt = 0.3f;
 	float gt = power * power * 0.7f - 0.5f;
 	float bt = power * power * 0.6f - 0.7f;
-	if (gt < 0.0f)
-		gt = 0.0f;
-	if (bt < 0.0f)
-		bt = 0.0f;
+	if (gt < 0.0f) gt = 0.0f;
+	if (bt < 0.0f) bt = 0.0f;
 
 	t.color(bright * rt, bright * gt, bright * bt);
 

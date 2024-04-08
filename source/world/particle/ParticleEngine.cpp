@@ -96,7 +96,7 @@ void ParticleEngine::crack(int x, int y, int z, int dir)
 			break;
 		default:
 			// @TODO: dont know what they do for the undefined case
-            posX = float(x); posY = float(y); posZ = float(z);
+			posX = float(x); posY = float(y); posZ = float(z);
 			break;
 	}
 

@@ -50,6 +50,7 @@ public:
 	void neighborChanged(Level*, int x, int y, int z, int id) override;
 	int getSignal(LevelSource*, int x, int y, int z, int dir) override;
 	int getDirectSignal(LevelSource*, int x, int y, int z, int dir) override;
+	int getColor(LevelSource*, int, int, int) override;
 
 	bool isSignalSource(LevelSource*, int x, int y, int z);
 	int getConnections(LevelSource*, int x, int y, int z);

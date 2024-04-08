@@ -13,6 +13,7 @@
 #include "TileItem.hpp"
 #include "TilePlanterItem.hpp"
 #include "RocketItem.hpp"
+#include "RedstoneItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
@@ -199,6 +200,10 @@ void Item::initItems()
 	Item::rocket = NEW_X_ITEMN(RocketItem, ITEM_ROCKET)
 		->setIcon(14, 2)
 		->setDescriptionId("rocket");
+
+	Item::redStone = NEW_X_ITEMN(RedstoneItem, ITEM_REDSTONE)
+		->setIcon(8, 3)
+		->setDescriptionId("redstone");
 }
 
 int Item::getIcon(ItemInstance* pInstance)

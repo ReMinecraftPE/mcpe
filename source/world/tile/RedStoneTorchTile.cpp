@@ -20,7 +20,7 @@ RedStoneTorchTile::RedStoneTorchTile(int id, int texture, Material* pMtl) : Torc
 
 bool RedStoneTorchTile::isSignalSource()
 {
-	return m_bActive;
+	return true;
 }
 
 int RedStoneTorchTile::getTickDelay()

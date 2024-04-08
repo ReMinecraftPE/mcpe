@@ -251,16 +251,7 @@ void WireTile::updateWires(Level* level, int x, int y, int z)
 
 void WireTile::updateShape(LevelSource* level, int x, int y, int z)
 {
-	int connFlags = getConnections(level, x, y, z);
-
-	// cut off parts of the texture if needed
-	float cxn = 0.0f, cxp = 1.0f, czn = 0.0f, czp = 1.0f;
-	if (~connFlags & (1 << CONN_XN)) cxn += 5.0f / 16.0f;
-	if (~connFlags & (1 << CONN_XP)) cxp -= 5.0f / 16.0f;
-	if (~connFlags & (1 << CONN_ZN)) czn += 5.0f / 16.0f;
-	if (~connFlags & (1 << CONN_ZP)) czp -= 5.0f / 16.0f;
-
-	m_aabb = AABB(cxn, 0.0f, czn, cxp, 0.1f, czp);
+	m_aabb = AABB(0.0f, 0.0f, 0.0f, 1.0f, 0.0625f, 1.0f);
 }
 
 AABB* WireTile::getAABB(Level* level, int x, int y, int z)
@@ -375,6 +366,13 @@ int WireTile::getDirectSignal(LevelSource* level, int x, int y, int z, int dir)
 	if (dir == 4 && flag0 && !flag2 && !flag3) return true;
 	if (dir == 5 && flag1 && !flag2 && !flag3) return true;
 	return false;
+}
+
+int WireTile::getColor(LevelSource*, int, int, int)
+{
+	// TODO: Why do I need to swap red, green, and blue?
+	// Everything seems to be wrong.  Consider fixing it
+	return 0x000080;
 }
 
 int WireTile::getRenderShape()

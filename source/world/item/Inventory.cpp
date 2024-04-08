@@ -81,7 +81,7 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Item::rocket->m_itemID);
 
 	// redstone stuff
-	addCreativeItem(Tile::wire->m_ID);
+	addCreativeItem(Item::redStone->m_itemID);
 	addCreativeItem(Tile::notGate->m_ID);
 	addCreativeItem(Tile::lever->m_ID);
 	addCreativeItem(Tile::button->m_ID);

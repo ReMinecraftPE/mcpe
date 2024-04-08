@@ -58,6 +58,7 @@ void ExternalFileLevelStorageSource::getLevelList(std::vector<LevelSummary>& vls
 
 		LOG_I("Entry: %s", de->d_name);
 
+		// TODO: Should really use _DIRENT_HAVE_D_TYPE
 #if defined( __HAIKU__ )
 		std::string temp = m_worldsPath + '/' + de->d_name;
 
