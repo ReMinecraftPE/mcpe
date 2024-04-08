@@ -222,6 +222,7 @@ add_library(reminecraftpe-core STATIC
     world/item/DoorItem.cpp
     world/item/ItemInstance.cpp
     world/item/RocketItem.cpp
+    world/item/RedstoneItem.cpp
     world/item/Item.cpp
     world/particle/RedDustParticle.cpp
     world/particle/TerrainParticle.cpp
@@ -274,6 +275,8 @@ add_library(reminecraftpe-core STATIC
     world/tile/WireTile.cpp
     world/tile/RedStoneTorchTile.cpp
     world/tile/LeverTile.cpp
+    world/tile/ButtonTile.cpp
+    world/tile/PressurePlateTile.cpp
     renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)

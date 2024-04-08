@@ -11,6 +11,11 @@
 #include "world/entity/Player.hpp"
 #include "world/tile/Tile.hpp"
 
+#ifdef __APPLE__
+// TODO FIXME - Include source files directly.  Need to modify the Xcode project files to fix.
+#include "RedstoneItem.cpp"
+#endif
+
 DoorItem::DoorItem(int id, Material* pMtl) : Item(id)
 {
 	m_maxStackSize = 1;
