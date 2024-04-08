@@ -23,6 +23,7 @@
 #include "LeverTile.cpp"
 #include "ButtonTile.cpp"
 #include "PressurePlateTile.cpp"
+#include "DiodeTile.cpp"
 
 #endif
 

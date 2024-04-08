@@ -277,6 +277,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/LeverTile.cpp
     world/tile/ButtonTile.cpp
     world/tile/PressurePlateTile.cpp
+    world/tile/DiodeTile.cpp
     renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)

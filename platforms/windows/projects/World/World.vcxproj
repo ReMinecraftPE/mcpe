@@ -350,6 +350,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
     <ClCompile Include="..\..\..\..\source\world\item\RedstoneItem.cpp" />
     <ClCompile Include="..\..\..\..\source\world\tile\ButtonTile.cpp" />
+    <ClCompile Include="..\..\..\..\source\world\tile\DiodeTile.cpp" />
     <ClCompile Include="..\..\..\..\source\world\tile\LeverTile.cpp" />
     <ClCompile Include="..\..\..\..\source\world\tile\PressurePlateTile.cpp" />
     <ClCompile Include="..\..\..\..\source\world\tile\RedStoneTorchTile.cpp" />
@@ -465,6 +466,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp" />
     <ClInclude Include="..\..\..\..\source\world\item\RedstoneItem.hpp" />
     <ClInclude Include="..\..\..\..\source\world\tile\ButtonTile.hpp" />
+    <ClInclude Include="..\..\..\..\source\world\tile\DiodeTile.hpp" />
     <ClInclude Include="..\..\..\..\source\world\tile\LeverTile.hpp" />
     <ClInclude Include="..\..\..\..\source\world\tile\PressurePlateTile.hpp" />
     <ClInclude Include="..\..\..\..\source\world\tile\RedStoneTorchTile.hpp" />

@@ -200,12 +200,12 @@ void ButtonTile::destroy(Level* level, int x, int y, int z, int pdir)
 	Tile::destroy(level, x, y, z, pdir);
 }
 
-int ButtonTile::getDirectSignal(LevelSource* level, int x, int y, int z, int dir)
+int ButtonTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
 {
 	return (level->getData(x, y, z) & 0x8) > 0;
 }
 
-int ButtonTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
+int ButtonTile::getDirectSignal(LevelSource* level, int x, int y, int z, int dir)
 {
 	int data = level->getData(x, y, z);
 	if (~data & 0x8)

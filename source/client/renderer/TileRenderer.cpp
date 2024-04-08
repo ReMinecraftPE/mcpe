@@ -12,6 +12,7 @@
 #include "world/tile/LiquidTile.hpp"
 #include "world/tile/FireTile.hpp"
 #include "world/tile/WireTile.hpp"
+#include "world/tile/DiodeTile.hpp"
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
 
@@ -1592,6 +1593,97 @@ bool TileRenderer::tesselateLeverInWorld(Tile* tile, int x, int y, int z)
 	return true;
 }
 
+bool TileRenderer::tesselateDiodeInWorld(Tile* tile, int x, int y, int z)
+{
+	constexpr float C_RATIO = 1.0f / 256.0f;
+	int data = m_pLevelSource->getData(x, y, z);
+	int rot = (data & 0b0011);
+	int del = (data & 0b1100) >> 2;
+
+	// This renders the sides of the repeater.
+	tesselateBlockInWorld(tile, x, y, z);
+
+	float bright = tile->getBrightness(m_pLevelSource, x, y, z);
+	if (Tile::lightEmission[tile->m_ID] > 0)
+		bright = (bright + 1.0f) * 0.5f;
+
+	Tesselator& t = Tesselator::instance;
+	t.color(bright, bright, bright);
+
+	constexpr float offsY = -0.1875f;
+	float offsX1 = 0, offsZ1 = 0, offsX2 = 0, offsZ2 = 0;
+
+	switch (rot)
+	{
+		case 0:
+			offsZ2 = -0.3125f;
+			offsZ1 = DiodeTile::m_particleOffsets[del];
+			break;
+		case 2:
+			offsZ2 = 0.3125f;
+			offsZ1 = -DiodeTile::m_particleOffsets[del];
+			break;
+		case 3:
+			offsX2 = -0.3125f;
+			offsX1 = DiodeTile::m_particleOffsets[del];
+			break;
+		case 1:
+			offsX2 = 0.3125f;
+			offsX1 = -DiodeTile::m_particleOffsets[del];
+			break;
+	}
+
+	tesselateTorch(tile, float(x) + offsX1, float(y) + offsY, float(z) + offsZ1, 0.0f, 0.0f);
+	tesselateTorch(tile, float(x) + offsX2, float(y) + offsY, float(z) + offsZ2, 0.0f, 0.0f);
+
+	int texture = tile->getTexture(DIR_YPOS);
+	int texX = (texture & 0x0F) << 4;
+	int texY = (texture & 0xF0);
+
+	float texU_1 = C_RATIO * float(texX);
+	float texU_2 = C_RATIO * float(texX + 15.99f);
+	float texV_1 = C_RATIO * float(texY);
+	float texV_2 = C_RATIO * float(texY + 15.99f);
+
+	float v1x, v2x, v3x, v4x;
+	float v1z, v2z, v3z, v4z;
+	float vy = float(y) + 0.125f;
+
+	switch (rot) {
+		case 0:
+		default:
+			v4x = v3x = float(x + 1);
+			v2x = v1x = float(x + 0);
+			v4z = v1z = float(z + 0);
+			v3z = v2z = float(z + 1);
+			break;
+		case 2:
+			v4x = v3x = float(x + 0);
+			v2x = v1x = float(x + 1);
+			v4z = v1z = float(z + 1);
+			v3z = v2z = float(z + 0);
+			break;
+		case 3:
+			v4x = v1x = float(x + 0);
+			v3x = v2x = float(x + 1);
+			v4z = v3z = float(x + 0);
+			v2z = v1z = float(x + 1);
+			break;
+		case 1:
+			v4x = v1x = float(x + 1);
+			v3x = v2x = float(x + 0);
+			v4z = v3z = float(z + 1);
+			v2z = v1z = float(z + 0);
+			break;
+	}
+
+	t.vertexUV(v1x, vy, v1z, texU_1, texV_1);
+	t.vertexUV(v2x, vy, v2z, texU_1, texV_2);
+	t.vertexUV(v3x, vy, v3z, texU_2, texV_2);
+	t.vertexUV(v4x, vy, v4z, texU_2, texV_1);
+	return true;
+}
+
 bool TileRenderer::tesselateInWorld(Tile* tile, int x, int y, int z)
 {
 	int shape = tile->getRenderShape();
@@ -1626,6 +1718,8 @@ bool TileRenderer::tesselateInWorld(Tile* tile, int x, int y, int z)
 			return tesselateWireInWorld(tile, x, y, z);
 		case SHAPE_LEVER:
 			return tesselateLeverInWorld(tile, x, y, z);
+		case SHAPE_DIODE:
+			return tesselateDiodeInWorld(tile, x, y, z);
 	}
 
 	return false;

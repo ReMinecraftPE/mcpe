@@ -53,6 +53,7 @@
 #include "LeverTile.hpp"
 #include "ButtonTile.hpp"
 #include "PressurePlateTile.hpp"
+#include "DiodeTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -749,6 +750,19 @@ void Tile::initTiles()
 		->setDestroyTime(0.5f)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("pressurePlate");
+
+	Tile::repeater_off = (new DiodeTile(TILE_REPEATER_OFF, false))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("diode");
+
+	Tile::repeater_on = (new DiodeTile(TILE_REPEATER_ON, true))
+		->init()
+		->setDestroyTime(0.0f)
+		->setLightEmission(0.625f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("diode");
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
