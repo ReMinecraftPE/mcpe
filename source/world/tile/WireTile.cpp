@@ -21,6 +21,8 @@
 // Brent, please help.  I don't want to merge it into master like this.
 #include "RedStoneTorchTile.cpp"
 #include "LeverTile.cpp"
+#include "ButtonTile.cpp"
+#include "PressurePlateTile.cpp"
 
 #endif
 
@@ -130,7 +132,7 @@ void WireTile::calculateChanges(Level* level, int x, int y, int z, int x2, int y
 	int newPower = 0;
 
 	m_bIsPowerSource = false;
- 	bool flag = level->hasNeighborSignal(x, y, z);
+	bool flag = level->hasNeighborSignal(x, y, z);
 	m_bIsPowerSource = true;
 
 	if (flag)
