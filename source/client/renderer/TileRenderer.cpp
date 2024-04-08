@@ -2687,6 +2687,8 @@ void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
 		case SHAPE_SOLID:
 		default:
 		{
+			tile->updateDefaultShape();
+
 			// N.B. If caller passes 999, they only want the face-down face.
 			// This is a hack to accomodate the start menu screen procedurally generated title logo.
 #define IF_NEEDED(x) do { if (data != 999) { (x); } } while (0)

@@ -476,6 +476,12 @@
     <ClCompile Include="..\..\..\..\source\world\tile\LeverTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\PressurePlateTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\ButtonTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -806,6 +812,12 @@
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\source\world\tile\LeverTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\PressurePlateTile.hpp">
+      <Filter>Header Files\Phys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\ButtonTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
   </ItemGroup>

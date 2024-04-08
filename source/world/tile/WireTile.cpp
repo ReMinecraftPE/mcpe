@@ -327,8 +327,6 @@ void WireTile::neighborChanged(Level* level, int x, int y, int z, int id)
 	if (level->m_bIsMultiplayer)
 		return;
 
-	LOG_I("WireTile neighborChanged %d,%d,%d", x, y, z);
-
 	if (!canSurvive(level, x, y, z))
 	{
 		spawnResources(level, x, y, z, level->getData(x, y, z));

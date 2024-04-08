@@ -51,6 +51,7 @@
 #include "WireTile.hpp"
 #include "RedStoneTorchTile.hpp"
 #include "LeverTile.hpp"
+#include "ButtonTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -729,6 +730,12 @@ void Tile::initTiles()
 		->setDestroyTime(0.0f)
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("lever");
+
+	Tile::button = (new ButtonTile(TILE_BUTTON_STONE, Tile::rock->m_TextureFrame))
+		->init()
+		->setDestroyTime(0.5f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("button");
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{

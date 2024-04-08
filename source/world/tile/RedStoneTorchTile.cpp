@@ -30,8 +30,6 @@ int RedStoneTorchTile::getTickDelay()
 
 void RedStoneTorchTile::onPlace(Level* level, int x, int y, int z)
 {
-	LOG_I("RedStoneTorchTile place %d,%d,%d", x, y, z);
-
 	if (level->getData(x, y, z) == 0)
 		TorchTile::onPlace(level, x, y, z);
 
