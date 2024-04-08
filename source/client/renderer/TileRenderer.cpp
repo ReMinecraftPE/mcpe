@@ -1666,8 +1666,8 @@ bool TileRenderer::tesselateDiodeInWorld(Tile* tile, int x, int y, int z)
 		case 3:
 			v4x = v1x = float(x + 0);
 			v3x = v2x = float(x + 1);
-			v4z = v3z = float(x + 0);
-			v2z = v1z = float(x + 1);
+			v4z = v3z = float(z + 0);
+			v2z = v1z = float(z + 1);
 			break;
 		case 1:
 			v4x = v1x = float(x + 1);

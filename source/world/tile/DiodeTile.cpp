@@ -182,13 +182,6 @@ bool DiodeTile::isSolidRender()
 
 int DiodeTile::getResource(int data, Random* random)
 {
-	// TODO: Remove once done
-#ifndef _DEBUG
-#error bruh
-#endif
-	if (!Item::diode)
-		return 0;
-
 	return Item::diode->m_itemID;
 }
 

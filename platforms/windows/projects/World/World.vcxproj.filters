@@ -826,11 +826,11 @@
     <ClInclude Include="..\..\..\..\source\world\tile\ButtonTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\RedstoneItem.hpp">
-      <Filter>Header Files\Item</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\source\world\tile\DiodeTile.hpp">
       <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\RepeaterItem.hpp">
+      <Filter>Header Files\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
