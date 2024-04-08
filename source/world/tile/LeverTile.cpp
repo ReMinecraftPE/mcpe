@@ -184,12 +184,11 @@ int LeverTile::use(Level* pLevel, int x, int y, int z, Player* player)
 	return true;
 }
 
-void LeverTile::destroy(Level* pLevel, int x, int y, int z, int dir)
+void LeverTile::destroy(Level* pLevel, int x, int y, int z, int data)
 {
-	int data = pLevel->getData(x, y, z);
 	if (~data & 0x8)
 	{
-		Tile::destroy(pLevel, x, y, z, dir);
+		Tile::destroy(pLevel, x, y, z, data);
 		return;
 	}
 
@@ -204,7 +203,7 @@ void LeverTile::destroy(Level* pLevel, int x, int y, int z, int dir)
 		default: pLevel->updateNeighborsAt(x, y - 1, z, m_ID); break;
 	}
 
-	Tile::destroy(pLevel, x, y, z, dir);
+	Tile::destroy(pLevel, x, y, z, data);
 }
 
 // TODO FIXME:

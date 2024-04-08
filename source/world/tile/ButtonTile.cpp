@@ -174,11 +174,10 @@ int ButtonTile::use(Level* level, int x, int y, int z, Player* player)
 
 void ButtonTile::destroy(Level* level, int x, int y, int z, int pdir)
 {
-	int data = level->getData(x, y, z);
-	if ((data & 8) > 0)
+	if ((pdir & 8) > 0)
 	{
 		level->updateNeighborsAt(x, y, z, m_ID);
-		switch (data & 0x7)
+		switch (pdir & 0x7)
 		{
 			case 1:
 				level->updateNeighborsAt(x - 1, y, z, m_ID);
