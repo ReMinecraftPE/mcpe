@@ -20,6 +20,9 @@ public:
 	int getRenderShape() override;
 	bool isCubeShaped() override;
 	bool isSolidRender() override;
+	bool isSignalSource() override;
 	int use(Level* pLevel, int x, int y, int z, Player* player) override;
+	void neighborChanged(Level*, int x, int y, int z, int newTile) override;
 	void tick(Level*, int, int, int, Random*) override;
+	int getTickDelay() override;
 };

@@ -812,7 +812,7 @@ Tile* TitleTile::getRandomTile(Tile* except1, Tile* except2)
 
 		// If found a tile, check if it can be rendered
 		Tile* pTile = Tile::tiles[id];
-		if (!TileRenderer::canRender(pTile->getRenderShape()))
+		if (!pTile->isCubeShaped())
 			continue;
 
 		if (pTile == except1 || pTile == except2)
