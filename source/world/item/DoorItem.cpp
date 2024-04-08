@@ -64,8 +64,10 @@ bool DoorItem::useOn(ItemInstance* inst, Player* player, Level* level, int x, in
 		faceDir = 4 + ((faceDir - 1) & 3);
 
 	// congratulations! You can now have a door.
+	level->field_30 = true;
 	level->setTile(x, y + 1, z, pTile->m_ID);
 	level->setData(x, y + 1, z, faceDir);
+	level->field_30 = false;
 	level->setTile(x, y + 2, z, pTile->m_ID);
 	level->setData(x, y + 2, z, faceDir + 8);
 	inst->m_amount--;

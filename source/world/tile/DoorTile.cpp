@@ -240,6 +240,11 @@ void DoorTile::neighborChanged(Level* level, int x, int y, int z, int newTile)
 		if (level->hasNeighborSignal(x, y, z) || level->hasNeighborSignal(x, y + 1, z))
 			bOpen = true;
 
+		// NOTE: If you're wondering why placing redstone next to a door in the formation
+		// where two doors are side by side, facing each other (handle in the middle), opens
+		// the right door, that's because there's only four bits in the state, and the bits
+		// are all used (bit 3 is "top", bit 2 is "open", bits 1 and 0 are direction)
+		// Oh well...
 		setOpen(level, x, y, z, bOpen);
 	}
 }

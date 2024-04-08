@@ -60,16 +60,15 @@ void PressurePlateTile::updateShape(LevelSource* level, int x, int y, int z)
 		setShape(0.0625f, 0.0f, 0.0625f, 0.9375f, 0.0625f, 0.9375f);
 }
 
-void PressurePlateTile::destroy(Level* level, int x, int y, int z, int pdir)
+void PressurePlateTile::destroy(Level* level, int x, int y, int z, int data)
 {
-	int data = level->getData(x, y, z);
 	if (data > 0)
 	{
 		level->updateNeighborsAt(x, y, z, m_ID);
 		level->updateNeighborsAt(x, y - 1, z, m_ID);
 	}
 
-	Tile::destroy(level, x, y, z, pdir);
+	Tile::destroy(level, x, y, z, data);
 }
 
 int PressurePlateTile::getSignal(LevelSource* level, int x, int y, int z, int dir)
