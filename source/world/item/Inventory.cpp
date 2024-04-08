@@ -76,11 +76,11 @@ void Inventory::prepareCreativeInventory()
 
 	// items
 	addCreativeItem(Item::camera->m_itemID);
-	addCreativeItem(Item::door_wood->m_itemID);
-	addCreativeItem(Item::door_iron->m_itemID);
 	addCreativeItem(Item::rocket->m_itemID);
 
 	// redstone stuff
+	addCreativeItem(Item::door_wood->m_itemID);
+	addCreativeItem(Item::door_iron->m_itemID);
 	addCreativeItem(Item::redStone->m_itemID);
 	addCreativeItem(Tile::notGate->m_ID);
 	addCreativeItem(Tile::lever->m_ID);
