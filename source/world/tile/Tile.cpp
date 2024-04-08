@@ -52,6 +52,7 @@
 #include "RedStoneTorchTile.hpp"
 #include "LeverTile.hpp"
 #include "ButtonTile.hpp"
+#include "PressurePlateTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -736,6 +737,18 @@ void Tile::initTiles()
 		->setDestroyTime(0.5f)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("button");
+
+	Tile::plate_stone = (new PressurePlateTile(TILE_PLATE_STONE, Tile::rock->m_TextureFrame, PressurePlateTile::CHECK_MOBS, Material::stone))
+		->init()
+		->setDestroyTime(0.5f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("pressurePlate");
+
+	Tile::plate_wood = (new PressurePlateTile(TILE_PLATE_WOOD, Tile::wood->m_TextureFrame, PressurePlateTile::CHECK_EVERYTHING, Material::wood))
+		->init()
+		->setDestroyTime(0.5f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("pressurePlate");
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{

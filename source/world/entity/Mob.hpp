@@ -33,6 +33,7 @@ public:
 	virtual void setSize(float rad, float height) override;
 	virtual void outOfWorld() override;
 	virtual void causeFallDamage(float level) override;
+	virtual bool isMob() override;
 
 	//virtuals
 	virtual void knockback(Entity* pEnt, int a, float x, float z);

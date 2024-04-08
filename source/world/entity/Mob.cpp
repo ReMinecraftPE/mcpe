@@ -306,6 +306,11 @@ bool Mob::isShootable()
 	return true;
 }
 
+bool Mob::isMob()
+{
+	return true;
+}
+
 bool Mob::isAlive()
 {
 	if (m_bRemoved)

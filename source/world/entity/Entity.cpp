@@ -925,6 +925,11 @@ bool Entity::isPlayer()
 	return false;
 }
 
+bool Entity::isMob()
+{
+	return false;
+}
+
 bool Entity::isCreativeModeAllowed()
 {
 	return false;

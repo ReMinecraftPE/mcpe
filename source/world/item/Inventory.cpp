@@ -82,10 +82,11 @@ void Inventory::prepareCreativeInventory()
 
 	// redstone stuff
 	addCreativeItem(Tile::wire->m_ID);
-	addCreativeItem(Tile::notGate_off->m_ID);
 	addCreativeItem(Tile::notGate->m_ID);
 	addCreativeItem(Tile::lever->m_ID);
 	addCreativeItem(Tile::button->m_ID);
+	addCreativeItem(Tile::plate_stone->m_ID);
+	addCreativeItem(Tile::plate_wood->m_ID);
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;

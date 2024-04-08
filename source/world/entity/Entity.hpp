@@ -150,6 +150,7 @@ public:
 	virtual bool isAlive();
 	virtual bool isOnFire();
 	virtual bool isPlayer();
+	virtual bool isMob();
 	virtual bool isCreativeModeAllowed();
 	virtual bool shouldRender(Vec3& camPos);
 	virtual bool shouldRenderAtSqrDistance(float distSqr);
