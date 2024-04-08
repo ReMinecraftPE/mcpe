@@ -117,7 +117,7 @@ void ButtonTile::updateShape(LevelSource* level, int x, int y, int z)
 	constexpr float f2 = 0.1875f;
 	float offs = (on ? 1.0f : 2.0f) / 16.0f;
 
-	switch (data)
+	switch (dir)
 	{
 		case 1:
 			setShape(0.0f, f, 0.5f - f2, offs, f1, 0.5f + f2);

@@ -22,6 +22,10 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# CMake Cache and Files
+CMakeCache/
+CMakeFiles/
+
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 
