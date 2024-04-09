@@ -23,6 +23,7 @@ public:
 	void render(int mouseX, int mouseY, float f) override;
 	bool handleBackEvent(bool b) override;
 	void buttonClicked(Button* pButton) override;
+	void handleScroll(bool down) override;
 
 	bool isIndexValid(int);
 	std::string getUniqueLevelName(const std::string& in);

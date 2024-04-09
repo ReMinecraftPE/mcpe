@@ -120,6 +120,10 @@ void Screen::charInput(char chr)
 	}
 }
 
+void Screen::handleScroll(bool down)
+{
+}
+
 static const char* g_panoramaList[] =
 {
 	"gui/background/panorama_0.png",
@@ -430,6 +434,8 @@ void Screen::mouseEvent()
 		else
 			mouseReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
 	}
+	if (pAction->_buttonType == BUTTON_SCROLLWHEEL)
+		handleScroll(Mouse::getEventButtonState());
 }
 
 void Screen::renderBackground(int unk)

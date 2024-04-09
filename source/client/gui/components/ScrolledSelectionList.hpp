@@ -36,6 +36,7 @@ public:
 	virtual void checkInput(int mouseX, int mouseY);
 	virtual void onClickItem(int index, int mouseX, int mouseY);
 	virtual void renderScrollBackground();
+	virtual void handleScroll(bool down);
 
 	void setRenderHeader(bool, int);
 

@@ -33,6 +33,7 @@ public:
 	virtual void renderBackground() = 0;
 	virtual void renderDecorations(int x, int y);
 	virtual void clickedHeader(int, int);
+	virtual void handleScroll(bool down);
 
 	int getItemAtXPositionRaw(int x);
 

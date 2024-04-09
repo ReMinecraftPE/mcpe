@@ -335,3 +335,10 @@ void RolledSelectionList::clickedHeader(int x, int y)
 {
 
 }
+
+void RolledSelectionList::handleScroll(bool down)
+{
+	float diff = 5.0f * (down ? -1.0f : 1.0f);
+	field_34 = field_30 = field_30 + diff;
+	field_28 = 0;
+}
