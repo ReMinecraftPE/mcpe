@@ -20,8 +20,12 @@ void ItemEntity::_init(ItemInstance* itemInstance)
 	field_E8 = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
 	field_84 = field_8C * 0.5f;
+#ifdef ORIGINAL_CODE
+	m_pItemInstance = itemInstance != nullptr ? itemInstance : new ItemInstance();
+#else
 	m__itemInstance = itemInstance ? *itemInstance : ItemInstance();
 	m_pItemInstance = &m__itemInstance;
+#endif
 }
 
 void ItemEntity::_init(ItemInstance* itemInstance, float x, float y, float z)

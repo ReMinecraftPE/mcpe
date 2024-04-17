@@ -80,13 +80,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale);
 			}
 
-			#ifdef ENH_SHADE_HELD_TILES
-			#	define PARM_HACK , pItemEntity->getBrightness(1.0f)
-			#else
-			#	define PARM_HACK
-			#endif
-			tileRenderer->renderTile(Tile::tiles[itemID], pItemInstance->m_auxValue PARM_HACK);
-			#undef PARM_HACK
+			tileRenderer->renderTile(Tile::tiles[itemID], pItemInstance->m_auxValue, pItemEntity->getBrightness(1.0f));
 			glPopMatrix();
 		}
 	}

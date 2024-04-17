@@ -1052,7 +1052,7 @@ void GameRenderer::pick(float f)
 		dist = mchr.m_hitPos.distanceTo(mobPos);
 
 	if (m_pMinecraft->m_pGameMode->isCreativeType())
-		dist = 32.0f;
+		dist = 7.0f;
 	else if (dist > 3.0f)
 		dist = 3.0f;
 

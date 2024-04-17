@@ -79,19 +79,19 @@ void Screen::keyPressed(int key)
 	if (m_buttonTabList.size())
 	{
 #ifndef ENH_HIGHLIGHT_BY_HOVER
-		if (m_pMinecraft->getOptions()->isKey(MENU_NEXT, key))
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_NEXT, key))
 		{
 			m_tabButtonIndex++;
 			if (m_tabButtonIndex == int(m_buttonTabList.size()))
 				m_tabButtonIndex = 0;
 		}
-		if (m_pMinecraft->getOptions()->isKey(MENU_PREVIOUS, key))
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_PREVIOUS, key))
 		{
 			m_tabButtonIndex--;
 			if (m_tabButtonIndex == -1)
 				m_tabButtonIndex = int(m_buttonTabList.size() - 1);
 		}
-		if (m_pMinecraft->getOptions()->isKey(MENU_OK, key))
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, key))
 		{
 			if (m_buttonTabList[m_tabButtonIndex]->m_bEnabled)
 			{

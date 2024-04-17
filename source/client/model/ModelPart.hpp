@@ -30,7 +30,6 @@ public:
 	void drawSlow(float scale);
 	void mimic(ModelPart* pPart);
 	void render(float scale);
-	void renderHorrible(float scale);
 	void renderRollable(float scale);
 	void setModel(Model* pModel);
 	void setPos(float x, float y, float z);

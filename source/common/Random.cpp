@@ -18,7 +18,7 @@
 Random::Random(TLong seed)
 {
 	setSeed(seed);
-	nextNextGaussian = INFINITY;
+	nextNextGaussian = std::numeric_limits<double>::max();;
 }
 
 void Random::setSeed(TLong seed)
@@ -109,10 +109,10 @@ int Random::nextInt()
 
 float Random::nextGaussian()
 {
-	if (!isinf(nextNextGaussian))
+	if (nextNextGaussian < std::numeric_limits<double>::max())
 	{
 		double backup = nextNextGaussian;
-		nextNextGaussian = INFINITY;
+		nextNextGaussian = std::numeric_limits<double>::max();
 		return backup;
 	}
 	// See Knuth, ACP, Section 3.4.1 Algorithm C.

@@ -68,6 +68,15 @@ void GameMode::render(float f)
 
 float GameMode::getPickRange()
 {
+/*
+  if ( *inputMode == 1 )
+	return 5.7;
+  if ( *inputMode == 3 )
+	return 5.6;
+  if ( !player || player->IsCreative() )
+	return 12.0;
+  return 5.0;
+*/
 	return 7.5f;
 }
 

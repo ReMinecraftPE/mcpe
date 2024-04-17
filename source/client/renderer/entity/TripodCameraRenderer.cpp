@@ -64,7 +64,7 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// @TODO FIX: With ENH_ENTITY_SHADING on, the cube is fully opaque.
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		m_modelPart.renderHorrible(0.0625f);
+		m_modelPart.render(0.0625f);
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);

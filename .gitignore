@@ -163,6 +163,16 @@ xcuserdata/
 /game/assets/misc/foliagecolor.png
 /game/assets/misc/grasscolor.png
 /game/assets/mob/char.png
+/game/assets/mob/chicken.png
+/game/assets/mob/cow.png
+/game/assets/mob/creeper.png
+/game/assets/mob/pig.png
+/game/assets/mob/pigzombie.png
+/game/assets/mob/sheep.png
+/game/assets/mob/sheep_fur.png
+/game/assets/mob/skeleton.png
+/game/assets/mob/spider.png
+/game/assets/mob/zombie.png
 /game/assets/particles.png
 /game/assets/terrain.png
 /game/assets/gui/buynow.png
@@ -206,4 +216,3 @@ xcuserdata/
 /game/assets/gui/feedback_fill.png
 /game/assets/gui/feedback_outer.png
 /game/assets/snow.png
-/game/assets/mob/pig.png

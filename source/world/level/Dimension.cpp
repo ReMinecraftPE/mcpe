@@ -99,7 +99,7 @@ void Dimension::updateLightRamp()
 #else
 		// @NOTE: Adjusted calculation causes full bright tiles to render at 80% brightness.
 		// This was probably done so that highlighted tiles don't have their brightness blown up and the texture doesn't look weird.
-		m_rotY[i] = ((1.0f - ((i * -0.0625f) + 1.0f)) / ((((i * -0.0625f) + 1.0f) * 3.0f) + 1.0f)) * 0.95f + 0.05f;
+		field_10[i] = ((1.0f - ((i * -0.0625f) + 1.0f)) / ((((i * -0.0625f) + 1.0f) * 3.0f) + 1.0f)) * 0.95f + 0.05f;
 #endif
 	}
 }

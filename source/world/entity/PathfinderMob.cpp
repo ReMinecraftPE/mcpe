@@ -10,6 +10,7 @@
 
 PathfinderMob::PathfinderMob(Level* pLevel) : Mob(pLevel)
 {
+	m_pAttackTarget = nullptr;
 	field_BA0 = false;
 	field_BA4 = 0;
 }

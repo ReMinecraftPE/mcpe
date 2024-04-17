@@ -49,6 +49,7 @@ void Entity::_init()
 	field_B8 = 0;
 	field_BC = 300;
 	field_C0 = 0;
+	field_C4 = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
 	field_D0 = 300;

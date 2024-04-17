@@ -20,3 +20,7 @@ int InvisibleTile::getRenderShape()
 	return SHAPE_NONE;
 }
 
+bool InvisibleTile::mayPick()
+{
+	return false;
+}
