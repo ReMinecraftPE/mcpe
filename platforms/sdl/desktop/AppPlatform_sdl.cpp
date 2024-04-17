@@ -5,8 +5,8 @@
 #include <sys/stat.h>
 #include <cerrno>
 
-#include "stb_image.h"
-#include "stb_image_write.h"
+#include "thirdparty/stb_image/include/stb_image.h"
+#include "thirdparty/stb_image/include/stb_image_write.h"
 
 #include "thirdparty/GL/GL.hpp"
 

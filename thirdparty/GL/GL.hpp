@@ -97,6 +97,11 @@
 	}
 #endif
 
+#ifdef _WIN32
+void xglInit();
+bool xglInitted();
+#endif
+
 #ifdef USE_OPENGL_2_FEATURES
 
 #define xglBindBuffer glBindBuffer
@@ -111,9 +116,6 @@
 #define xglDrawArrays glDrawArrays
 
 #else
-
-void xglInit();
-bool xglInitted();
 
 void xglBindBuffer(GLenum target, GLuint buffer);
 void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
@@ -130,7 +132,7 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
 
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(USE_SDL)
 // Win32 defines xglOrthof as a regular function
 #elif defined USE_GL_ORTHO_F
 #define xglOrthof glOrthof

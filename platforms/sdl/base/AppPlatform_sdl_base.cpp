@@ -13,7 +13,7 @@
 
 #include "common/Utils.hpp"
 
-#include "SoundSystemAL.hpp"
+#include "platforms/openal/SoundSystemAL.hpp"
 
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {

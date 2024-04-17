@@ -30,6 +30,9 @@
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\thirdparty\stb_image\src\stb_image_impl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.hpp">

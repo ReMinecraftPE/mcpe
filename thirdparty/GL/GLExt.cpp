@@ -130,7 +130,7 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 }
 #endif
 
-#ifndef USE_GL_ORTHO_F
+#ifndef xglOrthof
 
 void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearpl, GLfloat farpl)
 {

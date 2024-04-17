@@ -1,4 +1,4 @@
-#include <cstdarg>
+#include <stdarg.h>
 
 #include "thirdparty/SDL2/SDL2.h"
 
