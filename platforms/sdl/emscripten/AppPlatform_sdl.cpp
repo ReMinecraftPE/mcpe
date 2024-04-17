@@ -10,7 +10,7 @@ AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
-	out.field_C = 1;
+	out.m_hasAlpha = true;
 	out.field_D = 0;
 
     std::string realPath = getAssetPath(path);
