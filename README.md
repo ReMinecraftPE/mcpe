@@ -10,15 +10,16 @@ based on Minecraft PE v0.1.3.
   development - this excludes hunger, for example, as it was added in Beta 1.8)
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
-* To port the game to more platforms, such as Windows (including older versions), Linux, WebGL, Android, and
-  Mac OS. Currently there are ports for:
+* To port the game to more platforms, such as Windows (including older versions), Xbox 360, Wii, and more.
+  Currently there are ports for:
 	* Windows XP-11
 	* Android (thanks to [Stom](https://github.com/Stommm) for the help)
 	* Linux
 	* WebGL
 	* Mac OS (port by [BrentDaMage](https://github.com/BrentDaMage))
+	* iOS (3.0 and above; port by [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
-	* Xbox 360 (incomplete; port by [BrentDaMage](https://github.com/BrentDaMage))
+	* Xbox 360 (work in progress; port by [BrentDaMage](https://github.com/BrentDaMage))
 
 **We will not do the following:**
 * Add features added in or after Java Edition Beta 1.8
