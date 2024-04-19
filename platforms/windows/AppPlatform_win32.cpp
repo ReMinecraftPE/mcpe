@@ -169,12 +169,13 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
 		if (!bIsRequired)
 			return Texture(0, 0, nullptr, 1, 0);
 
-		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?";
-		MessageBoxA(GetHWND(), msg.c_str(), getWindowTitle(), MB_OK);
+		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?\n\nNote, you will be warned for every missing texture.";
+		MessageBoxA(GetHWND(), msg.c_str(), getWindowTitle(), MB_OK | MB_ICONERROR);
 
 		if (f)
 			fclose(f);
-		::exit(1);
+
+		return Texture(0, 0, nullptr, 0, 0);
 	}
 
 	int width = 0, height = 0, channels = 0;
