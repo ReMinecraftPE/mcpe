@@ -62,6 +62,8 @@ private:
 	int xrel;
 	int yrel;
 
+	bool _mousegrabbed;
+
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 
