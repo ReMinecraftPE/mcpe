@@ -64,7 +64,14 @@ void Options::_initDefaultValues()
 	m_bSplitControls = false;
 	m_bDynamicHand = false;
 	m_bOldTitleLogo = false;
+	m_bMenuPanorama = false;
 	field_19 = 1;
+
+#ifdef ORIGINAL_CODE
+	m_iViewDistance = 2;
+	m_bThirdPerson = 0;
+	field_19 = 0;
+#endif
 
 	// Win32 key codes are being used by default
 #define KM(idx, name, code) m_keyMappings[idx] = KeyMapping(name, code)
@@ -104,14 +111,6 @@ void Options::_initDefaultValues()
 	KM(KM_FLY_DOWN,     "key.fly.down",      'C');
 	KM(KM_CHAT_CMD,     "key.chat.cmd",      0xBF); // VK_OEM_2
 #undef KM
-
-#ifdef ORIGINAL_CODE
-	m_iViewDistance = 2;
-	m_bThirdPerson = 0;
-	field_19 = 0;
-#endif
-
-	m_bFancyGraphics = 1;
 
 #define KM(idx,code) m_keyMappings[idx].value = code
 #ifdef USE_SDL
@@ -257,17 +256,17 @@ void Options::_load()
 			m_bBlockOutlines = readBool(value);
 		else if (key == "gfx_fancygrass")
 		{
-			m_bFancyGrass = readBool(value);
 			if (!(GetPatchManager()->IsGrassSidesTinted()))
 				m_bFancyGrass = false;
+			else
+				m_bFancyGrass = readBool(value);
 		}
 		else if (key == "gfx_biomecolors")
 		{
-			m_bBiomeColors = readBool(value);
 			if (!GrassColor::isAvailable() && !FoliageColor::isAvailable())
-			{
 				m_bBiomeColors = false;
-			}
+			else
+				m_bBiomeColors = readBool(value);
 		}
 		else if (key == "gfx_hidegui")
 			m_bDontRenderGui = readBool(value);
@@ -281,6 +280,10 @@ void Options::_load()
 			m_bOldTitleLogo = readBool(value);
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
+		else if (key == "misc_menupano")
+		{
+			m_bMenuPanorama = !Screen::isMenuPanoramaAvailable() ? false : readBool(value);
+		}
 	}
 }
 
@@ -405,6 +408,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("gfx_dynamichand",           saveBool(m_bDynamicHand));
 	SO("misc_oldtitle",             saveBool(m_bOldTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
+	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
 
 	return vec;
 }

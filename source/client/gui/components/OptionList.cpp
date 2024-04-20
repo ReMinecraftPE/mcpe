@@ -288,35 +288,42 @@ void OptionList::initDefaultMenu()
 #define HEADER(text) do { m_items.push_back(new HeaderOptionItem(text)); currentIndex++; } while (0)
 #define OPTION(type, name, text) do { m_items.push_back(new type ## OptionItem(&pOptions->name, text)); currentIndex++; } while (0)
 
-	int idxLM = -1, idxGrass = -1, idxBiome = -1, idxSplit = -1;
+	int idxLM = -1, idxGrass = -1, idxBiome = -1, idxSplit = -1, idxPano = -1;
 
 	HEADER("Video");
 	{
-		OPTION(Distance, m_iViewDistance,         "View distance");
-		OPTION(AORender, m_bAmbientOcclusion,     "Smooth lighting");
-		OPTION(Render,   m_bFancyGraphics,        "Fancy graphics");
-		OPTION(Boolean,  m_bViewBobbing,          "View bobbing");
-		OPTION(Boolean,  m_bAnaglyphs,            "3d Anaglyphs");
-		OPTION(Boolean,  m_bBlockOutlines,        "Block outlines");
-		OPTION(Render,   m_bFancyGrass,           "Fancy grass");  idxGrass = currentIndex; // renders colored grass side overlay
-		OPTION(Render,   m_bBiomeColors,          "Biome colors"); idxBiome = currentIndex; // colors the grass based on the current biome
+		OPTION(Distance, m_iViewDistance,         "Render Distance");
+		OPTION(AORender, m_bAmbientOcclusion,     "Smooth Lighting");
+		OPTION(Render,   m_bFancyGraphics,        "Fancy Graphics");
+		OPTION(Boolean,  m_bViewBobbing,          "View Bobbing");
+		OPTION(Boolean,  m_bAnaglyphs,            "3D Anaglyph");
+		OPTION(Boolean,  m_bBlockOutlines,        "Block Outlines");
+		OPTION(Render,   m_bFancyGrass,           "Fancy Grass");   idxGrass = currentIndex; // renders colored grass side overlay
+		OPTION(Render,   m_bBiomeColors,          "Biome Colors");  idxBiome = currentIndex; // colors the grass based on the current biome
 		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
-		OPTION(Boolean,  m_bDynamicHand,          "Dynamic hand movement");
-		OPTION(Boolean,  m_bDebugText,            "Debug text");
-		OPTION(Boolean,  m_bOldTitleLogo,         "Old title logo");
+		OPTION(Boolean,  m_bDynamicHand,          "Dynamic Hand Movement");
 	}
 
 	HEADER("Controls");
 	{
-		OPTION(Boolean,  m_bAutoJump,             "Auto jump");
+		OPTION(Boolean,  m_bAutoJump,             "Auto Jump");
 		OPTION(Boolean,  m_bInvertMouse,          "Invert Y-axis");
-		OPTION(Boolean,  m_bSplitControls,        "Split controls"); idxSplit = currentIndex;
-		OPTION(Boolean,  m_bFlyCheat,             "Flight hax");
+		OPTION(Boolean,  m_bSplitControls,        "Split Controls"); idxSplit = currentIndex;
+		OPTION(Boolean,  m_bFlyCheat,             "Flight Hax");
 	}
 
 	HEADER("Multiplayer");
 	{
-		OPTION(Boolean, m_bServerVisibleDefault,  "Local server multiplayer"); idxLM = currentIndex;
+		OPTION(Boolean, m_bServerVisibleDefault,  "Local Server Multiplayer"); idxLM = currentIndex;
+	}
+
+	HEADER("Miscellaneous");
+	{
+		OPTION(Boolean, m_bDebugText,			  "Debug Text");
+		OPTION(Boolean, m_bOldTitleLogo,		  "Old Title Logo");
+#ifdef ENH_MENU_BACKGROUND
+		OPTION(Boolean, m_bMenuPanorama,		  "Menu Panorama"); idxPano = currentIndex; // renders a spinning panorama on the main menu
+#endif
 	}
 
 #ifdef __EMSCRIPTEN
@@ -328,6 +335,11 @@ void OptionList::initDefaultMenu()
 
 	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
 		m_items[idxBiome]->setDisabled(true);
+
+#ifdef ENH_MENU_BACKGROUND
+	if (!Screen::isMenuPanoramaAvailable())
+		m_items[idxPano]->setDisabled(true);
+#endif
 
 	if (!m_pMinecraft->isTouchscreen())
 		m_items[idxSplit]->setDisabled(true);

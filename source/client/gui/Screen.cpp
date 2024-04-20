@@ -8,6 +8,8 @@
 
 #include "Screen.hpp"
 
+bool Screen::_isPanoramaAvailable = false;
+
 Screen::Screen()
 {
 	m_width = 1;
@@ -16,6 +18,8 @@ Screen::Screen()
 	m_tabButtonIndex = 0;
 	m_pClickedButton = 0;
 	m_yOffset = -1;
+	m_pFont = nullptr;
+	m_pMinecraft = nullptr;
 }
 
 Screen::~Screen()
@@ -131,12 +135,10 @@ static const char* g_panoramaList[] =
 };
 
 static float g_panoramaAngle = 0.0f;
-// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
-bool g_bIsMenuBackgroundAvailable = false;
 
 void Screen::renderMenuBackground(float f)
 {
-	if (!g_bIsMenuBackgroundAvailable)
+	if (!m_pMinecraft->getOptions()->m_bMenuPanorama)
 	{
 		renderDirtBackground(0);
 		return;

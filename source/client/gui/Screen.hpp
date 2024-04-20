@@ -18,6 +18,19 @@ class TextInputBox;
 
 class Screen : public GuiComponent
 {
+private:
+	static bool _isPanoramaAvailable;
+public:
+	static bool isMenuPanoramaAvailable()
+	{
+#ifdef ENH_MENU_BACKGROUND
+		return _isPanoramaAvailable;
+#else
+		return false;
+#endif
+	}
+	static void setIsMenuPanoramaAvailable(bool value) { _isPanoramaAvailable = value; }
+
 public:
 	Screen();
 	virtual ~Screen();

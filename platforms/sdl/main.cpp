@@ -289,14 +289,13 @@ static EM_BOOL main_loop(double time, void *user_data)
 	}
 }
 
-extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
 extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
 extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
 
 void CheckOptionalTextureAvailability()
 {
-	g_bIsMenuBackgroundAvailable = g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png");
+	Screen::setIsMenuPanoramaAvailable(g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png"));
 	g_bAreCloudsAvailable        = g_pAppPlatform->doesTextureExist("environment/clouds.png");
 	g_bIsGrassColorAvailable     = g_pAppPlatform->doesTextureExist("misc/grasscolor.png");
 	g_bIsFoliageColorAvailable   = g_pAppPlatform->doesTextureExist("misc/foliagecolor.png");
