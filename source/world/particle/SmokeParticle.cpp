@@ -58,7 +58,7 @@ void SmokeParticle::tick()
 
 	m_vel *= 0.96f;
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

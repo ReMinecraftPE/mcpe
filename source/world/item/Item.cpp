@@ -138,6 +138,18 @@ void Item::initItems()
 		->setIcon(9, 1)
 		->setDescriptionId("wheat");
 
+	Item::flint = NEW_ITEM(ITEM_FLINT)
+		->setIcon(6, 0)
+		->setDescriptionId("flint");
+
+	Item::porkChop_raw = NEW_ITEM(ITEM_PORKCHOP_RAW)
+		->setIcon(7, 5)
+		->setDescriptionId("porkchopRaw");
+
+	Item::porkChop_cooked = NEW_ITEM(ITEM_PORKCHOP_COOKED)
+		->setIcon(8, 5)
+		->setDescriptionId("porkchopCooked");
+
 	Item::door_wood = NEW_X_ITEM(DoorItem, ITEM_DOOR_WOOD, Material::wood)
 		->setIcon(11, 2)
 		->setDescriptionId("doorWood");
@@ -174,9 +186,13 @@ void Item::initItems()
 		->setIcon(14, 1)
 		->setDescriptionId("slimeball");
 
+	Item::egg = NEW_ITEM(ITEM_EGG)
+		->setIcon(12, 0)
+		->setDescriptionId("egg");
+
 	Item::compass = NEW_ITEM(ITEM_COMPASS)
 		->setIcon(6, 3)
-		->setDescriptionId("clock");
+		->setDescriptionId("compass");
 
 	Item::clock = NEW_ITEM(ITEM_CLOCK)
 		->setIcon(6, 4)

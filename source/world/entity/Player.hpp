@@ -13,13 +13,17 @@
 #include "world/item/Inventory.hpp"
 #include "world/entity/Mob.hpp"
 #include "world/entity/ItemEntity.hpp"
+#include "world/gamemode/GameType.hpp"
 
 class Inventory; // in case we're included from Inventory.hpp
 
 class Player : public Mob
 {
+private:
+	GameType _playerGameType;
+
 public:
-	Player(Level*);
+	Player(Level* pLevel, GameType gameType);
 	virtual ~Player();
 
 	virtual void reset() override;
@@ -64,6 +68,10 @@ public:
 	void swing();
 	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);
+	GameType getPlayerGameType() const { return _playerGameType; }
+	void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
+	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
+	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push

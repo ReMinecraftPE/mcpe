@@ -796,5 +796,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameType.hpp">
+      <Filter>Header Files\GameMode</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

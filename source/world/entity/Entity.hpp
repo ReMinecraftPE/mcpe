@@ -156,9 +156,9 @@ public:
 	virtual bool hurt(Entity*, int);
 	virtual void animateHurt();
 	virtual float getPickRadius();
-	// virtual void spawnAtLocation(ItemInstance*, float);
-	// virtual void spawnAtLocation(int, int);
-	// virtual void spawnAtLocation(int, int, float);
+	virtual void spawnAtLocation(ItemInstance*, float);
+	virtual void spawnAtLocation(int, int);
+	virtual void spawnAtLocation(int, int, float);
 	virtual void awardKillScore(Entity* pKilled, int score);
 	virtual void setEquippedSlot(int, int, int);
 	virtual void setRot(float yaw, float pitch);
@@ -216,7 +216,7 @@ public:
 	float field_5C;
 	float field_60;
 	AABB m_hitbox;
-	bool field_7C;
+	bool m_onGround;
 	bool field_7D;
 	bool field_7E;
 	bool field_7F;
@@ -236,7 +236,7 @@ public:
 	int field_B4;
 	int field_B8;
 	int field_BC;
-	int field_C0;
+	int m_fireTicks;
 	int field_C4;
 	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
 	float m_distanceFallen;

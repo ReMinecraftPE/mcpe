@@ -458,6 +458,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Creeper.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Pig.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameType.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

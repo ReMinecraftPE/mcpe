@@ -992,7 +992,6 @@ void Tile::spawnResources(Level* pLevel, int x, int y, int z, int data, float fC
 	if (pLevel->m_bIsMultiplayer)
 		return;
 
-#ifdef TEST_SURVIVAL_MODE
 	int count = getResourceCount(&pLevel->m_random);
 	for (int i = 0; i < count; i++)
 	{
@@ -1013,7 +1012,6 @@ void Tile::spawnResources(Level* pLevel, int x, int y, int z, int data, float fC
 
 		pLevel->addEntity(pEntity);
 	}
-#endif
 }
 
 int Tile::spawnBurnResources(Level*, float, float, float)

@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "Pig.hpp"
+#include "common/Utils.hpp"
 
 Pig::Pig(Level* pLevel) : Animal(pLevel)
 {
@@ -47,7 +48,10 @@ bool Pig::interact(Player* pPlayer)
 
 int Pig::getDeathLoot()
 {
-	return 0;
+	if (isOnFire())
+		return Item::porkChop_cooked->m_itemID;
+	else
+		return Item::porkChop_raw->m_itemID;
 }
 
 bool Pig::hasSaddle()
@@ -57,6 +61,7 @@ bool Pig::hasSaddle()
 
 void Pig::setSaddle(bool b)
 {
+	// @TODO: this
 }
 
 Entity* Pig::getBreedOffspring(Animal* pOther)

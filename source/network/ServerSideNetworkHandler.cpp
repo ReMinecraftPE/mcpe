@@ -103,20 +103,23 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 		return;
 	}
 
-	Player* pPlayer = new Player(m_pLevel);
+	Player* pPlayer = new Player(m_pLevel, m_pLevel->getLevelData()->getGameType());
 	pPlayer->m_guid = guid;
 	pPlayer->m_name = std::string(packet->m_str.C_String());
 
 	m_onlinePlayers[guid] = new OnlinePlayer(pPlayer, guid);
 
 	StartGamePacket sgp;
-	sgp.field_4 = m_pLevel->getSeed();
-	sgp.field_8 = m_pLevel->getLevelData()->field_20;
-	sgp.field_C = pPlayer->m_EntityID;
-	sgp.field_10 = pPlayer->m_pos.x;
-	sgp.field_14 = pPlayer->m_pos.y - pPlayer->field_84;
-	sgp.field_18 = pPlayer->m_pos.z;
-	sgp.m_version = 2;
+	sgp.m_seed = m_pLevel->getSeed();
+	sgp.m_levelVersion = m_pLevel->getLevelData()->m_version;
+	sgp.m_entityId = pPlayer->m_EntityID;
+#ifdef TEST_GAMEMODE_REPLICATION
+	sgp.m_entityGameType = pPlayer->getPlayerGameType();
+#endif
+	sgp.m_pos.x = pPlayer->m_pos.x;
+	sgp.m_pos.y = pPlayer->m_pos.y - pPlayer->field_84;
+	sgp.m_pos.z = pPlayer->m_pos.z;
+	sgp.m_serverVersion = 2;
 	sgp.m_time = m_pLevel->getTime();
 	
 	RakNet::BitStream sgpbs;

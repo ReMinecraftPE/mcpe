@@ -9,7 +9,7 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
-Player::Player(Level* pLevel) : Mob(pLevel)
+Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 {
 	m_pInventory = nullptr;
 	field_B94 = 0;
@@ -23,6 +23,8 @@ Player::Player(Level* pLevel) : Mob(pLevel)
 	m_bHaveRespawnPos = false;
 
 	field_C8 = RENDER_HUMANOID;
+
+	setPlayerGameType(playerGameType);
 
 	m_pInventory = new Inventory(this);
 
@@ -90,10 +92,8 @@ bool Player::isCreativeModeAllowed()
 
 bool Player::hurt(Entity* pEnt, int damage)
 {
-	//@HUH
-#ifndef TEST_SURVIVAL_MODE
-	return false;
-#endif
+	if (isCreative())
+		return false;
 
 	return Mob::hurt(pEnt, damage);
 }
@@ -142,7 +142,7 @@ void Player::aiStep()
 	if (velLen > 0.1f)
 		velLen = 0.1f;
 
-	if (!field_7C)
+	if (!m_onGround)
 	{
 		if (m_health > 0)
 		{

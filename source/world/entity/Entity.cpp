@@ -29,7 +29,7 @@ void Entity::_init()
 	m_pitch = 0.0f;
 	field_5C = 0.0f;
 	field_60 = 0.0f;
-	field_7C = false;
+	m_onGround = false;
 	field_7D = false;
 	field_7E = false;
 	field_7F = false;
@@ -48,7 +48,7 @@ void Entity::_init()
 	field_B4 = 0;
 	field_B8 = 0;
 	field_BC = 300;
-	field_C0 = 0;
+	m_fireTicks = 0;
 	field_C4 = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
@@ -149,7 +149,7 @@ int Entity::move(float x, float y, float z)
 	x5 = m_hitbox.min.y;
 	x6 = m_hitbox.min.x;
 
-	if (!field_7C)
+	if (!m_onGround)
 	{
 	label_4:
 
@@ -270,7 +270,7 @@ label_5:
 		newY = 0.0f;
 	}
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		b6 = true;
 	}
@@ -413,10 +413,10 @@ label_45:
 
 	field_7D = x_2 != x_3 || z_2 != z_3;
 	field_7F = field_7D || newY != y;
-	field_7C = y < 0.0f && newY != y;
+	m_onGround = y < 0.0f && newY != y;
 	field_7E = newY != y;
 
-	checkFallDamage(newY, field_7C);
+	checkFallDamage(newY, m_onGround);
 
 	if (x_2 != x_3) m_vel.x = 0.0;
 	if (newY != y)  m_vel.y = 0.0;
@@ -481,20 +481,21 @@ label_45:
 		if (bIsInWater)
 		{
 		label_76:
-			if (field_C0 > 0)
-				field_C0 = -field_C4;
+			if (m_fireTicks > 0)
+				m_fireTicks = -field_C4;
 
 			return 1300;
 		}
 
-		field_C0++;
-		if (field_C0 == 0)
-			field_C0 = 300;
+		if (m_fireTicks == 0)
+			m_fireTicks = 300;
+		else
+			m_fireTicks++;
 	}
 	else
 	{
-		if (field_C0 <= 0)
-			field_C0 = -field_C4;
+		if (m_fireTicks <= 0)
+			m_fireTicks = -field_C4;
 
 		if (bIsInWater)
 			goto label_76;
@@ -607,7 +608,7 @@ void Entity::reset()
 	m_bRemoved = false;
 	m_distanceFallen = 0.0f;
 	field_D5 = false;
-	field_C0 = 0;
+	m_fireTicks = 0;
 }
 
 void Entity::interpolateTurn(float yaw, float pitch)
@@ -676,7 +677,7 @@ void Entity::baseTick()
 		}
 
 		field_D4 = true;
-		field_C0 = 0;
+		m_fireTicks = 0;
 		m_distanceFallen = 0;
 
 		if (m_pLevel->m_bIsMultiplayer)
@@ -689,12 +690,12 @@ void Entity::baseTick()
 		if (m_pLevel->m_bIsMultiplayer)
 		{
 		label_4:
-			field_C0 = 0;
+			m_fireTicks = 0;
 			goto label_5;
 		}
 	}
 
-	if (field_C0 <= 0)
+	if (m_fireTicks <= 0)
 	{
 	label_5:
 		if (!isInLava())
@@ -704,18 +705,18 @@ void Entity::baseTick()
 
 	if (field_D5)
 	{
-		field_C0 -= 4;
-		if (field_C0 < 0)
-			field_C0 = 0;
+		m_fireTicks -= 4;
+		if (m_fireTicks < 0)
+			m_fireTicks = 0;
 		goto label_5;
 	}
 
-	if (field_C0 % 20 == 0)
+	if (m_fireTicks % 20 == 0)
 	{
 		hurt(nullptr, 1);
 	}
 
-	field_C0--;
+	m_fireTicks--;
 
 	if (isInLava())
 	{
@@ -918,7 +919,7 @@ bool Entity::isAlive()
 
 bool Entity::isOnFire()
 {
-	return field_C0 > 0;
+	return m_fireTicks > 0;
 }
 
 bool Entity::isPlayer()
@@ -959,6 +960,25 @@ float Entity::getPickRadius()
 	return 0.1f;
 }
 
+void Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
+{
+	ItemEntity *itemEntity = new ItemEntity(m_pLevel, m_pos.x, y + m_pos.y, m_pos.z, itemInstance);
+	delete(itemInstance);
+	// @TODO: not sure what this does, or is for
+	itemEntity->field_3C.x = 10;
+	m_pLevel->addEntity(itemEntity);
+}
+
+void Entity::spawnAtLocation(int itemID, int amount)
+{
+	spawnAtLocation(itemID, amount, 0);
+}
+
+void Entity::spawnAtLocation(int itemID, int amount, float y)
+{
+	ItemInstance* itemInstance = new ItemInstance(itemID, amount, 0);
+	spawnAtLocation(itemInstance, y);
+}
 
 void Entity::awardKillScore(Entity* pKilled, int score)
 {
@@ -1067,7 +1087,7 @@ void Entity::lavaHurt()
 	if (!field_D5)
 	{
 		hurt(nullptr, 4);
-		field_C0 = 600;
+		m_fireTicks = 600;
 	}
 }
 

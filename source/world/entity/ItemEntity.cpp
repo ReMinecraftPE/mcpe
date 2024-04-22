@@ -102,7 +102,7 @@ void ItemEntity::tick()
 
 	float dragFactor = 0.98f;
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		dragFactor = 0.588f;
 		TileID tile = m_pLevel->getTile(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y) - 1, Mth::floor(m_pos.z));
@@ -114,7 +114,7 @@ void ItemEntity::tick()
 	m_vel.z *= dragFactor;
 	m_vel.y *= 0.98f;
 
-	if (field_7C)
+	if (m_onGround)
 		m_vel.y *= -0.5f;
 
 	field_EC++;

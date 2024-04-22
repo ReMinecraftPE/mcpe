@@ -34,36 +34,45 @@ struct LevelData
 {
 private:
 	void _init(TLong seed = 0, int x = 0);
-	void _init(TLong seed, int x, const std::string& name);
+	void _init(TLong seed, int version, const std::string& name);
 
 public:
 	LevelData() { _init(); }
-	LevelData(TLong seed, const std::string& name, int x) { _init(seed, x, name); }
+	LevelData(TLong seed, const std::string& name, int version) { _init(seed, version, name); }
 
 
 	void read(RakNet::BitStream& bs, int d);
 	void write(RakNet::BitStream& bs);
 
-	TLong m_seed ;
+	TLong m_seed;
 	Pos m_spawnPos;
-	TLong field_10;
-	int field_14;
+	TLong m_time;
+	int m_lastPlayed;
 	TLong field_18;
 	int field_1C;
-	int field_20;
+	int m_version;
 	PlayerData m_LocalPlayerData;
 	int m_nPlayers;
-	std::string field_78;
+	std::string m_levelName;
 
 	// inlined in 0.1.0 demo
 	int getVersion() const
 	{
-		return field_20;
+		return m_version;
+	}
+
+	GameType getGameType() const
+	{
+#ifdef TEST_SURVIVAL_MODE
+		return GAME_TYPE_SURVIVAL;
+#else
+		return GAME_TYPE_CREATIVE;
+#endif
 	}
 
 	void setLevelName(const std::string& name)
 	{
-		field_78 = name;
+		m_levelName = name;
 	}
 };
 

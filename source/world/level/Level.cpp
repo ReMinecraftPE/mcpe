@@ -14,7 +14,7 @@
 #include "Explosion.hpp"
 #include "Region.hpp"
 
-Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dimension *pDimension)
+Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int version, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
 	m_bIsMultiplayer = false;
@@ -44,7 +44,7 @@ Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dim
 		m_pDimension = new Dimension;
 
 	if (!pData)
-		m_levelData = LevelData(seed, str, x);
+		m_levelData = LevelData(seed, str, version);
 	else
 		m_levelData = *pData;
 
@@ -92,7 +92,7 @@ ChunkSource* Level::createChunkSource()
 
 float Level::getTimeOfDay(float f)
 {
-	return m_pDimension->getTimeOfDay(m_levelData.field_10, f);
+	return m_pDimension->getTimeOfDay(m_levelData.m_time, f);
 }
 
 int Level::getSkyDarken(float f)
@@ -237,12 +237,12 @@ int Level::getSeed()
 
 TLong Level::getTime()
 {
-	return m_levelData.field_10;
+	return m_levelData.m_time;
 }
 
 void Level::setTime(TLong time)
 {
-	m_levelData.field_10 = time;
+	m_levelData.m_time = time;
 }
 
 void Level::swap(int x1, int y1, int z1, int x2, int y2, int z2)
@@ -1350,7 +1350,7 @@ void Level::tickPendingTicks(bool b)
 	for (int i = 0; i < size; i++)
 	{
 		const TickNextTickData& t = *m_pendingTicks.begin();
-		if (!b && t.m_delay > m_levelData.field_10)
+		if (!b && t.m_delay > m_levelData.m_time)
 			break;
 
 		if (hasChunksAt(t.field_4 - 8, t.field_8 - 8, t.field_C - 8, t.field_4 + 8, t.field_8 + 8, t.field_C + 8))
@@ -1483,7 +1483,7 @@ void Level::tick()
 	}
 #endif
 
-	m_levelData.field_10++;
+	m_levelData.m_time++;
 
 	tickPendingTicks(false);
 	tickTiles();
@@ -1642,7 +1642,7 @@ void Level::addToTickNextTick(int a, int b, int c, int d, int delay)
 			return;
 
 		if (d > 0)
-			tntd.setDelay(delay + m_levelData.field_10);
+			tntd.setDelay(delay + m_levelData.m_time);
 
 		m_pendingTicks.insert(tntd);
 	}

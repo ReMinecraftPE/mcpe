@@ -94,19 +94,25 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 	m_pLevel = new Level(
 		m_pMinecraft->getLevelSource()->selectLevel("_LastJoinedServer", true), 
 		"temp",
-		pStartGamePkt->field_4,
-		pStartGamePkt->field_8);
+		pStartGamePkt->m_seed,
+		pStartGamePkt->m_levelVersion);
 
 	m_pLevel->m_bIsMultiplayer = true;
 
-	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, m_pLevel->m_pDimension->field_50);
+	GameType gameType;
+#ifdef TEST_GAMEMODE_REPLICATION
+	gameType = pStartGamePkt->m_entityGameType;
+#else
+	gameType = m_pLevel->getDefaultGameType();
+#endif
+	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, gameType, m_pLevel->m_pDimension->field_50);
 	pLocalPlayer->m_guid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
-	pLocalPlayer->m_EntityID = pStartGamePkt->field_C;
+	pLocalPlayer->m_EntityID = pStartGamePkt->m_entityId;
 	
 	pLocalPlayer->moveTo(
-		pStartGamePkt->field_10,
-		pStartGamePkt->field_14,
-		pStartGamePkt->field_18,
+		pStartGamePkt->m_pos.x,
+		pStartGamePkt->m_pos.y,
+		pStartGamePkt->m_pos.z,
 		pLocalPlayer->m_yaw,
 		pLocalPlayer->m_pitch);
 
@@ -114,7 +120,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 
 	m_pLevel->setTime(pStartGamePkt->m_time);
 
-	m_serverProtocolVersion = pStartGamePkt->m_version;
+	m_serverProtocolVersion = pStartGamePkt->m_serverVersion;
 
 	m_pMinecraft->setLevel(m_pLevel, "ClientSideNetworkHandler -> setLevel", pLocalPlayer);
 }
@@ -125,7 +131,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 
 	if (!m_pLevel) return;
 
-	Player* pPlayer = new Player(m_pLevel);
+	Player* pPlayer = new Player(m_pLevel, m_pLevel->getLevelData()->getGameType());
 	pPlayer->m_EntityID = pAddPlayerPkt->m_id;
 	m_pLevel->addEntity(pPlayer);
 

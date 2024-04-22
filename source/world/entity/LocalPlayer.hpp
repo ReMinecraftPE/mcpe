@@ -17,7 +17,7 @@ class Minecraft;
 class LocalPlayer : public Player
 {
 public:
-	LocalPlayer(Minecraft*, Level*, User*, int);
+	LocalPlayer(Minecraft*, Level*, User*, GameType, int);
 	virtual ~LocalPlayer();
 
 	// TODO: void addAdditonalSaveData();

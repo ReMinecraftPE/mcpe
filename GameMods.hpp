@@ -16,6 +16,7 @@
 
 // Tests
 //#define TEST_SURVIVAL_MODE      	 // Test survival mode.
+//#define TEST_GAMEMODE_REPLICATION    // Enable replication of gamemode information in multi-player.
 
 // Features (major changes)
 

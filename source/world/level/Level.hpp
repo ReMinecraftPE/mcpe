@@ -38,7 +38,7 @@ typedef std::vector<AABB> AABBVector;
 class Level : public LevelSource
 {
 public:
-	Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dimension* pDimension = nullptr);
+	Level(LevelStorage* pStor, const std::string& str, TLong seed, int version, Dimension* pDimension = nullptr);
 	~Level();
 
 	// TODO
@@ -59,6 +59,7 @@ public:
 	int getSeaLevel();
 	int getSeed();
 	TLong getTime();
+	GameType getDefaultGameType() { return m_levelData.getGameType(); }
 	int getHeightmap(int x, int z);
 	bool isDay();
 	bool isSkyLit(int x, int y, int z);

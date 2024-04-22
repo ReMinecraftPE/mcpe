@@ -149,7 +149,7 @@ void Mob::tick()
 	else
 		x4 = x1 = m_yaw;
 
-	if (!field_7C)
+	if (!m_onGround)
 		x3 = 0.0f;
 
 	field_B50 += (x3 - field_B50) * 0.3f;
@@ -506,7 +506,7 @@ void Mob::travel(float a2, float a3)
 		return;
 	}
 
-	if (!field_7C)
+	if (!m_onGround)
 	{
 		x2 = 0.02f;
 	}
@@ -529,7 +529,7 @@ void Mob::travel(float a2, float a3)
 
 	moveRelative(a2, a3, x2);
 
-	if (!field_7C)
+	if (!m_onGround)
 	{
 		dragFactor = 0.91f;
 	}
@@ -624,7 +624,7 @@ void Mob::aiStep()
 	{
 		if (bIsInWater || bIsInLava)
 			m_vel.y += 0.04f;
-		else if (field_7C)
+		else if (m_onGround)
 			jumpFromGround();
 	}
 
@@ -754,9 +754,7 @@ bool Mob::isBaby()
 
 void Mob::actuallyHurt(int damage)
 {
-#ifdef TEST_SURVIVAL_MODE
 	m_health -= damage;
-#endif
 }
 
 bool Mob::removeWhenFarAway()
@@ -771,7 +769,15 @@ int Mob::getDeathLoot()
 
 void Mob::dropDeathLoot()
 {
-
+	int itemId = getDeathLoot();
+	if (itemId > 0)
+	{
+		int desiredItemCount = m_random.nextInt(3);
+		for (int itemCount = 0; itemCount < desiredItemCount; itemCount++)
+		{
+			spawnAtLocation(itemId, 1);
+		}
+	}
 }
 
 bool Mob::isImmobile()

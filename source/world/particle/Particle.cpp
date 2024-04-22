@@ -112,7 +112,7 @@ void Particle::tick()
 	m_vel.y *= 0.98f;
 	m_vel.z *= 0.98f;
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

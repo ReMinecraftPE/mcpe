@@ -13,7 +13,7 @@
 class CreativeMode : public GameMode
 {
 public:
-	CreativeMode(Minecraft*);
+	CreativeMode(Minecraft*, Level&);
 	bool destroyBlock(int, int, int, int) override;
 
 	float getPickRange() override;

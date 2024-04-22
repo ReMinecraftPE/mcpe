@@ -142,7 +142,7 @@ ChunkSource* Dimension::createRandomLevelSource()
 #ifdef MOD_USE_FLAT_WORLD
 	return new TestChunkSource(m_pLevel);
 #else
-	return new RandomLevelSource(m_pLevel, m_pLevel->getSeed(), m_pLevel->getLevelData()->field_20);
+	return new RandomLevelSource(m_pLevel, m_pLevel->getSeed(), m_pLevel->getLevelData()->m_version);
 #endif
 }
 

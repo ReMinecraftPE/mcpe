@@ -10,13 +10,17 @@
 
 #include "world/level/Level.hpp"
 #include "world/item/ItemInstance.hpp"
+#include "world/entity/LocalPlayer.hpp"
 
 class Minecraft;
 
 class GameMode
 {
+private:
+	Level& _level;
+
 public:
-	GameMode(Minecraft* pMinecraft);
+	GameMode(Minecraft* pMinecraft, Level& level);
 	virtual ~GameMode();
 	virtual void initLevel(Level*);
 	virtual void startDestroyBlock(int, int, int, int);

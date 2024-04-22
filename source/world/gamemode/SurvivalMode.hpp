@@ -13,7 +13,7 @@
 class SurvivalMode : public GameMode
 {
 public:
-	SurvivalMode(Minecraft*);
+	SurvivalMode(Minecraft*, Level&);
 
 	void startDestroyBlock(int x, int y, int z, int i) override;
 	bool destroyBlock(int x, int y, int z, int i) override;

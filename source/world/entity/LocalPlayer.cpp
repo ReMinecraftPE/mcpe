@@ -11,7 +11,7 @@
 
 int dword_250ADC, dword_250AE0;
 
-LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int i) : Player(pLevel)
+LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int i) : Player(pLevel, playerGameType)
 {
 	field_BEC = 0;
 	field_BF0 = 0.0f;
@@ -148,7 +148,7 @@ int LocalPlayer::move(float x, float y, float z)
 		// This looks very funny.
 		result = pLP->Entity::move(field_BF0, field_BF4, field_BF8);
 
-		pLP->field_7C = true;
+		pLP->m_onGround = true;
 
 		field_94 = field_94_old;
 	}

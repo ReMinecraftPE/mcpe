@@ -10,6 +10,8 @@
 
 #include <string>
 #include "common/LongHack.hpp"
+#include "world/phys/Vec3.hpp"
+#include "world/gamemode/GameType.hpp"
 #include "RakNetTypes.h"
 #include "BitStream.h"
 #include "MessageIdentifiers.h"
@@ -85,20 +87,24 @@ class StartGamePacket : public Packet
 public:
 	StartGamePacket()
 	{
-		m_version = 0;
+		m_serverVersion = 0;
 		m_time = 0;
 	}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	TLong field_4;
-	int field_8;
-	int field_C;
-	float field_10;
-	float field_14;
-	float field_18;
-	int m_version;
+	TLong m_seed; // field_4
+	int m_levelVersion; // field_8;
+	int m_entityId; // field_C
+#ifdef TEST_GAMEMODE_REPLICATION
+	GameType m_entityGameType;
+#endif
+	Vec3 m_pos;
+	//float field_10; // m_pos.x
+	//float field_14; // m_pos.y
+	//float field_18; // m_pos.z
+	int m_serverVersion;
 	int m_time;
 };
 
