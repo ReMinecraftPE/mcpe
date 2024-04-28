@@ -69,6 +69,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/StartMenuScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
     client/gui/screens/DirectConnectScreen.cpp
+    client/gui/screens/DisconnectionScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
     client/gui/screens/SavingWorldScreen.cpp
     client/gui/screens/InvalidLicenseScreen.cpp
@@ -137,6 +138,9 @@ add_library(reminecraftpe-core STATIC
     network/packets/LevelDataPacket.cpp
     network/packets/PlaceBlockPacket.cpp
     network/packets/LoginPacket.cpp
+    network/packets/LoginStatusPacket.cpp
+    network/packets/ReadyPacket.cpp
+    network/packets/SetTimePacket.cpp
     network/packets/StartGamePacket.cpp
     network/packets/RemoveEntityPacket.cpp
     network/packets/AddPlayerPacket.cpp

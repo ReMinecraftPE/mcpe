@@ -103,6 +103,29 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 		return;
 	}
 
+#if NETWORK_PROTOCOL_VERSION >= 3
+	LoginStatusPacket::LoginStatus loginStatus = LoginStatusPacket::STATUS_SUCCESS;
+	if (packet->m_clientNetworkVersion < NETWORK_PROTOCOL_VERSION_MIN)
+	{
+		loginStatus = LoginStatusPacket::STATUS_CLIENT_OUTDATED;
+	}
+	else if (packet->m_clientNetworkVersion2 > NETWORK_PROTOCOL_VERSION)
+	{
+		loginStatus = LoginStatusPacket::STATUS_SERVER_OUTDATED;
+	}
+
+	if (loginStatus != LoginStatusPacket::STATUS_SUCCESS)
+	{
+		LoginStatusPacket lsp = LoginStatusPacket(loginStatus);
+
+		RakNet::BitStream lspbs;
+		lsp.write(&lspbs);
+		m_pRakNetPeer->Send(&lspbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+
+		return;
+	}
+#endif
+
 	Player* pPlayer = new Player(m_pLevel, m_pLevel->getLevelData()->getGameType());
 	pPlayer->m_guid = guid;
 	pPlayer->m_name = std::string(packet->m_str.C_String());
@@ -112,14 +135,12 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	StartGamePacket sgp;
 	sgp.m_seed = m_pLevel->getSeed();
 	sgp.m_levelVersion = m_pLevel->getLevelData()->m_version;
+	sgp.m_gameType = pPlayer->getPlayerGameType();
 	sgp.m_entityId = pPlayer->m_EntityID;
-#ifdef TEST_GAMEMODE_REPLICATION
-	sgp.m_entityGameType = pPlayer->getPlayerGameType();
-#endif
 	sgp.m_pos.x = pPlayer->m_pos.x;
 	sgp.m_pos.y = pPlayer->m_pos.y - pPlayer->field_84;
 	sgp.m_pos.z = pPlayer->m_pos.z;
-	sgp.m_serverVersion = 2;
+	sgp.m_serverVersion = NETWORK_PROTOCOL_VERSION;
 	sgp.m_time = m_pLevel->getTime();
 	
 	RakNet::BitStream sgpbs;

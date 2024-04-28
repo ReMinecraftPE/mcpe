@@ -122,6 +122,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DisconnectionScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
@@ -476,6 +479,9 @@
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DisconnectionScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.cpp">

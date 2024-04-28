@@ -33,7 +33,9 @@ public:
 	void onConnect(const RakNet::RakNetGUID&) override;
 	void onDisconnect(const RakNet::RakNetGUID&) override;
 	void onUnableToConnect() override;
+	void handle(const RakNet::RakNetGUID&, LoginStatusPacket*) override;
 	void handle(const RakNet::RakNetGUID&, MessagePacket*) override;
+	void handle(const RakNet::RakNetGUID&, SetTimePacket*) override;
 	void handle(const RakNet::RakNetGUID&, StartGamePacket*) override;
 	void handle(const RakNet::RakNetGUID&, AddPlayerPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*) override;
@@ -46,6 +48,8 @@ public:
 	void handle(const RakNet::RakNetGUID&, LevelDataPacket*) override;
 	
 	bool areAllChunksLoaded();
+	void arrangeRequestChunkOrder();
+	void clearChunksLoaded();
 	void requestNextChunk();
 	void flushAllBufferedUpdates(); // inlined
 

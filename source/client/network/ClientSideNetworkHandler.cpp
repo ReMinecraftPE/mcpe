@@ -10,6 +10,7 @@
 #include "ClientSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
+#include "client/gui/screens/DisconnectionScreen.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 #define VERBOSE_CLIENT
@@ -37,6 +38,13 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 void ClientSideNetworkHandler::levelGenerated(Level* level)
 {
 	m_pLevel = level;
+
+#if NETWORK_PROTOCOL_VERSION >= 3
+	ReadyPacket* pReadyPkt = new ReadyPacket(1);
+	m_pRakNetInstance->send(pReadyPkt);
+#endif
+
+	arrangeRequestChunkOrder();
 	requestNextChunk();
 }
 
@@ -49,6 +57,8 @@ void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // s
 
 	LoginPacket* pLoginPkt = new LoginPacket;
 	pLoginPkt->m_str = RakNet::RakString(m_pMinecraft->m_pUser->field_0.c_str());
+	pLoginPkt->m_clientNetworkVersion = NETWORK_PROTOCOL_VERSION;
+	pLoginPkt->m_clientNetworkVersion2 = NETWORK_PROTOCOL_VERSION;
 	
 	m_pRakNetInstance->send(pLoginPkt);
 }
@@ -64,8 +74,8 @@ void ClientSideNetworkHandler::onUnableToConnect()
 		m_pMinecraft->m_pPrepThread = nullptr;
 	}
 
-	// throw to the start menu for now
-	m_pMinecraft->setScreen(new StartMenuScreen);
+	// On 0.2.1 this is handled in ProgressScreen::tick(), and this function is instead left blank, but I see no reason to do the same.
+	m_pMinecraft->setScreen(new DisconnectionScreen("Could not connect to server. Try again."));
 }
 
 void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
@@ -78,11 +88,34 @@ void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
 	m_pMinecraft->m_gui.addMessage("Disconnected from server");
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LoginStatusPacket* pPacket)
+{
+	puts_ignorable("LoginStatusPacket");
+
+	switch (pPacket->m_loginStatus)
+	{
+	case LoginStatusPacket::STATUS_CLIENT_OUTDATED:
+		m_pMinecraft->setScreen(new DisconnectionScreen("Could not connect: Outdated client!"));
+		break;
+	case LoginStatusPacket::STATUS_SERVER_OUTDATED:
+		m_pMinecraft->setScreen(new DisconnectionScreen("Could not connect: Outdated server!"));
+		break;
+	}
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MessagePacket* pMsgPkt)
 {
 	puts_ignorable("MessagePacket");
 
 	m_pMinecraft->m_gui.addMessage(pMsgPkt->m_str.C_String());
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetTimePacket* pPacket)
+{
+	puts_ignorable("SetTimePacket");
+
+	if (m_pLevel)
+		m_pLevel->setTime(pPacket->m_time);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGamePacket* pStartGamePkt)
@@ -99,12 +132,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 
 	m_pLevel->m_bIsMultiplayer = true;
 
-	GameType gameType;
-#ifdef TEST_GAMEMODE_REPLICATION
-	gameType = pStartGamePkt->m_entityGameType;
-#else
-	gameType = m_pLevel->getDefaultGameType();
-#endif
+	GameType gameType = pStartGamePkt->m_gameType != GAME_TYPES_MAX ? pStartGamePkt->m_gameType : m_pLevel->getDefaultGameType();
 	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, gameType, m_pLevel->m_pDimension->field_50);
 	pLocalPlayer->m_guid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
 	pLocalPlayer->m_EntityID = pStartGamePkt->m_entityId;
@@ -477,6 +505,17 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 bool ClientSideNetworkHandler::areAllChunksLoaded()
 {
 	return m_chunksRequested > 255;
+}
+
+void ClientSideNetworkHandler::arrangeRequestChunkOrder()
+{
+	clearChunksLoaded();
+	// @TODO: Implement arrangeRequestChunkOrder()
+}
+
+void ClientSideNetworkHandler::clearChunksLoaded()
+{
+	// @TODO: Implement clearChunksLoaded()
 }
 
 void ClientSideNetworkHandler::requestNextChunk()

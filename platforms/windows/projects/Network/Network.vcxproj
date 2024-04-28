@@ -131,6 +131,8 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\ChunkDataPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelDataPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginStatusPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ReadyPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MessagePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MovePlayerPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\PlaceBlockPacket.cpp" />
@@ -138,6 +140,7 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveBlockPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveEntityPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\RequestChunkPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetTimePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\StartGamePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp" />

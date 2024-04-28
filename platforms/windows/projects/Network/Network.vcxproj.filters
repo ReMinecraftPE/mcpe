@@ -46,6 +46,12 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginPacket.cpp">
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginStatusPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ReadyPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MessagePacket.cpp">
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
@@ -68,6 +74,9 @@
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\StartGamePacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetTimePacket.cpp">
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp">

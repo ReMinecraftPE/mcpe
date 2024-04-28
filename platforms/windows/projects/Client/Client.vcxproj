@@ -242,6 +242,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DisconnectionScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.hpp" />
@@ -361,6 +362,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DisconnectionScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.cpp" />
