@@ -348,6 +348,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Cow.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Creeper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\MobFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -361,6 +362,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\gamemode\CreativeMode.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameMode.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\CameraItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\DoorItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\Inventory.hpp" />
@@ -458,7 +460,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Creeper.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Pig.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\world\gamemode\GameType.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityType.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\MobFactory.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

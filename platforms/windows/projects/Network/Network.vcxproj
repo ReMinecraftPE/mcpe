@@ -145,6 +145,7 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\PacketUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\PingedCompatibleServer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\PacketUtil.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RakNet\RakNet.vcxproj">

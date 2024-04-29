@@ -144,7 +144,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 		pLocalPlayer->m_yaw,
 		pLocalPlayer->m_pitch);
 
-	pLocalPlayer->m_pInventory->prepareCreativeInventory();
+	if (gameType == GAME_TYPE_CREATIVE)
+		pLocalPlayer->m_pInventory->prepareCreativeInventory();
+	else
+		pLocalPlayer->m_pInventory->prepareSurvivalInventory();
 
 	m_pLevel->setTime(pStartGamePkt->m_time);
 

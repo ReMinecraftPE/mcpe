@@ -9,7 +9,6 @@
 #pragma once
 
 #include <stdint.h>
-#include "LongHack.hpp"
 #include "common/Utils.hpp"
 
 // This appears to be VERY similar to https://github.com/SethRobinson/proton/blob/master/shared/util/CRandom.h#L10

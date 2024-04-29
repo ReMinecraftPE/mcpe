@@ -9,9 +9,9 @@
 #pragma once
 
 #include <string>
-#include "common/LongHack.hpp"
 #include "world/phys/Vec3.hpp"
 #include "world/gamemode/GameType.hpp"
+#include "world/entity/Player.hpp"
 #include "RakNetTypes.h"
 #include "BitStream.h"
 #include "MessageIdentifiers.h"
@@ -227,7 +227,7 @@ class AddPlayerPacket : public Packet
 {
 public:
 	AddPlayerPacket() {}
-	AddPlayerPacket(const RakNet::RakNetGUID& guid, RakNet::RakString name, int id, float x, float y, float z);
+	AddPlayerPacket(const Player *player);
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;

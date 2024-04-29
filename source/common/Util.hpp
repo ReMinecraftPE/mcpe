@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include "LongHack.hpp"
 
 class Util
 {

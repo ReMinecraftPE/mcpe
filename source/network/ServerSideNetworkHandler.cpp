@@ -147,11 +147,13 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.write(&sgpbs);
 	m_pRakNetPeer->Send(&sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
+	// @TODO: Move everything below into response to ReadyPacket
+
 	// send the connecting player info about all other players in the world
 	for (int i = 0; i < int(m_pLevel->m_players.size()); i++)
 	{
 		Player* player = m_pLevel->m_players[i];
-		AddPlayerPacket app(player->m_guid, RakNet::RakString(player->m_name.c_str()), player->m_EntityID, player->m_pos.x, player->m_pos.y - player->field_84, player->m_pos.z);
+		AddPlayerPacket app(player);
 		RakNet::BitStream appbs;
 		app.write(&appbs);
 		m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
@@ -166,7 +168,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
 
-	AddPlayerPacket app(guid, RakNet::RakString(pPlayer->m_name.c_str()), pPlayer->m_EntityID, pPlayer->m_pos.x, pPlayer->m_pos.y - pPlayer->field_84, pPlayer->m_pos.z);
+	AddPlayerPacket app(pPlayer);
 	RakNet::BitStream appbs;
 	app.write(&appbs);
 	m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, true);
