@@ -59,6 +59,8 @@ ChunkStorage* ExternalFileLevelStorage::createChunkStorage(Dimension* pDim)
 
 void ExternalFileLevelStorage::saveLevelData(LevelData* levelData, std::vector<Player*>& players)
 {
+	// Uncomment this when using level v2
+	//levelData->setStorageVersion(2);
 	writeLevelData(m_levelDirPath + "/" + "level.dat", levelData);
 	savePlayerData(levelData, players);
 
@@ -185,7 +187,7 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, int x, int z)
 	LevelChunk* pChunk = new LevelChunk(level, pData, x, z);
 	pBitStream->Read((char*)pChunk->m_tileData, 16 * 16 * 128 / 2);
 
-	if (m_pLevelData->getVersion() == 1)
+	if (m_pLevelData->getStorageVersion() == 1)
 	{
 		pBitStream->Read((char*)pChunk->m_lightSky, 16 * 16 * 128 / 2);
 		pBitStream->Read((char*)pChunk->m_lightBlk, 16 * 16 * 128 / 2);
@@ -222,7 +224,7 @@ void ExternalFileLevelStorage::save(Level* level, LevelChunk* chunk)
 	bs.Write((const char*)chunk->m_pBlockData, 16 * 16 * 128 * sizeof(TileID));
 	bs.Write((const char*)chunk->m_tileData,   16 * 16 * 128 / 2);
 
-	if (m_pLevelData->m_version == 1)
+	if (m_pLevelData->getStorageVersion() >= 1)
 	{
 		bs.Write((const char*)chunk->m_lightSky, 16 * 16 * 128 / 2);
 		bs.Write((const char*)chunk->m_lightBlk, 16 * 16 * 128 / 2);
@@ -309,7 +311,8 @@ bool ExternalFileLevelStorage::writeLevelData(const std::string& path, LevelData
 	RakNet::BitStream bs;
 	pLevelData->write(bs);
 
-	fwrite(&pLevelData->m_version, sizeof(int), 1, pFile);
+	int storageVersion = pLevelData->getStorageVersion();
+	fwrite(&storageVersion, sizeof(int), 1, pFile);
 
 	int length = bs.GetNumberOfBytesUsed();
 	fwrite(&length, sizeof(int), 1, pFile);

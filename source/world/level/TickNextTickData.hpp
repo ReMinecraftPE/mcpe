@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "common/LongHack.hpp"
+#include <stdint.h>
 
 struct TickNextTickData
 {
@@ -18,13 +18,13 @@ struct TickNextTickData
 	int hashCode() const;
 	bool operator<(const TickNextTickData& other) const;
 	bool operator==(const TickNextTickData& other) const;
-	void setDelay(TLong);
+	void setDelay(int32_t);
 
 	int m_ID;
 	int field_4;
 	int field_8;
 	int field_C;
 	int field_10;
-	TLong m_delay;
+	int32_t m_delay;
 };
 

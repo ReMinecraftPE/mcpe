@@ -17,7 +17,7 @@ const float RandomLevelSource::SNOW_SCALE  = 0.3f;
 
 float g_timeSpentInPostProcessing = 0;
 
-RandomLevelSource::RandomLevelSource(Level* level, TLong seed, int x) :
+RandomLevelSource::RandomLevelSource(Level* level, int32_t seed, int x) :
 	m_random(seed),
 	m_perlinNoise1(&m_random, 16),
 	m_perlinNoise2(&m_random, 16),
@@ -366,13 +366,13 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 	int x16 = x * 16, z16 = z * 16;
 
 	Biome* pBiome = m_pLevel->getBiomeSource()->getBiome(x16 + 16, z16 + 16);
-	TLong seed = m_pLevel->getSeed();
+	int32_t seed = m_pLevel->getSeed();
 	int xo, yo, zo;
 
 	m_random.setSeed(seed);
-	TLong x1 = 1 + 2 * (m_random.nextInt() / 2);
-	TLong x2 = 1 + 2 * (m_random.nextInt() / 2);
-	m_random.setSeed((TLong(x) * x1 + TLong(z) * x2) ^ seed);
+	int32_t x1 = 1 + 2 * (m_random.nextInt() / 2);
+	int32_t x2 = 1 + 2 * (m_random.nextInt() / 2);
+	m_random.setSeed((int32_t(x) * x1 + int32_t(z) * x2) ^ seed);
 
 	// @NOTE: I can't put the random calls _in_ the argument list - args are evaluated right to left I believe
 

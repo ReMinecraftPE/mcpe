@@ -18,8 +18,8 @@
 #include "NetEventCallback.hpp"
 
 #define NETWORK_PROTOCOL_VERSION_MIN 1 // ?
-#define NETWORK_PROTOCOL_VERSION 2	   // 0.1.1
-//#define NETWORK_PROTOCOL_VERSION 3	   // 0.2.1
+//#define NETWORK_PROTOCOL_VERSION 2	   // 0.1.1
+#define NETWORK_PROTOCOL_VERSION 3	   // 0.2.1
 
 class NetEventCallback;
 class Level;
@@ -189,7 +189,7 @@ public:
 class SetTimePacket : public Packet
 {
 public:
-	SetTimePacket(long time = 0)
+	SetTimePacket(int32_t time = 0)
 	{
 		m_time = time;
 	}
@@ -198,7 +198,7 @@ public:
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	long m_time;
+	int32_t m_time;
 };
 
 class StartGamePacket : public Packet
@@ -214,7 +214,7 @@ public:
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	TLong m_seed;
+	int32_t m_seed;
 	int m_levelVersion;
 	GameType m_gameType;
 	int m_entityId;

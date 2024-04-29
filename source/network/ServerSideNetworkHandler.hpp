@@ -54,6 +54,7 @@ public:
 	// Overridden from LevelListener
 	void tileBrightnessChanged(int x, int y, int z) override;
 	void tileChanged(int x, int y, int z) override;
+	void timeChanged(uint32_t time) override;
 
 	void allowIncomingConnections(bool b);
 	void displayGameMessage(const std::string&);

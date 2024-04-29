@@ -37,8 +37,15 @@ typedef std::vector<AABB> AABBVector;
 
 class Level : public LevelSource
 {
+private:
+	LevelData m_levelData;
+
+private:
+	// @NOTE: LevelListeners do NOT get updated here
+	void _setTime(int32_t time) { m_levelData.setTime(time); }
+
 public:
-	Level(LevelStorage* pStor, const std::string& str, TLong seed, int version, Dimension* pDimension = nullptr);
+	Level(LevelStorage* pStor, const std::string& str, int32_t seed, int version, Dimension* pDimension = nullptr);
 	~Level();
 
 	// TODO
@@ -56,9 +63,10 @@ public:
 	int getRawBrightness(int x, int y, int z, bool b);
 	int getBrightness(const LightLayer&, int x, int y, int z);
 	void setBrightness(const LightLayer&, int x, int y, int z, int bright);
-	int getSeaLevel();
-	int getSeed();
-	TLong getTime();
+	int getSeaLevel() const { return 63; }
+	int getSeed() const { return m_levelData.getSeed(); }
+	int32_t getTime() const { return m_levelData.getTime(); }
+	void setTime(int32_t time);
 	GameType getDefaultGameType() { return m_levelData.getGameType(); }
 	int getHeightmap(int x, int z);
 	bool isDay();
@@ -68,7 +76,7 @@ public:
 	bool hasChunk(int x, int z);
 	bool hasChunksAt(int minX, int minY, int minZ, int maxX, int maxY, int maxZ);
 	bool hasChunksAt(int x, int y, int z, int rad);
-	void updateSkyBrightness();
+	bool updateSkyBrightness();
 	float getTimeOfDay(float f);
 	int getSkyDarken(float f);
 	void setUpdateLights(bool b);
@@ -110,8 +118,8 @@ public:
 	void savePlayerData();
 	void saveAllChunks();
 	void setInitialSpawn();
-	void setSpawnPos(Pos);
-	void setSpawnSettings(bool, bool);
+	void setSpawnPos(Pos pos) { m_levelData.setSpawn(pos.x, pos.y, pos.z); }
+	void setSpawnSettings(bool a, bool b) { }
 	bool canSeeSky(int x, int y, int z);
 	Vec3 getSkyColor(Entity* pEnt, float f);
 	Vec3 getFogColor(float f);
@@ -144,7 +152,6 @@ public:
 	int  getLightDepth(int x, int z);
 	float getStarBrightness(float f);
 	float getSunAngle(float f);
-	void setTime(TLong time);
 	void swap(int x1, int y1, int z1, int x2, int y2, int z2);
 
 	HitResult clip(const Vec3& a, const Vec3& b);
@@ -153,8 +160,8 @@ public:
 	EntityVector* getAllEntities();
 	EntityVector* getEntities(Entity* pAvoid, const AABB&);
 	BiomeSource* getBiomeSource() override;
-	LevelStorage* getLevelStorage();
-	LevelData* getLevelData();
+	LevelStorage* getLevelStorage() const { return m_pLevelStorage; }
+	const LevelData* getLevelData() const { return &m_levelData; }
 	AABBVector* getCubes(const Entity* pEnt, const AABB& aabb);
 	std::vector<LightUpdate>* getLightsToUpdate();
 	Entity* getNearestPlayer(Entity*, float);
@@ -185,7 +192,6 @@ public:
 	std::vector<LevelListener*> m_levelListeners;
 	ChunkSource* m_pChunkSource;
 	LevelStorage* m_pLevelStorage;
-	LevelData m_levelData;
 	int field_AA8;
 	int field_AAC;
 	EntityVector m_getEntitiesResult;

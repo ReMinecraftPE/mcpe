@@ -125,7 +125,7 @@ void ExternalFileLevelStorageSource::renameLevel(const std::string& oldName, con
 
 	const size_t size = vls.size();
 	for (int i = 0; i < size; i++)
-		maps.insert(vls.at(i).field_0);
+		maps.insert(vls.at(i).m_fileName);
 
 	std::string levelUniqueName = levelName;
 	while (maps.find(levelUniqueName) != maps.end())
@@ -165,12 +165,7 @@ void ExternalFileLevelStorageSource::addLevelSummaryIfExists(std::vector<LevelSu
 	if (!ExternalFileLevelStorage::readLevelData(levelDat, &ld))
 		return;
 
-	LevelSummary ls;
-	ls.field_0 = name;
-	ls.field_18 = ld.m_levelName;
-	ls.field_30 = ld.m_lastPlayed;
-	ls.field_34 = ld.field_18;
-	vls.push_back(ls);
+	vls.push_back(LevelSummary(name, ld.getLevelName(), ld.getLastPlayed(), ld.getSizeOnDisk()));
 }
 
 #endif

@@ -12,7 +12,7 @@
 DeleteWorldScreen::DeleteWorldScreen(const LevelSummary& level) :
 	ConfirmScreen(nullptr,
 		"Are you sure you want to delete this world?",
-		"'" + level.field_18 + "' will be lost forever!",
+		"'" + level.m_levelName + "' will be lost forever!",
 		"Delete", "Cancel", 0),
 	m_level(level)
 {
@@ -24,7 +24,7 @@ void DeleteWorldScreen::postResult(bool b)
 {
 	if (b)
 	{
-		m_pMinecraft->getLevelSource()->deleteLevel(m_level.field_0);
+		m_pMinecraft->getLevelSource()->deleteLevel(m_level.m_fileName);
 	}
 
 	m_pMinecraft->setScreen(new SelectWorldScreen);

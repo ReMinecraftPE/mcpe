@@ -63,6 +63,11 @@ void LevelListener::skyColorChanged()
 
 }
 
+void LevelListener::timeChanged(uint32_t time)
+{
+
+}
+
 void LevelListener::playStreamingMusic(const std::string& a, int b, int c, int d)
 {
 

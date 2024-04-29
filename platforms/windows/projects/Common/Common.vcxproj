@@ -253,7 +253,6 @@
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\common\LongHack.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Matrix.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Mth.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Random.hpp" />

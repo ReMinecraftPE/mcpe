@@ -64,7 +64,7 @@ float* Dimension::getSunriseColor(float a, float b)
 	return m_sunriseColor;
 }
 
-float Dimension::getTimeOfDay(TLong l, float f)
+float Dimension::getTimeOfDay(int32_t l, float f)
 {
 #ifndef ENH_RUN_DAY_NIGHT_CYCLE
 	//@QUIRK: This is a constant.
@@ -142,7 +142,7 @@ ChunkSource* Dimension::createRandomLevelSource()
 #ifdef MOD_USE_FLAT_WORLD
 	return new TestChunkSource(m_pLevel);
 #else
-	return new RandomLevelSource(m_pLevel, m_pLevel->getSeed(), m_pLevel->getLevelData()->m_version);
+	return new RandomLevelSource(m_pLevel, m_pLevel->getSeed(), m_pLevel->getLevelData()->getGeneratorVersion());
 #endif
 }
 

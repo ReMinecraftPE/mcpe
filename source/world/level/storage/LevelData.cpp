@@ -8,32 +8,33 @@
 
 #include "LevelData.hpp"
 
-void LevelData::_init(TLong seed, int version)
+void LevelData::_init(int32_t seed, int storageVersion)
 {
 	m_seed = seed;
 	m_time = 0;
 	m_lastPlayed = 0;
-	field_18 = 0;
+	m_sizeOnDisk = 0;
 	field_1C = 0;
-	m_version = version;
+	m_storageVersion = storageVersion;
+	m_generatorVersion = 1; // pre-0.2.1 versions used storageVersion instead
 	m_nPlayers = -1;
 }
 
-void LevelData::_init(TLong seed, int version, const std::string& name)
+void LevelData::_init(int32_t seed, int storageVersion, const std::string& name)
 {
-	_init(seed, version);
+	_init(seed, storageVersion);
 	m_levelName = name;
 }
 
-void LevelData::read(RakNet::BitStream& bs, int version)
+void LevelData::read(RakNet::BitStream& bs, int storageVersion)
 {
-	m_version = version;
+	m_storageVersion = storageVersion;
 	bs.Read(m_seed);
 	bs.Read(m_spawnPos.x);
 	bs.Read(m_spawnPos.y);
 	bs.Read(m_spawnPos.z);
 	bs.Read(m_time);
-	bs.Read(field_18);
+	bs.Read(m_sizeOnDisk);
 	bs.Read(m_lastPlayed);
 
 	RakNet::RakString rs;
@@ -48,11 +49,17 @@ void LevelData::write(RakNet::BitStream& bs)
 	bs.Write(m_spawnPos.y);
 	bs.Write(m_spawnPos.z);
 	bs.Write(m_time);
-	bs.Write(field_18);
+	bs.Write(m_sizeOnDisk);
 	bs.Write(int(getEpochTimeS()));
 
 	RakNet::RakString rs(m_levelName.c_str());
 	bs.Write(rs);
+}
+
+void LevelData::setLoadedPlayerTo(Player* player)
+{
+	if (m_nPlayers == 1)
+		m_LocalPlayerData.loadPlayer(player);
 }
 
 void PlayerData::loadPlayer(Player* player)

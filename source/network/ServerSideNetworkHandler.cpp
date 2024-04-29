@@ -134,7 +134,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	StartGamePacket sgp;
 	sgp.m_seed = m_pLevel->getSeed();
-	sgp.m_levelVersion = m_pLevel->getLevelData()->m_version;
+	sgp.m_levelVersion = m_pLevel->getLevelData()->getStorageVersion();
 	sgp.m_gameType = pPlayer->getPlayerGameType();
 	sgp.m_entityId = pPlayer->m_EntityID;
 	sgp.m_pos.x = pPlayer->m_pos.x;
@@ -365,6 +365,11 @@ void ServerSideNetworkHandler::tileChanged(int x, int y, int z)
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::AddressOrGUID(), true);
 }
 
+void ServerSideNetworkHandler::timeChanged(uint32_t time)
+{
+	m_pRakNetInstance->send(new SetTimePacket(time));
+}
+
 void ServerSideNetworkHandler::allowIncomingConnections(bool b)
 {
 	if (b)
@@ -476,6 +481,7 @@ void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vect
 		}
 
 		m_pLevel->setTime(t);
+
 		sendMessage(player, "Time has been set to " + parms[0]);
 
 		return;
