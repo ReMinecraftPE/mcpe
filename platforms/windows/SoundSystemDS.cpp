@@ -21,10 +21,10 @@ SoundSystemDS::SoundSystemDS()
 	m_available = false;
 
 
-	result = DirectSoundCreate8(NULL, &m_directsound, NULL);
+	result = DirectSoundCreate(NULL, &m_directsound, NULL);
 	if (FAILED(result))
 	{
-		LOG_E("SoundSystemDS failed to create DirectSound8 handle");
+		LOG_E("SoundSystemDS failed to create DirectSound handle");
 		return;
 	}
 
@@ -51,7 +51,7 @@ SoundSystemDS::SoundSystemDS()
 		return;
 	}
 
-	result = primaryBuffer->QueryInterface(IID_IDirectSound3DListener8,
+	result = primaryBuffer->QueryInterface(IID_IDirectSound3DListener,
 		(LPVOID*)&m_listener);
 	primaryBuffer->Release();
 
@@ -207,8 +207,8 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 		return;
 	}
 
-	// Test the buffer format against the direct sound 8 interface and create the secondary buffer.
-	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (LPVOID*)&soundbuffer);
+	// Test the buffer format against the direct sound interface and create the secondary buffer.
+	result = tempBuffer->QueryInterface(IID_IDirectSoundBuffer, (LPVOID*)&soundbuffer);
 	if (FAILED(result))
 	{
 		LOG_E("SoundSystemDS tempBuffer QueryInterface failed");
@@ -270,9 +270,9 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	//Check if position is not 0,0,0 and for mono to play 3D sound
 	if (!is2D && sound.m_pHeader->m_channels == 1) 
 	{
-		LPDIRECTSOUND3DBUFFER8 object3d;
+		LPDIRECTSOUND3DBUFFER object3d;
 
-		HRESULT hr = soundbuffer->QueryInterface(IID_IDirectSound3DBuffer8,
+		HRESULT hr = soundbuffer->QueryInterface(IID_IDirectSound3DBuffer,
 			(LPVOID*)&object3d);
 		if (FAILED(hr)) {
 			LOG_E("SoundSystemDS QueryInterface failed for 3D Object");

@@ -42,11 +42,11 @@ private:
 	struct BufferInfo
 	{
 		LPDIRECTSOUNDBUFFER buffer;
-		LPDIRECTSOUND3DBUFFER8 object3d;
+		LPDIRECTSOUND3DBUFFER object3d;
 	};
 
 	bool m_available;
-	IDirectSound8* m_directsound;
-	LPDIRECTSOUND3DLISTENER8 m_listener;
+	IDirectSound* m_directsound;
+	LPDIRECTSOUND3DLISTENER m_listener;
 	std::vector<BufferInfo> m_buffers;
 };
