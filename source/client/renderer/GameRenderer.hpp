@@ -32,6 +32,7 @@ public:
 	void renderNoCamera();
 #endif
 
+	Vec3 getCamPos(float);
 	void renderLevel(float);
 	void render(float);
 	void tick();
@@ -84,13 +85,14 @@ public:
 	float field_7C;
 	float field_80;
 	float field_84;
-
 	float m_matrix_projection[16];
 	float m_matrix_model_view[16];
-
 	int m_shownFPS, m_shownChunkUpdates, m_lastUpdatedMS;
-
 	int m_envTexturePresence;
 	Random m_random;
+	bool m_bIsometric;
+	float m_isometricX;
+	float m_isometricY;
+	float m_isometricZ;
 };
 

@@ -61,8 +61,11 @@ void GameRenderer::_init()
 	m_lastUpdatedMS = 0;
 	m_shownFPS = 0;
 	m_shownChunkUpdates = 0;
-
 	m_envTexturePresence = 0;
+	m_bIsometric = false;
+	m_isometricX = 0.0f;
+	m_isometricY = 70.0f;
+	m_isometricZ = 250.0f;
 }
 
 GameRenderer::GameRenderer(Minecraft* pMinecraft) :
@@ -111,22 +114,40 @@ void GameRenderer::setupCamera(float f, int i)
 		glScalef(field_44, field_44, 1.0);
 	}
 
-	float fov = getFov(f);
-	gluPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, field_8);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_bIsometric)
 	{
-		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
+		const float SCALE = 30.0f;
+
+		float oX = float(Minecraft::width) / float(Minecraft::height) * SCALE;
+		float oY = SCALE;
+
+		glOrtho(-oX, oX, -oY, oY, 0.1f, 500.0f);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(0.0f, 0.0f, -100.0f);
+		glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
+		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 	}
+	else
+	{
+		float fov = getFov(f);
+		gluPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, field_8);
 
-	bobHurt(f);
-	if (m_pMinecraft->getOptions()->m_bViewBobbing)
-		bobView(f);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 
-	moveCameraToPlayer(f);
+		if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+		{
+			glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
+		}
+
+		bobHurt(f);
+		if (m_pMinecraft->getOptions()->m_bViewBobbing)
+			bobView(f);
+
+		moveCameraToPlayer(f);
+	}
 }
 
 void GameRenderer::moveCameraToPlayer(float f)
@@ -396,6 +417,19 @@ float GameRenderer::getFov(float f)
 	return field_54 + x1 + f * (field_50 - field_54);
 }
 
+Vec3 GameRenderer::getCamPos(float b)
+{
+	if (m_bIsometric) {
+		Mob* pMob = m_pMinecraft->m_pMobPersp;
+		return pMob->field_98 + (pMob->m_pos - pMob->field_98) * b;
+		return Vec3(m_isometricX, m_isometricY, m_isometricZ);
+	}
+	else {
+		Mob* pMob = m_pMinecraft->m_pMobPersp;
+		return pMob->field_98 + (pMob->m_pos - pMob->field_98) * b;
+	}
+}
+
 void GameRenderer::renderLevel(float f)
 {
 	if (!m_pMinecraft->m_pMobPersp)
@@ -414,11 +448,7 @@ void GameRenderer::renderLevel(float f)
 	pick(f);
 
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
-	Vec3 fCamPos;
-
-	fCamPos.x = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * f;
-	fCamPos.y = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * f;
-	fCamPos.z = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * f;
+	Vec3 fCamPos = getCamPos(f);
 
 	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
@@ -482,19 +512,22 @@ void GameRenderer::renderLevel(float f)
 		// render the opaque layer
 		pLR->render(pMob, 0, f);
 
-		glShadeModel(GL_FLAT);
-		pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
-		pPE->render(pMob, f);
+		if (!m_bIsometric)
+		{
+			glShadeModel(GL_FLAT);
+			pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
+			pPE->render(pMob, f);
 
-		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
-		//glEnable(GL_ALPHA);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		setupFog(0);
+			// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
+			//glEnable(GL_ALPHA);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			setupFog(0);
 
 #ifndef ORIGINAL_CODE
-		glShadeModel(GL_SMOOTH);
+			glShadeModel(GL_SMOOTH);
 #endif
+		}
 
 		glEnable(GL_BLEND);
 		glDisable(GL_CULL_FACE);
@@ -506,25 +539,28 @@ void GameRenderer::renderLevel(float f)
 
 		glDepthMask(true);
 
-#ifndef ORIGINAL_CODE
-		glShadeModel(GL_FLAT);
-#endif
-		glEnable(GL_CULL_FACE);
-		glDisable(GL_BLEND);
-
-		if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
+		if (!m_bIsometric)
 		{
-			glDisable(GL_ALPHA_TEST);
+#ifndef ORIGINAL_CODE
+			glShadeModel(GL_FLAT);
+#endif
+			glEnable(GL_CULL_FACE);
+			glDisable(GL_BLEND);
 
-			// added by iProgramInCpp - renders the cracks
-			pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+			if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
+			{
+				glDisable(GL_ALPHA_TEST);
 
-			if (m_pMinecraft->getOptions()->m_bBlockOutlines)
-				pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-			else
-				pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+				// added by iProgramInCpp - renders the cracks
+				pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
-			glEnable(GL_ALPHA_TEST);
+				if (m_pMinecraft->getOptions()->m_bBlockOutlines)
+					pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+				else
+					pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+
+				glEnable(GL_ALPHA_TEST);
+			}
 		}
 
 		glDisable(GL_FOG);
@@ -775,7 +811,7 @@ void GameRenderer::tick()
 		m_pMinecraft->m_hitResult.m_hitType = HitResult::NONE;
 
 #ifndef ORIGINAL_CODE
-	// Not harmless to let it underflow, but we won't anyway
+	// Not harmful to let it underflow, but we won't anyway
 	if (t_keepHitResult < -100)
 		t_keepHitResult = -100;
 #endif

@@ -464,14 +464,10 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 		}
 	}
 
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
-
-	float fPosX = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;
-	float fPosY = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * b;
-	float fPosZ = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * b;
+	Vec3 pos = m_pMinecraft->m_pGameRenderer->getCamPos(b);
 
 	m_renderList.clear();
-	m_renderList.init(fPosX, fPosY, fPosZ);
+	m_renderList.init(pos.x, pos.y, pos.z);
 
 	for (int i = 0; i < int(field_24.size()); i++)
 	{

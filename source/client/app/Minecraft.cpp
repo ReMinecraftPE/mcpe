@@ -503,9 +503,11 @@ void Minecraft::tickInput()
 			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
 				// Toggle ambient occlusion.
-				getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
-				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
-				m_pLevelRenderer->allChanged();
+				// getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
+				// Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
+				// m_pLevelRenderer->allChanged();
+
+				m_pGameRenderer->m_bIsometric ^= 1;
 			}
 #endif
 		}
