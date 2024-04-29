@@ -122,8 +122,10 @@ xcuserdata/
 # Ignore sound data extracted from the game.
 /sound_data
 
-# Ignore linux build artifacts.
+# Ignore linux/mingw build artifacts.
 /build
+/minecraftcpp
+/minecraftcpp.exe
 
 # Ignore wasm build artifacts.
 /wasm

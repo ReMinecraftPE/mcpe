@@ -19,8 +19,11 @@ typedef BOOL(WINAPI* PFNWGLSWAPINTERVALEXTPROC) (int interval);
 #endif
 #endif
 
-// Don't undefine. It will make the game MUCH slower.
+// USE_HARDWARE_GL_BUFFERS enables VBOs to be used using their OpenGL interfaces.
+// Disabling it simulates VBO functionality using display lists, which is slower.
+#ifndef USE_GL_VBO_EMULATION
 #define USE_HARDWARE_GL_BUFFERS
+#endif
 
 #ifdef USE_HARDWARE_GL_BUFFERS
 PFNGLBINDBUFFERPROC p_glBindBuffer;
