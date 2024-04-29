@@ -151,7 +151,7 @@ add_library(reminecraftpe-core STATIC
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp
     network/NetEventCallback.cpp
-    network/PacketUtils.cpp
+    network/PacketUtil.cpp
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
