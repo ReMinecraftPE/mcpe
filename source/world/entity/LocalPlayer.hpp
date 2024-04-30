@@ -28,6 +28,7 @@ public:
 	virtual void tick() override;
 	virtual void updateAi() override;
 	virtual bool isLocalPlayer() override;
+	virtual void drop(const ItemInstance* pItemInstance, bool b = false) override;
 
 	void calculateFlight(float, float, float);
 	void closeContainer(); //@HUH: oddly enough not a virtual/override

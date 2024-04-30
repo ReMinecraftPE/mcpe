@@ -44,6 +44,7 @@ public:
 	virtual void defineSynchedData() override;
 
 	virtual void animateRespawn();
+	virtual void drop(const ItemInstance* pItemInstance, bool b = false);
 
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
@@ -51,8 +52,6 @@ public:
 	bool canDestroy(Tile*);
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
-	void drop(ItemInstance*);
-	void drop(ItemInstance*, bool);
 	void drop();
 	float getDestroySpeed();
 	int getInventorySlot(int x);

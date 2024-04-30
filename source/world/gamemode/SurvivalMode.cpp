@@ -100,7 +100,7 @@ void SurvivalMode::continueDestroyBlock(int x, int y, int z, int i)
 
 	Tile* pTile = Tile::tiles[tile];
 	float destroyProgress = pTile->getDestroyProgress(m_pMinecraft->m_pLocalPlayer);
-	m_destroyProgress += 16.0f * destroyProgress;
+	m_destroyProgress += getDestroyModifier() * destroyProgress;
 	m_destroyTicks++;
 
 	if ((m_destroyTicks & 3) == 1)
@@ -144,19 +144,4 @@ void SurvivalMode::render(float f)
 		m_pMinecraft->m_gui.field_8 = x;
 		m_pMinecraft->m_pLevelRenderer->field_10 = x;
 	}
-}
-
-float SurvivalMode::getPickRange()
-{
-	return 5.0f;
-}
-
-bool SurvivalMode::isCreativeType()
-{
-	return false;
-}
-
-bool SurvivalMode::isSurvivalType()
-{
-	return true;
 }

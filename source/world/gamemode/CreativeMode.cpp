@@ -9,7 +9,12 @@
 #include "CreativeMode.hpp"
 #include "client/app/Minecraft.hpp"
 
-CreativeMode::CreativeMode(Minecraft* pMC, Level& level) : GameMode(pMC, level)
+CreativeMode::CreativeMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
+	m_destroyingX(-1), m_destroyingY(-1), m_destroyingZ(-1),
+	m_destroyProgress(0.0f),
+	m_lastDestroyProgress(0.0f),
+	m_destroyTicks(0),
+	m_destroyCooldown(0)
 {
 }
 
@@ -87,7 +92,7 @@ void CreativeMode::continueDestroyBlock(int x, int y, int z, int i)
 
 	Tile* pTile = Tile::tiles[tile];
 	float destroyProgress = pTile->getDestroyProgress(m_pMinecraft->m_pLocalPlayer);
-	m_destroyProgress += 16.0f * destroyProgress;
+	m_destroyProgress += getDestroyModifier() * destroyProgress;
 	m_destroyTicks++;
 
 	if ((m_destroyTicks & 3) == 1)
@@ -137,19 +142,4 @@ void CreativeMode::initPlayer(Player* p)
 {
 	p->m_yaw = -180.0f;
 	p->m_pInventory->prepareCreativeInventory();
-}
-
-float CreativeMode::getPickRange()
-{
-	return 5.0f;
-}
-
-bool CreativeMode::isCreativeType()
-{
-	return true;
-}
-
-bool CreativeMode::isSurvivalType()
-{
-	return false;
 }

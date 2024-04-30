@@ -67,6 +67,21 @@ void LocalPlayer::aiStep()
 	Player::aiStep();
 }
 
+void LocalPlayer::drop(const ItemInstance* pItemInstance, bool b)
+{
+	if (pItemInstance)
+	{
+		if (m_pMinecraft->isOnlineClient())
+		{
+			// @TODO: Replicate DropItemPacket to server
+		}
+		else
+		{
+			Player::drop(pItemInstance, b);
+		}
+	}
+}
+
 void LocalPlayer::animateRespawn()
 {
 

@@ -13,11 +13,11 @@
 class ItemEntity : public Entity
 {
 private:
-	void _init(ItemInstance* itemInstance = nullptr);
-	void _init(ItemInstance* itemInstance, float x, float y, float z);
+	void _init(const ItemInstance* itemInstance = nullptr);
+	void _init(const ItemInstance* itemInstance, float x, float y, float z);
 public:
 	ItemEntity(Level* level) : Entity(level) { _init(); }
-	ItemEntity(Level* level, float x, float y, float z, ItemInstance* itemInstance) : Entity(level) { _init(itemInstance, x, y, z); }
+	ItemEntity(Level* level, float x, float y, float z, const ItemInstance* itemInstance) : Entity(level) { _init(itemInstance, x, y, z); }
 
 	void burn(int damage) override;
 	bool hurt(Entity* pCulprit, int damage) override;
@@ -33,8 +33,7 @@ public:
 #ifdef ORIGINAL_CODE
 	ItemInstance* m_pItemInstance;
 #else
-	ItemInstance m__itemInstance;
-	ItemInstance* m_pItemInstance;
+	ItemInstance m_itemInstance;
 #endif
 
 	int field_E0;

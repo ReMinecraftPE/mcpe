@@ -375,6 +375,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerEquipmentPacket* pPlayerEquipmentPkt)
 {
+	if (!m_pLevel)
+		return;
+
 	Player* pPlayer = (Player*)m_pLevel->getEntity(pPlayerEquipmentPkt->m_playerID);
 	if (!pPlayer)
 		return;

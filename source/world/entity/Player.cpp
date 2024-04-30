@@ -245,12 +245,7 @@ void Player::displayClientMessage(const std::string& msg)
 
 }
 
-void Player::drop(ItemInstance* pItemInstance)
-{
-	drop(pItemInstance, false);
-}
-
-void Player::drop(ItemInstance* pItemInstance, bool b)
+void Player::drop(const ItemInstance* pItemInstance, bool b)
 {
 	if (!pItemInstance)
 		return;
@@ -291,7 +286,7 @@ void Player::drop()
 
 float Player::getDestroySpeed()
 {
-	return 0.5f;
+	return 1.0f;
 }
 
 int Player::getInventorySlot(int x)

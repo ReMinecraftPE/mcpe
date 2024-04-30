@@ -67,7 +67,7 @@ void GameMode::render(float f)
 {
 }
 
-float GameMode::getPickRange()
+float GameMode::getPickRange() const
 {
 /*
   if ( *inputMode == 1 )
@@ -116,16 +116,6 @@ int GameMode::handleInventoryMouseClick(int a, int b, int c, Player* player)
 
 void GameMode::handleCloseInventory(int a, Player* player)
 {
-}
-
-bool GameMode::isCreativeType()
-{
-	return true;
-}
-
-bool GameMode::isSurvivalType()
-{
-	return false;
 }
 
 bool GameMode::useItem(Player* player, Level* level, ItemInstance* instance)

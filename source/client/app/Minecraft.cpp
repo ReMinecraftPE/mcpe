@@ -508,11 +508,12 @@ void Minecraft::tickInput()
 			}
 			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
-				int itemID = m_pLocalPlayer->m_pInventory->getSelectedItemId();
-				if (itemID > 0)
+				ItemInstance *item = m_pLocalPlayer->m_pInventory->getSelected();
+				if (item != nullptr)
 				{
-					ItemInstance inst(itemID, 1, 0);
-					m_pLocalPlayer->drop(&inst);
+					ItemInstance itemDrop = item->remove(1);
+					itemDrop.m_amount = 1;
+					m_pLocalPlayer->drop(&itemDrop);
 				}
 			}
 			else if (getOptions()->isKey(KM_TOGGLEGUI, keyCode))

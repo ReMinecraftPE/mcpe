@@ -9,7 +9,7 @@
 #include "ItemEntity.hpp"
 #include "world/level/Level.hpp"
 
-void ItemEntity::_init(ItemInstance* itemInstance)
+void ItemEntity::_init(const ItemInstance* itemInstance)
 {
 	field_E0 = 0;
 	field_E4 = 0;
@@ -23,12 +23,11 @@ void ItemEntity::_init(ItemInstance* itemInstance)
 #ifdef ORIGINAL_CODE
 	m_pItemInstance = itemInstance != nullptr ? itemInstance : new ItemInstance();
 #else
-	m__itemInstance = itemInstance ? *itemInstance : ItemInstance();
-	m_pItemInstance = &m__itemInstance;
+	m_itemInstance = itemInstance != nullptr ? ItemInstance(*itemInstance) : ItemInstance();
 #endif
 }
 
-void ItemEntity::_init(ItemInstance* itemInstance, float x, float y, float z)
+void ItemEntity::_init(const ItemInstance* itemInstance, float x, float y, float z)
 {
 	_init(itemInstance);
 
@@ -70,11 +69,11 @@ void ItemEntity::playerTouch(Player* player)
 
 	Inventory* pInventory = player->m_pInventory;
 
-	pInventory->addItem(m_pItemInstance);
+	pInventory->addItem(&m_itemInstance);
 
 	// No "random.pop" sound.
 
-	if (m_pItemInstance->m_amount <= 0)
+	if (m_itemInstance.m_amount <= 0)
 		remove();
 }
 

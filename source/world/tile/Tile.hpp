@@ -155,6 +155,7 @@ public: // static variables
 		* dirt,
 		* grass,
 		* ice,
+		* snow,
 		* clay,
 		* farmland,
 		* stoneSlab,
@@ -182,6 +183,8 @@ public: // static variables
 		* topSnow,
 		* treeTrunk,
 		* leaves,
+		* leaves_carried,
+		* info_reserved6,
 		* emeraldOre, //! actually diamond ore
 		* redStoneOre,
 		* redStoneOre_lit,

@@ -21,11 +21,12 @@ public:
 	void stopDestroyBlock() override;
 	void tick() override;
 	void render(float f) override;
-	float getPickRange() override;
-	bool isCreativeType() override;
-	bool isSurvivalType() override;
+	float getPickRange() const override { return 5.0f; }
+	bool isCreativeType() const override { return false; }
+	bool isSurvivalType() const override { return true; }
 	void initPlayer(Player*) override;
 	bool canHurtPlayer() override;
+	float getDestroyModifier() const override { return 1.0; }
 
 public:
 	int m_destroyingX;

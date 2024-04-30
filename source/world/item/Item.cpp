@@ -217,7 +217,7 @@ void Item::initItems()
 		->setDescriptionId("rocket");
 }
 
-int Item::getIcon(ItemInstance* pInstance)
+int Item::getIcon(const ItemInstance* pInstance) const
 {
 	return m_icon;
 }
