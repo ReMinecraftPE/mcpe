@@ -586,7 +586,11 @@ void GameRenderer::renderLevel(float f)
 }
 
 #define C_ISOM_SIZE  (10)
-#define C_ISOM_SIZE2 (50)
+#define C_ISOM_SIZE2 (37.75f) // 854x480
+//#define C_ISOM_SIZE2 (40.36f) // 1920x1009
+
+// rationale is something like "game can render 2*C_ISOM_SIZE2 blocks on the X axis"
+
 #define C_MAX_ISOM_STAGE (C_ISOM_SIZE * C_ISOM_SIZE)
 void GameRenderer::startIsometricRender()
 {
@@ -605,8 +609,8 @@ void GameRenderer::beginIsom(bool &oldDontRenderGui)
 		m_bIsometric = false;
 	}
 	else if (m_bIsometric) {
-		int xInImg = (m_isomStage % C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
-		int zInImg = (m_isomStage / C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
+		float xInImg = float(m_isomStage % C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
+		float zInImg = float(m_isomStage / C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
 
 		m_isometricX = 0.0f;
 		m_isometricY = 70.0f;
