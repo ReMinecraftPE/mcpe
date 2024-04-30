@@ -507,7 +507,10 @@ void Minecraft::tickInput()
 				// Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
 				// m_pLevelRenderer->allChanged();
 
-				m_pGameRenderer->m_bIsometric ^= 1;
+				if (m_pGameRenderer->m_bIsometric)
+					m_pGameRenderer->m_isomStage = 100000;
+				else
+					m_pGameRenderer->startIsometricRender();
 			}
 #endif
 		}

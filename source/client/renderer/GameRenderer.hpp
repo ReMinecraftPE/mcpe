@@ -46,8 +46,15 @@ public:
 	void renderItemInHand(float, int);
 	void prepareAndRenderClouds(LevelRenderer* pLR, float f);
 	void renderWeather(float f);
+	void startIsometricRender();
 
 	float getFov(float f);
+
+private:
+	void beginIsom(bool& oldDontRenderGui);
+	void endIsom(bool oldDontRenderGui);
+	void setFogEnabledIfNeeded(bool bEnable);
+	void resetFogState();
 
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
@@ -94,5 +101,6 @@ public:
 	float m_isometricX;
 	float m_isometricY;
 	float m_isometricZ;
+	int m_isomStage;
 };
 

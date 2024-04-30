@@ -121,13 +121,13 @@ void GameRenderer::setupCamera(float f, int i)
 		float oX = float(Minecraft::width) / float(Minecraft::height) * SCALE;
 		float oY = SCALE;
 
-		glOrtho(-oX, oX, -oY, oY, 0.1f, 500.0f);
+		xglOrthof(-oX, oX, -oY, oY, 0.1f, 5000.0f);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glTranslatef(0.0f, 0.0f, -100.0f);
+		glTranslatef(0.0f, 0.0f, -100.0f); // <--- NOT SURE WHY
 		glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
 	}
 	else
 	{
@@ -343,6 +343,9 @@ void GameRenderer::renderNoCamera()
 
 void GameRenderer::setupFog(int i)
 {
+	if (m_bIsometric)
+		return;
+
 	float fog_color[4];
 	fog_color[0] = field_60;
 	fog_color[1] = field_64;
@@ -420,8 +423,6 @@ float GameRenderer::getFov(float f)
 Vec3 GameRenderer::getCamPos(float b)
 {
 	if (m_bIsometric) {
-		Mob* pMob = m_pMinecraft->m_pMobPersp;
-		return pMob->field_98 + (pMob->m_pos - pMob->field_98) * b;
 		return Vec3(m_isometricX, m_isometricY, m_isometricZ);
 	}
 	else {
@@ -486,7 +487,7 @@ void GameRenderer::renderLevel(float f)
 		}
 		*/
 
-		glEnable(GL_FOG);
+		setFogEnabledIfNeeded(true);
 		setupFog(1);
 
 		if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
@@ -506,7 +507,7 @@ void GameRenderer::renderLevel(float f)
 		prepareAndRenderClouds(pLR, f);
 
 		setupFog(0);
-		glEnable(GL_FOG);
+		setFogEnabledIfNeeded(true);
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 		// render the opaque layer
@@ -517,17 +518,17 @@ void GameRenderer::renderLevel(float f)
 			glShadeModel(GL_FLAT);
 			pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
 			pPE->render(pMob, f);
+		}
 
-			// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
-			//glEnable(GL_ALPHA);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			setupFog(0);
+		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
+		//glEnable(GL_ALPHA);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		setupFog(0);
 
 #ifndef ORIGINAL_CODE
-			glShadeModel(GL_SMOOTH);
+		glShadeModel(GL_SMOOTH);
 #endif
-		}
 
 		glEnable(GL_BLEND);
 		glDisable(GL_CULL_FACE);
@@ -563,7 +564,7 @@ void GameRenderer::renderLevel(float f)
 			}
 		}
 
-		glDisable(GL_FOG);
+		setFogEnabledIfNeeded(false);
 
 		if (false) // TODO: Figure out how to enable weather
 			renderWeather(f);
@@ -578,12 +579,79 @@ void GameRenderer::renderLevel(float f)
 			break;
 	}
 
+	resetFogState();
+
 	if (bAnaglyph)
 		glColorMask(true, true, true, false);
 }
 
+#define C_ISOM_SIZE  (10)
+#define C_ISOM_SIZE2 (50)
+#define C_MAX_ISOM_STAGE (C_ISOM_SIZE * C_ISOM_SIZE)
+void GameRenderer::startIsometricRender()
+{
+	m_bIsometric = true;
+	m_isomStage = 0;
+	m_isometricX = 0;
+	m_isometricY = 0;
+	m_isometricZ = 0;
+}
+
+void GameRenderer::beginIsom(bool &oldDontRenderGui)
+{
+	oldDontRenderGui = false;
+	if (m_bIsometric && m_isomStage >= C_MAX_ISOM_STAGE) {
+		m_isomStage = 0;
+		m_bIsometric = false;
+	}
+	else if (m_bIsometric) {
+		int xInImg = (m_isomStage % C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
+		int zInImg = (m_isomStage / C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
+
+		m_isometricX = 0.0f;
+		m_isometricY = 70.0f;
+		m_isometricZ = 250.0f;
+
+		// apply the displacement on the X axis
+		m_isometricX += 2 * xInImg - 2 * zInImg;
+		m_isometricZ += 2 * zInImg - 2 * xInImg;
+
+		m_isomStage++;
+
+		oldDontRenderGui = m_pMinecraft->getOptions()->m_bDontRenderGui;
+		m_pMinecraft->getOptions()->m_bDontRenderGui = true;
+	}
+}
+
+void GameRenderer::endIsom(bool oldDontRenderGui)
+{
+	if (m_bIsometric) {
+		LOG_I("Saving %d of %d", m_isomStage, C_MAX_ISOM_STAGE);
+		std::string fn = "IsomShots\\" + std::to_string(m_isomStage) + ".png";
+		m_pMinecraft->platform()->saveScreenshot(fn, Minecraft::width, Minecraft::height);
+
+		m_pMinecraft->getOptions()->m_bDontRenderGui = oldDontRenderGui;
+	}
+}
+
+void GameRenderer::setFogEnabledIfNeeded(bool bEnable)
+{
+	if (m_bIsometric || !bEnable)
+		glDisable(GL_FOG);
+	else
+		glEnable(GL_FOG);
+}
+
+void GameRenderer::resetFogState()
+{
+	glDisable(GL_FOG);
+}
+
 void GameRenderer::render(float f)
 {
+	bool oldDontRenderGui = false;
+	beginIsom(oldDontRenderGui);
+
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
 		Minecraft *pMC = m_pMinecraft;
@@ -677,8 +745,10 @@ void GameRenderer::render(float f)
 			renderLevel(f);
 			if (m_pMinecraft->getOptions()->m_bDontRenderGui)
 			{
-				if (!m_pMinecraft->m_pScreen)
+				if (!m_pMinecraft->m_pScreen) {
+					endIsom(oldDontRenderGui);
 					return;
+				}
 			}
 
 			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
@@ -716,7 +786,7 @@ void GameRenderer::render(float f)
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
 	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
 
-	if (m_pMinecraft->getOptions()->m_bDebugText)
+	if (m_pMinecraft->getOptions()->m_bDebugText && !m_pMinecraft->getOptions()->m_bDontRenderGui)
 	{
 		if (m_pMinecraft->m_pLocalPlayer)
 		{
@@ -792,6 +862,8 @@ void GameRenderer::render(float f)
 		m_shownChunkUpdates = Chunk::updates;
 		Chunk::updates = 0;
 	}
+
+	endIsom(oldDontRenderGui);
 }
 
 void GameRenderer::tick()
