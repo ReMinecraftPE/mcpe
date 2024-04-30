@@ -13,6 +13,20 @@
 #include "Frustum.hpp"
 #include "renderer/GL/GL.hpp"
 
+#define SQRT_OF_TWO  (1.414213562373095f)
+#define C_ISOM_SCALE (30.0f)
+#define C_ISOM_SIZE  (10)
+#define C_MAX_ISOM_STAGE (C_ISOM_SIZE * C_ISOM_SIZE)
+#define C_ISOM_TILES_PER_WIDTH(aspect) (C_ISOM_SCALE * SQRT_OF_TWO / 2 * (aspect))
+#define C_ISOM_TILES_PER_HEIGHT (C_ISOM_SCALE * SQRT_OF_TWO * SQRT_OF_TWO * SQRT_OF_TWO)
+
+ //#define C_ISOM_SIZE2 (21.23f) // 480x480
+ //#define C_ISOM_SIZE2 (37.75f) // 854x480
+ //#define C_ISOM_SIZE2 (40.36f) // 1920x1009
+
+ // rationale is something like "game can render 2*C_ISOM_SIZE2 blocks on the X axis"
+
+
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
 
 #if defined SHOW_VERTEX_COUNTER_GRAPHIC && !defined _DEBUG
@@ -116,7 +130,7 @@ void GameRenderer::setupCamera(float f, int i)
 
 	if (m_bIsometric)
 	{
-		const float SCALE = 30.0f;
+		const float SCALE = C_ISOM_SCALE;
 
 		float oX = float(Minecraft::width) / float(Minecraft::height) * SCALE;
 		float oY = SCALE;
@@ -585,13 +599,6 @@ void GameRenderer::renderLevel(float f)
 		glColorMask(true, true, true, false);
 }
 
-#define C_ISOM_SIZE  (10)
-#define C_ISOM_SIZE2 (37.75f) // 854x480
-//#define C_ISOM_SIZE2 (40.36f) // 1920x1009
-
-// rationale is something like "game can render 2*C_ISOM_SIZE2 blocks on the X axis"
-
-#define C_MAX_ISOM_STAGE (C_ISOM_SIZE * C_ISOM_SIZE)
 void GameRenderer::startIsometricRender()
 {
 	m_bIsometric = true;
@@ -603,22 +610,82 @@ void GameRenderer::startIsometricRender()
 
 void GameRenderer::beginIsom(bool &oldDontRenderGui)
 {
+#ifdef CONTROLLABLE_ISOM
+	static float x = -1.0f;
 	oldDontRenderGui = false;
-	if (m_bIsometric && m_isomStage >= C_MAX_ISOM_STAGE) {
+	if (!m_bIsometric) {
+		x = -1.0f;
+		return;
+	}
+
+	if (m_isomStage > 10000)
+	{
+		m_bIsometric = false;
+		x = -1.0f;
+		return;
+	}
+
+	float deltaTime = 0.0f;
+
+	if (x < 0)
+		x = getTimeS();
+
+	deltaTime = getTimeS() - x;
+	x += deltaTime;
+
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_FORWARD))) {
+		m_isometricZ += deltaTime * 10;
+	}
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_BACKWARD))) {
+		m_isometricZ -= deltaTime * 10;
+	}
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_LEFT))) {
+		m_isometricX += deltaTime * 10;
+	}
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_RIGHT))) {
+		m_isometricX -= deltaTime * 10;
+	}
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_DESTROY))) {
+		m_isometricY += deltaTime * 10;
+	}
+	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_PLACE))) {
+		m_isometricY -= deltaTime * 10;
+	}
+
+	LOG_I("isom: %f %f %f", m_isometricX, m_isometricY, m_isometricZ);
+
+	return;
+#else
+	oldDontRenderGui = false;
+	if (!m_bIsometric)
+		return;
+#endif
+
+	const float isomSizeX = C_ISOM_TILES_PER_WIDTH(float(Minecraft::width) / float(Minecraft::height));
+	const float isomSizeY = C_ISOM_TILES_PER_HEIGHT;
+	const int isomWidth = int(C_MAX_CHUNKS_X * 16 / isomSizeX / 2) + 2;
+	const int isomHeight = int(C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z / isomSizeY) + 2;
+	const int maxIsomStage = isomWidth * isomHeight;
+
+	if (m_isomStage >= maxIsomStage) {
 		m_isomStage = 0;
 		m_bIsometric = false;
 	}
-	else if (m_bIsometric) {
-		float xInImg = float(m_isomStage % C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
-		float zInImg = float(m_isomStage / C_ISOM_SIZE - C_ISOM_SIZE / 2) * C_ISOM_SIZE2;
+	else {
+		const float twoIsomSizeX = 2 * isomSizeX;
+		
+		float xInImg = float(m_isomStage % isomWidth - isomWidth / 2) * isomSizeX;
+		float zInImg = float(m_isomStage / isomWidth) * isomSizeY;
 
 		m_isometricX = 0.0f;
-		m_isometricY = 70.0f;
-		m_isometricZ = 250.0f;
+		m_isometricZ = 0.0f;
+		m_isometricY = C_MAX_Y * 3 / 4; // TODO: fix magic value
 
-		// apply the displacement on the X axis
-		m_isometricX += 2 * xInImg - 2 * zInImg;
-		m_isometricZ += 2 * zInImg - 2 * xInImg;
+		// apply the displacement
+		m_isometricX += 2 * xInImg;
+		m_isometricZ -= 2 * xInImg;
+		m_isometricX += zInImg;
+		m_isometricZ += zInImg;
 
 		m_isomStage++;
 
@@ -629,8 +696,14 @@ void GameRenderer::beginIsom(bool &oldDontRenderGui)
 
 void GameRenderer::endIsom(bool oldDontRenderGui)
 {
+	const float isomSizeX = C_ISOM_TILES_PER_WIDTH(float(Minecraft::width) / float(Minecraft::height));
+	const float isomSizeY = C_ISOM_TILES_PER_HEIGHT;
+	const int isomWidth = int(C_MAX_CHUNKS_X * 16 / isomSizeX / 2) + 2;
+	const int isomHeight = int(C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z / isomSizeY) + 2;
+	const int maxIsomStage = isomWidth * isomHeight;
+
 	if (m_bIsometric) {
-		LOG_I("Saving %d of %d", m_isomStage, C_MAX_ISOM_STAGE);
+		LOG_I("Saving %d of %d", m_isomStage, maxIsomStage);
 		std::string fn = "IsomShots\\" + std::to_string(m_isomStage) + ".png";
 		m_pMinecraft->platform()->saveScreenshot(fn, Minecraft::width, Minecraft::height);
 
