@@ -8,9 +8,10 @@
 
 #include "thirdparty/GL/GL.hpp"
 #include "GameRenderer.hpp"
+#include "Frustum.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
-#include "Frustum.hpp"
+#include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "renderer/GL/GL.hpp"
 
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
@@ -420,6 +421,8 @@ void GameRenderer::renderLevel(float f)
 	fCamPos.y = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * f;
 	fCamPos.z = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * f;
 
+	m_pMinecraft->m_pLevel->m_pChunkSource->setChunkOver(Mth::floor(fCamPos.x) >> 4, Mth::floor(fCamPos.z) >> 4);
+	
 	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
 	LevelRenderer* pLR = m_pMinecraft->m_pLevelRenderer;

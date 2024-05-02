@@ -13,6 +13,9 @@
 #include "world/level/storage/ChunkStorage.hpp"
 #include "world/level/Level.hpp"
 
+// Note, MUST be a power of 2!
+#define C_LOADED_CHUNKS_MAX (32)
+
 class Level;
 
 class ChunkCache : public ChunkSource
@@ -30,22 +33,26 @@ public:
 	bool shouldSave() override;
 	void saveAll() override;
 	int tick() override;
+	void setChunkOver(int x, int z) override;
 #ifdef ENH_IMPROVED_SAVING
 	void saveUnsaved() override;
 #endif
 
 	LevelChunk* load(int, int);
 	void save(LevelChunk*);
+	bool mayHaveChunk(int x, int z) override;
 
 public:
 	bool field_4;
 	LevelChunk* m_pEmptyChunk;
 	ChunkSource* m_pChunkSource;
 	ChunkStorage* m_pChunkStorage;
-	LevelChunk* m_chunkMap[C_MAX_CHUNKS_Z][C_MAX_CHUNKS_X];
+	LevelChunk* m_chunkMap[C_LOADED_CHUNKS_MAX][C_LOADED_CHUNKS_MAX];
 	Level* m_pLevel;
 	LevelChunk* m_pLastChunk;
-	int m_LastChunkX;
-	int m_LastChunkZ;
+	int m_lastChunkX;
+	int m_lastChunkZ;
+	int m_chunkOverX;
+	int m_chunkOverZ;
 };
 

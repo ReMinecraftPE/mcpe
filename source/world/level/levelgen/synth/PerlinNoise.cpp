@@ -83,9 +83,12 @@ float* PerlinNoise::getRegion(float* a2, int a3, int a4, int a5, int a6, float a
 
 float* PerlinNoise::getRegion(float* pMem, float a3, float a4, float a5, int a6, int a7, int a8, float a9, float a10, float a11)
 {
+	bool allocd = false;
 	int amt = a6 * a7 * a8;
-	if (!pMem)
+	if (!pMem) {
 		pMem = new float[amt];
+		allocd = true;
+	}
 
 	for (int i = 0; i < amt; i++)
 		pMem[i] = 0;

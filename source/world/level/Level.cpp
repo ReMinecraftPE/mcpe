@@ -77,14 +77,12 @@ Level::~Level()
 }
 ChunkSource* Level::createChunkSource()
 {
-#ifndef MOD_USE_FLAT_WORLD
 	if (m_pLevelStorage)
 	{
-		ChunkStorage* pChkStr = m_pLevelStorage->createChunkStorage(m_pDimension);
+		ChunkStorage* pChkStr = NULL;//TODO m_pLevelStorage->createChunkStorage(m_pDimension);
 		ChunkSource* pChkSrc = m_pDimension->createRandomLevelSource();
 		return new ChunkCache(this, pChkStr, pChkSrc);
 	}
-#endif
 
 	LOG_I("No level data, calling dimension->createRandomLevelSource");
 	return m_pDimension->createRandomLevelSource();

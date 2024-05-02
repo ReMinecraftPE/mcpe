@@ -23,3 +23,12 @@ void ChunkSource::saveUnsaved()
 
 }
 #endif
+
+void ChunkSource::setChunkOver(int x, int z)
+{
+}
+
+bool ChunkSource::mayHaveChunk(int x, int z)
+{
+	return true;
+}

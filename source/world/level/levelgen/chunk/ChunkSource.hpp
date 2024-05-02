@@ -26,6 +26,8 @@ public:
 	virtual bool shouldSave() = 0;
 	virtual void saveAll();
 	virtual std::string gatherStats() = 0;
+	virtual void setChunkOver(int x, int z);
+	virtual bool mayHaveChunk(int x, int z);
 #ifdef ENH_IMPROVED_SAVING
 	virtual void saveUnsaved();
 #endif
