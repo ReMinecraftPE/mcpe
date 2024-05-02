@@ -24,7 +24,8 @@ public:
 	~AppPlatform_android();
 	void initConsts();
 	void buyGame() override;
-	void saveScreenshot(const std::string& fileName, int width, int height) override;
+	bool saveImage(const std::string& fileName, int width, int height, uint32_t* pixels, bool flipVertically) override;
+	bool saveScreenshot(const std::string& fileName, int width, int height) override;
 	int checkLicense() override;
 	void createUserInput() override;
 	std::vector<std::string> getUserInput() override;
@@ -63,6 +64,7 @@ public:
 	void setExternalStoragePath(const std::string& path);
 
 private:
+	bool _saveImage(const std::string& saveName, int width, int height, uint32_t* pixels, bool flipVertically);
 	void changeKeyboardVisibility(bool bShown);
 
 	int m_ScreenWidth;

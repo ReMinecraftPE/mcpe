@@ -64,21 +64,29 @@ void AppPlatform_android::setExternalStoragePath(const std::string& path)
 	m_storageDir = path;
 }
 
-void AppPlatform_android::saveScreenshot(const std::string& fileName, int width, int height)
+bool AppPlatform_android::_saveImage(const std::string& saveName, int width, int height, uint32_t* pixels, bool flipVertically)
 {
-	std::string saveName = m_storageDir + "/" + fileName;
-
 	LOG_I("Saving in %s", saveName.c_str());
 
+	stbi_flip_vertically_on_write(flipVertically);
+	return stbi_write_png(saveName.c_str(), width, height, 4, pixels, width * 4) != 0;
+}
+
+bool AppPlatform_android::saveImage(const std::string& fileName, int width, int height, uint32_t* pixels, bool flipVertically)
+{
+	std::string saveName = m_storageDir + "/" + fileName;
+	return _saveImage(saveName, width, height, pixels, flipVertically);
+}
+
+bool AppPlatform_android::saveScreenshot(const std::string& fileName, int width, int height)
+{
 	int npixels = width * height;
 	uint32_t* pixels = new uint32_t[npixels];
 	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-	stbi_flip_vertically_on_write(true);
-
-	stbi_write_png(saveName.c_str(), width, height, 4, pixels, width * 4);
-
+	
+	bool res = saveImage(fileName, width, height, pixels, true);
 	delete[] pixels;
+	return res;
 }
 
 int AppPlatform_android::getScreenWidth() const
