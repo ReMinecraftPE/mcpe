@@ -508,7 +508,7 @@ void Minecraft::tickInput()
 				// m_pLevelRenderer->allChanged();
 
 				if (m_pGameRenderer->m_bIsometric)
-					m_pGameRenderer->m_isomStage = 100000;
+					m_pGameRenderer->cancelIsometricRender();
 				else
 					m_pGameRenderer->startIsometricRender();
 			}

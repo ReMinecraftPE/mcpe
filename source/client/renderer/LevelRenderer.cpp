@@ -1167,7 +1167,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 
 	t_keepPic = -1;
 
-	static char str[256];
+	char str[256];
 	// @HUH: This has the potential to overwrite a file
 #ifdef ORIGINAL_CODE
 	sprintf(str, "%s/games/com.mojang/img_%.4d.jpg", m_pMinecraft->m_externalStorageDir.c_str(), getTimeMs());
@@ -1175,7 +1175,10 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	sprintf(str, "img_%.4d.png", getTimeMs());
 #endif
 
-	m_pMinecraft->platform()->saveScreenshot(std::string(str), Minecraft::width, Minecraft::height);
+	if (m_pMinecraft->platform()->saveScreenshot(std::string(str), Minecraft::width, Minecraft::height))
+		m_pMinecraft->m_gui.addMessage("Saved screenshot to " + std::string(str));
+	else
+		m_pMinecraft->m_gui.addMessage("Could not save screenshot to " + std::string(str));
 }
 
 void LevelRenderer::addParticle(const std::string& name, float x, float y, float z, float vx, float vy, float vz)

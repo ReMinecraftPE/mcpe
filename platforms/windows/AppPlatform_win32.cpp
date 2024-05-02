@@ -70,13 +70,10 @@ void AppPlatform_win32::buyGame()
 	MessageBoxA(GetHWND(), "Buying the game!", getWindowTitle(), MB_OK | MB_ICONINFORMATION);
 }
 
-void AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, int height)
+bool AppPlatform_win32::saveImage(const std::string& fileName, int width, int height, uint32_t* pixels, bool flipVertically)
 {
-	int npixels = width * height;
-	uint32_t* pixels = new uint32_t[npixels];
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-
-	stbi_flip_vertically_on_write(true);
+	// Flip vertically because OpenGL dumps framebuffer data upside down.
+	stbi_flip_vertically_on_write(flipVertically);
 
 	// Verify if the folder exists for saving screenshots and
 	// create it if it doesn't 
@@ -108,9 +105,21 @@ void AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, i
 	char fullpath[MAX_PATH];
 	sprintf(fullpath, "%s\\%s", str, fileName.c_str());
 
-	stbi_write_png(fullpath, width, height, 4, pixels, width * 4);
+	int result_wr = stbi_write_png(fullpath, width, height, 4, pixels, width * 4);
+	return result_wr != 0;
+}
+
+bool AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, int height)
+{
+	int npixels = width * height;
+	uint32_t* pixels = new uint32_t[npixels];
+	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+	bool res = saveImage(fileName, width, height, pixels, true);
 
 	delete[] pixels;
+
+	return res;
 }
 
 void AppPlatform_win32::createUserInput()

@@ -47,10 +47,12 @@ public:
 	void prepareAndRenderClouds(LevelRenderer* pLR, float f);
 	void renderWeather(float f);
 	void startIsometricRender();
+	void cancelIsometricRender();
 
 	float getFov(float f);
 
 private:
+	void onEndIsomRender();
 	void beginIsom(bool& oldDontRenderGui);
 	void endIsom(bool oldDontRenderGui);
 	void setFogEnabledIfNeeded(bool bEnable);
@@ -101,6 +103,15 @@ public:
 	float m_isometricX;
 	float m_isometricY;
 	float m_isometricZ;
+	float m_isomScale; // scale used in glOrthof
+	float m_isomSizeX; // rough amount of blocks that can fit in 1 screenshot width
+	float m_isomSizeY; // rough amount of blocks that can fit in 1 screenshot height
+	int m_isomScreenTilesX; // amount of screenshots on the X axis that compose the final screenshot
+	int m_isomScreenTilesY; // amount of screenshots on the Y axis that compose the final screenshot
+	int m_isomScreenSizeX; // width of one screenshot tile
+	int m_isomScreenSizeY; // height of one screenshot tile
 	int m_isomStage;
+	uint32_t* m_isomPixels;		// Buffer that will contain the final image
+	uint32_t* m_isomPixelsTemp; // Buffer that contains one screen shot dump
 };
 

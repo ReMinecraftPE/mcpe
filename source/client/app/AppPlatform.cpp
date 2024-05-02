@@ -86,9 +86,14 @@ bool AppPlatform::hasBuyButtonWhenInvalidLicense()
 
 // void AppPlatform::loadTexture(const std::string&, bool);
 
-void AppPlatform::saveScreenshot(const std::string&, int, int)
+bool AppPlatform::saveScreenshot(const std::string&, int, int)
 {
+	return false;
+}
 
+bool AppPlatform::saveImage(const std::string& fileName, int width, int height, uint32_t* pixels, bool flipVertically)
+{
+	return false;
 }
 
 void AppPlatform::showDialog(eDialogType type)

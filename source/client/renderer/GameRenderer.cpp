@@ -80,6 +80,15 @@ void GameRenderer::_init()
 	m_isometricX = 0.0f;
 	m_isometricY = 70.0f;
 	m_isometricZ = 250.0f;
+	m_isomScale = 0.0f;
+	m_isomSizeX = 0.0f;
+	m_isomSizeY = 0.0f;
+	m_isomScreenTilesX = 0;
+	m_isomScreenTilesY = 0;
+	m_isomScreenSizeX = 0;
+	m_isomScreenSizeY = 0;
+	m_isomPixels = nullptr;
+	m_isomPixelsTemp = nullptr;
 }
 
 GameRenderer::GameRenderer(Minecraft* pMinecraft) :
@@ -96,6 +105,9 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 GameRenderer::~GameRenderer()
 {
 	delete m_pItemInHandRenderer;
+
+	SAFE_DELETE_ARRAY(m_isomPixels);
+	SAFE_DELETE_ARRAY(m_isomPixelsTemp);
 }
 
 void GameRenderer::zoomRegion(float a, float b, float c)
@@ -601,81 +613,75 @@ void GameRenderer::renderLevel(float f)
 
 void GameRenderer::startIsometricRender()
 {
+	// if an isometric render is already ongoing, delete the m_isomPixels array
+	SAFE_DELETE_ARRAY(m_isomPixels);
+	SAFE_DELETE_ARRAY(m_isomPixelsTemp);
+
 	m_bIsometric = true;
 	m_isomStage = 0;
 	m_isometricX = 0;
 	m_isometricY = 0;
 	m_isometricZ = 0;
+	m_isomScale = C_ISOM_SCALE;
+	m_isomSizeX = C_ISOM_TILES_PER_WIDTH(float(Minecraft::width) / float(Minecraft::height));
+	m_isomSizeY = C_ISOM_TILES_PER_HEIGHT;
+	m_isomScreenTilesX = int(C_MAX_CHUNKS_X * 16 / m_isomSizeX / 2) + 2;
+	m_isomScreenTilesY = int(C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z / m_isomSizeY) + 2;
+	m_isomScreenSizeX = Minecraft::width;
+	m_isomScreenSizeY = Minecraft::height;
+	m_isomPixels = new uint32_t[m_isomScreenSizeX * m_isomScreenSizeY * m_isomScreenTilesX * m_isomScreenTilesY];
+	m_isomPixelsTemp = new uint32_t[m_isomScreenSizeX * m_isomScreenSizeY];
+}
+
+void GameRenderer::cancelIsometricRender()
+{
+	SAFE_DELETE_ARRAY(m_isomPixels);
+	SAFE_DELETE_ARRAY(m_isomPixelsTemp);
+	m_isomPixels = nullptr;
+	m_isomPixelsTemp = nullptr;
+	m_bIsometric = false;
+	m_isomStage = 0;
+}
+
+void GameRenderer::onEndIsomRender()
+{
+	char str[256];
+	sprintf(str, "huge_img_%.4d.png", getTimeMs());
+
+	// Save the final image
+	bool result = m_pMinecraft->platform()->saveImage(
+		std::string(str),
+		m_isomScreenSizeX * m_isomScreenTilesX,
+		m_isomScreenSizeY * m_isomScreenTilesY,
+		m_isomPixels,
+		false
+	);
+
+	if (result)
+		m_pMinecraft->m_gui.addMessage("Saved isometric screenshot to " + std::string(str));
+	else
+		m_pMinecraft->m_gui.addMessage("Could not save isometric screenshot to " + std::string(str));
+
+	// Cleanup after ourselves.
+	cancelIsometricRender();
 }
 
 void GameRenderer::beginIsom(bool &oldDontRenderGui)
 {
-#ifdef CONTROLLABLE_ISOM
-	static float x = -1.0f;
-	oldDontRenderGui = false;
-	if (!m_bIsometric) {
-		x = -1.0f;
-		return;
-	}
-
-	if (m_isomStage > 10000)
-	{
-		m_bIsometric = false;
-		x = -1.0f;
-		return;
-	}
-
-	float deltaTime = 0.0f;
-
-	if (x < 0)
-		x = getTimeS();
-
-	deltaTime = getTimeS() - x;
-	x += deltaTime;
-
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_FORWARD))) {
-		m_isometricZ += deltaTime * 10;
-	}
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_BACKWARD))) {
-		m_isometricZ -= deltaTime * 10;
-	}
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_LEFT))) {
-		m_isometricX += deltaTime * 10;
-	}
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_RIGHT))) {
-		m_isometricX -= deltaTime * 10;
-	}
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_DESTROY))) {
-		m_isometricY += deltaTime * 10;
-	}
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(eKeyMappingIndex::KM_PLACE))) {
-		m_isometricY -= deltaTime * 10;
-	}
-
-	LOG_I("isom: %f %f %f", m_isometricX, m_isometricY, m_isometricZ);
-
-	return;
-#else
 	oldDontRenderGui = false;
 	if (!m_bIsometric)
 		return;
-#endif
 
-	const float isomSizeX = C_ISOM_TILES_PER_WIDTH(float(Minecraft::width) / float(Minecraft::height));
-	const float isomSizeY = C_ISOM_TILES_PER_HEIGHT;
-	const int isomWidth = int(C_MAX_CHUNKS_X * 16 / isomSizeX / 2) + 2;
-	const int isomHeight = int(C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z / isomSizeY) + 2;
-	const int maxIsomStage = isomWidth * isomHeight;
+	const int maxIsomStage = m_isomScreenTilesX * m_isomScreenTilesY;
 
 	if (m_isomStage >= maxIsomStage) {
-		m_isomStage = 0;
-		m_bIsometric = false;
+		onEndIsomRender();
 	}
 	else {
-		const float twoIsomSizeX = 2 * isomSizeX;
+		const float twoIsomSizeX = 2 * m_isomSizeX;
 		
-		float xInImg = float(m_isomStage % isomWidth - isomWidth / 2) * isomSizeX;
-		float zInImg = float(m_isomStage / isomWidth) * isomSizeY;
+		float xInImg = float(m_isomStage % m_isomScreenTilesX - m_isomScreenTilesX / 2) * m_isomSizeX;
+		float zInImg = float(m_isomStage / m_isomScreenTilesX) * m_isomSizeY;
 
 		m_isometricX = 0.0f;
 		m_isometricZ = 0.0f;
@@ -696,16 +702,33 @@ void GameRenderer::beginIsom(bool &oldDontRenderGui)
 
 void GameRenderer::endIsom(bool oldDontRenderGui)
 {
-	const float isomSizeX = C_ISOM_TILES_PER_WIDTH(float(Minecraft::width) / float(Minecraft::height));
-	const float isomSizeY = C_ISOM_TILES_PER_HEIGHT;
-	const int isomWidth = int(C_MAX_CHUNKS_X * 16 / isomSizeX / 2) + 2;
-	const int isomHeight = int(C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z / isomSizeY) + 2;
-	const int maxIsomStage = isomWidth * isomHeight;
+	const int maxIsomStage = m_isomScreenTilesX * m_isomScreenTilesY;
 
-	if (m_bIsometric) {
+	if (m_bIsometric)
+	{
 		LOG_I("Saving %d of %d", m_isomStage, maxIsomStage);
-		std::string fn = "IsomShots\\" + std::to_string(m_isomStage) + ".png";
-		m_pMinecraft->platform()->saveScreenshot(fn, Minecraft::width, Minecraft::height);
+		//std::string fn = "IsomShots\\" + std::to_string(m_isomStage) + ".png";
+		//m_pMinecraft->platform()->saveScreenshot(fn, Minecraft::width, Minecraft::height);
+
+		// Read frame buffer into temporary buffer
+		glReadPixels(0, 0, m_isomScreenSizeX, m_isomScreenSizeY, GL_RGBA, GL_UNSIGNED_BYTE, m_isomPixelsTemp);
+
+		assert(m_isomStage > 0);
+
+		// Place the temp buffer into its proper spot in the real buffer
+		const int pitch_src = m_isomScreenSizeX;
+		const int pitch_dst = m_isomScreenSizeX * m_isomScreenTilesX;
+		const int tile_idx = m_isomStage - 1;
+		const int dst_x = (tile_idx % m_isomScreenTilesX) * m_isomScreenSizeX;
+		const int dst_y = (tile_idx / m_isomScreenTilesX) * m_isomScreenSizeY;
+
+		for (int y = 0; y < m_isomScreenSizeY; y++)
+		{
+			// Note, have to flip source buffer vertically because OpenGL dumps data upside down
+			uint32_t* src_ptr = &m_isomPixelsTemp[pitch_src * (m_isomScreenSizeY - y - 1)];
+			uint32_t* dst_ptr = &m_isomPixels[pitch_dst * (dst_y + y) + (dst_x)];
+			memcpy(dst_ptr, src_ptr, m_isomScreenSizeX * sizeof(uint32_t));
+		}
 
 		m_pMinecraft->getOptions()->m_bDontRenderGui = oldDontRenderGui;
 	}

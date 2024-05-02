@@ -43,7 +43,7 @@ public:
 	virtual std::vector<std::string> getUserInput();
 	virtual int getUserInputStatus();
 	virtual bool hasBuyButtonWhenInvalidLicense();
-	virtual void saveScreenshot(const std::string&, int, int);
+	virtual bool saveScreenshot(const std::string&, int, int);
 	virtual void showDialog(eDialogType);
 	virtual void uploadPlatformDependentData(int, void*);
 	virtual Texture loadTexture(const std::string&, bool bIsRequired);
@@ -80,8 +80,12 @@ public:
 	virtual bool hasFileSystemAccess();
 	// Also add this to allow dynamic patching.
 	virtual std::string getPatchData();
+
 	virtual void initSoundSystem();
 	virtual SoundSystem* const getSoundSystem() const;
+
+	// Also add this to allow isometric screenshots.
+	virtual bool saveImage(const std::string& fileName, int width, int height, uint32_t* pixels, bool flipVertically);
 #endif
 
 public:
