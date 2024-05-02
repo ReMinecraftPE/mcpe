@@ -173,6 +173,7 @@ void PathfinderMob::updateAi()
 			break;
 		}
 
+		pCurrNode = m_path.getCurrentNode();
 		nodePos = GetNodePosition(pCurrNode, this);
 	}
 
@@ -181,7 +182,7 @@ void PathfinderMob::updateAi()
 	bool inWater = isInWater();
 	bool inLava = isInLava();
 
-	if (!pCurrNode)
+	if (pCurrNode)
 	{
 		float ang = Mth::atan2(nodePos.z - m_pos.z, nodePos.x - m_pos.x) * 180.0f / float(M_PI) - 90.0f;
 		float heightDiff = nodePos.y - Mth::floor(m_hitbox.min.y + 0.5f);

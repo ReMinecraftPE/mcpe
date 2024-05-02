@@ -761,7 +761,7 @@ void Mob::actuallyHurt(int damage)
 
 bool Mob::removeWhenFarAway()
 {
-	return false;
+	return true;
 }
 
 int Mob::getDeathLoot()
