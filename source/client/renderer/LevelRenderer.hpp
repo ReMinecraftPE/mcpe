@@ -120,12 +120,12 @@ public:
 	int field_60;
 	int field_64;
 	int field_68;
-	int field_6C;
-	int field_70;
-	int field_74;
-	int field_78;
-	int field_7C;
-	int field_80;
+	int m_resortedMinX;
+	int m_resortedMinY;
+	int m_resortedMinZ;
+	int m_resortedMaxX;
+	int m_resortedMaxY;
+	int m_resortedMaxZ;
 	Level* m_pLevel;
 	std::vector<Chunk*> field_88;
 	Chunk** m_chunks;
