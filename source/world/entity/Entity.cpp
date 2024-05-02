@@ -84,6 +84,7 @@ void Entity::removed()
 void Entity::setPos(float x, float y, float z)
 {
 	m_pos = Vec3(x, y, z);
+	field_3C = m_pos;
 
 	float halfSize = field_88 / 2;
 	float lowY = y - field_84 + field_A4;

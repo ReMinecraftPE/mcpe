@@ -79,7 +79,7 @@ ChunkSource* Level::createChunkSource()
 {
 	if (m_pLevelStorage)
 	{
-		ChunkStorage* pChkStr = NULL;//TODO m_pLevelStorage->createChunkStorage(m_pDimension);
+		ChunkStorage* pChkStr = m_pLevelStorage->createChunkStorage(m_pDimension);
 		ChunkSource* pChkSrc = m_pDimension->createRandomLevelSource();
 		return new ChunkCache(this, pChkStr, pChkSrc);
 	}

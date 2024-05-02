@@ -219,7 +219,6 @@ void LevelChunk::recalcHeightmapOnly()
 
 void LevelChunk::lightGaps(int x, int z)
 {
-	return;
 	CheckPosition(x, 64, z);
 	uint8_t heightMap = getHeightmap(x, z);
 
