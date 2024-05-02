@@ -122,7 +122,7 @@ public:
 	FlameParticle(Level*, float x, float y, float z, float vx, float vy, float vz);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
-	float getBrightness(float f) override;
+	float getBrightness(float f) const override;
 
 public:
 	float field_104;
@@ -134,7 +134,7 @@ public:
 	LavaParticle(Level*, float x, float y, float z);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
-	float getBrightness(float f) override;
+	float getBrightness(float f) const override;
 
 public:
 	float field_104;

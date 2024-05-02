@@ -139,7 +139,7 @@ void LocalPlayer::respawn()
 	m_pMinecraft->respawnPlayer(this);
 }
 
-bool LocalPlayer::isSneaking()
+bool LocalPlayer::isSneaking() const
 {
 	return m_pMoveInput->m_bSneakButton;
 }
@@ -260,9 +260,4 @@ void LocalPlayer::updateAi()
 	field_B04 = m_pMoveInput->m_vertInput;
 
 	field_B0C = m_pMoveInput->m_bJumpButton || m_nAutoJumpFrames > 0;
-}
-
-bool LocalPlayer::isLocalPlayer()
-{
-	return true;
 }

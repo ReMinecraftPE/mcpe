@@ -13,20 +13,20 @@
 class Region : public LevelSource
 {
 public:
-	TileID getTile(int x, int y, int z) override;
-	int getRawBrightness(int x, int y, int z, bool b);
-	int getRawBrightness(int x, int y, int z);
-	float getBrightness(int x, int y, int z) override;
-	int getData(int x, int y, int z) override;
-	Material* getMaterial(int x, int y, int z) override;
-	bool isSolidTile(int x, int y, int z) override;
-	BiomeSource* getBiomeSource() override;
+	TileID getTile(int x, int y, int z) const override;
+	int getRawBrightness(int x, int y, int z, bool b) const;
+	int getRawBrightness(int x, int y, int z) const;
+	float getBrightness(int x, int y, int z) const override;
+	int getData(int x, int y, int z) const override;
+	Material* getMaterial(int x, int y, int z) const override;
+	bool isSolidTile(int x, int y, int z) const override;
+	BiomeSource* getBiomeSource() const override;
 
 	virtual ~Region();
-	Region(Level*, int x1, int y1, int z1, int x2, int y2, int z2);
+	Region(const Level*, int x1, int y1, int z1, int x2, int y2, int z2);
 
 	// inlined in the original, but I doubt they'd actually copy paste this logic
-	LevelChunk* getChunkAt(int x, int z)
+	LevelChunk* getChunkAt(int x, int z) const
 	{
 		int indexX = (x >> 4) - field_4;
 		int indexZ = (z >> 4) - field_8;
@@ -44,7 +44,7 @@ private:
 	// (x = 0..field_14, z = 0..field_18)
 	// z * field_14 + x
 	LevelChunk** field_C;
-	Level* m_pLevel;
+	const Level* m_pLevel;
 	int field_14;
 	int field_18;
 	int field_1C;

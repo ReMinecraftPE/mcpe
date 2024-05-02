@@ -22,7 +22,7 @@ LavaParticle::LavaParticle(Level* level, float x, float y, float z) :
 	field_EC = int(16.0f / (0.2f + 0.8f * Mth::random()));
 }
 
-float LavaParticle::getBrightness(float unused)
+float LavaParticle::getBrightness(float unused) const
 {
 	return 1.0f;
 }

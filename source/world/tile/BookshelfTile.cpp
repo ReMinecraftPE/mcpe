@@ -13,7 +13,7 @@ BookshelfTile::BookshelfTile(int a, int b, Material* c) : Tile(a, b, c)
 {
 }
 
-int BookshelfTile::getTexture(int dir)
+int BookshelfTile::getTexture(int dir) const
 {
 	if (dir <= DIR_YPOS)
 		return TEXTURE_PLANKS;
@@ -21,12 +21,12 @@ int BookshelfTile::getTexture(int dir)
 	return m_TextureFrame;
 }
 
-int BookshelfTile::getResource(int data, Random* random)
+int BookshelfTile::getResource(int data, Random* random) const
 {
 	return 0; // would be Book
 }
 
-int BookshelfTile::getResourceCount(Random* random)
+int BookshelfTile::getResourceCount(Random* random) const
 {
 	return 3;
 }

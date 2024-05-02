@@ -731,13 +731,13 @@ label_6:
 	field_D6 = false;
 }
 
-bool Entity::intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+bool Entity::intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) const
 {
 	AABB aabb(minX, minY, minZ, maxX, maxY, maxZ);
 	return aabb.intersect(m_hitbox);
 }
 
-bool Entity::isFree(float offX, float offY, float offZ)
+bool Entity::isFree(float offX, float offY, float offZ) const
 {
 	AABB aabb = m_hitbox;
 	aabb.move(offX, offY, offZ);
@@ -749,7 +749,7 @@ bool Entity::isFree(float offX, float offY, float offZ)
 	return !m_pLevel->containsAnyLiquid(aabb);
 }
 
-bool Entity::isFree(float offX, float offY, float offZ, float expand)
+bool Entity::isFree(float offX, float offY, float offZ, float expand) const
 {
 	AABB aabb = m_hitbox;
 	aabb.move(offX, offY, offZ);
@@ -762,7 +762,7 @@ bool Entity::isFree(float offX, float offY, float offZ, float expand)
 	return !m_pLevel->containsAnyLiquid(aabb);
 }
 
-bool Entity::isInWall()
+bool Entity::isInWall() const
 {
 	return m_pLevel->isSolidTile(Mth::floor(m_pos.x), Mth::floor(m_pos.y + getHeadHeight()), Mth::floor(m_pos.z));
 }
@@ -774,14 +774,14 @@ bool Entity::isInWater()
 	return m_pLevel->checkAndHandleWater(aabb, Material::water, this);
 }
 
-bool Entity::isInLava()
+bool Entity::isInLava() const
 {
 	AABB aabb = m_hitbox;
 	aabb.grow(-0.1f, -0.4f, -0.1f);
 	return m_pLevel->containsMaterial(aabb, Material::lava);
 }
 
-bool Entity::isUnderLiquid(Material* pMtl)
+bool Entity::isUnderLiquid(Material* pMtl) const
 {
 	int tileX = Mth::floor(m_pos.x);
 	int tileY = Mth::floor(m_pos.y + getHeadHeight());
@@ -797,17 +797,7 @@ bool Entity::isUnderLiquid(Material* pMtl)
 	return float(tileY) < float(tileY + 1) - (float(level) / 9.0f - 0.11111f);
 }
 
-float Entity::getHeadHeight()
-{
-	return 0.0f;
-}
-
-float Entity::getShadowHeightOffs()
-{
-	return field_8C / 2.0f;
-}
-
-float Entity::getBrightness(float f)
+float Entity::getBrightness(float f) const
 {
 	int tileX = Mth::floor(m_pos.x);
 	int tileY = Mth::floor(m_pos.y - field_84 + (m_hitbox.max.y - m_hitbox.min.y) * 0.66f);
@@ -826,22 +816,22 @@ float Entity::getBrightness(float f)
 	return m_pLevel->getBrightness(tileX, tileY, tileZ);
 }
 
-float Entity::distanceTo(Entity* pEnt)
+float Entity::distanceTo(Entity* pEnt) const
 {
 	return distanceTo(pEnt->m_pos.x, pEnt->m_pos.y, pEnt->m_pos.z);
 }
 
-float Entity::distanceTo(float x, float y, float z)
+float Entity::distanceTo(float x, float y, float z) const
 {
 	return sqrtf(distanceToSqr(x, y, z));
 }
 
-float Entity::distanceToSqr(Entity* pEnt)
+float Entity::distanceToSqr(Entity* pEnt) const
 {
 	return distanceToSqr(pEnt->m_pos.x, pEnt->m_pos.y, pEnt->m_pos.z);
 }
 
-float Entity::distanceToSqr(float x, float y, float z)
+float Entity::distanceToSqr(float x, float y, float z) const
 {
 	float diffX = m_pos.x - x;
 	float diffY = m_pos.y - y;
@@ -892,52 +882,12 @@ void Entity::push(float x, float y, float z)
 	m_vel.z += z;
 }
 
-bool Entity::isPickable()
-{
-	return false;
-}
-
-bool Entity::isPushable()
-{
-	return false;
-}
-
-bool Entity::isShootable()
-{
-	return false;
-}
-
-bool Entity::isSneaking()
-{
-	return false;
-}
-
-bool Entity::isAlive()
-{
-	return m_bRemoved;
-}
-
-bool Entity::isOnFire()
-{
-	return m_fireTicks > 0;
-}
-
-bool Entity::isPlayer()
-{
-	return false;
-}
-
-bool Entity::isCreativeModeAllowed()
-{
-	return false;
-}
-
-bool Entity::shouldRender(Vec3& camPos)
+bool Entity::shouldRender(Vec3& camPos) const
 {
 	return shouldRenderAtSqrDistance(distanceToSqr(camPos.x, camPos.y, camPos.z));
 }
 
-bool Entity::shouldRenderAtSqrDistance(float distSqr)
+bool Entity::shouldRenderAtSqrDistance(float distSqr) const
 {
 	float maxDist = (field_30 * 64.0f) * (((m_hitbox.max.z - m_hitbox.min.z) + (m_hitbox.max.x - m_hitbox.min.x) + (m_hitbox.max.y - m_hitbox.min.y)) / 3.0f);
 
@@ -953,11 +903,6 @@ bool Entity::hurt(Entity* pAttacker, int damage)
 void Entity::animateHurt()
 {
 
-}
-
-float Entity::getPickRadius()
-{
-	return 0.1f;
 }
 
 void Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
@@ -1098,27 +1043,7 @@ int Entity::queryEntityRenderer()
 	return 0;
 }
 
-int Entity::getCreatureBaseType()
-{
-	return BASE_NONE;
-}
-
-int Entity::getEntityTypeId()
-{
-	return TYPE_UNSAVED;
-}
-
-int Entity::hashCode()
-{
-	return m_EntityID;
-}
-
 bool Entity::operator==(const Entity& other) const
 {
 	return m_EntityID == other.m_EntityID;
-}
-
-bool Entity::isLocalPlayer()
-{
-	return false;
 }

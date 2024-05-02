@@ -91,17 +91,17 @@ Tile::~Tile()
 {
 }
 
-bool Tile::isCubeShaped()
+bool Tile::isCubeShaped() const
 {
 	return true;
 }
 
-std::string Tile::getDescriptionId()
+std::string Tile::getDescriptionId() const
 {
 	return m_descriptionID;
 }
 
-std::string Tile::getName()
+std::string Tile::getName() const
 {
 	return getDescriptionId();
 }
@@ -173,7 +173,7 @@ Tile* Tile::init()
 	return this;
 }
 
-int Tile::getRenderShape()
+int Tile::getRenderShape() const
 {
 	return 0;
 }
@@ -183,57 +183,57 @@ void Tile::updateDefaultShape()
 	
 }
 
-int Tile::getTexture(int x)
+int Tile::getTexture(int x) const
 {
 	return m_TextureFrame;
 }
 
-int Tile::getTexture(int x, int y)
+int Tile::getTexture(int x, int y) const
 {
 	return getTexture(x);
 }
 
-int Tile::getTickDelay()
+int Tile::getTickDelay() const
 {
 	return 10;
 }
 
-bool Tile::isSignalSource()
+bool Tile::isSignalSource() const
 {
 	return false;
 }
 
-int Tile::getRenderLayer()
+int Tile::getRenderLayer() const
 {
 	return LAYER_OPAQUE;
 }
 
-bool Tile::isSolidRender()
+bool Tile::isSolidRender() const
 {
 	return true;
 }
 
-bool Tile::mayPick()
+bool Tile::mayPick() const
 {
 	return true;
 }
 
-bool Tile::mayPick(int x, bool y)
+bool Tile::mayPick(int x, bool y) const
 {
 	return mayPick();
 }
 
-int Tile::getResource(int x, Random* pRandom)
+int Tile::getResource(int x, Random* pRandom) const
 {
 	return m_ID;
 }
 
-int Tile::getResourceCount(Random* pRandom)
+int Tile::getResourceCount(Random* pRandom) const
 {
 	return 1;
 }
 
-int Tile::getSpawnResourcesAuxValue(int x)
+int Tile::getSpawnResourcesAuxValue(int x) const
 {
 	return 1;
 }
@@ -768,7 +768,7 @@ void Tile::teardownTiles()
 		delete tiles[i];
 }
 
-void Tile::updateShape(LevelSource* a, int x, int y, int z)
+void Tile::updateShape(const LevelSource* a, int x, int y, int z)
 {
 }
 
@@ -776,17 +776,17 @@ void Tile::addLights(Level* p, int x, int y, int z)
 {
 }
 
-float Tile::getBrightness(LevelSource* pSrc, int x, int y, int z)
+float Tile::getBrightness(const LevelSource* pSrc, int x, int y, int z) const
 {
 	return pSrc->getBrightness(x, y, z);
 }
 
-int Tile::getColor(LevelSource* pSrc, int x, int y, int z)
+int Tile::getColor(const LevelSource* pSrc, int x, int y, int z) const
 {
 	return 0xFFFFFF; // White
 }
 
-AABB* Tile::getAABB(Level* pLevel, int x, int y, int z)
+AABB* Tile::getAABB(const Level* pLevel, int x, int y, int z)
 {
 	Vec3 offset((float)x, (float)y, (float)z);
 
@@ -794,13 +794,13 @@ AABB* Tile::getAABB(Level* pLevel, int x, int y, int z)
 	return &m_aabbReturned;
 }
 
-AABB Tile::getTileAABB(Level* pLevel, int x, int y, int z)
+AABB Tile::getTileAABB(const Level* pLevel, int x, int y, int z)
 {
 	Vec3 offset((float)x, (float)y, (float)z);
 	return AABB(offset + m_aabb.min, offset + m_aabb.max);
 }
 
-void Tile::addAABBs(Level* pLevel, int x, int y, int z, const AABB* aabb, std::vector<AABB>& out)
+void Tile::addAABBs(const Level* pLevel, int x, int y, int z, const AABB* aabb, std::vector<AABB>& out)
 {
 	AABB* pTileAABB = getAABB(pLevel, x, y, z);
 
@@ -810,7 +810,7 @@ void Tile::addAABBs(Level* pLevel, int x, int y, int z, const AABB* aabb, std::v
 	}
 }
 
-bool Tile::shouldRenderFace(LevelSource* pSrc, int x, int y, int z, int dir)
+bool Tile::shouldRenderFace(const LevelSource* pSrc, int x, int y, int z, int dir)  const
 {
 	//if ((y | x | z) > C_MAX_CHUNKS_Z * 16)
 	//	return false;
@@ -852,18 +852,18 @@ bool Tile::shouldRenderFace(LevelSource* pSrc, int x, int y, int z, int dir)
 	return !pTile->isSolidRender();
 }
 
-int Tile::getTexture(LevelSource* pSrc, int x, int y, int z, int dir)
+int Tile::getTexture(const LevelSource* pSrc, int x, int y, int z, int dir) const
 {
 	return getTexture(dir, pSrc->getData(x, y, z));
 }
 
-bool Tile::canSurvive(Level* pLevel, int x, int y, int z)
+bool Tile::canSurvive(const Level* pLevel, int x, int y, int z) const
 {
 	return true;
 }
 
 // returns if we can place over the tile
-bool Tile::mayPlace(Level* pLevel, int x, int y, int z)
+bool Tile::mayPlace(const Level* pLevel, int x, int y, int z) const
 {
 	TileID tile = pLevel->getTile(x, y, z);
 	if (!tile)
@@ -926,7 +926,7 @@ bool Tile::containsZ(const Vec3& v)
 		&& v.y <= m_aabb.max.y;
 }
 
-HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
+HitResult Tile::clip(const Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
 {
 	updateShape(level, x, y, z);
 
@@ -992,17 +992,17 @@ HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
 	return HitResult(x, y, z, collType, *pVec + Vec3(float(x), float(y), float(z)));
 }
 
-int Tile::getSignal(LevelSource* pLevel, int x, int y, int z)
+int Tile::getSignal(const LevelSource* pLevel, int x, int y, int z) const
 {
 	return 0;
 }
 
-int Tile::getSignal(LevelSource* pLevel, int x, int y, int z, int dir)
+int Tile::getSignal(const LevelSource* pLevel, int x, int y, int z, int dir) const
 {
 	return 0;
 }
 
-int Tile::getDirectSignal(Level* pLevel, int x, int y, int z, int dir)
+int Tile::getDirectSignal(const Level* pLevel, int x, int y, int z, int dir) const
 {
 	return 0;
 }
@@ -1012,17 +1012,17 @@ void Tile::triggerEvent(Level* pLevel, int x, int y, int z, int a, int b)
 
 }
 
-void Tile::entityInside(Level* pLevel, int x, int y, int z, Entity* pEnt)
+void Tile::entityInside(Level* pLevel, int x, int y, int z, Entity* pEnt) const
 {
 
 }
 
-void Tile::handleEntityInside(Level* pLevel, int x, int y, int z, Entity* pEnt, Vec3& vec)
+void Tile::handleEntityInside(Level* pLevel, int x, int y, int z, const Entity* pEnt, Vec3& vec)
 {
 
 }
 
-float Tile::getDestroyProgress(Player* player)
+float Tile::getDestroyProgress(Player* player) const
 {
 	if (m_hardness < 0.0f)
 		return 0.0f;
@@ -1070,7 +1070,7 @@ int Tile::spawnBurnResources(Level*, float, float, float)
 	return 0;
 }
 
-float Tile::getExplosionResistance(Entity* entity)
+float Tile::getExplosionResistance(Entity* entity) const
 {
 	return m_blastResistance / 5.0f;
 }

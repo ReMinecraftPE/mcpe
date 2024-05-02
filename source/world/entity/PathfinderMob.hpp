@@ -20,12 +20,12 @@ public:
 	virtual Entity* findAttackTarget();
 	virtual bool checkHurtTarget(Entity*, float);
 	virtual void checkCantSeeTarget(Entity*, float);
-	virtual float getWalkTargetValue(int, int, int);
-	virtual bool shouldHoldGround();
+	virtual float getWalkTargetValue(int, int, int) const;
+	virtual bool shouldHoldGround() const;
 	virtual void findRandomStrollLocation();
 
-	float getWalkingSpeedModifier() override;
-	bool canSpawn() override;
+	float getWalkingSpeedModifier() const override;
+	bool canSpawn() const override;
 	void updateAi() override;
 
 	void setPath(Path& path);

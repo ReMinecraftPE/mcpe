@@ -14,6 +14,6 @@ class InvisibleTile : public Tile
 {
 public:
 	InvisibleTile(int ID, int texture, Material*);
-	int getRenderShape() override;
-	bool mayPick() override;
+	int getRenderShape() const override;
+	bool mayPick() const override;
 };

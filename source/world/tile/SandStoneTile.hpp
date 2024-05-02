@@ -15,5 +15,5 @@ class SandStoneTile : public Tile
 public:
 	SandStoneTile(int ID, int texture, Material*);
 
-	int getTexture(int side) override;
+	int getTexture(int side) const override;
 };

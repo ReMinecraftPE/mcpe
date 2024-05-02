@@ -29,7 +29,7 @@ Rocket::Rocket(Level* level, float x, float y, float z) : Entity(level)
 	m_vel.y = 1.0f;
 }
 
-float Rocket::getShadowHeightOffs()
+float Rocket::getShadowHeightOffs() const
 {
 	return 0.0f;
 }
@@ -44,12 +44,12 @@ int Rocket::interactPreventDefault()
 	return 1;
 }
 
-bool Rocket::isPickable()
+bool Rocket::isPickable() const
 {
 	return !m_bRemoved;
 }
 
-bool Rocket::isPushable()
+bool Rocket::isPushable() const
 {
 	return false;
 }

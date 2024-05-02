@@ -14,12 +14,12 @@ HalfTransparentTile::HalfTransparentTile(int a, int b, Material* c) : Tile(a, b,
 	field_6C = false;
 }
 
-bool HalfTransparentTile::isSolidRender()
+bool HalfTransparentTile::isSolidRender() const
 {
 	return false;
 }
 
-bool HalfTransparentTile::shouldRenderFace(LevelSource* level, int x, int y, int z, int dir)
+bool HalfTransparentTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
 {
 	if (field_6C || level->getTile(x, y, z) != m_ID)
 		return Tile::shouldRenderFace(level, x, y, z, dir);

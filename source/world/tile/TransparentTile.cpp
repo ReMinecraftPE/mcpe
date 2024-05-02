@@ -14,12 +14,12 @@ TransparentTile::TransparentTile(int ID, int texture, Material* mtl, bool bTrans
 	m_bTransparent = bTransparent;
 }
 
-bool TransparentTile::isSolidRender()
+bool TransparentTile::isSolidRender() const
 {
 	return false;
 }
 
-bool TransparentTile::shouldRenderFace(LevelSource* level, int x, int y, int z, int dir)
+bool TransparentTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
 {
 	if (!m_bTransparent && level->getTile(x, y, z) == m_ID)
 		return false;

@@ -55,41 +55,6 @@ void Player::reset()
 	// TODO what fields to reset???
 }
 
-void Player::remove()
-{
-	Entity::remove();
-}
-
-void Player::tick()
-{
-	Mob::tick();
-}
-
-bool Player::isInWall()
-{
-	return Entity::isInWall();
-}
-
-float Player::getHeadHeight()
-{
-	return 0.12f; //@HUH: what?
-}
-
-bool Player::isShootable()
-{
-	return true;
-}
-
-bool Player::isPlayer()
-{
-	return true;
-}
-
-bool Player::isCreativeModeAllowed()
-{
-	return true;
-}
-
 bool Player::hurt(Entity* pEnt, int damage)
 {
 	if (isCreative())
@@ -167,9 +132,9 @@ void Player::aiStep()
 	AABB scanAABB = m_hitbox;
 	scanAABB.grow(1, 1, 1);
 
-	EntityVector* pEnts = m_pLevel->getEntities(this, scanAABB);
+	EntityVector ents = m_pLevel->getEntities(this, scanAABB);
 
-	for (EntityVector::iterator it = pEnts->begin(); it != pEnts->end(); it++)
+	for (EntityVector::iterator it = ents.begin(); it != ents.end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_bRemoved)
@@ -177,11 +142,6 @@ void Player::aiStep()
 
 		touch(pEnt);
 	}
-}
-
-bool Player::isImmobile()
-{
-	return m_health <= 0;
 }
 
 void Player::updateAi()
@@ -230,7 +190,7 @@ void Player::attack(Entity* pEnt)
 		pEnt->hurt(this, atkDmg);
 }
 
-bool Player::canDestroy(Tile* pTile)
+bool Player::canDestroy(const Tile* pTile) const
 {
 	return true;
 }
@@ -284,24 +244,9 @@ void Player::drop()
 
 }
 
-float Player::getDestroySpeed()
-{
-	return 1.0f;
-}
-
-int Player::getInventorySlot(int x)
+int Player::getInventorySlot(int x) const
 {
 	return 0;
-}
-
-Pos Player::getRespawnPosition()
-{
-	return m_respawnPos;
-}
-
-int Player::getScore()
-{
-	return m_score;
 }
 
 void Player::prepareCustomTextures()

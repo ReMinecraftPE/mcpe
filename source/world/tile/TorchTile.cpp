@@ -14,22 +14,22 @@ TorchTile::TorchTile(int ID, int texture, Material* pMtl) : Tile(ID, texture, pM
 	setTicking(true);
 }
 
-AABB* TorchTile::getAABB(Level*, int x, int y, int z)
+AABB* TorchTile::getAABB(const Level*, int x, int y, int z)
 {
 	return nullptr;
 }
 
-int TorchTile::getRenderShape()
+int TorchTile::getRenderShape() const
 {
 	return SHAPE_TORCH;
 }
 
-bool TorchTile::isCubeShaped()
+bool TorchTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool TorchTile::isSolidRender()
+bool TorchTile::isSolidRender() const
 {
 	return false;
 }
@@ -80,7 +80,7 @@ bool TorchTile::checkCanSurvive(Level* level, int x, int y, int z)
 	return false;
 }
 
-HitResult TorchTile::clip(Level* level, int x, int y, int z, Vec3 a, Vec3 b)
+HitResult TorchTile::clip(const Level* level, int x, int y, int z, Vec3 a, Vec3 b)
 {
 	switch (level->getData(x, y, z) &7)
 	{
@@ -104,7 +104,7 @@ HitResult TorchTile::clip(Level* level, int x, int y, int z, Vec3 a, Vec3 b)
 	return Tile::clip(level, x, y, z, a, b);
 }
 
-bool TorchTile::mayPlace(Level* level, int x, int y, int z)
+bool TorchTile::mayPlace(const Level* level, int x, int y, int z) const
 {
 	if (level->isSolidTile(x, y - 1, z)) return true;
 	if (level->isSolidTile(x - 1, y, z)) return true;

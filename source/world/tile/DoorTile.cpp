@@ -65,25 +65,25 @@ void DoorTile::attack(Level* level, int x, int y, int z, Player* player)
 // @HUH: This function has NO references to itself. Not even in the vtable of the tile.
 // This could have been an attempt by Mojang to override a function, but it clearly failed
 // From this, I suspect that they never actually used the `override` keyword for their classes.
-bool DoorTile::blocksLight()
+bool DoorTile::blocksLight() const
 {
 	return false;
 }
 
-HitResult DoorTile::clip(Level* level, int x, int y, int z, Vec3 v1, Vec3 v2)
+HitResult DoorTile::clip(const Level* level, int x, int y, int z, Vec3 v1, Vec3 v2)
 {
 	// @NOTE: Tile::clip calls updateShape too. So this is redundant
 	updateShape(level, x, y, z);
 	return Tile::clip(level, x, y, z, v1, v2);
 }
 
-AABB* DoorTile::getAABB(Level* level, int x, int y, int z)
+AABB* DoorTile::getAABB(const Level* level, int x, int y, int z)
 {
 	updateShape(level, x, y, z);
 	return Tile::getAABB(level, x, y, z);
 }
 
-int DoorTile::getDir(int data)
+int DoorTile::getDir(int data) const
 {
 	if (!isOpen(data))
 		return (data - 1) & 3;
@@ -91,12 +91,12 @@ int DoorTile::getDir(int data)
 	return data & 3;
 }
 
-int DoorTile::getRenderShape()
+int DoorTile::getRenderShape() const
 {
 	return SHAPE_DOOR;
 }
 
-int DoorTile::getResource(int data, Random* random)
+int DoorTile::getResource(int data, Random* random) const
 {
 	// breaking the top of the tile doesn't drop anything.
 	// In JE, it probably fixed a certain dupe glitch with doors
@@ -109,7 +109,7 @@ int DoorTile::getResource(int data, Random* random)
 	return Item::door_wood->m_itemID;
 }
 
-int DoorTile::getTexture(int dir, int data)
+int DoorTile::getTexture(int dir, int data) const
 {
 	if (dir == 0 || dir == 1)
 		return m_TextureFrame;
@@ -129,23 +129,23 @@ int DoorTile::getTexture(int dir, int data)
 	return idx;
 }
 
-AABB DoorTile::getTileAABB(Level* level, int x, int y, int z)
+AABB DoorTile::getTileAABB(const Level* level, int x, int y, int z)
 {
 	updateShape(level, x, y, z);
 	return Tile::getTileAABB(level, x, y, z);
 }
 
-bool DoorTile::isCubeShaped()
+bool DoorTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool DoorTile::isSolidRender()
+bool DoorTile::isSolidRender() const
 {
 	return false;
 }
 
-bool DoorTile::mayPlace(Level* level, int x, int y, int z)
+bool DoorTile::mayPlace(const Level* level, int x, int y, int z) const
 {
 	return y <= 126 && level->isSolidTile(x, y - 1, z) && Tile::mayPlace(level, x, y, z) && Tile::mayPlace(level, x, y + 1, z);
 }
@@ -171,7 +171,7 @@ void DoorTile::setShape(int dir)
 	}
 }
 
-void DoorTile::updateShape(LevelSource* level, int x, int y, int z)
+void DoorTile::updateShape(const LevelSource* level, int x, int y, int z)
 {
 	setShape(getDir(level->getData(x, y, z)));
 }

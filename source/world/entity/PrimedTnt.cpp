@@ -40,12 +40,12 @@ void PrimedTnt::explode()
 	m_pLevel->explode(nullptr, m_pos.x, m_pos.y, m_pos.z, 2.5f);
 }
 
-float PrimedTnt::getShadowHeightOffs()
+float PrimedTnt::getShadowHeightOffs() const
 {
 	return 0.0f;
 }
 
-bool PrimedTnt::isPickable()
+bool PrimedTnt::isPickable() const
 {
 	return !m_bRemoved;
 }

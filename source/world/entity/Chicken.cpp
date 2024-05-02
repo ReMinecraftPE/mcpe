@@ -18,31 +18,6 @@ Chicken::Chicken(Level* pLevel) : Animal(pLevel)
 	m_eggTime = m_random.nextInt(6000) + 6000;
 }
 
-std::string Chicken::getAmbientSound()
-{
-	return "mob.chicken";
-}
-
-std::string Chicken::getDeathSound()
-{
-	return "mob.chickenhurt";
-}
-
-std::string Chicken::getHurtSound()
-{
-	return "mob.chickenhurt";
-}
-
-int Chicken::getEntityTypeId()
-{
-	return TYPE_CHICKEN;
-}
-
-int Chicken::getMaxHealth()
-{
-	return 4;
-}
-
 void Chicken::aiStep()
 {
 	Animal::aiStep();
@@ -88,14 +63,4 @@ void Chicken::dropDeathLoot()
 		spawnAtLocation(Item::chicken_cooked->m_itemID, 1);
 	else
 		spawnAtLocation(Item::chicken_raw->m_itemID, 1);*/
-}
-
-Entity* Chicken::getBreedOffspring(Animal* pOther)
-{
-	return new Chicken(m_pLevel);
-}
-
-void Chicken::causeFallDamage(float level)
-{
-	return;
 }

@@ -16,7 +16,7 @@ GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
 	setTicking(true);
 }
 
-int GrassTile::getColor(LevelSource* levelSource, int x, int y, int z)
+int GrassTile::getColor(const LevelSource* levelSource, int x, int y, int z) const
 {
 	if (GetPatchManager()->IsGrassTinted())
 	{
@@ -26,12 +26,12 @@ int GrassTile::getColor(LevelSource* levelSource, int x, int y, int z)
 	return 0xffffff;
 }
 
-int GrassTile::getResource(int i, Random* random)
+int GrassTile::getResource(int i, Random* random) const
 {
 	return Tile::dirt->getResource(i, random);
 }
 
-int GrassTile::getTexture(int dir)
+int GrassTile::getTexture(int dir) const
 {
 	if (dir == DIR_YPOS)
 		return TEXTURE_GRASS_TOP;
@@ -40,7 +40,7 @@ int GrassTile::getTexture(int dir)
 	return TEXTURE_GRASS_SIDE;
 }
 
-int GrassTile::getTexture(LevelSource* level, int x, int y, int z, int dir)
+int GrassTile::getTexture(const LevelSource* level, int x, int y, int z, int dir) const
 {
 	if (dir == DIR_YPOS)
 		return TEXTURE_GRASS_TOP;

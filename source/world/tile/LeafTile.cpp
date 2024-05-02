@@ -32,7 +32,7 @@ void LeafTile::die(Level* level, int x, int y, int z)
 	level->setTile(x, y, z, TILE_AIR);
 }
 
-int LeafTile::getColor(LevelSource* level, int x, int y, int z)
+int LeafTile::getColor(const LevelSource* level, int x, int y, int z) const
 {
 	if (GetPatchManager()->IsGrassTinted())
 	{
@@ -42,7 +42,7 @@ int LeafTile::getColor(LevelSource* level, int x, int y, int z)
 	return 0xffffff;
 }
 
-int LeafTile::getTexture(int dir, int data)
+int LeafTile::getTexture(int dir, int data) const
 {
 	if ((data & 3) == 1)
 		return m_TextureFrame + 80;
@@ -50,7 +50,7 @@ int LeafTile::getTexture(int dir, int data)
 	return m_TextureFrame;
 }
 
-bool LeafTile::isSolidRender()
+bool LeafTile::isSolidRender() const
 {
 	return !m_bTransparent;
 }

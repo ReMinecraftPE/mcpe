@@ -34,12 +34,12 @@ FallingTile::FallingTile(Level* level, float x, float y, float z, int id) : Enti
 #endif
 }
 
-float FallingTile::getShadowHeightOffs()
+float FallingTile::getShadowHeightOffs() const
 {
 	return 0.0f;
 }
 
-bool FallingTile::isPickable()
+bool FallingTile::isPickable() const
 {
 	return !m_bRemoved;
 }

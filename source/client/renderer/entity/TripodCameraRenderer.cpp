@@ -77,7 +77,7 @@ TripodTile::TripodTile() : Tile(0, 243, Material::plant)
 {
 }
 
-int TripodTile::getRenderShape()
+int TripodTile::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }

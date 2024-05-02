@@ -15,38 +15,7 @@ Pig::Pig(Level* pLevel) : Animal(pLevel)
 	setSize(0.9f, 0.9f);
 	// some dataitem stuff
 }
-
-std::string Pig::getAmbientSound()
-{
-	return "mob.pig";
-}
-
-std::string Pig::getDeathSound()
-{
-	return "mob.pigdeath";
-}
-
-std::string Pig::getHurtSound()
-{
-	return "mob.pig";
-}
-
-int Pig::getEntityTypeId()
-{
-	return TYPE_PIG;
-}
-
-int Pig::getMaxHealth()
-{
-	return 10;
-}
-
-bool Pig::interact(Player* pPlayer)
-{
-	return false;
-}
-
-int Pig::getDeathLoot()
+int Pig::getDeathLoot() const
 {
 	if (isOnFire())
 		return Item::porkChop_cooked->m_itemID;
@@ -54,17 +23,7 @@ int Pig::getDeathLoot()
 		return Item::porkChop_raw->m_itemID;
 }
 
-bool Pig::hasSaddle()
-{
-	return false;
-}
-
 void Pig::setSaddle(bool b)
 {
 	// @TODO: this
-}
-
-Entity* Pig::getBreedOffspring(Animal* pOther)
-{
-    return new Pig(m_pLevel);
 }

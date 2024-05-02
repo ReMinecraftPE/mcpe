@@ -1003,7 +1003,7 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 	EntityRenderDispatcher::yOff = mob->field_98.y + (mob->m_pos.y - mob->field_98.y) * f;
 	EntityRenderDispatcher::zOff = mob->field_98.z + (mob->m_pos.z - mob->field_98.z) * f;
 
-	EntityVector* pVec = m_pLevel->getAllEntities();
+	const EntityVector* pVec = m_pLevel->getAllEntities();
 	field_18 = int(pVec->size());
 
 	for (int i = 0; i < field_18; i++)

@@ -16,8 +16,8 @@ public:
 	FallingTile(Level*);
 	FallingTile(Level*, float x, float y, float z, int id);
 
-	float getShadowHeightOffs() override;
-	bool isPickable() override;
+	float getShadowHeightOffs() const override;
+	bool isPickable() const override;
 	void tick() override;
 
 	Level* getLevel();

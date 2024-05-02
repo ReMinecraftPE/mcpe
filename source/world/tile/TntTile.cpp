@@ -15,12 +15,12 @@ TntTile::TntTile(int id, int texture) : Tile(id, texture, Material::explosive)
 
 }
 
-int TntTile::getResourceCount(Random* random)
+int TntTile::getResourceCount(Random* random) const
 {
 	return 0;
 }
 
-int TntTile::getTexture(int dir)
+int TntTile::getTexture(int dir) const
 {
 	if (dir == DIR_YNEG)
 		return m_TextureFrame + 2;

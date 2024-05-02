@@ -15,10 +15,10 @@ class RedStoneOreTile : public Tile
 public:
 	RedStoneOreTile(int id, int texture, bool bLit);
 
-	int getResource(int, Random*) override;
-	int getResourceCount(Random*) override;
-	int getSpawnResourcesAuxValue(int) override;
-	int getTickDelay() override;
+	int getResource(int, Random*) const override;
+	int getResourceCount(Random*) const override;
+	int getSpawnResourcesAuxValue(int) const override;
+	int getTickDelay() const override;
 	void animateTick(Level*, int x, int y, int z, Random*) override;
 	void tick(Level*, int x, int y, int z, Random*) override;
 	void attack(Level*, int x, int y, int z, Player*) override;

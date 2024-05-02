@@ -21,7 +21,7 @@ StairTile::StairTile(int id, Tile* pTile) : Tile(id, pTile->m_TextureFrame, pTil
 	setSoundType(*pTile->m_pSound);
 }
 
-void StairTile::addAABBs(Level* level, int x, int y, int z, const AABB* aabb, std::vector<AABB>& out)
+void StairTile::addAABBs(const Level* level, int x, int y, int z, const AABB* aabb, std::vector<AABB>& out)
 {
 	int data = level->getData(x, y, z);
 	switch (data)
@@ -63,17 +63,17 @@ void StairTile::addAABBs(Level* level, int x, int y, int z, const AABB* aabb, st
 	setShape(0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool StairTile::isSolidRender()
+bool StairTile::isSolidRender() const
 {
 	return false;
 }
 
-bool StairTile::isCubeShaped()
+bool StairTile::isCubeShaped() const
 {
 	return false;
 }
 
-int StairTile::getRenderShape()
+int StairTile::getRenderShape() const
 {
 	return SHAPE_STAIRS;
 }
@@ -88,52 +88,52 @@ void StairTile::animateTick(Level* level, int x, int y, int z, Random* random)
 	m_pParent->animateTick(level, x, y, z, random);
 }
 
-void StairTile::updateShape(LevelSource* level, int x, int y, int z)
+void StairTile::updateShape(const LevelSource* level, int x, int y, int z)
 {
 	setShape(0, 0, 0, 1, 1, 1);
 }
 
-float StairTile::getBrightness(LevelSource* level, int x, int y, int z)
+float StairTile::getBrightness(const LevelSource* level, int x, int y, int z) const
 {
 	return m_pParent->getBrightness(level, x, y, z);
 }
 
-int StairTile::getTexture(int a)
+int StairTile::getTexture(int a) const
 {
 	return m_pParent->getTexture(a);
 }
 
-int StairTile::getTexture(int a, int b)
+int StairTile::getTexture(int a, int b) const
 {
 	return m_pParent->getTexture(a, b);
 }
 
-int StairTile::getTexture(LevelSource* level, int x, int y, int z, int data)
+int StairTile::getTexture(const LevelSource* level, int x, int y, int z, int data) const
 {
 	return m_pParent->getTexture(level, x, y, z, data);
 }
 
-AABB StairTile::getTileAABB(Level* level, int x, int y, int z)
+AABB StairTile::getTileAABB(const Level* level, int x, int y, int z)
 {
 	return m_pParent->getTileAABB(level, x, y, z);
 }
 
-bool StairTile::mayPick()
+bool StairTile::mayPick() const
 {
 	return m_pParent->mayPick();
 }
 
-bool StairTile::mayPick(int a, bool b)
+bool StairTile::mayPick(int a, bool b) const
 {
 	return m_pParent->mayPick(a, b);
 }
 
-bool StairTile::mayPlace(Level* level, int x, int y, int z)
+bool StairTile::mayPlace(const Level* level, int x, int y, int z) const
 {
 	return m_pParent->mayPlace(level, x, y, z);
 }
 
-int StairTile::getTickDelay()
+int StairTile::getTickDelay() const
 {
 	return m_pParent->getTickDelay();
 }
@@ -159,12 +159,12 @@ void StairTile::onRemove(Level* level, int x, int y, int z)
 	m_pParent->onRemove(level, x, y, z);
 }
 
-int StairTile::getResource(int a, Random* random)
+int StairTile::getResource(int a, Random* random) const
 {
 	return m_pParent->getResource(a, random);
 }
 
-int StairTile::getResourceCount(Random* random)
+int StairTile::getResourceCount(Random* random) const
 {
 	return m_pParent->getResourceCount(random);
 }
@@ -179,7 +179,7 @@ void StairTile::spawnResources(Level* level, int x, int y, int z, int d, float f
 	m_pParent->spawnResources(level, x, y, z, d, f);
 }
 
-float StairTile::getExplosionResistance(Entity* entity)
+float StairTile::getExplosionResistance(Entity* entity) const
 {
 	return m_pParent->getExplosionResistance(entity);
 }
@@ -189,7 +189,7 @@ void StairTile::wasExploded(Level* level, int x, int y, int z)
 	return m_pParent->wasExploded(level, x, y, z);
 }
 
-int StairTile::getRenderLayer()
+int StairTile::getRenderLayer() const
 {
 	return m_pParent->getRenderLayer();
 }
@@ -230,7 +230,7 @@ void StairTile::attack(Level* level, int x, int y, int z, Player* player)
 	m_pParent->attack(level, x, y, z, player);
 }
 
-void StairTile::handleEntityInside(Level* level, int x, int y, int z, Entity* entity, Vec3& vec)
+void StairTile::handleEntityInside(Level* level, int x, int y, int z, const Entity* entity, Vec3& vec)
 {
 	m_pParent->handleEntityInside(level, x, y, z, entity, vec);
 }

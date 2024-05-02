@@ -23,11 +23,11 @@ public:
 	// TODO: void addAdditonalSaveData();
 	virtual void animateRespawn() override;
 	virtual void aiStep() override;
-	virtual bool isSneaking() override;
+	virtual bool isSneaking() const override;
 	virtual int move(float x, float y, float z) override;
 	virtual void tick() override;
 	virtual void updateAi() override;
-	virtual bool isLocalPlayer() override;
+	virtual bool isLocalPlayer() const override { return true; }
 	virtual void drop(const ItemInstance* pItemInstance, bool b = false) override;
 
 	void calculateFlight(float, float, float);

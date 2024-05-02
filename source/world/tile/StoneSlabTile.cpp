@@ -19,38 +19,38 @@ StoneSlabTile::StoneSlabTile(int id, bool full) : Tile(id, TEXTURE_STONE_SLAB_TO
 	setLightBlock(255);
 }
 
-bool StoneSlabTile::isSolidRender()
+bool StoneSlabTile::isSolidRender() const
 {
 	return m_bFull;
 }
 
-bool StoneSlabTile::isCubeShaped()
+bool StoneSlabTile::isCubeShaped() const
 {
 	return m_bFull;
 }
 
-int StoneSlabTile::getResource(int data, Random* random)
+int StoneSlabTile::getResource(int data, Random* random) const
 {
 	return Tile::stoneSlabHalf->m_ID;
 }
 
-int StoneSlabTile::getResourceCount(Random* random)
+int StoneSlabTile::getResourceCount(Random* random) const
 {
 	if (m_bFull) return 2;
 	return 1;
 }
 
-int StoneSlabTile::getSpawnResourcesAuxValue(int x)
+int StoneSlabTile::getSpawnResourcesAuxValue(int x) const
 {
 	return x;
 }
 
-int StoneSlabTile::getTexture(int dir)
+int StoneSlabTile::getTexture(int dir) const
 {
 	return getTexture(dir, 0);
 }
 
-int StoneSlabTile::getTexture(int dir, int data)
+int StoneSlabTile::getTexture(int dir, int data) const
 {
 	switch (data)
 	{
@@ -98,7 +98,7 @@ void StoneSlabTile::onPlace(Level* level, int x, int y, int z)
 	}
 }
 
-bool StoneSlabTile::shouldRenderFace(LevelSource* level, int x, int y, int z, int dir)
+bool StoneSlabTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
 {
 	if (this != Tile::stoneSlabHalf)
 		// @BUG: Missing return? In JE this is true too

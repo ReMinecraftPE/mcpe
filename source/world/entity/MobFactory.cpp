@@ -9,39 +9,52 @@
 //#include "Spider.hpp"
 //#include "PigZombie.hpp"
 
+#define ENTS ENT(CHICKEN, Chicken) \
+             ENT(COW, Cow) \
+             ENT(PIG, Pig) \
+             //ENT(SHEEP, Sheep) \
+             //ENT(ZOMBIE, Zombie) \
+             //ENT(CREEPER, Creeper) \
+             //ENT(SKELETON, Skeleton) \
+             //ENT(SPIDER, Spider) \
+             //ENT(PIG_ZOMBIE, PigZombie)
+
+#define ENT(enumType, classType) case ENTITY_TYPE_ ## enumType: return new classType(level);
+
 Mob* MobFactory::CreateMob(EntityType entityType, Level *level)
 {
     switch (entityType)
     {
-    case ENTITY_TYPE_CHICKEN: return new Chicken(level);
-    //case ENTITY_TYPE_COW: return new Cow(level);
-    case ENTITY_TYPE_PIG: return new Pig(level);
-    //case ENTITY_TYPE_SHEEP: return new Sheep(level);
-    //case ENTITY_TYPE_ZOMBIE: return new Zombie(level);
-    //case ENTITY_TYPE_CREEPER: return new Creeper(level);
-    //case ENTITY_TYPE_SKELETON: return new Skeleton(level);
-    //case ENTITY_TYPE_SPIDER: return new Spider(level);
-    //case ENTITY_TYPE_PIG_ZOMBIE: return new PigZombie(level);
+        ENTS;
     default:
         LOG_W("Unknown mob type requested: %d", entityType);
         return nullptr;
     }
 }
 
+#undef ENT
+
+#define ENT(enumType, classType) case ENTITY_TYPE_ ## enumType: return "entity."###classType;
+
 char* MobFactory::GetMobNameID(EntityType entityType)
 {
     switch (entityType)
     {
-    case ENTITY_TYPE_CHICKEN: return "entity.Chicken";
-    case ENTITY_TYPE_COW: return "entity.Cow";
-    case ENTITY_TYPE_PIG: return "entity.Pig";
-    case ENTITY_TYPE_SHEEP: return "entity.Sheep";
-    case ENTITY_TYPE_ZOMBIE: return "entity.Zombie";
-    case ENTITY_TYPE_CREEPER: return "entity.Creeper";
-    case ENTITY_TYPE_SKELETON: return "entity.Skeleton";
-    case ENTITY_TYPE_SPIDER: return "entity.Spider";
-    case ENTITY_TYPE_PIG_ZOMBIE: return "entity.PigZombie";
+        ENTS;
     default:
         return "";
     }
 }
+
+#undef ENT
+
+#define ENT(enumType, classType) if (mobName == #classType) return ENTITY_TYPE_ ## enumType;
+
+EntityType MobFactory::GetEntityTypeFromMobName(std::string mobName)
+{
+    ENTS;
+
+    return ENTITY_TYPE_NONE;
+}
+
+#undef ENT

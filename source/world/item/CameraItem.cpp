@@ -11,6 +11,7 @@
 #include "world/entity/TripodCamera.hpp"
 #include "world/entity/Pig.hpp"
 #include "world/entity/Chicken.hpp"
+#include "world/entity/Cow.hpp"
 #include "world/entity/Player.hpp"
 
 CameraItem::CameraItem(int id) : Item(id)
@@ -30,6 +31,10 @@ ItemInstance* CameraItem::use(ItemInstance* inst, Level* level, Player* player)
 	level->addEntity(entity);
 
  	entity = new Chicken(level);
+	entity->setPos(player->m_pos.x, player->m_pos.y, player->m_pos.z);
+	level->addEntity(entity);
+
+	entity = new Cow(level);
 	entity->setPos(player->m_pos.x, player->m_pos.y, player->m_pos.z);
 	level->addEntity(entity);*/
 	

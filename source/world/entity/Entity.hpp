@@ -13,6 +13,7 @@
 #include "world/level/Material.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/ItemInstance.hpp"
+#include "EntityType.hpp"
 #include "common/Utils.hpp"
 
 class Level;
@@ -40,20 +41,6 @@ enum eEntityRenderType
 
 	// custom
 	RENDER_FALLING_TILE = 50,
-};
-
-enum eEntityType
-{
-	TYPE_UNSAVED,
-	
-	TYPE_CHICKEN = 10,
-	TYPE_COW,
-	TYPE_PIG,
-	TYPE_SHEEP,
-
-	TYPE_ZOMBIE = 32,
-
-	TYPE_ITEM = 64,
 };
 
 enum eCreatureBaseType
@@ -124,38 +111,38 @@ public:
 	virtual void interpolateTurn(float yaw, float pitch);
 	virtual void tick();
 	virtual void baseTick();
-	virtual bool intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
-	virtual bool isFree(float offX, float offY, float offZ);
-	virtual bool isFree(float offX, float offY, float offZ, float expand);
-	virtual bool isInWall();
+	virtual bool intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) const;
+	virtual bool isFree(float offX, float offY, float offZ) const;
+	virtual bool isFree(float offX, float offY, float offZ, float expand) const;
+	virtual bool isInWall() const;
 	virtual bool isInWater();
-	virtual bool isInLava();
-	virtual bool isUnderLiquid(Material*);
-	virtual float getHeadHeight();
-	virtual float getShadowHeightOffs();
-	virtual float getBrightness(float f);
-	virtual float distanceTo(Entity*);
-	virtual float distanceToSqr(float x, float y, float z);
-	virtual float distanceTo(float x, float y, float z);
-	virtual float distanceToSqr(Entity*);
+	virtual bool isInLava() const;
+	virtual bool isUnderLiquid(Material*) const;
+	virtual float getHeadHeight() const { return 0.0f; }
+	virtual float getShadowHeightOffs() const { return field_8C / 2.0f; }
+	virtual float getBrightness(float f) const;
+	virtual float distanceTo(Entity*) const;
+	virtual float distanceToSqr(float x, float y, float z) const;
+	virtual float distanceTo(float x, float y, float z) const;
+	virtual float distanceToSqr(Entity*) const;
 	virtual int interactPreventDefault();
 	virtual bool interact(Player*);
 	virtual void playerTouch(Player*);
 	virtual void push(Entity*);
 	virtual void push(float x, float y, float z);
-	virtual bool isPickable();
-	virtual bool isPushable();
-	virtual bool isShootable();
-	virtual bool isSneaking();
-	virtual bool isAlive();
-	virtual bool isOnFire();
-	virtual bool isPlayer();
-	virtual bool isCreativeModeAllowed();
-	virtual bool shouldRender(Vec3& camPos);
-	virtual bool shouldRenderAtSqrDistance(float distSqr);
+	virtual bool isPickable() const { return false; }
+	virtual bool isPushable() const { return false; }
+	virtual bool isShootable() const { return false; }
+	virtual bool isSneaking() const { return false; }
+	virtual bool isAlive() const { return m_bRemoved; }
+	virtual bool isOnFire() const { return m_fireTicks > 0; }
+	virtual bool isPlayer() const { return false; }
+	virtual bool isCreativeModeAllowed() const { return false; }
+	virtual bool shouldRender(Vec3& camPos) const;
+	virtual bool shouldRenderAtSqrDistance(float distSqr) const;
 	virtual bool hurt(Entity*, int);
 	virtual void animateHurt();
-	virtual float getPickRadius();
+	virtual float getPickRadius() const { return 0.1f; }
 	virtual void spawnAtLocation(ItemInstance*, float);
 	virtual void spawnAtLocation(int, int);
 	virtual void spawnAtLocation(int, int, float);
@@ -172,12 +159,12 @@ public:
 	virtual void burn(int);
 	virtual void lavaHurt();
 	virtual int queryEntityRenderer();
-	virtual int getCreatureBaseType();
-	virtual int getEntityTypeId();
+	virtual int getCreatureBaseType() const { return BASE_NONE; }
+	virtual int getEntityTypeId() const { return ENTITY_TYPE_NONE; }
 
-	virtual bool isLocalPlayer();
+	virtual bool isLocalPlayer() const { return false; }
 
-	int hashCode();
+	int hashCode() const { return m_EntityID; }
 
 	bool operator==(const Entity& other) const;
 

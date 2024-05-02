@@ -19,29 +19,29 @@ public:
 	virtual void neighborChanged(Level*, int x, int y, int z, int dir) override;
 	virtual void tick(Level*, int x, int y, int z, Random* random) override;
 	void animateTick(Level*, int x, int y, int z, Random* random) override;
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	float getBrightness(LevelSource*, int x, int y, int z) override;
-	int getRenderLayer() override;
-	int getRenderShape() override;
-	int getResource(int, Random*) override;
-	int getResourceCount(Random*) override;
-	int getTexture(int dir) override;
-	int getTexture(int dir, int data) override;
-	int getTickDelay() override;
-	void handleEntityInside(Level*, int, int, int, Entity*, Vec3&) override;
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
-	bool mayPick(int data, bool b) override;
-	bool shouldRenderFace(LevelSource*, int x, int y, int z, int dir) override;
+	AABB* getAABB(const Level*, int x, int y, int z) override;
+	float getBrightness(const LevelSource*, int x, int y, int z) const override;
+	int getRenderLayer() const override;
+	int getRenderShape() const override;
+	int getResource(int, Random*) const override;
+	int getResourceCount(Random*) const override;
+	int getTexture(int dir) const override;
+	int getTexture(int dir, int data) const override;
+	int getTickDelay() const override;
+	void handleEntityInside(Level*, int, int, int, const Entity*, Vec3&) override;
+	bool isCubeShaped() const override;
+	bool isSolidRender() const override;
+	bool mayPick(int data, bool b) const override;
+	bool shouldRenderFace(const LevelSource*, int x, int y, int z, int dir) const override;
 
 	void updateLiquid(Level*, int x, int y, int z);
 	void fizz(Level*, int x, int y, int z);
-	int getColor(LevelSource*, int x, int y, int z) override;
+	int getColor(const LevelSource*, int x, int y, int z) const override;
 	int getDepth(Level*, int x, int y, int z);
-	int getRenderedDepth(LevelSource*, int x, int y, int z);
-	Vec3 getFlow(LevelSource*, int x, int y, int z);
+	int getRenderedDepth(const LevelSource*, int x, int y, int z) const;
+	Vec3 getFlow(const LevelSource*, int x, int y, int z) const;
 
-	static float getSlopeAngle(LevelSource*, int x, int y, int z, Material* pMtl);
+	static float getSlopeAngle(const LevelSource*, int x, int y, int z, const Material* pMtl);
 
 	// @NOTE: This is inlined in minecraftcpp
 	static float getWaterVolume(int data)

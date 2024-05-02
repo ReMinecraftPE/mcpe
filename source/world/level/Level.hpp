@@ -49,19 +49,19 @@ public:
 	~Level();
 
 	// TODO
-	TileID getTile(int x, int y, int z) override;
-	float getBrightness(int x, int y, int z) override;
-	int getData(int x, int y, int z) override;
-	Material* getMaterial(int x, int y, int z) override;
-	bool isSolidTile(int x, int y, int z) override;
+	TileID getTile(int x, int y, int z) const override;
+	float getBrightness(int x, int y, int z) const override;
+	int getData(int x, int y, int z) const override;
+	Material* getMaterial(int x, int y, int z) const override;
+	bool isSolidTile(int x, int y, int z) const override;
 
-	ChunkSource* getChunkSource();
+	ChunkSource* getChunkSource() const;
 	ChunkSource* createChunkSource();
-	LevelChunk* getChunk(int x, int z);
-	LevelChunk* getChunkAt(int x, int z);
-	int getRawBrightness(int x, int y, int z);
-	int getRawBrightness(int x, int y, int z, bool b);
-	int getBrightness(const LightLayer&, int x, int y, int z);
+	LevelChunk* getChunk(int x, int z) const;
+	LevelChunk* getChunkAt(int x, int z) const;
+	int getRawBrightness(int x, int y, int z) const;
+	int getRawBrightness(int x, int y, int z, bool b) const;
+	int getBrightness(const LightLayer&, int x, int y, int z) const;
 	void setBrightness(const LightLayer&, int x, int y, int z, int bright);
 	int getSeaLevel() const { return 63; }
 	int getSeed() const { return m_levelData.getSeed(); }
@@ -69,16 +69,16 @@ public:
 	void setTime(int32_t time);
 	GameType getDefaultGameType() { return m_levelData.getGameType(); }
 	int getHeightmap(int x, int z);
-	bool isDay();
-	bool isSkyLit(int x, int y, int z);
-	bool isEmptyTile(int x, int y, int z);
-	bool hasChunkAt(int x, int y, int z);
-	bool hasChunk(int x, int z);
-	bool hasChunksAt(int minX, int minY, int minZ, int maxX, int maxY, int maxZ);
-	bool hasChunksAt(int x, int y, int z, int rad);
+	bool isDay() const;
+	bool isSkyLit(int x, int y, int z) const;
+	bool isEmptyTile(int x, int y, int z) const;
+	bool hasChunkAt(int x, int y, int z) const;
+	bool hasChunk(int x, int z) const;
+	bool hasChunksAt(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) const;
+	bool hasChunksAt(int x, int y, int z, int rad) const;
 	bool updateSkyBrightness();
-	float getTimeOfDay(float f);
-	int getSkyDarken(float f);
+	float getTimeOfDay(float f) const;
+	int getSkyDarken(float f) const;
 	void setUpdateLights(bool b);
 	bool updateLights();
 	void updateLight(const LightLayer&, int, int, int, int, int, int);
@@ -103,11 +103,11 @@ public:
 	bool containsLiquid(const AABB&, const Material *pMtl);
 	bool containsMaterial(const AABB&, const Material *pMtl);
 	bool checkAndHandleWater(const AABB&, const Material* pMtl, Entity* pEnt);
-	Pos getSharedSpawnPos();
+	Pos getSharedSpawnPos() const;
 	void validateSpawn();
-	TileID getTopTile(int x, int z);
-	int getTopTileY(int x, int z);
-	int getTopSolidBlock(int x, int z);
+	TileID getTopTile(int x, int z) const;
+	int getTopTileY(int x, int z) const;
+	int getTopSolidBlock(int x, int z) const;
 	void loadPlayer(Player*);
 	bool addEntity(Entity*);
 	bool removeEntity(Entity*);
@@ -120,13 +120,13 @@ public:
 	void setInitialSpawn();
 	void setSpawnPos(Pos pos) { m_levelData.setSpawn(pos.x, pos.y, pos.z); }
 	void setSpawnSettings(bool a, bool b) { }
-	bool canSeeSky(int x, int y, int z);
-	Vec3 getSkyColor(Entity* pEnt, float f);
-	Vec3 getFogColor(float f);
-	Vec3 getCloudColor(float f);
-	bool isUnobstructed(AABB*);
-	bool mayInteract(Player* player, int x, int y, int z);
-	bool mayPlace(TileID tid, int x, int y, int z, bool b);
+	bool canSeeSky(int x, int y, int z) const;
+	Vec3 getSkyColor(Entity* pEnt, float f) const;
+	Vec3 getFogColor(float f) const;
+	Vec3 getCloudColor(float f) const;
+	bool isUnobstructed(AABB*) const;
+	bool mayInteract(Player* player, int x, int y, int z) const;
+	bool mayPlace(TileID tid, int x, int y, int z, bool b) const;
 	void removeListener(LevelListener*);
 	void addListener(LevelListener*);
 	void tick(Entity*, bool);
@@ -141,37 +141,37 @@ public:
 	void playSound(Entity*, const std::string& name, float volume, float pitch);
 	void playSound(float x, float y, float z, const std::string& name, float volume, float pitch);
 	void animateTick(int x, int y, int z);
-	float getSeenPercent(Vec3, AABB);
+	float getSeenPercent(Vec3, AABB) const;
 	void explode(Entity*, float x, float y, float z, float power);
 	void explode(Entity*, float x, float y, float z, float power, bool bIsFiery);
 	void addEntities(const std::vector<Entity*>& entities);
 	void ensureAdded(Entity* entity);
 	void extinguishFire(int x, int y, int z, int dir);
-	int  findPath(Path* path, Entity* ent1, Entity* ent2, float f);
-	int  findPath(Path* path, Entity* ent1, int x, int y, int z, float f);
-	int  getLightDepth(int x, int z);
-	float getStarBrightness(float f);
-	float getSunAngle(float f);
+	int  findPath(Path* path, Entity* ent1, Entity* ent2, float f) const;
+	int  findPath(Path* path, Entity* ent1, int x, int y, int z, float f) const;
+	int  getLightDepth(int x, int z) const;
+	float getStarBrightness(float f) const;
+	float getSunAngle(float f) const;
 	void swap(int x1, int y1, int z1, int x2, int y2, int z2);
 
-	HitResult clip(const Vec3& a, const Vec3& b);
-	HitResult clip(Vec3 a, Vec3 b, bool c);
-	Entity* getEntity(int id);
-	EntityVector* getAllEntities();
-	EntityVector* getEntities(Entity* pAvoid, const AABB&);
-	BiomeSource* getBiomeSource() override;
+	HitResult clip(const Vec3& a, const Vec3& b) const;
+	HitResult clip(Vec3 a, Vec3 b, bool c) const;
+	Entity* getEntity(int id) const;
+	const EntityVector* getAllEntities() const;
+	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
+	BiomeSource* getBiomeSource() const override;
 	LevelStorage* getLevelStorage() const { return m_pLevelStorage; }
 	const LevelData* getLevelData() const { return &m_levelData; }
 	AABBVector* getCubes(const Entity* pEnt, const AABB& aabb);
 	std::vector<LightUpdate>* getLightsToUpdate();
-	Entity* getNearestPlayer(Entity*, float);
-	Entity* getNearestPlayer(float x, float y, float z, float);
+	Player* getNearestPlayer(const Entity*, float) const;
+	Player* getNearestPlayer(float x, float y, float z, float) const;
 
 	// unused redstone stuff
-	int getSignal(int x, int y, int z, int dir);
-	int getDirectSignal(int x, int y, int z, int dir);
-	bool hasDirectSignal(int x, int y, int z);
-	bool hasNeighborSignal(int x, int y, int z);
+	int getSignal(int x, int y, int z, int dir) const;
+	int getDirectSignal(int x, int y, int z, int dir) const;
+	bool hasDirectSignal(int x, int y, int z) const;
+	bool hasNeighborSignal(int x, int y, int z) const;
 
 #ifdef ENH_IMPROVED_SAVING
 	void saveUnsavedChunks();
@@ -194,7 +194,6 @@ public:
 	LevelStorage* m_pLevelStorage;
 	int field_AA8;
 	int field_AAC;
-	EntityVector m_getEntitiesResult;
 	EntityVector m_pendingEntityRemovals;
 	std::set<TickNextTickData> m_pendingTicks;
 	std::set<ChunkPos> m_chunksToUpdate;

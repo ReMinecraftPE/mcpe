@@ -41,12 +41,12 @@ void PathfinderMob::checkCantSeeTarget(Entity* pEnt, float f)
 		setAttackTarget(nullptr);
 }
 
-float PathfinderMob::getWalkTargetValue(int, int, int)
+float PathfinderMob::getWalkTargetValue(int, int, int) const
 {
 	return 0.0f;
 }
 
-bool PathfinderMob::shouldHoldGround()
+bool PathfinderMob::shouldHoldGround() const
 {
 	return false;
 }
@@ -81,7 +81,7 @@ void PathfinderMob::findRandomStrollLocation()
 	}
 }
 
-float PathfinderMob::getWalkingSpeedModifier()
+float PathfinderMob::getWalkingSpeedModifier() const
 {
 	float mod = Mob::getWalkingSpeedModifier();
 
@@ -91,7 +91,7 @@ float PathfinderMob::getWalkingSpeedModifier()
 	return mod;
 }
 
-bool PathfinderMob::canSpawn()
+bool PathfinderMob::canSpawn() const
 {
 	if (!Mob::canSpawn())
 		return false;

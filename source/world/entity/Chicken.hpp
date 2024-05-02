@@ -22,14 +22,14 @@ public:
 public:
 	Chicken(Level* pLevel);
 
-	std::string getAmbientSound() override;
-	std::string getDeathSound() override;
-	std::string getHurtSound() override;
+	std::string getAmbientSound() const override { return "mob.chicken"; }
+	std::string getDeathSound() const override { return "mob.chickenhurt"; }
+	std::string getHurtSound() const override { return "mob.chickenhurt"; }
 	void dropDeathLoot() override;
-	int getEntityTypeId() override;
-	int getMaxHealth() override;
+	int getEntityTypeId() const override { return ENTITY_TYPE_CHICKEN; }
+	int getMaxHealth() const override { return 4; }
 	void aiStep() override;
-	void causeFallDamage(float) override;
+	void causeFallDamage(float) override { return; }
 
-	Entity* getBreedOffspring(Animal* pOther);
+	Entity* getBreedOffspring(Animal* pOther) { return new Chicken(m_pLevel); }
 };

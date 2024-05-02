@@ -286,27 +286,7 @@ void Mob::baseTick()
 	field_60 = m_pitch;
 }
 
-float Mob::getHeadHeight()
-{
-	return 0.85f * field_8C;
-}
-
-bool Mob::isPickable()
-{
-	return !m_bRemoved;
-}
-
-bool Mob::isPushable()
-{
-	return !m_bRemoved;
-}
-
-bool Mob::isShootable()
-{
-	return true;
-}
-
-bool Mob::isAlive()
+bool Mob::isAlive() const
 {
 	if (m_bRemoved)
 		return false;
@@ -423,7 +403,7 @@ void Mob::knockback(Entity* pEnt, int a, float x, float z)
 		m_vel.y = 0.4f;
 }
 
-bool Mob::onLadder()
+bool Mob::onLadder() const
 {
 	int tileX = Mth::floor(m_pos.x);
 	int tileZ = Mth::floor(m_pos.z);
@@ -440,7 +420,7 @@ void Mob::spawnAnim()
 
 }
 
-std::string Mob::getTexture()
+std::string Mob::getTexture() const
 {
 	return m_texture;
 }
@@ -450,7 +430,7 @@ void Mob::playAmbientSound()
 
 }
 
-int Mob::getAmbientSoundInterval()
+int Mob::getAmbientSoundInterval() const
 {
 	return 80;
 }
@@ -580,7 +560,7 @@ void Mob::die(Entity* pCulprit)
 		dropDeathLoot();
 }
 
-bool Mob::canSee(Entity* pEnt)
+bool Mob::canSee(Entity* pEnt) const
 {
 	Vec3 v1 = m_pos;
 	v1.y += getHeadHeight();
@@ -637,23 +617,13 @@ void Mob::aiStep()
 	AABB aabb = m_hitbox;
 	aabb.grow(0.2f, 0.2f, 0.2f);
 
-	EntityVector* pEnts = m_pLevel->getEntities(this, aabb);
-	for (EntityVector::iterator it = pEnts->begin(); it != pEnts->end(); it++)
+	EntityVector ents = m_pLevel->getEntities(this, aabb);
+	for (EntityVector::iterator it = ents.begin(); it != ents.end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->isPushable())
 			pEnt->push(this);
 	}
-}
-
-bool Mob::isWaterMob()
-{
-	return false;
-}
-
-void Mob::superTick()
-{
-	Entity::tick();
 }
 
 void Mob::lookAt(Entity* pEnt, float a3, float a4)
@@ -671,27 +641,12 @@ void Mob::lookAt(Entity* pEnt, float a3, float a4)
 	m_yaw = rotlerp(m_yaw, x1 * 180.0f / float(M_PI) - 90.0f, a3);
 }
 
-bool Mob::isLookingAtAnEntity()
-{
-	return m_pEntLookedAt != nullptr;
-}
-
-Entity* Mob::getLookingAt()
-{
-	return m_pEntLookedAt;
-}
-
-void Mob::beforeRemove()
-{
-
-}
-
-bool Mob::canSpawn()
+bool Mob::canSpawn() const
 {
 	return m_pLevel->getCubes(this, m_hitbox)->empty();
 }
 
-float Mob::getAttackAnim(float f)
+float Mob::getAttackAnim(float f) const
 {
 	float x = field_F8 - field_F4;
 	
@@ -701,7 +656,7 @@ float Mob::getAttackAnim(float f)
 	return field_F4 + (x * f);
 }
 
-Vec3 Mob::getPos(float f)
+Vec3 Mob::getPos(float f) const
 {
 	if (f == 1.0f)
 		return m_pos;
@@ -713,12 +668,7 @@ Vec3 Mob::getPos(float f)
 	);
 }
 
-Vec3 Mob::getLookAngle(float f)
-{
-	return getViewVector(1.0f);
-}
-
-Vec3 Mob::getViewVector(float f)
+Vec3 Mob::getViewVector(float f) const
 {
 	constexpr float C_180_OVER_PI = 0.017453f;
 	constexpr float C_PI = 3.1416f;
@@ -742,29 +692,9 @@ Vec3 Mob::getViewVector(float f)
 	return Vec3(x4 * x6, Mth::sin(x5), x3 * x6);
 }
 
-int Mob::getMaxSpawnClusterSize()
-{
-	return 4;
-}
-
-bool Mob::isBaby()
-{
-	return false;
-}
-
 void Mob::actuallyHurt(int damage)
 {
 	m_health -= damage;
-}
-
-bool Mob::removeWhenFarAway()
-{
-	return true;
-}
-
-int Mob::getDeathLoot()
-{
-	return 0;
 }
 
 void Mob::dropDeathLoot()
@@ -780,11 +710,6 @@ void Mob::dropDeathLoot()
 	}
 }
 
-bool Mob::isImmobile()
-{
-	return m_health <= 0;
-}
-
 void Mob::jumpFromGround()
 {
 	m_vel.y = 0.42f;
@@ -794,24 +719,7 @@ void Mob::updateAi()
 {
 	field_AFC++;
 
-	Entity* nearestPlayer = m_pLevel->getNearestPlayer(this, -1.0f);
-
-	// if we need to remove ourselves when far away, and there's a player around
-	// (if there's no players, we're on a headless server)
-	if (removeWhenFarAway() && nearestPlayer)
-	{
-		float distSqr = nearestPlayer->distanceToSqr_inline(m_pos.x, m_pos.y, m_pos.z);
-		if (distSqr > 9216.0f)
-			remove();
-
-		if (field_AFC > 600 && m_random.nextInt(800) == 0)
-		{
-			if (distSqr >= 1024.0f)
-				remove();
-			else
-				field_AFC = 0;
-		}
-	}
+	checkDespawn();
 
 	field_B00 = 0.0f;
 	field_B04 = 0.0f;
@@ -858,44 +766,35 @@ void Mob::updateAi()
 	}
 }
 
-int Mob::getMaxHeadXRot()
-{
-	return 10;
-}
-
-int Mob::getMaxHealth()
-{
-	return 10;
-}
-
-float Mob::getSoundVolume()
-{
-	return 1.0f;
-}
-
-std::string Mob::getAmbientSound()
-{
-	return "";
-}
-
-std::string Mob::getHurtSound()
-{
-	return "random.hurt";
-}
-
-std::string Mob::getDeathSound()
-{
-	return "random.hurt";
-}
-
-float Mob::getWalkingSpeedModifier()
-{
-	return 0.7f;
-}
-
 void Mob::defineSynchedData()
 {
 
+}
+
+void Mob::checkDespawn(Mob* nearestMob)
+{
+	// if we need to remove ourselves when far away, and there's a player around
+	// (if there's no players, we're on a headless server)
+	if (nearestMob)
+	{
+		float distSqr = nearestMob->distanceToSqr_inline(m_pos.x, m_pos.y, m_pos.z);
+		bool remWhenFar = removeWhenFarAway();
+		if (remWhenFar && distSqr > 9216.0f)
+			remove();
+
+		if (field_AFC <= 600)
+			field_AFC = 0;
+		else if (m_random.nextInt(800) == 0 && remWhenFar && distSqr >= 1024.0f)
+			remove();
+		else
+			field_AFC = 0;
+	}
+}
+
+void Mob::checkDespawn()
+{
+	Mob* nearestPlayer = m_pLevel->getNearestPlayer(this, -1.0f);
+	checkDespawn(nearestPlayer);
 }
 
 float Mob::rotlerp(float a2, float a3, float a4)

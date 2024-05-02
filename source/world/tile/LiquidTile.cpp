@@ -42,12 +42,12 @@ void LiquidTile::fizz(Level* level, int x, int y, int z)
 	}
 }
 
-AABB* LiquidTile::getAABB(Level*, int x, int y, int z)
+AABB* LiquidTile::getAABB(const Level*, int x, int y, int z)
 {
 	return nullptr;
 }
 
-float LiquidTile::getBrightness(LevelSource* level, int x, int y, int z)
+float LiquidTile::getBrightness(const LevelSource* level, int x, int y, int z) const
 {
 	float b1 = level->getBrightness(x, y, z);
 	float b2 = level->getBrightness(x, y + 1, z);
@@ -56,7 +56,7 @@ float LiquidTile::getBrightness(LevelSource* level, int x, int y, int z)
 	return b1;
 }
 
-int LiquidTile::getColor(LevelSource* level, int x, int y, int z)
+int LiquidTile::getColor(const LevelSource* level, int x, int y, int z) const
 {
 	return 0x999999FF;
 }
@@ -69,7 +69,7 @@ int LiquidTile::getDepth(Level* level, int x, int y, int z)
 	return level->getData(x, y, z);
 }
 
-int LiquidTile::getRenderedDepth(LevelSource* level, int x, int y, int z)
+int LiquidTile::getRenderedDepth(const LevelSource* level, int x, int y, int z) const
 {
 	if (level->getMaterial(x, y, z) != m_pMaterial)
 		return -1;
@@ -81,7 +81,7 @@ int LiquidTile::getRenderedDepth(LevelSource* level, int x, int y, int z)
 	return res;
 }
 
-Vec3 LiquidTile::getFlow(LevelSource* level, int x, int y, int z)
+Vec3 LiquidTile::getFlow(const LevelSource* level, int x, int y, int z) const
 {
 	Vec3 result;
 	int depthLocal = getRenderedDepth(level, x, y, z);
@@ -135,27 +135,27 @@ Vec3 LiquidTile::getFlow(LevelSource* level, int x, int y, int z)
 	return result.normalize();
 }
 
-int LiquidTile::getRenderLayer()
+int LiquidTile::getRenderLayer() const
 {
 	return m_pMaterial == Material::water ? LAYER_ALPHA : LAYER_OPAQUE;
 }
 
-int LiquidTile::getRenderShape()
+int LiquidTile::getRenderShape() const
 {
 	return SHAPE_WATER;
 }
 
-int LiquidTile::getResource(int x, Random* random)
+int LiquidTile::getResource(int x, Random* random) const
 {
 	return 0;
 }
 
-int LiquidTile::getResourceCount(Random* random)
+int LiquidTile::getResourceCount(Random* random) const
 {
 	return 0;
 }
 
-float LiquidTile::getSlopeAngle(LevelSource* level, int x, int y, int z, Material* pMtl)
+float LiquidTile::getSlopeAngle(const LevelSource* level, int x, int y, int z, const Material* pMtl)
 {
 	Vec3 vec;
 	if (pMtl == Material::water)
@@ -169,7 +169,7 @@ float LiquidTile::getSlopeAngle(LevelSource* level, int x, int y, int z, Materia
 	return atan2f(vec.z, vec.x) + float(-0.5f * 3.1416f);
 }
 
-int LiquidTile::getTexture(int dir)
+int LiquidTile::getTexture(int dir) const
 {
 	if (dir > 1)
 		return m_TextureFrame + 1;
@@ -177,13 +177,13 @@ int LiquidTile::getTexture(int dir)
 	return m_TextureFrame;
 }
 
-int LiquidTile::getTexture(int dir, int data)
+int LiquidTile::getTexture(int dir, int data) const
 {
 	// @TODO: revert to using Tile::getTexture
 	return Tile::getTexture(dir, data);
 }
 
-int LiquidTile::getTickDelay()
+int LiquidTile::getTickDelay() const
 {
 	if (m_pMaterial == Material::water)
 		return 5;
@@ -193,22 +193,22 @@ int LiquidTile::getTickDelay()
 	return 0;
 }
 
-void LiquidTile::handleEntityInside(Level* level, int x, int y, int z, Entity* pEnt, Vec3& vec)
+void LiquidTile::handleEntityInside(Level* level, int x, int y, int z, const Entity* pEnt, Vec3& vec)
 {
 	vec += getFlow(level, x, y, z);
 }
 
-bool LiquidTile::isCubeShaped()
+bool LiquidTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool LiquidTile::isSolidRender()
+bool LiquidTile::isSolidRender() const
 {
 	return false;
 }
 
-bool LiquidTile::mayPick(int data, bool b)
+bool LiquidTile::mayPick(int data, bool b) const
 {
 	if (!b)
 		return false;
@@ -226,7 +226,7 @@ void LiquidTile::onPlace(Level* level, int x, int y, int z)
 	updateLiquid(level, x, y, z);
 }
 
-bool LiquidTile::shouldRenderFace(LevelSource* level, int x, int y, int z, int dir)
+bool LiquidTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
 {
 	Material* pMtl = level->getMaterial(x, y, z);
 	if (pMtl == m_pMaterial || pMtl == Material::ice)
