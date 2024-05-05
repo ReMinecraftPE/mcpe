@@ -20,7 +20,7 @@ int Textures::loadTexture(const std::string& name, bool bIsRequired)
 	Texture t = m_pPlatform->loadTexture(name, bIsRequired);
 
 	if (!t.m_pixels && bIsRequired) {
-		t.field_C = 1;
+		t.m_hasAlpha = 1;
 		t.field_D = 0;
 		t.m_width = 2;
 		t.m_height = 2;
