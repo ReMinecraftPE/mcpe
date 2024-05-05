@@ -15,7 +15,7 @@
 //#define MOD_POPOUT_CONSOLE         // Open a separate console aside from the game window. By default only the debugger can see our logs. Win32 Debug only.
 
 // Tests
-#define TEST_SURVIVAL_MODE      	 // Test survival mode.
+//#define TEST_SURVIVAL_MODE      	 // Test survival mode.
 
 // Features (major changes)
 

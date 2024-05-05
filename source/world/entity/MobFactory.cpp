@@ -34,9 +34,9 @@ Mob* MobFactory::CreateMob(EntityType entityType, Level *level)
 
 #undef ENT
 
-#define ENT(enumType, classType) case ENTITY_TYPE_ ## enumType: return "entity."###classType;
+#define ENT(enumType, classType) case ENTITY_TYPE_ ## enumType: return "entity."#classType;
 
-char* MobFactory::GetMobNameID(EntityType entityType)
+std::string MobFactory::GetMobNameID(EntityType entityType)
 {
     switch (entityType)
     {

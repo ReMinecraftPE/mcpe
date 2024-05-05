@@ -22,5 +22,5 @@ public:
 	int getMaxHealth() const override { return 10; }
 	float getSoundVolume() const override { return 0.4; }
 
-	Entity* getBreedOffspring(Animal* pOther) { new Cow(m_pLevel); }
+	Entity* getBreedOffspring(Animal* pOther) { return new Cow(m_pLevel); }
 };
