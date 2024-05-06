@@ -33,8 +33,8 @@ public:
 		float d1 = a->distanceToSqr(m_pMob);
 		float d2 = b->distanceToSqr(m_pMob);
 
-		if (d1 > 1024.0f && a->m_pos.y <= 63) d1 *= 10.0f;
-		if (d2 > 1024.0f && b->m_pos.y <= 63) d2 *= 10.0f;
+		//if (d1 > 1024.0f && a->m_pos.y <= 63) d1 *= 10.0f;
+		//if (d2 > 1024.0f && b->m_pos.y <= 63) d2 *= 10.0f;
 
 		return d1 < d2;
 	}
