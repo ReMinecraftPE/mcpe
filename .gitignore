@@ -188,6 +188,27 @@ xcuserdata/
 /game/assets/gui/startmenu/sm_multi.png
 /game/assets/gui/startmenu/sm_options.png
 /game/assets/gui/touchgui.png
+/game/assets/gui/feedback_fill.png
+/game/assets/gui/feedback_outer.png
+/game/assets/snow.png
+# 0.7.0
+/game/assets/armor/chain_1.png
+/game/assets/armor/chain_2.png
+/game/assets/armor/cloth_1.png
+/game/assets/armor/cloth_2.png
+/game/assets/armor/diamond_1.png
+/game/assets/armor/diamond_2.png
+/game/assets/armor/gold_1.png
+/game/assets/armor/gold_2.png
+/game/assets/armor/iron_1.png
+/game/assets/armor/iron_2.png
+/game/assets/art/kz.png
+/game/assets/gui/bg32.png
+/game/assets/gui/spritesheet.png
+/game/assets/gui/titleBG.png
+/game/assets/gui/touchgui2.png
+/game/assets/item/arrows.png
+/game/assets/item/sign.png
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /game/assets/gui/background/panorama_0.png
@@ -213,6 +234,3 @@ xcuserdata/
 # Ignore options.txt - where your configuration will be saved
 /game/options.txt
 /game/assetsO
-/game/assets/gui/feedback_fill.png
-/game/assets/gui/feedback_outer.png
-/game/assets/snow.png
