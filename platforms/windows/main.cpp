@@ -114,7 +114,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
 extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
 
@@ -122,9 +121,9 @@ void CheckOptionalTextureAvailability()
 {
 	// Optional features that you really should be able to get away with not including.
 	Screen::setIsMenuPanoramaAvailable(XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0);
+	LevelRenderer::setAreCloudsAvailable(XPL_ACCESS("assets/environment/clouds.png", 0) == 0);
 
 	// TODO: These should be inside of an initialized "Minecraft" instance rather than the global namespace
-	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
 	g_bIsGrassColorAvailable     = XPL_ACCESS("assets/misc/grasscolor.png",           0) == 0;
 	g_bIsFoliageColorAvailable   = XPL_ACCESS("assets/misc/foliagecolor.png",         0) == 0;
 }

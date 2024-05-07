@@ -14,6 +14,8 @@
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
 
+bool LevelRenderer::_areCloudsAvailable = false; // false because 0.1 didn't have them
+
 LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 {
 	field_4 = -9999.0f;
@@ -1179,12 +1181,9 @@ void LevelRenderer::renderSky(float f)
 	glDepthMask(true);
 }
 
-// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
-bool g_bAreCloudsAvailable = false; // false because 0.1 didn't have them
-
 void LevelRenderer::renderClouds(float f)
 {
-	if (!g_bAreCloudsAvailable)
+	if (!areCloudsAvailable())
 		return;
 
 	glEnable(GL_TEXTURE_2D);
@@ -1198,7 +1197,7 @@ void LevelRenderer::renderClouds(float f)
 
 	Vec3 cloudColor = m_pLevel->getCloudColor(f);
 
-	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.3f;
+	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.03f;
 	float offZ = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.z, m_pMinecraft->m_pMobPersp->m_pos.z, f);
 	
 	int dx2048 = Mth::floor(offX / 2048.0f);
@@ -1209,17 +1208,18 @@ void LevelRenderer::renderClouds(float f)
 
 	Tesselator& t = Tesselator::instance;
 
-	float fYPos = (128.0f - yPos) + 0.33f;
+	float fYPos = ((float)C_MAX_Y - yPos) + 0.33f;
 	offX /= 2048.0f;
 	offZ /= 2048.0f;
 	t.begin();
 	t.color(cloudColor.x, cloudColor.y, cloudColor.z, 0.8f);
 
-	const int incr = 32;
-	const int in2 = 256 / incr;
-	for (int x = -incr * in2; x < incr * in2; x += incr)
+	const int incr = 16 * 2;
+	const int maxX = C_MAX_CHUNKS_X * 16;
+	const int maxZ = C_MAX_CHUNKS_Z * 16;
+	for (int x = -maxX; x < maxX; x += incr)
 	{
-		for (int z = -incr * in2; z < incr * in2; z += incr)
+		for (int z = -maxZ; z < maxZ; z += incr)
 		{
 			t.vertexUV(float(x) + 0.0f, fYPos, float(z) + incr, float(x + 0.0f) / 2048.0f + offX, float(z + incr) / 2048.0f + offZ);
 			t.vertexUV(float(x) + incr, fYPos, float(z) + incr, float(x + incr) / 2048.0f + offX, float(z + incr) / 2048.0f + offZ);

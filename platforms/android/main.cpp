@@ -397,7 +397,6 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
     }
 }
 
-extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
 extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
 
@@ -408,7 +407,7 @@ static void CheckOptionalTextureAvailability()
 #endif
 
 #ifdef FEATURE_CLOUDS
-	g_bAreCloudsAvailable = true;
+	LevelRenderer::setAreCloudsAvailable(true);
 #endif
 
 #ifdef FEATURE_GRASS_COLOR
