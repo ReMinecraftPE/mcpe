@@ -174,7 +174,7 @@ void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 		int w = 0, h = 0;
 		SDL_GetWindowSize(_window,&w,&h);
 		SDL_WarpMouseInWindow(_window,w/2,h/2);
-		Mouse::feed(MouseButtonType::BUTTON_NONE, false, w/2,h/2);
+		Mouse::feed(BUTTON_NONE, false, w/2,h/2);
 	}
 }
 
