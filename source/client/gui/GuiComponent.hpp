@@ -11,6 +11,8 @@
 #include "client/renderer/Tesselator.hpp"
 #include "client/renderer/Font.hpp"
 
+
+// @TODO: GuiElement (virtuals) inheriting GuiComponent
 class GuiComponent
 {
 public:

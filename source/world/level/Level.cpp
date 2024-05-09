@@ -297,14 +297,14 @@ EntityVector Level::getEntities(Entity* pEntExclude, const AABB& aabb) const
 {
 	EntityVector entities = EntityVector();
 
-	int lowerXBound = Mth::floor((aabb.min.x - 2.0f) / 16);
-	int lowerZBound = Mth::floor((aabb.min.z - 2.0f) / 16);
-	int upperXBound = Mth::floor((aabb.max.x + 2.0f) / 16);
-	int upperZBound = Mth::floor((aabb.max.z + 2.0f) / 16);
+	long lowerXBound = floor((aabb.min.x - 2.0f) / 16);
+	long lowerZBound = floor((aabb.min.z - 2.0f) / 16);
+	long upperXBound = floor((aabb.max.x + 2.0f) / 16);
+	long upperZBound = floor((aabb.max.z + 2.0f) / 16);
 
-	for (int z = lowerZBound; z <= upperZBound; z++)
+	for (long z = lowerZBound; z <= upperZBound; z++)
 	{
-		for (int x = lowerXBound; x <= upperXBound; x++)
+		for (long x = lowerXBound; x <= upperXBound; x++)
 		{
 			if (!hasChunk(x, z)) continue;
 
@@ -715,20 +715,20 @@ AABBVector* Level::getCubes(const Entity* pEntUnused, const AABB& aabb)
 {
 	m_aabbs.clear();
 
-	int lowerX = Mth::floor(aabb.min.x);
-	int upperX = Mth::floor(aabb.max.x + 1);
-	int lowerY = Mth::floor(aabb.min.y);
-	int upperY = Mth::floor(aabb.max.y + 1);
-	int lowerZ = Mth::floor(aabb.min.z);
-	int upperZ = Mth::floor(aabb.max.z + 1);
+	long lowerX = floor(aabb.min.x);
+	long upperX = floor(aabb.max.x + 1);
+	long lowerY = floor(aabb.min.y);
+	long upperY = floor(aabb.max.y + 1);
+	long lowerZ = floor(aabb.min.z);
+	long upperZ = floor(aabb.max.z + 1);
 
-	for (int x = lowerX; x <= upperX; x++)
+	for (long x = lowerX; x <= upperX; x++)
 	{
-		for (int z = lowerZ; z <= upperZ; z++)
+		for (long z = lowerZ; z <= upperZ; z++)
 		{
 			if (!hasChunkAt(x, 64, z)) continue;
 
-			for (int y = lowerY; y <= upperY; y++)
+			for (long y = lowerY; y <= upperY; y++)
 			{
 				Tile* pTile = Tile::tiles[getTile(x, y, z)];
 				if (pTile)

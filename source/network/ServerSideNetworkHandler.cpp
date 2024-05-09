@@ -8,6 +8,7 @@
 
 #include "ServerSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
+#include "world/entity/MobFactory.hpp"
 
 // This lets you make the server shut up and not log events in the debug console.
 #define VERBOSE_SERVER
@@ -429,12 +430,24 @@ OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID
 
 void ServerSideNetworkHandler::setupCommands()
 {
-	m_commands["?"]     = &ServerSideNetworkHandler::commandHelp;
-	m_commands["help"]  = &ServerSideNetworkHandler::commandHelp;
-	m_commands["stats"] = &ServerSideNetworkHandler::commandStats;
-	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
-	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
-	m_commands["tp"]    = &ServerSideNetworkHandler::commandTP;
+	m_commands["?"]      = &ServerSideNetworkHandler::commandHelp;
+	m_commands["help"]   = &ServerSideNetworkHandler::commandHelp;
+	m_commands["stats"]  = &ServerSideNetworkHandler::commandStats;
+	m_commands["time"]   = &ServerSideNetworkHandler::commandTime;
+	m_commands["seed"]   = &ServerSideNetworkHandler::commandSeed;
+	m_commands["tp"]     = &ServerSideNetworkHandler::commandTP;
+	m_commands["summon"] = &ServerSideNetworkHandler::commandSummon;
+}
+
+bool ServerSideNetworkHandler::checkPermissions(OnlinePlayer* player)
+{
+	if (player->m_pPlayer != m_pMinecraft->m_pLocalPlayer)
+	{
+		sendMessage(player, "Sorry, only the host can use this command at the moment");
+		return false;
+	}
+
+	return true;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -482,6 +495,8 @@ void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vect
 			return;
 		}
 
+		if (!checkPermissions(player)) return;
+
 		m_pLevel->setTime(t);
 
 		sendMessage(player, "Time has been set to " + parms[0]);
@@ -518,37 +533,110 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 		return;
 	}
     
-	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
-	{
-		sendMessage(player, "Sorry, only the host can use this command at the moment");
-		return;
-	}
+	if (!checkPermissions(player)) return;
     
 	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-    
-	float x = pos.x, y = pos.y, z = pos.z;
     
 	std::stringstream ss;
 	if (parms[0] != "~")
 	{
 		ss.str(parms[0]);
-		ss >> x;
+		ss.clear();
+		ss >> pos.x;
 	}
 	if (parms[1] != "~")
 	{
 		ss.str(parms[1]);
-		ss >> y;
+		ss.clear();
+		ss >> pos.y;
 	}
 	if (parms[2] != "~")
 	{
 		ss.str(parms[2]);
-		ss >> z;
+		ss.clear();
+		ss >> pos.z;
 	}
     
-	ss.str(std::string());
-	ss << "Teleported to " << x << ", " << y << ", " << z;
+	ss.clear();
     
-	player->m_pPlayer->setPos(x, y, z);
+	player->m_pPlayer->setPos(pos.x, pos.y, pos.z);
+	pos = player->m_pPlayer->getPos(1.0f);
+
+	ss << "Teleported to " << pos.x << ", " << pos.y << ", " << pos.z;
     
+	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+
+	const int parmsSize = parms.size();
+
+	if (parmsSize != 1 && parmsSize != 4 && parmsSize != 5)
+	{
+		sendMessage(player, "Usage: /summon <entity> <x> <y> <z> <amount>");
+		return;
+	}
+
+	if (!checkPermissions(player)) return;
+
+	std::string entityName;
+	std::stringstream ss;
+	ss.str(parms[0]);
+	ss >> entityName;
+
+	EntityType entityType = MobFactory::GetEntityTypeFromMobName(entityName);
+	Vec3 pos = player->m_pPlayer->getPos(1.0f);
+	pos.y -= player->m_pPlayer->field_84 + player->m_pPlayer->field_A4;
+
+	if (parmsSize >= 4)
+	{
+		if (parms[1] != "~")
+		{
+			ss.str(parms[1]);
+			ss.clear();
+			ss >> pos.x;
+		}
+		if (parms[2] != "~")
+		{
+			ss.str(parms[2]);
+			ss.clear();
+			ss >> pos.y;
+		}
+		if (parms[3] != "~")
+		{
+			ss.str(parms[3]);
+			ss.clear();
+			ss >> pos.z;
+		}
+	}
+
+	int amount = 1;
+	if (parmsSize >= 5)
+	{
+		ss.str(parms[4]);
+		ss.clear();
+		ss >> amount;
+	}
+
+	ss.clear();
+	if (entityType != ENTITY_TYPE_NONE)
+	{
+		ss << "Object successfully summoned";
+
+		for (int i = 0; i++ < amount;)
+		{
+			Mob* mob = MobFactory::CreateMob(entityType, m_pLevel);
+			mob->setPos(pos.x, pos.y, pos.z);
+			m_pLevel->addEntity(mob);
+		}
+	}
+	else
+	{
+		ss << "Unable to summon object";
+	}
+
 	sendMessage(player, ss.str());
 }

@@ -38,41 +38,6 @@ void Screen::init(Minecraft* pMinecraft, int a3, int a4)
 	updateTabButtonSelection();
 }
 
-void Screen::init()
-{
-
-}
-
-void Screen::buttonClicked(Button* pButton)
-{
-
-}
-
-void Screen::confirmResult(bool b, int i)
-{
-
-}
-
-bool Screen::handleBackEvent(bool b)
-{
-	return false;
-}
-
-bool Screen::isPauseScreen()
-{
-	return true;
-}
-
-bool Screen::isErrorScreen()
-{
-	return false;
-}
-
-bool Screen::isInGameScreen()
-{
-	return true;
-}
-
 void Screen::keyPressed(int key)
 {
 	if (m_pMinecraft->getOptions()->isKey(KM_MENU_CANCEL, key))
@@ -115,12 +80,12 @@ void Screen::keyPressed(int key)
 	}
 }
 
-void Screen::charInput(char chr)
+void Screen::keyboardNewChar(char chr)
 {
 	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
 		TextInputBox* textInput = m_textInputs[i];
-		textInput->charPressed(chr);
+		textInput->keyboardNewChar(chr);
 	}
 }
 
@@ -330,11 +295,6 @@ void Screen::render(int xPos, int yPos, float unused)
 void Screen::tick()
 {
 	g_panoramaAngle++;
-}
-
-void Screen::removed()
-{
-
 }
 
 void Screen::setSize(int width, int height)

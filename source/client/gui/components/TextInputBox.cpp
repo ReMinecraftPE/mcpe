@@ -157,7 +157,7 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 #endif
 
 	if (chr)
-		charPressed(chr);
+		keyboardNewChar(chr);
 }
 
 void TextInputBox::tick()
@@ -214,13 +214,14 @@ void TextInputBox::onClick(int x, int y)
 	setFocused(clicked(x, y));
 }
 
-void TextInputBox::charPressed(int k)
+void TextInputBox::keyboardNewChar(int k)
 {
 	if (!m_bFocused)
 		return;
 
-	if (k == '\b')
+	switch (k)
 	{
+	case '\b':
 		if (m_text.empty())
 			return;
 
@@ -232,11 +233,10 @@ void TextInputBox::charPressed(int k)
 
 		m_text.erase(m_text.begin() + m_insertHead - 1, m_text.begin() + m_insertHead);
 		m_insertHead--;
+		m_pParent->onTextBoxUpdated(m_ID);
 		return;
-	}
 
-	if (k == '\001') // delete
-	{
+	case '\001': // delete
 		if (m_text.empty())
 			return;
 
@@ -247,18 +247,16 @@ void TextInputBox::charPressed(int k)
 			return;
 
 		m_text.erase(m_text.begin() + m_insertHead, m_text.begin() + m_insertHead + 1);
+		m_pParent->onTextBoxUpdated(m_ID);
 		return;
-	}
 
-	if (k == '\002') // left
-	{
+	case '\002': // left
 		m_insertHead--;
 		if (m_insertHead < 0)
 			m_insertHead = 0;
-	}
+		break;
 
-	if (k == '\003') // right
-	{
+	case '\003': // right
 		m_insertHead++;
 		if (!m_text.empty())
 		{
@@ -269,10 +267,10 @@ void TextInputBox::charPressed(int k)
 		{
 			m_insertHead = 0;
 		}
-	}
+		break;
 
-	if (k == '\n' || k == '\r')
-	{
+	case '\n':
+	case '\r':
 		m_bFocused = false;
 		return;
 	}
@@ -281,12 +279,15 @@ void TextInputBox::charPressed(int k)
 	if (k < ' ' || k > '~')
 		return;
 
+	// @TODO: for loop through member array of blacklisted characters
+
 	// note: the width will increase by the same amount no matter where K is appended
 	int width = m_pFont->width(m_text + char(k));
 	if (width < m_width - 2)
 	{
 		m_text.insert(m_text.begin() + m_insertHead, k);
 		m_insertHead++;
+		m_pParent->onTextBoxUpdated(m_ID);
 	}
 }
 

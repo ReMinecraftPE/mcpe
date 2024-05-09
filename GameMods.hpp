@@ -11,7 +11,7 @@
 // Mods
 //#define MOD_USE_FLAT_WORLD         // Use a flat world instead of the regular world generation
 //#define MOD_USE_BIGGER_SCREEN_SIZE // Use a bigger screen size instead of 854x480
-//#define MOD_DONT_COLOR_GRASS       // Don't give the top of grass tiles a different color. (like Classic)
+//#define MOD_DONT_COLOR_GRASS       // Don't give the top of grass tiles a different color. (like Classic) @TODO: This does not do shit anymore
 //#define MOD_POPOUT_CONSOLE         // Open a separate console aside from the game window. By default only the debugger can see our logs. Win32 Debug only.
 
 // Tests
@@ -30,7 +30,7 @@
 #define ENH_RUN_DAY_NIGHT_CYCLE 	 // Allow the day/night cycle to run.
 #define ENH_USE_OWN_AO          	 // Use own ambient occlusion engine - looks pretty much the same except it fixes the corners
 #define ENH_ADD_OPTIONS_PAUSE    	 // Add an 'options' button in the pause menu
-#define ENH_HIGHLIGHT_BY_HOVER  	 // Highlight buttons by hovering them instead of the usual way.
+#define ENH_HIGHLIGHT_BY_HOVER  	 // Highlight buttons by hovering them instead of the usual way. Comment this out on console, or any controller-required platform.
 #define ENH_ALLOW_SAND_GRAVITY  	 // Allow sand to fall.
 #define ENH_USE_GUI_SCALE_2     	 // Use a 2x GUI scale instead of 3x. Looks better on PC
 #define ENH_ALLOW_SCROLL_WHEEL  	 // Allow use of the scroll wheel to change selected inventory slots

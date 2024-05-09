@@ -13,7 +13,7 @@
 
 #ifdef _WIN32
 HWND GetHWND();
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 // this is stupidly hacky
 typedef BOOL(WINAPI* PFNWGLSWAPINTERVALEXTPROC) (int interval);
 #endif
@@ -31,7 +31,7 @@ PFNGLBUFFERDATAPROC p_glBufferData;
 PFNGLGENBUFFERSPROC p_glGenBuffers;
 PFNGLDELETEBUFFERSPROC p_glDeleteBuffers;
 #endif
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 // Note: don't use xglSwapIntervalEXT if you want vsync, you don't know if it's supported
 // on your platform so you need to query the extension APIs
 PFNWGLSWAPINTERVALEXTPROC p_wglSwapIntervalEXT;
@@ -62,7 +62,7 @@ void xglInit()
 #endif
 #endif
 
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 	p_wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
 #endif
 
@@ -141,7 +141,7 @@ void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat
 
 void xglSwapIntervalEXT(int interval)
 {
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 	if (!p_wglSwapIntervalEXT)
 		return;
 
