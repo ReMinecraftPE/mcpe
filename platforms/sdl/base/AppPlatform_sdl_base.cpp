@@ -27,6 +27,7 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 	m_bShiftPressed[1] = false;
 
 	_mousegrabbed = false;
+	m_bWasUnfocused = false;
 
 	ensureDirectoryExists(_storageDir.c_str());
 
@@ -156,10 +157,46 @@ int AppPlatform_sdl_base::getScreenHeight() const
 	return height;
 }
 
+void AppPlatform_sdl_base::recenterMouse()
+{
+	// only recenter the mouse if it's grabbed
+	if (!_mousegrabbed)
+		return;
+
+	// If we aren't the foreground window, return
+	if (!(SDL_GetWindowFlags(_window) & SDL_WINDOW_INPUT_FOCUS))
+	{
+		m_bWasUnfocused = true;
+		return;
+	}
+
+	// If we were unfocused last frame, ignore the diff data we have.
+	if (!m_bWasUnfocused)
+	{
+		// Note. The only reason we do it this way instead of
+		// using the Mouse class is because, after SDL_WarpMouseInWindow,
+		// we'll get an event on our window telling us "hey, the
+		// user has moved their cursor back to the center! Move
+		// the camera back as well", causing a camera that just
+		// refuses to move
+		int w = 0, h = 0;
+		SDL_GetWindowSize(_window, &w, &h);
+		SDL_WarpMouseInWindow(_window, w / 2, h / 2);
+		//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
+	}
+
+	m_bWasUnfocused = false;
+}
+
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
 	_mousegrabbed = b;
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
+	/**
+	 * @NOTE: There is a bug with older versions of SDL2 (ex: 2.0.4) where disabling RelativeMouseMode will cause a mouse event to be fired
+	 * that just moves the cursor to where it would've been if the mode had never been enabled in the first place, effectively uncentering it.
+	 * https://github.com/libsdl-org/SDL/issues/6002 (I'm not sure if this is the right issue, I just updated SDL after seeing this and it fixed the above problem.)
+	 **/
 	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
 }
 
@@ -167,15 +204,6 @@ void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 {
 	xrel = x;
 	yrel = y;
-
-	// Keep the mouse centered if its grabbed
-	if (_mousegrabbed)
-	{
-		int w = 0, h = 0;
-		SDL_GetWindowSize(_window,&w,&h);
-		SDL_WarpMouseInWindow(_window,w/2,h/2);
-		Mouse::feed(BUTTON_NONE, false, w/2,h/2);
-	}
 }
 
 void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)

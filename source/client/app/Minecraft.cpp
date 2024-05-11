@@ -511,7 +511,7 @@ void Minecraft::tickInput()
 				ItemInstance *item = m_pLocalPlayer->m_pInventory->getSelected();
 				if (item != nullptr)
 				{
-					ItemInstance itemDrop = item->remove(1);
+					ItemInstance itemDrop = m_pLocalPlayer->isSurvival() ? item->remove(1) : ItemInstance(*item);
 					itemDrop.m_amount = 1;
 					m_pLocalPlayer->drop(&itemDrop);
 				}
