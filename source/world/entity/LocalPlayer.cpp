@@ -183,7 +183,7 @@ int LocalPlayer::move(float x, float y, float z)
 	if (bFlying)
 	{
 		//@HUH: Using m_pMinecraft->m_pLocalPlayer instead of this, even though they're the same
-		pLP->m_bNoCollision = true;
+		//pLP->m_bNoCollision = true;
 
 		float field_94_old = field_94;
 
@@ -194,7 +194,8 @@ int LocalPlayer::move(float x, float y, float z)
 		// This looks very funny.
 		result = pLP->Entity::move(field_BF0, field_BF4, field_BF8);
 
-		pLP->field_7C = true;
+		// field_7C causes sneaking while flying to get rid of all momentum on X and Z?
+		//pLP->field_7C = true;
 
 		field_94 = field_94_old;
 	}
