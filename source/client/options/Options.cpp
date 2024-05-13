@@ -100,8 +100,8 @@ void Options::_initDefaultValues()
 	KM(KM_TOGGLEDEBUG,  "key.fn.debug",      0x72); // VK_F3
 	KM(KM_TOGGLEAO,     "key.fn.ao",         0x73); // VK_F4
 	KM(KM_TOGGLE3RD,    "key.fn.3rd",        0x74); // VK_F5
-	KM(KM_FLY_UP,       "key.fly.up",        'X');
-	KM(KM_FLY_DOWN,     "key.fly.down",      'C');
+	KM(KM_FLY_UP,       "key.fly.up",        ' ');
+	KM(KM_FLY_DOWN,     "key.fly.down",      0x10);
 	KM(KM_CHAT_CMD,     "key.chat.cmd",      0xBF); // VK_OEM_2
 #undef KM
 
