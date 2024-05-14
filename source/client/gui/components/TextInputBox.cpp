@@ -10,10 +10,6 @@
 #include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 
-#ifdef USE_NATIVE_ANDROID
-#define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
-#endif
-
 TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
 {
 	m_ID = id;
@@ -30,6 +26,8 @@ TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int 
 	m_lastFlashed = 0;
 	m_pFont = nullptr;
 	m_pParent = parent;
+	m_maxLength = -1;
+	m_scrollPos = 0;
 }
 
 TextInputBox::~TextInputBox()
@@ -47,117 +45,111 @@ void TextInputBox::setEnabled(bool bEnabled)
 	m_bEnabled = true;
 }
 
-void TextInputBox::keyPressed(Minecraft* minecraft, int key)
+void TextInputBox::keyPressed(int key)
 {
 	if (!m_bFocused)
+	{
 		return;
-
-	bool bShiftPressed = minecraft->platform()->shiftPressed();
-	
-#ifndef HANDLE_CHARS_SEPARATELY
-	char chr = '\0';
-	if (key >= AKEYCODE_A && key <= AKEYCODE_Z)
-	{
-		chr = char((key - AKEYCODE_A) + (bShiftPressed ? 'A' : 'a'));
 	}
-	if (key >= AKEYCODE_0 && key <= AKEYCODE_9)
-	{
-		static const char shiftmap[] = { ')', '!', '@', '#', '$', '%', '^', '&', '*', '(' };
-		chr = char(bShiftPressed ? shiftmap[key - AKEYCODE_0] : (key - AKEYCODE_0 + '0'));
-	}
-	switch (key)
-	{
-		case AKEYCODE_DEL:
-			chr = '\b';
-			break;
-		case AKEYCODE_FORWARD_DEL:
-			chr = '\001';
-			break;
-		case AKEYCODE_ARROW_LEFT:
-			chr = '\002';
-			break;
-		case AKEYCODE_ARROW_RIGHT:
-			chr = '\003';
-			break;
-		case AKEYCODE_SPACE:
-			chr = ' ';
-			break;
-		case AKEYCODE_COMMA:
-			chr = bShiftPressed ? '<' : ',';
-			break;
-		case AKEYCODE_PERIOD:
-			chr = bShiftPressed ? '>' : '.';
-			break;
-		case AKEYCODE_PLUS:
-			chr = bShiftPressed ? '+' : '=';
-			break;
-		case AKEYCODE_MINUS:
-			chr = bShiftPressed ? '_' : '-';
-			break;
-		case AKEYCODE_SEMICOLON:
-			chr = bShiftPressed ? ':' : ';';
-			break;
-		case AKEYCODE_SLASH:
-			chr = bShiftPressed ? '?' : '/';
-			break;
-		case AKEYCODE_GRAVE:
-			chr = bShiftPressed ? '~' : '`';
-			break;
-		case AKEYCODE_BACKSLASH:
-			chr = bShiftPressed ? '|' : '\\';
-			break;
-		case AKEYCODE_APOSTROPHE:
-			chr = bShiftPressed ? '"' : '\'';
-			break;
-		case AKEYCODE_LEFT_BRACKET:
-			chr = bShiftPressed ? '{' : '[';
-			break;
-		case AKEYCODE_RIGHT_BRACKET:
-			chr = bShiftPressed ? '}' : ']';
-			break;
-	}
-#else
 
-	char chr = '\0';
-
-	// here we'll just use the raw key codes...
 #ifdef USE_SDL
 #define AKEYCODE_FORWARD_DEL SDLVK_DELETE
 #define AKEYCODE_ARROW_LEFT  SDLVK_LEFT
 #define AKEYCODE_ARROW_RIGHT SDLVK_RIGHT
-#define AKEYCODE_DEL         SDLVK_BACKSPACE
+#define AKEYCODE_DEL	         SDLVK_BACKSPACE
+#define AKEYCODE_ENTER       SDLVK_RETURN
 #elif defined(_WIN32)
 #define AKEYCODE_FORWARD_DEL VK_DELETE
 #define AKEYCODE_ARROW_LEFT  VK_LEFT
 #define AKEYCODE_ARROW_RIGHT VK_RIGHT
-#define AKEYCODE_DEL         VK_BACK
+#define AKEYCODE_DEL	         VK_BACK
+#define AKEYCODE_ENTER       VK_RETURN
 #endif
-
-	switch (key)
-	{
+	switch (key) {
+		case AKEYCODE_DEL:
+		{
+			// Backspace
+			if (m_text.empty())
+			{
+				return;
+			}
+			if (m_insertHead <= 0)
+			{
+				return;
+			}
+			if (m_insertHead > int(m_text.size()))
+			{
+				m_insertHead = int(m_text.size());
+			}
+			m_text.erase(m_text.begin() + m_insertHead - 1, m_text.begin() + m_insertHead);
+			m_insertHead--;
+			recalculateScroll();
+			break;
+		}
 		case AKEYCODE_FORWARD_DEL:
-			chr = '\001';
+		{
+			// Delete
+			if (m_text.empty())
+			{
+				return;
+			}
+			if (m_insertHead < 0)
+			{
+				return;
+			}
+			if (m_insertHead >= int(m_text.size()))
+			{
+				return;
+			}
+			m_text.erase(m_text.begin() + m_insertHead, m_text.begin() + m_insertHead + 1);
 			break;
+		}
 		case AKEYCODE_ARROW_LEFT:
-			chr = '\002';
+		{
+			// Left
+			m_insertHead--;
+			if (m_insertHead < 0)
+			{
+				m_insertHead = 0;
+			}
+			recalculateScroll();
 			break;
+		}
 		case AKEYCODE_ARROW_RIGHT:
-			chr = '\003';
+		{
+			// Right
+			m_insertHead++;
+			if (!m_text.empty())
+			{
+				if (m_insertHead > int(m_text.size()))
+				{
+					m_insertHead = int(m_text.size());
+				}
+			}
+			else
+			{
+				m_insertHead = 0;
+			}
+			recalculateScroll();
 			break;
+		}
+		case AKEYCODE_ENTER:
+		{
+			// Enter
+			m_bFocused = false;
+			break;
+		}
 	}
-#endif
-
 #ifdef AKEYCODE_FORWARD_DEL
 #undef AKEYCODE_FORWARD_DEL
 #undef AKEYCODE_ARROW_LEFT
 #undef AKEYCODE_ARROW_RIGHT
+#undef AKEYCODE_DEL
+#undef AKEYCODE_ENTER
 #endif
 #ifdef AKEYCODE_DEL
 #undef AKEYCODE_DEL
 #endif
-
-	if (chr)
-		charPressed(chr);
 }
 
 void TextInputBox::tick()
@@ -203,6 +195,7 @@ void TextInputBox::setFocused(bool b)
 		m_lastFlashed = getTimeMs();
 		m_bCursorOn = true;
 		m_insertHead = int(m_text.size());
+		recalculateScroll();
 	}
 
 	// don't actually hide the keyboard when unfocusing
@@ -217,99 +210,82 @@ void TextInputBox::onClick(int x, int y)
 void TextInputBox::charPressed(int k)
 {
 	if (!m_bFocused)
-		return;
-
-	if (k == '\b')
 	{
-		if (m_text.empty())
-			return;
-
-		if (m_insertHead <= 0)
-			return;
-
-		if (m_insertHead > int(m_text.size()))
-			m_insertHead = int(m_text.size());
-
-		m_text.erase(m_text.begin() + m_insertHead - 1, m_text.begin() + m_insertHead);
-		m_insertHead--;
 		return;
 	}
 
-	if (k == '\001') // delete
+	// Ignore Unprintable Characters
+	if (k == '\n' || k < ' ' || k > '~')
 	{
-		if (m_text.empty())
-			return;
-
-		if (m_insertHead < 0)
-			return;
-
-		if (m_insertHead >= int(m_text.size()))
-			return;
-
-		m_text.erase(m_text.begin() + m_insertHead, m_text.begin() + m_insertHead + 1);
 		return;
 	}
 
-	if (k == '\002') // left
+	// Check Max Length
+	if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
 	{
-		m_insertHead--;
-		if (m_insertHead < 0)
-			m_insertHead = 0;
-	}
-
-	if (k == '\003') // right
-	{
-		m_insertHead++;
-		if (!m_text.empty())
-		{
-			if (m_insertHead > int(m_text.size()))
-				m_insertHead = int(m_text.size());
-		}
-		else
-		{
-			m_insertHead = 0;
-		}
-	}
-
-	if (k == '\n' || k == '\r')
-	{
-		m_bFocused = false;
 		return;
 	}
 
-	// other unrenderable character?
-	if (k < ' ' || k > '~')
-		return;
-
-	// note: the width will increase by the same amount no matter where K is appended
-	int width = m_pFont->width(m_text + char(k));
-	if (width < m_width - 2)
-	{
-		m_text.insert(m_text.begin() + m_insertHead, k);
-		m_insertHead++;
-	}
+	// Insert
+	m_text.insert(m_text.begin() + m_insertHead, k);
+	m_insertHead++;
+	recalculateScroll();
 }
+
+static int PADDING = 5;
+
+static std::string get_rendered_text(Font *font, int width, int scroll_pos, std::string text)
+{
+	// Not the most efficient code.
+	// But it does not run often enough to matter.
+	std::string rendered_text = text.substr(scroll_pos);
+	int max_width = width - (PADDING * 2);
+	while (font->width(rendered_text) > max_width)
+	{
+		rendered_text.pop_back();
+	}
+	return rendered_text;
+}
+
+static char CURSOR_CHAR = '_';
 
 void TextInputBox::render()
 {
 	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, 0xFFAAAAAA);
 	fill(m_xPos + 1, m_yPos + 1, m_xPos + m_width - 1, m_yPos + m_height - 1, 0xFF000000);
 
-	int textYPos = (m_height - 8) / 2;
-
+	int text_color;
+	int scroll_pos;
+	std::string rendered_text;
 	if (m_text.empty())
-		drawString(m_pFont, m_placeholder, m_xPos + 5, m_yPos + textYPos, 0x404040);
+	{
+		rendered_text = m_placeholder;
+		text_color = 0x404040;
+		scroll_pos = 0;
+	}
 	else
-		drawString(m_pFont, m_text, m_xPos + 5, m_yPos + textYPos, 0xFFFFFF);
+	{
+		rendered_text = m_text;
+		text_color = 0xffffff;
+		scroll_pos = m_scrollPos;
+	}
+	rendered_text = get_rendered_text(m_pFont, m_width, scroll_pos, rendered_text);
+
+	int textYPos = (m_height - 8) / 2;
+	drawString(m_pFont, rendered_text, m_xPos + PADDING, m_yPos + textYPos, text_color);
 
 	if (m_bCursorOn)
 	{
-		int xPos = 5;
-		
-		std::string substr = m_text.substr(0, m_insertHead);
-		xPos += m_pFont->width(substr);
+		int cursor_pos = m_insertHead - m_scrollPos;
+		if (cursor_pos >= 0 && cursor_pos <= int(rendered_text.length()))
+		{
+			std::string substr = rendered_text.substr(0, cursor_pos);
+			int xPos = PADDING + m_pFont->width(substr);
 
-		drawString(m_pFont, "_", m_xPos + xPos, m_yPos + textYPos + 2, 0xFFFFFF);
+			std::string str;
+			str += CURSOR_CHAR;
+			drawString(m_pFont, str, m_xPos + xPos, m_yPos + textYPos + 2, 0xffffff);
+		}
 	}
 }
 
@@ -323,6 +299,94 @@ bool TextInputBox::clicked(int xPos, int yPos)
 	if (yPos >= m_yPos + m_height) return false;
 
 	return true;
+}
+
+void TextInputBox::recalculateScroll()
+{
+	// Skip If Size Unset
+	if (m_width == 0)
+	{
+		return;
+	}
+	// Ensure Cursor Is Visible
+	bool is_cursor_at_end = m_insertHead == int(m_text.length());
+	if (m_scrollPos >= m_insertHead && m_scrollPos > 0)
+	{
+		// Cursor Is At Scroll Position
+		// Move Back Scroll As Far As Possible
+		while (true)
+		{
+			int test_scroll_pos = m_scrollPos - 1;
+			std::string rendered_text = m_text;
+			if (is_cursor_at_end)
+			{
+				rendered_text += CURSOR_CHAR;
+			}
+			rendered_text = get_rendered_text(m_pFont, m_width, test_scroll_pos, rendered_text);
+			int cursor_pos = m_insertHead - test_scroll_pos;
+			if (cursor_pos >= int(rendered_text.length()))
+			{
+				break;
+			}
+			else
+			{
+				m_scrollPos = test_scroll_pos;
+				if (m_scrollPos == 0)
+				{
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		// Cursor After Scroll Area
+		// Increase Scroll So Cursor Is Visible
+		while (true)
+		{
+			std::string rendered_text = m_text;
+			if (is_cursor_at_end)
+			{
+				rendered_text += CURSOR_CHAR;
+			}
+			rendered_text = get_rendered_text(m_pFont, m_width, m_scrollPos, rendered_text);
+			int cursor_pos = m_insertHead - m_scrollPos;
+			if (cursor_pos < int(rendered_text.length()))
+			{
+				break;
+			}
+			else
+			{
+				if (m_scrollPos == int(m_text.length())) {
+					LOG_W("Text Box Is Too Small");
+					break;
+				} else {
+					m_scrollPos++;
+				}
+			}
+		}
+	}
+}
+
+std::string TextInputBox::getText()
+{
+	return m_text;
+}
+
+void TextInputBox::setText(std::string str)
+{
+	m_text = str;
+	m_insertHead = int(m_text.size());
+}
+
+bool TextInputBox::isFocused()
+{
+	return m_bFocused;
+}
+
+void TextInputBox::setMaxLength(int max_length)
+{
+	m_maxLength = max_length;
 }
 
 #endif
