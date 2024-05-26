@@ -13,8 +13,8 @@ void LargeFeature::apply(ChunkSource* csrc, Level* level, int x, int z, uint8_t*
 {
 	m_random.setSeed(level->getSeed());
 
-	int r1 = 2 * (m_random.nextLong() / 2) + 1;
-	int r2 = 2 * (m_random.nextLong() / 2) + 1;
+	int r1 = 2 * (m_random.nextInt() / 2) + 1;
+	int r2 = 2 * (m_random.nextInt() / 2) + 1;
 
 	for (int ax = x - m_radius; ax <= x + m_radius; ax++)
 	{

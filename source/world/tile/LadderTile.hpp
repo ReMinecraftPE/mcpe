@@ -15,13 +15,13 @@ class LadderTile : public Tile
 public:
 	LadderTile(int ID, int texture);
 
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
-	int getRenderShape() override;
-	int getResourceCount(Random* random) override;
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	AABB getTileAABB(Level*, int x, int y, int z) override;
+	bool isCubeShaped() const override;
+	bool isSolidRender() const override;
+	int getRenderShape() const override;
+	int getResourceCount(Random* random) const override;
+	AABB* getAABB(const Level*, int x, int y, int z) override;
+	AABB getTileAABB(const Level*, int x, int y, int z) override;
 	void setPlacedOnFace(Level*, int x, int y, int z, int face) override;
 	void neighborChanged(Level*, int, int, int, int) override;
-	bool mayPlace(Level*, int, int, int) override;
+	bool mayPlace(const Level*, int, int, int) const override;
 };

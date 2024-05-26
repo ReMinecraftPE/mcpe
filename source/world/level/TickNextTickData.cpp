@@ -47,7 +47,7 @@ bool TickNextTickData::operator==(const TickNextTickData& other) const
 		field_10 == other.field_10;
 }
 
-void TickNextTickData::setDelay(TLong l)
+void TickNextTickData::setDelay(int32_t l)
 {
 	m_delay = l;
 }

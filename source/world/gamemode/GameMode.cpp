@@ -9,8 +9,9 @@
 #include "GameMode.hpp"
 #include "client/app/Minecraft.hpp"
 
-GameMode::GameMode(Minecraft* pMinecraft) :
+GameMode::GameMode(Minecraft* pMinecraft, Level& level) :
 	m_pMinecraft(pMinecraft),
+	_level(level),
 	field_8(0)
 {
 }
@@ -66,14 +67,23 @@ void GameMode::render(float f)
 {
 }
 
-float GameMode::getPickRange()
+float GameMode::getPickRange() const
 {
+/*
+  if ( *inputMode == 1 )
+	return 5.7;
+  if ( *inputMode == 3 )
+	return 5.6;
+  if ( !player || player->isCreative() )
+	return 12.0;
+  return 5.0;
+*/
 	return 7.5f;
 }
 
 LocalPlayer* GameMode::createPlayer(Level* pLevel)
 {
-	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->m_pDimension->field_50);
+	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), m_pMinecraft->m_pLevel->m_pDimension->field_50);
 }
 
 void GameMode::initPlayer(Player* pPlayer)
@@ -106,16 +116,6 @@ int GameMode::handleInventoryMouseClick(int a, int b, int c, Player* player)
 
 void GameMode::handleCloseInventory(int a, Player* player)
 {
-}
-
-bool GameMode::isCreativeType()
-{
-	return true;
-}
-
-bool GameMode::isSurvivalType()
-{
-	return false;
 }
 
 bool GameMode::useItem(Player* player, Level* level, ItemInstance* instance)

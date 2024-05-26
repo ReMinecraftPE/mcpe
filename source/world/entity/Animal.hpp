@@ -16,16 +16,16 @@ public:
 	// TODO: void addAdditonalSaveData(CompoundTag*) override;
 	// TODO: void readAdditonalSaveData(CompoundTag*) override;
 	void aiStep() override;
-	bool isBaby() override;
-	bool canSpawn() override;
+	bool isBaby() const override;
+	bool canSpawn() const override;
 	Entity* findAttackTarget() override;
-	int getAmbientSoundInterval() override;
-	int getCreatureBaseType() override;
-	float getWalkTargetValue(int x, int y, int z) override;
+	int getAmbientSoundInterval() const override;
+	int getCreatureBaseType() const override;
+	float getWalkTargetValue(int x, int y, int z) const override;
 	bool hurt(Entity* pCulprit, int damage) override;
-	bool removeWhenFarAway() override;
+	bool removeWhenFarAway() const override;
 
-	int getAge();
+	int getAge() const;
 	void setAge(int age);
 
 private:

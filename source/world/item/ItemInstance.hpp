@@ -38,9 +38,9 @@ public:
 	bool canDestroySpecial(Tile*);
 	std::string getDescriptionId();
 	float getDestroySpeed(Tile*);
-	int getIcon();
-	int getMaxDamage();
-	int getMaxStackSize();
+	int getIcon() const;
+	int getMaxDamage() const;
+	int getMaxStackSize() const;
 	void hurt(int by);
 	void hurtEnemy(Mob*);
 	void interactEnemy(Mob*);
@@ -57,7 +57,7 @@ public:
 	ItemInstance* use(Level*, Player*);
 	bool useOn(Player*, Level*, int x, int y, int z, int dir);
 
-	Item* getItem();
+	Item* getItem() const;
 	ItemInstance* copy();
 
 	static bool matches(ItemInstance*, ItemInstance*);

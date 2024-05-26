@@ -14,27 +14,27 @@ RocketLauncherTile::RocketLauncherTile(int id) : Tile(id, 16*14+2, Material::woo
 	setTicking(true);
 }
 
-int RocketLauncherTile::getTexture(int dir, int data)
+int RocketLauncherTile::getTexture(int dir, int data) const
 {
 	return data == 1 ? 16*14+3 : 16*14+2;
 }
 
-AABB* RocketLauncherTile::getAABB(Level*, int x, int y, int z)
+AABB* RocketLauncherTile::getAABB(const Level*, int x, int y, int z)
 {
 	return nullptr;
 }
 
-int RocketLauncherTile::getRenderShape()
+int RocketLauncherTile::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }
 
-bool RocketLauncherTile::isCubeShaped()
+bool RocketLauncherTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool RocketLauncherTile::isSolidRender()
+bool RocketLauncherTile::isSolidRender() const
 {
 	return false;
 }

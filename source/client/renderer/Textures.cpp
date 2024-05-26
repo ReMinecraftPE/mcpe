@@ -20,7 +20,7 @@ int Textures::loadTexture(const std::string& name, bool bIsRequired)
 	Texture t = m_pPlatform->loadTexture(name, bIsRequired);
 
 	if (!t.m_pixels && bIsRequired) {
-		t.field_C = 1;
+		t.m_hasAlpha = 1;
 		t.field_D = 0;
 		t.m_width = 2;
 		t.m_height = 2;
@@ -79,7 +79,7 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 
 	GLuint internalFormat = GL_RGB;
 
-	if (texture.field_C)
+	if (texture.m_hasAlpha)
 		internalFormat = GL_RGBA;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.m_pixels);

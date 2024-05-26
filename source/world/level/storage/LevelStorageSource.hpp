@@ -12,29 +12,29 @@
 
 struct LevelSummary
 {
-	std::string field_0;
-	std::string field_18;
-	int field_30;
-	int field_34;
+	std::string m_fileName;
+	std::string m_levelName;
+	int m_lastPlayed;
+	int m_sizeOnDisk;
 
 	LevelSummary()
 	{
-		field_30 = 0;
-		field_34 = 0;
+		m_lastPlayed = 0;
+		m_sizeOnDisk = 0;
 	}
 
 	LevelSummary(const std::string& a, const std::string& b, int c, int d)
 	{
-		field_0 = a;
-		field_18 = b;
-		field_30 = c;
-		field_34 = d;
+		m_fileName = a;
+		m_levelName = b;
+		m_lastPlayed = c;
+		m_sizeOnDisk = d;
 	}
 
 	bool operator<(const LevelSummary& b) const
 	{
 		// @NOTE: I *think* that's how it works. Not entirely sure.
-		return field_30 > b.field_30;
+		return m_lastPlayed > b.m_lastPlayed;
 	}
 };
 

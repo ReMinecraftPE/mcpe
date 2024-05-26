@@ -9,7 +9,7 @@
 #include "ItemEntity.hpp"
 #include "world/level/Level.hpp"
 
-void ItemEntity::_init(ItemInstance* itemInstance)
+void ItemEntity::_init(const ItemInstance* itemInstance)
 {
 	field_E0 = 0;
 	field_E4 = 0;
@@ -20,11 +20,14 @@ void ItemEntity::_init(ItemInstance* itemInstance)
 	field_E8 = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
 	field_84 = field_8C * 0.5f;
-	m__itemInstance = itemInstance ? *itemInstance : ItemInstance();
-	m_pItemInstance = &m__itemInstance;
+#ifdef ORIGINAL_CODE
+	m_pItemInstance = itemInstance != nullptr ? itemInstance : new ItemInstance();
+#else
+	m_itemInstance = itemInstance != nullptr ? ItemInstance(*itemInstance) : ItemInstance();
+#endif
 }
 
-void ItemEntity::_init(ItemInstance* itemInstance, float x, float y, float z)
+void ItemEntity::_init(const ItemInstance* itemInstance, float x, float y, float z)
 {
 	_init(itemInstance);
 
@@ -66,11 +69,11 @@ void ItemEntity::playerTouch(Player* player)
 
 	Inventory* pInventory = player->m_pInventory;
 
-	pInventory->addItem(m_pItemInstance);
+	pInventory->addItem(&m_itemInstance);
 
 	// No "random.pop" sound.
 
-	if (m_pItemInstance->m_amount <= 0)
+	if (m_itemInstance.m_amount <= 0)
 		remove();
 }
 
@@ -98,7 +101,7 @@ void ItemEntity::tick()
 
 	float dragFactor = 0.98f;
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		dragFactor = 0.588f;
 		TileID tile = m_pLevel->getTile(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y) - 1, Mth::floor(m_pos.z));
@@ -110,7 +113,7 @@ void ItemEntity::tick()
 	m_vel.z *= dragFactor;
 	m_vel.y *= 0.98f;
 
-	if (field_7C)
+	if (m_onGround)
 		m_vel.y *= -0.5f;
 
 	field_EC++;

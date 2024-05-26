@@ -15,7 +15,7 @@ class SandTile : public Tile
 public:
 	SandTile(int ID, int texture, Material*);
 
-	int getTickDelay() override;
+	int getTickDelay() const override;
 	void tick(Level* level, int x, int y, int z, Random* random) override;
 	void neighborChanged(Level* level, int x, int y, int z, int dir) override;
 	void onPlace(Level* level, int x, int y, int z) override;

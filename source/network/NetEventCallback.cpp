@@ -32,7 +32,19 @@ void NetEventCallback::handle(const RakNet::RakNetGUID& guid, LoginPacket* packe
 {
 }
 
+void NetEventCallback::handle(const RakNet::RakNetGUID& guid, LoginStatusPacket* packet)
+{
+}
+
+void NetEventCallback::handle(const RakNet::RakNetGUID& guid, ReadyPacket* packet)
+{
+}
+
 void NetEventCallback::handle(const RakNet::RakNetGUID& guid, MessagePacket* packet)
+{
+}
+
+void NetEventCallback::handle(const RakNet::RakNetGUID& guid, SetTimePacket* packet)
 {
 }
 

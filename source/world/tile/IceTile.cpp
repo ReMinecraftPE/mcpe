@@ -14,12 +14,12 @@ IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 	setTicking(true);
 }
 
-int IceTile::getRenderLayer()
+int IceTile::getRenderLayer() const
 {
 	return LAYER_ALPHA;
 }
 
-int IceTile::getResourceCount(Random* pRandom)
+int IceTile::getResourceCount(Random* pRandom) const
 {
 	return 0;
 }
@@ -33,7 +33,7 @@ void IceTile::onRemove(Level* level, int x, int y, int z)
 	}
 }
 
-bool IceTile::shouldRenderFace(LevelSource* level, int x, int y, int z, int dir)
+bool IceTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
 {
 	//@BUG: 1 - dir? This would only work to flip the YNEG and YPOS directions.
 	return HalfTransparentTile::shouldRenderFace(level, x, y, z, 1 - dir);

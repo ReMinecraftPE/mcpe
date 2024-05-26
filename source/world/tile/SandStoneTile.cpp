@@ -13,7 +13,7 @@ SandStoneTile::SandStoneTile(int a, int b, Material* c) : Tile(a, b, c)
 {
 }
 
-int SandStoneTile::getTexture(int side)
+int SandStoneTile::getTexture(int side) const
 {
 	if (side == DIR_YNEG)
 		return TEXTURE_SANDSTONE_BOTTOM;

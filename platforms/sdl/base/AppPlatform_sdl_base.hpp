@@ -32,6 +32,7 @@ public:
 	std::string getDateString(int time) override;
 	
 	// Also add these to allow proper turning within the game.
+	void recenterMouse() override;
 	void setMouseGrabbed(bool b) override;
 	void setMouseDiff(int x, int y);
 	void getMouseDiff(int& x, int& y) override;
@@ -63,6 +64,7 @@ private:
 	int yrel;
 
 	bool _mousegrabbed;
+	bool m_bWasUnfocused;
 
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;

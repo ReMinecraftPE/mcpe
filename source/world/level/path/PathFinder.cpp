@@ -249,16 +249,16 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, float x, float y, float z
 	int z1 = Mth::floor(pEntity->m_hitbox.min.z);
 	Node* node1 = getNode(x1, y1, z1);
 
-	int x2 = Mth::floor(x - 0.5f * pEntity->field_88);
+	int x2 = Mth::floor(x + (-0.5f * pEntity->field_88));
 	int y2 = Mth::floor(y);
-	int z2 = Mth::floor(z - 0.5f * pEntity->field_88);
+	int z2 = Mth::floor(z + (-0.5f * pEntity->field_88));
 	Node* node2 = nullptr;
 
 	if (!m_pLevel->getTile(x2, y2 - 1, z2))
 	{
-		for (int x3 = x2; x3 <= Mth::floor(x + 0.5f * pEntity->field_88); x3++)
+		for (int x3 = x2; x3 <= Mth::floor(x + (0.5f * pEntity->field_88)); x3++)
 		{
-			for (int z3 = z2; z3 <= Mth::floor(y + 0.5f * pEntity->field_88); z3++)
+			for (int z3 = z2; z3 <= Mth::floor(y + (0.5f * pEntity->field_88)); z3++)
 			{
 				if (m_pLevel->getTile(x3, y2 - 1, z3))
 				{

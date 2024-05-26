@@ -11,7 +11,7 @@
 
 int dword_250ADC, dword_250AE0;
 
-LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int i) : Player(pLevel)
+LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int i) : Player(pLevel, playerGameType)
 {
 	field_BEC = 0;
 	field_BF0 = 0.0f;
@@ -65,6 +65,21 @@ void LocalPlayer::aiStep()
 
 	Mob::aiStep();
 	Player::aiStep();
+}
+
+void LocalPlayer::drop(const ItemInstance* pItemInstance, bool b)
+{
+	if (pItemInstance)
+	{
+		if (m_pMinecraft->isOnlineClient())
+		{
+			// @TODO: Replicate DropItemPacket to server
+		}
+		else
+		{
+			Player::drop(pItemInstance, b);
+		}
+	}
 }
 
 void LocalPlayer::animateRespawn()
@@ -124,7 +139,7 @@ void LocalPlayer::respawn()
 	m_pMinecraft->respawnPlayer(this);
 }
 
-bool LocalPlayer::isSneaking()
+bool LocalPlayer::isSneaking() const
 {
 	return m_pMoveInput->m_bSneakButton;
 }
@@ -148,7 +163,7 @@ int LocalPlayer::move(float x, float y, float z)
 		// This looks very funny.
 		result = pLP->Entity::move(field_BF0, field_BF4, field_BF8);
 
-		pLP->field_7C = true;
+		pLP->m_onGround = true;
 
 		field_94 = field_94_old;
 	}
@@ -245,9 +260,4 @@ void LocalPlayer::updateAi()
 	field_B04 = m_pMoveInput->m_vertInput;
 
 	field_B0C = m_pMoveInput->m_bJumpButton || m_nAutoJumpFrames > 0;
-}
-
-bool LocalPlayer::isLocalPlayer()
-{
-	return true;
 }

@@ -15,32 +15,32 @@ TopSnowTile::TopSnowTile(int a, int b, Material* c) : Tile(a, b, c)
 	setTicking(true);
 }
 
-AABB* TopSnowTile::getAABB(Level*, int x, int y, int z)
+AABB* TopSnowTile::getAABB(const Level*, int x, int y, int z)
 {
 	return nullptr;
 }
 
-bool TopSnowTile::isCubeShaped()
+bool TopSnowTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool TopSnowTile::isSolidRender()
+bool TopSnowTile::isSolidRender() const
 {
 	return false;
 }
 
-int TopSnowTile::getResource(int x, Random* random)
+int TopSnowTile::getResource(int x, Random* random) const
 {
 	return 0;
 }
 
-int TopSnowTile::getResourceCount(Random* random)
+int TopSnowTile::getResourceCount(Random* random) const
 {
 	return 0;
 }
 
-bool TopSnowTile::mayPlace(Level* level, int x, int y, int z)
+bool TopSnowTile::mayPlace(const Level* level, int x, int y, int z) const
 {
 	TileID tile = level->getTile(x, y - 1, z);
 
@@ -65,7 +65,7 @@ void TopSnowTile::neighborChanged(Level* level, int x, int y, int z, int d)
 	checkCanSurvive(level, x, y, z);
 }
 
-bool TopSnowTile::shouldRenderFace(LevelSource* level, int x, int y, int z, int dir)
+bool TopSnowTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
 {
 	if (dir == DIR_YPOS)
 		return true;

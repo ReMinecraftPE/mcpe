@@ -14,8 +14,14 @@ Packet* MinecraftPackets::createPacket(int type)
 	{
 		case PACKET_LOGIN:
 			return new LoginPacket;
+		case PACKET_LOGIN_STATUS:
+			return new LoginStatusPacket;
+		case PACKET_READY:
+			return new ReadyPacket;
 		case PACKET_MESSAGE:
 			return new MessagePacket;
+		case PACKET_SET_TIME:
+			return new SetTimePacket;
 		case PACKET_START_GAME:
 			return new StartGamePacket;
 		case PACKET_ADD_PLAYER:

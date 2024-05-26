@@ -16,17 +16,17 @@ RedStoneOreTile::RedStoneOreTile(int id, int texture, bool bLit) : Tile(id, text
 		setTicking(true);
 }
 
-int RedStoneOreTile::getResource(int x, Random* random)
+int RedStoneOreTile::getResource(int x, Random* random) const
 {
 	return 0;
 }
 
-int RedStoneOreTile::getResourceCount(Random* random)
+int RedStoneOreTile::getResourceCount(Random* random) const
 {
 	return random->genrand_int32() % 2 + 4;
 }
 
-int RedStoneOreTile::getSpawnResourcesAuxValue(int x)
+int RedStoneOreTile::getSpawnResourcesAuxValue(int x) const
 {
 	return 0;
 }
@@ -113,7 +113,7 @@ void RedStoneOreTile::stepOn(Level* level, int x, int y, int z, Entity* entity)
 	interact(level, x, y, z);
 }
 
-int RedStoneOreTile::getTickDelay()
+int RedStoneOreTile::getTickDelay() const
 {
 	return 30;
 }

@@ -173,38 +173,6 @@ void ModelPart::render(float scale)
 	}
 }
 
-void ModelPart::renderHorrible(float scale)
-{
-	if (field_49)
-		return;
-
-	if (!field_48)
-		return;
-
-	if (!m_bCompiled)
-		compile(scale);
-
-	if (!hasDefaultRot())
-	{
-		glPushMatrix();
-
-		translateRotTo(scale);
-		drawSlow(scale);
-
-		glPopMatrix();
-	}
-	else if (!hasDefaultPos())
-	{
-		translatePosTo(scale);
-		drawSlow(scale);
-		translatePosTo(-scale);
-	}
-	else
-	{
-		drawSlow(scale);
-	}
-}
-
 void ModelPart::renderRollable(float scale)
 {
 	if (field_49)

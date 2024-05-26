@@ -21,7 +21,7 @@ SandTile::SandTile(int ID, int texture, Material* pMtl) : Tile(ID, texture, pMtl
 #endif
 }
 
-int SandTile::getTickDelay()
+int SandTile::getTickDelay() const
 {
 	return 3;
 }

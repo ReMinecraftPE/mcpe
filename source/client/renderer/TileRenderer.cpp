@@ -2388,18 +2388,19 @@ LABEL_102:
 #define SHADE_PREPARE          0
 #define SHADE_IF_NEEDED(col)   0
 #define SHADE_FIXUP_GRASS(col) 0
+#define SHADE_FIXUP_GRASS      0
 
 #endif
 
-void TileRenderer::renderTile(Tile* tile, int data RENDER_TILE_ARG_PATCH)
+void TileRenderer::renderTile(Tile* tile, int data, float bright)
 {
 	Tesselator& t = Tesselator::instance;
 
-#ifdef ENH_SHADE_HELD_TILES
-	t.color(bright, bright, bright);
-#else
-	t.color(255, 255, 255);
+#ifndef ENH_SHADE_HELD_TILES
+	bright = 1.0f; // 255
 #endif
+
+	t.color(bright, bright, bright);
 
 	int shape = tile->getRenderShape();
 	switch (shape)

@@ -13,47 +13,47 @@
 #include "world/item/Inventory.hpp"
 #include "world/entity/Mob.hpp"
 #include "world/entity/ItemEntity.hpp"
+#include "world/gamemode/GameType.hpp"
 
 class Inventory; // in case we're included from Inventory.hpp
 
 class Player : public Mob
 {
+private:
+	GameType _playerGameType;
+
 public:
-	Player(Level*);
+	Player(Level* pLevel, GameType gameType);
 	virtual ~Player();
 
 	virtual void reset() override;
-	virtual void remove() override;
-	virtual void tick() override;
-	virtual bool isInWall() override;
-	virtual float getHeadHeight() override;
-	virtual bool isShootable() override;
-	virtual bool isPlayer() override;
-	virtual bool isCreativeModeAllowed() override;
+	virtual float getHeadHeight() const override { return 0.12f; /*@HUH: what ?*/ }
+	virtual bool isShootable() const override { return true; }
+	virtual bool isPlayer() const override { return true; }
+	virtual bool isCreativeModeAllowed() const override { return true; }
 	virtual bool hurt(Entity*, int) override;
 	virtual void awardKillScore(Entity* pKilled, int score) override;
 	virtual void resetPos() override;
 	virtual void die(Entity* pCulprit) override;
 	virtual void aiStep() override;
-	virtual bool isImmobile() override;
+	virtual bool isImmobile() const override { return m_health <= 0; }
 	virtual void updateAi() override;
 	virtual void defineSynchedData() override;
 
 	virtual void animateRespawn();
+	virtual void drop(const ItemInstance* pItemInstance, bool b = false);
 
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
 	void attack(Entity* pEnt);
-	bool canDestroy(Tile*);
+	bool canDestroy(const Tile*) const;
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
-	void drop(ItemInstance*);
-	void drop(ItemInstance*, bool);
 	void drop();
-	float getDestroySpeed();
-	int getInventorySlot(int x);
-	Pos getRespawnPosition();
-	int getScore();
+	float getDestroySpeed() const { return 1.0f; }
+	int getInventorySlot(int x) const;
+	Pos getRespawnPosition() { return m_respawnPos; }
+	int getScore() const { return m_score; }
 	void prepareCustomTextures();
 	void reallyDrop(ItemEntity* pEnt);
 	void respawn();
@@ -64,6 +64,10 @@ public:
 	void swing();
 	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);
+	GameType getPlayerGameType() const { return _playerGameType; }
+	void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
+	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
+	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push

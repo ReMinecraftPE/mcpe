@@ -52,7 +52,7 @@ public: // Methods
 	virtual Item* setIcon(int icon);
 	virtual Item* setMaxStackSize(int mss);
 	virtual Item* setIcon(int ix, int iy);
-	virtual int getIcon(ItemInstance*);
+	virtual int getIcon(const ItemInstance*) const;
 	virtual bool useOn(ItemInstance*, Level*, int, int, int, int);
 	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int);
 	virtual float getDestroySpeed(ItemInstance*, Tile*);

@@ -13,27 +13,27 @@ LadderTile::LadderTile(int ID, int texture) : Tile(ID, texture, Material::decora
 {
 }
 
-int LadderTile::getRenderShape()
+int LadderTile::getRenderShape() const
 {
 	return SHAPE_LADDER;
 }
 
-int LadderTile::getResourceCount(Random* random)
+int LadderTile::getResourceCount(Random* random) const
 {
 	return 1;
 }
 
-bool LadderTile::isCubeShaped()
+bool LadderTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool LadderTile::isSolidRender()
+bool LadderTile::isSolidRender() const
 {
 	return false;
 }
 
-AABB* LadderTile::getAABB(Level* level, int x, int y, int z)
+AABB* LadderTile::getAABB(const Level* level, int x, int y, int z)
 {
 	int data = level->getData(x, y, z);
 	switch (data)
@@ -55,7 +55,7 @@ AABB* LadderTile::getAABB(Level* level, int x, int y, int z)
 	return Tile::getAABB(level, x, y, z);
 }
 
-AABB LadderTile::getTileAABB(Level* level, int x, int y, int z)
+AABB LadderTile::getTileAABB(const Level* level, int x, int y, int z)
 {
 	int data = level->getData(x, y, z);
 	switch (data)
@@ -120,7 +120,7 @@ void LadderTile::neighborChanged(Level* level, int x, int y, int z, int dir)
 	level->setTile(x, y, z, TILE_AIR);
 }
 
-bool LadderTile::mayPlace(Level* level, int x, int y, int z)
+bool LadderTile::mayPlace(const Level* level, int x, int y, int z) const
 {
 	return
 		level->isSolidTile(x - 1, y, z) ||

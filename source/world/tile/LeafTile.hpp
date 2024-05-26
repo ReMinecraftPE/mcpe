@@ -16,9 +16,9 @@ public:
 	LeafTile(int id);
 	~LeafTile();
 
-	int getColor(LevelSource*, int, int, int) override;
-	int getTexture(int dir, int data) override;
-	bool isSolidRender() override;
+	int getColor(const LevelSource*, int, int, int) const override;
+	int getTexture(int dir, int data) const override;
+	bool isSolidRender() const override;
 	void onRemove(Level*, int x, int y, int z) override;
 	void stepOn(Level*, int x, int y, int z, Entity*) override;
 	void tick(Level*, int x, int y, int z, Random*) override;

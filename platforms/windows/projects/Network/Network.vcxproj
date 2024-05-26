@@ -23,26 +23,9 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</ProjectGuid>
     <RootNamespace>Network</RootNamespace>
+	<ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -51,79 +34,7 @@
   <ImportGroup Label="Minecraft">
     <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib />
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib />
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib />
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-    <Lib />
-  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\network\MinecraftPackets.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\NetEventCallback.cpp" />
@@ -131,6 +42,8 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\ChunkDataPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelDataPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LoginStatusPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ReadyPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MessagePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MovePlayerPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\PlaceBlockPacket.cpp" />
@@ -138,10 +51,12 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveBlockPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\RemoveEntityPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\RequestChunkPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetTimePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\StartGamePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\PacketUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -150,10 +65,17 @@
     <ClInclude Include="$(MC_ROOT)\source\network\PingedCompatibleServer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\PacketUtil.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\RakNet\RakNet.vcxproj">
       <Project>{4b7fcc5f-7e38-4934-b272-2f5bbef51013}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\World\World.vcxproj">
+      <Project>{5f7cd8c1-413c-4855-a450-2c765f16c5a4}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

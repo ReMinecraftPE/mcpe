@@ -25,12 +25,12 @@ void Animal::aiStep()
 	Mob::aiStep();
 }
 
-bool Animal::isBaby()
+bool Animal::isBaby() const
 {
 	return getAge() < 0;
 }
 
-bool Animal::canSpawn()
+bool Animal::canSpawn() const
 {
 	int x = Mth::floor(m_pos.x);
 	int y = Mth::floor(m_hitbox.min.y);
@@ -48,17 +48,17 @@ Entity* Animal::findAttackTarget()
 	return nullptr;
 }
 
-int Animal::getAmbientSoundInterval()
+int Animal::getAmbientSoundInterval() const
 {
 	return 240;
 }
 
-int Animal::getCreatureBaseType()
+int Animal::getCreatureBaseType() const
 {
 	return BASE_ANIMAL;
 }
 
-float Animal::getWalkTargetValue(int x, int y, int z)
+float Animal::getWalkTargetValue(int x, int y, int z) const
 {
 	// Animals would rather walk on grass.
 	if (m_pLevel->getTile(x, y - 1, z) == Tile::grass->m_ID)
@@ -79,12 +79,12 @@ bool Animal::hurt(Entity* pCulprit, int damage)
 	return Mob::hurt(pCulprit, damage);
 }
 
-bool Animal::removeWhenFarAway()
+bool Animal::removeWhenFarAway() const
 {
 	return false;
 }
 
-int Animal::getAge()
+int Animal::getAge() const
 {
 	return m_age;
 }

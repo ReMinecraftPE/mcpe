@@ -69,6 +69,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/StartMenuScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
     client/gui/screens/DirectConnectScreen.cpp
+    client/gui/screens/DisconnectionScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
     client/gui/screens/SavingWorldScreen.cpp
     client/gui/screens/InvalidLicenseScreen.cpp
@@ -137,6 +138,9 @@ add_library(reminecraftpe-core STATIC
     network/packets/LevelDataPacket.cpp
     network/packets/PlaceBlockPacket.cpp
     network/packets/LoginPacket.cpp
+    network/packets/LoginStatusPacket.cpp
+    network/packets/ReadyPacket.cpp
+    network/packets/SetTimePacket.cpp
     network/packets/StartGamePacket.cpp
     network/packets/RemoveEntityPacket.cpp
     network/packets/AddPlayerPacket.cpp
@@ -147,6 +151,7 @@ add_library(reminecraftpe-core STATIC
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp
     network/NetEventCallback.cpp
+    network/PacketUtil.cpp
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
@@ -173,6 +178,11 @@ add_library(reminecraftpe-core STATIC
     world/entity/WaterAnimal.cpp
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
+    world/entity/MobFactory.cpp
+	world/entity/Chicken.cpp
+	world/entity/Cow.cpp
+	world/entity/Creeper.cpp
+	world/entity/Pig.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp

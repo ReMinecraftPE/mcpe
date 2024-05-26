@@ -26,6 +26,7 @@
 #include "world/level/Level.hpp"
 #include "world/entity/LocalPlayer.hpp"
 #include "world/gamemode/GameMode.hpp"
+#include "world/gamemode/GameType.hpp"
 #include "world/particle/ParticleEngine.hpp"
 
 class Screen; // in case we're included from Screen.hpp
@@ -64,6 +65,8 @@ public:
 	bool isTouchscreen();
 	bool useSplitControls();
 
+	void setGameMode(GameType gameType);
+
 	virtual void update() override;
 	virtual void init() override;
 	virtual void onGraphicsReset();
@@ -87,6 +90,7 @@ public:
 private:
 	void _reloadInput();
 	void _levelGenerated();
+	GameMode* createGameMode(GameType gameType, Level& level);
 
 public:
 	static float guiScaleMultiplier;

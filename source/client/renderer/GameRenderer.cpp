@@ -1052,7 +1052,7 @@ void GameRenderer::pick(float f)
 		dist = mchr.m_hitPos.distanceTo(mobPos);
 
 	if (m_pMinecraft->m_pGameMode->isCreativeType())
-		dist = 32.0f;
+		dist = 7.0f;
 	else if (dist > 3.0f)
 		dist = 3.0f;
 
@@ -1073,12 +1073,12 @@ void GameRenderer::pick(float f)
 
 	scanAABB.grow(1, 1, 1);
 
-	EntityVector* pEnts = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
+	EntityVector ents = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
 
 	float fDist = 0.0f;
-	for (int i = 0; i < int(pEnts->size()); i++)
+	for (int i = 0; i < int(ents.size()); i++)
 	{
-		Entity *pEnt = (*pEnts)[i];
+		Entity *pEnt = (ents)[i];
 		if (!pEnt->isPickable())
 			continue;
 

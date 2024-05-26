@@ -10,13 +10,17 @@
 
 #include "world/level/Level.hpp"
 #include "world/item/ItemInstance.hpp"
+#include "world/entity/LocalPlayer.hpp"
 
 class Minecraft;
 
 class GameMode
 {
+private:
+	Level& _level;
+
 public:
-	GameMode(Minecraft* pMinecraft);
+	GameMode(Minecraft* pMinecraft, Level& level);
 	virtual ~GameMode();
 	virtual void initLevel(Level*);
 	virtual void startDestroyBlock(int, int, int, int);
@@ -25,7 +29,7 @@ public:
 	virtual void stopDestroyBlock();
 	virtual void tick();
 	virtual void render(float f);
-	virtual float getPickRange();
+	virtual float getPickRange() const;
 	virtual bool useItem(Player*, Level*, ItemInstance*);
 	virtual bool useItemOn(Player*, Level*, ItemInstance*, int, int, int, int);
 	virtual LocalPlayer* createPlayer(Level*);
@@ -36,8 +40,9 @@ public:
 	virtual void attack(Player*, Entity*);
 	virtual int handleInventoryMouseClick(int, int, int, Player*);
 	virtual void handleCloseInventory(int, Player*);
-	virtual bool isCreativeType();
-	virtual bool isSurvivalType();
+	virtual bool isCreativeType() const { return true; }
+	virtual bool isSurvivalType() const { return false; }
+	virtual float getDestroyModifier() const { return 1.0; }
 
 public:
 	Minecraft* m_pMinecraft;

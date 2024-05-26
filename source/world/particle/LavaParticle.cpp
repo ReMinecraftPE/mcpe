@@ -22,7 +22,7 @@ LavaParticle::LavaParticle(Level* level, float x, float y, float z) :
 	field_EC = int(16.0f / (0.2f + 0.8f * Mth::random()));
 }
 
-float LavaParticle::getBrightness(float unused)
+float LavaParticle::getBrightness(float unused) const
 {
 	return 1.0f;
 }
@@ -46,7 +46,7 @@ void LavaParticle::tick()
 	move(m_vel.x, m_vel.y, m_vel.z);
 
 	m_vel *= 0.999f;
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

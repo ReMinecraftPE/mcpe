@@ -227,6 +227,30 @@ bool Minecraft::useSplitControls()
 	return !m_bIsTouchscreen || m_options->m_bSplitControls;
 }
 
+GameMode* Minecraft::createGameMode(GameType gameType, Level& level)
+{
+	// In future versions, level is passed into GameMode
+
+	switch (gameType)
+	{
+	case GAME_TYPE_SURVIVAL:
+		return new SurvivalMode(this, level);
+	case GAME_TYPE_CREATIVE:
+		return new CreativeMode(this, level);
+	default:
+		return nullptr;
+	}
+}
+
+void Minecraft::setGameMode(GameType gameType)
+{
+	if (m_pLevel)
+	{
+		m_pGameMode = createGameMode(gameType, *m_pLevel);
+		m_pGameMode->initLevel(m_pLevel);
+	}
+}
+
 void Minecraft::setGuiScaleMultiplier(float f)
 {
 	guiScaleMultiplier = f;
@@ -484,11 +508,12 @@ void Minecraft::tickInput()
 			}
 			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
-				int itemID = m_pLocalPlayer->m_pInventory->getSelectedItemId();
-				if (itemID > 0)
+				ItemInstance *item = m_pLocalPlayer->m_pInventory->getSelected();
+				if (item != nullptr)
 				{
-					ItemInstance inst(itemID, 1, 0);
-					m_pLocalPlayer->drop(&inst);
+					ItemInstance itemDrop = m_pLocalPlayer->isSurvival() ? item->remove(1) : ItemInstance(*item);
+					itemDrop.m_amount = 1;
+					m_pLocalPlayer->drop(&itemDrop);
 				}
 			}
 			else if (getOptions()->isKey(KM_TOGGLEGUI, keyCode))
@@ -569,7 +594,7 @@ void Minecraft::tickMouse()
 void Minecraft::handleCharInput(char chr)
 {
 	if (m_pScreen)
-		m_pScreen->charInput(chr);
+		m_pScreen->keyboardNewChar(chr);
 }
 
 void Minecraft::sendMessage(const std::string& message)
@@ -785,7 +810,8 @@ void Minecraft::update()
 	m_fLastUpdated = time;
 
 	// Added by iProgramInCpp
-	m_pGameMode->render(m_timer.m_renderTicks);
+	if (m_pGameMode)
+		m_pGameMode->render(m_timer.m_renderTicks);
 }
 
 void Minecraft::init()
@@ -824,12 +850,6 @@ void Minecraft::init()
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
 	m_pUser = new User(getOptions()->m_playerName, "");
-
-#ifdef TEST_SURVIVAL_MODE
-	m_pGameMode = new SurvivalMode(this);
-#else
-	m_pGameMode = new CreativeMode(this);
-#endif
 
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
 	m_pFont = new Font(m_options, "font/default8.png", m_pTextures);
@@ -1092,15 +1112,15 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 
 	if (pLevel)
 	{
-		m_pGameMode->initLevel(pLevel);
-
 		if (pLocalPlayer && m_pLocalPlayer == nullptr)
 		{
+			// We're getting a LocalPlayer from a server
 			m_pLocalPlayer = pLocalPlayer;
 			pLocalPlayer->resetPos();
 		}
 		else if (m_pLocalPlayer)
 		{
+			// We're not on any server
 			m_pLocalPlayer->resetPos();
 			pLevel->addEntity(m_pLocalPlayer);
 		}
@@ -1108,6 +1128,11 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 		m_pLevel = pLevel;
 		m_bPreparingLevel = true;
 		m_pPrepThread = new CThread(&Minecraft::prepareLevel_tspawn, this);
+
+		if (m_pLocalPlayer)
+			setGameMode(m_pLocalPlayer->getPlayerGameType());
+		else
+			setGameMode(pLevel->getDefaultGameType());
 	}
 	else
 	{

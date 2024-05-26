@@ -8,7 +8,7 @@
 
 #include "Region.hpp"
 
-TileID Region::getTile(int x, int y, int z)
+TileID Region::getTile(int x, int y, int z) const
 {
 	if (y < C_MIN_Y || y >= C_MAX_Y)
 		return TILE_AIR;
@@ -21,7 +21,7 @@ TileID Region::getTile(int x, int y, int z)
 	return pChunk->getTile(x & 0xF, y, z & 0xF);
 }
 
-int Region::getRawBrightness(int x, int y, int z, bool b)
+int Region::getRawBrightness(int x, int y, int z, bool b) const
 {
 	if (x < C_MIN_X || z < C_MIN_X || x >= C_MAX_X || z > C_MAX_Z)
 		return 15;
@@ -66,17 +66,17 @@ int Region::getRawBrightness(int x, int y, int z, bool b)
 	return field_C[zd * field_14 + xd]->getRawBrightness(x & 0xF, y, z & 0xF, m_pLevel->m_skyDarken);
 }
 
-int Region::getRawBrightness(int x, int y, int z)
+int Region::getRawBrightness(int x, int y, int z) const
 {
 	return getRawBrightness(x, y, z, true);
 }
 
-float Region::getBrightness(int x, int y, int z)
+float Region::getBrightness(int x, int y, int z) const
 {
 	return m_pLevel->m_pDimension->field_10[getRawBrightness(x, y, z)];
 }
 
-int Region::getData(int x, int y, int z)
+int Region::getData(int x, int y, int z) const
 {
 	if (y < C_MIN_Y || y >= C_MAX_Y)
 		return 0;
@@ -86,7 +86,7 @@ int Region::getData(int x, int y, int z)
 	return field_C[zd * field_14 + xd]->getData(x & 0xF, y, z & 0xF);
 }
 
-Material* Region::getMaterial(int x, int y, int z)
+Material* Region::getMaterial(int x, int y, int z) const
 {
 	TileID tile = getTile(x, y, z);
 	
@@ -96,7 +96,7 @@ Material* Region::getMaterial(int x, int y, int z)
 	return Tile::tiles[tile]->m_pMaterial;
 }
 
-bool Region::isSolidTile(int x, int y, int z)
+bool Region::isSolidTile(int x, int y, int z) const
 {
 	Tile* pTile = Tile::tiles[getTile(x, y, z)];
 
@@ -106,7 +106,7 @@ bool Region::isSolidTile(int x, int y, int z)
 	return pTile->isSolidRender();
 }
 
-BiomeSource* Region::getBiomeSource()
+BiomeSource* Region::getBiomeSource() const
 {
 	return m_pLevel->getBiomeSource();
 }
@@ -116,7 +116,7 @@ Region::~Region()
 	delete[] field_C;
 }
 
-Region::Region(Level* level, int x1, int y1, int z1, int x2, int y2, int z2)
+Region::Region(const Level* level, int x1, int y1, int z1, int x2, int y2, int z2)
 {
 	m_pLevel = level;
 	field_4 = x1 >> 4;

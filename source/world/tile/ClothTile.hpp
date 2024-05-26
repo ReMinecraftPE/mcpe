@@ -14,9 +14,9 @@ class ClothTile : public Tile
 {
 public:
 	ClothTile(int id, int type);
-	int getTexture(int dir) override;
-	int getTexture(int dir, int data) override;
-	int getSpawnResourcesAuxValue(int val) override;
+	int getTexture(int dir) const override;
+	int getTexture(int dir, int data) const override;
+	int getSpawnResourcesAuxValue(int val) const override;
 
 	uint8_t field_6C;
 };

@@ -17,20 +17,20 @@ public:
 
 	void attack(Level*, int x, int y, int z, Player*) override;
 	int use(Level*, int x, int y, int z, Player*) override;
-	HitResult clip(Level*, int x, int y, int z, Vec3, Vec3) override;
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	int getRenderShape() override;
-	int getResource(int data, Random*) override;
-	int getTexture(int dir, int data) override;
-	AABB getTileAABB(Level*, int x, int y, int z) override;
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
-	bool mayPlace(Level*, int x, int y, int z) override;
-	void updateShape(LevelSource*, int x, int y, int z) override;
+	HitResult clip(const Level*, int x, int y, int z, Vec3, Vec3) override;
+	AABB* getAABB(const Level*, int x, int y, int z) override;
+	int getRenderShape() const override;
+	int getResource(int data, Random*) const override;
+	int getTexture(int dir, int data) const override;
+	AABB getTileAABB(const Level*, int x, int y, int z) override;
+	bool isCubeShaped() const override;
+	bool isSolidRender() const override;
+	bool mayPlace(const Level*, int x, int y, int z) const override;
+	void updateShape(const LevelSource*, int x, int y, int z) override;
 	void neighborChanged(Level*, int x, int y, int z, int newTile) override;
 
-	bool blocksLight();
-	int getDir(int data);
+	bool blocksLight() const;
+	int getDir(int data) const;
 	void setOpen(Level*, int x, int y, int z, bool bOpen);
 	
 #pragma GCC diagnostic push

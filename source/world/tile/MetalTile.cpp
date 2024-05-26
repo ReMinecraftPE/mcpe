@@ -18,7 +18,7 @@ MetalTile::MetalTile(int ID, int texture, Material* pMtl) : Tile(ID, pMtl)
 // @NOTE: I think the MCPE devs were left dumbfounded by this. "Why did notch
 // overload this function?" Well, fun fact, there used to be top, side and bottom
 // textures for these tiles. :)
-int MetalTile::getTexture(int dir)
+int MetalTile::getTexture(int dir) const
 {
 	int yoff = GetPatchManager()->GetMetalSideYOffset();
 	if (yoff < 0 || m_ID == Tile::lapisBlock->m_ID)

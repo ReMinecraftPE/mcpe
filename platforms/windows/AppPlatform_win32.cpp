@@ -240,10 +240,11 @@ void AppPlatform_win32::recenterMouse()
 	POINT oldPos = { 0, 0 };
 	GetCursorPos(&oldPos);
 
+	/* We're doing this for FUN???
 	RECT rect;
-	GetClientRect(GetHWND(), &rect);
+	GetClientRect(GetHWND(), &rect);*/
 
-	POINT offs = { m_ScreenWidth / 2, m_ScreenHeight / 2 };
+	POINT offs = { getScreenWidth() / 2, getScreenHeight() / 2 };
 	ClientToScreen(GetHWND(), &offs);
 
 	SetCursorPos(offs.x, offs.y);

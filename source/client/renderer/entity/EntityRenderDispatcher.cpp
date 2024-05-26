@@ -47,7 +47,9 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_CameraRenderer.init(this);
 	m_ItemRenderer.init(this);
 	m_RocketRenderer.init(this);
+#ifdef ENH_ALLOW_SAND_GRAVITY
 	m_FallingTileRenderer.init(this);
+#endif
 }
 
 float EntityRenderDispatcher::distanceToSqr(float x, float y, float z)
@@ -94,9 +96,11 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 			return &m_CreeperRenderer;
 		case RENDER_ROCKET:
 			return &m_RocketRenderer;
+#ifdef ENH_ALLOW_SAND_GRAVITY
 		// TODO
 		case RENDER_FALLING_TILE:
 			return &m_FallingTileRenderer;
+#endif
 	}
 
 	return nullptr;

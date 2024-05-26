@@ -29,7 +29,7 @@ void Entity::_init()
 	m_pitch = 0.0f;
 	field_5C = 0.0f;
 	field_60 = 0.0f;
-	field_7C = false;
+	m_onGround = false;
 	field_7D = false;
 	field_7E = false;
 	field_7F = false;
@@ -48,7 +48,8 @@ void Entity::_init()
 	field_B4 = 0;
 	field_B8 = 0;
 	field_BC = 300;
-	field_C0 = 0;
+	m_fireTicks = 0;
+	field_C4 = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
 	field_D0 = 300;
@@ -148,7 +149,7 @@ int Entity::move(float x, float y, float z)
 	x5 = m_hitbox.min.y;
 	x6 = m_hitbox.min.x;
 
-	if (!field_7C)
+	if (!m_onGround)
 	{
 	label_4:
 
@@ -269,7 +270,7 @@ label_5:
 		newY = 0.0f;
 	}
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		b6 = true;
 	}
@@ -412,10 +413,10 @@ label_45:
 
 	field_7D = x_2 != x_3 || z_2 != z_3;
 	field_7F = field_7D || newY != y;
-	field_7C = y < 0.0f && newY != y;
+	m_onGround = y < 0.0f && newY != y;
 	field_7E = newY != y;
 
-	checkFallDamage(newY, field_7C);
+	checkFallDamage(newY, m_onGround);
 
 	if (x_2 != x_3) m_vel.x = 0.0;
 	if (newY != y)  m_vel.y = 0.0;
@@ -480,20 +481,21 @@ label_45:
 		if (bIsInWater)
 		{
 		label_76:
-			if (field_C0 > 0)
-				field_C0 = -field_C4;
+			if (m_fireTicks > 0)
+				m_fireTicks = -field_C4;
 
 			return 1300;
 		}
 
-		field_C0++;
-		if (field_C0 == 0)
-			field_C0 = 300;
+		if (m_fireTicks == 0)
+			m_fireTicks = 300;
+		else
+			m_fireTicks++;
 	}
 	else
 	{
-		if (field_C0 <= 0)
-			field_C0 = -field_C4;
+		if (m_fireTicks <= 0)
+			m_fireTicks = -field_C4;
 
 		if (bIsInWater)
 			goto label_76;
@@ -606,7 +608,7 @@ void Entity::reset()
 	m_bRemoved = false;
 	m_distanceFallen = 0.0f;
 	field_D5 = false;
-	field_C0 = 0;
+	m_fireTicks = 0;
 }
 
 void Entity::interpolateTurn(float yaw, float pitch)
@@ -675,7 +677,7 @@ void Entity::baseTick()
 		}
 
 		field_D4 = true;
-		field_C0 = 0;
+		m_fireTicks = 0;
 		m_distanceFallen = 0;
 
 		if (m_pLevel->m_bIsMultiplayer)
@@ -688,12 +690,12 @@ void Entity::baseTick()
 		if (m_pLevel->m_bIsMultiplayer)
 		{
 		label_4:
-			field_C0 = 0;
+			m_fireTicks = 0;
 			goto label_5;
 		}
 	}
 
-	if (field_C0 <= 0)
+	if (m_fireTicks <= 0)
 	{
 	label_5:
 		if (!isInLava())
@@ -703,18 +705,18 @@ void Entity::baseTick()
 
 	if (field_D5)
 	{
-		field_C0 -= 4;
-		if (field_C0 < 0)
-			field_C0 = 0;
+		m_fireTicks -= 4;
+		if (m_fireTicks < 0)
+			m_fireTicks = 0;
 		goto label_5;
 	}
 
-	if (field_C0 % 20 == 0)
+	if (m_fireTicks % 20 == 0)
 	{
 		hurt(nullptr, 1);
 	}
 
-	field_C0--;
+	m_fireTicks--;
 
 	if (isInLava())
 	{
@@ -729,13 +731,13 @@ label_6:
 	field_D6 = false;
 }
 
-bool Entity::intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+bool Entity::intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) const
 {
 	AABB aabb(minX, minY, minZ, maxX, maxY, maxZ);
 	return aabb.intersect(m_hitbox);
 }
 
-bool Entity::isFree(float offX, float offY, float offZ)
+bool Entity::isFree(float offX, float offY, float offZ) const
 {
 	AABB aabb = m_hitbox;
 	aabb.move(offX, offY, offZ);
@@ -747,7 +749,7 @@ bool Entity::isFree(float offX, float offY, float offZ)
 	return !m_pLevel->containsAnyLiquid(aabb);
 }
 
-bool Entity::isFree(float offX, float offY, float offZ, float expand)
+bool Entity::isFree(float offX, float offY, float offZ, float expand) const
 {
 	AABB aabb = m_hitbox;
 	aabb.move(offX, offY, offZ);
@@ -760,7 +762,7 @@ bool Entity::isFree(float offX, float offY, float offZ, float expand)
 	return !m_pLevel->containsAnyLiquid(aabb);
 }
 
-bool Entity::isInWall()
+bool Entity::isInWall() const
 {
 	return m_pLevel->isSolidTile(Mth::floor(m_pos.x), Mth::floor(m_pos.y + getHeadHeight()), Mth::floor(m_pos.z));
 }
@@ -772,14 +774,14 @@ bool Entity::isInWater()
 	return m_pLevel->checkAndHandleWater(aabb, Material::water, this);
 }
 
-bool Entity::isInLava()
+bool Entity::isInLava() const
 {
 	AABB aabb = m_hitbox;
 	aabb.grow(-0.1f, -0.4f, -0.1f);
 	return m_pLevel->containsMaterial(aabb, Material::lava);
 }
 
-bool Entity::isUnderLiquid(Material* pMtl)
+bool Entity::isUnderLiquid(Material* pMtl) const
 {
 	int tileX = Mth::floor(m_pos.x);
 	int tileY = Mth::floor(m_pos.y + getHeadHeight());
@@ -795,17 +797,7 @@ bool Entity::isUnderLiquid(Material* pMtl)
 	return float(tileY) < float(tileY + 1) - (float(level) / 9.0f - 0.11111f);
 }
 
-float Entity::getHeadHeight()
-{
-	return 0.0f;
-}
-
-float Entity::getShadowHeightOffs()
-{
-	return field_8C / 2.0f;
-}
-
-float Entity::getBrightness(float f)
+float Entity::getBrightness(float f) const
 {
 	int tileX = Mth::floor(m_pos.x);
 	int tileY = Mth::floor(m_pos.y - field_84 + (m_hitbox.max.y - m_hitbox.min.y) * 0.66f);
@@ -824,22 +816,22 @@ float Entity::getBrightness(float f)
 	return m_pLevel->getBrightness(tileX, tileY, tileZ);
 }
 
-float Entity::distanceTo(Entity* pEnt)
+float Entity::distanceTo(Entity* pEnt) const
 {
 	return distanceTo(pEnt->m_pos.x, pEnt->m_pos.y, pEnt->m_pos.z);
 }
 
-float Entity::distanceTo(float x, float y, float z)
+float Entity::distanceTo(float x, float y, float z) const
 {
 	return sqrtf(distanceToSqr(x, y, z));
 }
 
-float Entity::distanceToSqr(Entity* pEnt)
+float Entity::distanceToSqr(Entity* pEnt) const
 {
 	return distanceToSqr(pEnt->m_pos.x, pEnt->m_pos.y, pEnt->m_pos.z);
 }
 
-float Entity::distanceToSqr(float x, float y, float z)
+float Entity::distanceToSqr(float x, float y, float z) const
 {
 	float diffX = m_pos.x - x;
 	float diffY = m_pos.y - y;
@@ -890,52 +882,12 @@ void Entity::push(float x, float y, float z)
 	m_vel.z += z;
 }
 
-bool Entity::isPickable()
-{
-	return false;
-}
-
-bool Entity::isPushable()
-{
-	return false;
-}
-
-bool Entity::isShootable()
-{
-	return false;
-}
-
-bool Entity::isSneaking()
-{
-	return false;
-}
-
-bool Entity::isAlive()
-{
-	return m_bRemoved;
-}
-
-bool Entity::isOnFire()
-{
-	return field_C0 > 0;
-}
-
-bool Entity::isPlayer()
-{
-	return false;
-}
-
-bool Entity::isCreativeModeAllowed()
-{
-	return false;
-}
-
-bool Entity::shouldRender(Vec3& camPos)
+bool Entity::shouldRender(Vec3& camPos) const
 {
 	return shouldRenderAtSqrDistance(distanceToSqr(camPos.x, camPos.y, camPos.z));
 }
 
-bool Entity::shouldRenderAtSqrDistance(float distSqr)
+bool Entity::shouldRenderAtSqrDistance(float distSqr) const
 {
 	float maxDist = (field_30 * 64.0f) * (((m_hitbox.max.z - m_hitbox.min.z) + (m_hitbox.max.x - m_hitbox.min.x) + (m_hitbox.max.y - m_hitbox.min.y)) / 3.0f);
 
@@ -953,11 +905,25 @@ void Entity::animateHurt()
 
 }
 
-float Entity::getPickRadius()
+void Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
 {
-	return 0.1f;
+	ItemEntity *itemEntity = new ItemEntity(m_pLevel, m_pos.x, y + m_pos.y, m_pos.z, itemInstance);
+	delete(itemInstance);
+	// @TODO: not sure what this does, or is for
+	itemEntity->field_3C.x = 10;
+	m_pLevel->addEntity(itemEntity);
 }
 
+void Entity::spawnAtLocation(int itemID, int amount)
+{
+	spawnAtLocation(itemID, amount, 0);
+}
+
+void Entity::spawnAtLocation(int itemID, int amount, float y)
+{
+	ItemInstance* itemInstance = new ItemInstance(itemID, amount, 0);
+	spawnAtLocation(itemInstance, y);
+}
 
 void Entity::awardKillScore(Entity* pKilled, int score)
 {
@@ -1066,7 +1032,7 @@ void Entity::lavaHurt()
 	if (!field_D5)
 	{
 		hurt(nullptr, 4);
-		field_C0 = 600;
+		m_fireTicks = 600;
 	}
 }
 
@@ -1077,27 +1043,7 @@ int Entity::queryEntityRenderer()
 	return 0;
 }
 
-int Entity::getCreatureBaseType()
-{
-	return BASE_NONE;
-}
-
-int Entity::getEntityTypeId()
-{
-	return TYPE_UNSAVED;
-}
-
-int Entity::hashCode()
-{
-	return m_EntityID;
-}
-
 bool Entity::operator==(const Entity& other) const
 {
 	return m_EntityID == other.m_EntityID;
-}
-
-bool Entity::isLocalPlayer()
-{
-	return false;
 }

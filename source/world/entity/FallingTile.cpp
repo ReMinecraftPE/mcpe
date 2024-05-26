@@ -34,12 +34,12 @@ FallingTile::FallingTile(Level* level, float x, float y, float z, int id) : Enti
 #endif
 }
 
-float FallingTile::getShadowHeightOffs()
+float FallingTile::getShadowHeightOffs() const
 {
 	return 0.0f;
 }
 
-bool FallingTile::isPickable()
+bool FallingTile::isPickable() const
 {
 	return !m_bRemoved;
 }
@@ -66,7 +66,7 @@ void FallingTile::tick()
 	if (m_pLevel->getTile(tileX, tileY, tileZ) == m_id)
 		m_pLevel->setTile(tileX, tileY, tileZ, TILE_AIR);
 
-	if (!field_7C)
+	if (!m_onGround)
 	{
 		if (field_E0 > 100 && !m_pLevel->m_bIsMultiplayer)
 			remove();

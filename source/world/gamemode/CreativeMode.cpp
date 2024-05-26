@@ -9,7 +9,12 @@
 #include "CreativeMode.hpp"
 #include "client/app/Minecraft.hpp"
 
-CreativeMode::CreativeMode(Minecraft* pMC) : GameMode(pMC)
+CreativeMode::CreativeMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
+	m_destroyingX(-1), m_destroyingY(-1), m_destroyingZ(-1),
+	m_destroyProgress(0.0f),
+	m_lastDestroyProgress(0.0f),
+	m_destroyTicks(0),
+	m_destroyCooldown(0)
 {
 }
 
@@ -17,23 +22,12 @@ bool CreativeMode::destroyBlock(int x, int y, int z, int i)
 {
 	m_pMinecraft->m_pParticleEngine->destroy(x, y, z);
 
-	TileID tile = m_pMinecraft->m_pLevel->getTile(x, y, z);
-	int    data = m_pMinecraft->m_pLevel->getData(x, y, z);
-
 	if (!GameMode::destroyBlock(x, y, z, i))
 		return false;
 
-	//@HUH: check too late?
-	bool bCanDestroy = m_pMinecraft->m_pLocalPlayer->canDestroy(Tile::tiles[tile]);
-
-	if (bCanDestroy)
+	if (m_pMinecraft->isOnline())
 	{
-		Tile::tiles[tile]->playerDestroy(m_pMinecraft->m_pLevel, m_pMinecraft->m_pLocalPlayer, x, y, z, data);
-
-		if (m_pMinecraft->isOnline())
-		{
-			m_pMinecraft->m_pRakNetInstance->send(new RemoveBlockPacket(m_pMinecraft->m_pLocalPlayer->m_EntityID, x, y, z));
-		}
+		m_pMinecraft->m_pRakNetInstance->send(new RemoveBlockPacket(m_pMinecraft->m_pLocalPlayer->m_EntityID, x, y, z));
 	}
 
 	return true;
@@ -98,7 +92,7 @@ void CreativeMode::continueDestroyBlock(int x, int y, int z, int i)
 
 	Tile* pTile = Tile::tiles[tile];
 	float destroyProgress = pTile->getDestroyProgress(m_pMinecraft->m_pLocalPlayer);
-	m_destroyProgress += 16.0f * destroyProgress;
+	m_destroyProgress += getDestroyModifier() * destroyProgress;
 	m_destroyTicks++;
 
 	if ((m_destroyTicks & 3) == 1)
@@ -148,19 +142,4 @@ void CreativeMode::initPlayer(Player* p)
 {
 	p->m_yaw = -180.0f;
 	p->m_pInventory->prepareCreativeInventory();
-}
-
-float CreativeMode::getPickRange()
-{
-	return 5.0f;
-}
-
-bool CreativeMode::isCreativeType()
-{
-	return true;
-}
-
-bool CreativeMode::isSurvivalType()
-{
-	return false;
 }

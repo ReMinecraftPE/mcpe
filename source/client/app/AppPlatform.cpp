@@ -107,6 +107,8 @@ Texture AppPlatform::loadTexture(const std::string&, bool bIsRequired)
 	return Texture(0, 0, nullptr, 1, 0);
 }
 
+#ifndef ORIGINAL_CODE
+
 bool AppPlatform::isTouchscreen()
 {
 	return true;
@@ -221,6 +223,8 @@ SoundSystem* const AppPlatform::getSoundSystem() const
 {
 	return nullptr;
 }
+
+#endif
 
 std::string AppPlatform::getAssetPath(const std::string &path) const
 {

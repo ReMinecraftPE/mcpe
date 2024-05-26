@@ -8,14 +8,14 @@
 
 #include "../Packet.hpp"
 
-AddPlayerPacket::AddPlayerPacket(const RakNet::RakNetGUID& guid, RakNet::RakString name, int id, float x, float y, float z)
+AddPlayerPacket::AddPlayerPacket(const Player *player)
 {
-	m_guid = guid;
-	m_name = name;
-	m_id = id;
-	m_x = x;
-	m_y = y;
-	m_z = z;
+	m_guid = player->m_guid;
+	m_name = RakNet::RakString(player->m_name.c_str());
+	m_id = player->m_EntityID;
+	m_x = player->m_pos.x;
+	m_y = player->m_pos.y;
+	m_z = player->m_pos.z;
 }
 
 void AddPlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)

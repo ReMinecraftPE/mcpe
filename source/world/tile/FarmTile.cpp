@@ -18,7 +18,7 @@ FarmTile::FarmTile(int a, Material* c) : Tile(a, c)
 	setLightBlock(255);
 }
 
-AABB* FarmTile::getAABB(Level*, int x, int y, int z)
+AABB* FarmTile::getAABB(const Level*, int x, int y, int z)
 {
 	// a full block
 	m_aabbReturned = AABB(
@@ -33,12 +33,12 @@ AABB* FarmTile::getAABB(Level*, int x, int y, int z)
 	return &m_aabbReturned;
 }
 
-int FarmTile::getResource(int x, Random* random)
+int FarmTile::getResource(int x, Random* random) const
 {
 	return Tile::dirt->getResource(x, random);
 }
 
-int FarmTile::getTexture(int dir, int data)
+int FarmTile::getTexture(int dir, int data) const
 {
 	if (dir == DIR_YPOS)
 	{
@@ -51,12 +51,12 @@ int FarmTile::getTexture(int dir, int data)
 	return TEXTURE_DIRT;
 }
 
-bool FarmTile::isCubeShaped()
+bool FarmTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool FarmTile::isSolidRender()
+bool FarmTile::isSolidRender() const
 {
 	return false;
 }

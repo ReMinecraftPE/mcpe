@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include "LongHack.hpp"
 
 class Util
 {
@@ -64,9 +63,9 @@ public:
 		}
 	}
 
-	static TLong hashCode(const std::string& str)
+	static int32_t hashCode(const std::string& str)
 	{
-		TLong result = 0;
+		int32_t result = 0;
 
 		const size_t size = str.size();
 		for (int i = 0; i < size; i++)

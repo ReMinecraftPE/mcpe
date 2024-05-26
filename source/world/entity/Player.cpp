@@ -9,7 +9,7 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
-Player::Player(Level* pLevel) : Mob(pLevel)
+Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 {
 	m_pInventory = nullptr;
 	field_B94 = 0;
@@ -23,6 +23,8 @@ Player::Player(Level* pLevel) : Mob(pLevel)
 	m_bHaveRespawnPos = false;
 
 	field_C8 = RENDER_HUMANOID;
+
+	setPlayerGameType(playerGameType);
 
 	m_pInventory = new Inventory(this);
 
@@ -53,47 +55,10 @@ void Player::reset()
 	// TODO what fields to reset???
 }
 
-void Player::remove()
-{
-	Entity::remove();
-}
-
-void Player::tick()
-{
-	Mob::tick();
-}
-
-bool Player::isInWall()
-{
-	return Entity::isInWall();
-}
-
-float Player::getHeadHeight()
-{
-	return 0.12f; //@HUH: what?
-}
-
-bool Player::isShootable()
-{
-	return true;
-}
-
-bool Player::isPlayer()
-{
-	return true;
-}
-
-bool Player::isCreativeModeAllowed()
-{
-	return true;
-}
-
 bool Player::hurt(Entity* pEnt, int damage)
 {
-	//@HUH
-#ifndef TEST_SURVIVAL_MODE
-	return false;
-#endif
+	if (isCreative())
+		return false;
 
 	return Mob::hurt(pEnt, damage);
 }
@@ -142,7 +107,7 @@ void Player::aiStep()
 	if (velLen > 0.1f)
 		velLen = 0.1f;
 
-	if (!field_7C)
+	if (!m_onGround)
 	{
 		if (m_health > 0)
 		{
@@ -167,9 +132,9 @@ void Player::aiStep()
 	AABB scanAABB = m_hitbox;
 	scanAABB.grow(1, 1, 1);
 
-	EntityVector* pEnts = m_pLevel->getEntities(this, scanAABB);
+	EntityVector ents = m_pLevel->getEntities(this, scanAABB);
 
-	for (EntityVector::iterator it = pEnts->begin(); it != pEnts->end(); it++)
+	for (EntityVector::iterator it = ents.begin(); it != ents.end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_bRemoved)
@@ -177,11 +142,6 @@ void Player::aiStep()
 
 		touch(pEnt);
 	}
-}
-
-bool Player::isImmobile()
-{
-	return m_health <= 0;
 }
 
 void Player::updateAi()
@@ -230,7 +190,7 @@ void Player::attack(Entity* pEnt)
 		pEnt->hurt(this, atkDmg);
 }
 
-bool Player::canDestroy(Tile* pTile)
+bool Player::canDestroy(const Tile* pTile) const
 {
 	return true;
 }
@@ -245,12 +205,7 @@ void Player::displayClientMessage(const std::string& msg)
 
 }
 
-void Player::drop(ItemInstance* pItemInstance)
-{
-	drop(pItemInstance, false);
-}
-
-void Player::drop(ItemInstance* pItemInstance, bool b)
+void Player::drop(const ItemInstance* pItemInstance, bool b)
 {
 	if (!pItemInstance)
 		return;
@@ -289,24 +244,9 @@ void Player::drop()
 
 }
 
-float Player::getDestroySpeed()
-{
-	return 0.5f;
-}
-
-int Player::getInventorySlot(int x)
+int Player::getInventorySlot(int x) const
 {
 	return 0;
-}
-
-Pos Player::getRespawnPosition()
-{
-	return m_respawnPos;
-}
-
-int Player::getScore()
-{
-	return m_score;
 }
 
 void Player::prepareCustomTextures()

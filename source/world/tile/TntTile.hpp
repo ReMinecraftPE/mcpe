@@ -15,8 +15,8 @@ class TntTile : public Tile
 public:
 	TntTile(int ID, int texture);
 
-	int getResourceCount(Random*) override;
-	int getTexture(int dir) override;
+	int getResourceCount(Random*) const override;
+	int getTexture(int dir) const override;
 	void neighborChanged(Level*, int x, int y, int z, int d) override;
 	void destroy(Level*, int x, int y, int z, int data) override;
 	void wasExploded(Level*, int x, int y, int z) override;

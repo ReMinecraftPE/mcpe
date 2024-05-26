@@ -38,11 +38,6 @@ void TripodCamera::defineSynchedData()
 
 }
 
-float TripodCamera::getShadowHeightOffs()
-{
-	return 0.0f;
-}
-
 bool TripodCamera::interact(Player* player)
 {
 	// @BUG-ish: No check for owner?
@@ -55,16 +50,6 @@ int TripodCamera::interactPreventDefault()
 	return 1;
 }
 
-bool TripodCamera::isPickable()
-{
-	return !m_bRemoved;
-}
-
-bool TripodCamera::isPushable()
-{
-	return false;
-}
-
 void TripodCamera::tick()
 {
 	field_3C = m_pos;
@@ -73,7 +58,7 @@ void TripodCamera::tick()
 	move(m_vel.x, m_vel.y, m_vel.z);
 
 	m_vel *= 0.98f;
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

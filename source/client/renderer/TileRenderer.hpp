@@ -12,12 +12,6 @@
 #include "client/renderer/Chunk.hpp"
 #include "client/renderer/Tesselator.hpp"
 
-#ifndef ENH_SHADE_HELD_TILES
-#define RENDER_TILE_ARG_PATCH
-#else
-#define RENDER_TILE_ARG_PATCH , float bright
-#endif
-
 class TileRenderer
 {
 private:
@@ -26,7 +20,7 @@ public:
 	TileRenderer();
 	TileRenderer(LevelSource*);
 	float getWaterHeight(int x, int y, int z, const Material*);
-	void renderTile(Tile*, int data RENDER_TILE_ARG_PATCH);
+	void renderTile(Tile*, int data, float bright = 1.0f);
 
 	// TODO
 

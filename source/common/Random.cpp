@@ -15,13 +15,13 @@
 #define UPPER_MASK 0x80000000UL /* most significant w-r bits */
 #define LOWER_MASK 0x7fffffffUL /* least significant r bits */
 
-Random::Random(TLong seed)
+Random::Random(int32_t seed)
 {
 	setSeed(seed);
-	nextNextGaussian = INFINITY;
+	nextNextGaussian = std::numeric_limits<double>::max();;
 }
 
-void Random::setSeed(TLong seed)
+void Random::setSeed(int32_t seed)
 {
 	rseed = seed;
 	mti = N + 1;
@@ -29,7 +29,7 @@ void Random::setSeed(TLong seed)
 }
 
 /* initializes mt[N] with a seed */
-void Random::init_genrand(unsigned TLong s)
+void Random::init_genrand(uint32_t s)
 {
 	mt[0] = s & 0xffffffffUL;
 	for (mti = 1; mti < N; mti++) {
@@ -50,10 +50,10 @@ int Random::nextInt(int max)
 }
 
 // Returns a number from 0 to n (excluding n)
-unsigned int Random::genrand_int32()
+uint32_t Random::genrand_int32()
 {
-	unsigned TLong y;
-	static unsigned TLong mag01[2]={0x0UL, MATRIX_A};
+	uint32_t y;
+	static uint32_t mag01[2]={0x0UL, MATRIX_A};
 	/* mag01[x] = x * MATRIX_A  for x=0,1 */
 
 	if (mti >= N) { /* generate N words at one time */
@@ -97,9 +97,10 @@ double Random::genrand_real2()
 	return double(genrand_int32()) * (1.0 / 4294967296.0);
 }
 
-TLong Random::nextLong()
+long Random::nextLong()
 {
-	return TLong(genrand_int32() >> 1);
+	// @TODO: Not a real long on 64-bit architectures
+	return long(genrand_int32() >> 1);
 }
 
 int Random::nextInt()
@@ -109,10 +110,10 @@ int Random::nextInt()
 
 float Random::nextGaussian()
 {
-	if (!isinf(nextNextGaussian))
+	if (nextNextGaussian < std::numeric_limits<double>::max())
 	{
 		double backup = nextNextGaussian;
-		nextNextGaussian = INFINITY;
+		nextNextGaussian = std::numeric_limits<double>::max();
 		return backup;
 	}
 	// See Knuth, ACP, Section 3.4.1 Algorithm C.

@@ -122,7 +122,11 @@ const char* gSplashes[] =
 	"Complex cellular automata!",
 	"Yes, sir!",
 	"Played by cowboys!",
-	"OpenGL 1.5!", // "OpenGL ES 1.1!",
+#ifdef USE_GLES
+	"OpenGL ES 1.1!",
+#else
+	"OpenGL 1.5!",
+#endif
 	"Thousands of colors!",
 	"Try it!",
 	"Age of Wonders is better!",

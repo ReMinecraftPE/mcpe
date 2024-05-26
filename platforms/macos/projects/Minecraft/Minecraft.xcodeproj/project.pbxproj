@@ -16,7 +16,6 @@
 		8406FD312AF1820700B09C1D /* ServerSideNetworkHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6512AC810620006A435 /* ServerSideNetworkHandler.hpp */; };
 		8406FD322AF1823600B09C1D /* CThread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6272AC810620006A435 /* CThread.hpp */; };
 		8406FD332AF1823600B09C1D /* Logger.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6292AC810620006A435 /* Logger.hpp */; };
-		8406FD342AF1823600B09C1D /* LongHack.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD62A2AC810620006A435 /* LongHack.hpp */; };
 		8406FD352AF1823600B09C1D /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD62C2AC810620006A435 /* Matrix.hpp */; };
 		8406FD362AF1823600B09C1D /* Mth.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD62E2AC810620006A435 /* Mth.hpp */; };
 		8406FD372AF1823600B09C1D /* Random.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6302AC810620006A435 /* Random.hpp */; };
@@ -238,6 +237,20 @@
 		84619B3A2AF1FE1500B0DE81 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */; };
 		84619B3C2AF1FE4C00B0DE81 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */; };
 		84619B3E2AF1FEB700B0DE81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */; };
+		8470AF2B2BE9B60A00BCA54E /* EntityType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF282BE9B60900BCA54E /* EntityType.hpp */; };
+		8470AF2C2BE9B60A00BCA54E /* MobFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470AF292BE9B60A00BCA54E /* MobFactory.cpp */; };
+		8470AF2D2BE9B60A00BCA54E /* MobFactory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF2A2BE9B60A00BCA54E /* MobFactory.hpp */; };
+		8470AF302BE9B62600BCA54E /* PacketUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470AF2E2BE9B62600BCA54E /* PacketUtil.cpp */; };
+		8470AF312BE9B62600BCA54E /* PacketUtil.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF2F2BE9B62600BCA54E /* PacketUtil.hpp */; };
+		8470AF352BE9B63900BCA54E /* LoginStatusPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470AF322BE9B63900BCA54E /* LoginStatusPacket.cpp */; };
+		8470AF362BE9B63900BCA54E /* ReadyPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470AF332BE9B63900BCA54E /* ReadyPacket.cpp */; };
+		8470AF372BE9B63900BCA54E /* SetTimePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470AF342BE9B63900BCA54E /* SetTimePacket.cpp */; };
+		8470AF392BE9B6D100BCA54E /* GameType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF382BE9B6D100BCA54E /* GameType.hpp */; };
+		8470AF3C2BE9B6FA00BCA54E /* FireworkParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470AF3A2BE9B6FA00BCA54E /* FireworkParticle.cpp */; };
+		8470AF3D2BE9B6FA00BCA54E /* FireworkParticle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */; };
+		8470AF402BE9B80900BCA54E /* DisconnectionScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470AF3E2BE9B80900BCA54E /* DisconnectionScreen.cpp */; };
+		8470AF412BE9B80900BCA54E /* DisconnectionScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF3F2BE9B80900BCA54E /* DisconnectionScreen.hpp */; };
+		8470AF442BE9B98000BCA54E /* clouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470AF432BE9B8B600BCA54E /* clouds.png */; };
 		8488C08A2B1EDD4F001AEC4F /* ShowKeyboardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */; };
 		8489B3222A86E464004CA8EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		8489B3242A86E46A004CA8EC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3232A86E46A004CA8EC /* AppKit.framework */; };
@@ -297,11 +310,8 @@
 		84AA8B812B32F3B5003F5B82 /* Entity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B612B32F3B5003F5B82 /* Entity.hpp */; };
 		84AA8B822B32F3B5003F5B82 /* FallingTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */; };
 		84AA8B832B32F3B5003F5B82 /* FallingTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B632B32F3B5003F5B82 /* FallingTile.hpp */; };
-		84AA8B842B32F3B5003F5B82 /* ItemEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B642B32F3B5003F5B82 /* ItemEntity.cpp */; };
 		84AA8B852B32F3B5003F5B82 /* ItemEntity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B652B32F3B5003F5B82 /* ItemEntity.hpp */; };
-		84AA8B862B32F3B5003F5B82 /* LocalPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B662B32F3B5003F5B82 /* LocalPlayer.cpp */; };
 		84AA8B872B32F3B5003F5B82 /* LocalPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B672B32F3B5003F5B82 /* LocalPlayer.hpp */; };
-		84AA8B882B32F3B5003F5B82 /* Mob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B682B32F3B5003F5B82 /* Mob.cpp */; };
 		84AA8B892B32F3B5003F5B82 /* Mob.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B692B32F3B5003F5B82 /* Mob.hpp */; };
 		84AA8B8A2B32F3B5003F5B82 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */; };
 		84AA8B8B2B32F3B5003F5B82 /* Monster.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */; };
@@ -1137,7 +1147,6 @@
 		840DD6272AC810620006A435 /* CThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CThread.hpp; sourceTree = "<group>"; };
 		840DD6282AC810620006A435 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
 		840DD6292AC810620006A435 /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
-		840DD62A2AC810620006A435 /* LongHack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LongHack.hpp; sourceTree = "<group>"; };
 		840DD62B2AC810620006A435 /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
 		840DD62C2AC810620006A435 /* Matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		840DD62D2AC810620006A435 /* Mth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mth.cpp; sourceTree = "<group>"; };
@@ -1692,6 +1701,21 @@
 		84498A832AF18C7A005EF5A5 /* libZLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8470AF282BE9B60900BCA54E /* EntityType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityType.hpp; sourceTree = "<group>"; };
+		8470AF292BE9B60A00BCA54E /* MobFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MobFactory.cpp; sourceTree = "<group>"; };
+		8470AF2A2BE9B60A00BCA54E /* MobFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MobFactory.hpp; sourceTree = "<group>"; };
+		8470AF2E2BE9B62600BCA54E /* PacketUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketUtil.cpp; sourceTree = "<group>"; };
+		8470AF2F2BE9B62600BCA54E /* PacketUtil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PacketUtil.hpp; sourceTree = "<group>"; };
+		8470AF322BE9B63900BCA54E /* LoginStatusPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginStatusPacket.cpp; sourceTree = "<group>"; };
+		8470AF332BE9B63900BCA54E /* ReadyPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReadyPacket.cpp; sourceTree = "<group>"; };
+		8470AF342BE9B63900BCA54E /* SetTimePacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SetTimePacket.cpp; sourceTree = "<group>"; };
+		8470AF382BE9B6D100BCA54E /* GameType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameType.hpp; sourceTree = "<group>"; };
+		8470AF3A2BE9B6FA00BCA54E /* FireworkParticle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FireworkParticle.cpp; sourceTree = "<group>"; };
+		8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FireworkParticle.hpp; sourceTree = "<group>"; };
+		8470AF3E2BE9B80900BCA54E /* DisconnectionScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisconnectionScreen.cpp; sourceTree = "<group>"; };
+		8470AF3F2BE9B80900BCA54E /* DisconnectionScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisconnectionScreen.hpp; sourceTree = "<group>"; };
+		8470AF432BE9B8B600BCA54E /* clouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clouds.png; sourceTree = "<group>"; };
+		8470AF452BE9BC8500BCA54E /* GameMods.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GameMods.hpp; path = ../../../../GameMods.hpp; sourceTree = "<group>"; };
 		8484ABDC2B32935700076873 /* PlatformDefinitions_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions_iOS.h; sourceTree = "<group>"; };
 		8488C0882B1EDD4F001AEC4F /* ShowKeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowKeyboardView.h; sourceTree = "<group>"; };
 		8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowKeyboardView.mm; sourceTree = "<group>"; };
@@ -1736,11 +1760,8 @@
 		84AA8B612B32F3B5003F5B82 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FallingTile.cpp; sourceTree = "<group>"; };
 		84AA8B632B32F3B5003F5B82 /* FallingTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FallingTile.hpp; sourceTree = "<group>"; };
-		84AA8B642B32F3B5003F5B82 /* ItemEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemEntity.cpp; sourceTree = "<group>"; };
 		84AA8B652B32F3B5003F5B82 /* ItemEntity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ItemEntity.hpp; sourceTree = "<group>"; };
-		84AA8B662B32F3B5003F5B82 /* LocalPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalPlayer.cpp; sourceTree = "<group>"; };
 		84AA8B672B32F3B5003F5B82 /* LocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LocalPlayer.hpp; sourceTree = "<group>"; };
-		84AA8B682B32F3B5003F5B82 /* Mob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mob.cpp; sourceTree = "<group>"; };
 		84AA8B692B32F3B5003F5B82 /* Mob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mob.hpp; sourceTree = "<group>"; };
 		84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
 		84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Monster.hpp; sourceTree = "<group>"; };
@@ -2199,6 +2220,8 @@
 				840DD5A62AC810620006A435 /* DeleteWorldScreen.hpp */,
 				840DD5A72AC810620006A435 /* DirectConnectScreen.cpp */,
 				840DD5A82AC810620006A435 /* DirectConnectScreen.hpp */,
+				8470AF3E2BE9B80900BCA54E /* DisconnectionScreen.cpp */,
+				8470AF3F2BE9B80900BCA54E /* DisconnectionScreen.hpp */,
 				840DD5A92AC810620006A435 /* IngameBlockSelectionScreen.cpp */,
 				840DD5AA2AC810620006A435 /* IngameBlockSelectionScreen.hpp */,
 				840DD5AB2AC810620006A435 /* InvalidLicenseScreen.cpp */,
@@ -2371,7 +2394,6 @@
 				840DD6272AC810620006A435 /* CThread.hpp */,
 				840DD6282AC810620006A435 /* Logger.cpp */,
 				840DD6292AC810620006A435 /* Logger.hpp */,
-				840DD62A2AC810620006A435 /* LongHack.hpp */,
 				840DD62B2AC810620006A435 /* Matrix.cpp */,
 				840DD62C2AC810620006A435 /* Matrix.hpp */,
 				840DD62D2AC810620006A435 /* Mth.cpp */,
@@ -2399,6 +2421,8 @@
 				840DD63D2AC810620006A435 /* NetEventCallback.hpp */,
 				840DD63E2AC810620006A435 /* Packet.hpp */,
 				840DD63F2AC810620006A435 /* packets */,
+				8470AF2E2BE9B62600BCA54E /* PacketUtil.cpp */,
+				8470AF2F2BE9B62600BCA54E /* PacketUtil.hpp */,
 				840DD64D2AC810620006A435 /* PingedCompatibleServer.hpp */,
 				840DD64E2AC810620006A435 /* RakNetInstance.cpp */,
 				840DD64F2AC810620006A435 /* RakNetInstance.hpp */,
@@ -2415,13 +2439,16 @@
 				840DD6412AC810620006A435 /* ChunkDataPacket.cpp */,
 				840DD6422AC810620006A435 /* LevelDataPacket.cpp */,
 				840DD6432AC810620006A435 /* LoginPacket.cpp */,
+				8470AF322BE9B63900BCA54E /* LoginStatusPacket.cpp */,
 				840DD6442AC810620006A435 /* MessagePacket.cpp */,
 				840DD6452AC810620006A435 /* MovePlayerPacket.cpp */,
 				840DD6462AC810620006A435 /* PlaceBlockPacket.cpp */,
 				840DD6472AC810620006A435 /* PlayerEquipmentPacket.cpp */,
+				8470AF332BE9B63900BCA54E /* ReadyPacket.cpp */,
 				840DD6482AC810620006A435 /* RemoveBlockPacket.cpp */,
 				840DD6492AC810620006A435 /* RemoveEntityPacket.cpp */,
 				840DD64A2AC810620006A435 /* RequestChunkPacket.cpp */,
+				8470AF342BE9B63900BCA54E /* SetTimePacket.cpp */,
 				840DD64B2AC810620006A435 /* StartGamePacket.cpp */,
 				840DD64C2AC810620006A435 /* UpdateBlockPacket.cpp */,
 			);
@@ -2472,14 +2499,17 @@
 				84AA8B5F2B32F3B5003F5B82 /* Creeper.hpp */,
 				84AA8B602B32F3B5003F5B82 /* Entity.cpp */,
 				840DD6592AC810620006A435 /* Entity.hpp */,
+				8470AF282BE9B60900BCA54E /* EntityType.hpp */,
 				84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */,
 				840DD65B2AC810620006A435 /* FallingTile.hpp */,
-				84AA8B642B32F3B5003F5B82 /* ItemEntity.cpp */,
+				840DD65C2AC810620006A435 /* ItemEntity.cpp */,
 				840DD65D2AC810620006A435 /* ItemEntity.hpp */,
-				84AA8B662B32F3B5003F5B82 /* LocalPlayer.cpp */,
+				840DD65E2AC810620006A435 /* LocalPlayer.cpp */,
 				840DD65F2AC810620006A435 /* LocalPlayer.hpp */,
-				84AA8B682B32F3B5003F5B82 /* Mob.cpp */,
+				840DD6602AC810620006A435 /* Mob.cpp */,
 				840DD6612AC810620006A435 /* Mob.hpp */,
+				8470AF292BE9B60A00BCA54E /* MobFactory.cpp */,
+				8470AF2A2BE9B60A00BCA54E /* MobFactory.hpp */,
 				84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */,
 				84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */,
 				84AA8B6C2B32F3B5003F5B82 /* PathfinderMob.cpp */,
@@ -2523,6 +2553,7 @@
 				840DD66A2AC810620006A435 /* CreativeMode.hpp */,
 				840DD66B2AC810620006A435 /* GameMode.cpp */,
 				840DD66C2AC810620006A435 /* GameMode.hpp */,
+				8470AF382BE9B6D100BCA54E /* GameType.hpp */,
 				840DD66D2AC810620006A435 /* SurvivalMode.cpp */,
 				840DD66E2AC810620006A435 /* SurvivalMode.hpp */,
 			);
@@ -2686,6 +2717,8 @@
 			children = (
 				840DD6CF2AC810620006A435 /* BubbleParticle.cpp */,
 				840DD6D02AC810620006A435 /* ExplodeParticle.cpp */,
+				8470AF3A2BE9B6FA00BCA54E /* FireworkParticle.cpp */,
+				8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */,
 				840DD6D12AC810620006A435 /* FlameParticle.cpp */,
 				840DD6D22AC810620006A435 /* LavaParticle.cpp */,
 				840DD6D32AC810620006A435 /* Particle.cpp */,
@@ -3193,6 +3226,14 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		8470AF422BE9B8B600BCA54E /* environment */ = {
+			isa = PBXGroup;
+			children = (
+				8470AF432BE9B8B600BCA54E /* clouds.png */,
+			);
+			path = environment;
+			sourceTree = "<group>";
+		};
 		84790AEC2AD7DA410076F2A1 /* ios */ = {
 			isa = PBXGroup;
 			children = (
@@ -3237,13 +3278,14 @@
 			isa = PBXGroup;
 			children = (
 				84D6694E2B1EAE3C00B34FC1 /* Configuration */,
-				8489B0982A86D4B2004CA8EC /* Products */,
 				8489B31E2A86E428004CA8EC /* Frameworks */,
 				840DD5782AC810620006A435 /* compat */,
 				84AD70F52AF20B6A00DA73F9 /* game */,
 				840DD9BF2AC810750006A435 /* platforms */,
+				8489B0982A86D4B2004CA8EC /* Products */,
 				840DD57B2AC810620006A435 /* source */,
 				840DD72E2AC810620006A435 /* thirdparty */,
+				8470AF452BE9BC8500BCA54E /* GameMods.hpp */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3481,6 +3523,7 @@
 		84E001642AF3A28B009B9555 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				8470AF422BE9B8B600BCA54E /* environment */,
 				84E001652AF3A28B009B9555 /* font */,
 				84E001682AF3A28B009B9555 /* gui */,
 				84E0018A2AF3A28B009B9555 /* icon.png */,
@@ -3603,6 +3646,7 @@
 				8406FD2F2AF1820700B09C1D /* PingedCompatibleServer.hpp in Headers */,
 				8406FD302AF1820700B09C1D /* RakNetInstance.hpp in Headers */,
 				8406FD312AF1820700B09C1D /* ServerSideNetworkHandler.hpp in Headers */,
+				8470AF312BE9B62600BCA54E /* PacketUtil.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3759,6 +3803,7 @@
 				84AA8C752B32F536003F5B82 /* SpiderModel.hpp in Headers */,
 				84AA8C772B32F536003F5B82 /* ZombieModel.hpp in Headers */,
 				84E78C802B58B5CC00D515EF /* RocketRenderer.hpp in Headers */,
+				8470AF412BE9B80900BCA54E /* DisconnectionScreen.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3882,6 +3927,10 @@
 				84E78C7C2B58B3E000D515EF /* Rocket.hpp in Headers */,
 				84E78C842B58B5FB00D515EF /* RocketItem.hpp in Headers */,
 				84E78C882B58B66B00D515EF /* RocketLauncherTile.hpp in Headers */,
+				8470AF2B2BE9B60A00BCA54E /* EntityType.hpp in Headers */,
+				8470AF2D2BE9B60A00BCA54E /* MobFactory.hpp in Headers */,
+				8470AF392BE9B6D100BCA54E /* GameType.hpp in Headers */,
+				8470AF3D2BE9B6FA00BCA54E /* FireworkParticle.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3891,7 +3940,6 @@
 			files = (
 				8406FD322AF1823600B09C1D /* CThread.hpp in Headers */,
 				8406FD332AF1823600B09C1D /* Logger.hpp in Headers */,
-				8406FD342AF1823600B09C1D /* LongHack.hpp in Headers */,
 				8406FD352AF1823600B09C1D /* Matrix.hpp in Headers */,
 				8406FD362AF1823600B09C1D /* Mth.hpp in Headers */,
 				8406FD372AF1823600B09C1D /* Random.hpp in Headers */,
@@ -4309,6 +4357,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8470AF442BE9B98000BCA54E /* clouds.png in Resources */,
 				849259562AD8FD4F0081F5B9 /* minecraftpeViewController.xib in Resources */,
 				849259602AD8FDCB0081F5B9 /* InfoPlist.strings in Resources */,
 				849259642AD8FDD90081F5B9 /* minecraftpe-Info.plist in Resources */,
@@ -4398,6 +4447,10 @@
 				8426107D2AE989730065905F /* UpdateBlockPacket.cpp in Sources */,
 				8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */,
 				8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */,
+				8470AF302BE9B62600BCA54E /* PacketUtil.cpp in Sources */,
+				8470AF352BE9B63900BCA54E /* LoginStatusPacket.cpp in Sources */,
+				8470AF362BE9B63900BCA54E /* ReadyPacket.cpp in Sources */,
+				8470AF372BE9B63900BCA54E /* SetTimePacket.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4585,6 +4638,7 @@
 				84AA8C742B32F535003F5B82 /* SpiderModel.cpp in Sources */,
 				84AA8C762B32F536003F5B82 /* ZombieModel.cpp in Sources */,
 				84E78C7F2B58B5CC00D515EF /* RocketRenderer.cpp in Sources */,
+				8470AF402BE9B80900BCA54E /* DisconnectionScreen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4711,9 +4765,6 @@
 				84AA8B7E2B32F3B5003F5B82 /* Creeper.cpp in Sources */,
 				84AA8B802B32F3B5003F5B82 /* Entity.cpp in Sources */,
 				84AA8B822B32F3B5003F5B82 /* FallingTile.cpp in Sources */,
-				84AA8B842B32F3B5003F5B82 /* ItemEntity.cpp in Sources */,
-				84AA8B862B32F3B5003F5B82 /* LocalPlayer.cpp in Sources */,
-				84AA8B882B32F3B5003F5B82 /* Mob.cpp in Sources */,
 				84AA8B8A2B32F3B5003F5B82 /* Monster.cpp in Sources */,
 				84AA8B8C2B32F3B5003F5B82 /* PathfinderMob.cpp in Sources */,
 				84AA8B8E2B32F3B5003F5B82 /* Pig.cpp in Sources */,
@@ -4724,6 +4775,8 @@
 				84E78C7B2B58B3E000D515EF /* Rocket.cpp in Sources */,
 				84E78C832B58B5FB00D515EF /* RocketItem.cpp in Sources */,
 				84E78C872B58B66B00D515EF /* RocketLauncherTile.cpp in Sources */,
+				8470AF2C2BE9B60A00BCA54E /* MobFactory.cpp in Sources */,
+				8470AF3C2BE9B6FA00BCA54E /* FireworkParticle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

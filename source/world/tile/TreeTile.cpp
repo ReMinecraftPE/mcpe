@@ -14,22 +14,22 @@ TreeTile::TreeTile(int id) : Tile(id, Material::wood)
 	m_TextureFrame = TEXTURE_LOG_SIDE;
 }
 
-int TreeTile::getResource(int x, Random* random)
+int TreeTile::getResource(int x, Random* random) const
 {
 	return Tile::treeTrunk->m_ID;
 }
 
-int TreeTile::getResourceCount(Random* random)
+int TreeTile::getResourceCount(Random* random) const
 {
 	return 1;
 }
 
-int TreeTile::getSpawnResourcesAuxValue(int x)
+int TreeTile::getSpawnResourcesAuxValue(int x) const
 {
 	return x;
 }
 
-int TreeTile::getTexture(int dir, int data)
+int TreeTile::getTexture(int dir, int data) const
 {
 	if (dir == DIR_YPOS || dir == DIR_YNEG)
 		return TEXTURE_LOG_TOP;

@@ -15,7 +15,7 @@ class Sapling : public Bush
 public:
 	Sapling(int id, int texture);
 
-	int getTexture(int dir, int data) override;
+	int getTexture(int dir, int data) const override;
 	void tick(Level*, int x, int y, int z, Random*) override;
 
 	void growTree(Level*, int x, int y, int z, Random*);

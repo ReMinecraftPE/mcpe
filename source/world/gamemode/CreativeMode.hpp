@@ -13,12 +13,12 @@
 class CreativeMode : public GameMode
 {
 public:
-	CreativeMode(Minecraft*);
+	CreativeMode(Minecraft*, Level&);
 	bool destroyBlock(int, int, int, int) override;
 
-	float getPickRange() override;
-	bool isCreativeType() override;
-	bool isSurvivalType() override;
+	float getPickRange() const override { return 5.0f; }
+	bool isCreativeType() const override { return true; }
+	bool isSurvivalType() const override { return false; }
 
 	void initPlayer(Player*) override;
 	void startDestroyBlock(int x, int y, int z, int i) override;
@@ -26,6 +26,7 @@ public:
 	void stopDestroyBlock() override;
 	void tick() override;
 	void render(float f) override;
+	float getDestroyModifier() const override { return 8.0; }
 
 public:
 	int m_destroyingX;

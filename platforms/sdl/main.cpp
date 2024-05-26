@@ -1,4 +1,4 @@
-#include <cstdarg>
+#include <stdarg.h>
 
 #include "thirdparty/SDL2/SDL2.h"
 
@@ -14,6 +14,8 @@ typedef AppPlatform_sdl UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
+
+#undef main // anti-SDL2
 
 static float g_fPointToPixelScale = 1.0f;
 
@@ -47,11 +49,11 @@ static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 #define TOUCH_IDS_SIZE (MAX_TOUCHES - 1) // ID 0 Is Reserved For The Mouse
 struct touch_id_data {
 	bool active = false;
-	int device;
-	int finger;
+	SDL_TouchID device;
+	SDL_FingerID finger;
 };
 static touch_id_data touch_ids[TOUCH_IDS_SIZE];
-static char get_touch_id(int device, int finger) {
+static char get_touch_id(SDL_TouchID device, SDL_FingerID finger) {
 	for (int i = 0; i < TOUCH_IDS_SIZE; i++) {
 		touch_id_data &data = touch_ids[i];
 		if (data.active && data.device == device && data.finger == finger) {
@@ -289,15 +291,13 @@ static EM_BOOL main_loop(double time, void *user_data)
 	}
 }
 
-extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
-extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
 extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
 
 void CheckOptionalTextureAvailability()
 {
-	g_bIsMenuBackgroundAvailable = g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png");
-	g_bAreCloudsAvailable        = g_pAppPlatform->doesTextureExist("environment/clouds.png");
+	Screen::setIsMenuPanoramaAvailable(g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png"));
+	LevelRenderer::setAreCloudsAvailable(g_pAppPlatform->doesTextureExist("environment/clouds.png"));
 	g_bIsGrassColorAvailable     = g_pAppPlatform->doesTextureExist("misc/grasscolor.png");
 	g_bIsFoliageColorAvailable   = g_pAppPlatform->doesTextureExist("misc/foliagecolor.png");
 }
@@ -395,9 +395,10 @@ int main(int argc, char *argv[])
 	g_pApp->m_externalStorageDir = storagePath;
 	g_pAppPlatform = new UsedAppPlatform(g_pApp->m_externalStorageDir, window);
 	g_pApp->m_pPlatform = g_pAppPlatform;
-	g_pApp->init();
 
+	// This must be done before initializing the App, since options are disabled automatically based on texture availablity
 	CheckOptionalTextureAvailability();
+	g_pApp->init();
 	
 	// Set Size
 	resize();

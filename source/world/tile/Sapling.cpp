@@ -13,7 +13,7 @@ Sapling::Sapling(int id, int texture) : Bush(id, texture)
 {
 }
 
-int Sapling::getTexture(int dir, int data)
+int Sapling::getTexture(int dir, int data) const
 {
 	return TEXTURE_SAPLING; // we don't have the other saplings' textures...
 }

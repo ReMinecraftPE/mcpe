@@ -131,6 +131,7 @@ public:
 	bool m_bSplitControls;
 	bool m_bDynamicHand;
 	bool m_bOldTitleLogo;
+	bool m_bMenuPanorama;
 
 public:
 	struct Option

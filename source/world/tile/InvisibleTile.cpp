@@ -15,8 +15,12 @@ InvisibleTile::InvisibleTile(int ID, int texture, Material* pMtl) :
 
 }
 
-int InvisibleTile::getRenderShape()
+int InvisibleTile::getRenderShape() const
 {
 	return SHAPE_NONE;
 }
 
+bool InvisibleTile::mayPick() const
+{
+	return false;
+}

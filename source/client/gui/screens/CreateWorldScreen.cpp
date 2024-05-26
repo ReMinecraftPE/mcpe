@@ -72,7 +72,7 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 	for (int i = 0; i < int(vls.size()); i++)
 	{
 		const LevelSummary& ls = vls[i];
-		maps.insert(ls.field_0);
+		maps.insert(ls.m_fileName);
 	}
 
 	std::string out = in;
@@ -91,8 +91,8 @@ void CreateWorldScreen::buttonClicked(Button* pButton)
 
 	if (pButton->m_buttonId == m_btnCreate.m_buttonId)
 	{
-		std::string nameStr = m_textName.m_text;
-		std::string seedStr = m_textSeed.m_text;
+		std::string nameStr = m_textName.getText();
+		std::string seedStr = m_textSeed.getText();
 
 		std::string levelNickname = Util::stringTrim(nameStr);
 		std::string levelUniqueName = levelNickname;

@@ -16,29 +16,29 @@ Bush::Bush(int id, int texture) : Tile(id, Material::plant)
 	setShape(0.3f, 0.0f, 0.3f, 0.7f, 0.6f, 0.7f);
 }
 
-int Bush::getRenderShape()
+int Bush::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }
 
-bool Bush::isCubeShaped()
+bool Bush::isCubeShaped() const
 {
 	return false;
 }
 
-bool Bush::isSolidRender()
+bool Bush::isSolidRender() const
 {
 	return false;
 }
 
-bool Bush::mayPlace(Level* level, int x, int y, int z)
+bool Bush::mayPlace(const Level* level, int x, int y, int z) const
 {
 	TileID tile = level->getTile(x, y - 1, z);
 
 	return tile == Tile::grass->m_ID || tile == Tile::dirt->m_ID || tile == Tile::farmland->m_ID;
 }
 
-bool Bush::canSurvive(Level* level, int x, int y, int z)
+bool Bush::canSurvive(const Level* level, int x, int y, int z) const
 {
 	if (level->getRawBrightness(x, y, z) <= 7 && !level->canSeeSky(x, y, z))
 		return false;
@@ -62,7 +62,7 @@ void Bush::tick(Level* level, int x, int y, int z, Random* random)
 	checkAlive(level, x, y, z);
 }
 
-AABB* Bush::getAABB(Level* level, int x, int y, int z)
+AABB* Bush::getAABB(const Level* level, int x, int y, int z)
 {
 	return nullptr;
 }

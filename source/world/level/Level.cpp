@@ -14,7 +14,7 @@
 #include "Explosion.hpp"
 #include "Region.hpp"
 
-Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dimension *pDimension)
+Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
 	m_bIsMultiplayer = false;
@@ -44,7 +44,7 @@ Level::Level(LevelStorage* pStor, const std::string& str, TLong seed, int x, Dim
 		m_pDimension = new Dimension;
 
 	if (!pData)
-		m_levelData = LevelData(seed, str, x);
+		m_levelData = LevelData(seed, str, storageVersion);
 	else
 		m_levelData = *pData;
 
@@ -90,57 +90,56 @@ ChunkSource* Level::createChunkSource()
 	return m_pDimension->createRandomLevelSource();
 }
 
-float Level::getTimeOfDay(float f)
+float Level::getTimeOfDay(float f)  const
 {
-	return m_pDimension->getTimeOfDay(m_levelData.field_10, f);
+	return m_pDimension->getTimeOfDay(getTime(), f);
 }
 
-int Level::getSkyDarken(float f)
+int Level::getSkyDarken(float f) const
 {
 	float x = Mth::cos(getSunAngle(f));
 	float y = 1.0f - (2 * x + 0.5f);
 
 	if (y < 0.0f)
 		return 0; // no darken
-	if (y > 1.0f)
-		return 11; // full dark
+	// 0.1.0 logic
+	/*if (y > 1.0f)
+		return 11; // full dark*/
+	// 0.2.1 logic
+	if (y > 0.8f)
+		return 8; // full dark
 
 	return int(y * 11.0f);
 }
 
-void Level::updateSkyBrightness()
+bool Level::updateSkyBrightness()
 {
 	int skyDarken = getSkyDarken(1.0f);
 	if (m_skyDarken != skyDarken)
-		m_skyDarken  = skyDarken;
+	{
+		m_skyDarken = skyDarken;
+		return true;
+	}
+
+	return false;
 }
 
-LevelStorage* Level::getLevelStorage()
-{
-	return m_pLevelStorage;
-}
-
-LevelData* Level::getLevelData()
-{
-	return &m_levelData;
-}
-
-BiomeSource* Level::getBiomeSource()
+BiomeSource* Level::getBiomeSource() const
 {
 	return m_pDimension->m_pBiomeSource;
 }
 
-ChunkSource* Level::getChunkSource()
+ChunkSource* Level::getChunkSource() const
 {
 	return m_pChunkSource;
 }
 
-LevelChunk* Level::getChunk(int x, int z)
+LevelChunk* Level::getChunk(int x, int z) const
 {
 	return getChunkSource()->getChunk(x, z);
 }
 
-TileID Level::getTile(int x, int y, int z)
+TileID Level::getTile(int x, int y, int z) const
 {
 	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
 	if (x < C_MIN_X || z < C_MIN_Z || x >= C_MAX_X || z > C_MAX_Z || y < C_MIN_Y || y >= C_MAX_Y)
@@ -151,7 +150,7 @@ TileID Level::getTile(int x, int y, int z)
 	return pChunk->getTile(x & 0xF, y, z & 0xF);
 }
 
-int Level::getData(int x, int y, int z)
+int Level::getData(int x, int y, int z) const
 {
 	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
 	if (x < C_MIN_X || z < C_MIN_Z || x >= C_MAX_X || z > C_MAX_Z || y < C_MIN_Y || y >= C_MAX_Y)
@@ -162,7 +161,7 @@ int Level::getData(int x, int y, int z)
 	return pChunk->getData(x & 0xF, y, z & 0xF);
 }
 
-int Level::getBrightness(const LightLayer& ll, int x, int y, int z)
+int Level::getBrightness(const LightLayer& ll, int x, int y, int z) const
 {
 	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
 	if (x < C_MIN_X || z < C_MIN_Z || x >= C_MAX_X || z > C_MAX_Z || y < C_MIN_Y || y >= C_MAX_Y)
@@ -176,17 +175,17 @@ int Level::getBrightness(const LightLayer& ll, int x, int y, int z)
 	return pChunk->getBrightness(ll, x & 0xF, y, z & 0xF);
 }
 
-float Level::getBrightness(int x, int y, int z)
+float Level::getBrightness(int x, int y, int z) const
 {
 	return m_pDimension->field_10[getRawBrightness(x, y, z)];
 }
 
-int Level::getRawBrightness(int x, int y, int z)
+int Level::getRawBrightness(int x, int y, int z) const
 {
 	return getRawBrightness(x, y, z, true);
 }
 
-int Level::getRawBrightness(int x, int y, int z, bool b)
+int Level::getRawBrightness(int x, int y, int z, bool b) const
 {
 	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
 	if (x < C_MIN_X || z < C_MIN_Z || x >= C_MAX_X || z > C_MAX_Z)
@@ -225,26 +224,6 @@ int Level::getRawBrightness(int x, int y, int z, bool b)
 	return pChunk->getRawBrightness(x & 0xF, y, z & 0xF, m_skyDarken);
 }
 
-int Level::getSeaLevel()
-{
-	return 63;
-}
-
-int Level::getSeed()
-{
-	return m_levelData.m_seed;
-}
-
-TLong Level::getTime()
-{
-	return m_levelData.field_10;
-}
-
-void Level::setTime(TLong time)
-{
-	m_levelData.field_10 = time;
-}
-
 void Level::swap(int x1, int y1, int z1, int x2, int y2, int z2)
 {
 	int tile1 = getTile(x1, y1, z1);
@@ -259,17 +238,17 @@ void Level::swap(int x1, int y1, int z1, int x2, int y2, int z2)
 	updateNeighborsAt(x2, y2, z2, tile1);
 }
 
-bool Level::isDay()
+bool Level::isDay() const
 {
 	return m_skyDarken <= 3;
 }
 
-bool Level::isEmptyTile(int x, int y, int z)
+bool Level::isEmptyTile(int x, int y, int z) const
 {
 	return getTile(x, y, z) == 0;
 }
 
-bool Level::isSolidTile(int x, int y, int z)
+bool Level::isSolidTile(int x, int y, int z) const
 {
 	Tile* pTile = Tile::tiles[getTile(x, y, z)];
 	if (!pTile) return false;
@@ -277,7 +256,7 @@ bool Level::isSolidTile(int x, int y, int z)
 	return pTile->isSolidRender();
 }
 
-Material* Level::getMaterial(int x, int y, int z)
+Material* Level::getMaterial(int x, int y, int z) const
 {
 	Tile* pTile = Tile::tiles[getTile(x, y, z)];
 	if (!pTile) return Material::air;
@@ -285,16 +264,16 @@ Material* Level::getMaterial(int x, int y, int z)
 	return pTile->m_pMaterial;
 }
 
-Entity* Level::getEntity(int id)
+Entity* Level::getEntity(int id) const
 {
 	// prioritize players first.
-	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); it++)
+	for (std::vector<Player*>::const_iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
 		Player* pEnt = *it;
 		if (pEnt->m_EntityID == id)
 			return pEnt;
 	}
-	for (std::vector<Entity*>::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+	for (std::vector<Entity*>::const_iterator it = m_entities.begin(); it != m_entities.end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_EntityID == id)
@@ -304,37 +283,37 @@ Entity* Level::getEntity(int id)
 	return nullptr;
 }
 
-EntityVector* Level::getAllEntities()
+const EntityVector* Level::getAllEntities() const
 {
 	return &m_entities;
 }
 
-bool Level::hasChunk(int x, int z)
+bool Level::hasChunk(int x, int z) const
 {
 	return m_pChunkSource->hasChunk(x, z);
 }
 
-EntityVector* Level::getEntities(Entity* pEntExclude, const AABB& aabb)
+EntityVector Level::getEntities(Entity* pEntExclude, const AABB& aabb) const
 {
-	m_getEntitiesResult.clear();
+	EntityVector entities = EntityVector();
 
-	int lowerXBound = Mth::floor((aabb.min.x - 2.0f) / 16);
-	int lowerZBound = Mth::floor((aabb.min.z - 2.0f) / 16);
-	int upperXBound = Mth::floor((aabb.max.x + 2.0f) / 16);
-	int upperZBound = Mth::floor((aabb.max.z + 2.0f) / 16);
+	long lowerXBound = floor((aabb.min.x - 2.0f) / 16);
+	long lowerZBound = floor((aabb.min.z - 2.0f) / 16);
+	long upperXBound = floor((aabb.max.x + 2.0f) / 16);
+	long upperZBound = floor((aabb.max.z + 2.0f) / 16);
 
-	for (int z = lowerZBound; z <= upperZBound; z++)
+	for (long z = lowerZBound; z <= upperZBound; z++)
 	{
-		for (int x = lowerXBound; x <= upperXBound; x++)
+		for (long x = lowerXBound; x <= upperXBound; x++)
 		{
 			if (!hasChunk(x, z)) continue;
 
 			LevelChunk* pChunk = getChunk(x, z);
-			pChunk->getEntities(pEntExclude, aabb, m_getEntitiesResult);
+			pChunk->getEntities(pEntExclude, aabb, entities);
 		}
 	}
 
-	return &m_getEntitiesResult;
+	return entities;
 }
 
 void Level::setUpdateLights(bool b)
@@ -374,7 +353,7 @@ bool Level::updateLights()
 	return true;
 }
 
-bool Level::hasChunksAt(int minX, int minY, int minZ, int maxX, int maxY, int maxZ)
+bool Level::hasChunksAt(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) const
 {
 	if (minY >= C_MAX_Y || maxY < 0)
 		return false;
@@ -393,7 +372,7 @@ bool Level::hasChunksAt(int minX, int minY, int minZ, int maxX, int maxY, int ma
 	return true;
 }
 
-bool Level::hasChunksAt(int x, int y, int z, int rad)
+bool Level::hasChunksAt(int x, int y, int z, int rad) const
 {
 	return hasChunksAt(x - rad, y - rad, z - rad, x + rad, y + rad, z + rad);
 }
@@ -415,7 +394,18 @@ void Level::setBrightness(const LightLayer& ll, int x, int y, int z, int bright)
 	}
 }
 
-int Level::getDirectSignal(int x, int y, int z, int dir)
+void Level::setTime(int32_t time)
+{
+	_setTime(time);
+
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	{
+		LevelListener* pListener = *it;
+		pListener->timeChanged(time);
+	}
+}
+
+int Level::getDirectSignal(int x, int y, int z, int dir) const
 {
 	TileID tile = getTile(x, y, z);
 	if (!tile) return 0;
@@ -423,7 +413,7 @@ int Level::getDirectSignal(int x, int y, int z, int dir)
 	return Tile::tiles[tile]->getDirectSignal(this, x, y, z, dir);
 }
 
-int Level::getSignal(int x, int y, int z, int dir)
+int Level::getSignal(int x, int y, int z, int dir) const
 {
 	if (isSolidTile(x, y, z))
 		return hasDirectSignal(x, y, z);
@@ -434,7 +424,7 @@ int Level::getSignal(int x, int y, int z, int dir)
 	return Tile::tiles[tile]->getSignal(this, x, y, z, dir);
 }
 
-bool Level::hasDirectSignal(int x, int y, int z)
+bool Level::hasDirectSignal(int x, int y, int z) const
 {
 	if (getDirectSignal(x, y - 1, z, DIR_YNEG)) return true;
 	if (getDirectSignal(x, y + 1, z, DIR_YPOS)) return true;
@@ -445,7 +435,7 @@ bool Level::hasDirectSignal(int x, int y, int z)
 	return false;
 }
 
-bool Level::hasNeighborSignal(int x, int y, int z)
+bool Level::hasNeighborSignal(int x, int y, int z) const
 {
 	if (getSignal(x, y - 1, z, DIR_YNEG)) return true;
 	if (getSignal(x, y + 1, z, DIR_YPOS)) return true;
@@ -456,12 +446,12 @@ bool Level::hasNeighborSignal(int x, int y, int z)
 	return false;
 }
 
-bool Level::hasChunkAt(int gx, int gy, int gz)
+bool Level::hasChunkAt(int gx, int gy, int gz) const
 {
 	return hasChunk(gx >> 4, gz >> 4);
 }
 
-LevelChunk* Level::getChunkAt(int gx, int gz)
+LevelChunk* Level::getChunkAt(int gx, int gz) const
 {
 	return getChunk(gx >> 4, gz >> 4);
 }
@@ -545,7 +535,7 @@ void Level::updateLightIfOtherThan(const LightLayer& ll, int x, int y, int z, in
 	}
 }
 
-bool Level::isSkyLit(int x, int y, int z)
+bool Level::isSkyLit(int x, int y, int z) const
 {
 	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
 	if (x < C_MIN_X || z < C_MIN_Z || x >= C_MAX_X || z > C_MAX_Z || y < C_MIN_Y)
@@ -725,20 +715,20 @@ AABBVector* Level::getCubes(const Entity* pEntUnused, const AABB& aabb)
 {
 	m_aabbs.clear();
 
-	int lowerX = Mth::floor(aabb.min.x);
-	int upperX = Mth::floor(aabb.max.x + 1);
-	int lowerY = Mth::floor(aabb.min.y);
-	int upperY = Mth::floor(aabb.max.y + 1);
-	int lowerZ = Mth::floor(aabb.min.z);
-	int upperZ = Mth::floor(aabb.max.z + 1);
+	long lowerX = floor(aabb.min.x);
+	long upperX = floor(aabb.max.x + 1);
+	long lowerY = floor(aabb.min.y);
+	long upperY = floor(aabb.max.y + 1);
+	long lowerZ = floor(aabb.min.z);
+	long upperZ = floor(aabb.max.z + 1);
 
-	for (int x = lowerX; x <= upperX; x++)
+	for (long x = lowerX; x <= upperX; x++)
 	{
-		for (int z = lowerZ; z <= upperZ; z++)
+		for (long z = lowerZ; z <= upperZ; z++)
 		{
 			if (!hasChunkAt(x, 64, z)) continue;
 
-			for (int y = lowerY; y <= upperY; y++)
+			for (long y = lowerY; y <= upperY; y++)
 			{
 				Tile* pTile = Tile::tiles[getTile(x, y, z)];
 				if (pTile)
@@ -755,17 +745,17 @@ std::vector<LightUpdate>* Level::getLightsToUpdate()
 	return &m_lightUpdates;
 }
 
-Entity* Level::getNearestPlayer(Entity* entity, float f)
+Player* Level::getNearestPlayer(const Entity* entity, float f) const
 {
 	return getNearestPlayer(entity->m_pos.x, entity->m_pos.y, entity->m_pos.z, f);
 }
 
-Entity* Level::getNearestPlayer(float x, float y, float z, float maxDist)
+Player* Level::getNearestPlayer(float x, float y, float z, float maxDist) const
 {
 	float dist = -1.0f;
 	Player* pPlayer = nullptr;
 
-	for (std::vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); it++)
+	for (std::vector<Player*>::const_iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
 		Player* player = *it;
 		float ldist = player->distanceToSqr(x, y, z);
@@ -920,26 +910,26 @@ bool Level::checkAndHandleWater(const AABB& aabb, const Material* pMtl, Entity* 
 	return bInWater;
 }
 
-Pos Level::getSharedSpawnPos()
+Pos Level::getSharedSpawnPos() const
 {
-	return m_levelData.m_spawnPos;
+	return Pos(m_levelData.getXSpawn(), m_levelData.getYSpawn(), m_levelData.getZSpawn());
 }
 
-TileID Level::getTopTile(int x, int z)
+TileID Level::getTopTile(int x, int z) const
 {
 	int y;
 	for (y = C_MAX_Y / 2 - 1; !isEmptyTile(x, y + 1, z); y++);
 	return getTile(x, y, z);
 }
 
-int Level::getTopTileY(int x, int z)
+int Level::getTopTileY(int x, int z) const
 {
 	int y;
 	for (y = C_MAX_Y / 2 - 1; !isEmptyTile(x, y + 1, z); y++);
 	return y;
 }
 
-int Level::getTopSolidBlock(int x, int z)
+int Level::getTopSolidBlock(int x, int z) const
 {
 	int y = C_MAX_Y - 1;
 	LevelChunk* pChunk = getChunkAt(x, z);
@@ -977,11 +967,11 @@ int Level::getTopSolidBlock(int x, int z)
 
 void Level::validateSpawn()
 {
-	if (m_levelData.m_spawnPos.y <= 0)
-		m_levelData.m_spawnPos.y = C_MAX_Y / 2;
+	if (m_levelData.getYSpawn() <= 0)
+		m_levelData.setYSpawn(C_MAX_Y / 2);
 
-	int spawnX = m_levelData.m_spawnPos.x;
-	int spawnZ = m_levelData.m_spawnPos.z;
+	int spawnX = m_levelData.getXSpawn();
+	int spawnZ = m_levelData.getZSpawn();
 #ifndef ORIGINAL_CODE
 	int nAttempts = 0;
 #endif
@@ -1019,8 +1009,8 @@ void Level::validateSpawn()
 	}
 	while (tile == Tile::invisible_bedrock->m_ID);
 
-	m_levelData.m_spawnPos.x = spawnX;
-	m_levelData.m_spawnPos.z = spawnZ;
+	m_levelData.setXSpawn(spawnX);
+	m_levelData.setZSpawn(spawnZ);
 
 #ifndef ORIGINAL_CODE
 	return;
@@ -1033,11 +1023,11 @@ _failure:
 	m_levelData.m_spawnPos.y = C_MAX_Y;
 	*/
 
-	m_levelData.m_spawnPos.x = 0;
-	m_levelData.m_spawnPos.y = 32;
-	m_levelData.m_spawnPos.z = 0;
+	m_levelData.setXSpawn(0);
+	m_levelData.setYSpawn(32);
+	m_levelData.setZSpawn(0);
 
-	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.m_spawnPos.x, m_levelData.m_spawnPos.y, m_levelData.m_spawnPos.z);
+	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.getXSpawn(), m_levelData.getYSpawn(), m_levelData.getZSpawn());
 
 	return;
 #endif
@@ -1120,8 +1110,7 @@ void Level::loadPlayer(Player* player)
 {
 	if (!player) return;
 
-	if (m_levelData.m_nPlayers == 1)
-		m_levelData.m_LocalPlayerData.loadPlayer(player);
+	m_levelData.setLoadedPlayerTo(player);
 
 	addEntity(player);
 }
@@ -1181,9 +1170,7 @@ void Level::setInitialSpawn()
 #endif
 	}
 
-	m_levelData.m_spawnPos.x = spawnX;
-	m_levelData.m_spawnPos.z = spawnZ;
-	m_levelData.m_spawnPos.y = 64;
+	m_levelData.setSpawn(spawnX, 64, spawnZ);
 
 	m_bCalculatingInitialSpawn = false;
 
@@ -1192,32 +1179,17 @@ void Level::setInitialSpawn()
 
 _failure:
 
-	/*
-	m_levelData.m_spawnPos.x = C_MAX_CHUNKS_X * 16 / 2;
-	m_levelData.m_spawnPos.z = C_MAX_CHUNKS_X * 16 / 2;
-	m_levelData.m_spawnPos.y = C_MAX_Y;
-	*/
+	// m_levelData.setSpawn(C_MAX_CHUNKS_X * 16 / 2, C_MAX_Y, C_MAX_CHUNKS_X * 16 / 2);
 
-	m_levelData.m_spawnPos.x = 0;
-	m_levelData.m_spawnPos.y = 32;
-	m_levelData.m_spawnPos.z = 0;
+	m_levelData.setSpawn(0, 32, 0);
 
-	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.m_spawnPos.x, m_levelData.m_spawnPos.y, m_levelData.m_spawnPos.z);
+	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.getXSpawn(), m_levelData.getYSpawn(), m_levelData.getZSpawn());
 
 	return;
 #endif
 }
 
-void Level::setSpawnPos(Pos pos)
-{
-	m_levelData.m_spawnPos = pos;
-}
-
-void Level::setSpawnSettings(bool a, bool b)
-{
-}
-
-bool Level::canSeeSky(int x, int y, int z)
+bool Level::canSeeSky(int x, int y, int z) const
 {
 	LevelChunk* pChunk = getChunk(x >> 4, z >> 4);
 
@@ -1230,7 +1202,7 @@ bool Level::canSeeSky(int x, int y, int z)
 	return pChunk->isSkyLit(x & 0xF, y, z & 0xF);
 }
 
-Vec3 Level::getSkyColor(Entity* pEnt, float f)
+Vec3 Level::getSkyColor(Entity* pEnt, float f) const
 {
 	Vec3 result;
 
@@ -1254,12 +1226,12 @@ Vec3 Level::getSkyColor(Entity* pEnt, float f)
 	return result;
 }
 
-Vec3 Level::getFogColor(float f)
+Vec3 Level::getFogColor(float f) const
 {
 	return m_pDimension->getFogColor(getTimeOfDay(f), f);
 }
 
-Vec3 Level::getCloudColor(float f)
+Vec3 Level::getCloudColor(float f) const
 {
 	Vec3 result;
 
@@ -1278,13 +1250,13 @@ Vec3 Level::getCloudColor(float f)
 	return result;
 }
 
-bool Level::isUnobstructed(AABB* aabb)
+bool Level::isUnobstructed(AABB* aabb) const
 {
-	EntityVector* entities = getEntities(nullptr, *aabb);
-	if (entities->size() <= 0)
+	EntityVector entities = getEntities(nullptr, *aabb);
+	if (entities.size() <= 0)
 		return true;
 
-	for (std::vector<Entity*>::iterator it = entities->begin(); it != entities->end(); it++)
+	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		Entity* pEnt = *it;
 		if (pEnt->m_bRemoved)
@@ -1299,16 +1271,19 @@ bool Level::isUnobstructed(AABB* aabb)
 	return true;
 }
 
-bool Level::mayInteract(Player* player, int x, int y, int z)
+bool Level::mayInteract(Player* player, int x, int y, int z) const
 {
 	return true;
 }
 
-bool Level::mayPlace(TileID tile, int x, int y, int z, bool b)
+bool Level::mayPlace(TileID tile, int x, int y, int z, bool b) const
 {
 	TileID oldTile = getTile(x, y, z);
 
 	Tile *pTile = Tile::tiles[tile], *pOldTile = Tile::tiles[oldTile];
+
+	if (pTile == nullptr)
+		return false;
 
 	AABB* aabb = pTile->getAABB(this, x, y, z);
 
@@ -1350,7 +1325,7 @@ void Level::tickPendingTicks(bool b)
 	for (int i = 0; i < size; i++)
 	{
 		const TickNextTickData& t = *m_pendingTicks.begin();
-		if (!b && t.m_delay > m_levelData.field_10)
+		if (!b && t.m_delay > m_levelData.getTime())
 			break;
 
 		if (hasChunksAt(t.field_4 - 8, t.field_8 - 8, t.field_C - 8, t.field_4 + 8, t.field_8 + 8, t.field_C + 8))
@@ -1470,20 +1445,21 @@ void Level::tick()
 	m_pChunkSource->tick();
 
 #ifdef ENH_RUN_DAY_NIGHT_CYCLE
-	int light = getSkyDarken(1.0f);
-	if (light != m_skyDarken)
-	{
-		m_skyDarken = light;
+	bool skyColorChanged = updateSkyBrightness();
 
-		for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
-		{
-			LevelListener* pListener = *it;
+	int time = getTime() + 1;
+	_setTime(time); // Bypasses the normally-required update to LevelListeners
+
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	{
+		LevelListener* pListener = *it;
+
+		if (skyColorChanged)
 			pListener->skyColorChanged();
-		}
+
+		pListener->timeChanged(time);
 	}
 #endif
-
-	m_levelData.field_10++;
 
 	tickPendingTicks(false);
 	tickTiles();
@@ -1516,7 +1492,7 @@ void Level::tickEntities()
 	}
 }
 
-HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag)
+HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const
 {
 	int v2xf = Mth::floor(v2.x);
 	int v2yf = Mth::floor(v2.y);
@@ -1618,7 +1594,7 @@ HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag)
 	return HitResult();
 }
 
-HitResult Level::clip(const Vec3& a, const Vec3& b)
+HitResult Level::clip(const Vec3& a, const Vec3& b) const
 {
 	return clip(a, b, false);
 }
@@ -1642,7 +1618,7 @@ void Level::addToTickNextTick(int a, int b, int c, int d, int delay)
 			return;
 
 		if (d > 0)
-			tntd.setDelay(delay + m_levelData.field_10);
+			tntd.setDelay(delay + getTime());
 
 		m_pendingTicks.insert(tntd);
 	}
@@ -1700,7 +1676,7 @@ void Level::animateTick(int x, int y, int z)
 	}
 }
 
-float Level::getSeenPercent(Vec3 vec, AABB aabb)
+float Level::getSeenPercent(Vec3 vec, AABB aabb) const
 {
 	int raysTotal = 0, raysSeen = 0;
 
@@ -1788,7 +1764,7 @@ void Level::extinguishFire(int x, int y, int z, int dir)
 		setTile(x, y, z, TILE_AIR);
 }
 
-int Level::findPath(Path* path, Entity* ent, Entity* target, float f)
+int Level::findPath(Path* path, Entity* ent, Entity* target, float f) const
 {
 	int fx = Mth::floor(ent->m_pos.x);
 	int fy = Mth::floor(ent->m_pos.y);
@@ -1801,7 +1777,7 @@ int Level::findPath(Path* path, Entity* ent, Entity* target, float f)
 	return 1;
 }
 
-int Level::findPath(Path* path, Entity* ent, int dx, int dy, int dz, float f)
+int Level::findPath(Path* path, Entity* ent, int dx, int dy, int dz, float f) const
 {
 	int fx = Mth::floor(ent->m_pos.x);
 	int fy = Mth::floor(ent->m_pos.y);
@@ -1814,12 +1790,12 @@ int Level::findPath(Path* path, Entity* ent, int dx, int dy, int dz, float f)
 	return 1;
 }
 
-int Level::getLightDepth(int x, int z)
+int Level::getLightDepth(int x, int z) const
 {
 	return getChunk(x, z)->getHeightmap(x & 0xF, z & 0xF);
 }
 
-float Level::getStarBrightness(float f)
+float Level::getStarBrightness(float f) const
 {
 	float ca = Mth::cos(getSunAngle(f));
 	float cb = 1.0f - (0.75f + 2 * ca);
@@ -1832,7 +1808,7 @@ float Level::getStarBrightness(float f)
 	return cb * cb * 0.5f;
 }
 
-float Level::getSunAngle(float f)
+float Level::getSunAngle(float f) const
 {
-	return 2 * float(M_PI) * getTimeOfDay(f);
+	return (float(M_PI) * getTimeOfDay(f)) * 2;
 }

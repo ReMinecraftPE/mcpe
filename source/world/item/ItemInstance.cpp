@@ -69,7 +69,7 @@ int ItemInstance::getDamageValue()
 	return m_auxValue;
 }
 
-Item* ItemInstance::getItem()
+Item* ItemInstance::getItem() const
 {
 	return Item::items[m_itemID];
 }
@@ -94,17 +94,17 @@ float ItemInstance::getDestroySpeed(Tile* tile)
 	return getItem()->getDestroySpeed(this, tile);
 }
 
-int ItemInstance::getIcon()
+int ItemInstance::getIcon() const
 {
 	return getItem()->getIcon(this);
 }
 
-int ItemInstance::getMaxDamage()
+int ItemInstance::getMaxDamage() const
 {
 	return getItem()->getMaxDamage();
 }
 
-int ItemInstance::getMaxStackSize()
+int ItemInstance::getMaxStackSize() const
 {
 	return getItem()->getMaxStackSize();
 }

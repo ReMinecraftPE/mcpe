@@ -16,22 +16,22 @@ ReedTile::ReedTile(int id) : Tile(id, Material::plant)
 	setTicking(true);
 }
 
-int ReedTile::getRenderShape()
+int ReedTile::getRenderShape() const
 {
 	return 1;
 }
 
-bool ReedTile::isCubeShaped()
+bool ReedTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool ReedTile::isSolidRender()
+bool ReedTile::isSolidRender() const
 {
 	return false;
 }
 
-bool ReedTile::mayPlace(Level* level, int x, int y, int z)
+bool ReedTile::mayPlace(const Level* level, int x, int y, int z) const
 {
 	TileID tileBelow = level->getTile(x, y - 1, z);
 
@@ -49,7 +49,7 @@ bool ReedTile::mayPlace(Level* level, int x, int y, int z)
 		level->getMaterial(x, y - 1, z + 1) == Material::water;
 }
 
-bool ReedTile::canSurvive(Level* level, int x, int y, int z)
+bool ReedTile::canSurvive(const Level* level, int x, int y, int z) const
 {
 	return mayPlace(level, x, y, z);
 }
@@ -92,12 +92,12 @@ void ReedTile::tick(Level* level, int x, int y, int z, Random* random)
 	}
 }
 
-AABB* ReedTile::getAABB(Level* level, int x, int y, int z)
+AABB* ReedTile::getAABB(const Level* level, int x, int y, int z)
 {
 	return nullptr;
 }
 
-int ReedTile::getResource(int x, Random* random)
+int ReedTile::getResource(int x, Random* random) const
 {
 	return 0;
 }

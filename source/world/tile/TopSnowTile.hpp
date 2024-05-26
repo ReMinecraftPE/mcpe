@@ -15,14 +15,14 @@ class TopSnowTile : public Tile
 public:
 	TopSnowTile(int id, int texture, Material* pMtl);
 
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
-	int getResource(int, Random*) override;
-	int getResourceCount(Random*) override;
-	bool mayPlace(Level*, int x, int y, int z) override;
+	AABB* getAABB(const Level*, int x, int y, int z) override;
+	bool isCubeShaped() const override;
+	bool isSolidRender() const override;
+	int getResource(int, Random*) const override;
+	int getResourceCount(Random*) const override;
+	bool mayPlace(const Level*, int x, int y, int z) const override;
 	void neighborChanged(Level*, int x, int y, int z, int d) override;
-	bool shouldRenderFace(LevelSource*, int x, int y, int z, int i) override;
+	bool shouldRenderFace(const LevelSource*, int x, int y, int z, int i) const override;
 	void tick(Level*, int x, int y, int z, Random*) override;
 
 	bool checkCanSurvive(Level*, int x, int y, int z);

@@ -34,34 +34,34 @@ FireTile::FireTile(int ID, int texture) : Tile(ID, texture, Material::fire)
 	setTicking(true);
 }
 
-int FireTile::getRenderShape()
+int FireTile::getRenderShape() const
 {
 	// @BUG: Since the shape is set to FIRE, but TileRenderer doesn't handle it,
 	// fire is invisible in this version of Minecraft.
 	return SHAPE_FIRE;
 }
 
-bool FireTile::isSolidRender()
+bool FireTile::isSolidRender() const
 {
 	return false;
 }
 
-bool FireTile::isCubeShaped()
+bool FireTile::isCubeShaped() const
 {
 	return false;
 }
 
-AABB* FireTile::getAABB(Level* level, int x, int y, int z)
+AABB* FireTile::getAABB(const Level* level, int x, int y, int z)
 {
 	return nullptr;
 }
 
-int FireTile::getResourceCount(Random* random)
+int FireTile::getResourceCount(Random* random) const
 {
 	return 0;
 }
 
-int FireTile::getTickDelay()
+int FireTile::getTickDelay() const
 {
 	return 10;
 }
@@ -108,7 +108,7 @@ void FireTile::checkBurn(Level* level, int x, int y, int z, int thing, Random* r
 	}
 }
 
-int FireTile::getFireOdds(Level* level, int x, int y, int z)
+int FireTile::getFireOdds(const Level* level, int x, int y, int z)
 {
 	if (!level->isEmptyTile(x, y, z))
 		return 0;
@@ -131,7 +131,7 @@ int FireTile::getFireOdds(Level* level, int x, int y, int z)
 	return odds;
 }
 
-bool FireTile::isValidFireLocation(Level* level, int x, int y, int z)
+bool FireTile::isValidFireLocation(const Level* level, int x, int y, int z) const
 {
 	if (canBurn(level, x + 1, y, z)) return true;
 	if (canBurn(level, x - 1, y, z)) return true;
@@ -142,12 +142,12 @@ bool FireTile::isValidFireLocation(Level* level, int x, int y, int z)
 	return false;
 }
 
-bool FireTile::mayPick()
+bool FireTile::mayPick() const
 {
 	return false;
 }
 
-bool FireTile::mayPlace(Level* level, int x, int y, int z)
+bool FireTile::mayPlace(const Level* level, int x, int y, int z) const
 {
 	// @NOTE: This is useless as you usually don't 'place' fire.
 	if (level->isSolidTile(x, y - 1, z))

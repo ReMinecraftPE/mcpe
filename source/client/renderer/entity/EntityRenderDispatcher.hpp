@@ -71,7 +71,7 @@ public:
 	Vec3 m_pos;
 	Font* m_pFont;
 
-#if defined(ENH_ALLOW_SAND_GRAVITY)
+#ifdef ENH_ALLOW_SAND_GRAVITY
 	FallingTileRenderer m_FallingTileRenderer;
 #endif
 

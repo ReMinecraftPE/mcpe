@@ -5,8 +5,8 @@
 #include <sys/stat.h>
 #include <cerrno>
 
-#include "stb_image.h"
-#include "stb_image_write.h"
+#include "thirdparty/stb_image/include/stb_image.h"
+#include "thirdparty/stb_image/include/stb_image_write.h"
 
 #include "thirdparty/GL/GL.hpp"
 
@@ -131,7 +131,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
-	out.field_C = 1;
+	out.m_hasAlpha = true;
 	out.field_D = 0;
 
 	// Get Full Path

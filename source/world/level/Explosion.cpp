@@ -92,10 +92,10 @@ void Explosion::explode()
 		(float)Mth::floor(m_pos.z + m_power + 1.0f)
 	);
 
-	EntityVector* pEnts = m_pLevel->getEntities(m_pEntity, aabb);
-	for (int i = 0; i < pEnts->size(); i++)
+	EntityVector ents = m_pLevel->getEntities(m_pEntity, aabb);
+	for (int i = 0; i < ents.size(); i++)
 	{
-		Entity* entity = pEnts->at(i);
+		Entity* entity = ents.at(i);
 		float distPowerRatio = entity->distanceTo(m_pos.x, m_pos.y, m_pos.z) / m_power;
 		if (distPowerRatio > 1.0f)
 			continue;

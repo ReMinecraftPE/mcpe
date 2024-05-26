@@ -13,7 +13,7 @@ GravelTile::GravelTile(int a, int b, Material* c) : SandTile(a, b, c)
 {
 }
 
-int GravelTile::getResource(int a, Random* b)
+int GravelTile::getResource(int a, Random* b) const
 {
 	return m_ID;
 }

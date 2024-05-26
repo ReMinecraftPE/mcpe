@@ -19,11 +19,11 @@ public:
 	TripodCamera(Level*, Player*, float, float, float);
 
 	void defineSynchedData() override;
-	float getShadowHeightOffs() override;
+	float getShadowHeightOffs() const override { return 0.0f; }
 	bool interact(Player* player) override;
 	int interactPreventDefault() override;
-	bool isPickable() override;
-	bool isPushable() override;
+	bool isPickable() const override { return !m_bRemoved; }
+	bool isPushable() const override { return false; }
 	void tick() override;
 
 public:

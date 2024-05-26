@@ -69,6 +69,12 @@ public:
 
 class LevelRenderer : public LevelListener
 {
+private:
+	static bool _areCloudsAvailable;
+public:
+	static bool areCloudsAvailable() { return _areCloudsAvailable; }
+	static void setAreCloudsAvailable(bool value) { _areCloudsAvailable = value; }
+
 public:
 	LevelRenderer(Minecraft*, Textures*);
 

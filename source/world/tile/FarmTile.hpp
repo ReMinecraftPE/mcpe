@@ -15,11 +15,11 @@ class FarmTile : public Tile
 public:
 	FarmTile(int ID, Material*);
 
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	int getResource(int, Random*) override;
-	int getTexture(int dir, int data) override;
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
+	AABB* getAABB(const Level*, int x, int y, int z) override;
+	int getResource(int, Random*) const override;
+	int getTexture(int dir, int data) const override;
+	bool isCubeShaped() const override;
+	bool isSolidRender() const override;
 	void neighborChanged(Level*, int x, int y, int z, int dir) override;
 	void stepOn(Level* level, int x, int y, int z, Entity* pEnt) override;
 	void tick(Level* level, int x, int y, int z, Random* random) override;
