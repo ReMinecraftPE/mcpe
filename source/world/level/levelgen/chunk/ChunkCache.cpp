@@ -262,8 +262,8 @@ ChunkCache::~ChunkCache()
 	SAFE_DELETE(m_pChunkSource);
 	SAFE_DELETE(m_pEmptyChunk);
 
-	for (int i = 0; i < 16; i++)
-		for (int j = 0; j < 16; j++)
+	for (int i = 0; i < C_MAX_CHUNKS_Z; i++)
+		for (int j = 0; j < C_MAX_CHUNKS_X; j++)
 		{
 			LevelChunk* pChk = m_chunkMap[i][j];
 			if (pChk)
