@@ -13,7 +13,8 @@ class AppPlatform_sdl : public AppPlatform_sdl_base
 public:
 	AppPlatform_sdl(std::string storageDir, SDL_Window *window);
 
-	void saveScreenshot(const std::string& fileName, int width, int height) override;
+	bool saveScreenshot(const std::string& fileName, int width, int height) override;
+	bool saveImage(const std::string& fileName, int width, int height, uint32_t* pixels, bool flipVertically) override;
 	Texture loadTexture(const std::string& path, bool b = false) override;
 	bool doesTextureExist(const std::string& path) override;
 	
@@ -22,4 +23,7 @@ public:
 	
 protected:
 	void ensureDirectoryExists(const char* path) override;
+	
+private:
+	bool _saveImage(const std::string& fileName, int width, int height, int lineSize, uint32_t* pixels, bool flipVertically);
 };

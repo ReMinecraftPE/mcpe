@@ -377,14 +377,10 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 		}
 	}
 
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
-
-	float fPosX = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;
-	float fPosY = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * b;
-	float fPosZ = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * b;
+	Vec3 pos = m_pMinecraft->m_pGameRenderer->getCamPos(b);
 
 	m_renderList.clear();
-	m_renderList.init(fPosX, fPosY, fPosZ);
+	m_renderList.init(pos.x, pos.y, pos.z);
 
 	for (int i = 0; i < int(field_24.size()); i++)
 	{
@@ -924,7 +920,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 
 	t_keepPic = -1;
 
-	static char str[256];
+	char str[256];
 	// @HUH: This has the potential to overwrite a file
 #ifdef ORIGINAL_CODE
 	sprintf(str, "%s/games/com.mojang/img_%.4d.jpg", m_pMinecraft->m_externalStorageDir.c_str(), getTimeMs());
@@ -932,7 +928,10 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	sprintf(str, "img_%.4d.png", getTimeMs());
 #endif
 
-	m_pMinecraft->platform()->saveScreenshot(std::string(str), Minecraft::width, Minecraft::height);
+	if (m_pMinecraft->platform()->saveScreenshot(std::string(str), Minecraft::width, Minecraft::height))
+		m_pMinecraft->m_gui.addMessage("Saved screenshot to " + std::string(str));
+	else
+		m_pMinecraft->m_gui.addMessage("Could not save screenshot to " + std::string(str));
 }
 
 void LevelRenderer::addParticle(const std::string& name, float x, float y, float z, float vx, float vy, float vz)

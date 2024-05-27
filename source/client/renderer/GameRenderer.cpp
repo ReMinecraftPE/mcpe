@@ -13,6 +13,20 @@
 #include "Frustum.hpp"
 #include "renderer/GL/GL.hpp"
 
+#define SQRT_OF_TWO  (1.414213562373095f)
+#define C_ISOM_SCALE (30.0f)
+#define C_ISOM_SIZE  (10)
+#define C_MAX_ISOM_STAGE (C_ISOM_SIZE * C_ISOM_SIZE)
+#define C_ISOM_TILES_PER_WIDTH(aspect) (C_ISOM_SCALE * SQRT_OF_TWO / 2 * (aspect))
+#define C_ISOM_TILES_PER_HEIGHT (C_ISOM_SCALE * SQRT_OF_TWO * SQRT_OF_TWO * SQRT_OF_TWO)
+
+ //#define C_ISOM_SIZE2 (21.23f) // 480x480
+ //#define C_ISOM_SIZE2 (37.75f) // 854x480
+ //#define C_ISOM_SIZE2 (40.36f) // 1920x1009
+
+ // rationale is something like "game can render 2*C_ISOM_SIZE2 blocks on the X axis"
+
+
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
 
 #if defined SHOW_VERTEX_COUNTER_GRAPHIC && !defined _DEBUG
@@ -61,8 +75,20 @@ void GameRenderer::_init()
 	m_lastUpdatedMS = 0;
 	m_shownFPS = 0;
 	m_shownChunkUpdates = 0;
-
 	m_envTexturePresence = 0;
+	m_bIsometric = false;
+	m_isometricX = 0.0f;
+	m_isometricY = 70.0f;
+	m_isometricZ = 250.0f;
+	m_isomScale = 0.0f;
+	m_isomSizeX = 0.0f;
+	m_isomSizeY = 0.0f;
+	m_isomScreenTilesX = 0;
+	m_isomScreenTilesY = 0;
+	m_isomScreenSizeX = 0;
+	m_isomScreenSizeY = 0;
+	m_isomPixels = nullptr;
+	m_isomPixelsTemp = nullptr;
 }
 
 GameRenderer::GameRenderer(Minecraft* pMinecraft) :
@@ -79,6 +105,9 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 GameRenderer::~GameRenderer()
 {
 	delete m_pItemInHandRenderer;
+
+	SAFE_DELETE_ARRAY(m_isomPixels);
+	SAFE_DELETE_ARRAY(m_isomPixelsTemp);
 }
 
 void GameRenderer::zoomRegion(float a, float b, float c)
@@ -111,22 +140,40 @@ void GameRenderer::setupCamera(float f, int i)
 		glScalef(field_44, field_44, 1.0);
 	}
 
-	float fov = getFov(f);
-	gluPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, field_8);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	if (m_bIsometric)
 	{
-		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
+		const float SCALE = C_ISOM_SCALE;
+
+		float oX = float(Minecraft::width) / float(Minecraft::height) * SCALE;
+		float oY = SCALE;
+
+		xglOrthof(-oX, oX, -oY, oY, 0.1f, 5000.0f);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(0.0f, 0.0f, -100.0f); // <--- NOT SURE WHY
+		glRotatef(30.0f, 1.0f, 0.0f, 0.0f);
+		glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
 	}
+	else
+	{
+		float fov = getFov(f);
+		gluPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, field_8);
 
-	bobHurt(f);
-	if (m_pMinecraft->getOptions()->m_bViewBobbing)
-		bobView(f);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
 
-	moveCameraToPlayer(f);
+		if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+		{
+			glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
+		}
+
+		bobHurt(f);
+		if (m_pMinecraft->getOptions()->m_bViewBobbing)
+			bobView(f);
+
+		moveCameraToPlayer(f);
+	}
 }
 
 void GameRenderer::moveCameraToPlayer(float f)
@@ -322,6 +369,9 @@ void GameRenderer::renderNoCamera()
 
 void GameRenderer::setupFog(int i)
 {
+	if (m_bIsometric)
+		return;
+
 	float fog_color[4];
 	fog_color[0] = field_60;
 	fog_color[1] = field_64;
@@ -396,6 +446,17 @@ float GameRenderer::getFov(float f)
 	return field_54 + x1 + f * (field_50 - field_54);
 }
 
+Vec3 GameRenderer::getCamPos(float b)
+{
+	if (m_bIsometric) {
+		return Vec3(m_isometricX, m_isometricY, m_isometricZ);
+	}
+	else {
+		Mob* pMob = m_pMinecraft->m_pMobPersp;
+		return pMob->field_98 + (pMob->m_pos - pMob->field_98) * b;
+	}
+}
+
 void GameRenderer::renderLevel(float f)
 {
 	if (!m_pMinecraft->m_pMobPersp)
@@ -414,11 +475,7 @@ void GameRenderer::renderLevel(float f)
 	pick(f);
 
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
-	Vec3 fCamPos;
-
-	fCamPos.x = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * f;
-	fCamPos.y = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * f;
-	fCamPos.z = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * f;
+	Vec3 fCamPos = getCamPos(f);
 
 	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
@@ -456,7 +513,7 @@ void GameRenderer::renderLevel(float f)
 		}
 		*/
 
-		glEnable(GL_FOG);
+		setFogEnabledIfNeeded(true);
 		setupFog(1);
 
 		if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
@@ -476,15 +533,18 @@ void GameRenderer::renderLevel(float f)
 		prepareAndRenderClouds(pLR, f);
 
 		setupFog(0);
-		glEnable(GL_FOG);
+		setFogEnabledIfNeeded(true);
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 		// render the opaque layer
 		pLR->render(pMob, 0, f);
 
-		glShadeModel(GL_FLAT);
-		pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
-		pPE->render(pMob, f);
+		if (!m_bIsometric)
+		{
+			glShadeModel(GL_FLAT);
+			pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
+			pPE->render(pMob, f);
+		}
 
 		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
 		//glEnable(GL_ALPHA);
@@ -506,28 +566,31 @@ void GameRenderer::renderLevel(float f)
 
 		glDepthMask(true);
 
-#ifndef ORIGINAL_CODE
-		glShadeModel(GL_FLAT);
-#endif
-		glEnable(GL_CULL_FACE);
-		glDisable(GL_BLEND);
-
-		if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
+		if (!m_bIsometric)
 		{
-			glDisable(GL_ALPHA_TEST);
+#ifndef ORIGINAL_CODE
+			glShadeModel(GL_FLAT);
+#endif
+			glEnable(GL_CULL_FACE);
+			glDisable(GL_BLEND);
 
-			// added by iProgramInCpp - renders the cracks
-			pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+			if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
+			{
+				glDisable(GL_ALPHA_TEST);
 
-			if (m_pMinecraft->getOptions()->m_bBlockOutlines)
-				pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-			else
-				pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+				// added by iProgramInCpp - renders the cracks
+				pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
-			glEnable(GL_ALPHA_TEST);
+				if (m_pMinecraft->getOptions()->m_bBlockOutlines)
+					pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+				else
+					pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+
+				glEnable(GL_ALPHA_TEST);
+			}
 		}
 
-		glDisable(GL_FOG);
+		setFogEnabledIfNeeded(false);
 
 		if (false) // TODO: Figure out how to enable weather
 			renderWeather(f);
@@ -542,12 +605,153 @@ void GameRenderer::renderLevel(float f)
 			break;
 	}
 
+	resetFogState();
+
 	if (bAnaglyph)
 		glColorMask(true, true, true, false);
 }
 
+void GameRenderer::startIsometricRender()
+{
+	// if an isometric render is already ongoing, delete the m_isomPixels array
+	SAFE_DELETE_ARRAY(m_isomPixels);
+	SAFE_DELETE_ARRAY(m_isomPixelsTemp);
+
+	m_bIsometric = true;
+	m_isomStage = 0;
+	m_isometricX = 0;
+	m_isometricY = 0;
+	m_isometricZ = 0;
+	m_isomScale = C_ISOM_SCALE;
+	m_isomSizeX = C_ISOM_TILES_PER_WIDTH(float(Minecraft::width) / float(Minecraft::height));
+	m_isomSizeY = C_ISOM_TILES_PER_HEIGHT;
+	m_isomScreenTilesX = int(C_MAX_CHUNKS_X * 16 / m_isomSizeX / 2) + 2;
+	m_isomScreenTilesY = int(C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z / m_isomSizeY) + 2;
+	m_isomScreenSizeX = Minecraft::width;
+	m_isomScreenSizeY = Minecraft::height;
+	m_isomPixels = new uint32_t[m_isomScreenSizeX * m_isomScreenSizeY * m_isomScreenTilesX * m_isomScreenTilesY];
+	m_isomPixelsTemp = new uint32_t[m_isomScreenSizeX * m_isomScreenSizeY];
+}
+
+void GameRenderer::cancelIsometricRender()
+{
+	SAFE_DELETE_ARRAY(m_isomPixels);
+	SAFE_DELETE_ARRAY(m_isomPixelsTemp);
+	m_isomPixels = nullptr;
+	m_isomPixelsTemp = nullptr;
+	m_bIsometric = false;
+	m_isomStage = 0;
+}
+
+void GameRenderer::onEndIsomRender()
+{
+	char str[256];
+	sprintf(str, "huge_img_%.4d.png", getTimeMs());
+
+	// Save the final image
+	bool result = m_pMinecraft->platform()->saveImage(
+		std::string(str),
+		m_isomScreenSizeX * m_isomScreenTilesX,
+		m_isomScreenSizeY * m_isomScreenTilesY,
+		m_isomPixels,
+		false
+	);
+
+	if (result)
+		m_pMinecraft->m_gui.addMessage("Saved isometric screenshot to " + std::string(str));
+	else
+		m_pMinecraft->m_gui.addMessage("Could not save isometric screenshot to " + std::string(str));
+
+	// Cleanup after ourselves.
+	cancelIsometricRender();
+}
+
+void GameRenderer::beginIsom(bool &oldDontRenderGui)
+{
+	oldDontRenderGui = false;
+	if (!m_bIsometric)
+		return;
+
+	const int maxIsomStage = m_isomScreenTilesX * m_isomScreenTilesY;
+
+	if (m_isomStage >= maxIsomStage) {
+		onEndIsomRender();
+	}
+	else {
+		const float twoIsomSizeX = 2 * m_isomSizeX;
+		
+		float xInImg = float(m_isomStage % m_isomScreenTilesX - m_isomScreenTilesX / 2) * m_isomSizeX;
+		float zInImg = float(m_isomStage / m_isomScreenTilesX) * m_isomSizeY;
+
+		m_isometricX = 0.0f;
+		m_isometricZ = 0.0f;
+		m_isometricY = C_MAX_Y * 3 / 4; // TODO: fix magic value
+
+		// apply the displacement
+		m_isometricX += 2 * xInImg;
+		m_isometricZ -= 2 * xInImg;
+		m_isometricX += zInImg;
+		m_isometricZ += zInImg;
+
+		m_isomStage++;
+
+		oldDontRenderGui = m_pMinecraft->getOptions()->m_bDontRenderGui;
+		m_pMinecraft->getOptions()->m_bDontRenderGui = true;
+	}
+}
+
+void GameRenderer::endIsom(bool oldDontRenderGui)
+{
+	const int maxIsomStage = m_isomScreenTilesX * m_isomScreenTilesY;
+
+	if (m_bIsometric)
+	{
+		LOG_I("Saving %d of %d", m_isomStage, maxIsomStage);
+		//std::string fn = "IsomShots\\" + std::to_string(m_isomStage) + ".png";
+		//m_pMinecraft->platform()->saveScreenshot(fn, Minecraft::width, Minecraft::height);
+
+		// Read frame buffer into temporary buffer
+		glReadPixels(0, 0, m_isomScreenSizeX, m_isomScreenSizeY, GL_RGBA, GL_UNSIGNED_BYTE, m_isomPixelsTemp);
+
+		assert(m_isomStage > 0);
+
+		// Place the temp buffer into its proper spot in the real buffer
+		const int pitch_src = m_isomScreenSizeX;
+		const int pitch_dst = m_isomScreenSizeX * m_isomScreenTilesX;
+		const int tile_idx = m_isomStage - 1;
+		const int dst_x = (tile_idx % m_isomScreenTilesX) * m_isomScreenSizeX;
+		const int dst_y = (tile_idx / m_isomScreenTilesX) * m_isomScreenSizeY;
+
+		for (int y = 0; y < m_isomScreenSizeY; y++)
+		{
+			// Note, have to flip source buffer vertically because OpenGL dumps data upside down
+			uint32_t* src_ptr = &m_isomPixelsTemp[pitch_src * (m_isomScreenSizeY - y - 1)];
+			uint32_t* dst_ptr = &m_isomPixels[pitch_dst * (dst_y + y) + (dst_x)];
+			memcpy(dst_ptr, src_ptr, m_isomScreenSizeX * sizeof(uint32_t));
+		}
+
+		m_pMinecraft->getOptions()->m_bDontRenderGui = oldDontRenderGui;
+	}
+}
+
+void GameRenderer::setFogEnabledIfNeeded(bool bEnable)
+{
+	if (m_bIsometric || !bEnable)
+		glDisable(GL_FOG);
+	else
+		glEnable(GL_FOG);
+}
+
+void GameRenderer::resetFogState()
+{
+	glDisable(GL_FOG);
+}
+
 void GameRenderer::render(float f)
 {
+	bool oldDontRenderGui = false;
+	beginIsom(oldDontRenderGui);
+
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
 		Minecraft *pMC = m_pMinecraft;
@@ -641,8 +845,10 @@ void GameRenderer::render(float f)
 			renderLevel(f);
 			if (m_pMinecraft->getOptions()->m_bDontRenderGui)
 			{
-				if (!m_pMinecraft->m_pScreen)
+				if (!m_pMinecraft->m_pScreen) {
+					endIsom(oldDontRenderGui);
 					return;
+				}
 			}
 
 			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
@@ -680,7 +886,7 @@ void GameRenderer::render(float f)
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
 	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
 
-	if (m_pMinecraft->getOptions()->m_bDebugText)
+	if (m_pMinecraft->getOptions()->m_bDebugText && !m_pMinecraft->getOptions()->m_bDontRenderGui)
 	{
 		if (m_pMinecraft->m_pLocalPlayer)
 		{
@@ -756,6 +962,8 @@ void GameRenderer::render(float f)
 		m_shownChunkUpdates = Chunk::updates;
 		Chunk::updates = 0;
 	}
+
+	endIsom(oldDontRenderGui);
 }
 
 void GameRenderer::tick()
@@ -775,7 +983,7 @@ void GameRenderer::tick()
 		m_pMinecraft->m_hitResult.m_hitType = HitResult::NONE;
 
 #ifndef ORIGINAL_CODE
-	// Not harmless to let it underflow, but we won't anyway
+	// Not harmful to let it underflow, but we won't anyway
 	if (t_keepHitResult < -100)
 		t_keepHitResult = -100;
 #endif

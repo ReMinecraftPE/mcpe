@@ -32,6 +32,7 @@ public:
 	void renderNoCamera();
 #endif
 
+	Vec3 getCamPos(float);
 	void renderLevel(float);
 	void render(float);
 	void tick();
@@ -45,8 +46,17 @@ public:
 	void renderItemInHand(float, int);
 	void prepareAndRenderClouds(LevelRenderer* pLR, float f);
 	void renderWeather(float f);
+	void startIsometricRender();
+	void cancelIsometricRender();
 
 	float getFov(float f);
+
+private:
+	void onEndIsomRender();
+	void beginIsom(bool& oldDontRenderGui);
+	void endIsom(bool oldDontRenderGui);
+	void setFogEnabledIfNeeded(bool bEnable);
+	void resetFogState();
 
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
@@ -84,13 +94,24 @@ public:
 	float field_7C;
 	float field_80;
 	float field_84;
-
 	float m_matrix_projection[16];
 	float m_matrix_model_view[16];
-
 	int m_shownFPS, m_shownChunkUpdates, m_lastUpdatedMS;
-
 	int m_envTexturePresence;
 	Random m_random;
+	bool m_bIsometric;
+	float m_isometricX;
+	float m_isometricY;
+	float m_isometricZ;
+	float m_isomScale; // scale used in glOrthof
+	float m_isomSizeX; // rough amount of blocks that can fit in 1 screenshot width
+	float m_isomSizeY; // rough amount of blocks that can fit in 1 screenshot height
+	int m_isomScreenTilesX; // amount of screenshots on the X axis that compose the final screenshot
+	int m_isomScreenTilesY; // amount of screenshots on the Y axis that compose the final screenshot
+	int m_isomScreenSizeX; // width of one screenshot tile
+	int m_isomScreenSizeY; // height of one screenshot tile
+	int m_isomStage;
+	uint32_t* m_isomPixels;		// Buffer that will contain the final image
+	uint32_t* m_isomPixelsTemp; // Buffer that contains one screen shot dump
 };
 

@@ -26,7 +26,8 @@ public:
 	void initSoundSystem() override;
 
 	void buyGame() override;
-	void saveScreenshot(const std::string& fileName, int width, int height) override;
+	bool saveScreenshot(const std::string& fileName, int width, int height) override;
+	bool saveImage(const std::string& fileName, int width, int height, uint32_t* pixels, bool flipVertically);
 	int checkLicense() override;
 	void createUserInput() override;
 	std::vector<std::string> getUserInput() override { return m_UserInput; }

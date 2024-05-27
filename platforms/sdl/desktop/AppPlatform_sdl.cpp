@@ -19,10 +19,10 @@ AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 }
 
 // Take Screenshot
-static int save_png(const char *filename, unsigned char *pixels, int line_size, int width, int height)
+static int save_png(const char *filename, unsigned char *pixels, int line_size, int width, int height, bool flip_vert)
 {
 	// Setup
-	stbi_flip_vertically_on_write(true);
+	stbi_flip_vertically_on_write(flip_vert);
 
 	// Write Image
 	return stbi_write_png(filename, width, height, 4, pixels, line_size);
@@ -50,32 +50,45 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	}
 }
 
-void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
+bool AppPlatform_sdl::_saveImage(const std::string& fileName, int width, int height, int lineSize, uint32_t* pixels, bool flipVertically)
 {
 	// Get Directory
 	std::string screenshots = _storageDir + "/screenshots";
-
-	// Get Timestamp
-	time_t rawtime;
-	struct tm *timeinfo;
-	time(&rawtime);
-	timeinfo = localtime(&rawtime);
-	char time[256];
-	strftime(time, sizeof (time), "%Y-%m-%d_%H.%M.%S", timeinfo);
 
 	// Ensure Screenshots Folder Exists
 	ensureDirectoryExists(screenshots.c_str());
 
 	// Prevent Overwriting Screenshots
 	int num = 1;
-	const std::string path = screenshots + "/";
-	std::string file = path + time + ".png";
-	while (XPL_ACCESS(file.c_str(), F_OK) != -1)
+	std::string path, pad;
+	while (true)
 	{
-		file = path + SSTR(time << "-" << num << ".png");
-		num++;
+        path = screenshots + "/" + pad + fileName;
+		if (XPL_ACCESS(path.c_str(), F_OK) == -1)
+			break;
+		
+		// could access, add a dash to avoid overwriting. HACK
+		pad += '-';
 	}
 
+	// Save Image
+	if (!save_png(path.c_str(), (unsigned char*) pixels, lineSize, width, height, flipVertically))
+	{
+		LOG_E("Couldn't save screenshot: %s", path.c_str());
+		return false;
+	}
+
+    LOG_I("Saved to %s", path.c_str());
+	return true;
+}
+
+bool AppPlatform_sdl::saveImage(const std::string& filename, int glWidth, int glHeight, uint32_t* pixels, bool flipVertically)
+{
+	return _saveImage(filename, glWidth, glHeight, glWidth * sizeof (uint32_t), pixels, flipVertically);
+}
+
+bool AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
+{
 	// Get Image Size
 	GLint viewport[4];
 	glGetIntegerv(GL_VIEWPORT, viewport);
@@ -101,31 +114,18 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 
 	// Read Pixels
 	bool fail = false;
-	unsigned char *pixels = new unsigned char[size];
+	unsigned char *pixels = new (std::nothrow) unsigned char[size];
 	if (!pixels)
-	{
-		fail = true;
-	}
-	else
-	{
-		glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-	}
+		return false;
+	
+	glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
-	// Save Image
-	if (fail || !save_png(file.c_str(), pixels, line_size, width, height))
-	{
-		LOG_E("Screenshot Failed: %s", file.c_str());
-	}
-	else
-	{
-		LOG_I("Screenshot Saved: %s", file.c_str());
-	}
+	// Call saveImage To Save The Image
+	bool res = _saveImage(filename, glWidth, glHeight, line_size, (uint32_t*) pixels, true);
 
-	// Free
-	if (!pixels)
-	{
-		delete[] pixels;
-	}
+	delete[] pixels;
+	
+	return res;
 }
 
 Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
@@ -173,6 +173,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 	// Return
 	return out;
 }
+
 bool AppPlatform_sdl::doesTextureExist(const std::string& path)
 {
 	// Get Full Path

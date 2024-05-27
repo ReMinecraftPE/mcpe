@@ -503,9 +503,14 @@ void Minecraft::tickInput()
 			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
 				// Toggle ambient occlusion.
-				getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
-				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
-				m_pLevelRenderer->allChanged();
+				// getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
+				// Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
+				// m_pLevelRenderer->allChanged();
+
+				if (m_pGameRenderer->m_bIsometric)
+					m_pGameRenderer->cancelIsometricRender();
+				else
+					m_pGameRenderer->startIsometricRender();
 			}
 #endif
 		}
