@@ -310,6 +310,8 @@ void DisableOpenGL(HWND hwnd, HDC hDC, HGLRC hRC)
 	ReleaseDC(hwnd, hDC);
 }
 
+#endif
+
 void sleepMs(int ms)
 {
 #ifdef _WIN32
@@ -318,8 +320,6 @@ void sleepMs(int ms)
 	usleep(1000 * ms);
 #endif
 }
-
-#endif
 
 float Max(float a, float b)
 {
