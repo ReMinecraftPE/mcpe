@@ -40,6 +40,7 @@ public:
 	void setMaxLength(int max_length);
 
 public:
+	std::string getRenderedText(int scroll_pos, std::string text);
 	void recalculateScroll();
 
 	int m_ID;

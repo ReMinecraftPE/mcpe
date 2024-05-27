@@ -232,22 +232,22 @@ void TextInputBox::charPressed(int k)
 	recalculateScroll();
 }
 
-static int PADDING = 5;
+constexpr int PADDING = 5;
 
-static std::string get_rendered_text(Font *font, int width, int scroll_pos, std::string text)
+std::string TextInputBox::getRenderedText(int scroll_pos, std::string text)
 {
 	// Not the most efficient code.
 	// But it does not run often enough to matter.
 	std::string rendered_text = text.substr(scroll_pos);
-	int max_width = width - (PADDING * 2);
-	while (font->width(rendered_text) > max_width)
+	int max_width = m_width - (PADDING * 2);
+	while (m_pFont->width(rendered_text) > max_width)
 	{
 		rendered_text.pop_back();
 	}
 	return rendered_text;
 }
 
-static char CURSOR_CHAR = '_';
+constexpr char CURSOR_CHAR = '_';
 
 void TextInputBox::render()
 {
@@ -269,7 +269,7 @@ void TextInputBox::render()
 		text_color = 0xffffff;
 		scroll_pos = m_scrollPos;
 	}
-	rendered_text = get_rendered_text(m_pFont, m_width, scroll_pos, rendered_text);
+	rendered_text = getRenderedText(scroll_pos, rendered_text);
 
 	int textYPos = (m_height - 8) / 2;
 	drawString(m_pFont, rendered_text, m_xPos + PADDING, m_yPos + textYPos, text_color);
@@ -322,7 +322,7 @@ void TextInputBox::recalculateScroll()
 			{
 				rendered_text += CURSOR_CHAR;
 			}
-			rendered_text = get_rendered_text(m_pFont, m_width, test_scroll_pos, rendered_text);
+			rendered_text = getRenderedText(test_scroll_pos, rendered_text);
 			int cursor_pos = m_insertHead - test_scroll_pos;
 			if (cursor_pos >= int(rendered_text.length()))
 			{
@@ -349,7 +349,7 @@ void TextInputBox::recalculateScroll()
 			{
 				rendered_text += CURSOR_CHAR;
 			}
-			rendered_text = get_rendered_text(m_pFont, m_width, m_scrollPos, rendered_text);
+			rendered_text = getRenderedText(m_scrollPos, rendered_text);
 			int cursor_pos = m_insertHead - m_scrollPos;
 			if (cursor_pos < int(rendered_text.length()))
 			{
