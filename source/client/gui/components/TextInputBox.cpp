@@ -10,6 +10,10 @@
 #include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 
+#ifdef USE_NATIVE_ANDROID
+#define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
+#endif
+
 TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
 {
 	m_ID = id;
@@ -45,6 +49,108 @@ void TextInputBox::setEnabled(bool bEnabled)
 	m_bEnabled = true;
 }
 
+#ifdef USE_SDL
+// See https://www.libsdl.org/release/SDL-1.2.15/docs/html/sdlkey.html
+#define AKEYCODE_FORWARD_DEL   SDLVK_DELETE
+#define AKEYCODE_ARROW_LEFT    SDLVK_LEFT
+#define AKEYCODE_ARROW_RIGHT   SDLVK_RIGHT
+#define AKEYCODE_DEL	           SDLVK_BACKSPACE
+#define AKEYCODE_ENTER         SDLVK_RETURN
+#define AKEYCODE_A             SDLVK_a
+#define AKEYCODE_Z             SDLVK_z
+#define AKEYCODE_0             SDLVK_0
+#define AKEYCODE_9             SDLVK_9
+#define AKEYCODE_SPACE         SDLVK_SPACE
+#define AKEYCODE_COMMA         SDLVK_COMMA
+#define AKEYCODE_PERIOD        SDLVK_PERIOD
+#define AKEYCODE_PLUS          SDLVK_PLUS
+#define AKEYCODE_MINUS         SDLVK_MINUS
+#define AKEYCODE_SEMICOLON     SDLVK_SEMICOLON
+#define AKEYCODE_SLASH         SDLVK_SLASH
+#define AKEYCODE_GRAVE         SDLVK_BACKQUOTE
+#define AKEYCODE_BACKSLASH     SDLVK_BACKSLASH
+#define AKEYCODE_APOSTROPHE    SDLVK_QUOTE
+#define AKEYCODE_LEFT_BRACKET  SDLVK_LEFTBRACKET
+#define AKEYCODE_RIGHT_BRACKET SDLVK_RIGHTBRACKET
+#elif defined(_WIN32)
+// See https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+#define AKEYCODE_FORWARD_DEL   VK_DELETE
+#define AKEYCODE_ARROW_LEFT    VK_LEFT
+#define AKEYCODE_ARROW_RIGHT   VK_RIGHT
+#define AKEYCODE_DEL	           VK_BACK
+#define AKEYCODE_ENTER         VK_RETURN
+#define AKEYCODE_A             'A'
+#define AKEYCODE_Z             'Z'
+#define AKEYCODE_0             '0'
+#define AKEYCODE_9             '9'
+#define AKEYCODE_SPACE         VK_SPACE
+#define AKEYCODE_COMMA         VK_OEM_COMMA
+#define AKEYCODE_PERIOD        VK_OEM_PERIOD
+#define AKEYCODE_PLUS          VK_OEM_PLUS
+#define AKEYCODE_MINUS         VK_OEM_MINUS
+#define AKEYCODE_SEMICOLON     VK_OEM_1
+#define AKEYCODE_SLASH         VK_OEM_2
+#define AKEYCODE_GRAVE         VK_OEM_3
+#define AKEYCODE_BACKSLASH     VK_OEM_5
+#define AKEYCODE_APOSTROPHE    VK_OEM_7
+#define AKEYCODE_LEFT_BRACKET  VK_OEM_4
+#define AKEYCODE_RIGHT_BRACKET VK_OEM_6
+#endif
+
+char TextInputBox::guessCharFromKey(int key) {
+	bool bShiftPressed = m_pParent->m_pMinecraft->platform()->shiftPressed();
+	char chr = '\0';
+	if (key >= AKEYCODE_A && key <= AKEYCODE_Z)
+	{
+		chr = char((key - AKEYCODE_A) + (bShiftPressed ? 'A' : 'a'));
+	}
+	if (key >= AKEYCODE_0 && key <= AKEYCODE_9)
+	{
+		static const char shiftmap[] = { ')', '!', '@', '#', '$', '%', '^', '&', '*', '(' };
+		chr = char(bShiftPressed ? shiftmap[key - AKEYCODE_0] : (key - AKEYCODE_0 + '0'));
+	}
+	switch (key)
+	{
+		case AKEYCODE_SPACE:
+			chr = ' ';
+			break;
+		case AKEYCODE_COMMA:
+			chr = bShiftPressed ? '<' : ',';
+			break;
+		case AKEYCODE_PERIOD:
+			chr = bShiftPressed ? '>' : '.';
+			break;
+		case AKEYCODE_PLUS:
+			chr = bShiftPressed ? '+' : '=';
+			break;
+		case AKEYCODE_MINUS:
+			chr = bShiftPressed ? '_' : '-';
+			break;
+		case AKEYCODE_SEMICOLON:
+			chr = bShiftPressed ? ':' : ';';
+			break;
+		case AKEYCODE_SLASH:
+			chr = bShiftPressed ? '?' : '/';
+			break;
+		case AKEYCODE_GRAVE:
+			chr = bShiftPressed ? '~' : '`';
+			break;
+		case AKEYCODE_BACKSLASH:
+			chr = bShiftPressed ? '|' : '\\';
+			break;
+		case AKEYCODE_APOSTROPHE:
+			chr = bShiftPressed ? '"' : '\'';
+			break;
+		case AKEYCODE_LEFT_BRACKET:
+			chr = bShiftPressed ? '{' : '[';
+			break;
+		case AKEYCODE_RIGHT_BRACKET:
+			chr = bShiftPressed ? '}' : ']';
+			break;
+	}
+	return chr;
+}
+
 void TextInputBox::keyPressed(int key)
 {
 	if (!m_bFocused)
@@ -52,19 +158,14 @@ void TextInputBox::keyPressed(int key)
 		return;
 	}
 
-#ifdef USE_SDL
-#define AKEYCODE_FORWARD_DEL SDLVK_DELETE
-#define AKEYCODE_ARROW_LEFT  SDLVK_LEFT
-#define AKEYCODE_ARROW_RIGHT SDLVK_RIGHT
-#define AKEYCODE_DEL	         SDLVK_BACKSPACE
-#define AKEYCODE_ENTER       SDLVK_RETURN
-#elif defined(_WIN32)
-#define AKEYCODE_FORWARD_DEL VK_DELETE
-#define AKEYCODE_ARROW_LEFT  VK_LEFT
-#define AKEYCODE_ARROW_RIGHT VK_RIGHT
-#define AKEYCODE_DEL	         VK_BACK
-#define AKEYCODE_ENTER       VK_RETURN
+#ifndef HANDLE_CHARS_SEPARATELY
+	char guess = guessCharFromKey(key);
+	if (guess != '\0') {
+		charPressed(guess);
+		return;
+	}
 #endif
+
 	switch (key) {
 		case AKEYCODE_DEL:
 		{
@@ -140,16 +241,6 @@ void TextInputBox::keyPressed(int key)
 			break;
 		}
 	}
-#ifdef AKEYCODE_FORWARD_DEL
-#undef AKEYCODE_FORWARD_DEL
-#undef AKEYCODE_ARROW_LEFT
-#undef AKEYCODE_ARROW_RIGHT
-#undef AKEYCODE_DEL
-#undef AKEYCODE_ENTER
-#endif
-#ifdef AKEYCODE_DEL
-#undef AKEYCODE_DEL
-#endif
 }
 
 void TextInputBox::tick()

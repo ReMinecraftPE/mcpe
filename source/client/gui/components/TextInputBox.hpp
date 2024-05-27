@@ -40,6 +40,7 @@ public:
 	void setMaxLength(int max_length);
 
 public:
+	char guessCharFromKey(int key);
 	std::string getRenderedText(int scroll_pos, std::string text);
 	void recalculateScroll();
 
