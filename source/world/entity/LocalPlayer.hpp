@@ -62,4 +62,9 @@ public:
 	float m_renderArmPitch;
 	float m_lastRenderArmYaw;
 	float m_lastRenderArmPitch;
+
+	bool m_bFlying;
+
+private:
+	int m_nFlightToggleFrames;
 };

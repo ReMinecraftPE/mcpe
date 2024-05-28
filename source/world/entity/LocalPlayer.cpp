@@ -46,6 +46,8 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int 
 
 	field_BC4 = i;
 	field_C38 = m_pInventory->getSelectedItemId();
+
+	m_bFlying = false;
 }
 
 LocalPlayer::~LocalPlayer()
@@ -134,10 +136,54 @@ int LocalPlayer::move(float x, float y, float z)
 	int result = 0;
 
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
+	bool bFlying = false;
+
 	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
+		//@NOTE: This is not a reverse engineering of how flight toggle works, chances are it's way different in the actual game.
+		//       Below values are tuned based on what felt best.
+		static const int nFramesBetweenFlight = 3;
+		static const int nFramesCooldown = 3;
+
+		if (m_nFlightToggleFrames > nFramesBetweenFlight) // Cooldown
+		{
+			// Decrement and prevent accidental flight/unflight
+			if (--m_nFlightToggleFrames == nFramesBetweenFlight)
+			{
+				m_nFlightToggleFrames = -1;
+			}
+		}
+		else if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(KM_FLY_UP)))
+		{
+			// Are we within 10 frames of the last KM_FLY_UP?
+			if (m_nFlightToggleFrames > 0 && m_nFlightToggleFrames < nFramesBetweenFlight)
+			{
+				m_bFlying = !m_bFlying;
+				m_nFlightToggleFrames = nFramesBetweenFlight + nFramesCooldown;
+
+				// Reset flight speed
+				field_BFC = field_C08 = field_C14 = 0; // current speed?
+				field_C00 = field_C0C = field_C18 = 0; // delta?
+				field_C04 = field_C10 = field_C1C = 0; // i dont even know what you are but please stop existing
+			}
+			// No? Reset.
+			else
+			{
+				m_nFlightToggleFrames = nFramesBetweenFlight;
+			}
+		}
+		else if (m_nFlightToggleFrames > 0)
+		{
+			m_nFlightToggleFrames--;
+		}
+
+		bFlying = m_bFlying;
+	}
+
+	if (bFlying)
+	{
 		//@HUH: Using m_pMinecraft->m_pLocalPlayer instead of this, even though they're the same
-		pLP->m_bNoCollision = true;
+		//pLP->m_bNoCollision = true;
 
 		float field_94_old = field_94;
 
@@ -148,7 +194,8 @@ int LocalPlayer::move(float x, float y, float z)
 		// This looks very funny.
 		result = pLP->Entity::move(field_BF0, field_BF4, field_BF8);
 
-		pLP->field_7C = true;
+		// field_7C causes sneaking while flying to get rid of all momentum on X and Z?
+		//pLP->field_7C = true;
 
 		field_94 = field_94_old;
 	}
