@@ -222,6 +222,11 @@ void SelectWorldScreen::buttonClicked(Button* pButton)
 	}
 }
 
+void SelectWorldScreen::handleScroll(bool down)
+{
+	m_pWorldSelectionList->handleScroll(down);
+}
+
 bool SelectWorldScreen::isIndexValid(int idx)
 {
 	if (!m_pWorldSelectionList)

@@ -71,6 +71,10 @@ void OptionsScreen::buttonClicked(Button* pButton)
 	}
 }
 
+void OptionsScreen::handleScroll(bool down)
+{
+	m_pList->handleScroll(down);
+}
 
 #else
 

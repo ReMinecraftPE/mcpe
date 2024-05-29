@@ -40,6 +40,7 @@ public:
 	int  getSlotIdAt(int mx, int my);
 	bool isInside(int mx, int my);
 	void handleClick(int id, int mx, int my);
+	void handleScroll(bool down);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
 	int getNumSlots();					  // Gets the number of slots in the inventory. Includes the '...' if in touch mode.

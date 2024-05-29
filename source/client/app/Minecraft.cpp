@@ -420,6 +420,11 @@ void Minecraft::tickInput()
 		if (Mouse::isButtonDown(BUTTON_LEFT))
 			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
 
+#ifdef ENH_ALLOW_SCROLL_WHEEL
+		if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
+			m_gui.handleScroll(Mouse::getEventButtonState() == 1);
+#endif
+
 		if (!bIsInGUI && getOptions()->field_19)
 		{
 			MouseButtonType buttonType = Mouse::getEventButton();
@@ -428,32 +433,6 @@ void Minecraft::tickInput()
 				handleMouseClick(buttonType);
 				field_DAC = field_DA8;
 			}
-
-#ifdef ENH_ALLOW_SCROLL_WHEEL
-			if (Mouse::getEventButton() == BUTTON_SCROLLWHEEL)
-			{
-				int slot = m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
-
-				int maxItems = m_gui.getNumUsableSlots() - 1;
-
-				if (Mouse::getEventButtonState() == 0) // @NOTE: Scroll up
-				{
-					if (slot-- == 0)
-					{
-						slot = maxItems;
-					}
-				}
-				else
-				{
-					if (slot++ == maxItems) // @NOTE: Scroll down
-					{
-						slot = 0;
-					}
-				}
-
-				m_pLocalPlayer->m_pInventory->selectSlot(slot);
-			}
-#endif
 		}
 	}
 

@@ -23,6 +23,7 @@ public:
 	void render(int, int, float) override;
 	void removed() override;
 	void buttonClicked(Button* pButton) override;
+	void handleScroll(bool down) override;
 
 private:
 	OptionList* m_pList;
