@@ -66,7 +66,6 @@ jobs:
           - name: Build macOS Archive
             run: |
                 ln -s sound/openal platforms/openal # Please someone fix this properly later.
-                ln -s CustomSoundSystem.hpp platforms/openal/SoundSystemAL.hpp # I beg of you.
                 cd platforms/macos/projects/Minecraft
                 xcodebuild -scheme "MinecraftClient.SDL2" \
                 -archivePath $RUNNER_TEMP/GitHubActions_MacOS_SDL2.xcarchive \
