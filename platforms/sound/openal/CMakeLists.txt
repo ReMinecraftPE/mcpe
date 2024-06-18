@@ -16,7 +16,7 @@ if(ANDROID)
     set(ALSOFT_EXAMPLES FALSE CACHE BOOL "" FORCE)
     set(ALSOFT_TESTS FALSE CACHE BOOL "" FORCE)
     set(ALSOFT_REQUIRE_OPENSL TRUE CACHE BOOL "" FORCE)
-    add_subdirectory(../../thirdparty/OpenAL openal EXCLUDE_FROM_ALL)
+    add_subdirectory(../../../thirdparty/OpenAL openal EXCLUDE_FROM_ALL)
     target_link_libraries(reminecraftpe-sound PUBLIC OpenAL::OpenAL)
 elseif(EMSCRIPTEN)
     # Use Emscripten's OpenAL
