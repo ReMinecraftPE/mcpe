@@ -20,6 +20,9 @@ add_library(reminecraftpe SHARED
 add_subdirectory("${MC_ROOT}/source" source)
 target_link_libraries(reminecraftpe reminecraftpe-core)
 
+# OpenGL
+target_link_libraries(reminecraftpe-core PUBLIC EGL GLESv1_CM)
+
 # stb_image
 add_subdirectory("${MC_ROOT}/thirdparty/stb_image" stb_image)
 target_link_libraries(reminecraftpe stb_image)

@@ -37,9 +37,9 @@
 // Do we even need all this WinSock stuff anymore?
 #ifndef _XBOX // assume we're on a normal Windows device
 #define WIN32_LEAN_AND_MEAN
-#include <WinSock2.h>
-#include <Windows.h>
-#include <WS2tcpip.h>
+#include <winsock2.h>
+#include <windows.h>
+#include <ws2tcpip.h>
 #include <direct.h>
 #include <io.h>
 

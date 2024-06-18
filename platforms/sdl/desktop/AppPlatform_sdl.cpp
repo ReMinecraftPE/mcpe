@@ -36,7 +36,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
 	{
 		// Create Screenshots Folder
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 		int ret = XPL_MKDIR(path);
 #else
 		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);

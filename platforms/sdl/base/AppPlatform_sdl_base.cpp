@@ -13,7 +13,13 @@
 
 #include "common/Utils.hpp"
 
+#ifdef _WIN32
+#include "SoundSystemDS.hpp"
+#define SOUND_SYSTEM SoundSystemDS
+#else
 #include "SoundSystemAL.hpp"
+#define SOUND_SYSTEM SoundSystemAL
+#endif
 
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
@@ -59,7 +65,7 @@ void AppPlatform_sdl_base::initSoundSystem()
 	if (!m_pSoundSystem)
 	{
 		LOG_I("Initializing OpenAL SoundSystem...");
-		m_pSoundSystem = new SoundSystemAL();
+		m_pSoundSystem = new SOUND_SYSTEM();
 	}
 	else
 	{

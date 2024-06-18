@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include <cstdarg>
-#include <WindowsX.h>
+#include <windowsx.h>
 
 #include "thirdparty/GL/GL.hpp"
 #include "compat/KeyCodes.hpp"

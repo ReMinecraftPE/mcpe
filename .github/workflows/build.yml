@@ -18,16 +18,19 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
             with:
                 submodules: true
           - name: Install Dependencies
             run: |
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y build-essential cmake ninja-build libopenal-dev libsdl2-dev zlib1g-dev
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    libopenal-dev \
+                    libsdl2-dev zlib1g-dev
           - name: Build
             run: |
-                cd platforms/sdl
                 mkdir build
                 cd build
                 cmake -GNinja ${{ matrix.flags }} ..
@@ -37,7 +40,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
             with:
                 submodules: true
           - name: Install Dependencies
@@ -51,7 +54,7 @@ jobs:
         runs-on: macos-latest
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
             with:
                 submodules: true
           - name: Install MacPorts
@@ -103,7 +106,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v3
+            uses: actions/checkout@v4
             with:
                 submodules: true
           - name: Setup JDK
@@ -116,3 +119,32 @@ jobs:
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew build
+    mingw:
+      strategy:
+        fail-fast: false
+        matrix:
+          include:
+            - name: Win32
+              flags: "-DREMCPE_PLATFORM=windows"
+            - name: SDL
+              flags: "-DREMCPE_PLATFORM=sdl"
+      name: MinGW-w64 (${{ matrix.name }})
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+          with:
+            submodules: true
+        - name: Install Dependencies
+          run: |
+            sudo apt-get update
+            sudo apt-get install --no-install-recommends -y \
+                build-essential \
+                cmake ninja-build \
+                mingw-w64
+        - name: Build
+          run: |
+            mkdir build
+            cd build
+            cmake -GNinja -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+            cmake --build .

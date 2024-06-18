@@ -14,7 +14,7 @@
 #if defined(_WIN32) && !defined(_XBOX)
 
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include <windows.h>
 #include <io.h>
 #include <direct.h>
 
@@ -231,7 +231,7 @@ time_t getEpochTimeS()
 	return time(0);
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(USE_SDL)
 
 HINSTANCE g_hInstance = NULL;
 HWND g_hWnd = NULL;

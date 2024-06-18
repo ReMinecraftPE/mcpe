@@ -106,6 +106,17 @@ extern "C" void resize_from_js(int new_width, int new_height)
 }
 #endif
 
+// DirectSound Support
+#ifdef _WIN32
+HWND GetHWND()
+{
+	SDL_SysWMinfo wmInfo;
+	SDL_VERSION(&wmInfo.version);
+	SDL_GetWindowWMInfo(window, &wmInfo);
+	return wmInfo.info.win.window;
+}
+#endif
+
 // Handle Events
 static bool window_resized = false;
 static void handle_events()
@@ -338,7 +349,7 @@ int main(int argc, char *argv[])
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
 	if (!window)
 	{
-		LOG_E("Unable to create SDL window");
+		LOG_E("Unable to create SDL window: %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 
@@ -352,7 +363,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(USE_GLES1_COMPATIBILITY_LAYER)
 	xglInit();
 
 	if (!xglInitted())

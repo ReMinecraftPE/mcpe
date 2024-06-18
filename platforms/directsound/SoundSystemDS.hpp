@@ -8,7 +8,7 @@
 
 #pragma once
 #include <string>
-#include <Windows.h>
+#include <windows.h>
 #include <uuids.h>
 #include <strmif.h>
 #include <stdexcept>
