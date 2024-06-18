@@ -211,3 +211,8 @@ xcuserdata/
 # CLion
 /.idea
 /cmake-build-*
+
+# Sound
+/tools/__pycache__
+/tools/venv
+/game/assets/sound
