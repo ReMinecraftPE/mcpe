@@ -55,5 +55,5 @@ private:
 
 	Vec3 _lastListenerPos;
     float _listenerVolume;
-    bool _soundMuted;
+    bool _audioMuted;
 };
