@@ -161,7 +161,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	field_38 *= 0.75f;
 	capYPosition();
 
-	glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHTING);
 	glDisable(GL_FOG);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");

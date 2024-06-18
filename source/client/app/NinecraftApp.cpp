@@ -57,7 +57,7 @@ void NinecraftApp::initGLStates()
 	glCullFace(GL_BACK);
 	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-	glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHTING);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 

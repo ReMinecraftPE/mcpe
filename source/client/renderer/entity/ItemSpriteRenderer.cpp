@@ -10,7 +10,7 @@ void ItemSpriteRenderer::render(Entity* pEntity, float x, float y, float z, floa
 {
 	glPushMatrix();
 	glTranslatef(x, y, z);
-	glEnable(GL_RESCALE_NORMAL);
+	//glEnable(GL_RESCALE_NORMAL);
 	glScalef(0.5f, 0.5f, 0.5f);
 	bindTexture(C_ITEMS_NAME);
 	
@@ -31,6 +31,6 @@ void ItemSpriteRenderer::render(Entity* pEntity, float x, float y, float z, floa
 	t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (m_sprite % 16))     / 256.0f, float(16 * (m_sprite / 16))     / 256.0f);
 	t.draw();
 
-	glDisable(GL_RESCALE_NORMAL);
+	//glDisable(GL_RESCALE_NORMAL);
 	glPopMatrix();
 }

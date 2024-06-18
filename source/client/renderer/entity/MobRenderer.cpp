@@ -176,7 +176,7 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float
 
 	glPushMatrix();
 	glTranslatef(x + 0.0f, y + 2.3f, z);
-	glNormal3f(0.0f, 1.0f, 0.0f);
+	//glNormal3f(0.0f, 1.0f, 0.0f);
 	// billboard the name towards the camera
 	glRotatef(-m_pDispatcher->m_yaw,   0.0f, 1.0f, 0.0f);
 	glRotatef(+m_pDispatcher->m_pitch, 1.0f, 0.0f, 0.0f);

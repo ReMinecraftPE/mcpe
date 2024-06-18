@@ -381,7 +381,7 @@ int main(int argc, char *argv[])
 
 	// Setup Compatibility Layer If Needed
 #ifdef USE_GLES1_COMPATIBILITY_LAYER
-	init_gles_compatibility_layer();
+	init_gles_compatibility_layer(SDL_GL_GetProcAddress);
 #endif
 
 	// Setup Teardown
