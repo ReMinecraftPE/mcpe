@@ -15,8 +15,11 @@
 #include "client/sound/SoundSystem.hpp"
 
 struct AssetFile {
-	ssize_t size = -1;
-	unsigned char *data = nullptr;
+	ssize_t size;
+	unsigned char *data;
+
+	AssetFile(): size(-1), data(nullptr) {}
+	AssetFile(ssize_t size, unsigned char *data): size(size), data(data) {}
 };
 
 class AppPlatform

@@ -315,8 +315,5 @@ AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str) const
 	// Close File
 	SDL_RWclose(io);
 	// Return
-	return {
-		.size = size,
-		.data = buf
-	};
+	return AssetFile(size, buf);
 }

@@ -374,8 +374,5 @@ AssetFile AppPlatform_android::readAssetFile(const std::string& str) const
 	unsigned char* buffer = new unsigned char[cnt];
 	AAsset_read(asset, (void*)buffer, cnt);
 	AAsset_close(asset);
-	return {
-		.size = ssize_t(cnt),
-		.data = buffer
-	};
+	return AssetFile(ssize_t(cnt), buffer);
 }

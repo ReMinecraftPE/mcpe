@@ -212,10 +212,7 @@ AssetFile AppPlatform_win32::readAssetFile(const std::string& str) const
 	unsigned char* buffer = new unsigned char[size];
 	ifs.read((char*) buffer, size);
 
-	return {
-		.size = size,
-		.data = buffer
-	};
+	return AssetFile(size, buffer);
 }
 
 void AppPlatform_win32::setScreenSize(int width, int height)
