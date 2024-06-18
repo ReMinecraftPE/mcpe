@@ -9,7 +9,7 @@
 #include <sstream>
 
 #include "AppPlatform_android.hpp"
-#include "SoundSystemSL.hpp"
+#include "CustomSoundSystem.hpp"
 #include "client/player/input/Mouse.hpp"
 
 #include "stb_image.h"
@@ -174,7 +174,7 @@ SoundSystem* const AppPlatform_android::getSoundSystem() const
 void AppPlatform_android::initSoundSystem()
 {
 	if (!m_pSoundSystem)
-		m_pSoundSystem = new SoundSystemSL();
+		m_pSoundSystem = new SOUND_SYSTEM();
 	else
 		LOG_E("Trying to initialize SoundSystem more than once!");
 }

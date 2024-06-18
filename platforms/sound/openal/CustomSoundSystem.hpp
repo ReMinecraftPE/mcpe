@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef USE_OPENAL
-
 #ifdef _WIN32
 #include <al.h>
 #include <alc.h>
@@ -23,6 +21,8 @@
 
 #define MAX_IDLE_SOURCES 50
 #define MAX_DISTANCE 16.0f
+
+#define SOUND_SYSTEM SoundSystemAL
 
 class SoundSystemAL : public SoundSystem
 {
@@ -55,7 +55,5 @@ private:
 
 	Vec3 _lastListenerPos;
     float _listenerVolume;
-    bool _audioMuted;
+    bool _soundMuted;
 };
-
-#endif

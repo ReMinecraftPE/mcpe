@@ -58,6 +58,15 @@ endif()
 set(REMCPE_PLATFORM "${DEFAULT_PLATFORM}" CACHE STRING "ReMCPE Platform (Check <root>/platforms)")
 add_subdirectory("platforms/${REMCPE_PLATFORM}")
 
+# Load Sound Platform
+set(DEFAULT_SOUND_PLATFORM "openal")
+if(WIN32)
+    set(DEFAULT_SOUND_PLATFORM "directsound")
+endif()
+set(REMCPE_SOUND_PLATFORM "${DEFAULT_SOUND_PLATFORM}" CACHE STRING "ReMCPE Sound Platform (Check <root>/platforms/sound)")
+add_subdirectory("platforms/sound/${REMCPE_SOUND_PLATFORM}")
+target_link_libraries(reminecraftpe reminecraftpe-sound)
+
 # Assets
 if(EMSCRIPTEN)
     target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/game@/")

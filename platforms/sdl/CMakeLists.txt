@@ -4,7 +4,6 @@ project(reminecraftpe-sdl)
 # SDL Build
 target_compile_definitions(reminecraftpe-core
     PUBLIC USE_SDL
-    PUBLIC USE_OPENAL
     PUBLIC HANDLE_CHARS_SEPARATELY
 )
 
@@ -27,15 +26,6 @@ endif()
 
 # Core
 target_link_libraries(reminecraftpe reminecraftpe-core)
-
-# Sound
-if(WIN32)
-    add_subdirectory(../directsound directsound)
-    target_link_libraries(reminecraftpe reminecraftpe-directsound)
-else()
-    add_subdirectory(../openal openal)
-    target_link_libraries(reminecraftpe reminecraftpe-openal)
-endif()
 
 # stb_image (If Needed)
 if(NOT EMSCRIPTEN)
@@ -88,8 +78,6 @@ endif()
 
 # WASM
 if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE -Wno-pthreads-mem-growth)
-    target_link_options(reminecraftpe PRIVATE -sALLOW_MEMORY_GROWTH=1)
     # Export Resize Function
     target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
 endif()

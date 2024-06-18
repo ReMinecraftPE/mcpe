@@ -47,7 +47,7 @@ AppPlatform_win32::~AppPlatform_win32()
 void AppPlatform_win32::initSoundSystem()
 {
 	if (!m_pSoundSystem)
-		m_pSoundSystem = new SoundSystemDS();
+		m_pSoundSystem = new SOUND_SYSTEM();
 	else
 		LOG_E("Trying to initialize SoundSystem more than once!");
 }

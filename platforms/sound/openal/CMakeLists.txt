@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-openal)
 
 # Build
-add_library(reminecraftpe-openal STATIC
+add_library(reminecraftpe-sound STATIC
 	SoundSystemAL.cpp
 )
 
 # Core
-target_link_libraries(reminecraftpe-openal PUBLIC reminecraftpe-core)
+target_link_libraries(reminecraftpe-sound PUBLIC reminecraftpe-core)
 
 # OpenAL
 if(ANDROID)
@@ -17,15 +17,15 @@ if(ANDROID)
     set(ALSOFT_TESTS FALSE CACHE BOOL "" FORCE)
     set(ALSOFT_REQUIRE_OPENSL TRUE CACHE BOOL "" FORCE)
     add_subdirectory(../../thirdparty/OpenAL openal EXCLUDE_FROM_ALL)
-    target_link_libraries(reminecraftpe-openal PUBLIC OpenAL::OpenAL)
+    target_link_libraries(reminecraftpe-sound PUBLIC OpenAL::OpenAL)
 elseif(EMSCRIPTEN)
     # Use Emscripten's OpenAL
-    target_link_libraries(reminecraftpe-openal PUBLIC openal)
+    target_link_libraries(reminecraftpe-sound PUBLIC openal)
 else()
     # Use System ZLib
     find_library(OPENAL_LIBRARY NAMES openal REQUIRED)
-    target_link_libraries(reminecraftpe-openal PUBLIC "${OPENAL_LIBRARY}")
+    target_link_libraries(reminecraftpe-sound PUBLIC "${OPENAL_LIBRARY}")
 endif()
 
 # Headers
-target_include_directories(reminecraftpe-openal PUBLIC .)
+target_include_directories(reminecraftpe-sound PUBLIC .)

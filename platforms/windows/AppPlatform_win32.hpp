@@ -15,7 +15,7 @@
 #include "client/player/input/Keyboard.hpp"
 #include "common/Utils.hpp"
 #include "LoggerWin32.hpp"
-#include "SoundSystemDS.hpp"
+#include "CustomSoundSystem.hpp"
 
 class AppPlatform_win32 : public AppPlatform
 {
@@ -82,6 +82,6 @@ private:
 
 	int m_MouseDiffX, m_MouseDiffY;
 
-	SoundSystemDS* m_pSoundSystem;
+	SOUND_SYSTEM* m_pSoundSystem;
 };
 

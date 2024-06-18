@@ -28,7 +28,3 @@ target_link_libraries(reminecraftpe reminecraftpe-core)
 # stb_image (If Needed)
 add_subdirectory(../../thirdparty/stb_image stb_image)
 target_link_libraries(reminecraftpe stb_image)
-
-# Sound
-add_subdirectory(../directsound directsound)
-target_link_libraries(reminecraftpe reminecraftpe-directsound)

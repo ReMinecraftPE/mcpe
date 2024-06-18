@@ -13,13 +13,7 @@
 
 #include "common/Utils.hpp"
 
-#ifdef _WIN32
-#include "SoundSystemDS.hpp"
-#define SOUND_SYSTEM SoundSystemDS
-#else
-#include "SoundSystemAL.hpp"
-#define SOUND_SYSTEM SoundSystemAL
-#endif
+#include "CustomSoundSystem.hpp"
 // Macros are cursed
 #define _STR(x) #x
 #define STR(x) _STR(x)

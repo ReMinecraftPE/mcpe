@@ -2,16 +2,16 @@ cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-directsound)
 
 # Build
-add_library(reminecraftpe-directsound STATIC
+add_library(reminecraftpe-sound STATIC
     SoundSystemDS.cpp
 )
 
 # Libraries
-target_link_libraries(reminecraftpe-directsound
+target_link_libraries(reminecraftpe-sound
     reminecraftpe-core
     dsound
     dxguid
 )
 
 # Headers
-target_include_directories(reminecraftpe-directsound PUBLIC .)
+target_include_directories(reminecraftpe-sound PUBLIC .)

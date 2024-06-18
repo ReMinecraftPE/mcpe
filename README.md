@@ -11,12 +11,12 @@ based on Minecraft PE v0.1.3.
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
 * To port the game to more platforms, such as Windows (including older versions), Xbox 360, Wii, and more.
-  Currently there are ports for:
+  Currently, there are ports for:
 	* Windows XP-11
 	* Android (thanks to [Stom](https://github.com/Stommm) for the help)
 	* Linux
 	* WebGL
-	* Mac OS (port by [BrentDaMage](https://github.com/BrentDaMage))
+	* macOS (port by [BrentDaMage](https://github.com/BrentDaMage))
 	* iOS (3.0 and above; port by [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
 	* Xbox 360 (work in progress; port by [BrentDaMage](https://github.com/BrentDaMage))
@@ -36,7 +36,7 @@ Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMi
 
 ## License information
 
-This project is licensed under the [BSD 1 clause license](LICENSE.md). However, it contains third party
+This project is licensed under the [BSD 1 clause license](LICENSE.txt). However, it contains third party
 software with different but compatible licenses:
 
 - [RakNet](https://github.com/facebookarchive/RakNet): [Licensed under the BSD 2 clause license](thirdparty/raknet/LICENSE)
@@ -142,7 +142,6 @@ This project uses CMake on Linux. Just like WebAssembly, the game assets must be
 #### How To Build
 
 ```sh
-cd platforms/sdl
 mkdir build && cd build
 cmake -GNinja ..
 cmake --build .

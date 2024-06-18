@@ -50,3 +50,5 @@ private:
 	LPDIRECTSOUND3DLISTENER m_listener;
 	std::vector<BufferInfo> m_buffers;
 };
+
+#define SOUND_SYSTEM SoundSystemDS
