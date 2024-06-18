@@ -21,7 +21,7 @@ void SoundRepository::add(const std::string& name, SoundDesc& sd)
 	{
 		std::vector<SoundDesc> sdv;
 		sdv.push_back(sd);
-		m_repo.insert(std::pair<std::string, std::vector<SoundDesc>>(name, sdv));
+		m_repo.insert(std::pair<std::string, std::vector<SoundDesc> >(name, sdv));
 	}
 	else
 	{
