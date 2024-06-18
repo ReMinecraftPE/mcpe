@@ -64,7 +64,6 @@ private:
 
 	bool _mousegrabbed;
 
-	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 
 	bool m_bIsTouchscreen;

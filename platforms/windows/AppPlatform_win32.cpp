@@ -14,7 +14,6 @@
 #include "GameMods.hpp"
 
 #include "AppPlatform_win32.hpp"
-#include "LoggerWin32.hpp"
 
 #include "thirdparty/GL/GL.hpp"
 
@@ -37,18 +36,12 @@ AppPlatform_win32::AppPlatform_win32()
 
 	m_MouseDiffX = 0, m_MouseDiffY = 0;
 
-	// This initializes the Logger singleton to use the Windows-specific variant
-	// If we didn't initialize it here, the Minecraft class would have our back
-	m_pLogger = new LoggerWin32();
 	m_pSoundSystem = nullptr;
 }
 
 AppPlatform_win32::~AppPlatform_win32()
 {
 	SAFE_DELETE(m_pSoundSystem);
-
-	// DELETE THIS LAST
-	SAFE_DELETE(m_pLogger);
 }
 
 void AppPlatform_win32::initSoundSystem()

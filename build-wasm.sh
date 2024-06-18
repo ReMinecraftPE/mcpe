@@ -31,7 +31,7 @@ mkdir -p build
 cd build
 
 # Configure Build
-emcmake cmake -GNinja "$@" ../../platforms/sdl
+emcmake cmake -GNinja "$@" ../../
 
 # Build
 cmake --build .

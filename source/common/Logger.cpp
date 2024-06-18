@@ -15,8 +15,11 @@ Logger* const Logger::singleton()
 Logger::Logger()
 {
     // Stick with the first output handle we get
-    if (!m_singleton)
+    if (!m_singleton) {
         m_singleton = this;
+    } else {
+        m_singleton->print(LOG_ERR, "Logging already setup!");
+    }
 }
 
 Logger::~Logger()

@@ -20,6 +20,9 @@
 #include "SoundSystemAL.hpp"
 #define SOUND_SYSTEM SoundSystemAL
 #endif
+// Macros are cursed
+#define _STR(x) #x
+#define STR(x) _STR(x)
 
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
@@ -36,7 +39,6 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 
 	ensureDirectoryExists(_storageDir.c_str());
 
-	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;
 
 	// Default Touchscreen Mode
@@ -64,7 +66,7 @@ void AppPlatform_sdl_base::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
-		LOG_I("Initializing OpenAL SoundSystem...");
+		LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
 		m_pSoundSystem = new SOUND_SYSTEM();
 	}
 	else
@@ -112,9 +114,6 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 	SAFE_DELETE(_iconTexture);
 
 	SAFE_DELETE(m_pSoundSystem);
-
-	// DELETE THIS LAST
-	SAFE_DELETE(m_pLogger);
 }
 
 SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const texture)

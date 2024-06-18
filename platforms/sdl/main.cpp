@@ -316,6 +316,10 @@ void CheckOptionalTextureAvailability()
 // Main
 int main(int argc, char *argv[])
 {
+	// Setup Logging
+	new Logger;
+
+	// Setup SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG_E("Unable To Initialize SDL: %s", SDL_GetError());

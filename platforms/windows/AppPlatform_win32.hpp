@@ -82,7 +82,6 @@ private:
 
 	int m_MouseDiffX, m_MouseDiffY;
 
-	LoggerWin32 *m_pLogger;
 	SoundSystemDS* m_pSoundSystem;
 };
 
