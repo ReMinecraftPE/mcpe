@@ -22,9 +22,10 @@ elseif(EMSCRIPTEN)
     # Use Emscripten's OpenAL
     target_link_libraries(reminecraftpe-sound PUBLIC openal)
 else()
-    # Use System ZLib
-    find_library(OPENAL_LIBRARY NAMES openal REQUIRED)
+    # Use System OpenAL
+    find_package(OpenAL REQUIRED)
     target_link_libraries(reminecraftpe-sound PUBLIC "${OPENAL_LIBRARY}")
+    target_include_directories(reminecraftpe-sound PUBLIC "${OPENAL_INCLUDE_DIR}")
 endif()
 
 # Headers
