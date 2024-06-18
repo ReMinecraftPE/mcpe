@@ -297,23 +297,10 @@ else()
 endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib-interface)
 
-# Android Logging
-if(ANDROID)
-    target_link_libraries(reminecraftpe-core PUBLIC log)
-endif()
-
 # Sound Data
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../sound_data/sounds.h")
     if(NOT DEFINED ENV{CI})
         message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
     endif()
     target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
-endif()
-
-# Windows Linking
-if(WIN32)
-    target_link_options(reminecraftpe-core
-        PUBLIC -static-libgcc
-        PUBLIC -static-libstdc++
-    )
 endif()
