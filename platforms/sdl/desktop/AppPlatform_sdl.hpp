@@ -18,7 +18,6 @@ public:
 	bool doesTextureExist(const std::string& path) override;
 	
 	bool hasFileSystemAccess() override;
-    std::string getPatchData() override;
 	
 protected:
 	void ensureDirectoryExists(const char* path) override;

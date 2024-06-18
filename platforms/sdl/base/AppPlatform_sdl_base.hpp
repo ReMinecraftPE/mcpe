@@ -51,6 +51,9 @@ public:
 
 	// Configure Touchscreen
 	bool isTouchscreen() override;
+
+	// Read Sounds
+	AssetFile readAssetFile(const std::string&) const override;
 private:
 	SDL_Window *_window;
 

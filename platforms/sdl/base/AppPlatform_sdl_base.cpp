@@ -292,3 +292,31 @@ void AppPlatform_sdl_base::hideKeyboard()
 bool AppPlatform_sdl_base::isTouchscreen() {
     return m_bIsTouchscreen;
 }
+
+AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str) const
+{
+	std::string path = getAssetPath(str);
+	SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
+	// Open File
+	if (!io)
+	{
+		LOG_W("Couldn't find asset file: %s", path.c_str());
+		return AssetFile();
+	}
+	// Get File Size
+	ssize_t size = SDL_RWsize(io);
+	if (size < 0)
+	{
+		LOG_E("Error determining the size of the asset file!");
+	}
+	// Read Data
+	unsigned char *buf = new unsigned char[size];
+	SDL_RWread(io, buf, size, 1);
+	// Close File
+	SDL_RWclose(io);
+	// Return
+	return {
+		.size = size,
+		.data = buf
+	};
+}

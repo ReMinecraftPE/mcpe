@@ -14,6 +14,11 @@
 #include "client/renderer/Texture.hpp"
 #include "client/sound/SoundSystem.hpp"
 
+struct AssetFile {
+	ssize_t size = -1;
+	unsigned char *data = nullptr;
+};
+
 class AppPlatform
 {
 public:
@@ -82,6 +87,8 @@ public:
 	virtual std::string getPatchData();
 	virtual void initSoundSystem();
 	virtual SoundSystem* const getSoundSystem() const;
+	// Used For Sounds
+	virtual AssetFile readAssetFile(const std::string&) const;
 #endif
 
 public:
