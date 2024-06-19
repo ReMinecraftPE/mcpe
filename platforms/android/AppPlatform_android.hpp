@@ -62,6 +62,8 @@ public:
 	void initAndroidApp(android_app* ptr);
 	void setExternalStoragePath(const std::string& path);
 
+	AssetFile readAssetFile(const std::string&) const override;
+
 private:
 	void changeKeyboardVisibility(bool bShown);
 

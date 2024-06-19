@@ -1,17 +1,18 @@
 #pragma once
 
-#ifdef USE_OPENAL
 
-#ifdef _WIN32
-#include <al.h>
-#include <alc.h>
-#pragma comment( lib, "OpenAl32.lib" )
-#elif defined(__APPLE__)
+#ifdef __APPLE__
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
-#else
+#elif defined(__EMSCRIPTEN__)
 #include <AL/al.h>
 #include <AL/alc.h>
+#else
+#include "al.h"
+#include "alc.h"
+#ifdef _WIN32
+#pragma comment( lib, "OpenAL32.lib" )
+#endif
 #endif
 
 #include <string>
@@ -23,6 +24,8 @@
 
 #define MAX_IDLE_SOURCES 50
 #define MAX_DISTANCE 16.0f
+
+#define SOUND_SYSTEM SoundSystemAL
 
 class SoundSystemAL : public SoundSystem
 {
@@ -57,5 +60,3 @@ private:
     float _listenerVolume;
     bool _audioMuted;
 };
-
-#endif

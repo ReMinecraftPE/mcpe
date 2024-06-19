@@ -17,7 +17,7 @@ class SoundEngine
 {
 public:
 	SoundEngine(SoundSystem* soundSystem);
-	void init(Options*);
+	void init(Options*, AppPlatform*);
 	void play(const std::string& name);
 	void play(const std::string& name, float x, float y, float z, float volume, float pitch);
 

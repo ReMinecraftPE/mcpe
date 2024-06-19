@@ -14,7 +14,6 @@
 #include "GameMods.hpp"
 
 #include "AppPlatform_win32.hpp"
-#include "LoggerWin32.hpp"
 
 #include "thirdparty/GL/GL.hpp"
 
@@ -37,24 +36,18 @@ AppPlatform_win32::AppPlatform_win32()
 
 	m_MouseDiffX = 0, m_MouseDiffY = 0;
 
-	// This initializes the Logger singleton to use the Windows-specific variant
-	// If we didn't initialize it here, the Minecraft class would have our back
-	m_pLogger = new LoggerWin32();
 	m_pSoundSystem = nullptr;
 }
 
 AppPlatform_win32::~AppPlatform_win32()
 {
 	SAFE_DELETE(m_pSoundSystem);
-
-	// DELETE THIS LAST
-	SAFE_DELETE(m_pLogger);
 }
 
 void AppPlatform_win32::initSoundSystem()
 {
 	if (!m_pSoundSystem)
-		m_pSoundSystem = new SoundSystemDS();
+		m_pSoundSystem = new SOUND_SYSTEM();
 	else
 		LOG_E("Trying to initialize SoundSystem more than once!");
 }
@@ -206,16 +199,20 @@ bool AppPlatform_win32::hasFileSystemAccess()
 	return true;
 }
 
-std::string AppPlatform_win32::getPatchData()
+AssetFile AppPlatform_win32::readAssetFile(const std::string& str) const
 {
-	std::ifstream ifs("assets/patches/patch_data.txt");
+	std::string path = getAssetPath(str);
+	std::ifstream ifs(path, std::ios::binary | std::ios::ate);
 	if (!ifs.is_open())
-		return "";
+		return AssetFile();
 
-	std::stringstream ss;
-	ss << ifs.rdbuf();
+	std::streamsize size = ifs.tellg();
+	ifs.seekg(0, std::ios::beg);
 
-	return ss.str();
+	unsigned char* buffer = new unsigned char[size];
+	ifs.read((char*) buffer, size);
+
+	return AssetFile(size, buffer);
 }
 
 void AppPlatform_win32::setScreenSize(int width, int height)

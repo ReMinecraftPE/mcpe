@@ -15,7 +15,7 @@
 #include "client/player/input/Keyboard.hpp"
 #include "common/Utils.hpp"
 #include "LoggerWin32.hpp"
-#include "SoundSystemDS.hpp"
+#include "CustomSoundSystem.hpp"
 
 class AppPlatform_win32 : public AppPlatform
 {
@@ -54,7 +54,7 @@ public:
 	bool hasFileSystemAccess() override;
 
 	// Also add this to allow dynamic texture patching.
-	std::string getPatchData() override;
+	AssetFile readAssetFile(const std::string&) const override;
 
 	void setScreenSize(int width, int height);
 	const char* const getWindowTitle() const { return m_WindowTitle; }
@@ -82,7 +82,6 @@ private:
 
 	int m_MouseDiffX, m_MouseDiffY;
 
-	LoggerWin32 *m_pLogger;
-	SoundSystemDS* m_pSoundSystem;
+	SOUND_SYSTEM* m_pSoundSystem;
 };
 

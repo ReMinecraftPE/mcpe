@@ -51,6 +51,9 @@ public:
 
 	// Configure Touchscreen
 	bool isTouchscreen() override;
+
+	// Read Sounds
+	AssetFile readAssetFile(const std::string&) const override;
 private:
 	SDL_Window *_window;
 
@@ -64,7 +67,6 @@ private:
 
 	bool _mousegrabbed;
 
-	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 
 	bool m_bIsTouchscreen;

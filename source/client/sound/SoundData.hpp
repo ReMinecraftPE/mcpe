@@ -10,6 +10,9 @@
 
 #include <stdint.h>
 #include "common/Utils.hpp"
+#include "client/app/AssetFile.hpp"
+
+struct AppPlatform;
 
 struct PCMSoundHeader
 {
@@ -21,20 +24,17 @@ struct PCMSoundHeader
 
 struct SoundDesc
 {
+	bool m_isLoaded;
+	AssetFile m_file;
 	uint16_t* m_pData;
 	int field_4;
 	PCMSoundHeader m_header;
-	PCMSoundHeader* m_pHeader;
+	unsigned char* m_fileData;
 
-	SoundDesc()
-	{
-		m_pHeader = nullptr;
-	}
-	SoundDesc(PCMSoundHeader& header, uint16_t* data)
-	{
-		m_pHeader = &header;
-		m_header = header;
-		m_pData = data;
-		field_4 = header.m_channels * header.m_length * header.m_bytes_per_sample;
-	}
+	void _load(const AppPlatform* platform, const char *name);
+	static void _load(const AppPlatform*);
 };
+
+#define SOUND(category, name) extern SoundDesc SA_##name;
+#include "sound_list.h"
+#undef SOUND

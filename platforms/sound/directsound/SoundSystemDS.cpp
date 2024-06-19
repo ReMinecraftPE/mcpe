@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #define WIN32_LEAN_AND_MEAN
-#include "SoundSystemDS.hpp"
+#include "CustomSoundSystem.hpp"
 #include "common/Utils.hpp"
 
 // @TODO: fix crash in playAt when Asan is active
@@ -160,7 +160,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	unsigned char* bufferPtr;
 	unsigned long bufferSize;
 
-	int length = sound.m_pHeader->m_length * sound.m_pHeader->m_bytes_per_sample;
+	int length = sound.m_header.m_length * sound.m_header.m_bytes_per_sample;
 	bool is2D = sqrtf(x * x + y * y + z * z) == 0.f;
 
 	//For some reason mojang made 3D sounds are REALLY quiet, with some of their volumes literally going below 0.1
@@ -173,9 +173,9 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 
 	WAVEFORMATEX waveFormat;
 	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-	waveFormat.nSamplesPerSec = DWORD(float(sound.m_pHeader->m_sample_rate) * pitch);
-	waveFormat.wBitsPerSample = 8 * sound.m_pHeader->m_bytes_per_sample;
-	waveFormat.nChannels = sound.m_pHeader->m_channels;
+	waveFormat.nSamplesPerSec = DWORD(float(sound.m_header.m_sample_rate) * pitch);
+	waveFormat.wBitsPerSample = 8 * sound.m_header.m_bytes_per_sample;
+	waveFormat.nChannels = sound.m_header.m_channels;
 	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
 	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 	waveFormat.cbSize = 0;
@@ -268,7 +268,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	info.object3d = NULL;
 
 	//Check if position is not 0,0,0 and for mono to play 3D sound
-	if (!is2D && sound.m_pHeader->m_channels == 1) 
+	if (!is2D && sound.m_header.m_channels == 1)
 	{
 		LPDIRECTSOUND3DBUFFER object3d;
 

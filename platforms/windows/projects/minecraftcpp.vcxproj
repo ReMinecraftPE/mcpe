@@ -113,37 +113,37 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSdk_71A_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|Win32'">
-    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSdk_71A_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>obj\$(Configuration)\</IntDir>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSdk_71A_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LibraryPath>$(DXSDK_DIR)Lib\x64;$(VC_LibraryPath_x64);$(WindowsSdk_71A_LibraryPath_x64);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugAsan|x64'">
-    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LibraryPath>$(DXSDK_DIR)Lib\x64;$(VC_LibraryPath_x64);$(WindowsSdk_71A_LibraryPath_x64);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\platforms\windows;$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty;$(MC_ROOT)\thirdparty\zlib;$(MC_ROOT)\thirdparty\raknet;$(ProjectDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
     <LibraryPath>$(DXSDK_DIR)Lib\x64;$(VC_LibraryPath_x64);$(WindowsSdk_71A_LibraryPath_x64);</LibraryPath>

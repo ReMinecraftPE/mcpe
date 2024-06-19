@@ -1,5 +1,4 @@
-#ifdef USE_OPENAL
-#include "SoundSystemAL.hpp"
+#include "CustomSoundSystem.hpp"
 
 #include "common/Utils.hpp"
 
@@ -355,5 +354,3 @@ void SoundSystemAL::unMuteAudio()
 {
     _audioMuted = false;
 }
-
-#endif

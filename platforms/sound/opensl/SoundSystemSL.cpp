@@ -5,7 +5,7 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
-#include "SoundSystemSL.hpp"
+#include "CustomSoundSystem.hpp"
 #include "common/Utils.hpp"
 
 #define C_MAX_SOUNDS 4

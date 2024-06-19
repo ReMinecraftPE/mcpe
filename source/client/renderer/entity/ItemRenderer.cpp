@@ -52,7 +52,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 		itemsToRender = 4;
 
 	glTranslatef(x, y + 0.1f + yOffset * 0.1f, z);
-	glEnable(GL_RESCALE_NORMAL);
+	//glEnable(GL_RESCALE_NORMAL);
 
 	int itemID = pItemInstance->m_itemID;
 	if (itemID < C_MAX_TILES && TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()))
@@ -128,7 +128,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 		}
 	}
 
-	glDisable(GL_RESCALE_NORMAL);
+	//glDisable(GL_RESCALE_NORMAL);
 	glPopMatrix();
 }
 

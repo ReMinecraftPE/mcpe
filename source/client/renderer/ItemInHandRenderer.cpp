@@ -187,7 +187,7 @@ void ItemInHandRenderer::render(float f)
 		glTranslatef(-0.3f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.4f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.4f * Mth::sin(float(M_PI) * fAnim));
 		glTranslatef(0.64f, ((1.0f - f1) * -0.6f) - 0.6f, -0.72f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-		glEnable(GL_RESCALE_NORMAL);
+		//glEnable(GL_RESCALE_NORMAL);
 
 		// @HUH: refetch
 		fAnim = pLP->getAttackAnim(f);
@@ -217,7 +217,7 @@ void ItemInHandRenderer::render(float f)
 		glTranslatef(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim));
 		glTranslatef(0.56f, ((1.0f - f1) * -0.6f) - 0.52f, -0.72f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-		glEnable(GL_RESCALE_NORMAL);
+		//glEnable(GL_RESCALE_NORMAL);
 
 		// @HUH: refetch
 		fAnim = pLP->getAttackAnim(f);
@@ -238,7 +238,7 @@ void ItemInHandRenderer::render(float f)
 	}
 
 	glPopMatrix();
-	glDisable(GL_RESCALE_NORMAL);
+	//glDisable(GL_RESCALE_NORMAL);
 }
 
 void ItemInHandRenderer::renderFire(float f)

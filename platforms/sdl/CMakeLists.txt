@@ -2,36 +2,10 @@ cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-sdl)
 
 # SDL Build
-add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
-set(USE_SDL TRUE)
-
-# WASM
-if(EMSCRIPTEN)
-    function(add_compile_and_link_options)
-        add_compile_options(${ARGV})
-        add_link_options(${ARGV})
-    endfunction()
-    set(CMAKE_EXECUTABLE_SUFFIX ".js")
-    add_link_options("$<$<CONFIG:DEBUG>:-gsource-map>")
-endif()
-
-# Clang
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_options(-Wno-inconsistent-missing-override -Wno-enum-compare-switch -Wno-register)
-endif()
-
-# Network library
-if(HAIKU)
-    link_libraries(network)
-endif()
-
-# Threads
-if(EMSCRIPTEN)
-    add_compile_and_link_options(-pthread)
-else()
-    find_package(Threads)
-    link_libraries(Threads::Threads)
-endif()
+target_compile_definitions(reminecraftpe-core
+    PUBLIC USE_SDL
+    PUBLIC HANDLE_CHARS_SEPARATELY
+)
 
 # Build
 set(SOURCES
@@ -51,12 +25,7 @@ else()
 endif()
 
 # Core
-add_subdirectory(../../source source)
 target_link_libraries(reminecraftpe reminecraftpe-core)
-
-# OpenAL
-add_subdirectory(../openal openal)
-target_link_libraries(reminecraftpe reminecraftpe-openal)
 
 # stb_image (If Needed)
 if(NOT EMSCRIPTEN)
@@ -65,21 +34,47 @@ if(NOT EMSCRIPTEN)
 endif()
 
 # SDL
+add_library(SDL INTERFACE)
+if(ANDROID OR WIN32)
+    # Use Vendored SDL2 (Only For Android)
+    add_subdirectory(../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
+    target_link_libraries(SDL INTERFACE SDL2::SDL2)
+elseif(EMSCRIPTEN)
+    # Use Emscripten's SDL2
+    set(SDL_FLAG -sUSE_SDL=2)
+    target_compile_options(SDL INTERFACE "${SDL_FLAG}")
+    target_link_options(SDL INTERFACE "${SDL_FLAG}")
+else()
+    # Use System SDL2
+    find_package(SDL2 REQUIRED)
+    target_link_libraries(SDL INTERFACE SDL2::SDL2)
+endif()
+target_link_libraries(reminecraftpe-core PUBLIC SDL)
 if(TARGET SDL2::SDL2main)
     target_link_libraries(reminecraftpe SDL2::SDL2main)
 endif()
 
-# WASM
-if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE -Wno-pthreads-mem-growth)
-    target_link_options(reminecraftpe PRIVATE -sALLOW_MEMORY_GROWTH=1)
-    # Export Resize Function
-    target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
+# OpenGL
+if(NOT EMSCRIPTEN AND NOT ANDROID AND NOT WIN32)
+    option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
+else()
+    set(USE_GLES1_COMPATIBILITY_LAYER TRUE CACHE BOOL "" FORCE)
+endif()
+if(USE_GLES1_COMPATIBILITY_LAYER)
+    add_subdirectory(../../thirdparty/gles-compatibility-layer gles-compatibility-layer)
+    target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
+    target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
+    if(EMSCRIPTEN)
+        # Use WebGL 2
+        target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
+    endif()
+else()
+    find_package(OpenGL REQUIRED)
+    target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
 endif()
 
-# Assets
+# WASM
 if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/../../game@/")
-elseif(NOT ANDROID)
-    file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/../../game/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
+    # Export Resize Function
+    target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
 endif()

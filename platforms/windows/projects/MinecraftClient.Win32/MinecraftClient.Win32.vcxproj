@@ -118,14 +118,14 @@
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\windows\AppPlatform_win32.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\windows\LoggerWin32.hpp" />
-    <ClInclude Include="$(MC_ROOT)\platforms\windows\SoundSystemDS.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\directsound\CustomSoundSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\AppPlatform_win32.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\LoggerWin32.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\main.cpp" />
-    <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemDS.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\directsound\SoundSystemDS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">
