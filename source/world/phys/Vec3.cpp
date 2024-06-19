@@ -7,26 +7,24 @@
  ********************************************************************/
 
 #include "Vec3.hpp"
+#include "world/level/TilePos.hpp"
+
+const Vec3 Vec3::ZERO = Vec3(0, 0, 0);
 
 Vec3::Vec3()
-{
-	x = 0;
-	y = 0;
-	z = 0;
-}
+	: Vec3(ZERO) {}
 
 Vec3::Vec3(float x, float y, float z)
-{
-	this->x = x;
-	this->y = y;
-	this->z = z;
-}
+	: x(x), y(y), z(z) {}
+
+Vec3::Vec3(const TilePos& tilePos)
+	: Vec3(tilePos.x, tilePos.y, tilePos.z) {}
 
 Vec3 Vec3::normalize()
 {
 	float dist = Mth::sqrt(x * x + y * y + z * z);
 	if (dist < 0.0001f)
-		return Vec3(0, 0, 0);
+		return ZERO;
 
 	return Vec3(x / dist, y / dist, z / dist);
 }

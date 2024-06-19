@@ -12,11 +12,11 @@
 
 #ifdef ENH_IMPROVED_SAVING
 
-SavingWorldScreen::SavingWorldScreen(bool bCopyMap, Entity *pEnt)
+SavingWorldScreen::SavingWorldScreen(bool bCopyMap/*, Entity* pEnt*/)
 {
 	m_bCopyMapAtEnd = bCopyMap;
 	m_timer = 0;
-	m_pEntityToDeleteAfterSave = pEnt;
+	//m_pEntityToDeleteAfterSave = pEnt;
 }
 
 void SavingWorldScreen::render(int mouseX, int mouseY, float f)
@@ -57,7 +57,8 @@ void SavingWorldScreen::tick()
 		}
 
 		// this is safe to do, since on destruction, nothing accesses the parent level or anything
-		SAFE_DELETE(m_pEntityToDeleteAfterSave);
+		//SAFE_DELETE(m_pEntityToDeleteAfterSave);
+		// already done by the Level
 
 		m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer = nullptr;
 

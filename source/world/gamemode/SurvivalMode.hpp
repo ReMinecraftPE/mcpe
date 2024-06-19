@@ -15,9 +15,9 @@ class SurvivalMode : public GameMode
 public:
 	SurvivalMode(Minecraft*, Level&);
 
-	void startDestroyBlock(int x, int y, int z, int i) override;
-	bool destroyBlock(int x, int y, int z, int i) override;
-	void continueDestroyBlock(int x, int y, int z, int i) override;
+	bool startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
+	bool destroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
+	bool continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
 	void stopDestroyBlock() override;
 	void tick() override;
 	void render(float f) override;
@@ -29,9 +29,7 @@ public:
 	float getDestroyModifier() const override { return 1.0; }
 
 public:
-	int m_destroyingX;
-	int m_destroyingY;
-	int m_destroyingZ;
+	TilePos m_destroyingPos;
 	float m_destroyProgress;
 	float m_lastDestroyProgress;
 	int m_destroyTicks;

@@ -288,7 +288,7 @@ void OptionList::initDefaultMenu()
 #define HEADER(text) do { m_items.push_back(new HeaderOptionItem(text)); currentIndex++; } while (0)
 #define OPTION(type, name, text) do { m_items.push_back(new type ## OptionItem(&pOptions->name, text)); currentIndex++; } while (0)
 
-	int idxLM = -1, idxGrass = -1, idxBiome = -1, idxSplit = -1, idxPano = -1;
+	int idxLM = -1, idxGrass = -1, idxBiome = -1, idxSplit = -1, idxController = -1, idxPano = -1;
 
 	HEADER("Video");
 	{
@@ -309,6 +309,7 @@ void OptionList::initDefaultMenu()
 		OPTION(Boolean,  m_bAutoJump,             "Auto Jump");
 		OPTION(Boolean,  m_bInvertMouse,          "Invert Y-axis");
 		OPTION(Boolean,  m_bSplitControls,        "Split Controls"); idxSplit = currentIndex;
+		OPTION(Boolean,  m_bUseController,        "Use Controller"); idxController = currentIndex;
 		OPTION(Boolean,  m_bFlyCheat,             "Flight Hax");
 	}
 
@@ -343,4 +344,8 @@ void OptionList::initDefaultMenu()
 
 	if (!m_pMinecraft->isTouchscreen())
 		m_items[idxSplit]->setDisabled(true);
+
+	// Currently just used as a status indicator + prevents need to re-compile to get input mapped for controller
+	//if (!m_pMinecraft->platform()->hasGamepad())
+		m_items[idxController]->setDisabled(true);
 }

@@ -38,7 +38,7 @@ public:
 	Texture loadTexture(const std::string& str, bool bIsRequired) override;
 
 	// From v0.1.1. Also add these to determine touch screen use within the game.
-	bool isTouchscreen() override;
+	bool isTouchscreen() const override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;

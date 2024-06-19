@@ -6,14 +6,14 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <cmath>
+
 #include "ControllerTurnInput.hpp"
 #include "Controller.hpp"
 
-#include <cmath>
-
 ControllerTurnInput::ControllerTurnInput()
 {
-	field_8 = 2;
+	field_8 = 1; // 2 by default in 0.9.2, but this just causes the camera to lock to the joystick's axis at all times
 	m_stickNo = 2;
 	field_10 = 0.0f;
 	field_14 = 0.0f;
@@ -31,6 +31,8 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 
 	if (field_8 == 1)
 	{
+		if (Controller::isReset()) getDeltaTime();
+
 		float deltaTime = getDeltaTime(), dx, dy;
 		if (isTouched)
 		{
@@ -73,7 +75,7 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 		}
 
 		deltaX = deltaTime * xt;
-		deltaY = deltaTime * -yt;
+		deltaY = deltaTime * yt; // inverted on 0.9.2
 	}
     else if (field_8 != 2 || (!field_18 && !isTouched))
 	{
@@ -95,35 +97,13 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 
 		if (isTouched)
 		{
-			float x1 = sx - field_10;
-			float x2 = 0.0f;
-			float x3;
+			float diffX = sx - field_10;
+			float diffY = sy - field_14;
+
+			deltaX = fabsf(diffX) > 0.0f ? diffX * 100.0f : 0.0f;
+			deltaY = fabsf(diffY) > 0.0f ? diffY * 100.0f : 0.0f; // deltaY is inverted on 0.9.2
 			field_10 = sx;
-
-			// @HUH: what the hell, decompiler?
-			if (x1 >= 0.0f)
-				x3 = 0.0f;
-			else
-				x3 = -0.0f;
-
-			float x4 = sy - field_14;
 			field_14 = sy;
-
-			if (fabsf(x1) > 0.0f)
-				x2 = x1 - x3;
-
-            float x5;
-			if (x4 >= 0.0f)
-				x5 = 0.0f;
-			else
-				x5 = -0.0f;
-
-			float x6 = 0.0f;
-			if (fabsf(x4) > 0.0f)
-				x6 = x4 - x5;
-
-			deltaX = x2 * 100.0f;
-			deltaY = -x6 * 100.0f;
 		}
 		else
 		{

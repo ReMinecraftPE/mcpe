@@ -38,27 +38,21 @@ BiomeSource::BiomeSource(Level* pLevel) :
 	field_4 = new float[256];
 }
 
-Biome* BiomeSource::getBiome(ChunkPos& pos)
+Biome* BiomeSource::getBiome(const ChunkPos& pos)
 {
-	// @BUG: Shifting right by 4 instead of left.  In Java Edition, a shift left by 4 is performed instead.
-	return getBiome(pos.x >> 4, pos.z >> 4);
+	return *getBiomeBlock(TilePos(pos, 0), 1, 1);
 }
 
-Biome* BiomeSource::getBiome(int a, int b)
+Biome** BiomeSource::getBiomeBlock(const TilePos& pos, int c, int d)
 {
-	return *getBiomeBlock(a, b, 1, 1);
+	return getBiomeBlock(field_20, pos, c, d);
 }
 
-Biome** BiomeSource::getBiomeBlock(int a, int b, int c, int d)
+Biome** BiomeSource::getBiomeBlock(Biome** pBiomes, const TilePos& pos, int c, int d)
 {
-	return getBiomeBlock(field_20, a, b, c, d);
-}
-
-Biome** BiomeSource::getBiomeBlock(Biome** pBiomes, int a, int b, int c, int d)
-{
-	field_4 = m_pPerlinNoise[0]->getRegion(field_4, a, b, c, c, 0.025f, 0.025f, 0.25f);
-	field_8 = m_pPerlinNoise[1]->getRegion(field_8, a, b, c, c, 0.05f, 0.05f, 0.3333f);
-	field_C = m_pPerlinNoise[2]->getRegion(field_C, a, b, c, c, 0.25f, 0.25f, 0.588f);
+	field_4 = m_pPerlinNoise[0]->getRegion(field_4, pos.x, pos.z, c, c, 0.025f, 0.025f, 0.25f);
+	field_8 = m_pPerlinNoise[1]->getRegion(field_8, pos.x, pos.z, c, c, 0.05f, 0.05f, 0.3333f);
+	field_C = m_pPerlinNoise[2]->getRegion(field_C, pos.x, pos.z, c, c, 0.25f, 0.25f, 0.588f);
 
 	int index = 0;
 

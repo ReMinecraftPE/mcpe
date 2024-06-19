@@ -28,21 +28,21 @@ void KeyboardInput::releaseAllKeys()
 		m_keys[i] = false;
 }
 
-void KeyboardInput::setKey(int keyCode, bool b)
+void KeyboardInput::setKey(int keyCode, bool state)
 {
 	int index = -1;
 
-	if (m_pOptions->getKey(KM_FORWARD)  == keyCode) index = 0;
-	if (m_pOptions->getKey(KM_BACKWARD) == keyCode) index = 1;
-	if (m_pOptions->getKey(KM_LEFT)     == keyCode) index = 2;
-	if (m_pOptions->getKey(KM_RIGHT)    == keyCode) index = 3;
-	if (m_pOptions->getKey(KM_JUMP)     == keyCode) index = 4;
-	if (m_pOptions->getKey(KM_SNEAK)    == keyCode) index = 5;
+	if      (m_pOptions->getKey(KM_FORWARD)  == keyCode) index = INPUT_FORWARD;
+	else if (m_pOptions->getKey(KM_BACKWARD) == keyCode) index = INPUT_BACKWARD;
+	else if (m_pOptions->getKey(KM_LEFT)     == keyCode) index = INPUT_LEFT;
+	else if (m_pOptions->getKey(KM_RIGHT)    == keyCode) index = INPUT_RIGHT;
+	else if (m_pOptions->getKey(KM_JUMP)     == keyCode) index = INPUT_JUMP;
+	else if (m_pOptions->getKey(KM_SNEAK)    == keyCode) index = INPUT_SNEAK;
 
 	if (index == -1)
 		return;
 
-	m_keys[index] = b;
+	m_keys[index] = state;
 }
 
 void KeyboardInput::tick(Player* pPlayer)

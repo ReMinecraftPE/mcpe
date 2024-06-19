@@ -107,15 +107,16 @@ void ExternalFileLevelStorage::tick()
 	if (m_timer % 50 != 0 || !m_pLevel)
 		return;
 
-	for (int z = 0; z < C_MAX_CHUNKS_Z; z++)
+	ChunkPos cp(0, 0);
+	for (cp.z = 0; cp.z < C_MAX_CHUNKS_Z; cp.z++)
 	{
-		for (int x = 0; x < C_MAX_CHUNKS_X; x++)
+		for (cp.x = 0; cp.x < C_MAX_CHUNKS_X; cp.x++)
 		{
-			LevelChunk* pChunk = m_pLevel->getChunk(x, z);
+			LevelChunk* pChunk = m_pLevel->getChunk(cp);
 			if (!pChunk || !pChunk->m_bUnsaved)
 				continue;
 
-			int index = x + z * 16;
+			int index = cp.x + cp.z * 16;
 
 			std::list<UnsavedLevelChunk>::iterator iter = m_unsavedLevelChunks.begin();
 			for (; iter != m_unsavedLevelChunks.end(); ++iter)
@@ -160,7 +161,7 @@ void ExternalFileLevelStorage::flush()
 {
 }
 
-LevelChunk* ExternalFileLevelStorage::load(Level* level, int x, int z)
+LevelChunk* ExternalFileLevelStorage::load(Level* level, const ChunkPos& pos)
 {
 	if (!m_pRegionFile)
 	{
@@ -176,7 +177,7 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, int x, int z)
 	}
 
 	RakNet::BitStream* pBitStream = nullptr;
-	if (!m_pRegionFile->readChunk(x, z, &pBitStream))
+	if (!m_pRegionFile->readChunk(pos, &pBitStream))
 		return nullptr;
 
 	pBitStream->ResetReadPointer();
@@ -184,10 +185,10 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, int x, int z)
 	TileID* pData = new TileID[16 * 16 * 128];
 	pBitStream->Read((char*)pData, 16 * 16 * 128 * sizeof(TileID));
 
-	LevelChunk* pChunk = new LevelChunk(level, pData, x, z);
+	LevelChunk* pChunk = new LevelChunk(level, pData, pos);
 	pBitStream->Read((char*)pChunk->m_tileData, 16 * 16 * 128 / 2);
 
-	if (m_pLevelData->getStorageVersion() == 1)
+	if (m_pLevelData->getStorageVersion() >= 1)
 	{
 		pBitStream->Read((char*)pChunk->m_lightSky, 16 * 16 * 128 / 2);
 		pBitStream->Read((char*)pChunk->m_lightBlk, 16 * 16 * 128 / 2);
@@ -216,7 +217,7 @@ void ExternalFileLevelStorage::save(Level* level, LevelChunk* chunk)
 		SAFE_DELETE(m_pRegionFile);
 		m_pRegionFile = nullptr;
 
-		LOG_W("Not saving :(   (x: %d  z: %d)", chunk->m_chunkX, chunk->m_chunkZ);
+		LOG_W("Not saving :(   (x: %d  z: %d)", chunk->m_chunkPos.x, chunk->m_chunkPos.z);
 		return;
 	}
 
@@ -232,7 +233,7 @@ void ExternalFileLevelStorage::save(Level* level, LevelChunk* chunk)
 
 	bs.Write((const char*)chunk->m_updateMap, sizeof chunk->m_updateMap);
 
-	m_pRegionFile->writeChunk(chunk->m_chunkX, chunk->m_chunkZ, bs);
+	m_pRegionFile->writeChunk(chunk->m_chunkPos, bs);
 }
 
 void ExternalFileLevelStorage::saveEntities(Level* level, LevelChunk* chunk)

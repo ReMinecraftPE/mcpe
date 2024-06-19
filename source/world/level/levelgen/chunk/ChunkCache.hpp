@@ -21,12 +21,12 @@ public:
 	ChunkCache(Level*, ChunkStorage*, ChunkSource*);
 	virtual ~ChunkCache();
 
-	LevelChunk* create(int x, int z) override;
-	LevelChunk* getChunk(int x, int z) override;
-	LevelChunk* getChunkDontCreate(int x, int z) override;
-	bool hasChunk(int x, int z) override;
+	LevelChunk* create(const ChunkPos& pos) override;
+	LevelChunk* getChunk(const ChunkPos& pos) override;
+	LevelChunk* getChunkDontCreate(const ChunkPos& pos) override;
+	bool hasChunk(const ChunkPos& pos) override;
 	std::string gatherStats() override;
-	void postProcess(ChunkSource*, int, int) override;
+	void postProcess(ChunkSource*, const ChunkPos& pos) override;
 	bool shouldSave() override;
 	void saveAll() override;
 	int tick() override;
@@ -34,7 +34,7 @@ public:
 	void saveUnsaved() override;
 #endif
 
-	LevelChunk* load(int, int);
+	LevelChunk* load(const ChunkPos& pos);
 	void save(LevelChunk*);
 
 public:
@@ -45,7 +45,6 @@ public:
 	LevelChunk* m_chunkMap[C_MAX_CHUNKS_Z][C_MAX_CHUNKS_X];
 	Level* m_pLevel;
 	LevelChunk* m_pLastChunk;
-	int m_LastChunkX;
-	int m_LastChunkZ;
+	ChunkPos m_lastChunkPos;
 };
 

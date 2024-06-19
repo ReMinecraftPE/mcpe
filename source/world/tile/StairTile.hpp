@@ -15,41 +15,41 @@ class StairTile : public Tile
 public:
 	StairTile(int ID, Tile* pParent);
 
-	virtual void addAABBs(const Level*, int x, int y, int z, const AABB*, std::vector<AABB>&) override;
+	virtual void addAABBs(const Level*, const TilePos& pos, const AABB*, std::vector<AABB>&) override;
 	virtual bool isSolidRender() const override;
 	virtual bool isCubeShaped() const override;
 	virtual int getRenderShape() const override;
 
 	// Just overloads to forward to parent tile.
-	virtual void addLights(Level*, int x, int y, int z) override;
-	virtual void animateTick(Level*, int x, int y, int z, Random*) override;
-	virtual void updateShape(const LevelSource*, int, int, int) override;
-	virtual float getBrightness(const LevelSource*, int, int, int) const override;
-	virtual int getTexture(int) const override;
-	virtual int getTexture(int, int) const override;
-	virtual int getTexture(const LevelSource*, int, int, int, int) const override;
-	virtual AABB getTileAABB(const Level*, int, int, int) override;
+	virtual void addLights(Level*, const TilePos& pos) override;
+	virtual void animateTick(Level*, const TilePos& pos, Random*) override;
+	virtual void updateShape(const LevelSource*, const TilePos& pos) override;
+	virtual float getBrightness(const LevelSource*, const TilePos& pos) const override;
+	virtual int getTexture(Facing::Name face) const override;
+	virtual int getTexture(Facing::Name face, int) const override;
+	virtual int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
+	virtual AABB getTileAABB(const Level*, const TilePos& pos) override;
 	virtual bool mayPick() const override;
 	virtual bool mayPick(int, bool) const override;
-	virtual bool mayPlace(const Level*, int, int, int) const override;
+	virtual bool mayPlace(const Level*, const TilePos& pos) const override;
 	virtual int getTickDelay() const override;
-	virtual void tick(Level*, int, int, int, Random*) override;
-	virtual void destroy(Level*, int, int, int, int dir) override;
-	virtual void onPlace(Level*, int, int, int) override;
-	virtual void onRemove(Level*, int, int, int) override;
+	virtual void tick(Level*, const TilePos& pos, Random*) override;
+	virtual void destroy(Level*, const TilePos& pos, int data) override;
+	virtual void onPlace(Level*, const TilePos& pos) override;
+	virtual void onRemove(Level*, const TilePos& pos) override;
 	virtual int getResource(int, Random*) const override;
 	virtual int getResourceCount(Random*) const override;
-	virtual void spawnResources(Level*, int, int, int, int) override;
-	virtual void spawnResources(Level*, int, int, int, int, float) override;
+	virtual void spawnResources(Level*, const TilePos& pos, int) override;
+	virtual void spawnResources(Level*, const TilePos& pos, int, float) override;
 	virtual float getExplosionResistance(Entity*) const override;
-	virtual void wasExploded(Level*, int, int, int) override;
+	virtual void wasExploded(Level*, const TilePos& pos) override;
 	virtual int getRenderLayer() const override;
-	virtual int use(Level*, int, int, int, Player*) override;
-	virtual void stepOn(Level*, int, int, int, Entity*) override;
-	virtual void setPlacedBy(Level*, int, int, int, Mob*) override;
-	virtual void prepareRender(Level*, int, int, int) override;
-	virtual void attack(Level*, int, int, int, Player*) override;
-	virtual void handleEntityInside(Level*, int, int, int, const Entity*, Vec3&) override;
+	virtual int use(Level*, const TilePos& pos, Player*) override;
+	virtual void stepOn(Level*, const TilePos& pos, Entity*) override;
+	virtual void setPlacedBy(Level*, const TilePos& pos, Mob*) override;
+	virtual void prepareRender(Level*, const TilePos& pos) override;
+	virtual void attack(Level*, const TilePos& pos, Player*) override;
+	virtual void handleEntityInside(Level*, const TilePos& pos, const Entity*, Vec3&) override;
 
 public:
 	Tile* m_pParent;

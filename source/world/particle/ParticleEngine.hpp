@@ -19,8 +19,8 @@ public:
 
 	void add(Particle*);
 	std::string countParticles();
-	void crack(int x, int y, int z, int dir);
-	void destroy(int x, int y, int z);
+	void crack(const TilePos& tilePos, Facing::Name face);
+	void destroyEffect(const TilePos& pos);
 	void render(Entity*, float f);
 	void renderLit();
 	void tick();

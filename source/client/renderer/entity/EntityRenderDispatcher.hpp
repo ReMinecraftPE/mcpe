@@ -65,8 +65,7 @@ public:
 	Level* m_pLevel;
 	Minecraft* m_pMinecraft;
 	Mob* m_pMob;
-	float m_yaw;
-	float m_pitch;
+	Vec2 m_rot;
 	Options* m_pOptions;
 	Vec3 m_pos;
 	Font* m_pFont;

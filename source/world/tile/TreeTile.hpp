@@ -18,6 +18,6 @@ public:
 	int getResource(int, Random*) const override;
 	int getResourceCount(Random*) const override;
 	int getSpawnResourcesAuxValue(int) const override;
-	int getTexture(int dir, int data) const override;
-	void onRemove(Level*, int x, int y, int z) override;
+	int getTexture(Facing::Name face, int data) const override;
+	void onRemove(Level*, const TilePos& pos) override;
 };

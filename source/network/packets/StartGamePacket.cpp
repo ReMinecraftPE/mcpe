@@ -22,9 +22,7 @@ void StartGamePacket::write(RakNet::BitStream* bs)
 	bs->Write(m_gameType);
 #endif
 	bs->Write(m_entityId);
-	bs->Write(m_pos.x);
-	bs->Write(m_pos.y);
-	bs->Write(m_pos.z);
+	bs->Write(m_pos);
 
 	bs->Write(m_serverVersion);
 	if (m_serverVersion >= 1)
@@ -41,9 +39,7 @@ void StartGamePacket::read(RakNet::BitStream* bs)
 	bs->Read(m_gameType);
 #endif
 	bs->Read(m_entityId);
-	bs->Read(m_pos.x);
-	bs->Read(m_pos.y);
-	bs->Read(m_pos.z);
+	bs->Read(m_pos);
 
 	if (!bs->Read(m_serverVersion))
 		return;

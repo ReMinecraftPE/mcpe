@@ -10,6 +10,7 @@
 #include <vector>
 #include "Cube.hpp"
 #include "Model.hpp"
+#include "world/phys/Vec3.hpp"
 
 class Cube;
 class Model;
@@ -32,6 +33,7 @@ public:
 	void render(float scale);
 	void renderRollable(float scale);
 	void setModel(Model* pModel);
+	void setPos(const Vec3& pos);
 	void setPos(float x, float y, float z);
 	void setTexSize(int, int);
 	void texOffs(int a, int b);
@@ -40,18 +42,14 @@ public:
 
 private:
 	void _init();
-	bool hasDefaultPos() { return m_posX == 0 && m_posY == 0 && m_posZ == 0; }
-	bool hasDefaultRot() { return m_rotX == 0 && m_rotY == 0 && m_rotZ == 0; }
+	bool hasDefaultPos() { return m_pos == Vec3::ZERO; }
+	bool hasDefaultRot() { return m_rot == Vec3::ZERO; }
 	void translatePosTo(float scale);
 	void translateRotTo(float scale);
 
 public:
-	float m_posX;
-	float m_posY;
-	float m_posZ;
-	float m_rotX;
-	float m_rotY;
-	float m_rotZ;
+	Vec3 m_pos;
+	Vec3 m_rot;
 	bool field_18;
 	std::vector<Cube*> m_pCubes;
 	std::vector<ModelPart*> m_pChildren;

@@ -12,6 +12,8 @@
 bool Controller::isTouchedValues[2];
 float Controller::stickValuesX[2];
 float Controller::stickValuesY[2];
+float Controller::triggerValues[2];
+bool Controller::inReset;
 
 #ifndef USE_NATIVE_ANDROID
 const float Controller_unk_1[3] = { 0.0f, 0.64f, -0.64f };
@@ -25,29 +27,46 @@ bool Controller::isValidStick(int stickNo)
 
 float Controller::linearTransform(float a1, float a2, float a3, bool b)
 {
-	float x1 = fabsf(a2);
-	float x2 = a1;
-	float x3 = fabsf(x1);
-	if (x3 >= x2)
-		return 0.0f;
+	if (a1 < 0.0)
+		a2 = -a2;
+	if (fabsf(a2) >= fabsf(a1))
+		return 0.0;
 
-	float x4 = (a1 - x1) * a3;
-	if (b)
-	{
-		float x5 = fabsf(x4);
-
-		if (x5 > 1.0f)
-		{
-			x4 = -1.0;
-			if (x4 > 0.0f)
-				x4 = 1.0;
-		}
-	}
-
-	return x4;
+	float v5 = (a1 - a2) * a3;
+	if (!b || fabsf(v5) <= 1.0)
+		return v5;
+	if (v5 > 0.0)
+		return 1.0;
+	return -1.0;
 }
 
-void Controller::feed(int stickNo, int touched, float x, float y)
+void Controller::feedStickX(int stickNo, int touched, float x)
+{
+	if (!isValidStick(stickNo))
+		return;
+
+	int index = stickNo - 1;
+
+	isTouchedValues[index] = touched != 0;
+	stickValuesX[index] = x;
+
+	inReset = false;
+}
+
+void Controller::feedStickY(int stickNo, int touched, float y)
+{
+	if (!isValidStick(stickNo))
+		return;
+
+	int index = stickNo - 1;
+
+	isTouchedValues[index] = touched != 0;
+	stickValuesY[index] = y;
+
+	inReset = false;
+}
+
+void Controller::feedStick(int stickNo, int touched, float x, float y)
 {
 	if (!isValidStick(stickNo))
 		return;
@@ -68,6 +87,8 @@ void Controller::feed(int stickNo, int touched, float x, float y)
 #endif
 
 	stickValuesY[index] = y;
+
+	inReset = false;
 }
 
 float Controller::getX(int stickNo)
@@ -104,10 +125,73 @@ float Controller::getTransformedY(int stickNo, float a2, float a3, bool b)
 	return linearTransform(stickValuesY[stickNo - 1], a2, a3, b);
 }
 
+Controller::StickDirection Controller::getXDirection(int stickNo, float deadzone)
+{
+	if (Controller::isValidStick(stickNo) && Controller::isTouched(stickNo))
+	{
+		float x = Controller::getX(stickNo);
+		if (x >= deadzone)  return DIR_RIGHT;
+		if (x <= -deadzone) return DIR_LEFT;
+	}
+	return DIR_NONE;
+}
+
+Controller::StickDirection Controller::getYDirection(int stickNo, float deadzone)
+{
+	if (Controller::isValidStick(stickNo) && Controller::isTouched(stickNo))
+	{
+		float y = Controller::getY(stickNo);
+		if (y >= deadzone)  return DIR_UP;
+		if (y <= -deadzone) return DIR_DOWN;
+	}
+	return DIR_NONE;
+}
+
+Controller::StickDirection Controller::getDirection(int stickNo)
+{
+	if (Controller::isValidStick(stickNo) && Controller::isTouched(stickNo))
+	{
+		float x = fabsf(Controller::getX(stickNo));
+		float y = fabsf(Controller::getY(stickNo));
+		if (x >= y)
+			return Controller::getXDirection(stickNo, 0.3f);
+		else
+			return Controller::getYDirection(stickNo, 0.3f);
+	}
+
+	return DIR_NONE;
+}
+
 bool Controller::isTouched(int stickNo)
 {
 	if (!isValidStick(stickNo))
 		return false;
 
 	return isTouchedValues[stickNo - 1];
+}
+
+bool Controller::isValidTrigger(int triggerNo)
+{
+	// Most controllers have 2 triggers
+	return triggerNo >= 1 && triggerNo <= 2;
+}
+
+void Controller::feedTrigger(int triggerNo, float x)
+{
+	triggerValues[triggerNo - 1] = x;
+	inReset = false;
+}
+
+float Controller::getPressure(int triggerNo)
+{
+	return isValidTrigger(triggerNo) ? triggerValues[triggerNo - 1] : 0;
+}
+
+void Controller::reset()
+{
+	feedStick(1, 0, 0.0f, 0.0f);
+	feedStick(2, 0, 0.0f, 0.0f);
+	feedTrigger(1, 0.0f);
+	feedTrigger(2, 0.0f);
+	inReset = true;
 }

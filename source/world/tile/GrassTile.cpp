@@ -16,7 +16,7 @@ GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
 	setTicking(true);
 }
 
-int GrassTile::getColor(const LevelSource* levelSource, int x, int y, int z) const
+int GrassTile::getColor(const LevelSource* levelSource, const TilePos& pos) const
 {
 	if (GetPatchManager()->IsGrassTinted())
 	{
@@ -31,56 +31,56 @@ int GrassTile::getResource(int i, Random* random) const
 	return Tile::dirt->getResource(i, random);
 }
 
-int GrassTile::getTexture(int dir) const
+int GrassTile::getTexture(Facing::Name face) const
 {
-	if (dir == DIR_YPOS)
+	if (face == Facing::UP)
 		return TEXTURE_GRASS_TOP;
 
 	// no one will notice that I omitted the bottom one. Like grass_carried in MCPE
 	return TEXTURE_GRASS_SIDE;
 }
 
-int GrassTile::getTexture(const LevelSource* level, int x, int y, int z, int dir) const
+int GrassTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
-	if (dir == DIR_YPOS)
+	if (face == Facing::UP)
 		return TEXTURE_GRASS_TOP;
 
-	if (dir == DIR_YNEG)
+	if (face == Facing::DOWN)
 		return TEXTURE_DIRT;
 
-	Material* pMat = level->getMaterial(x, y + 1, z);
+	Material* pMat = level->getMaterial(pos.above());
 	if (pMat == Material::topSnow || pMat == Material::snow)
 		return TEXTURE_GRASS_SIDE_SNOW;
 
 	return TEXTURE_GRASS_SIDE;
 }
 
-void GrassTile::tick(Level* level, int x, int y, int z, Random* random)
+void GrassTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	// Controls the spread/death of grass.
 	// It's like a full on automata of sorts. :)
 	if (level->m_bIsMultiplayer)
 		return;
 
-	if (level->getRawBrightness(x, y + 1, z) <= 3 &&
-		level->getMaterial(x, y + 1, z)->blocksLight())
+	if (level->getRawBrightness(pos.above()) <= 3 &&
+		level->getMaterial(pos.above())->blocksLight())
 	{
 		// grass death
 		if (random->genrand_int32() % 4 == 0)
-			level->setTile(x, y, z, Tile::dirt->m_ID);
+			level->setTile(pos, Tile::dirt->m_ID);
 	}
-	else if (level->getRawBrightness(x, y + 1, z) > 8)
+	else if (level->getRawBrightness(pos.above()) > 8)
 	{
-		int newX = x - 1 + random->nextInt(3);
-		int newY = y - 3 + random->nextInt(5);
-		int newZ = z - 1 + random->nextInt(3);
+		TilePos tp(pos.x - 1 + random->nextInt(3),
+		           pos.y - 3 + random->nextInt(5),
+		           pos.z - 1 + random->nextInt(3));
 
-		if (level->getTile(newX, newY, newZ) == Tile::dirt->m_ID &&
-			level->getRawBrightness(newX, newY + 1, newZ) > 3 &&
-			!level->getMaterial(newX, newY + 1, newZ)->blocksLight())
+		if (level->getTile(tp) == Tile::dirt->m_ID &&
+			level->getRawBrightness(tp.above()) > 3 &&
+			!level->getMaterial(tp.above())->blocksLight())
 		{
 			//@NOTE: not this->m_ID
-			level->setTile(newX, newY, newZ, Tile::grass->m_ID);
+			level->setTile(tp, Tile::grass->m_ID);
 		}
 	}
 }

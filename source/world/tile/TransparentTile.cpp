@@ -19,10 +19,10 @@ bool TransparentTile::isSolidRender() const
 	return false;
 }
 
-bool TransparentTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
+bool TransparentTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
-	if (!m_bTransparent && level->getTile(x, y, z) == m_ID)
+	if (!m_bTransparent && level->getTile(pos) == m_ID)
 		return false;
 
-	return Tile::shouldRenderFace(level, x, y, z, dir);
+	return Tile::shouldRenderFace(level, pos, face);
 }

@@ -16,7 +16,7 @@ public:
 	TransparentTile(int ID, int texture, Material*, bool bTransparent);
 
 	virtual bool isSolidRender() const override;
-	virtual bool shouldRenderFace(const LevelSource*, int, int, int, int) const override;
+	virtual bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
 
 public:
 	bool m_bTransparent;

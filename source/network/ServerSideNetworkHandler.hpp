@@ -55,8 +55,8 @@ public:
 	void handle(const RakNet::RakNetGUID&, RequestChunkPacket*) override;
 
 	// Overridden from LevelListener
-	void tileBrightnessChanged(int x, int y, int z) override;
-	void tileChanged(int x, int y, int z) override;
+	void tileBrightnessChanged(const TilePos& pos) override;
+	void tileChanged(const TilePos& pos) override;
 	void timeChanged(uint32_t time) override;
 
 	void allowIncomingConnections(bool b);

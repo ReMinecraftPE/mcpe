@@ -25,7 +25,7 @@ public:
 	void renderFire(float f);
 	void renderTex(float f, int tex);
 	void tick();
-	void turn(float yd, float pd);
+	void turn(const Vec2& rot);
 
 public:
 	int field_0;

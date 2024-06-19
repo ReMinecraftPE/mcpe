@@ -8,14 +8,12 @@
 
 #include "Particle.hpp"
 
-FlameParticle::FlameParticle(Level* level, float x, float y, float z, float vx, float vy, float vz) :
-	Particle(level, x, y, z, vx, vy, vz)
+FlameParticle::FlameParticle(Level* level, const Vec3& pos, const Vec3& dir) :
+	Particle(level, pos, dir)
 {
 	field_104 = 0.0f;
 
-	m_vel.x = m_vel.x * 0.01f + vx;
-	m_vel.y = m_vel.y * 0.01f + vy;
-	m_vel.z = m_vel.z * 0.01f + vz;
+	m_vel = m_vel * 0.01f + dir;
 
 	// @NOTE: Useless genrand_int32 calls. Will keep them in to keep consistent
 	sharedRandom.genrand_int32();
@@ -44,7 +42,7 @@ void FlameParticle::tick()
 	if (field_E8 > field_EC)
 		remove();
 
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	m_vel *= 0.96f;
 

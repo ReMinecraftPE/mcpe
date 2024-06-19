@@ -171,18 +171,20 @@ void LevelRenderer::allChanged()
 
 	int x2 = 0, x3 = 0;
 
-	for (int i = 0; i < field_A4; i++)
+	// These are actually Chunk coordinates that get converted to Tile coordinates
+	TilePos cp(0, 0, 0);
+	for (cp.x = 0; cp.x < field_A4; cp.x++)
 	{
 		if (field_A8 <= 0)
 			continue;
 
-		for (int j = 0; j < field_A8; j++)
+		for (cp.y = 0; cp.y < field_A8; cp.y++)
 		{
-			for (int k = 0; k < field_AC; k++)
+			for (cp.z = 0; cp.z < field_AC; cp.z++)
 			{
-				int index = i + field_A4 * (j + field_A8 * k);
+				int index = cp.x + field_A4 * (cp.y + field_A8 * cp.z);
 
-				Chunk* pChunk = new Chunk(m_pLevel, 16 * i, 16 * j, 16 * k, 16, x3 + field_B0, &m_pBuffers[x3]);
+				Chunk* pChunk = new Chunk(m_pLevel, cp * 16, 16, x3 + field_B0, &m_pBuffers[x3]);
 
 				if (field_B8)
 					pChunk->field_50 = 0;
@@ -206,7 +208,7 @@ void LevelRenderer::allChanged()
 		Mob* pMob = m_pMinecraft->m_pMobPersp;
 		if (pMob)
 		{
-			resortChunks(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
+			resortChunks(pMob->m_pos);
 
 			std::sort(&field_98[0], &field_98[m_chunksLength], DistanceChunkSorter(pMob));
 		}
@@ -215,11 +217,9 @@ void LevelRenderer::allChanged()
 	field_14 = 2;
 }
 
-void LevelRenderer::resortChunks(int x, int y, int z)
+void LevelRenderer::resortChunks(const TilePos& pos)
 {
-	x -= 8;
-	y -= 8;
-	z -= 8;
+	TilePos tp(pos - 8);
 	m_resortedMinX = 0x7FFFFFFF;
 	m_resortedMinY = 0x7FFFFFFF;
 	m_resortedMinZ = 0x7FFFFFFF;
@@ -233,7 +233,7 @@ void LevelRenderer::resortChunks(int x, int y, int z)
 	for (int fx = 0; fx < field_A4; fx++)
 	{
 		int x1 = 16 * fx;
-		int x2 = x1 + blkCntHalf - x;
+		int x2 = x1 + blkCntHalf - tp.x;
 		if (x2 < 0) x2 -= blkCount - 1;
 		x2 /= blkCount;
 		x1 -= blkCount * x2;
@@ -246,7 +246,7 @@ void LevelRenderer::resortChunks(int x, int y, int z)
 		for (int fz = 0; fz < field_AC; fz++)
 		{
 			int z1 = 16 * fz;
-			int z2 = z1 + blkCntHalf - z;
+			int z2 = z1 + blkCntHalf - tp.z;
 			if (z2 < 0) z2 -= blkCount - 1;
 			z2 /= blkCount;
 			z1 -= blkCount * z2;
@@ -266,7 +266,7 @@ void LevelRenderer::resortChunks(int x, int y, int z)
 
 				Chunk* pChunk = m_chunks[(fz * field_A8 + fy) * field_A4 + fx];
 				bool wasDirty = pChunk->isDirty();
-				pChunk->setPos(x1, y1, z1);
+				pChunk->setPos(TilePos(x1, y1, z1));
 
 				if (!wasDirty && pChunk->isDirty())
 					field_88.push_back(pChunk);
@@ -422,9 +422,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 	if (!a)
 		field_54 = field_58 = field_5C = field_60 = field_64 = 0;
 
-	float mobX2 = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;
-	float mobY2 = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * b;
-	float mobZ2 = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * b;
+	Vec3 mobPos = pMob->field_98 + (pMob->m_pos - pMob->field_98) * b;
 
 	float dX = pMob->m_pos.x - field_4, dY = pMob->m_pos.y - field_8, dZ = pMob->m_pos.z - field_C;
 
@@ -434,7 +432,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		field_8 = pMob->m_pos.y;
 		field_C = pMob->m_pos.z;
 
-		resortChunks(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
+		resortChunks(pMob->m_pos);
 		std::sort(&field_98[0], &field_98[m_chunksLength], DistanceChunkSorter(pMob));
 	}
 
@@ -492,9 +490,9 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 					continue;
 				
 				float fXdiff, fYdiff, fZdiff;
-				fXdiff = float(m_chunks[i]->m_pos.x) - mobX2 - lastX;
-				fYdiff = float(m_chunks[i]->m_pos.y) - mobY2 - lastY;
-				fZdiff = float(m_chunks[i]->m_pos.z) - mobZ2 - lastZ;
+				fXdiff = float(m_chunks[i]->m_pos.x) - mobPos.x - lastX;
+				fYdiff = float(m_chunks[i]->m_pos.y) - mobPos.y - lastY;
+				fZdiff = float(m_chunks[i]->m_pos.z) - mobPos.z - lastZ;
 
 				if (fXdiff != 0.0f || fYdiff != 0.0f || fZdiff != 0.0f)
 				{
@@ -541,28 +539,28 @@ void LevelRenderer::setLevel(Level* level)
 	}
 }
 
-void LevelRenderer::setDirty(int x1, int y1, int z1, int x2, int y2, int z2)
+void LevelRenderer::setDirty(const TilePos& min, const TilePos& max)
 {
-	int x1c = Mth::intFloorDiv(x1, 16);
-	int y1c = Mth::intFloorDiv(y1, 16);
-	int z1c = Mth::intFloorDiv(z1, 16);
-	int x2c = Mth::intFloorDiv(x2, 16);
-	int y2c = Mth::intFloorDiv(y2, 16);
-	int z2c = Mth::intFloorDiv(z2, 16);
+	int minX = Mth::intFloorDiv(min.x, 16);
+	int minY = Mth::intFloorDiv(min.y, 16);
+	int minZ = Mth::intFloorDiv(min.z, 16);
+	int maxX = Mth::intFloorDiv(max.x, 16);
+	int maxY = Mth::intFloorDiv(max.y, 16);
+	int maxZ = Mth::intFloorDiv(max.z, 16);
 
-	for (int x = x1c; x <= x2c; x++)
+	for (int x = minX; x <= maxX; x++)
 	{
 		int x1 = x % field_A4;
 		if (x1 < 0)
 			x1 += field_A4;
 
-		for (int y = y1c; y <= y2c; y++)
+		for (int y = minY; y <= maxY; y++)
 		{
 			int y1 = y % field_A8;
 			if (y1 < 0)
 				y1 += field_A8;
 
-			for (int z = z1c; z <= z2c; z++)
+			for (int z = minZ; z <= maxZ; z++)
 			{
 				int z1 = z % field_AC;
 				if (z1 < 0)
@@ -579,9 +577,9 @@ void LevelRenderer::setDirty(int x1, int y1, int z1, int x2, int y2, int z2)
 	}
 }
 
-void LevelRenderer::setTilesDirty(int x1, int y1, int z1, int x2, int y2, int z2)
+void LevelRenderer::setTilesDirty(const TilePos& min, const TilePos& max)
 {
-	setDirty(x1 - 1, y1 - 1, z1 - 1, x2 + 1, y2 + 1, z2 + 1);
+	setDirty(min - 1, max + 1);
 }
 
 void LevelRenderer::tick()
@@ -838,7 +836,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
-	glColor4f(1.0f, 1.0f, 1.0f, 0.5f * (0.4f + 0.2f * Mth::sin(float(getTimeMs()) / 100.0f)));
+	//glColor4f(1.0f, 1.0f, 1.0f, 0.5f * (0.4f + 0.2f * Mth::sin(float(getTimeMs()) / 100.0f)));
 
 	if (!i && field_10 > 0.0f)
 	{
@@ -848,7 +846,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
 		glPushMatrix();
 		Tile* pTile = nullptr;
-		TileID tile = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+		TileID tile = m_pLevel->getTile(hr.m_tilePos);
 		if (tile > 0)
 			pTile = Tile::tiles[tile];
 		glDisable(GL_ALPHA_TEST);
@@ -866,7 +864,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		if (!pTile)
 			pTile = Tile::rock;
 
-		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tileX, hr.m_tileY, hr.m_tileZ, 240 + int(field_10 * 10.0f));
+		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos, 240 + int(field_10 * 10.0f));
 
 		t.draw();
 		t.offset(0, 0, 0);
@@ -895,7 +893,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 
 	Tile* pTile = nullptr;
-	TileID tileID = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+	TileID tileID = m_pLevel->getTile(hr.m_tilePos);
 	if (tileID > 0)
 		pTile = Tile::tiles[tileID];
 
@@ -916,7 +914,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	if (!pTile)
 		pTile = Tile::rock;
 
-	m_pTileRenderer->tesselateInWorld(pTile, hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+	m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos);
 
 	t.draw();
 	t.offset(0, 0, 0);
@@ -954,18 +952,16 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 
 	glLineWidth(lineWidth);
 
-	TileID tile = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+	TileID tile = m_pLevel->getTile(hr.m_tilePos);
 	if (tile > 0)
 	{
 		Tile::tiles[tile]->updateShape(
 			m_pLevel,
-			hr.m_tileX,
-			hr.m_tileY,
-			hr.m_tileZ);
+			hr.m_tilePos);
 		float posX = pPlayer->field_98.x + ((pPlayer->m_pos.x - pPlayer->field_98.x) * f);
 		float posY = pPlayer->field_98.y + ((pPlayer->m_pos.y - pPlayer->field_98.y) * f);
 		float posZ = pPlayer->field_98.z + ((pPlayer->m_pos.z - pPlayer->field_98.z) * f);
-		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tilePos);
 		aabb.min.y = tileAABB.min.y - 0.002f - posY;
 		aabb.max.y = tileAABB.max.y + 0.002f - posY;
 		aabb.min.z = tileAABB.min.z - 0.002f - posZ;
@@ -980,9 +976,9 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 	glDisable(GL_BLEND);
 }
 
-void LevelRenderer::tileChanged(int x, int y, int z)
+void LevelRenderer::tileChanged(const TilePos& pos)
 {
-	setDirty(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);
+	setDirty(pos - 1, pos + 1);
 }
 
 void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
@@ -1020,7 +1016,7 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 		if (m_pMinecraft->m_pMobPersp == pEnt && !m_pMinecraft->getOptions()->m_bThirdPerson)
 			continue;
 
-		if (m_pLevel->hasChunkAt(Mth::floor(pEnt->m_pos.x), Mth::floor(pEnt->m_pos.y), Mth::floor(pEnt->m_pos.z)))
+		if (m_pLevel->hasChunkAt(pEnt->m_pos))
 		{
 			field_1C++;
 			EntityRenderDispatcher::getInstance()->render(pEnt, f);
@@ -1066,35 +1062,35 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	m_pMinecraft->platform()->saveScreenshot(std::string(str), Minecraft::width, Minecraft::height);
 }
 
-void LevelRenderer::addParticle(const std::string& name, float x, float y, float z, float vx, float vy, float vz)
+void LevelRenderer::addParticle(const std::string& name, const Vec3& pos, const Vec3& dir)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	float maxDist = 256.0f;
 	if (name == "explodeColor")
 		maxDist = 16384.0f;
 
-	if (m_pMinecraft->m_pMobPersp->distanceToSqr_inline(x, y, z) > maxDist)
+	if (m_pMinecraft->m_pMobPersp->distanceToSqr_inline(pos) > maxDist)
 		return;
 
 	ParticleEngine* pe = m_pMinecraft->m_pParticleEngine;
 	if (name == "bubble")
 	{
-		pe->add(new BubbleParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new BubbleParticle(m_pLevel, pos, dir));
 		return;
 	}
 	if (name == "smoke")
 	{
-		pe->add(new SmokeParticle(m_pLevel, x, y, z, vx, vy, vz, 1.0f));
+		pe->add(new SmokeParticle(m_pLevel, pos, dir, 1.0f));
 		return;
 	}
 	if (name == "explode")
 	{
-		pe->add(new ExplodeParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new ExplodeParticle(m_pLevel, pos, dir));
 		return;
 	}
 	if (name == "explodeColor")
 	{
-		ExplodeParticle* pExplPart = new ExplodeParticle(m_pLevel, x, y, z, vx, vy, vz);
+		ExplodeParticle* pExplPart = new ExplodeParticle(m_pLevel, pos, dir);
 		pExplPart->m_bIsUnlit = true;
 		pExplPart->field_F8 = Mth::random();
 		pExplPart->field_FC = Mth::random();
@@ -1105,40 +1101,40 @@ void LevelRenderer::addParticle(const std::string& name, float x, float y, float
 	}
 	if (name == "flame")
 	{
-		pe->add(new FlameParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new FlameParticle(m_pLevel, pos, dir));
 		return;
 	}
 	if (name == "flame2")
 	{
-		FlameParticle* pFlamePart = new FlameParticle(m_pLevel, x, y, z, vx, vy, vz);
+		FlameParticle* pFlamePart = new FlameParticle(m_pLevel, pos, dir);
 		pFlamePart->scale(4.0f);
 		pe->add(pFlamePart);
 		return;
 	}
 	if (name == "lava")
 	{
-		pe->add(new LavaParticle(m_pLevel, x, y, z));
+		pe->add(new LavaParticle(m_pLevel, pos));
 		return;
 	}
 	if (name == "largesmoke")
 	{
-		pe->add(new SmokeParticle(m_pLevel, x, y, z, vx, vy, vz, 2.5f));
+		pe->add(new SmokeParticle(m_pLevel, pos, dir, 2.5f));
 		return;
 	}
 	if (name == "reddust")
 	{
-		pe->add(new RedDustParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new RedDustParticle(m_pLevel, pos, dir));
 		return;
 	}
 
 	LOG_W("Unknown particle type: %s", name.c_str());
 }
 
-void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float volume, float pitch)
+void LevelRenderer::playSound(const std::string& name, const Vec3& pos, float volume, float pitch)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	float mult = 1.0f, maxDist = 16.0f;
-	float playerDist = m_pMinecraft->m_pMobPersp->distanceToSqr(x, y, z);
+	float playerDist = m_pMinecraft->m_pMobPersp->distanceToSqr(pos);
 
 	if (volume > 1.0f)
 	{
@@ -1155,7 +1151,7 @@ void LevelRenderer::playSound(const std::string& name, float x, float y, float z
 	}
 
 	if (maxDist * maxDist > playerDist)
-		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, volume, pitch);
+		m_pMinecraft->m_pSoundEngine->play(name, pos, volume, pitch);
 }
 
 void LevelRenderer::renderSky(float f)

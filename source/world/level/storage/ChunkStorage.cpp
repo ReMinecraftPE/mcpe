@@ -12,7 +12,7 @@ ChunkStorage::~ChunkStorage()
 {
 }
 
-LevelChunk* ChunkStorage::load(Level* a, int b, int c)
+LevelChunk* ChunkStorage::load(Level* level, const ChunkPos& pos)
 {
 	return 0;
 }

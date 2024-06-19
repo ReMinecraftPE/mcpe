@@ -97,20 +97,16 @@ void Chunk::setDirty()
 	m_bDirty = true;
 }
 
-void Chunk::setPos(int x, int y, int z)
+void Chunk::setPos(const TilePos& pos)
 {
-	if (m_pos.x == x && m_pos.y == y && m_pos.z == z)
+	if (m_pos == pos)
 		// No change.
 		return;
 
-	m_pos.x = x;
-	m_pos.y = y;
-	m_pos.z = z;
-	m_pos2.x = x + field_10 / 2;
-	m_pos2.y = y + field_14 / 2;
-	m_pos2.z = z + field_18 / 2;
+	m_pos = pos;
+	m_pos2 = pos + field_10 / 2;
 
-	m_aabb = AABB(float(m_pos.x - 1), float(m_pos.y - 1), float(m_pos.z - 1), float(m_pos.x + field_10 + 1), float(m_pos.y + field_14 + 1), float(m_pos.z + field_18 + 1));
+	m_aabb = AABB(m_pos - 1, m_pos + field_10 + 1);
 
 	setDirty();
 }
@@ -137,25 +133,24 @@ void Chunk::rebuild()
 	field_1C[0] = true;
 	field_1C[1] = true;
 
-	int minX = m_pos.x, maxX = m_pos.x + field_10;
-	int minY = m_pos.y, maxY = m_pos.y + field_14;
-	int minZ = m_pos.z, maxZ = m_pos.z + field_18;
+	TilePos min(m_pos), max(m_pos + field_10);
 
-	Region region(m_pLevel, minX - 1, minY - 1, minZ - 1, maxX + 1, maxY + 1, maxZ + 1);
+	Region region(m_pLevel, min - 1, max + 1);
 	TileRenderer tileRenderer(&region);
 
 	Tesselator& t = Tesselator::instance;
 
+	TilePos tp(min);
 	for (int layer = 0; layer < 2; layer++)
 	{
 		bool bTesselatedAnything = false, bDrewThisLayer = false, bNeedAnotherLayer = false;
-		for (int y = minY; y < maxY; y++)
+		for (tp.y = min.y; tp.y < max.y; tp.y++)
 		{
-			for (int z = minZ; z < maxZ; z++)
+			for (tp.z = min.z; tp.z < max.z; tp.z++)
 			{
-				for (int x = minX; x < maxX; x++)
+				for (tp.x = min.x; tp.x < max.x; tp.x++)
 				{
-					TileID tile = region.getTile(x, y, z);
+					TileID tile = region.getTile(tp);
 					if (tile <= 0) continue;
 
 					if (!bTesselatedAnything)
@@ -169,7 +164,7 @@ void Chunk::rebuild()
 
 					if (layer == pTile->getRenderLayer())
 					{
-						if (tileRenderer.tesselateInWorld(pTile, x, y, z))
+						if (tileRenderer.tesselateInWorld(pTile, tp))
 							bDrewThisLayer = true;
 					}
 					else
@@ -209,7 +204,7 @@ void Chunk::translateToPos()
 	glTranslatef(float(m_pos.x), float(m_pos.y), float(m_pos.z));
 }
 
-Chunk::Chunk(Level* level, int x, int y, int z, int a, int b, GLuint* bufs)
+Chunk::Chunk(Level* level, const TilePos& pos, int a, int b, GLuint* bufs)
 {
 	field_4D = true;
 	field_4E = false;
@@ -217,14 +212,12 @@ Chunk::Chunk(Level* level, int x, int y, int z, int a, int b, GLuint* bufs)
 	m_bDirty = false;
 
 	m_pLevel = level;
-	field_10 = a;
-	field_14 = a;
-	field_18 = a;
+	field_10 = TilePos(a, a, a);
 	m_pTesselator = &Tesselator::instance;
 	field_8C = b;
 	m_pos.x = -999;
-	field_2C = Mth::sqrt(float(field_10 * field_10 + field_14 * field_14 + field_18 * field_18)) / 2;
+	field_2C = Mth::sqrt(float(field_10.x * field_10.x + field_10.y * field_10.y + field_10.z * field_10.z)) / 2;
 	field_90 = bufs;
 
-	setPos(x, y, z);
+	setPos(pos);
 }

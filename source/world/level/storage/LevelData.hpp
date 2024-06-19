@@ -18,8 +18,7 @@ struct PlayerData
 {
 	Vec3 m_pos;
 	Vec3 m_vel;
-	float m_pitch;
-	float m_yaw;
+	Vec2 m_rot;
 	float m_distanceFallen;
 	short field_24;
 	short field_26;
@@ -34,7 +33,7 @@ struct LevelData
 {
 private:
 	int32_t m_seed;
-	Pos m_spawnPos;
+	TilePos m_spawnPos;
 	int32_t m_time;
 	int m_lastPlayed;
 	int32_t m_sizeOnDisk;
@@ -65,6 +64,7 @@ public:
 	int getXSpawn() const { return m_spawnPos.x; }
 	int getYSpawn() const { return m_spawnPos.y; }
 	int getZSpawn() const { return m_spawnPos.z; }
+	const TilePos& getSpawn() const { return m_spawnPos; }
 	int32_t getTime() const { return m_time; }
 	int32_t getSizeOnDisk() const { return m_sizeOnDisk; }
 	//CompoundTag getLoadedPlayerTag(); // Return type may actually be a pointer, not sure
@@ -76,12 +76,7 @@ public:
 	void setTime(int32_t time) { m_time = time; }
 	void setSizeOnDisk(int32_t sizeOnDisk) { m_sizeOnDisk = sizeOnDisk; }
 
-	void setSpawn(int x, int y, int z)
-	{
-		m_spawnPos.x = x;
-		m_spawnPos.y = y;
-		m_spawnPos.z = z;
-	}
+	void setSpawn(const TilePos& pos) { m_spawnPos = pos; }
 
 	int getGeneratorVersion() const { return m_generatorVersion; }
 	void setGeneratorVersion(int generatorVersion) { m_generatorVersion = generatorVersion; }
@@ -92,14 +87,7 @@ public:
 	int getStorageVersion() const { return m_storageVersion; }
 	void setStorageVersion(int storageVersion) { m_storageVersion = storageVersion; }
 
-	GameType getGameType() const
-	{
-#ifdef TEST_SURVIVAL_MODE
-		return GAME_TYPE_SURVIVAL;
-#else
-		return GAME_TYPE_CREATIVE;
-#endif
-	}
+	GameType getGameType() const;
 	void setGameType(GameType gameType) { /* Empty in 0.2.1 */ }
 
 	// @TODO: Not Implemented

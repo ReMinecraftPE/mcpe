@@ -15,15 +15,15 @@ class LiquidTileDynamic : public LiquidTile
 public:
 	LiquidTileDynamic(int id, Material* pMtl);
 
-	void onPlace(Level*, int x, int y, int z) override;
-	void tick(Level*, int x, int y, int z, Random*) override;
+	void onPlace(Level*, const TilePos& pos) override;
+	void tick(Level*, const TilePos& pos, Random*) override;
 
-	bool checkSpongesNearby(Level*, int x, int y, int z);
-	bool isWaterBlocking(Level*, int x, int y, int z);
-	bool canSpreadTo(Level*, int x, int y, int z);
-	int getSlopeDistance(Level*, int, int, int, int, int);
-	bool* getSpread(Level*, int x, int y, int z);
-	void setStatic(Level*, int x, int y, int z);
-	void trySpreadTo(Level*, int x, int y, int z, int a);
-	int getSmallestDepth(Level*, int x, int y, int z, int oldDepth);
+	bool checkSpongesNearby(Level*, const TilePos& pos);
+	bool isWaterBlocking(Level*, const TilePos& pos);
+	bool canSpreadTo(Level*, const TilePos& pos);
+	int getSlopeDistance(Level*, const TilePos& pos, int depth, int);
+	bool* getSpread(Level*, const TilePos& pos);
+	void setStatic(Level*, const TilePos& pos);
+	void trySpreadTo(Level*, const TilePos& pos, int a);
+	int getSmallestDepth(Level*, const TilePos& pos, int oldDepth);
 };

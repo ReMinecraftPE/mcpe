@@ -222,12 +222,12 @@ int Item::getIcon(const ItemInstance* pInstance) const
 	return m_icon;
 }
 
-bool Item::useOn(ItemInstance* instance, Level* level, int x, int y, int z, int d)
+bool Item::useOn(ItemInstance* instance, Level* level, const TilePos& pos, Facing::Name face)
 {
 	return false;
 }
 
-bool Item::useOn(ItemInstance* instance, Player* player, Level* level, int x, int y, int z, int d)
+bool Item::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
 	return false;
 }
@@ -267,7 +267,7 @@ void Item::hurtEnemy(ItemInstance* instance, Mob* mob)
 
 }
 
-void Item::mineBlock(ItemInstance* instance, int x, int y, int z, int d)
+void Item::mineBlock(ItemInstance* instance, const TilePos& pos, Facing::Name face)
 {
 
 }

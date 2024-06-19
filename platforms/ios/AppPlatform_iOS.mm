@@ -136,7 +136,7 @@ int AppPlatform_iOS::getUserInputStatus()
 	return -1;
 }
 
-bool AppPlatform_iOS::isTouchscreen()
+bool AppPlatform_iOS::isTouchscreen() const
 {
 	return true;
 }

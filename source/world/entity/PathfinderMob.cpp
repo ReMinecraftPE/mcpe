@@ -41,7 +41,7 @@ void PathfinderMob::checkCantSeeTarget(Entity* pEnt, float f)
 		setAttackTarget(nullptr);
 }
 
-float PathfinderMob::getWalkTargetValue(int, int, int) const
+float PathfinderMob::getWalkTargetValue(const TilePos& pos) const
 {
 	return 0.0f;
 }
@@ -56,28 +56,26 @@ void PathfinderMob::findRandomStrollLocation()
 	bool foundLocation = false;
 
 	float maxDist = -99999.0f;
-	int dx = -1, dy = -1, dz = -1;
+	TilePos pos(-1, -1, -1);
 
 	for (int i = 0; i < 10; i++)
 	{
-		int testX = Mth::floor(float(m_pos.x + m_random.nextInt(13)) - 6.0f);
-		int testY = Mth::floor(float(m_pos.y + m_random.nextInt(7))  - 3.0f);
-		int testZ = Mth::floor(float(m_pos.z + m_random.nextInt(13)) - 6.0f);
+		TilePos test(float(m_pos.x + m_random.nextInt(13)) - 6.0f,
+					 float(m_pos.y + m_random.nextInt(7))  - 3.0f,
+					 float(m_pos.z + m_random.nextInt(13)) - 6.0f);
 
-		float wtv = getWalkTargetValue(testX, testY, testZ);
+		float wtv = getWalkTargetValue(test);
 		if (maxDist < wtv)
 		{
 			maxDist = wtv;
-			dx = testX;
-			dy = testY;
-			dz = testZ;
+			pos = test;
 			foundLocation = true;
 		}
 	}
 
 	if (foundLocation)
 	{
-		m_pLevel->findPath(&m_path, this, dx, dy, dz, 10.0f);
+		m_pLevel->findPath(&m_path, this, pos, 10.0f);
 	}
 }
 
@@ -96,16 +94,15 @@ bool PathfinderMob::canSpawn() const
 	if (!Mob::canSpawn())
 		return false;
 
-	return getWalkTargetValue(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y), Mth::floor(m_pos.z)) >= 0.0f;
+	return getWalkTargetValue(TilePos(m_pos.x, m_hitbox.min.y, m_pos.z)) >= 0.0f;
 }
 
 static Vec3 GetNodePosition(Node* pNode, Entity* pEnt)
 {
 	float offset = float(int(pEnt->field_88 + 1.0f)) * 0.5f;
-	float fx = float(pNode->m_x) + offset;
-	float fz = float(pNode->m_z) + offset;
-	float fy = float(pNode->m_y);
-	return Vec3(fx, fy, fz);
+	return Vec3(float(pNode->m_tilePos.x) + offset,
+				float(pNode->m_tilePos.y),
+				float(pNode->m_tilePos.z) + offset);
 }
 
 void PathfinderMob::updateAi()
@@ -149,7 +146,7 @@ void PathfinderMob::updateAi()
 	}
 
 
-	m_pitch = 0.0f;
+	m_rot.y = 0.0f;
 
 	if (m_path.empty() || m_random.nextInt(100) == 0)
 	{
@@ -188,29 +185,29 @@ void PathfinderMob::updateAi()
 		float ang = Mth::atan2(nodePos.z - m_pos.z, nodePos.x - m_pos.x) * 180.0f / float(M_PI) - 90.0f;
 		float heightDiff = nodePos.y - Mth::floor(m_hitbox.min.y + 0.5f);
 
-		field_B04 = field_B14;
+		field_B00.y = field_B14;
 
-		float angDiff = ang - m_yaw;
+		float angDiff = ang - m_rot.x;
 		while (angDiff < -180.0f) angDiff += 360.0f;
 		while (angDiff >= 180.0f) angDiff -= 360.0f;
 
 		if (angDiff > +30.0f) angDiff = +30.0f;
 		if (angDiff < -30.0f) angDiff = -30.0f;
 
-		float oldYaw = m_yaw;
+		float oldYaw = m_rot.x;
 
-		m_yaw += angDiff;
+		m_rot.x += angDiff;
 
 		if (field_BA0 && m_pAttackTarget)
 		{
 			float ang2 = Mth::atan2(m_pAttackTarget->m_pos.z - m_pos.z, m_pAttackTarget->m_pos.x - m_pos.x) * 180.0f / float(M_PI) - 90.0f;
-			m_yaw = ang2;
+			m_rot.x = ang2;
 
 			float thing = ((((angDiff + oldYaw) - ang2) + 90.0f) * float(M_PI)) / 180.0f;
 
-			// @NOTE: Using old field_B04 value
-			field_B00 = -field_B04 * Mth::sin(thing);
-			field_B04 =  field_B04 * Mth::cos(thing);
+			// @NOTE: Using old field_B00.y value
+			field_B00.x = -field_B00.y * Mth::sin(thing);
+			field_B00.y =  field_B00.y * Mth::cos(thing);
 		}
 
 		if (heightDiff > 0.0f)

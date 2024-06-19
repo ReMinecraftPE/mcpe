@@ -28,6 +28,7 @@ public:
 	static float atan(float);
 	static float atan2(float y, float x);
 	static float cos(float);
+	static float clamp(float, float, float);
 	static int floor(float);
 	static void initMth();
 	static int intFloorDiv(int, int);
@@ -35,11 +36,14 @@ public:
 	static int random(int);
 	static float random(void);
 	static float sin(float);
-	static float sqrt(float);
 	static unsigned fastRandom();
+
+	static inline float sqrt(float f)
+	{
+		return sqrtf(f);
+	}
     
-	// @NOTE: This is inlined.
-	static constexpr float Lerp(float a, float b, float progress)
+	static inline constexpr float Lerp(float a, float b, float progress)
 	{
 		return a + progress * (b - a);
 	}

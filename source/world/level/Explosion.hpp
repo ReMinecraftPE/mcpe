@@ -15,7 +15,7 @@
 class Explosion
 {
 public:
-	Explosion(Level*, Entity*, float x, float y, float z, float power);
+	Explosion(Level*, Entity*, const Vec3& pos, float power);
 	void addParticles();
 	void explode();
 

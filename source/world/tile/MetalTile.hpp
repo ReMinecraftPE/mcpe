@@ -15,5 +15,5 @@ class MetalTile : public Tile
 public:
 	MetalTile(int ID, int texture, Material*);
 
-	virtual int getTexture(int dir) const override;
+	virtual int getTexture(Facing::Name face) const override;
 };

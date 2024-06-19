@@ -55,10 +55,10 @@ RandomLevelSource::RandomLevelSource(Level* level, int32_t seed, int x) :
 }
 
 // @BUG: Potential collisions.
-inline int GetChunkHash(int x, int z)
+inline int GetChunkHash(const ChunkPos& pos)
 {
-    int v6 = (z & 0x7FFF) | ((x & 0x7FFF) << 16) | (x & 0x80000000), v7;
-	if (z >= 0)
+    int v6 = (pos.z & 0x7FFF) | ((pos.x & 0x7FFF) << 16) | (pos.x & 0x80000000), v7;
+	if (pos.z >= 0)
 		v7 = 0;
 	else
 		v7 = 0x8000;
@@ -66,24 +66,24 @@ inline int GetChunkHash(int x, int z)
 	return v6 | v7;
 }
 
-LevelChunk* RandomLevelSource::getChunk(int x, int z)
+LevelChunk* RandomLevelSource::getChunk(const ChunkPos& pos)
 {
-	int hashCode = GetChunkHash(x, z);
+	int hashCode = GetChunkHash(pos);
 	std::map<int, LevelChunk*>::iterator iter = m_chunks.find(hashCode);
 	if (iter != m_chunks.end())
 		return iter->second;
 
 	// have to generate the chunk
-	m_random.init_genrand(341872712 * x + 132899541 * z);
+	m_random.init_genrand(341872712 * pos.x + 132899541 * pos.z);
 
 	TileID* pLevelData = new TileID[32768];
 
-	LevelChunk* pChunk = new LevelChunk(m_pLevel, pLevelData, x, z);
+	LevelChunk* pChunk = new LevelChunk(m_pLevel, pLevelData, pos);
 	m_chunks.insert(std::pair<int, LevelChunk*>(hashCode, pChunk));
 
-	Biome** pBiomeBlock = m_pLevel->getBiomeSource()->getBiomeBlock(16 * x, 16 * z, 16, 16);
-	prepareHeights(x, z, pLevelData, nullptr, m_pLevel->getBiomeSource()->field_4);
-	buildSurfaces(x, z, pLevelData, pBiomeBlock);
+	Biome** pBiomeBlock = m_pLevel->getBiomeSource()->getBiomeBlock(TilePos(pos, 0), 16, 16);
+	prepareHeights(pos, pLevelData, nullptr, m_pLevel->getBiomeSource()->field_4);
+	buildSurfaces(pos, pLevelData, pBiomeBlock);
 	pChunk->recalcHeightmap();
 
 	// @NOTE: Java Edition Beta 1.6 uses the m_largeCaveFeature.
@@ -94,9 +94,9 @@ LevelChunk* RandomLevelSource::getChunk(int x, int z)
 	return pChunk;
 }
 
-LevelChunk* RandomLevelSource::getChunkDontCreate(int x, int z)
+LevelChunk* RandomLevelSource::getChunkDontCreate(const ChunkPos& pos)
 {
-	int hashCode = GetChunkHash(x, z);
+	int hashCode = GetChunkHash(pos);
 	std::map<int, LevelChunk*>::iterator iter = m_chunks.find(hashCode);
 	if (iter != m_chunks.end())
 		return iter->second;
@@ -106,7 +106,7 @@ LevelChunk* RandomLevelSource::getChunkDontCreate(int x, int z)
 	TileID* pLevelData = new TileID[32768];
 	memset (pLevelData, 0, sizeof *pLevelData * 32768);
 
-	LevelChunk* pChunk = new LevelChunk(m_pLevel, pLevelData, x, z);
+	LevelChunk* pChunk = new LevelChunk(m_pLevel, pLevelData, pos);
 	m_chunks.insert(std::pair<int, LevelChunk*>(hashCode, pChunk));
 
 	return pChunk;
@@ -210,9 +210,9 @@ float* RandomLevelSource::getHeights(float* fptr, int a3, int a4, int a5, int a6
 	return fptr;
 }
 
-void RandomLevelSource::prepareHeights(int x, int z, TileID* tiles, void* huh, float* fptr)
+void RandomLevelSource::prepareHeights(const ChunkPos& pos, TileID* tiles, void* huh, float* fptr)
 {
-	field_7280 = getHeights(field_7280, x * 4, 0, z * 4, 5, 17, 5);
+	field_7280 = getHeights(field_7280, pos.x * 4, 0, pos.z * 4, 5, 17, 5);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -266,12 +266,12 @@ void RandomLevelSource::prepareHeights(int x, int z, TileID* tiles, void* huh, f
 	}
 }
 
-void RandomLevelSource::buildSurfaces(int x, int z, TileID* tiles, Biome** biomes)
+void RandomLevelSource::buildSurfaces(const ChunkPos& pos, TileID* tiles, Biome** biomes)
 {
 	//return;
-	m_perlinNoise4.getRegion(field_7284, float(x) * 16.0f, float(z) * 16.0f, 0.0f,    16, 16, 1, 1.0f / 32.0f, 1.0f / 32.0f, 1.0f);
-	m_perlinNoise4.getRegion(field_7684, float(x) * 16.0f, 109.01f, float(z) * 16.0f, 16, 1, 16, 1.0f / 32.0f, 1.0f,         1.0f / 32.0f);
-	m_perlinNoise5.getRegion(field_7A84, float(x) * 16.0f, float(z) * 16.0f, 0.0f,    16, 16, 1, 1.0f / 16.0f, 1.0f / 16.0f, 1.0f / 16.0f);
+	m_perlinNoise4.getRegion(field_7284, float(pos.x) * 16.0f, float(pos.z) * 16.0f, 0.0f,    16, 16, 1, 1.0f / 32.0f, 1.0f / 32.0f, 1.0f);
+	m_perlinNoise4.getRegion(field_7684, float(pos.x) * 16.0f, 109.01f, float(pos.z) * 16.0f, 16, 1, 16, 1.0f / 32.0f, 1.0f,         1.0f / 32.0f);
+	m_perlinNoise5.getRegion(field_7A84, float(pos.x) * 16.0f, float(pos.z) * 16.0f, 0.0f,    16, 16, 1, 1.0f / 16.0f, 1.0f / 16.0f, 1.0f / 16.0f);
 
 	// @NOTE: Again, extracted from Java Beta 1.6. Probably accurate
 	constexpr int byte0 = 64;
@@ -358,95 +358,95 @@ void RandomLevelSource::buildSurfaces(int x, int z, TileID* tiles, Biome** biome
 	}
 }
 
-void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
+void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 {
 	m_pLevel->m_bPostProcessing = true;
 	SandTile::instaFall = true;
 	
-	int x16 = x * 16, z16 = z * 16;
+	TilePos tp = TilePos(pos, 0);
 
-	Biome* pBiome = m_pLevel->getBiomeSource()->getBiome(x16 + 16, z16 + 16);
+	//LOG_I("Post-Processing %d, %d", pos.x, pos.z);
+	Biome* pBiome = m_pLevel->getBiomeSource()->getBiome(tp + 16);
 	int32_t seed = m_pLevel->getSeed();
-	int xo, yo, zo;
 
 	m_random.setSeed(seed);
 	int32_t x1 = 1 + 2 * (m_random.nextInt() / 2);
 	int32_t x2 = 1 + 2 * (m_random.nextInt() / 2);
-	m_random.setSeed((int32_t(x) * x1 + int32_t(z) * x2) ^ seed);
+	m_random.setSeed((int32_t(pos.x) * x1 + int32_t(pos.z) * x2) ^ seed);
 
 	// @NOTE: I can't put the random calls _in_ the argument list - args are evaluated right to left I believe
 
 	for (int i = 0; i < 10; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(128);
-		zo = m_random.nextInt(16);
-		ClayFeature(Tile::clay->m_ID, 32).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(128),
+		          m_random.nextInt(16));
+		ClayFeature(Tile::clay->m_ID, 32).place(m_pLevel, &m_random, tp + o);
 	}
 	
 	// Start of ore generation
 
 	for (int i = 0; i < 20; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(128);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::dirt->m_ID, 32).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(128),
+		          m_random.nextInt(16));
+		OreFeature(Tile::dirt->m_ID, 32).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(128);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::gravel->m_ID, 32).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(128),
+		          m_random.nextInt(16));
+		OreFeature(Tile::gravel->m_ID, 32).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 20; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(128);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::coalOre->m_ID, 16).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(128),
+		          m_random.nextInt(16));
+		OreFeature(Tile::coalOre->m_ID, 16).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 20; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(64);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::ironOre->m_ID, 8).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(64),
+		          m_random.nextInt(16));
+		OreFeature(Tile::ironOre->m_ID, 8).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 2; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(32);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::goldOre->m_ID, 8).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(32),
+		          m_random.nextInt(16));
+		OreFeature(Tile::goldOre->m_ID, 8).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 8; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(16);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::redStoneOre->m_ID, 7).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(16),
+		          m_random.nextInt(16));
+		OreFeature(Tile::redStoneOre->m_ID, 7).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 1; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(16);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(16),
+		          m_random.nextInt(16));
+		OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 1; i++)
 	{
-		xo = m_random.nextInt(16);
-		yo = m_random.nextInt(16) + m_random.nextInt(16);
-		zo = m_random.nextInt(16);
-		OreFeature(Tile::lapisOre->m_ID, 6).place(m_pLevel, &m_random, x16 + xo, yo, z16 + zo);
+		TilePos o(m_random.nextInt(16),
+		          m_random.nextInt(16) + m_random.nextInt(16),
+		          m_random.nextInt(16));
+		OreFeature(Tile::lapisOre->m_ID, 6).place(m_pLevel, &m_random, tp + o);
 	}
 
 	// End of ore generation
 	// Start of tree generation
 
-	float t1 = m_perlinNoise8.getValue(float(x16) / 2.0f, float(z16) / 2.0f);
+	float t1 = m_perlinNoise8.getValue(float(tp.x) / 2.0f, float(tp.z) / 2.0f);
 	float t2 = m_random.nextFloat();
 	int t3 = int((4.0f + t2 * 4.0f + t1 * 0.125f) / 3.0f);
 
@@ -477,15 +477,16 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 
 	for (int i = 0; i < treeCount; i++)
 	{
-		int rngX = m_random.nextInt(16) + x16 + 8;
-		int rngZ = m_random.nextInt(16) + z16 + 8;
-		int height = m_pLevel->getHeightmap(rngX, rngZ);
+		TilePos rng;
+		rng.x = m_random.nextInt(16) + tp.x + 8;
+		rng.z = m_random.nextInt(16) + tp.z + 8;
+		rng.y = m_pLevel->getHeightmap(rng);
 
 		Feature* pTreeFeature = pBiome->getTreeFeature(&m_random);
 		if (pTreeFeature)
 		{
 			pTreeFeature->init(1.0f, 1.0f, 1.0f);
-			pTreeFeature->place(m_pLevel, &m_random, rngX, height, rngZ);
+			pTreeFeature->place(m_pLevel, &m_random, rng);
 			delete pTreeFeature;
 		}
 	}
@@ -495,7 +496,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(128);
 		int zo = m_random.nextInt(16);
-		FlowerFeature(Tile::flower->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+		FlowerFeature(Tile::flower->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
 	if (m_random.nextInt(2) == 0)
@@ -503,7 +504,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(128);
 		int zo = m_random.nextInt(16);
-		FlowerFeature(Tile::rose->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+		FlowerFeature(Tile::rose->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
 	if (m_random.nextInt(4) == 0)
@@ -511,7 +512,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(128);
 		int zo = m_random.nextInt(16);
-		FlowerFeature(Tile::mushroom1->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+		FlowerFeature(Tile::mushroom1->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
 	if (m_random.nextInt(8) == 0)
@@ -519,7 +520,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(128);
 		int zo = m_random.nextInt(16);
-		FlowerFeature(Tile::mushroom2->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+		FlowerFeature(Tile::mushroom2->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
 	for (int i = 0; i < 10; i++)
@@ -527,7 +528,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(128);
 		int zo = m_random.nextInt(16);
-		ReedsFeature().place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+		ReedsFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
 	for (int i = 0; i < 50; i++)
@@ -535,7 +536,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(m_random.nextInt(120) + 8);
 		int zo = m_random.nextInt(16);
-		SpringFeature(Tile::water->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+		SpringFeature(Tile::water->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
 	for (int i = 0; i < 20; i++)
@@ -543,27 +544,27 @@ void RandomLevelSource::postProcess(ChunkSource* src, int x, int z)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(m_random.nextInt(m_random.nextInt(112) + 8) + 8);
 		int zo = m_random.nextInt(16);
-		SpringFeature(Tile::lava->m_ID).place(m_pLevel, &m_random, x16 + 8 + xo, yo, z16 + 8 + zo);
+		SpringFeature(Tile::lava->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
-	float* tempBlock = m_pLevel->getBiomeSource()->getTemperatureBlock(x16 + 8, z16 + 8, 16, 16);
-	for (int j19 = x16 + 8; j19 < x16 + 8 + 16; j19++)
+	float* tempBlock = m_pLevel->getBiomeSource()->getTemperatureBlock(tp.x + 8, tp.z + 8, 16, 16);
+	for (int j19 = tp.x + 8; j19 < tp.x + 8 + 16; j19++)
 	{
-		for (int j22 = z16 + 8; j22 < z16 + 8 + 16; j22++)
+		for (int j22 = tp.z + 8; j22 < tp.z + 8 + 16; j22++)
 		{
-			int i24 = j19 - (x16 + 8);
-			int j25 = j22 - (z16 + 8);
+			int i24 = j19 - (tp.x + 8);
+			int j25 = j22 - (tp.z + 8);
 
-			int tsb = m_pLevel->getTopSolidBlock(j19, j22);
+			int tsb = m_pLevel->getTopSolidBlock(TilePos(j19, 0, j22));
 			
 			if (SNOW_CUTOFF > (tempBlock[i24 * 16 + j25] - SNOW_SCALE * (float(tsb - 64) / 64.0f)))
 			{
-				if (tsb >= 0 && tsb < C_MAX_Y && m_pLevel->isEmptyTile(j19, tsb, j22))
+				if (tsb >= 0 && tsb < C_MAX_Y && m_pLevel->isEmptyTile(TilePos(j19, tsb, j22)))
 				{
-					if (m_pLevel->getMaterial(j19, tsb - 1, j22)->blocksMotion() &&
-						m_pLevel->getMaterial(j19, tsb - 1, j22) != Material::ice)
+					if (m_pLevel->getMaterial(TilePos(j19, tsb - 1, j22))->blocksMotion() &&
+						m_pLevel->getMaterial(TilePos(j19, tsb - 1, j22)) != Material::ice)
 					{
-						m_pLevel->setTile(j19, tsb, j22, Tile::topSnow->m_ID);
+						m_pLevel->setTile(TilePos(j19, tsb, j22), Tile::topSnow->m_ID);
 					}
 				}
 			}
@@ -584,14 +585,14 @@ bool RandomLevelSource::shouldSave()
 	return true;
 }
 
-bool RandomLevelSource::hasChunk(int x, int z)
+bool RandomLevelSource::hasChunk(const ChunkPos& pos)
 {
 	return true;
 }
 
-LevelChunk* RandomLevelSource::create(int x, int z)
+LevelChunk* RandomLevelSource::create(const ChunkPos& pos)
 {
-	return getChunk(x, z);
+	return getChunk(pos);
 }
 
 std::string RandomLevelSource::gatherStats()

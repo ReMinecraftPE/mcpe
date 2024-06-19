@@ -13,17 +13,40 @@
 class Controller
 {
 public:
+	enum StickDirection
+	{
+		DIR_NONE,
+		DIR_UP,
+		DIR_RIGHT,
+		DIR_DOWN,
+		DIR_LEFT
+	};
+
+public:
 	static bool isValidStick(int stickNo);
 	static float linearTransform(float, float, float, bool);
-	static void feed(int stickNo, int touched, float x, float y);
+	// SDL2 feeds controller stick update events one axis at a time
+	static void feedStickX(int stickNo, int touched, float x);
+	static void feedStickY(int stickNo, int touched, float y);
+	static void feedStick(int stickNo, int touched, float x, float y);
 	static float getX(int stickNo);
 	static float getY(int stickNo);
 	static float getTransformedX(int stickNo, float a2, float a3, bool b);
 	static float getTransformedY(int stickNo, float a2, float a3, bool b);
+	static StickDirection getXDirection(int stickNo, float deadzone);
+	static StickDirection getYDirection(int stickNo, float deadzone);
+	static StickDirection getDirection(int stickNo);
 	static bool isTouched(int stickNo);
+	static bool isValidTrigger(int triggerNo);
+	static void feedTrigger(int triggerNo, float x);
+	static float getPressure(int triggerNo);
+	static void reset();
+	static bool isReset() { return inReset; }
 
 public:
 	static bool isTouchedValues[2];
 	static float stickValuesX[2], stickValuesY[2];
+	static float triggerValues[2];
+	static bool inReset;
 };
 

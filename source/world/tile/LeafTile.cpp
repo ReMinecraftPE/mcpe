@@ -26,13 +26,13 @@ LeafTile::~LeafTile()
 		delete[] field_70;
 }
 
-void LeafTile::die(Level* level, int x, int y, int z)
+void LeafTile::die(Level* level, const TilePos& pos)
 {
-	spawnResources(level, x, y, z, level->getData(x, y, z));
-	level->setTile(x, y, z, TILE_AIR);
+	spawnResources(level, pos, level->getData(pos));
+	level->setTile(pos, TILE_AIR);
 }
 
-int LeafTile::getColor(const LevelSource* level, int x, int y, int z) const
+int LeafTile::getColor(const LevelSource* level, const TilePos& pos) const
 {
 	if (GetPatchManager()->IsGrassTinted())
 	{
@@ -42,7 +42,7 @@ int LeafTile::getColor(const LevelSource* level, int x, int y, int z) const
 	return 0xffffff;
 }
 
-int LeafTile::getTexture(int dir, int data) const
+int LeafTile::getTexture(Facing::Name face, int data) const
 {
 	if ((data & 3) == 1)
 		return m_TextureFrame + 80;
@@ -55,36 +55,37 @@ bool LeafTile::isSolidRender() const
 	return !m_bTransparent;
 }
 
-void LeafTile::stepOn(Level* level, int x, int y, int z, Entity* entity)
+void LeafTile::stepOn(Level* level, const TilePos& pos, Entity* entity)
 {
 }
 
-void LeafTile::onRemove(Level* level, int x, int y, int z)
+void LeafTile::onRemove(Level* level, const TilePos& pos)
 {
-	if (!level->hasChunksAt(x - 2, y - 2, z - 2, x + 2, y + 2, z + 2))
+	if (!level->hasChunksAt(pos - 2, pos + 2))
 		return;
 
-	for (int ox = -1; ox < 2; ox++)
+	TilePos o(-1, -1, -1);
+	for (o.x = -1; o.x < 2; o.x++)
 	{
-		for (int oy = -1; oy < 2; oy++)
+		for (o.y = -1; o.y < 2; o.y++)
 		{
-			for (int oz = -1; oz < 2; oz++)
+			for (o.z = -1; o.z < 2; o.z++)
 			{
-				TileID tile = level->getTile(x + ox, y + oy, z + oz);
+				TileID tile = level->getTile(pos + o);
 				if (tile != Tile::leaves->m_ID) continue;
 
-				level->setDataNoUpdate(x + ox, y + oy, z + oz, level->getData(x + ox, y + oy, z + oz) | 4);
+				level->setDataNoUpdate(pos + o, level->getData(pos + o) | 4);
 			}
 		}
 	}
 }
 
-void LeafTile::tick(Level* level, int x, int y, int z, Random* random)
+void LeafTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	if (level->m_bIsMultiplayer)
 		return;
 
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 	if ((data & 4) == 0)
 		return;
 
@@ -94,16 +95,21 @@ void LeafTile::tick(Level* level, int x, int y, int z, Random* random)
 	if (!field_70)
 		field_70 = new int[C_RANGE * C_RANGE * C_RANGE];
 
-	if (level->hasChunksAt(x - 5, y - 5, z - 5, x + 5, y + 5, z + 5))
+	if (level->hasChunksAt(pos - 5, pos + 5))
 	{
+		TilePos curr(pos);
 		// @TODO: get rid of magic values
-		for (int currX = x - C_RANGE_SMALL, i = 0x3000; i != 0x5400; i += 0x400, currX++)
+		for (int i = 0x3000; i != 0x5400; i += 0x400, curr.x++)
 		{
-			for (int currY = y - C_RANGE_SMALL, j = 0; j != 0x120; j += 0x20, currY++)
+			curr.x = pos.x - C_RANGE_SMALL;
+			for (int j = 0; j != 0x120; j += 0x20, curr.y++)
 			{
-				for (int currZ = z - C_RANGE_SMALL, k = 0; k != 9; k++, currZ++)
+				curr.y = pos.y - C_RANGE_SMALL;
+				for (int k = 0; k != 9; k++, curr.z++)
 				{
-					TileID tile = level->getTile(currX, currY, currZ);
+					curr.z = pos.z - C_RANGE_SMALL;
+
+					TileID tile = level->getTile(curr);
 					if (tile == Tile::treeTrunk->m_ID)
 						field_70[0x18C + i + j + k] = 0;
 					else if (tile == Tile::leaves->m_ID)
@@ -151,8 +157,8 @@ void LeafTile::tick(Level* level, int x, int y, int z, Random* random)
 		}
 
 		if (field_70[0x4210] < 0)
-			die(level, x, y, z);
+			die(level, pos);
 		else
-			level->setDataNoUpdate(x, y, z, data & ~0x4);
+			level->setDataNoUpdate(pos, data & ~0x4);
 	}
 }

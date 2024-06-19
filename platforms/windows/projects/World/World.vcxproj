@@ -162,6 +162,11 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Creeper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Pig.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\MobFactory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\Facing.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\TilePos.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -275,6 +280,12 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\MobFactory.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkTilePos.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\phys\Vec2.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\Facing.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TilePos.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,27 +24,27 @@ int IceTile::getResourceCount(Random* pRandom) const
 	return 0;
 }
 
-void IceTile::onRemove(Level* level, int x, int y, int z)
+void IceTile::onRemove(Level* level, const TilePos& pos)
 {
-	Material* pMtlBelow = level->getMaterial(x, y - 1, z);
+	Material* pMtlBelow = level->getMaterial(pos.below());
 	if (pMtlBelow->blocksMotion() || pMtlBelow->isLiquid())
 	{
-		level->setTile(x, y, z, Tile::water->m_ID);
+		level->setTile(pos, Tile::water->m_ID);
 	}
 }
 
-bool IceTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
+bool IceTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
-	//@BUG: 1 - dir? This would only work to flip the YNEG and YPOS directions.
-	return HalfTransparentTile::shouldRenderFace(level, x, y, z, 1 - dir);
+	//@BUG: 1 - face? This would only work to flip the YNEG and YPOS directions.
+	return HalfTransparentTile::shouldRenderFace(level, pos, (Facing::Name)(1 - face));
 }
 
-void IceTile::tick(Level* level, int x, int y, int z, Random* random)
+void IceTile::tick(Level* level, const TilePos& pos, Random* random)
 {
-	if (level->getBrightness(LightLayer::Block, x, y, z) <= 11 - Tile::lightBlock[m_ID])
+	if (level->getBrightness(LightLayer::Block, pos) <= 11 - Tile::lightBlock[m_ID])
 		return;
 
-	spawnResources(level, x, y, z, level->getData(x, y, z));
+	spawnResources(level, pos, level->getData(pos));
 
-	level->setTile(x, y, z, Tile::calmWater->m_ID);
+	level->setTile(pos, Tile::calmWater->m_ID);
 }

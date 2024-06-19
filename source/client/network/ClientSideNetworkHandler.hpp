@@ -14,12 +14,11 @@
 
 struct SBufferedBlockUpdate
 {
-	int x, z;
-	uint8_t y;
+	TilePos pos;
 	uint8_t tile, data;
 
-	SBufferedBlockUpdate(int x, int y, int z, TileID tile, int data) :
-		x(x), z(z), y(uint8_t(y)), tile(uint8_t(tile)), data(uint8_t(data))
+	SBufferedBlockUpdate(const TilePos& pos, TileID tile, int data) :
+		pos(pos), tile(uint8_t(tile)), data(uint8_t(data))
 	{}
 };
 

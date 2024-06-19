@@ -7,7 +7,6 @@ SoundSystemAL::SoundSystemAL()
 {
 	_initialized = false;
     _listenerVolume = 1.0;
-    _audioMuted = false;
     
     startEngine();
 }
@@ -190,7 +189,7 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 		return;
 	}
 
-	if (_audioMuted || volume <= 0.0f)
+	if (volume <= 0.0f)
 		return;
 
 	bool bIsGUI = AL_FALSE;
@@ -344,16 +343,6 @@ void SoundSystemAL::stopEngine()
     
     // Mark as unloaded
     _initialized = false;
-}
-
-void SoundSystemAL::muteAudio()
-{
-    _audioMuted = true;
-}
-
-void SoundSystemAL::unMuteAudio()
-{
-    _audioMuted = false;
 }
 
 #endif

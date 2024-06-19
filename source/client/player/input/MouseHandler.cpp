@@ -1,6 +1,6 @@
 #include "MouseHandler.hpp"
 
-#include "common/Utils.hpp"
+#include "compat/LegacyCPPCompatibility.hpp"
 
 MouseHandler::MouseHandler() :
 	m_pTurnInput(nullptr)

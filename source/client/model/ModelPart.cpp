@@ -34,8 +34,8 @@ ModelPart::~ModelPart()
 
 void ModelPart::_init()
 {
-	m_posX = m_posY = m_posZ = 0;
-	m_rotX = m_rotY = m_rotZ = 0;
+	m_pos = Vec3::ZERO;
+	m_rot = Vec3::ZERO;
 	m_buffer = 0;
 	m_textureWidth = 64.0f;
 	m_textureHeight = 32.0f;
@@ -120,25 +120,21 @@ void ModelPart::drawSlow(float scale)
 
 void ModelPart::mimic(ModelPart* pPart)
 {
-	m_posX = pPart->m_posX;
-	m_posY = pPart->m_posY;
-	m_posZ = pPart->m_posZ;
-	m_rotX = pPart->m_rotX;
-	m_rotY = pPart->m_rotY;
-	m_rotZ = pPart->m_rotZ;
+	m_pos = pPart->m_pos;
+	m_rot = pPart->m_rot;
 }
 
 void ModelPart::translatePosTo(float scale)
 {
-	glTranslatef(m_posX * scale, m_posY * scale, m_posZ * scale);
+	glTranslatef(m_pos.x * scale, m_pos.y * scale, m_pos.z * scale);
 }
 
 void ModelPart::translateRotTo(float scale)
 {
-	glTranslatef(m_posX * scale, m_posY * scale, m_posZ * scale);
-	if (m_rotZ != 0) glRotatef(m_rotZ * MUL_DEG_TO_RAD, 0, 0, 1);
-	if (m_rotY != 0) glRotatef(m_rotY * MUL_DEG_TO_RAD, 0, 1, 0);
-	if (m_rotX != 0) glRotatef(m_rotX * MUL_DEG_TO_RAD, 1, 0, 0);
+	glTranslatef(m_pos.x * scale, m_pos.y * scale, m_pos.z * scale);
+	if (m_rot.z != 0) glRotatef(m_rot.z * MUL_DEG_TO_RAD, 0, 0, 1);
+	if (m_rot.y != 0) glRotatef(m_rot.y * MUL_DEG_TO_RAD, 0, 1, 0);
+	if (m_rot.x != 0) glRotatef(m_rot.x * MUL_DEG_TO_RAD, 1, 0, 0);
 }
 
 void ModelPart::render(float scale)
@@ -200,11 +196,14 @@ void ModelPart::setModel(Model* pModel)
 	setTexSize(pModel->m_textureWidth, pModel->m_textureHeight);
 }
 
+void ModelPart::setPos(const Vec3& pos)
+{
+	m_pos = pos;
+}
+
 void ModelPart::setPos(float x, float y, float z)
 {
-	m_posX = x;
-	m_posY = y;
-	m_posZ = z;
+	setPos(Vec3(x, y, z));
 }
 
 void ModelPart::setTexSize(int width, int height)

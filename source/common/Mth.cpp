@@ -71,11 +71,6 @@ float Mth::cos(float a2)
 	return g_SinTable[angle];
 }
 
-float Mth::sqrt(float a2)
-{
-	return sqrtf(a2);
-}
-
 // ported from 0.6.1
 unsigned Mth::fastRandom()
 {
@@ -87,6 +82,17 @@ unsigned Mth::fastRandom()
 	x2 = x3;
 	x3 = x4;
 	return(x4 = x4 ^ (unsigned(x4) >> 19) ^ x0 ^ (x0 << 11) ^ ((x0 ^ unsigned(x0 << 11)) >> 8));
+}
+
+float Mth::clamp(float a, float b, float c)
+{
+	if (a > c)
+		return c;
+	if (a > b)
+		return a;
+	else
+		return b;
+	return c;
 }
 
 int Mth::floor(float f)

@@ -11,6 +11,7 @@
 #include <map>
 #include "Path.hpp"
 #include "BinaryHeap.hpp"
+#include "world/level/TilePos.hpp"
 
 class LevelSource;
 class Entity;
@@ -26,12 +27,12 @@ public:
 	PathFinder();
 	~PathFinder();
 
-	int isFree(Entity*, int x, int y, int z, const Node* node);
-	Node* getNode(Entity*, int x, int y, int z, const Node* node, int a);
-	Node* getNode(int x, int y, int z);
+	int isFree(Entity*, const TilePos& pos, const Node* node);
+	Node* getNode(Entity*, const TilePos& pos, const Node* node, int a);
+	Node* getNode(const TilePos& pos);
 	int getNeighbors(Entity*, Node*, const Node*, Node*, float);
 	bool findPath(Path&, Entity*, Node*, Node*, const Node*, float);
-	bool findPath(Path&, Entity*, float, float, float, float);
+	bool findPath(Path&, Entity*, const Vec3& pos, float);
 
 	void setLevel(LevelSource* pLevel)
 	{
@@ -39,7 +40,7 @@ public:
 	}
 
 private:
-	Node* new_Node(int x, int y, int z);
+	Node* new_Node(const TilePos& pos);
 	bool inlined_0(Path& path, Node* node2);
 
 private:

@@ -25,19 +25,19 @@ void Particle::_init()
 	m_bIsUnlit = false;
 }
 
-Particle::Particle(Level* level, float x, float y, float z, float vx, float vy, float vz) : Entity(level)
+Particle::Particle(Level* level, const Vec3& pos, const Vec3& dir) : Entity(level)
 {
 	_init();
 
 	setSize(0.2f, 0.2f);
 	field_84 = 0.5f * field_8C;
 	
-	setPos(x, y, z);
-	m_vel.x = vx + 0.4f * (2.0f * Mth::random() - 1.0f);
-	m_vel.y = vy + 0.4f * (2.0f * Mth::random() - 1.0f);
-	m_vel.z = vz + 0.4f * (2.0f * Mth::random() - 1.0f);
+	setPos(pos);
+	m_vel.x = dir.x + 0.4f * (2.0f * Mth::random() - 1.0f);
+	m_vel.y = dir.y + 0.4f * (2.0f * Mth::random() - 1.0f);
+	m_vel.z = dir.z + 0.4f * (2.0f * Mth::random() - 1.0f);
 
-	float mult = 0.4f * 0.15f * (Mth::random() + Mth::random() + 1.0f) / Mth::sqrt(m_vel.x * m_vel.x + m_vel.y * m_vel.y + m_vel.z * m_vel.z);
+	float mult = 0.4f * 0.15f * (Mth::random() + Mth::random() + 1.0f) / m_vel.length();
 	m_vel.x *= mult;
 	m_vel.y = m_vel.y * mult + 0.1f;
 	m_vel.z *= mult;
@@ -106,11 +106,9 @@ void Particle::tick()
 		remove();
 	
 	m_vel.y -= field_F4 * 0.04f;
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
-	m_vel.x *= 0.98f;
-	m_vel.y *= 0.98f;
-	m_vel.z *= 0.98f;
+	m_vel *= 0.98f;
 
 	if (m_onGround)
 	{

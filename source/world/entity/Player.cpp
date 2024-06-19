@@ -16,11 +16,10 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 	m_score = 0;
 	field_B9C = 0.0f;
 	field_BA0 = 0.0f;
-	field_BA4 = false;
-	field_BA8 = 0;
 	m_name = "";
 	field_BC4 = 0;
 	m_bHaveRespawnPos = false;
+	m_destroyingBlock = false;
 
 	field_C8 = RENDER_HUMANOID;
 
@@ -30,9 +29,9 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	field_84 = 1.62f;
 
-	Pos pos = m_pLevel->getSharedSpawnPos();
+	Vec3 pos = m_pLevel->getSharedSpawnPos();
 
-	moveTo(float(pos.x) + 0.5f, float(pos.y) + 1.0f, float(pos.z) + 0.5f, 0.0f, 0.0f);
+	moveTo(Vec3(pos.x + 0.5f, pos.y + 1.0f, pos.z + 0.5f));
 
 	m_health = 20;
 
@@ -83,13 +82,13 @@ void Player::die(Entity* pCulprit)
 {
 	Mob::die(pCulprit);
 	setSize(0.2f, 0.2f);
-	setPos(m_pos.x, m_pos.y, m_pos.z); // update hitbox
+	setPos(m_pos); // update hitbox
 	m_vel.y = 0.1f;
 
 	if (pCulprit)
 	{
-		m_vel.x = -0.1f * Mth::cos(float((field_10C + m_yaw) * M_PI / 180.0));
-		m_vel.z = -0.1f * Mth::cos(float((field_10C + m_yaw) * M_PI / 180.0));
+		m_vel.x = -0.1f * Mth::cos(float((field_10C + m_rot.x) * M_PI / 180.0));
+		m_vel.z = -0.1f * Mth::cos(float((field_10C + m_rot.x) * M_PI / 180.0));
 	}
 	else
 	{
@@ -146,21 +145,21 @@ void Player::aiStep()
 
 void Player::updateAi()
 {
-	if (field_BA4)
+	if (m_bSwinging)
 	{
-		field_BA8++;
-		if (field_BA8 > 7)
+		m_swingTime++;
+		if (m_swingTime > 7)
 		{
-			field_BA8 = 0;
-			field_BA4 = false;
+			m_swingTime = 0;
+			m_bSwinging = false;
 		}
 	}
 	else
 	{
-		field_BA8 = 0;
+		m_swingTime = 0;
 	}
 
-	field_F8 = field_BA8 * 0.125f;
+	m_attackAnim = m_swingTime * 0.125f;
 }
 
 void Player::defineSynchedData()
@@ -207,10 +206,10 @@ void Player::displayClientMessage(const std::string& msg)
 
 void Player::drop(const ItemInstance* pItemInstance, bool b)
 {
-	if (!pItemInstance)
+	if (pItemInstance->isNull())
 		return;
 
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z, pItemInstance);
+	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), pItemInstance);
 	pItemEntity->field_E4 = 40;
 
 	if (b)
@@ -224,9 +223,9 @@ void Player::drop(const ItemInstance* pItemInstance, bool b)
 	}
 	else
 	{
-		pItemEntity->m_vel.x = -(Mth::sin(m_yaw / 180.0f * float(M_PI)) * Mth::cos(m_pitch / 180.0f * float(M_PI))) * 0.3f;
-		pItemEntity->m_vel.z =  (Mth::cos(m_yaw / 180.0f * float(M_PI)) * Mth::cos(m_pitch / 180.0f * float(M_PI))) * 0.3f;
-		pItemEntity->m_vel.y = 0.1f - Mth::sin(m_pitch / 180.0f * float(M_PI)) * 0.3f;
+		pItemEntity->m_vel.x = -(Mth::sin(m_rot.x / 180.0f * float(M_PI)) * Mth::cos(m_rot.y / 180.0f * float(M_PI))) * 0.3f;
+		pItemEntity->m_vel.z =  (Mth::cos(m_rot.x / 180.0f * float(M_PI)) * Mth::cos(m_rot.y / 180.0f * float(M_PI))) * 0.3f;
+		pItemEntity->m_vel.y = 0.1f - Mth::sin(m_rot.y / 180.0f * float(M_PI)) * 0.3f;
 
 		float f1 = m_random.nextFloat();
 		float f2 = m_random.nextFloat();
@@ -274,29 +273,36 @@ void Player::setDefaultHeadHeight()
 	field_84 = 1.62f;
 }
 
-void Player::setRespawnPos(Pos* pos)
+void Player::setRespawnPos(const TilePos& pos)
 {
-	if (!pos)
+	/*if (!pos)
 	{
 		m_bHaveRespawnPos = false;
 		return;
-	}
+	}*/
 
 	m_bHaveRespawnPos = true;
-	m_respawnPos.x = pos->x;
-	m_respawnPos.y = pos->y;
-	// @BUG: no m_respawnPos.z = pos->z ??
+	m_respawnPos = pos;
 }
 
-void Player::startCrafting(int x, int y, int z)
+void Player::startCrafting(const TilePos& pos)
 {
 
 }
 
-void Player::swing()
+void Player::startStonecutting(const TilePos& pos)
 {
-	field_BA8 = -1;
-	field_BA4 = true;
+
+}
+
+void Player::startDestroying()
+{
+	m_destroyingBlock = true;
+}
+
+void Player::stopDestroying()
+{
+	m_destroyingBlock = false;
 }
 
 void Player::take(Entity* pEnt, int x)
@@ -312,4 +318,9 @@ void Player::touch(Entity* pEnt)
 void Player::interact(Entity* pEnt)
 {
 	pEnt->interact(this);
+}
+
+ItemInstance* Player::getSelectedItem() const
+{
+	return m_pInventory->getSelected();
 }

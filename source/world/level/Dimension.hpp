@@ -25,7 +25,7 @@ public:
 	virtual Vec3 getFogColor(float, float);
 	virtual void init();
 	virtual bool mayRespawn();
-	virtual bool isValidSpawn(int x, int z);
+	virtual bool isValidSpawn(const TilePos& pos);
 
 	float* getSunriseColor(float, float);
 	float getTimeOfDay(int32_t, float);

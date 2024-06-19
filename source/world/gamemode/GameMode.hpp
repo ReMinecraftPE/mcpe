@@ -16,22 +16,23 @@ class Minecraft;
 
 class GameMode
 {
-private:
+protected:
 	Level& _level;
 
 public:
 	GameMode(Minecraft* pMinecraft, Level& level);
 	virtual ~GameMode();
 	virtual void initLevel(Level*);
-	virtual void startDestroyBlock(int, int, int, int);
-	virtual bool destroyBlock(int, int, int, int);
-	virtual void continueDestroyBlock(int, int, int, int);
+	//virtual bool isDestroyingBlock() const;
+	virtual bool startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face);
+	virtual bool destroyBlock(Player* player, const TilePos& pos, Facing::Name face);
+	virtual bool continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face);
 	virtual void stopDestroyBlock();
 	virtual void tick();
 	virtual void render(float f);
 	virtual float getPickRange() const;
 	virtual bool useItem(Player*, Level*, ItemInstance*);
-	virtual bool useItemOn(Player*, Level*, ItemInstance*, int, int, int, int);
+	virtual bool useItemOn(Player*, Level*, ItemInstance*, const TilePos& pos, Facing::Name face);
 	virtual LocalPlayer* createPlayer(Level*);
 	virtual void initPlayer(Player*);
 	virtual void adjustPlayer(Player*);

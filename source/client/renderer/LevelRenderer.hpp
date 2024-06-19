@@ -80,16 +80,16 @@ public:
 
 	void allChanged() override;
 	void entityAdded(Entity*) override;
-	void tileChanged(int, int, int) override;
-	void setTilesDirty(int, int, int, int, int, int) override;
+	void tileChanged(const TilePos& pos) override;
+	void setTilesDirty(const TilePos& min, const TilePos& max) override;
 	void takePicture(TripodCamera*, Entity*) override;
-	void addParticle(const std::string&, float, float, float, float, float, float) override;
-	void playSound(const std::string& name, float x, float y, float z, float volume, float pitch) override;
+	void addParticle(const std::string&, const Vec3& pos, const Vec3& dir) override;
+	void playSound(const std::string& name, const Vec3& pos, float volume, float pitch) override;
 	void skyColorChanged() override;
 	void generateSky();
 	void cull(Culler*, float);
 	void deleteChunks();
-	void resortChunks(int x, int y, int z);
+	void resortChunks(const TilePos& pos);
 	std::string gatherStats1();
 	void onGraphicsReset();
 	void render(const AABB& aabb) const;
@@ -101,7 +101,7 @@ public:
 	void renderSameAsLast(int, float);
 	int  renderChunks(int start, int end, int a, float b);
 	void setLevel(Level*);
-	void setDirty(int, int, int, int, int, int);
+	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();
 	bool updateDirtyChunks(Mob* pMob, bool b);
 	void renderHit(Player* pPlayer, const HitResult& hr, int, void*, float);

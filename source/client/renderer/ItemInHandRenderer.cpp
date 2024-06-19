@@ -164,19 +164,19 @@ void ItemInHandRenderer::render(float f)
 
 	float f1 = field_20 + (field_1C - field_20) * f;
 	glPushMatrix();
-	//glRotatef(pLP->field_60 + (pLP->m_pitch - pLP->field_60) * f, 1.0f, 0.0f, 0.0f);
-	//glRotatef(pLP->field_5C + (pLP->m_yaw   - pLP->field_5C) * f, 0.0f, 1.0f, 0.0f);
+	//glRotatef(pLP->field_5C.y + (pLP->m_rot.y - pLP->field_5C.y) * f, 1.0f, 0.0f, 0.0f);
+	//glRotatef(pLP->field_5C.x + (pLP->m_rot.x - pLP->field_5C.x) * f, 0.0f, 1.0f, 0.0f);
 	//glPopMatrix();//huh?
 
 	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
 	{
-		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmYaw,   pLP->m_renderArmYaw,   f);
-		float rPitch = Mth::Lerp(pLP->m_lastRenderArmPitch, pLP->m_renderArmPitch, f);
-		glRotatef((pLP->m_pitch - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
-		glRotatef((pLP->m_yaw   - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
+		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmRot.x, pLP->m_renderArmRot.x, f);
+		float rPitch = Mth::Lerp(pLP->m_lastRenderArmRot.y, pLP->m_renderArmRot.y, f);
+		glRotatef((pLP->m_rot.y - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
+		glRotatef((pLP->m_rot.x - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
 	}
 
-	float fBright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pLP->m_pos.x), Mth::floor(pLP->m_pos.y), Mth::floor(pLP->m_pos.z));
+	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
 	glColor4f(fBright, fBright, fBright, 1.0f);
 
 	if (m_ItemInstance.m_itemID <= 0)
@@ -327,7 +327,7 @@ void ItemInHandRenderer::tick()
 		m_ItemInstance.m_itemID = itemID;
 }
 
-void ItemInHandRenderer::turn(float yd, float pd)
+void ItemInHandRenderer::turn(const Vec2& rot)
 {
 }
 
@@ -335,23 +335,24 @@ void ItemInHandRenderer::renderScreenEffect(float f)
 {
 	glDisable(GL_ALPHA_TEST);
 
-	if (m_pMinecraft->m_pLocalPlayer->isOnFire())
+	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
+	Textures* textures = m_pMinecraft->m_pTextures;
+	Level* level = m_pMinecraft->m_pLevel;
+
+	if (player->isOnFire())
 	{
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		textures->loadAndBindTexture(C_TERRAIN_NAME);
 		renderFire(f);
 	}
 
-	if (m_pMinecraft->m_pLocalPlayer->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
+	if (player->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
-		int fx = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.x);
-		int fy = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.y);
-		int fz = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.z);
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		textures->loadAndBindTexture(C_TERRAIN_NAME);
 		
-		Tile* pTile = Tile::tiles[m_pMinecraft->m_pLevel->getTile(fx, fy, fz)];
+		Tile* pTile = Tile::tiles[level->getTile(player->m_pos)];
 		if (pTile)
 		{
-			int texture = pTile->getTexture(DIR_ZNEG);
+			int texture = pTile->getTexture(Facing::NORTH);
 			renderTex(f, texture);
 		}
 	}

@@ -39,9 +39,11 @@
     <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <IncludePath>$(SDL2_PATH)\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <Lib>
       <AdditionalDependencies>SDL2.lib</AdditionalDependencies>
@@ -54,7 +56,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Lib>
-	  <!-- @TODO: This should *really* be 64-bit -->
       <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

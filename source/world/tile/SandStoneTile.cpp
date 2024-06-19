@@ -13,13 +13,15 @@ SandStoneTile::SandStoneTile(int a, int b, Material* c) : Tile(a, b, c)
 {
 }
 
-int SandStoneTile::getTexture(int side) const
+int SandStoneTile::getTexture(Facing::Name face) const
 {
-	if (side == DIR_YNEG)
+	switch (face)
+	{
+	case Facing::DOWN:
 		return TEXTURE_SANDSTONE_BOTTOM;
-
-	if (side == DIR_YPOS)
+	case Facing::UP:
 		return TEXTURE_SANDSTONE_TOP;
+	}
 
 	return m_TextureFrame;
 }

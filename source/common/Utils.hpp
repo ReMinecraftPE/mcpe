@@ -26,7 +26,7 @@
 #include <string>
 #include <sstream>
 
-#include "../../compat/LegacyCPPCompatibility.hpp"
+#include "compat/LegacyCPPCompatibility.hpp"
 
 #ifdef _MSC_VER
 #pragma warning (disable : 4068)
@@ -552,34 +552,8 @@ enum eRenderLayer
 	LAYER_ALPHA
 };
 
-enum eDirection
-{
-	DIR_YNEG,
-	DIR_YPOS,
-	DIR_ZNEG, // North
-	DIR_ZPOS, // South
-	DIR_XNEG, // West
-	DIR_XPOS, // East
-};
-
-struct ChunkPos
-{
-	int x, z;
-	ChunkPos()
-	{
-		x = 0;
-		z = 0;
-	}
-	ChunkPos(int _x, int _z) : x(_x), z(_z) {}
-
-	bool operator<(const ChunkPos& b) const
-	{
-		if (x != b.x)
-			return x < b.x;
-
-		return z < b.z;
-	}
-};
+typedef uint8_t TileID;
+// TODO: "FullTile" struct with TileID and auxvalue?
 
 struct Pos
 {
@@ -593,29 +567,11 @@ struct Pos
 	Pos(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
 };
 
-struct TilePos : Pos
-{
-	TilePos() : Pos() {}
-	TilePos(int _x, int _y, int _z) : Pos(_x, _y, _z) {}
-
-	bool operator<(const TilePos& b) const
-	{
-		if (x != b.x)
-			return x < b.x;
-		if (y != b.y)
-			return y < b.y;
-
-		return z < b.z;
-	}
-};
-
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)
 #define SAFE_DELETE_ARRAY(ptr) do { if (ptr) delete[] ptr; } while (0)
 
 #define SSTR( x ) static_cast< const std::ostringstream & >( \
 		( std::ostringstream() << std::dec << x ) ).str()
-
-typedef uint8_t TileID;
 
 // functions from Mojang
 time_t getEpochTimeS();

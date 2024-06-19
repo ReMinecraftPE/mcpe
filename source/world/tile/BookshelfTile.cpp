@@ -13,9 +13,9 @@ BookshelfTile::BookshelfTile(int a, int b, Material* c) : Tile(a, b, c)
 {
 }
 
-int BookshelfTile::getTexture(int dir) const
+int BookshelfTile::getTexture(Facing::Name face) const
 {
-	if (dir <= DIR_YPOS)
+	if (face <= Facing::UP)
 		return TEXTURE_PLANKS;
 
 	return m_TextureFrame;

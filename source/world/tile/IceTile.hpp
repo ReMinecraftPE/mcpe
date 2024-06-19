@@ -17,7 +17,7 @@ public:
 
 	int getRenderLayer() const override;
 	int getResourceCount(Random*) const override;
-	void onRemove(Level*, int x, int y, int z) override;
-	bool shouldRenderFace(const LevelSource*, int x, int y, int z, int dir) const override;
-	void tick(Level*, int x, int y, int z, Random*) override;
+	void onRemove(Level*, const TilePos& pos) override;
+	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
+	void tick(Level*, const TilePos& pos, Random*) override;
 };

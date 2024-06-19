@@ -8,17 +8,17 @@
 
 #include "LevelListener.hpp"
 
-void LevelListener::tileChanged(int x, int y, int z)
+void LevelListener::tileChanged(const TilePos& pos)
 {
 
 }
 
-void LevelListener::tileBrightnessChanged(int x, int y, int z)
+void LevelListener::tileBrightnessChanged(const TilePos& pos)
 {
-	tileChanged(x, y, z);
+	tileChanged(pos);
 }
 
-void LevelListener::setTilesDirty(int a, int b, int c, int d, int e, int f)
+void LevelListener::setTilesDirty(const TilePos& min, const TilePos& max)
 {
 
 }
@@ -28,7 +28,7 @@ void LevelListener::allChanged()
 
 }
 
-void LevelListener::playSound(const std::string& name, float x, float y, float z, float volume, float pitch)
+void LevelListener::playSound(const std::string& name, const Vec3& pos, float volume, float pitch)
 {
 
 }
@@ -38,7 +38,7 @@ void LevelListener::takePicture(TripodCamera*, Entity*)
 
 }
 
-void LevelListener::addParticle(const std::string& a, float b, float c, float d, float e, float f, float g)
+void LevelListener::addParticle(const std::string& a, const Vec3& pos, const Vec3& dir)
 {
 
 }

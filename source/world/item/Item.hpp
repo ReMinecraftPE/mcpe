@@ -12,6 +12,8 @@
 #include "common/Utils.hpp"
 #include "world/level/Material.hpp"
 #include "ItemInstance.hpp"
+#include "world/level/TilePos.hpp"
+#include "world/Facing.hpp"
 
 #define C_MAX_ITEMS (C_MAX_TILES * 2)
 
@@ -53,8 +55,8 @@ public: // Methods
 	virtual Item* setMaxStackSize(int mss);
 	virtual Item* setIcon(int ix, int iy);
 	virtual int getIcon(const ItemInstance*) const;
-	virtual bool useOn(ItemInstance*, Level*, int, int, int, int);
-	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int);
+	virtual bool useOn(ItemInstance*, Level*, const TilePos& pos, Facing::Name face);
+	virtual bool useOn(ItemInstance*, Player*, Level*, const TilePos& pos, Facing::Name face);
 	virtual float getDestroySpeed(ItemInstance*, Tile*);
 	virtual ItemInstance* use(ItemInstance*, Level*, Player*);
 	virtual int getMaxStackSize();
@@ -62,7 +64,7 @@ public: // Methods
 	virtual bool isStackedByData();
 	virtual int getMaxDamage();
 	virtual void hurtEnemy(ItemInstance*, Mob*);
-	virtual void mineBlock(ItemInstance*, int, int, int, int);
+	virtual void mineBlock(ItemInstance*, const TilePos& pos, Facing::Name face);
 	virtual int getAttackDamage(Entity*);
 	virtual bool canDestroySpecial(Tile*);
 	virtual void interactEnemy(ItemInstance*, Mob*);

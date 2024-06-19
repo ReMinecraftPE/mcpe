@@ -15,8 +15,6 @@ typedef AppPlatform_sdl UsedAppPlatform;
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
 
-#undef main // anti-SDL2
-
 static float g_fPointToPixelScale = 1.0f;
 
 UsedAppPlatform *g_pAppPlatform;
@@ -120,22 +118,9 @@ static void handle_events()
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 			{
-				// This really should be handled somewhere else.
-				// Unforunately, there is no global keyboard handler.
-				// Keyboard events are either handled in Screen::keyboardEvent
-				// when a Screen is visible, or in Minecraft::tickInput
-				// when LocalPlayer exists.
-				if (event.key.keysym.sym == SDLK_F2)
-				{
-					if (event.key.state == SDL_PRESSED && g_pAppPlatform != nullptr)
-					{
-						g_pAppPlatform->saveScreenshot("", -1, -1);
-					}
-					break;
-				}
-
 				// Android Back Button
-				if (event.key.keysym.sym == SDLK_AC_BACK) {
+				if (event.key.keysym.sym == SDLK_AC_BACK)
+				{
 					g_pApp->handleBack(event.key.state == SDL_PRESSED);
 					break;
 				}
@@ -146,20 +131,24 @@ static void handle_events()
 					g_pApp->handleCharInput('\b');
 				}
 
-				// Normal Key Press
-				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
-				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
-				{
-					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
-				}
+				g_pAppPlatform->handleKeyEvent(TranslateSDLKeyCodeToVirtual(event.key.keysym.sym), event.key.state);
 				break;
 			}
+			case SDL_CONTROLLERBUTTONDOWN:
+			case SDL_CONTROLLERBUTTONUP:
+				// Hate this hack
+				if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START)
+					g_pApp->handleBack(event.cbutton.state == SDL_PRESSED);
+
+				g_pAppPlatform->handleButtonEvent(event.cbutton.which, event.cbutton.button, event.cbutton.state);
+				break;
+
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
 				if (event.button.which != SDL_TOUCH_MOUSEID) {
 					const float scale = g_fPointToPixelScale;
-					MouseButtonType type = AppPlatform_sdl_base::GetMouseButtonType(event);
+					MouseButtonType type = AppPlatform_sdl_base::GetMouseButtonType(event.button);
 					bool state = AppPlatform_sdl_base::GetMouseButtonState(event);
 					float x = event.button.x * scale;
 					float y = event.button.y * scale;
@@ -187,6 +176,9 @@ static void handle_events()
 				}
 				break;
 			}
+			case SDL_CONTROLLERAXISMOTION:
+				g_pAppPlatform->handleControllerAxisEvent(event.caxis.which, event.caxis.axis, event.caxis.value);
+				break;
 			case SDL_FINGERDOWN:
 			case SDL_FINGERUP:
 			case SDL_FINGERMOTION: {
@@ -211,6 +203,12 @@ static void handle_events()
 				}
 				break;
 			}
+			case SDL_CONTROLLERDEVICEADDED:
+				g_pAppPlatform->gameControllerAdded(event.cdevice.which);
+				break;
+			case SDL_CONTROLLERDEVICEREMOVED:
+				g_pAppPlatform->gameControllerRemoved(event.cdevice.which);
+				break;
 			case SDL_WINDOWEVENT:
 			{
 				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
@@ -305,7 +303,7 @@ void CheckOptionalTextureAvailability()
 // Main
 int main(int argc, char *argv[])
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
 	{
 		LOG_E("Unable To Initialize SDL: %s", SDL_GetError());
 		exit(EXIT_FAILURE);

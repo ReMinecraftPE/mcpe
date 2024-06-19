@@ -19,9 +19,9 @@ public:
 	bool isSolidRender() const override;
 	int getRenderShape() const override;
 	int getResourceCount(Random* random) const override;
-	AABB* getAABB(const Level*, int x, int y, int z) override;
-	AABB getTileAABB(const Level*, int x, int y, int z) override;
-	void setPlacedOnFace(Level*, int x, int y, int z, int face) override;
-	void neighborChanged(Level*, int, int, int, int) override;
-	bool mayPlace(const Level*, int, int, int) const override;
+	AABB* getAABB(const Level*, const TilePos& pos) override;
+	AABB getTileAABB(const Level*, const TilePos& pos) override;
+	void setPlacedOnFace(Level*, const TilePos& pos, Facing::Name face) override;
+	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
+	bool mayPlace(const Level*, const TilePos& pos) const override;
 };

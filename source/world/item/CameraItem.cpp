@@ -27,18 +27,18 @@ ItemInstance* CameraItem::use(ItemInstance* inst, Level* level, Player* player)
 #endif
 
 	/*Mob* entity = new Pig(level);
-	entity->setPos(player->m_pos.x, player->m_pos.y, player->m_pos.z);
+	entity->setPos(player->m_pos);
 	level->addEntity(entity);
 
  	entity = new Chicken(level);
-	entity->setPos(player->m_pos.x, player->m_pos.y, player->m_pos.z);
+	entity->setPos(player->m_pos);
 	level->addEntity(entity);
 
 	entity = new Cow(level);
-	entity->setPos(player->m_pos.x, player->m_pos.y, player->m_pos.z);
+	entity->setPos(player->m_pos);
 	level->addEntity(entity);*/
 	
 	
-	level->addEntity(new TripodCamera(level, player, player->m_pos.x, player->m_pos.y, player->m_pos.z));
+	level->addEntity(new TripodCamera(level, player, player->m_pos));
 	return inst;
 }

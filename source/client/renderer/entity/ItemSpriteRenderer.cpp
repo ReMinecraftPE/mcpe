@@ -19,8 +19,8 @@ void ItemSpriteRenderer::render(Entity* pEntity, float x, float y, float z, floa
 	float texV_1 = float(16 * (m_sprite / 16))     / 256.0f;
 	float texV_2 = float(16 * (m_sprite / 16 + 1)) / 256.0f;*/
 
-	glRotatef(180.0f - m_pDispatcher->m_yaw, 0.0f, 1.0f, 0.0f);
-	glRotatef(-m_pDispatcher->m_pitch, 1.0f, 0.0f, 0.0f);
+	glRotatef(180.0f - m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
+	glRotatef(-m_pDispatcher->m_rot.y, 1.0f, 0.0f, 0.0f);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();

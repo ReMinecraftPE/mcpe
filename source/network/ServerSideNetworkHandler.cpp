@@ -232,7 +232,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MovePlayer
 
 	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
 	if (pEntity)
-		pEntity->lerpTo(packet->m_x, packet->m_y, packet->m_z, packet->m_yaw, packet->m_pitch, 3);
+		pEntity->lerpTo(packet->m_pos, packet->m_rot, 3);
 
 	redistributePacket(packet, guid);
 }
@@ -244,23 +244,21 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 		return;
 
 	TileID tile = packet->m_tile;
-	int face = packet->m_face;
-	int x = packet->m_x;
-	int y = packet->m_y;
-	int z = packet->m_z;
+	Facing::Name face = (Facing::Name)packet->m_face;
+	TilePos pos = packet->m_pos;
 
 	printf_ignorable("PlaceBlockPacket: %d", tile);
 
-	if (!m_pLevel->mayPlace(tile, x, y, z, true))
+	if (!m_pLevel->mayPlace(tile, pos, true))
 		return;
 
-	if (m_pLevel->setTile(x, y, z, tile))
+	if (m_pLevel->setTile(pos, tile))
 	{
-		Tile::tiles[tile]->setPlacedOnFace(m_pLevel, x, y, z, face);
-		Tile::tiles[tile]->setPlacedBy(m_pLevel, x, y, z, pMob);
+		Tile::tiles[tile]->setPlacedOnFace(m_pLevel, pos, face);
+		Tile::tiles[tile]->setPlacedBy(m_pLevel, pos, pMob);
 
 		const Tile::SoundType* pSound = Tile::tiles[tile]->m_pSound;
-		m_pLevel->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
+		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
 	}
 
 	redistributePacket(packet, guid);
@@ -274,17 +272,14 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 	if (!pPlayer)
 		return;
 
-	int x = packet->m_x;
-	int y = packet->m_y;
-	int z = packet->m_z;
-
-	Tile* pTile = Tile::tiles[m_pLevel->getTile(x, y, z)];
-	//int data = m_pLevel->getData(x, y, z);
-	bool setTileResult = m_pLevel->setTile(x, y, z, TILE_AIR);
+	TilePos pos = packet->m_pos;
+	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
+	//int data = m_pLevel->getData(pos);
+	bool setTileResult = m_pLevel->setTile(pos, TILE_AIR);
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
-		m_pMinecraft->m_pSoundEngine->play("step." + pSound->m_name, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
+		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
 
 		// redistribute the packet only if needed
 		redistributePacket(packet, guid);
@@ -323,21 +318,21 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 {
 	puts_ignorable("RequestChunkPacket");
 
-	if (packet->m_x == -9999)
+	if (packet->m_chunkPos.x == -9999)
 	{
 		m_pRakNetInstance->send(guid, new LevelDataPacket(m_pLevel));
 		return;
 	}
 
-	LevelChunk* pChunk = m_pLevel->getChunk(packet->m_x, packet->m_z);
+	LevelChunk* pChunk = m_pLevel->getChunk(packet->m_chunkPos);
 	if (!pChunk)
 	{
-		LOG_E("No chunk at %d, %d", packet->m_x, packet->m_z);
+		LOG_E("No chunk at %d, %d", packet->m_chunkPos.x, packet->m_chunkPos.z);
 		return;
 	}
 
 	// @NOTE: this allows the client to request empty chunks. Is that okay?
-	ChunkDataPacket cdp(pChunk->m_chunkX, pChunk->m_chunkZ, pChunk);
+	ChunkDataPacket cdp(pChunk->m_chunkPos, pChunk);
 
 	RakNet::BitStream bs;
 	cdp.write(&bs);
@@ -345,20 +340,18 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 }
 
-void ServerSideNetworkHandler::tileBrightnessChanged(int x, int y, int z)
+void ServerSideNetworkHandler::tileBrightnessChanged(const TilePos& pos)
 {
 }
 
-void ServerSideNetworkHandler::tileChanged(int x, int y, int z)
+void ServerSideNetworkHandler::tileChanged(const TilePos& pos)
 {
 	UpdateBlockPacket ubp;
 
-	int tile = m_pLevel->getTile(x, y, z);
-	int data = m_pLevel->getData(x, y, z);
+	int tile = m_pLevel->getTile(pos);
+	int data = m_pLevel->getData(pos);
 
-	ubp.m_x = x;
-	ubp.m_y = y;
-	ubp.m_z = z;
+	ubp.m_pos = pos;
 	ubp.m_tile = uint8_t(tile);
 	ubp.m_data = uint8_t(data);
 
@@ -559,7 +552,7 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
     
 	ss.clear();
     
-	player->m_pPlayer->setPos(pos.x, pos.y, pos.z);
+	player->m_pPlayer->setPos(pos);
 	pos = player->m_pPlayer->getPos(1.0f);
 
 	ss << "Teleported to " << pos.x << ", " << pos.y << ", " << pos.z;
@@ -629,7 +622,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 		for (int i = 0; i++ < amount;)
 		{
 			Mob* mob = MobFactory::CreateMob(entityType, m_pLevel);
-			mob->setPos(pos.x, pos.y, pos.z);
+			mob->setPos(pos);
 			m_pLevel->addEntity(mob);
 		}
 	}

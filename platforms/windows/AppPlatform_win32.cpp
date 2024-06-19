@@ -196,7 +196,7 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
 	return Texture(width, height, img2, 1, 0);
 }
 
-bool AppPlatform_win32::isTouchscreen()
+bool AppPlatform_win32::isTouchscreen() const
 {
 	return false;
 }

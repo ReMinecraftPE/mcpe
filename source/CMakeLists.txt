@@ -108,10 +108,13 @@ add_library(reminecraftpe-core STATIC
     client/model/CreeperModel.cpp
     client/model/CowModel.cpp
     client/model/ChickenModel.cpp
-    client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
+    client/player/input/ControllerBuildInput.cpp
+    client/player/input/ControllerMoveInput.cpp
+    client/player/input/ControllerTurnInput.cpp
     client/player/input/Mouse.cpp
     client/player/input/Keyboard.cpp
+    client/player/input/MouseBuildInput.cpp
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
@@ -160,6 +163,7 @@ add_library(reminecraftpe-core STATIC
     world/level/path/BinaryHeap.cpp
     world/level/path/PathFinder.cpp
     world/phys/HitResult.cpp
+    world/phys/Vec2.cpp
     world/phys/Vec3.cpp
     world/phys/AABB.cpp
     world/gamemode/SurvivalMode.cpp
@@ -187,6 +191,7 @@ add_library(reminecraftpe-core STATIC
     world/level/Material.cpp
     world/level/LevelListener.cpp
     world/level/TickNextTickData.cpp
+    world/level/TilePos.cpp
     world/level/Explosion.cpp
     world/level/storage/LevelStorageSource.cpp
     world/level/storage/MemoryLevelStorageSource.cpp
@@ -220,7 +225,9 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/chunk/RandomLevelSource.cpp
     world/level/levelgen/chunk/LevelChunk.cpp
     world/level/levelgen/chunk/ChunkCache.cpp
+    world/level/levelgen/chunk/ChunkPos.cpp.cpp
     world/level/levelgen/chunk/ChunkSource.cpp
+    world/level/levelgen/chunk/EmptyLevelChunk.cpp
     world/level/levelgen/chunk/PerformanceTestChunkSource.cpp
     world/level/levelgen/chunk/TestChunkSource.cpp
     world/level/Level.cpp
@@ -281,6 +288,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/FarmTile.cpp
     world/tile/DoorTile.cpp
     world/tile/RocketLauncherTile.cpp
+    world/Facing.cpp
     renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)

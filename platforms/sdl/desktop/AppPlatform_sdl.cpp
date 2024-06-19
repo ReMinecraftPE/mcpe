@@ -1,12 +1,12 @@
-#include "AppPlatform_sdl.hpp"
-
 #include <fstream>
 #include <sstream>
 #include <sys/stat.h>
 #include <cerrno>
 
-#include "thirdparty/stb_image/include/stb_image.h"
-#include "thirdparty/stb_image/include/stb_image_write.h"
+#include "stb_image.h"
+#include "stb_image_write.h"
+
+#include "AppPlatform_sdl.hpp"
 
 #include "thirdparty/GL/GL.hpp"
 

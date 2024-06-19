@@ -18,10 +18,10 @@ void PrimedTnt::_init()
 	field_84 = field_8C * 0.5f;
 }
 
-PrimedTnt::PrimedTnt(Level* level, float x, float y, float z) : Entity(level)
+PrimedTnt::PrimedTnt(Level* level, const Vec3& pos) : Entity(level)
 {
 	_init();
-	setPos(x, y, z);
+	setPos(pos);
 
 	float fAng = 0.017453f * 2.0f * float(M_PI) * Mth::random();
 
@@ -37,7 +37,7 @@ PrimedTnt::PrimedTnt(Level* level, float x, float y, float z) : Entity(level)
 void PrimedTnt::explode()
 {
 	// @NOTE: Not passing `this` as pointer to entity
-	m_pLevel->explode(nullptr, m_pos.x, m_pos.y, m_pos.z, 2.5f);
+	m_pLevel->explode(nullptr, m_pos, 2.5f);
 }
 
 float PrimedTnt::getShadowHeightOffs() const
@@ -55,7 +55,7 @@ void PrimedTnt::tick()
 	field_3C = m_pos;
 
 	m_vel.y -= 0.04f;
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	m_vel *= 0.98f;
 	if (m_onGround)
@@ -73,6 +73,6 @@ void PrimedTnt::tick()
 	}
 	else
 	{
-		m_pLevel->addParticle("smoke", m_pos.x, m_pos.y + 0.5f, m_pos.z, 0.0f, 0.0f, 0.0f);
+		m_pLevel->addParticle("smoke", Vec3(m_pos.x, m_pos.y + 0.5f, m_pos.z));
 	}
 }

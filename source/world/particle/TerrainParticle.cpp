@@ -20,24 +20,24 @@ void TerrainParticle::_init(Tile* tile)
 	field_F0 *= 0.5f;
 }
 
-TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, Tile* tile) :
-	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
+TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, Tile* tile) :
+	Particle(level, pos, Vec3::ZERO)
 {
 	_init(tile);
 }
 
-TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, float vx, float vy, float vz, Tile* tile) :
-	Particle(level, x, y, z, vx, vy, vz)
+TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, const Vec3& dir, Tile* tile) :
+	Particle(level, pos, dir)
 {
 	_init(tile);
 }
 
-TerrainParticle* TerrainParticle::init(int x, int y, int z)
+TerrainParticle* TerrainParticle::init(const TilePos& tilePos)
 {
 	if (m_pTile == Tile::grass)
 		return this;
 
-	int color = m_pTile->getColor(m_pLevel, x, y, z);
+	int color = m_pTile->getColor(m_pLevel, tilePos);
 	field_F8 *= float(GET_RED(color)) / 255.0f;
 	field_FC *= float(GET_GREEN(color)) / 255.0f;
 	field_100 *= float(GET_BLUE(color)) / 255.0f;

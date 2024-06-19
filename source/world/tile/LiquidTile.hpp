@@ -15,33 +15,33 @@ class LiquidTile : public Tile
 public:
 	LiquidTile(int ID, Material*);
 
-	virtual void onPlace(Level*, int x, int y, int z) override;
-	virtual void neighborChanged(Level*, int x, int y, int z, int dir) override;
-	virtual void tick(Level*, int x, int y, int z, Random* random) override;
-	void animateTick(Level*, int x, int y, int z, Random* random) override;
-	AABB* getAABB(const Level*, int x, int y, int z) override;
-	float getBrightness(const LevelSource*, int x, int y, int z) const override;
+	virtual void onPlace(Level*, const TilePos& pos) override;
+	virtual void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
+	virtual void tick(Level*, const TilePos& pos, Random* random) override;
+	void animateTick(Level*, const TilePos& pos, Random* random) override;
+	AABB* getAABB(const Level*, const TilePos& pos) override;
+	float getBrightness(const LevelSource*, const TilePos& pos) const override;
 	int getRenderLayer() const override;
 	int getRenderShape() const override;
 	int getResource(int, Random*) const override;
 	int getResourceCount(Random*) const override;
-	int getTexture(int dir) const override;
-	int getTexture(int dir, int data) const override;
+	int getTexture(Facing::Name face) const override;
+	int getTexture(Facing::Name face, int data) const override;
 	int getTickDelay() const override;
-	void handleEntityInside(Level*, int, int, int, const Entity*, Vec3&) override;
+	void handleEntityInside(Level*, const TilePos& pos, const Entity*, Vec3&) override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
 	bool mayPick(int data, bool b) const override;
-	bool shouldRenderFace(const LevelSource*, int x, int y, int z, int dir) const override;
+	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
 
-	void updateLiquid(Level*, int x, int y, int z);
-	void fizz(Level*, int x, int y, int z);
-	int getColor(const LevelSource*, int x, int y, int z) const override;
-	int getDepth(Level*, int x, int y, int z);
-	int getRenderedDepth(const LevelSource*, int x, int y, int z) const;
-	Vec3 getFlow(const LevelSource*, int x, int y, int z) const;
+	void updateLiquid(Level*, const TilePos& pos);
+	void fizz(Level*, const TilePos& pos);
+	int getColor(const LevelSource*, const TilePos& pos) const override;
+	int getDepth(Level*, const TilePos& pos);
+	int getRenderedDepth(const LevelSource*, const TilePos& pos) const;
+	Vec3 getFlow(const LevelSource*, const TilePos& pos) const;
 
-	static float getSlopeAngle(const LevelSource*, int x, int y, int z, const Material* pMtl);
+	static float getSlopeAngle(const LevelSource*, const TilePos& pos, const Material* pMtl);
 
 	// @NOTE: This is inlined in minecraftcpp
 	static float getWaterVolume(int data)

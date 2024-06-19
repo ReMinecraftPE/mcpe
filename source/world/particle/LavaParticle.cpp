@@ -9,8 +9,8 @@
 #include "Particle.hpp"
 #include "world/level/Level.hpp"
 
-LavaParticle::LavaParticle(Level* level, float x, float y, float z) :
-	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
+LavaParticle::LavaParticle(Level* level, const Vec3& pos) :
+	Particle(level, pos, Vec3::ZERO)
 {
 	field_104 = 0.0f;
 
@@ -39,11 +39,11 @@ void LavaParticle::tick()
 	float b = sharedRandom.nextFloat();
 	if (a < b)
 	{
-		m_pLevel->addParticle("smoke", m_pos.x, m_pos.y, m_pos.z, m_vel.x, m_vel.y, m_vel.z);
+		m_pLevel->addParticle("smoke", m_pos, m_vel);
 	}
 
 	m_vel.y -= 0.03f;
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	m_vel *= 0.999f;
 	if (m_onGround)

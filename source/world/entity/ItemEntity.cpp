@@ -27,14 +27,14 @@ void ItemEntity::_init(const ItemInstance* itemInstance)
 #endif
 }
 
-void ItemEntity::_init(const ItemInstance* itemInstance, float x, float y, float z)
+void ItemEntity::_init(const ItemInstance* itemInstance, const Vec3& pos)
 {
 	_init(itemInstance);
 
 	field_C8 = RENDER_ITEM;
-	setPos(x, y, z);
+	setPos(pos);
 
-	m_yaw = 360.0f * Mth::random();
+	m_rot.x = 360.0f * Mth::random();
 
 	m_vel.y = 0.2f;
 	m_vel.x = Mth::random() * 0.2f - 0.1f;
@@ -71,7 +71,8 @@ void ItemEntity::playerTouch(Player* player)
 
 	pInventory->addItem(&m_itemInstance);
 
-	// No "random.pop" sound.
+	m_pLevel->playSound(this, "random.pop", 0.3f,
+		(((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f) + (((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f));
 
 	if (m_itemInstance.m_amount <= 0)
 		remove();
@@ -87,7 +88,7 @@ void ItemEntity::tick()
 	field_3C = m_pos;
 	m_vel.y -= 0.04f;
 
-	if (m_pLevel->getMaterial(Mth::floor(m_pos.x), Mth::floor(m_pos.y), Mth::floor(m_pos.z)) == Material::lava)
+	if (m_pLevel->getMaterial(m_pos) == Material::lava)
 	{
 		// give it a small bounce upwards
 		m_vel.y = 0.2f;
@@ -95,16 +96,16 @@ void ItemEntity::tick()
 		m_vel.z = 0.2f * (sharedRandom.nextFloat() - sharedRandom.nextFloat());
 	}
 
-	checkInTile(m_pos.x, m_pos.y, m_pos.z);
+	checkInTile(m_pos);
 
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	float dragFactor = 0.98f;
 
 	if (m_onGround)
 	{
 		dragFactor = 0.588f;
-		TileID tile = m_pLevel->getTile(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y) - 1, Mth::floor(m_pos.z));
+		TileID tile = m_pLevel->getTile(TilePos(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y) - 1, Mth::floor(m_pos.z)));
 		if (tile > 0)
 			dragFactor = Tile::tiles[tile]->field_30 * 0.98f;
 	}
@@ -124,34 +125,30 @@ void ItemEntity::tick()
 		remove();
 }
 
-void ItemEntity::checkInTile(float x, float y, float z)
+void ItemEntity::checkInTile(const Vec3& pos)
 {
-	int xfl = Mth::floor(x);
-	int yfl = Mth::floor(y);
-	int zfl = Mth::floor(z);
+	TilePos flPos = pos;
 
-	if (!Tile::solid[m_pLevel->getTile(xfl, yfl, zfl)])
+	if (!Tile::solid[m_pLevel->getTile(pos)])
 		return;
 	
-	bool solidXN = Tile::solid[m_pLevel->getTile(xfl - 1, yfl, zfl)];
-	bool solidXP = Tile::solid[m_pLevel->getTile(xfl + 1, yfl, zfl)];
-	bool solidYN = Tile::solid[m_pLevel->getTile(xfl, yfl - 1, zfl)];
-	bool solidYP = Tile::solid[m_pLevel->getTile(xfl, yfl + 1, zfl)];
-	bool solidZN = Tile::solid[m_pLevel->getTile(xfl, yfl, zfl - 1)];
-	bool solidZP = Tile::solid[m_pLevel->getTile(xfl, yfl, zfl + 1)];
+	bool solidXN = Tile::solid[m_pLevel->getTile(flPos.west())];
+	bool solidXP = Tile::solid[m_pLevel->getTile(flPos.east())];
+	bool solidYN = Tile::solid[m_pLevel->getTile(flPos.below())];
+	bool solidYP = Tile::solid[m_pLevel->getTile(flPos.above())];
+	bool solidZN = Tile::solid[m_pLevel->getTile(flPos.north())];
+	bool solidZP = Tile::solid[m_pLevel->getTile(flPos.south())];
 
 	float mindist = 9999.0f;
 	int mindir = -1;
 
-	float xdiff = x - float(xfl);
-	float ydiff = y - float(yfl);
-	float zdiff = z - float(zfl);
-	if (!solidXN && xdiff        < mindist) mindist = xdiff,        mindir = 0;
-	if (!solidXP && 1.0f - xdiff < mindist) mindist = 1.0f - xdiff, mindir = 1;
-	if (!solidYN && ydiff        < mindist) mindist = ydiff,        mindir = 2;
-	if (!solidYP && 1.0f - ydiff < mindist) mindist = 1.0f - ydiff, mindir = 3;
-	if (!solidZN && zdiff        < mindist) mindist = zdiff,        mindir = 4;
-	if (!solidZP && 1.0f - zdiff < mindist) mindist = 1.0f - zdiff, mindir = 5;
+	Vec3 diff = pos - flPos;
+	if (!solidXN && diff.x        < mindist) mindist = diff.x,        mindir = 0;
+	if (!solidXP && 1.0f - diff.x < mindist) mindist = 1.0f - diff.x, mindir = 1;
+	if (!solidYN && diff.y < mindist) mindist = diff.y,        mindir = 2;
+	if (!solidYP && 1.0f - diff.y < mindist) mindist = 1.0f - diff.y, mindir = 3;
+	if (!solidZN && diff.z < mindist) mindist = diff.z,        mindir = 4;
+	if (!solidZP && 1.0f - diff.z < mindist) mindist = 1.0f - diff.z, mindir = 5;
 
 	// the -1 case will be handled accordingly
 	float force = 0.1f + 0.2f * sharedRandom.nextFloat();

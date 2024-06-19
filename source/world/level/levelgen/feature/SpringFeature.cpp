@@ -14,37 +14,37 @@ SpringFeature::SpringFeature(int id)
 	m_ID = id;
 }
 
-bool SpringFeature::place(Level* level, Random* random, int x, int y, int z)
+bool SpringFeature::place(Level* level, Random* random, const TilePos& pos)
 {
-    if (level->getTile(x, y + 1, z) != Tile::rock->m_ID)
+    if (level->getTile(pos.above()) != Tile::rock->m_ID)
         return false;
 
-    if (level->getTile(x, y - 1, z) != Tile::rock->m_ID)
+    if (level->getTile(pos.below()) != Tile::rock->m_ID)
         return false;
 
-    if (level->getTile(x, y, z) && level->getTile(x, y, z) != Tile::rock->m_ID)
+    if (level->getTile(pos) && level->getTile(pos) != Tile::rock->m_ID)
         return false;
 
     int nRockTiles = 0;
     int nEmptyTiles = 0;
 
-    if (level->getTile(x - 1, y, z) == Tile::rock->m_ID) nRockTiles++;
-    if (level->getTile(x + 1, y, z) == Tile::rock->m_ID) nRockTiles++;
-    if (level->getTile(x, y, z - 1) == Tile::rock->m_ID) nRockTiles++;
-    if (level->getTile(x, y, z + 1) == Tile::rock->m_ID) nRockTiles++;
+    if (level->getTile(pos.west()) == Tile::rock->m_ID) nRockTiles++;
+    if (level->getTile(pos.east()) == Tile::rock->m_ID) nRockTiles++;
+    if (level->getTile(pos.north()) == Tile::rock->m_ID) nRockTiles++;
+    if (level->getTile(pos.south()) == Tile::rock->m_ID) nRockTiles++;
 
-    if (level->isEmptyTile(x - 1, y, z)) nEmptyTiles++;
-    if (level->isEmptyTile(x + 1, y, z)) nEmptyTiles++;
-    if (level->isEmptyTile(x, y, z - 1)) nEmptyTiles++;
-    if (level->isEmptyTile(x, y, z + 1)) nEmptyTiles++;
+    if (level->isEmptyTile(pos.west())) nEmptyTiles++;
+    if (level->isEmptyTile(pos.east())) nEmptyTiles++;
+    if (level->isEmptyTile(pos.north())) nEmptyTiles++;
+    if (level->isEmptyTile(pos.south())) nEmptyTiles++;
 
     if (nEmptyTiles != 1) return true;
     if (nRockTiles  != 3) return true;
 
-    level->setTile(x, y, z, m_ID);
+    level->setTile(pos, m_ID);
 
     level->m_bInstantTicking = true;
-    Tile::tiles[m_ID]->tick(level, x, y, z, random);
+    Tile::tiles[m_ID]->tick(level, pos, random);
     level->m_bInstantTicking = false;
     return true;
 }

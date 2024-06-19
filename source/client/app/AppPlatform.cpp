@@ -109,9 +109,14 @@ Texture AppPlatform::loadTexture(const std::string&, bool bIsRequired)
 
 #ifndef ORIGINAL_CODE
 
-bool AppPlatform::isTouchscreen()
+bool AppPlatform::isTouchscreen() const
 {
 	return true;
+}
+
+bool AppPlatform::hasGamepad() const
+{
+	return false;
 }
 
 void AppPlatform::recenterMouse()
@@ -174,6 +179,10 @@ int AppPlatform::getKeyboardUpOffset()
 	return 0;
 }
 #endif
+
+void AppPlatform::vibrate(int milliSeconds)
+{
+}
 
 void AppPlatform::_fireLowMemory()
 {

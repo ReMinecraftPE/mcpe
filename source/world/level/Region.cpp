@@ -8,36 +8,36 @@
 
 #include "Region.hpp"
 
-TileID Region::getTile(int x, int y, int z) const
+TileID Region::getTile(const TilePos& pos) const
 {
-	if (y < C_MIN_Y || y >= C_MAX_Y)
+	if (pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
 		return TILE_AIR;
 
-	LevelChunk* pChunk = getChunkAt(x, z);
+	LevelChunk* pChunk = getChunkAt(pos);
 
 	if (pChunk == nullptr)
 		return TILE_AIR;
 
-	return pChunk->getTile(x & 0xF, y, z & 0xF);
+	return pChunk->getTile(pos);
 }
 
-int Region::getRawBrightness(int x, int y, int z, bool b) const
+int Region::getRawBrightness(const TilePos& pos, bool b) const
 {
-	if (x < C_MIN_X || z < C_MIN_X || x >= C_MAX_X || z > C_MAX_Z)
+	if (pos.x < C_MIN_X || pos.z < C_MIN_X || pos.x >= C_MAX_X || pos.z > C_MAX_Z)
 		return 15;
 
 	if (b)
 	{
-		TileID tile = getTile(x, y, z);
+		TileID tile = getTile(pos);
 		if (tile == Tile::stoneSlabHalf->m_ID || tile == Tile::farmland->m_ID)
 		{
 			int result;
 
-			int b1 = getRawBrightness(x, y + 1, z, false);
-			int b2 = getRawBrightness(x - 1, y, z, false);
-			int b3 = getRawBrightness(x + 1, y, z, false);
-			int b4 = getRawBrightness(x, y, z - 1, false);
-			int b5 = getRawBrightness(x, y, z + 1, false);
+			int b1 = getRawBrightness(TilePos(pos.x,	 pos.y + 1, pos.z),     false);
+			int b2 = getRawBrightness(TilePos(pos.x - 1, pos.y,		pos.z),     false);
+			int b3 = getRawBrightness(TilePos(pos.x + 1, pos.y,		pos.z),	    false);
+			int b4 = getRawBrightness(TilePos(pos.x,	 pos.y,		pos.z - 1), false);
+			int b5 = getRawBrightness(TilePos(pos.x,	 pos.y,		pos.z + 1), false);
 
 			result = b1;
 			if (result < b2) result = b2;
@@ -48,11 +48,11 @@ int Region::getRawBrightness(int x, int y, int z, bool b) const
 			return result;
 		}
 	}
-	if (y < C_MIN_Y)
+	if (pos.y < C_MIN_Y)
 	{
 		return 0;
 	}
-	if (y >= C_MAX_Y)
+	if (pos.y >= C_MAX_Y)
 	{
 		int bright = 15 - m_pLevel->m_skyDarken;
 		if (bright < 0)
@@ -61,34 +61,34 @@ int Region::getRawBrightness(int x, int y, int z, bool b) const
 	}
 
 	//@BUG: Unsanitized input
-	int xd = (x >> 4) - field_4;
-	int zd = (z >> 4) - field_8;
-	return field_C[zd * field_14 + xd]->getRawBrightness(x & 0xF, y, z & 0xF, m_pLevel->m_skyDarken);
+	ChunkPos d(pos);
+	d -= field_4;
+	return field_C[d.z * field_14.x + d.x]->getRawBrightness(pos, m_pLevel->m_skyDarken);
 }
 
-int Region::getRawBrightness(int x, int y, int z) const
+int Region::getRawBrightness(const TilePos& pos) const
 {
-	return getRawBrightness(x, y, z, true);
+	return getRawBrightness(pos, true);
 }
 
-float Region::getBrightness(int x, int y, int z) const
+float Region::getBrightness(const TilePos& pos) const
 {
-	return m_pLevel->m_pDimension->field_10[getRawBrightness(x, y, z)];
+	return m_pLevel->m_pDimension->field_10[getRawBrightness(pos)];
 }
 
-int Region::getData(int x, int y, int z) const
+int Region::getData(const TilePos& pos) const
 {
-	if (y < C_MIN_Y || y >= C_MAX_Y)
+	if (pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
 		return 0;
 
-	int xd = (x >> 4) - field_4;
-	int zd = (z >> 4) - field_8;
-	return field_C[zd * field_14 + xd]->getData(x & 0xF, y, z & 0xF);
+	ChunkPos d(pos);
+	d -= field_4;
+	return field_C[d.z * field_14.x + d.x]->getData(pos);
 }
 
-Material* Region::getMaterial(int x, int y, int z) const
+Material* Region::getMaterial(const TilePos& pos) const
 {
-	TileID tile = getTile(x, y, z);
+	TileID tile = getTile(pos);
 	
 	if (tile == TILE_AIR)
 		return Material::air;
@@ -96,9 +96,9 @@ Material* Region::getMaterial(int x, int y, int z) const
 	return Tile::tiles[tile]->m_pMaterial;
 }
 
-bool Region::isSolidTile(int x, int y, int z) const
+bool Region::isSolidTile(const TilePos& pos) const
 {
-	Tile* pTile = Tile::tiles[getTile(x, y, z)];
+	Tile* pTile = Tile::tiles[getTile(pos)];
 
 	if (!pTile)
 		return false;
@@ -116,40 +116,44 @@ Region::~Region()
 	delete[] field_C;
 }
 
-Region::Region(const Level* level, int x1, int y1, int z1, int x2, int y2, int z2)
+Region::Region(const Level* level, const TilePos& min, const TilePos& max)
 {
 	m_pLevel = level;
-	field_4 = x1 >> 4;
-	field_8 = z1 >> 4;
-	field_14 = 1 + (x2 >> 4) - (x1 >> 4);
-	field_18 = 1 + (z2 >> 4) - (z1 >> 4);
+	field_4 = min;
+	ChunkPos cpMin(min), cpMax(max);
+	field_14 = (cpMax - cpMin) + 1;
 
 #ifndef ORIGINAL_CODE
 	field_C = nullptr;
 
-	assert(field_14 > 0);
-	assert(field_18 > 0);
+	assert(field_14.x > 0);
+	assert(field_14.z > 0);
 
-	if (field_14 <= 0 || field_18 <= 0)
+	if (field_14.x <= 0 || field_14.z <= 0)
 		return;
 #endif
 
 	/*
-	field_C = new LevelChunk ** [field_14];
+	field_C = new LevelChunk ** [field_14.x];
 
-	for (int i = 0; i < field_14; i++)
+	for (int i = 0; i < field_14.x; i++)
 	{
-		field_C[i] = new LevelChunk * [field_18];
+		field_C[i] = new LevelChunk * [field_14.z];
 	}
 	*/
 
-	field_C = new LevelChunk * [field_14 * field_18];
+	field_C = new LevelChunk * [field_14.x * field_14.z];
+	//LOG_I("Region chunk-storage size: %d x %d = %d", field_14.x, field_14.z, field_14.x * field_14.z);
 
-	for (int x = field_4; x <= x2 >> 4; x++)
+	// NOTE: do NOT compare cp.x with max.x directly, no automatic conversion will occur
+	ChunkPos cp(field_4);
+	for (cp.x = field_4.x; cp.x <= cpMax.x; cp.x++)
 	{
-		for (int z = field_8; z <= z2 >> 4; z++)
+		for (cp.z = field_4.z; cp.z <= cpMax.z; cp.z++)
 		{
-			field_C[(z - field_8) * field_14 + (x - field_4)] = level->getChunk(x, z);
+			int index = (cp.z - field_4.z) * field_14.x + (cp.x - field_4.x);
+			//LOG_I("Writing to region chunk-storage at: %d", index);
+			field_C[index] = level->getChunk(cp);
 		}
 	}
 }

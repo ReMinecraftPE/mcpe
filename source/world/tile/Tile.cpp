@@ -183,14 +183,14 @@ void Tile::updateDefaultShape()
 	
 }
 
-int Tile::getTexture(int x) const
+int Tile::getTexture(Facing::Name face) const
 {
 	return m_TextureFrame;
 }
 
-int Tile::getTexture(int x, int y) const
+int Tile::getTexture(Facing::Name face, int data) const
 {
-	return getTexture(x);
+	return getTexture(face);
 }
 
 int Tile::getTickDelay() const
@@ -768,41 +768,41 @@ void Tile::teardownTiles()
 		delete tiles[i];
 }
 
-void Tile::updateShape(const LevelSource* a, int x, int y, int z)
+void Tile::updateShape(const LevelSource* a, const TilePos& pos)
 {
 }
 
-void Tile::addLights(Level* p, int x, int y, int z)
+void Tile::addLights(Level* p, const TilePos& pos)
 {
 }
 
-float Tile::getBrightness(const LevelSource* pSrc, int x, int y, int z) const
+float Tile::getBrightness(const LevelSource* pSrc, const TilePos& pos) const
 {
-	return pSrc->getBrightness(x, y, z);
+	return pSrc->getBrightness(pos);
 }
 
-int Tile::getColor(const LevelSource* pSrc, int x, int y, int z) const
+int Tile::getColor(const LevelSource* pSrc, const TilePos& pos) const
 {
 	return 0xFFFFFF; // White
 }
 
-AABB* Tile::getAABB(const Level* pLevel, int x, int y, int z)
+AABB* Tile::getAABB(const Level* pLevel, const TilePos& pos)
 {
-	Vec3 offset((float)x, (float)y, (float)z);
+	Vec3 offset(pos);
 
 	m_aabbReturned = AABB(offset + m_aabb.min, offset + m_aabb.max);
 	return &m_aabbReturned;
 }
 
-AABB Tile::getTileAABB(const Level* pLevel, int x, int y, int z)
+AABB Tile::getTileAABB(const Level* pLevel, const TilePos& pos)
 {
-	Vec3 offset((float)x, (float)y, (float)z);
+	Vec3 offset(pos);
 	return AABB(offset + m_aabb.min, offset + m_aabb.max);
 }
 
-void Tile::addAABBs(const Level* pLevel, int x, int y, int z, const AABB* aabb, std::vector<AABB>& out)
+void Tile::addAABBs(const Level* pLevel, const TilePos& pos, const AABB* aabb, std::vector<AABB>& out)
 {
-	AABB* pTileAABB = getAABB(pLevel, x, y, z);
+	AABB* pTileAABB = getAABB(pLevel, pos);
 
 	if (pTileAABB && pTileAABB->intersect(*aabb))
 	{
@@ -810,94 +810,94 @@ void Tile::addAABBs(const Level* pLevel, int x, int y, int z, const AABB* aabb, 
 	}
 }
 
-bool Tile::shouldRenderFace(const LevelSource* pSrc, int x, int y, int z, int dir)  const
+bool Tile::shouldRenderFace(const LevelSource* pSrc, const TilePos& pos, Facing::Name face)  const
 {
 	//if ((y | x | z) > C_MAX_CHUNKS_Z * 16)
 	//	return false;
 
-	switch (dir)
+	switch (face)
 	{
-	case DIR_ZNEG:
-		if (z == -1) return false;
+	case Facing::NORTH:
+		if (pos.z == -1) return false;
 		if (m_aabb.min.z > 0.0f) return true;
 		break;
-	case DIR_ZPOS:
-		if (z == C_MAX_CHUNKS_Z * 16) return false;
+	case Facing::SOUTH:
+		if (pos.z == C_MAX_CHUNKS_Z * 16) return false;
 		if (m_aabb.max.z < 1.0f) return true;
 		break;
-	case DIR_XNEG:
-		if (x == -1) return false;
+	case Facing::WEST:
+		if (pos.x == -1) return false;
 		if (m_aabb.min.x > 0.0f) return true;
 		break;
-	case DIR_XPOS:
-		if (x == C_MAX_CHUNKS_X * 16) return false;
+	case Facing::EAST:
+		if (pos.x == C_MAX_CHUNKS_X * 16) return false;
 		if (m_aabb.max.x < 1.0f) return true;
 		break;
-	case DIR_YNEG:
-		if (y == -1) return false;
+	case Facing::DOWN:
+		if (pos.y == -1) return false;
 		if (m_aabb.min.y > 0.0f) return true;
 		break;
-	case DIR_YPOS:
+	case Facing::UP:
 		if (m_aabb.max.y < 1.0f) return true;
 		break;
 	}
 
-	Tile* pTile = Tile::tiles[pSrc->getTile(x, y, z)];
+	Tile* pTile = Tile::tiles[pSrc->getTile(pos)];
 	if (!pTile)
 		return true;
 
-	if (dir == DIR_YPOS && pTile->m_ID == Tile::topSnow->m_ID)
+	if (face == Facing::UP && pTile->m_ID == Tile::topSnow->m_ID)
 		return false;
 
 	return !pTile->isSolidRender();
 }
 
-int Tile::getTexture(const LevelSource* pSrc, int x, int y, int z, int dir) const
+int Tile::getTexture(const LevelSource* pSrc, const TilePos& pos, Facing::Name face) const
 {
-	return getTexture(dir, pSrc->getData(x, y, z));
+	return getTexture(face, pSrc->getData(pos));
 }
 
-bool Tile::canSurvive(const Level* pLevel, int x, int y, int z) const
+bool Tile::canSurvive(const Level* pLevel, const TilePos& pos) const
 {
 	return true;
 }
 
 // returns if we can place over the tile
-bool Tile::mayPlace(const Level* pLevel, int x, int y, int z) const
+bool Tile::mayPlace(const Level* pLevel, const TilePos& pos) const
 {
-	TileID tile = pLevel->getTile(x, y, z);
+	TileID tile = pLevel->getTile(pos);
 	if (!tile)
 		return true; // we can definitely place something over air
 	
 	return Tile::tiles[tile]->m_pMaterial->isLiquid();
 }
 
-void Tile::tick(Level* pLevel, int x, int y, int z, Random* pRandom)
+void Tile::tick(Level* pLevel, const TilePos& pos, Random* pRandom)
 {
 
 }
 
-void Tile::animateTick(Level* pLevel, int x, int y, int z, Random* pRandom)
+void Tile::animateTick(Level* pLevel, const TilePos& pos, Random* pRandom)
 {
 
 }
 
-void Tile::destroy(Level* pLevel, int x, int y, int z, int dir)
+void Tile::destroy(Level* pLevel, const TilePos& pos, int data)
 {
 
 }
 
-void Tile::neighborChanged(Level* pLevel, int x, int y, int z, int dir)
+void Tile::neighborChanged(Level* pLevel, const TilePos& pos, TileID tile)
 {
 
 }
 
-void Tile::onPlace(Level* pLevel, int x, int y, int z)
+void Tile::onPlace(Level* pLevel, const TilePos& pos)
 {
 
 }
 
-void Tile::onRemove(Level* pLevel, int x, int y, int z)
+void Tile::onRemove(Level* pLevel, const TilePos& pos)
 {
 
 }
@@ -926,17 +926,17 @@ bool Tile::containsZ(const Vec3& v)
 		&& v.y <= m_aabb.max.y;
 }
 
-HitResult Tile::clip(const Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
+HitResult Tile::clip(const Level* level, const TilePos& pos, Vec3 vec1, Vec3 vec2)
 {
-	updateShape(level, x, y, z);
+	updateShape(level, pos);
 
 	Vec3 clipMinX, clipMinY, clipMinZ;
 	Vec3 clipMaxX, clipMaxY, clipMaxZ;
 	bool bClipMinX, bClipMinY, bClipMinZ;
 	bool bClipMaxX, bClipMaxY, bClipMaxZ;
 
-	vec1 += Vec3(-float(x), -float(y), -float(z));
-	vec2 += Vec3(-float(x), -float(y), -float(z));
+	vec1 -= Vec3(pos);
+	vec2 -= Vec3(pos);
 
 	bClipMinX = vec1.clipX(vec2, m_aabb.min.x, clipMinX) && containsX(clipMinX);
 	bClipMaxX = vec1.clipX(vec2, m_aabb.max.x, clipMaxX) && containsX(clipMaxX);
@@ -946,41 +946,41 @@ HitResult Tile::clip(const Level* level, int x, int y, int z, Vec3 vec1, Vec3 ve
 	bClipMaxZ = vec1.clipZ(vec2, m_aabb.max.z, clipMaxZ) && containsZ(clipMaxZ);
 
 	// the collided side of our AABB
-	HitResult::eHitSide collType = HitResult::NOHIT;
+	Facing::Name collType;
 
 	// the preferred vector for our collision
 	Vec3* pVec = nullptr;
 	if (bClipMinX)
-		pVec = &clipMinX, collType = HitResult::MINX;
+		pVec = &clipMinX, collType = Facing::WEST;
 
 	if (bClipMaxX)
 	{
 		if (!pVec || clipMaxX.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMaxX, collType = HitResult::MAXX;
+			pVec = &clipMaxX, collType = Facing::EAST;
 	}
 
 	if (bClipMinY)
 	{
 		if (!pVec || clipMinY.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMinY, collType = HitResult::MINY;
+			pVec = &clipMinY, collType = Facing::DOWN;
 	}
 
 	if (bClipMaxY)
 	{
 		if (!pVec || clipMaxY.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMaxY, collType = HitResult::MAXY;
+			pVec = &clipMaxY, collType = Facing::UP;
 	}
 
 	if (bClipMinZ)
 	{
 		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMinZ, collType = HitResult::MINZ;
+			pVec = &clipMinZ, collType = Facing::NORTH;
 	}
 
 	if (bClipMaxZ)
 	{
 		if (!pVec || clipMaxZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMaxZ, collType = HitResult::MAXZ;
+			pVec = &clipMaxZ, collType = Facing::SOUTH;
 	}
 
 	if (!pVec)
@@ -989,35 +989,35 @@ HitResult Tile::clip(const Level* level, int x, int y, int z, Vec3 vec1, Vec3 ve
 		return HitResult();
 	}
 
-	return HitResult(x, y, z, collType, *pVec + Vec3(float(x), float(y), float(z)));
+	return HitResult(pos, collType, *pVec + pos);
 }
 
-int Tile::getSignal(const LevelSource* pLevel, int x, int y, int z) const
+int Tile::getSignal(const LevelSource* pLevel, const TilePos& pos) const
 {
 	return 0;
 }
 
-int Tile::getSignal(const LevelSource* pLevel, int x, int y, int z, int dir) const
+int Tile::getSignal(const LevelSource* pLevel, const TilePos& pos, Facing::Name face) const
 {
 	return 0;
 }
 
-int Tile::getDirectSignal(const Level* pLevel, int x, int y, int z, int dir) const
+int Tile::getDirectSignal(const Level* pLevel, const TilePos& pos, Facing::Name face) const
 {
 	return 0;
 }
 
-void Tile::triggerEvent(Level* pLevel, int x, int y, int z, int a, int b)
+void Tile::triggerEvent(Level* pLevel, const TilePos& pos, int a, int b)
 {
 
 }
 
-void Tile::entityInside(Level* pLevel, int x, int y, int z, Entity* pEnt) const
+void Tile::entityInside(Level* pLevel, const TilePos& pos, Entity* pEnt) const
 {
 
 }
 
-void Tile::handleEntityInside(Level* pLevel, int x, int y, int z, const Entity* pEnt, Vec3& vec)
+void Tile::handleEntityInside(Level* pLevel, const TilePos& pos, const Entity* pEnt, Vec3& vec)
 {
 
 }
@@ -1033,12 +1033,12 @@ float Tile::getDestroyProgress(Player* player) const
 	return player->getDestroySpeed() / m_hardness / 30.0f;
 }
 
-void Tile::spawnResources(Level* pLevel, int x, int y, int z, int i)
+void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data)
 {
-	return spawnResources(pLevel, x, y, z, i, 1.0f);
+	return spawnResources(pLevel, pos, data, 1.0f);
 }
 
-void Tile::spawnResources(Level* pLevel, int x, int y, int z, int data, float fChance)
+void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data, float fChance)
 {
 	if (pLevel->m_bIsMultiplayer)
 		return;
@@ -1053,12 +1053,12 @@ void Tile::spawnResources(Level* pLevel, int x, int y, int z, int data, float fC
 		if (id <= 0)
 			continue;
 
-		float xo = (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
-		float yo = (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
-		float zo = (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f;
+		Vec3 o((pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f,
+			   (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f,
+			   (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f);
 
 		ItemInstance inst(id, 1, getSpawnResourcesAuxValue(data));
-		ItemEntity* pEntity = new ItemEntity(pLevel, float(x) + xo, float(y) + yo, float(z) + zo, &inst);
+		ItemEntity* pEntity = new ItemEntity(pLevel, Vec3(pos) + o, &inst);
 		pEntity->field_E4 = 10;
 
 		pLevel->addEntity(pEntity);
@@ -1075,47 +1075,52 @@ float Tile::getExplosionResistance(Entity* entity) const
 	return m_blastResistance / 5.0f;
 }
 
-void Tile::wasExploded(Level* pLevel, int x, int y, int z)
+void Tile::wasExploded(Level* pLevel, const TilePos& pos)
 {
 
 }
 
-int Tile::use(Level* pLevel, int x, int y, int z, Player* player)
+int Tile::use(Level* pLevel, const TilePos& pos, Player* player)
 {
 	return 0;
 }
 
-void Tile::stepOn(Level* pLevel, int x, int y, int z, Entity* entity)
+void Tile::stepOn(Level* pLevel, const TilePos& pos, Entity* entity)
 {
 
 }
 
-void Tile::setPlacedOnFace(Level* pLevel, int x, int y, int z, int dir)
+void Tile::setPlacedOnFace(Level* pLevel, const TilePos& pos, Facing::Name face)
 {
 
 }
 
-void Tile::setPlacedBy(Level* pLevel, int x, int y, int z, Mob* mob)
+void Tile::setPlacedBy(Level* pLevel, const TilePos& pos, Mob* mob)
 {
 
 }
 
-void Tile::prepareRender(Level* pLevel, int x, int y, int z)
+void Tile::prepareRender(Level* pLevel, const TilePos& pos)
 {
 
 }
 
-void Tile::attack(Level* pLevel, int x, int y, int z, Player* player)
+void Tile::attack(Level* pLevel, const TilePos& pos, Player* player)
 {
 
 }
 
-void Tile::playerDestroy(Level* level, Player* player, int x, int y, int z, int i)
+void Tile::playerDestroy(Level* level, Player* player, const TilePos& pos, int data)
 {
-	spawnResources(level, x, y, z, i);
+	spawnResources(level, pos, data);
 }
 
-Tile::SoundType
+void Tile::playerWillDestroy(Player* player, const TilePos& pos, int data)
+{
+
+}
+
+const Tile::SoundType
 	Tile::SOUND_NORMAL("stone",  1.0f, 1.0f),
 	Tile::SOUND_WOOD  ("wood",   1.0f, 1.0f),
 	Tile::SOUND_GRAVEL("gravel", 1.0f, 1.0f),

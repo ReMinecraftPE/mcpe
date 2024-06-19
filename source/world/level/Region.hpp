@@ -13,40 +13,38 @@
 class Region : public LevelSource
 {
 public:
-	TileID getTile(int x, int y, int z) const override;
-	int getRawBrightness(int x, int y, int z, bool b) const;
-	int getRawBrightness(int x, int y, int z) const;
-	float getBrightness(int x, int y, int z) const override;
-	int getData(int x, int y, int z) const override;
-	Material* getMaterial(int x, int y, int z) const override;
-	bool isSolidTile(int x, int y, int z) const override;
+	TileID getTile(const TilePos& pos) const override;
+	int getRawBrightness(const TilePos& pos, bool b) const;
+	int getRawBrightness(const TilePos& pos) const;
+	float getBrightness(const TilePos& pos) const override;
+	int getData(const TilePos& pos) const override;
+	Material* getMaterial(const TilePos& pos) const override;
+	bool isSolidTile(const TilePos& pos) const override;
 	BiomeSource* getBiomeSource() const override;
 
 	virtual ~Region();
-	Region(const Level*, int x1, int y1, int z1, int x2, int y2, int z2);
+	Region(const Level* level, const TilePos& min, const TilePos& max);
 
 	// inlined in the original, but I doubt they'd actually copy paste this logic
-	LevelChunk* getChunkAt(int x, int z) const
+	LevelChunk* getChunkAt(const ChunkPos& pos) const
 	{
-		int indexX = (x >> 4) - field_4;
-		int indexZ = (z >> 4) - field_8;
+		int indexX = pos.x - field_4.x;
+		int indexZ = pos.z - field_4.z;
 
-		if (indexX < 0 || indexZ < 0 || indexX >= field_14 || indexZ >= field_18)
+		if (indexX < 0 || indexZ < 0 || indexX >= field_14.x || indexZ >= field_14.z)
 			return nullptr;
 
-		return field_C[indexZ * field_14 + indexX];
+		return field_C[indexZ * field_14.x + indexX];
 	}
 
 private:
-	int field_4;
-	int field_8;
+	ChunkPos field_4;
 	// accesses to the array are performed as follows:
 	// (x = 0..field_14, z = 0..field_18)
 	// z * field_14 + x
 	LevelChunk** field_C;
 	const Level* m_pLevel;
-	int field_14;
-	int field_18;
+	ChunkPos field_14;
 	int field_1C;
 	int field_20;
 	int field_24;

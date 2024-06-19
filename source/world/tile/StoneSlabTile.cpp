@@ -45,27 +45,27 @@ int StoneSlabTile::getSpawnResourcesAuxValue(int x) const
 	return x;
 }
 
-int StoneSlabTile::getTexture(int dir) const
+int StoneSlabTile::getTexture(Facing::Name face) const
 {
-	return getTexture(dir, 0);
+	return getTexture(face, 0);
 }
 
-int StoneSlabTile::getTexture(int dir, int data) const
+int StoneSlabTile::getTexture(Facing::Name face, int data) const
 {
 	switch (data)
 	{
 		// regular stone slab
 		case 0:
-			if (dir > DIR_YPOS)
+			if (face > Facing::UP)
 				return TEXTURE_STONE_SLAB_SIDE;
 			
 			return TEXTURE_STONE_SLAB_TOP;
 
 		// sandstone slab
 		case 1:
-			if (dir == DIR_YNEG)
+			if (face == Facing::DOWN)
 				return TEXTURE_SANDSTONE_BOTTOM;
-			if (dir == DIR_YPOS)
+			if (face == Facing::UP)
 				return TEXTURE_SANDSTONE_TOP;
 
 			return TEXTURE_SANDSTONE_SIDE;
@@ -84,34 +84,34 @@ int StoneSlabTile::getTexture(int dir, int data) const
 	}
 }
 
-void StoneSlabTile::onPlace(Level* level, int x, int y, int z)
+void StoneSlabTile::onPlace(Level* level, const TilePos& pos)
 {
-	TileID tileBelow = level->getTile(x, y - 1, z);
-	int tileHereData = level->getData(x, y, z);
+	TileID tileBelow = level->getTile(pos.below());
+	int tileHereData = level->getData(pos);
 
 	// If there's a stone slab below us, set us to air and combine us into the lower slab block
 
-	if (tileHereData == level->getData(x, y - 1, z) && tileBelow == Tile::stoneSlabHalf->m_ID)
+	if (tileHereData == level->getData(pos.below()) && tileBelow == Tile::stoneSlabHalf->m_ID)
 	{
-		level->setTile(x, y, z, TILE_AIR);
-		level->setTileAndData(x, y - 1, z, Tile::stoneSlab->m_ID, tileHereData);
+		level->setTile(pos, TILE_AIR);
+		level->setTileAndData(pos.below(), Tile::stoneSlab->m_ID, tileHereData);
 	}
 }
 
-bool StoneSlabTile::shouldRenderFace(const LevelSource* level, int x, int y, int z, int dir) const
+bool StoneSlabTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
 	if (this != Tile::stoneSlabHalf)
 		// @BUG: Missing return? In JE this is true too
-		Tile::shouldRenderFace(level, x, y, z, dir);
+		Tile::shouldRenderFace(level, pos, face);
 
-	if (dir == DIR_YPOS)
+	if (face == Facing::UP)
 		return true;
 
-	if (!Tile::shouldRenderFace(level, x, y, z, dir))
+	if (!Tile::shouldRenderFace(level, pos, face))
 		return false;
 
-	if (dir == DIR_YNEG)
+	if (face == Facing::DOWN)
 		return true;
 
-	return level->getTile(x, y, z) != m_ID;
+	return level->getTile(pos) != m_ID;
 }

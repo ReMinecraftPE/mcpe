@@ -42,6 +42,11 @@ public:
 
 	virtual void animateRespawn();
 	virtual void drop(const ItemInstance* pItemInstance, bool b = false);
+	virtual void startCrafting(const TilePos& pos);
+	virtual void startStonecutting(const TilePos& pos);
+	virtual void startDestroying();
+	virtual void stopDestroying();
+	virtual bool isLocalPlayer() const { return false; }
 
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
@@ -52,22 +57,23 @@ public:
 	void drop();
 	float getDestroySpeed() const { return 1.0f; }
 	int getInventorySlot(int x) const;
-	Pos getRespawnPosition() { return m_respawnPos; }
+	TilePos getRespawnPosition() { return m_respawnPos; }
 	int getScore() const { return m_score; }
 	void prepareCustomTextures();
 	void reallyDrop(ItemEntity* pEnt);
 	void respawn();
 	void rideTick();
 	void setDefaultHeadHeight();
-	void setRespawnPos(Pos*);
-	void startCrafting(int, int, int);
-	void swing();
+	void setRespawnPos(const TilePos& pos);
+
 	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
 	void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
+	ItemInstance* getSelectedItem() const;
+	bool isUsingItem() const { return false && !getSelectedItem()->isNull(); }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push
@@ -82,15 +88,14 @@ public:
 	int m_score;
 	float field_B9C;
 	float field_BA0;
-	bool field_BA4;
-	int field_BA8;
 	std::string m_name;
 	int field_BC4;
 	RakNet::RakNetGUID m_guid;
 	//TODO
-	Pos m_respawnPos;
+	TilePos m_respawnPos;
 	//TODO
 	bool m_bHaveRespawnPos;
 	//TODO
+	bool m_destroyingBlock;
 };
 

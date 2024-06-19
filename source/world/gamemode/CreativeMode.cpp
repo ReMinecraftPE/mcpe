@@ -10,7 +10,7 @@
 #include "client/app/Minecraft.hpp"
 
 CreativeMode::CreativeMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
-	m_destroyingX(-1), m_destroyingY(-1), m_destroyingZ(-1),
+	m_destroyingPos(-1, -1, -1),
 	m_destroyProgress(0.0f),
 	m_lastDestroyProgress(0.0f),
 	m_destroyTicks(0),
@@ -18,98 +18,32 @@ CreativeMode::CreativeMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
 {
 }
 
-bool CreativeMode::destroyBlock(int x, int y, int z, int i)
+bool CreativeMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	m_pMinecraft->m_pParticleEngine->destroy(x, y, z);
-
-	if (!GameMode::destroyBlock(x, y, z, i))
-		return false;
-
-	if (m_pMinecraft->isOnline())
-	{
-		m_pMinecraft->m_pRakNetInstance->send(new RemoveBlockPacket(m_pMinecraft->m_pLocalPlayer->m_EntityID, x, y, z));
-	}
-
-	return true;
+	_level.extinguishFire(player, pos, face);
+	return GameMode::destroyBlock(player, pos, face);
 }
 
-// @NOTE: Duplicate of SurvivalMode's break logic!
-
-void CreativeMode::startDestroyBlock(int x, int y, int z, int i)
+bool CreativeMode::startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	if (!m_pMinecraft->isTouchscreen())
-	{
-		GameMode::startDestroyBlock(x, y, z, i);
-		return;
-	}
+	ItemInstance* item = player->getSelectedItem();
+	if (item && item->getItem() == Item::bow)
+		return true;
 
-	TileID tile = m_pMinecraft->m_pLevel->getTile(x, y, z);
-
-	if (tile <= 0)
-		return;
-
-	if (m_destroyProgress == 0.0f)
-	{
-		Tile::tiles[tile]->attack(m_pMinecraft->m_pLevel, x, y, z, m_pMinecraft->m_pLocalPlayer);
-	}
-
-	if (Tile::tiles[tile]->getDestroyProgress(m_pMinecraft->m_pLocalPlayer) >= 1.0f)
-	{
-		destroyBlock(x, y, z, i);
-	}
-
-	return;
+	m_destroyCooldown = 5;
+	return destroyBlock(player, pos, face);
 }
 
-void CreativeMode::continueDestroyBlock(int x, int y, int z, int i)
+bool CreativeMode::continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	if (!m_pMinecraft->isTouchscreen())
-	{
-		GameMode::continueDestroyBlock(x, y, z, i);
-		return;
-	}
-
-	if (m_destroyCooldown > 0)
+	if (m_destroyCooldown - 1 > 0)
 	{
 		m_destroyCooldown--;
-		return;
+		return false;
 	}
 
-	if (m_destroyingX != x || m_destroyingY != y || m_destroyingZ != z)
-	{
-		m_destroyProgress = 0.0f;
-		m_lastDestroyProgress = 0.0f;
-		m_destroyTicks = 0;
-		m_destroyingX = x;
-		m_destroyingY = y;
-		m_destroyingZ = z;
-		return;
-	}
-
-	TileID tile = m_pMinecraft->m_pLevel->getTile(m_destroyingX, m_destroyingY, m_destroyingZ);
-	if (!tile)
-		return;
-
-	Tile* pTile = Tile::tiles[tile];
-	float destroyProgress = pTile->getDestroyProgress(m_pMinecraft->m_pLocalPlayer);
-	m_destroyProgress += getDestroyModifier() * destroyProgress;
-	m_destroyTicks++;
-
-	if ((m_destroyTicks & 3) == 1)
-	{
-		m_pMinecraft->m_pSoundEngine->play("step." + pTile->m_pSound->m_name,
-			float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f,
-			0.5f * (1.0f + pTile->m_pSound->volume), 0.8f * pTile->m_pSound->pitch);
-	}
-
-	if (m_destroyProgress >= 1.0f)
-	{
-		destroyBlock(m_destroyingX, m_destroyingY, m_destroyingZ, i);
-		m_destroyTicks = 0;
-		m_destroyCooldown = 5;
-		m_destroyProgress = 0.0f;
-		m_lastDestroyProgress = 0.0f;
-	}
+	m_destroyCooldown = 5;
+	return destroyBlock(player, pos, face);
 }
 
 void CreativeMode::stopDestroyBlock()
@@ -140,6 +74,6 @@ void CreativeMode::render(float f)
 
 void CreativeMode::initPlayer(Player* p)
 {
-	p->m_yaw = -180.0f;
+	p->m_rot.x = -180.0f;
 	p->m_pInventory->prepareCreativeInventory();
 }

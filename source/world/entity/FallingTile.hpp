@@ -14,7 +14,7 @@ class FallingTile : public Entity
 {
 public:
 	FallingTile(Level*);
-	FallingTile(Level*, float x, float y, float z, int id);
+	FallingTile(Level*, const Vec3& pos, int id);
 
 	float getShadowHeightOffs() const override;
 	bool isPickable() const override;

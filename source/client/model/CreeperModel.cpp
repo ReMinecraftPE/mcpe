@@ -56,12 +56,12 @@ void CreeperModel::render(float a, float b, float c, float d, float e, float f)
 
 void CreeperModel::setupAnim(float a, float b, float c, float d, float e, float f)
 {
-	m_head.m_rotY = d / (180.0f / 3.1416f);
-	m_head.m_rotX = e / (180.0f / 3.1416f);
+	m_head.m_rot.y = d / (180.0f / 3.1416f);
+	m_head.m_rot.x = e / (180.0f / 3.1416f);
 
 	float footAng = (Mth::cos(a * 0.6662f) * 1.4f) * b;
-	m_leg1.m_rotX = footAng;
-	m_leg4.m_rotX = footAng;
-	m_leg2.m_rotX = -footAng;
-	m_leg3.m_rotX = -footAng;
+	m_leg1.m_rot.x = footAng;
+	m_leg4.m_rot.x = footAng;
+	m_leg2.m_rot.x = -footAng;
+	m_leg3.m_rot.x = -footAng;
 }

@@ -1,9 +1,9 @@
-#include "AppPlatform_sdl_base.hpp"
-
 #include <sstream>
 #include <fstream>
 #include <sys/stat.h>
 #include <cstdlib>
+
+#include "AppPlatform_sdl_base.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -13,7 +13,9 @@
 
 #include "common/Utils.hpp"
 
-#include "platforms/openal/SoundSystemAL.hpp"
+#include "SoundSystemAL.hpp"
+
+#include "client/player/input/Controller.hpp"
 
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
@@ -53,6 +55,9 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 			m_bIsTouchscreen = false;
 		}
 	}
+
+	// Look for a pre-existing controller
+	_controller = findGameController();
 }
 
 void AppPlatform_sdl_base::initSoundSystem()
@@ -110,6 +115,17 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 
 	// DELETE THIS LAST
 	SAFE_DELETE(m_pLogger);
+}
+
+SDL_GameController* AppPlatform_sdl_base::findGameController()
+{
+	for (int i = 0; i < SDL_NumJoysticks(); i++) {
+		if (SDL_IsGameController(i)) {
+			return SDL_GameControllerOpen(i);
+		}
+	}
+
+	return nullptr;
 }
 
 SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const texture)
@@ -233,9 +249,9 @@ int AppPlatform_sdl_base::getUserInputStatus()
 	return -1;
 }
 
-MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_Event event)
+MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_MouseButtonEvent event)
 {
-	switch (event.button.button)
+	switch (event.button)
 	{
 		case SDL_BUTTON_LEFT:
 			return BUTTON_LEFT;
@@ -283,9 +299,9 @@ bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
 	return result;
 }
 
-Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(SDL_Event event)
+Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(uint8_t state)
 {
-	switch (event.key.state)
+	switch (state)
 	{
 		case SDL_RELEASED:
 			return Keyboard::UP;
@@ -318,6 +334,100 @@ void AppPlatform_sdl_base::hideKeyboard()
 	}
 }
 
-bool AppPlatform_sdl_base::isTouchscreen() {
+bool AppPlatform_sdl_base::isTouchscreen() const
+{
     return m_bIsTouchscreen;
+}
+
+bool AppPlatform_sdl_base::hasGamepad() const
+{
+	return _controller != nullptr;
+}
+
+void AppPlatform_sdl_base::gameControllerAdded(int32_t index)
+{
+	if (!getPrimaryGameController())
+	{
+		setPrimaryGameController(SDL_GameControllerOpen(index));
+		Controller::reset();
+	}
+}
+
+void AppPlatform_sdl_base::gameControllerRemoved(int32_t index)
+{
+	SDL_GameController* controller = getPrimaryGameController();
+	SDL_JoystickID joystickId = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
+	// Check if current controller has been removed
+	if (controller && index == joystickId)
+	{
+		SDL_GameControllerClose(controller);
+		// Hunt for a new primary controller
+		setPrimaryGameController(findGameController());
+	}
+}
+
+void AppPlatform_sdl_base::handleKeyEvent(int key, uint8_t state)
+{
+	// This really should be handled somewhere else.
+	// Unforunately, there is no global keyboard handler.
+	// Keyboard events are either handled in Screen::keyboardEvent
+	// when a Screen is visible, or in Minecraft::tickInput
+	// when LocalPlayer exists.
+	switch (key)
+	{
+	case SDLVK_F2:
+		if (state == SDL_PRESSED)
+			saveScreenshot("", -1, -1);
+		return;
+	case SDLVK_AC_BACK:
+		// Android Back Button
+		// @TODO: handleBack function in AppPlatform that calls back to App via function pointer
+		//g_pApp->handleBack(event.key.state == SDL_PRESSED);
+		return;
+	case SDLVK_BACKSPACE:
+		// Text Editing
+		/*if (state == SDL_PRESSED)
+			g_pApp->handleCharInput('\b');*/
+		break;
+	case SDLVK_LSHIFT:
+	case SDLVK_RSHIFT:
+		setShiftPressed(state == SDL_PRESSED, key == SDLVK_LSHIFT);
+		break;
+	}
+
+	// Normal Key Press
+	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), key);
+}
+
+void AppPlatform_sdl_base::handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state)
+{
+	// Normal Key Press
+	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), button);
+}
+
+void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value)
+{
+	float val = value / 30000.0f; // -32768 to 32767
+
+	switch (axis)
+	{
+	case SDL_CONTROLLER_AXIS_LEFTX:
+		Controller::feedStickX(1, 1, val);
+		break;
+	case SDL_CONTROLLER_AXIS_LEFTY:
+		Controller::feedStickY(1, 1, val);
+		break;
+	case SDL_CONTROLLER_AXIS_RIGHTX:
+		Controller::feedStickX(2, 1, val);
+		break;
+	case SDL_CONTROLLER_AXIS_RIGHTY:
+		Controller::feedStickY(2, 1, val);
+		break;
+	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+		Controller::feedTrigger(1, val);
+		break;
+	case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+		Controller::feedTrigger(2, val);
+		break;
+	}
 }

@@ -16,12 +16,10 @@ void RequestChunkPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback
 void RequestChunkPacket::write(RakNet::BitStream* bs)
 {
 	bs->Write((unsigned char)PACKET_REQUEST_CHUNK);
-	bs->Write(m_x);
-	bs->Write(m_z);
+	bs->Write(m_chunkPos);
 }
 
 void RequestChunkPacket::read(RakNet::BitStream* bs)
 {
-	bs->Read(m_x);
-	bs->Read(m_z);
+	bs->Read(m_chunkPos);
 }

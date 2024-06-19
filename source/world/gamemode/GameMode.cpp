@@ -24,35 +24,43 @@ void GameMode::initLevel(Level* pLevel)
 {
 }
 
-void GameMode::startDestroyBlock(int x, int y, int z, int i)
+bool GameMode::startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	destroyBlock(x, y, z, i);
+	//if (!player->getCarriedItem()) // && not a bow
+	return destroyBlock(player, pos, face);
 }
 
-bool GameMode::destroyBlock(int x, int y, int z, int i)
+bool GameMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	Level* pLevel = m_pMinecraft->m_pLevel;
-	Tile* pTile = Tile::tiles[pLevel->getTile(x, y, z)];
-	int tileData = pLevel->getData(x, y, z);
+	Tile* pTile = Tile::tiles[_level.getTile(pos)];
+	if (!pTile)
+		return false;
 
-	bool bChanged = pLevel->setTile(x, y, z, 0);
+	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
 
-	if (pTile && bChanged)
+	int tileData = _level.getData(pos);
+	pTile->playerWillDestroy(player, pos, face);
+	bool bChanged = _level.setTile(pos, 0);
+	if (!bChanged)
+		return false;
+
+
+	_level.playSound(pos + 0.5f, "step." + pTile->m_pSound->m_name,
+		(pTile->m_pSound->volume * 0.5f) + 0.5f, pTile->m_pSound->pitch * 0.8f);
+
+	pTile->destroy(&_level, pos, tileData);
+
+	if (m_pMinecraft->isOnline())
 	{
-		m_pMinecraft->m_pSoundEngine->play("step." + pTile->m_pSound->m_name,
-			float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f,
-			0.5f * (1.0f + pTile->m_pSound->volume), 0.8f * pTile->m_pSound->pitch);
-
-		pTile->destroy(pLevel, x, y, z, tileData);
-
-		return true;
+		m_pMinecraft->m_pRakNetInstance->send(new RemoveBlockPacket(player->m_EntityID, pos));
 	}
 
-	return false;
+	return true;
 }
 
-void GameMode::continueDestroyBlock(int x, int y, int z, int t)
+bool GameMode::continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
+	return false;
 }
 
 void GameMode::stopDestroyBlock()
@@ -83,7 +91,7 @@ float GameMode::getPickRange() const
 
 LocalPlayer* GameMode::createPlayer(Level* pLevel)
 {
-	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), m_pMinecraft->m_pLevel->m_pDimension->field_50);
+	return new LocalPlayer(m_pMinecraft, pLevel, m_pMinecraft->m_pUser, pLevel->getDefaultGameType(), _level.m_pDimension->field_50);
 }
 
 void GameMode::initPlayer(Player* pPlayer)
@@ -128,14 +136,14 @@ bool GameMode::useItem(Player* player, Level* level, ItemInstance* instance)
 	return true;
 }
 
-bool GameMode::useItemOn(Player* player, Level* level, ItemInstance* instance, int x, int y, int z, int d)
+bool GameMode::useItemOn(Player* player, Level* level, ItemInstance* instance, const TilePos& pos, Facing::Name face)
 {
-	TileID tile = level->getTile(x, y, z);
-	if (tile > 0 && Tile::tiles[tile]->use(level, x, y, z, player))
+	TileID tile = level->getTile(pos);
+	if (tile > 0 && Tile::tiles[tile]->use(level, pos, player))
 		return true;
 
 	if (instance)
-		return instance->useOn(player, level, x, y, z, d);
+		return instance->useOn(player, level, pos, face);
 
 	return false;
 }

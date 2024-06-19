@@ -14,24 +14,21 @@ class CreativeMode : public GameMode
 {
 public:
 	CreativeMode(Minecraft*, Level&);
-	bool destroyBlock(int, int, int, int) override;
 
 	float getPickRange() const override { return 5.0f; }
 	bool isCreativeType() const override { return true; }
-	bool isSurvivalType() const override { return false; }
 
 	void initPlayer(Player*) override;
-	void startDestroyBlock(int x, int y, int z, int i) override;
-	void continueDestroyBlock(int x, int y, int z, int i) override;
+	bool destroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
+	bool startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
+	bool continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
 	void stopDestroyBlock() override;
 	void tick() override;
 	void render(float f) override;
 	float getDestroyModifier() const override { return 8.0; }
 
 public:
-	int m_destroyingX;
-	int m_destroyingY;
-	int m_destroyingZ;
+	TilePos m_destroyingPos;
 	float m_destroyProgress;
 	float m_lastDestroyProgress;
 	int m_destroyTicks;

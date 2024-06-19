@@ -146,9 +146,9 @@ ChunkSource* Dimension::createRandomLevelSource()
 #endif
 }
 
-bool Dimension::isValidSpawn(int x, int z)
+bool Dimension::isValidSpawn(const TilePos& pos)
 {
-	TileID tile = m_pLevel->getTopTile(x, z);
+	TileID tile = m_pLevel->getTopTile(pos);
 	if (tile == Tile::invisible_bedrock->m_ID)
 		return false;
 

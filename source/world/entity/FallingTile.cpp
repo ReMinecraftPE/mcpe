@@ -14,20 +14,16 @@ FallingTile::FallingTile(Level* level) : Entity(level),
 {
 }
 
-FallingTile::FallingTile(Level* level, float x, float y, float z, int id) : Entity(level),
+FallingTile::FallingTile(Level* level, const Vec3& pos, int id) : Entity(level),
 	field_E0(0)
 {
 	m_id = id;
 	field_34 = 1;
 	setSize(0.98f, 0.98f);
 	field_84 = field_8C * 0.5f;
-	setPos(x, y, z);
-	field_3C.x = x;
-	field_3C.y = y;
-	field_3C.z = z;
-	m_vel.x = 0.0f;
-	m_vel.y = 0.0f;
-	m_vel.z = 0.0f;
+	setPos(pos);
+	field_3C = pos;
+	m_vel = Vec3::ZERO;
 
 #if defined(ENH_ALLOW_SAND_GRAVITY)
 	field_C8 = RENDER_FALLING_TILE;
@@ -53,18 +49,16 @@ void FallingTile::tick()
 	field_E0++;
 
 	m_vel.y -= 0.04f;
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	m_vel *= 0.98f;
 
-	int tileX = Mth::floor(m_pos.x);
-	int tileY = Mth::floor(m_pos.y);
-	int tileZ = Mth::floor(m_pos.z);
+	TilePos tilePos(m_pos);
 
 	// if we're inside one of our own tiles, clear it.
 	// Assumes we started there
-	if (m_pLevel->getTile(tileX, tileY, tileZ) == m_id)
-		m_pLevel->setTile(tileX, tileY, tileZ, TILE_AIR);
+	if (m_pLevel->getTile(tilePos) == m_id)
+		m_pLevel->setTile(tilePos, TILE_AIR);
 
 	if (!m_onGround)
 	{
@@ -78,9 +72,9 @@ void FallingTile::tick()
 	m_vel.z *= 0.7f;
 	m_vel.y *= -0.5f;
 	remove();
-	if (m_pLevel->mayPlace(m_id, tileX, tileY, tileZ, true))
+	if (m_pLevel->mayPlace(m_id, tilePos, true))
 	{
-		m_pLevel->setTile(tileX, tileY, tileZ, m_id);
+		m_pLevel->setTile(tilePos, m_id);
 	}
 	else
 	{

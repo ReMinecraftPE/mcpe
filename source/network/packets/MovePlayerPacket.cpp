@@ -17,15 +17,12 @@ void MovePlayerPacket::write(RakNet::BitStream* bs)
 {
 	bs->Write((unsigned char)PACKET_MOVE_PLAYER);
 	bs->Write(m_id);
-	bs->Write(m_x);
-	bs->Write(m_y);
-	bs->Write(m_z);
+	bs->Write(m_pos);
 #if NETWORK_PROTOCOL_VERSION <= 2
-	bs->Write(m_pitch);
-	bs->Write(m_yaw);
+	bs->Write(m_rot.y);
+	bs->Write(m_rot.x);
 #else
-	bs->Write(m_yaw);
-	bs->Write(m_pitch);
+	bs->Write(m_rot);
 #endif
 
 }
@@ -33,14 +30,11 @@ void MovePlayerPacket::write(RakNet::BitStream* bs)
 void MovePlayerPacket::read(RakNet::BitStream* bs)
 {
 	bs->Read(m_id);
-	bs->Read(m_x);
-	bs->Read(m_y);
-	bs->Read(m_z);
+	bs->Read(m_pos);
 #if NETWORK_PROTOCOL_VERSION <= 2
-	bs->Read(m_pitch);
-	bs->Read(m_yaw);
+	bs->Read(m_rot.y);
+	bs->Read(m_rot.x);
 #else
-	bs->Read(m_yaw);
-	bs->Read(m_pitch);
+	bs->Read(m_rot);
 #endif
 }

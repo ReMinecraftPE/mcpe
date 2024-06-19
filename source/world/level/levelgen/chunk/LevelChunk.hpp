@@ -12,10 +12,13 @@
 #include <vector>
 #include <algorithm>
 #include "common/Utils.hpp"
+#include "common/Random.hpp"
 #include "client/renderer/LightLayer.hpp"
-#include "world/phys/AABB.hpp"
+#include "world/level/levelgen/chunk/ChunkPos.hpp"
+#include "world/level/levelgen/chunk/ChunkTilePos.hpp"
 
 class Level;
+class AABB;
 class Entity;
 
 class LevelChunk
@@ -25,28 +28,28 @@ private:
 protected:
 	LevelChunk() { _init(); }
 public:
-	LevelChunk(Level*, int x, int z);
-	LevelChunk(Level*, TileID* pBlockData, int x, int z);
+	LevelChunk(Level*, const ChunkPos& pos);
+	LevelChunk(Level*, TileID* pBlockData, const ChunkPos& pos);
 	virtual ~LevelChunk();
 
 	void init();
 
-	void lightGap(int gx, int gz, uint8_t heightMap);
-	void lightGaps(int x, int z);
+	void lightGap(const TilePos& pos, uint8_t heightMap);
+	void lightGaps(const ChunkTilePos& pos);
 	void deleteBlockData();
 	void clearUpdateMap();
 
-	virtual bool isAt(int x, int z);
-	virtual int getHeightmap(int x, int z);
+	virtual bool isAt(const ChunkPos& pos);
+	virtual int getHeightmap(const ChunkTilePos& pos);
 	virtual void recalcHeightmap();
 	virtual void recalcHeightmapOnly();
-	virtual int getBrightness(const LightLayer& ll, int x, int y, int z);
-	virtual void setBrightness(const LightLayer& ll, int x, int y, int z, int brightness);
-	virtual int getRawBrightness(int x, int y, int z, int skySubtract);
+	virtual int getBrightness(const LightLayer& ll, const ChunkTilePos& pos);
+	virtual void setBrightness(const LightLayer& ll, const ChunkTilePos& pos, int brightness);
+	virtual int getRawBrightness(const ChunkTilePos& pos, int skySubtract);
 	virtual void addEntity(Entity*);
 	virtual void removeEntity(Entity*);
 	virtual void removeEntity(Entity*, int vec);
-	virtual bool isSkyLit(int x, int y, int z);
+	virtual bool isSkyLit(const ChunkTilePos& pos);
 	virtual void lightLava();
 	virtual void recalcBlockLights();
 	virtual void skyBrightnessChanged();
@@ -56,16 +59,16 @@ public:
 	virtual void markUnsaved();
 	virtual int  countEntities();
 	virtual void getEntities(Entity* pEntExclude, const AABB&, std::vector<Entity*>& out);
-	virtual TileID getTile(int x, int y, int z);
-	virtual bool setTile(int x, int y, int z, TileID tile);
-	virtual bool setTileAndData(int x, int y, int z, TileID tile, int data);
-	virtual int  getData(int x, int y, int z);
-	virtual void setData(int x, int y, int z, int data);
+	virtual TileID getTile(const ChunkTilePos& pos);
+	virtual bool setTile(const ChunkTilePos& pos, TileID tile);
+	virtual bool setTileAndData(const ChunkTilePos& pos, TileID tile, int data);
+	virtual int  getData(const ChunkTilePos& pos);
+	virtual void setData(const ChunkTilePos& pos, int data);
 	virtual void setBlocks(uint8_t* pData, int y);
 	virtual int  getBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
 	virtual int  setBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
 	virtual Random getRandom(int32_t l);
-	virtual void recalcHeight(int, int, int);
+	virtual void recalcHeight(const ChunkTilePos& pos);
 	virtual bool isEmpty();
 	//...
 
@@ -86,8 +89,7 @@ public:
 	uint8_t m_heightMap[256];
 	uint8_t m_updateMap[256];
 	int field_228;
-	int m_chunkX;
-	int m_chunkZ;
+	ChunkPos m_chunkPos;
 	uint8_t field_234;
 	bool m_bUnsaved;
 	uint8_t field_236;
@@ -96,33 +98,4 @@ public:
 	int field_23C;
 	TileID* m_pBlockData;
 	std::vector<Entity*> m_entities[128 / 16];
-};
-
-//@OVERSIGHT: Why the hell is EmptyLevelChunk derived from the WHOLE of LevelChunk?!
-class EmptyLevelChunk : public LevelChunk
-{
-public:
-	EmptyLevelChunk(Level*, TileID* pBlockData, int x, int z);
-
-	int getHeightmap(int x, int z) override;
-	void recalcHeightmap() override;
-	void recalcHeightmapOnly() override;
-	int getRawBrightness(int x, int y, int z, int skySubtract) override;
-	void addEntity(Entity*) override;
-	void removeEntity(Entity*) override;
-	void removeEntity(Entity*, int vec) override;
-	bool isSkyLit(int x, int y, int z) override;
-	void lightLava() override;
-	void recalcBlockLights() override;
-	void skyBrightnessChanged() override;
-	void load() override;
-	void unload() override;
-	void markUnsaved() override;
-	TileID getTile(int x, int y, int z) override;
-	bool setTile(int x, int y, int z, TileID tile) override;
-	bool setTileAndData(int x, int y, int z, TileID tile, int data) override;
-	int  getData(int x, int y, int z) override;
-	void setData(int x, int y, int z, int data) override;
-	void recalcHeight(int, int, int) override;
-	bool isEmpty() override;
 };

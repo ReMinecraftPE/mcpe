@@ -31,45 +31,45 @@ int RedStoneOreTile::getSpawnResourcesAuxValue(int x) const
 	return 0;
 }
 
-int RedStoneOreTile::poofParticles(Level* level, int x, int y, int z)
+int RedStoneOreTile::poofParticles(Level* level, const TilePos& pos)
 {
 	for (int i = 0; i < 6; i++)
 	{
-		float xo = float(x) + level->m_random.nextFloat();
-		float yo = float(y) + level->m_random.nextFloat();
-		float zo = float(z) + level->m_random.nextFloat();
+		Vec3 o(float(pos.x) + level->m_random.nextFloat(),
+		       float(pos.y) + level->m_random.nextFloat(),
+		       float(pos.z) + level->m_random.nextFloat());
 
 		switch (i)
 		{
-			case DIR_YNEG:
-				if (!level->isSolidTile(x, y + 1, z))
-					yo = float(y + 1) + 0.0625f;
+			case Facing::DOWN:
+				if (!level->isSolidTile(pos.above()))
+					o.y = float(pos.y + 1) + 0.0625f;
 				break;
-			case DIR_YPOS:
-				if (!level->isSolidTile(x, y - 1, z))
-					yo = float(y) - 0.0625f;
+			case Facing::UP:
+				if (!level->isSolidTile(pos.below()))
+					o.y = float(pos.y) - 0.0625f;
 				break;
-			case DIR_ZNEG:
-				if (!level->isSolidTile(x, y, z + 1))
-					zo = float(z + 1) + 0.0625f;
+			case Facing::NORTH:
+				if (!level->isSolidTile(pos.south()))
+					o.z = float(pos.z + 1) + 0.0625f;
 				break;
-			case DIR_ZPOS:
-				if (!level->isSolidTile(x, y, z - 1))
-					zo = float(z) - 0.0625f;
+			case Facing::SOUTH:
+				if (!level->isSolidTile(pos.north()))
+					o.z = float(pos.z) - 0.0625f;
 				break;
-			case DIR_XNEG:
-				if (!level->isSolidTile(x + 1, y, z))
-					xo = float(x + 1) + 0.0625f;
+			case Facing::WEST:
+				if (!level->isSolidTile(pos.east()))
+					o.x = float(pos.x + 1) + 0.0625f;
 				break;
-			case DIR_XPOS:
-				if (!level->isSolidTile(x - 1, y, z))
-					xo = float(x) - 0.0625f;
+			case Facing::EAST:
+				if (!level->isSolidTile(pos.west()))
+					o.x = float(pos.x) - 0.0625f;
 				break;
 		}
 
-		if (xo < float(x) || float(x + 1) < xo || yo < 0.0f || float(y + 1) < yo || zo < float(z) || float(z + 1) < zo)
+		if (o.x < float(pos.x) || float(pos.x + 1) < o.x || o.y < 0.0f || float(pos.y + 1) < o.y || o.z < float(pos.z) || float(pos.z + 1) < o.z)
 		{
-			level->addParticle("reddust", xo, yo, zo, 0.0f, 0.0f, 0.0f);
+			level->addParticle("reddust", o);
 		}
 	}
 
@@ -77,40 +77,40 @@ int RedStoneOreTile::poofParticles(Level* level, int x, int y, int z)
 	return 1300;
 }
 
-void RedStoneOreTile::animateTick(Level* level, int x, int y, int z, Random* random)
+void RedStoneOreTile::animateTick(Level* level, const TilePos& pos, Random* random)
 {
 	if (m_bLit)
-		poofParticles(level, x, y, z);
+		poofParticles(level, pos);
 }
 
-void RedStoneOreTile::tick(Level* level, int x, int y, int z, Random* random)
+void RedStoneOreTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	if (m_ID == Tile::redStoneOre_lit->m_ID)
-		level->setTile(x, y, z, Tile::redStoneOre->m_ID);
+		level->setTile(pos, Tile::redStoneOre->m_ID);
 }
 
-void RedStoneOreTile::interact(Level* level, int x, int y, int z)
+void RedStoneOreTile::interact(Level* level, const TilePos& pos)
 {
-	poofParticles(level, x, y, z);
+	poofParticles(level, pos);
 
 	if (m_ID == Tile::redStoneOre->m_ID)
-		level->setTile(x, y, z, Tile::redStoneOre_lit->m_ID);
+		level->setTile(pos, Tile::redStoneOre_lit->m_ID);
 }
 
-void RedStoneOreTile::attack(Level* level, int x, int y, int z, Player* player)
+void RedStoneOreTile::attack(Level* level, const TilePos& pos, Player* player)
 {
-	interact(level, x, y, z);
+	interact(level, pos);
 }
 
-int RedStoneOreTile::use(Level* level, int x, int y, int z, Player* player)
+int RedStoneOreTile::use(Level* level, const TilePos& pos, Player* player)
 {
-	interact(level, x, y, z);
-	return Tile::use(level, x, y, z, player);
+	interact(level, pos);
+	return Tile::use(level, pos, player);
 }
 
-void RedStoneOreTile::stepOn(Level* level, int x, int y, int z, Entity* entity)
+void RedStoneOreTile::stepOn(Level* level, const TilePos& pos, Entity* entity)
 {
-	interact(level, x, y, z);
+	interact(level, pos);
 }
 
 int RedStoneOreTile::getTickDelay() const

@@ -14,7 +14,7 @@ TripodCameraRenderer::TripodCameraRenderer() :
 	m_modelPart(0, 0)
 {
 	m_modelPart.addBox(-4.0f, -4.0f, -6.0f, 8, 8, 10);
-	m_modelPart.m_posY = 11.0f;
+	m_modelPart.m_pos.y = 11.0f;
 	field_4 = 0.5f;
 }
 
@@ -30,8 +30,8 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 {
 	glPushMatrix();
 	glTranslatef(x, y, z);
-	m_modelPart.m_rotX  = 0.017453f * (180.0f + 0.5f * entity->m_pitch);
-	m_modelPart.m_rotY = -0.017453f * entity->m_yaw;
+	m_modelPart.m_rot.x  = 0.017453f * (180.0f + 0.5f * entity->m_rot.y);
+	m_modelPart.m_rot.y = -0.017453f * entity->m_rot.x;
 
 	Tesselator& t = Tesselator::instance;
 	t.color(1.0f, 1.0f, 1.0f);

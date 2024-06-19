@@ -58,7 +58,7 @@ struct KeyMapping
 	std::string key;
 	int value;
 
-	KeyMapping() {}
+	KeyMapping() { key = ""; value = -1; }
 	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 };
 
@@ -85,17 +85,14 @@ public:
 	std::string getMessage(const Options::Option&);
 	std::vector<std::string> getOptionStrings();
 	
-	int getKey(eKeyMappingIndex idx)
-	{
-		return m_keyMappings[idx].value;
-	}
-	bool isKey(eKeyMappingIndex idx, int keyCode)
-	{
-		return getKey(idx) == keyCode;
-	}
+	int getKey(eKeyMappingIndex idx) const { return m_keyMappings[idx].value; }
+	bool isKey(eKeyMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
+
+	void loadControls();
 
 private:
 	std::string m_filePath;
+	KeyMapping m_keyMappings[KM_COUNT];
 
 public:
 	float field_0;
@@ -110,7 +107,6 @@ public:
 	bool m_bAmbientOcclusion;
 	uint8_t field_19; // use Mouse as input for breaking
 	std::string field_1C;
-	KeyMapping m_keyMappings[KM_COUNT];
 	int field_238;
 	bool m_bDontRenderGui;
 	bool m_bThirdPerson;
@@ -129,6 +125,7 @@ public:
 	bool m_bFancyGrass;
 	bool m_bBiomeColors;
 	bool m_bSplitControls;
+	bool m_bUseController;
 	bool m_bDynamicHand;
 	bool m_bOldTitleLogo;
 	bool m_bMenuPanorama;

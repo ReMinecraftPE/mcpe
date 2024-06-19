@@ -17,9 +17,7 @@ void PlaceBlockPacket::write(RakNet::BitStream* bs)
 {
 	bs->Write((unsigned char)PACKET_PLACE_BLOCK);
 	bs->Write(m_playerID);
-	bs->Write(m_x);
-	bs->Write(m_z);
-	bs->Write(m_y);
+	bs->Write(m_pos);
 	bs->Write(m_face);
 	bs->Write(m_tile);
 }
@@ -27,9 +25,7 @@ void PlaceBlockPacket::write(RakNet::BitStream* bs)
 void PlaceBlockPacket::read(RakNet::BitStream* bs)
 {
 	bs->Read(m_playerID);
-	bs->Read(m_x);
-	bs->Read(m_z);
-	bs->Read(m_y);
+	bs->Read(m_pos);
 	bs->Read(m_face);
 	bs->Read(m_tile);
 }

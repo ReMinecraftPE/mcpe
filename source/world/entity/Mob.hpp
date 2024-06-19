@@ -20,7 +20,7 @@ public:
 
 	//overrides
 	virtual void reset() override;
-	virtual void lerpTo(float x, float y, float z, float yaw, float pitch, int i) override;
+	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int i) override;
 	virtual void tick() override;
 	virtual void baseTick() override;
 	virtual float getHeadHeight() const override { return 0.85f * field_8C; }
@@ -47,7 +47,7 @@ public:
 	virtual void superTick() { Entity::tick(); }
 	virtual void heal(int health);
 	virtual HitResult pick(float, float);
-	virtual void travel(float, float);
+	virtual void travel(const Vec2& pos);
 	virtual void updateWalkAnim();
 	virtual void aiStep();
 	//AddAdditonalSaveData TODO
@@ -80,8 +80,10 @@ public:
 	virtual void defineSynchedData();
 	virtual void checkDespawn(Mob* nearestMob);
 	virtual void checkDespawn();
+	virtual void swing();
 
 	float rotlerp(float, float, float);
+	void updateAttackAnim();
 
 public:
 	int field_DC;
@@ -90,8 +92,8 @@ public:
 	float field_E8;
 	float field_EC;
 	char field_F0;
-	float field_F4;
-	float field_F8;
+	float m_oAttackAnim;
+	float m_attackAnim;
 	int m_health;
 	int field_100;
 	int field_104;
@@ -108,8 +110,7 @@ public:
 	float field_130;
 	Random m_random;
 	int field_AFC;
-	float field_B00;
-	float field_B04;
+	Vec2 field_B00;
 	float field_B08;
 	char field_B0C;
 	float field_B10;
@@ -127,13 +128,13 @@ public:
 	char field_B68;
 	char field_B69;
 	int field_B6C;
-	float field_B70;
-	float field_B74;
-	float field_B78;
-	float field_B7C;
-	float field_B80;
+	Vec3 field_B70;
+	Vec2 field_B7C;
 	int field_B84;
 	Entity* m_pEntLookedAt;
 
 	float v020_field_104;
+
+	bool m_bSwinging;
+	int m_swingTime;
 };

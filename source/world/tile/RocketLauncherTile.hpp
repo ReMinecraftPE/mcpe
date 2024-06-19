@@ -15,11 +15,11 @@ class RocketLauncherTile : public Tile
 public:
 	RocketLauncherTile(int id);
 
-	int getTexture(int dir, int data) const override;
-	AABB* getAABB(const Level*, int x, int y, int z) override;
+	int getTexture(Facing::Name face, int data) const override;
+	AABB* getAABB(const Level*, const TilePos& pos) override;
 	int getRenderShape() const override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
-	int use(Level* pLevel, int x, int y, int z, Player* player) override;
-	void tick(Level*, int, int, int, Random*) override;
+	int use(Level* pLevel, const TilePos& pos, Player* player) override;
+	void tick(Level*, const TilePos& pos, Random*) override;
 };

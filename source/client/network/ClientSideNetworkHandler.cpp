@@ -138,11 +138,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 	pLocalPlayer->m_EntityID = pStartGamePkt->m_entityId;
 	
 	pLocalPlayer->moveTo(
-		pStartGamePkt->m_pos.x,
-		pStartGamePkt->m_pos.y,
-		pStartGamePkt->m_pos.z,
-		pLocalPlayer->m_yaw,
-		pLocalPlayer->m_pitch);
+		pStartGamePkt->m_pos,
+		pLocalPlayer->m_rot);
 
 	if (gameType == GAME_TYPE_CREATIVE)
 		pLocalPlayer->m_pInventory->prepareCreativeInventory();
@@ -167,11 +164,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 	m_pLevel->addEntity(pPlayer);
 
 	pPlayer->moveTo(
-		pAddPlayerPkt->m_x,
-		pAddPlayerPkt->m_y,
-		pAddPlayerPkt->m_z,
-		pPlayer->m_yaw,
-		pPlayer->m_pitch);
+		pAddPlayerPkt->m_pos,
+		pPlayer->m_rot);
 
 	pPlayer->m_name = pAddPlayerPkt->m_name;
 	pPlayer->m_guid = pAddPlayerPkt->m_guid;
@@ -202,7 +196,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 		return;
 	}
 	
-	pEntity->lerpTo(packet->m_x, packet->m_y, packet->m_z, packet->m_yaw, packet->m_pitch, 3);
+	pEntity->lerpTo(packet->m_pos, packet->m_rot, 3);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBlockPacket* pPlaceBlockPkt)
@@ -222,24 +216,22 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 	if (!areAllChunksLoaded())
 		return;
 
-	int x = pPlaceBlockPkt->m_x;
-	int y = pPlaceBlockPkt->m_y;
-	int z = pPlaceBlockPkt->m_z;
-	int tile = pPlaceBlockPkt->m_tile;
-	int face = pPlaceBlockPkt->m_face;
+	TilePos pos = pPlaceBlockPkt->m_pos;
+	TileID tile = pPlaceBlockPkt->m_tile;
+	Facing::Name face = (Facing::Name)pPlaceBlockPkt->m_face;
 
-	if (!m_pLevel->mayPlace(tile, x, y, z, true))
+	if (!m_pLevel->mayPlace(tile, pos, true))
 		return;
 
 	Tile* pTile = Tile::tiles[tile];
-	if (!m_pLevel->setTile(x, y, z, tile))
+	if (!m_pLevel->setTile(pos, tile))
 		return;
 
-	Tile::tiles[tile]->setPlacedOnFace(m_pLevel, x, y, z, face);
-	Tile::tiles[tile]->setPlacedBy(m_pLevel, x, y, z, pPlayer);
+	Tile::tiles[tile]->setPlacedOnFace(m_pLevel, pos, face);
+	Tile::tiles[tile]->setPlacedBy(m_pLevel, pos, pPlayer);
 
 	const Tile::SoundType* pSound = pTile->m_pSound;
-	m_pLevel->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
+	m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveBlockPacket* pRemoveBlockPkt)
@@ -259,20 +251,18 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 	if (!areAllChunksLoaded())
 		return;
 
-	int x = pRemoveBlockPkt->m_x;
-	int y = pRemoveBlockPkt->m_y;
-	int z = pRemoveBlockPkt->m_z;
+	TilePos pos = pRemoveBlockPkt->m_pos;
 
-	Tile* pTile = Tile::tiles[m_pLevel->getTile(x, y, z)];
-	int data = m_pLevel->getData(x, y, z);
-	bool setTileResult = m_pLevel->setTile(x, y, z, TILE_AIR);
+	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
+	int data = m_pLevel->getData(pos);
+	bool setTileResult = m_pLevel->setTile(pos, TILE_AIR);
 
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
-		m_pLevel->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
+		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
 
-		pTile->destroy(m_pLevel, x, y, z, data);
+		pTile->destroy(m_pLevel, pos, data);
 	}
 }
 
@@ -280,11 +270,11 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateB
 {
 	if (!areAllChunksLoaded())
 	{
-		m_bufferedBlockUpdates.push_back(SBufferedBlockUpdate(pkt->m_x, pkt->m_y, pkt->m_z, pkt->m_tile, pkt->m_data));
+		m_bufferedBlockUpdates.push_back(SBufferedBlockUpdate(pkt->m_pos, pkt->m_tile, pkt->m_data));
 		return;
 	}
 
-	m_pLevel->setTileAndData(pkt->m_x, pkt->m_y, pkt->m_z, pkt->m_tile, pkt->m_data);
+	m_pLevel->setTileAndData(pkt->m_pos, pkt->m_tile, pkt->m_data);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDataPacket* pChunkDataPkt)
@@ -295,7 +285,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 		return;
 	}
 
-	LevelChunk* pChunk = m_pLevel->getChunkSource()->create(pChunkDataPkt->m_x, pChunkDataPkt->m_z);
+	LevelChunk* pChunk = m_pLevel->getChunkSource()->create(pChunkDataPkt->m_chunkPos);
 	if (!pChunk || pChunk->isEmpty())
 	{
 		LOG_E("Failed to find write-able chunk");
@@ -303,8 +293,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 		return;
 	}
 
-	int x16 = 16 * pChunkDataPkt->m_x;
-	int z16 = 16 * pChunkDataPkt->m_z;
+	int x16 = 16 * pChunkDataPkt->m_chunkPos.x;
+	int z16 = 16 * pChunkDataPkt->m_chunkPos.z;
 
 	bool updated = false;
 
@@ -333,7 +323,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 
 				for (int i = 0; i < 16; i++)
 				{
-					m_pLevel->setTileNoUpdate(x16 + (k & 0xF), yPos + i, z16 + (k >> 4), tiles[i]);
+					m_pLevel->setTileNoUpdate(TilePos(x16 + (k & 0xF), yPos + i, z16 + (k >> 4)), tiles[i]);
 				}
 
 				int idx = ((k & 0xF) << 11) | ((k >> 4) << 7) + yPos;
@@ -360,7 +350,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 	}
 
 	if (updated)
-		m_pLevel->setTilesDirty(minX + x16, minY, minZ, maxX + x16, maxY, maxZ + z16);
+		m_pLevel->setTilesDirty(TilePos(minX + x16, minY, minZ), TilePos(maxX + x16, maxY, maxZ + z16));
 
 	pChunk->m_bUnsaved = true;
 
@@ -456,16 +446,17 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 		LOG_E("We don't yet support a level of size %d x %d chunks. Some chunks may disappear or be regenerated.", chunksX, chunksZ);
 	}
 
-	for (int x = 0; x < chunksX; x++)
+	ChunkPos cp(0, 0);
+	for (cp.x = 0; cp.x < chunksX; cp.x++)
 	{
-		for (int z = 0; z < chunksZ; z++)
+		for (cp.z = 0; cp.z < chunksZ; cp.z++)
 		{
 			bs->Read(magicNum);
 
 			if (magicNum != chunkSepMagic)
 			{
 			_FAIL_BECAUSE_INVALID:
-				LOG_E("Aborting because level data is invalid, reading chunk %d, %d. Magic: %d", x, z, magicNum);
+				LOG_E("Aborting because level data is invalid, reading chunk %d, %d. Magic: %d", cp.x, cp.z, magicNum);
 				return;
 			}
 			
@@ -475,9 +466,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 			int dataSize = 0;
 			bs->Read(dataSize);
 
-			LevelChunk* pChunk = m_pLevel->getChunk(x, z);
+			LevelChunk* pChunk = m_pLevel->getChunk(cp);
 			if (!pChunk || pChunk->isEmpty())
-				LOG_E("No chunk at %d, %d", x, z);
+				LOG_E("No chunk at %d, %d", cp.x, cp.z);
 			
 			// continue reading anyway to skip over the offending chunk
 
@@ -492,7 +483,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 				goto _FAIL_BECAUSE_INVALID;
 
 			// Read the chunk data packet itself, and handle it.
-			ChunkDataPacket cdp(x, z, pChunk);
+			ChunkDataPacket cdp(cp, pChunk);
 			cdp.read(&bs2);
 
 			if (pChunk)
@@ -534,12 +525,12 @@ void ClientSideNetworkHandler::requestNextChunk()
 
 	if (m_serverProtocolVersion < 2)
 	{
-		m_pRakNetInstance->send(new RequestChunkPacket(m_chunksRequested % 16, m_chunksRequested / 16));
+		m_pRakNetInstance->send(new RequestChunkPacket(ChunkPos(m_chunksRequested % 16, m_chunksRequested / 16)));
 		m_chunksRequested++;
 	}
 	else
 	{
-		m_pRakNetInstance->send(new RequestChunkPacket(-9999, -9999));
+		m_pRakNetInstance->send(new RequestChunkPacket(ChunkPos(-9999, -9999)));
 	}
 }
 
@@ -548,6 +539,6 @@ void ClientSideNetworkHandler::flushAllBufferedUpdates()
 	for (int i = 0; i < int(m_bufferedBlockUpdates.size()); i++)
 	{
 		SBufferedBlockUpdate& u = m_bufferedBlockUpdates[i];
-		m_pLevel->setTileAndData(u.x, u.y, u.z, u.tile, u.data);
+		m_pLevel->setTileAndData(u.pos, u.tile, u.data);
 	}
 }

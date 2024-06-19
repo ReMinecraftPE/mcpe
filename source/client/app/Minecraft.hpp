@@ -44,9 +44,7 @@ public:
 	void tick();
 	void tickInput();
 	void saveOptions();
-	void handleMouseClick(int type);
-	void handleMouseDown(int type, bool b);
-	void handleBuildAction(BuildActionIntention*);
+	void handleBuildAction(const BuildActionIntention& action);
 	bool isLevelGenerated();
 	void selectLevel(const std::string&, const std::string&, int);
 	void setLevel(Level*, const std::string&, LocalPlayer*);
@@ -61,9 +59,10 @@ public:
 	void sendMessage(const std::string& message);
 	void resetPlayer(Player* player);
 	void respawnPlayer(Player* player);
-	std::string getVersionString();
-	bool isTouchscreen();
-	bool useSplitControls();
+	std::string getVersionString() const;
+	bool isTouchscreen() const;
+	bool useSplitControls() const;
+	bool useController() const;
 
 	void setGameMode(GameType gameType);
 
@@ -140,7 +139,7 @@ public:
 	LevelStorageSource* m_pLevelStorageSource; // TODO
 	int field_D9C;
 	int field_DA0;
-	int field_DA4;
+	int m_lastBlockBreakTime;
 	int field_DA8;
 	int field_DAC;
 	bool m_bUsingScreen;
@@ -151,5 +150,6 @@ public:
 
 	// in 0.8. Offset 3368
 	double m_fDeltaTime, m_fLastUpdated;
+	int m_lastInteractTime;
 };
 

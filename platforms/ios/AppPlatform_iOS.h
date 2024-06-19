@@ -31,7 +31,7 @@ public:
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool b = false) override;
 	int getUserInputStatus() override;
-	bool isTouchscreen() override;
+	bool isTouchscreen() const override;
 	std::string getAssetPath(const std::string &path) const override;
 	std::string getPatchData() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }

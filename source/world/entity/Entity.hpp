@@ -9,8 +9,10 @@
 #pragma once
 
 #include "world/phys/Vec3.hpp"
+#include "world/phys/Vec2.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/level/Material.hpp"
+#include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/ItemInstance.hpp"
 #include "EntityType.hpp"
@@ -53,38 +55,31 @@ enum eCreatureBaseType
 struct EntityPos
 {
 	Vec3 m_pos;
-	float m_yaw, m_pitch;
+	Vec2 m_rot;
 	bool m_bHasRot, m_bHasPos;
 
 	EntityPos()
+		: m_pos(Vec3::ZERO), m_rot(Vec2::ZERO)
 	{
-        m_yaw = 0; m_pitch = 0;
         m_bHasRot = false; m_bHasPos = false;
 	};
 
 	EntityPos(const Vec3& pos)
+		: m_pos(pos), m_rot(Vec2::ZERO)
 	{
-		m_pos = pos;
-        m_yaw = 0; m_pitch = 0;
-		m_bHasPos = true;
-		m_bHasRot = false;
+		m_bHasPos = true; m_bHasRot = false;
 	}
 
-	EntityPos(float yaw, float pitch)
+	EntityPos(const Vec2& rot)
+		: m_pos(Vec3::ZERO), m_rot(rot)
 	{
-		m_yaw = yaw;
-		m_pitch = pitch;
-		m_bHasPos = false;
-		m_bHasRot = true;
+		m_bHasPos = false; m_bHasRot = true;
 	}
 
-	EntityPos(const Vec3& pos, float yaw, float pitch)
+	EntityPos(const Vec3& pos, const Vec2& rot)
+		: m_pos(pos), m_rot(rot)
 	{
-		m_pos = pos;
-		m_yaw = yaw;
-		m_pitch = pitch;
-		m_bHasPos = true;
-		m_bHasRot = true;
+		m_bHasPos = true; m_bHasRot = true;
 	}
 };
 
@@ -99,21 +94,22 @@ public:
 	virtual void reset();
 	virtual void setLevel(Level*);
 	virtual void removed();
-	virtual void setPos(float x, float y, float z);
+	virtual void setPos(const Vec3& pos);
 	virtual void remove();
-	virtual int move(float x, float y, float z);
-	virtual void moveTo(float x, float y, float z, float yaw, float pitch);
-	virtual void absMoveTo(float x, float y, float z, float yaw, float pitch);
-	virtual void moveRelative(float x, float z, float y);
-	virtual void lerpTo(float x, float y, float z, float yaw, float pitch, int i);
-	virtual void lerpMotion(float x, float y, float z);
-	virtual void turn(float yaw, float pitch);
-	virtual void interpolateTurn(float yaw, float pitch);
+	virtual int move(const Vec3& pos);
+	virtual void moveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
+	virtual void absMoveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
+	virtual void moveRelative(const Vec3& pos);
+	virtual void lerpTo(const Vec3& pos);
+	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int i);
+	virtual void lerpMotion(const Vec3& pos);
+	virtual void turn(const Vec2& rot);
+	virtual void interpolateTurn(const Vec2& rot);
 	virtual void tick();
 	virtual void baseTick();
-	virtual bool intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) const;
-	virtual bool isFree(float offX, float offY, float offZ) const;
-	virtual bool isFree(float offX, float offY, float offZ, float expand) const;
+	virtual bool intersects(const Vec3& min, const Vec3& max) const;
+	virtual bool isFree(const Vec3& off) const;
+	virtual bool isFree(const Vec3& off, float expand) const;
 	virtual bool isInWall() const;
 	virtual bool isInWater();
 	virtual bool isInLava() const;
@@ -122,14 +118,14 @@ public:
 	virtual float getShadowHeightOffs() const { return field_8C / 2.0f; }
 	virtual float getBrightness(float f) const;
 	virtual float distanceTo(Entity*) const;
-	virtual float distanceToSqr(float x, float y, float z) const;
-	virtual float distanceTo(float x, float y, float z) const;
+	virtual float distanceToSqr(const Vec3& pos) const;
+	virtual float distanceTo(const Vec3& pos) const;
 	virtual float distanceToSqr(Entity*) const;
 	virtual int interactPreventDefault();
 	virtual bool interact(Player*);
 	virtual void playerTouch(Player*);
 	virtual void push(Entity*);
-	virtual void push(float x, float y, float z);
+	virtual void push(const Vec3& pos);
 	virtual bool isPickable() const { return false; }
 	virtual bool isPushable() const { return false; }
 	virtual bool isShootable() const { return false; }
@@ -148,7 +144,7 @@ public:
 	virtual void spawnAtLocation(int, int, float);
 	virtual void awardKillScore(Entity* pKilled, int score);
 	virtual void setEquippedSlot(int, int, int);
-	virtual void setRot(float yaw, float pitch);
+	virtual void setRot(const Vec2& rot);
 	virtual void setSize(float rad, float height);
 	virtual void setPos(EntityPos*);
 	virtual void resetPos();
@@ -162,18 +158,16 @@ public:
 	virtual int getCreatureBaseType() const { return BASE_NONE; }
 	virtual int getEntityTypeId() const { return ENTITY_TYPE_NONE; }
 
-	virtual bool isLocalPlayer() const { return false; }
-
 	int hashCode() const { return m_EntityID; }
 
 	bool operator==(const Entity& other) const;
 
-	float distanceToSqr_inline(float x, float y, float z) const
+	float distanceToSqr_inline(const Vec3& pos) const
 	{
 		return
-			(m_pos.x - x) * (m_pos.x - x) +
-			(m_pos.y - y) * (m_pos.y - y) +
-			(m_pos.z - z) * (m_pos.z - z);
+			(m_pos.x - pos.x) * (m_pos.x - pos.x) +
+			(m_pos.y - pos.y) * (m_pos.y - pos.y) +
+			(m_pos.z - pos.z) * (m_pos.z - pos.z);
 	}
 
 public:
@@ -182,9 +176,8 @@ public:
 
 	Vec3 m_pos;
 	bool m_bInAChunk;
-	int m_chunkX;
-	int m_chunkY;
-	int m_chunkZ;
+	ChunkPos m_chunkPos;
+	int m_chunkPosY;
 	int field_20;
 	int field_24;
 	int field_28;
@@ -194,14 +187,12 @@ public:
 	Level* m_pLevel;
 	Vec3 field_3C;
 	Vec3 m_vel;
-	float m_yaw;
-	float m_pitch;
+	Vec2 m_rot;
 	//maybe these are the actual m_yaw and m_pitch, and
 	//the one I annotated are the destination yaw and pitch.
 	//interpolateTurn doesn't modify them, so I highly suspect
 	//this to be the case.
-	float field_5C;
-	float field_60;
+	Vec2 field_5C;
 	AABB m_hitbox;
 	bool m_onGround;
 	bool field_7D;

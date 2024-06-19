@@ -80,13 +80,13 @@ void QuadrupedModel::render(float a, float b, float c, float d, float e, float f
 
 void QuadrupedModel::setupAnim(float a2, float a3, float a4, float a5, float a6, float a7)
 {
-	m_head.m_rotX = a6 / (float)(180.0f / 3.1416f);
-	m_head.m_rotY = a5 / (float)(180.0f / 3.1416f);
-	m_body.m_rotX = 90.0f / (float)(180.0f / 3.1416f);
+	m_head.m_rot.x = a6 / (float)(180.0f / 3.1416f);
+	m_head.m_rot.y = a5 / (float)(180.0f / 3.1416f);
+	m_body.m_rot.x = 90.0f / (float)(180.0f / 3.1416f);
 
 	float footAng = (Mth::cos(a2 * 0.6662f) * 1.4f) * a3;
-	m_leg1.m_rotX = footAng;
-	m_leg4.m_rotX = footAng;
-	m_leg2.m_rotX = -footAng;
-	m_leg3.m_rotX = -footAng;
+	m_leg1.m_rot.x = footAng;
+	m_leg4.m_rot.x = footAng;
+	m_leg2.m_rot.x = -footAng;
+	m_leg3.m_rot.x = -footAng;
 }

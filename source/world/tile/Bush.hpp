@@ -15,14 +15,14 @@ class Bush : public Tile
 public:
 	Bush(int id, int texture);
 
-	virtual bool canSurvive(const Level*, int x, int y, int z) const override;
-	virtual AABB* getAABB(const Level*, int x, int y, int z) override;
+	virtual bool canSurvive(const Level*, const TilePos& pos) const override;
+	virtual AABB* getAABB(const Level*, const TilePos& pos) override;
 	virtual int getRenderShape() const override;
 	virtual bool isCubeShaped() const override;
 	virtual bool isSolidRender() const override;
-	virtual bool mayPlace(const Level*, int x, int y, int z) const override;
-	virtual void tick(Level*, int x, int y, int z, Random*) override;
-	virtual void neighborChanged(Level*, int x, int y, int z, int dir) override;
+	virtual bool mayPlace(const Level*, const TilePos& pos) const override;
+	virtual void tick(Level*, const TilePos& pos, Random*) override;
+	virtual void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
 
-	void checkAlive(Level*, int x, int y, int z);
+	void checkAlive(Level*, const TilePos& pos);
 };

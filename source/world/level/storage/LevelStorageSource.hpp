@@ -33,7 +33,6 @@ struct LevelSummary
 
 	bool operator<(const LevelSummary& b) const
 	{
-		// @NOTE: I *think* that's how it works. Not entirely sure.
 		return m_lastPlayed > b.m_lastPlayed;
 	}
 };

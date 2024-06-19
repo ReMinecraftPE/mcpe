@@ -30,8 +30,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_pLevel = nullptr;
 	m_pMinecraft = nullptr;
 	m_pMob = nullptr;
-	m_yaw = 0.0f;
-	m_pitch = 0.0f;
+	m_rot = Vec2::ZERO;
 	m_pOptions = nullptr;
 	m_pFont = nullptr;
 
@@ -127,8 +126,8 @@ void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* fon
 	m_pMob = mob;
 	m_pFont = font;
 	m_pOptions = options;
-	m_yaw   = mob->field_5C + f * (mob->m_yaw   - mob->field_5C);
-	m_pitch = mob->field_60 + f * (mob->m_pitch - mob->field_60);
+	m_rot.x = mob->field_5C.x + f * (mob->m_rot.x - mob->field_5C.x);
+	m_rot.y = mob->field_5C.y + f * (mob->m_rot.y - mob->field_5C.y);
 	m_pos.x = mob->field_98.x + f * (mob->m_pos.x - mob->field_98.x);
 	m_pos.y = mob->field_98.y + f * (mob->m_pos.x - mob->field_98.y);
 	m_pos.z = mob->field_98.z + f * (mob->m_pos.x - mob->field_98.z);
@@ -139,7 +138,7 @@ void EntityRenderDispatcher::render(Entity* entity, float f)
 	float x = entity->field_98.x + f * (entity->m_pos.x - entity->field_98.x);
 	float y = entity->field_98.y + f * (entity->m_pos.y - entity->field_98.y);
 	float z = entity->field_98.z + f * (entity->m_pos.z - entity->field_98.z);
-	float yaw = entity->field_5C + f * (entity->m_yaw - entity->field_5C);
+	float yaw = entity->field_5C.x + f * (entity->m_rot.x - entity->field_5C.x);
 
 	float bright = entity->getBrightness(1.0f);
 	glColor4f(bright, bright, bright, 1.0f);

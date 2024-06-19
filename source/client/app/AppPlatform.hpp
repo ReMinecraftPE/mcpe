@@ -50,7 +50,8 @@ public:
 
 #ifndef ORIGINAL_CODE
 	// From v0.1.1. Also add these to determine touch screen use within the game.
-	virtual bool isTouchscreen();
+	virtual bool isTouchscreen() const;
+	virtual bool hasGamepad() const;
 	// Also add these to allow proper turning within the game.
 	virtual void recenterMouse();
 	virtual void setMouseGrabbed(bool b);
@@ -69,6 +70,7 @@ public:
   #ifdef USE_NATIVE_ANDROID
 	virtual int getKeyboardUpOffset();
   #endif
+	virtual void vibrate(int milliSeconds);
 	
 	void _fireLowMemory();
 	void _fireAppSuspended();

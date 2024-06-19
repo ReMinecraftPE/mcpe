@@ -20,7 +20,7 @@ public:
 	virtual Entity* findAttackTarget();
 	virtual bool checkHurtTarget(Entity*, float);
 	virtual void checkCantSeeTarget(Entity*, float);
-	virtual float getWalkTargetValue(int, int, int) const;
+	virtual float getWalkTargetValue(const TilePos& pos) const;
 	virtual bool shouldHoldGround() const;
 	virtual void findRandomStrollLocation();
 

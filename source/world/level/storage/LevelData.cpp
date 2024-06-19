@@ -8,6 +8,8 @@
 
 #include "LevelData.hpp"
 
+#define FORCE_SURVIVAL_MODE (TEST_SURVIVAL_MODE || 0)
+
 void LevelData::_init(int32_t seed, int storageVersion)
 {
 	m_seed = seed;
@@ -30,9 +32,7 @@ void LevelData::read(RakNet::BitStream& bs, int storageVersion)
 {
 	m_storageVersion = storageVersion;
 	bs.Read(m_seed);
-	bs.Read(m_spawnPos.x);
-	bs.Read(m_spawnPos.y);
-	bs.Read(m_spawnPos.z);
+	bs.Read(m_spawnPos);
 	bs.Read(m_time);
 	bs.Read(m_sizeOnDisk);
 	bs.Read(m_lastPlayed);
@@ -45,15 +45,22 @@ void LevelData::read(RakNet::BitStream& bs, int storageVersion)
 void LevelData::write(RakNet::BitStream& bs)
 {
 	bs.Write(m_seed);
-	bs.Write(m_spawnPos.x);
-	bs.Write(m_spawnPos.y);
-	bs.Write(m_spawnPos.z);
+	bs.Write(m_spawnPos);
 	bs.Write(m_time);
 	bs.Write(m_sizeOnDisk);
 	bs.Write(int(getEpochTimeS()));
 
 	RakNet::RakString rs(m_levelName.c_str());
 	bs.Write(rs);
+}
+
+GameType LevelData::getGameType() const
+{
+#if FORCE_SURVIVAL_MODE
+	return GAME_TYPE_SURVIVAL;
+#else
+	return GAME_TYPE_CREATIVE;
+#endif
 }
 
 void LevelData::setLoadedPlayerTo(Player* player)
@@ -64,7 +71,7 @@ void LevelData::setLoadedPlayerTo(Player* player)
 
 void PlayerData::loadPlayer(Player* player)
 {
-	player->setPos(0.0f, 0.0f, 0.0f);
+	player->setPos(Vec3::ZERO);
 
 	player->m_pos    = m_pos;
 	player->field_3C = m_pos;
@@ -73,15 +80,17 @@ void PlayerData::loadPlayer(Player* player)
 	player->m_vel.y = Mth::abs(m_vel.y) > 10.0f ? 0.0f : m_vel.y;
 	player->m_vel.z = Mth::abs(m_vel.z) > 10.0f ? 0.0f : m_vel.z;
 
-	player->m_pitch = player->field_60 = m_pitch;
-	player->m_yaw   = player->field_5C = m_yaw;
+	// Let the setter do the validation
+	player->setRot(
+		player->field_5C = m_rot
+	);
 	player->m_distanceFallen = m_distanceFallen;
 	player->m_fireTicks = field_24;
 	player->field_BC = field_26;
 	player->m_onGround = field_28;
 
 	// @NOTE: Why are we updating m_pos, field_3C and field_98 above if we do this?
-	player->setPos(m_pos.x, m_pos.y, m_pos.z);
+	player->setPos(m_pos);
 
 	// TODO: survival mode stuff
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
@@ -92,8 +101,7 @@ void PlayerData::savePlayer(Player* player)
 {
 	m_pos = player->m_pos;
 	m_vel = player->m_vel;
-	m_pitch = player->m_pitch;
-	m_yaw   = player->m_yaw;
+	m_rot = player->m_rot;
 	m_distanceFallen = player->m_distanceFallen;
 	field_24 = player->m_fireTicks;
 	field_26 = player->field_BC;

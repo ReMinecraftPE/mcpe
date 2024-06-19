@@ -91,8 +91,8 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
 	}
 
-	float aYaw   = pMob->field_5C + (pMob->m_yaw   - pMob->field_5C) * f;
-	float aPitch = pMob->field_60 + (pMob->m_pitch - pMob->field_60) * f;
+	float aYaw   = pMob->field_5C.x + (pMob->m_rot.x   - pMob->field_5C.x) * f;
+	float aPitch = pMob->field_5C.y + (pMob->m_rot.y - pMob->field_5C.y) * f;
 	float fBob   = getBob(pMob, f);
 	float fSmth  = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
 
@@ -178,8 +178,8 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float
 	glTranslatef(x + 0.0f, y + 2.3f, z);
 	glNormal3f(0.0f, 1.0f, 0.0f);
 	// billboard the name towards the camera
-	glRotatef(-m_pDispatcher->m_yaw,   0.0f, 1.0f, 0.0f);
-	glRotatef(+m_pDispatcher->m_pitch, 1.0f, 0.0f, 0.0f);
+	glRotatef(-m_pDispatcher->m_rot.x,   0.0f, 1.0f, 0.0f);
+	glRotatef(+m_pDispatcher->m_rot.y, 1.0f, 0.0f, 0.0f);
 	glScalef(-0.026667f, -0.026667f, 0.026667f);
 	glDepthMask(false);
 	glDisable(GL_DEPTH_TEST);

@@ -13,27 +13,27 @@ Sapling::Sapling(int id, int texture) : Bush(id, texture)
 {
 }
 
-int Sapling::getTexture(int dir, int data) const
+int Sapling::getTexture(Facing::Name face, int data) const
 {
 	return TEXTURE_SAPLING; // we don't have the other saplings' textures...
 }
 
-void Sapling::tick(Level* level, int x, int y, int z, Random* random)
+void Sapling::tick(Level* level, const TilePos& pos, Random* random)
 {
-	Bush::tick(level, x, y, z, random);
+	Bush::tick(level, pos, random);
 
-	if (level->getRawBrightness(x, y, z) > 8 && random->nextInt(7) == 0)
+	if (level->getRawBrightness(pos) > 8 && random->nextInt(7) == 0)
 	{
-		int data = level->getData(x, y, z);
+		int data = level->getData(pos);
 
 		if (data & 8)
-			growTree(level, x, y, z, random);
+			growTree(level, pos, random);
 		else
-			level->setDataNoUpdate(x, y, z, data | 8);
+			level->setDataNoUpdate(pos, data | 8);
 	}
 }
 
-bool Sapling::maybeGrowTree(Level* level, int x, int y, int z, Random* random)
+bool Sapling::maybeGrowTree(Level* level, const TilePos& pos, Random* random)
 {
 	// this is fine... these are not heavy at all
 	TreeFeature treeFeature;
@@ -42,7 +42,7 @@ bool Sapling::maybeGrowTree(Level* level, int x, int y, int z, Random* random)
 
 	Feature* pFeature = &treeFeature;
 
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 	switch (data)
 	{
 		case 1:
@@ -53,13 +53,13 @@ bool Sapling::maybeGrowTree(Level* level, int x, int y, int z, Random* random)
 			break;
 	}
 
-	return treeFeature.place(level, random, x, y, z);
+	return treeFeature.place(level, random, pos);
 }
 
-void Sapling::growTree(Level* level, int x, int y, int z, Random* random)
+void Sapling::growTree(Level* level, const TilePos& pos, Random* random)
 {
-	level->setTileNoUpdate(x, y, z, TILE_AIR);
+	level->setTileNoUpdate(pos, TILE_AIR);
 
-	if (!maybeGrowTree(level, x, y, z, random))
-		level->setTileNoUpdate(x, y, z, m_ID);
+	if (!maybeGrowTree(level, pos, random))
+		level->setTileNoUpdate(pos, m_ID);
 }

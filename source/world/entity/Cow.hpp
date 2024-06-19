@@ -20,7 +20,7 @@ public:
 	int getDeathLoot() const override { return ITEM_LEATHER; }
 	int getEntityTypeId() const override { return ENTITY_TYPE_COW; }
 	int getMaxHealth() const override { return 10; }
-	float getSoundVolume() const override { return 0.4; }
+	float getSoundVolume() const override { return 0.4f; }
 
 	Entity* getBreedOffspring(Animal* pOther) { return new Cow(m_pLevel); }
 };

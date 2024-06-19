@@ -50,10 +50,12 @@
   <ImportGroup Label="Minecraft">
     <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
   </ImportGroup>
-  <PropertyGroup>
-    <IncludePath>$(MC_ROOT)\thirdparty\zlib;$(IncludePath)</IncludePath>
-  </PropertyGroup>
   <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\thirdparty\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />

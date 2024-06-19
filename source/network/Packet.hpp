@@ -237,9 +237,7 @@ public:
 	int field_14;
 	RakNet::RakString m_name;
 	int m_id;
-	float m_x;
-	float m_y;
-	float m_z;
+	Vec3 m_pos;
 };
 
 class RemoveEntityPacket : public Packet
@@ -259,29 +257,24 @@ class MovePlayerPacket : public Packet
 {
 public:
 	MovePlayerPacket() {}
-	MovePlayerPacket(int id, float x, float y, float z, float pitch, float yaw): m_id(id), m_x(x), m_y(y), m_z(z), m_pitch(pitch), m_yaw(yaw) {}
+	MovePlayerPacket(int id, Vec3 pos, Vec2 rot): m_id(id), m_pos(pos), m_rot(rot) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
 	int m_id;
-	float m_x;
-	float m_y;
-	float m_z;
-	float m_pitch;
-	float m_yaw;
+	Vec3 m_pos;
+	Vec2 m_rot;
 };
 
 class PlaceBlockPacket : public Packet
 {
 public:
 	PlaceBlockPacket() {}
-	PlaceBlockPacket(int playerID, int x, uint8_t y, int z, uint8_t tile, uint8_t face)
+	PlaceBlockPacket(int playerID, const TilePos& pos, TileID tile, Facing::Name face)
 	{
 		m_playerID = playerID;
-		m_x = x;
-		m_y = y;
-		m_z = z;
+		m_pos = pos;
 		m_tile = tile;
 		m_face = face;
 	}
@@ -291,10 +284,8 @@ public:
 	void read(RakNet::BitStream*) override;
 public:
 	int m_playerID;
-	int m_x;
-	int m_z;
-	uint8_t m_y;
-	uint8_t m_tile;
+	TilePos m_pos;
+	TileID m_tile;
 	uint8_t m_face;
 };
 
@@ -302,16 +293,14 @@ class RemoveBlockPacket : public Packet
 {
 public:
 	RemoveBlockPacket() {}
-	RemoveBlockPacket(int id, int x, int y, int z) :m_playerID(id), m_x(x), m_z(z), m_y(uint8_t(y)) {}
+	RemoveBlockPacket(int id, const TilePos& pos) :m_playerID(id), m_pos(pos) {}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
 	int m_playerID;
-	int m_x;
-	int m_z;
-	uint8_t m_y;
+	TilePos m_pos;
 };
 
 class UpdateBlockPacket : public Packet
@@ -321,10 +310,8 @@ public:
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	int m_x;
-	int m_z;
-	uint8_t m_y;
-	uint8_t m_tile;
+	TilePos m_pos;
+	TileID m_tile;
 	uint8_t m_data;
 };
 
@@ -332,26 +319,24 @@ class RequestChunkPacket : public Packet
 {
 public:
 	RequestChunkPacket() {}
-	RequestChunkPacket(int x, int z) { m_x = x; m_z = z; }
+	RequestChunkPacket(const ChunkPos& pos) { m_chunkPos = pos; }
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	int m_x;
-	int m_z;
+	ChunkPos m_chunkPos;
 };
 
 class ChunkDataPacket : public Packet
 {
 public:
 	ChunkDataPacket() {}
-	ChunkDataPacket(int x, int z, LevelChunk* c) :m_x(x), m_z(z), m_pChunk(c) {}
+	ChunkDataPacket(const ChunkPos& pos, LevelChunk* c) :m_chunkPos(pos), m_pChunk(c) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	int m_x;
-	int m_z;
+	ChunkPos m_chunkPos;
 	RakNet::BitStream m_data;
 	LevelChunk* m_pChunk;
 };

@@ -10,12 +10,10 @@
 
 int TickNextTickData::C;
 
-TickNextTickData::TickNextTickData(int a, int b, int c, int d)
+TickNextTickData::TickNextTickData(const TilePos& tilePos, int d)
 {
 	m_ID = ++C; //@NOTE: not C++
-	field_4 = a;
-	field_8 = b;
-	field_C = c;
+	field_4 = tilePos;
 	field_10 = d;
 
 #ifndef ORIGINAL_CODE
@@ -25,7 +23,7 @@ TickNextTickData::TickNextTickData(int a, int b, int c, int d)
 
 int TickNextTickData::hashCode() const
 {
-	return field_10 + ((field_8 + ((field_C + (field_4 << 10)) << 7)) << 8);
+	return field_10 + ((field_4.y + ((field_4.z + (field_4.x << 10)) << 7)) << 8);
 }
 
 bool TickNextTickData::operator<(const TickNextTickData& other) const
@@ -42,8 +40,6 @@ bool TickNextTickData::operator==(const TickNextTickData& other) const
 {
 	return
 		field_4  == other.field_4  &&
-		field_8  == other.field_8  &&
-		field_C  == other.field_C  &&
 		field_10 == other.field_10;
 }
 

@@ -14,10 +14,10 @@ class ItemEntity : public Entity
 {
 private:
 	void _init(const ItemInstance* itemInstance = nullptr);
-	void _init(const ItemInstance* itemInstance, float x, float y, float z);
+	void _init(const ItemInstance* itemInstance, const Vec3& pos);
 public:
 	ItemEntity(Level* level) : Entity(level) { _init(); }
-	ItemEntity(Level* level, float x, float y, float z, const ItemInstance* itemInstance) : Entity(level) { _init(itemInstance, x, y, z); }
+	ItemEntity(Level* level, const Vec3& pos, const ItemInstance* itemInstance) : Entity(level) { _init(itemInstance, pos); }
 
 	void burn(int damage) override;
 	bool hurt(Entity* pCulprit, int damage) override;
@@ -25,7 +25,7 @@ public:
 	void playerTouch(Player*) override;
 	void tick() override;
 
-	void checkInTile(float x, float y, float z);
+	void checkInTile(const Vec3& pos);
 
 public:
 	// @NOTE: The original code keeps a pointer to something which is not duplicated with a new(), nor does it delete() the instance.
