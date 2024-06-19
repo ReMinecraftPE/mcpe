@@ -317,7 +317,7 @@ void CheckOptionalTextureAvailability()
 int main(int argc, char *argv[])
 {
 	// Setup Logging
-	new Logger;
+	Logger::setSingleton(new Logger);
 
 	// Setup SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)

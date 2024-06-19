@@ -12,17 +12,17 @@
 
 void SoundDesc::_load(const AppPlatform* platform, const char *name)
 {
-	if (isLoaded)
+	if (m_isLoaded)
 	{
 		// Already Loaded
 		return;
 	}
 	// Read Asset File
-	AssetFile file = platform->readAssetFile(std::string("sound/") + name + ".pcm");
-	isLoaded = file.size > 0;
-	if (isLoaded)
+	m_file = platform->readAssetFile(std::string("sound/") + name + ".pcm");
+	m_isLoaded = m_file.size > 0;
+	if (m_isLoaded)
 	{
-		m_fileData = file.data;
+		m_fileData = m_file.data;
 		m_header = *(PCMSoundHeader *) m_fileData;
 		m_pData = (uint16_t *) (m_fileData + sizeof(PCMSoundHeader));
 		field_4 = m_header.m_channels * m_header.m_length * m_header.m_bytes_per_sample;

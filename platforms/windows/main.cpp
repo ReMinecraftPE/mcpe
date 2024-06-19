@@ -145,7 +145,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// This initializes the Logger singleton to use the Windows-specific variant
 	// If we didn't initialize it here, the Minecraft class would have our back
-	new LoggerWin32;
+	Logger::setSingleton(new LoggerWin32);
 
 	// register the window class:
 	WNDCLASS wc;

@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include "common/Utils.hpp"
+#include "client/app/AssetFile.hpp"
 
 struct AppPlatform;
 
@@ -23,7 +24,8 @@ struct PCMSoundHeader
 
 struct SoundDesc
 {
-	bool isLoaded;
+	bool m_isLoaded;
+	AssetFile m_file;
 	uint16_t* m_pData;
 	int field_4;
 	PCMSoundHeader m_header;
