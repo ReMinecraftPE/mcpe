@@ -36,8 +36,10 @@ private:
 	RectangleArea m_rectArea;
 	bool field_30[10];
 	Options* m_pOptions;
-	bool field_40;
-	bool m_bJumpBeingHeld;
+	bool m_bForwardHeld;
+	bool m_bJumpingHeld;
+	bool m_bFlyActive;
+	int m_jumpTick;
 	TouchAreaModel m_touchAreaModel;
 	Minecraft* m_pMinecraft;
 	PolygonArea* m_pAreaLeft;
