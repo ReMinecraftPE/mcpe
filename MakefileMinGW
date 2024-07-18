@@ -19,7 +19,7 @@ TGL_DIR=thirdparty/GL
 TARGET=minecraftcpp.exe
 
 # Compilation flags for C++ source files
-CXXFLAGS=-Isource -I. -Ithirdparty/raknet -Ithirdparty/zlib -DUSE_MATH_DEFINES -DSHA1_HAS_TCHAR -DHANDLE_CHARS_SEPARATELY -DUSE_WIN32_THREADS -DLOCKLESS_TYPES_USE_MUTEX -DNDEBUG -O3 -mno-sse -mno-sse2 -mno-mmx -march=i386 -MMD $(VBO_EMULATION_FLAG)
+CXXFLAGS=-Isource -I. -Ithirdparty/raknet -Ithirdparty/zlib -DUSE_MATH_DEFINES -DSHA1_HAS_TCHAR -DHANDLE_CHARS_SEPARATELY -DUSE_WIN32_THREADS -DLOCKLESS_TYPES_USE_MUTEX -DNDEBUG -O2 -mno-sse -mno-sse2 -mno-mmx -march=i386 -MMD $(VBO_EMULATION_FLAG)
 
 # Compilation flags for zlib source files
 ZLIBFLAGS=-O3 -I. -MMD -Ithirdparty/stb_image/include
