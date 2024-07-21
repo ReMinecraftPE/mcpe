@@ -476,9 +476,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp">
       <Filter>Source Files\Phys</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\Facing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\TilePos.cpp">
       <Filter>Source Files\Level</Filter>
     </ClCompile>

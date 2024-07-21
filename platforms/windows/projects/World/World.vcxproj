@@ -164,7 +164,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\MobFactory.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\ChunkPos.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\world\Facing.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\TilePos.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.cpp" />
   </ItemGroup>

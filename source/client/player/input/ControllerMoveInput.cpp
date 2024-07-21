@@ -14,8 +14,7 @@ void ControllerMoveInput::tick(Player* player)
     KeyboardInput::tick(player);
     if (Controller::isTouched(1))
     {
-        // Not sure if it's an SDL2 thing, but I have to invert this to correct the movement
-        float x = -Controller::getX(1)/* ^ 0x80000000*/;
+        float x = -Controller::getX(1);
         float y = Controller::getY(1);
         m_horzInput = x; 
         m_vertInput = -y;
