@@ -288,7 +288,6 @@ add_library(reminecraftpe-core STATIC
     world/tile/FarmTile.cpp
     world/tile/DoorTile.cpp
     world/tile/RocketLauncherTile.cpp
-    world/Facing.cpp
     renderer/GL/GL.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)
