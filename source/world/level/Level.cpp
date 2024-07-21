@@ -731,9 +731,12 @@ AABBVector* Level::getCubes(const Entity* pEntUnused, const AABB& aabb)
 
 			for (long y = lowerY; y <= upperY; y++)
 			{
-				Tile* pTile = Tile::tiles[getTile(TilePos(x, y, z))];
+				// Obviously this is problematic, but using longs in our for loops rather than
+				// ints helps prevents crashes at extreme distances from 0,0
+				TilePos tp((int)x, (int)y, (int)z);
+				Tile* pTile = Tile::tiles[getTile(tp)];
 				if (pTile)
-					pTile->addAABBs(this, TilePos(x, y, z), &aabb, m_aabbs);
+					pTile->addAABBs(this, tp, &aabb, m_aabbs);
 			}
 		}
 	}
