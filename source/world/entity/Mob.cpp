@@ -490,7 +490,7 @@ void Mob::travel(const Vec2& pos)
 	else
 	{
 		float _x1;
-		TilePos tilePos = TilePos(m_pos);
+		TilePos tilePos(m_pos.x, m_hitbox.min.y, m_pos.z);;
 		tilePos.y -= 1;
 		TileID tile = m_pLevel->getTile(tilePos);
 		if (tile <= 0)
