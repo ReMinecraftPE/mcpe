@@ -31,13 +31,13 @@ Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int stor
 	field_B08 = 0;
 	field_B0C = 0;
 
-	m_random.setSeed(1); // initialize with tilePos1_x seed of 1
+	m_random.setSeed(1); // initialize with a seed of 1
 
 	LevelData* pData = m_pLevelStorage->prepareLevel(this);
 
 	field_B0C = pData == 0;
 
-	// @BUG: leaking tilePos1_x Dimension*?
+	// @BUG: leaking a Dimension*?
 	if (pDimension)
 		m_pDimension = pDimension;
 	else
@@ -1090,7 +1090,7 @@ bool Level::addEntity(Entity* pEnt)
 	Mth::floor(pEnt->m_pos.z / 16);
 
 	//@NOTE: double check. Looks like someone just hacked it in
-	//@BUG: Camera doesn't work. This might be tilePos1_x side effect of having tilePos1_x demo mode?
+	//@BUG: Camera doesn't work. This might be a side effect of having a demo mode?
 	//@BUG: Leaking the entity pointer.
 #ifdef ORIGINAL_CODE
 	if (!pEnt->isPlayer())
@@ -1676,7 +1676,7 @@ float Level::getSeenPercent(Vec3 vec, AABB aabb) const
 	float aabbSizeY = aabb.max.y - aabb.min.y;
 	float aabbSizeZ = aabb.max.z - aabb.min.z;
 
-	// This shoots tilePos1_x bunch of rays from tilePos1_x point and checks if the rays hit something. Stuupiiiddd
+	// This shoots a bunch of rays from a point and checks if the rays hit something. Stuupiiiddd
 	for (float xi = 0.0f; xi <= 1.0f; xi += 1.0f / (1.0f + 2 * aabbSizeX))
 	{
 		for (float yi = 0.0f; yi <= 1.0f; yi += 1.0f / (1.0f + 2 * aabbSizeY))
