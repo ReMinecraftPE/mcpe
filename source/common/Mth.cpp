@@ -84,15 +84,15 @@ unsigned Mth::fastRandom()
 	return(x4 = x4 ^ (unsigned(x4) >> 19) ^ x0 ^ (x0 << 11) ^ ((x0 ^ unsigned(x0 << 11)) >> 8));
 }
 
-float Mth::clamp(float a, float b, float c)
+float Mth::clamp(float a, float min, float max)
 {
-	if (a > c)
-		return c;
-	if (a > b)
+	if (a > max)
+		return max;
+	if (a > min)
 		return a;
 	else
-		return b;
-	return c;
+		return min;
+	return max;
 }
 
 int Mth::floor(float f)
@@ -135,23 +135,25 @@ int Mth::Max(int a, int b)
 	return a > b ? a : b;
 }
 
-float Mth::abs(float f)
+/*float Mth::abs(float f)
 {
-	if (f < 0)
+	if (f < 0.0f)
 		f = -f;
 	return f;
-}
+}*/
 
 int Mth::abs(int d)
 {
-	return Mth::abs((float)d);
+	if (d < 0)
+		d = -d;
+	return d;
 }
 
 float Mth::absMax(float a2, float a3)
 {
-	if (a2 < 0)
+	if (a2 < 0.0f)
 		a2 = -a2;
-	if (a3 < 0)
+	if (a3 < 0.0f)
 		a3 = -a3;
 	if (a2 <= a3)
 		a2 = a3;

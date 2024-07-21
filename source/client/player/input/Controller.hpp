@@ -12,6 +12,12 @@
 
 class Controller
 {
+private:
+	static const float DIRECTION_X_THRESHOLD;
+	static const float DIRECTION_Y_THRESHOLD;
+
+	static float _deadzonesX[2][2], _deadzonesY[2][2];
+
 public:
 	enum StickDirection
 	{
@@ -26,9 +32,9 @@ public:
 	static bool isValidStick(int stickNo);
 	static float linearTransform(float, float, float, bool);
 	// SDL2 feeds controller stick update events one axis at a time
-	static void feedStickX(int stickNo, int touched, float x);
-	static void feedStickY(int stickNo, int touched, float y);
-	static void feedStick(int stickNo, int touched, float x, float y);
+	static void feedStickX(int stickNo, bool touched, float x);
+	static void feedStickY(int stickNo, bool touched, float y);
+	static void feedStick(int stickNo, bool touched, float x, float y);
 	static float getX(int stickNo);
 	static float getY(int stickNo);
 	static float getTransformedX(int stickNo, float a2, float a3, bool b);

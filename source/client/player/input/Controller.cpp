@@ -9,11 +9,19 @@
 #include "Controller.hpp"
 #include <cmath>
 
-bool Controller::isTouchedValues[2];
-float Controller::stickValuesX[2];
-float Controller::stickValuesY[2];
-float Controller::triggerValues[2];
-bool Controller::inReset;
+const float Controller::DIRECTION_X_THRESHOLD = 0.3f;
+const float Controller::DIRECTION_Y_THRESHOLD = 0.3f;
+
+#define DEADZONE(f) { (f), (1.0f / (1.0f - f)) }
+// 0.3051f
+float Controller::_deadzonesX[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
+float Controller::_deadzonesY[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
+
+bool Controller::isTouchedValues[] = { false, false };
+float Controller::stickValuesX[] = { 0.0f, 0.0f };
+float Controller::stickValuesY[] = { 0.0f, 0.0f };
+float Controller::triggerValues[] = { 0.0f, 0.0f };
+bool Controller::inReset = true;
 
 #ifndef USE_NATIVE_ANDROID
 const float Controller_unk_1[3] = { 0.0f, 0.64f, -0.64f };
@@ -27,68 +35,63 @@ bool Controller::isValidStick(int stickNo)
 
 float Controller::linearTransform(float a1, float a2, float a3, bool b)
 {
-	if (a1 < 0.0)
+	if (a1 < 0.0f)
 		a2 = -a2;
 	if (fabsf(a2) >= fabsf(a1))
-		return 0.0;
+		return 0.0f;
 
-	float v5 = (a1 - a2) * a3;
-	if (!b || fabsf(v5) <= 1.0)
+	float v5 = (a1 - fabsf(a2)) * a3;
+	if (!b || fabsf(v5) <= 1.0f)
 		return v5;
-	if (v5 > 0.0)
-		return 1.0;
-	return -1.0;
+	if (v5 > 0.0f)
+		return 1.0f;
+	return -1.0f;
 }
 
-void Controller::feedStickX(int stickNo, int touched, float x)
+void Controller::feedStickX(int stickNo, bool touched, float x)
 {
 	if (!isValidStick(stickNo))
 		return;
 
 	int index = stickNo - 1;
+	float deadzone = _deadzonesX[index][0], deadzone_mod = _deadzonesX[index][1];
 
-	isTouchedValues[index] = touched != 0;
-	stickValuesX[index] = x;
+	isTouchedValues[index] = touched;
+	if (x >= deadzone)
+		x = (x - deadzone) * deadzone_mod;
+	else if (x <= -deadzone)
+		x = (x + deadzone) * deadzone_mod;
+	else
+		x = 0;
+	stickValuesX[index] = x; // LCE has a deadzone of 20000, ~0.3f on 360
 
 	inReset = false;
 }
 
-void Controller::feedStickY(int stickNo, int touched, float y)
+void Controller::feedStickY(int stickNo, bool touched, float y)
 {
 	if (!isValidStick(stickNo))
 		return;
 
 	int index = stickNo - 1;
+	float deadzone = _deadzonesY[index][0], deadzone_mod = _deadzonesY[index][1];
 
-	isTouchedValues[index] = touched != 0;
-	stickValuesY[index] = y;
+	isTouchedValues[index] = touched;
+	if (y >= deadzone)
+		y = (y - deadzone) * deadzone_mod;
+	else if (y <= -deadzone)
+		y = (y + deadzone) * deadzone_mod;
+	else
+		y = 0;
+	stickValuesY[index] = y; // LCE has a deadzone of 20000, ~0.3f on 360
 
 	inReset = false;
 }
 
-void Controller::feedStick(int stickNo, int touched, float x, float y)
+void Controller::feedStick(int stickNo, bool touched, float x, float y)
 {
-	if (!isValidStick(stickNo))
-		return;
-
-#ifdef USE_NATIVE_ANDROID
-	int index = stickNo - 1;
-#else
-	int index = (x >= 0.0f) ? 1 : 0;
-#endif
-
-	// maybe the 2 'touch sticks' are actually internally 1 single surface??
-
-	isTouchedValues[index] = touched != 0;
-#ifdef USE_NATIVE_ANDROID
-	stickValuesX[index] = x;
-#else
-	stickValuesX[index] = linearTransform(x + Controller_unk_1[index + 1], 0.0f, 2.78f, true);
-#endif
-
-	stickValuesY[index] = y;
-
-	inReset = false;
+	feedStickX(stickNo, touched, x);
+	feedStickY(stickNo, touched, y);
 }
 
 float Controller::getX(int stickNo)
@@ -154,9 +157,9 @@ Controller::StickDirection Controller::getDirection(int stickNo)
 		float x = fabsf(Controller::getX(stickNo));
 		float y = fabsf(Controller::getY(stickNo));
 		if (x >= y)
-			return Controller::getXDirection(stickNo, 0.3f);
+			return Controller::getXDirection(stickNo, DIRECTION_X_THRESHOLD);
 		else
-			return Controller::getYDirection(stickNo, 0.3f);
+			return Controller::getYDirection(stickNo, DIRECTION_Y_THRESHOLD);
 	}
 
 	return DIR_NONE;

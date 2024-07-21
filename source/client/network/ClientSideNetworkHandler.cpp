@@ -216,7 +216,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 	if (!areAllChunksLoaded())
 		return;
 
-	TilePos pos = pPlaceBlockPkt->m_pos;
+	const TilePos& pos = pPlaceBlockPkt->m_pos;
 	TileID tile = pPlaceBlockPkt->m_tile;
 	Facing::Name face = (Facing::Name)pPlaceBlockPkt->m_face;
 
@@ -251,7 +251,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 	if (!areAllChunksLoaded())
 		return;
 
-	TilePos pos = pRemoveBlockPkt->m_pos;
+	const TilePos& pos = pRemoveBlockPkt->m_pos;
 
 	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
 	int data = m_pLevel->getData(pos);

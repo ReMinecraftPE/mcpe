@@ -39,14 +39,18 @@ struct TilePos
 	bool operator>=(const TilePos& b) const;
 	TilePos operator+(const TilePos& b) const;
 	TilePos operator+(int i) const;
+	Vec3 operator+(float f) const;
 	TilePos operator-(const TilePos& b) const;
 	TilePos operator-(int i) const;
+	Vec3 operator-(float f) const;
 	void operator+=(const TilePos& b);
 	void operator-=(const TilePos& b);
 	void operator*=(int i);
 	TilePos operator-() const;
 	TilePos operator*(int i) const;
+	Vec3 operator*(float f) const;
 	TilePos operator/(int i) const;
+	Vec3 operator/(float f) const;
 	bool operator==(const TilePos& b) const;
 	bool operator!=(const TilePos& b) const;
 };

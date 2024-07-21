@@ -24,7 +24,7 @@ void Entity::_init()
 	field_34 = 0;
 	m_pLevel = nullptr;
 	m_rot = Vec2::ZERO;
-	field_5C = Vec2::ZERO;
+	m_rotPrev = Vec2::ZERO;
 	m_onGround = false;
 	field_7D = false;
 	field_7E = false;
@@ -504,7 +504,7 @@ void Entity::moveTo(const Vec3& pos, const Vec2& rot)
 
 	setPos(newPos);
 	field_3C = newPos;
-	field_98 = newPos;
+	m_posPrev = newPos;
 
 	m_rot = rot;
 }
@@ -513,7 +513,7 @@ void Entity::absMoveTo(const Vec3& pos, const Vec2& rot)
 {
 	field_A4 = 0.0f;
 
-	field_5C = rot;
+	m_rotPrev = rot;
 	setRot(rot);
 
 	setPos(pos);
@@ -522,9 +522,9 @@ void Entity::absMoveTo(const Vec3& pos, const Vec2& rot)
 	// This looks like a rebounding check for the angle
 	//@WHAT: (yaw - yaw) == 0
 	if (rot.x - rot.x < -180.0f)
-		field_5C.x = rot.x + 360.0f;
+		m_rotPrev.x = rot.x + 360.0f;
 	if (rot.x - rot.x >= 180.0f)
-		field_5C.x = field_5C.x - 360.0f;
+		m_rotPrev.x = m_rotPrev.x - 360.0f;
 }
 
 void Entity::moveRelative(const Vec3& pos)
@@ -572,15 +572,15 @@ void Entity::turn(const Vec2& rot)
 
 	interpolateTurn(rot);
 
-	field_5C.x += m_rot.x - rotOld.x;
-	field_5C.y += m_rot.y - rotOld.y;
+	m_rotPrev.x += m_rot.x - rotOld.x;
+	m_rotPrev.y += m_rot.y - rotOld.y;
 }
 
 void Entity::reset()
 {
 	// TODO is this it
-	field_98 = field_3C = m_pos;
-	field_5C = m_rot;
+	m_posPrev = field_3C = m_pos;
+	m_rotPrev = m_rot;
 	m_bRemoved = false;
 	m_distanceFallen = 0.0f;
 	field_D5 = false;
@@ -589,8 +589,10 @@ void Entity::reset()
 
 void Entity::interpolateTurn(const Vec2& rot)
 {
-	m_rot.x += rot.x * 0.15f;
-	m_rot.y -= rot.y * 0.15f;
+	setRot(Vec2(
+		m_rot.x + rot.x * 0.15f,
+		m_rot.y - rot.y * 0.15f
+	));
 
 	// can't rotate more than facing fully up or fully down
 	if (m_rot.y < -90.0f)
@@ -611,7 +613,7 @@ void Entity::baseTick()
 	field_90 = field_94;
 	field_3C = m_pos;
 	field_B4++;
-	field_5C = m_rot;
+	m_rotPrev = m_rot;
 	if (isInWater())
 	{
 		if (!field_D4 && !field_D6)

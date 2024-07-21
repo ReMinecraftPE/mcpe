@@ -216,7 +216,7 @@ Chunk::Chunk(Level* level, const TilePos& pos, int a, int b, GLuint* bufs)
 	m_pTesselator = &Tesselator::instance;
 	field_8C = b;
 	m_pos.x = -999;
-	field_2C = Mth::sqrt(float(field_10.x * field_10.x + field_10.y * field_10.y + field_10.z * field_10.z)) / 2;
+	field_2C = Vec3(pos).lengthSqr() / 2;
 	field_90 = bufs;
 
 	setPos(pos);

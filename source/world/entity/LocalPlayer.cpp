@@ -50,7 +50,7 @@ LocalPlayer::~LocalPlayer()
 void LocalPlayer::aiStep()
 {
 	m_pMoveInput->tick(this);
-	if (m_pMoveInput->m_bSneakButton && field_A4 < 0.2f)
+	if (m_pMoveInput->m_bSneaking && field_A4 < 0.2f)
 		field_A4 = 0.2f;
 
 	m_lastRenderArmRot = m_renderArmRot;
@@ -76,6 +76,18 @@ void LocalPlayer::drop(const ItemInstance* pItemInstance, bool b)
 	}
 }
 
+bool LocalPlayer::isImmobile() const
+{
+	// The player should never move if they aren't focused on the game.
+	// i.e. they're in a menu or the window is unfocused.
+	
+	// @BUG: This causes the player's hand to pause mid-swing while in menus, only when on gamepad.
+	// There does not seem to be a way to get around this without implementing another layer to handle input, which Mojang did later on.
+
+	// This more or less signifies that the game has focus. No GUI Screens, no other windows, just gameplay.
+	return Player::isImmobile() || (m_pMinecraft->useController() && m_pMinecraft->m_pScreen); //!m_pMinecraft->m_bGrabbedMouse; // this works if we still set this when not using a mouse
+}
+
 void LocalPlayer::animateRespawn()
 {
 
@@ -94,7 +106,7 @@ void LocalPlayer::calculateFlight(const Vec3& pos)
 		y1 = f1 * -0.2f;
 
 	field_BFC += x1;
-	float f2 = m_pMinecraft->getOptions()->field_8 * 0.35f;
+	float f2 = m_pMinecraft->getOptions()->m_fSensitivity * 0.35f;
 	float f3 = f2 * (field_BFC - field_C00);
 	float f4 = field_C04 + 0.5f * (f3 - field_C04);
 	field_C04 = f4;
@@ -135,7 +147,7 @@ void LocalPlayer::respawn()
 
 bool LocalPlayer::isSneaking() const
 {
-	return m_pMoveInput->m_bSneakButton;
+	return m_pMoveInput->m_bSneaking;
 }
 
 int LocalPlayer::move(const Vec3& pos)
@@ -172,7 +184,7 @@ int LocalPlayer::move(const Vec3& pos)
 		if (m_nAutoJumpFrames > 0)
 		{
 			m_nAutoJumpFrames--;
-			m_pMoveInput->m_bJumpButton = true;
+			m_pMoveInput->m_bJumping = true;
 		}
 
 		float posX = m_pos.x;
@@ -251,5 +263,5 @@ void LocalPlayer::updateAi()
 	field_B00.x = m_pMoveInput->m_horzInput;
 	field_B00.y = m_pMoveInput->m_vertInput;
 
-	field_B0C = m_pMoveInput->m_bJumpButton || m_nAutoJumpFrames > 0;
+	field_B0C = m_pMoveInput->m_bJumping || m_nAutoJumpFrames > 0;
 }

@@ -75,9 +75,6 @@ private:
 	int xrel;
 	int yrel;
 
-	bool _mousegrabbed;
-	bool m_bWasUnfocused;
-
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 

@@ -49,7 +49,7 @@ public:
 	bool m_bWasTouched;
 	TouchAreaModel m_touchAreaModel;
 	IncludeExcludeArea m_includeExcludeArea;
-	float field_B8;
+	double field_B8;
 	float field_BC;
 	float field_C0;
 	float field_C4;

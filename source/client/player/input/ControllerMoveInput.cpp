@@ -14,13 +14,10 @@ void ControllerMoveInput::tick(Player* player)
     KeyboardInput::tick(player);
     if (Controller::isTouched(1))
     {
-        float x = Controller::getX(1)/* ^ 0x80000000*/;
-        if (fabsf(x) <= 0.1f)
-            x = 0.0f;
+        // Not sure if it's an SDL2 thing, but I have to invert this to correct the movement
+        float x = -Controller::getX(1)/* ^ 0x80000000*/;
         float y = Controller::getY(1);
-        if (fabsf(y) <= 0.1f)
-            y = 0.0f;
-        m_horzInput = -x; // Not sure if it's an SDL2 thing, but I have to invert this to correct the movement
+        m_horzInput = x; 
         m_vertInput = -y;
         /*if (*(player + 3169) && this->m_keys[7])
         {
@@ -38,17 +35,17 @@ void ControllerMoveInput::tick(Player* player)
     //}
 LABEL_3:
     if (player->isInWater() && Controller::isTouched(1))
-        m_bJumpButton = 1;
+        m_bJumping = 1;
     m_keys[INPUT_LEFT] = m_keys[INPUT_FORWARD] || m_keys[INPUT_BACKWARD];
     if (m_keys[INPUT_LEFT])
         m_vertInput = 0.0;
 }
 
-void ControllerMoveInput::setKey(int keyCode, bool state)
+void ControllerMoveInput::setKey(int eventKey, bool eventKeyState)
 {
-	KeyboardInput::setKey(keyCode, state);
-	//this->field_20 = m_pOptions[36] == keyCode && state;
-	//this->field_21 = m_pOptions[34] == keyCode && state;
+	KeyboardInput::setKey(eventKey, eventKeyState);
+	//this->field_20 = m_pOptions[36] == eventKey && eventKeyState;
+	//this->field_21 = m_pOptions[34] == eventKey && eventKeyState;
 }
 
 void ControllerMoveInput::releaseAllKeys()

@@ -91,8 +91,8 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
 	}
 
-	float aYaw   = pMob->field_5C.x + (pMob->m_rot.x   - pMob->field_5C.x) * f;
-	float aPitch = pMob->field_5C.y + (pMob->m_rot.y - pMob->field_5C.y) * f;
+	float aYaw   = pMob->m_rotPrev.x + (pMob->m_rot.x   - pMob->m_rotPrev.x) * f;
+	float aPitch = pMob->m_rotPrev.y + (pMob->m_rot.y - pMob->m_rotPrev.y) * f;
 	float fBob   = getBob(pMob, f);
 	float fSmth  = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
 

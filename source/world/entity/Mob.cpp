@@ -193,11 +193,11 @@ LABEL_31:
 	if (angleOOB)
 		x2 = -x2;
 	
-	while (x4 - field_5C.x < -180.0f)
-		field_5C.x -= 360.0f;
+	while (x4 - m_rotPrev.x < -180.0f)
+		m_rotPrev.x -= 360.0f;
 
-	while (x4 - field_5C.x >= 180.0f)
-		field_5C.x += 360.0f;
+	while (x4 - m_rotPrev.x >= 180.0f)
+		m_rotPrev.x += 360.0f;
 
 	while (field_E8 - field_EC < -180.0f)
 		field_EC -= 360.0f;
@@ -205,11 +205,11 @@ LABEL_31:
 	while (field_E8 - field_EC >= 180.0f)
 		field_EC += 360.0f;
 	
-	while (m_rot.y - field_5C.y < -180.0f)
-		field_5C.y -= 360.0f;
+	while (m_rot.y - m_rotPrev.y < -180.0f)
+		m_rotPrev.y -= 360.0f;
 
-	while (m_rot.y - field_5C.y >= 180.0f)
-		field_5C.y += 360.0f;
+	while (m_rot.y - m_rotPrev.y >= 180.0f)
+		m_rotPrev.y += 360.0f;
 
 	field_B54 += x2;
 }
@@ -282,7 +282,7 @@ void Mob::baseTick()
 
 	field_B58 = field_B54;
 	field_EC = field_E8;
-	field_5C = m_rot;
+	m_rotPrev = m_rot;
 }
 
 bool Mob::isAlive() const
@@ -675,8 +675,8 @@ Vec3 Mob::getViewVector(float f) const
 		return Vec3(x.x * x.z, Mth::sin(-(m_rot.y * C_180_OVER_PI)), x.y * x.z);
 	}
 
-	float x1 = field_5C.y + (m_rot.y - field_5C.y) * f;
-	float x2 = -((field_5C.x + (m_rot.x - field_5C.x) * f) * C_180_OVER_PI) - C_PI;
+	float x1 = m_rotPrev.y + (m_rot.y - m_rotPrev.y) * f;
+	float x2 = -((m_rotPrev.x + (m_rot.x - m_rotPrev.x) * f) * C_180_OVER_PI) - C_PI;
 	float x3 = Mth::cos(x2);
 	float x4 = Mth::sin(x2);
 	float x5 = -(x1 * C_180_OVER_PI);

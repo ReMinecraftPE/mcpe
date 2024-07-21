@@ -75,21 +75,21 @@ void PlayerData::loadPlayer(Player* player)
 
 	player->m_pos    = m_pos;
 	player->field_3C = m_pos;
-	player->field_98 = m_pos;
+	player->m_posPrev = m_pos;
 	player->m_vel.x = Mth::abs(m_vel.x) > 10.0f ? 0.0f : m_vel.x;
 	player->m_vel.y = Mth::abs(m_vel.y) > 10.0f ? 0.0f : m_vel.y;
 	player->m_vel.z = Mth::abs(m_vel.z) > 10.0f ? 0.0f : m_vel.z;
 
 	// Let the setter do the validation
 	player->setRot(
-		player->field_5C = m_rot
+		player->m_rotPrev = m_rot
 	);
 	player->m_distanceFallen = m_distanceFallen;
 	player->m_fireTicks = field_24;
 	player->field_BC = field_26;
 	player->m_onGround = field_28;
 
-	// @NOTE: Why are we updating m_pos, field_3C and field_98 above if we do this?
+	// @NOTE: Why are we updating m_pos, field_3C and m_posPrev above if we do this?
 	player->setPos(m_pos);
 
 	// TODO: survival mode stuff

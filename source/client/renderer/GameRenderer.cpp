@@ -10,6 +10,7 @@
 #include "GameRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
+#include "client/player/input/Controller.hpp"
 #include "Frustum.hpp"
 #include "renderer/GL/GL.hpp"
 
@@ -198,8 +199,8 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	if (!m_pMinecraft->getOptions()->field_241)
 	{
-		glRotatef(pMob->field_5C.y + f * (pMob->m_rot.y - pMob->field_5C.y), 1.0f, 0.0f, 0.0f);
-		glRotatef(pMob->field_5C.x + f * (pMob->m_rot.x - pMob->field_5C.x) + 180.0f, 0.0f, 1.0f, 0.0f);
+		glRotatef(pMob->m_rotPrev.y + f * (pMob->m_rot.y - pMob->m_rotPrev.y), 1.0f, 0.0f, 0.0f);
+		glRotatef(pMob->m_rotPrev.x + f * (pMob->m_rot.x - pMob->m_rotPrev.x) + 180.0f, 0.0f, 1.0f, 0.0f);
 	}
 
 	glTranslatef(0.0f, headHeightDiff, 0.0f);
@@ -218,7 +219,7 @@ void GameRenderer::setupGuiScreen()
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f);
+	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f); // @NOTE: for whatever reason, nearpl is 1000.0f on LCE
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -2000.0f);
@@ -416,9 +417,9 @@ void GameRenderer::renderLevel(float f)
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 	Vec3 fCamPos;
 
-	fCamPos.x = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * f;
-	fCamPos.y = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * f;
-	fCamPos.z = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * f;
+	fCamPos.x = pMob->m_posPrev.x + (pMob->m_pos.x - pMob->m_posPrev.x) * f;
+	fCamPos.y = pMob->m_posPrev.y + (pMob->m_pos.y - pMob->m_posPrev.y) * f;
+	fCamPos.z = pMob->m_posPrev.z + (pMob->m_pos.z - pMob->m_posPrev.z) * f;
 
 	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
@@ -562,8 +563,8 @@ void GameRenderer::render(float f)
 
 		if (pMC->m_mouseHandler.smoothTurning())
 		{
-			float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
-			mult1 = mult1 * mult1 * mult1;
+			float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
+			mult1 = pow(mult1, 3);
 
 			float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
 			float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
@@ -608,8 +609,8 @@ void GameRenderer::render(float f)
 			field_80 = pMC->m_mouseHandler.m_delta.y;
 		}
 
-		Vec2 rot(diff_field_84 * field_7C,
-				 diff_field_84 * multPitch * field_80);
+		Vec2 rot(field_7C * diff_field_84,
+			     field_80 * diff_field_84 * multPitch);
 		m_pItemInHandRenderer->turn(rot);
 		pMC->m_pLocalPlayer->turn(rot);
 	}
@@ -677,7 +678,7 @@ void GameRenderer::render(float f)
 	// @TODO: Move to its own function
 	std::stringstream debugText;
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
-	debugText << "\n" << m_shownFPS << " fps (" << m_shownChunkUpdates << " chunk updates)";
+	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)";
 
 	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
@@ -741,6 +742,11 @@ void GameRenderer::render(float f)
 		m_pMinecraft->m_pFont->drawShadow(std::to_string(max), 200, h - maxht, 0xFFFFFF);
 #endif
 
+		/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
+		debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
+		debugText << "\nGameRenderer::field_7C: "      << field_7C;
+		debugText << "\nGameRenderer::field_80: "      << field_80;*/
+
 		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
 
 #ifdef SHOW_VERTEX_COUNTER_GRAPHIC
@@ -780,15 +786,18 @@ void GameRenderer::tick()
 		t_keepHitResult = -100;
 #endif
 
-	float x1 = powf(fabsf(field_74), 1.2f);
-	field_7C = x1 * 0.4f;
-	if (field_74 < 0.0f)
-		field_7C = -field_7C;
+	if (m_pMinecraft->m_mouseHandler.smoothTurning())
+	{
+		float x1 = powf(fabsf(field_74), 1.2f);
+		field_7C = x1 * 0.4f;
+		if (field_74 < 0.0f)
+			field_7C = -field_7C;
 
-	float x2 = powf(fabsf(field_78), 1.2f);
-	field_80 = x2 * 0.4f;
-	if (field_78 < 0.0f)
-		field_80 = -field_80;
+		float x2 = powf(fabsf(field_78), 1.2f);
+		field_80 = x2 * 0.4f;
+		if (field_78 < 0.0f)
+			field_80 = -field_80;
+	}
 
 	field_74 = 0.0f;
 	field_78 = 0.0f;

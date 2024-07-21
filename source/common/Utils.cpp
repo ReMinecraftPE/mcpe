@@ -178,52 +178,97 @@ const char* GetGUIBlocksName()
 	return "gui/gui_blocks.png";
 }
 
-// In regular mode, getTimeMs depends on getTimeS.
-// In Win32 mode, it's vice versa. Cool
+#ifdef _WIN32
+int gettimeofday(struct timeval* tp, struct timezone* tzp)
+{
+	// We're on a version of Windows that's older than XP, it's time to go big or go home...
+	// This is a less-accurate way of getting the time we need, but it may work as a failsafe.
+	{
+		// https://stackoverflow.com/questions/10905892/equivalent-of-gettimeofday-for-windows
 
-int getTimeMs();
+		// Note: some broken versions only have 8 trailing zero's, the correct epoch has 9 trailing zero's
+		// This magic number is the number of 100 nanosecond intervals since January 1, 1601 (UTC)
+		// until 00:00:00 January 1, 1970
+		static const uint64_t EPOCH = ((uint64_t)116444736000000000ULL);
 
-float getTimeS()
+		SYSTEMTIME  system_time;
+		FILETIME    file_time;
+		uint64_t    time;
+
+		GetSystemTime(&system_time);
+		SystemTimeToFileTime(&system_time, &file_time); // this can fail. if it does, nothing will tick
+		time = ((uint64_t)file_time.dwLowDateTime);
+		time += ((uint64_t)file_time.dwHighDateTime) << 32;
+
+		tp->tv_sec = (long)((time - EPOCH) / 10000000L);
+		tp->tv_usec = (long)(system_time.wMilliseconds * 1000);
+		return 0;
+	}
+}
+#endif
+
+double getTimeS()
 {
 #ifdef _WIN32
-	return float(getTimeMs()) / 1000.0f;
-#else
-	// variant implemented by Mojang. This does not work on MSVC
-	timeval tv;
-	gettimeofday(&tv, NULL);
+	// Let's shoot our shot, but if we have to change teams mid-game, we're fucked because g_TimeSecondsOnInit won't be set.
+	{
+		static LARGE_INTEGER Frequency = { 0 };
+		static LARGE_INTEGER CounterStart = { 0 }; // a more accurate verison of g_TimeSecondsOnInit specifically for Win32
 
-	if (g_TimeSecondsOnInit == 0)
-		g_TimeSecondsOnInit = tv.tv_sec;
+		// https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-large_integer-r1
+		// "If your compiler has built-in support for 64-bit integers, use the QuadPart member to store the 64-bit integer. Otherwise, use the LowPart and HighPart members to store the 64-bit integer."
+		if (Frequency.QuadPart == 0)
+			QueryPerformanceFrequency(&Frequency);
 
-	return float(tv.tv_sec - g_TimeSecondsOnInit) + float(tv.tv_usec) / 1000000.0f;
+		LARGE_INTEGER liTime;
+		if (QueryPerformanceCounter(&liTime))
+		{
+			if (CounterStart.QuadPart == 0)
+				CounterStart = liTime;
+
+			LARGE_INTEGER liElapsedSeconds;
+			LARGE_INTEGER liElapsedMicroseconds;
+			liElapsedSeconds.QuadPart = liTime.QuadPart - CounterStart.QuadPart;
+			
+			//
+			// We now have the elapsed number of ticks, along with the
+			// number of ticks-per-second. We use these values
+			// to convert to the number of elapsed microseconds.
+			// To guard against loss-of-precision, we convert
+			// to microseconds *before* dividing by ticks-per-second.
+			//
+
+			liElapsedMicroseconds.QuadPart = (liElapsedSeconds.QuadPart * 100000) / Frequency.QuadPart;
+
+			return double(liElapsedMicroseconds.QuadPart) * (1.0 / 100000.0);
+		}
+	}
 #endif
+
+	// Variant implemented by Mojang. This does not work on MSVC.
+	{
+		timeval tv;
+
+		gettimeofday(&tv, NULL);
+
+		if (g_TimeSecondsOnInit == 0)
+			g_TimeSecondsOnInit = tv.tv_sec;
+
+		return double(tv.tv_sec - g_TimeSecondsOnInit) + double(tv.tv_usec) / 100000.0f;
+	}
 }
 
 int getTimeMs()
 {
-#ifdef _WIN32
-	// just return GetTickCount
-	int time = GetTickCount();
-
-	if (g_TimeSecondsOnInit == 0)
-		g_TimeSecondsOnInit = time;
-
-	return time - g_TimeSecondsOnInit;
-#else
 	return int(getTimeS() * 1000.0f);
-#endif
 }
 
 time_t getRawTimeS()
 {
-#ifdef _WIN32
-	return time_t(GetTickCount() / 1000);
-#else
 	timeval tv;
 	gettimeofday(&tv, NULL);
 
 	return tv.tv_sec;
-#endif
 }
 
 time_t getEpochTimeS()
@@ -320,13 +365,6 @@ void sleepMs(int ms)
 }
 
 #endif
-
-float Max(float a, float b)
-{
-	if (a < b)
-		a = b;
-	return a;
-}
 
 // zlib stuff
 uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize)

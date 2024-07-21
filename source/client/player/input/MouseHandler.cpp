@@ -25,6 +25,7 @@ void MouseHandler::poll()
 
 void MouseHandler::release()
 {
+	//platform()->recenterMouse();
 }
 
 bool MouseHandler::smoothTurning()

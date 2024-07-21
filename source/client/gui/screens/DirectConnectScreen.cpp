@@ -39,8 +39,11 @@ void DirectConnectScreen::init()
 	m_btnQuit.m_yPos = m_height - 30;
 
 	m_textInputs.push_back(&m_textAddress);
-	m_buttons.push_back(&m_btnQuit);
 	m_buttons.push_back(&m_btnJoin);
+	m_buttons.push_back(&m_btnQuit);
+
+	for (int i = 0; i < int(m_buttons.size()); i++)
+		m_buttonTabList.push_back(m_buttons[i]);
 
 	m_textAddress.init(m_pFont);
 }

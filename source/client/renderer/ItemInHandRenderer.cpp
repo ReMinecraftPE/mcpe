@@ -164,8 +164,8 @@ void ItemInHandRenderer::render(float f)
 
 	float f1 = field_20 + (field_1C - field_20) * f;
 	glPushMatrix();
-	//glRotatef(pLP->field_5C.y + (pLP->m_rot.y - pLP->field_5C.y) * f, 1.0f, 0.0f, 0.0f);
-	//glRotatef(pLP->field_5C.x + (pLP->m_rot.x - pLP->field_5C.x) * f, 0.0f, 1.0f, 0.0f);
+	//glRotatef(pLP->m_rotPrev.y + (pLP->m_rot.y - pLP->m_rotPrev.y) * f, 1.0f, 0.0f, 0.0f);
+	//glRotatef(pLP->m_rotPrev.x + (pLP->m_rot.x - pLP->m_rotPrev.x) * f, 0.0f, 1.0f, 0.0f);
 	//glPopMatrix();//huh?
 
 	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)

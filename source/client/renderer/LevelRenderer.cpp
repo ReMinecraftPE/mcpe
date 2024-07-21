@@ -381,9 +381,9 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 
-	float fPosX = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;
-	float fPosY = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * b;
-	float fPosZ = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * b;
+	float fPosX = pMob->m_posPrev.x + (pMob->m_pos.x - pMob->m_posPrev.x) * b;
+	float fPosY = pMob->m_posPrev.y + (pMob->m_pos.y - pMob->m_posPrev.y) * b;
+	float fPosZ = pMob->m_posPrev.z + (pMob->m_pos.z - pMob->m_posPrev.z) * b;
 
 	m_renderList.clear();
 	m_renderList.init(fPosX, fPosY, fPosZ);
@@ -422,7 +422,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 	if (!a)
 		field_54 = field_58 = field_5C = field_60 = field_64 = 0;
 
-	Vec3 mobPos = pMob->field_98 + (pMob->m_pos - pMob->field_98) * b;
+	Vec3 mobPos = pMob->m_posPrev + (pMob->m_pos - pMob->m_posPrev) * b;
 
 	float dX = pMob->m_pos.x - field_4, dY = pMob->m_pos.y - field_8, dZ = pMob->m_pos.z - field_C;
 
@@ -853,9 +853,9 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		glPolygonOffset(-3.0f, -3.0f);
 		glEnable(GL_POLYGON_OFFSET_FILL);
 
-		float px = pPlayer->field_98.x + (pPlayer->m_pos.x - pPlayer->field_98.x) * f;
-		float py = pPlayer->field_98.y + (pPlayer->m_pos.y - pPlayer->field_98.y) * f;
-		float pz = pPlayer->field_98.z + (pPlayer->m_pos.z - pPlayer->field_98.z) * f;
+		float px = pPlayer->m_posPrev.x + (pPlayer->m_pos.x - pPlayer->m_posPrev.x) * f;
+		float py = pPlayer->m_posPrev.y + (pPlayer->m_pos.y - pPlayer->m_posPrev.y) * f;
+		float pz = pPlayer->m_posPrev.z + (pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f;
 
 		Tesselator& t = Tesselator::instance;
 		t.begin();
@@ -903,9 +903,9 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	glPolygonOffset(-0.3f, -0.3f);
 	glEnable(GL_POLYGON_OFFSET_FILL);
 
-	float px = pPlayer->field_98.x + (pPlayer->m_pos.x - pPlayer->field_98.x) * f;
-	float py = pPlayer->field_98.y + (pPlayer->m_pos.y - pPlayer->field_98.y) * f;
-	float pz = pPlayer->field_98.z + (pPlayer->m_pos.z - pPlayer->field_98.z) * f;
+	float px = pPlayer->m_posPrev.x + (pPlayer->m_pos.x - pPlayer->m_posPrev.x) * f;
+	float py = pPlayer->m_posPrev.y + (pPlayer->m_pos.y - pPlayer->m_posPrev.y) * f;
+	float pz = pPlayer->m_posPrev.z + (pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f;
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
@@ -958,9 +958,9 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 		Tile::tiles[tile]->updateShape(
 			m_pLevel,
 			hr.m_tilePos);
-		float posX = pPlayer->field_98.x + ((pPlayer->m_pos.x - pPlayer->field_98.x) * f);
-		float posY = pPlayer->field_98.y + ((pPlayer->m_pos.y - pPlayer->field_98.y) * f);
-		float posZ = pPlayer->field_98.z + ((pPlayer->m_pos.z - pPlayer->field_98.z) * f);
+		float posX = pPlayer->m_posPrev.x + ((pPlayer->m_pos.x - pPlayer->m_posPrev.x) * f);
+		float posY = pPlayer->m_posPrev.y + ((pPlayer->m_pos.y - pPlayer->m_posPrev.y) * f);
+		float posZ = pPlayer->m_posPrev.z + ((pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f);
 		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tilePos);
 		aabb.min.y = tileAABB.min.y - 0.002f - posY;
 		aabb.max.y = tileAABB.max.y + 0.002f - posY;
@@ -997,9 +997,9 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 	field_1C = 0;
 	field_20 = 0;
 
-	EntityRenderDispatcher::xOff = mob->field_98.x + (mob->m_pos.x - mob->field_98.x) * f;
-	EntityRenderDispatcher::yOff = mob->field_98.y + (mob->m_pos.y - mob->field_98.y) * f;
-	EntityRenderDispatcher::zOff = mob->field_98.z + (mob->m_pos.z - mob->field_98.z) * f;
+	EntityRenderDispatcher::xOff = mob->m_posPrev.x + (mob->m_pos.x - mob->m_posPrev.x) * f;
+	EntityRenderDispatcher::yOff = mob->m_posPrev.y + (mob->m_pos.y - mob->m_posPrev.y) * f;
+	EntityRenderDispatcher::zOff = mob->m_posPrev.z + (mob->m_pos.z - mob->m_posPrev.z) * f;
 
 	const EntityVector* pVec = m_pLevel->getAllEntities();
 	field_18 = int(pVec->size());
@@ -1185,7 +1185,7 @@ void LevelRenderer::renderClouds(float f)
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
 
-	float yPos = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_98.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
+	float yPos = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_posPrev.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
 
 	glEnable(GL_BLEND);

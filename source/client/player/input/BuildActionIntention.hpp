@@ -23,11 +23,11 @@ public:
 		// Custom bits
 		PICK              = 32,              //  1 0 0 0 0 0 0  //  causes the player to equip the block they're currently looking at
 
-		TOUCH_TAP               = ATTACK   + PLACE,             // touch screen was tapped and released quickly
-		KEY_DESTROY             = ATTACK   + DESTROY_START,     // the destory key was pressed
-		KEY_USE                 = INTERACT + PLACE,             // the use key was pressed
-		TOUCH_HOLD_START        = INTERACT + DESTROY_START,     // touch screen started being held down
-		TOUCH_HOLD_CONTINUE     = INTERACT + DESTROY_CONTINUE   // touch screen is being held down
+		TOUCH_TAP               = ATTACK   | PLACE,             // touch screen was tapped and released quickly
+		KEY_DESTROY             = ATTACK   | DESTROY_START,     // the destory key was pressed
+		KEY_USE                 = INTERACT | PLACE,             // the use key was pressed
+		TOUCH_HOLD_START        = INTERACT | DESTROY_START,     // touch screen started being held down
+		TOUCH_HOLD_CONTINUE     = INTERACT | DESTROY_CONTINUE   // touch screen is being held down
 	};
 
 public:

@@ -56,7 +56,7 @@ void UnifiedTurnBuild::setScreenSize(int width, int height)
 
 TurnDelta UnifiedTurnBuild::getTurnDelta()
 {
-	float timeS = getTimeS();
+	double timeS = getTimeS();
 
 	float m1 = 0.0f, m2 = 0.0f;
 	float xd = 0.0f, yd = 0.0f;

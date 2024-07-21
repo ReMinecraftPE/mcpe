@@ -75,6 +75,11 @@ TilePos TilePos::operator+(int i) const
 	return TilePos(i + x, i + y, i + z);
 }
 
+Vec3 TilePos::operator+(float f) const
+{
+	return Vec3(*this) + f;
+}
+
 TilePos TilePos::operator-(const TilePos& b) const
 {
 	return TilePos(x - b.x, y - b.y, z - b.z);
@@ -83,6 +88,11 @@ TilePos TilePos::operator-(const TilePos& b) const
 TilePos TilePos::operator-(int i) const
 {
 	return TilePos(x - i, y - i, z - i);
+}
+
+Vec3 TilePos::operator-(float f) const
+{
+	return Vec3(*this) - f;
 }
 
 void TilePos::operator+=(const TilePos& b)
@@ -114,9 +124,19 @@ TilePos TilePos::operator*(int i) const
 	return TilePos(x * i, y * i, z * i);
 }
 
+Vec3 TilePos::operator*(float f) const
+{
+	return Vec3(*this) * f;
+}
+
 TilePos TilePos::operator/(int i) const
 {
 	return TilePos(x / i, y / i, z / i);
+}
+
+Vec3 TilePos::operator/(float f) const
+{
+	return Vec3(*this) / f;
 }
 
 bool TilePos::operator==(const TilePos& b) const

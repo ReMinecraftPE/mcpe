@@ -45,10 +45,11 @@ public:
 	void tickInput();
 	void saveOptions();
 	void handleBuildAction(const BuildActionIntention& action);
-	bool isLevelGenerated();
+	bool isLevelGenerated() const;
 	void selectLevel(const std::string&, const std::string&, int);
 	void setLevel(Level*, const std::string&, LocalPlayer*);
-	void pauseGame();
+	bool pauseGame();
+	bool resumeGame();
 	void leaveGame(bool bCopyMap);
 	void hostMultiplayer();
 	void joinMultiplayer(const PingedCompatibleServer& serverInfo);
@@ -56,6 +57,7 @@ public:
 	void locateMultiplayer();
 	void tickMouse();
 	void handleCharInput(char chr);
+	void resetInput();
 	void sendMessage(const std::string& message);
 	void resetPlayer(Player* player);
 	void respawnPlayer(Player* player);
@@ -75,8 +77,9 @@ public:
 	float getBestScaleForThisScreenSize(int width, int height);
 	void generateLevel(const std::string& unused, Level* pLevel);
 	void prepareLevel(const std::string& unused);
-	bool isOnline();
-	bool isOnlineClient();
+	bool isOnline() const;
+	bool isOnlineClient() const;
+	bool isGamePaused() const { return m_bIsGamePaused; }
 	static void* prepareLevel_tspawn(void* pMinecraft);
 
 	const char* getProgressMessage();
@@ -105,7 +108,7 @@ private:
 
 public:
 	bool field_18;
-	bool field_288;
+	bool m_bIsGamePaused;
 	LevelRenderer* m_pLevelRenderer;
 	GameRenderer* m_pGameRenderer;
 	ParticleEngine* m_pParticleEngine;

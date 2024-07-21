@@ -576,10 +576,8 @@ struct Pos
 // functions from Mojang
 time_t getEpochTimeS();
 time_t getRawTimeS();
-float getTimeS();
+double getTimeS();
 int getTimeMs();
-
-float Max(float a, float b);
 
 void sleepMs(int ms);
 

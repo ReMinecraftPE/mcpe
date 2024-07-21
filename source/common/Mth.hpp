@@ -21,7 +21,7 @@ public:
 	static int Max(int, int);
 	static float Min(float, float);
 	static int Min(int, int);
-	static float abs(float);
+	static inline float abs(float f) { return fabs(f); }
 	static int abs(int);
 	static float absMax(float, float);
 	static float absMaxSigned(float, float);

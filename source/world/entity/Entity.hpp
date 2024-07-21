@@ -192,7 +192,7 @@ public:
 	//the one I annotated are the destination yaw and pitch.
 	//interpolateTurn doesn't modify them, so I highly suspect
 	//this to be the case.
-	Vec2 field_5C;
+	Vec2 m_rotPrev;
 	AABB m_hitbox;
 	bool m_onGround;
 	bool field_7D;
@@ -206,7 +206,7 @@ public:
 	float field_8C;
 	float field_90;
 	float field_94;
-	Vec3 field_98;
+	Vec3 m_posPrev;
 	float field_A4;
 	float field_A8;
 	bool m_bNoCollision;

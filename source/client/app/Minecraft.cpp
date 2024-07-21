@@ -60,7 +60,7 @@ Minecraft::Minecraft() :
 {
 	m_options = nullptr;
 	field_18 = false;
-	field_288 = false;
+	m_bIsGamePaused = false;
 	m_pLevelRenderer = nullptr;
 	m_pGameRenderer = nullptr;
 	m_pParticleEngine = nullptr;
@@ -80,7 +80,7 @@ Minecraft::Minecraft() :
 	m_pScreen = nullptr;
 	field_D18 = 10;
 	m_pInputHolder = nullptr;
-	m_bGrabbedMouse = true;
+	m_bGrabbedMouse = false; // this was true by default. why? we do not start off in-game...
 	m_bIsTouchscreen = false;
 	m_progressPercent = 0;
 	m_bPreparingLevel = false;
@@ -123,6 +123,8 @@ void Minecraft::releaseMouse()
 	// Note, normally the platform stuff would be located within
 	// the mouse handler, but we don't have access to the platform
 	// from there!
+	if (!useController() && !isTouchscreen())
+		platform()->recenterMouse(); // don't actually try to grab or release the mouse
 	platform()->setMouseGrabbed(false);
 }
 
@@ -134,9 +136,13 @@ void Minecraft::grabMouse()
 	m_bGrabbedMouse = true;
 	m_mouseHandler.grab();
 
-	setScreen(nullptr);
+	// This will call grabMouse again, so why are we calling it here?
+	//setScreen(nullptr);
 
-	platform()->setMouseGrabbed(!isTouchscreen());
+	if (useController() || isTouchscreen())
+		return; // don't actually try to grab the mouse
+
+	platform()->setMouseGrabbed(true);
 }
 
 void Minecraft::setScreen(Screen* pScreen)
@@ -167,6 +173,11 @@ void Minecraft::setScreen(Screen* pScreen)
 		m_pScreen->removed();
 		delete m_pScreen;
 	}
+
+	Mouse::reset();
+	Multitouch::reset();
+	Controller::reset();
+	Multitouch::resetThisUpdate();
 
 	m_pScreen = pScreen;
 	if (pScreen)
@@ -201,17 +212,17 @@ void Minecraft::saveOptions()
 		getOptions()->save();
 }
 
-bool Minecraft::isLevelGenerated()
+bool Minecraft::isLevelGenerated() const
 {
 	return m_pLevel && !m_bPreparingLevel;
 }
 
-bool Minecraft::isOnline()
+bool Minecraft::isOnline() const
 {
 	return m_pNetEventCallback != nullptr;
 }
 
-bool Minecraft::isOnlineClient()
+bool Minecraft::isOnlineClient() const
 {
 	if (!m_pLevel)
 		return false;
@@ -236,8 +247,6 @@ bool Minecraft::useController() const
 
 GameMode* Minecraft::createGameMode(GameType gameType, Level& level)
 {
-	// In future versions, level is passed into GameMode
-
 	switch (gameType)
 	{
 	case GAME_TYPE_SURVIVAL:
@@ -472,7 +481,7 @@ void Minecraft::tickInput()
 			}
 			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
 			{
-				pauseGame();
+				handleBack(false);
 			}
 			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
@@ -492,7 +501,7 @@ void Minecraft::tickInput()
 			{
 				getOptions()->m_bDebugText = !getOptions()->m_bDebugText;
 			}
-#ifdef ENH_ALLOW_AO
+#ifdef ENH_ALLOW_AO_TOGGLE
 			else if (getOptions()->isKey(KM_TOGGLEAO, keyCode))
 			{
 				// Toggle ambient occlusion.
@@ -539,6 +548,20 @@ void Minecraft::tickMouse()
 	if (!m_bGrabbedMouse)
 		return;
 
+	/**
+	 * iProgramInCpp's explanation on why we're recentering the mouse constantly when it's grabbed:
+	 * we would recenter the mouse every frame to avoid it being stopped by the edges of the window
+	 * when we grab the mouse, the Win32 AppPlatform calls ClipCursor(hWnd) which clips the cursor within the confines of the window and does not let it escape
+	 * if we weren't doing that, we'd
+	 * not receive WM_MOUSEMOVE events outside of the window and
+	 * even if we would, we'd have the exact same problem with the edges of the screen
+	 * so to fix these issues we clip the cursor within the window, and every frame we set its position back to the center.
+	 * This is exactly what Minecraft Java does too
+	**/
+
+	if (useController() || isTouchscreen())
+		return; // don't actually try to recenter the mouse
+
 	platform()->recenterMouse();
 }
 
@@ -546,6 +569,14 @@ void Minecraft::handleCharInput(char chr)
 {
 	if (m_pScreen)
 		m_pScreen->keyboardNewChar(chr);
+}
+
+void Minecraft::resetInput()
+{
+	Keyboard::reset();
+	Mouse::reset();
+	Controller::reset();
+	Multitouch::resetThisUpdate();
 }
 
 void Minecraft::sendMessage(const std::string& message)
@@ -681,7 +712,7 @@ void Minecraft::tick()
 
 		SandTile::instaFall = false;
 
-		if (m_pLevel && !field_288)
+		if (m_pLevel && !isGamePaused())
 		{
 			m_pGameMode->tick();
 			m_pGameRenderer->tick();
@@ -697,7 +728,7 @@ void Minecraft::tick()
 
 		m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 
-		if (!field_288)
+		if (!isGamePaused())
 		{
 			m_pTextures->tick();
 			m_pParticleEngine->tick();
@@ -721,8 +752,9 @@ void Minecraft::tick()
 
 void Minecraft::update()
 {
-	if (field_288 && m_pLevel)
+	if (isGamePaused() && m_pLevel)
 	{
+		// Don't advance renderTicks when we're paused
 		float x = m_timer.m_renderTicks;
 		m_timer.advanceTime();
 		m_timer.m_renderTicks = x;
@@ -740,7 +772,7 @@ void Minecraft::update()
 	for (int i = 0; i < m_timer.m_ticks; i++)
 	{
 		// @BUG?: Minecraft::tick() also calls tickInput(), so we're doing input handling potentially more than once
-		tick();
+		tick(); // tick(i, m_timer.m_ticks - 1); // 0.9.2
 		field_DA8++;
 	}
 
@@ -755,13 +787,15 @@ void Minecraft::update()
 
 	m_pGameRenderer->render(m_timer.m_renderTicks);
 
-	double time = double(getTimeS());
-	m_fDeltaTime = time - m_fLastUpdated;
-	m_fLastUpdated = time;
-
 	// Added by iProgramInCpp
 	if (m_pGameMode)
 		m_pGameMode->render(m_timer.m_renderTicks);
+
+	double time = getTimeS();
+	m_fDeltaTime = time - m_fLastUpdated;
+	if (m_fDeltaTime > 0.008)
+		LOG_I("Minecraft::m_fDeltaTime: %f", m_fDeltaTime);
+	m_fLastUpdated = time;
 }
 
 void Minecraft::init()
@@ -1053,11 +1087,28 @@ void* Minecraft::prepareLevel_tspawn(void* ptr)
 	return nullptr;
 }
 
-void Minecraft::pauseGame()
+bool Minecraft::pauseGame()
 {
-	if (m_pScreen) return;
+	if (isGamePaused() || m_pScreen) return false;
+
+	if (!isOnline())
+	{
+		// Actually pause the game, because fuck bedrock edition
+		m_bIsGamePaused = true;
+	}
 	m_pLevel->savePlayerData();
 	setScreen(new PauseScreen);
+
+	return true;
+}
+
+bool Minecraft::resumeGame()
+{
+	m_bIsGamePaused = false;
+	if (m_pScreen)
+		setScreen(nullptr);
+
+	return true;
 }
 
 void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pLocalPlayer)
@@ -1155,7 +1206,7 @@ void Minecraft::leaveGame(bool bCopyMap)
 #endif
 
 #ifdef ENH_IMPROVED_SAVING
-	field_288 = true;
+	m_bIsGamePaused = true;
 	setScreen(new SavingWorldScreen(bCopyMap/*, m_pLocalPlayer*/));
 #else
 	if (m_pLevel)

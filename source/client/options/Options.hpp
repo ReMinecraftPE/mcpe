@@ -58,7 +58,7 @@ struct KeyMapping
 	std::string key;
 	int value;
 
-	KeyMapping() { key = ""; value = -1; }
+	KeyMapping() : value(-1) {} // key is automatically clear when constructed
 	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 };
 
@@ -97,7 +97,7 @@ private:
 public:
 	float field_0;
 	float m_fMasterVolume;
-	float field_8;
+	float m_fSensitivity;
 	bool m_bInvertMouse;
 	int m_iViewDistance;
 	bool m_bViewBobbing;
@@ -113,7 +113,7 @@ public:
 	uint8_t field_23E;
 	bool m_bFlyCheat;
 	uint8_t field_240;
-	uint8_t field_241;
+	bool field_241;
 	float field_244;
 	float field_248;
 	int field_24C;

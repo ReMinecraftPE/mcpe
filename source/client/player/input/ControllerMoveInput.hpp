@@ -12,7 +12,7 @@ public:
 	ControllerMoveInput(Options *options);
 
 	void tick(Player *player) override;
-	void setKey(int keyCode, bool state) override;
+	void setKey(int eventKey, bool eventKeyState) override;
 	void releaseAllKeys() override;
 };
 

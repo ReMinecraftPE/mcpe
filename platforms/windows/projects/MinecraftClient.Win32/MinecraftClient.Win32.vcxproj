@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{ff5a623d-03c2-4967-8e78-cb021114a501}</ProjectGuid>
     <RootNamespace>MinecraftClientWin32</RootNamespace>
-	<ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -57,6 +57,7 @@
     <ClInclude Include="$(MC_ROOT)\platforms\windows\AppPlatform_win32.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\windows\LoggerWin32.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\windows\SoundSystemDS.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\windows\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
@@ -81,6 +82,12 @@
     <ProjectReference Include="..\ZLib\ZLib.vcxproj">
       <Project>{5da292fd-fa40-45d8-900a-6652c9662913}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="$(MC_ROOT)\platforms\windows\MinecraftClient.Win32.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="$(MC_ROOT)\game\assets\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

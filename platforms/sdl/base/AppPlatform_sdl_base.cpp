@@ -28,9 +28,6 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 	m_bShiftPressed[0] = false;
 	m_bShiftPressed[1] = false;
 
-	_mousegrabbed = false;
-	m_bWasUnfocused = false;
-
 	ensureDirectoryExists(_storageDir.c_str());
 
 	m_pLogger = new Logger;
@@ -175,38 +172,20 @@ int AppPlatform_sdl_base::getScreenHeight() const
 
 void AppPlatform_sdl_base::recenterMouse()
 {
-	// only recenter the mouse if it's grabbed
-	if (!_mousegrabbed)
-		return;
-
-	// If we aren't the foreground window, return
-	if (!(SDL_GetWindowFlags(_window) & SDL_WINDOW_INPUT_FOCUS))
-	{
-		m_bWasUnfocused = true;
-		return;
-	}
-
-	// If we were unfocused last frame, ignore the diff data we have.
-	if (!m_bWasUnfocused)
-	{
-		// Note. The only reason we do it this way instead of
-		// using the Mouse class is because, after SDL_WarpMouseInWindow,
-		// we'll get an event on our window telling us "hey, the
-		// user has moved their cursor back to the center! Move
-		// the camera back as well", causing a camera that just
-		// refuses to move
-		int w = 0, h = 0;
-		SDL_GetWindowSize(_window, &w, &h);
-		SDL_WarpMouseInWindow(_window, w / 2, h / 2);
-		//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
-	}
-
-	m_bWasUnfocused = false;
+	// Note. The only reason we do it this way instead of
+	// using the Mouse class is because, after SDL_WarpMouseInWindow,
+	// we'll get an event on our window telling us "hey, the
+	// user has moved their cursor back to the center! Move
+	// the camera back as well", causing a camera that just
+	// refuses to move
+	int w = 0, h = 0;
+	SDL_GetWindowSize(_window, &w, &h);
+	SDL_WarpMouseInWindow(_window, w / 2, h / 2);
+	//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
 }
 
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
-	_mousegrabbed = b;
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
 	/**
 	 * @NOTE: There is a bug with older versions of SDL2 (ex: 2.0.4) where disabling RelativeMouseMode will cause a mouse event to be fired
@@ -380,12 +359,12 @@ void AppPlatform_sdl_base::handleKeyEvent(int key, uint8_t state)
 			saveScreenshot("", -1, -1);
 		return;
 	case SDLVK_AC_BACK:
-		// Android Back Button
+		// Android Back Button (This is currently handled in handle_events() in platforms/sdl/main.cpp)
 		// @TODO: handleBack function in AppPlatform that calls back to App via function pointer
 		//g_pApp->handleBack(event.key.state == SDL_PRESSED);
 		return;
 	case SDLVK_BACKSPACE:
-		// Text Editing
+		// Text Editing (This is currently handled in handle_events() in platforms/sdl/main.cpp)
 		/*if (state == SDL_PRESSED)
 			g_pApp->handleCharInput('\b');*/
 		break;
@@ -407,21 +386,21 @@ void AppPlatform_sdl_base::handleButtonEvent(SDL_JoystickID controllerIndex, uin
 
 void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value)
 {
-	float val = value / 30000.0f; // -32768 to 32767
+	float val = value / 32767.0f; // -32768 to 32767
 
 	switch (axis)
 	{
 	case SDL_CONTROLLER_AXIS_LEFTX:
-		Controller::feedStickX(1, 1, val);
+		Controller::feedStickX(1, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_LEFTY:
-		Controller::feedStickY(1, 1, val);
+		Controller::feedStickY(1, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTX:
-		Controller::feedStickX(2, 1, val);
+		Controller::feedStickX(2, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTY:
-		Controller::feedStickY(2, 1, val);
+		Controller::feedStickY(2, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
 		Controller::feedTrigger(1, val);

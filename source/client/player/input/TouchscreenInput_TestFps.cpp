@@ -42,7 +42,7 @@ void TouchscreenInput_TestFps::releaseAllKeys()
 		field_6C[i] = false;
 }
 
-void TouchscreenInput_TestFps::setKey(int key, bool state)
+void TouchscreenInput_TestFps::setKey(int eventKey, bool eventKeyState)
 {
 }
 
@@ -135,7 +135,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
-	m_bJumpButton = false;
+	m_bJumping = false;
 
 	for (int i = 0; i < 5; i++)
 		field_6C[i] = false;
@@ -158,7 +158,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 		if (pointerId == 100 + INPUT_SNEAK) // Unused
 		{
 			if (pPlayer->isInWater())
-				m_bJumpButton = true;
+				m_bJumping = true;
 			else
 				bJumpPressed = true;
 
@@ -168,9 +168,9 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 		if (pointerId == 100 + INPUT_JUMP) // jump
 		{
 			if (pPlayer->isInWater())
-				m_bJumpButton = true;
+				m_bJumping = true;
 			else if (Multitouch::isPressed(finger))
-				m_bJumpButton = true;
+				m_bJumping = true;
 			else if (field_40)
 			{
 				pointerId = 100; // forward
@@ -183,7 +183,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 		{
 			case 100 + INPUT_FORWARD:
 				if (pPlayer->isInWater())
-					m_bJumpButton = true;
+					m_bJumping = true;
 				else
 					bForwardPressed = true;
 
@@ -211,7 +211,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 		// Don't allow the player to hold jump to repeatedly jump.
 		// Only let them jump once - have them jump again
 		if (!m_bJumpBeingHeld)
-			m_bJumpButton = true;
+			m_bJumping = true;
 
 		m_bJumpBeingHeld = true;
 	}

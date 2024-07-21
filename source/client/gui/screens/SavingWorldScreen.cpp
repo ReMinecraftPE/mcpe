@@ -72,7 +72,7 @@ void SavingWorldScreen::tick()
 
 		m_pMinecraft->m_bUsingScreen = false;
 
-		m_pMinecraft->field_288 = false;
+		m_pMinecraft->m_bIsGamePaused = false;
 	}
 }
 

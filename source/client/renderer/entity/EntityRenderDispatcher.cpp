@@ -126,19 +126,19 @@ void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* fon
 	m_pMob = mob;
 	m_pFont = font;
 	m_pOptions = options;
-	m_rot.x = mob->field_5C.x + f * (mob->m_rot.x - mob->field_5C.x);
-	m_rot.y = mob->field_5C.y + f * (mob->m_rot.y - mob->field_5C.y);
-	m_pos.x = mob->field_98.x + f * (mob->m_pos.x - mob->field_98.x);
-	m_pos.y = mob->field_98.y + f * (mob->m_pos.x - mob->field_98.y);
-	m_pos.z = mob->field_98.z + f * (mob->m_pos.x - mob->field_98.z);
+	m_rot.x = mob->m_rotPrev.x + f * (mob->m_rot.x - mob->m_rotPrev.x);
+	m_rot.y = mob->m_rotPrev.y + f * (mob->m_rot.y - mob->m_rotPrev.y);
+	m_pos.x = mob->m_posPrev.x + f * (mob->m_pos.x - mob->m_posPrev.x);
+	m_pos.y = mob->m_posPrev.y + f * (mob->m_pos.x - mob->m_posPrev.y);
+	m_pos.z = mob->m_posPrev.z + f * (mob->m_pos.x - mob->m_posPrev.z);
 }
 
 void EntityRenderDispatcher::render(Entity* entity, float f)
 {
-	float x = entity->field_98.x + f * (entity->m_pos.x - entity->field_98.x);
-	float y = entity->field_98.y + f * (entity->m_pos.y - entity->field_98.y);
-	float z = entity->field_98.z + f * (entity->m_pos.z - entity->field_98.z);
-	float yaw = entity->field_5C.x + f * (entity->m_rot.x - entity->field_5C.x);
+	float x = entity->m_posPrev.x + f * (entity->m_pos.x - entity->m_posPrev.x);
+	float y = entity->m_posPrev.y + f * (entity->m_pos.y - entity->m_posPrev.y);
+	float z = entity->m_posPrev.z + f * (entity->m_pos.z - entity->m_posPrev.z);
+	float yaw = entity->m_rotPrev.x + f * (entity->m_rot.x - entity->m_rotPrev.x);
 
 	float bright = entity->getBrightness(1.0f);
 	glColor4f(bright, bright, bright, 1.0f);

@@ -1395,16 +1395,16 @@ void Level::tick(Entity* pEnt, bool b)
 			return;
 		}
 
-		pEnt->field_98 = pEnt->m_pos;
-		pEnt->field_5C = pEnt->m_rot;
+		pEnt->m_posPrev = pEnt->m_pos;
+		pEnt->m_rotPrev = pEnt->m_rot;
 
 		if (pEnt->m_bInAChunk)
 			pEnt->tick();
 	}
 	else
 	{
-		pEnt->field_98 = pEnt->m_pos;
-		pEnt->field_5C = pEnt->m_rot;
+		pEnt->m_posPrev = pEnt->m_pos;
+		pEnt->m_rotPrev = pEnt->m_rot;
 	}
 
 	ChunkPos cp(pEnt->m_pos);

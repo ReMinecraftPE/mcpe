@@ -155,9 +155,9 @@ void ParticleEngine::render(Entity* ent, float f)
 	float x5 = x1 * Mth::sin(float(M_PI) * ent->m_rot.y / 180.0f);
 	float x2 = Mth::cos(float(M_PI) * ent->m_rot.y / 180.0f);
 
-	Particle::xOff = Mth::Lerp(ent->field_98.x, ent->m_pos.x, f);
-	Particle::yOff = Mth::Lerp(ent->field_98.y, ent->m_pos.y, f);
-	Particle::zOff = Mth::Lerp(ent->field_98.z, ent->m_pos.z, f);
+	Particle::xOff = Mth::Lerp(ent->m_posPrev.x, ent->m_pos.x, f);
+	Particle::yOff = Mth::Lerp(ent->m_posPrev.y, ent->m_pos.y, f);
+	Particle::zOff = Mth::Lerp(ent->m_posPrev.z, ent->m_pos.z, f);
 
 	// @BUG: Ignoring the last particle array. Invisible?
 	Tesselator& t = Tesselator::instance;

@@ -20,7 +20,7 @@ public:
 	KeyboardInput(Options*);
 
 	void releaseAllKeys() override;
-	void setKey(int keyCode, bool state) override;
+	void setKey(int eventKey, bool eventKeyState) override;
 	void tick(Player*) override;
 
 public:

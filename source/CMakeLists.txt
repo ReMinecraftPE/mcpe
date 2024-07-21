@@ -225,7 +225,7 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/chunk/RandomLevelSource.cpp
     world/level/levelgen/chunk/LevelChunk.cpp
     world/level/levelgen/chunk/ChunkCache.cpp
-    world/level/levelgen/chunk/ChunkPos.cpp.cpp
+    world/level/levelgen/chunk/ChunkPos.cpp
     world/level/levelgen/chunk/ChunkSource.cpp
     world/level/levelgen/chunk/EmptyLevelChunk.cpp
     world/level/levelgen/chunk/PerformanceTestChunkSource.cpp

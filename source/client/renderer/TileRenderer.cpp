@@ -86,17 +86,17 @@ float TileRenderer::getWaterHeight(const TilePos& pos, const Material* pCheckMtl
 	float fHeight = 0.0f;
 	for (int i = 0; i < 4; i++)
 	{
-		TilePos check(pos.x - (i & 1),
+		TilePos checkPos(pos.x - (i & 1),
 					  pos.y,
 					  pos.z - ((i >> 1) & 1));
 
-		if (m_pLevelSource->getMaterial(TilePos(check.x, check.y + 1, check.z)) == pCheckMtl)
+		if (m_pLevelSource->getMaterial(TilePos(checkPos.x, checkPos.y + 1, checkPos.z)) == pCheckMtl)
 			return 1.0f;
 
-		Material* pMtl = m_pLevelSource->getMaterial(check);
+		Material* pMtl = m_pLevelSource->getMaterial(checkPos);
 		if (pMtl == pCheckMtl)
 		{
-			int data = m_pLevelSource->getData(check);
+			int data = m_pLevelSource->getData(checkPos);
 			if (data >= 8 || data == 0)
 			{
 				fHeight += LiquidTile::getWaterVolume(data) * 10.0f;
@@ -2514,7 +2514,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 		ETILE_FACE_COUNT,
 	};
 
-	// for TILE_FACE_? directions
+	// for Facing::Name directions
 	static const int diffX[] = { 0,0,0,0,-1,1 };
 	static const int diffZ[] = { 0,0,-1,1,0,0 };
 	static const int diffY[] = { -1,1,0,0,0,0 };
@@ -2524,7 +2524,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 	static const int diffEZ[] = { 0,-1,+1,0,0,-1,-1,+1,+1,0,-1,+1,0,0,-1,-1,+1,+1,0,-1,+1,0,0,-1,-1,+1,+1 };
 	static const int diffEY[] = { 0,0,0,0,0,0,0,0,0, +1,+1,+1,+1,+1,+1,+1,+1,+1, -1,-1,-1,-1,-1,-1,-1,-1,-1 };
 
-	// Convert a TILE_FACE_? to an ETILE_FACE_?
+	// Convert a Facing::Name to an ETILE_FACE_?
 	static const int dirToEdir[] = { ETILE_FACE_D, ETILE_FACE_U, ETILE_FACE_N, ETILE_FACE_S, ETILE_FACE_W, ETILE_FACE_E };
 
 	// this is a huge table. Essentially this tells us which 3 tiles we should base our lighting value on aside from the

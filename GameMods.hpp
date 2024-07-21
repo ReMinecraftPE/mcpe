@@ -23,14 +23,13 @@
 //#define ENH_ENTITY_SHADING      	 // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
 #define ENH_SHADE_HELD_TILES    	 // Allows shading of the item in hand
 #define ENH_FIX_INVIS_STAIRS    	 // Fixes a bug wherein a 16x16x16 chunk in the world that contains only stairs is invisible
-#define ENH_ALLOW_AO            	 // Allows using the F4 key to toggle ambient occlusion (buggy)
+#define ENH_ALLOW_AO_TOGGLE          // Allows using the F4 key to toggle ambient occlusion (buggy)
 #define ENH_TRANSPARENT_HOTBAR  	 // Allows the hotbar to be transparent. Due to a bug in the code, it is not.
 #define ENH_CAMERA_NO_PARTICLES 	 // Hide particles from the view of a camera, such as smoke, that would otherwise render the resulting image useless.
 #define ENH_USE_JAVA_LIGHT_RAMP 	 // Use Java Beta 1.3 light ramp instead of flawed PE one
 #define ENH_RUN_DAY_NIGHT_CYCLE 	 // Allow the day/night cycle to run.
 #define ENH_USE_OWN_AO          	 // Use own ambient occlusion engine - looks pretty much the same except it fixes the corners
 #define ENH_ADD_OPTIONS_PAUSE    	 // Add an 'options' button in the pause menu
-#define ENH_HIGHLIGHT_BY_HOVER  	 // Highlight buttons by hovering them instead of the usual way. Comment this out on console, or any controller-required platform.
 #define ENH_ALLOW_SAND_GRAVITY  	 // Allow sand to fall.
 #define ENH_USE_GUI_SCALE_2     	 // Use a 2x GUI scale instead of 3x. Looks better on PC
 #define ENH_ALLOW_SCROLL_WHEEL  	 // Allow use of the scroll wheel to change selected inventory slots

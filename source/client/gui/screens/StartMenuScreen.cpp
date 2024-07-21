@@ -349,7 +349,9 @@ const char* gSplashes[] =
 	"What's up, Doc?",
 
 	// custom:
-	"https://github.com/ReMinecraftPE/mcpe"
+	"https://github.com/ReMinecraftPE/mcpe",
+	"Also try Minecraft!",
+	"Also try Noita!"
 };
 
 StartMenuScreen::StartMenuScreen() :
@@ -456,16 +458,15 @@ void StartMenuScreen::init()
 
 	// add the buttons to the screen:
 	m_buttons.push_back(&m_startButton);
-	m_buttonTabList.push_back(&m_startButton);
 	m_buttons.push_back(&m_joinButton);
-	m_buttonTabList.push_back(&m_joinButton);
 	m_buttons.push_back(&m_optionsButton);
-	m_buttonTabList.push_back(&m_optionsButton);
 
 #if defined(DEMO) || defined(CAN_QUIT)
 	m_buttons.push_back(&m_buyButton);
-	m_buttonTabList.push_back(&m_buyButton);
 #endif
+
+	for (int i = 0; i < int(m_buttons.size()); i++)
+		m_buttonTabList.push_back(m_buttons[i]);
 
 	field_154 = "\xFFMojang AB";
 	field_16C = m_width - 1 - m_pFont->width(field_154);
@@ -523,10 +524,10 @@ void StartMenuScreen::drawLegacyTitle()
 		Tesselator& t = Tesselator::instance;
 		glColor4f(1, 1, 1, 1);
 		t.begin();
-		t.vertexUV(float(left), float(height + titleYPos), field_4, 0.0f, 1.0f);
-		t.vertexUV(float(left + width), float(height + titleYPos), field_4, 1.0f, 1.0f);
-		t.vertexUV(float(left + width), titleYPos, field_4, 1.0f, 0.0f);
-		t.vertexUV(float(left), titleYPos, field_4, 0.0f, 0.0f);
+		t.vertexUV(left, height + titleYPos, field_4, 0.0f, 1.0f);
+		t.vertexUV(left + width, height + titleYPos, field_4, 1.0f, 1.0f);
+		t.vertexUV(left + width, titleYPos, field_4, 1.0f, 0.0f);
+		t.vertexUV(left, titleYPos, field_4, 0.0f, 0.0f);
 		t.draw();
 	}
 

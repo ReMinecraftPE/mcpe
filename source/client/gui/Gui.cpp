@@ -195,7 +195,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		// if needed, draw feedback
 
 		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
-		// "last progress". Well guess what? The game mode in question updates our field_8 with
+		// "last progress". Well guess what? The game mode in question updates our m_fSensitivity with
 		// the pre-interpolated break progress! Isn't that awesome?!
 		float breakProgress = field_8;
 
@@ -457,30 +457,36 @@ void Gui::handleKeyPressed(int keyCode)
 	if (options->isKey(KM_INVENTORY, keyCode))
 	{
 		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
+		return;
 	}
-	else if (options->isKey(KM_SLOT_L, keyCode) || options->isKey(KM_SLOT_R, keyCode))
+
+	bool slotL = options->isKey(KM_SLOT_L, keyCode);
+	bool slotR = options->isKey(KM_SLOT_R, keyCode);
+	if (slotL || slotR)
 	{
 		int maxItems = getNumSlots() - 1;
 		if (m_pMinecraft->isTouchscreen())
 			maxItems--;
 		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
-		if (options->isKey(KM_SLOT_R, keyCode))
+		if (slotR)
 		{
 			if (*slot < maxItems)
 				(*slot)++;
 			else
 				*slot = 0;
 		}
-		else if (options->isKey(KM_SLOT_L, keyCode))
+		else if (slotL)
 		{
 			if (*slot > 0)
 				(*slot)--;
 			else
 				*slot = maxItems;
 		}
+		return;
 	}
-	else if (options->isKey(KM_CHAT, keyCode) || options->isKey(KM_CHAT_CMD, keyCode))
+
+	if (options->isKey(KM_CHAT, keyCode) || options->isKey(KM_CHAT_CMD, keyCode))
 	{
 		if (!m_pMinecraft->m_pScreen)
 			m_pMinecraft->setScreen(new ChatScreen(m_pMinecraft->getOptions()->isKey(KM_CHAT_CMD, keyCode)));

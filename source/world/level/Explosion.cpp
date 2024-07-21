@@ -26,50 +26,43 @@ Explosion::Explosion(Level* level, Entity* entity, const Vec3& pos, float power)
 // addParticles() completes the explosion.
 void Explosion::explode()
 {
-	for (int i = 0; i < 16; i++)
 	{
-		for (int j = 0; j < 16; j++)
+		Vec3 vec;
+		for (vec.x = 0; vec.x < 16; vec.x++)
 		{
-			for (int k = 0; k < 16; k++)
+			for (vec.y = 0; vec.y < 16; vec.y++)
 			{
-				// what
-				if (i != 0 && j != 0 && k != 0 && i != 15 && j != 15 && k != 15)
-					continue;
-
-				float rayX = float(i) / 15.0f * 2.0f - 1.0f;
-				float rayY = float(j) / 15.0f * 2.0f - 1.0f;
-				float rayZ = float(k) / 15.0f * 2.0f - 1.0f;
-
-				// normalize the ray vector
-				float length = Mth::sqrt(rayX * rayX + rayY * rayY + rayZ * rayZ);
-				rayX /= length;
-				rayY /= length;
-				rayZ /= length;
-
-				float mult = m_power * (0.7f + 0.6f * m_pLevel->m_random.nextFloat());
-
-				Vec3 pos(m_pos);
-
-				while (true)
+				for (vec.z = 0; vec.z < 16; vec.z++)
 				{
-					if (mult < 0)
-						break;
+					// what
+					if (vec.x != 0 && vec.y != 0 && vec.z != 0 && vec.x != 15 && vec.y != 15 && vec.z != 15)
+						continue;
 
-					TileID tile = m_pLevel->getTile(pos);
-					if (tile > 0)
-						mult -= 0.3f * (0.3f + Tile::tiles[tile]->getExplosionResistance(m_pEntity));
+					Vec3 ray = (vec / 15.0f * 2.0f - 1.0f).normalize();
 
-					if (mult > 0)
-						m_tiles.insert(pos);
+					float mult = m_power * (0.7f + 0.6f * m_pLevel->m_random.nextFloat());
 
-					mult -= 0.225f;
+					Vec3 pos(m_pos);
 
-					if (mult < 0)
-						break;
+					while (true)
+					{
+						if (mult < 0)
+							break;
 
-					pos.x += rayX * 0.3f;
-					pos.y += rayY * 0.3f;
-					pos.z += rayZ * 0.3f;
+						TileID tile = m_pLevel->getTile(pos);
+						if (tile > 0)
+							mult -= 0.3f * (0.3f + Tile::tiles[tile]->getExplosionResistance(m_pEntity));
+
+						if (mult > 0)
+							m_tiles.insert(pos);
+
+						mult -= 0.225f;
+
+						if (mult < 0)
+							break;
+
+						pos += ray * 0.3f;
+					}
 				}
 			}
 		}
@@ -77,14 +70,16 @@ void Explosion::explode()
 
 	m_power *= 2;
 
-	AABB aabb(
+	// Why are we flooring this? It takes floats.
+	/*AABB aabb(
 		(float)Mth::floor(m_pos.x - m_power - 1.0f),
 		(float)Mth::floor(m_pos.y - m_power - 1.0f),
 		(float)Mth::floor(m_pos.z - m_power - 1.0f),
 		(float)Mth::floor(m_pos.x + m_power + 1.0f),
 		(float)Mth::floor(m_pos.y + m_power + 1.0f),
 		(float)Mth::floor(m_pos.z + m_power + 1.0f)
-	);
+	);*/
+	AABB aabb(m_pos - m_power - 1.0f, m_pos + m_power + 1.0f);
 
 	EntityVector ents = m_pLevel->getEntities(m_pEntity, aabb);
 	for (int i = 0; i < ents.size(); i++)
@@ -94,35 +89,32 @@ void Explosion::explode()
 		if (distPowerRatio > 1.0f)
 			continue;
 
-		float deltaX = entity->m_pos.x - m_pos.x;
-		float deltaY = entity->m_pos.y - m_pos.y;
-		float deltaZ = entity->m_pos.z - m_pos.z;
+		Vec3 delta = entity->m_pos - m_pos;
 
 		// @NOTE: They used it here, but not when normalizing the 16*16*16=4096 rays shot before...
-		float normInv = Mth::invSqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+		float normInv = Mth::invSqrt(delta.lengthSqr());
 		float hurtPercent = m_pLevel->getSeenPercent(m_pos, entity->m_hitbox) * (1.0f - distPowerRatio);
 
 		entity->hurt(m_pEntity, int((hurtPercent * hurtPercent + hurtPercent) / 2.0f * 8.0f * this->m_power + 1.0f));
 
-		entity->m_vel.x += deltaX * normInv * hurtPercent;
-		entity->m_vel.y += deltaY * normInv * hurtPercent;
-		entity->m_vel.z += deltaZ * normInv * hurtPercent;
+		entity->m_vel += delta * normInv * hurtPercent;
 	}
 
 	std::vector<TilePos> vec;
 	// @NOTE: Could avoid this copy if m_bFiery is false
 	vec.insert(vec.begin(), m_tiles.begin(), m_tiles.end());
 
-	if (!m_bIsFiery)
-		return;
-
-	for (int i = int(vec.size() - 1); i >= 0; i--)
+	if (m_bIsFiery)
 	{
-		TilePos tp = vec[i];
+		// Engulf everything within the explosion's radius in flames
+		for (int i = int(vec.size() - 1); i >= 0; i--)
+		{
+			TilePos tp = vec[i];
 
-		TileID tile = m_pLevel->getTile(tp), tileBelow = m_pLevel->getTile(tp.below());
-		if (tile == TILE_AIR && Tile::solid[tileBelow] && m_random.nextInt(3) == 0)
-			m_pLevel->setTile(tp, Tile::fire->m_ID);
+			TileID tile = m_pLevel->getTile(tp), tileBelow = m_pLevel->getTile(tp.below());
+			if (tile == TILE_AIR && Tile::solid[tileBelow] && m_random.nextInt(3) == 0)
+				m_pLevel->setTile(tp, Tile::fire->m_ID);
+		}
 	}
 }
 
@@ -149,7 +141,7 @@ void Explosion::addParticles()
 			Vec3 d(rp - m_pos);
 
 			// @NOTE: Can use Mth::invSqrt
-			// what about .normalize()?
+			// We would use v.normalize() here, but we need dist apparently
 			float dist = d.length();
 			Vec3 v = d / dist;
 

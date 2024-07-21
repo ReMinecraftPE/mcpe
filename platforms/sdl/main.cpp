@@ -137,9 +137,10 @@ static void handle_events()
 			case SDL_CONTROLLERBUTTONDOWN:
 			case SDL_CONTROLLERBUTTONUP:
 				// Hate this hack
-				if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START)
-					g_pApp->handleBack(event.cbutton.state == SDL_PRESSED);
-
+				if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START && event.cbutton.state == SDL_PRESSED)
+				{
+					g_pApp->pauseGame() || g_pApp->resumeGame();
+				}
 				g_pAppPlatform->handleButtonEvent(event.cbutton.which, event.cbutton.button, event.cbutton.state);
 				break;
 
@@ -163,7 +164,7 @@ static void handle_events()
 					float scale = g_fPointToPixelScale;
 					float x = event.motion.x * scale;
 					float y = event.motion.y * scale;
-					Multitouch::feed(BUTTON_NONE, 0, x, y, 0);
+					Multitouch::feed(BUTTON_NONE, false, x, y, 0);
 					Mouse::feed(BUTTON_NONE, false, x, y);
 					g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				}
@@ -349,6 +350,8 @@ int main(int argc, char *argv[])
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
+
+	//SDL_GL_SetSwapInterval(0); // Uncomment to disable V-Sync
 
 #ifdef _WIN32
 	xglInit();

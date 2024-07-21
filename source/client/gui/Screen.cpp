@@ -42,12 +42,11 @@ void Screen::keyPressed(int key)
 {
 	if (m_pMinecraft->getOptions()->isKey(KM_MENU_CANCEL, key))
 	{
-		m_pMinecraft->setScreen(nullptr);
+		m_pMinecraft->handleBack(false);
 	}
 
-	if (m_buttonTabList.size())
+	if (m_pMinecraft->useController() && m_buttonTabList.size() > 0)
 	{
-#ifndef ENH_HIGHLIGHT_BY_HOVER
 		if (m_pMinecraft->getOptions()->isKey(KM_MENU_NEXT, key))
 		{
 			m_tabButtonIndex++;
@@ -70,7 +69,6 @@ void Screen::keyPressed(int key)
 		}
 
 		updateTabButtonSelection();
-#endif
 	}
 	
 	for (int i = 0; i < int(m_textInputs.size()); i++)
@@ -304,6 +302,7 @@ void Screen::setSize(int width, int height)
 
 	// not original code. Will need to re-init again
 	m_buttons.clear();
+	m_buttonTabList.clear();
 	m_textInputs.clear();
 	init();
 }
@@ -435,10 +434,11 @@ void Screen::renderDirtBackground(int unk)
 
 void Screen::updateTabButtonSelection()
 {
-#ifndef ENH_HIGHLIGHT_BY_HOVER
-	for (int i = 0; i < int(m_buttonTabList.size()); i++)
+	if (m_pMinecraft->useController())
 	{
-		m_buttonTabList[i]->field_36 = m_tabButtonIndex == i;
+		for (int i = 0; i < int(m_buttonTabList.size()); i++)
+		{
+			m_buttonTabList[i]->field_36 = m_tabButtonIndex == i;
+		}
 	}
-#endif
 }

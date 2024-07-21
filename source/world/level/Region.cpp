@@ -33,11 +33,11 @@ int Region::getRawBrightness(const TilePos& pos, bool b) const
 		{
 			int result;
 
-			int b1 = getRawBrightness(TilePos(pos.x,	 pos.y + 1, pos.z),     false);
-			int b2 = getRawBrightness(TilePos(pos.x - 1, pos.y,		pos.z),     false);
-			int b3 = getRawBrightness(TilePos(pos.x + 1, pos.y,		pos.z),	    false);
-			int b4 = getRawBrightness(TilePos(pos.x,	 pos.y,		pos.z - 1), false);
-			int b5 = getRawBrightness(TilePos(pos.x,	 pos.y,		pos.z + 1), false);
+			int b1 = getRawBrightness(pos.above(), false);
+			int b2 = getRawBrightness(pos.west(), false);
+			int b3 = getRawBrightness(pos.east(), false);
+			int b4 = getRawBrightness(pos.north(), false);
+			int b5 = getRawBrightness(pos.south(), false);
 
 			result = b1;
 			if (result < b2) result = b2;
