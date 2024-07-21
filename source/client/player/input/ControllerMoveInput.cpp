@@ -32,7 +32,7 @@ void ControllerMoveInput::tick(Player* player)
         m_keys[INPUT_FORWARD] = field_20;
         m_keys[INPUT_BACKWARD] = field_21;
     //}
-LABEL_3:
+//LABEL_3:
     if (player->isInWater() && Controller::isTouched(1))
         m_bJumping = 1;
     m_keys[INPUT_LEFT] = m_keys[INPUT_FORWARD] || m_keys[INPUT_BACKWARD];

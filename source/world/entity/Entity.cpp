@@ -419,9 +419,9 @@ label_45:
 		float diffX = (m_pos.x - oldX), diffZ = (m_pos.z - oldZ);
 		field_94 += Mth::sqrt(diffZ * diffZ + diffX * diffX) * 0.6f;
 
-		TilePos tilePos = TilePos(Mth::floor(m_pos.x),
-								  Mth::floor(m_pos.y - 0.2f - field_84),
-								  Mth::floor(m_pos.z));
+		TilePos tilePos(Mth::floor(m_pos.x),
+						Mth::floor(m_pos.y - 0.2f - field_84),
+						Mth::floor(m_pos.z));
 
 		TileID tileID = m_pLevel->getTile(tilePos);
 
