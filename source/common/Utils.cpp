@@ -254,13 +254,13 @@ double getTimeS()
 		if (g_TimeSecondsOnInit == 0)
 			g_TimeSecondsOnInit = tv.tv_sec;
 
-		return double(tv.tv_sec - g_TimeSecondsOnInit) + double(tv.tv_usec) / 100000.0f;
+		return double(tv.tv_sec - g_TimeSecondsOnInit) + double(tv.tv_usec) / 1000000.0;
 	}
 }
 
 int getTimeMs()
 {
-	return int(getTimeS() * 1000.0f);
+	return int(getTimeS() * 1000.0);
 }
 
 time_t getRawTimeS()

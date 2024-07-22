@@ -19,13 +19,16 @@ public:
 
 public:
 	float x, y;
+    
+private:
+    void _init(float x, float y);
 
 public:
-	Vec2 normalize();
-
 	// this constructor is nice to have, but it's probably inlined
 	Vec2();
 	Vec2(float x, float y);
+    
+    Vec2 normalize() const;
 
 	// these are also likely inlined, but I'll declare them in the header
 	Vec2 operator+(const Vec2& b) const

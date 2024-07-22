@@ -2,20 +2,37 @@
 #include "world/phys/Vec3.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 
+void TilePos::_init(int _x, int _y, int _z)
+{
+    x = _x;
+    y = _y;
+    z = _z;
+}
+
 TilePos::TilePos()
-	: TilePos(0, 0, 0) {}
+{
+    _init(0, 0, 0);
+}
 
 TilePos::TilePos(int _x, int _y, int _z)
-	: x(_x), y(_y < 0 ? 0 : _y), z(_z) {}
+{
+    _init(_x, _y < 0 ? 0 : _y, _z);
+}
 
 TilePos::TilePos(float _x, float _y, float _z)
-	: TilePos((int)floorf(_x), (uint8_t)floorf(_y), (int)floorf(_z)) {}
+{
+    _init((int)floorf(_x), (uint8_t)floorf(_y), (int)floorf(_z));
+}
 
 TilePos::TilePos(const Vec3& pos)
-	: TilePos(pos.x, pos.y, pos.z) {}
+{
+    _init(pos.x, pos.y, pos.z);
+}
 
 TilePos::TilePos(const ChunkPos& pos, int y)
-	: TilePos(pos.x * 16, y, pos.z * 16) {}
+{
+    _init(pos.x * 16, y, pos.z * 16);
+}
 
 TilePos TilePos::relative(Facing::Name facing, int steps) const
 {

@@ -27,13 +27,11 @@ public:
 
 public:
 	float x, y, z;
+    
+private:
+    void _init(float x, float y, float z);
 
 public:
-	bool clipX(const Vec3& a2, float a3, Vec3& a4) const;
-	bool clipY(const Vec3& a2, float a3, Vec3& a4) const;
-	bool clipZ(const Vec3& a2, float a3, Vec3& a4) const;
-	Vec3 normalize();
-
 	// this constructor is nice to have, but it's probably inlined
 	Vec3();
 	Vec3(float x, float y, float z);
@@ -42,6 +40,11 @@ public:
 	// these are likely inlined
 	float distanceTo(const Vec3& b) const;
 	float distanceToSqr(const Vec3& b) const;
+    
+    bool clipX(const Vec3& a2, float a3, Vec3& a4) const;
+	bool clipY(const Vec3& a2, float a3, Vec3& a4) const;
+	bool clipZ(const Vec3& a2, float a3, Vec3& a4) const;
+	Vec3 normalize() const;
 
 	// these are also likely inlined, but I'll declare them in the header
 	Vec3 operator+(const Vec3& b) const

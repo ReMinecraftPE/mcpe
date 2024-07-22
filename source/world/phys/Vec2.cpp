@@ -10,13 +10,23 @@
 
 const Vec2 Vec2::ZERO = Vec2(0, 0);
 
+void Vec2::_init(float x, float y)
+{
+    this->x = x;
+    this->y = y;
+}
+
 Vec2::Vec2()
-	: Vec2(ZERO) {}
+{
+    _init(0, 0);
+}
 
 Vec2::Vec2(float x, float y)
-	: x(x), y(y) {}
+{
+    _init(x, y);
+}
 
-Vec2 Vec2::normalize()
+Vec2 Vec2::normalize() const
 {
 	float dist = Mth::sqrt(x * x + y * y);
 	if (dist < 0.0001f)

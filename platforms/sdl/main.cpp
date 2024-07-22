@@ -351,7 +351,15 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	//SDL_GL_SetSwapInterval(0); // Uncomment to disable V-Sync
+    // Enable V-Sync
+    // Not setting this explicitly results in undefined behavior
+    if (SDL_GL_SetSwapInterval(-1) == -1) // Try adaptive
+    {
+        LOG_W("Adaptive V-Sync is not supported on this platform. Falling back to standard V-Sync...");
+        // fallback to standard
+        if (SDL_GL_SetSwapInterval(1) == -1)
+            LOG_W("Setting the swap interval for V-Sync is not supported on this platform!");
+    }
 
 #ifdef _WIN32
 	xglInit();

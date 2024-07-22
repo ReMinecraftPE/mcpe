@@ -11,16 +11,29 @@
 
 const Vec3 Vec3::ZERO = Vec3(0, 0, 0);
 
+void Vec3::_init(float x, float y, float z)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+}
+
 Vec3::Vec3()
-	: Vec3(ZERO) {}
+{
+    _init(0, 0, 0);
+}
 
 Vec3::Vec3(float x, float y, float z)
-	: x(x), y(y), z(z) {}
+{
+    _init(x, y, z);
+}
 
 Vec3::Vec3(const TilePos& tilePos)
-	: Vec3(tilePos.x, tilePos.y, tilePos.z) {}
+{
+    _init(tilePos.x, tilePos.y, tilePos.z);
+}
 
-Vec3 Vec3::normalize()
+Vec3 Vec3::normalize() const
 {
 	float dist = Mth::sqrt(x * x + y * y + z * z);
 	if (dist < 0.0001f)

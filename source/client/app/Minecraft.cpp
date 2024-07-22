@@ -793,8 +793,6 @@ void Minecraft::update()
 
 	double time = getTimeS();
 	m_fDeltaTime = time - m_fLastUpdated;
-	if (m_fDeltaTime > 0.008)
-		LOG_I("Minecraft::m_fDeltaTime: %f", m_fDeltaTime);
 	m_fLastUpdated = time;
 }
 

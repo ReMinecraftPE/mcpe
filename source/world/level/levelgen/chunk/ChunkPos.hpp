@@ -12,13 +12,19 @@ struct TilePos;
 struct ChunkPos
 {
 	int x, z;
-
+    
+private:
+    void _init(int _x, int _z);
+    void _init(const Vec3& pos);
+	void _init(const TilePos& pos);
+    
+public:
 	ChunkPos();
 	ChunkPos(int _x, int _z);
 	ChunkPos(int _x, int _y, int _z);
 	ChunkPos(float _x, float _y, float _z);
-	ChunkPos(const Vec3& pos);
-	ChunkPos(const TilePos& pos);
+	ChunkPos(const Vec3& pos) { _init(pos); }
+	ChunkPos(const TilePos& pos) { _init(pos); }
 
 	bool operator<(const ChunkPos& b) const;
 	bool operator>(const ChunkPos& b) const;

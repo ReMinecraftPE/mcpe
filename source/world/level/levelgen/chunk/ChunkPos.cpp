@@ -2,23 +2,41 @@
 #include "world/level/TilePos.hpp"
 #include "world/phys/Vec3.hpp"
 
+void ChunkPos::_init(int _x, int _z)
+{
+    x = _x;
+    z = _z;
+}
+
+void ChunkPos::_init(const Vec3& pos)
+{
+    _init(TilePos(pos));
+}
+
+void ChunkPos::_init(const TilePos& pos)
+{
+    _init(pos.x >> 4, pos.z >> 4);
+}
+
 ChunkPos::ChunkPos()
-	: ChunkPos(0, 0) {}
+{
+    _init(0, 0);
+}
 
 ChunkPos::ChunkPos(int _x, int _z)
-	: x(_x), z(_z) {}
+{
+    _init(_x, _z);
+}
 
 ChunkPos::ChunkPos(int _x, int _y, int _z)
-	: ChunkPos(TilePos(_x, _y, _z)) {}
+{
+    _init(TilePos(_x, _y, _z));
+}
 
 ChunkPos::ChunkPos(float _x, float _y, float _z)
-	: ChunkPos(Vec3(_x, _y, _z)) {}
-
-ChunkPos::ChunkPos(const Vec3& pos)
-	: ChunkPos(TilePos(pos)) {}
-
-ChunkPos::ChunkPos(const TilePos& pos)
-	: ChunkPos(pos.x >> 4, pos.z >> 4) {}
+{
+    _init(Vec3(_x, _y, _z));
+}
 
 bool ChunkPos::operator<(const ChunkPos& b) const
 {

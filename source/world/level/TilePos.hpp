@@ -17,7 +17,11 @@ struct TilePos
 	int x;
 	uint8_t y; // 255 height limit
 	int z;
-
+    
+private:
+    void _init(int _x, int _y, int _z);
+    
+public:
 	TilePos();
 	TilePos(int _x, int _y, int _z);
 	TilePos(float _x, float _y, float _z);

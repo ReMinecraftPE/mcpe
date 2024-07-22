@@ -51,7 +51,7 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 			getDeltaTime();
 
 		double deltaTime = getDeltaTime();
-	    LOG_I("deltaTime: %f", deltaTime);
+	    //LOG_I("deltaTime: %f", deltaTime);
 		if (isTouched)
 		{
 			m_analogTurnVector.x = Controller::getX(m_stickNo);

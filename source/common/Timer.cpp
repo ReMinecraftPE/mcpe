@@ -40,13 +40,8 @@ double getAccurateTimeMs()
 
 void Timer::advanceTime()
 {
-#ifdef USE_ACCURATE_TIMER
 	double timeS = getTimeS();
 	double timeMs = timeS * 1000.0;// = getAccurateTimeMs();
-#else
-	int timeMs = getTimeMs();
-	float timeS = float(timeMs) / 1000.0f;
-#endif
 	if (timeMs - m_lastSyncTime <= 1000)
 	{
 		if (timeMs - m_lastSyncTime < 0)
@@ -56,24 +51,13 @@ void Timer::advanceTime()
 	}
 	else
 	{
-#ifdef USE_ACCURATE_TIMER
 		double diff1, diff2;
-#else
-		float diff1, diff2;
-#endif
 		diff1 = timeMs - m_lastSyncTime;
 		diff2 = timeMs - m_unprocessedTime;
 		m_tickAdjustment += ((diff1 / diff2) - m_tickAdjustment) * 0.2f;
 	}
 
-#ifdef USE_ACCURATE_TIMER
-	double diff;
-#else
-	float diff;
-#endif
-	diff = timeS - m_lastUpdateTime;
-	if (diff > 0.008)
-		LOG_I("Timer::diff: %f", diff);
+	double diff = timeS - m_lastUpdateTime;
 	m_lastUpdateTime = timeS;
 
 	float x1 = diff * m_tickAdjustment;

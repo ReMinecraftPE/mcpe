@@ -5,6 +5,7 @@
 #define constexpr const
 #endif
 #ifndef nullptr
+#include <stddef.h>
 #define nullptr NULL
 #endif
 #ifndef override

@@ -119,7 +119,7 @@ bool LevelChunk::isAt(const ChunkPos& pos)
 
 int LevelChunk::getHeightmap(const ChunkTilePos& pos)
 {
-	CheckPosition(ChunkTilePos(pos.x, 64, pos.z));
+	CheckPosition(pos);
 	return m_heightMap[MakeHeightMapIndex(pos)];
 }
 
