@@ -389,12 +389,7 @@
 		84AA8B7E2B32F3B5003F5B82 /* Creeper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B5E2B32F3B5003F5B82 /* Creeper.cpp */; };
 		84AA8B7F2B32F3B5003F5B82 /* Creeper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B5F2B32F3B5003F5B82 /* Creeper.hpp */; };
 		84AA8B802B32F3B5003F5B82 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B602B32F3B5003F5B82 /* Entity.cpp */; };
-		84AA8B812B32F3B5003F5B82 /* Entity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B612B32F3B5003F5B82 /* Entity.hpp */; };
 		84AA8B822B32F3B5003F5B82 /* FallingTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */; };
-		84AA8B832B32F3B5003F5B82 /* FallingTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B632B32F3B5003F5B82 /* FallingTile.hpp */; };
-		84AA8B852B32F3B5003F5B82 /* ItemEntity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B652B32F3B5003F5B82 /* ItemEntity.hpp */; };
-		84AA8B872B32F3B5003F5B82 /* LocalPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B672B32F3B5003F5B82 /* LocalPlayer.hpp */; };
-		84AA8B892B32F3B5003F5B82 /* Mob.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B692B32F3B5003F5B82 /* Mob.hpp */; };
 		84AA8B8A2B32F3B5003F5B82 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */; };
 		84AA8B8B2B32F3B5003F5B82 /* Monster.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */; };
 		84AA8B8C2B32F3B5003F5B82 /* PathfinderMob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B6C2B32F3B5003F5B82 /* PathfinderMob.cpp */; };
@@ -402,11 +397,8 @@
 		84AA8B8E2B32F3B5003F5B82 /* Pig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */; };
 		84AA8B8F2B32F3B5003F5B82 /* Pig.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */; };
 		84AA8B902B32F3B5003F5B82 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B702B32F3B5003F5B82 /* Player.cpp */; };
-		84AA8B912B32F3B5003F5B82 /* Player.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B712B32F3B5003F5B82 /* Player.hpp */; };
 		84AA8B922B32F3B5003F5B82 /* PrimedTnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B722B32F3B5003F5B82 /* PrimedTnt.cpp */; };
-		84AA8B932B32F3B5003F5B82 /* PrimedTnt.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B732B32F3B5003F5B82 /* PrimedTnt.hpp */; };
 		84AA8B942B32F3B5003F5B82 /* TripodCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B742B32F3B5003F5B82 /* TripodCamera.cpp */; };
-		84AA8B952B32F3B5003F5B82 /* TripodCamera.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B752B32F3B5003F5B82 /* TripodCamera.hpp */; };
 		84AA8B962B32F3B5003F5B82 /* WaterAnimal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */; };
 		84AA8B972B32F3B5003F5B82 /* WaterAnimal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B772B32F3B5003F5B82 /* WaterAnimal.hpp */; };
 		84AA8BEB2B32F3F3003F5B82 /* Chunk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B992B32F3F3003F5B82 /* Chunk.cpp */; };
@@ -497,17 +489,13 @@
 		84AA8C5E2B32F535003F5B82 /* CreeperModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C402B32F535003F5B82 /* CreeperModel.cpp */; };
 		84AA8C5F2B32F535003F5B82 /* CreeperModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C412B32F535003F5B82 /* CreeperModel.hpp */; };
 		84AA8C602B32F535003F5B82 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C422B32F535003F5B82 /* Cube.cpp */; };
-		84AA8C612B32F535003F5B82 /* Cube.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C432B32F535003F5B82 /* Cube.hpp */; };
 		84AA8C622B32F535003F5B82 /* HumanoidModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */; };
-		84AA8C632B32F535003F5B82 /* HumanoidModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C452B32F535003F5B82 /* HumanoidModel.hpp */; };
 		84AA8C642B32F535003F5B82 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C462B32F535003F5B82 /* Model.cpp */; };
-		84AA8C652B32F535003F5B82 /* Model.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C472B32F535003F5B82 /* Model.hpp */; };
 		84AA8C662B32F535003F5B82 /* ModelPart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C482B32F535003F5B82 /* ModelPart.cpp */; };
 		84AA8C672B32F535003F5B82 /* ModelPart.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C492B32F535003F5B82 /* ModelPart.hpp */; };
 		84AA8C682B32F535003F5B82 /* PigModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4A2B32F535003F5B82 /* PigModel.cpp */; };
 		84AA8C692B32F535003F5B82 /* PigModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C4B2B32F535003F5B82 /* PigModel.hpp */; };
 		84AA8C6A2B32F535003F5B82 /* PolygonQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4C2B32F535003F5B82 /* PolygonQuad.cpp */; };
-		84AA8C6B2B32F535003F5B82 /* PolygonQuad.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C4D2B32F535003F5B82 /* PolygonQuad.hpp */; };
 		84AA8C6C2B32F535003F5B82 /* QuadrupedModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */; };
 		84AA8C6D2B32F535003F5B82 /* QuadrupedModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */; };
 		84AA8C6E2B32F535003F5B82 /* SheepFurModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */; };
@@ -1923,12 +1911,7 @@
 		84AA8B5E2B32F3B5003F5B82 /* Creeper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Creeper.cpp; sourceTree = "<group>"; };
 		84AA8B5F2B32F3B5003F5B82 /* Creeper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Creeper.hpp; sourceTree = "<group>"; };
 		84AA8B602B32F3B5003F5B82 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
-		84AA8B612B32F3B5003F5B82 /* Entity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Entity.hpp; sourceTree = "<group>"; };
 		84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FallingTile.cpp; sourceTree = "<group>"; };
-		84AA8B632B32F3B5003F5B82 /* FallingTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FallingTile.hpp; sourceTree = "<group>"; };
-		84AA8B652B32F3B5003F5B82 /* ItemEntity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ItemEntity.hpp; sourceTree = "<group>"; };
-		84AA8B672B32F3B5003F5B82 /* LocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LocalPlayer.hpp; sourceTree = "<group>"; };
-		84AA8B692B32F3B5003F5B82 /* Mob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mob.hpp; sourceTree = "<group>"; };
 		84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
 		84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Monster.hpp; sourceTree = "<group>"; };
 		84AA8B6C2B32F3B5003F5B82 /* PathfinderMob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PathfinderMob.cpp; sourceTree = "<group>"; };
@@ -1936,11 +1919,8 @@
 		84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pig.cpp; sourceTree = "<group>"; };
 		84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pig.hpp; sourceTree = "<group>"; };
 		84AA8B702B32F3B5003F5B82 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
-		84AA8B712B32F3B5003F5B82 /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
 		84AA8B722B32F3B5003F5B82 /* PrimedTnt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrimedTnt.cpp; sourceTree = "<group>"; };
-		84AA8B732B32F3B5003F5B82 /* PrimedTnt.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PrimedTnt.hpp; sourceTree = "<group>"; };
 		84AA8B742B32F3B5003F5B82 /* TripodCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TripodCamera.cpp; sourceTree = "<group>"; };
-		84AA8B752B32F3B5003F5B82 /* TripodCamera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TripodCamera.hpp; sourceTree = "<group>"; };
 		84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaterAnimal.cpp; sourceTree = "<group>"; };
 		84AA8B772B32F3B5003F5B82 /* WaterAnimal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaterAnimal.hpp; sourceTree = "<group>"; };
 		84AA8B992B32F3F3003F5B82 /* Chunk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Chunk.cpp; sourceTree = "<group>"; };
@@ -2031,17 +2011,13 @@
 		84AA8C402B32F535003F5B82 /* CreeperModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreeperModel.cpp; sourceTree = "<group>"; };
 		84AA8C412B32F535003F5B82 /* CreeperModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreeperModel.hpp; sourceTree = "<group>"; };
 		84AA8C422B32F535003F5B82 /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
-		84AA8C432B32F535003F5B82 /* Cube.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cube.hpp; sourceTree = "<group>"; };
 		84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanoidModel.cpp; sourceTree = "<group>"; };
-		84AA8C452B32F535003F5B82 /* HumanoidModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HumanoidModel.hpp; sourceTree = "<group>"; };
 		84AA8C462B32F535003F5B82 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
-		84AA8C472B32F535003F5B82 /* Model.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
 		84AA8C482B32F535003F5B82 /* ModelPart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelPart.cpp; sourceTree = "<group>"; };
 		84AA8C492B32F535003F5B82 /* ModelPart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelPart.hpp; sourceTree = "<group>"; };
 		84AA8C4A2B32F535003F5B82 /* PigModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PigModel.cpp; sourceTree = "<group>"; };
 		84AA8C4B2B32F535003F5B82 /* PigModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PigModel.hpp; sourceTree = "<group>"; };
 		84AA8C4C2B32F535003F5B82 /* PolygonQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolygonQuad.cpp; sourceTree = "<group>"; };
-		84AA8C4D2B32F535003F5B82 /* PolygonQuad.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolygonQuad.hpp; sourceTree = "<group>"; };
 		84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadrupedModel.cpp; sourceTree = "<group>"; };
 		84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuadrupedModel.hpp; sourceTree = "<group>"; };
 		84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SheepFurModel.cpp; sourceTree = "<group>"; };
@@ -4086,13 +4062,9 @@
 				84AA8C5B2B32F535003F5B82 /* ChickenModel.hpp in Headers */,
 				84AA8C5D2B32F535003F5B82 /* CowModel.hpp in Headers */,
 				84AA8C5F2B32F535003F5B82 /* CreeperModel.hpp in Headers */,
-				84AA8C612B32F535003F5B82 /* Cube.hpp in Headers */,
-				84AA8C632B32F535003F5B82 /* HumanoidModel.hpp in Headers */,
-				84AA8C652B32F535003F5B82 /* Model.hpp in Headers */,
 				84AA8C672B32F535003F5B82 /* ModelPart.hpp in Headers */,
 				84AA8C692B32F535003F5B82 /* PigModel.hpp in Headers */,
 				8477B3A72C4DC374004E1AC5 /* MouseBuildInput.hpp in Headers */,
-				84AA8C6B2B32F535003F5B82 /* PolygonQuad.hpp in Headers */,
 				84AA8C6D2B32F535003F5B82 /* QuadrupedModel.hpp in Headers */,
 				84AA8C6F2B32F535003F5B82 /* SheepFurModel.hpp in Headers */,
 				84AA8C712B32F535003F5B82 /* SheepModel.hpp in Headers */,
@@ -4212,19 +4184,11 @@
 				84AA8B7B2B32F3B5003F5B82 /* Chicken.hpp in Headers */,
 				84AA8B7D2B32F3B5003F5B82 /* Cow.hpp in Headers */,
 				84AA8B7F2B32F3B5003F5B82 /* Creeper.hpp in Headers */,
-				84AA8B812B32F3B5003F5B82 /* Entity.hpp in Headers */,
-				84AA8B832B32F3B5003F5B82 /* FallingTile.hpp in Headers */,
-				84AA8B852B32F3B5003F5B82 /* ItemEntity.hpp in Headers */,
-				84AA8B872B32F3B5003F5B82 /* LocalPlayer.hpp in Headers */,
-				84AA8B892B32F3B5003F5B82 /* Mob.hpp in Headers */,
 				84AA8B8B2B32F3B5003F5B82 /* Monster.hpp in Headers */,
 				84AA8B8D2B32F3B5003F5B82 /* PathfinderMob.hpp in Headers */,
 				84AA8B8F2B32F3B5003F5B82 /* Pig.hpp in Headers */,
 				8477B3BB2C4DC42E004E1AC5 /* Vec2.hpp in Headers */,
 				8477B3B42C4DC414004E1AC5 /* ChunkPos.hpp in Headers */,
-				84AA8B912B32F3B5003F5B82 /* Player.hpp in Headers */,
-				84AA8B932B32F3B5003F5B82 /* PrimedTnt.hpp in Headers */,
-				84AA8B952B32F3B5003F5B82 /* TripodCamera.hpp in Headers */,
 				84AA8B972B32F3B5003F5B82 /* WaterAnimal.hpp in Headers */,
 				84E78C7C2B58B3E000D515EF /* Rocket.hpp in Headers */,
 				84E78C842B58B5FB00D515EF /* RocketItem.hpp in Headers */,
