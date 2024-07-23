@@ -40,6 +40,8 @@
 	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 	  <ConformanceMode>false</ConformanceMode>
+	  <!-- Needed to allow __cplusplus to be set correctly -->
+	  <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>

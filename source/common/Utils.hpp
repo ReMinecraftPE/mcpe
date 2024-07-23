@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <assert.h>
-#include <limits.h>
+#include <limits>
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
