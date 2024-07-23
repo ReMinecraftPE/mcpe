@@ -11,7 +11,9 @@
 #endif
 #ifndef nullptr
 #include <stddef.h>
+#ifndef nullptr
 #define nullptr NULL
+#endif
 #endif
 #ifndef override
 #define override

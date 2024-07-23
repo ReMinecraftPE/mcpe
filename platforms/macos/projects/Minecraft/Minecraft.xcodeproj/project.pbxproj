@@ -388,17 +388,12 @@
 		84AA8B7D2B32F3B5003F5B82 /* Cow.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B5D2B32F3B5003F5B82 /* Cow.hpp */; };
 		84AA8B7E2B32F3B5003F5B82 /* Creeper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B5E2B32F3B5003F5B82 /* Creeper.cpp */; };
 		84AA8B7F2B32F3B5003F5B82 /* Creeper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B5F2B32F3B5003F5B82 /* Creeper.hpp */; };
-		84AA8B802B32F3B5003F5B82 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B602B32F3B5003F5B82 /* Entity.cpp */; };
-		84AA8B822B32F3B5003F5B82 /* FallingTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */; };
 		84AA8B8A2B32F3B5003F5B82 /* Monster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */; };
 		84AA8B8B2B32F3B5003F5B82 /* Monster.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */; };
 		84AA8B8C2B32F3B5003F5B82 /* PathfinderMob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B6C2B32F3B5003F5B82 /* PathfinderMob.cpp */; };
 		84AA8B8D2B32F3B5003F5B82 /* PathfinderMob.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B6D2B32F3B5003F5B82 /* PathfinderMob.hpp */; };
 		84AA8B8E2B32F3B5003F5B82 /* Pig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */; };
 		84AA8B8F2B32F3B5003F5B82 /* Pig.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */; };
-		84AA8B902B32F3B5003F5B82 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B702B32F3B5003F5B82 /* Player.cpp */; };
-		84AA8B922B32F3B5003F5B82 /* PrimedTnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B722B32F3B5003F5B82 /* PrimedTnt.cpp */; };
-		84AA8B942B32F3B5003F5B82 /* TripodCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B742B32F3B5003F5B82 /* TripodCamera.cpp */; };
 		84AA8B962B32F3B5003F5B82 /* WaterAnimal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */; };
 		84AA8B972B32F3B5003F5B82 /* WaterAnimal.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B772B32F3B5003F5B82 /* WaterAnimal.hpp */; };
 		84AA8BEB2B32F3F3003F5B82 /* Chunk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B992B32F3F3003F5B82 /* Chunk.cpp */; };
@@ -488,14 +483,10 @@
 		84AA8C5D2B32F535003F5B82 /* CowModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C3F2B32F535003F5B82 /* CowModel.hpp */; };
 		84AA8C5E2B32F535003F5B82 /* CreeperModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C402B32F535003F5B82 /* CreeperModel.cpp */; };
 		84AA8C5F2B32F535003F5B82 /* CreeperModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C412B32F535003F5B82 /* CreeperModel.hpp */; };
-		84AA8C602B32F535003F5B82 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C422B32F535003F5B82 /* Cube.cpp */; };
-		84AA8C622B32F535003F5B82 /* HumanoidModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */; };
-		84AA8C642B32F535003F5B82 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C462B32F535003F5B82 /* Model.cpp */; };
 		84AA8C662B32F535003F5B82 /* ModelPart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C482B32F535003F5B82 /* ModelPart.cpp */; };
 		84AA8C672B32F535003F5B82 /* ModelPart.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C492B32F535003F5B82 /* ModelPart.hpp */; };
 		84AA8C682B32F535003F5B82 /* PigModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4A2B32F535003F5B82 /* PigModel.cpp */; };
 		84AA8C692B32F535003F5B82 /* PigModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C4B2B32F535003F5B82 /* PigModel.hpp */; };
-		84AA8C6A2B32F535003F5B82 /* PolygonQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4C2B32F535003F5B82 /* PolygonQuad.cpp */; };
 		84AA8C6C2B32F535003F5B82 /* QuadrupedModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */; };
 		84AA8C6D2B32F535003F5B82 /* QuadrupedModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */; };
 		84AA8C6E2B32F535003F5B82 /* SheepFurModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */; };
@@ -4961,12 +4952,8 @@
 				84AA8C5C2B32F535003F5B82 /* CowModel.cpp in Sources */,
 				84AA8C5E2B32F535003F5B82 /* CreeperModel.cpp in Sources */,
 				8477B3A62C4DC374004E1AC5 /* MouseBuildInput.cpp in Sources */,
-				84AA8C602B32F535003F5B82 /* Cube.cpp in Sources */,
-				84AA8C622B32F535003F5B82 /* HumanoidModel.cpp in Sources */,
-				84AA8C642B32F535003F5B82 /* Model.cpp in Sources */,
 				84AA8C662B32F535003F5B82 /* ModelPart.cpp in Sources */,
 				84AA8C682B32F535003F5B82 /* PigModel.cpp in Sources */,
-				84AA8C6A2B32F535003F5B82 /* PolygonQuad.cpp in Sources */,
 				84AA8C6C2B32F535003F5B82 /* QuadrupedModel.cpp in Sources */,
 				84AA8C6E2B32F535003F5B82 /* SheepFurModel.cpp in Sources */,
 				84AA8C702B32F535003F5B82 /* SheepModel.cpp in Sources */,
@@ -5103,14 +5090,9 @@
 				84AA8B7A2B32F3B5003F5B82 /* Chicken.cpp in Sources */,
 				84AA8B7C2B32F3B5003F5B82 /* Cow.cpp in Sources */,
 				84AA8B7E2B32F3B5003F5B82 /* Creeper.cpp in Sources */,
-				84AA8B802B32F3B5003F5B82 /* Entity.cpp in Sources */,
-				84AA8B822B32F3B5003F5B82 /* FallingTile.cpp in Sources */,
 				84AA8B8A2B32F3B5003F5B82 /* Monster.cpp in Sources */,
 				84AA8B8C2B32F3B5003F5B82 /* PathfinderMob.cpp in Sources */,
 				84AA8B8E2B32F3B5003F5B82 /* Pig.cpp in Sources */,
-				84AA8B902B32F3B5003F5B82 /* Player.cpp in Sources */,
-				84AA8B922B32F3B5003F5B82 /* PrimedTnt.cpp in Sources */,
-				84AA8B942B32F3B5003F5B82 /* TripodCamera.cpp in Sources */,
 				84AA8B962B32F3B5003F5B82 /* WaterAnimal.cpp in Sources */,
 				84E78C7B2B58B3E000D515EF /* Rocket.cpp in Sources */,
 				84E78C832B58B5FB00D515EF /* RocketItem.cpp in Sources */,
