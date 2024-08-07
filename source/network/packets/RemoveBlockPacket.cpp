@@ -17,11 +17,17 @@ void RemoveBlockPacket::write(RakNet::BitStream* bs)
 {
 	bs->Write((unsigned char)PACKET_REMOVE_BLOCK);
 	bs->Write(m_playerID);
-	bs->Write(m_pos);
+	// The order of the TilePos matters here
+	bs->Write(m_pos.x);
+	bs->Write(m_pos.z);
+	bs->Write(m_pos.y);
 }
 
 void RemoveBlockPacket::read(RakNet::BitStream* bs)
 {
 	bs->Read(m_playerID);
-	bs->Read(m_pos);
+	// The order of the TilePos matters here
+	bs->Read(m_pos.x);
+	bs->Read(m_pos.z);
+	bs->Read(m_pos.y);
 }
