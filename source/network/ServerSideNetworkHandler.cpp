@@ -138,9 +138,8 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.m_levelVersion = m_pLevel->getLevelData()->getStorageVersion();
 	sgp.m_gameType = pPlayer->getPlayerGameType();
 	sgp.m_entityId = pPlayer->m_EntityID;
-	sgp.m_pos.x = pPlayer->m_pos.x;
-	sgp.m_pos.y = pPlayer->m_pos.y - pPlayer->field_84;
-	sgp.m_pos.z = pPlayer->m_pos.z;
+	sgp.m_pos = pPlayer->m_pos;
+	sgp.m_pos.y -= pPlayer->m_heightOffset;
 	sgp.m_serverVersion = NETWORK_PROTOCOL_VERSION;
 	sgp.m_time = m_pLevel->getTime();
 	
@@ -294,14 +293,6 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 		LOG_W("No player with id %d", packet->m_playerID);
 		return;
 	}
-
-#ifndef ORIGINAL_CODE
-	if (!Item::items[packet->m_itemID])
-	{
-		LOG_W("That item %d doesn't actually exist!", packet->m_itemID);
-		return;
-	}
-#endif
 
 	if (pPlayer->m_guid == m_pRakNetPeer->GetMyGUID())
 	{
@@ -582,7 +573,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 
 	EntityType entityType = MobFactory::GetEntityTypeFromMobName(entityName);
 	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-	pos.y -= player->m_pPlayer->field_84 + player->m_pPlayer->field_A4;
+	pos.y -= player->m_pPlayer->m_heightOffset + player->m_pPlayer->field_A4;
 
 	if (parmsSize >= 4)
 	{

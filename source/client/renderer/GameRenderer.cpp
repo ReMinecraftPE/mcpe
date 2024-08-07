@@ -134,7 +134,7 @@ void GameRenderer::moveCameraToPlayer(float f)
 {
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 
-	float headHeightDiff = pMob->field_84 - 1.62f;
+	float headHeightDiff = pMob->m_heightOffset - 1.62f;
 
 	float posX = Mth::Lerp(pMob->field_3C.x, pMob->m_pos.x, f);
 	float posY = Mth::Lerp(pMob->field_3C.y, pMob->m_pos.y, f);

@@ -32,7 +32,7 @@ void Entity::_init()
 	m_bHurt = false;
 	field_81 = 1;
 	m_bRemoved = false;
-	field_84 = 0.0f;
+	m_heightOffset = 0.0f;
 	field_88 = 0.6f;
 	field_8C = 1.8f;
 	field_90 = 0.0f;
@@ -45,7 +45,7 @@ void Entity::_init()
 	field_B8 = 0;
 	field_BC = 300;
 	m_fireTicks = 0;
-	field_C4 = 0;
+	m_flameTime = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
 	field_D0 = 300;
@@ -83,7 +83,7 @@ void Entity::setPos(const Vec3& pos)
 	m_pos = pos;
 
 	float halfSize = field_88 / 2;
-	float lowY = m_pos.y - field_84 + field_A4;
+	float lowY = m_pos.y - m_heightOffset + field_A4;
 
 	m_hitbox = AABB(
 		m_pos.x - halfSize,
@@ -111,7 +111,7 @@ int Entity::move(const Vec3& pos)
 
 		m_pos.x = (m_hitbox.max.x + m_hitbox.min.x) / 2;
 		m_pos.z = (m_hitbox.max.z + m_hitbox.min.z) / 2;
-		m_pos.y = m_hitbox.min.y + field_84 - field_A4;
+		m_pos.y = m_hitbox.min.y + m_heightOffset - field_A4;
 
 		return 1300;
 	}
@@ -401,7 +401,7 @@ label_5:
 label_45:
 	m_pos.x = (m_hitbox.min.x + m_hitbox.max.x) / 2;
 	m_pos.z = (m_hitbox.min.z + m_hitbox.max.z) / 2;
-	m_pos.y = m_hitbox.min.y - field_A4 + field_84;
+	m_pos.y = m_hitbox.min.y - field_A4 + m_heightOffset;
 
 	field_7D = x_2 != x_3 || z_2 != z_3;
 	field_7F = field_7D || newY != pos.y;
@@ -420,7 +420,7 @@ label_45:
 		field_94 += Mth::sqrt(diffZ * diffZ + diffX * diffX) * 0.6f;
 
 		TilePos tilePos(Mth::floor(m_pos.x),
-						Mth::floor(m_pos.y - 0.2f - field_84),
+						Mth::floor(m_pos.y - 0.2f - m_heightOffset),
 						Mth::floor(m_pos.z));
 
 		TileID tileID = m_pLevel->getTile(tilePos);
@@ -475,7 +475,7 @@ label_45:
 		{
 		label_76:
 			if (m_fireTicks > 0)
-				m_fireTicks = -field_C4;
+				m_fireTicks = -m_flameTime;
 
 			return 1300;
 		}
@@ -488,7 +488,7 @@ label_45:
 	else
 	{
 		if (m_fireTicks <= 0)
-			m_fireTicks = -field_C4;
+			m_fireTicks = -m_flameTime;
 
 		if (bIsInWater)
 			goto label_76;
@@ -500,7 +500,7 @@ label_45:
 void Entity::moveTo(const Vec3& pos, const Vec2& rot)
 {
 	Vec3 newPos(pos);
-	newPos.y += field_84;
+	newPos.y += m_heightOffset;
 
 	setPos(newPos);
 	field_3C = newPos;
@@ -782,7 +782,7 @@ bool Entity::isUnderLiquid(Material* pMtl) const
 
 float Entity::getBrightness(float f) const
 {
-	TilePos tilePos(m_pos.x, m_pos.y - field_84 + (m_hitbox.max.y - m_hitbox.min.y) * 0.66f, m_pos.z);
+	TilePos tilePos(m_pos.x, m_pos.y - m_heightOffset + (m_hitbox.max.y - m_hitbox.min.y) * 0.66f, m_pos.z);
 
 	TilePos tileMin(m_hitbox.min);
 	TilePos tileMax(m_hitbox.max);

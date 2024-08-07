@@ -24,7 +24,7 @@ TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(
 	field_34 = 1;
 
 	setSize(1.0f, 1.5f);
-	field_84 = field_8C * 0.5f - 0.25f;
+	m_heightOffset = field_8C * 0.5f - 0.25f;
 
 	setPos(pos);
 	field_3C = pos;

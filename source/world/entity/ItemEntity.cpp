@@ -19,7 +19,7 @@ void ItemEntity::_init(const ItemInstance* itemInstance)
 	// @NOTE: not setting render type
 	field_E8 = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
-	field_84 = field_8C * 0.5f;
+	m_heightOffset = field_8C * 0.5f;
 #ifdef ORIGINAL_CODE
 	m_pItemInstance = itemInstance != nullptr ? itemInstance : new ItemInstance();
 #else

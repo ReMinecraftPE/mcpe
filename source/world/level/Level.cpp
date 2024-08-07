@@ -25,8 +25,8 @@ Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int stor
 	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
-	field_AA8 = 42184323;
-	field_AAC = 1013904223;
+	m_randValue = 42184323;
+	m_addend = 1013904223;
 	m_bUpdateLights = true;
 	field_B08 = 0;
 	field_B0C = 0;
@@ -67,9 +67,9 @@ Level::~Level()
 	{
 		Entity* pEnt = m_entities.at(i);
 		
-		//you better HOPE this is freed by Minecraft!
+		//you better HOPE this is freed by Minecraft! (or a NetworkHandler)
 		//Really should have used shared pointers and stuff.
-		//if (!pEnt->isLocalPlayer())
+		if (!pEnt->isPlayer())
 			delete pEnt;
 	}
 	
@@ -1372,12 +1372,12 @@ void Level::tickTiles()
 
 		for (int i = 0; i < 80; i++)
 		{
-			field_AA8 = 3 * field_AA8 + field_AAC;
+			m_randValue = 3 * m_randValue + m_addend;
 
 			TilePos tilePos(
-				(field_AA8 >> 2) & 0xF,
-				(field_AA8 >> 10) & 0xF,
-				(field_AA8 >> 18) & 0x7F);
+				(m_randValue >> 2) & 0xF,
+				(m_randValue >> 10) & 0xF,
+				(m_randValue >> 18) & 0x7F);
 
 			TileID tile = pChunk->getTile(tilePos);
 			if (Tile::shouldTick[tile])
@@ -1474,22 +1474,25 @@ void Level::tickEntities()
 	for (int i = 0; i<int(m_entities.size()); i++)
 	{
 		Entity* pEnt = m_entities[i];
-		tick(pEnt);
 
 		if (!pEnt->m_bRemoved)
-			continue;
+		{
+			tick(pEnt);
+		}
+		else
+		{
+			if (pEnt->m_bInAChunk && hasChunk(pEnt->m_chunkPos))
+				getChunk(pEnt->m_chunkPos)->removeEntity(pEnt);
 
-		if (pEnt->m_bInAChunk && hasChunk(pEnt->m_chunkPos))
-			getChunk(pEnt->m_chunkPos)->removeEntity(pEnt);
-		
-		m_entities.erase(m_entities.begin() + i);
-		i--;
+			m_entities.erase(m_entities.begin() + i);
+			i--;
 
-		entityRemoved(pEnt);
+			entityRemoved(pEnt);
 
-		// If the entity isn't the local player (managed by Minecraft*), then delete it.
-		//if (!pEnt->isLocalPlayer())
-			delete pEnt;
+			// If the entity isn't a player (managed by Minecraft* or through OnlinePlayer), then delete it.
+			if (!pEnt->isPlayer())
+				delete pEnt;
+		}
 	}
 }
 
@@ -1643,7 +1646,7 @@ void Level::playSound(Entity* entity, const std::string& name, float volume, flo
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
-		pListener->playSound(name, Vec3(entity->m_pos.x, entity->m_pos.y - entity->field_84, entity->m_pos.z), volume, pitch);
+		pListener->playSound(name, Vec3(entity->m_pos.x, entity->m_pos.y - entity->m_heightOffset, entity->m_pos.z), volume, pitch);
 	}
 }
 

@@ -201,7 +201,7 @@ public:
 	bool m_bHurt;
 	uint8_t field_81;
 	bool m_bRemoved;
-	float field_84;
+	float m_heightOffset;
 	float field_88;
 	float field_8C;
 	float field_90;
@@ -215,7 +215,7 @@ public:
 	int field_B8;
 	int field_BC;
 	int m_fireTicks;
-	int field_C4;
+	int m_flameTime;
 	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
 	float m_distanceFallen;
 	int field_D0;

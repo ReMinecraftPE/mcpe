@@ -20,7 +20,7 @@ FallingTile::FallingTile(Level* level, const Vec3& pos, int id) : Entity(level),
 	m_id = id;
 	field_34 = 1;
 	setSize(0.98f, 0.98f);
-	field_84 = field_8C * 0.5f;
+	m_heightOffset = field_8C * 0.5f;
 	setPos(pos);
 	field_3C = pos;
 	m_vel = Vec3::ZERO;

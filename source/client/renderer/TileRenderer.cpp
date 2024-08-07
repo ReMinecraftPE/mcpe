@@ -2417,9 +2417,13 @@ void TileRenderer::renderTile(Tile* tile, int data, float bright)
 			SHADE_DEFINE;
 			SHADE_PREPARE;
 			SHADE_IF_NEEDED(1.0f);
+			// Despite how it looks, Facing::UP is necessary for this to function correctly
+			// Why? no idea
 			renderFaceDown(tile, Vec3::ZERO, tile->getTexture(Facing::UP, data));
 			SHADE_FIXUP_GRASS;
 			SHADE_IF_NEEDED(0.5f);
+			// Despite how it looks, Facing::DOWN is necessary for this to function correctly
+			// Why? no idea
 			IF_NEEDED(renderFaceUp(tile, Vec3::ZERO, tile->getTexture(Facing::DOWN, data)));
 			SHADE_IF_NEEDED(0.8f);
 			IF_NEEDED(renderNorth(tile, Vec3::ZERO, tile->getTexture(Facing::NORTH, data)));

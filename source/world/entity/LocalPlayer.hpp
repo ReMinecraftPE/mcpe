@@ -35,6 +35,13 @@ public:
 	void closeContainer(); //@HUH: oddly enough not a virtual/override
 	void respawn();
 
+private:
+	// Made these private since they're only accessed by LocalPlayer
+	// multiplayer related
+	Vec3 field_C24;
+	Vec2 field_C30;
+	// multiplayer related -- end
+
 public:
 	int field_BEC;
 	Vec3 field_BF0;
@@ -48,11 +55,6 @@ public:
 	float field_C18;
 	float field_C1C;
 	int m_nAutoJumpFrames;
-	// multiplayer related
-	Vec3 field_C24;
-	float field_C30;
-	float field_C34;
-	// multiplayer related -- end
 	int field_C38;
 	Minecraft* m_pMinecraft;
 	IMoveInput* m_pMoveInput;

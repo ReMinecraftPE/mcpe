@@ -92,11 +92,9 @@ bool Vec3::clipZ(const Vec3& a2, float a3, Vec3& a4) const
 
 float Vec3::distanceToSqr(const Vec3& b) const
 {
-	float xd = (x-b.x);
-	float yd = (y-b.y);
-	float zd = (z-b.z);
+	Vec3 d = *this - b;
 
-	return xd * xd + yd * yd + zd * zd;
+	return d.x * d.x + d.y * d.y + d.z * d.z;
 }
 
 float Vec3::distanceTo(const Vec3& b) const

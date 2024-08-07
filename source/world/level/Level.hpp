@@ -177,6 +177,10 @@ public:
 	void saveUnsavedChunks();
 #endif
 
+protected:
+	int m_randValue;
+	int m_addend;
+
 public:
 	AABBVector m_aabbs;
 	bool m_bInstantTicking;
@@ -192,8 +196,6 @@ public:
 	std::vector<LevelListener*> m_levelListeners;
 	ChunkSource* m_pChunkSource;
 	LevelStorage* m_pLevelStorage;
-	int field_AA8;
-	int field_AAC;
 	EntityVector m_pendingEntityRemovals;
 	std::set<TickNextTickData> m_pendingTicks;
 	std::set<ChunkPos> m_chunksToUpdate;

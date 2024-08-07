@@ -8,7 +8,7 @@
 
 #include "LevelData.hpp"
 
-#define FORCE_SURVIVAL_MODE (TEST_SURVIVAL_MODE || 0)
+#define FORCE_SURVIVAL_MODE (TEST_SURVIVAL_MODE || 1)
 
 void LevelData::_init(int32_t seed, int storageVersion)
 {

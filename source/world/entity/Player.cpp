@@ -27,7 +27,7 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	m_pInventory = new Inventory(this);
 
-	field_84 = 1.62f;
+	setDefaultHeadHeight();
 
 	Vec3 pos = m_pLevel->getSharedSpawnPos();
 
@@ -38,8 +38,8 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 	m_class = "humanoid";
 	m_texture = "mob/char.png";
 
-	field_C4 = 20;
-	field_B5C = 180.0f;
+	m_flameTime = 20;
+	m_rotOffs = 180.0f;
 }
 
 Player::~Player()
@@ -69,7 +69,7 @@ void Player::awardKillScore(Entity* pKilled, int score)
 
 void Player::resetPos()
 {
-	field_84 = 1.62f;
+	setDefaultHeadHeight();
 	setSize(0.6f, 1.8f);
 
 	Entity::resetPos();
@@ -84,6 +84,10 @@ void Player::die(Entity* pCulprit)
 	setSize(0.2f, 0.2f);
 	setPos(m_pos); // update hitbox
 	m_vel.y = 0.1f;
+
+	if (m_name == "Notch")
+		drop(new ItemInstance(Item::apple), true);
+	m_pInventory->dropAll();
 
 	if (pCulprit)
 	{
@@ -148,7 +152,7 @@ void Player::updateAi()
 	if (m_bSwinging)
 	{
 		m_swingTime++;
-		if (m_swingTime > 7)
+		if (m_swingTime >= 8)
 		{
 			m_swingTime = 0;
 			m_bSwinging = false;
@@ -159,7 +163,7 @@ void Player::updateAi()
 		m_swingTime = 0;
 	}
 
-	m_attackAnim = m_swingTime * 0.125f;
+	m_attackAnim = m_swingTime / 8.0f;
 }
 
 void Player::defineSynchedData()
@@ -270,7 +274,7 @@ void Player::rideTick()
 
 void Player::setDefaultHeadHeight()
 {
-	field_84 = 1.62f;
+	m_heightOffset = 1.62f;
 }
 
 void Player::setRespawnPos(const TilePos& pos)

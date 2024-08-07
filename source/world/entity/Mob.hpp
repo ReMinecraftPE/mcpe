@@ -20,7 +20,7 @@ public:
 
 	//overrides
 	virtual void reset() override;
-	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int i) override;
+	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
 	virtual void tick() override;
 	virtual void baseTick() override;
 	virtual float getHeadHeight() const override { return 0.85f * field_8C; }
@@ -122,14 +122,14 @@ public:
 	float field_B50;
 	float field_B54;
 	float field_B58;
-	float field_B5C;
+	float m_rotOffs;
 	float field_B60;
 	int field_B64;
 	char field_B68;
 	char field_B69;
-	int field_B6C;
-	Vec3 field_B70;
-	Vec2 field_B7C;
+	int m_lSteps;
+	Vec3 m_lPos;
+	Vec2 m_lRot;
 	int field_B84;
 	Entity* m_pEntLookedAt;
 

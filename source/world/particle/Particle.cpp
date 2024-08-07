@@ -30,7 +30,7 @@ Particle::Particle(Level* level, const Vec3& pos, const Vec3& dir) : Entity(leve
 	_init();
 
 	setSize(0.2f, 0.2f);
-	field_84 = 0.5f * field_8C;
+	m_heightOffset = 0.5f * field_8C;
 	
 	setPos(pos);
 	m_vel.x = dir.x + 0.4f * (2.0f * Mth::random() - 1.0f);

@@ -33,20 +33,26 @@ int GrassTile::getResource(int i, Random* random) const
 
 int GrassTile::getTexture(Facing::Name face) const
 {
-	if (face == Facing::UP)
+	switch (face)
+	{
+	case Facing::UP:
 		return TEXTURE_GRASS_TOP;
-
-	// no one will notice that I omitted the bottom one. Like grass_carried in MCPE
-	return TEXTURE_GRASS_SIDE;
+	case Facing::DOWN:
+		return TEXTURE_DIRT;
+	default:
+		return TEXTURE_GRASS_SIDE;
+	}
 }
 
 int GrassTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
-	if (face == Facing::UP)
+	switch (face)
+	{
+	case Facing::UP:
 		return TEXTURE_GRASS_TOP;
-
-	if (face == Facing::DOWN)
+	case Facing::DOWN:
 		return TEXTURE_DIRT;
+	}
 
 	Material* pMat = level->getMaterial(pos.above());
 	if (pMat == Material::topSnow || pMat == Material::snow)

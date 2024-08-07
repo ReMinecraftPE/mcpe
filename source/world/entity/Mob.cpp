@@ -43,14 +43,14 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_B50 = 0.0f;
 	field_B54 = 0.0f;
 	field_B58 = 0.0f;
-	field_B5C = 0.0f;
+	m_rotOffs = 0.0f;
 	field_B60 = 1.0f;
 	field_B64 = 0;
 	field_B68 = 1;
 	field_B69 = 0;
-	field_B6C = 0;
-	field_B70 = Vec3::ZERO;
-	field_B7C = Vec2::ZERO;
+	m_lSteps = 0;
+	m_lPos = Vec3::ZERO;
+	m_lRot = Vec2::ZERO;
 	field_B84 = 0;
 	m_pEntLookedAt = nullptr;
 	m_bSwinging = false;
@@ -79,45 +79,44 @@ void Mob::reset()
 	m_health = 10;
 }
 
-void Mob::lerpTo(const Vec3& pos, const Vec2& rot, int i)
+void Mob::lerpTo(const Vec3& pos, const Vec2& rot, int steps)
 {
-	field_B70 = Vec3(pos.x, pos.y + field_84, pos.z);
-	field_B7C = rot;
-	field_B6C = i;
+	m_lPos = pos;
+	m_lPos.y += m_heightOffset;
+	m_lRot = rot;
+	m_lSteps = steps;
 }
 
 void Mob::tick()
 {
 	superTick();
 
-	if (field_B6C > 0)
+	if (m_lSteps > 0)
 	{
-		setPos(Vec3(m_pos.x + ((field_B70.x - m_pos.x) / field_B6C),
-			        m_pos.y + ((field_B70.y - m_pos.y) / field_B6C),
-			        m_pos.z + ((field_B70.z - m_pos.z) / field_B6C)));
-
-		float ang = field_B7C.x - m_rot.x;
+		setPos(Vec3(m_pos.x + ((m_lPos.x - m_pos.x) / (float)m_lSteps),
+			        m_pos.y + ((m_lPos.y - m_pos.y) / (float)m_lSteps),
+			        m_pos.z + ((m_lPos.z - m_pos.z) / (float)m_lSteps)));
 
 		// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
-		/*while (ang < -180.0f) ang += 360.0f;
+		/*float ang = m_lRot.x - m_rot.x;
+		while (ang < -180.0f) ang += 360.0f;
 		while (ang >= 180.0f) ang -= 360.0f;*/
 
-		setRot(Vec2(m_rot.x + (ang / float(field_B6C)),
-			        m_rot.y + ((field_B7C.y - m_rot.x) / float(field_B6C))));
+		setRot(Vec2(m_rot.x + ((m_lRot.x - m_rot.x) / float(m_lSteps)),
+			        m_rot.y + ((m_lRot.y - m_rot.y) / float(m_lSteps))));
 
-		field_B6C--;
+		m_lSteps--;
 	}
 
 	aiStep();
 	updateWalkAnim();
 
 	//@TODO: untangle this variable mess
-	float deltaX, deltaZ, dist, x1, x2, x3, x4, x5, x6, x7, field_E8_2, field_E8_new, v36;
+	float dist, x1, x2, x3, x4, x5, x6, x7, field_E8_2, field_E8_new, v36;
 	bool angleOOB = false;
 
-	deltaX = m_pos.x - field_3C.x;
-	deltaZ = m_pos.z - field_3C.z;
-	dist = Mth::sqrt(deltaZ * deltaZ + deltaX * deltaX);
+	Vec3 delta = m_pos - field_3C;
+	dist = Mth::sqrt(delta.z * delta.z + delta.x * delta.x);
 	field_E8_2 = field_E8;
 	x1 = field_E8_2;
 
@@ -126,7 +125,7 @@ void Mob::tick()
 	if (dist > 0.05f)
 	{
 		x2 = dist * 3.0f;
-		v36 = Mth::atan2(deltaZ, deltaX);
+		v36 = Mth::atan2(delta.z, delta.x);
 		x3 = 1.0f;
 		x1 = ((v36 * 180.0f) / float(M_PI)) - 90.0f;
 		field_E8_2 = this->field_E8;
@@ -384,7 +383,7 @@ void Mob::causeFallDamage(float level)
 
 		//@HUH: useless call to getTile? or could this be a return value of some sort
 		//Entity::causeFallDamage returns nothing though, so....
-		m_pLevel->getTile(TilePos(m_pos.x, m_pos.y - 0.2f - field_84, m_pos.z));
+		m_pLevel->getTile(TilePos(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z));
 	}
 }
 

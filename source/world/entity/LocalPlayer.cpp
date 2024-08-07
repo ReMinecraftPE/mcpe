@@ -27,8 +27,7 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, Game
 	m_nAutoJumpFrames = 0;
 	// multiplayer related
 	field_C24 = Vec3::ZERO;
-	field_C30 = 0.0f;
-	field_C34 = 0.0f;
+	field_C30 = Vec2::ZERO;
 	// multiplayer related -- end
 	field_C38 = 0;
 	m_pMoveInput = nullptr;
@@ -239,13 +238,12 @@ void LocalPlayer::tick()
 		if (fabsf(m_pos.x - field_C24.x) > 0.1f ||
 			fabsf(m_pos.y - field_C24.y) > 0.01f ||
 			fabsf(m_pos.z - field_C24.z) > 0.1f ||
-			fabsf(field_C30 - m_rot.y) > 1.0f ||
-			fabsf(field_C34 - m_rot.x) > 1.0f)
+			fabsf(field_C30.y - m_rot.y) > 1.0f ||
+			fabsf(field_C30.x - m_rot.x) > 1.0f)
 		{
-			m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - field_84, m_pos.z), m_rot));
+			m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
 			field_C24 = m_pos;
-			field_C30 = m_rot.y;
-			field_C34 = m_rot.x;
+			field_C30 = m_rot;
 		}
 
 		if (field_C38 != m_pInventory->getSelectedItemId())

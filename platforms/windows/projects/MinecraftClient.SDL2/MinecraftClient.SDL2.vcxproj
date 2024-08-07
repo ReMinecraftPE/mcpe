@@ -40,7 +40,7 @@
       <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\openal;$(MC_ROOT)\thirdparty\stb_image\include;$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

@@ -313,3 +313,17 @@ int Inventory::getAttackDamage(Entity* pEnt)
 
 	return pInst->getAttackDamage(pEnt);
 }
+
+void Inventory::dropAll(bool butNotReally)
+{
+	for (int i = 0; i < getNumItems(); i++)
+	{
+		ItemInstance* item = &m_items[i];
+		if (item->m_amount > 0)
+		{
+			if (!butNotReally)
+				m_pPlayer->drop(item->copy(), true);
+			item->m_amount = 0;
+		}
+	}
+}

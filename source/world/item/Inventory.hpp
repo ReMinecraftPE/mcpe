@@ -40,6 +40,8 @@ public:
 
 	int getAttackDamage(Entity*);
 
+	void dropAll(bool butNotReally = false);
+
 	int getSelectedSlotNo() const
 	{
 		return m_selectedHotbarSlot;

@@ -257,7 +257,7 @@ class MovePlayerPacket : public Packet
 {
 public:
 	MovePlayerPacket() {}
-	MovePlayerPacket(int id, Vec3 pos, Vec2 rot): m_id(id), m_pos(pos), m_rot(rot) {}
+	MovePlayerPacket(int id, const Vec3& pos, const Vec2& rot): m_id(id), m_pos(pos), m_rot(rot) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;

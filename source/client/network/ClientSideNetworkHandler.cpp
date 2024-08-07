@@ -159,7 +159,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 
 	if (!m_pLevel) return;
 
-	Player* pPlayer = new Player(m_pLevel, m_pLevel->getLevelData()->getGameType());
+	Player* pPlayer = new Player(m_pLevel, m_pLevel->getDefaultGameType());
 	pPlayer->m_EntityID = pAddPlayerPkt->m_id;
 	m_pLevel->addEntity(pPlayer);
 
@@ -170,7 +170,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 	pPlayer->m_name = pAddPlayerPkt->m_name;
 	pPlayer->m_guid = pAddPlayerPkt->m_guid;
 
-	pPlayer->m_pInventory->prepareCreativeInventory();
+	if (pPlayer->getPlayerGameType() == GAME_TYPE_CREATIVE)
+		pPlayer->m_pInventory->prepareCreativeInventory();
+	else
+		pPlayer->m_pInventory->prepareSurvivalInventory();
 
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
 }
@@ -371,12 +374,6 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 	Player* pPlayer = (Player*)m_pLevel->getEntity(pPlayerEquipmentPkt->m_playerID);
 	if (!pPlayer)
 		return;
-
-	if (!Item::items[pPlayerEquipmentPkt->m_itemID])
-	{
-		LOG_W("That item %d doesn't actually exist!", pPlayerEquipmentPkt->m_itemID);
-		return;
-	}
 
 	if (pPlayer->m_guid == m_pServerPeer->GetMyGUID())
 	{

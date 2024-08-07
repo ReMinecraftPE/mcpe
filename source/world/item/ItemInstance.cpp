@@ -15,6 +15,7 @@ void ItemInstance::init(int itemID, int amount, int auxValue)
 	m_itemID = itemID;
 	m_amount = amount;
 	m_auxValue = auxValue;
+	m_field_8 = 0;
 
 	//@BUG? Not using the auxValue.  This is problematic in the case of wool and dyes.
 }
@@ -225,7 +226,7 @@ bool ItemInstance::isNull() const
 	//if (!m_field_10)
 	//	return true;
 
-	if (this != nullptr)
+	if (m_auxValue != 0)
 		return false;
 	if (m_amount != 0)
 		return false;

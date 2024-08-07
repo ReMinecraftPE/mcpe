@@ -15,7 +15,7 @@ void PrimedTnt::_init()
 	field_C8 = RENDER_TNT;
 	field_34 = 1;
 	setSize(0.98f, 0.98f);
-	field_84 = field_8C * 0.5f;
+	m_heightOffset = field_8C * 0.5f;
 }
 
 PrimedTnt::PrimedTnt(Level* level, const Vec3& pos) : Entity(level)

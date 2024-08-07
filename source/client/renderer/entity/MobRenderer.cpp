@@ -96,7 +96,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	float fBob   = getBob(pMob, f);
 	float fSmth  = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
 
-	setupPosition(pMob, x, y - pMob->field_84, z);
+	setupPosition(pMob, x, y - pMob->m_heightOffset, z);
 	setupRotations(pMob, fBob, fSmth, f);
 
 	glScalef(-1.0f, -1.0f, 1.0f);
