@@ -543,6 +543,16 @@ void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vec
 		sendMessage(player, "Usage: /give [item] [item count]");
 		return;
 	}
+	if (amount < 1)
+	{
+		sendMessage(player, "The amount must be greater or equal to 1!");
+		return;
+	}
+	if ( Item::items[id] == NULL || id >= 512 || id < 0)
+	{
+		sendMessage(player, "Item \"" + parms[0] + "\" is not implemented!");
+		return;
+	}
 
 	Inventory* pInventory = player->m_pPlayer->m_pInventory;
 
