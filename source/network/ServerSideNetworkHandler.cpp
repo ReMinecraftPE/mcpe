@@ -404,6 +404,7 @@ void ServerSideNetworkHandler::setupCommands()
 	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
 	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
 	m_commands["tp"]    = &ServerSideNetworkHandler::commandTP;
+	m_commands["give"]  = &ServerSideNetworkHandler::commandGive;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -519,4 +520,33 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 	player->m_pPlayer->setPos(x, y, z);
     
 	sendMessage(player, ss.str());
+}
+void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vector<std::string>&parms)
+{
+	if (!m_pLevel)
+		return;
+	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
+	{
+		sendMessage(player, "Sorry, only the host can use this command at the moment");
+		return;
+	}
+	if (parms.size() != 2)
+	{
+		sendMessage(player, "Usage: /give [item] [item count]");
+		return;
+	}
+	int id = 0;
+	int amount = 1;
+	if (!sscanf(parms[0].c_str(), "%d", &id) || !sscanf(parms[1].c_str(), "%d", &amount))
+	{
+		sendMessage(player, "Usage: /give [item] [item count]");
+		return;
+	}
+
+	Inventory* pInventory = player->m_pPlayer->m_pInventory;
+
+	pInventory->addTestItem(id, amount);
+
+	sendMessage(player, "You have been given " + parms[0] + "x" + parms[1] + ".");
+	return;
 }
