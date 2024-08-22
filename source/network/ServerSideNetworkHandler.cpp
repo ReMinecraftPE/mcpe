@@ -405,6 +405,7 @@ void ServerSideNetworkHandler::setupCommands()
 	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
 	m_commands["tp"]    = &ServerSideNetworkHandler::commandTP;
 	m_commands["give"]  = &ServerSideNetworkHandler::commandGive;
+	m_commands["clear"] = &ServerSideNetworkHandler::commandClearInventory;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -548,5 +549,22 @@ void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vec
 	pInventory->addTestItem(id, amount);
 
 	sendMessage(player, "You have been given " + parms[0] + "x" + parms[1] + ".");
+	return;
+}
+
+void ServerSideNetworkHandler::commandClearInventory(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
+	{
+		sendMessage(player, "Sorry, only the host can use this command at the moment");
+		return;
+	}
+	Inventory* pInventory = player->m_pPlayer->m_pInventory;
+
+	pInventory->clear();
+
+	sendMessage(player, "Your inventory has been cleared.");
 	return;
 }

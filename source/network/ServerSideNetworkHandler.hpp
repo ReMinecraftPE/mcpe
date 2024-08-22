@@ -72,6 +72,7 @@ public:
 	void commandSeed (OnlinePlayer*, const std::vector<std::string>&);
 	void commandTP   (OnlinePlayer*, const std::vector<std::string>&);
 	void commandGive (OnlinePlayer*, const std::vector<std::string>&);
+	void commandClearInventory(OnlinePlayer*, const std::vector<std::string>&);
 
 public:
 	Minecraft* m_pMinecraft;
