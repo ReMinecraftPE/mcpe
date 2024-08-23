@@ -41,6 +41,8 @@ public:
 
 	virtual void animateRespawn();
 
+	virtual void startCrafting(int, int, int);
+
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
 	void attack(Entity* pEnt);
@@ -60,7 +62,6 @@ public:
 	void rideTick();
 	void setDefaultHeadHeight();
 	void setRespawnPos(Pos*);
-	void startCrafting(int, int, int);
 	void swing();
 	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);

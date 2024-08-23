@@ -8,7 +8,6 @@
 
 #include "Player.hpp"
 #include "world/level/Level.hpp"
-
 Player::Player(Level* pLevel) : Mob(pLevel)
 {
 	m_pInventory = nullptr;

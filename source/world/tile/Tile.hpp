@@ -201,6 +201,7 @@ public: // static variables
 		* goldBlock,
 		* ironBlock,
 		* emeraldBlock, //! actually diamond block
+		* workbench,
 		* stairs_wood,
 		* stairs_stone,
 		* door_wood,

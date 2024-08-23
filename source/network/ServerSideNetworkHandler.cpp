@@ -404,8 +404,6 @@ void ServerSideNetworkHandler::setupCommands()
 	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
 	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
 	m_commands["tp"]    = &ServerSideNetworkHandler::commandTP;
-	m_commands["give"]  = &ServerSideNetworkHandler::commandGive;
-	m_commands["clear"] = &ServerSideNetworkHandler::commandClearInventory;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -521,60 +519,4 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 	player->m_pPlayer->setPos(x, y, z);
     
 	sendMessage(player, ss.str());
-}
-void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vector<std::string>&parms)
-{
-	if (!m_pLevel)
-		return;
-	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
-	{
-		sendMessage(player, "Sorry, only the host can use this command at the moment");
-		return;
-	}
-	if (parms.size() != 2)
-	{
-		sendMessage(player, "Usage: /give [item] [item count]");
-		return;
-	}
-	int id = 0;
-	int amount = 1;
-	if (!sscanf(parms[0].c_str(), "%d", &id) || !sscanf(parms[1].c_str(), "%d", &amount))
-	{
-		sendMessage(player, "Usage: /give [item] [item count]");
-		return;
-	}
-	if (amount < 1)
-	{
-		sendMessage(player, "The amount must be greater or equal to 1!");
-		return;
-	}
-	if ( Item::items[id] == NULL || id >= 512 || id < 0)
-	{
-		sendMessage(player, "Item \"" + parms[0] + "\" is not implemented!");
-		return;
-	}
-
-	Inventory* pInventory = player->m_pPlayer->m_pInventory;
-
-	pInventory->addTestItem(id, amount);
-
-	sendMessage(player, "You have been given " + parms[0] + "x" + parms[1] + ".");
-	return;
-}
-
-void ServerSideNetworkHandler::commandClearInventory(OnlinePlayer* player, const std::vector<std::string>& parms)
-{
-	if (!m_pLevel)
-		return;
-	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
-	{
-		sendMessage(player, "Sorry, only the host can use this command at the moment");
-		return;
-	}
-	Inventory* pInventory = player->m_pPlayer->m_pInventory;
-
-	pInventory->clear();
-
-	sendMessage(player, "Your inventory has been cleared.");
-	return;
 }

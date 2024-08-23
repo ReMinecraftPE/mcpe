@@ -49,6 +49,7 @@
 #include "BookshelfTile.hpp"
 #include "WireTile.hpp"
 #include "RocketLauncherTile.hpp"
+#include "WorkbenchTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -534,6 +535,12 @@ void Tile::initTiles()
 		->setExplodeable(10.0f)
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("blockEmerald");
+
+	Tile::workbench = (new WorkBenchTile(TILE_WORKBENCH, Material::wood))
+		->init()
+		->setDestroyTime(1.5f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("workbench");
 
 	Tile::stairs_wood = (new StairTile(TILE_STAIRS_WOOD, Tile::wood))
 		->init()
@@ -1140,6 +1147,7 @@ Tile
 	*Tile::goldBlock,
 	*Tile::ironBlock,
 	*Tile::emeraldBlock, //! actually diamond block
+	*Tile::workbench,
 	*Tile::stairs_wood,
 	*Tile::stairs_stone,
 	*Tile::door_wood,

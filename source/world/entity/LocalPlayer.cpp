@@ -8,7 +8,8 @@
 
 #include "LocalPlayer.hpp"
 #include "client/app/Minecraft.hpp"
-
+#include "client/gui/screens/CraftAutoScreen.hpp"
+#include "client/gui/screens/PauseScreen.hpp"
 int dword_250ADC, dword_250AE0;
 
 LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, int i) : Player(pLevel)
@@ -127,6 +128,17 @@ void LocalPlayer::respawn()
 bool LocalPlayer::isSneaking()
 {
 	return m_pMoveInput->m_bSneakButton;
+}
+
+void LocalPlayer::startCrafting(int x, int y, int z)
+{
+	
+	/*if (m_pMinecraft->isCreativeMode() == 1);
+	{
+		return;
+	}*/
+	
+	m_pMinecraft->setScreen(new CraftAutoScreen);
 }
 
 int LocalPlayer::move(float x, float y, float z)

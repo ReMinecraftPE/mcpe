@@ -107,9 +107,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ChatScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.hpp">
-      <Filter>Header Files\GUI\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
@@ -436,6 +433,18 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\CraftAutoScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\gui\components\CraftButton.hpp">
+      <Filter>Header Files\GUI\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\gui\components\ImageButton.hpp">
+      <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -789,6 +798,15 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\CraftAutoScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\gui\components\CraftButton.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\gui\components\ImageButton.cpp">
+      <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

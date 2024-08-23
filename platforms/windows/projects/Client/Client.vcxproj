@@ -339,6 +339,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\CraftButton.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\components\ImageButton.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\CraftAutoScreen.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -458,6 +461,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\CraftButton.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\components\ImageButton.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\CraftAutoScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

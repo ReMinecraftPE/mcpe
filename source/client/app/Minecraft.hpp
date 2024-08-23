@@ -63,6 +63,7 @@ public:
 	std::string getVersionString();
 	bool isTouchscreen();
 	bool useSplitControls();
+	int isCreativeMode();
 
 	virtual void update() override;
 	virtual void init() override;

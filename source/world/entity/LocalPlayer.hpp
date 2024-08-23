@@ -11,7 +11,6 @@
 #include "world/entity/Player.hpp"
 #include "client/player/input/IMoveInput.hpp"
 #include "client/player/input/User.hpp"
-
 class Minecraft;
 
 class LocalPlayer : public Player
@@ -28,6 +27,7 @@ public:
 	virtual void tick() override;
 	virtual void updateAi() override;
 	virtual bool isLocalPlayer() override;
+	virtual void startCrafting(int x, int y, int z) override;
 
 	void calculateFlight(float, float, float);
 	void closeContainer(); //@HUH: oddly enough not a virtual/override

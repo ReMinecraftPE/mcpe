@@ -222,6 +222,11 @@ bool Minecraft::isTouchscreen()
 	return m_bIsTouchscreen;
 }
 
+int Minecraft::isCreativeMode()
+{
+	return m_pGameMode->isCreativeType() ? 1 : 0;
+}
+
 bool Minecraft::useSplitControls()
 {
 	return !m_bIsTouchscreen || m_options->m_bSplitControls;

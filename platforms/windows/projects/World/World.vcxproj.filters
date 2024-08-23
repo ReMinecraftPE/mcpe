@@ -93,6 +93,18 @@
     <Filter Include="Header Files\Level\Path">
       <UniqueIdentifier>{d3278811-f90d-45d4-9113-122e61ccf540}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Item\Crafting">
+      <UniqueIdentifier>{193e1852-3663-4650-b8e2-e7c557b6fdb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Item\Crafting">
+      <UniqueIdentifier>{b2825fca-7e94-493f-a615-c064359ca9c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Item\Inventory">
+      <UniqueIdentifier>{836f4230-4549-425a-a78e-8049a151555d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Item\Inventory">
+      <UniqueIdentifier>{7a2bae86-06cb-4bda-be02-74c432f6be98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp">
@@ -470,6 +482,18 @@
     <ClCompile Include="$(MC_ROOT)\source\world\particle\FireworkParticle.cpp">
       <Filter>Source Files\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\Crafting\Recipes.cpp">
+      <Filter>Source Files\Item\Crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\Crafting\Recipy.cpp">
+      <Filter>Source Files\Item\Crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\item\Inventory\CraftingContainer.cpp">
+      <Filter>Source Files\Item\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\tile\WorkbenchTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -795,6 +819,18 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Rocket.hpp">
       <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\Crafting\Recipes.hpp">
+      <Filter>Header Files\Item\Crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\Crafting\Recipy.hpp">
+      <Filter>Header Files\Item\Crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\item\Inventory\CraftingContainer.hpp">
+      <Filter>Header Files\Item\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\tile\WorkbenchTile.hpp">
+      <Filter>Header Files\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
