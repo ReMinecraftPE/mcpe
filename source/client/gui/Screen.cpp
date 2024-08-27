@@ -71,10 +71,11 @@ bool Screen::isInGameScreen()
 
 void Screen::keyPressed(int key)
 {
-	if (m_pMinecraft->getOptions()->isKey(KM_MENU_CANCEL, key))
+	//@BUG: Why set the screen to nullptr here? Causes white-screen issue when hitting ESC during world save menu...
+	/*if (m_pMinecraft->getOptions()->isKey(KM_MENU_CANCEL, key))
 	{
 		m_pMinecraft->setScreen(nullptr);
-	}
+	}*/
 
 	if (m_buttonTabList.size())
 	{
