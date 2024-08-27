@@ -33,11 +33,13 @@ public:
 	static int  getEventKeyState();
 	static bool isKeyDown(int keyCode);
 	static void reset();
+	static void setBlocked(bool b);
 
 private:
 	static std::vector<KeyboardAction> _inputs;
 	static Keyboard::KeyState _states[KEYBOARD_STATES_SIZE];
 	static int _index;
+	static bool _blocked;
 };
 
 struct KeyboardAction
