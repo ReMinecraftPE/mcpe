@@ -13,14 +13,14 @@
 
 FireTexture::FireTexture(int a2) : DynamicTexture(Tile::fire->m_TextureFrame + 16 * a2)
 {
-	m_data1 = new float[320];
-	m_data2 = new float[320];
+    m_data1 = new float[320]();
+    m_data2 = new float[320]();
 }
 
 FireTexture::~FireTexture()
 {
-	SAFE_DELETE(m_data1);
-	SAFE_DELETE(m_data2);
+	SAFE_DELETE_ARRAY(m_data1);
+	SAFE_DELETE_ARRAY(m_data2);
 }
 
 void FireTexture::tick()
