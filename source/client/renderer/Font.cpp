@@ -39,7 +39,13 @@ void Font::init(Options* pOpts)
 			for (int j = 7; j >= 0; j--) // x position
 			{
 				int x = (i % 16), y = (i / 16);
-				int pixelDataIndex = pTexture->m_width * 8 * y + 8 * x + j;
+				uint32_t pixelDataIndex = uint32_t(pTexture->m_width * 8 * y + 8 * x + j);
+
+				if (pixelDataIndex >= (pTexture->m_width * pTexture->m_height))
+				{
+					LOG_E("Error could not initialize Font at %s, bad pixel data index.", m_fileName.c_str());
+					return;
+				}
 
 				for (int k = 0; k < 8; k++)
 				{
