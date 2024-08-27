@@ -365,7 +365,7 @@ StartMenuScreen::StartMenuScreen() :
 
 StartMenuScreen::~StartMenuScreen()
 {
-	SAFE_DELETE(m_pTiles);
+	SAFE_DELETE_ARRAY(m_pTiles);
 }
 
 void StartMenuScreen::_updateLicense()
