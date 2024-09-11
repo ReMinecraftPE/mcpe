@@ -180,9 +180,20 @@ void ParticleEngine::render(Entity* ent, float f)
 	}
 }
 
-void ParticleEngine::renderLit()
+void ParticleEngine::renderLit(Entity* player, float a)
 {
+	int tt = 3;
+	if (m_particles[tt].size() != 0)
+	{
+		Tesselator& t = Tesselator::instance;
 
+		for (int i = 0; i < m_particles[tt].size(); ++i)
+		{
+			Particle* p = m_particles[tt].at(i);
+			p->render(t, a, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+
+	}
 }
 
 void ParticleEngine::tick()

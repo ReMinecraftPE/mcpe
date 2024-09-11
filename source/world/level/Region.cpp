@@ -134,16 +134,16 @@ Region::Region(const Level* level, const TilePos& min, const TilePos& max)
 #endif
 
 	/*
-	field_C = new LevelChunk ** [field_14.x];
+	m_bFoggy = new LevelChunk ** [m_noEntityRenderFrames.x];
 
-	for (int i = 0; i < field_14.x; i++)
+	for (int i = 0; i < m_noEntityRenderFrames.x; i++)
 	{
-		field_C[i] = new LevelChunk * [field_14.z];
+		m_bFoggy[i] = new LevelChunk * [m_noEntityRenderFrames.z];
 	}
 	*/
 
 	field_C = new LevelChunk * [field_14.x * field_14.z];
-	//LOG_I("Region chunk-storage size: %d x %d = %d", field_14.x, field_14.z, field_14.x * field_14.z);
+	//LOG_I("Region chunk-storage size: %d x %d = %d", m_noEntityRenderFrames.x, m_noEntityRenderFrames.z, m_noEntityRenderFrames.x * m_noEntityRenderFrames.z);
 
 	// NOTE: do NOT compare cp.x with max.x directly, no automatic conversion will occur
 	ChunkPos cp(field_4);

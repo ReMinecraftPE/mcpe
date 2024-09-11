@@ -12,7 +12,7 @@
 RocketRenderer::RocketRenderer() :
 	m_tile()
 {
-	field_4 = 0.5f;
+	m_shadowRadius = 0.5f;
 }
 
 void RocketRenderer::render(Entity* entity, float x, float y, float z, float a, float b)
@@ -20,16 +20,10 @@ void RocketRenderer::render(Entity* entity, float x, float y, float z, float a, 
 	glPushMatrix();
 	glTranslatef(x, y, z);
 
-	Tesselator& t = Tesselator::instance;
-	t.color(1.0f, 1.0f, 1.0f);
-
 	float brightness = entity->getBrightness(1.0f);
 
 	bindTexture("gui/items.png");
-	t.begin();
-
 	m_renderer.renderTile(&m_tile, 0, brightness);
-	t.draw();
 
 	glPopMatrix();
 }

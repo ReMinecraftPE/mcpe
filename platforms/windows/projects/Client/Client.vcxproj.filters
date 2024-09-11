@@ -449,6 +449,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseBuildInput.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Lighting.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -813,6 +816,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseBuildInput.cpp">
       <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Lighting.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

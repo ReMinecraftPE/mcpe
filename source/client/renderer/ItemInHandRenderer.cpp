@@ -9,26 +9,27 @@
 #include "ItemInHandRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "common/Mth.hpp"
+#include "Lighting.hpp"
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
-	m_ItemInstance(0, 1, 0),
+	m_selectedItem(0, 1, 0),
 	m_pMinecraft(pMC)
 {
-	field_0 = -1;
+	m_lastSlot = -1;
 	field_18 = 0;
-	field_1C = 0.0f;
-	field_20 = 0.0f;
+	m_height = 0.0f;
+	m_oHeight = 0.0f;
 }
 
 // This and itemUsed are probably leftovers from Minecraft Classic
 void ItemInHandRenderer::itemPlaced()
 {
-	field_1C = 0;
+	m_height = 0;
 }
 
 void ItemInHandRenderer::itemUsed()
 {
-	field_1C = 0;
+	m_height = 0;
 }
 
 #ifdef ENH_SHADE_HELD_TILES
@@ -113,16 +114,20 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 	t.begin();
 	SHADE_IF_NEEDED(1.0f);
 
+	t.normal(0.0f, 0.0f, 1.0f);
 	t.vertexUV(0.0f, 0.0f, 0.0f,         texU_2, texV_2);
 	t.vertexUV(1.0f, 0.0f, 0.0f,         texU_1, texV_2);
 	t.vertexUV(1.0f, 1.0f, 0.0f,         texU_1, texV_1);
 	t.vertexUV(0.0f, 1.0f, 0.0f,         texU_2, texV_1);
+
+	t.normal(0.0f, 0.0f, -1.0f);
 	t.vertexUV(0.0f, 1.0f, -C_ONE_PIXEL, texU_2, texV_1);
 	t.vertexUV(1.0f, 1.0f, -C_ONE_PIXEL, texU_1, texV_1);
 	t.vertexUV(1.0f, 0.0f, -C_ONE_PIXEL, texU_1, texV_2);
 	t.vertexUV(0.0f, 0.0f, -C_ONE_PIXEL, texU_2, texV_2);
 
 	SHADE_IF_NEEDED(0.8f);
+	t.normal(-1.0f, 0.0f, 0.0f);
 	for (int i = 0; i < 16; i++)
 	{
 		t.vertexUV(i * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
@@ -162,11 +167,12 @@ void ItemInHandRenderer::render(float f)
 {
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
 
-	float f1 = field_20 + (field_1C - field_20) * f;
+	float h = m_oHeight + (m_height - m_oHeight) * f;
 	glPushMatrix();
-	//glRotatef(pLP->m_rotPrev.y + (pLP->m_rot.y - pLP->m_rotPrev.y) * f, 1.0f, 0.0f, 0.0f);
-	//glRotatef(pLP->m_rotPrev.x + (pLP->m_rot.x - pLP->m_rotPrev.x) * f, 0.0f, 1.0f, 0.0f);
-	//glPopMatrix();//huh?
+	glRotatef(pLP->m_rotPrev.y + (pLP->m_rot.y - pLP->m_rotPrev.y) * f, 1.0f, 0.0f, 0.0f);
+	glRotatef(pLP->m_rotPrev.x + (pLP->m_rot.x - pLP->m_rotPrev.x) * f, 0.0f, 1.0f, 0.0f);
+	Lighting::turnOn();
+	glPopMatrix();//huh?
 
 	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
 	{
@@ -179,13 +185,13 @@ void ItemInHandRenderer::render(float f)
 	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
 	glColor4f(fBright, fBright, fBright, 1.0f);
 
-	if (m_ItemInstance.m_itemID <= 0)
+	if (m_selectedItem.m_itemID <= 0)
 	{
 		glPushMatrix();
 		float fAnim = pLP->getAttackAnim(f);
 
 		glTranslatef(-0.3f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.4f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.4f * Mth::sin(float(M_PI) * fAnim));
-		glTranslatef(0.64f, ((1.0f - f1) * -0.6f) - 0.6f, -0.72f);
+		glTranslatef(0.64f, ((1.0f - h) * -0.6f) - 0.6f, -0.72f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glEnable(GL_RESCALE_NORMAL);
 
@@ -215,7 +221,7 @@ void ItemInHandRenderer::render(float f)
 		float fAnim = pLP->getAttackAnim(f);
 
 		glTranslatef(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim));
-		glTranslatef(0.56f, ((1.0f - f1) * -0.6f) - 0.52f, -0.72f);
+		glTranslatef(0.56f, ((1.0f - h) * -0.6f) - 0.52f, -0.72f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glEnable(GL_RESCALE_NORMAL);
 
@@ -230,15 +236,16 @@ void ItemInHandRenderer::render(float f)
 		glRotatef(sin1 * -80.0f, 1.0f, 0.0f, 0.0f);
 		glScalef(0.4f, 0.4f, 0.4f);
 
-		if (m_ItemInstance.getItem()->isMirroredArt())
+		if (m_selectedItem.getItem()->isMirroredArt())
 			glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
 
-		renderItem(&m_ItemInstance);
+		renderItem(&m_selectedItem);
 		glPopMatrix();
 	}
 
 	glPopMatrix();
 	glDisable(GL_RESCALE_NORMAL);
+	Lighting::turnOff();
 }
 
 void ItemInHandRenderer::renderFire(float f)
@@ -307,24 +314,24 @@ void ItemInHandRenderer::renderTex(float f, int texture)
 
 void ItemInHandRenderer::tick()
 {
-	field_20 = field_1C;
+	m_oHeight = m_height;
 
 	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItemId();
 
-	bool bSameItem = itemID == m_ItemInstance.m_itemID;
+	bool bSameItem = itemID == m_selectedItem.m_itemID;
 
 	float b = bSameItem ? 1.0f : 0.0f;
 
-	float a = b - field_1C;
+	float a = b - m_height;
 	if (a < -0.4f)
 		a = -0.4f;
 	if (a >= 0.4f)
 		a  = 0.4f;
 
-	field_1C += a;
+	m_height += a;
 
-	if (field_1C < 0.1f)
-		m_ItemInstance.m_itemID = itemID;
+	if (m_height < 0.1f)
+		m_selectedItem.m_itemID = itemID;
 }
 
 void ItemInHandRenderer::turn(const Vec2& rot)

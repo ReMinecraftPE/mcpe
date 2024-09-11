@@ -658,7 +658,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos)
 	float g = float(GET_GREEN(color)) / 255.0f;
 	float b = float(GET_BLUE (color)) / 255.0f;
 
-	if (Minecraft::useAmbientOcclusion)
+	if (useAmbientOcclusion())
 	{
 #ifdef ENH_USE_OWN_AO
 		return tesselateBlockInWorldWithAmbienceOcclusionV2(tile, pos, r, g, b);
@@ -1577,7 +1577,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusion(Tile* a2, const Ti
 	int v221; // [sp+28h] [bp-40h]
 	int v222; // [sp+2Ch] [bp-3Ch]
 
-	this->m_bAmbientOcclusion = 1;
+	this->m_bAmbientOcclusion = true;
 	v12 = a2->getBrightness(this->m_pLevelSource, pos);
 	v13 = this->m_pLevelSource;
 	this->field_C = v12;
@@ -2350,7 +2350,7 @@ LABEL_101:
 	renderEast(a2, pos, v193);
 LABEL_102:
 	result = v69;
-	this->m_bAmbientOcclusion = 0;
+	this->m_bAmbientOcclusion = false;
 	return result;
 }
 
@@ -2375,7 +2375,7 @@ LABEL_102:
 	}                                                   \
 } while (0)
 
-#define SHADE_IF_NEEDED(col) t.color(col*red,col*grn,col*blu,1.0f)
+#define SHADE_IF_NEEDED(col) if (preshade) t.color(col*red,col*grn,col*blu,1.0f); else t.color(red,grn,blu,1.0f)
 
 #define SHADE_FIXUP_GRASS do {  \
 	if (tile->m_ID == Tile::grass->m_ID)          \
@@ -2392,15 +2392,16 @@ LABEL_102:
 
 #endif
 
-void TileRenderer::renderTile(Tile* tile, int data, float bright)
+void TileRenderer::renderTile(Tile* tile, int data, float bright, bool preshade)
 {
 	Tesselator& t = Tesselator::instance;
 
 #ifndef ENH_SHADE_HELD_TILES
 	bright = 1.0f; // 255
 #endif
-
-	t.color(bright, bright, bright);
+#ifndef USE_GL_NORMAL_LIGHTING
+	preshade = true;
+#endif
 
 	int shape = tile->getRenderShape();
 	switch (shape)
@@ -2419,17 +2420,23 @@ void TileRenderer::renderTile(Tile* tile, int data, float bright)
 			SHADE_IF_NEEDED(1.0f);
 			// Despite how it looks, Facing::UP is necessary for this to function correctly
 			// Why? no idea
+			t.normal(0.0f, 1.0f, 0.0f);
 			renderFaceDown(tile, Vec3::ZERO, tile->getTexture(Facing::UP, data));
 			SHADE_FIXUP_GRASS;
 			SHADE_IF_NEEDED(0.5f);
 			// Despite how it looks, Facing::DOWN is necessary for this to function correctly
 			// Why? no idea
+			t.normal(0.0f, -1.0f, 0.0f);
 			IF_NEEDED(renderFaceUp(tile, Vec3::ZERO, tile->getTexture(Facing::DOWN, data)));
 			SHADE_IF_NEEDED(0.8f);
+			t.normal(0.0f, 0.0f, -1.0f);
 			IF_NEEDED(renderNorth(tile, Vec3::ZERO, tile->getTexture(Facing::NORTH, data)));
+			t.normal(0.0f, 0.0f, 1.0f);
 			IF_NEEDED(renderSouth(tile, Vec3::ZERO, tile->getTexture(Facing::SOUTH, data)));
 			SHADE_IF_NEEDED(0.6f);
+			t.normal(-1.0f, 0.0f, 0.0f);
 			IF_NEEDED(renderWest (tile, Vec3::ZERO, tile->getTexture(Facing::WEST, data)));
+			t.normal(1.0f, 0.0f, 0.0f);
 			IF_NEEDED(renderEast (tile, Vec3::ZERO, tile->getTexture(Facing::EAST, data)));
 			SHADE_IF_NEEDED(1.0f);
 			t.draw();
@@ -2440,7 +2447,8 @@ void TileRenderer::renderTile(Tile* tile, int data, float bright)
 		{
 			// unused as cross items render like regular items in the hand
 			t.begin();
-			tesselateCrossTexture(tile, data, Vec3::ZERO - 0.5f);
+			t.normal(0.0f, -1.0f, 0.0f);
+			tesselateCrossTexture(tile, data, Vec3(-0.5f, -0.5f, -0.5f));
 			t.draw();
 			break;
 		}
@@ -2460,14 +2468,20 @@ void TileRenderer::renderTile(Tile* tile, int data, float bright)
 				SHADE_DEFINE;
 				SHADE_PREPARE;
 				SHADE_IF_NEEDED(0.5f);
+				t.normal(0.0f, -1.0f, 0.0f);
 				renderFaceUp  (tile, Vec3::ZERO, tile->getTexture(Facing::DOWN, data));
 				SHADE_IF_NEEDED(1.0f);
+				t.normal(0.0f, 1.0f, 0.0f);
 				renderFaceDown(tile, Vec3::ZERO, tile->getTexture(Facing::UP, data));
 				SHADE_IF_NEEDED(0.6f);
+				t.normal(0.0f, 0.0f, -1.0f);
 				renderNorth   (tile, Vec3::ZERO, tile->getTexture(Facing::NORTH, data));
+				t.normal(0.0f, 0.0f, 1.0f);
 				renderSouth   (tile, Vec3::ZERO, tile->getTexture(Facing::SOUTH, data));
 				SHADE_IF_NEEDED(0.8f);
+				t.normal(-1.0f, 0.0f, 0.0f);
 				renderWest    (tile, Vec3::ZERO, tile->getTexture(Facing::WEST, data));
+				t.normal(1.0f, 0.0f, 0.0f);
 				renderEast    (tile, Vec3::ZERO, tile->getTexture(Facing::EAST, data));
 				SHADE_IF_NEEDED(1.0f);
 				t.draw();
@@ -2740,4 +2754,9 @@ int TileRenderer::getTileColor(Tile* tile, const TilePos& pos)
 	}
 
 	return tile->getColor(m_pLevelSource, pos);
+}
+
+bool TileRenderer::useAmbientOcclusion() const
+{
+	return Minecraft::useAmbientOcclusion;
 }

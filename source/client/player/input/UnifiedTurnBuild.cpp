@@ -254,5 +254,5 @@ bool UnifiedTurnBuild::isInsideArea(float x, float y)
 
 float UnifiedTurnBuild::getSpeedSquared(Entity* pEnt)
 {
-	return (pEnt->m_pos - pEnt->field_3C).lengthSqr();
+	return (pEnt->m_pos - pEnt->m_ySlideOffset).lengthSqr();
 }

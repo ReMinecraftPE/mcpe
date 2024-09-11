@@ -25,6 +25,7 @@ void ItemSpriteRenderer::render(Entity* pEntity, float x, float y, float z, floa
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.color(1.0f, 1.0f, 1.0f);
+	t.normal(0.0f, 1.0f, 0.0f);
 	t.vertexUV(-0.5f, -0.25f, 0.0f, float(16 * (m_sprite % 16))     / 256.0f, float(16 * (m_sprite / 16 + 1)) / 256.0f);
 	t.vertexUV(+0.5f, -0.25f, 0.0f, float(16 * (m_sprite % 16 + 1)) / 256.0f, float(16 * (m_sprite / 16 + 1)) / 256.0f);
 	t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (m_sprite % 16 + 1)) / 256.0f, float(16 * (m_sprite / 16))     / 256.0f);

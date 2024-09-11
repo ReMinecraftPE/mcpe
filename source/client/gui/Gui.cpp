@@ -21,6 +21,8 @@ float Gui::InvGuiScale = 1.0f / 2.0f;
 float Gui::InvGuiScale = 1.0f / 3.0f;
 #endif
 
+bool Gui::_isVignetteAvailable = false; // false because PE never seemed to have it
+
 Gui::Gui(Minecraft* pMinecraft)
 {
 	field_8 = 0;
@@ -88,6 +90,33 @@ void Gui::setNowPlaying(const std::string& str)
 	field_A1C = true;
 }
 
+void Gui::renderPumpkin(int var1, int var2)
+{
+	glDisable(GL_DEPTH_TEST);
+	glDepthMask(false);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glDisable(GL_ALPHA_TEST);
+
+	m_pMinecraft->m_pTextures->setSmoothing(true);
+	m_pMinecraft->m_pTextures->loadAndBindTexture("/misc/pumpkinblur.png");
+	m_pMinecraft->m_pTextures->setSmoothing(false);
+
+	Tesselator& t = Tesselator::instance;
+	t.begin();
+	t.vertexUV(0.0f, var2, -90.0f, 0.0f, 1.0f);
+	t.vertexUV(var1, var2, -90.0f, 1.0f, 1.0f);
+	t.vertexUV(var1, 0.0f, -90.0f, 1.0f, 0.0f);
+	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
+	t.draw();
+
+	glDepthMask(true);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_ALPHA_TEST);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+}
+
+
 void Gui::renderVignette(float a2, int a3, int a4)
 {
 	a2 = 1.0f - a2;
@@ -104,7 +133,9 @@ void Gui::renderVignette(float a2, int a3, int a4)
 
 	//! @BUG: No misc/vignette.png to be found in the original.
 	//! This function is unused anyways
+	m_pMinecraft->m_pTextures->setSmoothing(true);
 	m_pMinecraft->m_pTextures->loadAndBindTexture("misc/vignette.png");
+	m_pMinecraft->m_pTextures->setSmoothing(false);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
@@ -137,9 +168,17 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!mc->m_pLevel || !player)
 		return;
 
-	//bool isTouchscreen = mc->isTouchscreen();
+	glEnable(GL_BLEND);
 
-	field_4 = -90.0f;
+	int width = int(ceilf(Minecraft::width * InvGuiScale)),
+		height = int(ceilf(Minecraft::height * InvGuiScale));
+
+	if (mc->getOptions()->m_bFancyGraphics && isVignetteAvailable())
+	{
+		renderVignette(player->getBrightness(f), width, height);
+		// WARNING: TOO SPOOKY, DO NOT UNCOMMENT, YOU WILL GET SPOOKED
+		//renderPumpkin(width, height);
+	}
 
 #ifndef ENH_TRANSPARENT_HOTBAR
 	glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
@@ -153,11 +192,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	field_4 = -90.0f;
 
-	int width  = int(ceilf(Minecraft::width * InvGuiScale)),
-		height = int(ceilf(Minecraft::height * InvGuiScale));
-
 #ifdef ENH_TRANSPARENT_HOTBAR
-	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 #endif
 
@@ -178,7 +213,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (mc->useSplitControls())
 	{
 #ifndef ENH_TRANSPARENT_HOTBAR
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 #endif
 
 		// draw crosshair
@@ -186,7 +221,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		blit(cenX - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0);
 
 #ifndef ENH_TRANSPARENT_HOTBAR
-		glDisable(GL_BLEND);
+		//glDisable(GL_BLEND);
 #endif
 	}
 	else
@@ -200,7 +235,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		float breakProgress = field_8;
 
 		// don't know about this if-structure, it feels like it'd be like
-		// if (field_C >= 0.0f && breakProgress <= 0.0f)
+		// if (m_bFoggy >= 0.0f && breakProgress <= 0.0f)
 		//     that;
 		// else
 		//     this;
@@ -213,7 +248,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 				textures->loadAndBindTexture("gui/feedback_outer.png");
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				glEnable(GL_BLEND);
+				//glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
 
@@ -226,7 +261,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256);
 
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				glDisable(GL_BLEND);
+				//glDisable(GL_BLEND);
 			}
 		}
 		else
@@ -236,17 +271,15 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 			textures->loadAndBindTexture("gui/feedback_outer.png");
 			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, input->m_feedbackAlpha));
-			glEnable(GL_BLEND);
+			//glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
 			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			glDisable(GL_BLEND);
+			//glDisable(GL_BLEND);
 		}
 	}
 
-#ifdef ENH_TRANSPARENT_HOTBAR
 	glDisable(GL_BLEND);
-#endif
 
 	if (mc->m_pGameMode->canHurtPlayer())
 	{

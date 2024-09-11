@@ -101,7 +101,9 @@ void ModelPart::compile(float scale)
 
 void ModelPart::draw()
 {
-	drawArrayVT(this->m_buffer, 36 * m_pCubes.size(), sizeof(Tesselator::Vertex));
+	// We are not using drawArrayVTC here since that would use the color that's compiled initially into the ModelPart
+	// and would therefore not allow for on-the-fly coloring.
+	drawArrayVTN(this->m_buffer, 36 * m_pCubes.size(), sizeof(Tesselator::Vertex));
 }
 
 void ModelPart::drawSlow(float scale)
@@ -166,6 +168,38 @@ void ModelPart::render(float scale)
 	else
 	{
 		draw();
+	}
+}
+
+void ModelPart::renderHorrible(float scale)
+{
+	if (field_49)
+		return;
+
+	if (!field_48)
+		return;
+
+	if (!m_bCompiled)
+		compile(scale);
+
+	if (!hasDefaultRot())
+	{
+		glPushMatrix();
+
+		translateRotTo(scale);
+		drawSlow(scale);
+
+		glPopMatrix();
+	}
+	else if (!hasDefaultPos())
+	{
+		translatePosTo(scale);
+		drawSlow(scale);
+		translatePosTo(-scale);
+	}
+	else
+	{
+		drawSlow(scale);
 	}
 }
 

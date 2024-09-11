@@ -40,8 +40,8 @@ public:
 private:
 	ChunkPos field_4;
 	// accesses to the array are performed as follows:
-	// (x = 0..field_14, z = 0..field_18)
-	// z * field_14 + x
+	// (x = 0..m_noEntityRenderFrames, z = 0..m_totalEntities)
+	// z * m_noEntityRenderFrames + x
 	LevelChunk** field_C;
 	const Level* m_pLevel;
 	ChunkPos field_14;

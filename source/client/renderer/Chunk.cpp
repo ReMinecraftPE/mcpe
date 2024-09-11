@@ -156,6 +156,8 @@ void Chunk::rebuild()
 					if (!bTesselatedAnything)
 					{
 						bTesselatedAnything = true;
+						if (tileRenderer.useAmbientOcclusion())
+							glShadeModel(GL_SMOOTH);
 						t.begin();
 						t.offset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
 					}

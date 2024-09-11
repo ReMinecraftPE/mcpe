@@ -31,6 +31,7 @@ public:
 	void drawSlow(float scale);
 	void mimic(ModelPart* pPart);
 	void render(float scale);
+	void renderHorrible(float scale);
 	void renderRollable(float scale);
 	void setModel(Model* pModel);
 	void setPos(const Vec3& pos);

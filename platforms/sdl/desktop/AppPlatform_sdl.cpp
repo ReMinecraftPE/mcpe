@@ -173,7 +173,8 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 	// Return
 	return out;
 }
-bool AppPlatform_sdl::doesTextureExist(const std::string& path)
+
+bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
 {
 	// Get Full Path
 	std::string realPath = getAssetPath(path);

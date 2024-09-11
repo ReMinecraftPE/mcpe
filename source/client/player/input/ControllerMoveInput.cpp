@@ -43,7 +43,7 @@ void ControllerMoveInput::tick(Player* player)
 void ControllerMoveInput::setKey(int eventKey, bool eventKeyState)
 {
 	KeyboardInput::setKey(eventKey, eventKeyState);
-	//this->field_20 = m_pOptions[36] == eventKey && eventKeyState;
+	//this->m_culledEntities = m_pOptions[36] == eventKey && eventKeyState;
 	//this->field_21 = m_pOptions[34] == eventKey && eventKeyState;
 }
 

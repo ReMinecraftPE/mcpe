@@ -20,7 +20,7 @@ public:
 	TileRenderer();
 	TileRenderer(LevelSource*);
 	float getWaterHeight(const TilePos& pos, const Material*);
-	void renderTile(Tile*, int data, float bright = 1.0f);
+	void renderTile(Tile*, int data, float bright = 1.0f, bool preshade = false);
 
 	// TODO
 
@@ -54,6 +54,7 @@ public:
 #endif
 
 	int getTileColor(Tile*, const TilePos& pos);
+	bool useAmbientOcclusion() const;
 
 	static bool canRender(int renderShape);
 

@@ -211,6 +211,12 @@ xcuserdata/
 /game/assets/gui/touchgui2.png
 /game/assets/item/arrows.png
 /game/assets/item/sign.png
+# Java
+/game/assets/terrain/sun.png
+/game/assets/terrain/moon.png
+/game/assets/misc/vignette.png
+/game/assets/misc/shadow.png
+/game/assets/misc/pumpkinblur.png
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /game/assets/gui/background/panorama_0.png

@@ -84,7 +84,7 @@ void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, 
 	m_leg1.m_rot.y = 0.0f;
 	m_leg2.m_rot.y = 0.0f;
 	
-	if (field_8)
+	if (m_bRiding)
 	{
 		float v15 = (3.1416f * -0.5f) * 0.4f;
 		m_arm1.m_rot.x += v15;

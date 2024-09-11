@@ -11,7 +11,7 @@
 #include "network/ServerSideNetworkHandler.hpp"
 
 PauseScreen::PauseScreen() :
-	//field_3C(0),
+	//m_ySlideOffset(0),
 	field_40(0),
 	m_btnBack(1, "Back to game"),
 	m_btnQuit(2, "Quit to title"),

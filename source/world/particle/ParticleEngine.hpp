@@ -22,7 +22,7 @@ public:
 	void crack(const TilePos& tilePos, Facing::Name face);
 	void destroyEffect(const TilePos& pos);
 	void render(Entity*, float f);
-	void renderLit();
+	void renderLit(Entity*, float a);
 	void tick();
 	void setLevel(Level*);
 

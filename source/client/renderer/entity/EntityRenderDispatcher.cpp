@@ -16,13 +16,13 @@
 #include "client/model/CreeperModel.hpp"
 
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
-float EntityRenderDispatcher::xOff, EntityRenderDispatcher::yOff, EntityRenderDispatcher::zOff;
+Vec3 EntityRenderDispatcher::off;
 
 EntityRenderDispatcher::EntityRenderDispatcher() :
-	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f),
-	m_PigRenderer(new PigModel(0.0f), 0.0f),
-	m_CowRenderer(new CowModel, 0.0f),
-	m_ChickenRenderer(new ChickenModel, 0.0f),
+	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f),
+	m_PigRenderer(new PigModel(0.0f), 0.7f),
+	m_CowRenderer(new CowModel, 0.7f),
+	m_ChickenRenderer(new ChickenModel, 0.3f),
 	m_CreeperRenderer(new CreeperModel, 0.5f)
 {
 	m_pItemInHandRenderer = nullptr;
@@ -51,13 +51,9 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 #endif
 }
 
-float EntityRenderDispatcher::distanceToSqr(float x, float y, float z)
+float EntityRenderDispatcher::distanceToSqr(const Vec3& pos)
 {
-	float dX = x - m_pos.x;
-	float dY = y - m_pos.y;
-	float dZ = z - m_pos.z;
-
-	return dX * dX + dY * dY + dZ * dZ;
+	return pos.distanceToSqr(m_pos);
 }
 
 Font* EntityRenderDispatcher::getFont()
@@ -126,27 +122,22 @@ void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* fon
 	m_pMob = mob;
 	m_pFont = font;
 	m_pOptions = options;
-	m_rot.x = mob->m_rotPrev.x + f * (mob->m_rot.x - mob->m_rotPrev.x);
-	m_rot.y = mob->m_rotPrev.y + f * (mob->m_rot.y - mob->m_rotPrev.y);
-	m_pos.x = mob->m_posPrev.x + f * (mob->m_pos.x - mob->m_posPrev.x);
-	m_pos.y = mob->m_posPrev.y + f * (mob->m_pos.x - mob->m_posPrev.y);
-	m_pos.z = mob->m_posPrev.z + f * (mob->m_pos.x - mob->m_posPrev.z);
+	m_rot = mob->m_rotPrev + (mob->m_rot - mob->m_rotPrev) * f;
+	m_pos = mob->m_posPrev + (mob->m_pos - mob->m_posPrev) * f;
 }
 
-void EntityRenderDispatcher::render(Entity* entity, float f)
+void EntityRenderDispatcher::render(Entity* entity, float a)
 {
-	float x = entity->m_posPrev.x + f * (entity->m_pos.x - entity->m_posPrev.x);
-	float y = entity->m_posPrev.y + f * (entity->m_pos.y - entity->m_posPrev.y);
-	float z = entity->m_posPrev.z + f * (entity->m_pos.z - entity->m_posPrev.z);
-	float yaw = entity->m_rotPrev.x + f * (entity->m_rot.x - entity->m_rotPrev.x);
+	Vec3 pos = Vec3(entity->m_posPrev + (entity->m_pos - entity->m_posPrev) * a);
+	float yaw = entity->m_rotPrev.x + a * (entity->m_rot.x - entity->m_rotPrev.x);
 
 	float bright = entity->getBrightness(1.0f);
 	glColor4f(bright, bright, bright, 1.0f);
 
-	render(entity, x - xOff, y - yOff, z - zOff, yaw, f);
+	render(entity, pos - off, yaw, a);
 }
 
-void EntityRenderDispatcher::render(Entity* entity, float a, float b, float c, float d, float e)
+void EntityRenderDispatcher::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
 	EntityRenderer* pRenderer = getRenderer(entity);
 	if (pRenderer)
@@ -158,7 +149,8 @@ void EntityRenderDispatcher::render(Entity* entity, float a, float b, float c, f
 			m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = false;
 #endif
 
-		pRenderer->render(entity, a, b, c, d, e);
+		pRenderer->render(entity, pos.x, pos.y, pos.z, rot, a);
+		pRenderer->postRender(entity, pos, rot, a);
 	}
 }
 

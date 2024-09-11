@@ -53,9 +53,9 @@ public:
 	int field_EC;
 	float field_F0;
 	float field_F4;
-	float field_F8;
-	float field_FC;
-	float field_100;
+	float m_rCol;
+	float m_gCol;
+	float m_bCol;
 	bool m_bIsUnlit;
 
 	static float xOff, yOff, zOff;

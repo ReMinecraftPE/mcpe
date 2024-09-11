@@ -196,6 +196,14 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
 	return Texture(width, height, img2, 1, 0);
 }
 
+bool AppPlatform_win32::doesTextureExist(const std::string& path) const
+{
+	// Get Full Path
+	std::string realPath = getAssetPath(path);
+
+	return XPL_ACCESS(realPath.c_str(), 0) == 0;
+}
+
 bool AppPlatform_win32::isTouchscreen() const
 {
 	return false;

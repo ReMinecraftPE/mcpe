@@ -14,7 +14,7 @@ MobRenderer::MobRenderer(Model* pModel, float f)
 {
 	m_pArmorModel = nullptr;
 	m_pModel = pModel;
-	field_4 = f;
+	m_shadowRadius = f;
 }
 
 void MobRenderer::setArmor(Model* model)
@@ -58,7 +58,8 @@ void MobRenderer::scale(Mob*, float)
 
 void MobRenderer::setupPosition(Entity* entity, float x, float y, float z)
 {
-	glTranslatef(x, y, z);
+	// @HACK: I eye-balled a corrective offset of 1/13, since I still can't figure out why all mobs are floating - Brent
+	glTranslatef(x, y - (1.0f / 13.0f), z);
 }
 
 void MobRenderer::setupRotations(Entity* entity, float x, float y, float z)
@@ -79,15 +80,17 @@ void MobRenderer::setupRotations(Entity* entity, float x, float y, float z)
 void MobRenderer::render(Entity* entity, float x, float y, float z, float unused, float f)
 {
 	Mob* pMob = (Mob*)entity;
+
 	glPushMatrix();
 	glDisable(GL_CULL_FACE);
+
 	m_pModel->field_4 = getAttackAnim(pMob, f);
-	m_pModel->field_8 = false;
+	m_pModel->m_bRiding = false;
 	m_pModel->m_bIsBaby = pMob->isBaby();
 
-	if (m_pArmorModel)
+	if (m_pArmorModel != nullptr)
 	{
-		m_pArmorModel->field_8 = m_pModel->field_8;
+		m_pArmorModel->m_bRiding = m_pModel->m_bRiding;
 		m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
 	}
 
@@ -99,9 +102,11 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	setupPosition(pMob, x, y - pMob->m_heightOffset, z);
 	setupRotations(pMob, fBob, fSmth, f);
 
+	float fScale = 0.0625f;
 	glScalef(-1.0f, -1.0f, 1.0f);
 	scale(pMob, f);
-	glTranslatef(0.0f, -1.5078f, 0.0f);
+	//glTranslatef(0.0f, -1.5078f, 0.0f);
+	glTranslatef(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f);
 
 	float x1 = pMob->field_128 + (pMob->field_12C - pMob->field_128) * f;
 	if (x1 > 1.0f)

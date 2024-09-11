@@ -27,7 +27,7 @@ TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(
 	m_heightOffset = field_8C * 0.5f - 0.25f;
 
 	setPos(pos);
-	field_3C = pos;
+	m_ySlideOffset = pos;
 }
 
 void TripodCamera::defineSynchedData()
@@ -49,7 +49,7 @@ int TripodCamera::interactPreventDefault()
 
 void TripodCamera::tick()
 {
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 
 	m_vel.y -= 0.04f;
 	move(m_vel);

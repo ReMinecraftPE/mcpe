@@ -15,7 +15,7 @@ SmokeParticle::SmokeParticle(Level* level, const Vec3& pos, const Vec3& dir, flo
 
 	m_vel = dir + m_vel * 0.1f;
 
-	field_100 = field_FC = field_F8 = Mth::random() * 0.5f;
+	m_bCol = m_gCol = m_rCol = Mth::random() * 0.5f;
 
 	field_104 = field_F0 = field_F0 * 0.75f * a9;
 
@@ -37,7 +37,7 @@ void SmokeParticle::render(Tesselator& t, float f, float a, float b, float c, fl
 
 void SmokeParticle::tick()
 {
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 	
 	field_E8++;
 	if (field_E8 > field_EC)
@@ -48,7 +48,7 @@ void SmokeParticle::tick()
 
 	move(m_vel);
 
-	if (m_pos.y == field_3C.y)
+	if (m_pos.y == m_ySlideOffset.y)
 	{
 		m_vel.x *= 1.1f;
 		m_vel.z *= 1.1f;

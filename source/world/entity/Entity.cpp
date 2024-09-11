@@ -503,7 +503,7 @@ void Entity::moveTo(const Vec3& pos, const Vec2& rot)
 	newPos.y += m_heightOffset;
 
 	setPos(newPos);
-	field_3C = newPos;
+	m_ySlideOffset = newPos;
 	m_posPrev = newPos;
 
 	m_rot = rot;
@@ -517,14 +517,14 @@ void Entity::absMoveTo(const Vec3& pos, const Vec2& rot)
 	setRot(rot);
 
 	setPos(pos);
-	field_3C = pos;
+	m_ySlideOffset = pos;
 
 	// This looks like a rebounding check for the angle
-	//@WHAT: (yaw - yaw) == 0
-	if (rot.x - rot.x < -180.0f)
-		m_rotPrev.x = rot.x + 360.0f;
-	if (rot.x - rot.x >= 180.0f)
-		m_rotPrev.x = m_rotPrev.x - 360.0f;
+	float dyRot = (m_rotPrev.y - m_rot.y);
+	if (dyRot < -180.0f)
+		m_rotPrev.y += 360.0f;
+	if (dyRot >= 180.0f)
+		m_rotPrev.y -= 360.0f;
 }
 
 void Entity::moveRelative(const Vec3& pos)
@@ -579,7 +579,7 @@ void Entity::turn(const Vec2& rot)
 void Entity::reset()
 {
 	// TODO is this it
-	m_posPrev = field_3C = m_pos;
+	m_posPrev = m_ySlideOffset = m_pos;
 	m_rotPrev = m_rot;
 	m_bRemoved = false;
 	m_distanceFallen = 0.0f;
@@ -611,7 +611,7 @@ void Entity::baseTick()
 	//@TODO: untangle the gotos
 
 	field_90 = field_94;
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 	field_B4++;
 	m_rotPrev = m_rot;
 	if (isInWater())
@@ -800,7 +800,7 @@ float Entity::distanceTo(Entity* pEnt) const
 
 float Entity::distanceTo(const Vec3& pos) const
 {
-	return Mth::sqrt(distanceToSqr(pos));
+	return m_pos.distanceTo(pos);
 }
 
 float Entity::distanceToSqr(Entity* pEnt) const
@@ -810,11 +810,7 @@ float Entity::distanceToSqr(Entity* pEnt) const
 
 float Entity::distanceToSqr(const Vec3& pos) const
 {
-	float diffX = m_pos.x - pos.x;
-	float diffY = m_pos.y - pos.y;
-	float diffZ = m_pos.z - pos.z;
-
-	return diffX * diffX + diffY * diffY + diffZ * diffZ;
+	return m_pos.distanceToSqr(pos);
 }
 
 int Entity::interactPreventDefault()
@@ -885,7 +881,7 @@ void Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
 	ItemEntity *itemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemInstance);
 	delete(itemInstance);
 	// @TODO: not sure what this does, or is for
-	itemEntity->field_3C.x = 10;
+	itemEntity->m_ySlideOffset.x = 10;
 	m_pLevel->addEntity(itemEntity);
 }
 
@@ -912,8 +908,8 @@ void Entity::setEquippedSlot(int a, int b, int c)
 
 void Entity::setRot(const Vec2& rot)
 {
-	m_rot.x = Mth::abs(rot.x) > 360.0f ? fmod(rot.x, 360.0f) : rot.x;
-	m_rot.y = Mth::abs(rot.y) > 360.0f ? fmod(rot.y, 360.0f) : rot.y;
+	m_rot.x = /*Mth::abs(rot.x) > 360.0f ? fmod(rot.x, 360.0f) :*/ rot.x;
+	m_rot.y = /*Mth::abs(rot.y) > 360.0f ? fmod(rot.y, 360.0f) :*/ rot.y;
 }
 
 void Entity::setSize(float rad, float height)

@@ -38,6 +38,9 @@
 
 	#define USE_GL_ORTHO_F
 #else
+	// Standard OpenGL supports normals and lighting, OpenGL ES doesn't
+	#define USE_GL_NORMAL_LIGHTING
+
 	#ifdef USE_SDL
 		#define USE_OPENGL_2_FEATURES
 
@@ -112,6 +115,7 @@ bool xglInitted();
 #define xglDisableClientState glDisableClientState
 #define xglTexCoordPointer glTexCoordPointer
 #define xglColorPointer glColorPointer
+#define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
 
@@ -127,6 +131,7 @@ void xglEnableClientState(GLenum _array);
 void xglDisableClientState(GLenum _array);
 void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
 

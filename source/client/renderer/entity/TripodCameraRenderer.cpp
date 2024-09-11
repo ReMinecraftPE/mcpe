@@ -15,7 +15,7 @@ TripodCameraRenderer::TripodCameraRenderer() :
 {
 	m_modelPart.addBox(-4.0f, -4.0f, -6.0f, 8, 8, 10);
 	m_modelPart.m_pos.y = 11.0f;
-	field_4 = 0.5f;
+	m_shadowRadius = 0.5f;
 }
 
 float TripodCameraRenderer::getFlashTime(TripodCamera* camera, float f)
@@ -33,16 +33,16 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 	m_modelPart.m_rot.x  = 0.017453f * (180.0f + 0.5f * entity->m_rot.y);
 	m_modelPart.m_rot.y = -0.017453f * entity->m_rot.x;
 
-	Tesselator& t = Tesselator::instance;
-	t.color(1.0f, 1.0f, 1.0f);
+	//Tesselator& t = Tesselator::instance;
+	//t.color(1.0f, 1.0f, 1.0f);
 
 	float brightness = entity->getBrightness(1.0f);
 
 	bindTexture("gui/items.png");
-	t.begin();
+	//t.begin();
 	//m_renderer.tesselateCrossTexture(&m_tile, 0, -0.5f, -0.5f, -0.5f);
 	m_renderer.renderTile(&m_tile, 0, brightness);
-	t.draw();
+	//t.draw();
 
 	bindTexture("item/camera.png");
 	m_modelPart.setBrightness(brightness);

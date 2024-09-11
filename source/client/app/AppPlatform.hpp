@@ -49,6 +49,7 @@ public:
 	virtual Texture loadTexture(const std::string&, bool bIsRequired);
 
 #ifndef ORIGINAL_CODE
+	virtual bool doesTextureExist(const std::string& path) const;
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	virtual bool isTouchscreen() const;
 	virtual bool hasGamepad() const;

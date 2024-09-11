@@ -12,6 +12,7 @@
 #include "client/player/input/Multitouch.hpp"
 #include "client/player/input/Controller.hpp"
 #include "Frustum.hpp"
+#include "Lighting.hpp"
 #include "renderer/GL/GL.hpp"
 
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
@@ -136,9 +137,9 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	float headHeightDiff = pMob->m_heightOffset - 1.62f;
 
-	float posX = Mth::Lerp(pMob->field_3C.x, pMob->m_pos.x, f);
-	float posY = Mth::Lerp(pMob->field_3C.y, pMob->m_pos.y, f);
-	float posZ = Mth::Lerp(pMob->field_3C.z, pMob->m_pos.z, f);
+	float posX = Mth::Lerp(pMob->m_ySlideOffset.x, pMob->m_pos.x, f);
+	float posY = Mth::Lerp(pMob->m_ySlideOffset.y, pMob->m_pos.y, f);
+	float posZ = Mth::Lerp(pMob->m_ySlideOffset.z, pMob->m_pos.z, f);
 
 	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
 
@@ -369,7 +370,7 @@ void GameRenderer::setupFog(int i)
 			glFogf(GL_FOG_END, field_8 * 0.8f);
 		}
 
-		if (m_pMinecraft->m_pLevel->m_pDimension->field_C)
+		if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
 		{
 			glFogf(GL_FOG_START, 0.0f);
 		}
@@ -480,11 +481,15 @@ void GameRenderer::renderLevel(float f)
 		glEnable(GL_FOG);
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+
+		Lighting::turnOff();
 		// render the opaque layer
 		pLR->render(pMob, 0, f);
 
-		glShadeModel(GL_FLAT);
+		Lighting::turnOn();
 		pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
+		pPE->renderLit(pMob, f);
+		Lighting::turnOff();
 		pPE->render(pMob, f);
 
 		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
@@ -678,7 +683,7 @@ void GameRenderer::render(float f)
 	// @TODO: Move to its own function
 	std::stringstream debugText;
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
-	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)";
+	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
 
 	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
@@ -688,10 +693,10 @@ void GameRenderer::render(float f)
 			Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(f);
 			sprintf(posStr, "%.2f / %.2f / %.2f", pos.x, pos.y, pos.z);
 
-			debugText << "\nXYZ: " << posStr;
-			debugText << "\nBiome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name;
-			debugText << "\nEntities: " << m_pMinecraft->m_pLevel->m_entities.size();
-			debugText << "\n" << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats2() << "\n";
+			debugText << "XYZ: " << posStr << "\n";
+			debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
 		}
 #ifdef SHOW_VERTEX_COUNTER_GRAPHIC
 		extern int g_nVertices; // Tesselator.cpp

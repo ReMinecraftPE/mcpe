@@ -26,7 +26,7 @@ public:
 
 public:
 	float field_4;
-	bool field_8;
+	bool m_bRiding;
 	int m_textureWidth;
 	int m_textureHeight;
 	std::vector<ModelPart*> m_parts;

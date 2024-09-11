@@ -185,7 +185,7 @@ public:
 	float field_30;
 	uint8_t field_34;
 	Level* m_pLevel;
-	Vec3 field_3C;
+	Vec3 m_ySlideOffset; // "o" in Java or "xo" ""yo" "zo"
 	Vec3 m_vel;
 	Vec2 m_rot;
 	//maybe these are the actual m_yaw and m_pitch, and

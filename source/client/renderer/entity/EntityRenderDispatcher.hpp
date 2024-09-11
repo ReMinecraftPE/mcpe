@@ -31,14 +31,14 @@ class EntityRenderDispatcher
 {
 public:
 	EntityRenderDispatcher();
-	float distanceToSqr(float x, float y, float z);
+	float distanceToSqr(const Vec3& pos);
 	Font* getFont();
 	EntityRenderer* getRenderer(Entity* pEnt);
 	EntityRenderer* getRenderer(int renderType);
 	void onGraphicsReset();
 	void prepare(Level*, Textures*, Font*, Mob*, Options*, float);
 	void render(Entity*, float);
-	void render(Entity*, float, float, float, float, float);
+	void render(Entity*, const Vec3& pos, float rot, float a);
 	void setLevel(Level*);
 	void setMinecraft(Minecraft*);
 
@@ -75,6 +75,6 @@ public:
 #endif
 
 	static EntityRenderDispatcher* instance;
-	static float xOff, yOff, zOff;
+	static Vec3 off;
 };
 

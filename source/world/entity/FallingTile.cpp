@@ -22,7 +22,7 @@ FallingTile::FallingTile(Level* level, const Vec3& pos, int id) : Entity(level),
 	setSize(0.98f, 0.98f);
 	m_heightOffset = field_8C * 0.5f;
 	setPos(pos);
-	field_3C = pos;
+	m_ySlideOffset = pos;
 	m_vel = Vec3::ZERO;
 
 #if defined(ENH_ALLOW_SAND_GRAVITY)
@@ -45,7 +45,7 @@ void FallingTile::tick()
 	if (!m_id)
 		remove();
 
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 	field_E0++;
 
 	m_vel.y -= 0.04f;

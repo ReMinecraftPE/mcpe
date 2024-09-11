@@ -12,7 +12,7 @@
 BubbleParticle::BubbleParticle(Level* level, const Vec3& pos, const Vec3& dir) :
 	Particle(level, pos, dir)
 {
-	field_F8 = field_FC = field_100 = 1.0f;
+	m_rCol = m_gCol = m_bCol = 1.0f;
 	field_DC = PTI_BUBBLE;
 	setSize(0.02f, 0.02f);
 
@@ -25,7 +25,7 @@ BubbleParticle::BubbleParticle(Level* level, const Vec3& pos, const Vec3& dir) :
 
 void BubbleParticle::tick()
 {
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 
 	m_vel.y += 0.002f;
 	move(m_vel);

@@ -13,18 +13,23 @@
 
 Dimension* Dimension::getNew(int type)
 {
-	if (type != 0) // type not supported
+	switch (type)
+	{
+	case 0:
+		return new Dimension;
+	/*case -1:
+		return new HellDimension;*/
+	default: // type not supported
 		return nullptr;
-
-	return new Dimension;
+	}
 }
 
 Vec3 Dimension::getFogColor(float a, float b)
 {
-	float x1 = cosf(2 * float(M_PI) * a);
+	float x1 = cosf(a * M_PI * 2.0f);
 	float x2 = x1 * 2 + 0.5f;
 
-	if (x2 < 0)
+	if (x2 < 0.0f)
 		return Vec3(0.045176f, 0.050824f, 0.09f);
 
 	Vec3 v;
@@ -48,9 +53,8 @@ Vec3 Dimension::getFogColor(float a, float b)
 
 float* Dimension::getSunriseColor(float a, float b)
 {
-	float ang = float(a * M_PI);
-	float x1 = Mth::cos(ang * ang); //@BUG: Meant to use Mth::cos?
-	if (x1 < -0.4f || x1>0.4f)
+	float x1 = Mth::cos(a * M_PI * 2.0f); //@BUG: Meant to use Mth::cos?
+	if (x1 < -0.4f || x1 > 0.4f)
 		return nullptr;
 
 	float x2 = x1 / 0.4f * 0.5f + 0.5f;
@@ -120,7 +124,7 @@ Dimension::Dimension()
 {
 	m_pLevel = nullptr;
 	m_pBiomeSource = nullptr;
-	field_C = false;
+	m_bFoggy = false;
 	field_D = false;
 	field_E = false;
 	field_50 = 0;

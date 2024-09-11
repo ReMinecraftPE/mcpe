@@ -109,6 +109,11 @@ Texture AppPlatform::loadTexture(const std::string&, bool bIsRequired)
 
 #ifndef ORIGINAL_CODE
 
+bool AppPlatform::doesTextureExist(const std::string& path) const
+{
+	return false;
+}
+
 bool AppPlatform::isTouchscreen() const
 {
 	return true;

@@ -290,17 +290,6 @@ static EM_BOOL main_loop(double time, void *user_data)
 	}
 }
 
-extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
-extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
-
-void CheckOptionalTextureAvailability()
-{
-	Screen::setIsMenuPanoramaAvailable(g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png"));
-	LevelRenderer::setAreCloudsAvailable(g_pAppPlatform->doesTextureExist("environment/clouds.png"));
-	g_bIsGrassColorAvailable     = g_pAppPlatform->doesTextureExist("misc/grasscolor.png");
-	g_bIsFoliageColorAvailable   = g_pAppPlatform->doesTextureExist("misc/foliagecolor.png");
-}
-
 // Main
 int main(int argc, char *argv[])
 {
@@ -406,9 +395,6 @@ int main(int argc, char *argv[])
 	g_pApp->m_externalStorageDir = storagePath;
 	g_pAppPlatform = new UsedAppPlatform(g_pApp->m_externalStorageDir, window);
 	g_pApp->m_pPlatform = g_pAppPlatform;
-
-	// This must be done before initializing the App, since options are disabled automatically based on texture availablity
-	CheckOptionalTextureAvailability();
 	g_pApp->init();
 	
 	// Set Size

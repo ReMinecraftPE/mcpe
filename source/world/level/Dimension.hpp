@@ -37,7 +37,7 @@ public:
 public:
 	Level* m_pLevel;
 	BiomeSource* m_pBiomeSource;
-	bool field_C;
+	bool m_bFoggy;
 	bool field_D;
 	bool field_E;
 	float field_10[16];

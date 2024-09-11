@@ -798,6 +798,15 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
+	// Optional features that you really should be able to get away with not including.
+	Screen::setIsMenuPanoramaAvailable(platform()->doesTextureExist("gui/background/panorama_0.png"));
+	LevelRenderer::setAreCloudsAvailable(platform()->doesTextureExist("environment/clouds.png"));
+	LevelRenderer::setArePlanetsAvailable(platform()->doesTextureExist("terrain/sun.png") && platform()->doesTextureExist("terrain/moon.png"));
+	GrassColor::setIsAvailable(platform()->doesTextureExist("misc/grasscolor.png"));
+	FoliageColor::setIsAvailable(platform()->doesTextureExist("misc/foliagecolor.png"));
+	Gui::setIsVignetteAvailable(platform()->doesTextureExist("misc/vignette.png"));
+	EntityRenderer::setAreShadowsAvailable(platform()->doesTextureExist("misc/shadow.png"));
+
 	GetPatchManager()->LoadPatchData(platform()->getPatchData());
 
 	m_bIsTouchscreen = platform()->isTouchscreen();
@@ -994,6 +1003,15 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
+//#define USE_JAVA_SCREEN_SCALING
+#ifdef USE_JAVA_SCREEN_SCALING
+	int scale;
+	for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
+	{
+	}
+	return 1.0f / scale;
+#endif
+
 	if (height > 1800)
 		return 1.0f / 8.0f;
 

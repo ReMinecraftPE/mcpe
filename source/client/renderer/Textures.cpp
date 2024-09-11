@@ -60,13 +60,13 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 
-	if (field_39)
+	if (m_bBlur)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
-	if (field_38)
+	if (m_bClamp)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -108,8 +108,8 @@ void Textures::clear()
 
 Textures::Textures(Options* pOptions, AppPlatform* pAppPlatform)
 {
-	field_38 = false;
-	field_39 = false;
+	m_bClamp = false;
+	m_bBlur = false;
 
 	m_pPlatform = pAppPlatform;
 	m_pOptions = pOptions;

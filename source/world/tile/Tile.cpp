@@ -946,7 +946,7 @@ HitResult Tile::clip(const Level* level, const TilePos& pos, Vec3 vec1, Vec3 vec
 	bClipMaxZ = vec1.clipZ(vec2, m_aabb.max.z, clipMaxZ) && containsZ(clipMaxZ);
 
 	// the collided side of our AABB
-	Facing::Name collType;
+	Facing::Name collType = Facing::DOWN;
 
 	// the preferred vector for our collision
 	Vec3* pVec = nullptr;

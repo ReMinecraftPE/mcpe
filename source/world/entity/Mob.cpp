@@ -97,10 +97,11 @@ void Mob::tick()
 			        m_pos.y + ((m_lPos.y - m_pos.y) / (float)m_lSteps),
 			        m_pos.z + ((m_lPos.z - m_pos.z) / (float)m_lSteps)));
 
+		// Similar to rotlerp
 		// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
-		/*float ang = m_lRot.x - m_rot.x;
+		float ang = m_lRot.x - m_rot.x;
 		while (ang < -180.0f) ang += 360.0f;
-		while (ang >= 180.0f) ang -= 360.0f;*/
+		while (ang >= 180.0f) ang -= 360.0f;
 
 		setRot(Vec2(m_rot.x + ((m_lRot.x - m_rot.x) / float(m_lSteps)),
 			        m_rot.y + ((m_lRot.y - m_rot.y) / float(m_lSteps))));
@@ -115,7 +116,7 @@ void Mob::tick()
 	float dist, x1, x2, x3, x4, x5, x6, x7, field_E8_2, field_E8_new, v36;
 	bool angleOOB = false;
 
-	Vec3 delta = m_pos - field_3C;
+	Vec3 delta = m_pos - m_ySlideOffset;
 	dist = Mth::sqrt(delta.z * delta.z + delta.x * delta.x);
 	field_E8_2 = field_E8;
 	x1 = field_E8_2;
@@ -568,8 +569,8 @@ void Mob::updateWalkAnim()
 {
 	field_128 = field_12C;
 
-	float diffX = m_pos.x - field_3C.x;
-	float diffZ = m_pos.z - field_3C.z;
+	float diffX = m_pos.x - m_ySlideOffset.x;
+	float diffZ = m_pos.z - m_ySlideOffset.z;
 
 	float spd = 4.0f * Mth::sqrt(diffX * diffX + diffZ * diffZ);
 	if (spd > 1.0f)
@@ -654,9 +655,9 @@ Vec3 Mob::getPos(float f) const
 		return m_pos;
 
 	return Vec3(
-        Mth::Lerp(field_3C.x, m_pos.x, f),
-		Mth::Lerp(field_3C.y, m_pos.y, f),
-		Mth::Lerp(field_3C.z, m_pos.z, f)
+        Mth::Lerp(m_ySlideOffset.x, m_pos.x, f),
+		Mth::Lerp(m_ySlideOffset.y, m_pos.y, f),
+		Mth::Lerp(m_ySlideOffset.z, m_pos.z, f)
 	);
 }
 

@@ -683,7 +683,7 @@ void StartMenuScreen::draw3dTitle(float f)
 
 				// rotate 90 deg on the X axis to correct lighting
 				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-				m_tileRenderer.renderTile(pTile, i == 0 ? 999 : 0, bright);
+				m_tileRenderer.renderTile(pTile, i == 0 ? 999 : 0, bright, true);
 
 				glPopMatrix();
 			}

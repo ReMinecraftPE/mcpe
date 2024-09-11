@@ -24,7 +24,7 @@ FlameParticle::FlameParticle(Level* level, const Vec3& pos, const Vec3& dir) :
 	sharedRandom.genrand_int32();
 
 	field_104 = field_F0;
-	field_F8 = field_FC = field_100 = 1.0f;
+	m_rCol = m_gCol = m_bCol = 1.0f;
 	field_EC = int(8.0f / (0.2f + 0.8f * Mth::random())) + 4;
 	field_DC = PTI_FLAME;
 }
@@ -36,7 +36,7 @@ float FlameParticle::getBrightness(float unused) const
 
 void FlameParticle::tick()
 {
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 
 	field_E8++;
 	if (field_E8 > field_EC)

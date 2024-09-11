@@ -30,8 +30,8 @@ const uint8_t g_ItemFrames[C_MAX_TILES] =
 
 ItemRenderer::ItemRenderer()
 {
-	field_4 = 0.15f;
-	field_8 = 0.75f;
+	m_shadowRadius = 0.15f;
+	m_shadowStrength = 0.75f;
 }
 
 void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, float b)
@@ -111,6 +111,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 			float bright = pItemEntity->getBrightness(1.0f);
 			t.color(bright, bright, bright);
 #endif
+			t.normal(0.0f, 1.0f, 0.0f);
 			t.vertexUV(-0.5f, -0.25f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, -0.25f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
@@ -238,13 +239,8 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		// TODO: Why can't we rotate stairs 90deg also? What's rotating them!?
 		if (Tile::tiles[itemID]->getRenderShape() != SHAPE_STAIRS)
 			glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
-
-		#ifdef ENH_SHADE_HELD_TILES
-		#	define PARM_HACK , 1
-		#else
-		#	define PARM_HACK
-		#endif
-		tileRenderer->renderTile(Tile::tiles[itemID], instance->m_auxValue PARM_HACK);
+		
+		tileRenderer->renderTile(Tile::tiles[itemID], instance->m_auxValue, 1.0f, true);
 		#undef PARM_HACK
 
 		glPopMatrix();

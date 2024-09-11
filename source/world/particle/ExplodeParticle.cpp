@@ -17,14 +17,14 @@ ExplodeParticle::ExplodeParticle(Level* level, const Vec3& pos, const Vec3& dir)
 	m_vel.y = dir.y + 0.05f * (2.0f * Mth::random() - 1.0f);
 	m_vel.z = dir.z + 0.05f * (2.0f * Mth::random() - 1.0f);
 
-	field_F8 = field_FC = field_100 = 0.7f + 0.3f * sharedRandom.nextFloat();
+	m_rCol = m_gCol = m_bCol = 0.7f + 0.3f * sharedRandom.nextFloat();
 	field_F0 = 1.0f + 6.0f * sharedRandom.nextFloat() * sharedRandom.nextFloat();
 	field_EC = int(16.0f / (0.2f + 0.8f * sharedRandom.nextFloat())) + 2;
 }
 
 void ExplodeParticle::tick()
 {
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 	
 	field_E8++;
 	if (field_E8 > field_EC)

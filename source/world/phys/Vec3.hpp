@@ -37,6 +37,13 @@ public:
 	Vec3(float x, float y, float z);
 	Vec3(const TilePos& tilePos);
 
+	Vec3 interpolateTo(const Vec3& to, float t) const;
+	Vec3 vectorTo(const Vec3& to) const;
+	Vec3 normalize() const;
+	float dot(const Vec3& other) const;
+	Vec3 cross(const Vec3& other) const;
+	Vec3 add(float x, float y, float z) const;
+
 	// these are likely inlined
 	float distanceTo(const Vec3& b) const;
 	float distanceToSqr(const Vec3& b) const;
@@ -44,7 +51,6 @@ public:
     bool clipX(const Vec3& a2, float a3, Vec3& a4) const;
 	bool clipY(const Vec3& a2, float a3, Vec3& a4) const;
 	bool clipZ(const Vec3& a2, float a3, Vec3& a4) const;
-	Vec3 normalize() const;
 
 	// these are also likely inlined, but I'll declare them in the header
 	Vec3 operator+(const Vec3& b) const

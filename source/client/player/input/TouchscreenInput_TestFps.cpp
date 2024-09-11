@@ -127,7 +127,7 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	m_touchAreaModel.addArea(100 + INPUT_RIGHT, m_pAreaRight);
 
 	// NOTE: We are not leaking memory! Since by default IArea's constructor sets
-	// field_4 to true, TouchAreaModel owns the pointers, so when it's destroyed,
+	// m_vertices to true, TouchAreaModel owns the pointers, so when it's destroyed,
 	// so are these areas we allocated.
 }
 

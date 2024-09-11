@@ -29,7 +29,7 @@ PrimedTnt::PrimedTnt(Level* level, const Vec3& pos) : Entity(level)
 	m_vel.z = -0.02f * Mth::cos(fAng);
 	m_vel.y = 0.2f;
 
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 
 	m_fuseTimer = 80; // 4 secs
 }
@@ -52,7 +52,7 @@ bool PrimedTnt::isPickable() const
 
 void PrimedTnt::tick()
 {
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 
 	m_vel.y -= 0.04f;
 	move(m_vel);

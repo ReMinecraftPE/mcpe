@@ -85,7 +85,7 @@ void ItemEntity::tick()
 	if (field_E4 > 0)
 		field_E4--;
 
-	field_3C = m_pos;
+	m_ySlideOffset = m_pos;
 	m_vel.y -= 0.04f;
 
 	if (m_pLevel->getMaterial(m_pos) == Material::lava)
