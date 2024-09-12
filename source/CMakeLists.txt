@@ -53,6 +53,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/Tesselator.cpp
     client/renderer/TileRenderer.cpp
     client/renderer/LightLayer.cpp
+    client/renderer/Lighting.cpp
     client/renderer/WaterTexture.cpp
     client/renderer/PatchManager.cpp
     client/renderer/LavaTexture.cpp
