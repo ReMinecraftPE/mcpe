@@ -350,6 +350,15 @@
 		849259602AD8FDCB0081F5B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8492595E2AD8FDCB0081F5B9 /* InfoPlist.strings */; };
 		849259622AD8FDD10081F5B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 849259612AD8FDD10081F5B9 /* main.m */; };
 		849259642AD8FDD90081F5B9 /* minecraftpe-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 849259632AD8FDD90081F5B9 /* minecraftpe-Info.plist */; };
+		8494882A2C92844C006DB706 /* foliagecolor.png in Resources */ = {isa = PBXBuildFile; fileRef = 849488252C92844C006DB706 /* foliagecolor.png */; };
+		8494882B2C92844C006DB706 /* grasscolor.png in Resources */ = {isa = PBXBuildFile; fileRef = 849488262C92844C006DB706 /* grasscolor.png */; };
+		8494882C2C92844C006DB706 /* pumpkinblur.png in Resources */ = {isa = PBXBuildFile; fileRef = 849488272C92844C006DB706 /* pumpkinblur.png */; };
+		8494882D2C92844C006DB706 /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 849488282C92844C006DB706 /* shadow.png */; };
+		8494882E2C92844C006DB706 /* vignette.png in Resources */ = {isa = PBXBuildFile; fileRef = 849488292C92844C006DB706 /* vignette.png */; };
+		849488322C928459006DB706 /* moon.png in Resources */ = {isa = PBXBuildFile; fileRef = 849488302C928459006DB706 /* moon.png */; };
+		849488332C928459006DB706 /* sun.png in Resources */ = {isa = PBXBuildFile; fileRef = 849488312C928459006DB706 /* sun.png */; };
+		849488362C9284DA006DB706 /* Lighting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 849488342C9284DA006DB706 /* Lighting.cpp */; };
+		849488372C9284DA006DB706 /* Lighting.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 849488352C9284DA006DB706 /* Lighting.hpp */; };
 		8495E4892AF0905B00A06901 /* AppPlatform_iOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8495E4882AF0905B00A06901 /* AppPlatform_iOS.mm */; };
 		849FF0B72AF465340013BAE3 /* default8.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001672AF3A28B009B9555 /* default8.png */; };
 		849FF0B82AF465340013BAE3 /* panorama_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0016A2AF3A28B009B9555 /* panorama_0.png */; };
@@ -1883,6 +1892,15 @@
 		849259612AD8FDD10081F5B9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		849259632AD8FDD90081F5B9 /* minecraftpe-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "minecraftpe-Info.plist"; sourceTree = "<group>"; };
 		849259722AD912890081F5B9 /* AppContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppContext.hpp; sourceTree = "<group>"; };
+		849488252C92844C006DB706 /* foliagecolor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = foliagecolor.png; sourceTree = "<group>"; };
+		849488262C92844C006DB706 /* grasscolor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grasscolor.png; sourceTree = "<group>"; };
+		849488272C92844C006DB706 /* pumpkinblur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pumpkinblur.png; sourceTree = "<group>"; };
+		849488282C92844C006DB706 /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow.png; sourceTree = "<group>"; };
+		849488292C92844C006DB706 /* vignette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vignette.png; sourceTree = "<group>"; };
+		849488302C928459006DB706 /* moon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moon.png; sourceTree = "<group>"; };
+		849488312C928459006DB706 /* sun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sun.png; sourceTree = "<group>"; };
+		849488342C9284DA006DB706 /* Lighting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lighting.cpp; sourceTree = "<group>"; };
+		849488352C9284DA006DB706 /* Lighting.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Lighting.hpp; sourceTree = "<group>"; };
 		8495E4872AF0905B00A06901 /* AppPlatform_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPlatform_iOS.h; sourceTree = "<group>"; };
 		8495E4882AF0905B00A06901 /* AppPlatform_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppPlatform_iOS.mm; sourceTree = "<group>"; };
 		84AA8B482B32F39A003F5B82 /* BinaryHeap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BinaryHeap.cpp; sourceTree = "<group>"; };
@@ -3601,6 +3619,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		849488242C92844C006DB706 /* misc */ = {
+			isa = PBXGroup;
+			children = (
+				849488252C92844C006DB706 /* foliagecolor.png */,
+				849488262C92844C006DB706 /* grasscolor.png */,
+				849488272C92844C006DB706 /* pumpkinblur.png */,
+				849488282C92844C006DB706 /* shadow.png */,
+				849488292C92844C006DB706 /* vignette.png */,
+			);
+			path = misc;
+			sourceTree = "<group>";
+		};
+		8494882F2C928459006DB706 /* terrain */ = {
+			isa = PBXGroup;
+			children = (
+				849488302C928459006DB706 /* moon.png */,
+				849488312C928459006DB706 /* sun.png */,
+			);
+			path = terrain;
+			sourceTree = "<group>";
+		};
 		84AA8B472B32F39A003F5B82 /* path */ = {
 			isa = PBXGroup;
 			children = (
@@ -3645,6 +3684,8 @@
 				84AA8BD42B32F3F3003F5B82 /* LavaTexture.cpp */,
 				84AA8BD52B32F3F3003F5B82 /* LevelRenderer.cpp */,
 				84AA8BD62B32F3F3003F5B82 /* LevelRenderer.hpp */,
+				849488342C9284DA006DB706 /* Lighting.cpp */,
+				849488352C9284DA006DB706 /* Lighting.hpp */,
 				84AA8BD72B32F3F3003F5B82 /* LightLayer.cpp */,
 				84AA8BD82B32F3F3003F5B82 /* LightLayer.hpp */,
 				84AA8BD92B32F3F3003F5B82 /* LightUpdate.cpp */,
@@ -3801,10 +3842,12 @@
 				84E001682AF3A28B009B9555 /* gui */,
 				84E0018A2AF3A28B009B9555 /* icon.png */,
 				84E0018B2AF3A28B009B9555 /* item */,
+				849488242C92844C006DB706 /* misc */,
 				84E0018D2AF3A28B009B9555 /* mob */,
 				84E0018F2AF3A28B009B9555 /* particles.png */,
 				84C208502AF88A5000BAE438 /* patches */,
 				84E001902AF3A28B009B9555 /* readme.txt */,
+				8494882F2C928459006DB706 /* terrain */,
 				84E001912AF3A28B009B9555 /* terrain.png */,
 			);
 			path = assets;
@@ -4016,6 +4059,7 @@
 				84AA8BF02B32F3F3003F5B82 /* DynamicTexture.hpp in Headers */,
 				84AA8BF22B32F3F3003F5B82 /* ChickenRenderer.hpp in Headers */,
 				84AA8BF42B32F3F3003F5B82 /* CowRenderer.hpp in Headers */,
+				849488372C9284DA006DB706 /* Lighting.hpp in Headers */,
 				84AA8BF62B32F3F3003F5B82 /* CreeperRenderer.hpp in Headers */,
 				84AA8BF82B32F3F3003F5B82 /* EntityRenderDispatcher.hpp in Headers */,
 				84AA8BFA2B32F3F3003F5B82 /* EntityRenderer.hpp in Headers */,
@@ -4621,6 +4665,7 @@
 				8477B4312C4DE77F004E1AC5 /* create_1_3.png in Resources */,
 				8477B4482C4DE77F004E1AC5 /* Icon_lite.png in Resources */,
 				8477B44D2C4DE77F004E1AC5 /* Default.png in Resources */,
+				849488332C928459006DB706 /* sun.png in Resources */,
 				8477B40A2C4DE77F004E1AC5 /* bg64.png in Resources */,
 				8477B4382C4DE77F004E1AC5 /* worldname_ipad.png in Resources */,
 				849259602AD8FDCB0081F5B9 /* InfoPlist.strings in Resources */,
@@ -4631,6 +4676,7 @@
 				8477B40F2C4DE77F004E1AC5 /* cancel_1_1.png in Resources */,
 				84E001BB2AF3AF9B009B9555 /* MainWindow.xib in Resources */,
 				8477B4422C4DE77F004E1AC5 /* Icon-Small@2x.png in Resources */,
+				8494882B2C92844C006DB706 /* grasscolor.png in Resources */,
 				849FF0B72AF465340013BAE3 /* default8.png in Resources */,
 				8477B4262C4DE77F004E1AC5 /* worldname_ipad.png in Resources */,
 				8477B4212C4DE77F004E1AC5 /* worldname_ipad_4.png in Resources */,
@@ -4670,6 +4716,7 @@
 				8477B4122C4DE77F004E1AC5 /* create_0_1.png in Resources */,
 				8477B4232C4DE77F004E1AC5 /* save_0_3.png in Resources */,
 				8477B4442C4DE77F004E1AC5 /* Icon-Small_lite.png in Resources */,
+				8494882C2C92844C006DB706 /* pumpkinblur.png in Resources */,
 				8477B4462C4DE77F004E1AC5 /* Icon@2x.png in Resources */,
 				8477B44E2C4DE77F004E1AC5 /* Default@2x.png in Resources */,
 				8477B4202C4DE77F004E1AC5 /* survival_3_4.png in Resources */,
@@ -4684,6 +4731,7 @@
 				8477B42C2C4DE77F004E1AC5 /* cancel_1_1.png in Resources */,
 				849FF0D52AF465340013BAE3 /* icon.png in Resources */,
 				8477B4092C4DE77F004E1AC5 /* bg128.png in Resources */,
+				8494882D2C92844C006DB706 /* shadow.png in Resources */,
 				8477B43E2C4DE77F004E1AC5 /* Icon-72_lite.png in Resources */,
 				8477B4222C4DE77F004E1AC5 /* save_0.png in Resources */,
 				849FF0DB2AF465340013BAE3 /* camera.png in Resources */,
@@ -4702,7 +4750,9 @@
 				8477B43C2C4DE77F004E1AC5 /* worldname_iphone_3.png in Resources */,
 				8477B4302C4DE77F004E1AC5 /* create_1_1.png in Resources */,
 				8477B4252C4DE77F004E1AC5 /* save_1_3.png in Resources */,
+				8494882E2C92844C006DB706 /* vignette.png in Resources */,
 				8477B4162C4DE77F004E1AC5 /* create_1_3.png in Resources */,
+				8494882A2C92844C006DB706 /* foliagecolor.png in Resources */,
 				84C208542AF88A5000BAE438 /* patch_data.txt in Resources */,
 				8477B40B2C4DE77F004E1AC5 /* cancel_0.png in Resources */,
 				8477B43D2C4DE77F004E1AC5 /* Icon-72.png in Resources */,
@@ -4716,6 +4766,7 @@
 				8477B4282C4DE77F004E1AC5 /* worldname_iphone.png in Resources */,
 				8477B4322C4DE77F004E1AC5 /* creative_0_3.png in Resources */,
 				84E78C8E2B58BB7400D515EF /* n_rocket.png in Resources */,
+				849488322C928459006DB706 /* moon.png in Resources */,
 				84E78C902B58C18C00D515EF /* black.png in Resources */,
 				8477B4172C4DE77F004E1AC5 /* cancel_0_4.png in Resources */,
 				8477B42B2C4DE77F004E1AC5 /* cancel_0_3.png in Resources */,
@@ -4942,6 +4993,7 @@
 				84AA8C2A2B32F3F3003F5B82 /* LightUpdate.cpp in Sources */,
 				84AA8C2C2B32F3F3003F5B82 /* PatchManager.cpp in Sources */,
 				84AA8C2E2B32F3F3003F5B82 /* RenderChunk.cpp in Sources */,
+				849488362C9284DA006DB706 /* Lighting.cpp in Sources */,
 				84AA8C302B32F3F3003F5B82 /* RenderList.cpp in Sources */,
 				84AA8C322B32F3F3003F5B82 /* Tesselator.cpp in Sources */,
 				84AA8C352B32F3F3003F5B82 /* Textures.cpp in Sources */,

@@ -4,13 +4,12 @@
 
 #include "thirdparty/GL/GL.hpp"
 
-std::vector<float> Lighting::lb = std::vector<float>(16);
+float Lighting::lb[16] = {};
 
 void Lighting::turnOff()
 {
-	glDisable(GL_LIGHTING);
-
 #ifdef USE_GL_NORMAL_LIGHTING
+	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHT1);
 	glDisable(GL_COLOR_MATERIAL);
@@ -19,9 +18,8 @@ void Lighting::turnOff()
 
 void Lighting::turnOn()
 {
-	glEnable(GL_LIGHTING);
-
 #ifdef USE_GL_NORMAL_LIGHTING
+	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
 	glEnable(GL_COLOR_MATERIAL);
@@ -56,5 +54,5 @@ float *Lighting::getBuffer(float a, float b, float c, float d)
 	lb[1] = b;
 	lb[2] = c;
 	lb[3] = d;
-	return lb.data();
+	return (float*)&lb;
 }

@@ -5,7 +5,7 @@
 class Lighting
 {
 private:
-	static std::vector<float> lb;
+	static float lb[16];
 
 public:
 	static void turnOff();

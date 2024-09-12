@@ -102,6 +102,12 @@ Texture AppPlatform_iOS::loadTexture(const std::string& path, bool b)
 	return out;
 }
 
+bool AppPlatform_iOS::doesTextureExist(const std::string& path) const
+{
+    // check if asset could be found in bundle's resources
+    return _getAssetPath(path) != nullptr;
+}
+
 bool AppPlatform_iOS::shiftPressed()
 {
 	return m_bShiftPressed[0] || m_bShiftPressed[1];
@@ -146,7 +152,7 @@ bool AppPlatform_iOS::hasFileSystemAccess()
 	return true;
 }
 
-std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
+NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
 {
 	size_t dotPos = path.rfind(".", -1, 1);
 	size_t slashPos = path.rfind("/", -1, 1);
@@ -162,8 +168,23 @@ std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 	{
 		fileName = path;
 	}
+    
+    return [[NSBundle mainBundle]
+                pathForResource:[NSString stringWithUTF8String:fileName.c_str()]
+                ofType:[NSString stringWithUTF8String:fileExtension.c_str()]];
+}
 
-	return [[[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:fileName.c_str()] ofType:[NSString stringWithUTF8String:fileExtension.c_str()]] UTF8String];
+std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
+{
+    NSString* assetPath = _getAssetPath(path);
+    if (assetPath == nullptr)
+    {
+        // asset couldn't be found in bundle's resources.
+        // fallback to the desired path so our error message is clear.
+        return path;
+    }
+    
+    return [assetPath UTF8String];
 }
 
 std::string AppPlatform_iOS::getPatchData()

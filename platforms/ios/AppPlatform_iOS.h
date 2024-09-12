@@ -20,6 +20,9 @@
 
 class AppPlatform_iOS : public AppPlatform
 {
+private:
+    NSString* _getAssetPath(const std::string &path) const;
+    
 public:
 	AppPlatform_iOS(minecraftpeViewController *viewController);
 	~AppPlatform_iOS();
@@ -30,6 +33,7 @@ public:
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool b = false) override;
+    bool doesTextureExist(const std::string& path) const override;
 	int getUserInputStatus() override;
 	bool isTouchscreen() const override;
 	std::string getAssetPath(const std::string &path) const override;

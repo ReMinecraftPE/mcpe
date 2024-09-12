@@ -181,11 +181,6 @@ NSThread *G_drawFrameThread = nil;
     animationFrameInterval = 1;
     self.displayLink = nil;
     
-	// disable this if your background panorama images aren't being bundled
-	Screen::setIsMenuPanoramaAvailable(true);
-	// disable this if your environment/clouds.png isn't being bundled
-	LevelRenderer::setAreCloudsAvailable(true);
-    
     AppPlatform_iOS *platform = new AppPlatform_iOS(self);
     self->_platform = platform;
     
