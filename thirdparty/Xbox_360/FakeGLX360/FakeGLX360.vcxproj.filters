@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="gldx9texture.cpp" />
+    <ClCompile Include="gl_colors.cpp" />
+    <ClCompile Include="gl_draw.cpp" />
+    <ClCompile Include="gl_main.cpp" />
+    <ClCompile Include="gl_matrices.cpp" />
+    <ClCompile Include="gl_shader_manager.cpp" />
+    <ClCompile Include="gl_states.cpp" />
+    <ClCompile Include="gl_texenv.cpp" />
+    <ClCompile Include="gl_textures.cpp" />
+    <ClCompile Include="gl_vertices.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fakeglx360.h" />
+    <ClInclude Include="gl_main.h" />
+    <ClInclude Include="gl_shader_manager.h" />
+    <ClInclude Include="gl_xenos.h" />
+  </ItemGroup>
+</Project>

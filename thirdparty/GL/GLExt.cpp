@@ -19,6 +19,7 @@ typedef BOOL(WINAPI* PFNWGLSWAPINTERVALEXTPROC) (int interval);
 #endif
 #endif
 
+#define USE_GL_VBO_EMULATION 1
 // USE_HARDWARE_GL_BUFFERS enables VBOs to be used using their OpenGL interfaces.
 // Disabling it simulates VBO functionality using display lists, which is slower.
 #ifndef USE_GL_VBO_EMULATION
@@ -62,7 +63,7 @@ void xglInit()
 #endif
 #endif
 
-#ifndef USE_OPENGL_2
+#if !defined(USE_OPENGL_2) && !defined(__XBOX_360__)
 	p_wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
 #endif
 
@@ -321,8 +322,9 @@ void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* poin
 
 void xglBindBuffer(GLenum target, GLuint bufferID)
 {
+#ifndef __XBOX_360__
 	xglAssert(target == GL_ARRAY_BUFFER);
-
+#endif
 	GLBufferMap::iterator iter = g_GLBuffers.find(bufferID);
 	if (iter == g_GLBuffers.end())
 		return;
@@ -332,7 +334,9 @@ void xglBindBuffer(GLenum target, GLuint bufferID)
 
 void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage)
 {
+#ifndef __XBOX_360__
 	xglAssert(target == GL_ARRAY_BUFFER);
+#endif
 	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
 
 	GLBuffer* pBuf = g_pCurrentlyBoundGLBuffer;

@@ -1,6 +1,11 @@
 #include <iostream>
 #include <stdarg.h>
+
+#ifdef _XBOX
+#include <xtl.h>
+#else
 #include <windows.h>
+#endif
 
 #include "LoggerWin32.hpp"
 #include "common/Util.hpp"

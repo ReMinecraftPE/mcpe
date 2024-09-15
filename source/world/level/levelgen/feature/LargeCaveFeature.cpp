@@ -172,7 +172,7 @@ void LargeCaveFeature::addTunnel(int x, int z, TileID* tiles, float rx, float ry
                             {
                                 for (int n = v48 - 1; n >= v49; --n)
                                 {
-                                    float v35 = ((float(n) + 0.5) - ry) / yRad;
+                                    float v35 = ((float(n) + 0.5f) - ry) / yRad;
                                     if (v35 > -0.7f
                                         && v40 * v40 + v35 * v35 + v38 * v38 < 1.0f)
                                     {

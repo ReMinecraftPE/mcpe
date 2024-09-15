@@ -51,22 +51,29 @@
 		#ifdef __APPLE__
 			#include <OpenGL/gl.h>
 			#include <OpenGL/glu.h>
+		#elif defined(__XBOX_360__)
+			/* GL types for handling large vertex buffer objects */
+			typedef ptrdiff_t GLintptr;
+			typedef ptrdiff_t GLsizeiptr;
+			#include <fakeglx360.h>
 		#else
 			#include <GL/gl.h>
 			#include <GL/glu.h>
 			#include <GL/glext.h> // it'll include from a different dir, namely thirdparty/GL/glext.h
 		#endif
 
-		#ifdef _WIN32
+		#if defined(_WIN32) && !defined(__XBOX_360__)
 			#pragma comment(lib, "opengl32.lib")
 			#pragma comment(lib, "glu32.lib")
+		#elif defined(__XBOX_360__)
+			#pragma comment(lib "..\..\..\thirdparty\Xbox_360\FakeGLX360\Release\FakeGLX360.lib"
 		#endif
 	#endif
 
 	// use our macro for glOrtho
 #endif
 
-#if defined(USE_GLES) || defined(USE_SDL)
+#if defined(USE_GLES) || defined(USE_SDL) || defined(__XBOX_360__)
 	// https://cgit.freedesktop.org/mesa/glu/tree/src/libutil/project.c
 	static inline void __gluMakeIdentityf(GLfloat m[16]) {
 		m[0 + 4 * 0] = 1; m[0 + 4 * 1] = 0; m[0 + 4 * 2] = 0; m[0 + 4 * 3] = 0;

@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Minecraft", "projects\Minecraft.vcxproj", "{5871555D-341B-400D-B446-DF4868AAF7F6}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FakeGLX360", "..\..\thirdparty\Xbox_360\FakeGLX360\FakeGLX360.vcxproj", "{989535A1-03B0-4B46-B44C-A28F98261147}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FakeGLX360", "FakeGLX360.vcxproj", "{989535A1-03B0-4B46-B44C-A28F98261147}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +13,6 @@ Global
 		Release|Xbox 360 = Release|Xbox 360
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.CodeAnalysis|Xbox 360.ActiveCfg = CodeAnalysis|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.CodeAnalysis|Xbox 360.Build.0 = CodeAnalysis|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Profile_FastCap|Xbox 360.ActiveCfg = Profile_FastCap|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Profile_FastCap|Xbox 360.Build.0 = Profile_FastCap|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Profile|Xbox 360.ActiveCfg = Profile|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Profile|Xbox 360.Build.0 = Profile|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Release_LTCG|Xbox 360.ActiveCfg = Release_LTCG|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Release_LTCG|Xbox 360.Build.0 = Release_LTCG|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
-		{5871555D-341B-400D-B446-DF4868AAF7F6}.Release|Xbox 360.Build.0 = Release|Xbox 360
 		{989535A1-03B0-4B46-B44C-A28F98261147}.CodeAnalysis|Xbox 360.ActiveCfg = CodeAnalysis|Xbox 360
 		{989535A1-03B0-4B46-B44C-A28F98261147}.CodeAnalysis|Xbox 360.Build.0 = CodeAnalysis|Xbox 360
 		{989535A1-03B0-4B46-B44C-A28F98261147}.CodeAnalysis|Xbox 360.Deploy.0 = CodeAnalysis|Xbox 360
