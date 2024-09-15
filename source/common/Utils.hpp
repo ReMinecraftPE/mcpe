@@ -40,8 +40,6 @@
 #include <WinSock2.h>
 #include <Windows.h>
 #include <WS2tcpip.h>
-#include <direct.h>
-#include <io.h>
 
 #elif defined(_XBOX)
 
@@ -49,6 +47,9 @@
 #include <winsockx.h>
 
 #endif
+
+#include <direct.h>
+#include <io.h>
 
 // XPL means "Cross PLatform"
 #define XPL_ACCESS _access

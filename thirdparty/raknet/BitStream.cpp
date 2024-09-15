@@ -31,7 +31,7 @@
 #include "WindowsIncludes.h"
 #include <memory.h>
 #include <cmath>
-#include <float.h>
+#include <cfloat>
 
 
 

@@ -21,7 +21,7 @@ class LevelChunk;
 
 // RakNet requires this to be cast to an "unsigned char" before being written to the BitStream
 enum ePacketType
-#ifndef USE_OLD_CPP
+#if defined(__XBOX_360__) || !defined(USE_OLD_CPP)
 : uint8_t // this is compiled as a 32-bit integer in C++03 and earlier, and we obviously CANNOT afford a 24-bit inconsitency.
 // TODO: WritePacketType function that casts this down to a uint8_t / an unsigned 8-bit integer?
 #endif
