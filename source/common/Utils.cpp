@@ -355,6 +355,8 @@ void DisableOpenGL(HWND hwnd, HDC hDC, HGLRC hRC)
 	ReleaseDC(hwnd, hDC);
 }
 
+#endif
+
 void sleepMs(int ms)
 {
 #ifdef _WIN32
@@ -363,8 +365,6 @@ void sleepMs(int ms)
 	usleep(1000 * ms);
 #endif
 }
-
-#endif
 
 // zlib stuff
 uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize)

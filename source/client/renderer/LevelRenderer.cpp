@@ -679,246 +679,117 @@ void LevelRenderer::tick()
 	m_ticksSinceStart++;
 }
 
-/*
-void LevelRenderer::updateDirtyChunks(Mob* pMob, bool b)
-{
-	// @TODO This updates 16 chunks per frame. Not good.
-
-	int updated = 0;
-	for (int xx = 0; xx < 16 && xx < int(field_88.size()); xx++)
-	{
-		Chunk* pChk = field_88[xx];
-		pChk->rebuild();
-		pChk->setClean();
-		updated++;
-	}
-
-	field_88.erase(field_88.begin(), field_88.begin() + updated);
-}
-*/
-
 typedef std::vector<Chunk*> ChunkVector;
 typedef ChunkVector::iterator ChunkVectorIterator;
 
 bool LevelRenderer::updateDirtyChunks(Mob* pMob, bool b)
 {
-	// @TODO: untangle this thing
-
-	int v3; // r4
-	ChunkVectorIterator field_88_Beg; // r3
-	size_t size; // r9
-	int v8; // r11
-	Chunk* v9; // r0
-	ChunkVector* xvec; // r5
-	int v11; // r7
-	ChunkVectorIterator v12; // r1
-	int v13; // r7
-	Chunk* v14; // r1
-	bool v15; // r0
-	int v16; // r3
-	int v17; // r7
-	int v18; // r2
-	ChunkVectorIterator v19; // r1
-	ChunkVectorIterator v20; // r0
-	size_t v21; // r8
-	size_t v22; // r4
-	ChunkVector* v23; // r10
-	size_t v24; // r8
-	Chunk* v25; // r5
-	int v26; // r4
-	int v27; // r8
-	Chunk* v28; // r5
-	bool v29; // r3
-	ChunkVectorIterator v31; // r1
-	size_t v32; // r5
-	int v33; // r0
-	int v34; // r3
-	Chunk* v35; // r2
-	Chunk** v38; // r3
-	Chunk* v39; // r2
-	ChunkVector* v40; // r0
-	Chunk* v42[3]; // [sp+1Ch] [bp+0h] BYREF
-	Chunk* a3; // [sp+28h] [bp+Ch] BYREF
-	Entity* pMob_1; // [sp+2Ch] [bp+10h] BYREF
-
-	v3 = 0;
-	pMob_1 = pMob;
+	constexpr int C_MAX = 3;
 	DirtyChunkSorter dcs(pMob);
-	memset(v42, 0, sizeof v42);
-	field_88_Beg = this->field_88.begin();
-	size = this->field_88.end() - field_88_Beg;
-	if (size <= 0)
-	{
-		v8 = 0;
-		goto LABEL_28;
-	}
-	v8 = 0;
-	v9 = *field_88_Beg;
-	xvec = 0;
-	v11 = 0;
-	a3 = *field_88_Beg;
-	if (!b)
-		goto LABEL_11;
-	while (1)
-	{
-		if (!v9->m_bVisible)
-			goto LABEL_9;
-	LABEL_5:
-		if (!xvec)
-		{
-			++v8;
-			v40 = new ChunkVector;
-			v12 = v40->end();
-			xvec = v40;
-		LABEL_55:
-			xvec->insert(v12, a3);
-			goto LABEL_8;
-		}
-		v12 = xvec->end();
-		++v8;
-		if (true) // (v12 == xvec->capacity)
-			goto LABEL_55;
-		xvec->insert(v12, a3);
-	LABEL_8:
-		field_88[v11] = 0;
-	LABEL_9:
+	Chunk* pChunks[C_MAX] = { nullptr };
+	ChunkVector* pVec = nullptr;
 
-		if (++v3 == size)
-			break;
-		while (1)
+	int nr1 = 0;
+	int sz = int(field_88.size());
+	for (int i = 0; i < sz; i++)
+	{
+		Chunk* pChunk = field_88[i];
+		if (!b)
 		{
-			v11 = v3;
-			v9 = field_88[v3];
-			a3 = v9;
-			if (b)
-				break;
-		LABEL_11:
-			if (v9->distanceToSqr(pMob) <= 1024.0f)
-				goto LABEL_5;
-			v13 = b;
-			while (1)
+			if (pChunk->distanceToSqr(pMob) > 1024.0f)
 			{
-				v14 = v42[v13];
-				if (v14)
+				int j;
+				// find place to insert this chunk within the pChunks array
+				for (j = 0; j < C_MAX; j++)
 				{
-					v15 = dcs(v14, a3);
-					v16 = v13;
-					if (!v15)
+					if (pChunks[j] && !dcs(pChunks[j], pChunk))
 						break;
 				}
-				if (++v13 == 3)
-				{
-					v17 = 2;
-					v18 = 1;
-					v16 = 3;
-					goto LABEL_51;
+				// insert it
+				if (--j <= 0)
+					continue;
+				
+				for (int k = j; --k != 0;) {
+					pChunks[k - 1] = pChunks[k];
 				}
-			}
-			v17 = v13 - 1;
-			if (v17 <= 0)
-				goto LABEL_9;
-			v18 = v17 - 1;
-			if (v17 == 1)
-			{
-				v42[1] = a3;
-				goto LABEL_18;
-			}
-		LABEL_51:
-			v38 = &v42[v16];
-			v39 = v42[v18];
-			do
-			{
-				*(v38 - 3) = v39;
-				--v38;
-			} while (v38 != &v42[2]);
-			v42[v17] = a3;
-		LABEL_18:
-			if (++v3 == size)
-				goto LABEL_19;
-		}
-	}
-LABEL_19:
-	if (xvec)
-	{
-		v19 = xvec->end();
-		v20 = xvec->begin();
-		v21 = v19 - xvec->begin();
-		if (v21 > 1)
-		{
-			std::sort(v20, v19, dcs);
-			v20 = xvec->begin();
-			v21 = xvec->end() - xvec->begin();
-		}
-		v22 = v21 - 1;
-		if ((int)(v21 - 1) >= 0)
-		{
-			v23 = xvec;
-			v24 = v21 - 1;// v21 + 0x3FFFFFFF;
-			while (1)
-			{
-				v25 = v20[v24--];
-				v25->rebuild();
-				v25->setClean();
-				if ((--v22 & 0x80000000) != 0)
-					break;
-				v20 = v23->begin();
-			}
-			xvec = v23;
-		}
 
-		delete xvec;
-	}
-LABEL_28:
-	v26 = 2;
-	v27 = 0;
-	while (2)
-	{
-		v28 = v42[v26];
-		if (!v28)
+				pChunks[j] = pChunk;
+				continue;
+			}
+		}
+		else if (!pChunk->m_bVisible)
 		{
-		LABEL_33:
-			if (v26-- == 0)
-				goto LABEL_34;
 			continue;
 		}
-		break;
+
+		if (!pVec)
+			pVec = new ChunkVector;
+
+		nr1++;
+		pVec->push_back(pChunk);
+		field_88[i] = nullptr;
 	}
-	v29 = v28->m_bVisible;
-	if (v28->m_bVisible || v26 == 2)
+
+	if (pVec)
 	{
-		++v27;
-		v42[v26]->rebuild();
-		v28->setClean();
-		goto LABEL_33;
+		if (pVec->size() > 1)
+			std::sort(pVec->begin(), pVec->end(), dcs);
+
+		for (int i = int(pVec->size()) - 1; i >= 0; i--)
+		{
+			(*pVec)[i]->rebuild();
+			(*pVec)[i]->setClean();
+		}
+
+		SAFE_DELETE(pVec);
 	}
-	v42[v26] = (Chunk*)v29;
-	v42[0] = (Chunk*)v29;
-LABEL_34:
-	v31 = this->field_88.begin();
-	v32 = this->field_88.end() - v31;
-	if (v32)
+
+	int nr2 = 0;
+	for (int m = C_MAX - 1; m >= 0; m--)
 	{
-		v33 = 0;
-		v34 = 0;
-		while (1)
+		if (!pChunks[m])
+			continue;
+
+		if (!pChunks[m]->m_bVisible && m != C_MAX - 1)
 		{
-			v35 = v31[v34];
-			if (v35 && v42[0] != v35 && v42[1] != v35 && v42[2] != v35)
-			{
-				if (v33 != v34)
-					v31[v33] = v35;
-				++v33;
-			}
-			if (++v34 == v32)
-				break;
-			v31 = this->field_88.begin();
+			pChunks[m] = nullptr;
+			pChunks[0] = nullptr;
+			break;
 		}
-		if (v34 > v33)
-		{
-			field_88.resize(v33);
-		}
+
+		pChunks[m]->rebuild();
+		pChunks[m]->setClean();
+		nr2++;
 	}
-	return v27 + v8 == size;
+
+	int nr3 = 0;
+	int nr4 = 0;
+	for (; nr4 < int(field_88.size()); nr4++)
+	{
+		Chunk* pChunk = field_88[nr4];
+		if (!pChunk)
+			continue;
+
+		bool flag = false;
+		for (int j = 0; j < C_MAX; j++)
+		{
+			if (pChunk == pChunks[j])
+				flag = true;
+		}
+
+		if (flag)
+			continue;
+
+		if (nr3 != nr4)
+			field_88[nr3] = pChunk;
+
+		nr3++;
+	}
+
+	if (nr4 > nr3)
+		field_88.erase(field_88.begin() + nr3, field_88.end());
+
+	return nr1 + nr2 == sz;
 }
 
 void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void* vp, float f)

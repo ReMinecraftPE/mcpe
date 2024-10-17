@@ -33,13 +33,17 @@ public:
 
 	void init(Font* pFont);
 	void setEnabled(bool bEnabled);
-	void keyPressed(Minecraft*, int key);
-	void keyboardNewChar(int chr);
+	void keyPressed(int key);
+	void charPressed(int chr);
 	void render();
 	void tick();
 	void setFocused(bool b);
 	void onClick(int x, int y);
 	bool clicked(int x, int y);
+	std::string getText();
+	void setText(std::string text);
+	bool isFocused();
+	void setMaxLength(int max_length);
 
 	// From TextBox in 0.7.0
 	int getKey() const { return m_ID; }
@@ -47,6 +51,11 @@ public:
 	void setText(const std::string& text) { if (text != m_text) m_text = text; }
 
 public:
+	char guessCharFromKey(int key);
+	std::string getRenderedText(int scroll_pos, std::string text);
+	void recalculateScroll();
+
+	int m_ID;
 	int m_xPos;
 	int m_yPos;
 	int m_width;
@@ -59,6 +68,8 @@ public:
 	int m_lastFlashed;
 	Font* m_pFont;
 	Screen* m_pParent;
+	int m_maxLength;
+	int m_scrollPos;
 };
 
 #endif
