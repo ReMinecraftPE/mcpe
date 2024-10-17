@@ -41,14 +41,13 @@ public:
 	void onClick(int x, int y);
 	bool clicked(int x, int y);
 	std::string getText();
-	void setText(std::string text);
+	void setText(const std::string& text);
 	bool isFocused();
 	void setMaxLength(int max_length);
 
 	// From TextBox in 0.7.0
 	int getKey() const { return m_ID; }
 	std::string getText() const { return m_text; }
-	void setText(const std::string& text) { if (text != m_text) m_text = text; }
 
 public:
 	char guessCharFromKey(int key);
