@@ -55,7 +55,6 @@ public:
 	std::string getRenderedText(int scroll_pos, std::string text);
 	void recalculateScroll();
 
-	int m_ID;
 	int m_xPos;
 	int m_yPos;
 	int m_width;
