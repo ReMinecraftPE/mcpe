@@ -83,7 +83,7 @@ void Screen::keyboardNewChar(char chr)
 	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
 		TextInputBox* textInput = m_textInputs[i];
-		textInput->keyboardNewChar(chr);
+		textInput->charPressed(chr);
 	}
 }
 
