@@ -460,9 +460,9 @@ std::string TextInputBox::getText()
 	return m_text;
 }
 
-void TextInputBox::setText(std::string str)
+void TextInputBox::setText(const std::string& text)
 {
-	m_text = str;
+	m_text = text;
 	m_insertHead = int(m_text.size());
 }
 
