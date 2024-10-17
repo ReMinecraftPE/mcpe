@@ -298,7 +298,7 @@ void TextInputBox::onClick(int x, int y)
 	setFocused(clicked(x, y));
 }
 
-void TextInputBox::keyboardNewChar(int k)
+void TextInputBox::charPressed(int k)
 {
 	if (!m_bFocused)
 		return;
