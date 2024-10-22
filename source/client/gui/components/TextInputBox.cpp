@@ -329,7 +329,8 @@ std::string TextInputBox::getRenderedText(int scroll_pos, std::string text)
 	int max_width = m_width - (PADDING * 2);
 	while (m_pFont->width(rendered_text) > max_width)
 	{
-		rendered_text.pop_back();
+		//rendered_text.pop_back(); // breaks C++03 compatibility
+		rendered_text.erase(rendered_text.length()-2, 1);
 	}
 	return rendered_text;
 }
