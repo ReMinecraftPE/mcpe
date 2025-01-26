@@ -172,7 +172,7 @@ void ItemInHandRenderer::render(float f)
 	glRotatef(pLP->m_rotPrev.y + (pLP->m_rot.y - pLP->m_rotPrev.y) * f, 1.0f, 0.0f, 0.0f);
 	glRotatef(pLP->m_rotPrev.x + (pLP->m_rot.x - pLP->m_rotPrev.x) * f, 0.0f, 1.0f, 0.0f);
 	Lighting::turnOn();
-	glPopMatrix();//huh?
+	glPopMatrix();
 
 	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
 	{
@@ -185,7 +185,13 @@ void ItemInHandRenderer::render(float f)
 	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
 	glColor4f(fBright, fBright, fBright, 1.0f);
 
-	if (m_selectedItem.m_itemID <= 0)
+	ItemInstance* pItem = &m_selectedItem;
+	/*if (pLP->m_fishing != null) {
+		pItem = new ItemInstance(Item::stick);
+	}*/
+
+
+	if (pItem->m_itemID <= 0)
 	{
 		glPushMatrix();
 		float fAnim = pLP->getAttackAnim(f);
@@ -209,7 +215,7 @@ void ItemInHandRenderer::render(float f)
 		glScalef(1.0f, 1.0f, 1.0f);
 		glTranslatef(5.6f, 0.0f, 0.0f);
 
-		HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(m_pMinecraft->m_pLocalPlayer);
+		HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(pLP);
 		glScalef(1.0f, 1.0f, 1.0f);
 		pRenderer->renderHand();
 
@@ -236,14 +242,13 @@ void ItemInHandRenderer::render(float f)
 		glRotatef(sin1 * -80.0f, 1.0f, 0.0f, 0.0f);
 		glScalef(0.4f, 0.4f, 0.4f);
 
-		if (m_selectedItem.getItem()->isMirroredArt())
+		if (pItem->getItem()->isMirroredArt())
 			glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
 
-		renderItem(&m_selectedItem);
+		renderItem(pItem);
 		glPopMatrix();
 	}
 
-	glPopMatrix();
 	glDisable(GL_RESCALE_NORMAL);
 	Lighting::turnOff();
 }
