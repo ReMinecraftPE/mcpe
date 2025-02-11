@@ -35,25 +35,10 @@ class SynchedEntityData
 	{
 	public:
 		template<typename T>
-		static DataType typeFor() {};
+		static DataType typeFor();
 
 		template<typename T>
-		static T defaultValueFor() {};
-
-#define MAP(cType, typeEnum, value) template<> static DataType typeFor<cType>() { return typeEnum; } \
-		template<> static cType defaultValueFor<cType>() { return value; }
-
-		MAP(int8_t,       TYPE_INT8,         0)
-		MAP(int16_t,      TYPE_INT16,        0)
-		MAP(int32_t,      TYPE_INT32,        0)
-		MAP(float_t,      TYPE_FLOAT,        0.0f)
-		MAP(std::string,  TYPE_STRING,       Util::EMPTY_STRING)
-		MAP(ItemInstance, TYPE_ITEMINSTANCE, ItemInstance())
-		MAP(TilePos,      TYPE_TILEPOS,      TilePos())
-		MAP(int64_t,      TYPE_INT64,        0)
-		MAP(Vec3,         TYPE_VEC3,         Vec3())
-
-#undef MAP
+		static T defaultValueFor();
 	};
 
 	class DataItem
