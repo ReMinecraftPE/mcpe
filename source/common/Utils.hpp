@@ -555,7 +555,7 @@ enum eRenderLayer
 typedef uint8_t TileID;
 // TODO: "FullTile" struct with TileID and auxvalue?
 
-struct Pos
+/*struct Pos
 {
 	int x, y, z;
 	Pos()
@@ -565,7 +565,7 @@ struct Pos
 		z = 0;
 	}
 	Pos(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
-};
+};*/
 
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)
 #define SAFE_DELETE_ARRAY(ptr) do { if (ptr) delete[] ptr; } while (0)

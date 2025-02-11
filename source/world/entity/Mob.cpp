@@ -148,6 +148,9 @@ void Mob::tick()
 
 	field_B50 += (x3 - field_B50) * 0.3f;
 	
+
+	// Similar to rotlerp
+	// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
 	x5 = x1 - field_E8_2;
 	while (x5 < -180.0f)
 		x5 += 360.0f;
@@ -159,6 +162,9 @@ void Mob::tick()
 
 	x6 = x4 - field_E8_new;
 
+
+	// Similar to rotlerp
+	// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
 	while (x6 < -180.0f)
 		x6 += 360.0f;
 	
@@ -192,7 +198,9 @@ void Mob::tick()
 LABEL_31:
 	if (angleOOB)
 		x2 = -x2;
-	
+
+	// Similar to rotlerp
+	// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
 	while (x4 - m_rotPrev.x < -180.0f)
 		m_rotPrev.x -= 360.0f;
 
@@ -246,7 +254,7 @@ void Mob::baseTick()
 	}
 	else
 	{
-		field_BC = field_D0;
+		field_BC = m_airSupply;
 	}
 
 	field_118 = field_11C;
@@ -756,11 +764,6 @@ void Mob::updateAi()
 	{
 		field_B0C = m_random.nextFloat() < 0.8f;
 	}
-}
-
-void Mob::defineSynchedData()
-{
-
 }
 
 void Mob::checkDespawn(Mob* nearestMob)

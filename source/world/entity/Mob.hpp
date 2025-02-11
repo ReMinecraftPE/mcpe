@@ -77,7 +77,6 @@ public:
 	virtual std::string getHurtSound() const { return "random.hurt"; }
 	virtual std::string getDeathSound() const { return "random.hurt"; }
 	virtual float getWalkingSpeedModifier() const { return 0.7f; }
-	virtual void defineSynchedData();
 	virtual void checkDespawn(Mob* nearestMob);
 	virtual void checkDespawn();
 	virtual void swing();

@@ -59,7 +59,8 @@ void MobRenderer::scale(Mob*, float)
 void MobRenderer::setupPosition(Entity* entity, float x, float y, float z)
 {
 	// @HACK: I eye-balled a corrective offset of 1/13, since I still can't figure out why all mobs are floating - Brent
-	glTranslatef(x, y - (1.0f / 13.0f), z);
+	// This was due to "0.059375f" being used for scale instead of "0.0625f"
+	glTranslatef(x, y, z);
 }
 
 void MobRenderer::setupRotations(Entity* entity, float x, float y, float z)
@@ -102,7 +103,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	setupPosition(pMob, x, y - pMob->m_heightOffset, z);
 	setupRotations(pMob, fBob, fSmth, f);
 
-	float fScale = 0.0625f;
+	float fScale = 0.0625f; // the scale variable according to b1.2_02
 	glScalef(-1.0f, -1.0f, 1.0f);
 	scale(pMob, f);
 	//glTranslatef(0.0f, -1.5078f, 0.0f);
@@ -118,7 +119,18 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 
 	m_pModel->setBrightness(entity->getBrightness(1.0f));
 	m_pModel->prepareMobModel(pMob, x2, x1, f);
-	m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.059375f);
+	m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // last float here (scale) was set to "0.059375f" for some reason
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (prepareArmor(pMob, i, f))
+		{
+			m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+			glDisable(GL_BLEND);
+			glEnable(GL_ALPHA_TEST);
+		}
+	}
+
 	additionalRendering(pMob, f);
 	
 	float fBright = pMob->getBrightness(f);
@@ -135,17 +147,37 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		if (pMob->field_104 > 0 || pMob->field_110 > 0)
 		{
 			glColor4f(fBright, 0.0f, 0.0f, 0.4f);
-			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.059375f); // was 0.0625f. Why?
+			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // was 0.059375f. Why?
+
+			for (int i = 0; i < 4; i++)
+			{
+				if (prepareArmor(pMob, i, f))
+				{
+					glColor4f(fBright, 0.0f, 0.0f, 0.4f);
+					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+				}
+			}
+
 		}
 		if (GET_ALPHA(iOverlayColor))
 		{
-			glColor4f(
-				float(GET_RED(iOverlayColor)) / 255.0f,
-				float(GET_GREEN(iOverlayColor)) / 255.0f,
-				float(GET_BLUE(iOverlayColor)) / 255.0f,
-				float(GET_ALPHA(iOverlayColor)) / 255.0f);
+			float r = float(GET_RED(iOverlayColor)) / 255.0f;
+			float g = float(GET_GREEN(iOverlayColor)) / 255.0f;
+			float b = float(GET_BLUE(iOverlayColor)) / 255.0f;
+			float aa = float(GET_ALPHA(iOverlayColor)) / 255.0f;
+			glColor4f(r, g, b, aa);
 
-			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, 0.059375f); // same here
+			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
+
+			for (int i = 0; i < 4; i++)
+			{
+				if (prepareArmor(pMob, i, f))
+				{
+					glColor4f(r, g, b, aa);
+					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+				}
+			}
+
 		}
 
 		glDepthFunc(GL_LEQUAL);

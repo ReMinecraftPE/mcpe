@@ -18,7 +18,8 @@ class Model;
 class ModelPart
 {
 public:
-	ModelPart(int, int);
+	ModelPart(int, int, float textureWidth = 64.0f, float textureHeight = 64.0f);
+	ModelPart(Model*, int, int, float textureWidth = 64.0f, float textureHeight = 64.0f);
 	ModelPart(const std::string&);
 	~ModelPart();
 
@@ -43,6 +44,7 @@ public:
 
 private:
 	void _init();
+	void _init(int, int);
 	bool hasDefaultPos() { return m_pos == Vec3::ZERO; }
 	bool hasDefaultRot() { return m_rot == Vec3::ZERO; }
 	void translatePosTo(float scale);

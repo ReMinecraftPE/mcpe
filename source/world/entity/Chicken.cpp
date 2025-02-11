@@ -44,7 +44,7 @@ void Chicken::aiStep()
 	m_flap += m_flapping * 2.0f;
 	if (!m_pLevel->m_bIsMultiplayer && isAlive() && !isBaby() /* && !isChickenJockey()*/ && --m_eggTime <= 0)
 	{
-		m_pLevel->playSound(this, "mob.chickenplop", 1.0F, (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+		m_pLevel->playSound(this, "mob.chickenplop", 1.0f, (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
 		spawnAtLocation(Item::egg->m_itemID, 1);
 		m_eggTime = m_random.nextInt(6000) + 6000;
 	}

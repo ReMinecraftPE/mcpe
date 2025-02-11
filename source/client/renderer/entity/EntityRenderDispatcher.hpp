@@ -15,6 +15,7 @@
 #include "ItemRenderer.hpp"
 #include "FallingTileRenderer.hpp"
 #include "PigRenderer.hpp"
+#include "SheepRenderer.hpp"
 #include "CowRenderer.hpp"
 #include "ChickenRenderer.hpp"
 #include "CreeperRenderer.hpp"
@@ -48,6 +49,7 @@ public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	HumanoidMobRenderer m_HumanoidMobRenderer;
 	PigRenderer m_PigRenderer;
+	SheepRenderer m_SheepRenderer;
 	CowRenderer m_CowRenderer;
 	ChickenRenderer m_ChickenRenderer;
 	TntRenderer m_TntRenderer;

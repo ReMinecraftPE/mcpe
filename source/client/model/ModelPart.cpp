@@ -10,12 +10,15 @@
 
 #define MUL_DEG_TO_RAD (180.0f / float(M_PI))  // formerly known as Cube::c
 
-ModelPart::ModelPart(int a, int b)
+ModelPart::ModelPart(int a, int b, float textureWidth, float textureHeight)
 {
-	m_pModel = nullptr;
-	field_40 = a;
-	field_44 = b;
-	_init();
+	_init(a, b);
+}
+
+ModelPart::ModelPart(Model* model, int a, int b, float textureWidth, float textureHeight)
+{
+	_init(a, b);
+	setModel(model);
 }
 
 ModelPart::ModelPart(const std::string& baseId)
@@ -44,6 +47,14 @@ void ModelPart::_init()
 	field_48 = true;
 	field_49 = false;
 	m_bCompiled = false;
+}
+
+void ModelPart::_init(int a, int b)
+{
+	m_pModel = nullptr;
+	field_40 = a;
+	field_44 = b;
+	_init();
 }
 
 void ModelPart::addChild(ModelPart* pPart)

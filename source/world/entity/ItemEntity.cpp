@@ -120,7 +120,7 @@ void ItemEntity::tick()
 	field_EC++;
 	field_E0++;
 
-	//despawn after 5 minutes
+	// despawn after 5 minutes
 	if (field_E0 >= 6000)
 		remove();
 }

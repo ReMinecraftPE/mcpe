@@ -36,6 +36,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/CreeperRenderer.cpp
     client/renderer/entity/CowRenderer.cpp
     client/renderer/entity/PigRenderer.cpp
+    client/renderer/entity/SheepRenderer.cpp
     client/renderer/entity/ChickenRenderer.cpp
     client/renderer/entity/RocketRenderer.cpp
     client/renderer/RenderList.cpp
@@ -100,6 +101,7 @@ add_library(reminecraftpe-core STATIC
     client/model/ModelPart.cpp
     client/model/QuadrupedModel.cpp
     client/model/PigModel.cpp
+    client/model/SheepModel.cpp
     client/model/HumanoidModel.cpp
     client/model/SpiderModel.cpp
     client/model/ZombieModel.cpp
@@ -188,6 +190,8 @@ add_library(reminecraftpe-core STATIC
 	world/entity/Cow.cpp
 	world/entity/Creeper.cpp
 	world/entity/Pig.cpp
+	world/entity/Sheep.cpp
+	world/entity/SynchedEntityData.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp

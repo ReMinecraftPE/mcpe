@@ -15,12 +15,14 @@
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/ItemInstance.hpp"
+#include "world/entity/SynchedEntityData.hpp"
 #include "EntityType.hpp"
 #include "common/Utils.hpp"
 
 class Level;
 class Player;
 class ItemInstance;
+class ItemEntity;
 
 enum eEntityRenderType
 {
@@ -139,9 +141,9 @@ public:
 	virtual bool hurt(Entity*, int);
 	virtual void animateHurt();
 	virtual float getPickRadius() const { return 0.1f; }
-	virtual void spawnAtLocation(ItemInstance*, float);
-	virtual void spawnAtLocation(int, int);
-	virtual void spawnAtLocation(int, int, float);
+	virtual ItemEntity* spawnAtLocation(ItemInstance*, float);
+	virtual ItemEntity* spawnAtLocation(int, int);
+	virtual ItemEntity* spawnAtLocation(int, int, float);
 	virtual void awardKillScore(Entity* pKilled, int score);
 	virtual void setEquippedSlot(int, int, int);
 	virtual void setRot(const Vec2& rot);
@@ -157,6 +159,10 @@ public:
 	virtual int queryEntityRenderer();
 	virtual int getCreatureBaseType() const { return BASE_NONE; }
 	virtual int getEntityTypeId() const { return ENTITY_TYPE_NONE; }
+	// Removed by Mojang. See https://stackoverflow.com/questions/962132/why-is-a-call-to-a-virtual-member-function-in-the-constructor-a-non-virtual-call
+	//virtual void defineSynchedData();
+
+	const SynchedEntityData& getEntityData() const { return m_entityData; }
 
 	int hashCode() const { return m_EntityID; }
 
@@ -218,9 +224,12 @@ public:
 	int m_flameTime;
 	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
 	float m_distanceFallen;
-	int field_D0;
+	int m_airSupply;
 	uint8_t field_D4;
 	bool field_D5;
 	bool field_D6;
 	int field_D8;
+
+	protected:
+		SynchedEntityData m_entityData;
 };

@@ -38,7 +38,6 @@ public:
 	virtual void aiStep() override;
 	virtual bool isImmobile() const override { return m_health <= 0; }
 	virtual void updateAi() override;
-	virtual void defineSynchedData() override;
 
 	virtual void animateRespawn();
 	virtual void drop(const ItemInstance* pItemInstance, bool b = false);

@@ -18,7 +18,6 @@ class TripodCamera : public Mob
 public:
 	TripodCamera(Level*, Player*, const Vec3& pos);
 
-	void defineSynchedData() override;
 	float getShadowHeightOffs() const override { return 0.0f; }
 	bool interact(Player* player) override;
 	int interactPreventDefault() override;

@@ -38,7 +38,7 @@ public:
 	virtual int getParticleTexture();
 	//TODO: addAdditonalSaveData
 	//TODO: readAdditionalSaveData
-	//TODO: defineSynchedData
+	//TODO: _defineEntityData
 
 	void tick() override;
 

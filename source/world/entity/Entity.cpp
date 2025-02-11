@@ -48,11 +48,12 @@ void Entity::_init()
 	m_flameTime = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
-	field_D0 = 300;
+	m_airSupply = 300;
 	field_D4 = 0;
 	field_D5 = false;
 	field_D6 = true;
 	field_D8 = 1;
+	m_entityData = SynchedEntityData();
 }
 
 Entity::Entity(Level* pLevel)
@@ -62,6 +63,8 @@ Entity::Entity(Level* pLevel)
 	m_pLevel = pLevel;
 	m_EntityID = ++entityCounter;
 	setPos(Vec3::ZERO);
+
+	m_entityData.define<int8_t>(0, 0);
 }
 
 Entity::~Entity()
@@ -876,24 +879,26 @@ void Entity::animateHurt()
 
 }
 
-void Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
+ItemEntity* Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
 {
 	ItemEntity *itemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemInstance);
 	delete(itemInstance);
 	// @TODO: not sure what this does, or is for
 	itemEntity->m_ySlideOffset.x = 10;
 	m_pLevel->addEntity(itemEntity);
+	
+	return itemEntity;
 }
 
-void Entity::spawnAtLocation(int itemID, int amount)
+ItemEntity* Entity::spawnAtLocation(int itemID, int amount)
 {
-	spawnAtLocation(itemID, amount, 0);
+	return spawnAtLocation(itemID, amount, 0);
 }
 
-void Entity::spawnAtLocation(int itemID, int amount, float y)
+ItemEntity* Entity::spawnAtLocation(int itemID, int amount, float y)
 {
 	ItemInstance* itemInstance = new ItemInstance(itemID, amount, 0);
-	spawnAtLocation(itemInstance, y);
+	return spawnAtLocation(itemInstance, y);
 }
 
 void Entity::awardKillScore(Entity* pKilled, int score)

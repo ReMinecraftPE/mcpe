@@ -166,11 +166,6 @@ void Player::updateAi()
 	m_attackAnim = m_swingTime / 8.0f;
 }
 
-void Player::defineSynchedData()
-{
-	Mob::defineSynchedData();
-}
-
 void Player::animateRespawn()
 {
 	

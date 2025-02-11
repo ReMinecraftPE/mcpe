@@ -11,6 +11,7 @@
 #include "../ItemInHandRenderer.hpp"
 
 #include "client/model/PigModel.hpp"
+#include "client/model/SheepModel.hpp"
 #include "client/model/CowModel.hpp"
 #include "client/model/ChickenModel.hpp"
 #include "client/model/CreeperModel.hpp"
@@ -20,7 +21,8 @@ Vec3 EntityRenderDispatcher::off;
 
 EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f),
-	m_PigRenderer(new PigModel(0.0f), 0.7f),
+	m_PigRenderer(new PigModel(0.0f), /*new PigModel(0.5f),*/ 0.7f),
+	m_SheepRenderer(new SheepModel(false), new SheepModel(true), 0.7f),
 	m_CowRenderer(new CowModel, 0.7f),
 	m_ChickenRenderer(new ChickenModel, 0.3f),
 	m_CreeperRenderer(new CreeperModel, 0.5f)
@@ -36,6 +38,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 
 	m_HumanoidMobRenderer.init(this);
 	m_PigRenderer.init(this);
+	m_SheepRenderer.init(this);
 	m_CowRenderer.init(this);
 	m_ChickenRenderer.init(this);
 	m_CreeperRenderer.init(this);
@@ -87,6 +90,8 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 			return &m_CowRenderer;
 		case RENDER_PIG:
 			return &m_PigRenderer;
+		case RENDER_SHEEP:
+			return &m_SheepRenderer;
 		case RENDER_CREEPER:
 			return &m_CreeperRenderer;
 		case RENDER_ROCKET:

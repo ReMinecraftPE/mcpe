@@ -30,11 +30,6 @@ TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(
 	m_ySlideOffset = pos;
 }
 
-void TripodCamera::defineSynchedData()
-{
-
-}
-
 bool TripodCamera::interact(Player* player)
 {
 	// @BUG-ish: No check for owner?

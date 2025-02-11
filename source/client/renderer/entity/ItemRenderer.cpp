@@ -41,7 +41,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 
 	glPushMatrix();
 	float yOffset = Mth::sin((float(pItemEntity->field_E0) + b) / 10.0f + pItemEntity->field_E8);
-	const ItemInstance* pItemInstance = &pItemEntity->m_itemInstance;
+	const ItemInstance* pItemInstance = &(pItemEntity->m_itemInstance);
 
 	int itemsToRender = 1;
 	if (pItemInstance->m_amount > 1)

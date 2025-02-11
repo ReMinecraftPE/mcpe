@@ -485,6 +485,12 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.cpp">
       <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Sheep.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\SynchedEntityData.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -837,6 +843,12 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\Facing.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Sheep.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\SynchedEntityData.hpp">
+      <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -166,6 +166,8 @@
     <ClCompile Include="$(MC_ROOT)\source\world\phys\Vec2.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\TilePos.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\EmptyLevelChunk.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Sheep.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\SynchedEntityData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -285,6 +287,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\phys\Vec2.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\Facing.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\TilePos.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Sheep.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\SynchedEntityData.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@
 #include "Chicken.hpp"
 #include "Cow.hpp"
 #include "Pig.hpp"
-//#include "Sheep.hpp"
+#include "Sheep.hpp"
 //#include "Zombie.hpp"
 #include "Creeper.hpp"
 //#include "Skeleton.hpp"
@@ -12,7 +12,7 @@
 #define ENTS ENT(CHICKEN, Chicken) \
              ENT(COW, Cow) \
              ENT(PIG, Pig) \
-             //ENT(SHEEP, Sheep) \
+             ENT(SHEEP, Sheep) \
              //ENT(ZOMBIE, Zombie) \
              //ENT(CREEPER, Creeper) \
              //ENT(SKELETON, Skeleton) \

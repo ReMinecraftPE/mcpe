@@ -16,6 +16,9 @@
 class Util
 {
 public:
+	static const std::string EMPTY_STRING;
+
+public:
 	static std::string stringTrim(const std::string &, const std::string &, bool, bool);
 	static std::string stringTrim(const std::string &);
 
