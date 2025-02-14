@@ -573,7 +573,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 
 	EntityType entityType = MobFactory::GetEntityTypeFromMobName(entityName);
 	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-	pos.y -= player->m_pPlayer->m_heightOffset + player->m_pPlayer->field_A4;
+	pos.y -= player->m_pPlayer->m_heightOffset + player->m_pPlayer->m_ySlideOffset;
 
 	if (parmsSize >= 4)
 	{

@@ -17,7 +17,7 @@ class LevelSource;
 class Entity;
 
 #define MAX_NODE_COUNT (2048)
-#define FIELD_10038_SIZE (32)
+#define NEIGHBORS_SIZE (32)
 
 typedef std::map <int, Node*> NodeMap;
 
@@ -33,6 +33,8 @@ public:
 	int getNeighbors(Entity*, Node*, const Node*, Node*, float);
 	bool findPath(Path&, Entity*, Node*, Node*, const Node*, float);
 	bool findPath(Path&, Entity*, const Vec3& pos, float);
+	bool findPath(Path&, Entity*, const Entity*, float);
+	bool findPath(Path&, Entity*, const TilePos& tilePos, float);
 
 	void setLevel(LevelSource* pLevel)
 	{
@@ -41,7 +43,7 @@ public:
 
 private:
 	Node* new_Node(const TilePos& pos);
-	bool inlined_0(Path& path, Node* node2);
+	bool reconstructPath(Path& path, Node* node2);
 
 private:
 	LevelSource* m_pLevel;
@@ -50,5 +52,5 @@ private:
 	Node m_nodeReserve[MAX_NODE_COUNT];
 	std::vector<Node*> m_nodeSpillover;
 	int m_nodeCount;
-	Node* field_10038[FIELD_10038_SIZE];
+	Node* m_neighbors[NEIGHBORS_SIZE];
 };

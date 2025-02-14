@@ -25,7 +25,7 @@ BubbleParticle::BubbleParticle(Level* level, const Vec3& pos, const Vec3& dir) :
 
 void BubbleParticle::tick()
 {
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 
 	m_vel.y += 0.002f;
 	move(m_vel);

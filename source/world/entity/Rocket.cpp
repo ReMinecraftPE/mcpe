@@ -19,10 +19,10 @@ Rocket::Rocket(Level* level, const Vec3& pos) : Entity(level)
 	field_34 = 1;
 
 	setSize(0.1f, 1.0f);
-	m_heightOffset = field_8C * 0.5f - 0.25f;
+	m_heightOffset = m_bbHeight * 0.5f - 0.25f;
 
 	setPos(pos);
-	m_ySlideOffset = pos;
+	m_oPos = pos;
 
 	m_vel.y = 1.0f;
 }
@@ -54,7 +54,7 @@ bool Rocket::isPushable() const
 
 void Rocket::tick()
 {
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 
 	m_vel.y *= 0.99f;
 

@@ -26,24 +26,25 @@ void Entity::_init()
 	m_rot = Vec2::ZERO;
 	m_rotPrev = Vec2::ZERO;
 	m_onGround = false;
-	field_7D = false;
+	m_bHorizontalCollision = false;
 	field_7E = false;
 	field_7F = false;
 	m_bHurt = false;
 	field_81 = 1;
 	m_bRemoved = false;
 	m_heightOffset = 0.0f;
-	field_88 = 0.6f;
-	field_8C = 1.8f;
+	m_bbWidth = 0.6f;
+	m_bbHeight = 1.8f;
 	field_90 = 0.0f;
-	field_94 = 0.0f;
-	field_A4 = 0.0f;
+	m_walkDist = 0.0f;
+	m_bMakeStepSound = true;
+	m_ySlideOffset = 0.0f;
 	field_A8 = 0.0f;
-	m_bNoCollision = false;
+	m_bNoPhysics = false;
 	field_B0 = 0.0f;
 	field_B4 = 0;
 	field_B8 = 0;
-	field_BC = 300;
+	m_airCapacity = 300;
 	m_fireTicks = 0;
 	m_flameTime = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
@@ -52,7 +53,7 @@ void Entity::_init()
 	field_D4 = 0;
 	field_D5 = false;
 	field_D6 = true;
-	field_D8 = 1;
+	m_nextStep = 1;
 	m_entityData = SynchedEntityData();
 }
 
@@ -85,15 +86,15 @@ void Entity::setPos(const Vec3& pos)
 {
 	m_pos = pos;
 
-	float halfSize = field_88 / 2;
-	float lowY = m_pos.y - m_heightOffset + field_A4;
+	float halfSize = m_bbWidth / 2;
+	float lowY = m_pos.y - m_heightOffset + m_ySlideOffset;
 
 	m_hitbox = AABB(
 		m_pos.x - halfSize,
 		lowY,
 		m_pos.z - halfSize,
 		m_pos.x + halfSize,
-		lowY + field_8C,
+		lowY + m_bbHeight,
 		m_pos.z + halfSize);
 }
 
@@ -106,7 +107,7 @@ int Entity::move(const Vec3& pos)
 {
 	float x_1 = pos.x, z_1 = pos.z;
 
-	if (m_bNoCollision)
+	if (m_bNoPhysics)
 	{
 		// just move it. Don't perform any kind of collision
 		m_hitbox.min += pos;
@@ -114,7 +115,7 @@ int Entity::move(const Vec3& pos)
 
 		m_pos.x = (m_hitbox.max.x + m_hitbox.min.x) / 2;
 		m_pos.z = (m_hitbox.max.z + m_hitbox.min.z) / 2;
-		m_pos.y = m_hitbox.min.y + m_heightOffset - field_A4;
+		m_pos.y = m_hitbox.min.y + m_heightOffset - m_ySlideOffset;
 
 		return 1300;
 	}
@@ -315,7 +316,7 @@ label_5:
 		goto label_45;
 	}
 
-    if (field_A4 >= 0.05f || (x_2 == x_1 && z_2 == z_1))
+    if (m_ySlideOffset >= 0.05f || (x_2 == x_1 && z_2 == z_1))
 		goto label_44;
 
 	// oh come on, undoing all our work??
@@ -390,7 +391,7 @@ label_5:
 	// if we moved more this time than before?? no clue wtf this is about...
 	if (z_1 * z_1 + x_1 * x_1 < z_3 * z_3 + x_3 * x_3)
 	{
-		field_A4 += 0.5f;
+		m_ySlideOffset += 0.5f;
 		newY = x20;
 	}
 	else
@@ -404,10 +405,10 @@ label_5:
 label_45:
 	m_pos.x = (m_hitbox.min.x + m_hitbox.max.x) / 2;
 	m_pos.z = (m_hitbox.min.z + m_hitbox.max.z) / 2;
-	m_pos.y = m_hitbox.min.y - field_A4 + m_heightOffset;
+	m_pos.y = m_hitbox.min.y - m_ySlideOffset + m_heightOffset;
 
-	field_7D = x_2 != x_3 || z_2 != z_3;
-	field_7F = field_7D || newY != pos.y;
+	m_bHorizontalCollision = x_2 != x_3 || z_2 != z_3;
+	field_7F = m_bHorizontalCollision || newY != pos.y;
 	m_onGround = pos.y < 0.0f && newY != pos.y;
 	field_7E = newY != pos.y;
 
@@ -417,10 +418,10 @@ label_45:
 	if (newY != pos.y)  m_vel.y = 0.0;
 	if (z_2 != z_3) m_vel.z = 0.0;
 
-	if (!b5)
+	if (m_bMakeStepSound && !b5) // !(m_onGround && isSneaking())
 	{
 		float diffX = (m_pos.x - oldX), diffZ = (m_pos.z - oldZ);
-		field_94 += Mth::sqrt(diffZ * diffZ + diffX * diffX) * 0.6f;
+		m_walkDist += Mth::sqrt(diffZ * diffZ + diffX * diffX) * 0.6f;
 
 		TilePos tilePos(Mth::floor(m_pos.x),
 						Mth::floor(m_pos.y - 0.2f - m_heightOffset),
@@ -428,15 +429,15 @@ label_45:
 
 		TileID tileID = m_pLevel->getTile(tilePos);
 
-		if (tileID > 0 && field_94 > float(field_D8))
+		if (tileID > 0 && m_walkDist > float(m_nextStep))
 		{
-			++field_D8;
+			++m_nextStep;
 			bool bPlaySound = true;
 
 			const Tile::SoundType *sound = Tile::tiles[tileID]->m_pSound;
-			if (!isPlayer()) // no idea why this wasn't already a thing
-				bPlaySound = false;
-			else if (m_pLevel->getTile(tilePos.above()) == Tile::topSnow->m_ID)
+			/*if (!isPlayer()) // no idea why this wasn't already a thing
+				bPlaySound = false;*/
+			if (m_pLevel->getTile(tilePos.above()) == Tile::topSnow->m_ID)
 				sound = Tile::topSnow->m_pSound;
 			else if (Tile::tiles[tileID]->m_pMaterial->isLiquid())
 				bPlaySound = false;
@@ -466,35 +467,30 @@ label_45:
 				}
 	}
 
-	field_A4 *= 0.4f;
+	m_ySlideOffset *= 0.4f;
 
 	bool bIsInWater = isInWater();
 
 	if (m_pLevel->containsFireTile(m_hitbox))
 	{
-		burn(true);
+		burn(1);
 
-		if (bIsInWater)
-		{
-		label_76:
-			if (m_fireTicks > 0)
-				m_fireTicks = -m_flameTime;
-
-			return 1300;
+		if (!bIsInWater) {
+			if (m_fireTicks == 0)
+				m_fireTicks = 300;
+			else
+				m_fireTicks++;
 		}
-
-		if (m_fireTicks == 0)
-			m_fireTicks = 300;
-		else
-			m_fireTicks++;
 	}
-	else
+	else if (m_fireTicks <= 0)
 	{
-		if (m_fireTicks <= 0)
-			m_fireTicks = -m_flameTime;
+		m_fireTicks = -m_flameTime;
+	}
 
-		if (bIsInWater)
-			goto label_76;
+	if (bIsInWater && m_fireTicks > 0)
+	{
+		m_pLevel->playSound(this, "random.fizz", 0.7f, 1.6f + (sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.4f);
+		m_fireTicks = -m_flameTime;
 	}
 
 	return 1300;
@@ -506,7 +502,7 @@ void Entity::moveTo(const Vec3& pos, const Vec2& rot)
 	newPos.y += m_heightOffset;
 
 	setPos(newPos);
-	m_ySlideOffset = newPos;
+	m_oPos = newPos;
 	m_posPrev = newPos;
 
 	m_rot = rot;
@@ -514,13 +510,13 @@ void Entity::moveTo(const Vec3& pos, const Vec2& rot)
 
 void Entity::absMoveTo(const Vec3& pos, const Vec2& rot)
 {
-	field_A4 = 0.0f;
+	m_ySlideOffset = 0.0f;
 
 	m_rotPrev = rot;
 	setRot(rot);
 
 	setPos(pos);
-	m_ySlideOffset = pos;
+	m_oPos = pos;
 
 	// This looks like a rebounding check for the angle
 	float dyRot = (m_rotPrev.y - m_rot.y);
@@ -582,7 +578,7 @@ void Entity::turn(const Vec2& rot)
 void Entity::reset()
 {
 	// TODO is this it
-	m_posPrev = m_ySlideOffset = m_pos;
+	m_posPrev = m_oPos = m_pos;
 	m_rotPrev = m_rot;
 	m_bRemoved = false;
 	m_distanceFallen = 0.0f;
@@ -613,8 +609,8 @@ void Entity::baseTick()
 {
 	//@TODO: untangle the gotos
 
-	field_90 = field_94;
-	m_ySlideOffset = m_pos;
+	field_90 = m_walkDist;
+	m_oPos = m_pos;
 	field_B4++;
 	m_rotPrev = m_rot;
 	if (isInWater())
@@ -629,14 +625,14 @@ void Entity::baseTick()
 
 			float f1 = floorf(m_hitbox.min.y);
 
-			for (int i = 0; float(i) < field_88 * 20.0f + 1.0f; i++)
+			for (int i = 0; float(i) < m_bbWidth * 20.0f + 1.0f; i++)
 			{
 				m_pLevel->addParticle(
 					"bubble",
 					Vec3(
-						m_pos.x + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f),
+						m_pos.x + m_bbWidth * (sharedRandom.nextFloat() * 2.0f - 1.0f),
 						f1 + 1.0f,
-						m_pos.z + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f)
+						m_pos.z + m_bbWidth * (sharedRandom.nextFloat() * 2.0f - 1.0f)
 					),
 					Vec3(
 						m_vel.x,
@@ -646,14 +642,14 @@ void Entity::baseTick()
 				);
 			}
 
-			for (int i = 0; float(i) < field_88 * 20.0f + 1.0f; i++)
+			for (int i = 0; float(i) < m_bbWidth * 20.0f + 1.0f; i++)
 			{
 				m_pLevel->addParticle(
 					"splash",
 					Vec3(
-						m_pos.x + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f),
+						m_pos.x + m_bbWidth * (sharedRandom.nextFloat() * 2.0f - 1.0f),
 						f1 + 1.0f,
-						m_pos.z + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f)
+						m_pos.z + m_bbWidth * (sharedRandom.nextFloat() * 2.0f - 1.0f)
 					),
 					Vec3(
 						m_vel.x,
@@ -884,7 +880,7 @@ ItemEntity* Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
 	ItemEntity *itemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemInstance);
 	delete(itemInstance);
 	// @TODO: not sure what this does, or is for
-	itemEntity->m_ySlideOffset.x = 10;
+	itemEntity->m_oPos.x = 10;
 	m_pLevel->addEntity(itemEntity);
 	
 	return itemEntity;
@@ -919,8 +915,8 @@ void Entity::setRot(const Vec2& rot)
 
 void Entity::setSize(float rad, float height)
 {
-	field_88 = rad;
-	field_8C = height;
+	m_bbWidth = rad;
+	m_bbHeight = height;
 }
 
 void Entity::setPos(EntityPos* pPos)

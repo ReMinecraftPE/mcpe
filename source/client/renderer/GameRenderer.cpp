@@ -137,9 +137,9 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	float headHeightDiff = pMob->m_heightOffset - 1.62f;
 
-	float posX = Mth::Lerp(pMob->m_ySlideOffset.x, pMob->m_pos.x, f);
-	float posY = Mth::Lerp(pMob->m_ySlideOffset.y, pMob->m_pos.y, f);
-	float posZ = Mth::Lerp(pMob->m_ySlideOffset.z, pMob->m_pos.z, f);
+	float posX = Mth::Lerp(pMob->m_oPos.x, pMob->m_pos.x, f);
+	float posY = Mth::Lerp(pMob->m_oPos.y, pMob->m_pos.y, f);
+	float posZ = Mth::Lerp(pMob->m_oPos.z, pMob->m_pos.z, f);
 
 	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
 
@@ -233,13 +233,13 @@ void GameRenderer::bobHurt(float f)
 	if (pMob->m_health <= 0)
 		glRotatef(-8000.0f / (float(pMob->field_110) + f + 200.0f) + 40.0f, 0.0f, 0.0f, 1.0f);
 
-	if (pMob->field_104 > 0)
+	if (pMob->m_hurtTime > 0)
 	{
-		float val = (pMob->field_104 - f) / pMob->field_108;
+		float val = (pMob->m_hurtTime - f) / pMob->m_hurtDuration;
 
-		glRotatef(-pMob->field_10C, 0.0f, 1.0f, 0.0f);
+		glRotatef(-pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
 		glRotatef(Mth::sin(val * val * val * val * 3.1416f) * -14.0f, 0.0f, 0.0f, 1.0f);
-		glRotatef(pMob->field_10C, 0.0f, 1.0f, 0.0f);
+		glRotatef(pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
 	}
 }
 
@@ -252,7 +252,7 @@ void GameRenderer::bobView(float f)
 	float f1 = Mth::Lerp(player->field_B9C, player->field_BA0, f);
 	float f2 = Mth::Lerp(player->field_118, player->field_11C, f);
 	// @NOTE: Multiplying by M_PI inside of the paren makes it stuttery for some reason? Anyways it works now :)
-	float f3 = -(player->field_94 + (player->field_94 - player->field_90) * f) * float(M_PI);
+	float f3 = -(player->m_walkDist + (player->m_walkDist - player->field_90) * f) * float(M_PI);
 	float f4 = Mth::sin(f3);
 	float f5 = Mth::cos(f3);
 	glTranslatef((f4 * f1) * 0.5f, -fabsf(f5 * f1), 0.0f);

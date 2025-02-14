@@ -15,7 +15,8 @@ void PrimedTnt::_init()
 	field_C8 = RENDER_TNT;
 	field_34 = 1;
 	setSize(0.98f, 0.98f);
-	m_heightOffset = field_8C * 0.5f;
+	m_heightOffset = m_bbHeight * 0.5f;
+	m_bMakeStepSound = false;
 }
 
 PrimedTnt::PrimedTnt(Level* level, const Vec3& pos) : Entity(level)
@@ -29,7 +30,7 @@ PrimedTnt::PrimedTnt(Level* level, const Vec3& pos) : Entity(level)
 	m_vel.z = -0.02f * Mth::cos(fAng);
 	m_vel.y = 0.2f;
 
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 
 	m_fuseTimer = 80; // 4 secs
 }
@@ -52,7 +53,7 @@ bool PrimedTnt::isPickable() const
 
 void PrimedTnt::tick()
 {
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 
 	m_vel.y -= 0.04f;
 	move(m_vel);

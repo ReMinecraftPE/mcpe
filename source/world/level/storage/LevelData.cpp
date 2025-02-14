@@ -74,7 +74,7 @@ void PlayerData::loadPlayer(Player* player)
 	player->setPos(Vec3::ZERO);
 
 	player->m_pos    = m_pos;
-	player->m_ySlideOffset = m_pos;
+	player->m_oPos = m_pos;
 	player->m_posPrev = m_pos;
 	player->m_vel.x = Mth::abs(m_vel.x) > 10.0f ? 0.0f : m_vel.x;
 	player->m_vel.y = Mth::abs(m_vel.y) > 10.0f ? 0.0f : m_vel.y;
@@ -86,10 +86,10 @@ void PlayerData::loadPlayer(Player* player)
 	);
 	player->m_distanceFallen = m_distanceFallen;
 	player->m_fireTicks = field_24;
-	player->field_BC = field_26;
+	player->m_airCapacity = field_26;
 	player->m_onGround = field_28;
 
-	// @NOTE: Why are we updating m_pos, m_ySlideOffset and m_posPrev above if we do this?
+	// @NOTE: Why are we updating m_pos, m_oPos and m_posPrev above if we do this?
 	player->setPos(m_pos);
 
 	// TODO: survival mode stuff
@@ -104,7 +104,7 @@ void PlayerData::savePlayer(Player* player)
 	m_rot = player->m_rot;
 	m_distanceFallen = player->m_distanceFallen;
 	field_24 = player->m_fireTicks;
-	field_26 = player->field_BC;
+	field_26 = player->m_airCapacity;
 	field_28 = player->m_onGround;
 
 	// TODO: survival mode stuff

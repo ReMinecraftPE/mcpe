@@ -136,7 +136,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	float fBright = pMob->getBrightness(f);
 	int iOverlayColor = getOverlayColor(pMob, fBright, f);
 
-	if (GET_ALPHA(iOverlayColor) || pMob->field_104 > 0 || pMob->field_110 > 0)
+	if (GET_ALPHA(iOverlayColor) || pMob->m_hurtTime > 0 || pMob->field_110 > 0)
 	{
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_ALPHA_TEST);
@@ -144,7 +144,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDepthFunc(GL_EQUAL);
 
-		if (pMob->field_104 > 0 || pMob->field_110 > 0)
+		if (pMob->m_hurtTime > 0 || pMob->field_110 > 0)
 		{
 			glColor4f(fBright, 0.0f, 0.0f, 0.4f);
 			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // was 0.059375f. Why?

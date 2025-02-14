@@ -15,11 +15,12 @@ void ItemEntity::_init(const ItemInstance* itemInstance)
 	field_E4 = 0;
 	field_EC = 0;
 	m_health = 5;
+	m_bMakeStepSound = false;
 
 	// @NOTE: not setting render type
 	field_E8 = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
-	m_heightOffset = field_8C * 0.5f;
+	m_heightOffset = m_bbHeight * 0.5f;
 #ifdef ORIGINAL_CODE
 	m_pItemInstance = itemInstance != nullptr ? itemInstance : new ItemInstance();
 #else
@@ -85,7 +86,7 @@ void ItemEntity::tick()
 	if (field_E4 > 0)
 		field_E4--;
 
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 	m_vel.y -= 0.04f;
 
 	if (m_pLevel->getMaterial(m_pos) == Material::lava)

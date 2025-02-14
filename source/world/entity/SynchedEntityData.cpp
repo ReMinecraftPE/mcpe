@@ -38,7 +38,7 @@ SynchedEntityData::DataItem* SynchedEntityData::_get(DataID id) const
     return m_itemsArray[id];
 }
 
-void SynchedEntityData::_resizeToContain(SynchedEntityData::DataID id)
+void SynchedEntityData::_resizeToContain(DataID id)
 {
     for (int i = m_itemsArray.size(); i <= id; i++)
     {

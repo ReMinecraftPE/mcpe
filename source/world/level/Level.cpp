@@ -1763,9 +1763,10 @@ int Level::findPath(Path* path, Entity* ent, Entity* target, float f) const
 	Region reg(this, tp - int(f + 16), tp + int(f + 16));
 
 	m_pPathFinder->setLevel(&reg);
-	m_pPathFinder->findPath(*path, ent, Vec3(target->m_pos.x, target->m_hitbox.min.y, target->m_pos.z), f);
+	return m_pPathFinder->findPath(*path, ent, target, f);
 
-	return 1;
+	// wtf?
+	// return 1;
 }
 
 int Level::findPath(Path* path, Entity* ent, const TilePos& pos, float f) const
@@ -1774,9 +1775,10 @@ int Level::findPath(Path* path, Entity* ent, const TilePos& pos, float f) const
 	Region reg(this, tp - int(f + 8), tp + int(f + 8));
 	
 	m_pPathFinder->setLevel(&reg);
-	m_pPathFinder->findPath(*path, ent, pos + 0.5f, f);
+	return m_pPathFinder->findPath(*path, ent, pos, f);
 
-	return 1;
+	// wtf?
+	// return 1;
 }
 
 int Level::getLightDepth(const TilePos& pos) const

@@ -91,8 +91,8 @@ void Player::die(Entity* pCulprit)
 
 	if (pCulprit)
 	{
-		m_vel.x = -0.1f * Mth::cos(float((field_10C + m_rot.x) * M_PI / 180.0));
-		m_vel.z = -0.1f * Mth::cos(float((field_10C + m_rot.x) * M_PI / 180.0));
+		m_vel.x = -0.1f * Mth::cos(float((m_hurtDir + m_rot.x) * M_PI / 180.0));
+		m_vel.z = -0.1f * Mth::cos(float((m_hurtDir + m_rot.x) * M_PI / 180.0));
 	}
 	else
 	{

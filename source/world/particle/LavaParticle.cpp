@@ -29,7 +29,7 @@ float LavaParticle::getBrightness(float unused) const
 
 void LavaParticle::tick()
 {
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 
 	field_E8++;
 	if (field_E8 > field_EC)

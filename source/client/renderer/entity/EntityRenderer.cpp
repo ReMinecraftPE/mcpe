@@ -40,7 +40,9 @@ void EntityRenderer::onGraphicsReset()
 
 void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 {
-	// @TODO: For some reason you can't see the flames. sad
+	Vec3 ePos(pos);
+	ePos.y -= e->m_heightOffset; // Fixed fire rendering above player's head in third-person
+
 	glDisable(GL_LIGHTING);
 	int tex = Tile::fire->getTexture(Facing::NORTH);
 	int xt = (tex & 15) << 4;
@@ -50,16 +52,16 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 	float v0 = (float)yt / 256.0f;
 	float v1 = ((float)yt + 15.99f) / 256.0f;
 	glPushMatrix();
-	glTranslatef(pos.x, pos.y, pos.z);
-	float s = e->m_hitbox.max.x * 1.4f; // bbWidth instead of e->m_hitbox.max.x
+	glTranslatef(ePos.x, ePos.y, ePos.z);
+	float s = e->m_bbWidth * 1.4f; // bbWidth instead of e->m_hitbox.max.x
 	glScalef(s, s, s);
-	bindTexture("/terrain.png");
+	bindTexture(C_TERRAIN_NAME);
 	Tesselator& t = Tesselator::instance;
 	float r = 1.0f;
 	float xo = 0.5f;
 	float yo = 0.0f;
-	float h = e->m_hitbox.max.y / e->m_hitbox.max.x;
-	glRotatef(-m_pDispatcher->m_rot.y, 0.0f, 1.0f, 0.0f);
+	float h = e->m_bbHeight / e->m_bbWidth;
+	glRotatef(-m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
 	glTranslatef(0.0f, 0.0f, -0.4f + (float)((int)h) * 0.02f);
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	t.begin();

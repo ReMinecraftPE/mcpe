@@ -319,7 +319,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			player->swing();
 
 			// @BUG: This is only done on the client side.
-			bool extinguished = m_pLevel->extinguishFire(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
+			//bool extinguished = m_pLevel->extinguishFire(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
 
 			// Allows fire to be extinguished *without* destroying blocks
 			// @BUG: Hits sometimes pass through fire when done from above
@@ -754,7 +754,7 @@ void Minecraft::update()
 {
 	if (isGamePaused() && m_pLevel)
 	{
-		// Don't advance renderTicks when we're paused
+		// Don't next renderTicks when we're paused
 		float x = m_timer.m_renderTicks;
 		m_timer.advanceTime();
 		m_timer.m_renderTicks = x;

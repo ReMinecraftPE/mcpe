@@ -20,9 +20,9 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_attackAnim = 0.0f;
 	m_health = 10;
 	field_100 = 20;
-	field_104 = 0;
-	field_108 = 0;
-	field_10C = 0.0f;
+	m_hurtTime = 0;
+	m_hurtDuration = 0;
+	m_hurtDir = 0.0f;
 	field_110 = 0;
 	field_114 = 0;
 	field_118 = 0.0f;
@@ -35,9 +35,9 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_AFC = 0;
 	field_B00 = Vec2::ZERO;
 	field_B08 = 0.0f;
-	field_B0C = 0;
+	m_bJumping = 0;
 	field_B10 = 0;
-	field_B14 = 0.7f;
+	m_runSpeed = 0.7f;
 	field_B48 = 0;
 	field_B4C = 0.0f;
 	field_B50 = 0.0f;
@@ -116,7 +116,7 @@ void Mob::tick()
 	float dist, x1, x2, x3, x4, x5, x6, x7, field_E8_2, field_E8_new, v36;
 	bool angleOOB = false;
 
-	Vec3 delta = m_pos - m_ySlideOffset;
+	Vec3 delta = m_pos - m_oPos;
 	dist = Mth::sqrt(delta.z * delta.z + delta.x * delta.x);
 	field_E8_2 = field_E8;
 	x1 = field_E8_2;
@@ -232,10 +232,10 @@ void Mob::baseTick()
 
 	if (isAlive() && isUnderLiquid(Material::water) && !isWaterMob())
 	{
-		field_BC--;
-		if (field_BC == -20)
+		m_airCapacity--;
+		if (m_airCapacity == -20)
 		{
-			field_BC = 0;
+			m_airCapacity = 0;
 
 			for (int i = 0; i < 8; i++)
 			{
@@ -254,13 +254,13 @@ void Mob::baseTick()
 	}
 	else
 	{
-		field_BC = m_airSupply;
+		m_airCapacity = m_airSupply;
 	}
 
 	field_118 = field_11C;
 
 	if (field_114 > 0) field_114--;
-	if (field_104 > 0) field_104--;
+	if (m_hurtTime > 0) m_hurtTime--;
 	if (field_B8  > 0) field_B8--;
 
 	if (m_health <= 0)
@@ -274,9 +274,9 @@ void Mob::baseTick()
 			{
 				m_pLevel->addParticle("explode",
 					Vec3(
-						m_pos.x + 2 * field_88 * m_random.nextFloat() - field_88,
-						m_pos.y + field_8C * m_random.nextFloat(),
-						m_pos.z + 2 * field_88 * m_random.nextFloat() - field_88
+						m_pos.x + 2 * m_bbWidth * m_random.nextFloat() - m_bbWidth,
+						m_pos.y + m_bbHeight * m_random.nextFloat(),
+						m_pos.z + 2 * m_bbWidth * m_random.nextFloat() - m_bbWidth
 					),
 					Vec3(
 						0.02f * (m_random.nextFloat() * 2 - 1) * (m_random.nextFloat() * 2 - 1),
@@ -318,8 +318,8 @@ bool Mob::hurt(Entity *pAttacker, int damage)
 		field_B8 = field_DC;
 		field_B84 = damage;
 		actuallyHurt(damage);
-		field_108 = 10;
-		field_104 = 10;
+		m_hurtDuration = 10;
+		m_hurtTime = 10;
 
 		// not in 0.1
 		markHurt();
@@ -350,7 +350,7 @@ bool Mob::hurt(Entity *pAttacker, int damage)
 		field_B84 = damage;
 	}
 
-	field_10C = 0;
+	m_hurtDir = 0;
 	if (m_health <= 0)
 		die(pAttacker);
 
@@ -359,9 +359,9 @@ bool Mob::hurt(Entity *pAttacker, int damage)
 
 void Mob::animateHurt()
 {
-	field_108 = 10;
-	field_10C = 0;
-	field_104 = 10;
+	m_hurtDuration = 10;
+	m_hurtDir = 0;
+	m_hurtTime = 10;
 }
 
 void Mob::setSize(float rad, float height)
@@ -482,7 +482,7 @@ void Mob::travel(const Vec2& pos)
 		m_vel.x *= x1;
 		m_vel.z *= x1;
 
-		if (field_7D)
+		if (m_bHorizontalCollision)
 		{
 			if (isFree(Vec3(m_vel.x, m_vel.y + 0.6f - m_pos.y + oldYPos, m_vel.z)))
 				m_vel.y = 0.3f;
@@ -542,7 +542,7 @@ void Mob::travel(const Vec2& pos)
 
 	move(m_vel);
 
-	if (field_7D && onLadder())
+	if (m_bHorizontalCollision && onLadder())
 		m_vel.y = 0.2f;
 
 	m_vel.y = (m_vel.y - 0.08f) * 0.98f; // gravity?
@@ -577,8 +577,8 @@ void Mob::updateWalkAnim()
 {
 	field_128 = field_12C;
 
-	float diffX = m_pos.x - m_ySlideOffset.x;
-	float diffZ = m_pos.z - m_ySlideOffset.z;
+	float diffX = m_pos.x - m_oPos.x;
+	float diffZ = m_pos.z - m_oPos.z;
 
 	float spd = 4.0f * Mth::sqrt(diffX * diffX + diffZ * diffZ);
 	if (spd > 1.0f)
@@ -592,7 +592,7 @@ void Mob::aiStep()
 {
 	if (isImmobile())
 	{
-		field_B0C = 0;
+		m_bJumping = 0;
 		field_B00 = Vec2::ZERO;
 	}
 	else if (!field_F0)
@@ -601,7 +601,7 @@ void Mob::aiStep()
 	}
 
 	bool bIsInWater = isInWater(), bIsInLava = isInLava();
-	if (field_B0C)
+	if (m_bJumping)
 	{
 		if (bIsInWater || bIsInLava)
 			m_vel.y += 0.04f;
@@ -663,9 +663,9 @@ Vec3 Mob::getPos(float f) const
 		return m_pos;
 
 	return Vec3(
-        Mth::Lerp(m_ySlideOffset.x, m_pos.x, f),
-		Mth::Lerp(m_ySlideOffset.y, m_pos.y, f),
-		Mth::Lerp(m_ySlideOffset.z, m_pos.z, f)
+        Mth::Lerp(m_oPos.x, m_pos.x, f),
+		Mth::Lerp(m_oPos.y, m_pos.y, f),
+		Mth::Lerp(m_oPos.z, m_pos.z, f)
 	);
 }
 
@@ -762,7 +762,7 @@ void Mob::updateAi()
 
 	if (isInWater() || isInLava())
 	{
-		field_B0C = m_random.nextFloat() < 0.8f;
+		m_bJumping = m_random.nextFloat() < 0.8f;
 	}
 }
 

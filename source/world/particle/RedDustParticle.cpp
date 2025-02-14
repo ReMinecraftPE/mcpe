@@ -22,7 +22,7 @@ RedDustParticle::RedDustParticle(Level* level, const Vec3& pos, const Vec3& dir)
 
 	field_104 = field_F0 = field_F0 * 0.75f;
 
-	m_bNoCollision = false;
+	m_bNoPhysics = false;
 	field_EC = int(8.0f / (0.2f + 0.8f * Mth::random()));
 }
 
@@ -40,7 +40,7 @@ void RedDustParticle::render(Tesselator& t, float f, float a, float b, float c, 
 
 void RedDustParticle::tick()
 {
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 
 	field_E8++;
 	if (field_E8 > field_EC)
@@ -51,7 +51,7 @@ void RedDustParticle::tick()
 
 	move(m_vel);
 
-	if (m_pos.y == m_ySlideOffset.y)
+	if (m_pos.y == m_oPos.y)
 	{
 		m_vel.x *= 1.1f;
 		m_vel.z *= 1.1f;

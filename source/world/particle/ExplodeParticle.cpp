@@ -24,7 +24,7 @@ ExplodeParticle::ExplodeParticle(Level* level, const Vec3& pos, const Vec3& dir)
 
 void ExplodeParticle::tick()
 {
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 	
 	field_E8++;
 	if (field_E8 > field_EC)

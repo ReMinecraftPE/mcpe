@@ -23,7 +23,7 @@ public:
 	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
 	virtual void tick() override;
 	virtual void baseTick() override;
-	virtual float getHeadHeight() const override { return 0.85f * field_8C; }
+	virtual float getHeadHeight() const override { return 0.85f * m_bbHeight; }
 	virtual bool isPickable() const override { return !m_bRemoved; }
 	virtual bool isPushable() const override { return !m_bRemoved; }
 	virtual bool isShootable() const override { return true; }
@@ -95,9 +95,9 @@ public:
 	float m_attackAnim;
 	int m_health;
 	int field_100;
-	int field_104;
-	int field_108;
-	float field_10C;
+	int m_hurtTime;
+	int m_hurtDuration;
+	float m_hurtDir;
 	int field_110;
 	int field_114;
 	float field_118;
@@ -111,9 +111,9 @@ public:
 	int field_AFC;
 	Vec2 field_B00;
 	float field_B08;
-	char field_B0C;
+	bool m_bJumping;
 	float field_B10;
-	float field_B14;
+	float m_runSpeed;
 	std::string m_texture;
 	std::string m_class;
 	int field_B48;

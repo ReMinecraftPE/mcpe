@@ -1254,8 +1254,8 @@ void LevelRenderer::renderClouds(float alpha)
 
 	Vec3 cloudColor = m_pLevel->getCloudColor(alpha);
 
-	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_ySlideOffset.x, m_pMinecraft->m_pMobPersp->m_pos.x, alpha) + (float(m_ticksSinceStart) + alpha) * 0.03f;
-	float offZ = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_ySlideOffset.z, m_pMinecraft->m_pMobPersp->m_pos.z, alpha);
+	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_oPos.x, m_pMinecraft->m_pMobPersp->m_pos.x, alpha) + (float(m_ticksSinceStart) + alpha) * 0.03f;
+	float offZ = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_oPos.z, m_pMinecraft->m_pMobPersp->m_pos.z, alpha);
 	
 	int dx2048 = Mth::floor(offX / 2048.0f);
 	int dz2048 = Mth::floor(offZ / 2048.0f);
@@ -1304,8 +1304,8 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	float h = 4.0f;
 
 	// @NOTE: Using Mth::Lerp will use incorrect logic
-	float xo = (m_pMinecraft->m_pMobPersp->m_ySlideOffset.x + (m_pMinecraft->m_pMobPersp->m_ySlideOffset.x - m_pMinecraft->m_pMobPersp->m_ySlideOffset.x) * alpha + ((float(m_ticksSinceStart) + alpha) * 0.03f)) / ss;
-	float zo = (m_pMinecraft->m_pMobPersp->m_ySlideOffset.z + (m_pMinecraft->m_pMobPersp->m_ySlideOffset.z - m_pMinecraft->m_pMobPersp->m_ySlideOffset.z) * alpha) / ss + 0.33;
+	float xo = (m_pMinecraft->m_pMobPersp->m_oPos.x + (m_pMinecraft->m_pMobPersp->m_oPos.x - m_pMinecraft->m_pMobPersp->m_oPos.x) * alpha + ((float(m_ticksSinceStart) + alpha) * 0.03f)) / ss;
+	float zo = (m_pMinecraft->m_pMobPersp->m_oPos.z + (m_pMinecraft->m_pMobPersp->m_oPos.z - m_pMinecraft->m_pMobPersp->m_oPos.z) * alpha) / ss + 0.33;
 
 	float yy = ((float)C_MAX_Y - yOffs) + 0.33f;
 

@@ -24,10 +24,11 @@ TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(
 	field_34 = 1;
 
 	setSize(1.0f, 1.5f);
-	m_heightOffset = field_8C * 0.5f - 0.25f;
+	m_heightOffset = m_bbHeight * 0.5f - 0.25f;
 
 	setPos(pos);
-	m_ySlideOffset = pos;
+	m_oPos = pos;
+	m_bMakeStepSound = false;
 }
 
 bool TripodCamera::interact(Player* player)
@@ -44,7 +45,7 @@ int TripodCamera::interactPreventDefault()
 
 void TripodCamera::tick()
 {
-	m_ySlideOffset = m_pos;
+	m_oPos = m_pos;
 
 	m_vel.y -= 0.04f;
 	move(m_vel);

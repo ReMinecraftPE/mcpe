@@ -34,7 +34,7 @@ public:
 protected:
 	friend class Animal;
 	Entity* m_pAttackTarget;
-	bool field_BA0;
+	bool m_bHoldGround;
 	int field_BA4;
 	Path m_path;
 };

@@ -117,7 +117,7 @@ public:
 	virtual bool isInLava() const;
 	virtual bool isUnderLiquid(Material*) const;
 	virtual float getHeadHeight() const { return 0.0f; }
-	virtual float getShadowHeightOffs() const { return field_8C / 2.0f; }
+	virtual float getShadowHeightOffs() const { return m_bbHeight / 2.0f; }
 	virtual float getBrightness(float f) const;
 	virtual float distanceTo(Entity*) const;
 	virtual float distanceToSqr(const Vec3& pos) const;
@@ -191,7 +191,7 @@ public:
 	float field_30;
 	uint8_t field_34;
 	Level* m_pLevel;
-	Vec3 m_ySlideOffset; // "o" in Java or "xo" ""yo" "zo"
+	Vec3 m_oPos; // "o" in Java or "xo" ""yo" "zo"
 	Vec3 m_vel;
 	Vec2 m_rot;
 	//maybe these are the actual m_yaw and m_pitch, and
@@ -201,35 +201,36 @@ public:
 	Vec2 m_rotPrev;
 	AABB m_hitbox;
 	bool m_onGround;
-	bool field_7D;
+	bool m_bHorizontalCollision;
 	bool field_7E;
 	bool field_7F;
 	bool m_bHurt;
 	uint8_t field_81;
 	bool m_bRemoved;
 	float m_heightOffset;
-	float field_88;
-	float field_8C;
+	float m_bbWidth;
+	float m_bbHeight;
 	float field_90;
-	float field_94;
+	float m_walkDist;
 	Vec3 m_posPrev;
-	float field_A4;
+	float m_ySlideOffset;
 	float field_A8;
-	bool m_bNoCollision;
+	bool m_bNoPhysics;
 	float field_B0;
 	int field_B4;
 	int field_B8;
-	int field_BC;
+	int m_airCapacity;
 	int m_fireTicks;
 	int m_flameTime;
 	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
-	float m_distanceFallen;
+	float m_distanceFallen; // Supposed to be protected
 	int m_airSupply;
 	uint8_t field_D4;
 	bool field_D5;
 	bool field_D6;
-	int field_D8;
+	int m_nextStep;
 
 	protected:
 		SynchedEntityData m_entityData;
+		bool m_bMakeStepSound;
 };

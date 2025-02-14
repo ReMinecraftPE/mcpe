@@ -49,8 +49,8 @@ LocalPlayer::~LocalPlayer()
 void LocalPlayer::aiStep()
 {
 	m_pMoveInput->tick(this);
-	if (m_pMoveInput->m_bSneaking && field_A4 < 0.2f)
-		field_A4 = 0.2f;
+	if (m_pMoveInput->m_bSneaking && m_ySlideOffset < 0.2f)
+		m_ySlideOffset = 0.2f;
 
 	m_lastRenderArmRot = m_renderArmRot;
 	m_renderArmRot.x = Mth::Lerp(m_renderArmRot.x, m_rot.x, 0.5f);
@@ -157,9 +157,9 @@ int LocalPlayer::move(const Vec3& pos)
 	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
 		//@HUH: Using m_pMinecraft->m_pLocalPlayer instead of this, even though they're the same
-		pLP->m_bNoCollision = true;
+		pLP->m_bNoPhysics = true;
 
-		float field_94_old = field_94;
+		float m_walkDist_old = m_walkDist;
 
 		pLP->calculateFlight(pos);
 		pLP->m_distanceFallen = 0.0f;
@@ -170,13 +170,13 @@ int LocalPlayer::move(const Vec3& pos)
 
 		pLP->m_onGround = true;
 
-		field_94 = field_94_old;
+		m_walkDist = m_walkDist_old;
 	}
 	else
 	{
 #ifndef ORIGINAL_CODE
 		// @BUG: In the original Minecraft, you can't stop flying! If you do, you'll just fall through to the bottom of the world. :(
-		pLP->m_bNoCollision = false;
+		pLP->m_bNoPhysics = false;
 #endif
 
 		// autojump stuff
@@ -261,5 +261,5 @@ void LocalPlayer::updateAi()
 	field_B00.x = m_pMoveInput->m_horzInput;
 	field_B00.y = m_pMoveInput->m_vertInput;
 
-	field_B0C = m_pMoveInput->m_bJumping || m_nAutoJumpFrames > 0;
+	m_bJumping = m_pMoveInput->m_bJumping || m_nAutoJumpFrames > 0;
 }
