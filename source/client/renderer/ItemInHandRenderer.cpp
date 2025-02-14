@@ -258,10 +258,10 @@ void ItemInHandRenderer::renderFire(float f)
 	glColor4f(1.0f, 1.0f, 1.0f, 0.9f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	for (int i = 1, offset = 0; i != -3; i -= 2, offset += 16)
+	for (int i = 0; i < 2; i++)
 	{
 		glPushMatrix();
-		int texture = offset + Tile::fire->m_TextureFrame;
+		int texture = Tile::fire->m_TextureFrame + i * 16;
 
 		float texX = 16.0f * float(texture % 16), texY = 16.0f * float(texture / 16);
 		float texU_1 =  texX           / 256.0f;
@@ -269,8 +269,8 @@ void ItemInHandRenderer::renderFire(float f)
 		float texV_1 =  texY           / 256.0f;
 		float texV_2 = (texY + 15.99f) / 256.0f;
 
-		glTranslatef(float(i) * 0.24f, -0.3f, 0.0f);
-		glRotatef(float(i) * 10.0f, 0.0f, 1.0f, 0.0f);
+		glTranslatef(float(-(i * 2 - 1)) * 0.24f, -0.3f, 0.0f);
+		glRotatef(float(-(i * 2 - 1)) * 10.0f, 0.0f, 1.0f, 0.0f);
 
 		Tesselator& t = Tesselator::instance;
 		t.begin();

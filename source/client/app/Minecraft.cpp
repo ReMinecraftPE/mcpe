@@ -754,7 +754,7 @@ void Minecraft::update()
 {
 	if (isGamePaused() && m_pLevel)
 	{
-		// Don't next renderTicks when we're paused
+		// Don't advance renderTicks when we're paused
 		float x = m_timer.m_renderTicks;
 		m_timer.advanceTime();
 		m_timer.m_renderTicks = x;
