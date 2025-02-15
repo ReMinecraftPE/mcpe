@@ -19,7 +19,7 @@ struct Node
 	float field_C;
 	Node* m_pCameFrom;
 	TilePos m_tilePos;
-	bool field_1A;
+	bool m_bClosed;
 	int m_hash;
 
 	Node()
@@ -45,7 +45,7 @@ struct Node
 		field_C = 0.0f;
 		m_pCameFrom = nullptr;
 		m_tilePos = TilePos(0, 0, 0);
-		field_1A = false;
+		m_bClosed = false;
 		m_hash = 0;
 	}
 

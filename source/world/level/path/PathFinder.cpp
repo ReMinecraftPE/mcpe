@@ -136,17 +136,17 @@ Node* PathFinder::getNode(const TilePos& pos)
 int PathFinder::getNeighbors(Entity* pEntity, Node* node1, const Node* node2, Node* node3, float maxDist)
 {
 	int nr = 0;
-	bool isf = isFree(pEntity, node1->m_tilePos, node2) == 1; // this is > 0 on b1.2_02, but == 1 on 0.12.1
+	bool isf = isFree(pEntity, node1->m_tilePos.above(), node2) == 1; // this is > 0 on b1.2_02, but == 1 on 0.12.1
 
 	Node* n1 = getNode(pEntity, node1->m_tilePos.south(), node2, isf);
 	Node* n2 = getNode(pEntity, node1->m_tilePos.west(),  node2, isf);
 	Node* n3 = getNode(pEntity, node1->m_tilePos.east(),  node2, isf);
 	Node* n4 = getNode(pEntity, node1->m_tilePos.north(), node2, isf);
 
-	if (n1 && !n1->field_1A && n1->distanceTo(node3) < maxDist) m_neighbors[nr++] = n1;
-	if (n2 && !n2->field_1A && n2->distanceTo(node3) < maxDist) m_neighbors[nr++] = n2;
-	if (n3 && !n3->field_1A && n3->distanceTo(node3) < maxDist) m_neighbors[nr++] = n3;
-	if (n4 && !n4->field_1A && n4->distanceTo(node3) < maxDist) m_neighbors[nr++] = n4;
+	if (n1 && !n1->m_bClosed && n1->distanceTo(node3) < maxDist) m_neighbors[nr++] = n1;
+	if (n2 && !n2->m_bClosed && n2->distanceTo(node3) < maxDist) m_neighbors[nr++] = n2;
+	if (n3 && !n3->m_bClosed && n3->distanceTo(node3) < maxDist) m_neighbors[nr++] = n3;
+	if (n4 && !n4->m_bClosed && n4->distanceTo(node3) < maxDist) m_neighbors[nr++] = n4;
 
 	return nr;
 }
@@ -191,11 +191,8 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, Node* nodeStart, Node* no
 
 	Node* nodep = nodeStart;
 
-	while (true)
+	while (m_binaryHeap.size() > 0)
 	{
-		if (!m_binaryHeap.size())
-			break;
-
 		Node* pNode = m_binaryHeap.removeTop();
 		if (pNode->equals(nodeEnd))
 			return reconstructPath(path, nodeEnd);
@@ -203,14 +200,14 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, Node* nodeStart, Node* no
 		if (nodep->distanceTo(nodeEnd) > pNode->distanceTo(nodeEnd))
 			nodep = pNode;
 
-		pNode->field_1A = true;
+		pNode->m_bClosed = true;
 
 		int numNeighbors = getNeighbors(pEntity, pNode, node3, nodeEnd, fp);
 		for (int i = 0; i < numNeighbors; i++)
 		{
 			Node* otherNode = m_neighbors[i];
 
-			if (!otherNode->field_1A)
+			if (!otherNode->m_bClosed)
 			{
 				float dist = pNode->field_4 + pNode->distanceTo(otherNode);
 				if (otherNode->field_0 < 0 || otherNode->field_4 > dist)
@@ -250,11 +247,12 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, const Vec3& pos, float d)
 
 	Node* node1 = getNode(pEntity->m_hitbox.min);
 
-	TilePos tp(pos.x + (-0.5f * pEntity->m_bbWidth),
+	TilePos tp(pos.x - (pEntity->m_bbWidth / 2),
 		       pos.y,
-		       pos.z + (-0.5f * pEntity->m_bbWidth));
+		       pos.z - (pEntity->m_bbWidth / 2));
 	Node* node2 = nullptr;
 
+	// Not present in b1.2_02
 	if (!m_pLevel->getTile(tp.below()))
 	{
 		TilePos tp2(tp), tp3(pos + (0.5f * pEntity->m_bbWidth));
@@ -274,9 +272,7 @@ bool PathFinder::findPath(Path& path, Entity* pEntity, const Vec3& pos, float d)
 	if (!node2)
 		node2 = getNode(tp);
 
-	tp = TilePos(pEntity->m_bbWidth + 1.0f,
-		         pEntity->m_bbHeight + 1.0f,
-		         pEntity->m_bbWidth + 1.0f);
+	tp = TilePos(pEntity->m_bbWidth, pEntity->m_bbHeight, pEntity->m_bbWidth) + 1;
 
 	Node node3;
 	node3.setPos(tp);
