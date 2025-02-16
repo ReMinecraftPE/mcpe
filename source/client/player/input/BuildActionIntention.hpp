@@ -35,31 +35,31 @@ public:
 	BuildActionIntention(BuildActionIntent type) : m_type(type) {}
 
 	bool isAttack() const {
-		return m_type & ATTACK;
+		return (m_type & ATTACK) != NONE;
 	}
 
 	bool isInteract() const {
-		return m_type & INTERACT;
+		return (m_type & INTERACT) != NONE;
 	}
 
 	bool isDestroy() const {
-		return m_type & (DESTROY_START + DESTROY_CONTINUE);
+		return (m_type & (DESTROY_START + DESTROY_CONTINUE)) != NONE;
 	}
 
 	bool isDestroyStart() const {
-		return m_type & DESTROY_START;
+		return (m_type & DESTROY_START) != NONE;
 	}
 
 	bool isDestroyContinue() const {
-		return m_type & DESTROY_CONTINUE;
+		return (m_type & DESTROY_CONTINUE) != NONE;
 	}
 
 	bool isPlace() const {
-		return m_type & PLACE;
+		return (m_type & PLACE) != NONE;
 	}
 
 	bool isPick() const {
-		return m_type & PICK;
+		return (m_type & PICK) != NONE;
 	}
 
 private:

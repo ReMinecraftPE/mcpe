@@ -12,7 +12,7 @@
 const float Controller::DIRECTION_X_THRESHOLD = 0.3f;
 const float Controller::DIRECTION_Y_THRESHOLD = 0.3f;
 
-#define DEADZONE(f) { (f), (1.0f / (1.0f - f)) }
+#define DEADZONE(d) { (d), (1.0f / (1.0f - d)) }
 // 0.3051f
 float Controller::_deadzonesX[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
 float Controller::_deadzonesY[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };

@@ -6,7 +6,7 @@
 MAP(int8_t,       TYPE_INT8,         0)
 MAP(int16_t,      TYPE_INT16,        0)
 MAP(int32_t,      TYPE_INT32,        0)
-MAP(float_t,      TYPE_FLOAT,        0.0f)
+MAP(float,        TYPE_FLOAT,        0.0f) // float because VS2010 was bitching about float_t not existing despite including math.h or cmath
 MAP(std::string,  TYPE_STRING,       Util::EMPTY_STRING)
 MAP(ItemInstance, TYPE_ITEMINSTANCE, ItemInstance())
 MAP(TilePos,      TYPE_TILEPOS,      TilePos())

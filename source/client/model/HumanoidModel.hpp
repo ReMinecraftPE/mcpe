@@ -24,8 +24,8 @@ public:
 public:
 	bool field_20;
 	ModelPart m_head, m_body, m_arm1, m_arm2, m_leg1, m_leg2;
-	bool field_234;
-	bool field_235;
+	bool m_bHoldingLeftHand;
+	bool m_bHoldingRightHand;
 	bool m_bSneaking;
 	bool field_237;
 };

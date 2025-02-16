@@ -53,7 +53,7 @@ private:
 public:
 	Vec3 m_pos;
 	Vec3 m_rot;
-	bool field_18;
+	bool m_bMirror;
 	std::vector<Cube*> m_pCubes;
 	std::vector<ModelPart*> m_pChildren;
 	std::string field_34;

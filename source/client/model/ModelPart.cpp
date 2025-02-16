@@ -43,7 +43,7 @@ void ModelPart::_init()
 	m_textureWidth = 64.0f;
 	m_textureHeight = 32.0f;
 	field_4C = 0;
-	field_18 = false;
+	m_bMirror = false;
 	field_48 = true;
 	field_49 = false;
 	m_bCompiled = false;

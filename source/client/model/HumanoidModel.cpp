@@ -19,7 +19,10 @@ HumanoidModel::HumanoidModel(float a, float b):
 	m_leg2(0,  16)
 {
 	field_20 = false;
-	field_234 = 0;
+	m_bHoldingLeftHand = false;
+	m_bHoldingRightHand = false;
+	m_bSneaking = false;
+	field_237 = false;
 
 	m_head.setModel(this);
 	m_body.setModel(this);
@@ -34,12 +37,12 @@ HumanoidModel::HumanoidModel(float a, float b):
 	m_body.setPos(0, b, 0);
 	m_arm1.addBox(-3, -2, -2, 4, 12, 4, a);
 	m_arm1.setPos(-5, b + 2, 0);
-	m_arm2.field_18 = true;
+	m_arm2.m_bMirror = true;
 	m_arm2.addBox(-1, -2, -2, 4, 12, 4, a);
 	m_arm2.setPos(5, b + 2, 0);
 	m_leg1.addBox(-2, 0, -2, 4, 12, 4, a);
 	m_leg1.setPos(-2, b + 12, 0);
-	m_leg2.field_18 = true;
+	m_leg2.m_bMirror = true;
 	m_leg2.addBox(-2, 0, -2, 4, 12, 4, a);
 	m_leg2.setPos(2, b + 12, 0);
 }
@@ -96,9 +99,9 @@ void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, 
 		m_leg2.m_rot.y = (3.1416f * -0.5f) * 0.2f;
 	}
 
-	if (field_234)
+	if (m_bHoldingLeftHand)
 		m_arm2.m_rot.x = ((3.1416f * 0.5f) * -0.2f) + (m_arm2.m_rot.x * 0.5f);
-	if (field_235)
+	if (m_bHoldingRightHand)
 		m_arm1.m_rot.x = ((3.1416f * 0.5f) * -0.2f) + (m_arm1.m_rot.x * 0.5f);
 	
 	m_arm1.m_rot.y = 0.0f;

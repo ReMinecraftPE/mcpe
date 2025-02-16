@@ -23,7 +23,7 @@ Cube::Cube(ModelPart* a2, int a3, int a4, float x, float y, float z, int d, int 
 	field_2AC = y2;
 	field_2B0 = z2;
 
-	if (a2->field_18)
+	if (a2->m_bMirror)
 		std::swap(x1, x2);
 	
 	x1 -= g;
@@ -66,7 +66,7 @@ Cube::Cube(ModelPart* a2, int a3, int a4, float x, float y, float z, int d, int 
 	// *N.B. The original game specifies the vertex ordering as 2, 3, 7, 6, but that renders the back side of the cow upside down.
 	// This might not be proper form for the face, but we're disabling culling anyway so who cares.
 
-	if (a2->field_18)
+	if (a2->m_bMirror)
 	{
 		for (int i = 0; i < 6; i++)
 			m_faces[i].mirror();
