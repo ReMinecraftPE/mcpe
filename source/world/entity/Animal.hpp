@@ -20,7 +20,6 @@ public:
 	bool canSpawn() const override;
 	Entity* findAttackTarget() override;
 	int getAmbientSoundInterval() const override;
-	int getCreatureBaseType() const override;
 	float getWalkTargetValue(const TilePos& pos) const override;
 	bool hurt(Entity* pCulprit, int damage) override;
 	bool removeWhenFarAway() const override;

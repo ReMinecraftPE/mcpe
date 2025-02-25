@@ -17,7 +17,6 @@ public:
 	std::string getAmbientSound() const override { return "mob.sheep"; };
 	std::string getDeathSound() const override { return "mob.sheep"; }
 	std::string getHurtSound() const override { return "mob.sheep"; }
-	int getEntityTypeId() const override { return ENTITY_TYPE_SHEEP; }
 	virtual bool hurt(Entity*, int) override;
 	//TODO: addAdditonalSaveData
 	//TODO: readAdditionalSaveData

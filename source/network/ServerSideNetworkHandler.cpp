@@ -571,55 +571,74 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 	ss.str(parms[0]);
 	ss >> entityName;
 
-	EntityType entityType = MobFactory::GetEntityTypeFromMobName(entityName);
-	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-	pos.y -= player->m_pPlayer->m_heightOffset + player->m_pPlayer->m_ySlideOffset;
-
-	if (parmsSize >= 4)
+	const EntityTypeDescriptor* descriptor = EntityTypeDescriptor::GetByEntityTypeName(entityName);
+	if (descriptor != nullptr)
 	{
-		if (parms[1] != "~")
-		{
-			ss.str(parms[1]);
-			ss.clear();
-			ss >> pos.x;
-		}
-		if (parms[2] != "~")
-		{
-			ss.str(parms[2]);
-			ss.clear();
-			ss >> pos.y;
-		}
-		if (parms[3] != "~")
-		{
-			ss.str(parms[3]);
-			ss.clear();
-			ss >> pos.z;
-		}
-	}
+		Vec3 pos = player->m_pPlayer->getPos(1.0f);
+		pos.y -= player->m_pPlayer->m_heightOffset + player->m_pPlayer->m_ySlideOffset;
 
-	int amount = 1;
-	if (parmsSize >= 5)
-	{
-		ss.str(parms[4]);
+		if (parmsSize >= 4)
+		{
+			if (parms[1] != "~")
+			{
+				ss.str(parms[1]);
+				ss.clear();
+				ss >> pos.x;
+			}
+			if (parms[2] != "~")
+			{
+				ss.str(parms[2]);
+				ss.clear();
+				ss >> pos.y;
+			}
+			if (parms[3] != "~")
+			{
+				ss.str(parms[3]);
+				ss.clear();
+				ss >> pos.z;
+			}
+		}
+
+		int amount = 1;
+		if (parmsSize >= 5)
+		{
+			ss.str(parms[4]);
+			ss.clear();
+			ss >> amount;
+		}
+
 		ss.clear();
-		ss >> amount;
-	}
-
-	ss.clear();
-	if (entityType != ENTITY_TYPE_NONE)
-	{
-		ss << "Object successfully summoned";
-
-		for (int i = 0; i++ < amount;)
+		if (descriptor->getEntityType() != EntityType::UNKNOWN)
 		{
-			Mob* mob = MobFactory::CreateMob(entityType, m_pLevel);
-			mob->setPos(pos);
-			m_pLevel->addEntity(mob);
+			bool success = false;
+
+			for (int i = 0; i++ < amount;)
+			{
+				Mob* mob = MobFactory::CreateMob(descriptor->getEntityType().getId(), m_pLevel);
+				if (mob == nullptr)
+				{
+					ss << "Unable to summon object";
+					break;
+				}
+				mob->setPos(pos);
+				m_pLevel->addEntity(mob);
+				if (!success) success = true;
+			}
+
+			if (success)
+			{
+				ss << "Object successfully summoned";
+			}
+		}
+		else
+		{
+			ss << "Unable to summon unknown entity type";
 		}
 	}
 	else
 	{
-		ss << "Unable to summon object";
+		ss.clear();
+		ss << "Unable to summon invalid entity type";
 	}
 
 	sendMessage(player, ss.str());

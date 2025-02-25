@@ -24,7 +24,7 @@ SoundSystemAL::~SoundSystemAL()
 		if (__err != AL_NO_ERROR) \
 		{ \
 			LOG_E("(%s:%i) OpenAL Error: %s", __FILE__, __LINE__, alGetString(__err)); \
-			exit(EXIT_FAILURE); \
+			assert(!"An OpenAL error occurred!"); \
 		} \
 	}
 

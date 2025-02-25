@@ -18,7 +18,6 @@ public:
 	std::string getDeathSound() const override { return "mob.pigdeath"; }
 	std::string getHurtSound() const override { return "mob.pig"; }
 	int getDeathLoot() const override;
-	int getEntityTypeId() const override { return ENTITY_TYPE_PIG; }
 	int getMaxHealth() const override { return 10; }
 	bool interact(Player*) override { return false; }
 

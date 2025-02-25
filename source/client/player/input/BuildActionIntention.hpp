@@ -13,15 +13,15 @@ class BuildActionIntention
 public:
 	enum BuildActionIntent
 	{
-		NONE              = 0,				 //  0 0 0 0 0 0 0  //  
+		NONE              = 0<<0,    		 //  0 0 0 0 0 0 0  //  
 
-		PLACE             = 1,				 //  0 0 0 0 0 0 1  //  indicates the desire to place a block
-		DESTROY_START     = 2,				 //  0 0 0 0 0 1 0  //  causes the player to start destroying the block in front of them, used to cause Minecraft to not automatically handle the BuildActionIntention
-		DESTROY_CONTINUE  = 4,				 //  0 0 0 0 1 0 0  //  causes the player to continue destroying the block in front of them
-		ATTACK            = 8,				 //  0 0 0 1 0 0 0  //  causes the player to take a swing in the air
-		INTERACT          = 16,				 //  0 0 1 0 0 0 0  //  causes the player to use the item in their hand
+		PLACE             = 1<<0,			 //  0 0 0 0 0 0 1  //  indicates the desire to place a block
+		DESTROY_START     = 1<<1,			 //  0 0 0 0 0 1 0  //  causes the player to start destroying the block in front of them, used to cause Minecraft to not automatically handle the BuildActionIntention
+		DESTROY_CONTINUE  = 1<<2,			 //  0 0 0 0 1 0 0  //  causes the player to continue destroying the block in front of them
+		ATTACK            = 1<<3,			 //  0 0 0 1 0 0 0  //  causes the player to take a swing in the air
+		INTERACT          = 1<<4,			 //  0 0 1 0 0 0 0  //  causes the player to use the item in their hand
 		// Custom bits
-		PICK              = 32,              //  1 0 0 0 0 0 0  //  causes the player to equip the block they're currently looking at
+		PICK              = 1<<5,            //  1 0 0 0 0 0 0  //  causes the player to equip the block they're currently looking at
 
 		TOUCH_TAP               = ATTACK   | PLACE,             // touch screen was tapped and released quickly
 		KEY_DESTROY             = ATTACK   | DESTROY_START,     // the destory key was pressed

@@ -10,6 +10,7 @@
 
 Pig::Pig(Level* pLevel) : Animal(pLevel)
 {
+	m_pDescriptor = &EntityTypeDescriptor::pig;
 	field_C8 = RENDER_PIG;
 	m_texture = "mob/pig.png";
 	setSize(0.9f, 0.9f);

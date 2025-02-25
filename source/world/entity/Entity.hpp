@@ -15,8 +15,8 @@
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/ItemInstance.hpp"
-#include "world/entity/SynchedEntityData.hpp"
-#include "EntityType.hpp"
+#include "SynchedEntityData.hpp"
+#include "EntityTypeDescriptor.hpp"
 #include "common/Utils.hpp"
 
 class Level;
@@ -45,13 +45,6 @@ enum eEntityRenderType
 
 	// custom
 	RENDER_FALLING_TILE = 50,
-};
-
-enum eCreatureBaseType
-{
-	BASE_NONE,
-	BASE_MONSTER,
-	BASE_ANIMAL,
 };
 
 struct EntityPos
@@ -157,11 +150,10 @@ public:
 	virtual void burn(int);
 	virtual void lavaHurt();
 	virtual int queryEntityRenderer();
-	virtual int getCreatureBaseType() const { return BASE_NONE; }
-	virtual int getEntityTypeId() const { return ENTITY_TYPE_NONE; }
 	// Removed by Mojang. See https://stackoverflow.com/questions/962132/why-is-a-call-to-a-virtual-member-function-in-the-constructor-a-non-virtual-call
 	//virtual void defineSynchedData();
 
+	const EntityTypeDescriptor& getDescriptor() const { return *m_pDescriptor; }
 	const SynchedEntityData& getEntityData() const { return m_entityData; }
 
 	int hashCode() const { return m_EntityID; }
@@ -233,4 +225,5 @@ public:
 	protected:
 		SynchedEntityData m_entityData;
 		bool m_bMakeStepSound;
+		const EntityTypeDescriptor* m_pDescriptor;
 };

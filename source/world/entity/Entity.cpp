@@ -10,6 +10,8 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
+#define TOTAL_AIR_SUPPLY (300)
+
 int Entity::entityCounter;
 Random Entity::sharedRandom;
 
@@ -44,17 +46,18 @@ void Entity::_init()
 	field_B0 = 0.0f;
 	field_B4 = 0;
 	field_B8 = 0;
-	m_airCapacity = 300;
+	m_airCapacity = TOTAL_AIR_SUPPLY;
 	m_fireTicks = 0;
 	m_flameTime = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
-	m_airSupply = 300;
+	m_airSupply = TOTAL_AIR_SUPPLY;
 	field_D4 = 0;
 	field_D5 = false;
 	field_D6 = true;
 	m_nextStep = 1;
 	m_entityData = SynchedEntityData();
+	m_pDescriptor = &EntityTypeDescriptor::unknown;
 }
 
 Entity::Entity(Level* pLevel)

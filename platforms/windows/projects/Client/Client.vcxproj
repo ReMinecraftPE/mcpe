@@ -175,6 +175,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerMoveInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseBuildInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Lighting.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />

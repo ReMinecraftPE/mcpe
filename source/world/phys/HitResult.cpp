@@ -23,7 +23,7 @@ HitResult::HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3& v
 {
 	_init();
 
-	m_hitType = AABB;
+	m_hitType = TILE;
 	m_hitSide = hitSide;
 	m_tilePos = tilePos;
 	m_bUnk24 = false;

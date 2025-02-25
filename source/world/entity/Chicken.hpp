@@ -26,7 +26,6 @@ public:
 	std::string getDeathSound() const override { return "mob.chickenhurt"; }
 	std::string getHurtSound() const override { return "mob.chickenhurt"; }
 	void dropDeathLoot() override;
-	int getEntityTypeId() const override { return ENTITY_TYPE_CHICKEN; }
 	int getMaxHealth() const override { return 4; }
 	void aiStep() override;
 	void causeFallDamage(float) override { return; }

@@ -8,6 +8,7 @@
 
 #include "NinecraftApp.hpp"
 #include "world/item/Item.hpp"
+#include "world/entity/MobCategory.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 
@@ -83,9 +84,12 @@ void NinecraftApp::init()
 	{
 		_hasInitedStatics = true;
 		Material::initMaterials();
+		EntityTypeDescriptor::initDescriptors(); // custom
+		MobCategory::initMobCategories();
 		Tile::initTiles();
 		Item::initItems();
 		Biome::initBiomes();
+		//TileEntity::initTileEntities();
 	}
 
 	initGLStates();

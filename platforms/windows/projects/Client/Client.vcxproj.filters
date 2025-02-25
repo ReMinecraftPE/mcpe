@@ -452,6 +452,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Lighting.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">

@@ -6,7 +6,5 @@
 class MobFactory
 {
 public:
-	static Mob* CreateMob(EntityType entityType, Level *level);
-	static std::string GetMobNameID(EntityType entityType);
-	static EntityType GetEntityTypeFromMobName(std::string mobName);
+	static Mob* CreateMob(EntityType::ID entityType, Level *level);
 };

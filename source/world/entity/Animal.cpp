@@ -51,11 +51,6 @@ int Animal::getAmbientSoundInterval() const
 	return 240;
 }
 
-int Animal::getCreatureBaseType() const
-{
-	return BASE_ANIMAL;
-}
-
 float Animal::getWalkTargetValue(const TilePos& pos) const
 {
 	// Animals would rather walk on grass.

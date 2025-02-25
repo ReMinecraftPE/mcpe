@@ -18,7 +18,6 @@ public:
 	std::string getDeathSound() const override { return "mob.cowhurt"; }
 	std::string getHurtSound() const override { return "mob.cowhurt"; }
 	int getDeathLoot() const override { return ITEM_LEATHER; }
-	int getEntityTypeId() const override { return ENTITY_TYPE_COW; }
 	int getMaxHealth() const override { return 10; }
 	float getSoundVolume() const override { return 0.4f; }
 

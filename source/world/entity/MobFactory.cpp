@@ -19,9 +19,9 @@
              //ENT(SPIDER, Spider) \
              //ENT(PIG_ZOMBIE, PigZombie)
 
-#define ENT(enumType, classType) case ENTITY_TYPE_ ## enumType: return new classType(level);
+#define ENT(enumType, classType) case EntityType:: ## enumType: return new classType(level);
 
-Mob* MobFactory::CreateMob(EntityType entityType, Level *level)
+Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
 {
     switch (entityType)
     {
@@ -30,31 +30,6 @@ Mob* MobFactory::CreateMob(EntityType entityType, Level *level)
         LOG_W("Unknown mob type requested: %d", entityType);
         return nullptr;
     }
-}
-
-#undef ENT
-
-#define ENT(enumType, classType) case ENTITY_TYPE_ ## enumType: return "entity."#classType;
-
-std::string MobFactory::GetMobNameID(EntityType entityType)
-{
-    switch (entityType)
-    {
-        ENTS;
-    default:
-        return "";
-    }
-}
-
-#undef ENT
-
-#define ENT(enumType, classType) if (mobName == #classType) return ENTITY_TYPE_ ## enumType;
-
-EntityType MobFactory::GetEntityTypeFromMobName(std::string mobName)
-{
-    ENTS;
-
-    return ENTITY_TYPE_NONE;
 }
 
 #undef ENT

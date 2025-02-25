@@ -308,7 +308,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			m_lastInteractTime = getTimeMs();
 		}
 		break;
-	case HitResult::AABB:
+	case HitResult::TILE:
 		Tile* pTile = Tile::tiles[m_pLevel->getTile(m_hitResult.m_tilePos)];
 
 		if (action.isDestroy())

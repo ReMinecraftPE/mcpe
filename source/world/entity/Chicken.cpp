@@ -10,6 +10,7 @@
 
 Chicken::Chicken(Level* pLevel) : Animal(pLevel)
 {
+	m_pDescriptor = &EntityTypeDescriptor::chicken;
 	field_C8 = RENDER_CHICKEN;
 	m_texture = "mob/chicken.png";
 	setSize(0.3f, 0.7f);

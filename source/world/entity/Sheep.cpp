@@ -25,6 +25,7 @@ const float Sheep::COLOR[][3] = {
 
 Sheep::Sheep(Level* pLevel) : Animal(pLevel)
 {
+	m_pDescriptor = &EntityTypeDescriptor::sheep;
 	field_C8 = RENDER_SHEEP;
 	m_texture = "mob/sheep.png";
 	setSize(0.9f, 1.3f);
@@ -47,7 +48,7 @@ bool Sheep::hurt(Entity* pEnt, int damage)
 
 		for (int i = 0; i < var3; i++)
 		{
-			ItemEntity* item = spawnAtLocation(new ItemInstance(TILE_CLOTH_01, 1, getColor()), 1.0f);
+			ItemEntity* item = spawnAtLocation(new ItemInstance(TILE_CLOTH_00, 1, getColor()), 1.0f);
 			item->m_vel.y += m_random.nextFloat() * 0.05f;
 			item->m_vel.x += (m_random.nextFloat() - m_random.nextFloat()) * 0.1f;
 			item->m_vel.z += (m_random.nextFloat() - m_random.nextFloat()) * 0.1f;

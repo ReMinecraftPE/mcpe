@@ -20,7 +20,7 @@ public:
 	// looks ass backwards, but what can you do about it
 	enum HitResultType
 	{
-		AABB,
+		TILE,
 		ENTITY,
 		NONE,
 	};
