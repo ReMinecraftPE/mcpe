@@ -40,8 +40,7 @@ void Sheep::_defineEntityData()
 
 bool Sheep::hurt(Entity* pEnt, int damage)
 {
-	// pEnt->isPlayer() check was (pEnt instanceof Mob) in Java
-	if (!m_pLevel->m_bIsMultiplayer && !isSheared() && (pEnt != nullptr && pEnt->isPlayer()))
+	if (!m_pLevel->m_bIsMultiplayer && !isSheared() && (pEnt != nullptr && pEnt->getDescriptor().hasCategory(EntityCategories::MOB)))
 	{
 		setSheared(true);
 		int var3 = 1 + m_random.nextInt(3);

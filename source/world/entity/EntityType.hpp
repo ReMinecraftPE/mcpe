@@ -4,26 +4,6 @@
 class EntityType
 {
 public:
-	enum ID;
-	typedef const std::string& Name;
-
-public:
-	EntityType(ID type = UNKNOWN, Name name = "unknown");
-
-public:
-	ID getId() const { return m_id; }
-	Name getName() const { return m_name; }
-
-	bool operator==(EntityType::ID other) const { return this->getId() == other; }
-	bool operator!=(EntityType::ID other) const { return this->getId() != other; }
-	bool operator==(const EntityType& other) const { return this->getId() == other.getId(); }
-	bool operator!=(const EntityType& other) const { return this->getId() != other.getId(); }
-
-private:
-	ID m_id;
-	std::string m_name;
-
-public:
 	enum ID
 	{
 		UNKNOWN = 0, // Particle, CameraEntity
@@ -175,4 +155,21 @@ public:
 
 		CHEST_BOAT = 218,
 	};
+	typedef const std::string& Name;
+
+public:
+	EntityType(ID type = UNKNOWN, Name name = "unknown");
+
+public:
+	ID getId() const { return m_id; }
+	Name getName() const { return m_name; }
+
+	bool operator==(EntityType::ID other) const { return this->getId() == other; }
+	bool operator!=(EntityType::ID other) const { return this->getId() != other; }
+	bool operator==(const EntityType& other) const { return this->getId() == other.getId(); }
+	bool operator!=(const EntityType& other) const { return this->getId() != other.getId(); }
+
+private:
+	ID m_id;
+	std::string m_name;
 };

@@ -3,26 +3,6 @@
 class EntityCategories
 {
 public:
-	enum CategoriesMask;
-
-public:
-	EntityCategories(CategoriesMask = ENTITY);
-
-public:
-	CategoriesMask getCategoryMask() const { return m_categoriesMask; }
-	bool contains(CategoriesMask categories) const { return (categories & m_categoriesMask) == categories; }
-
-	bool operator==(const EntityCategories& other) const { return this->getCategoryMask() == other.getCategoryMask(); }
-	bool operator!=(const EntityCategories& other) const { return this->getCategoryMask() != other.getCategoryMask(); }
-	void operator+=(const EntityCategories& other) { *this += other.getCategoryMask(); }
-	bool operator==(CategoriesMask categories) const { return this->getCategoryMask() == categories; }
-	bool operator!=(CategoriesMask categories) const { return this->getCategoryMask() != categories; }
-	void operator+=(CategoriesMask categories) { m_categoriesMask = (CategoriesMask)(m_categoriesMask | categories); }
-
-private:
-	CategoriesMask m_categoriesMask;
-
-public:
 	enum CategoriesMask
 	{
 		ENTITY           = 0,
@@ -44,4 +24,21 @@ public:
 		ABSTRACT_ARROW   = 1<<15 | PROJECTILE,
 		VILLAGER_BASE    = 1<<16 | PATHFINDER_MOB
 	};
+
+public:
+	EntityCategories(CategoriesMask = ENTITY);
+
+public:
+	CategoriesMask getCategoryMask() const { return m_categoriesMask; }
+	bool contains(CategoriesMask categories) const { return (categories & m_categoriesMask) == categories; }
+
+	bool operator==(const EntityCategories& other) const { return this->getCategoryMask() == other.getCategoryMask(); }
+	bool operator!=(const EntityCategories& other) const { return this->getCategoryMask() != other.getCategoryMask(); }
+	void operator+=(const EntityCategories& other) { *this += other.getCategoryMask(); }
+	bool operator==(CategoriesMask categories) const { return this->getCategoryMask() == categories; }
+	bool operator!=(CategoriesMask categories) const { return this->getCategoryMask() != categories; }
+	void operator+=(CategoriesMask categories) { m_categoriesMask = (CategoriesMask)(m_categoriesMask | categories); }
+
+private:
+	CategoriesMask m_categoriesMask;
 };

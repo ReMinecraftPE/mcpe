@@ -15,6 +15,7 @@ public:
 	const EntityType& getEntityType() const { return m_type; }
 	bool isType(const EntityType& type) const { return type == getEntityType(); }
 	const EntityCategories& getCategories() const { return m_categories; }
+	bool hasCategory(EntityCategories::CategoriesMask categoriesMask) const { return m_categories.contains(categoriesMask); }
 
 	static void initDescriptors();
 	static void teardownDescriptors();
