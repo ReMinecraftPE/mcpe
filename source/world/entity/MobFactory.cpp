@@ -19,7 +19,7 @@
              //ENT(SPIDER, Spider) \
              //ENT(PIG_ZOMBIE, PigZombie)
 
-#define ENT(enumType, classType) case EntityType:: ## enumType: return new classType(level);
+#define ENT(enumType, classType) case EntityType::enumType: return new classType(level);
 
 Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
 {
