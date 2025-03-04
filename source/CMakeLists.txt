@@ -358,7 +358,7 @@ if(USE_SDL)
         endif()
     else()
         find_package(OpenGL REQUIRED)
-        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
+        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
     endif()
 elseif(USE_NATIVE_ANDROID)
     # OpenGL
