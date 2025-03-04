@@ -5514,14 +5514,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
+					/opt/homebrew/include,
 					/usr/local/include,
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
-					/opt/homebrew/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
+					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -5592,14 +5593,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
+					/opt/homebrew/include,
 					/usr/local/include,
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
-					/opt/homebrew/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
+					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -5670,14 +5672,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
+					/opt/homebrew/include,
 					/usr/local/include,
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
-					/opt/homebrew/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
+					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -5831,14 +5834,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
+					/opt/homebrew/include,
 					/usr/local/include,
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
-					/opt/homebrew/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
+					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
 				MC_ROOT = "$(PROJECT_DIR)/../../../../";
@@ -5985,14 +5989,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
+					/opt/homebrew/include,
 					/usr/local/include,
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
-					/opt/homebrew/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
+					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
 				MC_ROOT = "$(PROJECT_DIR)/../../../../";
@@ -6145,14 +6150,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
+					/opt/homebrew/include,
 					/usr/local/include,
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
-					/opt/homebrew/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
+					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
@@ -6209,14 +6215,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
+					/opt/homebrew/include,
 					/usr/local/include,
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
-					/opt/homebrew/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
+					/opt/homebrew/lib,
 					/usr/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = "";
