@@ -5518,6 +5518,7 @@
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
+					/opt/homebrew/opt/sdl2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -5595,6 +5596,7 @@
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
+					/opt/homebrew/opt/sdl2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -5672,6 +5674,7 @@
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
+					/opt/homebrew/opt/sdl2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -5832,6 +5835,7 @@
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
+					/opt/homebrew/opt/sdl2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -5985,6 +5989,7 @@
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
+					/opt/homebrew/opt/sdl2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -6144,6 +6149,7 @@
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
+					/opt/homebrew/opt/sdl2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
@@ -6207,6 +6213,7 @@
 					"$(MC_ROOT)",
 					"$(MC_ROOT)/source",
 					"$(RAKNET_PATH)",
+					/opt/homebrew/opt/sdl2,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
