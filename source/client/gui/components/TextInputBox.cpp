@@ -97,6 +97,8 @@ void TextInputBox::setEnabled(bool bEnabled)
 #define AKEYCODE_RIGHT_BRACKET VK_OEM_6
 #endif
 
+#ifndef HANDLE_CHARS_SEPARATELY
+
 char TextInputBox::guessCharFromKey(int key) {
 	bool bShiftPressed = m_pParent->m_pMinecraft->platform()->shiftPressed();
 	char chr = '\0';
@@ -150,6 +152,8 @@ char TextInputBox::guessCharFromKey(int key) {
 	}
 	return chr;
 }
+
+#endif
 
 void TextInputBox::keyPressed(int key)
 {

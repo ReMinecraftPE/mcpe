@@ -32,7 +32,8 @@ private:
 	static std::map<std::string, const EntityTypeDescriptor*> entityTypeNameMap;
 
 public:
-	static std::vector<const EntityTypeDescriptor*> all;
+	static const EntityTypeDescriptor* all[];
+	static const int allCount;
 	static const EntityTypeDescriptor
 		  unknown
 		, chicken

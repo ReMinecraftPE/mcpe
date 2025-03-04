@@ -50,7 +50,9 @@ public:
 	std::string getText() const { return m_text; }
 
 public:
+#ifndef HANDLE_CHARS_SEPARATELY
 	char guessCharFromKey(int key);
+#endif
 	std::string getRenderedText(int scroll_pos, std::string text);
 	void recalculateScroll();
 

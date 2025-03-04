@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "EntityTypeDescriptor.hpp"
+#include "compat/LegacyCPPCompatibility.hpp"
 
 std::map<EntityType::ID, const EntityTypeDescriptor*> EntityTypeDescriptor::entityTypeIdMap = std::map<EntityType::ID, const EntityTypeDescriptor*>();
 std::map<std::string, const EntityTypeDescriptor*> EntityTypeDescriptor::entityTypeNameMap = std::map<std::string, const EntityTypeDescriptor*>();
@@ -12,9 +13,9 @@ EntityTypeDescriptor::EntityTypeDescriptor(const EntityType& type, const EntityC
 
 void EntityTypeDescriptor::initDescriptors()
 {
-	for (std::vector<const EntityTypeDescriptor*>::const_iterator it = all.begin(); it < all.end(); it++)
+	for (int i = 0; i < allCount; i++)
 	{
-		const EntityTypeDescriptor* desc = *it;
+		const EntityTypeDescriptor* desc = all[i];
 		const EntityType& entityType = desc->getEntityType();
 
 		entityTypeIdMap[entityType.getId()] = desc;
@@ -51,7 +52,7 @@ const EntityTypeDescriptor* EntityTypeDescriptor::GetByEntityTypeName(EntityType
 	return result;
 }
 
-std::vector<const EntityTypeDescriptor*> EntityTypeDescriptor::all = {
+const EntityTypeDescriptor* EntityTypeDescriptor::all[] = {
 		  &EntityTypeDescriptor::unknown
 		, &EntityTypeDescriptor::chicken
 		, &EntityTypeDescriptor::cow
@@ -188,6 +189,7 @@ std::vector<const EntityTypeDescriptor*> EntityTypeDescriptor::all = {
 		, &EntityTypeDescriptor::traderLlama
 		, &EntityTypeDescriptor::chestBoat
 };
+const int EntityTypeDescriptor::allCount = sizeof(EntityTypeDescriptor::all) / sizeof(const EntityTypeDescriptor*);
 
 // The Monolith //
 const EntityTypeDescriptor

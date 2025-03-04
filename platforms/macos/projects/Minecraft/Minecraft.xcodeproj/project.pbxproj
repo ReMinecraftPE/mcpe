@@ -201,6 +201,17 @@
 		8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */; };
 		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
 		8443B6EA2A98675F0086730C /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8443B6E92A98675F0086730C /* libSDL2.a */; };
+		8445E7A02D769329008DC834 /* EntityCategories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E7952D769329008DC834 /* EntityCategories.cpp */; };
+		8445E7A12D769329008DC834 /* EntityCategories.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8445E7962D769329008DC834 /* EntityCategories.hpp */; };
+		8445E7A22D769329008DC834 /* EntityType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E7972D769329008DC834 /* EntityType.cpp */; };
+		8445E7A32D769329008DC834 /* EntityTypeDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E7982D769329008DC834 /* EntityTypeDescriptor.cpp */; };
+		8445E7A42D769329008DC834 /* EntityTypeDescriptor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8445E7992D769329008DC834 /* EntityTypeDescriptor.hpp */; };
+		8445E7A52D769329008DC834 /* MobCategory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E79A2D769329008DC834 /* MobCategory.cpp */; };
+		8445E7A62D769329008DC834 /* MobCategory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8445E79B2D769329008DC834 /* MobCategory.hpp */; };
+		8445E7A72D769329008DC834 /* Sheep.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E79C2D769329008DC834 /* Sheep.cpp */; };
+		8445E7A82D769329008DC834 /* Sheep.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8445E79D2D769329008DC834 /* Sheep.hpp */; };
+		8445E7A92D769329008DC834 /* SynchedEntityData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E79E2D769329008DC834 /* SynchedEntityData.cpp */; };
+		8445E7AA2D769329008DC834 /* SynchedEntityData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8445E79F2D769329008DC834 /* SynchedEntityData.hpp */; };
 		84498A842AF18CAC005EF5A5 /* crc32.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8522AC810630006A435 /* crc32.h */; };
 		84498A852AF18CAC005EF5A5 /* deflate.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8542AC810630006A435 /* deflate.h */; };
 		84498A862AF18CAC005EF5A5 /* gzguts.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8562AC810630006A435 /* gzguts.h */; };
@@ -1768,6 +1779,17 @@
 		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = ../Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
 		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = ../Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
+		8445E7952D769329008DC834 /* EntityCategories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityCategories.cpp; sourceTree = "<group>"; };
+		8445E7962D769329008DC834 /* EntityCategories.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityCategories.hpp; sourceTree = "<group>"; };
+		8445E7972D769329008DC834 /* EntityType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityType.cpp; sourceTree = "<group>"; };
+		8445E7982D769329008DC834 /* EntityTypeDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityTypeDescriptor.cpp; sourceTree = "<group>"; };
+		8445E7992D769329008DC834 /* EntityTypeDescriptor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityTypeDescriptor.hpp; sourceTree = "<group>"; };
+		8445E79A2D769329008DC834 /* MobCategory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MobCategory.cpp; sourceTree = "<group>"; };
+		8445E79B2D769329008DC834 /* MobCategory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MobCategory.hpp; sourceTree = "<group>"; };
+		8445E79C2D769329008DC834 /* Sheep.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sheep.cpp; sourceTree = "<group>"; };
+		8445E79D2D769329008DC834 /* Sheep.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Sheep.hpp; sourceTree = "<group>"; };
+		8445E79E2D769329008DC834 /* SynchedEntityData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SynchedEntityData.cpp; sourceTree = "<group>"; };
+		8445E79F2D769329008DC834 /* SynchedEntityData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SynchedEntityData.hpp; sourceTree = "<group>"; };
 		84498A832AF18C7A005EF5A5 /* libZLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -2655,7 +2677,12 @@
 				84AA8B5F2B32F3B5003F5B82 /* Creeper.hpp */,
 				84AA8B602B32F3B5003F5B82 /* Entity.cpp */,
 				840DD6592AC810620006A435 /* Entity.hpp */,
+				8445E7952D769329008DC834 /* EntityCategories.cpp */,
+				8445E7962D769329008DC834 /* EntityCategories.hpp */,
+				8445E7972D769329008DC834 /* EntityType.cpp */,
 				8470AF282BE9B60900BCA54E /* EntityType.hpp */,
+				8445E7982D769329008DC834 /* EntityTypeDescriptor.cpp */,
+				8445E7992D769329008DC834 /* EntityTypeDescriptor.hpp */,
 				84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */,
 				840DD65B2AC810620006A435 /* FallingTile.hpp */,
 				840DD65C2AC810620006A435 /* ItemEntity.cpp */,
@@ -2664,6 +2691,8 @@
 				840DD65F2AC810620006A435 /* LocalPlayer.hpp */,
 				840DD6602AC810620006A435 /* Mob.cpp */,
 				840DD6612AC810620006A435 /* Mob.hpp */,
+				8445E79A2D769329008DC834 /* MobCategory.cpp */,
+				8445E79B2D769329008DC834 /* MobCategory.hpp */,
 				8470AF292BE9B60A00BCA54E /* MobFactory.cpp */,
 				8470AF2A2BE9B60A00BCA54E /* MobFactory.hpp */,
 				84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */,
@@ -2678,6 +2707,10 @@
 				840DD6652AC810620006A435 /* PrimedTnt.hpp */,
 				84E78C792B58B3E000D515EF /* Rocket.cpp */,
 				84E78C7A2B58B3E000D515EF /* Rocket.hpp */,
+				8445E79C2D769329008DC834 /* Sheep.cpp */,
+				8445E79D2D769329008DC834 /* Sheep.hpp */,
+				8445E79E2D769329008DC834 /* SynchedEntityData.cpp */,
+				8445E79F2D769329008DC834 /* SynchedEntityData.hpp */,
 				84AA8B742B32F3B5003F5B82 /* TripodCamera.cpp */,
 				840DD6672AC810620006A435 /* TripodCamera.hpp */,
 				84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */,
@@ -4129,6 +4162,7 @@
 				84BF63832AF186C8008A9995 /* SurvivalMode.hpp in Headers */,
 				84BF63842AF186C8008A9995 /* CameraItem.hpp in Headers */,
 				84BF63852AF186C8008A9995 /* DoorItem.hpp in Headers */,
+				8445E7A12D769329008DC834 /* EntityCategories.hpp in Headers */,
 				84BF63862AF186C8008A9995 /* Inventory.hpp in Headers */,
 				8477B3B52C4DC414004E1AC5 /* ChunkTilePos.hpp in Headers */,
 				84BF63872AF186C8008A9995 /* Item.hpp in Headers */,
@@ -4162,6 +4196,7 @@
 				84BF63A22AF186C8008A9995 /* LevelData.hpp in Headers */,
 				84BF63A32AF186C8008A9995 /* LevelSource.hpp in Headers */,
 				84BF63A42AF186C8008A9995 /* LevelStorage.hpp in Headers */,
+				8445E7A82D769329008DC834 /* Sheep.hpp in Headers */,
 				84BF63A52AF186C8008A9995 /* LevelStorageSource.hpp in Headers */,
 				84BF63A62AF186C8008A9995 /* MemoryChunkStorage.hpp in Headers */,
 				84BF63A72AF186C8008A9995 /* MemoryLevelStorage.hpp in Headers */,
@@ -4180,6 +4215,7 @@
 				84BF63B42AF186C9008A9995 /* DirtTile.hpp in Headers */,
 				84BF63B52AF186C9008A9995 /* DoorTile.hpp in Headers */,
 				84BF63B62AF186C9008A9995 /* FarmTile.hpp in Headers */,
+				8445E7A62D769329008DC834 /* MobCategory.hpp in Headers */,
 				84BF63B72AF186C9008A9995 /* FireTile.hpp in Headers */,
 				84BF63B82AF186C9008A9995 /* GlassTile.hpp in Headers */,
 				84BF63B92AF186C9008A9995 /* GrassTile.hpp in Headers */,
@@ -4188,6 +4224,7 @@
 				84BF63BC2AF186C9008A9995 /* IceTile.hpp in Headers */,
 				84BF63BD2AF186C9008A9995 /* InvisibleTile.hpp in Headers */,
 				84BF63BE2AF186C9008A9995 /* LadderTile.hpp in Headers */,
+				8445E7AA2D769329008DC834 /* SynchedEntityData.hpp in Headers */,
 				84BF63BF2AF186C9008A9995 /* LeafTile.hpp in Headers */,
 				84BF63C02AF186C9008A9995 /* LiquidTile.hpp in Headers */,
 				84BF63C12AF186C9008A9995 /* LiquidTileDynamic.hpp in Headers */,
@@ -4230,6 +4267,7 @@
 				84E78C882B58B66B00D515EF /* RocketLauncherTile.hpp in Headers */,
 				8477B3B72C4DC414004E1AC5 /* EmptyLevelChunk.hpp in Headers */,
 				8470AF2B2BE9B60A00BCA54E /* EntityType.hpp in Headers */,
+				8445E7A42D769329008DC834 /* EntityTypeDescriptor.hpp in Headers */,
 				8470AF2D2BE9B60A00BCA54E /* MobFactory.hpp in Headers */,
 				8470AF392BE9B6D100BCA54E /* GameType.hpp in Headers */,
 				8470AF3D2BE9B6FA00BCA54E /* FireworkParticle.hpp in Headers */,
@@ -5027,6 +5065,7 @@
 				84BF630F2AF18631008A9995 /* LocalPlayer.cpp in Sources */,
 				84BF63102AF18631008A9995 /* Mob.cpp in Sources */,
 				84BF63112AF18631008A9995 /* Player.cpp in Sources */,
+				8445E7A52D769329008DC834 /* MobCategory.cpp in Sources */,
 				84BF63122AF18631008A9995 /* PrimedTnt.cpp in Sources */,
 				84BF63132AF18631008A9995 /* TripodCamera.cpp in Sources */,
 				84BF63142AF18631008A9995 /* CreativeMode.cpp in Sources */,
@@ -5035,6 +5074,7 @@
 				84BF63172AF18631008A9995 /* CameraItem.cpp in Sources */,
 				84BF63182AF18631008A9995 /* DoorItem.cpp in Sources */,
 				84BF63192AF18631008A9995 /* Inventory.cpp in Sources */,
+				8445E7A22D769329008DC834 /* EntityType.cpp in Sources */,
 				84BF631A2AF18631008A9995 /* Item.cpp in Sources */,
 				84BF631B2AF18631008A9995 /* ItemInstance.cpp in Sources */,
 				84BF631C2AF18631008A9995 /* TileItem.cpp in Sources */,
@@ -5054,6 +5094,7 @@
 				84BF632A2AF18631008A9995 /* ClayFeature.cpp in Sources */,
 				84BF632B2AF18631008A9995 /* Feature.cpp in Sources */,
 				84BF632C2AF18631008A9995 /* FlowerFeature.cpp in Sources */,
+				8445E7A72D769329008DC834 /* Sheep.cpp in Sources */,
 				84BF632D2AF18631008A9995 /* LargeCaveFeature.cpp in Sources */,
 				84BF632E2AF18631008A9995 /* LargeFeature.cpp in Sources */,
 				84BF632F2AF18631008A9995 /* OreFeature.cpp in Sources */,
@@ -5069,6 +5110,7 @@
 				84BF63392AF18631008A9995 /* Material.cpp in Sources */,
 				84BF633A2AF18631008A9995 /* Region.cpp in Sources */,
 				84BF633B2AF18631008A9995 /* ChunkStorage.cpp in Sources */,
+				8445E7A02D769329008DC834 /* EntityCategories.cpp in Sources */,
 				84BF633C2AF18631008A9995 /* ExternalFileLevelStorage.cpp in Sources */,
 				84BF633D2AF18631008A9995 /* ExternalFileLevelStorageSource.cpp in Sources */,
 				84BF633E2AF18631008A9995 /* LevelData.cpp in Sources */,
@@ -5084,6 +5126,7 @@
 				84BF63462AF18631008A9995 /* TickNextTickData.cpp in Sources */,
 				84BF63472AF18631008A9995 /* BubbleParticle.cpp in Sources */,
 				84BF63482AF18631008A9995 /* ExplodeParticle.cpp in Sources */,
+				8445E7A92D769329008DC834 /* SynchedEntityData.cpp in Sources */,
 				84BF63492AF18631008A9995 /* FlameParticle.cpp in Sources */,
 				84BF634A2AF18631008A9995 /* LavaParticle.cpp in Sources */,
 				84BF634B2AF18631008A9995 /* Particle.cpp in Sources */,
@@ -5128,6 +5171,7 @@
 				84BF63722AF18631008A9995 /* Tile.cpp in Sources */,
 				84BF63732AF18631008A9995 /* TntTile.cpp in Sources */,
 				84BF63742AF18631008A9995 /* TopSnowTile.cpp in Sources */,
+				8445E7A32D769329008DC834 /* EntityTypeDescriptor.cpp in Sources */,
 				84BF63752AF18631008A9995 /* TorchTile.cpp in Sources */,
 				84BF63762AF18631008A9995 /* TransparentTile.cpp in Sources */,
 				84BF63772AF18631008A9995 /* TreeTile.cpp in Sources */,
