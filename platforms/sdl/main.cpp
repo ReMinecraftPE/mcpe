@@ -46,9 +46,14 @@ static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 // Touch
 #define TOUCH_IDS_SIZE (MAX_TOUCHES - 1) // ID 0 Is Reserved For The Mouse
 struct touch_id_data {
-	bool active = false;
+	bool active;
 	SDL_TouchID device;
 	SDL_FingerID finger;
+    
+    touch_id_data()
+    {
+        active = false;
+    }
 };
 static touch_id_data touch_ids[TOUCH_IDS_SIZE];
 static char get_touch_id(SDL_TouchID device, SDL_FingerID finger) {

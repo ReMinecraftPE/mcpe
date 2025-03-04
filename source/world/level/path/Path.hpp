@@ -21,9 +21,9 @@ public:
 	bool isDone() const { return m_index >= m_size; }
 	Node* get(int index) { return m_pNodes[index]; }
 	int getSize() const { return m_size; }
-	int setSize(int size) { m_size = size; }
+	void setSize(int size) { m_size = size; }
 	int getIndex() const { return m_index; }
-	int setIndex(int index) { m_index = index; }
+	void setIndex(int index) { m_index = index; }
 	void setNodes(Node** pNodes, int nodeCount);
 	Vec3 getPos(const Entity& e, int index);
 	Vec3 currentPos(const Entity& e);
