@@ -17,7 +17,7 @@ MouseDevice::MouseDevice()
 	_yOld = 0;
 
 	for (int i = 0; i < BUTTON_COUNT; i++)
-		_buttonStates[i] = 0;
+		_buttonStates[i] = false;
 }
 
 void MouseDevice::feed(MouseButtonType buttonType, bool buttonState, int posX, int posY)

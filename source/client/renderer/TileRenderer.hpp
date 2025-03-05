@@ -12,12 +12,6 @@
 #include "client/renderer/Chunk.hpp"
 #include "client/renderer/Tesselator.hpp"
 
-#ifndef ENH_SHADE_HELD_TILES
-#define RENDER_TILE_ARG_PATCH
-#else
-#define RENDER_TILE_ARG_PATCH , float bright
-#endif
-
 class TileRenderer
 {
 private:
@@ -25,41 +19,42 @@ private:
 public:
 	TileRenderer();
 	TileRenderer(LevelSource*);
-	float getWaterHeight(int x, int y, int z, const Material*);
-	void renderTile(Tile*, int data RENDER_TILE_ARG_PATCH);
+	float getWaterHeight(const TilePos& pos, const Material*);
+	void renderTile(Tile*, int data, float bright = 1.0f, bool preshade = false);
 
 	// TODO
 
-	bool tesselateInWorld(Tile*, int x, int y, int z);
-	bool tesselateInWorldNoCulling(Tile*, int x, int y, int z);
-	bool tesselateInWorld(Tile*, int x, int y, int z, int textureOverride);
+	bool tesselateInWorld(Tile*, const TilePos& pos);
+	bool tesselateInWorldNoCulling(Tile*, const TilePos& pos);
+	bool tesselateInWorld(Tile*, const TilePos& pos, int textureOverride);
 
-	void renderEast(Tile*, float x, float y, float z, int texture);
-	void renderWest(Tile*, float x, float y, float z, int texture);
-	void renderSouth(Tile*, float x, float y, float z, int texture);
-	void renderNorth(Tile*, float x, float y, float z, int texture);
-	void renderFaceDown(Tile*, float x, float y, float z, int texture);
-	void renderFaceUp(Tile*, float x, float y, float z, int texture);
-	void tesselateCrossTexture(Tile* tile, int data, float x, float y, float z);
-	void tesselateTorch(Tile*, float x, float y, float z, float a, float b);
+	void renderEast(Tile*, const Vec3& pos, int texture);
+	void renderWest(Tile*, const Vec3& pos, int texture);
+	void renderSouth(Tile*, const Vec3& pos, int texture);
+	void renderNorth(Tile*, const Vec3& pos, int texture);
+	void renderFaceDown(Tile*, const Vec3& pos, int texture);
+	void renderFaceUp(Tile*, const Vec3& pos, int texture);
+	void tesselateCrossTexture(Tile* tile, int data, const Vec3& pos);
+	void tesselateTorch(Tile*, const Vec3& pos, float a, float b);
 	
-	bool tesselateBlockInWorldWithAmbienceOcclusion(Tile*, int x, int y, int z, float r, float g, float b);
-	bool tesselateBlockInWorld(Tile*, int x, int y, int z, float r, float g, float b);
-	bool tesselateBlockInWorld(Tile*, int x, int y, int z);
-	bool tesselateCrossInWorld(Tile*, int x, int y, int z);
-	bool tesselateWaterInWorld(Tile*, int x, int y, int z);
-	bool tesselateStairsInWorld(Tile*, int x, int y, int z);
-	bool tesselateLadderInWorld(Tile*, int x, int y, int z);
-	bool tesselateTorchInWorld(Tile*, int x, int y, int z);
-	bool tesselateDoorInWorld(Tile*, int x, int y, int z);
+	bool tesselateBlockInWorldWithAmbienceOcclusion(Tile*, const TilePos& pos, float r, float g, float b);
+	bool tesselateBlockInWorld(Tile*, const TilePos& pos, float r, float g, float b);
+	bool tesselateBlockInWorld(Tile*, const TilePos& pos);
+	bool tesselateCrossInWorld(Tile*, const TilePos& pos);
+	bool tesselateWaterInWorld(Tile*, const TilePos& pos);
+	bool tesselateStairsInWorld(Tile*, const TilePos& pos);
+	bool tesselateLadderInWorld(Tile*, const TilePos& pos);
+	bool tesselateTorchInWorld(Tile*, const TilePos& pos);
+	bool tesselateDoorInWorld(Tile*, const TilePos& pos);
 #ifndef ORIGINAL_CODE
-	bool tesselateFireInWorld(Tile*, int x, int y, int z);
+	bool tesselateFireInWorld(Tile*, const TilePos& pos);
 #endif
 #ifdef ENH_USE_OWN_AO
-	bool tesselateBlockInWorldWithAmbienceOcclusionV2(Tile*, int x, int y, int z, float r, float g, float b);
+	bool tesselateBlockInWorldWithAmbienceOcclusionV2(Tile*, const TilePos& pos, float r, float g, float b);
 #endif
 
-	int getTileColor(Tile*, int x, int y, int z);
+	int getTileColor(Tile*, const TilePos& pos);
+	bool useAmbientOcclusion() const;
 
 	static bool canRender(int renderShape);
 

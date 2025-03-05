@@ -179,7 +179,7 @@ void AppPlatform_android::initSoundSystem()
 		LOG_E("Trying to initialize SoundSystem more than once!");
 }
 
-bool AppPlatform_android::isTouchscreen()
+bool AppPlatform_android::isTouchscreen() const
 {
 	return true;
 }

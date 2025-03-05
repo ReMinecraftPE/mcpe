@@ -13,38 +13,40 @@ SpongeTile::SpongeTile(int id, int texture) : Tile(id, texture, Material::sponge
 {
 }
 
-void SpongeTile::onPlace(Level* level, int x, int y, int z)
+void SpongeTile::onPlace(Level* level, const TilePos& pos)
 {
 	// get rid of all water in a 5x5 cube around this
-	for (int ox = -2; ox <= 2; ox++)
+	TilePos o;
+	for (o.x = -2; o.x <= 2; o.x++)
 	{
-		for (int oy = -2; oy <= 2; oy++)
+		for (o.y = -2; o.y <= 2; o.y++)
 		{
-			for (int oz = -2; oz <= 2; oz++)
+			for (o.z = -2; o.z <= 2; o.z++)
 			{
-				if (level->getTile(x + ox, y + oy, z + oz) == Tile::water->m_ID ||
-					level->getTile(x + ox, y + oy, z + oz) == Tile::calmWater->m_ID)
+				if (level->getTile(pos + o) == Tile::water->m_ID ||
+					level->getTile(pos + o) == Tile::calmWater->m_ID)
 				{
-					level->setTile(x + ox, y + oy, z + oz, TILE_AIR);
+					level->setTile(pos + o, TILE_AIR);
 				}
 			}
 		}
 	}
 }
 
-void SpongeTile::destroy(Level* level, int x, int y, int z, int dir)
+void SpongeTile::destroy(Level* level, const TilePos& pos, int data)
 {
 	// give an update to all water around us
-	for (int ox = -3; ox <= 3; ox++)
+	TilePos o;
+	for (o.x = -3; o.x <= 3; o.x++)
 	{
-		for (int oy = -3; oy <= 3; oy++)
+		for (o.y = -3; o.y <= 3; o.y++)
 		{
-			for (int oz = -3; oz <= 3; oz++)
+			for (o.z = -3; o.z <= 3; o.z++)
 			{
-				if (level->getTile(x + ox, y + oy, z + oz) == Tile::water->m_ID ||
-					level->getTile(x + ox, y + oy, z + oz) == Tile::calmWater->m_ID)
+				if (level->getTile(pos + o) == Tile::water->m_ID ||
+					level->getTile(pos + o) == Tile::calmWater->m_ID)
 				{
-					level->neighborChanged(x + ox, y + oy, z + oz, TILE_AIR);
+					level->neighborChanged(pos + o, TILE_AIR);
 				}
 			}
 		}

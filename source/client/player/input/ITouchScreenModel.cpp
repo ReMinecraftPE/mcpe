@@ -12,12 +12,12 @@ ITouchScreenModel::~ITouchScreenModel()
 {
 }
 
-int ITouchScreenModel::getPointerId(const MouseAction& action)
+int ITouchScreenModel::getPointerId(const MouseAction& action) const
 {
     return action._fingerId;
 }
 
-int ITouchScreenModel::getPointerId(int x, int y, int pointerId)
+int ITouchScreenModel::getPointerId(int x, int y, int pointerId) const
 {
     return pointerId;
 }

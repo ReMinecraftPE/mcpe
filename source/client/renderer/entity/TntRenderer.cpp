@@ -11,7 +11,7 @@
 
 TntRenderer::TntRenderer()
 {
-	field_4 = 0.5f;
+	m_shadowRadius = 0.5f;
 }
 
 void TntRenderer::render(Entity* entity, float x, float y, float z, float a6, float a7)

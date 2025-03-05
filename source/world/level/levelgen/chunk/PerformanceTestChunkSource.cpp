@@ -14,7 +14,7 @@ PerformanceTestChunkSource::PerformanceTestChunkSource()
 	m_pLevel = nullptr;
 }
 
-LevelChunk* PerformanceTestChunkSource::create(int x, int z)
+LevelChunk* PerformanceTestChunkSource::create(const ChunkPos& pos)
 {
 	TileID* pData = new TileID[0x8000u];
 	memset(pData, 0, 0x8000u * sizeof(TileID));
@@ -45,7 +45,7 @@ LevelChunk* PerformanceTestChunkSource::create(int x, int z)
 		}
 	}
 
-	LevelChunk* pChunk = new LevelChunk(m_pLevel, pData, x, z);
+	LevelChunk* pChunk = new LevelChunk(m_pLevel, pData, pos);
 	pChunk->recalcHeightmap();
 
 	return pChunk;
@@ -57,26 +57,26 @@ std::string PerformanceTestChunkSource::gatherStats()
 }
 
 // this sucks because it creates a new chunk every call to this function...
-LevelChunk* PerformanceTestChunkSource::getChunk(int x, int z)
+LevelChunk* PerformanceTestChunkSource::getChunk(const ChunkPos& pos)
 {
-	return create(x, z);
+	return create(pos);
 }
 
-LevelChunk* PerformanceTestChunkSource::getChunkDontCreate(int x, int z)
+LevelChunk* PerformanceTestChunkSource::getChunkDontCreate(const ChunkPos& pos)
 {
 	TileID* pData = new TileID[0x8000u];
 	memset(pData, 0, 0x8000u * sizeof(TileID));
 
-	LevelChunk* pChunk = new LevelChunk(m_pLevel, pData, x, z);
+	LevelChunk* pChunk = new LevelChunk(m_pLevel, pData, pos);
 	return pChunk;
 }
 
-bool PerformanceTestChunkSource::hasChunk(int x, int z)
+bool PerformanceTestChunkSource::hasChunk(const ChunkPos& pos)
 {
 	return true;
 }
 
-void PerformanceTestChunkSource::postProcess(ChunkSource* a, int b, int c)
+void PerformanceTestChunkSource::postProcess(ChunkSource* a, const ChunkPos& pos)
 {
 
 }

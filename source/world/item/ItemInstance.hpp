@@ -10,6 +10,8 @@
 
 #include "common/Utils.hpp"
 #include "Item.hpp"
+#include "world/level/TilePos.hpp"
+#include "world/Facing.hpp"
 
 class Item; // in case we're included from Item.hpp
 class Tile;
@@ -38,9 +40,9 @@ public:
 	bool canDestroySpecial(Tile*);
 	std::string getDescriptionId();
 	float getDestroySpeed(Tile*);
-	int getIcon();
-	int getMaxDamage();
-	int getMaxStackSize();
+	int getIcon() const;
+	int getMaxDamage() const;
+	int getMaxStackSize() const;
 	void hurt(int by);
 	void hurtEnemy(Mob*);
 	void interactEnemy(Mob*);
@@ -49,21 +51,22 @@ public:
 	bool isStackable();
 	bool isStackedByData();
 	bool matches(ItemInstance*) const;
-	void mineBlock(int, int, int, int);
+	void mineBlock(const TilePos& pos, Facing::Name face);
 	ItemInstance remove(int amt);
 	void setDescriptionId(const std::string&);
 	void snap(Player*);
 	std::string toString();
 	ItemInstance* use(Level*, Player*);
-	bool useOn(Player*, Level*, int x, int y, int z, int dir);
+	bool useOn(Player*, Level*, const TilePos& pos, Facing::Name face);
 
-	Item* getItem();
+	Item* getItem() const;
 	ItemInstance* copy();
 
 	static bool matches(ItemInstance*, ItemInstance*);
 
 	// v0.2.0
 	int getAttackDamage(Entity *pEnt);
+	bool isNull() const;
 
 public:
 	int m_auxValue;

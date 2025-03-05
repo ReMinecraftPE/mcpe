@@ -17,7 +17,7 @@ class Entity;
 class SavingWorldScreen : public Screen
 {
 public:
-	SavingWorldScreen(bool bCopyMap, Entity* pEntityToDeleteAfterSave);
+	SavingWorldScreen(bool bCopyMap/*, Entity* pEntityToDeleteAfterSave*/);
 	
 	void render(int mouseX, int mouseY, float f) override;
 	void tick() override;
@@ -25,7 +25,7 @@ public:
 public:
 	bool m_bCopyMapAtEnd;
 	int m_timer;
-	Entity* m_pEntityToDeleteAfterSave;
+	//Entity* m_pEntityToDeleteAfterSave;
 };
 
 #endif

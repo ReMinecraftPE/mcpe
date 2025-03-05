@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include "world/level/levelgen/chunk/ChunkPos.hpp"
 
 class Level;
 class LevelChunk;
@@ -18,7 +19,7 @@ class ChunkStorage
 {
 public:
 	virtual ~ChunkStorage();
-	virtual LevelChunk* load(Level*, int, int);
+	virtual LevelChunk* load(Level*, const ChunkPos& pos);
 	virtual void save(Level*, LevelChunk*);
 	virtual void saveEntities(Level*, LevelChunk*);
 	virtual void saveAll(Level*, std::vector<LevelChunk*>&);

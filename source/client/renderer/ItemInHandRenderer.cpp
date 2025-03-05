@@ -9,26 +9,27 @@
 #include "ItemInHandRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "common/Mth.hpp"
+#include "Lighting.hpp"
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
-	m_ItemInstance(0, 1, 0),
+	m_selectedItem(0, 1, 0),
 	m_pMinecraft(pMC)
 {
-	field_0 = -1;
+	m_lastSlot = -1;
 	field_18 = 0;
-	field_1C = 0.0f;
-	field_20 = 0.0f;
+	m_height = 0.0f;
+	m_oHeight = 0.0f;
 }
 
 // This and itemUsed are probably leftovers from Minecraft Classic
 void ItemInHandRenderer::itemPlaced()
 {
-	field_1C = 0;
+	m_height = 0;
 }
 
 void ItemInHandRenderer::itemUsed()
 {
-	field_1C = 0;
+	m_height = 0;
 }
 
 #ifdef ENH_SHADE_HELD_TILES
@@ -113,16 +114,20 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 	t.begin();
 	SHADE_IF_NEEDED(1.0f);
 
+	t.normal(0.0f, 0.0f, 1.0f);
 	t.vertexUV(0.0f, 0.0f, 0.0f,         texU_2, texV_2);
 	t.vertexUV(1.0f, 0.0f, 0.0f,         texU_1, texV_2);
 	t.vertexUV(1.0f, 1.0f, 0.0f,         texU_1, texV_1);
 	t.vertexUV(0.0f, 1.0f, 0.0f,         texU_2, texV_1);
+
+	t.normal(0.0f, 0.0f, -1.0f);
 	t.vertexUV(0.0f, 1.0f, -C_ONE_PIXEL, texU_2, texV_1);
 	t.vertexUV(1.0f, 1.0f, -C_ONE_PIXEL, texU_1, texV_1);
 	t.vertexUV(1.0f, 0.0f, -C_ONE_PIXEL, texU_1, texV_2);
 	t.vertexUV(0.0f, 0.0f, -C_ONE_PIXEL, texU_2, texV_2);
 
 	SHADE_IF_NEEDED(0.8f);
+	t.normal(-1.0f, 0.0f, 0.0f);
 	for (int i = 0; i < 16; i++)
 	{
 		t.vertexUV(i * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
@@ -162,30 +167,37 @@ void ItemInHandRenderer::render(float f)
 {
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
 
-	float f1 = field_20 + (field_1C - field_20) * f;
+	float h = m_oHeight + (m_height - m_oHeight) * f;
 	glPushMatrix();
-	//glRotatef(pLP->field_60 + (pLP->m_pitch - pLP->field_60) * f, 1.0f, 0.0f, 0.0f);
-	//glRotatef(pLP->field_5C + (pLP->m_yaw   - pLP->field_5C) * f, 0.0f, 1.0f, 0.0f);
-	//glPopMatrix();//huh?
+	glRotatef(pLP->m_rotPrev.y + (pLP->m_rot.y - pLP->m_rotPrev.y) * f, 1.0f, 0.0f, 0.0f);
+	glRotatef(pLP->m_rotPrev.x + (pLP->m_rot.x - pLP->m_rotPrev.x) * f, 0.0f, 1.0f, 0.0f);
+	Lighting::turnOn();
+	glPopMatrix();
 
 	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
 	{
-		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmYaw,   pLP->m_renderArmYaw,   f);
-		float rPitch = Mth::Lerp(pLP->m_lastRenderArmPitch, pLP->m_renderArmPitch, f);
-		glRotatef((pLP->m_pitch - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
-		glRotatef((pLP->m_yaw   - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
+		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmRot.x, pLP->m_renderArmRot.x, f);
+		float rPitch = Mth::Lerp(pLP->m_lastRenderArmRot.y, pLP->m_renderArmRot.y, f);
+		glRotatef((pLP->m_rot.y - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
+		glRotatef((pLP->m_rot.x - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
 	}
 
-	float fBright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pLP->m_pos.x), Mth::floor(pLP->m_pos.y), Mth::floor(pLP->m_pos.z));
+	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
 	glColor4f(fBright, fBright, fBright, 1.0f);
 
-	if (m_ItemInstance.m_itemID <= 0)
+	ItemInstance* pItem = &m_selectedItem;
+	/*if (pLP->m_fishing != null) {
+		pItem = new ItemInstance(Item::stick);
+	}*/
+
+
+	if (pItem->m_itemID <= 0)
 	{
 		glPushMatrix();
 		float fAnim = pLP->getAttackAnim(f);
 
 		glTranslatef(-0.3f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.4f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.4f * Mth::sin(float(M_PI) * fAnim));
-		glTranslatef(0.64f, ((1.0f - f1) * -0.6f) - 0.6f, -0.72f);
+		glTranslatef(0.64f, ((1.0f - h) * -0.6f) - 0.6f, -0.72f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glEnable(GL_RESCALE_NORMAL);
 
@@ -203,7 +215,7 @@ void ItemInHandRenderer::render(float f)
 		glScalef(1.0f, 1.0f, 1.0f);
 		glTranslatef(5.6f, 0.0f, 0.0f);
 
-		HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(m_pMinecraft->m_pLocalPlayer);
+		HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(pLP);
 		glScalef(1.0f, 1.0f, 1.0f);
 		pRenderer->renderHand();
 
@@ -215,7 +227,7 @@ void ItemInHandRenderer::render(float f)
 		float fAnim = pLP->getAttackAnim(f);
 
 		glTranslatef(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim));
-		glTranslatef(0.56f, ((1.0f - f1) * -0.6f) - 0.52f, -0.72f);
+		glTranslatef(0.56f, ((1.0f - h) * -0.6f) - 0.52f, -0.72f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glEnable(GL_RESCALE_NORMAL);
 
@@ -230,15 +242,15 @@ void ItemInHandRenderer::render(float f)
 		glRotatef(sin1 * -80.0f, 1.0f, 0.0f, 0.0f);
 		glScalef(0.4f, 0.4f, 0.4f);
 
-		if (m_ItemInstance.getItem()->isMirroredArt())
+		if (pItem->getItem()->isMirroredArt())
 			glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
 
-		renderItem(&m_ItemInstance);
+		renderItem(pItem);
 		glPopMatrix();
 	}
 
-	glPopMatrix();
 	glDisable(GL_RESCALE_NORMAL);
+	Lighting::turnOff();
 }
 
 void ItemInHandRenderer::renderFire(float f)
@@ -246,10 +258,10 @@ void ItemInHandRenderer::renderFire(float f)
 	glColor4f(1.0f, 1.0f, 1.0f, 0.9f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	for (int i = 1, offset = 0; i != -3; i -= 2, offset += 16)
+	for (int i = 0; i < 2; i++)
 	{
 		glPushMatrix();
-		int texture = offset + Tile::fire->m_TextureFrame;
+		int texture = Tile::fire->m_TextureFrame + i * 16;
 
 		float texX = 16.0f * float(texture % 16), texY = 16.0f * float(texture / 16);
 		float texU_1 =  texX           / 256.0f;
@@ -257,8 +269,8 @@ void ItemInHandRenderer::renderFire(float f)
 		float texV_1 =  texY           / 256.0f;
 		float texV_2 = (texY + 15.99f) / 256.0f;
 
-		glTranslatef(float(i) * 0.24f, -0.3f, 0.0f);
-		glRotatef(float(i) * 10.0f, 0.0f, 1.0f, 0.0f);
+		glTranslatef(float(-(i * 2 - 1)) * 0.24f, -0.3f, 0.0f);
+		glRotatef(float(-(i * 2 - 1)) * 10.0f, 0.0f, 1.0f, 0.0f);
 
 		Tesselator& t = Tesselator::instance;
 		t.begin();
@@ -307,27 +319,27 @@ void ItemInHandRenderer::renderTex(float f, int texture)
 
 void ItemInHandRenderer::tick()
 {
-	field_20 = field_1C;
+	m_oHeight = m_height;
 
 	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItemId();
 
-	bool bSameItem = itemID == m_ItemInstance.m_itemID;
+	bool bSameItem = itemID == m_selectedItem.m_itemID;
 
 	float b = bSameItem ? 1.0f : 0.0f;
 
-	float a = b - field_1C;
+	float a = b - m_height;
 	if (a < -0.4f)
 		a = -0.4f;
 	if (a >= 0.4f)
 		a  = 0.4f;
 
-	field_1C += a;
+	m_height += a;
 
-	if (field_1C < 0.1f)
-		m_ItemInstance.m_itemID = itemID;
+	if (m_height < 0.1f)
+		m_selectedItem.m_itemID = itemID;
 }
 
-void ItemInHandRenderer::turn(float yd, float pd)
+void ItemInHandRenderer::turn(const Vec2& rot)
 {
 }
 
@@ -335,23 +347,24 @@ void ItemInHandRenderer::renderScreenEffect(float f)
 {
 	glDisable(GL_ALPHA_TEST);
 
-	if (m_pMinecraft->m_pLocalPlayer->isOnFire())
+	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
+	Textures* textures = m_pMinecraft->m_pTextures;
+	Level* level = m_pMinecraft->m_pLevel;
+
+	if (player->isOnFire())
 	{
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		textures->loadAndBindTexture(C_TERRAIN_NAME);
 		renderFire(f);
 	}
 
-	if (m_pMinecraft->m_pLocalPlayer->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
+	if (player->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
-		int fx = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.x);
-		int fy = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.y);
-		int fz = Mth::floor(m_pMinecraft->m_pLocalPlayer->m_pos.z);
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		textures->loadAndBindTexture(C_TERRAIN_NAME);
 		
-		Tile* pTile = Tile::tiles[m_pMinecraft->m_pLevel->getTile(fx, fy, fz)];
+		Tile* pTile = Tile::tiles[level->getTile(player->m_pos)];
 		if (pTile)
 		{
-			int texture = pTile->getTexture(DIR_ZNEG);
+			int texture = pTile->getTexture(Facing::NORTH);
 			renderTex(f, texture);
 		}
 	}

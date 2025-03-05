@@ -49,12 +49,12 @@ float ImprovedNoise::getValue(float x, float y, float z)
 	return noise(x, y, z);
 }
 
-float ImprovedNoise::lerp(float prog, float a, float b)
+float ImprovedNoise::lerp(float prog, float a, float b) const
 {
 	return a + (b - a) * prog;
 }
 
-float ImprovedNoise::grad(int hash, float x, float y, float z)
+float ImprovedNoise::grad(int hash, float x, float y, float z) const
 {
 	int h = hash & 0xF;
 	float u = h < 8 ? x : y;
@@ -62,12 +62,12 @@ float ImprovedNoise::grad(int hash, float x, float y, float z)
 	return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
 }
 
-float ImprovedNoise::grad2(int hash, float x, float z)
+float ImprovedNoise::grad2(int hash, float x, float z) const
 {
 	return grad(hash, x, 0.0f, z);
 }
 
-float ImprovedNoise::fade(float x)
+float ImprovedNoise::fade(float x) const
 {
 	return x * x * x * (x * (x * 6.0f - 15.0f) + 10.0f);
 }

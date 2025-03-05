@@ -15,27 +15,27 @@ class FireTile : public Tile
 public:
 	FireTile(int ID, int texture);
 
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	int getRenderShape() override;
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
-	int getResourceCount(Random*) override;
-	int getTickDelay() override;
-	bool mayPick() override;
-	bool mayPlace(Level*, int x, int y, int z) override;
-	void animateTick(Level*, int x, int y, int z, Random*) override;
-	void neighborChanged(Level*, int x, int y, int z, int dir) override;
-	void onPlace(Level*, int x, int y, int z) override;
-	void tick(Level*, int x, int y, int z, Random*) override;
+	AABB* getAABB(const Level*, const TilePos& pos) override;
+	int getRenderShape() const override;
+	bool isCubeShaped() const override;
+	bool isSolidRender() const override;
+	int getResourceCount(Random*) const override;
+	int getTickDelay() const override;
+	bool mayPick() const override;
+	bool mayPlace(const Level*, const TilePos& pos) const override;
+	void animateTick(Level*, const TilePos& pos, Random*) override;
+	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
+	void onPlace(Level*, const TilePos& pos) override;
+	void tick(Level*, const TilePos& pos, Random*) override;
 
-	void checkBurn(Level*, int x, int y, int z, int, Random*);
-	int getFireOdds(Level*, int x, int y, int z);
-	bool isValidFireLocation(Level*, int x, int y, int z);
+	void checkBurn(Level*, const TilePos& pos, int, Random*);
+	int getFireOdds(const Level*, const TilePos& pos);
+	bool isValidFireLocation(const Level*, const TilePos& pos) const;
 
 	// @NOTE: This is inlined in V0.1.0 but not V0.7.1
-	inline bool canBurn(LevelSource* level, int x, int y, int z)
+	inline bool canBurn(const LevelSource* level, const TilePos& pos) const
 	{
-		return m_igniteOdds[level->getTile(x, y, z)] > 0;
+		return m_igniteOdds[level->getTile(pos)] > 0;
 	}
 
 public:

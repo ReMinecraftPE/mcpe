@@ -15,6 +15,7 @@ void ItemInstance::init(int itemID, int amount, int auxValue)
 	m_itemID = itemID;
 	m_amount = amount;
 	m_auxValue = auxValue;
+	m_field_8 = 0;
 
 	//@BUG? Not using the auxValue.  This is problematic in the case of wool and dyes.
 }
@@ -69,7 +70,7 @@ int ItemInstance::getDamageValue()
 	return m_auxValue;
 }
 
-Item* ItemInstance::getItem()
+Item* ItemInstance::getItem() const
 {
 	return Item::items[m_itemID];
 }
@@ -94,17 +95,17 @@ float ItemInstance::getDestroySpeed(Tile* tile)
 	return getItem()->getDestroySpeed(this, tile);
 }
 
-int ItemInstance::getIcon()
+int ItemInstance::getIcon() const
 {
 	return getItem()->getIcon(this);
 }
 
-int ItemInstance::getMaxDamage()
+int ItemInstance::getMaxDamage() const
 {
 	return getItem()->getMaxDamage();
 }
 
-int ItemInstance::getMaxStackSize()
+int ItemInstance::getMaxStackSize() const
 {
 	return getItem()->getMaxStackSize();
 }
@@ -181,9 +182,9 @@ int ItemInstance::getAttackDamage(Entity *pEnt)
 	return getItem()->getAttackDamage(pEnt);
 }
 
-void ItemInstance::mineBlock(int x, int y, int z, int d)
+void ItemInstance::mineBlock(const TilePos& pos, Facing::Name face)
 {
-	return getItem()->mineBlock(this, x, y, z, d);
+	return getItem()->mineBlock(this, pos, face);
 }
 
 ItemInstance ItemInstance::remove(int amt)
@@ -214,7 +215,23 @@ ItemInstance* ItemInstance::use(Level* level, Player* player)
 	return getItem()->use(this, level, player);
 }
 
-bool ItemInstance::useOn(Player* player, Level* level, int x, int y, int z, int dir)
+bool ItemInstance::useOn(Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
-	return getItem()->useOn(this, player, level, x, y, z, dir);
+	return getItem()->useOn(this, player, level, pos, face);
+}
+
+bool ItemInstance::isNull() const
+{
+	// 0.9.2
+	//if (!m_field_10)
+	//	return true;
+
+	if (m_auxValue != 0)
+		return false;
+	if (m_amount != 0)
+		return false;
+	if (m_field_8 != 0)
+		return false;
+
+	return true; // isNull
 }

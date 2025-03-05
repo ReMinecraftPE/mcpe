@@ -136,7 +136,7 @@ void WorldSelectionList::touched()
 void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Tesselator& t)
 {
 	int xCenter = xPos + m_itemWidth / 2;
-	float mult = Max(1.1f - 0.0055f * float(abs(field_18 / 2 - xCenter)), 0.2f);
+	float mult = Mth::Max(1.1f - 0.0055f * float(abs(field_18 / 2 - xCenter)), 0.2f);
 	if (mult > 1.0f)
 		mult = 1.0f;
 
@@ -177,14 +177,14 @@ void WorldSelectionList::commit()
 		// @NOTE: this string stream crap is unused.
 		// Weirdly Java Edition Beta 1.3 did not have world previews, so its interesting to see PE try
 		std::stringstream ss;
-		ss << item.field_18 << "/preview.png";
+		ss << item.m_levelName << "/preview.png";
 
 		m_previewImages.push_back("gui/default_world.png");
 
 		std::vector<std::string> vs;
-		vs.push_back(item.field_18);
-		vs.push_back(m_pMinecraft->platform()->getDateString(item.field_30));
-		vs.push_back(item.field_0);
+		vs.push_back(item.m_levelName);
+		vs.push_back(m_pMinecraft->platform()->getDateString(item.m_lastPlayed));
+		vs.push_back(item.m_fileName);
 		m_vvs.push_back(vs);
 	}
 }

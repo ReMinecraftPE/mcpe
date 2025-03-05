@@ -15,15 +15,15 @@ class ReedTile : public Tile
 public:
 	ReedTile(int id);
 
-	bool canSurvive(Level*, int x, int y, int z) override;
-	AABB* getAABB(Level*, int x, int y, int z) override;
-	int getRenderShape() override;
-	bool isCubeShaped() override;
-	bool isSolidRender() override;
-	bool mayPlace(Level*, int x, int y, int z) override;
-	void tick(Level*, int x, int y, int z, Random*) override;
-	void neighborChanged(Level*, int x, int y, int z, int dir) override;
-	int getResource(int, Random*) override;
+	bool canSurvive(const Level*, const TilePos& pos) const override;
+	AABB* getAABB(const Level*, const TilePos& pos) override;
+	int getRenderShape() const override;
+	bool isCubeShaped() const override;
+	bool isSolidRender() const override;
+	bool mayPlace(const Level*, const TilePos& pos) const override;
+	void tick(Level*, const TilePos& pos, Random*) override;
+	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
+	int getResource(int, Random*) const override;
 
-	void checkAlive(Level*, int x, int y, int z);
+	void checkAlive(Level*, const TilePos& pos);
 };

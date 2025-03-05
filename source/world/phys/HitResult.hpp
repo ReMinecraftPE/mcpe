@@ -9,6 +9,8 @@
 #pragma once
 
 #include "Vec3.hpp"
+#include "world/level/TilePos.hpp"
+#include "world/Facing.hpp"
 
 class Entity;
 
@@ -16,14 +18,15 @@ class HitResult
 {
 public:
 	// looks ass backwards, but what can you do about it
-	enum eHitResultType
+	enum HitResultType
 	{
-		AABB,
+		TILE,
 		ENTITY,
 		NONE,
 	};
 
-	enum eHitSide
+	// Replaced with Facing::Name
+	/*enum HitSide //: signed char
 	{
 		NOHIT = -1,
 		MINY  =  0,
@@ -32,26 +35,23 @@ public:
 		MAXZ, // 3
 		MINX, // 4
 		MAXX, // 5
-	};
+	};*/
 
 private:
 	void _init();
 public:
 	HitResult() { _init(); }
 	HitResult(Entity*);
-	HitResult(int x, int y, int z, eHitSide hitSide, const Vec3&);
+	HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3&);
 	bool isHit() const {
 		return m_hitType != NONE;
 	}
 
 public:
-	eHitResultType m_hitType;
-	// block coords?
-	int m_tileX;
-	int m_tileY;
-	int m_tileZ;
+	HitResultType m_hitType;
+	TilePos m_tilePos;
 
-	eHitSide m_hitSide;
+	Facing::Name m_hitSide;
 
 	// hit position
 	Vec3 m_hitPos;

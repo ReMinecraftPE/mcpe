@@ -28,6 +28,8 @@ struct SoundDesc
 
 	SoundDesc()
 	{
+		m_pData = nullptr;
+		field_4 = 0;
 		m_pHeader = nullptr;
 	}
 	SoundDesc(PCMSoundHeader& header, uint16_t* data)

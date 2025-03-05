@@ -14,16 +14,18 @@ FlowerFeature::FlowerFeature(int id)
 	m_ID = id;
 }
 
-bool FlowerFeature::place(Level* level, Random* random, int x, int y, int z)
+bool FlowerFeature::place(Level* level, Random* random, const TilePos& pos)
 {
+	TilePos tp;
+
 	for (int i = 0; i < 64; i++)
 	{
-		int nX = x + random->nextInt(8) - random->nextInt(8);
-		int nY = y + random->nextInt(4) - random->nextInt(4);
-		int nZ = z + random->nextInt(8) - random->nextInt(8);
+		tp = TilePos(pos.x + random->nextInt(8) - random->nextInt(8),
+			         pos.y + random->nextInt(4) - random->nextInt(4),
+			         pos.z + random->nextInt(8) - random->nextInt(8));
 
-		if (level->isEmptyTile(nX, nY, nZ) && Tile::tiles[m_ID]->canSurvive(level, nX, nY, nZ))
-			level->setTileNoUpdate(nX, nY, nZ, m_ID);
+		if (level->isEmptyTile(tp) && Tile::tiles[m_ID]->canSurvive(level, tp))
+			level->setTileNoUpdate(tp, m_ID);
 	}
 
 	return true;

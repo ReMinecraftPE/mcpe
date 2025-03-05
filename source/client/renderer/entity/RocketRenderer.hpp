@@ -17,7 +17,7 @@ class FakeRocketTile : public Tile
 {
 public:
 	FakeRocketTile();
-	int getRenderShape() override;
+	int getRenderShape() const override;
 };
 
 class RocketRenderer : public EntityRenderer

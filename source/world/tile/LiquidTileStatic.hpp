@@ -15,9 +15,9 @@ class LiquidTileStatic : public LiquidTile
 public:
 	LiquidTileStatic(int id, Material* pMtl);
 
-	void neighborChanged(Level* level, int x, int y, int z, int dir) override;
-	void tick(Level* level, int x, int y, int z, Random* random) override;
+	void neighborChanged(Level* level, const TilePos& pos, TileID tile) override;
+	void tick(Level* level, const TilePos& pos, Random* random) override;
 
-	bool isFlammable(Level*, int x, int y, int z);
-	void setDynamic(Level*, int x, int y, int z);
+	bool isFlammable(Level*, const TilePos& pos);
+	void setDynamic(Level*, const TilePos& pos);
 };

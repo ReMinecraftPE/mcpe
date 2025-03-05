@@ -15,7 +15,7 @@ public:
 
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
 	Texture loadTexture(const std::string& path, bool b = false) override;
-	bool doesTextureExist(const std::string& path) override;
+	bool doesTextureExist(const std::string& path) const override;
 	
 	bool hasFileSystemAccess() override;
     std::string getPatchData() override;

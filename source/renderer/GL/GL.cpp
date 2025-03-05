@@ -27,6 +27,25 @@ void drawArrayVTC(GLuint buffer, int count, int stride)
 	xglDisableClientState(GL_COLOR_ARRAY);
 }
 
+void drawArrayVTN(GLuint buffer, int count, int stride)
+{
+#ifdef USE_GL_NORMAL_LIGHTING
+    xglBindBuffer(GL_ARRAY_BUFFER, buffer);
+    xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
+    xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    xglVertexPointer(3, GL_FLOAT, stride, nullptr);
+    xglEnableClientState(GL_VERTEX_ARRAY);
+    xglNormalPointer(GL_BYTE, stride, (void*)24);
+    xglEnableClientState(GL_NORMAL_ARRAY);
+    xglDrawArrays(GL_TRIANGLES, 0, count);
+    xglDisableClientState(GL_NORMAL_ARRAY);
+    xglDisableClientState(GL_VERTEX_ARRAY);
+    xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
+#else
+    drawArrayVT(buffer, count, stride);
+#endif
+}
+
 // It appears Mojang took the code from:
 // https://www.khronos.org/opengl/wiki/GluProject_and_gluUnProject_code
 

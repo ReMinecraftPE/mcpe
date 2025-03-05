@@ -26,12 +26,21 @@ struct GuiMessage
 
 class Gui : public GuiComponent
 {
+private:
+	static bool _isVignetteAvailable;
+public:
+	static bool isVignetteAvailable() { return _isVignetteAvailable; }
+	static void setIsVignetteAvailable(bool value) { _isVignetteAvailable = value; }
+
+private:
+	void renderPumpkin(int, int);
+	void renderVignette(float, int, int);
+
 public:
 	Gui(Minecraft* pMinecraft);
 
 	void addMessage(const std::string& str);
 	void inventoryUpdated();
-	void renderVignette(float, int, int);
 	void setNowPlaying(const std::string& str);
 	void render(float f, bool bHaveScreen, int mouseX, int mouseY);
 	void tick();

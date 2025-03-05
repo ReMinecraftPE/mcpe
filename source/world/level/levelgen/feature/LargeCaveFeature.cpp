@@ -42,7 +42,7 @@ void LargeCaveFeature::addTunnel(int x, int z, TileID* tiles, float rx, float ry
 
     float yRota = 0.0;
     float xRota = 0.0;
-    Random random(m_random.nextLong());
+    Random random(m_random.nextInt());
 
     if (dist <= 0)
     {

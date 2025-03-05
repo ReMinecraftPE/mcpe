@@ -91,9 +91,8 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 {
 	if (!m_bVisible) return;
 
-#ifdef ENH_HIGHLIGHT_BY_HOVER
-	field_36 = clicked(pMinecraft, xPos, yPos);
-#endif
+	if (!pMinecraft->useController())
+		field_36 = clicked(pMinecraft, xPos, yPos);
 
 	Font* pFont = pMinecraft->m_pFont;
 	Textures* pTexs = pMinecraft->m_pTextures;
