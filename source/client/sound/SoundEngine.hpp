@@ -20,7 +20,7 @@ private:
 	float _getVolumeMult(const Vec3& pos);
 public:
 	SoundEngine(SoundSystem* soundSystem);
-	void init(Options*);
+	void init(Options*, AppPlatform*);
 	void enable(bool b);
 	void updateOptions();
 	void mute();

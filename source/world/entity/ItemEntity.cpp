@@ -12,7 +12,7 @@
 void ItemEntity::_init(const ItemInstance* itemInstance)
 {
 	field_E0 = 0;
-	field_E4 = 0;
+	m_throwTime = 0;
 	field_EC = 0;
 	m_health = 5;
 	m_bMakeStepSound = false;
@@ -65,15 +65,17 @@ bool ItemEntity::isInWater()
 void ItemEntity::playerTouch(Player* player)
 {
 	// Here, this would give the item to the player, and remove the item entity.
-	if (field_E4 != 0)
+	if (m_throwTime != 0)
 		return;
 
 	Inventory* pInventory = player->m_pInventory;
 
 	pInventory->addItem(&m_itemInstance);
 
-	m_pLevel->playSound(this, "random.pop", 0.3f,
-		(((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f) + (((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f));
+	m_pLevel->playSound(this, "random.pop", 0.2f,
+		(((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f) * 2.0f);
+
+	player->take(this, m_itemInstance.m_amount);
 
 	if (m_itemInstance.m_amount <= 0)
 		remove();
@@ -83,8 +85,8 @@ void ItemEntity::tick()
 {
 	Entity::tick();
 
-	if (field_E4 > 0)
-		field_E4--;
+	if (m_throwTime > 0)
+		m_throwTime--;
 
 	m_oPos = m_pos;
 	m_vel.y -= 0.04f;

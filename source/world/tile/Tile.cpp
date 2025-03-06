@@ -1059,7 +1059,7 @@ void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data, float fCh
 
 		ItemInstance inst(id, 1, getSpawnResourcesAuxValue(data));
 		ItemEntity* pEntity = new ItemEntity(pLevel, Vec3(pos) + o, &inst);
-		pEntity->field_E4 = 10;
+		pEntity->m_throwTime = 10;
 
 		pLevel->addEntity(pEntity);
 	}

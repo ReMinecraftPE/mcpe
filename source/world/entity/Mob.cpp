@@ -12,14 +12,14 @@
 
 Mob::Mob(Level* pLevel) : Entity(pLevel)
 {
-	field_DC = 10;
+	m_invulnerableDuration = 10;
 	field_E8 = 0.0f;
 	field_EC = 0.0f;
 	field_F0 = 0;
 	m_oAttackAnim = 0.0f;
 	m_attackAnim = 0.0f;
 	m_health = 10;
-	field_100 = 20;
+	m_lastHealth = 20;
 	m_hurtTime = 0;
 	m_hurtDuration = 0;
 	m_hurtDir = 0.0f;
@@ -30,7 +30,7 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_120 = 0;
 	field_124 = 0;
 	field_128 = 0.0f;
-	field_12C = 0.0f;
+	m_walkAnimSpeed = 0.0f;
 	field_130 = 0.0f;
 	field_AFC = 0;
 	field_B00 = Vec2::ZERO;
@@ -51,10 +51,11 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_lSteps = 0;
 	m_lPos = Vec3::ZERO;
 	m_lRot = Vec2::ZERO;
-	field_B84 = 0;
+	m_lastHurt = 0;
 	m_pEntLookedAt = nullptr;
 	m_bSwinging = false;
 	m_swingTime = 0;
+	m_ambientSoundTime = 0;
 
 	m_texture = "/mob/pig.png";
 	m_class = "";
@@ -227,8 +228,20 @@ void Mob::baseTick()
 	m_oAttackAnim = m_attackAnim;
 	Entity::baseTick();
 
+	if (m_random.nextInt(1000) < m_ambientSoundTime++)
+	{
+		playAmbientSound();
+	}
+
 	if (isAlive() && isInWall())
 		hurt(nullptr, 1);
+
+	// Java
+	/*if (m_bFireImmune || m_pLevel->m_bIsMultiplayer)
+	{
+		m_fireTicks = 0;
+	}*/
+
 
 	if (isAlive() && isUnderLiquid(Material::water) && !isWaterMob())
 	{
@@ -261,7 +274,7 @@ void Mob::baseTick()
 
 	if (field_114 > 0) field_114--;
 	if (m_hurtTime > 0) m_hurtTime--;
-	if (field_B8  > 0) field_B8--;
+	if (m_invulnerableTime > 0) m_invulnerableTime--;
 
 	if (m_health <= 0)
 	{
@@ -311,17 +324,31 @@ bool Mob::hurt(Entity *pAttacker, int damage)
 	if (m_health <= 0)
 		return false;
 
-	field_12C = 1.5f;
-	if (float(field_B8) <= float(field_DC) * 0.5f)
+	m_walkAnimSpeed = 1.5f;
+	bool var3 = true;
+	if (float(m_invulnerableTime) > float(m_invulnerableDuration) / 2.0f)
 	{
-		field_100 = m_health;
-		field_B8 = field_DC;
-		field_B84 = damage;
-		actuallyHurt(damage);
-		m_hurtDuration = 10;
-		m_hurtTime = 10;
+		if (damage <= m_lastHurt)
+			return false;
 
-		// not in 0.1
+		actuallyHurt(damage - m_lastHurt);
+		m_lastHurt = damage;
+		var3 = false;
+	}
+	else
+	{
+		m_lastHurt = damage;
+		m_lastHealth = m_health;
+		m_invulnerableTime = m_invulnerableDuration;
+		actuallyHurt(damage);
+		m_hurtTime = m_hurtDuration = 10;
+	}
+
+	m_hurtDir = 0.0f;
+	// not in 0.1
+	if (var3)
+	{
+		//m_pLevel->broadcastEntityEvent(this, 2); // Java
 		markHurt();
 
 		if (pAttacker)
@@ -341,18 +368,21 @@ bool Mob::hurt(Entity *pAttacker, int damage)
 			knockback(pAttacker, damage, xd, zd);
 		}
 	}
-	else
-	{
-		if (field_B84 >= damage)
-			return 0;
 
-		actuallyHurt(damage - field_B84);
-		field_B84 = damage;
+	if (m_health <= 0)
+	{
+		if (var3)
+		{
+			m_pLevel->playSound(this, getDeathSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+		}
+
+		die(pAttacker);
+	}
+	else if (var3)
+	{
+		m_pLevel->playSound(this, getHurtSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
 	}
 
-	m_hurtDir = 0;
-	if (m_health <= 0)
-		die(pAttacker);
 
 	return true;
 }
@@ -432,7 +462,12 @@ std::string Mob::getTexture() const
 
 void Mob::playAmbientSound()
 {
-
+	m_ambientSoundTime = -getAmbientSoundInterval();
+	std::string sound = getAmbientSound();
+	if (sound != "")
+	{
+		m_pLevel->playSound(this, sound, getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+	}
 }
 
 int Mob::getAmbientSoundInterval() const
@@ -449,7 +484,7 @@ void Mob::heal(int health)
 	if (m_health > C_MAX_MOB_HEALTH)
 		m_health = C_MAX_MOB_HEALTH;
 
-	field_B8 = field_DC / 2;
+	m_invulnerableTime = m_invulnerableDuration / 2;
 }
 
 HitResult Mob::pick(float f1, float f2)
@@ -575,7 +610,7 @@ bool Mob::canSee(Entity* pEnt) const
 
 void Mob::updateWalkAnim()
 {
-	field_128 = field_12C;
+	field_128 = m_walkAnimSpeed;
 
 	float diffX = m_pos.x - m_oPos.x;
 	float diffZ = m_pos.z - m_oPos.z;
@@ -584,8 +619,8 @@ void Mob::updateWalkAnim()
 	if (spd > 1.0f)
 		spd = 1.0f;
 
-	field_12C += (spd - field_12C) * 0.4f;
-	field_130 += field_12C;
+	m_walkAnimSpeed += (spd - m_walkAnimSpeed) * 0.4f;
+	field_130 += m_walkAnimSpeed;
 }
 
 void Mob::aiStep()

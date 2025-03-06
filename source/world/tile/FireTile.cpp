@@ -68,6 +68,11 @@ int FireTile::getTickDelay() const
 
 void FireTile::animateTick(Level* level, const TilePos& pos, Random* random)
 {
+	if (random->nextInt(24) == 0)
+	{
+		level->playSound(pos + 0.5f, "fire.fire", 1.0f + random->nextFloat(), (random->nextFloat() * 0.7f) + 0.3f);
+	}
+
 	// @TODO: Mark Tile::fire as FireTile* instead of Tile*
 	FireTile* pFireTile = (FireTile*)Tile::fire;
 	if (level->isSolidTile(pos.below()) || pFireTile->canBurn(level, pos.below()))

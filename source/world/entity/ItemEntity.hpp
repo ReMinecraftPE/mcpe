@@ -37,7 +37,7 @@ public:
 #endif
 
 	int field_E0;
-	int field_E4;
+	int m_throwTime;
 	float field_E8;
 	int field_EC;
 	int m_health;

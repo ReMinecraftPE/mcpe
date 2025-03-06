@@ -210,7 +210,7 @@ void Player::drop(const ItemInstance* pItemInstance, bool b)
 		return;
 
 	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), pItemInstance);
-	pItemEntity->field_E4 = 40;
+	pItemEntity->m_throwTime = 40;
 
 	if (b)
 	{
@@ -305,7 +305,7 @@ void Player::stopDestroying()
 	m_destroyingBlock = false;
 }
 
-void Player::take(Entity* pEnt, int x)
+void Player::take(Entity* pEnt, int orgCount)
 {
 
 }
