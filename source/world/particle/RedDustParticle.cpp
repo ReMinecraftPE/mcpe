@@ -8,26 +8,21 @@
 
 #include "Particle.hpp"
 
-RedDustParticle::RedDustParticle(Level* level, float x, float y, float z, float vx, float vy, float vz) :
-	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
+RedDustParticle::RedDustParticle(Level* level, const Vec3& pos, const Vec3& dir) :
+	Particle(level, pos, Vec3::ZERO)
 {
 	field_104 = 0.0f;
 
-	m_vel.x = vx + m_vel.x * 0.1f;
-	m_vel.y = vy + m_vel.y * 0.1f;
-	m_vel.z = vz + m_vel.z * 0.1f;
-
-	if (vx == 0.0f)
-		vx = 1.0f;
+	m_vel = dir + m_vel * 0.1f;
 
 	float f = Mth::random() * 0.4f + 0.6f;
-	field_F8  = f * vx * (Mth::random() * 0.2f + 0.8f);
-	field_FC  = f * vy * (Mth::random() * 0.2f + 0.8f);
-	field_100 = f * vz * (Mth::random() * 0.2f + 0.8f);
+	m_rCol  = f * (dir.x != 0.0f ? dir.x : 1.0f) * (Mth::random() * 0.2f + 0.8f);
+	m_gCol  = f * dir.y						   * (Mth::random() * 0.2f + 0.8f);
+	m_bCol = f * dir.z						   * (Mth::random() * 0.2f + 0.8f);
 
 	field_104 = field_F0 = field_F0 * 0.75f;
 
-	m_bNoCollision = false;
+	m_bNoPhysics = false;
 	field_EC = int(8.0f / (0.2f + 0.8f * Mth::random()));
 }
 
@@ -45,7 +40,7 @@ void RedDustParticle::render(Tesselator& t, float f, float a, float b, float c, 
 
 void RedDustParticle::tick()
 {
-	field_3C = m_pos;
+	m_oPos = m_pos;
 
 	field_E8++;
 	if (field_E8 > field_EC)
@@ -54,9 +49,9 @@ void RedDustParticle::tick()
 	m_vel.y += 0.004f;
 	field_DC = -8 * field_E8 / field_EC + 7;
 
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
-	if (m_pos.y == field_3C.y)
+	if (m_pos.y == m_oPos.y)
 	{
 		m_vel.x *= 1.1f;
 		m_vel.z *= 1.1f;
@@ -64,7 +59,7 @@ void RedDustParticle::tick()
 
 	m_vel *= 0.96f;
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

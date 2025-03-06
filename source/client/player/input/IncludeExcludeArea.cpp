@@ -39,7 +39,7 @@ void IncludeExcludeArea::clear()
 			//       by the way, _really_ shouldn't be, then there will
 			//       be a NULL dereference!
 #ifdef ORIGINAL_CODE
-			if (area->field_4 && area)
+			if (area->m_vertices && area)
 #else
 			if (area && area->field_4)
 #endif
@@ -54,7 +54,7 @@ void IncludeExcludeArea::clear()
 
 			// @BUG: Same as the include bug.
 #ifdef ORIGINAL_CODE
-			if (area->field_4 && area)
+			if (area->m_vertices && area)
 #else
 			if (area && area->field_4)
 #endif

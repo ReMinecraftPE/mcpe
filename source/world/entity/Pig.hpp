@@ -14,15 +14,14 @@ class Pig : public Animal
 public:
 	Pig(Level* pLevel);
 
-	std::string getAmbientSound() override;
-	std::string getDeathSound() override;
-	std::string getHurtSound() override;
-	int getDeathLoot() override;
-	int getEntityTypeId() override;
-	int getMaxHealth() override;
-	bool interact(Player*) override;
+	std::string getAmbientSound() const override { return "mob.pig"; };
+	std::string getDeathSound() const override { return "mob.pigdeath"; }
+	std::string getHurtSound() const override { return "mob.pig"; }
+	int getDeathLoot() const override;
+	int getMaxHealth() const override { return 10; }
+	bool interact(Player*) override { return false; }
 
-	bool hasSaddle();
+	bool hasSaddle() const { return false; }
 	void setSaddle(bool b);
-	Entity* getBreedOffspring(Animal* pOther);
+	Entity* getBreedOffspring(Animal* pOther) { return new Pig(m_pLevel); }
 };

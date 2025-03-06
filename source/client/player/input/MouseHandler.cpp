@@ -1,6 +1,6 @@
 #include "MouseHandler.hpp"
 
-#include "common/Utils.hpp"
+#include "compat/LegacyCPPCompatibility.hpp"
 
 MouseHandler::MouseHandler() :
 	m_pTurnInput(nullptr)
@@ -25,6 +25,7 @@ void MouseHandler::poll()
 
 void MouseHandler::release()
 {
+	//platform()->recenterMouse();
 }
 
 bool MouseHandler::smoothTurning()

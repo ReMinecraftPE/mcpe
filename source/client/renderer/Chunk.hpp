@@ -19,7 +19,7 @@ class Entity;
 class Chunk
 {
 public:
-	Chunk(Level*, int, int, int, int, int, GLuint*);
+	Chunk(Level*, const TilePos& pos, int, int, GLuint*);
 
 	float distanceToSqr(const Entity*) const;
 	float squishedDistanceToSqr(const Entity*) const;
@@ -31,7 +31,7 @@ public:
 	void renderBB();
 	bool isEmpty();
 	void setDirty();
-	void setPos(int x, int y, int z);
+	void setPos(const TilePos& pos);
 	void setClean();
 	bool isDirty();
 	void rebuild();
@@ -42,12 +42,10 @@ public:
 
 public:
 	Level* m_pLevel;
-	Pos m_pos;
-	int field_10;
-	int field_14;
-	int field_18;
+	TilePos m_pos;
+	TilePos field_10;
 	bool field_1C[2];
-	Pos m_pos2;
+	TilePos m_pos2;
 	float field_2C;
 	AABB m_aabb;
 	int field_48;

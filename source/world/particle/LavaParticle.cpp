@@ -9,27 +9,27 @@
 #include "Particle.hpp"
 #include "world/level/Level.hpp"
 
-LavaParticle::LavaParticle(Level* level, float x, float y, float z) :
-	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
+LavaParticle::LavaParticle(Level* level, const Vec3& pos) :
+	Particle(level, pos, Vec3::ZERO)
 {
 	field_104 = 0.0f;
 
 	m_vel *= 0.8f;
 	m_vel.y = sharedRandom.nextFloat() * 0.4f + 0.05f;
-	field_F8 = field_FC = field_100 = 1.0f;
+	m_rCol = m_gCol = m_bCol = 1.0f;
 	field_104 = field_F0 = field_F0 * (0.2f + 2 * sharedRandom.nextFloat());
 	field_DC = PTI_LAVA;
 	field_EC = int(16.0f / (0.2f + 0.8f * Mth::random()));
 }
 
-float LavaParticle::getBrightness(float unused)
+float LavaParticle::getBrightness(float unused) const
 {
 	return 1.0f;
 }
 
 void LavaParticle::tick()
 {
-	field_3C = m_pos;
+	m_oPos = m_pos;
 
 	field_E8++;
 	if (field_E8 > field_EC)
@@ -39,14 +39,14 @@ void LavaParticle::tick()
 	float b = sharedRandom.nextFloat();
 	if (a < b)
 	{
-		m_pLevel->addParticle("smoke", m_pos.x, m_pos.y, m_pos.z, m_vel.x, m_vel.y, m_vel.z);
+		m_pLevel->addParticle("smoke", m_pos, m_vel);
 	}
 
 	m_vel.y -= 0.03f;
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	m_vel *= 0.999f;
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

@@ -9,6 +9,8 @@
 #pragma once
 
 #include "Biome.hpp"
+#include "world/level/levelgen/chunk/ChunkPos.hpp"
+#include "world/level/TilePos.hpp"
 
 class Level;
 class BiomeSource
@@ -20,10 +22,9 @@ public:
 	BiomeSource(Level*);
 	virtual ~BiomeSource();
 
-	virtual Biome* getBiome(ChunkPos&);
-	virtual Biome* getBiome(int, int);
-	virtual Biome** getBiomeBlock(int, int, int, int);
-	virtual Biome** getBiomeBlock(Biome**, int, int, int, int);
+	virtual Biome* getBiome(const ChunkPos& pos);
+	virtual Biome** getBiomeBlock(const TilePos& pos, int, int);
+	virtual Biome** getBiomeBlock(Biome**, const TilePos& pos, int, int);
 	virtual float* getTemperatureBlock(int, int, int, int);
 
 public:

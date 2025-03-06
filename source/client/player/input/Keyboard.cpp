@@ -17,12 +17,10 @@ bool Keyboard::_blocked = false;
 
 void Keyboard::feed(KeyState state, int key)
 {
-#ifndef ORIGINAL_CODE
 	// Prevent Crashes
 	if (key >= KEYBOARD_STATES_SIZE || key < 0) {
 		return;
 	}
-#endif
 
 	_inputs.push_back(KeyboardAction(key, state));
 

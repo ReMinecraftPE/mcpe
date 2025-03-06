@@ -1,14 +1,8 @@
 #include "FoliageColor.hpp"
 
-// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
-bool g_bIsFoliageColorAvailable = false;
+bool FoliageColor::_isAvailable = false;
 
 Texture FoliageColor::texture;
-
-bool FoliageColor::isAvailable()
-{
-	return g_bIsFoliageColorAvailable;
-}
 
 void FoliageColor::init(Texture texture)
 {

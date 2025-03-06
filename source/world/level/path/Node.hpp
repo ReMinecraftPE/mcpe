@@ -9,6 +9,7 @@
 
 #include <stddef.h>
 #include "compat/LegacyCPPCompatibility.hpp"
+#include "world/level/TilePos.hpp"
 
 struct Node
 {
@@ -16,11 +17,9 @@ struct Node
 	float field_4;
 	float field_8;
 	float field_C;
-	Node* field_10;
-	short m_x;
-	short m_y;
-	short m_z;
-	bool field_1A;
+	Node* m_pCameFrom;
+	TilePos m_tilePos;
+	bool m_bClosed;
 	int m_hash;
 
 	Node()
@@ -28,11 +27,9 @@ struct Node
 		init();
 	}
 
-	void setPos(int x, int y, int z)
+	void setPos(const TilePos& tilePos)
 	{
-		m_x = short(x);
-		m_y = short(y);
-		m_z = short(z);
+		m_tilePos = tilePos;
 	}
 
 	void setHash(int index)
@@ -46,17 +43,15 @@ struct Node
 		field_4 = 0.0f;
 		field_8 = 0.0f;
 		field_C = 0.0f;
-		field_10 = nullptr;
-		m_x = 0;
-		m_y = 0;
-		m_z = 0;
-		field_1A = false;
+		m_pCameFrom = nullptr;
+		m_tilePos = TilePos(0, 0, 0);
+		m_bClosed = false;
 		m_hash = 0;
 	}
 
 	bool equals(Node* node)
 	{
-		return m_hash == node->m_hash && m_x == node->m_x && m_y == node->m_y && m_z == node->m_z;
+		return m_hash == node->m_hash && m_tilePos == node->m_tilePos;
 	}
 
 	float distanceTo(Node* node);

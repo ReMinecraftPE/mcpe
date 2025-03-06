@@ -49,9 +49,6 @@
     <ClInclude Include="$(MC_ROOT)\source\common\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\common\LongHack.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\common\Matrix.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
