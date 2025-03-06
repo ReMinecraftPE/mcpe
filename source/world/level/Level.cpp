@@ -1663,6 +1663,7 @@ void Level::animateTick(const TilePos& pos)
 {
 	Random random;
 
+	// frequency is 1000 on JE, 100 on PE
 	for (int i = 0; i < 100; i++)
 	{
 		TilePos aPos(pos.x + m_random.nextInt(16) - m_random.nextInt(16),
