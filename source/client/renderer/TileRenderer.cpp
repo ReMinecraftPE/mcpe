@@ -1017,7 +1017,7 @@ void TileRenderer::tesselateTorch(Tile* tile, const Vec3& pos, float a, float b)
 	float texV_1 = (texY * C_RATIO) + 1.0f / 32.0f;
 	float texV_2 = (texY + 15.99f) * C_RATIO;
 
-	float x1 = x + C_HALF_TILE, z1 = z + C_HALF_TILE;
+	float x1 = pos.x + C_HALF_TILE, z1 = pos.z + C_HALF_TILE;
 	float x2 = x1 + (float)(a * C_TOP_SKEW_RATIO);
 	float z2 = z1 + (float)(b * C_TOP_SKEW_RATIO);
 
@@ -1050,9 +1050,9 @@ void TileRenderer::tesselateTorch(Tile* tile, const Vec3& pos, float a, float b)
 	float z_9 = z_5 + b;
 	float z_0 = z_6 + b;
 
-	float y_1 = y + C_ONE_PIXEL * 10.0f; // Torch height
-	float y_2 = y + 1.0f; // Top
-	float y_3 = y + 0.0f; // Bottom
+	float y_1 = pos.y + C_ONE_PIXEL * 10.0f; // Torch height
+	float y_2 = pos.y + 1.0f; // Top
+	float y_3 = pos.y + 0.0f; // Bottom
 
 	float texU_3 = texU_1 + 0.027344f;
 	float texU_4 = texU_1 + 0.035156f;
