@@ -163,7 +163,7 @@ _done:
 	
 	capXPosition();
 	
-	//glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHTING);
 	glDisable(GL_FOG);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
