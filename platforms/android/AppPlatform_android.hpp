@@ -56,7 +56,7 @@ public:
 
 	SoundSystem* const getSoundSystem() const override;
 	void initSoundSystem() override;
-	bool isTouchscreen() override;
+	bool isTouchscreen() const override;
 
 	void setScreenSize(int width, int height);
 	void initAndroidApp(android_app* ptr);

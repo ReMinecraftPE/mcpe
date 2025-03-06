@@ -33,8 +33,8 @@ public:
 #endif
 
 private:
-	VertexPT m_verts[4];
-	bool m_bFlipNormals;
+	VertexPT m_vertices[4];
+	bool m_bFlipNormalFlag;
 
 #ifdef ENH_ENTITY_SHADING
 	int m_color;

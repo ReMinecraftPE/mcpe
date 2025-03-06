@@ -16,14 +16,17 @@
 #include "world/level/storage/LevelSource.hpp"
 #include "world/level/Material.hpp"
 #include "world/entity/Entity.hpp"
+#include "world/level/levelgen/chunk/LevelChunk.hpp"
+#include "world/Facing.hpp"
+#include "world/level/TilePos.hpp"
+#include "world/phys/Vec3.hpp"
+#include "world/phys/HitResult.hpp"
 
 class Level;
 class Entity;
 class Mob;
 class Player;
 class LiquidTile;
-
-// TODO: split out tiles into their own header files.
 
 class Tile
 {
@@ -38,67 +41,68 @@ public: // structs
 
 public: // virtual functions
 	virtual ~Tile();
-	virtual bool isCubeShaped();
-	virtual int getRenderShape();
+	virtual bool isCubeShaped() const;
+	virtual int getRenderShape() const;
 	virtual Tile* setShape(float, float, float, float, float, float);
-	virtual void updateShape(LevelSource*, int, int, int);
+	virtual void updateShape(const LevelSource*, const TilePos& pos);
 	virtual void updateDefaultShape();
-	virtual void addLights(Level*, int, int, int);
-	virtual float getBrightness(LevelSource*, int, int, int);
-	virtual bool shouldRenderFace(LevelSource*, int, int, int, int);
-	virtual int getTexture(int);
-	virtual int getTexture(int, int);
-	virtual int getTexture(LevelSource*, int, int, int, int);
-	virtual AABB* getAABB(Level*, int, int, int);
-	virtual void addAABBs(Level*, int, int, int, const AABB*, std::vector<AABB>&);
-	virtual AABB getTileAABB(Level*, int, int, int);
-	virtual bool isSolidRender();
-	virtual bool mayPick();
-	virtual bool mayPick(int, bool);
-	virtual bool mayPlace(Level*, int, int, int);
-	virtual int getTickDelay();
-	virtual void tick(Level*, int, int, int, Random*);
-	virtual void animateTick(Level*, int, int, int, Random*);
-	virtual void destroy(Level*, int, int, int, int dir);
-	virtual void neighborChanged(Level*, int, int, int, int);
-	virtual void onPlace(Level*, int, int, int);
-	virtual void onRemove(Level*, int, int, int);
-	virtual int getResource(int, Random*);
-	virtual int getResourceCount(Random*);
-	virtual float getDestroyProgress(Player*);
-	virtual void spawnResources(Level*, int, int, int, int);
-	virtual void spawnResources(Level*, int, int, int, int, float);
+	virtual void addLights(Level*, const TilePos& pos);
+	virtual float getBrightness(const LevelSource*, const TilePos& pos) const;
+	virtual bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const;
+	virtual int getTexture(Facing::Name face) const;
+	virtual int getTexture(Facing::Name face, int data) const;
+	virtual int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const;
+	virtual AABB* getAABB(const Level*, const TilePos& pos);
+	virtual void addAABBs(const Level*, const TilePos& pos, const AABB*, std::vector<AABB>&);
+	virtual AABB getTileAABB(const Level*, const TilePos& pos);
+	virtual bool isSolidRender() const;
+	virtual bool mayPick() const;
+	virtual bool mayPick(int, bool) const;
+	virtual bool mayPlace(const Level*, const TilePos& pos) const;
+	virtual int getTickDelay() const;
+	virtual void tick(Level*, const TilePos& pos, Random*);
+	virtual void animateTick(Level*, const TilePos& pos, Random*);
+	virtual void destroy(Level*, const TilePos& pos, int data);
+	virtual void neighborChanged(Level*, const TilePos& pos, TileID tile);
+	virtual void onPlace(Level*, const TilePos& pos);
+	virtual void onRemove(Level*, const TilePos& pos);
+	virtual int getResource(int, Random*) const;
+	virtual int getResourceCount(Random*) const;
+	virtual float getDestroyProgress(Player*) const;
+	virtual void spawnResources(Level*, const TilePos& pos, int);
+	virtual void spawnResources(Level*, const TilePos& pos, int, float);
 	virtual int spawnBurnResources(Level*, float, float, float);
-	virtual float getExplosionResistance(Entity*);
-	virtual HitResult clip(Level*, int, int, int, Vec3, Vec3);
-	virtual void wasExploded(Level*, int, int, int);
-	virtual int getRenderLayer();
-	virtual int use(Level*, int, int, int, Player*);
-	virtual void stepOn(Level*, int, int, int, Entity*);
-	virtual void setPlacedOnFace(Level*, int, int, int, int);
-	virtual void setPlacedBy(Level*, int, int, int, Mob*);
-	virtual void prepareRender(Level*, int, int, int);
-	virtual void attack(Level*, int, int, int, Player*);
-	virtual void handleEntityInside(Level*, int, int, int, Entity*, Vec3&);
-	virtual int getColor(LevelSource*, int, int, int);
-	virtual bool isSignalSource();
-	virtual int getSignal(LevelSource*, int, int, int);
-	virtual int getSignal(LevelSource*, int, int, int, int);
-	virtual int getDirectSignal(Level*, int, int, int, int);
-	virtual void entityInside(Level*, int, int, int, Entity*);
-	virtual void playerDestroy(Level*, Player*, int, int, int, int);
-	virtual bool canSurvive(Level*, int, int, int);
-	virtual std::string getName();
-	virtual std::string getDescriptionId();
+	virtual float getExplosionResistance(Entity*) const;
+	virtual HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3);
+	virtual void wasExploded(Level*, const TilePos& pos);
+	virtual int getRenderLayer() const;
+	virtual int use(Level*, const TilePos& pos, Player*);
+	virtual void stepOn(Level*, const TilePos& pos, Entity*);
+	virtual void setPlacedOnFace(Level*, const TilePos& pos, Facing::Name face);
+	virtual void setPlacedBy(Level*, const TilePos& pos, Mob*);
+	virtual void prepareRender(Level*, const TilePos& pos);
+	virtual void attack(Level*, const TilePos& pos, Player*);
+	virtual void handleEntityInside(Level*, const TilePos& pos, const Entity*, Vec3&);
+	virtual int getColor(const LevelSource*, const TilePos& pos) const;
+	virtual bool isSignalSource() const;
+	virtual int getSignal(const LevelSource*, const TilePos& pos) const;
+	virtual int getSignal(const LevelSource*, const TilePos& pos, Facing::Name face) const;
+	virtual int getDirectSignal(const Level*, const TilePos& pos, Facing::Name face) const;
+	virtual void entityInside(Level*, const TilePos& pos, Entity*) const;
+	virtual void playerDestroy(Level*, Player*, const TilePos& pos, int);
+	virtual void playerWillDestroy(Player*, const TilePos& pos, int);
+	virtual bool canSurvive(const Level*, const TilePos& pos) const;
+	virtual std::string getName() const;
+	virtual std::string getDescriptionId() const;
 	virtual Tile* setDescriptionId(std::string const&);
-	virtual void triggerEvent(Level*, int, int, int, int, int);
+	virtual void triggerEvent(Level*, const TilePos& pos, int, int);
 	virtual Tile* setSoundType(Tile::SoundType const&);
 	virtual Tile* setLightBlock(int);
 	virtual Tile* setLightEmission(float);
 	virtual Tile* setExplodeable(float);
 	virtual Tile* setDestroyTime(float);
 	virtual Tile* setTicking(bool);
-	virtual int getSpawnResourcesAuxValue(int);
+	virtual int getSpawnResourcesAuxValue(int) const;
 
 private:
 	void _init();
@@ -120,7 +124,7 @@ public: // static functions
 
 public: // static variables
 	static std::string TILE_DESCRIPTION_PREFIX;
-	static SoundType
+	static const SoundType
 		SOUND_NORMAL,
 		SOUND_WOOD,
 		SOUND_GRAVEL,
@@ -155,6 +159,7 @@ public: // static variables
 		* dirt,
 		* grass,
 		* ice,
+		* snow,
 		* clay,
 		* farmland,
 		* stoneSlab,
@@ -182,6 +187,8 @@ public: // static variables
 		* topSnow,
 		* treeTrunk,
 		* leaves,
+		* leaves_carried,
+		* info_reserved6,
 		* emeraldOre, //! actually diamond ore
 		* redStoneOre,
 		* redStoneOre_lit,

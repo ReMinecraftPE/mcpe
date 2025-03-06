@@ -15,13 +15,13 @@ class SandTile : public Tile
 public:
 	SandTile(int ID, int texture, Material*);
 
-	int getTickDelay() override;
-	void tick(Level* level, int x, int y, int z, Random* random) override;
-	void neighborChanged(Level* level, int x, int y, int z, int dir) override;
-	void onPlace(Level* level, int x, int y, int z) override;
+	int getTickDelay() const override;
+	void tick(Level* level, const TilePos& pos, Random* random) override;
+	void neighborChanged(Level* level, const TilePos& pos, TileID tile) override;
+	void onPlace(Level* level, const TilePos& pos) override;
 
-	void checkSlide(Level* level, int x, int y, int z);
-	static bool isFree(Level* level, int x, int y, int z);
+	void checkSlide(Level* level, const TilePos& pos);
+	static bool isFree(Level* level, const TilePos& pos);
 
 	static bool instaFall;
 };

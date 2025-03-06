@@ -14,7 +14,7 @@ class ITouchScreenModel
 {
 public:
 	virtual ~ITouchScreenModel();
-	virtual int getPointerId(const MouseAction&);
-	virtual int getPointerId(int x, int y, int pointerId);
+	virtual int getPointerId(const MouseAction&) const;
+	virtual int getPointerId(int x, int y, int pointerId) const;
 };
 

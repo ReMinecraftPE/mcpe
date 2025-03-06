@@ -17,7 +17,7 @@ class TripodTile : public Tile
 {
 public:
 	TripodTile();
-	int getRenderShape() override;
+	int getRenderShape() const override;
 };
 
 class TripodCameraRenderer : public EntityRenderer

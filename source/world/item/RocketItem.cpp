@@ -15,23 +15,25 @@ RocketItem::RocketItem(int id) : Item(id)
 {
 }
 
-bool RocketItem::useOn(ItemInstance* inst, Player* player, Level* level, int x, int y, int z, int dir)
+bool RocketItem::useOn(ItemInstance* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
-	if (level->getTile(x, y, z) == Tile::topSnow->m_ID)
+	TilePos tp(pos);
+
+	if (level->getTile(pos) == Tile::topSnow->m_ID)
 	{
-		dir = DIR_YNEG;
+		face = Facing::DOWN;
 	}
-	else switch (dir)
+	else switch (face)
 	{
-		case DIR_YNEG: y--; break;
-		case DIR_YPOS: y++; break;
-		case DIR_ZNEG: z--; break;
-		case DIR_ZPOS: z++; break;
-		case DIR_XNEG: x--; break;
-		case DIR_XPOS: x++; break;
+		case Facing::DOWN: tp.y--; break;
+		case Facing::UP: tp.y++; break;
+		case Facing::NORTH: tp.z--; break;
+		case Facing::SOUTH: tp.z++; break;
+		case Facing::WEST: tp.x--; break;
+		case Facing::EAST: tp.x++; break;
 	}
 
-	level->addEntity(new Rocket(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f));
+	level->addEntity(new Rocket(level, tp + 0.5f));
 
 	inst->m_amount--;
 	return true;

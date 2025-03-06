@@ -19,6 +19,7 @@
 
 #include "AppPlatform_win32.hpp"
 #include "LoggerWin32.hpp"
+#include "resource.h"
 
 LPCTSTR g_WindowClassName = TEXT("MCPEClass");
 
@@ -115,21 +116,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
-extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
-extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
-extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
-
-void CheckOptionalTextureAvailability()
-{
-	// TODO: These should be inside of an initialized "Minecraft" instance rather than the global namespace
-	// Optional features that you really should be able to get away with not including.
-	g_bIsMenuBackgroundAvailable = XPL_ACCESS("assets/gui/background/panorama_0.png", 0) == 0;
-	g_bAreCloudsAvailable        = XPL_ACCESS("assets/environment/clouds.png",        0) == 0;
-	g_bIsGrassColorAvailable     = XPL_ACCESS("assets/misc/grasscolor.png",           0) == 0;
-	g_bIsFoliageColorAvailable   = XPL_ACCESS("assets/misc/foliagecolor.png",         0) == 0;
-}
-
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 #if defined(_DEBUG) && defined(MOD_POPOUT_CONSOLE)
@@ -154,13 +140,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
-	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = g_WindowClassName;
-	
-	CheckOptionalTextureAvailability();
 
 	RECT wr = { 0,0, g_AppPlatform.getScreenWidth(), g_AppPlatform.getScreenHeight() };
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);

@@ -17,8 +17,8 @@ void ChunkDataPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* p
 void ChunkDataPacket::write(RakNet::BitStream* bs)
 {
 	bs->Write((unsigned char)PACKET_CHUNK_DATA);
-	bs->Write(m_x);
-	bs->Write(m_z);
+	bs->Write(m_chunkPos.x);
+	bs->Write(m_chunkPos.z);
 	
 	// Well, we first have to prepare the data.
 	m_data.Reset();
@@ -50,8 +50,8 @@ void ChunkDataPacket::write(RakNet::BitStream* bs)
 
 void ChunkDataPacket::read(RakNet::BitStream* bs)
 {
-	bs->Read(m_x);
-	bs->Read(m_z);
+	bs->Read(m_chunkPos.x);
+	bs->Read(m_chunkPos.z);
 	bs->Read(m_data);
 	m_data.ResetReadPointer();
 }

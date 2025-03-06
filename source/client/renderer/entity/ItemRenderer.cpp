@@ -30,8 +30,8 @@ const uint8_t g_ItemFrames[C_MAX_TILES] =
 
 ItemRenderer::ItemRenderer()
 {
-	field_4 = 0.15f;
-	field_8 = 0.75f;
+	m_shadowRadius = 0.15f;
+	m_shadowStrength = 0.75f;
 }
 
 void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, float b)
@@ -41,7 +41,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 
 	glPushMatrix();
 	float yOffset = Mth::sin((float(pItemEntity->field_E0) + b) / 10.0f + pItemEntity->field_E8);
-	ItemInstance* pItemInstance = pItemEntity->m_pItemInstance;
+	const ItemInstance* pItemInstance = &(pItemEntity->m_itemInstance);
 
 	int itemsToRender = 1;
 	if (pItemInstance->m_amount > 1)
@@ -80,13 +80,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale);
 			}
 
-			#ifdef ENH_SHADE_HELD_TILES
-			#	define PARM_HACK , pItemEntity->getBrightness(1.0f)
-			#else
-			#	define PARM_HACK
-			#endif
-			tileRenderer->renderTile(Tile::tiles[itemID], pItemInstance->m_auxValue PARM_HACK);
-			#undef PARM_HACK
+			tileRenderer->renderTile(Tile::tiles[itemID], pItemInstance->m_auxValue, pItemEntity->getBrightness(1.0f));
 			glPopMatrix();
 		}
 	}
@@ -108,7 +102,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f);
 			}
 
-			glRotatef(180.0f - m_pDispatcher->m_yaw, 0.0f, 1.0f, 0.0f);
+			glRotatef(180.0f - m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
 
 			Tesselator& t = Tesselator::instance;
 			t.begin();
@@ -117,6 +111,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 			float bright = pItemEntity->getBrightness(1.0f);
 			t.color(bright, bright, bright);
 #endif
+			t.normal(0.0f, 1.0f, 0.0f);
 			t.vertexUV(-0.5f, -0.25f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, -0.25f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
@@ -244,13 +239,8 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		// TODO: Why can't we rotate stairs 90deg also? What's rotating them!?
 		if (Tile::tiles[itemID]->getRenderShape() != SHAPE_STAIRS)
 			glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
-
-		#ifdef ENH_SHADE_HELD_TILES
-		#	define PARM_HACK , 1
-		#else
-		#	define PARM_HACK
-		#endif
-		tileRenderer->renderTile(Tile::tiles[itemID], instance->m_auxValue PARM_HACK);
+		
+		tileRenderer->renderTile(Tile::tiles[itemID], instance->m_auxValue, 1.0f, true);
 		#undef PARM_HACK
 
 		glPopMatrix();

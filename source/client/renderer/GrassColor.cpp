@@ -1,14 +1,8 @@
 #include "GrassColor.hpp"
 
-// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
-bool g_bIsGrassColorAvailable = false;
+bool GrassColor::_isAvailable = false;
 
 Texture GrassColor::texture;
-
-bool GrassColor::isAvailable()
-{
-	return g_bIsGrassColorAvailable;
-}
 
 void GrassColor::init(Texture texture)
 {

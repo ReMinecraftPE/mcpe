@@ -27,6 +27,9 @@
     <ClInclude Include="$(MC_ROOT)\platforms\sound\directsound\CustomSoundSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\platforms\windows\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c">
@@ -44,5 +47,15 @@
     <ClCompile Include="$(MC_ROOT)\platforms\sound\directsound\SoundSystemDS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="$(MC_ROOT)\platforms\windows\MinecraftClient.Win32.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="$(MC_ROOT)\game\assets\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

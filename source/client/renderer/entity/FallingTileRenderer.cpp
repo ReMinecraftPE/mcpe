@@ -13,7 +13,7 @@
 
 FallingTileRenderer::FallingTileRenderer()
 {
-	field_4 = 0.5f;
+	m_shadowRadius = 0.5f;
 }
 
 void FallingTileRenderer::render(Entity* entity, float x, float y, float z, float a6, float a7)

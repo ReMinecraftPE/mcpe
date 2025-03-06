@@ -8,6 +8,7 @@
 
 #include "NinecraftApp.hpp"
 #include "world/item/Item.hpp"
+#include "world/entity/MobCategory.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 
@@ -33,7 +34,7 @@ bool NinecraftApp::handleBack(bool b)
 	}
 
 	if (b)
-		return 1;
+		return true;
 
 	if (!m_pScreen)
 	{
@@ -43,6 +44,13 @@ bool NinecraftApp::handleBack(bool b)
 
 	if (m_pScreen->handleBackEvent(b))
 		return true;
+
+	if (isGamePaused())
+	{
+		resumeGame();
+		return true;
+	}
+
 
 	setScreen(nullptr);
 	return true;
@@ -76,9 +84,12 @@ void NinecraftApp::init()
 	{
 		_hasInitedStatics = true;
 		Material::initMaterials();
+		EntityTypeDescriptor::initDescriptors(); // custom
+		MobCategory::initMobCategories();
 		Tile::initTiles();
 		Item::initItems();
 		Biome::initBiomes();
+		//TileEntity::initTileEntities();
 	}
 
 	initGLStates();

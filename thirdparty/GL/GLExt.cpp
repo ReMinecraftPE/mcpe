@@ -13,7 +13,7 @@
 
 #ifdef _WIN32
 HWND GetHWND();
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 // this is stupidly hacky
 typedef BOOL(WINAPI* PFNWGLSWAPINTERVALEXTPROC) (int interval);
 #endif
@@ -31,7 +31,7 @@ PFNGLBUFFERDATAPROC p_glBufferData;
 PFNGLGENBUFFERSPROC p_glGenBuffers;
 PFNGLDELETEBUFFERSPROC p_glDeleteBuffers;
 #endif
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 // Note: don't use xglSwapIntervalEXT if you want vsync, you don't know if it's supported
 // on your platform so you need to query the extension APIs
 PFNWGLSWAPINTERVALEXTPROC p_wglSwapIntervalEXT;
@@ -62,7 +62,7 @@ void xglInit()
 #endif
 #endif
 
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 	p_wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
 #endif
 
@@ -119,6 +119,13 @@ void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* poin
 	glColorPointer(size, type, stride, pointer);
 }
 
+void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+#ifdef USE_GL_NORMAL_LIGHTING
+	glNormalPointer(type, stride, pointer);
+#endif
+}
+
 void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer)
 {
 	glVertexPointer(size, type, stride, pointer);
@@ -130,7 +137,7 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 }
 #endif
 
-#ifndef USE_GL_ORTHO_F
+#ifndef xglOrthof
 
 void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearpl, GLfloat farpl)
 {
@@ -141,7 +148,7 @@ void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat
 
 void xglSwapIntervalEXT(int interval)
 {
-#ifndef USE_OPENGL_2
+#ifndef USE_OPENGL_2_FEATURES
 	if (!p_wglSwapIntervalEXT)
 		return;
 
@@ -179,6 +186,11 @@ struct GLBuffer
 	GLenum  m_col_type;
 	GLsizei m_col_stride;
 	GLint   m_col_offset;
+
+	// normal pointer
+	GLenum  m_nor_type;
+	GLsizei m_nor_stride;
+	GLint   m_nor_offset;
 
 	// associated display list
 	GLuint m_AssociatedDisplayList; // used if USE_DISPLAY_LISTS is on
@@ -267,6 +279,20 @@ struct GLBuffer
 		m_col_stride = stride;
 		m_col_offset = int(size_t(offset));
 	}
+
+	void SetNormalPointer(GLenum type, GLsizei stride, const GLvoid* offset)
+	{
+		int ioffset = int(size_t(offset));
+		if (m_nor_type   == type   &&
+			m_nor_stride == stride &&
+			m_nor_offset == ioffset)
+			return;
+
+		DeletePreExistingDLIfNeeded();
+		m_nor_type = type;
+		m_nor_stride = stride;
+		m_nor_offset = int(size_t(offset));
+	}
 };
 
 typedef std::unordered_map<GLuint, GLBuffer*> GLBufferMap;
@@ -274,7 +300,7 @@ typedef std::unordered_map<GLuint, GLBuffer*> GLBufferMap;
 GLBufferMap g_GLBuffers;
 GLBuffer* g_pCurrentlyBoundGLBuffer = nullptr;
 GLuint g_NextGLBufferID;
-bool g_bUseVertexArrays, g_bUseColorArrays, g_bUseTextureCoordArrays; // modified by xgl[En/Dis]ableClientState
+bool g_bUseVertexArrays, g_bUseColorArrays, g_bUseNormalArrays, g_bUseTextureCoordArrays; // modified by xgl[En/Dis]ableClientState
 
 void xglGenBuffers(GLsizei num, GLuint* buffers)
 {
@@ -317,6 +343,12 @@ void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* poin
 {
 	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
 	g_pCurrentlyBoundGLBuffer->SetColorPointer(size, type, stride, pointer);
+}
+
+void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer)
+{
+	xglAssert(g_pCurrentlyBoundGLBuffer != nullptr);
+	g_pCurrentlyBoundGLBuffer->SetNormalPointer(type, stride, pointer);
 }
 
 void xglBindBuffer(GLenum target, GLuint bufferID)
@@ -387,44 +419,44 @@ void xglDeleteBuffers(GLsizei num, GLuint* buffers)
 
 void xglEnableClientState(GLenum _array)
 {
-	if (_array == GL_VERTEX_ARRAY)
+	switch (_array)
 	{
+	case GL_VERTEX_ARRAY:
 		g_bUseVertexArrays = true;
 		return;
-	}
-	if (_array == GL_COLOR_ARRAY)
-	{
+	case GL_COLOR_ARRAY:
 		g_bUseColorArrays = true;
 		return;
-	}
-	if (_array == GL_TEXTURE_COORD_ARRAY)
-	{
+	case GL_NORMAL_ARRAY:
+		g_bUseNormalArrays = true;
+		return;
+	case GL_TEXTURE_COORD_ARRAY:
 		g_bUseTextureCoordArrays = true;
 		return;
+	default:
+		glEnableClientState(_array);
 	}
-
-	glEnableClientState(_array);
 }
 
 void xglDisableClientState(GLenum _array)
 {
-	if (_array == GL_VERTEX_ARRAY)
+	switch (_array)
 	{
+	case GL_VERTEX_ARRAY:
 		g_bUseVertexArrays = false;
 		return;
-	}
-	if (_array == GL_COLOR_ARRAY)
-	{
+	case GL_COLOR_ARRAY:
 		g_bUseColorArrays = false;
 		return;
-	}
-	if (_array == GL_TEXTURE_COORD_ARRAY)
-	{
+	case GL_NORMAL_ARRAY:
+		g_bUseNormalArrays = false;
+		return;
+	case GL_TEXTURE_COORD_ARRAY:
 		g_bUseTextureCoordArrays = false;
 		return;
+	default:
+		glDisableClientState(_array);
 	}
-
-	glDisableClientState(_array);
 }
 
 void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
@@ -453,6 +485,7 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 
 		void* pVtx = (void*)(addr + pBuf->m_vtx_offset + i * pBuf->m_vtx_stride);
 		void* pCol = (void*)(addr + pBuf->m_col_offset + i * pBuf->m_col_stride);
+		void* pNor = (void*)(addr + pBuf->m_col_offset + i * pBuf->m_col_stride);
 		void* pTC  = (void*)(addr + pBuf->m_tc_offset  + i * pBuf->m_tc_stride);
 
 		if (g_bUseTextureCoordArrays)
@@ -477,6 +510,11 @@ void xglDrawArrays(GLenum mode, GLint first, GLsizei count)
 				else xglAssert(!"Unimplemented color size!");
 			}
 			else xglAssert(!"Unimplemented color type!");
+		}
+
+		if (g_bUseNormalArrays)
+		{
+			//xglAssert(!"Unimplemented normal type!");
 		}
 
 		if (g_bUseVertexArrays)

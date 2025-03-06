@@ -39,44 +39,9 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{a6e03dca-99f6-45b8-800d-73060ae407fc}</ProjectGuid>
     <RootNamespace>Client</RootNamespace>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -85,141 +50,7 @@
   <ImportGroup Label="Minecraft">
     <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SDL2|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SDL2|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\GameMods.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\app\App.hpp" />
@@ -242,6 +73,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DisconnectionScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.hpp" />
@@ -261,6 +93,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\options\Options.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITurnInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\Keyboard.hpp" />
@@ -339,6 +172,11 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerMoveInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\MouseBuildInput.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Lighting.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\sound_list.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -361,6 +199,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DisconnectionScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\IngameBlockSelectionScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\InvalidLicenseScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\JoinGameScreen.cpp" />
@@ -380,6 +219,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\options\Options.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerMoveInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ITurnInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\Keyboard.cpp" />
@@ -458,6 +299,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseBuildInput.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Lighting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

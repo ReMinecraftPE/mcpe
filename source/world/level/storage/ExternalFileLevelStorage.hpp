@@ -38,7 +38,7 @@ public:
 	void flush() override;
 
 	// ChunkStorage
-	LevelChunk* load(Level* level, int x, int z) override;
+	LevelChunk* load(Level* level, const ChunkPos& pos) override;
 	void save(Level* level, LevelChunk* chunk) override;
 	void saveEntities(Level* level, LevelChunk* chunk) override;
 

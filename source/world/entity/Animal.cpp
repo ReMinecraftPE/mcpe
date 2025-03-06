@@ -25,18 +25,16 @@ void Animal::aiStep()
 	Mob::aiStep();
 }
 
-bool Animal::isBaby()
+bool Animal::isBaby() const
 {
 	return getAge() < 0;
 }
 
-bool Animal::canSpawn()
+bool Animal::canSpawn() const
 {
-	int x = Mth::floor(m_pos.x);
-	int y = Mth::floor(m_hitbox.min.y);
-	int z = Mth::floor(m_pos.z);
+	TilePos pos(m_pos.x, m_hitbox.min.y, m_pos.z);
 
-	if (m_pLevel->getTile(x, y - 1, z) != Tile::grass->m_ID || m_pLevel->getRawBrightness(x, y, z) < 8)
+	if (m_pLevel->getTile(pos.below()) != Tile::grass->m_ID || m_pLevel->getRawBrightness(pos) < 8)
 		return false;
 
 	return PathfinderMob::canSpawn();
@@ -48,24 +46,19 @@ Entity* Animal::findAttackTarget()
 	return nullptr;
 }
 
-int Animal::getAmbientSoundInterval()
+int Animal::getAmbientSoundInterval() const
 {
 	return 240;
 }
 
-int Animal::getCreatureBaseType()
-{
-	return BASE_ANIMAL;
-}
-
-float Animal::getWalkTargetValue(int x, int y, int z)
+float Animal::getWalkTargetValue(const TilePos& pos) const
 {
 	// Animals would rather walk on grass.
-	if (m_pLevel->getTile(x, y - 1, z) == Tile::grass->m_ID)
+	if (m_pLevel->getTile(pos.below()) == Tile::grass->m_ID)
 		return 10.0f;
 
 	// Animals will avoid dark areas.
-	return m_pLevel->getBrightness(x, y, z) - 0.5f;
+	return m_pLevel->getBrightness(pos) - 0.5f;
 }
 
 bool Animal::hurt(Entity* pCulprit, int damage)
@@ -79,12 +72,12 @@ bool Animal::hurt(Entity* pCulprit, int damage)
 	return Mob::hurt(pCulprit, damage);
 }
 
-bool Animal::removeWhenFarAway()
+bool Animal::removeWhenFarAway() const
 {
 	return false;
 }
 
-int Animal::getAge()
+int Animal::getAge() const
 {
 	return m_age;
 }

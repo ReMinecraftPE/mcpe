@@ -1,5 +1,3 @@
-#include "AppPlatform_sdl.hpp"
-
 #include <fstream>
 #include <sstream>
 #include <sys/stat.h>
@@ -7,6 +5,8 @@
 
 #include "stb_image.h"
 #include "stb_image_write.h"
+
+#include "AppPlatform_sdl.hpp"
 
 #include "thirdparty/GL/GL.hpp"
 
@@ -131,7 +131,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
-	out.field_C = 1;
+	out.m_hasAlpha = true;
 	out.field_D = 0;
 
 	// Get Full Path
@@ -173,7 +173,8 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 	// Return
 	return out;
 }
-bool AppPlatform_sdl::doesTextureExist(const std::string& path)
+
+bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
 {
 	// Get Full Path
 	std::string realPath = getAssetPath(path);

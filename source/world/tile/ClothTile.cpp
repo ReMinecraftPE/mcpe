@@ -13,21 +13,21 @@ ClothTile::ClothTile(int id, int type) : Tile(id, TEXTURE_CLOTH_64, Material::cl
 {
 	field_6C = type;
 
-	m_TextureFrame = getTexture(0, type);
+	m_TextureFrame = getTexture(Facing::DOWN, type);
 }
 
-int ClothTile::getTexture(int dir)
+int ClothTile::getTexture(Facing::Name face) const
 {
-	return getTexture(dir, field_6C);
+	return getTexture(face, field_6C);
 }
 
-int ClothTile::getTexture(int dir, int data)
+int ClothTile::getTexture(Facing::Name face, int data) const
 {
 	//@HUH: what?
 	return ((~(this->field_6C & 0xFu) >> 3) & 1) + 16 * (~(this->field_6C & 0xF) & 7) + 113;
 }
 
-int ClothTile::getSpawnResourcesAuxValue(int val)
+int ClothTile::getSpawnResourcesAuxValue(int val) const
 {
 	return val;
 }

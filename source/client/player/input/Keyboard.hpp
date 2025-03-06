@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #pragma once
+// I think I put this here, but I have no idea why since we're just including stdint.h anyways a few lines down. - Brent
 #if __cplusplus < 201103L
 #include <stdint.h>
 #endif

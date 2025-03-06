@@ -34,7 +34,7 @@ UnifiedTurnBuild::UnifiedTurnBuild(int a, int width, int height, float d, float 
 	field_B8 = getTimeS();
 	field_CC = field_B8;
 	field_D0 = 0;
-	field_24 = 0;
+	field_24 = false;
 	field_D4 = false;
 }
 
@@ -56,7 +56,7 @@ void UnifiedTurnBuild::setScreenSize(int width, int height)
 
 TurnDelta UnifiedTurnBuild::getTurnDelta()
 {
-	float timeS = getTimeS();
+	double timeS = getTimeS();
 
 	float m1 = 0.0f, m2 = 0.0f;
 	float xd = 0.0f, yd = 0.0f;
@@ -84,14 +84,14 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 		field_B8 = timeS;
 		field_BC = 0.0f;
 		bool b2 = m_pPlayer && getSpeedSquared(m_pPlayer) > 0.01f;
-		field_D8 = 1;
+		field_D8 = true;
 		field_D4 = !b2;
-		field_24 = 0;
+		field_24 = false;
 	}
 	else if (m_bWasTouched && !touched) // if that was the last frame we were touched
 	{
-		field_24 = 0;
-		field_D8 = 0;
+		field_24 = false;
+		field_D8 = false;
 	}
 
 	if (field_C == 2 && (m_bWasTouched || touched))
@@ -171,28 +171,40 @@ bool UnifiedTurnBuild::smoothTurning()
 bool UnifiedTurnBuild::tickBuild(Player* pPlayer, BuildActionIntention* pIntention)
 {
 	m_pPlayer = pPlayer;
+	bool wroteIntention = false;
+	BuildActionIntention::BuildActionIntent intent = BuildActionIntention::NONE;
 
 	if (field_D8 == 3)
 	{
-		if (field_24 != 1)
+		// 0.9.2
+		/*if (field_106)
 		{
-			*pIntention = BuildActionIntention(INTENT_FIRST_REMOVE);
-			field_24 = 1;
+			intent = BuildActionIntention::INTERACT;
+			wroteIntention = true;
+		}
+		else */if (field_24 /* && pPlayer->isUsingItem()*/) // Holds off on acknowledging interact intent until the user is absolutely sure a tick later
+		{
+			intent = BuildActionIntention::TOUCH_HOLD_CONTINUE;
+			wroteIntention = true;
 		}
 		else
 		{
-			*pIntention = BuildActionIntention(INTENT_HELD);
+			intent = BuildActionIntention::TOUCH_HOLD_START;
+			wroteIntention = true;
+			// Next time, we acknowledge the action with intent to interact
+			field_24 = true;
 		}
 
-		return true;
+		if (wroteIntention)
+			*pIntention = BuildActionIntention(intent);
+
+		return wroteIntention;
 	}
 
 	Multitouch::rewind();
 
 	float timeS = getTimeS();
 	field_10 = 0;
-
-	bool wroteIntention = false;
 
 	while (Multitouch::next())
 	{
@@ -218,7 +230,7 @@ bool UnifiedTurnBuild::tickBuild(Player* pPlayer, BuildActionIntention* pIntenti
 					float delta = timeS - field_CC;
 					if (field_D8 <= 1 && delta >= 0.0f && delta < 0.25f)
 					{
-						*pIntention = BuildActionIntention(INTENT_CLICKED);
+						intent = BuildActionIntention::TOUCH_TAP;
 						wroteIntention = true;
 					}
 
@@ -227,6 +239,10 @@ bool UnifiedTurnBuild::tickBuild(Player* pPlayer, BuildActionIntention* pIntenti
 			}
 		}
 	}
+
+	wroteIntention = true;
+	if (wroteIntention)
+		*pIntention = BuildActionIntention(intent);
 
 	return wroteIntention;
 }
@@ -238,5 +254,5 @@ bool UnifiedTurnBuild::isInsideArea(float x, float y)
 
 float UnifiedTurnBuild::getSpeedSquared(Entity* pEnt)
 {
-	return (pEnt->m_pos - pEnt->field_3C).lengthSqr();
+	return (pEnt->m_pos - pEnt->m_oPos).lengthSqr();
 }

@@ -16,13 +16,13 @@ class Player;
 class Rocket : public Entity
 {
 public:
-	Rocket(Level*, float, float, float);
+	Rocket(Level*, const Vec3& pos);
 
-	float getShadowHeightOffs() override;
+	float getShadowHeightOffs() const override;
 	bool interact(Player* player) override;
 	int interactPreventDefault() override;
-	bool isPickable() override;
-	bool isPushable() override;
+	bool isPickable() const override;
+	bool isPushable() const override;
 	void tick() override;
 
 public:

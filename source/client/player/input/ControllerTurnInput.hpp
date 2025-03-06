@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ITurnInput.hpp"
+#include "world/phys/Vec2.hpp"
 
 class ControllerTurnInput : public ITurnInput
 {
@@ -20,8 +21,7 @@ public:
 private:
 	int field_8;
 	int m_stickNo;
-	float field_10;
-	float field_14;
+	Vec2 m_analogTurnVector;
 	bool field_18;
 };
 

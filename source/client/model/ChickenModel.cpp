@@ -90,20 +90,20 @@ void ChickenModel::setupAnim(float a, float b, float c, float d, float e, float 
 {
 	// TODO: Why do I need to invert the rotation again?
 	float rotX = e / (-180.0f / 3.1416f);
-	m_head.m_rotX = -rotX;
-	m_beak.m_rotX = -rotX;
-	m_wattle.m_rotX = -rotX;
+	m_head.m_rot.x = -rotX;
+	m_beak.m_rot.x = -rotX;
+	m_wattle.m_rot.x = -rotX;
 
 	float rotY = d / (180.0f / 3.1416f);
-	m_head.m_rotY = rotY;
-	m_beak.m_rotY = rotY;
-	m_wattle.m_rotY = rotY;
+	m_head.m_rot.y = rotY;
+	m_beak.m_rot.y = rotY;
+	m_wattle.m_rot.y = rotY;
 
-	m_body.m_rotX = 90.0f / (180.0f / 3.1416f);
-	m_wing1.m_rotZ = c;
-	m_wing2.m_rotZ = -c;
+	m_body.m_rot.x = 90.0f / (180.0f / 3.1416f);
+	m_wing1.m_rot.z = c;
+	m_wing2.m_rot.z = -c;
 
 	float footAng = (Mth::cos(a * 0.6662f) * 1.4f) * b;
-	m_leg1.m_rotX = footAng;
-	m_leg2.m_rotX = -footAng;
+	m_leg1.m_rot.x = footAng;
+	m_leg2.m_rot.x = -footAng;
 }

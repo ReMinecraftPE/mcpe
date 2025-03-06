@@ -15,7 +15,7 @@ class OreTile : public Tile
 public:
 	OreTile(int id, int texture);
 
-	int getResource(int, Random*) override;
-	int getResourceCount(Random*) override;
-	int getSpawnResourcesAuxValue(int) override;
+	int getResource(int, Random*) const override;
+	int getResourceCount(Random*) const override;
+	int getSpawnResourcesAuxValue(int) const override;
 };

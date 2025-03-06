@@ -8,12 +8,13 @@ Minecraft: Pocket Edition - Decompilation Project
 
 #pragma once
 
-#include <cstdint>
+#include <cstddef>
 
-struct AssetFile {
-    ssize_t size;
+struct AssetFile
+{
+    ptrdiff_t size;
     unsigned char *data;
 
     AssetFile(): size(-1), data(nullptr) {}
-    AssetFile(ssize_t size, unsigned char *data): size(size), data(data) {}
+    AssetFile(ptrdiff_t size, unsigned char *data): size(size), data(data) {}
 };

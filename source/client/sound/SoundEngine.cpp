@@ -8,14 +8,21 @@
 
 #include "SoundEngine.hpp"
 #include "SoundDefs.hpp"
+#include "common/Mth.hpp"
 
 SoundEngine::SoundEngine(SoundSystem* soundSystem)
 {
+	m_pSoundSystem = soundSystem;
+	m_pOptions = nullptr;
 	field_40 = 0;
 	field_A1C = 0;
-	m_pOptions = nullptr;
 	field_A20 = 0;
-	m_pSoundSystem = soundSystem;
+	m_muted = false;
+}
+
+float SoundEngine::_getVolumeMult(const Vec3& pos)
+{
+	return 1.0f;
 }
 
 void SoundEngine::init(Options* options, AppPlatform* platform)
@@ -30,26 +37,39 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
 #undef SOUND
 }
 
-void SoundEngine::play(const std::string& name)
+void SoundEngine::enable(bool b)
 {
-	if (m_pOptions->m_fMasterVolume == 0.0f)
-		return;
-
-	SoundDesc sd;
-
-	if (m_repository.get(name, sd)) {
-		m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f);
-	}
 }
 
-void SoundEngine::play(const std::string& name, float x, float y, float z, float volume, float pitch)
+void SoundEngine::updateOptions()
 {
-	if (m_pOptions->m_fMasterVolume == 0.0f || volume <= 0.0f)
+}
+
+void SoundEngine::mute()
+{
+	m_muted = true;
+}
+
+void SoundEngine::unMute()
+{
+	m_muted = false;
+}
+
+void SoundEngine::destroy()
+{
+}
+
+void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, float pitch)
+{
+	float vol = m_pOptions->m_fMasterVolume * volume;
+	if (vol <= 0.0f)
 		return;
 
+	float cVolume = Mth::clamp(_getVolumeMult(pos) * vol, 0.0f, 1.0f);
+	float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
 	SoundDesc sd;
 
 	if (m_repository.get(name, sd)) {
-		m_pSoundSystem->playAt(sd, x, y, z, volume, pitch);
+		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
 	}
 }

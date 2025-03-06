@@ -12,7 +12,7 @@
 #include "common/Utils.hpp"
 #include "client/app/AssetFile.hpp"
 
-struct AppPlatform;
+class AppPlatform;
 
 struct PCMSoundHeader
 {

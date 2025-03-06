@@ -41,8 +41,6 @@ public:
     
     virtual void startEngine();
     virtual void stopEngine();
-    virtual void muteAudio();
-    virtual void unMuteAudio();
     
 private:
 	void delete_sources();
@@ -58,5 +56,4 @@ private:
 
 	Vec3 _lastListenerPos;
     float _listenerVolume;
-    bool _audioMuted;
 };

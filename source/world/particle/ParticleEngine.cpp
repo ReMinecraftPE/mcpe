@@ -53,59 +53,58 @@ std::string ParticleEngine::countParticles()
 	return ss.str();
 }
 
-void ParticleEngine::crack(int x, int y, int z, int dir)
+void ParticleEngine::crack(const TilePos& tilePos, Facing::Name face)
 {
-	TileID tileID = m_pLevel->getTile(x, y, z);
+	TileID tileID = m_pLevel->getTile(tilePos);
 	if (!tileID) return;
 
 	Tile* pTile = Tile::tiles[tileID];
 
-	float posX, posY, posZ;
+	Vec3 pos(tilePos);
 
-	switch (dir)
+	switch (face)
 	{
-		case DIR_YNEG:
-			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
-			posY = float(y) + pTile->m_aabb.min.y - 0.1f;
+		case Facing::DOWN:
+			pos.x += Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.z += Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.y += pTile->m_aabb.min.y - 0.1f;
 			break;
-		case DIR_YPOS:
-			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
-			posY = float(y) + pTile->m_aabb.max.y + 0.1f;
+		case Facing::UP:
+			pos.x += Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.z += Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.y += pTile->m_aabb.max.y + 0.1f;
 			break;
-		case DIR_ZNEG:
-			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + pTile->m_aabb.min.z - 0.1f;
+		case Facing::NORTH:
+			pos.x += Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.y += Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.z += pTile->m_aabb.min.z - 0.1f;
 			break;
-		case DIR_ZPOS:
-			posX = float(x) + Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
-			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + pTile->m_aabb.max.z + 0.1f;
+		case Facing::SOUTH:
+			pos.x += Mth::Lerp(pTile->m_aabb.min.x, pTile->m_aabb.max.x - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.y += Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.z += pTile->m_aabb.max.z + 0.1f;
 			break;
-		case DIR_XNEG:
-			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
-			posX = float(x) + pTile->m_aabb.min.x - 0.1f;
+		case Facing::WEST:
+			pos.y += Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.z += Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.x += pTile->m_aabb.min.x - 0.1f;
 			break;
-		case DIR_XPOS:
-			posY = float(y) + Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
-			posZ = float(z) + Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
-			posX = float(x) + pTile->m_aabb.max.x + 0.1f;
+		case Facing::EAST:
+			pos.y += Mth::Lerp(pTile->m_aabb.min.y, pTile->m_aabb.max.y - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.z += Mth::Lerp(pTile->m_aabb.min.z, pTile->m_aabb.max.z - 0.2f, m_random.nextFloat()) + 0.1f;
+			pos.x += pTile->m_aabb.max.x + 0.1f;
 			break;
 		default:
 			// @TODO: dont know what they do for the undefined case
-            posX = float(x); posY = float(y); posZ = float(z);
 			break;
 	}
 
-	add((new TerrainParticle(m_pLevel, posX, posY, posZ, pTile))->setPower(0.2f)->scale(0.6f));
+	add((new TerrainParticle(m_pLevel, pos, pTile))->setPower(0.2f)->scale(0.6f));
 }
 
-void ParticleEngine::destroy(int x, int y, int z)
+void ParticleEngine::destroyEffect(const TilePos& pos)
 {
-	TileID tileID = m_pLevel->getTile(x, y, z);
+	TileID tileID = m_pLevel->getTile(pos);
 	if (!tileID) return;
 
 	float timeS = getTimeS();
@@ -118,11 +117,14 @@ void ParticleEngine::destroy(int x, int y, int z)
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				float posX = float(x) + (float(i) + 0.5f) / 3.0f;
-				float posY = float(y) + (float(j) + 0.5f) / 3.0f;
-				float posZ = float(z) + (float(k) + 0.5f) / 3.0f;
+				Vec3 vec1(float(pos.x) + (float(i) + 0.5f) / 3.0f,
+					     float(pos.y) + (float(j) + 0.5f) / 3.0f,
+					     float(pos.z) + (float(k) + 0.5f) / 3.0f);
+				Vec3 vec2(vec1.x - float(pos.x) - 0.5f,
+					      vec1.y - float(pos.y) - 0.5f,
+					      vec1.z - float(pos.z) - 0.5f);
 
-				add((new TerrainParticle(m_pLevel, posX, posY, posZ, posX - float(x) - 0.5f, posY - float(y) - 0.5f, posZ - float(z) - 0.5f, pTile))->init(x, y, z));
+				add((new TerrainParticle(m_pLevel, vec1, vec2, pTile))->init(pos));
 			}
 		}
 	}
@@ -147,15 +149,15 @@ void ParticleEngine::render(Entity* ent, float f)
 		return;
 #endif
 
-	float x1 = Mth::cos(float(M_PI) * ent->m_yaw / 180.0f);
-	float x3 = Mth::sin(float(M_PI) * ent->m_yaw / 180.0f);
-	float x4 = -(x3 * Mth::sin(float(M_PI) * ent->m_pitch / 180.0f));
-	float x5 = x1 * Mth::sin(float(M_PI) * ent->m_pitch / 180.0f);
-	float x2 = Mth::cos(float(M_PI) * ent->m_pitch / 180.0f);
+	float x1 = Mth::cos(float(M_PI) * ent->m_rot.x / 180.0f);
+	float x3 = Mth::sin(float(M_PI) * ent->m_rot.x / 180.0f);
+	float x4 = -(x3 * Mth::sin(float(M_PI) * ent->m_rot.y / 180.0f));
+	float x5 = x1 * Mth::sin(float(M_PI) * ent->m_rot.y / 180.0f);
+	float x2 = Mth::cos(float(M_PI) * ent->m_rot.y / 180.0f);
 
-	Particle::xOff = Mth::Lerp(ent->field_98.x, ent->m_pos.x, f);
-	Particle::yOff = Mth::Lerp(ent->field_98.y, ent->m_pos.y, f);
-	Particle::zOff = Mth::Lerp(ent->field_98.z, ent->m_pos.z, f);
+	Particle::xOff = Mth::Lerp(ent->m_posPrev.x, ent->m_pos.x, f);
+	Particle::yOff = Mth::Lerp(ent->m_posPrev.y, ent->m_pos.y, f);
+	Particle::zOff = Mth::Lerp(ent->m_posPrev.z, ent->m_pos.z, f);
 
 	// @BUG: Ignoring the last particle array. Invisible?
 	Tesselator& t = Tesselator::instance;
@@ -178,9 +180,20 @@ void ParticleEngine::render(Entity* ent, float f)
 	}
 }
 
-void ParticleEngine::renderLit()
+void ParticleEngine::renderLit(Entity* player, float a)
 {
+	int tt = 3;
+	if (m_particles[tt].size() != 0)
+	{
+		Tesselator& t = Tesselator::instance;
 
+		for (int i = 0; i < m_particles[tt].size(); ++i)
+		{
+			Particle* p = m_particles[tt].at(i);
+			p->render(t, a, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+
+	}
 }
 
 void ParticleEngine::tick()

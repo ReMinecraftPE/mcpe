@@ -39,7 +39,7 @@ public:
 	int field_C;
 	int field_10;
 	SmoothFloat m_smoothFloat;
-	int field_24;
+	bool field_24;
 	RectangleArea m_screenArea;
 	RectangleArea field_40;
 	RectangleArea field_58;
@@ -49,7 +49,7 @@ public:
 	bool m_bWasTouched;
 	TouchAreaModel m_touchAreaModel;
 	IncludeExcludeArea m_includeExcludeArea;
-	float field_B8;
+	double field_B8;
 	float field_BC;
 	float field_C0;
 	float field_C4;
