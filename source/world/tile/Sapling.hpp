@@ -15,9 +15,9 @@ class Sapling : public Bush
 public:
 	Sapling(int id, int texture);
 
-	int getTexture(int dir, int data) override;
-	void tick(Level*, int x, int y, int z, Random*) override;
+	int getTexture(Facing::Name face, int data) const override;
+	void tick(Level*, const TilePos& pos, Random*) override;
 
-	void growTree(Level*, int x, int y, int z, Random*);
-	bool maybeGrowTree(Level*, int x, int y, int z, Random*);
+	void growTree(Level*, const TilePos& pos, Random*);
+	bool maybeGrowTree(Level*, const TilePos& pos, Random*);
 };

@@ -32,13 +32,13 @@ private:
 	void _init();
 public:
 	Particle() { _init(); }
-	Particle(Level*, float y, float x, float z, float vx, float vy, float vz);
+	Particle(Level*, const Vec3& pos, const Vec3& dir);
 
 	virtual void render(Tesselator&, float, float, float, float, float, float);
 	virtual int getParticleTexture();
 	//TODO: addAdditonalSaveData
 	//TODO: readAdditionalSaveData
-	//TODO: defineSynchedData
+	//TODO: _defineEntityData
 
 	void tick() override;
 
@@ -53,9 +53,9 @@ public:
 	int field_EC;
 	float field_F0;
 	float field_F4;
-	float field_F8;
-	float field_FC;
-	float field_100;
+	float m_rCol;
+	float m_gCol;
+	float m_bCol;
 	bool m_bIsUnlit;
 
 	static float xOff, yOff, zOff;
@@ -66,12 +66,12 @@ class TerrainParticle : public Particle
 private:
 	void _init(Tile* tile);
 public:
-	TerrainParticle(Level*, float x, float y, float z, Tile*);
-	TerrainParticle(Level*, float x, float y, float z, float vx, float vy, float vz, Tile*);
+	TerrainParticle(Level*, const Vec3& pos, Tile*);
+	TerrainParticle(Level*, const Vec3& pos, const Vec3& dir, Tile*);
 
 	void render(Tesselator&, float, float, float, float, float, float) override;
 	int getParticleTexture() override;
-	TerrainParticle* init(int x, int y, int z);
+	TerrainParticle* init(const TilePos& tilePos);
 
 public:
 	Tile* m_pTile;
@@ -80,14 +80,14 @@ public:
 class BubbleParticle : public Particle
 {
 public:
-	BubbleParticle(Level*, float x, float y, float z, float vx, float vy, float vz);
+	BubbleParticle(Level*, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 };
 
 class SmokeParticle : public Particle
 {
 public:
-	SmokeParticle(Level*, float x, float y, float z, float vx, float vy, float vz, float a9);
+	SmokeParticle(Level*, const Vec3& pos, const Vec3& dir, float a9);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
@@ -98,7 +98,7 @@ public:
 class RedDustParticle : public Particle
 {
 public:
-	RedDustParticle(Level*, float x, float y, float z, float vx, float vy, float vz);
+	RedDustParticle(Level*, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
 
@@ -109,7 +109,7 @@ public:
 class ExplodeParticle : public Particle
 {
 public:
-	ExplodeParticle(Level*, float x, float y, float z, float vx, float vy, float vz);
+	ExplodeParticle(Level*, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 
 public:
@@ -119,10 +119,10 @@ public:
 class FlameParticle : public Particle
 {
 public:
-	FlameParticle(Level*, float x, float y, float z, float vx, float vy, float vz);
+	FlameParticle(Level*, const Vec3& pos, const Vec3& dir);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
-	float getBrightness(float f) override;
+	float getBrightness(float f) const override;
 
 public:
 	float field_104;
@@ -131,10 +131,10 @@ public:
 class LavaParticle : public Particle
 {
 public:
-	LavaParticle(Level*, float x, float y, float z);
+	LavaParticle(Level*, const Vec3& pos);
 	void tick() override;
 	void render(Tesselator&, float, float, float, float, float, float) override;
-	float getBrightness(float f) override;
+	float getBrightness(float f) const override;
 
 public:
 	float field_104;

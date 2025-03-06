@@ -14,51 +14,51 @@ RocketLauncherTile::RocketLauncherTile(int id) : Tile(id, 16*14+2, Material::woo
 	setTicking(true);
 }
 
-int RocketLauncherTile::getTexture(int dir, int data)
+int RocketLauncherTile::getTexture(Facing::Name face, int data) const
 {
 	return data == 1 ? 16*14+3 : 16*14+2;
 }
 
-AABB* RocketLauncherTile::getAABB(Level*, int x, int y, int z)
+AABB* RocketLauncherTile::getAABB(const Level*, const TilePos& pos)
 {
 	return nullptr;
 }
 
-int RocketLauncherTile::getRenderShape()
+int RocketLauncherTile::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }
 
-bool RocketLauncherTile::isCubeShaped()
+bool RocketLauncherTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool RocketLauncherTile::isSolidRender()
+bool RocketLauncherTile::isSolidRender() const
 {
 	return false;
 }
 
-int RocketLauncherTile::use(Level* level, int x, int y, int z, Player* player)
+int RocketLauncherTile::use(Level* level, const TilePos& pos, Player* player)
 {
-	if (level->getData(x, y, z) == 1)
+	if (level->getData(pos) == 1)
 		return 1;
 
-	level->setData(x, y, z, 1);
+	level->setData(pos, 1);
 
 	// spawn a rocket
-	level->addEntity(new Rocket(level, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f));
+	level->addEntity(new Rocket(level, Vec3(pos) + 0.5f));
 
 	// add a tick so that the rocket launcher will reset
-	level->addToTickNextTick(x, y, z, m_ID, 10);
+	level->addToTickNextTick(pos, m_ID, 10);
 
 	return 1;
 }
 
-void RocketLauncherTile::tick(Level* level, int x, int y, int z, Random* random)
+void RocketLauncherTile::tick(Level* level, const TilePos& pos, Random* random)
 {
-	if (level->getData(x, y, z) != 1)
+	if (level->getData(pos) != 1)
 		return;
 
-	level->setData(x, y, z, 0);
+	level->setData(pos, 0);
 }

@@ -15,17 +15,17 @@ OreFeature::OreFeature(int id, int count)
 	m_count = count;
 }
 
-bool OreFeature::place(Level* level, Random* random, int x, int y, int z)
+bool OreFeature::place(Level* level, Random* random, const TilePos& pos)
 {
 	float fAng = random->nextFloat() * float(M_PI);
 
-	float d0 = float(x + 8) + 0.125f * float(m_count) * Mth::sin(fAng);
-	float d1 = float(x + 8) - 0.125f * float(m_count) * Mth::sin(fAng);
-	float d2 = float(z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
-	float d3 = float(z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
+	float d0 = float(pos.x + 8) + 0.125f * float(m_count) * Mth::sin(fAng);
+	float d1 = float(pos.x + 8) - 0.125f * float(m_count) * Mth::sin(fAng);
+	float d2 = float(pos.z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
+	float d3 = float(pos.z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
 
-	float d4 = float(random->nextInt(3) + y + 2);
-	float d5 = float(random->nextInt(3) + y + 2);
+	float d4 = float(random->nextInt(3) + pos.y + 2);
+	float d5 = float(random->nextInt(3) + pos.y + 2);
 
 	// @NOTE: 1 extra block
 	for (int i = 0; i <= m_count; i++)
@@ -46,26 +46,28 @@ bool OreFeature::place(Level* level, Random* random, int x, int y, int z)
 		int maxY = int(d7 + radius_2 / 2.0f);
 		int maxZ = int(d8 + radius_1 / 2.0f);
 
-		for (int cx = minX; cx <= maxX; cx++)
+		TilePos tp(minX, maxY, maxZ);
+
+		for (tp.x = minX; tp.x <= maxX; tp.x++)
 		{
-			float distX = ((float(cx) + 0.5f) - d6) / (radius_1 / 2.0f);
+			float distX = ((float(tp.x) + 0.5f) - d6) / (radius_1 / 2.0f);
 			if (distX * distX >= 1.0f)
 				continue;
 
-			for (int cy = minY; cy <= maxY; cy++)
+			for (tp.y = minY; tp.y <= maxY; tp.y++)
 			{
-				float distY = ((float(cy) + 0.5f) - d7) / (radius_2 / 2.0f);
+				float distY = ((float(tp.y) + 0.5f) - d7) / (radius_2 / 2.0f);
 				if (distX * distX + distY * distY >= 1.0f)
 					continue;
 
-				for (int cz = minZ; cz <= maxZ; cz++)
+				for (tp.z = minZ; tp.z <= maxZ; tp.z++)
 				{
-					float distZ = ((float(cz) + 0.5f) - d8) / (radius_1 / 2.0f);
+					float distZ = ((float(tp.z) + 0.5f) - d8) / (radius_1 / 2.0f);
 					if (distX * distX + distY * distY + distZ * distZ >= 1.0f)
 						continue;
 
-					if (level->getTile(cx, cy, cz) == Tile::rock->m_ID)
-						level->setTileNoUpdate(cx, cy, cz, m_ID);
+					if (level->getTile(tp) == Tile::rock->m_ID)
+						level->setTileNoUpdate(tp, m_ID);
 				}
 			}
 		}

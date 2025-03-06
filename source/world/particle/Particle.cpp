@@ -19,25 +19,26 @@ void Particle::_init()
 	field_EC = 0;
 	field_F0 = 0.0f;
 	field_F4 = 0.0f;
-	field_F8 = 1.0f;
-	field_FC = 1.0f;
-	field_100 = 1.0f;
+	m_rCol = 1.0f;
+	m_gCol = 1.0f;
+	m_bCol = 1.0f;
 	m_bIsUnlit = false;
+	m_bMakeStepSound = false;
 }
 
-Particle::Particle(Level* level, float x, float y, float z, float vx, float vy, float vz) : Entity(level)
+Particle::Particle(Level* level, const Vec3& pos, const Vec3& dir) : Entity(level)
 {
 	_init();
 
 	setSize(0.2f, 0.2f);
-	field_84 = 0.5f * field_8C;
+	m_heightOffset = 0.5f * m_bbHeight;
 	
-	setPos(x, y, z);
-	m_vel.x = vx + 0.4f * (2.0f * Mth::random() - 1.0f);
-	m_vel.y = vy + 0.4f * (2.0f * Mth::random() - 1.0f);
-	m_vel.z = vz + 0.4f * (2.0f * Mth::random() - 1.0f);
+	setPos(pos);
+	m_vel.x = dir.x + 0.4f * (2.0f * Mth::random() - 1.0f);
+	m_vel.y = dir.y + 0.4f * (2.0f * Mth::random() - 1.0f);
+	m_vel.z = dir.z + 0.4f * (2.0f * Mth::random() - 1.0f);
 
-	float mult = 0.4f * 0.15f * (Mth::random() + Mth::random() + 1.0f) / Mth::sqrt(m_vel.x * m_vel.x + m_vel.y * m_vel.y + m_vel.z * m_vel.z);
+	float mult = 0.4f * 0.15f * (Mth::random() + Mth::random() + 1.0f) / m_vel.length();
 	m_vel.x *= mult;
 	m_vel.y = m_vel.y * mult + 0.1f;
 	m_vel.z *= mult;
@@ -80,9 +81,9 @@ void Particle::render(Tesselator& t, float f, float a4, float a5, float a6, floa
 	float texU_1 = float(texX) / 16.0f;
 	float texV_1 = float(texture >> 4) / 16.0f;
 
-	float posX = Mth::Lerp(field_3C.x, m_pos.x, f) - xOff;
-	float posY = Mth::Lerp(field_3C.y, m_pos.y, f) - yOff;
-	float posZ = Mth::Lerp(field_3C.z, m_pos.z, f) - zOff;
+	float posX = Mth::Lerp(m_oPos.x, m_pos.x, f) - xOff;
+	float posY = Mth::Lerp(m_oPos.y, m_pos.y, f) - yOff;
+	float posZ = Mth::Lerp(m_oPos.z, m_pos.z, f) - zOff;
 	float fBright = m_bIsUnlit ? 1.0f : getBrightness(f);
 
 	float sizeX = a4 * field_F0 * 0.1f;
@@ -91,7 +92,7 @@ void Particle::render(Tesselator& t, float f, float a4, float a5, float a6, floa
 	float siz2X = a7 * field_F0 * 0.1f;
 	float siz2Z = a8 * field_F0 * 0.1f;
 
-	t.color(field_F8 * fBright, field_FC * fBright, field_100 * fBright);
+	t.color(m_rCol * fBright, m_gCol * fBright, m_bCol * fBright);
 	t.vertexUV(posX - sizeX - siz2X, posY - sizeY, posZ - sizeZ - siz2Z, texU_1 + C_MAGIC_1, texV_1 + C_MAGIC_1);
 	t.vertexUV(posX - sizeX + siz2X, posY + sizeY, posZ - sizeZ + siz2Z, texU_1 + C_MAGIC_1, texV_1);
 	t.vertexUV(posX + sizeX + siz2X, posY + sizeY, posZ + sizeZ + siz2Z, texU_1,             texV_1);
@@ -100,19 +101,17 @@ void Particle::render(Tesselator& t, float f, float a4, float a5, float a6, floa
 
 void Particle::tick()
 {
-	field_3C = m_pos;
+	m_oPos = m_pos;
 	field_E8++;
 	if (field_E8 >= field_EC)
 		remove();
 	
 	m_vel.y -= field_F4 * 0.04f;
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
-	m_vel.x *= 0.98f;
-	m_vel.y *= 0.98f;
-	m_vel.z *= 0.98f;
+	m_vel *= 0.98f;
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

@@ -14,7 +14,7 @@ TileItem::TileItem(int id) : Item(id)
 {
 	id += 256;
 	m_tile = id;
-	m_icon = Tile::tiles[id]->getTexture(DIR_ZNEG);
+	m_icon = Tile::tiles[id]->getTexture(Facing::NORTH);
 }
 
 std::string TileItem::getDescriptionId()
@@ -27,40 +27,40 @@ std::string TileItem::getDescriptionId(ItemInstance* instance)
 	return Tile::tiles[m_tile]->getDescriptionId();
 }
 
-bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, int x, int y, int z, int dir)
+bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
-	if (level->getTile(x, y, z) == Tile::topSnow->m_ID)
+	TilePos tp(pos);
+
+	if (level->getTile(pos) == Tile::topSnow->m_ID)
 	{
-		dir = DIR_YNEG;
+		face = Facing::DOWN;
 	}
-	else switch (dir)
+	else switch (face)
 	{
-		case DIR_YNEG: y--; break;
-		case DIR_YPOS: y++; break;
-		case DIR_ZNEG: z--; break;
-		case DIR_ZPOS: z++; break;
-		case DIR_XNEG: x--; break;
-		case DIR_XPOS: x++; break;
+		case Facing::DOWN: tp.y--; break;
+		case Facing::UP: tp.y++; break;
+		case Facing::NORTH: tp.z--; break;
+		case Facing::SOUTH: tp.z++; break;
+		case Facing::WEST: tp.x--; break;
+		case Facing::EAST: tp.x++; break;
 	}
 
 	if (!instance->m_amount)
 		return false;
 
-	if (!level->mayPlace(m_tile, x, y, z, false))
+	if (!level->mayPlace(m_tile, tp, false))
 		return false;
 
 	Tile* pTile = Tile::tiles[m_tile];
 
-	if (!level->setTileAndData(x, y, z, m_tile, getLevelDataForAuxValue(instance->getAuxValue())))
+	if (!level->setTileAndData(tp, m_tile, getLevelDataForAuxValue(instance->getAuxValue())))
 		return true;
 
-	Tile::tiles[m_tile]->setPlacedOnFace(level, x, y, z, dir);
-	Tile::tiles[m_tile]->setPlacedBy(level, x, y, z, player);
+	Tile::tiles[m_tile]->setPlacedOnFace(level, tp, face);
+	Tile::tiles[m_tile]->setPlacedBy(level, tp, player);
 
 	level->playSound(
-		float(x) + 0.5f,
-		float(y) + 0.5f,
-		float(z) + 0.5f,
+		Vec3(tp) + 0.5f,
 		"step." + pTile->m_pSound->m_name,
 		(pTile->m_pSound->volume + 1.0f) * 0.5f,
 		pTile->m_pSound->pitch * 0.8f

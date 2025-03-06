@@ -8,16 +8,16 @@
 
 #include "TestChunkSource.hpp"
 #include "world/level/Level.hpp"
+#include "EmptyLevelChunk.hpp"
 
 TestChunkSource::TestChunkSource(Level* pLevel)
 {
 	m_pLevel = pLevel;
 	memset(m_chunkMap, 0, sizeof m_chunkMap);
 
-	m_pEmptyChunk = new EmptyLevelChunk(pLevel, nullptr, 0, 0);
+	m_pEmptyChunk = new EmptyLevelChunk(pLevel, nullptr, ChunkPos(0,0));
 
-	m_lastChunkX = -99999;
-	m_lastChunkZ = -99999;
+	m_lastChunkPos = ChunkPos(-99999, -99999);
 	m_pLastChunk = m_pEmptyChunk;
 }
 
@@ -33,16 +33,16 @@ TestChunkSource::~TestChunkSource()
 	}
 }
 
-LevelChunk* TestChunkSource::generateChunk(int x, int z)
+LevelChunk* TestChunkSource::generateChunk(const ChunkPos& pos)
 {
 	//@NOTE: This gets called a dangerous amount of recursions (for the entire damn world!)
 	// We really should fix this...
 
-	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_X || z >= C_MAX_CHUNKS_Z)
+	if (pos.x < 0 || pos.z < 0 || pos.x >= C_MAX_CHUNKS_X || pos.z >= C_MAX_CHUNKS_Z)
 		return nullptr;
 	
-	if (m_chunkMap[z][x])
-		return m_chunkMap[z][x];
+	if (m_chunkMap[pos.z][pos.x])
+		return m_chunkMap[pos.z][pos.x];
 
 	TileID* pData = new TileID[0x8000u];
 	memset(pData, 0, 0x8000u * sizeof(TileID));
@@ -87,9 +87,9 @@ LevelChunk* TestChunkSource::generateChunk(int x, int z)
 		}
 	}
 
-	LevelChunk* pChunk = new LevelChunk(m_pLevel, pData, x, z);
+	LevelChunk* pChunk = new LevelChunk(m_pLevel, pData, pos);
 
-	m_chunkMap[z][x] = pChunk;
+	m_chunkMap[pos.z][pos.x] = pChunk;
 
 	/*
 	// block light updates during level generation
@@ -129,17 +129,16 @@ LevelChunk* TestChunkSource::generateChunk(int x, int z)
 	return pChunk;
 }
 
-LevelChunk* TestChunkSource::create(int x, int z)
+LevelChunk* TestChunkSource::create(const ChunkPos& pos)
 {
-	if (m_lastChunkX == x && m_lastChunkZ == z)
+	if (m_lastChunkPos == pos)
 		return m_pLastChunk;
 
-	LevelChunk* pChk = generateChunk(x, z);
+	LevelChunk* pChk = generateChunk(pos);
 	if (!pChk)
 		pChk = m_pEmptyChunk;
 
-	m_lastChunkX = x;
-	m_lastChunkZ = z;
+	m_lastChunkPos = pos;
 	m_pLastChunk = pChk;
 
 	return pChk;
@@ -150,36 +149,35 @@ std::string TestChunkSource::gatherStats()
 	return "TestChunkSource";
 }
 
-LevelChunk* TestChunkSource::getChunk(int x, int z)
+LevelChunk* TestChunkSource::getChunk(const ChunkPos& pos)
 {
-	return create(x, z);
+	return create(pos);
 }
 
-LevelChunk* TestChunkSource::getChunkDontCreate(int x, int z)
+LevelChunk* TestChunkSource::getChunkDontCreate(const ChunkPos& pos)
 {
-	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_X || z >= C_MAX_CHUNKS_Z)
+	if (pos.x < 0 || pos.z < 0 || pos.x >= C_MAX_CHUNKS_X || pos.z >= C_MAX_CHUNKS_Z)
 		return nullptr;
 
-	if (m_chunkMap[z][x])
-		return m_chunkMap[z][x];
+	if (m_chunkMap[pos.z][pos.x])
+		return m_chunkMap[pos.z][pos.x];
 
 	TileID* pData = new TileID[0x8000u];
 	memset(pData, 0, 0x8000u * sizeof(TileID));
 
-	m_chunkMap[z][x] = new LevelChunk(m_pLevel, pData, x, z);
-	m_pLastChunk = m_chunkMap[z][x];
-	m_lastChunkX = x;
-	m_lastChunkZ = z;
+	m_chunkMap[pos.z][pos.x] = new LevelChunk(m_pLevel, pData, pos);
+	m_pLastChunk = m_chunkMap[pos.z][pos.x];
+	m_lastChunkPos = pos;
 
-	return m_chunkMap[z][x];
+	return m_chunkMap[pos.z][pos.x];
 }
 
-bool TestChunkSource::hasChunk(int x, int z)
+bool TestChunkSource::hasChunk(const ChunkPos& pos)
 {
 	return true;
 }
 
-void TestChunkSource::postProcess(ChunkSource* a, int b, int c)
+void TestChunkSource::postProcess(ChunkSource* a, const ChunkPos& pos)
 {
 
 }

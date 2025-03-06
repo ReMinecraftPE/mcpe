@@ -1,9 +1,9 @@
-#include "AppPlatform_sdl_base.hpp"
-
 #include <sstream>
 #include <fstream>
 #include <sys/stat.h>
 #include <cstdlib>
+
+#include "AppPlatform_sdl_base.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -15,6 +15,8 @@
 
 #include "SoundSystemAL.hpp"
 
+#include "client/player/input/Controller.hpp"
+
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
 	_storageDir = storageDir;
@@ -25,8 +27,6 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 
 	m_bShiftPressed[0] = false;
 	m_bShiftPressed[1] = false;
-
-	_mousegrabbed = false;
 
 	ensureDirectoryExists(_storageDir.c_str());
 
@@ -52,6 +52,9 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 			m_bIsTouchscreen = false;
 		}
 	}
+
+	// Look for a pre-existing controller
+	_controller = findGameController();
 }
 
 void AppPlatform_sdl_base::initSoundSystem()
@@ -111,6 +114,17 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 	SAFE_DELETE(m_pLogger);
 }
 
+SDL_GameController* AppPlatform_sdl_base::findGameController()
+{
+	for (int i = 0; i < SDL_NumJoysticks(); i++) {
+		if (SDL_IsGameController(i)) {
+			return SDL_GameControllerOpen(i);
+		}
+	}
+
+	return nullptr;
+}
+
 SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const texture)
 {
 	if (!texture) return nullptr;
@@ -156,10 +170,28 @@ int AppPlatform_sdl_base::getScreenHeight() const
 	return height;
 }
 
+void AppPlatform_sdl_base::recenterMouse()
+{
+	// Note. The only reason we do it this way instead of
+	// using the Mouse class is because, after SDL_WarpMouseInWindow,
+	// we'll get an event on our window telling us "hey, the
+	// user has moved their cursor back to the center! Move
+	// the camera back as well", causing a camera that just
+	// refuses to move
+	int w = 0, h = 0;
+	SDL_GetWindowSize(_window, &w, &h);
+	SDL_WarpMouseInWindow(_window, w / 2, h / 2);
+	//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
+}
+
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
-	_mousegrabbed = b;
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
+	/**
+	 * @NOTE: There is a bug with older versions of SDL2 (ex: 2.0.4) where disabling RelativeMouseMode will cause a mouse event to be fired
+	 * that just moves the cursor to where it would've been if the mode had never been enabled in the first place, effectively uncentering it.
+	 * https://github.com/libsdl-org/SDL/issues/6002 (I'm not sure if this is the right issue, I just updated SDL after seeing this and it fixed the above problem.)
+	 **/
 	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
 }
 
@@ -167,15 +199,6 @@ void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 {
 	xrel = x;
 	yrel = y;
-
-	// Keep the mouse centered if its grabbed
-	if (_mousegrabbed)
-	{
-		int w = 0, h = 0;
-		SDL_GetWindowSize(_window,&w,&h);
-		SDL_WarpMouseInWindow(_window,w/2,h/2);
-		Mouse::feed(MouseButtonType::BUTTON_NONE, false, w/2,h/2);
-	}
 }
 
 void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)
@@ -205,9 +228,9 @@ int AppPlatform_sdl_base::getUserInputStatus()
 	return -1;
 }
 
-MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_Event event)
+MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_MouseButtonEvent event)
 {
-	switch (event.button.button)
+	switch (event.button)
 	{
 		case SDL_BUTTON_LEFT:
 			return BUTTON_LEFT;
@@ -255,9 +278,9 @@ bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
 	return result;
 }
 
-Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(SDL_Event event)
+Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(uint8_t state)
 {
-	switch (event.key.state)
+	switch (state)
 	{
 		case SDL_RELEASED:
 			return Keyboard::UP;
@@ -290,6 +313,100 @@ void AppPlatform_sdl_base::hideKeyboard()
 	}
 }
 
-bool AppPlatform_sdl_base::isTouchscreen() {
+bool AppPlatform_sdl_base::isTouchscreen() const
+{
     return m_bIsTouchscreen;
+}
+
+bool AppPlatform_sdl_base::hasGamepad() const
+{
+	return _controller != nullptr;
+}
+
+void AppPlatform_sdl_base::gameControllerAdded(int32_t index)
+{
+	if (!getPrimaryGameController())
+	{
+		setPrimaryGameController(SDL_GameControllerOpen(index));
+		Controller::reset();
+	}
+}
+
+void AppPlatform_sdl_base::gameControllerRemoved(int32_t index)
+{
+	SDL_GameController* controller = getPrimaryGameController();
+	SDL_JoystickID joystickId = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
+	// Check if current controller has been removed
+	if (controller && index == joystickId)
+	{
+		SDL_GameControllerClose(controller);
+		// Hunt for a new primary controller
+		setPrimaryGameController(findGameController());
+	}
+}
+
+void AppPlatform_sdl_base::handleKeyEvent(int key, uint8_t state)
+{
+	// This really should be handled somewhere else.
+	// Unforunately, there is no global keyboard handler.
+	// Keyboard events are either handled in Screen::keyboardEvent
+	// when a Screen is visible, or in Minecraft::tickInput
+	// when LocalPlayer exists.
+	switch (key)
+	{
+	case SDLVK_F2:
+		if (state == SDL_PRESSED)
+			saveScreenshot("", -1, -1);
+		return;
+	case SDLVK_AC_BACK:
+		// Android Back Button (This is currently handled in handle_events() in platforms/sdl/main.cpp)
+		// @TODO: handleBack function in AppPlatform that calls back to App via function pointer
+		//g_pApp->handleBack(event.key.state == SDL_PRESSED);
+		return;
+	case SDLVK_BACKSPACE:
+		// Text Editing (This is currently handled in handle_events() in platforms/sdl/main.cpp)
+		/*if (state == SDL_PRESSED)
+			g_pApp->handleCharInput('\b');*/
+		break;
+	case SDLVK_LSHIFT:
+	case SDLVK_RSHIFT:
+		setShiftPressed(state == SDL_PRESSED, key == SDLVK_LSHIFT);
+		break;
+	}
+
+	// Normal Key Press
+	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), key);
+}
+
+void AppPlatform_sdl_base::handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state)
+{
+	// Normal Key Press
+	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), button);
+}
+
+void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value)
+{
+	float val = value / 32767.0f; // -32768 to 32767
+
+	switch (axis)
+	{
+	case SDL_CONTROLLER_AXIS_LEFTX:
+		Controller::feedStickX(1, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_LEFTY:
+		Controller::feedStickY(1, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_RIGHTX:
+		Controller::feedStickX(2, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_RIGHTY:
+		Controller::feedStickY(2, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+		Controller::feedTrigger(1, val);
+		break;
+	case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+		Controller::feedTrigger(2, val);
+		break;
+	}
 }

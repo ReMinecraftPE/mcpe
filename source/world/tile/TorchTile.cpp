@@ -14,75 +14,76 @@ TorchTile::TorchTile(int ID, int texture, Material* pMtl) : Tile(ID, texture, pM
 	setTicking(true);
 }
 
-AABB* TorchTile::getAABB(Level*, int x, int y, int z)
+AABB* TorchTile::getAABB(const Level*, const TilePos& pos)
 {
 	return nullptr;
 }
 
-int TorchTile::getRenderShape()
+int TorchTile::getRenderShape() const
 {
 	return SHAPE_TORCH;
 }
 
-bool TorchTile::isCubeShaped()
+bool TorchTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool TorchTile::isSolidRender()
+bool TorchTile::isSolidRender() const
 {
 	return false;
 }
 
-void TorchTile::animateTick(Level* level, int x, int y, int z, Random* random)
+void TorchTile::animateTick(Level* level, const TilePos& pos, Random* random)
 {
-	float partX = float(x) + 0.5f, partZ = float(z) + 0.5f, partY = float(y) + 0.7f;
+	Vec3 part(pos);
+	part += 0.5f;
 
 	// @NOTE: Need to use addParticle("smoke") 5 times. Invalid data values don't actually generate a smoke
-	switch (level->getData(x, y, z))
+	switch (level->getData(pos))
 	{
 		case 1:
-			partX -= 0.27f;
-			partY += 0.22f;
-			level->addParticle("smoke", partX, partY, partZ, 0.0f, 0.0f, 0.0f);
+			part.x -= 0.27f;
+			part.y += 0.22f;
+			level->addParticle("smoke", part);
 			break;
 		case 2:
-			partX += 0.27f;
-			partY += 0.22f;
-			level->addParticle("smoke", partX, partY, partZ, 0.0f, 0.0f, 0.0f);
+			part.x += 0.27f;
+			part.y += 0.22f;
+			level->addParticle("smoke", part);
 			break;
 		case 3:
-			partZ -= 0.27f;
-			partY += 0.22f;
-			level->addParticle("smoke", partX, partY, partZ, 0.0f, 0.0f, 0.0f);
+			part.z -= 0.27f;
+			part.y += 0.22f;
+			level->addParticle("smoke", part);
 			break;
 		case 4:
-			partZ += 0.27f;
-			partY += 0.22f;
-			level->addParticle("smoke", partX, partY, partZ, 0.0f, 0.0f, 0.0f);
+			part.z += 0.27f;
+			part.y += 0.22f;
+			level->addParticle("smoke", part);
 			break;
 		case 5:
-			level->addParticle("smoke", partX, partY, partZ, 0.0f, 0.0f, 0.0f);
+			level->addParticle("smoke", part);
 			break;
 	}
 
-	level->addParticle("flame", partX, partY, partZ, 0.0f, 0.0f, 0.0f);
+	level->addParticle("flame", part);
 }
 
-bool TorchTile::checkCanSurvive(Level* level, int x, int y, int z)
+bool TorchTile::checkCanSurvive(Level* level, const TilePos& pos)
 {
-	if (mayPlace(level, x, y, z))
+	if (mayPlace(level, pos))
 		return true;
 
-	spawnResources(level, x, y, z, level->getData(x, y, z));
-	level->setTile(x, y, z, TILE_AIR);
+	spawnResources(level, pos, level->getData(pos));
+	level->setTile(pos, TILE_AIR);
 
 	return false;
 }
 
-HitResult TorchTile::clip(Level* level, int x, int y, int z, Vec3 a, Vec3 b)
+HitResult TorchTile::clip(const Level* level, const TilePos& pos, Vec3 a, Vec3 b)
 {
-	switch (level->getData(x, y, z) &7)
+	switch (level->getData(pos) &7)
 	{
 		case 1:
 			setShape(0.0f, 0.2f, 0.35f, 0.3f, 0.8f, 0.65f);
@@ -101,90 +102,90 @@ HitResult TorchTile::clip(Level* level, int x, int y, int z, Vec3 a, Vec3 b)
 			break;
 	}
 
-	return Tile::clip(level, x, y, z, a, b);
+	return Tile::clip(level, pos, a, b);
 }
 
-bool TorchTile::mayPlace(Level* level, int x, int y, int z)
+bool TorchTile::mayPlace(const Level* level, const TilePos& pos) const
 {
-	if (level->isSolidTile(x, y - 1, z)) return true;
-	if (level->isSolidTile(x - 1, y, z)) return true;
-	if (level->isSolidTile(x + 1, y, z)) return true;
-	if (level->isSolidTile(x, y, z - 1)) return true;
-	if (level->isSolidTile(x, y, z + 1)) return true;
+	if (level->isSolidTile(pos.below())) return true;
+	if (level->isSolidTile(pos.west())) return true;
+	if (level->isSolidTile(pos.east())) return true;
+	if (level->isSolidTile(pos.north())) return true;
+	if (level->isSolidTile(pos.south())) return true;
 
 	return false;
 }
 
-void TorchTile::neighborChanged(Level* level, int x, int y, int z, int dir)
+void TorchTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 {
-	if (!checkCanSurvive(level, x, y, z))
+	if (!checkCanSurvive(level, pos))
 		return;
 
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 
 	bool flag = false;
-	if (!level->isSolidTile(x - 1, y, z) && data == 1) flag = true;
-	if (!level->isSolidTile(x + 1, y, z) && data == 2) flag = true;
-	if (!level->isSolidTile(x, y, z - 1) && data == 3) flag = true;
-	if (!level->isSolidTile(x, y, z + 1) && data == 4) flag = true;
-	if (!level->isSolidTile(x, y - 1, z) && data == 5) flag = true;
+	if (!level->isSolidTile(pos.west()) && data == 1) flag = true;
+	if (!level->isSolidTile(pos.east()) && data == 2) flag = true;
+	if (!level->isSolidTile(pos.north()) && data == 3) flag = true;
+	if (!level->isSolidTile(pos.south()) && data == 4) flag = true;
+	if (!level->isSolidTile(pos.below()) && data == 5) flag = true;
 
 	if (!flag)
 		return; // all good
 	
-	spawnResources(level, x, y, z, level->getData(x, y, z));
-	level->setTile(x, y, z, TILE_AIR);
+	spawnResources(level, pos, level->getData(pos));
+	level->setTile(pos, TILE_AIR);
 }
 
-void TorchTile::onPlace(Level* level, int x, int y, int z)
+void TorchTile::onPlace(Level* level, const TilePos& pos)
 {
-	if (level->isSolidTile(x - 1, y, z))
-		level->setData(x, y, z, 1);
-	else if (level->isSolidTile(x + 1, y, z))
-		level->setData(x, y, z, 2);
-	else if (level->isSolidTile(x, y, z - 1))
-		level->setData(x, y, z, 3);
-	else if (level->isSolidTile(x, y, z + 1))
-		level->setData(x, y, z, 4);
-	else if (level->isSolidTile(x, y - 1, z))
-		level->setData(x, y, z, 5);
+	if (level->isSolidTile(pos.west()))
+		level->setData(pos, 1);
+	else if (level->isSolidTile(pos.east()))
+		level->setData(pos, 2);
+	else if (level->isSolidTile(pos.north()))
+		level->setData(pos, 3);
+	else if (level->isSolidTile(pos.south()))
+		level->setData(pos, 4);
+	else if (level->isSolidTile(pos.below()))
+		level->setData(pos, 5);
 
-	checkCanSurvive(level, x, y, z);
+	checkCanSurvive(level, pos);
 }
 
-void TorchTile::setPlacedOnFace(Level* level, int x, int y, int z, int dir)
+void TorchTile::setPlacedOnFace(Level* level, const TilePos& pos, Facing::Name face)
 {
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 
-	switch (dir)
+	switch (face)
 	{
-		case DIR_YPOS:
-			if (level->isSolidTile(x, y - 1, z))
+		case Facing::UP:
+			if (level->isSolidTile(pos.below()))
 				data = 5;
 			break;
-		case DIR_ZNEG:
-			if (level->isSolidTile(x, y, z + 1))
+		case Facing::NORTH:
+			if (level->isSolidTile(pos.south()))
 				data = 4;
 			break;
-		case DIR_ZPOS:
-			if (level->isSolidTile(x, y, z - 1))
+		case Facing::SOUTH:
+			if (level->isSolidTile(pos.north()))
 				data = 3;
 			break;
-		case DIR_XNEG:
-			if (level->isSolidTile(x + 1, y, z))
+		case Facing::WEST:
+			if (level->isSolidTile(pos.east()))
 				data = 2;
 			break;
-		case DIR_XPOS:
-			if (level->isSolidTile(x - 1, y, z))
+		case Facing::EAST:
+			if (level->isSolidTile(pos.west()))
 				data = 1;
 			break;
 	}
 
-	level->setData(x, y, z, data);
+	level->setData(pos, data);
 }
 
-void TorchTile::tick(Level* level, int x, int y, int z, Random* random)
+void TorchTile::tick(Level* level, const TilePos& pos, Random* random)
 {
-	if (!level->getData(x, y, z))
-		onPlace(level, x, y, z);
+	if (!level->getData(pos))
+		onPlace(level, pos);
 }

@@ -18,16 +18,16 @@ DoorItem::DoorItem(int id, Material* pMtl) : Item(id)
 	m_pMaterial = pMtl;
 }
 
-bool DoorItem::useOn(ItemInstance* inst, Player* player, Level* level, int x, int y, int z, int dir)
+bool DoorItem::useOn(ItemInstance* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
-	if (dir != DIR_YPOS)
+	if (face != Facing::UP)
 		return false;
 
 	Tile* pTile = m_pMaterial == Material::wood ? Tile::door_wood : Tile::door_iron;
-	if (!pTile->mayPlace(level, x, y + 1, z))
+	if (!pTile->mayPlace(level, pos.above()))
 		return false;
 
-	int faceDir = Mth::floor((((player->m_yaw + 180.0f) * 4.0f) / 360.0f) - 0.5f) & 3;
+	int faceDir = Mth::floor((((player->m_rot.x + 180.0f) * 4.0f) / 360.0f) - 0.5f) & 3;
 	int offsetX, offsetZ;
 	switch (faceDir)
 	{
@@ -51,23 +51,23 @@ bool DoorItem::useOn(ItemInstance* inst, Player* player, Level* level, int x, in
 	}
 
 	// For polish, make sure the hinge is attached to the "correct" block
-	int solid1 = level->isSolidTile(x - offsetX, y + 1, z - offsetZ);
-	int solid2 = level->isSolidTile(x - offsetX, y + 2, z - offsetZ);
-	int solid3 = level->isSolidTile(x + offsetX, y + 1, z + offsetZ);
-	int solid4 = level->isSolidTile(x + offsetX, y + 2, z + offsetZ);
-	int equal5 = level->getTile(x - offsetX, y + 1, z - offsetZ) == pTile->m_ID ||
-	             level->getTile(x - offsetX, y + 2, z - offsetZ) == pTile->m_ID;
-	int equal6 = level->getTile(x + offsetX, y + 1, z + offsetZ) == pTile->m_ID ||
-	             level->getTile(x + offsetX, y + 2, z + offsetZ) == pTile->m_ID;
+	int solid1 = level->isSolidTile(TilePos(pos.x - offsetX, pos.y + 1, pos.z - offsetZ));
+	int solid2 = level->isSolidTile(TilePos(pos.x - offsetX, pos.y + 2, pos.z - offsetZ));
+	int solid3 = level->isSolidTile(TilePos(pos.x + offsetX, pos.y + 1, pos.z + offsetZ));
+	int solid4 = level->isSolidTile(TilePos(pos.x + offsetX, pos.y + 2, pos.z + offsetZ));
+	int equal5 = level->getTile(TilePos(pos.x - offsetX, pos.y + 1, pos.z - offsetZ)) == pTile->m_ID ||
+	             level->getTile(TilePos(pos.x - offsetX, pos.y + 2, pos.z - offsetZ)) == pTile->m_ID;
+	int equal6 = level->getTile(TilePos(pos.x + offsetX, pos.y + 1, pos.z + offsetZ)) == pTile->m_ID ||
+	             level->getTile(TilePos(pos.x + offsetX, pos.y + 2, pos.z + offsetZ)) == pTile->m_ID;
 
     if ((equal5 && !equal6) || solid2 + solid1 < solid4 + solid3)
 		faceDir = 4 + ((faceDir - 1) & 3);
 
 	// congratulations! You can now have a door.
-	level->setTile(x, y + 1, z, pTile->m_ID);
-	level->setData(x, y + 1, z, faceDir);
-	level->setTile(x, y + 2, z, pTile->m_ID);
-	level->setData(x, y + 2, z, faceDir + 8);
+	level->setTile(pos.above(), pTile->m_ID);
+	level->setData(pos.above(), faceDir);
+	level->setTile(TilePos(pos.x, pos.y + 2, pos.z), pTile->m_ID);
+	level->setData(TilePos(pos.x, pos.y + 2, pos.z), faceDir + 8);
 	inst->m_amount--;
 	return true;
 }

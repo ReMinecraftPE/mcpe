@@ -6,60 +6,25 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "Pig.hpp"
+#include "common/Utils.hpp"
 
 Pig::Pig(Level* pLevel) : Animal(pLevel)
 {
+	m_pDescriptor = &EntityTypeDescriptor::pig;
 	field_C8 = RENDER_PIG;
 	m_texture = "mob/pig.png";
 	setSize(0.9f, 0.9f);
 	// some dataitem stuff
 }
-
-std::string Pig::getAmbientSound()
+int Pig::getDeathLoot() const
 {
-	return "mob.pig";
-}
-
-std::string Pig::getDeathSound()
-{
-	return "mob.pigdeath";
-}
-
-std::string Pig::getHurtSound()
-{
-	return "mob.pig";
-}
-
-int Pig::getEntityTypeId()
-{
-	return TYPE_PIG;
-}
-
-int Pig::getMaxHealth()
-{
-	return 10;
-}
-
-bool Pig::interact(Player* pPlayer)
-{
-	return false;
-}
-
-int Pig::getDeathLoot()
-{
-	return 0;
-}
-
-bool Pig::hasSaddle()
-{
-	return false;
+	if (isOnFire())
+		return Item::porkChop_cooked->m_itemID;
+	else
+		return Item::porkChop_raw->m_itemID;
 }
 
 void Pig::setSaddle(bool b)
 {
-}
-
-Entity* Pig::getBreedOffspring(Animal* pOther)
-{
-    return new Pig(m_pLevel);
+	// @TODO: this
 }

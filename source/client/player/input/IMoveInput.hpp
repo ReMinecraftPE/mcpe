@@ -30,15 +30,15 @@ public:
 
 	virtual void releaseAllKeys();
 	virtual void render(float f);
-	virtual void setKey(int key, bool state);
+	virtual void setKey(int eventKey, bool eventKeyState);
 	virtual void setScreenSize(int width, int height);
 	virtual void tick(Player*);
 
 public:
 	float m_horzInput;
 	float m_vertInput;
-	bool field_C;
-	bool m_bJumpButton;
-	bool m_bSneakButton;
+	bool m_bWasJumping;
+	bool m_bJumping;
+	bool m_bSneaking;
 };
 

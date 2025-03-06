@@ -14,55 +14,58 @@ TreeTile::TreeTile(int id) : Tile(id, Material::wood)
 	m_TextureFrame = TEXTURE_LOG_SIDE;
 }
 
-int TreeTile::getResource(int x, Random* random)
+int TreeTile::getResource(int x, Random* random) const
 {
 	return Tile::treeTrunk->m_ID;
 }
 
-int TreeTile::getResourceCount(Random* random)
+int TreeTile::getResourceCount(Random* random) const
 {
 	return 1;
 }
 
-int TreeTile::getSpawnResourcesAuxValue(int x)
+int TreeTile::getSpawnResourcesAuxValue(int x) const
 {
 	return x;
 }
 
-int TreeTile::getTexture(int dir, int data)
+int TreeTile::getTexture(Facing::Name face, int data) const
 {
-	if (dir == DIR_YPOS || dir == DIR_YNEG)
+	if (face == Facing::UP || face == Facing::DOWN)
 		return TEXTURE_LOG_TOP;
 
-	if (data == 1)
+	switch (data)
+	{
+	case 1:
 		return TEXTURE_LOG_SPRUCE;
-
-	if (data == 2)
+	case 2:
 		return TEXTURE_LOG_BIRCH;
+	}
 
 	return TEXTURE_LOG_SIDE;
 }
 
-void TreeTile::onRemove(Level* level, int x, int y, int z)
+void TreeTile::onRemove(Level* level, const TilePos& pos)
 {
 	// signal to nearby leaves that they should decay
-	if (!level->hasChunksAt(x - 5, y - 5, z - 5, x + 5, y + 5, z + 5))
+	if (!level->hasChunksAt(pos - 5, pos + 5))
 		return;
 
-	for (int i = -4; i <= 5; i++)
+	TilePos tp;
+	for (tp.x = -4; tp.x <= 5; tp.x++)
 	{
-		for (int j = -4; j <= 5; j++)
+		for (tp.y = -4; tp.y <= 5; tp.y++)
 		{
-			for (int k = -4; k <= 5; k++)
+			for (tp.z = -4; tp.z <= 5; tp.z++)
 			{
-				TileID tid = level->getTile(x + i, y + j, z + k);
+				TileID tid = level->getTile(pos + tp);
 				if (tid != Tile::leaves->m_ID) continue;
 
-				int data = level->getData(x + i, y + j, z + k);
+				int data = level->getData(pos + tp);
 				if (data & 4)
 					continue;
 
-				level->setDataNoUpdate(x + i, y + j, z + k, data | 4);
+				level->setDataNoUpdate(pos + tp, data | 4);
 			}
 		}
 	}

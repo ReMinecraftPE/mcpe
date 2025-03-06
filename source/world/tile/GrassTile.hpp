@@ -15,9 +15,9 @@ class GrassTile : public Tile
 public:
 	GrassTile(int ID, Material*);
 
-	int getResource(int, Random*) override;
-	int getColor(LevelSource*, int x, int y, int z) override;
-	int getTexture(int dir) override;
-	int getTexture(LevelSource*, int x, int y, int z, int dir) override;
-	void tick(Level*, int x, int y, int z, Random*) override;
+	int getResource(int, Random*) const override;
+	int getColor(const LevelSource*, const TilePos& pos) const override;
+	int getTexture(Facing::Name face) const override;
+	int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
+	void tick(Level*, const TilePos& pos, Random*) override;
 };

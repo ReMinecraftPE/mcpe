@@ -9,15 +9,20 @@
 #pragma once
 
 #include "world/phys/Vec3.hpp"
+#include "world/phys/Vec2.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/level/Material.hpp"
+#include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/ItemInstance.hpp"
+#include "SynchedEntityData.hpp"
+#include "EntityTypeDescriptor.hpp"
 #include "common/Utils.hpp"
 
 class Level;
 class Player;
 class ItemInstance;
+class ItemEntity;
 
 enum eEntityRenderType
 {
@@ -42,62 +47,34 @@ enum eEntityRenderType
 	RENDER_FALLING_TILE = 50,
 };
 
-enum eEntityType
-{
-	TYPE_UNSAVED,
-	
-	TYPE_CHICKEN = 10,
-	TYPE_COW,
-	TYPE_PIG,
-	TYPE_SHEEP,
-
-	TYPE_ZOMBIE = 32,
-
-	TYPE_ITEM = 64,
-};
-
-enum eCreatureBaseType
-{
-	BASE_NONE,
-	BASE_MONSTER,
-	BASE_ANIMAL,
-};
-
 struct EntityPos
 {
 	Vec3 m_pos;
-	float m_yaw, m_pitch;
+	Vec2 m_rot;
 	bool m_bHasRot, m_bHasPos;
 
 	EntityPos()
+		: m_pos(Vec3::ZERO), m_rot(Vec2::ZERO)
 	{
-        m_yaw = 0; m_pitch = 0;
         m_bHasRot = false; m_bHasPos = false;
 	};
 
 	EntityPos(const Vec3& pos)
+		: m_pos(pos), m_rot(Vec2::ZERO)
 	{
-		m_pos = pos;
-        m_yaw = 0; m_pitch = 0;
-		m_bHasPos = true;
-		m_bHasRot = false;
+		m_bHasPos = true; m_bHasRot = false;
 	}
 
-	EntityPos(float yaw, float pitch)
+	EntityPos(const Vec2& rot)
+		: m_pos(Vec3::ZERO), m_rot(rot)
 	{
-		m_yaw = yaw;
-		m_pitch = pitch;
-		m_bHasPos = false;
-		m_bHasRot = true;
+		m_bHasPos = false; m_bHasRot = true;
 	}
 
-	EntityPos(const Vec3& pos, float yaw, float pitch)
+	EntityPos(const Vec3& pos, const Vec2& rot)
+		: m_pos(pos), m_rot(rot)
 	{
-		m_pos = pos;
-		m_yaw = yaw;
-		m_pitch = pitch;
-		m_bHasPos = true;
-		m_bHasRot = true;
+		m_bHasPos = true; m_bHasRot = true;
 	}
 };
 
@@ -112,56 +89,57 @@ public:
 	virtual void reset();
 	virtual void setLevel(Level*);
 	virtual void removed();
-	virtual void setPos(float x, float y, float z);
+	virtual void setPos(const Vec3& pos);
 	virtual void remove();
-	virtual int move(float x, float y, float z);
-	virtual void moveTo(float x, float y, float z, float yaw, float pitch);
-	virtual void absMoveTo(float x, float y, float z, float yaw, float pitch);
-	virtual void moveRelative(float x, float z, float y);
-	virtual void lerpTo(float x, float y, float z, float yaw, float pitch, int i);
-	virtual void lerpMotion(float x, float y, float z);
-	virtual void turn(float yaw, float pitch);
-	virtual void interpolateTurn(float yaw, float pitch);
+	virtual int move(const Vec3& pos);
+	virtual void moveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
+	virtual void absMoveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
+	virtual void moveRelative(const Vec3& pos);
+	virtual void lerpTo(const Vec3& pos);
+	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int i);
+	virtual void lerpMotion(const Vec3& pos);
+	virtual void turn(const Vec2& rot);
+	virtual void interpolateTurn(const Vec2& rot);
 	virtual void tick();
 	virtual void baseTick();
-	virtual bool intersects(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
-	virtual bool isFree(float offX, float offY, float offZ);
-	virtual bool isFree(float offX, float offY, float offZ, float expand);
-	virtual bool isInWall();
+	virtual bool intersects(const Vec3& min, const Vec3& max) const;
+	virtual bool isFree(const Vec3& off) const;
+	virtual bool isFree(const Vec3& off, float expand) const;
+	virtual bool isInWall() const;
 	virtual bool isInWater();
-	virtual bool isInLava();
-	virtual bool isUnderLiquid(Material*);
-	virtual float getHeadHeight();
-	virtual float getShadowHeightOffs();
-	virtual float getBrightness(float f);
-	virtual float distanceTo(Entity*);
-	virtual float distanceToSqr(float x, float y, float z);
-	virtual float distanceTo(float x, float y, float z);
-	virtual float distanceToSqr(Entity*);
+	virtual bool isInLava() const;
+	virtual bool isUnderLiquid(Material*) const;
+	virtual float getHeadHeight() const { return 0.0f; }
+	virtual float getShadowHeightOffs() const { return m_bbHeight / 2.0f; }
+	virtual float getBrightness(float f) const;
+	virtual float distanceTo(Entity*) const;
+	virtual float distanceToSqr(const Vec3& pos) const;
+	virtual float distanceTo(const Vec3& pos) const;
+	virtual float distanceToSqr(Entity*) const;
 	virtual int interactPreventDefault();
 	virtual bool interact(Player*);
 	virtual void playerTouch(Player*);
 	virtual void push(Entity*);
-	virtual void push(float x, float y, float z);
-	virtual bool isPickable();
-	virtual bool isPushable();
-	virtual bool isShootable();
-	virtual bool isSneaking();
-	virtual bool isAlive();
-	virtual bool isOnFire();
-	virtual bool isPlayer();
-	virtual bool isCreativeModeAllowed();
-	virtual bool shouldRender(Vec3& camPos);
-	virtual bool shouldRenderAtSqrDistance(float distSqr);
+	virtual void push(const Vec3& pos);
+	virtual bool isPickable() const { return false; }
+	virtual bool isPushable() const { return false; }
+	virtual bool isShootable() const { return false; }
+	virtual bool isSneaking() const { return false; }
+	virtual bool isAlive() const { return m_bRemoved; }
+	virtual bool isOnFire() const { return m_fireTicks > 0; }
+	virtual bool isPlayer() const { return false; }
+	virtual bool isCreativeModeAllowed() const { return false; }
+	virtual bool shouldRender(Vec3& camPos) const;
+	virtual bool shouldRenderAtSqrDistance(float distSqr) const;
 	virtual bool hurt(Entity*, int);
 	virtual void animateHurt();
-	virtual float getPickRadius();
-	// virtual void spawnAtLocation(ItemInstance*, float);
-	// virtual void spawnAtLocation(int, int);
-	// virtual void spawnAtLocation(int, int, float);
+	virtual float getPickRadius() const { return 0.1f; }
+	virtual ItemEntity* spawnAtLocation(ItemInstance*, float);
+	virtual ItemEntity* spawnAtLocation(int, int);
+	virtual ItemEntity* spawnAtLocation(int, int, float);
 	virtual void awardKillScore(Entity* pKilled, int score);
 	virtual void setEquippedSlot(int, int, int);
-	virtual void setRot(float yaw, float pitch);
+	virtual void setRot(const Vec2& rot);
 	virtual void setSize(float rad, float height);
 	virtual void setPos(EntityPos*);
 	virtual void resetPos();
@@ -172,21 +150,22 @@ public:
 	virtual void burn(int);
 	virtual void lavaHurt();
 	virtual int queryEntityRenderer();
-	virtual int getCreatureBaseType();
-	virtual int getEntityTypeId();
+	// Removed by Mojang. See https://stackoverflow.com/questions/962132/why-is-a-call-to-a-virtual-member-function-in-the-constructor-a-non-virtual-call
+	//virtual void defineSynchedData();
 
-	virtual bool isLocalPlayer();
+	const EntityTypeDescriptor& getDescriptor() const { return *m_pDescriptor; }
+	const SynchedEntityData& getEntityData() const { return m_entityData; }
 
-	int hashCode();
+	int hashCode() const { return m_EntityID; }
 
 	bool operator==(const Entity& other) const;
 
-	float distanceToSqr_inline(float x, float y, float z) const
+	float distanceToSqr_inline(const Vec3& pos) const
 	{
 		return
-			(m_pos.x - x) * (m_pos.x - x) +
-			(m_pos.y - y) * (m_pos.y - y) +
-			(m_pos.z - z) * (m_pos.z - z);
+			(m_pos.x - pos.x) * (m_pos.x - pos.x) +
+			(m_pos.y - pos.y) * (m_pos.y - pos.y) +
+			(m_pos.z - pos.z) * (m_pos.z - pos.z);
 	}
 
 public:
@@ -195,9 +174,8 @@ public:
 
 	Vec3 m_pos;
 	bool m_bInAChunk;
-	int m_chunkX;
-	int m_chunkY;
-	int m_chunkZ;
+	ChunkPos m_chunkPos;
+	int m_chunkPosY;
 	int field_20;
 	int field_24;
 	int field_28;
@@ -205,44 +183,47 @@ public:
 	float field_30;
 	uint8_t field_34;
 	Level* m_pLevel;
-	Vec3 field_3C;
+	Vec3 m_oPos; // "o" in Java or "xo" ""yo" "zo"
 	Vec3 m_vel;
-	float m_yaw;
-	float m_pitch;
+	Vec2 m_rot;
 	//maybe these are the actual m_yaw and m_pitch, and
 	//the one I annotated are the destination yaw and pitch.
 	//interpolateTurn doesn't modify them, so I highly suspect
 	//this to be the case.
-	float field_5C;
-	float field_60;
+	Vec2 m_rotPrev;
 	AABB m_hitbox;
-	bool field_7C;
-	bool field_7D;
+	bool m_onGround;
+	bool m_bHorizontalCollision;
 	bool field_7E;
 	bool field_7F;
 	bool m_bHurt;
 	uint8_t field_81;
 	bool m_bRemoved;
-	float field_84;
-	float field_88;
-	float field_8C;
+	float m_heightOffset;
+	float m_bbWidth;
+	float m_bbHeight;
 	float field_90;
-	float field_94;
-	Vec3 field_98;
-	float field_A4;
+	float m_walkDist;
+	Vec3 m_posPrev;
+	float m_ySlideOffset;
 	float field_A8;
-	bool m_bNoCollision;
+	bool m_bNoPhysics;
 	float field_B0;
 	int field_B4;
 	int field_B8;
-	int field_BC;
-	int field_C0;
-	int field_C4;
+	int m_airCapacity;
+	int m_fireTicks;
+	int m_flameTime;
 	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
-	float m_distanceFallen;
-	int field_D0;
+	float m_distanceFallen; // Supposed to be protected
+	int m_airSupply;
 	uint8_t field_D4;
 	bool field_D5;
 	bool field_D6;
-	int field_D8;
+	int m_nextStep;
+
+	protected:
+		SynchedEntityData m_entityData;
+		bool m_bMakeStepSound;
+		const EntityTypeDescriptor* m_pDescriptor;
 };

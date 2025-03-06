@@ -10,8 +10,8 @@
 
 float Node::distanceTo(Node* node)
 {
-	float dx = float(node->m_x) - float(m_x);
-	float dy = float(node->m_y) - float(m_y);
-	float dz = float(node->m_z) - float(m_z);
+	float dx = float(node->m_tilePos.x) - float(m_tilePos.x);
+	float dy = float(node->m_tilePos.y) - float(m_tilePos.y);
+	float dz = float(node->m_tilePos.z) - float(m_tilePos.z);
 	return Mth::sqrt(dx * dx + dy * dy + dz * dz);
 }

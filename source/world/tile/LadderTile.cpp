@@ -13,29 +13,29 @@ LadderTile::LadderTile(int ID, int texture) : Tile(ID, texture, Material::decora
 {
 }
 
-int LadderTile::getRenderShape()
+int LadderTile::getRenderShape() const
 {
 	return SHAPE_LADDER;
 }
 
-int LadderTile::getResourceCount(Random* random)
+int LadderTile::getResourceCount(Random* random) const
 {
 	return 1;
 }
 
-bool LadderTile::isCubeShaped()
+bool LadderTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool LadderTile::isSolidRender()
+bool LadderTile::isSolidRender() const
 {
 	return false;
 }
 
-AABB* LadderTile::getAABB(Level* level, int x, int y, int z)
+AABB* LadderTile::getAABB(const Level* level, const TilePos& pos)
 {
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 	switch (data)
 	{
 		case 2:
@@ -52,12 +52,12 @@ AABB* LadderTile::getAABB(Level* level, int x, int y, int z)
 			break;
 	}
 
-	return Tile::getAABB(level, x, y, z);
+	return Tile::getAABB(level, pos);
 }
 
-AABB LadderTile::getTileAABB(Level* level, int x, int y, int z)
+AABB LadderTile::getTileAABB(const Level* level, const TilePos& pos)
 {
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 	switch (data)
 	{
 		case 2:
@@ -74,38 +74,38 @@ AABB LadderTile::getTileAABB(Level* level, int x, int y, int z)
 			break;
 	}
 
-	return Tile::getTileAABB(level, x, y, z);
+	return Tile::getTileAABB(level, pos);
 }
 
-void LadderTile::setPlacedOnFace(Level* level, int x, int y, int z, int face)
+void LadderTile::setPlacedOnFace(Level* level, const TilePos& pos, Facing::Name face)
 {
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 
-	if ((data == 0 || face == DIR_ZNEG) && level->isSolidTile(x, y, z + 1)) data = 2;
-	if ((data == 0 || face == DIR_ZPOS) && level->isSolidTile(x, y, z - 1)) data = 3;
-	if ((data == 0 || face == DIR_XNEG) && level->isSolidTile(x + 1, y, z)) data = 4;
-	if ((data == 0 || face == DIR_XPOS) && level->isSolidTile(x - 1, y, z)) data = 5;
+	if ((data == 0 || face == Facing::NORTH) && level->isSolidTile(pos.south())) data = 2;
+	if ((data == 0 || face == Facing::SOUTH) && level->isSolidTile(pos.north())) data = 3;
+	if ((data == 0 || face == Facing::WEST) && level->isSolidTile(pos.east())) data = 4;
+	if ((data == 0 || face == Facing::EAST) && level->isSolidTile(pos.west())) data = 5;
 
-	level->setData(x, y, z, data);
-	assert(level->getData(x, y, z) == data);
+	level->setData(pos, data);
+	assert(level->getData(pos) == data);
 }
 
-void LadderTile::neighborChanged(Level* level, int x, int y, int z, int dir)
+void LadderTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 {
-	int data = level->getData(x, y, z);
+	int data = level->getData(pos);
 	switch (data)
 	{
 		case 2:
-			if (level->isSolidTile(x, y, z + 1)) return;
+			if (level->isSolidTile(pos.south())) return;
 			break;
 		case 3:
-			if (level->isSolidTile(x, y, z - 1)) return;
+			if (level->isSolidTile(pos.north())) return;
 			break;
 		case 4:
-			if (level->isSolidTile(x + 1, y, z)) return;
+			if (level->isSolidTile(pos.east())) return;
 			break;
 		case 5:
-			if (level->isSolidTile(x - 1, y, z)) return;
+			if (level->isSolidTile(pos.west())) return;
 			break;
 		case 0:
 			// hasn't decided on anything right now?
@@ -116,15 +116,15 @@ void LadderTile::neighborChanged(Level* level, int x, int y, int z, int dir)
 			break;
 	}
 
-	spawnResources(level, x, y, z, data);
-	level->setTile(x, y, z, TILE_AIR);
+	spawnResources(level, pos, data);
+	level->setTile(pos, TILE_AIR);
 }
 
-bool LadderTile::mayPlace(Level* level, int x, int y, int z)
+bool LadderTile::mayPlace(const Level* level, const TilePos& pos) const
 {
 	return
-		level->isSolidTile(x - 1, y, z) ||
-		level->isSolidTile(x + 1, y, z) ||
-		level->isSolidTile(x, y, z - 1) ||
-		level->isSolidTile(x, y, z + 1);
+		level->isSolidTile(pos.west()) ||
+		level->isSolidTile(pos.east()) ||
+		level->isSolidTile(pos.north()) ||
+		level->isSolidTile(pos.south());
 }

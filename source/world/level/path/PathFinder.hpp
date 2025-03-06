@@ -11,12 +11,13 @@
 #include <map>
 #include "Path.hpp"
 #include "BinaryHeap.hpp"
+#include "world/level/TilePos.hpp"
 
 class LevelSource;
 class Entity;
 
 #define MAX_NODE_COUNT (2048)
-#define FIELD_10038_SIZE (32)
+#define NEIGHBORS_SIZE (32)
 
 typedef std::map <int, Node*> NodeMap;
 
@@ -26,12 +27,14 @@ public:
 	PathFinder();
 	~PathFinder();
 
-	int isFree(Entity*, int x, int y, int z, const Node* node);
-	Node* getNode(Entity*, int x, int y, int z, const Node* node, int a);
-	Node* getNode(int x, int y, int z);
+	int isFree(Entity*, const TilePos& pos, const Node* node);
+	Node* getNode(Entity*, const TilePos& pos, const Node* node, int a);
+	Node* getNode(const TilePos& pos);
 	int getNeighbors(Entity*, Node*, const Node*, Node*, float);
 	bool findPath(Path&, Entity*, Node*, Node*, const Node*, float);
-	bool findPath(Path&, Entity*, float, float, float, float);
+	bool findPath(Path&, Entity*, const Vec3& pos, float);
+	bool findPath(Path&, Entity*, const Entity*, float);
+	bool findPath(Path&, Entity*, const TilePos& tilePos, float);
 
 	void setLevel(LevelSource* pLevel)
 	{
@@ -39,8 +42,8 @@ public:
 	}
 
 private:
-	Node* new_Node(int x, int y, int z);
-	bool inlined_0(Path& path, Node* node2);
+	Node* new_Node(const TilePos& pos);
+	bool reconstructPath(Path& path, Node* node2);
 
 private:
 	LevelSource* m_pLevel;
@@ -49,5 +52,5 @@ private:
 	Node m_nodeReserve[MAX_NODE_COUNT];
 	std::vector<Node*> m_nodeSpillover;
 	int m_nodeCount;
-	Node* field_10038[FIELD_10038_SIZE];
+	Node* m_neighbors[NEIGHBORS_SIZE];
 };

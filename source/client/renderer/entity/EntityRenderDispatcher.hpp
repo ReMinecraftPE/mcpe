@@ -15,6 +15,7 @@
 #include "ItemRenderer.hpp"
 #include "FallingTileRenderer.hpp"
 #include "PigRenderer.hpp"
+#include "SheepRenderer.hpp"
 #include "CowRenderer.hpp"
 #include "ChickenRenderer.hpp"
 #include "CreeperRenderer.hpp"
@@ -31,14 +32,14 @@ class EntityRenderDispatcher
 {
 public:
 	EntityRenderDispatcher();
-	float distanceToSqr(float x, float y, float z);
+	float distanceToSqr(const Vec3& pos);
 	Font* getFont();
 	EntityRenderer* getRenderer(Entity* pEnt);
 	EntityRenderer* getRenderer(int renderType);
 	void onGraphicsReset();
 	void prepare(Level*, Textures*, Font*, Mob*, Options*, float);
 	void render(Entity*, float);
-	void render(Entity*, float, float, float, float, float);
+	void render(Entity*, const Vec3& pos, float rot, float a);
 	void setLevel(Level*);
 	void setMinecraft(Minecraft*);
 
@@ -48,6 +49,7 @@ public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	HumanoidMobRenderer m_HumanoidMobRenderer;
 	PigRenderer m_PigRenderer;
+	SheepRenderer m_SheepRenderer;
 	CowRenderer m_CowRenderer;
 	ChickenRenderer m_ChickenRenderer;
 	TntRenderer m_TntRenderer;
@@ -65,17 +67,16 @@ public:
 	Level* m_pLevel;
 	Minecraft* m_pMinecraft;
 	Mob* m_pMob;
-	float m_yaw;
-	float m_pitch;
+	Vec2 m_rot;
 	Options* m_pOptions;
 	Vec3 m_pos;
 	Font* m_pFont;
 
-#if defined(ENH_ALLOW_SAND_GRAVITY)
+#ifdef ENH_ALLOW_SAND_GRAVITY
 	FallingTileRenderer m_FallingTileRenderer;
 #endif
 
 	static EntityRenderDispatcher* instance;
-	static float xOff, yOff, zOff;
+	static Vec3 off;
 };
 

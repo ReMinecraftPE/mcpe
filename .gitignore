@@ -163,6 +163,16 @@ xcuserdata/
 /game/assets/misc/foliagecolor.png
 /game/assets/misc/grasscolor.png
 /game/assets/mob/char.png
+/game/assets/mob/chicken.png
+/game/assets/mob/cow.png
+/game/assets/mob/creeper.png
+/game/assets/mob/pig.png
+/game/assets/mob/pigzombie.png
+/game/assets/mob/sheep.png
+/game/assets/mob/sheep_fur.png
+/game/assets/mob/skeleton.png
+/game/assets/mob/spider.png
+/game/assets/mob/zombie.png
 /game/assets/particles.png
 /game/assets/terrain.png
 /game/assets/gui/buynow.png
@@ -178,6 +188,35 @@ xcuserdata/
 /game/assets/gui/startmenu/sm_multi.png
 /game/assets/gui/startmenu/sm_options.png
 /game/assets/gui/touchgui.png
+/game/assets/gui/feedback_fill.png
+/game/assets/gui/feedback_outer.png
+/game/assets/snow.png
+# Ignore all native iOS UI assets.
+/game/assets/app/ios/
+# 0.7.0
+/game/assets/armor/chain_1.png
+/game/assets/armor/chain_2.png
+/game/assets/armor/cloth_1.png
+/game/assets/armor/cloth_2.png
+/game/assets/armor/diamond_1.png
+/game/assets/armor/diamond_2.png
+/game/assets/armor/gold_1.png
+/game/assets/armor/gold_2.png
+/game/assets/armor/iron_1.png
+/game/assets/armor/iron_2.png
+/game/assets/art/kz.png
+/game/assets/gui/bg32.png
+/game/assets/gui/spritesheet.png
+/game/assets/gui/titleBG.png
+/game/assets/gui/touchgui2.png
+/game/assets/item/arrows.png
+/game/assets/item/sign.png
+# Java
+/game/assets/terrain/sun.png
+/game/assets/terrain/moon.png
+/game/assets/misc/vignette.png
+/game/assets/misc/shadow.png
+/game/assets/misc/pumpkinblur.png
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /game/assets/gui/background/panorama_0.png
@@ -203,7 +242,3 @@ xcuserdata/
 # Ignore options.txt - where your configuration will be saved
 /game/options.txt
 /game/assetsO
-/game/assets/gui/feedback_fill.png
-/game/assets/gui/feedback_outer.png
-/game/assets/snow.png
-/game/assets/mob/pig.png

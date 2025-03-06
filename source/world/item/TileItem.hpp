@@ -16,7 +16,7 @@ public:
 
 	virtual std::string getDescriptionId();
 	virtual std::string getDescriptionId(ItemInstance*);
-	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int);
+	virtual bool useOn(ItemInstance*, Player*, Level*, const TilePos& pos, Facing::Name face);
 
 public:
 	int m_tile;

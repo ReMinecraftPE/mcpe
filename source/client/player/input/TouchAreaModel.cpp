@@ -15,12 +15,12 @@ TouchAreaModel::~TouchAreaModel()
 	clear();
 }
 
-int TouchAreaModel::getPointerId(const MouseAction& action)
+int TouchAreaModel::getPointerId(const MouseAction& action) const
 {
 	return getPointerId(action._posX, action._posY, action._fingerId);
 }
 
-int TouchAreaModel::getPointerId(int x, int y, int pointerId)
+int TouchAreaModel::getPointerId(int x, int y, int pointerId) const
 {
 	// Yes, it explicitly uses .size() in the original
 	for (size_t i = 0; i < m_areas.size(); i++)

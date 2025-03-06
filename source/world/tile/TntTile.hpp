@@ -15,9 +15,9 @@ class TntTile : public Tile
 public:
 	TntTile(int ID, int texture);
 
-	int getResourceCount(Random*) override;
-	int getTexture(int dir) override;
-	void neighborChanged(Level*, int x, int y, int z, int d) override;
-	void destroy(Level*, int x, int y, int z, int data) override;
-	void wasExploded(Level*, int x, int y, int z) override;
+	int getResourceCount(Random*) const override;
+	int getTexture(Facing::Name face) const override;
+	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
+	void destroy(Level*, const TilePos& pos, int data) override;
+	void wasExploded(Level*, const TilePos& pos) override;
 };

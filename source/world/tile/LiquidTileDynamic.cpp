@@ -15,7 +15,7 @@ LiquidTileDynamic::LiquidTileDynamic(int id, Material* pMtl) : LiquidTile(id, pM
 {
 }
 
-bool LiquidTileDynamic::checkSpongesNearby(Level* level, int x, int y, int z)
+bool LiquidTileDynamic::checkSpongesNearby(Level* level, const TilePos& pos)
 {
 	// NOTE: I imagine this could get slow. So you can disable it
 	if (g_bDisableSponges)
@@ -27,7 +27,7 @@ bool LiquidTileDynamic::checkSpongesNearby(Level* level, int x, int y, int z)
 		{
 			for (int oz = -2; oz <= 2; oz++)
 			{
-				if (level->getTile(x + ox, y + oy, z + oz) == Tile::sponge->m_ID)
+				if (level->getTile(TilePos(pos.x + ox, pos.y + oy, pos.z + oz)) == Tile::sponge->m_ID)
 					return true;
 			}
 		}
@@ -36,15 +36,15 @@ bool LiquidTileDynamic::checkSpongesNearby(Level* level, int x, int y, int z)
 	return false;
 }
 
-bool LiquidTileDynamic::isWaterBlocking(Level* level, int x, int y, int z)
+bool LiquidTileDynamic::isWaterBlocking(Level* level, const TilePos& pos)
 {
-	TileID tile = level->getTile(x, y, z);
+	TileID tile = level->getTile(pos);
 	if (tile == Tile::reeds->m_ID)
 		return true;
 
 	if (!g_bDisableSponges)
 	{
-		if (checkSpongesNearby(level, x, y, z))
+		if (checkSpongesNearby(level, pos))
 			return true;
 	}
 
@@ -54,16 +54,16 @@ bool LiquidTileDynamic::isWaterBlocking(Level* level, int x, int y, int z)
 	return Tile::tiles[tile]->m_pMaterial->isSolid();
 }
 
-bool LiquidTileDynamic::canSpreadTo(Level* level, int x, int y, int z)
+bool LiquidTileDynamic::canSpreadTo(Level* level, const TilePos& pos)
 {
-	Material* pMtl = level->getMaterial(x, y, z);
+	Material* pMtl = level->getMaterial(pos);
 	if (pMtl == m_pMaterial || pMtl == Material::lava)
 		return false;
 
-	return !isWaterBlocking(level, x, y, z);
+	return !isWaterBlocking(level, pos);
 }
 
-int LiquidTileDynamic::getSlopeDistance(Level* level, int x, int y, int z, int depth, int a7)
+int LiquidTileDynamic::getSlopeDistance(Level* level, const TilePos& pos, int depth, int a7)
 {
 	int cost = 1000;
 	
@@ -72,29 +72,29 @@ int LiquidTileDynamic::getSlopeDistance(Level* level, int x, int y, int z, int d
 		if ((i == 0 && a7 == 1) || (i == 1 && a7 == 0) || (i == 2 && a7 == 3) || (i == 3 && a7 == 2))
 			continue;
 
-		int checkX = x, checkY = y, checkZ = z;
+		TilePos check(pos);
 		switch (i)
 		{
-			case 0: checkX--; break;
-			case 1: checkX++; break;
-			case 2: checkZ--; break;
-			case 3: checkZ++; break;
+			case 0: check.x--; break;
+			case 1: check.x++; break;
+			case 2: check.z--; break;
+			case 3: check.z++; break;
 		}
 
-		if (isWaterBlocking(level, checkX, checkY, checkZ))
+		if (isWaterBlocking(level, check))
 			continue;
 
-		if (level->getMaterial(checkX, checkY, checkZ) == m_pMaterial &&
-			level->getData(checkX,checkY,checkZ) == 0)
+		if (level->getMaterial(check) == m_pMaterial &&
+			level->getData(check) == 0)
 			continue;
 
-		if (!isWaterBlocking(level, checkX, checkY - 1, checkZ))
+		if (!isWaterBlocking(level, TilePos(check.x, check.y - 1, check.z)))
 			return depth;
 
 		if (depth >= 4)
 			continue;
 
-		int otherCost = getSlopeDistance(level, checkX, checkY, checkZ, depth + 1, i);
+		int otherCost = getSlopeDistance(level, check, depth + 1, i);
 		if (cost > otherCost)
 			cost = otherCost;
 	}
@@ -102,39 +102,39 @@ int LiquidTileDynamic::getSlopeDistance(Level* level, int x, int y, int z, int d
 	return cost;
 }
 
-bool* LiquidTileDynamic::getSpread(Level* level, int x, int y, int z)
+bool* LiquidTileDynamic::getSpread(Level* level, const TilePos& pos)
 {
 	for (int i = 0; i < 4; i++)
 	{
 		field_74[i] = 1000;
 
-		int xChk = x, zChk = z;
+		TilePos chk(pos);
 
 		switch (i)
 		{
 			case 0:
-				xChk--;
+				chk.x--;
 				break;
 			case 1:
-				xChk++;
+				chk.x++;
 				break;
 			case 2:
-				zChk--;
+				chk.z--;
 				break;
 			case 3:
-				zChk++;
+				chk.z++;
 				break;
 		}
 
-		if (isWaterBlocking(level, xChk, y, zChk))
+		if (isWaterBlocking(level, chk))
 			continue;
 
-		if (level->getMaterial(xChk, y, zChk) == m_pMaterial &&
-			level->getData(xChk, y, zChk) == 0)
+		if (level->getMaterial(chk) == m_pMaterial &&
+			level->getData(chk) == 0)
 			continue;
 
-		if (isWaterBlocking(level, xChk, y - 1, zChk))
-			field_74[i] = getSlopeDistance(level, xChk, y, zChk, 1, i);
+		if (isWaterBlocking(level, TilePos(chk.x, chk.y - 1, chk.z)))
+			field_74[i] = getSlopeDistance(level, chk, 1, i);
 		else
 			field_74[i] = 0;
 	}
@@ -154,49 +154,49 @@ bool* LiquidTileDynamic::getSpread(Level* level, int x, int y, int z)
 	return field_70;
 }
 
-void LiquidTileDynamic::onPlace(Level* level, int x, int y, int z)
+void LiquidTileDynamic::onPlace(Level* level, const TilePos& pos)
 {
-	updateLiquid(level, x, y, z);
+	updateLiquid(level, pos);
 
-	if (level->getTile(x, y, z) == m_ID)
+	if (level->getTile(pos) == m_ID)
 	{
-		level->addToTickNextTick(x, y, z, m_ID, getTickDelay());
+		level->addToTickNextTick(pos, m_ID, getTickDelay());
 	}
 }
 
-void LiquidTileDynamic::setStatic(Level* level, int x, int y, int z)
+void LiquidTileDynamic::setStatic(Level* level, const TilePos& pos)
 {
-	int data = level->getData(x, y, z);
-	level->setTileAndDataNoUpdate(x, y, z, m_ID + 1, data);
-	level->setTilesDirty(x, y, z, x, y, z);
-	level->sendTileUpdated(x, y, z);
+	int data = level->getData(pos);
+	level->setTileAndDataNoUpdate(pos, m_ID + 1, data);
+	level->setTilesDirty(pos, pos);
+	level->sendTileUpdated(pos);
 }
 
-void LiquidTileDynamic::trySpreadTo(Level* level, int x, int y, int z, int data)
+void LiquidTileDynamic::trySpreadTo(Level* level, const TilePos& pos, int data)
 {
-	if (!canSpreadTo(level, x, y, z))
+	if (!canSpreadTo(level, pos))
 		return;
 
-	TileID tile = level->getTile(x, y, z);
+	TileID tile = level->getTile(pos);
 	if (tile > 0)
 	{
 		if (m_pMaterial == Material::lava)
 		{
-			fizz(level, x, y, z);
+			fizz(level, pos);
 		}
 		else
 		{
-			Tile::tiles[tile]->spawnResources(level, x, y, z, level->getData(x, y, z));
+			Tile::tiles[tile]->spawnResources(level, pos, level->getData(pos));
 		}
 	}
 
-	level->setTileAndData(x, y, z, m_ID, data);
+	level->setTileAndData(pos, m_ID, data);
 }
 
 // @NOTE: This is inlined in PE.
-int LiquidTileDynamic::getSmallestDepth(Level* level, int x, int y, int z, int oldDepth)
+int LiquidTileDynamic::getSmallestDepth(Level* level, const TilePos& pos, int oldDepth)
 {
-	int depth = getDepth(level, x, y, z);
+	int depth = getDepth(level, pos);
 	if (depth < 0)
 		return oldDepth;
 
@@ -209,9 +209,9 @@ int LiquidTileDynamic::getSmallestDepth(Level* level, int x, int y, int z, int o
 	return oldDepth >= 0 && depth >= oldDepth ? oldDepth : depth;
 }
 
-void LiquidTileDynamic::tick(Level* level, int x, int y, int z, Random* random)
+void LiquidTileDynamic::tick(Level* level, const TilePos& pos, Random* random)
 {
-	int depth = getDepth(level, x, y, z);
+	int depth = getDepth(level, pos);
 	int speed;
 	if (m_pMaterial != Material::lava || level->m_pDimension->field_D)
 		speed = 1;
@@ -226,18 +226,18 @@ void LiquidTileDynamic::tick(Level* level, int x, int y, int z, Random* random)
 		field_6C = 0;
 
 		depthMax = -100;
-		depthMax = getSmallestDepth(level, x - 1, y, z, depthMax);
-		depthMax = getSmallestDepth(level, x + 1, y, z, depthMax);
-		depthMax = getSmallestDepth(level, x, y, z - 1, depthMax);
-		depthMax = getSmallestDepth(level, x, y, z + 1, depthMax);
+		depthMax = getSmallestDepth(level, pos.west(), depthMax);
+		depthMax = getSmallestDepth(level, pos.east(), depthMax);
+		depthMax = getSmallestDepth(level, pos.north(), depthMax);
+		depthMax = getSmallestDepth(level, pos.south(), depthMax);
 
 		newData = speed + depthMax;
 		if (newData > 7 || newData < 0)
 			newData = -1;
 
-		if (getDepth(level, x, y + 1, z) >= 0)
+		if (getDepth(level, pos.above()) >= 0)
 		{
-			int depthUp = getDepth(level, x, y + 1, z);
+			int depthUp = getDepth(level, pos.above());
 			if (depthUp >= 8)
 				newData = depthUp;
 			else
@@ -246,13 +246,13 @@ void LiquidTileDynamic::tick(Level* level, int x, int y, int z, Random* random)
 
 		if (field_6C >= 2 && m_pMaterial == Material::water)
 		{
-			if (level->isSolidTile(x, y - 1, z))
+			if (level->isSolidTile(pos.below()))
 			{
 				newData = 0;
 			}
-			else if (m_pMaterial == level->getMaterial(x, y - 1, z))
+			else if (m_pMaterial == level->getMaterial(pos.below()))
 			{
-				if (!level->getData(x, y - 1, z))
+				if (!level->getData(pos.below()))
 					newData = 0;
 			}
 		}
@@ -268,36 +268,36 @@ void LiquidTileDynamic::tick(Level* level, int x, int y, int z, Random* random)
 			depth = newData;
 			if (depth < 0)
 			{
-				level->setTile(x, y, z, 0);
+				level->setTile(pos, 0);
 			}
 			else
 			{
-				level->setData(x, y, z, depth);
-				level->addToTickNextTick(x, y, z, m_ID, getTickDelay());
+				level->setData(pos, depth);
+				level->addToTickNextTick(pos, m_ID, getTickDelay());
 			}
 		}
 		else if (flag)
 		{
-			setStatic(level, x, y, z);
+			setStatic(level, pos);
 		}
 	}
 	else
 	{
-		setStatic(level, x, y, z);
+		setStatic(level, pos);
 	}
 
-	if (canSpreadTo(level, x, y - 1, z))
+	if (canSpreadTo(level, pos.below()))
 	{
 		if (depth < 8)
 			depth += 8;
 
-		level->setTileAndData(x, y - 1, z, m_ID, depth);
+		level->setTileAndData(pos.below(), m_ID, depth);
 		return;
 	}
 
-	if (depth >= 0 && (depth == 0 || isWaterBlocking(level, x, y - 1, z)))
+	if (depth >= 0 && (depth == 0 || isWaterBlocking(level, pos.below())))
 	{
-		bool* bSpread = getSpread(level, x, y, z);
+		bool* bSpread = getSpread(level, pos);
 
 		int data = depth + speed;
 		if (depth >= 8)
@@ -306,9 +306,9 @@ void LiquidTileDynamic::tick(Level* level, int x, int y, int z, Random* random)
 		if (data >= 8)
 			return;
 
-		if (bSpread[0]) trySpreadTo(level, x - 1, y, z, data);
-		if (bSpread[1]) trySpreadTo(level, x + 1, y, z, data);
-		if (bSpread[2]) trySpreadTo(level, x, y, z - 1, data);
-		if (bSpread[3]) trySpreadTo(level, x, y, z + 1, data);
+		if (bSpread[0]) trySpreadTo(level, pos.west(), data);
+		if (bSpread[1]) trySpreadTo(level, pos.east(), data);
+		if (bSpread[2]) trySpreadTo(level, pos.north(), data);
+		if (bSpread[3]) trySpreadTo(level, pos.south(), data);
 	}
 }

@@ -16,53 +16,53 @@ Bush::Bush(int id, int texture) : Tile(id, Material::plant)
 	setShape(0.3f, 0.0f, 0.3f, 0.7f, 0.6f, 0.7f);
 }
 
-int Bush::getRenderShape()
+int Bush::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }
 
-bool Bush::isCubeShaped()
+bool Bush::isCubeShaped() const
 {
 	return false;
 }
 
-bool Bush::isSolidRender()
+bool Bush::isSolidRender() const
 {
 	return false;
 }
 
-bool Bush::mayPlace(Level* level, int x, int y, int z)
+bool Bush::mayPlace(const Level* level, const TilePos& pos) const
 {
-	TileID tile = level->getTile(x, y - 1, z);
+	TileID tile = level->getTile(pos.below());
 
 	return tile == Tile::grass->m_ID || tile == Tile::dirt->m_ID || tile == Tile::farmland->m_ID;
 }
 
-bool Bush::canSurvive(Level* level, int x, int y, int z)
+bool Bush::canSurvive(const Level* level, const TilePos& pos) const
 {
-	if (level->getRawBrightness(x, y, z) <= 7 && !level->canSeeSky(x, y, z))
+	if (level->getRawBrightness(pos) <= 7 && !level->canSeeSky(pos))
 		return false;
 
-	return mayPlace(level, x, y, z);
+	return mayPlace(level, pos);
 }
 
-void Bush::checkAlive(Level* level, int x, int y, int z)
+void Bush::checkAlive(Level* level, const TilePos& pos)
 {
-	if (!canSurvive(level, x, y, z))
-		level->setTile(x, y, z, TILE_AIR);
+	if (!canSurvive(level, pos))
+		level->setTile(pos, TILE_AIR);
 }
 
-void Bush::neighborChanged(Level* level, int x, int y, int z, int dir)
+void Bush::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 {
-	return checkAlive(level, x, y, z);
+	return checkAlive(level, pos);
 }
 
-void Bush::tick(Level* level, int x, int y, int z, Random* random)
+void Bush::tick(Level* level, const TilePos& pos, Random* random)
 {
-	checkAlive(level, x, y, z);
+	checkAlive(level, pos);
 }
 
-AABB* Bush::getAABB(Level* level, int x, int y, int z)
+AABB* Bush::getAABB(const Level* level, const TilePos& pos)
 {
 	return nullptr;
 }

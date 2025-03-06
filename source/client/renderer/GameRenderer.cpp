@@ -10,7 +10,9 @@
 #include "GameRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
+#include "client/player/input/Controller.hpp"
 #include "Frustum.hpp"
+#include "Lighting.hpp"
 #include "renderer/GL/GL.hpp"
 
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
@@ -133,11 +135,11 @@ void GameRenderer::moveCameraToPlayer(float f)
 {
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 
-	float headHeightDiff = pMob->field_84 - 1.62f;
+	float headHeightDiff = pMob->m_heightOffset - 1.62f;
 
-	float posX = Mth::Lerp(pMob->field_3C.x, pMob->m_pos.x, f);
-	float posY = Mth::Lerp(pMob->field_3C.y, pMob->m_pos.y, f);
-	float posZ = Mth::Lerp(pMob->field_3C.z, pMob->m_pos.z, f);
+	float posX = Mth::Lerp(pMob->m_oPos.x, pMob->m_pos.x, f);
+	float posY = Mth::Lerp(pMob->m_oPos.y, pMob->m_pos.y, f);
+	float posZ = Mth::Lerp(pMob->m_oPos.z, pMob->m_pos.z, f);
 
 	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
 
@@ -152,8 +154,8 @@ void GameRenderer::moveCameraToPlayer(float f)
 		}
 		else
 		{
-			float mob_yaw = pMob->m_yaw;
-			float mob_pitch = pMob->m_pitch;
+			float mob_yaw = pMob->m_rot.x;
+			float mob_pitch = pMob->m_rot.y;
 
 			float pitchRad = mob_pitch / 180.0f * float(M_PI);
 
@@ -177,18 +179,18 @@ void GameRenderer::moveCameraToPlayer(float f)
 					float dX = posX - hr.m_hitPos.x;
 					float dY = posY - hr.m_hitPos.y;
 					float dZ = posZ - hr.m_hitPos.z;
-					float dist = sqrtf(dX * dX + dY * dY + dZ * dZ);
+					float dist = Mth::sqrt(dX * dX + dY * dY + dZ * dZ);
 					if (v11 > dist)
 						v11 = dist;
 				}
 			}
 
 			// @HUH: Why the hell is it rotating by 0
-			glRotatef(pMob->m_pitch - mob_pitch, 1.0f, 0.0f, 0.0f);
-			glRotatef(pMob->m_yaw - mob_yaw, 0.0f, 1.0f, 0.0f);
+			glRotatef(pMob->m_rot.y - mob_pitch, 1.0f, 0.0f, 0.0f);
+			glRotatef(pMob->m_rot.x - mob_yaw, 0.0f, 1.0f, 0.0f);
 			glTranslatef(0.0, 0.0, -v11);
-			glRotatef(mob_yaw - pMob->m_yaw, 0.0f, 1.0f, 0.0f);
-			glRotatef(mob_pitch - pMob->m_pitch, 1.0f, 0.0f, 0.0f);
+			glRotatef(mob_yaw - pMob->m_rot.x, 0.0f, 1.0f, 0.0f);
+			glRotatef(mob_pitch - pMob->m_rot.y, 1.0f, 0.0f, 0.0f);
 		}
 	}
 	else
@@ -198,8 +200,8 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	if (!m_pMinecraft->getOptions()->field_241)
 	{
-		glRotatef(pMob->field_60 + f * (pMob->m_pitch - pMob->field_60), 1.0f, 0.0f, 0.0f);
-		glRotatef(pMob->field_5C + f * (pMob->m_yaw   - pMob->field_5C) + 180.0f, 0.0f, 1.0f, 0.0f);
+		glRotatef(pMob->m_rotPrev.y + f * (pMob->m_rot.y - pMob->m_rotPrev.y), 1.0f, 0.0f, 0.0f);
+		glRotatef(pMob->m_rotPrev.x + f * (pMob->m_rot.x - pMob->m_rotPrev.x) + 180.0f, 0.0f, 1.0f, 0.0f);
 	}
 
 	glTranslatef(0.0f, headHeightDiff, 0.0f);
@@ -218,7 +220,7 @@ void GameRenderer::setupGuiScreen()
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f);
+	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f); // @NOTE: for whatever reason, nearpl is 1000.0f on LCE
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -2000.0f);
@@ -231,13 +233,13 @@ void GameRenderer::bobHurt(float f)
 	if (pMob->m_health <= 0)
 		glRotatef(-8000.0f / (float(pMob->field_110) + f + 200.0f) + 40.0f, 0.0f, 0.0f, 1.0f);
 
-	if (pMob->field_104 > 0)
+	if (pMob->m_hurtTime > 0)
 	{
-		float val = (pMob->field_104 - f) / pMob->field_108;
+		float val = (pMob->m_hurtTime - f) / pMob->m_hurtDuration;
 
-		glRotatef(-pMob->field_10C, 0.0f, 1.0f, 0.0f);
+		glRotatef(-pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
 		glRotatef(Mth::sin(val * val * val * val * 3.1416f) * -14.0f, 0.0f, 0.0f, 1.0f);
-		glRotatef(pMob->field_10C, 0.0f, 1.0f, 0.0f);
+		glRotatef(pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
 	}
 }
 
@@ -250,7 +252,7 @@ void GameRenderer::bobView(float f)
 	float f1 = Mth::Lerp(player->field_B9C, player->field_BA0, f);
 	float f2 = Mth::Lerp(player->field_118, player->field_11C, f);
 	// @NOTE: Multiplying by M_PI inside of the paren makes it stuttery for some reason? Anyways it works now :)
-	float f3 = -(player->field_94 + (player->field_94 - player->field_90) * f) * float(M_PI);
+	float f3 = -(player->m_walkDist + (player->m_walkDist - player->field_90) * f) * float(M_PI);
 	float f4 = Mth::sin(f3);
 	float f5 = Mth::cos(f3);
 	glTranslatef((f4 * f1) * 0.5f, -fabsf(f5 * f1), 0.0f);
@@ -368,7 +370,7 @@ void GameRenderer::setupFog(int i)
 			glFogf(GL_FOG_END, field_8 * 0.8f);
 		}
 
-		if (m_pMinecraft->m_pLevel->m_pDimension->field_C)
+		if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
 		{
 			glFogf(GL_FOG_START, 0.0f);
 		}
@@ -416,9 +418,9 @@ void GameRenderer::renderLevel(float f)
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 	Vec3 fCamPos;
 
-	fCamPos.x = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * f;
-	fCamPos.y = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * f;
-	fCamPos.z = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * f;
+	fCamPos.x = pMob->m_posPrev.x + (pMob->m_pos.x - pMob->m_posPrev.x) * f;
+	fCamPos.y = pMob->m_posPrev.y + (pMob->m_pos.y - pMob->m_posPrev.y) * f;
+	fCamPos.z = pMob->m_posPrev.z + (pMob->m_pos.z - pMob->m_posPrev.z) * f;
 
 	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
@@ -479,11 +481,15 @@ void GameRenderer::renderLevel(float f)
 		glEnable(GL_FOG);
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+
+		Lighting::turnOff();
 		// render the opaque layer
 		pLR->render(pMob, 0, f);
 
-		glShadeModel(GL_FLAT);
+		Lighting::turnOn();
 		pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
+		pPE->renderLit(pMob, f);
+		Lighting::turnOff();
 		pPE->render(pMob, f);
 
 		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
@@ -512,6 +518,7 @@ void GameRenderer::renderLevel(float f)
 		glEnable(GL_CULL_FACE);
 		glDisable(GL_BLEND);
 
+		//renderNameTags(f);
 		if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
 		{
 			glDisable(GL_ALPHA_TEST);
@@ -553,12 +560,16 @@ void GameRenderer::render(float f)
 		Minecraft *pMC = m_pMinecraft;
 		pMC->m_mouseHandler.poll();
 
-		float multPitch, diff_field_84;
+		float multPitch = -1.0f;
+		float diff_field_84;
+
+		if (pMC->getOptions()->m_bInvertMouse)
+			multPitch = 1.0f;
+
 		if (pMC->m_mouseHandler.smoothTurning())
 		{
-			multPitch = -1.0f;
-			float mult1 = 2.0f * (0.2f + pMC->getOptions()->field_8 * 0.6f);
-			mult1 = mult1 * mult1 * mult1;
+			float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
+			mult1 = pow(mult1, 3);
 
 			float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
 			float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
@@ -571,9 +582,6 @@ void GameRenderer::render(float f)
 
 			if (diff_field_84 > 3.0f)
 				diff_field_84 = 3.0f;
-
-			if (pMC->getOptions()->m_bInvertMouse)
-				multPitch = 1.0f;
 
 			if (!pMC->getOptions()->field_240)
 			{
@@ -601,19 +609,15 @@ void GameRenderer::render(float f)
 		}
 		else
 		{
-			multPitch = -1.0f;
-			if (pMC->getOptions()->m_bInvertMouse)
-				multPitch = 1.0f;
-
 			diff_field_84 = 1.0f;
 			field_7C = pMC->m_mouseHandler.m_delta.x;
 			field_80 = pMC->m_mouseHandler.m_delta.y;
 		}
 
-		float yawDiff   = diff_field_84 * field_7C;
-		float pitchDiff = diff_field_84 * multPitch * field_80;
-		m_pItemInHandRenderer->turn(yawDiff, pitchDiff);
-		pMC->m_pLocalPlayer->turn(yawDiff, pitchDiff);
+		Vec2 rot(field_7C * diff_field_84,
+			     field_80 * diff_field_84 * multPitch);
+		m_pItemInHandRenderer->turn(rot);
+		pMC->m_pLocalPlayer->turn(rot);
 	}
 
 	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
@@ -676,9 +680,10 @@ void GameRenderer::render(float f)
 		}
 	}
 
+	// @TODO: Move to its own function
 	std::stringstream debugText;
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
-	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
+	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
 
 	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
@@ -686,11 +691,12 @@ void GameRenderer::render(float f)
 		{
 			char posStr[96];
 			Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(f);
-			sprintf(posStr, "%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
+			sprintf(posStr, "%.2f / %.2f / %.2f", pos.x, pos.y, pos.z);
 
-			debugText << "\npos: " << posStr;
-			debugText << "\nentities: " << m_pMinecraft->m_pLevel->m_entities.size();
-			debugText << "\n" << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats2() << "\n";
+			debugText << "XYZ: " << posStr << "\n";
+			debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
 		}
 #ifdef SHOW_VERTEX_COUNTER_GRAPHIC
 		extern int g_nVertices; // Tesselator.cpp
@@ -741,6 +747,11 @@ void GameRenderer::render(float f)
 		m_pMinecraft->m_pFont->drawShadow(std::to_string(max), 200, h - maxht, 0xFFFFFF);
 #endif
 
+		/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
+		debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
+		debugText << "\nGameRenderer::field_7C: "      << field_7C;
+		debugText << "\nGameRenderer::field_80: "      << field_80;*/
+
 		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
 
 #ifdef SHOW_VERTEX_COUNTER_GRAPHIC
@@ -780,15 +791,18 @@ void GameRenderer::tick()
 		t_keepHitResult = -100;
 #endif
 
-	float x1 = powf(fabsf(field_74), 1.2f);
-	field_7C = x1 * 0.4f;
-	if (field_74 < 0.0f)
-		field_7C = -field_7C;
+	if (m_pMinecraft->m_mouseHandler.smoothTurning())
+	{
+		float x1 = powf(fabsf(field_74), 1.2f);
+		field_7C = x1 * 0.4f;
+		if (field_74 < 0.0f)
+			field_7C = -field_7C;
 
-	float x2 = powf(fabsf(field_78), 1.2f);
-	field_80 = x2 * 0.4f;
-	if (field_78 < 0.0f)
-		field_80 = -field_80;
+		float x2 = powf(fabsf(field_78), 1.2f);
+		field_80 = x2 * 0.4f;
+		if (field_78 < 0.0f)
+			field_80 = -field_80;
+	}
 
 	field_74 = 0.0f;
 	field_78 = 0.0f;
@@ -805,7 +819,7 @@ void GameRenderer::tick()
 		pMob = m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer;
 	}
 
-	float bright = m_pMinecraft->m_pLevel->getBrightness(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
+	float bright = m_pMinecraft->m_pLevel->getBrightness(pMob->m_pos);
 	float x3 = float(3 - m_pMinecraft->getOptions()->m_iViewDistance);
 
 	field_C++;
@@ -900,11 +914,12 @@ void GameRenderer::renderWeather(float f)
 
 	int range = m_pMinecraft->getOptions()->m_bFancyGraphics ? 10 : 5;
 
-	for (int currX = bPosX - range; currX <= bPosX + range; currX++)
+	TilePos tp(bPosX - range, 128, bPosZ - range);
+	for (tp.x = bPosX - range; tp.x <= bPosX + range; tp.x++)
 	{
-		for (int currZ = bPosZ - range; currZ <= bPosZ + range; currZ++)
+		for (tp.z = bPosZ - range; tp.z <= bPosZ + range; tp.z++)
 		{
-			int tsb = pLevel->getTopSolidBlock(currX, currZ);
+			int tsb = pLevel->getTopSolidBlock(tp);
 			if (tsb < 0)
 				tsb = 0;
 
@@ -920,27 +935,27 @@ void GameRenderer::renderWeather(float f)
 			if (minY == maxY)
 				continue;
 
-			m_random.setSeed(currX * currX * 3121 + currX * 45238971 + currZ * currZ * 418711 + currZ * 13761);
+			m_random.setSeed(tp.x * tp.x * 3121 + tp.x * 45238971 + tp.z * tp.z * 418711 + tp.z * 13761);
 
 			float x1 = float(field_C) + f;
 			float x2 = (float(field_C & 0x1FF) + f) / 512.0f;
 			float x3 = m_random.nextFloat() + x1 * 0.01f * m_random.nextGaussian();
 			float x4 = m_random.nextFloat() + x1 * 0.001f * m_random.nextGaussian();
-			float f1 = float(currX + 0.5f) - pLP->m_pos.x;
-			float f2 = float(currZ + 0.5f) - pLP->m_pos.z;
+			float f1 = float(tp.x + 0.5f) - pLP->m_pos.x;
+			float f2 = float(tp.z + 0.5f) - pLP->m_pos.z;
 			float f3 = Mth::sqrt(f1 * f1 + f2 * f2) / float(range);
-			float f4 = pLevel->getBrightness(currX, 128, currZ);
+			float f4 = pLevel->getBrightness(tp);
 			t.begin();
 			glColor4f(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
 			t.offset(-pos.x, -pos.y, -pos.z);
-			t.vertexUV(float(currX + 0), float(minY), float(currZ + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
-			t.vertexUV(float(currX + 1), float(minY), float(currZ + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
-			t.vertexUV(float(currX + 1), float(maxY), float(currZ + 1), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
-			t.vertexUV(float(currX + 0), float(maxY), float(currZ + 0), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
-			t.vertexUV(float(currX + 0), float(minY), float(currZ + 1), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
-			t.vertexUV(float(currX + 1), float(minY), float(currZ + 0), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
-			t.vertexUV(float(currX + 1), float(maxY), float(currZ + 0), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
-			t.vertexUV(float(currX + 0), float(maxY), float(currZ + 1), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 0), float(minY), float(tp.z + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 1), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 0), float(maxY), float(tp.z + 0), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 0), float(minY), float(tp.z + 1), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 0), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 0), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
+			t.vertexUV(float(tp.x + 0), float(maxY), float(tp.z + 1), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
 			t.offset(0.0f, 0.0f, 0.0f);
 			t.draw();
 		}
@@ -1028,9 +1043,9 @@ void GameRenderer::pick(float f)
 			{
 				HitResult hr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
 
-				float diffX = float(hr.m_tileX) - m_pMinecraft->m_pMobPersp->m_pos.x;
-				float diffY = float(hr.m_tileY) - m_pMinecraft->m_pMobPersp->m_pos.y;
-				float diffZ = float(hr.m_tileZ) - m_pMinecraft->m_pMobPersp->m_pos.z;
+				float diffX = float(hr.m_tilePos.x) - m_pMinecraft->m_pMobPersp->m_pos.x;
+				float diffY = float(hr.m_tilePos.y) - m_pMinecraft->m_pMobPersp->m_pos.y;
+				float diffZ = float(hr.m_tilePos.z) - m_pMinecraft->m_pMobPersp->m_pos.z;
 
 				if (hr.m_hitType == HitResult::NONE || diffX * diffX + diffY * diffY + diffZ * diffZ > offset * offset)
 					mchr.m_hitType = HitResult::NONE;
@@ -1052,7 +1067,7 @@ void GameRenderer::pick(float f)
 		dist = mchr.m_hitPos.distanceTo(mobPos);
 
 	if (m_pMinecraft->m_pGameMode->isCreativeType())
-		dist = 32.0f;
+		dist = 7.0f;
 	else if (dist > 3.0f)
 		dist = 3.0f;
 
@@ -1073,12 +1088,12 @@ void GameRenderer::pick(float f)
 
 	scanAABB.grow(1, 1, 1);
 
-	EntityVector* pEnts = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
+	EntityVector ents = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
 
 	float fDist = 0.0f;
-	for (int i = 0; i < int(pEnts->size()); i++)
+	for (int i = 0; i < int(ents.size()); i++)
 	{
-		Entity *pEnt = (*pEnts)[i];
+		Entity *pEnt = (ents)[i];
 		if (!pEnt->isPickable())
 			continue;
 
@@ -1103,7 +1118,7 @@ void GameRenderer::pick(float f)
 			float dX = hrMobChk.m_hitPos.x - mobPos.x;
 			float dY = hrMobChk.m_hitPos.y - mobPos.y;
 			float dZ = hrMobChk.m_hitPos.z - mobPos.z;
-			float fNewDist = sqrtf(dX * dX + dY * dY + dZ * dZ);
+			float fNewDist = Mth::sqrt(dX * dX + dY * dY + dZ * dZ);
 
 			if (fDist > fNewDist || fDist == 0.0f)
 			{
@@ -1137,11 +1152,11 @@ void GameRenderer::pick(float f)
 
 	if (fabsf(view.x) <= fabsf(view.z))
 	{
-		m_pMinecraft->m_hitResult.m_hitSide = view.z >= 0.0f ? HitResult::MAXZ : HitResult::MINZ;
+		m_pMinecraft->m_hitResult.m_hitSide = view.z >= 0.0f ? Facing::SOUTH : Facing::NORTH;
 	}
 	else
 	{
-		m_pMinecraft->m_hitResult.m_hitSide = view.x >= 0.0f ? HitResult::MAXX : HitResult::MINX;
+		m_pMinecraft->m_hitResult.m_hitSide = view.x >= 0.0f ? Facing::EAST : Facing::WEST;
 	}
 }
 

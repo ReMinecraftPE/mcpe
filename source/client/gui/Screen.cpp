@@ -8,6 +8,8 @@
 
 #include "Screen.hpp"
 
+bool Screen::_isPanoramaAvailable = false;
+
 Screen::Screen()
 {
 	m_width = 1;
@@ -16,6 +18,8 @@ Screen::Screen()
 	m_tabButtonIndex = 0;
 	m_pClickedButton = 0;
 	m_yOffset = -1;
+	m_pFont = nullptr;
+	m_pMinecraft = nullptr;
 }
 
 Screen::~Screen()
@@ -34,64 +38,28 @@ void Screen::init(Minecraft* pMinecraft, int a3, int a4)
 	updateTabButtonSelection();
 }
 
-void Screen::init()
-{
-
-}
-
-void Screen::buttonClicked(Button* pButton)
-{
-
-}
-
-void Screen::confirmResult(bool b, int i)
-{
-
-}
-
-bool Screen::handleBackEvent(bool b)
-{
-	return false;
-}
-
-bool Screen::isPauseScreen()
-{
-	return true;
-}
-
-bool Screen::isErrorScreen()
-{
-	return false;
-}
-
-bool Screen::isInGameScreen()
-{
-	return true;
-}
-
 void Screen::keyPressed(int key)
 {
 	if (m_pMinecraft->getOptions()->isKey(KM_MENU_CANCEL, key))
 	{
-		m_pMinecraft->setScreen(nullptr);
+		m_pMinecraft->handleBack(false);
 	}
 
-	if (m_buttonTabList.size())
+	if (m_pMinecraft->useController() && m_buttonTabList.size() > 0)
 	{
-#ifndef ENH_HIGHLIGHT_BY_HOVER
-		if (m_pMinecraft->getOptions()->isKey(MENU_NEXT, key))
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_NEXT, key))
 		{
 			m_tabButtonIndex++;
 			if (m_tabButtonIndex == int(m_buttonTabList.size()))
 				m_tabButtonIndex = 0;
 		}
-		if (m_pMinecraft->getOptions()->isKey(MENU_PREVIOUS, key))
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_PREVIOUS, key))
 		{
 			m_tabButtonIndex--;
 			if (m_tabButtonIndex == -1)
 				m_tabButtonIndex = int(m_buttonTabList.size() - 1);
 		}
-		if (m_pMinecraft->getOptions()->isKey(MENU_OK, key))
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, key))
 		{
 			if (m_buttonTabList[m_tabButtonIndex]->m_bEnabled)
 			{
@@ -101,7 +69,6 @@ void Screen::keyPressed(int key)
 		}
 
 		updateTabButtonSelection();
-#endif
 	}
 	
 	for (int i = 0; i < int(m_textInputs.size()); i++)
@@ -111,7 +78,7 @@ void Screen::keyPressed(int key)
 	}
 }
 
-void Screen::charInput(char chr)
+void Screen::keyboardNewChar(char chr)
 {
 	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
@@ -131,12 +98,10 @@ static const char* g_panoramaList[] =
 };
 
 static float g_panoramaAngle = 0.0f;
-// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
-bool g_bIsMenuBackgroundAvailable = false;
 
 void Screen::renderMenuBackground(float f)
 {
-	if (!g_bIsMenuBackgroundAvailable)
+	if (!m_pMinecraft->getOptions()->m_bMenuPanorama)
 	{
 		renderDirtBackground(0);
 		return;
@@ -330,11 +295,6 @@ void Screen::tick()
 	g_panoramaAngle++;
 }
 
-void Screen::removed()
-{
-
-}
-
 void Screen::setSize(int width, int height)
 {
 	m_width = width;
@@ -342,6 +302,7 @@ void Screen::setSize(int width, int height)
 
 	// not original code. Will need to re-init again
 	m_buttons.clear();
+	m_buttonTabList.clear();
 	m_textInputs.clear();
 	init();
 }
@@ -473,10 +434,11 @@ void Screen::renderDirtBackground(int unk)
 
 void Screen::updateTabButtonSelection()
 {
-#ifndef ENH_HIGHLIGHT_BY_HOVER
-	for (int i = 0; i < int(m_buttonTabList.size()); i++)
+	if (m_pMinecraft->useController())
 	{
-		m_buttonTabList[i]->field_36 = m_tabButtonIndex == i;
+		for (int i = 0; i < int(m_buttonTabList.size()); i++)
+		{
+			m_buttonTabList[i]->field_36 = m_tabButtonIndex == i;
+		}
 	}
-#endif
 }

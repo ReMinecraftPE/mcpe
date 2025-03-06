@@ -22,13 +22,13 @@ bool ITurnInput::smoothTurning()
 	return false;
 }
 
-float ITurnInput::getDeltaTime()
+double ITurnInput::getDeltaTime()
 {
 	if (m_prevTime == -1.0f)
 		m_prevTime = getTimeS();
 
-	float newTime = getTimeS();
-	float delta = newTime - m_prevTime;
+	double newTime = getTimeS();
+	double delta = newTime - m_prevTime;
 	m_prevTime = newTime;
 
 	return delta;

@@ -20,11 +20,12 @@ public:
 	void advanceTime();
 
 public:
-	float m_lastUpdateTime;
 #ifndef USE_ACCURATE_TIMER
+	float m_lastUpdateTime;
 	int m_lastSyncTime;
 	int m_unprocessedTime;
 #else
+	double m_lastUpdateTime;
 	double m_lastSyncTime;
 	double m_unprocessedTime;
 #endif

@@ -15,9 +15,9 @@ ClayFeature::ClayFeature(int id, int count)
     m_count = count;
 }
 
-bool ClayFeature::place(Level* level, Random* random, int x, int y, int z)
+bool ClayFeature::place(Level* level, Random* random, const TilePos& pos)
 {
-    if (level->getMaterial(x, y, z) != Material::water)
+    if (level->getMaterial(pos) != Material::water)
     {
         return false;
     }
@@ -26,13 +26,13 @@ bool ClayFeature::place(Level* level, Random* random, int x, int y, int z)
 
     float fAng = random->nextFloat() * float(M_PI);
 
-    float d0 = float(x + 8) + 0.125f * float(m_count) * Mth::sin(fAng);
-    float d1 = float(x + 8) - 0.125f * float(m_count) * Mth::sin(fAng);
-    float d2 = float(z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
-    float d3 = float(z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
+    float d0 = float(pos.x + 8) + 0.125f * float(m_count) * Mth::sin(fAng);
+    float d1 = float(pos.x + 8) - 0.125f * float(m_count) * Mth::sin(fAng);
+    float d2 = float(pos.z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
+    float d3 = float(pos.z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
 
-    float d4 = float(y + random->nextInt(3) + 2);
-    float d5 = float(y + random->nextInt(3) + 2);
+    float d4 = float(pos.y + random->nextInt(3) + 2);
+    float d5 = float(pos.y + random->nextInt(3) + 2);
 
     for (int i = 0; i <= m_count; i++)
     {
@@ -45,27 +45,29 @@ bool ClayFeature::place(Level* level, Random* random, int x, int y, int z)
         float radius_1 = float(Mth::sin((float(i) * float(M_PI)) / float(m_count)) + 1.0f) * d9 + 1.0f;
         float radius_2 = float(Mth::sin((float(i) * float(M_PI)) / float(m_count)) + 1.0f) * d9 + 1.0f;
 
-        int minX = int(d6 - radius_1 / 2.0f);
-        int maxX = int(d6 + radius_1 / 2.0f);
-        int minY = int(d7 - radius_2 / 2.0f);
-        int maxY = int(d7 + radius_2 / 2.0f);
-        int minZ = int(d6 - radius_1 / 2.0f);
-        int maxZ = int(d6 + radius_1 / 2.0f);
+        TilePos min(d6 - radius_1 / 2.0f,
+                    d7 - radius_2 / 2.0f,
+                    d6 - radius_1 / 2.0f);
+        TilePos max(d6 + radius_1 / 2.0f,
+                    d7 + radius_2 / 2.0f,
+                    d6 + radius_1 / 2.0f);
 
-        for (int cx = minX; cx <= maxX; cx++)
+        TilePos tp(min.x, max.y, max.z);
+
+        for (tp.x = min.x; tp.x <= max.x; tp.x++)
         {
-            for (int cy = minY; cy <= maxY; cy++)
+            for (tp.y = min.y; tp.y <= max.y; tp.y++)
             {
-                for (int cz = minZ; cz <= maxZ; cz++)
+                for (tp.z = min.z; tp.z <= max.z; tp.z++)
                 {
-                    float d12 = ((float(cx) + 0.5f) - d6) / (radius_1 / 2.0f);
-                    float d13 = ((float(cy) + 0.5f) - d7) / (radius_2 / 2.0f);
-                    float d14 = ((float(cz) + 0.5f) - d8) / (radius_1 / 2.0f);
+                    float d12 = ((float(tp.x) + 0.5f) - d6) / (radius_1 / 2.0f);
+                    float d13 = ((float(tp.y) + 0.5f) - d7) / (radius_2 / 2.0f);
+                    float d14 = ((float(tp.z) + 0.5f) - d8) / (radius_1 / 2.0f);
                     if (d12 * d12 + d13 * d13 + d14 * d14 >= 1.0f)
                         continue;
 
-                    if (level->getTile(cx, cy, cz) == Tile::sand->m_ID)
-                        level->setTileNoUpdate(cx, cy, cz, m_ID);
+                    if (level->getTile(tp) == Tile::sand->m_ID)
+                        level->setTileNoUpdate(tp, m_ID);
                 }
             }
         }

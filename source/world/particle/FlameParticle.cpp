@@ -8,14 +8,12 @@
 
 #include "Particle.hpp"
 
-FlameParticle::FlameParticle(Level* level, float x, float y, float z, float vx, float vy, float vz) :
-	Particle(level, x, y, z, vx, vy, vz)
+FlameParticle::FlameParticle(Level* level, const Vec3& pos, const Vec3& dir) :
+	Particle(level, pos, dir)
 {
 	field_104 = 0.0f;
 
-	m_vel.x = m_vel.x * 0.01f + vx;
-	m_vel.y = m_vel.y * 0.01f + vy;
-	m_vel.z = m_vel.z * 0.01f + vz;
+	m_vel = m_vel * 0.01f + dir;
 
 	// @NOTE: Useless genrand_int32 calls. Will keep them in to keep consistent
 	sharedRandom.genrand_int32();
@@ -26,29 +24,29 @@ FlameParticle::FlameParticle(Level* level, float x, float y, float z, float vx, 
 	sharedRandom.genrand_int32();
 
 	field_104 = field_F0;
-	field_F8 = field_FC = field_100 = 1.0f;
+	m_rCol = m_gCol = m_bCol = 1.0f;
 	field_EC = int(8.0f / (0.2f + 0.8f * Mth::random())) + 4;
 	field_DC = PTI_FLAME;
 }
 
-float FlameParticle::getBrightness(float unused)
+float FlameParticle::getBrightness(float unused) const
 {
 	return 1.0f;
 }
 
 void FlameParticle::tick()
 {
-	field_3C = m_pos;
+	m_oPos = m_pos;
 
 	field_E8++;
 	if (field_E8 > field_EC)
 		remove();
 
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	m_vel *= 0.96f;
 
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

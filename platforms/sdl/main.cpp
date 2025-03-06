@@ -1,4 +1,4 @@
-#include <cstdarg>
+#include <stdarg.h>
 
 #include "thirdparty/SDL2/SDL2.h"
 
@@ -46,12 +46,17 @@ static int TranslateSDLKeyCodeToVirtual(int sdlCode)
 // Touch
 #define TOUCH_IDS_SIZE (MAX_TOUCHES - 1) // ID 0 Is Reserved For The Mouse
 struct touch_id_data {
-	bool active = false;
-	int device;
-	int finger;
+	bool active;
+	SDL_TouchID device;
+	SDL_FingerID finger;
+    
+    touch_id_data()
+    {
+        active = false;
+    }
 };
 static touch_id_data touch_ids[TOUCH_IDS_SIZE];
-static char get_touch_id(int device, int finger) {
+static char get_touch_id(SDL_TouchID device, SDL_FingerID finger) {
 	for (int i = 0; i < TOUCH_IDS_SIZE; i++) {
 		touch_id_data &data = touch_ids[i];
 		if (data.active && data.device == device && data.finger == finger) {
@@ -118,22 +123,9 @@ static void handle_events()
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 			{
-				// This really should be handled somewhere else.
-				// Unforunately, there is no global keyboard handler.
-				// Keyboard events are either handled in Screen::keyboardEvent
-				// when a Screen is visible, or in Minecraft::tickInput
-				// when LocalPlayer exists.
-				if (event.key.keysym.sym == SDLK_F2)
-				{
-					if (event.key.state == SDL_PRESSED && g_pAppPlatform != nullptr)
-					{
-						g_pAppPlatform->saveScreenshot("", -1, -1);
-					}
-					break;
-				}
-
 				// Android Back Button
-				if (event.key.keysym.sym == SDLK_AC_BACK) {
+				if (event.key.keysym.sym == SDLK_AC_BACK)
+				{
 					g_pApp->handleBack(event.key.state == SDL_PRESSED);
 					break;
 				}
@@ -144,20 +136,25 @@ static void handle_events()
 					g_pApp->handleCharInput('\b');
 				}
 
-				// Normal Key Press
-				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
-				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
-				{
-					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
-				}
+				g_pAppPlatform->handleKeyEvent(TranslateSDLKeyCodeToVirtual(event.key.keysym.sym), event.key.state);
 				break;
 			}
+			case SDL_CONTROLLERBUTTONDOWN:
+			case SDL_CONTROLLERBUTTONUP:
+				// Hate this hack
+				if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START && event.cbutton.state == SDL_PRESSED)
+				{
+					g_pApp->pauseGame() || g_pApp->resumeGame();
+				}
+				g_pAppPlatform->handleButtonEvent(event.cbutton.which, event.cbutton.button, event.cbutton.state);
+				break;
+
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
 				if (event.button.which != SDL_TOUCH_MOUSEID) {
 					const float scale = g_fPointToPixelScale;
-					MouseButtonType type = AppPlatform_sdl_base::GetMouseButtonType(event);
+					MouseButtonType type = AppPlatform_sdl_base::GetMouseButtonType(event.button);
 					bool state = AppPlatform_sdl_base::GetMouseButtonState(event);
 					float x = event.button.x * scale;
 					float y = event.button.y * scale;
@@ -172,7 +169,7 @@ static void handle_events()
 					float scale = g_fPointToPixelScale;
 					float x = event.motion.x * scale;
 					float y = event.motion.y * scale;
-					Multitouch::feed(BUTTON_NONE, 0, x, y, 0);
+					Multitouch::feed(BUTTON_NONE, false, x, y, 0);
 					Mouse::feed(BUTTON_NONE, false, x, y);
 					g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				}
@@ -185,6 +182,9 @@ static void handle_events()
 				}
 				break;
 			}
+			case SDL_CONTROLLERAXISMOTION:
+				g_pAppPlatform->handleControllerAxisEvent(event.caxis.which, event.caxis.axis, event.caxis.value);
+				break;
 			case SDL_FINGERDOWN:
 			case SDL_FINGERUP:
 			case SDL_FINGERMOTION: {
@@ -209,6 +209,12 @@ static void handle_events()
 				}
 				break;
 			}
+			case SDL_CONTROLLERDEVICEADDED:
+				g_pAppPlatform->gameControllerAdded(event.cdevice.which);
+				break;
+			case SDL_CONTROLLERDEVICEREMOVED:
+				g_pAppPlatform->gameControllerRemoved(event.cdevice.which);
+				break;
 			case SDL_WINDOWEVENT:
 			{
 				if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
@@ -289,25 +295,12 @@ static EM_BOOL main_loop(double time, void *user_data)
 	}
 }
 
-extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
-extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
-extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
-extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
-
-void CheckOptionalTextureAvailability()
-{
-	g_bIsMenuBackgroundAvailable = g_pAppPlatform->doesTextureExist("gui/background/panorama_0.png");
-	g_bAreCloudsAvailable        = g_pAppPlatform->doesTextureExist("environment/clouds.png");
-	g_bIsGrassColorAvailable     = g_pAppPlatform->doesTextureExist("misc/grasscolor.png");
-	g_bIsFoliageColorAvailable   = g_pAppPlatform->doesTextureExist("misc/foliagecolor.png");
-}
-
 // Main
 int main(int argc, char *argv[])
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
 	{
-		LOG_E("Unable To Initialize SDL: %s", SDL_GetError());
+		//LOG_E("Unable To Initialize SDL: %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 
@@ -338,7 +331,7 @@ int main(int argc, char *argv[])
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
 	if (!window)
 	{
-		LOG_E("Unable to create SDL window");
+		//LOG_E("Unable to create SDL window");
 		exit(EXIT_FAILURE);
 	}
 
@@ -347,10 +340,22 @@ int main(int argc, char *argv[])
 	if (!context)
 	{
 		const char* const GL_ERROR_MSG = "Unable to create OpenGL context";
-		LOG_E(GL_ERROR_MSG);
+		//LOG_E(GL_ERROR_MSG);
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
+
+    // Enable V-Sync
+    // Not setting this explicitly results in undefined behavior
+    if (SDL_GL_SetSwapInterval(-1) == -1) // Try adaptive
+    {
+        //LOG_W("Adaptive V-Sync is not supported on this platform. Falling back to standard V-Sync...");
+        // fallback to standard
+		if (SDL_GL_SetSwapInterval(1) == -1)
+		{
+			//LOG_W("Setting the swap interval for V-Sync is not supported on this platform!");
+		}
+    }
 
 #ifdef _WIN32
 	xglInit();
@@ -358,7 +363,7 @@ int main(int argc, char *argv[])
 	if (!xglInitted())
 	{
 		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
-		LOG_E(GL_ERROR_MSG);
+		//LOG_E(GL_ERROR_MSG);
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
@@ -396,8 +401,6 @@ int main(int argc, char *argv[])
 	g_pAppPlatform = new UsedAppPlatform(g_pApp->m_externalStorageDir, window);
 	g_pApp->m_pPlatform = g_pAppPlatform;
 	g_pApp->init();
-
-	CheckOptionalTextureAvailability();
 	
 	// Set Size
 	resize();

@@ -10,7 +10,11 @@
 
 #include "common/Mth.hpp"
 // Needed for when we're missing nullptr in multiple files
-#include "common/Utils.hpp"
+#include "compat/LegacyCPPCompatibility.hpp"
+
+struct TilePos;
+
+#define __VEC3_HPP
 
 // NOTE: I don't think that Vec3 was implemented like that - it was
 // probably implemented just like in Java. However, I think it looks
@@ -19,29 +23,47 @@
 class Vec3
 {
 public:
-	float x, y, z;
+	static const Vec3 ZERO;
 
 public:
-	bool clipX(const Vec3& a2, float a3, Vec3& a4) const;
-	bool clipY(const Vec3& a2, float a3, Vec3& a4) const;
-	bool clipZ(const Vec3& a2, float a3, Vec3& a4) const;
-	Vec3 normalize();
+	float x, y, z;
+    
+private:
+    void _init(float x, float y, float z);
 
+public:
 	// this constructor is nice to have, but it's probably inlined
 	Vec3();
 	Vec3(float x, float y, float z);
+	Vec3(const TilePos& tilePos);
+
+	Vec3 interpolateTo(const Vec3& to, float t) const;
+	Vec3 vectorTo(const Vec3& to) const;
+	Vec3 normalize() const;
+	float dot(const Vec3& other) const;
+	Vec3 cross(const Vec3& other) const;
+	Vec3 add(float x, float y, float z) const;
 
 	// these are likely inlined
 	float distanceTo(const Vec3& b) const;
 	float distanceToSqr(const Vec3& b) const;
+    
+    bool clipX(const Vec3& a2, float a3, Vec3& a4) const;
+	bool clipY(const Vec3& a2, float a3, Vec3& a4) const;
+	bool clipZ(const Vec3& a2, float a3, Vec3& a4) const;
 
 	// these are also likely inlined, but I'll declare them in the header
-	Vec3 operator+(const Vec3& b)
+	Vec3 operator+(const Vec3& b) const
 	{
 		return Vec3(x + b.x, y + b.y, z + b.z);
 	}
 
-	Vec3 operator-(const Vec3& b)
+	Vec3 operator+(float f) const
+	{
+		return *this + Vec3(f, f, f);
+	}
+
+	Vec3 operator-(const Vec3& b) const
 	{
 		return Vec3(x - b.x, y - b.y, z - b.z);
 	}
@@ -58,6 +80,20 @@ public:
 		(*this) += -b;
 	}
 
+	void operator+=(float f)
+	{
+		x += f;
+		y += f;
+		z += f;
+	}
+
+	void operator-=(float f)
+	{
+		x -= f;
+		y -= f;
+		z -= f;
+	}
+
 	void operator*=(float f)
 	{
 		x *= f;
@@ -70,9 +106,26 @@ public:
 		return Vec3(-x, -y, -z);
 	}
 
+	Vec3 operator-(float f) const
+	{
+		return Vec3(x - f, y - f, z - f);
+	}
+
 	Vec3 operator*(float f) const
 	{
-		return Vec3(f * x, f * y, f * z);
+		return Vec3(x * f, y * f, z * f);
+	}
+
+	Vec3 operator/(float f) const
+	{
+		return Vec3(x / f, y / f, z / f);
+	}
+
+	bool operator==(const Vec3& b) const
+	{
+		return x == b.x &&
+			   y == b.y &&
+			   z == b.z;
 	}
 
 	Vec3 translate(float tx, float ty, float tz) const
@@ -87,7 +140,7 @@ public:
 
 	float length() const
 	{
-		return sqrt(lengthSqr());
+		return Mth::sqrt(lengthSqr());
 	}
 
 	Vec3 scale(float scale) const

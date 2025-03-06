@@ -69,33 +69,45 @@ public:
 
 class LevelRenderer : public LevelListener
 {
+private:
+	static bool _areCloudsAvailable;
+	static bool _arePlanetsAvailable;
+public:
+	static bool areCloudsAvailable() { return _areCloudsAvailable; }
+	static void setAreCloudsAvailable(bool value) { _areCloudsAvailable = value; }
+	static bool arePlanetsAvailable() { return _arePlanetsAvailable; }
+	static void setArePlanetsAvailable(bool value) { _arePlanetsAvailable = value; }
+
 public:
 	LevelRenderer(Minecraft*, Textures*);
 
 	void allChanged() override;
 	void entityAdded(Entity*) override;
-	void tileChanged(int, int, int) override;
-	void setTilesDirty(int, int, int, int, int, int) override;
+	void tileChanged(const TilePos& pos) override;
+	void setTilesDirty(const TilePos& min, const TilePos& max) override;
 	void takePicture(TripodCamera*, Entity*) override;
-	void addParticle(const std::string&, float, float, float, float, float, float) override;
-	void playSound(const std::string& name, float x, float y, float z, float volume, float pitch) override;
+	void addParticle(const std::string&, const Vec3& pos, const Vec3& dir) override;
+	void playSound(const std::string& name, const Vec3& pos, float volume, float pitch) override;
 	void skyColorChanged() override;
 	void generateSky();
+	void generateStars();
 	void cull(Culler*, float);
 	void deleteChunks();
-	void resortChunks(int x, int y, int z);
+	void resortChunks(const TilePos& pos);
 	std::string gatherStats1();
+	std::string gatherStats2();
 	void onGraphicsReset();
 	void render(const AABB& aabb) const;
 	void render(Mob* pMob, int a, float b);
 	void renderEntities(Vec3 pos, Culler*, float f);
 	void renderSky(float);
 	void renderClouds(float);
+	void renderAdvancedClouds(float);
 	void checkQueryResults(int, int);
 	void renderSameAsLast(int, float);
 	int  renderChunks(int start, int end, int a, float b);
 	void setLevel(Level*);
-	void setDirty(int, int, int, int, int, int);
+	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();
 	bool updateDirtyChunks(Mob* pMob, bool b);
 	void renderHit(Player* pPlayer, const HitResult& hr, int, void*, float);
@@ -107,18 +119,18 @@ public:
 	float field_8;
 	float field_C;
 	float field_10;
-	int field_14;
-	int field_18;
-	int field_1C;
-	int field_20;
+	int m_noEntityRenderFrames;
+	int m_totalEntities;
+	int m_renderedEntities;
+	int m_culledEntities;
 	std::vector<Chunk*> field_24;
 	int field_30;
 	RenderList m_renderList;
-	int field_54;
-	int field_58;
-	int field_5C;
-	int field_60;
-	int field_64;
+	int m_totalChunks;
+	int m_offscreenChunks;
+	int m_occludedChunks;
+	int m_renderedChunks;
+	int m_emptyChunks;
 	int field_68;
 	int m_resortedMinX;
 	int m_resortedMinY;
@@ -145,6 +157,10 @@ public:
 	GLuint* m_pBuffers;
 	GLuint  m_skyBuffer;
 	int     m_skyBufferCount;
+	GLuint  m_starBuffer;
+	int     m_starBufferCount;
+	GLuint  m_darkBuffer;
+	int     m_darkBufferCount;
 	//...
 	Textures* m_pTextures;
 };

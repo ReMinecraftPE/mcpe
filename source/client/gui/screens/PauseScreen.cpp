@@ -11,7 +11,7 @@
 #include "network/ServerSideNetworkHandler.hpp"
 
 PauseScreen::PauseScreen() :
-	//field_3C(0),
+	//m_oPos(0),
 	field_40(0),
 	m_btnBack(1, "Back to game"),
 	m_btnQuit(2, "Quit to title"),
@@ -67,13 +67,10 @@ void PauseScreen::init()
 
 	// add the buttons to the screen:
 	m_buttons.push_back(&m_btnBack);
-	m_buttons.push_back(&m_btnQuit);
 
 #ifdef ENH_ADD_OPTIONS_PAUSE
 	m_buttons.push_back(&m_btnOptions);
 #endif
-	
-	//m_buttons.push_back(&m_btnQuitAndCopy);
 
 	if (bAddVisibleButton)
 	{
@@ -84,8 +81,14 @@ void PauseScreen::init()
 #endif
 	}
 
+	m_buttons.push_back(&m_btnQuit);
+	
+	//m_buttons.push_back(&m_btnQuitAndCopy);
+
+#ifdef ENH_ADD_OPTIONS_PAUSE
 	//swap the options and quit buttons around (??)
 	std::swap(m_btnOptions.m_yPos, m_btnQuit.m_yPos);
+#endif
 
 	for (int i = 0; i < int(m_buttons.size()); i++)
 		m_buttonTabList.push_back(m_buttons[i]);
@@ -124,7 +127,7 @@ void PauseScreen::render(int a, int b, float c)
 void PauseScreen::buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnBack.m_buttonId)
-		m_pMinecraft->setScreen(nullptr);
+		m_pMinecraft->resumeGame();
 
 	if (pButton->m_buttonId == m_btnQuit.m_buttonId)
 		m_pMinecraft->leaveGame(false);

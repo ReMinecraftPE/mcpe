@@ -14,33 +14,31 @@ void TerrainParticle::_init(Tile* tile)
 	m_pTile = tile;
 	field_DC = tile->m_TextureFrame;
 	field_F4 = tile->field_28;
-	field_100 = 0.6f;
-	field_FC = 0.6f;
-	field_F8 = 0.6f;
+	m_rCol = m_gCol = m_bCol = 0.6f;
 	field_F0 *= 0.5f;
 }
 
-TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, Tile* tile) :
-	Particle(level, x, y, z, 0.0f, 0.0f, 0.0f)
+TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, Tile* tile) :
+	Particle(level, pos, Vec3::ZERO)
 {
 	_init(tile);
 }
 
-TerrainParticle::TerrainParticle(Level* level, float x, float y, float z, float vx, float vy, float vz, Tile* tile) :
-	Particle(level, x, y, z, vx, vy, vz)
+TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, const Vec3& dir, Tile* tile) :
+	Particle(level, pos, dir)
 {
 	_init(tile);
 }
 
-TerrainParticle* TerrainParticle::init(int x, int y, int z)
+TerrainParticle* TerrainParticle::init(const TilePos& tilePos)
 {
 	if (m_pTile == Tile::grass)
 		return this;
 
-	int color = m_pTile->getColor(m_pLevel, x, y, z);
-	field_F8 *= float(GET_RED(color)) / 255.0f;
-	field_FC *= float(GET_GREEN(color)) / 255.0f;
-	field_100 *= float(GET_BLUE(color)) / 255.0f;
+	int color = m_pTile->getColor(m_pLevel, tilePos);
+	m_rCol *= float(GET_RED(color)) / 255.0f;
+	m_gCol *= float(GET_GREEN(color)) / 255.0f;
+	m_bCol *= float(GET_BLUE(color)) / 255.0f;
 
 	return this;
 }
@@ -62,9 +60,9 @@ void TerrainParticle::render(Tesselator& t, float f, float a4, float a5, float a
 	float texU_1 = (float(texX)         + 0.25f * field_E0) / 16.0f;
 	float texV_1 = (float(texture >> 4) + 0.25f * field_E4) / 16.0f;
 
-	float posX = Mth::Lerp(field_3C.x, m_pos.x, f) - xOff;
-	float posY = Mth::Lerp(field_3C.y, m_pos.y, f) - yOff;
-	float posZ = Mth::Lerp(field_3C.z, m_pos.z, f) - zOff;
+	float posX = Mth::Lerp(m_oPos.x, m_pos.x, f) - xOff;
+	float posY = Mth::Lerp(m_oPos.y, m_pos.y, f) - yOff;
+	float posZ = Mth::Lerp(m_oPos.z, m_pos.z, f) - zOff;
 	float fBright = getBrightness(f);
 
 	float sizeX = a4 * field_F0 * 0.1f;
@@ -73,7 +71,7 @@ void TerrainParticle::render(Tesselator& t, float f, float a4, float a5, float a
 	float siz2X = a7 * field_F0 * 0.1f;
 	float siz2Z = a8 * field_F0 * 0.1f;
 
-	t.color(field_F8 * fBright, field_FC * fBright, field_100 * fBright);
+	t.color(m_rCol * fBright, m_gCol * fBright, m_bCol * fBright);
 	t.vertexUV(posX - sizeX - siz2X, posY - sizeY, posZ - sizeZ - siz2Z, texU_1 + C_MAGIC_1, texV_1 + C_MAGIC_1);
 	t.vertexUV(posX - sizeX + siz2X, posY + sizeY, posZ - sizeZ + siz2Z, texU_1 + C_MAGIC_1, texV_1);
 	t.vertexUV(posX + sizeX + siz2X, posY + sizeY, posZ + sizeZ + siz2Z, texU_1, texV_1);
