@@ -38,6 +38,7 @@ void TorchTile::animateTick(Level* level, const TilePos& pos, Random* random)
 {
 	Vec3 part(pos);
 	part += 0.5f;
+	part.y += 0.2f;
 
 	// @NOTE: Need to use addParticle("smoke") 5 times. Invalid data values don't actually generate a smoke
 	switch (level->getData(pos))

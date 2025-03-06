@@ -1000,14 +1000,14 @@ void TileRenderer::tesselateTorch(Tile* tile, const Vec3& pos, float a, float b)
 	constexpr float C_RATIO = 1.0f / 256.0f;
 	constexpr float C_ONE_PIXEL = 1.0f / 16.0f;
 	constexpr float C_HALF_TILE = 1.0f / 2.0f;
-	constexpr float C_UNK_1 = 0.375f;
+	constexpr float C_TOP_SKEW_RATIO = 0.375f;
 
 	int texture = tile->getTexture(Facing::DOWN);
 
 	if (m_textureOverride >= 0)
 		texture = m_textureOverride;
 
-	// @TODO: Clean up a bit
+	// @TODO: Clean up a bit more
 
 	float texX = float(16 * (texture % 16));
 	float texY = float(16 * (texture / 16));
@@ -1017,58 +1017,69 @@ void TileRenderer::tesselateTorch(Tile* tile, const Vec3& pos, float a, float b)
 	float texV_1 = (texY * C_RATIO) + 1.0f / 32.0f;
 	float texV_2 = (texY + 15.99f) * C_RATIO;
 
-	float x1 = pos.x + 0.5f, z1 = pos.z + 0.5f;
-	float z2 = z1 + (float)(b * C_UNK_1);
+	float x1 = pos.x + C_HALF_TILE, z1 = pos.z + C_HALF_TILE;
+	float x2 = x1 + (float)(a * C_TOP_SKEW_RATIO);
+	float z2 = z1 + (float)(b * C_TOP_SKEW_RATIO);
 
 	Tesselator& t = Tesselator::instance;
+	
+	// Top side (flame)
+	float x_1 = x2 - C_ONE_PIXEL; 
+	float x_2 = x2 + C_ONE_PIXEL;
+	float z_1 = z2 - C_ONE_PIXEL;
+	float z_2 = z2 + C_ONE_PIXEL;
 
-	float x_1 = (x1 + (a * C_UNK_1)) - C_ONE_PIXEL;
-	float x_2 = (x1 + (a * C_UNK_1)) + C_ONE_PIXEL;
+	// Edges (close by)
 	float x_3 = x1 - C_ONE_PIXEL;
 	float x_4 = x1 + C_ONE_PIXEL;
-	float x_5 = x1 - C_HALF_TILE;
+	float z_5 = z1 - C_ONE_PIXEL;
+	float z_6 = z1 + C_ONE_PIXEL;
+	
+	// Far edges
+	float x_5 = x1 - C_HALF_TILE; 
 	float x_6 = x1 + C_HALF_TILE;
-	float x_7 = x_6 + a;
+	float z_3 = z1 - C_HALF_TILE;
+	float z_4 = z1 + C_HALF_TILE;
+	
+	float x_7 = x_6 + a; // Skewed bottom
 	float x_8 = x_3 + a;
 	float x_9 = x_4 + a;
 	float x_0 = x_5 + a;
-
-	float y_1 = pos.y + C_ONE_PIXEL * 10.0f;
-	float y_2 = pos.y + 1.0f;
-	float y_3 = pos.y + 0.0f;
-
-	float z_1 = z2 - C_ONE_PIXEL;
-	float z_2 = z2 + C_ONE_PIXEL;
-	float z_3 = z1 - 0.5f;
-	float z_4 = z1 + 0.5f;
-	float z_5 = z1 - C_ONE_PIXEL;
-	float z_6 = z1 + C_ONE_PIXEL;
 	float z_7 = z_3 + b;
 	float z_8 = z_4 + b;
 	float z_9 = z_5 + b;
 	float z_0 = z_6 + b;
+
+	float y_1 = pos.y + C_ONE_PIXEL * 10.0f; // Torch height
+	float y_2 = pos.y + 1.0f; // Top
+	float y_3 = pos.y + 0.0f; // Bottom
 
 	float texU_3 = texU_1 + 0.027344f;
 	float texU_4 = texU_1 + 0.035156f;
 	float texV_3 = texY * C_RATIO;
 	float texV_4 = texY * C_RATIO + 0.023438f;
 
+	// Top
 	t.vertexUV(x_1, y_1, z_1, texU_3, texV_4);
 	t.vertexUV(x_1, y_1, z_2, texU_3, texV_1);
 	t.vertexUV(x_2, y_1, z_2, texU_4, texV_1);
 	t.vertexUV(x_2, y_1, z_1, texU_4, texV_4);
+	// Sides
 	t.vertexUV(x_3, y_2, z_3, texU_1, texV_3);
 	t.vertexUV(x_8, y_3, z_7, texU_1, texV_2);
 	t.vertexUV(x_8, y_3, z_8, texU_2, texV_2);
 	t.vertexUV(x_3, y_2, z_4, texU_2, texV_3);
+	
 	t.vertexUV(x_4, y_2, z_4, texU_1, texV_3);
 	t.vertexUV(x_9, y_3, z_8, texU_1, texV_2);
 	t.vertexUV(x_9, y_3, z_7, texU_2, texV_2);
 	t.vertexUV(x_4, y_2, z_3, texU_2, texV_3);
+	
 	t.vertexUV(x_5, y_2, z_6, texU_1, texV_3);
 	t.vertexUV(x_0, y_3, z_0, texU_1, texV_2);
 	t.vertexUV(x_7, y_3, z_0, texU_2, texV_2);
 	t.vertexUV(x_6, y_2, z_6, texU_2, texV_3);
+	
 	t.vertexUV(x_6, y_2, z_5, texU_1, texV_3);
 	t.vertexUV(x_7, y_3, z_9, texU_1, texV_2);
 	t.vertexUV(x_0, y_3, z_9, texU_2, texV_2);
