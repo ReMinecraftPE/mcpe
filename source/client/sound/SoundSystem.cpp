@@ -41,7 +41,7 @@ void SoundSystem::stop(const std::string& sound)
 {
 }
 
-void SoundSystem::playAt(const SoundDesc& sound, float x, float y, float z, float a, float b)
+void SoundSystem::playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch)
 {
 }
 

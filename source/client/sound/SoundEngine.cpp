@@ -69,7 +69,25 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 	float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
 	SoundDesc sd;
 
-	if (m_repository.get(name, sd)) {
+	if (m_repository.get(name, sd))
+	{
 		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
+	}
+}
+
+void SoundEngine::playUI(const std::string& name, float volume, float pitch)
+{
+	volume *= 0.25F; // present on Java b1.2_02, but not Pocket for some reason
+	float vol = m_pOptions->m_fMasterVolume * volume;
+	if (vol <= 0.0f)
+		return;
+
+	float cVolume = Mth::clamp(vol, 0.0f, 1.0f);
+	float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
+	SoundDesc sd;
+
+	if (m_repository.get(name, sd))
+	{
+		m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, cVolume, pitch);
 	}
 }

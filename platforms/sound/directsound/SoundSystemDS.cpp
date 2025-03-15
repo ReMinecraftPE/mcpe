@@ -138,22 +138,8 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	{
 		return;
 	}
-
-	//Release sounds that finished playing
-	for (size_t i = 0; i < m_buffers.size(); i++)
-	{
-		DWORD status;
-		m_buffers[i].buffer->GetStatus(&status);
-		if (status != DSBSTATUS_PLAYING) {
-			m_buffers[i].buffer->Release();
-			if (m_buffers[i].object3d != NULL)
-			{
-				m_buffers[i].object3d->Release();
-			}
-			m_buffers.erase(m_buffers.begin() + i);
-			i--;
-		}
-	}
+	
+	clearBuffers();
 
 	HRESULT result;
 	IDirectSoundBuffer* tempBuffer;
@@ -164,10 +150,10 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	bool is2D = sqrtf(x * x + y * y + z * z) == 0.f;
 
 	//For some reason mojang made 3D sounds are REALLY quiet, with some of their volumes literally going below 0.1
-	if (!is2D)
+	/*if (!is2D)
 	{
 		volume *= 5.f;
-	}
+	}*/
 
 	LPDIRECTSOUNDBUFFER soundbuffer; //= (LPDIRECTSOUNDBUFFER*)calloc(1, sizeof(LPDIRECTSOUNDBUFFER));
 
@@ -295,4 +281,22 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	soundbuffer->Play(0, 0, 0);
 
 	m_buffers.push_back(info);
+}
+
+void SoundSystemDS::clearBuffers()
+{
+	for (size_t i = 0; i < m_buffers.size(); i++)
+	{
+		DWORD status;
+		m_buffers[i].buffer->GetStatus(&status);
+		if (status != DSBSTATUS_PLAYING) {
+			m_buffers[i].buffer->Release();
+			if (m_buffers[i].object3d != NULL)
+			{
+				m_buffers[i].object3d->Release();
+			}
+			m_buffers.erase(m_buffers.begin() + i);
+			i--;
+		}
+	}
 }

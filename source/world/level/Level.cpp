@@ -1650,12 +1650,12 @@ void Level::playSound(Entity* entity, const std::string& name, float volume, flo
 	}
 }
 
-void Level::playSound(const Vec3& pos, const std::string& name, float a, float b)
+void Level::playSound(const Vec3& pos, const std::string& name, float volume, float pitch)
 {
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
-		pListener->playSound(name, pos, a, b);
+		pListener->playSound(name, pos, volume, pitch);
 	}
 }
 

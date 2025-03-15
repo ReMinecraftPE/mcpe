@@ -37,7 +37,10 @@ public:
 	virtual void pause(const std::string& sound);
 	virtual void stop(const std::string& sound);
 	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float a, float b);
+
 private:
+	// Release sounds that finished playing
+	void clearBuffers();
 
 	struct BufferInfo
 	{

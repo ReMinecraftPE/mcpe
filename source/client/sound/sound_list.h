@@ -34,6 +34,7 @@ SOUND("random.click", click)
 SOUND("random.door_close", door_close)
 SOUND("random.door_open", door_open)
 SOUND("random.pop", pop)
+SOUND("random.fizz", fizz)
 
 SOUND("fire.fire", fire)
 

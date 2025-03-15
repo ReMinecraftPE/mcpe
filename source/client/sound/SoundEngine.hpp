@@ -27,6 +27,7 @@ public:
 	void unMute();
 	void destroy();
 	void play(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
+	void playUI(const std::string& name, float volume = 1.0f, float pitch = 1.0f);
 
 public:
 	SoundSystem* m_pSoundSystem;
