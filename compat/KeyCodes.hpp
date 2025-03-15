@@ -23,7 +23,7 @@ enum eSDLVirtualKeys
 
 #ifdef _WIN32
     #define WIN32_LEAN_AND_MEAN
-    #include <Windows.h>
+    #include <windows.h>
 #elif __APPLE__
     // https://i.stack.imgur.com/LD8pT.png
     #define AKEYCODE_FORWARD_DEL 0x75

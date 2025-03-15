@@ -63,7 +63,7 @@ void Screen::keyPressed(int key)
 		{
 			if (m_buttonTabList[m_tabButtonIndex]->m_bEnabled)
 			{
-				m_pMinecraft->m_pSoundEngine->play("random.click");
+				m_pMinecraft->m_pSoundEngine->playUI("random.click");
 				buttonClicked(m_buttonTabList[m_tabButtonIndex]);
 			}
 		}
@@ -210,7 +210,7 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 
 			if (!m_pMinecraft->isTouchscreen())
 			{
-				m_pMinecraft->m_pSoundEngine->play("random.click");
+				m_pMinecraft->m_pSoundEngine->playUI("random.click");
 				buttonClicked(button);
 			}
 		}
@@ -264,7 +264,7 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 	{
 		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
 		{
-			m_pMinecraft->m_pSoundEngine->play("random.click");
+			m_pMinecraft->m_pSoundEngine->playUI("random.click");
 			buttonClicked(m_pClickedButton);
 		}
 		m_pClickedButton->released(xPos, yPos);

@@ -903,17 +903,26 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 	glDisable(GL_TEXTURE_2D);
 	glDepthMask(false);
 
-	// Maximize Line Width
-	glEnable(GL_LINE_SMOOTH);
-	
+	// Determine Line Width
+	float line_width = 1.5f / Gui::InvGuiScale;
+	// Clamp Line Width
 	float range[2];
+#ifdef GL_ALIASED_LINE_WIDTH_RANGE
+	glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, range);
+#else
+	glEnable(GL_LINE_SMOOTH);
 	glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, range);
-
-	float lineWidth = 2.0f;
-	if (lineWidth > range[1])
-		lineWidth = range[1];
-
-	glLineWidth(lineWidth);
+#endif
+	if (range[1] < line_width)
+	{
+		line_width = range[1];
+	}
+	else if (range[0] > line_width)
+	{
+		line_width = range[0];
+	}
+	// Set Line Width
+	glLineWidth(line_width);
 
 	TileID tile = m_pLevel->getTile(hr.m_tilePos);
 	if (tile > 0)
@@ -934,6 +943,9 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 		render(aabb);
 	}
 
+#ifndef GL_ALIASED_LINE_WIDTH_RANGE
+	glDisable(GL_LINE_SMOOTH);
+#endif
 	glDepthMask(true);
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);

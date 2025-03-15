@@ -115,3 +115,12 @@ add_library(raknet STATIC
     RakSleep.cpp
 )
 target_include_directories(raknet PUBLIC .)
+
+# Windows Support
+if(WIN32)
+    target_compile_definitions(raknet
+        PUBLIC SHA1_HAS_TCHAR
+        PUBLIC LOCKLESS_TYPES_USE_MUTEX
+    )
+    target_link_libraries(raknet ws2_32)
+endif()

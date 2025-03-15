@@ -8,13 +8,35 @@
 
 #include "SoundData.hpp"
 
-// --------------------------------------------------------------------
-// WARNING! If you have an error here it is most likely because you did
-// not grab the sound data from a working Minecraft PE 0.1.3 .apk.
-// 
-// Check the readme for a guide on how to extract game sounds from the
-// Minecraft PE 0.1.3 .apk file.
-// --------------------------------------------------------------------
-#ifndef MISSING_SOUND_DATA
-#include "../../sound_data/sounds.h"
-#endif
+#include "client/app/AppPlatform.hpp"
+
+void SoundDesc::_load(const AppPlatform* platform, const char *name)
+{
+	if (m_isLoaded)
+	{
+		// Already Loaded
+		return;
+	}
+	// Read Asset File
+	m_file = platform->readAssetFile(std::string("sound/") + name + ".pcm");
+	m_isLoaded = m_file.size > 0;
+	if (m_isLoaded)
+	{
+		m_fileData = m_file.data;
+		m_header = *(PCMSoundHeader *) m_fileData;
+		m_pData = (uint16_t *) (m_fileData + sizeof(PCMSoundHeader));
+		field_4 = m_header.m_channels * m_header.m_length * m_header.m_bytes_per_sample;
+	}
+}
+
+// Load All Sounds
+void SoundDesc::_load(const AppPlatform* platform)
+{
+#define SOUND(category, name) SA_##name._load(platform, #name);
+#include "sound_list.h"
+#undef SOUND
+}
+
+#define SOUND(category, name) SoundDesc SA_##name;
+#include "sound_list.h"
+#undef SOUND

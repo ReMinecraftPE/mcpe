@@ -8,7 +8,7 @@
 
 #pragma once
 #include <string>
-#include <Windows.h>
+#include <windows.h>
 #include <uuids.h>
 #include <strmif.h>
 #include <stdexcept>
@@ -37,7 +37,10 @@ public:
 	virtual void pause(const std::string& sound);
 	virtual void stop(const std::string& sound);
 	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float a, float b);
+
 private:
+	// Release sounds that finished playing
+	void clearBuffers();
 
 	struct BufferInfo
 	{
@@ -50,3 +53,5 @@ private:
 	LPDIRECTSOUND3DLISTENER m_listener;
 	std::vector<BufferInfo> m_buffers;
 };
+
+#define SOUND_SYSTEM SoundSystemDS
