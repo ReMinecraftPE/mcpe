@@ -3,6 +3,7 @@
 #include "Cow.hpp"
 #include "Pig.hpp"
 #include "Sheep.hpp"
+#include "PrimedTnt.hpp"
 //#include "Zombie.hpp"
 #include "Creeper.hpp"
 //#include "Skeleton.hpp"
@@ -13,6 +14,7 @@
              ENT(COW, Cow) \
              ENT(PIG, Pig) \
              ENT(SHEEP, Sheep) \
+             ENT(PRIMED_TNT, PrimedTnt) \
              //ENT(ZOMBIE, Zombie) \
              //ENT(CREEPER, Creeper) \
              //ENT(SKELETON, Skeleton) \
@@ -21,7 +23,7 @@
 
 #define ENT(enumType, classType) case EntityType::enumType: return new classType(level);
 
-Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
+Entity* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
 {
     switch (entityType)
     {

@@ -60,7 +60,7 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_texture = "/mob/pig.png";
 	m_class = "";
 
-	field_34 = 1;
+	m_bBlocksBuilding = true;
 
 	field_E4 = (Mth::random() + 1.0f) * 0.01f;
 	setPos(m_pos);

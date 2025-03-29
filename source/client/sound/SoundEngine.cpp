@@ -22,6 +22,7 @@ SoundEngine::SoundEngine(SoundSystem* soundSystem)
 
 float SoundEngine::_getVolumeMult(const Vec3& pos)
 {
+	// @TODO: this is not supposed to be a constant
 	return 1.0f;
 }
 
@@ -32,7 +33,7 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
 	// Load Sounds
 	SoundDesc::_load(platform);
 
-#define SOUND(category, name) m_repository.add(category, SA_##name);
+#define SOUND(category, name) m_sounds.add(category, SA_##name);
 #include "sound_list.h"
 #undef SOUND
 }
@@ -69,7 +70,7 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 	float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
 	SoundDesc sd;
 
-	if (m_repository.get(name, sd))
+	if (m_sounds.get(name, sd))
 	{
 		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
 	}
@@ -86,7 +87,7 @@ void SoundEngine::playUI(const std::string& name, float volume, float pitch)
 	float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
 	SoundDesc sd;
 
-	if (m_repository.get(name, sd))
+	if (m_sounds.get(name, sd))
 	{
 		m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, cVolume, pitch);
 	}

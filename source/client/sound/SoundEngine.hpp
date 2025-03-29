@@ -31,10 +31,12 @@ public:
 
 public:
 	SoundSystem* m_pSoundSystem;
+	SoundRepository m_sounds;
+	SoundRepository m_streamingSounds;
+	SoundRepository m_songs;
 	Options* m_pOptions;
 	int field_40;
 	//Random m_random;
-	SoundRepository m_repository;
 	int field_A1C;
 	int field_A20;
 	bool m_muted;

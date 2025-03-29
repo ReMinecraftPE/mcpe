@@ -181,10 +181,10 @@ public:
 	int field_28;
 	int m_EntityID;
 	float field_30;
-	uint8_t field_34;
+	bool m_bBlocksBuilding;
 	Level* m_pLevel;
-	Vec3 m_oPos; // "o" in Java or "xo" ""yo" "zo"
-	Vec3 m_vel;
+	Vec3 m_oPos; // "o" in Java or "xo" "yo" "zo"
+	Vec3 m_vel; // "d" in Java or "xd" "yd" "zd"
 	Vec2 m_rot;
 	//maybe these are the actual m_yaw and m_pitch, and
 	//the one I annotated are the destination yaw and pitch.

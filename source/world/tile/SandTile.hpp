@@ -10,6 +10,7 @@
 
 #include "Tile.hpp"
 
+// @TODO: Abstract out into HeavyTile, then have GravelTile inherit
 class SandTile : public Tile
 {
 public:

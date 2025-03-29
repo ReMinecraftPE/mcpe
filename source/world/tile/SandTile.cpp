@@ -23,7 +23,7 @@ SandTile::SandTile(int ID, int texture, Material* pMtl) : Tile(ID, texture, pMtl
 
 int SandTile::getTickDelay() const
 {
-	return 3;
+	return 3; // 3 on Java, 2 on PE, no idea why
 }
 
 void SandTile::checkSlide(Level* level, const TilePos& pos)
@@ -34,10 +34,10 @@ void SandTile::checkSlide(Level* level, const TilePos& pos)
 		// standing on something, don't fall
 		return;
 
-	if (pos.y <= 0)
+	if (pos.y < 0)
 		return;
 
-	if (SandTile::instaFall || !level->hasChunksAt(TilePos(pos.x - 32, pos.y - 32, pos.z - 32), TilePos(pos.x + 32, pos.y + 32, pos.z + 32)))
+	if (SandTile::instaFall || !level->hasChunksAt(pos, 32))
 	{
 		level->setTile(pos, 0);
 
@@ -56,7 +56,11 @@ void SandTile::checkSlide(Level* level, const TilePos& pos)
 		// The original code attempts to spawn a falling tile entity, but it fails since it's not a player.
 		// The falling sand tile
 #if defined(ORIGINAL_CODE) || defined(ENH_ALLOW_SAND_GRAVITY)
-		level->addEntity(new FallingTile(level, Vec3(float(pos.x) + 0.5f, float(pos.y) + 0.5f, float(pos.z) + 0.5f), m_ID));
+		bool isEmpty = level->isEmptyTile(pos); // from 0.7.0 in HeavyTile
+		Entity* fallingTile = new FallingTile(level, Vec3(pos) + 0.5f, m_ID, isEmpty);
+		//setTicking(true); // from 0.7.0, for HeavyTile
+		level->addEntity(fallingTile);
+		LOG_I("%d: Added FallingTile entity", level->getTime());
 #endif
 	}
 }
@@ -81,6 +85,7 @@ bool SandTile::isFree(Level* level, const TilePos& pos)
 
 void SandTile::tick(Level* level, const TilePos& pos, Random* random)
 {
+	// Specific to PE
 	if (level->m_bIsMultiplayer)
 		return;
 

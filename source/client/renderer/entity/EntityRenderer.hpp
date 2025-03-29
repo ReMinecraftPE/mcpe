@@ -29,7 +29,7 @@ private:
 	Level* getLevel() const;
 	void renderFlame(Entity* e, const Vec3& pos, float a);
 	void renderShadow(Entity* e, const Vec3& pos, float pow, float a);
-	void renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePos, float pow, float r, const Vec3& oPos);
+	void renderTileShadow(Tile* tt, const Vec3& pos, const TilePos& tilePos, float pow, float r, const Vec3& oPos);
 
 public:
 	EntityRenderer();

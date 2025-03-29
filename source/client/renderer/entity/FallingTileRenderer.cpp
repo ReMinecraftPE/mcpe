@@ -35,7 +35,7 @@ void FallingTileRenderer::render(Entity* entity, float x, float y, float z, floa
 #define ARGPATCH
 #endif
 	
-	m_tileRenderer.renderTile(Tile::tiles[fallingTile->m_id], 0 ARGPATCH);
+	m_tileRenderer.renderTile(Tile::tiles[fallingTile->m_tileId], 0 ARGPATCH);
 
 	glPopMatrix();
 

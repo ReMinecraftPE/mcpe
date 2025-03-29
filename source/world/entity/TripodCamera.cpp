@@ -21,7 +21,7 @@ TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(
 
 	m_rotPrev = m_rot = player->m_rot;
 
-	field_34 = 1;
+	m_bBlocksBuilding = true;
 
 	setSize(1.0f, 1.5f);
 	m_heightOffset = m_bbHeight * 0.5f - 0.25f;

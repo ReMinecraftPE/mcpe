@@ -6,5 +6,5 @@
 class MobFactory
 {
 public:
-	static Mob* CreateMob(EntityType::ID entityType, Level *level);
+	static Entity* CreateMob(EntityType::ID entityType, Level *level);
 };

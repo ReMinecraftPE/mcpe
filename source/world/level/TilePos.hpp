@@ -15,7 +15,7 @@ struct ChunkPos;
 struct TilePos
 {
 	int x;
-	uint8_t y; // 255 height limit
+	int y; // adding 1 to 255 (height limit) means we underflow back to 0 if this is a uint8_t
 	int z;
     
 private:

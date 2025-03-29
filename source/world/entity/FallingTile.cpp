@@ -9,26 +9,30 @@
 #include "FallingTile.hpp"
 #include "world/level/Level.hpp"
 
-FallingTile::FallingTile(Level* level) : Entity(level),
-	field_E0(0)
+void FallingTile::_init(TileID tileId, int tileData)
 {
-}
+	m_pDescriptor = &EntityTypeDescriptor::fallingTile;
 
-FallingTile::FallingTile(Level* level, const Vec3& pos, int id) : Entity(level),
-	field_E0(0)
-{
-	m_id = id;
-	field_34 = 1;
+	m_tileId = tileId;
+	m_tileData = tileData;
+	m_time = 0;
+	m_bBlocksBuilding = true;
 	setSize(0.98f, 0.98f);
 	m_heightOffset = m_bbHeight * 0.5f;
-	setPos(pos);
-	m_oPos = pos;
 	m_bMakeStepSound = false;
 	m_vel = Vec3::ZERO;
 
 #if defined(ENH_ALLOW_SAND_GRAVITY)
 	field_C8 = RENDER_FALLING_TILE;
 #endif
+}
+
+void FallingTile::_init(const Vec3& pos, TileID tileId, int tileData)
+{
+	_init(tileId, tileData);
+
+	setPos(pos);
+	m_oPos = pos;
 }
 
 float FallingTile::getShadowHeightOffs() const
@@ -43,11 +47,14 @@ bool FallingTile::isPickable() const
 
 void FallingTile::tick()
 {
-	if (!m_id)
+	if (m_tileId == TILE_AIR)
+	{
 		remove();
+		return;
+	}
 
 	m_oPos = m_pos;
-	field_E0++;
+	m_time++;
 
 	m_vel.y -= 0.04f;
 	move(m_vel);
@@ -58,28 +65,29 @@ void FallingTile::tick()
 
 	// if we're inside one of our own tiles, clear it.
 	// Assumes we started there
-	if (m_pLevel->getTile(tilePos) == m_id)
-		m_pLevel->setTile(tilePos, TILE_AIR);
-
-	if (!m_onGround)
+	if (m_pLevel->getTile(tilePos) == m_tileId)
 	{
-		if (field_E0 > 100 && !m_pLevel->m_bIsMultiplayer)
-			remove();
-
-		return;
+		m_pLevel->removeTile(tilePos);
+		LOG_I("%d: Removed fell tile", m_pLevel->getTime());
 	}
 
-	m_vel.x *= 0.7f;
-	m_vel.z *= 0.7f;
-	m_vel.y *= -0.5f;
-	remove();
-	if (m_pLevel->mayPlace(m_id, tilePos, true))
+	if (m_onGround)
 	{
-		m_pLevel->setTile(tilePos, m_id);
+		m_vel.x *= 0.7f;
+		m_vel.z *= 0.7f;
+		m_vel.y *= -0.5f;
+		remove();
+		if ((!m_pLevel->mayPlace(m_tileId, tilePos, true) || !m_pLevel->setTileAndData(tilePos, m_tileId, m_tileData)) && !m_pLevel->m_bIsMultiplayer)
+		{
+			// Spawn resources
+			spawnAtLocation(m_tileId, 1);
+		}
 	}
-	else
+	else if (m_time > 100 && !m_pLevel->m_bIsMultiplayer)
 	{
-		// @TODO: spawn resources?
+		// Spawn resources
+		spawnAtLocation(m_tileId, 1);
+		remove();
 	}
 }
 

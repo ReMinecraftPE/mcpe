@@ -1268,7 +1268,7 @@ bool Level::isUnobstructed(AABB* aabb) const
 		if (pEnt->m_bRemoved)
 			continue;
 
-		if (!pEnt->field_34)
+		if (!pEnt->m_bBlocksBuilding)
 			continue;
 
 		return false;
@@ -1373,6 +1373,7 @@ void Level::tickTiles()
 		for (int i = 0; i < 80; i++)
 		{
 			m_randValue = 3 * m_randValue + m_addend;
+			int rand = m_randValue >> 2;
 
 			TilePos tilePos(
 				(m_randValue >> 2) & 0xF,
@@ -1523,7 +1524,7 @@ HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const
 		if (xd != 999.0f) xe = (float)(xd - v1.x) / xl;
 		if (yd != 999.0f) ye = (float)(yd - v1.y) / yl;
 		if (zd != 999.0f) ze = (float)(zd - v1.z) / zl;
-		int hitSide = 0;
+		Facing::Name hitSide = Facing::DOWN;
 		if (xe >= ye || xe >= ze)
 		{
 			if (ye >= ze)
@@ -1753,7 +1754,10 @@ bool Level::extinguishFire(Player* player, const TilePos& pos, Facing::Name face
 	TilePos p(pos.relative(face));
 
 	if (getTile(p) == Tile::fire->m_ID)
+	{
+		playSound(pos + 0.5f, "random.fizz", 0.5f, 2.6f + (m_random.nextFloat() - m_random.nextFloat()) * 0.8f);
 		return setTile(p, TILE_AIR);
+	}
 
 	return false;
 }

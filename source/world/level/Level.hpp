@@ -84,14 +84,15 @@ public:
 	void updateLight(const LightLayer&, const TilePos& tilePos1, const TilePos& tilePos2);
 	void updateLight(const LightLayer&, const TilePos& tilePos1, const TilePos& tilePos2, bool);
 	void updateLightIfOtherThan(const LightLayer&, const TilePos& pos, int);
-	bool setTileAndDataNoUpdate(const TilePos& pos, TileID tile, int data);
-	bool setTileNoUpdate(const TilePos& pos, TileID tile);
-	bool setDataNoUpdate(const TilePos& pos, int data);
-	bool setTileAndData(const TilePos& pos, TileID tile, int data);
 	bool setTile(const TilePos& pos, TileID tile);
+	bool setTileNoUpdate(const TilePos& pos, TileID tile);
+	bool setTileAndData(const TilePos& pos, TileID tile, int data);
+	bool setTileAndDataNoUpdate(const TilePos& pos, TileID tile, int data);
 	bool setData(const TilePos& pos, int data);
+	bool setDataNoUpdate(const TilePos& pos, int data);
 	void sendTileUpdated(const TilePos& pos);
 	void tileUpdated(const TilePos& pos, TileID tile);
+	bool removeTile(const TilePos& pos) { return setTileAndData(pos, TILE_AIR, 0); }
 	void updateNeighborsAt(const TilePos& pos, TileID tile);
 	void neighborChanged(const TilePos& pos, TileID tile);
 	void setTilesDirty(const TilePos& min, const TilePos& max);

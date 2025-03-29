@@ -11,9 +11,11 @@
 
 void PrimedTnt::_init()
 {
-	m_fuseTimer = 0;
+	m_pDescriptor = &EntityTypeDescriptor::primedTnt;
+
+	m_fuseTimer = 80; // 4 secs
 	field_C8 = RENDER_TNT;
-	field_34 = 1;
+	m_bBlocksBuilding = true;
 	setSize(0.98f, 0.98f);
 	m_heightOffset = m_bbHeight * 0.5f;
 	m_bMakeStepSound = false;
@@ -31,8 +33,6 @@ PrimedTnt::PrimedTnt(Level* level, const Vec3& pos) : Entity(level)
 	m_vel.y = 0.2f;
 
 	m_oPos = m_pos;
-
-	m_fuseTimer = 80; // 4 secs
 }
 
 void PrimedTnt::explode()
