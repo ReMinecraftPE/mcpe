@@ -1372,13 +1372,13 @@ void Level::tickTiles()
 
 		for (int i = 0; i < 80; i++)
 		{
-			m_randValue = 3 * m_randValue + m_addend;
+			m_randValue = m_randValue * 3 + m_addend;
 			int rand = m_randValue >> 2;
 
 			TilePos tilePos(
-				(m_randValue >> 2) & 0xF,
-				(m_randValue >> 10) & 0xF,
-				(m_randValue >> 18) & 0x7F);
+				(rand)       & 15,
+				(rand >> 16) & 127,
+				(rand >> 8)  & 15);
 
 			TileID tile = pChunk->getTile(tilePos);
 			if (Tile::shouldTick[tile])
