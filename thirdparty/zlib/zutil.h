@@ -137,7 +137,9 @@ extern z_const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #  endif
 #endif
 
-#if defined(MACOS) || defined(TARGET_OS_MAC)
+//#if defined(MACOS) || defined(TARGET_OS_MAC) // Apple pushed a new version of Xcode (16.3) in April of 2025 that prevents zlib from building.
+// https://mail-index.netbsd.org/current-users/2025/04/04/msg046361.html
+#if ((MACOS - 0) > 0) && !defined(__APPLE__)
 #  define OS_CODE  7
 #  ifndef Z_SOLO
 #    if defined(__MWERKS__) && __dest_os != __be_os && __dest_os != __win32_os
