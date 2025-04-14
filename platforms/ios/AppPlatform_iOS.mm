@@ -67,7 +67,7 @@ int AppPlatform_iOS::getScreenHeight() const
 Texture AppPlatform_iOS::loadTexture(const std::string& path, bool b)
 {
 	Texture out;
-	out.m_hasAlpha = 1;
+	out.m_hasAlpha = true;
 	out.field_D = 0;
 	
 	std::string realPath = getAssetPath(path);
