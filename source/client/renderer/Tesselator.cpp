@@ -284,9 +284,9 @@ void Tesselator::normal(float x, float y, float z)
 		LOG_W("But...");*/
 
 	m_bHasNormal = true;
-	unsigned int bx = static_cast<unsigned char>(x * 128.0f);
-	unsigned int by = static_cast<unsigned char>(y * 127.0f);
-	unsigned int bz = static_cast<unsigned char>(z * 127.0f);
+	int8_t bx = static_cast<int8_t>(x * 128);
+	int8_t by = static_cast<int8_t>(y * 127);
+	int8_t bz = static_cast<int8_t>(z * 127);
 	m_nextVtxNormal = (bx << 0) | (by << 8) | (bz << 16);
 #endif
 }
