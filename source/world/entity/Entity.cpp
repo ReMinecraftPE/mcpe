@@ -23,7 +23,7 @@ void Entity::_init()
 	field_24 = 0;
 	field_28 = 0;
 	field_30 = 1.0f;
-	field_34 = 0;
+    m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
 	m_rot = Vec2::ZERO;
 	m_rotPrev = Vec2::ZERO;
@@ -44,11 +44,12 @@ void Entity::_init()
 	field_A8 = 0.0f;
 	m_bNoPhysics = false;
 	field_B0 = 0.0f;
-	field_B4 = 0;
+    m_tickCount = 0;
 	field_B8 = 0;
 	m_airCapacity = TOTAL_AIR_SUPPLY;
 	m_fireTicks = 0;
-	m_flameTime = 0;
+	m_flameTime = 1;
+    m_tickCount = 0;
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
 	m_airSupply = TOTAL_AIR_SUPPLY;
@@ -614,7 +615,7 @@ void Entity::baseTick()
 
 	field_90 = m_walkDist;
 	m_oPos = m_pos;
-	field_B4++;
+    m_tickCount++;
 	m_rotPrev = m_rot;
 	if (isInWater())
 	{

@@ -176,12 +176,12 @@ public:
 	bool m_bInAChunk;
 	ChunkPos m_chunkPos;
 	int m_chunkPosY;
-	int field_20;
+	int field_20; // unused Vec3?
 	int field_24;
 	int field_28;
 	int m_EntityID;
 	float field_30;
-	uint8_t field_34;
+	bool m_bBlocksBuilding;
 	Level* m_pLevel;
 	Vec3 m_oPos; // "o" in Java or "xo" ""yo" "zo"
 	Vec3 m_vel;
@@ -209,7 +209,7 @@ public:
 	float field_A8;
 	bool m_bNoPhysics;
 	float field_B0;
-	int field_B4;
+	int m_tickCount;
 	int field_B8;
 	int m_airCapacity;
 	int m_fireTicks;

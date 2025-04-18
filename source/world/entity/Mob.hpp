@@ -100,15 +100,15 @@ public:
 	float m_hurtDir;
 	int field_110;
 	int field_114;
-	float field_118;
-	float field_11C;
+	float m_oTilt;
+	float m_tilt;
 	int field_120;
 	int field_124;
 	float field_128;
 	float field_12C;
 	float field_130;
 	Random m_random;
-	int field_AFC;
+	int m_noActionTime;
 	Vec2 field_B00;
 	float field_B08;
 	bool m_bJumping;

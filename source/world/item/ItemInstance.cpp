@@ -10,64 +10,54 @@
 #include "ItemInstance.hpp"
 #include "world/tile/Tile.hpp"
 
-void ItemInstance::init(int itemID, int amount, int auxValue)
+void ItemInstance::_init(int itemID, int count, int auxValue)
 {
 	m_itemID = itemID;
-	m_amount = amount;
+	m_count = count;
 	m_auxValue = auxValue;
-	m_field_8 = 0;
+	m_popTime = 0;
 
 	//@BUG? Not using the auxValue.  This is problematic in the case of wool and dyes.
 }
 
 ItemInstance::ItemInstance()
 {
-	init(0, 0, 0);
+	_init(0, 0, 0);
 }
 
 ItemInstance::ItemInstance(Item* pItem)
 {
-	init(pItem->m_itemID, 1, 0);
+	_init(pItem->m_itemID, 1, 0);
 }
 
 ItemInstance::ItemInstance(Item* pItem, int amount)
 {
-	init(pItem->m_itemID, amount, 0);
+	_init(pItem->m_itemID, amount, 0);
 }
 
 ItemInstance::ItemInstance(Item* pItem, int amount, int auxValue)
 {
-	init(pItem->m_itemID, amount, auxValue);
+	_init(pItem->m_itemID, amount, auxValue);
 }
 
 ItemInstance::ItemInstance(Tile* pTile)
 {
-	init(pTile->m_ID, 1, 0);
+	_init(pTile->m_ID, 1, 0);
 }
 
 ItemInstance::ItemInstance(Tile* pTile, int amount)
 {
-	init(pTile->m_ID, amount, 0);
+	_init(pTile->m_ID, amount, 0);
 }
 
 ItemInstance::ItemInstance(Tile* pTile, int amount, int auxValue)
 {
-	init(pTile->m_ID, amount, auxValue);
+	_init(pTile->m_ID, amount, auxValue);
 }
 
 ItemInstance::ItemInstance(int itemID, int amount, int auxValue)
 {
-	init(itemID, amount, auxValue);
-}
-
-int ItemInstance::getAuxValue()
-{
-	return m_auxValue;
-}
-
-int ItemInstance::getDamageValue()
-{
-	return m_auxValue;
+	_init(itemID, amount, auxValue);
 }
 
 Item* ItemInstance::getItem() const
@@ -77,7 +67,7 @@ Item* ItemInstance::getItem() const
 
 ItemInstance* ItemInstance::copy()
 {
-	return new ItemInstance(m_itemID, m_amount, m_auxValue);
+	return new ItemInstance(m_itemID, m_count, m_auxValue);
 }
 
 bool ItemInstance::canDestroySpecial(Tile* tile)
@@ -118,9 +108,9 @@ void ItemInstance::hurt(int by)
 	m_auxValue += by;
 	if (m_auxValue > getMaxDamage())
 	{
-		m_amount--;
-		if (m_amount < 0)
-			m_amount = 0;
+		m_count--;
+		if (m_count < 0)
+			m_count = 0;
 		m_auxValue = 0;
 	}
 }
@@ -163,7 +153,9 @@ bool ItemInstance::isStackedByData()
 
 bool ItemInstance::matches(ItemInstance* other) const
 {
-	return m_auxValue == other->m_auxValue && m_amount == other->m_amount && m_itemID == other->m_itemID;
+	return this->getAuxValue() == other->getAuxValue() &&
+           this->m_count == other->m_count &&
+           this->m_itemID == other->m_itemID;
 }
 
 bool ItemInstance::matches(ItemInstance* a1, ItemInstance* a2)
@@ -187,10 +179,10 @@ void ItemInstance::mineBlock(const TilePos& pos, Facing::Name face)
 	return getItem()->mineBlock(this, pos, face);
 }
 
-ItemInstance ItemInstance::remove(int amt)
+ItemInstance ItemInstance::remove(int count)
 {
-	m_amount -= amt;
-	return ItemInstance(m_itemID, amt, m_auxValue);
+	m_count -= count;
+	return ItemInstance(m_itemID, count, m_auxValue);
 }
 
 void ItemInstance::setDescriptionId(const std::string& str)
@@ -205,7 +197,7 @@ void ItemInstance::snap(Player*)
 std::string ItemInstance::toString()
 {
 	std::stringstream ss;
-	ss << m_amount << "x" << getItem()->getDescriptionId() << "@" << m_auxValue;
+	ss << m_count << "x" << getItem()->getDescriptionId() << "@" << m_auxValue;
 
 	return ss.str();
 }
@@ -223,14 +215,14 @@ bool ItemInstance::useOn(Player* player, Level* level, const TilePos& pos, Facin
 bool ItemInstance::isNull() const
 {
 	// 0.9.2
-	//if (!m_field_10)
-	//	return true;
+	if (m_itemID <= 0) // m_field_10, assuming this is m_itemID
+		return true;
 
 	if (m_auxValue != 0)
 		return false;
-	if (m_amount != 0)
+	if (m_count != 0)
 		return false;
-	if (m_field_8 != 0)
+	if (m_popTime != 0)
 		return false;
 
 	return true; // isNull

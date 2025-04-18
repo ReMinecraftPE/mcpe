@@ -86,16 +86,20 @@ public:
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
 	Options* getOptions() const { return m_options; }
-
-	static void setGuiScaleMultiplier(float f);
 	
 private:
 	void _reloadInput();
 	void _levelGenerated();
 	GameMode* createGameMode(GameType gameType, Level& level);
 
+private:
+    // Value provided by the OS
+    static float _renderScaleMultiplier;
 public:
-	static float guiScaleMultiplier;
+    static float getRenderScaleMultiplier() { return _renderScaleMultiplier; }
+    static void setRenderScaleMultiplier(float value) { _renderScaleMultiplier = value; }
+    
+public:
 	static int width, height;
 	static bool useAmbientOcclusion;
 	static const char* progressMessages[];

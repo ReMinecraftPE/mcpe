@@ -5,7 +5,7 @@
 class Lighting
 {
 private:
-	static float lb[16];
+	static float lb[4];
 
 public:
 	static void turnOff();

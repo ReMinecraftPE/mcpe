@@ -44,11 +44,11 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 	const ItemInstance* pItemInstance = &(pItemEntity->m_itemInstance);
 
 	int itemsToRender = 1;
-	if (pItemInstance->m_amount > 1)
+	if (pItemInstance->m_count > 1)
 		itemsToRender = 2;
-	if (pItemInstance->m_amount > 5)
+	if (pItemInstance->m_count > 5)
 		itemsToRender = 3;
-	if (pItemInstance->m_amount > 20)
+	if (pItemInstance->m_count > 20)
 		itemsToRender = 4;
 
 	glTranslatef(x, y + 0.1f + yOffset * 0.1f, z);
@@ -80,7 +80,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale);
 			}
 
-			tileRenderer->renderTile(Tile::tiles[itemID], pItemInstance->m_auxValue, pItemEntity->getBrightness(1.0f));
+			tileRenderer->renderTile(Tile::tiles[itemID], pItemInstance->getAuxValue(), pItemEntity->getBrightness(1.0f));
 			glPopMatrix();
 		}
 	}
@@ -159,11 +159,11 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInst
 	if (!instance)
 		return;
 
-	if (instance->m_amount == 1)
+	if (instance->m_count == 1)
 		return;
 
 	std::stringstream ss;
-	ss << instance->m_amount;
+	ss << instance->m_count;
 	std::string amtstr = ss.str();
 
 	int width = font->width(amtstr), height = font->height(amtstr) + 8;
@@ -240,7 +240,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		if (Tile::tiles[itemID]->getRenderShape() != SHAPE_STAIRS)
 			glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
 		
-		tileRenderer->renderTile(Tile::tiles[itemID], instance->m_auxValue, 1.0f, true);
+		tileRenderer->renderTile(Tile::tiles[itemID], instance->getAuxValue(), 1.0f, true);
 		#undef PARM_HACK
 
 		glPopMatrix();

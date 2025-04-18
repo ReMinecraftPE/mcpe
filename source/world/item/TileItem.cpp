@@ -45,7 +45,7 @@ bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const
 		case Facing::EAST: tp.x++; break;
 	}
 
-	if (!instance->m_amount)
+	if (!instance->m_count)
 		return false;
 
 	if (!level->mayPlace(m_tile, tp, false))
@@ -66,6 +66,6 @@ bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const
 		pTile->m_pSound->pitch * 0.8f
 	);
 
-	instance->m_amount--;
+	instance->m_count--;
 	return true;
 }

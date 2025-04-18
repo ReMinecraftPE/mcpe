@@ -191,6 +191,7 @@ public:
 	int m_skyDarken;
 	uint8_t field_30;
 	Dimension* m_pDimension;
+    int m_difficulty; // @TODO: Difficulty enum
 	Random m_random;
 	bool m_bCalculatingInitialSpawn;
 	std::vector<LevelListener*> m_levelListeners;

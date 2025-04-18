@@ -114,7 +114,7 @@ void ModelPart::draw()
 {
 	// We are not using drawArrayVTC here since that would use the color that's compiled initially into the ModelPart
 	// and would therefore not allow for on-the-fly coloring.
-	drawArrayVTN(this->m_buffer, 36 * m_pCubes.size(), sizeof(Tesselator::Vertex));
+	drawArrayVTN(this->m_buffer, 36 * (int)m_pCubes.size(), sizeof(Tesselator::Vertex));
 }
 
 void ModelPart::drawSlow(float scale)

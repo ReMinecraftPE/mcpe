@@ -909,7 +909,7 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 	float range[2];
 	glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, range);
 
-	float lineWidth = 2.0f;
+	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
 	if (lineWidth > range[1])
 		lineWidth = range[1];
 
@@ -1297,20 +1297,22 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 {
 	glDisable(GL_CULL_FACE);
 
-	float yOffs = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_posPrev.y, m_pMinecraft->m_pMobPersp->m_pos.y, alpha);
+	float yOffs = //Mth::Lerp(m_pMinecraft->m_pMobPersp->m_posPrev.y, m_pMinecraft->m_pMobPersp->m_pos.y, alpha);
+    m_pMinecraft->m_pMobPersp->m_posPrev.y + (m_pMinecraft->m_pMobPersp->m_pos.y - m_pMinecraft->m_pMobPersp->m_posPrev.y) * alpha;
 
 	Tesselator& t = Tesselator::instance;
-	float ss = 12.0f;
-	float h = 4.0f;
+	constexpr float ss = 12.0f;
+	constexpr float h = 4.0f;
 
 	// @NOTE: Using Mth::Lerp will use incorrect logic
 	float xo = (m_pMinecraft->m_pMobPersp->m_oPos.x + (m_pMinecraft->m_pMobPersp->m_oPos.x - m_pMinecraft->m_pMobPersp->m_oPos.x) * alpha + ((float(m_ticksSinceStart) + alpha) * 0.03f)) / ss;
-	float zo = (m_pMinecraft->m_pMobPersp->m_oPos.z + (m_pMinecraft->m_pMobPersp->m_oPos.z - m_pMinecraft->m_pMobPersp->m_oPos.z) * alpha) / ss + 0.33;
+	float zo = (m_pMinecraft->m_pMobPersp->m_oPos.z + (m_pMinecraft->m_pMobPersp->m_oPos.z - m_pMinecraft->m_pMobPersp->m_oPos.z) * alpha) / ss + 0.33f;
 
-	float yy = ((float)C_MAX_Y - yOffs) + 0.33f;
+	float yy = ((float)C_MAX_Y - yOffs) + 0.33f; // 108.0f on b1.2_02, see below
+    //float yy = 108.0f - yOffs + 0.33F;
 
-	int xOffs = Mth::floor(xo / 2048.0);
-	int zOffs = Mth::floor(zo / 2048.0);
+	int xOffs = Mth::floor(xo / 2048);
+	int zOffs = Mth::floor(zo / 2048);
 
 	xo -= xOffs * 2048;
 	zo -= zOffs * 2048;
@@ -1323,20 +1325,26 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	float cr = cc.x;
 	float cg = cc.y;
 	float cb = cc.z;
-
+    float uo;
+    float vo;
+    float scale;
+    
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-		float crr = (cr * 30.0f + cg * 59.0f + cb * 11.0f) / 100.0f;
-		float cgg = (cr * 30.0f + cg * 70.0f) / 100.0f;
-		float cbb = (cr * 30.0f + cb * 70.0f) / 100.0f;
-		cr = crr;
-		cg = cgg;
-		cb = cbb;
+        uo = (cr * 30.0F + cg * 59.0F + cb * 11.0F) / 100.0F;
+        vo = (cr * 30.0F + cg * 70.0F) / 100.0F;
+        scale = (cr * 30.0F + cb * 70.0F) / 100.0F;
+        cr = uo;
+        cg = vo;
+        cb = scale;
 	}
+    
+    uo = (float)(xo * 0.0);
+    vo = (float)(zo * 0.0);
 
-	float uo = xo * 0.0f;
-	float vo = zo * 0.0f;
-	float scale = 1.0f / 256.0f;
+	//uo = xo * 0.0f;
+	//vo = zo * 0.0f;
+	scale = 1.0f / 256.0f;
 
 	uo = Mth::floor(xo) * scale;
 	vo = Mth::floor(zo) * scale;
@@ -1344,9 +1352,9 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	float xoffs = xo - Mth::floor(xo);
 	float zoffs = zo - Mth::floor(zo);
 
-	int D = 8;
-	int radius = 3;
-	float e = 1.0f / 1024.0f;
+	constexpr int D = 8;
+	constexpr int radius = 3;
+	constexpr float e = 1.0f / 1024.0f;
 
 	glScalef(ss, 1.0f, ss);
 

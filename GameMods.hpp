@@ -35,6 +35,7 @@
 #define ENH_ALLOW_SCROLL_WHEEL  	 // Allow use of the scroll wheel to change selected inventory slots
 #define ENH_3D_INVENTORY_TILES  	 // Uses 3D rendered inventory tiles, use with ENH_SHADE_HELD_TILES to render correctly.
 #define ENH_MENU_BACKGROUND 		 // Renders a spinning panorama (if it's available) in the background of the main menu
+#define ENH_GUI_ITEM_POP             // Calls Inventory::tick() to create the "pop" animation for items that enter the hotbar. This function was not present on Pocket Edition.
 
 // TODO: Implement this permanently?
 #define ENH_IMPROVED_SAVING     	 // Improve world saving. The original Minecraft doesn't always really save for some reason
