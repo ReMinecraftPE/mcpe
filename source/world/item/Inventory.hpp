@@ -26,6 +26,7 @@ public:
 
 	void clear();
 	void addItem(ItemInstance* pInst);
+    void tick();
 
 	ItemInstance* getItem(int slotNo);
 	ItemInstance* getQuickSlotItem(int slotNo);

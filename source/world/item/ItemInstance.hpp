@@ -22,6 +22,9 @@ class Player;
 
 class ItemInstance
 {
+private:
+    void _init(int itemID, int amount, int auxValue);
+    
 public:
 	ItemInstance();
 	ItemInstance(Item*);
@@ -32,10 +35,9 @@ public:
 	ItemInstance(Tile*, int amount, int auxValue);
 	ItemInstance(int itemID, int amount, int auxValue);
 
-	void init(int itemID, int amount, int auxValue);
-
-	int getAuxValue();
-	int getDamageValue();
+    int getAuxValue() const { return m_auxValue; }
+    void setAuxValue(int auxValue) { m_auxValue = auxValue; } // Technically doesn't exist in b1.2_02
+    int getDamageValue() const { return m_auxValue; }
 
 	bool canDestroySpecial(Tile*);
 	std::string getDescriptionId();
@@ -69,9 +71,10 @@ public:
 	bool isNull() const;
 
 public:
-	int m_auxValue;
-	int m_amount;
-	int m_field_8;
+	int m_count;
+	int m_popTime;
 	int m_itemID;
+private:
+    int m_auxValue;
 };
 

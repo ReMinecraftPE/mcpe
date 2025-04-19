@@ -249,8 +249,8 @@ void GameRenderer::bobView(float f)
 		return;
 
 	Player* player = (Player*)m_pMinecraft->m_pMobPersp;
-	float f1 = Mth::Lerp(player->field_B9C, player->field_BA0, f);
-	float f2 = Mth::Lerp(player->field_118, player->field_11C, f);
+	float f1 = Mth::Lerp(player->m_oBob, player->m_bob, f);
+	float f2 = Mth::Lerp(player->m_oTilt, player->m_tilt, f);
 	// @NOTE: Multiplying by M_PI inside of the paren makes it stuttery for some reason? Anyways it works now :)
 	float f3 = -(player->m_walkDist + (player->m_walkDist - player->field_90) * f) * float(M_PI);
 	float f4 = Mth::sin(f3);

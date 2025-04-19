@@ -47,24 +47,17 @@ Cube::Cube(ModelPart* a2, int a3, int a4, float x, float y, float z, int d, int 
 	m_faces[0] = PolygonQuad(&m_verts[5], &m_verts[1], &m_verts[2], &m_verts[6], m + f + d,     n + f, m + f + d + f,     n + f + e);     // x2 face
 	m_faces[1] = PolygonQuad(&m_verts[0], &m_verts[4], &m_verts[7], &m_verts[3], m,             n + f, m + f,             n + f + e);     // x1 face
 	m_faces[2] = PolygonQuad(&m_verts[5], &m_verts[4], &m_verts[0], &m_verts[1], m + f,         n,     m + f + d,         n + f);         // up face
-	m_faces[3] = PolygonQuad(&m_verts[7], &m_verts[6], &m_verts[2], &m_verts[3], m + f + d,     n,     m + f + d + d,     n + f);         // down face*
+	m_faces[3] = PolygonQuad(&m_verts[2], &m_verts[3], &m_verts[7], &m_verts[6], m + f + d,     n,     m + f + d + d,     n + f);         // down face*
 	m_faces[4] = PolygonQuad(&m_verts[1], &m_verts[0], &m_verts[3], &m_verts[2], m + f,         n + f, m + f + d,         n + f + e);     // z1 face
 	m_faces[5] = PolygonQuad(&m_verts[4], &m_verts[5], &m_verts[6], &m_verts[7], m + f + d + f, n + f, m + f + d + f + d, n + f + e);     // z2 face
-
-#ifdef ENH_ENTITY_SHADING && 0
-// Applies shading that is identical to that of the in-hand block. This doesn't look any different.
-// - Brent
-#define SHADE_FACE(face, shade) m_faces[face].setColor(shade, shade, shade)
-	SHADE_FACE(0, 0.8f); // south
-	SHADE_FACE(1, 0.8f); // north
-	SHADE_FACE(2, 0.5f); // up
-	//SHADE_FACE(3, 1.0f); // down
-	SHADE_FACE(4, 0.6f); // east
-	SHADE_FACE(5, 0.6f); // west
-#endif
-
-	// *N.B. The original game specifies the vertex ordering as 2, 3, 7, 6, but that renders the back side of the cow upside down.
-	// This might not be proper form for the face, but we're disabling culling anyway so who cares.
+    
+    // *N.B. The original game specifies the vertex ordering as 2, 3, 7, 6, but that renders the back side of the cow upside down.
+    // This might not be proper form for the face, but we're disabling culling anyway so who cares.
+    
+    // Despite the updated vertex ordering, the textures I have are causing the cow's back side
+    // to be rendered upside down. Perhaps it's a texture issue, not a vertex ordering issue.
+    // Reverting to b1.2_02 defaults for now, as it corrects the problem on my end.
+    // - Brent
 
 	if (a2->m_bMirror)
 	{

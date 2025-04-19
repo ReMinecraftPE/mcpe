@@ -15,8 +15,8 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 	m_pInventory = nullptr;
 	field_B94 = 0;
 	m_score = 0;
-	field_B9C = 0.0f;
-	field_BA0 = 0.0f;
+    m_oBob = 0.0f;
+    m_bob = 0.0f;
 	m_name = "";
 	field_BC4 = 0;
 	m_bHaveRespawnPos = false;
@@ -59,8 +59,38 @@ bool Player::hurt(Entity* pEnt, int damage)
 {
 	if (isCreative())
 		return false;
+    
+    m_noActionTime = 0;
+    if (m_health <= 0)
+    {
+        return false;
+    }
+    
+    EntityTypeDescriptor entDesc = pEnt->getDescriptor();
+    
+    if (entDesc.hasCategory(EntityCategories::MONSTER) || entDesc.hasCategory(EntityCategories::ABSTRACT_ARROW))
+    {
+        switch (m_pLevel->m_difficulty)
+        {
+            case 0:
+                damage = 0;
+                break;
+            case 1:
+                damage = damage / 3 + 1;
+                break;
+            case 2:
+                // Don't modify damage
+                break;
+            case 3:
+                damage = damage * 3 / 2;
+                break;
+            default:
+                assert(!"Unknown difficulty value");
+                break;
+        }
+    }
 
-	return Mob::hurt(pEnt, damage);
+    return damage == 0 ? false : Mob::hurt(pEnt, damage);
 }
 
 void Player::awardKillScore(Entity* pKilled, int score)
@@ -104,7 +134,18 @@ void Player::die(Entity* pCulprit)
 
 void Player::aiStep()
 {
-	field_B9C = field_BA0;
+    if (m_pLevel->m_difficulty == 0 &&
+        m_health < 20 &&
+        m_tickCount % 20 * 12 == 0)
+    {
+       heal(1);
+    }
+
+#ifdef ENH_GUI_ITEM_POP
+    m_pInventory->tick();
+#endif
+	m_oBob = m_bob;
+    //Mob::aiStep(); // called in Java, calling here results in 2x speed player movement
 	float velLen = Mth::sqrt(m_vel.x * m_vel.x + m_vel.z * m_vel.z);
 	float velYAtan = Mth::atan(m_vel.y * -0.2f), x1 = 0.0f;
 
@@ -127,8 +168,8 @@ void Player::aiStep()
 	if (m_health <= 0)
 		velLen = 0.0f;
 
-	field_BA0 += (velLen - field_BA0) * 0.4f;
-	field_11C += (x1 - field_11C) * 0.8f;
+	m_bob += (velLen - m_bob) * 0.4f;
+	m_tilt += (x1 - m_tilt) * 0.8f;
 
 	if (m_health <= 0)
 		return;

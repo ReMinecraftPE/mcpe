@@ -340,6 +340,14 @@ void Tesselator::vertex(float x, float y, float z)
 			{
 				pVert2->m_color = pVert1->m_color;
 			}
+            
+            // Wasn't here in Java cuz I guess it's not needed?
+/*#ifdef USE_GL_NORMAL_LIGHTING
+            if (m_bHasNormal)
+            {
+                pVert2->m_normal = pVert1->m_normal;
+            }
+#endif*/
 
 			pVert2->m_x = pVert1->m_x;
 			pVert2->m_y = pVert1->m_y;

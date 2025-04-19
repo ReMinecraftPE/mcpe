@@ -41,7 +41,7 @@ public:
 		uint32_t m_color;
 #ifdef USE_GL_NORMAL_LIGHTING
 		// the legend
-		int m_normal;
+        uint32_t m_normal;
 #endif
 	};
 
@@ -101,7 +101,7 @@ private:
 	float m_offsetY;
 	float m_offsetZ;
 
-	int m_nextVtxNormal; // normalValue
+	uint32_t m_nextVtxNormal; // normalValue
 
 	// State
 	bool m_bTesselating;

@@ -33,7 +33,7 @@ Options::Option
 
 void Options::_initDefaultValues()
 {
-	field_238 = 2;
+	m_difficulty = 2;
 	field_244 = 1.0f;
 	m_bDontRenderGui = false;
 	field_248 = 1.0f;

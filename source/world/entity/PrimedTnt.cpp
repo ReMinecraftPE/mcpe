@@ -13,7 +13,7 @@ void PrimedTnt::_init()
 {
 	m_fuseTimer = 0;
 	field_C8 = RENDER_TNT;
-	field_34 = 1;
+    m_bBlocksBuilding = true;
 	setSize(0.98f, 0.98f);
 	m_heightOffset = m_bbHeight * 0.5f;
 	m_bMakeStepSound = false;
