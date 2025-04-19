@@ -85,8 +85,8 @@ public:
 	Inventory* m_pInventory;
 	uint8_t field_B94;
 	int m_score;
-	float field_B9C;
-	float field_BA0;
+	float m_oBob; // field_B9C
+	float m_bob;
 	std::string m_name;
 	int field_BC4;
 	RakNet::RakNetGUID m_guid;

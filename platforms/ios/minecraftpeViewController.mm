@@ -108,7 +108,7 @@ NSThread *G_drawFrameThread = nil;
     // I guess when the device is sideways, the view doesn't rotate to be upright?
     Minecraft::width = self.height; // drawWidth
     Minecraft::height = self.width; // drawHeight
-	Minecraft::setGuiScaleMultiplier(self->viewScale);
+	Minecraft::setRenderScaleMultiplier(self->viewScale);
     self->_app->sizeUpdate(self.height / self->viewScale, self.width / self->viewScale); // windowWidth, windowHeight
     NSLog(@"Updated draw size to %d, %d\n", self.height, self.width);
 }

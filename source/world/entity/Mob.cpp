@@ -25,14 +25,14 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_hurtDir = 0.0f;
 	field_110 = 0;
 	field_114 = 0;
-	field_118 = 0.0f;
-	field_11C = 0.0f;
+    m_oTilt = 0.0f;
+    m_tilt = 0.0f;
 	field_120 = 0;
 	field_124 = 0;
 	field_128 = 0.0f;
 	m_walkAnimSpeed = 0.0f;
 	field_130 = 0.0f;
-	field_AFC = 0;
+	m_noActionTime = 0;
 	field_B00 = Vec2::ZERO;
 	field_B08 = 0.0f;
 	m_bJumping = 0;
@@ -60,8 +60,8 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_texture = "/mob/pig.png";
 	m_class = "";
 
-	m_bBlocksBuilding = true;
-
+  m_bBlocksBuilding = true;
+  
 	field_E4 = (Mth::random() + 1.0f) * 0.01f;
 	setPos(m_pos);
 	field_E0 = Mth::random() * 12398.0f;
@@ -270,7 +270,7 @@ void Mob::baseTick()
 		m_airCapacity = m_airSupply;
 	}
 
-	field_118 = field_11C;
+    m_oTilt = m_tilt;
 
 	if (field_114 > 0) field_114--;
 	if (m_hurtTime > 0) m_hurtTime--;
@@ -319,7 +319,7 @@ bool Mob::hurt(Entity *pAttacker, int damage)
 	if (m_pLevel->m_bIsMultiplayer)
 		return false;
 
-	field_AFC = m_pLevel->m_bIsMultiplayer;
+	m_noActionTime = 0;
 
 	if (m_health <= 0)
 		return false;
@@ -753,7 +753,7 @@ void Mob::jumpFromGround()
 
 void Mob::updateAi()
 {
-	field_AFC++;
+    m_noActionTime++;
 
 	checkDespawn();
 
@@ -812,12 +812,12 @@ void Mob::checkDespawn(Mob* nearestMob)
 		if (remWhenFar && distSqr > 9216.0f)
 			remove();
 
-		if (field_AFC <= 600)
-			field_AFC = 0;
+		if (m_noActionTime <= 600)
+            m_noActionTime = 0;
 		else if (m_random.nextInt(800) == 0 && remWhenFar && distSqr >= 1024.0f)
 			remove();
 		else
-			field_AFC = 0;
+            m_noActionTime = 0;
 	}
 }
 

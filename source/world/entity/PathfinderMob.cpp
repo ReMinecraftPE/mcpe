@@ -135,7 +135,7 @@ void PathfinderMob::updateAi()
 	}
 	else if (!m_bHoldGround && ((m_path.empty() && m_random.nextInt(180) == 0) || field_BA4 > 0 || m_random.nextInt(120) == 0))
 	{
-		if (field_AFC < 100)
+		if (m_noActionTime < 100)
 			findRandomStrollLocation();
 	}
 

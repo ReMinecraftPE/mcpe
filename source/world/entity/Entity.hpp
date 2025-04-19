@@ -176,7 +176,7 @@ public:
 	bool m_bInAChunk;
 	ChunkPos m_chunkPos;
 	int m_chunkPosY;
-	int field_20;
+	int field_20; // unused Vec3?
 	int field_24;
 	int field_28;
 	int m_EntityID;
@@ -209,7 +209,7 @@ public:
 	float field_A8;
 	bool m_bNoPhysics;
 	float field_B0;
-	int field_B4;
+	int m_tickCount;
 	int m_invulnerableTime;
 	int m_airCapacity;
 	int m_fireTicks;

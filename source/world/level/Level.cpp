@@ -22,6 +22,7 @@ Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int stor
 	m_skyDarken = 0;
 	field_30 = 0;
 	m_pDimension = nullptr;
+    m_difficulty = 2; // Java has no actual default, it just always pulls from Options. Putting 2 here just so there's no chance of mobs getting despawned accidentally.
 	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
@@ -1265,13 +1266,8 @@ bool Level::isUnobstructed(AABB* aabb) const
 	for (std::vector<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		Entity* pEnt = *it;
-		if (pEnt->m_bRemoved)
-			continue;
-
-		if (!pEnt->m_bBlocksBuilding)
-			continue;
-
-		return false;
+		if (!pEnt->m_bRemoved && pEnt->m_bBlocksBuilding)
+			return false;
 	}
 
 	return true;

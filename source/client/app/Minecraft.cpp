@@ -37,9 +37,10 @@
 // custom:
 #include "client/renderer/PatchManager.hpp"
 
+float Minecraft::_renderScaleMultiplier = 1.0f;
+
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
-float Minecraft::guiScaleMultiplier = 1.0f;
 bool Minecraft::useAmbientOcclusion = false;
 int Minecraft::customDebugId = 0;
 
@@ -265,11 +266,6 @@ void Minecraft::setGameMode(GameType gameType)
 	}
 }
 
-void Minecraft::setGuiScaleMultiplier(float f)
-{
-	guiScaleMultiplier = f;
-}
-
 void Minecraft::handleBuildAction(const BuildActionIntention& action)
 {
 	LocalPlayer* player = m_pLocalPlayer;
@@ -487,7 +483,7 @@ void Minecraft::tickInput()
 				if (item != nullptr)
 				{
 					ItemInstance itemDrop = m_pLocalPlayer->isSurvival() ? item->remove(1) : ItemInstance(*item);
-					itemDrop.m_amount = 1;
+					itemDrop.m_count = 1;
 					m_pLocalPlayer->drop(&itemDrop);
 				}
 			}
@@ -712,6 +708,12 @@ void Minecraft::tick()
 
 		if (m_pLevel && !isGamePaused())
 		{
+            m_pLevel->m_difficulty = m_options->m_difficulty;
+            if (m_pLevel->m_bIsMultiplayer)
+            {
+                m_pLevel->m_difficulty = 3;
+            }
+            
 			m_pGameMode->tick();
 			m_pGameRenderer->tick();
 			m_pLevelRenderer->tick();
@@ -984,7 +986,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 void Minecraft::sizeUpdate(int newWidth, int newHeight)
 {
 	// re-calculate the GUI scale.
-	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
+	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / getRenderScaleMultiplier();
 
 	// The ceil gives an extra pixel to the screen's width and height, in case the GUI scale doesn't
 	// divide evenly into width or height, so that none of the game screen is uncovered.
@@ -1189,12 +1191,14 @@ ItemInstance* Minecraft::getSelectedItem()
 	if (m_pGameMode->isSurvivalType())
 		return pInst;
 
-	if (pInst->m_itemID == 0)
+    // Create new "unlimited" ItemInstance for Creative mode
+    
+	if (pInst->isNull())
 		return nullptr;
 
 	m_CurrItemInstance.m_itemID = pInst->m_itemID;
-	m_CurrItemInstance.m_amount = 999;
-	m_CurrItemInstance.m_auxValue = pInst->m_auxValue;
+	m_CurrItemInstance.m_count = 999;
+	m_CurrItemInstance.setAuxValue(pInst->getAuxValue());
 
 	return &m_CurrItemInstance;
 }

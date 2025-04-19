@@ -417,13 +417,24 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
 	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
-	if (!pInst)
+	if (pInst == nullptr || pInst->m_itemID <= 0)
 		return;
 
-	if (!pInst->m_itemID)
-		return;
+    float var6 = ((float)pInst->m_popTime) - f;
+    if (var6 > 0.0f)
+    {
+        glPushMatrix();
+        float var7 = 1.0f + var6 / 5.0f;
+        glTranslatef(x + 8, y + 12, 0.0f);
+        glScalef(1.0f / var7, (var7 + 1.0f) / 2.0f, 1.0f);
+        glTranslatef(-(x + 8), -(y + 12), 0.0f);
+    }
 
-	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
+    ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
+    if (var6 > 0.0f)
+        glPopMatrix();
+
+    //ItemRenderer::renderGuiItemDecorations(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
 }
 
 void Gui::renderSlotOverlay(int slot, int x, int y, float f)

@@ -1223,7 +1223,6 @@
 		840DD6212AC810620006A435 /* SoundRepository.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundRepository.hpp; sourceTree = "<group>"; };
 		840DD6222AC810620006A435 /* SoundSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystem.cpp; sourceTree = "<group>"; };
 		840DD6232AC810620006A435 /* SoundSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystem.hpp; sourceTree = "<group>"; };
-		840DD6242AC810620006A435 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		840DD6262AC810620006A435 /* CThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CThread.cpp; sourceTree = "<group>"; };
 		840DD6272AC810620006A435 /* CThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CThread.hpp; sourceTree = "<group>"; };
 		840DD6282AC810620006A435 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
@@ -1471,7 +1470,6 @@
 		840DD7332AC810620006A435 /* GLExt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLExt.cpp; sourceTree = "<group>"; };
 		840DD7342AC810620006A435 /* glext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glext.h; sourceTree = "<group>"; };
 		840DD7352AC810620006A435 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		840DD7382AC810620006A435 /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
 		840DD73A2AC810620006A435 /* _FindFirst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = _FindFirst.cpp; sourceTree = "<group>"; };
 		840DD73B2AC810620006A435 /* _FindFirst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FindFirst.h; sourceTree = "<group>"; };
 		840DD73C2AC810620006A435 /* AutopatcherPatchContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutopatcherPatchContext.h; sourceTree = "<group>"; };
@@ -1941,8 +1939,6 @@
 		84AA8B5D2B32F3B5003F5B82 /* Cow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cow.hpp; sourceTree = "<group>"; };
 		84AA8B5E2B32F3B5003F5B82 /* Creeper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Creeper.cpp; sourceTree = "<group>"; };
 		84AA8B5F2B32F3B5003F5B82 /* Creeper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Creeper.hpp; sourceTree = "<group>"; };
-		84AA8B602B32F3B5003F5B82 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
-		84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FallingTile.cpp; sourceTree = "<group>"; };
 		84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Monster.cpp; sourceTree = "<group>"; };
 		84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Monster.hpp; sourceTree = "<group>"; };
 		84AA8B6C2B32F3B5003F5B82 /* PathfinderMob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PathfinderMob.cpp; sourceTree = "<group>"; };
@@ -1950,8 +1946,6 @@
 		84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pig.cpp; sourceTree = "<group>"; };
 		84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pig.hpp; sourceTree = "<group>"; };
 		84AA8B702B32F3B5003F5B82 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
-		84AA8B722B32F3B5003F5B82 /* PrimedTnt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrimedTnt.cpp; sourceTree = "<group>"; };
-		84AA8B742B32F3B5003F5B82 /* TripodCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TripodCamera.cpp; sourceTree = "<group>"; };
 		84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaterAnimal.cpp; sourceTree = "<group>"; };
 		84AA8B772B32F3B5003F5B82 /* WaterAnimal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaterAnimal.hpp; sourceTree = "<group>"; };
 		84AA8B992B32F3F3003F5B82 /* Chunk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Chunk.cpp; sourceTree = "<group>"; };
@@ -2041,14 +2035,12 @@
 		84AA8C3F2B32F535003F5B82 /* CowModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CowModel.hpp; sourceTree = "<group>"; };
 		84AA8C402B32F535003F5B82 /* CreeperModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreeperModel.cpp; sourceTree = "<group>"; };
 		84AA8C412B32F535003F5B82 /* CreeperModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreeperModel.hpp; sourceTree = "<group>"; };
-		84AA8C422B32F535003F5B82 /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
 		84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanoidModel.cpp; sourceTree = "<group>"; };
 		84AA8C462B32F535003F5B82 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		84AA8C482B32F535003F5B82 /* ModelPart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelPart.cpp; sourceTree = "<group>"; };
 		84AA8C492B32F535003F5B82 /* ModelPart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelPart.hpp; sourceTree = "<group>"; };
 		84AA8C4A2B32F535003F5B82 /* PigModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PigModel.cpp; sourceTree = "<group>"; };
 		84AA8C4B2B32F535003F5B82 /* PigModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PigModel.hpp; sourceTree = "<group>"; };
-		84AA8C4C2B32F535003F5B82 /* PolygonQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolygonQuad.cpp; sourceTree = "<group>"; };
 		84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadrupedModel.cpp; sourceTree = "<group>"; };
 		84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuadrupedModel.hpp; sourceTree = "<group>"; };
 		84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SheepFurModel.cpp; sourceTree = "<group>"; };
@@ -2298,7 +2290,6 @@
 			isa = PBXGroup;
 			children = (
 				840DD57C2AC810620006A435 /* client */,
-				840DD6242AC810620006A435 /* CMakeLists.txt */,
 				840DD6252AC810620006A435 /* common */,
 				840DD6392AC810620006A435 /* network */,
 				840DD6522AC810620006A435 /* renderer */,
@@ -2420,44 +2411,38 @@
 		840DD5BD2AC810620006A435 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				84AA8C3C2B32F535003F5B82 /* ChickenModel.cpp */,
 				84AA8C3D2B32F535003F5B82 /* ChickenModel.hpp */,
-				84AA8C3E2B32F535003F5B82 /* CowModel.cpp */,
+				84AA8C3C2B32F535003F5B82 /* ChickenModel.cpp */,
 				84AA8C3F2B32F535003F5B82 /* CowModel.hpp */,
-				84AA8C402B32F535003F5B82 /* CreeperModel.cpp */,
+				84AA8C3E2B32F535003F5B82 /* CowModel.cpp */,
 				84AA8C412B32F535003F5B82 /* CreeperModel.hpp */,
-				84AA8C422B32F535003F5B82 /* Cube.cpp */,
+				84AA8C402B32F535003F5B82 /* CreeperModel.cpp */,
 				840DD5BF2AC810620006A435 /* Cube.hpp */,
-				84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */,
-				840DD5C12AC810620006A435 /* HumanoidModel.hpp */,
-				84AA8C462B32F535003F5B82 /* Model.cpp */,
-				840DD5C32AC810620006A435 /* Model.hpp */,
-				84AA8C482B32F535003F5B82 /* ModelPart.cpp */,
-				84AA8C492B32F535003F5B82 /* ModelPart.hpp */,
-				84AA8C4A2B32F535003F5B82 /* PigModel.cpp */,
-				84AA8C4B2B32F535003F5B82 /* PigModel.hpp */,
-				84AA8C4C2B32F535003F5B82 /* PolygonQuad.cpp */,
-				840DD5C52AC810620006A435 /* PolygonQuad.hpp */,
-				84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */,
-				84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */,
-				84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */,
-				84AA8C512B32F535003F5B82 /* SheepFurModel.hpp */,
-				84AA8C522B32F535003F5B82 /* SheepModel.cpp */,
-				84AA8C532B32F535003F5B82 /* SheepModel.hpp */,
-				84AA8C542B32F535003F5B82 /* SkeletonModel.cpp */,
-				84AA8C552B32F535003F5B82 /* SkeletonModel.hpp */,
-				84AA8C562B32F535003F5B82 /* SpiderModel.cpp */,
-				84AA8C572B32F535003F5B82 /* SpiderModel.hpp */,
-				84AA8C582B32F535003F5B82 /* ZombieModel.cpp */,
-				84AA8C592B32F535003F5B82 /* ZombieModel.hpp */,
 				840DD5BE2AC810620006A435 /* Cube.cpp */,
-				840DD5BF2AC810620006A435 /* Cube.hpp */,
-				840DD5C02AC810620006A435 /* HumanoidModel.cpp */,
 				840DD5C12AC810620006A435 /* HumanoidModel.hpp */,
-				840DD5C22AC810620006A435 /* Model.cpp */,
+				84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */,
+				840DD5C02AC810620006A435 /* HumanoidModel.cpp */,
 				840DD5C32AC810620006A435 /* Model.hpp */,
-				840DD5C42AC810620006A435 /* PolygonQuad.cpp */,
+				84AA8C462B32F535003F5B82 /* Model.cpp */,
+				840DD5C22AC810620006A435 /* Model.cpp */,
+				84AA8C492B32F535003F5B82 /* ModelPart.hpp */,
+				84AA8C482B32F535003F5B82 /* ModelPart.cpp */,
+				84AA8C4B2B32F535003F5B82 /* PigModel.hpp */,
+				84AA8C4A2B32F535003F5B82 /* PigModel.cpp */,
 				840DD5C52AC810620006A435 /* PolygonQuad.hpp */,
+				840DD5C42AC810620006A435 /* PolygonQuad.cpp */,
+				84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */,
+				84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */,
+				84AA8C512B32F535003F5B82 /* SheepFurModel.hpp */,
+				84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */,
+				84AA8C532B32F535003F5B82 /* SheepModel.hpp */,
+				84AA8C522B32F535003F5B82 /* SheepModel.cpp */,
+				84AA8C552B32F535003F5B82 /* SkeletonModel.hpp */,
+				84AA8C542B32F535003F5B82 /* SkeletonModel.cpp */,
+				84AA8C572B32F535003F5B82 /* SpiderModel.hpp */,
+				84AA8C562B32F535003F5B82 /* SpiderModel.cpp */,
+				84AA8C592B32F535003F5B82 /* ZombieModel.hpp */,
+				84AA8C582B32F535003F5B82 /* ZombieModel.cpp */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2667,70 +2652,55 @@
 		840DD6572AC810620006A435 /* entity */ = {
 			isa = PBXGroup;
 			children = (
-				84AA8B582B32F3B5003F5B82 /* Animal.cpp */,
 				84AA8B592B32F3B5003F5B82 /* Animal.hpp */,
-				84AA8B5A2B32F3B5003F5B82 /* Chicken.cpp */,
+				84AA8B582B32F3B5003F5B82 /* Animal.cpp */,
 				84AA8B5B2B32F3B5003F5B82 /* Chicken.hpp */,
-				84AA8B5C2B32F3B5003F5B82 /* Cow.cpp */,
+				84AA8B5A2B32F3B5003F5B82 /* Chicken.cpp */,
 				84AA8B5D2B32F3B5003F5B82 /* Cow.hpp */,
-				84AA8B5E2B32F3B5003F5B82 /* Creeper.cpp */,
+				84AA8B5C2B32F3B5003F5B82 /* Cow.cpp */,
 				84AA8B5F2B32F3B5003F5B82 /* Creeper.hpp */,
-				84AA8B602B32F3B5003F5B82 /* Entity.cpp */,
+				84AA8B5E2B32F3B5003F5B82 /* Creeper.cpp */,
 				840DD6592AC810620006A435 /* Entity.hpp */,
-				8445E7952D769329008DC834 /* EntityCategories.cpp */,
-				8445E7962D769329008DC834 /* EntityCategories.hpp */,
-				8445E7972D769329008DC834 /* EntityType.cpp */,
-				8470AF282BE9B60900BCA54E /* EntityType.hpp */,
-				8445E7982D769329008DC834 /* EntityTypeDescriptor.cpp */,
-				8445E7992D769329008DC834 /* EntityTypeDescriptor.hpp */,
-				84AA8B622B32F3B5003F5B82 /* FallingTile.cpp */,
-				840DD65B2AC810620006A435 /* FallingTile.hpp */,
-				840DD65C2AC810620006A435 /* ItemEntity.cpp */,
-				840DD65D2AC810620006A435 /* ItemEntity.hpp */,
-				840DD65E2AC810620006A435 /* LocalPlayer.cpp */,
-				840DD65F2AC810620006A435 /* LocalPlayer.hpp */,
-				840DD6602AC810620006A435 /* Mob.cpp */,
-				840DD6612AC810620006A435 /* Mob.hpp */,
-				8445E79A2D769329008DC834 /* MobCategory.cpp */,
-				8445E79B2D769329008DC834 /* MobCategory.hpp */,
-				8470AF292BE9B60A00BCA54E /* MobFactory.cpp */,
-				8470AF2A2BE9B60A00BCA54E /* MobFactory.hpp */,
-				84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */,
-				84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */,
-				84AA8B6C2B32F3B5003F5B82 /* PathfinderMob.cpp */,
-				84AA8B6D2B32F3B5003F5B82 /* PathfinderMob.hpp */,
-				84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */,
-				84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */,
-				84AA8B702B32F3B5003F5B82 /* Player.cpp */,
-				840DD6632AC810620006A435 /* Player.hpp */,
-				84AA8B722B32F3B5003F5B82 /* PrimedTnt.cpp */,
-				840DD6652AC810620006A435 /* PrimedTnt.hpp */,
-				84E78C792B58B3E000D515EF /* Rocket.cpp */,
-				84E78C7A2B58B3E000D515EF /* Rocket.hpp */,
-				8445E79C2D769329008DC834 /* Sheep.cpp */,
-				8445E79D2D769329008DC834 /* Sheep.hpp */,
-				8445E79E2D769329008DC834 /* SynchedEntityData.cpp */,
-				8445E79F2D769329008DC834 /* SynchedEntityData.hpp */,
-				84AA8B742B32F3B5003F5B82 /* TripodCamera.cpp */,
-				840DD6672AC810620006A435 /* TripodCamera.hpp */,
-				84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */,
-				84AA8B772B32F3B5003F5B82 /* WaterAnimal.hpp */,
 				840DD6582AC810620006A435 /* Entity.cpp */,
-				840DD6592AC810620006A435 /* Entity.hpp */,
-				840DD65A2AC810620006A435 /* FallingTile.cpp */,
+				8445E7962D769329008DC834 /* EntityCategories.hpp */,
+				8445E7952D769329008DC834 /* EntityCategories.cpp */,
+				8470AF282BE9B60900BCA54E /* EntityType.hpp */,
+				8445E7972D769329008DC834 /* EntityType.cpp */,
+				8445E7992D769329008DC834 /* EntityTypeDescriptor.hpp */,
+				8445E7982D769329008DC834 /* EntityTypeDescriptor.cpp */,
 				840DD65B2AC810620006A435 /* FallingTile.hpp */,
-				840DD65C2AC810620006A435 /* ItemEntity.cpp */,
+				840DD65A2AC810620006A435 /* FallingTile.cpp */,
 				840DD65D2AC810620006A435 /* ItemEntity.hpp */,
-				840DD65E2AC810620006A435 /* LocalPlayer.cpp */,
+				840DD65C2AC810620006A435 /* ItemEntity.cpp */,
 				840DD65F2AC810620006A435 /* LocalPlayer.hpp */,
-				840DD6602AC810620006A435 /* Mob.cpp */,
+				840DD65E2AC810620006A435 /* LocalPlayer.cpp */,
 				840DD6612AC810620006A435 /* Mob.hpp */,
-				840DD6622AC810620006A435 /* Player.cpp */,
+				840DD6602AC810620006A435 /* Mob.cpp */,
+				8445E79B2D769329008DC834 /* MobCategory.hpp */,
+				8445E79A2D769329008DC834 /* MobCategory.cpp */,
+				8470AF2A2BE9B60A00BCA54E /* MobFactory.hpp */,
+				8470AF292BE9B60A00BCA54E /* MobFactory.cpp */,
+				84AA8B6B2B32F3B5003F5B82 /* Monster.hpp */,
+				84AA8B6A2B32F3B5003F5B82 /* Monster.cpp */,
+				84AA8B6D2B32F3B5003F5B82 /* PathfinderMob.hpp */,
+				84AA8B6C2B32F3B5003F5B82 /* PathfinderMob.cpp */,
+				84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */,
+				84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */,
 				840DD6632AC810620006A435 /* Player.hpp */,
-				840DD6642AC810620006A435 /* PrimedTnt.cpp */,
+				84AA8B702B32F3B5003F5B82 /* Player.cpp */,
+				840DD6622AC810620006A435 /* Player.cpp */,
 				840DD6652AC810620006A435 /* PrimedTnt.hpp */,
-				840DD6662AC810620006A435 /* TripodCamera.cpp */,
+				840DD6642AC810620006A435 /* PrimedTnt.cpp */,
+				84E78C7A2B58B3E000D515EF /* Rocket.hpp */,
+				84E78C792B58B3E000D515EF /* Rocket.cpp */,
+				8445E79D2D769329008DC834 /* Sheep.hpp */,
+				8445E79C2D769329008DC834 /* Sheep.cpp */,
+				8445E79F2D769329008DC834 /* SynchedEntityData.hpp */,
+				8445E79E2D769329008DC834 /* SynchedEntityData.cpp */,
 				840DD6672AC810620006A435 /* TripodCamera.hpp */,
+				840DD6662AC810620006A435 /* TripodCamera.cpp */,
+				84AA8B772B32F3B5003F5B82 /* WaterAnimal.hpp */,
+				84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */,
 			);
 			path = entity;
 			sourceTree = "<group>";
@@ -2775,25 +2745,25 @@
 		840DD67E2AC810620006A435 /* level */ = {
 			isa = PBXGroup;
 			children = (
-				840DD67F2AC810620006A435 /* Dimension.cpp */,
 				840DD6802AC810620006A435 /* Dimension.hpp */,
-				840DD6812AC810620006A435 /* Explosion.cpp */,
+				840DD67F2AC810620006A435 /* Dimension.cpp */,
 				840DD6822AC810620006A435 /* Explosion.hpp */,
-				840DD6832AC810620006A435 /* Level.cpp */,
+				840DD6812AC810620006A435 /* Explosion.cpp */,
 				840DD6842AC810620006A435 /* Level.hpp */,
+				840DD6832AC810620006A435 /* Level.cpp */,
 				840DD6852AC810620006A435 /* levelgen */,
-				840DD6AF2AC810620006A435 /* LevelListener.cpp */,
 				840DD6B02AC810620006A435 /* LevelListener.hpp */,
-				840DD6B12AC810620006A435 /* Material.cpp */,
+				840DD6AF2AC810620006A435 /* LevelListener.cpp */,
 				840DD6B22AC810620006A435 /* Material.hpp */,
+				840DD6B12AC810620006A435 /* Material.cpp */,
 				84AA8B472B32F39A003F5B82 /* path */,
-				840DD6B32AC810620006A435 /* Region.cpp */,
 				840DD6B42AC810620006A435 /* Region.hpp */,
+				840DD6B32AC810620006A435 /* Region.cpp */,
 				840DD6B52AC810620006A435 /* storage */,
-				840DD6CC2AC810620006A435 /* TickNextTickData.cpp */,
 				840DD6CD2AC810620006A435 /* TickNextTickData.hpp */,
-				8477B3AA2C4DC3F6004E1AC5 /* TilePos.cpp */,
+				840DD6CC2AC810620006A435 /* TickNextTickData.cpp */,
 				8477B3AB2C4DC3F6004E1AC5 /* TilePos.hpp */,
+				8477B3AA2C4DC3F6004E1AC5 /* TilePos.cpp */,
 			);
 			path = level;
 			sourceTree = "<group>";
@@ -3032,7 +3002,6 @@
 			isa = PBXGroup;
 			children = (
 				840DD7312AC810620006A435 /* GL */,
-				840DD7372AC810620006A435 /* LibPNG */,
 				840DD7392AC810620006A435 /* raknet */,
 				840DD8472AC810630006A435 /* SDL2 */,
 				84AA8C802B32FB32003F5B82 /* stb_image */,
@@ -3051,14 +3020,6 @@
 				840DD7352AC810620006A435 /* readme.txt */,
 			);
 			path = GL;
-			sourceTree = "<group>";
-		};
-		840DD7372AC810620006A435 /* LibPNG */ = {
-			isa = PBXGroup;
-			children = (
-				840DD7382AC810620006A435 /* png.h */,
-			);
-			path = LibPNG;
 			sourceTree = "<group>";
 		};
 		840DD7392AC810620006A435 /* raknet */ = {
@@ -3691,51 +3652,51 @@
 		84AA8B982B32F3F3003F5B82 /* renderer */ = {
 			isa = PBXGroup;
 			children = (
-				84AA8B992B32F3F3003F5B82 /* Chunk.cpp */,
 				84AA8B9A2B32F3F3003F5B82 /* Chunk.hpp */,
-				84AA8B9B2B32F3F3003F5B82 /* Culler.cpp */,
+				84AA8B992B32F3F3003F5B82 /* Chunk.cpp */,
 				84AA8B9C2B32F3F3003F5B82 /* Culler.hpp */,
-				84AA8B9D2B32F3F3003F5B82 /* DynamicTexture.cpp */,
+				84AA8B9B2B32F3F3003F5B82 /* Culler.cpp */,
 				84AA8B9E2B32F3F3003F5B82 /* DynamicTexture.hpp */,
+				84AA8B9D2B32F3F3003F5B82 /* DynamicTexture.cpp */,
 				84AA8B9F2B32F3F3003F5B82 /* entity */,
 				84AA8BC42B32F3F3003F5B82 /* FireTexture.cpp */,
-				84AA8BC52B32F3F3003F5B82 /* FoliageColor.cpp */,
 				84AA8BC62B32F3F3003F5B82 /* FoliageColor.hpp */,
-				84AA8BC72B32F3F3003F5B82 /* Font.cpp */,
+				84AA8BC52B32F3F3003F5B82 /* FoliageColor.cpp */,
 				84AA8BC82B32F3F3003F5B82 /* Font.hpp */,
-				84AA8BC92B32F3F3003F5B82 /* Frustum.cpp */,
+				84AA8BC72B32F3F3003F5B82 /* Font.cpp */,
 				84AA8BCA2B32F3F3003F5B82 /* Frustum.hpp */,
-				84AA8BCB2B32F3F3003F5B82 /* FrustumCuller.cpp */,
+				84AA8BC92B32F3F3003F5B82 /* Frustum.cpp */,
 				84AA8BCC2B32F3F3003F5B82 /* FrustumCuller.hpp */,
-				84AA8BCD2B32F3F3003F5B82 /* GameRenderer.cpp */,
+				84AA8BCB2B32F3F3003F5B82 /* FrustumCuller.cpp */,
 				84AA8BCE2B32F3F3003F5B82 /* GameRenderer.hpp */,
-				84AA8BCF2B32F3F3003F5B82 /* GrassColor.cpp */,
+				84AA8BCD2B32F3F3003F5B82 /* GameRenderer.cpp */,
 				84AA8BD02B32F3F3003F5B82 /* GrassColor.hpp */,
-				84AA8BD12B32F3F3003F5B82 /* ItemInHandRenderer.cpp */,
+				84AA8BCF2B32F3F3003F5B82 /* GrassColor.cpp */,
 				84AA8BD22B32F3F3003F5B82 /* ItemInHandRenderer.hpp */,
+				84AA8BD12B32F3F3003F5B82 /* ItemInHandRenderer.cpp */,
 				84AA8BD32B32F3F3003F5B82 /* LavaSideTexture.cpp */,
 				84AA8BD42B32F3F3003F5B82 /* LavaTexture.cpp */,
-				84AA8BD52B32F3F3003F5B82 /* LevelRenderer.cpp */,
 				84AA8BD62B32F3F3003F5B82 /* LevelRenderer.hpp */,
-				849488342C9284DA006DB706 /* Lighting.cpp */,
+				84AA8BD52B32F3F3003F5B82 /* LevelRenderer.cpp */,
 				849488352C9284DA006DB706 /* Lighting.hpp */,
-				84AA8BD72B32F3F3003F5B82 /* LightLayer.cpp */,
+				849488342C9284DA006DB706 /* Lighting.cpp */,
 				84AA8BD82B32F3F3003F5B82 /* LightLayer.hpp */,
-				84AA8BD92B32F3F3003F5B82 /* LightUpdate.cpp */,
+				84AA8BD72B32F3F3003F5B82 /* LightLayer.cpp */,
 				84AA8BDA2B32F3F3003F5B82 /* LightUpdate.hpp */,
-				84AA8BDB2B32F3F3003F5B82 /* PatchManager.cpp */,
+				84AA8BD92B32F3F3003F5B82 /* LightUpdate.cpp */,
 				84AA8BDC2B32F3F3003F5B82 /* PatchManager.hpp */,
-				84AA8BDD2B32F3F3003F5B82 /* RenderChunk.cpp */,
+				84AA8BDB2B32F3F3003F5B82 /* PatchManager.cpp */,
 				84AA8BDE2B32F3F3003F5B82 /* RenderChunk.hpp */,
-				84AA8BDF2B32F3F3003F5B82 /* RenderList.cpp */,
+				84AA8BDD2B32F3F3003F5B82 /* RenderChunk.cpp */,
 				84AA8BE02B32F3F3003F5B82 /* RenderList.hpp */,
-				84AA8BE12B32F3F3003F5B82 /* Tesselator.cpp */,
+				84AA8BDF2B32F3F3003F5B82 /* RenderList.cpp */,
 				84AA8BE22B32F3F3003F5B82 /* Tesselator.hpp */,
+				84AA8BE12B32F3F3003F5B82 /* Tesselator.cpp */,
 				84AA8BE32B32F3F3003F5B82 /* Texture.hpp */,
-				84AA8BE42B32F3F3003F5B82 /* Textures.cpp */,
 				84AA8BE52B32F3F3003F5B82 /* Textures.hpp */,
-				84AA8BE62B32F3F3003F5B82 /* TileRenderer.cpp */,
+				84AA8BE42B32F3F3003F5B82 /* Textures.cpp */,
 				84AA8BE72B32F3F3003F5B82 /* TileRenderer.hpp */,
+				84AA8BE62B32F3F3003F5B82 /* TileRenderer.cpp */,
 				84AA8BE82B32F3F3003F5B82 /* VertexPT.hpp */,
 				84AA8BE92B32F3F3003F5B82 /* WaterSideTexture.cpp */,
 				84AA8BEA2B32F3F3003F5B82 /* WaterTexture.cpp */,

@@ -22,7 +22,7 @@
 
 
 #ifdef USE_GLES
-	#if MC_TARGET_OS_IOS
+	#if MC_PLATFORM_IOS
 		 #import <OpenGLES/ES1/gl.h>
 		 #import <OpenGLES/ES1/glext.h>
 

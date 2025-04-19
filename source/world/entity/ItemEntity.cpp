@@ -77,7 +77,7 @@ void ItemEntity::playerTouch(Player* player)
 
 	player->take(this, m_itemInstance.m_amount);
 
-	if (m_itemInstance.m_amount <= 0)
+	if (m_itemInstance.m_count <= 0)
 		remove();
 }
 

@@ -18,7 +18,7 @@
 
 #if !defined(WINDOWS_STORE_RT) && !defined(__native_client__)
 
-#if MC_TARGET_OS_IOS
+#if MC_PLATFORM_IOS
 
 // Lifed from SLikeNet because *just* iOS 6 was bitching and moaning 25% of the time
 // iOS 6 SDK makes phones hate this for some reason
@@ -107,7 +107,7 @@ void GetMyIP_Linux(SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS], cons
 	}
 }
 
-#else // !MC_TARGET_OS_IOS
+#else // !MC_PLATFORM_IOS
 
 #if RAKNET_SUPPORT_IPV6==1
 
@@ -196,19 +196,19 @@ void GetMyIP_Windows_Linux_IPV4( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTER
 
 #endif // RAKNET_SUPPORT_IPV6==1
 
-#endif // MC_TARGET_OS_IOS
+#endif // MC_PLATFORM_IOS
 
 
 void GetMyIP_Windows_Linux( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 {
 	#if RAKNET_SUPPORT_IPV6==1
-		#if MC_TARGET_OS_IOS
+		#if MC_PLATFORM_IOS
 			GetMyIP_Linux(addresses, true);
 		#else
 			GetMyIP_Windows_Linux_IPV4And6(addresses);
 		#endif
 	#else
-		#if MC_TARGET_OS_IOS
+		#if MC_PLATFORM_IOS
 			GetMyIP_Linux(addresses, false);
 		#else
 			GetMyIP_Windows_Linux_IPV4(addresses);

@@ -128,10 +128,10 @@ void GameMode::handleCloseInventory(int a, Player* player)
 
 bool GameMode::useItem(Player* player, Level* level, ItemInstance* instance)
 {
-	int oldAmount = instance->m_amount;
+	int oldCount = instance->m_count;
 
 	if (instance == instance->use(level, player))
-		return instance->m_amount != oldAmount;
+		return instance->m_count != oldCount;
 
 	return true;
 }

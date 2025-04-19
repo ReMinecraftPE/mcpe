@@ -33,7 +33,7 @@ bool TilePlanterItem::useOn(ItemInstance* instance, Player* player, Level* level
 		case Facing::EAST: tp.x++; break;
 	}
 
-	if (!instance->m_amount)
+	if (!instance->m_count)
 		return false;
 
 	// why?
@@ -46,6 +46,6 @@ bool TilePlanterItem::useOn(ItemInstance* instance, Player* player, Level* level
 	Tile::tiles[m_tile]->setPlacedOnFace(level, tp, face);
 	Tile::tiles[m_tile]->setPlacedBy(level, tp, player);
 
-	instance->m_amount--;
+	instance->m_count--;
 	return true;
 }

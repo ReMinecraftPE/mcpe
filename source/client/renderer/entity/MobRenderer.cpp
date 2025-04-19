@@ -38,7 +38,7 @@ float MobRenderer::getAttackAnim(Mob* mob, float f)
 
 float MobRenderer::getBob(Mob* mob, float f)
 {
-	return float(mob->field_B4) + f;
+	return float(mob->m_tickCount) + f;
 }
 
 float MobRenderer::getFlipDegrees(Mob* mob)
