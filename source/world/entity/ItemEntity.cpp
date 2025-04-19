@@ -75,7 +75,7 @@ void ItemEntity::playerTouch(Player* player)
 	m_pLevel->playSound(this, "random.pop", 0.2f,
 		(((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f) * 2.0f);
 
-	player->take(this, m_itemInstance.m_amount);
+	player->take(this, m_itemInstance.m_count);
 
 	if (m_itemInstance.m_count <= 0)
 		remove();

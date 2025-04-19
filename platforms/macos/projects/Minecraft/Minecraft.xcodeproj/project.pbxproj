@@ -200,6 +200,8 @@
 		8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
 		8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */; };
 		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
+		843C50C12DB40E73006680A3 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 843C50B82DB40E73006680A3 /* SoundSystemAL.cpp */; };
+		843C50C82DB40E73006680A3 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 843C50B82DB40E73006680A3 /* SoundSystemAL.cpp */; };
 		8443B6EA2A98675F0086730C /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8443B6E92A98675F0086730C /* libSDL2.a */; };
 		8445E7A02D769329008DC834 /* EntityCategories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E7952D769329008DC834 /* EntityCategories.cpp */; };
 		8445E7A12D769329008DC834 /* EntityCategories.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8445E7962D769329008DC834 /* EntityCategories.hpp */; };
@@ -245,7 +247,6 @@
 		84619B212AF1EDA300B0DE81 /* libWorld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF630B2AF1859D008A9995 /* libWorld.a */; };
 		84619B222AF1EDA300B0DE81 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
 		84619B392AF1F73900B0DE81 /* GL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6552AC810620006A435 /* GL.hpp */; };
-		84619B3A2AF1FE1500B0DE81 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */; };
 		84619B3C2AF1FE4C00B0DE81 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */; };
 		84619B3E2AF1FEB700B0DE81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */; };
 		8470AF2B2BE9B60A00BCA54E /* EntityType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF282BE9B60900BCA54E /* EntityType.hpp */; };
@@ -895,7 +896,6 @@
 		84EAE8DE2AF1EAA1000894E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */; };
 		84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */; };
 		84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */; };
-		84EAE8F32AF1EAFA000894E8 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */; };
 		84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8F12AF1EAFA000894E8 /* main.cpp */; };
 		84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
@@ -1776,6 +1776,8 @@
 		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = ../Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
 		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = ../Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
 		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = ../Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
+		843C50B72DB40E73006680A3 /* CustomSoundSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CustomSoundSystem.hpp; sourceTree = "<group>"; };
+		843C50B82DB40E73006680A3 /* SoundSystemAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemAL.cpp; sourceTree = "<group>"; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
 		8445E7952D769329008DC834 /* EntityCategories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityCategories.cpp; sourceTree = "<group>"; };
 		8445E7962D769329008DC834 /* EntityCategories.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityCategories.hpp; sourceTree = "<group>"; };
@@ -2164,8 +2166,6 @@
 		84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		84EAE8E12AF1EAB5000894E8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemAL.cpp; sourceTree = "<group>"; };
-		84EAE8E72AF1EAFA000894E8 /* CustomSoundSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CustomSoundSystem.hpp; sourceTree = "<group>"; };
 		84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		84EAE8F12AF1EAFA000894E8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = minecraftpe.entitlements; sourceTree = "<group>"; };
@@ -3342,8 +3342,8 @@
 			isa = PBXGroup;
 			children = (
 				84790AEC2AD7DA410076F2A1 /* ios */,
-				84EAE8E52AF1EAFA000894E8 /* openal */,
 				84EAE8E82AF1EAFA000894E8 /* sdl */,
+				843C50BF2DB40E73006680A3 /* sound */,
 			);
 			name = platforms;
 			path = ../../..;
@@ -3383,6 +3383,23 @@
 				84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */,
 			);
 			name = macOS;
+			sourceTree = "<group>";
+		};
+		843C50B92DB40E73006680A3 /* openal */ = {
+			isa = PBXGroup;
+			children = (
+				843C50B72DB40E73006680A3 /* CustomSoundSystem.hpp */,
+				843C50B82DB40E73006680A3 /* SoundSystemAL.cpp */,
+			);
+			path = openal;
+			sourceTree = "<group>";
+		};
+		843C50BF2DB40E73006680A3 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				843C50B92DB40E73006680A3 /* openal */,
+			);
+			path = sound;
 			sourceTree = "<group>";
 		};
 		8470AF422BE9B8B600BCA54E /* environment */ = {
@@ -3901,15 +3918,6 @@
 				84E0018E2AF3A28B009B9555 /* char.png */,
 			);
 			path = mob;
-			sourceTree = "<group>";
-		};
-		84EAE8E52AF1EAFA000894E8 /* openal */ = {
-			isa = PBXGroup;
-			children = (
-				84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */,
-				84EAE8E72AF1EAFA000894E8 /* CustomSoundSystem.hpp */,
-			);
-			path = openal;
 			sourceTree = "<group>";
 		};
 		84EAE8E82AF1EAFA000894E8 /* sdl */ = {
@@ -4854,12 +4862,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84EAE8F32AF1EAFA000894E8 /* SoundSystemAL.cpp in Sources */,
 				84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */,
 				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */,
 				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */,
 				84AA8E4D2B32FB33003F5B82 /* stb_vorbis.c in Sources */,
 				84AA8E802B32FB33003F5B82 /* stb_image_impl.c in Sources */,
+				843C50C82DB40E73006680A3 /* SoundSystemAL.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4867,12 +4875,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84619B3A2AF1FE1500B0DE81 /* SoundSystemAL.cpp in Sources */,
 				849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */,
 				8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */,
 				8492595B2AD8FD4F0081F5B9 /* Shader.fsh in Sources */,
 				8492595C2AD8FD4F0081F5B9 /* Shader.vsh in Sources */,
 				849259622AD8FDD10081F5B9 /* main.m in Sources */,
+				843C50C12DB40E73006680A3 /* SoundSystemAL.cpp in Sources */,
 				84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */,
 				8495E4892AF0905B00A06901 /* AppPlatform_iOS.mm in Sources */,
 				8488C08A2B1EDD4F001AEC4F /* ShowKeyboardView.mm in Sources */,
