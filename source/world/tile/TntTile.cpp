@@ -44,7 +44,12 @@ void TntTile::destroy(Level* level, const TilePos& pos, int data)
 void TntTile::wasExploded(Level* level, const TilePos& pos)
 {
 	PrimedTnt* tnt = new PrimedTnt(level, Vec3(pos) + 0.5f);
-	tnt->m_fuseTimer = level->m_random.nextInt(tnt->m_fuseTimer / 4) + tnt->m_fuseTimer / 8;
+
+	unsigned int timer = tnt->m_fuseTimer;
+	if (timer < 4)
+		timer = 4;
+
+	tnt->m_fuseTimer = level->m_random.nextInt(timer / 4) + timer / 8;
 	level->addEntity(tnt);
 }
 

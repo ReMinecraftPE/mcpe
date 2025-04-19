@@ -614,7 +614,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 
 			for (int i = 0; i++ < amount;)
 			{
-				Mob* mob = MobFactory::CreateMob(descriptor->getEntityType().getId(), m_pLevel);
+				Entity* mob = MobFactory::CreateMob(descriptor->getEntityType().getId(), m_pLevel);
 				if (mob == nullptr)
 				{
 					ss << "Unable to summon object";

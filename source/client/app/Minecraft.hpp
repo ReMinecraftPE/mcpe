@@ -107,7 +107,6 @@ public:
 	static int customDebugId;
 
 private:
-	Logger *m_Logger;
 	Options *m_options;
 
 public:

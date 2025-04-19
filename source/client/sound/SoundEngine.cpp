@@ -22,49 +22,20 @@ SoundEngine::SoundEngine(SoundSystem* soundSystem)
 
 float SoundEngine::_getVolumeMult(const Vec3& pos)
 {
+	// @TODO: this is not supposed to be a constant
 	return 1.0f;
 }
 
-void SoundEngine::init(Options* options)
+void SoundEngine::init(Options* options, AppPlatform* platform)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	m_pOptions = options;
+	// Load Sounds
+	SoundDesc::_load(platform);
 
-#ifndef MISSING_SOUND_DATA
-	m_repository.add("step.cloth", SA_cloth1);
-	m_repository.add("step.cloth", SA_cloth2);
-	m_repository.add("step.cloth", SA_cloth3);
-	m_repository.add("step.cloth", SA_cloth4);
-
-	m_repository.add("step.grass", SA_grass1);
-	m_repository.add("step.grass", SA_grass2);
-	m_repository.add("step.grass", SA_grass3);
-	m_repository.add("step.grass", SA_grass4);
-
-	m_repository.add("step.gravel", SA_gravel1);
-	m_repository.add("step.gravel", SA_gravel2);
-	m_repository.add("step.gravel", SA_gravel3);
-	m_repository.add("step.gravel", SA_gravel4);
-
-	m_repository.add("step.sand", SA_sand1);
-	m_repository.add("step.sand", SA_sand2);
-	m_repository.add("step.sand", SA_sand3);
-	m_repository.add("step.sand", SA_sand4);
-
-	m_repository.add("step.stone", SA_stone1);
-	m_repository.add("step.stone", SA_stone2);
-	m_repository.add("step.stone", SA_stone3);
-	m_repository.add("step.stone", SA_stone4);
-
-	m_repository.add("step.wood", SA_wood1);
-	m_repository.add("step.wood", SA_wood2);
-	m_repository.add("step.wood", SA_wood3);
-	m_repository.add("step.wood", SA_wood4);
-
-	m_repository.add("random.splash",  SA_splash);
-	m_repository.add("random.explode", SA_explode);
-	m_repository.add("random.click",   SA_click);
-#endif
+#define SOUND(category, name) m_sounds.add(category, SA_##name);
+#include "sound_list.h"
+#undef SOUND
 }
 
 void SoundEngine::enable(bool b)
@@ -99,7 +70,25 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 	float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
 	SoundDesc sd;
 
-	if (m_repository.get(name, sd)) {
+	if (m_sounds.get(name, sd))
+	{
 		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
+	}
+}
+
+void SoundEngine::playUI(const std::string& name, float volume, float pitch)
+{
+	volume *= 0.25F; // present on Java b1.2_02, but not Pocket for some reason
+	float vol = m_pOptions->m_fMasterVolume * volume;
+	if (vol <= 0.0f)
+		return;
+
+	float cVolume = Mth::clamp(vol, 0.0f, 1.0f);
+	float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
+	SoundDesc sd;
+
+	if (m_sounds.get(name, sd))
+	{
+		m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, cVolume, pitch);
 	}
 }

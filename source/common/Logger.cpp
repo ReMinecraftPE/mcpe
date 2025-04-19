@@ -12,11 +12,14 @@ Logger* const Logger::singleton()
     return m_singleton;
 }
 
-Logger::Logger()
+void Logger::setSingleton(Logger* logger)
 {
     // Stick with the first output handle we get
-    if (!m_singleton)
-        m_singleton = this;
+    if (!m_singleton) {
+        m_singleton = logger;
+    } else {
+        m_singleton->print(LOG_ERR, "Logging already setup!");
+    }
 }
 
 Logger::~Logger()

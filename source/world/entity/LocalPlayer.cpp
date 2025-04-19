@@ -87,6 +87,11 @@ bool LocalPlayer::isImmobile() const
 	return Player::isImmobile() || (m_pMinecraft->useController() && m_pMinecraft->m_pScreen); //!m_pMinecraft->m_bGrabbedMouse; // this works if we still set this when not using a mouse
 }
 
+void LocalPlayer::take(Entity* pEnt, int orgCount)
+{
+	//m_pMinecraft->m_pParticleEngine->add(new TakeAnimationParticle(m_pLevel, pEnt, this, -0.5f));
+}
+
 void LocalPlayer::animateRespawn()
 {
 

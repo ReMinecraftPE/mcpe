@@ -183,8 +183,8 @@ public:
 	float field_30;
 	bool m_bBlocksBuilding;
 	Level* m_pLevel;
-	Vec3 m_oPos; // "o" in Java or "xo" ""yo" "zo"
-	Vec3 m_vel;
+	Vec3 m_oPos; // "o" in Java or "xo" "yo" "zo"
+	Vec3 m_vel; // "d" in Java or "xd" "yd" "zd"
 	Vec2 m_rot;
 	//maybe these are the actual m_yaw and m_pitch, and
 	//the one I annotated are the destination yaw and pitch.
@@ -210,7 +210,7 @@ public:
 	bool m_bNoPhysics;
 	float field_B0;
 	int m_tickCount;
-	int field_B8;
+	int m_invulnerableTime;
 	int m_airCapacity;
 	int m_fireTicks;
 	int m_flameTime;

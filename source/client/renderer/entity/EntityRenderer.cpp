@@ -138,7 +138,7 @@ Level* EntityRenderer::getLevel() const
 	return m_pDispatcher->m_pLevel;
 }
 
-void EntityRenderer::renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePos, float pow, float r, const Vec3& oPos)
+void EntityRenderer::renderTileShadow(Tile* tt, const Vec3& pos, const TilePos& tilePos, float pow, float r, const Vec3& oPos)
 {
 	Tesselator& t = Tesselator::instance;
 	if (!tt->isCubeShaped()) return;

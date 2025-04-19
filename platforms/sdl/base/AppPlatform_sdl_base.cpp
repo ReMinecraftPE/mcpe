@@ -13,7 +13,10 @@
 
 #include "common/Utils.hpp"
 
-#include "SoundSystemAL.hpp"
+#include "CustomSoundSystem.hpp"
+// Macros are cursed
+#define _STR(x) #x
+#define STR(x) _STR(x)
 
 #include "client/player/input/Controller.hpp"
 
@@ -30,7 +33,6 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 
 	ensureDirectoryExists(_storageDir.c_str());
 
-	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;
 
 	// Default Touchscreen Mode
@@ -61,8 +63,8 @@ void AppPlatform_sdl_base::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
-		LOG_I("Initializing OpenAL SoundSystem...");
-		m_pSoundSystem = new SoundSystemAL();
+		LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
+		m_pSoundSystem = new SOUND_SYSTEM();
 	}
 	else
 	{
@@ -109,9 +111,6 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 	SAFE_DELETE(_iconTexture);
 
 	SAFE_DELETE(m_pSoundSystem);
-
-	// DELETE THIS LAST
-	SAFE_DELETE(m_pLogger);
 }
 
 SDL_GameController* AppPlatform_sdl_base::findGameController()
@@ -409,4 +408,29 @@ void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIn
 		Controller::feedTrigger(2, val);
 		break;
 	}
+}
+
+AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str) const
+{
+	std::string path = getAssetPath(str);
+	SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
+	// Open File
+	if (!io)
+	{
+		LOG_W("Couldn't find asset file: %s", path.c_str());
+		return AssetFile();
+	}
+	// Get File Size
+	ptrdiff_t size = SDL_RWsize(io);
+	if (size < 0)
+	{
+		LOG_E("Error determining the size of the asset file!");
+	}
+	// Read Data
+	unsigned char *buf = new unsigned char[size];
+	SDL_RWread(io, buf, size, 1);
+	// Close File
+	SDL_RWclose(io);
+	// Return
+	return AssetFile(size, buf);
 }

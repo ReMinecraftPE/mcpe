@@ -1267,7 +1267,7 @@ bool Level::isUnobstructed(AABB* aabb) const
 	{
 		Entity* pEnt = *it;
 		if (!pEnt->m_bRemoved && pEnt->m_bBlocksBuilding)
-            return false;
+			return false;
 	}
 
 	return true;
@@ -1520,7 +1520,7 @@ HitResult Level::clip(Vec3 v1, Vec3 v2, bool flag) const
 		if (xd != 999.0f) xe = (float)(xd - v1.x) / xl;
 		if (yd != 999.0f) ye = (float)(yd - v1.y) / yl;
 		if (zd != 999.0f) ze = (float)(zd - v1.z) / zl;
-		int hitSide = 0;
+		Facing::Name hitSide = Facing::DOWN;
 		if (xe >= ye || xe >= ze)
 		{
 			if (ye >= ze)
@@ -1647,12 +1647,12 @@ void Level::playSound(Entity* entity, const std::string& name, float volume, flo
 	}
 }
 
-void Level::playSound(const Vec3& pos, const std::string& name, float a, float b)
+void Level::playSound(const Vec3& pos, const std::string& name, float volume, float pitch)
 {
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
-		pListener->playSound(name, pos, a, b);
+		pListener->playSound(name, pos, volume, pitch);
 	}
 }
 
@@ -1750,7 +1750,10 @@ bool Level::extinguishFire(Player* player, const TilePos& pos, Facing::Name face
 	TilePos p(pos.relative(face));
 
 	if (getTile(p) == Tile::fire->m_ID)
+	{
+		playSound(pos + 0.5f, "random.fizz", 0.5f, 2.6f + (m_random.nextFloat() - m_random.nextFloat()) * 0.8f);
 		return setTile(p, TILE_AIR);
+	}
 
 	return false;
 }

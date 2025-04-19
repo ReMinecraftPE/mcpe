@@ -62,6 +62,7 @@ void NinecraftApp::initGLStates()
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1f);
+	//glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glEnable(GL_TEXTURE_2D);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
