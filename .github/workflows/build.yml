@@ -58,7 +58,6 @@ jobs:
                 port install libpng +universal
           - name: Build macOS Archive
             run: |
-                ln -s sound/openal platforms/openal # Please someone fix this properly later.
                 cd platforms/macos/projects/Minecraft
                 xcodebuild -scheme "MinecraftClient.SDL2" \
                 -archivePath $RUNNER_TEMP/GitHubActions_MacOS_SDL2.xcarchive \
