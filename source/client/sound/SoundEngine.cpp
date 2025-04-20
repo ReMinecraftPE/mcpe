@@ -31,9 +31,9 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	m_pOptions = options;
 	// Load Sounds
-	SoundDesc::_load(platform);
+	SoundDesc::_loadAll(platform);
 
-#define SOUND(category, name) m_sounds.add(category, SA_##name);
+#define SOUND(category, name, number) m_sounds.add(#category "." #name, SA_##name##number);
 #include "sound_list.h"
 #undef SOUND
 }
@@ -58,6 +58,8 @@ void SoundEngine::unMute()
 
 void SoundEngine::destroy()
 {
+    // Un-load Sounds
+    SoundDesc::_unloadAll();
 }
 
 void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, float pitch)

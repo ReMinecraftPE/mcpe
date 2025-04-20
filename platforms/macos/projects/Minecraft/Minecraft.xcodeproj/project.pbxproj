@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8400E0532DB53AE100FFB167 /* sound_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 8400E0522DB53AE100FFB167 /* sound_list.h */; };
 		8406FD2A2AF181B800B09C1D /* GL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6542AC810620006A435 /* GL.cpp */; };
 		8406FD2C2AF1820700B09C1D /* MinecraftPackets.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63B2AC810620006A435 /* MinecraftPackets.hpp */; };
 		8406FD2D2AF1820700B09C1D /* NetEventCallback.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63D2AC810620006A435 /* NetEventCallback.hpp */; };
@@ -521,7 +522,6 @@
 		84AA8C762B32F536003F5B82 /* ZombieModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C582B32F535003F5B82 /* ZombieModel.cpp */; };
 		84AA8C772B32F536003F5B82 /* ZombieModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C592B32F535003F5B82 /* ZombieModel.hpp */; };
 		84AA8C792B32F578003F5B82 /* gui_custom.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AA8C782B32F578003F5B82 /* gui_custom.png */; };
-		84AA8E4D2B32FB33003F5B82 /* stb_vorbis.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8CD02B32FB32003F5B82 /* stb_vorbis.c */; };
 		84AA8E802B32FB33003F5B82 /* stb_image_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8E462B32FB33003F5B82 /* stb_image_impl.c */; };
 		84AAF6432AF18BD000BD67F4 /* GLExt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7332AC810620006A435 /* GLExt.cpp */; };
 		84AAF6442AF18BE700BD67F4 /* GL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD7322AC810620006A435 /* GL.hpp */; };
@@ -1124,6 +1124,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8400E0522DB53AE100FFB167 /* sound_list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sound_list.h; sourceTree = "<group>"; };
 		8406FD292AF1814500B09C1D /* libRenderer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRenderer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		840DD5792AC810620006A435 /* KeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KeyCodes.hpp; sourceTree = "<group>"; };
 		840DD57A2AC810620006A435 /* SDLKeyCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLKeyCodes.h; sourceTree = "<group>"; };
@@ -2166,7 +2167,6 @@
 		84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		84EAE8E12AF1EAB5000894E8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		84EAE8F12AF1EAFA000894E8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = minecraftpe.entitlements; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2536,15 +2536,16 @@
 		840DD61A2AC810620006A435 /* sound */ = {
 			isa = PBXGroup;
 			children = (
-				840DD61B2AC810620006A435 /* SoundData.cpp */,
+				8400E0522DB53AE100FFB167 /* sound_list.h */,
 				840DD61C2AC810620006A435 /* SoundData.hpp */,
+				840DD61B2AC810620006A435 /* SoundData.cpp */,
 				840DD61D2AC810620006A435 /* SoundDefs.hpp */,
-				840DD61E2AC810620006A435 /* SoundEngine.cpp */,
 				840DD61F2AC810620006A435 /* SoundEngine.hpp */,
-				840DD6202AC810620006A435 /* SoundRepository.cpp */,
+				840DD61E2AC810620006A435 /* SoundEngine.cpp */,
 				840DD6212AC810620006A435 /* SoundRepository.hpp */,
-				840DD6222AC810620006A435 /* SoundSystem.cpp */,
+				840DD6202AC810620006A435 /* SoundRepository.cpp */,
 				840DD6232AC810620006A435 /* SoundSystem.hpp */,
+				840DD6222AC810620006A435 /* SoundSystem.cpp */,
 			);
 			path = sound;
 			sourceTree = "<group>";
@@ -3924,7 +3925,6 @@
 			isa = PBXGroup;
 			children = (
 				841DD8712AF8AA7A00AA3B66 /* base */,
-				84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */,
 				841DD8742AF8AA7A00AA3B66 /* desktop */,
 				84EAE8F12AF1EAFA000894E8 /* main.cpp */,
 			);
@@ -4045,6 +4045,7 @@
 				84E001222AF39E84009B9555 /* IInputHolder.hpp in Headers */,
 				84E001242AF39E84009B9555 /* IMoveInput.hpp in Headers */,
 				84E001262AF39E84009B9555 /* IncludeExcludeArea.hpp in Headers */,
+				8400E0532DB53AE100FFB167 /* sound_list.h in Headers */,
 				84E001282AF39E84009B9555 /* ITouchScreenModel.hpp in Headers */,
 				84E0012A2AF39E84009B9555 /* MouseDevice.hpp in Headers */,
 				84E0012C2AF39E84009B9555 /* MouseHandler.hpp in Headers */,
@@ -4865,7 +4866,6 @@
 				84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */,
 				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */,
 				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */,
-				84AA8E4D2B32FB33003F5B82 /* stb_vorbis.c in Sources */,
 				84AA8E802B32FB33003F5B82 /* stb_image_impl.c in Sources */,
 				843C50C82DB40E73006680A3 /* SoundSystemAL.cpp in Sources */,
 			);
