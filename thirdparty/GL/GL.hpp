@@ -16,10 +16,8 @@
 	#include <EGL/egl.h>
 #endif
 
-#ifdef USE_GLES1_COMPATIBILITY_LAYER
-	#define USE_GLES // GLES or its compatibility layer.
-#endif
-
+// Disable this on OpenGL ES 2+
+#define USE_GL_NORMAL_LIGHTING
 
 #ifdef USE_GLES
 	#if MC_PLATFORM_IOS
@@ -38,9 +36,6 @@
 
 	#define USE_GL_ORTHO_F
 #else
-	// Standard OpenGL supports normals and lighting, OpenGL ES doesn't
-	#define USE_GL_NORMAL_LIGHTING
-
 	#ifdef USE_SDL
 		#define USE_OPENGL_2_FEATURES
 

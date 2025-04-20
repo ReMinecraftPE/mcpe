@@ -23,7 +23,9 @@ void Lighting::turnOn()
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
 	glEnable(GL_COLOR_MATERIAL);
+#if !defined(__EMSCRIPTEN__) && !defined(USE_GLES)
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+#endif
 
 	constexpr float a = 0.4f, d = 0.6f, s = 0.0f;
 

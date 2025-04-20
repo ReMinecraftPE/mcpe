@@ -74,7 +74,6 @@ private:
 	int xrel;
 	int yrel;
 
-	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 
 	bool m_bIsTouchscreen;

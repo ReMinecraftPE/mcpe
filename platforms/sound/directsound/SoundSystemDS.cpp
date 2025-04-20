@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #define WIN32_LEAN_AND_MEAN
-#include "SoundSystemDS.hpp"
+#include "CustomSoundSystem.hpp"
 #include "common/Utils.hpp"
 
 // @TODO: fix crash in playAt when Asan is active

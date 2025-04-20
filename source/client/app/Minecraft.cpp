@@ -98,8 +98,6 @@ Minecraft::Minecraft() :
 	m_fLastUpdated = 0;
 	m_fDeltaTime = 0;
 	m_lastInteractTime = 0;
-
-	m_Logger = new Logger();
 }
 
 int Minecraft::getLicenseId()
@@ -885,7 +883,6 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pUser);
 	SAFE_DELETE(m_pLevelStorageSource);
 	SAFE_DELETE(m_pInputHolder);
-	SAFE_DELETE(m_Logger);
 
 	//@BUG: potentially leaking a CThread instance if this is destroyed early?
 }
