@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8400E0532DB53AE100FFB167 /* sound_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 8400E0522DB53AE100FFB167 /* sound_list.h */; };
+		8400E0552DB5549900FFB167 /* stb_vorbis.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8CD02B32FB32003F5B82 /* stb_vorbis.c */; };
+		8400E0562DB5549900FFB167 /* stb_vorbis.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8CD02B32FB32003F5B82 /* stb_vorbis.c */; };
 		8406FD2A2AF181B800B09C1D /* GL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6542AC810620006A435 /* GL.cpp */; };
 		8406FD2C2AF1820700B09C1D /* MinecraftPackets.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63B2AC810620006A435 /* MinecraftPackets.hpp */; };
 		8406FD2D2AF1820700B09C1D /* NetEventCallback.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63D2AC810620006A435 /* NetEventCallback.hpp */; };
@@ -4863,6 +4865,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8400E0552DB5549900FFB167 /* stb_vorbis.c in Sources */,
 				84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */,
 				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */,
 				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */,
@@ -4875,6 +4878,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8400E0562DB5549900FFB167 /* stb_vorbis.c in Sources */,
 				849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */,
 				8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */,
 				8492595B2AD8FD4F0081F5B9 /* Shader.fsh in Sources */,
