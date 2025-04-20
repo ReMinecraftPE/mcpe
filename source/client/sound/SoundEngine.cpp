@@ -15,7 +15,7 @@ SoundEngine::SoundEngine(SoundSystem* soundSystem)
 	m_pSoundSystem = soundSystem;
 	m_pOptions = nullptr;
 	field_40 = 0;
-	field_A1C = 0;
+    m_noMusicDelay = m_random.nextInt(12000);
 	field_A20 = 0;
 	m_muted = false;
 }
@@ -74,7 +74,7 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 
 	if (m_sounds.get(name, sd))
 	{
-		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
+		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, cPitch);
 	}
 }
 
@@ -91,6 +91,6 @@ void SoundEngine::playUI(const std::string& name, float volume, float pitch)
 
 	if (m_sounds.get(name, sd))
 	{
-		m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, cVolume, pitch);
+		m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, cVolume, cPitch);
 	}
 }
