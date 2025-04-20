@@ -73,7 +73,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			Minecraft::width  = width;
 			Minecraft::height = height;
-			Minecraft::setGuiScaleMultiplier(1.0f); // assume no meddling with the DPI stuff
+			Minecraft::setRenderScaleMultiplier(1.0f); // assume no meddling with the DPI stuff
 
 			g_AppPlatform.setScreenSize(width, height);
 
