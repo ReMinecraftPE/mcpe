@@ -171,10 +171,6 @@ int AppPlatform_sdl_base::getScreenHeight() const
 	return height;
 }
 
-void AppPlatform_sdl_base::recenterMouse()
-{
-}
-
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);

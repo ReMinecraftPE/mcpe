@@ -19,6 +19,8 @@ public:
 	
 	bool hasFileSystemAccess() override;
     std::string getPatchData() override;
+
+	void recenterMouse() override;
 	
 protected:
 	void ensureDirectoryExists(const char* path) override;
