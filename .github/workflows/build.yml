@@ -68,7 +68,7 @@ jobs:
                 -sdk macosx \
                 -configuration "Release (Default)" \
                 -destination generic/platform=macOS \
-                GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
+                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
                 -quiet \
                 clean archive 
     # @NOTE: Newer versions of Xcode will complain and refuse to build old XIB files or target old iOS versions
@@ -87,7 +87,7 @@ jobs:
     #            -sdk iphoneos \
     #            -configuration "Release (iOS)" \
     #            -destination generic/platform=iOS \
-    #            GCC_PREPROCESSOR_DEFINITIONS='MISSING_SOUND_DATA $(GCC_PREPROCESSOR_DEFINITIONS)' \
+    #            GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
     #            -quiet \
     #            clean archive 
     android:
