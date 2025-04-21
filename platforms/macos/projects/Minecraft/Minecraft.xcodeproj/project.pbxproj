@@ -392,6 +392,7 @@
 		849FF0DC2AF465340013BAE3 /* char.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0018E2AF3A28B009B9555 /* char.png */; };
 		849FF0DD2AF465340013BAE3 /* particles.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0018F2AF3A28B009B9555 /* particles.png */; };
 		849FF0DE2AF465340013BAE3 /* terrain.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001912AF3A28B009B9555 /* terrain.png */; };
+		84A2FF162DB5B7B70090CE3E /* AssetFile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84A2FF152DB5B7B70090CE3E /* AssetFile.hpp */; };
 		84AA8B502B32F39A003F5B82 /* BinaryHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B482B32F39A003F5B82 /* BinaryHeap.cpp */; };
 		84AA8B512B32F39A003F5B82 /* BinaryHeap.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B492B32F39A003F5B82 /* BinaryHeap.hpp */; };
 		84AA8B522B32F39A003F5B82 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B4A2B32F39A003F5B82 /* Node.cpp */; };
@@ -1923,6 +1924,7 @@
 		849488352C9284DA006DB706 /* Lighting.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Lighting.hpp; sourceTree = "<group>"; };
 		8495E4872AF0905B00A06901 /* AppPlatform_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPlatform_iOS.h; sourceTree = "<group>"; };
 		8495E4882AF0905B00A06901 /* AppPlatform_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppPlatform_iOS.mm; sourceTree = "<group>"; };
+		84A2FF152DB5B7B70090CE3E /* AssetFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AssetFile.hpp; sourceTree = "<group>"; };
 		84AA8B482B32F39A003F5B82 /* BinaryHeap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BinaryHeap.cpp; sourceTree = "<group>"; };
 		84AA8B492B32F39A003F5B82 /* BinaryHeap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BinaryHeap.hpp; sourceTree = "<group>"; };
 		84AA8B4A2B32F39A003F5B82 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
@@ -2317,14 +2319,15 @@
 		840DD57D2AC810620006A435 /* app */ = {
 			isa = PBXGroup;
 			children = (
-				840DD57E2AC810620006A435 /* App.cpp */,
 				840DD57F2AC810620006A435 /* App.hpp */,
-				840DD5802AC810620006A435 /* AppPlatform.cpp */,
+				840DD57E2AC810620006A435 /* App.cpp */,
 				840DD5812AC810620006A435 /* AppPlatform.hpp */,
-				840DD5822AC810620006A435 /* Minecraft.cpp */,
+				840DD5802AC810620006A435 /* AppPlatform.cpp */,
+				84A2FF152DB5B7B70090CE3E /* AssetFile.hpp */,
 				840DD5832AC810620006A435 /* Minecraft.hpp */,
-				840DD5842AC810620006A435 /* NinecraftApp.cpp */,
+				840DD5822AC810620006A435 /* Minecraft.cpp */,
 				840DD5852AC810620006A435 /* NinecraftApp.hpp */,
+				840DD5842AC810620006A435 /* NinecraftApp.cpp */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -4082,6 +4085,7 @@
 				84AA8C2B2B32F3F3003F5B82 /* LightUpdate.hpp in Headers */,
 				84AA8C2D2B32F3F3003F5B82 /* PatchManager.hpp in Headers */,
 				84AA8C2F2B32F3F3003F5B82 /* RenderChunk.hpp in Headers */,
+				84A2FF162DB5B7B70090CE3E /* AssetFile.hpp in Headers */,
 				84AA8C312B32F3F3003F5B82 /* RenderList.hpp in Headers */,
 				84AA8C332B32F3F3003F5B82 /* Tesselator.hpp in Headers */,
 				84AA8C342B32F3F3003F5B82 /* Texture.hpp in Headers */,

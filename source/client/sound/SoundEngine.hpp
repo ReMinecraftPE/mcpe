@@ -16,27 +16,31 @@
 
 class SoundEngine
 {
-	float _getVolumeMult(const Vec3& pos);
+private:
+    float _getVolumeMult(const Vec3& pos);
 public:
-	SoundEngine(SoundSystem* soundSystem);
-	void init(Options*, AppPlatform*);
-	void enable(bool b);
-	void updateOptions();
-	void mute();
-	void unMute();
-	void destroy();
-	void play(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
+    SoundEngine(SoundSystem* soundSystem);
+    void init(Options*, AppPlatform*);
+    void enable(bool b);
+    void updateOptions();
+    void mute();
+    void unMute();
+    void destroy();
+    void playStreaming(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
+    void play(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
+    void playUI(const std::string& name, float volume = 1.0f, float pitch = 1.0f);
 
 public:
-	SoundSystem* m_pSoundSystem;
+    SoundSystem* m_pSoundSystem;
 private:
-	Options* m_pOptions;
-	int field_40;
-	//Random m_random;
-	SoundRepository m_repository;
-	Random m_random;
-	int m_noMusicDelay;
-	int field_A20;
-	bool m_muted;
+    SoundRepository m_sounds;
+    SoundRepository m_streamingSounds;
+    SoundRepository m_songs;
+    Options* m_pOptions;
+    int field_40;
+    Random m_random;
+    int m_noMusicDelay;
+    int field_A20;
+    bool m_muted;
 };
 

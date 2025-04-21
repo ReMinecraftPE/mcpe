@@ -210,7 +210,7 @@ public:
 	bool m_bNoPhysics;
 	float field_B0;
 	int m_tickCount;
-	int field_B8;
+	int m_invulnerableTime;
 	int m_airCapacity;
 	int m_fireTicks;
 	int m_flameTime;

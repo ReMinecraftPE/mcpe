@@ -45,7 +45,7 @@ void Entity::_init()
 	m_bNoPhysics = false;
 	field_B0 = 0.0f;
     m_tickCount = 0;
-	field_B8 = 0;
+	m_invulnerableTime = 0;
 	m_airCapacity = TOTAL_AIR_SUPPLY;
 	m_fireTicks = 0;
 	m_flameTime = 1;
