@@ -840,7 +840,7 @@ void Minecraft::init()
 	GetPatchManager()->PatchTiles();
 
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem());
-	m_pSoundEngine->init(m_options);
+	m_pSoundEngine->init(m_options, platform());
 
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
