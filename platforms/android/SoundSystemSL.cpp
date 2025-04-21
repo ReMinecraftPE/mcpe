@@ -206,7 +206,7 @@ void SoundSystemSL::playAt(const SoundDesc &sound, float x, float y, float z, fl
 	checkErr((*pVolumeItf)->SetVolumeLevel(pVolumeItf, remappedVolume));
 	checkErr((*pAudioPlayer)->GetInterface(pAudioPlayer, SL_IID_BUFFERQUEUE, &pBufferQueueItf));
 	checkErr((*pBufferQueueItf)->RegisterCallback(pBufferQueueItf, removePlayer, (void*) pAudioPlayer));
-	checkErr((*pBufferQueueItf)->Enqueue(pBufferQueueItf, sound.m_pData, sound.field_4));
+	checkErr((*pBufferQueueItf)->Enqueue(pBufferQueueItf, sound.m_pData, sound.m_dataSize));
 	checkErr((*pPlayItf)->SetPlayState(pPlayItf, SL_PLAYSTATE_PLAYING));
 
 	m_playingSounds.push_back(pAudioPlayer);
