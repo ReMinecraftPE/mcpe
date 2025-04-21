@@ -198,27 +198,3 @@ bool AppPlatform_sdl::hasFileSystemAccess()
 {
 	return true;
 }
-
-std::string AppPlatform_sdl::getPatchData()
-{
-    std::string path = getAssetPath("patches/patch_data.txt");
-    SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
-    
-	if (!io)
-	{
-		LOG_W("Couldn't find patch data file!");
-		return "";
-	}
-    size_t size = io->size(io);
-    if (size == -1)
-    {
-        LOG_E("Error determining the size of the patch data file!");
-    }
-    
-	char *buf = new char[size];
-    SDL_RWread(io, buf, size, 1);
-    
-    SDL_RWclose(io);
-    
-    return std::string(buf);
-}

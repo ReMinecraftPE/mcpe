@@ -357,3 +357,22 @@ int AppPlatform_android::getKeyboardUpOffset()
 	// For now we'll just return 1/2 of the screen height. That ought to cover most cases.
 	return m_ScreenHeight / 2;
 }
+
+AssetFile AppPlatform_android::readAssetFile(const std::string& str) const
+{
+	std::string realPath = str;
+	if (realPath.size() && realPath[0] == '/')
+		// trim it off
+		realPath = realPath.substr(1);
+
+	AAsset* asset = AAssetManager_open(m_app->activity->assetManager, str.c_str(), AASSET_MODE_BUFFER);
+	if (!asset) {
+		LOG_E("File %s couldn't be opened", realPath.c_str());
+		return AssetFile();
+	}
+	size_t cnt = AAsset_getLength(asset);
+	unsigned char* buffer = new unsigned char[cnt];
+	AAsset_read(asset, (void*)buffer, cnt);
+	AAsset_close(asset);
+	return AssetFile(ssize_t(cnt), buffer);
+}

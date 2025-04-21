@@ -214,16 +214,20 @@ bool AppPlatform_win32::hasFileSystemAccess()
 	return true;
 }
 
-std::string AppPlatform_win32::getPatchData()
+AssetFile AppPlatform_win32::readAssetFile(const std::string& str) const
 {
-	std::ifstream ifs("assets/patches/patch_data.txt");
+	std::string path = getAssetPath(str);
+	std::ifstream ifs(path, std::ios::binary | std::ios::ate);
 	if (!ifs.is_open())
-		return "";
+		return AssetFile();
 
-	std::stringstream ss;
-	ss << ifs.rdbuf();
+	std::streamsize size = ifs.tellg();
+	ifs.seekg(0, std::ios::beg);
 
-	return ss.str();
+	unsigned char* buffer = new unsigned char[size];
+	ifs.read((char*) buffer, size);
+
+	return AssetFile(size, buffer);
 }
 
 void AppPlatform_win32::setScreenSize(int width, int height)

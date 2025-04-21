@@ -62,6 +62,9 @@ public:
 	void handleKeyEvent(int key, uint8_t state);
 	void handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state);
 	void handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value);
+
+	// Read Sounds
+	AssetFile readAssetFile(const std::string&) const override;
 private:
 	SDL_Window *_window;
 	SDL_GameController* _controller;
