@@ -358,7 +358,7 @@ int AppPlatform_android::getKeyboardUpOffset()
 	return m_ScreenHeight / 2;
 }
 
-AssetFile AppPlatform_android::readAssetFile(const std::string& str) const
+AssetFile AppPlatform_android::readAssetFile(const std::string& str, bool quiet) const
 {
 	std::string realPath = str;
 	if (realPath.size() && realPath[0] == '/')
@@ -367,7 +367,7 @@ AssetFile AppPlatform_android::readAssetFile(const std::string& str) const
 
 	AAsset* asset = AAssetManager_open(m_app->activity->assetManager, str.c_str(), AASSET_MODE_BUFFER);
 	if (!asset) {
-		LOG_E("File %s couldn't be opened", realPath.c_str());
+		if (!quiet) LOG_E("File %s couldn't be opened", realPath.c_str());
 		return AssetFile();
 	}
 	size_t cnt = AAsset_getLength(asset);

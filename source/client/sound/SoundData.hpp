@@ -14,6 +14,17 @@
 
 struct AppPlatform;
 
+class AudioCodec
+{
+public:
+	enum Type
+	{
+		NONE,
+		PCM,
+		OGG
+	};
+};
+
 struct PCMSoundHeader
 {
 	int m_channels;
@@ -25,16 +36,21 @@ struct PCMSoundHeader
 struct SoundDesc
 {
 	bool m_isLoaded;
+	AudioCodec::Type m_codecType;
 	AssetFile m_file;
 	uint16_t* m_pData;
-	int field_4;
+	int m_dataSize;
 	PCMSoundHeader m_header;
 	unsigned char* m_fileData;
 
-	void _load(const AppPlatform* platform, const char *name);
-	static void _load(const AppPlatform*);
+	bool _load(const AppPlatform* platform, const char* category, const char *name);
+	bool _loadPcm(const AppPlatform* platform, const char *name);
+	bool _loadOgg(const AppPlatform* platform, const char* category, const char *name);
+	void _unload();
+	static void _loadAll(const AppPlatform*);
+	static void _unloadAll();
 };
 
-#define SOUND(category, name) extern SoundDesc SA_##name;
+#define SOUND(category, name, number) extern SoundDesc SA_##name##number;
 #include "sound_list.h"
 #undef SOUND

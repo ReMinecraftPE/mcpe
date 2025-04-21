@@ -411,21 +411,23 @@ void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIn
 	}
 }
 
-AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str) const
+AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str, bool quiet) const
 {
 	std::string path = getAssetPath(str);
 	SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
 	// Open File
 	if (!io)
 	{
-		LOG_W("Couldn't find asset file: %s", path.c_str());
+		if (!quiet) LOG_W("Couldn't find asset file: %s", path.c_str());
 		return AssetFile();
 	}
 	// Get File Size
 	ssize_t size = SDL_RWsize(io);
 	if (size < 0)
 	{
-		LOG_E("Error determining the size of the asset file!");
+		if (!quiet) LOG_E("Error determining the size of the asset file!");
+		SDL_RWclose(io);
+		return AssetFile();
 	}
 	// Read Data
 	unsigned char *buf = new unsigned char[size];

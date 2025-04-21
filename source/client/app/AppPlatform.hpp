@@ -87,7 +87,7 @@ public:
 	virtual void initSoundSystem();
 	virtual SoundSystem* const getSoundSystem() const;
 	// Used For Sounds
-	virtual AssetFile readAssetFile(const std::string&) const;
+	virtual AssetFile readAssetFile(const std::string&, bool) const;
 #endif
 
 public:

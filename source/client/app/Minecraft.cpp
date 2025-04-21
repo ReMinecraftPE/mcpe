@@ -868,6 +868,7 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pLevelRenderer);
 	SAFE_DELETE(m_pGameRenderer);
 	SAFE_DELETE(m_pParticleEngine);
+	m_pSoundEngine->destroy();
 	SAFE_DELETE(m_pSoundEngine);
 	SAFE_DELETE(m_pGameMode);
 	SAFE_DELETE(m_pFont);

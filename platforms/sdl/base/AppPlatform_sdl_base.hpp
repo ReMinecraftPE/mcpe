@@ -64,7 +64,7 @@ public:
 	void handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value);
 
 	// Read Sounds
-	AssetFile readAssetFile(const std::string&) const override;
+	AssetFile readAssetFile(const std::string&, bool) const override;
 private:
 	SDL_Window *_window;
 	SDL_GameController* _controller;

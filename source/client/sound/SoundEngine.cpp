@@ -15,7 +15,7 @@ SoundEngine::SoundEngine(SoundSystem* soundSystem)
 	m_pSoundSystem = soundSystem;
 	m_pOptions = nullptr;
 	field_40 = 0;
-	field_A1C = 0;
+	m_noMusicDelay = m_random.nextInt(12000);
 	field_A20 = 0;
 	m_muted = false;
 }
@@ -30,8 +30,8 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	m_pOptions = options;
 	// Load Sounds
-	SoundDesc::_load(platform);
-#define SOUND(category, name) m_repository.add(category, SA_##name);
+	SoundDesc::_loadAll(platform);
+#define SOUND(category, name, number) m_repository.add(#category "." #name, SA_##name##number);
 #include "sound_list.h"
 #undef SOUND
 }
@@ -56,6 +56,8 @@ void SoundEngine::unMute()
 
 void SoundEngine::destroy()
 {
+	// Un-load Sounds
+	SoundDesc::_unloadAll();
 }
 
 void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, float pitch)
@@ -69,6 +71,6 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 	SoundDesc sd;
 
 	if (m_repository.get(name, sd)) {
-		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
+		m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, cPitch);
 	}
 }

@@ -226,13 +226,13 @@ bool AppPlatform::hasFileSystemAccess()
 
 std::string AppPlatform::getPatchData()
 {
-	const AssetFile file = readAssetFile("patches/patch_data.txt");
+	const AssetFile file = readAssetFile("patches/patch_data.txt", false);
 	std::string out = std::string(file.data, file.data + file.size);
 	delete file.data;
 	return out;
 }
 
-AssetFile AppPlatform::readAssetFile(const std::string& path) const
+AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
 	return AssetFile();
 }
