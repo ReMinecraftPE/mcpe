@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#define STB_VORBIS_HEADER_ONLY
 #include "thirdparty/stb_image/include/stb_vorbis.c"
 
 #include "SoundData.hpp"
