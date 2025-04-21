@@ -13,6 +13,7 @@
 #include "world/phys/Vec3.hpp"
 #include "SoundSystem.hpp"
 #include "SoundRepository.hpp"
+#include "SimpleSoundRepository.hpp"
 
 class SoundEngine
 {
@@ -34,8 +35,8 @@ public:
     SoundSystem* m_pSoundSystem;
 private:
     SoundRepository m_sounds;
-    SoundRepository m_streamingSounds;
-    SoundRepository m_songs;
+    SimpleSoundRepository m_streamingSounds;
+    SimpleSoundRepository m_songs;
     Options* m_pOptions;
     int field_40;
     Random m_random;

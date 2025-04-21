@@ -129,11 +129,13 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Textures.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\TileRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\VertexPT.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SimpleSoundRepository.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundData.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundDefs.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundEngine.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundRepository.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundStream.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\IArea.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\IBuildInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.hpp" />
@@ -257,10 +259,12 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\TileRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterTexture.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SimpleSoundRepository.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundStream.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\IBuildInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\IncludeExcludeArea.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseHandler.cpp" />

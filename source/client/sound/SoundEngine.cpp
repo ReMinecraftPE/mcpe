@@ -70,9 +70,9 @@ void SoundEngine::playStreaming(const std::string& name, const Vec3& pos, float 
 
     float cVolume = Mth::clamp(_getVolumeMult(pos) * vol, 0.0f, 1.0f);
     float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
-    SoundDesc sd;
+    std::string path;
 
-    if (m_streamingSounds.get(name, sd))
+    if (m_streamingSounds.get(name, path))
     {
         m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, cPitch);
     }

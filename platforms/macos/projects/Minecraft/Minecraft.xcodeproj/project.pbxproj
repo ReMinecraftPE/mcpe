@@ -393,6 +393,10 @@
 		849FF0DD2AF465340013BAE3 /* particles.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E0018F2AF3A28B009B9555 /* particles.png */; };
 		849FF0DE2AF465340013BAE3 /* terrain.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E001912AF3A28B009B9555 /* terrain.png */; };
 		84A2FF162DB5B7B70090CE3E /* AssetFile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84A2FF152DB5B7B70090CE3E /* AssetFile.hpp */; };
+		84A2FF182DB61D440090CE3E /* SimpleSoundRepository.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84A2FF172DB61D3A0090CE3E /* SimpleSoundRepository.hpp */; };
+		84A2FF1A2DB61D720090CE3E /* SimpleSoundRepository.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A2FF192DB61D6D0090CE3E /* SimpleSoundRepository.cpp */; };
+		84A2FF1C2DB61F650090CE3E /* SoundStream.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84A2FF1B2DB61F610090CE3E /* SoundStream.hpp */; };
+		84A2FF1E2DB61F6C0090CE3E /* SoundStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A2FF1D2DB61F690090CE3E /* SoundStream.cpp */; };
 		84AA8B502B32F39A003F5B82 /* BinaryHeap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B482B32F39A003F5B82 /* BinaryHeap.cpp */; };
 		84AA8B512B32F39A003F5B82 /* BinaryHeap.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8B492B32F39A003F5B82 /* BinaryHeap.hpp */; };
 		84AA8B522B32F39A003F5B82 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8B4A2B32F39A003F5B82 /* Node.cpp */; };
@@ -1925,6 +1929,10 @@
 		8495E4872AF0905B00A06901 /* AppPlatform_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPlatform_iOS.h; sourceTree = "<group>"; };
 		8495E4882AF0905B00A06901 /* AppPlatform_iOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppPlatform_iOS.mm; sourceTree = "<group>"; };
 		84A2FF152DB5B7B70090CE3E /* AssetFile.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AssetFile.hpp; sourceTree = "<group>"; };
+		84A2FF172DB61D3A0090CE3E /* SimpleSoundRepository.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SimpleSoundRepository.hpp; sourceTree = "<group>"; };
+		84A2FF192DB61D6D0090CE3E /* SimpleSoundRepository.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleSoundRepository.cpp; sourceTree = "<group>"; };
+		84A2FF1B2DB61F610090CE3E /* SoundStream.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundStream.hpp; sourceTree = "<group>"; };
+		84A2FF1D2DB61F690090CE3E /* SoundStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundStream.cpp; sourceTree = "<group>"; };
 		84AA8B482B32F39A003F5B82 /* BinaryHeap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BinaryHeap.cpp; sourceTree = "<group>"; };
 		84AA8B492B32F39A003F5B82 /* BinaryHeap.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BinaryHeap.hpp; sourceTree = "<group>"; };
 		84AA8B4A2B32F39A003F5B82 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
@@ -2539,15 +2547,19 @@
 		840DD61A2AC810620006A435 /* sound */ = {
 			isa = PBXGroup;
 			children = (
-				840DD61B2AC810620006A435 /* SoundData.cpp */,
+				84A2FF172DB61D3A0090CE3E /* SimpleSoundRepository.hpp */,
+				84A2FF192DB61D6D0090CE3E /* SimpleSoundRepository.cpp */,
 				840DD61C2AC810620006A435 /* SoundData.hpp */,
+				840DD61B2AC810620006A435 /* SoundData.cpp */,
 				840DD61D2AC810620006A435 /* SoundDefs.hpp */,
-				840DD61E2AC810620006A435 /* SoundEngine.cpp */,
 				840DD61F2AC810620006A435 /* SoundEngine.hpp */,
-				840DD6202AC810620006A435 /* SoundRepository.cpp */,
+				840DD61E2AC810620006A435 /* SoundEngine.cpp */,
 				840DD6212AC810620006A435 /* SoundRepository.hpp */,
-				840DD6222AC810620006A435 /* SoundSystem.cpp */,
+				840DD6202AC810620006A435 /* SoundRepository.cpp */,
+				84A2FF1B2DB61F610090CE3E /* SoundStream.hpp */,
+				84A2FF1D2DB61F690090CE3E /* SoundStream.cpp */,
 				840DD6232AC810620006A435 /* SoundSystem.hpp */,
+				840DD6222AC810620006A435 /* SoundSystem.cpp */,
 			);
 			path = sound;
 			sourceTree = "<group>";
@@ -4082,6 +4094,7 @@
 				84AA8C232B32F3F3003F5B82 /* ItemInHandRenderer.hpp in Headers */,
 				84AA8C272B32F3F3003F5B82 /* LevelRenderer.hpp in Headers */,
 				84AA8C292B32F3F3003F5B82 /* LightLayer.hpp in Headers */,
+				84A2FF182DB61D440090CE3E /* SimpleSoundRepository.hpp in Headers */,
 				84AA8C2B2B32F3F3003F5B82 /* LightUpdate.hpp in Headers */,
 				84AA8C2D2B32F3F3003F5B82 /* PatchManager.hpp in Headers */,
 				84AA8C2F2B32F3F3003F5B82 /* RenderChunk.hpp in Headers */,
@@ -4094,6 +4107,7 @@
 				84AA8C392B32F3F3003F5B82 /* VertexPT.hpp in Headers */,
 				84AA8C5B2B32F535003F5B82 /* ChickenModel.hpp in Headers */,
 				84AA8C5D2B32F535003F5B82 /* CowModel.hpp in Headers */,
+				84A2FF1C2DB61F650090CE3E /* SoundStream.hpp in Headers */,
 				84AA8C5F2B32F535003F5B82 /* CreeperModel.hpp in Headers */,
 				84AA8C672B32F535003F5B82 /* ModelPart.hpp in Headers */,
 				84AA8C692B32F535003F5B82 /* PigModel.hpp in Headers */,
@@ -4986,6 +5000,7 @@
 				84AA8C182B32F3F3003F5B82 /* Font.cpp in Sources */,
 				84AA8C1A2B32F3F3003F5B82 /* Frustum.cpp in Sources */,
 				84AA8C1C2B32F3F3003F5B82 /* FrustumCuller.cpp in Sources */,
+				84A2FF1A2DB61D720090CE3E /* SimpleSoundRepository.cpp in Sources */,
 				84AA8C1E2B32F3F3003F5B82 /* GameRenderer.cpp in Sources */,
 				84AA8C202B32F3F3003F5B82 /* GrassColor.cpp in Sources */,
 				84AA8C222B32F3F3003F5B82 /* ItemInHandRenderer.cpp in Sources */,
@@ -5000,6 +5015,7 @@
 				84AA8C302B32F3F3003F5B82 /* RenderList.cpp in Sources */,
 				84AA8C322B32F3F3003F5B82 /* Tesselator.cpp in Sources */,
 				84AA8C352B32F3F3003F5B82 /* Textures.cpp in Sources */,
+				84A2FF1E2DB61F6C0090CE3E /* SoundStream.cpp in Sources */,
 				84AA8C372B32F3F3003F5B82 /* TileRenderer.cpp in Sources */,
 				84AA8C3A2B32F3F3003F5B82 /* WaterSideTexture.cpp in Sources */,
 				84AA8C3B2B32F3F3003F5B82 /* WaterTexture.cpp in Sources */,
