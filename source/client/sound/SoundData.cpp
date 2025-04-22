@@ -6,9 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#ifdef __APPLE__
 #define STB_VORBIS_HEADER_ONLY
-#endif
 #include "thirdparty/stb_image/include/stb_vorbis.c"
 
 #include "SoundData.hpp"

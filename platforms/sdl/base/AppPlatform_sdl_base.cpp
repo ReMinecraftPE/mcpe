@@ -422,7 +422,7 @@ AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str, bool quiet
 		return AssetFile();
 	}
 	// Get File Size
-	ssize_t size = SDL_RWsize(io);
+	int64_t size = SDL_RWsize(io);
 	if (size < 0)
 	{
 		if (!quiet) LOG_E("Error determining the size of the asset file!");

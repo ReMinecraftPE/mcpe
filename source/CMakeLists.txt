@@ -186,16 +186,16 @@ add_library(reminecraftpe-core STATIC
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
     world/entity/MobFactory.cpp
-	world/entity/Chicken.cpp
-	world/entity/Cow.cpp
-	world/entity/Creeper.cpp
-	world/entity/Pig.cpp
-	world/entity/Sheep.cpp
-	world/entity/SynchedEntityData.cpp
-	world/entity/EntityCategories.cpp
-	world/entity/EntityType.cpp
-	world/entity/EntityTypeDescriptor.cpp
-	world/entity/MobCategory.cpp
+    world/entity/Chicken.cpp
+    world/entity/Cow.cpp
+    world/entity/Creeper.cpp
+    world/entity/Pig.cpp
+    world/entity/Sheep.cpp
+    world/entity/SynchedEntityData.cpp
+    world/entity/EntityCategories.cpp
+    world/entity/EntityType.cpp
+    world/entity/EntityTypeDescriptor.cpp
+    world/entity/MobCategory.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp

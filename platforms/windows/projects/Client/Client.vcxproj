@@ -308,6 +308,9 @@
     <ProjectReference Include="..\Network\Network.vcxproj">
       <Project>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\STB\STB.vcxproj">
+      <Project>{f332cb57-ff16-4d43-bbe0-76f28301daa8}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
