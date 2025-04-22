@@ -335,3 +335,6 @@ endif()
 if(WIN32)
     target_sources(reminecraftpe-core PRIVATE ../thirdparty/GL/GLExt.cpp)
 endif()
+
+# OGG Support
+target_link_libraries(reminecraftpe-core PUBLIC stb_vorbis)

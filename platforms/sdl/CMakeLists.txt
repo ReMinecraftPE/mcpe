@@ -29,7 +29,6 @@ target_link_libraries(reminecraftpe reminecraftpe-core)
 
 # stb_image (If Needed)
 if(NOT EMSCRIPTEN)
-    add_subdirectory(../../thirdparty/stb_image stb_image)
     target_link_libraries(reminecraftpe stb_image)
 endif()
 

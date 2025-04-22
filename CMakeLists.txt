@@ -47,6 +47,9 @@ if(ANDROID)
     link_libraries(log)
 endif()
 
+# stb_image And Other Libraries
+add_subdirectory(thirdparty/stb_image EXCLUDE_FROM_ALL)
+
 # Load Common Code
 add_subdirectory(source)
 
