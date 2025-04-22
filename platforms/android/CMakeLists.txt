@@ -18,7 +18,6 @@ target_link_libraries(reminecraftpe reminecraftpe-core)
 target_link_libraries(reminecraftpe-core PUBLIC EGL GLESv1_CM)
 
 # stb_image
-add_subdirectory(../../thirdparty/stb_image stb_image)
 target_link_libraries(reminecraftpe stb_image)
 
 # Extra Dependencies
