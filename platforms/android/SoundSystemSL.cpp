@@ -17,9 +17,7 @@ pthread_mutex_t SoundSystemSL::toRemoveMutex;
 
 SoundSystemSL::SoundSystemSL()
 {
-	m_listenerX = 0.0f;
-	m_listenerY = 0.0f;
-	m_listenerZ = 0.0f;
+	m_listenerPos = Vec3::ZERO;
 	m_soundCount = 0;
 	m_3dLocationItf = nullptr;
 	m_bAvailable = true;
@@ -113,40 +111,38 @@ void SoundSystemSL::removeStoppedSounds()
 }
 
 
-void SoundSystemSL::setListenerPos(float x, float y, float z)
+void SoundSystemSL::setListenerPos(const Vec3& pos)
 {
 	if (!m_3dLocationItf)
 	{
-		m_listenerX = x;
-		m_listenerY = y;
-		m_listenerZ = z;
+		m_listenerPos = pos;
 		return;
 	}
 
 	SLVec3D vec;
-	vec.x = int(1000.0f * x);
-	vec.y = int(1000.0f * y);
-	vec.z = int(1000.0f * z);
+	vec.x = int(1000.0f * pos.x);
+	vec.y = int(1000.0f * pos.y);
+	vec.z = int(1000.0f * pos.z);
 	checkErr((*m_3dLocationItf)->SetLocationCartesian(
 		m_3dLocationItf,
 		&vec
 	));
 }
 
-void SoundSystemSL::setListenerAngle(float yaw, float pitch)
+void SoundSystemSL::setListenerAngle(const Vec2& rot)
 {
 	if (!m_3dLocationItf)
 		return;
 
 	checkErr((*m_3dLocationItf)->SetOrientationAngles(
 		m_3dLocationItf,
-		int(180000.0f * yaw),
+		int(180000.0f * rot.x),
 		0,
 		0
 	));
 }
 
-void SoundSystemSL::playAt(const SoundDesc &sound, float x, float y, float z, float volume, float pitch)
+void SoundSystemSL::playAt(const SoundDesc &sound, const Vec3& pos, float volume, float pitch)
 {
 	removeStoppedSounds();
 

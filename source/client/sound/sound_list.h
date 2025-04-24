@@ -33,6 +33,7 @@ SOUND(random, explode, )
 SOUND(random, click, )
 SOUND(random, door_close, )
 SOUND(random, door_open, )
+SOUND(random, hurt, )
 SOUND(random, pop, )
 SOUND(random, fizz, )
 

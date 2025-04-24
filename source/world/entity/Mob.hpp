@@ -59,6 +59,7 @@ public:
 	virtual bool canSpawn() const;
 	virtual float getAttackAnim(float f) const;
 	virtual Vec3 getPos(float f) const;
+	virtual Vec2 getRot(float f) const;
 	virtual Vec3 getLookAngle(float f) const { return getViewVector(1.0f); }
 	virtual Vec3 getViewVector(float f) const;
 	virtual int getMaxSpawnClusterSize() const { return 4; }

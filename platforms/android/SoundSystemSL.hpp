@@ -39,22 +39,20 @@ public:
 	void destroy();
 	bool checkErr(SLresult res);
 	void removeStoppedSounds();
-	void setListenerPos(float x, float y, float z) override;
-	void setListenerAngle(float yaw, float pitch) override;
+	void setListenerPos(const Vec3& pos) override;
+	void setListenerAngle(const Vec2& rot) override;
 	void load(const std::string& sound) override;
 	void play(const std::string& sound) override;
 	void pause(const std::string& sound) override;
 	void stop(const std::string& sound) override;
-	void playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch) override;
+	void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch) override;
 	static void removePlayer(SLAndroidSimpleBufferQueueItf caller, void* context);
 private:
 	SLSoundList m_playingSounds;
 	SLEngineItf m_slEngine;
 	SL3DLocationItf m_3dLocationItf;
 	SLObjectItf m_slOutputMix;
-	float m_listenerX;
-	float m_listenerY;
-	float m_listenerZ;
+	Vec3 m_listenerPos;
 	int m_soundCount;
 	bool m_bAvailable;
 	std::vector<SLObjectItf> m_tempToRemove;

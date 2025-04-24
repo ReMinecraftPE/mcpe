@@ -736,13 +736,8 @@ void Minecraft::tick()
 			m_pParticleEngine->tick();
 
 #ifndef ORIGINAL_CODE
-			if (m_pMobPersp)
-			{
-				m_pSoundEngine->m_pSoundSystem->setListenerPos(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z);
-				m_pSoundEngine->m_pSoundSystem->setListenerAngle(m_pMobPersp->m_rot.x, m_pMobPersp->m_rot.y);
-			}
+			m_pSoundEngine->update(m_pMobPersp, m_timer.m_renderTicks);
 #endif
-
 		}
 
 		if (m_pScreen)
@@ -839,7 +834,7 @@ void Minecraft::init()
 
 	GetPatchManager()->PatchTiles();
 
-	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem());
+	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
 	m_pSoundEngine->init(m_options, platform());
 
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);

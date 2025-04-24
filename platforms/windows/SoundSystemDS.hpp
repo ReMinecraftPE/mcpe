@@ -30,13 +30,13 @@ public:
 	SoundSystemDS();
 	~SoundSystemDS();
 	virtual bool isAvailable();
-	virtual void setListenerPos(float x, float y, float z);
-	virtual void setListenerAngle(float yaw, float pitch);
+	virtual void setListenerPos(const Vec3& pos);
+	virtual void setListenerAngle(const Vec2& rot);
 	virtual void load(const std::string& sound);
 	virtual void play(const std::string& sound);
 	virtual void pause(const std::string& sound);
 	virtual void stop(const std::string& sound);
-	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float a, float b);
+	virtual void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch);
 private:
 
 	struct BufferInfo

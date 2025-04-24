@@ -21,8 +21,7 @@
 #include "client/sound/SoundSystem.hpp"
 #include "world/phys/Vec3.hpp"
 
-#define MAX_IDLE_SOURCES 50
-#define MAX_DISTANCE 16.0f
+//#define SS_AL_SOURCES 12 // 0.10.0
 
 class SoundSystemAL : public SoundSystem
 {
@@ -31,27 +30,33 @@ public:
 	~SoundSystemAL();
 	virtual bool isAvailable();
 	void update();
-	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch);
+	virtual void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch);
 
-	virtual void setListenerPos(float x, float y, float z);
-	virtual void setListenerAngle(float yaw, float pitch);
+	virtual void setListenerPos(const Vec3& pos);
+	virtual void setListenerAngle(const Vec2& rot);
     
     virtual void startEngine();
     virtual void stopEngine();
     
 private:
-	void delete_sources();
-	void delete_buffers();
-	ALuint get_buffer(const SoundDesc& sound);
+	bool _hasMaxSources() const;
+	ALuint _getIdleSource();
+	ALuint _getSource(bool& isNew, bool tryClean = true);
+	void _deleteSources();
+	void _cleanSources();
+	ALuint _getBuffer(const SoundDesc& sound);
+	void _deleteBuffers();
 
 	ALCdevice *_device;
 	ALCcontext *_context;
+	//ALuint m_sources[SS_AL_SOURCES]; // 0.10.0
 	bool _initialized;
 	std::vector<ALuint> _sources;
 	std::vector<ALuint> _sources_idle;
 	std::map<void *, ALuint> _buffers;
 
-	Vec3 _lastListenerPos;
+	Vec3 _listenerPos;
+	float _listenerYaw;
     float _listenerVolume;
 };
 

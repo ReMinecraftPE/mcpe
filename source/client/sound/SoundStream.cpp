@@ -1,5 +1,6 @@
 #include "SoundStream.hpp"
 
+#if 0
 SoundStream::SoundStream()
 {
     alGenSources(1, &_source);
@@ -91,3 +92,4 @@ bool SoundStream::update()
 
     return true;
 }
+#endif

@@ -3,6 +3,8 @@
 
 #include "client/sound/SoundSystem.hpp"
 
+#if 0
+
 class SoundStream
 {
 private:
@@ -27,3 +29,4 @@ public:
     bool open(const char* filename);
     bool update();
 };
+#endif

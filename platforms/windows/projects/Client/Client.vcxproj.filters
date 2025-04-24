@@ -461,6 +461,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\sound_list.h">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">

@@ -202,11 +202,11 @@ LABEL_31:
 
 	// Similar to rotlerp
 	// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
-	while (x4 - m_rotPrev.x < -180.0f)
-		m_rotPrev.x -= 360.0f;
+	while (x4 - m_oRot.x < -180.0f)
+		m_oRot.x -= 360.0f;
 
-	while (x4 - m_rotPrev.x >= 180.0f)
-		m_rotPrev.x += 360.0f;
+	while (x4 - m_oRot.x >= 180.0f)
+		m_oRot.x += 360.0f;
 
 	while (field_E8 - field_EC < -180.0f)
 		field_EC -= 360.0f;
@@ -214,11 +214,11 @@ LABEL_31:
 	while (field_E8 - field_EC >= 180.0f)
 		field_EC += 360.0f;
 	
-	while (m_rot.y - m_rotPrev.y < -180.0f)
-		m_rotPrev.y -= 360.0f;
+	while (m_rot.y - m_oRot.y < -180.0f)
+		m_oRot.y -= 360.0f;
 
-	while (m_rot.y - m_rotPrev.y >= 180.0f)
-		m_rotPrev.y += 360.0f;
+	while (m_rot.y - m_oRot.y >= 180.0f)
+		m_oRot.y += 360.0f;
 
 	field_B54 += x2;
 }
@@ -303,7 +303,7 @@ void Mob::baseTick()
 
     field_B58 = field_B54;
     field_EC = field_E8;
-    m_rotPrev = m_rot;
+    m_oRot = m_rot;
 }
 
 bool Mob::isAlive() const
@@ -420,9 +420,13 @@ void Mob::causeFallDamage(float level)
 
 		hurt(nullptr, x);
 
-		//@HUH: useless call to getTile? or could this be a return value of some sort
-		//Entity::causeFallDamage returns nothing though, so....
-		m_pLevel->getTile(TilePos(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z));
+		TileID tileId = m_pLevel->getTile(TilePos(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z));
+		if (tileId > 0)
+		{
+			const Tile::SoundType* pSound = Tile::tiles[tileId]->m_pSound;
+
+			m_pLevel->playSound(this, "step." + pSound->m_name, pSound->volume * 0.5f, pSound->pitch * 0.75f);
+		}
 	}
 }
 
@@ -704,10 +708,18 @@ Vec3 Mob::getPos(float f) const
 	);
 }
 
+Vec2 Mob::getRot(float f) const
+{
+	return Vec2(
+		Mth::Lerp(m_oRot.x, m_rot.x, f),
+		Mth::Lerp(m_oRot.y, m_rot.y, f)
+	);
+}
+
 Vec3 Mob::getViewVector(float f) const
 {
 	constexpr float C_180_OVER_PI = 0.017453f;
-	constexpr float C_PI = 3.1416f;
+	constexpr float C_PI = 3.1416f; // @HUH: Why not just use M_PI here?
 	
 	if (f == 1.0)
 	{
@@ -718,8 +730,8 @@ Vec3 Mob::getViewVector(float f) const
 		return Vec3(x.x * x.z, Mth::sin(-(m_rot.y * C_180_OVER_PI)), x.y * x.z);
 	}
 
-	float x1 = m_rotPrev.y + (m_rot.y - m_rotPrev.y) * f;
-	float x2 = -((m_rotPrev.x + (m_rot.x - m_rotPrev.x) * f) * C_180_OVER_PI) - C_PI;
+	float x1 = m_oRot.y + (m_rot.y - m_oRot.y) * f;
+	float x2 = -((m_oRot.x + (m_rot.x - m_oRot.x) * f) * C_180_OVER_PI) - C_PI;
 	float x3 = Mth::cos(x2);
 	float x4 = Mth::sin(x2);
 	float x5 = -(x1 * C_180_OVER_PI);

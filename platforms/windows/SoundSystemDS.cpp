@@ -83,25 +83,25 @@ bool SoundSystemDS::isAvailable()
 	return m_available;
 }
 
-void SoundSystemDS::setListenerPos(float x, float y, float z)
+void SoundSystemDS::setListenerPos(const Vec3& pos)
 {
 	if (!isAvailable())
 	{
 		return;
 	}
-	m_listener->SetPosition(x, y, -z, DS3D_IMMEDIATE);
+	m_listener->SetPosition(pos.x, pos.y, -pos.z, DS3D_IMMEDIATE);
 }
 
 
-void SoundSystemDS::setListenerAngle(float degyaw, float degpitch)
+void SoundSystemDS::setListenerAngle(const Vec2& rot)
 {
 	if (!isAvailable())
 	{
 		return;
 	}
 
-	float yaw = degyaw * M_PI / 180.f;
-	float pitch = degpitch * M_PI / 180.f;
+	float yaw = rot.x * M_PI / 180.f;
+	float pitch = rot.y * M_PI / 180.f;
 
 	float lx = cosf(pitch) * sinf(yaw);
 	float ly = -sinf(pitch);
@@ -131,7 +131,7 @@ void SoundSystemDS::stop(const std::string& sound)
 }
 
 
-void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch)
+void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
 {
 	//Directsound failed to initialize return to avoid crash.
 	if (!isAvailable())
@@ -161,13 +161,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	unsigned long bufferSize;
 
 	int length = sound.m_header.m_length * sound.m_header.m_bytes_per_sample;
-	bool is2D = sqrtf(x * x + y * y + z * z) == 0.f;
-
-	//For some reason mojang made 3D sounds are REALLY quiet, with some of their volumes literally going below 0.1
-	if (!is2D)
-	{
-		volume *= 5.f;
-	}
+	bool is2D = pos.length() == 0.0f;
 
 	LPDIRECTSOUNDBUFFER soundbuffer; //= (LPDIRECTSOUNDBUFFER*)calloc(1, sizeof(LPDIRECTSOUNDBUFFER));
 
@@ -245,12 +239,8 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	// https://learn.microsoft.com/en-us/previous-versions/windows/desktop/mt708939(v=vs.85)
 	// Conversion from 0-1 linear volume to directsound logarithmic volume..
 	// This seems to work for the most part, but accuracy testing should be done for actual MCPE, water splashing is pretty quiet.
-	float attenuation = volume;//Lerp(DSBVOLUME_MIN, DSBVOLUME_MAX, volume);
 	// clamp the attenuation value
-	if (attenuation < 0.0f)
-		attenuation = 0.0f;
-	else if (attenuation > 1.0f)
-		attenuation = 1.0f;
+	float attenuation = Mth::clamp(volume, 0.0f, 1.0f);//Lerp(DSBVOLUME_MIN, DSBVOLUME_MAX, volume);
 
 	if (attenuation == 0)
 	{
@@ -267,8 +257,8 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	info.buffer = soundbuffer;
 	info.object3d = NULL;
 
-	//Check if position is not 0,0,0 and for mono to play 3D sound
-	if (!is2D && sound.m_header.m_channels == 1)
+	//Check if position is not 0,0,0 to play 3D sound
+	if (!is2D)
 	{
 		LPDIRECTSOUND3DBUFFER object3d;
 
@@ -279,11 +269,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 			return;
 		}
 
-		object3d->SetPosition(
-			x, 
-			y,
-			-z, 
-		DS3D_IMMEDIATE); 
+		object3d->SetPosition(pos.x, pos.y, -pos.z, DS3D_IMMEDIATE); 
 
 		//Im not really sure what values original MCPE would use.
 		object3d->SetMinDistance(2.f, DS3D_IMMEDIATE); 

@@ -9,12 +9,16 @@
 #include "SoundEngine.hpp"
 #include "SoundDefs.hpp"
 #include "common/Mth.hpp"
+#include "world/entity/Mob.hpp"
 
-SoundEngine::SoundEngine(SoundSystem* soundSystem)
+SoundEngine::SoundEngine(SoundSystem* soundSystem, float distance)
 {
     m_pSoundSystem = soundSystem;
     m_pOptions = nullptr;
     field_40 = 0;
+    m_listenerPosition = Vec3::ZERO;
+    m_listenerOrientation = Vec2::ZERO;
+    m_soundDistance = 1.0f / distance;
     m_noMusicDelay = m_random.nextInt(12000);
     field_A20 = 0;
     m_muted = false;
@@ -22,8 +26,9 @@ SoundEngine::SoundEngine(SoundSystem* soundSystem)
 
 float SoundEngine::_getVolumeMult(const Vec3& pos)
 {
-    // @TODO: this is not supposed to be a constant
-    return 1.0f;
+    // Taken from 0.7.0. Very similar to paulscode.sound.libraries.SourceLWJGLOpenAL.calculateGain()
+    float distance = 1.1f - (pos.distanceTo(m_listenerPosition) * m_soundDistance);
+    return Mth::clamp(distance, -1.0f, 1.0f);
 }
 
 void SoundEngine::init(Options* options, AppPlatform* platform)
@@ -62,20 +67,38 @@ void SoundEngine::destroy()
     SoundDesc::_unloadAll();
 }
 
+void SoundEngine::update(const Mob* player, float a)
+{
+    if (m_pOptions->m_fMasterVolume > 0.0f)
+    {
+        if (player != nullptr)
+        {
+            Vec3 pos = player->getPos(a);
+            m_listenerPosition = pos;
+            m_pSoundSystem->setListenerPos(pos);
+
+            Vec2 rot = player->getRot(a);
+            m_listenerOrientation = rot;
+            m_pSoundSystem->setListenerAngle(rot);
+        }
+    }
+
+}
+
 void SoundEngine::playStreaming(const std::string& name, const Vec3& pos, float volume, float pitch)
 {
-    float vol = m_pOptions->m_fMasterVolume * volume;
+    assert(!"SoundEngine::playStreaming not implemented!");
+    /*float vol = m_pOptions->m_fMasterVolume * volume;
     if (vol <= 0.0f)
         return;
 
     float cVolume = Mth::clamp(_getVolumeMult(pos) * vol, 0.0f, 1.0f);
-    float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
     std::string path;
 
     if (m_streamingSounds.get(name, path))
     {
-        m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, cPitch);
-    }
+        m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
+    }*/
 }
 
 void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, float pitch)
@@ -83,14 +106,28 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
     float vol = m_pOptions->m_fMasterVolume * volume;
     if (vol <= 0.0f)
         return;
+    Vec3 nPos;
+    float distance = pos.distanceTo(m_listenerPosition);
+    if (distance > SOUND_MAX_DISTANCE)
+        return;
+    // @HACK: Annoying hack because DirectSound is making steps in 2D insanely quiet.
+#ifdef USE_OPENAL
+    if (distance < SOUND_ATTENUATION_MIN_DISTANCE)
+        nPos = Vec3::ZERO;
+    else
+        nPos = pos;
+#else
+    nPos = pos;
+#endif
 
     float cVolume = Mth::clamp(_getVolumeMult(pos) * vol, 0.0f, 1.0f);
-    float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
+    // We should *not* be clamping the pitch. This breaks item pickup pop sounds.
+    //float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
     SoundDesc sd;
 
     if (m_sounds.get(name, sd))
     {
-        m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, cPitch);
+        m_pSoundSystem->playAt(sd, nPos, cVolume, pitch);
     }
 }
 
@@ -102,11 +139,10 @@ void SoundEngine::playUI(const std::string& name, float volume, float pitch)
         return;
 
     float cVolume = Mth::clamp(vol, 0.0f, 1.0f);
-    float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
     SoundDesc sd;
 
     if (m_sounds.get(name, sd))
     {
-        m_pSoundSystem->playAt(sd, 0.0f, 0.0f, 0.0f, cVolume, cPitch);
+        m_pSoundSystem->playAt(sd, Vec3::ZERO, cVolume, pitch);
     }
 }

@@ -17,11 +17,11 @@ bool SoundSystem::isAvailable()
 	return false;
 }
 
-void SoundSystem::setListenerPos(float x, float y, float z)
+void SoundSystem::setListenerPos(const Vec3& pos)
 {
 }
 
-void SoundSystem::setListenerAngle(float yaw, float pitch)
+void SoundSystem::setListenerAngle(const Vec2& rot)
 {
 }
 
@@ -41,7 +41,7 @@ void SoundSystem::stop(const std::string& sound)
 {
 }
 
-void SoundSystem::playAt(const SoundDesc& sound, float x, float y, float z, float a, float b)
+void SoundSystem::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
 {
 }
 
