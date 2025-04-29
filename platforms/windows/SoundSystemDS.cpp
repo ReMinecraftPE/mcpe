@@ -133,27 +133,15 @@ void SoundSystemDS::stop(const std::string& sound)
 
 void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
 {
-	//Directsound failed to initialize return to avoid crash.
 	if (!isAvailable())
 	{
+		// DirectSound failed to initialize. Return to avoid crash.
+		assert(!"DirectSound is not initialized!");
 		return;
 	}
 
-	//Release sounds that finished playing
-	for (size_t i = 0; i < m_buffers.size(); i++)
-	{
-		DWORD status;
-		m_buffers[i].buffer->GetStatus(&status);
-		if (status != DSBSTATUS_PLAYING) {
-			m_buffers[i].buffer->Release();
-			if (m_buffers[i].object3d != NULL)
-			{
-				m_buffers[i].object3d->Release();
-			}
-			m_buffers.erase(m_buffers.begin() + i);
-			i--;
-		}
-	}
+	// Release sounds that finished playing
+	_cleanSources();
 
 	HRESULT result;
 	IDirectSoundBuffer* tempBuffer;
@@ -165,14 +153,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 
 	LPDIRECTSOUNDBUFFER soundbuffer; //= (LPDIRECTSOUNDBUFFER*)calloc(1, sizeof(LPDIRECTSOUNDBUFFER));
 
-	WAVEFORMATEX waveFormat;
-	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-	waveFormat.nSamplesPerSec = DWORD(float(sound.m_header.m_sample_rate) * pitch);
-	waveFormat.wBitsPerSample = 8 * sound.m_header.m_bytes_per_sample;
-	waveFormat.nChannels = sound.m_header.m_channels;
-	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
-	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
-	waveFormat.cbSize = 0;
+	WAVEFORMATEX waveFormat = _getWaveFormat(sound.m_header, pitch);
 
 	// Set the buffer description of the secondary sound buffer that the wave file will be loaded onto.
 	DSBUFFERDESC bufferDesc;
@@ -281,4 +262,40 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	soundbuffer->Play(0, 0, 0);
 
 	m_buffers.push_back(info);
+}
+
+WAVEFORMATEX SoundSystemDS::_getWaveFormat(const PCMSoundHeader& header, float pitch) const
+{
+	WAVEFORMATEX wf;
+
+	wf.wFormatTag = WAVE_FORMAT_PCM;
+	wf.nSamplesPerSec = DWORD(float(header.m_sample_rate) * pitch);
+	wf.wBitsPerSample = 8 * header.m_bytes_per_sample;
+	wf.nChannels = header.m_channels;
+	wf.nBlockAlign = (wf.wBitsPerSample / 8) * wf.nChannels;
+	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
+	wf.cbSize = 0;
+
+	return wf;
+}
+
+// Release sounds that finished playing
+void SoundSystemDS::_cleanSources()
+{
+	for (size_t i = 0; i < m_buffers.size(); i++)
+	{
+		DWORD status;
+		m_buffers[i].buffer->GetStatus(&status);
+		if (status != DSBSTATUS_PLAYING)
+		{
+			m_buffers[i].buffer->Release();
+			if (m_buffers[i].object3d != NULL)
+			{
+				m_buffers[i].object3d->Release();
+			}
+			
+			m_buffers.erase(m_buffers.begin() + i);
+			i--;
+		}
+	}
 }

@@ -16,16 +16,16 @@ SoundStream::~SoundStream()
     stb_vorbis_close(_stream);
 }
 
-bool SoundStream::stream(ALuint buffer)
+bool SoundStream::stream(uint32_t buffer)
 {
     // Uncomment this to avoid VLAs
     //#define BUFFER_SIZE 4096*32
     #ifndef BUFFER_SIZE // VLAs ftw
     #define BUFFER_SIZE (_bufferSize)
     #endif
-    ALshort pcm[BUFFER_SIZE];
-    int  size = 0;
-    int  result = 0;
+    int16_t pcm[BUFFER_SIZE];
+    int size = 0;
+    int sresult = 0;
 
     while (size < BUFFER_SIZE)
     {
@@ -36,7 +36,8 @@ bool SoundStream::stream(ALuint buffer)
 
     if (size == 0) return false;
 
-    alBufferData(buffer, _format, pcm, size*sizeof(ALshort), _info.sample_rate);
+    /// 1 API-specific function ///
+    alBufferData(buffer, _format, pcm, size*sizeof(int16_t), _info.sample_rate);
     _totalSamplesLeft -= size;
     #undef BUFFER_SIZE
 
@@ -54,6 +55,7 @@ bool SoundStream::open(const char* filename)
 
     if(!stream(_buffers[0])) return false;
     if(!stream(_buffers[1])) return false;
+    /// 2 API-specific functions ///
     alSourceQueueBuffers(_source, 2, _buffers);
     alSourcePlay(_source);
 
@@ -64,14 +66,16 @@ bool SoundStream::open(const char* filename)
 
 bool SoundStream::update()
 {
-    ALint processed = 0;
+    int32_t processed = 0;
 
+    /// 1 API-specific function ///
     alGetSourcei(_source, AL_BUFFERS_PROCESSED, &processed);
 
     while (processed--)
     {
-        ALuint buffer = 0;
+        uint32_t buffer = 0;
         
+        /// 1 API-specific function ///
         alSourceUnqueueBuffers(_source, 1, &buffer);
 
         if (!stream(buffer))
@@ -87,6 +91,7 @@ bool SoundStream::update()
 
             if (shouldExit) return false;
         }
+        /// 1 API-specific function ///
         alSourceQueueBuffers(_source, 1, &buffer);
     }
 

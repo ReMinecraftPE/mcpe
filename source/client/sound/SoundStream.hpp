@@ -11,9 +11,8 @@ private:
     stb_vorbis* _stream;
     stb_vorbis_info _info;
 
-    ALuint _buffers[2];
-    ALuint _source;
-    ALenum _format;
+    uint32_t _buffers[2];
+    uint32_t _source;
 
     size_t _bufferSize;
 
@@ -25,7 +24,7 @@ public:
     SoundStream();
     ~SoundStream();
 
-    bool stream(ALuint buffer);
+    bool stream(uint32_t buffer);
     bool open(const char* filename);
     bool update();
 };

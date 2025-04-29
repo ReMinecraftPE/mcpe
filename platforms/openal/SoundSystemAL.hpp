@@ -46,6 +46,7 @@ private:
 	void _cleanSources();
 	ALuint _getBuffer(const SoundDesc& sound);
 	void _deleteBuffers();
+	ALenum _getSoundFormat(const PCMSoundHeader& header) const;
 
 	ALCdevice *_device;
 	ALCcontext *_context;

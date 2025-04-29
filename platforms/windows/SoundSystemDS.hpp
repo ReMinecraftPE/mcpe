@@ -38,6 +38,8 @@ public:
 	virtual void stop(const std::string& sound);
 	virtual void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch);
 private:
+	WAVEFORMATEX _getWaveFormat(const PCMSoundHeader& header, float pitch) const;
+	void _cleanSources();
 
 	struct BufferInfo
 	{

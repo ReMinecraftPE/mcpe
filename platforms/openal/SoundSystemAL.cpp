@@ -165,30 +165,17 @@ void SoundSystemAL::_cleanSources()
 // Get Buffer
 ALuint SoundSystemAL::_getBuffer(const SoundDesc& sound)
 {
+	// Fetch pre-existing buffer
 	if (_buffers.count(sound.m_pData) > 0)
 	{
 		return _buffers[sound.m_pData];
 	}
-
-	// Sound Format
-	ALenum format = AL_NONE;
-	if (sound.m_header.m_channels == 1)
-	{
-		format = sound.m_header.m_bytes_per_sample == 2 ? AL_FORMAT_MONO16 : AL_FORMAT_MONO8;
-	}
-	else if (sound.m_header.m_channels == 2)
-	{
-		format = sound.m_header.m_bytes_per_sample == 2 ? AL_FORMAT_STEREO16 : AL_FORMAT_STEREO8;
-	}
-
-	// Sound Data Size
-	int size = sound.m_dataSize;
-
+	
 	// Create Buffer
 	ALuint buffer;
 	alGenBuffers(1, &buffer);
 	AL_ERROR_CHECK();
-	alBufferData(buffer, format, sound.m_pData, size, sound.m_header.m_sample_rate);
+	alBufferData(buffer, _getSoundFormat(sound.m_header), sound.m_pData, sound.m_dataSize, sound.m_header.m_sample_rate);
 	AL_ERROR_CHECK();
 
 	// Store
@@ -212,6 +199,19 @@ void SoundSystemAL::_deleteBuffers()
 		}
 	}
 	_buffers.clear();
+}
+
+ALenum SoundSystemAL::_getSoundFormat(const PCMSoundHeader& header) const
+{
+	switch (header.m_channels)
+	{
+	case 1:
+		return header.m_bytes_per_sample == 2 ? AL_FORMAT_MONO16 : AL_FORMAT_MONO8;
+	case 2:
+		return header.m_bytes_per_sample == 2 ? AL_FORMAT_STEREO16 : AL_FORMAT_STEREO8;
+	default:
+		return AL_NONE;
+	}
 }
 
 bool SoundSystemAL::isAvailable()
