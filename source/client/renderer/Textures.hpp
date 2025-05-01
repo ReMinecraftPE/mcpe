@@ -45,13 +45,13 @@ public:
 	// set smoothing for next texture to be loaded
 	void setSmoothing(bool b)
 	{
-		field_39 = b;
+		m_bBlur = b;
 	}
 
 	// set smoothing for next texture to be loaded
 	void setClampToEdge(bool b)
 	{
-		field_38 = b;
+		m_bClamp = b;
 	}
 
 	Textures(Options*, AppPlatform*);
@@ -67,8 +67,8 @@ protected:
 	Options* m_pOptions;
 	AppPlatform* m_pPlatform;
 	int m_currBoundTex;
-	bool field_38;
-	bool field_39;
+	bool m_bClamp;
+	bool m_bBlur;
 	std::map<GLuint, TextureData> m_textureData;
 	std::vector<DynamicTexture*> m_dynamicTextures;
 

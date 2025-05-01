@@ -196,7 +196,15 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
 	return Texture(width, height, img2, 1, 0);
 }
 
-bool AppPlatform_win32::isTouchscreen()
+bool AppPlatform_win32::doesTextureExist(const std::string& path) const
+{
+	// Get Full Path
+	std::string realPath = getAssetPath(path);
+
+	return XPL_ACCESS(realPath.c_str(), 0) == 0;
+}
+
+bool AppPlatform_win32::isTouchscreen() const
 {
 	return false;
 }
@@ -240,10 +248,11 @@ void AppPlatform_win32::recenterMouse()
 	POINT oldPos = { 0, 0 };
 	GetCursorPos(&oldPos);
 
+	/* We're doing this for FUN???
 	RECT rect;
-	GetClientRect(GetHWND(), &rect);
+	GetClientRect(GetHWND(), &rect);*/
 
-	POINT offs = { m_ScreenWidth / 2, m_ScreenHeight / 2 };
+	POINT offs = { getScreenWidth() / 2, getScreenHeight() / 2 };
 	ClientToScreen(GetHWND(), &offs);
 
 	SetCursorPos(offs.x, offs.y);

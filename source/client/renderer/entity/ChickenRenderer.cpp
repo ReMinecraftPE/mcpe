@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "ChickenRenderer.hpp"
+#include "world/entity/Chicken.hpp"
 
 ChickenRenderer::ChickenRenderer(Model* pModel, float f) : MobRenderer(pModel, f)
 {
@@ -15,8 +16,11 @@ ChickenRenderer::~ChickenRenderer()
 {
 }
 
-float ChickenRenderer::getBob(Mob*, float)
+float ChickenRenderer::getBob(Mob* mob, float time)
 {
-	// TODO
-	return 0.0f;
+	Chicken* chicken = (Chicken *)mob;
+
+	return (float)((Mth::sin((chicken->m_oFlap + (float)((float)(chicken->m_flap - chicken->m_oFlap) * time))/*, *(float*)&chicken->m_flap*/))
+		+ 1.0)
+		* chicken->m_oFlapSpeed + (float)((float)(chicken->m_flapSpeed - chicken->m_oFlapSpeed) * time);
 }

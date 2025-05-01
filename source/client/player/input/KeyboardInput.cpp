@@ -12,9 +12,9 @@ KeyboardInput::KeyboardInput(Options* pOpts)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
-	field_C = false;
-	m_bJumpButton = false;
-	m_bSneakButton = false;
+	m_bWasJumping = false;
+	m_bJumping = false;
+	m_bSneaking = false;
 
 	for (int i = 0; i < 10; i++)
 		m_keys[i] = false;
@@ -28,21 +28,21 @@ void KeyboardInput::releaseAllKeys()
 		m_keys[i] = false;
 }
 
-void KeyboardInput::setKey(int keyCode, bool b)
+void KeyboardInput::setKey(int eventKey, bool eventKeyState)
 {
 	int index = -1;
 
-	if (m_pOptions->getKey(KM_FORWARD)  == keyCode) index = 0;
-	if (m_pOptions->getKey(KM_BACKWARD) == keyCode) index = 1;
-	if (m_pOptions->getKey(KM_LEFT)     == keyCode) index = 2;
-	if (m_pOptions->getKey(KM_RIGHT)    == keyCode) index = 3;
-	if (m_pOptions->getKey(KM_JUMP)     == keyCode) index = 4;
-	if (m_pOptions->getKey(KM_SNEAK)    == keyCode) index = 5;
+	if      (m_pOptions->getKey(KM_FORWARD)  == eventKey) index = INPUT_FORWARD;
+	else if (m_pOptions->getKey(KM_BACKWARD) == eventKey) index = INPUT_BACKWARD;
+	else if (m_pOptions->getKey(KM_LEFT)     == eventKey) index = INPUT_LEFT;
+	else if (m_pOptions->getKey(KM_RIGHT)    == eventKey) index = INPUT_RIGHT;
+	else if (m_pOptions->getKey(KM_JUMP)     == eventKey) index = INPUT_JUMP;
+	else if (m_pOptions->getKey(KM_SNEAK)    == eventKey) index = INPUT_SNEAK;
 
 	if (index == -1)
 		return;
 
-	m_keys[index] = b;
+	m_keys[index] = eventKeyState;
 }
 
 void KeyboardInput::tick(Player* pPlayer)
@@ -55,8 +55,8 @@ void KeyboardInput::tick(Player* pPlayer)
 	if (m_keys[INPUT_LEFT])     m_horzInput += 1.0f;
 	if (m_keys[INPUT_RIGHT])    m_horzInput -= 1.0f;
 
-	m_bJumpButton  = m_keys[INPUT_JUMP];
-	m_bSneakButton = m_keys[INPUT_SNEAK];
+	m_bJumping  = m_keys[INPUT_JUMP];
+	m_bSneaking = m_keys[INPUT_SNEAK];
 
 	if (m_keys[INPUT_SNEAK])
 	{

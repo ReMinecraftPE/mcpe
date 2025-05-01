@@ -25,15 +25,15 @@ public:
 	void renderFire(float f);
 	void renderTex(float f, int tex);
 	void tick();
-	void turn(float yd, float pd);
+	void turn(const Vec2& rot);
 
-public:
-	int field_0;
-	ItemInstance m_ItemInstance;
+private:
+	int m_lastSlot;
+	ItemInstance m_selectedItem;
 	Minecraft* m_pMinecraft;
 	int field_18;
-	float field_1C;
-	float field_20;
+	float m_height;
+	float m_oHeight;
 	TileRenderer m_tileRenderer;
 };
 

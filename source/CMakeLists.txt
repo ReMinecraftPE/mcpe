@@ -36,6 +36,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/CreeperRenderer.cpp
     client/renderer/entity/CowRenderer.cpp
     client/renderer/entity/PigRenderer.cpp
+    client/renderer/entity/SheepRenderer.cpp
     client/renderer/entity/ChickenRenderer.cpp
     client/renderer/entity/RocketRenderer.cpp
     client/renderer/RenderList.cpp
@@ -53,6 +54,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/Tesselator.cpp
     client/renderer/TileRenderer.cpp
     client/renderer/LightLayer.cpp
+    client/renderer/Lighting.cpp
     client/renderer/WaterTexture.cpp
     client/renderer/PatchManager.cpp
     client/renderer/LavaTexture.cpp
@@ -69,6 +71,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/StartMenuScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
     client/gui/screens/DirectConnectScreen.cpp
+    client/gui/screens/DisconnectionScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
     client/gui/screens/SavingWorldScreen.cpp
     client/gui/screens/InvalidLicenseScreen.cpp
@@ -98,6 +101,7 @@ add_library(reminecraftpe-core STATIC
     client/model/ModelPart.cpp
     client/model/QuadrupedModel.cpp
     client/model/PigModel.cpp
+    client/model/SheepModel.cpp
     client/model/HumanoidModel.cpp
     client/model/SpiderModel.cpp
     client/model/ZombieModel.cpp
@@ -107,10 +111,13 @@ add_library(reminecraftpe-core STATIC
     client/model/CreeperModel.cpp
     client/model/CowModel.cpp
     client/model/ChickenModel.cpp
-    client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
+    client/player/input/ControllerBuildInput.cpp
+    client/player/input/ControllerMoveInput.cpp
+    client/player/input/ControllerTurnInput.cpp
     client/player/input/Mouse.cpp
     client/player/input/Keyboard.cpp
+    client/player/input/MouseBuildInput.cpp
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
@@ -137,6 +144,9 @@ add_library(reminecraftpe-core STATIC
     network/packets/LevelDataPacket.cpp
     network/packets/PlaceBlockPacket.cpp
     network/packets/LoginPacket.cpp
+    network/packets/LoginStatusPacket.cpp
+    network/packets/ReadyPacket.cpp
+    network/packets/SetTimePacket.cpp
     network/packets/StartGamePacket.cpp
     network/packets/RemoveEntityPacket.cpp
     network/packets/AddPlayerPacket.cpp
@@ -147,6 +157,7 @@ add_library(reminecraftpe-core STATIC
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp
     network/NetEventCallback.cpp
+    network/PacketUtil.cpp
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
@@ -155,6 +166,7 @@ add_library(reminecraftpe-core STATIC
     world/level/path/BinaryHeap.cpp
     world/level/path/PathFinder.cpp
     world/phys/HitResult.cpp
+    world/phys/Vec2.cpp
     world/phys/Vec3.cpp
     world/phys/AABB.cpp
     world/gamemode/SurvivalMode.cpp
@@ -173,10 +185,22 @@ add_library(reminecraftpe-core STATIC
     world/entity/WaterAnimal.cpp
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
+    world/entity/MobFactory.cpp
+	world/entity/Chicken.cpp
+	world/entity/Cow.cpp
+	world/entity/Creeper.cpp
+	world/entity/Pig.cpp
+	world/entity/Sheep.cpp
+	world/entity/SynchedEntityData.cpp
+	world/entity/EntityCategories.cpp
+	world/entity/EntityType.cpp
+	world/entity/EntityTypeDescriptor.cpp
+	world/entity/MobCategory.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp
     world/level/TickNextTickData.cpp
+    world/level/TilePos.cpp
     world/level/Explosion.cpp
     world/level/storage/LevelStorageSource.cpp
     world/level/storage/MemoryLevelStorageSource.cpp
@@ -210,7 +234,9 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/chunk/RandomLevelSource.cpp
     world/level/levelgen/chunk/LevelChunk.cpp
     world/level/levelgen/chunk/ChunkCache.cpp
+    world/level/levelgen/chunk/ChunkPos.cpp
     world/level/levelgen/chunk/ChunkSource.cpp
+    world/level/levelgen/chunk/EmptyLevelChunk.cpp
     world/level/levelgen/chunk/PerformanceTestChunkSource.cpp
     world/level/levelgen/chunk/TestChunkSource.cpp
     world/level/Level.cpp
@@ -332,7 +358,7 @@ if(USE_SDL)
         endif()
     else()
         find_package(OpenGL REQUIRED)
-        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
+        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
     endif()
 elseif(USE_NATIVE_ANDROID)
     # OpenGL

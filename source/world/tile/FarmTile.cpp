@@ -18,29 +18,29 @@ FarmTile::FarmTile(int a, Material* c) : Tile(a, c)
 	setLightBlock(255);
 }
 
-AABB* FarmTile::getAABB(Level*, int x, int y, int z)
+AABB* FarmTile::getAABB(const Level*, const TilePos& pos)
 {
 	// a full block
 	m_aabbReturned = AABB(
-		float(x),
-		float(y),
-		float(z),
-		float(x + 1),
-		float(y + 1),
-		float(z + 1)
+		float(pos.x),
+		float(pos.y),
+		float(pos.z),
+		float(pos.x + 1),
+		float(pos.y + 1),
+		float(pos.z + 1)
 	);
 
 	return &m_aabbReturned;
 }
 
-int FarmTile::getResource(int x, Random* random)
+int FarmTile::getResource(int x, Random* random) const
 {
 	return Tile::dirt->getResource(x, random);
 }
 
-int FarmTile::getTexture(int dir, int data)
+int FarmTile::getTexture(Facing::Name face, int data) const
 {
-	if (dir == DIR_YPOS)
+	if (face == Facing::UP)
 	{
 		if (data > 0)
 			return m_TextureFrame - 1;
@@ -51,25 +51,27 @@ int FarmTile::getTexture(int dir, int data)
 	return TEXTURE_DIRT;
 }
 
-bool FarmTile::isCubeShaped()
+bool FarmTile::isCubeShaped() const
 {
 	return false;
 }
 
-bool FarmTile::isSolidRender()
+bool FarmTile::isSolidRender() const
 {
 	return false;
 }
 
-bool FarmTile::isNearWater(Level* level, int x, int y, int z)
+bool FarmTile::isNearWater(Level* level, const TilePos& pos)
 {
-	for (int ax = x - 4; ax <= x + 4; ax++)
+	TilePos waterPos = TilePos();
+
+	for (waterPos.x = pos.x - 4; waterPos.x <= pos.x + 4; waterPos.x++)
 	{
-		for (int ay = y; ay <= y + 1; ay++)
+		for (waterPos.y = pos.y; waterPos.y <= pos.y + 1; waterPos.y++)
 		{
-			for (int az = z - 4; az <= z + 4; az++)
+			for (waterPos.z = pos.z - 4; waterPos.z <= pos.z + 4; waterPos.z++)
 			{
-				if (level->getMaterial(ax, ay, az) == Material::water)
+				if (level->getMaterial(pos) == Material::water)
 					return true;
 			}
 		}
@@ -78,19 +80,19 @@ bool FarmTile::isNearWater(Level* level, int x, int y, int z)
 	return false;
 }
 
-void FarmTile::neighborChanged(Level* level, int x, int y, int z, int a)
+void FarmTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 {
-	if (level->getMaterial(x, y + 1, z)->isSolid())
-		level->setTile(x, y, z, Tile::dirt->m_ID);
+	if (level->getMaterial(pos.above())->isSolid())
+		level->setTile(pos, Tile::dirt->m_ID);
 }
 
-void FarmTile::stepOn(Level* level, int x, int y, int z, Entity* pEnt)
+void FarmTile::stepOn(Level* level, const TilePos& pos, Entity* pEnt)
 {
 	if (level->m_random.genrand_int32() % 4 == 0)
-		level->setTile(x, y, z, Tile::dirt->m_ID);
+		level->setTile(pos, Tile::dirt->m_ID);
 }
 
-void FarmTile::tick(Level* level, int x, int y, int z, Random* random)
+void FarmTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	int val = random->genrand_int32();
 
@@ -98,17 +100,17 @@ void FarmTile::tick(Level* level, int x, int y, int z, Random* random)
 	if (val != 5 * (val / 5))
 		return;
 
-	if (isNearWater(level, x, y, z))
+	if (isNearWater(level, pos))
 	{
-		level->setData(x, y, z, 7);
+		level->setData(pos, 7);
 	}
 	else
 	{
-		int data = level->getData(x, y, z);
+		int data = level->getData(pos);
 
 		if (data <= 0)
-			level->setTile(x, y, z, Tile::dirt->m_ID);
+			level->setTile(pos, Tile::dirt->m_ID);
 		else
-			level->setData(x, y, z, data - 1);
+			level->setData(pos, data - 1);
 	}
 }

@@ -26,6 +26,7 @@ public:
 
 	void clear();
 	void addItem(ItemInstance* pInst);
+    void tick();
 
 	ItemInstance* getItem(int slotNo);
 	ItemInstance* getQuickSlotItem(int slotNo);
@@ -39,6 +40,8 @@ public:
 	void selectItemById(int itemID, int maxHotBarSlot);
 
 	int getAttackDamage(Entity*);
+
+	void dropAll(bool butNotReally = false);
 
 	int getSelectedSlotNo() const
 	{

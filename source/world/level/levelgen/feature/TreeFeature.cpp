@@ -9,37 +9,38 @@
 #include "Feature.hpp"
 #include "world/level/Level.hpp"
 
-bool TreeFeature::place(Level* level, Random* random, int x, int y, int z)
+bool TreeFeature::place(Level* level, Random* random, const TilePos& pos)
 {
-	if (y <= C_MIN_Y)
+	if (pos.y <= C_MIN_Y)
 		return false;
 
 	int treeHeight = int(random->nextInt(3) + 4); // Between 4 and 6 blocks tall.
 
-	if (y + treeHeight >= C_MAX_Y)
+	if (pos.y + treeHeight >= C_MAX_Y)
 		return false;
 
 	// Ensure that we can place this tree
 	bool bCanPlace = true;
-	for (int ay = y; ay <= y + treeHeight; ay++)
+	TilePos tp;
+	for (tp.y = pos.y; tp.y <= pos.y + treeHeight; tp.y++)
 	{
 		int x1 = 1;
-		if (y + treeHeight - 1 <= ay)
+		if (pos.y + treeHeight - 1 <= tp.y)
 			x1 = 2;
-		else if (ay == y)
+		else if (tp.y == pos.y)
 			x1 = 0;
 
-		for (int ax = x - x1; ax <= x + x1 && bCanPlace; ax++)
+		for (tp.x = pos.x - x1; tp.x <= pos.x + x1 && bCanPlace; tp.x++)
 		{
-			for (int az = z - x1; az <= z + x1 && bCanPlace; az++)
+			for (tp.z = pos.z - x1; tp.z <= pos.z + x1 && bCanPlace; tp.z++)
 			{
-				if (ay < C_MIN_Y || ay >= C_MAX_Y)
+				if (tp.y < C_MIN_Y || tp.y >= C_MAX_Y)
 				{
 					bCanPlace = false;
 					break;
 				}
 
-				TileID tile = level->getTile(ax, ay, az);
+				TileID tile = level->getTile(tp);
 
 				// other trees can overlap with this one, apparently
 				if (tile != TILE_AIR && tile != Tile::leaves->m_ID)
@@ -55,27 +56,27 @@ bool TreeFeature::place(Level* level, Random* random, int x, int y, int z)
 	if (!bCanPlace)
 		return false;
 
-	TileID tileBelow = level->getTile(x, y - 1, z);
+	TileID tileBelow = level->getTile(pos.below());
 
 	// If grass or dirt aren't below us, we can't possibly grow!
 	if (tileBelow != Tile::grass->m_ID && tileBelow != Tile::dirt->m_ID)
 		return false;
 
 	// @NOTE: Redundant check
-	if (y >= C_MAX_Y - treeHeight)
+	if (pos.y >= C_MAX_Y - treeHeight)
 		return false;
 
-	level->setTileNoUpdate(x, y - 1, z, Tile::dirt->m_ID);
+	level->setTileNoUpdate(pos.below(), Tile::dirt->m_ID);
 
-	int upperY = y + treeHeight;
-	int lowerY = y + treeHeight - 3;
+	int upperY = pos.y + treeHeight;
+	int lowerY = pos.y + treeHeight - 3;
 	int diff = lowerY - upperY;
 
-	for (int i = lowerY; i <= upperY; i++, diff = i - upperY)
+	for (tp.y = lowerY; tp.y <= upperY; tp.y++, diff = tp.y - upperY)
 	{
 		int c1 = 1 - diff / 2;
 		int c2 = diff / 2 - 1;
-		for (int ax = x - c1; ax <= x + c1; ax++)
+		for (tp.x = pos.x - c1; tp.x <= pos.x + c1; tp.x++)
 		{
 			int c3 = c2;
 			int c4 = diff / 2 - 1;
@@ -84,24 +85,25 @@ bool TreeFeature::place(Level* level, Random* random, int x, int y, int z)
 
 			//int c5 = c3;
 
-			for (int az = z - c1; az <= z + c1; az++, c4++)
+			for (tp.z = pos.z - c1; tp.z <= pos.z + c1; tp.z++, c4++)
 			{
-                if ((abs(ax - x) != c1 || abs(az - z) != c1 || (random->nextInt(2) != 0 && diff != 0)) && !Tile::solid[level->getTile(ax, i, az)])
+                if ((abs(tp.x - pos.x) != c1 || abs(tp.z - pos.z) != c1 || (random->nextInt(2) != 0 && diff != 0)) && !Tile::solid[level->getTile(tp)])
 				{
-					level->setTileNoUpdate(ax, i, az, Tile::leaves->m_ID);
+					level->setTileNoUpdate(tp, Tile::leaves->m_ID);
 				}
 			}
 		}
 	}
 
-	for (int i = 0; i < treeHeight; i++)
+	for (int y = 0; y < treeHeight; y++)
 	{
-		//int y1 = i + y;
-		TileID tile = level->getTile(x, y + i, z);
+		TilePos t(pos);
+		t.y += y;
+		TileID tile = level->getTile(t);
 		if (tile && tile != Tile::leaves->m_ID)
 			continue;
 
-		level->setTileNoUpdate(x, y + i, z, Tile::treeTrunk->m_ID);
+		level->setTileNoUpdate(t, Tile::treeTrunk->m_ID);
 	}
 
 	return true;

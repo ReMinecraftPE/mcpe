@@ -16,10 +16,10 @@ private:
 	void _init();
 public:
 	PrimedTnt(Level* level) : Entity(level) { _init(); }
-	PrimedTnt(Level* level, float x, float y, float z);
+	PrimedTnt(Level* level, const Vec3& pos);
 
-	float getShadowHeightOffs() override;
-	bool isPickable() override;
+	float getShadowHeightOffs() const override;
+	bool isPickable() const override;
 	void tick() override;
 
 	void explode();

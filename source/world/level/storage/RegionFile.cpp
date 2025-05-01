@@ -74,9 +74,9 @@ bool RegionFile::open()
 	return true;
 }
 
-bool RegionFile::readChunk(int x, int z, RakNet::BitStream** pBitStream)
+bool RegionFile::readChunk(const ChunkPos& pos, RakNet::BitStream** pBitStream)
 {
-	int idx = field_20[32 * z + x];
+	int idx = field_20[32 * pos.z + pos.x];
 	if (!idx)
 		return false;
 
@@ -109,10 +109,10 @@ bool RegionFile::write(int index, RakNet::BitStream& bitStream)
 	return true;
 }
 
-bool RegionFile::writeChunk(int x, int z, RakNet::BitStream& bitStream)
+bool RegionFile::writeChunk(const ChunkPos& pos, RakNet::BitStream& bitStream)
 {
 	int length = bitStream.GetNumberOfBytesUsed();
-	int field20i = field_20[32 * z + x];
+	int field20i = field_20[32 * pos.z + pos.x];
 	int lowerIndex = (length + 4) / SECTOR_BYTES + 1;
 	if (lowerIndex > 256)
 		return false;
@@ -161,15 +161,15 @@ bool RegionFile::writeChunk(int x, int z, RakNet::BitStream& bitStream)
 		}
 	}
 
-	field_20[32 * z + x] = (v22 << 8) | lowerIndex;
+	field_20[32 * pos.z + pos.x] = (v22 << 8) | lowerIndex;
 	for (int k = 0; k < lowerIndex; k++)
 	{
 		field_28[k + v22] = false;
 	}
 
 	write(v22, bitStream);
-	fseek(m_pFile, sizeof(int) * (x + 32 * z), SEEK_SET);
-	fwrite(&field_20[x + 32 * z], sizeof(int), 1, m_pFile);
+	fseek(m_pFile, sizeof(int) * (pos.x + 32 * pos.z), SEEK_SET);
+	fwrite(&field_20[pos.x + 32 * pos.z], sizeof(int), 1, m_pFile);
 
 	return true;
 }

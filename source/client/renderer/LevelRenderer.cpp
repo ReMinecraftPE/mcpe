@@ -14,22 +14,25 @@
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
 
+bool LevelRenderer::_areCloudsAvailable = false; // false because 0.1 didn't have them
+bool LevelRenderer::_arePlanetsAvailable = false; // false because 0.1 didn't have them
+
 LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 {
 	field_4 = -9999.0f;
 	field_8 = -9999.0f;
 	field_C = -9999.0f;
 	field_10 = 0.0f;
-	field_14 = 2;
-	field_18 = 0;
-	field_1C = 0;
-	field_20 = 0;
+	m_noEntityRenderFrames = 2;
+	m_totalEntities = 0;
+	m_renderedEntities = 0;
+	m_culledEntities = 0;
 	field_30 = 0;
-	field_54 = 0;
-	field_58 = 0;
-	field_5C = 0;
-	field_60 = 0;
-	field_64 = 0;
+	m_totalChunks = 0;
+	m_offscreenChunks = 0;
+	m_occludedChunks = 0;
+	m_renderedChunks = 0;
+	m_emptyChunks = 0;
 	field_68 = 0;
 	m_resortedMinX = 0;
 	m_resortedMinY = 0;
@@ -58,35 +61,112 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	xglGenBuffers(m_nBuffers, m_pBuffers);
 	LOG_I("numBuffers: %d", m_nBuffers);
 
-	xglGenBuffers(1, &m_skyBuffer);
+	xglGenBuffers(1, &m_starBuffer);
+	generateStars();
 
+	xglGenBuffers(1, &m_skyBuffer);
+	xglGenBuffers(1, &m_darkBuffer);
 	generateSky(); // inlined in the 0.1.0 demo
 }
 
 void LevelRenderer::generateSky()
 {
+	int s = 128;
+	int d = 256 / s + 2;
+
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 	m_skyBufferCount = 0;
+	float yy = 16.0f;
 
-	//float m = 16.0f;
-	int n = 4;
-	int p = 128;
-
-	for (int i = n * -p; i <= n * p; i += p)
+	for (int xx = -s * d; xx <= s * d; xx += s)
 	{
-		for (int j = n * -p; j <= n * p; j += p)
+		for (int zz = -s * d; zz <= s * d; zz += s)
 		{
-			t.vertex(float(i + 0.0f), 16.0f, float(j + 0.0f));
-			t.vertex(float(i + p)   , 16.0f, float(j + 0.0f));
-			t.vertex(float(i + p)   , 16.0f, float(j + p)   );
-			t.vertex(float(i + 0.0f), 16.0f, float(j + p)   );
+			t.vertex(xx + 0, yy, zz + 0);
+			t.vertex(xx + s, yy, zz + 0);
+			t.vertex(xx + s, yy, zz + s);
+			t.vertex(xx + 0, yy, zz + s);
 
 			m_skyBufferCount += 4;
 		}
 	}
 
 	t.end(m_skyBuffer);
+
+	// This code is almost the same, ugly
+
+	t.begin();
+	m_darkBufferCount = 0;
+	yy = -16.0f;
+
+	for (int xx = -s * d; xx <= s * d; xx += s)
+	{
+		for (int zz = -s * d; zz <= s * d; zz += s)
+		{
+			t.vertex(xx + s, yy, zz + 0);
+			t.vertex(xx + 0, yy, zz + 0);
+			t.vertex(xx + 0, yy, zz + s);
+			t.vertex(xx + s, yy, zz + s);
+
+			m_darkBufferCount += 4;
+		}
+	}
+
+	t.end(m_darkBuffer);
+}
+
+void LevelRenderer::generateStars()
+{
+	Random random = Random(10842L);
+	Tesselator& t = Tesselator::instance;
+	t.begin();
+	m_starBufferCount = 0;
+
+	for (int i = 0; i < 1500; i++)
+	{
+		float x = (random.nextFloat() * 2.0f - 1.0f);
+		float y = (random.nextFloat() * 2.0f - 1.0f);
+		float z = (random.nextFloat() * 2.0f - 1.0f);
+		float ss = (0.25f + random.nextFloat() * 0.25f);
+		float d = x * x + y * y + z * z;
+		if (d < 1.0f && d > 0.01f)
+		{
+			d = 1.0f / Mth::sqrt(d);
+			x *= d;
+			y *= d;
+			z *= d;
+			float xp = x * 100.0f;
+			float yp = y * 100.0f;
+			float zp = z * 100.0f;
+			float yRot = Mth::atan2(x, z);
+			float ySin = Mth::sin(yRot);
+			float yCos = Mth::cos(yRot);
+			float xRot = Mth::atan2(Mth::sqrt(x * x + z * z), y);
+			float xSin = Mth::sin(xRot);
+			float xCos = Mth::cos(xRot);
+			float zRot = random.nextFloat() * M_PI * 2.0f;
+			float zSin = Mth::sin(zRot);
+			float zCos = Mth::cos(zRot);
+
+			for (int c = 0; c < 4; c++)
+			{
+				float ___xo = 0.0f;
+				float ___yo = ((c & 2) - 1) * ss;
+				float ___zo = ((c + 1 & 2) - 1) * ss;
+				float __yo = ___yo * zCos - ___zo * zSin;
+				float __zo = ___zo * zCos + ___yo * zSin;
+				float _yo = __yo * xSin + ___xo * xCos;
+				float _xo = ___xo * xSin - __yo * xCos;
+				float xo = _xo * ySin - __zo * yCos;
+				float zo = __zo * ySin + _xo * yCos;
+				t.vertex(xp + xo, yp + _yo, zp + zo);
+			}
+			m_starBufferCount += 4;
+		}
+	}
+
+	t.end(m_starBuffer);
 }
 
 void LevelRenderer::deleteChunks()
@@ -169,18 +249,20 @@ void LevelRenderer::allChanged()
 
 	int x2 = 0, x3 = 0;
 
-	for (int i = 0; i < field_A4; i++)
+	// These are actually Chunk coordinates that get converted to Tile coordinates
+	TilePos cp(0, 0, 0);
+	for (cp.x = 0; cp.x < field_A4; cp.x++)
 	{
 		if (field_A8 <= 0)
 			continue;
 
-		for (int j = 0; j < field_A8; j++)
+		for (cp.y = 0; cp.y < field_A8; cp.y++)
 		{
-			for (int k = 0; k < field_AC; k++)
+			for (cp.z = 0; cp.z < field_AC; cp.z++)
 			{
-				int index = i + field_A4 * (j + field_A8 * k);
+				int index = cp.x + field_A4 * (cp.y + field_A8 * cp.z);
 
-				Chunk* pChunk = new Chunk(m_pLevel, 16 * i, 16 * j, 16 * k, 16, x3 + field_B0, &m_pBuffers[x3]);
+				Chunk* pChunk = new Chunk(m_pLevel, cp * 16, 16, x3 + field_B0, &m_pBuffers[x3]);
 
 				if (field_B8)
 					pChunk->field_50 = 0;
@@ -204,20 +286,18 @@ void LevelRenderer::allChanged()
 		Mob* pMob = m_pMinecraft->m_pMobPersp;
 		if (pMob)
 		{
-			resortChunks(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
+			resortChunks(pMob->m_pos);
 
 			std::sort(&field_98[0], &field_98[m_chunksLength], DistanceChunkSorter(pMob));
 		}
 	}
 
-	field_14 = 2;
+	m_noEntityRenderFrames = 2;
 }
 
-void LevelRenderer::resortChunks(int x, int y, int z)
+void LevelRenderer::resortChunks(const TilePos& pos)
 {
-	x -= 8;
-	y -= 8;
-	z -= 8;
+	TilePos tp(pos - 8);
 	m_resortedMinX = 0x7FFFFFFF;
 	m_resortedMinY = 0x7FFFFFFF;
 	m_resortedMinZ = 0x7FFFFFFF;
@@ -231,7 +311,7 @@ void LevelRenderer::resortChunks(int x, int y, int z)
 	for (int fx = 0; fx < field_A4; fx++)
 	{
 		int x1 = 16 * fx;
-		int x2 = x1 + blkCntHalf - x;
+		int x2 = x1 + blkCntHalf - tp.x;
 		if (x2 < 0) x2 -= blkCount - 1;
 		x2 /= blkCount;
 		x1 -= blkCount * x2;
@@ -244,7 +324,7 @@ void LevelRenderer::resortChunks(int x, int y, int z)
 		for (int fz = 0; fz < field_AC; fz++)
 		{
 			int z1 = 16 * fz;
-			int z2 = z1 + blkCntHalf - z;
+			int z2 = z1 + blkCntHalf - tp.z;
 			if (z2 < 0) z2 -= blkCount - 1;
 			z2 /= blkCount;
 			z1 -= blkCount * z2;
@@ -264,7 +344,7 @@ void LevelRenderer::resortChunks(int x, int y, int z)
 
 				Chunk* pChunk = m_chunks[(fz * field_A8 + fy) * field_A4 + fx];
 				bool wasDirty = pChunk->isDirty();
-				pChunk->setPos(x1, y1, z1);
+				pChunk->setPos(TilePos(x1, y1, z1));
 
 				if (!wasDirty && pChunk->isDirty())
 					field_88.push_back(pChunk);
@@ -285,10 +365,21 @@ std::string LevelRenderer::gatherStats1()
 	//@NOTE: This data is based on the Java Edition pre-1.8 legend. This may not be accurate, but it's a good guideline.
 	//See https://minecraft.fandom.com/wiki/Debug_screen#Pre-1.8_legend
 	std::stringstream ss;
-	ss  << "C: " << field_60 << "/" << field_54 // Number of chunk sections rendered over total number of chunks.
-		<< ". F: " << field_58 // Number of chunk sections loaded outside the viewing distance.
-		<< ", O: " << field_5C // Number of occluded chunk sections.
-		<< ", E: " << field_64 // Number of empty chunk sections.
+	ss  << "C: " << m_renderedChunks << "/" << m_totalChunks // Number of chunk sections rendered over total number of chunks.
+		<< ". F: " << m_offscreenChunks // Number of chunk sections loaded outside the viewing distance.
+		<< ", O: " << m_occludedChunks // Number of occluded chunk sections.
+		<< ", E: " << m_emptyChunks // Number of empty chunk sections.
+		<< "\n";
+
+	return ss.str();
+}
+
+std::string LevelRenderer::gatherStats2()
+{
+	std::stringstream ss;
+	ss  << "E: " << m_renderedEntities << "/" << m_totalEntities
+		<< ". B: " << m_culledEntities
+		<< ", I: " << m_totalEntities - m_culledEntities - m_renderedEntities
 		<< "\n";
 
 	return ss.str();
@@ -298,6 +389,9 @@ void LevelRenderer::onGraphicsReset()
 {
 	xglGenBuffers(m_nBuffers, m_pBuffers);
 	allChanged();
+
+	xglGenBuffers(1, &m_starBuffer);
+	generateStars();
 
 	xglGenBuffers(1, &m_skyBuffer);
 	generateSky(); // inlined in the 0.1.0 demo
@@ -352,21 +446,21 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 		Chunk* pChunk = field_98[i];
 		if (!a)
 		{
-			field_54++;
+			m_totalChunks++;
 			if (pChunk->field_1C[0])
 			{
-				field_64++;
+				m_emptyChunks++;
 			}
 			else if (pChunk->m_bVisible)
 			{
 				if (!field_B8 || pChunk->field_4D)
-					field_60++;
+					m_renderedChunks++;
 				else
-					field_5C++;
+					m_occludedChunks++;
 			}
 			else
 			{
-				field_58++;
+				m_offscreenChunks++;
 			}
 		}
 
@@ -379,9 +473,9 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 
-	float fPosX = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;
-	float fPosY = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * b;
-	float fPosZ = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * b;
+	float fPosX = pMob->m_posPrev.x + (pMob->m_pos.x - pMob->m_posPrev.x) * b;
+	float fPosY = pMob->m_posPrev.y + (pMob->m_pos.y - pMob->m_posPrev.y) * b;
+	float fPosZ = pMob->m_posPrev.z + (pMob->m_pos.z - pMob->m_posPrev.z) * b;
 
 	m_renderList.clear();
 	m_renderList.init(fPosX, fPosY, fPosZ);
@@ -418,11 +512,9 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		allChanged();
 
 	if (!a)
-		field_54 = field_58 = field_5C = field_60 = field_64 = 0;
+		m_totalChunks = m_offscreenChunks = m_occludedChunks = m_renderedChunks = m_emptyChunks = 0;
 
-	float mobX2 = pMob->field_98.x + (pMob->m_pos.x - pMob->field_98.x) * b;
-	float mobY2 = pMob->field_98.y + (pMob->m_pos.y - pMob->field_98.y) * b;
-	float mobZ2 = pMob->field_98.z + (pMob->m_pos.z - pMob->field_98.z) * b;
+	Vec3 mobPos = pMob->m_posPrev + (pMob->m_pos - pMob->m_posPrev) * b;
 
 	float dX = pMob->m_pos.x - field_4, dY = pMob->m_pos.y - field_8, dZ = pMob->m_pos.z - field_C;
 
@@ -432,7 +524,7 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 		field_8 = pMob->m_pos.y;
 		field_C = pMob->m_pos.z;
 
-		resortChunks(Mth::floor(pMob->m_pos.x), Mth::floor(pMob->m_pos.y), Mth::floor(pMob->m_pos.z));
+		resortChunks(pMob->m_pos);
 		std::sort(&field_98[0], &field_98[m_chunksLength], DistanceChunkSorter(pMob));
 	}
 
@@ -490,9 +582,9 @@ void LevelRenderer::render(Mob* pMob, int a, float b)
 					continue;
 				
 				float fXdiff, fYdiff, fZdiff;
-				fXdiff = float(m_chunks[i]->m_pos.x) - mobX2 - lastX;
-				fYdiff = float(m_chunks[i]->m_pos.y) - mobY2 - lastY;
-				fZdiff = float(m_chunks[i]->m_pos.z) - mobZ2 - lastZ;
+				fXdiff = float(m_chunks[i]->m_pos.x) - mobPos.x - lastX;
+				fYdiff = float(m_chunks[i]->m_pos.y) - mobPos.y - lastY;
+				fZdiff = float(m_chunks[i]->m_pos.z) - mobPos.z - lastZ;
 
 				if (fXdiff != 0.0f || fYdiff != 0.0f || fZdiff != 0.0f)
 				{
@@ -539,28 +631,28 @@ void LevelRenderer::setLevel(Level* level)
 	}
 }
 
-void LevelRenderer::setDirty(int x1, int y1, int z1, int x2, int y2, int z2)
+void LevelRenderer::setDirty(const TilePos& min, const TilePos& max)
 {
-	int x1c = Mth::intFloorDiv(x1, 16);
-	int y1c = Mth::intFloorDiv(y1, 16);
-	int z1c = Mth::intFloorDiv(z1, 16);
-	int x2c = Mth::intFloorDiv(x2, 16);
-	int y2c = Mth::intFloorDiv(y2, 16);
-	int z2c = Mth::intFloorDiv(z2, 16);
+	int minX = Mth::intFloorDiv(min.x, 16);
+	int minY = Mth::intFloorDiv(min.y, 16);
+	int minZ = Mth::intFloorDiv(min.z, 16);
+	int maxX = Mth::intFloorDiv(max.x, 16);
+	int maxY = Mth::intFloorDiv(max.y, 16);
+	int maxZ = Mth::intFloorDiv(max.z, 16);
 
-	for (int x = x1c; x <= x2c; x++)
+	for (int x = minX; x <= maxX; x++)
 	{
 		int x1 = x % field_A4;
 		if (x1 < 0)
 			x1 += field_A4;
 
-		for (int y = y1c; y <= y2c; y++)
+		for (int y = minY; y <= maxY; y++)
 		{
 			int y1 = y % field_A8;
 			if (y1 < 0)
 				y1 += field_A8;
 
-			for (int z = z1c; z <= z2c; z++)
+			for (int z = minZ; z <= maxZ; z++)
 			{
 				int z1 = z % field_AC;
 				if (z1 < 0)
@@ -577,9 +669,9 @@ void LevelRenderer::setDirty(int x1, int y1, int z1, int x2, int y2, int z2)
 	}
 }
 
-void LevelRenderer::setTilesDirty(int x1, int y1, int z1, int x2, int y2, int z2)
+void LevelRenderer::setTilesDirty(const TilePos& min, const TilePos& max)
 {
-	setDirty(x1 - 1, y1 - 1, z1 - 1, x2 + 1, y2 + 1, z2 + 1);
+	setDirty(min - 1, max + 1);
 }
 
 void LevelRenderer::tick()
@@ -707,7 +799,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
-	glColor4f(1.0f, 1.0f, 1.0f, 0.5f * (0.4f + 0.2f * Mth::sin(float(getTimeMs()) / 100.0f)));
+	//glColor4f(1.0f, 1.0f, 1.0f, 0.5f * (0.4f + 0.2f * Mth::sin(float(getTimeMs()) / 100.0f)));
 
 	if (!i && field_10 > 0.0f)
 	{
@@ -717,16 +809,16 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
 		glPushMatrix();
 		Tile* pTile = nullptr;
-		TileID tile = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+		TileID tile = m_pLevel->getTile(hr.m_tilePos);
 		if (tile > 0)
 			pTile = Tile::tiles[tile];
 		glDisable(GL_ALPHA_TEST);
 		glPolygonOffset(-3.0f, -3.0f);
 		glEnable(GL_POLYGON_OFFSET_FILL);
 
-		float px = pPlayer->field_98.x + (pPlayer->m_pos.x - pPlayer->field_98.x) * f;
-		float py = pPlayer->field_98.y + (pPlayer->m_pos.y - pPlayer->field_98.y) * f;
-		float pz = pPlayer->field_98.z + (pPlayer->m_pos.z - pPlayer->field_98.z) * f;
+		float px = pPlayer->m_posPrev.x + (pPlayer->m_pos.x - pPlayer->m_posPrev.x) * f;
+		float py = pPlayer->m_posPrev.y + (pPlayer->m_pos.y - pPlayer->m_posPrev.y) * f;
+		float pz = pPlayer->m_posPrev.z + (pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f;
 
 		Tesselator& t = Tesselator::instance;
 		t.begin();
@@ -735,7 +827,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		if (!pTile)
 			pTile = Tile::rock;
 
-		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tileX, hr.m_tileY, hr.m_tileZ, 240 + int(field_10 * 10.0f));
+		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos, 240 + int(field_10 * 10.0f));
 
 		t.draw();
 		t.offset(0, 0, 0);
@@ -764,7 +856,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 
 	Tile* pTile = nullptr;
-	TileID tileID = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+	TileID tileID = m_pLevel->getTile(hr.m_tilePos);
 	if (tileID > 0)
 		pTile = Tile::tiles[tileID];
 
@@ -774,9 +866,9 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	glPolygonOffset(-0.3f, -0.3f);
 	glEnable(GL_POLYGON_OFFSET_FILL);
 
-	float px = pPlayer->field_98.x + (pPlayer->m_pos.x - pPlayer->field_98.x) * f;
-	float py = pPlayer->field_98.y + (pPlayer->m_pos.y - pPlayer->field_98.y) * f;
-	float pz = pPlayer->field_98.z + (pPlayer->m_pos.z - pPlayer->field_98.z) * f;
+	float px = pPlayer->m_posPrev.x + (pPlayer->m_pos.x - pPlayer->m_posPrev.x) * f;
+	float py = pPlayer->m_posPrev.y + (pPlayer->m_pos.y - pPlayer->m_posPrev.y) * f;
+	float pz = pPlayer->m_posPrev.z + (pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f;
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
@@ -785,7 +877,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	if (!pTile)
 		pTile = Tile::rock;
 
-	m_pTileRenderer->tesselateInWorld(pTile, hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+	m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos);
 
 	t.draw();
 	t.offset(0, 0, 0);
@@ -817,24 +909,22 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 	float range[2];
 	glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, range);
 
-	float lineWidth = 2.0f;
+	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
 	if (lineWidth > range[1])
 		lineWidth = range[1];
 
 	glLineWidth(lineWidth);
 
-	TileID tile = m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+	TileID tile = m_pLevel->getTile(hr.m_tilePos);
 	if (tile > 0)
 	{
 		Tile::tiles[tile]->updateShape(
 			m_pLevel,
-			hr.m_tileX,
-			hr.m_tileY,
-			hr.m_tileZ);
-		float posX = pPlayer->field_98.x + ((pPlayer->m_pos.x - pPlayer->field_98.x) * f);
-		float posY = pPlayer->field_98.y + ((pPlayer->m_pos.y - pPlayer->field_98.y) * f);
-		float posZ = pPlayer->field_98.z + ((pPlayer->m_pos.z - pPlayer->field_98.z) * f);
-		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+			hr.m_tilePos);
+		float posX = pPlayer->m_posPrev.x + ((pPlayer->m_pos.x - pPlayer->m_posPrev.x) * f);
+		float posY = pPlayer->m_posPrev.y + ((pPlayer->m_pos.y - pPlayer->m_posPrev.y) * f);
+		float posZ = pPlayer->m_posPrev.z + ((pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f);
+		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tilePos);
 		aabb.min.y = tileAABB.min.y - 0.002f - posY;
 		aabb.max.y = tileAABB.max.y + 0.002f - posY;
 		aabb.min.z = tileAABB.min.z - 0.002f - posZ;
@@ -849,16 +939,16 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 	glDisable(GL_BLEND);
 }
 
-void LevelRenderer::tileChanged(int x, int y, int z)
+void LevelRenderer::tileChanged(const TilePos& pos)
 {
-	setDirty(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);
+	setDirty(pos - 1, pos + 1);
 }
 
 void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 {
-	if (field_14 > 0)
+	if (m_noEntityRenderFrames > 0)
 	{
-		field_14--;
+		m_noEntityRenderFrames--;
 		return;
 	}
 
@@ -866,18 +956,16 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 
 	EntityRenderDispatcher::getInstance()->prepare(m_pLevel, m_pMinecraft->m_pTextures, m_pMinecraft->m_pFont, mob, m_pMinecraft->getOptions(), f);
 
-	field_18 = 0;
-	field_1C = 0;
-	field_20 = 0;
+	m_totalEntities = 0;
+	m_renderedEntities = 0;
+	m_culledEntities = 0;
 
-	EntityRenderDispatcher::xOff = mob->field_98.x + (mob->m_pos.x - mob->field_98.x) * f;
-	EntityRenderDispatcher::yOff = mob->field_98.y + (mob->m_pos.y - mob->field_98.y) * f;
-	EntityRenderDispatcher::zOff = mob->field_98.z + (mob->m_pos.z - mob->field_98.z) * f;
+	EntityRenderDispatcher::off = mob->m_posPrev + (mob->m_pos - mob->m_posPrev) * f;
 
-	EntityVector* pVec = m_pLevel->getAllEntities();
-	field_18 = int(pVec->size());
+	const EntityVector* pVec = m_pLevel->getAllEntities();
+	m_totalEntities = int(pVec->size());
 
-	for (int i = 0; i < field_18; i++)
+	for (int i = 0; i < m_totalEntities; i++)
 	{
 		Entity* pEnt = (*pVec)[i];
 		if (!pEnt->shouldRender(pos))
@@ -889,9 +977,9 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 		if (m_pMinecraft->m_pMobPersp == pEnt && !m_pMinecraft->getOptions()->m_bThirdPerson)
 			continue;
 
-		if (m_pLevel->hasChunkAt(Mth::floor(pEnt->m_pos.x), Mth::floor(pEnt->m_pos.y), Mth::floor(pEnt->m_pos.z)))
+		if (m_pLevel->hasChunkAt(pEnt->m_pos))
 		{
-			field_1C++;
+			m_renderedEntities++;
 			EntityRenderDispatcher::getInstance()->render(pEnt, f);
 		}
 	}
@@ -935,79 +1023,79 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	m_pMinecraft->platform()->saveScreenshot(std::string(str), Minecraft::width, Minecraft::height);
 }
 
-void LevelRenderer::addParticle(const std::string& name, float x, float y, float z, float vx, float vy, float vz)
+void LevelRenderer::addParticle(const std::string& name, const Vec3& pos, const Vec3& dir)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	float maxDist = 256.0f;
 	if (name == "explodeColor")
 		maxDist = 16384.0f;
 
-	if (m_pMinecraft->m_pMobPersp->distanceToSqr_inline(x, y, z) > maxDist)
+	if (m_pMinecraft->m_pMobPersp->distanceToSqr_inline(pos) > maxDist)
 		return;
 
 	ParticleEngine* pe = m_pMinecraft->m_pParticleEngine;
 	if (name == "bubble")
 	{
-		pe->add(new BubbleParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new BubbleParticle(m_pLevel, pos, dir));
 		return;
 	}
 	if (name == "smoke")
 	{
-		pe->add(new SmokeParticle(m_pLevel, x, y, z, vx, vy, vz, 1.0f));
+		pe->add(new SmokeParticle(m_pLevel, pos, dir, 1.0f));
 		return;
 	}
 	if (name == "explode")
 	{
-		pe->add(new ExplodeParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new ExplodeParticle(m_pLevel, pos, dir));
 		return;
 	}
 	if (name == "explodeColor")
 	{
-		ExplodeParticle* pExplPart = new ExplodeParticle(m_pLevel, x, y, z, vx, vy, vz);
+		ExplodeParticle* pExplPart = new ExplodeParticle(m_pLevel, pos, dir);
 		pExplPart->m_bIsUnlit = true;
-		pExplPart->field_F8 = Mth::random();
-		pExplPart->field_FC = Mth::random();
-		pExplPart->field_100 = Mth::random();
+		pExplPart->m_rCol = Mth::random();
+		pExplPart->m_gCol = Mth::random();
+		pExplPart->m_bCol = Mth::random();
 		pExplPart->scale(3.0f);
 		pe->add(pExplPart);
 		return;
 	}
 	if (name == "flame")
 	{
-		pe->add(new FlameParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new FlameParticle(m_pLevel, pos, dir));
 		return;
 	}
 	if (name == "flame2")
 	{
-		FlameParticle* pFlamePart = new FlameParticle(m_pLevel, x, y, z, vx, vy, vz);
+		FlameParticle* pFlamePart = new FlameParticle(m_pLevel, pos, dir);
 		pFlamePart->scale(4.0f);
 		pe->add(pFlamePart);
 		return;
 	}
 	if (name == "lava")
 	{
-		pe->add(new LavaParticle(m_pLevel, x, y, z));
+		pe->add(new LavaParticle(m_pLevel, pos));
 		return;
 	}
 	if (name == "largesmoke")
 	{
-		pe->add(new SmokeParticle(m_pLevel, x, y, z, vx, vy, vz, 2.5f));
+		pe->add(new SmokeParticle(m_pLevel, pos, dir, 2.5f));
 		return;
 	}
 	if (name == "reddust")
 	{
-		pe->add(new RedDustParticle(m_pLevel, x, y, z, vx, vy, vz));
+		pe->add(new RedDustParticle(m_pLevel, pos, dir));
 		return;
 	}
 
 	LOG_W("Unknown particle type: %s", name.c_str());
 }
 
-void LevelRenderer::playSound(const std::string& name, float x, float y, float z, float volume, float pitch)
+void LevelRenderer::playSound(const std::string& name, const Vec3& pos, float volume, float pitch)
 {
 	// TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
 	float mult = 1.0f, maxDist = 16.0f;
-	float playerDist = m_pMinecraft->m_pMobPersp->distanceToSqr(x, y, z);
+	float playerDist = m_pMinecraft->m_pMobPersp->distanceToSqr(pos);
 
 	if (volume > 1.0f)
 	{
@@ -1018,59 +1106,156 @@ void LevelRenderer::playSound(const std::string& name, float x, float y, float z
 	if (name == "random.explode")
 	{
 		volume *= 1.0f - playerDist / 65536.0f;
-		if (volume < 0)
+		if (volume < 0.0f)
 			return;
 		maxDist = 256.0f;
 	}
 
 	if (maxDist * maxDist > playerDist)
-		m_pMinecraft->m_pSoundEngine->play(name, x, y, z, volume, pitch);
+		m_pMinecraft->m_pSoundEngine->play(name, pos, volume, pitch);
 }
 
-void LevelRenderer::renderSky(float f)
+void LevelRenderer::renderSky(float alpha)
 {
-	if (m_pMinecraft->m_pLevel->m_pDimension->field_C)
+	if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
 		return;
 
 	glDisable(GL_TEXTURE_2D);
 
-	Vec3 skyColor = m_pLevel->getSkyColor(m_pMinecraft->m_pMobPersp, f);
+	Vec3 sc = m_pLevel->getSkyColor(m_pMinecraft->m_pMobPersp, alpha);
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-		skyColor.x = (((skyColor.x * 30.0f) + (skyColor.y * 59.0f)) + (skyColor.z * 11.0f)) / 100.0f;
-		skyColor.y = ((skyColor.x * 30.0f) + (skyColor.y * 70.0f)) / 100.0f;
-		skyColor.z = ((skyColor.x * 30.0f) + (skyColor.z * 70.0f)) / 100.0f;
+		sc.x = (((sc.x * 30.0f) + (sc.y * 59.0f)) + (sc.z * 11.0f)) / 100.0f;
+		sc.y = ((sc.x * 30.0f) + (sc.y * 70.0f)) / 100.0f;
+		sc.z = ((sc.x * 30.0f) + (sc.z * 70.0f)) / 100.0f;
 	}
 
-	glColor4f(skyColor.x, skyColor.y, Mth::Min(1.0f, skyColor.z), 1.0f);
+	glColor4f(sc.x, sc.y, Mth::Min(1.0f, sc.z), 1.0f);
+
+	Tesselator& t = Tesselator::instance;
+
 	glDepthMask(false);
-	glColor4f(skyColor.x, skyColor.y, skyColor.z, 1.0f);
+	glEnable(GL_FOG);
+	glColor4f(sc.x, sc.y, sc.z, 1.0f);
+
 	drawArrayVT(m_skyBuffer, m_skyBufferCount, sizeof(Tesselator::Vertex));
+
+	glDisable(GL_FOG);
+	glDisable(GL_ALPHA_TEST);
+
+	// Sunrise
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	float* c = m_pLevel->m_pDimension->getSunriseColor(m_pLevel->getTimeOfDay(alpha), alpha);
+	if (c != nullptr && arePlanetsAvailable())
+	{
+		glDisable(GL_TEXTURE_2D);
+		//glShadeModel(GL_SMOOTH); // I'd rather fuck up the sunrise gradient than AO, but it doesn't even look like it does that
+
+		glPushMatrix();
+		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+		glRotatef(m_pLevel->getTimeOfDay(alpha) > 0.5f ? 180 : 0, 0.0f, 0.0f, 1.0f);
+
+		t.begin(GL_TRIANGLE_FAN);
+		t.color(c[0], c[1], c[2], c[3]);
+		t.vertex(0.0f, 100.0f, 0.0f);
+		t.color(c[0], c[1], c[2], 0.0f);
+
+		int steps = 16;
+		for (int i = 0; i <= steps; i++)
+		{
+			float a = i * 3.1415927f * 2.0f / steps;
+			float sin = Mth::sin(a);
+			float cos = Mth::cos(a);
+			t.vertex((sin * 120.0f), (cos * 120.0f), (-cos * 40.0f * c[3]));
+		}
+
+		t.draw();
+		glPopMatrix();
+		//glShadeModel(GL_FLAT); // fuck it, don't bother, doing this SOMEHOW breaks AO
+	}
+
+	// Sun, moon, stars
 	glEnable(GL_TEXTURE_2D);
+	glBlendFunc(GL_ONE, GL_ONE);
+	glPushMatrix();
+
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glTranslatef(sc.x, sc.y, sc.z);
+	glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
+	glRotatef(m_pLevel->getTimeOfDay(alpha) * 360.0f, 1.0f, 0.0f, 0.0f);
+
+	float ss = 30.0f;
+
+	if (arePlanetsAvailable())
+	{
+		m_pTextures->loadAndBindTexture("terrain/sun.png");
+		t.begin();
+		t.vertexUV(-ss, 100.0f, -ss, 0.0f, 0.0f);
+		t.vertexUV(ss, 100.0f, -ss, 1.0f, 0.0f);
+		t.vertexUV(ss, 100.0f, ss, 1.0f, 1.0f);
+		t.vertexUV(-ss, 100.0f, ss, 0.0f, 1.0f);
+		t.draw();
+
+		ss = 20.0f;
+		m_pTextures->loadAndBindTexture("terrain/moon.png");
+		t.begin();
+		t.vertexUV(-ss, -100.0f, ss, 1.0f, 1.0f);
+		t.vertexUV(ss, -100.0f, ss, 0.0f, 1.0f);
+		t.vertexUV(ss, -100.0f, -ss, 0.0f, 0.0f);
+		t.vertexUV(-ss, -100.0f, -ss, 1.0f, 0.0f);
+		t.draw();
+	}
+
+	glDisable(GL_TEXTURE_2D);
+
+	float a = m_pLevel->getStarBrightness(alpha);
+	if (a > 0.0f)
+	{
+		glColor4f(a, a, a, a);
+		drawArrayVT(m_starBuffer, m_starBufferCount, sizeof(Tesselator::Vertex));
+	}
+
+	// Dark plane
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glDisable(GL_BLEND);
+	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_FOG);
+	glPopMatrix();
+
+	glColor4f(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f, 1.0f);
+	glDisable(GL_TEXTURE_2D);
+	drawArrayVT(m_darkBuffer, m_darkBufferCount, sizeof(Tesselator::Vertex));
+	glEnable(GL_TEXTURE_2D);
+
 	glDepthMask(true);
 }
 
-// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
-bool g_bAreCloudsAvailable = false; // false because 0.1 didn't have them
-
-void LevelRenderer::renderClouds(float f)
+void LevelRenderer::renderClouds(float alpha)
 {
-	if (!g_bAreCloudsAvailable)
+	if (!areCloudsAvailable())
 		return;
+
+	if (m_pMinecraft->getOptions()->m_bFancyGraphics)
+	{
+		renderAdvancedClouds(alpha);
+		return;
+	}
 
 	glEnable(GL_TEXTURE_2D);
 	glDisable(GL_CULL_FACE);
 
-	float yPos = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_98.y, m_pMinecraft->m_pMobPersp->m_pos.y, f); // not certain if this old pos Y is used
+	float yPos = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_posPrev.y, m_pMinecraft->m_pMobPersp->m_pos.y, alpha); // not certain if this old pos Y is used
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	Vec3 cloudColor = m_pLevel->getCloudColor(f);
+	Vec3 cloudColor = m_pLevel->getCloudColor(alpha);
 
-	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.x, m_pMinecraft->m_pMobPersp->m_pos.x, f) + (float(m_ticksSinceStart) + f) * 0.3f;
-	float offZ = Mth::Lerp(m_pMinecraft->m_pMobPersp->field_3C.z, m_pMinecraft->m_pMobPersp->m_pos.z, f);
+	float offX = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_oPos.x, m_pMinecraft->m_pMobPersp->m_pos.x, alpha) + (float(m_ticksSinceStart) + alpha) * 0.03f;
+	float offZ = Mth::Lerp(m_pMinecraft->m_pMobPersp->m_oPos.z, m_pMinecraft->m_pMobPersp->m_pos.z, alpha);
 	
 	int dx2048 = Mth::floor(offX / 2048.0f);
 	int dz2048 = Mth::floor(offZ / 2048.0f);
@@ -1080,17 +1265,18 @@ void LevelRenderer::renderClouds(float f)
 
 	Tesselator& t = Tesselator::instance;
 
-	float fYPos = (128.0f - yPos) + 0.33f;
+	float fYPos = ((float)C_MAX_Y - yPos) + 0.33f;
 	offX /= 2048.0f;
 	offZ /= 2048.0f;
 	t.begin();
 	t.color(cloudColor.x, cloudColor.y, cloudColor.z, 0.8f);
 
-	const int incr = 32;
-	const int in2 = 256 / incr;
-	for (int x = -incr * in2; x < incr * in2; x += incr)
+	const int incr = 16 * 2;
+	const int maxX = C_MAX_CHUNKS_X * 16;
+	const int maxZ = C_MAX_CHUNKS_Z * 16;
+	for (int x = -maxX; x < maxX; x += incr)
 	{
-		for (int z = -incr * in2; z < incr * in2; z += incr)
+		for (int z = -maxZ; z < maxZ; z += incr)
 		{
 			t.vertexUV(float(x) + 0.0f, fYPos, float(z) + incr, float(x + 0.0f) / 2048.0f + offX, float(z + incr) / 2048.0f + offZ);
 			t.vertexUV(float(x) + incr, fYPos, float(z) + incr, float(x + incr) / 2048.0f + offX, float(z + incr) / 2048.0f + offZ);
@@ -1102,6 +1288,172 @@ void LevelRenderer::renderClouds(float f)
 
 	t.voidBeginAndEndCalls(false); // why??
 	t.draw();
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glDisable(GL_BLEND);
+	glEnable(GL_CULL_FACE);
+}
+
+void LevelRenderer::renderAdvancedClouds(float alpha)
+{
+	glDisable(GL_CULL_FACE);
+
+	float yOffs = //Mth::Lerp(m_pMinecraft->m_pMobPersp->m_posPrev.y, m_pMinecraft->m_pMobPersp->m_pos.y, alpha);
+    m_pMinecraft->m_pMobPersp->m_posPrev.y + (m_pMinecraft->m_pMobPersp->m_pos.y - m_pMinecraft->m_pMobPersp->m_posPrev.y) * alpha;
+
+	Tesselator& t = Tesselator::instance;
+	constexpr float ss = 12.0f;
+	constexpr float h = 4.0f;
+
+	// @NOTE: Using Mth::Lerp will use incorrect logic
+	float xo = (m_pMinecraft->m_pMobPersp->m_oPos.x + (m_pMinecraft->m_pMobPersp->m_oPos.x - m_pMinecraft->m_pMobPersp->m_oPos.x) * alpha + ((float(m_ticksSinceStart) + alpha) * 0.03f)) / ss;
+	float zo = (m_pMinecraft->m_pMobPersp->m_oPos.z + (m_pMinecraft->m_pMobPersp->m_oPos.z - m_pMinecraft->m_pMobPersp->m_oPos.z) * alpha) / ss + 0.33f;
+
+	float yy = ((float)C_MAX_Y - yOffs) + 0.33f; // 108.0f on b1.2_02, see below
+    //float yy = 108.0f - yOffs + 0.33F;
+
+	int xOffs = Mth::floor(xo / 2048);
+	int zOffs = Mth::floor(zo / 2048);
+
+	xo -= xOffs * 2048;
+	zo -= zOffs * 2048;
+
+	m_pTextures->loadAndBindTexture("environment/clouds.png");
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	Vec3 cc = m_pLevel->getCloudColor(alpha);
+	float cr = cc.x;
+	float cg = cc.y;
+	float cb = cc.z;
+    float uo;
+    float vo;
+    float scale;
+    
+	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	{
+        uo = (cr * 30.0F + cg * 59.0F + cb * 11.0F) / 100.0F;
+        vo = (cr * 30.0F + cg * 70.0F) / 100.0F;
+        scale = (cr * 30.0F + cb * 70.0F) / 100.0F;
+        cr = uo;
+        cg = vo;
+        cb = scale;
+	}
+    
+    uo = (float)(xo * 0.0);
+    vo = (float)(zo * 0.0);
+
+	//uo = xo * 0.0f;
+	//vo = zo * 0.0f;
+	scale = 1.0f / 256.0f;
+
+	uo = Mth::floor(xo) * scale;
+	vo = Mth::floor(zo) * scale;
+
+	float xoffs = xo - Mth::floor(xo);
+	float zoffs = zo - Mth::floor(zo);
+
+	constexpr int D = 8;
+	constexpr int radius = 3;
+	constexpr float e = 1.0f / 1024.0f;
+
+	glScalef(ss, 1.0f, ss);
+
+	for (int pass = 0; pass < 2; pass++)
+	{
+		if (pass == 0)
+			glColorMask(false, false, false, false);
+		else
+			glColorMask(true, true, true, true);
+
+		for (int xPos = -radius + 1; xPos <= radius; xPos++)
+		{
+			for (int zPos = -radius + 1; zPos <= radius; zPos++)
+			{
+				t.begin();
+				float xx = xPos * D;
+				float zz = zPos * D;
+				float xp = xx - xoffs;
+				float zp = zz - zoffs;
+
+				if (yy > -h - 1.0f)
+				{
+					t.color(cr * 0.7f, cg * 0.7f, cb * 0.7f, 0.8f);
+					t.vertexUV((xp + 0.0f), (yy + 0.0f), (zp + D), ((xx + 0.0f) * scale + uo), ((zz + D) * scale + vo));
+					t.vertexUV((xp + D), (yy + 0.0f), (zp + D), ((xx + D) * scale + uo), ((zz + D) * scale + vo));
+					t.vertexUV((xp + D), (yy + 0.0f), (zp + 0.0f), ((xx + D) * scale + uo), ((zz + 0.0f) * scale + vo));
+					t.vertexUV((xp + 0.0f), (yy + 0.0f), (zp + 0.0f), ((xx + 0.0f) * scale + uo), ((zz + 0.0f) * scale + vo));
+				}
+
+				if (yy <= h + 1.0f)
+				{
+					t.color(cr, cg, cb, 0.8f);
+					t.normal(0.0f, 1.0f, 0.0f);
+					t.vertexUV((xp + 0.0f), (yy + h - e), (zp + D), ((xx + 0.0f) * scale + uo), ((zz + D) * scale + vo));
+					t.vertexUV((xp + D), (yy + h - e), (zp + D), ((xx + D) * scale + uo), ((zz + D) * scale + vo));
+					t.vertexUV((xp + D), (yy + h - e), (zp + 0.0f), ((xx + D) * scale + uo), ((zz + 0.0f) * scale + vo));
+					t.vertexUV((xp + 0.0f), (yy + h - e), (zp + 0.0f), ((xx + 0.0f) * scale + uo), ((zz + 0.0f) * scale + vo));
+				}
+
+				t.color(cr * 0.9f, cg * 0.9f, cb * 0.9f, 0.8f);
+
+				if (xPos > -1)
+				{
+					t.normal(-1.0f, 0.0f, 0.0f);
+
+					for (int i = 0; i < D; i++)
+					{
+						t.vertexUV((xp + i + 0.0f), (yy + 0.0f), (zp + D), ((xx + i + 0.5f) * scale + uo), ((zz + D) * scale + vo));
+						t.vertexUV((xp + i + 0.0f), (yy + h), (zp + D), ((xx + i + 0.5f) * scale + uo), ((zz + D) * scale + vo));
+						t.vertexUV((xp + i + 0.0f), (yy + h), (zp + 0.0f), ((xx + i + 0.5f) * scale + uo), ((zz + 0.0f) * scale + vo));
+						t.vertexUV((xp + i + 0.0f), (yy + 0.0f), (zp + 0.0f), ((xx + i + 0.5f) * scale + uo), ((zz + 0.0f) * scale + vo));
+					}
+				}
+
+				if (xPos <= 1)
+				{
+					t.normal(1.0f, 0.0f, 0.0f);
+
+					for (int i = 0; i < D; i++)
+					{
+						t.vertexUV((xp + i + 1.0f - e), (yy + 0.0f), (zp + D), ((xx + i + 0.5f) * scale + uo), ((zz + D) * scale + vo));
+						t.vertexUV((xp + i + 1.0f - e), (yy + h), (zp + D), ((xx + i + 0.5f) * scale + uo), ((zz + D) * scale + vo));
+						t.vertexUV((xp + i + 1.0f - e), (yy + h), (zp + 0.0f), ((xx + i + 0.5f) * scale + uo), ((zz + 0.0f) * scale + vo));
+						t.vertexUV((xp + i + 1.0f - e), (yy + 0.0f), (zp + 0.0f), ((xx + i + 0.5f) * scale + uo), ((zz + 0.0f) * scale + vo));
+					}
+				}
+
+				t.color(cr * 0.8f, cg * 0.8f, cb * 0.8f, 0.8f);
+				if (zPos > -1)
+				{
+					t.normal(0.0f, 0.0f, -1.0f);
+
+					for (int i = 0; i < D; i++)
+					{
+						t.vertexUV((xp + 0.0f), (yy + h), (zp + i + 0.0f), ((xx + 0.0f) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+						t.vertexUV((xp + D), (yy + h), (zp + i + 0.0f), ((xx + D) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+						t.vertexUV((xp + D), (yy + 0.0f), (zp + i + 0.0f), ((xx + D) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+						t.vertexUV((xp + 0.0f), (yy + 0.0f), (zp + i + 0.0f), ((xx + 0.0f) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+					}
+				}
+
+				if (zPos <= 1)
+				{
+					t.normal(0.0f, 0.0f, 1.0f);
+
+					for (int i = 0; i < D; i++)
+					{
+						t.vertexUV((xp + 0.0f), (yy + h), (zp + i + 1.0f - e), ((xx + 0.0f) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+						t.vertexUV((xp + D), (yy + h), (zp + i + 1.0f - e), ((xx + D) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+						t.vertexUV((xp + D), (yy + 0.0f), (zp + i + 1.0f - e), ((xx + D) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+						t.vertexUV((xp + 0.0f), (yy + 0.0f), (zp + i + 1.0f - e), ((xx + 0.0f) * scale + uo), ((zz + i + 0.5f) * scale + vo));
+					}
+				}
+
+				t.draw();
+			}
+		}
+	}
+
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);

@@ -20,14 +20,14 @@ public:
 
 	//overrides
 	virtual void reset() override;
-	virtual void lerpTo(float x, float y, float z, float yaw, float pitch, int i) override;
+	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
 	virtual void tick() override;
 	virtual void baseTick() override;
-	virtual float getHeadHeight() override;
-	virtual bool isPickable() override;
-	virtual bool isPushable() override;
-	virtual bool isShootable() override;
-	virtual bool isAlive() override;
+	virtual float getHeadHeight() const override { return 0.85f * m_bbHeight; }
+	virtual bool isPickable() const override { return !m_bRemoved; }
+	virtual bool isPushable() const override { return !m_bRemoved; }
+	virtual bool isShootable() const override { return true; }
+	virtual bool isAlive() const override;
 	virtual bool hurt(Entity*, int) override;
 	virtual void animateHurt() override;
 	virtual void setSize(float rad, float height) override;
@@ -37,49 +37,52 @@ public:
 	//virtuals
 	virtual void knockback(Entity* pEnt, int a, float x, float z);
 	virtual void die(Entity* pCulprit);
-	virtual bool canSee(Entity* pEnt);
-	virtual bool onLadder();
+	virtual bool canSee(Entity* pEnt) const;
+	virtual bool onLadder() const;
 	virtual void spawnAnim();
-	virtual std::string getTexture();
-	virtual bool isWaterMob();
+	virtual std::string getTexture() const;
+	virtual bool isWaterMob() const { return false; }
 	virtual void playAmbientSound();
-	virtual int getAmbientSoundInterval();
-	virtual void superTick();
+	virtual int getAmbientSoundInterval() const;
+	virtual void superTick() { Entity::tick(); }
 	virtual void heal(int health);
 	virtual HitResult pick(float, float);
-	virtual void travel(float, float);
+	virtual void travel(const Vec2& pos);
 	virtual void updateWalkAnim();
 	virtual void aiStep();
 	//AddAdditonalSaveData TODO
 	//ReadAdditionalSaveData TODO
 	virtual void lookAt(Entity* pEnt, float, float);
-	virtual bool isLookingAtAnEntity();
-	virtual Entity* getLookingAt();
-	virtual void beforeRemove();
-	virtual bool canSpawn();
-	virtual float getAttackAnim(float f);
-	virtual Vec3 getPos(float f);
-	virtual Vec3 getLookAngle(float f);
-	virtual Vec3 getViewVector(float f);
-	virtual int getMaxSpawnClusterSize();
-	virtual bool isBaby();
+	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
+	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }
+	virtual void beforeRemove() { }
+	virtual bool canSpawn() const;
+	virtual float getAttackAnim(float f) const;
+	virtual Vec3 getPos(float f) const;
+	virtual Vec3 getLookAngle(float f) const { return getViewVector(1.0f); }
+	virtual Vec3 getViewVector(float f) const;
+	virtual int getMaxSpawnClusterSize() const { return 4; }
+	virtual bool isBaby() const { return false; }
 	virtual void actuallyHurt(int damage);
-	virtual bool removeWhenFarAway();
-	virtual int getDeathLoot();
+	virtual bool removeWhenFarAway() const { return true; }
+	virtual int getDeathLoot() const { return 0; }
 	virtual void dropDeathLoot();
-	virtual bool isImmobile();
+	virtual bool isImmobile() const { return m_health <= 0; }
 	virtual void jumpFromGround();
 	virtual void updateAi();
-	virtual int getMaxHeadXRot();
-	virtual int getMaxHealth();
-	virtual float getSoundVolume();
-	virtual std::string getAmbientSound();
-	virtual std::string getHurtSound();
-	virtual std::string getDeathSound();
-	virtual float getWalkingSpeedModifier();
-	virtual void defineSynchedData();
+	virtual int getMaxHeadXRot() const { return 10; }
+	virtual int getMaxHealth() const { return 10; }
+	virtual float getSoundVolume() const { return 1.0f; }
+	virtual std::string getAmbientSound() const { return ""; }
+	virtual std::string getHurtSound() const { return "random.hurt"; }
+	virtual std::string getDeathSound() const { return "random.hurt"; }
+	virtual float getWalkingSpeedModifier() const { return 0.7f; }
+	virtual void checkDespawn(Mob* nearestMob);
+	virtual void checkDespawn();
+	virtual void swing();
 
 	float rotlerp(float, float, float);
+	void updateAttackAnim();
 
 public:
 	int field_DC;
@@ -88,30 +91,29 @@ public:
 	float field_E8;
 	float field_EC;
 	char field_F0;
-	float field_F4;
-	float field_F8;
+	float m_oAttackAnim;
+	float m_attackAnim;
 	int m_health;
 	int field_100;
-	int field_104;
-	int field_108;
-	float field_10C;
+	int m_hurtTime;
+	int m_hurtDuration;
+	float m_hurtDir;
 	int field_110;
 	int field_114;
-	float field_118;
-	float field_11C;
+	float m_oTilt;
+	float m_tilt;
 	int field_120;
 	int field_124;
 	float field_128;
 	float field_12C;
 	float field_130;
 	Random m_random;
-	int field_AFC;
-	float field_B00;
-	float field_B04;
+	int m_noActionTime;
+	Vec2 field_B00;
 	float field_B08;
-	char field_B0C;
+	bool m_bJumping;
 	float field_B10;
-	float field_B14;
+	float m_runSpeed;
 	std::string m_texture;
 	std::string m_class;
 	int field_B48;
@@ -119,19 +121,19 @@ public:
 	float field_B50;
 	float field_B54;
 	float field_B58;
-	float field_B5C;
+	float m_rotOffs;
 	float field_B60;
 	int field_B64;
 	char field_B68;
 	char field_B69;
-	int field_B6C;
-	float field_B70;
-	float field_B74;
-	float field_B78;
-	float field_B7C;
-	float field_B80;
+	int m_lSteps;
+	Vec3 m_lPos;
+	Vec2 m_lRot;
 	int field_B84;
 	Entity* m_pEntLookedAt;
 
 	float v020_field_104;
+
+	bool m_bSwinging;
+	int m_swingTime;
 };

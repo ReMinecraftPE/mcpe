@@ -25,8 +25,8 @@ public:
 public:
 	~TouchAreaModel();
 
-	int getPointerId(const MouseAction&) override;
-	int getPointerId(int x, int y, int pointerId) override;
+	int getPointerId(const MouseAction&) const override;
+	int getPointerId(int x, int y, int pointerId) const override;
 
 	void clear();
 	void addArea(int id, IArea* m_pArea);

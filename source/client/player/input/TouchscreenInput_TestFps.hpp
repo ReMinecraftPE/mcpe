@@ -24,7 +24,7 @@ public:
 
 	// IMoveInput
 	void releaseAllKeys() override;
-	void setKey(int key, bool state) override;
+	void setKey(int eventKey, bool eventKeyState) override;
 	void setScreenSize(int width, int height) override;
 	void tick(Player*) override;
 	void render(float f) override;

@@ -9,6 +9,8 @@
 #include <stdarg.h>
 #include "Util.hpp"
 
+const std::string Util::EMPTY_STRING = "";
+
 std::string Util::stringTrim(const std::string& str, const std::string& filter, bool a4, bool a5)
 {
 	if (str.empty() || filter.empty())

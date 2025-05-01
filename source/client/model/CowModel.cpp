@@ -35,10 +35,10 @@ CowModel::CowModel() :
 	m_body.texOffs(52, 0);
 	m_body.addBox(-2, 2, -8, 4, 6, 1);
 
-	m_leg1.m_posX -= 1.0f;
-	m_leg2.m_posX += 1.0f;
-	m_leg3.m_posX -= 1.0f;
-	m_leg4.m_posX += 1.0f;
+	m_leg1.m_pos.x -= 1.0f;
+	m_leg2.m_pos.x += 1.0f;
+	m_leg3.m_pos.x -= 1.0f;
+	m_leg4.m_pos.x += 1.0f;
 	field_290 += 2.0f;
 }
 

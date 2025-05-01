@@ -7,7 +7,6 @@ SoundSystemAL::SoundSystemAL()
 {
 	_initialized = false;
     _listenerVolume = 1.0;
-    _audioMuted = false;
     
     startEngine();
 }
@@ -25,7 +24,7 @@ SoundSystemAL::~SoundSystemAL()
 		if (__err != AL_NO_ERROR) \
 		{ \
 			LOG_E("(%s:%i) OpenAL Error: %s", __FILE__, __LINE__, alGetString(__err)); \
-			exit(EXIT_FAILURE); \
+			assert(!"An OpenAL error occurred!"); \
 		} \
 	}
 
@@ -190,7 +189,7 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 		return;
 	}
 
-	if (_audioMuted || volume <= 0.0f)
+	if (volume <= 0.0f)
 		return;
 
 	bool bIsGUI = AL_FALSE;
@@ -344,16 +343,6 @@ void SoundSystemAL::stopEngine()
     
     // Mark as unloaded
     _initialized = false;
-}
-
-void SoundSystemAL::muteAudio()
-{
-    _audioMuted = true;
-}
-
-void SoundSystemAL::unMuteAudio()
-{
-    _audioMuted = false;
 }
 
 #endif

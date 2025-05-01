@@ -22,7 +22,7 @@ public:
 	void updateServerVisibilityText();
 
 private:
-	//int field_3C;
+	//int m_oPos;
 	int field_40;
 	Button m_btnBack;
 	Button m_btnQuit;

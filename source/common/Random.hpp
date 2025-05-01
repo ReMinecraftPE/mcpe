@@ -9,7 +9,6 @@
 #pragma once
 
 #include <stdint.h>
-#include "LongHack.hpp"
 #include "common/Utils.hpp"
 
 // This appears to be VERY similar to https://github.com/SethRobinson/proton/blob/master/shared/util/CRandom.h#L10
@@ -40,19 +39,19 @@ int getTimeMs();
 class Random
 {
 	unsigned int rseed;
-	unsigned TLong mt[CMATH_N];  // the array for the state vector
+	uint32_t mt[CMATH_N];  // the array for the state vector
 	int mti;                    // mti==N+1 means mt[N] is not initialized
 	double nextNextGaussian;
 
 public:
-	Random(TLong seed = getTimeMs());
-	void setSeed(TLong seed);
-	void init_genrand(unsigned TLong);
+	Random(int32_t seed = getTimeMs());
+	void setSeed(int32_t seed);
+	void init_genrand(uint32_t);
 	int nextInt(int max);
-	unsigned genrand_int32();
+	uint32_t genrand_int32();
 	float nextFloat();
 	double genrand_real2();
-	TLong nextLong();
+	long nextLong();
 	int nextInt();
 	float nextGaussian();
 };

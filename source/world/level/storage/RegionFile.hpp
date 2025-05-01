@@ -5,6 +5,7 @@
 #include <cassert>
 #include <map>
 #include "BitStream.h"
+#include "world/level/levelgen/chunk/ChunkPos.hpp"
 
 class RegionFile
 {
@@ -13,9 +14,9 @@ public:
 	~RegionFile();
 	void close();
 	bool open();
-	bool readChunk(int x, int z, RakNet::BitStream**);
+	bool readChunk(const ChunkPos& pos, RakNet::BitStream**);
 	bool write(int index, RakNet::BitStream&);
-	bool writeChunk(int x, int z, RakNet::BitStream&);
+	bool writeChunk(const ChunkPos& pos, RakNet::BitStream&);
 
 public:
 	FILE* m_pFile;

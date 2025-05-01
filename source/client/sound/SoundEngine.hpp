@@ -10,24 +10,32 @@
 
 #include "client/options/Options.hpp"
 #include "common/Random.hpp"
+#include "world/phys/Vec3.hpp"
 #include "SoundSystem.hpp"
 #include "SoundRepository.hpp"
 
 class SoundEngine
 {
+private:
+	float _getVolumeMult(const Vec3& pos);
 public:
 	SoundEngine(SoundSystem* soundSystem);
 	void init(Options*);
-	void play(const std::string& name);
-	void play(const std::string& name, float x, float y, float z, float volume, float pitch);
+	void enable(bool b);
+	void updateOptions();
+	void mute();
+	void unMute();
+	void destroy();
+	void play(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
 
 public:
 	SoundSystem* m_pSoundSystem;
 	Options* m_pOptions;
 	int field_40;
-	Random m_random;
+	//Random m_random;
 	SoundRepository m_repository;
 	int field_A1C;
 	int field_A20;
+	bool m_muted;
 };
 

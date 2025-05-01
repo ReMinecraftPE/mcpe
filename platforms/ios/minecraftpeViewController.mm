@@ -106,9 +106,10 @@ NSThread *G_drawFrameThread = nil;
 {
     // NOTE: Swapping width & height because of device orientation
     // I guess when the device is sideways, the view doesn't rotate to be upright?
-    Minecraft::width = self.height;
-    Minecraft::height = self.width;
-    self->_app->sizeUpdate(self.height, self.width);
+    Minecraft::width = self.height; // drawWidth
+    Minecraft::height = self.width; // drawHeight
+	Minecraft::setRenderScaleMultiplier(self->viewScale);
+    self->_app->sizeUpdate(self.height / self->viewScale, self.width / self->viewScale); // windowWidth, windowHeight
     NSLog(@"Updated draw size to %d, %d\n", self.height, self.width);
 }
 
@@ -179,8 +180,6 @@ NSThread *G_drawFrameThread = nil;
     animating = FALSE;
     animationFrameInterval = 1;
     self.displayLink = nil;
-    
-    g_bIsMenuBackgroundAvailable = true;
     
     AppPlatform_iOS *platform = new AppPlatform_iOS(self);
     self->_platform = platform;

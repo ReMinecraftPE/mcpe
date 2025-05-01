@@ -25,7 +25,7 @@ public:
 		m_prevTime = -1.0f;
 	}
 public:
-	float getDeltaTime();
+	double getDeltaTime();
 	float linearTransform(float, float, float, bool);
 
 	virtual ~ITurnInput();
@@ -34,6 +34,6 @@ public:
 	virtual bool smoothTurning();
 
 private:
-	float m_prevTime;
+	double m_prevTime;
 };
 

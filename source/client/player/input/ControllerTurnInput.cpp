@@ -6,24 +6,40 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <cmath>
+
 #include "ControllerTurnInput.hpp"
 #include "Controller.hpp"
-
-#include <cmath>
+#include "common/Logger.hpp"
 
 ControllerTurnInput::ControllerTurnInput()
 {
-	field_8 = 2;
+	field_8 = 1; // 2 by default in 0.9.2, but this just causes the camera to lock to the joystick's axis at all times
 	m_stickNo = 2;
-	field_10 = 0.0f;
-	field_14 = 0.0f;
+	m_analogTurnVector = Vec2::ZERO;
 	field_18 = false;
 }
 
+/**
+ * @BUG: Despite receiving consistent X and Y from the controller, the returned value will consistently fluctuate.
+ * This results in inconsistently-jittery turn movement, as well as well as a non-smooth turning experience overall.
+ * Simply by taking the square root of the controller X and Y and multiplying the result of each, we get an infinitely-
+ * smoother and more stable end-user experience. The only problem: this is tied to FPS rather than proper timing.
+**/
 TurnDelta ControllerTurnInput::getTurnDelta()
 {
 #ifdef USE_NATIVE_ANDROID
 	return TurnDelta(Controller::getX(m_stickNo) * 50.f, Controller::getY(m_stickNo) * 60.f);
+#endif
+
+#if 0
+	constexpr float targetFps = 60;
+	constexpr float mult = (60.0f / targetFps) * 16.0f;
+
+	TurnDelta delta(Controller::getX(m_stickNo), Controller::getY(m_stickNo));
+	delta.x = (delta.x * fabs(delta.x)) * mult;
+	delta.y = (delta.y * fabs(delta.y)) * mult;
+	return delta;
 #endif
 
 	bool isTouched = Controller::isTouched(m_stickNo);
@@ -31,56 +47,40 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 
 	if (field_8 == 1)
 	{
-		float deltaTime = getDeltaTime(), dx, dy;
+		if (Controller::isReset())
+			getDeltaTime();
+
+		double deltaTime = getDeltaTime();
+	    //LOG_I("deltaTime: %f", deltaTime);
 		if (isTouched)
 		{
-			dx = Controller::getX(m_stickNo);
-			dy = Controller::getY(m_stickNo);
+			m_analogTurnVector.x = Controller::getX(m_stickNo);
+			m_analogTurnVector.y = Controller::getY(m_stickNo);
 		}
 		else
 		{
-			dx = field_10 * 0.7f;
-			dy = field_14 * 0.7f;
+			m_analogTurnVector.x *= 0.7f;
+			m_analogTurnVector.y *= 0.7f;
 		}
+		
+		// Deadzone handling moved to Controller
+		//double f = pow(5.0 * 0.6f + 0.2f, 3) * 14.0f * 1.0f; // Legacy 4J
+		//float xt = m_analogTurnVector.x * fabs(m_analogTurnVector.x) * 289.0f; // 250.0f for PE, 17.0f for LCE?
+		//float yt = m_analogTurnVector.y * fabs(m_analogTurnVector.y) * 289.0f; // 200.0f for PE, 17.0f for LCE?
 
-		field_10 = dx;
-		field_14 = dy;
+		float turnSpeed = 50.0f * 5.8f;
+		float tx = m_analogTurnVector.x * Mth::abs(m_analogTurnVector.x) * turnSpeed;
+		float ty = m_analogTurnVector.y * Mth::abs(m_analogTurnVector.y) * turnSpeed;
 
-		float xs = dx >= 0.0f ? 0.1f : -0.1f, xt;
+		/*xt *= fabs(xt);
+		yt *= fabs(yt);*/
 
-		if (fabsf(dx) <= 0.1f)
-		{
-			xt = 0.0f;
-		}
-		else
-		{
-			xs = dx - xs;
-			xt = 250.0f;
-			xt = xs * xt;
-		}
-
-		float ys = dy >= 0.0f ? 0.1f : -0.1f, yt;
-
-		if (fabsf(dy) <= 0.1f)
-		{
-			yt = 0.0f;
-		}
-		else
-		{
-			ys = dy - ys;
-			yt = 200.0f;
-			yt = ys * yt;
-		}
-
-		deltaX = deltaTime * xt;
-		deltaY = deltaTime * -yt;
+		deltaX = deltaTime * tx;
+		deltaY = deltaTime * ty; // inverted on 0.9.2
+		/*deltaX *= fabs(deltaX);
+		deltaY *= fabs(deltaY);*/
 	}
-    else if (field_8 != 2 || (!field_18 && !isTouched))
-	{
-		deltaX = 0.0f;
-		deltaY = -0.0f;
-	}
-	else
+	else if (field_8 == 2 && (field_18 || isTouched))
 	{
 		float sx = Controller::getX(m_stickNo);
 		float sy = Controller::getY(m_stickNo);
@@ -89,47 +89,30 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 
 		if (!field_18)
 		{
-			field_10 = sx;
-			field_14 = sy;
+			m_analogTurnVector.x = sx;
+			m_analogTurnVector.y = sy;
 		}
 
 		if (isTouched)
 		{
-			float x1 = sx - field_10;
-			float x2 = 0.0f;
-			float x3;
-			field_10 = sx;
+			float diffX = sx - m_analogTurnVector.x;
+			float diffY = sy - m_analogTurnVector.y;
 
-			// @HUH: what the hell, decompiler?
-			if (x1 >= 0.0f)
-				x3 = 0.0f;
-			else
-				x3 = -0.0f;
-
-			float x4 = sy - field_14;
-			field_14 = sy;
-
-			if (fabsf(x1) > 0.0f)
-				x2 = x1 - x3;
-
-            float x5;
-			if (x4 >= 0.0f)
-				x5 = 0.0f;
-			else
-				x5 = -0.0f;
-
-			float x6 = 0.0f;
-			if (fabsf(x4) > 0.0f)
-				x6 = x4 - x5;
-
-			deltaX = x2 * 100.0f;
-			deltaY = -x6 * 100.0f;
+			deltaX = fabsf(diffX) > 0.0f ? diffX * 100.0f : 0.0f;
+			deltaY = fabsf(diffY) > 0.0f ? diffY * 100.0f : 0.0f; // deltaY is inverted on 0.9.2
+			m_analogTurnVector.x = sx;
+			m_analogTurnVector.y = sy;
 		}
 		else
 		{
 			deltaX = 0.0f;
 			deltaY = -0.0f;
 		}
+	}
+	else
+	{
+		deltaX = 0.0f;
+		deltaY = -0.0f;
 	}
 
 	field_18 = isTouched;

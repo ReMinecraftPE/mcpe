@@ -13,57 +13,66 @@
 #include "world/item/Inventory.hpp"
 #include "world/entity/Mob.hpp"
 #include "world/entity/ItemEntity.hpp"
+#include "world/gamemode/GameType.hpp"
 
 class Inventory; // in case we're included from Inventory.hpp
 
 class Player : public Mob
 {
+private:
+	GameType _playerGameType;
+
 public:
-	Player(Level*);
+	Player(Level* pLevel, GameType gameType);
 	virtual ~Player();
 
 	virtual void reset() override;
-	virtual void remove() override;
-	virtual void tick() override;
-	virtual bool isInWall() override;
-	virtual float getHeadHeight() override;
-	virtual bool isShootable() override;
-	virtual bool isPlayer() override;
-	virtual bool isCreativeModeAllowed() override;
+	virtual float getHeadHeight() const override { return 0.12f; /*@HUH: what ?*/ }
+	virtual bool isShootable() const override { return true; }
+	virtual bool isPlayer() const override { return true; }
+	virtual bool isCreativeModeAllowed() const override { return true; }
 	virtual bool hurt(Entity*, int) override;
 	virtual void awardKillScore(Entity* pKilled, int score) override;
 	virtual void resetPos() override;
 	virtual void die(Entity* pCulprit) override;
 	virtual void aiStep() override;
-	virtual bool isImmobile() override;
+	virtual bool isImmobile() const override { return m_health <= 0; }
 	virtual void updateAi() override;
-	virtual void defineSynchedData() override;
 
 	virtual void animateRespawn();
+	virtual void drop(const ItemInstance* pItemInstance, bool b = false);
+	virtual void startCrafting(const TilePos& pos);
+	virtual void startStonecutting(const TilePos& pos);
+	virtual void startDestroying();
+	virtual void stopDestroying();
+	virtual bool isLocalPlayer() const { return false; }
 
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
 	void attack(Entity* pEnt);
-	bool canDestroy(Tile*);
+	bool canDestroy(const Tile*) const;
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
-	void drop(ItemInstance*);
-	void drop(ItemInstance*, bool);
 	void drop();
-	float getDestroySpeed();
-	int getInventorySlot(int x);
-	Pos getRespawnPosition();
-	int getScore();
+	float getDestroySpeed() const { return 1.0f; }
+	int getInventorySlot(int x) const;
+	TilePos getRespawnPosition() { return m_respawnPos; }
+	int getScore() const { return m_score; }
 	void prepareCustomTextures();
 	void reallyDrop(ItemEntity* pEnt);
 	void respawn();
 	void rideTick();
 	void setDefaultHeadHeight();
-	void setRespawnPos(Pos*);
-	void startCrafting(int, int, int);
-	void swing();
+	void setRespawnPos(const TilePos& pos);
+
 	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);
+	GameType getPlayerGameType() const { return _playerGameType; }
+	void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
+	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
+	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
+	ItemInstance* getSelectedItem() const;
+	bool isUsingItem() const { return false && !getSelectedItem()->isNull(); }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push
@@ -76,17 +85,16 @@ public:
 	Inventory* m_pInventory;
 	uint8_t field_B94;
 	int m_score;
-	float field_B9C;
-	float field_BA0;
-	bool field_BA4;
-	int field_BA8;
+	float m_oBob; // field_B9C
+	float m_bob;
 	std::string m_name;
 	int field_BC4;
 	RakNet::RakNetGUID m_guid;
 	//TODO
-	Pos m_respawnPos;
+	TilePos m_respawnPos;
 	//TODO
 	bool m_bHaveRespawnPos;
 	//TODO
+	bool m_destroyingBlock;
 };
 

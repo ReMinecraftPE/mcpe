@@ -14,12 +14,11 @@
 
 struct SBufferedBlockUpdate
 {
-	int x, z;
-	uint8_t y;
+	TilePos pos;
 	uint8_t tile, data;
 
-	SBufferedBlockUpdate(int x, int y, int z, TileID tile, int data) :
-		x(x), z(z), y(uint8_t(y)), tile(uint8_t(tile)), data(uint8_t(data))
+	SBufferedBlockUpdate(const TilePos& pos, TileID tile, int data) :
+		pos(pos), tile(uint8_t(tile)), data(uint8_t(data))
 	{}
 };
 
@@ -33,7 +32,9 @@ public:
 	void onConnect(const RakNet::RakNetGUID&) override;
 	void onDisconnect(const RakNet::RakNetGUID&) override;
 	void onUnableToConnect() override;
+	void handle(const RakNet::RakNetGUID&, LoginStatusPacket*) override;
 	void handle(const RakNet::RakNetGUID&, MessagePacket*) override;
+	void handle(const RakNet::RakNetGUID&, SetTimePacket*) override;
 	void handle(const RakNet::RakNetGUID&, StartGamePacket*) override;
 	void handle(const RakNet::RakNetGUID&, AddPlayerPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*) override;
@@ -46,6 +47,8 @@ public:
 	void handle(const RakNet::RakNetGUID&, LevelDataPacket*) override;
 	
 	bool areAllChunksLoaded();
+	void arrangeRequestChunkOrder();
+	void clearChunksLoaded();
 	void requestNextChunk();
 	void flushAllBufferedUpdates(); // inlined
 

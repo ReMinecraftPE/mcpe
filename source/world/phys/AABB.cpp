@@ -39,41 +39,41 @@ HitResult AABB::clip(const Vec3& vec1, const Vec3& vec2)
 	bClipMaxZ = vec1.clipZ(vec2, max.z, clipMaxZ) && containsZ(&clipMaxZ);
 
 	// the collided side of our AABB
-	HitResult::eHitSide collType = HitResult::NOHIT;
+	Facing::Name collType;
 
 	// the preferred vector for our collision
 	Vec3* pVec = nullptr;
 	if (bClipMinX)
-		pVec = &clipMinX, collType = HitResult::MINX;
+		pVec = &clipMinX, collType = Facing::WEST;
 
 	if (bClipMaxX)
 	{
 		if (!pVec || clipMaxX.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMaxX, collType = HitResult::MAXX;
+			pVec = &clipMaxX, collType = Facing::EAST;
 	}
 
 	if (bClipMinY)
 	{
 		if (!pVec || clipMinY.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMinY, collType = HitResult::MINY;
+			pVec = &clipMinY, collType = Facing::DOWN;
 	}
 
 	if (bClipMaxY)
 	{
 		if (!pVec || clipMaxY.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMaxY, collType = HitResult::MAXY;
+			pVec = &clipMaxY, collType = Facing::UP;
 	}
 
 	if (bClipMinZ)
 	{
 		if (!pVec || clipMinZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMinZ, collType = HitResult::MINZ;
+			pVec = &clipMinZ, collType = Facing::NORTH;
 	}
 
 	if (bClipMaxZ)
 	{
 		if (!pVec || clipMaxZ.distanceToSqr(vec1) < pVec->distanceToSqr(vec1))
-			pVec = &clipMaxZ, collType = HitResult::MAXZ;
+			pVec = &clipMaxZ, collType = Facing::SOUTH;
 	}
 
 	if (!pVec)
@@ -82,7 +82,7 @@ HitResult AABB::clip(const Vec3& vec1, const Vec3& vec2)
 		return HitResult();
 	}
 
-	return HitResult(0, 0, 0, collType, *pVec);
+	return HitResult(TilePos(0, 0, 0), collType, *pVec);
 }
 
 float AABB::clipXCollide(const AABB& bud, float f) const
@@ -168,4 +168,58 @@ bool AABB::intersect(const AABB& other) const
 		&& min.y < other.max.y
 		&& max.z > other.min.z
 		&& min.z < other.max.z;
+}
+
+void AABB::move(const Vec3& vec)
+{
+	min += vec;
+	max += vec;
+}
+
+void AABB::move(float x, float y, float z)
+{
+	move(Vec3(x, y, z));
+}
+
+// same thing
+void AABB::grow(const Vec3& vec)
+{
+	min -= vec;
+	max += vec;
+}
+
+void AABB::grow(float x, float y, float z)
+{
+	grow(Vec3(x, y, z));
+}
+
+// same thing
+void AABB::grow(float x)
+{
+	min -= Vec3(x, x, x);
+	max += Vec3(x, x, x);
+}
+
+void AABB::expand(float x, float y, float z)
+{
+	if (x < 0) min.x += x;
+	if (x > 0) max.x += x;
+	if (y < 0) min.y += y;
+	if (y > 0) max.y += y;
+	if (z < 0) min.z += z;
+	if (z > 0) max.z += z;
+}
+
+void AABB::expand(const Vec3& vec)
+{
+	expand(vec.x, vec.y, vec.z);
+}
+
+bool AABB::contains(const Vec3& v) const
+{
+	if (v.x <= min.x || v.x >= max.x)
+		return false;
+	if (v.y > min.y && v.y < max.y)
+		return v.z > min.z && v.z < max.z;
+	return false;
 }

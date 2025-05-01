@@ -29,15 +29,16 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 	bs.Write(uncompMagic);
 	bs.Write(chunksX);
 	bs.Write(chunksZ);
-	for (int x = 0; x < chunksX; x++)
+	ChunkPos chunkPos(0, 0);
+	for (chunkPos.x = 0; chunkPos.x < chunksX; chunkPos.x++)
 	{
-		for (int z = 0; z < chunksZ; z++)
+		for (chunkPos.z = 0; chunkPos.z < chunksZ; chunkPos.z++)
 		{
 			bs.Write(chunkSepMagic);
 
 			RakNet::BitStream bs2;
-			LevelChunk* pChunk = m_pLevel->getChunk(x, z);
-			ChunkDataPacket cdp(x, z, pChunk);
+			LevelChunk* pChunk = m_pLevel->getChunk(chunkPos);
+			ChunkDataPacket cdp(chunkPos, pChunk);
 			cdp.write(&bs2);
 
 			int dataSize = int(bs2.GetNumberOfBytesUsed());

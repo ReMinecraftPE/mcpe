@@ -97,6 +97,8 @@ void TextInputBox::setEnabled(bool bEnabled)
 #define AKEYCODE_RIGHT_BRACKET VK_OEM_6
 #endif
 
+#ifndef HANDLE_CHARS_SEPARATELY
+
 char TextInputBox::guessCharFromKey(int key) {
 	bool bShiftPressed = m_pParent->m_pMinecraft->platform()->shiftPressed();
 	char chr = '\0';
@@ -150,6 +152,8 @@ char TextInputBox::guessCharFromKey(int key) {
 	}
 	return chr;
 }
+
+#endif
 
 void TextInputBox::keyPressed(int key)
 {
@@ -301,15 +305,11 @@ void TextInputBox::onClick(int x, int y)
 void TextInputBox::charPressed(int k)
 {
 	if (!m_bFocused)
-	{
 		return;
-	}
 
 	// Ignore Unprintable Characters
 	if (k == '\n' || k < ' ' || k > '~')
-	{
 		return;
-	}
 
 	// Check Max Length
 	if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
@@ -333,7 +333,8 @@ std::string TextInputBox::getRenderedText(int scroll_pos, std::string text)
 	int max_width = m_width - (PADDING * 2);
 	while (m_pFont->width(rendered_text) > max_width)
 	{
-		rendered_text.pop_back();
+		//rendered_text.pop_back(); // breaks C++03 compatibility
+		rendered_text.erase(rendered_text.length()-2, 1);
 	}
 	return rendered_text;
 }
@@ -464,9 +465,9 @@ std::string TextInputBox::getText()
 	return m_text;
 }
 
-void TextInputBox::setText(std::string str)
+void TextInputBox::setText(const std::string& text)
 {
-	m_text = str;
+	m_text = text;
 	m_insertHead = int(m_text.size());
 }
 

@@ -22,7 +22,7 @@
 
 
 #ifdef USE_GLES
-	#if MC_TARGET_OS_IOS
+	#if MC_PLATFORM_IOS
 		 #import <OpenGLES/ES1/gl.h>
 		 #import <OpenGLES/ES1/glext.h>
 
@@ -38,6 +38,9 @@
 
 	#define USE_GL_ORTHO_F
 #else
+	// Standard OpenGL supports normals and lighting, OpenGL ES doesn't
+	#define USE_GL_NORMAL_LIGHTING
+
 	#ifdef USE_SDL
 		#define USE_OPENGL_2_FEATURES
 
@@ -97,7 +100,12 @@
 	}
 #endif
 
-#ifdef USE_OPENGL_2_FEATURES
+#ifdef _WIN32
+void xglInit();
+bool xglInitted();
+#endif
+
+#if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32)
 
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData
@@ -107,13 +115,11 @@
 #define xglDisableClientState glDisableClientState
 #define xglTexCoordPointer glTexCoordPointer
 #define xglColorPointer glColorPointer
+#define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
 
 #else
-
-void xglInit();
-bool xglInitted();
 
 void xglBindBuffer(GLenum target, GLuint buffer);
 void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
@@ -125,12 +131,13 @@ void xglEnableClientState(GLenum _array);
 void xglDisableClientState(GLenum _array);
 void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
 
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(USE_SDL)
 // Win32 defines xglOrthof as a regular function
 #elif defined USE_GL_ORTHO_F
 #define xglOrthof glOrthof
