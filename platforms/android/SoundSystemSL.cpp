@@ -83,7 +83,7 @@ void SoundSystemSL::removePlayer(SLAndroidSimpleBufferQueueItf caller, void* con
 	toRemove.push_back((SLObjectItf) context);
 	pthread_mutex_unlock(&toRemoveMutex);
 }
-
+::
 void SoundSystemSL::removeStoppedSounds()
 {
 	pthread_mutex_lock(&toRemoveMutex);
@@ -214,24 +214,3 @@ void SoundSystemSL::destroy()
 {
 
 }
-
-void SoundSystemSL::load(const std::string &sound)
-{
-
-}
-
-void SoundSystemSL::play(const std::string &sound)
-{
-
-}
-
-void SoundSystemSL::pause(const std::string &sound)
-{
-
-}
-
-void SoundSystemSL::stop(const std::string &sound)
-{
-
-}
-
