@@ -10,6 +10,7 @@
 #include "SoundDefs.hpp"
 #include "common/Mth.hpp"
 #include "world/entity/Mob.hpp"
+#include "client/app/AppPlatform.hpp"
 
 SoundEngine::SoundEngine(SoundSystem* soundSystem, float distance)
 {
@@ -41,6 +42,10 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
 #define SOUND(category, name, number) m_sounds.add(#category "." #name, SA_##name##number);
 #include "sound_list.h"
 #undef SOUND
+
+#define MUSIC(name, number) m_songs.add(#name, platform->getAssetPath("music/" #name #number ".ogg"));
+#include "music_list.h"
+#undef MUSIC
 }
 
 void SoundEngine::enable(bool b)
@@ -67,38 +72,50 @@ void SoundEngine::destroy()
     SoundDesc::_unloadAll();
 }
 
-void SoundEngine::update(const Mob* player, float a)
+void SoundEngine::playMusicTick()
+{
+    if (m_pOptions->m_fMusicVolume <= 0.0f)
+        return;
+
+    if (!m_pSoundSystem->isPlayingMusic()/* && !soundSystem.playing("streaming")*/)
+    {
+        if (m_noMusicDelay > 0)
+        {
+            --m_noMusicDelay;
+            return;
+        }
+
+        std::string songPath;
+        if (m_songs.any(songPath))
+        {
+            m_noMusicDelay = m_random.nextInt(12000) + 12000;
+            m_pSoundSystem->setMusicVolume(m_pOptions->m_fMusicVolume);
+            m_pSoundSystem->playMusic(songPath);
+        }
+    }
+}
+
+
+void SoundEngine::update(const Mob* player, float elapsedTime)
 {
     if (m_pOptions->m_fMasterVolume > 0.0f)
     {
         if (player != nullptr)
         {
-            Vec3 pos = player->getPos(a);
+            Vec3 pos = player->getPos(elapsedTime);
+            pos.y -= player->m_heightOffset;
             m_listenerPosition = pos;
             m_pSoundSystem->setListenerPos(pos);
 
-            Vec2 rot = player->getRot(a);
+            Vec2 rot = player->getRot(elapsedTime);
             m_listenerOrientation = rot;
             m_pSoundSystem->setListenerAngle(rot);
         }
     }
 
-}
+    assert(m_pSoundSystem->isAvailable());
 
-void SoundEngine::playStreaming(const std::string& name, const Vec3& pos, float volume, float pitch)
-{
-    assert(!"SoundEngine::playStreaming not implemented!");
-    /*float vol = m_pOptions->m_fMasterVolume * volume;
-    if (vol <= 0.0f)
-        return;
-
-    float cVolume = Mth::clamp(_getVolumeMult(pos) * vol, 0.0f, 1.0f);
-    std::string path;
-
-    if (m_streamingSounds.get(name, path))
-    {
-        m_pSoundSystem->playAt(sd, pos.x, pos.y, pos.z, cVolume, pitch);
-    }*/
+    m_pSoundSystem->update(elapsedTime);
 }
 
 void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, float pitch)
@@ -144,5 +161,20 @@ void SoundEngine::playUI(const std::string& name, float volume, float pitch)
     if (m_sounds.get(name, sd))
     {
         m_pSoundSystem->playAt(sd, Vec3::ZERO, cVolume, pitch);
+    }
+}
+
+void SoundEngine::playMusic(const std::string& name)
+{
+    float vol = m_pOptions->m_fMusicVolume;
+    if (vol <= 0.0f)
+        return;
+
+    std::string path;
+
+    if (m_songs.get(name, path))
+    {
+        m_pSoundSystem->setMusicVolume(vol);
+        m_pSoundSystem->playMusic(path);
     }
 }

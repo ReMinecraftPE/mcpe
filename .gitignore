@@ -255,3 +255,4 @@ cmake-build-*
 /tools/__pycache__
 /tools/venv
 /game/assets/sound
+/game/assets/music

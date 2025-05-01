@@ -14,7 +14,7 @@
 #include "world/phys/Vec2.hpp"
 #include "SoundSystem.hpp"
 #include "SoundRepository.hpp"
-#include "SimpleSoundRepository.hpp"
+#include "SoundPathRepository.hpp"
 #include "SoundStream.hpp"
 
 class Mob;
@@ -31,17 +31,17 @@ public:
     void mute();
     void unMute();
     void destroy();
-    void update(const Mob* player, float a);
-    void playStreaming(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
+    void playMusicTick();
+    void update(const Mob* player, float elapsedTime);
     void play(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
     void playUI(const std::string& name, float volume = 1.0f, float pitch = 1.0f);
+    void playMusic(const std::string& name);
 
 public:
     SoundSystem* m_pSoundSystem;
 private:
     SoundRepository m_sounds;
-    SimpleSoundRepository m_streamingSounds;
-    SimpleSoundRepository m_songs;
+    SoundPathRepository m_songs;
     Options* m_pOptions;
     int field_40;
     Random m_random;

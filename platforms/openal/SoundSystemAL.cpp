@@ -3,14 +3,17 @@
 
 #include "common/Utils.hpp"
 
+#include "SoundStreamAL.hpp"
+
 SoundSystemAL::SoundSystemAL()
 {
 	_device = nullptr;
 	_context = nullptr;
 	_initialized = false;
+	_musicStream = nullptr;
+	_mainVolume = 1.0f;
 	_listenerPos = Vec3::ZERO;
 	_listenerYaw = 0.0f;
-    _listenerVolume = 1.0f;
     
     startEngine();
 }
@@ -230,7 +233,9 @@ void SoundSystemAL::setListenerPos(const Vec3& pos)
 	AL_ERROR_CHECK();
 	_listenerPos = pos;
 	
-	update();
+	// Update Listener Volume
+	alListenerf(AL_GAIN, _mainVolume);
+	AL_ERROR_CHECK();
 }
 
 void SoundSystemAL::setListenerAngle(const Vec2& rot)
@@ -246,17 +251,11 @@ void SoundSystemAL::setListenerAngle(const Vec2& rot)
 	_listenerYaw = rot.x;
 }
 
-void SoundSystemAL::update()
+void SoundSystemAL::setMusicVolume(float vol)
 {
-	// Check
-	if (!_initialized)
-	{
-		return;
-	}
+	assert(_musicStream != nullptr);
 
-	// Update Listener Volume
-	alListenerf(AL_GAIN, _listenerVolume);
-	AL_ERROR_CHECK();
+	_musicStream->setVolume(vol);
 }
 
 void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
@@ -281,7 +280,7 @@ void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	ALuint buffer = _getBuffer(sound);
 	if (!buffer)
 		return;
-	
+
 	// Get Source
 	bool isNew;
 	ALuint al_source = _getSource(isNew);
@@ -329,6 +328,31 @@ void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	alSourcePlay(al_source);
 	AL_ERROR_CHECK();
 	_sources.push_back(al_source);
+}
+
+void SoundSystemAL::playMusic(const std::string& soundPath)
+{
+	_musicStream->open(soundPath);
+}
+
+bool SoundSystemAL::isPlayingMusic() const
+{
+	return _musicStream->isPlaying();
+}
+
+void SoundSystemAL::stopMusic()
+{
+	_musicStream->close();
+}
+
+void SoundSystemAL::pauseMusic(bool state)
+{
+	_musicStream->setPausedState(state);
+}
+
+void SoundSystemAL::update(float elapsedTime)
+{
+	_musicStream->update();
 }
 
 void SoundSystemAL::startEngine()
@@ -383,6 +407,8 @@ void SoundSystemAL::startEngine()
 	const ALfloat velocity[3] = { };
 	alListenerfv(AL_VELOCITY, velocity);
 	AL_ERROR_CHECK();*/
+
+	_musicStream = new SoundStreamAL();
     
 	// Mark As loaded
 	_initialized = true;
@@ -391,6 +417,8 @@ void SoundSystemAL::startEngine()
 void SoundSystemAL::stopEngine()
 {
     if (!_initialized) return;
+
+	delete _musicStream;
     
 	// Delete Audio Sources
 	_deleteSources();

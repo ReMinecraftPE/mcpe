@@ -114,23 +114,6 @@ void SoundSystemDS::setListenerAngle(const Vec2& rot)
 	m_listener->SetOrientation(-lx,-ly,-lz, ux,uy,uz, DS3D_IMMEDIATE);
 }
 
-void SoundSystemDS::load(const std::string& sound)
-{
-}
-
-void SoundSystemDS::play(const std::string& sound)
-{
-}
-
-void SoundSystemDS::pause(const std::string& sound)
-{
-}
-
-void SoundSystemDS::stop(const std::string& sound)
-{
-}
-
-
 void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
 {
 	if (!isAvailable())

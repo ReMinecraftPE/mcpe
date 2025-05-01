@@ -1,0 +1,6 @@
+MUSIC(calm, 1)
+MUSIC(calm, 2)
+MUSIC(calm, 3)
+MUSIC(piano, 1)
+MUSIC(piano, 2)
+MUSIC(piano, 3)

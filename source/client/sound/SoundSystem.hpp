@@ -29,11 +29,24 @@ public:
 	virtual bool isAvailable();
 	virtual void setListenerPos(const Vec3& pos);
 	virtual void setListenerAngle(const Vec2& rot);
-	virtual void load(const std::string& sound);
-	virtual void play(const std::string& sound);
-	virtual void pause(const std::string& sound);
-	virtual void stop(const std::string& sound);
+	virtual void setListenerVelocity(const Vec3& vel);
+
+	virtual void setMusicVolume(float vol);
+	virtual void setSoundVolume(float vol);
+
+	virtual void load(const std::string& soundPath, bool is3D, float minDis);
+	virtual void play(const std::string& soundPath);
+	virtual void pause(const std::string& soundPath);
+	virtual void stop(const std::string& soundPath);
 	virtual void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch);
+
+	virtual void playMusic(const std::string& soundPath);
+	virtual bool isPlayingMusic() const;
+	virtual bool isPlayingMusic(const std::string& soundPath) const;
+	virtual void stopMusic();
+	virtual void pauseMusic(bool state);
+
+	virtual void update(float elapsedTime);
     
     // Be prepared for these to be called regardless of engine state
     virtual void startEngine(); // called init in 0.10.0

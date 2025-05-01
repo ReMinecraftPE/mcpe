@@ -22,14 +22,3 @@ public:
 public:
 	std::map<std::string, std::vector<SoundDesc> > m_repo;
 };
-
-class SimpleAudioRepository
-{
-public:
-    void add(const std::string& name, const std::string& path);
-    bool get(const std::string& name, std::string& path);
-
-public:
-    std::map<std::string, std::vector<std::string> > m_repo;
-};
-

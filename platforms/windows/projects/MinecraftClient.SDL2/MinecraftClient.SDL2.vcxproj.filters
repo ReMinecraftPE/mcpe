@@ -33,6 +33,9 @@
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\platforms\openal\SoundStreamAL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.hpp">
@@ -48,6 +51,9 @@
       <Filter>Header Files\Compatibility</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundStreamAL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

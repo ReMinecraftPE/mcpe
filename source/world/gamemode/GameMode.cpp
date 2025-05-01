@@ -69,6 +69,8 @@ void GameMode::stopDestroyBlock()
 
 void GameMode::tick()
 {
+	// @NOTE: should only be in SurvivalMode & MultiPlayerGameMode, but Minecraft music is awesome
+	m_pMinecraft->m_pSoundEngine->playMusicTick();
 }
 
 void GameMode::render(float f)

@@ -129,7 +129,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Textures.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\TileRenderer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\VertexPT.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\sound\SimpleSoundRepository.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\sound\SoundPathRepository.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundData.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundDefs.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundEngine.hpp" />
@@ -179,6 +179,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Lighting.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\sound_list.h" />
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\music_list.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -260,7 +261,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\TileRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterTexture.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\sound\SimpleSoundRepository.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\sound\SoundPathRepository.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundEngine.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp" />

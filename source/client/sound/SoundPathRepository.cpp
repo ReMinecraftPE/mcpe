@@ -1,10 +1,12 @@
-#include "SimpleSoundRepository.hpp"
+#include "SoundPathRepository.hpp"
 
 #include "common/Utils.hpp"
 #include "common/Mth.hpp"
 
-void SimpleSoundRepository::add(const std::string& name, const std::string& path)
+void SoundPathRepository::add(const std::string& name, const std::string& path)
 {
+    _all.push_back(path);
+
     std::map<std::string, std::vector<std::string> >::iterator iter = m_repo.find(name);
     if (iter == m_repo.end())
     {
@@ -18,7 +20,7 @@ void SimpleSoundRepository::add(const std::string& name, const std::string& path
     }
 }
 
-bool SimpleSoundRepository::get(const std::string& name, std::string& path)
+bool SoundPathRepository::get(const std::string& name, std::string& path)
 {
     // TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
     std::map<std::string, std::vector<std::string> >::iterator iter = m_repo.find(name);
@@ -32,5 +34,14 @@ bool SimpleSoundRepository::get(const std::string& name, std::string& path)
 
     path = iter->second[index];
 
+    return true;
+}
+
+bool SoundPathRepository::any(std::string& path)
+{
+    if (_all.empty())
+        return false;
+
+    path = _all.at(Mth::random(_all.size()-1));
     return true;
 }

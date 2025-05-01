@@ -1,31 +1,20 @@
-#define STB_VORBIS_HEADER_ONLY
-#include "thirdparty/stb_image/include/stb_vorbis.c"
+#pragma once
 
-#include "client/sound/SoundSystem.hpp"
-
-#if 0
+#include <string>
 
 class SoundStream
 {
-private:
-    stb_vorbis* _stream;
-    stb_vorbis_info _info;
-
-    uint32_t _buffers[2];
-    uint32_t _source;
-
-    size_t _bufferSize;
-
-    size_t _totalSamplesLeft;
-
-    bool _shouldLoop;
-    
 public:
-    SoundStream();
-    ~SoundStream();
+    virtual ~SoundStream();
 
-    bool stream(uint32_t buffer);
-    bool open(const char* filename);
-    bool update();
+    virtual bool isStreaming() const = 0;
+    virtual bool isPaused() const = 0;
+    virtual bool isPlaying() const { return isStreaming() && !isPaused(); }
+
+    virtual bool open(const std::string& fileName) = 0;
+    virtual void close() = 0;
+    virtual void update();
+
+    virtual void setPausedState(bool state) = 0;
+    virtual void setVolume(float vol) = 0;
 };
-#endif
