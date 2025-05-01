@@ -36,7 +36,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
 	{
 		// Create Screenshots Folder
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 		int ret = XPL_MKDIR(path);
 #else
 		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -221,4 +221,18 @@ std::string AppPlatform_sdl::getPatchData()
     SDL_RWclose(io);
     
     return std::string(buf);
+}
+
+void AppPlatform_sdl::recenterMouse()
+{
+	// Note. The only reason we do it this way instead of
+	// using the Mouse class is because, after SDL_WarpMouseInWindow,
+	// we'll get an event on our window telling us "hey, the
+	// user has moved their cursor back to the center! Move
+	// the camera back as well", causing a camera that just
+	// refuses to move
+	int w = 0, h = 0;
+	SDL_GetWindowSize(_window, &w, &h);
+	SDL_WarpMouseInWindow(_window, w / 2, h / 2);
+	//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
 }

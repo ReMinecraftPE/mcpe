@@ -1,5 +1,4 @@
-#ifdef USE_OPENAL
-#include "SoundSystemAL.hpp"
+#include "CustomSoundSystem.hpp"
 
 #include "common/Utils.hpp"
 
@@ -344,5 +343,3 @@ void SoundSystemAL::stopEngine()
     // Mark as unloaded
     _initialized = false;
 }
-
-#endif
