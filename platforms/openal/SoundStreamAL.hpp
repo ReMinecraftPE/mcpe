@@ -33,6 +33,16 @@ public:
 private:
     bool _stream(uint32_t buffer);
 
+    void _deleteSource();
+    void _createSource();
+    void _resetSource();
+
+    void _deleteBuffers();
+    void _createBuffers();
+    void _resetBuffers();
+
+    void _deleteDecoder();
+
 public:
     bool isStreaming() const override { return _isStreaming; }
     bool isPaused() const override { return _isPaused; }

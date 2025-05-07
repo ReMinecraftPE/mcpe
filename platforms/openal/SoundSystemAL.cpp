@@ -23,18 +23,6 @@ SoundSystemAL::~SoundSystemAL()
     stopEngine();
 }
 
-// Error Checking
-#define AL_ERROR_CHECK() AL_ERROR_CHECK_MANUAL(alGetError())
-#define AL_ERROR_CHECK_MANUAL(val) \
-	{ \
-		ALenum __err = val; \
-		if (__err != AL_NO_ERROR) \
-		{ \
-			LOG_E("(%s:%i) OpenAL Error: %s", __FILE__, __LINE__, alGetString(__err)); \
-			assert(!"An OpenAL error occurred!"); \
-		} \
-	}
-
 bool SoundSystemAL::_hasMaxSources() const
 {
 	return _sources.size() + _sources_idle.size() >= SOUND_MAX_SOURCES;

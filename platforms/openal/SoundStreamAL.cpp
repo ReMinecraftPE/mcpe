@@ -1,12 +1,13 @@
 #include "SoundStreamAL.hpp"
 #include <assert.h>
+#include "common/Logger.hpp"
 
 SoundStreamAL::SoundStreamAL()
 {
     _decoder = nullptr;
     _info = stb_vorbis_info();
-    alGenSources(1, &_source);
-    alGenBuffers(2, _buffers);
+    _createSource();
+    _createBuffers();
     _tempPcmBufferSize = 4096 * 8;
     _tempPcmBuffer = new int16_t[_tempPcmBufferSize];
     _alFormat = AL_NONE;
@@ -20,9 +21,9 @@ SoundStreamAL::SoundStreamAL()
 
 SoundStreamAL::~SoundStreamAL()
 {
-    alDeleteSources(1, &_source);
-    alDeleteBuffers(2, _buffers);
-    close();
+    _deleteSource();
+    _deleteBuffers();
+    _deleteDecoder();
     delete[] _tempPcmBuffer;
 }
 
@@ -41,9 +42,56 @@ bool SoundStreamAL::_stream(uint32_t buffer)
     if (size == 0) return false;
 
     alBufferData(buffer, _alFormat, _tempPcmBuffer, size * sizeof(int16_t), _info.sample_rate);
+    AL_ERROR_CHECK();
     _totalSamplesLeft -= size;
 
     return true;
+}
+
+void SoundStreamAL::_deleteSource()
+{
+    alDeleteSources(1, &_source);
+    AL_ERROR_CHECK();
+}
+
+void SoundStreamAL::_createSource()
+{
+    alGenSources(1, &_source);
+}
+
+void SoundStreamAL::_resetSource()
+{
+    alSourceStop(_source);
+    AL_ERROR_CHECK();
+    alSourceRewind(_source);
+    AL_ERROR_CHECK();
+    // Detach all of the buffers from the source
+    alSourcei(_source, AL_BUFFER, 0);
+    AL_ERROR_CHECK();
+}
+
+void SoundStreamAL::_deleteBuffers()
+{
+    alDeleteBuffers(2, _buffers);
+    AL_ERROR_CHECK();
+}
+
+void SoundStreamAL::_createBuffers()
+{
+    alGenBuffers(2, _buffers);
+}
+
+void SoundStreamAL::_resetBuffers()
+{
+    _deleteBuffers();
+    _createBuffers();
+}
+
+void SoundStreamAL::_deleteDecoder()
+{
+    if (_decoder != nullptr)
+        stb_vorbis_close(_decoder);
+    _decoder = nullptr;
 }
 
 bool SoundStreamAL::open(const std::string& fileName)
@@ -52,6 +100,8 @@ bool SoundStreamAL::open(const std::string& fileName)
     {
         close();
     }
+
+    _isPaused = false;
 
     _decoder = stb_vorbis_open_filename(fileName.c_str(), NULL, NULL);
     if (!_decoder) return false;
@@ -63,7 +113,9 @@ bool SoundStreamAL::open(const std::string& fileName)
     if (!_stream(_buffers[0])) return false;
     if (!_stream(_buffers[1])) return false;
     alSourceQueueBuffers(_source, 2, _buffers);
+    AL_ERROR_CHECK();
     alSourcePlay(_source);
+    AL_ERROR_CHECK();
 
     _totalSamplesLeft = stb_vorbis_stream_length_in_samples(_decoder) * _info.channels;
     _isStreaming = true;
@@ -73,11 +125,9 @@ bool SoundStreamAL::open(const std::string& fileName)
 
 void SoundStreamAL::close()
 {
-    alSourceStop(_source);
-    alSourceRewind(_source);
-    if (_decoder != nullptr)
-        stb_vorbis_close(_decoder);
-    _decoder = nullptr;
+    _resetSource();
+    //_resetBuffers();
+    _deleteDecoder();
     _alFormat = AL_NONE;
     _totalSamplesLeft = 0;
     _isStreaming = false;
@@ -90,12 +140,14 @@ void SoundStreamAL::update()
     int32_t processed = 0;
 
     alGetSourcei(_source, AL_BUFFERS_PROCESSED, &processed);
+    AL_ERROR_CHECK();
 
     while (processed--)
     {
         uint32_t buffer = 0;
 
         alSourceUnqueueBuffers(_source, 1, &buffer);
+        AL_ERROR_CHECK();
 
         if (!_stream(buffer))
         {
@@ -115,11 +167,12 @@ void SoundStreamAL::update()
             }
         }
         alSourceQueueBuffers(_source, 1, &buffer);
+        AL_ERROR_CHECK();
     }
 }
 
 void SoundStreamAL::setVolume(float vol)
 {
     alSourcef(_source, AL_GAIN, vol);
-    assert(alGetError() == AL_NO_ERROR);
+    AL_ERROR_CHECK();
 }
