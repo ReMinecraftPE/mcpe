@@ -12,6 +12,8 @@
 
 //#define SS_AL_SOURCES 12 // 0.10.0
 
+#define SOUND_SYSTEM SoundSystemAL
+
 class SoundSystemAL : public SoundSystem
 {
 public:

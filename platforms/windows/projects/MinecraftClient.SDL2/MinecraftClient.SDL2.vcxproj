@@ -37,7 +37,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\openal;$(MC_ROOT)\thirdparty\stb_image\include;$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\openal;$(MC_ROOT)\thirdparty\stb_image\include;$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -61,20 +61,20 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundSystemAL.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\main.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.cpp" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
-    <ClCompile Include="$(MC_ROOT)\platforms\openal\SoundStreamAL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
-    <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundSystemAL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\CustomSoundSystem.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl_base.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\desktop\AppPlatform_sdl.hpp" />
-    <ClInclude Include="$(MC_ROOT)\platforms\openal\SoundStreamAL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">
