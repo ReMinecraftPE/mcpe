@@ -200,6 +200,8 @@
 		8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
 		8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */; };
 		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
+		8435BB192DCD47F400D38282 /* SoundStreamAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamAL.cpp */; };
+		8435BB1A2DCD47F400D38282 /* SoundStreamAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamAL.cpp */; };
 		8441F98F2DB4E911005977BD /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemAL.cpp */; };
 		8441F9962DB4E911005977BD /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemAL.cpp */; };
 		8443B6EA2A98675F0086730C /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8443B6E92A98675F0086730C /* libSDL2.a */; };
@@ -1781,6 +1783,8 @@
 		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = ../Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
 		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = ../Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
 		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = ../Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
+		8435BB172DCD47F400D38282 /* SoundStreamAL.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SoundStreamAL.hpp; sourceTree = "<group>"; };
+		8435BB182DCD47F400D38282 /* SoundStreamAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundStreamAL.cpp; sourceTree = "<group>"; };
 		8441F9852DB4E911005977BD /* CustomSoundSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CustomSoundSystem.hpp; sourceTree = "<group>"; };
 		8441F9862DB4E911005977BD /* SoundSystemAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemAL.cpp; sourceTree = "<group>"; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
@@ -3398,6 +3402,8 @@
 			isa = PBXGroup;
 			children = (
 				8441F9852DB4E911005977BD /* CustomSoundSystem.hpp */,
+				8435BB172DCD47F400D38282 /* SoundStreamAL.hpp */,
+				8435BB182DCD47F400D38282 /* SoundStreamAL.cpp */,
 				8441F9862DB4E911005977BD /* SoundSystemAL.cpp */,
 			);
 			path = openal;
@@ -4874,6 +4880,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8435BB192DCD47F400D38282 /* SoundStreamAL.cpp in Sources */,
 				84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */,
 				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */,
 				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */,
@@ -4895,6 +4902,7 @@
 				8441F98F2DB4E911005977BD /* SoundSystemAL.cpp in Sources */,
 				84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */,
 				8495E4892AF0905B00A06901 /* AppPlatform_iOS.mm in Sources */,
+				8435BB1A2DCD47F400D38282 /* SoundStreamAL.cpp in Sources */,
 				8488C08A2B1EDD4F001AEC4F /* ShowKeyboardView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
