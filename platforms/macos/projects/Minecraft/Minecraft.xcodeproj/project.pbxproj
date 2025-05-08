@@ -200,6 +200,8 @@
 		8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
 		8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */; };
 		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
+		8441F98F2DB4E911005977BD /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemAL.cpp */; };
+		8441F9962DB4E911005977BD /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemAL.cpp */; };
 		8443B6EA2A98675F0086730C /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8443B6E92A98675F0086730C /* libSDL2.a */; };
 		8445E7A02D769329008DC834 /* EntityCategories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8445E7952D769329008DC834 /* EntityCategories.cpp */; };
 		8445E7A12D769329008DC834 /* EntityCategories.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8445E7962D769329008DC834 /* EntityCategories.hpp */; };
@@ -245,7 +247,6 @@
 		84619B212AF1EDA300B0DE81 /* libWorld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF630B2AF1859D008A9995 /* libWorld.a */; };
 		84619B222AF1EDA300B0DE81 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
 		84619B392AF1F73900B0DE81 /* GL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6552AC810620006A435 /* GL.hpp */; };
-		84619B3A2AF1FE1500B0DE81 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */; };
 		84619B3C2AF1FE4C00B0DE81 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */; };
 		84619B3E2AF1FEB700B0DE81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */; };
 		8470AF2B2BE9B60A00BCA54E /* EntityType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 8470AF282BE9B60900BCA54E /* EntityType.hpp */; };
@@ -900,7 +901,6 @@
 		84EAE8DE2AF1EAA1000894E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */; };
 		84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */; };
 		84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */; };
-		84EAE8F32AF1EAFA000894E8 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */; };
 		84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8F12AF1EAFA000894E8 /* main.cpp */; };
 		84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
@@ -1781,6 +1781,8 @@
 		84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS_Debug.xcconfig; path = ../Configuration/Settings_iOS_Debug.xcconfig; sourceTree = "<group>"; };
 		84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS.xcconfig; path = ../Configuration/Settings_macOS.xcconfig; sourceTree = "<group>"; };
 		84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_macOS_Debug.xcconfig; path = ../Configuration/Settings_macOS_Debug.xcconfig; sourceTree = "<group>"; };
+		8441F9852DB4E911005977BD /* CustomSoundSystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CustomSoundSystem.hpp; sourceTree = "<group>"; };
+		8441F9862DB4E911005977BD /* SoundSystemAL.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemAL.cpp; sourceTree = "<group>"; };
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
 		8445E7952D769329008DC834 /* EntityCategories.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityCategories.cpp; sourceTree = "<group>"; };
 		8445E7962D769329008DC834 /* EntityCategories.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityCategories.hpp; sourceTree = "<group>"; };
@@ -1955,7 +1957,6 @@
 		84AA8B6D2B32F3B5003F5B82 /* PathfinderMob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PathfinderMob.hpp; sourceTree = "<group>"; };
 		84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pig.cpp; sourceTree = "<group>"; };
 		84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Pig.hpp; sourceTree = "<group>"; };
-		84AA8B702B32F3B5003F5B82 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		84AA8B762B32F3B5003F5B82 /* WaterAnimal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaterAnimal.cpp; sourceTree = "<group>"; };
 		84AA8B772B32F3B5003F5B82 /* WaterAnimal.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WaterAnimal.hpp; sourceTree = "<group>"; };
 		84AA8B992B32F3F3003F5B82 /* Chunk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Chunk.cpp; sourceTree = "<group>"; };
@@ -2045,8 +2046,6 @@
 		84AA8C3F2B32F535003F5B82 /* CowModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CowModel.hpp; sourceTree = "<group>"; };
 		84AA8C402B32F535003F5B82 /* CreeperModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreeperModel.cpp; sourceTree = "<group>"; };
 		84AA8C412B32F535003F5B82 /* CreeperModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreeperModel.hpp; sourceTree = "<group>"; };
-		84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanoidModel.cpp; sourceTree = "<group>"; };
-		84AA8C462B32F535003F5B82 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		84AA8C482B32F535003F5B82 /* ModelPart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelPart.cpp; sourceTree = "<group>"; };
 		84AA8C492B32F535003F5B82 /* ModelPart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelPart.hpp; sourceTree = "<group>"; };
 		84AA8C4A2B32F535003F5B82 /* PigModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PigModel.cpp; sourceTree = "<group>"; };
@@ -2174,8 +2173,6 @@
 		84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		84EAE8E12AF1EAB5000894E8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSystemAL.cpp; sourceTree = "<group>"; };
-		84EAE8E72AF1EAFA000894E8 /* SoundSystemAL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SoundSystemAL.hpp; sourceTree = "<group>"; };
 		84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		84EAE8F12AF1EAFA000894E8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = minecraftpe.entitlements; sourceTree = "<group>"; };
@@ -2431,10 +2428,8 @@
 				840DD5BF2AC810620006A435 /* Cube.hpp */,
 				840DD5BE2AC810620006A435 /* Cube.cpp */,
 				840DD5C12AC810620006A435 /* HumanoidModel.hpp */,
-				84AA8C442B32F535003F5B82 /* HumanoidModel.cpp */,
 				840DD5C02AC810620006A435 /* HumanoidModel.cpp */,
 				840DD5C32AC810620006A435 /* Model.hpp */,
-				84AA8C462B32F535003F5B82 /* Model.cpp */,
 				840DD5C22AC810620006A435 /* Model.cpp */,
 				84AA8C492B32F535003F5B82 /* ModelPart.hpp */,
 				84AA8C482B32F535003F5B82 /* ModelPart.cpp */,
@@ -2702,7 +2697,6 @@
 				84AA8B6F2B32F3B5003F5B82 /* Pig.hpp */,
 				84AA8B6E2B32F3B5003F5B82 /* Pig.cpp */,
 				840DD6632AC810620006A435 /* Player.hpp */,
-				84AA8B702B32F3B5003F5B82 /* Player.cpp */,
 				840DD6622AC810620006A435 /* Player.cpp */,
 				840DD6652AC810620006A435 /* PrimedTnt.hpp */,
 				840DD6642AC810620006A435 /* PrimedTnt.cpp */,
@@ -2737,22 +2731,22 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
-				840DD6702AC810620006A435 /* CameraItem.cpp */,
 				840DD6712AC810620006A435 /* CameraItem.hpp */,
-				840DD6722AC810620006A435 /* DoorItem.cpp */,
+				840DD6702AC810620006A435 /* CameraItem.cpp */,
 				840DD6732AC810620006A435 /* DoorItem.hpp */,
-				840DD6742AC810620006A435 /* Inventory.cpp */,
+				840DD6722AC810620006A435 /* DoorItem.cpp */,
 				840DD6752AC810620006A435 /* Inventory.hpp */,
-				840DD6762AC810620006A435 /* Item.cpp */,
+				840DD6742AC810620006A435 /* Inventory.cpp */,
 				840DD6772AC810620006A435 /* Item.hpp */,
-				840DD6782AC810620006A435 /* ItemInstance.cpp */,
+				840DD6762AC810620006A435 /* Item.cpp */,
 				840DD6792AC810620006A435 /* ItemInstance.hpp */,
-				84E78C812B58B5FB00D515EF /* RocketItem.cpp */,
+				840DD6782AC810620006A435 /* ItemInstance.cpp */,
 				84E78C822B58B5FB00D515EF /* RocketItem.hpp */,
-				840DD67A2AC810620006A435 /* TileItem.cpp */,
+				84E78C812B58B5FB00D515EF /* RocketItem.cpp */,
 				840DD67B2AC810620006A435 /* TileItem.hpp */,
-				840DD67C2AC810620006A435 /* TilePlanterItem.cpp */,
+				840DD67A2AC810620006A435 /* TileItem.cpp */,
 				840DD67D2AC810620006A435 /* TilePlanterItem.hpp */,
+				840DD67C2AC810620006A435 /* TilePlanterItem.cpp */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -2898,14 +2892,14 @@
 			children = (
 				840DD6CF2AC810620006A435 /* BubbleParticle.cpp */,
 				840DD6D02AC810620006A435 /* ExplodeParticle.cpp */,
-				8470AF3A2BE9B6FA00BCA54E /* FireworkParticle.cpp */,
 				8470AF3B2BE9B6FA00BCA54E /* FireworkParticle.hpp */,
+				8470AF3A2BE9B6FA00BCA54E /* FireworkParticle.cpp */,
 				840DD6D12AC810620006A435 /* FlameParticle.cpp */,
 				840DD6D22AC810620006A435 /* LavaParticle.cpp */,
-				840DD6D32AC810620006A435 /* Particle.cpp */,
 				840DD6D42AC810620006A435 /* Particle.hpp */,
-				840DD6D52AC810620006A435 /* ParticleEngine.cpp */,
+				840DD6D32AC810620006A435 /* Particle.cpp */,
 				840DD6D62AC810620006A435 /* ParticleEngine.hpp */,
+				840DD6D52AC810620006A435 /* ParticleEngine.cpp */,
 				840DD6D72AC810620006A435 /* RedDustParticle.cpp */,
 				840DD6D82AC810620006A435 /* SmokeParticle.cpp */,
 				840DD6D92AC810620006A435 /* TerrainParticle.cpp */,
@@ -2931,84 +2925,84 @@
 		840DD6E12AC810620006A435 /* tile */ = {
 			isa = PBXGroup;
 			children = (
-				840DD6E22AC810620006A435 /* BookshelfTile.cpp */,
 				840DD6E32AC810620006A435 /* BookshelfTile.hpp */,
-				840DD6E42AC810620006A435 /* Bush.cpp */,
+				840DD6E22AC810620006A435 /* BookshelfTile.cpp */,
 				840DD6E52AC810620006A435 /* Bush.hpp */,
-				840DD6E62AC810620006A435 /* ClayTile.cpp */,
+				840DD6E42AC810620006A435 /* Bush.cpp */,
 				840DD6E72AC810620006A435 /* ClayTile.hpp */,
-				840DD6E82AC810620006A435 /* ClothTile.cpp */,
+				840DD6E62AC810620006A435 /* ClayTile.cpp */,
 				840DD6E92AC810620006A435 /* ClothTile.hpp */,
-				840DD6EA2AC810620006A435 /* DirtTile.cpp */,
+				840DD6E82AC810620006A435 /* ClothTile.cpp */,
 				840DD6EB2AC810620006A435 /* DirtTile.hpp */,
-				840DD6EC2AC810620006A435 /* DoorTile.cpp */,
+				840DD6EA2AC810620006A435 /* DirtTile.cpp */,
 				840DD6ED2AC810620006A435 /* DoorTile.hpp */,
-				840DD6EE2AC810620006A435 /* FarmTile.cpp */,
+				840DD6EC2AC810620006A435 /* DoorTile.cpp */,
 				840DD6EF2AC810620006A435 /* FarmTile.hpp */,
-				840DD6F02AC810620006A435 /* FireTile.cpp */,
+				840DD6EE2AC810620006A435 /* FarmTile.cpp */,
 				840DD6F12AC810620006A435 /* FireTile.hpp */,
-				840DD6F22AC810620006A435 /* GlassTile.cpp */,
+				840DD6F02AC810620006A435 /* FireTile.cpp */,
 				840DD6F32AC810620006A435 /* GlassTile.hpp */,
-				840DD6F42AC810620006A435 /* GrassTile.cpp */,
+				840DD6F22AC810620006A435 /* GlassTile.cpp */,
 				840DD6F52AC810620006A435 /* GrassTile.hpp */,
-				840DD6F62AC810620006A435 /* GravelTile.cpp */,
+				840DD6F42AC810620006A435 /* GrassTile.cpp */,
 				840DD6F72AC810620006A435 /* GravelTile.hpp */,
-				840DD6F82AC810620006A435 /* HalfTransparentTile.cpp */,
+				840DD6F62AC810620006A435 /* GravelTile.cpp */,
 				840DD6F92AC810620006A435 /* HalfTransparentTile.hpp */,
-				840DD6FA2AC810620006A435 /* IceTile.cpp */,
+				840DD6F82AC810620006A435 /* HalfTransparentTile.cpp */,
 				840DD6FB2AC810620006A435 /* IceTile.hpp */,
-				840DD6FC2AC810620006A435 /* InvisibleTile.cpp */,
+				840DD6FA2AC810620006A435 /* IceTile.cpp */,
 				840DD6FD2AC810620006A435 /* InvisibleTile.hpp */,
-				840DD6FE2AC810620006A435 /* LadderTile.cpp */,
+				840DD6FC2AC810620006A435 /* InvisibleTile.cpp */,
 				840DD6FF2AC810620006A435 /* LadderTile.hpp */,
-				840DD7002AC810620006A435 /* LeafTile.cpp */,
+				840DD6FE2AC810620006A435 /* LadderTile.cpp */,
 				840DD7012AC810620006A435 /* LeafTile.hpp */,
-				840DD7022AC810620006A435 /* LiquidTile.cpp */,
+				840DD7002AC810620006A435 /* LeafTile.cpp */,
 				840DD7032AC810620006A435 /* LiquidTile.hpp */,
-				840DD7042AC810620006A435 /* LiquidTileDynamic.cpp */,
+				840DD7022AC810620006A435 /* LiquidTile.cpp */,
 				840DD7052AC810620006A435 /* LiquidTileDynamic.hpp */,
-				840DD7062AC810620006A435 /* LiquidTileStatic.cpp */,
+				840DD7042AC810620006A435 /* LiquidTileDynamic.cpp */,
 				840DD7072AC810620006A435 /* LiquidTileStatic.hpp */,
-				840DD7082AC810620006A435 /* MetalTile.cpp */,
+				840DD7062AC810620006A435 /* LiquidTileStatic.cpp */,
 				840DD7092AC810620006A435 /* MetalTile.hpp */,
-				840DD70A2AC810620006A435 /* ObsidianTile.cpp */,
+				840DD7082AC810620006A435 /* MetalTile.cpp */,
 				840DD70B2AC810620006A435 /* ObsidianTile.hpp */,
-				840DD70C2AC810620006A435 /* OreTile.cpp */,
+				840DD70A2AC810620006A435 /* ObsidianTile.cpp */,
 				840DD70D2AC810620006A435 /* OreTile.hpp */,
-				840DD70E2AC810620006A435 /* RedStoneOreTile.cpp */,
+				840DD70C2AC810620006A435 /* OreTile.cpp */,
 				840DD70F2AC810620006A435 /* RedStoneOreTile.hpp */,
-				840DD7102AC810620006A435 /* ReedTile.cpp */,
+				840DD70E2AC810620006A435 /* RedStoneOreTile.cpp */,
 				840DD7112AC810620006A435 /* ReedTile.hpp */,
-				84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */,
+				840DD7102AC810620006A435 /* ReedTile.cpp */,
 				84E78C862B58B66B00D515EF /* RocketLauncherTile.hpp */,
-				840DD7122AC810620006A435 /* SandStoneTile.cpp */,
+				84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */,
 				840DD7132AC810620006A435 /* SandStoneTile.hpp */,
-				840DD7142AC810620006A435 /* SandTile.cpp */,
+				840DD7122AC810620006A435 /* SandStoneTile.cpp */,
 				840DD7152AC810620006A435 /* SandTile.hpp */,
-				840DD7162AC810620006A435 /* Sapling.cpp */,
+				840DD7142AC810620006A435 /* SandTile.cpp */,
 				840DD7172AC810620006A435 /* Sapling.hpp */,
-				840DD7182AC810620006A435 /* SpongeTile.cpp */,
+				840DD7162AC810620006A435 /* Sapling.cpp */,
 				840DD7192AC810620006A435 /* SpongeTile.hpp */,
-				840DD71A2AC810620006A435 /* StairTile.cpp */,
+				840DD7182AC810620006A435 /* SpongeTile.cpp */,
 				840DD71B2AC810620006A435 /* StairTile.hpp */,
-				840DD71C2AC810620006A435 /* StoneSlabTile.cpp */,
+				840DD71A2AC810620006A435 /* StairTile.cpp */,
 				840DD71D2AC810620006A435 /* StoneSlabTile.hpp */,
-				840DD71E2AC810620006A435 /* StoneTile.cpp */,
+				840DD71C2AC810620006A435 /* StoneSlabTile.cpp */,
 				840DD71F2AC810620006A435 /* StoneTile.hpp */,
-				840DD7202AC810620006A435 /* Tile.cpp */,
+				840DD71E2AC810620006A435 /* StoneTile.cpp */,
 				840DD7212AC810620006A435 /* Tile.hpp */,
-				840DD7222AC810620006A435 /* TntTile.cpp */,
+				840DD7202AC810620006A435 /* Tile.cpp */,
 				840DD7232AC810620006A435 /* TntTile.hpp */,
-				840DD7242AC810620006A435 /* TopSnowTile.cpp */,
+				840DD7222AC810620006A435 /* TntTile.cpp */,
 				840DD7252AC810620006A435 /* TopSnowTile.hpp */,
-				840DD7262AC810620006A435 /* TorchTile.cpp */,
+				840DD7242AC810620006A435 /* TopSnowTile.cpp */,
 				840DD7272AC810620006A435 /* TorchTile.hpp */,
-				840DD7282AC810620006A435 /* TransparentTile.cpp */,
+				840DD7262AC810620006A435 /* TorchTile.cpp */,
 				840DD7292AC810620006A435 /* TransparentTile.hpp */,
-				840DD72A2AC810620006A435 /* TreeTile.cpp */,
+				840DD7282AC810620006A435 /* TransparentTile.cpp */,
 				840DD72B2AC810620006A435 /* TreeTile.hpp */,
-				840DD72C2AC810620006A435 /* WireTile.cpp */,
+				840DD72A2AC810620006A435 /* TreeTile.cpp */,
 				840DD72D2AC810620006A435 /* WireTile.hpp */,
+				840DD72C2AC810620006A435 /* WireTile.cpp */,
 			);
 			path = tile;
 			sourceTree = "<group>";
@@ -3357,8 +3351,8 @@
 			isa = PBXGroup;
 			children = (
 				84790AEC2AD7DA410076F2A1 /* ios */,
-				84EAE8E52AF1EAFA000894E8 /* openal */,
 				84EAE8E82AF1EAFA000894E8 /* sdl */,
+				8441F98D2DB4E911005977BD /* sound */,
 			);
 			name = platforms;
 			path = ../../..;
@@ -3398,6 +3392,23 @@
 				84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */,
 			);
 			name = macOS;
+			sourceTree = "<group>";
+		};
+		8441F9872DB4E911005977BD /* openal */ = {
+			isa = PBXGroup;
+			children = (
+				8441F9852DB4E911005977BD /* CustomSoundSystem.hpp */,
+				8441F9862DB4E911005977BD /* SoundSystemAL.cpp */,
+			);
+			path = openal;
+			sourceTree = "<group>";
+		};
+		8441F98D2DB4E911005977BD /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				8441F9872DB4E911005977BD /* openal */,
+			);
+			path = sound;
 			sourceTree = "<group>";
 		};
 		8470AF422BE9B8B600BCA54E /* environment */ = {
@@ -3722,44 +3733,44 @@
 		84AA8B9F2B32F3F3003F5B82 /* entity */ = {
 			isa = PBXGroup;
 			children = (
-				84AA8BA02B32F3F3003F5B82 /* ChickenRenderer.cpp */,
 				84AA8BA12B32F3F3003F5B82 /* ChickenRenderer.hpp */,
-				84AA8BA22B32F3F3003F5B82 /* CowRenderer.cpp */,
+				84AA8BA02B32F3F3003F5B82 /* ChickenRenderer.cpp */,
 				84AA8BA32B32F3F3003F5B82 /* CowRenderer.hpp */,
-				84AA8BA42B32F3F3003F5B82 /* CreeperRenderer.cpp */,
+				84AA8BA22B32F3F3003F5B82 /* CowRenderer.cpp */,
 				84AA8BA52B32F3F3003F5B82 /* CreeperRenderer.hpp */,
-				84AA8BA62B32F3F3003F5B82 /* EntityRenderDispatcher.cpp */,
+				84AA8BA42B32F3F3003F5B82 /* CreeperRenderer.cpp */,
 				84AA8BA72B32F3F3003F5B82 /* EntityRenderDispatcher.hpp */,
-				84AA8BA82B32F3F3003F5B82 /* EntityRenderer.cpp */,
+				84AA8BA62B32F3F3003F5B82 /* EntityRenderDispatcher.cpp */,
 				84AA8BA92B32F3F3003F5B82 /* EntityRenderer.hpp */,
-				84AA8BAA2B32F3F3003F5B82 /* FallingTileRenderer.cpp */,
+				84AA8BA82B32F3F3003F5B82 /* EntityRenderer.cpp */,
 				84AA8BAB2B32F3F3003F5B82 /* FallingTileRenderer.hpp */,
-				84AA8BAC2B32F3F3003F5B82 /* HumanoidMobRenderer.cpp */,
+				84AA8BAA2B32F3F3003F5B82 /* FallingTileRenderer.cpp */,
 				84AA8BAD2B32F3F3003F5B82 /* HumanoidMobRenderer.hpp */,
-				84AA8BAE2B32F3F3003F5B82 /* ItemRenderer.cpp */,
+				84AA8BAC2B32F3F3003F5B82 /* HumanoidMobRenderer.cpp */,
 				84AA8BAF2B32F3F3003F5B82 /* ItemRenderer.hpp */,
-				84AA8BB02B32F3F3003F5B82 /* ItemSpriteRenderer.cpp */,
+				84AA8BAE2B32F3F3003F5B82 /* ItemRenderer.cpp */,
 				84AA8BB12B32F3F3003F5B82 /* ItemSpriteRenderer.hpp */,
-				84AA8BB22B32F3F3003F5B82 /* MobRenderer.cpp */,
+				84AA8BB02B32F3F3003F5B82 /* ItemSpriteRenderer.cpp */,
 				84AA8BB32B32F3F3003F5B82 /* MobRenderer.hpp */,
-				84AA8BB42B32F3F3003F5B82 /* PigRenderer.cpp */,
+				84AA8BB22B32F3F3003F5B82 /* MobRenderer.cpp */,
 				84AA8BB52B32F3F3003F5B82 /* PigRenderer.hpp */,
-				84E78C7D2B58B5CC00D515EF /* RocketRenderer.cpp */,
+				84AA8BB42B32F3F3003F5B82 /* PigRenderer.cpp */,
 				84E78C7E2B58B5CC00D515EF /* RocketRenderer.hpp */,
-				84AA8BB62B32F3F3003F5B82 /* SheepFurRenderer.cpp */,
+				84E78C7D2B58B5CC00D515EF /* RocketRenderer.cpp */,
 				84AA8BB72B32F3F3003F5B82 /* SheepFurRenderer.hpp */,
-				84AA8BB82B32F3F3003F5B82 /* SheepRenderer.cpp */,
+				84AA8BB62B32F3F3003F5B82 /* SheepFurRenderer.cpp */,
 				84AA8BB92B32F3F3003F5B82 /* SheepRenderer.hpp */,
-				84AA8BBA2B32F3F3003F5B82 /* SkeletonRenderer.cpp */,
+				84AA8BB82B32F3F3003F5B82 /* SheepRenderer.cpp */,
 				84AA8BBB2B32F3F3003F5B82 /* SkeletonRenderer.hpp */,
-				84AA8BBC2B32F3F3003F5B82 /* SpiderRenderer.cpp */,
+				84AA8BBA2B32F3F3003F5B82 /* SkeletonRenderer.cpp */,
 				84AA8BBD2B32F3F3003F5B82 /* SpiderRenderer.hpp */,
-				84AA8BBE2B32F3F3003F5B82 /* TntRenderer.cpp */,
+				84AA8BBC2B32F3F3003F5B82 /* SpiderRenderer.cpp */,
 				84AA8BBF2B32F3F3003F5B82 /* TntRenderer.hpp */,
-				84AA8BC02B32F3F3003F5B82 /* TripodCameraRenderer.cpp */,
+				84AA8BBE2B32F3F3003F5B82 /* TntRenderer.cpp */,
 				84AA8BC12B32F3F3003F5B82 /* TripodCameraRenderer.hpp */,
-				84AA8BC22B32F3F3003F5B82 /* ZombieRenderer.cpp */,
+				84AA8BC02B32F3F3003F5B82 /* TripodCameraRenderer.cpp */,
 				84AA8BC32B32F3F3003F5B82 /* ZombieRenderer.hpp */,
+				84AA8BC22B32F3F3003F5B82 /* ZombieRenderer.cpp */,
 			);
 			path = entity;
 			sourceTree = "<group>";
@@ -3916,15 +3927,6 @@
 				84E0018E2AF3A28B009B9555 /* char.png */,
 			);
 			path = mob;
-			sourceTree = "<group>";
-		};
-		84EAE8E52AF1EAFA000894E8 /* openal */ = {
-			isa = PBXGroup;
-			children = (
-				84EAE8E62AF1EAFA000894E8 /* SoundSystemAL.cpp */,
-				84EAE8E72AF1EAFA000894E8 /* SoundSystemAL.hpp */,
-			);
-			path = openal;
 			sourceTree = "<group>";
 		};
 		84EAE8E82AF1EAFA000894E8 /* sdl */ = {
@@ -4872,12 +4874,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84EAE8F32AF1EAFA000894E8 /* SoundSystemAL.cpp in Sources */,
 				84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */,
 				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */,
 				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */,
 				84AA8E4D2B32FB33003F5B82 /* stb_vorbis.c in Sources */,
 				84AA8E802B32FB33003F5B82 /* stb_image_impl.c in Sources */,
+				8441F9962DB4E911005977BD /* SoundSystemAL.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4885,12 +4887,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84619B3A2AF1FE1500B0DE81 /* SoundSystemAL.cpp in Sources */,
 				849259592AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm in Sources */,
 				8492595A2AD8FD4F0081F5B9 /* minecraftpeViewController.mm in Sources */,
 				8492595B2AD8FD4F0081F5B9 /* Shader.fsh in Sources */,
 				8492595C2AD8FD4F0081F5B9 /* Shader.vsh in Sources */,
 				849259622AD8FDD10081F5B9 /* main.m in Sources */,
+				8441F98F2DB4E911005977BD /* SoundSystemAL.cpp in Sources */,
 				84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */,
 				8495E4892AF0905B00A06901 /* AppPlatform_iOS.mm in Sources */,
 				8488C08A2B1EDD4F001AEC4F /* ShowKeyboardView.mm in Sources */,

@@ -32,7 +32,8 @@ public:
 	static AppPlatform* const singleton();
 
 	AppPlatform();
-	~AppPlatform();
+
+	virtual ~AppPlatform();
 
 	virtual void buyGame();
 	virtual int checkLicense();

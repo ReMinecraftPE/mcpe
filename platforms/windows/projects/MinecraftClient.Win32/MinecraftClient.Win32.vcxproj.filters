@@ -24,7 +24,7 @@
     <ClInclude Include="$(MC_ROOT)\platforms\windows\LoggerWin32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\platforms\windows\SoundSystemDS.hpp">
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\directsound\CustomSoundSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\platforms\windows\resource.h">
@@ -44,7 +44,7 @@
     <ClCompile Include="$(MC_ROOT)\platforms\windows\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\platforms\windows\SoundSystemDS.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\directsound\SoundSystemDS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

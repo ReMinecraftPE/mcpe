@@ -17,7 +17,7 @@ public:
     {
         _init(storageDir, window);
     }
-	~AppPlatform_sdl_base();
+	~AppPlatform_sdl_base() override;
 
 	void initSoundSystem() override;
 
@@ -31,7 +31,6 @@ public:
 	std::string getDateString(int time) override;
 	
 	// Also add these to allow proper turning within the game.
-	void recenterMouse() override;
 	void setMouseGrabbed(bool b) override;
 	void setMouseDiff(int x, int y);
 	void getMouseDiff(int& x, int& y) override;
@@ -65,8 +64,9 @@ public:
 
 	// Read Sounds
 	AssetFile readAssetFile(const std::string&, bool) const override;
-private:
+protected:
 	SDL_Window *_window;
+private:
 	SDL_GameController* _controller;
 
 	const Texture *_iconTexture;
@@ -77,7 +77,6 @@ private:
 	int xrel;
 	int yrel;
 
-	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 
 	bool m_bIsTouchscreen;

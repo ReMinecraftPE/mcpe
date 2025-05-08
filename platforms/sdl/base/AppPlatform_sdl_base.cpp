@@ -13,7 +13,10 @@
 
 #include "common/Utils.hpp"
 
-#include "SoundSystemAL.hpp"
+#include "CustomSoundSystem.hpp"
+// Macros are cursed
+#define _STR(x) #x
+#define STR(x) _STR(x)
 
 #include "client/player/input/Controller.hpp"
 
@@ -30,7 +33,6 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 
 	ensureDirectoryExists(_storageDir.c_str());
 
-	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;
 
 	// Default Touchscreen Mode
@@ -55,14 +57,16 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 
 	// Look for a pre-existing controller
 	_controller = findGameController();
+
+	clearDiff();
 }
 
 void AppPlatform_sdl_base::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
-		LOG_I("Initializing OpenAL SoundSystem...");
-		m_pSoundSystem = new SoundSystemAL();
+		LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
+		m_pSoundSystem = new SOUND_SYSTEM();
 	}
 	else
 	{
@@ -109,9 +113,6 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 	SAFE_DELETE(_iconTexture);
 
 	SAFE_DELETE(m_pSoundSystem);
-
-	// DELETE THIS LAST
-	SAFE_DELETE(m_pLogger);
 }
 
 SDL_GameController* AppPlatform_sdl_base::findGameController()
@@ -170,20 +171,6 @@ int AppPlatform_sdl_base::getScreenHeight() const
 	return height;
 }
 
-void AppPlatform_sdl_base::recenterMouse()
-{
-	// Note. The only reason we do it this way instead of
-	// using the Mouse class is because, after SDL_WarpMouseInWindow,
-	// we'll get an event on our window telling us "hey, the
-	// user has moved their cursor back to the center! Move
-	// the camera back as well", causing a camera that just
-	// refuses to move
-	int w = 0, h = 0;
-	SDL_GetWindowSize(_window, &w, &h);
-	SDL_WarpMouseInWindow(_window, w / 2, h / 2);
-	//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
-}
-
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
@@ -193,12 +180,13 @@ void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 	 * https://github.com/libsdl-org/SDL/issues/6002 (I'm not sure if this is the right issue, I just updated SDL after seeing this and it fixed the above problem.)
 	 **/
 	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
+	clearDiff();
 }
 
 void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 {
-	xrel = x;
-	yrel = y;
+	xrel += x;
+	yrel += y;
 }
 
 void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)

@@ -331,7 +331,9 @@ void GameRenderer::setupFog(int i)
 	fog_color[3] = 1.0f;
 
 	glFogfv(GL_FOG_COLOR, fog_color);
+#ifndef __EMSCRIPTEN__
 	glNormal3f(0.0f, -1.0f, 0.0f);
+#endif
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::water))

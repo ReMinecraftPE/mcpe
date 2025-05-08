@@ -1,10 +1,7 @@
 #pragma once
 
-#ifdef USE_OPENAL
-
 #include "thirdparty/OpenAL.h"
 
-#include <string>
 #include <vector>
 #include <map>
 
@@ -64,5 +61,3 @@ private:
 	Vec3 _listenerPos;
 	float _listenerYaw;
 };
-
-#endif

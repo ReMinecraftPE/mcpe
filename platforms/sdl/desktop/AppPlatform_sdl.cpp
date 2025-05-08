@@ -36,7 +36,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
 	{
 		// Create Screenshots Folder
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 		int ret = XPL_MKDIR(path);
 #else
 		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -197,4 +197,42 @@ bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
 bool AppPlatform_sdl::hasFileSystemAccess()
 {
 	return true;
+}
+
+std::string AppPlatform_sdl::getPatchData()
+{
+    std::string path = getAssetPath("patches/patch_data.txt");
+    SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
+    
+	if (!io)
+	{
+		LOG_W("Couldn't find patch data file!");
+		return "";
+	}
+    size_t size = io->size(io);
+    if (size == -1)
+    {
+        LOG_E("Error determining the size of the patch data file!");
+    }
+    
+	char *buf = new char[size];
+    SDL_RWread(io, buf, size, 1);
+    
+    SDL_RWclose(io);
+    
+    return std::string(buf);
+}
+
+void AppPlatform_sdl::recenterMouse()
+{
+	// Note. The only reason we do it this way instead of
+	// using the Mouse class is because, after SDL_WarpMouseInWindow,
+	// we'll get an event on our window telling us "hey, the
+	// user has moved their cursor back to the center! Move
+	// the camera back as well", causing a camera that just
+	// refuses to move
+	int w = 0, h = 0;
+	SDL_GetWindowSize(_window, &w, &h);
+	SDL_WarpMouseInWindow(_window, w / 2, h / 2);
+	//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
 }
