@@ -284,7 +284,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\VertexPT.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\sound\SoundPathRepository.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundPathRepository.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundData.hpp">
@@ -676,7 +676,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\sound\SoundPathRepository.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundPathRepository.cpp">
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp">
