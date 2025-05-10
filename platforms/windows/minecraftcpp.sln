@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio Version 10
+# Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "projects\ZLib\ZLib.vcxproj", "{5DA292FD-FA40-45D8-900A-6652C9662913}"
@@ -26,6 +26,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer", "projects\Renderer\Renderer.vcxproj", "{BD8B8369-D75D-4D12-A85F-C521349B9125}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL", "projects\OpenGL\OpenGL.vcxproj", "{2E1A5B55-A6D4-4743-A63A-4F27DB03C0A1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STB", "projects\STB\STB.vcxproj", "{F332CB57-FF16-4D43-BBE0-76F28301DAA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -203,6 +205,22 @@ Global
 		{2E1A5B55-A6D4-4743-A63A-4F27DB03C0A1}.Release|x64.Build.0 = Release|x64
 		{2E1A5B55-A6D4-4743-A63A-4F27DB03C0A1}.Release|x86.ActiveCfg = Release|Win32
 		{2E1A5B55-A6D4-4743-A63A-4F27DB03C0A1}.Release|x86.Build.0 = Release|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug_SDL2|x64.ActiveCfg = Debug|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug_SDL2|x64.Build.0 = Debug|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug_SDL2|x86.ActiveCfg = Debug|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug_SDL2|x86.Build.0 = Debug|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug|x64.ActiveCfg = Debug|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug|x64.Build.0 = Debug|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug|x86.ActiveCfg = Debug|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Debug|x86.Build.0 = Debug|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release_SDL2|x64.ActiveCfg = Release|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release_SDL2|x64.Build.0 = Release|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release_SDL2|x86.ActiveCfg = Release|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release_SDL2|x86.Build.0 = Release|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release|x64.ActiveCfg = Release|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release|x64.Build.0 = Release|x64
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release|x86.ActiveCfg = Release|Win32
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +230,7 @@ Global
 		{4B7FCC5F-7E38-4934-B272-2F5BBEF51013} = {3274DB20-9315-418F-8634-A4203E0436C2}
 		{A88F87B0-D37B-4385-A870-F349D8001E08} = {3274DB20-9315-418F-8634-A4203E0436C2}
 		{2E1A5B55-A6D4-4743-A63A-4F27DB03C0A1} = {3274DB20-9315-418F-8634-A4203E0436C2}
+		{F332CB57-FF16-4D43-BBE0-76F28301DAA8} = {3274DB20-9315-418F-8634-A4203E0436C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {469E02FA-FBC4-419C-8EA0-3055EE0AD3AC}

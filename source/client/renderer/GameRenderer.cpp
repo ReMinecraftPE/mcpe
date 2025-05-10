@@ -200,8 +200,8 @@ void GameRenderer::moveCameraToPlayer(float f)
 
 	if (!m_pMinecraft->getOptions()->field_241)
 	{
-		glRotatef(pMob->m_rotPrev.y + f * (pMob->m_rot.y - pMob->m_rotPrev.y), 1.0f, 0.0f, 0.0f);
-		glRotatef(pMob->m_rotPrev.x + f * (pMob->m_rot.x - pMob->m_rotPrev.x) + 180.0f, 0.0f, 1.0f, 0.0f);
+		glRotatef(pMob->m_oRot.y + f * (pMob->m_rot.y - pMob->m_oRot.y), 1.0f, 0.0f, 0.0f);
+		glRotatef(pMob->m_oRot.x + f * (pMob->m_rot.x - pMob->m_oRot.x) + 180.0f, 0.0f, 1.0f, 0.0f);
 	}
 
 	glTranslatef(0.0f, headHeightDiff, 0.0f);

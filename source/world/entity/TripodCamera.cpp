@@ -19,7 +19,7 @@ TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(
 	m_owner = player;
 	field_C8 = RENDER_CAMERA;
 
-	m_rotPrev = m_rot = player->m_rot;
+	m_oRot = m_rot = player->m_rot;
 
     m_bBlocksBuilding = true;
 

@@ -22,4 +22,3 @@ public:
 public:
 	std::map<std::string, std::vector<SoundDesc> > m_repo;
 };
-

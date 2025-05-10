@@ -288,9 +288,9 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 		int emptyHeartX = 16;
 		bool b1 = false;
-		if (player->field_B8 < 10)
+		if (player->m_invulnerableTime < 10)
 		{
-			b1 = player->field_B8 / 3 % 2;
+			b1 = player->m_invulnerableTime / 3 % 2;
 			emptyHeartX += 9 * b1;
 		}
 
@@ -318,9 +318,9 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 			if (b1)
 			{
-				if (healthNo < player->field_100)
+				if (healthNo < player->m_lastHealth)
 					blit(heartX, heartY, 70, 0, 9, 9, 0, 0);
-				else if (healthNo == player->field_100)
+				else if (healthNo == player->m_lastHealth)
 					blit(heartX, heartY, 79, 0, 9, 9, 0, 0);
 			}
 

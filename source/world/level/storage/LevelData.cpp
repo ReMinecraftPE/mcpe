@@ -82,7 +82,7 @@ void PlayerData::loadPlayer(Player* player)
 
 	// Let the setter do the validation
 	player->setRot(
-		player->m_rotPrev = m_rot
+		player->m_oRot = m_rot
 	);
 	player->m_distanceFallen = m_distanceFallen;
 	player->m_fireTicks = field_24;
