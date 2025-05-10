@@ -59,7 +59,7 @@ void SoundStreamAL::_createBuffers()
     for (int i = 0; i < sizeof(buffers) / sizeof(ALuint); i++)
     {
         _buffers.push_back(buffers[i]);
-        _bufferIdMap.emplace(buffers[i], i);
+        _bufferIdMap.insert({ buffers[i], i });
     }
 }
 
