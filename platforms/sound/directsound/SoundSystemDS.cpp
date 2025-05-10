@@ -188,7 +188,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	}
 
 	//Move the wave data into the buffer.
-	memcpy(bufferPtr, sound.m_pData, length);
+	memcpy(bufferPtr, sound.m_buffer.m_pData, length);
 
 	// Unlock the secondary buffer after the data has been written to it.
 	result = soundbuffer->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
