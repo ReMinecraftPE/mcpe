@@ -156,20 +156,20 @@ void SoundSystemAL::_cleanSources()
 ALuint SoundSystemAL::_getBuffer(const SoundDesc& sound)
 {
 	// Fetch pre-existing buffer
-	if (_buffers.count(sound.m_pData) > 0)
+	if (_buffers.count(sound.m_buffer.m_pData) > 0)
 	{
-		return _buffers[sound.m_pData];
+		return _buffers[sound.m_buffer.m_pData];
 	}
 	
 	// Create Buffer
 	ALuint buffer;
 	alGenBuffers(1, &buffer);
 	AL_ERROR_CHECK();
-	alBufferData(buffer, _getSoundFormat(sound.m_header), sound.m_pData, sound.m_dataSize, sound.m_header.m_sample_rate);
+	alBufferData(buffer, _getSoundFormat(sound.m_header), sound.m_buffer.m_pData, sound.m_buffer.m_dataSize, sound.m_header.m_sample_rate);
 	AL_ERROR_CHECK();
 
 	// Store
-	_buffers[sound.m_pData] = buffer;
+	_buffers[sound.m_buffer.m_pData] = buffer;
 	return buffer;
 }
 

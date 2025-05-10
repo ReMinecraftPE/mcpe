@@ -33,6 +33,12 @@ struct PCMSoundHeader
 	int m_length;
 };
 
+struct SoundBuffer
+{
+	void* m_pData;
+	int m_dataSize;
+};
+
 struct AudioDescriptor
 {
     bool m_isLoaded;
@@ -43,8 +49,7 @@ struct AudioDescriptor
 struct SoundDesc : AudioDescriptor
 {
 	AssetFile m_file;
-	uint16_t* m_pData;
-	int m_dataSize;
+	SoundBuffer m_buffer;
 	unsigned char* m_fileData;
 
 	bool _load(const AppPlatform* platform, const char* category, const char *name);
