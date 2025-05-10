@@ -1,18 +1,6 @@
 #pragma once
 
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#elif defined(__EMSCRIPTEN__)
-#include <AL/al.h>
-#include <AL/alc.h>
-#else
-#include "al.h"
-#include "alc.h"
-#ifdef _WIN32
-#pragma comment( lib, "OpenAL32.lib" )
-#endif
-#endif
+#include "thirdparty/OpenAL.h"
 
 #include <vector>
 #include <map>
@@ -20,8 +8,9 @@
 #include "client/sound/SoundSystem.hpp"
 #include "world/phys/Vec3.hpp"
 
-#define MAX_IDLE_SOURCES 50
-#define MAX_DISTANCE 16.0f
+#include "SoundStreamAL.hpp"
+
+//#define SS_AL_SOURCES 12 // 0.10.0
 
 #define SOUND_SYSTEM SoundSystemAL
 
@@ -30,28 +19,47 @@ class SoundSystemAL : public SoundSystem
 public:
 	SoundSystemAL();
 	~SoundSystemAL();
-	virtual bool isAvailable();
-	void update();
-	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch);
+	virtual bool isAvailable() override;
+	virtual void setListenerPos(const Vec3& pos) override;
+	virtual void setListenerAngle(const Vec2& rot) override;
 
-	virtual void setListenerPos(float x, float y, float z);
-	virtual void setListenerAngle(float yaw, float pitch);
+	virtual void setMusicVolume(float vol) override;
+
+	virtual void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch) override;
+
+	virtual void playMusic(const std::string& soundPath) override;
+	virtual bool isPlayingMusic() const override;
+	virtual void stopMusic() override;
+	virtual void pauseMusic(bool state) override;
     
-    virtual void startEngine();
-    virtual void stopEngine();
+	virtual void update(float elapsedTime) override;
+
+    virtual void startEngine() override;
+    virtual void stopEngine() override;
     
 private:
-	void delete_sources();
-	void delete_buffers();
-	ALuint get_buffer(const SoundDesc& sound);
+	bool _hasMaxSources() const;
+	ALuint _getIdleSource();
+	ALuint _getSource(bool& isNew, bool tryClean = true);
+	void _deleteSources();
+	void _cleanSources();
+	ALuint _getBuffer(const SoundDesc& sound);
+	void _deleteBuffers();
+	ALenum _getSoundFormat(const PCMSoundHeader& header) const;
 
 	ALCdevice *_device;
 	ALCcontext *_context;
-	bool _initialized;
+
+	//ALuint m_sources[SS_AL_SOURCES]; // 0.10.0
 	std::vector<ALuint> _sources;
 	std::vector<ALuint> _sources_idle;
-	std::map<void *, ALuint> _buffers;
+	std::map<void*, ALuint> _buffers;
+	SoundStreamAL* _musicStream;
 
-	Vec3 _lastListenerPos;
-    float _listenerVolume;
+	bool _initialized;
+
+	float _mainVolume;
+
+	Vec3 _listenerPos;
+	float _listenerYaw;
 };

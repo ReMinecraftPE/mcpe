@@ -17,31 +17,69 @@ bool SoundSystem::isAvailable()
 	return false;
 }
 
-void SoundSystem::setListenerPos(float x, float y, float z)
+void SoundSystem::setListenerPos(const Vec3& pos)
 {
 }
 
-void SoundSystem::setListenerAngle(float yaw, float pitch)
+void SoundSystem::setListenerAngle(const Vec2& rot)
 {
 }
 
-void SoundSystem::load(const std::string& sound)
+void SoundSystem::setListenerVelocity(const Vec3& vel)
 {
 }
 
-void SoundSystem::play(const std::string& sound)
+void SoundSystem::setMusicVolume(float vol)
 {
 }
 
-void SoundSystem::pause(const std::string& sound)
+void SoundSystem::setSoundVolume(float vol)
 {
 }
 
-void SoundSystem::stop(const std::string& sound)
+void SoundSystem::load(const std::string& soundPath, bool is3D, float minDis)
 {
 }
 
-void SoundSystem::playAt(const SoundDesc& sound, float x, float y, float z, float a, float b)
+void SoundSystem::play(const std::string& soundPath)
+{
+}
+
+void SoundSystem::pause(const std::string& soundPath)
+{
+}
+
+void SoundSystem::stop(const std::string& soundPath)
+{
+}
+
+void SoundSystem::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
+{
+}
+
+void SoundSystem::playMusic(const std::string& soundPath)
+{
+}
+
+bool SoundSystem::isPlayingMusic() const
+{
+	return false;
+}
+
+bool SoundSystem::isPlayingMusic(const std::string& soundPath) const
+{
+	return false;
+}
+
+void SoundSystem::stopMusic()
+{
+}
+
+void SoundSystem::pauseMusic(bool state)
+{
+}
+
+void SoundSystem::update(float elapsedTime)
 {
 }
 

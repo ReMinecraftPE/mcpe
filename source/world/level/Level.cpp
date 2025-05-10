@@ -1396,7 +1396,7 @@ void Level::tick(Entity* pEnt, bool b)
 		}
 
 		pEnt->m_posPrev = pEnt->m_pos;
-		pEnt->m_rotPrev = pEnt->m_rot;
+		pEnt->m_oRot = pEnt->m_rot;
 
 		if (pEnt->m_bInAChunk)
 			pEnt->tick();
@@ -1404,7 +1404,7 @@ void Level::tick(Entity* pEnt, bool b)
 	else
 	{
 		pEnt->m_posPrev = pEnt->m_pos;
-		pEnt->m_rotPrev = pEnt->m_rot;
+		pEnt->m_oRot = pEnt->m_rot;
 	}
 
 	ChunkPos cp(pEnt->m_pos);

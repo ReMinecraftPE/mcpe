@@ -66,29 +66,32 @@ bool Player::hurt(Entity* pEnt, int damage)
         return false;
     }
     
-    EntityTypeDescriptor entDesc = pEnt->getDescriptor();
-    
-    if (entDesc.hasCategory(EntityCategories::MONSTER) || entDesc.hasCategory(EntityCategories::ABSTRACT_ARROW))
-    {
-        switch (m_pLevel->m_difficulty)
-        {
-            case 0:
-                damage = 0;
-                break;
-            case 1:
-                damage = damage / 3 + 1;
-                break;
-            case 2:
-                // Don't modify damage
-                break;
-            case 3:
-                damage = damage * 3 / 2;
-                break;
-            default:
-                assert(!"Unknown difficulty value");
-                break;
-        }
-    }
+	if (pEnt != nullptr)
+	{
+		EntityTypeDescriptor entDesc = pEnt->getDescriptor();
+
+		if (entDesc.hasCategory(EntityCategories::MONSTER) || entDesc.hasCategory(EntityCategories::ABSTRACT_ARROW))
+		{
+			switch (m_pLevel->m_difficulty)
+			{
+				case 0:
+					damage = 0;
+					break;
+				case 1:
+					damage = damage / 3 + 1;
+					break;
+				case 2:
+					// Don't modify damage
+					break;
+				case 3:
+					damage = damage * 3 / 2;
+					break;
+				default:
+					assert(!"Unknown difficulty value");
+					break;
+			}
+		}
+	}
 
     return damage == 0 ? false : Mob::hurt(pEnt, damage);
 }

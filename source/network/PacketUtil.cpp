@@ -19,10 +19,10 @@ void PacketUtil::Rot_entityToChar(const Entity* entity, char& yawChar, char& pit
 void PacketUtil::Rot_charToEntity(Entity* entity, char yawChar, char pitchChar)
 {
 	float pitch = PacketUtil::Rot_charToDegrees(pitchChar);
-	entity->m_rotPrev.y = pitch;
+	entity->m_oRot.y = pitch;
 	entity->m_rot.y = pitch;
 
 	float yaw = PacketUtil::Rot_charToDegrees(yawChar);
-	entity->m_rotPrev.x = yaw;
+	entity->m_oRot.x = yaw;
 	entity->m_rot.x = yaw;
 }

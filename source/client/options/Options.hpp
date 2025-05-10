@@ -95,7 +95,7 @@ private:
 	KeyMapping m_keyMappings[KM_COUNT];
 
 public:
-	float field_0;
+	float m_fMusicVolume;
 	float m_fMasterVolume;
 	float m_fSensitivity;
 	bool m_bInvertMouse;

@@ -170,8 +170,8 @@ void ItemInHandRenderer::render(float f)
 
 	float h = m_oHeight + (m_height - m_oHeight) * f;
 	glPushMatrix();
-	glRotatef(pLP->m_rotPrev.y + (pLP->m_rot.y - pLP->m_rotPrev.y) * f, 1.0f, 0.0f, 0.0f);
-	glRotatef(pLP->m_rotPrev.x + (pLP->m_rot.x - pLP->m_rotPrev.x) * f, 0.0f, 1.0f, 0.0f);
+	glRotatef(pLP->m_oRot.y + (pLP->m_rot.y - pLP->m_oRot.y) * f, 1.0f, 0.0f, 0.0f);
+	glRotatef(pLP->m_oRot.x + (pLP->m_rot.x - pLP->m_oRot.x) * f, 0.0f, 1.0f, 0.0f);
     Lighting::turnOn(); // must be called before glPopMatrix()
 	glPopMatrix();
 

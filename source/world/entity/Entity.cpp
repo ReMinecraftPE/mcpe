@@ -26,7 +26,7 @@ void Entity::_init()
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
 	m_rot = Vec2::ZERO;
-	m_rotPrev = Vec2::ZERO;
+	m_oRot = Vec2::ZERO;
 	m_onGround = false;
 	m_bHorizontalCollision = false;
 	field_7E = false;
@@ -45,7 +45,7 @@ void Entity::_init()
 	m_bNoPhysics = false;
 	field_B0 = 0.0f;
     m_tickCount = 0;
-	field_B8 = 0;
+	m_invulnerableTime = 0;
 	m_airCapacity = TOTAL_AIR_SUPPLY;
 	m_fireTicks = 0;
 	m_flameTime = 1;
@@ -439,15 +439,14 @@ label_45:
 			bool bPlaySound = true;
 
 			const Tile::SoundType *sound = Tile::tiles[tileID]->m_pSound;
-			/*if (!isPlayer()) // no idea why this wasn't already a thing
-				bPlaySound = false;*/
 			if (m_pLevel->getTile(tilePos.above()) == Tile::topSnow->m_ID)
 				sound = Tile::topSnow->m_pSound;
 			else if (Tile::tiles[tileID]->m_pMaterial->isLiquid())
 				bPlaySound = false;
 
+			// vol is * 0.15f in Java, is quiet for whatever reason, so bumping to 0.20f
 			if (bPlaySound)
-				m_pLevel->playSound(this, "step." + sound->m_name, sound->volume * 0.15f, sound->pitch);
+				m_pLevel->playSound(this, "step." + sound->m_name, sound->volume * 0.20f, sound->pitch);
 
 			Tile::tiles[tileID]->stepOn(m_pLevel, tilePos, this);
 		}
@@ -516,18 +515,18 @@ void Entity::absMoveTo(const Vec3& pos, const Vec2& rot)
 {
 	m_ySlideOffset = 0.0f;
 
-	m_rotPrev = rot;
+	m_oRot = rot;
 	setRot(rot);
 
 	setPos(pos);
 	m_oPos = pos;
 
 	// This looks like a rebounding check for the angle
-	float dyRot = (m_rotPrev.y - m_rot.y);
+	float dyRot = (m_oRot.y - m_rot.y);
 	if (dyRot < -180.0f)
-		m_rotPrev.y += 360.0f;
+		m_oRot.y += 360.0f;
 	if (dyRot >= 180.0f)
-		m_rotPrev.y -= 360.0f;
+		m_oRot.y -= 360.0f;
 }
 
 void Entity::moveRelative(const Vec3& pos)
@@ -575,15 +574,15 @@ void Entity::turn(const Vec2& rot)
 
 	interpolateTurn(rot);
 
-	m_rotPrev.x += m_rot.x - rotOld.x;
-	m_rotPrev.y += m_rot.y - rotOld.y;
+	m_oRot.x += m_rot.x - rotOld.x;
+	m_oRot.y += m_rot.y - rotOld.y;
 }
 
 void Entity::reset()
 {
 	// TODO is this it
 	m_posPrev = m_oPos = m_pos;
-	m_rotPrev = m_rot;
+	m_oRot = m_rot;
 	m_bRemoved = false;
 	m_distanceFallen = 0.0f;
 	field_D5 = false;
@@ -616,7 +615,7 @@ void Entity::baseTick()
 	field_90 = m_walkDist;
 	m_oPos = m_pos;
     m_tickCount++;
-	m_rotPrev = m_rot;
+	m_oRot = m_rot;
 	if (isInWater())
 	{
 		if (!field_D4 && !field_D6)

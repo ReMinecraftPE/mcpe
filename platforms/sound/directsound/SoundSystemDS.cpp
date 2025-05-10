@@ -83,25 +83,25 @@ bool SoundSystemDS::isAvailable()
 	return m_available;
 }
 
-void SoundSystemDS::setListenerPos(float x, float y, float z)
+void SoundSystemDS::setListenerPos(const Vec3& pos)
 {
 	if (!isAvailable())
 	{
 		return;
 	}
-	m_listener->SetPosition(x, y, -z, DS3D_IMMEDIATE);
+	m_listener->SetPosition(pos.x, pos.y, -pos.z, DS3D_IMMEDIATE);
 }
 
 
-void SoundSystemDS::setListenerAngle(float degyaw, float degpitch)
+void SoundSystemDS::setListenerAngle(const Vec2& rot)
 {
 	if (!isAvailable())
 	{
 		return;
 	}
 
-	float yaw = degyaw * M_PI / 180.f;
-	float pitch = degpitch * M_PI / 180.f;
+	float yaw = rot.x * M_PI / 180.f;
+	float pitch = rot.y * M_PI / 180.f;
 
 	float lx = cosf(pitch) * sinf(yaw);
 	float ly = -sinf(pitch);
@@ -114,71 +114,29 @@ void SoundSystemDS::setListenerAngle(float degyaw, float degpitch)
 	m_listener->SetOrientation(-lx,-ly,-lz, ux,uy,uz, DS3D_IMMEDIATE);
 }
 
-void SoundSystemDS::load(const std::string& sound)
+void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
 {
-}
-
-void SoundSystemDS::play(const std::string& sound)
-{
-}
-
-void SoundSystemDS::pause(const std::string& sound)
-{
-}
-
-void SoundSystemDS::stop(const std::string& sound)
-{
-}
-
-
-void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch)
-{
-	//Directsound failed to initialize return to avoid crash.
 	if (!isAvailable())
 	{
+		// DirectSound failed to initialize. Return to avoid crash.
+		assert(!"DirectSound is not initialized!");
 		return;
 	}
 
-	//Release sounds that finished playing
-	for (size_t i = 0; i < m_buffers.size(); i++)
-	{
-		DWORD status;
-		m_buffers[i].buffer->GetStatus(&status);
-		if (status != DSBSTATUS_PLAYING) {
-			m_buffers[i].buffer->Release();
-			if (m_buffers[i].object3d != NULL)
-			{
-				m_buffers[i].object3d->Release();
-			}
-			m_buffers.erase(m_buffers.begin() + i);
-			i--;
-		}
-	}
+	// Release sounds that finished playing
+	_cleanSources();
 
 	HRESULT result;
 	IDirectSoundBuffer* tempBuffer;
 	unsigned char* bufferPtr;
 	unsigned long bufferSize;
 
-	int length = sound.m_pHeader->m_length * sound.m_pHeader->m_bytes_per_sample;
-	bool is2D = sqrtf(x * x + y * y + z * z) == 0.f;
-
-	//For some reason mojang made 3D sounds are REALLY quiet, with some of their volumes literally going below 0.1
-	if (!is2D)
-	{
-		volume *= 5.f;
-	}
+	int length = sound.m_header.m_length * sound.m_header.m_bytes_per_sample;
+	bool is2D = pos.length() == 0.0f;
 
 	LPDIRECTSOUNDBUFFER soundbuffer; //= (LPDIRECTSOUNDBUFFER*)calloc(1, sizeof(LPDIRECTSOUNDBUFFER));
 
-	WAVEFORMATEX waveFormat;
-	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-	waveFormat.nSamplesPerSec = DWORD(float(sound.m_pHeader->m_sample_rate) * pitch);
-	waveFormat.wBitsPerSample = 8 * sound.m_pHeader->m_bytes_per_sample;
-	waveFormat.nChannels = sound.m_pHeader->m_channels;
-	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
-	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
-	waveFormat.cbSize = 0;
+	WAVEFORMATEX waveFormat = _getWaveFormat(sound.m_header, pitch);
 
 	// Set the buffer description of the secondary sound buffer that the wave file will be loaded onto.
 	DSBUFFERDESC bufferDesc;
@@ -230,7 +188,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	}
 
 	//Move the wave data into the buffer.
-	memcpy(bufferPtr, sound.m_pData, length);
+	memcpy(bufferPtr, sound.m_buffer.m_pData, length);
 
 	// Unlock the secondary buffer after the data has been written to it.
 	result = soundbuffer->Unlock((void*)bufferPtr, bufferSize, NULL, 0);
@@ -245,12 +203,8 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	// https://learn.microsoft.com/en-us/previous-versions/windows/desktop/mt708939(v=vs.85)
 	// Conversion from 0-1 linear volume to directsound logarithmic volume..
 	// This seems to work for the most part, but accuracy testing should be done for actual MCPE, water splashing is pretty quiet.
-	float attenuation = volume;//Lerp(DSBVOLUME_MIN, DSBVOLUME_MAX, volume);
 	// clamp the attenuation value
-	if (attenuation < 0.0f)
-		attenuation = 0.0f;
-	else if (attenuation > 1.0f)
-		attenuation = 1.0f;
+	float attenuation = Mth::clamp(volume, 0.0f, 1.0f);//Lerp(DSBVOLUME_MIN, DSBVOLUME_MAX, volume);
 
 	if (attenuation == 0)
 	{
@@ -267,8 +221,8 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	info.buffer = soundbuffer;
 	info.object3d = NULL;
 
-	//Check if position is not 0,0,0 and for mono to play 3D sound
-	if (!is2D && sound.m_pHeader->m_channels == 1) 
+	//Check if position is not 0,0,0 to play 3D sound
+	if (!is2D)
 	{
 		LPDIRECTSOUND3DBUFFER object3d;
 
@@ -279,11 +233,7 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 			return;
 		}
 
-		object3d->SetPosition(
-			x, 
-			y,
-			-z, 
-		DS3D_IMMEDIATE); 
+		object3d->SetPosition(pos.x, pos.y, -pos.z, DS3D_IMMEDIATE); 
 
 		//Im not really sure what values original MCPE would use.
 		object3d->SetMinDistance(2.f, DS3D_IMMEDIATE); 
@@ -295,4 +245,40 @@ void SoundSystemDS::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	soundbuffer->Play(0, 0, 0);
 
 	m_buffers.push_back(info);
+}
+
+WAVEFORMATEX SoundSystemDS::_getWaveFormat(const PCMSoundHeader& header, float pitch) const
+{
+	WAVEFORMATEX wf;
+
+	wf.wFormatTag = WAVE_FORMAT_PCM;
+	wf.nSamplesPerSec = DWORD(float(header.m_sample_rate) * pitch);
+	wf.wBitsPerSample = 8 * header.m_bytes_per_sample;
+	wf.nChannels = header.m_channels;
+	wf.nBlockAlign = (wf.wBitsPerSample / 8) * wf.nChannels;
+	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
+	wf.cbSize = 0;
+
+	return wf;
+}
+
+// Release sounds that finished playing
+void SoundSystemDS::_cleanSources()
+{
+	for (size_t i = 0; i < m_buffers.size(); i++)
+	{
+		DWORD status;
+		m_buffers[i].buffer->GetStatus(&status);
+		if (status != DSBSTATUS_PLAYING)
+		{
+			m_buffers[i].buffer->Release();
+			if (m_buffers[i].object3d != NULL)
+			{
+				m_buffers[i].object3d->Release();
+			}
+			
+			m_buffers.erase(m_buffers.begin() + i);
+			i--;
+		}
+	}
 }
