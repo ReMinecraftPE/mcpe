@@ -138,13 +138,12 @@ void SoundEngine::play(const std::string& name, const Vec3& pos, float volume, f
 #endif
 
     float cVolume = Mth::clamp(_getVolumeMult(pos) * vol, 0.0f, 1.0f);
-    // We should *not* be clamping the pitch. This breaks item pickup pop sounds.
-    //float cPitch = Mth::clamp(pitch, -1.0f, 1.0f);
+    float cPitch = Mth::clamp(pitch, 0.5f, 2.0f); // Clamp to values specified by Paulscode
     SoundDesc sd;
 
     if (m_sounds.get(name, sd))
     {
-        m_pSoundSystem->playAt(sd, nPos, cVolume, pitch);
+        m_pSoundSystem->playAt(sd, nPos, cVolume, cPitch);
     }
 }
 

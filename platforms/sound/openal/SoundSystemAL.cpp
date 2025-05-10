@@ -295,18 +295,21 @@ void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 		AL_ERROR_CHECK();
 		alSourcef(al_source, AL_ROLLOFF_FACTOR, 0.9f); // 0.9f is audibly on-par with b1.2_02's rolloff factor. So you probably shouldn't change it. 0.03f is default value for Paulscode.
 		AL_ERROR_CHECK();
-		alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f);
+		alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f); // Sounds the same regardless of being set. Paulscode doesn't set this.
 		AL_ERROR_CHECK();
 
-		alSource3f(al_source, AL_VELOCITY, 0, 0, 0);
+		alSource3f(al_source, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
 		AL_ERROR_CHECK();
 		alSourcei(al_source, AL_LOOPING, AL_FALSE);
 		AL_ERROR_CHECK();
 	}
+	else
+	{
+		// Detach all of the buffers from the source
+		alSourcei(al_source, AL_BUFFER, AL_NONE);
+		AL_ERROR_CHECK();
+	}
 
-	// Done on 0.10.0. We don't seem to need it, but maybe they did?
-	/*alSourcei(al_source, AL_BUFFER, AL_NONE);
-	AL_ERROR_CHECK();*/
 	// Set Buffer
 	alSourcei(al_source, AL_BUFFER, buffer);
 	AL_ERROR_CHECK();
@@ -358,7 +361,7 @@ void SoundSystemAL::startEngine()
 	ALCenum err = alcGetError(_device);
 	if (err != ALC_NO_ERROR)
 	{
-		LOG_E("Unable To Open Audio Context: %s", alcGetString(_device, err));
+		LOG_E("Unable To Open Audio Context: %ss", alcGetString(_device, err));
 		return;
 	}
     

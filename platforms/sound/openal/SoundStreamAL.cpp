@@ -36,7 +36,7 @@ void SoundStreamAL::_resetSource()
     alSourceRewind(_source);
     AL_ERROR_CHECK();
     // Detach all of the buffers from the source
-    alSourcei(_source, AL_BUFFER, 0);
+    alSourcei(_source, AL_BUFFER, AL_NONE);
     AL_ERROR_CHECK();
 }
 
