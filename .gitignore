@@ -213,7 +213,10 @@ xcuserdata/
 /game/assets/item/sign.png
 # Sound
 /game/assets/sound
+/game/assets/newsound
+/game/assets/sound3
 /game/assets/music
+/game/assets/newmusic
 # Java
 /game/assets/terrain/sun.png
 /game/assets/terrain/moon.png

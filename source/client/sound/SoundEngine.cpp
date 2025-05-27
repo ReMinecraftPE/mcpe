@@ -44,6 +44,7 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
 #undef SOUND
 
 #define MUSIC(name, number) m_songs.add(#name, platform->getAssetPath("music/" #name #number ".ogg"));
+#define NEWMUSIC(name, number) m_songs.add(#name, platform->getAssetPath("newmusic/" #name #number ".ogg"));
 #include "music_list.h"
 #undef MUSIC
 }

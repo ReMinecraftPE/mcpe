@@ -46,8 +46,12 @@ struct AudioDescriptor
     PCMSoundHeader m_header;
 };
 
+#define SOUND_DIRS_SIZE 3
+
 struct SoundDesc : AudioDescriptor
 {
+	static std::string dirs[SOUND_DIRS_SIZE];
+
 	AssetFile m_file;
 	SoundBuffer m_buffer;
 	unsigned char* m_fileData;
