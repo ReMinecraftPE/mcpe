@@ -24,7 +24,7 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_hurtDuration = 0;
 	m_hurtDir = 0.0f;
 	field_110 = 0;
-	field_114 = 0;
+	m_attackTime = 0;
     m_oTilt = 0.0f;
     m_tilt = 0.0f;
 	field_120 = 0;
@@ -259,7 +259,7 @@ void Mob::baseTick()
 
     m_oTilt = m_tilt;
 
-	if (field_114 > 0) field_114--;
+	if (m_attackTime > 0) m_attackTime--;
 	if (m_hurtTime > 0) m_hurtTime--;
 	if (field_B8  > 0) field_B8--;
 
