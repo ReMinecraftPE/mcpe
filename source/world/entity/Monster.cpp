@@ -3,6 +3,7 @@
 Monster::Monster(Level* pLevel) : PathfinderMob(pLevel)
 {
 	m_health = 20;
+	m_attackDamage = 2;
 }
 
 void Monster::aiStep()
@@ -82,4 +83,6 @@ bool Monster::canSpawn()
 	{
 		return PathfinderMob::canSpawn();
 	}
+
+	return false;
 }

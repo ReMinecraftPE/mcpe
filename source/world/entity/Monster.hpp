@@ -15,5 +15,5 @@ public:
 	bool canSpawn() override;
 
 protected:
-	int m_attackDamage = 2;
+	int m_attackDamage;
 };
