@@ -22,7 +22,8 @@ void Monster::tick()
 	PathfinderMob::tick();
 
 	// Remove any monsters when in peaceful mode
-	if (m_pLevel->m_difficulty == 0) {
+	if (m_pLevel->m_difficulty == 0) 
+	{
 		remove();
 	}
 }
@@ -31,7 +32,8 @@ Entity* Monster::findAttackTarget()
 {
 	Player* player = m_pLevel->getNearestPlayer(this, 16.0f);
 
-	if (player && canSee(player)) {
+	if (player && canSee(player)) 
+	{
 		return player;
 	}
 
@@ -40,8 +42,10 @@ Entity* Monster::findAttackTarget()
 
 bool Monster::hurt(Entity* pCulprit, int damage)
 {
-	if (PathfinderMob::hurt(pCulprit, damage)) {
-		if (pCulprit != this) {
+	if (PathfinderMob::hurt(pCulprit, damage)) 
+	{
+		if (pCulprit != this) 
+		{
 			m_pAttackTarget = pCulprit;
 		}
 		return true;
@@ -52,7 +56,8 @@ bool Monster::hurt(Entity* pCulprit, int damage)
 
 void Monster::checkHurtTarget(Entity* pEnt, float f)
 {
-	if (m_attackTime <= 0 && f < 2.0f && pEnt->m_hitbox.max.y > m_hitbox.min.y && pEnt->m_hitbox.min.y < m_hitbox.max.y) {
+	if (m_attackTime <= 0 && f < 2.0f && pEnt->m_hitbox.max.y > m_hitbox.min.y && pEnt->m_hitbox.min.y < m_hitbox.max.y) 
+	{
 		m_attackTime = 20;
 		pEnt->hurt(this, m_attackDamage);
 	}
@@ -69,10 +74,12 @@ bool Monster::canSpawn()
 {
 	TilePos pos(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y), Mth::floor(m_pos.z));
 
-	if (m_pLevel->getBrightness(LightLayer::Sky, pos) > m_random.nextInt(30)) {
+	if (m_pLevel->getBrightness(LightLayer::Sky, pos) > m_random.nextInt(30)) 
+	{
 		return false;
 	}
-	else if (m_pLevel->getBrightness(pos) <= m_random.nextInt(8)) {
+	else if (m_pLevel->getBrightness(pos) <= m_random.nextInt(8)) 
+	{
 		return PathfinderMob::canSpawn();
 	}
 }
