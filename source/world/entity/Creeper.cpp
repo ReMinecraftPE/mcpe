@@ -1,0 +1,78 @@
+#include "world/entity/Creeper.hpp"
+
+Creeper::Creeper(Level* pLevel) : Monster(pLevel)
+{
+	m_texture = "mob/creeper.png";
+	m_swell = 0;
+	m_oldSwell = 0;
+	m_swellDir = -1;
+	m_maxSwell = 0;
+}
+
+void Creeper::tick()
+{
+	m_oldSwell = m_swell;
+	if (m_pLevel->m_bIsMultiplayer)
+	{
+		int swellDir = getSwellDir();
+		if (swellDir > 0 && m_swell == 0)
+		{
+			m_pLevel->playSound(this, "random.fuse", 1.0f, 0.5f);
+		}
+
+		m_swell += swellDir;
+
+		if (m_swell < 0) {
+			m_swell = 0;
+		}
+
+		if (m_swell >= 30)
+		{
+			m_swell = 30;
+		}
+	}
+
+	Monster::tick();
+}
+
+void Creeper::die(Entity* pCulprit)
+{
+	Monster::die(pCulprit);
+
+	// @NOTE: Disc dropping not implemented yet
+}
+
+void Creeper::checkHurtTarget(Entity* pEnt, float f)
+{
+	int swellDir = getSwellDir();
+	if (swellDir <= 0 && f < 3.0f || swellDir > 0 && f < 7.0f)
+	{
+		if (m_swell == 0)
+		{
+			m_pLevel->playSound(this, "random.fuse", 1.0f, 0.5f);
+		}
+
+		setSwellDir(1);
+		m_swell++;
+		if (m_swell >= 30)
+		{
+			m_pLevel->explode(this, m_pos, 3.0f);
+			remove();
+		}
+
+		m_bHoldGround = true;
+	}
+	else
+	{
+		setSwellDir(-1);
+		m_swell--;
+		if (m_swell < 0) {
+			m_swell = 0;
+		}
+	}
+}
+
+float Creeper::getSwelling(float f)
+{
+	return (m_oldSwell + (m_swell - m_oldSwell) * f) / 28.0f;
+}
