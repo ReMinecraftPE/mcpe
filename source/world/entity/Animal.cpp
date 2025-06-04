@@ -30,7 +30,7 @@ bool Animal::isBaby() const
 	return getAge() < 0;
 }
 
-bool Animal::canSpawn() const
+bool Animal::canSpawn()
 {
 	TilePos pos(m_pos.x, m_hitbox.min.y, m_pos.z);
 

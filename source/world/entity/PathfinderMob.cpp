@@ -32,9 +32,9 @@ Entity* PathfinderMob::findAttackTarget()
 	return nullptr;
 }
 
-bool PathfinderMob::checkHurtTarget(Entity* pEnt, float f)
+void PathfinderMob::checkHurtTarget(Entity* pEnt, float f)
 {
-	return false;
+	// Override this function in your own mob.
 }
 
 void PathfinderMob::checkCantSeeTarget(Entity* pEnt, float f)
@@ -91,7 +91,7 @@ float PathfinderMob::getWalkingSpeedModifier() const
 	return mod;
 }
 
-bool PathfinderMob::canSpawn() const
+bool PathfinderMob::canSpawn()
 {
 	if (!Mob::canSpawn())
 		return false;
