@@ -56,7 +56,7 @@ public:
 	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
 	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }
 	virtual void beforeRemove() { }
-	virtual bool canSpawn() const;
+	virtual bool canSpawn();
 	virtual float getAttackAnim(float f) const;
 	virtual Vec3 getPos(float f) const;
 	virtual Vec3 getLookAngle(float f) const { return getViewVector(1.0f); }
@@ -99,7 +99,7 @@ public:
 	int m_hurtDuration;
 	float m_hurtDir;
 	int field_110;
-	int field_114;
+	int m_attackTime;
 	float m_oTilt;
 	float m_tilt;
 	int field_120;

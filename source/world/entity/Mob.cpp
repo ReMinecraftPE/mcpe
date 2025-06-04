@@ -642,7 +642,7 @@ void Mob::lookAt(Entity* pEnt, float a3, float a4)
 	              rotlerp(m_rot.x, x1 * 180.0f / float(M_PI) - 90.0f, a3)));
 }
 
-bool Mob::canSpawn() const
+bool Mob::canSpawn()
 {
 	return m_pLevel->getCubes(this, m_hitbox)->empty();
 }
