@@ -72,7 +72,7 @@ float Monster::getWalkTargetValue(const TilePos& pos) const
 
 bool Monster::canSpawn()
 {
-	TilePos pos(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y), Mth::floor(m_pos.z));
+	TilePos pos(m_pos.x, m_hitbox.min.y, m_pos.z);
 
 	if (m_pLevel->getBrightness(LightLayer::Sky, pos) > m_random.nextInt(30)) 
 	{
