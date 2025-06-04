@@ -1315,8 +1315,8 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	constexpr float h = 4.0f;
 
 	// @NOTE: Using Mth::Lerp will use incorrect logic
-	float xo = (m_pMinecraft->m_pMobPersp->m_oPos.x + (m_pMinecraft->m_pMobPersp->m_oPos.x - m_pMinecraft->m_pMobPersp->m_oPos.x) * alpha + ((float(m_ticksSinceStart) + alpha) * 0.03f)) / ss;
-	float zo = (m_pMinecraft->m_pMobPersp->m_oPos.z + (m_pMinecraft->m_pMobPersp->m_oPos.z - m_pMinecraft->m_pMobPersp->m_oPos.z) * alpha) / ss + 0.33f;
+	float xo = (m_pMinecraft->m_pMobPersp->m_oPos.x + (m_pMinecraft->m_pMobPersp->m_pos.x - m_pMinecraft->m_pMobPersp->m_oPos.x) * alpha + ((float(m_ticksSinceStart) + alpha) * 0.03f)) / ss;
+	float zo = (m_pMinecraft->m_pMobPersp->m_oPos.z + (m_pMinecraft->m_pMobPersp->m_pos.z - m_pMinecraft->m_pMobPersp->m_oPos.z) * alpha) / ss + 0.33f;
 
 	float yy = ((float)C_MAX_Y - yOffs) + 0.33f; // 108.0f on b1.2_02, see below
     //float yy = 108.0f - yOffs + 0.33F;
