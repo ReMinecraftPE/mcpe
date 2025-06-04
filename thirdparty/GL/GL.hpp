@@ -38,7 +38,9 @@
 
 	// https://discourse.libsdl.org/t/opengl-es2-support-on-windows/20177/10
 	// float on GLES for performance reasons (mobile hardware) rather than double precision on GL
-	#define glClearColor glClearColorf
+	#if GL_ES_VERSION_2_0
+		#define glClearColor glClearColorf
+	#endif
 	#define glClearDepth glClearDepthf
 	#define glDepthRange glDepthRangef
 #else
