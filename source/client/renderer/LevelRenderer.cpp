@@ -1288,6 +1288,16 @@ void LevelRenderer::renderClouds(float alpha)
 
 	t.voidBeginAndEndCalls(false); // why??
 	t.draw();
+
+	
+
+
+	float yy = ((float)C_MAX_Y - yPos) + 0.33f; // 108.0f on b1.2_02, see below
+
+	if (yy > 1.0f) {
+		glClear(GL_DEPTH_BUFFER_BIT);
+	}
+	
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
@@ -1452,6 +1462,11 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 				t.draw();
 			}
 		}
+	}
+
+	if (yy > 1.0f) {
+		glDepthRangef(0.f, 7.f);
+		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
