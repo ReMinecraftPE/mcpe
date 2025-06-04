@@ -53,6 +53,25 @@ Vec3 Dimension::getFogColor(float a, float b)
 
 float* Dimension::getSunriseColor(float a, float b)
 {
+	float radial = 0.4f;
+	float dot = Mth::cos(a * M_PI * 2.0f) - 0.125f; // * 2.0f + 0.5f;
+	float center = -0.0f;
+
+	if (dot >= center - radial && dot <= center + radial)
+	{
+		float norm = (dot - center) / radial * 0.5f + 0.5f;
+		float alpha = 1.0f - (1.0f - Mth::sin(norm * M_PI)) * 0.99f;
+		
+		m_sunriseColor[0] = norm * 0.3f + 0.7f;
+		m_sunriseColor[1] = norm * norm * 0.7f + 0.2f;
+		m_sunriseColor[2] = norm * norm * 0.0f + 0.2f;
+		m_sunriseColor[3] = alpha * alpha;
+
+		return m_sunriseColor;
+	}
+	return nullptr;
+/*
+	
 	float x1 = Mth::cos(a * M_PI * 2.0f); //@BUG: Meant to use Mth::cos?
 	if (x1 < -0.4f || x1 > 0.4f)
 		return nullptr;
@@ -66,6 +85,7 @@ float* Dimension::getSunriseColor(float a, float b)
 	m_sunriseColor[3] = ((x3 * -0.99f) + 1.0f) * ((x3 * -0.99f) + 1.0f);
 
 	return m_sunriseColor;
+	*/
 }
 
 float Dimension::getTimeOfDay(int32_t l, float f)
