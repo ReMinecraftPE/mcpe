@@ -1465,7 +1465,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	}
 
 	if (yy > 1.0f) {
-		glDepthRangef(0.f, 7.f);
+		glDepthRange(0.f, 7.f);
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 
