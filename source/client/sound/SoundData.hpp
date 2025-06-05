@@ -10,6 +10,20 @@
 
 #include <stdint.h>
 #include "common/Utils.hpp"
+#include "client/app/AssetFile.hpp"
+
+class AppPlatform;
+
+class AudioCodec
+{
+public:
+	enum Type
+	{
+		NONE,
+		PCM,
+		OGG
+	};
+};
 
 struct PCMSoundHeader
 {
@@ -19,24 +33,37 @@ struct PCMSoundHeader
 	int m_length;
 };
 
-struct SoundDesc
+struct SoundBuffer
 {
-	uint16_t* m_pData;
-	int field_4;
-	PCMSoundHeader m_header;
-	PCMSoundHeader* m_pHeader;
-
-	SoundDesc()
-	{
-		m_pData = nullptr;
-		field_4 = 0;
-		m_pHeader = nullptr;
-	}
-	SoundDesc(PCMSoundHeader& header, uint16_t* data)
-	{
-		m_pHeader = &header;
-		m_header = header;
-		m_pData = data;
-		field_4 = header.m_channels * header.m_length * header.m_bytes_per_sample;
-	}
+	void* m_pData;
+	int m_dataSize;
 };
+
+struct AudioDescriptor
+{
+    bool m_isLoaded;
+    AudioCodec::Type m_codecType;
+    PCMSoundHeader m_header;
+};
+
+#define SOUND_DIRS_SIZE 3
+
+struct SoundDesc : AudioDescriptor
+{
+	static std::string dirs[SOUND_DIRS_SIZE];
+
+	AssetFile m_file;
+	SoundBuffer m_buffer;
+	unsigned char* m_fileData;
+
+	bool _load(const AppPlatform* platform, const char* category, const char *name);
+	bool _loadPcm(const AppPlatform* platform, const char *name);
+	bool _loadOgg(const AppPlatform* platform, const char* category, const char *name);
+	void _unload();
+	static void _loadAll(const AppPlatform*);
+	static void _unloadAll();
+};
+
+#define SOUND(category, name, number) extern SoundDesc SA_##name##number;
+#include "sound_list.h"
+#undef SOUND

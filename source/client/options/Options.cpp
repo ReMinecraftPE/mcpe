@@ -38,7 +38,7 @@ void Options::_initDefaultValues()
 	m_bDontRenderGui = false;
 	field_248 = 1.0f;
 	m_bThirdPerson = false;
-	field_0   = 1.0f;
+	m_fMusicVolume = 1.0f;
 	field_23E = 0;
 	m_fMasterVolume = 1.0f;
 	m_bFlyCheat = false;

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -284,6 +284,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\VertexPT.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundPathRepository.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundData.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
@@ -294,6 +297,9 @@
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundRepository.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundStream.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\sound\SoundSystem.hpp">
@@ -454,6 +460,12 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp">
       <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\sound_list.h">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\sound\music_list.h">
+      <Filter>Header Files\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -664,6 +676,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundPathRepository.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundData.cpp">
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
@@ -671,6 +686,9 @@
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundRepository.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundStream.cpp">
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\sound\SoundSystem.cpp">

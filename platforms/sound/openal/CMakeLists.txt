@@ -4,6 +4,7 @@ project(reminecraftpe-openal)
 # Build
 add_library(reminecraftpe-sound STATIC
 	SoundSystemAL.cpp
+	SoundStreamAL.cpp
 )
 
 # Core

@@ -95,8 +95,8 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
 	}
 
-	float aYaw   = pMob->m_rotPrev.x + (pMob->m_rot.x   - pMob->m_rotPrev.x) * f;
-	float aPitch = pMob->m_rotPrev.y + (pMob->m_rot.y - pMob->m_rotPrev.y) * f;
+	float aYaw   = pMob->m_oRot.x + (pMob->m_rot.x   - pMob->m_oRot.x) * f;
+	float aPitch = pMob->m_oRot.y + (pMob->m_rot.y - pMob->m_oRot.y) * f;
 	float fBob   = getBob(pMob, f);
 	float fSmth  = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
 
@@ -109,10 +109,10 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	//glTranslatef(0.0f, -1.5078f, 0.0f);
 	glTranslatef(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f);
 
-	float x1 = pMob->field_128 + (pMob->field_12C - pMob->field_128) * f;
+	float x1 = pMob->field_128 + (pMob->m_walkAnimSpeed - pMob->field_128) * f;
 	if (x1 > 1.0f)
 		x1 = 1.0f;
-	float x2 = pMob->field_130 - pMob->field_12C * (1.0f - f);
+	float x2 = pMob->field_130 - pMob->m_walkAnimSpeed * (1.0f - f);
 
 	bindTexture(pMob->getTexture());
 	glEnable(GL_ALPHA_TEST);

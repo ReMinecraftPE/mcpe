@@ -211,6 +211,12 @@ xcuserdata/
 /game/assets/gui/touchgui2.png
 /game/assets/item/arrows.png
 /game/assets/item/sign.png
+# Sound
+/game/assets/sound
+/game/assets/newsound
+/game/assets/sound3
+/game/assets/music
+/game/assets/newmusic
 # Java
 /game/assets/terrain/sun.png
 /game/assets/terrain/moon.png
@@ -242,11 +248,11 @@ xcuserdata/
 # Ignore options.txt - where your configuration will be saved
 /game/options.txt
 /game/assetsO
-/game/assets/gui/feedback_fill.png
-/game/assets/gui/feedback_outer.png
-/game/assets/snow.png
-/game/assets/mob/pig.png
 
 # CLion
 /.idea
 /cmake-build-*
+
+# PCM sound extraction
+/tools/__pycache__
+/tools/venv

@@ -55,6 +55,7 @@ void CreativeMode::stopDestroyBlock()
 void CreativeMode::tick()
 {
 	m_lastDestroyProgress = m_destroyProgress;
+	GameMode::tick();
 }
 
 void CreativeMode::render(float f)

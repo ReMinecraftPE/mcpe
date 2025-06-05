@@ -73,7 +73,7 @@ void ItemEntity::playerTouch(Player* player)
 	pInventory->addItem(&m_itemInstance);
 
 	m_pLevel->playSound(this, "random.pop", 0.3f,
-		(((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f) + (((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f) + 1.0f));
+		((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 
 	if (m_itemInstance.m_count <= 0)
 		remove();
