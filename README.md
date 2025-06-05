@@ -68,9 +68,13 @@ This fetches the three dependencies we have:
 - [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker)
 - [gles-compatibility-layer](https://github.com/TheBrokenRail/gles-compatibility-layer.git)
 
-2. Load the sound assets into the `sound_data/` folder in the root of the project
-by **running the following command**:
-* `tools/grabsounds.py /path/to/the/apk/lib/armeabi-v7a/libminecraftpe.so`.
+2. Copy the sound assets into the necessary folders within the project.<br>
+   Do this by performing <ins>**one**</ins> of the following:
+   - To extract the sounds from _Pocket Edition_:
+     - **Run the following command**:
+     - `tools/grabsounds.py /path/to/the/apk/lib/armeabi-v7a/libminecraftpe.so`
+   - To retrieve the sounds from _Java Edition_:
+     - Locate the `resources` directory in the `.minecraft` folder and copy its contents (e.g. `music`, `sound`, etc.) into the `game/assets/` directory of the project.
 
 After that, **prepare the assets folder** from the apk. You will need it for the platform specific
 build.
