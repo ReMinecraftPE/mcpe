@@ -2,11 +2,18 @@
 
 Creeper::Creeper(Level* pLevel) : Monster(pLevel)
 {
+	m_pDescriptor = &EntityTypeDescriptor::creeper;
+	field_C8 = RENDER_CREEPER;
 	m_texture = "mob/creeper.png";
 	m_swell = 0;
 	m_oldSwell = 0;
-	m_swellDir = -1;
-	m_maxSwell = 0;
+
+	_defineEntityData();
+}
+
+void Creeper::_defineEntityData()
+{
+	m_entityData.define<int>(DATA_SWELL_DIR, -1);
 }
 
 void Creeper::tick()
@@ -26,9 +33,9 @@ void Creeper::tick()
 			m_swell = 0;
 		}
 
-		if (m_swell >= 30)
+		if (m_swell >= MAX_SWELL)
 		{
-			m_swell = 30;
+			m_swell = MAX_SWELL;
 		}
 	}
 
@@ -54,7 +61,7 @@ void Creeper::checkHurtTarget(Entity* pEnt, float f)
 
 		setSwellDir(1);
 		m_swell++;
-		if (m_swell >= 30)
+		if (m_swell >= MAX_SWELL)
 		{
 			m_pLevel->explode(this, m_pos, 3.0f);
 			remove();

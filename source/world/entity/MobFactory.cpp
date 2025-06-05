@@ -13,8 +13,8 @@
              ENT(COW, Cow) \
              ENT(PIG, Pig) \
              ENT(SHEEP, Sheep) \
+             ENT(CREEPER, Creeper) \
              //ENT(ZOMBIE, Zombie) \
-             //ENT(CREEPER, Creeper) \
              //ENT(SKELETON, Skeleton) \
              //ENT(SPIDER, Spider) \
              //ENT(PIG_ZOMBIE, PigZombie)
