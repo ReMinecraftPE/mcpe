@@ -127,14 +127,14 @@ void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* fon
 	m_pMob = mob;
 	m_pFont = font;
 	m_pOptions = options;
-	m_rot = mob->m_rotPrev + (mob->m_rot - mob->m_rotPrev) * f;
+	m_rot = mob->m_oRot + (mob->m_rot - mob->m_oRot) * f;
 	m_pos = mob->m_posPrev + (mob->m_pos - mob->m_posPrev) * f;
 }
 
 void EntityRenderDispatcher::render(Entity* entity, float a)
 {
 	Vec3 pos = Vec3(entity->m_posPrev + (entity->m_pos - entity->m_posPrev) * a);
-	float yaw = entity->m_rotPrev.x + a * (entity->m_rot.x - entity->m_rotPrev.x);
+	float yaw = entity->m_oRot.x + a * (entity->m_rot.x - entity->m_oRot.x);
 
 	float bright = entity->getBrightness(1.0f);
 	glColor4f(bright, bright, bright, 1.0f);

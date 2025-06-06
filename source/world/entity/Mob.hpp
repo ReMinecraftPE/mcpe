@@ -59,6 +59,7 @@ public:
 	virtual bool canSpawn();
 	virtual float getAttackAnim(float f) const;
 	virtual Vec3 getPos(float f) const;
+	virtual Vec2 getRot(float f) const;
 	virtual Vec3 getLookAngle(float f) const { return getViewVector(1.0f); }
 	virtual Vec3 getViewVector(float f) const;
 	virtual int getMaxSpawnClusterSize() const { return 4; }
@@ -83,9 +84,12 @@ public:
 
 	float rotlerp(float, float, float);
 	void updateAttackAnim();
+    
+private:
+     int m_ambientSoundTime;
 
 public:
-	int field_DC;
+	int m_invulnerableDuration;
 	float field_E0;
 	float field_E4;
 	float field_E8;
@@ -94,7 +98,7 @@ public:
 	float m_oAttackAnim;
 	float m_attackAnim;
 	int m_health;
-	int field_100;
+	int m_lastHealth;
 	int m_hurtTime;
 	int m_hurtDuration;
 	float m_hurtDir;
@@ -105,7 +109,7 @@ public:
 	int field_120;
 	int field_124;
 	float field_128;
-	float field_12C;
+	float m_walkAnimSpeed;
 	float field_130;
 	Random m_random;
 	int m_noActionTime;
@@ -129,7 +133,7 @@ public:
 	int m_lSteps;
 	Vec3 m_lPos;
 	Vec2 m_lRot;
-	int field_B84;
+	int m_lastHurt;
 	Entity* m_pEntLookedAt;
 
 	float v020_field_104;

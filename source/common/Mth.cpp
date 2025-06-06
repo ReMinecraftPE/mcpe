@@ -84,12 +84,12 @@ unsigned Mth::fastRandom()
 	return(x4 = x4 ^ (unsigned(x4) >> 19) ^ x0 ^ (x0 << 11) ^ ((x0 ^ unsigned(x0 << 11)) >> 8));
 }
 
-float Mth::clamp(float a, float min, float max)
+float Mth::clamp(float x, float min, float max)
 {
-	if (a > max)
+	if (x > max)
 		return max;
-	if (a > min)
-		return a;
+	if (x > min)
+		return x;
 	else
 		return min;
 	return max;

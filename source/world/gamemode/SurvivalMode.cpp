@@ -132,6 +132,8 @@ void SurvivalMode::stopDestroyBlock()
 void SurvivalMode::tick()
 {
 	m_lastDestroyProgress = m_destroyProgress;
+	//m_pMinecraft->m_pSoundEngine->playMusicTick(); // also on MultiPlayerGameMode
+	GameMode::tick();
 }
 
 void SurvivalMode::render(float f)

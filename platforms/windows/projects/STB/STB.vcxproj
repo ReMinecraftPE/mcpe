@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{f332cb57-ff16-4d43-bbe0-76f28301daa8}</ProjectGuid>
+    <RootNamespace>STB</RootNamespace>
+    <ProjectName>STB</ProjectName>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="Minecraft">
+    <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_vorbis.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_image.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_connected_components.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_c_lexer.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_divide.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_ds.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_dxt.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_easy_font.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_herringbone_wang_tile.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_hexwave.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_image_resize2.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_image_write.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_include.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_leakcheck.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_perlin.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_rect_pack.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_sprintf.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_textedit.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_tilemap_editor.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_truetype.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_voxel_render.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

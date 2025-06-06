@@ -2,10 +2,17 @@
 
 #include "common/Utils.hpp"
 
+#include "SoundStreamAL.hpp"
+
 SoundSystemAL::SoundSystemAL()
 {
+	_device = nullptr;
+	_context = nullptr;
 	_initialized = false;
-    _listenerVolume = 1.0;
+	_musicStream = nullptr;
+	_mainVolume = 1.0f;
+	_listenerPos = Vec3::ZERO;
+	_listenerYaw = 0.0f;
     
     startEngine();
 }
@@ -15,20 +22,72 @@ SoundSystemAL::~SoundSystemAL()
     stopEngine();
 }
 
-// Error Checking
-#define AL_ERROR_CHECK() AL_ERROR_CHECK_MANUAL(alGetError())
-#define AL_ERROR_CHECK_MANUAL(val) \
-	{ \
-		ALenum __err = val; \
-		if (__err != AL_NO_ERROR) \
-		{ \
-			LOG_E("(%s:%i) OpenAL Error: %s", __FILE__, __LINE__, alGetString(__err)); \
-			assert(!"An OpenAL error occurred!"); \
-		} \
+bool SoundSystemAL::_hasMaxSources() const
+{
+	return _sources.size() + _sources_idle.size() >= SOUND_MAX_SOURCES;
+}
+
+ALuint SoundSystemAL::_getIdleSource()
+{
+	ALuint al_source = AL_NONE;
+
+	if (_sources_idle.size() > 0)
+	{
+		// Use Idle Source
+		al_source = _sources_idle.back();
+		_sources_idle.pop_back();
 	}
 
+	return al_source;
+}
+
+ALuint SoundSystemAL::_getSource(bool& isNew, bool tryClean)
+{
+	isNew = false;
+	ALuint al_source = _getIdleSource(); // Try to fetch pre-existing idle source
+	if (!al_source)
+	{
+		// Could not find pre-existing idle source
+
+		if (_hasMaxSources())
+		{
+			if (tryClean)
+			{
+				// Clean finished sources since no idle ones are available
+				_cleanSources();
+
+				// Did some cleaning, lets try again...
+				return _getSource(isNew, false);
+			}
+			else
+			{
+				// Too many sources already exist and they're all in-use, sucks to suck...
+				return AL_NONE;
+			}
+		}
+
+		// Create Source
+		alGenSources(1, &al_source);
+		// Special Out-Of-Memory Handling
+		{
+			ALenum err = alGetError();
+			if (err == AL_OUT_OF_MEMORY)
+			{
+				return AL_NONE;
+			}
+			else
+			{
+				AL_ERROR_CHECK_MANUAL(err);
+			}
+		}
+		isNew = true;
+	}
+
+	return al_source;
+}
+
 // Delete Sources
-void SoundSystemAL::delete_sources()
+void SoundSystemAL::_deleteSources()
 {
 	if (_initialized)
 	{
@@ -47,96 +106,9 @@ void SoundSystemAL::delete_sources()
 	_sources.clear();
 }
 
-// Delete Buffers
-void SoundSystemAL::delete_buffers()
+// Clear Finished Sources
+void SoundSystemAL::_cleanSources()
 {
-	if (_initialized)
-	{
-		for (std::map<void *, ALuint>::iterator it = _buffers.begin(); it != _buffers.end(); it++)
-		//for (auto &it : _buffers)
-		{
-			if (it->second && alIsBuffer(it->second))
-			{
-				alDeleteBuffers(1, &it->second);
-				AL_ERROR_CHECK();
-			}
-		}
-	}
-	_buffers.clear();
-}
-
-// Get Buffer
-ALuint SoundSystemAL::get_buffer(const SoundDesc& sound)
-{
-	if (_buffers.count(sound.m_pData) > 0)
-	{
-		return _buffers[sound.m_pData];
-	}
-	else
-	{
-		// Sound Format
-		ALenum format = AL_NONE;
-		if (sound.m_header.m_channels == 1)
-		{
-			format = sound.m_header.m_bytes_per_sample == 2 ? AL_FORMAT_MONO16 : AL_FORMAT_MONO8;
-		}
-		else if (sound.m_header.m_channels == 2)
-		{
-			format = sound.m_header.m_bytes_per_sample == 2 ? AL_FORMAT_STEREO16 : AL_FORMAT_STEREO8;
-		}
-
-		// Sound Data Size
-		int size = sound.m_header.m_channels * sound.m_header.m_length * sound.m_header.m_bytes_per_sample;
-
-		// Create Buffer
-		ALuint buffer;
-		alGenBuffers(1, &buffer);
-		AL_ERROR_CHECK();
-		alBufferData(buffer, format, sound.m_pData, size, sound.m_header.m_sample_rate);
-		AL_ERROR_CHECK();
-
-		// Store
-		_buffers[sound.m_pData] = buffer;
-		return buffer;
-	}
-}
-
-bool SoundSystemAL::isAvailable()
-{
-	return _initialized;
-}
-
-void SoundSystemAL::setListenerPos(float x, float y, float z)
-{
-	// Update Listener Position
-	alListener3f(AL_POSITION, x, y, z);
-	AL_ERROR_CHECK();
-	_lastListenerPos = Vec3(x, y, z);
-	update();
-}
-
-void SoundSystemAL::setListenerAngle(float yaw, float pitch)
-{
-	// Update Listener Orientation
-	float radian_yaw = yaw * (M_PI / 180);
-	ALfloat orientation[] = { -sinf(radian_yaw), 0.0f, cosf(radian_yaw), 0.0f, 1.0f, 0.0f };
-	alListenerfv(AL_ORIENTATION, orientation);
-	AL_ERROR_CHECK();
-}
-
-void SoundSystemAL::update()
-{
-	// Check
-	if (!_initialized)
-	{
-		return;
-	}
-
-	// Update Listener Volume
-	alListenerf(AL_GAIN, _listenerVolume);
-	AL_ERROR_CHECK();
-
-	// Clear Finished Sources
 	std::vector<ALuint>::iterator it = _sources.begin();
 	while (it != _sources.end())
 	{
@@ -153,15 +125,14 @@ void SoundSystemAL::update()
 			{
 				// Finished Playing
 				remove = true;
-				if (_sources_idle.size() < MAX_IDLE_SOURCES)
-				{
-					_sources_idle.push_back(source);
-				}
-				else
-				{
-					alDeleteSources(1, &source);
-					AL_ERROR_CHECK();
-				}
+				_sources_idle.push_back(source);
+
+				// Reset playback state of source to prevent buffer ghosting on legacy Mac OS X and Windows.
+				// see: https://stackoverflow.com/questions/6960731/openal-problem-changing-gain-of-source
+				alSourceStop(source);
+				AL_ERROR_CHECK();
+				alSourceRewind(source);
+				AL_ERROR_CHECK();
 			}
 		}
 		else
@@ -170,7 +141,8 @@ void SoundSystemAL::update()
 			remove = true;
 		}
 		// Remove If Needed
-		if (remove) {
+		if (remove)
+		{
 			it = _sources.erase(it);
 		}
 		else
@@ -180,7 +152,100 @@ void SoundSystemAL::update()
 	}
 }
 
-void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, float volume, float pitch)
+// Get Buffer
+ALuint SoundSystemAL::_getBuffer(const SoundDesc& sound)
+{
+	// Fetch pre-existing buffer
+	if (_buffers.count(sound.m_buffer.m_pData) > 0)
+	{
+		return _buffers[sound.m_buffer.m_pData];
+	}
+	
+	// Create Buffer
+	ALuint buffer;
+	alGenBuffers(1, &buffer);
+	AL_ERROR_CHECK();
+	alBufferData(buffer, _getSoundFormat(sound.m_header), sound.m_buffer.m_pData, sound.m_buffer.m_dataSize, sound.m_header.m_sample_rate);
+	AL_ERROR_CHECK();
+
+	// Store
+	_buffers[sound.m_buffer.m_pData] = buffer;
+	return buffer;
+}
+
+// Delete Buffers
+void SoundSystemAL::_deleteBuffers()
+{
+	if (_initialized)
+	{
+		for (std::map<void *, ALuint>::iterator it = _buffers.begin(); it != _buffers.end(); it++)
+		//for (auto &it : _buffers)
+		{
+			if (it->second && alIsBuffer(it->second))
+			{
+				alDeleteBuffers(1, &it->second);
+				AL_ERROR_CHECK();
+			}
+		}
+	}
+	_buffers.clear();
+}
+
+ALenum SoundSystemAL::_getSoundFormat(const PCMSoundHeader& header) const
+{
+	switch (header.m_channels)
+	{
+	case 1:
+		return header.m_bytes_per_sample == 2 ? AL_FORMAT_MONO16 : AL_FORMAT_MONO8;
+	case 2:
+		return header.m_bytes_per_sample == 2 ? AL_FORMAT_STEREO16 : AL_FORMAT_STEREO8;
+	default:
+		return AL_NONE;
+	}
+}
+
+bool SoundSystemAL::isAvailable()
+{
+	return _initialized;
+}
+
+void SoundSystemAL::setListenerPos(const Vec3& pos)
+{
+	// Empty on iOS 0.10.0
+	if (_listenerPos == pos)
+		return; // No need to waste time doing math and talking to OpenAL
+
+	// Update Listener Position
+	alListener3f(AL_POSITION, pos.x, pos.y, pos.z);
+	AL_ERROR_CHECK();
+	_listenerPos = pos;
+	
+	// Update Listener Volume
+	alListenerf(AL_GAIN, _mainVolume);
+	AL_ERROR_CHECK();
+}
+
+void SoundSystemAL::setListenerAngle(const Vec2& rot)
+{
+	if (_listenerYaw == rot.x)
+		return; // No need to waste time doing math and talking to OpenAL
+
+	// Update Listener Orientation
+	float radian_yaw = rot.x * (M_PI / 180);
+	ALfloat orientation[] = { -sinf(radian_yaw), 0.0f, cosf(radian_yaw), 0.0f, 1.0f, 0.0f };
+	alListenerfv(AL_ORIENTATION, orientation);
+	AL_ERROR_CHECK();
+	_listenerYaw = rot.x;
+}
+
+void SoundSystemAL::setMusicVolume(float vol)
+{
+	assert(_musicStream != nullptr);
+
+	_musicStream->setVolume(vol);
+}
+
+void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
 {
 	// Check
 	if (!_initialized)
@@ -193,71 +258,57 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 
 	bool bIsGUI = AL_FALSE;
 	float distance = 0.0f;
-	if (x == 0 && y == 0 && z == 0)
+	if (pos == Vec3::ZERO)
 	{
 		bIsGUI = AL_TRUE;
 	}
-	else
-	{
-		distance = Vec3(x, y, z).distanceTo(_lastListenerPos);
-		if (distance >= MAX_DISTANCE)
-			return;
-	}
 
 	// Load Sound
-	ALuint buffer = get_buffer(sound);
+	ALuint buffer = _getBuffer(sound);
 	if (!buffer)
 		return;
-	
+
 	// Get Source
-	ALuint al_source;
-	if (_sources_idle.size() > 0)
+	bool isNew;
+	ALuint al_source = _getSource(isNew);
+	if (!al_source)
 	{
-		// Use Idle Source
-		al_source = _sources_idle.back();
-		_sources_idle.pop_back();
-	}
-	else
-	{
-		// Create Source
-		alGenSources(1, &al_source);
-		// Special Out-Of-Memory Handling
-		{
-			ALenum err = alGetError();
-			if (err == AL_OUT_OF_MEMORY)
-			{
-				return;
-			}
-			else
-			{
-				AL_ERROR_CHECK_MANUAL(err);
-			}
-		}
+		// Couldn't get a source, just give up.
+		return;
 	}
 
 	// Set Properties
 	alSourcef(al_source, AL_PITCH, pitch);
 	AL_ERROR_CHECK();
-    // There is a problem with Apple's OpenAL implementation on older Mac OS X versions
-    // https://stackoverflow.com/questions/6960731/openal-problem-changing-gain-of-source
 	alSourcef(al_source, AL_GAIN, volume);
 	AL_ERROR_CHECK();
-	alSource3f(al_source, AL_POSITION, x, y, z);
-	AL_ERROR_CHECK();
-	alSource3f(al_source, AL_VELOCITY, 0, 0, 0);
-	AL_ERROR_CHECK();
-	alSourcei(al_source, AL_LOOPING, AL_FALSE);
+	alSource3f(al_source, AL_POSITION, pos.x, pos.y, pos.z);
 	AL_ERROR_CHECK();
 	alSourcei(al_source, AL_SOURCE_RELATIVE, bIsGUI);
 	AL_ERROR_CHECK();
 
-	// Set Attenuation
-	alSourcef(al_source, AL_MAX_DISTANCE, MAX_DISTANCE);
-	AL_ERROR_CHECK();
-	alSourcef(al_source, AL_ROLLOFF_FACTOR, 1.0f);
-	AL_ERROR_CHECK();
-	alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f);
-	AL_ERROR_CHECK();
+	// Only set constant parameters if source isn't reused
+	if (isNew)
+	{
+		// Set Attenuation
+		alSourcef(al_source, AL_MAX_DISTANCE, SOUND_MAX_DISTANCE);
+		AL_ERROR_CHECK();
+		alSourcef(al_source, AL_ROLLOFF_FACTOR, 0.9f); // 0.9f is audibly on-par with b1.2_02's rolloff factor. So you probably shouldn't change it. 0.03f is default value for Paulscode.
+		AL_ERROR_CHECK();
+		alSourcef(al_source, AL_REFERENCE_DISTANCE, 5.0f); // Sounds the same regardless of being set. Paulscode doesn't set this.
+		AL_ERROR_CHECK();
+
+		alSource3f(al_source, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
+		AL_ERROR_CHECK();
+		alSourcei(al_source, AL_LOOPING, AL_FALSE);
+		AL_ERROR_CHECK();
+	}
+	else
+	{
+		// Detach all of the buffers from the source
+		alSourcei(al_source, AL_BUFFER, AL_NONE);
+		AL_ERROR_CHECK();
+	}
 
 	// Set Buffer
 	alSourcei(al_source, AL_BUFFER, buffer);
@@ -267,6 +318,31 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	alSourcePlay(al_source);
 	AL_ERROR_CHECK();
 	_sources.push_back(al_source);
+}
+
+void SoundSystemAL::playMusic(const std::string& soundPath)
+{
+	_musicStream->open(soundPath);
+}
+
+bool SoundSystemAL::isPlayingMusic() const
+{
+	return _musicStream->isPlaying();
+}
+
+void SoundSystemAL::stopMusic()
+{
+	_musicStream->close();
+}
+
+void SoundSystemAL::pauseMusic(bool state)
+{
+	_musicStream->setPausedState(state);
+}
+
+void SoundSystemAL::update(float elapsedTime)
+{
+	_musicStream->update();
 }
 
 void SoundSystemAL::startEngine()
@@ -285,7 +361,7 @@ void SoundSystemAL::startEngine()
 	ALCenum err = alcGetError(_device);
 	if (err != ALC_NO_ERROR)
 	{
-		LOG_E("Unable To Open Audio Context: %s", alcGetString(_device, err));
+		LOG_E("Unable To Open Audio Context: %ss", alcGetString(_device, err));
 		return;
 	}
     
@@ -300,6 +376,29 @@ void SoundSystemAL::startEngine()
     
 	// Set Distance Model
 	alDistanceModel(AL_LINEAR_DISTANCE_CLAMPED);
+
+	// From 0.10.0
+	/*alGenSources(SS_AL_SOURCES, m_sources);
+	for (int i = 0; i < SS_AL_SOURCES; i++)
+	{
+		ALuint sid = m_sources[i];
+		alSourcef(sid, AL_REFERENCE_DISTANCE, 5.0f);
+		alSourcef(sid, AL_MAX_DISTANCE, SS_AL_MAX_DISTANCE);
+		alSourcef(sid, AL_ROLLOFF_FACTOR, 6.0f);
+	}*/
+
+	// From 0.10.0
+	/*const ALfloat position[12] = {};
+	alListenerfv(AL_POSITION, position);
+	AL_ERROR_CHECK();
+	const ALfloat orientation[6] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+	alListenerfv(AL_ORIENTATION, orientation);
+	AL_ERROR_CHECK();
+	const ALfloat velocity[3] = { };
+	alListenerfv(AL_VELOCITY, velocity);
+	AL_ERROR_CHECK();*/
+
+	_musicStream = new SoundStreamAL();
     
 	// Mark As loaded
 	_initialized = true;
@@ -308,12 +407,14 @@ void SoundSystemAL::startEngine()
 void SoundSystemAL::stopEngine()
 {
     if (!_initialized) return;
+
+	delete _musicStream;
     
 	// Delete Audio Sources
-	delete_sources();
+	_deleteSources();
     
 	// Delete Audio Buffers
-	delete_buffers();
+	_deleteBuffers();
     
 	// Deselect Context
 	alcMakeContextCurrent(NULL);

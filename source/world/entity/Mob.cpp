@@ -12,14 +12,14 @@
 
 Mob::Mob(Level* pLevel) : Entity(pLevel)
 {
-	field_DC = 10;
+	m_invulnerableDuration = 10;
 	field_E8 = 0.0f;
 	field_EC = 0.0f;
 	field_F0 = 0;
 	m_oAttackAnim = 0.0f;
 	m_attackAnim = 0.0f;
 	m_health = 10;
-	field_100 = 20;
+	m_lastHealth = 20;
 	m_hurtTime = 0;
 	m_hurtDuration = 0;
 	m_hurtDir = 0.0f;
@@ -30,12 +30,12 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_120 = 0;
 	field_124 = 0;
 	field_128 = 0.0f;
-	field_12C = 0.0f;
+	m_walkAnimSpeed = 0.0f;
 	field_130 = 0.0f;
 	m_noActionTime = 0;
 	field_B00 = Vec2::ZERO;
 	field_B08 = 0.0f;
-	m_bJumping = 0;
+	m_bJumping = false;
 	field_B10 = 0;
 	m_runSpeed = 0.7f;
 	field_B48 = 0;
@@ -51,10 +51,11 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_lSteps = 0;
 	m_lPos = Vec3::ZERO;
 	m_lRot = Vec2::ZERO;
-	field_B84 = 0;
+	m_lastHurt = 0;
 	m_pEntLookedAt = nullptr;
 	m_bSwinging = false;
 	m_swingTime = 0;
+    m_ambientSoundTime = 0;
 
 	m_texture = "/mob/pig.png";
 	m_class = "";
@@ -201,11 +202,11 @@ LABEL_31:
 
 	// Similar to rotlerp
 	// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
-	while (x4 - m_rotPrev.x < -180.0f)
-		m_rotPrev.x -= 360.0f;
+	while (x4 - m_oRot.x < -180.0f)
+		m_oRot.x -= 360.0f;
 
-	while (x4 - m_rotPrev.x >= 180.0f)
-		m_rotPrev.x += 360.0f;
+	while (x4 - m_oRot.x >= 180.0f)
+		m_oRot.x += 360.0f;
 
 	while (field_E8 - field_EC < -180.0f)
 		field_EC -= 360.0f;
@@ -213,84 +214,96 @@ LABEL_31:
 	while (field_E8 - field_EC >= 180.0f)
 		field_EC += 360.0f;
 	
-	while (m_rot.y - m_rotPrev.y < -180.0f)
-		m_rotPrev.y -= 360.0f;
+	while (m_rot.y - m_oRot.y < -180.0f)
+		m_oRot.y -= 360.0f;
 
-	while (m_rot.y - m_rotPrev.y >= 180.0f)
-		m_rotPrev.y += 360.0f;
+	while (m_rot.y - m_oRot.y >= 180.0f)
+		m_oRot.y += 360.0f;
 
 	field_B54 += x2;
 }
 
 void Mob::baseTick()
 {
-	m_oAttackAnim = m_attackAnim;
-	Entity::baseTick();
+    m_oAttackAnim = m_attackAnim;
+    Entity::baseTick();
 
-	if (isAlive() && isInWall())
-		hurt(nullptr, 1);
+    if (m_random.nextInt(1000) < m_ambientSoundTime++)
+    {
+        playAmbientSound();
+    }
 
-	if (isAlive() && isUnderLiquid(Material::water) && !isWaterMob())
-	{
-		m_airCapacity--;
-		if (m_airCapacity == -20)
-		{
-			m_airCapacity = 0;
+    if (isAlive() && isInWall())
+        hurt(nullptr, 1);
 
-			for (int i = 0; i < 8; i++)
-			{
-				m_pLevel->addParticle("bubble",
-					Vec3(
-						m_pos.x + m_random.nextFloat() - m_random.nextFloat(),
-						m_pos.y + m_random.nextFloat() - m_random.nextFloat(),
-						m_pos.z + m_random.nextFloat() - m_random.nextFloat()
-					),
-					m_vel
-				);
-			}
+    // Java
+    /*if (m_bFireImmune || m_pLevel->m_bIsMultiplayer)
+    {
+        m_fireTicks = 0;
+    }*/
 
-			hurt(nullptr, 2);
-		}
-	}
-	else
-	{
-		m_airCapacity = m_airSupply;
-	}
+
+    if (isAlive() && isUnderLiquid(Material::water) && !isWaterMob())
+    {
+        m_airCapacity--;
+        if (m_airCapacity == -20)
+        {
+            m_airCapacity = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+                m_pLevel->addParticle("bubble",
+                    Vec3(
+                        m_pos.x + m_random.nextFloat() - m_random.nextFloat(),
+                        m_pos.y + m_random.nextFloat() - m_random.nextFloat(),
+                        m_pos.z + m_random.nextFloat() - m_random.nextFloat()
+                    ),
+                    m_vel
+                );
+            }
+
+            hurt(nullptr, 2);
+        }
+    }
+    else
+    {
+        m_airCapacity = m_airSupply;
+    }
 
     m_oTilt = m_tilt;
 
-	if (m_attackTime > 0) m_attackTime--;
-	if (m_hurtTime > 0) m_hurtTime--;
-	if (field_B8  > 0) field_B8--;
+	  if (m_attackTime > 0) m_attackTime--;
+    if (m_hurtTime > 0) m_hurtTime--;
+    if (m_invulnerableTime > 0) m_invulnerableTime--;
 
-	if (m_health <= 0)
-	{
-		field_110++;
-		if (field_110 > 20)
-		{
-			beforeRemove();
-			remove();
-			for (int i = 0; i < 20; i++)
-			{
-				m_pLevel->addParticle("explode",
-					Vec3(
-						m_pos.x + 2 * m_bbWidth * m_random.nextFloat() - m_bbWidth,
-						m_pos.y + m_bbHeight * m_random.nextFloat(),
-						m_pos.z + 2 * m_bbWidth * m_random.nextFloat() - m_bbWidth
-					),
-					Vec3(
-						0.02f * (m_random.nextFloat() * 2 - 1) * (m_random.nextFloat() * 2 - 1),
-						0.02f * (m_random.nextFloat() * 2 - 1) * (m_random.nextFloat() * 2 - 1),
-						0.02f * (m_random.nextFloat() * 2 - 1) * (m_random.nextFloat() * 2 - 1)
-					)
-				);
-			}
-		}
-	}
+    if (m_health <= 0)
+    {
+        field_110++;
+        if (field_110 > 20)
+        {
+            beforeRemove();
+            remove();
+            for (int i = 0; i < 20; i++)
+            {
+                m_pLevel->addParticle("explode",
+                    Vec3(
+                        m_pos.x + 2 * m_bbWidth * m_random.nextFloat() - m_bbWidth,
+                        m_pos.y + m_bbHeight * m_random.nextFloat(),
+                        m_pos.z + 2 * m_bbWidth * m_random.nextFloat() - m_bbWidth
+                    ),
+                    Vec3(
+                        0.02f * (m_random.nextFloat() * 2 - 1) * (m_random.nextFloat() * 2 - 1),
+                        0.02f * (m_random.nextFloat() * 2 - 1) * (m_random.nextFloat() * 2 - 1),
+                        0.02f * (m_random.nextFloat() * 2 - 1) * (m_random.nextFloat() * 2 - 1)
+                    )
+                );
+            }
+        }
+    }
 
-	field_B58 = field_B54;
-	field_EC = field_E8;
-	m_rotPrev = m_rot;
+    field_B58 = field_B54;
+    field_EC = field_E8;
+    m_oRot = m_rot;
 }
 
 bool Mob::isAlive() const
@@ -303,58 +316,75 @@ bool Mob::isAlive() const
 
 bool Mob::hurt(Entity *pAttacker, int damage)
 {
-	if (m_pLevel->m_bIsMultiplayer)
-		return false;
+    if (m_pLevel->m_bIsMultiplayer)
+        return false;
 
-	m_noActionTime = 0;
+    m_noActionTime = 0;
 
-	if (m_health <= 0)
-		return false;
+    if (m_health <= 0)
+        return false;
 
-	field_12C = 1.5f;
-	if (float(field_B8) <= float(field_DC) * 0.5f)
-	{
-		field_100 = m_health;
-		field_B8 = field_DC;
-		field_B84 = damage;
-		actuallyHurt(damage);
-		m_hurtDuration = 10;
-		m_hurtTime = 10;
+    m_walkAnimSpeed = 1.5f;
+    bool var3 = true;
+    if (float(m_invulnerableTime) > float(m_invulnerableDuration) / 2.0f)
+    {
+        if (damage <= m_lastHurt)
+            return false;
 
-		// not in 0.1
-		markHurt();
+        actuallyHurt(damage - m_lastHurt);
+        m_lastHurt = damage;
+        var3 = false;
+    }
+    else
+    {
+        m_lastHurt = damage;
+        m_lastHealth = m_health;
+        m_invulnerableTime = m_invulnerableDuration;
+        actuallyHurt(damage);
+        m_hurtTime = m_hurtDuration = 10;
+    }
 
-		if (pAttacker)
-		{
-			float xd = pAttacker->m_pos.x - m_pos.x;
-			float zd = pAttacker->m_pos.z - m_pos.z;
+    m_hurtDir = 0.0f;
+    // not in 0.1
+    if (var3)
+    {
+        //m_pLevel->broadcastEntityEvent(this, 2); // Java
+        markHurt();
 
-			while (zd * zd + xd * xd < 0.0001f)
-			{
-				xd = 0.01f * (Mth::random() - Mth::random());
-				zd = 0.01f * (Mth::random() - Mth::random());
-			}
+        if (pAttacker)
+        {
+            float xd = pAttacker->m_pos.x - m_pos.x;
+            float zd = pAttacker->m_pos.z - m_pos.z;
 
-			float ang = atan2f(zd, xd);
-			v020_field_104 = ang * (180.0f / float(M_PI)) - m_rot.x;
+            while (zd * zd + xd * xd < 0.0001f)
+            {
+                xd = 0.01f * (Mth::random() - Mth::random());
+                zd = 0.01f * (Mth::random() - Mth::random());
+            }
 
-			knockback(pAttacker, damage, xd, zd);
-		}
-	}
-	else
-	{
-		if (field_B84 >= damage)
-			return 0;
+            float ang = atan2f(zd, xd);
+            v020_field_104 = ang * (180.0f / float(M_PI)) - m_rot.x;
 
-		actuallyHurt(damage - field_B84);
-		field_B84 = damage;
-	}
+            knockback(pAttacker, damage, xd, zd);
+        }
+    }
 
-	m_hurtDir = 0;
-	if (m_health <= 0)
-		die(pAttacker);
+    if (m_health <= 0)
+    {
+        if (var3)
+        {
+            m_pLevel->playSound(this, getDeathSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+        }
 
-	return true;
+        die(pAttacker);
+    }
+    else if (var3)
+    {
+        m_pLevel->playSound(this, getHurtSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+    }
+
+
+    return true;
 }
 
 void Mob::animateHurt()
@@ -390,9 +420,13 @@ void Mob::causeFallDamage(float level)
 
 		hurt(nullptr, x);
 
-		//@HUH: useless call to getTile? or could this be a return value of some sort
-		//Entity::causeFallDamage returns nothing though, so....
-		m_pLevel->getTile(TilePos(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z));
+		TileID tileId = m_pLevel->getTile(TilePos(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z));
+		if (tileId > 0)
+		{
+			const Tile::SoundType* pSound = Tile::tiles[tileId]->m_pSound;
+
+			m_pLevel->playSound(this, "step." + pSound->m_name, pSound->volume * 0.5f, pSound->pitch * 0.75f);
+		}
 	}
 }
 
@@ -432,7 +466,12 @@ std::string Mob::getTexture() const
 
 void Mob::playAmbientSound()
 {
-
+     m_ambientSoundTime = -getAmbientSoundInterval();
+     std::string sound = getAmbientSound();
+     if (sound != "")
+     {
+         m_pLevel->playSound(this, sound, getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+     }
 }
 
 int Mob::getAmbientSoundInterval() const
@@ -449,7 +488,7 @@ void Mob::heal(int health)
 	if (m_health > C_MAX_MOB_HEALTH)
 		m_health = C_MAX_MOB_HEALTH;
 
-	field_B8 = field_DC / 2;
+	m_invulnerableTime = m_invulnerableDuration / 2;
 }
 
 HitResult Mob::pick(float f1, float f2)
@@ -575,7 +614,7 @@ bool Mob::canSee(Entity* pEnt) const
 
 void Mob::updateWalkAnim()
 {
-	field_128 = field_12C;
+	field_128 = m_walkAnimSpeed;
 
 	float diffX = m_pos.x - m_oPos.x;
 	float diffZ = m_pos.z - m_oPos.z;
@@ -584,8 +623,8 @@ void Mob::updateWalkAnim()
 	if (spd > 1.0f)
 		spd = 1.0f;
 
-	field_12C += (spd - field_12C) * 0.4f;
-	field_130 += field_12C;
+	m_walkAnimSpeed += (spd - m_walkAnimSpeed) * 0.4f;
+	field_130 += m_walkAnimSpeed;
 }
 
 void Mob::aiStep()
@@ -669,10 +708,18 @@ Vec3 Mob::getPos(float f) const
 	);
 }
 
+Vec2 Mob::getRot(float f) const
+{
+	return Vec2(
+		Mth::Lerp(m_oRot.x, m_rot.x, f),
+		Mth::Lerp(m_oRot.y, m_rot.y, f)
+	);
+}
+
 Vec3 Mob::getViewVector(float f) const
 {
 	constexpr float C_180_OVER_PI = 0.017453f;
-	constexpr float C_PI = 3.1416f;
+	constexpr float C_PI = 3.1416f; // @HUH: Why not just use M_PI here?
 	
 	if (f == 1.0)
 	{
@@ -683,8 +730,8 @@ Vec3 Mob::getViewVector(float f) const
 		return Vec3(x.x * x.z, Mth::sin(-(m_rot.y * C_180_OVER_PI)), x.y * x.z);
 	}
 
-	float x1 = m_rotPrev.y + (m_rot.y - m_rotPrev.y) * f;
-	float x2 = -((m_rotPrev.x + (m_rot.x - m_rotPrev.x) * f) * C_180_OVER_PI) - C_PI;
+	float x1 = m_oRot.y + (m_rot.y - m_oRot.y) * f;
+	float x2 = -((m_oRot.x + (m_rot.x - m_oRot.x) * f) * C_180_OVER_PI) - C_PI;
 	float x3 = Mth::cos(x2);
 	float x4 = Mth::sin(x2);
 	float x5 = -(x1 * C_180_OVER_PI);

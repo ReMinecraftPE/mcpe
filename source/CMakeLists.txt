@@ -63,6 +63,8 @@ add_library(reminecraftpe-core STATIC
     client/renderer/FoliageColor.cpp
     client/renderer/GrassColor.cpp
     client/sound/SoundData.cpp
+    client/sound/SoundPathRepository.cpp
+    client/sound/SoundStream.cpp
     client/sound/SoundSystem.cpp
     client/sound/SoundRepository.cpp
     client/sound/SoundEngine.cpp
@@ -186,16 +188,16 @@ add_library(reminecraftpe-core STATIC
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
     world/entity/MobFactory.cpp
-	world/entity/Chicken.cpp
-	world/entity/Cow.cpp
-	world/entity/Creeper.cpp
-	world/entity/Pig.cpp
-	world/entity/Sheep.cpp
-	world/entity/SynchedEntityData.cpp
-	world/entity/EntityCategories.cpp
-	world/entity/EntityType.cpp
-	world/entity/EntityTypeDescriptor.cpp
-	world/entity/MobCategory.cpp
+    world/entity/Chicken.cpp
+    world/entity/Cow.cpp
+    world/entity/Creeper.cpp
+    world/entity/Pig.cpp
+    world/entity/Sheep.cpp
+    world/entity/SynchedEntityData.cpp
+    world/entity/EntityCategories.cpp
+    world/entity/EntityType.cpp
+    world/entity/EntityTypeDescriptor.cpp
+    world/entity/MobCategory.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp
@@ -322,15 +324,6 @@ else()
     target_link_libraries(zlib-interface INTERFACE ZLIB::ZLIB)
 endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib-interface)
-
-# Sound Data
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../sound_data/sounds.h")
-    if(NOT DEFINED ENV{CI})
-        message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
-    endif()
-    target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
-endif()
-
 # OpenGL Support Code
 if(WIN32)
     target_sources(reminecraftpe-core PRIVATE ../thirdparty/GL/GLExt.cpp)
