@@ -46,7 +46,10 @@ void Creeper::die(Entity* pCulprit)
 {
 	Monster::die(pCulprit);
 
-	// @NOTE: Disc dropping not implemented yet
+	if (pCulprit->getDescriptor().isType(EntityType::SKELETON))
+	{
+		spawnAtLocation(Item::record_01->m_itemID + m_random.nextInt(2), 1);
+	}
 }
 
 void Creeper::checkHurtTarget(Entity* pEnt, float f)
