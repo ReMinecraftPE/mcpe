@@ -28,14 +28,15 @@ SOUND(step, wood, 2)
 SOUND(step, wood, 3)
 SOUND(step, wood, 4)
 
-SOUND(random, splash, )
-SOUND(random, explode, )
 SOUND(random, click, )
 SOUND(random, door_close, )
 SOUND(random, door_open, )
+SOUND(random, explode, )
+SOUND(random, fizz, )
+SOUND(random, fuse, )
 SOUND(random, hurt, )
 SOUND(random, pop, )
-SOUND(random, fizz, )
+SOUND(random, splash, )
 
 SOUND(fire, fire, )
 
