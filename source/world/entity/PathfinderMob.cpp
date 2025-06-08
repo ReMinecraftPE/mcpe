@@ -212,7 +212,7 @@ void PathfinderMob::updateAi()
 		lookAt(m_pAttackTarget, MAX_TURN, MAX_TURN);
 
 	// if we hit a wall while moving
-	if (m_bHorizontalCollision && !isPathFinding())
+	if (m_bHorizontalCollision && isPathFinding())
 		m_bJumping = true;
 
 	// if we're in water, try to swim up

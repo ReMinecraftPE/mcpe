@@ -686,8 +686,8 @@ void Mob::lookAt(Entity* pEnt, float a3, float a4)
 	float x1 = atan2f(diffZ, diffX);
 	float x2 = atan2f(q1, p1);
 
-	setRot(Vec2(-rotlerp(m_rot.x, x2 * 180.0f / float(M_PI), a4),
-	              rotlerp(m_rot.y, x1 * 180.0f / float(M_PI) - 90.0f, a3)));
+	setRot(Vec2(rotlerp(m_rot.x, x1 * 180.0f / float(M_PI) - 90.0f, a4),
+	              -rotlerp(m_rot.y, x2 * 180.0f / float(M_PI), a3)));
 }
 
 bool Mob::canSpawn()
