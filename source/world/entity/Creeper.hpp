@@ -13,8 +13,8 @@ public:
 	void tick() override;
 	std::string getHurtSound() const override { return "mob.creeper"; }
 	std::string getDeathSound() const override { return "mob.creeperdeath"; }
-	float getSwelling(float f);
-	int getSwellDir() { return m_entityData.get<int>(DATA_SWELL_DIR); }
+	float getSwelling(float f) const;
+	int getSwellDir() const { return m_entityData.get<int>(DATA_SWELL_DIR); }
 	void setSwellDir(int value) { m_entityData.set<int>(DATA_SWELL_DIR, value); }
 	int getDeathLoot() const override { return ITEM_SULPHUR; }
 

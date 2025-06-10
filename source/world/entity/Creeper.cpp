@@ -29,11 +29,11 @@ void Creeper::tick()
 
 		m_swell += swellDir;
 
-		if (m_swell < 0) {
+		if (m_swell < 0)
+		{
 			m_swell = 0;
 		}
-
-		if (m_swell >= MAX_SWELL)
+		else if (m_swell > MAX_SWELL)
 		{
 			m_swell = MAX_SWELL;
 		}
@@ -82,7 +82,7 @@ void Creeper::checkHurtTarget(Entity* pEnt, float f)
 	}
 }
 
-float Creeper::getSwelling(float f)
+float Creeper::getSwelling(float f) const
 {
 	return (m_oldSwell + (m_swell - m_oldSwell) * f) / 28.0f;
 }
