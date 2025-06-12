@@ -56,7 +56,7 @@ public:
 	void drop();
 	float getDestroySpeed() const { return 1.0f; }
 	int getInventorySlot(int x) const;
-	TilePos getRespawnPosition() { return m_respawnPos; }
+	TilePos getRespawnPosition() const { return m_respawnPos; }
 	int getScore() const { return m_score; }
 	void prepareCustomTextures();
 	void reallyDrop(ItemEntity* pEnt);
@@ -68,7 +68,7 @@ public:
 	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
-	void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
+	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 	ItemInstance* getSelectedItem() const;
