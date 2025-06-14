@@ -1,3 +1,5 @@
+#pragma once
+
 #include "world/entity/PathfinderMob.hpp"
 #include "world/level/Level.hpp"
 

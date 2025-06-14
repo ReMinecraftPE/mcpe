@@ -8,6 +8,7 @@
 #pragma once
 
 #include "MobRenderer.hpp"
+#include "world/entity/Creeper.hpp"
 
 class CreeperRenderer : public MobRenderer
 {
