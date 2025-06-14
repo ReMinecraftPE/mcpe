@@ -30,6 +30,7 @@ public:
 	virtual bool isLocalPlayer() const override { return true; }
 	virtual void drop(const ItemInstance* pItemInstance, bool b = false) override;
 	virtual bool isImmobile() const override;
+	virtual void setPlayerGameType(GameType gameType) override;
 
 	void calculateFlight(const Vec3& pos);
 	void closeContainer(); //@HUH: oddly enough not a virtual/override

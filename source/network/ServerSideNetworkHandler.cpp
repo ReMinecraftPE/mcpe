@@ -414,20 +414,37 @@ OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID
 
 void ServerSideNetworkHandler::setupCommands()
 {
-	m_commands["?"]      = &ServerSideNetworkHandler::commandHelp;
-	m_commands["help"]   = &ServerSideNetworkHandler::commandHelp;
-	m_commands["stats"]  = &ServerSideNetworkHandler::commandStats;
-	m_commands["time"]   = &ServerSideNetworkHandler::commandTime;
-	m_commands["seed"]   = &ServerSideNetworkHandler::commandSeed;
-	m_commands["tp"]     = &ServerSideNetworkHandler::commandTP;
-	m_commands["summon"] = &ServerSideNetworkHandler::commandSummon;
+	m_commands["?"]        = &ServerSideNetworkHandler::commandHelp;
+	m_commands["help"]     = &ServerSideNetworkHandler::commandHelp;
+	m_commands["stats"]    = &ServerSideNetworkHandler::commandStats;
+	m_commands["time"]     = &ServerSideNetworkHandler::commandTime;
+	m_commands["seed"]     = &ServerSideNetworkHandler::commandSeed;
+	m_commands["tp"]       = &ServerSideNetworkHandler::commandTP;
+	m_commands["summon"]   = &ServerSideNetworkHandler::commandSummon;
+	m_commands["gamemode"] = &ServerSideNetworkHandler::commandGamemode;
 }
 
-bool ServerSideNetworkHandler::checkPermissions(OnlinePlayer* player)
+bool ServerSideNetworkHandler::_checkPermissions(OnlinePlayer* player)
 {
 	if (player->m_pPlayer != m_pMinecraft->m_pLocalPlayer)
 	{
 		sendMessage(player, "Sorry, only the host can use this command at the moment");
+		return false;
+	}
+
+	return true;
+}
+
+bool ServerSideNetworkHandler::_validateNum(OnlinePlayer* player, int value, int min, int max)
+{
+	if (value < min)
+	{
+		sendMessage(player, Util::format("The number you have entered (%d) is too small, it must be at least %d", value, min));
+		return false;
+	}
+	else if (value > max)
+	{
+		sendMessage(player, Util::format("The number you have entered (%d) is too big, it must be at most %d", value, max));
 		return false;
 	}
 
@@ -479,7 +496,7 @@ void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vect
 			return;
 		}
 
-		if (!checkPermissions(player)) return;
+		if (!_checkPermissions(player)) return;
 
 		m_pLevel->setTime(t);
 
@@ -517,7 +534,7 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 		return;
 	}
     
-	if (!checkPermissions(player)) return;
+	if (!_checkPermissions(player)) return;
     
 	Vec3 pos = player->m_pPlayer->getPos(1.0f);
     
@@ -564,7 +581,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 		return;
 	}
 
-	if (!checkPermissions(player)) return;
+	if (!_checkPermissions(player)) return;
 
 	std::string entityName;
 	std::stringstream ss;
@@ -642,4 +659,37 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 	}
 
 	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandGamemode(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+    
+	if (parms.size() != 1)
+	{
+		sendMessage(player, "Usage: /gamemode <mode>");
+		return;
+	}
+	/*if (parms.size() < 1 || parms.size() > 2)
+	{
+		sendMessage(player, "Usage: /gamemode <mode> [player]");
+		return;
+	}*/
+    
+	if (!_checkPermissions(player)) return;
+    
+	Vec3 pos = player->m_pPlayer->getPos(1.0f);
+    
+	GameType gameMode;
+	std::stringstream ss;
+	ss.str(parms[0]);
+	ss >> (int&)gameMode;
+
+	if (!_validateNum(player, gameMode, GAME_TYPES_MIN, GAME_TYPES_MAX))
+		return;
+    
+	player->m_pPlayer->setPlayerGameType(gameMode);
+    
+	sendMessage(player, "Your game mode has been updated");
 }

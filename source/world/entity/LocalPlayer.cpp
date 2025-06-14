@@ -87,6 +87,15 @@ bool LocalPlayer::isImmobile() const
 	return Player::isImmobile() || (m_pMinecraft->useController() && m_pMinecraft->m_pScreen); //!m_pMinecraft->m_bGrabbedMouse; // this works if we still set this when not using a mouse
 }
 
+void LocalPlayer::setPlayerGameType(GameType gameType)
+{
+	// @HACK: This info should be updated / stored in one place, and one place only.
+	// Don't know what crack Notch was smoking.
+	m_pMinecraft->setGameMode(gameType);
+
+	Player::setPlayerGameType(gameType);
+}
+
 void LocalPlayer::animateRespawn()
 {
 

@@ -5,7 +5,6 @@ Inventory::Inventory(Player* pPlayer)
 {
 	m_pPlayer = pPlayer;
 	m_selectedHotbarSlot = 0;
-	m_bIsSurvival = false;
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = -1;
@@ -13,8 +12,6 @@ Inventory::Inventory(Player* pPlayer)
 
 void Inventory::prepareCreativeInventory()
 {
-	m_bIsSurvival = false;
-
 	m_items.clear();
 
 	// Original list of items.
@@ -86,7 +83,6 @@ void Inventory::prepareCreativeInventory()
 
 void Inventory::prepareSurvivalInventory()
 {
-	m_bIsSurvival = true;
 	m_items.clear();
 	m_items.resize(C_NUM_SURVIVAL_SLOTS);
 
@@ -105,10 +101,13 @@ void Inventory::prepareSurvivalInventory()
 
 int Inventory::getNumSlots()
 {
-	if (m_bIsSurvival)
+	switch (_getGameMode())
+	{
+	case GAME_TYPE_SURVIVAL:
 		return C_NUM_SURVIVAL_SLOTS;
-
-	return getNumItems();
+	default:
+		return getNumItems();
+	}
 }
 
 int Inventory::getNumItems()
@@ -132,7 +131,7 @@ void Inventory::clear()
 // but addResource's code is entirely different somehow. Did we write this from scratch?
 void Inventory::addItem(ItemInstance* pInst)
 {
-	if (!m_bIsSurvival)
+	if (_getGameMode() == GAME_TYPE_CREATIVE)
 	{
 		// Just get rid of the item.
 		pInst->m_count = 0;
@@ -293,7 +292,7 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
 		return;
 
-	if (m_bIsSurvival)
+	if (_getGameMode() == GAME_TYPE_SURVIVAL)
 		return; // TODO
 
 	for (int i = 0; i < getNumItems(); i++)
@@ -343,4 +342,9 @@ void Inventory::dropAll(bool butNotReally)
 			item->m_count = 0;
 		}
 	}
+}
+
+GameType Inventory::_getGameMode() const
+{
+	return m_pPlayer->getPlayerGameType();
 }
