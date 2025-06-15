@@ -10,12 +10,12 @@
 
 #define MUL_DEG_TO_RAD (180.0f / float(M_PI))  // formerly known as Cube::c
 
-ModelPart::ModelPart(int a, int b, float textureWidth, float textureHeight)
+ModelPart::ModelPart(int a, int b)
 {
 	_init(a, b);
 }
 
-ModelPart::ModelPart(Model* model, int a, int b, float textureWidth, float textureHeight)
+ModelPart::ModelPart(Model* model, int a, int b)
 {
 	_init(a, b);
 	setModel(model);

@@ -45,14 +45,10 @@ SOUND(damage, fallbig, 2)
 
 SOUND(damage, fallsmall, )
 
-SOUND(mob, pig, 1)
-SOUND(mob, pig, 2)
-SOUND(mob, pig, 3)
-SOUND(mob, pigdeath, )
-
-SOUND(mob, sheep, 1)
-SOUND(mob, sheep, 2)
-SOUND(mob, sheep, 3)
+SOUND(mob, chicken, 2)
+SOUND(mob, chicken, 3)
+SOUND(mob, chickenhurt, 1)
+SOUND(mob, chickenhurt, 2)
 
 SOUND(mob, cow, 1)
 SOUND(mob, cow, 2)
@@ -62,10 +58,20 @@ SOUND(mob, cowhurt, 1)
 SOUND(mob, cowhurt, 2)
 SOUND(mob, cowhurt, 3)
 
-SOUND(mob, chicken, 2)
-SOUND(mob, chicken, 3)
-SOUND(mob, chickenhurt, 1)
-SOUND(mob, chickenhurt, 2)
+SOUND(mob, creeper, 1)
+SOUND(mob, creeper, 2)
+SOUND(mob, creeper, 3)
+SOUND(mob, creeper, 4)
+SOUND(mob, creeperdeath, )
+
+SOUND(mob, pig, 1)
+SOUND(mob, pig, 2)
+SOUND(mob, pig, 3)
+SOUND(mob, pigdeath, )
+
+SOUND(mob, sheep, 1)
+SOUND(mob, sheep, 2)
+SOUND(mob, sheep, 3)
 
 SOUND(mob, zombie, 3)
 SOUND(mob, zombiehurt, 2)

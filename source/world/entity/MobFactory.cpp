@@ -4,7 +4,7 @@
 #include "Pig.hpp"
 #include "Sheep.hpp"
 #include "Zombie.hpp"
-//#include "Creeper.hpp"
+#include "Creeper.hpp"
 //#include "Skeleton.hpp"
 #include "Spider.hpp"
 //#include "PigZombie.hpp"
@@ -13,9 +13,9 @@
              ENT(COW, Cow) \
              ENT(PIG, Pig) \
              ENT(SHEEP, Sheep) \
+             ENT(CREEPER, Creeper) \
              ENT(ZOMBIE, Zombie) \
              ENT(SPIDER, Spider) \
-             //ENT(CREEPER, Creeper) \
              //ENT(SKELETON, Skeleton) \
              //ENT(PIG_ZOMBIE, PigZombie)
 

@@ -11,25 +11,18 @@
 
 HumanoidModel::HumanoidModel(float a, float b):
 	Model(64, 32),
-	m_head(0,  0),
-	m_body(16, 16),
-	m_arm1(40, 16),
-	m_arm2(40, 16),
-	m_leg1(0,  16),
-	m_leg2(0,  16)
+	m_head(this, 0,  0),
+	m_body(this, 16, 16),
+	m_arm1(this, 40, 16),
+	m_arm2(this, 40, 16),
+	m_leg1(this, 0,  16),
+	m_leg2(this, 0,  16)
 {
 	field_20 = false;
 	m_bHoldingLeftHand = false;
 	m_bHoldingRightHand = false;
 	m_bSneaking = false;
 	field_237 = false;
-
-	m_head.setModel(this);
-	m_body.setModel(this);
-	m_arm1.setModel(this);
-	m_arm2.setModel(this);
-	m_leg1.setModel(this);
-	m_leg2.setModel(this);
 
 	m_head.addBox(-4, -8, -4, 8, 8, 8, a);
 	m_head.setPos(0, b, 0);

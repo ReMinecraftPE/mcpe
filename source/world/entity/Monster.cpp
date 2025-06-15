@@ -31,7 +31,7 @@ void Monster::tick()
 
 Entity* Monster::findAttackTarget()
 {
-	Player* player = m_pLevel->getNearestPlayer(this, 16.0f);
+	Player* player = m_pLevel->getNearestAttackablePlayer(*this, 16.0f);
 
 	if (player && canSee(player)) 
 	{

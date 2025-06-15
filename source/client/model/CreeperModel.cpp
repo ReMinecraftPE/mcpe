@@ -10,20 +10,14 @@
 
 CreeperModel::CreeperModel() :
 	Model(64, 32),
-	m_head(0, 0),
-	m_body(16, 16),
-	m_leg1(0, 16),
-	m_leg2(0, 16),
-	m_leg3(0, 16),
-	m_leg4(0, 16)
+	m_head(this, 0, 0),
+	//m_hair(this, 32, 0),
+	m_body(this, 16, 16),
+	m_leg1(this, 0, 16),
+	m_leg2(this, 0, 16),
+	m_leg3(this, 0, 16),
+	m_leg4(this, 0, 16)
 {
-	m_head.setModel(this);
-	m_body.setModel(this);
-	m_leg1.setModel(this);
-	m_leg2.setModel(this);
-	m_leg3.setModel(this);
-	m_leg4.setModel(this);
-
 	m_head.addBox(-4, -8, -4, 8, 8, 8);
 	m_head.setPos(0, 4, 0);
 	m_body.addBox(-4, 0, -2, 8, 12, 4);
@@ -36,6 +30,25 @@ CreeperModel::CreeperModel() :
 	m_leg3.setPos(-2, 16, -4);
 	m_leg4.addBox(-2, 0, -2, 4, 6, 4);
 	m_leg4.setPos(2, 16, -4);
+
+	float g = 0.0f;
+	// Creepers have just always been floating in Java.
+	// Setting it to 6 fixes this, but makes the creeper look short.
+	int yo = 4;
+	m_head.addBox(-4, -8, -4, 8, 8, 8, g);
+	m_head.setPos(0, yo, 0);
+	//m_hair.addBox(-4, -8, -4, 8, 8, 8, g + 0.5f);
+	//m_hair.setPos(0, yo, 0);
+	m_body.addBox(-4, 0, -2, 8, 12, 4, g);
+	m_body.setPos(0, yo, 0);
+	m_leg1.addBox(-2, 0, -2, 4, 6, 4, g);
+	m_leg1.setPos(-2, 12 + yo, 4);
+	m_leg2.addBox(-2, 0, -2, 4, 6, 4, g);
+	m_leg2.setPos(2, 12 + yo, 4);
+	m_leg3.addBox(-2, 0, -2, 4, 6, 4, g);
+	m_leg3.setPos(-2, 12 + yo, -4);
+	m_leg4.addBox(-2, 0, -2, 4, 6, 4, g);
+	m_leg4.setPos(2, 12 + yo, -4);
 }
 
 CreeperModel::~CreeperModel()
