@@ -750,12 +750,7 @@ std::vector<LightUpdate>* Level::getLightsToUpdate()
 	return &m_lightUpdates;
 }
 
-Player* Level::getNearestPlayer(const Entity* entity, float f) const
-{
-	return getNearestPlayer(entity->m_pos, f);
-}
-
-Player* Level::getNearestPlayer(const Vec3& pos, float maxDist) const
+Player* Level::_getNearestPlayer(const Vec3& source, float maxDist, bool onlyFindAttackable) const
 {
 	float dist = -1.0f;
 	Player* pPlayer = nullptr;
@@ -763,7 +758,14 @@ Player* Level::getNearestPlayer(const Vec3& pos, float maxDist) const
 	for (std::vector<Player*>::const_iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
 		Player* player = *it;
-		float ldist = player->distanceToSqr(pos);
+
+		if (onlyFindAttackable)
+		{
+			if (player->isCreative())
+				continue;
+		}
+
+		float ldist = player->distanceToSqr(source);
 		if ((maxDist < 0.0f || ldist < maxDist * maxDist) && (dist == -1.0f || dist > ldist))
 		{
 			pPlayer = player;
@@ -772,6 +774,26 @@ Player* Level::getNearestPlayer(const Vec3& pos, float maxDist) const
 	}
 
 	return pPlayer;
+}
+
+Player* Level::getNearestPlayer(const Entity& source, float maxDist) const
+{
+	return getNearestPlayer(source.m_pos, maxDist, false);
+}
+
+Player* Level::getNearestPlayer(const Vec3& source, float maxDist, bool findAnyNearPlayer = false) const
+{
+	return _getNearestPlayer(source, maxDist, false); // don't know what findAnyNearPlayer is actually supposed to do
+}
+
+Player* Level::getNearestAttackablePlayer(const Entity& source, float maxDist) const
+{
+	return getNearestAttackablePlayer(source.m_pos, maxDist, &source);
+}
+
+Player* Level::getNearestAttackablePlayer(const Vec3& source, float maxDist, const Entity* sourceEntity = nullptr) const
+{
+	return _getNearestPlayer(source, maxDist, true);
 }
 
 bool Level::containsFireTile(const AABB& aabb)

@@ -782,7 +782,7 @@ void Mob::updateAi()
 
 	if (m_random.nextFloat() < 0.02f)
 	{
-		Entity* nearestPlayer = m_pLevel->getNearestPlayer(this, 8.0f);
+		Entity* nearestPlayer = m_pLevel->getNearestPlayer(*this, 8.0f);
 		if (nearestPlayer)
 		{
 			m_pEntLookedAt = nearestPlayer;
@@ -844,7 +844,7 @@ void Mob::checkDespawn(Mob* nearestMob)
 
 void Mob::checkDespawn()
 {
-	Mob* nearestPlayer = m_pLevel->getNearestPlayer(this, -1.0f);
+	Mob* nearestPlayer = m_pLevel->getNearestPlayer(*this, -1.0f);
 	checkDespawn(nearestPlayer);
 }
 

@@ -10,23 +10,16 @@
 
 QuadrupedModel::QuadrupedModel(int i, float f) :
 	Model(64, 32),
-	m_head(0, 0),
-	m_unknown(0, 0),
-	m_body(28, 8),
-	m_leg1(0, 16),
-	m_leg2(0, 16),
-	m_leg3(0, 16),
-	m_leg4(0, 16)
+	m_head(this, 0, 0),
+	m_hair(this, 0, 0),
+	m_body(this, 28, 8),
+	m_leg1(this, 0, 16),
+	m_leg2(this, 0, 16),
+	m_leg3(this, 0, 16),
+	m_leg4(this, 0, 16)
 {
 	field_28C = 8.0f;
 	field_290 = 4.0f;
-
-	m_head.setModel(this);
-	m_body.setModel(this);
-	m_leg1.setModel(this);
-	m_leg2.setModel(this);
-	m_leg3.setModel(this);
-	m_leg4.setModel(this);
 
 	m_head.addBox(-4, -4, -8, 8, 8, 8, f);
 	m_head.setPos(0, 18 - float(i), -6);

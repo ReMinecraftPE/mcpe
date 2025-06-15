@@ -10,25 +10,16 @@
 
 ChickenModel::ChickenModel() :
 	Model(64, 32),
-	m_head(0, 0),
-	m_unknown(0, 0),
-	m_body(0, 9),
-	m_leg1(26, 0),
-	m_leg2(26, 0),
-	m_wing1(24, 13),
-	m_wing2(24, 13),
-	m_beak(14, 0),
-	m_wattle(14, 4) // Yes, it's called a wattle. Look it up.
+	m_head(this, 0, 0),
+	//m_hair(this, 0, 0),
+	m_body(this, 0, 9),
+	m_leg1(this, 26, 0),
+	m_leg2(this, 26, 0),
+	m_wing1(this, 24, 13),
+	m_wing2(this, 24, 13),
+	m_beak(this, 14, 0),
+	m_wattle(this, 14, 4) // Yes, it's called a wattle. Look it up.
 {
-	m_head.setModel(this);
-	m_beak.setModel(this);
-	m_wattle.setModel(this);
-	m_body.setModel(this);
-	m_leg1.setModel(this);
-	m_leg2.setModel(this);
-	m_wing1.setModel(this);
-	m_wing2.setModel(this);
-
 	m_head.addBox(-2, -6, -2, 4, 6, 3);
 	m_head.setPos(0, 15, -4);
 	m_beak.addBox(-2, -4, -4, 4, 2, 2, 0);

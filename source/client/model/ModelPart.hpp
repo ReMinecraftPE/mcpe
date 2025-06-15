@@ -18,8 +18,8 @@ class Model;
 class ModelPart
 {
 public:
-	ModelPart(int, int, float textureWidth = 64.0f, float textureHeight = 64.0f);
-	ModelPart(Model*, int, int, float textureWidth = 64.0f, float textureHeight = 64.0f);
+	ModelPart(int, int);
+	ModelPart(Model*, int, int);
 	ModelPart(const std::string&);
 	~ModelPart();
 
