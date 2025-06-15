@@ -19,6 +19,7 @@ public:
 
 private:
 	ModelPart m_head;
+	//ModelPart m_hair; // wtf *is* this??
 	ModelPart m_body;
 	ModelPart m_leg1;
 	ModelPart m_leg2;

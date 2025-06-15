@@ -43,6 +43,7 @@ private:
 private:
 	// @NOTE: LevelListeners do NOT get updated here
 	void _setTime(int32_t time) { m_levelData.setTime(time); }
+	Player* _getNearestPlayer(const Vec3&, float, bool) const;
 
 public:
 	Level(LevelStorage* pStor, const std::string& str, int32_t seed, int version, Dimension* pDimension = nullptr);
@@ -164,8 +165,10 @@ public:
 	const LevelData* getLevelData() const { return &m_levelData; }
 	AABBVector* getCubes(const Entity* pEnt, const AABB& aabb);
 	std::vector<LightUpdate>* getLightsToUpdate();
-	Player* getNearestPlayer(const Entity*, float) const;
-	Player* getNearestPlayer(const Vec3& pos, float) const;
+	Player* getNearestPlayer(const Entity&, float) const;
+	Player* getNearestPlayer(const Vec3& pos, float, bool) const;
+	Player* getNearestAttackablePlayer(const Entity&, float) const;
+	Player* getNearestAttackablePlayer(const Vec3& pos, float, const Entity*) const;
 
 	// unused redstone stuff
 	int getSignal(const TilePos& pos, Facing::Name face) const;

@@ -671,14 +671,23 @@ void Mob::lookAt(Entity* pEnt, float a3, float a4)
 	float diffX = pEnt->m_pos.x - m_pos.x;
 	float diffZ = pEnt->m_pos.z - m_pos.z;
 
-	float q1 = (pEnt->m_hitbox.min.y + pEnt->m_hitbox.max.y) / 2 - (m_pos.y + getHeadHeight());
+	float q1;
+	if (pEnt->getDescriptor().hasCategory(EntityCategories::MOB))
+	{
+		Mob* pMob = (Mob*)pEnt;
+		q1 = pMob->m_pos.y + pMob->getHeadHeight() - (m_pos.y + getHeadHeight());
+	}
+	else
+	{
+		q1 = (pEnt->m_hitbox.min.y + pEnt->m_hitbox.max.y) / 2 - (m_pos.y + getHeadHeight());
+	}
 	float p1 = Mth::sqrt(diffX * diffX + diffZ * diffZ);
 
 	float x1 = atan2f(diffZ, diffX);
 	float x2 = atan2f(q1, p1);
 
-	setRot(Vec2(-rotlerp(m_rot.y, x2 * 180.0f / float(M_PI), a4),
-	              rotlerp(m_rot.x, x1 * 180.0f / float(M_PI) - 90.0f, a3)));
+	setRot(Vec2(rotlerp(m_rot.x, x1 * 180.0f / float(M_PI) - 90.0f, a4),
+	              -rotlerp(m_rot.y, x2 * 180.0f / float(M_PI), a3)));
 }
 
 bool Mob::canSpawn()
@@ -773,7 +782,7 @@ void Mob::updateAi()
 
 	if (m_random.nextFloat() < 0.02f)
 	{
-		Entity* nearestPlayer = m_pLevel->getNearestPlayer(this, 8.0f);
+		Entity* nearestPlayer = m_pLevel->getNearestPlayer(*this, 8.0f);
 		if (nearestPlayer)
 		{
 			m_pEntLookedAt = nearestPlayer;
@@ -835,7 +844,7 @@ void Mob::checkDespawn(Mob* nearestMob)
 
 void Mob::checkDespawn()
 {
-	Mob* nearestPlayer = m_pLevel->getNearestPlayer(this, -1.0f);
+	Mob* nearestPlayer = m_pLevel->getNearestPlayer(*this, -1.0f);
 	checkDespawn(nearestPlayer);
 }
 
