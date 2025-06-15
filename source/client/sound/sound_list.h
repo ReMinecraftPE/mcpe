@@ -66,3 +66,7 @@ SOUND(mob, chicken, 2)
 SOUND(mob, chicken, 3)
 SOUND(mob, chickenhurt, 1)
 SOUND(mob, chickenhurt, 2)
+
+SOUND(mob, zombie, 3)
+SOUND(mob, zombiehurt, 2)
+SOUND(mob, zombiedeath, )

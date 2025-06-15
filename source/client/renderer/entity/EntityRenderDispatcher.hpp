@@ -19,6 +19,7 @@
 #include "CowRenderer.hpp"
 #include "ChickenRenderer.hpp"
 #include "CreeperRenderer.hpp"
+#include "SpiderRenderer.hpp"
 #include "RocketRenderer.hpp"
 
 class Minecraft;
@@ -55,10 +56,10 @@ public:
 	TntRenderer m_TntRenderer;
 	//padding??
 	ItemRenderer m_ItemRenderer;
-	CreeperRenderer m_CreeperRenderer;
-	//SpiderRenderer m_SpiderRenderer;
-	//SkeletonRenderer m_SkeletonRenderer;
-	//ZombieRenderer m_ZombieRenderer;
+	//CreeperRenderer m_CreeperRenderer;
+	SpiderRenderer m_SpiderRenderer;
+	HumanoidMobRenderer m_SkeletonRenderer;
+	HumanoidMobRenderer m_ZombieRenderer;
 	//SheepRenderer m_SheepRenderer;
 	//SheepFurRenderer m_SheepFurRenderer;
 	TripodCameraRenderer m_CameraRenderer;

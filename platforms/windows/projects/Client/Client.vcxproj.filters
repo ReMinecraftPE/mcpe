@@ -386,9 +386,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\OptionList.hpp">
       <Filter>Header Files\GUI\Components</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.hpp">
-      <Filter>Header Files\Renderer\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
     </ClInclude>
@@ -796,12 +793,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\model\SpiderModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ZombieRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ChickenRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
@@ -818,9 +809,6 @@
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SheepRenderer.cpp">
-      <Filter>Source Files\Renderer\Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SkeletonRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\SpiderRenderer.cpp">
@@ -840,6 +828,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Lighting.cpp">
       <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\model\ZombieModel.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
