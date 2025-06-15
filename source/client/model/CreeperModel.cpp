@@ -32,7 +32,9 @@ CreeperModel::CreeperModel() :
 	m_leg4.setPos(2, 16, -4);
 
 	float g = 0.0f;
-	int yo = 6; // 4 in Java, resulting in the creeper floating
+	// Creepers have just always been floating in Java.
+	// Setting it to 6 fixes this, but makes the creeper look short.
+	int yo = 4;
 	m_head.addBox(-4, -8, -4, 8, 8, 8, g);
 	m_head.setPos(0, yo, 0);
 	//m_hair.addBox(-4, -8, -4, 8, 8, 8, g + 0.5f);
