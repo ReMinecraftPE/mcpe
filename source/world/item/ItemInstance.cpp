@@ -151,29 +151,6 @@ bool ItemInstance::isStackedByData()
 	return getItem()->isStackedByData();
 }
 
-bool ItemInstance::matches(ItemInstance* other) const
-{
-	return this->getAuxValue() == other->getAuxValue() &&
-           this->m_count == other->m_count &&
-           this->m_itemID == other->m_itemID;
-}
-
-bool ItemInstance::matches(ItemInstance* a1, ItemInstance* a2)
-{
-	if (a1 == a2 && a1 == nullptr)
-		return true;
-
-	if (a1 == nullptr || a2 == nullptr)
-		return false;
-
-	return a1->matches(a2);
-}
-
-int ItemInstance::getAttackDamage(Entity *pEnt)
-{
-	return getItem()->getAttackDamage(pEnt);
-}
-
 void ItemInstance::mineBlock(const TilePos& pos, Facing::Name face)
 {
 	return getItem()->mineBlock(this, pos, face);
@@ -212,18 +189,54 @@ bool ItemInstance::useOn(Player* player, Level* level, const TilePos& pos, Facin
 	return getItem()->useOn(this, player, level, pos, face);
 }
 
+int ItemInstance::getAttackDamage(Entity* pEnt)
+{
+	return getItem()->getAttackDamage(pEnt);
+}
+
 bool ItemInstance::isNull() const
 {
 	// 0.9.2
 	if (m_itemID <= 0) // m_field_10, assuming this is m_itemID
 		return true;
 
-	if (m_auxValue != 0)
+	if (m_auxValue != 0 ||
+		m_count    != 0 ||
+		m_popTime  != 0)
+	{
 		return false;
-	if (m_count != 0)
-		return false;
-	if (m_popTime != 0)
-		return false;
+	}
 
 	return true; // isNull
+}
+
+bool ItemInstance::isNull(const ItemInstance* item)
+{
+	return item == nullptr || item->isNull();
+}
+
+bool ItemInstance::matches(const ItemInstance* a1, const ItemInstance* a2)
+{
+	if (a1 == a2 && a1 == nullptr)
+		return true;
+
+	if (a1 == nullptr || a2 == nullptr)
+		return false;
+
+	return a1 == a2;
+}
+
+bool ItemInstance::operator==(const ItemInstance& other) const
+{
+	return this->getAuxValue() == other.getAuxValue() &&
+		   this->m_count       == other.m_count &&
+		   this->m_itemID      == other.m_itemID;
+}
+
+bool ItemInstance::operator!=(const ItemInstance& other) const
+{
+	// doing this is likely more efficient than inverting the result of == after the fact
+	return this->getAuxValue() != other.getAuxValue() ||
+		   this->m_count       != other.m_count ||
+		   this->m_itemID      != other.m_itemID;
 }

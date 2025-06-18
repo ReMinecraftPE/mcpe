@@ -52,7 +52,6 @@ public:
 	bool isDamaged();
 	bool isStackable();
 	bool isStackedByData();
-	bool matches(ItemInstance*) const;
 	void mineBlock(const TilePos& pos, Facing::Name face);
 	ItemInstance remove(int amt);
 	void setDescriptionId(const std::string&);
@@ -64,11 +63,16 @@ public:
 	Item* getItem() const;
 	ItemInstance* copy();
 
-	static bool matches(ItemInstance*, ItemInstance*);
-
 	// v0.2.0
 	int getAttackDamage(Entity *pEnt);
 	bool isNull() const;
+
+	// @NOTE: Won't this be ambiguous with the non-static method?
+	static bool isNull(const ItemInstance*);
+	static bool matches(const ItemInstance*, const ItemInstance*);
+
+	bool operator==(const ItemInstance&) const;
+	bool operator!=(const ItemInstance&) const;
 
 public:
 	int m_count;
