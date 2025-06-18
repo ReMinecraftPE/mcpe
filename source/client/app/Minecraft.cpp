@@ -270,7 +270,8 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 {
 	LocalPlayer* player = m_pLocalPlayer;
 	bool canInteract = getTimeMs() - m_lastInteractTime >= 200;
-	if (player->isUsingItem()) return;
+	// This logic is present in 0.9.0, but just does not make any sense being here.
+	//if (player->isUsingItem()) return;
 
 	if (action.isDestroyStart() || action.isAttack())
 	{
@@ -798,7 +799,7 @@ void Minecraft::init()
 
 	GetPatchManager()->LoadPatchData(platform()->getPatchData());
 
-	m_bIsTouchscreen = platform()->isTouchscreen();
+	m_bIsTouchscreen = true; // platform()->isTouchscreen();
 
 	m_pRakNetInstance = new RakNetInstance;
 
