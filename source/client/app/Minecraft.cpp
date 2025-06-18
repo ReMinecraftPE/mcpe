@@ -799,7 +799,7 @@ void Minecraft::init()
 
 	GetPatchManager()->LoadPatchData(platform()->getPatchData());
 
-	m_bIsTouchscreen = true; // platform()->isTouchscreen();
+	m_bIsTouchscreen = platform()->isTouchscreen();
 
 	m_pRakNetInstance = new RakNetInstance;
 
