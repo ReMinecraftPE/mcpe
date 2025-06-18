@@ -41,7 +41,7 @@ void ItemInHandRenderer::itemUsed()
 void ItemInHandRenderer::renderItem(ItemInstance* inst)
 {
 #ifndef ORIGINAL_CODE
-    if (inst->isNull())
+    if (ItemInstance::isNull(inst))
         return;
 #endif
     
@@ -197,7 +197,7 @@ void ItemInHandRenderer::render(float f)
     float fAnim = pLP->getAttackAnim(f);
     constexpr float d = 0.8f;
     
-	if (!pItem->isNull())
+	if (!ItemInstance::isNull(pItem))
 	{
         glTranslatef(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim));
         glTranslatef(0.7f * d, -0.65f * d - (1.0f - h) * 0.6f, -0.9f * d);

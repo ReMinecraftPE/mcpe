@@ -270,7 +270,8 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 {
 	LocalPlayer* player = m_pLocalPlayer;
 	bool canInteract = getTimeMs() - m_lastInteractTime >= 200;
-	if (player->isUsingItem()) return;
+	// This logic is present in 0.9.0, but just does not make any sense being here.
+	//if (player->isUsingItem()) return;
 
 	if (action.isDestroyStart() || action.isAttack())
 	{
@@ -350,13 +351,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 		else if (action.isPlace() && canInteract)
 		{
 			ItemInstance* pItem = getSelectedItem();
-			if (pItem &&
-				m_pGameMode->useItemOn(
-					player,
-					m_pLevel,
-					pItem->m_itemID <= 0 ? nullptr : pItem,
-					m_hitResult.m_tilePos,
-					m_hitResult.m_hitSide))
+			if (m_pGameMode->useItemOn(player, m_pLevel, pItem, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
 			{
 				bInteract = false;
 
@@ -366,7 +361,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 
 				if (isOnline())
 				{
-					if (pItem->m_itemID > C_MAX_TILES || pItem->m_itemID < 0)
+					if (ItemInstance::isNull(pItem) || pItem->m_itemID > C_MAX_TILES)
 						return;
 
 					TilePos tp(m_hitResult.m_tilePos);
@@ -480,7 +475,7 @@ void Minecraft::tickInput()
 			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
 				ItemInstance *item = m_pLocalPlayer->m_pInventory->getSelected();
-				if (item != nullptr)
+				if (!ItemInstance::isNull(item))
 				{
 					ItemInstance itemDrop = m_pLocalPlayer->isSurvival() ? item->remove(1) : ItemInstance(*item);
 					itemDrop.m_count = 1;
@@ -1181,22 +1176,19 @@ ItemInstance* Minecraft::getSelectedItem()
 {
 	ItemInstance* pInst = m_pLocalPlayer->getSelectedItem();
 
-	if (!pInst)
+	if (ItemInstance::isNull(pInst))
 		return nullptr;
 
-	if (m_pGameMode->isSurvivalType())
-		return pInst;
+	if (m_pGameMode->isCreativeType())
+	{
+		// Create new "unlimited" ItemInstance for Creative mode
+		m_CurrItemInstance.m_itemID = pInst->m_itemID;
+		m_CurrItemInstance.m_count = 999;
+		m_CurrItemInstance.setAuxValue(pInst->getAuxValue());
+		return &m_CurrItemInstance;
+	}
 
-    // Create new "unlimited" ItemInstance for Creative mode
-    
-	if (pInst->isNull())
-		return nullptr;
-
-	m_CurrItemInstance.m_itemID = pInst->m_itemID;
-	m_CurrItemInstance.m_count = 999;
-	m_CurrItemInstance.setAuxValue(pInst->getAuxValue());
-
-	return &m_CurrItemInstance;
+	return pInst;
 }
 
 int Minecraft::getFpsIntlCounter()

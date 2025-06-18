@@ -72,7 +72,7 @@ public:
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
 	ItemInstance* getSelectedItem() const;
-	bool isUsingItem() const { return false && !getSelectedItem()->isNull(); }
+	bool isUsingItem() const { return !ItemInstance::isNull(getSelectedItem()); }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push
