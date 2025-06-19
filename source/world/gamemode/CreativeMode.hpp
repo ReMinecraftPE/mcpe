@@ -15,7 +15,7 @@ class CreativeMode : public GameMode
 public:
 	CreativeMode(Minecraft*, Level&);
 
-	float getPickRange() const override { return 5.0f; }
+	//float getBlockReachDistance() const override { return 5.0f; } // 5.0f on Java
 	bool isCreativeType() const override { return true; }
 
 	void initPlayer(Player*) override;
