@@ -21,7 +21,7 @@ TilePos::TilePos(int _x, int _y, int _z)
 
 TilePos::TilePos(float _x, float _y, float _z)
 {
-    _init((int)floorf(_x), (uint8_t)floorf(_y), (int)floorf(_z));
+    _init((int)floorf(_x), (int)floorf(_y), (int)floorf(_z));
 }
 
 TilePos::TilePos(const Vec3& pos)
