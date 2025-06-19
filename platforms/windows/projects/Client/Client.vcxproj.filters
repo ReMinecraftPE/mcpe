@@ -461,7 +461,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\sound\music_list.h">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\entity\ArrowRenderer.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ArrowRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
     </ClInclude>
   </ItemGroup>
@@ -829,10 +829,10 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Lighting.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\model\ZombieModel.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\entity\ArrowRenderer.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ArrowRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
   </ItemGroup>

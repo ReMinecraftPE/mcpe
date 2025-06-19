@@ -503,16 +503,16 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityType.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\Zombie.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Zombie.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\Spider.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Spider.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\Skeleton.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Skeleton.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\entity\Arrow.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\entity\Arrow.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
@@ -883,16 +883,16 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityType.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\Zombie.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Zombie.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\Spider.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Spider.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\Skeleton.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Skeleton.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\entity\Arrow.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\entity\Arrow.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>
