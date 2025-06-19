@@ -16,6 +16,7 @@
 #include "client/model/ChickenModel.hpp"
 #include "client/model/CreeperModel.hpp"
 #include "client/model/SpiderModel.hpp"
+#include "client/model/SkeletonModel.hpp"
 #include "client/model/ZombieModel.hpp"
 
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
@@ -28,8 +29,9 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_CowRenderer(new CowModel, 0.7f),
 	m_ChickenRenderer(new ChickenModel, 0.3f),
 	m_SpiderRenderer(),
-	m_SkeletonRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f),
-	m_ZombieRenderer(new ZombieModel, 0.5f)
+	m_SkeletonRenderer(new SkeletonModel, 0.5f),
+	m_ZombieRenderer(new ZombieModel, 0.5f),
+	m_ArrowRenderer()
 {
 	m_pItemInHandRenderer = nullptr;
 	m_pTextures = nullptr;
@@ -48,6 +50,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_CowRenderer.init(this);
 	m_ChickenRenderer.init(this);
 	m_ZombieRenderer.init(this);
+	m_ArrowRenderer.init(this);
 	
 	// TODO
 
@@ -106,6 +109,8 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 			return &m_CreeperRenderer;*/
 		case RENDER_ZOMBIE:
 			return &m_ZombieRenderer;
+		case RENDER_ARROW:
+			return &m_ArrowRenderer;
 		case RENDER_ROCKET:
 			return &m_RocketRenderer;
 #ifdef ENH_ALLOW_SAND_GRAVITY

@@ -20,6 +20,7 @@
 #include "ChickenRenderer.hpp"
 #include "CreeperRenderer.hpp"
 #include "SpiderRenderer.hpp"
+#include "ArrowRenderer.hpp"
 #include "RocketRenderer.hpp"
 
 class Minecraft;
@@ -63,6 +64,7 @@ public:
 	//SheepRenderer m_SheepRenderer;
 	//SheepFurRenderer m_SheepFurRenderer;
 	TripodCameraRenderer m_CameraRenderer;
+	ArrowRenderer m_ArrowRenderer;
 	RocketRenderer m_RocketRenderer;
 	Textures* m_pTextures;
 	Level* m_pLevel;

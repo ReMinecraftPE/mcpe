@@ -5,7 +5,7 @@
 #include "Sheep.hpp"
 #include "Zombie.hpp"
 #include "Creeper.hpp"
-//#include "Skeleton.hpp"
+#include "Skeleton.hpp"
 #include "Spider.hpp"
 //#include "PigZombie.hpp"
 
@@ -16,7 +16,7 @@
              ENT(CREEPER, Creeper) \
              ENT(ZOMBIE, Zombie) \
              ENT(SPIDER, Spider) \
-             //ENT(SKELETON, Skeleton) \
+             ENT(SKELETON, Skeleton) \
              //ENT(PIG_ZOMBIE, PigZombie)
 
 #define ENT(enumType, classType) case EntityType::enumType: return new classType(level);

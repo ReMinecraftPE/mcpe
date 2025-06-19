@@ -36,12 +36,12 @@ public:
 	void move(const Vec3& vec);
 	void move(float x, float y, float z);
 	// same thing
-	void grow(const Vec3& vec);
-	void grow(float x, float y, float z);
+	AABB grow(const Vec3& vec);
+	AABB grow(float x, float y, float z);
 	// same thing
-	void grow(float x);
-	void expand(float x, float y, float z);
-	void expand(const Vec3& vec);
+	AABB grow(float x);
+	AABB expand(float x, float y, float z);
+	AABB expand(const Vec3& vec);
 	bool contains(const Vec3& v) const;
 };
 

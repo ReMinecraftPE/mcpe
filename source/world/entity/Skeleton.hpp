@@ -1,18 +1,27 @@
 #pragma once
 
 #include "world/entity/Monster.hpp"
+#include "world/entity/Arrow.hpp"
 
-class Zombie : public Monster
+class Skeleton : public Monster
 {
+private:
+	static ItemInstance* bow;
+
 public:
-	Zombie(Level* pLevel);
+	Skeleton(Level* pLevel);
 
-	std::string getAmbientSound() const override { return "mob.zombie"; };
-	std::string getDeathSound() const override { return "mob.zombiedeath"; }
-	std::string getHurtSound() const override { return "mob.zombiehurt"; }
-	int getDeathLoot() const override { return ITEM_FEATHER; }
-	int getMaxHealth() const override { return 10; }
-	float getSoundVolume() const override { return 0.4f; }
-
+	std::string getAmbientSound() const override { return "mob.skeleton"; };
+	std::string getDeathSound() const override { return "mob.skeletonhurt"; }
+	std::string getHurtSound() const override { return "mob.skeletonhurt"; }
+	
 	void aiStep() override;
+	
+	void checkHurtTarget(Entity* ent, float f) override;
+	
+	int getDeathLoot() const override { return ITEM_ARROW; }
+	
+	void dropDeathLoot() override;
+	
+	ItemInstance* getCarriedItem() override;
 };

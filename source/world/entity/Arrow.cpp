@@ -1,0 +1,234 @@
+#include "Arrow.hpp"
+#include "Mob.hpp"
+#include "world/level/Level.hpp"
+
+Arrow::Arrow(Level* pLevel) : Entity(pLevel)
+{
+    _init();
+
+    m_life = 0;
+    m_owner = nullptr;
+    m_lastTile = 0;
+}
+
+Arrow::Arrow(Level* pLevel, Vec3 pos) : Entity(pLevel)
+{
+    _init();
+
+	setPos(pos);
+
+    m_life = 0;
+    m_owner = nullptr;
+    m_lastTile = 0;
+}
+
+Arrow::Arrow(Level* pLevel, Mob* pMob) : Entity(pLevel)
+{
+    _init();
+
+    m_owner = pMob;
+    moveTo(Vec3(pMob->m_pos.x, pMob->m_pos.y + pMob->getHeadHeight(), pMob->m_pos.z), Vec2(pMob->m_rot.y, pMob->m_rot.x));
+    
+    m_pos.x -= Mth::cos(m_rot.y / 180.0f * M_PI) * 0.16f;
+    m_pos.y -= 0.1f;
+    m_pos.z -= Mth::sin(m_rot.y / 180.0f * M_PI) * 0.16f;
+    setPos(m_pos);
+
+    m_vel.x = -Mth::sin(m_rot.y / 180.0f * M_PI) * Mth::cos(m_rot.x / 180.0f * M_PI);
+    m_vel.z = Mth::cos(m_rot.y / 180.0f * M_PI) * Mth::cos(m_rot.x / 180.0f * M_PI);
+    m_vel.y = -Mth::sin(m_rot.x / 180.0f * M_PI);
+    shoot(m_vel, 1.5f, 1.0f);
+}
+
+void Arrow::_init()
+{
+    m_pDescriptor = &EntityTypeDescriptor::arrow;
+    field_C8 = RENDER_ARROW;
+    setSize(0.5f, 0.5f);
+}
+
+void Arrow::shoot(Vec3 vel, float speed, float r)
+{
+    float ent = Mth::sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z);
+    vel /= ent;
+    vel.x += sharedRandom.nextGaussian() * 0.0075f * r;
+    vel.y += sharedRandom.nextGaussian() * 0.0075f * r;
+    vel.z += sharedRandom.nextGaussian() * 0.0075f * r;
+    vel *= speed;
+    m_vel = vel;
+    float var10 = Mth::sqrt(vel.x * vel.x + vel.z * vel.z);
+    m_oRot.y = m_rot.y = Mth::atan2(vel.x, vel.z) * 180.0f / M_PI;
+    m_oRot.x = m_rot.x = Mth::atan2(vel.y, var10) * 180.0f / M_PI;
+    m_life = 0;
+}
+
+void Arrow::lerpMotion(Vec3 vel)
+{
+    m_vel = vel;
+
+    if (m_oRot.x == 0.0f && m_oRot.y == 0.0f)
+    {
+        float var7 = Mth::sqrt(vel.x * vel.x + vel.z * vel.z);
+        m_oRot.y = m_rot.y = Mth::atan2(vel.x, vel.z) * 180.0f / M_PI;
+        m_oRot.x = m_rot.x = Mth::atan2(vel.y, var7) * 180.0f / M_PI;
+    }
+}
+
+void Arrow::tick()
+{
+    Entity::tick();
+    if (m_oRot.x == 0.0f && m_oRot.y == 0.0f)
+    {
+        float var1 = Mth::sqrt(m_vel.x * m_vel.x + m_vel.z * m_vel.z);
+        m_oRot.y = m_rot.y = (Mth::atan2(m_vel.x, m_vel.z) * 180.0f / M_PI);
+        m_oRot.x = m_rot.x = (Mth::atan2(m_vel.y, var1) * 180.0f / M_PI);
+    }
+
+    if (m_shakeTime > 0)
+        --m_shakeTime;
+
+    if (m_inGround)
+    {
+        if (m_pLevel->getTile(m_tilePos) == m_lastTile)
+        {
+            ++m_life;
+            if (m_life == 1200)
+            {
+                remove();
+            }
+
+            return;
+        }
+
+        m_inGround = false;
+        m_vel.x *= sharedRandom.nextFloat() * 0.2f;
+        m_vel.y *= sharedRandom.nextFloat() * 0.2f;
+        m_vel.z *= sharedRandom.nextFloat() * 0.2f;
+        m_life = 0;
+        m_flightTime = 0;
+    }
+    else 
+    {
+        ++m_flightTime;
+    }
+
+    Vec3 future_pos = Vec3(m_pos.x + m_vel.x, m_pos.y + m_vel.y, m_pos.z + m_vel.z);
+    HitResult hit_result = m_pLevel->clip(m_pos, future_pos);
+    if (hit_result.isHit()) 
+    {
+        future_pos = hit_result.m_hitPos;
+    }
+
+    Entity* hit_ent = nullptr;
+    AABB hitbox = AABB(m_hitbox.min, m_hitbox.max).expand(m_vel.x, m_vel.y, m_vel.z).grow(1.0f, 1.0f, 1.0f);
+    EntityVector entities = m_pLevel->getEntities(this, hitbox);
+    
+    float max_dist = 0.0f;
+    float var10 = 0.3f;
+    for (Entity* ent : entities)
+    {
+        if (ent->isPickable() && (ent != m_owner || m_flightTime >= 5)) 
+        {
+            AABB aabb = AABB(ent->m_hitbox.min, ent->m_hitbox.max).grow(0.3f, 0.3f, 0.3f);
+            // these Vec3's are copied in the TilePos::clip fn, so no need to create them over and over like in b1.2
+            HitResult hit = aabb.clip(m_pos, future_pos);
+            if (hit.isHit())
+            {
+                float distance = m_pos.distanceTo(hit.m_hitPos);
+                if (distance < max_dist || max_dist == 0.0f)
+                {
+                    hit_ent = ent;
+                    max_dist = distance;
+                }
+            }
+        }
+    }
+
+    if (hit_ent != nullptr) {
+        hit_result = HitResult(hit_ent);
+    }
+
+    if (hit_result.isHit())
+    {
+        if (hit_result.m_pEnt != nullptr)
+        {
+            if (hit_result.m_pEnt->hurt(m_owner, 4))
+            {
+                m_pLevel->playSound(this, "random.drr", 1.0f, 1.2f / (sharedRandom.nextFloat() * 0.2f + 0.9f));
+                remove();
+            }
+            else 
+            {
+                m_vel *= -0.1f;
+                m_rot.y += 180.0f;
+                m_oRot.y += 180.0f;
+                m_flightTime = 0;
+            }
+        }
+        else 
+        {
+            m_tilePos = hit_result.m_tilePos;
+            m_lastTile = m_pLevel->getTile(m_tilePos);
+            m_pos.x = hit_result.m_hitPos.x - m_pos.x;
+            m_pos.y = hit_result.m_hitPos.y - m_pos.y;
+            m_pos.z = hit_result.m_hitPos.z - m_pos.z;
+            m_pos -= (m_vel / Mth::sqrt(m_pos.x * m_pos.x + m_pos.y * m_pos.y + m_pos.z * m_pos.z) * 0.05f);
+            m_pLevel->playSound(this, "random.drr", 1.0f, 1.2f / (sharedRandom.nextFloat() * 0.2f + 0.9f));
+            m_inGround = true;
+            m_shakeTime = 7;
+        }
+    }
+
+    m_pos += m_vel;
+    float var17 = Mth::sqrt(m_vel.x * m_vel.x + m_vel.z * m_vel.z);
+    m_rot.y = Mth::atan2(m_vel.x, m_vel.z) * 180.0f / M_PI;
+
+    for (m_rot.x = Mth::atan2(m_vel.y, var17) * 180.0f / M_PI; m_rot.x - m_oRot.x < -180.0f; m_oRot.x -= 360.0f);
+
+    while (m_rot.x - m_oRot.x >= 180.0f)
+    {
+        m_oRot.x += 360.0f;
+    }
+
+    while (m_rot.y - m_oRot.y < -180.0f)
+    {
+        m_oRot.y -= 360.0f;
+    }
+
+    while (m_rot.y - m_oRot.y >= 180.0f)
+    {
+        m_oRot.y += 360.0f;
+    }
+
+    m_rot.x = m_oRot.x + (m_rot.x - m_oRot.x) * 0.2f;
+    m_rot.y = m_oRot.y + (m_rot.y - m_oRot.y) * 0.2f;
+    float dampening = 0.99f;
+    if (isInWater())
+    {
+        for (int var19 = 0; var19 < 4; ++var19) {
+            float var20 = 0.25f;
+            m_pLevel->addParticle("bubble", m_pos - m_vel * 0.25f, m_pos * 1); // passed as reference so *1; although addParticle doesn't exist yet
+        }
+
+        dampening = 0.8f;
+    }
+
+    m_vel *= dampening;
+    m_vel.y -= 0.03f;
+    setPos(m_pos);
+}
+
+void Arrow::playerTouch(Player* pPlayer)
+{
+    // IsMultiplayer should just be called IsOnline
+    if (!m_pLevel->m_bIsMultiplayer)
+    {
+        // they use ->add here in b1.2_02
+        if (m_inGround && m_owner == pPlayer && m_shakeTime <= 0 && pPlayer->m_pInventory->addItem(new ItemInstance(ITEM_ARROW, 1, 0)))
+        {
+            m_pLevel->playSound(this, "random.pop", 0.2f, ((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
+            pPlayer->take(this, 1);
+            remove();
+        }
+    }
+}
