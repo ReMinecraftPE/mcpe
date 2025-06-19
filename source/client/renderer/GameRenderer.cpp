@@ -30,7 +30,7 @@ void GameRenderer::_init()
 
 	field_8 = 0.0f;
 	field_C = 0;
-	field_10 = nullptr;
+	m_pHovered = nullptr;
 	field_14 = 0.0f;
 	field_18 = 0.0f;
 	field_1C = 0.0f;
@@ -980,7 +980,7 @@ void GameRenderer::pick(float f)
 
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 	HitResult& mchr = m_pMinecraft->m_hitResult;
-	float dist = m_pMinecraft->m_pGameMode->getPickRange();
+	float dist = m_pMinecraft->m_pGameMode->getBlockReachDistance();
 	bool isFirstPerson = !m_pMinecraft->getOptions()->m_bThirdPerson;
 
 	if (!m_pMinecraft->useSplitControls())
@@ -1065,19 +1065,20 @@ void GameRenderer::pick(float f)
 
 	Vec3 mobPos = pMob->getPos(f);
 
-	if (m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE)
+	if (mchr.m_hitType != HitResult::NONE)
 		dist = mchr.m_hitPos.distanceTo(mobPos);
 
-	if (m_pMinecraft->m_pGameMode->isCreativeType())
+	float maxEntityDist = m_pMinecraft->m_pGameMode->getEntityReachDistance();
+	/*if (m_pMinecraft->m_pGameMode->isCreativeType())
 		dist = 7.0f;
-	else if (dist > 3.0f)
-		dist = 3.0f;
+	else */if (dist > maxEntityDist)
+		dist = maxEntityDist;
 
 	Vec3 view = pMob->getViewVector(f);
 	Vec3 exp  = view * dist;
 	Vec3 limit = mobPos + view * dist;
 
-	field_10 = nullptr;
+	m_pHovered = nullptr;
 
 	AABB scanAABB = pMob->m_hitbox;
 
@@ -1109,7 +1110,7 @@ void GameRenderer::pick(float f)
 			if (fDist >= 0.0f)
 			{
 				//this is it brother
-				field_10 = pEnt;
+				m_pHovered = pEnt;
 				fDist = 0.0f;
 			}
 			continue;
@@ -1124,20 +1125,20 @@ void GameRenderer::pick(float f)
 
 			if (fDist > fNewDist || fDist == 0.0f)
 			{
-				field_10 = pEnt;
+				m_pHovered = pEnt;
 				fDist = fNewDist;
 			}
 		}
 	}
 
 	// picked entities take priority over tiles (?!)
-	if (field_10)
+	if (m_pHovered)
 	{
-		m_pMinecraft->m_hitResult = HitResult(field_10);
+		mchr = HitResult(m_pHovered);
 		return;
 	}
 
-	if (m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE || view.y >= -0.7f)
+	if (mchr.m_hitType != HitResult::NONE || view.y >= -0.7f)
 		return;
 
 	mobPos = pMob->getPos(f);
@@ -1154,11 +1155,11 @@ void GameRenderer::pick(float f)
 
 	if (fabsf(view.x) <= fabsf(view.z))
 	{
-		m_pMinecraft->m_hitResult.m_hitSide = view.z >= 0.0f ? Facing::SOUTH : Facing::NORTH;
+		mchr.m_hitSide = view.z >= 0.0f ? Facing::SOUTH : Facing::NORTH;
 	}
 	else
 	{
-		m_pMinecraft->m_hitResult.m_hitSide = view.x >= 0.0f ? Facing::EAST : Facing::WEST;
+		mchr.m_hitSide = view.x >= 0.0f ? Facing::EAST : Facing::WEST;
 	}
 }
 

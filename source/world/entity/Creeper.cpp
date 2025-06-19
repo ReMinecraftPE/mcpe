@@ -46,7 +46,7 @@ void Creeper::die(Entity* pCulprit)
 {
 	Monster::die(pCulprit);
 
-	if (pCulprit->getDescriptor().isType(EntityType::SKELETON))
+	if (pCulprit && pCulprit->getDescriptor().isType(EntityType::SKELETON))
 	{
 		spawnAtLocation(Item::record_01->m_itemID + m_random.nextInt(2), 1);
 	}

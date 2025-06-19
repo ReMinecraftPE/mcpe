@@ -21,7 +21,8 @@ public:
 	void stopDestroyBlock() override;
 	void tick() override;
 	void render(float f) override;
-	float getPickRange() const override { return 5.0f; }
+	float getBlockReachDistance() const override { return 4.0f; } // 4.0f on Java, 5.0f until 0.10.0-0.12.1
+	float getEntityReachDistance() const override { return 3.0f; }
 	bool isCreativeType() const override { return false; }
 	bool isSurvivalType() const override { return true; }
 	void initPlayer(Player*) override;
