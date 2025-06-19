@@ -57,7 +57,7 @@ public:
 	TntRenderer m_TntRenderer;
 	//padding??
 	ItemRenderer m_ItemRenderer;
-	//CreeperRenderer m_CreeperRenderer;
+	CreeperRenderer m_CreeperRenderer;
 	SpiderRenderer m_SpiderRenderer;
 	HumanoidMobRenderer m_SkeletonRenderer;
 	HumanoidMobRenderer m_ZombieRenderer;
