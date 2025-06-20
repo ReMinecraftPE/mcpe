@@ -155,6 +155,9 @@ NSThread *G_drawFrameThread = nil;
     //_keyboardView = [[ShowKeyboardView alloc] init];
     [super viewDidLoad];
     
+    // Setup logging
+    Logger::setSingleton(new Logger);
+    
     //EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     //
     //if (!aContext)
