@@ -228,7 +228,7 @@ int Inventory::getQuickSlotItemId(int slotNo)
 	
 	int idx = m_hotbar[slotNo];
 	ItemInstance* pInst = getItem(idx);
-	if (!pInst)
+	if (ItemInstance::isNull(pInst))
 		return -1;
 
 	return pInst->m_itemID;
@@ -240,13 +240,8 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 		return nullptr;
 	
 	ItemInstance* pInst = getItem(m_hotbar[slotNo]);
-	if (!pInst)
-		return nullptr;
 
-	if (pInst->m_itemID == 0)
-		return nullptr;
-
-	return pInst;
+	return !ItemInstance::isNull(pInst) ? pInst : nullptr;
 }
 
 ItemInstance* Inventory::getSelectedItem()
@@ -326,7 +321,7 @@ void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 int Inventory::getAttackDamage(Entity* pEnt)
 {
 	ItemInstance* pInst = getSelected();
-	if (!pInst)
+	if (ItemInstance::isNull(pInst))
 		return 1;
 
 	return pInst->getAttackDamage(pEnt);

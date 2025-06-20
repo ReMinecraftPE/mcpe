@@ -77,18 +77,24 @@ void GameMode::render(float f)
 {
 }
 
-float GameMode::getPickRange() const
+float GameMode::getBlockReachDistance() const
 {
-/*
-  if ( *inputMode == 1 )
-	return 5.7;
-  if ( *inputMode == 3 )
-	return 5.6;
-  if ( !player || player->isCreative() )
-	return 12.0;
-  return 5.0;
-*/
-	return 7.5f;
+	/* Logic from Pocket Edition 0.12.1
+	if ( *inputMode == 1 )
+		return 5.7f;
+	if ( *inputMode == 3 )
+		return 5.6f;
+	if ( !player || player->isCreative() )
+		return 12.0f;
+	*/
+
+	// Fallback on Java and Pocket. All GameModes on PE are 5.0f until 0.10.0-0.12.1
+	return 5.0f;
+}
+
+float GameMode::getEntityReachDistance() const
+{
+	return 5.0f;
 }
 
 LocalPlayer* GameMode::createPlayer(Level* pLevel)

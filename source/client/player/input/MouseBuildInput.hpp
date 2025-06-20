@@ -12,6 +12,10 @@ private:
 public:
 	MouseBuildInput();
 
+private:
+	void _updateLastButtonStates();
+
+public:
 	virtual bool tickBuild(Player* player, BuildActionIntention* buildActionIntention) override;
 };
 

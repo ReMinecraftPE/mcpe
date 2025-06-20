@@ -9,6 +9,13 @@ MouseBuildInput::MouseBuildInput()
         m_lastButtonStates[i] = false;
 }
 
+void MouseBuildInput::_updateLastButtonStates()
+{
+    m_lastButtonStates[BUTTON_LEFT]   = Mouse::isButtonDown(BUTTON_LEFT);
+    m_lastButtonStates[BUTTON_RIGHT]  = Mouse::isButtonDown(BUTTON_RIGHT);
+    m_lastButtonStates[BUTTON_MIDDLE] = Mouse::isButtonDown(BUTTON_MIDDLE);
+}
+
 bool MouseBuildInput::tickBuild(Player* player, BuildActionIntention* buildActionIntention)
 {
     bool wroteIntention = false;
@@ -61,10 +68,7 @@ bool MouseBuildInput::tickBuild(Player* player, BuildActionIntention* buildActio
         *buildActionIntention = BuildActionIntention(intent);
     }
 
-    // Log last button states
-    m_lastButtonStates[BUTTON_LEFT] = Mouse::isButtonDown(BUTTON_LEFT);
-    m_lastButtonStates[BUTTON_RIGHT] = Mouse::isButtonDown(BUTTON_RIGHT);
-    m_lastButtonStates[BUTTON_MIDDLE] = Mouse::isButtonDown(BUTTON_MIDDLE);
+    _updateLastButtonStates();
 
     return wroteIntention;
 }

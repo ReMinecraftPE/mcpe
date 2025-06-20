@@ -99,10 +99,7 @@ void IngameBlockSelectionScreen::init()
 void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 {
 	ItemInstance* pItem = getInventory()->getItem(index);
-	if (!pItem)
-		return;
-
-	if (!pItem->m_itemID)
+	if (ItemInstance::isNull(pItem))
 		return;
 
 	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, true);

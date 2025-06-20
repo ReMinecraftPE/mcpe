@@ -417,7 +417,7 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
 	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
-	if (pInst == nullptr || pInst->m_itemID <= 0)
+	if (ItemInstance::isNull(pInst))
 		return;
 
     float var6 = ((float)pInst->m_popTime) - f;
@@ -442,10 +442,7 @@ void Gui::renderSlotOverlay(int slot, int x, int y, float f)
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
 	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
-	if (!pInst)
-		return;
-
-	if (!pInst->m_itemID)
+	if (ItemInstance::isNull(pInst))
 		return;
 
 	ItemRenderer::renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);

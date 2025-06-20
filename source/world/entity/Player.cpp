@@ -259,7 +259,7 @@ void Player::displayClientMessage(const std::string& msg)
 
 void Player::drop(const ItemInstance* pItemInstance, bool b)
 {
-	if (pItemInstance->isNull())
+	if (ItemInstance::isNull(pItemInstance))
 		return;
 
 	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), pItemInstance);
