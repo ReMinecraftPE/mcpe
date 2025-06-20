@@ -159,9 +159,9 @@ void Textures::tick()
 	}
 }
 
-int Textures::loadAndBindTexture(const std::string& name)
+int Textures::loadAndBindTexture(const std::string& name, bool isRequired)
 {
-	int id = loadTexture(name, true);
+	int id = loadTexture(name, isRequired);
 
 	if (m_currBoundTex != id)
 	{

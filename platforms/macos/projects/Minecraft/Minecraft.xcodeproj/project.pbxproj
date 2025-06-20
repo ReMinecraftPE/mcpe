@@ -540,6 +540,23 @@
 		84B1E03E2E04FD7900ED000A /* Spider.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84B1E0362E04FD7900ED000A /* Spider.hpp */; };
 		84B1E03F2E04FD7900ED000A /* Zombie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84B1E0372E04FD7900ED000A /* Zombie.cpp */; };
 		84B1E0402E04FD7900ED000A /* Zombie.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84B1E0382E04FD7900ED000A /* Zombie.hpp */; };
+		84B1E0522E050D2500ED000A /* chicken.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0412E050D2500ED000A /* chicken.png */; };
+		84B1E0532E050D2500ED000A /* cow.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0422E050D2500ED000A /* cow.png */; };
+		84B1E0542E050D2500ED000A /* creeper.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0432E050D2500ED000A /* creeper.png */; };
+		84B1E0552E050D2500ED000A /* ghast_fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0442E050D2500ED000A /* ghast_fire.png */; };
+		84B1E0562E050D2500ED000A /* ghast.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0452E050D2500ED000A /* ghast.png */; };
+		84B1E0572E050D2500ED000A /* pig.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0462E050D2500ED000A /* pig.png */; };
+		84B1E0582E050D2500ED000A /* pigman.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0472E050D2500ED000A /* pigman.png */; };
+		84B1E0592E050D2500ED000A /* pigzombie.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0482E050D2500ED000A /* pigzombie.png */; };
+		84B1E05A2E050D2500ED000A /* saddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0492E050D2500ED000A /* saddle.png */; };
+		84B1E05B2E050D2500ED000A /* sheep_fur.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E04A2E050D2500ED000A /* sheep_fur.png */; };
+		84B1E05C2E050D2500ED000A /* sheep.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E04B2E050D2500ED000A /* sheep.png */; };
+		84B1E05D2E050D2500ED000A /* skeleton.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E04C2E050D2500ED000A /* skeleton.png */; };
+		84B1E05E2E050D2500ED000A /* slime.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E04D2E050D2500ED000A /* slime.png */; };
+		84B1E05F2E050D2500ED000A /* spider_eyes.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E04E2E050D2500ED000A /* spider_eyes.png */; };
+		84B1E0602E050D2500ED000A /* spider.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E04F2E050D2500ED000A /* spider.png */; };
+		84B1E0612E050D2500ED000A /* squid.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0502E050D2500ED000A /* squid.png */; };
+		84B1E0622E050D2500ED000A /* zombie.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B1E0512E050D2500ED000A /* zombie.png */; };
 		84B8AEE82AF1890A008DE93D /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD57E2AC810620006A435 /* App.cpp */; };
 		84B8AEE92AF1890A008DE93D /* AppPlatform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5802AC810620006A435 /* AppPlatform.cpp */; };
 		84B8AEEA2AF1890A008DE93D /* Minecraft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5822AC810620006A435 /* Minecraft.cpp */; };
@@ -2103,6 +2120,23 @@
 		84B1E0362E04FD7900ED000A /* Spider.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spider.hpp; sourceTree = "<group>"; };
 		84B1E0372E04FD7900ED000A /* Zombie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Zombie.cpp; sourceTree = "<group>"; };
 		84B1E0382E04FD7900ED000A /* Zombie.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Zombie.hpp; sourceTree = "<group>"; };
+		84B1E0412E050D2500ED000A /* chicken.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chicken.png; sourceTree = "<group>"; };
+		84B1E0422E050D2500ED000A /* cow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cow.png; sourceTree = "<group>"; };
+		84B1E0432E050D2500ED000A /* creeper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = creeper.png; sourceTree = "<group>"; };
+		84B1E0442E050D2500ED000A /* ghast_fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ghast_fire.png; sourceTree = "<group>"; };
+		84B1E0452E050D2500ED000A /* ghast.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ghast.png; sourceTree = "<group>"; };
+		84B1E0462E050D2500ED000A /* pig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pig.png; sourceTree = "<group>"; };
+		84B1E0472E050D2500ED000A /* pigman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pigman.png; sourceTree = "<group>"; };
+		84B1E0482E050D2500ED000A /* pigzombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pigzombie.png; sourceTree = "<group>"; };
+		84B1E0492E050D2500ED000A /* saddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saddle.png; sourceTree = "<group>"; };
+		84B1E04A2E050D2500ED000A /* sheep_fur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sheep_fur.png; sourceTree = "<group>"; };
+		84B1E04B2E050D2500ED000A /* sheep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sheep.png; sourceTree = "<group>"; };
+		84B1E04C2E050D2500ED000A /* skeleton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skeleton.png; sourceTree = "<group>"; };
+		84B1E04D2E050D2500ED000A /* slime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slime.png; sourceTree = "<group>"; };
+		84B1E04E2E050D2500ED000A /* spider_eyes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spider_eyes.png; sourceTree = "<group>"; };
+		84B1E04F2E050D2500ED000A /* spider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spider.png; sourceTree = "<group>"; };
+		84B1E0502E050D2500ED000A /* squid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = squid.png; sourceTree = "<group>"; };
+		84B1E0512E050D2500ED000A /* zombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zombie.png; sourceTree = "<group>"; };
 		84B8AEE72AF188D8008DE93D /* libClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84BF630B2AF1859D008A9995 /* libWorld.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWorld.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C0D8002B159A0E007E1E76 /* GlobalSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = GlobalSettings.xcconfig; path = ../Configuration/GlobalSettings.xcconfig; sourceTree = "<group>"; };
@@ -3949,6 +3983,23 @@
 			isa = PBXGroup;
 			children = (
 				84E0018E2AF3A28B009B9555 /* char.png */,
+				84B1E0412E050D2500ED000A /* chicken.png */,
+				84B1E0422E050D2500ED000A /* cow.png */,
+				84B1E0432E050D2500ED000A /* creeper.png */,
+				84B1E0452E050D2500ED000A /* ghast.png */,
+				84B1E0442E050D2500ED000A /* ghast_fire.png */,
+				84B1E0462E050D2500ED000A /* pig.png */,
+				84B1E0472E050D2500ED000A /* pigman.png */,
+				84B1E0482E050D2500ED000A /* pigzombie.png */,
+				84B1E0492E050D2500ED000A /* saddle.png */,
+				84B1E04B2E050D2500ED000A /* sheep.png */,
+				84B1E04A2E050D2500ED000A /* sheep_fur.png */,
+				84B1E04C2E050D2500ED000A /* skeleton.png */,
+				84B1E04D2E050D2500ED000A /* slime.png */,
+				84B1E04F2E050D2500ED000A /* spider.png */,
+				84B1E04E2E050D2500ED000A /* spider_eyes.png */,
+				84B1E0502E050D2500ED000A /* squid.png */,
+				84B1E0512E050D2500ED000A /* zombie.png */,
 			);
 			path = mob;
 			sourceTree = "<group>";
@@ -4708,6 +4759,7 @@
 				8470AF442BE9B98000BCA54E /* clouds.png in Resources */,
 				8477B41C2C4DE77F004E1AC5 /* creative_1_4.png in Resources */,
 				849259562AD8FD4F0081F5B9 /* minecraftpeViewController.xib in Resources */,
+				84B1E0622E050D2500ED000A /* zombie.png in Resources */,
 				8477B4312C4DE77F004E1AC5 /* create_1_3.png in Resources */,
 				8477B4482C4DE77F004E1AC5 /* Icon_lite.png in Resources */,
 				8477B44D2C4DE77F004E1AC5 /* Default.png in Resources */,
@@ -4716,7 +4768,9 @@
 				8477B4382C4DE77F004E1AC5 /* worldname_ipad.png in Resources */,
 				849259602AD8FDCB0081F5B9 /* InfoPlist.strings in Resources */,
 				849259642AD8FDD90081F5B9 /* minecraftpe-Info.plist in Resources */,
+				84B1E05C2E050D2500ED000A /* sheep.png in Resources */,
 				8477B4292C4DE77F004E1AC5 /* worldname_iphone_3.png in Resources */,
+				84B1E0532E050D2500ED000A /* cow.png in Resources */,
 				8477B4102C4DE77F004E1AC5 /* cancel_1_3.png in Resources */,
 				8477B4152C4DE77F004E1AC5 /* create_1_1.png in Resources */,
 				8477B40F2C4DE77F004E1AC5 /* cancel_1_1.png in Resources */,
@@ -4733,29 +4787,37 @@
 				849FF0B92AF465340013BAE3 /* panorama_1.png in Resources */,
 				8477B4432C4DE77F004E1AC5 /* Icon-Small@2x_lite.png in Resources */,
 				849FF0BA2AF465340013BAE3 /* panorama_2.png in Resources */,
+				84B1E0612E050D2500ED000A /* squid.png in Resources */,
 				8477B4272C4DE77F004E1AC5 /* worldname_ipad_3.png in Resources */,
 				8477B4342C4DE77F004E1AC5 /* survival_0_3.png in Resources */,
 				849FF0BB2AF465340013BAE3 /* panorama_3.png in Resources */,
 				8477B44B2C4DE77F004E1AC5 /* Default-568h@2x.png in Resources */,
+				84B1E05F2E050D2500ED000A /* spider_eyes.png in Resources */,
 				8477B42E2C4DE77F004E1AC5 /* create_0_1.png in Resources */,
 				8477B4142C4DE77F004E1AC5 /* create_1.png in Resources */,
+				84B1E0562E050D2500ED000A /* ghast.png in Resources */,
 				849FF0BC2AF465340013BAE3 /* panorama_4.png in Resources */,
+				84B1E0522E050D2500ED000A /* chicken.png in Resources */,
 				8477B4362C4DE77F004E1AC5 /* worldname.png in Resources */,
 				8477B4412C4DE77F004E1AC5 /* Icon-Small.png in Resources */,
+				84B1E0552E050D2500ED000A /* ghast_fire.png in Resources */,
 				849FF0BD2AF465340013BAE3 /* panorama_5.png in Resources */,
 				849FF0BE2AF465340013BAE3 /* background.png in Resources */,
 				849FF0C32AF465340013BAE3 /* default_world.png in Resources */,
 				8477B4352C4DE77F004E1AC5 /* survival_1_3.png in Resources */,
+				84B1E0582E050D2500ED000A /* pigman.png in Resources */,
 				849FF0C52AF465340013BAE3 /* feedback_fill.png in Resources */,
 				849FF0C62AF465340013BAE3 /* feedback_outer.png in Resources */,
 				8477B4112C4DE77F004E1AC5 /* create_0.png in Resources */,
 				8477B42F2C4DE77F004E1AC5 /* create_0_3.png in Resources */,
+				84B1E05B2E050D2500ED000A /* sheep_fur.png in Resources */,
 				8477B44C2C4DE77F004E1AC5 /* Default-Landscape~ipad.png in Resources */,
 				8477B44A2C4DE77F004E1AC5 /* mcpe_lite_ios_icon.png in Resources */,
 				8477B41D2C4DE77F004E1AC5 /* creative_3_4.png in Resources */,
 				8477B40D2C4DE77F004E1AC5 /* cancel_0_3.png in Resources */,
 				849FF0C72AF465340013BAE3 /* gui.png in Resources */,
 				8477B43F2C4DE77F004E1AC5 /* Icon-Small-50.png in Resources */,
+				84B1E05D2E050D2500ED000A /* skeleton.png in Resources */,
 				849FF0C82AF465340013BAE3 /* gui_blocks.png in Resources */,
 				849FF0C92AF465340013BAE3 /* icons.png in Resources */,
 				8477B4492C4DE77F004E1AC5 /* mcpe_ios_icon.png in Resources */,
@@ -4772,6 +4834,7 @@
 				8477B4472C4DE77F004E1AC5 /* Icon@2x_lite.png in Resources */,
 				849FF0CB2AF465340013BAE3 /* items.png in Resources */,
 				8477B41E2C4DE77F004E1AC5 /* survival_0_4.png in Resources */,
+				84B1E0602E050D2500ED000A /* spider.png in Resources */,
 				849FF0D32AF465340013BAE3 /* title.png in Resources */,
 				8477B43A2C4DE77F004E1AC5 /* worldname_iphone.png in Resources */,
 				8477B42C2C4DE77F004E1AC5 /* cancel_1_1.png in Resources */,
@@ -4790,6 +4853,7 @@
 				8477B41B2C4DE77F004E1AC5 /* creative_0_4.png in Resources */,
 				8477B4132C4DE77F004E1AC5 /* create_0_3.png in Resources */,
 				8477B4182C4DE77F004E1AC5 /* cancel_1_4.png in Resources */,
+				84B1E05A2E050D2500ED000A /* saddle.png in Resources */,
 				849FF0DE2AF465340013BAE3 /* terrain.png in Resources */,
 				8477B40C2C4DE77F004E1AC5 /* cancel_0_1.png in Resources */,
 				84C208532AF88A5000BAE438 /* grass_side_transparent.png in Resources */,
@@ -4799,11 +4863,14 @@
 				8494882E2C92844C006DB706 /* vignette.png in Resources */,
 				8477B4162C4DE77F004E1AC5 /* create_1_3.png in Resources */,
 				8494882A2C92844C006DB706 /* foliagecolor.png in Resources */,
+				84B1E0592E050D2500ED000A /* pigzombie.png in Resources */,
 				84C208542AF88A5000BAE438 /* patch_data.txt in Resources */,
 				8477B40B2C4DE77F004E1AC5 /* cancel_0.png in Resources */,
 				8477B43D2C4DE77F004E1AC5 /* Icon-72.png in Resources */,
 				84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */,
+				84B1E0542E050D2500ED000A /* creeper.png in Resources */,
 				84AA8C792B32F578003F5B82 /* gui_custom.png in Resources */,
+				84B1E05E2E050D2500ED000A /* slime.png in Resources */,
 				8477B4402C4DE77F004E1AC5 /* Icon-Small-50_lite.png in Resources */,
 				84E78C8C2B58BB7400D515EF /* n_rocket_launched.png in Resources */,
 				8477B4332C4DE77F004E1AC5 /* creative_1_3.png in Resources */,
@@ -4811,6 +4878,7 @@
 				84E78C8D2B58BB7400D515EF /* n_rocket_launcher.png in Resources */,
 				8477B4282C4DE77F004E1AC5 /* worldname_iphone.png in Resources */,
 				8477B4322C4DE77F004E1AC5 /* creative_0_3.png in Resources */,
+				84B1E0572E050D2500ED000A /* pig.png in Resources */,
 				84E78C8E2B58BB7400D515EF /* n_rocket.png in Resources */,
 				849488322C928459006DB706 /* moon.png in Resources */,
 				84E78C902B58C18C00D515EF /* black.png in Resources */,

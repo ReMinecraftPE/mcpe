@@ -18,9 +18,9 @@ EntityRenderer::EntityRenderer() : m_model(0.0f, 0.0f)
 	m_pDispatcher = nullptr;
 }
 
-void EntityRenderer::bindTexture(const std::string& file)
+bool EntityRenderer::bindTexture(const std::string& file, bool isRequired)
 {
-	m_pDispatcher->m_pTextures->loadAndBindTexture(file);
+	return m_pDispatcher->m_pTextures->loadAndBindTexture(file, isRequired) != -1;
 }
 
 Font* EntityRenderer::getFont()

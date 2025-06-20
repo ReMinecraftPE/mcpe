@@ -223,6 +223,18 @@ xcuserdata/
 /game/assets/misc/vignette.png
 /game/assets/misc/shadow.png
 /game/assets/misc/pumpkinblur.png
+/game/assets/environment/rain.png
+/game/assets/environment/snow.png
+/game/assets/item/boat.png
+/game/assets/item/cart.png
+/game/assets/item/door.png
+/game/assets/mob/ghast.png
+/game/assets/mob/ghast_fire.png
+/game/assets/mob/pigman.png
+/game/assets/mob/saddle.png
+/game/assets/mob/slime.png
+/game/assets/mob/spider_eyes.png
+/game/assets/mob/squid.png
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /game/assets/gui/background/panorama_0.png

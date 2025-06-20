@@ -19,7 +19,7 @@ class DynamicTexture
 {
 public:
 	virtual void tick() = 0;
-	virtual void bindTexture(Textures*);
+	virtual bool bindTexture(Textures*);
 
 	DynamicTexture(int a2);
 	virtual ~DynamicTexture();

@@ -33,7 +33,7 @@ private:
 
 public:
 	EntityRenderer();
-	void bindTexture(const std::string& file);
+	bool bindTexture(const std::string& file, bool isRequired = true);
 	Font* getFont();
 	void init(EntityRenderDispatcher* d);
 	static void render(const AABB&, float, float, float);
