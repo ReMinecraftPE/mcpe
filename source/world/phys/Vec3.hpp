@@ -101,6 +101,13 @@ public:
 		z *= f;
 	}
 
+	void operator/=(float f)
+	{
+		x /= f;
+		y /= f;
+		z /= f;
+	}
+
 	Vec3 operator-() const
 	{
 		return Vec3(-x, -y, -z);

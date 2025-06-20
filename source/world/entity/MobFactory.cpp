@@ -3,10 +3,10 @@
 #include "Cow.hpp"
 #include "Pig.hpp"
 #include "Sheep.hpp"
-//#include "Zombie.hpp"
+#include "Zombie.hpp"
 #include "Creeper.hpp"
-//#include "Skeleton.hpp"
-//#include "Spider.hpp"
+#include "Skeleton.hpp"
+#include "Spider.hpp"
 //#include "PigZombie.hpp"
 
 #define ENTS ENT(CHICKEN, Chicken) \
@@ -14,9 +14,9 @@
              ENT(PIG, Pig) \
              ENT(SHEEP, Sheep) \
              ENT(CREEPER, Creeper) \
-             //ENT(ZOMBIE, Zombie) \
-             //ENT(SKELETON, Skeleton) \
-             //ENT(SPIDER, Spider) \
+             ENT(ZOMBIE, Zombie) \
+             ENT(SPIDER, Spider) \
+             ENT(SKELETON, Skeleton) \
              //ENT(PIG_ZOMBIE, PigZombie)
 
 #define ENT(enumType, classType) case EntityType::enumType: return new classType(level);

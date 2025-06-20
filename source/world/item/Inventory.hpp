@@ -26,7 +26,7 @@ public:
 	void addTestItem(int itemID, int amount, int auxValue = 0);
 
 	void clear();
-	void addItem(ItemInstance* pInst);
+	bool addItem(ItemInstance* pInst);
     void tick();
 
 	ItemInstance* getItem(int slotNo);

@@ -36,6 +36,7 @@ public:
 	virtual void resetPos() override;
 	virtual void die(Entity* pCulprit) override;
 	virtual void aiStep() override;
+	ItemInstance* getCarriedItem() override;
 	virtual bool isImmobile() const override { return m_health <= 0; }
 	virtual void updateAi() override;
 
