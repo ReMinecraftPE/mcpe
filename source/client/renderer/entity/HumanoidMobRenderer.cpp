@@ -27,14 +27,14 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	m_pHumanoidModel->m_arm1.translateTo(0.0625f);
 	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
 #pragma warning(disable : 6385) // this warning is just wrong; intellisense cant handle it being a pointer->index
-	if (inst->m_itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
+	if (inst && inst->m_itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
 	{
 		glTranslatef(0.0f, 0.1875f, -0.3125f);
 		glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glScalef(0.375f, -0.375f, 0.375f);
 	}
-	else if (Item::items[inst->m_itemID]->isHandEquipped())
+	else if (inst && Item::items[inst->m_itemID]->isHandEquipped())
 	{
 		glTranslatef(0.0f, 0.1875f, 0.0f);
 		glScalef(0.625f, -0.625f, 0.625f);
