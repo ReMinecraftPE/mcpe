@@ -13,7 +13,7 @@
 ChatScreen::ChatScreen(bool slash) : m_textChat(this, 1, 0, 0), m_btnSend(2, 0, 0, "Send")
 {
 	if (slash)
-		m_textChat.m_text = "/";
+		m_textChat.setText("/");
 }
 
 void ChatScreen::buttonClicked(Button* pButton)
@@ -68,7 +68,7 @@ void ChatScreen::keyPressed(int keyCode)
 
 void ChatScreen::sendMessageAndExit()
 {
-	m_pMinecraft->sendMessage(m_textChat.m_text);
+	m_pMinecraft->sendMessage(m_textChat.getText());
 	
 	m_pMinecraft->setScreen(nullptr);
 }

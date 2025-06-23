@@ -21,7 +21,7 @@ public:
 protected:
 	friend class PigModel;
 	ModelPart m_head;
-	ModelPart m_unknown;
+	ModelPart m_hair;
 	ModelPart m_body;
 	ModelPart m_leg1;
 	ModelPart m_leg2;

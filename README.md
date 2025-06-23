@@ -10,15 +10,16 @@ based on Minecraft PE v0.1.3.
   development - this excludes hunger, for example, as it was added in Beta 1.8)
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
-* To port the game to more platforms, such as Windows (including older versions), Linux, WebGL, Android, and
-  Mac OS. Currently there are ports for:
+* To port the game to more platforms, such as Windows (including older versions), Xbox 360, Wii, and more.
+  Currently, there are ports for:
 	* Windows XP-11
 	* Android (thanks to [Stom](https://github.com/Stommm) for the help)
 	* Linux
 	* WebGL
-	* Mac OS (port by [BrentDaMage](https://github.com/BrentDaMage))
+	* macOS (port by [BrentDaMage](https://github.com/BrentDaMage))
+	* iOS (3.0 and above; port by [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
-	* Xbox 360 (incomplete; port by [BrentDaMage](https://github.com/BrentDaMage))
+	* Xbox 360 (work in progress; port by [BrentDaMage](https://github.com/BrentDaMage))
 
 **We will not do the following:**
 * Add features added in or after Java Edition Beta 1.8
@@ -35,7 +36,7 @@ Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMi
 
 ## License information
 
-This project is licensed under the [BSD 1 clause license](LICENSE.md). However, it contains third party
+This project is licensed under the [BSD 1 clause license](LICENSE.txt). However, it contains third party
 software with different but compatible licenses:
 
 - [RakNet](https://github.com/facebookarchive/RakNet): [Licensed under the BSD 2 clause license](thirdparty/raknet/LICENSE)
@@ -67,12 +68,19 @@ This fetches the three dependencies we have:
 - [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker)
 - [gles-compatibility-layer](https://github.com/TheBrokenRail/gles-compatibility-layer.git)
 
-2. Load the sound assets into the `sound_data/` folder in the root of the project
-by **running the following command**:
-* `tools/grabsounds.py /path/to/the/apk/lib/armeabi-v7a/libminecraftpe.so`.
-
-After that, **prepare the assets folder** from the apk. You will need it for the platform specific
-build.
+2. Copy the assets (including sounds and textures) into the necessary folders within the project.<br>
+   Do this by performing <ins>**one**</ins> of the following:
+   - To extract all assets from _Pocket Edition_:
+     - **Run the following command**:
+     - `tools/extract_apk.py /path/to/the/apk`
+     - You can also run it with an interactive GUI by not providing arguments.
+   - To extract only the sounds from _Pocket Edition_:
+     - **Run the following command**:
+     - `tools/grabsounds.py /path/to/the/apk/lib/armeabi-v7a/libminecraftpe.so`
+     - You will need to extract textures and other assets manually.
+   - To retrieve only the sounds from _Java Edition_:
+     - Locate the `resources` directory in the `.minecraft` folder and copy its contents (e.g. `music`, `sound`, etc.) into the `game/assets/` directory of the project.
+     - You will need to extract textures and other assets manually from _Pocket Edition_.
 
 ## Building
 
@@ -141,7 +149,6 @@ This project uses CMake on Linux. Just like WebAssembly, the game assets must be
 #### How To Build
 
 ```sh
-cd platforms/sdl
 mkdir build && cd build
 cmake -GNinja ..
 cmake --build .
@@ -185,3 +192,4 @@ There are plans to create a custom script which downloads and sets up all assets
 
 ReMinecraftPE is an enhanced version of the original. To see the original, (mostly) as it was back in the day,
 [see the mcped repository](https://github.com/ReMinecraftPE/mcped).
+

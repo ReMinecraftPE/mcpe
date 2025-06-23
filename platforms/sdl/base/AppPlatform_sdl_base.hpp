@@ -17,7 +17,7 @@ public:
     {
         _init(storageDir, window);
     }
-	~AppPlatform_sdl_base();
+	~AppPlatform_sdl_base() override;
 
 	void initSoundSystem() override;
 
@@ -26,7 +26,6 @@ public:
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool bIsRequired = false) override = 0;
-	virtual bool doesTextureExist(const std::string& path) = 0;
 	int getUserInputStatus() override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 	std::string getDateString(int time) override;
@@ -41,18 +40,34 @@ public:
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
 
-	static MouseButtonType GetMouseButtonType(SDL_Event event);
+	static MouseButtonType GetMouseButtonType(SDL_MouseButtonEvent event);
 	static bool GetMouseButtonState(SDL_Event event);
-	static Keyboard::KeyState GetKeyState(SDL_Event event);
+	static Keyboard::KeyState GetKeyState(uint8_t state);
 
 	// On-screen keyboard
 	void showKeyboard(int x, int y, int w, int h) override;
 	void hideKeyboard() override;
 
 	// Configure Touchscreen
-	bool isTouchscreen() override;
-private:
+	bool isTouchscreen() const override;
+
+	// Game controller
+	bool hasGamepad() const override;
+	SDL_GameController* getPrimaryGameController() const { return _controller; }
+	void setPrimaryGameController(SDL_GameController* controller) { _controller = controller; }
+	void gameControllerAdded(int32_t index);
+	void gameControllerRemoved(int32_t index);
+
+	void handleKeyEvent(int key, uint8_t state);
+	void handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state);
+	void handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value);
+
+	// Read Sounds
+	AssetFile readAssetFile(const std::string&, bool) const override;
+protected:
 	SDL_Window *_window;
+private:
+	SDL_GameController* _controller;
 
 	const Texture *_iconTexture;
 	SDL_Surface *_icon;
@@ -62,10 +77,11 @@ private:
 	int xrel;
 	int yrel;
 
-	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
 
 	bool m_bIsTouchscreen;
+
+	SDL_GameController* findGameController();
 
 	static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:

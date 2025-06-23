@@ -26,6 +26,7 @@
 #include "world/level/Level.hpp"
 #include "world/entity/LocalPlayer.hpp"
 #include "world/gamemode/GameMode.hpp"
+#include "world/gamemode/GameType.hpp"
 #include "world/particle/ParticleEngine.hpp"
 
 class Screen; // in case we're included from Screen.hpp
@@ -43,13 +44,12 @@ public:
 	void tick();
 	void tickInput();
 	void saveOptions();
-	void handleMouseClick(int type);
-	void handleMouseDown(int type, bool b);
-	void handleBuildAction(BuildActionIntention*);
-	bool isLevelGenerated();
+	void handleBuildAction(const BuildActionIntention& action);
+	bool isLevelGenerated() const;
 	void selectLevel(const std::string&, const std::string&, int);
 	void setLevel(Level*, const std::string&, LocalPlayer*);
-	void pauseGame();
+	bool pauseGame();
+	bool resumeGame();
 	void leaveGame(bool bCopyMap);
 	void hostMultiplayer();
 	void joinMultiplayer(const PingedCompatibleServer& serverInfo);
@@ -57,12 +57,16 @@ public:
 	void locateMultiplayer();
 	void tickMouse();
 	void handleCharInput(char chr);
+	void resetInput();
 	void sendMessage(const std::string& message);
 	void resetPlayer(Player* player);
 	void respawnPlayer(Player* player);
-	std::string getVersionString();
-	bool isTouchscreen();
-	bool useSplitControls();
+	std::string getVersionString() const;
+	bool isTouchscreen() const;
+	bool useSplitControls() const;
+	bool useController() const;
+
+	void setGameMode(GameType gameType);
 
 	virtual void update() override;
 	virtual void init() override;
@@ -73,23 +77,29 @@ public:
 	float getBestScaleForThisScreenSize(int width, int height);
 	void generateLevel(const std::string& unused, Level* pLevel);
 	void prepareLevel(const std::string& unused);
-	bool isOnline();
-	bool isOnlineClient();
+	bool isOnline() const;
+	bool isOnlineClient() const;
+	bool isGamePaused() const { return m_bIsGamePaused; }
 	static void* prepareLevel_tspawn(void* pMinecraft);
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
 	Options* getOptions() const { return m_options; }
-
-	static void setGuiScaleMultiplier(float f);
 	
 private:
 	void _reloadInput();
 	void _levelGenerated();
+	GameMode* createGameMode(GameType gameType, Level& level);
 
+private:
+    // Value provided by the OS
+    static float _renderScaleMultiplier;
 public:
-	static float guiScaleMultiplier;
+    static float getRenderScaleMultiplier() { return _renderScaleMultiplier; }
+    static void setRenderScaleMultiplier(float value) { _renderScaleMultiplier = value; }
+    
+public:
 	static int width, height;
 	static bool useAmbientOcclusion;
 	static const char* progressMessages[];
@@ -97,12 +107,11 @@ public:
 	static int customDebugId;
 
 private:
-	Logger *m_Logger;
 	Options *m_options;
 
 public:
 	bool field_18;
-	bool field_288;
+	bool m_bIsGamePaused;
 	LevelRenderer* m_pLevelRenderer;
 	GameRenderer* m_pGameRenderer;
 	ParticleEngine* m_pParticleEngine;
@@ -136,7 +145,7 @@ public:
 	LevelStorageSource* m_pLevelStorageSource; // TODO
 	int field_D9C;
 	int field_DA0;
-	int field_DA4;
+	int m_lastBlockBreakTime;
 	int field_DA8;
 	int field_DAC;
 	bool m_bUsingScreen;
@@ -147,5 +156,6 @@ public:
 
 	// in 0.8. Offset 3368
 	double m_fDeltaTime, m_fLastUpdated;
+	int m_lastInteractTime;
 };
 

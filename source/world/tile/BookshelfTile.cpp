@@ -13,20 +13,20 @@ BookshelfTile::BookshelfTile(int a, int b, Material* c) : Tile(a, b, c)
 {
 }
 
-int BookshelfTile::getTexture(int dir)
+int BookshelfTile::getTexture(Facing::Name face) const
 {
-	if (dir <= DIR_YPOS)
+	if (face <= Facing::UP)
 		return TEXTURE_PLANKS;
 
 	return m_TextureFrame;
 }
 
-int BookshelfTile::getResource(int data, Random* random)
+int BookshelfTile::getResource(int data, Random* random) const
 {
 	return 0; // would be Book
 }
 
-int BookshelfTile::getResourceCount(Random* random)
+int BookshelfTile::getResourceCount(Random* random) const
 {
 	return 3;
 }

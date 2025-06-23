@@ -36,6 +36,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/CreeperRenderer.cpp
     client/renderer/entity/CowRenderer.cpp
     client/renderer/entity/PigRenderer.cpp
+    client/renderer/entity/SheepRenderer.cpp
     client/renderer/entity/ChickenRenderer.cpp
     client/renderer/entity/RocketRenderer.cpp
     client/renderer/RenderList.cpp
@@ -53,6 +54,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/Tesselator.cpp
     client/renderer/TileRenderer.cpp
     client/renderer/LightLayer.cpp
+    client/renderer/Lighting.cpp
     client/renderer/WaterTexture.cpp
     client/renderer/PatchManager.cpp
     client/renderer/LavaTexture.cpp
@@ -61,6 +63,8 @@ add_library(reminecraftpe-core STATIC
     client/renderer/FoliageColor.cpp
     client/renderer/GrassColor.cpp
     client/sound/SoundData.cpp
+    client/sound/SoundPathRepository.cpp
+    client/sound/SoundStream.cpp
     client/sound/SoundSystem.cpp
     client/sound/SoundRepository.cpp
     client/sound/SoundEngine.cpp
@@ -69,6 +73,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/StartMenuScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
     client/gui/screens/DirectConnectScreen.cpp
+    client/gui/screens/DisconnectionScreen.cpp
     client/gui/screens/SelectWorldScreen.cpp
     client/gui/screens/SavingWorldScreen.cpp
     client/gui/screens/InvalidLicenseScreen.cpp
@@ -98,6 +103,7 @@ add_library(reminecraftpe-core STATIC
     client/model/ModelPart.cpp
     client/model/QuadrupedModel.cpp
     client/model/PigModel.cpp
+    client/model/SheepModel.cpp
     client/model/HumanoidModel.cpp
     client/model/SpiderModel.cpp
     client/model/ZombieModel.cpp
@@ -107,10 +113,13 @@ add_library(reminecraftpe-core STATIC
     client/model/CreeperModel.cpp
     client/model/CowModel.cpp
     client/model/ChickenModel.cpp
-    client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
+    client/player/input/ControllerBuildInput.cpp
+    client/player/input/ControllerMoveInput.cpp
+    client/player/input/ControllerTurnInput.cpp
     client/player/input/Mouse.cpp
     client/player/input/Keyboard.cpp
+    client/player/input/MouseBuildInput.cpp
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
     client/player/input/ITurnInput.cpp
@@ -137,6 +146,9 @@ add_library(reminecraftpe-core STATIC
     network/packets/LevelDataPacket.cpp
     network/packets/PlaceBlockPacket.cpp
     network/packets/LoginPacket.cpp
+    network/packets/LoginStatusPacket.cpp
+    network/packets/ReadyPacket.cpp
+    network/packets/SetTimePacket.cpp
     network/packets/StartGamePacket.cpp
     network/packets/RemoveEntityPacket.cpp
     network/packets/AddPlayerPacket.cpp
@@ -147,6 +159,7 @@ add_library(reminecraftpe-core STATIC
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp
     network/NetEventCallback.cpp
+    network/PacketUtil.cpp
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp
@@ -155,6 +168,7 @@ add_library(reminecraftpe-core STATIC
     world/level/path/BinaryHeap.cpp
     world/level/path/PathFinder.cpp
     world/phys/HitResult.cpp
+    world/phys/Vec2.cpp
     world/phys/Vec3.cpp
     world/phys/AABB.cpp
     world/gamemode/SurvivalMode.cpp
@@ -173,10 +187,22 @@ add_library(reminecraftpe-core STATIC
     world/entity/WaterAnimal.cpp
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
+    world/entity/MobFactory.cpp
+    world/entity/Chicken.cpp
+    world/entity/Cow.cpp
+    world/entity/Creeper.cpp
+    world/entity/Pig.cpp
+    world/entity/Sheep.cpp
+    world/entity/SynchedEntityData.cpp
+    world/entity/EntityCategories.cpp
+    world/entity/EntityType.cpp
+    world/entity/EntityTypeDescriptor.cpp
+    world/entity/MobCategory.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp
     world/level/LevelListener.cpp
     world/level/TickNextTickData.cpp
+    world/level/TilePos.cpp
     world/level/Explosion.cpp
     world/level/storage/LevelStorageSource.cpp
     world/level/storage/MemoryLevelStorageSource.cpp
@@ -210,7 +236,9 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/chunk/RandomLevelSource.cpp
     world/level/levelgen/chunk/LevelChunk.cpp
     world/level/levelgen/chunk/ChunkCache.cpp
+    world/level/levelgen/chunk/ChunkPos.cpp
     world/level/levelgen/chunk/ChunkSource.cpp
+    world/level/levelgen/chunk/EmptyLevelChunk.cpp
     world/level/levelgen/chunk/PerformanceTestChunkSource.cpp
     world/level/levelgen/chunk/TestChunkSource.cpp
     world/level/Level.cpp
@@ -280,74 +308,26 @@ add_subdirectory(../thirdparty/raknet raknet)
 target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
 # zlib
-add_library(zlib INTERFACE)
-if(EMSCRIPTEN)
+add_library(zlib-interface INTERFACE)
+if(WIN32)
+    # Compile Vendored ZLib
+    add_subdirectory(../thirdparty/zlib zlib)
+    target_link_libraries(zlib-interface INTERFACE zlib)
+elseif(EMSCRIPTEN)
     # Use Emscripten's ZLib
     set(ZLIB_FLAG -sUSE_ZLIB=1)
-    target_compile_options(zlib INTERFACE "${ZLIB_FLAG}")
-    target_link_options(zlib INTERFACE "${ZLIB_FLAG}")
+    target_compile_options(zlib-interface INTERFACE "${ZLIB_FLAG}")
+    target_link_options(zlib-interface INTERFACE "${ZLIB_FLAG}")
 else()
     # Use System ZLib
     find_package(ZLIB REQUIRED)
-    target_link_libraries(zlib INTERFACE ZLIB::ZLIB)
+    target_link_libraries(zlib-interface INTERFACE ZLIB::ZLIB)
 endif()
-target_link_libraries(reminecraftpe-core PUBLIC zlib)
-
-# Platform Dependencies
-if(USE_SDL)
-    # SDL
-    add_library(SDL INTERFACE)
-    if(ANDROID)
-        # Use Vendored SDL2 (Only For Android)
-        add_subdirectory(../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
-        target_link_libraries(SDL INTERFACE SDL2::SDL2)
-    elseif(EMSCRIPTEN)
-        # Use Emscripten's SDL2
-        set(SDL_FLAG -sUSE_SDL=2)
-        target_compile_options(SDL INTERFACE "${SDL_FLAG}")
-        target_link_options(SDL INTERFACE "${SDL_FLAG}")
-    else()
-        # Use System SDL2
-        find_package(SDL2 REQUIRED)
-        target_link_libraries(SDL INTERFACE SDL2::SDL2)
-    endif()
-    target_link_libraries(reminecraftpe-core PUBLIC SDL)
-
-    # OpenGL
-    if(NOT EMSCRIPTEN AND NOT ANDROID)
-        option(USE_GLES1_COMPATIBILITY_LAYER "Whether To Enable The GLESv1_CM Compatibility Layer" TRUE)
-    else()
-        set(USE_GLES1_COMPATIBILITY_LAYER TRUE CACHE BOOL "" FORCE)
-    endif()
-    if(USE_GLES1_COMPATIBILITY_LAYER)
-        set(GLES_COMPATIBILITY_LAYER_USE_SDL TRUE CACHE BOOL "" FORCE)
-        set(GLES_COMPATIBILITY_LAYER_DEPENDENCY SDL CACHE STRING "" FORCE)
-        set(GLES_COMPATIBILITY_LAYER_USE_ES3 FALSE CACHE BOOL "" FORCE)
-        add_subdirectory(../thirdparty/gles-compatibility-layer gles-compatibility-layer)
-        target_link_libraries(reminecraftpe-core PUBLIC gles-compatibility-layer)
-        target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES1_COMPATIBILITY_LAYER)
-        if(EMSCRIPTEN)
-            # Use WebGL 2
-            target_link_options(reminecraftpe-core PUBLIC -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
-        endif()
-    else()
-        find_package(OpenGL REQUIRED)
-        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::OpenGL)
-    endif()
-elseif(USE_NATIVE_ANDROID)
-    # OpenGL
-    target_link_libraries(reminecraftpe-core PUBLIC EGL GLESv1_CM)
+target_link_libraries(reminecraftpe-core PUBLIC zlib-interface)
+# OpenGL Support Code
+if(WIN32)
+    target_sources(reminecraftpe-core PRIVATE ../thirdparty/GL/GLExt.cpp)
 endif()
 
-# Android Logging
-if(ANDROID)
-    target_link_libraries(reminecraftpe-core PUBLIC log)
-endif()
-
-# Sound Data
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../sound_data/sounds.h")
-    if(NOT DEFINED ENV{CI})
-        message(WARNING "Missing sound data! Did you run tools/grabsounds.py?")
-    endif()
-    target_compile_definitions(reminecraftpe-core PRIVATE MISSING_SOUND_DATA)
-endif()
+# OGG Support
+target_link_libraries(reminecraftpe-core PUBLIC stb_vorbis)

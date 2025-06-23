@@ -13,7 +13,7 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 
-#if defined(_WIN32) || (defined(TARGET_OS_MAC) && TARGET_OS_IPHONE == 0)
+#if (defined(USE_SDL) || defined(_WIN32) || (defined(TARGET_OS_MAC) && TARGET_OS_IPHONE == 0)) && !defined(ANDROID)
 #define CAN_QUIT
 #endif
 
@@ -122,7 +122,11 @@ const char* gSplashes[] =
 	"Complex cellular automata!",
 	"Yes, sir!",
 	"Played by cowboys!",
-	"OpenGL 1.5!", // "OpenGL ES 1.1!",
+#ifdef USE_GLES
+	"OpenGL ES 1.1!",
+#else
+	"OpenGL 1.5!",
+#endif
 	"Thousands of colors!",
 	"Try it!",
 	"Age of Wonders is better!",
@@ -345,7 +349,9 @@ const char* gSplashes[] =
 	"What's up, Doc?",
 
 	// custom:
-	"https://github.com/ReMinecraftPE/mcpe"
+	"https://github.com/ReMinecraftPE/mcpe",
+	"Also try Minecraft!",
+	"Also try Noita!"
 };
 
 StartMenuScreen::StartMenuScreen() :
@@ -452,16 +458,15 @@ void StartMenuScreen::init()
 
 	// add the buttons to the screen:
 	m_buttons.push_back(&m_startButton);
-	m_buttonTabList.push_back(&m_startButton);
 	m_buttons.push_back(&m_joinButton);
-	m_buttonTabList.push_back(&m_joinButton);
 	m_buttons.push_back(&m_optionsButton);
-	m_buttonTabList.push_back(&m_optionsButton);
 
 #if defined(DEMO) || defined(CAN_QUIT)
 	m_buttons.push_back(&m_buyButton);
-	m_buttonTabList.push_back(&m_buyButton);
 #endif
+
+	for (int i = 0; i < int(m_buttons.size()); i++)
+		m_buttonTabList.push_back(m_buttons[i]);
 
 	field_154 = "\xFFMojang AB";
 	field_16C = m_width - 1 - m_pFont->width(field_154);
@@ -519,10 +524,10 @@ void StartMenuScreen::drawLegacyTitle()
 		Tesselator& t = Tesselator::instance;
 		glColor4f(1, 1, 1, 1);
 		t.begin();
-		t.vertexUV(float(left), float(height + titleYPos), field_4, 0.0f, 1.0f);
-		t.vertexUV(float(left + width), float(height + titleYPos), field_4, 1.0f, 1.0f);
-		t.vertexUV(float(left + width), titleYPos, field_4, 1.0f, 0.0f);
-		t.vertexUV(float(left), titleYPos, field_4, 0.0f, 0.0f);
+		t.vertexUV(left, height + titleYPos, field_4, 0.0f, 1.0f);
+		t.vertexUV(left + width, height + titleYPos, field_4, 1.0f, 1.0f);
+		t.vertexUV(left + width, titleYPos, field_4, 1.0f, 0.0f);
+		t.vertexUV(left, titleYPos, field_4, 0.0f, 0.0f);
 		t.draw();
 	}
 
@@ -678,7 +683,7 @@ void StartMenuScreen::draw3dTitle(float f)
 
 				// rotate 90 deg on the X axis to correct lighting
 				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-				m_tileRenderer.renderTile(pTile, i == 0 ? 999 : 0, bright);
+				m_tileRenderer.renderTile(pTile, i == 0 ? 999 : 0, bright, true);
 
 				glPopMatrix();
 			}

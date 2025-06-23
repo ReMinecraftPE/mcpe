@@ -10,26 +10,24 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
-Rocket::Rocket(Level* level, float x, float y, float z) : Entity(level)
+Rocket::Rocket(Level* level, const Vec3& pos) : Entity(level)
 {
 	field_B8C = 0;
 	field_B90 = 80;
 	field_C8 = RENDER_ROCKET;
 
-	field_34 = 1;
+    m_bBlocksBuilding = true;
 
 	setSize(0.1f, 1.0f);
-	field_84 = field_8C * 0.5f - 0.25f;
+	m_heightOffset = m_bbHeight * 0.5f - 0.25f;
 
-	setPos(x, y, z);
-	field_3C.x = x;
-	field_3C.y = y;
-	field_3C.z = z;
+	setPos(pos);
+	m_oPos = pos;
 
 	m_vel.y = 1.0f;
 }
 
-float Rocket::getShadowHeightOffs()
+float Rocket::getShadowHeightOffs() const
 {
 	return 0.0f;
 }
@@ -44,23 +42,23 @@ int Rocket::interactPreventDefault()
 	return 1;
 }
 
-bool Rocket::isPickable()
+bool Rocket::isPickable() const
 {
 	return !m_bRemoved;
 }
 
-bool Rocket::isPushable()
+bool Rocket::isPushable() const
 {
 	return false;
 }
 
 void Rocket::tick()
 {
-	field_3C = m_pos;
+	m_oPos = m_pos;
 
 	m_vel.y *= 0.99f;
 
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	field_B90--;
 	if (field_B90 == 0)
@@ -70,11 +68,9 @@ void Rocket::tick()
 			float yaw = sharedRandom.nextFloat() * float(M_PI) * 2;
 			float pitch = sharedRandom.nextFloat() * float(M_PI) * 2;
 
-			float xo = cosf(yaw);
-			float zo = sinf(yaw);
-			float yo = sinf(pitch);
+			Vec3 o(cosf(yaw), sinf(yaw), sinf(pitch));
 
-			m_pLevel->addParticle("explodeColor", m_pos.x, m_pos.y, m_pos.z, xo, yo, zo);
+			m_pLevel->addParticle("explodeColor", m_pos, o);
 		}
 
 		m_pLevel->playSound(this, "random.explode", 1.0f, 1.0f);

@@ -63,12 +63,20 @@ void OptionsScreen::removed()
 void OptionsScreen::buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == 100)
+		handleBackEvent(false);
+}
+
+bool OptionsScreen::handleBackEvent(bool b)
+{
+	if (!b)
 	{
 		if (m_pMinecraft->isLevelGenerated())
 			m_pMinecraft->setScreen(new PauseScreen);
 		else
 			m_pMinecraft->setScreen(new StartMenuScreen);
 	}
+
+	return true;
 }
 
 void OptionsScreen::handleScroll(bool down)

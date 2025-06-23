@@ -145,7 +145,7 @@ void SelectWorldScreen::tick()
 	if (m_pWorldSelectionList->field_90)
 	{
 		LevelSummary& ls = m_pWorldSelectionList->m_levelSummary;
-		m_pMinecraft->selectLevel(ls.field_0, ls.field_18, 0);
+		m_pMinecraft->selectLevel(ls.m_fileName, ls.m_levelName, 0);
 		m_pMinecraft->hostMultiplayer();
 		m_pMinecraft->setScreen(new ProgressScreen);
 		return;
@@ -248,7 +248,7 @@ std::string SelectWorldScreen::getUniqueLevelName(const std::string& in)
 	for (int i = 0; i < int(m_levels.size()); i++)
 	{
 		const LevelSummary& ls = m_levels[i];
-		maps.insert(ls.field_0);
+		maps.insert(ls.m_fileName);
 	}
 
 	std::string out = in;
@@ -272,7 +272,7 @@ void SelectWorldScreen::loadLevelSource()
 	{
 		const LevelSummary& level = m_levels[i];
 
-		if (level.field_0 == "_LastJoinedServer")
+		if (level.m_fileName == "_LastJoinedServer")
 			continue;
 
 		m_pWorldSelectionList->m_items.push_back(level);

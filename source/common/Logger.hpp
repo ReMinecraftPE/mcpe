@@ -26,8 +26,8 @@ private:
 	static Logger* m_singleton;
 public:
 	static Logger* const singleton();
+	static void setSingleton(Logger*);
 
-	Logger();
 	virtual ~Logger();
 
 	const char* GetTag(eLogLevel ll);

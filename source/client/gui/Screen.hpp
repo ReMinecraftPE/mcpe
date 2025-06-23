@@ -18,6 +18,19 @@ class TextInputBox;
 
 class Screen : public GuiComponent
 {
+private:
+	static bool _isPanoramaAvailable;
+public:
+	static bool isMenuPanoramaAvailable()
+	{
+#ifdef ENH_MENU_BACKGROUND
+		return _isPanoramaAvailable;
+#else
+		return false;
+#endif
+	}
+	static void setIsMenuPanoramaAvailable(bool value) { _isPanoramaAvailable = value; }
+
 public:
 	Screen();
 	virtual ~Screen();
@@ -29,25 +42,26 @@ public:
 	int getYOffset();
 
 	virtual void render(int, int, float);
-	virtual void init();
+	virtual void init() {};
 	virtual void updateEvents();
 	virtual void mouseEvent();
 	virtual void keyboardEvent();
-	virtual bool handleBackEvent(bool);
+	virtual bool handleBackEvent(bool b) { return false; }
 	virtual void tick();
-	virtual void removed();
+	virtual void removed() {};
 	virtual void renderBackground(int);
 	virtual void renderBackground();
 	virtual void renderDirtBackground(int);
-	virtual bool isPauseScreen();
-	virtual bool isErrorScreen();
-	virtual bool isInGameScreen();
-	virtual void confirmResult(bool, int);
-	virtual void buttonClicked(Button*);
+	virtual bool isPauseScreen() { return true; }
+	virtual bool isErrorScreen() { return false; }
+	virtual bool isInGameScreen() { return true; }
+	virtual void confirmResult(bool b, int i) {};
+	virtual void onTextBoxUpdated(int id) {};
+	virtual void buttonClicked(Button* pButton) {};
 	virtual void mouseClicked(int, int, int);
 	virtual void mouseReleased(int, int, int);
 	virtual void keyPressed(int);
-	virtual void charInput(char);
+	virtual void keyboardNewChar(char);
 	virtual void handleScroll(bool down);
 
 	// ported from 0.8

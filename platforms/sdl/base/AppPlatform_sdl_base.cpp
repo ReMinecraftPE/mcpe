@@ -1,9 +1,9 @@
-#include "AppPlatform_sdl_base.hpp"
-
 #include <sstream>
 #include <fstream>
 #include <sys/stat.h>
 #include <cstdlib>
+
+#include "AppPlatform_sdl_base.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -13,7 +13,12 @@
 
 #include "common/Utils.hpp"
 
-#include "SoundSystemAL.hpp"
+#include "CustomSoundSystem.hpp"
+// Macros are cursed
+#define _STR(x) #x
+#define STR(x) _STR(x)
+
+#include "client/player/input/Controller.hpp"
 
 void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 {
@@ -28,7 +33,6 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 
 	ensureDirectoryExists(_storageDir.c_str());
 
-	m_pLogger = new Logger;
 	m_pSoundSystem = nullptr;
 
 	// Default Touchscreen Mode
@@ -50,14 +54,19 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 			m_bIsTouchscreen = false;
 		}
 	}
+
+	// Look for a pre-existing controller
+	_controller = findGameController();
+
+	clearDiff();
 }
 
 void AppPlatform_sdl_base::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
-		LOG_I("Initializing OpenAL SoundSystem...");
-		m_pSoundSystem = new SoundSystemAL();
+		LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
+		m_pSoundSystem = new SOUND_SYSTEM();
 	}
 	else
 	{
@@ -104,9 +113,17 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 	SAFE_DELETE(_iconTexture);
 
 	SAFE_DELETE(m_pSoundSystem);
+}
 
-	// DELETE THIS LAST
-	SAFE_DELETE(m_pLogger);
+SDL_GameController* AppPlatform_sdl_base::findGameController()
+{
+	for (int i = 0; i < SDL_NumJoysticks(); i++) {
+		if (SDL_IsGameController(i)) {
+			return SDL_GameControllerOpen(i);
+		}
+	}
+
+	return nullptr;
 }
 
 SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const texture)
@@ -157,13 +174,19 @@ int AppPlatform_sdl_base::getScreenHeight() const
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
+	/**
+	 * @NOTE: There is a bug with older versions of SDL2 (ex: 2.0.4) where disabling RelativeMouseMode will cause a mouse event to be fired
+	 * that just moves the cursor to where it would've been if the mode had never been enabled in the first place, effectively uncentering it.
+	 * https://github.com/libsdl-org/SDL/issues/6002 (I'm not sure if this is the right issue, I just updated SDL after seeing this and it fixed the above problem.)
+	 **/
 	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
+	clearDiff();
 }
 
 void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 {
-	xrel = x;
-	yrel = y;
+	xrel += x;
+	yrel += y;
 }
 
 void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)
@@ -193,9 +216,9 @@ int AppPlatform_sdl_base::getUserInputStatus()
 	return -1;
 }
 
-MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_Event event)
+MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_MouseButtonEvent event)
 {
-	switch (event.button.button)
+	switch (event.button)
 	{
 		case SDL_BUTTON_LEFT:
 			return BUTTON_LEFT;
@@ -243,9 +266,9 @@ bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
 	return result;
 }
 
-Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(SDL_Event event)
+Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(uint8_t state)
 {
-	switch (event.key.state)
+	switch (state)
 	{
 		case SDL_RELEASED:
 			return Keyboard::UP;
@@ -278,6 +301,127 @@ void AppPlatform_sdl_base::hideKeyboard()
 	}
 }
 
-bool AppPlatform_sdl_base::isTouchscreen() {
+bool AppPlatform_sdl_base::isTouchscreen() const
+{
     return m_bIsTouchscreen;
+}
+
+bool AppPlatform_sdl_base::hasGamepad() const
+{
+	return _controller != nullptr;
+}
+
+void AppPlatform_sdl_base::gameControllerAdded(int32_t index)
+{
+	if (!getPrimaryGameController())
+	{
+		setPrimaryGameController(SDL_GameControllerOpen(index));
+		Controller::reset();
+	}
+}
+
+void AppPlatform_sdl_base::gameControllerRemoved(int32_t index)
+{
+	SDL_GameController* controller = getPrimaryGameController();
+	SDL_JoystickID joystickId = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
+	// Check if current controller has been removed
+	if (controller && index == joystickId)
+	{
+		SDL_GameControllerClose(controller);
+		// Hunt for a new primary controller
+		setPrimaryGameController(findGameController());
+	}
+}
+
+void AppPlatform_sdl_base::handleKeyEvent(int key, uint8_t state)
+{
+	// This really should be handled somewhere else.
+	// Unforunately, there is no global keyboard handler.
+	// Keyboard events are either handled in Screen::keyboardEvent
+	// when a Screen is visible, or in Minecraft::tickInput
+	// when LocalPlayer exists.
+	switch (key)
+	{
+	case SDLVK_F2:
+		if (state == SDL_PRESSED)
+			saveScreenshot("", -1, -1);
+		return;
+	case SDLVK_AC_BACK:
+		// Android Back Button (This is currently handled in handle_events() in platforms/sdl/main.cpp)
+		// @TODO: handleBack function in AppPlatform that calls back to App via function pointer
+		//g_pApp->handleBack(event.key.state == SDL_PRESSED);
+		return;
+	case SDLVK_BACKSPACE:
+		// Text Editing (This is currently handled in handle_events() in platforms/sdl/main.cpp)
+		/*if (state == SDL_PRESSED)
+			g_pApp->handleCharInput('\b');*/
+		break;
+	case SDLVK_LSHIFT:
+	case SDLVK_RSHIFT:
+		setShiftPressed(state == SDL_PRESSED, key == SDLVK_LSHIFT);
+		break;
+	}
+
+	// Normal Key Press
+	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), key);
+}
+
+void AppPlatform_sdl_base::handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state)
+{
+	// Normal Key Press
+	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), button);
+}
+
+void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value)
+{
+	float val = value / 32767.0f; // -32768 to 32767
+
+	switch (axis)
+	{
+	case SDL_CONTROLLER_AXIS_LEFTX:
+		Controller::feedStickX(1, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_LEFTY:
+		Controller::feedStickY(1, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_RIGHTX:
+		Controller::feedStickX(2, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_RIGHTY:
+		Controller::feedStickY(2, true, val);
+		break;
+	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+		Controller::feedTrigger(1, val);
+		break;
+	case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+		Controller::feedTrigger(2, val);
+		break;
+	}
+}
+
+AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str, bool quiet) const
+{
+	std::string path = getAssetPath(str);
+	SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
+	// Open File
+	if (!io)
+	{
+		if (!quiet) LOG_W("Couldn't find asset file: %s", path.c_str());
+		return AssetFile();
+	}
+	// Get File Size
+	int64_t size = SDL_RWsize(io);
+	if (size < 0)
+	{
+		if (!quiet) LOG_E("Error determining the size of the asset file!");
+		SDL_RWclose(io);
+		return AssetFile();
+	}
+	// Read Data
+	unsigned char *buf = new unsigned char[size];
+	SDL_RWread(io, buf, size, 1);
+	// Close File
+	SDL_RWclose(io);
+	// Return
+	return AssetFile(size, buf);
 }

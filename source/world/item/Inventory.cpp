@@ -5,7 +5,6 @@ Inventory::Inventory(Player* pPlayer)
 {
 	m_pPlayer = pPlayer;
 	m_selectedHotbarSlot = 0;
-	m_bIsSurvival = false;
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = -1;
@@ -13,8 +12,6 @@ Inventory::Inventory(Player* pPlayer)
 
 void Inventory::prepareCreativeInventory()
 {
-	m_bIsSurvival = false;
-
 	m_items.clear();
 
 	// Original list of items.
@@ -86,7 +83,6 @@ void Inventory::prepareCreativeInventory()
 
 void Inventory::prepareSurvivalInventory()
 {
-	m_bIsSurvival = true;
 	m_items.clear();
 	m_items.resize(C_NUM_SURVIVAL_SLOTS);
 
@@ -105,10 +101,13 @@ void Inventory::prepareSurvivalInventory()
 
 int Inventory::getNumSlots()
 {
-	if (m_bIsSurvival)
+	switch (_getGameMode())
+	{
+	case GAME_TYPE_SURVIVAL:
 		return C_NUM_SURVIVAL_SLOTS;
-
-	return getNumItems();
+	default:
+		return getNumItems();
+	}
 }
 
 int Inventory::getNumItems()
@@ -127,12 +126,15 @@ void Inventory::clear()
 	m_items.resize(C_NUM_SURVIVAL_SLOTS);
 }
 
+// This code, and this function, don't exist in b1.2_02
+// "add" exists with these same arguments, which calls "addResource",
+// but addResource's code is entirely different somehow. Did we write this from scratch?
 void Inventory::addItem(ItemInstance* pInst)
 {
-	if (!m_bIsSurvival)
+	if (_getGameMode() == GAME_TYPE_CREATIVE)
 	{
 		// Just get rid of the item.
-		pInst->m_amount = 0;
+		pInst->m_count = 0;
 		return;
 	}
 
@@ -144,11 +146,11 @@ void Inventory::addItem(ItemInstance* pInst)
 
 		int maxStackSize = m_items[i].getMaxStackSize();
 		bool bIsStackedByData = Item::items[pInst->m_itemID]->isStackedByData();
-		if (bIsStackedByData && m_items[i].m_auxValue != pInst->m_auxValue)
+		if (bIsStackedByData && m_items[i].getAuxValue() != pInst->getAuxValue())
 			continue;
 
 		// try to collate.
-		int combinedItemAmount = pInst->m_amount + m_items[i].m_amount;
+		int combinedItemAmount = pInst->m_count + m_items[i].m_count;
 
 		int leftover = combinedItemAmount - maxStackSize;
 		if (leftover < 0)
@@ -156,16 +158,17 @@ void Inventory::addItem(ItemInstance* pInst)
 		else
 			combinedItemAmount = C_MAX_AMOUNT;
 
-		m_items[i].m_amount = combinedItemAmount;
+		m_items[i].m_count = combinedItemAmount;
+        m_items[i].m_popTime = 5;
 
-		pInst->m_amount = leftover;
+		pInst->m_count = leftover;
 
 		if (!bIsStackedByData)
-			m_items[i].m_auxValue = 0;
+			m_items[i].setAuxValue(0);
 	}
 
 	// If there's nothing leftover:
-	if (!pInst->m_amount)
+	if (pInst->m_count <= 0)
 		return;
 
 	// try to add it to an empty slot
@@ -175,9 +178,22 @@ void Inventory::addItem(ItemInstance* pInst)
 			continue;
 
 		m_items[i] = *pInst;
-		pInst->m_amount = 0;
+        m_items[i].m_popTime = 5;
+		pInst->m_count = 0;
 		return;
 	}
+}
+
+// Doesn't exist in PE
+void Inventory::tick()
+{
+    for (int i = 0; i < m_items.size(); i++)
+    {
+        if (!m_items[i].isNull() && m_items[i].m_popTime > 0)
+        {
+            m_items[i].m_popTime--;
+        }
+    }
 }
 
 void Inventory::addTestItem(int itemID, int amount, int auxValue)
@@ -185,10 +201,10 @@ void Inventory::addTestItem(int itemID, int amount, int auxValue)
 	ItemInstance inst(itemID, amount, auxValue);
 	addItem(&inst);
 
-	if (inst.m_amount != 0)
+	if (inst.m_count != 0)
 	{
 		LOG_I("AddTestItem: Couldn't add all %d of %s, only gave %d",
-			amount, Item::items[itemID]->m_DescriptionID.c_str(), amount - inst.m_amount);
+			amount, Item::items[itemID]->m_DescriptionID.c_str(), amount - inst.m_count);
 	}
 }
 
@@ -197,7 +213,7 @@ ItemInstance* Inventory::getItem(int slotNo)
 	if (slotNo < 0 || slotNo >= int(m_items.size()))
 		return nullptr;
 
-	if (m_items[slotNo].m_amount <= 0)
+	if (m_items[slotNo].m_count <= 0)
 		m_items[slotNo].m_itemID = 0;
 
 	return &m_items[slotNo];
@@ -210,7 +226,7 @@ int Inventory::getQuickSlotItemId(int slotNo)
 	
 	int idx = m_hotbar[slotNo];
 	ItemInstance* pInst = getItem(idx);
-	if (!pInst)
+	if (ItemInstance::isNull(pInst))
 		return -1;
 
 	return pInst->m_itemID;
@@ -222,13 +238,8 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 		return nullptr;
 	
 	ItemInstance* pInst = getItem(m_hotbar[slotNo]);
-	if (!pInst)
-		return nullptr;
 
-	if (pInst->m_itemID == 0)
-		return nullptr;
-
-	return pInst;
+	return !ItemInstance::isNull(pInst) ? pInst : nullptr;
 }
 
 ItemInstance* Inventory::getSelectedItem()
@@ -276,7 +287,7 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
 		return;
 
-	if (m_bIsSurvival)
+	if (_getGameMode() == GAME_TYPE_SURVIVAL)
 		return; // TODO
 
 	for (int i = 0; i < getNumItems(); i++)
@@ -308,8 +319,27 @@ void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 int Inventory::getAttackDamage(Entity* pEnt)
 {
 	ItemInstance* pInst = getSelected();
-	if (!pInst)
+	if (ItemInstance::isNull(pInst))
 		return 1;
 
 	return pInst->getAttackDamage(pEnt);
+}
+
+void Inventory::dropAll(bool butNotReally)
+{
+	for (int i = 0; i < getNumItems(); i++)
+	{
+		ItemInstance* item = &m_items[i];
+		if (item->m_count > 0)
+		{
+			if (!butNotReally)
+				m_pPlayer->drop(item->copy(), true);
+			item->m_count = 0;
+		}
+	}
+}
+
+GameType Inventory::_getGameMode() const
+{
+	return m_pPlayer->getPlayerGameType();
 }

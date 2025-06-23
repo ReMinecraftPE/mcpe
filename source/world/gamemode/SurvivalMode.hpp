@@ -13,24 +13,24 @@
 class SurvivalMode : public GameMode
 {
 public:
-	SurvivalMode(Minecraft*);
+	SurvivalMode(Minecraft*, Level&);
 
-	void startDestroyBlock(int x, int y, int z, int i) override;
-	bool destroyBlock(int x, int y, int z, int i) override;
-	void continueDestroyBlock(int x, int y, int z, int i) override;
+	bool startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
+	bool destroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
+	bool continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face) override;
 	void stopDestroyBlock() override;
 	void tick() override;
 	void render(float f) override;
-	float getPickRange() override;
-	bool isCreativeType() override;
-	bool isSurvivalType() override;
+	float getBlockReachDistance() const override { return 4.0f; } // 4.0f on Java, 5.0f until 0.10.0-0.12.1
+	float getEntityReachDistance() const override { return 3.0f; }
+	bool isCreativeType() const override { return false; }
+	bool isSurvivalType() const override { return true; }
 	void initPlayer(Player*) override;
 	bool canHurtPlayer() override;
+	float getDestroyModifier() const override { return 1.0; }
 
 public:
-	int m_destroyingX;
-	int m_destroyingY;
-	int m_destroyingZ;
+	TilePos m_destroyingPos;
 	float m_destroyProgress;
 	float m_lastDestroyProgress;
 	int m_destroyTicks;

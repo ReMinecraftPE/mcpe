@@ -58,7 +58,7 @@ struct KeyMapping
 	std::string key;
 	int value;
 
-	KeyMapping() {}
+	KeyMapping() : value(-1) {} // key is automatically clear when constructed
 	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 };
 
@@ -85,22 +85,19 @@ public:
 	std::string getMessage(const Options::Option&);
 	std::vector<std::string> getOptionStrings();
 	
-	int getKey(eKeyMappingIndex idx)
-	{
-		return m_keyMappings[idx].value;
-	}
-	bool isKey(eKeyMappingIndex idx, int keyCode)
-	{
-		return getKey(idx) == keyCode;
-	}
+	int getKey(eKeyMappingIndex idx) const { return m_keyMappings[idx].value; }
+	bool isKey(eKeyMappingIndex idx, int keyCode) const { return getKey(idx) == keyCode; }
+
+	void loadControls();
 
 private:
 	std::string m_filePath;
+	KeyMapping m_keyMappings[KM_COUNT];
 
 public:
-	float field_0;
+	float m_fMusicVolume;
 	float m_fMasterVolume;
-	float field_8;
+	float m_fSensitivity;
 	bool m_bInvertMouse;
 	int m_iViewDistance;
 	bool m_bViewBobbing;
@@ -110,14 +107,13 @@ public:
 	bool m_bAmbientOcclusion;
 	uint8_t field_19; // use Mouse as input for breaking
 	std::string field_1C;
-	KeyMapping m_keyMappings[KM_COUNT];
-	int field_238;
+	int m_difficulty;
 	bool m_bDontRenderGui;
 	bool m_bThirdPerson;
 	uint8_t field_23E;
 	bool m_bFlyCheat;
 	uint8_t field_240;
-	uint8_t field_241;
+	bool field_241;
 	float field_244;
 	float field_248;
 	int field_24C;
@@ -129,8 +125,10 @@ public:
 	bool m_bFancyGrass;
 	bool m_bBiomeColors;
 	bool m_bSplitControls;
+	bool m_bUseController;
 	bool m_bDynamicHand;
 	bool m_bOldTitleLogo;
+	bool m_bMenuPanorama;
 
 public:
 	struct Option

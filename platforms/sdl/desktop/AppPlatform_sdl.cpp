@@ -1,5 +1,3 @@
-#include "AppPlatform_sdl.hpp"
-
 #include <fstream>
 #include <sstream>
 #include <sys/stat.h>
@@ -7,6 +5,8 @@
 
 #include "stb_image.h"
 #include "stb_image_write.h"
+
+#include "AppPlatform_sdl.hpp"
 
 #include "thirdparty/GL/GL.hpp"
 
@@ -36,7 +36,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
 	{
 		// Create Screenshots Folder
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(__MINGW32__)
 		int ret = XPL_MKDIR(path);
 #else
 		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -131,7 +131,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
-	out.field_C = 1;
+	out.m_hasAlpha = true;
 	out.field_D = 0;
 
 	// Get Full Path
@@ -173,7 +173,8 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 	// Return
 	return out;
 }
-bool AppPlatform_sdl::doesTextureExist(const std::string& path)
+
+bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
 {
 	// Get Full Path
 	std::string realPath = getAssetPath(path);
@@ -220,4 +221,18 @@ std::string AppPlatform_sdl::getPatchData()
     SDL_RWclose(io);
     
     return std::string(buf);
+}
+
+void AppPlatform_sdl::recenterMouse()
+{
+	// Note. The only reason we do it this way instead of
+	// using the Mouse class is because, after SDL_WarpMouseInWindow,
+	// we'll get an event on our window telling us "hey, the
+	// user has moved their cursor back to the center! Move
+	// the camera back as well", causing a camera that just
+	// refuses to move
+	int w = 0, h = 0;
+	SDL_GetWindowSize(_window, &w, &h);
+	SDL_WarpMouseInWindow(_window, w / 2, h / 2);
+	//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
 }

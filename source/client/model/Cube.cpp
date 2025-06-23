@@ -23,7 +23,7 @@ Cube::Cube(ModelPart* a2, int a3, int a4, float x, float y, float z, int d, int 
 	field_2AC = y2;
 	field_2B0 = z2;
 
-	if (a2->field_18)
+	if (a2->m_bMirror)
 		std::swap(x1, x2);
 	
 	x1 -= g;
@@ -47,14 +47,19 @@ Cube::Cube(ModelPart* a2, int a3, int a4, float x, float y, float z, int d, int 
 	m_faces[0] = PolygonQuad(&m_verts[5], &m_verts[1], &m_verts[2], &m_verts[6], m + f + d,     n + f, m + f + d + f,     n + f + e);     // x2 face
 	m_faces[1] = PolygonQuad(&m_verts[0], &m_verts[4], &m_verts[7], &m_verts[3], m,             n + f, m + f,             n + f + e);     // x1 face
 	m_faces[2] = PolygonQuad(&m_verts[5], &m_verts[4], &m_verts[0], &m_verts[1], m + f,         n,     m + f + d,         n + f);         // up face
-	m_faces[3] = PolygonQuad(&m_verts[7], &m_verts[6], &m_verts[2], &m_verts[3], m + f + d,     n,     m + f + d + d,     n + f);         // down face*
+	m_faces[3] = PolygonQuad(&m_verts[2], &m_verts[3], &m_verts[7], &m_verts[6], m + f + d,     n,     m + f + d + d,     n + f);         // down face*
 	m_faces[4] = PolygonQuad(&m_verts[1], &m_verts[0], &m_verts[3], &m_verts[2], m + f,         n + f, m + f + d,         n + f + e);     // z1 face
 	m_faces[5] = PolygonQuad(&m_verts[4], &m_verts[5], &m_verts[6], &m_verts[7], m + f + d + f, n + f, m + f + d + f + d, n + f + e);     // z2 face
+    
+    // *N.B. The original game specifies the vertex ordering as 2, 3, 7, 6, but that renders the back side of the cow upside down.
+    // This might not be proper form for the face, but we're disabling culling anyway so who cares.
+    
+    // Despite the updated vertex ordering, the textures I have are causing the cow's back side
+    // to be rendered upside down. Perhaps it's a texture issue, not a vertex ordering issue.
+    // Reverting to b1.2_02 defaults for now, as it corrects the problem on my end.
+    // - Brent
 
-	// *N.B. The original game specifies the vertex ordering as 2, 3, 7, 6, but that renders the back side of the cow upside down.
-	// This might not be proper form for the face, but we're disabling culling anyway so who cares.
-
-	if (a2->field_18)
+	if (a2->m_bMirror)
 	{
 		for (int i = 0; i < 6; i++)
 			m_faces[i].mirror();

@@ -13,12 +13,12 @@ ClayTile::ClayTile(int a, int b, Material* c) : Tile(a, b, c)
 {
 }
 
-int ClayTile::getResource(int, Random* random)
+int ClayTile::getResource(int, Random* random) const
 {
 	return 0; //@NOTE: Would be clay's item ID
 }
 
-int ClayTile::getResourceCount(Random* random)
+int ClayTile::getResourceCount(Random* random) const
 {
 	return 4;
 }

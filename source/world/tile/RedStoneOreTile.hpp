@@ -15,18 +15,18 @@ class RedStoneOreTile : public Tile
 public:
 	RedStoneOreTile(int id, int texture, bool bLit);
 
-	int getResource(int, Random*) override;
-	int getResourceCount(Random*) override;
-	int getSpawnResourcesAuxValue(int) override;
-	int getTickDelay() override;
-	void animateTick(Level*, int x, int y, int z, Random*) override;
-	void tick(Level*, int x, int y, int z, Random*) override;
-	void attack(Level*, int x, int y, int z, Player*) override;
-	int use(Level*, int x, int y, int z, Player*) override;
-	void stepOn(Level*, int x, int y, int z, Entity*) override;
+	int getResource(int, Random*) const override;
+	int getResourceCount(Random*) const override;
+	int getSpawnResourcesAuxValue(int) const override;
+	int getTickDelay() const override;
+	void animateTick(Level*, const TilePos& pos, Random*) override;
+	void tick(Level*, const TilePos& pos, Random*) override;
+	void attack(Level*, const TilePos& pos, Player*) override;
+	int use(Level*, const TilePos& pos, Player*) override;
+	void stepOn(Level*, const TilePos& pos, Entity*) override;
 
-	int poofParticles(Level*, int x, int y, int z);
-	void interact(Level*, int x, int y, int z);
+	int poofParticles(Level*, const TilePos& pos);
+	void interact(Level*, const TilePos& pos);
 
 	bool m_bLit;
 };

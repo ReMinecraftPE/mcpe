@@ -10,7 +10,7 @@
 #include "Player.hpp"
 #include "world/level/Level.hpp"
 
-TripodCamera::TripodCamera(Level* level, Player* player, float x, float y, float z) : Mob(level)
+TripodCamera::TripodCamera(Level* level, Player* player, const Vec3& pos) : Mob(level)
 {
 	field_B8C = 0;
 	field_B90 = 80;
@@ -19,28 +19,16 @@ TripodCamera::TripodCamera(Level* level, Player* player, float x, float y, float
 	m_owner = player;
 	field_C8 = RENDER_CAMERA;
 
-	field_60 = m_pitch = player->m_pitch;
-	field_5C = m_yaw = player->m_yaw;
+	m_oRot = m_rot = player->m_rot;
 
-	field_34 = 1;
+    m_bBlocksBuilding = true;
 
 	setSize(1.0f, 1.5f);
-	field_84 = field_8C * 0.5f - 0.25f;
+	m_heightOffset = m_bbHeight * 0.5f - 0.25f;
 
-	setPos(x, y, z);
-	field_3C.x = x;
-	field_3C.y = y;
-	field_3C.z = z;
-}
-
-void TripodCamera::defineSynchedData()
-{
-
-}
-
-float TripodCamera::getShadowHeightOffs()
-{
-	return 0.0f;
+	setPos(pos);
+	m_oPos = pos;
+	m_bMakeStepSound = false;
 }
 
 bool TripodCamera::interact(Player* player)
@@ -55,25 +43,15 @@ int TripodCamera::interactPreventDefault()
 	return 1;
 }
 
-bool TripodCamera::isPickable()
-{
-	return !m_bRemoved;
-}
-
-bool TripodCamera::isPushable()
-{
-	return false;
-}
-
 void TripodCamera::tick()
 {
-	field_3C = m_pos;
+	m_oPos = m_pos;
 
 	m_vel.y -= 0.04f;
-	move(m_vel.x, m_vel.y, m_vel.z);
+	move(m_vel);
 
 	m_vel *= 0.98f;
-	if (field_7C)
+	if (m_onGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;
@@ -93,14 +71,14 @@ void TripodCamera::tick()
 	if (field_B90 == 8)
 	{
 		m_pLevel->takePicture(this, m_owner);
-		m_pLevel->addParticle("explode", m_pos.x, m_pos.y + 0.6f, m_pos.z, 0.0f, 0.0f, 0.0f);
-		m_pLevel->addParticle("explode", m_pos.x, m_pos.y + 0.8f, m_pos.z, 0.0f, 0.0f, 0.0f);
-		m_pLevel->addParticle("explode", m_pos.x, m_pos.y + 1.0f, m_pos.z, 0.0f, 0.0f, 0.0f);
+		m_pLevel->addParticle("explode", Vec3(m_pos.x, m_pos.y + 0.6f, m_pos.z));
+		m_pLevel->addParticle("explode", Vec3(m_pos.x, m_pos.y + 0.8f, m_pos.z));
+		m_pLevel->addParticle("explode", Vec3(m_pos.x, m_pos.y + 1.0f, m_pos.z));
 		return;
 	}
 
 	if (field_B90 > 8)
 	{
-		m_pLevel->addParticle("smoke", m_pos.x, m_pos.y + 1.0f, m_pos.z, 0.0f, 0.0f, 0.0f);
+		m_pLevel->addParticle("smoke", Vec3(m_pos.x, m_pos.y + 1.0f, m_pos.z));
 	}
 }

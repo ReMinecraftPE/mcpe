@@ -18,6 +18,10 @@
 #define GET_BLUE(c)  (uint8_t(((c) >> 16) & 0xFF))
 #define GET_ALPHA(c) (uint8_t(((c) >> 24) & 0xFF))
 
+#define TRIANGLE_MODE true
+// false on Java
+#define USE_VBO true
+
 class Tesselator
 {
 public:
@@ -35,15 +39,22 @@ public:
 		float m_v;
 		// RGBA color
 		uint32_t m_color;
+#ifdef USE_GL_NORMAL_LIGHTING
+		// the legend
+        uint32_t m_normal;
+#endif
 	};
 
+private:
+	void _init();
+
 public:
-	Tesselator(int allotedSize = 0x800000);
+	Tesselator(int size = 0x800000);
 	~Tesselator();
 
 	void addOffset(float x, float y, float z);
 	void begin();
-	void begin(int accessMode);
+	void begin(GLenum mode);
 	void clear();
 	void color(int c);
 	void color(int c, int a);
@@ -66,33 +77,50 @@ public:
 
 	RenderChunk end(int);
 
-public:
+private:
+	// Buffer
 	Vertex* m_pVertices;
-	int field_4;
+
+	// Tesselation state
+	int m_vertices;
+
+	float m_nextVtxU; // u
+	float m_nextVtxV; // v
+	uint32_t m_nextVtxColor; // col
+
+	bool m_bHasColor;
+	bool m_bHasTexture;
+	bool m_bHasNormal;
+
+	int m_count;
+	bool m_bNoColorFlag;
+
+	GLenum m_drawArraysMode; // draw_mode
+
 	float m_offsetX;
 	float m_offsetY;
 	float m_offsetZ;
 
-	float m_nextVtxU;
-	float m_nextVtxV;
-	uint32_t m_nextVtxColor;
+	uint32_t m_nextVtxNormal; // normalValue
 
-	bool m_bHaveColor;
-	bool m_bHaveTex;
-	bool field_26;
-	bool m_bBlockColor;
+	// State
+	bool m_bTesselating;
+	bool m_bVboMode;
+
+	// VBO State
+	GLuint* m_vboIds;
+	int m_vboId;
+	int m_vboCounts;
+
+	// Buffer state
+	int m_maxVertices;
+
+private:
 	bool field_28;
 	int m_nVertices;
-	int field_30;
-	bool field_34;
-
-	int m_vboCount;
-	int field_3C;
-	GLuint* m_pVBOs;
 
 	int field_48;
-	int m_maxVertices;
-	GLuint m_drawArraysMode;
+
 	int m_accessMode;
 
 	std::map<uint32_t, uint32_t> m_VboIdxToRenderChunkID;

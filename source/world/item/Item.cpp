@@ -138,6 +138,18 @@ void Item::initItems()
 		->setIcon(9, 1)
 		->setDescriptionId("wheat");
 
+	Item::flint = NEW_ITEM(ITEM_FLINT)
+		->setIcon(6, 0)
+		->setDescriptionId("flint");
+
+	Item::porkChop_raw = NEW_ITEM(ITEM_PORKCHOP_RAW)
+		->setIcon(7, 5)
+		->setDescriptionId("porkchopRaw");
+
+	Item::porkChop_cooked = NEW_ITEM(ITEM_PORKCHOP_COOKED)
+		->setIcon(8, 5)
+		->setDescriptionId("porkchopCooked");
+
 	Item::door_wood = NEW_X_ITEM(DoorItem, ITEM_DOOR_WOOD, Material::wood)
 		->setIcon(11, 2)
 		->setDescriptionId("doorWood");
@@ -174,9 +186,13 @@ void Item::initItems()
 		->setIcon(14, 1)
 		->setDescriptionId("slimeball");
 
+	Item::egg = NEW_ITEM(ITEM_EGG)
+		->setIcon(12, 0)
+		->setDescriptionId("egg");
+
 	Item::compass = NEW_ITEM(ITEM_COMPASS)
 		->setIcon(6, 3)
-		->setDescriptionId("clock");
+		->setDescriptionId("compass");
 
 	Item::clock = NEW_ITEM(ITEM_CLOCK)
 		->setIcon(6, 4)
@@ -201,17 +217,17 @@ void Item::initItems()
 		->setDescriptionId("rocket");
 }
 
-int Item::getIcon(ItemInstance* pInstance)
+int Item::getIcon(const ItemInstance* pInstance) const
 {
 	return m_icon;
 }
 
-bool Item::useOn(ItemInstance* instance, Level* level, int x, int y, int z, int d)
+bool Item::useOn(ItemInstance* instance, Level* level, const TilePos& pos, Facing::Name face)
 {
 	return false;
 }
 
-bool Item::useOn(ItemInstance* instance, Player* player, Level* level, int x, int y, int z, int d)
+bool Item::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
 	return false;
 }
@@ -251,7 +267,7 @@ void Item::hurtEnemy(ItemInstance* instance, Mob* mob)
 
 }
 
-void Item::mineBlock(ItemInstance* instance, int x, int y, int z, int d)
+void Item::mineBlock(ItemInstance* instance, const TilePos& pos, Facing::Name face)
 {
 
 }

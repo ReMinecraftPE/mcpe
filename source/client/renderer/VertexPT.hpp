@@ -8,18 +8,20 @@
 
 #pragma once
 
+#include "world/phys/Vec3.hpp"
+
 struct VertexPT
 {
-	float x, y, z;
+	Vec3 pos;
 	float u , v ;
 
 	VertexPT()
 	{
-        x = 0; y = 0; z = 0;
+		pos = Vec3::ZERO;
         u = 0; v = 0;
 	}
-	VertexPT(float x, float y, float z) : x(x), y(y), z(z) {}
-	VertexPT(float x, float y, float z, float(u), float(v)) : x(x), y(y), z(z), u(u), v(v) {}
+	VertexPT(float x, float y, float z, float(u), float(v)) : pos(Vec3(x,y,z)), u(u), v(v) {}
+	VertexPT(Vec3& pos) : pos(pos), u(0), v(0) {}
 
 	void setUV(float _u, float _v)
 	{

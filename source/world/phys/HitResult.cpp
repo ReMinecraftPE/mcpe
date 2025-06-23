@@ -11,26 +11,21 @@
 void HitResult::_init()
 {
 	m_hitType = NONE;
-	// block coords?
-	m_tileX = 0;
-	m_tileY = 0;
-	m_tileZ = 0;
+	m_tilePos = TilePos();
 
-	m_hitSide = MINY;
+	m_hitSide = Facing::DOWN;
 
 	m_pEnt = nullptr;
 	m_bUnk24 = 0;
 }
 
-HitResult::HitResult(int x, int y, int z, eHitSide hitSide, const Vec3& vec)
+HitResult::HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3& vec)
 {
 	_init();
 
-	m_hitType = AABB;
+	m_hitType = TILE;
 	m_hitSide = hitSide;
-	m_tileX = x;
-	m_tileY = y;
-	m_tileZ = z;
+	m_tilePos = tilePos;
 	m_bUnk24 = false;
 	m_hitPos = vec;
 }

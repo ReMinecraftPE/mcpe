@@ -19,11 +19,23 @@ int Textures::loadTexture(const std::string& name, bool bIsRequired)
 
 	Texture t = m_pPlatform->loadTexture(name, bIsRequired);
 
-	int result = -1;
-	if (t.m_pixels)
-		result = assignTexture(name, t);
+	if (!t.m_pixels && bIsRequired) {
+		t.m_hasAlpha = 1;
+		t.field_D = 0;
+		t.m_width = 2;
+		t.m_height = 2;
+		t.m_pixels = new uint32_t[4];
+		t.m_pixels[0] = 0xfff800f8;
+		t.m_pixels[1] = 0xff000000;
+		t.m_pixels[3] = 0xfff800f8;
+		t.m_pixels[2] = 0xff000000;
+	}
 
-	return result;
+	if (t.m_pixels) {
+		return assignTexture(name, t);
+	} else {
+		return -1;
+	}
 }
 
 int Textures::assignTexture(const std::string& name, Texture& texture)
@@ -48,13 +60,13 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 
-	if (field_39)
+	if (m_bBlur)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
-	if (field_38)
+	if (m_bClamp)
 	{
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -67,7 +79,7 @@ int Textures::assignTexture(const std::string& name, Texture& texture)
 
 	GLuint internalFormat = GL_RGB;
 
-	if (texture.field_C)
+	if (texture.m_hasAlpha)
 		internalFormat = GL_RGBA;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.m_pixels);
@@ -96,8 +108,8 @@ void Textures::clear()
 
 Textures::Textures(Options* pOptions, AppPlatform* pAppPlatform)
 {
-	field_38 = false;
-	field_39 = false;
+	m_bClamp = false;
+	m_bBlur = false;
 
 	m_pPlatform = pAppPlatform;
 	m_pOptions = pOptions;

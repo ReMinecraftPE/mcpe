@@ -10,24 +10,31 @@
 
 #include "world/level/Level.hpp"
 #include "world/item/ItemInstance.hpp"
+#include "world/entity/LocalPlayer.hpp"
 
 class Minecraft;
 
 class GameMode
 {
+protected:
+	Level& _level;
+
 public:
-	GameMode(Minecraft* pMinecraft);
+	GameMode(Minecraft* pMinecraft, Level& level);
 	virtual ~GameMode();
 	virtual void initLevel(Level*);
-	virtual void startDestroyBlock(int, int, int, int);
-	virtual bool destroyBlock(int, int, int, int);
-	virtual void continueDestroyBlock(int, int, int, int);
+	//virtual bool isDestroyingBlock() const;
+	virtual bool startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face);
+	virtual bool destroyBlock(Player* player, const TilePos& pos, Facing::Name face);
+	virtual bool continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face);
 	virtual void stopDestroyBlock();
 	virtual void tick();
 	virtual void render(float f);
-	virtual float getPickRange();
+	// Used to be called getPickRange
+	virtual float getBlockReachDistance() const;
+	virtual float getEntityReachDistance() const;
 	virtual bool useItem(Player*, Level*, ItemInstance*);
-	virtual bool useItemOn(Player*, Level*, ItemInstance*, int, int, int, int);
+	virtual bool useItemOn(Player*, Level*, ItemInstance*, const TilePos& pos, Facing::Name face);
 	virtual LocalPlayer* createPlayer(Level*);
 	virtual void initPlayer(Player*);
 	virtual void adjustPlayer(Player*);
@@ -36,8 +43,9 @@ public:
 	virtual void attack(Player*, Entity*);
 	virtual int handleInventoryMouseClick(int, int, int, Player*);
 	virtual void handleCloseInventory(int, Player*);
-	virtual bool isCreativeType();
-	virtual bool isSurvivalType();
+	virtual bool isCreativeType() const { return true; }
+	virtual bool isSurvivalType() const { return false; }
+	virtual float getDestroyModifier() const { return 1.0; }
 
 public:
 	Minecraft* m_pMinecraft;

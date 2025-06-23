@@ -107,9 +107,21 @@ Texture AppPlatform::loadTexture(const std::string&, bool bIsRequired)
 	return Texture(0, 0, nullptr, 1, 0);
 }
 
-bool AppPlatform::isTouchscreen()
+#ifndef ORIGINAL_CODE
+
+bool AppPlatform::doesTextureExist(const std::string& path) const
+{
+	return false;
+}
+
+bool AppPlatform::isTouchscreen() const
 {
 	return true;
+}
+
+bool AppPlatform::hasGamepad() const
+{
+	return false;
 }
 
 void AppPlatform::recenterMouse()
@@ -173,6 +185,10 @@ int AppPlatform::getKeyboardUpOffset()
 }
 #endif
 
+void AppPlatform::vibrate(int milliSeconds)
+{
+}
+
 void AppPlatform::_fireLowMemory()
 {
 	
@@ -210,7 +226,15 @@ bool AppPlatform::hasFileSystemAccess()
 
 std::string AppPlatform::getPatchData()
 {
-	return "";
+	const AssetFile file = readAssetFile("patches/patch_data.txt", false);
+	std::string out = std::string(file.data, file.data + file.size);
+	delete file.data;
+	return out;
+}
+
+AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
+{
+	return AssetFile();
 }
 
 void AppPlatform::initSoundSystem()
@@ -221,6 +245,8 @@ SoundSystem* const AppPlatform::getSoundSystem() const
 {
 	return nullptr;
 }
+
+#endif
 
 std::string AppPlatform::getAssetPath(const std::string &path) const
 {

@@ -18,8 +18,7 @@ struct PlayerData
 {
 	Vec3 m_pos;
 	Vec3 m_vel;
-	float m_pitch;
-	float m_yaw;
+	Vec2 m_rot;
 	float m_distanceFallen;
 	short field_24;
 	short field_26;
@@ -33,37 +32,71 @@ struct PlayerData
 struct LevelData
 {
 private:
-	void _init(TLong seed = 0, int x = 0);
-	void _init(TLong seed, int x, const std::string& name);
+	int32_t m_seed;
+	TilePos m_spawnPos;
+	int32_t m_time;
+	int m_lastPlayed;
+	int32_t m_sizeOnDisk;
+	int field_1C;
+	int m_storageVersion;
+	int m_generatorVersion;
+	std::string m_levelName;
+
+private:
+	void _init(int32_t seed = 0, int x = 0);
+	void _init(int32_t seed, int storageVersion, const std::string& name);
 
 public:
+	// @TODO: Make private when level v2 is done
+	PlayerData m_LocalPlayerData;
+	int m_nPlayers;
+
 	LevelData() { _init(); }
-	LevelData(TLong seed, const std::string& name, int x) { _init(seed, x, name); }
+	LevelData(int32_t seed, const std::string& name, int storageVersion) { _init(seed, storageVersion, name); }
 
 
 	void read(RakNet::BitStream& bs, int d);
 	void write(RakNet::BitStream& bs);
 
-	TLong m_seed ;
-	Pos m_spawnPos;
-	TLong field_10;
-	int field_14;
-	TLong field_18;
-	int field_1C;
-	int field_20;
-	PlayerData m_LocalPlayerData;
-	int m_nPlayers;
-	std::string field_78;
+	/* Getters & Setters */
+
+	int32_t getSeed() const { return m_seed; }
+	int getXSpawn() const { return m_spawnPos.x; }
+	int getYSpawn() const { return m_spawnPos.y; }
+	int getZSpawn() const { return m_spawnPos.z; }
+	const TilePos& getSpawn() const { return m_spawnPos; }
+	int32_t getTime() const { return m_time; }
+	int32_t getSizeOnDisk() const { return m_sizeOnDisk; }
+	//CompoundTag getLoadedPlayerTag(); // Return type may actually be a pointer, not sure
+
+	void setSeed(int32_t seed) { m_seed = seed; }
+	void setXSpawn(int xSpawn) { m_spawnPos.x = xSpawn; }
+	void setYSpawn(int ySpawn) { m_spawnPos.y = ySpawn; }
+	void setZSpawn(int zSpawn) { m_spawnPos.z = zSpawn; }
+	void setTime(int32_t time) { m_time = time; }
+	void setSizeOnDisk(int32_t sizeOnDisk) { m_sizeOnDisk = sizeOnDisk; }
+
+	void setSpawn(const TilePos& pos) { m_spawnPos = pos; }
+
+	int getGeneratorVersion() const { return m_generatorVersion; }
+	void setGeneratorVersion(int generatorVersion) { m_generatorVersion = generatorVersion; }
+
+	int getLastPlayed() const { return m_lastPlayed; }
 
 	// inlined in 0.1.0 demo
-	int getVersion() const
-	{
-		return field_20;
-	}
+	int getStorageVersion() const { return m_storageVersion; }
+	void setStorageVersion(int storageVersion) { m_storageVersion = storageVersion; }
 
-	void setLevelName(const std::string& name)
-	{
-		field_78 = name;
-	}
+	GameType getGameType() const;
+	void setGameType(GameType gameType) { /* Empty in 0.2.1 */ }
+
+	// @TODO: Not Implemented
+	bool getSpawnMobs() { return false; }
+	void setSpawnMobs(bool spawnMobs) { }
+
+	std::string getLevelName() const { return m_levelName; }
+	void setLevelName(const std::string& name) { m_levelName = name; }
+
+	void setLoadedPlayerTo(Player* player);
 };
 

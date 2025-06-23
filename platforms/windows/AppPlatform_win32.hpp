@@ -15,7 +15,7 @@
 #include "client/player/input/Keyboard.hpp"
 #include "common/Utils.hpp"
 #include "LoggerWin32.hpp"
-#include "SoundSystemDS.hpp"
+#include "CustomSoundSystem.hpp"
 
 class AppPlatform_win32 : public AppPlatform
 {
@@ -36,9 +36,10 @@ public:
 	void showDialog(eDialogType) override;
 	std::string getDateString(int time) override;
 	Texture loadTexture(const std::string& str, bool bIsRequired) override;
+	bool doesTextureExist(const std::string& path) const override;
 
 	// From v0.1.1. Also add these to determine touch screen use within the game.
-	bool isTouchscreen() override;
+	bool isTouchscreen() const override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;
@@ -54,7 +55,7 @@ public:
 	bool hasFileSystemAccess() override;
 
 	// Also add this to allow dynamic texture patching.
-	std::string getPatchData() override;
+	AssetFile readAssetFile(const std::string&, bool) const override;
 
 	void setScreenSize(int width, int height);
 	const char* const getWindowTitle() const { return m_WindowTitle; }
@@ -82,7 +83,6 @@ private:
 
 	int m_MouseDiffX, m_MouseDiffY;
 
-	LoggerWin32 *m_pLogger;
-	SoundSystemDS* m_pSoundSystem;
+	SOUND_SYSTEM* m_pSoundSystem;
 };
 

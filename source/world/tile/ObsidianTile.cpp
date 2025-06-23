@@ -13,12 +13,12 @@ ObsidianTile::ObsidianTile(int a, int b, Material* c) : Tile(a, b, c)
 {
 }
 
-int ObsidianTile::getResource(int data, Random* random)
+int ObsidianTile::getResource(int data, Random* random) const
 {
 	return Tile::obsidian->m_ID;
 }
 
-int ObsidianTile::getResourceCount(Random* random)
+int ObsidianTile::getResourceCount(Random* random) const
 {
 	return 1;
 }

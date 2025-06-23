@@ -9,45 +9,45 @@
 #include "LevelChunk.hpp"
 #include "ChunkCache.hpp"
 #include "world/level/Level.hpp"
+#include "EmptyLevelChunk.hpp"
 
 ChunkCache::ChunkCache(Level* pLevel, ChunkStorage* pStor, ChunkSource* pSrc)
 {
 	field_4 = true;
 	m_pLevel = nullptr;
 	m_pLastChunk = nullptr;
-	m_LastChunkX = -999999999;
-	m_LastChunkZ = -999999999;
+	m_lastChunkPos = ChunkPos(-999999999, -999999999);
 
 	m_pChunkSource = pSrc;
 	m_pChunkStorage = pStor;
 	m_pLevel = pLevel;
 
-	m_pEmptyChunk = new EmptyLevelChunk(pLevel, nullptr, 0, 0);
+	m_pEmptyChunk = new EmptyLevelChunk(pLevel, nullptr, ChunkPos(0, 0));
 	m_pEmptyChunk->field_236 = true;
 
 	memset(m_chunkMap, 0, sizeof(m_chunkMap));
 }
 
-LevelChunk* ChunkCache::create(int x, int z)
+LevelChunk* ChunkCache::create(const ChunkPos& pos)
 {
-	return getChunk(x, z);
+	return getChunk(pos);
 }
 
-LevelChunk* ChunkCache::getChunk(int x, int z)
+LevelChunk* ChunkCache::getChunk(const ChunkPos& pos)
 {
 	// get the last chunk quickly if needed
-	if (m_LastChunkX == x && m_LastChunkZ == z)
+	if (m_lastChunkPos == pos)
 	{
 		if (m_pLastChunk)
 			return m_pLastChunk;
 	}
 
-	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_Z || z >= C_MAX_CHUNKS_X)
+	if (pos.x < 0 || pos.z < 0 || pos.x >= C_MAX_CHUNKS_X || pos.z >= C_MAX_CHUNKS_Z)
 		return m_pEmptyChunk;
 
-	if (!hasChunk(x, z))
+	if (!hasChunk(pos))
 	{
-		LevelChunk* pOldChunk = m_chunkMap[z][x];
+		LevelChunk* pOldChunk = m_chunkMap[pos.z][pos.x];
 		if (pOldChunk)
 		{
 			pOldChunk->unload();
@@ -56,24 +56,24 @@ LevelChunk* ChunkCache::getChunk(int x, int z)
 				m_pChunkStorage->saveEntities(m_pLevel, pOldChunk);
 		}
 
-		LevelChunk* pChunk = load(x, z);
+		LevelChunk* pChunk = load(pos);
 		if (pChunk)
 		{
-			m_chunkMap[z][x] = pChunk;
+			m_chunkMap[pos.z][pos.x] = pChunk;
 			pChunk->lightLava();
 
-			int globalX = x * 16, globalZ = z * 16;
-			for (int i = globalX, m = 0; m < 16; i++, m++)
+			TilePos global(pos, 0);
+			for (int i = global.x, m = 0; m < 16; i++, m++)
 			{
-				for (int j = globalZ, n = 0; n < 16; j++, n++)
+				for (int j = global.z, n = 0; n < 16; j++, n++)
 				{
-					int height = m_pLevel->getHeightmap(i, j);
+					int height = m_pLevel->getHeightmap(TilePos(i, 0, j));
 					if (height >= 0)
 					{
 						for (int k = height; k > 0; k--)
 						{
-							m_pLevel->updateLight(LightLayer::Sky,   globalX,   k, globalZ,   globalX,   k, globalZ);
-							m_pLevel->updateLight(LightLayer::Block, globalX-1, k, globalZ-1, globalX+1, k, globalZ+1);
+							m_pLevel->updateLight(LightLayer::Sky,   TilePos(global.x,   k, global.z),   TilePos(global.x,   k, global.z));
+							m_pLevel->updateLight(LightLayer::Block, TilePos(global.x-1, k, global.z-1), TilePos(global.x+1, k, global.z+1));
 						}
 					}
 				}
@@ -83,51 +83,50 @@ LevelChunk* ChunkCache::getChunk(int x, int z)
 		{
 			pChunk = m_pEmptyChunk;
 			if (m_pChunkSource)
-				pChunk = m_pChunkSource->getChunk(x, z);
+				pChunk = m_pChunkSource->getChunk(pos);
 
-			m_chunkMap[z][x] = pChunk;
+			m_chunkMap[pos.z][pos.x] = pChunk;
 			pChunk->lightLava();
 		}
 
-		pChunk = m_chunkMap[z][x];
+		pChunk = m_chunkMap[pos.z][pos.x];
 		if (pChunk)
 			pChunk->load();
 
-		if (!pChunk->field_234 && hasChunk(x + 1, z + 1) && hasChunk(x, z + 1) && hasChunk(x + 1, z))
-			postProcess(this, x, z);
+		if (!pChunk->field_234 && hasChunk(ChunkPos(pos.x + 1, pos.z + 1)) && hasChunk(ChunkPos(pos.x, pos.z + 1)) && hasChunk(ChunkPos(pos.x + 1, pos.z)))
+			postProcess(this, pos);
 
 		//@OVERSIGHT: redundant call twice to hasChunk(x-1, z), hasChunk(x,z-1), and hasChunk(x-1,z-1)
-		if (hasChunk(x - 1, z) && !getChunk(x - 1, z)->field_234 && hasChunk(x - 1, z + 1) && hasChunk(x, z + 1) && hasChunk(x - 1, z))
-			postProcess(this, x - 1, z);
+		if (hasChunk(ChunkPos(pos.x - 1, pos.z)) && !getChunk(ChunkPos(pos.x - 1, pos.z))->field_234 && hasChunk(ChunkPos(pos.x - 1, pos.z + 1)) && hasChunk(ChunkPos(pos.x, pos.z + 1)) && hasChunk(ChunkPos(pos.x - 1, pos.z)))
+			postProcess(this, ChunkPos(pos.x - 1, pos.z));
 
-		if (hasChunk(x, z - 1) && !getChunk(x, z - 1)->field_234 && hasChunk(x + 1, z - 1) && hasChunk(x + 1, z) && hasChunk(x, z - 1))
-			postProcess(this, x, z - 1);
+		if (hasChunk(ChunkPos(pos.x, pos.z - 1)) && !getChunk(ChunkPos(pos.x, pos.z - 1))->field_234 && hasChunk(ChunkPos(pos.x + 1, pos.z - 1)) && hasChunk(ChunkPos(pos.x + 1, pos.z)) && hasChunk(ChunkPos(pos.x, pos.z - 1)))
+			postProcess(this, ChunkPos(pos.x, pos.z - 1));
 
-		if (hasChunk(x - 1, z - 1) && !getChunk(x - 1, z - 1)->field_234 && hasChunk(x - 1, z - 1) && hasChunk(x, z - 1) && hasChunk(x - 1, z))
-			postProcess(this, x - 1, z - 1);
+		if (hasChunk(pos - 1) && !getChunk(pos - 1)->field_234 && hasChunk(pos - 1) && hasChunk(ChunkPos(pos.x, pos.z - 1)) && hasChunk(ChunkPos(pos.x - 1, pos.z)))
+			postProcess(this, pos - 1);
 	}
 
-	m_LastChunkX = x;
-	m_LastChunkZ = z;
-	m_pLastChunk = m_chunkMap[z][x];
-	return m_chunkMap[z][x];
+	m_lastChunkPos = pos;
+	m_pLastChunk = m_chunkMap[pos.z][pos.x];
+	return m_chunkMap[pos.z][pos.x];
 }
 
-LevelChunk* ChunkCache::getChunkDontCreate(int x, int z)
+LevelChunk* ChunkCache::getChunkDontCreate(const ChunkPos& pos)
 {
 	// get the last chunk quickly if needed
-	if (m_LastChunkX == x && m_LastChunkZ == z)
+	if (m_lastChunkPos == pos)
 	{
 		if (m_pLastChunk)
 			return m_pLastChunk;
 	}
 
-	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_Z || z >= C_MAX_CHUNKS_X)
+	if (pos.x < 0 || pos.z < 0 || pos.x >= C_MAX_CHUNKS_X || pos.z >= C_MAX_CHUNKS_Z)
 		return m_pEmptyChunk;
 
-	if (!hasChunk(x, z))
+	if (!hasChunk(pos))
 	{
-		LevelChunk* pOldChunk = m_chunkMap[z][x];
+		LevelChunk* pOldChunk = m_chunkMap[pos.z][pos.x];
 		if (pOldChunk)
 		{
 			pOldChunk->unload();
@@ -139,36 +138,35 @@ LevelChunk* ChunkCache::getChunkDontCreate(int x, int z)
 		// create an empty chunk
 		LevelChunk* pChunk = m_pEmptyChunk;
 		if (m_pChunkSource)
-			pChunk = m_pChunkSource->getChunkDontCreate(x, z);
+			pChunk = m_pChunkSource->getChunkDontCreate(pos);
 
-		m_chunkMap[z][x] = pChunk;
+		m_chunkMap[pos.z][pos.x] = pChunk;
 	}
 
-	m_LastChunkX = x;
-	m_LastChunkZ = z;
-	m_pLastChunk = m_chunkMap[z][x];
-	return m_chunkMap[z][x];
+	m_lastChunkPos = pos;
+	m_pLastChunk = m_chunkMap[pos.z][pos.x];
+	return m_pLastChunk;
 }
 
-bool ChunkCache::hasChunk(int x, int z)
+bool ChunkCache::hasChunk(const ChunkPos& pos)
 {
-	if (x < 0 || z < 0)
+	if (pos.x < 0 || pos.z < 0)
 		return true;
 
-	if (x >= C_MAX_CHUNKS_X || z >= C_MAX_CHUNKS_Z)
+	if (pos.x >= C_MAX_CHUNKS_X || pos.z >= C_MAX_CHUNKS_Z)
 		return true;
 
-	if (m_LastChunkX == x && m_LastChunkZ == z)
+	if (m_lastChunkPos == pos)
 		return true;
 
-	LevelChunk* pChunk = m_chunkMap[z][x];
+	LevelChunk* pChunk = m_chunkMap[pos.z][pos.x];
 	if (!pChunk)
 		return false;
 
 	if (pChunk == m_pEmptyChunk)
 		return true;
 
-	return pChunk->isAt(x, z);
+	return pChunk->isAt(pos);
 }
 
 int ChunkCache::tick()
@@ -179,18 +177,18 @@ int ChunkCache::tick()
 	return m_pChunkSource->tick();
 }
 
-void ChunkCache::postProcess(ChunkSource* pChkSrc, int x, int z)
+void ChunkCache::postProcess(ChunkSource* pChkSrc, const ChunkPos& pos)
 {
-	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_X || z >= C_MAX_CHUNKS_Z)
+	if (pos.x < 0 || pos.z < 0 || pos.x >= C_MAX_CHUNKS_X || pos.z >= C_MAX_CHUNKS_Z)
 		return;
 
-	LevelChunk* pChunk = getChunk(x, z);
+	LevelChunk* pChunk = getChunk(pos);
 	if (!pChunk->field_234)
 	{
 		pChunk->field_234 = 1;
 		if (m_pChunkSource)
 		{
-			m_pChunkSource->postProcess(m_pChunkSource, x, z);
+			m_pChunkSource->postProcess(m_pChunkSource, pos);
 			pChunk->clearUpdateMap();
 		}
 	}
@@ -211,11 +209,12 @@ void ChunkCache::saveAll()
 
 	std::vector<LevelChunk*> chunksToSave;
 
-	for (int i = 0; i < C_MAX_CHUNKS_Z; i++)
+	ChunkPos pos(0, 0);
+	for (pos.z = 0; pos.z < C_MAX_CHUNKS_Z; pos.z++)
 	{
-		for (int j = 0; j < C_MAX_CHUNKS_X; j++)
+		for (pos.x = 0; pos.x < C_MAX_CHUNKS_X; pos.x++)
 		{
-			chunksToSave.push_back(m_pLevel->getChunk(j, i));
+			chunksToSave.push_back(m_pLevel->getChunk(pos));
 		}
 	}
 
@@ -230,11 +229,12 @@ void ChunkCache::saveUnsaved()
 
 	std::vector<LevelChunk*> chunksToSave;
 
-	for (int i = 0; i < C_MAX_CHUNKS_Z; i++)
+	ChunkPos pos(0, 0);
+	for (pos.z = 0; pos.z < C_MAX_CHUNKS_Z; pos.z++)
 	{
-		for (int j = 0; j < C_MAX_CHUNKS_X; j++)
+		for (pos.x = 0; pos.x < C_MAX_CHUNKS_X; pos.x++)
 		{
-			LevelChunk* pChunk = m_pLevel->getChunk(j, i);
+			LevelChunk* pChunk = m_pLevel->getChunk(pos);
 			if (!pChunk->m_bUnsaved)
 				continue;
 
@@ -262,8 +262,8 @@ ChunkCache::~ChunkCache()
 	SAFE_DELETE(m_pChunkSource);
 	SAFE_DELETE(m_pEmptyChunk);
 
-	for (int i = 0; i < 16; i++)
-		for (int j = 0; j < 16; j++)
+	for (int i = 0; i < C_MAX_CHUNKS_Z; i++)
+		for (int j = 0; j < C_MAX_CHUNKS_X; j++)
 		{
 			LevelChunk* pChk = m_chunkMap[i][j];
 			if (pChk)
@@ -274,15 +274,15 @@ ChunkCache::~ChunkCache()
 		}
 }
 
-LevelChunk* ChunkCache::load(int x, int z)
+LevelChunk* ChunkCache::load(const ChunkPos& pos)
 {
 	if (!m_pChunkStorage)
 		return m_pEmptyChunk;
 
-	if (x < 0 || z < 0 || x >= C_MAX_CHUNKS_X || z >= C_MAX_CHUNKS_Z)
+	if (pos.x < 0 || pos.z < 0 || pos.x >= C_MAX_CHUNKS_X || pos.z >= C_MAX_CHUNKS_Z)
 		return m_pEmptyChunk;
 
-	LevelChunk* pChk = m_pChunkStorage->load(m_pLevel, x, z);
+	LevelChunk* pChk = m_pChunkStorage->load(m_pLevel, pos);
 	if (pChk)
 		pChk->field_23C = m_pLevel->getTime();
 	

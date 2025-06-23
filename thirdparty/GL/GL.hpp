@@ -16,13 +16,11 @@
 	#include <EGL/egl.h>
 #endif
 
-#ifdef USE_GLES1_COMPATIBILITY_LAYER
-	#define USE_GLES // GLES or its compatibility layer.
-#endif
-
+// Disable this on OpenGL ES 2+
+#define USE_GL_NORMAL_LIGHTING
 
 #ifdef USE_GLES
-	#if MC_TARGET_OS_IOS
+	#if MC_PLATFORM_IOS
 		 #import <OpenGLES/ES1/gl.h>
 		 #import <OpenGLES/ES1/glext.h>
 
@@ -37,6 +35,14 @@
 	#include <cmath>
 
 	#define USE_GL_ORTHO_F
+
+	// https://discourse.libsdl.org/t/opengl-es2-support-on-windows/20177/10
+	// float on GLES for performance reasons (mobile hardware) rather than double precision on GL
+	#if GL_ES_VERSION_2_0
+		#define glClearColor glClearColorf
+	#endif
+	#define glClearDepth glClearDepthf
+	#define glDepthRange glDepthRangef
 #else
 	#ifdef USE_SDL
 		#define USE_OPENGL_2_FEATURES
@@ -77,7 +83,7 @@
 	static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
 		GLfloat m[4][4];
 		float sine, cotangent, deltaZ;
-		float radians = fovy / 2 * M_PI / 180;
+		float radians = fovy / 2.0f * M_PI / 180.0f;
 
 		deltaZ = zFar - zNear;
 		sine = sin(radians);
@@ -97,7 +103,12 @@
 	}
 #endif
 
-#ifdef USE_OPENGL_2_FEATURES
+#ifdef _WIN32
+void xglInit();
+bool xglInitted();
+#endif
+
+#if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32)
 
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData
@@ -107,13 +118,11 @@
 #define xglDisableClientState glDisableClientState
 #define xglTexCoordPointer glTexCoordPointer
 #define xglColorPointer glColorPointer
+#define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
 
 #else
-
-void xglInit();
-bool xglInitted();
 
 void xglBindBuffer(GLenum target, GLuint buffer);
 void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
@@ -125,12 +134,13 @@ void xglEnableClientState(GLenum _array);
 void xglDisableClientState(GLenum _array);
 void xglTexCoordPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglColorPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
+void xglNormalPointer(GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglVertexPointer(GLint size, GLenum type, GLsizei stride, const GLvoid* pointer);
 void xglDrawArrays(GLenum mode, GLint first, GLsizei count);
 
 #endif
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(USE_SDL)
 // Win32 defines xglOrthof as a regular function
 #elif defined USE_GL_ORTHO_F
 #define xglOrthof glOrthof

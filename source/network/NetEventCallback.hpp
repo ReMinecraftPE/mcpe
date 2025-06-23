@@ -12,7 +12,10 @@
 #include "Packet.hpp"
 class Packet;
 class LoginPacket;
+class LoginStatusPacket;
+class ReadyPacket;
 class MessagePacket;
+class SetTimePacket;
 class StartGamePacket;
 class AddPlayerPacket;
 class RemoveEntityPacket;
@@ -37,8 +40,12 @@ public:
 	virtual void onUnableToConnect();
 	virtual void onNewClient(const RakNet::RakNetGUID&);
 	virtual void onDisconnect(const RakNet::RakNetGUID&);
+	// TODO: macro this with a global PacketType list or something
 	virtual void handle(const RakNet::RakNetGUID&, LoginPacket*);
+	virtual void handle(const RakNet::RakNetGUID&, LoginStatusPacket*);
+	virtual void handle(const RakNet::RakNetGUID&, ReadyPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, MessagePacket*);
+	virtual void handle(const RakNet::RakNetGUID&, SetTimePacket*);
 	virtual void handle(const RakNet::RakNetGUID&, StartGamePacket*);
 	virtual void handle(const RakNet::RakNetGUID&, AddPlayerPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*);

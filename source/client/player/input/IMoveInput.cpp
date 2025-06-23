@@ -11,9 +11,9 @@
 IMoveInput::IMoveInput() :
 	m_horzInput(0.0f),
 	m_vertInput(0.0f),
-	field_C(false),
-	m_bJumpButton(false),
-	m_bSneakButton(false)
+	m_bWasJumping(false),
+	m_bJumping(false),
+	m_bSneaking(false)
 {
 }
 
@@ -29,7 +29,7 @@ void IMoveInput::render(float f)
 {
 }
 
-void IMoveInput::setKey(int key, bool state)
+void IMoveInput::setKey(int eventKey, bool eventKeyState)
 {
 }
 

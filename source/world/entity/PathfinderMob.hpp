@@ -18,13 +18,13 @@ public:
 	virtual Entity* getAttackTarget();
 	virtual void setAttackTarget(Entity*);
 	virtual Entity* findAttackTarget();
-	virtual bool checkHurtTarget(Entity*, float);
+	virtual void checkHurtTarget(Entity*, float);
 	virtual void checkCantSeeTarget(Entity*, float);
-	virtual float getWalkTargetValue(int, int, int);
-	virtual bool shouldHoldGround();
+	virtual float getWalkTargetValue(const TilePos& pos) const;
+	virtual bool shouldHoldGround() const;
 	virtual void findRandomStrollLocation();
 
-	float getWalkingSpeedModifier() override;
+	float getWalkingSpeedModifier() const override;
 	bool canSpawn() override;
 	void updateAi() override;
 
@@ -34,7 +34,7 @@ public:
 protected:
 	friend class Animal;
 	Entity* m_pAttackTarget;
-	bool field_BA0;
+	bool m_bHoldGround;
 	int field_BA4;
 	Path m_path;
 };

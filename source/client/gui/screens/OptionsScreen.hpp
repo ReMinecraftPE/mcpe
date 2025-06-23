@@ -23,6 +23,7 @@ public:
 	void render(int, int, float) override;
 	void removed() override;
 	void buttonClicked(Button* pButton) override;
+	bool handleBackEvent(bool b) override;
 	void handleScroll(bool down) override;
 
 private:

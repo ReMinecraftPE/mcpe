@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <assert.h>
-#include <limits.h>
+#include <limits>
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
@@ -26,7 +26,7 @@
 #include <string>
 #include <sstream>
 
-#include "../../compat/LegacyCPPCompatibility.hpp"
+#include "compat/LegacyCPPCompatibility.hpp"
 
 #ifdef _MSC_VER
 #pragma warning (disable : 4068)
@@ -37,9 +37,9 @@
 // Do we even need all this WinSock stuff anymore?
 #ifndef _XBOX // assume we're on a normal Windows device
 #define WIN32_LEAN_AND_MEAN
-#include <WinSock2.h>
-#include <Windows.h>
-#include <WS2tcpip.h>
+#include <winsock2.h>
+#include <windows.h>
+#include <ws2tcpip.h>
 #include <direct.h>
 #include <io.h>
 
@@ -268,6 +268,7 @@ enum eTileID
 
 	TILE_INFO_UPDATEGAME1 = 248,
 	TILE_INFO_UPDATEGAME2 = 249,
+	TILE_LEAVES_CARRIED = 254,
 
 	TILE_OBSIDIAN_CRYING = 200, // custom stuff - ID of 200
 	TILE_ROCKET_LAUNCHER,
@@ -551,36 +552,10 @@ enum eRenderLayer
 	LAYER_ALPHA
 };
 
-enum eDirection
-{
-	DIR_YNEG,
-	DIR_YPOS,
-	DIR_ZNEG, // North
-	DIR_ZPOS, // South
-	DIR_XNEG, // West
-	DIR_XPOS, // East
-};
+typedef uint8_t TileID;
+// TODO: "FullTile" struct with TileID and auxvalue?
 
-struct ChunkPos
-{
-	int x, z;
-	ChunkPos()
-	{
-		x = 0;
-		z = 0;
-	}
-	ChunkPos(int _x, int _z) : x(_x), z(_z) {}
-
-	bool operator<(const ChunkPos& b) const
-	{
-		if (x != b.x)
-			return x < b.x;
-
-		return z < b.z;
-	}
-};
-
-struct Pos
+/*struct Pos
 {
 	int x, y, z;
 	Pos()
@@ -590,23 +565,7 @@ struct Pos
 		z = 0;
 	}
 	Pos(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
-};
-
-struct TilePos : Pos
-{
-	TilePos() : Pos() {}
-	TilePos(int _x, int _y, int _z) : Pos(_x, _y, _z) {}
-
-	bool operator<(const TilePos& b) const
-	{
-		if (x != b.x)
-			return x < b.x;
-		if (y != b.y)
-			return y < b.y;
-
-		return z < b.z;
-	}
-};
+};*/
 
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)
 #define SAFE_DELETE_ARRAY(ptr) do { if (ptr) delete[] ptr; } while (0)
@@ -614,15 +573,11 @@ struct TilePos : Pos
 #define SSTR( x ) static_cast< const std::ostringstream & >( \
 		( std::ostringstream() << std::dec << x ) ).str()
 
-typedef uint8_t TileID;
-
 // functions from Mojang
 time_t getEpochTimeS();
 time_t getRawTimeS();
-float getTimeS();
+double getTimeS();
 int getTimeMs();
-
-float Max(float a, float b);
 
 void sleepMs(int ms);
 

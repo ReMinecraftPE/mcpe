@@ -32,6 +32,10 @@ typedef std::map<RakNet::RakNetGUID, OnlinePlayer*> OnlinePlayerMap;
 // @TODO: Rename to ServerNetworkHandler?
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
 {
+private:
+	bool _checkPermissions(OnlinePlayer* player);
+	bool _validateNum(OnlinePlayer* player, int value, int min, int max);
+
 public:
 
 	// @TODO: We can do the following to finally split Network code from Client code
@@ -52,8 +56,9 @@ public:
 	void handle(const RakNet::RakNetGUID&, RequestChunkPacket*) override;
 
 	// Overridden from LevelListener
-	void tileBrightnessChanged(int x, int y, int z) override;
-	void tileChanged(int x, int y, int z) override;
+	void tileBrightnessChanged(const TilePos& pos) override;
+	void tileChanged(const TilePos& pos) override;
+	void timeChanged(uint32_t time) override;
 
 	void allowIncomingConnections(bool b);
 	void displayGameMessage(const std::string&);
@@ -66,11 +71,13 @@ public:
 	void setupCommands();
 
 	// Commands
-	void commandHelp (OnlinePlayer*, const std::vector<std::string>&);
-	void commandStats(OnlinePlayer*, const std::vector<std::string>&);
-	void commandTime (OnlinePlayer*, const std::vector<std::string>&);
-	void commandSeed (OnlinePlayer*, const std::vector<std::string>&);
-	void commandTP   (OnlinePlayer*, const std::vector<std::string>&);
+	void commandHelp     (OnlinePlayer*, const std::vector<std::string>&);
+	void commandStats    (OnlinePlayer*, const std::vector<std::string>&);
+	void commandTime     (OnlinePlayer*, const std::vector<std::string>&);
+	void commandSeed     (OnlinePlayer*, const std::vector<std::string>&);
+	void commandTP       (OnlinePlayer*, const std::vector<std::string>&);
+	void commandSummon   (OnlinePlayer*, const std::vector<std::string>&);
+	void commandGamemode (OnlinePlayer*, const std::vector<std::string>&);
 
 public:
 	Minecraft* m_pMinecraft;
