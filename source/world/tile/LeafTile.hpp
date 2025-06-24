@@ -16,6 +16,11 @@ public:
 	LeafTile(int id);
 	~LeafTile();
 
+private:
+	void _tickDecayOld(Level* level, const TilePos& pos); // circa 0.1.0
+	void _tickDecay(Level* level, const TilePos& pos); /// circa b1.7.3
+
+public:
 	int getColor(const LevelSource*, const TilePos& pos) const override;
 	int getTexture(Facing::Name face, int data) const override;
 	bool isSolidRender() const override;
@@ -25,6 +30,6 @@ public:
 
 	void die(Level*, const TilePos& pos);
 
-	int* field_70;
+	int* m_checkBuffer;
 	int field_74;
 };
