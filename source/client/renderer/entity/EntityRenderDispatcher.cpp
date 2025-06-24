@@ -15,6 +15,9 @@
 #include "client/model/CowModel.hpp"
 #include "client/model/ChickenModel.hpp"
 #include "client/model/CreeperModel.hpp"
+#include "client/model/SpiderModel.hpp"
+#include "client/model/SkeletonModel.hpp"
+#include "client/model/ZombieModel.hpp"
 
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 Vec3 EntityRenderDispatcher::off;
@@ -25,7 +28,11 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_SheepRenderer(new SheepModel(false), new SheepModel(true), 0.7f),
 	m_CowRenderer(new CowModel, 0.7f),
 	m_ChickenRenderer(new ChickenModel, 0.3f),
-	m_CreeperRenderer(new CreeperModel, 0.5f)
+	m_CreeperRenderer(new CreeperModel, 0.5f),
+	m_SpiderRenderer(),
+	m_SkeletonRenderer(new SkeletonModel, 0.5f),
+	m_ZombieRenderer(new ZombieModel, 0.5f),
+	m_ArrowRenderer()
 {
 	m_pItemInHandRenderer = nullptr;
 	m_pTextures = nullptr;
@@ -39,9 +46,13 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_HumanoidMobRenderer.init(this);
 	m_PigRenderer.init(this);
 	m_SheepRenderer.init(this);
+	m_SpiderRenderer.init(this);
+	m_SkeletonRenderer.init(this);
 	m_CowRenderer.init(this);
 	m_ChickenRenderer.init(this);
 	m_CreeperRenderer.init(this);
+	m_ZombieRenderer.init(this);
+	m_ArrowRenderer.init(this);
 	
 	// TODO
 
@@ -92,8 +103,16 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 			return &m_PigRenderer;
 		case RENDER_SHEEP:
 			return &m_SheepRenderer;
+		case RENDER_SPIDER:
+			return &m_SpiderRenderer;
+		case RENDER_SKELETON:
+			return &m_SkeletonRenderer;
 		case RENDER_CREEPER:
 			return &m_CreeperRenderer;
+		case RENDER_ZOMBIE:
+			return &m_ZombieRenderer;
+		case RENDER_ARROW:
+			return &m_ArrowRenderer;
 		case RENDER_ROCKET:
 			return &m_RocketRenderer;
 #ifdef ENH_ALLOW_SAND_GRAVITY
@@ -145,6 +164,7 @@ void EntityRenderDispatcher::render(Entity* entity, float a)
 void EntityRenderDispatcher::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
 	EntityRenderer* pRenderer = getRenderer(entity);
+
 	if (pRenderer)
 	{
 #ifndef ORIGINAL_CODE

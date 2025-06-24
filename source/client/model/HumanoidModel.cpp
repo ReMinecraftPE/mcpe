@@ -26,15 +26,20 @@ HumanoidModel::HumanoidModel(float a, float b):
 
 	m_head.addBox(-4, -8, -4, 8, 8, 8, a);
 	m_head.setPos(0, b, 0);
+
 	m_body.addBox(-4, 0, -2, 8, 12, 4);
 	m_body.setPos(0, b, 0);
+
 	m_arm1.addBox(-3, -2, -2, 4, 12, 4, a);
 	m_arm1.setPos(-5, b + 2, 0);
+
 	m_arm2.m_bMirror = true;
 	m_arm2.addBox(-1, -2, -2, 4, 12, 4, a);
 	m_arm2.setPos(5, b + 2, 0);
+
 	m_leg1.addBox(-2, 0, -2, 4, 12, 4, a);
 	m_leg1.setPos(-2, b + 12, 0);
+
 	m_leg2.m_bMirror = true;
 	m_leg2.addBox(-2, 0, -2, 4, 12, 4, a);
 	m_leg2.setPos(2, b + 12, 0);

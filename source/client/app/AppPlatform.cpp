@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <fstream>
+
 #include "AppPlatform.hpp"
 #include "common/Utils.hpp"
 
@@ -234,7 +236,37 @@ std::string AppPlatform::getPatchData()
 
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
-	return AssetFile();
+	std::string realPath = getAssetPath(path);
+	std::ifstream ifs(realPath.c_str());
+    
+	// Open File
+	if (!ifs.is_open())
+	{
+		if (!quiet) LOG_W("Couldn't find asset file: %s", realPath.c_str());
+		return AssetFile();
+	}
+    
+    std::filebuf* pbuf = ifs.rdbuf();
+    
+	// Get File Size
+    std::streamoff size = pbuf->pubseekoff(0, ifs.end, ifs.in);
+    pbuf->pubseekpos(0, ifs.in);
+	if (size < 0)
+	{
+		if (!quiet) LOG_E("Error determining the size of the asset file!");
+		ifs.close();
+		return AssetFile();
+	}
+    
+	// Read Data
+	char *buf = new char[size];
+    pbuf->sgetn(buf, (std::streamsize)size);
+    
+	// Close File
+    ifs.close();
+    
+	// Return
+	return AssetFile((int64_t)size, (unsigned char*)buf);
 }
 
 void AppPlatform::initSoundSystem()

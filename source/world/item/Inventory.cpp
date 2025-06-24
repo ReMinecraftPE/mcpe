@@ -129,15 +129,15 @@ void Inventory::clear()
 // This code, and this function, don't exist in b1.2_02
 // "add" exists with these same arguments, which calls "addResource",
 // but addResource's code is entirely different somehow. Did we write this from scratch?
-void Inventory::addItem(ItemInstance* pInst)
+bool Inventory::addItem(ItemInstance* pInst)
 {
 	if (_getGameMode() == GAME_TYPE_CREATIVE)
 	{
 		// Just get rid of the item.
 		pInst->m_count = 0;
-		return;
+		return true;
 	}
-
+	
 	// look for an item with the same ID
 	for (int i = 0; i < getNumItems(); i++)
 	{
@@ -169,7 +169,7 @@ void Inventory::addItem(ItemInstance* pInst)
 
 	// If there's nothing leftover:
 	if (pInst->m_count <= 0)
-		return;
+		return true;
 
 	// try to add it to an empty slot
 	for (int i = 0; i < getNumItems(); i++)
@@ -180,8 +180,10 @@ void Inventory::addItem(ItemInstance* pInst)
 		m_items[i] = *pInst;
         m_items[i].m_popTime = 5;
 		pInst->m_count = 0;
-		return;
+		return true;
 	}
+
+	return false;
 }
 
 // Doesn't exist in PE

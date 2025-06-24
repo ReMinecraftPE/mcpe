@@ -192,6 +192,15 @@ void Player::aiStep()
 	}
 }
 
+ItemInstance* Player::getCarriedItem()
+{
+	auto inst = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
+	if (inst->m_itemID <= 0)
+		return nullptr;
+
+	return inst;
+}
+
 void Player::updateAi()
 {
 	if (m_bSwinging)

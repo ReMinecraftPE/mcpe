@@ -36,7 +36,7 @@ class Textures
 {
 public:
 	int loadTexture(const std::string& name, bool bRequired);
-	int loadAndBindTexture(const std::string& name);
+	int loadAndBindTexture(const std::string& name, bool isRequired = true);
 	void clear();
 	void tick();
 	void addDynamicTexture(DynamicTexture* pTexture);

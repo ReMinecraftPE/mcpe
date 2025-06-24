@@ -97,6 +97,10 @@ void Item::initItems()
 
 	g_bInittedItems = true;
 
+	Item::bow = NEW_ITEM(ITEM_BOW)
+		->setIcon(5, 1)
+		->setDescriptionId("bow");
+
 	Item::arrow = NEW_ITEM(ITEM_ARROW)
 		->setIcon(5, 2)
 		->setDescriptionId("arrow");

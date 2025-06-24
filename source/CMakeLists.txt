@@ -29,14 +29,12 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/EntityRenderDispatcher.cpp
     client/renderer/entity/HumanoidMobRenderer.cpp
     client/renderer/entity/SpiderRenderer.cpp
-    client/renderer/entity/ZombieRenderer.cpp
-    client/renderer/entity/SkeletonRenderer.cpp
+    client/renderer/entity/ArrowRenderer.cpp
     client/renderer/entity/SheepRenderer.cpp
     client/renderer/entity/SheepFurRenderer.cpp
     client/renderer/entity/CreeperRenderer.cpp
     client/renderer/entity/CowRenderer.cpp
     client/renderer/entity/PigRenderer.cpp
-    client/renderer/entity/SheepRenderer.cpp
     client/renderer/entity/ChickenRenderer.cpp
     client/renderer/entity/RocketRenderer.cpp
     client/renderer/RenderList.cpp
@@ -184,6 +182,10 @@ add_library(reminecraftpe-core STATIC
     world/entity/ItemEntity.cpp
     world/entity/PathfinderMob.cpp
     world/entity/Animal.cpp
+    world/entity/Skeleton.cpp
+    world/entity/Spider.cpp
+    world/entity/Zombie.cpp
+    world/entity/Arrow.cpp
     world/entity/WaterAnimal.cpp
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
