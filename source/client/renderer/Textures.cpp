@@ -15,27 +15,36 @@ int Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
 	std::map<std::string, GLuint>::iterator i = m_textures.find(name);
 	if (i != m_textures.end())
-		return i->second;
+	{
+		return i->second != 0 ? i->second : -1;
+	}
 
 	Texture t = m_pPlatform->loadTexture(name, bIsRequired);
 
-	if (!t.m_pixels && bIsRequired) {
-		t.m_hasAlpha = 1;
-		t.field_D = 0;
-		t.m_width = 2;
-		t.m_height = 2;
-		t.m_pixels = new uint32_t[4];
-		t.m_pixels[0] = 0xfff800f8;
-		t.m_pixels[1] = 0xff000000;
-		t.m_pixels[3] = 0xfff800f8;
-		t.m_pixels[2] = 0xff000000;
+	if (!t.m_pixels)
+	{
+		if (bIsRequired)
+		{
+			t.m_hasAlpha = true;
+			t.field_D = 0;
+			t.m_width = 2;
+			t.m_height = 2;
+			t.m_pixels = new uint32_t[4];
+			t.m_pixels[0] = 0xfff800f8;
+			t.m_pixels[1] = 0xff000000;
+			t.m_pixels[3] = 0xfff800f8;
+			t.m_pixels[2] = 0xff000000;
+		}
+		else
+		{
+			// Record the fact that the texture file couldn't be loaded
+			// This means we can stop checking the filesystem every frame to see if the texture can be found
+			m_textures[name] = 0;
+			return -1;
+		}
 	}
 
-	if (t.m_pixels) {
-		return assignTexture(name, t);
-	} else {
-		return -1;
-	}
+	return assignTexture(name, t);
 }
 
 int Textures::assignTexture(const std::string& name, Texture& texture)
