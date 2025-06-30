@@ -5,10 +5,6 @@
 Arrow::Arrow(Level* pLevel) : Entity(pLevel)
 {
     _init();
-
-    m_life = 0;
-    m_owner = nullptr;
-    m_lastTile = 0;
 }
 
 Arrow::Arrow(Level* pLevel, Vec3 pos) : Entity(pLevel)
@@ -16,10 +12,6 @@ Arrow::Arrow(Level* pLevel, Vec3 pos) : Entity(pLevel)
     _init();
 
 	setPos(pos);
-
-    m_life = 0;
-    m_owner = nullptr;
-    m_lastTile = 0;
 }
 
 Arrow::Arrow(Level* pLevel, Mob* pMob) : Entity(pLevel)
@@ -45,6 +37,14 @@ void Arrow::_init()
     m_pDescriptor = &EntityTypeDescriptor::arrow;
     field_C8 = RENDER_ARROW;
     setSize(0.5f, 0.5f);
+
+    m_tilePos = Vec3(-1, -1, -1);
+    m_lastTile = 0;
+    m_inGround = false;
+    m_life = 0;
+    m_flightTime = 0;
+    m_shakeTime = 0;
+    m_owner = nullptr;
 }
 
 void Arrow::shoot(Vec3 vel, float speed, float r)
@@ -125,8 +125,9 @@ void Arrow::tick()
     
     float max_dist = 0.0f;
     float var10 = 0.3f;
-    for (Entity* ent : entities)
+    for (EntityVector::iterator it = entities.begin(); it != entities.end(); it++)
     {
+        Entity* ent = *it;
         if (ent->isPickable() && (ent != m_owner || m_flightTime >= 5)) 
         {
             AABB aabb = AABB(ent->m_hitbox.min, ent->m_hitbox.max).grow(0.3f, 0.3f, 0.3f);

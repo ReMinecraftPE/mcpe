@@ -25,10 +25,12 @@ void Skeleton::aiStep()
 
 void Skeleton::checkHurtTarget(Entity* ent, float f)
 {
-	if (f < 10.0f) {
+	if (f < 10.0f)
+	{
 		float delta_x = ent->m_pos.x - m_pos.x;
 		float delta_z = ent->m_pos.z - m_pos.z;
-		if (m_attackTime == 0) {
+		if (m_attackTime == 0)
+		{
 			Arrow* arrow = new Arrow(m_pLevel, this);
 			arrow->m_pos.y += 1;
 			float var8 = ent->m_pos.y - 0.2f - arrow->m_pos.y;

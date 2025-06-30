@@ -7,12 +7,12 @@ class Arrow : public Entity
 private:
 	TilePos m_tilePos;
 	TileID m_lastTile;
-	bool m_inGround = false;
+	bool m_inGround;
 	int m_life;
-	int m_flightTime = 0;
+	int m_flightTime;
 
 public:
-	int m_shakeTime = 0;
+	int m_shakeTime;
 	Mob* m_owner;
 
 	Arrow(Level* pLevel);
