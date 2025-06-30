@@ -112,7 +112,7 @@ void Arrow::tick()
         ++m_flightTime;
     }
 
-    Vec3 future_pos = Vec3(m_pos.x + m_vel.x, m_pos.y + m_vel.y, m_pos.z + m_vel.z);
+    Vec3 future_pos = m_pos + m_vel;
     HitResult hit_result = m_pLevel->clip(m_pos, future_pos);
     if (hit_result.isHit()) 
     {
@@ -120,17 +120,19 @@ void Arrow::tick()
     }
 
     Entity* hit_ent = nullptr;
-    AABB hitbox = AABB(m_hitbox.min, m_hitbox.max).expand(m_vel.x, m_vel.y, m_vel.z).grow(1.0f, 1.0f, 1.0f);
+    AABB hitbox = m_hitbox;
+    hitbox.expand(m_vel.x, m_vel.y, m_vel.z).grow(1.0f);
     EntityVector entities = m_pLevel->getEntities(this, hitbox);
     
     float max_dist = 0.0f;
-    float var10 = 0.3f;
+    constexpr float var10 = 0.3f;
     for (EntityVector::iterator it = entities.begin(); it != entities.end(); it++)
     {
         Entity* ent = *it;
         if (ent->isPickable() && (ent != m_owner || m_flightTime >= 5)) 
         {
-            AABB aabb = AABB(ent->m_hitbox.min, ent->m_hitbox.max).grow(0.3f, 0.3f, 0.3f);
+            AABB aabb = ent->m_hitbox;
+            aabb.grow(var10);
             // these Vec3's are copied in the TilePos::clip fn, so no need to create them over and over like in b1.2
             HitResult hit = aabb.clip(m_pos, future_pos);
             if (hit.isHit())
@@ -145,7 +147,8 @@ void Arrow::tick()
         }
     }
 
-    if (hit_ent != nullptr) {
+    if (hit_ent != nullptr)
+    {
         hit_result = HitResult(hit_ent);
     }
 
@@ -206,9 +209,10 @@ void Arrow::tick()
     float dampening = 0.99f;
     if (isInWater())
     {
-        for (int var19 = 0; var19 < 4; ++var19) {
-            float var20 = 0.25f;
-            m_pLevel->addParticle("bubble", m_pos - m_vel * 0.25f, m_pos * 1); // passed as reference so *1; although addParticle doesn't exist yet
+        for (int var19 = 0; var19 < 4; ++var19)
+        {
+            constexpr float var20 = 0.25f;
+            m_pLevel->addParticle("bubble", m_pos - m_vel * var20, m_pos * 1); // passed as reference so *1; although addParticle doesn't exist yet
         }
 
         dampening = 0.8f;
