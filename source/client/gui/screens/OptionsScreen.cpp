@@ -79,6 +79,10 @@ bool OptionsScreen::handleBackEvent(bool b)
 	return true;
 }
 
+void OptionsScreen::handleScroll(bool down)
+{
+	m_pList->handleScroll(down);
+}
 
 #else
 

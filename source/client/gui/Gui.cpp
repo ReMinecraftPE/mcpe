@@ -491,6 +491,26 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
 }
 
+void Gui::handleScroll(bool down)
+{
+	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
+
+	int maxItems = getNumUsableSlots() - 1;
+
+	if (down)
+	{
+		if (slot++ == maxItems)
+			slot = 0;
+	}
+	else
+	{
+		if (slot-- == 0)
+			slot = maxItems;
+	}
+
+	m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
+}
+
 void Gui::handleKeyPressed(int keyCode)
 {
 	Options* options = m_pMinecraft->getOptions();

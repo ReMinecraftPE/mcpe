@@ -97,7 +97,6 @@ void ScrolledSelectionList::renderScrollBackground()
 
 void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
 {
-	int nItems = getNumberOfItems();
 	if (Mouse::isButtonDown(BUTTON_LEFT))
 	{
 		if (float(mouseY) >= field_C && float(mouseY) <= field_10 && abs(mouseY - field_28) > 5)
@@ -275,4 +274,11 @@ void ScrolledSelectionList::setRenderHeader(bool b, int i)
 	if (!b)
 		i = 0;
 	field_48 = i;
+}
+
+void ScrolledSelectionList::handleScroll(bool down)
+{
+	float diff = 5.0f * (down ? -1.0f : 1.0f);
+	field_34 -= diff;
+	field_38 += diff;
 }
