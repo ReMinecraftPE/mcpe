@@ -16,18 +16,20 @@ public:
 	Mob* m_owner;
 
 	Arrow(Level* pLevel);
-	Arrow(Level* pLevel, Vec3 pos);
+	Arrow(Level* pLevel, const Vec3& pos);
 	Arrow(Level* pLevel, Mob* pMob);
 
 private:
 	void _init();
+	void _lerpMotion(const Vec3& vel);
+	void _lerpMotion2(const Vec3& vel);
 
 public:
 	void shoot(float x, float y, float z, float speed, float r) { shoot(Vec3(x, y, z), speed, r); };
 	void shoot(Vec3 pos, float speed, float r);
 	
 	void lerpMotion(float x, float y, float z) { lerpMotion(Vec3(x, y, z)); };
-	void lerpMotion(Vec3 vel);
+	void lerpMotion(const Vec3& vel);
 
 	void tick() override;
 

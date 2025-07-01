@@ -7,7 +7,7 @@ Arrow::Arrow(Level* pLevel) : Entity(pLevel)
     _init();
 }
 
-Arrow::Arrow(Level* pLevel, Vec3 pos) : Entity(pLevel)
+Arrow::Arrow(Level* pLevel, const Vec3& pos) : Entity(pLevel)
 {
     _init();
 
@@ -49,40 +49,46 @@ void Arrow::_init()
 
 void Arrow::shoot(Vec3 vel, float speed, float r)
 {
-    float ent = Mth::sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z);
-    vel /= ent;
+    float len = vel.length();
+    vel /= len;
     vel.x += sharedRandom.nextGaussian() * 0.0075f * r;
     vel.y += sharedRandom.nextGaussian() * 0.0075f * r;
     vel.z += sharedRandom.nextGaussian() * 0.0075f * r;
     vel *= speed;
+
     m_vel = vel;
-    float var10 = Mth::sqrt(vel.x * vel.x + vel.z * vel.z);
-    m_oRot.y = m_rot.y = Mth::atan2(vel.x, vel.z) * 180.0f / M_PI;
-    m_oRot.x = m_rot.x = Mth::atan2(vel.y, var10) * 180.0f / M_PI;
+    _lerpMotion(vel);
+
     m_life = 0;
 }
 
-void Arrow::lerpMotion(Vec3 vel)
+void Arrow::_lerpMotion(const Vec3& vel)
+{
+    float len = vel.length();
+    m_oRot.y = m_rot.y = Mth::atan2(vel.x, vel.z) * 180.0f / M_PI;
+    m_oRot.x = m_rot.x = Mth::atan2(vel.y, len) * 180.0f / M_PI;
+}
+
+void Arrow::_lerpMotion2(const Vec3& vel)
+{
+    if (m_oRot.x == 0.0f && m_oRot.y == 0.0f)
+    {
+        return _lerpMotion(vel);
+    }
+}
+
+void Arrow::lerpMotion(const Vec3& vel)
 {
     m_vel = vel;
 
-    if (m_oRot.x == 0.0f && m_oRot.y == 0.0f)
-    {
-        float var7 = Mth::sqrt(vel.x * vel.x + vel.z * vel.z);
-        m_oRot.y = m_rot.y = Mth::atan2(vel.x, vel.z) * 180.0f / M_PI;
-        m_oRot.x = m_rot.x = Mth::atan2(vel.y, var7) * 180.0f / M_PI;
-    }
+    _lerpMotion2(vel);
 }
 
 void Arrow::tick()
 {
     Entity::tick();
-    if (m_oRot.x == 0.0f && m_oRot.y == 0.0f)
-    {
-        float var1 = Mth::sqrt(m_vel.x * m_vel.x + m_vel.z * m_vel.z);
-        m_oRot.y = m_rot.y = (Mth::atan2(m_vel.x, m_vel.z) * 180.0f / M_PI);
-        m_oRot.x = m_rot.x = (Mth::atan2(m_vel.y, var1) * 180.0f / M_PI);
-    }
+
+    _lerpMotion2(m_vel);
 
     if (m_shakeTime > 0)
         --m_shakeTime;
@@ -173,10 +179,8 @@ void Arrow::tick()
         {
             m_tilePos = hit_result.m_tilePos;
             m_lastTile = m_pLevel->getTile(m_tilePos);
-            m_pos.x = hit_result.m_hitPos.x - m_pos.x;
-            m_pos.y = hit_result.m_hitPos.y - m_pos.y;
-            m_pos.z = hit_result.m_hitPos.z - m_pos.z;
-            m_pos -= (m_vel / Mth::sqrt(m_pos.x * m_pos.x + m_pos.y * m_pos.y + m_pos.z * m_pos.z) * 0.05f);
+            m_vel = hit_result.m_hitPos - m_pos;
+            m_pos -= (m_vel / m_pos.length() * 0.05f);
             m_pLevel->playSound(this, "random.drr", 1.0f, 1.2f / (sharedRandom.nextFloat() * 0.2f + 0.9f));
             m_inGround = true;
             m_shakeTime = 7;
@@ -184,7 +188,7 @@ void Arrow::tick()
     }
 
     m_pos += m_vel;
-    float var17 = Mth::sqrt(m_vel.x * m_vel.x + m_vel.z * m_vel.z);
+    float var17 = m_vel.length();
     m_rot.y = Mth::atan2(m_vel.x, m_vel.z) * 180.0f / M_PI;
 
     for (m_rot.x = Mth::atan2(m_vel.y, var17) * 180.0f / M_PI; m_rot.x - m_oRot.x < -180.0f; m_oRot.x -= 360.0f);
