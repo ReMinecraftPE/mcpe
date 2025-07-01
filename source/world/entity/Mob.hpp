@@ -55,7 +55,7 @@ public:
 	virtual void lookAt(Entity* pEnt, float, float);
 	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
 	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }
-	virtual void beforeRemove() { }
+	virtual void beforeRemove() {}
 	virtual bool canSpawn();
 	virtual float getAttackAnim(float f) const;
 	virtual Vec3 getPos(float f) const;
@@ -63,6 +63,7 @@ public:
 	virtual Vec3 getLookAngle(float f) const { return getViewVector(1.0f); }
 	virtual Vec3 getViewVector(float f) const;
 	virtual int getMaxSpawnClusterSize() const { return 4; }
+	virtual ItemInstance* getCarriedItem() { return nullptr; }
 	virtual bool isBaby() const { return false; }
 	virtual void actuallyHurt(int damage);
 	virtual bool removeWhenFarAway() const { return true; }

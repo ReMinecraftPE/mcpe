@@ -12,7 +12,7 @@
 
 #include "common/Utils.hpp"
 
-#include "platforms/openal/SoundSystemAL.hpp"
+#include "platforms/sound/openal/CustomSoundSystem.hpp"
 
 AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
 {

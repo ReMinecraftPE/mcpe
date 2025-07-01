@@ -33,15 +33,15 @@ public:
 	bool intersect(const AABB& other) const;
 
 	// @NOTE: Names for `move`, `grow` and `expand` were taken from really early minecraft (rd-132211 to be exact).
-	void move(const Vec3& vec);
-	void move(float x, float y, float z);
+	AABB& move(const Vec3& vec);
+	AABB& move(float x, float y, float z);
 	// same thing
-	void grow(const Vec3& vec);
-	void grow(float x, float y, float z);
+	AABB& grow(const Vec3& vec);
+	AABB& grow(float x, float y, float z);
 	// same thing
-	void grow(float x);
-	void expand(float x, float y, float z);
-	void expand(const Vec3& vec);
+	AABB& grow(float x);
+	AABB& expand(float x, float y, float z);
+	AABB& expand(const Vec3& vec);
 	bool contains(const Vec3& v) const;
 };
 

@@ -41,45 +41,13 @@ Vec3 Vec3::interpolateTo(const Vec3& to, float t) const
 	return Vec3(nx, ny, nz);
 }
 
-Vec3 Vec3::vectorTo(const Vec3& to) const
-{
-	return Vec3(to.x - x, to.y - y, to.z - z);
-}
-
 Vec3 Vec3::normalize() const
 {
-	float dist = Mth::sqrt(x * x + y * y + z * z);
+	float dist = length();
 	if (dist < 0.0001f)
 		return ZERO;
 
 	return Vec3(x / dist, y / dist, z / dist);
-}
-
-float Vec3::dot(const Vec3& other) const
-{
-	return x * other.x + y * other.y + z * other.z;
-}
-
-Vec3 Vec3::cross(const Vec3& other) const
-{
-	return Vec3(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
-}
-
-Vec3 Vec3::add(float x, float y, float z) const
-{
-	return Vec3(this->x + x, this->y + y, this->z + z);
-}
-
-float Vec3::distanceTo(const Vec3& b) const
-{
-	return Mth::sqrt(distanceToSqr(b));
-}
-
-float Vec3::distanceToSqr(const Vec3& b) const
-{
-	Vec3 d = *this - b;
-
-	return d.x * d.x + d.y * d.y + d.z * d.z;
 }
 
 bool Vec3::clipX(const Vec3& a2, float a3, Vec3& a4) const

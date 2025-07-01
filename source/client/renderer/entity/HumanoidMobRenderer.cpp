@@ -21,25 +21,20 @@ HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRe
 
 void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 {
-	if (!mob->isPlayer()) return;
-	Player* player = (Player*)mob;
+	ItemInstance* inst = mob->getCarriedItem();
 
-	int itemID = player->m_pInventory->getSelectedItemId();
-	if (itemID <= 0)
-		return;
-
-	ItemInstance inst(itemID, 1, 0);
 	glPushMatrix();
 	m_pHumanoidModel->m_arm1.translateTo(0.0625f);
 	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
-	if (itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()))
+#pragma warning(disable : 6385) // this warning is just wrong; intellisense cant handle it being a pointer->index
+	if (inst && inst->m_itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
 	{
 		glTranslatef(0.0f, 0.1875f, -0.3125f);
 		glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glScalef(0.375f, -0.375f, 0.375f);
 	}
-	else if (Item::items[itemID]->isHandEquipped())
+	else if (inst && Item::items[inst->m_itemID]->isHandEquipped())
 	{
 		glTranslatef(0.0f, 0.1875f, 0.0f);
 		glScalef(0.625f, -0.625f, 0.625f);
@@ -55,7 +50,7 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 		glRotatef(20.0f, 0.0f, 0.0f, 1.0f);
 	}
 
-	m_pDispatcher->m_pItemInHandRenderer->renderItem(&inst);
+	m_pDispatcher->m_pItemInHandRenderer->renderItem(inst);
 	glPopMatrix();
 }
 
