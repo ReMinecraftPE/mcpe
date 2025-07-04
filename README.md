@@ -1,38 +1,40 @@
 # ReMinecraftPE
 
-This project aims to create a custom Minecraft experience based on Minecraft: Pocket Edition as of 2011. It's
-based on Minecraft PE v0.1.3.
+This project aims to provide a customizable, cross-platform, legacy Minecraft experience.
+The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of 2011, which itself is a port of Minecraft: Java Edition (Beta 1.3-1.7.3).
 
 **Its goals are:**
-* To add Quality-of-Life features to Minecraft: Pocket Edition, such as a brighter color gamut, an in-game
-  options menu, etc.
-* To add features that were in Minecraft Alpha and the early Betas in 2011. (before and during Minecraft PE's
-  development - this excludes hunger, for example, as it was added in Beta 1.8)
+* To add features from Minecraft Beta 1.7.3 and below.
+* To add togglable edition-specific aesthetic features.
+  Some examples include:
+  * Legacy Console Edition gamma and mipmaps
+  * Pocket Edition sky colors
+  * Normal lighting (something Pocket Edition lacked)
+  * Alpha title logo
+* To (in the future) provide a cross-platform modding API in a language like [Luau](https://luau.org/), giving more creative control to the community.
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
-* To port the game to more platforms, such as Windows (including older versions), Xbox 360, Wii, and more.
-  Currently, there are ports for:
-	* Windows XP-11
+* To add support for as many platforms as possible, such as the Xbox 360, PlayStation 3, Wii, and more.
+  Currently, the following platforms are supported:
+	* Windows (2000 and above; thanks to [iProgramInCpp](https://github.com/iProgramMC))
 	* Android (thanks to [Stom](https://github.com/Stommm) for the help)
 	* Linux
 	* WebGL
-	* macOS (port by [BrentDaMage](https://github.com/BrentDaMage))
-	* iOS (3.0 and above; port by [BrentDaMage](https://github.com/BrentDaMage))
+	* macOS (10.6 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
+	* iOS (3.0 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
-	* Xbox 360 (work in progress; port by [BrentDaMage](https://github.com/BrentDaMage))
 
 **We will not do the following:**
 * Add features added in or after Java Edition Beta 1.8
-* Backport features from versions newer than 0.9.0
-* Add The Nether or The End (probably)
+* Change the default aesthetic the game is shipped with. We're currently targeting Java Edition Beta 1.7.3.
+  Players can use the options menu to change the game's aesthetic to match the version/edition of their liking.
 * Add Herobrine
 * Add support for Minecraft Java or Minecraft Bedrock servers. (although LAN play with original MCPE clients
   will be supported for as long as possible)
-* Modify the project structure
 
-Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMinecraftPE works on all Android devices.
+Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMinecraftPE works on any of the platforms listed above.
 
-### This is the main modded version. For the original decompilation, see [ReMinecraftPE/mcped](https://github.com/ReMinecraftPE/mcped)
+### This a modified version of [the original Minecraft PE v0.1.3 decompilation](https://github.com/ReMinecraftPE/mcped).
 
 ## License information
 
@@ -41,19 +43,15 @@ software with different but compatible licenses:
 
 - [RakNet](https://github.com/facebookarchive/RakNet): [Licensed under the BSD 2 clause license](thirdparty/raknet/LICENSE)
 - [zlib](https://github.com/madler/zlib): [View license](thirdparty/zlib/LICENSE)
-- [GLES compatibility layer](https://github.com/TheBrokenRail/gles-compatibility-layer): [View license](https://github.com/TheBrokenRail/gles-compatibility-layer/blob/master/LICENSE). Embedded as a submodule.
 - [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker): [View license](https://github.com/gzuidhof/coi-serviceworker/blob/master/LICENSE). Embedded as a submodule.
+- [stb](https://github.com/nothings/stb): [View license]([https://github.com/gzuidhof/coi-serviceworker/blob/master/LICENSE](https://github.com/nothings/stb/blob/master/LICENSE)). Embedded as a submodule.
 
 ## WANT TO HELP?
 
-Want to help this project? [Here's a list of things left to do.](TODO.md)
+Want to help this project? Here's [a list of things to do.](https://github.com/ReMinecraftPE/mcpe/issues)
+Once your code is tested and ready, [submit a pull request](https://github.com/ReMinecraftPE/mcpe/pulls).
 
-## DISCLAIMER
-
-This project **requires** you to have a copy of the Minecraft PE v0.1.3 apk (sha256 of the `libminecraftpe.so`
-inside: `157af341d13a54cc935bbe24c5e1cf3d02d7e40ec20f9859b9853c2e996ebd81`), before you can build.
-
-## Setup
+## Prep for Building
 
 Before trying to build:
 
@@ -62,13 +60,12 @@ Before trying to build:
 git submodule init
 git submodule update
 ```
+This fetches the project's necessary dependencies.
 
-This fetches the three dependencies we have:
-- [zlib](https://github.com/madler/zlib)
-- [coi-serviceworker](https://github.com/gzuidhof/coi-serviceworker)
-- [gles-compatibility-layer](https://github.com/TheBrokenRail/gles-compatibility-layer.git)
+2. It is recommended that you have a copy of the Minecraft PE v0.1.3 APK (SHA256 of the `libminecraftpe.so`
+inside: `157af341d13a54cc935bbe24c5e1cf3d02d7e40ec20f9859b9853c2e996ebd81`), to extract assets from. Otherwise, the minecraft.jar file from Java Edition Beta 1.7.3 should work _more or less_.
 
-2. Copy the assets (including sounds and textures) into the necessary folders within the project.<br>
+3. Copy the assets (including sounds and textures) into the necessary folders within the project.<br>
    Do this by performing <ins>**one**</ins> of the following:
    - To extract all assets from _Pocket Edition_:
      - **Run the following command**:
@@ -82,7 +79,7 @@ This fetches the three dependencies we have:
      - Locate the `resources` directory in the `.minecraft` folder and copy its contents (e.g. `music`, `sound`, etc.) into the `game/assets/` directory of the project.
      - You will need to extract textures and other assets manually from _Pocket Edition_.
 
-## Building
+## How to Build
 
 ### Windows
 
@@ -171,14 +168,7 @@ To build, perform the same steps as on Linux.
 I've had texture seams when playing Minecraft Classic, ClassiCube and this recreation of Minecraft PE, on a
 fresh new laptop. If seams bother you, and you are using an NVIDIA graphics card, go to the NVIDIA Control
 Panel, then in "Manage 3D Settings", change "Antialiasing - Mode" to "Application Controlled".
-
-## Notes on assets
-
-The terrain.png and related textures appear to have stayed the same between the E3 demo and the final release
-for Xperia PLAY. It appears to have been fetched before Java Edition Beta 1.4's release. This can be seen
-because the cookie's texture is missing. (it was added in Java Edition Beta 1.4)
-
-There are plans to create a custom script which downloads and sets up all assets needed for the game.
+a custom script which downloads and sets up all assets needed for the game.
 
 ## Screenshots (from the decomp)
 
@@ -190,6 +180,6 @@ There are plans to create a custom script which downloads and sets up all assets
 
 ## Enhancements
 
-ReMinecraftPE is an enhanced version of the original. To see the original, (mostly) as it was back in the day,
+ReMinecraftPE is an enhanced version of the original decompilation. To see the original, (mostly) unmodified code,
 [see the mcped repository](https://github.com/ReMinecraftPE/mcped).
 
