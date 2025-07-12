@@ -960,15 +960,15 @@ int Level::getTopTileY(const TilePos& pos) const
 
 int Level::getTopSolidBlock(const TilePos& tilePos) const
 {
-	//int y = C_MAX_Y - 1;
 	LevelChunk* pChunk = getChunkAt(tilePos);
 	if (!pChunk)
 		return C_MAX_Y;
 
 	TilePos pos(tilePos);
+	pos.y = C_MAX_Y - 1;
 	while (true)
 	{
-		if (!getMaterial(tilePos)->blocksMotion())
+		if (!getMaterial(pos)->blocksMotion())
 			break;
 		if (!pos.y)
 			return -1;
