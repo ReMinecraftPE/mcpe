@@ -432,25 +432,6 @@ void Minecraft::tickInput()
 		if (buttonType == BUTTON_SCROLLWHEEL)
 			m_gui.handleScroll(bPressed);
 #endif
-
-		if (!bIsInGUI && getOptions()->field_19)
-		{
-#ifdef ENH_ALLOW_SCROLL_WHEEL
-			if (buttonType == BUTTON_SCROLLWHEEL)
-			{
-				if (!bPressed)
-				{
-					// @NOTE: Scroll up
-					m_gui.handleKeyPressed(getOptions()->getKey(KM_SLOT_L));
-				}
-				else
-				{
-					// @NOTE: Scroll down
-					m_gui.handleKeyPressed(getOptions()->getKey(KM_SLOT_R));
-				}
-			}
-#endif
-		}
 	}
 
 	while (Keyboard::next())
