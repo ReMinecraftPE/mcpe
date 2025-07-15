@@ -33,9 +33,9 @@ bool PineFeature::place(Level* level, Random* random, const TilePos& pos)
 		else
 			range = x2;
 
-		for (int cx = pos.x - range; cx <= pos.x + range && bCanPlace; cx++)
+		for (tp.x = pos.x - range; tp.x <= pos.x + range && bCanPlace; tp.x++)
 		{
-			for (int cz = pos.z - range; cz <= pos.z + range && bCanPlace; cz++)
+			for (tp.z = pos.z - range; tp.z <= pos.z + range && bCanPlace; tp.z++)
 			{
 				if (tp.y >= C_MAX_Y || tp.y < C_MIN_Y)
 				{
