@@ -41,6 +41,9 @@
     <ClCompile Include="$(MC_ROOT)\compat\LegacyCPPCompatibility.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\DataIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp">
@@ -68,6 +71,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\DataIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,4 +20,7 @@
 #ifndef override
 #define override
 #endif
+#ifndef noexcept
+#define noexcept
+#endif
 #endif
