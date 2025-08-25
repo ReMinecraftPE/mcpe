@@ -79,7 +79,7 @@
     <ClInclude Include="$(MC_ROOT)\source\common\Util.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\common\DataIO.h" />
+    <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

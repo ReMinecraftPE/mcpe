@@ -35,7 +35,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\PacketUtil.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\network\RakIO.h">
+    <ClInclude Include="$(MC_ROOT)\source\network\RakIO.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

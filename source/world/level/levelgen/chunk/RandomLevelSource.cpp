@@ -17,7 +17,7 @@ const float RandomLevelSource::SNOW_SCALE  = 0.3f;
 
 float g_timeSpentInPostProcessing = 0;
 
-RandomLevelSource::RandomLevelSource(Level* level, int32_t seed, int x) :
+RandomLevelSource::RandomLevelSource(Level* level, int32_t seed, int version) :
 	m_random(seed),
 	m_perlinNoise1(&m_random, 16),
 	m_perlinNoise2(&m_random, 16),

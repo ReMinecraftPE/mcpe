@@ -3,7 +3,7 @@
 #include <string>
 #include <stdint.h>
 
-#include "common/DataIO.h"
+#include "common/DataIO.hpp"
 
 class Tag
 {
@@ -26,7 +26,7 @@ public:
 	};
 
 public:
-    virtual ~Tag() = 0;
+	virtual ~Tag() {}
 
 public:
 	virtual void deleteChildren() {};

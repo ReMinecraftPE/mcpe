@@ -67,7 +67,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\PacketUtil.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\network\RakIO.h" />
+    <ClInclude Include="$(MC_ROOT)\source\network\RakIO.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

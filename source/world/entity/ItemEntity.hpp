@@ -30,6 +30,7 @@ public:
 public:
 	// @NOTE: The original code keeps a pointer to something which is not duplicated with a new(), nor does it delete() the instance.
 	// So either it's leaked, or the code will use invalid memory.
+	// @NOTE: This is still a pointer in 0.2.1
 #ifdef ORIGINAL_CODE
 	ItemInstance* m_pItemInstance;
 #else

@@ -23,8 +23,8 @@ public:
 	virtual int64_t readInt64() = 0;
 	virtual bool readBytes(void* data, unsigned int count) = 0;
 	virtual unsigned int numBytesLeft() const = 0;
-	virtual bool isOk() const = 0;
-	virtual bool seek(uint64_t pos) = 0;
+	//virtual bool isOk() const = 0;
+	//virtual bool seek(uint64_t pos) = 0;
 };
 
 class IDataOutput
@@ -43,7 +43,7 @@ public:
 	virtual void writeInt32(int32_t v) = 0;
 	virtual void writeInt64(int64_t v) = 0;
 	virtual void writeBytes(const void* data, unsigned int count) = 0;
-	virtual bool isOk() = 0;
+	//virtual bool isOk() = 0;
 };
 
 class BytesDataInput : public IDataInput
@@ -76,7 +76,7 @@ class StringByteInput : public BytesDataInput
 {
 public:
 	StringByteInput(const std::string& buffer)
-		: m_buffer(buffer)
+		: m_idx(0), m_buffer(buffer)
 	{ };
 
 public:

@@ -14,6 +14,8 @@
 #include "world/phys/Vec3.hpp"
 #include "world/item/Inventory.hpp"
 
+#define LEVEL_STORAGE_VERSION_DEFAULT 2 
+
 struct PlayerData
 {
 	Vec3 m_pos;
@@ -25,26 +27,17 @@ struct PlayerData
 	bool field_28;
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
 
-	void loadPlayer(Player* player);
-	void savePlayer(Player* player);
+	void loadPlayer(Player& player) const;
+	void savePlayer(const Player& player);
 };
 
 struct LevelData
 {
 private:
-	int32_t m_seed;
-	TilePos m_spawnPos;
-	int32_t m_time;
-	int m_lastPlayed;
-	int32_t m_sizeOnDisk;
-	int field_1C;
-	int m_storageVersion;
-	int m_generatorVersion;
-	std::string m_levelName;
-
-private:
 	void _init(int32_t seed = 0, int x = 0);
 	void _init(int32_t seed, int storageVersion, const std::string& name);
+
+	void _setLastPlayed(int lastPlayed) { m_lastPlayed = lastPlayed; }
 
 public:
 	// @TODO: Make private when level v2 is done
@@ -53,50 +46,79 @@ public:
 
 	LevelData() { _init(); }
 	LevelData(int32_t seed, const std::string& name, int storageVersion) { _init(seed, storageVersion, name); }
+	~LevelData();
 
+	void v1_read(RakNet::BitStream& bs, int storageVersion);
+	void v1_write(RakNet::BitStream& bs) const;
+	void read(RakNet::BitStream& bs, int storageVersion);
+	void write(RakNet::BitStream& bs, const std::vector<Player*>* players) const;
 
-	void read(RakNet::BitStream& bs, int d);
-	void write(RakNet::BitStream& bs);
+	CompoundTag createTag() const;
+	CompoundTag createTag(const std::vector<Player*>& players) const;
+
+	void loadTagData(CompoundTag& tag);
+	void writeTagData(CompoundTag& levelTag, CompoundTag* playerTag) const;
 
 	/* Getters & Setters */
 
 	int32_t getSeed() const { return m_seed; }
-	int getXSpawn() const { return m_spawnPos.x; }
-	int getYSpawn() const { return m_spawnPos.y; }
-	int getZSpawn() const { return m_spawnPos.z; }
-	const TilePos& getSpawn() const { return m_spawnPos; }
-	int32_t getTime() const { return m_time; }
-	int32_t getSizeOnDisk() const { return m_sizeOnDisk; }
-	//CompoundTag getLoadedPlayerTag(); // Return type may actually be a pointer, not sure
-
 	void setSeed(int32_t seed) { m_seed = seed; }
+
+	int getXSpawn() const { return m_spawnPos.x; }
 	void setXSpawn(int xSpawn) { m_spawnPos.x = xSpawn; }
+	int getYSpawn() const { return m_spawnPos.y; }
 	void setYSpawn(int ySpawn) { m_spawnPos.y = ySpawn; }
+	int getZSpawn() const { return m_spawnPos.z; }
 	void setZSpawn(int zSpawn) { m_spawnPos.z = zSpawn; }
+
+	const TilePos& getSpawn() const { return m_spawnPos; }
+	void setSpawn(const TilePos& pos) { m_spawnPos = pos; }
+
+	int32_t getTime() const { return m_time; }
 	void setTime(int32_t time) { m_time = time; }
+
+	int32_t getSizeOnDisk() const { return m_sizeOnDisk; }
 	void setSizeOnDisk(int32_t sizeOnDisk) { m_sizeOnDisk = sizeOnDisk; }
 
-	void setSpawn(const TilePos& pos) { m_spawnPos = pos; }
+	const CompoundTag* getLoadedPlayerTag() const { return m_playerTag; }
+	void setLoadedPlayerTag(CompoundTag* playerTag);
+	void setPlayerTag(const CompoundTag* playerTag);
+
+	int getDimension() const { return m_dimensionId; }
+	void setDimension(int dimensionId) { m_dimensionId = dimensionId; }
 
 	int getGeneratorVersion() const { return m_generatorVersion; }
 	void setGeneratorVersion(int generatorVersion) { m_generatorVersion = generatorVersion; }
 
-	int getLastPlayed() const { return m_lastPlayed; }
+	int32_t getLastPlayed() const { return m_lastPlayed; }
 
 	// inlined in 0.1.0 demo
 	int getStorageVersion() const { return m_storageVersion; }
 	void setStorageVersion(int storageVersion) { m_storageVersion = storageVersion; }
 
 	GameType getGameType() const;
-	void setGameType(GameType gameType) { /* Empty in 0.2.1 */ }
+	void setGameType(GameType gameType) { m_gameType = gameType; } // Empty and uncalled in 0.2.1
 
-	// @TODO: Not Implemented
-	bool getSpawnMobs() { return false; }
-	void setSpawnMobs(bool spawnMobs) { }
+	bool getSpawnMobs() const { return m_bSpawnMobs; }
+	void setSpawnMobs(bool spawnMobs) { m_bSpawnMobs = spawnMobs; }
 
 	std::string getLevelName() const { return m_levelName; }
 	void setLevelName(const std::string& name) { m_levelName = name; }
 
-	void setLoadedPlayerTo(Player* player);
+	void setLoadedPlayerTo(Player& player) const;
+
+private:
+	std::string m_levelName;
+	int32_t m_seed;
+	TilePos m_spawnPos;
+	int32_t m_time;
+	int32_t m_lastPlayed;
+	int32_t m_sizeOnDisk;
+	CompoundTag* m_playerTag;
+	int m_dimensionId;
+	GameType m_gameType;
+	int m_storageVersion;
+	bool m_bSpawnMobs;
+	int m_generatorVersion;
 };
 

@@ -36,36 +36,38 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\source\nbt\Int8ArrayTag.hpp" />
-    <ClInclude Include="..\..\..\..\source\nbt\Int8Tag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int8ArrayTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int8Tag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\CompoundTag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\DoubleTag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\EndTag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\FloatTag.hpp" />
-    <ClInclude Include="..\..\..\..\source\nbt\Int32ArrayTag.hpp" />
-    <ClInclude Include="..\..\..\..\source\nbt\Int32Tag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int32ArrayTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int32Tag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\ListTag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\Int64ArrayTag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\Int64Tag.hpp" />
-    <ClInclude Include="..\..\..\..\source\nbt\Int16Tag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int16Tag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\StringTag.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\nbt\Tag.hpp" />
+    <ClInclude Include="..\..\..\..\source\nbt\NbtIo.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\source\nbt\Int8ArrayTag.cpp" />
-    <ClCompile Include="..\..\..\..\source\nbt\Int8Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int8ArrayTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int8Tag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\CompoundTag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\DoubleTag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\EndTag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\FloatTag.cpp" />
-    <ClCompile Include="..\..\..\..\source\nbt\Int32ArrayTag.cpp" />
-    <ClCompile Include="..\..\..\..\source\nbt\Int32Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int32ArrayTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int32Tag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\ListTag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\Int64ArrayTag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\Int64Tag.cpp" />
-    <ClCompile Include="..\..\..\..\source\nbt\Int16Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int16Tag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\StringTag.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\nbt\Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\NbtIo.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -44,15 +44,11 @@ public:
 
 	void dropAll(bool butNotReally = false);
 
-	int getSelectedSlotNo() const
-	{
-		return m_selectedHotbarSlot;
-	}
+	int getSelectedSlotNo() const { return m_selectedHotbarSlot; }
 
 	// v0.2.0 name alias
-	ItemInstance* getSelected() {
-		return getSelectedItem();
-	}
+	ItemInstance* getSelected() { return getSelectedItem(); }
+	
 private:
 	GameType _getGameMode() const;
 

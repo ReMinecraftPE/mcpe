@@ -305,6 +305,11 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Spider.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Zombie.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NBT\NBT.vcxproj">
+      <Project>{b01e1536-505b-4357-b5b6-083efbf786b0}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

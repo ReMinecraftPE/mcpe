@@ -8,17 +8,11 @@ CompoundTag::CompoundTag()
 {
 }
 
-CompoundTag::CompoundTag(const std::map<std::string, Tag*>& tags)
-{
-	m_tags = tags;
-}
-
 void CompoundTag::write(IDataOutput& dos) const
 {
     for (std::map<std::string, Tag*>::const_iterator it = m_tags.begin(); it != m_tags.end(); it++)
 	{
-		std::pair<std::string, Tag*> pair = *it;
-		writeNamedTag(pair.first, *pair.second, dos);
+		writeNamedTag(it->first, *it->second, dos);
     }
 
     dos.writeInt8(TAG_TYPE_END);
@@ -52,6 +46,7 @@ void CompoundTag::load(IDataInput& dis)
 void CompoundTag::put(const std::string& name, Tag* tag)
 {
 	// @TODO: is tag managed by something already? is it our job to deallocate it? no clue.
+	// for now, let's manage the memory, and just see what happens
 	if (!tag)
 	{
 		assert(!"Cannot store null tags");
@@ -139,6 +134,13 @@ const Tag* CompoundTag::get(const std::string& name) const
     return nullptr;
 }
 
+Tag* CompoundTag::get(const std::string& name)
+{
+	std::map<std::string, Tag*>::iterator it = m_tags.find(name);
+	if (it != m_tags.end()) return it->second;
+	return nullptr;
+}
+
 int8_t CompoundTag::getInt8(const std::string& name) const
 {
 	if (contains(name, TAG_TYPE_INT8))
@@ -215,7 +217,6 @@ const TagMemoryChunk* CompoundTag::getInt32Array(const std::string& name) const
 	return nullptr;
 }
 
-
 const TagMemoryChunk* CompoundTag::getInt64Array(const std::string& name) const
 {
 	if (contains(name, TAG_TYPE_INT64_ARRAY))
@@ -225,7 +226,6 @@ const TagMemoryChunk* CompoundTag::getInt64Array(const std::string& name) const
 
 	return nullptr;
 }
-
 
 const CompoundTag* CompoundTag::getCompound(const std::string& name) const
 {
@@ -237,7 +237,17 @@ const CompoundTag* CompoundTag::getCompound(const std::string& name) const
 	return nullptr;
 }
 
-const Tag* CompoundTag::getList(const std::string& name) const
+CompoundTag* CompoundTag::getCompound(const std::string& name)
+{
+	if (contains(name, TAG_TYPE_COMPOUND))
+	{
+		return (CompoundTag*)get(name);
+	}
+
+	return nullptr;
+}
+
+const ListTag* CompoundTag::getList(const std::string& name) const
 {
 	if (contains(name, TAG_TYPE_LIST))
 	{
@@ -261,23 +271,34 @@ std::string CompoundTag::toString() const
 
 CompoundTag* CompoundTag::copy() const
 {
-	return new CompoundTag(m_tags);
+	return new CompoundTag(*this);
 }
 
-CompoundTag CompoundTag::clone() const
+CompoundTag CompoundTag::clone()
 {
-	return CompoundTag(m_tags);
+	return CompoundTag(*this);
 }
 
 bool CompoundTag::remove(const std::string& name)
 {
-	std::map<std::string, Tag*>::const_iterator it = m_tags.find(name);
+	std::map<std::string, Tag*>::iterator it = m_tags.find(name);
 	if (it == m_tags.end())
 		return false;
 
+	delete it->second;
 	m_tags.erase(it);
 
 	return true;
+}
+
+void CompoundTag::deleteChildren()
+{
+	for (std::map<std::string, Tag*>::iterator it = m_tags.begin(); it != m_tags.end(); it++)
+	{
+		delete it->second;
+	}
+
+	m_tags.clear();
 }
 
 bool CompoundTag::operator==(const Tag& other) const

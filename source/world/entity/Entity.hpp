@@ -151,8 +151,19 @@ public:
 	virtual void burn(int);
 	virtual void lavaHurt();
 	virtual int queryEntityRenderer();
+	virtual const AABB* getCollideBox() const;
+	virtual AABB* getCollideAgainstBox(Entity* ent) const;
+	virtual void handleInsidePortal();
+	virtual void handleEntityEvent(int event);
+	//virtual void thunderHit(LightningBolt*);
+	void load(const CompoundTag& tag);
+	bool save(CompoundTag& tag) const;
+	void saveWithoutId(CompoundTag& tag) const;
+	virtual void addAdditionalSaveData(CompoundTag& tag) const;
+	virtual void readAdditionalSaveData(const CompoundTag& tag);
 	// Removed by Mojang. See https://stackoverflow.com/questions/962132/why-is-a-call-to-a-virtual-member-function-in-the-constructor-a-non-virtual-call
 	//virtual void defineSynchedData();
+	EntityType::ID getEncodeId() const;
 
 	const EntityTypeDescriptor& getDescriptor() const { return *m_pDescriptor; }
 	const SynchedEntityData& getEntityData() const { return m_entityData; }
@@ -209,11 +220,11 @@ public:
 	int m_tickCount;
 	int m_invulnerableTime;
 	int m_airCapacity;
-	int m_fireTicks;
+	int16_t m_fireTicks;
 	int m_flameTime;
 	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
 	float m_distanceFallen; // Supposed to be protected
-	int m_airSupply;
+	int16_t m_airSupply;
 	uint8_t field_D4;
 	bool field_D5;
 	bool field_D6;

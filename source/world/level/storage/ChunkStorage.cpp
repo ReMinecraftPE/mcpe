@@ -17,11 +17,11 @@ LevelChunk* ChunkStorage::load(Level* level, const ChunkPos& pos)
 	return 0;
 }
 
-void ChunkStorage::save(Level* a, LevelChunk* b)
+void ChunkStorage::save(Level* level, LevelChunk* chunk)
 {
 }
 
-void ChunkStorage::saveEntities(Level* a, LevelChunk* b)
+void ChunkStorage::saveEntities(Level* level, LevelChunk* chunk)
 {
 }
 

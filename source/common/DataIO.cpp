@@ -1,6 +1,6 @@
 #include <assert.h>
 
-#include "DataIO.h"
+#include "DataIO.hpp"
 
 #define STR16_MAX_LEN 32767
 #define STR32_MAX_LEN 2147483647
@@ -84,7 +84,7 @@ inline void IDataOutput::_writeString(const std::string& v)
 
 	int16_t len = v.length() & STR16_MAX_LEN;
 	writeInt16(len);
-	writeBytes((const void *)(v.c_str() + 1), len);
+	writeBytes((const void *)v.c_str(), len);
 }
 
 inline void IDataOutput::_writeLongString(const std::string& v)
@@ -94,7 +94,7 @@ inline void IDataOutput::_writeLongString(const std::string& v)
 
 	int32_t len = v.length();
 	writeInt32(len);
-	writeBytes((const void *)(v.c_str() + 1), len);
+	writeBytes((const void *)v.c_str(), len);
 }
 
 std::string BytesDataInput::readString()

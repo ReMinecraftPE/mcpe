@@ -18,8 +18,7 @@
 class CompoundTag : public Tag
 {
 public:
-	CompoundTag();
-	CompoundTag(const std::map<std::string, Tag*>& tags);
+    CompoundTag();
 
     Tag::Type getId() const override { return TAG_TYPE_COMPOUND; }
 
@@ -45,6 +44,7 @@ public:
     bool contains(const std::string& name, Tag::Type type) const;
 
     const Tag* get(const std::string& name) const;
+    Tag* get(const std::string& name);
 	int8_t getInt8(const std::string& name) const;
     int16_t getInt16(const std::string& name) const;
     int32_t getInt32(const std::string& name) const;
@@ -55,21 +55,24 @@ public:
     const TagMemoryChunk* getInt8Array(const std::string& name) const;
     const TagMemoryChunk* getInt32Array(const std::string& name) const;
     const TagMemoryChunk* getInt64Array(const std::string& name) const;
+    CompoundTag* getCompound(const std::string& name);
     const CompoundTag* getCompound(const std::string& name) const;
-    const Tag* getList(const std::string& name) const;
+    const ListTag* getList(const std::string& name) const;
     bool getBoolean(const std::string& name) const;
 
 	std::string toString() const override;
 	CompoundTag* copy() const override;
-	CompoundTag clone() const;
+	CompoundTag clone();
 	bool remove(const std::string& name);
+    void deleteChildren() override;
 
 	bool isEmpty() const { return m_tags.empty(); }
-	// rawView() unimplemented, no idea what this returns
+    std::map<std::string, Tag*>& rawView() { return m_tags; }
+    const std::map<std::string, Tag*>& rawView() const { return m_tags; }
 	
 	bool operator==(const Tag& other) const override;
 	bool operator!=(const Tag& other) const { return !(*this == other); }
 
-public:
+private:
     std::map<std::string, Tag*> m_tags;
 };

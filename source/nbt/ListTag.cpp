@@ -4,9 +4,15 @@
 #include "common/Util.hpp"
 #include "FloatTag.hpp"
 #include "StringTag.hpp"
+#include "Int32Tag.hpp"
 
 ListTag::ListTag() : m_type(TAG_TYPE_END) {}
 ListTag::ListTag(Tag::Type type) : m_type(type) {}
+
+ListTag::~ListTag()
+{
+	deleteChildren();
+}
 
 void ListTag::write(IDataOutput& dos) const
 {
@@ -134,9 +140,14 @@ ListTag* ListTag::copyList() const
 
 void ListTag::deleteChildren()
 {
+	for (std::vector<Tag*>::iterator it = m_list.begin(); it != m_list.end(); it++)
+	{
+		Tag* tag = *it;
+		delete tag;
+	}
+
 	m_list.clear();
 }
-
 
 bool ListTag::operator==(const Tag& other) const
 {
@@ -157,4 +168,40 @@ bool ListTag::operator==(const Tag& other) const
 	}
 
 	return false;
+}
+
+ListTagFloatAdder::ListTagFloatAdder(float f)
+{
+	m_tag = nullptr;
+	this->operator()(f);
+}
+
+ListTagFloatAdder& ListTagFloatAdder::operator()(float f)
+{
+	if (!m_tag)
+		m_tag = new ListTag();
+
+	Tag* newTag = new FloatTag(f);
+
+	m_tag->add(newTag);
+
+	return *this;
+}
+
+ListTagInt32Adder::ListTagInt32Adder(int32_t i)
+{
+	m_tag = nullptr;
+	this->operator()(i);
+}
+
+ListTagInt32Adder& ListTagInt32Adder::operator()(int32_t i)
+{
+	if (!m_tag)
+		m_tag = new ListTag();
+
+	Tag* newTag = new Int32Tag(i);
+
+	m_tag->add(newTag);
+
+	return *this;
 }

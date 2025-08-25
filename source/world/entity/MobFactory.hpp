@@ -7,4 +7,5 @@ class MobFactory
 {
 public:
 	static Mob* CreateMob(EntityType::ID entityType, Level *level);
+	static Entity* LoadEntity(const CompoundTag& tag, Level* level);
 };

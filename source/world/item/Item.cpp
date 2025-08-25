@@ -336,6 +336,11 @@ std::string Item::getName()
 	return getDescriptionId() + ".name";
 }
 
+int Item::buildIdAux(int16_t auxValue, const CompoundTag* userData)
+{
+	return auxValue | (unsigned int)(m_itemID << 16);
+}
+
 Item
 	*Item::shovel_iron,
 	*Item::pickAxe_iron,

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common/DataIO.h"
+#include "common/DataIO.hpp"
 #include "BitStream.h"
 
 class RakDataInput : public BytesDataInput

@@ -19,6 +19,7 @@ class Level;
 class Entity;
 class Mob;
 class Player;
+class CompoundTag;
 
 class ItemInstance
 {
@@ -35,10 +36,18 @@ public:
 	ItemInstance(Tile*, int amount, int auxValue);
 	ItemInstance(int itemID, int amount, int auxValue);
 
+	int getId() const;
+	int getIdAux() const;
+
     int getAuxValue() const { return m_auxValue; }
     void setAuxValue(int auxValue) { m_auxValue = auxValue; } // Technically doesn't exist in b1.2_02
     int getDamageValue() const { return m_auxValue; }
 
+	bool hasUserData() const { return m_userData != nullptr; }
+	const CompoundTag* getUserData() const { return m_userData; }
+	void setUserData(CompoundTag* tag);
+
+	void set(int inCount);
 	bool canDestroySpecial(Tile*);
 	std::string getDescriptionId();
 	float getDestroySpeed(Tile*);
@@ -66,6 +75,10 @@ public:
 	// v0.2.0
 	int getAttackDamage(Entity *pEnt);
 	bool isNull() const;
+	void setNull();
+
+	void load(const CompoundTag& tag);
+	CompoundTag& save(CompoundTag& tag) const;
 
 	// @NOTE: Won't this be ambiguous with the non-static method?
 	static bool isNull(const ItemInstance*);
@@ -73,12 +86,16 @@ public:
 
 	bool operator==(const ItemInstance&) const;
 	bool operator!=(const ItemInstance&) const;
+	//operator bool() const;
 
 public:
-	int m_count;
+	int16_t m_count;
 	int m_popTime;
-	int m_itemID;
+	int16_t m_itemID;
 private:
-    int m_auxValue;
+    int16_t m_auxValue;
+	CompoundTag* m_userData;
+	//Item* m_item; // @TODO: replace m_itemID with Item pointer
+	//bool m_valid;
 };
 

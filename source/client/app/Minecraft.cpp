@@ -184,6 +184,12 @@ void Minecraft::setScreen(Screen* pScreen)
 		releaseMouse();
 		// the ceil prevents under-drawing
 		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
+
+		if (pScreen->isPauseScreen())
+		{
+			if (m_pLevel && isLevelGenerated())
+				return m_pLevel->saveGame();
+		}
 	}
 	else
 	{
@@ -937,10 +943,12 @@ void Minecraft::prepareLevel(const std::string& unused)
 		m_pLevel->setInitialSpawn();
 		m_pLevel->saveLevelData();
 		m_pLevel->getChunkSource()->saveAll();
+		m_pLevel->saveGame();
 	}
 	else
 	{
 		m_pLevel->saveLevelData();
+		m_pLevel->loadEntities();
 	}
 
 	m_progressPercent = -1;
@@ -1054,13 +1062,12 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 
 	m_pGameMode->adjustPlayer(m_pLocalPlayer);
 
-	pLevel->validateSpawn();
-	pLevel->loadPlayer(m_pLocalPlayer);
-
+	// was after loadPlayer for some reason
 	if (m_pLocalPlayer)
-	{
 		m_pLocalPlayer->resetPos();
-	}
+
+	pLevel->validateSpawn();
+	pLevel->loadPlayer(*m_pLocalPlayer);
 
 	m_pMobPersp = m_pLocalPlayer;
 	m_pLevel = pLevel;
@@ -1143,7 +1150,7 @@ void Minecraft::selectLevel(const std::string& a, const std::string& b, int c)
 	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(a, false);
 	Dimension* pDim = Dimension::getNew(0);
 
-	m_pLevel = new Level(pStor, b, c, 1, pDim);
+	m_pLevel = new Level(pStor, b, c, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
 	setLevel(m_pLevel, "Generating level", nullptr);
 
 	field_D9C = 1;

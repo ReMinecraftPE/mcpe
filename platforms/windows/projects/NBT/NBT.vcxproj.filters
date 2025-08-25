@@ -11,12 +11,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\source\nbt\ByteArrayTag.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\nbt\ByteTag.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\nbt\CompoundTag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -29,12 +23,6 @@
     <ClInclude Include="$(MC_ROOT)\source\nbt\FloatTag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\nbt\IntArrayTag.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\nbt\IntTag.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\nbt\ListTag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -44,23 +32,32 @@
     <ClInclude Include="$(MC_ROOT)\source\nbt\Int64Tag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\nbt\ShortTag.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\nbt\StringTag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\nbt\Tag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int8ArrayTag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int8Tag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int16Tag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int32ArrayTag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int32Tag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\nbt\NbtIo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\source\nbt\ByteArrayTag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\nbt\ByteTag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\nbt\CompoundTag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,12 +70,6 @@
     <ClCompile Include="$(MC_ROOT)\source\nbt\FloatTag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\nbt\IntArrayTag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\nbt\IntTag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\nbt\ListTag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -88,13 +79,28 @@
     <ClCompile Include="$(MC_ROOT)\source\nbt\Int64Tag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\nbt\ShortTag.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\nbt\StringTag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\nbt\Tag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int8ArrayTag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int8Tag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int16Tag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int32ArrayTag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int32Tag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\nbt\NbtIo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

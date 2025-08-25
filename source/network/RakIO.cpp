@@ -1,4 +1,4 @@
-#include "RakIO.h"
+#include "RakIO.hpp"
 
 unsigned int RakDataInput::numBytesLeft() const
 {
@@ -7,7 +7,7 @@ unsigned int RakDataInput::numBytesLeft() const
 
 bool RakDataInput::readBytes(void* data, unsigned int count)
 {
-	if (hasBytesLeft(count))
+	if (!hasBytesLeft(count))
 		return false;
 
 	RakNet::BitSize_t bitsToRead = 8 * count;
