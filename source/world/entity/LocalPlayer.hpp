@@ -20,15 +20,16 @@ public:
 	LocalPlayer(Minecraft*, Level*, User*, GameType, int);
 	virtual ~LocalPlayer();
 
-	// TODO: void addAdditonalSaveData();
 	virtual void animateRespawn() override;
 	virtual void aiStep() override;
 	virtual bool isSneaking() const override;
 	virtual int move(const Vec3& pos) override;
 	virtual void tick() override;
 	virtual void updateAi() override;
+	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
+	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
 	virtual bool isLocalPlayer() const override { return true; }
-	virtual void drop(const ItemInstance* pItemInstance, bool b = false) override;
+	virtual void drop(const ItemInstance& item, bool randomly = false) override;
 	virtual bool isImmobile() const override;
 	virtual void setPlayerGameType(GameType gameType) override;
 

@@ -13,8 +13,8 @@ class Animal : public PathfinderMob
 {
 public:
 	Animal(Level* pLevel);
-	// TODO: void addAdditonalSaveData(CompoundTag*) override;
-	// TODO: void readAdditonalSaveData(CompoundTag*) override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 	void aiStep() override;
 	bool isBaby() const override;
 	bool canSpawn() override;

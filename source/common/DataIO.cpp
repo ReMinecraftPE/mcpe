@@ -210,3 +210,60 @@ void StringByteOutput::writeBytes(const void* data, unsigned int count)
 {
 	m_buffer->append((const char*)data, count);
 }
+
+float BigEndianStringByteInput::readFloat()
+{
+	float v = 0.0f;
+	readBigEndianBytes(&v, 4);
+	return v;
+}
+
+double BigEndianStringByteInput::readDouble()
+{
+	double v = 0.0;
+	readBigEndianBytes(&v, 8);
+	return v;
+}
+
+int16_t BigEndianStringByteInput::readInt16()
+{
+	int16_t v = 0;
+	readBigEndianBytes(&v, 2);
+	return v;
+}
+
+int32_t BigEndianStringByteInput::readInt32()
+{
+	int32_t v = 0;
+	readBigEndianBytes(&v, 4);
+	return v;
+}
+
+int64_t BigEndianStringByteInput::readInt64()
+{
+	int64_t v = 0;
+	readBigEndianBytes(&v, 8);
+	return v;
+}
+
+bool BigEndianStringByteInput::readBigEndianBytes(void* data, unsigned int count)
+{
+	if (!readBytes(data, count))
+		return false;
+
+	int8_t* buffer = (int8_t*)data;
+
+	int8_t* v7 = &buffer[count - 1];
+	if (!buffer || !v7)
+		return false;
+
+	int8_t v8;
+	for (; buffer <= v7; v7--)
+	{
+		v8 = *buffer;
+		*buffer++ = *v7;
+		*v7 = v8;
+	}
+
+	return true;
+}

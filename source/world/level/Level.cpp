@@ -17,7 +17,7 @@
 Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
-	m_bIsMultiplayer = false;
+	m_bIsOnline = false;
 	m_bPostProcessing = false;
 	m_skyDarken = 0;
 	field_30 = 0;
@@ -633,7 +633,7 @@ void Level::sendTileUpdated(const TilePos& pos)
 
 void Level::neighborChanged(const TilePos& pos, TileID tile)
 {
-	if (field_30 || m_bIsMultiplayer) return;
+	if (field_30 || m_bIsOnline) return;
 
 	Tile* pTile = Tile::tiles[getTile(pos)];
 	if (pTile)
@@ -1106,7 +1106,7 @@ bool Level::addEntity(Entity* pEnt)
 		//removeEntity(pOldEnt);
 	}
 
-	if (!pEnt->isPlayer() && m_bIsMultiplayer)
+	if (!pEnt->isPlayer() && m_bIsOnline)
 	{
 		LOG_W("Hey, why are you trying to add an non-player entity in a multiplayer world?");
 	}

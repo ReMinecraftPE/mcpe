@@ -40,8 +40,13 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 	ItemEntity* pItemEntity = (ItemEntity*)pEntity;
 
 	glPushMatrix();
-	float yOffset = Mth::sin((float(pItemEntity->field_E0) + b) / 10.0f + pItemEntity->field_E8);
-	const ItemInstance* pItemInstance = &(pItemEntity->m_itemInstance);
+	float yOffset = Mth::sin((float(pItemEntity->m_age) + b) / 10.0f + pItemEntity->m_bobOffs);
+	const ItemInstance* pItemInstance = pItemEntity->m_pItemInstance;
+	if (!pItemInstance)
+	{
+		assert(pItemInstance != nullptr);
+		return;
+	}
 
 	int itemsToRender = 1;
 	if (pItemInstance->m_count > 1)
@@ -57,7 +62,7 @@ void ItemRenderer::render(Entity* pEntity, float x, float y, float z, float a, f
 	int itemID = pItemInstance->m_itemID;
 	if (itemID < C_MAX_TILES && TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()))
 	{
-		glRotatef(((float(pItemEntity->field_E0) + b) / 20.0f + pItemEntity->field_E8) * 57.296f, 0.0f, 1.0f, 0.0f);
+		glRotatef(((float(pItemEntity->m_age) + b) / 20.0f + pItemEntity->m_bobOffs) * 57.296f, 0.0f, 1.0f, 0.0f);
 		bindTexture(C_TERRAIN_NAME);
 
 		float scale = 0.5f;

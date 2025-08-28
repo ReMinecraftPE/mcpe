@@ -239,7 +239,7 @@ void LeafTile::onRemove(Level* level, const TilePos& pos)
 
 void LeafTile::tick(Level* level, const TilePos& pos, Random* random)
 {
-	if (level->m_bIsMultiplayer)
+	if (level->m_bIsOnline)
 		return;
 
 	_tickDecay(level, pos);

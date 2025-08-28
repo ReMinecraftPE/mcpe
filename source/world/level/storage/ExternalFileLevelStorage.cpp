@@ -14,7 +14,7 @@
 #include "nbt/CompoundTag.hpp"
 #include "nbt/NbtIo.hpp"
 #include "network/RakIO.hpp"
-#include "world/entity/MobFactory.hpp"
+#include "world/entity/EntityFactory.hpp"
 
 #ifndef DEMO
 
@@ -293,7 +293,7 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 						if (!betterTag || betterTag->getId() != Tag::TAG_TYPE_COMPOUND)
 							continue;
 
-						Entity* entity = MobFactory::LoadEntity(*(CompoundTag*)betterTag, level);
+						Entity* entity = EntityFactory::LoadEntity(*(CompoundTag*)betterTag, level);
 						if (entity)
 							level->addEntity(entity);
 					}

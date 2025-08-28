@@ -1040,7 +1040,7 @@ void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data)
 
 void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data, float fChance)
 {
-	if (pLevel->m_bIsMultiplayer)
+	if (pLevel->m_bIsOnline)
 		return;
 
 	int count = getResourceCount(&pLevel->m_random);
@@ -1057,9 +1057,9 @@ void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data, float fCh
 			   (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f,
 			   (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f);
 
-		ItemInstance inst(id, 1, getSpawnResourcesAuxValue(data));
-		ItemEntity* pEntity = new ItemEntity(pLevel, Vec3(pos) + o, &inst);
-		pEntity->field_E4 = 10;
+		ItemInstance* inst = new ItemInstance(id, 1, getSpawnResourcesAuxValue(data));
+		ItemEntity* pEntity = new ItemEntity(pLevel, Vec3(pos) + o, inst);
+		pEntity->m_throwTime = 10;
 
 		pLevel->addEntity(pEntity);
 	}

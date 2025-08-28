@@ -19,7 +19,7 @@ void Creeper::_defineEntityData()
 void Creeper::tick()
 {
 	m_oldSwell = m_swell;
-	if (m_pLevel->m_bIsMultiplayer)
+	if (m_pLevel->m_bIsOnline)
 	{
 		int swellDir = getSwellDir();
 		if (swellDir > 0 && m_swell == 0)

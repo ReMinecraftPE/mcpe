@@ -231,7 +231,7 @@ void GameRenderer::bobHurt(float f)
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 
 	if (pMob->m_health <= 0)
-		glRotatef(-8000.0f / (float(pMob->field_110) + f + 200.0f) + 40.0f, 0.0f, 0.0f, 1.0f);
+		glRotatef(-8000.0f / (float(pMob->m_deathTime) + f + 200.0f) + 40.0f, 0.0f, 0.0f, 1.0f);
 
 	if (pMob->m_hurtTime > 0)
 	{
@@ -393,7 +393,7 @@ float GameRenderer::getFov(float f)
 
 	if (pMob->m_health <= 0)
 	{
-		float x2 = 1.0f + (-500.0f / ((pMob->field_110 + f) + 500.0f));
+		float x2 = 1.0f + (-500.0f / ((pMob->m_deathTime + f) + 500.0f));
 		x1 /= (1.0f + 2.0f * x2);
 	}
 

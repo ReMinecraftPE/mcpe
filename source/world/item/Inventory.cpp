@@ -1,5 +1,6 @@
 #include "Inventory.hpp"
 #include "Item.hpp"
+#include "nbt/CompoundTag.hpp"
 
 Inventory::Inventory(Player* pPlayer)
 {
@@ -10,9 +11,18 @@ Inventory::Inventory(Player* pPlayer)
 		m_hotbar[i] = -1;
 }
 
+Inventory::~Inventory()
+{
+	for (std::vector<ItemInstance*>::iterator it = m_items.begin(); it != m_items.end(); it++)
+	{
+		ItemInstance* item = *it;
+		delete item;
+	}
+}
+
 void Inventory::prepareCreativeInventory()
 {
-	m_items.clear();
+	clear();
 
 	// Original list of items.
 	addCreativeItem(Tile::rock->m_ID);
@@ -83,7 +93,7 @@ void Inventory::prepareCreativeInventory()
 
 void Inventory::prepareSurvivalInventory()
 {
-	m_items.clear();
+	clear();
 	m_items.resize(C_NUM_SURVIVAL_SLOTS);
 
 	// Add some items for testing
@@ -117,40 +127,45 @@ int Inventory::getNumItems()
 
 void Inventory::addCreativeItem(int itemID, int auxValue)
 {
-	m_items.push_back(ItemInstance(itemID, 1, auxValue));
+	m_items.push_back(new ItemInstance(itemID, 1, auxValue));
 }
 
 void Inventory::clear()
 {
+	for (std::vector<ItemInstance*>::iterator it = m_items.begin(); it != m_items.end(); it++)
+	{
+		ItemInstance* item = *it;
+		delete item;
+	}
 	m_items.clear();
-	m_items.resize(C_NUM_SURVIVAL_SLOTS);
 }
 
 // This code, and this function, don't exist in b1.2_02
 // "add" exists with these same arguments, which calls "addResource",
 // but addResource's code is entirely different somehow. Did we write this from scratch?
-bool Inventory::addItem(ItemInstance* pInst)
+bool Inventory::addItem(ItemInstance& instance)
 {
 	if (_getGameMode() == GAME_TYPE_CREATIVE)
 	{
 		// Just get rid of the item.
-		pInst->m_count = 0;
+		instance.m_count = 0;
 		return true;
 	}
 	
 	// look for an item with the same ID
 	for (int i = 0; i < getNumItems(); i++)
 	{
-		if (m_items[i].m_itemID != pInst->m_itemID)
+		ItemInstance* item = m_items[i];
+		if (!item || item->m_itemID != instance.m_itemID)
 			continue;
 
-		int maxStackSize = m_items[i].getMaxStackSize();
-		bool bIsStackedByData = Item::items[pInst->m_itemID]->isStackedByData();
-		if (bIsStackedByData && m_items[i].getAuxValue() != pInst->getAuxValue())
+		int maxStackSize = item->getMaxStackSize();
+		bool bIsStackedByData = instance.getItem()->isStackedByData();
+		if (bIsStackedByData && item->getAuxValue() != instance.getAuxValue())
 			continue;
 
 		// try to collate.
-		int combinedItemAmount = pInst->m_count + m_items[i].m_count;
+		int combinedItemAmount = instance.m_count + item->m_count;
 
 		int leftover = combinedItemAmount - maxStackSize;
 		if (leftover < 0)
@@ -158,28 +173,34 @@ bool Inventory::addItem(ItemInstance* pInst)
 		else
 			combinedItemAmount = C_MAX_AMOUNT;
 
-		m_items[i].m_count = combinedItemAmount;
-        m_items[i].m_popTime = 5;
+		item->m_count = combinedItemAmount;
+		item->m_popTime = 5;
 
-		pInst->m_count = leftover;
+		instance.m_count = leftover;
 
 		if (!bIsStackedByData)
-			m_items[i].setAuxValue(0);
+			item->setAuxValue(0);
 	}
 
 	// If there's nothing leftover:
-	if (pInst->m_count <= 0)
+	if (instance.m_count <= 0)
 		return true;
 
 	// try to add it to an empty slot
 	for (int i = 0; i < getNumItems(); i++)
 	{
-		if (m_items[i].m_itemID != 0)
-			continue;
+		ItemInstance* item = m_items[i];
 
-		m_items[i] = *pInst;
-        m_items[i].m_popTime = 5;
-		pInst->m_count = 0;
+		if (item)
+		{
+			if (item->m_itemID != 0)
+				continue;
+			delete item;
+		}
+
+		item = m_items[i] = new ItemInstance(instance);
+        item->m_popTime = 5;
+		instance.m_count = 0;
 		return true;
 	}
 
@@ -191,9 +212,11 @@ void Inventory::tick()
 {
     for (int i = 0; i < m_items.size(); i++)
     {
-        if (!m_items[i].isNull() && m_items[i].m_popTime > 0)
+		ItemInstance* item = m_items[i];
+
+        if (!ItemInstance::isNull(item) && item->m_popTime > 0)
         {
-            m_items[i].m_popTime--;
+			item->m_popTime--;
         }
     }
 }
@@ -201,7 +224,7 @@ void Inventory::tick()
 void Inventory::addTestItem(int itemID, int amount, int auxValue)
 {
 	ItemInstance inst(itemID, amount, auxValue);
-	addItem(&inst);
+	addItem(inst);
 
 	if (inst.m_count != 0)
 	{
@@ -215,10 +238,14 @@ ItemInstance* Inventory::getItem(int slotNo)
 	if (slotNo < 0 || slotNo >= int(m_items.size()))
 		return nullptr;
 
-	if (m_items[slotNo].m_count <= 0)
-		m_items[slotNo].m_itemID = 0;
+	ItemInstance* item = m_items[slotNo];
+	if (!item)
+		return nullptr;
 
-	return &m_items[slotNo];
+	if (item->m_count <= 0)
+		item->m_itemID = 0;
+
+	return item;
 }
 
 int Inventory::getQuickSlotItemId(int slotNo)
@@ -294,7 +321,8 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 
 	for (int i = 0; i < getNumItems(); i++)
 	{
-		if (m_items[i].m_itemID == itemID)
+		ItemInstance* item = m_items[i];
+		if (item->m_itemID == itemID)
 		{
 			m_hotbar[slotNo] = i;
 			return;
@@ -308,7 +336,8 @@ void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 {
 	for (int i = 0; i < getNumItems(); i++)
 	{
-		if (m_items[i].m_itemID != itemID)
+		ItemInstance* item = m_items[i];
+		if (item->m_itemID != itemID)
 			continue;
 
 		selectItem(i, maxHotBarSlot);
@@ -327,16 +356,75 @@ int Inventory::getAttackDamage(Entity* pEnt)
 	return pInst->getAttackDamage(pEnt);
 }
 
-void Inventory::dropAll(bool butNotReally)
+void Inventory::dropAll(bool onlyClearContainer)
 {
 	for (int i = 0; i < getNumItems(); i++)
 	{
-		ItemInstance* item = &m_items[i];
-		if (item->m_count > 0)
+		ItemInstance* item = m_items[i];
+		if (item && item->m_count > 0)
 		{
-			if (!butNotReally)
-				m_pPlayer->drop(item->copy(), true);
+			if (!onlyClearContainer)
+				m_pPlayer->drop(*item, true);
 			item->m_count = 0;
+		}
+	}
+}
+
+void Inventory::save(ListTag& tag) const
+{
+	if (_getGameMode() == GAME_TYPE_CREATIVE)
+		return;
+
+	for (int i = 0; i < m_items.size(); i++)
+	{
+		const ItemInstance* item = m_items[i];
+
+		if (ItemInstance::isNull(item))
+			continue;
+
+		CompoundTag* itemTag = new CompoundTag();
+		itemTag->putInt8("Slot", i);
+		/* On PE, Mojang for some reason limited something saved as a 16-bit signed integer to a 0-255 range.
+		if (item.getAuxValue() < 0)
+		{
+			item.setAuxValue(0);
+		}
+		else if (item.getAuxValue > 255)
+		{
+			item.setAuxValue(255);
+		}
+		*/
+		item->save(*itemTag);
+		tag.add(itemTag);
+	}
+}
+
+void Inventory::load(const ListTag& tag)
+{
+	if (_getGameMode() == GAME_TYPE_CREATIVE)
+		return;
+
+	clear();
+	m_items.resize(C_NUM_SURVIVAL_SLOTS);
+
+	const std::vector<Tag*>& itemTags = tag.rawView();
+
+	for (std::vector<Tag*>::const_iterator it = itemTags.cbegin(); it != itemTags.cend(); it++)
+	{
+		const CompoundTag* itemTag = (const CompoundTag*)*it;
+		int slot = itemTag->getInt8("Slot") & 255;
+		ItemInstance* item = ItemInstance::fromTag(*itemTag);
+		if (item)
+		{
+			if (slot >= 0 && slot < m_items.size())
+			{
+				m_items[slot] = item;
+			}
+
+			/*if (slot >= 100 && slot < m_armor.size() + 100)
+			{
+				m_armor[slot - 100] = item;
+			}*/
 		}
 	}
 }

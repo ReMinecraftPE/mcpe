@@ -8,6 +8,7 @@
 
 #include "Player.hpp"
 #include "world/level/Level.hpp"
+#include "nbt/CompoundTag.hpp"
 
 Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 {
@@ -18,8 +19,8 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
     m_oBob = 0.0f;
     m_bob = 0.0f;
 	m_name = "";
-	field_BC4 = 0;
-	m_bHaveRespawnPos = false;
+	m_dimension = 0;
+	m_bHasRespawnPos = false;
 	m_destroyingBlock = false;
 
 	field_C8 = RENDER_HUMANOID;
@@ -109,7 +110,7 @@ void Player::resetPos()
 	Entity::resetPos();
 
 	m_health = 20;
-	field_110 = 0;
+	m_deathTime = 0;
 }
 
 void Player::die(Entity* pCulprit)
@@ -120,7 +121,7 @@ void Player::die(Entity* pCulprit)
 	m_vel.y = 0.1f;
 
 	if (m_name == "Notch")
-		drop(new ItemInstance(Item::apple), true);
+		drop(ItemInstance(Item::apple), true);
 	m_pInventory->dropAll();
 
 	if (pCulprit)
@@ -194,11 +195,11 @@ void Player::aiStep()
 
 ItemInstance* Player::getCarriedItem()
 {
-	ItemInstance* inst = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
-	if (inst->m_itemID <= 0)
+	ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
+	if (ItemInstance::isNull(item))
 		return nullptr;
 
-	return inst;
+	return item;
 }
 
 void Player::updateAi()
@@ -218,6 +219,54 @@ void Player::updateAi()
 	}
 
 	m_attackAnim = m_swingTime / 8.0f;
+}
+
+void Player::addAdditionalSaveData(CompoundTag& tag) const
+{
+	Mob::addAdditionalSaveData(tag);
+
+	ListTag* inventoryTag = new ListTag();
+	m_pInventory->save(*inventoryTag);
+	tag.put("Inventory", inventoryTag);
+
+	tag.putInt32("playerGameType", getPlayerGameType());
+	tag.putInt32("Dimension", m_dimension);
+
+	// Why would we save the player's sleep state? If they leave the game, just wake them up.
+	/*tag.putBoolean("Sleeping", m_bSleeping);
+	tag.putShort("SleepTimer", m_sleepTimer);
+	if (m_bSleeping)
+	{
+		setBedSleepPos(m_pos);
+		wake(true, true, false);
+	}*/
+
+	if (m_bHasRespawnPos)
+	{
+		tag.putInt32("SpawnX", m_respawnPos.x);
+		tag.putInt32("SpawnY", m_respawnPos.y);
+		tag.putInt32("SpawnZ", m_respawnPos.z);
+	}
+}
+
+void Player::readAdditionalSaveData(const CompoundTag& tag)
+{
+	Mob::readAdditionalSaveData(tag);
+
+	// Needs to load before Inventory, since Inventory won't load if Player is in creative mode
+	if (tag.contains("playerGameType"))
+	{
+		setPlayerGameType((GameType)tag.getInt32("playerGameType"));
+	}
+
+	if (tag.contains("Inventory"))
+		m_pInventory->load(*tag.getList("Inventory"));
+
+	m_dimension = tag.getInt32("Dimension");
+	//m_sleepTimer = tag.getInt32("SleepTimer");
+
+	if (tag.contains("SpawnX") && tag.contains("SpawnY") && tag.contains("SpawnZ"))
+		setRespawnPos(TilePos(tag.getInt32("SpawnX"), tag.getInt32("SpawnY"), tag.getInt32("SpawnZ")));
 }
 
 void Player::animateRespawn()
@@ -257,15 +306,15 @@ void Player::displayClientMessage(const std::string& msg)
 
 }
 
-void Player::drop(const ItemInstance* pItemInstance, bool b)
+void Player::drop(const ItemInstance& item, bool randomly)
 {
-	if (ItemInstance::isNull(pItemInstance))
+	if (item.isNull())
 		return;
 
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), pItemInstance);
-	pItemEntity->field_E4 = 40;
+	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item.copy());
+	pItemEntity->m_throwTime = 40;
 
-	if (b)
+	if (randomly)
 	{
 		float throwPower = 0.5f * m_random.nextFloat();
 		float throwAngle = m_random.nextFloat();
@@ -330,11 +379,11 @@ void Player::setRespawnPos(const TilePos& pos)
 {
 	/*if (!pos)
 	{
-		m_bHaveRespawnPos = false;
+		m_bHasRespawnPos = false;
 		return;
 	}*/
 
-	m_bHaveRespawnPos = true;
+	m_bHasRespawnPos = true;
 	m_respawnPos = pos;
 }
 

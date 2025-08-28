@@ -101,3 +101,17 @@ public:
 public:
 	std::string* m_buffer;
 };
+
+class BigEndianStringByteInput : public StringByteInput
+{
+public:
+	BigEndianStringByteInput(const std::string& buffer) : StringByteInput(buffer) {}
+
+public:
+	float readFloat() override;
+	double readDouble() override;
+	int16_t readInt16() override;
+	int32_t readInt32() override;
+	int64_t readInt64() override;
+	virtual bool readBigEndianBytes(void* data, unsigned int count);
+};

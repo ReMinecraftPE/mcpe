@@ -40,7 +40,7 @@ public:
 	int getIdAux() const;
 
     int getAuxValue() const { return m_auxValue; }
-    void setAuxValue(int auxValue) { m_auxValue = auxValue; } // Technically doesn't exist in b1.2_02
+    void setAuxValue(int16_t auxValue) { m_auxValue = auxValue; } // Technically doesn't exist in b1.2_02
     int getDamageValue() const { return m_auxValue; }
 
 	bool hasUserData() const { return m_userData != nullptr; }
@@ -70,7 +70,7 @@ public:
 	bool useOn(Player*, Level*, const TilePos& pos, Facing::Name face);
 
 	Item* getItem() const;
-	ItemInstance* copy();
+	ItemInstance* copy() const;
 
 	// v0.2.0
 	int getAttackDamage(Entity *pEnt);
@@ -83,6 +83,7 @@ public:
 	// @NOTE: Won't this be ambiguous with the non-static method?
 	static bool isNull(const ItemInstance*);
 	static bool matches(const ItemInstance*, const ItemInstance*);
+	static ItemInstance* fromTag(const CompoundTag& tag);
 
 	bool operator==(const ItemInstance&) const;
 	bool operator!=(const ItemInstance&) const;

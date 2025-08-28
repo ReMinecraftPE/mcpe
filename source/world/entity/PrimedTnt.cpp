@@ -8,6 +8,7 @@
 
 #include "PrimedTnt.hpp"
 #include "world/level/Level.hpp"
+#include "nbt/CompoundTag.hpp"
 
 void PrimedTnt::_init()
 {
@@ -76,4 +77,14 @@ void PrimedTnt::tick()
 	{
 		m_pLevel->addParticle("smoke", Vec3(m_pos.x, m_pos.y + 0.5f, m_pos.z));
 	}
+}
+
+void PrimedTnt::addAdditionalSaveData(CompoundTag& tag) const
+{
+	tag.putInt8("Fuse", m_fuseTimer);
+}
+
+void PrimedTnt::readAdditionalSaveData(const CompoundTag& tag)
+{
+	m_fuseTimer = tag.getInt8("Fuse");
 }

@@ -19,8 +19,10 @@ public:
 	float getShadowHeightOffs() const override;
 	bool isPickable() const override;
 	void tick() override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 
-	Level* getLevel();
+	Level* getLevel() { return m_pLevel; }
 
 public:
 	int m_id;

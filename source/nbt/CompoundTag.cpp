@@ -123,6 +123,7 @@ bool CompoundTag::contains(const std::string& name) const
 
 bool CompoundTag::contains(const std::string& name, Tag::Type type) const
 {
+	// @TODO: inefficient, all get functions check this, then get the Tag for the second time
 	const Tag* tag = get(name);
 	return tag && tag->getId() == type;
 }

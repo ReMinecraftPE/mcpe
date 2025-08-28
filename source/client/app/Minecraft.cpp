@@ -232,7 +232,7 @@ bool Minecraft::isOnlineClient() const
 	if (!m_pLevel)
 		return false;
 
-	return m_pLevel->m_bIsMultiplayer;
+	return m_pLevel->m_bIsOnline;
 }
 
 bool Minecraft::isTouchscreen() const
@@ -472,7 +472,7 @@ void Minecraft::tickInput()
 				{
 					ItemInstance itemDrop = m_pLocalPlayer->isSurvival() ? item->remove(1) : ItemInstance(*item);
 					itemDrop.m_count = 1;
-					m_pLocalPlayer->drop(&itemDrop);
+					m_pLocalPlayer->drop(itemDrop);
 				}
 			}
 			else if (getOptions()->isKey(KM_TOGGLEGUI, keyCode))
@@ -697,7 +697,7 @@ void Minecraft::tick()
 		if (m_pLevel && !isGamePaused())
 		{
             m_pLevel->m_difficulty = m_options->m_difficulty;
-            if (m_pLevel->m_bIsMultiplayer)
+            if (m_pLevel->m_bIsOnline)
             {
                 m_pLevel->m_difficulty = 3;
             }

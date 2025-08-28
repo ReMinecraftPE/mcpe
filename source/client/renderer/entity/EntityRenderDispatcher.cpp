@@ -165,18 +165,22 @@ void EntityRenderDispatcher::render(Entity* entity, const Vec3& pos, float rot, 
 {
 	EntityRenderer* pRenderer = getRenderer(entity);
 
-	if (pRenderer)
+	if (!pRenderer)
 	{
+		//LOG_E("Failed to fetch renderer for entity: %s", entity->getDescriptor().getEntityType().getName());
+		assert(!"Failed to fetch renderer for an entity");
+		return;
+	}
+
 #ifndef ORIGINAL_CODE
-		if (pRenderer == &m_HumanoidMobRenderer)
-			m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = entity->isSneaking();
-		else
-			m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = false;
+	if (pRenderer == &m_HumanoidMobRenderer)
+		m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = entity->isSneaking();
+	else
+		m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = false;
 #endif
 
-		pRenderer->render(entity, pos.x, pos.y, pos.z, rot, a);
-		pRenderer->postRender(entity, pos, rot, a);
-	}
+	pRenderer->render(entity, pos.x, pos.y, pos.z, rot, a);
+	pRenderer->postRender(entity, pos, rot, a);
 }
 
 void EntityRenderDispatcher::setLevel(Level* level)

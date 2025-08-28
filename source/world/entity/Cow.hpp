@@ -20,6 +20,8 @@ public:
 	int getDeathLoot() const override { return ITEM_LEATHER; }
 	int getMaxHealth() const override { return 10; }
 	float getSoundVolume() const override { return 0.4f; }
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	Entity* getBreedOffspring(Animal* pOther) { return new Cow(m_pLevel); }
 };

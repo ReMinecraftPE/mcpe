@@ -36,7 +36,7 @@ int TntTile::getTexture(Facing::Name face) const
 void TntTile::destroy(Level* level, const TilePos& pos, int data)
 {
 	// prevent players from using this in multiplayer, to prevent a desync of player IDs
-	if (level->m_bIsMultiplayer) return;
+	if (level->m_bIsOnline) return;
 
 	level->addEntity(new PrimedTnt(level, Vec3(pos) + 0.5f));
 }

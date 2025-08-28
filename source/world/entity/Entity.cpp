@@ -668,14 +668,14 @@ void Entity::baseTick()
 		m_fireTicks = 0;
 		m_distanceFallen = 0;
 
-		if (m_pLevel->m_bIsMultiplayer)
+		if (m_pLevel->m_bIsOnline)
 			goto label_4;
 	}
 	else
 	{
 		field_D4 = false;
 
-		if (m_pLevel->m_bIsMultiplayer)
+		if (m_pLevel->m_bIsOnline)
 		{
 		label_4:
 			m_fireTicks = 0;
@@ -882,7 +882,6 @@ void Entity::animateHurt()
 ItemEntity* Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
 {
 	ItemEntity *itemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemInstance);
-	delete(itemInstance);
 	// @TODO: not sure what this does, or is for
 	itemEntity->m_oPos.x = 10;
 	m_pLevel->addEntity(itemEntity);
@@ -1081,8 +1080,13 @@ void Entity::load(const CompoundTag& tag)
 bool Entity::save(CompoundTag& tag) const
 {
 	EntityType::ID id = getEncodeId();
-	if (m_bRemoved || id == EntityType::UNKNOWN)
+	if (m_bRemoved)
 		return false;
+	if (id == EntityType::UNKNOWN)
+	{
+		LOG_W("Failed to save unknown entity!");
+		return false;
+	}
 
 	tag.putInt32("id", id);
 	saveWithoutId(tag);

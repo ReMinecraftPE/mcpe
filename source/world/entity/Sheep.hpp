@@ -6,6 +6,7 @@ class Sheep : public Animal
 {
 public:
 	static const float COLOR[][3];
+	static const unsigned int COLOR_COUNT; // NumColors on PE, stupid name
 
 public:
 	Sheep(Level* pLevel);
@@ -18,8 +19,8 @@ public:
 	std::string getDeathSound() const override { return "mob.sheep"; }
 	std::string getHurtSound() const override { return "mob.sheep"; }
 	virtual bool hurt(Entity*, int) override;
-	//TODO: addAdditonalSaveData
-	//TODO: readAdditionalSaveData
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	Entity* getBreedOffspring(Animal* pOther) { return new Sheep(m_pLevel); }
 

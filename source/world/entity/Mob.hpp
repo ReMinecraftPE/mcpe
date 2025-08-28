@@ -33,6 +33,8 @@ public:
 	virtual void setSize(float rad, float height) override;
 	virtual void outOfWorld() override;
 	virtual void causeFallDamage(float level) override;
+	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
+	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	//virtuals
 	virtual void knockback(Entity* pEnt, int a, float x, float z);
@@ -103,7 +105,7 @@ public:
 	int m_hurtTime;
 	int m_hurtDuration;
 	float m_hurtDir;
-	int field_110;
+	int m_deathTime;
 	int m_attackTime;
 	float m_oTilt;
 	float m_tilt;

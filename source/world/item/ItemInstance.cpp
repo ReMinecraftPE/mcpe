@@ -104,7 +104,7 @@ void ItemInstance::setUserData(CompoundTag* tag)
 	}
 }
 
-ItemInstance* ItemInstance::copy()
+ItemInstance* ItemInstance::copy() const
 {
 	return new ItemInstance(m_itemID, m_count, m_auxValue);
 }
@@ -117,7 +117,6 @@ void ItemInstance::set(int inCount)
 
 	m_count = inCount;
 
-	//if (!*this)
 	if (inCount == 0)
 		setNull();
 }
@@ -315,6 +314,20 @@ bool ItemInstance::matches(const ItemInstance* a1, const ItemInstance* a2)
 		return false;
 
 	return a1 == a2;
+}
+
+ItemInstance* ItemInstance::fromTag(const CompoundTag& tag)
+{
+	ItemInstance* item = new ItemInstance();
+	item->load(tag);
+
+	if (!Item::items[item->m_itemID])
+	{
+		delete item;
+		item = nullptr;
+	}
+
+	return item;
 }
 
 bool ItemInstance::operator==(const ItemInstance& other) const

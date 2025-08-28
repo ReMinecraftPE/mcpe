@@ -4,23 +4,18 @@
 
 class Arrow : public Entity
 {
+public:
+	static const unsigned int ARROW_BASE_DAMAGE;
+
 private:
-	TilePos m_tilePos;
-	TileID m_lastTile;
-	bool m_inGround;
-	int m_life;
-	int m_flightTime;
+	void _init();
 
 public:
-	int m_shakeTime;
-	Mob* m_owner;
-
 	Arrow(Level* pLevel);
 	Arrow(Level* pLevel, const Vec3& pos);
 	Arrow(Level* pLevel, Mob* pMob);
 
 private:
-	void _init();
 	void _lerpMotion(const Vec3& vel);
 	void _lerpMotion2(const Vec3& vel);
 
@@ -32,8 +27,22 @@ public:
 	void lerpMotion(const Vec3& vel);
 
 	void tick() override;
-
 	void playerTouch(Player* pPlayer) override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	float getShadowHeightOffs() const override { return 0.0f; }
+
+private:
+	TilePos m_tilePos;
+	TileID m_lastTile;
+	int8_t m_lastTileData;
+	bool m_bInGround;
+	bool m_bIsPlayerOwned;
+	int m_life;
+	int m_flightTime;
+
+public:
+	int m_shakeTime;
+	Mob* m_owner;
 };

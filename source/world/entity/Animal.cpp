@@ -7,11 +7,26 @@
  ********************************************************************/
 #include "Animal.hpp"
 #include "world/level/Level.hpp"
+#include "nbt/CompoundTag.hpp"
 
 Animal::Animal(Level* pLevel) : PathfinderMob(pLevel)
 {
 	field_BB4 = 0;
 	m_age = 0;
+}
+
+void Animal::addAdditionalSaveData(CompoundTag& tag) const
+{
+	Mob::addAdditionalSaveData(tag);
+
+	tag.putInt32("Age", getAge());
+}
+
+void Animal::readAdditionalSaveData(const CompoundTag& tag)
+{
+	Mob::readAdditionalSaveData(tag);
+
+	setAge(tag.getInt32("Age"));
 }
 
 void Animal::aiStep()
