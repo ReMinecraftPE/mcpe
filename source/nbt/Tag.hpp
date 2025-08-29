@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstring>
 #include <stdint.h>
 
 #include "common/DataIO.hpp"
