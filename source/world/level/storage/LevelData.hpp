@@ -34,7 +34,7 @@ struct PlayerData
 struct LevelData
 {
 private:
-	void _init(int32_t seed = 0, int x = 0);
+	void _init(int32_t seed = 0, int storageVersion = 0);
 	void _init(int32_t seed, int storageVersion, const std::string& name);
 
 	void _setLastPlayed(int lastPlayed) { m_lastPlayed = lastPlayed; }

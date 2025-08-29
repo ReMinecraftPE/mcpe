@@ -24,7 +24,7 @@ ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& a, const s
 	field_8(a),
 	m_levelDirPath(path),
 	m_timer(0),
-	m_storageVersion(2),
+	m_storageVersion(LEVEL_STORAGE_VERSION_DEFAULT),
 	m_lastEntitySave(-999999)
 {
 	m_pRegionFile = nullptr;
@@ -82,8 +82,11 @@ void ExternalFileLevelStorage::saveLevelData(const std::string& levelPath, Level
 	std::string path    = pathBase + "level.dat";
 	std::string pathOld = pathBase + "level.dat_old";
 
-	// Uncomment this when using level v2
-	//levelData.setStorageVersion(2);
+#ifndef ENH_DISABLE_FORCED_SAVE_UPGRADES
+	// Forces world to upgrade to new default storage version.
+	levelData->setStorageVersion(LEVEL_STORAGE_VERSION_DEFAULT);
+#endif
+
 	writeLevelData(path, *levelData, players);
 
 	if (levelData->getStorageVersion() == 1)

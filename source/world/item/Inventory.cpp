@@ -322,7 +322,7 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (item->m_itemID == itemID)
+		if (item && item->m_itemID == itemID)
 		{
 			m_hotbar[slotNo] = i;
 			return;
@@ -337,7 +337,7 @@ void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (item->m_itemID != itemID)
+		if (!item || item->m_itemID != itemID)
 			continue;
 
 		selectItem(i, maxHotBarSlot);

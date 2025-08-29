@@ -42,7 +42,7 @@ LevelData::~LevelData()
 
 void LevelData::v1_read(RakNet::BitStream& bs, int storageVersion)
 {
-	m_storageVersion = storageVersion;
+	setStorageVersion(storageVersion);
 	bs.Read(m_seed);
 	bs.Read(m_spawnPos);
 	bs.Read(m_time);
@@ -68,6 +68,11 @@ void LevelData::v1_write(RakNet::BitStream& bs) const
 
 void LevelData::read(RakNet::BitStream& bs, int storageVersion)
 {
+	// Actual PE doesn't call setStorageVersion() at all.
+	// It did not respect the storageVersion of the Level after LevelData::read() had been called.
+	// Instead, it relied on LevelData's default storageVersion. This was yet another way of forcing world save upgrades.
+	setStorageVersion(storageVersion);
+
 	RakDataInput dis = RakDataInput(bs);
 	CompoundTag* tag = NbtIo::read(dis);
 
