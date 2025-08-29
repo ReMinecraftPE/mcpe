@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "Tag.hpp"
 #include "Int8Tag.hpp"
 #include "Int16Tag.hpp"
