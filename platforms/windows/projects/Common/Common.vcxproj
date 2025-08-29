@@ -66,7 +66,6 @@
     <ClCompile Include="$(MC_ROOT)\source\common\Util.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp" />
-    <ClCompile Include="$(MC_ROOT)\compat\LegacyCPPCompatibility.hpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\DataIO.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +79,9 @@
     <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Compat.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Info.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,7 +8,7 @@
 #pragma once
 
 #include <stddef.h>
-#include "compat/LegacyCPPCompatibility.hpp"
+#include "compat/LegacyCPP.hpp"
 #include "world/level/TilePos.hpp"
 
 struct Node
