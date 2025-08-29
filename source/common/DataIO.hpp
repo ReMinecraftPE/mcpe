@@ -3,6 +3,8 @@
 #include <string>
 #include <stdint.h>
 
+#include "compat/LegacyCPP.hpp"
+
 class IDataInput
 {
 protected:

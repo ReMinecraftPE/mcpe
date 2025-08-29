@@ -83,7 +83,7 @@ int Sheep::getColor() const
 void Sheep::setColor(int var1)
 {
 	int8_t var2 = m_entityData.get<int8_t>(DATA_WOOL_ID);
-	m_entityData.set<int8_t>(DATA_WOOL_ID, (var2 & 240 | var1 & 15));
+	m_entityData.set<int8_t>(DATA_WOOL_ID, ((var2 & 240) | (var1 & 15)));
 }
 
 bool Sheep::isSheared() const

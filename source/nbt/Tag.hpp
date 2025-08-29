@@ -61,7 +61,7 @@ private:
 		{
 			m_buffer = new uint8_t(size);
 			if (m_buffer)
-				memset(m_buffer, NULL, size);
+				memset(m_buffer, 0, size);
 		}
 
 		return m_buffer;

@@ -55,7 +55,7 @@ void Creeper::die(Entity* pCulprit)
 void Creeper::checkHurtTarget(Entity* pEnt, float f)
 {
 	int swellDir = getSwellDir();
-	if (swellDir <= 0 && f < 3.0f || swellDir > 0 && f < 7.0f)
+	if ((swellDir <= 0 && f < 3.0f) || (swellDir > 0 && f < 7.0f))
 	{
 		if (m_swell == 0)
 		{

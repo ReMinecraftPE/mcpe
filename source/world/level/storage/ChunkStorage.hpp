@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include "compat/LegacyCPP.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 
 class Level;

@@ -16,9 +16,8 @@ void ItemInstance::_init(int itemID, int count, int auxValue)
 	m_itemID = itemID;
 	m_count = count;
 	m_auxValue = auxValue;
+    m_userData = nullptr;
 	m_popTime = 0;
-
-	//@BUG? Not using the auxValue.  This is problematic in the case of wool and dyes.
 }
 
 ItemInstance::ItemInstance()

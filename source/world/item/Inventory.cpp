@@ -409,7 +409,7 @@ void Inventory::load(const ListTag& tag)
 
 	const std::vector<Tag*>& itemTags = tag.rawView();
 
-	for (std::vector<Tag*>::const_iterator it = itemTags.cbegin(); it != itemTags.cend(); it++)
+	for (std::vector<Tag*>::const_iterator it = itemTags.begin(); it != itemTags.end(); it++)
 	{
 		const CompoundTag* itemTag = (const CompoundTag*)*it;
 		int slot = itemTag->getInt8("Slot") & 255;

@@ -287,7 +287,7 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 				if (entitiesTag)
 				{
 					const std::vector<Tag*>& entities = entitiesTag->rawView();
-					for (std::vector<Tag*>::const_iterator it = entities.cbegin(); it != entities.cend(); it++)
+					for (std::vector<Tag*>::const_iterator it = entities.begin(); it != entities.end(); it++)
 					{
 						const Tag* betterTag = *it;
 						if (!betterTag || betterTag->getId() != Tag::TAG_TYPE_COMPOUND)
@@ -348,7 +348,7 @@ void ExternalFileLevelStorage::saveEntities(Level* level, LevelChunk* chunk)
 	ListTag* entitiesTag = new ListTag();
 
 	const EntityVector* entities = level->getAllEntities();
-	for (EntityVector::const_iterator it = entities->cbegin(); it != entities->cend(); it++)
+	for (EntityVector::const_iterator it = entities->begin(); it != entities->end(); it++)
 	{
 		const Entity* entity = *it;
 		CompoundTag* tag = new CompoundTag();
