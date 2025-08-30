@@ -14,7 +14,7 @@
 #include "Explosion.hpp"
 #include "Region.hpp"
 
-Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int storageVersion, Dimension *pDimension)
+Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
 	m_bIsOnline = false;
@@ -45,7 +45,7 @@ Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int stor
 		m_pDimension = new Dimension;
 
 	if (!pData)
-		m_pLevelData = new LevelData(seed, str, storageVersion);
+		m_pLevelData = new LevelData(seed, name, storageVersion);
 	else
 		m_pLevelData = pData;
 

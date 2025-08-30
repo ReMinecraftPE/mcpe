@@ -202,7 +202,7 @@ _done:
 			
 			float right = itemX + width;
 			float up = float(field_1C) / 2.0f - 48.0f - 4.0f;
-			float dn = float(field_1C) / 2.0f + 48.0f - 4.0f;
+			float dn = float(field_1C) / 2.0f + 56.0f - 4.0f;
 
 			t.vertexUV(itemX - 2, up, 0.0f, 0.0f, 0.0f);
 			t.vertexUV(itemX - 2, dn, 0.0f, 1.0f, 0.0f);

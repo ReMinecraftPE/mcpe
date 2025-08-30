@@ -1145,12 +1145,12 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 	}
 }
 
-void Minecraft::selectLevel(const std::string& a, const std::string& b, int c)
+void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, int c)
 {
-	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(a, false);
+	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(levelDir, false);
 	Dimension* pDim = Dimension::getNew(0);
 
-	m_pLevel = new Level(pStor, b, c, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
+	m_pLevel = new Level(pStor, levelName, c, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
 	setLevel(m_pLevel, "Generating level", nullptr);
 
 	field_D9C = 1;

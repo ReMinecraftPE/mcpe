@@ -152,9 +152,9 @@ void SelectWorldScreen::tick()
 	}
 
 	// the level summary stuff is unused.
-	LevelSummary ls;
+	/*LevelSummary ls;
 	if (isIndexValid(m_pWorldSelectionList->m_selectedIndex))
-		ls = m_pWorldSelectionList->m_items[m_pWorldSelectionList->m_selectedIndex];
+		ls = m_pWorldSelectionList->m_items[m_pWorldSelectionList->m_selectedIndex];*/
 
 	m_btnDelete.m_bEnabled = isIndexValid(m_pWorldSelectionList->m_selectedIndex);
 }

@@ -34,7 +34,7 @@ ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string
 	m_worldsPath = path + "/games" + "/com.mojang" + "/minecraftWorlds";
 }
 
-std::string ExternalFileLevelStorageSource::getName()
+std::string ExternalFileLevelStorageSource::getName() const
 {
 	return "External File Level Storage";
 }
@@ -165,7 +165,7 @@ void ExternalFileLevelStorageSource::addLevelSummaryIfExists(std::vector<LevelSu
 	if (!ExternalFileLevelStorage::readLevelData(levelDat, ld))
 		return;
 
-	vls.push_back(LevelSummary(name, ld.getLevelName(), ld.getLastPlayed(), ld.getSizeOnDisk()));
+	vls.push_back(LevelSummary(name, ld.getLevelName(), ld.getLastPlayed(), ld.getSizeOnDisk(), ld.getGameType()));
 }
 
 #endif

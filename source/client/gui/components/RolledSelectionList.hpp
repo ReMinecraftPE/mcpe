@@ -11,6 +11,7 @@
 #include "../GuiComponent.hpp"
 #include "client/app/Minecraft.hpp"
 
+// @TODO: Renamed to RolledSelectionListH in 0.2.1
 class RolledSelectionList : public GuiComponent
 {
 public:

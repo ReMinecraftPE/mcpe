@@ -43,7 +43,7 @@ private:
 	Player* _getNearestPlayer(const Vec3&, float, bool) const;
 
 public:
-	Level(LevelStorage* pStor, const std::string& str, int32_t seed, int version, Dimension* pDimension = nullptr);
+	Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension* pDimension = nullptr);
 	~Level();
 
 	// TODO
