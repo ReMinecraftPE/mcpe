@@ -1,4 +1,3 @@
-#include "Mob.hpp"
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
@@ -9,6 +8,7 @@
 
 #include "Mob.hpp"
 #include "world/level/Level.hpp"
+#include "nbt/CompoundTag.hpp"
 
 Mob::Mob(Level* pLevel) : Entity(pLevel)
 {
@@ -23,7 +23,7 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_hurtTime = 0;
 	m_hurtDuration = 0;
 	m_hurtDir = 0.0f;
-	field_110 = 0;
+	m_deathTime = 0;
 	m_attackTime = 0;
     m_oTilt = 0.0f;
     m_tilt = 0.0f;
@@ -237,7 +237,7 @@ void Mob::baseTick()
         hurt(nullptr, 1);
 
     // Java
-    /*if (m_bFireImmune || m_pLevel->m_bIsMultiplayer)
+    /*if (m_bFireImmune || m_pLevel->m_bIsOnline)
     {
         m_fireTicks = 0;
     }*/
@@ -278,8 +278,8 @@ void Mob::baseTick()
 
     if (m_health <= 0)
     {
-        field_110++;
-        if (field_110 > 20)
+		m_deathTime++;
+        if (m_deathTime > 20)
         {
             beforeRemove();
             remove();
@@ -316,7 +316,7 @@ bool Mob::isAlive() const
 
 bool Mob::hurt(Entity *pAttacker, int damage)
 {
-    if (m_pLevel->m_bIsMultiplayer)
+    if (m_pLevel->m_bIsOnline)
         return false;
 
     m_noActionTime = 0;
@@ -428,6 +428,26 @@ void Mob::causeFallDamage(float level)
 			m_pLevel->playSound(this, "step." + pSound->m_name, pSound->volume * 0.5f, pSound->pitch * 0.75f);
 		}
 	}
+}
+
+void Mob::addAdditionalSaveData(CompoundTag& tag) const
+{
+	tag.putInt16("Health", m_health);
+	tag.putInt16("HurtTime", m_hurtTime);
+	tag.putInt16("DeathTime", m_deathTime);
+	tag.putInt16("AttackTime", m_attackTime);
+}
+
+void Mob::readAdditionalSaveData(const CompoundTag& tag)
+{
+	if (tag.contains("Health"))
+		m_health = tag.getInt16("Health");
+	else
+		m_health = 10; // Only present in Java, not PE. We don't want peoples' pets dying somehow.
+
+	m_hurtTime = tag.getInt16("HurtTime");
+	m_deathTime = tag.getInt16("DeathTime");
+	m_attackTime = tag.getInt16("AttackTime");
 }
 
 void Mob::knockback(Entity* pEnt, int a, float x, float z)
@@ -598,7 +618,7 @@ void Mob::die(Entity* pCulprit)
 
 	field_B69 = true;
 
-	if (!m_pLevel->m_bIsMultiplayer)
+	if (!m_pLevel->m_bIsOnline)
 		dropDeathLoot();
 }
 

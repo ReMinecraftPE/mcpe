@@ -31,7 +31,7 @@ cd build
 
 ::configure build
 echo * Configuring build.
-start emcmake cmake -GNinja "$@" ..\..\platforms/sdl
+start emcmake cmake -GNinja "$@" ..\..\
 echo * PRESS ANY KEY when emcmake is done.
 pause > nul
 

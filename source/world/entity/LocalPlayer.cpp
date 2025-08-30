@@ -8,10 +8,11 @@
 
 #include "LocalPlayer.hpp"
 #include "client/app/Minecraft.hpp"
+#include "nbt/CompoundTag.hpp"
 
 int dword_250ADC, dword_250AE0;
 
-LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int i) : Player(pLevel, playerGameType)
+LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int dimensionId) : Player(pLevel, playerGameType)
 {
 	field_BEC = 0;
 	field_BF0 = Vec3::ZERO;
@@ -38,7 +39,7 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, Game
 	m_pMinecraft = pMinecraft;
 	m_name = pUser->field_0;
 
-	field_BC4 = i;
+	m_dimension = dimensionId;
 	field_C38 = m_pInventory->getSelectedItemId();
 }
 
@@ -60,18 +61,15 @@ void LocalPlayer::aiStep()
 	Player::aiStep();
 }
 
-void LocalPlayer::drop(const ItemInstance* pItemInstance, bool b)
+void LocalPlayer::drop(const ItemInstance& item, bool randomly)
 {
-	if (pItemInstance)
+	if (m_pMinecraft->isOnlineClient())
 	{
-		if (m_pMinecraft->isOnlineClient())
-		{
-			// @TODO: Replicate DropItemPacket to server
-		}
-		else
-		{
-			Player::drop(pItemInstance, b);
-		}
+		// @TODO: Replicate DropItemPacket to server
+	}
+	else
+	{
+		Player::drop(item, randomly);
 	}
 }
 
@@ -271,4 +269,18 @@ void LocalPlayer::updateAi()
 	field_B00.y = m_pMoveInput->m_vertInput;
 
 	m_bJumping = m_pMoveInput->m_bJumping || m_nAutoJumpFrames > 0;
+}
+
+void LocalPlayer::addAdditionalSaveData(CompoundTag& tag) const
+{
+	Player::addAdditionalSaveData(tag);
+
+	tag.putInt32("Score", getScore());
+}
+
+void LocalPlayer::readAdditionalSaveData(const CompoundTag& tag)
+{
+	Player::readAdditionalSaveData(tag);
+
+	m_score = tag.getInt32("Score");
 }

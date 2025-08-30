@@ -39,9 +39,10 @@ public:
 	ItemInstance* getCarriedItem() override;
 	virtual bool isImmobile() const override { return m_health <= 0; }
 	virtual void updateAi() override;
-
+	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
+	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
 	virtual void animateRespawn();
-	virtual void drop(const ItemInstance* pItemInstance, bool b = false);
+	virtual void drop(const ItemInstance& item, bool randomly = false);
 	virtual void startCrafting(const TilePos& pos);
 	virtual void startStonecutting(const TilePos& pos);
 	virtual void startDestroying();
@@ -89,12 +90,12 @@ public:
 	float m_oBob; // field_B9C
 	float m_bob;
 	std::string m_name;
-	int field_BC4;
+	int m_dimension;
 	RakNet::RakNetGUID m_guid;
 	//TODO
 	TilePos m_respawnPos;
 	//TODO
-	bool m_bHaveRespawnPos;
+	bool m_bHasRespawnPos;
 	//TODO
 	bool m_destroyingBlock;
 };

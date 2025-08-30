@@ -4,6 +4,7 @@
 #include "world/item/ItemInstance.hpp"
 #include "world/entity/Player.hpp"
 #include "world/gamemode/GameType.hpp"
+#include "nbt/ListTag.hpp"
 
 class Entity;
 class Player; // in case we're included from Player.hpp
@@ -16,6 +17,7 @@ class Inventory
 {
 public:
 	Inventory(Player*);
+	~Inventory();
 	void prepareCreativeInventory();
 	void prepareSurvivalInventory();
 
@@ -26,7 +28,7 @@ public:
 	void addTestItem(int itemID, int amount, int auxValue = 0);
 
 	void clear();
-	bool addItem(ItemInstance* pInst);
+	bool addItem(ItemInstance& instance);
     void tick();
 
 	ItemInstance* getItem(int slotNo);
@@ -42,17 +44,16 @@ public:
 
 	int getAttackDamage(Entity*);
 
-	void dropAll(bool butNotReally = false);
+	void dropAll(bool onlyClearContainer = false);
 
-	int getSelectedSlotNo() const
-	{
-		return m_selectedHotbarSlot;
-	}
+	void save(ListTag& tag) const;
+	void load(const ListTag&);
+
+	int getSelectedSlotNo() const { return m_selectedHotbarSlot; }
 
 	// v0.2.0 name alias
-	ItemInstance* getSelected() {
-		return getSelectedItem();
-	}
+	ItemInstance* getSelected() { return getSelectedItem(); }
+	
 private:
 	GameType _getGameMode() const;
 
@@ -62,5 +63,5 @@ private:
 	Player* m_pPlayer;
 
 	int m_hotbar[C_MAX_HOTBAR_ITEMS];
-	std::vector<ItemInstance> m_items;
+	std::vector<ItemInstance*> m_items;
 };

@@ -13,33 +13,30 @@
 class ItemEntity : public Entity
 {
 private:
-	void _init(const ItemInstance* itemInstance = nullptr);
-	void _init(const ItemInstance* itemInstance, const Vec3& pos);
+	void _init(ItemInstance* itemInstance = nullptr);
+	void _init(ItemInstance* itemInstance, const Vec3& pos);
 public:
 	ItemEntity(Level* level) : Entity(level) { _init(); }
-	ItemEntity(Level* level, const Vec3& pos, const ItemInstance* itemInstance) : Entity(level) { _init(itemInstance, pos); }
+	ItemEntity(Level* level, const Vec3& pos, ItemInstance* itemInstance) : Entity(level) { _init(itemInstance, pos); }
+	~ItemEntity();
 
 	void burn(int damage) override;
 	bool hurt(Entity* pCulprit, int damage) override;
 	bool isInWater() override;
 	void playerTouch(Player*) override;
 	void tick() override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	void checkInTile(const Vec3& pos);
 
 public:
-	// @NOTE: The original code keeps a pointer to something which is not duplicated with a new(), nor does it delete() the instance.
-	// So either it's leaked, or the code will use invalid memory.
-#ifdef ORIGINAL_CODE
 	ItemInstance* m_pItemInstance;
-#else
-	ItemInstance m_itemInstance;
-#endif
 
-	int field_E0;
-	int field_E4;
-	float field_E8;
-	int field_EC;
+	int m_age;
+	int m_throwTime;
+	float m_bobOffs;
+	int m_tickCount;
 	int m_health;
 };
 

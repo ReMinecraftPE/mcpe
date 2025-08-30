@@ -642,7 +642,7 @@ bool LevelChunk::setTile(const ChunkTilePos& pos, TileID tile)
 	lightGaps(pos);
 	if (tile)
 	{
-		if (!m_pLevel->m_bIsMultiplayer)
+		if (!m_pLevel->m_bIsOnline)
 			Tile::tiles[tile]->onPlace(m_pLevel, tilePos);
 	}
 
@@ -709,7 +709,7 @@ bool LevelChunk::setTileAndData(const ChunkTilePos& pos, TileID tile, int data)
 	lightGaps(pos);
 	if (tile)
 	{
-		if (!m_pLevel->m_bIsMultiplayer)
+		if (!m_pLevel->m_bIsOnline)
 			Tile::tiles[tile]->onPlace(m_pLevel, tilePos);
 	}
 

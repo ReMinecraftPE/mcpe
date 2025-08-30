@@ -22,29 +22,36 @@ struct UnsavedLevelChunk
 	LevelChunk* m_pChunk;
 };
 
-class ExternalFileLevelStorage : public LevelStorage, ChunkStorage
+class ExternalFileLevelStorage : public LevelStorage, public ChunkStorage
 {
 public:
 	ExternalFileLevelStorage(const std::string& a, const std::string& path);
 	~ExternalFileLevelStorage();
 
+private:
+	void _setLevelData(LevelData* levelData);
+
+public:
 	// LevelStorage
 	LevelData* prepareLevel(Level* level) override;
 	ChunkStorage* createChunkStorage(Dimension*) override;
-	void saveLevelData(LevelData* levelData, std::vector<Player*>& players) override;
-	void savePlayerData(LevelData* levelData, std::vector<Player*>& players) override;
+	void saveLevelData(const std::string& levelPath, LevelData* levelData, const std::vector<Player*>* players) override;
+	void saveLevelData(LevelData* levelData, const std::vector<Player*>* players) override;
+	void savePlayerData(LevelData& levelData, const std::vector<Player*>& players) override;
+	void saveGame(Level* level) override;
 	void closeAll() override;
 	void tick() override;
 	void flush() override;
 
 	// ChunkStorage
 	LevelChunk* load(Level* level, const ChunkPos& pos) override;
+	void loadEntities(Level* level, LevelChunk* chunk) override;
 	void save(Level* level, LevelChunk* chunk) override;
 	void saveEntities(Level* level, LevelChunk* chunk) override;
 
-	static bool readLevelData(const std::string& path, LevelData* pLevelData);
-	static bool readPlayerData(const std::string& path, LevelData* pLevelData);
-	static bool writeLevelData(const std::string& path, LevelData* pLevelData);
+	static bool readLevelData(const std::string& path, LevelData& levelData);
+	static bool readPlayerData(const std::string& path, LevelData& levelData);
+	static bool writeLevelData(const std::string& path, const LevelData& levelData, const std::vector<Player*>* players = nullptr);
 
 public:
 	std::string field_8;
@@ -53,7 +60,9 @@ public:
 	RegionFile* m_pRegionFile;
 	Level* m_pLevel;
 	int m_timer;
+	unsigned int m_storageVersion;
 	std::list<UnsavedLevelChunk> m_unsavedLevelChunks;
+	int m_lastEntitySave;
 };
 
 #endif

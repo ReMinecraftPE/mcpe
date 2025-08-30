@@ -14,10 +14,10 @@
 #include "Explosion.hpp"
 #include "Region.hpp"
 
-Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int storageVersion, Dimension *pDimension)
+Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
-	m_bIsMultiplayer = false;
+	m_bIsOnline = false;
 	m_bPostProcessing = false;
 	m_skyDarken = 0;
 	field_30 = 0;
@@ -45,9 +45,9 @@ Level::Level(LevelStorage* pStor, const std::string& str, int32_t seed, int stor
 		m_pDimension = new Dimension;
 
 	if (!pData)
-		m_levelData = LevelData(seed, str, storageVersion);
+		m_pLevelData = new LevelData(seed, name, storageVersion);
 	else
-		m_levelData = *pData;
+		m_pLevelData = pData;
 
 	m_pDimension->init(this);
 
@@ -633,7 +633,7 @@ void Level::sendTileUpdated(const TilePos& pos)
 
 void Level::neighborChanged(const TilePos& pos, TileID tile)
 {
-	if (field_30 || m_bIsMultiplayer) return;
+	if (field_30 || m_bIsOnline) return;
 
 	Tile* pTile = Tile::tiles[getTile(pos)];
 	if (pTile)
@@ -941,7 +941,7 @@ bool Level::checkAndHandleWater(const AABB& aabb, const Material* pMtl, Entity* 
 
 TilePos Level::getSharedSpawnPos() const
 {
-	return m_levelData.getSpawn();
+	return m_pLevelData->getSpawn();
 }
 
 TileID Level::getTopTile(const TilePos& pos) const
@@ -999,10 +999,10 @@ int Level::getTopSolidBlock(const TilePos& tilePos) const
 
 void Level::validateSpawn()
 {
-	if (m_levelData.getYSpawn() <= 0)
-		m_levelData.setYSpawn(C_MAX_Y / 2);
+	if (m_pLevelData->getYSpawn() <= 0)
+		m_pLevelData->setYSpawn(C_MAX_Y / 2);
 
-	TilePos spawn(m_levelData.getSpawn());
+	TilePos spawn(m_pLevelData->getSpawn());
 #ifndef ORIGINAL_CODE
 	int nAttempts = 0;
 #endif
@@ -1040,8 +1040,8 @@ void Level::validateSpawn()
 	}
 	while (tile == Tile::invisible_bedrock->m_ID);
 
-	m_levelData.setXSpawn(spawn.x);
-	m_levelData.setZSpawn(spawn.z);
+	m_pLevelData->setXSpawn(spawn.x);
+	m_pLevelData->setZSpawn(spawn.z);
 
 #ifndef ORIGINAL_CODE
 	return;
@@ -1049,14 +1049,14 @@ void Level::validateSpawn()
 _failure:
 
 	/*
-	m_levelData.m_spawnPos.x = C_MAX_CHUNKS_X * 16 / 2;
-	m_levelData.m_spawnPos.z = C_MAX_CHUNKS_X * 16 / 2;
-	m_levelData.m_spawnPos.y = C_MAX_Y;
+	m_pLevelData->m_spawnPos.x = C_MAX_CHUNKS_X * 16 / 2;
+	m_pLevelData->m_spawnPos.z = C_MAX_CHUNKS_X * 16 / 2;
+	m_pLevelData->m_spawnPos.y = C_MAX_Y;
 	*/
 
-	m_levelData.setSpawn(TilePos(0, 32, 0));
+	m_pLevelData->setSpawn(TilePos(0, 32, 0));
 
-	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.getXSpawn(), m_levelData.getYSpawn(), m_levelData.getZSpawn());
+	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_pLevelData->getXSpawn(), m_pLevelData->getYSpawn(), m_pLevelData->getZSpawn());
 
 	return;
 #endif
@@ -1106,7 +1106,7 @@ bool Level::addEntity(Entity* pEnt)
 		//removeEntity(pOldEnt);
 	}
 
-	if (!pEnt->isPlayer() && m_bIsMultiplayer)
+	if (!pEnt->isPlayer() && m_bIsOnline)
 	{
 		LOG_W("Hey, why are you trying to add an non-player entity in a multiplayer world?");
 	}
@@ -1135,13 +1135,20 @@ bool Level::addEntity(Entity* pEnt)
 	return true;
 }
 
-void Level::loadPlayer(Player* player)
+void Level::loadPlayer(Player& player)
 {
-	if (!player) return;
+	const CompoundTag* tag = m_pLevelData->getLoadedPlayerTag();
+	if (tag)
+	{
+		player.load(*tag);
+		m_pLevelData->setLoadedPlayerTag(nullptr);
+		//addEntity(&player);
+	}
+	m_pLevelData->setLoadedPlayerTo(player);
 
-	m_levelData.setLoadedPlayerTo(player);
-
-	addEntity(player);
+	// 0.2.1 had us only adding the player if LevelData had a CompoundTag
+	// who cares if it doesn't?
+	addEntity(&player);
 }
 
 void Level::prepare()
@@ -1151,17 +1158,34 @@ void Level::prepare()
 
 void Level::saveLevelData()
 {
-	m_pLevelStorage->saveLevelData(&m_levelData);
+	m_pLevelStorage->saveLevelData(m_pLevelData, &m_players);
 }
 
 void Level::savePlayerData()
 {
-	m_pLevelStorage->savePlayerData(&m_levelData, m_players);
+	m_pLevelStorage->savePlayerData(*m_pLevelData, m_players);
 }
 
 void Level::saveAllChunks()
 {
 	m_pChunkSource->saveAll();
+}
+
+void Level::saveGame()
+{
+	if (m_pLevelStorage)
+	{
+		m_pLevelStorage->saveGame(this);
+		saveLevelData();
+	}
+}
+
+void Level::loadEntities()
+{
+	if (m_pLevelStorage)
+	{
+		m_pLevelStorage->loadEntities(this);
+	}
 }
 
 #ifdef ENH_IMPROVED_SAVING
@@ -1199,7 +1223,7 @@ void Level::setInitialSpawn()
 #endif
 	}
 
-	m_levelData.setSpawn(TilePos(spawnX, 64, spawnZ));
+	m_pLevelData->setSpawn(TilePos(spawnX, 64, spawnZ));
 
 	m_bCalculatingInitialSpawn = false;
 
@@ -1208,11 +1232,11 @@ void Level::setInitialSpawn()
 
 _failure:
 
-	// m_levelData.setSpawn(C_MAX_CHUNKS_X * 16 / 2, C_MAX_Y, C_MAX_CHUNKS_X * 16 / 2);
+	// m_pLevelData->setSpawn(C_MAX_CHUNKS_X * 16 / 2, C_MAX_Y, C_MAX_CHUNKS_X * 16 / 2);
 
-	m_levelData.setSpawn(TilePos(0, 32, 0));
+	m_pLevelData->setSpawn(TilePos(0, 32, 0));
 
-	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_levelData.getXSpawn(), m_levelData.getYSpawn(), m_levelData.getZSpawn());
+	LOG_W("Failed to validate spawn point, using (%d, %d, %d)", m_pLevelData->getXSpawn(), m_pLevelData->getYSpawn(), m_pLevelData->getZSpawn());
 
 	return;
 #endif
@@ -1349,7 +1373,7 @@ void Level::tickPendingTicks(bool b)
 	for (int i = 0; i < size; i++)
 	{
 		const TickNextTickData& t = *m_pendingTicks.begin();
-		if (!b && t.m_delay > m_levelData.getTime())
+		if (!b && t.m_delay > m_pLevelData->getTime())
 			break;
 
 		if (hasChunksAt(t.field_4 - 8, t.field_4 + 8))

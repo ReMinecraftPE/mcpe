@@ -9,15 +9,15 @@
 #include <sstream>
 #include "ItemInstance.hpp"
 #include "world/tile/Tile.hpp"
+#include "nbt/CompoundTag.hpp"
 
 void ItemInstance::_init(int itemID, int count, int auxValue)
 {
 	m_itemID = itemID;
 	m_count = count;
 	m_auxValue = auxValue;
+    m_userData = nullptr;
 	m_popTime = 0;
-
-	//@BUG? Not using the auxValue.  This is problematic in the case of wool and dyes.
 }
 
 ItemInstance::ItemInstance()
@@ -60,14 +60,64 @@ ItemInstance::ItemInstance(int itemID, int amount, int auxValue)
 	_init(itemID, amount, auxValue);
 }
 
+int ItemInstance::getId() const
+{
+	return m_itemID;
+
+	/*
+	if (!m_valid)
+		return -1;
+
+	Item* item = getItem();
+	if (item)
+		return item->m_itemID;
+
+	return 0;
+	*/
+}
+
+int ItemInstance::getIdAux() const
+{
+	//if (!m_item)
+	if (m_itemID <= 0)
+		return 0;
+
+	return getItem()->buildIdAux(m_auxValue, m_userData);
+}
+
 Item* ItemInstance::getItem() const
 {
 	return Item::items[m_itemID];
 }
 
-ItemInstance* ItemInstance::copy()
+void ItemInstance::setUserData(CompoundTag* tag)
+{
+	if (m_userData != tag)
+	{
+		if (m_userData)
+		{
+			delete m_userData;
+		}
+
+		m_userData = tag;
+	}
+}
+
+ItemInstance* ItemInstance::copy() const
 {
 	return new ItemInstance(m_itemID, m_count, m_auxValue);
+}
+
+void ItemInstance::set(int inCount)
+{
+	assert(inCount >= 0);
+	if (inCount <= getMaxStackSize())
+		assert(!"stack too big!");
+
+	m_count = inCount;
+
+	if (inCount == 0)
+		setNull();
 }
 
 bool ItemInstance::canDestroySpecial(Tile* tile)
@@ -201,8 +251,7 @@ bool ItemInstance::isNull() const
 		return true;
 
 	if (m_auxValue != 0 ||
-		m_count    != 0 ||
-		m_popTime  != 0)
+		m_count    != 0)
 	{
 		return false;
 	}
@@ -215,6 +264,46 @@ bool ItemInstance::isNull(const ItemInstance* item)
 	return item == nullptr || item->isNull();
 }
 
+void ItemInstance::setNull()
+{
+	m_count = 0;
+	m_auxValue = 0;
+	//m_item = nullptr;
+	m_itemID = 0;
+	m_popTime = 0;
+	if (m_userData)
+		delete m_userData;
+	m_userData = nullptr;
+}
+
+void ItemInstance::load(const CompoundTag& tag)
+{
+	m_itemID = tag.getInt16("id");
+	m_count = tag.getInt8("Count");
+	m_auxValue = tag.getInt16("Damage");
+
+	CompoundTag* newTag = nullptr;
+
+	if (tag.contains("tag"))
+	{
+		newTag = tag.getCompound("tag")->copy();
+	}
+
+	m_userData = newTag;
+}
+
+CompoundTag& ItemInstance::save(CompoundTag& tag) const
+{
+	tag.putInt16("id", m_itemID);
+	tag.putInt8("Count", m_count);
+	tag.putInt16("Damage", getDamageValue());
+
+	if (hasUserData())
+		tag.putCompound("tag", m_userData->copy());
+
+	return tag;
+}
+
 bool ItemInstance::matches(const ItemInstance* a1, const ItemInstance* a2)
 {
 	if (a1 == a2 && a1 == nullptr)
@@ -224,6 +313,20 @@ bool ItemInstance::matches(const ItemInstance* a1, const ItemInstance* a2)
 		return false;
 
 	return a1 == a2;
+}
+
+ItemInstance* ItemInstance::fromTag(const CompoundTag& tag)
+{
+	ItemInstance* item = new ItemInstance();
+	item->load(tag);
+
+	if (!Item::items[item->m_itemID])
+	{
+		delete item;
+		item = nullptr;
+	}
+
+	return item;
 }
 
 bool ItemInstance::operator==(const ItemInstance& other) const
@@ -240,3 +343,21 @@ bool ItemInstance::operator!=(const ItemInstance& other) const
 		   this->m_count       != other.m_count ||
 		   this->m_itemID      != other.m_itemID;
 }
+
+/*ItemInstance::operator bool() const
+{
+	bool result = false;
+	if (m_valid)
+	{
+		Item* item = getItem();
+		if (item)
+		{
+			if (!isNull())
+			{
+				return true;
+			}
+		}
+	}
+
+	return result;
+}*/

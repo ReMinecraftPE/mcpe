@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{b01e1536-505b-4357-b5b6-083efbf786b0}</ProjectGuid>
+    <RootNamespace>NBT</RootNamespace>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="Minecraft">
+    <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int8ArrayTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int8Tag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\CompoundTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\DoubleTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\EndTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\FloatTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int32ArrayTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int32Tag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\ListTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int64ArrayTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int64Tag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Int16Tag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\StringTag.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\nbt\Tag.hpp" />
+    <ClInclude Include="..\..\..\..\source\nbt\NbtIo.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int8ArrayTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int8Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\CompoundTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\DoubleTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\EndTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\FloatTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int32ArrayTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int32Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\ListTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int64ArrayTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int64Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Int16Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\StringTag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\Tag.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\nbt\NbtIo.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

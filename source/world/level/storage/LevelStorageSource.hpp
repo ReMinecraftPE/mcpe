@@ -16,19 +16,22 @@ struct LevelSummary
 	std::string m_levelName;
 	int m_lastPlayed;
 	int m_sizeOnDisk;
+	GameType m_gameType;
 
 	LevelSummary()
 	{
 		m_lastPlayed = 0;
 		m_sizeOnDisk = 0;
+		m_gameType = GAME_TYPE_CREATIVE;
 	}
 
-	LevelSummary(const std::string& a, const std::string& b, int c, int d)
+	LevelSummary(const std::string& fileName, const std::string& levelName, int lastPlayed, int sizeOnDisk, GameType gameType)
 	{
-		m_fileName = a;
-		m_levelName = b;
-		m_lastPlayed = c;
-		m_sizeOnDisk = d;
+		m_fileName = fileName;
+		m_levelName = levelName;
+		m_lastPlayed = lastPlayed;
+		m_sizeOnDisk = sizeOnDisk;
+		m_gameType = gameType;
 	}
 
 	bool operator<(const LevelSummary& b) const
@@ -41,7 +44,7 @@ class LevelStorageSource
 {
 public:
 	virtual ~LevelStorageSource();
-	virtual std::string getName() = 0;
+	virtual std::string getName() const = 0;
 	virtual LevelStorage* selectLevel(const std::string&, bool) = 0;
 	virtual void getLevelList(std::vector<LevelSummary>&);
 	virtual void clearAll() = 0;

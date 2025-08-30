@@ -60,7 +60,7 @@ if(ANDROID)
     target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES)
 else()
     find_package(OpenGL REQUIRED)
-    target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
+    target_link_libraries(reminecraftpe-core PUBLIC ${OPENGL_gl_LIBRARY})
     if(EMSCRIPTEN)
         # Use WebGL 2
         target_link_options(reminecraftpe-core PUBLIC

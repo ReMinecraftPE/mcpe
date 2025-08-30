@@ -8,31 +8,28 @@
 
 #include "ItemEntity.hpp"
 #include "world/level/Level.hpp"
+#include "nbt/CompoundTag.hpp"
 
-void ItemEntity::_init(const ItemInstance* itemInstance)
+void ItemEntity::_init(ItemInstance* itemInstance)
 {
-	field_E0 = 0;
-	field_E4 = 0;
-	field_EC = 0;
+	m_pDescriptor = &EntityTypeDescriptor::item;
+	field_C8 = RENDER_ITEM;
+	m_age = 0;
+	m_throwTime = 0;
+	m_tickCount = 0;
 	m_health = 5;
 	m_bMakeStepSound = false;
 
 	// @NOTE: not setting render type
-	field_E8 = 2 * float(M_PI) * Mth::random();
+	m_bobOffs = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
 	m_heightOffset = m_bbHeight * 0.5f;
-#ifdef ORIGINAL_CODE
-	m_pItemInstance = itemInstance != nullptr ? itemInstance : new ItemInstance();
-#else
-	m_itemInstance = itemInstance != nullptr ? ItemInstance(*itemInstance) : ItemInstance();
-#endif
+	m_pItemInstance = itemInstance;
 }
 
-void ItemEntity::_init(const ItemInstance* itemInstance, const Vec3& pos)
+void ItemEntity::_init(ItemInstance* itemInstance, const Vec3& pos)
 {
 	_init(itemInstance);
-
-	field_C8 = RENDER_ITEM;
 	setPos(pos);
 
 	m_rot.x = 360.0f * Mth::random();
@@ -40,6 +37,11 @@ void ItemEntity::_init(const ItemInstance* itemInstance, const Vec3& pos)
 	m_vel.y = 0.2f;
 	m_vel.x = Mth::random() * 0.2f - 0.1f;
 	m_vel.z = Mth::random() * 0.2f - 0.1f;
+}
+
+ItemEntity::~ItemEntity()
+{
+	SAFE_DELETE(m_pItemInstance);
 }
 
 void ItemEntity::burn(int damage)
@@ -65,17 +67,17 @@ bool ItemEntity::isInWater()
 void ItemEntity::playerTouch(Player* player)
 {
 	// Here, this would give the item to the player, and remove the item entity.
-	if (field_E4 != 0)
+	if (m_throwTime != 0)
 		return;
 
 	Inventory* pInventory = player->m_pInventory;
 
-	pInventory->addItem(&m_itemInstance);
+	pInventory->addItem(*m_pItemInstance);
 
 	m_pLevel->playSound(this, "random.pop", 0.3f,
 		((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 
-	if (m_itemInstance.m_count <= 0)
+	if (m_pItemInstance->m_count <= 0)
 		remove();
 }
 
@@ -83,8 +85,8 @@ void ItemEntity::tick()
 {
 	Entity::tick();
 
-	if (field_E4 > 0)
-		field_E4--;
+	if (m_throwTime > 0)
+		m_throwTime--;
 
 	m_oPos = m_pos;
 	m_vel.y -= 0.04f;
@@ -118,12 +120,36 @@ void ItemEntity::tick()
 	if (m_onGround)
 		m_vel.y *= -0.5f;
 
-	field_EC++;
-	field_E0++;
+	m_tickCount++;
+	m_age++;
 
 	// despawn after 5 minutes
-	if (field_E0 >= 6000)
+	if (m_age >= 6000)
 		remove();
+}
+
+void ItemEntity::addAdditionalSaveData(CompoundTag& tag) const
+{
+	tag.putInt16("Health", m_health);
+	tag.putInt16("Age", m_age);
+	CompoundTag* itemTag = new CompoundTag();
+	m_pItemInstance->save(*itemTag);
+	tag.putCompound("Item", itemTag);
+}
+
+void ItemEntity::readAdditionalSaveData(const CompoundTag& tag)
+{
+	m_health = tag.getInt16("Health") & 255;
+	m_age = tag.getInt16("Age");
+
+	const CompoundTag* itemTag = tag.getCompound("Item");
+	if (!itemTag)
+	{
+		remove();
+		return;
+	}
+	m_pItemInstance = new ItemInstance();
+	m_pItemInstance->load(*itemTag);
 }
 
 void ItemEntity::checkInTile(const Vec3& pos)

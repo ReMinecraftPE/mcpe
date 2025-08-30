@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_SDL2|Win32">
@@ -66,7 +66,7 @@
     <ClCompile Include="$(MC_ROOT)\source\common\Util.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp" />
-    <ClCompile Include="$(MC_ROOT)\compat\LegacyCPPCompatibility.hpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\DataIO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp" />
@@ -78,6 +78,10 @@
     <ClInclude Include="$(MC_ROOT)\source\common\Util.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Compat.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Info.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

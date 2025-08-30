@@ -83,7 +83,7 @@ void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
 	puts_ignorable("onDisconnect");
 
 	if (m_pLevel)
-		m_pLevel->m_bIsMultiplayer = false;
+		m_pLevel->m_bIsOnline = false;
 
 	m_pMinecraft->m_gui.addMessage("Disconnected from server");
 }
@@ -130,7 +130,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 		pStartGamePkt->m_seed,
 		pStartGamePkt->m_levelVersion);
 
-	m_pLevel->m_bIsMultiplayer = true;
+	m_pLevel->m_bIsOnline = true;
 
 	GameType gameType = pStartGamePkt->m_gameType != GAME_TYPES_MAX ? pStartGamePkt->m_gameType : m_pLevel->getDefaultGameType();
 	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, gameType, m_pLevel->m_pDimension->field_50);

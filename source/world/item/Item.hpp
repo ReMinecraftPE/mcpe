@@ -9,6 +9,7 @@
 #pragma once
 
 #include <string>
+#include <stdint.h>
 #include "common/Utils.hpp"
 #include "world/level/Material.hpp"
 #include "ItemInstance.hpp"
@@ -24,6 +25,7 @@ class Entity;
 class Mob;
 class Player;
 class Tile;
+class CompoundTag;
 
 class Item
 {
@@ -80,6 +82,7 @@ public: // Methods
 	virtual Item* getCraftingRemainingItem();
 	virtual bool hasCraftingRemainingItem();
 	virtual std::string getName();
+	virtual int buildIdAux(int16_t auxValue, const CompoundTag* userData = nullptr);
 
 	static void initItems();
 	

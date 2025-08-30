@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include "compat/LegacyCPP.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 
 class Level;
@@ -21,7 +22,8 @@ public:
 	virtual ~ChunkStorage();
 	virtual LevelChunk* load(Level*, const ChunkPos& pos);
 	virtual void save(Level*, LevelChunk*);
-	virtual void saveEntities(Level*, LevelChunk*);
+	void saveEntities(Level* level) { saveEntities(level, nullptr); }
+	virtual void saveEntities(Level* level, LevelChunk* chunk);
 	virtual void saveAll(Level*, std::vector<LevelChunk*>&);
 	virtual void tick();
 	virtual void flush();

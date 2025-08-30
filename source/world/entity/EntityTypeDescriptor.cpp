@@ -1,6 +1,6 @@
 #include <assert.h>
 #include "EntityTypeDescriptor.hpp"
-#include "compat/LegacyCPPCompatibility.hpp"
+#include "compat/LegacyCPP.hpp"
 
 std::map<EntityType::ID, const EntityTypeDescriptor*> EntityTypeDescriptor::entityTypeIdMap = std::map<EntityType::ID, const EntityTypeDescriptor*>();
 std::map<std::string, const EntityTypeDescriptor*> EntityTypeDescriptor::entityTypeNameMap = std::map<std::string, const EntityTypeDescriptor*>();

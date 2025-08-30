@@ -10,7 +10,7 @@
 
 #include "common/Mth.hpp"
 // Needed for when we're missing nullptr in multiple files
-#include "compat/LegacyCPPCompatibility.hpp"
+#include "compat/LegacyCPP.hpp"
 
 class Vec2
 {

@@ -38,15 +38,12 @@ typedef std::vector<AABB> AABBVector;
 class Level : public LevelSource
 {
 private:
-	LevelData m_levelData;
-
-private:
 	// @NOTE: LevelListeners do NOT get updated here
-	void _setTime(int32_t time) { m_levelData.setTime(time); }
+	void _setTime(int32_t time) { m_pLevelData->setTime(time); }
 	Player* _getNearestPlayer(const Vec3&, float, bool) const;
 
 public:
-	Level(LevelStorage* pStor, const std::string& str, int32_t seed, int version, Dimension* pDimension = nullptr);
+	Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension* pDimension = nullptr);
 	~Level();
 
 	// TODO
@@ -65,10 +62,10 @@ public:
 	int getBrightness(const LightLayer&, const TilePos& pos) const;
 	void setBrightness(const LightLayer&, const TilePos& pos, int brightness);
 	int getSeaLevel() const { return 63; }
-	int getSeed() const { return m_levelData.getSeed(); }
-	int32_t getTime() const { return m_levelData.getTime(); }
+	int getSeed() const { return m_pLevelData->getSeed(); }
+	int32_t getTime() const { return m_pLevelData->getTime(); }
 	void setTime(int32_t time);
-	GameType getDefaultGameType() { return m_levelData.getGameType(); }
+	GameType getDefaultGameType() { return m_pLevelData->getGameType(); }
 	int getHeightmap(const TilePos& pos);
 	bool isDay() const;
 	bool isSkyLit(const TilePos& pos) const;
@@ -109,7 +106,7 @@ public:
 	TileID getTopTile(const TilePos& pos) const;
 	int getTopTileY(const TilePos& pos) const;
 	int getTopSolidBlock(const TilePos& tilePos) const;
-	void loadPlayer(Player*);
+	void loadPlayer(Player&);
 	bool addEntity(Entity*);
 	bool removeEntity(Entity*);
 	void removeEntities(const EntityVector&);
@@ -118,8 +115,10 @@ public:
 	void saveLevelData();
 	void savePlayerData();
 	void saveAllChunks();
+	void saveGame();
+	void loadEntities();
 	void setInitialSpawn();
-	void setSpawnPos(const TilePos& pos) { m_levelData.setSpawn(pos); }
+	void setSpawnPos(const TilePos& pos) { m_pLevelData->setSpawn(pos); }
 	void setSpawnSettings(bool a, bool b) { }
 	bool canSeeSky(const TilePos& pos) const;
 	Vec3 getSkyColor(Entity* pEnt, float f) const;
@@ -162,7 +161,7 @@ public:
 	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
 	BiomeSource* getBiomeSource() const override;
 	LevelStorage* getLevelStorage() const { return m_pLevelStorage; }
-	const LevelData* getLevelData() const { return &m_levelData; }
+	const LevelData* getLevelData() const { return m_pLevelData; }
 	AABBVector* getCubes(const Entity* pEnt, const AABB& aabb);
 	std::vector<LightUpdate>* getLightsToUpdate();
 	Player* getNearestPlayer(const Entity&, float) const;
@@ -180,6 +179,9 @@ public:
 	void saveUnsavedChunks();
 #endif
 
+private:
+	LevelData* m_pLevelData;
+
 protected:
 	int m_randValue;
 	int m_addend;
@@ -187,7 +189,7 @@ protected:
 public:
 	AABBVector m_aabbs;
 	bool m_bInstantTicking;
-	bool m_bIsMultiplayer; // if the level is controlled externally by a server. NOTE: this might just be called "isOnline"
+	bool m_bIsOnline; // if the level is controlled externally by a server.
 	bool m_bPostProcessing;
 	EntityVector m_entities;
 	std::vector<Player*> m_players;

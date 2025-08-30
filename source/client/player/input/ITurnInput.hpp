@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "compat/LegacyCPPCompatibility.hpp"
+#include "compat/LegacyCPP.hpp"
 
 struct TurnDelta
 {

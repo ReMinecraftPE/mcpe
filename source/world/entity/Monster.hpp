@@ -15,6 +15,8 @@ public:
 	virtual void checkHurtTarget(Entity*, float) override;
 	virtual float getWalkTargetValue(const TilePos& pos) const override;
 	bool canSpawn() override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 protected:
 	int m_attackDamage;

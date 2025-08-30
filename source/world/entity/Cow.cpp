@@ -15,3 +15,13 @@ Cow::Cow(Level* pLevel) : Animal(pLevel)
 	m_texture = "mob/cow.png";
 	setSize(0.9f, 1.3f);
 }
+
+void Cow::addAdditionalSaveData(CompoundTag& tag) const
+{
+	Animal::addAdditionalSaveData(tag);
+}
+
+void Cow::readAdditionalSaveData(const CompoundTag& tag)
+{
+	Animal::readAdditionalSaveData(tag);
+}

@@ -86,3 +86,13 @@ bool Monster::canSpawn()
 
 	return false;
 }
+
+void Monster::addAdditionalSaveData(CompoundTag& tag) const
+{
+	Mob::addAdditionalSaveData(tag);
+}
+
+void Monster::readAdditionalSaveData(const CompoundTag& tag)
+{
+	Mob::readAdditionalSaveData(tag);
+}

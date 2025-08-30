@@ -11,4 +11,4 @@
 // USER EDITABLE FILE
 
 // Needed for C++03 backwards compatibility
-#include "../../compat/LegacyCPPCompatibility.hpp"
+#include "../../compat/LegacyCPP.hpp"

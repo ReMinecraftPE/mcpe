@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio Version 17
+# Visual Studio Version 10
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "projects\ZLib\ZLib.vcxproj", "{5DA292FD-FA40-45D8-900A-6652C9662913}"
@@ -28,6 +28,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL", "projects\OpenGL\OpenGL.vcxproj", "{2E1A5B55-A6D4-4743-A63A-4F27DB03C0A1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STB", "projects\STB\STB.vcxproj", "{F332CB57-FF16-4D43-BBE0-76F28301DAA8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NBT", "projects\NBT\NBT.vcxproj", "{B01E1536-505B-4357-B5B6-083EFBF786B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -221,6 +223,22 @@ Global
 		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release|x64.Build.0 = Release|x64
 		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release|x86.ActiveCfg = Release|Win32
 		{F332CB57-FF16-4D43-BBE0-76F28301DAA8}.Release|x86.Build.0 = Release|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug_SDL2|x64.ActiveCfg = Debug|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug_SDL2|x64.Build.0 = Debug|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug_SDL2|x86.ActiveCfg = Debug|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug_SDL2|x86.Build.0 = Debug|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug|x64.ActiveCfg = Debug|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug|x64.Build.0 = Debug|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug|x86.ActiveCfg = Debug|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Debug|x86.Build.0 = Debug|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release_SDL2|x64.ActiveCfg = Release|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release_SDL2|x64.Build.0 = Release|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release_SDL2|x86.ActiveCfg = Release|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release_SDL2|x86.Build.0 = Release|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release|x64.ActiveCfg = Release|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release|x64.Build.0 = Release|x64
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release|x86.ActiveCfg = Release|Win32
+		{B01E1536-505B-4357-B5B6-083EFBF786B0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</ProjectGuid>
     <RootNamespace>Network</RootNamespace>
-	<ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -57,6 +57,7 @@
     <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\PacketUtil.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\RakIO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\PacketUtil.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\RakIO.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

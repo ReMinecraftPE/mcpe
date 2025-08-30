@@ -14,10 +14,17 @@ LevelStorage::~LevelStorage()
 
 void LevelStorage::saveLevelData(LevelData* levelData)
 {
-	std::vector<Player*> nothing;
-	saveLevelData(levelData, nothing);
+	saveLevelData(levelData, nullptr);
 }
 
-void LevelStorage::savePlayerData(LevelData* levelData, std::vector<Player*>& players)
+void LevelStorage::savePlayerData(LevelData& levelData, const std::vector<Player*>& players)
+{
+}
+
+void LevelStorage::saveGame(Level* level)
+{
+}
+
+void LevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 {
 }

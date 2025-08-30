@@ -9,6 +9,7 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "world/level/Level.hpp"
+#include "nbt/CompoundTag.hpp"
 
 #define TOTAL_AIR_SUPPLY (300)
 
@@ -667,14 +668,14 @@ void Entity::baseTick()
 		m_fireTicks = 0;
 		m_distanceFallen = 0;
 
-		if (m_pLevel->m_bIsMultiplayer)
+		if (m_pLevel->m_bIsOnline)
 			goto label_4;
 	}
 	else
 	{
 		field_D4 = false;
 
-		if (m_pLevel->m_bIsMultiplayer)
+		if (m_pLevel->m_bIsOnline)
 		{
 		label_4:
 			m_fireTicks = 0;
@@ -881,7 +882,6 @@ void Entity::animateHurt()
 ItemEntity* Entity::spawnAtLocation(ItemInstance* itemInstance, float y)
 {
 	ItemEntity *itemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemInstance);
-	delete(itemInstance);
 	// @TODO: not sure what this does, or is for
 	itemEntity->m_oPos.x = 10;
 	m_pLevel->addEntity(itemEntity);
@@ -1014,6 +1014,114 @@ int Entity::queryEntityRenderer()
 	// If field_C8 is equal to RENDER_DYNAMIC, EntityRenderDispatcher
 	// calls here. Used for sheared sheep.
 	return 0;
+}
+
+const AABB* Entity::getCollideBox() const
+{
+	return nullptr;
+}
+
+AABB* Entity::getCollideAgainstBox(Entity* ent) const
+{
+	return nullptr;
+}
+
+void Entity::handleInsidePortal()
+{
+}
+
+void Entity::handleEntityEvent(int event)
+{
+}
+
+/*void Entity::thunderHit(LightningBolt* bolt)
+{
+	burn(5);
+	++m_fireTicks;
+	if (m_fireTicks == 0)
+		m_fireTicks = 300;
+
+}*/
+
+void Entity::load(const CompoundTag& tag)
+{
+	const ListTag* posTag = tag.getList("Pos");
+	const ListTag* motionTag = tag.getList("Motion");
+	const ListTag* rotTag = tag.getList("Rotation");
+	m_vel.x = motionTag->getFloat(0);
+	m_vel.y = motionTag->getFloat(1);
+	m_vel.z = motionTag->getFloat(2);
+	if (Mth::abs(m_vel.x) > 10.0f)
+	{
+		m_vel.x = 0.0f;
+	}
+	if (Mth::abs(m_vel.y) > 10.0f)
+	{
+		m_vel.y = 0.0f;
+	}
+	if (Mth::abs(m_vel.z) > 10.0f)
+	{
+		m_vel.z = 0.0f;
+	}
+	m_posPrev.x = m_oPos.x = m_pos.x = posTag->getFloat(0);
+	m_posPrev.y = m_oPos.y = m_pos.y = posTag->getFloat(1);
+	m_posPrev.z = m_oPos.z = m_pos.z = posTag->getFloat(2);
+	m_oRot.y = m_rot.y = rotTag->getFloat(0);
+	m_oRot.x = m_rot.x = rotTag->getFloat(1);
+	m_distanceFallen = tag.getFloat("FallDistance");
+	m_fireTicks = tag.getInt16("Fire");
+	m_airSupply = tag.getInt16("Air");
+	m_onGround = tag.getBoolean("OnGround");
+	setPos(m_pos);
+	setRot(m_rot);
+	readAdditionalSaveData(tag);
+}
+
+bool Entity::save(CompoundTag& tag) const
+{
+	EntityType::ID id = getEncodeId();
+	if (m_bRemoved)
+		return false;
+	if (id == EntityType::UNKNOWN)
+	{
+		LOG_W("Failed to save unknown entity!");
+		return false;
+	}
+
+	tag.putInt32("id", id);
+	saveWithoutId(tag);
+	return true;
+}
+
+void Entity::saveWithoutId(CompoundTag& tag) const
+{
+	tag.put("Pos", ListTagFloatAdder(m_pos.x)(m_pos.y + m_ySlideOffset)(m_pos.z));
+	tag.put("Motion", ListTagFloatAdder(m_vel.x)(m_vel.y)(m_vel.z));
+	tag.put("Rotation", ListTagFloatAdder(m_rot.y)(m_rot.x));
+	tag.putFloat("FallDistance", m_distanceFallen);
+	tag.putInt16("Fire", m_fireTicks);
+	tag.putInt16("Air", m_airSupply);
+	tag.putBoolean("OnGround", m_onGround);
+	//tag.putInt32("PortalCooldown", m_portalCooldown);
+	//tag.putBoolean("IsGlobal", m_bIsGlobal);
+
+	/*if (isRide())
+		tag.put("LinksTag", saveLinks());*/
+
+	addAdditionalSaveData(tag);
+}
+
+void Entity::addAdditionalSaveData(CompoundTag& tag) const
+{
+}
+
+void Entity::readAdditionalSaveData(const CompoundTag& tag)
+{
+}
+
+EntityType::ID Entity::getEncodeId() const
+{
+	return getDescriptor().getEntityType().getId();
 }
 
 bool Entity::operator==(const Entity& other) const

@@ -1,4 +1,6 @@
 #include "MobFactory.hpp"
+#include "nbt/CompoundTag.hpp"
+
 #include "Chicken.hpp"
 #include "Cow.hpp"
 #include "Pig.hpp"
@@ -13,10 +15,10 @@
              ENT(COW, Cow) \
              ENT(PIG, Pig) \
              ENT(SHEEP, Sheep) \
-             ENT(CREEPER, Creeper) \
              ENT(ZOMBIE, Zombie) \
-             ENT(SPIDER, Spider) \
+             ENT(CREEPER, Creeper) \
              ENT(SKELETON, Skeleton) \
+             ENT(SPIDER, Spider) \
              //ENT(PIG_ZOMBIE, PigZombie)
 
 #define ENT(enumType, classType) case EntityType::enumType: return new classType(level);

@@ -145,9 +145,13 @@ void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Te
 
 	std::vector<std::string> details = m_vvs[index];
 
+	// Draw name
 	drawString(m_pMinecraft->m_pFont, details[0], xCenter + 5 - m_itemWidth / 2, yPos + 50, color1);
-	drawString(m_pMinecraft->m_pFont, details[1], xCenter + 5 - m_itemWidth / 2, yPos + 60, color2);
-	drawString(m_pMinecraft->m_pFont, details[2], xCenter + 5 - m_itemWidth / 2, yPos + 70, color2);
+	// Draw other details
+	for (unsigned int i = 1; i < details.size(); i++)
+	{
+		drawString(m_pMinecraft->m_pFont, details[i], xCenter + 5 - m_itemWidth / 2, yPos + (50 + (10 * i)), color2);
+	}
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture(m_previewImages[index]);
 	
@@ -176,8 +180,8 @@ void WorldSelectionList::commit()
 
 		// @NOTE: this string stream crap is unused.
 		// Weirdly Java Edition Beta 1.3 did not have world previews, so its interesting to see PE try
-		std::stringstream ss;
-		ss << item.m_levelName << "/preview.png";
+		/*std::stringstream ss;
+		ss << item.m_levelName << "/preview.png";*/
 
 		m_previewImages.push_back("gui/default_world.png");
 
@@ -185,6 +189,7 @@ void WorldSelectionList::commit()
 		vs.push_back(item.m_levelName);
 		vs.push_back(m_pMinecraft->platform()->getDateString(item.m_lastPlayed));
 		vs.push_back(item.m_fileName);
+		vs.push_back(GameTypeConv::GameTypeToNonLocString(item.m_gameType));
 		m_vvs.push_back(vs);
 	}
 }

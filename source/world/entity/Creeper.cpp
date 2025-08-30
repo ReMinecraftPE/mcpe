@@ -19,7 +19,7 @@ void Creeper::_defineEntityData()
 void Creeper::tick()
 {
 	m_oldSwell = m_swell;
-	if (m_pLevel->m_bIsMultiplayer)
+	if (m_pLevel->m_bIsOnline)
 	{
 		int swellDir = getSwellDir();
 		if (swellDir > 0 && m_swell == 0)
@@ -55,7 +55,7 @@ void Creeper::die(Entity* pCulprit)
 void Creeper::checkHurtTarget(Entity* pEnt, float f)
 {
 	int swellDir = getSwellDir();
-	if (swellDir <= 0 && f < 3.0f || swellDir > 0 && f < 7.0f)
+	if ((swellDir <= 0 && f < 3.0f) || (swellDir > 0 && f < 7.0f))
 	{
 		if (m_swell == 0)
 		{

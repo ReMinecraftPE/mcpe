@@ -38,8 +38,8 @@
     <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\compat\LegacyCPPCompatibility.hpp">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="$(MC_ROOT)\source\common\DataIO.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +68,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Compat.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Info.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

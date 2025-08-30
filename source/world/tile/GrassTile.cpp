@@ -65,7 +65,7 @@ void GrassTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	// Controls the spread/death of grass.
 	// It's like a full on automata of sorts. :)
-	if (level->m_bIsMultiplayer)
+	if (level->m_bIsOnline)
 		return;
 
 	if (level->getRawBrightness(pos.above()) <= 3 &&
