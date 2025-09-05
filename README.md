@@ -34,7 +34,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 
 Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMinecraftPE works on any of the platforms listed above.
 
-### This a modified version of [the original Minecraft PE v0.1.3 decompilation](https://github.com/ReMinecraftPE/mcped).
+### This is a modified version of [the original Minecraft PE v0.1.3 decompilation](https://github.com/ReMinecraftPE/mcped).
 
 ## License information
 
