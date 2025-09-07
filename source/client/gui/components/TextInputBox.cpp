@@ -280,7 +280,6 @@ void TextInputBox::charPressed(int k)
 	if (!m_bFocused)
 		return;
 
-			printf("%x %d\n", k, m_insertHead);
 	switch (k) {
 		case '\b':
 		{
