@@ -345,10 +345,10 @@ std::string TextInputBox::getRenderedText(int scroll_pos, std::string text)
 	// But it does not run often enough to matter.
 	std::string rendered_text = text.substr(scroll_pos);
 	int max_width = m_width - (PADDING * 2);
-	while (m_pFont->width(rendered_text) > max_width)
+	while (m_pFont->width(rendered_text) > max_width && !rendered_text.empty())
 	{
 		//rendered_text.pop_back(); // breaks C++03 compatibility
-		rendered_text.erase(rendered_text.length()-2, 1);
+		rendered_text.erase(rendered_text.length() - 1);
 	}
 	return rendered_text;
 }
