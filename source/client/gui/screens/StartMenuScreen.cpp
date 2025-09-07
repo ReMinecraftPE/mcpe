@@ -20,11 +20,11 @@
 // special mode so that we can crop out the title:
 //#define TITLE_CROP_MODE
 
-const char gLogoLine1[] = "????? ??   ? ?   ?";
-const char gLogoLine2[] = "   ?  ? ?  ?  ? ? ";
-const char gLogoLine3[] = "  ?   ?  ? ?   ?  ";
-const char gLogoLine4[] = " ?    ?  ? ?  ? ? ";
-const char gLogoLine5[] = "????? ?   ?? ?   ?";
+const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
+const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
+const char gLogoLine3[] = "??  ??  # # # # # # # ##  #   ##  ### ##   #  $$  $$ ";
+const char gLogoLine4[] = "? ? ?   #   # # #  ## #   #   # # # # #    #  $   $  ";
+const char gLogoLine5[] = "? ? ??? #   # # #   # ### ### # # # # #    #  $   $$$";
 
 const char* gLogoLines[] = {
 	gLogoLine1,
