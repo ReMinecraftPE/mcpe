@@ -348,7 +348,7 @@ std::string TextInputBox::getRenderedText(int scroll_pos, std::string text)
 	while (m_pFont->width(rendered_text) > max_width && !rendered_text.empty())
 	{
 		//rendered_text.pop_back(); // breaks C++03 compatibility
-		rendered_text.erase(rendered_text.length() - 1);
+		rendered_text.erase(rendered_text.end() - 1);
 	}
 	return rendered_text;
 }
