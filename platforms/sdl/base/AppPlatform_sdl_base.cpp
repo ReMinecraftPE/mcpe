@@ -74,24 +74,6 @@ void AppPlatform_sdl_base::initSoundSystem()
 	}
 }
 
-std::string AppPlatform_sdl_base::getDateString(int time)
-{
-	time_t tt = time;
-	struct tm t;
-#ifdef _WIN32
-	gmtime_s(&t, &tt);
-#else
-	gmtime_r(&tt, &t);
-#endif
-
-	// Format String
-	char buf[2048];
-	strftime(buf, sizeof buf, "%b %d %Y %H:%M:%S", &t);
-
-	// Return
-	return std::string(buf);
-}
-
 void AppPlatform_sdl_base::setIcon(const Texture& icon)
 {
 	if (!icon.m_pixels)

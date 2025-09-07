@@ -25,7 +25,7 @@ struct UnsavedLevelChunk
 class ExternalFileLevelStorage : public LevelStorage, public ChunkStorage
 {
 public:
-	ExternalFileLevelStorage(const std::string& a, const std::string& path);
+	ExternalFileLevelStorage(const std::string& name, const std::string& path, bool forceConversion = false);
 	~ExternalFileLevelStorage();
 
 private:
@@ -54,7 +54,7 @@ public:
 	static bool writeLevelData(const std::string& path, const LevelData& levelData, const std::vector<Player*>* players = nullptr);
 
 public:
-	std::string field_8;
+	std::string m_levelName;
 	std::string m_levelDirPath;
 	LevelData* m_pLevelData;
 	RegionFile* m_pRegionFile;
@@ -63,6 +63,7 @@ public:
 	unsigned int m_storageVersion;
 	std::list<UnsavedLevelChunk> m_unsavedLevelChunks;
 	int m_lastEntitySave;
+    bool m_bForceConversion;
 };
 
 #endif

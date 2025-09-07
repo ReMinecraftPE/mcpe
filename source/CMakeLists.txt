@@ -4,7 +4,7 @@ project(reminecraftpe-core)
 # Build
 add_library(reminecraftpe-core STATIC
     common/CThread.cpp
-	common/DataIO.cpp
+    common/DataIO.cpp
     common/Logger.cpp
     common/Matrix.cpp
     common/Mth.cpp
@@ -70,6 +70,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/Screen.cpp
     client/gui/screens/OptionsScreen.cpp
     client/gui/screens/StartMenuScreen.cpp
+    client/gui/screens/ConvertWorldScreen.cpp
     client/gui/screens/CreateWorldScreen.cpp
     client/gui/screens/DirectConnectScreen.cpp
     client/gui/screens/DisconnectionScreen.cpp
@@ -138,21 +139,21 @@ add_library(reminecraftpe-core STATIC
     client/player/input/TouchscreenInput_TestFps.cpp
     client/player/input/UnifiedTurnBuild.cpp
     client/network/ClientSideNetworkHandler.cpp
-	nbt/CompoundTag.cpp
-	nbt/DoubleTag.cpp
-	nbt/EndTag.cpp
-	nbt/FloatTag.cpp
-	nbt/Int8ArrayTag.cpp
-	nbt/Int8Tag.cpp
-	nbt/Int16Tag.cpp
-	nbt/Int32ArrayTag.cpp
-	nbt/Int32Tag.cpp
-	nbt/Int64ArrayTag.cpp
-	nbt/Int64Tag.cpp
-	nbt/ListTag.cpp
-	nbt/NbtIo.cpp
-	nbt/StringTag.cpp
-	nbt/Tag.cpp
+    nbt/CompoundTag.cpp
+    nbt/DoubleTag.cpp
+    nbt/EndTag.cpp
+    nbt/FloatTag.cpp
+    nbt/Int8ArrayTag.cpp
+    nbt/Int8Tag.cpp
+    nbt/Int16Tag.cpp
+    nbt/Int32ArrayTag.cpp
+    nbt/Int32Tag.cpp
+    nbt/Int64ArrayTag.cpp
+    nbt/Int64Tag.cpp
+    nbt/ListTag.cpp
+    nbt/NbtIo.cpp
+    nbt/StringTag.cpp
+    nbt/Tag.cpp
     network/packets/UpdateBlockPacket.cpp
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
@@ -206,7 +207,7 @@ add_library(reminecraftpe-core STATIC
     world/entity/WaterAnimal.cpp
     world/entity/Monster.cpp
     world/entity/Rocket.cpp
-	world/entity/EntityFactory.cpp
+    world/entity/EntityFactory.cpp
     world/entity/MobFactory.cpp
     world/entity/Chicken.cpp
     world/entity/Cow.cpp

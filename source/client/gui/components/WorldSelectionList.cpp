@@ -135,6 +135,9 @@ void WorldSelectionList::touched()
 
 void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Tesselator& t)
 {
+    int yPadding = -4;
+    yPos += yPadding; // Move up
+    
 	int xCenter = xPos + m_itemWidth / 2;
 	float mult = Mth::Max(1.1f - 0.0055f * float(abs(field_18 / 2 - xCenter)), 0.2f);
 	if (mult > 1.0f)
@@ -145,13 +148,16 @@ void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Te
 
 	std::vector<std::string> details = m_vvs[index];
 
+    int x = xCenter + 5 - m_itemWidth / 2;
 	// Draw name
-	drawString(m_pMinecraft->m_pFont, details[0], xCenter + 5 - m_itemWidth / 2, yPos + 50, color1);
+	drawString(m_pMinecraft->m_pFont, details[0], x, yPos + 50 + yPadding, color1);
 	// Draw other details
-	for (unsigned int i = 1; i < details.size(); i++)
+	for (unsigned int i = 1; i < details.size()-1; i++)
 	{
-		drawString(m_pMinecraft->m_pFont, details[i], xCenter + 5 - m_itemWidth / 2, yPos + (50 + (10 * i)), color2);
+		drawString(m_pMinecraft->m_pFont, details[i], x, yPos + (50 + yPadding + (10 * i)), color2);
 	}
+    // Draw storage version
+    drawString(m_pMinecraft->m_pFont, details[details.size()-1], xCenter + 42, yPos + (50 + yPadding + (10 * 3)), color2);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture(m_previewImages[index]);
 	
@@ -190,6 +196,9 @@ void WorldSelectionList::commit()
 		vs.push_back(m_pMinecraft->platform()->getDateString(item.m_lastPlayed));
 		vs.push_back(item.m_fileName);
 		vs.push_back(GameTypeConv::GameTypeToNonLocString(item.m_gameType));
+        std::stringstream ss;
+        ss << "V" << item.m_storageVersion;
+        vs.push_back(ss.str());
 		m_vvs.push_back(vs);
 	}
 }

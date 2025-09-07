@@ -55,7 +55,20 @@ void AppPlatform::finish()
 
 std::string AppPlatform::getDateString(int time)
 {
-	return "";
+	time_t tt = time;
+	struct tm t;
+#ifdef _WIN32
+	gmtime_s(&t, &tt);
+#else
+	gmtime_r(&tt, &t);
+#endif
+    
+	// Format String
+	char buf[2048];
+	strftime(buf, sizeof buf, "%b %d %Y %H:%M:%S", &t);
+    
+	// Return
+	return std::string(buf);
 }
 
 // ??? AppPlatform::getOptionStrings()

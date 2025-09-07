@@ -405,8 +405,6 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 	{
 #if defined(DEMO)
 		m_pMinecraft->selectLevel("_DemoLevel", "_DemoLevel", int(getEpochTimeS()));
-		m_pMinecraft->hostMultiplayer();
-		m_pMinecraft->setScreen(new ProgressScreen);
 #else
 		m_pMinecraft->setScreen(new SelectWorldScreen);
 #endif

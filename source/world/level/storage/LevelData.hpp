@@ -14,7 +14,7 @@
 #include "world/phys/Vec3.hpp"
 #include "world/item/Inventory.hpp"
 
-#define LEVEL_STORAGE_VERSION_DEFAULT 2 
+#define LEVEL_STORAGE_VERSION_DEFAULT 2
 
 struct PlayerData
 {

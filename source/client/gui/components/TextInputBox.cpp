@@ -173,41 +173,11 @@ void TextInputBox::keyPressed(int key)
 	switch (key) {
 		case AKEYCODE_DEL:
 		{
-			// Backspace
-			if (m_text.empty())
-			{
-				return;
-			}
-			if (m_insertHead <= 0)
-			{
-				return;
-			}
-			if (m_insertHead > int(m_text.size()))
-			{
-				m_insertHead = int(m_text.size());
-			}
-			m_text.erase(m_text.begin() + m_insertHead - 1, m_text.begin() + m_insertHead);
-			m_insertHead--;
-			recalculateScroll();
-			break;
+			charPressed('\b');
 		}
 		case AKEYCODE_FORWARD_DEL:
 		{
-			// Delete
-			if (m_text.empty())
-			{
-				return;
-			}
-			if (m_insertHead < 0)
-			{
-				return;
-			}
-			if (m_insertHead >= int(m_text.size()))
-			{
-				return;
-			}
-			m_text.erase(m_text.begin() + m_insertHead, m_text.begin() + m_insertHead + 1);
-			break;
+			charPressed(AKEYCODE_FORWARD_DEL);
 		}
 		case AKEYCODE_ARROW_LEFT:
 		{
@@ -307,20 +277,64 @@ void TextInputBox::charPressed(int k)
 	if (!m_bFocused)
 		return;
 
-	// Ignore Unprintable Characters
-	if (k == '\n' || k < ' ' || k > '~')
-		return;
-
-	// Check Max Length
-	if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
-	{
-		return;
-	}
-
-	// Insert
-	m_text.insert(m_text.begin() + m_insertHead, k);
-	m_insertHead++;
-	recalculateScroll();
+	switch (k) {
+		case '\b':
+		{
+			// Backspace
+			if (m_text.empty())
+			{
+				return;
+			}
+			if (m_insertHead <= 0)
+			{
+				return;
+			}
+			if (m_insertHead > int(m_text.size()))
+			{
+				m_insertHead = int(m_text.size());
+			}
+			m_text.erase(m_text.begin() + m_insertHead - 1, m_text.begin() + m_insertHead);
+			m_insertHead--;
+			recalculateScroll();
+			break;
+		}
+		case AKEYCODE_FORWARD_DEL:
+		{
+			// Delete
+			if (m_text.empty())
+			{
+				return;
+			}
+			if (m_insertHead < 0)
+			{
+				return;
+			}
+			if (m_insertHead >= int(m_text.size()))
+			{
+				return;
+			}
+			m_text.erase(m_text.begin() + m_insertHead, m_text.begin() + m_insertHead + 1);
+			break;
+		}
+        default:
+        {
+            // Ignore Unprintable Characters
+            if (k == '\n' || k < ' ' || k > '~')
+                return;
+            
+            // Check Max Length
+            if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
+            {
+                return;
+            }
+            
+            // Insert
+            m_text.insert(m_text.begin() + m_insertHead, k);
+            m_insertHead++;
+            recalculateScroll();
+            break;
+        }
+    }
 }
 
 constexpr int PADDING = 5;
