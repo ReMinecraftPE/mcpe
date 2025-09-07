@@ -20,12 +20,13 @@
 
 #define C_CHUNKS_TO_SAVE_PER_TICK (2)
 
-ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& a, const std::string& path) :
-	field_8(a),
+ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& name, const std::string& path, bool forceConversion) :
+	m_levelName(name),
 	m_levelDirPath(path),
 	m_timer(0),
 	m_storageVersion(LEVEL_STORAGE_VERSION_DEFAULT),
-	m_lastEntitySave(-999999)
+	m_lastEntitySave(-999999),
+    m_bForceConversion(forceConversion)
 {
 	m_pRegionFile = nullptr;
 	m_pLevel = nullptr;
@@ -83,8 +84,11 @@ void ExternalFileLevelStorage::saveLevelData(const std::string& levelPath, Level
 	std::string pathOld = pathBase + "level.dat_old";
 
 #ifndef ENH_DISABLE_FORCED_SAVE_UPGRADES
-	// Forces world to upgrade to new default storage version.
-	levelData->setStorageVersion(LEVEL_STORAGE_VERSION_DEFAULT);
+    if (m_bForceConversion)
+    {
+        // Forces world to upgrade to new default storage version.
+        levelData->setStorageVersion(LEVEL_STORAGE_VERSION_DEFAULT);
+    }
 #endif
 
 	writeLevelData(path, *levelData, players);

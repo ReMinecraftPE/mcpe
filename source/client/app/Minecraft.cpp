@@ -12,6 +12,8 @@
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
 #include "client/gui/screens/SavingWorldScreen.hpp"
 #include "client/gui/screens/DeathScreen.hpp"
+#include "client/gui/screens/ProgressScreen.hpp"
+#include "client/gui/screens/ConvertWorldScreen.hpp"
 #include "network/ServerSideNetworkHandler.hpp"
 #include "client/network/ClientSideNetworkHandler.hpp"
 
@@ -1145,15 +1147,29 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 	}
 }
 
-void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, int c)
+void Minecraft::selectLevel(const LevelSummary& ls, bool forceConversion)
 {
-	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(levelDir, false);
+    if (ls.m_storageVersion != LEVEL_STORAGE_VERSION_DEFAULT && !forceConversion)
+    {
+        setScreen(new ConvertWorldScreen(ls));
+        return;
+    }
+    
+    selectLevel(ls.m_fileName, ls.m_levelName, 0, forceConversion);
+}
+
+void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, int32_t seed, bool forceConversion)
+{
+	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(levelDir, false, forceConversion);
 	Dimension* pDim = Dimension::getNew(0);
 
-	m_pLevel = new Level(pStor, levelName, c, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
+	m_pLevel = new Level(pStor, levelName, seed, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
 	setLevel(m_pLevel, "Generating level", nullptr);
 
 	field_D9C = 1;
+    
+    hostMultiplayer();
+    setScreen(new ProgressScreen);
 }
 
 const char* Minecraft::getProgressMessage()

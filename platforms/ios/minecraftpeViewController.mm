@@ -285,9 +285,7 @@ NSThread *G_drawFrameThread = nil;
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDrawSize) name:UIDeviceOrientationDidChangeNotification object:nil];
     
     /*Minecraft *mc = (Minecraft *)app;
-     mc->selectLevel("TestWorld", "Test", (int)"iOS");
-     mc->hostMultiplayer();
-     mc->setScreen(new ProgressScreen);*/
+     mc->selectLevel("TestWorld", "Test", (int)"iOS");*/
 }
 
 - (NSInteger)animationFrameInterval

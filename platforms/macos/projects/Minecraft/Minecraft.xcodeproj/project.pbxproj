@@ -1216,6 +1216,8 @@
 		84CCBC9E2E618C1D00E251AF /* libNBT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CCBC452E61849800E251AF /* libNBT.a */; };
 		84CCBC9F2E61910500E251AF /* libClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B8AEE72AF188D8008DE93D /* libClient.a */; };
 		84CCBCA02E61910500E251AF /* libWorld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF630B2AF1859D008A9995 /* libWorld.a */; };
+		84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CED51D2E672826006BC585 /* ConvertWorldScreen.cpp */; };
+		84CED5202E672826006BC585 /* ConvertWorldScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84CED51E2E672826006BC585 /* ConvertWorldScreen.hpp */; };
 		84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CEF0022AE3C97D006C5829 /* EAGLView.m */; };
 		84D9A30E2AF18EC000B00AD3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3252A86E4B0004CA8EC /* OpenGL.framework */; };
 		84D9A30F2AF18EE700B00AD3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3252A86E4B0004CA8EC /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -2875,6 +2877,8 @@
 		84CCBC922E61880600E251AF /* EntityFactory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityFactory.hpp; sourceTree = "<group>"; };
 		84CCBC952E61886800E251AF /* RakIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RakIO.cpp; sourceTree = "<group>"; };
 		84CCBC962E61886800E251AF /* RakIO.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RakIO.hpp; sourceTree = "<group>"; };
+		84CED51D2E672826006BC585 /* ConvertWorldScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvertWorldScreen.cpp; sourceTree = "<group>"; };
+		84CED51E2E672826006BC585 /* ConvertWorldScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConvertWorldScreen.hpp; sourceTree = "<group>"; };
 		84CEF0012AE3C97D006C5829 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		84CEF0022AE3C97D006C5829 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
 		84D6694F2B1EAEBF00B34FC1 /* GlobalDebugSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = GlobalDebugSettings.xcconfig; path = ../Configuration/GlobalDebugSettings.xcconfig; sourceTree = "<group>"; };
@@ -3173,6 +3177,8 @@
 				840DD59E2AC810620006A435 /* ChatScreen.hpp */,
 				840DD59F2AC810620006A435 /* ConfirmScreen.cpp */,
 				840DD5A02AC810620006A435 /* ConfirmScreen.hpp */,
+				84CED51D2E672826006BC585 /* ConvertWorldScreen.cpp */,
+				84CED51E2E672826006BC585 /* ConvertWorldScreen.hpp */,
 				840DD5A12AC810620006A435 /* CreateWorldScreen.cpp */,
 				840DD5A22AC810620006A435 /* CreateWorldScreen.hpp */,
 				840DD5A32AC810620006A435 /* DeathScreen.cpp */,
@@ -5496,6 +5502,7 @@
 				84AA8C2B2B32F3F3003F5B82 /* LightUpdate.hpp in Headers */,
 				84AA8C2D2B32F3F3003F5B82 /* PatchManager.hpp in Headers */,
 				84AA8C2F2B32F3F3003F5B82 /* RenderChunk.hpp in Headers */,
+				84CED5202E672826006BC585 /* ConvertWorldScreen.hpp in Headers */,
 				84A2FF162DB5B7B70090CE3E /* AssetFile.hpp in Headers */,
 				84AA8C312B32F3F3003F5B82 /* RenderList.hpp in Headers */,
 				84AA8C332B32F3F3003F5B82 /* Tesselator.hpp in Headers */,
@@ -6729,6 +6736,7 @@
 				84B8AEEF2AF1890A008DE93D /* ScrolledSelectionList.cpp in Sources */,
 				84B8AEF02AF1890A008DE93D /* SmallButton.cpp in Sources */,
 				84B8AEF12AF1890A008DE93D /* TextInputBox.cpp in Sources */,
+				84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */,
 				84B8AEF22AF1890A008DE93D /* WorldSelectionList.cpp in Sources */,
 				84B8AEF32AF1890A008DE93D /* Gui.cpp in Sources */,
 				84B8AEF42AF1890A008DE93D /* GuiComponent.cpp in Sources */,

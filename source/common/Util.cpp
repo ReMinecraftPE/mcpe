@@ -52,7 +52,7 @@ std::string Util::vformat(const char *fmt, va_list argPtr)
 
 	vsnprintf(str, sizeof(str), fmt, argPtr);
 
-	return std::string(str);
+	return std::string(str, sizeof(str));
 }
 
 std::string Util::format(const char *fmt, ...)

@@ -39,9 +39,9 @@ std::string ExternalFileLevelStorageSource::getName() const
 	return "External File Level Storage";
 }
 
-LevelStorage* ExternalFileLevelStorageSource::selectLevel(const std::string& name, bool b)
+LevelStorage* ExternalFileLevelStorageSource::selectLevel(const std::string& name, bool b, bool forceConversion)
 {
-	return new ExternalFileLevelStorage(name, m_worldsPath + "/" + name);
+	return new ExternalFileLevelStorage(name, m_worldsPath + "/" + name, forceConversion);
 }
 
 void ExternalFileLevelStorageSource::getLevelList(std::vector<LevelSummary>& vls)
@@ -165,7 +165,7 @@ void ExternalFileLevelStorageSource::addLevelSummaryIfExists(std::vector<LevelSu
 	if (!ExternalFileLevelStorage::readLevelData(levelDat, ld))
 		return;
 
-	vls.push_back(LevelSummary(name, ld.getLevelName(), ld.getLastPlayed(), ld.getSizeOnDisk(), ld.getGameType()));
+	vls.push_back(LevelSummary(name, ld.getLevelName(), ld.getLastPlayed(), ld.getSizeOnDisk(), ld.getGameType(), ld.getStorageVersion()));
 }
 
 #endif

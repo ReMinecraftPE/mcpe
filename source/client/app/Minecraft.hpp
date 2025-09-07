@@ -46,7 +46,8 @@ public:
 	void saveOptions();
 	void handleBuildAction(const BuildActionIntention& action);
 	bool isLevelGenerated() const;
-	void selectLevel(const std::string&, const std::string&, int);
+    void selectLevel(const LevelSummary& ls, bool forceConversion = false);
+	void selectLevel(const std::string&, const std::string&, int, bool forceConversion = false);
 	void setLevel(Level*, const std::string&, LocalPlayer*);
 	bool pauseGame();
 	bool resumeGame();
