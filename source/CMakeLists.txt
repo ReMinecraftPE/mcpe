@@ -330,7 +330,7 @@ target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
 # zlib
 add_library(zlib-interface INTERFACE)
-if(WIN32)
+if(MCPE_WIN32)
     # Compile Vendored ZLib
     add_subdirectory(../thirdparty/zlib zlib)
     target_link_libraries(zlib-interface INTERFACE zlib)
@@ -346,7 +346,7 @@ else()
 endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib-interface)
 # OpenGL Support Code
-if(WIN32)
+if(MCPE_WIN32)
     target_sources(reminecraftpe-core PRIVATE ../thirdparty/GL/GLExt.cpp)
 endif()
 
