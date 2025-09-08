@@ -895,15 +895,15 @@ void Minecraft::prepareLevel(const std::string& unused)
 			float time1 = getTimeS();
 
 			// generating all the chunks at once
-			(void)m_pLevel->getTile(TilePos(i, (C_MAX_Y + C_MIN_Y) / 2, j));
+			(void)pLevel->getTile(TilePos(i, (C_MAX_Y + C_MIN_Y) / 2, j));
 
 			if (time1 != -1.0f)
 				getTimeS();
 
 			float time2 = getTimeS();
-			if (m_pLevel->field_B0C)
+			if (pLevel->field_B0C)
 			{
-				while (m_pLevel->updateLights());
+				while (pLevel->updateLights());
 			}
 
 			if (time2 != -1.0f)
@@ -914,7 +914,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 	if (startTime != -1.0f)
 		getTimeS();
 
-	m_pLevel->setUpdateLights(1);
+	pLevel->setUpdateLights(1);
 
 	startTime = getTimeS();
 
@@ -923,7 +923,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 	{
 		for (cp.z = 0; cp.z < C_MAX_CHUNKS_Z; cp.z++)
 		{
-			LevelChunk* pChunk = m_pLevel->getChunk(cp);
+			LevelChunk* pChunk = pLevel->getChunk(cp);
 			if (!pChunk)
 				continue;
 
@@ -940,17 +940,17 @@ void Minecraft::prepareLevel(const std::string& unused)
 
 	field_DA0 = 3;
 
-	if (m_pLevel->field_B0C)
+	if (pLevel->field_B0C)
 	{
-		m_pLevel->setInitialSpawn();
-		m_pLevel->saveLevelData();
-		m_pLevel->getChunkSource()->saveAll();
-		m_pLevel->saveGame();
+		pLevel->setInitialSpawn();
+		pLevel->saveLevelData();
+		pLevel->getChunkSource()->saveAll();
+		pLevel->saveGame();
 	}
 	else
 	{
-		m_pLevel->saveLevelData();
-		m_pLevel->loadEntities();
+		pLevel->saveLevelData();
+		pLevel->loadEntities();
 	}
 
 	m_progressPercent = -1;
@@ -958,7 +958,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 
 	startTime = getTimeS();
 
-	m_pLevel->prepare();
+	pLevel->prepare();
 
 	if (startTime != -1.0f)
 		getTimeS();
