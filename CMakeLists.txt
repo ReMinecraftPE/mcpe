@@ -16,13 +16,17 @@ if(EMSCRIPTEN)
     add_link_options(-Wno-pthreads-mem-growth -sALLOW_MEMORY_GROWTH=1)
 endif()
 
+# Detect Windows
+include(CheckSymbolExists)
+check_symbol_exists("_WIN32" "" MCPE_WIN32)
+
 # Clang
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_compile_options(-Wno-inconsistent-missing-override -Wno-enum-compare-switch -Wno-register)
 endif()
 
 # Windows Linking
-if(WIN32)
+if(MCPE_WIN32)
     add_link_options(
         -static-libgcc
         -static-libstdc++

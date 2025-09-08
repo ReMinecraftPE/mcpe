@@ -34,7 +34,7 @@ endif()
 
 # SDL
 add_library(SDL INTERFACE)
-if(ANDROID OR WIN32)
+if(ANDROID OR MCPE_WIN32)
     # Use Vendored SDL2 (Only For Android)
     add_subdirectory(../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
     target_link_libraries(SDL INTERFACE SDL2::SDL2)
