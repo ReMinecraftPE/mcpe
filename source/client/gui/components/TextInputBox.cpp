@@ -54,7 +54,7 @@ void TextInputBox::setEnabled(bool bEnabled)
 #define AKEYCODE_FORWARD_DEL   SDLVK_DELETE
 #define AKEYCODE_ARROW_LEFT    SDLVK_LEFT
 #define AKEYCODE_ARROW_RIGHT   SDLVK_RIGHT
-#define AKEYCODE_DEL	           SDLVK_BACKSPACE
+#define AKEYCODE_DEL	       SDLVK_BACKSPACE
 #define AKEYCODE_ENTER         SDLVK_RETURN
 #define AKEYCODE_A             SDLVK_a
 #define AKEYCODE_Z             SDLVK_z
@@ -173,11 +173,14 @@ void TextInputBox::keyPressed(int key)
 	switch (key) {
 		case AKEYCODE_DEL:
 		{
-			charPressed('\b');
+			// handled elsewhere, do not dupe
+		//	charPressed('\b');
+			break;
 		}
 		case AKEYCODE_FORWARD_DEL:
 		{
-			charPressed(AKEYCODE_FORWARD_DEL);
+			charPressed('\x7f'); // DELETE
+			break;
 		}
 		case AKEYCODE_ARROW_LEFT:
 		{
@@ -298,7 +301,7 @@ void TextInputBox::charPressed(int k)
 			recalculateScroll();
 			break;
 		}
-		case AKEYCODE_FORWARD_DEL:
+		case '\x7f': // DELETE
 		{
 			// Delete
 			if (m_text.empty())
