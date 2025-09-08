@@ -46,7 +46,10 @@ ExternalFileLevelStorage::ExternalFileLevelStorage(const std::string& name, cons
 
 	m_storageVersion = m_pLevelData->getStorageVersion();
 
-	readPlayerData(datPlayer, *m_pLevelData);
+    if (m_storageVersion <= 1)
+    {
+        readPlayerData(datPlayer, *m_pLevelData);
+    }
 }
 
 ExternalFileLevelStorage::~ExternalFileLevelStorage()
