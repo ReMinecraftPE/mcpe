@@ -265,9 +265,11 @@ void Player::readAdditionalSaveData(const CompoundTag& tag)
 	m_dimension = tag.getInt32("Dimension");
 	//m_sleepTimer = tag.getInt32("SleepTimer");
 
-	setRespawnPos(TilePos(static_cast<int>(tag.getInt32("SpawnX")),
-						static_cast<int>(tag.getInt32("SpawnY")),
-						static_cast<int>(tag.getInt32("SpawnZ"))));
+	if (tag.contains("SpawnX") && tag.contains("SpawnY") && tag.contains("SpawnZ")) {
+		setRespawnPos(TilePos(	static_cast<int>(tag.getInt32("SpawnX")),
+								static_cast<int>(tag.getInt32("SpawnY")),
+								static_cast<int>(tag.getInt32("SpawnZ"))));
+	}
 }
 
 void Player::animateRespawn()

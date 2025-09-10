@@ -33,19 +33,9 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Surface* screen)
     ensureDirectoryExists(_storageDir.c_str());
 
     m_pSoundSystem = nullptr;
-
-#ifdef ANDROID
-    m_bIsTouchscreen = true;
-#else
     m_bIsTouchscreen = false;
-#endif
 
     const char* mode = getenv("MCPE_INPUT_MODE");
-    if (mode) {
-        if (strcmp(mode, "touch") == 0) m_bIsTouchscreen = true;
-        else if (strcmp(mode, "mouse") == 0) m_bIsTouchscreen = false;
-    }
-
     _controller = findGameController();
 
     clearDiff();
@@ -203,7 +193,7 @@ void AppPlatform_sdl_base::hideKeyboard()
 
 bool AppPlatform_sdl_base::isTouchscreen() const
 {
-    return m_bIsTouchscreen;
+    return false;
 }
 
 bool AppPlatform_sdl_base::hasGamepad() const
