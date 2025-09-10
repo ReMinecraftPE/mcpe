@@ -86,7 +86,7 @@ bool AppPlatform_sdl::doesSurfaceExist(const std::string& path) const
     return f.good();
 }
 
-/* STUBBED */
+/* Load bitmap (texture) */
 Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
     Texture out;
@@ -144,7 +144,7 @@ bool AppPlatform_sdl::doesTextureExist(const std::string&) const
 /* Always access FS */
 bool AppPlatform_sdl::hasFileSystemAccess()
 {
-    return true;
+    return true; /* TODO: Match SDL 2.x code (Do I need to fix this, no idea; I just stubbed all the functions at first then started eyeballing shit. )*/
 }
 
 std::string AppPlatform_sdl::getPatchData()
