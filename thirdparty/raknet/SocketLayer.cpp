@@ -52,11 +52,13 @@ using namespace pp;
 #include <arpa/inet.h>
 #include <errno.h>  // error numbers
 #include <stdio.h> // RAKNET_DEBUG_PRINTF
-#if !defined(ANDROID)
+#if (!defined(ANDROID) && !defined(__DREAMCAST__))
 #include <ifaddrs.h>
 #endif
 #include <netinet/in.h>
+#if !defined(__DREAMCAST__)
 #include <net/if.h>
+#endif
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
@@ -117,6 +119,7 @@ void PrepareAddrInfoHints(addrinfo *hints)
  
 void SocketLayer::SetSocketOptions( __UDPSOCKET__ listenSocket, bool blockingSocket, bool setBroadcast)
 {
+#if (!defined(__DREAMCAST__) && !defined(_NO_NETWORKING_))
 #ifdef __native_client__
 	(void) listenSocket;
 #else
@@ -180,11 +183,13 @@ void SocketLayer::SetSocketOptions( __UDPSOCKET__ listenSocket, bool blockingSoc
 	}
 
 #endif
+#endif
 }
  
 
 RakNet::RakString SocketLayer::GetSubNetForSocketAndIp(__UDPSOCKET__ inSock, RakNet::RakString inIpString)
 {
+	#if (!defined(__DREAMCAST__) && !defined(_NO_NETWORKING_))
 	RakNet::RakString netMaskString;
 	RakNet::RakString ipString;
 
@@ -271,7 +276,9 @@ RakNet::RakString SocketLayer::GetSubNetForSocketAndIp(__UDPSOCKET__ inSock, Rak
 	return "";
 
 #endif
-
+#else
+return "";
+#endif
 }
 
 

@@ -16,10 +16,13 @@
 
 #include "Getche.h"
 
+#ifndef ICANON
+#define NO_ONLINE
+#endif
+
 char getche()
 {
-
-
+#ifndef NO_ONLINE
   struct termios oldt,
                  newt;
   char            ch;
@@ -30,6 +33,8 @@ char getche()
   ch = getchar();
   tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
   return ch;
-
+#else
+  return 1;
+#endif
 } 
 #endif
