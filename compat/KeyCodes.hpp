@@ -8,7 +8,7 @@
 
 #pragma once
 
-#ifdef USE_SDL
+#if (defined(USE_SDL) && !(SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2))
 #include "../thirdparty/SDL2/SDL2.h"
 
 // because SDL sucks and makes no sense and sets bit 1<<30 for some keycodes for some godamn reason
@@ -38,4 +38,7 @@ enum eSDLVirtualKeys
 
     #define AKEYCODE_ARROW_LEFT  AKEYCODE_DPAD_LEFT
     #define AKEYCODE_ARROW_RIGHT AKEYCODE_DPAD_RIGHT
+#endif
+#if (SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2)
+#include <SDL/SDL.h>
 #endif

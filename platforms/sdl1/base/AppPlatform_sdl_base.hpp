@@ -25,9 +25,6 @@ public:
     int getScreenWidth() const override;
     int getScreenHeight() const override;
 
-    // Texture loading is stubbed in SDL 1.2 builds
-    Texture loadTexture(const std::string& path, bool bIsRequired = false) override;
-
     SDL_Surface* loadSurface(const std::string& path);
     bool doesSurfaceExist(const std::string& path) const;
 
