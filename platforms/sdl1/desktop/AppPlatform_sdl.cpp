@@ -87,10 +87,51 @@ bool AppPlatform_sdl::doesSurfaceExist(const std::string& path) const
 }
 
 /* STUBBED */
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool)
+Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 {
-    LOG_W("loadTexture is not supported in SDL 1.2. Use loadSurface instead.");
-    return Texture{};
+    Texture out;
+    out.m_hasAlpha = true;
+    out.field_D = 0;
+
+    // Get Full Path
+    std::string realPath = getAssetPath(path);
+
+    // Read File
+    SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
+    if (!io)
+    {
+        LOG_E("Couldn't find file: %s", path.c_str());
+        return out;
+    }
+    Sint64 size = SDL_RWseek(io, 0, RW_SEEK_END);
+    SDL_RWseek(io, 0, RW_SEEK_SET);
+    unsigned char *file = new unsigned char[size];
+    SDL_RWread(io, file, size, 1);
+    SDL_RWclose(io);
+
+    // Parse Image
+    int width = 0, height = 0, channels = 0;
+    stbi_uc *img = stbi_load_from_memory(file, static_cast<int>(size), &width, &height, &channels, STBI_rgb_alpha);
+    delete[] file;
+    if (!img)
+    {
+        // Failed To Parse Image
+        LOG_E("The image could not be loaded properly: %s", path.c_str());
+        return out;
+    }
+
+    // Copy Image
+    uint32_t *img2 = new uint32_t[width * height];
+    memcpy(img2, img, width * height * sizeof (uint32_t));
+    stbi_image_free(img);
+
+    // Create Texture
+    out.m_width = width;
+    out.m_height = height;
+    out.m_pixels = img2;
+
+    // Return
+    return out;
 }
 
 /* STUBBED */

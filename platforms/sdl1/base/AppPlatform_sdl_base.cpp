@@ -117,7 +117,7 @@ int AppPlatform_sdl_base::checkLicense()
 
 const char* const AppPlatform_sdl_base::getWindowTitle() const
 {
-    return "Minecraft SDL1"; // SDL 1.2 has no SDL_GetWindowTitle
+    return "ReMinecraftPE";
 }
 
 int AppPlatform_sdl_base::getScreenWidth() const
