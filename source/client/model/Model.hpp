@@ -17,7 +17,6 @@ class Model
 {
 public:
 	Model(int width, int height);
-	virtual ~Model();
 	virtual void onGraphicsReset();
 	virtual void prepareMobModel(Mob*, float, float, float);
 	virtual void render(float, float, float, float, float, float);

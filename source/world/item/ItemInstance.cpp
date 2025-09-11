@@ -60,6 +60,11 @@ ItemInstance::ItemInstance(int itemID, int amount, int auxValue)
 	_init(itemID, amount, auxValue);
 }
 
+ItemInstance::~ItemInstance()
+{
+    SAFE_DELETE(m_userData);
+}
+
 int ItemInstance::getId() const
 {
 	return m_itemID;

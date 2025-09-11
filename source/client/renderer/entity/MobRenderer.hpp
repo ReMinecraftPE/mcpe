@@ -14,6 +14,7 @@ class MobRenderer : public EntityRenderer
 {
 public:
 	MobRenderer(Model*, float);
+    virtual ~MobRenderer();
 	void setArmor(Model*);
 
 	virtual void render(Entity*, float, float, float, float, float) override;

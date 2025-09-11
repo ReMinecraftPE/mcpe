@@ -102,6 +102,37 @@ Minecraft::Minecraft() :
 	m_lastInteractTime = 0;
 }
 
+Minecraft::~Minecraft()
+{
+	SAFE_DELETE(m_options);
+	SAFE_DELETE(m_pNetEventCallback);
+	SAFE_DELETE(m_pRakNetInstance);
+	SAFE_DELETE(m_pLevelRenderer);
+	SAFE_DELETE(m_pGameRenderer);
+	SAFE_DELETE(m_pParticleEngine);
+    SAFE_DELETE(EntityRenderDispatcher::instance);
+	m_pSoundEngine->destroy();
+	SAFE_DELETE(m_pSoundEngine);
+	SAFE_DELETE(m_pGameMode);
+	SAFE_DELETE(m_pFont);
+	SAFE_DELETE(m_pTextures);
+    
+	if (m_pLevel)
+	{
+		LevelStorage* pStor = m_pLevel->getLevelStorage();
+		if (pStor)
+			delete pStor;
+		if (m_pLevel)
+			delete m_pLevel;
+	}
+    
+	SAFE_DELETE(m_pUser);
+	SAFE_DELETE(m_pLevelStorageSource);
+	SAFE_DELETE(m_pInputHolder);
+    
+	//@BUG: potentially leaking a CThread instance if this is destroyed early?
+}
+
 int Minecraft::getLicenseId()
 {
 	if (m_licenseID < 0)
@@ -269,6 +300,7 @@ void Minecraft::setGameMode(GameType gameType)
 {
 	if (m_pLevel)
 	{
+        SAFE_DELETE(m_pGameMode);
 		m_pGameMode = createGameMode(gameType, *m_pLevel);
 		m_pGameMode->initLevel(m_pLevel);
 	}
@@ -841,36 +873,6 @@ void Minecraft::init()
 	{
 		FoliageColor::init(m_pPlatform->loadTexture("misc/foliagecolor.png", true));
 	}
-}
-
-Minecraft::~Minecraft()
-{
-	SAFE_DELETE(m_options);
-	SAFE_DELETE(m_pNetEventCallback);
-	SAFE_DELETE(m_pRakNetInstance);
-	SAFE_DELETE(m_pLevelRenderer);
-	SAFE_DELETE(m_pGameRenderer);
-	SAFE_DELETE(m_pParticleEngine);
-	m_pSoundEngine->destroy();
-	SAFE_DELETE(m_pSoundEngine);
-	SAFE_DELETE(m_pGameMode);
-	SAFE_DELETE(m_pFont);
-	SAFE_DELETE(m_pTextures);
-
-	if (m_pLevel)
-	{
-		LevelStorage* pStor = m_pLevel->getLevelStorage();
-		if (pStor)
-			delete pStor;
-		if (m_pLevel)
-			delete m_pLevel;
-	}
-
-	SAFE_DELETE(m_pUser);
-	SAFE_DELETE(m_pLevelStorageSource);
-	SAFE_DELETE(m_pInputHolder);
-
-	//@BUG: potentially leaking a CThread instance if this is destroyed early?
 }
 
 void Minecraft::prepareLevel(const std::string& unused)

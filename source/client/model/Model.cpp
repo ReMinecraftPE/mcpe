@@ -17,10 +17,6 @@ Model::Model(int width, int height)
 	m_textureHeight = height;
 }
 
-Model::~Model()
-{
-}
-
 void Model::onGraphicsReset()
 {
 	

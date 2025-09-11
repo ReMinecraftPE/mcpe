@@ -25,6 +25,7 @@ ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string
 			m_worldsPath += "/minecraftWorlds";
 			if (createFolderIfNotExists(m_worldsPath.c_str()))
 			{
+                // @WTF: why?
 				std::vector<LevelSummary> vls;
 				getLevelList(vls);
 			}
