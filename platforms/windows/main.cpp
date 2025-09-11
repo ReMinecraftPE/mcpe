@@ -27,7 +27,7 @@ AppPlatform_win32 g_AppPlatform;
 NinecraftApp* g_pApp;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
-{
+{z
 	switch (iMsg)
 	{
 		default:

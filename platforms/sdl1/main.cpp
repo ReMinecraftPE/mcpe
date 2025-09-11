@@ -25,16 +25,6 @@ static void teardown()
     }
 }
 
-static int TranslateSDLKeyCodeToVirtual(int sdlCode)
-{
-    switch (sdlCode) {
-        #define CODE(x) case SDLK_ ## x: return SDLK_ ## x;
-        #include "compat/SDL1KeyCodes.h"
-        #undef  CODE
-    }
-    return SDLK_UNKNOWN;
-}
-
 // Handle Events
 static bool window_resized = false;
 static void handle_events()
@@ -47,17 +37,22 @@ static void handle_events()
             case SDL_KEYDOWN:
             case SDL_KEYUP:
             {
-                if (event.key.keysym.sym == SDLK_BACKSPACE && event.key.state == SDL_PRESSED)
+                SDL_Event newEvent;
+                newEvent.type = event.type;
+                newEvent.key.keysym.sym = (SDLKey)((unsigned int)event.key.keysym.sym);
+                newEvent.key.state = event.key.state;
+
+                if (newEvent.key.keysym.sym == SDLK_BACKSPACE && newEvent.key.state == SDL_PRESSED)
                 {
                     g_pApp->handleCharInput('\b');
                 }
 
-                if (event.type == SDL_KEYDOWN && event.key.keysym.unicode > 0)
+                if (newEvent.type == SDL_KEYDOWN && newEvent.key.keysym.unicode > 0)
                 {
-                    g_pApp->handleCharInput(event.key.keysym.unicode);
+                    g_pApp->handleCharInput(newEvent.key.keysym.unicode);
                 }
 
-                g_pAppPlatform->handleKeyEvent(event);
+                g_pAppPlatform->handleKeyEvent(newEvent);
                 break;
             }
             case SDL_MOUSEBUTTONDOWN:
