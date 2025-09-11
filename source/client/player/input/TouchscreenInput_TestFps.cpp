@@ -84,8 +84,8 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 {
 	m_touchAreaModel.clear();
 
-	float widthM = float(width) * 0.11f;
-	float heightM = float(height) * 0.18f;
+	float heightM = height / 5.0f;
+	float widthM = heightM;
 
 	float x1[4], y1[4], x2[4], y2[4];
 
@@ -133,6 +133,8 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 
 void TouchscreenInput_TestFps::tick(Player* pPlayer)
 {
+	if (m_pMinecraft->m_pScreen) return; // If we're in another screen, disable d-pad
+	
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
 	m_bJumping = false;

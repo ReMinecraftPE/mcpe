@@ -54,6 +54,18 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	glPopMatrix();
 }
 
+void HumanoidMobRenderer::render(Entity* entity, float x, float y, float z, float unused, float f)
+{
+	if (entity->isPlayer())
+	{
+		Player* player = (Player*)entity;
+		auto item = player->getSelectedItem();
+		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
+	}
+	if (entity->isSneaking()) y -= 0.125;
+	MobRenderer::render(entity, x, y, z, unused, f);
+}
+
 void HumanoidMobRenderer::onGraphicsReset()
 {
 	m_pHumanoidModel->onGraphicsReset();

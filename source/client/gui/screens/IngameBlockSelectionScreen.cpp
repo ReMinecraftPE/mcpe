@@ -8,13 +8,15 @@
 
 #include "IngameBlockSelectionScreen.hpp"
 #include "PauseScreen.hpp"
+#include "ChatScreen.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
 IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
-	m_btnPause(0, "Pause")
+	m_btnPause(0, "Pause"),
+	m_btnChat(1, "Chat") // Temp chat button
 {
 	m_selectedSlot = 0;
 }
@@ -79,6 +81,11 @@ void IngameBlockSelectionScreen::init()
 		m_buttons.push_back(&m_btnPause);
 #endif
 	
+	m_btnChat.m_width = 40;
+	m_btnChat.m_xPos = m_width - m_btnChat.m_width; // Right edge
+    m_btnChat.m_yPos = 0;
+	m_buttons.push_back(&m_btnChat);
+
 	Inventory* pInv = getInventory();
 
 	int nItems = pInv->getNumItems();
@@ -160,6 +167,9 @@ void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnPause.m_buttonId)
 		m_pMinecraft->setScreen(new PauseScreen);
+
+	if (pButton->m_buttonId == m_btnChat.m_buttonId)
+        m_pMinecraft->setScreen(new ChatScreen(true));
 }
 
 void IngameBlockSelectionScreen::mouseClicked(int x, int y, int type)
