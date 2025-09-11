@@ -205,6 +205,7 @@ public:
 	bool field_7E;
 	bool field_7F;
 	bool m_bHurt;
+	bool m_bInWeb;
 	uint8_t field_81;
 	bool m_bRemoved;
 	float m_heightOffset;

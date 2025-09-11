@@ -288,17 +288,18 @@ void OptionList::initDefaultMenu()
 #define HEADER(text) do { m_items.push_back(new HeaderOptionItem(text)); currentIndex++; } while (0)
 #define OPTION(type, name, text) do { m_items.push_back(new type ## OptionItem(&pOptions->name, text)); currentIndex++; } while (0)
 
-	int idxLM = -1, idxGrass = -1, idxBiome = -1, idxSplit = -1, idxController = -1, idxPano = -1;
+	int idxLM = -1, idxBiome = -1, idxSplit = -1, idxController = -1, idxPano = -1;
 
 	HEADER("Video");
 	{
 		OPTION(Distance, m_iViewDistance,         "Render Distance");
+		OPTION(Boolean,  m_bThirdPerson,          "Third Person View");
 		OPTION(AORender, m_bAmbientOcclusion,     "Smooth Lighting");
 		OPTION(Render,   m_bFancyGraphics,        "Fancy Graphics");
 		OPTION(Boolean,  m_bViewBobbing,          "View Bobbing");
 		OPTION(Boolean,  m_bAnaglyphs,            "3D Anaglyph");
 		OPTION(Boolean,  m_bBlockOutlines,        "Block Outlines");
-		OPTION(Render,   m_bFancyGrass,           "Fancy Grass");   idxGrass = currentIndex; // renders colored grass side overlay
+		OPTION(Render,   m_bFancyGrass,           "Fancy Grass");   // renders colored grass side overlay
 		OPTION(Render,   m_bBiomeColors,          "Biome Colors");  idxBiome = currentIndex; // colors the grass based on the current biome
 		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
 		OPTION(Boolean,  m_bDynamicHand,          "Dynamic Hand Movement");
@@ -330,9 +331,6 @@ void OptionList::initDefaultMenu()
 #ifdef __EMSCRIPTEN
 	m_items[idxLM]->setDisabled(true);
 #endif
-	
-	if (!GetPatchManager()->IsGrassSidesTinted())
-		m_items[idxGrass]->setDisabled(true);
 
 	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
 		m_items[idxBiome]->setDisabled(true);

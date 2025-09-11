@@ -165,21 +165,6 @@ public: // static variables
 		* stoneSlab,
 		* stoneSlabHalf,
 		* cloth,
-		* cloth_00,
-		* cloth_10,
-		* cloth_20,
-		* cloth_30,
-		* cloth_40,
-		* cloth_50,
-		* cloth_60,
-		* cloth_70,
-		* cloth_01,
-		* cloth_11,
-		* cloth_21,
-		* cloth_31,
-		* cloth_41,
-		* cloth_51,
-		* cloth_61,
 		* flower,
 		* rose,
 		* mushroom1,
@@ -189,7 +174,7 @@ public: // static variables
 		* leaves,
 		* leaves_carried,
 		* info_reserved6,
-		* emeraldOre, //! actually diamond ore
+		* diamondOre, //! was emerald
 		* redStoneOre,
 		* redStoneOre_lit,
 		* goldOre,
@@ -207,7 +192,7 @@ public: // static variables
 		* invisible_bedrock,
 		* goldBlock,
 		* ironBlock,
-		* emeraldBlock, //! actually diamond block
+		* diamondBlock, //! was emerald
 		* stairs_wood,
 		* stairs_stone,
 		* door_wood,
@@ -221,7 +206,17 @@ public: // static variables
 		* bookshelf,
 		* mossStone,
 		* cryingObsidian,
-		* rocketLauncher;
+		* rocketLauncher,
+		* cactus,
+		* tallGrass,
+		* deadBush,
+		* pumpkin,
+		* pumpkinLantern,
+		* netherrack,
+		* soulSand,
+		* glowstone,
+		* web,
+		* fence;
 
 public:
 	int m_TextureFrame;

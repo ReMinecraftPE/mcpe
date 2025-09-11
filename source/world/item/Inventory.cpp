@@ -24,33 +24,36 @@ void Inventory::prepareCreativeInventory()
 {
 	clear();
 
+	// When we've got a proper creative inventory, use this method for aux tiles/items
+	//for (int i = 0; i < 16; i++) // <-- This is an example for all wool colors in order
+
 	// Original list of items.
 	addCreativeItem(Tile::rock->m_ID);
 	addCreativeItem(Tile::stoneBrick->m_ID);
 	addCreativeItem(Tile::sandStone->m_ID);
 	addCreativeItem(Tile::wood->m_ID);
-	addCreativeItem(Tile::treeTrunk->m_ID);
+	addCreativeItem(Tile::treeTrunk->m_ID, 0);
 	addCreativeItem(Tile::goldBlock->m_ID);
 	addCreativeItem(Tile::ironBlock->m_ID);
-	addCreativeItem(Tile::emeraldBlock->m_ID);
+	addCreativeItem(Tile::diamondBlock->m_ID);
 	addCreativeItem(Tile::redBrick->m_ID);
-	addCreativeItem(Tile::leaves->m_ID);
-	addCreativeItem(Tile::cloth_10->m_ID);
-	addCreativeItem(Tile::cloth_20->m_ID);
-	addCreativeItem(Tile::cloth_30->m_ID);
-	addCreativeItem(Tile::cloth_40->m_ID);
-	addCreativeItem(Tile::cloth_50->m_ID);
-	addCreativeItem(Tile::cloth_60->m_ID);
-	addCreativeItem(Tile::cloth_70->m_ID);
+	addCreativeItem(Tile::leaves->m_ID, 0);
+	addCreativeItem(Tile::cloth->m_ID, 14);
+	addCreativeItem(Tile::cloth->m_ID, 13);
+	addCreativeItem(Tile::cloth->m_ID, 12);
+	addCreativeItem(Tile::cloth->m_ID, 11);
+	addCreativeItem(Tile::cloth->m_ID, 10);
+	addCreativeItem(Tile::cloth->m_ID, 9);
+	addCreativeItem(Tile::cloth->m_ID, 8);
 	addCreativeItem(Tile::glass->m_ID);
-	addCreativeItem(Tile::cloth_01->m_ID);
-	addCreativeItem(Tile::cloth_11->m_ID);
-	addCreativeItem(Tile::cloth_21->m_ID);
-	addCreativeItem(Tile::cloth_31->m_ID);
-	addCreativeItem(Tile::cloth_41->m_ID);
+	addCreativeItem(Tile::cloth->m_ID, 7);
+	addCreativeItem(Tile::cloth->m_ID, 6);
+	addCreativeItem(Tile::cloth->m_ID, 5);
+	addCreativeItem(Tile::cloth->m_ID, 4);
+	addCreativeItem(Tile::cloth->m_ID, 3);
 	addCreativeItem(Tile::stairs_wood->m_ID);
 	addCreativeItem(Tile::stairs_stone->m_ID);
-	addCreativeItem(Tile::stoneSlabHalf->m_ID);
+	addCreativeItem(Tile::stoneSlabHalf->m_ID, 0);
 	addCreativeItem(Tile::sand->m_ID);
 	addCreativeItem(Tile::ladder->m_ID);
 	addCreativeItem(Tile::torch->m_ID);
@@ -66,7 +69,7 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Tile::grass->m_ID);
 	addCreativeItem(Tile::tnt->m_ID);
 	addCreativeItem(Tile::gravel->m_ID);
-	addCreativeItem(Tile::cloth->m_ID);
+	addCreativeItem(Tile::cloth->m_ID, 15);
 	addCreativeItem(Tile::mossStone->m_ID);
 	addCreativeItem(Tile::bookshelf->m_ID);
 	addCreativeItem(Tile::lapisBlock->m_ID);
@@ -83,9 +86,28 @@ void Inventory::prepareCreativeInventory()
 
 	// items
 	addCreativeItem(Item::camera->m_itemID);
-	addCreativeItem(Item::door_wood->m_itemID);
-	addCreativeItem(Item::door_iron->m_itemID);
+	addCreativeItem(Item::woodDoor->m_itemID);
+	addCreativeItem(Item::ironDoor->m_itemID);
 	addCreativeItem(Item::rocket->m_itemID);
+
+	// more stuff
+	addCreativeItem(Tile::cloth->m_ID, 0);
+	addCreativeItem(Tile::cloth->m_ID, 1);
+	addCreativeItem(Tile::cloth->m_ID, 2);
+	addCreativeItem(Tile::stoneSlabHalf->m_ID, 1);
+	addCreativeItem(Tile::stoneSlabHalf->m_ID, 2);
+	addCreativeItem(Tile::stoneSlabHalf->m_ID, 3);
+	addCreativeItem(Tile::leaves->m_ID, 1);
+	addCreativeItem(Tile::treeTrunk->m_ID, 1);
+	addCreativeItem(Tile::treeTrunk->m_ID, 2);
+	addCreativeItem(Tile::cactus->m_ID);
+	addCreativeItem(Tile::pumpkin->m_ID);
+	addCreativeItem(Tile::pumpkinLantern->m_ID);
+	addCreativeItem(Tile::netherrack->m_ID);
+	addCreativeItem(Tile::soulSand->m_ID);
+	addCreativeItem(Tile::glowstone->m_ID);
+	addCreativeItem(Tile::web->m_ID);
+	addCreativeItem(Tile::fence->m_ID);
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;

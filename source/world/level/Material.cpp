@@ -47,7 +47,8 @@ Material
 * Material::clay,
 * Material::vegetable,
 * Material::portal,
-* Material::cake;
+* Material::cake,
+* Material::web;
 
 void Material::initMaterials()
 {
@@ -76,6 +77,7 @@ void Material::initMaterials()
 	vegetable  = new Material();
 	portal     = new Material();
 	cake       = new Material();
+	web        = new Material();
 }
 
 void Material::teardownMaterials()
@@ -105,6 +107,7 @@ void Material::teardownMaterials()
 	if (vegetable)  delete vegetable;
 	if (portal)     delete portal;
 	if (cake)       delete cake;
+	if (web)        delete web;
 }
 
 bool Material::isLiquid() const

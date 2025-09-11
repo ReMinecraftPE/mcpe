@@ -19,9 +19,9 @@ Pig::Pig(Level* pLevel) : Animal(pLevel)
 int Pig::getDeathLoot() const
 {
 	if (isOnFire())
-		return Item::porkChop_cooked->m_itemID;
+		return Item::cookedPorkchop->m_itemID;
 	else
-		return Item::porkChop_raw->m_itemID;
+		return Item::rawPorkchop->m_itemID;
 }
 
 void Pig::setSaddle(bool b)
