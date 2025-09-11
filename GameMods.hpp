@@ -43,6 +43,5 @@
 
 // Toggle Demo Mode
 //#define DEMO
-#define MISSING_SOUND_DATA
 
 #endif
