@@ -17,6 +17,12 @@ MobRenderer::MobRenderer(Model* pModel, float f)
 	m_shadowRadius = f;
 }
 
+MobRenderer::~MobRenderer()
+{
+    SAFE_DELETE(m_pModel);
+    SAFE_DELETE(m_pArmorModel);
+}
+
 void MobRenderer::setArmor(Model* model)
 {
 	m_pArmorModel = model;

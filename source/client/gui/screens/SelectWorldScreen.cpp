@@ -25,6 +25,11 @@ SelectWorldScreen::SelectWorldScreen() :
 	field_130 = 0;
 }
 
+SelectWorldScreen::~SelectWorldScreen()
+{
+    SAFE_DELETE(m_pWorldSelectionList);
+}
+
 void SelectWorldScreen::init()
 {
 	SAFE_DELETE(m_pWorldSelectionList);

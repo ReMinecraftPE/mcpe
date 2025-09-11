@@ -241,7 +241,7 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, const ChunkPos& pos)
 	LevelChunk* pChunk = new LevelChunk(level, pData, pos);
 	pBitStream->Read((char*)pChunk->m_tileData, 16 * 16 * 128 / 2);
 
-	if (m_pLevelData->getStorageVersion() >= 1)
+	if (m_storageVersion >= 1)
 	{
 		pBitStream->Read((char*)pChunk->m_lightSky, 16 * 16 * 128 / 2);
 		pBitStream->Read((char*)pChunk->m_lightBlk, 16 * 16 * 128 / 2);
@@ -309,10 +309,9 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 					}
 				}
 			}
-			else
-			{
-				delete tag; // not what we want, banish it to the shadow realm
-			}
+            
+            tag->deleteChildren();
+            delete tag;
 		}
 
 		if (data)

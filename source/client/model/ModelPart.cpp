@@ -79,9 +79,11 @@ void ModelPart::clear()
 {
 	for (size_t i = 0; i < m_pCubes.size(); i++)
 		delete m_pCubes[i];
-
-	// N.B. does not clear children
 	m_pCubes.clear();
+    
+	for (size_t i = 0; i < m_pChildren.size(); i++)
+		delete m_pChildren[i];
+    m_pChildren.clear();
 }
 
 void ModelPart::compile(float scale)

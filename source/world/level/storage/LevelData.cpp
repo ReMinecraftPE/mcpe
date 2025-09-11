@@ -109,7 +109,11 @@ CompoundTag LevelData::createTag() const
 	CompoundTag* playerTag = nullptr;
 
 	if (m_playerTag)
+    {
 		playerTag = m_playerTag->copy();
+        // Don't want to accidentally de-allocate the current playerTag
+        playerTag->leak();
+    }
 
 	writeTagData(levelTag, playerTag);
 
@@ -153,6 +157,8 @@ void LevelData::loadTagData(CompoundTag& tag)
     if (playerTag)
     {
         setPlayerTag(playerTag);
+        // "Transfer ownership" of tag contents to playerTag copy
+        playerTag->leak();
     }
 }
 
