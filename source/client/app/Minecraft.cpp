@@ -120,10 +120,8 @@ Minecraft::~Minecraft()
 	if (m_pLevel)
 	{
 		LevelStorage* pStor = m_pLevel->getLevelStorage();
-		if (pStor)
-			delete pStor;
-		if (m_pLevel)
-			delete m_pLevel;
+		SAFE_DELETE(pStor);
+		delete m_pLevel;
 	}
     
 	SAFE_DELETE(m_pUser);
