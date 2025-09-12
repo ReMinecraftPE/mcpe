@@ -108,7 +108,7 @@ void xglInit();
 bool xglInitted();
 #endif
 
-#if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32)
+#if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32) && !defined(__DREAMCAST__)
 
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData
