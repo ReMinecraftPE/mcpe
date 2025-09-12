@@ -8,12 +8,16 @@
  *
  */
 
-#if   defined(_WIN32)
+#if   (defined(_WIN32))
 #include <conio.h> /* getche() */
 
 #else
+#if (!defined(__DREAMCAST__))
 #include <termios.h>
 #include <stdio.h>
 #include <unistd.h>
+#else
+#define NO_ONLINE
+#endif
 char getche();
 #endif 

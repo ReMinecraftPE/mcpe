@@ -25,11 +25,15 @@ using namespace RakNet;
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <errno.h>  // error numbers
-#if !defined(ANDROID)
+#if (!defined(ANDROID) && !defined(__DREAMCAST__))
 #include <ifaddrs.h>
 #endif
 #include <netinet/in.h>
+#if !defined(__DREAMCAST__)
 #include <net/if.h>
+#else
+#define IP_HDRINCL 3
+#endif
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
