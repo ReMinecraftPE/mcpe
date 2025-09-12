@@ -973,5 +973,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityFactory.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Web.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
