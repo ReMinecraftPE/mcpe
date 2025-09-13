@@ -127,9 +127,8 @@ bool TileRenderer::canRender(int renderShape)
 void TileRenderer::renderEast(Tile* tile, const Vec3& pos, int texture)
 {
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->setShape(0.0625, 0, 0, 0.9375, 1, 1);
-	}
+
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
 	if (m_textureOverride >= 0)
@@ -189,18 +188,16 @@ void TileRenderer::renderEast(Tile* tile, const Vec3& pos, int texture)
 	t.vertexUV(aabb.max.x + pos.x, aabb.min.y + pos.y, aabb.min.z + pos.z, texU_r, texV_d);
 	t.vertexUV(aabb.max.x + pos.x, aabb.max.y + pos.y, aabb.min.z + pos.z, texU_r, texV_u);
 	t.vertexUV(aabb.max.x + pos.x, aabb.max.y + pos.y, aabb.max.z + pos.z, texU_l, texV_u);
+
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->updateShape(m_pLevelSource, pos);
-	}
 }
 
 void TileRenderer::renderWest(Tile* tile, const Vec3& pos, int texture)
 {
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->setShape(0.0625, 0, 0, 0.9375, 1, 1);
-	}
+
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
 	if (m_textureOverride >= 0)
@@ -260,18 +257,16 @@ void TileRenderer::renderWest(Tile* tile, const Vec3& pos, int texture)
 	t.vertexUV(aabb.min.x + pos.x, aabb.max.y + pos.y, aabb.min.z + pos.z, texU_l, texV_u);
 	t.vertexUV(aabb.min.x + pos.x, aabb.min.y + pos.y, aabb.min.z + pos.z, texU_l, texV_d);
 	t.vertexUV(aabb.min.x + pos.x, aabb.min.y + pos.y, aabb.max.z + pos.z, texU_r, texV_d);
+
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->updateShape(m_pLevelSource, pos);
-	}
 }
 
 void TileRenderer::renderSouth(Tile* tile, const Vec3& pos, int texture)
 {
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->setShape(0, 0, 0.0625, 1, 1, 0.9375);
-	}
+
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
 	if (m_textureOverride >= 0)
@@ -331,18 +326,16 @@ void TileRenderer::renderSouth(Tile* tile, const Vec3& pos, int texture)
 	t.vertexUV(aabb.min.x + pos.x, aabb.min.y + pos.y, aabb.max.z + pos.z, texU_l, texV_d);
 	t.vertexUV(aabb.max.x + pos.x, aabb.min.y + pos.y, aabb.max.z + pos.z, texU_r, texV_d);
 	t.vertexUV(aabb.max.x + pos.x, aabb.max.y + pos.y, aabb.max.z + pos.z, texU_r, texV_u);
+
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->updateShape(m_pLevelSource, pos);
-	}
 }
 
 void TileRenderer::renderNorth(Tile* tile, const Vec3& pos, int texture)
 {
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->setShape(0, 0, 0.0625, 1, 1, 0.9375);
-	}
+
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
 	if (m_textureOverride >= 0)
@@ -402,18 +395,16 @@ void TileRenderer::renderNorth(Tile* tile, const Vec3& pos, int texture)
 	t.vertexUV(aabb.max.x + pos.x, aabb.max.y + pos.y, aabb.min.z + pos.z, texU_l, texV_u);
 	t.vertexUV(aabb.max.x + pos.x, aabb.min.y + pos.y, aabb.min.z + pos.z, texU_l, texV_d);
 	t.vertexUV(aabb.min.x + pos.x, aabb.min.y + pos.y, aabb.min.z + pos.z, texU_r, texV_d);
+
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->updateShape(m_pLevelSource, pos);
-	}
 }
 
 void TileRenderer::renderFaceDown(Tile* tile, const Vec3& pos, int texture)
 {
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->setShape(0, 0, 0, 1, 1, 1);
-	}
+
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
 	if (m_textureOverride >= 0)
@@ -467,18 +458,16 @@ void TileRenderer::renderFaceDown(Tile* tile, const Vec3& pos, int texture)
 	t.vertexUV(aabb.max.x + pos.x, aabb.max.y + pos.y, aabb.min.z + pos.z, texU_2, texV_1);
 	t.vertexUV(aabb.min.x + pos.x, aabb.max.y + pos.y, aabb.min.z + pos.z, texU_1, texV_1);
 	t.vertexUV(aabb.min.x + pos.x, aabb.max.y + pos.y, aabb.max.z + pos.z, texU_1, texV_2);
+
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->updateShape(m_pLevelSource, pos);
-	}
 }
 
 void TileRenderer::renderFaceUp(Tile* tile, const Vec3& pos, int texture)
 {
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->setShape(0, 0, 0, 1, 1, 1);
-	}
+	
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
 	if (m_textureOverride >= 0)
@@ -532,10 +521,9 @@ void TileRenderer::renderFaceUp(Tile* tile, const Vec3& pos, int texture)
 	t.vertexUV(aabb.min.x + pos.x, aabb.min.y + pos.y, aabb.min.z + pos.z, texU_1, texV_1);
 	t.vertexUV(aabb.max.x + pos.x, aabb.min.y + pos.y, aabb.min.z + pos.z, texU_2, texV_1);
 	t.vertexUV(aabb.max.x + pos.x, aabb.min.y + pos.y, aabb.max.z + pos.z, texU_2, texV_2);
+
 	if (tile->getRenderShape() == SHAPE_CACTUS)
-	{
 		tile->updateShape(m_pLevelSource, pos);
-	}
 }
 
 void TileRenderer::tesselateCrossTexture(Tile* tile, int data, const Vec3& pos)
@@ -1006,35 +994,35 @@ bool TileRenderer::tesselateFenceInWorld(Tile* tile, const TilePos& pos)
 	bool bRenderedAnything = tesselateBlockInWorld(tile, pos);
 
 
-	bool var10 = m_pLevelSource->getTile(pos.west()) == tile->m_ID;
-	bool var11 = m_pLevelSource->getTile(pos.east()) == tile->m_ID;
-	bool var12 = m_pLevelSource->getTile(pos.north()) == tile->m_ID;
-	bool var13 = m_pLevelSource->getTile(pos.south()) == tile->m_ID;
+	bool tileWest = m_pLevelSource->getTile(pos.west()) == tile->m_ID;
+	bool tileEast = m_pLevelSource->getTile(pos.east()) == tile->m_ID;
+	bool tileNorth = m_pLevelSource->getTile(pos.north()) == tile->m_ID;
+	bool tileSouth = m_pLevelSource->getTile(pos.south()) == tile->m_ID;
 
-	bool var8 = var10 || var11;
-	bool var9 = var12 || var13;
+	bool connectsHorizontally = tileWest || tileEast;
+	bool connectsVertically = tileNorth || tileSouth;
 
-	if (!var8 && !var9) {
-		var8 = true;
+	if (!connectsHorizontally && !connectsVertically) {
+		connectsHorizontally = true;
 	}
 
 	float var6 = 7.0F / 16.0F;
 	float var7 = 9.0F / 16.0F;
 	float var14 = 12.0F / 16.0F;
 	float var15 = 15.0F / 16.0F;
-	float var16 = var10 ? 0.0F : var6;
-	float var17 = var11 ? 1.0F : var7;
-	float var18 = var12 ? 0.0F : var6;
-	float var19 = var13 ? 1.0F : var7;
+	float var16 = tileWest ? 0.0F : var6;
+	float var17 = tileEast ? 1.0F : var7;
+	float var18 = tileNorth ? 0.0F : var6;
+	float var19 = tileSouth ? 1.0F : var7;
 
-	if (var8)
+	if (connectsHorizontally)
 	{
 		tile->setShape(var16, var14, var6, var17, var15, var7);
 		if (tesselateBlockInWorld(tile, pos)) bRenderedAnything = true;
 
 	}
 
-	if (var9)
+	if (connectsVertically)
 	{
 		tile->setShape(var6, var14, var18, var7, var15, var19);
 		if (tesselateBlockInWorld(tile, pos)) bRenderedAnything = true;
@@ -1043,13 +1031,13 @@ bool TileRenderer::tesselateFenceInWorld(Tile* tile, const TilePos& pos)
 	var14 = 6.0F / 16.0F;
 	var15 = 9.0F / 16.0F;
 
-	if (var8)
+	if (connectsHorizontally)
 	{
 		tile->setShape(var16, var14, var6, var17, var15, var7);
 		if (tesselateBlockInWorld(tile, pos)) bRenderedAnything = true;
 	}
 
-	if (var9)
+	if (connectsVertically)
 	{
 		tile->setShape(var6, var14, var18, var7, var15, var19);
 		if (tesselateBlockInWorld(tile, pos)) bRenderedAnything = true;

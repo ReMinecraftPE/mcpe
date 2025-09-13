@@ -56,16 +56,24 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	glDisable(GL_RESCALE_NORMAL);
 }
 
-void HumanoidMobRenderer::render(Entity* entity, float x, float y, float z, float unused, float f)
+void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, float f2)
 {
-	if (entity->isPlayer())
+	if (pEntity->isPlayer())
 	{
-		Player* player = (Player*)entity;
+		Player* player = (Player*)pEntity;
 		auto item = player->getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
 	}
-	if (entity->isSneaking()) y -= 0.125;
-	MobRenderer::render(entity, x, y, z, unused, f);
+	if (pEntity->isSneaking())
+	{
+		Vec3 pos2 = pos;
+		pos2.y -= 0.125f;
+		MobRenderer::render(pEntity, pos2, f1, f2);
+	}
+	else
+	{
+		MobRenderer::render(pEntity, pos, f1, f2);
+	}
 }
 
 void HumanoidMobRenderer::onGraphicsReset()
