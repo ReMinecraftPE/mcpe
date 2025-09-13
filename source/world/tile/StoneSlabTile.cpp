@@ -9,6 +9,8 @@
 #include "StoneSlabTile.hpp"
 #include "world/level/Level.hpp"
 
+const char* StoneSlabTile::types[4] = { "stone", "sand", "wood", "cobble" };
+
 StoneSlabTile::StoneSlabTile(int id, bool full) : Tile(id, TEXTURE_STONE_SLAB_TOP, Material::stone)
 {
 	m_bFull = full;

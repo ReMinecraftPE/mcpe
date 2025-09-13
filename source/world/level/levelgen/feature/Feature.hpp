@@ -93,3 +93,28 @@ public:
 	bool place(Level*, Random*, const TilePos& pos) override;
 };
 
+class VegetationFeature : public Feature
+{
+public:
+	VegetationFeature(int id, int data, int count = 128);
+	bool place(Level*, Random*, const TilePos& pos) override;
+
+private:
+	int m_ID;
+	int m_data;
+	int m_count;
+};
+
+class CactusFeature : public Feature
+{
+public:
+	bool place(Level*, Random*, const TilePos& pos) override;
+};
+
+class PumpkinFeature : public Feature
+{
+public:
+	bool place(Level*, Random*, const TilePos& pos) override;
+};
+
+

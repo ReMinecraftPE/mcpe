@@ -195,11 +195,14 @@ void Player::aiStep()
 
 ItemInstance* Player::getCarriedItem()
 {
-	ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
+	// This only gets the first row slot
+	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
 	if (ItemInstance::isNull(item))
 		return nullptr;
 
-	return item;
+	return item;*/
+
+	return m_pInventory->getSelected();
 }
 
 void Player::updateAi()

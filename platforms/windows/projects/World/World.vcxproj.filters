@@ -128,7 +128,13 @@
     <ClCompile Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.cpp">
       <Filter>Source Files\GameMode</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\AuxTileItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\item\CameraItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ClothItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\item\DoorItem.cpp">
@@ -141,6 +147,9 @@
       <Filter>Source Files\Item</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\item\ItemInstance.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\SlabItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\item\TileItem.cpp">
@@ -197,6 +206,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\BirchFeature.cpp">
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\CactusFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ClayFeature.cpp">
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>
@@ -218,6 +230,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\PineFeature.cpp">
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\PumpkinFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\ReedsFeature.cpp">
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>
@@ -228,6 +243,9 @@
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\TreeFeature.cpp">
+      <Filter>Source Files\Level\LevelGen\Feature</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\feature\VegetationFeature.cpp">
       <Filter>Source Files\Level\LevelGen\Feature</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\synth\ImprovedNoise.cpp">
@@ -314,10 +332,16 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\Bush.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CactusTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\ClayTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\ClothTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\DeadBush.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\DirtTile.cpp">
@@ -329,10 +353,16 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FarmTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\FenceTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\FireTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\GlassTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\GlowstoneTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\GrassTile.cpp">
@@ -374,6 +404,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\OreTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\PumpkinTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
@@ -389,6 +422,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\tile\Sapling.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\SoulSandTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\SpongeTile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
@@ -399,6 +435,9 @@
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\StoneTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\TallGrass.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\Tile.cpp">
@@ -417,6 +456,9 @@
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\TreeTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\Web.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\tile\WireTile.cpp">
@@ -553,7 +595,13 @@
     <ClInclude Include="$(MC_ROOT)\source\world\gamemode\SurvivalMode.hpp">
       <Filter>Header Files\GameMode</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\AuxTileItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\CameraItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ClothItem.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\DoorItem.hpp">
@@ -566,6 +614,9 @@
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\ItemInstance.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\SlabItem.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\TileItem.hpp">
@@ -691,10 +742,16 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\Bush.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\CactusTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\ClayTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\ClothTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\DeadBush.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\DirtTile.hpp">
@@ -706,10 +763,16 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\FarmTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\FenceTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\FireTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\GlassTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\GlowstoneTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\GrassTile.hpp">
@@ -751,6 +814,9 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\OreTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\PumpkinTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\RedStoneOreTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
@@ -766,6 +832,9 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\Sapling.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\SoulSandTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\SpongeTile.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
@@ -776,6 +845,9 @@
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\StoneTile.hpp">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\TallGrass.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\Tile.hpp">
@@ -900,6 +972,9 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityFactory.hpp">
       <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\Web.hpp">
+      <Filter>Header Files\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

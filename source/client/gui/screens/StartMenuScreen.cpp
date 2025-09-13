@@ -781,11 +781,6 @@ Tile* TitleTile::getTileFromChar(char c)
 // NOTE: Using the tile enum instead of Tile::tileName->id, may want to.. not?
 static const int _tileBlockList[] = {
 	TILE_BOOKSHELF,
-	TILE_CLOTH, // TODO: fix these? There's way too many black wool tiles
-	TILE_CLOTH_00,
-	TILE_CLOTH_01,
-	TILE_CLOTH_10,
-	TILE_CLOTH_41,
 	TILE_STAIRS_WOOD,
 	TILE_STAIRS_STONE,
 	TILE_TOPSNOW,
@@ -793,6 +788,8 @@ static const int _tileBlockList[] = {
 	TILE_INFO_UPDATEGAME1,
 	TILE_INFO_UPDATEGAME2,
 	TILE_STONESLAB_HALF,
+	TILE_CACTUS,
+	TILE_FENCE,
 };
 static const int _tileBlockListSize = sizeof _tileBlockList / sizeof(int);
 

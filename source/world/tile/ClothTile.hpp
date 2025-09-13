@@ -13,10 +13,10 @@
 class ClothTile : public Tile
 {
 public:
-	ClothTile(int id, int type);
-	int getTexture(Facing::Name face) const override;
+	ClothTile(int id);
 	int getTexture(Facing::Name face, int data) const override;
 	int getSpawnResourcesAuxValue(int val) const override;
-
-	uint8_t field_6C;
+	static int getColorFromData(int var0) {
+		return ~var0 & 15;
+	}
 };

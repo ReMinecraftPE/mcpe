@@ -26,4 +26,6 @@ public:
 	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
 
 	bool m_bFull;
+
+	static const char* types[4];
 };

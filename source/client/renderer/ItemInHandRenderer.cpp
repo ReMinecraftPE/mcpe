@@ -314,9 +314,18 @@ void ItemInHandRenderer::tick()
 {
 	m_oHeight = m_height;
 
-	int itemID = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItemId();
+	ItemInstance* item = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItem();
 
-	bool bSameItem = itemID == m_selectedItem.m_itemID;
+	bool bSameItem = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot == m_lastSlot && ItemInstance::matches(&m_selectedItem, item);
+
+	if (ItemInstance::isNull(item) && ItemInstance::isNull(&m_selectedItem))
+		bSameItem = true;
+
+	if (!ItemInstance::isNull(item) && !ItemInstance::isNull(&m_selectedItem) && item != &m_selectedItem && item->m_itemID == m_selectedItem.m_itemID && item->getAuxValue() == m_selectedItem.getAuxValue())
+	{
+		bSameItem = true;
+		m_selectedItem = *item;
+	}
 
 	float b = bSameItem ? 1.0f : 0.0f;
 
@@ -324,12 +333,19 @@ void ItemInHandRenderer::tick()
 	if (a < -0.4f)
 		a = -0.4f;
 	if (a >= 0.4f)
-		a  = 0.4f;
+		a = 0.4f;
 
 	m_height += a;
 
 	if (m_height < 0.1f)
-		m_selectedItem.m_itemID = itemID;
+	{
+		if (ItemInstance::isNull(item))
+			m_selectedItem.m_itemID = 0;
+		else
+			m_selectedItem = *item;
+
+		m_lastSlot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
+	}
 }
 
 void ItemInHandRenderer::turn(const Vec2& rot)
