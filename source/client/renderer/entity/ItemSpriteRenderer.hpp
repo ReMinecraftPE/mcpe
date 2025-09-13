@@ -6,7 +6,7 @@ class ItemSpriteRenderer : public EntityRenderer
 {
 public:
 	ItemSpriteRenderer(int sprite);
-	void render(Entity*, float x, float y, float z, float a, float b) override;
+	void render(Entity* entity, const Vec3& pos, float rot, float a) override;
 
 public:
 	int m_sprite;

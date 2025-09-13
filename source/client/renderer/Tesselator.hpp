@@ -12,6 +12,7 @@
 #include <map>
 #include "thirdparty/GL/GL.hpp"
 #include "RenderChunk.hpp"
+#include "world/phys/Vec3.hpp"
 
 #define GET_RED(c)   (uint8_t(((c) >>  0) & 0xFF))
 #define GET_GREEN(c) (uint8_t(((c) >>  8) & 0xFF))
@@ -53,6 +54,7 @@ public:
 	~Tesselator();
 
 	void addOffset(float x, float y, float z);
+	void  addOffset(const Vec3& pos) { addOffset(pos.x, pos.y, pos.z); }
 	void begin();
 	void begin(GLenum mode);
 	void clear();
@@ -68,11 +70,15 @@ public:
 	void init();
 	void noColor();
 	void normal(float, float, float);
+	void normal(const Vec3& pos) { normal(pos.x, pos.y, pos.z); }
 	void offset(float, float, float);
+	void offset(const Vec3& pos) { offset(pos.x, pos.y, pos.z); }
 	void setAccessMode(int mode); // sets m_DrawArraysMode
 	void tex(float u, float v);
 	void vertex(float x, float y, float z);
+	void vertex(const Vec3& pos) { vertex(pos.x, pos.y, pos.z); }
 	void vertexUV(float x, float y, float z, float u, float v);
+	void vertexUV(const Vec3& pos, float u, float v) { vertexUV(pos.x, pos.y, pos.z, u, v); }
 	void voidBeginAndEndCalls(bool b);
 
 	RenderChunk end(int);

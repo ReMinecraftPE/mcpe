@@ -16,12 +16,12 @@ FallingTileRenderer::FallingTileRenderer()
 	m_shadowRadius = 0.5f;
 }
 
-void FallingTileRenderer::render(Entity* entity, float x, float y, float z, float a6, float a7)
+void FallingTileRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
-	FallingTile* fallingTile = (FallingTile*)entity;
+	FallingTile* tile = (FallingTile*)entity;
 
 	glPushMatrix();
-	glTranslatef(x, y, z);
+	glTranslatef(pos.x, pos.y, pos.z);
 
 	bindTexture(C_TERRAIN_NAME);
 
@@ -35,7 +35,7 @@ void FallingTileRenderer::render(Entity* entity, float x, float y, float z, floa
 #define ARGPATCH
 #endif
 	
-	m_tileRenderer.renderTile(Tile::tiles[fallingTile->m_id], 0 ARGPATCH);
+	m_tileRenderer.renderTile(Tile::tiles[tile->m_id], 0 ARGPATCH);
 
 	glPopMatrix();
 

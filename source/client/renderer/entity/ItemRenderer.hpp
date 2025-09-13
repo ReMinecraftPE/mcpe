@@ -17,7 +17,7 @@ class ItemRenderer : public EntityRenderer
 public:
 	ItemRenderer();
 
-	void render(Entity*, float, float, float, float, float) override;
+	void render(Entity* entity, const Vec3& pos, float rot, float a) override;
 	void blitRect(Tesselator&, int, int, int, int, int);
 
 	static void blit(int, int, int, int, int, int);

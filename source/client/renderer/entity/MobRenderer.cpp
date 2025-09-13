@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <sstream>
+
 #include "MobRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
 #include "client/app/Minecraft.hpp"
@@ -62,21 +64,21 @@ void MobRenderer::scale(Mob*, float)
 
 }
 
-void MobRenderer::setupPosition(Entity* entity, float x, float y, float z)
+void MobRenderer::setupPosition(Entity* entity, const Vec3& pos)
 {
 	// @HACK: I eye-balled a corrective offset of 1/13, since I still can't figure out why all mobs are floating - Brent
 	// This was due to "0.059375f" being used for scale instead of "0.0625f"
-	glTranslatef(x, y, z);
+	glTranslatef(pos.x, pos.y, pos.z);
 }
 
-void MobRenderer::setupRotations(Entity* entity, float x, float y, float z)
+void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, float a)
 {
-	glRotatef(180.0f - y, 0.0f, 1.0f, 0.0f);
+	glRotatef(180.0f - bodyRot, 0.0f, 1.0f, 0.0f);
 
 	Mob* mob = (Mob*)entity;
 	if (mob->m_deathTime > 0)
 	{
-		float t = Mth::sqrt((float(mob->m_deathTime) + z - 1.0f) / 20.0f * 1.6f);
+		float t = Mth::sqrt((float(mob->m_deathTime) + a - 1.0f) / 20.0f * 1.6f);
 		if (t > 1.0f)
 			t = 1.0f;
 
@@ -84,7 +86,7 @@ void MobRenderer::setupRotations(Entity* entity, float x, float y, float z)
 	}
 }
 
-void MobRenderer::render(Entity* entity, float x, float y, float z, float unused, float f)
+void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 {
 	Mob* pMob = (Mob*)entity;
 
@@ -106,7 +108,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	float fBob   = getBob(pMob, f);
 	float fSmth  = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
 
-	setupPosition(pMob, x, y - pMob->m_heightOffset, z);
+	setupPosition(pMob, Vec3(pos.x, pos.y - pMob->m_heightOffset, pos.z));
 	setupRotations(pMob, fBob, fSmth, f);
 
 	float fScale = 0.0625f; // the scale variable according to b1.2_02
@@ -194,23 +196,32 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 	
 	glEnable(GL_CULL_FACE);
 	glPopMatrix();
-	renderName(pMob, x, y, z);
+	renderName(pMob, pos);
 }
 
-void MobRenderer::renderName(Mob* mob, float x, float y, float z)
+void MobRenderer::renderName(Mob* mob, const Vec3& pos)
 {
-	if (!mob->isPlayer())
-		return;
+	if (mob->isPlayer())
+	{
+		Player* player = (Player*)mob;
+		if (player == m_pDispatcher->m_pMinecraft->m_pLocalPlayer)
+			return;
 
-	Player* player = (Player*)mob;
-	if (player == m_pDispatcher->m_pMinecraft->m_pLocalPlayer)
-		return;
-
-	// @TODO: don't know why but I have to add this correction. look into it and fix it!
-	renderNameTag(mob, player->m_name, x, y - 1.5f, z, mob->isSneaking() ? 32 : 64);
+		// @TODO: don't know why but I have to add this correction. look into it and fix it!
+		renderNameTag(mob, player->m_name, Vec3(pos.x, pos.y - 1.5f, pos.z), mob->isSneaking() ? 32 : 64);
+	}
+	else
+	{
+		if (m_pDispatcher->m_pOptions->m_bDebugText)
+		{
+			std::stringstream ss;
+			ss << mob->m_EntityID;
+			renderNameTag(mob, ss.str(), pos, 64);
+		}
+	}
 }
 
-void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float y, float z, int a)
+void MobRenderer::renderNameTag(Mob* mob, const std::string& str, const Vec3& pos, int a)
 {
 	if (mob->distanceToSqr(m_pDispatcher->m_pMob) > float(a * a))
 		return;
@@ -218,7 +229,7 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float
 	Font* font = getFont();
 
 	glPushMatrix();
-	glTranslatef(x + 0.0f, y + 2.3f, z);
+	glTranslatef(pos.x + 0.0f, pos.y + 2.3f, pos.z);
 #ifndef __EMSCRIPTEN__
 	glNormal3f(0.0f, 1.0f, 0.0f);
 #endif
