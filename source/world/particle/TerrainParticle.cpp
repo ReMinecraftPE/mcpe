@@ -30,9 +30,15 @@ TerrainParticle::TerrainParticle(Level* level, const Vec3& pos, const Vec3& dir,
 	_init(tile);
 }
 
-TerrainParticle* TerrainParticle::init(const TilePos& tilePos)
+TerrainParticle* TerrainParticle::init(const TilePos& tilePos, Facing::Name face)
 {
-	if (m_pTile == Tile::grass)
+#ifndef ENH_FACED_TERRAIN_PARTICLES
+	face = Facing::DOWN;
+#endif
+
+	field_DC = m_pTile->getTexture(m_pLevel, tilePos, face);
+
+	if (m_pTile == Tile::grass && face != Facing::UP)
 		return this;
 
 	int color = m_pTile->getColor(m_pLevel, tilePos);
