@@ -788,7 +788,8 @@ static const int _tileBlockList[] = {
 	TILE_INFO_UPDATEGAME1,
 	TILE_INFO_UPDATEGAME2,
 	TILE_STONESLAB_HALF,
-	TILE_FENCE
+	TILE_CACTUS,
+	TILE_FENCE,
 };
 static const int _tileBlockListSize = sizeof _tileBlockList / sizeof(int);
 

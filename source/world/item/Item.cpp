@@ -271,25 +271,25 @@ void Item::initItems()
 		->setIcon(4, 2)
 		->setDescriptionId("leggingsGold");
 
-	Item::boots_gold = NEW_ITEM(/*ArmorItem, */ITEM_BOOTS_EMERALD/*, ArmorTier::GOLD, FEET*/)
+	Item::boots_gold = NEW_ITEM(/*ArmorItem, */ITEM_BOOTS_GOLD/*, ArmorTier::GOLD, FEET*/)
 		->setIcon(4, 3)
 		->setDescriptionId("bootsGold");
 
-	Item::helmet_diamond = NEW_ITEM(/*ArmorItem, */ITEM_HELMET_EMERALD,/*, ArmorTier::EMERALD, HEAD*/)
+	Item::helmet_diamond = NEW_ITEM(/*ArmorItem, */ITEM_HELMET_EMERALD,/*, ArmorTier::DIAMOND, HEAD*/)
 		->setIcon(3, 0)
-		->setDescriptionId("helmetEmerald");
+		->setDescriptionId("helmetDiamond");
 
-	Item::chestplate_diamond = NEW_ITEM(/*ArmorItem, */ITEM_CHESTPLATE_EMERALD/*, ArmorTier::EMERALD, CHEST*/)
+	Item::chestplate_diamond = NEW_ITEM(/*ArmorItem, */ITEM_CHESTPLATE_EMERALD/*, ArmorTier::DIAMOND, CHEST*/)
 		->setIcon(3, 1)
-		->setDescriptionId("chestplateEmerald");
+		->setDescriptionId("chestplateDiamond");
 
-	Item::leggings_diamond = NEW_ITEM(/*ArmorItem, */ITEM_LEGGINGS_EMERALD/*, ArmorTier::EMERALD, LEGS*/)
+	Item::leggings_diamond = NEW_ITEM(/*ArmorItem, */ITEM_LEGGINGS_EMERALD/*, ArmorTier::DIAMOND, LEGS*/)
 		->setIcon(3, 2)
-		->setDescriptionId("leggingsEmerald");
+		->setDescriptionId("leggingsDiamond");
 
-	Item::boots_diamond = NEW_ITEM(/*ArmorItem, */ITEM_BOOTS_EMERALD/*, ArmorTier::EMERALD, FEET*/)
+	Item::boots_diamond = NEW_ITEM(/*ArmorItem, */ITEM_BOOTS_EMERALD/*, ArmorTier::DIAMOND, FEET*/)
 		->setIcon(3, 3)
-		->setDescriptionId("bootsEmerald");
+		->setDescriptionId("bootsDiamond");
 
 	Item::flintAndSteel = NEW_ITEM(/*FlintAndSteelItem, */ITEM_FLINT_AND_STEEL)
 		->setIcon(5, 0)
@@ -442,10 +442,6 @@ void Item::initItems()
 	Item::clay = NEW_ITEM(ITEM_CLAY)
 		->setIcon(9, 3)
 		->setDescriptionId("clay");
-
-	Item::reeds = NEW_X_ITEM(TilePlanterItem, ITEM_REEDS, TILE_REEDS)
-		->setIcon(11, 1)
-		->setDescriptionId("reeds");
 
 	Item::paper = NEW_ITEM(ITEM_PAPER)
 		->setIcon(10, 3)
