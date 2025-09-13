@@ -7,5 +7,5 @@ class DeadBush : public Bush
 public:
 	DeadBush(int id, int texture);
 	int getResource(int, Random*) const;
-	bool isValidGrowTile(const TileID tile) const;
+	bool mayPlace(const Level*, const TilePos& pos) const;
 };

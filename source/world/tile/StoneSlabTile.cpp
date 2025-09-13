@@ -78,7 +78,7 @@ int StoneSlabTile::getTexture(Facing::Name face, int data) const
 
 		// stone brick slab
 		case 3:
-			return TEXTURE_COBBLESTONE;
+			return TEXTURE_STONEBRICK;
 
 		// unknown slab type
 		default:

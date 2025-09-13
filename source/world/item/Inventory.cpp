@@ -35,7 +35,7 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Tile::treeTrunk->m_ID, 0);
 	addCreativeItem(Tile::goldBlock->m_ID);
 	addCreativeItem(Tile::ironBlock->m_ID);
-	addCreativeItem(Tile::diamondBlock->m_ID);
+	addCreativeItem(Tile::emeraldBlock->m_ID);
 	addCreativeItem(Tile::redBrick->m_ID);
 	addCreativeItem(Tile::leaves->m_ID, 0);
 	addCreativeItem(Tile::cloth->m_ID, 14);
@@ -86,8 +86,8 @@ void Inventory::prepareCreativeInventory()
 
 	// items
 	addCreativeItem(Item::camera->m_itemID);
-	addCreativeItem(Item::woodDoor->m_itemID);
-	addCreativeItem(Item::ironDoor->m_itemID);
+	addCreativeItem(Item::door_wood->m_itemID);
+	addCreativeItem(Item::door_iron->m_itemID);
 	addCreativeItem(Item::rocket->m_itemID);
 
 	// more stuff
@@ -97,10 +97,10 @@ void Inventory::prepareCreativeInventory()
 	addCreativeItem(Tile::stoneSlabHalf->m_ID, 1);
 	addCreativeItem(Tile::stoneSlabHalf->m_ID, 2);
 	addCreativeItem(Tile::stoneSlabHalf->m_ID, 3);
-	addCreativeItem(Tile::leaves->m_ID, 1);
 	addCreativeItem(Tile::treeTrunk->m_ID, 1);
 	addCreativeItem(Tile::treeTrunk->m_ID, 2);
 	addCreativeItem(Tile::cactus->m_ID);
+	addCreativeItem(Tile::deadBush->m_ID);
 	addCreativeItem(Tile::pumpkin->m_ID);
 	addCreativeItem(Tile::pumpkinLantern->m_ID);
 	addCreativeItem(Tile::netherrack->m_ID);

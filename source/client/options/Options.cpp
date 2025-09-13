@@ -121,7 +121,12 @@ void Options::_load()
 		else if (key == "gfx_blockoutlines")
 			m_bBlockOutlines = readBool(value);
 		else if (key == "gfx_fancygrass")
-			m_bFancyGrass = readBool(value);
+		{
+			if (!(GetPatchManager()->IsGrassSidesTinted()))
+				m_bFancyGrass = false;
+			else
+				m_bFancyGrass = readBool(value);
+		}
 		else if (key == "gfx_biomecolors")
 		{
 			if (!GrassColor::isAvailable() && !FoliageColor::isAvailable())

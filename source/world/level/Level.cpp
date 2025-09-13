@@ -717,30 +717,23 @@ AABBVector* Level::getCubes(const Entity* pEntUnused, const AABB& aabb)
 {
 	m_aabbs.clear();
 
-	long lowerX = floor(aabb.min.x);
-	long upperX = floor(aabb.max.x + 1);
-	long lowerY = floor(aabb.min.y);
-	long upperY = floor(aabb.max.y + 1);
-	long lowerZ = floor(aabb.min.z);
-	long upperZ = floor(aabb.max.z + 1);
+    TilePos lower(aabb.min);
+    TilePos upper(aabb.max.x + 1, aabb.max.y + 1, aabb.max.z + 1);
+    TilePos tp;
+    for (tp.x = lower.x; tp.x <= upper.x; tp.x++)
+    {
+        for (tp.z = lower.z; tp.z <= upper.z; tp.z++)
+        {
+            if (!hasChunkAt(tp)) continue;
 
-	for (long x = lowerX; x <= upperX; x++)
-	{
-		for (long z = lowerZ; z <= upperZ; z++)
-		{
-			if (!hasChunkAt(TilePos(x, 64, z))) continue;
-
-			for (long y = lowerY; y <= upperY; y++)
-			{
-				// Obviously this is problematic, but using longs in our for loops rather than
-				// ints helps prevents crashes at extreme distances from 0,0
-				TilePos tp((int)x, (int)y, (int)z);
-				Tile* pTile = Tile::tiles[getTile(tp)];
-				if (pTile)
-					pTile->addAABBs(this, tp, &aabb, m_aabbs);
-			}
-		}
-	}
+            for (tp.y = lower.y - 1; tp.y <= upper.y; tp.y++)
+            {
+                Tile* pTile = Tile::tiles[getTile(tp)];
+                if (pTile)
+                    pTile->addAABBs(this, tp, &aabb, m_aabbs);
+            }
+        }
+    }
 
 	return &m_aabbs;
 }

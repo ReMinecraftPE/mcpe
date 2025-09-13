@@ -644,7 +644,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderNorth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+			renderNorth(tile, pos, TEXTURE_NONE84);
 		}
 	}
 
@@ -663,7 +663,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderSouth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+			renderSouth(tile, pos, TEXTURE_NONE84);
 		}
 	}
 
@@ -682,7 +682,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderWest(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+			renderWest(tile, pos, TEXTURE_NONE84);
 		}
 	}
 
@@ -701,7 +701,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderEast(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+			renderEast(tile, pos, TEXTURE_NONE84);
 		}
 	}
 
@@ -2873,22 +2873,22 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 
 			switch (dir) {
 				case Facing::DOWN:
-					renderFaceUp(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+					renderFaceUp(tile, pos, TEXTURE_NONE84);
 					break;
 				case Facing::UP:
-					renderFaceDown(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+					renderFaceDown(tile, pos, TEXTURE_NONE84);
 					break;
 				case Facing::NORTH:
-					renderNorth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+					renderNorth(tile, pos, TEXTURE_NONE84);
 					break;
 				case Facing::SOUTH:
-					renderSouth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+					renderSouth(tile, pos, TEXTURE_NONE84);
 					break;
 				case Facing::WEST:
-					renderWest(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+					renderWest(tile, pos, TEXTURE_NONE84);
 					break;
 				case Facing::EAST:
-					renderEast(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
+					renderEast(tile, pos, TEXTURE_NONE84);
 					break;
 			}
 		}

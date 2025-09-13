@@ -5,8 +5,10 @@ DeadBush::DeadBush(int id, int texture) : Bush(id, texture)
 {
 }
 
-bool DeadBush::isValidGrowTile(const TileID tile) const
+bool DeadBush::mayPlace(const Level* level, const TilePos& pos) const
 {
+	TileID tile = level->getTile(pos.below());
+
 	return tile == Tile::sand->m_ID;
 }
 

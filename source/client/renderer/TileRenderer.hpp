@@ -118,4 +118,3 @@ private:
 	bool field_B6;
 	bool field_B7;
 };
-

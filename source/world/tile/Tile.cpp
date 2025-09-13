@@ -269,7 +269,7 @@ int Tile::getResourceCount(Random* pRandom) const
 
 int Tile::getSpawnResourcesAuxValue(int x) const
 {
-	return 1;
+	return 0;
 }
 
 void Tile::initTiles()
@@ -293,7 +293,7 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_GRAVEL)
 		->setDescriptionId("dirt");
 
-	Tile::stoneBrick = (new Tile(TILE_COBBLESTONE, TEXTURE_COBBLESTONE, Material::stone))
+	Tile::stoneBrick = (new Tile(TILE_STONEBRICK, TEXTURE_STONEBRICK, Material::stone))
 		->init()
 		->setDestroyTime(2.0f)
 		->setExplodeable(10.0f)
@@ -515,19 +515,19 @@ void Tile::initTiles()
 		->init()
 		->setDescriptionId("stairsWood");
 
-	Tile::diamondOre = (new OreTile(TILE_ORE_DIAMOND, TEXTURE_ORE_DIAMOND))
+	Tile::emeraldOre = (new OreTile(TILE_ORE_EMERALD, TEXTURE_ORE_EMERALD))
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreDiamond");
 
-	Tile::diamondBlock = (new MetalTile(TILE_BLOCK_DIAMOND, TEXTURE_DIAMOND, Material::metal))
+	Tile::emeraldBlock = (new MetalTile(TILE_BLOCK_EMERALD, TEXTURE_EMERALD, Material::metal))
 		->init()
 		->setDestroyTime(5.0f)
 		->setExplodeable(10.0f)
 		->setSoundType(Tile::SOUND_METAL)
-		->setDescriptionId("blockDiamond");
+		->setDescriptionId("blockEmerald");
 
 	Tile::farmland = (new FarmTile(TILE_FARMLAND, Material::dirt))
 		->init()
@@ -674,7 +674,7 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("sponge");
 
-	Tile::cryingObsidian = (new Tile(TILE_OBSIDIAN_CRYING, TEXTURE_NONE127, Material::stone))
+	Tile::cryingObsidian = (new Tile(TILE_OBSIDIAN_CRYING, TEXTURE_OBSIDIAN_CRYING, Material::stone))
 		->init()
 		->setDestroyTime(10.0f)
 		->setExplodeable(2000.0f)
@@ -687,13 +687,13 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("rocketLauncher");
 
-	Tile::tallGrass = (new TallGrass(TILE_TALL_GRASS, TEXTURE_TALL_GRASS))
+	Tile::tallGrass = (new TallGrass(TILE_TALLGRASS, TEXTURE_NONE39))
 		->init()
 		->setSoundType(Tile::SOUND_GRASS)
 		->setDestroyTime(0.0f)
 		->setDescriptionId("tallGrass");
 
-	Tile::deadBush = (new DeadBush(TILE_DEAD_BUSH, TEXTURE_DEAD_BUSH))
+	Tile::deadBush = (new DeadBush(TILE_DEAD_BUSH, TEXTURE_NONE55))
 		->init()
 		->setSoundType(Tile::SOUND_GRASS)
 		->setDestroyTime(0.0f)
@@ -712,7 +712,7 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("litPumpkin");
 	
-	Tile::netherrack = (new Tile(TILE_NETHERRACK, TEXTURE_HELLROCK, Material::stone))
+	Tile::netherrack = (new Tile(TILE_NETHERRACK, TEXTURE_BLOODSTONE, Material::stone))
 		->init()
 		->setDestroyTime(0.4f)
 		->setSoundType(Tile::SOUND_STONE)
@@ -1162,7 +1162,7 @@ Tile
 	*Tile::leaves,
 	*Tile::leaves_carried,
 	*Tile::info_reserved6,
-	*Tile::diamondOre, //! was emerald
+	*Tile::emeraldOre, //! actually diamond ore
 	*Tile::redStoneOre,
 	*Tile::redStoneOre_lit,
 	*Tile::goldOre,
@@ -1180,7 +1180,7 @@ Tile
 	*Tile::invisible_bedrock,
 	*Tile::goldBlock,
 	*Tile::ironBlock,
-	*Tile::diamondBlock, //! was emerald
+	*Tile::emeraldBlock, //! actually diamond block
 	*Tile::stairs_wood,
 	*Tile::stairs_stone,
 	*Tile::door_wood,

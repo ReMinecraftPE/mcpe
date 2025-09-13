@@ -174,7 +174,7 @@ public: // static variables
 		* leaves,
 		* leaves_carried,
 		* info_reserved6,
-		* diamondOre, //! was emerald
+		* emeraldOre, //! actually diamond ore
 		* redStoneOre,
 		* redStoneOre_lit,
 		* goldOre,
@@ -192,7 +192,7 @@ public: // static variables
 		* invisible_bedrock,
 		* goldBlock,
 		* ironBlock,
-		* diamondBlock, //! was emerald
+		* emeraldBlock, //! actually diamond block
 		* stairs_wood,
 		* stairs_stone,
 		* door_wood,

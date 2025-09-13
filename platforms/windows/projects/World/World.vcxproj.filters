@@ -976,5 +976,9 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\Web.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
+=======
+    </ClInclude>
+>>>>>>> Stashed changes
   </ItemGroup>
 </Project>

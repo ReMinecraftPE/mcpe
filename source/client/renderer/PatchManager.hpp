@@ -80,6 +80,7 @@ public:
 	bool IsGrassTinted();
 	int  GetMetalSideYOffset();
 	bool IsGlassSemiTransparent();
+	bool IsGrassSidesTinted();
 
 private:
 	void ReadBool(std::istream& is, bool& b);
@@ -89,6 +90,7 @@ private:
 	bool m_bGrassTinted;
 	bool m_bGlassSemiTransparent;
 	int m_nMetalSideYOffset;
+	bool m_bGrassSidesTinted;
 	std::vector<PatchData> m_patchData;
 };
 

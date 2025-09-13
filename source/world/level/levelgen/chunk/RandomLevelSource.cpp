@@ -432,7 +432,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		TilePos o(m_random.nextInt(16),
 		          m_random.nextInt(16),
 		          m_random.nextInt(16));
-		OreFeature(Tile::diamondOre->m_ID, 7).place(m_pLevel, &m_random, tp + o);
+		OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, tp + o);
 	}
 	for (int i = 0; i < 1; i++)
 	{
