@@ -976,6 +976,5 @@
     <ClInclude Include="$(MC_ROOT)\source\world\tile\Web.hpp">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
-    </ClInclude>
   </ItemGroup>
 </Project>
