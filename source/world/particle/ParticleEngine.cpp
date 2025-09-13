@@ -99,7 +99,7 @@ void ParticleEngine::crack(const TilePos& tilePos, Facing::Name face)
 			break;
 	}
 
-	add((new TerrainParticle(m_pLevel, pos, pTile))->setPower(0.2f)->scale(0.6f));
+	add((new TerrainParticle(m_pLevel, pos, pTile))->init(tilePos, face)->setPower(0.2f)->scale(0.6f));
 }
 
 void ParticleEngine::destroyEffect(const TilePos& pos)

@@ -70,7 +70,7 @@ public:
 
 	void render(Tesselator&, float, float, float, float, float, float) override;
 	int getParticleTexture() override;
-	TerrainParticle* init(const TilePos& tilePos);
+	TerrainParticle* init(const TilePos& tilePos, Facing::Name face = Facing::DOWN);
 
 public:
 	Tile* m_pTile;
