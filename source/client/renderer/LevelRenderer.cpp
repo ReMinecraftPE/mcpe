@@ -821,11 +821,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		float pz = pPlayer->m_posPrev.z + (pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f;
 
 		Tesselator& t = Tesselator::instance;
-<<<<<<< Updated upstream
-		glEnable(GL_ALPHA_TEST); // Fixes for b1.7.3 terrain
-=======
 		//glEnable(GL_ALPHA_TEST); // Fixes for b1.7.3 terrain
->>>>>>> Stashed changes
 		t.begin();
 		t.offset(-px, -py, -pz);
 		t.noColor();
