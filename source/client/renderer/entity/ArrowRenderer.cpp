@@ -9,14 +9,14 @@ ArrowRenderer::~ArrowRenderer()
 {
 }
 
-void ArrowRenderer::render(Entity* ent, float x, float y, float z, float rot, float a)
+void ArrowRenderer::render(Entity* ent, const Vec3& pos, float rot, float a)
 {
     Arrow* arrow = reinterpret_cast<Arrow*>(ent);
 	
     glPushMatrix();
     bindTexture("item/arrows.png");
     
-    glTranslatef(x, y, z);
+    glTranslatef(pos.x, pos.y, pos.z);
     glRotatef(arrow->m_oRot.y + (arrow->m_rot.y - arrow->m_oRot.y) * a - 90.0f, 0.0f, 1.0f, 0.0f);
     glRotatef(arrow->m_oRot.x + (arrow->m_rot.x - arrow->m_oRot.x) * a, 0.0f, 0.0f, 1.0f);
 

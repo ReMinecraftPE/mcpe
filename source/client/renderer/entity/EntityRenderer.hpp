@@ -36,11 +36,11 @@ public:
 	bool bindTexture(const std::string& file, bool isRequired = true);
 	Font* getFont();
 	void init(EntityRenderDispatcher* d);
-	static void render(const AABB&, float, float, float);
+	static void render(const AABB&, const Vec3& pos);
 	static void renderFlat(const AABB&);
 	void postRender(Entity* entity, const Vec3& pos, float rot, float a);
 
-	virtual void render(Entity*, float, float, float, float, float) = 0;
+	virtual void render(Entity* entity, const Vec3& pos, float rot, float a) = 0;
 	virtual void onGraphicsReset();
 
 public:

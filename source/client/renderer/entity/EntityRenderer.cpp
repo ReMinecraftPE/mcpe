@@ -165,14 +165,14 @@ void EntityRenderer::renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePo
 }
 
 
-void EntityRenderer::render(const AABB& aabb, float offX, float offY, float offZ)
+void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 {
 	glDisable(GL_TEXTURE_2D);
 	Tesselator& t = Tesselator::instance;
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	t.begin();
-	//t.vertex(offX, offY, offZ); // Why were we doing this?
-	t.offset(offX, offY, offZ);
+	//t.vertex(pos); // Why were we doing this?
+	t.offset(pos);
 	t.normal(0.0f, 0.0f, -1.0f);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.min.z);
@@ -209,7 +209,7 @@ void EntityRenderer::render(const AABB& aabb, float offX, float offY, float offZ
 	t.vertex(aabb.max.x, aabb.max.y, aabb.max.z);
 	t.vertex(aabb.max.x, aabb.min.y, aabb.max.z);
 	
-	t.offset(0.0f, 0.0f, 0.0f);
+	t.offset(Vec3::ZERO);
 	t.draw(); // t.end() on Java
 	glEnable(GL_TEXTURE_2D);
 }

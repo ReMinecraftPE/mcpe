@@ -15,10 +15,10 @@ RocketRenderer::RocketRenderer() :
 	m_shadowRadius = 0.5f;
 }
 
-void RocketRenderer::render(Entity* entity, float x, float y, float z, float a, float b)
+void RocketRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
 	glPushMatrix();
-	glTranslatef(x, y, z);
+	glTranslatef(pos.x, pos.y, pos.z);
 
 	float brightness = entity->getBrightness(1.0f);
 

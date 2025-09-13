@@ -83,7 +83,7 @@
 	static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
 		GLfloat m[4][4];
 		float sine, cotangent, deltaZ;
-		float radians = fovy / 2.0f * M_PI / 180.0f;
+		float radians = fovy / 2.0f * float(M_PI) / 180.0f;
 
 		deltaZ = zFar - zNear;
 		sine = sin(radians);

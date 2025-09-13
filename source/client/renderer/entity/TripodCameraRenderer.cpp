@@ -26,10 +26,10 @@ float TripodCameraRenderer::getFlashTime(TripodCamera* camera, float f)
 	return 0.125f * (float(camera->field_B90) - f);
 }
 
-void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, float a, float b)
+void TripodCameraRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
 	glPushMatrix();
-	glTranslatef(x, y, z);
+	glTranslatef(pos.x, pos.y, pos.z);
 	m_modelPart.m_rot.x  = 0.017453f * (180.0f + 0.5f * entity->m_rot.y);
 	m_modelPart.m_rot.y = -0.017453f * entity->m_rot.x;
 
@@ -50,7 +50,7 @@ void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, flo
 
 	Entity* pHREntity = m_pDispatcher->m_pMinecraft->m_hitResult.m_pEnt;
 
-	float time = getFlashTime((TripodCamera*)entity, b);
+	float time = getFlashTime((TripodCamera*)entity, a);
 	if (time >= 0.0f)
 	{
 		glColor4f(1.0f, 1.0f, 1.0f, sinf(float(M_PI) * 2.0f * time));

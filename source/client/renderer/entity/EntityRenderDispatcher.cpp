@@ -179,7 +179,7 @@ void EntityRenderDispatcher::render(Entity* entity, const Vec3& pos, float rot, 
 		m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = false;
 #endif
 
-	pRenderer->render(entity, pos.x, pos.y, pos.z, rot, a);
+	pRenderer->render(entity, pos, rot, a);
 	pRenderer->postRender(entity, pos, rot, a);
 }
 

@@ -14,14 +14,14 @@ TntRenderer::TntRenderer()
 	m_shadowRadius = 0.5f;
 }
 
-void TntRenderer::render(Entity* entity, float x, float y, float z, float a6, float a7)
+void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
 	PrimedTnt* tnt = (PrimedTnt*)entity;
 
 	glPushMatrix();
-	glTranslatef(x, y, z);
+	glTranslatef(pos.x, pos.y, pos.z);
 
-	float m = 1.0f + float(tnt->m_fuseTimer) - a7;
+	float m = 1.0f + float(tnt->m_fuseTimer) - a;
 	if (m < 10.0f)
 	{
 		float n = (m / -10.0f) + 1.0f;
@@ -54,7 +54,7 @@ void TntRenderer::render(Entity* entity, float x, float y, float z, float a6, fl
 		glDisable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-		glColor4f(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a7) + 1.0f) / -100.0f + 1.0f) * 0.8f);
+		glColor4f(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
 		m_tileRenderer.renderTile(Tile::tnt, 0 ARGPATCH);
 		glColor4f(1.0f, 1.0, 1.0f, 1.0f);
 		glDisable(GL_BLEND);

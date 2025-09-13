@@ -8,5 +8,5 @@ public:
 	ArrowRenderer();
 	~ArrowRenderer();
 
-	void render(Entity* ent, float x, float y, float z, float rot, float a) override;
+	void render(Entity* ent, const Vec3& pos, float rot, float a) override;
 };
