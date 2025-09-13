@@ -275,21 +275,21 @@ void Item::initItems()
 		->setIcon(4, 3)
 		->setDescriptionId("bootsGold");
 
-	Item::helmet_diamond = NEW_ITEM(/*ArmorItem, */ITEM_HELMET_EMERALD,/*, ArmorTier::DIAMOND, HEAD*/)
+	Item::helmet_diamond = NEW_ITEM(/*ArmorItem, */ITEM_HELMET_EMERALD,/*, ArmorTier::EMERALD, HEAD*/)
 		->setIcon(3, 0)
-		->setDescriptionId("helmetDiamond");
+		->setDescriptionId("helmetEmerald");
 
-	Item::chestplate_diamond = NEW_ITEM(/*ArmorItem, */ITEM_CHESTPLATE_EMERALD/*, ArmorTier::DIAMOND, CHEST*/)
+	Item::chestplate_diamond = NEW_ITEM(/*ArmorItem, */ITEM_CHESTPLATE_EMERALD/*, ArmorTier::EMERALD, CHEST*/)
 		->setIcon(3, 1)
-		->setDescriptionId("chestplateDiamond");
+		->setDescriptionId("chestplateEmerald");
 
-	Item::leggings_diamond = NEW_ITEM(/*ArmorItem, */ITEM_LEGGINGS_EMERALD/*, ArmorTier::DIAMOND, LEGS*/)
+	Item::leggings_diamond = NEW_ITEM(/*ArmorItem, */ITEM_LEGGINGS_EMERALD/*, ArmorTier::EMERALD, LEGS*/)
 		->setIcon(3, 2)
-		->setDescriptionId("leggingsDiamond");
+		->setDescriptionId("leggingsEmerald");
 
-	Item::boots_diamond = NEW_ITEM(/*ArmorItem, */ITEM_BOOTS_EMERALD/*, ArmorTier::DIAMOND, FEET*/)
+	Item::boots_diamond = NEW_ITEM(/*ArmorItem, */ITEM_BOOTS_EMERALD/*, ArmorTier::EMERALD, FEET*/)
 		->setIcon(3, 3)
-		->setDescriptionId("bootsDiamond");
+		->setDescriptionId("bootsEmerald");
 
 	Item::flintAndSteel = NEW_ITEM(/*FlintAndSteelItem, */ITEM_FLINT_AND_STEEL)
 		->setIcon(5, 0)
