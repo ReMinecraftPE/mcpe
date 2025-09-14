@@ -9,6 +9,7 @@
 #include "Tesselator.hpp"
 #include "thirdparty/GL/GL.hpp"
 #include "common/Utils.hpp"
+#include "compat/EndianDefinitions.h"
 
 #include <cstddef>
 
@@ -109,7 +110,11 @@ void Tesselator::color(int r, int g, int b, int a)
 	if (a < 0) a = 0;
 
 	m_bHasColor = true;
-	m_nextVtxColor = a << 24 | b << 16 | g << 8 | r;
+#if MC_ENDIANNESS_BIG
+	m_nextVtxColor = a | (b << 8) | (g << 16) | (r << 24);
+#else // MC_ENDIANNESS_LITTLE
+	m_nextVtxColor = (a << 24) | (b << 16) | (g << 8) | r;
+#endif
 }
 
 void Tesselator::color(int r, int g, int b)
@@ -287,7 +292,11 @@ void Tesselator::normal(float x, float y, float z)
 	int8_t bx = static_cast<int8_t>(x * 128);
 	int8_t by = static_cast<int8_t>(y * 127);
 	int8_t bz = static_cast<int8_t>(z * 127);
+#if MC_ENDIANNESS_BIG
+	m_nextVtxNormal = (bx << 24) | (by << 16) | (bz << 8);
+#else // MC_ENDIANNESS_LITTLE
 	m_nextVtxNormal = (bx << 0) | (by << 8) | (bz << 16);
+#endif
 #endif
 }
 
