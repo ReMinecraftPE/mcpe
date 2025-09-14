@@ -461,7 +461,12 @@ void Minecraft::tickInput()
 			continue;
 
 		if (Mouse::isButtonDown(BUTTON_LEFT))
-			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
+		{
+			// @HACK: on SDL1, we don't recenter the mouse every tick, meaning the user can
+			// unintentionally click the hotbar while swinging their fist
+			if (!platform()->getRecenterMouseEveryTick() && m_pScreen)
+				m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
+		}
 
 		MouseButtonType buttonType = Mouse::getEventButton();
 		bool bPressed = Mouse::getEventButtonState() == true;
