@@ -50,7 +50,7 @@
 		#define GL_GLEXT_PROTOTYPES
 		#include "thirdparty/SDL2/SDL_opengl.h"
 
-		#if (!defined(_WIN32) && !defined(__DREAMCAST__))
+		#if !defined(_WIN32) && SDL_MAJOR_VERSION == 2
 			#include <SDL2/SDL_opengl_glext.h>
 		#endif
 	#else

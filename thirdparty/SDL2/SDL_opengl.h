@@ -1,6 +1,6 @@
 #pragma once
 
-#if (defined(_WIN32) || defined(__DREAMCAST__))
+#if (defined(_WIN32) || SDL_MAJOR_VERSION == 1)
 
 #ifdef _WIN32
 #pragma comment(lib, "SDL2.lib")
