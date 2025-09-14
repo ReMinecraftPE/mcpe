@@ -94,6 +94,7 @@ public:
 private:
 	void _reloadInput();
 	void _levelGenerated();
+	void _initTextures();
 	GameMode* createGameMode(GameType gameType, Level& level);
 
 private:

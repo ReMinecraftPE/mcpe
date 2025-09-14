@@ -231,6 +231,7 @@ void Minecraft::setScreen(Screen* pScreen)
 void Minecraft::onGraphicsReset()
 {
 	m_pTextures->clear();
+	_initTextures();
 	m_pFont->onGraphicsReset();
 
 	if (m_pLevelRenderer)
@@ -706,6 +707,16 @@ void Minecraft::_levelGenerated()
 		m_pNetEventCallback->levelGenerated(m_pLevel);
 }
 
+void Minecraft::_initTextures()
+{
+	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
+	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
+	
+	GetPatchManager()->PatchTiles();	
+}
+
 void Minecraft::tick()
 {
 	if (!m_pScreen)
@@ -850,13 +861,7 @@ void Minecraft::init()
 	m_options->loadControls();
 
 	_reloadInput();
-
-	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
-	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
-
-	GetPatchManager()->PatchTiles();
+	_initTextures();
 
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
 	m_pSoundEngine->init(m_options, platform());
