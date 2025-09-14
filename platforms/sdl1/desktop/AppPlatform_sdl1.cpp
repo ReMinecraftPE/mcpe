@@ -5,11 +5,11 @@
 #include <ctime>
 
 #include "stb_image.h"
-#include "AppPlatform_sdl.hpp"
+#include "AppPlatform_sdl1.hpp"
 #include "common/Utils.hpp"
 
-AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Surface* screen)
-    : AppPlatform_sdl_base(storageDir, screen), m_screen(screen)
+AppPlatform_sdl1::AppPlatform_sdl1(std::string storageDir, SDL_Surface* screen)
+    : AppPlatform_sdl1_base(storageDir, screen), m_screen(screen)
 {
     /* ICON */
     SDL_Surface* icon = loadSurface("icon.bmp");
@@ -20,7 +20,7 @@ AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Surface* screen)
 }
 
 
-void AppPlatform_sdl::ensureDirectoryExists(const char* path)
+void AppPlatform_sdl1::ensureDirectoryExists(const char* path)
 {
     struct stat obj;
     if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode)) {
@@ -37,7 +37,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 }
 
 /* Save */
-void AppPlatform_sdl::saveScreenshot(const std::string& filename, int width, int height)
+void AppPlatform_sdl1::saveScreenshot(const std::string& filename, int width, int height)
 {
     std::string screenshots = _storageDir + "/screenshots";
 
@@ -68,7 +68,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int width, int
 }
 
 /* Load bitmap */
-SDL_Surface* AppPlatform_sdl::loadSurface(const std::string& path)
+SDL_Surface* AppPlatform_sdl1::loadSurface(const std::string& path)
 {
     std::string realPath = getAssetPath(path);
     SDL_Surface* surface = SDL_LoadBMP(realPath.c_str());
@@ -79,7 +79,7 @@ SDL_Surface* AppPlatform_sdl::loadSurface(const std::string& path)
 }
 
 /* Does bitmap exist */
-bool AppPlatform_sdl::doesSurfaceExist(const std::string& path) const
+bool AppPlatform_sdl1::doesSurfaceExist(const std::string& path) const
 {
     std::string realPath = getAssetPath(path);
     std::ifstream f(realPath.c_str());
@@ -87,7 +87,7 @@ bool AppPlatform_sdl::doesSurfaceExist(const std::string& path) const
 }
 
 /* Load bitmap (texture) */
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
+Texture AppPlatform_sdl1::loadTexture(const std::string& path, bool bIsRequired)
 {
     Texture out;
     out.m_hasAlpha = true;
@@ -135,20 +135,22 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 }
 
 /* STUBBED */
-bool AppPlatform_sdl::doesTextureExist(const std::string&) const
+bool AppPlatform_sdl1::doesTextureExist(const std::string&) const
 {
     return false;
 }
 
 /* STUBBED */
 /* Always access FS */
-bool AppPlatform_sdl::hasFileSystemAccess()
+bool AppPlatform_sdl1::hasFileSystemAccess()
 {
     return true; /* TODO: Match SDL 2.x code (Do I need to fix this, no idea; I just stubbed all the functions at first then started eyeballing shit. )*/
 }
 
-std::string AppPlatform_sdl::getPatchData()
+std::string AppPlatform_sdl1::getPatchData()
 {
+    // @TODO: Why are we overriding AppPlatform::getPatchData()? It uses the standard library.
+    
     std::string path = getAssetPath("patches/patch_data.txt");
     std::ifstream file(path.c_str());
     if (!file.is_open()) {
@@ -160,7 +162,12 @@ std::string AppPlatform_sdl::getPatchData()
     return buffer.str();
 }
 
-void AppPlatform_sdl::recenterMouse()
+void AppPlatform_sdl1::recenterMouse()
 {
     SDL_WarpMouse(m_screen->w / 2, m_screen->h / 2);
+}
+
+bool AppPlatform_sdl1::getRecenterMouseEveryTick()
+{
+    return false;
 }

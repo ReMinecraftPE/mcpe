@@ -8,17 +8,20 @@
 
 #pragma once
 
-#if (defined(USE_SDL) && !(SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2))
-#include "../thirdparty/SDL2/SDL2.h"
+#ifdef USE_SDL
+    #if (SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2)
+        #include <SDL/SDL.h>
+    #else
+        #include "../thirdparty/SDL2/SDL2.h"
+    #endif
 
-// because SDL sucks and makes no sense and sets bit 1<<30 for some keycodes for some godamn reason
-enum eSDLVirtualKeys
-{
-	#define CODE(x) SDLVK_ ## x,
-	#include "SDLKeyCodes.h"
-	#undef  CODE
-};
-
+    // because SDL sucks and makes no sense and sets bit 1<<30 for some keycodes for some godamn reason
+    enum eSDLVirtualKeys
+    {
+        #define CODE(x) SDLVK_ ## x,
+        #include "SDLKeyCodes.h"
+        #undef  CODE
+    };
 #endif
 
 #ifdef _WIN32
@@ -38,7 +41,4 @@ enum eSDLVirtualKeys
 
     #define AKEYCODE_ARROW_LEFT  AKEYCODE_DPAD_LEFT
     #define AKEYCODE_ARROW_RIGHT AKEYCODE_DPAD_RIGHT
-#endif
-#if (SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2)
-#include <SDL/SDL.h>
 #endif

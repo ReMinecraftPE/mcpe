@@ -546,7 +546,8 @@ void Minecraft::tickMouse()
 	if (useController() || isTouchscreen())
 		return; // don't actually try to recenter the mouse
 
-	platform()->recenterMouse();
+    if (platform()->getRecenterMouseEveryTick()) // just for SDL1
+        platform()->recenterMouse();
 }
 
 void Minecraft::handleCharInput(char chr)

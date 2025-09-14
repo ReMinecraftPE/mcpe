@@ -1,22 +1,22 @@
 #pragma once
 
 #include <string>
-#include "SDL/SDL.h"  // SDL 1.2 header
+#include <SDL/SDL.h>  // SDL 1.2 header
 
 #include "client/app/AppPlatform.hpp"
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "common/Logger.hpp"
 
-class AppPlatform_sdl_base : public AppPlatform
+class AppPlatform_sdl1_base : public AppPlatform
 {
 public:
     void _init(std::string storageDir, SDL_Surface* screen);
-    AppPlatform_sdl_base(std::string storageDir, SDL_Surface* screen)
+    AppPlatform_sdl1_base(std::string storageDir, SDL_Surface* screen)
     {
         _init(storageDir, screen);
     }
-    ~AppPlatform_sdl_base() override;
+    ~AppPlatform_sdl1_base() override;
 
     void initSoundSystem() override;
 
@@ -42,6 +42,7 @@ public:
     static MouseButtonType GetMouseButtonType(Uint8 button);
     static bool GetMouseButtonState(const SDL_Event& event);
     static Keyboard::KeyState GetKeyState(uint8_t state);
+    static int TranslateSDLKeyCodeToVirtual(int sdlCode);
 
     void showKeyboard(int x, int y, int w, int h) override;
     void hideKeyboard() override;

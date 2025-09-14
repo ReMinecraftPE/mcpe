@@ -10,19 +10,10 @@ target_compile_definitions(reminecraftpe-core
 # Build
 set(SOURCES
     main.cpp
-    base/AppPlatform_sdl_base.cpp
+    base/AppPlatform_sdl1_base.cpp
 )
-if(EMSCRIPTEN)
-    list(APPEND SOURCES emscripten/AppPlatform_sdl.cpp)
-else()
-    list(APPEND SOURCES desktop/AppPlatform_sdl.cpp)
-endif()
-if(ANDROID)
-    add_library(reminecraftpe SHARED ${SOURCES})
-    set_target_properties(reminecraftpe PROPERTIES OUTPUT_NAME main)
-else()
-    add_executable(reminecraftpe ${SOURCES})
-endif()
+list(APPEND SOURCES desktop/AppPlatform_sdl1.cpp)
+add_executable(reminecraftpe ${SOURCES})
 
 # Core
 target_link_libraries(reminecraftpe reminecraftpe-core)
