@@ -102,6 +102,35 @@ Minecraft::Minecraft() :
 	m_lastInteractTime = 0;
 }
 
+Minecraft::~Minecraft()
+{
+	SAFE_DELETE(m_options);
+	SAFE_DELETE(m_pNetEventCallback);
+	SAFE_DELETE(m_pRakNetInstance);
+	SAFE_DELETE(m_pLevelRenderer);
+	SAFE_DELETE(m_pGameRenderer);
+	SAFE_DELETE(m_pParticleEngine);
+    SAFE_DELETE(EntityRenderDispatcher::instance);
+	m_pSoundEngine->destroy();
+	SAFE_DELETE(m_pSoundEngine);
+	SAFE_DELETE(m_pGameMode);
+	SAFE_DELETE(m_pFont);
+	SAFE_DELETE(m_pTextures);
+    
+	if (m_pLevel)
+	{
+		LevelStorage* pStor = m_pLevel->getLevelStorage();
+		SAFE_DELETE(pStor);
+		delete m_pLevel;
+	}
+    
+	SAFE_DELETE(m_pUser);
+	SAFE_DELETE(m_pLevelStorageSource);
+	SAFE_DELETE(m_pInputHolder);
+    
+	//@BUG: potentially leaking a CThread instance if this is destroyed early?
+}
+
 int Minecraft::getLicenseId()
 {
 	if (m_licenseID < 0)
@@ -269,6 +298,7 @@ void Minecraft::setGameMode(GameType gameType)
 {
 	if (m_pLevel)
 	{
+        SAFE_DELETE(m_pGameMode);
 		m_pGameMode = createGameMode(gameType, *m_pLevel);
 		m_pGameMode->initLevel(m_pLevel);
 	}
@@ -391,7 +421,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 	if (bInteract && action.isInteract() && canInteract)
 	{
 		ItemInstance* pItem = getSelectedItem();
-		if (pItem && !player->isUsingItem())
+		if (pItem && player->isUsingItem())
 		{
 			m_lastInteractTime = getTimeMs();
 			if (m_pGameMode->useItem(player, m_pLevel, pItem))
@@ -844,41 +874,11 @@ void Minecraft::init()
 	}
 }
 
-Minecraft::~Minecraft()
-{
-	SAFE_DELETE(m_options);
-	SAFE_DELETE(m_pNetEventCallback);
-	SAFE_DELETE(m_pRakNetInstance);
-	SAFE_DELETE(m_pLevelRenderer);
-	SAFE_DELETE(m_pGameRenderer);
-	SAFE_DELETE(m_pParticleEngine);
-	m_pSoundEngine->destroy();
-	SAFE_DELETE(m_pSoundEngine);
-	SAFE_DELETE(m_pGameMode);
-	SAFE_DELETE(m_pFont);
-	SAFE_DELETE(m_pTextures);
-
-	if (m_pLevel)
-	{
-		LevelStorage* pStor = m_pLevel->getLevelStorage();
-		if (pStor)
-			delete pStor;
-		if (m_pLevel)
-			delete m_pLevel;
-	}
-
-	SAFE_DELETE(m_pUser);
-	SAFE_DELETE(m_pLevelStorageSource);
-	SAFE_DELETE(m_pInputHolder);
-
-	//@BUG: potentially leaking a CThread instance if this is destroyed early?
-}
-
 void Minecraft::prepareLevel(const std::string& unused)
 {
 	field_DA0 = 1;
 
-	float startTime = getTimeS();
+	float startTime = float(getTimeS());
 	Level* pLevel = m_pLevel;
 
 	if (!pLevel->field_B0C)
@@ -893,7 +893,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 			// this looks like some kind of progress tracking
 			m_progressPercent = i2 / (C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z);
 
-			float time1 = getTimeS();
+			float time1 = float(getTimeS());
 
 			// generating all the chunks at once
 			(void)pLevel->getTile(TilePos(i, (C_MAX_Y + C_MIN_Y) / 2, j));
@@ -917,7 +917,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 
 	pLevel->setUpdateLights(1);
 
-	startTime = getTimeS();
+	startTime = float(getTimeS());
 
 	ChunkPos cp(0, 0);
 	for (cp.x = 0; cp.x < C_MAX_CHUNKS_X; cp.x++)
@@ -957,7 +957,7 @@ void Minecraft::prepareLevel(const std::string& unused)
 	m_progressPercent = -1;
 	field_DA0 = 2;
 
-	startTime = getTimeS();
+	startTime = float(getTimeS());
 
 	pLevel->prepare();
 
@@ -1037,7 +1037,7 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 
 void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 {
-	float time = getTimeS(); //@UNUSED
+	float time = float(getTimeS()); //@UNUSED
 
 	prepareLevel(unused);
 

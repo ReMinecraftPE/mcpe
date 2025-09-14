@@ -6,6 +6,7 @@
 
 CompoundTag::CompoundTag()
 {
+    m_bLeak = false;
 }
 
 void CompoundTag::write(IDataOutput& dos) const
@@ -37,7 +38,10 @@ void CompoundTag::load(IDataInput& dis)
 		}
 
         if (tag->getId() == TAG_TYPE_END)
+        {
+            delete tag;
             break;
+        }
 
         m_tags[name] = tag;
     }
@@ -294,10 +298,15 @@ bool CompoundTag::remove(const std::string& name)
 
 void CompoundTag::deleteChildren()
 {
-	for (std::map<std::string, Tag*>::iterator it = m_tags.begin(); it != m_tags.end(); it++)
-	{
-		delete it->second;
-	}
+    if (!m_bLeak)
+    {
+        for (std::map<std::string, Tag*>::iterator it = m_tags.begin(); it != m_tags.end(); it++)
+        {
+            Tag* tag = it->second;
+            tag->deleteChildren();
+            delete tag;
+        }
+    }
 
 	m_tags.clear();
 }

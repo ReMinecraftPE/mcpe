@@ -15,6 +15,7 @@ class SelectWorldScreen : public Screen
 {
 public:
 	SelectWorldScreen();
+    ~SelectWorldScreen();
 
 	void init() override;
 	bool isInGameScreen() override;

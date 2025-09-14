@@ -65,6 +65,7 @@ public:
 	CompoundTag clone();
 	bool remove(const std::string& name);
     void deleteChildren() override;
+    void leak() { m_bLeak = true; }
 
 	bool isEmpty() const { return m_tags.empty(); }
     std::map<std::string, Tag*>& rawView() { return m_tags; }
@@ -75,4 +76,5 @@ public:
 
 private:
     std::map<std::string, Tag*> m_tags;
+    bool m_bLeak;
 };

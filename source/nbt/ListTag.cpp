@@ -143,6 +143,7 @@ void ListTag::deleteChildren()
 	for (std::vector<Tag*>::iterator it = m_list.begin(); it != m_list.end(); it++)
 	{
 		Tag* tag = *it;
+        tag->deleteChildren();
 		delete tag;
 	}
 

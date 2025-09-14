@@ -504,7 +504,7 @@ void GameRenderer::renderLevel(float f)
 		glShadeModel(GL_SMOOTH);
 #endif
 
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 		glDisable(GL_CULL_FACE);
 		// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
 

@@ -565,7 +565,11 @@ TileID LevelChunk::getTile(const ChunkTilePos& pos)
 {
 	CheckPosition(pos);
 	
-	return m_pBlockData[MakeBlockDataIndex(pos)];
+	TileID tileId = m_pBlockData[MakeBlockDataIndex(pos)];
+	if (Tile::tiles[tileId])
+		return tileId;
+	else
+		return TILE_AIR;
 }
 
 int LevelChunk::countEntities()

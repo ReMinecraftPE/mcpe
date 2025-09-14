@@ -50,8 +50,10 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 		glRotatef(20.0f, 0.0f, 0.0f, 1.0f);
 	}
 
+	glEnable(GL_RESCALE_NORMAL);
 	m_pDispatcher->m_pItemInHandRenderer->renderItem(inst);
 	glPopMatrix();
+	glDisable(GL_RESCALE_NORMAL);
 }
 
 void HumanoidMobRenderer::onGraphicsReset()

@@ -35,6 +35,7 @@ public:
 	ItemInstance(Tile*, int amount);
 	ItemInstance(Tile*, int amount, int auxValue);
 	ItemInstance(int itemID, int amount, int auxValue);
+    ~ItemInstance();
 
 	int getId() const;
 	int getIdAux() const;
