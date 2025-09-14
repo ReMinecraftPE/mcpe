@@ -7711,6 +7711,7 @@
 		8444967C2E76685C008CF2E0 /* Debug (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
@@ -7733,6 +7734,7 @@
 		8444967E2E76685C008CF2E0 /* Release (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
@@ -7755,6 +7757,7 @@
 		844496802E76685C008CF2E0 /* Release (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
@@ -7766,6 +7769,7 @@
 		844496812E76685C008CF2E0 /* Release (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
@@ -7777,6 +7781,7 @@
 		844496822E76685C008CF2E0 /* Release (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
