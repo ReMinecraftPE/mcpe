@@ -178,7 +178,6 @@
 		8406FDD52AF182E700B09C1D /* XBox360Includes.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8462AC810630006A435 /* XBox360Includes.h */; };
 		8406FDD92AF184B600B09C1D /* libRenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8406FD292AF1814500B09C1D /* libRenderer.a */; };
 		84171E812B1A6227008B82E6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C4D86E2A872C0100323E33 /* OpenAL.framework */; };
-		841DD86A2AF8A99000AA3B66 /* LegacyCPPCompatibility.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 841DD8692AF8A99000AA3B66 /* LegacyCPPCompatibility.hpp */; };
 		841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp */; };
 		841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp */; };
 		8420EF302B32B4EE0051910E /* libSystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8420EF2F2B32B4EE0051910E /* libSystem.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -2221,7 +2220,6 @@
 		840DD8672AC810630006A435 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		840DD8682AC810630006A435 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		840DD8692AC810630006A435 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
-		841DD8692AF8A99000AA3B66 /* LegacyCPPCompatibility.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPPCompatibility.hpp; sourceTree = "<group>"; };
 		841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl_base.cpp; sourceTree = "<group>"; };
 		841DD8732AF8AA7A00AA3B66 /* AppPlatform_sdl_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl_base.hpp; sourceTree = "<group>"; };
 		841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl.cpp; sourceTree = "<group>"; };
@@ -3013,6 +3011,10 @@
 		84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		84EAE8F12AF1EAFA000894E8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = minecraftpe.entitlements; sourceTree = "<group>"; };
+		84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP.hpp; sourceTree = "<group>"; };
+		84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Compat.hpp; sourceTree = "<group>"; };
+		84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Info.hpp; sourceTree = "<group>"; };
+		84EDD07D2E76E2B600375AEF /* SDL1KeyCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL1KeyCodes.h; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -3147,8 +3149,11 @@
 		840DD5782AC810620006A435 /* compat */ = {
 			isa = PBXGroup;
 			children = (
+				84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */,
+				84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */,
+				84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */,
+				84EDD07D2E76E2B600375AEF /* SDL1KeyCodes.h */,
 				840DD5792AC810620006A435 /* KeyCodes.hpp */,
-				841DD8692AF8A99000AA3B66 /* LegacyCPPCompatibility.hpp */,
 				84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */,
 				840DD57A2AC810620006A435 /* SDLKeyCodes.h */,
 			);
@@ -5802,7 +5807,6 @@
 				8406FD3A2AF1823700B09C1D /* Util.hpp in Headers */,
 				8406FD3B2AF1823700B09C1D /* Utils.hpp in Headers */,
 				84E001B92AF3A3CB009B9555 /* SmoothFloat.hpp in Headers */,
-				841DD86A2AF8A99000AA3B66 /* LegacyCPPCompatibility.hpp in Headers */,
 				84C0D8032B15A1D0007E1E76 /* PlatformDefinitions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7391,47 +7395,47 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		8406FD242AF1814500B09C1D /* Debug (Default) */ = {
+		8406FD242AF1814500B09C1D /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Renderer;
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		8406FD252AF1814500B09C1D /* Release (Default) */ = {
+		8406FD252AF1814500B09C1D /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Renderer;
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		8406FD262AF1814500B09C1D /* Release (x86) */ = {
+		8406FD262AF1814500B09C1D /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Renderer;
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		8406FD272AF1814500B09C1D /* Release (PPC) */ = {
+		8406FD272AF1814500B09C1D /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Renderer;
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		8406FD282AF1814500B09C1D /* Release (x86-PPC) */ = {
+		8406FD282AF1814500B09C1D /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Renderer;
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		840FD8C92AA565FB009EB349 /* Release (x86) */ = {
+		840FD8C92AA565FB009EB349 /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */;
 			buildSettings = {
@@ -7494,11 +7498,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = "$(ARCHS_MACOS_X86)";
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		840FD8CA2AA565FB009EB349 /* Release (x86) */ = {
+		840FD8CA2AA565FB009EB349 /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -7508,9 +7512,9 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		840FD8CB2AA56676009EB349 /* Release (PPC) */ = {
+		840FD8CB2AA56676009EB349 /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */;
 			buildSettings = {
@@ -7549,6 +7553,10 @@
 					"\\\"$(DEVELOPER_FRAMEWORKS_DIR)\\\"",
 				);
 				GCC_FAST_MATH = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(BACKEND_SDL1)",
+					"$(inherited)",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -7573,11 +7581,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				VALID_ARCHS = "ppc ppc64 ppc7400 ppc970";
+				VALID_ARCHS = "$(ARCHS_MACOS_PPC)";
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		840FD8CC2AA56676009EB349 /* Release (PPC) */ = {
+		840FD8CC2AA56676009EB349 /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -7587,9 +7595,9 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		840FD8CD2AA566AB009EB349 /* Release (x86-PPC) */ = {
+		840FD8CD2AA566AB009EB349 /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */;
 			buildSettings = {
@@ -7628,6 +7636,10 @@
 					"\\\"$(DEVELOPER_FRAMEWORKS_DIR)\\\"",
 				);
 				GCC_FAST_MATH = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(BACKEND_SDL1)",
+					"$(inherited)",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -7652,11 +7664,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
+				VALID_ARCHS = "$(ARCHS_MACOS_X86) $(ARCHS_MACOS_PPC)";
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		840FD8CE2AA566AB009EB349 /* Release (x86-PPC) */ = {
+		840FD8CE2AA566AB009EB349 /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -7666,61 +7678,49 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		842610692AE988D30065905F /* Debug (Default) */ = {
+		842610692AE988D30065905F /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		8426106A2AE988D30065905F /* Release (Default) */ = {
+		8426106A2AE988D30065905F /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		8426106B2AE988D30065905F /* Release (x86) */ = {
+		8426106B2AE988D30065905F /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		8426106C2AE988D30065905F /* Release (PPC) */ = {
+		8426106C2AE988D30065905F /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		8426106D2AE988D30065905F /* Release (x86-PPC) */ = {
+		8426106D2AE988D30065905F /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		8444967C2E76685C008CF2E0 /* Debug (Default) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/opt/local/libexec/libsdl12/lib,
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = "Debug (Default)";
-		};
-		8444967D2E76685C008CF2E0 /* Debug (iOS) */ = {
+		8444967C2E76685C008CF2E0 /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LIBRARY_SEARCH_PATHS = (
@@ -7729,21 +7729,9 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (iOS)";
+			name = "Debug [SDL2] (Default)";
 		};
-		8444967E2E76685C008CF2E0 /* Release (Default) */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					/opt/local/libexec/libsdl12/lib,
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = "Release (Default)";
-		};
-		8444967F2E76685C008CF2E0 /* Release (iOS) */ = {
+		8444967D2E76685C008CF2E0 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LIBRARY_SEARCH_PATHS = (
@@ -7752,85 +7740,104 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		844496802E76685C008CF2E0 /* Release (x86) */ = {
+		8444967E2E76685C008CF2E0 /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (Default)";
 		};
-		844496812E76685C008CF2E0 /* Release (PPC) */ = {
+		8444967F2E76685C008CF2E0 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (PPC)";
+			name = "Release [iOS] (Default)";
 		};
-		844496822E76685C008CF2E0 /* Release (x86-PPC) */ = {
+		844496802E76685C008CF2E0 /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS_MACOS = "SDL_MAJOR_VERSION=1 $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/libexec/libsdl12/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL2] (x86)";
 		};
-		84498A7E2AF18C7A005EF5A5 /* Debug (Default) */ = {
+		844496812E76685C008CF2E0 /* Release [SDL1] (PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/libexec/libsdl12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (PPC)";
+		};
+		844496822E76685C008CF2E0 /* Release [SDL1] (x86-PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/libexec/libsdl12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (x86-PPC)";
+		};
+		84498A7E2AF18C7A005EF5A5 /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ZLib;
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		84498A7F2AF18C7A005EF5A5 /* Release (Default) */ = {
+		84498A7F2AF18C7A005EF5A5 /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ZLib;
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		84498A802AF18C7A005EF5A5 /* Release (x86) */ = {
+		84498A802AF18C7A005EF5A5 /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ZLib;
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		84498A812AF18C7A005EF5A5 /* Release (PPC) */ = {
+		84498A812AF18C7A005EF5A5 /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ZLib;
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		84498A822AF18C7A005EF5A5 /* Release (x86-PPC) */ = {
+		84498A822AF18C7A005EF5A5 /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ZLib;
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		84619B232AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B232AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
 			buildSettings = {
@@ -7895,11 +7902,11 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				VALID_ARCHS = "armv6 armv7 armv7s arm64";
+				VALID_ARCHS = "$(ARCHS_IOS)";
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B242AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B242AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -7909,17 +7916,17 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B252AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B252AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B262AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B262AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
@@ -7931,65 +7938,65 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B272AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B272AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B282AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B282AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B292AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B292AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Renderer;
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B2A2AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B2A2AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = World;
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B2B2AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B2B2AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Client;
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B2C2AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B2C2AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = OpenGL;
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B2D2AF1F32500B0DE81 /* Debug (iOS) */ = {
+		84619B2D2AF1F32500B0DE81 /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ZLib;
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84619B2E2AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B2E2AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
@@ -8050,11 +8057,11 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
-				VALID_ARCHS = "armv6 armv7 armv7s arm64";
+				VALID_ARCHS = "$(ARCHS_IOS)";
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B2F2AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B2F2AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -8064,17 +8071,17 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B302AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B302AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B312AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B312AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
@@ -8088,65 +8095,65 @@
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B322AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B322AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B332AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B332AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B342AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B342AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Renderer;
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B352AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B352AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = World;
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B362AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B362AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Client;
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B372AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B372AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = OpenGL;
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84619B382AF1F33A00B0DE81 /* Release (iOS) */ = {
+		84619B382AF1F33A00B0DE81 /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = ZLib;
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		8489B09C2A86D4B2004CA8EC /* Debug (Default) */ = {
+		8489B09C2A86D4B2004CA8EC /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */;
 			buildSettings = {
@@ -8213,9 +8220,9 @@
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		8489B09D2A86D4B2004CA8EC /* Release (Default) */ = {
+		8489B09D2A86D4B2004CA8EC /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */;
 			buildSettings = {
@@ -8278,9 +8285,9 @@
 				MTL_FAST_MATH = YES;
 				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		8489B09F2A86D4B2004CA8EC /* Debug (Default) */ = {
+		8489B09F2A86D4B2004CA8EC /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -8290,9 +8297,9 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		8489B0A02A86D4B2004CA8EC /* Release (Default) */ = {
+		8489B0A02A86D4B2004CA8EC /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -8302,9 +8309,9 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		8492593E2AD8FCFD0081F5B9 /* Debug (Default) */ = {
+		8492593E2AD8FCFD0081F5B9 /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
 			buildSettings = {
@@ -8317,9 +8324,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		8492593F2AD8FCFD0081F5B9 /* Release (Default) */ = {
+		8492593F2AD8FCFD0081F5B9 /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
@@ -8333,9 +8340,9 @@
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		849259402AD8FCFD0081F5B9 /* Release (x86) */ = {
+		849259402AD8FCFD0081F5B9 /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
@@ -8348,9 +8355,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		849259412AD8FCFD0081F5B9 /* Release (PPC) */ = {
+		849259412AD8FCFD0081F5B9 /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
@@ -8363,9 +8370,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		849259422AD8FCFD0081F5B9 /* Release (x86-PPC) */ = {
+		849259422AD8FCFD0081F5B9 /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
 			buildSettings = {
@@ -8378,263 +8385,626 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		84AAF63D2AF18B9500BD67F4 /* Debug (Default) */ = {
+		84AAF63D2AF18B9500BD67F4 /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = OpenGL;
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		84AAF63E2AF18B9500BD67F4 /* Release (Default) */ = {
+		84AAF63E2AF18B9500BD67F4 /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = OpenGL;
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		84AAF63F2AF18B9500BD67F4 /* Release (x86) */ = {
+		84AAF63F2AF18B9500BD67F4 /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = OpenGL;
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		84AAF6402AF18B9500BD67F4 /* Release (PPC) */ = {
+		84AAF6402AF18B9500BD67F4 /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = OpenGL;
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		84AAF6412AF18B9500BD67F4 /* Release (x86-PPC) */ = {
+		84AAF6412AF18B9500BD67F4 /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = OpenGL;
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		84B8AEE22AF188D8008DE93D /* Debug (Default) */ = {
+		84B8AEE22AF188D8008DE93D /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Client;
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		84B8AEE32AF188D8008DE93D /* Release (Default) */ = {
+		84B8AEE32AF188D8008DE93D /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Client;
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		84B8AEE42AF188D8008DE93D /* Release (x86) */ = {
+		84B8AEE42AF188D8008DE93D /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Client;
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		84B8AEE52AF188D8008DE93D /* Release (PPC) */ = {
+		84B8AEE52AF188D8008DE93D /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Client;
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		84B8AEE62AF188D8008DE93D /* Release (x86-PPC) */ = {
+		84B8AEE62AF188D8008DE93D /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = Client;
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		84BF63062AF1859D008A9995 /* Debug (Default) */ = {
+		84BF63062AF1859D008A9995 /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = World;
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		84BF63072AF1859D008A9995 /* Release (Default) */ = {
+		84BF63072AF1859D008A9995 /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = World;
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		84BF63082AF1859D008A9995 /* Release (x86) */ = {
+		84BF63082AF1859D008A9995 /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = World;
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		84BF63092AF1859D008A9995 /* Release (PPC) */ = {
+		84BF63092AF1859D008A9995 /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = World;
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		84BF630A2AF1859D008A9995 /* Release (x86-PPC) */ = {
+		84BF630A2AF1859D008A9995 /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = World;
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		84CCBC472E61849800E251AF /* Debug (Default) */ = {
+		84CCBC472E61849800E251AF /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		84CCBC482E61849800E251AF /* Debug (iOS) */ = {
+		84CCBC482E61849800E251AF /* Debug [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (iOS)";
+			name = "Debug [iOS] (Default)";
 		};
-		84CCBC492E61849800E251AF /* Release (Default) */ = {
+		84CCBC492E61849800E251AF /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		84CCBC4A2E61849800E251AF /* Release (iOS) */ = {
+		84CCBC4A2E61849800E251AF /* Release [iOS] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (iOS)";
+			name = "Release [iOS] (Default)";
 		};
-		84CCBC4B2E61849800E251AF /* Release (x86) */ = {
+		84CCBC4B2E61849800E251AF /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		84CCBC4C2E61849800E251AF /* Release (PPC) */ = {
+		84CCBC4C2E61849800E251AF /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		84CCBC4D2E61849800E251AF /* Release (x86-PPC) */ = {
+		84CCBC4D2E61849800E251AF /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		84E4BFAF2AE9854B0023E16A /* Debug (Default) */ = {
+		84E4BFAF2AE9854B0023E16A /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL2] (Default)";
 		};
-		84E4BFB02AE9854B0023E16A /* Release (Default) */ = {
+		84E4BFB02AE9854B0023E16A /* Release [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (Default)";
+			name = "Release [SDL2] (Default)";
 		};
-		84E4BFB12AE9854B0023E16A /* Release (x86) */ = {
+		84E4BFB12AE9854B0023E16A /* Release [SDL2] (x86) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86)";
+			name = "Release [SDL2] (x86)";
 		};
-		84E4BFB22AE9854B0023E16A /* Release (PPC) */ = {
+		84E4BFB22AE9854B0023E16A /* Release [SDL1] (PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (PPC)";
+			name = "Release [SDL1] (PPC)";
 		};
-		84E4BFB32AE9854B0023E16A /* Release (x86-PPC) */ = {
+		84E4BFB32AE9854B0023E16A /* Release [SDL1] (x86-PPC) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (x86-PPC)";
 		};
-		84FFBD7F2ACA2876005A8CCF /* Debug (Default) */ = {
+		84EDCFD62E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA92B1EB9C200097DB0 /* Settings_macOS_Debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\\\"$(DEVELOPER_FRAMEWORKS_DIR)\\\"",
+				);
+				GCC_FAST_MATH = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(BACKEND_SDL1)",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/opt/homebrew/include,
+					/usr/local/include,
+					"$(MC_ROOT)",
+					"$(MC_ROOT)/source",
+					"$(RAKNET_PATH)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/opt/homebrew/lib,
+					/usr/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFD72E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFD82E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/libexec/libsdl12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFD92E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Debug (Default)";
+			name = "Debug [SDL1] (Default)";
 		};
-		84FFBD802ACA2876005A8CCF /* Release (Default) */ = {
+		84EDCFDA2E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA52B1EB57E00097DB0 /* Settings_iOS_Debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFDB2E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (Default)";
+			name = "Debug [SDL1] (Default)";
 		};
-		84FFBD812ACA2876005A8CCF /* Release (x86) */ = {
+		84EDCFDC2E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86)";
+			name = "Debug [SDL1] (Default)";
 		};
-		84FFBD822ACA2876005A8CCF /* Release (PPC) */ = {
+		84EDCFDD2E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Renderer;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFDE2E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = World;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFDF2E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Client;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFE02E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = OpenGL;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFE12E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = ZLib;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84EDCFE22E76D7BD00375AEF /* Debug [SDL1] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (PPC)";
+			name = "Debug [SDL1] (Default)";
 		};
-		84FFBD832ACA2876005A8CCF /* Release (x86-PPC) */ = {
+		84EDCFE32E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA82B1EB88500097DB0 /* Settings_macOS.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\\\"$(DEVELOPER_FRAMEWORKS_DIR)\\\"",
+				);
+				GCC_FAST_MATH = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(BACKEND_SDL1)",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/opt/homebrew/include,
+					/usr/local/include,
+					"$(MC_ROOT)",
+					"$(MC_ROOT)/source",
+					"$(RAKNET_PATH)",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/opt/homebrew/lib,
+					/usr/local/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				MC_ROOT = "$(PROJECT_DIR)/../../../../";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				RAKNET_PATH = "$(MC_ROOT)/thirdparty/raknet/";
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFE42E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFE52E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/libexec/libsdl12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFE62E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = "Release (x86-PPC)";
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFE72E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = $MC_ROOT/platforms/ios/minecraftpe.entitlements;
+				INFOPLIST_FILE = "$(MC_ROOT)platforms/ios/minecraftpe-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\\\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFE82E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFE92E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFEA2E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Renderer;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFEB2E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = World;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFEC2E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Client;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFED2E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = OpenGL;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFEE2E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = ZLib;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84EDCFEF2E76D7ED00375AEF /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84FFBD7F2ACA2876005A8CCF /* Debug [SDL2] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Debug [SDL2] (Default)";
+		};
+		84FFBD802ACA2876005A8CCF /* Release [SDL2] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL2] (Default)";
+		};
+		84FFBD812ACA2876005A8CCF /* Release [SDL2] (x86) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL2] (x86)";
+		};
+		84FFBD822ACA2876005A8CCF /* Release [SDL1] (PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (PPC)";
+		};
+		84FFBD832ACA2876005A8CCF /* Release [SDL1] (x86-PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "Release [SDL1] (x86-PPC)";
 		};
 /* End XCBuildConfiguration section */
 
@@ -8642,184 +9012,210 @@
 		8406FD232AF1814500B09C1D /* Build configuration list for PBXNativeTarget "Renderer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8406FD242AF1814500B09C1D /* Debug (Default) */,
-				84619B292AF1F32500B0DE81 /* Debug (iOS) */,
-				8406FD252AF1814500B09C1D /* Release (Default) */,
-				84619B342AF1F33A00B0DE81 /* Release (iOS) */,
-				8406FD262AF1814500B09C1D /* Release (x86) */,
-				8406FD272AF1814500B09C1D /* Release (PPC) */,
-				8406FD282AF1814500B09C1D /* Release (x86-PPC) */,
+				8406FD242AF1814500B09C1D /* Debug [SDL2] (Default) */,
+				84EDCFDD2E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B292AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				8406FD252AF1814500B09C1D /* Release [SDL2] (Default) */,
+				84EDCFEA2E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B342AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				8406FD262AF1814500B09C1D /* Release [SDL2] (x86) */,
+				8406FD272AF1814500B09C1D /* Release [SDL1] (PPC) */,
+				8406FD282AF1814500B09C1D /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		8426106E2AE988D30065905F /* Build configuration list for PBXNativeTarget "Network" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				842610692AE988D30065905F /* Debug (Default) */,
-				84619B282AF1F32500B0DE81 /* Debug (iOS) */,
-				8426106A2AE988D30065905F /* Release (Default) */,
-				84619B332AF1F33A00B0DE81 /* Release (iOS) */,
-				8426106B2AE988D30065905F /* Release (x86) */,
-				8426106C2AE988D30065905F /* Release (PPC) */,
-				8426106D2AE988D30065905F /* Release (x86-PPC) */,
+				842610692AE988D30065905F /* Debug [SDL2] (Default) */,
+				84EDCFDC2E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B282AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				8426106A2AE988D30065905F /* Release [SDL2] (Default) */,
+				84EDCFE92E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B332AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				8426106B2AE988D30065905F /* Release [SDL2] (x86) */,
+				8426106C2AE988D30065905F /* Release [SDL1] (PPC) */,
+				8426106D2AE988D30065905F /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		844496832E76685C008CF2E0 /* Build configuration list for PBXNativeTarget "MinecraftClient.SDL1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8444967C2E76685C008CF2E0 /* Debug (Default) */,
-				8444967D2E76685C008CF2E0 /* Debug (iOS) */,
-				8444967E2E76685C008CF2E0 /* Release (Default) */,
-				8444967F2E76685C008CF2E0 /* Release (iOS) */,
-				844496802E76685C008CF2E0 /* Release (x86) */,
-				844496812E76685C008CF2E0 /* Release (PPC) */,
-				844496822E76685C008CF2E0 /* Release (x86-PPC) */,
+				8444967C2E76685C008CF2E0 /* Debug [SDL2] (Default) */,
+				84EDCFD82E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				8444967D2E76685C008CF2E0 /* Debug [iOS] (Default) */,
+				8444967E2E76685C008CF2E0 /* Release [SDL2] (Default) */,
+				84EDCFE52E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				8444967F2E76685C008CF2E0 /* Release [iOS] (Default) */,
+				844496802E76685C008CF2E0 /* Release [SDL2] (x86) */,
+				844496812E76685C008CF2E0 /* Release [SDL1] (PPC) */,
+				844496822E76685C008CF2E0 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		84498A7D2AF18C7A005EF5A5 /* Build configuration list for PBXNativeTarget "ZLib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84498A7E2AF18C7A005EF5A5 /* Debug (Default) */,
-				84619B2D2AF1F32500B0DE81 /* Debug (iOS) */,
-				84498A7F2AF18C7A005EF5A5 /* Release (Default) */,
-				84619B382AF1F33A00B0DE81 /* Release (iOS) */,
-				84498A802AF18C7A005EF5A5 /* Release (x86) */,
-				84498A812AF18C7A005EF5A5 /* Release (PPC) */,
-				84498A822AF18C7A005EF5A5 /* Release (x86-PPC) */,
+				84498A7E2AF18C7A005EF5A5 /* Debug [SDL2] (Default) */,
+				84EDCFE12E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B2D2AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				84498A7F2AF18C7A005EF5A5 /* Release [SDL2] (Default) */,
+				84EDCFEE2E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B382AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				84498A802AF18C7A005EF5A5 /* Release [SDL2] (x86) */,
+				84498A812AF18C7A005EF5A5 /* Release [SDL1] (PPC) */,
+				84498A822AF18C7A005EF5A5 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		8489B0922A86D4B2004CA8EC /* Build configuration list for PBXProject "Minecraft" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8489B09C2A86D4B2004CA8EC /* Debug (Default) */,
-				84619B232AF1F32500B0DE81 /* Debug (iOS) */,
-				8489B09D2A86D4B2004CA8EC /* Release (Default) */,
-				84619B2E2AF1F33A00B0DE81 /* Release (iOS) */,
-				840FD8C92AA565FB009EB349 /* Release (x86) */,
-				840FD8CB2AA56676009EB349 /* Release (PPC) */,
-				840FD8CD2AA566AB009EB349 /* Release (x86-PPC) */,
+				8489B09C2A86D4B2004CA8EC /* Debug [SDL2] (Default) */,
+				84EDCFD62E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B232AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				8489B09D2A86D4B2004CA8EC /* Release [SDL2] (Default) */,
+				84EDCFE32E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B2E2AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				840FD8C92AA565FB009EB349 /* Release [SDL2] (x86) */,
+				840FD8CB2AA56676009EB349 /* Release [SDL1] (PPC) */,
+				840FD8CD2AA566AB009EB349 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		8489B09E2A86D4B2004CA8EC /* Build configuration list for PBXNativeTarget "MinecraftClient.SDL2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8489B09F2A86D4B2004CA8EC /* Debug (Default) */,
-				84619B242AF1F32500B0DE81 /* Debug (iOS) */,
-				8489B0A02A86D4B2004CA8EC /* Release (Default) */,
-				84619B2F2AF1F33A00B0DE81 /* Release (iOS) */,
-				840FD8CA2AA565FB009EB349 /* Release (x86) */,
-				840FD8CC2AA56676009EB349 /* Release (PPC) */,
-				840FD8CE2AA566AB009EB349 /* Release (x86-PPC) */,
+				8489B09F2A86D4B2004CA8EC /* Debug [SDL2] (Default) */,
+				84EDCFD72E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B242AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				8489B0A02A86D4B2004CA8EC /* Release [SDL2] (Default) */,
+				84EDCFE42E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B2F2AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				840FD8CA2AA565FB009EB349 /* Release [SDL2] (x86) */,
+				840FD8CC2AA56676009EB349 /* Release [SDL1] (PPC) */,
+				840FD8CE2AA566AB009EB349 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		8492593D2AD8FCFD0081F5B9 /* Build configuration list for PBXNativeTarget "minecraftpe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8492593E2AD8FCFD0081F5B9 /* Debug (Default) */,
-				84619B262AF1F32500B0DE81 /* Debug (iOS) */,
-				8492593F2AD8FCFD0081F5B9 /* Release (Default) */,
-				84619B312AF1F33A00B0DE81 /* Release (iOS) */,
-				849259402AD8FCFD0081F5B9 /* Release (x86) */,
-				849259412AD8FCFD0081F5B9 /* Release (PPC) */,
-				849259422AD8FCFD0081F5B9 /* Release (x86-PPC) */,
+				8492593E2AD8FCFD0081F5B9 /* Debug [SDL2] (Default) */,
+				84EDCFDA2E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B262AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				8492593F2AD8FCFD0081F5B9 /* Release [SDL2] (Default) */,
+				84EDCFE72E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B312AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				849259402AD8FCFD0081F5B9 /* Release [SDL2] (x86) */,
+				849259412AD8FCFD0081F5B9 /* Release [SDL1] (PPC) */,
+				849259422AD8FCFD0081F5B9 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		84AAF63C2AF18B9500BD67F4 /* Build configuration list for PBXNativeTarget "OpenGL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84AAF63D2AF18B9500BD67F4 /* Debug (Default) */,
-				84619B2C2AF1F32500B0DE81 /* Debug (iOS) */,
-				84AAF63E2AF18B9500BD67F4 /* Release (Default) */,
-				84619B372AF1F33A00B0DE81 /* Release (iOS) */,
-				84AAF63F2AF18B9500BD67F4 /* Release (x86) */,
-				84AAF6402AF18B9500BD67F4 /* Release (PPC) */,
-				84AAF6412AF18B9500BD67F4 /* Release (x86-PPC) */,
+				84AAF63D2AF18B9500BD67F4 /* Debug [SDL2] (Default) */,
+				84EDCFE02E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B2C2AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				84AAF63E2AF18B9500BD67F4 /* Release [SDL2] (Default) */,
+				84EDCFED2E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B372AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				84AAF63F2AF18B9500BD67F4 /* Release [SDL2] (x86) */,
+				84AAF6402AF18B9500BD67F4 /* Release [SDL1] (PPC) */,
+				84AAF6412AF18B9500BD67F4 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		84B8AEE12AF188D8008DE93D /* Build configuration list for PBXNativeTarget "Client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84B8AEE22AF188D8008DE93D /* Debug (Default) */,
-				84619B2B2AF1F32500B0DE81 /* Debug (iOS) */,
-				84B8AEE32AF188D8008DE93D /* Release (Default) */,
-				84619B362AF1F33A00B0DE81 /* Release (iOS) */,
-				84B8AEE42AF188D8008DE93D /* Release (x86) */,
-				84B8AEE52AF188D8008DE93D /* Release (PPC) */,
-				84B8AEE62AF188D8008DE93D /* Release (x86-PPC) */,
+				84B8AEE22AF188D8008DE93D /* Debug [SDL2] (Default) */,
+				84EDCFDF2E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B2B2AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				84B8AEE32AF188D8008DE93D /* Release [SDL2] (Default) */,
+				84EDCFEC2E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B362AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				84B8AEE42AF188D8008DE93D /* Release [SDL2] (x86) */,
+				84B8AEE52AF188D8008DE93D /* Release [SDL1] (PPC) */,
+				84B8AEE62AF188D8008DE93D /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		84BF63052AF1859D008A9995 /* Build configuration list for PBXNativeTarget "World" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84BF63062AF1859D008A9995 /* Debug (Default) */,
-				84619B2A2AF1F32500B0DE81 /* Debug (iOS) */,
-				84BF63072AF1859D008A9995 /* Release (Default) */,
-				84619B352AF1F33A00B0DE81 /* Release (iOS) */,
-				84BF63082AF1859D008A9995 /* Release (x86) */,
-				84BF63092AF1859D008A9995 /* Release (PPC) */,
-				84BF630A2AF1859D008A9995 /* Release (x86-PPC) */,
+				84BF63062AF1859D008A9995 /* Debug [SDL2] (Default) */,
+				84EDCFDE2E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B2A2AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				84BF63072AF1859D008A9995 /* Release [SDL2] (Default) */,
+				84EDCFEB2E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B352AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				84BF63082AF1859D008A9995 /* Release [SDL2] (x86) */,
+				84BF63092AF1859D008A9995 /* Release [SDL1] (PPC) */,
+				84BF630A2AF1859D008A9995 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		84CCBC462E61849800E251AF /* Build configuration list for PBXNativeTarget "NBT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84CCBC472E61849800E251AF /* Debug (Default) */,
-				84CCBC482E61849800E251AF /* Debug (iOS) */,
-				84CCBC492E61849800E251AF /* Release (Default) */,
-				84CCBC4A2E61849800E251AF /* Release (iOS) */,
-				84CCBC4B2E61849800E251AF /* Release (x86) */,
-				84CCBC4C2E61849800E251AF /* Release (PPC) */,
-				84CCBC4D2E61849800E251AF /* Release (x86-PPC) */,
+				84CCBC472E61849800E251AF /* Debug [SDL2] (Default) */,
+				84EDCFE22E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84CCBC482E61849800E251AF /* Debug [iOS] (Default) */,
+				84CCBC492E61849800E251AF /* Release [SDL2] (Default) */,
+				84EDCFEF2E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84CCBC4A2E61849800E251AF /* Release [iOS] (Default) */,
+				84CCBC4B2E61849800E251AF /* Release [SDL2] (x86) */,
+				84CCBC4C2E61849800E251AF /* Release [SDL1] (PPC) */,
+				84CCBC4D2E61849800E251AF /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		84E4BFB42AE9854B0023E16A /* Build configuration list for PBXNativeTarget "Common" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84E4BFAF2AE9854B0023E16A /* Debug (Default) */,
-				84619B272AF1F32500B0DE81 /* Debug (iOS) */,
-				84E4BFB02AE9854B0023E16A /* Release (Default) */,
-				84619B322AF1F33A00B0DE81 /* Release (iOS) */,
-				84E4BFB12AE9854B0023E16A /* Release (x86) */,
-				84E4BFB22AE9854B0023E16A /* Release (PPC) */,
-				84E4BFB32AE9854B0023E16A /* Release (x86-PPC) */,
+				84E4BFAF2AE9854B0023E16A /* Debug [SDL2] (Default) */,
+				84EDCFDB2E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B272AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				84E4BFB02AE9854B0023E16A /* Release [SDL2] (Default) */,
+				84EDCFE82E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B322AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				84E4BFB12AE9854B0023E16A /* Release [SDL2] (x86) */,
+				84E4BFB22AE9854B0023E16A /* Release [SDL1] (PPC) */,
+				84E4BFB32AE9854B0023E16A /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 		84FFBD842ACA2876005A8CCF /* Build configuration list for PBXNativeTarget "RakNet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				84FFBD7F2ACA2876005A8CCF /* Debug (Default) */,
-				84619B252AF1F32500B0DE81 /* Debug (iOS) */,
-				84FFBD802ACA2876005A8CCF /* Release (Default) */,
-				84619B302AF1F33A00B0DE81 /* Release (iOS) */,
-				84FFBD812ACA2876005A8CCF /* Release (x86) */,
-				84FFBD822ACA2876005A8CCF /* Release (PPC) */,
-				84FFBD832ACA2876005A8CCF /* Release (x86-PPC) */,
+				84FFBD7F2ACA2876005A8CCF /* Debug [SDL2] (Default) */,
+				84EDCFD92E76D7BD00375AEF /* Debug [SDL1] (Default) */,
+				84619B252AF1F32500B0DE81 /* Debug [iOS] (Default) */,
+				84FFBD802ACA2876005A8CCF /* Release [SDL2] (Default) */,
+				84EDCFE62E76D7ED00375AEF /* Release [SDL1] (Default) */,
+				84619B302AF1F33A00B0DE81 /* Release [iOS] (Default) */,
+				84FFBD812ACA2876005A8CCF /* Release [SDL2] (x86) */,
+				84FFBD822ACA2876005A8CCF /* Release [SDL1] (PPC) */,
+				84FFBD832ACA2876005A8CCF /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release (Default)";
+			defaultConfigurationName = "Release [SDL2] (Default)";
 		};
 /* End XCConfigurationList section */
 	};

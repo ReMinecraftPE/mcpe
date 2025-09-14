@@ -422,7 +422,7 @@ void Options::loadControls()
 	if (m_bUseController)
 	{
 #define KM(idx,code) m_keyMappings[idx].value = code
-#if (defined(USE_SDL) && !defined(__DREAMCAST__))
+#if (defined(USE_SDL) && SDL_MAJOR_VERSION == 2)
 		KM(KM_TOGGLEDEBUG,   SDL_CONTROLLER_BUTTON_GUIDE);
 		KM(KM_JUMP,          SDL_CONTROLLER_BUTTON_A);
 		KM(KM_MENU_NEXT,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);
