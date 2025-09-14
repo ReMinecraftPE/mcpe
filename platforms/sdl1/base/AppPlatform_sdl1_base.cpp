@@ -180,14 +180,7 @@ Keyboard::KeyState AppPlatform_sdl1_base::GetKeyState(uint8_t state)
     return (state == SDL_RELEASED) ? Keyboard::UP : Keyboard::DOWN;
 }
 
-void AppPlatform_sdl1_base::showKeyboard(int, int, int, int)
-{
-}
-
-void AppPlatform_sdl1_base::hideKeyboard()
-{
-}
-
+/* @SDL2 MATCHING */
 bool AppPlatform_sdl1_base::isTouchscreen() const
 {
     return false;

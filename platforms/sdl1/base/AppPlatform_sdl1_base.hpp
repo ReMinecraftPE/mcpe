@@ -44,9 +44,6 @@ public:
     static Keyboard::KeyState GetKeyState(uint8_t state);
     static int TranslateSDLKeyCodeToVirtual(int sdlCode);
 
-    void showKeyboard(int x, int y, int w, int h) override;
-    void hideKeyboard() override;
-
     bool isTouchscreen() const override;
 
     // Game controller

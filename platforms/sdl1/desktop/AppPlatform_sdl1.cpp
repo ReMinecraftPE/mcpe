@@ -86,6 +86,7 @@ bool AppPlatform_sdl1::doesSurfaceExist(const std::string& path) const
     return f.good();
 }
 
+/* @SDL2 SIMILAR */
 /* Load bitmap (texture) */
 Texture AppPlatform_sdl1::loadTexture(const std::string& path, bool bIsRequired)
 {
@@ -134,17 +135,30 @@ Texture AppPlatform_sdl1::loadTexture(const std::string& path, bool bIsRequired)
     return out;
 }
 
-/* STUBBED */
-bool AppPlatform_sdl1::doesTextureExist(const std::string&) const
+/* @SDL2 MATCHING */
+bool AppPlatform_sdl1::doesTextureExist(const std::string& path) const
 {
-    return false;
+	// Get Full Path
+	std::string realPath = getAssetPath(path);
+	
+	// Open File
+	SDL_RWops *io = SDL_RWFromFile(realPath.c_str(), "rb");
+	if (!io)
+	{
+		// Does Not Exist
+		return false;
+	}
+	else
+	{
+		// File Exists
+		SDL_RWclose(io);
+		return true;
+	}
 }
 
-/* STUBBED */
-/* Always access FS */
 bool AppPlatform_sdl1::hasFileSystemAccess()
 {
-    return true; /* TODO: Match SDL 2.x code (Do I need to fix this, no idea; I just stubbed all the functions at first then started eyeballing shit. )*/
+    return true;
 }
 
 std::string AppPlatform_sdl1::getPatchData()
