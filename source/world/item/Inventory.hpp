@@ -41,6 +41,7 @@ public:
 
 	void setQuickSlotIndexByItemId(int slotNo, int itemID);
 	void selectItemById(int itemID, int maxHotBarSlot);
+	void selectItemByIdAux(int itemID, int auxValue, int maxHotBarSlot);
 
 	int getAttackDamage(Entity*);
 

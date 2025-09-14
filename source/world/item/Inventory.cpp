@@ -369,6 +369,21 @@ void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 	LOG_W("selectItemById: %d doesn't exist", itemID);
 }
 
+void Inventory::selectItemByIdAux(int itemID, int auxValue, int maxHotBarSlot)
+{
+	for (int i = 0; i < getNumItems(); i++)
+	{
+		ItemInstance* item = m_items[i];
+		if (!item || item->m_itemID != itemID || item->getAuxValue() != auxValue)
+			continue;
+
+		selectItem(i, maxHotBarSlot);
+		return;
+	}
+
+	LOG_W("selectItemByIdAux: %d:%d doesn't exist", itemID, auxValue);
+}
+
 int Inventory::getAttackDamage(Entity* pEnt)
 {
 	ItemInstance* pInst = getSelected();
