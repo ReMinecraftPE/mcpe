@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 // @TODO: __BIG_ENDIAN__ might be Apple-specific
 
 #ifndef MC_ENDIANNESS_BIG
