@@ -254,6 +254,7 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/feature/SpruceFeature.cpp
     world/level/levelgen/feature/PumpkinFeature.cpp
     world/level/levelgen/feature/CactusFeature.cpp
+    world/level/levelgen/feature/VegetationFeature.cpp
     world/level/levelgen/biome/Biome.cpp
     world/level/levelgen/biome/BiomeSource.cpp
     world/level/levelgen/chunk/RandomLevelSource.cpp

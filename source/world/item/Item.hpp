@@ -201,8 +201,10 @@ public: // Static declarations
 		*cake,
 		*bed,
 		*diode,
+		*cookie,
 		*record_01,
 		*record_02,
 		*camera,
-		*rocket;
+		*rocket,
+		*quiver;
 };

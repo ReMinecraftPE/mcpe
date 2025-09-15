@@ -366,6 +366,7 @@ enum eTileID
 
 	// Custom items
 	ITEM_ROCKET = 470,
+	ITEM_QUIVER = 484,
 };
 
 enum // Textures
