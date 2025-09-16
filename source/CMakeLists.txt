@@ -332,7 +332,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/PumpkinTile.cpp
     world/tile/SoulSandTile.cpp
     world/tile/GlowstoneTile.cpp
-    world/tile/web.cpp
+    world/tile/Web.cpp
     world/tile/FenceTile.cpp
     renderer/GL/GL.cpp
 )
