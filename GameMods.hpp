@@ -16,10 +16,10 @@
 
 // Tests
 //#define TEST_SURVIVAL_MODE      	 // Test survival mode.
-//#define TEST_CAVES      	         // Generates caves around the world.
+#define TEST_CAVES      	         // Generates caves around the world.
 
 // Features (major changes)
-//#define PLANT_VEGGIES      	           // Generates cactus, tall grass, dead bushes, and pumpkins around the world.
+#define PLANT_VEGGIES      	           // Generates tall grass, and dead bushes around the world.
 
 // Enhancements (minor changes)
 //#define ENH_ENTITY_SHADING      	       // Allows shading of entities -- Currently we are abandoning this. Want to add normal support

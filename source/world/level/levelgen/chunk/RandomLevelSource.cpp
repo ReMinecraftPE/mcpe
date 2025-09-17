@@ -545,8 +545,29 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		int zo = m_random.nextInt(16);
 		SpringFeature(Tile::lava->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
-#ifdef PLANT_VEGGIES
+
 	int vegetationCount = 0;
+
+	if (pBiome == Biome::desert)
+		vegetationCount += 10;
+
+	for (int i = 0; i < vegetationCount; i++)
+	{
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		CactusFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
+	}
+
+	if (m_random.nextInt(32) == 0)
+	{
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		PumpkinFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
+	}
+#ifdef PLANT_VEGGIES
+	vegetationCount = 0;
 
 	if (pBiome == Biome::forest)
 		vegetationCount = 2;
@@ -562,7 +583,7 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 
 	if (pBiome == Biome::plains)
 		vegetationCount = 10;
-	
+
 	for (int i = 0; i < vegetationCount; i++)
 	{
 		int data = 1;
@@ -587,27 +608,6 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		int yo = m_random.nextInt(128);
 		int zo = m_random.nextInt(16);
 		VegetationFeature(Tile::deadBush->m_ID, 0, 4).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
-	}
-
-	vegetationCount = 0;
-
-	if (pBiome == Biome::desert)
-		vegetationCount += 10;
-
-	for (int i = 0; i < vegetationCount; i++)
-	{
-		int xo = m_random.nextInt(16);
-		int yo = m_random.nextInt(128);
-		int zo = m_random.nextInt(16);
-		CactusFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
-	}
-
-	if (m_random.nextInt(32) == 0)
-	{
-		int xo = m_random.nextInt(16);
-		int yo = m_random.nextInt(128);
-		int zo = m_random.nextInt(16);
-		PumpkinFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 #endif
 	float* tempBlock = m_pLevel->getBiomeSource()->getTemperatureBlock(tp.x + 8, tp.z + 8, 16, 16);

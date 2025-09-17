@@ -24,6 +24,8 @@ items|14|2|n_rocket.png
 terrain|7|2|tall_grass.png
 terrain|7|3|dead_bush.png
 # terrain|8|3|fern.png
+terrain|15|3|spruce_sapling.png
+terrain|15|4|birch_sapling.png
 
 # Stop now to ignore the below commands. They're for a patch I'm working on that I don't want to release yet.
 stop_now

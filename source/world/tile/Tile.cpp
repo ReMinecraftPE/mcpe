@@ -751,8 +751,8 @@ void Tile::initTiles()
 	Item::items[Tile::leaves->m_ID] = (new AuxTileItem(Tile::leaves->m_ID - C_MAX_TILES))
 		->setDescriptionId("leaves");
 
-	//Item::items[Tile::sapling->m_ID] = (new AuxTileItem(Tile::sapling->m_ID - C_MAX_TILES))
-	//	->setDescriptionId("sapling");
+	Item::items[Tile::sapling->m_ID] = (new AuxTileItem(Tile::sapling->m_ID - C_MAX_TILES))
+		->setDescriptionId("sapling");
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
