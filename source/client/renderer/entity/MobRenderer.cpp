@@ -199,6 +199,11 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 	renderName(pMob, pos);
 }
 
+void MobRenderer::onGraphicsReset()
+{
+	m_pModel->onGraphicsReset();
+}
+
 void MobRenderer::renderName(Mob* mob, const Vec3& pos)
 {
 	if (mob->isPlayer())

@@ -74,6 +74,7 @@ public:
 	virtual int getKeyboardUpOffset();
   #endif
 	virtual void vibrate(int milliSeconds);
+    virtual bool getRecenterMouseEveryTick();
 	
 	void _fireLowMemory();
 	void _fireAppSuspended();

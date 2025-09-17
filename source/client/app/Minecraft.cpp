@@ -231,6 +231,7 @@ void Minecraft::setScreen(Screen* pScreen)
 void Minecraft::onGraphicsReset()
 {
 	m_pTextures->clear();
+	_initTextures();
 	m_pFont->onGraphicsReset();
 
 	if (m_pLevelRenderer)
@@ -461,7 +462,12 @@ void Minecraft::tickInput()
 			continue;
 
 		if (Mouse::isButtonDown(BUTTON_LEFT))
-			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
+		{
+			// @HACK: on SDL1, we don't recenter the mouse every tick, meaning the user can
+			// unintentionally click the hotbar while swinging their fist
+			if (!platform()->getRecenterMouseEveryTick() && m_pScreen)
+				m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
+		}
 
 		MouseButtonType buttonType = Mouse::getEventButton();
 		bool bPressed = Mouse::getEventButtonState() == true;
@@ -576,7 +582,8 @@ void Minecraft::tickMouse()
 	if (useController() || isTouchscreen())
 		return; // don't actually try to recenter the mouse
 
-	platform()->recenterMouse();
+    if (platform()->getRecenterMouseEveryTick()) // just for SDL1
+        platform()->recenterMouse();
 }
 
 void Minecraft::handleCharInput(char chr)
@@ -698,6 +705,16 @@ void Minecraft::_levelGenerated()
 {
 	if (m_pNetEventCallback)
 		m_pNetEventCallback->levelGenerated(m_pLevel);
+}
+
+void Minecraft::_initTextures()
+{
+	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
+	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
+	
+	GetPatchManager()->PatchTiles();	
 }
 
 void Minecraft::tick()
@@ -844,13 +861,7 @@ void Minecraft::init()
 	m_options->loadControls();
 
 	_reloadInput();
-
-	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
-	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
-
-	GetPatchManager()->PatchTiles();
+	_initTextures();
 
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
 	m_pSoundEngine->init(m_options, platform());

@@ -19,7 +19,10 @@ Model::Model(int width, int height)
 
 void Model::onGraphicsReset()
 {
-	
+	for (size_t i = 0; i < m_parts.size(); i++)
+	{
+		m_parts[i]->m_bCompiled = false;
+	}
 }
 
 void Model::prepareMobModel(Mob*, float, float, float)

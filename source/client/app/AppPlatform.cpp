@@ -204,6 +204,11 @@ void AppPlatform::vibrate(int milliSeconds)
 {
 }
 
+bool AppPlatform::getRecenterMouseEveryTick()
+{
+    return true;
+}
+
 void AppPlatform::_fireLowMemory()
 {
 	

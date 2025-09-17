@@ -18,6 +18,7 @@ public:
 	void setArmor(Model*);
 
 	virtual void render(Entity*, const Vec3& pos, float, float) override;
+	virtual void onGraphicsReset() override;
 	virtual int prepareArmor(Mob*, int, float);
 	virtual void setupPosition(Entity*, const Vec3& pos);
 	virtual void setupRotations(Entity*, float bob, float bodyRot, float a);

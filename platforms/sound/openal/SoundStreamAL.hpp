@@ -33,6 +33,8 @@ private:
     void _deleteBuffers();
     void _createBuffers();
     void _resetBuffers();
+	
+	ALuint* _getBuffersArray();
 
 protected:
     void _setVolume(float vol) override;
