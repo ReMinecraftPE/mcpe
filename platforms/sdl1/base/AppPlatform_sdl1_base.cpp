@@ -31,7 +31,6 @@ void AppPlatform_sdl1_base::_init(std::string storageDir, SDL_Surface* screen)
     m_pSoundSystem = nullptr;
     m_bIsTouchscreen = false;
 
-    const char* mode = getenv("MCPE_INPUT_MODE");
     _controller = findGameController();
 
     clearDiff();
