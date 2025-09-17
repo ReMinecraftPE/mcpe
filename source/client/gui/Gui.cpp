@@ -196,12 +196,16 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 #endif
 
+	 // chat
+	 //blit(width - 18, 0, 200, 82, 18, 18, 18, 18);
+
 	int nSlots = getNumSlots();
 	int hotbarWidth = 2 + nSlots * 20;
 
 	// hotbar
 	int cenX = width / 2;
-	blit(cenX - hotbarWidth / 2, height - 22, 0, 0, hotbarWidth, 22, 0, 0);
+	blit(cenX - hotbarWidth / 2, height - 22, 0, 0, hotbarWidth-2, 22, 0, 0);
+	blit(cenX + hotbarWidth / 2 -2, height - 22, 180, 0, 2, 22, 0, 0);
 
 	Inventory* inventory = player->m_pInventory;
 
@@ -293,18 +297,19 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 			b1 = player->m_invulnerableTime / 3 % 2;
 			emptyHeartX += 9 * b1;
 		}
-
+#ifdef ANDROID || TARGET_OS_IPHONE
+		//@NOTE: Pocket-style health UI.
+		int heartX = 2;
+		int heartYStart = 2;
+#else
 		// @NOTE: At the default scale, this would go off screen.
-
 		int heartX = cenX - 191; // why?
 		int heartYStart = height - 10;
 
 		//@NOTE: Alpha-style health UI. I'll probably remove this on release.
-#ifndef ORIGINAL_CODE
 		heartX = cenX - 91;
 		heartYStart = height - 32;
 #endif
-
 		int playerHealth = player->m_health;
 
 		for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
@@ -337,15 +342,17 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 			int breathRaw = player->m_airCapacity;
 			int breathFull  = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
 			int breathMeter = int(ceilf((float(breathRaw)     * 10.0f) / 300.0f)) - breathFull;
-
+#ifdef ANDROID || TARGET_OS_IPHONE
+			// pe
+			int bubbleX = 2;
+			int bubbleY = 12;
+#else
 			int bubbleX = cenX - 191;
 			int bubbleY = height - 19;
 
-#ifndef ORIGINAL_CODE
 			bubbleX = cenX - 91;
 			bubbleY = height - 41;
 #endif
-
 			//@NOTE: Not sure this works as it should
 
 			for (int bubbleNo = 0; bubbleNo < breathFull + breathMeter; bubbleNo++)
@@ -559,9 +566,9 @@ void Gui::renderMessages(bool bShowAll)
 	//int width = Minecraft::width * InvGuiScale,
 	int height = int(ceilf(Minecraft::height * InvGuiScale));
 
-	int topEdge = height - 49;
+	int topEdge = 49;
 
-	for (int i = 0; i < int(m_guiMessages.size()); i++)
+	for (int i = int(m_guiMessages.size())-1; i >= 0; i--)
 	{
 		GuiMessage& msg = m_guiMessages[i];
 		if (!bShowAll && msg.field_18 > 199)
@@ -592,7 +599,7 @@ void Gui::renderMessages(bool bShowAll)
 		glEnable(GL_BLEND);
 		m_pMinecraft->m_pFont->drawShadow(msg.msg, 2, topEdge + 1, textColor);
 
-		topEdge -= 9;
+		topEdge += 9;
 	}
 
 	glDisable(GL_BLEND);
@@ -601,7 +608,7 @@ void Gui::renderMessages(bool bShowAll)
 int Gui::getNumSlots()
 {
 	if (m_pMinecraft->isTouchscreen())
-		return 4;
+		return 8;
 
 	return 9;
 }

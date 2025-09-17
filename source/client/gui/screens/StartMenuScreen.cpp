@@ -13,9 +13,7 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 
-#if (defined(USE_SDL) || defined(_WIN32) || (defined(TARGET_OS_MAC) && TARGET_OS_IPHONE == 0)) && !defined(ANDROID)
 #define CAN_QUIT
-#endif
 
 // special mode so that we can crop out the title:
 //#define TITLE_CROP_MODE
