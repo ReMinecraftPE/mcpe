@@ -706,7 +706,7 @@ void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vec
 		return;
 	}
 
-  if (!_checkPermissions(player)) return;
+	if (!_checkPermissions(player)) return;
 
 	int id = 0;
 	int amount = 1;

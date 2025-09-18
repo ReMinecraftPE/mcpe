@@ -3,7 +3,7 @@
 
 PumpkinTile::PumpkinTile(int id, bool lantern) : Tile(id, TEXTURE_PUMPKIN_TOP, Material::vegetable)
 {
-	this->lantern = lantern;
+	this->m_bLantern = lantern;
 }
 
 int PumpkinTile::getTexture(Facing::Name face, int data) const
@@ -11,7 +11,7 @@ int PumpkinTile::getTexture(Facing::Name face, int data) const
 	switch (face) {
 	case Facing::UP: case Facing::DOWN: return m_TextureFrame;
 	default: 
-		return face == 2 && data == 2 || face == 5 && data == 3 || face == 3 && data == 0 || face == 4 && data == 1 ? m_TextureFrame + (lantern ? 18 : 17) : m_TextureFrame + 16;
+		return face == 2 && data == 2 || face == 5 && data == 3 || face == 3 && data == 0 || face == 4 && data == 1 ? m_TextureFrame + (m_bLantern ? 18 : 17) : m_TextureFrame + 16;
 	}
 }
 

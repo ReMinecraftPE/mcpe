@@ -13,6 +13,14 @@
 class StoneSlabTile : public Tile
 {
 public:
+	enum StoneSlabType
+	{
+		STONE,
+		SAND,
+		WOOD,
+		COBBLE
+	};
+
 	StoneSlabTile(int ID, bool bFull);
 
 	bool isSolidRender() const override;
@@ -26,6 +34,4 @@ public:
 	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
 
 	bool m_bFull;
-
-	static const char* types[4];
 };

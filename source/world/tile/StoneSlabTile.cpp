@@ -9,8 +9,6 @@
 #include "StoneSlabTile.hpp"
 #include "world/level/Level.hpp"
 
-const char* StoneSlabTile::types[4] = { "stone", "sand", "wood", "cobble" };
-
 StoneSlabTile::StoneSlabTile(int id, bool full) : Tile(id, TEXTURE_STONE_SLAB_TOP, Material::stone)
 {
 	m_bFull = full;
@@ -56,31 +54,22 @@ int StoneSlabTile::getTexture(Facing::Name face, int data) const
 {
 	switch (data)
 	{
-		// regular stone slab
-		case 0:
+		case STONE:
 			if (face > Facing::UP)
 				return TEXTURE_STONE_SLAB_SIDE;
 			
 			return TEXTURE_STONE_SLAB_TOP;
-
-		// sandstone slab
-		case 1:
+		case SAND:
 			if (face == Facing::DOWN)
 				return TEXTURE_SANDSTONE_BOTTOM;
 			if (face == Facing::UP)
 				return TEXTURE_SANDSTONE_TOP;
 
 			return TEXTURE_SANDSTONE_SIDE;
-
-		// wood slab
-		case 2:
+		case WOOD:
 			return TEXTURE_PLANKS;
-
-		// stone brick slab
-		case 3:
+		case COBBLE:
 			return TEXTURE_STONEBRICK;
-
-		// unknown slab type
 		default:
 			return TEXTURE_STONE_SLAB_TOP;
 	}

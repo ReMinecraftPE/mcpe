@@ -6,7 +6,7 @@
 
 TallGrass::TallGrass(int id, int texture) : Bush(id, texture)
 {
-	setShape(0.1F, 0.0F, 0.1F, 0.9F, 0.8F, 0.9F);
+	setShape(0.1f, 0.0f, 0.1f, 0.9f, 0.8f, 0.9f);
 }
 
 bool TallGrass::isValidGrowTile(const TileID tile) const

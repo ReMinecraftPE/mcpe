@@ -566,29 +566,30 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		int zo = m_random.nextInt(16);
 		PumpkinFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
-#ifdef PLANT_VEGGIES
+#ifdef FEATURE_PLANT_VEGGIES
 	vegetationCount = 0;
 
 	if (pBiome == Biome::forest)
 		vegetationCount = 2;
 
-	if (pBiome == Biome::rainForest)
+	else if (pBiome == Biome::rainForest)
 		vegetationCount = 10;
 
-	if (pBiome == Biome::seasonalForest)
+	else if (pBiome == Biome::seasonalForest)
 		vegetationCount = 2;
 
-	if (pBiome == Biome::taiga)
+	else if (pBiome == Biome::taiga)
 		vegetationCount = 1;
 
-	if (pBiome == Biome::plains)
+	else if (pBiome == Biome::plains)
 		vegetationCount = 10;
 
 	for (int i = 0; i < vegetationCount; i++)
 	{
 		int data = 1;
 
-		if (pBiome == Biome::rainForest && m_random.nextInt(3) != 0) {
+		if (pBiome == Biome::rainForest && m_random.nextInt(3) != 0) 
+		{
 			data = 2;
 		}
 		int xo = m_random.nextInt(16);

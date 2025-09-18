@@ -2621,10 +2621,10 @@ void TileRenderer::renderTile(Tile* tile, int data, float bright, bool preshade)
 			for (int i = 0; i < 4; i++)
 			{
 				switch (i) {
-				case 1: tile->setShape(0.325F, 0.0F, 0.75F, 0.625F, 1.0F, 1.0F); break;
-				case 2: tile->setShape(0.4375F, 0.8125F, -0.125F, 0.5625F, 0.9375, 1.125F); break;
-				case 3: tile->setShape(0.4375F, 0.3125F, -0.125F, 0.5625F, 0.4375F, 1.125F); break;
-				default: tile->setShape(0.325F, 0.0F, 0.0F, 0.625F, 1.0F, 0.25F); break;
+				case 1: tile->setShape(0.325f, 0.0f, 0.75f, 0.625f, 1.0f, 1.0f); break;
+				case 2: tile->setShape(0.4375f, 0.8125f, -0.125f, 0.5625f, 0.9375f, 1.125f); break;
+				case 3: tile->setShape(0.4375f, 0.3125f, -0.125f, 0.5625f, 0.4375f, 1.125f); break;
+				default: tile->setShape(0.325f, 0.0f, 0.0f, 0.625f, 1.0f, 0.25f); break;
 				}
 
 				t.begin();
@@ -2811,7 +2811,8 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 
 		m_bAmbientOcclusion = true;
 
-		switch (dir) {
+		switch (dir) 
+		{
 			case Facing::DOWN:
 				renderFaceUp  (tile, pos, tile->getTexture(m_pLevelSource, pos, Facing::DOWN));
 				break;
@@ -2859,7 +2860,8 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 				m_vtxBlue[i] *= topB * lightingMult[dir];
 			}
 
-			switch (dir) {
+			switch (dir) 
+			{
 				case Facing::DOWN:
 					renderFaceUp(tile, pos, TEXTURE_NONE84);
 					break;

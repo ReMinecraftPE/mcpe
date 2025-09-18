@@ -321,6 +321,7 @@ void ItemInHandRenderer::tick()
 	if (ItemInstance::isNull(item) && ItemInstance::isNull(&m_selectedItem))
 		bSameItem = true;
 
+	// without this, the player hand remains hidden
 	if (!ItemInstance::isNull(item) && !ItemInstance::isNull(&m_selectedItem) && item != &m_selectedItem && item->m_itemID == m_selectedItem.m_itemID && item->getAuxValue() == m_selectedItem.getAuxValue())
 	{
 		bSameItem = true;

@@ -63,7 +63,7 @@
 #include "SoulSandTile.hpp"
 #include "GlowstoneTile.hpp"
 #include "FenceTile.hpp"
-////#include "BedTile.hpp"
+//#include "BedTile.hpp"
 //#include "CropsTile.hpp"
 #include "Web.hpp"
 //#include "SnowTile.hpp"

@@ -16,7 +16,8 @@ public:
 	ClothTile(int id);
 	int getTexture(Facing::Name face, int data) const override;
 	int getSpawnResourcesAuxValue(int val) const override;
-	static int getColorFromData(int var0) {
+	static int getColorFromData(int var0)
+	{
 		return ~var0 & 15;
 	}
 };

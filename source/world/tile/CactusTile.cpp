@@ -8,7 +8,7 @@ CactusTile::CactusTile(int id, int texture) : Tile(id, texture, Material::cactus
 
 AABB* CactusTile::getAABB(const Level* pLevel, const TilePos& pos)
 {
-	auto aabb = Tile::getAABB(pLevel, pos);
+	AABB* aabb = Tile::getAABB(pLevel, pos);
 	aabb->max.y -= 1.0f / 16.0f;
 	return aabb;
 }
@@ -61,18 +61,22 @@ int CactusTile::getRenderShape() const
 void CactusTile::tick(Level* level, const TilePos& pos, Random* random) 
 {
 	TilePos above = pos.above();
-	if (level->isEmptyTile(pos.above())) {
+	if (level->isEmptyTile(pos.above())) 
+	{
 		int height;
-		for (height = 1; level->getTile(pos.below(height)) == m_ID; ++height) {
+		for (height = 1; level->getTile(pos.below(height)) == m_ID; ++height)
+		{
 		}
-
-		if (height < 3) {
+		if (height < 3) 
+		{
 			int data = level->getData(pos);
-			if (data == 15) {
+			if (data == 15) 
+			{
 				level->setTile(above, m_ID);
 				level->setData(pos, 0);
 			}
-			else {
+			else 
+			{
 				level->setData(pos, data + 1);
 			}
 		}
@@ -92,5 +96,4 @@ void CactusTile::entityInside(Level* level, const TilePos& pos, Entity* entity) 
 int CactusTile::getTexture(Facing::Name face) const
 {
 	return face == 1 ? m_TextureFrame - 1 : (face == 0 ? m_TextureFrame + 1 : m_TextureFrame);
-
 }

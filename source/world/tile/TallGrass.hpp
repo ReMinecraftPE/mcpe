@@ -10,5 +10,5 @@ public:
 	bool isValidGrowTile(const TileID tile) const;
 	int getColor(const LevelSource*, const TilePos& pos) const override;
 	int getTexture(const LevelSource* level, const TilePos& pos, Facing::Name face) const override;
-	virtual int getRenderShape() const override;
+	int getRenderShape() const override;
 };

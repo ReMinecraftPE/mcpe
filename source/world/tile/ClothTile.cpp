@@ -15,10 +15,12 @@ ClothTile::ClothTile(int id) : Tile(id, TEXTURE_CLOTH_64, Material::cloth)
 
 int ClothTile::getTexture(Facing::Name face, int data) const
 {
-	if (!data) {
+	if (!data) 
+	{
 		return m_TextureFrame;
 	}
-	else {
+	else
+	{
 		data = getColorFromData(data);
 		return 113 + ((data & 8) >> 3) + (data & 7) * 16;
 	}

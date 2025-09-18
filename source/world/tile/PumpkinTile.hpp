@@ -8,7 +8,6 @@ class PumpkinTile : public Tile
 		PumpkinTile(int id, bool lantern);
 		int getTexture(Facing::Name face, int data) const override;
 		int getTexture(Facing::Name face) const override;
-		virtual void setPlacedBy(Level*, const TilePos& pos, Mob*) override;
-		bool lantern;
+		void setPlacedBy(Level*, const TilePos& pos, Mob*) override;
+		bool m_bLantern;
 };
-

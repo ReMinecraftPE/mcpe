@@ -61,7 +61,7 @@ void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, flo
 	if (pEntity->isPlayer())
 	{
 		Player* player = (Player*)pEntity;
-		auto item = player->getSelectedItem();
+		ItemInstance* item = player->getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
 	}
 	if (pEntity->isSneaking())
