@@ -587,17 +587,14 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 	for (int i = 0; i < vegetationCount; i++)
 	{
 		int data = 1;
-		
-		int xo = m_random.nextInt(16);
-		int yo = m_random.nextInt(128);
-		int zo = m_random.nextInt(16);
-		TilePos vegPos(tp.x + 8 + xo, yo, tp.z + 8 + zo);
 
-		if (m_pLevel->getBiomeSource()->getBiome(vegPos) == Biome::rainForest && m_random.nextInt(3) != 0)
-		{
+		if (pBiome == Biome::rainForest && m_random.nextInt(3) != 0) {
 			data = 2;
 		}
-		VegetationFeature(Tile::tallGrass->m_ID, data).place(m_pLevel, &m_random, vegPos);
+		TilePos o(m_random.nextInt(16),
+		m_random.nextInt(128),
+		m_random.nextInt(16));
+		VegetationFeature(Tile::tallGrass->m_ID, data).place(m_pLevel, &m_random, TilePos(tp.x + 8 + o.x, o.y, tp.z + 8 + o.z));
 	}
 
 	vegetationCount = 0;

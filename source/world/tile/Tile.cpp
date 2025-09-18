@@ -595,7 +595,7 @@ void Tile::initTiles()
 	Tile::cactus = (new CactusTile(TILE_CACTUS, TEXTURE_CACTUS_SIDE))
 		->init()
 		->setDestroyTime(0.4f)
-		//->setLightBlock(3) // Why?
+		//->setLightBlock(3)
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("cactus");
 
@@ -734,7 +734,7 @@ void Tile::initTiles()
 	Tile::web = (new Web(TILE_COBWEB, TEXTURE_COBWEB))
 		->init()
 		->setDestroyTime(4.0f)
-		->setLightBlock(1)
+		//->setLightBlock(1)
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("web");
 

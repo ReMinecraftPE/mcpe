@@ -125,16 +125,11 @@ int Entity::move(const Vec3& pos)
 
 		return 1300;
 	}
-	m_ySlideOffset *= 0.4;
-	Vec3 newPos(pos);
-	if (m_bInWeb) 
+	if (m_bInWeb)
 	{
 		m_bInWeb = false;
-		newPos.x *= 0.25;
-		newPos.y *= 0.05;
-		newPos.z *= 0.25;
-		m_vel *= 0;
-		m_distanceFallen = 0.0F;
+		// @TODO: Fix y velocity
+		m_vel *= 0.0f;
 	}
 
 	//@TODO: untangle the control flow
