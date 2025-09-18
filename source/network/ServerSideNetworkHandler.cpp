@@ -738,8 +738,8 @@ void ServerSideNetworkHandler::commandClear(OnlinePlayer* player, const std::vec
 {
 	if (!m_pLevel)
 		return;
-
-  if (!_checkPermissions(player)) return;
+		
+	if (!_checkPermissions(player)) return;
 
 	Inventory* pInventory = player->m_pPlayer->m_pInventory;
 
