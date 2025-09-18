@@ -2618,13 +2618,15 @@ void TileRenderer::renderTile(Tile* tile, int data, float bright, bool preshade)
 		case SHAPE_FENCE:
 		{
 			t.addOffset(-0.5f, -0.5f, -0.5f);
+			float v5 = 1.0f / 16.0f;
+			float v6 = v5 * 2.0f;
 			for (int i = 0; i < 4; i++)
 			{
 				switch (i) {
-				case 1: tile->setShape(0.325f, 0.0f, 0.75f, 0.625f, 1.0f, 1.0f); break;
-				case 2: tile->setShape(0.4375f, 0.8125f, -0.125f, 0.5625f, 0.9375f, 1.125f); break;
-				case 3: tile->setShape(0.4375f, 0.3125f, -0.125f, 0.5625f, 0.4375f, 1.125f); break;
-				default: tile->setShape(0.325f, 0.0f, 0.0f, 0.625f, 1.0f, 0.25f); break;
+				case 0: tile->setShape(0.5f - v6, 0.0f, 0.0f, 0.5f + v6, 1.0f, v6 * 2.0f); break;
+				case 1: tile->setShape(0.5f - v6, 0.0f, 1.0f - (v6 * 2.0f), 0.5f + v6, 1.0f, 1.0f); break;
+				case 2: tile->setShape(0.5f - v5, 1.0f - v5 * 3.0f, -v5 * 2.0f, 0.5f + v5, 1.0f - v5, 1.0f + v5 * 2.0f); break;
+				case 3: tile->setShape(0.5f - v5, 0.5f - v5 * 3.0f, -v5 * 2.0f, 0.5f + v5, 0.5f - v5, 1.0f + v5 * 2.0f); break;
 				}
 
 				t.begin();
