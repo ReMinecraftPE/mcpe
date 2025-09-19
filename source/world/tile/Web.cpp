@@ -22,7 +22,7 @@ bool Web::isSolidRender() const
 
 void Web::entityInside(Level*, const TilePos& pos, Entity* entity) const
 {
-	entity->m_bInWeb = true;
+	entity->m_bIsInWeb = true;
 }
 
 int Web::getResource(int x, Random* random) const

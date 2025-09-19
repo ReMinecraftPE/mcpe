@@ -33,7 +33,7 @@ void Entity::_init()
 	field_7E = false;
 	field_7F = false;
 	m_bHurt = false;
-	m_bInWeb = false;
+	m_bIsInWeb = false;
 	field_81 = 1;
 	m_bRemoved = false;
 	m_heightOffset = 0.0f;
@@ -109,15 +109,15 @@ void Entity::remove()
 	m_bRemoved = true;
 }
 
-int Entity::move(const Vec3& pos)
+int Entity::move(const Vec3& posIn)
 {
-	float x_1 = pos.x, z_1 = pos.z;
+	Vec3 pos = posIn;
 
 	if (m_bNoPhysics)
 	{
 		// just move it. Don't perform any kind of collision
-		m_hitbox.min += pos;
-		m_hitbox.max += pos;
+		m_hitbox.min += posIn;
+		m_hitbox.max += posIn;
 
 		m_pos.x = (m_hitbox.max.x + m_hitbox.min.x) / 2;
 		m_pos.z = (m_hitbox.max.z + m_hitbox.min.z) / 2;
@@ -125,11 +125,14 @@ int Entity::move(const Vec3& pos)
 
 		return 1300;
 	}
-	if (m_bInWeb)
+
+	if (m_bIsInWeb)
 	{
-		m_bInWeb = false;
-		// @TODO: Fix y velocity
-		m_vel *= 0.0f;
+		m_bIsInWeb = false;
+		m_vel = Vec3::ZERO;
+		pos.x *= 0.25f;
+		pos.y *= 0.05f;
+		pos.z *= 0.25f;
 	}
 
 	//@TODO: untangle the control flow
@@ -161,12 +164,12 @@ int Entity::move(const Vec3& pos)
 	{
 	label_4:
 
-		z_2 = z_1;
-		b1 = x_1 < 0.0f;
-		b2 = x_1 > 0.0f;
-		x_2 = x_1;
-		b3 = z_1 < 0.0f;
-		b4 = z_1 > 0.0f;
+		z_2 = pos.z;
+		b1 = pos.x < 0.0f;
+		b2 = pos.x > 0.0f;
+		x_2 = pos.x;
+		b3 = pos.z < 0.0f;
+		b4 = pos.z > 0.0f;
 		b5 = false;
 		goto label_5;
 	}
@@ -174,108 +177,105 @@ int Entity::move(const Vec3& pos)
 	if (!isSneaking())
 		goto label_4;
 
-	if (x_1 == 0.0f)
+	if (pos.x == 0.0f)
 	{
-		x_2 = x_1;
-		b1 = x_1 < 0.0f;
-		b2 = x_1 > 0.0f;
+		x_2 = pos.x;
+		b1 = pos.x < 0.0f;
+		b2 = pos.x > 0.0f;
 	}
 	else
 	{
-		x_2 = x_1;
+		x_2 = pos.x;
 		do
 		{
 			AABB aabb = m_hitbox;
-			aabb.move(x_1, -1.0f, 0);
+			aabb.move(pos.x, -1.0f, 0);
 
 			AABBVector* cubes = m_pLevel->getCubes(this, aabb);
 
 			if (cubes->size())
 				break;
 
-			if (x_1 < 0.05f && x_1 >= -0.05f)
+			if (pos.x < 0.05f && pos.x >= -0.05f)
 			{
 				x_2 = 0.0f;
-				x_1 = 0.0f;
+				pos.x = 0.0f;
 				break;
 			}
 
-			// @BUG: See the z_1 part
-			if (x_1 <= 0.0f)
-				x_1 = x_1 + 0.05f;
+			// @BUG: See the pos.z part
+			if (pos.x <= 0.0f)
+				pos.x = pos.x + 0.05f;
 			else
-				x_1 = x_1 - 0.05f;
+				pos.x = pos.x - 0.05f;
 
-			x_2 = x_1;
-		} while (x_1 != 0.0f);
+			x_2 = pos.x;
+		} while (pos.x != 0.0f);
 
-		b1 = x_1 < 0.0f;
-		b2 = x_1 > 0.0f;
+		b1 = pos.x < 0.0f;
+		b2 = pos.x > 0.0f;
 	}
 
-	if (z_1 == 0.0f)
+	if (pos.z == 0.0f)
 	{
-		z_2 = z_1;
-		b3 = z_1 < 0.0f;
-		b4 = z_1 > 0.0f;
+		z_2 = pos.z;
+		b3 = pos.z < 0.0f;
+		b4 = pos.z > 0.0f;
 	}
 	else
 	{
-		z_2 = z_1;
+		z_2 = pos.z;
 		do
 		{
 			AABB aabb = m_hitbox;
-			aabb.move(0, -1.0f, z_1);
+			aabb.move(0, -1.0f, pos.z);
 
 			AABBVector* cubes = m_pLevel->getCubes(this, aabb);
 
 			if (cubes->size())
 				break;
 
-			if (z_1 < 0.05f && z_1 >= -0.05f)
+			if (pos.z < 0.05f && pos.z >= -0.05f)
 			{
 				z_2 = 0.0f;
-				z_1 = 0.0f;
+				pos.z = 0.0f;
 				break;
 			}
 
-			//@BUG: wouldn't this loop forever? Since if z_1 == 0.025f, it'd oscillate between -0.025f and +0.025f...
-			if (z_1 <= 0.0f)
-				z_1 = z_1 + 0.05f;
+			//@BUG: wouldn't this loop forever? Since if pos.z == 0.025f, it'd oscillate between -0.025f and +0.025f...
+			if (pos.z <= 0.0f)
+				pos.z = pos.z + 0.05f;
 			else
-				z_1 = z_1 - 0.05f;
-		} while (z_1 != 0.0f);
-		b3 = z_1 < 0.0f;
-		b4 = z_1 > 0.0f;
+				pos.z = pos.z - 0.05f;
+		} while (pos.z != 0.0f);
+		b3 = pos.z < 0.0f;
+		b4 = pos.z > 0.0f;
 	}
 
 	b5 = true;
 
 label_5:
-	if (b1) x6 += x_1;
-	if (b2) x3 += x_1;
-	if (pos.y < 0.0f) x5 += pos.y;
-	if (pos.y > 0.0f) x2 += pos.y;
-	if (b3) x4 += pos.z;
-	if (b4) x1 += pos.z;
+	if (b1) x6 += pos.x;
+	if (b2) x3 += pos.x;
+	if (posIn.y < 0.0f) x5 += posIn.y;
+	if (posIn.y > 0.0f) x2 += posIn.y;
+	if (b3) x4 += posIn.z;
+	if (b4) x1 += posIn.z;
 
 	AABB scanAABB(x6, x5, x4, x3, x2, x1);
 	AABBVector* pCubes = m_pLevel->getCubes(this, scanAABB);
 
-	float newY = pos.y;
 	for (int i = 0; i < pCubes->size(); i++)
 	{
 		const AABB& aabb = pCubes->at(i);
-		newY = aabb.clipYCollide(m_hitbox, newY);
+		pos.y = aabb.clipYCollide(m_hitbox, pos.y);
 	}
 
-	m_hitbox.move(0, newY, 0);
+	m_hitbox.move(0, pos.y, 0);
 
-	if (!field_81 && newY != pos.y)
+	if (!field_81 && pos.y != posIn.y)
 	{
-		z_1 = 0.0f;
-		x_1 = 0.0f;
-		newY = 0.0f;
+		pos = Vec3::ZERO;
 	}
 
 	if (m_onGround)
@@ -284,51 +284,51 @@ label_5:
 	}
 	else
 	{
-		b6 = pos.y < 0.0f;
-		if (newY == pos.y)
+		b6 = posIn.y < 0.0f;
+		if (pos.y == posIn.y)
 			b6 = 0;
 	}
 
 	for (int i = 0; i < pCubes->size(); i++)
 	{
 		const AABB& aabb = pCubes->at(i);
-		x_1 = aabb.clipXCollide(m_hitbox, x_1);
+		pos.x = aabb.clipXCollide(m_hitbox, pos.x);
 	}
 
-	m_hitbox.move(x_1, 0, 0);
+	m_hitbox.move(pos.x, 0, 0);
 
-	if (!field_81 && x_1 != x_2)
+	if (!field_81 && pos.x != x_2)
 	{
-		z_1 = 0.0f;
-		x_1 = 0.0f;
-		newY = 0.0f;
+		pos.z = 0.0f;
+		pos.x = 0.0f;
+		pos.y = 0.0f;
 	}
 
 	for (int i = 0; i < pCubes->size(); i++)
 	{
 		const AABB& aabb = pCubes->at(i);
-		z_1 = aabb.clipZCollide(m_hitbox, z_1);
+		pos.z = aabb.clipZCollide(m_hitbox, pos.z);
 	}
 
-	m_hitbox.move(0, 0, z_1);
+	m_hitbox.move(0, 0, pos.z);
 
-	if (!field_81 && z_1 != z_2)
+	if (!field_81 && pos.z != z_2)
 	{
-		z_1 = 0.0f;
-		x_1 = 0.0f;
-		newY = 0.0f;
+		pos.z = 0.0f;
+		pos.x = 0.0f;
+		pos.y = 0.0f;
 	}
 
 	x20 = field_A8;
 	if (x20 <= 0.0f || !b6)
 	{
 	label_44:
-		z_3 = z_1;
-		x_3 = x_1;
+		z_3 = pos.z;
+		x_3 = pos.x;
 		goto label_45;
 	}
 
-    if (m_ySlideOffset >= 0.05f || (x_2 == x_1 && z_2 == z_1))
+    if (m_ySlideOffset >= 0.05f || (x_2 == pos.x && z_2 == pos.z))
 		goto label_44;
 
 	// oh come on, undoing all our work??
@@ -358,7 +358,7 @@ label_5:
 
 	m_hitbox.move(0, x20, 0);
 
-	if (field_81 || x20 == pos.y)
+	if (field_81 || x20 == posIn.y)
 	{
 		z_3 = z_2;
 		x_3 = x_2;
@@ -401,17 +401,17 @@ label_5:
 	}
 
 	// if we moved more this time than before?? no clue wtf this is about...
-	if (z_1 * z_1 + x_1 * x_1 < z_3 * z_3 + x_3 * x_3)
+	if (pos.z * pos.z + pos.x * pos.x < z_3 * z_3 + x_3 * x_3)
 	{
 		m_ySlideOffset += 0.5f;
-		newY = x20;
+		pos.y = x20;
 	}
 	else
 	{
 		// don't get the rationale behind this at all...
 		m_hitbox = hitold;
-		z_3 = z_1;
-		x_3 = x_1;
+		z_3 = pos.z;
+		x_3 = pos.x;
 	}
 
 label_45:
@@ -420,14 +420,14 @@ label_45:
 	m_pos.y = m_hitbox.min.y - m_ySlideOffset + m_heightOffset;
 
 	m_bHorizontalCollision = x_2 != x_3 || z_2 != z_3;
-	field_7F = m_bHorizontalCollision || newY != pos.y;
-	m_onGround = pos.y < 0.0f && newY != pos.y;
-	field_7E = newY != pos.y;
+	field_7F = m_bHorizontalCollision || pos.y != posIn.y;
+	m_onGround = posIn.y < 0.0f && pos.y != posIn.y;
+	field_7E = pos.y != posIn.y;
 
-	checkFallDamage(newY, m_onGround);
+	checkFallDamage(pos.y, m_onGround);
 
 	if (x_2 != x_3) m_vel.x = 0.0;
-	if (newY != pos.y)  m_vel.y = 0.0;
+	if (pos.y != posIn.y)  m_vel.y = 0.0;
 	if (z_2 != z_3) m_vel.z = 0.0;
 
 	if (m_bMakeStepSound && !b5) // !(m_onGround && isSneaking())

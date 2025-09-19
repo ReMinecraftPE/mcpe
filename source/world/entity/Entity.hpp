@@ -92,7 +92,7 @@ public:
 	virtual void removed();
 	virtual void setPos(const Vec3& pos);
 	virtual void remove();
-	virtual int move(const Vec3& pos);
+	virtual int move(const Vec3& posIn);
 	virtual void moveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
 	virtual void absMoveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
 	virtual void moveRelative(const Vec3& pos);
@@ -205,7 +205,7 @@ public:
 	bool field_7E;
 	bool field_7F;
 	bool m_bHurt;
-	bool m_bInWeb;
+	bool m_bIsInWeb;
 	uint8_t field_81;
 	bool m_bRemoved;
 	float m_heightOffset;
