@@ -126,12 +126,14 @@ int Entity::move(const Vec3& posIn)
 		return 1300;
 	}
 
+	bool _isInWeb = m_bIsInWeb;
+
 	if (m_bIsInWeb)
 	{
 		m_bIsInWeb = false;
 		m_vel = Vec3::ZERO;
 		pos.x *= 0.25f;
-		pos.y *= 0.05f;
+		pos.y = -0.004f;
 		pos.z *= 0.25f;
 	}
 
@@ -261,6 +263,7 @@ label_5:
 	if (posIn.y > 0.0f) x2 += posIn.y;
 	if (b3) x4 += posIn.z;
 	if (b4) x1 += posIn.z;
+	if (_isInWeb) x5--;
 
 	AABB scanAABB(x6, x5, x4, x3, x2, x1);
 	AABBVector* pCubes = m_pLevel->getCubes(this, scanAABB);
@@ -421,7 +424,7 @@ label_45:
 
 	m_bHorizontalCollision = x_2 != x_3 || z_2 != z_3;
 	field_7F = m_bHorizontalCollision || pos.y != posIn.y;
-	m_onGround = posIn.y < 0.0f && pos.y != posIn.y;
+	m_onGround = _isInWeb || (posIn.y < 0.0f && pos.y != posIn.y);
 	field_7E = pos.y != posIn.y;
 
 	checkFallDamage(pos.y, m_onGround);
