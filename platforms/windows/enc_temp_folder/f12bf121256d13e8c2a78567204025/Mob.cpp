@@ -526,19 +526,30 @@ HitResult Mob::pick(float f1, float f2)
 
 void Mob::travel(const Vec2& pos)
 {
-	float x2, dragFactor;
-	float oldYPos = m_pos.y;
-	if (isInWater() || isInLava())
+	float x1, x2, dragFactor, oldYPos = m_pos.y;
+	if (isInWater())
 	{
-		moveRelative(Vec3(pos.y, 0.02, pos.x));
+		moveRelative(Vec3(pos.x, 0.02f, pos.y));
 		move(m_vel);
-		const float x1 = (isInWater() ? 0.8f : 0.5f);
+		x1 = 0.8f;
+		goto label_3;
+	}
+	if (isInLava())
+	{
+		moveRelative(Vec3(pos.x, 0.02f, pos.y));
+		move(m_vel);
+		x1 = 0.5f;
+	label_3:
+
 		m_vel.y = m_vel.y * x1 - 0.02f;
 		m_vel.x *= x1;
 		m_vel.z *= x1;
 
-		if (m_bHorizontalCollision && isFree(Vec3(m_vel.x, m_vel.y + 0.6f - m_pos.y + oldYPos, m_vel.z)))
-			m_vel.y = 0.3f;
+		if (m_bHorizontalCollision)
+		{
+			if (isFree(Vec3(m_vel.x, m_vel.y + 0.6f - m_pos.y + oldYPos, m_vel.z)))
+				m_vel.y = 0.3f;
+		}
 
 		return;
 	}
