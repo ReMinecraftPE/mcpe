@@ -286,7 +286,8 @@ int Entity::move(const Vec3& pos)
 
 		var37 = m_pos.x - aPosX;
 		var23 = m_pos.z - aPosZ;
-		if (m_bMakeStepSound && !validSneaking) {
+		if (m_bMakeStepSound && !validSneaking)
+		{
 			m_walkDist = float(m_walkDist + Mth::sqrt(var37 * var37 + var23 * var23) * 0.6);
 			TilePos tp(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z);
 			var28 = m_pLevel->getTile(tp);
@@ -294,16 +295,23 @@ int Entity::move(const Vec3& pos)
 			if (m_pLevel->getTile(tp.below()) == Tile::fence->m_ID)
 				var28 = Tile::fence->m_ID;
 
-			if (m_walkDist > m_nextStep && var28 > 0) {
+			if (m_walkDist > m_nextStep && var28 > 0)
+			{
 				m_nextStep = m_walkDist + 1;
-				if (m_pLevel->getTile(tp.above()) == Tile::topSnow->m_ID) {
-					auto sound = Tile::topSnow->m_pSound;
-					m_pLevel->playSound(this, sound->m_name, sound->volume * 0.15F, sound->pitch);
+
+				const Tile::SoundType* sound = nullptr;
+				// vol is * 0.15f in Java, is quiet for whatever reason, so bumping to 0.20f
+				if (m_pLevel->getTile(tp.above()) == Tile::topSnow->m_ID)
+				{
+					sound = Tile::topSnow->m_pSound;
 				}
-				else if (!Tile::tiles[var28]->m_pMaterial->isLiquid()) {
-					auto sound = Tile::tiles[var28]->m_pSound;
-					m_pLevel->playSound(this, sound->m_name, sound->volume * 0.15F, sound->pitch);
+				else if (!Tile::tiles[var28]->m_pMaterial->isLiquid())
+				{
+					sound = Tile::tiles[var28]->m_pSound;
 				}
+
+				if (sound != nullptr)
+					m_pLevel->playSound(this, "step." + sound->m_name, sound->volume * 0.20f, sound->pitch);
 
 				Tile::tiles[var28]->stepOn(m_pLevel, tp, this);
 			}
