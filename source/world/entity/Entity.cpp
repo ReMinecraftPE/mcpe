@@ -55,9 +55,9 @@ void Entity::_init()
 	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
 	m_distanceFallen = 0.0f;
 	m_airSupply = TOTAL_AIR_SUPPLY;
-	field_D4 = 0;
-	field_D5 = false;
-	field_D6 = true;
+	m_bWasInWater = false;
+	m_bFireImmune = false;
+	m_bFirstTick = true;
 	m_nextStep = 1;
 	m_entityData = SynchedEntityData();
 	m_pDescriptor = &EntityTypeDescriptor::unknown;
@@ -186,7 +186,7 @@ int Entity::move(const Vec3& pos)
 		if (!m_bSlide && cPosZ != newPos.z)
 			newPos = Vec3::ZERO;
 
-		if (m_footSize > 0.0F && lastsOnGround && m_ySlideOffset < 0.05F && (cPosX != newPos.x || cPosZ != newPos.z))
+		if (m_footSize > 0.0f && lastsOnGround && m_ySlideOffset < 0.05F && (cPosX != newPos.x || cPosZ != newPos.z))
 		{
 			Vec3 oldPos = newPos;
 			newPos.x = cPosX;
@@ -411,7 +411,7 @@ void Entity::reset()
 	m_oRot = m_rot;
 	m_bRemoved = false;
 	m_distanceFallen = 0.0f;
-	field_D5 = false;
+	m_bFireImmune = false;
 	m_fireTicks = 0;
 }
 
@@ -444,7 +444,7 @@ void Entity::baseTick()
 	m_oRot = m_rot;
 	if (isInWater())
 	{
-		if (!field_D4 && !field_D6)
+		if (!m_bWasInWater && !m_bFirstTick)
 		{
 			float dist = Mth::sqrt(m_vel.y * m_vel.y + m_vel.x * m_vel.x * 0.2f + m_vel.z * m_vel.z * 0.2f) * 0.2f;
 			if (dist > 1.0f)
@@ -489,7 +489,7 @@ void Entity::baseTick()
 			}
 		}
 
-		field_D4 = true;
+		m_bWasInWater = true;
 		m_fireTicks = 0;
 		m_distanceFallen = 0;
 
@@ -498,7 +498,7 @@ void Entity::baseTick()
 	}
 	else
 	{
-		field_D4 = false;
+		m_bWasInWater = false;
 
 		if (m_pLevel->m_bIsOnline)
 		{
@@ -516,7 +516,7 @@ void Entity::baseTick()
 		goto label_15;
 	}
 
-	if (field_D5)
+	if (m_bFireImmune)
 	{
 		m_fireTicks -= 4;
 		if (m_fireTicks < 0)
@@ -541,7 +541,7 @@ label_6:
 	if (m_pos.y < -64.0f)
 		outOfWorld();
 
-	field_D6 = false;
+	m_bFirstTick = false;
 }
 
 bool Entity::intersects(const Vec3& min, const Vec3& max) const
@@ -821,13 +821,13 @@ void Entity::markHurt()
 
 void Entity::burn(int x)
 {
-	if (!field_D5)
+	if (!m_bFireImmune)
 		hurt(nullptr, 4);
 }
 
 void Entity::lavaHurt()
 {
-	if (!field_D5)
+	if (!m_bFireImmune)
 	{
 		hurt(nullptr, 4);
 		m_fireTicks = 600;

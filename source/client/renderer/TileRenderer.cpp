@@ -548,9 +548,9 @@ void TileRenderer::tesselateCrossTexture(Tile* tile, int data, const Vec3& pos)
 	{
 		int64_t var17 = int64_t(pos.x * 3129871) ^ (int64_t)pos.z * 116129781L ^ (int64_t)pos.y;
 		var17 = var17 * var17 * 42317861L + var17 * 11L;
-		cenX += (((var17 >> 16 & 15L) / 15.0F) - 0.5f) * 0.5f;
-		newY += (((var17 >> 20 & 15L) / 15.0F) - 1.0f) * 0.2f;
-		cenZ += (((var17 >> 24 & 15L) / 15.0F) - 0.5f) * 0.5f;
+		cenX += (((var17 >> 16 & 15L) / 15.0f) - 0.5f) * 0.5f;
+		newY += (((var17 >> 20 & 15L) / 15.0f) - 1.0f) * 0.2f;
+		cenZ += (((var17 >> 24 & 15L) / 15.0f) - 0.5f) * 0.5f;
 	}
 	
 	float x1 = cenX - 0.45f, x2 = cenX + 0.45f;
@@ -1006,14 +1006,14 @@ bool TileRenderer::tesselateFenceInWorld(Tile* tile, const TilePos& pos)
 		connectsHorizontally = true;
 	}
 
-	float var6 = 7.0F / 16.0F;
-	float var7 = 9.0F / 16.0F;
-	float var14 = 12.0F / 16.0F;
-	float var15 = 15.0F / 16.0F;
-	float var16 = tileWest ? 0.0F : var6;
-	float var17 = tileEast ? 1.0F : var7;
-	float var18 = tileNorth ? 0.0F : var6;
-	float var19 = tileSouth ? 1.0F : var7;
+	float var6 = 7.0f / 16.0f;
+	float var7 = 9.0f / 16.0f;
+	float var14 = 12.0f / 16.0f;
+	float var15 = 15.0f / 16.0f;
+	float var16 = tileWest ? 0.0f : var6;
+	float var17 = tileEast ? 1.0f : var7;
+	float var18 = tileNorth ? 0.0f : var6;
+	float var19 = tileSouth ? 1.0f : var7;
 
 	if (connectsHorizontally)
 	{
@@ -1028,8 +1028,8 @@ bool TileRenderer::tesselateFenceInWorld(Tile* tile, const TilePos& pos)
 		if (tesselateBlockInWorld(tile, pos)) bRenderedAnything = true;
 	}
 
-	var14 = 6.0F / 16.0F;
-	var15 = 9.0F / 16.0F;
+	var14 = 6.0f / 16.0f;
+	var15 = 9.0f / 16.0f;
 
 	if (connectsHorizontally)
 	{

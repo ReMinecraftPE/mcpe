@@ -835,6 +835,7 @@ void Minecraft::init()
 	m_pTextures->addDynamicTexture(new LavaTexture);
 	m_pTextures->addDynamicTexture(new LavaSideTexture);
 	m_pTextures->addDynamicTexture(new FireTexture(0));
+	m_pTextures->addDynamicTexture(new FireTexture(1));
 
 	if (platform()->hasFileSystemAccess())
 		m_options = new Options(m_externalStorageDir);

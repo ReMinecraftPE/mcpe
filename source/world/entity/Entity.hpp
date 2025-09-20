@@ -226,9 +226,9 @@ public:
 	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
 	float m_distanceFallen; // Supposed to be protected
 	int16_t m_airSupply;
-	uint8_t field_D4;
-	bool field_D5;
-	bool field_D6;
+	bool m_bWasInWater;
+	bool m_bFireImmune;
+	bool m_bFirstTick;
 	int m_nextStep;
 
 	protected:

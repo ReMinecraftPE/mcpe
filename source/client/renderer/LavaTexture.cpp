@@ -44,7 +44,7 @@ void LavaTexture::tick()
 	{
 		for (int y = 0; y < 16; y++)
 		{
-			float f = 0.0F;
+			float f = 0.0f;
 			int ax = int(Mth::sin((float(x) * float(M_PI) * 2) / 16.0f) * 1.2f);
 			int ay = int(Mth::sin((float(y) * float(M_PI) * 2) / 16.0f) * 1.2f);
 
