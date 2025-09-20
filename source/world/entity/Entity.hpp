@@ -202,11 +202,11 @@ public:
 	AABB m_hitbox;
 	bool m_onGround;
 	bool m_bHorizontalCollision;
-	bool field_7E;
-	bool field_7F;
+	bool m_bCollision;
+	bool m_bVerticalCollision;
 	bool m_bHurt;
 	bool m_bIsInWeb;
-	uint8_t field_81;
+	uint8_t m_bSlide;
 	bool m_bRemoved;
 	float m_heightOffset;
 	float m_bbWidth;
@@ -215,7 +215,7 @@ public:
 	float m_walkDist;
 	Vec3 m_posPrev;
 	float m_ySlideOffset;
-	float field_A8;
+	float m_footSize;
 	bool m_bNoPhysics;
 	float field_B0;
 	int m_tickCount;

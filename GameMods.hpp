@@ -40,6 +40,7 @@
 #define ENH_GUI_ITEM_POP                   // Calls Inventory::tick() to create the "pop" animation for items that enter the hotbar. This function was not present on Pocket Edition.
 //#define ENH_DISABLE_FORCED_SAVE_UPGRADES // Prevents the forced format-version upgrade of world/level saves, effectively opting-out of new save formats. See LEVEL_STORAGE_VERSION_DEFAULT in LevelData.hpp.
 #define ENH_FACED_TERRAIN_PARTICLES        // Sets the TerrainParticle's texture depending on the face the block is being hit from. This is something Notch never did for whatever reason.
+#define ENH_NEW_LADDER_BEHAVIOR            // Use Java Beta 1.5 ladder behavior
 
 // TODO: Implement this permanently?
 #define ENH_IMPROVED_SAVING     	 // Improve world saving. The original Minecraft doesn't always really save for some reason

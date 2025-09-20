@@ -66,7 +66,7 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	setPos(m_pos);
 	field_E0 = Mth::random() * 12398.0f;
 	m_rot.x = float(Mth::random() * M_PI);
-	field_A8 = 0.5f;
+	m_footSize = 0.5f;
 }
 
 Mob::~Mob()
@@ -466,12 +466,16 @@ void Mob::knockback(Entity* pEnt, int a, float x, float z)
 
 bool Mob::onLadder() const
 {
+#ifdef ENH_NEW_LADDER_BEHAVIOR
+	return m_pLevel->getTile(TilePos(m_pos.x, m_hitbox.min.y, m_pos.z)) == Tile::ladder->m_ID;
+#else
 	TilePos tilePos = TilePos(m_pos.x, m_hitbox.min.y, m_pos.z);
 
 	//@INFO: Pre Beta 1.5 stair behaviour
 	return
-		m_pLevel->getTile(tilePos) == Tile::ladder->m_ID || 
+		m_pLevel->getTile(tilePos) == Tile::ladder->m_ID ||
 		m_pLevel->getTile(tilePos.above()) == Tile::ladder->m_ID;
+#endif
 }
 
 void Mob::spawnAnim()
@@ -557,13 +561,11 @@ void Mob::travel(const Vec2& pos)
 	else
 	{
 		float _x1;
-		TilePos tilePos(m_pos.x, m_hitbox.min.y, m_pos.z);;
-		tilePos.y -= 1;
-		TileID tile = m_pLevel->getTile(tilePos);
+		TileID tile = m_pLevel->getTile(TilePos(m_pos.x, m_hitbox.min.y - 1, m_pos.z));
 		if (tile <= 0)
 			_x1 = 0.546f;
 		else
-			_x1 = Tile::tiles[tile]->field_30 * 0.91f;
+			_x1 = Tile::tiles[tile]->m_friction * 0.91f;
 
 		assert(_x1 != 0.0f);
 
@@ -578,18 +580,30 @@ void Mob::travel(const Vec2& pos)
 	}
 	else
 	{
-		//@HUH: repeated code. Could be an inlined function?
-		TilePos tilePos = TilePos(m_pos);
-		tilePos.y -= 1;
-		TileID tile = m_pLevel->getTile(tilePos);
+
+		TileID tile = m_pLevel->getTile(TilePos(m_pos.x, m_hitbox.min.y - 1, m_pos.z));
 		if (tile <= 0)
 			dragFactor = 0.546f;
 		else
-			dragFactor = Tile::tiles[tile]->field_30 * 0.91f;
+			dragFactor = Tile::tiles[tile]->m_friction * 0.91f;
 	}
 
 	if (onLadder())
 	{
+#ifdef ENH_NEW_LADDER_BEHAVIOR
+		if (m_vel.x < -0.15f)
+			m_vel.x = -0.15f;
+
+		if (m_vel.x > 0.15f)
+			m_vel.x = 0.15f;
+
+		if (m_vel.z < -0.15f)
+			m_vel.z = -0.15f;
+
+		if (m_vel.z > 0.15f)
+			m_vel.z = 0.15f;
+#endif
+
 		m_distanceFallen = 0.0f;
 
 		if (m_vel.y < -0.15f)
