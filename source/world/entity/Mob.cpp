@@ -530,7 +530,7 @@ void Mob::travel(const Vec2& pos)
 	float oldYPos = m_pos.y;
 	if (isInWater() || isInLava())
 	{
-		moveRelative(Vec3(pos.y, 0.02, pos.x));
+		moveRelative(Vec3(pos.x, 0.02f, pos.y));
 		move(m_vel);
 		const float x1 = (isInWater() ? 0.8f : 0.5f);
 		m_vel.y = m_vel.y * x1 - 0.02f;
