@@ -558,28 +558,28 @@ void TileRenderer::tesselateCrossTexture(Tile* tile, int data, const Vec3& pos)
 
 	Tesselator& t = Tesselator::instance;
 	// face 1
-	t.vertexUV(x1, pos.y + 1, z1, texU_l, texV_u);
-	t.vertexUV(x1, pos.y + 0, z1, texU_l, texV_d);
-	t.vertexUV(x2, pos.y + 0, z2, texU_r, texV_d);
-	t.vertexUV(x2, pos.y + 1, z2, texU_r, texV_u);
+	t.vertexUV(x1, newY + 1, z1, texU_l, texV_u);
+	t.vertexUV(x1, newY + 0, z1, texU_l, texV_d);
+	t.vertexUV(x2, newY + 0, z2, texU_r, texV_d);
+	t.vertexUV(x2, newY + 1, z2, texU_r, texV_u);
 
 	// face 2
-	t.vertexUV(x2, pos.y + 1, z2, texU_l, texV_u);
-	t.vertexUV(x2, pos.y + 0, z2, texU_l, texV_d);
-	t.vertexUV(x1, pos.y + 0, z1, texU_r, texV_d);
-	t.vertexUV(x1, pos.y + 1, z1, texU_r, texV_u);
+	t.vertexUV(x2, newY + 1, z2, texU_l, texV_u);
+	t.vertexUV(x2, newY + 0, z2, texU_l, texV_d);
+	t.vertexUV(x1, newY + 0, z1, texU_r, texV_d);
+	t.vertexUV(x1, newY + 1, z1, texU_r, texV_u);
 
 	// face 3
-	t.vertexUV(x1, pos.y + 1, z2, texU_l, texV_u);
-	t.vertexUV(x1, pos.y + 0, z2, texU_l, texV_d);
-	t.vertexUV(x2, pos.y + 0, z1, texU_r, texV_d);
-	t.vertexUV(x2, pos.y + 1, z1, texU_r, texV_u);
+	t.vertexUV(x1, newY + 1, z2, texU_l, texV_u);
+	t.vertexUV(x1, newY + 0, z2, texU_l, texV_d);
+	t.vertexUV(x2, newY + 0, z1, texU_r, texV_d);
+	t.vertexUV(x2, newY + 1, z1, texU_r, texV_u);
 
 	// face 4
-	t.vertexUV(x2, pos.y + 1, z1, texU_l, texV_u);
-	t.vertexUV(x2, pos.y + 0, z1, texU_l, texV_d);
-	t.vertexUV(x1, pos.y + 0, z2, texU_r, texV_d);
-	t.vertexUV(x1, pos.y + 1, z2, texU_r, texV_u);
+	t.vertexUV(x2, newY + 1, z1, texU_l, texV_u);
+	t.vertexUV(x2, newY + 0, z1, texU_l, texV_d);
+	t.vertexUV(x1, newY + 0, z2, texU_r, texV_d);
+	t.vertexUV(x1, newY + 1, z2, texU_r, texV_u);
 }
 
 bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r, float g, float b)
