@@ -17,7 +17,7 @@ public:
 
 	int getTexture(Facing::Name face, int data) const override;
 	void tick(Level*, const TilePos& pos, Random*) override;
+	int getSpawnResourcesAuxValue(int x) const override;
 
 	void growTree(Level*, const TilePos& pos, Random*);
-	bool maybeGrowTree(Level*, const TilePos& pos, Random*);
 };

@@ -53,4 +53,5 @@ private:
 	std::vector<Node*> m_nodeSpillover;
 	int m_nodeCount;
 	Node* m_neighbors[NEIGHBORS_SIZE];
+	bool m_bEntityIsDoorBreaker;
 };

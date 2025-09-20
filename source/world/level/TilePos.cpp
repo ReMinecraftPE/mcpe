@@ -26,7 +26,8 @@ TilePos::TilePos(float _x, float _y, float _z)
 
 TilePos::TilePos(const Vec3& pos)
 {
-    _init(pos.x, pos.y, pos.z);
+	//@NOTE: Using floor fixes TilePos instantiation in negative coords
+    _init((int)floorf(pos.x), (int)floorf(pos.y), (int)floorf(pos.z));
 }
 
 TilePos::TilePos(const ChunkPos& pos, int y)

@@ -28,6 +28,7 @@ PathFinder::PathFinder()
 {
 	m_pLevel = nullptr;
 	m_nodeCount = 0;
+	m_bEntityIsDoorBreaker = false;
 }
 
 PathFinder::~PathFinder()
@@ -55,25 +56,39 @@ int PathFinder::isFree(Entity* pEntity, const TilePos& pos, const Node* node)
 
 				if (id == Tile::door_iron->m_ID || id == Tile::door_wood->m_ID)
 				{
-					if (!DoorTile::isOpen(m_pLevel->getData(tp)))
-						return 0;
+					if (id != Tile::door_wood->m_ID || !m_bEntityIsDoorBreaker)
+					{
+						if (!DoorTile::isOpen(m_pLevel->getData(tp)))
+							return 0; // 4 on 0.2.1
+					}
 
 					continue;
 				}
 
+				// 0.2.1
+				/*if (id == Tile::water->m_ID || id == Tile::calmWater->m_ID)
+				{
+					if (field_100B9) // offset from 0.7.0
+						return 3;
+				}
+				else */if (id == Tile::fence->m_ID/* || id == Tile::fenceGate->m_ID*/)
+				{
+					return 0; // 1 on 0.2.1
+				}
+
 				Material* pMtl = Tile::tiles[id]->m_pMaterial;
 				if (pMtl->blocksMotion())
-					return 0;
+					return 0; // 4 on 0.2.1
 
 				if (pMtl == Material::water)
 					return -1;
 				if (pMtl == Material::lava)
-					return -2;
+					return -2; // 2 on 0.2.1
 			}
 		}
 	}
 
-	return 1; // Totally free!
+	return 1; // Totally free! (5 on 0.2.1)
 }
 
 Node* PathFinder::getNode(Entity* pEntity, const TilePos& pos, const Node* node, int a)
@@ -83,7 +98,7 @@ Node* PathFinder::getNode(Entity* pEntity, const TilePos& pos, const Node* node,
 	if (isFree(pEntity, tp, node) == 1)
 		pNode = getNode(tp);
 
-	if (a > 0 && !pNode && isFree(pEntity, TilePos(tp.x, tp.y + a, tp.z), node) == 1)
+	if (!pNode && a > 0 && isFree(pEntity, TilePos(tp.x, tp.y + a, tp.z), node) == 1)
 	{
 		tp.y += a;
 		pNode = getNode(tp);

@@ -178,6 +178,12 @@ void FireTile::onPlace(Level* level, const TilePos& pos)
 
 void FireTile::tick(Level* level, const TilePos& pos, Random* random)
 {
+	if (level->getTile(pos.below()) == Tile::netherrack->m_ID)
+	{
+		level->addToTickNextTick(pos, m_ID, getTickDelay());
+		return;
+	}
+	
 	int data = level->getData(pos);
 	if (data <= 14)
 	{

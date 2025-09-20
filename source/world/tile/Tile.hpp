@@ -165,21 +165,6 @@ public: // static variables
 		* stoneSlab,
 		* stoneSlabHalf,
 		* cloth,
-		* cloth_00,
-		* cloth_10,
-		* cloth_20,
-		* cloth_30,
-		* cloth_40,
-		* cloth_50,
-		* cloth_60,
-		* cloth_70,
-		* cloth_01,
-		* cloth_11,
-		* cloth_21,
-		* cloth_31,
-		* cloth_41,
-		* cloth_51,
-		* cloth_61,
 		* flower,
 		* rose,
 		* mushroom1,
@@ -221,7 +206,17 @@ public: // static variables
 		* bookshelf,
 		* mossStone,
 		* cryingObsidian,
-		* rocketLauncher;
+		* rocketLauncher,
+		* cactus,
+		* tallGrass,
+		* deadBush,
+		* pumpkin,
+		* pumpkinLantern,
+		* netherrack,
+		* soulSand,
+		* glowstone,
+		* web,
+		* fence;
 
 public:
 	int m_TextureFrame;
@@ -230,7 +225,7 @@ public:
 	const SoundType* m_pSound;
 	float field_28;
 	Material* m_pMaterial;
-	float field_30;
+	float m_friction;
 	float m_hardness;
 	float m_blastResistance;
 	AABB m_aabbReturned;

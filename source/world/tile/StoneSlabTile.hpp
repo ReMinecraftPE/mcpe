@@ -13,6 +13,14 @@
 class StoneSlabTile : public Tile
 {
 public:
+	enum StoneSlabType
+	{
+		STONE,
+		SAND,
+		WOOD,
+		COBBLE
+	};
+
 	StoneSlabTile(int ID, bool bFull);
 
 	bool isSolidRender() const override;

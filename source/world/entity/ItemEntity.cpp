@@ -105,19 +105,19 @@ void ItemEntity::tick()
 
 	float dragFactor = 0.98f;
 
-	if (m_onGround)
+	if (m_bOnGround)
 	{
 		dragFactor = 0.588f;
 		TileID tile = m_pLevel->getTile(TilePos(Mth::floor(m_pos.x), Mth::floor(m_hitbox.min.y) - 1, Mth::floor(m_pos.z)));
 		if (tile > 0)
-			dragFactor = Tile::tiles[tile]->field_30 * 0.98f;
+			dragFactor = Tile::tiles[tile]->m_friction * 0.98f;
 	}
 
 	m_vel.x *= dragFactor;
 	m_vel.z *= dragFactor;
 	m_vel.y *= 0.98f;
 
-	if (m_onGround)
+	if (m_bOnGround)
 		m_vel.y *= -0.5f;
 
 	m_tickCount++;

@@ -11,6 +11,7 @@
 
 IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {
+	m_friction = 0.98f;
 	setTicking(true);
 }
 

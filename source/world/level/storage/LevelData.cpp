@@ -249,7 +249,7 @@ void PlayerData::loadPlayer(Player& player) const
 	player.m_distanceFallen = m_distanceFallen;
 	player.m_fireTicks = field_24;
 	player.m_airCapacity = field_26;
-	player.m_onGround = field_28;
+	player.m_bOnGround = field_28;
 
 	// @NOTE: Why are we updating m_pos, m_oPos and m_posPrev above if we do this?
 	player.setPos(m_pos);
@@ -267,7 +267,7 @@ void PlayerData::savePlayer(const Player& player)
 	m_distanceFallen = player.m_distanceFallen;
 	field_24 = player.m_fireTicks;
 	field_26 = player.m_airCapacity;
-	field_28 = player.m_onGround;
+	field_28 = player.m_bOnGround;
 
 	// TODO: survival mode stuff
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)

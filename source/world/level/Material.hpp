@@ -53,7 +53,8 @@ public:
 		*clay,
 		*vegetable,
 		*portal,
-		*cake;
+		*cake,
+		*web;
 
 public:
 	bool m_bFlammable;

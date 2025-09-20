@@ -10,7 +10,6 @@
 #include "world/level/Level.hpp"
 #include "world/tile/SandTile.hpp"
 
-//#define TEST_CAVES
 
 const float RandomLevelSource::SNOW_CUTOFF = 0.5f;
 const float RandomLevelSource::SNOW_SCALE  = 0.3f;
@@ -88,7 +87,7 @@ LevelChunk* RandomLevelSource::getChunk(const ChunkPos& pos)
 
 	// @NOTE: Java Edition Beta 1.6 uses the m_largeCaveFeature.
 #ifdef TEST_CAVES
-	m_largeCaveFeature.apply(this, m_pLevel, x, z, pLevelData, 0);
+	m_largeCaveFeature.apply(this, m_pLevel, pos.x, pos.z, pLevelData, 0);
 #endif
 
 	return pChunk;
@@ -547,6 +546,70 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		SpringFeature(Tile::lava->m_ID).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
 	}
 
+	int vegetationCount = 0;
+
+	if (pBiome == Biome::desert)
+		vegetationCount += 10;
+
+	for (int i = 0; i < vegetationCount; i++)
+	{
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		CactusFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
+	}
+
+	if (m_random.nextInt(32) == 0)
+	{
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		PumpkinFeature().place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
+	}
+#ifdef FEATURE_PLANT_VEGGIES
+	vegetationCount = 0;
+
+	if (pBiome == Biome::forest)
+		vegetationCount = 2;
+
+	else if (pBiome == Biome::rainForest)
+		vegetationCount = 10;
+
+	else if (pBiome == Biome::seasonalForest)
+		vegetationCount = 2;
+
+	else if (pBiome == Biome::taiga)
+		vegetationCount = 1;
+
+	else if (pBiome == Biome::plains)
+		vegetationCount = 10;
+
+	for (int i = 0; i < vegetationCount; i++)
+	{
+		int data = 1;
+
+		if (pBiome == Biome::rainForest && m_random.nextInt(3) != 0) {
+			data = 2;
+		}
+		TilePos o(m_random.nextInt(16),
+		m_random.nextInt(128),
+		m_random.nextInt(16));
+		VegetationFeature(Tile::tallGrass->m_ID, data).place(m_pLevel, &m_random, TilePos(tp.x + 8 + o.x, o.y, tp.z + 8 + o.z));
+	}
+
+	vegetationCount = 0;
+
+	if (pBiome == Biome::desert)
+		vegetationCount = 2;
+
+	for (int i = 0; i < vegetationCount; i++)
+	{
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		VegetationFeature(Tile::deadBush->m_ID, 0, 4).place(m_pLevel, &m_random, TilePos(tp.x + 8 + xo, yo, tp.z + 8 + zo));
+	}
+#endif
 	float* tempBlock = m_pLevel->getBiomeSource()->getTemperatureBlock(tp.x + 8, tp.z + 8, 16, 16);
 	for (int j19 = tp.x + 8; j19 < tp.x + 8 + 16; j19++)
 	{

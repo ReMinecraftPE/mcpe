@@ -45,6 +45,8 @@ private:
 	PolygonArea* m_pAreaForward;
 	PolygonArea* m_pAreaBackward;
 	PolygonArea* m_pAreaJump;
+	PolygonArea* m_pAreaForwardLeft;
+	PolygonArea* m_pAreaForwardRight;
 	bool field_6C[8];
 };
 

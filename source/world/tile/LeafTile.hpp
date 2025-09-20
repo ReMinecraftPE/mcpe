@@ -27,6 +27,8 @@ public:
 	void onRemove(Level*, const TilePos& pos) override;
 	void stepOn(Level*, const TilePos& pos, Entity*) override;
 	void tick(Level*, const TilePos& pos, Random*) override;
+	int getResource(int x, Random* random) const override;
+	int getSpawnResourcesAuxValue(int x) const override;
 
 	void die(Level*, const TilePos& pos);
 

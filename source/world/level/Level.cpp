@@ -730,7 +730,8 @@ AABBVector* Level::getCubes(const Entity* pEntUnused, const AABB& aabb)
 		{
 			if (!hasChunkAt(TilePos(x, 64, z))) continue;
 
-			for (long y = lowerY; y <= upperY; y++)
+			// - 1 fixes tiles like the fence
+			for (long y = lowerY - 1; y <= upperY; y++)
 			{
 				// Obviously this is problematic, but using longs in our for loops rather than
 				// ints helps prevents crashes at extreme distances from 0,0

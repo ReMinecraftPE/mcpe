@@ -99,5 +99,5 @@ AABB* ReedTile::getAABB(const Level* level, const TilePos& pos)
 
 int ReedTile::getResource(int x, Random* random) const
 {
-	return 0;
+	return Item::reeds->m_itemID;
 }
