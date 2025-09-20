@@ -175,7 +175,7 @@ int LocalPlayer::move(const Vec3& pos)
 		// This looks very funny.
 		result = pLP->Entity::move(field_BF0);
 
-		pLP->m_onGround = true;
+		pLP->m_bOnGround = true;
 
 		m_walkDist = m_walkDist_old;
 	}

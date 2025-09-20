@@ -28,7 +28,7 @@ void Entity::_init()
 	m_pLevel = nullptr;
 	m_rot = Vec2::ZERO;
 	m_oRot = Vec2::ZERO;
-	m_onGround = false;
+	m_bOnGround = false;
 	m_bHorizontalCollision = false;
 	m_bCollision = false;
 	m_bVerticalCollision = false;
@@ -111,191 +111,154 @@ void Entity::remove()
 
 int Entity::move(const Vec3& pos)
 {
-	if (m_bNoPhysics) {
+	if (m_bNoPhysics)
+	{
 		m_hitbox.move(pos);
-		m_pos.x = (m_hitbox.min.x + m_hitbox.max.x) / 2.0;
+		m_pos.x = (m_hitbox.min.x + m_hitbox.max.x) / 2.0f;
 		m_pos.y = m_hitbox.min.y + m_heightOffset - m_ySlideOffset;
-		m_pos.z = (m_hitbox.min.z + m_hitbox.max.z) / 2.0;
+		m_pos.z = (m_hitbox.min.z + m_hitbox.max.z) / 2.0f;
 	}
-	else {
-		m_ySlideOffset *= 0.4;
+	else
+	{
+		m_ySlideOffset *= 0.4f;
 		Vec3 newPos(pos);
-		if (m_bIsInWeb) {
+		if (m_bIsInWeb)
+		{
 			m_bIsInWeb = false;
-			newPos.x *= 0.25;
-			newPos.y *= 0.05;
-			newPos.z *= 0.25;
-			m_vel *= 0;
-			m_distanceFallen = 0.0F;
+			newPos.x *= 0.25f;
+			newPos.y *= 0.05f;
+			newPos.z *= 0.25f;
+			m_vel = Vec3::ZERO;
+			m_distanceFallen = 0.0f;
 		}
 		float aPosX = m_pos.x;
 		float aPosZ = m_pos.z;
 		float cPosX = newPos.x;
 		float cPosY = newPos.y;
 		float cPosZ = newPos.z;
-		AABB var17 = m_hitbox;
-		bool validSneaking = m_onGround && isSneaking();
-		if (validSneaking) {
-			float var19;
-			for (var19 = 0.05; pos.x != 0.0 && m_pLevel->getCubes(this, AABB(m_hitbox).move(newPos.x, -1.0, 0.0))->size() == 0; cPosX = newPos.x) {
-				if (newPos.x < var19 && newPos.x >= -var19) {
+		AABB lastHit = m_hitbox;
+		bool validSneaking = m_bOnGround && isSneaking();
+		if (validSneaking)
+		{
+			for (float dx = 0.05f; pos.x != 0.0f && m_pLevel->getCubes(this, AABB(m_hitbox).move(newPos.x, -1.0f, 0.0f))->size() == 0; cPosX = newPos.x)
+			{
+				if (newPos.x < dx && newPos.x >= -dx)
 					newPos.x = 0.0;
-				}
-				else if (newPos.x > 0.0) {
-					newPos.x -= var19;
-				}
-				else {
-					newPos.x += var19;
-				}
+				else if (newPos.x > 0.0f)
+					newPos.x -= dx;
+				else
+					newPos.x += dx;
 			}
 
-			for (; newPos.z != 0.0 && m_pLevel->getCubes(this, AABB(m_hitbox).move(0.0, -1.0, newPos.z))->size() == 0; cPosZ = newPos.z) {
-				if (newPos.z < var19 && newPos.z >= -var19) {
-					newPos.z = 0.0;
-				}
-				else if (newPos.z > 0.0) {
-					newPos.z -= var19;
-				}
-				else {
-					newPos.z += var19;
-				}
+			for (float dz = 0.05f; newPos.z != 0.0f && m_pLevel->getCubes(this, AABB(m_hitbox).move(0.0f, -1.0f, newPos.z))->size() == 0; cPosZ = newPos.z)
+			{
+				if (newPos.z < dz && newPos.z >= -dz)
+					newPos.z = 0.0f;
+				else if (newPos.z > 0.0f)
+					newPos.z -= dz;
+				else
+					newPos.z += dz;
 			}
 		}
 
-		AABB toExpand = m_hitbox;
-		toExpand.expand(newPos.x, newPos.y, newPos.z);
-		auto var35 = m_pLevel->getCubes(this, toExpand);
+		AABBVector* cubes = m_pLevel->getCubes(this, AABB(m_hitbox).expand(newPos.x, newPos.y, newPos.z));
 
-		for (int var20 = 0; var20 < var35->size(); ++var20) {
-			newPos.y = var35->at(var20).clipYCollide(m_hitbox, newPos.y);
-		}
+		for (int i = 0; i < int(cubes->size()); ++i)
+			newPos.y = cubes->at(i).clipYCollide(m_hitbox, newPos.y);
 
 		m_hitbox.move(0.0, newPos.y, 0.0);
-		if (!m_bSlide && cPosY != newPos.y) {
-			newPos.z = 0.0;
-			newPos.y = 0.0;
-			newPos.x = 0.0;
-		}
+		if (!m_bSlide && cPosY != newPos.y)
+			newPos = Vec3::ZERO;
 
-		bool var36 = m_onGround || cPosY != newPos.y && cPosY < 0.0;
+		bool lastsOnGround = m_bOnGround || cPosY != newPos.y && cPosY < 0.0;
 
-		int var21;
-		for (var21 = 0; var21 < var35->size(); ++var21) {
-			newPos.x = var35->at(var21).clipXCollide(m_hitbox, newPos.x);
-		}
-
+		for (int i = 0; i < int(cubes->size()); ++i)
+			newPos.x = cubes->at(i).clipXCollide(m_hitbox, newPos.x);
+	
 		m_hitbox.move(newPos.x, 0.0, 0.0);
-		if (!m_bSlide && cPosX != newPos.x) {
-			newPos.z = 0.0;
-			newPos.y = 0.0;
-			newPos.x = 0.0;
-		}
+		if (!m_bSlide && cPosX != newPos.x)
+			newPos = Vec3::ZERO;
 
-		for (var21 = 0; var21 < var35->size(); ++var21) {
-			newPos.z = var35->at(var21).clipZCollide(m_hitbox, newPos.z);
-		}
+		for (int i = 0; i < int(cubes->size()); ++i)
+			newPos.z = cubes->at(i).clipZCollide(m_hitbox, newPos.z);
 
 		m_hitbox.move(0.0, 0.0, newPos.z);
-		if (!m_bSlide && cPosZ != newPos.z) {
-			newPos.z = 0.0;
-			newPos.y = 0.0;
-			newPos.x = 0.0;
-		}
+		if (!m_bSlide && cPosZ != newPos.z)
+			newPos = Vec3::ZERO;
 
-		float var23;
-		int var28;
-		float var37;
-		if (m_footSize > 0.0F && var36 && m_ySlideOffset < 0.05F && (cPosX != newPos.x || cPosZ != newPos.z)) {
-			var37 = newPos.x;
-			var23 = newPos.y;
-			float var25 = newPos.z;
+		if (m_footSize > 0.0F && lastsOnGround && m_ySlideOffset < 0.05F && (cPosX != newPos.x || cPosZ != newPos.z))
+		{
+			Vec3 oldPos = newPos;
 			newPos.x = cPosX;
 			newPos.y = m_footSize;
 			newPos.z = cPosZ;
-			AABB var27 = m_hitbox;
-			toExpand = m_hitbox = var17;
-			toExpand.expand(cPosX, newPos.y, cPosZ);
-			var35 = m_pLevel->getCubes(this, toExpand);
+			AABB oldHit = m_hitbox;
+			m_hitbox = lastHit;
+			cubes = m_pLevel->getCubes(this, AABB(m_hitbox).expand(cPosX, newPos.y, cPosZ));
 
-			for (var28 = 0; var28 < var35->size(); ++var28) {
-				newPos.y = var35->at(var28).clipYCollide(m_hitbox, newPos.y);
-			}
+			for (int i = 0; i < int(cubes->size()); ++i)
+				newPos.y = cubes->at(i).clipYCollide(m_hitbox, newPos.y);
 
 			m_hitbox.move(0.0, newPos.y, 0.0);
-			if (!m_bSlide && cPosY != newPos.y) {
-				newPos.z = 0.0;
-				newPos.y = 0.0;
-				newPos.x = 0.0;
-			}
+			if (!m_bSlide && cPosY != newPos.y)
+				newPos = Vec3::ZERO;
 
-			for (var28 = 0; var28 < var35->size(); ++var28) {
-				newPos.x = var35->at(var28).clipXCollide(m_hitbox, newPos.x);
-			}
+			for (int i = 0; i < int(cubes->size()); ++i)
+				newPos.x = cubes->at(i).clipXCollide(m_hitbox, newPos.x);
 
 			m_hitbox.move(newPos.x, 0.0, 0.0);
-			if (!m_bSlide && cPosX != newPos.x) {
-				newPos.z = 0.0;
-				newPos.y = 0.0;
-				newPos.x = 0.0;
-			}
+			if (!m_bSlide && cPosX != newPos.x)
+				newPos = Vec3::ZERO;
 
-			for (var28 = 0; var28 < var35->size(); ++var28) {
-				newPos.z = var35->at(var28).clipZCollide(m_hitbox, newPos.z);
-			}
+			for (int i = 0; i < int(cubes->size()); ++i)
+				newPos.z = cubes->at(i).clipZCollide(m_hitbox, newPos.z);
 
 			m_hitbox.move(0.0, 0.0, newPos.z);
-			if (!m_bSlide && cPosZ != newPos.z) {
-				newPos.z = 0.0;
-				newPos.y = 0.0;
-				newPos.x = 0.0;
-			}
+			if (!m_bSlide && cPosZ != newPos.z)
+				newPos = Vec3::ZERO;
 
-			if (var37 * var37 + var25 * var25 >= newPos.x * newPos.x + newPos.z * newPos.z) {
-				newPos.x = var37;
-				newPos.y = var23;
-				newPos.z = var25;
-				m_hitbox = var27;
+			if (oldPos.x * oldPos.x + oldPos.z * oldPos.z >= newPos.x * newPos.x + newPos.z * newPos.z)
+			{
+				newPos = oldPos;
+				m_hitbox = oldHit;
 			}
-			else {
-				float var40 = m_hitbox.min.y - ((int)m_hitbox.min.y);
-				if (var40 > 0.0) {
-					m_ySlideOffset = m_ySlideOffset + var40 + 0.01;
-				}
+			else
+			{
+				float hitYOff = m_hitbox.min.y - int(m_hitbox.min.y);
+				if (hitYOff > 0.0f)
+					m_ySlideOffset = m_ySlideOffset + hitYOff + 0.01f;
 			}
 		}
 
-		m_pos.x = (m_hitbox.min.x + m_hitbox.max.x) / 2.0;
+		m_pos.x = (m_hitbox.min.x + m_hitbox.max.x) / 2.0f;
 		m_pos.y = m_hitbox.min.y + m_heightOffset - m_ySlideOffset;
-		m_pos.z = (m_hitbox.min.z + m_hitbox.max.z) / 2.0;
+		m_pos.z = (m_hitbox.min.z + m_hitbox.max.z) / 2.0f;
 		m_bHorizontalCollision = cPosX != newPos.x || cPosZ != newPos.z;
 		m_bVerticalCollision = cPosY != newPos.y;
-		m_onGround = cPosY != newPos.y && cPosY < 0.0;
+		m_bOnGround = cPosY != newPos.y && cPosY < 0.0f;
 		m_bCollision = m_bHorizontalCollision || m_bVerticalCollision;
-		checkFallDamage(newPos.y, m_onGround);
-		if (cPosX != newPos.x) {
-			m_vel.x = 0.0;
-		}
+		checkFallDamage(newPos.y, m_bOnGround);
+		if (cPosX != newPos.x)
+			m_vel.x = 0.0f;
 
-		if (cPosY != newPos.y) {
-			m_vel.y = 0.0;
-		}
+		if (cPosY != newPos.y)
+			m_vel.y = 0.0f;
 
-		if (cPosZ != newPos.z) {
-			m_vel.z = 0.0;
-		}
+		if (cPosZ != newPos.z)
+			m_vel.z = 0.0f;
 
-		var37 = m_pos.x - aPosX;
-		var23 = m_pos.z - aPosZ;
+		float diffX = m_pos.x - aPosX;
+		float diffZ = m_pos.z - aPosZ;
 		if (m_bMakeStepSound && !validSneaking)
 		{
-			m_walkDist = float(m_walkDist + Mth::sqrt(var37 * var37 + var23 * var23) * 0.6);
+			m_walkDist = float(m_walkDist + Mth::sqrt(diffX * diffX + diffZ * diffZ) * 0.6f);
 			TilePos tp(m_pos.x, m_pos.y - 0.2f - m_heightOffset, m_pos.z);
-			var28 = m_pLevel->getTile(tp);
+			TileID i = m_pLevel->getTile(tp);
 
 			if (m_pLevel->getTile(tp.below()) == Tile::fence->m_ID)
-				var28 = Tile::fence->m_ID;
+				i = Tile::fence->m_ID;
 
-			if (m_walkDist > m_nextStep && var28 > 0)
+			if (m_walkDist > m_nextStep && i > 0)
 			{
 				m_nextStep = m_walkDist + 1;
 
@@ -305,20 +268,20 @@ int Entity::move(const Vec3& pos)
 				{
 					sound = Tile::topSnow->m_pSound;
 				}
-				else if (!Tile::tiles[var28]->m_pMaterial->isLiquid())
+				else if (!Tile::tiles[i]->m_pMaterial->isLiquid())
 				{
-					sound = Tile::tiles[var28]->m_pSound;
+					sound = Tile::tiles[i]->m_pSound;
 				}
 
 				if (sound != nullptr)
 					m_pLevel->playSound(this, "step." + sound->m_name, sound->volume * 0.20f, sound->pitch);
 
-				Tile::tiles[var28]->stepOn(m_pLevel, tp, this);
+				Tile::tiles[i]->stepOn(m_pLevel, tp, this);
 			}
 		}
 
-		TilePos minPos(m_hitbox.min + 0.001);
-		TilePos maxPos(m_hitbox.max - 0.001);
+		TilePos minPos(m_hitbox.min + 0.001f);
+		TilePos maxPos(m_hitbox.max - 0.001f);
 		TilePos tilePos;
 
 		if (m_pLevel->hasChunksAt(minPos, TilePos(maxPos)))
@@ -933,7 +896,7 @@ void Entity::load(const CompoundTag& tag)
 	m_distanceFallen = tag.getFloat("FallDistance");
 	m_fireTicks = tag.getInt16("Fire");
 	m_airSupply = tag.getInt16("Air");
-	m_onGround = tag.getBoolean("OnGround");
+	m_bOnGround = tag.getBoolean("OnGround");
 	setPos(m_pos);
 	setRot(m_rot);
 	readAdditionalSaveData(tag);
@@ -963,7 +926,7 @@ void Entity::saveWithoutId(CompoundTag& tag) const
 	tag.putFloat("FallDistance", m_distanceFallen);
 	tag.putInt16("Fire", m_fireTicks);
 	tag.putInt16("Air", m_airSupply);
-	tag.putBoolean("OnGround", m_onGround);
+	tag.putBoolean("OnGround", m_bOnGround);
 	//tag.putInt32("PortalCooldown", m_portalCooldown);
 	//tag.putBoolean("IsGlobal", m_bIsGlobal);
 

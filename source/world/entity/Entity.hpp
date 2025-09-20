@@ -200,7 +200,7 @@ public:
 	Vec2 m_rot;
 	Vec2 m_oRot; // "RotO" in Java or "xRotO" "yRotO"
 	AABB m_hitbox;
-	bool m_onGround;
+	bool m_bOnGround;
 	bool m_bHorizontalCollision;
 	bool m_bCollision;
 	bool m_bVerticalCollision;

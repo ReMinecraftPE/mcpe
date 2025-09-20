@@ -1,9 +1,8 @@
 #include "PumpkinTile.hpp"
 #include "world/level/Level.hpp"
 
-PumpkinTile::PumpkinTile(int id, bool lantern) : Tile(id, TEXTURE_PUMPKIN_TOP, Material::vegetable)
+PumpkinTile::PumpkinTile(int id, bool lantern) : Tile(id, TEXTURE_PUMPKIN_TOP, Material::vegetable), m_bLantern(lantern)
 {
-	this->m_bLantern = lantern;
 }
 
 int PumpkinTile::getTexture(Facing::Name face, int data) const

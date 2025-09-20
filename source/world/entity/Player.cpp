@@ -156,7 +156,7 @@ void Player::aiStep()
 	if (velLen > 0.1f)
 		velLen = 0.1f;
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 	{
 		if (m_health > 0)
 		{

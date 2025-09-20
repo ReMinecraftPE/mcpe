@@ -144,7 +144,7 @@ void Mob::tick()
 	else
 		x4 = x1 = m_rot.x;
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 		x3 = 0.0f;
 
 	field_B50 += (x3 - field_B50) * 0.3f;
@@ -543,7 +543,7 @@ void Mob::travel(const Vec2& pos)
 		return;
 	}
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 	{
 		x2 = 0.02f;
 	}
@@ -563,7 +563,7 @@ void Mob::travel(const Vec2& pos)
 
 	moveRelative(Vec3(pos.x, x2, pos.y));
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 	{
 		dragFactor = 0.91f;
 	}
@@ -667,7 +667,7 @@ void Mob::aiStep()
 	{
 		if (bIsInWater || bIsInLava)
 			m_vel.y += 0.04f;
-		else if (m_onGround)
+		else if (m_bOnGround)
 			jumpFromGround();
 	}
 
