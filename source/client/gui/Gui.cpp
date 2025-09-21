@@ -566,9 +566,11 @@ void Gui::renderMessages(bool bShowAll)
 	//int width = Minecraft::width * InvGuiScale,
 	int height = int(ceilf(Minecraft::height * InvGuiScale));
 
-	int topEdge = 49;
+	int topEdge = height - 49;
+	if (m_pMinecraft->isTouchscreen())
+		topEdge = 49;
 
-	for (int i = int(m_guiMessages.size())-1; i >= 0; i--)
+	for (int i = 0; i < int(m_guiMessages.size()); i++)
 	{
 		GuiMessage& msg = m_guiMessages[i];
 		if (!bShowAll && msg.field_18 > 199)
@@ -599,7 +601,7 @@ void Gui::renderMessages(bool bShowAll)
 		glEnable(GL_BLEND);
 		m_pMinecraft->m_pFont->drawShadow(msg.msg, 2, topEdge + 1, textColor);
 
-		topEdge += 9;
+		topEdge -= 9;
 	}
 
 	glDisable(GL_BLEND);
