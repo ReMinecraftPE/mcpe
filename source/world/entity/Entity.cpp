@@ -166,7 +166,7 @@ int Entity::move(const Vec3& pos)
 		for (int i = 0; i < int(cubes->size()); ++i)
 			newPos.y = cubes->at(i).clipYCollide(m_hitbox, newPos.y);
 
-		m_hitbox.move(0.0, newPos.y, 0.0);
+		m_hitbox.move(0.0f, newPos.y, 0.0f);
 		if (!m_bSlide && cPosY != newPos.y)
 			newPos = Vec3::ZERO;
 
@@ -175,14 +175,14 @@ int Entity::move(const Vec3& pos)
 		for (int i = 0; i < int(cubes->size()); ++i)
 			newPos.x = cubes->at(i).clipXCollide(m_hitbox, newPos.x);
 	
-		m_hitbox.move(newPos.x, 0.0, 0.0);
+		m_hitbox.move(newPos.x, 0.0f, 0.0f);
 		if (!m_bSlide && cPosX != newPos.x)
 			newPos = Vec3::ZERO;
 
 		for (int i = 0; i < int(cubes->size()); ++i)
 			newPos.z = cubes->at(i).clipZCollide(m_hitbox, newPos.z);
 
-		m_hitbox.move(0.0, 0.0, newPos.z);
+		m_hitbox.move(0.0f, 0.0f, newPos.z);
 		if (!m_bSlide && cPosZ != newPos.z)
 			newPos = Vec3::ZERO;
 
@@ -199,21 +199,21 @@ int Entity::move(const Vec3& pos)
 			for (int i = 0; i < int(cubes->size()); ++i)
 				newPos.y = cubes->at(i).clipYCollide(m_hitbox, newPos.y);
 
-			m_hitbox.move(0.0, newPos.y, 0.0);
+			m_hitbox.move(0.0f, newPos.y, 0.0f);
 			if (!m_bSlide && cPosY != newPos.y)
 				newPos = Vec3::ZERO;
 
 			for (int i = 0; i < int(cubes->size()); ++i)
 				newPos.x = cubes->at(i).clipXCollide(m_hitbox, newPos.x);
 
-			m_hitbox.move(newPos.x, 0.0, 0.0);
+			m_hitbox.move(newPos.x, 0.0f, 0.0f);
 			if (!m_bSlide && cPosX != newPos.x)
 				newPos = Vec3::ZERO;
 
 			for (int i = 0; i < int(cubes->size()); ++i)
 				newPos.z = cubes->at(i).clipZCollide(m_hitbox, newPos.z);
 
-			m_hitbox.move(0.0, 0.0, newPos.z);
+			m_hitbox.move(0.0f, 0.0f, newPos.z);
 			if (!m_bSlide && cPosZ != newPos.z)
 				newPos = Vec3::ZERO;
 
