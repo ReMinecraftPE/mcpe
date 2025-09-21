@@ -129,7 +129,7 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	// NOTE: We are not leaking memory! Since by default IArea's constructor sets
 	// m_vertices to true, TouchAreaModel owns the pointers, so when it's destroyed,
 	// so are these areas we allocated.
-	
+#ifdef ENH_NEW_TOUCH_CONTROLS
 	TransformArray(4, x1, y1, x2, y2, middleX - widthM, middleY - heightM, 1.0f, 1.0f);
 	m_pAreaForwardLeft = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_FORWARDLEFT, m_pAreaForwardLeft);
@@ -137,6 +137,7 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	TransformArray(4, x1, y1, x2, y2, middleX + widthM, middleY - heightM, 1.0f, 1.0f);
 	m_pAreaForwardRight = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_FORWARDRIGHT, m_pAreaForwardRight);
+#endif
 }
 
 void TouchscreenInput_TestFps::tick(Player* pPlayer)
@@ -277,10 +278,18 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 
 	tc[0] = float(srcX) / 256.0f;
 	tc[1] = float(srcY) / 256.0f;
+#ifdef ENH_NEW_TOUCH_CONTROLS
 	tc[2] = tc[0] + 26.0f / 256.0f;
+#else
+	tc[2] = tc[0] + 64.0f / 256.0f;
+#endif
 	tc[3] = tc[1];
 	tc[4] = tc[2];
-	tc[5] = tc[1] + 26.0f / 256.0f; // 26 was 64
+#ifdef ENH_NEW_TOUCH_CONTROLS
+	tc[5] = tc[1] + 26.0f / 256.0f;
+#else
+	tc[5] = tc[1] + 64.0f / 256.0f;
+#endif
 	tc[6] = tc[0];
 	tc[7] = tc[5];
 
@@ -306,25 +315,9 @@ void TouchscreenInput_TestFps::render(float f)
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
-
-	// 0.5.0 touch buttons
-	/*t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaLeft, 64, 112);
-
-	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaRight, 192, 112);
-
-	t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaForward, 0, 112);
-
-	t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaBackward, 128, 112);
-
-	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaJump, 0, 176);*/
-
-	// 0.6.0 touch buttons
-	if (field_40 && !isButtonDown(100 + INPUT_JUMP)) {
+#ifdef ENH_NEW_TOUCH_CONTROLS
+	if (field_40 && !isButtonDown(100 + INPUT_JUMP)) 
+	{
 		t.color(isButtonDown(100 + INPUT_FORWARDLEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaForwardLeft, 0, 132);
 		
@@ -338,14 +331,15 @@ void TouchscreenInput_TestFps::render(float f)
 	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 	RenderTouchButton(&t, m_pAreaRight, 78, 106);
 
-		t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 	(m_pMinecraft->getOptions()->m_bFlyCheat) ?
-		RenderTouchButton(&t, m_pAreaJump, 104, 132) : RenderTouchButton(&t, m_pAreaJump, 104, 106);
+	RenderTouchButton(&t, m_pAreaJump, 104, 132) : RenderTouchButton(&t, m_pAreaJump, 104, 106);
 
-	
-	if (m_pMinecraft->getOptions()->m_bFlyCheat && m_bJumpBeingHeld ) {
+	if (m_pMinecraft->getOptions()->m_bFlyCheat && m_bJumpBeingHeld ) 
+	{
 		t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaForward, 52, 132);
+
 		t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaBackward, 78, 132);
 	}
@@ -353,10 +347,27 @@ void TouchscreenInput_TestFps::render(float f)
 	{
 		t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaForward, 0, 106);
+
 		t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaBackward, 52, 106);
 	}
+#else
+	// orginal touch controls
+	t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+	RenderTouchButton(&t, m_pAreaLeft, 64, 112);
 
+	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+	RenderTouchButton(&t, m_pAreaRight, 192, 112);
+
+	t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+	RenderTouchButton(&t, m_pAreaForward, 0, 112);
+
+	t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+	RenderTouchButton(&t, m_pAreaBackward, 128, 112);
+
+	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
+	RenderTouchButton(&t, m_pAreaJump, 0, 176);
+#endif
 	t.draw();
 
 	glDisable(GL_BLEND);
