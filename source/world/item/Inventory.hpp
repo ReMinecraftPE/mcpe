@@ -27,6 +27,7 @@ public:
 	void addCreativeItem(int itemID, int auxValue = 0);
 	void addTestItem(int itemID, int amount, int auxValue = 0);
 
+	void empty();
 	void clear();
 	bool addItem(ItemInstance& instance);
     void tick();

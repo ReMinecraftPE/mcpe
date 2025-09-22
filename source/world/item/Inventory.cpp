@@ -152,12 +152,20 @@ void Inventory::addCreativeItem(int itemID, int auxValue)
 	m_items.push_back(new ItemInstance(itemID, 1, auxValue));
 }
 
+void Inventory::empty()
+{
+	for (int i = 0; i < m_items.size(); i++)
+	{
+		delete m_items[i];
+		m_items[i] = nullptr;
+	}
+}
+
 void Inventory::clear()
 {
-	for (std::vector<ItemInstance*>::iterator it = m_items.begin(); it != m_items.end(); it++)
+	for (int i = 0; i < m_items.size(); i++)
 	{
-		ItemInstance* item = *it;
-		delete item;
+		delete m_items[i];
 	}
 	m_items.clear();
 }

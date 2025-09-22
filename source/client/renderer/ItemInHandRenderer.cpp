@@ -50,7 +50,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
     float bright = m_pMinecraft->m_pLocalPlayer->getBrightness(0.0f);
 #endif
     
-    if (inst->m_itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
+    if (inst->m_itemID < C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
     {
         float red, grn, blu, alp = 1.0f;
         
@@ -85,7 +85,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
     else
     {
         std::string toBind;
-        if (inst->m_itemID <= C_MAX_TILES)
+        if (inst->m_itemID < C_MAX_TILES)
             toBind = C_TERRAIN_NAME;
         else
             toBind = "gui/items.png";

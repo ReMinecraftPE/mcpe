@@ -494,7 +494,7 @@ void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vect
 		int t = 0;
 		if (!sscanf(parms[0].c_str(), "%d", &t))
 		{
-			sendMessage(player, "Usage: /time [new time value]");
+			sendMessage(player, "Usage: /time <value>");
 			return;
 		}
 
@@ -579,7 +579,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 
 	if (parmsSize != 1 && parmsSize != 4 && parmsSize != 5)
 	{
-		sendMessage(player, "Usage: /summon <entity> <x> <y> <z> <amount>");
+		sendMessage(player, "Usage: /summon <entity> [x] [y] [z] [amount]");
 		return;
 	}
 
@@ -698,11 +698,13 @@ void ServerSideNetworkHandler::commandGamemode(OnlinePlayer* player, const std::
 
 void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vector<std::string>&parms)
 {
+	const std::string usage = "Usage: /give <item> [amount] [data]";
+
 	if (!m_pLevel)
 		return;
-	if (parms.size() != 2)
+	if (parms.size() < 1 || parms.size() > 3)
 	{
-		sendMessage(player, "Usage: /give [item] [item count]");
+		sendMessage(player, usage);
 		return;
 	}
 
@@ -710,27 +712,39 @@ void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vec
 
 	int id = 0;
 	int amount = 1;
-	if (!sscanf(parms[0].c_str(), "%d", &id) || !sscanf(parms[1].c_str(), "%d", &amount))
+	int auxValue = 0;
+	if (sscanf(parms[0].c_str(), "%d", &id))
 	{
-		sendMessage(player, "Usage: /give [item] [item count]");
+		if (!_validateNum(player, id, 1, C_MAX_ITEMS-1))
+			return;
+	}
+	else
+	{
+		sendMessage(player, usage);
 		return;
 	}
-	if (amount < 1)
+	if (parms.size() >= 2 && sscanf(parms[1].c_str(), "%d", &amount))
 	{
-		sendMessage(player, "The amount must be greater or equal to 1!");
-		return;
+		if (!_validateNum(player, amount, 1, 64))
+			return;
 	}
-	if ( Item::items[id] == NULL || id >= 512 || id < 0)
+	if (parms.size() >= 3 && sscanf(parms[2].c_str(), "%d", &auxValue))
 	{
-		sendMessage(player, "Item \"" + parms[0] + "\" is not implemented!");
+		if (!_validateNum(player, auxValue, 0, 255))
+			return;
+	}
+	Item* item = Item::items[id];
+	if (!item || id >= 512 || id < 0)
+	{
+		sendMessage(player, "There is no such item with ID " + parms[0]);
 		return;
 	}
 
 	Inventory* pInventory = player->m_pPlayer->m_pInventory;
 
-	pInventory->addTestItem(id, amount);
+	pInventory->addTestItem(item->m_itemID, amount, auxValue);
 
-	sendMessage(player, "You have been given " + parms[0] + "x" + parms[1] + ".");
+	sendMessage(player, Util::format("Given %s (ID %d) * %d to %s", item->getName().c_str(), item->m_itemID, amount, player->m_pPlayer->m_name.c_str()));
 	return;
 }
 
@@ -743,7 +757,7 @@ void ServerSideNetworkHandler::commandClear(OnlinePlayer* player, const std::vec
 
 	Inventory* pInventory = player->m_pPlayer->m_pInventory;
 
-	pInventory->clear();
+	pInventory->empty(); // calling "clear" will delete all of our slots
 
 	sendMessage(player, "Your inventory has been cleared.");
 	return;
