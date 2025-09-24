@@ -3,12 +3,12 @@
 #include <string>
 #include <SDL/SDL.h>
 
-#include "../base/AppPlatform_sdl1_base.hpp"
+#include "../base/AppPlatform_sdl1.hpp"
 
-class AppPlatform_sdl1 : public AppPlatform_sdl1_base
+class AppPlatform_sdl1_desktop : public AppPlatform_sdl1
 {
 public:
-    AppPlatform_sdl1(std::string storageDir, SDL_Surface *screen);
+    AppPlatform_sdl1_desktop(std::string storageDir, SDL_Surface *screen);
 
     void saveScreenshot(const std::string& fileName, int width, int height) override;
 

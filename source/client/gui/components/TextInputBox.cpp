@@ -79,7 +79,7 @@ void TextInputBox::setEnabled(bool bEnabled)
 #define AKEYCODE_APOSTROPHE    SDLK_QUOTE
 #define AKEYCODE_LEFT_BRACKET  SDLK_LEFTBRACKET
 #define AKEYCODE_RIGHT_BRACKET SDLK_RIGHTBRACKET
-#elif (!defined(_WIN32) && !defined(USE_SDL_2_0))
+#elif defined(USE_SDL1)
 /* SDL 1.x */
 #define AKEYCODE_FORWARD_DEL   SDLK_DELETE
 #define AKEYCODE_ARROW_LEFT    SDLK_LEFT

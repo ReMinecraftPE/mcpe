@@ -28,12 +28,12 @@ android {
             .dependsOn("externalNativeBuild${variant.name.capitalize()}")
     }
     sourceSets.main {
-        java.srcDir '../../../../thirdparty/SDL2/src/android-project/app/src/main/java'
-        assets.srcDir '../../../../game'
+        java.srcDir '../../../../../thirdparty/SDL2/src/android-project/app/src/main/java'
+        assets.srcDir '../../../../../game'
     }
     externalNativeBuild {
         cmake {
-            path '../../../../CMakeLists.txt'
+            path '../../../../../CMakeLists.txt'
             version '3.22.1'
         }
     }

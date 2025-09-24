@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 #include <cstdlib>
 
-#include "AppPlatform_sdl_base.hpp"
+#include "AppPlatform_sdl2.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -20,7 +20,7 @@
 
 #include "client/player/input/Controller.hpp"
 
-void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
+void AppPlatform_sdl2::_init(std::string storageDir, SDL_Window *window)
 {
 	_storageDir = storageDir;
 	_window = window;
@@ -61,7 +61,7 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 	clearDiff();
 }
 
-void AppPlatform_sdl_base::initSoundSystem()
+void AppPlatform_sdl2::initSoundSystem()
 {
 	if (!m_pSoundSystem)
 	{
@@ -74,7 +74,7 @@ void AppPlatform_sdl_base::initSoundSystem()
 	}
 }
 
-void AppPlatform_sdl_base::setIcon(const Texture& icon)
+void AppPlatform_sdl2::setIcon(const Texture& icon)
 {
 	if (!icon.m_pixels)
 		return;
@@ -89,7 +89,7 @@ void AppPlatform_sdl_base::setIcon(const Texture& icon)
 		SDL_SetWindowIcon(_window, _icon);
 }
 
-AppPlatform_sdl_base::~AppPlatform_sdl_base()
+AppPlatform_sdl2::~AppPlatform_sdl2()
 {
 	if (_icon) SDL_FreeSurface(_icon);
 	SAFE_DELETE(_iconTexture);
@@ -97,7 +97,7 @@ AppPlatform_sdl_base::~AppPlatform_sdl_base()
 	SAFE_DELETE(m_pSoundSystem);
 }
 
-SDL_GameController* AppPlatform_sdl_base::findGameController()
+SDL_GameController* AppPlatform_sdl2::findGameController()
 {
 	for (int i = 0; i < SDL_NumJoysticks(); i++) {
 		if (SDL_IsGameController(i)) {
@@ -108,7 +108,7 @@ SDL_GameController* AppPlatform_sdl_base::findGameController()
 	return nullptr;
 }
 
-SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const texture)
+SDL_Surface* AppPlatform_sdl2::getSurfaceForTexture(const Texture* const texture)
 {
 	if (!texture) return nullptr;
 
@@ -128,32 +128,32 @@ SDL_Surface* AppPlatform_sdl_base::getSurfaceForTexture(const Texture* const tex
 	return surface;
 }
 
-int AppPlatform_sdl_base::checkLicense()
+int AppPlatform_sdl2::checkLicense()
 {
 	// we own the game!!
 	return 1;
 }
 
-const char* const AppPlatform_sdl_base::getWindowTitle() const
+const char* const AppPlatform_sdl2::getWindowTitle() const
 {
 	return SDL_GetWindowTitle(_window);
 }
 
-int AppPlatform_sdl_base::getScreenWidth() const
+int AppPlatform_sdl2::getScreenWidth() const
 {
 	int width;
 	SDL_GL_GetDrawableSize(_window, &width, nullptr);
 	return width;
 }
 
-int AppPlatform_sdl_base::getScreenHeight() const
+int AppPlatform_sdl2::getScreenHeight() const
 {
 	int height;
 	SDL_GL_GetDrawableSize(_window, nullptr, &height);
 	return height;
 }
 
-void AppPlatform_sdl_base::setMouseGrabbed(bool b)
+void AppPlatform_sdl2::setMouseGrabbed(bool b)
 {
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
 	/**
@@ -165,40 +165,40 @@ void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 	clearDiff();
 }
 
-void AppPlatform_sdl_base::setMouseDiff(int x, int y)
+void AppPlatform_sdl2::setMouseDiff(int x, int y)
 {
 	xrel += x;
 	yrel += y;
 }
 
-void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)
+void AppPlatform_sdl2::getMouseDiff(int& x, int& y)
 {
 	x = xrel;
 	y = yrel;
 }
 
-void AppPlatform_sdl_base::clearDiff()
+void AppPlatform_sdl2::clearDiff()
 {
 	xrel = 0;
 	yrel = 0;
 }
 
-bool AppPlatform_sdl_base::shiftPressed()
+bool AppPlatform_sdl2::shiftPressed()
 {
 	return m_bShiftPressed[0] || m_bShiftPressed[1];
 }
 
-void AppPlatform_sdl_base::setShiftPressed(bool b, bool isLeft)
+void AppPlatform_sdl2::setShiftPressed(bool b, bool isLeft)
 {
 	m_bShiftPressed[isLeft ? 0 : 1] = b;
 }
 
-int AppPlatform_sdl_base::getUserInputStatus()
+int AppPlatform_sdl2::getUserInputStatus()
 {
 	return -1;
 }
 
-MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_MouseButtonEvent event)
+MouseButtonType AppPlatform_sdl2::GetMouseButtonType(SDL_MouseButtonEvent event)
 {
 	switch (event.button)
 	{
@@ -213,7 +213,7 @@ MouseButtonType AppPlatform_sdl_base::GetMouseButtonType(SDL_MouseButtonEvent ev
 	}
 }
 
-bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
+bool AppPlatform_sdl2::GetMouseButtonState(SDL_Event event)
 {
 	bool result;
 
@@ -248,7 +248,7 @@ bool AppPlatform_sdl_base::GetMouseButtonState(SDL_Event event)
 	return result;
 }
 
-Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(uint8_t state)
+Keyboard::KeyState AppPlatform_sdl2::GetKeyState(uint8_t state)
 {
 	switch (state)
 	{
@@ -260,7 +260,7 @@ Keyboard::KeyState AppPlatform_sdl_base::GetKeyState(uint8_t state)
 	}
 }
 
-void AppPlatform_sdl_base::showKeyboard(int x, int y, int w, int h)
+void AppPlatform_sdl2::showKeyboard(int x, int y, int w, int h)
 {
 	if (SDL_IsTextInputActive())
 	{
@@ -275,7 +275,7 @@ void AppPlatform_sdl_base::showKeyboard(int x, int y, int w, int h)
 	SDL_StartTextInput();
 }
 
-void AppPlatform_sdl_base::hideKeyboard()
+void AppPlatform_sdl2::hideKeyboard()
 {
 	if (SDL_IsTextInputActive())
 	{
@@ -283,17 +283,17 @@ void AppPlatform_sdl_base::hideKeyboard()
 	}
 }
 
-bool AppPlatform_sdl_base::isTouchscreen() const
+bool AppPlatform_sdl2::isTouchscreen() const
 {
     return m_bIsTouchscreen;
 }
 
-bool AppPlatform_sdl_base::hasGamepad() const
+bool AppPlatform_sdl2::hasGamepad() const
 {
 	return _controller != nullptr;
 }
 
-void AppPlatform_sdl_base::gameControllerAdded(int32_t index)
+void AppPlatform_sdl2::gameControllerAdded(int32_t index)
 {
 	if (!getPrimaryGameController())
 	{
@@ -302,7 +302,7 @@ void AppPlatform_sdl_base::gameControllerAdded(int32_t index)
 	}
 }
 
-void AppPlatform_sdl_base::gameControllerRemoved(int32_t index)
+void AppPlatform_sdl2::gameControllerRemoved(int32_t index)
 {
 	SDL_GameController* controller = getPrimaryGameController();
 	SDL_JoystickID joystickId = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
@@ -315,7 +315,7 @@ void AppPlatform_sdl_base::gameControllerRemoved(int32_t index)
 	}
 }
 
-void AppPlatform_sdl_base::handleKeyEvent(int key, uint8_t state)
+void AppPlatform_sdl2::handleKeyEvent(int key, uint8_t state)
 {
 	// This really should be handled somewhere else.
 	// Unforunately, there is no global keyboard handler.
@@ -345,16 +345,16 @@ void AppPlatform_sdl_base::handleKeyEvent(int key, uint8_t state)
 	}
 
 	// Normal Key Press
-	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), key);
+	Keyboard::feed(AppPlatform_sdl2::GetKeyState(state), key);
 }
 
-void AppPlatform_sdl_base::handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state)
+void AppPlatform_sdl2::handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state)
 {
 	// Normal Key Press
-	Keyboard::feed(AppPlatform_sdl_base::GetKeyState(state), button);
+	Keyboard::feed(AppPlatform_sdl2::GetKeyState(state), button);
 }
 
-void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value)
+void AppPlatform_sdl2::handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value)
 {
 	float val = value / 32767.0f; // -32768 to 32767
 
@@ -381,7 +381,7 @@ void AppPlatform_sdl_base::handleControllerAxisEvent(SDL_JoystickID controllerIn
 	}
 }
 
-AssetFile AppPlatform_sdl_base::readAssetFile(const std::string& str, bool quiet) const
+AssetFile AppPlatform_sdl2::readAssetFile(const std::string& str, bool quiet) const
 {
 	std::string path = getAssetPath(str);
 	SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");

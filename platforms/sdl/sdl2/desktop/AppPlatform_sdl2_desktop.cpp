@@ -6,14 +6,14 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
-#include "AppPlatform_sdl.hpp"
+#include "AppPlatform_sdl2_desktop.hpp"
 
 #include "thirdparty/GL/GL.hpp"
 
 #include "common/Utils.hpp"
 
-AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
-	: AppPlatform_sdl_base(storageDir, window)
+AppPlatform_sdl2_desktop::AppPlatform_sdl2_desktop(std::string storageDir, SDL_Window *window)
+	: AppPlatform_sdl2(storageDir, window)
 {
 	setIcon(loadTexture("icon.png", false));
 }
@@ -29,7 +29,7 @@ static int save_png(const char *filename, unsigned char *pixels, int line_size, 
 }
 
 // Ensure Screenshots Folder Exists
-void AppPlatform_sdl::ensureDirectoryExists(const char* path)
+void AppPlatform_sdl2_desktop::ensureDirectoryExists(const char* path)
 {
 	// Check Screenshots Folder
 	struct stat obj;
@@ -50,7 +50,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	}
 }
 
-void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
+void AppPlatform_sdl2_desktop::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
 {
 	// Get Directory
 	std::string screenshots = _storageDir + "/screenshots";
@@ -128,7 +128,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	}
 }
 
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
+Texture AppPlatform_sdl2_desktop::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
 	out.m_hasAlpha = true;
@@ -174,7 +174,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 	return out;
 }
 
-bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
+bool AppPlatform_sdl2_desktop::doesTextureExist(const std::string& path) const
 {
 	// Get Full Path
 	std::string realPath = getAssetPath(path);
@@ -194,12 +194,12 @@ bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
 	}
 }
 
-bool AppPlatform_sdl::hasFileSystemAccess()
+bool AppPlatform_sdl2_desktop::hasFileSystemAccess()
 {
 	return true;
 }
 
-std::string AppPlatform_sdl::getPatchData()
+std::string AppPlatform_sdl2_desktop::getPatchData()
 {
     std::string path = getAssetPath("patches/patch_data.txt");
     SDL_RWops *io = SDL_RWFromFile(path.c_str(), "rb");
@@ -223,7 +223,7 @@ std::string AppPlatform_sdl::getPatchData()
     return std::string(buf);
 }
 
-void AppPlatform_sdl::recenterMouse()
+void AppPlatform_sdl2_desktop::recenterMouse()
 {
 	// Note. The only reason we do it this way instead of
 	// using the Mouse class is because, after SDL_WarpMouseInWindow,

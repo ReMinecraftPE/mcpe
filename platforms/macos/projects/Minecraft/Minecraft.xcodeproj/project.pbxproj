@@ -176,10 +176,9 @@
 		8406FDD32AF182E700B09C1D /* WindowsIncludes.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8432AC810630006A435 /* WindowsIncludes.h */; };
 		8406FDD42AF182E700B09C1D /* WSAStartupSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8452AC810630006A435 /* WSAStartupSingleton.h */; };
 		8406FDD52AF182E700B09C1D /* XBox360Includes.h in Headers */ = {isa = PBXBuildFile; fileRef = 840DD8462AC810630006A435 /* XBox360Includes.h */; };
-		8406FDD92AF184B600B09C1D /* libRenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8406FD292AF1814500B09C1D /* libRenderer.a */; };
 		84171E812B1A6227008B82E6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C4D86E2A872C0100323E33 /* OpenAL.framework */; };
-		841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp */; };
-		841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp */; };
+		841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp */; };
+		841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp */; };
 		8420EF302B32B4EE0051910E /* libSystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8420EF2F2B32B4EE0051910E /* libSystem.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8426106F2AE989720065905F /* MinecraftPackets.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63A2AC810620006A435 /* MinecraftPackets.cpp */; };
 		842610702AE989720065905F /* NetEventCallback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD63C2AC810620006A435 /* NetEventCallback.cpp */; };
@@ -208,13 +207,12 @@
 		844496892E7668B0008CF2E0 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
 		8444968A2E7668B6008CF2E0 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C4D86E2A872C0100323E33 /* OpenAL.framework */; };
 		8444968B2E7668BB008CF2E0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3252A86E4B0004CA8EC /* OpenGL.framework */; };
-		844496982E766960008CF2E0 /* AppPlatform_sdl1_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844496912E766960008CF2E0 /* AppPlatform_sdl1_base.cpp */; };
-		844496992E766960008CF2E0 /* AppPlatform_sdl1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844496952E766960008CF2E0 /* AppPlatform_sdl1.cpp */; };
+		844496982E766960008CF2E0 /* AppPlatform_sdl1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844496912E766960008CF2E0 /* AppPlatform_sdl1.cpp */; };
+		844496992E766960008CF2E0 /* AppPlatform_sdl1_desktop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844496952E766960008CF2E0 /* AppPlatform_sdl1_desktop.cpp */; };
 		8444969A2E766960008CF2E0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 844496972E766960008CF2E0 /* main.cpp */; };
 		8444969C2E766C38008CF2E0 /* SoundStreamAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamAL.cpp */; };
 		8444969D2E766C49008CF2E0 /* SoundSystemAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8441F9862DB4E911005977BD /* SoundSystemAL.cpp */; };
 		8444969E2E766C59008CF2E0 /* stb_image_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8E462B32FB33003F5B82 /* stb_image_impl.c */; };
-		844496A22E7675BC008CF2E0 /* libRenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8406FD292AF1814500B09C1D /* libRenderer.a */; };
 		844496A72E76792A008CF2E0 /* libSDLmain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844496A62E76792A008CF2E0 /* libSDLmain.a */; };
 		844496A82E767956008CF2E0 /* libSDL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8444968C2E7668E5008CF2E0 /* libSDL.a */; };
 		844496AA2E767971008CF2E0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844496A92E767971008CF2E0 /* Cocoa.framework */; };
@@ -256,8 +254,6 @@
 		84498A9C2AF18CDA005EF5A5 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8652AC810630006A435 /* uncompr.c */; };
 		84498A9D2AF18CDA005EF5A5 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8682AC810630006A435 /* zutil.c */; };
 		84498AA02AF18D08005EF5A5 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
-		84619B1F2AF1EDA300B0DE81 /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E4BFAE2AE9854B0023E16A /* libCommon.a */; };
-		84619B202AF1EDA300B0DE81 /* libRenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8406FD292AF1814500B09C1D /* libRenderer.a */; };
 		84619B222AF1EDA300B0DE81 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
 		84619B392AF1F73900B0DE81 /* GL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6552AC810620006A435 /* GL.hpp */; };
 		84619B3C2AF1FE4C00B0DE81 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */; };
@@ -363,8 +359,6 @@
 		8477B44D2C4DE77F004E1AC5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8477B4072C4DE77F004E1AC5 /* Default.png */; };
 		8477B44E2C4DE77F004E1AC5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8477B4082C4DE77F004E1AC5 /* Default@2x.png */; };
 		8488C08A2B1EDD4F001AEC4F /* ShowKeyboardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */; };
-		8489B3222A86E464004CA8EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
-		8489B3242A86E46A004CA8EC /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3232A86E46A004CA8EC /* AppKit.framework */; };
 		848CBD102AFD847C007634F6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 848CBD0F2AFD847C007634F6 /* AVFoundation.framework */; };
 		849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3212A86E464004CA8EC /* Foundation.framework */; };
 		849259562AD8FD4F0081F5B9 /* minecraftpeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */; };
@@ -1181,7 +1175,6 @@
 		84BF63D32AF186C9008A9995 /* TransparentTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD7292AC810620006A435 /* TransparentTile.hpp */; };
 		84BF63D42AF186C9008A9995 /* TreeTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD72B2AC810620006A435 /* TreeTile.hpp */; };
 		84BF63D52AF186C9008A9995 /* WireTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD72D2AC810620006A435 /* WireTile.hpp */; };
-		84BF63D82AF18771008A9995 /* libWorld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF630B2AF1859D008A9995 /* libWorld.a */; };
 		84C0D8032B15A1D0007E1E76 /* PlatformDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */; };
 		84C208532AF88A5000BAE438 /* grass_side_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 84C208512AF88A5000BAE438 /* grass_side_transparent.png */; };
 		84C208542AF88A5000BAE438 /* patch_data.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84C208522AF88A5000BAE438 /* patch_data.txt */; };
@@ -1228,7 +1221,6 @@
 		84CCBC9D2E618BF000E251AF /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E4BFAE2AE9854B0023E16A /* libCommon.a */; };
 		84CCBC9E2E618C1D00E251AF /* libNBT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CCBC452E61849800E251AF /* libNBT.a */; };
 		84CCBC9F2E61910500E251AF /* libClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B8AEE72AF188D8008DE93D /* libClient.a */; };
-		84CCBCA02E61910500E251AF /* libWorld.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BF630B2AF1859D008A9995 /* libWorld.a */; };
 		84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CED51D2E672826006BC585 /* ConvertWorldScreen.cpp */; };
 		84CED5202E672826006BC585 /* ConvertWorldScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84CED51E2E672826006BC585 /* ConvertWorldScreen.hpp */; };
 		84CEF0032AE3C97D006C5829 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CEF0022AE3C97D006C5829 /* EAGLView.m */; };
@@ -1277,7 +1269,6 @@
 		84E4BFBB2AE9869A0023E16A /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6332AC810620006A435 /* Timer.cpp */; };
 		84E4BFBC2AE9869A0023E16A /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6352AC810620006A435 /* Util.cpp */; };
 		84E4BFBD2AE9869A0023E16A /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6372AC810620006A435 /* Utils.cpp */; };
-		84E4BFC02AE987130023E16A /* libCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E4BFAE2AE9854B0023E16A /* libCommon.a */; };
 		84E78C7B2B58B3E000D515EF /* Rocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E78C792B58B3E000D515EF /* Rocket.cpp */; };
 		84E78C7C2B58B3E000D515EF /* Rocket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E78C7A2B58B3E000D515EF /* Rocket.hpp */; };
 		84E78C7F2B58B5CC00D515EF /* RocketRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E78C7D2B58B5CC00D515EF /* RocketRenderer.cpp */; };
@@ -1290,6 +1281,7 @@
 		84E78C8D2B58BB7400D515EF /* n_rocket_launcher.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E78C8A2B58BB7400D515EF /* n_rocket_launcher.png */; };
 		84E78C8E2B58BB7400D515EF /* n_rocket.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E78C8B2B58BB7400D515EF /* n_rocket.png */; };
 		84E78C902B58C18C00D515EF /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E78C8F2B58C18C00D515EF /* black.png */; };
+		84E8DCE52E84ACBC00B30789 /* libRenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8406FD292AF1814500B09C1D /* libRenderer.a */; };
 		84EAE8DE2AF1EAA1000894E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */; };
 		84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */; };
 		84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */; };
@@ -1408,26 +1400,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8406FDD72AF1838A00B09C1D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8406FD162AF1814500B09C1D;
-			remoteInfo = Renderer;
-		};
 		842610802AE9898E0065905F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 84FFBD7D2ACA2876005A8CCF;
 			remoteInfo = RakNet;
-		};
-		842610892AE98A640065905F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84E4BFAD2AE9854B0023E16A;
-			remoteInfo = Common;
 		};
 		844496842E7668A1008CF2E0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1443,40 +1421,12 @@
 			remoteGlobalIDString = 84498A762AF18C7A005EF5A5;
 			remoteInfo = ZLib;
 		};
-		844496A32E7675BF008CF2E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8406FD162AF1814500B09C1D;
-			remoteInfo = Renderer;
-		};
 		84498A9E2AF18D01005EF5A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 84498A762AF18C7A005EF5A5;
 			remoteInfo = ZLib;
-		};
-		84619B142AF1EC3500B0DE81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84E4BFAD2AE9854B0023E16A;
-			remoteInfo = Common;
-		};
-		84619B162AF1EC3500B0DE81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8406FD162AF1814500B09C1D;
-			remoteInfo = Renderer;
-		};
-		84619B182AF1EC3500B0DE81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84BF62FE2AF1859D008A9995;
-			remoteInfo = World;
 		};
 		84619B1A2AF1EC3500B0DE81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1520,13 +1470,6 @@
 			remoteGlobalIDString = 84B8AE132AF188D8008DE93D;
 			remoteInfo = Client;
 		};
-		84BF63D62AF1876C008A9995 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84BF62FE2AF1859D008A9995;
-			remoteInfo = World;
-		};
 		84CCBC8B2E61861900E251AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
@@ -1554,6 +1497,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 84E4BFAD2AE9854B0023E16A;
 			remoteInfo = Common;
+		};
+		84E8DCE32E84ACB000B30789 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8406FD162AF1814500B09C1D;
+			remoteInfo = Renderer;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -2220,10 +2170,10 @@
 		840DD8672AC810630006A435 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
 		840DD8682AC810630006A435 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		840DD8692AC810630006A435 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
-		841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl_base.cpp; sourceTree = "<group>"; };
-		841DD8732AF8AA7A00AA3B66 /* AppPlatform_sdl_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl_base.hpp; sourceTree = "<group>"; };
-		841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl.cpp; sourceTree = "<group>"; };
-		841DD8762AF8AA7A00AA3B66 /* AppPlatform_sdl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl.hpp; sourceTree = "<group>"; };
+		841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl2.cpp; sourceTree = "<group>"; };
+		841DD8732AF8AA7A00AA3B66 /* AppPlatform_sdl2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl2.hpp; sourceTree = "<group>"; };
+		841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl2_desktop.cpp; sourceTree = "<group>"; };
+		841DD8762AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl2_desktop.hpp; sourceTree = "<group>"; };
 		8420EF2F2B32B4EE0051910E /* libSystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSystem.dylib; path = usr/lib/libSystem.dylib; sourceTree = SDKROOT; };
 		842610682AE988D30065905F /* libNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84336BA42B1EB50E00097DB0 /* Settings_iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings_iOS.xcconfig; path = ../Configuration/Settings_iOS.xcconfig; sourceTree = "<group>"; };
@@ -2237,10 +2187,10 @@
 		8443B6E92A98675F0086730C /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /opt/local/lib/libSDL2.a; sourceTree = "<absolute>"; };
 		844496762E76685C008CF2E0 /* MinecraftClient.SDL1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftClient.SDL1; sourceTree = BUILT_PRODUCTS_DIR; };
 		8444968C2E7668E5008CF2E0 /* libSDL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL.a; path = ../../../../../../../../../opt/local/libexec/libsdl12/lib/libSDL.a; sourceTree = "<group>"; };
-		844496912E766960008CF2E0 /* AppPlatform_sdl1_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl1_base.cpp; sourceTree = "<group>"; };
-		844496922E766960008CF2E0 /* AppPlatform_sdl1_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl1_base.hpp; sourceTree = "<group>"; };
-		844496952E766960008CF2E0 /* AppPlatform_sdl1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl1.cpp; sourceTree = "<group>"; };
-		844496962E766960008CF2E0 /* AppPlatform_sdl1.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl1.hpp; sourceTree = "<group>"; };
+		844496912E766960008CF2E0 /* AppPlatform_sdl1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl1.cpp; sourceTree = "<group>"; };
+		844496922E766960008CF2E0 /* AppPlatform_sdl1.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl1.hpp; sourceTree = "<group>"; };
+		844496952E766960008CF2E0 /* AppPlatform_sdl1_desktop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl1_desktop.cpp; sourceTree = "<group>"; };
+		844496962E766960008CF2E0 /* AppPlatform_sdl1_desktop.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl1_desktop.hpp; sourceTree = "<group>"; };
 		844496972E766960008CF2E0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8444969B2E766977008CF2E0 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		844496A62E76792A008CF2E0 /* libSDLmain.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDLmain.a; path = ../../../../../../../../../opt/local/libexec/libsdl12/lib/libSDLmain.a; sourceTree = "<group>"; };
@@ -3033,8 +2983,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84CCBC992E618BD400E251AF /* libCommon.a in Frameworks */,
-				84CCBC9A2E618BD400E251AF /* libWorld.a in Frameworks */,
 				842610882AE98A4C0065905F /* libRakNet.a in Frameworks */,
+				84CCBC9A2E618BD400E251AF /* libWorld.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3043,7 +2993,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				844496882E7668B0008CF2E0 /* libClient.a in Frameworks */,
-				844496A22E7675BC008CF2E0 /* libRenderer.a in Frameworks */,
 				844496892E7668B0008CF2E0 /* libZLib.a in Frameworks */,
 				8444968A2E7668B6008CF2E0 /* OpenAL.framework in Frameworks */,
 				8444968B2E7668BB008CF2E0 /* OpenGL.framework in Frameworks */,
@@ -3064,15 +3013,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84498AA02AF18D08005EF5A5 /* libZLib.a in Frameworks */,
 				84B8AF8B2AF18ACF008DE93D /* libClient.a in Frameworks */,
-				84BF63D82AF18771008A9995 /* libWorld.a in Frameworks */,
-				8406FDD92AF184B600B09C1D /* libRenderer.a in Frameworks */,
-				84E4BFC02AE987130023E16A /* libCommon.a in Frameworks */,
+				84498AA02AF18D08005EF5A5 /* libZLib.a in Frameworks */,
 				84171E812B1A6227008B82E6 /* OpenAL.framework in Frameworks */,
 				84D9A30F2AF18EE700B00AD3 /* OpenGL.framework in Frameworks */,
-				8489B3242A86E46A004CA8EC /* AppKit.framework in Frameworks */,
-				8489B3222A86E464004CA8EC /* Foundation.framework in Frameworks */,
 				8443B6EA2A98675F0086730C /* libSDL2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3082,11 +3026,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84CCBC9F2E61910500E251AF /* libClient.a in Frameworks */,
-				84CCBCA02E61910500E251AF /* libWorld.a in Frameworks */,
-				8420EF302B32B4EE0051910E /* libSystem.dylib in Frameworks */,
-				84619B1F2AF1EDA300B0DE81 /* libCommon.a in Frameworks */,
-				84619B202AF1EDA300B0DE81 /* libRenderer.a in Frameworks */,
 				84619B222AF1EDA300B0DE81 /* libZLib.a in Frameworks */,
+				8420EF302B32B4EE0051910E /* libSystem.dylib in Frameworks */,
 				84EAE8DE2AF1EAA1000894E8 /* UIKit.framework in Frameworks */,
 				849259202AD8FCFC0081F5B9 /* Foundation.framework in Frameworks */,
 				84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */,
@@ -3111,6 +3052,7 @@
 			files = (
 				84B8AF872AF18A2C008DE93D /* libCommon.a in Frameworks */,
 				84B8AF882AF18A2C008DE93D /* libNetwork.a in Frameworks */,
+				84E8DCE52E84ACBC00B30789 /* libRenderer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4239,7 +4181,6 @@
 			children = (
 				84790AEC2AD7DA410076F2A1 /* ios */,
 				84EAE8E82AF1EAFA000894E8 /* sdl */,
-				8444968E2E766960008CF2E0 /* sdl1 */,
 				8441F98D2DB4E911005977BD /* sound */,
 			);
 			name = platforms;
@@ -4249,8 +4190,8 @@
 		841DD8712AF8AA7A00AA3B66 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp */,
-				841DD8732AF8AA7A00AA3B66 /* AppPlatform_sdl_base.hpp */,
+				841DD8722AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp */,
+				841DD8732AF8AA7A00AA3B66 /* AppPlatform_sdl2.hpp */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -4258,8 +4199,8 @@
 		841DD8742AF8AA7A00AA3B66 /* desktop */ = {
 			isa = PBXGroup;
 			children = (
-				841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp */,
-				841DD8762AF8AA7A00AA3B66 /* AppPlatform_sdl.hpp */,
+				841DD8752AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp */,
+				841DD8762AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.hpp */,
 			);
 			path = desktop;
 			sourceTree = "<group>";
@@ -4315,8 +4256,8 @@
 		844496902E766960008CF2E0 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				844496912E766960008CF2E0 /* AppPlatform_sdl1_base.cpp */,
-				844496922E766960008CF2E0 /* AppPlatform_sdl1_base.hpp */,
+				844496912E766960008CF2E0 /* AppPlatform_sdl1.cpp */,
+				844496922E766960008CF2E0 /* AppPlatform_sdl1.hpp */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -4324,8 +4265,8 @@
 		844496942E766960008CF2E0 /* desktop */ = {
 			isa = PBXGroup;
 			children = (
-				844496952E766960008CF2E0 /* AppPlatform_sdl1.cpp */,
-				844496962E766960008CF2E0 /* AppPlatform_sdl1.hpp */,
+				844496952E766960008CF2E0 /* AppPlatform_sdl1_desktop.cpp */,
+				844496962E766960008CF2E0 /* AppPlatform_sdl1_desktop.hpp */,
 			);
 			path = desktop;
 			sourceTree = "<group>";
@@ -5441,13 +5382,22 @@
 			path = mob;
 			sourceTree = "<group>";
 		};
-		84EAE8E82AF1EAFA000894E8 /* sdl */ = {
+		84E8DCE22E849A1600B30789 /* sdl2 */ = {
 			isa = PBXGroup;
 			children = (
 				841DD8712AF8AA7A00AA3B66 /* base */,
 				84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */,
 				841DD8742AF8AA7A00AA3B66 /* desktop */,
 				84EAE8F12AF1EAFA000894E8 /* main.cpp */,
+			);
+			path = sdl2;
+			sourceTree = "<group>";
+		};
+		84EAE8E82AF1EAFA000894E8 /* sdl */ = {
+			isa = PBXGroup;
+			children = (
+				8444968E2E766960008CF2E0 /* sdl1 */,
+				84E8DCE22E849A1600B30789 /* sdl2 */,
 			);
 			path = sdl;
 			sourceTree = "<group>";
@@ -6006,9 +5956,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				84CCBC902E6186D000E251AF /* PBXTargetDependency */,
 				84CCBC8E2E6186CD00E251AF /* PBXTargetDependency */,
 				842610812AE9898E0065905F /* PBXTargetDependency */,
+				84CCBC902E6186D000E251AF /* PBXTargetDependency */,
 			);
 			name = Network;
 			productName = Network;
@@ -6027,7 +5977,6 @@
 			);
 			dependencies = (
 				844496852E7668A1008CF2E0 /* PBXTargetDependency */,
-				844496A42E7675BF008CF2E0 /* PBXTargetDependency */,
 				844496872E7668A1008CF2E0 /* PBXTargetDependency */,
 			);
 			name = MinecraftClient.SDL1;
@@ -6063,11 +6012,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				84498A9F2AF18D01005EF5A5 /* PBXTargetDependency */,
 				84B8AF8A2AF18A84008DE93D /* PBXTargetDependency */,
-				84BF63D72AF1876C008A9995 /* PBXTargetDependency */,
-				8406FDD82AF1838A00B09C1D /* PBXTargetDependency */,
-				8426108A2AE98A640065905F /* PBXTargetDependency */,
+				84498A9F2AF18D01005EF5A5 /* PBXTargetDependency */,
 			);
 			name = MinecraftClient.SDL2;
 			productName = Minecraft;
@@ -6086,9 +6032,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				84619B152AF1EC3500B0DE81 /* PBXTargetDependency */,
-				84619B172AF1EC3500B0DE81 /* PBXTargetDependency */,
-				84619B192AF1EC3500B0DE81 /* PBXTargetDependency */,
 				84619B1B2AF1EC3500B0DE81 /* PBXTargetDependency */,
 				84619B1D2AF1EC3500B0DE81 /* PBXTargetDependency */,
 			);
@@ -6127,6 +6070,7 @@
 			dependencies = (
 				84B8AF842AF18A25008DE93D /* PBXTargetDependency */,
 				84B8AF862AF18A25008DE93D /* PBXTargetDependency */,
+				84E8DCE42E84ACB000B30789 /* PBXTargetDependency */,
 			);
 			name = Client;
 			productName = Client;
@@ -6238,16 +6182,16 @@
 			targets = (
 				8489B0962A86D4B2004CA8EC /* MinecraftClient.SDL2 */,
 				844496752E76685C008CF2E0 /* MinecraftClient.SDL1 */,
-				84FFBD7D2ACA2876005A8CCF /* RakNet */,
 				8492591C2AD8FCFC0081F5B9 /* minecraftpe */,
+				84B8AE132AF188D8008DE93D /* Client */,
 				84E4BFAD2AE9854B0023E16A /* Common */,
+				84CCBC442E61849800E251AF /* NBT */,
 				842610672AE988D30065905F /* Network */,
+				84FFBD7D2ACA2876005A8CCF /* RakNet */,
 				8406FD162AF1814500B09C1D /* Renderer */,
 				84BF62FE2AF1859D008A9995 /* World */,
-				84B8AE132AF188D8008DE93D /* Client */,
 				84AAF5972AF18B9500BD67F4 /* OpenGL */,
 				84498A762AF18C7A005EF5A5 /* ZLib */,
-				84CCBC442E61849800E251AF /* NBT */,
 			);
 		};
 /* End PBXProject section */
@@ -6762,8 +6706,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8444969A2E766960008CF2E0 /* main.cpp in Sources */,
-				844496982E766960008CF2E0 /* AppPlatform_sdl1_base.cpp in Sources */,
-				844496992E766960008CF2E0 /* AppPlatform_sdl1.cpp in Sources */,
+				844496982E766960008CF2E0 /* AppPlatform_sdl1.cpp in Sources */,
+				844496992E766960008CF2E0 /* AppPlatform_sdl1_desktop.cpp in Sources */,
 				8444969C2E766C38008CF2E0 /* SoundStreamAL.cpp in Sources */,
 				8444969D2E766C49008CF2E0 /* SoundSystemAL.cpp in Sources */,
 				8444969E2E766C59008CF2E0 /* stb_image_impl.c in Sources */,
@@ -6798,8 +6742,8 @@
 			files = (
 				8435BB192DCD47F400D38282 /* SoundStreamAL.cpp in Sources */,
 				84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */,
-				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl_base.cpp in Sources */,
-				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl.cpp in Sources */,
+				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp in Sources */,
+				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp in Sources */,
 				84AA8E802B32FB33003F5B82 /* stb_image_impl.c in Sources */,
 				8441F9962DB4E911005977BD /* SoundSystemAL.cpp in Sources */,
 			);
@@ -7269,20 +7213,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8406FDD82AF1838A00B09C1D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8406FD162AF1814500B09C1D /* Renderer */;
-			targetProxy = 8406FDD72AF1838A00B09C1D /* PBXContainerItemProxy */;
-		};
 		842610812AE9898E0065905F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84FFBD7D2ACA2876005A8CCF /* RakNet */;
 			targetProxy = 842610802AE9898E0065905F /* PBXContainerItemProxy */;
-		};
-		8426108A2AE98A640065905F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84E4BFAD2AE9854B0023E16A /* Common */;
-			targetProxy = 842610892AE98A640065905F /* PBXContainerItemProxy */;
 		};
 		844496852E7668A1008CF2E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7294,30 +7228,10 @@
 			target = 84498A762AF18C7A005EF5A5 /* ZLib */;
 			targetProxy = 844496862E7668A1008CF2E0 /* PBXContainerItemProxy */;
 		};
-		844496A42E7675BF008CF2E0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8406FD162AF1814500B09C1D /* Renderer */;
-			targetProxy = 844496A32E7675BF008CF2E0 /* PBXContainerItemProxy */;
-		};
 		84498A9F2AF18D01005EF5A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84498A762AF18C7A005EF5A5 /* ZLib */;
 			targetProxy = 84498A9E2AF18D01005EF5A5 /* PBXContainerItemProxy */;
-		};
-		84619B152AF1EC3500B0DE81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84E4BFAD2AE9854B0023E16A /* Common */;
-			targetProxy = 84619B142AF1EC3500B0DE81 /* PBXContainerItemProxy */;
-		};
-		84619B172AF1EC3500B0DE81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8406FD162AF1814500B09C1D /* Renderer */;
-			targetProxy = 84619B162AF1EC3500B0DE81 /* PBXContainerItemProxy */;
-		};
-		84619B192AF1EC3500B0DE81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84BF62FE2AF1859D008A9995 /* World */;
-			targetProxy = 84619B182AF1EC3500B0DE81 /* PBXContainerItemProxy */;
 		};
 		84619B1B2AF1EC3500B0DE81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7349,11 +7263,6 @@
 			target = 84B8AE132AF188D8008DE93D /* Client */;
 			targetProxy = 84B8AF892AF18A84008DE93D /* PBXContainerItemProxy */;
 		};
-		84BF63D72AF1876C008A9995 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84BF62FE2AF1859D008A9995 /* World */;
-			targetProxy = 84BF63D62AF1876C008A9995 /* PBXContainerItemProxy */;
-		};
 		84CCBC8C2E61861900E251AF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84CCBC442E61849800E251AF /* NBT */;
@@ -7373,6 +7282,11 @@
 			isa = PBXTargetDependency;
 			target = 84E4BFAD2AE9854B0023E16A /* Common */;
 			targetProxy = 84CCBC9B2E618BEB00E251AF /* PBXContainerItemProxy */;
+		};
+		84E8DCE42E84ACB000B30789 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8406FD162AF1814500B09C1D /* Renderer */;
+			targetProxy = 84E8DCE32E84ACB000B30789 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

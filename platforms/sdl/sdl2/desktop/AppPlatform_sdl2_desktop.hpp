@@ -2,16 +2,16 @@
 
 #include <string>
 
-#include "../base/AppPlatform_sdl_base.hpp"
+#include "../base/AppPlatform_sdl2.hpp"
 
 #define EM_BOOL bool
 #define EM_TRUE true
 #define EM_FALSE false
 
-class AppPlatform_sdl : public AppPlatform_sdl_base
+class AppPlatform_sdl2_desktop : public AppPlatform_sdl2
 {
 public:
-	AppPlatform_sdl(std::string storageDir, SDL_Window *window);
+	AppPlatform_sdl2_desktop(std::string storageDir, SDL_Window *window);
 
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
 	Texture loadTexture(const std::string& path, bool b = false) override;

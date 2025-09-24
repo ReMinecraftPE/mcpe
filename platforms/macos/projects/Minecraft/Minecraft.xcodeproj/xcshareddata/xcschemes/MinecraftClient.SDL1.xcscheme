@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-               BuildableName = "MinecraftClient.SDL2"
-               BlueprintName = "MinecraftClient.SDL2"
+               BlueprintIdentifier = "844496752E76685C008CF2E0"
+               BuildableName = "MinecraftClient.SDL1"
+               BlueprintName = "MinecraftClient.SDL1"
                ReferencedContainer = "container:Minecraft.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,15 +26,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug [SDL2] (Default)">
+      buildConfiguration = "Debug [SDL1] (Default)">
       <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "MinecraftClient.SDL2"
-            BlueprintName = "MinecraftClient.SDL2"
+            BlueprintIdentifier = "844496752E76685C008CF2E0"
+            BuildableName = "MinecraftClient.SDL1"
+            BlueprintName = "MinecraftClient.SDL1"
             ReferencedContainer = "container:Minecraft.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -45,20 +45,19 @@
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
       customWorkingDirectory = "$(MC_ROOT)/game"
-      buildConfiguration = "Debug [SDL2] (Default)"
+      buildConfiguration = "Debug [SDL1] (Default)"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       enableGPUValidationMode = "1"
       allowLocationSimulation = "YES"
       viewDebuggingEnabled = "No">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "MinecraftClient.SDL2"
-            BlueprintName = "MinecraftClient.SDL2"
+            BlueprintIdentifier = "844496752E76685C008CF2E0"
+            BuildableName = "MinecraftClient.SDL1"
+            BlueprintName = "MinecraftClient.SDL1"
             ReferencedContainer = "container:Minecraft.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -69,24 +68,23 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release [SDL2] (Default)"
+      buildConfiguration = "Release [SDL1] (Default)"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8489B0962A86D4B2004CA8EC"
-            BuildableName = "MinecraftClient.SDL2"
-            BlueprintName = "MinecraftClient.SDL2"
+            BlueprintIdentifier = "844496752E76685C008CF2E0"
+            BuildableName = "MinecraftClient.SDL1"
+            BlueprintName = "MinecraftClient.SDL1"
             ReferencedContainer = "container:Minecraft.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug [SDL2] (Default)">
+      buildConfiguration = "Debug [SDL1] (Default)">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release [SDL2] (Default)"
+      buildConfiguration = "Release [SDL1] (Default)"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

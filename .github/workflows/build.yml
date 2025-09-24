@@ -55,7 +55,6 @@ jobs:
             run: |
                 port selfupdate
                 port install libsdl2 +universal
-                port install libpng +universal
           - name: Build macOS Archive
             run: |
                 cd platforms/macos/projects/Minecraft
@@ -81,7 +80,7 @@ jobs:
     #            xcodebuild -scheme "minecraftpe" \
     #            -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
     #            -sdk iphoneos \
-    #            -configuration "Release (iOS)" \
+    #            -configuration "Release [iOS] (Default)" \
     #            -destination generic/platform=iOS \
     #            GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
     #            -quiet \
@@ -92,7 +91,7 @@ jobs:
             matrix:
                 include:
                   - name: SDL
-                    directory: platforms/sdl/android
+                    directory: platforms/sdl/sdl2/android
                   - name: Native
                     directory: platforms/android/project
         name: Android (${{ matrix.name }})
@@ -119,8 +118,10 @@ jobs:
           include:
             - name: Win32
               flags: "-DREMCPE_PLATFORM=windows"
-            - name: SDL
-              flags: "-DREMCPE_PLATFORM=sdl"
+            - name: SDL1
+              flags: "-DREMCPE_PLATFORM=sdl1"
+            - name: SDL2
+              flags: "-DREMCPE_PLATFORM=sdl2"
       name: MinGW-w64 (${{ matrix.name }})
       runs-on: ubuntu-latest
       steps:

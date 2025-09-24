@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe-sdl)
+project(reminecraftpe-sdl2)
 
 # SDL Build
 target_compile_definitions(reminecraftpe-core
@@ -10,12 +10,12 @@ target_compile_definitions(reminecraftpe-core
 # Build
 set(SOURCES
     main.cpp
-    base/AppPlatform_sdl_base.cpp
+    base/AppPlatform_sdl2.cpp
 )
 if(EMSCRIPTEN)
-    list(APPEND SOURCES emscripten/AppPlatform_sdl.cpp)
+    list(APPEND SOURCES emscripten/AppPlatform_sdl2_emscripten.cpp)
 else()
-    list(APPEND SOURCES desktop/AppPlatform_sdl.cpp)
+    list(APPEND SOURCES desktop/AppPlatform_sdl2_desktop.cpp)
 endif()
 if(ANDROID)
     add_library(reminecraftpe SHARED ${SOURCES})

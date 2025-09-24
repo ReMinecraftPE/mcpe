@@ -6,11 +6,11 @@
 #include "client/app/App.hpp"
 
 #ifdef __EMSCRIPTEN__
-#include "emscripten/AppPlatform_sdl.hpp"
+#include "emscripten/AppPlatform_sdl2_emscripten.hpp"
 #else
-#include "desktop/AppPlatform_sdl.hpp"
+#include "desktop/AppPlatform_sdl2_desktop.hpp"
 #endif
-typedef AppPlatform_sdl UsedAppPlatform;
+typedef AppPlatform_sdl2_desktop UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
@@ -165,8 +165,8 @@ static void handle_events()
 			{
 				if (event.button.which != SDL_TOUCH_MOUSEID) {
 					const float scale = g_fPointToPixelScale;
-					MouseButtonType type = AppPlatform_sdl_base::GetMouseButtonType(event.button);
-					bool state = AppPlatform_sdl_base::GetMouseButtonState(event);
+					MouseButtonType type = AppPlatform_sdl2::GetMouseButtonType(event.button);
+					bool state = AppPlatform_sdl2::GetMouseButtonState(event);
 					float x = event.button.x * scale;
 					float y = event.button.y * scale;
 					Mouse::feed(type, state, x, y);
@@ -189,7 +189,7 @@ static void handle_events()
 			case SDL_MOUSEWHEEL:
 			{
 				if (event.button.which != SDL_TOUCH_MOUSEID) {
-					Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdl_base::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+					Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdl2::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				}
 				break;
 			}

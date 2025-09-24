@@ -3,8 +3,8 @@
 #include "thirdparty/GL/GL.hpp"
 
 #include "client/app/App.hpp"
-#include "desktop/AppPlatform_sdl1.hpp"
-typedef AppPlatform_sdl1 UsedAppPlatform;
+#include "desktop/AppPlatform_sdl1_desktop.hpp"
+typedef AppPlatform_sdl1_desktop UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
@@ -62,8 +62,8 @@ static void handle_events()
             case SDL_MOUSEBUTTONUP:
             {
                 const float scale = g_fPointToPixelScale;
-                MouseButtonType type = AppPlatform_sdl1_base::GetMouseButtonType(event.button.button);
-                bool state = AppPlatform_sdl1_base::GetMouseButtonState(event);
+                MouseButtonType type = AppPlatform_sdl1::GetMouseButtonType(event.button.button);
+                bool state = AppPlatform_sdl1::GetMouseButtonState(event);
                 float x = event.button.x * scale;
                 float y = event.button.y * scale;
                 Mouse::feed(type, state, x, y);

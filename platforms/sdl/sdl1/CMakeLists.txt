@@ -10,9 +10,9 @@ target_compile_definitions(reminecraftpe-core
 # Build
 set(SOURCES
     main.cpp
-    base/AppPlatform_sdl1_base.cpp
+    base/AppPlatform_sdl1.cpp
 )
-list(APPEND SOURCES desktop/AppPlatform_sdl1.cpp)
+list(APPEND SOURCES desktop/AppPlatform_sdl1_desktop.cpp)
 add_executable(reminecraftpe ${SOURCES})
 
 # Core
