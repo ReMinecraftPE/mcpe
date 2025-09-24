@@ -27,6 +27,7 @@ public:
 	void addCreativeItem(int itemID, int auxValue = 0);
 	void addTestItem(int itemID, int amount, int auxValue = 0);
 
+	void empty();
 	void clear();
 	bool addItem(ItemInstance& instance);
     void tick();
@@ -41,6 +42,7 @@ public:
 
 	void setQuickSlotIndexByItemId(int slotNo, int itemID);
 	void selectItemById(int itemID, int maxHotBarSlot);
+	void selectItemByIdAux(int itemID, int auxValue, int maxHotBarSlot);
 
 	int getAttackDamage(Entity*);
 

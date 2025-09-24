@@ -27,7 +27,7 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	m_pHumanoidModel->m_arm1.translateTo(0.0625f);
 	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
 #pragma warning(disable : 6385) // this warning is just wrong; intellisense cant handle it being a pointer->index
-	if (inst && inst->m_itemID <= C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
+	if (inst && inst->m_itemID < C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
 	{
 		glTranslatef(0.0f, 0.1875f, -0.3125f);
 		glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
@@ -54,6 +54,26 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	m_pDispatcher->m_pItemInHandRenderer->renderItem(inst);
 	glPopMatrix();
 	glDisable(GL_RESCALE_NORMAL);
+}
+
+void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, float f2)
+{
+	if (pEntity->isPlayer())
+	{
+		Player* player = (Player*)pEntity;
+		ItemInstance* item = player->getSelectedItem();
+		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
+	}
+	if (pEntity->isSneaking())
+	{
+		Vec3 pos2 = pos;
+		pos2.y -= 0.125f;
+		MobRenderer::render(pEntity, pos2, f1, f2);
+	}
+	else
+	{
+		MobRenderer::render(pEntity, pos, f1, f2);
+	}
 }
 
 void HumanoidMobRenderer::onGraphicsReset()

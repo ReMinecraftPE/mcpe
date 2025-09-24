@@ -821,6 +821,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		float pz = pPlayer->m_posPrev.z + (pPlayer->m_pos.z - pPlayer->m_posPrev.z) * f;
 
 		Tesselator& t = Tesselator::instance;
+		glEnable(GL_ALPHA_TEST); // Fixes for b1.7.3 terrain
 		t.begin();
 		t.offset(-px, -py, -pz);
 		t.noColor();
@@ -1341,9 +1342,9 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
     
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-        uo = (cr * 30.0F + cg * 59.0F + cb * 11.0F) / 100.0F;
-        vo = (cr * 30.0F + cg * 70.0F) / 100.0F;
-        scale = (cr * 30.0F + cb * 70.0F) / 100.0F;
+        uo = (cr * 30.0f + cg * 59.0f + cb * 11.0f) / 100.0f;
+        vo = (cr * 30.0f + cg * 70.0f) / 100.0f;
+        scale = (cr * 30.0f + cb * 70.0f) / 100.0f;
         cr = uo;
         cg = vo;
         cb = scale;

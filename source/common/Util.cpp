@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include <stdarg.h>
 #include "Util.hpp"
 
 const std::string Util::EMPTY_STRING = "";
@@ -52,7 +51,7 @@ std::string Util::vformat(const char *fmt, va_list argPtr)
 
 	vsnprintf(str, sizeof(str), fmt, argPtr);
 
-	return std::string(str, sizeof(str));
+	return std::string(str);
 }
 
 std::string Util::format(const char *fmt, ...)

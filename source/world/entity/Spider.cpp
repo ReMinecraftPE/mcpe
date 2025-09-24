@@ -30,7 +30,7 @@ void Spider::checkHurtTarget(Entity* ent, float var2)
 	{
 		if (var2 > 2.0f && var2 < 6.0f && m_random.nextInt(10) == 0)
 		{
-			if (m_onGround)
+			if (m_bOnGround)
 			{
 				float var4 = ent->m_pos.x - m_pos.x;
 				float var6 = ent->m_pos.z - m_pos.z;
