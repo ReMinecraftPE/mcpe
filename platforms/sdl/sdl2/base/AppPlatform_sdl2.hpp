@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "thirdparty/SDL2/SDL2.h"
+#include "thirdparty/SDL/SDL.h"
 
 #include "client/app/AppPlatform.hpp"
 

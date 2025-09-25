@@ -48,7 +48,7 @@
 		#define USE_OPENGL_2_FEATURES
 
 		#define GL_GLEXT_PROTOTYPES
-		#include "thirdparty/SDL2/SDL_opengl.h"
+		#include "thirdparty/SDL/SDL_opengl.h"
 
 		#if !defined(_WIN32) && SDL_MAJOR_VERSION == 2
 			#include <SDL2/SDL_opengl_glext.h>

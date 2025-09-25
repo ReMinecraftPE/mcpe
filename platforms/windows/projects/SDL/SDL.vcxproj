@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL2\SDL2.h" />
-    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL2\SDL_opengl.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL\SDL.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL\SDL_opengl.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{a88f87b0-d37b-4385-a870-f349d8001e08}</ProjectGuid>
-    <RootNamespace>SDL2</RootNamespace>
+    <RootNamespace>SDL</RootNamespace>
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

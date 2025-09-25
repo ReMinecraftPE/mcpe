@@ -1261,6 +1261,8 @@
 		84E001B82AF3A3CB009B9555 /* SmoothFloat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E001B62AF3A3CB009B9555 /* SmoothFloat.cpp */; };
 		84E001B92AF3A3CB009B9555 /* SmoothFloat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E001B72AF3A3CB009B9555 /* SmoothFloat.hpp */; };
 		84E001BB2AF3AF9B009B9555 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84E001BA2AF3AF9B009B9555 /* MainWindow.xib */; };
+		84E105F82E85157F00FAB6C5 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E105F62E85157F00FAB6C5 /* AppPlatform_sdl.cpp */; };
+		84E105F92E85157F00FAB6C5 /* AppPlatform_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E105F62E85157F00FAB6C5 /* AppPlatform_sdl.cpp */; };
 		84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6262AC810620006A435 /* CThread.cpp */; };
 		84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6282AC810620006A435 /* Logger.cpp */; };
 		84E4BFB72AE9869A0023E16A /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62B2AC810620006A435 /* Matrix.cpp */; };
@@ -2140,7 +2142,7 @@
 		840DD8442AC810630006A435 /* WSAStartupSingleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WSAStartupSingleton.cpp; sourceTree = "<group>"; };
 		840DD8452AC810630006A435 /* WSAStartupSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSAStartupSingleton.h; sourceTree = "<group>"; };
 		840DD8462AC810630006A435 /* XBox360Includes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBox360Includes.h; sourceTree = "<group>"; };
-		840DD8482AC810630006A435 /* SDL2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL2.h; sourceTree = "<group>"; };
+		840DD8482AC810630006A435 /* SDL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL.h; sourceTree = "<group>"; };
 		840DD8492AC810630006A435 /* SDL_opengl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_opengl.h; sourceTree = "<group>"; };
 		840DD84E2AC810630006A435 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
 		840DD84F2AC810630006A435 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -2942,6 +2944,8 @@
 		84E001B62AF3A3CB009B9555 /* SmoothFloat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmoothFloat.cpp; sourceTree = "<group>"; };
 		84E001B72AF3A3CB009B9555 /* SmoothFloat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SmoothFloat.hpp; sourceTree = "<group>"; };
 		84E001BA2AF3AF9B009B9555 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		84E105F62E85157F00FAB6C5 /* AppPlatform_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatform_sdl.cpp; sourceTree = "<group>"; };
+		84E105F72E85157F00FAB6C5 /* AppPlatform_sdl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatform_sdl.hpp; sourceTree = "<group>"; };
 		84E4BFAE2AE9854B0023E16A /* libCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E78C792B58B3E000D515EF /* Rocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Rocket.cpp; sourceTree = "<group>"; };
 		84E78C7A2B58B3E000D515EF /* Rocket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Rocket.hpp; sourceTree = "<group>"; };
@@ -2965,7 +2969,6 @@
 		84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP.hpp; sourceTree = "<group>"; };
 		84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Compat.hpp; sourceTree = "<group>"; };
 		84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Info.hpp; sourceTree = "<group>"; };
-		84EDD07D2E76E2B600375AEF /* SDL1KeyCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL1KeyCodes.h; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -3095,7 +3098,6 @@
 				84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */,
 				84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */,
 				84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */,
-				84EDD07D2E76E2B600375AEF /* SDL1KeyCodes.h */,
 				840DD5792AC810620006A435 /* KeyCodes.hpp */,
 				84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */,
 				840DD57A2AC810620006A435 /* SDLKeyCodes.h */,
@@ -3841,7 +3843,7 @@
 			children = (
 				840DD7312AC810620006A435 /* GL */,
 				840DD7392AC810620006A435 /* raknet */,
-				840DD8472AC810630006A435 /* SDL2 */,
+				840DD8472AC810630006A435 /* SDL */,
 				84AA8C802B32FB32003F5B82 /* stb_image */,
 				840DD84D2AC810630006A435 /* zlib */,
 			);
@@ -4132,13 +4134,13 @@
 			path = raknet;
 			sourceTree = "<group>";
 		};
-		840DD8472AC810630006A435 /* SDL2 */ = {
+		840DD8472AC810630006A435 /* SDL */ = {
 			isa = PBXGroup;
 			children = (
-				840DD8482AC810630006A435 /* SDL2.h */,
+				840DD8482AC810630006A435 /* SDL.h */,
 				840DD8492AC810630006A435 /* SDL_opengl.h */,
 			);
-			path = SDL2;
+			path = SDL;
 			sourceTree = "<group>";
 		};
 		840DD84D2AC810630006A435 /* zlib */ = {
@@ -5382,6 +5384,15 @@
 			path = mob;
 			sourceTree = "<group>";
 		};
+		84E105F52E85155F00FAB6C5 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				84E105F62E85157F00FAB6C5 /* AppPlatform_sdl.cpp */,
+				84E105F72E85157F00FAB6C5 /* AppPlatform_sdl.hpp */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
 		84E8DCE22E849A1600B30789 /* sdl2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -5396,6 +5407,7 @@
 		84EAE8E82AF1EAFA000894E8 /* sdl */ = {
 			isa = PBXGroup;
 			children = (
+				84E105F52E85155F00FAB6C5 /* base */,
 				8444968E2E766960008CF2E0 /* sdl1 */,
 				84E8DCE22E849A1600B30789 /* sdl2 */,
 			);
@@ -6708,6 +6720,7 @@
 				8444969A2E766960008CF2E0 /* main.cpp in Sources */,
 				844496982E766960008CF2E0 /* AppPlatform_sdl1.cpp in Sources */,
 				844496992E766960008CF2E0 /* AppPlatform_sdl1_desktop.cpp in Sources */,
+				84E105F92E85157F00FAB6C5 /* AppPlatform_sdl.cpp in Sources */,
 				8444969C2E766C38008CF2E0 /* SoundStreamAL.cpp in Sources */,
 				8444969D2E766C49008CF2E0 /* SoundSystemAL.cpp in Sources */,
 				8444969E2E766C59008CF2E0 /* stb_image_impl.c in Sources */,
@@ -6743,6 +6756,7 @@
 				8435BB192DCD47F400D38282 /* SoundStreamAL.cpp in Sources */,
 				84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */,
 				841DD8772AF8AA7A00AA3B66 /* AppPlatform_sdl2.cpp in Sources */,
+				84E105F82E85157F00FAB6C5 /* AppPlatform_sdl.cpp in Sources */,
 				841DD8782AF8AA7A00AA3B66 /* AppPlatform_sdl2_desktop.cpp in Sources */,
 				84AA8E802B32FB33003F5B82 /* stb_image_impl.c in Sources */,
 				8441F9962DB4E911005977BD /* SoundSystemAL.cpp in Sources */,

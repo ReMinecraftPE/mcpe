@@ -1,6 +1,6 @@
 #include <stdarg.h>
 
-#include "thirdparty/SDL2/SDL2.h"
+#include "thirdparty/SDL/SDL.h"
 
 #include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
