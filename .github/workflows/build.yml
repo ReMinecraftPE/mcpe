@@ -11,7 +11,7 @@ jobs:
             matrix:
                 include:
                   - name: SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl'
+                    flags: '-DREMCPE_PLATFORM=sdl2'
                   - name: SDL 1.2
                     flags: '-DREMCPE_PLATFORM=sdl1'
         name: Linux (${{ matrix.name }})
