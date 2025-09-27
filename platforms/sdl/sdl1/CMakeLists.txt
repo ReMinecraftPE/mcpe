@@ -4,6 +4,7 @@ project(reminecraftpe-sdl1)
 # SDL Build
 target_compile_definitions(reminecraftpe-core
     PUBLIC USE_SDL
+    PUBLIC USE_SDL1
     PUBLIC HANDLE_CHARS_SEPARATELY
 )
 
