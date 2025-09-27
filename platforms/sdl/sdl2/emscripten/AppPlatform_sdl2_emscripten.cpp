@@ -1,13 +1,13 @@
-#include "AppPlatform_sdl.hpp"
+#include "AppPlatform_sdl2_emscripten.hpp"
 
 #include "common/Utils.hpp"
 
-AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
-    : AppPlatform_sdl_base(storageDir, window)
+AppPlatform_sdl2_emscripten::AppPlatform_sdl2_emscripten(std::string storageDir, SDL_Window *window)
+    : AppPlatform_sdl2(storageDir, window)
 {
 }
 
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
+Texture AppPlatform_sdl2_emscripten::loadTexture(const std::string& path, bool bIsRequired)
 {
 	Texture out;
 	out.m_hasAlpha = true;
@@ -29,7 +29,7 @@ Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
 	return out;
 }
 
-bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
+bool AppPlatform_sdl2_emscripten::doesTextureExist(const std::string& path) const
 {
 	// Get Full Path
 	std::string realPath = getAssetPath(path);
