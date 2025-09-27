@@ -7,10 +7,11 @@
 
 #ifdef __EMSCRIPTEN__
 #include "emscripten/AppPlatform_sdl2_emscripten.hpp"
+typedef AppPlatform_sdl2_emscripten UsedAppPlatform;
 #else
 #include "desktop/AppPlatform_sdl2_desktop.hpp"
-#endif
 typedef AppPlatform_sdl2_desktop UsedAppPlatform;
+#endif
 
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
