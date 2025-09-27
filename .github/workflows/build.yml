@@ -60,9 +60,11 @@ jobs:
                   - name: SDL 2
                     backend_name: 'SDL2'
                     packages: 'libsdl2'
-                  - name: SDL 1.2
-                    backend_name: 'SDL1'
-                    packages: 'libsdl'
+                  # @NOTE: Uses SDL 1.2 compatibility layer in newer macOS versions, resulting in 30+ minutes spent building
+                  # and installing said layer each time the action is run. We're not doing that.
+                  #- name: SDL 1.2
+                  #  backend_name: 'SDL1'
+                  #  packages: 'libsdl'
         name: macOS (${{ matrix.name }})
         runs-on: macos-latest
         steps:
