@@ -83,7 +83,7 @@ void AppPlatform_sdl2::setIcon(const Texture& icon)
 	if (_icon) SDL_FreeSurface(_icon);
 
 	_iconTexture = new Texture(icon);
-	_icon = GetSurfaceForTexture(_iconTexture);
+	_icon = GetSurfaceForTexture(*_iconTexture);
 
 	if (_icon)
 		SDL_SetWindowIcon(_window, _icon);

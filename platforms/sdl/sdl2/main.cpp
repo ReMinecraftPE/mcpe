@@ -346,7 +346,7 @@ int main(int argc, char *argv[])
 	SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
 
 	// Create Window
-	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, VIDEO_MODE);
+	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, VIDEO_FLAGS);
 	if (!window)
 	{
 		LOG_E("Unable to create SDL window: %s", SDL_GetError());
