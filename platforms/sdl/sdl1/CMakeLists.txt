@@ -12,6 +12,7 @@ target_compile_definitions(reminecraftpe-core
 set(SOURCES
     main.cpp
     base/AppPlatform_sdl1.cpp
+    ../base/AppPlatform_sdl.cpp
 )
 list(APPEND SOURCES desktop/AppPlatform_sdl1_desktop.cpp)
 add_executable(reminecraftpe ${SOURCES})
