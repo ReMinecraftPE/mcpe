@@ -28,10 +28,8 @@ endif()
 # Core
 target_link_libraries(reminecraftpe reminecraftpe-core)
 
-# stb_image (If Needed)
-if(NOT EMSCRIPTEN)
-    target_link_libraries(reminecraftpe stb_image)
-endif()
+# stb_image
+target_link_libraries(reminecraftpe stb_image)
 
 # SDL
 add_library(SDL INTERFACE)
