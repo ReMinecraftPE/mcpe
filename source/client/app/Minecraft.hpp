@@ -47,10 +47,7 @@ public:
 	void handleBuildAction(const BuildActionIntention& action);
 	bool isLevelGenerated() const;
     void selectLevel(const LevelSummary& ls, bool forceConversion = false);
-	void selectLevel(const std::string&, const std::string&, int, bool forceConversion = false);
-	#ifdef __DREAMCAST__ /* Dreamcast compiler edgecase (TODO: Fix this bullshit.) */
 	void selectLevel(const std::string& levelDir, const std::string& levelName, int32_t seed = 0, bool forceConversion = false);
-	#endif
 	void setLevel(Level*, const std::string&, LocalPlayer*);
 	bool pauseGame();
 	bool resumeGame();
