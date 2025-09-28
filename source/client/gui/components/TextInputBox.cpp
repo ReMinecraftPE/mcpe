@@ -280,7 +280,8 @@ void TextInputBox::charPressed(int k)
 		return;
 
 	switch (k) {
-		case '\b':
+		case '\b': // BACKSPACE
+		case '\x7f': // DELETE
 		{
 			// Backspace
 			if (m_text.empty())
@@ -300,6 +301,8 @@ void TextInputBox::charPressed(int k)
 			recalculateScroll();
 			break;
 		}
+		/* There's not much of a point in handling deletes differently,
+		 * especially since old Mac OS versions send delete instead of backspace.
 		case '\x7f': // DELETE
 		{
 			// Delete
@@ -317,7 +320,7 @@ void TextInputBox::charPressed(int k)
 			}
 			m_text.erase(m_text.begin() + m_insertHead, m_text.begin() + m_insertHead + 1);
 			break;
-		}
+		}*/
         default:
         {
             // Ignore Unprintable Characters

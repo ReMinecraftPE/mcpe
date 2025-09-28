@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <cstdlib>
+#include <errno.h>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -469,8 +470,11 @@ SDL_Surface* AppPlatform_sdl::_GetSurfaceForTexture(const Texture& texture)
 	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
 		pixels, width, height, depth,
 		width * 4, // Pitch
-		0x000000FF, 0x0000FF00, 0x00FF0000,
-		0xFF000000
+#if MC_ENDIANNESS_LITTLE
+		0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000
+#else // MC_ENDIANNESS_BIG
+		0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF
+#endif
 	);
 	if (!surface)
 		LOG_E("Failed loading SDL_Surface from Texture: %s", SDL_GetError());

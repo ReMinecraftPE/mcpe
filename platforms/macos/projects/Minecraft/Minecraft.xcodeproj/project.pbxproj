@@ -1531,6 +1531,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8400360F2E89DADB00C14213 /* SDL_gamecontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_gamecontroller.h; sourceTree = "<group>"; };
 		8406FD292AF1814500B09C1D /* libRenderer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRenderer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		840DD5792AC810620006A435 /* KeyCodes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = KeyCodes.hpp; sourceTree = "<group>"; };
 		840DD57A2AC810620006A435 /* SDLKeyCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLKeyCodes.h; sourceTree = "<group>"; };
@@ -2318,7 +2319,6 @@
 		8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowKeyboardView.mm; sourceTree = "<group>"; };
 		8489B0972A86D4B2004CA8EC /* MinecraftClient.SDL2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MinecraftClient.SDL2; sourceTree = BUILT_PRODUCTS_DIR; };
 		8489B3212A86E464004CA8EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8489B3232A86E46A004CA8EC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		8489B3252A86E4B0004CA8EC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		848CBD0F2AFD847C007634F6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8492591D2AD8FCFC0081F5B9 /* minecraftpe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = minecraftpe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4138,6 +4138,7 @@
 			isa = PBXGroup;
 			children = (
 				840DD8482AC810630006A435 /* SDL.h */,
+				8400360F2E89DADB00C14213 /* SDL_gamecontroller.h */,
 				840DD8492AC810630006A435 /* SDL_opengl.h */,
 			);
 			path = SDL;
@@ -4487,7 +4488,6 @@
 				844496A62E76792A008CF2E0 /* libSDLmain.a */,
 				8444968C2E7668E5008CF2E0 /* libSDL.a */,
 				84899AF72B32B7F50046B6D1 /* iOS */,
-				8489B3232A86E46A004CA8EC /* AppKit.framework */,
 				8489B3212A86E464004CA8EC /* Foundation.framework */,
 				8443B6E92A98675F0086730C /* libSDL2.a */,
 				84C4D86E2A872C0100323E33 /* OpenAL.framework */,

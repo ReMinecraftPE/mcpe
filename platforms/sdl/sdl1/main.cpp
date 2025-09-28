@@ -54,7 +54,7 @@ static void handle_events()
             {
                 if (event.type == SDL_KEYDOWN && event.key.keysym.unicode > 0)
                 {
-                    if ( (event.key.keysym.unicode & 0xFF80) == 0 )
+                    if ((event.key.keysym.unicode & 0xFF80) == 0)
                     {
                         char ch = event.key.keysym.unicode & 0x7F;
                         g_pApp->handleCharInput(ch);
