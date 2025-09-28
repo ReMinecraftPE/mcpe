@@ -11,6 +11,7 @@ target_compile_definitions(reminecraftpe-core
 set(SOURCES
     main.cpp
     base/AppPlatform_sdl2.cpp
+    ../base/AppPlatform_sdl.cpp
 )
 if(EMSCRIPTEN)
     list(APPEND SOURCES emscripten/AppPlatform_sdl2_emscripten.cpp)
