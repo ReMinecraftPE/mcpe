@@ -16,13 +16,9 @@
 
 #include "Getche.h"
 
-#ifndef ICANON
-#define NO_ONLINE
-#endif
-
 char getche()
 {
-#ifndef NO_ONLINE
+#ifdef ICANON
   struct termios oldt,
                  newt;
   char            ch;

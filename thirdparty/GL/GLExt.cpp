@@ -6,9 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#if defined(_WIN32) || defined(__DREAMCAST)
+#if defined(_WIN32) || defined(__DREAMCAST__)
 
-#ifdef __DREAMCAST
+#ifdef __DREAMCAST__
 
 #define USE_GL_VBO_EMULATION
 
