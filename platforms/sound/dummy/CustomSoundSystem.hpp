@@ -1,11 +1,3 @@
-/********************************************************************
-	Minecraft: Pocket Edition - Decompilation Project
-	Copyright (C) 2023 iProgramInCpp
-	
-	The following code is licensed under the BSD 1 clause license.
-	SPDX-License-Identifier: BSD-1-Clause
- ********************************************************************/
-
 #pragma once
 
 #include <string>
@@ -15,48 +7,39 @@
 #include "client/sound/SoundSystem.hpp"
 #include "client/sound/SoundData.hpp"
 
-// Platform-agnostic sound settings //
-// Just guessing for this one
-#define SOUND_ATTENUATION_MIN_DISTANCE 2.0f
-#define SOUND_MAX_DISTANCE 16.0f
-// 28 non-streaming channels in Paulscode
-// @NOTE: Currently only SoundSystemAL adheres to this.
-#define SOUND_MAX_SOURCES 28
+#define SOUND_SYSTEM SoundSystemNull
 
-#define SOUND_SYSTEM SoundSystemNL
-
-class SoundSystemNL : public SoundSystem
+class SoundSystemNull : public SoundSystem
 {
 public:
-	virtual ~SoundSystemNL();
+	~SoundSystemNull();
 
-	virtual bool isAvailable();
-	virtual void setListenerPos(const Vec3& pos);
-	virtual void setListenerAngle(const Vec2& rot);
-	virtual void setListenerVelocity(const Vec3& vel);
+	bool isAvailable() override;
+	void setListenerPos(const Vec3& pos) override;
+	void setListenerAngle(const Vec2& rot) override;
+	void setListenerVelocity(const Vec3& vel) override;
 
-	virtual void setMusicVolume(float vol);
-	virtual void setSoundVolume(float vol);
+	void setMusicVolume(float vol) override;
+	void setSoundVolume(float vol) override;
 
-	virtual void load(const std::string& soundPath, bool is3D, float minDis);
-	virtual void play(const std::string& soundPath);
-	virtual void pause(const std::string& soundPath);
-	virtual void stop(const std::string& soundPath);
-	virtual void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch);
+	void load(const std::string& soundPath, bool is3D, float minDis) override;
+	void play(const std::string& soundPath) override;
+	void pause(const std::string& soundPath) override;
+	void stop(const std::string& soundPath) override;
+	void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch) override;
 
-	virtual void playMusic(const std::string& soundPath);
-	virtual bool isPlayingMusic() const;
-	virtual bool isPlayingMusic(const std::string& soundPath) const;
-	virtual void stopMusic();
-	virtual void pauseMusic(bool state);
+	void playMusic(const std::string& soundPath) override;
+	bool isPlayingMusic() const override;
+	bool isPlayingMusic(const std::string& soundPath) const override;
+	void stopMusic() override;
+	void pauseMusic(bool state) override;
 
-	virtual void update(float elapsedTime);
+	void update(float elapsedTime) override;
     
-    // Be prepared for these to be called regardless of engine state
-    virtual void startEngine(); // called init in 0.10.0
-    virtual void stopEngine(); // called destroy in 0.10.0
+    void startEngine() override;
+    void stopEngine() override;
     
-    virtual void muteAudio();
-    virtual void unMuteAudio();
-};
+    void muteAudio() override;
+    void unMuteAudio() override;
+} override;
 

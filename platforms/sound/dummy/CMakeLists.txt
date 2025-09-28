@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe-dummy)
+project(reminecraftpe-dummysound)
 
 # Build
 add_library(reminecraftpe-sound STATIC
-	SoundSystem.cpp
-	SoundStream.cpp
+	SoundSystemNull.cpp
 )
 
 target_link_libraries(reminecraftpe-sound PUBLIC reminecraftpe-core)
