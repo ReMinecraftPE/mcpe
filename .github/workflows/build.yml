@@ -141,13 +141,11 @@ jobs:
                 include:
                   - name: Win32
                     flags: '-DREMCPE_PLATFORM=windows'
-                    packages: ''
                   - name: SDL2
                     flags: "-DREMCPE_PLATFORM=sdl2"
-                    packages: ''
-                  - name: SDL 1.2
-                    flags: "-DREMCPE_PLATFORM=sdl1"
-                    packages: 'libsdl1.2-dev'
+                  # CMake can't find it
+                  #- name: SDL 1.2
+                  #  flags: "-DREMCPE_PLATFORM=sdl1"
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-latest
         steps:
@@ -161,8 +159,7 @@ jobs:
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake ninja-build \
-                    mingw-w64 \
-                    ${{ matrix.packages }}
+                    mingw-w64
           - name: Build
             run: |
                 mkdir build
