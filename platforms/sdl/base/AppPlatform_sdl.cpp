@@ -483,7 +483,7 @@ int AppPlatform_sdl::_SavePng(const char* filename, unsigned char* pixels, int l
 {
 #ifdef __EMSCRIPTEN__
 	return 0;
-#elif
+#else
 	// Setup
 	stbi_flip_vertically_on_write(true);
 
