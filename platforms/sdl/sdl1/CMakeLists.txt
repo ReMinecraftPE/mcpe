@@ -23,17 +23,12 @@ target_link_libraries(reminecraftpe reminecraftpe-core)
 # stb_image (If Needed)
 target_link_libraries(reminecraftpe stb_image)
 
-# SDL
-add_library(SDL INTERFACE)
-
-# Use System SDL
+# SDL (From system)
 find_package(SDL REQUIRED)
-include_directories(${SDL_INCLUDE_DIR})
-target_link_libraries(SDL INTERFACE ${SDL_LIBRARY})
-
-target_link_libraries(reminecraftpe-core PUBLIC SDL)
+target_include_directories(reminecraftpe-core PUBLIC "${SDL_INCLUDE_DIR}")
+target_link_libraries(reminecraftpe-core PUBLIC "${SDL_LIBRARY}")
 if(SDLMAIN_LIBRARY)
-    target_link_libraries(reminecraftpe ${SDLMAIN_LIBRARY})
+    target_link_libraries(reminecraftpe "${SDLMAIN_LIBRARY}")
 endif()
 
 # OpenGL
