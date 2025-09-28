@@ -49,38 +49,7 @@ void TextInputBox::setEnabled(bool bEnabled)
 	m_bEnabled = true;
 }
 
-/* Check version */
-#if defined(SDL_VERSION_ATLEAST)
-	#if SDL_VERSION_ATLEAST(2, 0, 0)
-		#define USE_SDL_2_0
-	#endif
-#endif
-
-#ifdef USE_SDL_2_0
-/* SDL 2.x */
-#define AKEYCODE_FORWARD_DEL   SDLK_DELETE
-#define AKEYCODE_ARROW_LEFT    SDLK_LEFT
-#define AKEYCODE_ARROW_RIGHT   SDLK_RIGHT
-#define AKEYCODE_DEL           SDLK_BACKSPACE
-#define AKEYCODE_ENTER         SDLK_RETURN
-#define AKEYCODE_A             SDLK_a
-#define AKEYCODE_Z             SDLK_z
-#define AKEYCODE_0             SDLK_0
-#define AKEYCODE_9             SDLK_9
-#define AKEYCODE_SPACE         SDLK_SPACE
-#define AKEYCODE_COMMA         SDLK_COMMA
-#define AKEYCODE_PERIOD        SDLK_PERIOD
-#define AKEYCODE_PLUS          SDLK_PLUS
-#define AKEYCODE_MINUS         SDLK_MINUS
-#define AKEYCODE_SEMICOLON     SDLK_SEMICOLON
-#define AKEYCODE_SLASH         SDLK_SLASH
-#define AKEYCODE_GRAVE         SDLK_BACKQUOTE
-#define AKEYCODE_BACKSLASH     SDLK_BACKSLASH
-#define AKEYCODE_APOSTROPHE    SDLK_QUOTE
-#define AKEYCODE_LEFT_BRACKET  SDLK_LEFTBRACKET
-#define AKEYCODE_RIGHT_BRACKET SDLK_RIGHTBRACKET
-#elif defined(USE_SDL1)
-/* SDL 1.x */
+#ifdef USE_SDL
 #define AKEYCODE_FORWARD_DEL   SDLK_DELETE
 #define AKEYCODE_ARROW_LEFT    SDLK_LEFT
 #define AKEYCODE_ARROW_RIGHT   SDLK_RIGHT
