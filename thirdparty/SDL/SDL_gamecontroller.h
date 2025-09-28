@@ -1,8 +1,8 @@
 #pragma once
 
-#include "SDL.h"
-
 #ifdef USE_SDL1
+
+#include "SDL.h"
 
 // Controller values ripped from SDL2, modified for SDL 1.2, since SDL 1.2 has jack-shit
 
