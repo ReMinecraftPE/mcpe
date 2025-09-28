@@ -56,10 +56,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <!-- SDL1 -->
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1'))">
+    <ClCompile>
+	  <AdditionalIncludeDirectories>$(SDL1_PATH)\include;$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	  <PreprocessorDefinitions>USE_SDL;USE_SDL1;USE_OPENAL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <!-- SDL2 -->
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2'))">
     <ClCompile>
-	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>USE_SDL;USE_OPENAL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>

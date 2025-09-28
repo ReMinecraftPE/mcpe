@@ -11,19 +11,15 @@
 AppPlatform_sdl1_desktop::AppPlatform_sdl1_desktop(std::string storageDir, SDL_Surface* screen)
     : AppPlatform_sdl1(storageDir, screen), m_screen(screen)
 {
-    /* ICON */
-    SDL_Surface* icon = loadSurface("icon.bmp");
-    if (icon) {
-        SDL_WM_SetIcon(icon, nullptr);
-        SDL_FreeSurface(icon);
-    }
+	setIcon(loadTexture("icon.png", false));
 }
 
 
 void AppPlatform_sdl1_desktop::ensureDirectoryExists(const char* path)
 {
     struct stat obj;
-    if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode)) {
+    if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
+	{
 #if defined(_WIN32) && !defined(__MINGW32__)
         int ret = XPL_MKDIR(path);
 #else
@@ -60,9 +56,11 @@ void AppPlatform_sdl1_desktop::saveScreenshot(const std::string& filename, int w
     }
 
     /* Save */
-    if (SDL_SaveBMP(m_screen, file.c_str()) != 0) {
+    if (SDL_SaveBMP(m_screen, file.c_str()) != 0)
+	{
         LOG_E("Screenshot Failed: %s", file.c_str());
-    } else {
+    } else
+	{
         LOG_I("Screenshot Saved: %s", file.c_str());
     }
 }

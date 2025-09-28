@@ -27,6 +27,7 @@
 #endif
 
 #if !MC_ENDIANNESS_BIG && !MC_ENDIANNESS_LITTLE
+#undef MC_ENDIANNESS_LITTLE
 // If we don't know what we are, default to little endian
 #define MC_ENDIANNESS_LITTLE 1
 #endif

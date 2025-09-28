@@ -9,6 +9,9 @@ typedef AppPlatform_sdl1_desktop UsedAppPlatform;
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
 
+// Video Mode Flags
+#define VIDEO_FLAGS (SDL_OPENGL | SDL_RESIZABLE)
+
 static float g_fPointToPixelScale = 1.0f;
 
 UsedAppPlatform* g_pAppPlatform;
@@ -24,6 +27,17 @@ static void teardown()
         screen = NULL;
     }
 }
+
+// DirectSound Support
+#ifdef _WIN32
+HWND GetHWND()
+{
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWMInfo(&wmInfo);
+    return wmInfo.window;
+}
+#endif
 
 // Handle Events
 static bool window_resized = false;
@@ -80,7 +94,7 @@ static void handle_events()
             }
             case SDL_VIDEORESIZE:
             {
-                screen = SDL_SetVideoMode(event.resize.w, event.resize.h, 0, SDL_OPENGL | SDL_RESIZABLE);
+                screen = SDL_SetVideoMode(event.resize.w, event.resize.h, 0, VIDEO_FLAGS);
                 g_pApp->onGraphicsReset();
                 window_resized = true;
                 break;
@@ -148,7 +162,8 @@ int main(int argc, char* argv[])
     
     SDL_EnableUNICODE(SDL_TRUE);
 
-    screen = SDL_SetVideoMode(Minecraft::width, Minecraft::height, 0, SDL_OPENGL | SDL_RESIZABLE);
+	SDL_WM_SetCaption("ReMinecraftPE", nullptr);
+    screen = SDL_SetVideoMode(Minecraft::width, Minecraft::height, 0, VIDEO_FLAGS);
     if (!screen)
     {
         exit(EXIT_FAILURE);

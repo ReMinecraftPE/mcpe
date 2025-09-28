@@ -83,7 +83,7 @@ void AppPlatform_sdl2::setIcon(const Texture& icon)
 	if (_icon) SDL_FreeSurface(_icon);
 
 	_iconTexture = new Texture(icon);
-	_icon = getSurfaceForTexture(_iconTexture);
+	_icon = GetSurfaceForTexture(_iconTexture);
 
 	if (_icon)
 		SDL_SetWindowIcon(_window, _icon);
@@ -108,14 +108,13 @@ SDL_GameController* AppPlatform_sdl2::findGameController()
 	return nullptr;
 }
 
-SDL_Surface* AppPlatform_sdl2::getSurfaceForTexture(const Texture* const texture)
+SDL_Surface* AppPlatform_sdl2::GetSurfaceForTexture(const Texture& texture)
 {
-	if (!texture) return nullptr;
+	void* pixels = texture.m_pixels;
+	int width = texture.m_width;
+	int height = texture.m_height;
+	int depth = 32; // Color depth (32-bit by default)
 
-	void * const pixels = texture->m_pixels;
-	const int width = texture->m_width;
-	const int height = texture->m_height;
-	const int depth = 32; // Color depth (32-bit by default)
 	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
 			pixels, width, height, depth,
 			width * 4, // Pitch

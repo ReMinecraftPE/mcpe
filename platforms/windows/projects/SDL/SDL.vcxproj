@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_SDL1|Win32">
+      <Configuration>Debug_SDL1</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_SDL1|x64">
+      <Configuration>Debug_SDL1</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug_SDL2|Win32">
       <Configuration>Debug_SDL2</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug_SDL2|x64">
       <Configuration>Debug_SDL2</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL1|Win32">
+      <Configuration>Release_SDL1</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL1|x64">
+      <Configuration>Release_SDL1</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release_SDL2|Win32">
@@ -39,22 +55,42 @@
     <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1'))">
+    <ClCompile>
+	  <AdditionalIncludeDirectories>$(SDL1_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2'))">
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1'))">
+    <Lib>
+      <AdditionalDependencies>SDL.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2'))">
     <Lib>
       <AdditionalDependencies>SDL2.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1')) And '$(Platform)'=='Win32'">
+    <Lib>
+      <AdditionalLibraryDirectories>$(SDL1_PATH)\VisualC\SDL\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2')) And '$(Platform)'=='Win32'">
     <Lib>
       <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1')) And '$(Platform)'=='x64'">
+    <Lib>
+      <AdditionalLibraryDirectories>$(SDL1_PATH)\VisualC\SDL\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2')) And '$(Platform)'=='x64'">
     <Lib>
       <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>

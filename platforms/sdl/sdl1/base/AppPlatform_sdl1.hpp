@@ -80,7 +80,7 @@ private:
 
     SDL_Joystick* findGameController();
 
-    static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
+    static SDL_Surface* GetSurfaceForTexture(const Texture& texture);
 
 protected:
     std::string _storageDir;
