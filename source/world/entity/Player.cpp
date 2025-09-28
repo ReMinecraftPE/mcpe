@@ -156,7 +156,7 @@ void Player::aiStep()
 	if (velLen > 0.1f)
 		velLen = 0.1f;
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 	{
 		if (m_health > 0)
 		{
@@ -195,11 +195,15 @@ void Player::aiStep()
 
 ItemInstance* Player::getCarriedItem()
 {
-	ItemInstance* item = m_pInventory->getSelectedItem();
+	// This only gets the first row slot
+	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
+  
 	if (ItemInstance::isNull(item))
 		return nullptr;
 
-	return item;
+	return item;*/
+
+	return m_pInventory->getSelected();
 }
 
 void Player::updateAi()

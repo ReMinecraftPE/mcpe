@@ -111,7 +111,7 @@ void Particle::tick()
 
 	m_vel *= 0.98f;
 
-	if (m_onGround)
+	if (m_bOnGround)
 	{
 		m_vel.x *= 0.7f;
 		m_vel.z *= 0.7f;

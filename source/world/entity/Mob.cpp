@@ -66,7 +66,7 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	setPos(m_pos);
 	field_E0 = Mth::random() * 12398.0f;
 	m_rot.x = float(Mth::random() * M_PI);
-	field_A8 = 0.5f;
+	m_footSize = 0.5f;
 }
 
 Mob::~Mob()
@@ -144,7 +144,7 @@ void Mob::tick()
 	else
 		x4 = x1 = m_rot.x;
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 		x3 = 0.0f;
 
 	field_B50 += (x3 - field_B50) * 0.3f;
@@ -466,12 +466,16 @@ void Mob::knockback(Entity* pEnt, int a, float x, float z)
 
 bool Mob::onLadder() const
 {
+#ifdef ENH_NEW_LADDER_BEHAVIOR
+	return m_pLevel->getTile(TilePos(m_pos.x, m_hitbox.min.y, m_pos.z)) == Tile::ladder->m_ID;
+#else
 	TilePos tilePos = TilePos(m_pos.x, m_hitbox.min.y, m_pos.z);
 
 	//@INFO: Pre Beta 1.5 stair behaviour
 	return
-		m_pLevel->getTile(tilePos) == Tile::ladder->m_ID || 
+		m_pLevel->getTile(tilePos) == Tile::ladder->m_ID ||
 		m_pLevel->getTile(tilePos.above()) == Tile::ladder->m_ID;
+#endif
 }
 
 void Mob::spawnAnim()
@@ -522,48 +526,35 @@ HitResult Mob::pick(float f1, float f2)
 
 void Mob::travel(const Vec2& pos)
 {
-	float x1, x2, dragFactor, oldYPos = m_pos.y;
-	if (isInWater())
+	float x2, dragFactor;
+	float oldYPos = m_pos.y;
+	if (isInWater() || isInLava())
 	{
 		moveRelative(Vec3(pos.x, 0.02f, pos.y));
 		move(m_vel);
-		x1 = 0.8f;
-		goto label_3;
-	}
-	if (isInLava())
-	{
-		moveRelative(Vec3(pos.x, 0.02f, pos.y));
-		move(m_vel);
-		x1 = 0.5f;
-	label_3:
-
+		const float x1 = (isInWater() ? 0.8f : 0.5f);
 		m_vel.y = m_vel.y * x1 - 0.02f;
 		m_vel.x *= x1;
 		m_vel.z *= x1;
 
-		if (m_bHorizontalCollision)
-		{
-			if (isFree(Vec3(m_vel.x, m_vel.y + 0.6f - m_pos.y + oldYPos, m_vel.z)))
-				m_vel.y = 0.3f;
-		}
+		if (m_bHorizontalCollision && isFree(Vec3(m_vel.x, m_vel.y + 0.6f - m_pos.y + oldYPos, m_vel.z)))
+			m_vel.y = 0.3f;
 
 		return;
 	}
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 	{
 		x2 = 0.02f;
 	}
 	else
 	{
 		float _x1;
-		TilePos tilePos(m_pos.x, m_hitbox.min.y, m_pos.z);;
-		tilePos.y -= 1;
-		TileID tile = m_pLevel->getTile(tilePos);
+		TileID tile = m_pLevel->getTile(TilePos(m_pos.x, m_hitbox.min.y - 1, m_pos.z));
 		if (tile <= 0)
 			_x1 = 0.546f;
 		else
-			_x1 = Tile::tiles[tile]->field_30 * 0.91f;
+			_x1 = Tile::tiles[tile]->m_friction * 0.91f;
 
 		assert(_x1 != 0.0f);
 
@@ -572,24 +563,36 @@ void Mob::travel(const Vec2& pos)
 
 	moveRelative(Vec3(pos.x, x2, pos.y));
 
-	if (!m_onGround)
+	if (!m_bOnGround)
 	{
 		dragFactor = 0.91f;
 	}
 	else
 	{
-		//@HUH: repeated code. Could be an inlined function?
-		TilePos tilePos = TilePos(m_pos);
-		tilePos.y -= 1;
-		TileID tile = m_pLevel->getTile(tilePos);
+
+		TileID tile = m_pLevel->getTile(TilePos(m_pos.x, m_hitbox.min.y - 1, m_pos.z));
 		if (tile <= 0)
 			dragFactor = 0.546f;
 		else
-			dragFactor = Tile::tiles[tile]->field_30 * 0.91f;
+			dragFactor = Tile::tiles[tile]->m_friction * 0.91f;
 	}
 
 	if (onLadder())
 	{
+#ifdef ENH_NEW_LADDER_BEHAVIOR
+		if (m_vel.x < -0.15f)
+			m_vel.x = -0.15f;
+
+		if (m_vel.x > 0.15f)
+			m_vel.x = 0.15f;
+
+		if (m_vel.z < -0.15f)
+			m_vel.z = -0.15f;
+
+		if (m_vel.z > 0.15f)
+			m_vel.z = 0.15f;
+#endif
+
 		m_distanceFallen = 0.0f;
 
 		if (m_vel.y < -0.15f)
@@ -664,7 +667,7 @@ void Mob::aiStep()
 	{
 		if (bIsInWater || bIsInLava)
 			m_vel.y += 0.04f;
-		else if (m_onGround)
+		else if (m_bOnGround)
 			jumpFromGround();
 	}
 

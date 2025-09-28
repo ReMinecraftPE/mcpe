@@ -244,3 +244,13 @@ void LeafTile::tick(Level* level, const TilePos& pos, Random* random)
 
 	_tickDecay(level, pos);
 }
+
+int LeafTile::getResource(int x, Random* random) const
+{
+	return random->nextInt(20) == 0 ? Tile::sapling->m_ID : 0;
+}
+
+int LeafTile::getSpawnResourcesAuxValue(int x) const
+{
+	return x & 3;
+}

@@ -78,6 +78,8 @@ public:
 	void commandTP       (OnlinePlayer*, const std::vector<std::string>&);
 	void commandSummon   (OnlinePlayer*, const std::vector<std::string>&);
 	void commandGamemode (OnlinePlayer*, const std::vector<std::string>&);
+	void commandGive     (OnlinePlayer*, const std::vector<std::string>&);
+	void commandClear    (OnlinePlayer*, const std::vector<std::string>&);
 
 public:
 	Minecraft* m_pMinecraft;

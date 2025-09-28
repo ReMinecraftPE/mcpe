@@ -293,6 +293,7 @@ void OptionList::initDefaultMenu()
 	HEADER("Video");
 	{
 		OPTION(Distance, m_iViewDistance,         "Render Distance");
+		OPTION(Boolean,  m_bThirdPerson,          "Third Person View");
 		OPTION(AORender, m_bAmbientOcclusion,     "Smooth Lighting");
 		OPTION(Render,   m_bFancyGraphics,        "Fancy Graphics");
 		OPTION(Boolean,  m_bViewBobbing,          "View Bobbing");
@@ -330,7 +331,7 @@ void OptionList::initDefaultMenu()
 #ifdef __EMSCRIPTEN
 	m_items[idxLM]->setDisabled(true);
 #endif
-	
+
 	if (!GetPatchManager()->IsGrassSidesTinted())
 		m_items[idxGrass]->setDisabled(true);
 

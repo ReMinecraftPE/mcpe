@@ -422,6 +422,8 @@ void ServerSideNetworkHandler::setupCommands()
 	m_commands["tp"]       = &ServerSideNetworkHandler::commandTP;
 	m_commands["summon"]   = &ServerSideNetworkHandler::commandSummon;
 	m_commands["gamemode"] = &ServerSideNetworkHandler::commandGamemode;
+	m_commands["give"]     = &ServerSideNetworkHandler::commandGive;
+	m_commands["clear"]    = &ServerSideNetworkHandler::commandClear;
 }
 
 bool ServerSideNetworkHandler::_checkPermissions(OnlinePlayer* player)
@@ -492,7 +494,7 @@ void ServerSideNetworkHandler::commandTime(OnlinePlayer* player, const std::vect
 		int t = 0;
 		if (!sscanf(parms[0].c_str(), "%d", &t))
 		{
-			sendMessage(player, "Usage: /time [new time value]");
+			sendMessage(player, "Usage: /time <value>");
 			return;
 		}
 
@@ -577,7 +579,7 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 
 	if (parmsSize != 1 && parmsSize != 4 && parmsSize != 5)
 	{
-		sendMessage(player, "Usage: /summon <entity> <x> <y> <z> <amount>");
+		sendMessage(player, "Usage: /summon <entity> [x] [y] [z] [amount]");
 		return;
 	}
 
@@ -692,4 +694,71 @@ void ServerSideNetworkHandler::commandGamemode(OnlinePlayer* player, const std::
 	player->m_pPlayer->setPlayerGameType(gameMode);
     
 	sendMessage(player, "Your game mode has been updated");
+}
+
+void ServerSideNetworkHandler::commandGive(OnlinePlayer * player, const std::vector<std::string>&parms)
+{
+	const std::string usage = "Usage: /give <item> [amount] [data]";
+
+	if (!m_pLevel)
+		return;
+	if (parms.size() < 1 || parms.size() > 3)
+	{
+		sendMessage(player, usage);
+		return;
+	}
+
+	if (!_checkPermissions(player)) return;
+
+	int id = 0;
+	int amount = 1;
+	int auxValue = 0;
+	if (sscanf(parms[0].c_str(), "%d", &id))
+	{
+		if (!_validateNum(player, id, 1, C_MAX_ITEMS-1))
+			return;
+	}
+	else
+	{
+		sendMessage(player, usage);
+		return;
+	}
+	if (parms.size() >= 2 && sscanf(parms[1].c_str(), "%d", &amount))
+	{
+		if (!_validateNum(player, amount, 1, 64))
+			return;
+	}
+	if (parms.size() >= 3 && sscanf(parms[2].c_str(), "%d", &auxValue))
+	{
+		if (!_validateNum(player, auxValue, 0, 255))
+			return;
+	}
+	Item* item = Item::items[id];
+	if (!item || id >= 512 || id < 0)
+	{
+		sendMessage(player, "There is no such item with ID " + parms[0]);
+		return;
+	}
+
+	Inventory* pInventory = player->m_pPlayer->m_pInventory;
+
+	pInventory->addTestItem(item->m_itemID, amount, auxValue);
+
+	sendMessage(player, Util::format("Given %s (ID %d) * %d to %s", item->getName().c_str(), item->m_itemID, amount, player->m_pPlayer->m_name.c_str()));
+	return;
+}
+
+void ServerSideNetworkHandler::commandClear(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+		
+	if (!_checkPermissions(player)) return;
+
+	Inventory* pInventory = player->m_pPlayer->m_pInventory;
+
+	pInventory->empty(); // calling "clear" will delete all of our slots
+
+	sendMessage(player, "Your inventory has been cleared.");
+	return;
 }

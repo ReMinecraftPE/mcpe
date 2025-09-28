@@ -16,8 +16,10 @@
 
 // Tests
 //#define TEST_SURVIVAL_MODE      	 // Test survival mode.
+//#define TEST_CAVES      	         // Generates caves around the world.
 
 // Features (major changes)
+//#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass, and dead bushes around the world.
 
 // Enhancements (minor changes)
 //#define ENH_ENTITY_SHADING      	       // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
@@ -35,12 +37,15 @@
 #define ENH_ALLOW_SCROLL_WHEEL  	       // Allow use of the scroll wheel to change selected inventory slots
 #define ENH_3D_INVENTORY_TILES  	       // Uses 3D rendered inventory tiles, use with ENH_SHADE_HELD_TILES to render correctly.
 #define ENH_MENU_BACKGROUND 		       // Renders a spinning panorama (if it's available) in the background of the main menu
-#define ENH_GUI_ITEM_POP                   // Calls Inventory::tick() to create the "pop" animation for items that enter the hotbar. This function was not present on Pocket Edition.
+#define ENH_GUI_ITEM_POP 	               // Calls Inventory::tick() to create the "pop" animation for items that enter the hotbar. This function was not present on Pocket Edition.
 //#define ENH_DISABLE_FORCED_SAVE_UPGRADES // Prevents the forced format-version upgrade of world/level saves, effectively opting-out of new save formats. See LEVEL_STORAGE_VERSION_DEFAULT in LevelData.hpp.
-//#define ENH_FACED_TERRAIN_PARTICLES        // Sets the TerrainParticle's texture depending on the face the block is being hit from. This is something Notch never did for whatever reason.
+//#define ENH_FACED_TERRAIN_PARTICLES 	   // Sets the TerrainParticle's texture depending on the face the block is being hit from. This is something Notch never did for whatever reason.
+#define ENH_NEW_LADDER_BEHAVIOR 	       // Use Java Beta 1.5 ladder behavior
 
 // TODO: Implement this permanently?
 #define ENH_IMPROVED_SAVING     	 // Improve world saving. The original Minecraft doesn't always really save for some reason
+// TODO: Toggle in the options menu
+//#define ENH_NEW_TOUCH_CONTROLS 	 // Uses the newer touch controls found in MCPE 0.6.0
 
 // Toggle Demo Mode
 //#define DEMO
