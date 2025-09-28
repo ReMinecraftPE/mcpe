@@ -1,92 +1,51 @@
 #pragma once
 
-#include <string>
-#include "thirdparty/SDL/SDL.h"
+#include "platforms/sdl/base/AppPlatform_sdl.hpp"
 
-#include "client/app/AppPlatform.hpp"
-
-#include "client/player/input/Mouse.hpp"
-#include "client/player/input/Keyboard.hpp"
-#include "common/Logger.hpp"
-
-class AppPlatform_sdl2 : public AppPlatform
+class AppPlatform_sdl2 : public AppPlatform_sdl
 {
+private:
+	void _init(SDL_Window* window);
+
 public:
-    void _init(std::string storageDir, SDL_Window *window);
-	AppPlatform_sdl2(std::string storageDir, SDL_Window *window)
-    {
-        _init(storageDir, window);
-    }
+	AppPlatform_sdl2(std::string storageDir, SDL_Window* window)
+		: AppPlatform_sdl(storageDir)
+	{
+		_init(window);
+	}
 	~AppPlatform_sdl2() override;
 
-	void initSoundSystem() override;
+private:
+	SDL_GameController* _findGameController();
 
-	int checkLicense() override;
-	const char* const getWindowTitle() const;
+protected:
+	void _updateWindowIcon() override;
+	void _setMouseGrabbed(bool b) override;
+	void _handleKeyEvent(int key, uint8_t state) override;
+
+public:
+	const char* getWindowTitle() const override;
+
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
-	Texture loadTexture(const std::string& path, bool bIsRequired = false) override = 0;
-	int getUserInputStatus() override;
-	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
-	
-	// Also add these to allow proper turning within the game.
-	void setMouseGrabbed(bool b) override;
-	void setMouseDiff(int x, int y);
-	void getMouseDiff(int& x, int& y) override;
-	void clearDiff() override;
-
-	// Also add these to allow proper text input within the game.
-	bool shiftPressed() override;
-	void setShiftPressed(bool b, bool isLeft);
-
-	static MouseButtonType GetMouseButtonType(SDL_MouseButtonEvent event);
-	static bool GetMouseButtonState(SDL_Event event);
-	static Keyboard::KeyState GetKeyState(uint8_t state);
 
 	// On-screen keyboard
 	void showKeyboard(int x, int y, int w, int h) override;
 	void hideKeyboard() override;
 
-	// Configure Touchscreen
-	bool isTouchscreen() const override;
-
 	// Game controller
 	bool hasGamepad() const override;
-	SDL_GameController* getPrimaryGameController() const { return _controller; }
-	void setPrimaryGameController(SDL_GameController* controller) { _controller = controller; }
+	SDL_GameController* getPrimaryGameController() const { return m_pController; }
+	void setPrimaryGameController(SDL_GameController* controller) { m_pController = controller; }
 	void gameControllerAdded(int32_t index);
 	void gameControllerRemoved(int32_t index);
 
-	void handleKeyEvent(int key, uint8_t state);
-	void handleButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state);
-	void handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value);
+public:
+	static bool GetMouseButtonState(const SDL_Event& event);
 
-	// Read Sounds
-	AssetFile readAssetFile(const std::string&, bool) const override;
-protected:
-	SDL_Window *_window;
 private:
-	SDL_GameController* _controller;
+	SDL_GameController* m_pController;
 
-	const Texture *_iconTexture;
-	SDL_Surface *_icon;
-
-	bool m_bShiftPressed[2];
-
-	int xrel;
-	int yrel;
-
-	SoundSystem* m_pSoundSystem;
-
-	bool m_bIsTouchscreen;
-
-	SDL_GameController* findGameController();
-
-	static SDL_Surface* GetSurfaceForTexture(const Texture& texture);
 protected:
-	std::string _storageDir;
-
-	virtual void ensureDirectoryExists(const char* path) { }
-
-	void setIcon(const Texture& icon); // note: this takes ownership of the texture, so no memory leaks!
+	SDL_Window* m_pWindow;
 };

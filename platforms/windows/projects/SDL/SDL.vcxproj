@@ -37,6 +37,7 @@
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\thirdparty\SDL\SDL.h" />
     <ClInclude Include="$(MC_ROOT)\thirdparty\SDL\SDL_opengl.h" />
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL\SDL_gamecontroller.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -57,12 +58,12 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1'))">
     <ClCompile>
-	  <AdditionalIncludeDirectories>$(SDL1_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SDL1_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2'))">
     <ClCompile>
-	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SDL2_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1'))">

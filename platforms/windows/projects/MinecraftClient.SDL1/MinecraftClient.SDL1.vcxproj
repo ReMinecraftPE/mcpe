@@ -67,6 +67,7 @@
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl1\desktop\AppPlatform_sdl1_desktop.cpp" />
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
     <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl1\base\AppPlatform_sdl1.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl1\desktop\AppPlatform_sdl1_desktop.hpp" />
     <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">

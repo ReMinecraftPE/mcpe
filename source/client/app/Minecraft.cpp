@@ -224,6 +224,7 @@ void Minecraft::setScreen(Screen* pScreen)
 	}
 	else
 	{
+		platform()->recenterMouse();
 		grabMouse();
 	}
 }

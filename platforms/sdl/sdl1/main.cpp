@@ -1,5 +1,6 @@
 #include <stdarg.h>
-#include <SDL/SDL.h>
+#include "thirdparty/SDL/SDL.h"
+#include "thirdparty/SDL/SDL_gamecontroller.h"
 #include "thirdparty/GL/GL.hpp"
 
 #include "client/app/App.hpp"
@@ -51,11 +52,6 @@ static void handle_events()
             case SDL_KEYDOWN:
             case SDL_KEYUP:
             {
-                if (event.key.keysym.sym == SDLK_BACKSPACE && event.key.state == SDL_PRESSED)
-                {
-                    g_pApp->handleCharInput('\b');
-                }
-
                 if (event.type == SDL_KEYDOWN && event.key.keysym.unicode > 0)
                 {
                     if ( (event.key.keysym.unicode & 0xFF80) == 0 )
@@ -72,12 +68,23 @@ static void handle_events()
                 g_pAppPlatform->handleKeyEvent(event);
                 break;
             }
+            case SDL_JOYBUTTONDOWN:
+            case SDL_JOYBUTTONUP:
+            {
+                // Hate this hack
+                if (event.jbutton.button == SDL_CONTROLLER_BUTTON_START && event.jbutton.state == SDL_PRESSED)
+                {
+                    g_pApp->pauseGame() || g_pApp->resumeGame();
+                }
+                g_pAppPlatform->handleControllerButtonEvent(event.jbutton.which, event.jbutton.button, event.jbutton.state);
+                break;
+            }
             case SDL_MOUSEBUTTONDOWN:
             case SDL_MOUSEBUTTONUP:
             {
                 const float scale = g_fPointToPixelScale;
-                MouseButtonType type = AppPlatform_sdl1::GetMouseButtonType(event.button.button);
-                bool state = AppPlatform_sdl1::GetMouseButtonState(event);
+                MouseButtonType type = UsedAppPlatform::GetMouseButtonType(event.button.button);
+                bool state = UsedAppPlatform::GetMouseButtonState(event);
                 float x = event.button.x * scale;
                 float y = event.button.y * scale;
                 Mouse::feed(type, state, x, y);
@@ -92,6 +99,9 @@ static void handle_events()
                 g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
                 break;
             }
+            case SDL_JOYAXISMOTION:
+                g_pAppPlatform->handleControllerAxisEvent(event.jaxis.which, event.jaxis.axis, event.jaxis.value);
+                break;
             case SDL_VIDEORESIZE:
             {
                 screen = SDL_SetVideoMode(event.resize.w, event.resize.h, 0, VIDEO_FLAGS);
@@ -152,7 +162,7 @@ int main(int argc, char* argv[])
 {
     Logger::setSingleton(new Logger);
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
     {
         exit(EXIT_FAILURE);
     }

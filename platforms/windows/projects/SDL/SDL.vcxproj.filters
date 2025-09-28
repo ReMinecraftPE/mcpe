@@ -17,5 +17,8 @@
     <ClInclude Include="$(MC_ROOT)\thirdparty\SDL\SDL_opengl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\thirdparty\SDL\SDL_gamecontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

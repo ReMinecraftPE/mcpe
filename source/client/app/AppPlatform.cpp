@@ -246,10 +246,26 @@ bool AppPlatform::hasFileSystemAccess()
 
 std::string AppPlatform::getPatchData()
 {
-	const AssetFile file = readAssetFile("patches/patch_data.txt", false);
+	AssetFile file = readAssetFile(_getPatchDataPath(), false);
+	if (!file.data)
+		return "";
+
 	std::string out = std::string(file.data, file.data + file.size);
 	delete file.data;
 	return out;
+}
+
+std::string AppPlatform::getAssetPath(const std::string& path) const
+{
+	std::string realPath = path;
+	if (realPath.size() && realPath[0] == '/')
+	{
+		// trim it off
+		realPath = realPath.substr(1);
+	}
+	realPath = "assets/" + realPath;
+
+	return realPath;
 }
 
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
@@ -297,16 +313,3 @@ SoundSystem* const AppPlatform::getSoundSystem() const
 }
 
 #endif
-
-std::string AppPlatform::getAssetPath(const std::string &path) const
-{
-	std::string realPath = path;
-	if (realPath.size() && realPath[0] == '/')
-	{
-		// trim it off
-		realPath = realPath.substr(1);
-	}
-	realPath = "assets/" + realPath;
-	
-	return realPath;
-}

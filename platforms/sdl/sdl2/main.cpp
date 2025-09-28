@@ -37,16 +37,6 @@ static void teardown()
 	}
 }
 
-static int TranslateSDLKeyCodeToVirtual(int sdlCode)
-{
-	switch (sdlCode) {
-		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
-		#include "compat/SDLKeyCodes.h"
-		#undef  CODE
-	}
-	return SDLVK_UNKNOWN;
-}
-
 // Touch
 #define TOUCH_IDS_SIZE (MAX_TOUCHES - 1) // ID 0 Is Reserved For The Mouse
 struct touch_id_data {
@@ -151,26 +141,28 @@ static void handle_events()
 					g_pApp->handleCharInput('\b');
 				}
 
-				g_pAppPlatform->handleKeyEvent(TranslateSDLKeyCodeToVirtual(event.key.keysym.sym), event.key.state);
+				g_pAppPlatform->handleKeyEvent(event);
 				break;
 			}
 			case SDL_CONTROLLERBUTTONDOWN:
 			case SDL_CONTROLLERBUTTONUP:
+			{
 				// Hate this hack
 				if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START && event.cbutton.state == SDL_PRESSED)
 				{
 					g_pApp->pauseGame() || g_pApp->resumeGame();
 				}
-				g_pAppPlatform->handleButtonEvent(event.cbutton.which, event.cbutton.button, event.cbutton.state);
+				g_pAppPlatform->handleControllerButtonEvent(event.cbutton.which, event.cbutton.button, event.cbutton.state);
 				break;
-
+			}
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
-				if (event.button.which != SDL_TOUCH_MOUSEID) {
+				if (event.button.which != SDL_TOUCH_MOUSEID)
+				{
 					const float scale = g_fPointToPixelScale;
-					MouseButtonType type = AppPlatform_sdl2::GetMouseButtonType(event.button);
-					bool state = AppPlatform_sdl2::GetMouseButtonState(event);
+					MouseButtonType type = UsedAppPlatform::GetMouseButtonType(event.button.button);
+					bool state = UsedAppPlatform::GetMouseButtonState(event);
 					float x = event.button.x * scale;
 					float y = event.button.y * scale;
 					Mouse::feed(type, state, x, y);
@@ -180,7 +172,8 @@ static void handle_events()
 			}
 			case SDL_MOUSEMOTION:
 			{
-				if (event.button.which != SDL_TOUCH_MOUSEID) {
+				if (event.button.which != SDL_TOUCH_MOUSEID)
+				{
 					float scale = g_fPointToPixelScale;
 					float x = event.motion.x * scale;
 					float y = event.motion.y * scale;
@@ -192,8 +185,9 @@ static void handle_events()
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				if (event.button.which != SDL_TOUCH_MOUSEID) {
-					Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdl2::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+				if (event.button.which != SDL_TOUCH_MOUSEID)
+				{
+					Mouse::feed(BUTTON_SCROLLWHEEL, UsedAppPlatform::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				}
 				break;
 			}
@@ -202,7 +196,8 @@ static void handle_events()
 				break;
 			case SDL_FINGERDOWN:
 			case SDL_FINGERUP:
-			case SDL_FINGERMOTION: {
+			case SDL_FINGERMOTION:
+			{
 				float x = event.tfinger.x * Minecraft::width;
 				float y = event.tfinger.y * Minecraft::height;
 				handle_touch(x, y, event.type, get_touch_id(event.tfinger.touchId, event.tfinger.fingerId));

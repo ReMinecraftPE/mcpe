@@ -36,6 +36,9 @@
     <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl2\desktop\AppPlatform_sdl2_desktop.hpp">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
