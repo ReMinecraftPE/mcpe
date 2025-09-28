@@ -3,16 +3,16 @@
 #include <sys/stat.h>
 #include <cstdlib>
 
-#include "stb_image.h"
-#include "stb_image_write.h"
-
-#include "AppPlatform_sdl.hpp"
-
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#else
+#include "stb_image.h"
+#include "stb_image_write.h"
 #endif
 
 #include "thirdparty/GL/GL.hpp"
+
+#include "AppPlatform_sdl.hpp"
 
 #include "common/Utils.hpp"
 
@@ -481,11 +481,15 @@ SDL_Surface* AppPlatform_sdl::_GetSurfaceForTexture(const Texture& texture)
 // Take Screenshot
 int AppPlatform_sdl::_SavePng(const char* filename, unsigned char* pixels, int line_size, int width, int height)
 {
+#ifdef __EMSCRIPTEN__
+	return 0;
+#elif
 	// Setup
 	stbi_flip_vertically_on_write(true);
 
 	// Write Image
 	return stbi_write_png(filename, width, height, 4, pixels, line_size);
+#endif
 }
 
 int AppPlatform_sdl::_TranslateSDLKeyCodeToVirtual(int sdlCode)
