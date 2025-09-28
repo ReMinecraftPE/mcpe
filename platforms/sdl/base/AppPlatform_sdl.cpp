@@ -10,9 +10,9 @@
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
-#else
-#include "thirdparty/GL/GL.hpp"
 #endif
+
+#include "thirdparty/GL/GL.hpp"
 
 #include "common/Utils.hpp"
 
