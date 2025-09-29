@@ -104,7 +104,6 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 		return;
 	}
 
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION >= 3
 	LoginStatusPacket::LoginStatus loginStatus = LoginStatusPacket::STATUS_SUCCESS;
 	if (packet->m_clientNetworkVersion < NETWORK_PROTOCOL_VERSION_MIN)
@@ -141,7 +140,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.m_entityId = pPlayer->m_EntityID;
 	sgp.m_pos = pPlayer->m_pos;
 	sgp.m_pos.y -= pPlayer->m_heightOffset;
-	sgp.m_serverVersion = NETWORK_PROTOCOL_VERSION; // not the problem
+	sgp.m_serverVersion = NETWORK_PROTOCOL_VERSION;
 	sgp.m_time = m_pLevel->getTime();
 	
 	RakNet::BitStream sgpbs;

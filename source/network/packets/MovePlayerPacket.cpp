@@ -20,7 +20,6 @@ void MovePlayerPacket::write(RakNet::BitStream* bs)
 	bs->Write(m_pos.x);
 	bs->Write(m_pos.y);
 	bs->Write(m_pos.z);
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION <= 2
 	bs->Write(m_rot.y);
 	bs->Write(m_rot.x);
@@ -37,7 +36,6 @@ void MovePlayerPacket::read(RakNet::BitStream* bs)
 	bs->Read(m_pos.x);
 	bs->Read(m_pos.y);
 	bs->Read(m_pos.z);
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION <= 2
 	bs->Read(m_rot.y);
 	bs->Read(m_rot.x);

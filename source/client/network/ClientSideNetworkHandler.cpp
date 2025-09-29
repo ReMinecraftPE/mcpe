@@ -39,7 +39,6 @@ void ClientSideNetworkHandler::levelGenerated(Level* level)
 {
 	m_pLevel = level;
 
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION >= 3
 	ReadyPacket* pReadyPkt = new ReadyPacket(1);
 	m_pRakNetInstance->send(pReadyPkt);
@@ -58,8 +57,8 @@ void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // s
 
 	LoginPacket* pLoginPkt = new LoginPacket;
 	pLoginPkt->m_str = RakNet::RakString(m_pMinecraft->m_pUser->field_0.c_str());
-	pLoginPkt->m_clientNetworkVersion = NETWORK_PROTOCOL_VERSION; // not the problem
-	pLoginPkt->m_clientNetworkVersion2 = NETWORK_PROTOCOL_VERSION; // not the problem
+	pLoginPkt->m_clientNetworkVersion = NETWORK_PROTOCOL_VERSION;
+	pLoginPkt->m_clientNetworkVersion2 = NETWORK_PROTOCOL_VERSION;
 	
 	m_pRakNetInstance->send(pLoginPkt);
 }

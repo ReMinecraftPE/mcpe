@@ -25,7 +25,6 @@ void PlaceBlockPacket::write(RakNet::BitStream* bs)
 
 	bs->Write(m_face);
 	bs->Write(m_tileId);
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION >= 3
 	bs->Write(m_auxValue);
 #endif
@@ -44,7 +43,6 @@ void PlaceBlockPacket::read(RakNet::BitStream* bs)
 
 	bs->Read(m_face);
 	bs->Read(m_tileId);
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION >= 3
 	bs->Read(m_auxValue);
 #endif

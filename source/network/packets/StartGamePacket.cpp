@@ -18,7 +18,6 @@ void StartGamePacket::write(RakNet::BitStream* bs)
 	bs->Write((unsigned char)PACKET_START_GAME);
 	bs->Write(m_seed);
 	bs->Write(m_levelVersion);
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION >= 3
 	bs->Write<int32_t>(m_gameType);
 #endif
@@ -38,7 +37,6 @@ void StartGamePacket::read(RakNet::BitStream* bs)
 {
 	bs->Read(m_seed);
 	bs->Read(m_levelVersion);
-	// not the problem
 #if NETWORK_PROTOCOL_VERSION >= 3
 	int32_t gameType;
 	bs->Read(gameType);
