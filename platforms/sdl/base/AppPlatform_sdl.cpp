@@ -235,7 +235,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	{
 		// Handle Alignment
 		int alignment;
-		glGetIntegerv(GL_PACK_ALIGNMENT, &alignment);
+		glGetIntegerv(GL_PACK_ALIGNMENT, (GLint*)&alignment);
 		// Round
 		int diff = line_size % alignment;
 		if (diff > 0)

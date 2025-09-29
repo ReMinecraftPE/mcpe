@@ -30,7 +30,7 @@ int TallGrass::getColor(const LevelSource* levelSource, const TilePos& pos) cons
 
 int TallGrass::getTexture(const LevelSource* level, const TilePos& pos, Facing::Name face) const
 {
-	auto data = level->getData(pos);
+	int data = level->getData(pos);
 	return data == 1 ? m_TextureFrame : (data == 2 ? m_TextureFrame + 16 + 1 : (data == 0 ? m_TextureFrame + 16 : m_TextureFrame));
 }
 
