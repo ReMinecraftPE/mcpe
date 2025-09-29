@@ -31,10 +31,17 @@ private:
 public:
 	static AppPlatform* const singleton();
 
+public:
 	AppPlatform();
-
 	virtual ~AppPlatform();
 
+private:
+	virtual void _tick();
+
+protected:
+	virtual std::string _getPatchDataPath() const { return "patches/patch_data.txt"; }
+
+public:
 	virtual void buyGame();
 	virtual int checkLicense();
 	virtual void createUserInput();
@@ -74,6 +81,7 @@ public:
 	virtual int getKeyboardUpOffset();
   #endif
 	virtual void vibrate(int milliSeconds);
+    virtual bool getRecenterMouseEveryTick();
 	
 	void _fireLowMemory();
 	void _fireAppSuspended();
@@ -88,13 +96,8 @@ public:
 	virtual void initSoundSystem();
 	virtual SoundSystem* const getSoundSystem() const;
 	// Used For Sounds
+	virtual std::string getAssetPath(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string&, bool) const;
 #endif
-
-public:
-	virtual std::string getAssetPath(const std::string& path) const;
-
-private:
-	virtual void _tick();
 };
 

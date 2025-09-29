@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_SDL1|Win32">
+      <Configuration>Debug_SDL1</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_SDL1|x64">
+      <Configuration>Debug_SDL1</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL1|Win32">
+      <Configuration>Release_SDL1</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_SDL1|x64">
+      <Configuration>Release_SDL1</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{06cf6b2f-d39b-4eeb-a582-a4a264c7b682}</ProjectGuid>
+    <RootNamespace>MinecraftClientSDL1</RootNamespace>
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="Minecraft">
+    <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\openal;$(MC_ROOT)\thirdparty\stb_image\include;$(SDL1_PATH)\include;$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>SDLmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+    <Link>
+      <AdditionalLibraryDirectories>$(SDL1_PATH)\VisualC\SDL\Win32\Release;$(SDL1_PATH)\VisualC\SDLmain\Win32\Release;$(OPENAL_PATH)\libs\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(SDL1_PATH)\VisualC\SDL\Win32\Release\SDL.dll $(TargetDir) /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <Link>
+      <AdditionalLibraryDirectories>$(SDL1_PATH)\VisualC\SDL\x64\Release;$(SDL1_PATH)\VisualC\SDLmain\x64\Release;$(OPENAL_PATH)\libs\Win64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(SDL1_PATH)\VisualC\SDL\x64\Release\SDL.dll $(TargetDir) /y</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundSystemAL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl1\main.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl1\base\AppPlatform_sdl1.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl1\desktop\AppPlatform_sdl1_desktop.cpp" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\CustomSoundSystem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl1\base\AppPlatform_sdl1.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl1\desktop\AppPlatform_sdl1_desktop.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Client.vcxproj">
+      <Project>{a6e03dca-99f6-45b8-800d-73060ae407fc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Renderer\Renderer.vcxproj">
+      <Project>{bd8b8369-d75d-4d12-a85f-c521349b9125}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\World\World.vcxproj">
+      <Project>{5f7cd8c1-413c-4855-a450-2c765f16c5a4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ZLib\ZLib.vcxproj">
+      <Project>{5da292fd-fa40-45d8-900a-6652c9662913}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <PropertyGroup>
+    <LocalDebuggerWorkingDirectory>$(MC_ROOT)\game</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+</Project>

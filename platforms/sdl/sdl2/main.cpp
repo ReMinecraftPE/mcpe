@@ -1,19 +1,23 @@
 #include <stdarg.h>
 
-#include "thirdparty/SDL2/SDL2.h"
+#include "thirdparty/SDL/SDL.h"
 
 #include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
 
 #ifdef __EMSCRIPTEN__
-#include "emscripten/AppPlatform_sdl.hpp"
+#include "emscripten/AppPlatform_sdl2_emscripten.hpp"
+typedef AppPlatform_sdl2_emscripten UsedAppPlatform;
 #else
-#include "desktop/AppPlatform_sdl.hpp"
+#include "desktop/AppPlatform_sdl2_desktop.hpp"
+typedef AppPlatform_sdl2_desktop UsedAppPlatform;
 #endif
-typedef AppPlatform_sdl UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
+
+// Video Mode Flags
+#define VIDEO_FLAGS (SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)
 
 static float g_fPointToPixelScale = 1.0f;
 
@@ -31,16 +35,6 @@ static void teardown()
 		SDL_Quit();
 		window = NULL;
 	}
-}
-
-static int TranslateSDLKeyCodeToVirtual(int sdlCode)
-{
-	switch (sdlCode) {
-		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
-		#include "compat/SDLKeyCodes.h"
-		#undef  CODE
-	}
-	return SDLVK_UNKNOWN;
 }
 
 // Touch
@@ -147,26 +141,28 @@ static void handle_events()
 					g_pApp->handleCharInput('\b');
 				}
 
-				g_pAppPlatform->handleKeyEvent(TranslateSDLKeyCodeToVirtual(event.key.keysym.sym), event.key.state);
+				g_pAppPlatform->handleKeyEvent(event);
 				break;
 			}
 			case SDL_CONTROLLERBUTTONDOWN:
 			case SDL_CONTROLLERBUTTONUP:
+			{
 				// Hate this hack
 				if (event.cbutton.button == SDL_CONTROLLER_BUTTON_START && event.cbutton.state == SDL_PRESSED)
 				{
 					g_pApp->pauseGame() || g_pApp->resumeGame();
 				}
-				g_pAppPlatform->handleButtonEvent(event.cbutton.which, event.cbutton.button, event.cbutton.state);
+				g_pAppPlatform->handleControllerButtonEvent(event.cbutton.which, event.cbutton.button, event.cbutton.state);
 				break;
-
+			}
 			case SDL_MOUSEBUTTONDOWN:
 			case SDL_MOUSEBUTTONUP:
 			{
-				if (event.button.which != SDL_TOUCH_MOUSEID) {
+				if (event.button.which != SDL_TOUCH_MOUSEID)
+				{
 					const float scale = g_fPointToPixelScale;
-					MouseButtonType type = AppPlatform_sdl_base::GetMouseButtonType(event.button);
-					bool state = AppPlatform_sdl_base::GetMouseButtonState(event);
+					MouseButtonType type = UsedAppPlatform::GetMouseButtonType(event.button.button);
+					bool state = UsedAppPlatform::GetMouseButtonState(event);
 					float x = event.button.x * scale;
 					float y = event.button.y * scale;
 					Mouse::feed(type, state, x, y);
@@ -176,7 +172,8 @@ static void handle_events()
 			}
 			case SDL_MOUSEMOTION:
 			{
-				if (event.button.which != SDL_TOUCH_MOUSEID) {
+				if (event.button.which != SDL_TOUCH_MOUSEID)
+				{
 					float scale = g_fPointToPixelScale;
 					float x = event.motion.x * scale;
 					float y = event.motion.y * scale;
@@ -188,8 +185,9 @@ static void handle_events()
 			}
 			case SDL_MOUSEWHEEL:
 			{
-				if (event.button.which != SDL_TOUCH_MOUSEID) {
-					Mouse::feed(BUTTON_SCROLLWHEEL, AppPlatform_sdl_base::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+				if (event.button.which != SDL_TOUCH_MOUSEID)
+				{
+					Mouse::feed(BUTTON_SCROLLWHEEL, UsedAppPlatform::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				}
 				break;
 			}
@@ -198,7 +196,8 @@ static void handle_events()
 				break;
 			case SDL_FINGERDOWN:
 			case SDL_FINGERUP:
-			case SDL_FINGERMOTION: {
+			case SDL_FINGERMOTION:
+			{
 				float x = event.tfinger.x * Minecraft::width;
 				float y = event.tfinger.y * Minecraft::height;
 				handle_touch(x, y, event.type, get_touch_id(event.tfinger.touchId, event.tfinger.fingerId));
@@ -342,8 +341,7 @@ int main(int argc, char *argv[])
 	SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
 
 	// Create Window
-	int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
-	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, flags);
+	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, VIDEO_FLAGS);
 	if (!window)
 	{
 		LOG_E("Unable to create SDL window: %s", SDL_GetError());

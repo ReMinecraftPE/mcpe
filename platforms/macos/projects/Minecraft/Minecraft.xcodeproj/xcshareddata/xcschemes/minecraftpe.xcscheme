@@ -10,7 +10,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug (iOS)">
+      buildConfiguration = "Debug [iOS] (Default)">
       <Testables>
       </Testables>
       <MacroExpansion>
@@ -28,7 +28,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug (iOS)"
+      buildConfiguration = "Debug [iOS] (Default)"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       enablesOpenGLESFrameCapture = "YES"
@@ -49,7 +49,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release (iOS)"
+      buildConfiguration = "Release [iOS] (Default)"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable>
          <BuildableReference
@@ -62,10 +62,10 @@
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug (iOS)">
+      buildConfiguration = "Debug [iOS] (Default)">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release (iOS)"
+      buildConfiguration = "Release [iOS] (Default)"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

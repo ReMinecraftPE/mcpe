@@ -43,6 +43,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_pOptions = nullptr;
 	m_pFont = nullptr;
 
+	// @TODO: Put these in an array or something
 	m_HumanoidMobRenderer.init(this);
 	m_PigRenderer.init(this);
 	m_SheepRenderer.init(this);
@@ -137,6 +138,23 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 void EntityRenderDispatcher::onGraphicsReset()
 {
 	m_HumanoidMobRenderer.onGraphicsReset();
+	m_PigRenderer.onGraphicsReset();
+	m_SheepRenderer.onGraphicsReset();
+	m_SpiderRenderer.onGraphicsReset();
+	m_SkeletonRenderer.onGraphicsReset();
+	m_CowRenderer.onGraphicsReset();
+	m_ChickenRenderer.onGraphicsReset();
+	m_CreeperRenderer.onGraphicsReset();
+	m_ZombieRenderer.onGraphicsReset();
+	m_ArrowRenderer.onGraphicsReset();
+	
+	m_TntRenderer.onGraphicsReset();
+	m_CameraRenderer.onGraphicsReset();
+	m_ItemRenderer.onGraphicsReset();
+	m_RocketRenderer.onGraphicsReset();
+#ifdef ENH_ALLOW_SAND_GRAVITY
+	m_FallingTileRenderer.onGraphicsReset();
+#endif
 }
 
 void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* font, Mob* mob, Options* options, float f)

@@ -280,12 +280,8 @@ ItemInstance* Inventory::getItem(int slotNo)
 
 int Inventory::getQuickSlotItemId(int slotNo)
 {
-	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
-		return -1;
-	
-	int idx = m_hotbar[slotNo];
-	ItemInstance* pInst = getItem(idx);
-	if (ItemInstance::isNull(pInst))
+	ItemInstance* pInst = getQuickSlotItem(slotNo);
+	if (!pInst)
 		return -1;
 
 	return pInst->m_itemID;

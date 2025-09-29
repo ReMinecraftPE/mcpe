@@ -44,7 +44,7 @@ cmake --build .
 ::bundle
 echo * Copying bundle data over.
 copy reminecraftpe.* ..\dist
-copy ..\..\platforms\sdl\emscripten\wasm_shell.html ..\dist\reminecraftpe.html
+copy ..\..\platforms\sdl\sdl2\emscripten\wasm_shell.html ..\dist\reminecraftpe.html
 copy ..\..\thirdparty\coi-serviceworker\coi-serviceworker.min.js ..\dist
 
 ::for me only

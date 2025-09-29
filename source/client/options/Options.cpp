@@ -8,6 +8,9 @@
 
 #include <fstream>
 
+// for SDL 1.2 controller buttons
+#include "thirdparty/SDL/SDL_gamecontroller.h"
+
 #include "Options.hpp"
 #include "common/Util.hpp"
 #include "compat/KeyCodes.hpp"

@@ -12,6 +12,8 @@
 #include <TargetConditionals.h>
 #endif
 
+#include "EndianDefinitions.h"
+
 /* Apple - Mac OS X / macOS */
 #if (TARGET_OS_MAC && (TARGET_OS_OSX || !defined(TARGET_OS_OSX)))
 #define MC_PLATFORM_MAC 1

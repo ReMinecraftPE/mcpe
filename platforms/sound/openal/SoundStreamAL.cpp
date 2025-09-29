@@ -42,7 +42,7 @@ void SoundStreamAL::_resetSource()
 
 void SoundStreamAL::_deleteBuffers()
 {
-    alDeleteBuffers(_buffers.size(), _buffers.data());
+    alDeleteBuffers(_buffers.size(), _getBuffersArray());
     AL_ERROR_CHECK();
 
     _buffers.clear();
@@ -67,6 +67,20 @@ void SoundStreamAL::_resetBuffers()
 {
     _deleteBuffers();
     _createBuffers();
+}
+
+ALuint* SoundStreamAL::_getBuffersArray()
+{
+	ALuint* data;
+#ifdef USE_OLD_CPP
+	// @NOTE: This has a chance of crashing and burning on older C++ versions, since vectors
+	// were not always guaranteed to store their data in a contiguous manner.
+	data = &_buffers[0];
+#else
+	data = _buffers.data();
+#endif
+	
+	return data;
 }
 
 void SoundStreamAL::_setVolume(float vol)
@@ -97,7 +111,7 @@ bool SoundStreamAL::_open(const std::string& fileName)
     {
         if (!_stream(i)) return false;
     }
-    alSourceQueueBuffers(_source, size, _buffers.data());
+    alSourceQueueBuffers(_source, size, _getBuffersArray());
     AL_ERROR_CHECK();
     _play();
 

@@ -75,6 +75,7 @@
     </ProjectReference>
     <ProjectReference Include="..\RakNet\RakNet.vcxproj">
       <Project>{4b7fcc5f-7e38-4934-b272-2f5bbef51013}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\World\World.vcxproj">
       <Project>{5f7cd8c1-413c-4855-a450-2c765f16c5a4}</Project>

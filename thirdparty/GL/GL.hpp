@@ -48,9 +48,9 @@
 		#define USE_OPENGL_2_FEATURES
 
 		#define GL_GLEXT_PROTOTYPES
-		#include "thirdparty/SDL2/SDL_opengl.h"
+		#include "thirdparty/SDL/SDL_opengl.h"
 
-		#ifndef _WIN32
+		#if !defined(_WIN32) && SDL_MAJOR_VERSION == 2
 			#include <SDL2/SDL_opengl_glext.h>
 		#endif
 	#else
@@ -74,13 +74,13 @@
 
 #if defined(USE_GLES) || defined(USE_SDL)
 	// https://cgit.freedesktop.org/mesa/glu/tree/src/libutil/project.c
-	static inline void __gluMakeIdentityf(GLfloat m[16]) {
+	inline void __gluMakeIdentityf(GLfloat m[16]) {
 		m[0 + 4 * 0] = 1; m[0 + 4 * 1] = 0; m[0 + 4 * 2] = 0; m[0 + 4 * 3] = 0;
 		m[1 + 4 * 0] = 0; m[1 + 4 * 1] = 1; m[1 + 4 * 2] = 0; m[1 + 4 * 3] = 0;
 		m[2 + 4 * 0] = 0; m[2 + 4 * 1] = 0; m[2 + 4 * 2] = 1; m[2 + 4 * 3] = 0;
 		m[3 + 4 * 0] = 0; m[3 + 4 * 1] = 0; m[3 + 4 * 2] = 0; m[3 + 4 * 3] = 1;
 	}
-	static inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
+	inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
 		GLfloat m[4][4];
 		float sine, cotangent, deltaZ;
 		float radians = fovy / 2.0f * float(M_PI) / 180.0f;
@@ -108,7 +108,7 @@ void xglInit();
 bool xglInitted();
 #endif
 
-#if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32)
+#if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32) && !defined(__DREAMCAST__)
 
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData

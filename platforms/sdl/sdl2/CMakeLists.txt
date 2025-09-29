@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe-sdl)
+project(reminecraftpe-sdl2)
 
 # SDL Build
 target_compile_definitions(reminecraftpe-core
@@ -10,12 +10,13 @@ target_compile_definitions(reminecraftpe-core
 # Build
 set(SOURCES
     main.cpp
-    base/AppPlatform_sdl_base.cpp
+    base/AppPlatform_sdl2.cpp
+    ../base/AppPlatform_sdl.cpp
 )
 if(EMSCRIPTEN)
-    list(APPEND SOURCES emscripten/AppPlatform_sdl.cpp)
+    list(APPEND SOURCES emscripten/AppPlatform_sdl2_emscripten.cpp)
 else()
-    list(APPEND SOURCES desktop/AppPlatform_sdl.cpp)
+    list(APPEND SOURCES desktop/AppPlatform_sdl2_desktop.cpp)
 endif()
 if(ANDROID)
     add_library(reminecraftpe SHARED ${SOURCES})
@@ -27,16 +28,14 @@ endif()
 # Core
 target_link_libraries(reminecraftpe reminecraftpe-core)
 
-# stb_image (If Needed)
-if(NOT EMSCRIPTEN)
-    target_link_libraries(reminecraftpe stb_image)
-endif()
+# stb_image
+target_link_libraries(reminecraftpe stb_image)
 
 # SDL
 add_library(SDL INTERFACE)
 if(ANDROID OR MCPE_WIN32)
     # Use Vendored SDL2 (Only For Android)
-    add_subdirectory(../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
+    add_subdirectory(../../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
     target_link_libraries(SDL INTERFACE SDL2::SDL2)
 elseif(EMSCRIPTEN)
     # Use Emscripten's SDL2

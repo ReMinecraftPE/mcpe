@@ -6,7 +6,17 @@ on:
 
 jobs:
     linux:
-        name: Linux
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL 2
+                    flags: '-DREMCPE_PLATFORM=sdl2'
+                    packages: 'libsdl2-dev'
+                  - name: SDL 1.2
+                    flags: '-DREMCPE_PLATFORM=sdl1'
+                    packages: 'libsdl1.2-dev'
+        name: Linux (${{ matrix.name }})
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repository
@@ -20,12 +30,13 @@ jobs:
                     build-essential \
                     cmake ninja-build \
                     libopenal-dev \
-                    libsdl2-dev zlib1g-dev
+                    zlib1g-dev \
+                    ${{ matrix.packages }}
           - name: Build
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja ..
+                cmake -GNinja ${{ matrix.flags }} ..
                 cmake --build .
     wasm:
         name: WASM
@@ -42,7 +53,19 @@ jobs:
           - name: Build
             run: ./build-wasm.sh
     macos:
-        name: macOS
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL 2
+                    backend_name: 'SDL2'
+                    packages: 'libsdl2'
+                  # @NOTE: Uses SDL 1.2 compatibility layer in newer macOS versions, resulting in 30+ minutes spent building
+                  # and installing said layer each time the action is run. We're not doing that.
+                  #- name: SDL 1.2
+                  #  backend_name: 'SDL1'
+                  #  packages: 'libsdl'
+        name: macOS (${{ matrix.name }})
         runs-on: macos-latest
         steps:
           - name: Checkout Repository
@@ -54,15 +77,14 @@ jobs:
           - name: Install Dependencies
             run: |
                 port selfupdate
-                port install libsdl2 +universal
-                port install libpng +universal
+                port install ${{ matrix.packages }} +universal
           - name: Build macOS Archive
             run: |
                 cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "MinecraftClient.SDL2" \
-                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_SDL2.xcarchive \
+                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
+                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
                 -sdk macosx \
-                -configuration "Release (Default)" \
+                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
                 -destination generic/platform=macOS \
                 GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
                 -quiet \
@@ -81,7 +103,7 @@ jobs:
     #            xcodebuild -scheme "minecraftpe" \
     #            -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
     #            -sdk iphoneos \
-    #            -configuration "Release (iOS)" \
+    #            -configuration "Release [iOS] (Default)" \
     #            -destination generic/platform=iOS \
     #            GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
     #            -quiet \
@@ -91,8 +113,8 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  - name: SDL
-                    directory: platforms/sdl/android
+                  - name: SDL 2
+                    directory: platforms/sdl/sdl2/android
                   - name: Native
                     directory: platforms/android/project
         name: Android (${{ matrix.name }})
@@ -113,31 +135,34 @@ jobs:
                 cd ${{ matrix.directory }}
                 ./gradlew build
     mingw:
-      strategy:
-        fail-fast: false
-        matrix:
-          include:
-            - name: Win32
-              flags: "-DREMCPE_PLATFORM=windows"
-            - name: SDL
-              flags: "-DREMCPE_PLATFORM=sdl"
-      name: MinGW-w64 (${{ matrix.name }})
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v4
-          with:
-            submodules: true
-        - name: Install Dependencies
-          run: |
-            sudo apt-get update
-            sudo apt-get install --no-install-recommends -y \
-                build-essential \
-                cmake ninja-build \
-                mingw-w64
-        - name: Build
-          run: |
-            mkdir build
-            cd build
-            cmake -GNinja -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
-            cmake --build .
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: Win32
+                    flags: '-DREMCPE_PLATFORM=windows'
+                  - name: SDL2
+                    flags: "-DREMCPE_PLATFORM=sdl2"
+                  # CMake can't find it
+                  #- name: SDL 1.2
+                  #  flags: "-DREMCPE_PLATFORM=sdl1"
+        name: MinGW-w64 (${{ matrix.name }})
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    mingw-w64
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake -GNinja -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake --build .
