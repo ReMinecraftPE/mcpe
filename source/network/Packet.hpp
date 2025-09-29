@@ -115,12 +115,16 @@ public:
 class LoginPacket : public Packet
 {
 public:
-	LoginPacket() {}
+	LoginPacket()
+	{
+		m_clientNetworkVersion = 0;
+		m_clientNetworkVersion2 = 0;
+	}
 	LoginPacket(const std::string& uname)
 	{
 		m_str = RakNet::RakString(uname.c_str());
-		m_clientNetworkVersion = 2;
-		m_clientNetworkVersion2 = 2;
+		m_clientNetworkVersion = NETWORK_PROTOCOL_VERSION;
+		m_clientNetworkVersion2 = NETWORK_PROTOCOL_VERSION;
 	}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
@@ -158,7 +162,7 @@ public:
 class ReadyPacket : public Packet
 {
 public:
-	ReadyPacket(int ready = 0)
+	ReadyPacket(uint8_t ready = 0)
 	{
 		m_ready = ready;
 	}
@@ -206,7 +210,10 @@ class StartGamePacket : public Packet
 public:
 	StartGamePacket()
 	{
+		m_seed = 0;
+		m_levelVersion = 0;
 		m_gameType = GAME_TYPES_MAX;
+		m_entityId = 0;
 		m_serverVersion = 0;
 		m_time = 0;
 	}
@@ -226,7 +233,12 @@ public:
 class AddPlayerPacket : public Packet
 {
 public:
-	AddPlayerPacket() {}
+	AddPlayerPacket()
+	{
+		field_4 = 0;
+		field_14 = 0;
+		m_id = 0;
+	}
 	AddPlayerPacket(const Player *player);
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
@@ -243,7 +255,10 @@ public:
 class RemoveEntityPacket : public Packet
 {
 public:
-	RemoveEntityPacket() {}
+	RemoveEntityPacket()
+	{
+		m_id = 0;
+	}
 	RemoveEntityPacket(int id) { m_id = id; }
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
@@ -256,7 +271,10 @@ public:
 class MovePlayerPacket : public Packet
 {
 public:
-	MovePlayerPacket() {}
+	MovePlayerPacket()
+	{
+		m_id = 0;
+	}
 	MovePlayerPacket(int id, const Vec3& pos, const Vec2& rot): m_id(id), m_pos(pos), m_rot(rot) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
@@ -270,36 +288,47 @@ public:
 class PlaceBlockPacket : public Packet
 {
 public:
-	PlaceBlockPacket() {}
-	PlaceBlockPacket(int playerID, const TilePos& pos, TileID tile, Facing::Name face)
+	PlaceBlockPacket()
 	{
-		m_playerID = playerID;
+		m_entityId = 0;
+		m_tileId = TILE_AIR;
+		m_face = 0;
+		m_auxValue = 0;
+	}
+	PlaceBlockPacket(int entityId, const TilePos& pos, TileID tileId, Facing::Name face, uint8_t auxValue)
+	{
+		m_entityId = entityId;
 		m_pos = pos;
-		m_tile = tile;
+		m_tileId = tileId;
 		m_face = face;
+		m_auxValue = auxValue;
 	}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	int m_playerID;
+	int m_entityId;
 	TilePos m_pos;
-	TileID m_tile;
+	TileID m_tileId;
 	uint8_t m_face;
+	uint8_t m_auxValue;
 };
 
 class RemoveBlockPacket : public Packet
 {
 public:
-	RemoveBlockPacket() {}
-	RemoveBlockPacket(int id, const TilePos& pos) :m_playerID(id), m_pos(pos) {}
+	RemoveBlockPacket()
+	{
+		m_entityId = 0;
+	}
+	RemoveBlockPacket(int id, const TilePos& pos) :m_entityId(id), m_pos(pos) {}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:
-	int m_playerID;
+	int m_entityId;
 	TilePos m_pos;
 };
 
@@ -330,7 +359,10 @@ public:
 class ChunkDataPacket : public Packet
 {
 public:
-	ChunkDataPacket() {}
+	ChunkDataPacket()
+	{
+		m_pChunk = nullptr;
+	}
 	ChunkDataPacket(const ChunkPos& pos, LevelChunk* c) :m_chunkPos(pos), m_pChunk(c) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
@@ -344,7 +376,10 @@ public:
 class LevelDataPacket : public Packet
 {
 public:
-	LevelDataPacket() {}
+	LevelDataPacket()
+	{
+		m_pLevel = nullptr;
+	}
 	LevelDataPacket(Level* level) : m_pLevel(level) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;
@@ -357,7 +392,11 @@ public:
 class PlayerEquipmentPacket : public Packet
 {
 public:
-	PlayerEquipmentPacket() {}
+	PlayerEquipmentPacket()
+	{
+		m_playerID = 0;
+		m_itemID = 0;
+	}
 	PlayerEquipmentPacket(int playerID, int itemID): m_playerID(playerID), m_itemID(itemID) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
 	void write(RakNet::BitStream*) override;

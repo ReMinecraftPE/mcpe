@@ -340,6 +340,7 @@ void TextInputBox::charPressed(int k)
             break;
         }
     }
+	m_pParent->onTextBoxUpdated(m_ID);
 }
 
 constexpr int PADDING = 5;

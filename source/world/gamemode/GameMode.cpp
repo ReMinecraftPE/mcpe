@@ -40,7 +40,7 @@ bool GameMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name fac
 
 	int tileData = _level.getData(pos);
 	pTile->playerWillDestroy(player, pos, face);
-	bool bChanged = _level.setTile(pos, 0);
+	bool bChanged = _level.setTile(pos, TILE_AIR);
 	if (!bChanged)
 		return false;
 

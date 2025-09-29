@@ -121,6 +121,8 @@ public: // functions
 public: // static functions
 	static void initTiles();
 	static void teardownTiles();
+	static TileID TransformToValidBlockId(TileID tileId, TilePos pos);
+	static TileID TransformToValidBlockId(TileID tileId);
 
 public: // static variables
 	static std::string TILE_DESCRIPTION_PREFIX;

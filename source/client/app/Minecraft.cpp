@@ -414,7 +414,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 						hitSide = Facing::DOWN;
 					}
 
-					m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), TileID(pItem->m_itemID), hitSide));
+					m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), TileID(pItem->m_itemID), hitSide, pItem->getAuxValue()));
 				}
 			}
 		}

@@ -767,6 +767,24 @@ void Tile::teardownTiles()
 		delete tiles[i];
 }
 
+TileID Tile::TransformToValidBlockId(TileID tileId, TilePos pos)
+{
+	if (tileId != TILE_AIR && !Tile::tiles[tileId])
+	{
+		// Lifted from 0.2.1. Don't ask me what this is doing, or why it's doing it
+		if ((((int8_t)pos.y + (int8_t)pos.x + (int8_t)pos.z) & 1) != 0)
+			return Tile::info_updateGame1->m_ID;
+		else
+			return Tile::info_updateGame2->m_ID;
+	}
+	return tileId;
+}
+
+TileID Tile::TransformToValidBlockId(TileID tileId)
+{
+	return TransformToValidBlockId(tileId, TilePos::ZERO);
+}
+
 void Tile::updateShape(const LevelSource* a, const TilePos& pos)
 {
 }

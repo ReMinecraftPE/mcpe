@@ -898,7 +898,7 @@ void Mob::updateAttackAnim()
 	if (m_bSwinging)
 	{
 		m_swingTime++;
-		if (m_swingTime > 7)
+		if (m_swingTime >= 8)
 		{
 			m_swingTime = 0;
 			m_bSwinging = false;
@@ -909,5 +909,5 @@ void Mob::updateAttackAnim()
 		m_swingTime = 0;
 	}
 
-	m_attackAnim = m_swingTime * 0.125f;
+	m_attackAnim = m_swingTime / 8.0f;
 }

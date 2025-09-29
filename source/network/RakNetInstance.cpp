@@ -150,6 +150,7 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 			if (pUserPacket)
 			{
 				pUserPacket->read(pBitStream);
+				LOG_I("Packet: %d", packetType);
 				pUserPacket->handle(pPacket->guid, callback);
 				delete pUserPacket;
 			}

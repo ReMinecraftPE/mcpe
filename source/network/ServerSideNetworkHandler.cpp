@@ -104,6 +104,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 		return;
 	}
 
+	// not the problem
 #if NETWORK_PROTOCOL_VERSION >= 3
 	LoginStatusPacket::LoginStatus loginStatus = LoginStatusPacket::STATUS_SUCCESS;
 	if (packet->m_clientNetworkVersion < NETWORK_PROTOCOL_VERSION_MIN)
@@ -140,7 +141,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.m_entityId = pPlayer->m_EntityID;
 	sgp.m_pos = pPlayer->m_pos;
 	sgp.m_pos.y -= pPlayer->m_heightOffset;
-	sgp.m_serverVersion = NETWORK_PROTOCOL_VERSION;
+	sgp.m_serverVersion = NETWORK_PROTOCOL_VERSION; // not the problem
 	sgp.m_time = m_pLevel->getTime();
 	
 	RakNet::BitStream sgpbs;
@@ -230,33 +231,42 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MovePlayer
 	puts_ignorable("MovePlayerPacket");
 
 	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
-	if (pEntity)
-		pEntity->lerpTo(packet->m_pos, packet->m_rot, 3);
+	if (!pEntity)
+		return;
+
+	pEntity->lerpTo(packet->m_pos, packet->m_rot, 3);
 
 	redistributePacket(packet, guid);
 }
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlockPacket* packet)
 {
-	Mob* pMob = (Mob*)m_pLevel->getEntity(packet->m_playerID);
-	if (!pMob)
+	if (!m_pLevel)
 		return;
 
-	TileID tile = packet->m_tile;
+	Mob* pMob = (Mob*)m_pLevel->getEntity(packet->m_entityId);
+	if (!pMob || !pMob->isPlayer())
+		return;
+
+	pMob->swing();
+
+	TileID tileId = packet->m_tileId;
 	Facing::Name face = (Facing::Name)packet->m_face;
 	TilePos pos = packet->m_pos;
+	uint8_t auxValue = packet->m_auxValue;
 
-	printf_ignorable("PlaceBlockPacket: %d", tile);
+	printf_ignorable("PlaceBlockPacket: %d", tileId);
 
-	if (!m_pLevel->mayPlace(tile, pos, true))
+	if (!m_pLevel->mayPlace(tileId, pos, true))
 		return;
 
-	if (m_pLevel->setTile(pos, tile))
+	if (m_pLevel->setTileAndData(pos, tileId, auxValue))
 	{
-		Tile::tiles[tile]->setPlacedOnFace(m_pLevel, pos, face);
-		Tile::tiles[tile]->setPlacedBy(m_pLevel, pos, pMob);
+		Tile* pTile = Tile::tiles[tileId];
+		pTile->setPlacedOnFace(m_pLevel, pos, face);
+		pTile->setPlacedBy(m_pLevel, pos, pMob);
 
-		const Tile::SoundType* pSound = Tile::tiles[tile]->m_pSound;
+		const Tile::SoundType* pSound = pTile->m_pSound;
 		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
 	}
 
@@ -267,18 +277,39 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 {
 	puts_ignorable("RemoveBlockPacket");
 
-	Player* pPlayer = (Player*)m_pLevel->getEntity(packet->m_playerID);
-	if (!pPlayer)
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity || !pEntity->isPlayer())
 		return;
+
+	Player* pPlayer = (Player*)pEntity;
+
+	pPlayer->swing();
 
 	TilePos pos = packet->m_pos;
 	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
-	//int data = m_pLevel->getData(pos);
+	int auxValue = m_pLevel->getData(pos);
+
+	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
+
 	bool setTileResult = m_pLevel->setTile(pos, TILE_AIR);
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
 		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
+
+		/* 0.2.1
+		ItemInstance item(pTile, 1, auxValue);
+		if (m_pMinecraft->m_pGameMode->isSurvivalType() && pTile->m_ID == Tile::grass->m_ID || !m_pMinecraft->m_pLocalPlayer->m_pInventory->hasUnlimitedResource(item))
+		{
+			pTile->spawnResources(m_pLevel, pos, auxValue);
+		}*/
+
+		if (pPlayer->isSurvival())
+		{
+			pTile->spawnResources(m_pLevel, pos, auxValue);
+		}
+
+		pTile->destroy(m_pLevel, pos, auxValue);
 
 		// redistribute the packet only if needed
 		redistributePacket(packet, guid);
