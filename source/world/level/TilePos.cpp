@@ -1,3 +1,5 @@
+#include <limits.h>
+
 #include "TilePos.hpp"
 #include "world/phys/Vec3.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
