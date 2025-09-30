@@ -689,7 +689,19 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
-		if (m_pMinecraft->m_pLocalPlayer)
+		/*
+		 * The "!m_pMinecraft->m_bPreparingLevel" check *needs* to be here.
+		 * If said check is not here, when getBiome() is called for the biome display,
+		 * it would allocate an array with a size of 1 before the level was even generated.
+		 * Then, during level generation, said array would be written to as if it had a size
+		 * of 256, leading to a heap corruption that took ASan to debug successfully.
+		 * Unfortunately, ASan and DirectSound don't mix, and Microsoft's ASan team has stated that they don't even know why:
+		 * https://developercommunity.visualstudio.com/t/ASAN-x64-causes-unhandled-exception-at-0/1365655#T-N10460750
+		 * Since all SoundSystems are backed with DirectSound, SoundSystemNull is needed to use ASan.
+		 * This heap corruption bug, which (only if the F3 menu was open) would cause multiplayer functionality to be entirely
+		 * based on luck, had been around since Commit 53200be, on March 5th of 2025, and was fixed on September 30th of 2025.
+		 */
+		if (m_pMinecraft->m_pLocalPlayer && !m_pMinecraft->m_bPreparingLevel)
 		{
 			char posStr[96];
 			Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(f);
