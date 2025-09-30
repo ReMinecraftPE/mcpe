@@ -271,7 +271,7 @@ std::string AppPlatform::getAssetPath(const std::string& path) const
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
 	std::string realPath = getAssetPath(path);
-	std::ifstream ifs(realPath.c_str());
+	std::ifstream ifs(realPath.c_str(), std::ios::binary);
     
 	// Open File
 	if (!ifs.is_open())

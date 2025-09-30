@@ -58,10 +58,8 @@ public:
 	void handleControllerButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state);
 	void handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value);
 
-	// Read Sounds
+	// Needed for Android
 	AssetFile readAssetFile(const std::string&, bool) const override;
-
-	std::string getPatchData() override;
 
 protected:
 	static SDL_Surface* _GetSurfaceForTexture(const Texture& texture);

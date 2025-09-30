@@ -206,10 +206,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 {
 	puts_ignorable("PlaceBlockPacket");
 
-	Player* pPlayer = (Player*)m_pLevel->getEntity(pPlaceBlockPkt->m_playerID);
+	Player* pPlayer = (Player*)m_pLevel->getEntity(pPlaceBlockPkt->m_entityId);
 	if (!pPlayer)
 	{
-		LOG_E("No player with id %d", pPlaceBlockPkt->m_playerID);
+		LOG_E("No player with id %d", pPlaceBlockPkt->m_entityId);
 		return;
 	}
 
@@ -220,7 +220,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 		return;
 
 	const TilePos& pos = pPlaceBlockPkt->m_pos;
-	TileID tile = pPlaceBlockPkt->m_tile;
+	TileID tile = pPlaceBlockPkt->m_tileId;
 	Facing::Name face = (Facing::Name)pPlaceBlockPkt->m_face;
 
 	if (!m_pLevel->mayPlace(tile, pos, true))
@@ -241,10 +241,10 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 {
 	puts_ignorable("RemoveBlockPacket");
 
-	Player* pPlayer = (Player*)m_pLevel->getEntity(pRemoveBlockPkt->m_playerID);
+	Player* pPlayer = (Player*)m_pLevel->getEntity(pRemoveBlockPkt->m_entityId);
 	if (!pPlayer)
 	{
-		LOG_E("No player with id %d", pRemoveBlockPkt->m_playerID);
+		LOG_E("No player with id %d", pRemoveBlockPkt->m_entityId);
 		return;
 	}
 
@@ -255,13 +255,17 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 		return;
 
 	const TilePos& pos = pRemoveBlockPkt->m_pos;
-
 	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
 	int data = m_pLevel->getData(pos);
+
+	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
+
 	bool setTileResult = m_pLevel->setTile(pos, TILE_AIR);
 
 	if (pTile && setTileResult)
 	{
+		m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
+
 		const Tile::SoundType* pSound = pTile->m_pSound;
 		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
 

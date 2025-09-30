@@ -430,36 +430,6 @@ AssetFile AppPlatform_sdl::readAssetFile(const std::string& str, bool quiet) con
 	return AssetFile(size, buf);
 }
 
-std::string AppPlatform_sdl::getPatchData()
-{
-	std::string path = getAssetPath(_getPatchDataPath());
-	SDL_RWops* io = SDL_RWFromFile(path.c_str(), "rb");
-
-	if (!io)
-	{
-		LOG_W("Couldn't find patch data file!");
-		return "";
-	}
-	Sint64 size;
-#if SDL_MAJOR_VERSION >= 2
-	size = SDL_RWsize(io);
-#else
-	size = SDL_RWseek(io, 0, SEEK_END);
-	SDL_RWseek(io, 0, SEEK_SET);
-#endif
-	if (size == -1)
-	{
-		LOG_E("Error determining the size of the patch data file!");
-	}
-
-	char* buf = new char[size];
-	SDL_RWread(io, buf, size, 1);
-
-	SDL_RWclose(io);
-
-	return std::string(buf);
-}
-
 SDL_Surface* AppPlatform_sdl::_GetSurfaceForTexture(const Texture& texture)
 {
 	void* pixels = texture.m_pixels;

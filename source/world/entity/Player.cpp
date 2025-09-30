@@ -191,6 +191,9 @@ void Player::aiStep()
 
 		touch(pEnt);
 	}
+
+	// only needed for non-local players for some reason
+	updateAttackAnim();
 }
 
 ItemInstance* Player::getCarriedItem()
@@ -208,21 +211,6 @@ ItemInstance* Player::getCarriedItem()
 
 void Player::updateAi()
 {
-	if (m_bSwinging)
-	{
-		m_swingTime++;
-		if (m_swingTime >= 8)
-		{
-			m_swingTime = 0;
-			m_bSwinging = false;
-		}
-	}
-	else
-	{
-		m_swingTime = 0;
-	}
-
-	m_attackAnim = m_swingTime / 8.0f;
 }
 
 void Player::addAdditionalSaveData(CompoundTag& tag) const

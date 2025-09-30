@@ -14,6 +14,10 @@ struct ChunkPos;
 
 struct TilePos
 {
+public:
+	static const TilePos ZERO, ONE, MIN, MAX;
+
+public:
 	int x;
 	int y; // We had this on uint8_t due to the 255 height limit, but this can overflow too easily
 	int z;

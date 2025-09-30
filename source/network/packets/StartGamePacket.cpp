@@ -19,7 +19,7 @@ void StartGamePacket::write(RakNet::BitStream* bs)
 	bs->Write(m_seed);
 	bs->Write(m_levelVersion);
 #if NETWORK_PROTOCOL_VERSION >= 3
-	bs->Write(m_gameType);
+	bs->Write<int32_t>(m_gameType);
 #endif
 	bs->Write(m_entityId);
 	bs->Write(m_pos.x);
@@ -38,7 +38,9 @@ void StartGamePacket::read(RakNet::BitStream* bs)
 	bs->Read(m_seed);
 	bs->Read(m_levelVersion);
 #if NETWORK_PROTOCOL_VERSION >= 3
-	bs->Read(m_gameType);
+	int32_t gameType;
+	bs->Read(gameType);
+	m_gameType = (GameType)gameType;
 #endif
 	bs->Read(m_entityId);
 	bs->Read(m_pos.x);
