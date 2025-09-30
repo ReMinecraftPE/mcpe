@@ -14,7 +14,7 @@ AddPlayerPacket::AddPlayerPacket(const Player *player)
 	m_name = RakNet::RakString(player->m_name.c_str());
 	m_id = player->m_EntityID;
 	m_pos = player->m_pos;
-	m_pos -= player->m_heightOffset;
+	m_pos.y -= player->m_heightOffset;
 }
 
 void AddPlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
