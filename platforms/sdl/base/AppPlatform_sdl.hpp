@@ -58,6 +58,9 @@ public:
 	void handleControllerButtonEvent(SDL_JoystickID controllerIndex, uint8_t button, uint8_t state);
 	void handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value);
 
+	// Needed for Android
+	AssetFile readAssetFile(const std::string&, bool) const override;
+
 protected:
 	static SDL_Surface* _GetSurfaceForTexture(const Texture& texture);
 	static int _SavePng(const char* filename, unsigned char* pixels, int line_size, int width, int height);
