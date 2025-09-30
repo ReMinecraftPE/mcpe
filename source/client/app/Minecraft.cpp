@@ -1137,14 +1137,15 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 		{
 			// We're getting a LocalPlayer from a server
 			m_pLocalPlayer = pLocalPlayer;
-			pLocalPlayer->resetPos();
 		}
 		else if (m_pLocalPlayer)
 		{
 			// We're not on any server
-			m_pLocalPlayer->resetPos();
 			pLevel->addEntity(m_pLocalPlayer);
 		}
+
+		if (m_pLocalPlayer)
+			m_pLocalPlayer->resetPos();
 
 		m_pLevel = pLevel;
 		m_bPreparingLevel = true;
@@ -1158,6 +1159,12 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 	else
 	{
 		m_pLocalPlayer = nullptr;
+	}
+
+	if (!m_pLocalPlayer)
+	{
+		// pLocalPlayer went unused, and *someone* needs to clean it up
+		SAFE_DELETE(pLocalPlayer);
 	}
 }
 
