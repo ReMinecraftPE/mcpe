@@ -2535,9 +2535,9 @@ void TileRenderer::renderTile(Tile* tile, TileData data, float bright, bool pres
 		case SHAPE_SOLID:
 		default:
 		{
-			// N.B. If caller passes 999, they only want the face-down face.
+			// N.B. If caller passes 255, they only want the face-down face.
 			// This is a hack to accomodate the start menu screen procedurally generated title logo.
-#define IF_NEEDED(x) do { if (data != 999) { (x); } } while (0)
+#define IF_NEEDED(x) do { if (data != 255) { (x); } } while (0)
 
 			glTranslatef(-0.5f, -0.5f, -0.5f);
 			t.begin();
