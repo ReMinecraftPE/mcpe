@@ -147,14 +147,7 @@ void LevelChunk::recalcHeightmap()
 					if (x4 <= 0)
 						break;
 
-					// The below is waay faster than m_lightSky.set(pos, x4);
-					int x = x3 + index1;
-					int index = x >> 1, offs = x & 1;
-
-					if (offs)
-						m_lightSky.m_data[index] = (m_lightSky.m_data[index] & 0x0F) | (x4 << 4); // set the upper 4 bits to x4
-					else
-						m_lightSky.m_data[index] = (m_lightSky.m_data[index] & 0xF0) | x4; // set the lower 4 bits to x4*/
+					m_lightSky.set(ChunkTilePos(pos.x, x3, pos.z), x4);
 				}
 			}
 		}
