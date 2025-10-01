@@ -9,7 +9,6 @@ class DataLayer
 public:
 	DataLayer();
 	DataLayer(unsigned int size);
-	~DataLayer();
 
 public:
 	uint8_t get(const ChunkTilePos& pos);

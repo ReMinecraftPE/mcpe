@@ -1,7 +1,7 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
@@ -13,9 +13,12 @@ bool LevelChunk::touchedSky = false;
 
 LevelChunk::~LevelChunk()
 {
+	SAFE_DELETE_ARRAY(m_lightBlk.m_data);
+	SAFE_DELETE_ARRAY(m_lightSky.m_data);
+	SAFE_DELETE_ARRAY(m_tileData.m_data);
 }
 
-constexpr int MakeBlockDataIndex (const ChunkTilePos& pos)
+constexpr int MakeBlockDataIndex(const ChunkTilePos& pos)
 {
 	return (pos.x << 11) | (pos.z << 7) | pos.y;
 }
@@ -66,7 +69,7 @@ LevelChunk::LevelChunk(Level* pLevel, TileID* pData, const ChunkPos& pos)
 	/*if (pData)
 	{*/
 	field_4 = 16 * 16 * 128;
-	m_tileData = DataLayer(16 * 16 * 128);
+	m_tileData = DataLayer(16 * 16 * 128 / 2);
 	//Space saving measure: Store 2 blocks' light field instead of only one block's, per byte.
 	m_lightSky = DataLayer(16 * 16 * 128 / 2);
 	m_lightBlk = DataLayer(16 * 16 * 128 / 2);
@@ -141,8 +144,17 @@ void LevelChunk::recalcHeightmap()
 				for (int x3 = 127; x3 > 0; x3--)
 				{
 					x4 -= Tile::lightBlock[m_pBlockData[index1 + x3]];
-					if (x4 > 0)
-						m_lightSky.set(pos, x4);
+					if (x4 <= 0)
+						break;
+
+					// The below is waay faster than m_lightSky.set(pos, x4);
+					int x = x3 + index1;
+					int index = x >> 1, offs = x & 1;
+
+					if (offs)
+						m_lightSky.m_data[index] = (m_lightSky.m_data[index] & 0x0F) | (x4 << 4); // set the upper 4 bits to x4
+					else
+						m_lightSky.m_data[index] = (m_lightSky.m_data[index] & 0xF0) | x4; // set the lower 4 bits to x4*/
 				}
 			}
 		}
@@ -245,7 +257,6 @@ int LevelChunk::getBrightness(const LightLayer& ll, const ChunkTilePos& pos)
 void LevelChunk::setBrightness(const LightLayer& ll, const ChunkTilePos& pos, int brightness)
 {
 	CheckPosition(pos);
-
 	// why the hell is it doing it like that.
 	if (&ll == &LightLayer::Sky)
 	{
@@ -278,7 +289,7 @@ int LevelChunk::getRawBrightness(const ChunkTilePos& pos, int skySubtract)
 	// if it's smaller than 0 it'll probably sort itself out
 	if (br < bBlk)
 		br = bBlk;
-	
+
 	return br;
 }
 
@@ -410,8 +421,8 @@ void LevelChunk::recalcHeight(const ChunkTilePos& pos)
 			for (int i = 0; i < hmap; i++)
 			{
 				m_lightSky.set(ChunkTilePos(pos.x, i, pos.z), 15);
-			}
-		}
+				}
+				}
 
 		int x2 = x1;
 		int x3 = 15;
@@ -488,7 +499,7 @@ void LevelChunk::markUnsaved()
 TileID LevelChunk::getTile(const ChunkTilePos& pos)
 {
 	CheckPosition(pos);
-	
+
 	TileID tileId = m_pBlockData[MakeBlockDataIndex(pos)];
 	if (Tile::tiles[tileId])
 		return tileId;
@@ -518,7 +529,7 @@ void LevelChunk::getEntities(Entity* pEntExclude, const AABB& aabb, std::vector<
 		{
 			Entity* ent = *it;
 			if (ent == pEntExclude) continue;
-			
+
 			if (!aabb.intersect(ent->m_hitbox)) continue;
 
 			out.push_back(ent);
@@ -685,7 +696,7 @@ void LevelChunk::setBlocks(uint8_t* pData, int y)
 	tilePos.y = 128;
 	tilePos.x += 16;
 
-	m_pLevel->updateLight(LightLayer::Sky,   tilePos, tilePos2);
+	m_pLevel->updateLight(LightLayer::Sky, tilePos, tilePos2);
 	m_pLevel->updateLight(LightLayer::Block, tilePos, tilePos2);
 	m_pLevel->setTilesDirty(tilePos, tilePos2);
 }

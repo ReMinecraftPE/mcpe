@@ -11,15 +11,9 @@ DataLayer::DataLayer()
 
 DataLayer::DataLayer(unsigned int size)
 {
-	m_size = size >> 1;
-	m_data = new uint8_t[m_size >> 1];
+	m_size = size;
+	m_data = new uint8_t[m_size];
 	memset(m_data, 0, m_size);
-}
-
-DataLayer::~DataLayer()
-{
-	if (m_data)
-		delete[] m_data;
 }
 
 uint8_t DataLayer::get(const ChunkTilePos& pos)
@@ -35,10 +29,10 @@ uint8_t DataLayer::get(const ChunkTilePos& pos)
 void DataLayer::set(const ChunkTilePos& pos, uint8_t data)
 {
 	int index1 = pos.y | (pos.x << 11) | (pos.z << 7);
-	int index2 = index1 >> 1;
+	unsigned int index2 = index1 >> 1;
 	uint8_t v7 = data;
 	bool v8 = (index1 & 1) == 0;
-	uint8_t v9 = m_data[index1 >> 1];
+	uint8_t v9 = m_data[index2];
 	uint8_t v10;
 	if (v8)
 	{

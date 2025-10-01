@@ -337,12 +337,12 @@ void ExternalFileLevelStorage::save(Level* level, LevelChunk* chunk)
 
 	RakNet::BitStream bs;
 	bs.Write((const char*)chunk->m_pBlockData,        16 * 16 * 128 * sizeof(TileID));
-	bs.Write((const char*)chunk->m_tileData.m_data,   16 * 16 * 128 / 2);
+	bs.Write((const char*)chunk->m_tileData.m_data, chunk->m_tileData.m_size);
 
 	if (m_pLevelData->getStorageVersion() >= 1)
 	{
-		bs.Write((const char*)chunk->m_lightSky.m_data, 16 * 16 * 128 / 2);
-		bs.Write((const char*)chunk->m_lightBlk.m_data, 16 * 16 * 128 / 2);
+		bs.Write((const char*)chunk->m_lightSky.m_data, chunk->m_lightSky.m_size);
+		bs.Write((const char*)chunk->m_lightBlk.m_data, chunk->m_lightBlk.m_size);
 	}
 
 	bs.Write((const char*)chunk->m_updateMap, sizeof chunk->m_updateMap);
