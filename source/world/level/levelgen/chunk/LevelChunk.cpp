@@ -581,9 +581,6 @@ bool LevelChunk::setTileAndData(const ChunkTilePos& pos, TileID tile, TileData d
 {
 	CheckPosition(pos);
 
-	assert((data & ~0xF) == 0);
-	data &= 0xF;
-
 	int index = MakeBlockDataIndex(pos);
 
 	TileID oldTile = m_pBlockData[index];

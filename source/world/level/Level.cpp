@@ -647,9 +647,10 @@ bool Level::setTileAndData(const TilePos& pos, TileID tile, TileData data, TileC
 		// there's nothing out there!
 		return false;
 
-	LevelChunk* pChunk = getChunk(pos);
-	if (!pChunk)
+	if (!hasChunk(pos))
 		return false;
+
+	LevelChunk* pChunk = getChunk(pos);
 
 	TileChange change(updateFlags);
 
