@@ -141,7 +141,7 @@ void LevelChunk::recalcHeightmap()
 				for (int x3 = 127; x3 > 0; x3--)
 				{
 					x4 -= Tile::lightBlock[m_pBlockData[index1 + x3]];
-					if (x4 <= 0)
+					if (x4 > 0)
 						m_lightSky.set(pos, x4);
 				}
 			}
