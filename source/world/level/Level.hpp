@@ -17,6 +17,7 @@
 #include "world/tile/Tile.hpp"
 #include "world/entity/Entity.hpp"
 #include "world/entity/LocalPlayer.hpp"
+#include "world/level/TileChange.hpp"
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
 #include "world/level/levelgen/chunk/ChunkSource.hpp"
 #include "world/level/storage/LevelStorageSource.hpp"
@@ -49,7 +50,7 @@ public:
 	// TODO
 	TileID getTile(const TilePos& pos) const override;
 	float getBrightness(const TilePos& pos) const override;
-	int getData(const TilePos& pos) const override;
+	TileData getData(const TilePos& pos) const override;
 	Material* getMaterial(const TilePos& pos) const override;
 	bool isSolidTile(const TilePos& pos) const override;
 
@@ -82,12 +83,12 @@ public:
 	void updateLight(const LightLayer&, const TilePos& tilePos1, const TilePos& tilePos2);
 	void updateLight(const LightLayer&, const TilePos& tilePos1, const TilePos& tilePos2, bool);
 	void updateLightIfOtherThan(const LightLayer&, const TilePos& pos, int);
-	bool setTileAndDataNoUpdate(const TilePos& pos, TileID tile, int data);
+	bool setTileAndDataNoUpdate(const TilePos& pos, TileID tile, TileData data);
 	bool setTileNoUpdate(const TilePos& pos, TileID tile);
-	bool setDataNoUpdate(const TilePos& pos, int data);
-	bool setTileAndData(const TilePos& pos, TileID tile, int data);
-	bool setTile(const TilePos& pos, TileID tile);
-	bool setData(const TilePos& pos, int data);
+	bool setDataNoUpdate(const TilePos& pos, TileData data);
+	bool setTileAndData(const TilePos& pos, TileID tile, TileData data, TileChange::UpdateFlags updateFlags = TileChange::UPDATE_ALL);
+	bool setTile(const TilePos& pos, TileID tile, TileChange::UpdateFlags updateFlags = TileChange::UPDATE_ALL);
+	bool setData(const TilePos& pos, TileData data, TileChange::UpdateFlags updateFlags = TileChange::UPDATE_ALL);
 	void sendTileUpdated(const TilePos& pos);
 	void tileUpdated(const TilePos& pos, TileID tile);
 	void updateNeighborsAt(const TilePos& pos, TileID tile);
@@ -189,7 +190,7 @@ protected:
 public:
 	AABBVector m_aabbs;
 	bool m_bInstantTicking;
-	bool m_bIsOnline; // if the level is controlled externally by a server.
+	bool m_bIsClientSide; // if the level is controlled externally by a server.
 	bool m_bPostProcessing;
 	EntityVector m_entities;
 	std::vector<Player*> m_players;

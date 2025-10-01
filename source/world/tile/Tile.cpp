@@ -106,7 +106,7 @@ void Tile::_init()
 	m_descriptionID = "";
 }
 
-void Tile::_init(int ID, Material* pMaterial, int texture)
+void Tile::_init(TileID ID, Material* pMaterial, int texture)
 {
 	_init();
 
@@ -222,7 +222,7 @@ int Tile::getTexture(Facing::Name face) const
 	return m_TextureFrame;
 }
 
-int Tile::getTexture(Facing::Name face, int data) const
+int Tile::getTexture(Facing::Name face, TileData data) const
 {
 	return getTexture(face);
 }
@@ -252,12 +252,12 @@ bool Tile::mayPick() const
 	return true;
 }
 
-bool Tile::mayPick(int x, bool y) const
+bool Tile::mayPick(TileData data, bool y) const
 {
 	return mayPick();
 }
 
-int Tile::getResource(int x, Random* pRandom) const
+int Tile::getResource(TileData data, Random* pRandom) const
 {
 	return m_ID;
 }
@@ -899,7 +899,7 @@ void Tile::animateTick(Level* pLevel, const TilePos& pos, Random* pRandom)
 
 }
 
-void Tile::destroy(Level* pLevel, const TilePos& pos, int data)
+void Tile::destroy(Level* pLevel, const TilePos& pos, TileData data)
 {
 
 }
@@ -1050,14 +1050,14 @@ float Tile::getDestroyProgress(Player* player) const
 	return player->getDestroySpeed() / m_hardness / 30.0f;
 }
 
-void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data)
+void Tile::spawnResources(Level* pLevel, const TilePos& pos, TileData data)
 {
 	return spawnResources(pLevel, pos, data, 1.0f);
 }
 
-void Tile::spawnResources(Level* pLevel, const TilePos& pos, int data, float fChance)
+void Tile::spawnResources(Level* pLevel, const TilePos& pos, TileData data, float fChance)
 {
-	if (pLevel->m_bIsOnline)
+	if (pLevel->m_bIsClientSide)
 		return;
 
 	int count = getResourceCount(&pLevel->m_random);
@@ -1127,12 +1127,12 @@ void Tile::attack(Level* pLevel, const TilePos& pos, Player* player)
 
 }
 
-void Tile::playerDestroy(Level* level, Player* player, const TilePos& pos, int data)
+void Tile::playerDestroy(Level* level, Player* player, const TilePos& pos, TileData data)
 {
 	spawnResources(level, pos, data);
 }
 
-void Tile::playerWillDestroy(Player* player, const TilePos& pos, int data)
+void Tile::playerWillDestroy(Player* player, const TilePos& pos, TileData data)
 {
 
 }

@@ -9,7 +9,7 @@
 #include "Bush.hpp"
 #include "world/level/Level.hpp"
 
-Bush::Bush(int id, int texture) : Tile(id, Material::plant)
+Bush::Bush(TileID id, int texture) : Tile(id, Material::plant)
 {
 	m_TextureFrame = texture;
 	setTicking(true);

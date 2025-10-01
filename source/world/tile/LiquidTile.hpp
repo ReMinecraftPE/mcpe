@@ -23,15 +23,15 @@ public:
 	float getBrightness(const LevelSource*, const TilePos& pos) const override;
 	int getRenderLayer() const override;
 	int getRenderShape() const override;
-	int getResource(int, Random*) const override;
+	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;
 	int getTexture(Facing::Name face) const override;
-	int getTexture(Facing::Name face, int data) const override;
+	int getTexture(Facing::Name face, TileData data) const override;
 	int getTickDelay() const override;
 	void handleEntityInside(Level*, const TilePos& pos, const Entity*, Vec3&) override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
-	bool mayPick(int data, bool b) const override;
+	bool mayPick(TileData data, bool b) const override;
 	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
 
 	void updateLiquid(Level*, const TilePos& pos);
@@ -44,7 +44,7 @@ public:
 	static float getSlopeAngle(const LevelSource*, const TilePos& pos, const Material* pMtl);
 
 	// @NOTE: This is inlined in minecraftcpp
-	static float getWaterVolume(int data)
+	static float getWaterVolume(TileData data)
 	{
 		if (data >= 8)
 			data = 0;

@@ -560,7 +560,10 @@ enum eRenderLayer
 };
 
 typedef uint8_t TileID;
-// TODO: "FullTile" struct with TileID and auxvalue?
+// @TODO: Rename this to "TileTypeId"
+// Rename "Tile" to "TileType"
+// Create "Tile" class containing TileTypeId, and TileData
+typedef uint8_t TileData;
 
 /*struct Pos
 {

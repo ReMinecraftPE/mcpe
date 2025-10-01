@@ -184,7 +184,7 @@ void FireTile::tick(Level* level, const TilePos& pos, Random* random)
 		return;
 	}
 	
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 	if (data <= 14)
 	{
 		level->setData(pos, data + 1);

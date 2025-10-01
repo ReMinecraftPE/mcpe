@@ -14,7 +14,7 @@ TreeTile::TreeTile(int id) : Tile(id, Material::wood)
 	m_TextureFrame = TEXTURE_LOG_SIDE;
 }
 
-int TreeTile::getResource(int x, Random* random) const
+int TreeTile::getResource(TileData data, Random* random) const
 {
 	return Tile::treeTrunk->m_ID;
 }
@@ -29,7 +29,7 @@ int TreeTile::getSpawnResourcesAuxValue(int x) const
 	return x;
 }
 
-int TreeTile::getTexture(Facing::Name face, int data) const
+int TreeTile::getTexture(Facing::Name face, TileData data) const
 {
 	if (face == Facing::UP || face == Facing::DOWN)
 		return TEXTURE_LOG_TOP;
@@ -61,7 +61,7 @@ void TreeTile::onRemove(Level* level, const TilePos& pos)
 				TileID tid = level->getTile(pos + tp);
 				if (tid != Tile::leaves->m_ID) continue;
 
-				int data = level->getData(pos + tp);
+				TileData data = level->getData(pos + tp);
 				if (data & 4)
 					continue;
 

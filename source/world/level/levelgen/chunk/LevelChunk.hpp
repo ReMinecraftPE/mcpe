@@ -11,11 +11,11 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
-#include "common/Utils.hpp"
 #include "common/Random.hpp"
 #include "client/renderer/LightLayer.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/level/levelgen/chunk/ChunkTilePos.hpp"
+#include "world/level/levelgen/chunk/DataLayer.hpp"
 
 class Level;
 class AABB;
@@ -61,9 +61,9 @@ public:
 	virtual void getEntities(Entity* pEntExclude, const AABB&, std::vector<Entity*>& out);
 	virtual TileID getTile(const ChunkTilePos& pos);
 	virtual bool setTile(const ChunkTilePos& pos, TileID tile);
-	virtual bool setTileAndData(const ChunkTilePos& pos, TileID tile, int data);
-	virtual int  getData(const ChunkTilePos& pos);
-	virtual void setData(const ChunkTilePos& pos, int data);
+	virtual bool setTileAndData(const ChunkTilePos& pos, TileID tile, TileData data);
+	virtual TileData getData(const ChunkTilePos& pos);
+	virtual bool setData(const ChunkTilePos& pos, TileData data);
 	virtual void setBlocks(uint8_t* pData, int y);
 	virtual int  getBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
 	virtual int  setBlocksAndData(uint8_t* pData, int, int, int, int, int, int, int);
@@ -76,16 +76,12 @@ public:
 	static bool touchedSky;
 
 public:
-
 	int field_4;
 	bool m_bLoaded;
 	Level* m_pLevel;
-	uint8_t* m_tileData;
-	int      m_tileDataCnt;
-	uint8_t* m_lightSky;
-	int      m_lightSkyCnt;
-	uint8_t* m_lightBlk;
-	int      m_lightBlkCnt;
+	DataLayer m_tileData;
+	DataLayer m_lightSky;
+	DataLayer m_lightBlk;
 	uint8_t m_heightMap[256];
 	uint8_t m_updateMap[256];
 	int field_228;

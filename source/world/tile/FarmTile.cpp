@@ -9,7 +9,7 @@
 #include "FarmTile.hpp"
 #include "world/level/Level.hpp"
 
-FarmTile::FarmTile(int a, Material* c) : Tile(a, c)
+FarmTile::FarmTile(TileID id, Material* c) : Tile(id, c)
 {
 	m_TextureFrame = TEXTURE_FARMLAND_DRY;
 
@@ -33,12 +33,12 @@ AABB* FarmTile::getAABB(const Level*, const TilePos& pos)
 	return &m_aabbReturned;
 }
 
-int FarmTile::getResource(int x, Random* random) const
+int FarmTile::getResource(TileData data, Random* random) const
 {
-	return Tile::dirt->getResource(x, random);
+	return Tile::dirt->getResource(data, random);
 }
 
-int FarmTile::getTexture(Facing::Name face, int data) const
+int FarmTile::getTexture(Facing::Name face, TileData data) const
 {
 	if (face == Facing::UP)
 	{
@@ -106,7 +106,7 @@ void FarmTile::tick(Level* level, const TilePos& pos, Random* random)
 	}
 	else
 	{
-		int data = level->getData(pos);
+		TileData data = level->getData(pos);
 
 		if (data <= 0)
 			level->setTile(pos, Tile::dirt->m_ID);

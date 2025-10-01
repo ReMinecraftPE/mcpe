@@ -20,7 +20,7 @@ public:
 	TileRenderer();
 	TileRenderer(LevelSource*);
 	float getWaterHeight(const TilePos& pos, const Material*);
-	void renderTile(Tile*, int data, float bright = 1.0f, bool preshade = false);
+	void renderTile(Tile*, TileData data, float bright = 1.0f, bool preshade = false);
 
 	// TODO
 
@@ -34,7 +34,7 @@ public:
 	void renderNorth(Tile*, const Vec3& pos, int texture);
 	void renderFaceDown(Tile*, const Vec3& pos, int texture);
 	void renderFaceUp(Tile*, const Vec3& pos, int texture);
-	void tesselateCrossTexture(Tile* tile, int data, const Vec3& pos);
+	void tesselateCrossTexture(Tile* tile, TileData data, const Vec3& pos);
 	void tesselateTorch(Tile*, const Vec3& pos, float a, float b);
 	
 	bool tesselateBlockInWorldWithAmbienceOcclusion(Tile*, const TilePos& pos, float r, float g, float b);

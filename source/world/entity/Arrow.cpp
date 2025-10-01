@@ -235,7 +235,7 @@ void Arrow::tick()
 
 void Arrow::playerTouch(Player* pPlayer)
 {
-    if (!m_pLevel->m_bIsOnline)
+    if (!m_pLevel->m_bIsClientSide)
     {
         // had m_owner == pPlayer, but this logic breaks when loaded from a save, and m_owner is null
         if (m_bInGround && m_bIsPlayerOwned && m_shakeTime <= 0)

@@ -5,8 +5,8 @@
 class GlowstoneTile : public Tile
 {
 public:
-	GlowstoneTile(int id, int texture, Material* material);
+	GlowstoneTile(TileID id, int texture, Material* material);
 
-	int getResource(int, Random*) const override;
+	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;
 };

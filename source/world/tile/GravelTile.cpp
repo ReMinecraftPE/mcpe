@@ -13,7 +13,7 @@ GravelTile::GravelTile(int a, int b, Material* c) : SandTile(a, b, c)
 {
 }
 
-int GravelTile::getResource(int data, Random* random) const
+int GravelTile::getResource(TileData data, Random* random) const
 {
 	return random->nextInt(10) == 0 ? Item::flint->m_itemID : SandTile::getResource(data, random);
 }

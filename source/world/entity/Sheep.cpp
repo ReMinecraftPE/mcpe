@@ -42,7 +42,7 @@ void Sheep::_defineEntityData()
 
 bool Sheep::hurt(Entity* pEnt, int damage)
 {
-	if (!m_pLevel->m_bIsOnline && !isSheared() && (pEnt != nullptr && pEnt->getDescriptor().hasCategory(EntityCategories::MOB)))
+	if (!m_pLevel->m_bIsClientSide && !isSheared() && (pEnt != nullptr && pEnt->getDescriptor().hasCategory(EntityCategories::MOB)))
 	{
 		setSheared(true);
 		int var3 = 1 + m_random.nextInt(3);

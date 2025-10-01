@@ -76,7 +76,7 @@ float Region::getBrightness(const TilePos& pos) const
 	return m_pLevel->m_pDimension->field_10[getRawBrightness(pos)];
 }
 
-int Region::getData(const TilePos& pos) const
+TileData Region::getData(const TilePos& pos) const
 {
 	if (pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
 		return 0;

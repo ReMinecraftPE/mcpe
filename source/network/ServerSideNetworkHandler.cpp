@@ -249,17 +249,17 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlaceBlock
 
 	pMob->swing();
 
-	TileID tileId = packet->m_tileId;
+	TileID tileId = packet->m_tileTypeId;
 	Facing::Name face = (Facing::Name)packet->m_face;
 	TilePos pos = packet->m_pos;
-	uint8_t auxValue = packet->m_auxValue;
+	TileData data = packet->m_data;
 
 	printf_ignorable("PlaceBlockPacket: %d", tileId);
 
 	if (!m_pLevel->mayPlace(tileId, pos, true))
 		return;
 
-	if (m_pLevel->setTileAndData(pos, tileId, auxValue))
+	if (m_pLevel->setTileAndData(pos, tileId, data))
 	{
 		Tile* pTile = Tile::tiles[tileId];
 		pTile->setPlacedOnFace(m_pLevel, pos, face);
@@ -368,13 +368,9 @@ void ServerSideNetworkHandler::tileBrightnessChanged(const TilePos& pos)
 void ServerSideNetworkHandler::tileChanged(const TilePos& pos)
 {
 	UpdateBlockPacket ubp;
-
-	int tile = m_pLevel->getTile(pos);
-	int data = m_pLevel->getData(pos);
-
 	ubp.m_pos = pos;
-	ubp.m_tile = uint8_t(tile);
-	ubp.m_data = uint8_t(data);
+	ubp.m_tileTypeId = m_pLevel->getTile(pos);
+	ubp.m_data = m_pLevel->getData(pos);
 
 	RakNet::BitStream bs;
 	ubp.write(&bs);

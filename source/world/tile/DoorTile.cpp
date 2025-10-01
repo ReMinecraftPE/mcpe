@@ -26,7 +26,7 @@ int DoorTile::use(Level* level, const TilePos& pos, Player* player)
 	if (m_pMaterial == Material::metal)
 		return 1;
 
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 
 	// if we're the top tile
 	if (data & 8)
@@ -83,7 +83,7 @@ AABB* DoorTile::getAABB(const Level* level, const TilePos& pos)
 	return Tile::getAABB(level, pos);
 }
 
-int DoorTile::getDir(int data) const
+int DoorTile::getDir(TileData data) const
 {
 	if (!isOpen(data))
 		return (data - 1) & 3;
@@ -96,7 +96,7 @@ int DoorTile::getRenderShape() const
 	return SHAPE_DOOR;
 }
 
-int DoorTile::getResource(int data, Random* random) const
+int DoorTile::getResource(TileData data, Random* random) const
 {
 	// breaking the top of the tile doesn't drop anything.
 	// In JE, it probably fixed a certain dupe glitch with doors
@@ -109,7 +109,7 @@ int DoorTile::getResource(int data, Random* random) const
 	return Item::door_iron->m_itemID;
 }
 
-int DoorTile::getTexture(Facing::Name face, int data) const
+int DoorTile::getTexture(Facing::Name face, TileData data) const
 {
 	if (face == Facing::DOWN || face == Facing::UP)
 		return m_TextureFrame;
@@ -178,7 +178,7 @@ void DoorTile::updateShape(const LevelSource* level, const TilePos& pos)
 
 void DoorTile::setOpen(Level* level, const TilePos& pos, bool bOpen)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 	if (isTop(data))
 	{
 		if (level->getTile(pos.below()) == m_ID)

@@ -13,12 +13,12 @@
 class TopSnowTile : public Tile
 {
 public:
-	TopSnowTile(int id, int texture, Material* pMtl);
+	TopSnowTile(TileID id, int texture, Material* pMtl);
 
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
-	int getResource(int, Random*) const override;
+	int getResource(TileData data, Random*) const override;
 	int getResourceCount(Random*) const override;
 	bool mayPlace(const Level*, const TilePos& pos) const override;
 	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;

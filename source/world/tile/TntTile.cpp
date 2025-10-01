@@ -33,10 +33,10 @@ int TntTile::getTexture(Facing::Name face) const
 	return m_TextureFrame;
 }
 
-void TntTile::destroy(Level* level, const TilePos& pos, int data)
+void TntTile::destroy(Level* level, const TilePos& pos, TileData data)
 {
 	// prevent players from using this in multiplayer, to prevent a desync of player IDs
-	if (level->m_bIsOnline) return;
+	if (level->m_bIsClientSide) return;
 
 	level->addEntity(new PrimedTnt(level, Vec3(pos) + 0.5f));
 }

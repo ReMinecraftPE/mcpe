@@ -18,7 +18,7 @@ public:
 	virtual ~LevelSource();
 	virtual TileID getTile(const TilePos& pos) const = 0;
 	virtual float getBrightness(const TilePos& pos) const = 0;
-	virtual int getData(const TilePos& pos) const = 0;
+	virtual TileData getData(const TilePos& pos) const = 0;
 	virtual Material* getMaterial(const TilePos& pos) const = 0;
 	virtual bool isSolidTile(const TilePos& pos) const = 0;
 	virtual BiomeSource* getBiomeSource() const = 0;

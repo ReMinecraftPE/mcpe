@@ -9,7 +9,7 @@
 #include "Feature.hpp"
 #include "world/level/Level.hpp"
 
-SpringFeature::SpringFeature(int id)
+SpringFeature::SpringFeature(TileID id)
 {
 	m_ID = id;
 }

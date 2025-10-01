@@ -9,12 +9,12 @@
 #include "OreTile.hpp"
 #include "world/level/Level.hpp"
 
-OreTile::OreTile(int id, int texture) : Tile(id, texture, Material::stone)
+OreTile::OreTile(TileID id, int texture) : Tile(id, texture, Material::stone)
 {
 
 }
 
-int OreTile::getResource(int x, Random* random) const
+int OreTile::getResource(TileData data, Random* random) const
 {
 	return m_ID;
 }

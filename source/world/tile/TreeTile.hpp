@@ -15,9 +15,9 @@ class TreeTile : public Tile
 public:
 	TreeTile(int ID);
 
-	int getResource(int, Random*) const override;
+	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;
 	int getSpawnResourcesAuxValue(int) const override;
-	int getTexture(Facing::Name face, int data) const override;
+	int getTexture(Facing::Name face, TileData data) const override;
 	void onRemove(Level*, const TilePos& pos) override;
 };

@@ -9,7 +9,7 @@
 #include "Feature.hpp"
 #include "world/level/Level.hpp"
 
-OreFeature::OreFeature(int id, int count)
+OreFeature::OreFeature(TileID id, int count)
 {
 	m_ID = id;
 	m_count = count;

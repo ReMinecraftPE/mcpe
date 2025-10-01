@@ -9,7 +9,7 @@
 #include "Feature.hpp"
 #include "world/level/Level.hpp"
 
-FlowerFeature::FlowerFeature(int id)
+FlowerFeature::FlowerFeature(TileID id)
 {
 	m_ID = id;
 }

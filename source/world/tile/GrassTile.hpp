@@ -13,9 +13,9 @@
 class GrassTile : public Tile
 {
 public:
-	GrassTile(int ID, Material*);
+	GrassTile(TileID ID, Material*);
 
-	int getResource(int, Random*) const override;
+	int getResource(TileData, Random*) const override;
 	int getColor(const LevelSource*, const TilePos& pos) const override;
 	int getTexture(Facing::Name face) const override;
 	int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const override;

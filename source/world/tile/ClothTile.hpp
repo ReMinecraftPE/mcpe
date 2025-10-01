@@ -14,7 +14,7 @@ class ClothTile : public Tile
 {
 public:
 	ClothTile(int id);
-	int getTexture(Facing::Name face, int data) const override;
+	int getTexture(Facing::Name face, TileData data) const override;
 	int getSpawnResourcesAuxValue(int val) const override;
 	static int getColorFromData(int var0)
 	{

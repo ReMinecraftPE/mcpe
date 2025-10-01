@@ -13,7 +13,7 @@
 class LeafTile : public TransparentTile
 {
 public:
-	LeafTile(int id);
+	LeafTile(TileID id);
 	~LeafTile();
 
 private:
@@ -22,12 +22,12 @@ private:
 
 public:
 	int getColor(const LevelSource*, const TilePos& pos) const override;
-	int getTexture(Facing::Name face, int data) const override;
+	int getTexture(Facing::Name face, TileData data) const override;
 	bool isSolidRender() const override;
 	void onRemove(Level*, const TilePos& pos) override;
 	void stepOn(Level*, const TilePos& pos, Entity*) override;
 	void tick(Level*, const TilePos& pos, Random*) override;
-	int getResource(int x, Random* random) const override;
+	int getResource(TileData data, Random* random) const override;
 	int getSpawnResourcesAuxValue(int x) const override;
 
 	void die(Level*, const TilePos& pos);

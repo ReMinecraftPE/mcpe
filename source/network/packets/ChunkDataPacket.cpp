@@ -38,8 +38,8 @@ void ChunkDataPacket::write(RakNet::BitStream* bs)
 				int idx = ((i & 0xF) << 11) | ((i >> 4) << 7) + (y * 16);
 				//write the tile data
 				
-				m_data.Write((const char*) &m_pChunk->m_pBlockData[idx],      16 * sizeof(TileID));
-				m_data.Write((const char*) &m_pChunk->m_tileData  [idx >> 1], 8);
+				m_data.Write((const char*) &m_pChunk->m_pBlockData[idx], 16 * sizeof(TileID));
+				m_data.Write((const char*) &m_pChunk->m_tileData.m_data[idx >> 1], 8);
 			}
 		}
 	}

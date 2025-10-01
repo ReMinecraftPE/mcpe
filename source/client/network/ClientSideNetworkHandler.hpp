@@ -17,7 +17,7 @@ struct SBufferedBlockUpdate
 	TilePos pos;
 	uint8_t tile, data;
 
-	SBufferedBlockUpdate(const TilePos& pos, TileID tile, int data) :
+	SBufferedBlockUpdate(const TilePos& pos, TileID tile, TileData data) :
 		pos(pos), tile(uint8_t(tile)), data(uint8_t(data))
 	{}
 };
