@@ -3,6 +3,8 @@
 
 #include "DataLayer.hpp"
 
+#include "compat/LegacyCPP.hpp"
+
 DataLayer::DataLayer()
 {
 	m_size = 0;
