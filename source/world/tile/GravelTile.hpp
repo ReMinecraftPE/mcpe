@@ -15,5 +15,5 @@ class GravelTile : public SandTile
 public:
 	GravelTile(int ID, int texture, Material*);
 
-	int getResource(int data, Random* random) const override;
+	int getResource(TileData data, Random* random) const override;
 };

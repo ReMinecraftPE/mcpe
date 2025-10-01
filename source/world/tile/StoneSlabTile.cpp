@@ -29,7 +29,7 @@ bool StoneSlabTile::isCubeShaped() const
 	return m_bFull;
 }
 
-int StoneSlabTile::getResource(int data, Random* random) const
+int StoneSlabTile::getResource(TileData data, Random* random) const
 {
 	return Tile::stoneSlabHalf->m_ID;
 }
@@ -50,7 +50,7 @@ int StoneSlabTile::getTexture(Facing::Name face) const
 	return getTexture(face, 0);
 }
 
-int StoneSlabTile::getTexture(Facing::Name face, int data) const
+int StoneSlabTile::getTexture(Facing::Name face, TileData data) const
 {
 	switch (data)
 	{

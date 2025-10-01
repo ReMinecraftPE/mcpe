@@ -35,7 +35,7 @@ bool LadderTile::isSolidRender() const
 
 AABB* LadderTile::getAABB(const Level* level, const TilePos& pos)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 	switch (data)
 	{
 		case 2:
@@ -57,7 +57,7 @@ AABB* LadderTile::getAABB(const Level* level, const TilePos& pos)
 
 AABB LadderTile::getTileAABB(const Level* level, const TilePos& pos)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 	switch (data)
 	{
 		case 2:
@@ -79,7 +79,7 @@ AABB LadderTile::getTileAABB(const Level* level, const TilePos& pos)
 
 void LadderTile::setPlacedOnFace(Level* level, const TilePos& pos, Facing::Name face)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 
 	if ((data == 0 || face == Facing::NORTH) && level->isSolidTile(pos.south())) data = 2;
 	if ((data == 0 || face == Facing::SOUTH) && level->isSolidTile(pos.north())) data = 3;
@@ -92,7 +92,7 @@ void LadderTile::setPlacedOnFace(Level* level, const TilePos& pos, Facing::Name 
 
 void LadderTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 	switch (data)
 	{
 		case 2:

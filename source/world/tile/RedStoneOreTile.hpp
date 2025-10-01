@@ -13,9 +13,9 @@
 class RedStoneOreTile : public Tile
 {
 public:
-	RedStoneOreTile(int id, int texture, bool bLit);
+	RedStoneOreTile(TileID id, int texture, bool bLit);
 
-	int getResource(int, Random*) const override;
+	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;
 	int getSpawnResourcesAuxValue(int) const override;
 	int getTickDelay() const override;

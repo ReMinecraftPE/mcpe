@@ -21,7 +21,7 @@ int BookshelfTile::getTexture(Facing::Name face) const
 	return m_TextureFrame;
 }
 
-int BookshelfTile::getResource(int data, Random* random) const
+int BookshelfTile::getResource(TileData data, Random* random) const
 {
 	return 0; // would be Book
 }

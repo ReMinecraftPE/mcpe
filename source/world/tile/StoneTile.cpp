@@ -9,11 +9,11 @@
 #include "StoneTile.hpp"
 #include "world/level/Level.hpp"
 
-StoneTile::StoneTile(int a, int b, Material* c) : Tile(a, b, c)
+StoneTile::StoneTile(TileID id, int b, Material* c) : Tile(id, b, c)
 {
 }
 
-int StoneTile::getResource(int a, Random* b) const
+int StoneTile::getResource(TileData data, Random* b) const
 {
 	return Tile::stoneBrick->m_ID;
 }

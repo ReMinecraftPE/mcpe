@@ -191,6 +191,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Spider.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Zombie.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityFactory.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -331,6 +332,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Spider.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Zombie.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityFactory.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

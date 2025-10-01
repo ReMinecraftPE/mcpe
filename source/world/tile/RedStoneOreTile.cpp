@@ -9,14 +9,14 @@
 #include "RedStoneOreTile.hpp"
 #include "world/level/Level.hpp"
 
-RedStoneOreTile::RedStoneOreTile(int id, int texture, bool bLit) : Tile(id, texture, Material::stone)
+RedStoneOreTile::RedStoneOreTile(TileID id, int texture, bool bLit) : Tile(id, texture, Material::stone)
 {
 	m_bLit = bLit;
 	if (bLit)
 		setTicking(true);
 }
 
-int RedStoneOreTile::getResource(int x, Random* random) const
+int RedStoneOreTile::getResource(TileData data, Random* random) const
 {
 	return 0;
 }

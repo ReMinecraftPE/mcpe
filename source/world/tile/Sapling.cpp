@@ -9,11 +9,11 @@
 #include "Sapling.hpp"
 #include "world/level/Level.hpp"
 
-Sapling::Sapling(int id, int texture) : Bush(id, texture)
+Sapling::Sapling(TileID id, int texture) : Bush(id, texture)
 {
 }
 
-int Sapling::getTexture(Facing::Name face, int data) const
+int Sapling::getTexture(Facing::Name face, TileData data) const
 {
 	data &= 3;
 	return data == 1 ? 63 : (data == 2 ? 79 : Bush::getTexture(face, data));
@@ -25,7 +25,7 @@ void Sapling::tick(Level* level, const TilePos& pos, Random* random)
 
 	if (level->getRawBrightness(pos) > 8 && random->nextInt(7) == 0)
 	{
-		int data = level->getData(pos);
+		TileData data = level->getData(pos);
 
 		if (data & 8)
 			growTree(level, pos, random);
@@ -36,7 +36,7 @@ void Sapling::tick(Level* level, const TilePos& pos, Random* random)
 
 void Sapling::growTree(Level* level, const TilePos& pos, Random* random)
 {
-	int data = level->getData(pos) & 3;
+	TileData data = level->getData(pos) & 3;
 	level->setTileNoUpdate(pos, TILE_AIR);
 
 	TreeFeature treeFeature;

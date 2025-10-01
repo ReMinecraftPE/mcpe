@@ -291,17 +291,17 @@ public:
 	PlaceBlockPacket()
 	{
 		m_entityId = 0;
-		m_tileId = TILE_AIR;
+		m_tileTypeId = TILE_AIR;
 		m_face = 0;
-		m_auxValue = 0;
+		m_data = 0;
 	}
-	PlaceBlockPacket(int entityId, const TilePos& pos, TileID tileId, Facing::Name face, uint8_t auxValue)
+	PlaceBlockPacket(int entityId, const TilePos& pos, TileID tileTypeId, Facing::Name face, TileData data)
 	{
 		m_entityId = entityId;
 		m_pos = pos;
-		m_tileId = tileId;
+		m_tileTypeId = tileTypeId;
 		m_face = face;
-		m_auxValue = auxValue;
+		m_data = data;
 	}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
@@ -310,9 +310,9 @@ public:
 public:
 	int m_entityId;
 	TilePos m_pos;
-	TileID m_tileId;
+	TileID m_tileTypeId;
 	uint8_t m_face;
-	uint8_t m_auxValue;
+	TileData m_data;
 };
 
 class RemoveBlockPacket : public Packet
@@ -340,8 +340,8 @@ public:
 	void read(RakNet::BitStream*) override;
 public:
 	TilePos m_pos;
-	TileID m_tile;
-	uint8_t m_data;
+	TileID m_tileTypeId;
+	TileData m_data;
 };
 
 class RequestChunkPacket : public Packet

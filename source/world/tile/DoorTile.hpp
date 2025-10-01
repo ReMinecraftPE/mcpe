@@ -20,8 +20,8 @@ public:
 	HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3) override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	int getRenderShape() const override;
-	int getResource(int data, Random*) const override;
-	int getTexture(Facing::Name face, int data) const override;
+	int getResource(TileData data, Random*) const override;
+	int getTexture(Facing::Name face, TileData data) const override;
 	AABB getTileAABB(const Level*, const TilePos& pos) override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
@@ -30,7 +30,7 @@ public:
 	void neighborChanged(Level*, const TilePos& pos, TileID newTile) override;
 
 	bool blocksLight() const;
-	int getDir(int data) const;
+	int getDir(TileData data) const;
 	void setOpen(Level*, const TilePos& pos, bool bOpen);
 	
 #pragma GCC diagnostic push
@@ -39,11 +39,11 @@ public:
 #pragma GCC diagnostic pop
 
 	// @NOTE: These are inlined.
-	inline static bool isOpen(int data)
+	inline static bool isOpen(TileData data)
 	{
 		return (data & 4) != 0;
 	}
-	inline static bool isTop(int data)
+	inline static bool isTop(TileData data)
 	{
 		return (data & 8) != 0;
 	}

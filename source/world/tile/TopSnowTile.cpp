@@ -9,7 +9,7 @@
 #include "TopSnowTile.hpp"
 #include "world/level/Level.hpp"
 
-TopSnowTile::TopSnowTile(int a, int b, Material* c) : Tile(a, b, c)
+TopSnowTile::TopSnowTile(TileID id, int b, Material* c) : Tile(id, b, c)
 {
 	setShape(0, 0, 0, 1, 0.125f, 1);
 	setTicking(true);
@@ -30,7 +30,7 @@ bool TopSnowTile::isSolidRender() const
 	return false;
 }
 
-int TopSnowTile::getResource(int x, Random* random) const
+int TopSnowTile::getResource(TileData data, Random* random) const
 {
 	return 0;
 }

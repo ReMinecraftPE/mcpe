@@ -96,7 +96,7 @@ float TileRenderer::getWaterHeight(const TilePos& pos, const Material* pCheckMtl
 		Material* pMtl = m_pLevelSource->getMaterial(checkPos);
 		if (pMtl == pCheckMtl)
 		{
-			int data = m_pLevelSource->getData(checkPos);
+			TileData data = m_pLevelSource->getData(checkPos);
 			if (data >= 8 || data == 0)
 			{
 				fHeight += LiquidTile::getWaterVolume(data) * 10.0f;
@@ -526,7 +526,7 @@ void TileRenderer::renderFaceUp(Tile* tile, const Vec3& pos, int texture)
 		tile->updateShape(m_pLevelSource, pos);
 }
 
-void TileRenderer::tesselateCrossTexture(Tile* tile, int data, const Vec3& pos)
+void TileRenderer::tesselateCrossTexture(Tile* tile, TileData data, const Vec3& pos)
 {
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
@@ -1198,7 +1198,7 @@ void TileRenderer::tesselateTorch(Tile* tile, const Vec3& pos, float a, float b)
 
 bool TileRenderer::tesselateTorchInWorld(Tile* tile, const TilePos& pos)
 {
-	int data = m_pLevelSource->getData(pos);
+	TileData data = m_pLevelSource->getData(pos);
 	float bright = tile->getBrightness(m_pLevelSource, pos);
 
 	if (Tile::lightEmission[tile->m_ID] > 0)
@@ -2518,7 +2518,7 @@ LABEL_102:
 
 #endif
 
-void TileRenderer::renderTile(Tile* tile, int data, float bright, bool preshade)
+void TileRenderer::renderTile(Tile* tile, TileData data, float bright, bool preshade)
 {
 	Tesselator& t = Tesselator::instance;
 
@@ -2535,9 +2535,9 @@ void TileRenderer::renderTile(Tile* tile, int data, float bright, bool preshade)
 		case SHAPE_SOLID:
 		default:
 		{
-			// N.B. If caller passes 999, they only want the face-down face.
+			// N.B. If caller passes 255, they only want the face-down face.
 			// This is a hack to accomodate the start menu screen procedurally generated title logo.
-#define IF_NEEDED(x) do { if (data != 999) { (x); } } while (0)
+#define IF_NEEDED(x) do { if (data != 255) { (x); } } while (0)
 
 			glTranslatef(-0.5f, -0.5f, -0.5f);
 			t.begin();
@@ -2906,7 +2906,7 @@ int TileRenderer::getTileColor(Tile* tile, const TilePos& pos)
 	}
 	if (tile == Tile::leaves && FoliageColor::isAvailable() && m_bBiomeColors)
 	{
-		int data = m_pLevelSource->getData(pos);
+		TileData data = m_pLevelSource->getData(pos);
 
 		if ((data & 1) == 1)
 		{

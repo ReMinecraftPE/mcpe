@@ -50,27 +50,27 @@ public: // virtual functions
 	virtual float getBrightness(const LevelSource*, const TilePos& pos) const;
 	virtual bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const;
 	virtual int getTexture(Facing::Name face) const;
-	virtual int getTexture(Facing::Name face, int data) const;
+	virtual int getTexture(Facing::Name face, TileData data) const;
 	virtual int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const;
 	virtual AABB* getAABB(const Level*, const TilePos& pos);
 	virtual void addAABBs(const Level*, const TilePos& pos, const AABB*, std::vector<AABB>&);
 	virtual AABB getTileAABB(const Level*, const TilePos& pos);
 	virtual bool isSolidRender() const;
 	virtual bool mayPick() const;
-	virtual bool mayPick(int, bool) const;
+	virtual bool mayPick(TileData, bool) const;
 	virtual bool mayPlace(const Level*, const TilePos& pos) const;
 	virtual int getTickDelay() const;
 	virtual void tick(Level*, const TilePos& pos, Random*);
 	virtual void animateTick(Level*, const TilePos& pos, Random*);
-	virtual void destroy(Level*, const TilePos& pos, int data);
+	virtual void destroy(Level*, const TilePos& pos, TileData data);
 	virtual void neighborChanged(Level*, const TilePos& pos, TileID tile);
 	virtual void onPlace(Level*, const TilePos& pos);
 	virtual void onRemove(Level*, const TilePos& pos);
-	virtual int getResource(int, Random*) const;
+	virtual int getResource(TileData, Random*) const;
 	virtual int getResourceCount(Random*) const;
 	virtual float getDestroyProgress(Player*) const;
-	virtual void spawnResources(Level*, const TilePos& pos, int);
-	virtual void spawnResources(Level*, const TilePos& pos, int, float);
+	virtual void spawnResources(Level*, const TilePos& pos, TileData data);
+	virtual void spawnResources(Level*, const TilePos& pos, TileData data, float);
 	virtual int spawnBurnResources(Level*, float, float, float);
 	virtual float getExplosionResistance(Entity*) const;
 	virtual HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3);
@@ -89,8 +89,8 @@ public: // virtual functions
 	virtual int getSignal(const LevelSource*, const TilePos& pos, Facing::Name face) const;
 	virtual int getDirectSignal(const Level*, const TilePos& pos, Facing::Name face) const;
 	virtual void entityInside(Level*, const TilePos& pos, Entity*) const;
-	virtual void playerDestroy(Level*, Player*, const TilePos& pos, int);
-	virtual void playerWillDestroy(Player*, const TilePos& pos, int);
+	virtual void playerDestroy(Level*, Player*, const TilePos& pos, TileData data);
+	virtual void playerWillDestroy(Player*, const TilePos& pos, TileData data);
 	virtual bool canSurvive(const Level*, const TilePos& pos) const;
 	virtual std::string getName() const;
 	virtual std::string getDescriptionId() const;
@@ -106,11 +106,11 @@ public: // virtual functions
 
 private:
 	void _init();
-	void _init(int ID, Material* pMaterial, int texture = 1);
+	void _init(TileID ID, Material* pMaterial, int texture = 1);
 	Tile() { _init(); } // consider making public?
 public: // functions
-	Tile(int ID, Material* pMaterial) { _init(ID, pMaterial); }
-	Tile(int ID, int texture, Material* pMaterial) { _init(ID, pMaterial, texture); }
+	Tile(TileID ID, Material* pMaterial) { _init(ID, pMaterial); }
+	Tile(TileID ID, int texture, Material* pMaterial) { _init(ID, pMaterial, texture); }
 
 	Tile* init();
 
@@ -222,7 +222,7 @@ public: // static variables
 
 public:
 	int m_TextureFrame;
-	int m_ID;
+	TileID m_ID;
 	AABB m_aabb;
 	const SoundType* m_pSound;
 	float field_28;

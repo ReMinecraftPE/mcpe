@@ -13,7 +13,7 @@
 class ReedTile : public Tile
 {
 public:
-	ReedTile(int id);
+	ReedTile(TileID id);
 
 	bool canSurvive(const Level*, const TilePos& pos) const override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
@@ -23,7 +23,7 @@ public:
 	bool mayPlace(const Level*, const TilePos& pos) const override;
 	void tick(Level*, const TilePos& pos, Random*) override;
 	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;
-	int getResource(int, Random*) const override;
+	int getResource(TileData data, Random*) const override;
 
 	void checkAlive(Level*, const TilePos& pos);
 };

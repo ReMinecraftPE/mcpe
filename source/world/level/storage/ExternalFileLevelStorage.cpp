@@ -239,12 +239,12 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, const ChunkPos& pos)
 	pBitStream->Read((char*)pData, 16 * 16 * 128 * sizeof(TileID));
 
 	LevelChunk* pChunk = new LevelChunk(level, pData, pos);
-	pBitStream->Read((char*)pChunk->m_tileData, 16 * 16 * 128 / 2);
+	pBitStream->Read((char*)pChunk->m_tileData.m_data, 16 * 16 * 128 / 2);
 
 	if (m_storageVersion >= 1)
 	{
-		pBitStream->Read((char*)pChunk->m_lightSky, 16 * 16 * 128 / 2);
-		pBitStream->Read((char*)pChunk->m_lightBlk, 16 * 16 * 128 / 2);
+		pBitStream->Read((char*)pChunk->m_lightSky.m_data, 16 * 16 * 128 / 2);
+		pBitStream->Read((char*)pChunk->m_lightBlk.m_data, 16 * 16 * 128 / 2);
 	}
 
 	pBitStream->Read((char*)pChunk->m_updateMap, sizeof pChunk->m_updateMap);
@@ -336,13 +336,13 @@ void ExternalFileLevelStorage::save(Level* level, LevelChunk* chunk)
 	}
 
 	RakNet::BitStream bs;
-	bs.Write((const char*)chunk->m_pBlockData, 16 * 16 * 128 * sizeof(TileID));
-	bs.Write((const char*)chunk->m_tileData,   16 * 16 * 128 / 2);
+	bs.Write((const char*)chunk->m_pBlockData,        16 * 16 * 128 * sizeof(TileID));
+	bs.Write((const char*)chunk->m_tileData.m_data, chunk->m_tileData.m_size);
 
 	if (m_pLevelData->getStorageVersion() >= 1)
 	{
-		bs.Write((const char*)chunk->m_lightSky, 16 * 16 * 128 / 2);
-		bs.Write((const char*)chunk->m_lightBlk, 16 * 16 * 128 / 2);
+		bs.Write((const char*)chunk->m_lightSky.m_data, chunk->m_lightSky.m_size);
+		bs.Write((const char*)chunk->m_lightBlk.m_data, chunk->m_lightBlk.m_size);
 	}
 
 	bs.Write((const char*)chunk->m_updateMap, sizeof chunk->m_updateMap);

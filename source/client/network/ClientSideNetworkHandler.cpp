@@ -83,7 +83,7 @@ void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
 	puts_ignorable("onDisconnect");
 
 	if (m_pLevel)
-		m_pLevel->m_bIsOnline = false;
+		m_pLevel->m_bIsClientSide = false;
 
 	m_pMinecraft->m_gui.addMessage("Disconnected from server");
 }
@@ -130,7 +130,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 		pStartGamePkt->m_seed,
 		pStartGamePkt->m_levelVersion);
 
-	m_pLevel->m_bIsOnline = true;
+	m_pLevel->m_bIsClientSide = true;
 
 	GameType gameType = pStartGamePkt->m_gameType != GAME_TYPES_MAX ? pStartGamePkt->m_gameType : m_pLevel->getDefaultGameType();
 	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, gameType, m_pLevel->m_pDimension->field_50);
@@ -220,18 +220,18 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 		return;
 
 	const TilePos& pos = pPlaceBlockPkt->m_pos;
-	TileID tile = pPlaceBlockPkt->m_tileId;
+	TileID tileTypeId = pPlaceBlockPkt->m_tileTypeId;
 	Facing::Name face = (Facing::Name)pPlaceBlockPkt->m_face;
 
-	if (!m_pLevel->mayPlace(tile, pos, true))
+	if (!m_pLevel->mayPlace(tileTypeId, pos, true))
 		return;
 
-	Tile* pTile = Tile::tiles[tile];
-	if (!m_pLevel->setTile(pos, tile))
+	Tile* pTile = Tile::tiles[tileTypeId];
+	if (!m_pLevel->setTile(pos, tileTypeId))
 		return;
 
-	Tile::tiles[tile]->setPlacedOnFace(m_pLevel, pos, face);
-	Tile::tiles[tile]->setPlacedBy(m_pLevel, pos, pPlayer);
+	pTile->setPlacedOnFace(m_pLevel, pos, face);
+	pTile->setPlacedBy(m_pLevel, pos, pPlayer);
 
 	const Tile::SoundType* pSound = pTile->m_pSound;
 	m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
@@ -241,12 +241,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 {
 	puts_ignorable("RemoveBlockPacket");
 
-	Player* pPlayer = (Player*)m_pLevel->getEntity(pRemoveBlockPkt->m_entityId);
-	if (!pPlayer)
+	Entity* pEntity = m_pLevel->getEntity(pRemoveBlockPkt->m_entityId);
+	if (!pEntity || !pEntity->isPlayer())
 	{
 		LOG_E("No player with id %d", pRemoveBlockPkt->m_entityId);
 		return;
 	}
+
+	Player* pPlayer = (Player*)pEntity;
 
 	pPlayer->swing();
 
@@ -256,20 +258,17 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 
 	const TilePos& pos = pRemoveBlockPkt->m_pos;
 	Tile* pTile = Tile::tiles[m_pLevel->getTile(pos)];
-	int data = m_pLevel->getData(pos);
+	int auxValue = m_pLevel->getData(pos);
 
 	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
 
 	bool setTileResult = m_pLevel->setTile(pos, TILE_AIR);
-
 	if (pTile && setTileResult)
 	{
-		m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
-
 		const Tile::SoundType* pSound = pTile->m_pSound;
 		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (1.0f + pSound->volume), 0.8f * pSound->pitch);
 
-		pTile->destroy(m_pLevel, pos, data);
+		pTile->destroy(m_pLevel, pos, auxValue);
 	}
 }
 
@@ -277,11 +276,11 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateB
 {
 	if (!areAllChunksLoaded())
 	{
-		m_bufferedBlockUpdates.push_back(SBufferedBlockUpdate(pkt->m_pos, pkt->m_tile, pkt->m_data));
+		m_bufferedBlockUpdates.push_back(SBufferedBlockUpdate(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data));
 		return;
 	}
 
-	m_pLevel->setTileAndData(pkt->m_pos, pkt->m_tile, pkt->m_data);
+	m_pLevel->setTileAndData(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDataPacket* pChunkDataPkt)
@@ -334,7 +333,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 				}
 
 				int idx = ((k & 0xF) << 11) | ((k >> 4) << 7) + yPos;
-				memcpy(&pChunk->m_tileData[idx >> 1], datas, sizeof datas);
+				memcpy(&pChunk->m_tileData.m_data[idx >> 1], datas, sizeof datas);
 			}
 
 			int ymin = 16 * (1 << j);

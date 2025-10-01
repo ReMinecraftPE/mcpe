@@ -106,9 +106,9 @@ int StairTile::getTexture(Facing::Name face) const
 	return m_pParent->getTexture(face);
 }
 
-int StairTile::getTexture(Facing::Name face, int b) const
+int StairTile::getTexture(Facing::Name face, TileData data) const
 {
-	return m_pParent->getTexture(face, b);
+	return m_pParent->getTexture(face, data);
 }
 
 int StairTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::Name face) const
@@ -126,9 +126,9 @@ bool StairTile::mayPick() const
 	return m_pParent->mayPick();
 }
 
-bool StairTile::mayPick(int a, bool b) const
+bool StairTile::mayPick(TileData data, bool b) const
 {
-	return m_pParent->mayPick(a, b);
+	return m_pParent->mayPick(data, b);
 }
 
 bool StairTile::mayPlace(const Level* level, const TilePos& pos) const
@@ -146,7 +146,7 @@ void StairTile::tick(Level* level, const TilePos& pos, Random* random)
 	m_pParent->tick(level, pos, random);
 }
 
-void StairTile::destroy(Level* level, const TilePos& pos, int data)
+void StairTile::destroy(Level* level, const TilePos& pos, TileData data)
 {
 	m_pParent->destroy(level, pos, data);
 }
@@ -162,9 +162,9 @@ void StairTile::onRemove(Level* level, const TilePos& pos)
 	m_pParent->onRemove(level, pos);
 }
 
-int StairTile::getResource(int a, Random* random) const
+int StairTile::getResource(TileData data, Random* random) const
 {
-	return m_pParent->getResource(a, random);
+	return m_pParent->getResource(data, random);
 }
 
 int StairTile::getResourceCount(Random* random) const
@@ -172,14 +172,14 @@ int StairTile::getResourceCount(Random* random) const
 	return m_pParent->getResourceCount(random);
 }
 
-void StairTile::spawnResources(Level* level, const TilePos& pos, int d)
+void StairTile::spawnResources(Level* level, const TilePos& pos, TileData data)
 {
-	m_pParent->spawnResources(level, pos, d);
+	m_pParent->spawnResources(level, pos, data);
 }
 
-void StairTile::spawnResources(Level* level, const TilePos& pos, int d, float f)
+void StairTile::spawnResources(Level* level, const TilePos& pos, TileData data, float f)
 {
-	m_pParent->spawnResources(level, pos, d, f);
+	m_pParent->spawnResources(level, pos, data, f);
 }
 
 float StairTile::getExplosionResistance(Entity* entity) const
@@ -211,7 +211,7 @@ void StairTile::setPlacedBy(Level* level, const TilePos& pos, Mob* mob)
 {
 	int rot = Mth::floor(0.5f + (mob->m_rot.x * 4.0f / 360.0f)) & 3;
 
-	int data = 0;
+	TileData data = 0;
 
 	switch (rot)
 	{

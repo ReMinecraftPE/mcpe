@@ -237,7 +237,7 @@ void Mob::baseTick()
         hurt(nullptr, 1);
 
     // Java
-    /*if (m_bFireImmune || m_pLevel->m_bIsOnline)
+    /*if (m_bFireImmune || m_pLevel->m_bIsClientSide)
     {
         m_fireTicks = 0;
     }*/
@@ -316,7 +316,7 @@ bool Mob::isAlive() const
 
 bool Mob::hurt(Entity *pAttacker, int damage)
 {
-    if (m_pLevel->m_bIsOnline)
+    if (m_pLevel->m_bIsClientSide)
         return false;
 
     m_noActionTime = 0;
@@ -621,7 +621,7 @@ void Mob::die(Entity* pCulprit)
 
 	field_B69 = true;
 
-	if (!m_pLevel->m_bIsOnline)
+	if (!m_pLevel->m_bIsClientSide)
 		dropDeathLoot();
 }
 

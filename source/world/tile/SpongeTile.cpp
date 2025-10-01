@@ -9,7 +9,7 @@
 #include "SpongeTile.hpp"
 #include "world/level/Level.hpp"
 
-SpongeTile::SpongeTile(int id, int texture) : Tile(id, texture, Material::sponge)
+SpongeTile::SpongeTile(TileID id, int texture) : Tile(id, texture, Material::sponge)
 {
 }
 
@@ -33,7 +33,7 @@ void SpongeTile::onPlace(Level* level, const TilePos& pos)
 	}
 }
 
-void SpongeTile::destroy(Level* level, const TilePos& pos, int data)
+void SpongeTile::destroy(Level* level, const TilePos& pos, TileData data)
 {
 	// give an update to all water around us
 	TilePos o;

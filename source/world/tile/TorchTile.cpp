@@ -122,7 +122,7 @@ void TorchTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 	if (!checkCanSurvive(level, pos))
 		return;
 
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 
 	bool flag = false;
 	if (!level->isSolidTile(pos.west()) && data == 1) flag = true;
@@ -156,7 +156,7 @@ void TorchTile::onPlace(Level* level, const TilePos& pos)
 
 void TorchTile::setPlacedOnFace(Level* level, const TilePos& pos, Facing::Name face)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 
 	switch (face)
 	{

@@ -15,6 +15,6 @@ class ObsidianTile : public Tile
 public:
 	ObsidianTile(int ID, int texture, Material*);
 
-	int getResource(int data, Random*) const override;
+	int getResource(TileData data, Random*) const override;
 	int getResourceCount(Random*) const override;
 };

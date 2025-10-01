@@ -1,7 +1,7 @@
 #include "Web.hpp"
 #include "world/level/Level.hpp"
 
-Web::Web(int id, int texture) : Tile(id, texture, Material::web)
+Web::Web(TileID id, int texture) : Tile(id, texture, Material::web)
 {
 }
 
@@ -25,7 +25,7 @@ void Web::entityInside(Level*, const TilePos& pos, Entity* entity) const
 	entity->m_bIsInWeb = true;
 }
 
-int Web::getResource(int x, Random* random) const
+int Web::getResource(TileData data, Random* random) const
 {
 	return Item::string->m_itemID;
 }

@@ -13,7 +13,7 @@
 class Bush : public Tile
 {
 public:
-	Bush(int id, int texture);
+	Bush(TileID id, int texture);
 
 	virtual bool canSurvive(const Level*, const TilePos& pos) const override;
 	virtual AABB* getAABB(const Level*, const TilePos& pos) override;

@@ -24,6 +24,6 @@ public:
 	int getSlopeDistance(Level*, const TilePos& pos, int depth, int);
 	bool* getSpread(Level*, const TilePos& pos);
 	void setStatic(Level*, const TilePos& pos);
-	void trySpreadTo(Level*, const TilePos& pos, int a);
+	void trySpreadTo(Level*, const TilePos& pos, TileData data);
 	int getSmallestDepth(Level*, const TilePos& pos, int oldDepth);
 };

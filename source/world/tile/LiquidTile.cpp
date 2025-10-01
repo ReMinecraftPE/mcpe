@@ -148,7 +148,7 @@ int LiquidTile::getRenderShape() const
 	return SHAPE_WATER;
 }
 
-int LiquidTile::getResource(int x, Random* random) const
+int LiquidTile::getResource(TileData data, Random* random) const
 {
 	return 0;
 }
@@ -180,7 +180,7 @@ int LiquidTile::getTexture(Facing::Name face) const
 	return m_TextureFrame;
 }
 
-int LiquidTile::getTexture(Facing::Name face, int data) const
+int LiquidTile::getTexture(Facing::Name face, TileData data) const
 {
 	// @TODO: revert to using Tile::getTexture
 	return Tile::getTexture(face, data);
@@ -211,7 +211,7 @@ bool LiquidTile::isSolidRender() const
 	return false;
 }
 
-bool LiquidTile::mayPick(int data, bool b) const
+bool LiquidTile::mayPick(TileData data, bool b) const
 {
 	if (!b)
 		return false;
@@ -261,7 +261,7 @@ void LiquidTile::updateLiquid(Level* level, const TilePos& pos)
 		level->getMaterial(pos.above()) == Material::water)
 	{
 		Tile* newTile;
-		int data = level->getData(pos);
+		TileData data = level->getData(pos);
 
 		if (data == 0)
 		{

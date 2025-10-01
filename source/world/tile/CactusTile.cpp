@@ -69,7 +69,7 @@ void CactusTile::tick(Level* level, const TilePos& pos, Random* random)
 		}
 		if (height < 3) 
 		{
-			int data = level->getData(pos);
+			TileData data = level->getData(pos);
 			if (data == 15) 
 			{
 				level->setTile(above, m_ID);

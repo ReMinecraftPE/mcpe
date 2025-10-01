@@ -265,7 +265,7 @@ bool Minecraft::isOnlineClient() const
 	if (!m_pLevel)
 		return false;
 
-	return m_pLevel->m_bIsOnline;
+	return m_pLevel->m_bIsClientSide;
 }
 
 bool Minecraft::isTouchscreen() const
@@ -748,7 +748,7 @@ void Minecraft::tick()
 		if (m_pLevel && !isGamePaused())
 		{
             m_pLevel->m_difficulty = m_options->m_difficulty;
-            if (m_pLevel->m_bIsOnline)
+            if (m_pLevel->m_bIsClientSide)
             {
                 m_pLevel->m_difficulty = 3;
             }

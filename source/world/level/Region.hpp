@@ -17,7 +17,7 @@ public:
 	int getRawBrightness(const TilePos& pos, bool b) const;
 	int getRawBrightness(const TilePos& pos) const;
 	float getBrightness(const TilePos& pos) const override;
-	int getData(const TilePos& pos) const override;
+	TileData getData(const TilePos& pos) const override;
 	Material* getMaterial(const TilePos& pos) const override;
 	bool isSolidTile(const TilePos& pos) const override;
 	BiomeSource* getBiomeSource() const override;

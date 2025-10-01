@@ -17,7 +17,7 @@
 #define C_BIRCH_LEAF 2
 #define C_LEAF_TYPE_MASK 3
 
-LeafTile::LeafTile(int id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, Material::leaves, false)
+LeafTile::LeafTile(TileID id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, Material::leaves, false)
 {
 	m_checkBuffer = nullptr;
 
@@ -35,7 +35,7 @@ LeafTile::~LeafTile()
 
 void LeafTile::_tickDecayOld(Level* level, const TilePos& pos)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 	if ((data & C_UPDATE_LEAF_BIT) == 0)
 		return;
 	
@@ -114,7 +114,7 @@ void LeafTile::_tickDecayOld(Level* level, const TilePos& pos)
 
 void LeafTile::_tickDecay(Level* level, const TilePos& pos)
 {
-	int data = level->getData(pos);
+	TileData data = level->getData(pos);
 	if ((data & C_UPDATE_LEAF_BIT) == 0)
 		return;
 
@@ -199,7 +199,7 @@ int LeafTile::getColor(const LevelSource* level, const TilePos& pos) const
 	return 0xffffff;
 }
 
-int LeafTile::getTexture(Facing::Name face, int data) const
+int LeafTile::getTexture(Facing::Name face, TileData data) const
 {
 	if ((data & C_LEAF_TYPE_MASK) == 1)
 		return m_TextureFrame + 80;
@@ -239,13 +239,13 @@ void LeafTile::onRemove(Level* level, const TilePos& pos)
 
 void LeafTile::tick(Level* level, const TilePos& pos, Random* random)
 {
-	if (level->m_bIsOnline)
+	if (level->m_bIsClientSide)
 		return;
 
 	_tickDecay(level, pos);
 }
 
-int LeafTile::getResource(int x, Random* random) const
+int LeafTile::getResource(TileData data, Random* random) const
 {
 	return random->nextInt(20) == 0 ? Tile::sapling->m_ID : 0;
 }

@@ -1319,6 +1319,9 @@
 		84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */; };
 		84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8F12AF1EAFA000894E8 /* main.cpp */; };
 		84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */; };
+		84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */; };
+		84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */; };
+		84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
 		84FFBE962ACA3415005A8CCF /* Base64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73E2AC810620006A435 /* Base64Encoder.cpp */; };
 		84FFBE972ACA3415005A8CCF /* BitStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7402AC810620006A435 /* BitStream.cpp */; };
@@ -3029,6 +3032,9 @@
 		84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP.hpp; sourceTree = "<group>"; };
 		84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Compat.hpp; sourceTree = "<group>"; };
 		84EDD07C2E76E2B600375AEF /* LegacyCPP_Info.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Info.hpp; sourceTree = "<group>"; };
+		84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataLayer.cpp; sourceTree = "<group>"; };
+		84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataLayer.hpp; sourceTree = "<group>"; };
+		84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileChange.hpp; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -3651,25 +3657,26 @@
 		840DD67E2AC810620006A435 /* level */ = {
 			isa = PBXGroup;
 			children = (
-				840DD6802AC810620006A435 /* Dimension.hpp */,
 				840DD67F2AC810620006A435 /* Dimension.cpp */,
-				840DD6822AC810620006A435 /* Explosion.hpp */,
+				840DD6802AC810620006A435 /* Dimension.hpp */,
 				840DD6812AC810620006A435 /* Explosion.cpp */,
-				840DD6842AC810620006A435 /* Level.hpp */,
+				840DD6822AC810620006A435 /* Explosion.hpp */,
 				840DD6832AC810620006A435 /* Level.cpp */,
+				840DD6842AC810620006A435 /* Level.hpp */,
 				840DD6852AC810620006A435 /* levelgen */,
-				840DD6B02AC810620006A435 /* LevelListener.hpp */,
 				840DD6AF2AC810620006A435 /* LevelListener.cpp */,
-				840DD6B22AC810620006A435 /* Material.hpp */,
+				840DD6B02AC810620006A435 /* LevelListener.hpp */,
 				840DD6B12AC810620006A435 /* Material.cpp */,
+				840DD6B22AC810620006A435 /* Material.hpp */,
 				84AA8B472B32F39A003F5B82 /* path */,
-				840DD6B42AC810620006A435 /* Region.hpp */,
 				840DD6B32AC810620006A435 /* Region.cpp */,
+				840DD6B42AC810620006A435 /* Region.hpp */,
 				840DD6B52AC810620006A435 /* storage */,
-				840DD6CD2AC810620006A435 /* TickNextTickData.hpp */,
 				840DD6CC2AC810620006A435 /* TickNextTickData.cpp */,
-				8477B3AB2C4DC3F6004E1AC5 /* TilePos.hpp */,
+				840DD6CD2AC810620006A435 /* TickNextTickData.hpp */,
+				84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */,
 				8477B3AA2C4DC3F6004E1AC5 /* TilePos.cpp */,
+				8477B3AB2C4DC3F6004E1AC5 /* TilePos.hpp */,
 			);
 			path = level;
 			sourceTree = "<group>";
@@ -3706,6 +3713,8 @@
 				840DD68E2AC810620006A435 /* ChunkSource.cpp */,
 				840DD68F2AC810620006A435 /* ChunkSource.hpp */,
 				8477B3B02C4DC414004E1AC5 /* ChunkTilePos.hpp */,
+				84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */,
+				84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */,
 				8477B3B12C4DC414004E1AC5 /* EmptyLevelChunk.cpp */,
 				8477B3B22C4DC414004E1AC5 /* EmptyLevelChunk.hpp */,
 				840DD6902AC810620006A435 /* LevelChunk.cpp */,
@@ -5744,6 +5753,7 @@
 				84BF639E2AF186C8008A9995 /* Region.hpp in Headers */,
 				84BF639F2AF186C8008A9995 /* ChunkStorage.hpp in Headers */,
 				84BF63A02AF186C8008A9995 /* ExternalFileLevelStorage.hpp in Headers */,
+				84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */,
 				84BF63A12AF186C8008A9995 /* ExternalFileLevelStorageSource.hpp in Headers */,
 				84BF63A22AF186C8008A9995 /* LevelData.hpp in Headers */,
 				84BF63A32AF186C8008A9995 /* LevelSource.hpp in Headers */,
@@ -5820,6 +5830,7 @@
 				84B1E03E2E04FD7900ED000A /* Spider.hpp in Headers */,
 				84AA8B8D2B32F3B5003F5B82 /* PathfinderMob.hpp in Headers */,
 				84AA8B8F2B32F3B5003F5B82 /* Pig.hpp in Headers */,
+				84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */,
 				8477B3BB2C4DC42E004E1AC5 /* Vec2.hpp in Headers */,
 				8477B3B42C4DC414004E1AC5 /* ChunkPos.hpp in Headers */,
 				84AA8B972B32F3B5003F5B82 /* WaterAnimal.hpp in Headers */,
@@ -7063,6 +7074,7 @@
 				84BF63242AF18631008A9995 /* ChunkSource.cpp in Sources */,
 				84BF63252AF18631008A9995 /* LevelChunk.cpp in Sources */,
 				84BF63262AF18631008A9995 /* PerformanceTestChunkSource.cpp in Sources */,
+				84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */,
 				84BF63272AF18631008A9995 /* RandomLevelSource.cpp in Sources */,
 				84E1C9E72E7FDC72007D2F5D /* ClothItem.cpp in Sources */,
 				84BF63282AF18631008A9995 /* TestChunkSource.cpp in Sources */,

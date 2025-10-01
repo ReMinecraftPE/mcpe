@@ -17,7 +17,7 @@
 Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
-	m_bIsOnline = false;
+	m_bIsClientSide = false;
 	m_bPostProcessing = false;
 	m_skyDarken = 0;
 	field_30 = 0;
@@ -151,7 +151,7 @@ TileID Level::getTile(const TilePos& pos) const
 	return pChunk->getTile(pos);
 }
 
-int Level::getData(const TilePos& pos) const
+TileData Level::getData(const TilePos& pos) const
 {
 	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
 	if (pos.x < C_MIN_X || pos.z < C_MIN_Z || pos.x >= C_MAX_X || pos.z > C_MAX_Z || pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
@@ -227,10 +227,10 @@ int Level::getRawBrightness(const TilePos& pos, bool b) const
 
 void Level::swap(const TilePos& pos1, const TilePos& pos2)
 {
-	int tile1 = getTile(pos1);
-	int data1 = getData(pos1);
-	int tile2 = getTile(pos2);
-	int data2 = getData(pos2);
+	TileID tile1 = getTile(pos1);
+	TileData data1 = getData(pos1);
+	TileID tile2 = getTile(pos2);
+	TileData data2 = getData(pos2);
 
 	setTileAndDataNoUpdate(pos1, tile2, data2);
 	setTileAndDataNoUpdate(pos2, tile1, data1);
@@ -553,17 +553,9 @@ bool Level::isSkyLit(const TilePos& pos) const
 	return getChunk(pos)->isSkyLit(pos);
 }
 
-bool Level::setTileAndDataNoUpdate(const TilePos& pos, TileID tile, int data)
+bool Level::setTileAndDataNoUpdate(const TilePos& pos, TileID tile, TileData data)
 {
-	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
-	if (pos.x < C_MIN_X || pos.z < C_MIN_Z || pos.x >= C_MAX_X || pos.z > C_MAX_Z || pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
-		// there's nothing out there!
-		return false;
-
-	if (!hasChunk(pos))
-		return false;
-
-	return getChunk(pos)->setTileAndData(pos, tile, data);
+	return setTileAndData(pos, tile, data, TileChange::UPDATE_SILENT);
 }
 
 int Level::getHeightmap(const TilePos& pos)
@@ -591,7 +583,7 @@ void Level::lightColumnChanged(int x, int z, int y1, int y2)
 	setTilesDirty(TilePos(x, y1, z), TilePos(x, y2, z));
 }
 
-bool Level::setDataNoUpdate(const TilePos& pos, int data)
+bool Level::setDataNoUpdate(const TilePos& pos, TileData data)
 {
 	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
 	if (pos.x < C_MIN_X || pos.z < C_MIN_Z || pos.x >= C_MAX_X || pos.z > C_MAX_Z || pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
@@ -611,15 +603,7 @@ bool Level::setDataNoUpdate(const TilePos& pos, int data)
 
 bool Level::setTileNoUpdate(const TilePos& pos, TileID tile)
 {
-	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
-	if (pos.x < C_MIN_X || pos.z < C_MIN_Z || pos.x >= C_MAX_X || pos.z > C_MAX_Z || pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
-		// there's nothing out there!
-		return false;
-
-	if (!hasChunk(pos))
-		return false;
-
-	return getChunk(pos)->setTile(pos, tile);
+	return setTileAndDataNoUpdate(pos, tile, 0);
 }
 
 void Level::sendTileUpdated(const TilePos& pos)
@@ -633,7 +617,7 @@ void Level::sendTileUpdated(const TilePos& pos)
 
 void Level::neighborChanged(const TilePos& pos, TileID tile)
 {
-	if (field_30 || m_bIsOnline) return;
+	if (field_30 || m_bIsClientSide) return;
 
 	Tile* pTile = Tile::tiles[getTile(pos)];
 	if (pTile)
@@ -652,38 +636,96 @@ void Level::updateNeighborsAt(const TilePos& pos, TileID tile)
 
 void Level::tileUpdated(const TilePos& pos, TileID tile)
 {
-	sendTileUpdated(pos);
+	//sendTileUpdated(pos); // not in 0.7.0
 	updateNeighborsAt(pos, tile);
 }
 
-bool Level::setTileAndData(const TilePos& pos, TileID tile, int data)
+bool Level::setTileAndData(const TilePos& pos, TileID tile, TileData data, TileChange::UpdateFlags updateFlags)
 {
-	if (setTileAndDataNoUpdate(pos, tile, data))
+	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
+	if (pos.x < C_MIN_X || pos.z < C_MIN_Z || pos.x >= C_MAX_X || pos.z > C_MAX_Z || pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
+		// there's nothing out there!
+		return false;
+
+	if (!hasChunk(pos))
+		return false;
+
+	LevelChunk* pChunk = getChunk(pos);
+
+	TileChange change(updateFlags);
+
+	TileID oldTile = TILE_AIR;
+	if (change.isUpdateNeighbors())
+		oldTile = pChunk->getTile(pos);
+
+	bool result = pChunk->setTileAndData(pos, tile, data);
+	if (result)
+	{
+		if (change.isUpdateListeners() && (!m_bIsClientSide || !change.isUpdateSilent()))
+		{
+			// Send update to level listeners
+			sendTileUpdated(pos);
+		}
+		if (!m_bIsClientSide && change.isUpdateNeighbors())
+		{
+			// Update neighbors
+			tileUpdated(pos, oldTile);
+		}
+	}
+
+	return result;
+
+	/*if (setTileAndDataNoUpdate(pos, tile, data))
 	{
 		tileUpdated(pos, tile);
 		return true;
 	}
-	return false;
+	return false;*/
 }
 
-bool Level::setData(const TilePos& pos, int data)
+bool Level::setData(const TilePos& pos, TileData data, TileChange::UpdateFlags updateFlags)
 {
-	if (setDataNoUpdate(pos, data))
+	//@BUG: checking x >= C_MAX_X, but not z >= C_MAX_Z.
+	if (pos.x < C_MIN_X || pos.z < C_MIN_Z || pos.x >= C_MAX_X || pos.z > C_MAX_Z || pos.y < C_MIN_Y || pos.y >= C_MAX_Y)
+		// there's nothing out there!
+		return false;
+
+	LevelChunk* pChunk = getChunk(pos);
+	if (!pChunk)
+		return false;
+
+	TileChange change(updateFlags);
+
+	bool result = pChunk->setData(pos, data);
+	if (result)
+	{
+		TileID tileId = pChunk->getTile(pos);
+
+		if (change.isUpdateListeners() && (!m_bIsClientSide || !change.isUpdateSilent()))
+		{
+			// Send update to level listeners
+			sendTileUpdated(pos);
+		}
+		if (!m_bIsClientSide && change.isUpdateNeighbors())
+		{
+			// Update neighbors
+			tileUpdated(pos, tileId);
+		}
+	}
+
+	return result;
+
+	/*if (setDataNoUpdate(pos, data))
 	{
 		tileUpdated(pos, getTile(pos));
 		return true;
 	}
-	return false;
+	return false;*/
 }
 
-bool Level::setTile(const TilePos& pos, TileID tile)
+bool Level::setTile(const TilePos& pos, TileID tile, TileChange::UpdateFlags updateFlags)
 {
-	if (setTileNoUpdate(pos, tile))
-	{
-		tileUpdated(pos, tile);
-		return true;
-	}
-	return false;
+	return setTileAndData(pos, tile, 0, updateFlags);
 }
 
 void Level::setTilesDirty(const TilePos& min, const TilePos& max)
@@ -862,7 +904,7 @@ bool Level::containsLiquid(const AABB& aabb, const Material* pMtl)
 				if (!Tile::tiles[tileID] || Tile::tiles[tileID]->m_pMaterial != pMtl)
 					continue;
 
-				int data = getData(pos);
+				TileData data = getData(pos);
 				
 				float height;
 				if (data <= 7)
@@ -921,7 +963,7 @@ bool Level::checkAndHandleWater(const AABB& aabb, const Material* pMtl, Entity* 
 				if (!pTile || pTile->m_pMaterial != pMtl)
 					continue;
 
-				int data = getData(pos);
+				TileData data = getData(pos);
 				int level = data <= 7 ? data + 1 : 1;
 				if (float(max.y) >= float(pos.y + 1) - float(level) / 9.0f)
 				{
@@ -1107,7 +1149,7 @@ bool Level::addEntity(Entity* pEnt)
 		//removeEntity(pOldEnt);
 	}
 
-	if (!pEnt->isPlayer() && m_bIsOnline)
+	if (!pEnt->isPlayer() && m_bIsClientSide)
 	{
 		LOG_W("Hey, why are you trying to add an non-player entity in a multiplayer world?");
 	}

@@ -560,6 +560,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityFactory.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp">
+      <Filter>Source Files\Level\LevelGen\Chunk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -975,6 +978,12 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\tile\Web.hpp">
       <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp">
+      <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

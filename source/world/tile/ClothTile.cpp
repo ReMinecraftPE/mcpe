@@ -13,7 +13,7 @@ ClothTile::ClothTile(int id) : Tile(id, TEXTURE_CLOTH_64, Material::cloth)
 {
 }
 
-int ClothTile::getTexture(Facing::Name face, int data) const
+int ClothTile::getTexture(Facing::Name face, TileData data) const
 {
 	if (!data) 
 	{

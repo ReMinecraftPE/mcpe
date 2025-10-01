@@ -1,11 +1,11 @@
 #include "GlowstoneTile.hpp"
 #include "world/level/Level.hpp"
 
-GlowstoneTile::GlowstoneTile(int id, int texture, Material* material) : Tile(id, texture, material)
+GlowstoneTile::GlowstoneTile(TileID id, int texture, Material* material) : Tile(id, texture, material)
 {
 }
 
-int GlowstoneTile::getResource(int data, Random*) const
+int GlowstoneTile::getResource(TileData data, Random*) const
 {
 	return Item::yellowDust->m_itemID;
 }

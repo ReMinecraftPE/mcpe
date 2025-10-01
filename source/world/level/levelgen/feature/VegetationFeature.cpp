@@ -1,7 +1,7 @@
 #include "Feature.hpp"
 #include "world/level/Level.hpp"
 
-VegetationFeature::VegetationFeature(int id, int data, int count)
+VegetationFeature::VegetationFeature(TileID id, TileData data, int count)
 {
 	m_ID = id;
 	m_data = data;

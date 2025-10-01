@@ -9,11 +9,11 @@
 #include "ClayTile.hpp"
 #include "world/level/Level.hpp"
 
-ClayTile::ClayTile(int a, int b, Material* c) : Tile(a, b, c)
+ClayTile::ClayTile(TileID id, int texture, Material* c) : Tile(id, texture, c)
 {
 }
 
-int ClayTile::getResource(int, Random* random) const
+int ClayTile::getResource(TileData data, Random* random) const
 {
 	return 0; //@NOTE: Would be clay's item ID
 }

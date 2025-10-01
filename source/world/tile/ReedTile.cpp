@@ -9,7 +9,7 @@
 #include "ReedTile.hpp"
 #include "world/level/Level.hpp"
 
-ReedTile::ReedTile(int id) : Tile(id, Material::plant)
+ReedTile::ReedTile(TileID id) : Tile(id, Material::plant)
 {
 	m_TextureFrame = TEXTURE_REEDS;
 	setShape(0.125f, 0.0f, 0.125f, 0.875f, 1.0f, 0.875f);
@@ -78,7 +78,7 @@ void ReedTile::tick(Level* level, const TilePos& pos, Random* random)
 
 	if (height <= 2)
 	{
-		int data = level->getData(pos);
+		TileData data = level->getData(pos);
 
 		if (data == 15)
 		{
@@ -97,7 +97,7 @@ AABB* ReedTile::getAABB(const Level* level, const TilePos& pos)
 	return nullptr;
 }
 
-int ReedTile::getResource(int x, Random* random) const
+int ReedTile::getResource(TileData data, Random* random) const
 {
 	return Item::reeds->m_itemID;
 }

@@ -13,11 +13,11 @@
 class FarmTile : public Tile
 {
 public:
-	FarmTile(int ID, Material*);
+	FarmTile(TileID ID, Material*);
 
 	AABB* getAABB(const Level*, const TilePos& pos) override;
-	int getResource(int, Random*) const override;
-	int getTexture(Facing::Name face, int data) const override;
+	int getResource(TileData, Random*) const override;
+	int getTexture(Facing::Name face, TileData data) const override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
 	void neighborChanged(Level*, const TilePos& pos, TileID tile) override;

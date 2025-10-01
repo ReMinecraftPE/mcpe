@@ -19,7 +19,7 @@ void UpdateBlockPacket::write(RakNet::BitStream* bs)
 	bs->Write(m_pos.x);
 	bs->Write(m_pos.z);
 	bs->Write<uint8_t>(m_pos.y);
-	bs->Write(m_tile);
+	bs->Write(m_tileTypeId);
 	bs->Write(m_data);
 }
 
@@ -30,6 +30,6 @@ void UpdateBlockPacket::read(RakNet::BitStream* bs)
 	uint8_t y;
 	bs->Read(y);
 	m_pos.y = y;
-	bs->Read(m_tile);
+	bs->Read(m_tileTypeId);
 	bs->Read(m_data);
 }

@@ -586,9 +586,10 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 
 	for (int i = 0; i < vegetationCount; i++)
 	{
-		int data = 1;
+		TileData data = 1;
 
-		if (pBiome == Biome::rainForest && m_random.nextInt(3) != 0) {
+		if (pBiome == Biome::rainForest && m_random.nextInt(3) != 0) 
+		{
 			data = 2;
 		}
 		TilePos o(m_random.nextInt(16),

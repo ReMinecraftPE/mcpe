@@ -493,14 +493,14 @@ void Entity::baseTick()
 		m_fireTicks = 0;
 		m_distanceFallen = 0;
 
-		if (m_pLevel->m_bIsOnline)
+		if (m_pLevel->m_bIsClientSide)
 			goto label_4;
 	}
 	else
 	{
 		m_bWasInWater = false;
 
-		if (m_pLevel->m_bIsOnline)
+		if (m_pLevel->m_bIsClientSide)
 		{
 		label_4:
 			m_fireTicks = 0;
@@ -602,7 +602,7 @@ bool Entity::isUnderLiquid(Material* pMtl) const
 	if (!pTile || pTile->m_pMaterial != pMtl)
 		return false;
 
-	int data = m_pLevel->getData(tilePos);
+	TileData data = m_pLevel->getData(tilePos);
 	int level = data <= 7 ? data + 1 : 1;
 
 	return float(tilePos.y) < float(tilePos.y + 1) - (float(level) / 9.0f - 0.11111f);

@@ -9,7 +9,7 @@
 #include "Feature.hpp"
 #include "world/level/Level.hpp"
 
-ClayFeature::ClayFeature(int id, int count)
+ClayFeature::ClayFeature(TileID id, int count)
 {
     m_ID = id;
     m_count = count;

@@ -10,7 +10,7 @@
 #include "world/level/Level.hpp"
 #include "client/renderer/PatchManager.hpp"
 
-GrassTile::GrassTile(int id, Material* c) : Tile(id, c)
+GrassTile::GrassTile(TileID id, Material* c) : Tile(id, c)
 {
 	m_TextureFrame = TEXTURE_GRASS_SIDE;
 	setTicking(true);
@@ -26,9 +26,9 @@ int GrassTile::getColor(const LevelSource* levelSource, const TilePos& pos) cons
 	return 0xffffff;
 }
 
-int GrassTile::getResource(int i, Random* random) const
+int GrassTile::getResource(TileData data, Random* random) const
 {
-	return Tile::dirt->getResource(i, random);
+	return Tile::dirt->getResource(data, random);
 }
 
 int GrassTile::getTexture(Facing::Name face) const
@@ -65,7 +65,7 @@ void GrassTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	// Controls the spread/death of grass.
 	// It's like a full on automata of sorts. :)
-	if (level->m_bIsOnline)
+	if (level->m_bIsClientSide)
 		return;
 
 	if (level->getRawBrightness(pos.above()) <= 3 &&

@@ -1,11 +1,11 @@
 #include "PumpkinTile.hpp"
 #include "world/level/Level.hpp"
 
-PumpkinTile::PumpkinTile(int id, bool lantern) : Tile(id, TEXTURE_PUMPKIN_TOP, Material::vegetable), m_bLantern(lantern)
+PumpkinTile::PumpkinTile(TileID id, bool lantern) : Tile(id, TEXTURE_PUMPKIN_TOP, Material::vegetable), m_bLantern(lantern)
 {
 }
 
-int PumpkinTile::getTexture(Facing::Name face, int data) const
+int PumpkinTile::getTexture(Facing::Name face, TileData data) const
 {
 	switch (face) {
 	case Facing::UP: case Facing::DOWN: return m_TextureFrame;
@@ -27,7 +27,7 @@ void PumpkinTile::setPlacedBy(Level* level, const TilePos& pos, Mob* mob)
 {
 	int rot = Mth::floor(0.5f + (mob->m_rot.x * 4.0f / 360.0f)) & 3;
 
-	int data = 0;
+	TileData data = 0;
 
 	switch (rot)
 	{

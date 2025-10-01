@@ -9,7 +9,7 @@
 #include "InvisibleTile.hpp"
 #include "world/level/Level.hpp"
 
-InvisibleTile::InvisibleTile(int ID, int texture, Material* pMtl) :
+InvisibleTile::InvisibleTile(TileID ID, int texture, Material* pMtl) :
 	Tile(ID, texture, pMtl)
 {
 
