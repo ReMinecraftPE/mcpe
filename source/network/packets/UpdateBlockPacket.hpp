@@ -8,8 +8,8 @@ class UpdateBlockPacket : public Packet
 {
 public:
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
-	void write(RakNet::BitStream*) override;
-	void read(RakNet::BitStream*) override;
+	void write(RakNet::BitStream&) override;
+	void read(RakNet::BitStream&) override;
 public:
 	TilePos m_pos;
 	TileID m_tileTypeId;

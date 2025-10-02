@@ -150,7 +150,7 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 			Packet* pUserPacket = MinecraftPackets::createPacket(packetType);
 			if (pUserPacket)
 			{
-				pUserPacket->read(pBitStream);
+				pUserPacket->read(*pBitStream);
 				//LOG_PACKET("Packet: %d", packetType);
 				pUserPacket->handle(pPacket->guid, callback);
 				delete pUserPacket;
@@ -261,7 +261,7 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 void RakNetInstance::send(Packet* packet)
 {
 	RakNet::BitStream bs;
-	packet->write(&bs);
+	packet->write(bs);
 
     uint32_t result;
 	if (m_bIsHost)
@@ -295,7 +295,7 @@ void RakNetInstance::send(Packet* packet)
 void RakNetInstance::send(const RakNet::RakNetGUID& guid, Packet* packet)
 {
 	RakNet::BitStream bs;
-	packet->write(&bs);
+	packet->write(bs);
 
 	m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, guid, false);
 

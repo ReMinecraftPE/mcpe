@@ -12,8 +12,8 @@ public:
 	}
 	PlayerEquipmentPacket(int playerID, int itemID) : m_playerID(playerID), m_itemID(itemID) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
-	void write(RakNet::BitStream*) override;
-	void read(RakNet::BitStream*) override;
+	void write(RakNet::BitStream&) override;
+	void read(RakNet::BitStream&) override;
 public:
 	int m_playerID;
 	uint16_t m_itemID;

@@ -18,32 +18,32 @@ void AddMobPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& call
 	callback.handle(guid, this);
 }
 
-void AddMobPacket::write(RakNet::BitStream* bs)
+void AddMobPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_ADD_MOB);
-	bs->Write(m_entityId);
-	bs->Write(m_entityTypeId);
-	bs->Write(m_pos.x);
-	bs->Write(m_pos.y);
-	bs->Write(m_pos.z);
-	bs->Write(PacketUtil::Rot_degreesToChar(m_rot.y));
-	bs->Write(PacketUtil::Rot_degreesToChar(m_rot.x));
+	bs.Write((unsigned char)PACKET_ADD_MOB);
+	bs.Write(m_entityId);
+	bs.Write(m_entityTypeId);
+	bs.Write(m_pos.x);
+	bs.Write(m_pos.y);
+	bs.Write(m_pos.z);
+	bs.Write(PacketUtil::Rot_degreesToChar(m_rot.y));
+	bs.Write(PacketUtil::Rot_degreesToChar(m_rot.x));
 
 	/*RakDataOutput dos(*bs);
 	m_entityData.packAll(dos);*/
 }
 
-void AddMobPacket::read(RakNet::BitStream* bs)
+void AddMobPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_entityId);
-	bs->Read(m_entityTypeId);
-	bs->Read(m_pos.x);
-	bs->Read(m_pos.y);
-	bs->Read(m_pos.z);
+	bs.Read(m_entityId);
+	bs.Read(m_entityTypeId);
+	bs.Read(m_pos.x);
+	bs.Read(m_pos.y);
+	bs.Read(m_pos.z);
 
 	char yaw, pitch;
-	bs->Read(yaw);
-	bs->Read(pitch);
+	bs.Read(yaw);
+	bs.Read(pitch);
 
 	/*RakDataInput dis(*bs);
 	m_entityData = SynchedEntityData::Unpack(dis);*/

@@ -17,8 +17,8 @@ public:
 		m_time = 0;
 	}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
-	void write(RakNet::BitStream*) override;
-	void read(RakNet::BitStream*) override;
+	void write(RakNet::BitStream&) override;
+	void read(RakNet::BitStream&) override;
 public:
 	int32_t m_seed;
 	int m_levelVersion;

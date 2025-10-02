@@ -12,8 +12,8 @@ public:
 	}
 	ChunkDataPacket(const ChunkPos& pos, LevelChunk* c) :m_chunkPos(pos), m_pChunk(c) {}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
-	void write(RakNet::BitStream*) override;
-	void read(RakNet::BitStream*) override;
+	void write(RakNet::BitStream&) override;
+	void read(RakNet::BitStream&) override;
 public:
 	ChunkPos m_chunkPos;
 	RakNet::BitStream m_data;

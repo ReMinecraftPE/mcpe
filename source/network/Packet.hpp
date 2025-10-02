@@ -102,7 +102,7 @@ class Packet
 {
 public:
 	virtual ~Packet() {}
-	virtual void write(RakNet::BitStream*) = 0;
-	virtual void read(RakNet::BitStream*) = 0;
+	virtual void write(RakNet::BitStream&) = 0;
+	virtual void read(RakNet::BitStream&) = 0;
 	virtual void handle(const RakNet::RakNetGUID&, NetEventCallback&) = 0;
 };

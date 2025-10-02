@@ -14,13 +14,13 @@ void LoginStatusPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback&
 	callback.handle(guid, this);
 }
 
-void LoginStatusPacket::write(RakNet::BitStream* bs)
+void LoginStatusPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_LOGIN_STATUS);
-	bs->Write(m_loginStatus);
+	bs.Write((unsigned char)PACKET_LOGIN_STATUS);
+	bs.Write(m_loginStatus);
 }
 
-void LoginStatusPacket::read(RakNet::BitStream* bs)
+void LoginStatusPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_loginStatus);
+	bs.Read(m_loginStatus);
 }

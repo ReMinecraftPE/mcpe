@@ -485,7 +485,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 
 			// Read the chunk data packet itself, and handle it.
 			ChunkDataPacket cdp(cp, pChunk);
-			cdp.read(&bs2);
+			cdp.read(bs2);
 
 			if (pChunk)
 				handle(guid, &cdp);

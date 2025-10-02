@@ -24,23 +24,23 @@ void AddPlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& c
 	callback.handle(guid, this);
 }
 
-void AddPlayerPacket::write(RakNet::BitStream* bs)
+void AddPlayerPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_ADD_PLAYER);
-	bs->Write(m_guid);
-	bs->Write(m_name);
-	bs->Write(m_id);
-	bs->Write(m_pos.x);
-	bs->Write(m_pos.y);
-	bs->Write(m_pos.z);
+	bs.Write((unsigned char)PACKET_ADD_PLAYER);
+	bs.Write(m_guid);
+	bs.Write(m_name);
+	bs.Write(m_id);
+	bs.Write(m_pos.x);
+	bs.Write(m_pos.y);
+	bs.Write(m_pos.z);
 }
 
-void AddPlayerPacket::read(RakNet::BitStream* bs)
+void AddPlayerPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_guid);
-	bs->Read(m_name);
-	bs->Read(m_id);
-	bs->Read(m_pos.x);
-	bs->Read(m_pos.y);
-	bs->Read(m_pos.z);
+	bs.Read(m_guid);
+	bs.Read(m_name);
+	bs.Read(m_id);
+	bs.Read(m_pos.x);
+	bs.Read(m_pos.y);
+	bs.Read(m_pos.z);
 }

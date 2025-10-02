@@ -14,19 +14,19 @@ void LoginPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callb
 	callback.handle(guid, this);
 }
 
-void LoginPacket::write(RakNet::BitStream* bs)
+void LoginPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_LOGIN);
-	bs->Write(m_str);
-	bs->Write(m_clientNetworkVersion);
-	bs->Write(m_clientNetworkVersion2);
+	bs.Write((unsigned char)PACKET_LOGIN);
+	bs.Write(m_str);
+	bs.Write(m_clientNetworkVersion);
+	bs.Write(m_clientNetworkVersion2);
 }
 
-void LoginPacket::read(RakNet::BitStream* bs)
+void LoginPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_str);
+	bs.Read(m_str);
 
-	if (!bs->Read(m_clientNetworkVersion))
+	if (!bs.Read(m_clientNetworkVersion))
 		return;
-	bs->Read(m_clientNetworkVersion2);
+	bs.Read(m_clientNetworkVersion2);
 }

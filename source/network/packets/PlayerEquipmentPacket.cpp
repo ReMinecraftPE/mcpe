@@ -14,15 +14,15 @@ void PlayerEquipmentPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallb
 	callback.handle(guid, this);
 }
 
-void PlayerEquipmentPacket::write(RakNet::BitStream* bs)
+void PlayerEquipmentPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_PLAYER_EQUIPMENT);
-	bs->Write(m_playerID);
-	bs->Write(m_itemID);
+	bs.Write((unsigned char)PACKET_PLAYER_EQUIPMENT);
+	bs.Write(m_playerID);
+	bs.Write(m_itemID);
 }
 
-void PlayerEquipmentPacket::read(RakNet::BitStream* bs)
+void PlayerEquipmentPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_playerID);
-	bs->Read(m_itemID);
+	bs.Read(m_playerID);
+	bs.Read(m_itemID);
 }

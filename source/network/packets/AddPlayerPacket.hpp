@@ -14,8 +14,8 @@ public:
 	}
 	AddPlayerPacket(const Player* player);
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
-	void write(RakNet::BitStream*) override;
-	void read(RakNet::BitStream*) override;
+	void write(RakNet::BitStream&) override;
+	void read(RakNet::BitStream&) override;
 public:
 	int field_4;
 	RakNet::RakNetGUID m_guid;

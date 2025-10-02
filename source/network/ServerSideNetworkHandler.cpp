@@ -121,7 +121,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 		LoginStatusPacket lsp = LoginStatusPacket(loginStatus);
 
 		RakNet::BitStream lspbs;
-		lsp.write(&lspbs);
+		lsp.write(lspbs);
 		m_pRakNetPeer->Send(&lspbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
 		return;
@@ -145,7 +145,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.m_time = m_pLevel->getTime();
 	
 	RakNet::BitStream sgpbs;
-	sgp.write(&sgpbs);
+	sgp.write(sgpbs);
 	m_pRakNetPeer->Send(&sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
 	// @TODO: Move everything below into response to ReadyPacket
@@ -156,7 +156,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 		Player* player = m_pLevel->m_players[i];
 		AddPlayerPacket app(player);
 		RakNet::BitStream appbs;
-		app.write(&appbs);
+		app.write(appbs);
 		m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 	}
 
@@ -171,7 +171,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	AddPlayerPacket app(pPlayer);
 	RakNet::BitStream appbs;
-	app.write(&appbs);
+	app.write(appbs);
 	m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, true);
 }
 
@@ -357,7 +357,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 	ChunkDataPacket cdp(pChunk->m_chunkPos, pChunk);
 
 	RakNet::BitStream bs;
-	cdp.write(&bs);
+	cdp.write(bs);
 
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 }
@@ -374,7 +374,7 @@ void ServerSideNetworkHandler::tileChanged(const TilePos& pos)
 	ubp.m_data = m_pLevel->getData(pos);
 
 	RakNet::BitStream bs;
-	ubp.write(&bs);
+	ubp.write(bs);
 
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::AddressOrGUID(), true);
 }
@@ -423,7 +423,7 @@ void ServerSideNetworkHandler::sendMessage(OnlinePlayer* player, const std::stri
 void ServerSideNetworkHandler::redistributePacket(Packet* packet, const RakNet::RakNetGUID& source)
 {
 	RakNet::BitStream bs;
-	packet->write(&bs);
+	packet->write(bs);
 
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, source, true);
 }

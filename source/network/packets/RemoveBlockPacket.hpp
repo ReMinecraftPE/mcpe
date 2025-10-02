@@ -13,8 +13,8 @@ public:
 	RemoveBlockPacket(int id, const TilePos& pos) :m_entityId(id), m_pos(pos) {}
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
-	void write(RakNet::BitStream*) override;
-	void read(RakNet::BitStream*) override;
+	void write(RakNet::BitStream&) override;
+	void read(RakNet::BitStream&) override;
 public:
 	int m_entityId;
 	TilePos m_pos;

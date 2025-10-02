@@ -12,8 +12,8 @@ public:
 	RemoveEntityPacket(int id) { m_id = id; }
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
-	void write(RakNet::BitStream*) override;
-	void read(RakNet::BitStream*) override;
+	void write(RakNet::BitStream&) override;
+	void read(RakNet::BitStream&) override;
 public:
 	int m_id;
 };

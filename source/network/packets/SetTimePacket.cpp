@@ -14,13 +14,13 @@ void SetTimePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& cal
 	callback.handle(guid, this);
 }
 
-void SetTimePacket::write(RakNet::BitStream* bs)
+void SetTimePacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_SET_TIME);
-	bs->Write(m_time);
+	bs.Write((unsigned char)PACKET_SET_TIME);
+	bs.Write(m_time);
 }
 
-void SetTimePacket::read(RakNet::BitStream* bs)
+void SetTimePacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_time);
+	bs.Read(m_time);
 }
