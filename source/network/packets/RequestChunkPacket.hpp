@@ -8,7 +8,7 @@ class RequestChunkPacket : public Packet
 public:
 	RequestChunkPacket() {}
 	RequestChunkPacket(const ChunkPos& pos) { m_chunkPos = pos; }
-	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
+	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:

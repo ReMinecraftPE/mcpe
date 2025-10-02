@@ -9,9 +9,9 @@
 #include "PlaceBlockPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void PlaceBlockPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void PlaceBlockPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void PlaceBlockPacket::write(RakNet::BitStream* bs)

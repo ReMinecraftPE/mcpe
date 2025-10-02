@@ -9,9 +9,9 @@
 #include "RemoveBlockPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void RemoveBlockPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void RemoveBlockPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void RemoveBlockPacket::write(RakNet::BitStream* bs)

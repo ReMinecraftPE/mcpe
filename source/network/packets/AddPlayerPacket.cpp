@@ -19,9 +19,9 @@ AddPlayerPacket::AddPlayerPacket(const Player *player)
 	m_pos.y -= player->m_heightOffset;
 }
 
-void AddPlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void AddPlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void AddPlayerPacket::write(RakNet::BitStream* bs)

@@ -23,7 +23,7 @@ public:
 		m_data = data;
 	}
 
-	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
+	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:

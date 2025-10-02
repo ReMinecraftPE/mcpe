@@ -9,9 +9,9 @@
 #include "StartGamePacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void StartGamePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void StartGamePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void StartGamePacket::write(RakNet::BitStream* bs)

@@ -13,9 +13,9 @@ AddMobPacket::AddMobPacket(const Mob& mob)
 	m_entityData = mob.getEntityData();
 }
 
-void AddMobPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void AddMobPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void AddMobPacket::write(RakNet::BitStream* bs)

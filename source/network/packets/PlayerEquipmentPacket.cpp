@@ -9,9 +9,9 @@
 #include "PlayerEquipmentPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void PlayerEquipmentPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void PlayerEquipmentPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void PlayerEquipmentPacket::write(RakNet::BitStream* bs)

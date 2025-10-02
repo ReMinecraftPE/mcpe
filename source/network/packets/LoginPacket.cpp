@@ -9,9 +9,9 @@
 #include "LoginPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void LoginPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void LoginPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void LoginPacket::write(RakNet::BitStream* bs)

@@ -9,9 +9,9 @@
 #include "SetTimePacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void SetTimePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void SetTimePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void SetTimePacket::write(RakNet::BitStream* bs)

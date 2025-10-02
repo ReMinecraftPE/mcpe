@@ -9,9 +9,9 @@
 #include "RequestChunkPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void RequestChunkPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void RequestChunkPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void RequestChunkPacket::write(RakNet::BitStream* bs)

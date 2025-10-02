@@ -7,7 +7,7 @@
 class UpdateBlockPacket : public Packet
 {
 public:
-	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
+	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
 	void write(RakNet::BitStream*) override;
 	void read(RakNet::BitStream*) override;
 public:

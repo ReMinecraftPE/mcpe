@@ -12,9 +12,9 @@
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
 #include "ChunkDataPacket.hpp"
 
-void LevelDataPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void LevelDataPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void LevelDataPacket::write(RakNet::BitStream* pbs)

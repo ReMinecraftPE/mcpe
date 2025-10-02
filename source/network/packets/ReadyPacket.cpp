@@ -9,9 +9,9 @@
 #include "ReadyPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void ReadyPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void ReadyPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void ReadyPacket::write(RakNet::BitStream* bs)

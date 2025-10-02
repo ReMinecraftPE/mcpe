@@ -9,9 +9,9 @@
 #include "MovePlayerPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void MovePlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void MovePlayerPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void MovePlayerPacket::write(RakNet::BitStream* bs)

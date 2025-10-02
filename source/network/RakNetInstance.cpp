@@ -129,7 +129,7 @@ void RakNetInstance::pingForHosts(int port)
 	m_pRakPeerInterface->Ping("255.255.255.255", port, true, 0);
 }
 
-void RakNetInstance::runEvents(NetEventCallback* callback)
+void RakNetInstance::runEvents(NetEventCallback& callback)
 {
 	while (true)
 	{
@@ -167,23 +167,23 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 			{
 				// @BUG: Two players sending connection requests at the same time could cause one of them to fail to connect
 				m_guid = pPacket->guid;
-				callback->onConnect(pPacket->guid);
+				callback.onConnect(pPacket->guid);
 				break;
 			}
 			case ID_CONNECTION_ATTEMPT_FAILED:
 			{
-				callback->onUnableToConnect();
+				callback.onUnableToConnect();
 				break;
 			}
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				callback->onNewClient(pPacket->guid);
+				callback.onNewClient(pPacket->guid);
 				break;
 			}
 			case ID_DISCONNECTION_NOTIFICATION:
 			case ID_CONNECTION_LOST:
 			{
-				callback->onDisconnect(pPacket->guid);
+				callback.onDisconnect(pPacket->guid);
 				break;
 			}
 			case ID_UNCONNECTED_PONG:

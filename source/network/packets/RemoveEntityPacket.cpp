@@ -9,9 +9,9 @@
 #include "RemoveEntityPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-void RemoveEntityPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void RemoveEntityPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
 void RemoveEntityPacket::write(RakNet::BitStream* bs)

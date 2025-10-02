@@ -803,7 +803,7 @@ void Minecraft::update()
 
 	if (m_pRakNetInstance)
 	{
-		m_pRakNetInstance->runEvents(m_pNetEventCallback);
+		m_pRakNetInstance->runEvents(*m_pNetEventCallback);
 	}
 
 	for (int i = 0; i < m_timer.m_ticks; i++)
