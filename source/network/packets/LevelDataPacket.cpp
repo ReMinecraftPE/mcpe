@@ -6,8 +6,11 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "LevelDataPacket.hpp"
+#include "network/NetEventCallback.hpp"
+#include "world/level/Level.hpp"
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
+#include "ChunkDataPacket.hpp"
 
 void LevelDataPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
 {

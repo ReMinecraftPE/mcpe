@@ -6,7 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "LoginStatusPacket.hpp"
+#include "network/NetEventCallback.hpp"
 
 void LoginStatusPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
 {

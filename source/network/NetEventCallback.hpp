@@ -9,27 +9,8 @@
 #pragma once
 
 #include "RakNetTypes.h"
-#include "Packet.hpp"
-class Packet;
-class LoginPacket;
-class LoginStatusPacket;
-class ReadyPacket;
-class MessagePacket;
-class SetTimePacket;
-class StartGamePacket;
-class AddPlayerPacket;
-class RemoveEntityPacket;
-class MovePlayerPacket;
-class PlaceBlockPacket;
-class RemoveBlockPacket;
-class UpdateBlockPacket;
-class RequestChunkPacket;
-class ChunkDataPacket;
-class PlayerEquipmentPacket;
-class LevelDataPacket;
-#include "world/level/Level.hpp"
+#include "MinecraftPackets.hpp"
 class Level;
-class LevelChunk;
 
 class NetEventCallback
 {
@@ -47,6 +28,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, MessagePacket*);
 	virtual void handle(const RakNet::RakNetGUID&, SetTimePacket*);
 	virtual void handle(const RakNet::RakNetGUID&, StartGamePacket*);
+	virtual void handle(const RakNet::RakNetGUID&, AddMobPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, AddPlayerPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, MovePlayerPacket*);

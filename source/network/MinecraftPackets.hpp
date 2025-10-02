@@ -9,6 +9,23 @@
 #pragma once
 
 #include "Packet.hpp"
+#include "packets/LoginPacket.hpp"
+#include "packets/LoginStatusPacket.hpp"
+#include "packets/ReadyPacket.hpp"
+#include "packets/MessagePacket.hpp"
+#include "packets/SetTimePacket.hpp"
+#include "packets/StartGamePacket.hpp"
+#include "packets/AddMobPacket.hpp"
+#include "packets/AddPlayerPacket.hpp"
+#include "packets/RemoveEntityPacket.hpp"
+#include "packets/MovePlayerPacket.hpp"
+#include "packets/PlaceBlockPacket.hpp"
+#include "packets/RemoveBlockPacket.hpp"
+#include "packets/UpdateBlockPacket.hpp"
+#include "packets/RequestChunkPacket.hpp"
+#include "packets/ChunkDataPacket.hpp"
+#include "packets/PlayerEquipmentPacket.hpp"
+#include "packets/LevelDataPacket.hpp"
 
 class MinecraftPackets
 {

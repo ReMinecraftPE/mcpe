@@ -6,7 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "AddPlayerPacket.hpp"
+#include "network/NetEventCallback.hpp"
+#include "world/entity/Player.hpp"
 
 AddPlayerPacket::AddPlayerPacket(const Player *player)
 {

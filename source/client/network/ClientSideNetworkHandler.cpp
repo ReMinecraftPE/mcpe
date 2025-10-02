@@ -11,6 +11,7 @@
 #include "common/Utils.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/DisconnectionScreen.hpp"
+#include "network/MinecraftPackets.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT

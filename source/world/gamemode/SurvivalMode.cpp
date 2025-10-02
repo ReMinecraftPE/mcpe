@@ -8,6 +8,7 @@
 
 #include "SurvivalMode.hpp"
 #include "client/app/Minecraft.hpp"
+#include "network/packets/RemoveBlockPacket.hpp"
 
 SurvivalMode::SurvivalMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
 	m_destroyingPos(-1, -1, -1),

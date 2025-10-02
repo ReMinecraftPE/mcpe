@@ -9,6 +9,8 @@
 #include "LocalPlayer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "nbt/CompoundTag.hpp"
+#include "network/packets/MovePlayerPacket.hpp"
+#include "network/packets/PlayerEquipmentPacket.hpp"
 
 int dword_250ADC, dword_250AE0;
 

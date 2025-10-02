@@ -14,6 +14,7 @@
 
 class SynchedEntityData
 {
+public:
 	typedef uint16_t DataID;
 
 	// Order here matters!

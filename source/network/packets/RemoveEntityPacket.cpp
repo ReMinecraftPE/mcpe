@@ -6,7 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "RemoveEntityPacket.hpp"
+#include "network/NetEventCallback.hpp"
 
 void RemoveEntityPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
 {

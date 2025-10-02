@@ -6,7 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "StartGamePacket.hpp"
+#include "network/NetEventCallback.hpp"
 
 void StartGamePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
 {

@@ -8,6 +8,7 @@
 
 #include "GameMode.hpp"
 #include "client/app/Minecraft.hpp"
+#include "network/packets/RemoveBlockPacket.hpp"
 
 GameMode::GameMode(Minecraft* pMinecraft, Level& level) :
 	m_pMinecraft(pMinecraft),

@@ -14,8 +14,11 @@
 #include "client/gui/screens/DeathScreen.hpp"
 #include "client/gui/screens/ProgressScreen.hpp"
 #include "client/gui/screens/ConvertWorldScreen.hpp"
+
 #include "network/ServerSideNetworkHandler.hpp"
 #include "client/network/ClientSideNetworkHandler.hpp"
+#include "network/packets/PlaceBlockPacket.hpp"
+#include "network/packets/MessagePacket.hpp"
 
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"

@@ -9,6 +9,7 @@
 #include "RakNetInstance.hpp"
 #include "MinecraftPackets.hpp"
 #include "GetTime.h"
+#include "NetEventCallback.hpp"
 
 //#define LOG_PACKETS
 

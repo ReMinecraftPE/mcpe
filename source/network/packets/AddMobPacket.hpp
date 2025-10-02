@@ -1,0 +1,25 @@
+#pragma once
+
+#include "../Packet.hpp"
+#include "world/phys/Vec2.hpp"
+#include "world/entity/SynchedEntityData.hpp"
+
+class AddMobPacket : public Packet
+{
+public:
+	AddMobPacket()
+	{
+		m_entityId = 0;
+		m_entityTypeId = 0;
+	}
+	AddMobPacket(const Mob& mob);
+	void handle(const RakNet::RakNetGUID&, NetEventCallback* pCallback) override;
+	void write(RakNet::BitStream*) override;
+	void read(RakNet::BitStream*) override;
+public:
+	int m_entityId;
+	int m_entityTypeId;
+	Vec3 m_pos;
+	Vec2 m_rot;
+	SynchedEntityData m_entityData;
+};

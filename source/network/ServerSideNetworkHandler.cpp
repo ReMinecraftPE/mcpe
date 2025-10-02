@@ -9,6 +9,7 @@
 #include "ServerSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "MinecraftPackets.hpp"
 
 // This lets you make the server shut up and not log events in the debug console.
 //#define VERBOSE_SERVER
