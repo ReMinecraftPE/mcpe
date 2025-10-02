@@ -136,9 +136,6 @@ void SynchedEntityData::assignValues(const ItemsArray& items)
         default:
             continue;
         }
-
-        if (result || i != 0)
-            i = 1;
     }
 }
 

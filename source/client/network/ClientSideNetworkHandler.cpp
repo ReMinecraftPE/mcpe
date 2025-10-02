@@ -12,6 +12,7 @@
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/DisconnectionScreen.hpp"
 #include "network/MinecraftPackets.hpp"
+#include "world/entity/MobFactory.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT
@@ -177,6 +178,22 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 		pPlayer->m_pInventory->prepareSurvivalInventory();
 
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobPacket* pAddMobPkt)
+{
+	puts_ignorable("AddMobPacket");
+
+	if (!m_pLevel) return;
+
+	EntityType::ID entityTypeId = (EntityType::ID)pAddMobPkt->m_entityTypeId;
+	Entity* entity = MobFactory::CreateMob(entityTypeId, m_pLevel);
+	if (!entity) return;
+
+	entity->m_EntityID = pAddMobPkt->m_entityId;
+	entity->moveTo(pAddMobPkt->m_pos, pAddMobPkt->m_rot);
+	entity->getEntityData().assignValues(pAddMobPkt->m_entityData.m_itemsArray);
+	m_pLevel->addEntity(entity);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveEntityPacket* pRemoveEntityPkt)

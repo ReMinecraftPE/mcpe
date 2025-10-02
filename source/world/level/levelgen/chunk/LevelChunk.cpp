@@ -657,6 +657,7 @@ bool LevelChunk::setData(const ChunkTilePos& pos, TileData data)
 		return false;
 
 	m_tileData.set(pos, data);
+	return true;
 }
 
 // seems to set block data in 8192 block (4*16*128) chunks for some reason ?

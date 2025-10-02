@@ -166,6 +166,7 @@ public:
 	EntityType::ID getEncodeId() const;
 
 	const EntityTypeDescriptor& getDescriptor() const { return *m_pDescriptor; }
+	SynchedEntityData& getEntityData() { return m_entityData; }
 	const SynchedEntityData& getEntityData() const { return m_entityData; }
 
 	int hashCode() const { return m_EntityID; }
