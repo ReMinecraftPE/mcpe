@@ -9,13 +9,14 @@
 #include "Mob.hpp"
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
+#include "network/RakNetInstance.hpp"
+#include "network/packets/MoveEntityPacket_PosRot.hpp"
 
 Mob::Mob(Level* pLevel) : Entity(pLevel)
 {
 	m_invulnerableDuration = 10;
 	field_E8 = 0.0f;
 	field_EC = 0.0f;
-	field_F0 = 0;
 	m_oAttackAnim = 0.0f;
 	m_attackAnim = 0.0f;
 	m_health = 10;
@@ -304,6 +305,20 @@ void Mob::baseTick()
     field_B58 = field_B54;
     field_EC = field_E8;
     m_oRot = m_rot;
+
+	if (!m_pLevel->m_bIsClientSide && !isPlayer())
+	{
+		if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
+			fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
+			fabsf(m_pos.z - m_lastSentPos.z) > 0.1f ||
+			fabsf(m_lastSentRot.y - m_rot.y) > 1.0f ||
+			fabsf(m_lastSentRot.x - m_rot.x) > 1.0f)
+		{
+			m_pLevel->m_pRakNetInstance->send(new MoveEntityPacket_PosRot(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
+			m_lastSentPos = m_pos;
+			m_lastSentRot = m_rot;
+		}
+	}
 }
 
 bool Mob::isAlive() const
@@ -312,6 +327,11 @@ bool Mob::isAlive() const
 		return false;
 
 	return m_health >= 0;
+}
+
+bool Mob::interpolateOnly() const
+{
+	return m_pLevel->m_bIsClientSide;
 }
 
 bool Mob::hurt(Entity *pAttacker, int damage)
@@ -657,7 +677,7 @@ void Mob::aiStep()
 		m_bJumping = 0;
 		field_B00 = Vec2::ZERO;
 	}
-	else if (!field_F0)
+	else if (!interpolateOnly())
 	{
 		updateAi();
 	}

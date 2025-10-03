@@ -92,6 +92,12 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\PlayerEquipmentPacket.hpp">
       <Filter>Header Files\Packets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.cpp">
@@ -161,6 +167,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddMobPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.cpp">
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
   </ItemGroup>

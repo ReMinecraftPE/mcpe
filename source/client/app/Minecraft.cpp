@@ -1136,6 +1136,7 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 
 	if (pLevel)
 	{
+		pLevel->m_pRakNetInstance = m_pRakNetInstance;
 		if (pLocalPlayer && m_pLocalPlayer == nullptr)
 		{
 			// We're getting a LocalPlayer from a server

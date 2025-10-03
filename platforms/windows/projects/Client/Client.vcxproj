@@ -196,6 +196,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\sound_list.h" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\music_list.h" />
+    <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -322,6 +323,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseBuildInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Lighting.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

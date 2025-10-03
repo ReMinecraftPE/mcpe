@@ -29,6 +29,7 @@ public:
 	bool isShootable() const override { return true; }
 	bool isAlive() const override;
 	bool isMob() const override { return true; }
+	bool interpolateOnly() const;
 	bool hurt(Entity*, int) override;
 	void animateHurt() override;
 	void setSize(float rad, float height) override;
@@ -91,6 +92,8 @@ public:
     
 private:
      int m_ambientSoundTime;
+	 Vec3 m_lastSentPos;
+	 Vec2 m_lastSentRot;
 
 public:
 	int m_invulnerableDuration;
@@ -98,7 +101,6 @@ public:
 	float field_E4;
 	float field_E8;
 	float field_EC;
-	char field_F0;
 	float m_oAttackAnim;
 	float m_attackAnim;
 	int m_health;

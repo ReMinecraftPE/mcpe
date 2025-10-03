@@ -32,21 +32,25 @@
 class Dimension;
 class Level;
 class LevelListener;
+class RakNetInstance;
 
 typedef std::vector<Entity*> EntityVector;
 typedef std::vector<AABB> AABBVector;
 
 class Level : public LevelSource
 {
-private:
-	// @NOTE: LevelListeners do NOT get updated here
-	void _setTime(int32_t time) { m_pLevelData->setTime(time); }
-	Player* _getNearestPlayer(const Vec3&, float, bool) const;
-
 public:
-	Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension* pDimension = nullptr);
+	Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT, Dimension* pDimension = nullptr);
 	~Level();
 
+private:
+	Player* _getNearestPlayer(const Vec3&, float, bool) const;
+
+protected:
+	// @NOTE: LevelListeners do NOT get updated here
+	void _setTime(int32_t time) { m_pLevelData->setTime(time); }
+
+public:
 	// TODO
 	TileID getTile(const TilePos& pos) const override;
 	float getBrightness(const TilePos& pos) const override;
@@ -55,7 +59,7 @@ public:
 	bool isSolidTile(const TilePos& pos) const override;
 
 	ChunkSource* getChunkSource() const;
-	ChunkSource* createChunkSource();
+	virtual ChunkSource* createChunkSource();
 	LevelChunk* getChunk(const ChunkPos& pos) const;
 	LevelChunk* getChunkAt(const TilePos& pos) const;
 	int getRawBrightness(const TilePos& pos) const;
@@ -75,9 +79,10 @@ public:
 	bool hasChunk(const ChunkPos& pos) const;
 	bool hasChunksAt(const TilePos& min, const TilePos& max) const;
 	bool hasChunksAt(const TilePos& pos, int rad) const;
-	bool updateSkyBrightness();
 	float getTimeOfDay(float f) const;
 	int getSkyDarken(float f) const;
+	void updateSkyDarken();
+	bool updateSkyBrightness();
 	void setUpdateLights(bool b);
 	bool updateLights();
 	void updateLight(const LightLayer&, const TilePos& tilePos1, const TilePos& tilePos2);
@@ -132,7 +137,7 @@ public:
 	void addListener(LevelListener*);
 	void tick(Entity*, bool);
 	void tick(Entity*);
-	void tick();
+	virtual void tick();
 	void tickPendingTicks(bool b);
 	void tickTiles();
 	void tickEntities();
@@ -199,6 +204,7 @@ public:
 	Dimension* m_pDimension;
     int m_difficulty; // @TODO: Difficulty enum
 	Random m_random;
+	RakNetInstance* m_pRakNetInstance;
 	bool m_bCalculatingInitialSpawn;
 	std::vector<LevelListener*> m_levelListeners;
 	ChunkSource* m_pChunkSource;

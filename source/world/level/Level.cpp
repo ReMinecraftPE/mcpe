@@ -23,6 +23,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int sto
 	field_30 = 0;
 	m_pDimension = nullptr;
     m_difficulty = 2; // Java has no actual default, it just always pulls from Options. Putting 2 here just so there's no chance of mobs getting despawned accidentally.
+	m_pRakNetInstance = nullptr;
 	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
@@ -111,6 +112,20 @@ int Level::getSkyDarken(float f) const
 		return 8; // full dark
 
 	return int(y * 11.0f);
+}
+
+void Level::updateSkyDarken()
+{
+	bool skyColorChanged = updateSkyBrightness();
+
+	if (skyColorChanged)
+	{
+		for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+		{
+			LevelListener* pListener = *it;
+			pListener->skyColorChanged();
+		}
+	}
 }
 
 bool Level::updateSkyBrightness()
@@ -1527,20 +1542,9 @@ void Level::tick()
 	m_pChunkSource->tick();
 
 #ifdef ENH_RUN_DAY_NIGHT_CYCLE
-	bool skyColorChanged = updateSkyBrightness();
+	updateSkyDarken();
 
-	int time = getTime() + 1;
-	_setTime(time); // Bypasses the normally-required update to LevelListeners
-
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
-	{
-		LevelListener* pListener = *it;
-
-		if (skyColorChanged)
-			pListener->skyColorChanged();
-
-		pListener->timeChanged(time);
-	}
+	_setTime(getTime() + 1); // Bypasses the normally-required update to LevelListeners
 #endif
 
 	tickPendingTicks(false);

@@ -40,8 +40,8 @@ public:
 private:
 	// Made these private since they're only accessed by LocalPlayer
 	// multiplayer related
-	Vec3 field_C24;
-	Vec2 field_C30;
+	Vec3 m_lastSentPos;
+	Vec2 m_lastSentRot;
 	// multiplayer related -- end
 
 public:

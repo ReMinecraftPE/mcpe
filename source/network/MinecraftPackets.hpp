@@ -18,6 +18,8 @@
 #include "packets/AddMobPacket.hpp"
 #include "packets/AddPlayerPacket.hpp"
 #include "packets/RemoveEntityPacket.hpp"
+#include "packets/MoveEntityPacket.hpp"
+#include "packets/MoveEntityPacket_PosRot.hpp"
 #include "packets/MovePlayerPacket.hpp"
 #include "packets/PlaceBlockPacket.hpp"
 #include "packets/RemoveBlockPacket.hpp"

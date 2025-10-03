@@ -87,12 +87,12 @@ SynchedEntityData::ItemsArray SynchedEntityData::packDirty()
 
 void SynchedEntityData::packAll(IDataOutput& dos) const
 {
-    /*for (int i = 0; i < m_itemsArray.size(); i++)
+    for (int i = 0; i < m_itemsArray.size(); i++)
     {
         DataItem* dataItem = m_itemsArray[i];
         if (dataItem)
             _WriteDataItem(dos, *dataItem);
-    }*/
+    }
 
     dos.writeInt8(127);
 }

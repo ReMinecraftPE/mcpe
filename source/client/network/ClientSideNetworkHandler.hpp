@@ -40,6 +40,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, AddMobPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*) override;
 	void handle(const RakNet::RakNetGUID&, MovePlayerPacket*) override;
+	void handle(const RakNet::RakNetGUID&, MoveEntityPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, UpdateBlockPacket*) override;

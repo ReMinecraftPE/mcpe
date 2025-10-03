@@ -59,6 +59,8 @@
     <ClCompile Include="$(MC_ROOT)\source\network\PacketUtil.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakIO.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddMobPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -86,6 +88,8 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\SetTimePacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\StartGamePacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

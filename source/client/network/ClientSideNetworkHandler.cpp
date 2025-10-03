@@ -11,6 +11,7 @@
 #include "common/Utils.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/DisconnectionScreen.hpp"
+#include "client/multiplayer/MultiPlayerLevel.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
 
@@ -123,7 +124,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 
 	m_pMinecraft->getLevelSource()->deleteLevel("_LastJoinedServer");
 
-	m_pLevel = new Level(
+	m_pLevel = new MultiPlayerLevel(
 		m_pMinecraft->getLevelSource()->selectLevel("_LastJoinedServer", true), 
 		"temp",
 		pStartGamePkt->m_seed,
@@ -243,7 +244,27 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 		return;
 	}
 	
-	pEntity->lerpTo(packet->m_pos, packet->m_rot, 3);
+	pEntity->lerpTo(packet->m_pos, packet->m_rot);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MoveEntityPacket* packet)
+{
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity) return;
+
+	Vec2 rot;
+	if (packet->m_bHasRot)
+	{
+		rot = packet->m_rot;
+	}
+	else
+	{
+		rot = pEntity->m_rot;
+	}
+	
+	pEntity->lerpTo(packet->m_pos, rot);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBlockPacket* pPlaceBlockPkt)

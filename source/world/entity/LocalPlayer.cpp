@@ -29,8 +29,8 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, Game
 	field_C1C = 0.0f;
 	m_nAutoJumpFrames = 0;
 	// multiplayer related
-	field_C24 = Vec3::ZERO;
-	field_C30 = Vec2::ZERO;
+	m_lastSentPos = Vec3::ZERO;
+	m_lastSentRot = Vec2::ZERO;
 	// multiplayer related -- end
 	field_C38 = 0;
 	m_pMoveInput = nullptr;
@@ -61,6 +61,9 @@ void LocalPlayer::aiStep()
 
 	Mob::aiStep();
 	Player::aiStep();
+
+	if (interpolateOnly())
+		updateAi();
 }
 
 void LocalPlayer::drop(const ItemInstance& item, bool randomly)
@@ -244,15 +247,15 @@ void LocalPlayer::tick()
 
 	if (m_pMinecraft->isOnline())
 	{
-		if (fabsf(m_pos.x - field_C24.x) > 0.1f ||
-			fabsf(m_pos.y - field_C24.y) > 0.01f ||
-			fabsf(m_pos.z - field_C24.z) > 0.1f ||
-			fabsf(field_C30.y - m_rot.y) > 1.0f ||
-			fabsf(field_C30.x - m_rot.x) > 1.0f)
+		if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
+			fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
+			fabsf(m_pos.z - m_lastSentPos.z) > 0.1f ||
+			fabsf(m_lastSentRot.y - m_rot.y) > 1.0f ||
+			fabsf(m_lastSentRot.x - m_rot.x) > 1.0f)
 		{
 			m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
-			field_C24 = m_pos;
-			field_C30 = m_rot;
+			m_lastSentPos = m_pos;
+			m_lastSentRot = m_rot;
 		}
 
 		if (field_C38 != m_pInventory->getSelectedItemId())

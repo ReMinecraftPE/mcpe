@@ -97,7 +97,7 @@ public:
 	virtual void absMoveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
 	virtual void moveRelative(const Vec3& pos);
 	virtual void lerpTo(const Vec3& pos);
-	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int i);
+	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int p = 3);
 	virtual void lerpMotion(const Vec3& pos);
 	virtual void turn(const Vec2& rot);
 	virtual void interpolateTurn(const Vec2& rot);

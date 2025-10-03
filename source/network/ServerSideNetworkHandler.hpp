@@ -61,6 +61,7 @@ public:
 	void tileBrightnessChanged(const TilePos& pos) override;
 	void tileChanged(const TilePos& pos) override;
 	void timeChanged(uint32_t time) override;
+	void entityAdded(Entity* entity) override;
 
 	void allowIncomingConnections(bool b);
 	Player* popPendingPlayer(const RakNet::RakNetGUID& guid);

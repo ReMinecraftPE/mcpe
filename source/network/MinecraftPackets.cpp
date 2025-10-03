@@ -32,6 +32,10 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new RemoveEntityPacket;
 		case PACKET_MOVE_PLAYER:
 			return new MovePlayerPacket;
+		case PACKET_MOVE_ENTITY:
+			return new MoveEntityPacket;
+		case PACKET_MOVE_ENTITY_POS_ROT:
+			return new MoveEntityPacket_PosRot;
 		case PACKET_PLACE_BLOCK:
 			return new PlaceBlockPacket;
 		case PACKET_REMOVE_BLOCK:

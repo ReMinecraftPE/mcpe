@@ -113,6 +113,7 @@ add_library(reminecraftpe-core STATIC
     client/model/CreeperModel.cpp
     client/model/CowModel.cpp
     client/model/ChickenModel.cpp
+	client/multiplayer/MultiPlayerLevel.cpp
     client/player/input/Controller.cpp
     client/player/input/ControllerBuildInput.cpp
     client/player/input/ControllerMoveInput.cpp
@@ -170,6 +171,8 @@ add_library(reminecraftpe-core STATIC
     network/packets/AddMobPacket.cpp
     network/packets/RemoveBlockPacket.cpp
     network/packets/MovePlayerPacket.cpp
+    network/packets/MoveEntityPacket.cpp
+    network/packets/MoveEntityPacket_PosRot.cpp
     network/packets/MessagePacket.cpp
     network/ServerSideNetworkHandler.cpp
     network/RakIO.cpp

@@ -290,7 +290,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MovePlayer
 	if (!pEntity)
 		return;
 
-	pEntity->lerpTo(packet->m_pos, packet->m_rot, 3);
+	pEntity->lerpTo(packet->m_pos, packet->m_rot);
 
 	redistributePacket(packet, guid);
 }
@@ -438,6 +438,22 @@ void ServerSideNetworkHandler::tileChanged(const TilePos& pos)
 void ServerSideNetworkHandler::timeChanged(uint32_t time)
 {
 	m_pRakNetInstance->send(new SetTimePacket(time));
+}
+
+void ServerSideNetworkHandler::entityAdded(Entity* entity)
+{
+	if (!canReplicateEntity(entity))
+		return;
+
+	if (entity->getDescriptor().isType(EntityType::ITEM))
+	{
+		// @TODO: AddItemEntityPacket
+	}
+	else
+	{
+		AddMobPacket packet(*((Mob*)entity));
+		redistributePacket(&packet, m_pRakNetInstance->m_guid);
+	}
 }
 
 void ServerSideNetworkHandler::allowIncomingConnections(bool b)
