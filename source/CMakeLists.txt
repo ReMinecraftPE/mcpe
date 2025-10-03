@@ -139,6 +139,7 @@ add_library(reminecraftpe-core STATIC
     client/player/input/TouchInputHolder.cpp
     client/player/input/TouchscreenInput_TestFps.cpp
     client/player/input/UnifiedTurnBuild.cpp
+    client/player/LocalPlayer.cpp
     client/network/ClientSideNetworkHandler.cpp
     nbt/CompoundTag.cpp
     nbt/DoubleTag.cpp
@@ -195,7 +196,6 @@ add_library(reminecraftpe-core STATIC
     world/gamemode/GameMode.cpp
     world/gamemode/CreativeMode.cpp
     world/entity/Mob.cpp
-    world/entity/LocalPlayer.cpp
     world/entity/Player.cpp
     world/entity/PrimedTnt.cpp
     world/entity/Entity.cpp

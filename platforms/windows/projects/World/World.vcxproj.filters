@@ -104,9 +104,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\ItemEntity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\entity\LocalPlayer.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Mob.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -572,9 +569,6 @@
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\ItemEntity.hpp">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\entity\LocalPlayer.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Mob.hpp">
