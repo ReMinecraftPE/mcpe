@@ -18,25 +18,26 @@ public:
 	Mob(Level* pLevel);
 	virtual ~Mob();
 
-	//overrides
-	virtual void reset() override;
-	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
-	virtual void tick() override;
-	virtual void baseTick() override;
-	virtual float getHeadHeight() const override { return 0.85f * m_bbHeight; }
-	virtual bool isPickable() const override { return !m_bRemoved; }
-	virtual bool isPushable() const override { return !m_bRemoved; }
-	virtual bool isShootable() const override { return true; }
-	virtual bool isAlive() const override;
-	virtual bool hurt(Entity*, int) override;
-	virtual void animateHurt() override;
-	virtual void setSize(float rad, float height) override;
-	virtual void outOfWorld() override;
-	virtual void causeFallDamage(float level) override;
-	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
-	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
+	// overrides
+	void reset() override;
+	void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
+	void tick() override;
+	void baseTick() override;
+	float getHeadHeight() const override { return 0.85f * m_bbHeight; }
+	bool isPickable() const override { return !m_bRemoved; }
+	bool isPushable() const override { return !m_bRemoved; }
+	bool isShootable() const override { return true; }
+	bool isAlive() const override;
+	bool isMob() const override { return true; }
+	bool hurt(Entity*, int) override;
+	void animateHurt() override;
+	void setSize(float rad, float height) override;
+	void outOfWorld() override;
+	void causeFallDamage(float level) override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
 
-	//virtuals
+	// virtuals
 	virtual void knockback(Entity* pEnt, int a, float x, float z);
 	virtual void die(Entity* pCulprit);
 	virtual bool canSee(Entity* pEnt) const;

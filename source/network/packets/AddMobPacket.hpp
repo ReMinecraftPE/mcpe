@@ -17,8 +17,8 @@ public:
 	void write(RakNet::BitStream&) override;
 	void read(RakNet::BitStream&) override;
 public:
-	int m_entityId;
-	int m_entityTypeId;
+	int32_t m_entityId;
+	int32_t m_entityTypeId;
 	Vec3 m_pos;
 	Vec2 m_rot;
 	SynchedEntityData m_entityData;

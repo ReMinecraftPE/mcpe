@@ -18,17 +18,12 @@ MAP(Vec3,         TYPE_VEC3,         Vec3())
 SynchedEntityData::SynchedEntityData()
 {
     m_itemsArray = ItemsArray();
-    m_minIdxDirty = -1;
+    m_minIdxDirty = 0; // supposed to be -1, but it's unsigned
     m_maxIdxDirty = 0;
 }
 
 SynchedEntityData::~SynchedEntityData()
 {
-    for (int i = 0; i < m_itemsArray.size(); i++)
-    {
-        DataItem* item = m_itemsArray[i];
-        SAFE_DELETE(item);
-    }
 }
 
 void SynchedEntityData::_updateMinMaxIdxDirty(DataID id)
@@ -60,6 +55,18 @@ bool SynchedEntityData::hasData(DataID id) const
     return id <= m_itemsArray.size() && m_itemsArray[id] != nullptr;
 }
 
+void SynchedEntityData::clear()
+{
+    for (int i = 0; i < m_itemsArray.size(); i++)
+    {
+        DataItem* item = m_itemsArray[i];
+        SAFE_DELETE(item);
+    }
+
+    m_itemsArray.clear();
+    m_minIdxDirty = m_maxIdxDirty = 0;
+}
+
 SynchedEntityData::ItemsArray SynchedEntityData::packDirty()
 {
     ItemsArray result;
@@ -80,10 +87,12 @@ SynchedEntityData::ItemsArray SynchedEntityData::packDirty()
 
 void SynchedEntityData::packAll(IDataOutput& dos) const
 {
-    for (int i = 0; i < m_itemsArray.size(); i++)
+    /*for (int i = 0; i < m_itemsArray.size(); i++)
     {
-        _WriteDataItem(dos, *m_itemsArray[i]);
-    }
+        DataItem* dataItem = m_itemsArray[i];
+        if (dataItem)
+            _WriteDataItem(dos, *dataItem);
+    }*/
 
     dos.writeInt8(127);
 }
@@ -208,7 +217,7 @@ SynchedEntityData::ItemsArray SynchedEntityData::Unpack(IDataInput& dis)
 
     for (int8_t var2 = dis.readInt8(); var2 != 127; var2 = dis.readInt8())
     {
-        DataType dataType = (DataType)((var2 & 224) >> 5);
+        DataType dataType = (DataType)(var2 >> 5);
         DataID dataId = var2 & 31;
         DataItem* dataItem = nullptr;
 

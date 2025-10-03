@@ -11,6 +11,8 @@
 #include "world/entity/MobFactory.hpp"
 #include "MinecraftPackets.hpp"
 
+#define NETWORK_TARGET_CLIENT_VERSION 021
+
 // This lets you make the server shut up and not log events in the debug console.
 //#define VERBOSE_SERVER
 
@@ -70,40 +72,53 @@ void ServerSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 {
 	puts_ignorable("onDisconnect");
 
-	OnlinePlayer* pOnlinePlayer = getPlayerByGUID(guid);
+	Player* pPlayer = nullptr;
 
-	if (!pOnlinePlayer)
-		return;
+	OnlinePlayer* pOnlinePlayer = getOnlinePlayerByGUID(guid);
+	if (pOnlinePlayer)
+	{
+		// Player was in-game
+		pPlayer = pOnlinePlayer->m_pPlayer;
 
-	Player* pPlayer = pOnlinePlayer->m_pPlayer;
+		m_onlinePlayers.erase(guid);
 
-	// erase it from the map
-	m_onlinePlayers.erase(m_onlinePlayers.find(guid)); // it better be in our map
+		// delete the online player's entry.
+		delete pOnlinePlayer;
+		// pPlayer is managed by Level
 
-	// tell everyone that they left the game
-	displayGameMessage(pPlayer->m_name + " disconnected from the game");
-	m_pRakNetInstance->send(new RemoveEntityPacket(pPlayer->m_EntityID));
+		// tell everyone that they left the game
+		displayGameMessage(pPlayer->m_name + " disconnected from the game");
 
-	// remove it from our world
-	m_pLevel->removeEntity(pPlayer);
+		m_pRakNetInstance->send(new RemoveEntityPacket(pPlayer->m_EntityID));
 
-	// delete the online player's entry.
-	delete pOnlinePlayer;
+		// remove it from our world
+		m_pLevel->removeEntity(pPlayer);
+	}
+	else if (pPlayer = getPendingPlayerByGUID(guid))
+	{
+		// Player was still loading
+		m_pendingPlayers.erase(guid);
+
+		// remove "it" from our heap
+		delete pPlayer;
+	}
 }
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacket* packet)
 {
-	if (!m_bAllowIncoming)
+	if (!m_pLevel || !m_bAllowIncoming)
 		return;
 
 	puts_ignorable("LoginPacket");
 
 	// if they're already online, fail
-	if (getPlayerByGUID(guid))
+	if (getOnlinePlayerByGUID(guid))
 	{
 		LOG_E("That player is already in the world!");
 		return;
 	}
+
+	RakNet::BitStream bs;
 
 #if NETWORK_PROTOCOL_VERSION >= 3
 	LoginStatusPacket::LoginStatus loginStatus = LoginStatusPacket::STATUS_SUCCESS;
@@ -111,7 +126,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	{
 		loginStatus = LoginStatusPacket::STATUS_CLIENT_OUTDATED;
 	}
-	else if (packet->m_clientNetworkVersion2 > NETWORK_PROTOCOL_VERSION)
+	else if (packet->m_clientNetworkVersionMin > NETWORK_PROTOCOL_VERSION)
 	{
 		loginStatus = LoginStatusPacket::STATUS_SERVER_OUTDATED;
 	}
@@ -120,9 +135,8 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	{
 		LoginStatusPacket lsp = LoginStatusPacket(loginStatus);
 
-		RakNet::BitStream lspbs;
-		lsp.write(lspbs);
-		m_pRakNetPeer->Send(&lspbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+		lsp.write(bs);
+		m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
 		return;
 	}
@@ -130,34 +144,61 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	Player* pPlayer = new Player(m_pLevel, m_pLevel->getLevelData()->getGameType());
 	pPlayer->m_guid = guid;
-	pPlayer->m_name = std::string(packet->m_str.C_String());
+	pPlayer->m_name = std::string(packet->m_userName.C_String());
 
-	m_onlinePlayers[guid] = new OnlinePlayer(pPlayer, guid);
+	m_pendingPlayers[guid] = pPlayer;
 
 	StartGamePacket sgp;
 	sgp.m_seed = m_pLevel->getSeed();
 	sgp.m_levelVersion = m_pLevel->getLevelData()->getStorageVersion();
 	sgp.m_gameType = pPlayer->getPlayerGameType();
 	sgp.m_entityId = pPlayer->m_EntityID;
+	sgp.m_time = m_pLevel->getTime();
 	sgp.m_pos = pPlayer->m_pos;
 	sgp.m_pos.y -= pPlayer->m_heightOffset;
-	sgp.m_serverVersion = NETWORK_PROTOCOL_VERSION;
-	sgp.m_time = m_pLevel->getTime();
 	
-	RakNet::BitStream sgpbs;
-	sgp.write(sgpbs);
-	m_pRakNetPeer->Send(&sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+	sgp.write(bs);
+	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
-	// @TODO: Move everything below into response to ReadyPacket
+#if NETWORK_PROTOCOL_VERSION <= 2
+	// emulate a ReadyPacket being received
+	handle(guid, (ReadyPacket*)nullptr);
+#endif
+}
+
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ReadyPacket* packet)
+{
+	if (!m_pLevel)
+		return;
+
+	if (packet)
+	{
+		// nullptr is emulated
+		puts_ignorable("ReadyPacket");
+	}
+
+	Player* pPlayer = popPendingPlayer(guid);
+	if (!pPlayer)
+		return;
+
+	RakNet::BitStream bs;
+
+#if NETWORK_PROTOCOL_VERSION >= 3
+	{
+		SetTimePacket packet(m_pLevel->getTime());
+		packet.write(bs);
+		m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+	}
+#endif
 
 	// send the connecting player info about all other players in the world
 	for (int i = 0; i < int(m_pLevel->m_players.size()); i++)
 	{
 		Player* player = m_pLevel->m_players[i];
 		AddPlayerPacket app(player);
-		RakNet::BitStream appbs;
-		app.write(appbs);
-		m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+		bs.Reset();
+		app.write(bs);
+		m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 	}
 
 	m_pLevel->addEntity(pPlayer);
@@ -169,15 +210,30 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
 
+#if NETWORK_PROTOCOL_VERSION >= 3
+	// send the connecting player info about all entities in the world
+	for (int i = 0; i < int(m_pLevel->m_entities.size()); i++)
+	{
+		Entity* entity = m_pLevel->m_entities[i];
+		if (canReplicateEntity(entity))
+		{
+			AddMobPacket packet(*((Mob*)entity));
+			bs.Reset();
+			packet.write(bs);
+			m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+		}
+	}
+#endif
+
 	AddPlayerPacket app(pPlayer);
-	RakNet::BitStream appbs;
-	app.write(appbs);
-	m_pRakNetPeer->Send(&appbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, true);
+	bs.Reset();
+	app.write(bs);
+	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, true);
 }
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePacket* packet)
 {
-	OnlinePlayer* pOP = getPlayerByGUID(guid);
+	OnlinePlayer* pOP = getOnlinePlayerByGUID(guid);
 	if (!pOP)
 	{
 		LOG_W("MessagePacket: That jerk %s doesn't actually exist", guid.ToString());
@@ -321,7 +377,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 	Player* pPlayer = (Player*)m_pLevel->getEntity(packet->m_playerID);
 	if (!pPlayer)
 	{
-		LOG_W("No player with id %d", packet->m_playerID);
+		LOG_W("PlayerEquipmentPacket: No player with id %d", packet->m_playerID);
 		return;
 	}
 
@@ -398,6 +454,21 @@ void ServerSideNetworkHandler::allowIncomingConnections(bool b)
 	m_bAllowIncoming = b;
 }
 
+Player* ServerSideNetworkHandler::popPendingPlayer(const RakNet::RakNetGUID& guid)
+{
+	if (!m_pLevel)
+		return nullptr;
+
+	Player* pPlayer = getPendingPlayerByGUID(guid);
+	if (pPlayer)
+	{
+		m_pendingPlayers.erase(guid);
+		m_onlinePlayers[guid] = new OnlinePlayer(pPlayer, guid);
+	}
+
+	return pPlayer;
+}
+
 void ServerSideNetworkHandler::displayGameMessage(const std::string& msg)
 {
 	m_pMinecraft->m_gui.addMessage(msg);
@@ -428,13 +499,45 @@ void ServerSideNetworkHandler::redistributePacket(Packet* packet, const RakNet::
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, source, true);
 }
 
-OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID& guid)
+OnlinePlayer* ServerSideNetworkHandler::getOnlinePlayerByGUID(const RakNet::RakNetGUID& guid)
 {
 	OnlinePlayerMap::iterator iter = m_onlinePlayers.find(guid);
 	if (iter == m_onlinePlayers.end())
 		return nullptr;
 
 	return iter->second;
+}
+
+Player* ServerSideNetworkHandler::getPendingPlayerByGUID(const RakNet::RakNetGUID& guid)
+{
+	PlayerMap::iterator iter = m_pendingPlayers.find(guid);
+	if (iter == m_pendingPlayers.end())
+		return nullptr;
+
+	return iter->second;
+}
+
+bool ServerSideNetworkHandler::canReplicateEntity(const Entity* pEntity) const
+{
+	if (!pEntity || !pEntity->isMob() || pEntity->isPlayer())
+		return false;
+
+	// All clients on V3 will just crash if an unknown 
+	// EntityType ID is replicated in an AddMobPacket.
+#if NETWORK_PROTOCOL_VERSION <= 3
+	EntityType::ID entityTypeId = pEntity->getDescriptor().getEntityType().getId();
+	switch (entityTypeId)
+	{
+	case EntityType::SHEEP:
+		return true;
+	case EntityType::ZOMBIE:
+		return true;
+	case EntityType::PIG:
+		return true;
+	default:
+		return false;
+	}
+#endif
 }
 
 ///////////////// In-Game Commands /////////////////

@@ -17,16 +17,16 @@ void LoginPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callb
 void LoginPacket::write(RakNet::BitStream& bs)
 {
 	bs.Write((unsigned char)PACKET_LOGIN);
-	bs.Write(m_str);
+	bs.Write(m_userName);
 	bs.Write(m_clientNetworkVersion);
-	bs.Write(m_clientNetworkVersion2);
+	bs.Write(m_clientNetworkVersionMin);
 }
 
 void LoginPacket::read(RakNet::BitStream& bs)
 {
-	bs.Read(m_str);
+	bs.Read(m_userName);
 
 	if (!bs.Read(m_clientNetworkVersion))
 		return;
-	bs.Read(m_clientNetworkVersion2);
+	bs.Read(m_clientNetworkVersionMin);
 }

@@ -52,16 +52,13 @@ void ClientSideNetworkHandler::levelGenerated(Level* level)
 
 void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // server guid
 {
-	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
+	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID(); // iOS 0.2.1 crashes right here after loading chunks
 	printf_ignorable("onConnect, server guid: %s, local guid: %s", rakGuid.ToString(), localGuid.ToString());
 
 	m_serverGUID = rakGuid;
 
-	LoginPacket* pLoginPkt = new LoginPacket;
-	pLoginPkt->m_str = RakNet::RakString(m_pMinecraft->m_pUser->field_0.c_str());
-	pLoginPkt->m_clientNetworkVersion = NETWORK_PROTOCOL_VERSION;
-	pLoginPkt->m_clientNetworkVersion2 = NETWORK_PROTOCOL_VERSION;
-	
+	clearChunksLoaded();
+	LoginPacket* pLoginPkt = new LoginPacket(m_pMinecraft->m_pUser->field_0, NETWORK_PROTOCOL_VERSION);
 	m_pRakNetInstance->send(pLoginPkt);
 }
 
@@ -150,7 +147,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 
 	m_pLevel->setTime(pStartGamePkt->m_time);
 
-	m_serverProtocolVersion = pStartGamePkt->m_serverVersion;
+	// Not replicated even by 0.12.1, not sure where we even got this from...
+	m_serverProtocolVersion = NETWORK_PROTOCOL_VERSION;
 
 	m_pMinecraft->setLevel(m_pLevel, "ClientSideNetworkHandler -> setLevel", pLocalPlayer);
 }
@@ -165,9 +163,13 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 	pPlayer->m_EntityID = pAddPlayerPkt->m_id;
 	m_pLevel->addEntity(pPlayer);
 
+	// If we haven't received a rot, use default player rot
+	if (pAddPlayerPkt->m_rot == Vec2::ZERO)
+		pAddPlayerPkt->m_rot = pPlayer->m_rot;
+
 	pPlayer->moveTo(
 		pAddPlayerPkt->m_pos,
-		pPlayer->m_rot);
+		pAddPlayerPkt->m_rot);
 
 	pPlayer->m_name = pAddPlayerPkt->m_name;
 	pPlayer->m_guid = pAddPlayerPkt->m_guid;
@@ -177,6 +179,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 	else
 		pPlayer->m_pInventory->prepareSurvivalInventory();
 
+	ItemInstance* pItem = pPlayer->getSelectedItem();
+	if (pItem)
+	{
+		pItem->m_itemID = pAddPlayerPkt->m_itemId;
+		pItem->setAuxValue(pAddPlayerPkt->m_itemAuxValue);
+		pItem->m_count = 63;
+	}
+
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
 }
 
@@ -184,11 +194,27 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobP
 {
 	puts_ignorable("AddMobPacket");
 
-	if (!m_pLevel) return;
+	if (!m_pLevel)
+	{
+		LOG_W("Trying to add a mob with no level!");
+		return;
+	}
 
 	EntityType::ID entityTypeId = (EntityType::ID)pAddMobPkt->m_entityTypeId;
+	if (entityTypeId == EntityType::UNKNOWN)
+	{
+		LOG_E("Trying to add a mob without a type id");
+		return;
+	}
+
 	Entity* entity = MobFactory::CreateMob(entityTypeId, m_pLevel);
-	if (!entity) return;
+	// Mojang, in all of their infinite wisdon, does not have this check here in 0.2.1,
+	// so the game will just crash if you replicate a mob it can't create.
+	if (!entity)
+	{
+		LOG_E("Server tried to add an unknown mob type! :%d", entityTypeId);
+		return;
+	}
 
 	entity->m_EntityID = pAddMobPkt->m_entityId;
 	entity->moveTo(pAddMobPkt->m_pos, pAddMobPkt->m_rot);
@@ -213,7 +239,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
 	if (!pEntity)
 	{
-		LOG_E("No player with id %d", packet->m_id);
+		LOG_E("MovePlayerPacket: No player with id %d", packet->m_id);
 		return;
 	}
 	
@@ -227,7 +253,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 	Player* pPlayer = (Player*)m_pLevel->getEntity(pPlaceBlockPkt->m_entityId);
 	if (!pPlayer)
 	{
-		LOG_E("No player with id %d", pPlaceBlockPkt->m_entityId);
+		LOG_E("PlaceBlockPacket: No player with id %d", pPlaceBlockPkt->m_entityId);
 		return;
 	}
 
@@ -262,7 +288,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 	Entity* pEntity = m_pLevel->getEntity(pRemoveBlockPkt->m_entityId);
 	if (!pEntity || !pEntity->isPlayer())
 	{
-		LOG_E("No player with id %d", pRemoveBlockPkt->m_entityId);
+		LOG_E("RemoveBlockPacket: No player with id %d", pRemoveBlockPkt->m_entityId);
 		return;
 	}
 

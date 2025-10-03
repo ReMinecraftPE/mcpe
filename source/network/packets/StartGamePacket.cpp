@@ -23,15 +23,13 @@ void StartGamePacket::write(RakNet::BitStream& bs)
 	bs.Write<int32_t>(m_gameType);
 #endif
 	bs.Write(m_entityId);
+	// probably older, you figure it out
+#if NETWORK_PROTOCOL_VERSION >= 29
+	bs.Write(m_time);
+#endif
 	bs.Write(m_pos.x);
 	bs.Write(m_pos.y);
 	bs.Write(m_pos.z);
-
-	bs.Write(m_serverVersion);
-	if (m_serverVersion >= 1)
-	{
-		bs.Write(m_time);
-	}
 }
 
 void StartGamePacket::read(RakNet::BitStream& bs)
@@ -44,15 +42,10 @@ void StartGamePacket::read(RakNet::BitStream& bs)
 	m_gameType = (GameType)gameType;
 #endif
 	bs.Read(m_entityId);
+#if NETWORK_PROTOCOL_VERSION >= 29
+	bs.Read(m_time);
+#endif
 	bs.Read(m_pos.x);
 	bs.Read(m_pos.y);
 	bs.Read(m_pos.z);
-
-	if (!bs.Read(m_serverVersion))
-		return;
-
-	if (m_serverVersion < 1)
-		return;
-	
-	bs.Read(m_time);
 }

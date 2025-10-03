@@ -129,6 +129,7 @@ public:
 	virtual bool isAlive() const { return m_bRemoved; }
 	virtual bool isOnFire() const { return m_fireTicks > 0; }
 	virtual bool isPlayer() const { return false; }
+	virtual bool isMob() const { return false; }
 	virtual bool isCreativeModeAllowed() const { return false; }
 	virtual bool shouldRender(Vec3& camPos) const;
 	virtual bool shouldRenderAtSqrDistance(float distSqr) const;

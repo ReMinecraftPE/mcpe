@@ -13,7 +13,6 @@ public:
 		m_levelVersion = 0;
 		m_gameType = GAME_TYPES_MAX;
 		m_entityId = 0;
-		m_serverVersion = 0;
 		m_time = 0;
 	}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
@@ -24,7 +23,6 @@ public:
 	int m_levelVersion;
 	GameType m_gameType;
 	int m_entityId;
-	Vec3 m_pos;
-	int m_serverVersion;
 	int m_time;
+	Vec3 m_pos;
 };

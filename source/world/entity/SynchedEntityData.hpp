@@ -98,6 +98,7 @@ private:
 
 public:
 	bool hasData(DataID id) const;
+	void clear();
 	ItemsArray packDirty();
 	void packAll(IDataOutput& dos) const;
 	void assignValues(const ItemsArray& items);

@@ -80,7 +80,7 @@ void LevelDataPacket::write(RakNet::BitStream& bs)
 		//LOG_I("Level not compressed.");
 	}
 
-	bs.Write(bs);
+	bs.Write(bs2);
 	return;
 }
 

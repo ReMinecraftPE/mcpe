@@ -76,6 +76,7 @@ Entity::Entity(Level* pLevel)
 
 Entity::~Entity()
 {
+	m_entityData.clear();
 }
 
 void Entity::setLevel(Level* pLvl)

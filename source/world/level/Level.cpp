@@ -1145,13 +1145,8 @@ bool Level::addEntity(Entity* pEnt)
 	Entity* pOldEnt = getEntity(pEnt->hashCode());
 	if (pOldEnt)
 	{
-		LOG_W("Entity %d already exists.", pEnt->hashCode());
-		//removeEntity(pOldEnt);
-	}
-
-	if (!pEnt->isPlayer() && m_bIsClientSide)
-	{
-		LOG_W("Hey, why are you trying to add an non-player entity in a multiplayer world?");
+		LOG_W("Entity %d already exists. Replacing...", pEnt->hashCode());
+		removeEntity(pOldEnt);
 	}
 
 	//@NOTE: useless Mth::floor() calls
