@@ -16,7 +16,7 @@
 #include "world/entity/MobFactory.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
-//#define VERBOSE_CLIENT
+#define VERBOSE_CLIENT
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_CLIENT)
 #define puts_ignorable(str) LOG_I(str)

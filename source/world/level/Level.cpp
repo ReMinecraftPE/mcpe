@@ -1544,7 +1544,7 @@ void Level::tick()
 #ifdef ENH_RUN_DAY_NIGHT_CYCLE
 	updateSkyDarken();
 
-	_setTime(getTime() + 1); // Bypasses the normally-required update to LevelListeners
+	setTime(getTime() + 1);
 #endif
 
 	tickPendingTicks(false);

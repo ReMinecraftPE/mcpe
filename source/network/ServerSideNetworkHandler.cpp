@@ -11,7 +11,9 @@
 #include "world/entity/MobFactory.hpp"
 #include "MinecraftPackets.hpp"
 
-#define NETWORK_TARGET_CLIENT_VERSION 021
+// How frequently SetTimePackets are sent, in seconds.
+// b1.3 sends every second. 0.2.1 seems to send every 12.
+#define NETWORK_TIME_SEND_FREQUENCY 12
 
 // This lets you make the server shut up and not log events in the debug console.
 //#define VERBOSE_SERVER
@@ -437,7 +439,10 @@ void ServerSideNetworkHandler::tileChanged(const TilePos& pos)
 
 void ServerSideNetworkHandler::timeChanged(uint32_t time)
 {
-	m_pRakNetInstance->send(new SetTimePacket(time));
+	if ((time % (20 * NETWORK_TIME_SEND_FREQUENCY)) == 0)
+	{
+		m_pRakNetInstance->send(new SetTimePacket(time));
+	}
 }
 
 void ServerSideNetworkHandler::entityAdded(Entity* entity)
