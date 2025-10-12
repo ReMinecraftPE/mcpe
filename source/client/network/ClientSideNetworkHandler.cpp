@@ -42,10 +42,11 @@ void ClientSideNetworkHandler::levelGenerated(Level* level)
 {
 	m_pLevel = level;
 
-#if NETWORK_PROTOCOL_VERSION >= 3
-	ReadyPacket* pReadyPkt = new ReadyPacket(1);
-	m_pRakNetInstance->send(pReadyPkt);
-#endif
+	if (m_serverProtocolVersion >= 3)
+	{
+		ReadyPacket* pReadyPkt = new ReadyPacket(1);
+		m_pRakNetInstance->send(pReadyPkt);
+	}
 
 	arrangeRequestChunkOrder();
 	requestNextChunk();
