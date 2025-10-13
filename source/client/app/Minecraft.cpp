@@ -1093,7 +1093,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 
 	m_bPreparingLevel = false;
 
-	if (m_pRakNetInstance->m_bIsHost)
+	if (m_pRakNetInstance && m_pRakNetInstance->m_bIsHost)
 		m_pRakNetInstance->announceServer(m_pUser->field_0);
 }
 
@@ -1234,7 +1234,8 @@ int Minecraft::getFpsIntlCounter()
 void Minecraft::leaveGame(bool bCopyMap)
 {
 	m_bPreparingLevel = false;
-	m_pRakNetInstance->disconnect();
+	if (m_pRakNetInstance)
+		m_pRakNetInstance->disconnect();
 	m_pMobPersp = nullptr;
 	m_pLevelRenderer->setLevel(nullptr);
 	m_pParticleEngine->setLevel(nullptr);
@@ -1280,6 +1281,9 @@ void Minecraft::leaveGame(bool bCopyMap)
 
 void Minecraft::hostMultiplayer()
 {
+	if (!m_pRakNetInstance)
+		return;
+
 #ifndef __EMSCRIPTEN__
 	m_pRakNetInstance->host(m_pUser->field_0, C_DEFAULT_PORT, C_MAX_CONNECTIONS);
 	m_pNetEventCallback = new ServerSideNetworkHandler(this, m_pRakNetInstance);
@@ -1288,6 +1292,9 @@ void Minecraft::hostMultiplayer()
 
 void Minecraft::joinMultiplayer(const PingedCompatibleServer& serverInfo)
 {
+	if (!m_pRakNetInstance)
+		return;
+
 #ifndef __EMSCRIPTEN__
 	if (field_18 && m_pNetEventCallback)
 	{
@@ -1299,6 +1306,9 @@ void Minecraft::joinMultiplayer(const PingedCompatibleServer& serverInfo)
 
 void Minecraft::cancelLocateMultiplayer()
 {
+	if (!m_pRakNetInstance)
+		return;
+
 #ifndef __EMSCRIPTEN__
 	field_18 = false;
 	m_pRakNetInstance->stopPingForHosts();
@@ -1309,6 +1319,9 @@ void Minecraft::cancelLocateMultiplayer()
 
 void Minecraft::locateMultiplayer()
 {
+	if (!m_pRakNetInstance)
+		return;
+
 #ifndef __EMSCRIPTEN__
 	field_18 = true;
 	m_pRakNetInstance->pingForHosts(C_DEFAULT_PORT);

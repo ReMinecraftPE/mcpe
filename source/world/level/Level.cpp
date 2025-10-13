@@ -9,10 +9,13 @@
 #include "Level.hpp"
 
 #include <algorithm>
+
 #include "common/Util.hpp"
+#include "network/RakNetInstance.hpp"
+#include "network/packets/SetEntityDataPacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "Explosion.hpp"
-#include "Region.hpp"
+#include "Region.hpp""
 
 Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension *pDimension)
 {
@@ -1241,6 +1244,21 @@ void Level::loadEntities()
 	}
 }
 
+void Level::sendEntityData()
+{
+	if (!m_pRakNetInstance)
+		return;
+
+	// Inlined on 0.2.1, god bless PerfTimer
+	for (EntityVector::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+	{
+		Entity* ent = *it;
+		SynchedEntityData& data = ent->getEntityData();
+		if (data.isDirty())
+			m_pRakNetInstance->send(new SetEntityDataPacket(ent->m_EntityID, data));
+	}
+}
+
 #ifdef ENH_IMPROVED_SAVING
 void Level::saveUnsavedChunks()
 {
@@ -1549,6 +1567,8 @@ void Level::tick()
 
 	tickPendingTicks(false);
 	tickTiles();
+
+	sendEntityData();
 }
 
 void Level::tickEntities()

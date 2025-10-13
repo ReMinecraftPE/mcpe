@@ -27,6 +27,7 @@
 #include "packets/RequestChunkPacket.hpp"
 #include "packets/ChunkDataPacket.hpp"
 #include "packets/PlayerEquipmentPacket.hpp"
+#include "packets/SetEntityDataPacket.hpp"
 #include "packets/LevelDataPacket.hpp"
 
 class MinecraftPackets

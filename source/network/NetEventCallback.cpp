@@ -90,10 +90,13 @@ void NetEventCallback::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket
 
 void NetEventCallback::handle(const RakNet::RakNetGUID& guid, ChunkDataPacket* packet)
 {
-	
 }
 
 void NetEventCallback::handle(const RakNet::RakNetGUID& guid, PlayerEquipmentPacket* packet)
+{
+}
+
+void NetEventCallback::handle(const RakNet::RakNetGUID& guid, SetEntityDataPacket* packet)
 {
 }
 

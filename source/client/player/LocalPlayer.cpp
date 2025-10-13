@@ -161,10 +161,8 @@ bool LocalPlayer::isSneaking() const
 	return m_pMoveInput->m_bSneaking;
 }
 
-int LocalPlayer::move(const Vec3& pos)
+void LocalPlayer::move(const Vec3& pos)
 {
-	int result = 0;
-
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
 	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
@@ -178,7 +176,7 @@ int LocalPlayer::move(const Vec3& pos)
 		pLP->m_vel.y = 0.0f;
 
 		// This looks very funny.
-		result = pLP->Entity::move(field_BF0);
+		pLP->Entity::move(field_BF0);
 
 		pLP->m_bOnGround = true;
 
@@ -201,7 +199,7 @@ int LocalPlayer::move(const Vec3& pos)
 		float posX = m_pos.x;
 		float posY = m_pos.y;
 
-		result = Entity::move(pos);
+		Entity::move(pos);
 
 		//@BUG: backing up posZ too late
 		float posZ = m_pos.z;
@@ -211,7 +209,7 @@ int LocalPlayer::move(const Vec3& pos)
 			if (Mth::floor(posX * 2) == Mth::floor(m_pos.x * 2) &&
 				Mth::floor(posY * 2) == Mth::floor(m_pos.y * 2) &&
 				Mth::floor(posZ * 2) == Mth::floor(m_pos.z * 2))
-				return result;
+				return;
 
 			float dist = Mth::sqrt(pos.x * pos.x + pos.z * pos.z);
 			int x1 = Mth::floor(pos.x / dist + m_pos.x);
@@ -221,15 +219,15 @@ int LocalPlayer::move(const Vec3& pos)
 
 			// not standing on top of a tile?
 			if (!m_pLevel->isSolidTile(TilePos(x1, int(m_pos.y - 1.0f), z1)))
-				return 0;
+				return;
 
 			// aren't inside of a tile right now
 			if (m_pLevel->isSolidTile(TilePos(x1, int(m_pos.y), z1)))
-				return 0;
+				return;
 
 			// don't have anything on top of us
 			if (m_pLevel->isSolidTile(TilePos(x1, int(m_pos.y + 1.0f), z1)))
-				return 1;
+				return;
 
 			// are we trying to walk into stairs or a slab?
 			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->getOptions()->m_bAutoJump)
@@ -237,8 +235,6 @@ int LocalPlayer::move(const Vec3& pos)
 				m_nAutoJumpFrames = 1;
 		}
 	}
-
-	return result;
 }
 
 void LocalPlayer::tick()

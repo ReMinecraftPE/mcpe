@@ -306,7 +306,7 @@ void Mob::baseTick()
     field_EC = field_E8;
     m_oRot = m_rot;
 
-	if (!m_pLevel->m_bIsClientSide && !isPlayer())
+	if (m_pLevel->m_pRakNetInstance && !m_pLevel->m_bIsClientSide && !isPlayer())
 	{
 		if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
 			fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
@@ -546,6 +546,9 @@ HitResult Mob::pick(float f1, float f2)
 
 void Mob::travel(const Vec2& pos)
 {
+	if (isImmobile())
+		return;
+
 	float x2, dragFactor;
 	float oldYPos = m_pos.y;
 	if (isInWater() || isInLava())
@@ -627,7 +630,9 @@ void Mob::travel(const Vec2& pos)
 	if (m_bHorizontalCollision && onLadder())
 		m_vel.y = 0.2f;
 
-	m_vel.y = (m_vel.y - 0.08f) * 0.98f; // gravity?
+	// quick, dirty workaround to fix mob jump jitter on multiplayer worlds
+	if (!interpolateOnly()) 
+		m_vel.y = (m_vel.y - 0.08f) * 0.98f; // gravity
 
 	// drag
 	m_vel.x *= dragFactor;
@@ -705,7 +710,7 @@ void Mob::aiStep()
 	{
 		Entity* pEnt = *it;
 		if (pEnt->isPushable())
-			pEnt->push(this);
+ 			pEnt->push(this);
 	}
 }
 

@@ -98,6 +98,7 @@ private:
 
 public:
 	bool hasData(DataID id) const;
+	bool isDirty() const;
 	void clear();
 	ItemsArray packDirty();
 	void packAll(IDataOutput& dos) const;
@@ -173,7 +174,7 @@ public:
 	static void Pack(const ItemsArray& items, IDataOutput& dos);
 	static ItemsArray Unpack(IDataInput& dis);
 
-public:
+private:
 	ItemsArray m_itemsArray;
 	DataID m_minIdxDirty;
 	DataID m_maxIdxDirty;

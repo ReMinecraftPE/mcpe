@@ -12,6 +12,7 @@
 #include "nbt/CompoundTag.hpp"
 
 #define TOTAL_AIR_SUPPLY (300)
+#define DATA_SHARED_FLAGS_ID (0)
 
 int Entity::entityCounter;
 Random Entity::sharedRandom;
@@ -19,15 +20,12 @@ Random Entity::sharedRandom;
 void Entity::_init()
 {
 	m_bInAChunk = false;
-	m_chunkPos = ChunkPos(0, 0);
 	field_20 = 0;
 	field_24 = 0;
 	field_28 = 0;
 	field_30 = 1.0f;
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
-	m_rot = Vec2::ZERO;
-	m_oRot = Vec2::ZERO;
 	m_bOnGround = false;
 	m_bHorizontalCollision = false;
 	m_bCollision = false;
@@ -45,7 +43,7 @@ void Entity::_init()
 	m_ySlideOffset = 0.0f;
 	m_footSize = 0.0f;
 	m_bNoPhysics = false;
-	field_B0 = 0.0f;
+	m_pushthrough = 0.0f;
     m_tickCount = 0;
 	m_invulnerableTime = 0;
 	m_airCapacity = TOTAL_AIR_SUPPLY;
@@ -59,7 +57,6 @@ void Entity::_init()
 	m_bFireImmune = false;
 	m_bFirstTick = true;
 	m_nextStep = 1;
-	m_entityData = SynchedEntityData();
 	m_pDescriptor = &EntityTypeDescriptor::unknown;
 }
 
@@ -71,12 +68,31 @@ Entity::Entity(Level* pLevel)
 	m_EntityID = ++entityCounter;
 	setPos(Vec3::ZERO);
 
-	m_entityData.define<int8_t>(0, 0);
+	m_entityData.define<SharedFlag>(DATA_SHARED_FLAGS_ID, 0);
 }
 
 Entity::~Entity()
 {
 	m_entityData.clear();
+}
+
+bool Entity::getSharedFlag(SharedFlag flag) const
+{
+	return (getEntityData().get<int8_t>(DATA_SHARED_FLAGS_ID) & 1 << flag) != 0;
+}
+
+void Entity::setSharedFlag(SharedFlag flag, bool value)
+{
+	SynchedEntityData& entityData = getEntityData();
+	int8_t var3 = entityData.get<int8_t>(DATA_SHARED_FLAGS_ID);
+	if (value)
+	{
+		entityData.set(DATA_SHARED_FLAGS_ID, (int8_t)(var3 | 1 << flag));
+	}
+	else
+	{
+		entityData.set(DATA_SHARED_FLAGS_ID, (int8_t)(var3 & ~(1 << flag)));
+	}
 }
 
 void Entity::setLevel(Level* pLvl)
@@ -110,7 +126,7 @@ void Entity::remove()
 	m_bRemoved = true;
 }
 
-int Entity::move(const Vec3& pos)
+void Entity::move(const Vec3& pos)
 {
 	if (m_bNoPhysics)
 	{
@@ -322,8 +338,6 @@ int Entity::move(const Vec3& pos)
 		}
 
 	}
-
-	return 1300;
 }
 
 void Entity::moveTo(const Vec3& pos, const Vec2& rot)
@@ -669,7 +683,7 @@ void Entity::push(Entity* bud)
 	float x2 = 1.0f / x1;
 	if (x2 > 1.0f)
 		x2 = 1.0f;
-	float x3 = 1.0f - this->field_B0;
+	float x3 = 1.0f - m_pushthrough;
 	float x4 = x3 * diffX / x1 * x2 * 0.05f;
 	float x5 = x3 * diffZ / x1 * x2 * 0.05f;
 

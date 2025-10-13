@@ -122,6 +122,7 @@ public:
 	void saveAllChunks();
 	void saveGame();
 	void loadEntities();
+	void sendEntityData();
 	void setInitialSpawn();
 	void setSpawnPos(const TilePos& pos) { m_pLevelData->setSpawn(pos); }
 	void setSpawnSettings(bool a, bool b) { }

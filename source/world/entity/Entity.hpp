@@ -19,6 +19,10 @@
 #include "EntityTypeDescriptor.hpp"
 #include "common/Utils.hpp"
 
+#define C_ENTITY_FLAG_ONFIRE (0)
+#define C_ENTITY_FLAG_SNEAKING (1)
+#define C_ENTITY_FLAG_RIDING (2)
+
 class Level;
 class Player;
 class ItemInstance;
@@ -81,18 +85,27 @@ struct EntityPos
 
 class Entity
 {
+protected:
+	typedef int8_t SharedFlag;
+
 private:
 	void _init();
 public:
 	Entity() { _init(); }
 	Entity(Level*);
 	virtual ~Entity();
+
+protected:
+	bool getSharedFlag(SharedFlag flag) const;
+	void setSharedFlag(SharedFlag flag, bool value);
+
+public:
 	virtual void reset();
 	virtual void setLevel(Level*);
 	virtual void removed();
 	virtual void setPos(const Vec3& pos);
 	virtual void remove();
-	virtual int move(const Vec3& posIn);
+	virtual void move(const Vec3& posIn);
 	virtual void moveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
 	virtual void absMoveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
 	virtual void moveRelative(const Vec3& pos);
@@ -125,11 +138,14 @@ public:
 	virtual bool isPickable() const { return false; }
 	virtual bool isPushable() const { return false; }
 	virtual bool isShootable() const { return false; }
-	virtual bool isSneaking() const { return false; }
+	virtual bool isOnFire() const { return m_fireTicks > 0 || getSharedFlag(C_ENTITY_FLAG_ONFIRE); }
+	virtual bool isRiding() const { return /*m_pRiding != nullptr ||*/ getSharedFlag(C_ENTITY_FLAG_RIDING); }
+	virtual bool isSneaking() const { return getSharedFlag(C_ENTITY_FLAG_SNEAKING); }
+	virtual void setSneaking(bool value) { setSharedFlag(C_ENTITY_FLAG_SNEAKING, value); }
 	virtual bool isAlive() const { return m_bRemoved; }
-	virtual bool isOnFire() const { return m_fireTicks > 0; }
 	virtual bool isPlayer() const { return false; }
 	virtual bool isMob() const { return false; }
+	virtual bool interpolateOnly() const { return false; }
 	virtual bool isCreativeModeAllowed() const { return false; }
 	virtual bool shouldRender(Vec3& camPos) const;
 	virtual bool shouldRenderAtSqrDistance(float distSqr) const;
@@ -219,7 +235,7 @@ public:
 	float m_ySlideOffset;
 	float m_footSize;
 	bool m_bNoPhysics;
-	float field_B0;
+	float m_pushthrough;
 	int m_tickCount;
 	int m_invulnerableTime;
 	int m_airCapacity;

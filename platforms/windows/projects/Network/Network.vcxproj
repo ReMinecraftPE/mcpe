@@ -61,6 +61,7 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddMobPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetEntityDataPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SetEntityDataPacket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

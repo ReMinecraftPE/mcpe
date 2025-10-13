@@ -46,7 +46,7 @@ void AddMobPacket::read(RakNet::BitStream& bs)
 	bs.Read(yaw);
 
 	RakDataInput dis(bs);
-	m_entityData.m_itemsArray = SynchedEntityData::Unpack(dis);
+	m_unpack = SynchedEntityData::Unpack(dis);
 
 	m_rot.x = PacketUtil::Rot_charToDegrees(pitch);
 	m_rot.y = PacketUtil::Rot_charToDegrees(yaw);

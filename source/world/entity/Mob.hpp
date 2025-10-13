@@ -29,7 +29,7 @@ public:
 	bool isShootable() const override { return true; }
 	bool isAlive() const override;
 	bool isMob() const override { return true; }
-	bool interpolateOnly() const;
+	bool interpolateOnly() const override;
 	bool hurt(Entity*, int) override;
 	void animateHurt() override;
 	void setSize(float rad, float height) override;

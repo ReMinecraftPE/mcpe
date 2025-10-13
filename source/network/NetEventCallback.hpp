@@ -39,6 +39,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, RequestChunkPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, ChunkDataPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*);
+	virtual void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*);
 	virtual void handle(const RakNet::RakNetGUID&, LevelDataPacket*);
 };
 

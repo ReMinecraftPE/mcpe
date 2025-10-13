@@ -220,7 +220,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobP
 
 	entity->m_EntityID = pAddMobPkt->m_entityId;
 	entity->moveTo(pAddMobPkt->m_pos, pAddMobPkt->m_rot);
-	entity->getEntityData().assignValues(pAddMobPkt->m_entityData.m_itemsArray);
+	entity->getEntityData().assignValues(pAddMobPkt->getUnpackedData());
 	m_pLevel->addEntity(entity);
 }
 
@@ -451,6 +451,20 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 	}
 
 	pPlayer->m_pInventory->selectItemById(pPlayerEquipmentPkt->m_itemID, C_MAX_HOTBAR_ITEMS);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetEntityDataPacket* pkt)
+{
+	puts_ignorable("SetEntityDataPacket");
+
+	if (!m_pLevel)
+		return;
+
+	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	if (!pEntity)
+		return;
+
+	pEntity->getEntityData().assignValues(pkt->getUnpackedData());
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)

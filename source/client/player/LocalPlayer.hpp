@@ -23,7 +23,7 @@ public:
 	virtual void animateRespawn() override;
 	virtual void aiStep() override;
 	virtual bool isSneaking() const override;
-	virtual int move(const Vec3& pos) override;
+	virtual void move(const Vec3& pos) override;
 	virtual void tick() override;
 	virtual void updateAi() override;
 	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
@@ -31,6 +31,7 @@ public:
 	virtual bool isLocalPlayer() const override { return true; }
 	virtual void drop(const ItemInstance& item, bool randomly = false) override;
 	virtual bool isImmobile() const override;
+	virtual bool interpolateOnly() const override { return false; }
 	virtual void setPlayerGameType(GameType gameType) override;
 
 	void calculateFlight(const Vec3& pos);
