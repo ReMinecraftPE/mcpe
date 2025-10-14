@@ -87,6 +87,23 @@ class Entity
 {
 protected:
 	typedef int8_t SharedFlag;
+public:
+	typedef int32_t ID;
+public:
+	class EventType
+	{
+	public:
+		typedef int8_t ID;
+		enum
+		{
+			NONE,
+			JUMP,
+			HURT,
+			DEATH,
+			START_ATTACKING,
+			STOP_ATTACKING
+		};
+	};
 
 private:
 	void _init();
@@ -171,7 +188,7 @@ public:
 	virtual const AABB* getCollideBox() const;
 	virtual AABB* getCollideAgainstBox(Entity* ent) const;
 	virtual void handleInsidePortal();
-	virtual void handleEntityEvent(int event);
+	virtual void handleEntityEvent(EventType::ID eventId);
 	//virtual void thunderHit(LightningBolt*);
 	void load(const CompoundTag& tag);
 	bool save(CompoundTag& tag) const;
@@ -181,12 +198,11 @@ public:
 	// Removed by Mojang. See https://stackoverflow.com/questions/962132/why-is-a-call-to-a-virtual-member-function-in-the-constructor-a-non-virtual-call
 	//virtual void defineSynchedData();
 	EntityType::ID getEncodeId() const;
+	Entity::ID hashCode() const { return m_EntityID; }
 
 	const EntityTypeDescriptor& getDescriptor() const { return *m_pDescriptor; }
 	SynchedEntityData& getEntityData() { return m_entityData; }
 	const SynchedEntityData& getEntityData() const { return m_entityData; }
-
-	int hashCode() const { return m_EntityID; }
 
 	bool operator==(const Entity& other) const;
 
@@ -198,10 +214,12 @@ public:
 			(m_pos.z - pos.z) * (m_pos.z - pos.z);
 	}
 
-public:
-	static int entityCounter;
-	static Random sharedRandom;
+protected:
+	SynchedEntityData m_entityData;
+	bool m_bMakeStepSound;
+	const EntityTypeDescriptor* m_pDescriptor;
 
+public:
 	Vec3 m_pos;
 	bool m_bInAChunk;
 	ChunkPos m_chunkPos;
@@ -209,7 +227,7 @@ public:
 	int field_20; // unused Vec3?
 	int field_24;
 	int field_28;
-	int m_EntityID;
+	Entity::ID m_EntityID;
 	float field_30;
 	bool m_bBlocksBuilding;
 	Level* m_pLevel;
@@ -249,8 +267,7 @@ public:
 	bool m_bFirstTick;
 	int m_nextStep;
 
-	protected:
-		SynchedEntityData m_entityData;
-		bool m_bMakeStepSound;
-		const EntityTypeDescriptor* m_pDescriptor;
+public:
+	static Entity::ID entityCounter;
+	static Random sharedRandom;
 };

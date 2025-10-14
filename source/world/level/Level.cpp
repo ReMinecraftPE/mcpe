@@ -12,6 +12,7 @@
 
 #include "common/Util.hpp"
 #include "network/RakNetInstance.hpp"
+#include "network/packets/EntityEventPacket.hpp"
 #include "network/packets/SetEntityDataPacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "Explosion.hpp"
@@ -283,8 +284,10 @@ Material* Level::getMaterial(const TilePos& pos) const
 	return pTile->m_pMaterial;
 }
 
-Entity* Level::getEntity(int id) const
+Entity* Level::getEntity(Entity::ID id) const
 {
+	// @TODO: wtf? no map??
+
 	// prioritize players first.
 	for (std::vector<Player*>::const_iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
@@ -1423,6 +1426,14 @@ bool Level::mayPlace(TileID tile, const TilePos& pos, bool b) const
 	return pTile->mayPlace(this, pos);
 }
 
+void Level::broadcastEntityEvent(const Entity& entity, Entity::EventType::ID eventId)
+{
+	if (m_bIsClientSide)
+		return;
+
+	m_pRakNetInstance->send(new EntityEventPacket(entity.m_EntityID, eventId));
+}
+
 void Level::removeListener(LevelListener* listener)
 {
 	std::vector<LevelListener*>::iterator iter = std::find(m_levelListeners.begin(), m_levelListeners.end(), listener);
@@ -1825,11 +1836,11 @@ void Level::explode(Entity* entity, const Vec3& pos, float power, bool bIsFiery)
 	expl.addParticles();
 }
 
-void Level::addEntities(const std::vector<Entity*>& entities)
+void Level::addEntities(const EntityVector& entities)
 {
 	m_entities.insert(m_entities.end(), entities.begin(), entities.end());
 
-	for (std::vector<Entity*>::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+	for (EntityVector::iterator it = m_entities.begin(); it != m_entities.end(); it++)
 	{
 		Entity* pEnt = *it;
 		entityAdded(pEnt);

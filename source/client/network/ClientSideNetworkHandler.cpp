@@ -113,7 +113,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Message
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetTimePacket* pPacket)
 {
-	puts_ignorable("SetTimePacket");
+	//puts_ignorable("SetTimePacket");
 
 	if (m_pLevel)
 		m_pLevel->setTime(pPacket->m_time);
@@ -194,7 +194,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobPacket* pAddMobPkt)
 {
-	puts_ignorable("AddMobPacket");
+	//puts_ignorable("AddMobPacket");
 
 	if (!m_pLevel)
 	{
@@ -347,6 +347,16 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateB
 	}
 
 	m_pLevel->setTileAndData(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, EntityEventPacket* pkt)
+{
+	//puts_ignorable("EntityEventPacket");
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	if (pEntity)
+		pEntity->handleEntityEvent(pkt->m_eventId);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDataPacket* pChunkDataPkt)

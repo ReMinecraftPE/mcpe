@@ -35,6 +35,7 @@ public:
 	void setSize(float rad, float height) override;
 	void outOfWorld() override;
 	void causeFallDamage(float level) override;
+	void handleEntityEvent(EventType::ID eventId) override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 
@@ -54,8 +55,6 @@ public:
 	virtual void travel(const Vec2& pos);
 	virtual void updateWalkAnim();
 	virtual void aiStep();
-	//AddAdditonalSaveData TODO
-	//ReadAdditionalSaveData TODO
 	virtual void lookAt(Entity* pEnt, float, float);
 	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
 	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }

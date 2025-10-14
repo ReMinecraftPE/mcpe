@@ -24,6 +24,7 @@
 #include "packets/PlaceBlockPacket.hpp"
 #include "packets/RemoveBlockPacket.hpp"
 #include "packets/UpdateBlockPacket.hpp"
+#include "packets/EntityEventPacket.hpp"
 #include "packets/RequestChunkPacket.hpp"
 #include "packets/ChunkDataPacket.hpp"
 #include "packets/PlayerEquipmentPacket.hpp"

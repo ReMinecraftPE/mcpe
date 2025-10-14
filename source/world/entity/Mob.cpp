@@ -306,6 +306,7 @@ void Mob::baseTick()
     field_EC = field_E8;
     m_oRot = m_rot;
 
+	// @TODO: check ServerSideNetworkHandler::canReplicateEntity()
 	if (m_pLevel->m_pRakNetInstance && !m_pLevel->m_bIsClientSide && !isPlayer())
 	{
 		if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
@@ -368,7 +369,7 @@ bool Mob::hurt(Entity *pAttacker, int damage)
     // not in 0.1
     if (var3)
     {
-        //m_pLevel->broadcastEntityEvent(this, 2); // Java
+        m_pLevel->broadcastEntityEvent(*this, EventType::HURT);
         markHurt();
 
         if (pAttacker)
@@ -447,6 +448,29 @@ void Mob::causeFallDamage(float level)
 
 			m_pLevel->playSound(this, "step." + pSound->m_name, pSound->volume * 0.5f, pSound->pitch * 0.75f);
 		}
+	}
+}
+
+void Mob::handleEntityEvent(EventType::ID eventId)
+{
+	switch (eventId)
+	{
+	case EventType::HURT:
+		m_walkAnimSpeed = 1.5f;
+		m_invulnerableTime = m_invulnerableDuration;
+		m_hurtTime = m_hurtDuration = 10;
+		m_hurtDir = 0.0f;
+		m_pLevel->playSound(this, getHurtSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+		hurt(nullptr, 0);
+		break;
+	case EventType::DEATH:
+		m_pLevel->playSound(this, getDeathSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+		m_health = 0;
+		die(nullptr);
+		break;
+	default:
+		Entity::handleEntityEvent(eventId);
+		break;
 	}
 }
 
@@ -631,6 +655,7 @@ void Mob::travel(const Vec2& pos)
 		m_vel.y = 0.2f;
 
 	// quick, dirty workaround to fix mob jump jitter on multiplayer worlds
+	// could be removed if Entity::EventType::JUMP was replicated and handled, but no...
 	if (!interpolateOnly()) 
 		m_vel.y = (m_vel.y - 0.08f) * 0.98f; // gravity
 
@@ -647,7 +672,10 @@ void Mob::die(Entity* pCulprit)
 	field_B69 = true;
 
 	if (!m_pLevel->m_bIsClientSide)
+	{
 		dropDeathLoot();
+		m_pLevel->broadcastEntityEvent(*this, EventType::DEATH);
+	}
 }
 
 bool Mob::canSee(Entity* pEnt) const

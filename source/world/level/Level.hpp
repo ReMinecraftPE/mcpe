@@ -133,6 +133,7 @@ public:
 	bool isUnobstructed(AABB*) const;
 	bool mayInteract(Player* player, const TilePos& pos) const;
 	bool mayPlace(TileID tid, const TilePos& pos, bool b) const;
+	void broadcastEntityEvent(const Entity& entity, Entity::EventType::ID eventId);
 	void removeListener(LevelListener*);
 	void addListener(LevelListener*);
 	void tick(Entity*, bool);
@@ -150,7 +151,7 @@ public:
 	float getSeenPercent(Vec3, AABB) const;
 	void explode(Entity*, const Vec3& pos, float power);
 	void explode(Entity*, const Vec3& pos, float power, bool bIsFiery);
-	void addEntities(const std::vector<Entity*>& entities);
+	void addEntities(const EntityVector& entities);
 	void ensureAdded(Entity* entity);
 	bool extinguishFire(Player* player, const TilePos& pos, Facing::Name face);
 	int findPath(Path* path, Entity* ent1, Entity* ent2, float f) const;
@@ -162,7 +163,7 @@ public:
 
 	HitResult clip(const Vec3& a, const Vec3& b) const;
 	HitResult clip(Vec3 a, Vec3 b, bool c) const;
-	Entity* getEntity(int id) const;
+	Entity* getEntity(Entity::ID id) const;
 	const EntityVector* getAllEntities() const;
 	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
 	BiomeSource* getBiomeSource() const override;

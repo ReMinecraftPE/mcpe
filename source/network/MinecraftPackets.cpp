@@ -42,6 +42,8 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new RemoveBlockPacket;
 		case PACKET_UPDATE_BLOCK:
 			return new UpdateBlockPacket;
+		case PACKET_ENTITY_EVENT:
+			return new EntityEventPacket;
 		case PACKET_REQUEST_CHUNK:
 			return new RequestChunkPacket;
 		case PACKET_CHUNK_DATA:

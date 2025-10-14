@@ -870,8 +870,9 @@ void Entity::handleInsidePortal()
 {
 }
 
-void Entity::handleEntityEvent(int event)
+void Entity::handleEntityEvent(EventType::ID eventId)
 {
+	LOG_W("Unknown EntityEvent ID: %d, EntityType: %s", eventId, getDescriptor().getEntityType().getName().c_str());
 }
 
 /*void Entity::thunderHit(LightningBolt* bolt)
