@@ -9,9 +9,9 @@
 #pragma once
 
 #include <map>
-#include "NetEventCallback.hpp"
 #include "client/app/Minecraft.hpp"
-#include "RakNetInstance.hpp"
+#include "network/NetEventCallback.hpp"
+#include "network/RakNetInstance.hpp"
 #include "world/level/LevelListener.hpp"
 
 class Minecraft;

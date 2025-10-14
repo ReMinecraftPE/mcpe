@@ -151,6 +151,23 @@ void LocalPlayer::closeContainer()
 	m_pMinecraft->setScreen(nullptr);
 }
 
+void LocalPlayer::hurtTo(int newHealth)
+{
+	int dmg = m_health - newHealth;
+	if (dmg <= 0)
+	{
+		m_health = newHealth;
+	}
+	else
+	{
+		m_lastHurt = dmg;
+		m_lastHealth = m_health;
+		m_invulnerableTime = m_invulnerableDuration;
+		actuallyHurt(dmg);
+		m_hurtTime = m_hurtDuration = 10;
+	}
+}
+
 void LocalPlayer::respawn()
 {
 	m_pMinecraft->respawnPlayer(this);

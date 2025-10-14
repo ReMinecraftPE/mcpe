@@ -15,8 +15,8 @@
 #include "client/gui/screens/ProgressScreen.hpp"
 #include "client/gui/screens/ConvertWorldScreen.hpp"
 
-#include "network/ServerSideNetworkHandler.hpp"
 #include "client/network/ClientSideNetworkHandler.hpp"
+#include "server/ServerSideNetworkHandler.hpp"
 #include "network/packets/PlaceBlockPacket.hpp"
 #include "network/packets/MessagePacket.hpp"
 

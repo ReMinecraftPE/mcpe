@@ -8,8 +8,9 @@
 
 #include "ServerSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
+#include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
-#include "MinecraftPackets.hpp"
+#include "ServerPlayer.hpp"
 
 // How frequently SetTimePackets are sent, in seconds.
 // b1.3 sends every second. 0.2.1 seems to send every 12.
@@ -144,7 +145,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	}
 #endif
 
-	Player* pPlayer = new Player(m_pLevel, m_pLevel->getLevelData()->getGameType());
+	ServerPlayer* pPlayer = new ServerPlayer(m_pLevel, m_pLevel->getLevelData()->getGameType());
 	pPlayer->m_guid = guid;
 	pPlayer->m_name = std::string(packet->m_userName.C_String());
 

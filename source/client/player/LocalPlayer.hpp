@@ -36,6 +36,7 @@ public:
 
 	void calculateFlight(const Vec3& pos);
 	void closeContainer(); //@HUH: oddly enough not a virtual/override
+	void hurtTo(int newHealth);
 	void respawn();
 
 private:

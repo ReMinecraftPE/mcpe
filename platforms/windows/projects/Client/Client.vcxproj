@@ -335,6 +335,9 @@
       <Project>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</Project>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <ProjectReference Include="..\Server\Server.vcxproj">
+      <Project>{38723be5-0310-4941-b11f-ea7ff21394d9}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\STB\STB.vcxproj">
       <Project>{f332cb57-ff16-4d43-bbe0-76f28301daa8}</Project>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>

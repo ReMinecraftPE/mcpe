@@ -477,6 +477,18 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetEnti
 	pEntity->getEntityData().assignValues(pkt->getUnpackedData());
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetHealthPacket* pkt)
+{
+	puts_ignorable("SetHealthPacket");
+
+	if (!m_pLevel)
+		return;
+
+	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+	if (pLocalPlayer)
+		pLocalPlayer->hurtTo(pkt->m_health);
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
 {
 	const int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;

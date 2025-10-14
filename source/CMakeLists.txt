@@ -160,6 +160,7 @@ add_library(reminecraftpe-core STATIC
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
     network/packets/SetEntityDataPacket.cpp
+    network/packets/SetHealthPacket.cpp
     network/packets/ChunkDataPacket.cpp
     network/packets/LevelDataPacket.cpp
     network/packets/PlaceBlockPacket.cpp
@@ -177,12 +178,13 @@ add_library(reminecraftpe-core STATIC
     network/packets/MoveEntityPacket_PosRot.cpp
     network/packets/EntityEventPacket.cpp
     network/packets/MessagePacket.cpp
-    network/ServerSideNetworkHandler.cpp
     network/RakIO.cpp
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp
     network/NetEventCallback.cpp
     network/PacketUtil.cpp
+    server/ServerPlayer.cpp
+    server/ServerSideNetworkHandler.cpp
     world/level/levelgen/synth/Synth.cpp
     world/level/levelgen/synth/ImprovedNoise.cpp
     world/level/levelgen/synth/PerlinNoise.cpp

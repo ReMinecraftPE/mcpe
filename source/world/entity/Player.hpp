@@ -48,6 +48,7 @@ public:
 	virtual void startDestroying();
 	virtual void stopDestroying();
 	virtual bool isLocalPlayer() const { return false; }
+	virtual void take(Entity* pEnt, int x) {};
 
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
@@ -67,7 +68,6 @@ public:
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
 
-	void take(Entity* pEnt, int x);
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
 	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }

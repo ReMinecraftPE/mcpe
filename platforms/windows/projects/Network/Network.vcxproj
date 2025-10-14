@@ -55,7 +55,6 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\StartGamePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\PacketUtil.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakIO.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddMobPacket.cpp" />
@@ -63,6 +62,7 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\SetEntityDataPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\EntityEventPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetHealthPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -70,7 +70,6 @@
     <ClInclude Include="$(MC_ROOT)\source\network\Packet.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\PingedCompatibleServer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\PacketUtil.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\RakIO.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\AddMobPacket.hpp" />
@@ -94,6 +93,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\SetEntityDataPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\EntityEventPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SetHealthPacket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

@@ -402,11 +402,6 @@ void Player::stopDestroying()
 	m_destroyingBlock = false;
 }
 
-void Player::take(Entity* pEnt, int x)
-{
-
-}
-
 void Player::touch(Entity* pEnt)
 {
 	pEnt->playerTouch(this);
