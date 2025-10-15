@@ -31,11 +31,24 @@ struct PlayerData
 	void savePlayer(const Player& player);
 };
 
+struct LevelSettings
+{
+	int32_t m_seed;
+	GameType m_gameType;
+
+	LevelSettings(int32_t seed = 0, GameType gameType = GAME_TYPE_CREATIVE)
+	{
+		m_seed = seed;
+		m_gameType = gameType;
+	}
+};
+
 struct LevelData
 {
 private:
-	void _init(int32_t seed = 0, int storageVersion = 0);
-	void _init(int32_t seed, int storageVersion, const std::string& name);
+	void _init();
+	void _init(const LevelSettings& settings, int storageVersion = 0);
+	void _init(const LevelSettings& settings, int storageVersion, const std::string& name);
 
 	void _setLastPlayed(int lastPlayed) { m_lastPlayed = lastPlayed; }
 
@@ -45,7 +58,7 @@ public:
 	int m_nPlayers;
 
 	LevelData() { _init(); }
-	LevelData(int32_t seed, const std::string& name, int storageVersion) { _init(seed, storageVersion, name); }
+	LevelData(const LevelSettings& settings, const std::string& name, int storageVersion) { _init(settings, storageVersion, name); }
 	~LevelData();
 
 	void v1_read(RakNet::BitStream& bs, int storageVersion);

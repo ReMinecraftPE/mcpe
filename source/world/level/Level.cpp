@@ -18,7 +18,7 @@
 #include "Explosion.hpp"
 #include "Region.hpp""
 
-Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension *pDimension)
+Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
 	m_bIsClientSide = false;
@@ -41,7 +41,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int sto
 
 	LevelData* pData = m_pLevelStorage->prepareLevel(this);
 
-	field_B0C = pData == 0;
+	field_B0C = pData == nullptr;
 
 	// @BUG: leaking a Dimension*?
 	if (pDimension)
@@ -50,7 +50,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int sto
 		m_pDimension = new Dimension;
 
 	if (!pData)
-		m_pLevelData = new LevelData(seed, name, storageVersion);
+		m_pLevelData = new LevelData(settings, name, storageVersion);
 	else
 		m_pLevelData = pData;
 

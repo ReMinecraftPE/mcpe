@@ -39,7 +39,7 @@ typedef std::vector<AABB> AABBVector;
 class Level : public LevelSource
 {
 public:
-	Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT, Dimension* pDimension = nullptr);
+	Level(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT, Dimension* pDimension = nullptr);
 	~Level();
 
 private:
@@ -70,7 +70,6 @@ public:
 	int32_t getTime() const { return m_pLevelData->getTime(); }
 	void setTime(int32_t time);
 	GameType getDefaultGameType() const { return m_pLevelData->getGameType(); }
-	void setDefaultGameType(GameType gameType) { m_pLevelData->setGameType(gameType); }
 	int getHeightmap(const TilePos& pos);
 	bool isDay() const;
 	bool isSkyLit(const TilePos& pos) const;

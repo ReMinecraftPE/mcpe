@@ -1180,15 +1180,15 @@ void Minecraft::selectLevel(const LevelSummary& ls, bool forceConversion)
         return;
     }
     
-    selectLevel(ls.m_fileName, ls.m_levelName, 0, forceConversion);
+    selectLevel(ls.m_fileName, ls.m_levelName, LevelSettings(), forceConversion);
 }
 
-void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, int32_t seed, bool forceConversion)
+void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, const LevelSettings& levelSettings, bool forceConversion)
 {
 	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(levelDir, false, forceConversion);
 	Dimension* pDim = Dimension::getNew(0);
 
-	m_pLevel = new Level(pStor, levelName, seed, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
+	m_pLevel = new Level(pStor, levelName, levelSettings, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
 	setLevel(m_pLevel, "Generating level", nullptr);
 
 	field_D9C = 1;

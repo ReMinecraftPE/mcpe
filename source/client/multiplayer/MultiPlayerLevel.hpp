@@ -22,7 +22,7 @@ private:
 	};
 
 public:
-	MultiPlayerLevel(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT, Dimension* pDimension = nullptr);
+	MultiPlayerLevel(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT, Dimension* pDimension = nullptr);
 
 public:
 	void tick() override;

@@ -125,20 +125,19 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 {
 	puts_ignorable("StartGamePacket");
 
-	m_pMinecraft->getLevelSource()->deleteLevel("_LastJoinedServer");
+	std::string levelName = "_LastJoinedServer";
+	m_pMinecraft->getLevelSource()->deleteLevel(levelName);
 
+	LevelSettings settings(pStartGamePkt->m_seed, pStartGamePkt->m_gameType);
 	m_pLevel = new MultiPlayerLevel(
-		m_pMinecraft->getLevelSource()->selectLevel("_LastJoinedServer", true), 
+		m_pMinecraft->getLevelSource()->selectLevel(levelName, true),
 		"temp",
-		pStartGamePkt->m_seed,
+		settings,
 		pStartGamePkt->m_levelVersion);
 
 	m_pLevel->m_bIsClientSide = true;
 
-	GameType gameType = pStartGamePkt->m_gameType != GAME_TYPES_MAX ? pStartGamePkt->m_gameType : m_pLevel->getDefaultGameType();
-	m_pLevel->setDefaultGameType(gameType);
-
-	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, gameType, m_pLevel->m_pDimension->field_50);
+	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, settings.m_gameType, m_pLevel->m_pDimension->field_50);
 	pLocalPlayer->m_guid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
 	pLocalPlayer->m_EntityID = pStartGamePkt->m_entityId;
 	
@@ -146,7 +145,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 		pStartGamePkt->m_pos,
 		pLocalPlayer->m_rot);
 
-	if (gameType == GAME_TYPE_CREATIVE)
+	if (settings.m_gameType == GAME_TYPE_CREATIVE)
 		pLocalPlayer->m_pInventory->prepareCreativeInventory();
 	else
 		pLocalPlayer->m_pInventory->prepareSurvivalInventory();

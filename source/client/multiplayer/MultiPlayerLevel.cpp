@@ -1,7 +1,7 @@
 #include "MultiPlayerLevel.hpp"
 
-MultiPlayerLevel::MultiPlayerLevel(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension* pDimension)
-	: Level(pStor, name, seed, storageVersion, pDimension)
+MultiPlayerLevel::MultiPlayerLevel(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion, Dimension* pDimension)
+	: Level(pStor, name, settings, storageVersion, pDimension)
 {
 }
 
