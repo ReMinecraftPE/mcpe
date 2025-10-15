@@ -16,11 +16,17 @@ class NetEventCallback
 {
 public:
 	virtual ~NetEventCallback() {}
+
+protected:
+	Player* _findPlayer(Level& level, Entity::ID entityId = -1, const RakNet::RakNetGUID* guid = nullptr);
+
+public:
 	virtual void levelGenerated(Level*) {}
 	virtual void onConnect(const RakNet::RakNetGUID&) {}
 	virtual void onUnableToConnect() {}
 	virtual void onNewClient(const RakNet::RakNetGUID&) {}
 	virtual void onDisconnect(const RakNet::RakNetGUID&) {}
+
 	// TODO: macro this with a global PacketType list or something
 	virtual void handle(const RakNet::RakNetGUID&, LoginPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, LoginStatusPacket*) {}
@@ -43,6 +49,9 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetHealthPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, AnimatePacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, RespawnPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, LevelDataPacket*) {}
+
+	virtual void handle(Level&, const RakNet::RakNetGUID&, RespawnPacket*);
 };
 

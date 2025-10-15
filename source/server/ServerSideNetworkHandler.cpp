@@ -458,6 +458,18 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, AnimatePac
 	redistributePacket(packet, guid);
 }
 
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RespawnPacket* packet)
+{
+	puts_ignorable("RespawnPacket");
+
+	if (!m_pLevel)
+		return;
+
+	NetEventCallback::handle(*m_pLevel, guid, packet);
+
+	redistributePacket(packet, guid);
+}
+
 void ServerSideNetworkHandler::tileBrightnessChanged(const TilePos& pos)
 {
 }

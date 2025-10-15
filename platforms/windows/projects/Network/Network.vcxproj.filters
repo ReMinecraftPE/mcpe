@@ -107,6 +107,9 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\AnimatePacket.hpp">
       <Filter>Header Files\Packets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\RespawnPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.cpp">
@@ -191,6 +194,9 @@
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AnimatePacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RespawnPacket.cpp">
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
   </ItemGroup>

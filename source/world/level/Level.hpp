@@ -106,7 +106,7 @@ public:
 	bool containsLiquid(const AABB&, const Material *pMtl);
 	bool containsMaterial(const AABB&, const Material *pMtl);
 	bool checkAndHandleWater(const AABB&, const Material* pMtl, Entity* pEnt);
-	TilePos getSharedSpawnPos() const;
+	const TilePos& getSharedSpawnPos() const;
 	void validateSpawn();
 	TileID getTopTile(const TilePos& pos) const;
 	int getTopTileY(const TilePos& pos) const;

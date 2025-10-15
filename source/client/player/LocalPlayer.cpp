@@ -177,7 +177,7 @@ void LocalPlayer::closeContainer()
 
 void LocalPlayer::respawn()
 {
-	m_pMinecraft->respawnPlayer(this);
+	m_pMinecraft->respawnPlayer();
 }
 
 bool LocalPlayer::isSneaking() const

@@ -123,8 +123,10 @@ public:
 	virtual void setPos(const Vec3& pos);
 	virtual void remove();
 	virtual void move(const Vec3& posIn);
-	virtual void moveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
-	virtual void absMoveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
+	virtual void moveTo(const Vec3& pos);
+	virtual void moveTo(const Vec3& pos, const Vec2& rot);
+	virtual void absMoveTo(const Vec3& pos);
+	virtual void absMoveTo(const Vec3& pos, const Vec2& rot);
 	virtual void moveRelative(const Vec3& pos);
 	virtual void lerpTo(const Vec3& pos);
 	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int p = 3);
@@ -174,10 +176,10 @@ public:
 	virtual ItemEntity* spawnAtLocation(int, int, float);
 	virtual void awardKillScore(Entity* pKilled, int score);
 	virtual void setEquippedSlot(int, int, int);
-	virtual void setRot(const Vec2& rot);
+	virtual void setRot(const Vec2& rot, bool rebound = false);
 	virtual void setSize(float rad, float height);
 	virtual void setPos(EntityPos*);
-	virtual void resetPos();
+	virtual void resetPos(bool respawn = false);
 	virtual void outOfWorld();
 	virtual void checkFallDamage(float f, bool b);
 	virtual void causeFallDamage(float f);

@@ -22,6 +22,9 @@ class Player : public Mob
 private:
 	GameType _playerGameType;
 
+private:
+	void _init();
+
 public:
 	Player(Level* pLevel, GameType gameType);
 	virtual ~Player();
@@ -37,7 +40,7 @@ public:
 	virtual bool isCreativeModeAllowed() const override { return true; }
 	virtual bool hurt(Entity*, int) override;
 	virtual void awardKillScore(Entity* pKilled, int score) override;
-	virtual void resetPos() override;
+	virtual void resetPos(bool respawn = false) override;
 	virtual void die(Entity* pCulprit) override;
 	virtual void aiStep() override;
 	ItemInstance* getCarriedItem() override;

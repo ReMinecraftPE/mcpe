@@ -10,18 +10,24 @@
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
 
+void Player::_init()
+{
+	// I just guessed, it's 5/5 fields
+	m_score = 0;
+	m_oBob = 0.0f;
+	m_bob = 0.0f;
+	m_dimension = 0;
+	m_destroyingBlock = false;
+}
+
 Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 {
+	_init();
 	m_pDescriptor = &EntityTypeDescriptor::player;
 	m_pInventory = nullptr;
 	field_B94 = 0;
-	m_score = 0;
-    m_oBob = 0.0f;
-    m_bob = 0.0f;
 	m_name = "";
-	m_dimension = 0;
 	m_bHasRespawnPos = false;
-	m_destroyingBlock = false;
 
 	field_C8 = RENDER_HUMANOID;
 
@@ -35,7 +41,7 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	moveTo(Vec3(pos.x + 0.5f, pos.y + 1.0f, pos.z + 0.5f));
 
-	m_health = 20;
+	m_health = getMaxHealth();
 
 	m_class = "humanoid";
 	m_texture = "mob/char.png";
@@ -57,8 +63,7 @@ void Player::reallyDrop(ItemEntity* pEnt)
 void Player::reset()
 {
 	Mob::reset();
-
-	// TODO what fields to reset???
+	_init();
 }
 
 bool Player::hurt(Entity* pEnt, int damage)
@@ -107,15 +112,18 @@ void Player::awardKillScore(Entity* pKilled, int score)
 	m_score += score;
 }
 
-void Player::resetPos()
+void Player::resetPos(bool respawn)
 {
 	setDefaultHeadHeight();
 	setSize(0.6f, 1.8f);
 
 	Entity::resetPos();
 
-	m_health = 20;
-	m_deathTime = 0;
+	if (respawn)
+	{
+		m_deathTime = 0;
+		m_health = getMaxHealth();
+	}
 }
 
 void Player::die(Entity* pCulprit)

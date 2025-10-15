@@ -528,6 +528,16 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 	}
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RespawnPacket* packet)
+{
+	puts_ignorable("RespawnPacket");
+
+	if (!m_pLevel)
+		return;
+
+	NetEventCallback::handle(*m_pLevel, guid, packet);
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
 {
 	const int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;

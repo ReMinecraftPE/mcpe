@@ -626,43 +626,12 @@ void Minecraft::sendMessage(const std::string& message)
 	}
 }
 
-void Minecraft::resetPlayer(Player* player)
+void Minecraft::respawnPlayer()
 {
-	m_pLevel->validateSpawn();
-	player->reset();
+	_resetPlayer(m_pLocalPlayer);
 
-	TilePos pos = m_pLevel->getSharedSpawnPos();
-	player->setPos(pos);
-	player->resetPos();
-
-	// Of course we have to add him back into the game, if he isn't already.
-	EntityVector& vec = m_pLevel->m_entities;
-	for (int i = 0; i < int(vec.size()); i++)
-	{
-		if (vec[i] == player)
-			return;
-	}
-
-	std::vector<Player*>& vec2 = m_pLevel->m_players;
-	for (int i = 0; i < int(vec2.size()); i++)
-	{
-		// remove the player if he is already in the player list
-		if (vec2[i] == player)
-		{
-			vec2.erase(vec2.begin() + i);
-			i--;
-		}
-	}
-
-	// add him in!!
-	m_pLevel->addEntity(player);
-}
-
-void Minecraft::respawnPlayer(Player* player)
-{
-	resetPlayer(player);
-
-	// TODO: send a RespawnPacket
+	// Lets client dictate respawn position. Why?
+	m_pRakNetInstance->send(new RespawnPacket(m_pLocalPlayer->m_EntityID, m_pLocalPlayer->m_pos));
 }
 
 std::string Minecraft::getVersionString() const
@@ -720,6 +689,38 @@ void Minecraft::_initTextures()
 	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
 	
 	GetPatchManager()->PatchTiles();	
+}
+
+void Minecraft::_resetPlayer(Player* player)
+{
+	m_pLevel->validateSpawn();
+	player->reset();
+
+	TilePos pos = m_pLevel->getSharedSpawnPos();
+	player->setPos(pos);
+	player->resetPos();
+
+	// Of course we have to add him back into the game, if he isn't already.
+	EntityVector& vec = m_pLevel->m_entities;
+	for (int i = 0; i < int(vec.size()); i++)
+	{
+		if (vec[i] == player)
+			return;
+	}
+
+	std::vector<Player*>& vec2 = m_pLevel->m_players;
+	for (int i = 0; i < int(vec2.size()); i++)
+	{
+		// remove the player if he is already in the player list
+		if (vec2[i] == player)
+		{
+			vec2.erase(vec2.begin() + i);
+			i--;
+		}
+	}
+
+	// add him in!!
+	m_pLevel->addEntity(player);
 }
 
 void Minecraft::tick()

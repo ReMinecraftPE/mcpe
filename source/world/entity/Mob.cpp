@@ -83,7 +83,7 @@ void Mob::reset()
 {
 	Entity::reset();
 	// TODO what fields to reset?
-	m_health = 10;
+	m_health = getMaxHealth();
 }
 
 void Mob::lerpTo(const Vec3& pos, const Vec2& rot, int steps)

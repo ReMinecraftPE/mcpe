@@ -340,7 +340,7 @@ void Entity::move(const Vec3& pos)
 	}
 }
 
-void Entity::moveTo(const Vec3& pos, const Vec2& rot)
+void Entity::moveTo(const Vec3& pos)
 {
 	Vec3 newPos(pos);
 	newPos.y += m_heightOffset;
@@ -348,19 +348,28 @@ void Entity::moveTo(const Vec3& pos, const Vec2& rot)
 	setPos(newPos);
 	m_oPos = newPos;
 	m_posPrev = newPos;
+}
 
+void Entity::moveTo(const Vec3& pos, const Vec2& rot)
+{
+	moveTo(pos);
 	m_rot = rot;
+}
+
+void Entity::absMoveTo(const Vec3& pos)
+{
+	m_ySlideOffset = 0.0f;
+
+	setPos(pos);
+	m_oPos = pos;
 }
 
 void Entity::absMoveTo(const Vec3& pos, const Vec2& rot)
 {
-	m_ySlideOffset = 0.0f;
+	absMoveTo(pos);
 
 	m_oRot = rot;
 	setRot(rot);
-
-	setPos(pos);
-	m_oPos = pos;
 
 	// This looks like a rebounding check for the angle
 	float dyRot = (m_oRot.y - m_rot.y);
@@ -750,10 +759,17 @@ void Entity::setEquippedSlot(int a, int b, int c)
 
 }
 
-void Entity::setRot(const Vec2& rot)
+void Entity::setRot(const Vec2& rot, bool rebound)
 {
-	m_rot.x = /*Mth::abs(rot.x) > 360.0f ? fmod(rot.x, 360.0f) :*/ rot.x;
-	m_rot.y = /*Mth::abs(rot.y) > 360.0f ? fmod(rot.y, 360.0f) :*/ rot.y;
+	if (rebound)
+	{
+		m_rot.x = Mth::abs(rot.x) > 360.0f ? fmod(rot.x, 360.0f) : rot.x;
+		m_rot.y = Mth::abs(rot.y) > 360.0f ? fmod(rot.y, 360.0f) : rot.y;
+	}
+	else
+	{
+		m_rot = rot;
+	}
 }
 
 void Entity::setSize(float rad, float height)
@@ -775,7 +791,7 @@ void Entity::setPos(EntityPos* pPos)
 		setRot(m_rot);
 }
 
-void Entity::resetPos()
+void Entity::resetPos(bool respawn)
 {
 	if (!m_pLevel)
 		// No level?  Fine

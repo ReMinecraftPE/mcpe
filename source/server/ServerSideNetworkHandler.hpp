@@ -57,6 +57,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RequestChunkPacket*) override;
 	void handle(const RakNet::RakNetGUID&, AnimatePacket*) override;
+	void handle(const RakNet::RakNetGUID&, RespawnPacket*) override;
 
 	// Overridden from LevelListener
 	void tileBrightnessChanged(const TilePos& pos) override;

@@ -1003,7 +1003,7 @@ bool Level::checkAndHandleWater(const AABB& aabb, const Material* pMtl, Entity* 
 	return bInWater;
 }
 
-TilePos Level::getSharedSpawnPos() const
+const TilePos& Level::getSharedSpawnPos() const
 {
 	return m_pLevelData->getSpawn();
 }

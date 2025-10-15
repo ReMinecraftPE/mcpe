@@ -37,6 +37,7 @@ public:
 	Minecraft();
 	virtual ~Minecraft();
 
+public:
 	int getLicenseId();
 	void setScreen(Screen * pScreen);
 	void releaseMouse();
@@ -60,8 +61,7 @@ public:
 	void handleCharInput(char chr);
 	void resetInput();
 	void sendMessage(const std::string& message);
-	void resetPlayer(Player* player);
-	void respawnPlayer(Player* player);
+	void respawnPlayer();
 	std::string getVersionString() const;
 	bool isTouchscreen() const;
 	bool useSplitControls() const;
@@ -92,6 +92,7 @@ private:
 	void _reloadInput();
 	void _levelGenerated();
 	void _initTextures();
+	void _resetPlayer(Player* player);
 	GameMode* createGameMode(GameType gameType, Level& level);
 
 private:
