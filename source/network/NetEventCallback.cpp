@@ -31,6 +31,7 @@ void NetEventCallback::handle(Level& level, const RakNet::RakNetGUID& guid, Resp
     Player* pPlayer = _findPlayer(level, pkt->m_entityId);
     if (pPlayer)
     {
+        // @TODO: on server, ignore client's requested coords, and teleport them to their server-determined spawn
         pPlayer->moveTo(pkt->m_pos);
         pPlayer->reset();
         pPlayer->resetPos(true);

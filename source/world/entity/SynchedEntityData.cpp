@@ -1,3 +1,5 @@
+#include <limits.h>
+
 #include "SynchedEntityData.hpp"
 
 #define MAP(cType, typeEnum, value) template<> SynchedEntityData::DataType SynchedEntityData::DataTypeMap::typeFor<cType>() { return SynchedEntityData::typeEnum; } \
