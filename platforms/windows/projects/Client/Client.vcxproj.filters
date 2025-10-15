@@ -479,6 +479,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\LocalPlayer.hpp">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp">
+      <Filter>Header Files\Multiplayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -858,6 +861,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\LocalPlayer.cpp">
       <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp">
+      <Filter>Source Files\Multiplayer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

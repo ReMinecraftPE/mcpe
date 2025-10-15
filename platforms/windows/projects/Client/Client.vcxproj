@@ -198,6 +198,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\sound\music_list.h" />
     <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\LocalPlayer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -326,6 +327,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\LocalPlayer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

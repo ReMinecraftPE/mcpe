@@ -421,6 +421,43 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 	m_pRakNetPeer->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 }
 
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, AnimatePacket* packet)
+{
+	puts_ignorable("AnimatePacket");
+
+	if (!m_pLevel)
+		return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity)
+		return;
+
+	if (!pEntity->isPlayer())
+		return;
+	Player* pPlayer = (Player*)pEntity;
+
+	switch (packet->m_actionId)
+	{
+		case AnimatePacket::SWING:
+		{
+			pPlayer->swing();
+			break;
+		}
+		case AnimatePacket::HURT:
+		{
+			pPlayer->animateHurt();
+			break;
+		}
+		default:
+		{
+			LOG_W("Received unkown action in AnimatePacket: %d, EntityType: %s", packet->m_actionId, pEntity->getDescriptor().getEntityType().getName().c_str());
+			break;
+		}
+	}
+
+	redistributePacket(packet, guid);
+}
+
 void ServerSideNetworkHandler::tileBrightnessChanged(const TilePos& pos)
 {
 }

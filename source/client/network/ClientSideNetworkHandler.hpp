@@ -49,6 +49,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetHealthPacket*) override;
+	void handle(const RakNet::RakNetGUID&, AnimatePacket*) override;
 	void handle(const RakNet::RakNetGUID&, LevelDataPacket*) override;
 	
 	bool areAllChunksLoaded();

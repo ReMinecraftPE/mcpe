@@ -18,6 +18,10 @@ public:
 	Mob(Level* pLevel);
 	virtual ~Mob();
 
+protected:
+	virtual void actuallyHurt(int damage);
+
+public:
 	// overrides
 	void reset() override;
 	void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
@@ -68,7 +72,6 @@ public:
 	virtual int getMaxSpawnClusterSize() const { return 4; }
 	virtual ItemInstance* getCarriedItem() { return nullptr; }
 	virtual bool isBaby() const { return false; }
-	virtual void actuallyHurt(int damage);
 	virtual bool removeWhenFarAway() const { return true; }
 	virtual int getDeathLoot() const { return 0; }
 	virtual void dropDeathLoot();

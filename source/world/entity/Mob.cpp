@@ -74,6 +74,11 @@ Mob::~Mob()
 {
 }
 
+void Mob::actuallyHurt(int damage)
+{
+	m_health -= damage;
+}
+
 void Mob::reset()
 {
 	Entity::reset();
@@ -823,11 +828,6 @@ Vec3 Mob::getViewVector(float f) const
 	float x6 = -Mth::cos(x5);
 
 	return Vec3(x4 * x6, Mth::sin(x5), x3 * x6);
-}
-
-void Mob::actuallyHurt(int damage)
-{
-	m_health -= damage;
 }
 
 void Mob::dropDeathLoot()

@@ -99,9 +99,33 @@ void LocalPlayer::setPlayerGameType(GameType gameType)
 	Player::setPlayerGameType(gameType);
 }
 
+void LocalPlayer::swing()
+{
+	Player::swing();
+
+	m_pMinecraft->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::SWING));
+}
+
 void LocalPlayer::animateRespawn()
 {
 
+}
+
+void LocalPlayer::hurtTo(int newHealth)
+{
+	int dmg = m_health - newHealth;
+	if (dmg <= 0)
+	{
+		m_health = newHealth;
+	}
+	else
+	{
+		m_lastHurt = dmg;
+		m_lastHealth = m_health;
+		m_invulnerableTime = m_invulnerableDuration;
+		actuallyHurt(dmg);
+		m_hurtTime = m_hurtDuration = 10;
+	}
 }
 
 void LocalPlayer::calculateFlight(const Vec3& pos)
@@ -149,23 +173,6 @@ void LocalPlayer::closeContainer()
 {
 	Player::closeContainer();
 	m_pMinecraft->setScreen(nullptr);
-}
-
-void LocalPlayer::hurtTo(int newHealth)
-{
-	int dmg = m_health - newHealth;
-	if (dmg <= 0)
-	{
-		m_health = newHealth;
-	}
-	else
-	{
-		m_lastHurt = dmg;
-		m_lastHealth = m_health;
-		m_invulnerableTime = m_invulnerableDuration;
-		actuallyHurt(dmg);
-		m_hurtTime = m_hurtDuration = 10;
-	}
 }
 
 void LocalPlayer::respawn()
@@ -260,16 +267,7 @@ void LocalPlayer::tick()
 
 	if (m_pMinecraft->isOnline())
 	{
-		if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
-			fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
-			fabsf(m_pos.z - m_lastSentPos.z) > 0.1f ||
-			fabsf(m_lastSentRot.y - m_rot.y) > 1.0f ||
-			fabsf(m_lastSentRot.x - m_rot.x) > 1.0f)
-		{
-			m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
-			m_lastSentPos = m_pos;
-			m_lastSentRot = m_rot;
-		}
+		sendPosition();
 
 		if (field_C38 != m_pInventory->getSelectedItemId())
 		{
@@ -301,4 +299,18 @@ void LocalPlayer::readAdditionalSaveData(const CompoundTag& tag)
 	Player::readAdditionalSaveData(tag);
 
 	m_score = tag.getInt32("Score");
+}
+
+void LocalPlayer::sendPosition()
+{
+	if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
+		fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
+		fabsf(m_pos.z - m_lastSentPos.z) > 0.1f ||
+		fabsf(m_lastSentRot.y - m_rot.y) > 1.0f ||
+		fabsf(m_lastSentRot.x - m_rot.x) > 1.0f)
+	{
+		m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
+		m_lastSentPos = m_pos;
+		m_lastSentRot = m_rot;
+	}
 }

@@ -12,6 +12,7 @@
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/DisconnectionScreen.hpp"
 #include "client/multiplayer/MultiPlayerLevel.hpp"
+#include "client/multiplayer/MultiplayerLocalPlayer.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
 
@@ -137,7 +138,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 
 	m_pLevel->m_bIsClientSide = true;
 
-	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, settings.m_gameType, m_pLevel->m_pDimension->field_50);
+	MultiplayerLocalPlayer *pLocalPlayer = new MultiplayerLocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, settings.m_gameType, m_pLevel->m_pDimension->field_50);
 	pLocalPlayer->m_guid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
 	pLocalPlayer->m_EntityID = pStartGamePkt->m_entityId;
 	
@@ -490,6 +491,41 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetHeal
 	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
 	if (pLocalPlayer)
 		pLocalPlayer->hurtTo(pkt->m_health);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AnimatePacket* pkt)
+{
+	puts_ignorable("AnimatePacket");
+
+	if (!m_pLevel)
+		return;
+
+	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	if (!pEntity)
+		return;
+
+	switch (pkt->m_actionId)
+	{
+		case AnimatePacket::SWING:
+		{
+			if (!pEntity->isMob())
+				break;
+			Mob* pMob = (Mob*)pEntity;
+
+			pMob->swing();
+			break;
+		}
+		case AnimatePacket::HURT:
+		{
+			pEntity->animateHurt();
+			break;
+		}
+		default:
+		{
+			LOG_W("Received unkown action in AnimatePacket: %d, EntityType: %s", pkt->m_actionId, pEntity->getDescriptor().getEntityType().getName().c_str());
+			break;
+		}
+	}
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)

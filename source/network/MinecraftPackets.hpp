@@ -30,6 +30,7 @@
 #include "packets/PlayerEquipmentPacket.hpp"
 #include "packets/SetEntityDataPacket.hpp"
 #include "packets/SetHealthPacket.hpp"
+#include "packets/AnimatePacket.hpp"
 #include "packets/LevelDataPacket.hpp"
 
 class MinecraftPackets

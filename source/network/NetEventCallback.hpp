@@ -42,6 +42,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, SetHealthPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, AnimatePacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, LevelDataPacket*) {}
 };
 

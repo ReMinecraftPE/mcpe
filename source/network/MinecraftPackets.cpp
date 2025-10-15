@@ -54,6 +54,8 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new SetEntityDataPacket;
 		case PACKET_SET_HEALTH:
 			return new SetHealthPacket;
+		case PACKET_ANIMATE:
+			return new AnimatePacket;
 
 		case PACKET_LEVEL_DATA:
 			return new LevelDataPacket;

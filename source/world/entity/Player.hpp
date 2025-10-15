@@ -26,6 +26,10 @@ public:
 	Player(Level* pLevel, GameType gameType);
 	virtual ~Player();
 
+protected:
+	virtual void reallyDrop(ItemEntity* pEnt);
+
+public:
 	virtual void reset() override;
 	virtual float getHeadHeight() const override { return 0.12f; /*@HUH: what ?*/ }
 	virtual bool isShootable() const override { return true; }
@@ -42,6 +46,7 @@ public:
 	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
 	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
 	virtual void animateRespawn();
+	virtual void drop();
 	virtual void drop(const ItemInstance& item, bool randomly = false);
 	virtual void startCrafting(const TilePos& pos);
 	virtual void startStonecutting(const TilePos& pos);
@@ -56,13 +61,11 @@ public:
 	bool canDestroy(const Tile*) const;
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
-	void drop();
 	float getDestroySpeed() const { return 1.0f; }
 	int getInventorySlot(int x) const;
 	TilePos getRespawnPosition() const { return m_respawnPos; }
 	int getScore() const { return m_score; }
 	void prepareCustomTextures();
-	void reallyDrop(ItemEntity* pEnt);
 	void respawn();
 	void rideTick();
 	void setDefaultHeadHeight();
