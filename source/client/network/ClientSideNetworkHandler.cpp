@@ -32,7 +32,9 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	m_pRakNetInstance = pRakNetInstance;
 	m_pServerPeer = m_pRakNetInstance->getPeer();
 	m_chunksRequested = 0;
+	m_chunkCount = 0;
 	m_serverProtocolVersion = 0;
+	m_bUseLevelDataPkt = false;
 	m_pLevel = nullptr;
 	m_field_14 = 0;
 	m_field_24 = 0;
@@ -134,6 +136,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGa
 	m_pLevel->m_bIsClientSide = true;
 
 	GameType gameType = pStartGamePkt->m_gameType != GAME_TYPES_MAX ? pStartGamePkt->m_gameType : m_pLevel->getDefaultGameType();
+	m_pLevel->setDefaultGameType(gameType);
+
 	LocalPlayer *pLocalPlayer = new LocalPlayer(m_pMinecraft, m_pLevel, m_pMinecraft->m_pUser, gameType, m_pLevel->m_pDimension->field_50);
 	pLocalPlayer->m_guid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
 	pLocalPlayer->m_EntityID = pStartGamePkt->m_entityId;
@@ -384,7 +388,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 	int minX = 16,  minZ = 16;
 	int maxX = 0,   maxZ = 0;
 
-	for (int k = 0; k < 256; k++)
+	for (int k = 0; k < C_MAX_CHUNKS; k++)
 	{
 		uint8_t updMap;
 		pChunkDataPkt->m_data.Read(updMap);
@@ -435,8 +439,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 		m_pLevel->setTilesDirty(TilePos(minX + x16, minY, minZ), TilePos(maxX + x16, maxY, maxZ + z16));
 
 	pChunk->m_bUnsaved = true;
-
-	if (m_serverProtocolVersion < 2)
+	m_chunkStates[pChunkDataPkt->m_chunkPos.x][pChunkDataPkt->m_chunkPos.z] = true;
+	if (!m_bUseLevelDataPkt)
 	{
 		if (areAllChunksLoaded())
 			flushAllBufferedUpdates();
@@ -597,24 +601,65 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataP
 	}
 
 	// All chunks are loaded. Also flush all the updates we've buffered.
-	m_chunksRequested = 256;
+	m_chunksRequested = C_MAX_CHUNKS;
 	flushAllBufferedUpdates();
 }
 
 bool ClientSideNetworkHandler::areAllChunksLoaded()
 {
-	return m_chunksRequested > 255;
+	return m_chunksRequested > C_MAX_CHUNKS;
 }
+
+bool ClientSideNetworkHandler::isChunkLoaded(const ChunkPos& cp)
+{
+	if ((cp.x < 0 || cp.x >= C_MAX_CHUNKS_X) || (cp.z < 0 || cp.z >= C_MAX_CHUNKS_Z))
+		return true;
+
+	return m_chunkStates[cp.x][cp.z];
+}
+
+struct _ChunkSorter
+{
+	ChunkPos m_pos;
+
+	_ChunkSorter(const ChunkPos& pos)
+	{
+		m_pos = pos;
+	}
+
+	bool operator()(const ChunkPos& a, const ChunkPos& b) const
+	{
+		return (a - m_pos).lengthSqr() < (b - m_pos).lengthSqr();
+	}
+};
 
 void ClientSideNetworkHandler::arrangeRequestChunkOrder()
 {
 	clearChunksLoaded();
-	// @TODO: Implement arrangeRequestChunkOrder()
+
+	ChunkPos cp(C_MAX_CHUNKS_X / 2, C_MAX_CHUNKS_Z / 2);
+
+	if (m_pMinecraft)
+	{
+		LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+		if (pLocalPlayer)
+		{
+			cp = pLocalPlayer->m_pos;
+		}
+	}
+
+	std::sort(&m_orderedChunks[0], &m_orderedChunks[C_MAX_CHUNKS-1], _ChunkSorter(cp));
 }
 
 void ClientSideNetworkHandler::clearChunksLoaded()
 {
-	// @TODO: Implement clearChunksLoaded()
+	for (int i = 0; i < C_MAX_CHUNKS; i++)
+	{
+		ChunkPos cp(i >> 4, i & 0xF);
+
+		m_orderedChunks[i] = cp;
+		m_chunkStates[cp.x][cp.z] = false;
+	}
 }
 
 void ClientSideNetworkHandler::requestNextChunk()
@@ -622,17 +667,20 @@ void ClientSideNetworkHandler::requestNextChunk()
 	if (areAllChunksLoaded())
 		return;
 
-	// @BUG: The return value of areAllChunksLoaded() is actually true even before the
-	// 256th chunk is loaded.
-
 	if (m_serverProtocolVersion < 2)
 	{
 		m_pRakNetInstance->send(new RequestChunkPacket(ChunkPos(m_chunksRequested % 16, m_chunksRequested / 16)));
 		m_chunksRequested++;
 	}
-	else
+	else if (m_bUseLevelDataPkt)
 	{
 		m_pRakNetInstance->send(new RequestChunkPacket(ChunkPos(-9999, -9999)));
+	}
+	else
+	{
+		m_pRakNetInstance->send(new RequestChunkPacket(m_orderedChunks[m_chunkCount]));
+		m_chunkCount++;
+		m_chunksRequested++;
 	}
 }
 

@@ -17,7 +17,7 @@
 #define NETWORK_TIME_SEND_FREQUENCY 12
 
 // This lets you make the server shut up and not log events in the debug console.
-//#define VERBOSE_SERVER
+#define VERBOSE_SERVER
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_SERVER)
 #define puts_ignorable(str) LOG_I(str)
@@ -287,7 +287,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MessagePac
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, MovePlayerPacket* packet)
 {
 	//not in the original
-	puts_ignorable("MovePlayerPacket");
+	//puts_ignorable("MovePlayerPacket");
 
 	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
 	if (!pEntity)
@@ -397,7 +397,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket* packet)
 {
-	puts_ignorable("RequestChunkPacket");
+	//puts_ignorable("RequestChunkPacket");
 
 	if (packet->m_chunkPos.x == -9999)
 	{

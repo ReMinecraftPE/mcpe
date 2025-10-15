@@ -145,6 +145,7 @@ const char* GetGUIBlocksName();
 
 #define C_MAX_CHUNKS_X (16)
 #define C_MAX_CHUNKS_Z (16)
+#define C_MAX_CHUNKS (C_MAX_CHUNKS_X * C_MAX_CHUNKS_Z)
 
 // 9 chunks around a player things will tick
 #define C_TICK_DISTANCE_CHKS (9)

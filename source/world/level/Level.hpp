@@ -69,7 +69,8 @@ public:
 	int getSeed() const { return m_pLevelData->getSeed(); }
 	int32_t getTime() const { return m_pLevelData->getTime(); }
 	void setTime(int32_t time);
-	GameType getDefaultGameType() { return m_pLevelData->getGameType(); }
+	GameType getDefaultGameType() const { return m_pLevelData->getGameType(); }
+	void setDefaultGameType(GameType gameType) { m_pLevelData->setGameType(gameType); }
 	int getHeightmap(const TilePos& pos);
 	bool isDay() const;
 	bool isSkyLit(const TilePos& pos) const;

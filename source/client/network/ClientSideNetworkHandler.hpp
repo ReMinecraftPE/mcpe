@@ -52,6 +52,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, LevelDataPacket*) override;
 	
 	bool areAllChunksLoaded();
+	bool isChunkLoaded(const ChunkPos& cp);
 	void arrangeRequestChunkOrder();
 	void clearChunksLoaded();
 	void requestNextChunk();
@@ -67,6 +68,10 @@ private:
 	int m_field_24;
 	std::vector<SBufferedBlockUpdate> m_bufferedBlockUpdates;
 	int m_chunksRequested;
+	int m_chunkCount;
+	ChunkPos m_orderedChunks[C_MAX_CHUNKS];
+	bool m_chunkStates[C_MAX_CHUNKS_X][C_MAX_CHUNKS_Z];
 	int m_serverProtocolVersion;
+	bool m_bUseLevelDataPkt;
 };
 
