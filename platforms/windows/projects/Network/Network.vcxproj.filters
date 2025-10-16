@@ -114,7 +114,10 @@
       <Filter>Header Files\Packets</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\UseItemPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -209,7 +212,10 @@
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\UseItemPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

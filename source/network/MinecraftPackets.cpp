@@ -54,6 +54,8 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new PlayerEquipmentPacket;
 		case PACKET_INTERACT:
 			return new InteractPacket;
+		case PACKET_USE_ITEM:
+			return new UseItemPacket;
 		case PACKET_SET_ENTITY_DATA:
 			return new SetEntityDataPacket;
 		case PACKET_SET_HEALTH:

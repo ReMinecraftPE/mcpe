@@ -288,7 +288,6 @@ void RakNetInstance::send(Packet* packet)
     }
 
 	delete packet;
-	// return 1300; --- ida tells me this returns 1300. Huh
 }
 
 // this sends a specific peer a message

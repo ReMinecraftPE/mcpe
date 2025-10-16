@@ -148,12 +148,25 @@ bool GameMode::useItem(Player* player, Level* level, ItemInstance* instance)
 bool GameMode::useItemOn(Player* player, Level* level, ItemInstance* instance, const TilePos& pos, Facing::Name face)
 {
 	TileID tile = level->getTile(pos);
+	if (tile == Tile::invisible_bedrock->m_ID)
+		return false;
+
+	bool success = false;
+
 	if (tile > 0 && Tile::tiles[tile]->use(level, pos, player))
-		return true;
+	{
+		success = true;
+	}
+	else if (instance)
+	{
+		success = instance->useOn(player, level, pos, face);
+	}
 
-	if (instance)
-		return instance->useOn(player, level, pos, face);
+	if (success)
+	{
+		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, instance));
+	}
 
-	return false;
+	return success;
 }
 

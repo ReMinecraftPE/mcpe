@@ -396,10 +396,9 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 	redistributePacket(packet, guid);
 }
 
-
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, InteractPacket* packet)
 {
-	puts_ignorable("InteractPacket");
+	//puts_ignorable("InteractPacket");
 	if (!m_pLevel) return;
 
 	Entity* pSource = m_pLevel->getEntity(packet->m_sourceId);
@@ -427,6 +426,39 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, InteractPa
 	}
 
 	redistributePacket(packet, guid);
+}
+
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPacket* packet)
+{
+	//puts_ignorable("UseItemPacket");
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity) return;
+	Player* pPlayer = (Player*)pEntity;
+
+	if (!pEntity->isPlayer())
+		return;
+
+	Tile* pTile = Tile::tiles[m_pLevel->getTile(packet->m_tilePos)];
+	if (pTile)
+	{
+		if (pTile == Tile::invisible_bedrock)
+			return;
+
+		// Interface with tile instead of using item
+		if (pTile->use(m_pLevel, packet->m_tilePos, pPlayer))
+		{
+			pPlayer->swing();
+			return;
+		}
+	}
+
+	if (packet->m_item.isNull())
+		return;
+
+	packet->m_item.useOn(pPlayer, m_pLevel, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
+	pPlayer->swing();
 }
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket* packet)

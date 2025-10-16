@@ -1097,9 +1097,9 @@ void Tile::wasExploded(Level* pLevel, const TilePos& pos)
 
 }
 
-int Tile::use(Level* pLevel, const TilePos& pos, Player* player)
+bool Tile::use(Level* pLevel, const TilePos& pos, Player* player)
 {
-	return 0;
+	return false;
 }
 
 void Tile::stepOn(Level* pLevel, const TilePos& pos, Entity* entity)
