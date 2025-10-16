@@ -178,6 +178,7 @@ add_library(reminecraftpe-core STATIC
     network/packets/MovePlayerPacket.cpp
     network/packets/MoveEntityPacket.cpp
     network/packets/MoveEntityPacket_PosRot.cpp
+    network/packets/LevelEventPacket.cpp.cpp
     network/packets/EntityEventPacket.cpp
     network/packets/MessagePacket.cpp
     network/packets/AnimatePacket.cpp

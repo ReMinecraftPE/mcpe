@@ -66,6 +66,7 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AnimatePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\RespawnPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\InteractPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\AnimatePacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\RespawnPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\InteractPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

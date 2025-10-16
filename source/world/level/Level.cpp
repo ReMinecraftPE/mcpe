@@ -776,6 +776,15 @@ void Level::entityRemoved(Entity* pEnt)
 	}
 }
 
+void Level::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data)
+{
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	{
+		LevelListener* pListener = *it;
+		pListener->levelEvent(pPlayer, eventId, pos, data);
+	}
+}
+
 AABBVector* Level::getCubes(const Entity* pEntUnused, const AABB& aabb)
 {
 	m_aabbs.clear();

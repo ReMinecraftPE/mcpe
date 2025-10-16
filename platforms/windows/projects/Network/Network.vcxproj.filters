@@ -113,6 +113,9 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\InteractPacket.hpp">
       <Filter>Header Files\Packets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.cpp">
@@ -204,6 +207,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\InteractPacket.cpp">
       <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

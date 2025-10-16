@@ -979,5 +979,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp">
       <Filter>Header Files\Level\LevelGen\Chunk</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

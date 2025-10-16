@@ -353,6 +353,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateB
 	m_pLevel->setTileAndData(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data);
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LevelEventPacket* pkt)
+{
+	puts_ignorable("LevelEventPacket");
+	if (!m_pLevel) return;
+
+	m_pLevel->levelEvent(nullptr, pkt->m_eventId, pkt->m_pos, pkt->m_data);
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, EntityEventPacket* pkt)
 {
 	//puts_ignorable("EntityEventPacket");

@@ -332,6 +332,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityFactory.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

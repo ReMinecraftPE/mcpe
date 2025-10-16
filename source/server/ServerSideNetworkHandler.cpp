@@ -545,6 +545,20 @@ void ServerSideNetworkHandler::entityAdded(Entity* entity)
 	}
 }
 
+void ServerSideNetworkHandler::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data)
+{
+	LevelEventPacket pkt(eventId, pos, data);
+
+	if (pPlayer)
+	{
+		redistributePacket(&pkt, pPlayer->m_guid);
+	}
+	else
+	{
+		redistributePacket(&pkt, m_pMinecraft->m_pLocalPlayer->m_guid);
+	}
+}
+
 void ServerSideNetworkHandler::allowIncomingConnections(bool b)
 {
 	if (b)
