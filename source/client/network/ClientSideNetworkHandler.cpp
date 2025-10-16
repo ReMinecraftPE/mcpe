@@ -467,6 +467,36 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 	pPlayer->m_pInventory->selectItemById(pPlayerEquipmentPkt->m_itemID, C_MAX_HOTBAR_ITEMS);
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, InteractPacket* pkt)
+{
+	puts_ignorable("InteractPacket");
+	if (!m_pLevel) return;
+
+	Entity* pSource = m_pLevel->getEntity(pkt->m_sourceId);
+	Entity* pTarget = m_pLevel->getEntity(pkt->m_targetId);
+	if (!pSource || !pTarget)
+		return;
+
+	if (!pSource->isPlayer())
+		return;
+
+	Player* pPlayer = (Player*)pSource;
+	switch (pkt->m_actionType)
+	{
+	case InteractPacket::INTERACT:
+		pPlayer->swing();
+		m_pMinecraft->m_pGameMode->interact(pPlayer, pTarget);
+		break;
+	case InteractPacket::ATTACK:
+		pPlayer->swing();
+		m_pMinecraft->m_pGameMode->attack(pPlayer, pTarget);
+		break;
+	default:
+		LOG_W("Received unkown action in InteractPacket: %d", pkt->m_actionType);
+		break;
+	}
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetEntityDataPacket* pkt)
 {
 	puts_ignorable("SetEntityDataPacket");

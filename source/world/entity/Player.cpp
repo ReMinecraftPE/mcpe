@@ -66,6 +66,12 @@ void Player::reset()
 	_init();
 }
 
+void Player::remove()
+{
+	m_bIsInvisible = true;
+	Mob::remove();
+}
+
 bool Player::hurt(Entity* pEnt, int damage)
 {
 	if (isCreative())
@@ -118,7 +124,7 @@ void Player::resetPos(bool respawn)
 	setSize(0.6f, 1.8f);
 
 	Entity::resetPos();
-
+	m_bIsInvisible = false;
 	if (respawn)
 	{
 		m_deathTime = 0;
@@ -133,9 +139,12 @@ void Player::die(Entity* pCulprit)
 	setPos(m_pos); // update hitbox
 	m_vel.y = 0.1f;
 
-	if (m_name == "Notch")
-		drop(ItemInstance(Item::apple), true);
-	m_pInventory->dropAll();
+	if (!m_pLevel->m_bIsClientSide)
+	{
+		if (m_name == "Notch")
+			drop(ItemInstance(Item::apple), true);
+	}
+	m_pInventory->dropAll(m_pLevel->m_bIsClientSide);
 
 	if (pCulprit)
 	{

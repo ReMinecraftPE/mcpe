@@ -64,8 +64,10 @@ void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, flo
 		ItemInstance* item = player->getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
 	}
+
 	if (pEntity->isSneaking())
 	{
+		m_pHumanoidModel->m_bSneaking = true;
 		Vec3 pos2 = pos;
 		pos2.y -= 0.125f;
 		MobRenderer::render(pEntity, pos2, f1, f2);

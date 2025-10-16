@@ -12,22 +12,23 @@
 #include "network/RakNetInstance.hpp"
 #include "network/packets/MoveEntityPacket_PosRot.hpp"
 
-Mob::Mob(Level* pLevel) : Entity(pLevel)
+void Mob::_init()
 {
+	// only sets 19 fields on 0.2.1
 	m_invulnerableDuration = 10;
 	field_E8 = 0.0f;
 	field_EC = 0.0f;
 	m_oAttackAnim = 0.0f;
 	m_attackAnim = 0.0f;
-	m_health = 10;
-	m_lastHealth = 20;
+	m_health = getMaxHealth();
+	m_lastHealth = m_health;
 	m_hurtTime = 0;
 	m_hurtDuration = 0;
 	m_hurtDir = 0.0f;
 	m_deathTime = 0;
 	m_attackTime = 0;
-    m_oTilt = 0.0f;
-    m_tilt = 0.0f;
+	m_oTilt = 0.0f;
+	m_tilt = 0.0f;
 	field_120 = 0;
 	field_124 = 0;
 	field_128 = 0.0f;
@@ -56,7 +57,12 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_pEntLookedAt = nullptr;
 	m_bSwinging = false;
 	m_swingTime = 0;
-    m_ambientSoundTime = 0;
+	m_ambientSoundTime = 0;
+}
+
+Mob::Mob(Level* pLevel) : Entity(pLevel)
+{
+	_init();
 
 	m_texture = "/mob/pig.png";
 	m_class = "";
@@ -82,8 +88,7 @@ void Mob::actuallyHurt(int damage)
 void Mob::reset()
 {
 	Entity::reset();
-	// TODO what fields to reset?
-	m_health = getMaxHealth();
+	_init();
 }
 
 void Mob::lerpTo(const Vec3& pos, const Vec2& rot, int steps)
@@ -278,7 +283,7 @@ void Mob::baseTick()
 
     m_oTilt = m_tilt;
 
-	  if (m_attackTime > 0) m_attackTime--;
+	if (m_attackTime > 0) m_attackTime--;
     if (m_hurtTime > 0) m_hurtTime--;
     if (m_invulnerableTime > 0) m_invulnerableTime--;
 

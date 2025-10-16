@@ -14,6 +14,9 @@
 
 class Mob : public Entity
 {
+private:
+	void _init();
+
 public:
 	Mob(Level* pLevel);
 	virtual ~Mob();

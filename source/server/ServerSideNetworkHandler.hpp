@@ -55,6 +55,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
+	void handle(const RakNet::RakNetGUID&, InteractPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RequestChunkPacket*) override;
 	void handle(const RakNet::RakNetGUID&, AnimatePacket*) override;
 	void handle(const RakNet::RakNetGUID&, RespawnPacket*) override;

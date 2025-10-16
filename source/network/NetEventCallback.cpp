@@ -29,11 +29,14 @@ Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId, const R
 void NetEventCallback::handle(Level& level, const RakNet::RakNetGUID& guid, RespawnPacket* pkt)
 {
     Player* pPlayer = _findPlayer(level, pkt->m_entityId);
-    if (pPlayer)
+    if (!pPlayer)
     {
-        // @TODO: on server, ignore client's requested coords, and teleport them to their server-determined spawn
-        pPlayer->moveTo(pkt->m_pos);
-        pPlayer->reset();
-        pPlayer->resetPos(true);
+        LOG_W("NetEventCallback failed to find player to respawn with ID: %d", pkt->m_entityId);
+        return;
     }
+
+    // @TODO: on server, ignore client's requested coords, and teleport them to their server-determined spawn
+    pPlayer->moveTo(pkt->m_pos);
+    pPlayer->reset();
+    pPlayer->resetPos(true);
 }

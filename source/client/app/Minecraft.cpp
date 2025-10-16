@@ -331,97 +331,104 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 	bool bInteract = true;
 	switch (m_hitResult.m_hitType)
 	{
-	case HitResult::ENTITY:
-		if (action.isAttack())
+		case HitResult::ENTITY:
 		{
-			m_pGameMode->attack(player, m_hitResult.m_pEnt);
-			m_lastBlockBreakTime = getTimeMs();
-		}
-		else if (action.isInteract() && canInteract)
-		{
-			if (m_hitResult.m_pEnt->interactPreventDefault())
-				bInteract = false;
-
-			m_pGameMode->interact(player, m_hitResult.m_pEnt);
-			m_lastInteractTime = getTimeMs();
-		}
-		break;
-	case HitResult::TILE:
-		Tile* pTile = Tile::tiles[m_pLevel->getTile(m_hitResult.m_tilePos)];
-
-		if (action.isDestroy())
-		{
-			if (!pTile) return;
-			//if (pTile->isLiquidTile()) return;
-
-			player->swing();
-
-			// @BUG: This is only done on the client side.
-			//bool extinguished = m_pLevel->extinguishFire(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
-
-			// Allows fire to be extinguished *without* destroying blocks
-			// @BUG: Hits sometimes pass through fire when done from above
-			//if (extinguished) break;
-
-			if (pTile != Tile::unbreakable || (player->field_B94 >= 100 && !m_hitResult.m_bUnk24))
+			Entity* pTarget = m_hitResult.m_pEnt;
+			if (action.isAttack())
 			{
-				bool destroyed = false;
-				if (action.isDestroyStart())
-				{
-					destroyed = m_pGameMode->startDestroyBlock(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
-					player->startDestroying();
-				}
-
-				bool contDestory = m_pGameMode->continueDestroyBlock(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
-
-				destroyed = destroyed || contDestory;
-				m_pParticleEngine->crack(m_hitResult.m_tilePos, m_hitResult.m_hitSide);
-
+				m_pRakNetInstance->send(new InteractPacket(player->m_EntityID, pTarget->m_EntityID, InteractPacket::ATTACK));
+				m_pGameMode->attack(player, pTarget);
 				m_lastBlockBreakTime = getTimeMs();
-
-				if (destroyed)
-				{
-					/*if (isVibrateOnBlockBreakOptionEnabledOrWhatever)
-						platform()->vibrate(24);*/
-				}
 			}
-		}
-		else if (action.isPick())
-		{
-			// Try to pick the tile.
-			int auxValue = m_pLevel->getData(m_hitResult.m_tilePos);
-			player->m_pInventory->selectItemByIdAux(pTile->m_ID, auxValue, C_MAX_HOTBAR_ITEMS);
-		}
-		else if (action.isPlace() && canInteract)
-		{
-			ItemInstance* pItem = getSelectedItem();
-			if (m_pGameMode->useItemOn(player, m_pLevel, pItem, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
+			else if (action.isInteract() && canInteract)
 			{
-				bInteract = false;
+				if (pTarget->interactPreventDefault())
+					bInteract = false;
+
+				m_pRakNetInstance->send(new InteractPacket(player->m_EntityID, pTarget->m_EntityID, InteractPacket::INTERACT));
+				m_pGameMode->interact(player, pTarget);
+				m_lastInteractTime = getTimeMs();
+			}
+			break;
+		}
+		case HitResult::TILE:
+		{
+			Tile* pTile = Tile::tiles[m_pLevel->getTile(m_hitResult.m_tilePos)];
+
+			if (action.isDestroy())
+			{
+				if (!pTile) return;
+				//if (pTile->isLiquidTile()) return;
 
 				player->swing();
 
-				m_lastInteractTime = getTimeMs();
+				// @BUG: This is only done on the client side.
+				//bool extinguished = m_pLevel->extinguishFire(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
 
-				if (isOnline())
+				// Allows fire to be extinguished *without* destroying blocks
+				// @BUG: Hits sometimes pass through fire when done from above
+				//if (extinguished) break;
+
+				if (pTile != Tile::unbreakable || (player->field_B94 >= 100 && !m_hitResult.m_bUnk24))
 				{
-					if (ItemInstance::isNull(pItem) || pItem->m_itemID > C_MAX_TILES)
-						return;
-
-					TilePos tp(m_hitResult.m_tilePos);
-
-					Facing::Name hitSide = m_hitResult.m_hitSide;
-
-					if (m_pLevel->getTile(m_hitResult.m_tilePos) == Tile::topSnow->m_ID)
+					bool destroyed = false;
+					if (action.isDestroyStart())
 					{
-						hitSide = Facing::DOWN;
+						destroyed = m_pGameMode->startDestroyBlock(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
+						player->startDestroying();
 					}
 
-					m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), TileID(pItem->m_itemID), hitSide, pItem->getAuxValue()));
+					bool contDestory = m_pGameMode->continueDestroyBlock(player, m_hitResult.m_tilePos, m_hitResult.m_hitSide);
+
+					destroyed = destroyed || contDestory;
+					m_pParticleEngine->crack(m_hitResult.m_tilePos, m_hitResult.m_hitSide);
+
+					m_lastBlockBreakTime = getTimeMs();
+
+					if (destroyed)
+					{
+						/*if (isVibrateOnBlockBreakOptionEnabledOrWhatever)
+							platform()->vibrate(24);*/
+					}
 				}
 			}
+			else if (action.isPick())
+			{
+				// Try to pick the tile.
+				int auxValue = m_pLevel->getData(m_hitResult.m_tilePos);
+				player->m_pInventory->selectItemByIdAux(pTile->m_ID, auxValue, C_MAX_HOTBAR_ITEMS);
+			}
+			else if (action.isPlace() && canInteract)
+			{
+				ItemInstance* pItem = getSelectedItem();
+				if (m_pGameMode->useItemOn(player, m_pLevel, pItem, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
+				{
+					bInteract = false;
+
+					player->swing();
+
+					m_lastInteractTime = getTimeMs();
+
+					if (isOnline())
+					{
+						if (ItemInstance::isNull(pItem) || pItem->m_itemID > C_MAX_TILES)
+							return;
+
+						TilePos tp(m_hitResult.m_tilePos);
+
+						Facing::Name hitSide = m_hitResult.m_hitSide;
+
+						if (m_pLevel->getTile(m_hitResult.m_tilePos) == Tile::topSnow->m_ID)
+						{
+							hitSide = Facing::DOWN;
+						}
+
+						m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), TileID(pItem->m_itemID), hitSide, pItem->getAuxValue()));
+					}
+				}
+			}
+			break;
 		}
-		break;
 	}
 
 	if (bInteract && action.isInteract() && canInteract)
@@ -699,28 +706,6 @@ void Minecraft::_resetPlayer(Player* player)
 	TilePos pos = m_pLevel->getSharedSpawnPos();
 	player->setPos(pos);
 	player->resetPos();
-
-	// Of course we have to add him back into the game, if he isn't already.
-	EntityVector& vec = m_pLevel->m_entities;
-	for (int i = 0; i < int(vec.size()); i++)
-	{
-		if (vec[i] == player)
-			return;
-	}
-
-	std::vector<Player*>& vec2 = m_pLevel->m_players;
-	for (int i = 0; i < int(vec2.size()); i++)
-	{
-		// remove the player if he is already in the player list
-		if (vec2[i] == player)
-		{
-			vec2.erase(vec2.begin() + i);
-			i--;
-		}
-	}
-
-	// add him in!!
-	m_pLevel->addEntity(player);
 }
 
 void Minecraft::tick()

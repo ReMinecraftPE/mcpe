@@ -19,7 +19,9 @@ AddPlayerPacket::AddPlayerPacket(const Player *player)
 	m_pos = player->m_pos;
 	m_pos.y -= player->m_heightOffset;
 	m_rot = player->m_rot;
-	m_itemId = 0;
+	// apparently TILE_AIR isn't valid and causes a crash on 0.2.1
+	// even though Mojang initializes this to TILE_AIR
+	m_itemId = TILE_STONE;
 	m_itemAuxValue = 0;
 	ItemInstance* pItem = player->getSelectedItem();
 	if (pItem)

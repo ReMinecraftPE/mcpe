@@ -94,6 +94,7 @@ void ServerSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 
 		m_pRakNetInstance->send(new RemoveEntityPacket(pPlayer->m_EntityID));
 
+		pPlayer->m_bForceRemove = true;
 		// remove it from our world
 		m_pLevel->removeEntity(pPlayer);
 	}
@@ -391,6 +392,39 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 	}
 
 	pPlayer->m_pInventory->selectItemById(packet->m_itemID, C_MAX_HOTBAR_ITEMS);
+
+	redistributePacket(packet, guid);
+}
+
+
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, InteractPacket* packet)
+{
+	puts_ignorable("InteractPacket");
+	if (!m_pLevel) return;
+
+	Entity* pSource = m_pLevel->getEntity(packet->m_sourceId);
+	Entity* pTarget = m_pLevel->getEntity(packet->m_targetId);
+	if (!pSource || !pTarget)
+		return;
+
+	if (!pSource->isPlayer())
+		return;
+
+	Player* pPlayer = (Player*)pSource;
+	switch (packet->m_actionType)
+	{
+	case InteractPacket::INTERACT:
+		pPlayer->swing();
+		m_pMinecraft->m_pGameMode->interact(pPlayer, pTarget);
+		break;
+	case InteractPacket::ATTACK:
+		pPlayer->swing();
+		m_pMinecraft->m_pGameMode->attack(pPlayer, pTarget);
+		break;
+	default:
+		LOG_W("Received unkown action in InteractPacket: %d", packet->m_actionType);
+		break;
+	}
 
 	redistributePacket(packet, guid);
 }

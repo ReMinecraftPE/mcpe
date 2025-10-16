@@ -190,13 +190,6 @@ void EntityRenderDispatcher::render(Entity* entity, const Vec3& pos, float rot, 
 		return;
 	}
 
-#ifndef ORIGINAL_CODE
-	if (pRenderer == &m_HumanoidMobRenderer)
-		m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = entity->isSneaking();
-	else
-		m_HumanoidMobRenderer.m_pHumanoidModel->m_bSneaking = false;
-#endif
-
 	pRenderer->render(entity, pos, rot, a);
 	pRenderer->postRender(entity, pos, rot, a);
 }

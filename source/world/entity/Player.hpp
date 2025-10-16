@@ -31,23 +31,28 @@ public:
 
 protected:
 	virtual void reallyDrop(ItemEntity* pEnt);
+	bool getSharedFlag(SharedFlag flag) const override { return false; }
+	void setSharedFlag(SharedFlag flag, bool value) override {}
 
 public:
-	virtual void reset() override;
-	virtual float getHeadHeight() const override { return 0.12f; /*@HUH: what ?*/ }
-	virtual bool isShootable() const override { return true; }
-	virtual bool isPlayer() const override { return true; }
-	virtual bool isCreativeModeAllowed() const override { return true; }
-	virtual bool hurt(Entity*, int) override;
-	virtual void awardKillScore(Entity* pKilled, int score) override;
-	virtual void resetPos(bool respawn = false) override;
-	virtual void die(Entity* pCulprit) override;
-	virtual void aiStep() override;
+	void reset() override;
+	void remove() override;
+	float getHeadHeight() const override { return 0.12f; /*@HUH: what ?*/ }
+	int getMaxHealth() const override { return 20; }
+	bool isShootable() const override { return true; }
+	bool isPlayer() const override { return true; }
+	bool isCreativeModeAllowed() const override { return true; }
+	bool hurt(Entity*, int) override;
+	void awardKillScore(Entity* pKilled, int score) override;
+	void resetPos(bool respawn = false) override;
+	void die(Entity* pCulprit) override;
+	void aiStep() override;
 	ItemInstance* getCarriedItem() override;
-	virtual bool isImmobile() const override { return m_health <= 0; }
-	virtual void updateAi() override;
-	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
-	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
+	bool isImmobile() const override { return m_health <= 0; }
+	void updateAi() override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
+
 	virtual void animateRespawn();
 	virtual void drop();
 	virtual void drop(const ItemInstance& item, bool randomly = false);
@@ -56,7 +61,7 @@ public:
 	virtual void startDestroying();
 	virtual void stopDestroying();
 	virtual bool isLocalPlayer() const { return false; }
-	virtual void take(Entity* pEnt, int x) {};
+	virtual void take(Entity* pEnt, int x) {}
 
 	int addResource(int);
 	void animateRespawn(Player*, Level*);

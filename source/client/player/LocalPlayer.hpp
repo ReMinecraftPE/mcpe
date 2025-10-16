@@ -16,10 +16,15 @@ class Minecraft;
 
 class LocalPlayer : public Player
 {
+private:
+	void _init();
+
 public:
 	LocalPlayer(Minecraft*, Level*, User*, GameType, int);
 	virtual ~LocalPlayer();
 
+public:
+	void reset() override;
 	void animateRespawn() override;
 	void aiStep() override;
 	bool isSneaking() const override;

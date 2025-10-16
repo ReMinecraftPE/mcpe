@@ -34,6 +34,8 @@ void Entity::_init()
 	m_bIsInWeb = false;
 	m_bSlide = 1;
 	m_bRemoved = false;
+	m_bIsInvisible = false;
+	m_bForceRemove = false;
 	m_heightOffset = 0.0f;
 	m_bbWidth = 0.6f;
 	m_bbHeight = 1.8f;
@@ -707,6 +709,9 @@ void Entity::push(const Vec3& pos)
 
 bool Entity::shouldRender(Vec3& camPos) const
 {
+	if (m_bIsInvisible)
+		return false;
+
 	return shouldRenderAtSqrDistance(distanceToSqr(camPos));
 }
 

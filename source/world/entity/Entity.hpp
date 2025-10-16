@@ -113,8 +113,8 @@ public:
 	virtual ~Entity();
 
 protected:
-	bool getSharedFlag(SharedFlag flag) const;
-	void setSharedFlag(SharedFlag flag, bool value);
+	virtual bool getSharedFlag(SharedFlag flag) const;
+	virtual void setSharedFlag(SharedFlag flag, bool value);
 
 public:
 	virtual void reset();
@@ -246,6 +246,8 @@ public:
 	bool m_bIsInWeb;
 	uint8_t m_bSlide;
 	bool m_bRemoved;
+	bool m_bIsInvisible;
+	bool m_bForceRemove;
 	float m_heightOffset;
 	float m_bbWidth;
 	float m_bbHeight;

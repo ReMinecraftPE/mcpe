@@ -1595,7 +1595,7 @@ void Level::tickEntities()
 		{
 			tick(pEnt);
 		}
-		else
+		else if (!pEnt->isPlayer() || pEnt->m_bForceRemove)
 		{
 			if (pEnt->m_bInAChunk && hasChunk(pEnt->m_chunkPos))
 				getChunk(pEnt->m_chunkPos)->removeEntity(pEnt);
@@ -1604,10 +1604,7 @@ void Level::tickEntities()
 			i--;
 
 			entityRemoved(pEnt);
-
-			// If the entity isn't a player (managed by Minecraft* or through OnlinePlayer), then delete it.
-			if (!pEnt->isPlayer())
-				delete pEnt;
+			delete pEnt;
 		}
 	}
 }

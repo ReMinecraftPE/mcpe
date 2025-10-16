@@ -14,6 +14,19 @@
 
 int dword_250ADC, dword_250AE0;
 
+void LocalPlayer::_init()
+{
+	m_nAutoJumpFrames = 0;
+	// multiplayer related
+	m_lastSentPos = Vec3::ZERO;
+	m_lastSentRot = Vec2::ZERO;
+	// multiplayer related -- end
+
+	m_renderArmRot = Vec2::ZERO;
+	m_lastRenderArmRot = Vec2::ZERO;
+	field_C38 = m_pInventory->getSelectedItemId();
+}
+
 LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int dimensionId) : Player(pLevel, playerGameType)
 {
 	field_BEC = 0;
@@ -27,22 +40,14 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, Game
 	field_C14 = 0.0f;
 	field_C18 = 0.0f;
 	field_C1C = 0.0f;
-	m_nAutoJumpFrames = 0;
-	// multiplayer related
-	m_lastSentPos = Vec3::ZERO;
-	m_lastSentRot = Vec2::ZERO;
-	// multiplayer related -- end
 	field_C38 = 0;
 	m_pMoveInput = nullptr;
-
-	m_renderArmRot = Vec2::ZERO;
-	m_lastRenderArmRot = Vec2::ZERO;
 
 	m_pMinecraft = pMinecraft;
 	m_name = pUser->field_0;
 
 	m_dimension = dimensionId;
-	field_C38 = m_pInventory->getSelectedItemId();
+	_init();
 }
 
 LocalPlayer::~LocalPlayer()
@@ -104,6 +109,12 @@ void LocalPlayer::swing()
 	Player::swing();
 
 	m_pMinecraft->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::SWING));
+}
+
+void LocalPlayer::reset()
+{
+	Player::reset();
+	_init();
 }
 
 void LocalPlayer::animateRespawn()

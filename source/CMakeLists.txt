@@ -160,6 +160,7 @@ add_library(reminecraftpe-core STATIC
     network/packets/UpdateBlockPacket.cpp
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
+    network/packets/InteractPacket.cpp
     network/packets/SetEntityDataPacket.cpp
     network/packets/SetHealthPacket.cpp
     network/packets/ChunkDataPacket.cpp
