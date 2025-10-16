@@ -32,14 +32,17 @@ public:
 	bool addItem(ItemInstance& instance);
     void tick();
 
-	ItemInstance* getItem(int slotNo);
-	ItemInstance* getQuickSlotItem(int slotNo);
-	ItemInstance* getSelectedItem();
-	int getQuickSlotItemId(int slotNo);
-	int getSelectedItemId();
+	ItemInstance* getItem(int slotNo) const;
+	ItemInstance* getQuickSlotItem(int slotNo) const;
+	ItemInstance* getSelectedItem() const;
+	int getQuickSlotItemId(int slotNo) const;
+	int getSelectedItemId() const;
+
+	void setItem(int index, ItemInstance* item);
+	void setSelectedItem(ItemInstance* item);
+
 	void selectItem(int slotNo, int maxHotBarSlot); // selects an item by slot number and puts it in the quick slots if needed
 	void selectSlot(int slotNo);
-
 	void setQuickSlotIndexByItemId(int slotNo, int itemID);
 	void selectItemById(int itemID, int maxHotBarSlot);
 	void selectItemByIdAux(int itemID, int auxValue, int maxHotBarSlot);

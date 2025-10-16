@@ -263,7 +263,7 @@ void Inventory::addTestItem(int itemID, int amount, int auxValue)
 	}
 }
 
-ItemInstance* Inventory::getItem(int slotNo)
+ItemInstance* Inventory::getItem(int slotNo) const
 {
 	if (slotNo < 0 || slotNo >= int(m_items.size()))
 		return nullptr;
@@ -278,7 +278,7 @@ ItemInstance* Inventory::getItem(int slotNo)
 	return item;
 }
 
-int Inventory::getQuickSlotItemId(int slotNo)
+int Inventory::getQuickSlotItemId(int slotNo) const
 {
 	ItemInstance* pInst = getQuickSlotItem(slotNo);
 	if (!pInst)
@@ -287,7 +287,7 @@ int Inventory::getQuickSlotItemId(int slotNo)
 	return pInst->m_itemID;
 }
 
-ItemInstance* Inventory::getQuickSlotItem(int slotNo)
+ItemInstance* Inventory::getQuickSlotItem(int slotNo) const
 {
 	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
 		return nullptr;
@@ -297,14 +297,31 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 	return !ItemInstance::isNull(pInst) ? pInst : nullptr;
 }
 
-ItemInstance* Inventory::getSelectedItem()
+ItemInstance* Inventory::getSelectedItem() const
 {
 	return getQuickSlotItem(m_selectedHotbarSlot);
 }
 
-int Inventory::getSelectedItemId()
+int Inventory::getSelectedItemId() const
 {
 	return getQuickSlotItemId(m_selectedHotbarSlot);
+}
+
+void Inventory::setItem(int index, ItemInstance* item)
+{
+	if (index >= m_items.size())
+	{
+		//m_armor[index - m_items.size()] = item;
+	}
+	else
+	{
+		m_items[index] = item;
+	}
+}
+
+void Inventory::setSelectedItem(ItemInstance* item)
+{
+	setItem(m_selectedHotbarSlot, item);
 }
 
 void Inventory::selectItem(int slotNo, int maxHotBarSlot)

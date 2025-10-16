@@ -18,6 +18,9 @@ bool MultiplayerLocalPlayer::hurt(Entity* pAttacker, int damage)
 
     // Pulled from Mob::hurt(), modified to remove impact on health
 
+    if (isCreative())
+        return false;
+
     bool var3 = true;
     if (float(m_invulnerableTime) > float(m_invulnerableDuration) / 2.0f)
     {

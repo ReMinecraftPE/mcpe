@@ -437,3 +437,8 @@ ItemInstance* Player::getSelectedItem() const
 {
 	return m_pInventory->getSelected();
 }
+
+void Player::removeSelectedItem()
+{
+	m_pInventory->setSelectedItem(nullptr);
+}
