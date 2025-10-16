@@ -66,17 +66,24 @@ bool ItemEntity::isInWater()
 
 void ItemEntity::playerTouch(Player* player)
 {
+	if (m_pLevel->m_bIsClientSide)
+		return;
+
 	// Here, this would give the item to the player, and remove the item entity.
-	if (m_throwTime != 0)
+	if (m_throwTime != 0 || !player->isAlive())
 		return;
 
 	Inventory* pInventory = player->m_pInventory;
 
-	pInventory->addItem(*m_pItemInstance);
+	if (!pInventory->addItem(*m_pItemInstance))
+		return;
 
 	m_pLevel->playSound(this, "random.pop", 0.3f,
 		((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 
+	player->take(this, m_pItemInstance->m_count);
+
+	// On 0.2.1, this gets removed regardless. What about stacks??
 	if (m_pItemInstance->m_count <= 0)
 		remove();
 }

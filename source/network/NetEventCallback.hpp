@@ -37,6 +37,8 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, AddMobPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, AddPlayerPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, AddItemEntityPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, TakeItemEntityPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, MoveEntityPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, MovePlayerPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) {}

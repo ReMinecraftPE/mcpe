@@ -173,6 +173,8 @@ add_library(reminecraftpe-core STATIC
     network/packets/SetTimePacket.cpp
     network/packets/StartGamePacket.cpp
     network/packets/RemoveEntityPacket.cpp
+    network/packets/AddItemEntityPacket.cpp
+    network/packets/TakeItemEntityPacket.cpp
     network/packets/AddPlayerPacket.cpp
     network/packets/AddMobPacket.cpp
     network/packets/RemoveBlockPacket.cpp

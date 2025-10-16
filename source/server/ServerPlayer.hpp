@@ -7,7 +7,7 @@ public:
 
 public:
 	void tick() override;
-	void take(Entity* pEnt, int x) override;
+	void take(Entity* pEnt, int count) override;
 
 private:
 	int m_lastHealth;

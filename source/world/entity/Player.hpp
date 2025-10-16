@@ -61,7 +61,7 @@ public:
 	virtual void startDestroying();
 	virtual void stopDestroying();
 	virtual bool isLocalPlayer() const { return false; }
-	virtual void take(Entity* pEnt, int x) {}
+	virtual void take(Entity* pEnt, int count) {}
 
 	int addResource(int);
 	void animateRespawn(Player*, Level*);

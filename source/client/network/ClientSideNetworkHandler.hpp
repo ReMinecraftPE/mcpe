@@ -10,6 +10,7 @@
 
 #include "network/NetEventCallback.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/multiplayer/MultiPlayerLevel.hpp"
 #include "network/RakNetInstance.hpp"
 
 struct SBufferedBlockUpdate
@@ -39,8 +40,10 @@ public:
 	void handle(const RakNet::RakNetGUID&, AddPlayerPacket*) override;
 	void handle(const RakNet::RakNetGUID&, AddMobPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveEntityPacket*) override;
-	void handle(const RakNet::RakNetGUID&, MovePlayerPacket*) override;
+	void handle(const RakNet::RakNetGUID&, AddItemEntityPacket*) override;
+	void handle(const RakNet::RakNetGUID&, TakeItemEntityPacket*) override;
 	void handle(const RakNet::RakNetGUID&, MoveEntityPacket*) override;
+	void handle(const RakNet::RakNetGUID&, MovePlayerPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, UpdateBlockPacket*) override;
@@ -64,7 +67,7 @@ public:
 
 private:
 	Minecraft* m_pMinecraft;
-	Level* m_pLevel;
+	MultiPlayerLevel* m_pLevel;
 	RakNetInstance* m_pRakNetInstance;
 	RakNet::RakPeerInterface* m_pServerPeer;
 	int m_field_14;

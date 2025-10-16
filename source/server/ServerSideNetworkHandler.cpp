@@ -563,18 +563,24 @@ void ServerSideNetworkHandler::timeChanged(uint32_t time)
 
 void ServerSideNetworkHandler::entityAdded(Entity* entity)
 {
-	if (!canReplicateEntity(entity))
-		return;
-
 	if (entity->getDescriptor().isType(EntityType::ITEM))
 	{
-		// @TODO: AddItemEntityPacket
+		m_pRakNetInstance->send(new AddItemEntityPacket(*(ItemEntity*)entity));
 	}
 	else
 	{
+		if (!canReplicateEntity(entity))
+			return;
+
 		AddMobPacket packet(*((Mob*)entity));
 		redistributePacket(&packet, m_pRakNetInstance->m_guid);
 	}
+}
+
+void ServerSideNetworkHandler::entityRemoved(Entity* entity)
+{
+	RemoveEntityPacket packet(entity->m_EntityID);
+	redistributePacket(&packet, m_pRakNetInstance->m_guid);
 }
 
 void ServerSideNetworkHandler::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data)

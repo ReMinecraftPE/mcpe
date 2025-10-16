@@ -43,7 +43,7 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 
 void ClientSideNetworkHandler::levelGenerated(Level* level)
 {
-	m_pLevel = level;
+	m_pLevel = (MultiPlayerLevel*)level;
 
 	if (m_serverProtocolVersion >= 3)
 	{
@@ -238,19 +238,51 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveE
 		m_pLevel->removeEntity(pEnt);
 }
 
-void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePlayerPacket* packet)
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddItemEntityPacket* packet)
 {
+	puts_ignorable("AddItemEntityPacket");
+
 	if (!m_pLevel) return;
 
-	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
+	ItemInstance* pItemInstance = new ItemInstance(packet->m_itemId, packet->m_itemCount, packet->m_auxValue);
+	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, packet->m_pos, pItemInstance);
+
+	pItemEntity->m_vel.x = packet->m_velX * (1.f / 128.f);
+	pItemEntity->m_vel.y = packet->m_velY * (1.f / 128.f);
+	pItemEntity->m_vel.z = packet->m_velZ * (1.f / 128.f);
+
+	m_pLevel->putEntity(packet->m_entityId, pItemEntity);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, TakeItemEntityPacket* pkt)
+{
+	puts_ignorable("TakeItemEntityPacket");
+
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(pkt->m_targetId);
 	if (!pEntity)
 	{
-		LOG_E("MovePlayerPacket: No player with id %d", packet->m_id);
+		LOG_E("Failed to handle TakeItemEntityPacket: Unknown ItemEntity: %d", pkt->m_targetId);
 		return;
 	}
-	
-	pEntity->lerpTo(packet->m_pos, packet->m_rot);
-}
+
+	if (!pEntity->getDescriptor().isType(EntityType::ITEM))
+		return;
+	ItemEntity* pItemEntity = (ItemEntity*)pEntity;
+
+	if (m_pMinecraft->m_pLocalPlayer->m_EntityID == pkt->m_sourceId)
+	{
+		if (pItemEntity->m_pItemInstance)
+		{
+			if (m_pMinecraft->m_pLocalPlayer->m_pInventory->addItem(*pItemEntity->m_pItemInstance))
+			{
+				m_pLevel->playSound(pItemEntity, "random.pop", 0.3f,
+					((Entity::sharedRandom.nextFloat() - Entity::sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
+			}
+		}
+	}
+}	
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MoveEntityPacket* packet)
 {
@@ -270,6 +302,20 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MoveEnt
 	}
 	
 	pEntity->lerpTo(packet->m_pos, rot);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePlayerPacket* packet)
+{
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
+	if (!pEntity)
+	{
+		LOG_E("MovePlayerPacket: No player with id %d", packet->m_id);
+		return;
+	}
+
+	pEntity->lerpTo(packet->m_pos, packet->m_rot);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBlockPacket* pPlaceBlockPkt)

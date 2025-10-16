@@ -1,5 +1,6 @@
 #include "ServerPlayer.hpp"
 #include "network/packets/SetHealthPacket.hpp"
+#include "network/packets/TakeItemEntityPacket.hpp"
 #include "network/RakNetInstance.hpp"
 #include "world/level/Level.hpp"
 
@@ -20,9 +21,9 @@ void ServerPlayer::tick()
 	}
 }
 
-void ServerPlayer::take(Entity* pEnt, int x)
+void ServerPlayer::take(Entity* pEnt, int count)
 {
-	//m_pLevel->m_pRakNetInstance->send(new TakeItemEntityPacket(pEnt->m_EntityID, m_EntityID));
+	m_pLevel->m_pRakNetInstance->send(new TakeItemEntityPacket(pEnt->m_EntityID, m_EntityID));
 
-	Player::take(pEnt, x);
+	Player::take(pEnt, count);
 }

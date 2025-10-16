@@ -66,6 +66,7 @@ public:
 	void tileChanged(const TilePos& pos) override;
 	void timeChanged(uint32_t time) override;
 	void entityAdded(Entity* entity) override;
+	void entityRemoved(Entity* entity) override;
 	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data) override;
 
 	void allowIncomingConnections(bool b);

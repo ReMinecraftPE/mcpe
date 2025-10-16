@@ -68,6 +68,8 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\InteractPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\UseItemPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\AddItemEntityPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -104,6 +106,8 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\InteractPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\UseItemPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\AddItemEntityPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
