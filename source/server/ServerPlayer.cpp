@@ -16,7 +16,7 @@ void ServerPlayer::tick()
 
 	if (m_health != m_lastHealth)
 	{
-		m_pLevel->m_pRakNetInstance->send(new SetHealthPacket(m_health));
+		m_pLevel->m_pRakNetInstance->send(m_guid, new SetHealthPacket(m_health));
 		m_lastHealth = m_health;
 	}
 }

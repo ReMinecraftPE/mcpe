@@ -834,7 +834,7 @@ Player* Level::_getNearestPlayer(const Vec3& source, float maxDist, bool onlyFin
 
 		if (onlyFindAttackable)
 		{
-			if (player->isCreative())
+			if (player->isCreative() || !player->isAlive())
 				continue;
 		}
 
