@@ -14,11 +14,16 @@ void MultiplayerLocalPlayer::reallyDrop(ItemEntity* itemEntity)
 
 bool MultiplayerLocalPlayer::hurt(Entity* pAttacker, int damage)
 {
-	//return false; // on Java for some reason, removes knockback
+    // Java returns false
+	return false;
 
-    // Pulled from Mob::hurt(), modified to remove impact on health
+    // Pulled from Mob::hurt(), modified to remove impact on health.
+    // @BUG: Will never work, because EntityEventPacket sets m_invulnerableTime
+    // before InteractPacket is received and calls this.
+    // If we remove the m_invulnerableTime check, the player can then be
+    // knocked back despite being invulnerable
 
-    if (isCreative())
+    /*if (isCreative())
         return false;
 
     bool var3 = true;
@@ -55,7 +60,7 @@ bool MultiplayerLocalPlayer::hurt(Entity* pAttacker, int damage)
         }
     }
 
-    return true;
+    return true;*/
 }
 
 void MultiplayerLocalPlayer::heal(int health)
