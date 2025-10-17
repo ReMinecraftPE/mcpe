@@ -124,6 +124,7 @@ void LocalPlayer::animateRespawn()
 
 void LocalPlayer::hurtTo(int newHealth)
 {
+    // only called by client network handler
 	int dmg = m_health - newHealth;
 	if (dmg <= 0)
 	{
@@ -133,7 +134,8 @@ void LocalPlayer::hurtTo(int newHealth)
 	{
 		m_lastHurt = dmg;
 		m_lastHealth = m_health;
-		m_invulnerableTime = m_invulnerableDuration;
+        // makes EntityEventPacket the authority for client-side invulnerability
+		//m_invulnerableTime = m_invulnerableDuration;
 		actuallyHurt(dmg);
 		m_hurtTime = m_hurtDuration = 10;
 	}
