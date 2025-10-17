@@ -71,6 +71,8 @@ void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, flo
 		Vec3 pos2 = pos;
 		pos2.y -= 0.125f;
 		MobRenderer::render(pEntity, pos2, f1, f2);
+		// https://github.com/ReMinecraftPE/mcpe/pull/197/#discussion_r2437985914
+		m_pHumanoidModel->m_bSneaking = false;
 	}
 	else
 	{
