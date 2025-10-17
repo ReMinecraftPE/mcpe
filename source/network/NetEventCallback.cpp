@@ -1,94 +1,42 @@
-/********************************************************************
-	Minecraft: Pocket Edition - Decompilation Project
-	Copyright (C) 2023 iProgramInCpp
-	
-	The following code is licensed under the BSD 1 clause license.
-	SPDX-License-Identifier: BSD-1-Clause
- ********************************************************************/
-
 #include "NetEventCallback.hpp"
+#include "world/level/Level.hpp"
 
-void NetEventCallback::levelGenerated(Level* level)
+Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId, const RakNet::RakNetGUID* guid)
 {
+    if (entityId != -1)
+    {
+        Entity* pEntity = level.getEntity(entityId);
+        if (pEntity)
+        {
+            if (pEntity->isPlayer())
+                return (Player*)pEntity;
+        }
+    }
+
+    if (!guid || level.m_players.empty())
+        return nullptr;
+
+    for (int i = 0; i < level.m_players.size(); i++)
+    {
+        Player* pPlayer = level.m_players[i];
+        if (pPlayer && pPlayer->m_guid == *guid)
+            return pPlayer;
+    }
+    
+    return nullptr;
 }
 
-void NetEventCallback::onConnect(const RakNet::RakNetGUID& guid)
+void NetEventCallback::handle(Level& level, const RakNet::RakNetGUID& guid, RespawnPacket* pkt)
 {
-}
+    Player* pPlayer = _findPlayer(level, pkt->m_entityId);
+    if (!pPlayer)
+    {
+        LOG_W("NetEventCallback failed to find player to respawn with ID: %d", pkt->m_entityId);
+        return;
+    }
 
-void NetEventCallback::onUnableToConnect()
-{
-}
-
-void NetEventCallback::onNewClient(const RakNet::RakNetGUID& guid)
-{
-}
-
-void NetEventCallback::onDisconnect(const RakNet::RakNetGUID& guid)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, LoginPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, LoginStatusPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, ReadyPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, MessagePacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, SetTimePacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, StartGamePacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, AddPlayerPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, RemoveEntityPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, MovePlayerPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, PlaceBlockPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, RemoveBlockPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, UpdateBlockPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, RequestChunkPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, ChunkDataPacket* packet)
-{
-	
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, PlayerEquipmentPacket* packet)
-{
-}
-
-void NetEventCallback::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
-{
+    // @TODO: on server, ignore client's requested coords, and teleport them to their server-determined spawn
+    pPlayer->moveTo(pkt->m_pos);
+    pPlayer->reset();
+    pPlayer->resetPos(true);
 }

@@ -373,6 +373,7 @@ void ExternalFileLevelStorage::saveEntities(Level* level, LevelChunk* chunk)
 	RakNet::BitStream bs;
 	RakDataOutput dos = RakDataOutput(bs);
 	NbtIo::write(tag, dos);
+    tag.deleteChildren();
 
 	unsigned int size = bs.GetNumberOfBytesUsed();
 

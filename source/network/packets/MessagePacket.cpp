@@ -6,20 +6,21 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "MessagePacket.hpp"
+#include "network/NetEventCallback.hpp"
 
-void MessagePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void MessagePacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
-void MessagePacket::write(RakNet::BitStream* bs)
+void MessagePacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_MESSAGE);
-	bs->Write(m_str);
+	bs.Write((unsigned char)PACKET_MESSAGE);
+	bs.Write(m_str);
 }
 
-void MessagePacket::read(RakNet::BitStream* bs)
+void MessagePacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_str);
+	bs.Read(m_str);
 }

@@ -196,6 +196,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\BuildActionIntention.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\sound_list.h" />
     <ClInclude Include="$(MC_ROOT)\source\client\sound\music_list.h" />
+    <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\LocalPlayer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -322,6 +325,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\MouseBuildInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Lighting.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\LocalPlayer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
@@ -330,6 +336,9 @@
     <ProjectReference Include="..\Network\Network.vcxproj">
       <Project>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</Project>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="..\Server\Server.vcxproj">
+      <Project>{38723be5-0310-4941-b11f-ea7ff21394d9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\STB\STB.vcxproj">
       <Project>{f332cb57-ff16-4d43-bbe0-76f28301daa8}</Project>

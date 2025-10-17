@@ -22,7 +22,7 @@ public:
 	void animateTick(Level*, const TilePos& pos, Random*) override;
 	void tick(Level*, const TilePos& pos, Random*) override;
 	void attack(Level*, const TilePos& pos, Player*) override;
-	int use(Level*, const TilePos& pos, Player*) override;
+	bool use(Level*, const TilePos& pos, Player*) override;
 	void stepOn(Level*, const TilePos& pos, Entity*) override;
 
 	int poofParticles(Level*, const TilePos& pos);

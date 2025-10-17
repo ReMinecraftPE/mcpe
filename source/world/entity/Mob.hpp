@@ -14,29 +14,39 @@
 
 class Mob : public Entity
 {
+private:
+	void _init();
+
 public:
 	Mob(Level* pLevel);
 	virtual ~Mob();
 
-	//overrides
-	virtual void reset() override;
-	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
-	virtual void tick() override;
-	virtual void baseTick() override;
-	virtual float getHeadHeight() const override { return 0.85f * m_bbHeight; }
-	virtual bool isPickable() const override { return !m_bRemoved; }
-	virtual bool isPushable() const override { return !m_bRemoved; }
-	virtual bool isShootable() const override { return true; }
-	virtual bool isAlive() const override;
-	virtual bool hurt(Entity*, int) override;
-	virtual void animateHurt() override;
-	virtual void setSize(float rad, float height) override;
-	virtual void outOfWorld() override;
-	virtual void causeFallDamage(float level) override;
-	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
-	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
+protected:
+	virtual void actuallyHurt(int damage);
 
-	//virtuals
+public:
+	// overrides
+	void reset() override;
+	void lerpTo(const Vec3& pos, const Vec2& rot, int steps) override;
+	void tick() override;
+	void baseTick() override;
+	float getHeadHeight() const override { return 0.85f * m_bbHeight; }
+	bool isPickable() const override { return !m_bRemoved; }
+	bool isPushable() const override { return !m_bRemoved; }
+	bool isShootable() const override { return true; }
+	bool isAlive() const override;
+	bool isMob() const override { return true; }
+	bool interpolateOnly() const override;
+	bool hurt(Entity*, int) override;
+	void animateHurt() override;
+	void setSize(float rad, float height) override;
+	void outOfWorld() override;
+	void causeFallDamage(float level) override;
+	void handleEntityEvent(EventType::ID eventId) override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
+
+	// virtuals
 	virtual void knockback(Entity* pEnt, int a, float x, float z);
 	virtual void die(Entity* pCulprit);
 	virtual bool canSee(Entity* pEnt) const;
@@ -52,8 +62,6 @@ public:
 	virtual void travel(const Vec2& pos);
 	virtual void updateWalkAnim();
 	virtual void aiStep();
-	//AddAdditonalSaveData TODO
-	//ReadAdditionalSaveData TODO
 	virtual void lookAt(Entity* pEnt, float, float);
 	virtual bool isLookingAtAnEntity() { return m_pEntLookedAt != nullptr; }
 	virtual Entity* getLookingAt() const { return m_pEntLookedAt; }
@@ -67,7 +75,6 @@ public:
 	virtual int getMaxSpawnClusterSize() const { return 4; }
 	virtual ItemInstance* getCarriedItem() { return nullptr; }
 	virtual bool isBaby() const { return false; }
-	virtual void actuallyHurt(int damage);
 	virtual bool removeWhenFarAway() const { return true; }
 	virtual int getDeathLoot() const { return 0; }
 	virtual void dropDeathLoot();
@@ -90,6 +97,8 @@ public:
     
 private:
      int m_ambientSoundTime;
+	 Vec3 m_lastSentPos;
+	 Vec2 m_lastSentRot;
 
 public:
 	int m_invulnerableDuration;
@@ -97,7 +106,6 @@ public:
 	float field_E4;
 	float field_E8;
 	float field_EC;
-	char field_F0;
 	float m_oAttackAnim;
 	float m_attackAnim;
 	int m_health;

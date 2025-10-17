@@ -8,6 +8,7 @@
 
 #include "SurvivalMode.hpp"
 #include "client/app/Minecraft.hpp"
+#include "network/packets/RemoveBlockPacket.hpp"
 
 SurvivalMode::SurvivalMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
 	m_destroyingPos(-1, -1, -1),
@@ -55,28 +56,29 @@ bool SurvivalMode::startDestroyBlock(Player* player, const TilePos& pos, Facing:
 
 bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
-
 	TileID tile = _level.getTile(pos);
 	int    data = _level.getData(pos);
 
-	if (!GameMode::destroyBlock(player, pos, face))
-		return false;
+	bool changed = GameMode::destroyBlock(player, pos, face);
 
-	//@HUH: check too late?
-	bool bCanDestroy = m_pMinecraft->m_pLocalPlayer->canDestroy(Tile::tiles[tile]);
-
-	if (bCanDestroy)
+	bool couldDestroy = player->canDestroy(Tile::tiles[tile]);
+	ItemInstance* item = player->getSelectedItem();
+	if (item)
 	{
-		Tile::tiles[tile]->playerDestroy(&_level, m_pMinecraft->m_pLocalPlayer, pos, data);
-
-		if (m_pMinecraft->isOnline())
+		item->mineBlock(pos, face);
+		if (item->m_count == 0)
 		{
-			m_pMinecraft->m_pRakNetInstance->send(new RemoveBlockPacket(m_pMinecraft->m_pLocalPlayer->m_EntityID, pos));
+			item->snap(player);
+			player->removeSelectedItem();
 		}
 	}
 
-	return true;
+	if (changed && couldDestroy)
+	{
+		Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
+	}
+
+	return changed;
 }
 
 bool SurvivalMode::continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)

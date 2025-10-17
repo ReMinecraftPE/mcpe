@@ -9,24 +9,26 @@
 #include "Mob.hpp"
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
+#include "network/RakNetInstance.hpp"
+#include "network/packets/MoveEntityPacket_PosRot.hpp"
 
-Mob::Mob(Level* pLevel) : Entity(pLevel)
+void Mob::_init()
 {
+	// only sets 19 fields on 0.2.1
 	m_invulnerableDuration = 10;
 	field_E8 = 0.0f;
 	field_EC = 0.0f;
-	field_F0 = 0;
 	m_oAttackAnim = 0.0f;
 	m_attackAnim = 0.0f;
-	m_health = 10;
-	m_lastHealth = 20;
+	m_health = getMaxHealth();
+	m_lastHealth = m_health;
 	m_hurtTime = 0;
 	m_hurtDuration = 0;
 	m_hurtDir = 0.0f;
 	m_deathTime = 0;
 	m_attackTime = 0;
-    m_oTilt = 0.0f;
-    m_tilt = 0.0f;
+	m_oTilt = 0.0f;
+	m_tilt = 0.0f;
 	field_120 = 0;
 	field_124 = 0;
 	field_128 = 0.0f;
@@ -55,7 +57,12 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	m_pEntLookedAt = nullptr;
 	m_bSwinging = false;
 	m_swingTime = 0;
-    m_ambientSoundTime = 0;
+	m_ambientSoundTime = 0;
+}
+
+Mob::Mob(Level* pLevel) : Entity(pLevel)
+{
+	_init();
 
 	m_texture = "/mob/pig.png";
 	m_class = "";
@@ -73,11 +80,15 @@ Mob::~Mob()
 {
 }
 
+void Mob::actuallyHurt(int damage)
+{
+	m_health -= damage;
+}
+
 void Mob::reset()
 {
 	Entity::reset();
-	// TODO what fields to reset?
-	m_health = 10;
+	_init();
 }
 
 void Mob::lerpTo(const Vec3& pos, const Vec2& rot, int steps)
@@ -272,7 +283,7 @@ void Mob::baseTick()
 
     m_oTilt = m_tilt;
 
-	  if (m_attackTime > 0) m_attackTime--;
+	if (m_attackTime > 0) m_attackTime--;
     if (m_hurtTime > 0) m_hurtTime--;
     if (m_invulnerableTime > 0) m_invulnerableTime--;
 
@@ -304,6 +315,21 @@ void Mob::baseTick()
     field_B58 = field_B54;
     field_EC = field_E8;
     m_oRot = m_rot;
+
+	// @TODO: check ServerSideNetworkHandler::canReplicateEntity()
+	if (m_pLevel->m_pRakNetInstance && !m_pLevel->m_bIsClientSide && !isPlayer())
+	{
+		if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
+			fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
+			fabsf(m_pos.z - m_lastSentPos.z) > 0.1f ||
+			fabsf(m_lastSentRot.y - m_rot.y) > 1.0f ||
+			fabsf(m_lastSentRot.x - m_rot.x) > 1.0f)
+		{
+			m_pLevel->m_pRakNetInstance->send(new MoveEntityPacket_PosRot(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
+			m_lastSentPos = m_pos;
+			m_lastSentRot = m_rot;
+		}
+	}
 }
 
 bool Mob::isAlive() const
@@ -312,6 +338,11 @@ bool Mob::isAlive() const
 		return false;
 
 	return m_health >= 0;
+}
+
+bool Mob::interpolateOnly() const
+{
+	return m_pLevel->m_bIsClientSide;
 }
 
 bool Mob::hurt(Entity *pAttacker, int damage)
@@ -348,7 +379,7 @@ bool Mob::hurt(Entity *pAttacker, int damage)
     // not in 0.1
     if (var3)
     {
-        //m_pLevel->broadcastEntityEvent(this, 2); // Java
+        m_pLevel->broadcastEntityEvent(*this, EventType::HURT);
         markHurt();
 
         if (pAttacker)
@@ -427,6 +458,29 @@ void Mob::causeFallDamage(float level)
 
 			m_pLevel->playSound(this, "step." + pSound->m_name, pSound->volume * 0.5f, pSound->pitch * 0.75f);
 		}
+	}
+}
+
+void Mob::handleEntityEvent(EventType::ID eventId)
+{
+	switch (eventId)
+	{
+	case EventType::HURT:
+		m_walkAnimSpeed = 1.5f;
+		m_invulnerableTime = m_invulnerableDuration;
+		m_hurtTime = m_hurtDuration = 10;
+		m_hurtDir = 0.0f;
+		m_pLevel->playSound(this, getHurtSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+		hurt(nullptr, 0);
+		break;
+	case EventType::DEATH:
+		m_pLevel->playSound(this, getDeathSound(), getSoundVolume(), (m_random.nextFloat() - m_random.nextFloat()) * 0.2f + 1.0f);
+		m_health = 0;
+		die(nullptr);
+		break;
+	default:
+		Entity::handleEntityEvent(eventId);
+		break;
 	}
 }
 
@@ -526,6 +580,9 @@ HitResult Mob::pick(float f1, float f2)
 
 void Mob::travel(const Vec2& pos)
 {
+	if (isImmobile())
+		return;
+
 	float x2, dragFactor;
 	float oldYPos = m_pos.y;
 	if (isInWater() || isInLava())
@@ -607,7 +664,10 @@ void Mob::travel(const Vec2& pos)
 	if (m_bHorizontalCollision && onLadder())
 		m_vel.y = 0.2f;
 
-	m_vel.y = (m_vel.y - 0.08f) * 0.98f; // gravity?
+	// quick, dirty workaround to fix mob jump jitter on multiplayer worlds
+	// could be removed if Entity::EventType::JUMP was replicated and handled, but no...
+	if (!interpolateOnly()) 
+		m_vel.y = (m_vel.y - 0.08f) * 0.98f; // gravity
 
 	// drag
 	m_vel.x *= dragFactor;
@@ -622,7 +682,10 @@ void Mob::die(Entity* pCulprit)
 	field_B69 = true;
 
 	if (!m_pLevel->m_bIsClientSide)
+	{
 		dropDeathLoot();
+		m_pLevel->broadcastEntityEvent(*this, EventType::DEATH);
+	}
 }
 
 bool Mob::canSee(Entity* pEnt) const
@@ -657,7 +720,7 @@ void Mob::aiStep()
 		m_bJumping = 0;
 		field_B00 = Vec2::ZERO;
 	}
-	else if (!field_F0)
+	else if (!interpolateOnly())
 	{
 		updateAi();
 	}
@@ -685,7 +748,7 @@ void Mob::aiStep()
 	{
 		Entity* pEnt = *it;
 		if (pEnt->isPushable())
-			pEnt->push(this);
+ 			pEnt->push(this);
 	}
 }
 
@@ -770,11 +833,6 @@ Vec3 Mob::getViewVector(float f) const
 	float x6 = -Mth::cos(x5);
 
 	return Vec3(x4 * x6, Mth::sin(x5), x3 * x6);
-}
-
-void Mob::actuallyHurt(int damage)
-{
-	m_health -= damage;
 }
 
 void Mob::dropDeathLoot()

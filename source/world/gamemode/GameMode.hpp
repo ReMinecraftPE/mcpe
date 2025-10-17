@@ -8,9 +8,9 @@
 
 #pragma once
 
+#include "client/player/LocalPlayer.hpp"
 #include "world/level/Level.hpp"
 #include "world/item/ItemInstance.hpp"
-#include "world/entity/LocalPlayer.hpp"
 
 class Minecraft;
 

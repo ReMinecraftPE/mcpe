@@ -104,9 +104,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\ItemEntity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\entity\LocalPlayer.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Mob.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -574,9 +571,6 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\ItemEntity.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\entity\LocalPlayer.hpp">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Mob.hpp">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
@@ -984,6 +978,9 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp">
       <Filter>Header Files\Level\LevelGen\Chunk</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp">
+      <Filter>Header Files\Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ public:
 	bool host(const std::string& name, int port, int maxConnections);
 	bool isMyLocalGuid(const RakNet::RakNetGUID& guid);
 	void pingForHosts(int port);
-	void runEvents(NetEventCallback*);
+	void runEvents(NetEventCallback&);
 	void send(Packet* packet);
 	void send(const RakNet::RakNetGUID& guid, Packet* packet);
 	void stopPingForHosts();

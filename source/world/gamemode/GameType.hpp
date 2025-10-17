@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 enum GameType
 {
 	GAME_TYPE_SURVIVAL,

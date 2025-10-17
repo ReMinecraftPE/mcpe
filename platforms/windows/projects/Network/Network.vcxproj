@@ -55,9 +55,21 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\StartGamePacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakNetInstance.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\PacketUtil.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\RakIO.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\AddMobPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetEntityDataPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\EntityEventPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetHealthPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\AnimatePacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\RespawnPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\InteractPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\UseItemPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\AddItemEntityPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -65,9 +77,37 @@
     <ClInclude Include="$(MC_ROOT)\source\network\Packet.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\PingedCompatibleServer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\RakNetInstance.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\network\ServerSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\PacketUtil.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\RakIO.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\AddMobPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ChunkDataPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\LevelDataPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\LoginPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\LoginStatusPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MessagePacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MovePlayerPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\PlaceBlockPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\PlayerEquipmentPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ReadyPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\RemoveBlockPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\RemoveEntityPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\RequestChunkPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SetTimePacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\StartGamePacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\UpdateBlockPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\MoveEntityPacket_PosRot.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SetEntityDataPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\EntityEventPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SetHealthPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\AnimatePacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\RespawnPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\InteractPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\LevelEventPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\UseItemPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\AddItemEntityPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

@@ -12,26 +12,31 @@
 
 #define FORCE_SURVIVAL_MODE (TEST_SURVIVAL_MODE || 0)
 
-void LevelData::_init(int32_t seed, int storageVersion)
+void LevelData::_init()
+{
+	_init(LevelSettings());
+}
+
+void LevelData::_init(const LevelSettings& settings, int storageVersion)
 {
 	m_levelName = std::string();
-	m_seed = seed;
+	m_seed = settings.m_seed;
 	m_spawnPos = TilePos(128, 64, 128);
 	m_time = 0;
 	m_lastPlayed = 0;
 	m_sizeOnDisk = 0;
 	m_playerTag = nullptr;
 	m_dimensionId = 0;
-	m_gameType = GAME_TYPE_CREATIVE;
+	m_gameType = settings.m_gameType;
 	m_storageVersion = storageVersion;
 	m_generatorVersion = 0; // pre-0.2.1 versions used storageVersion instead
 	m_bSpawnMobs = false;
 	m_nPlayers = -1;
 }
 
-void LevelData::_init(int32_t seed, int storageVersion, const std::string& name)
+void LevelData::_init(const LevelSettings& settings, int storageVersion, const std::string& name)
 {
-	_init(seed, storageVersion);
+	_init(settings, storageVersion);
 	m_levelName = name;
 }
 

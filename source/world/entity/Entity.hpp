@@ -19,6 +19,10 @@
 #include "EntityTypeDescriptor.hpp"
 #include "common/Utils.hpp"
 
+#define C_ENTITY_FLAG_ONFIRE (0)
+#define C_ENTITY_FLAG_SNEAKING (1)
+#define C_ENTITY_FLAG_RIDING (2)
+
 class Level;
 class Player;
 class ItemInstance;
@@ -81,23 +85,51 @@ struct EntityPos
 
 class Entity
 {
+protected:
+	typedef int8_t SharedFlag;
+public:
+	typedef int32_t ID;
+public:
+	class EventType
+	{
+	public:
+		typedef int8_t ID;
+		enum
+		{
+			NONE,
+			JUMP,
+			HURT,
+			DEATH,
+			START_ATTACKING,
+			STOP_ATTACKING
+		};
+	};
+
 private:
 	void _init();
 public:
 	Entity() { _init(); }
 	Entity(Level*);
 	virtual ~Entity();
+
+protected:
+	virtual bool getSharedFlag(SharedFlag flag) const;
+	virtual void setSharedFlag(SharedFlag flag, bool value);
+
+public:
 	virtual void reset();
 	virtual void setLevel(Level*);
 	virtual void removed();
 	virtual void setPos(const Vec3& pos);
 	virtual void remove();
-	virtual int move(const Vec3& posIn);
-	virtual void moveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
-	virtual void absMoveTo(const Vec3& pos, const Vec2& rot = Vec2::ZERO);
+	virtual void move(const Vec3& posIn);
+	virtual void moveTo(const Vec3& pos);
+	virtual void moveTo(const Vec3& pos, const Vec2& rot);
+	virtual void absMoveTo(const Vec3& pos);
+	virtual void absMoveTo(const Vec3& pos, const Vec2& rot);
 	virtual void moveRelative(const Vec3& pos);
 	virtual void lerpTo(const Vec3& pos);
-	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int i);
+	virtual void lerpTo(const Vec3& pos, const Vec2& rot, int p = 3);
 	virtual void lerpMotion(const Vec3& pos);
 	virtual void turn(const Vec2& rot);
 	virtual void interpolateTurn(const Vec2& rot);
@@ -125,10 +157,14 @@ public:
 	virtual bool isPickable() const { return false; }
 	virtual bool isPushable() const { return false; }
 	virtual bool isShootable() const { return false; }
-	virtual bool isSneaking() const { return false; }
+	virtual bool isOnFire() const { return m_fireTicks > 0 || getSharedFlag(C_ENTITY_FLAG_ONFIRE); }
+	virtual bool isRiding() const { return /*m_pRiding != nullptr ||*/ getSharedFlag(C_ENTITY_FLAG_RIDING); }
+	virtual bool isSneaking() const { return getSharedFlag(C_ENTITY_FLAG_SNEAKING); }
+	virtual void setSneaking(bool value) { setSharedFlag(C_ENTITY_FLAG_SNEAKING, value); }
 	virtual bool isAlive() const { return m_bRemoved; }
-	virtual bool isOnFire() const { return m_fireTicks > 0; }
 	virtual bool isPlayer() const { return false; }
+	virtual bool isMob() const { return false; }
+	virtual bool interpolateOnly() const { return false; }
 	virtual bool isCreativeModeAllowed() const { return false; }
 	virtual bool shouldRender(Vec3& camPos) const;
 	virtual bool shouldRenderAtSqrDistance(float distSqr) const;
@@ -140,10 +176,10 @@ public:
 	virtual ItemEntity* spawnAtLocation(int, int, float);
 	virtual void awardKillScore(Entity* pKilled, int score);
 	virtual void setEquippedSlot(int, int, int);
-	virtual void setRot(const Vec2& rot);
+	virtual void setRot(const Vec2& rot, bool rebound = false);
 	virtual void setSize(float rad, float height);
 	virtual void setPos(EntityPos*);
-	virtual void resetPos();
+	virtual void resetPos(bool respawn = false);
 	virtual void outOfWorld();
 	virtual void checkFallDamage(float f, bool b);
 	virtual void causeFallDamage(float f);
@@ -154,7 +190,7 @@ public:
 	virtual const AABB* getCollideBox() const;
 	virtual AABB* getCollideAgainstBox(Entity* ent) const;
 	virtual void handleInsidePortal();
-	virtual void handleEntityEvent(int event);
+	virtual void handleEntityEvent(EventType::ID eventId);
 	//virtual void thunderHit(LightningBolt*);
 	void load(const CompoundTag& tag);
 	bool save(CompoundTag& tag) const;
@@ -164,11 +200,11 @@ public:
 	// Removed by Mojang. See https://stackoverflow.com/questions/962132/why-is-a-call-to-a-virtual-member-function-in-the-constructor-a-non-virtual-call
 	//virtual void defineSynchedData();
 	EntityType::ID getEncodeId() const;
+	Entity::ID hashCode() const { return m_EntityID; }
 
 	const EntityTypeDescriptor& getDescriptor() const { return *m_pDescriptor; }
+	SynchedEntityData& getEntityData() { return m_entityData; }
 	const SynchedEntityData& getEntityData() const { return m_entityData; }
-
-	int hashCode() const { return m_EntityID; }
 
 	bool operator==(const Entity& other) const;
 
@@ -180,10 +216,12 @@ public:
 			(m_pos.z - pos.z) * (m_pos.z - pos.z);
 	}
 
-public:
-	static int entityCounter;
-	static Random sharedRandom;
+protected:
+	SynchedEntityData m_entityData;
+	bool m_bMakeStepSound;
+	const EntityTypeDescriptor* m_pDescriptor;
 
+public:
 	Vec3 m_pos;
 	bool m_bInAChunk;
 	ChunkPos m_chunkPos;
@@ -191,7 +229,7 @@ public:
 	int field_20; // unused Vec3?
 	int field_24;
 	int field_28;
-	int m_EntityID;
+	Entity::ID m_EntityID;
 	float field_30;
 	bool m_bBlocksBuilding;
 	Level* m_pLevel;
@@ -208,6 +246,8 @@ public:
 	bool m_bIsInWeb;
 	uint8_t m_bSlide;
 	bool m_bRemoved;
+	bool m_bIsInvisible;
+	bool m_bForceRemove;
 	float m_heightOffset;
 	float m_bbWidth;
 	float m_bbHeight;
@@ -217,7 +257,7 @@ public:
 	float m_ySlideOffset;
 	float m_footSize;
 	bool m_bNoPhysics;
-	float field_B0;
+	float m_pushthrough;
 	int m_tickCount;
 	int m_invulnerableTime;
 	int m_airCapacity;
@@ -231,8 +271,7 @@ public:
 	bool m_bFirstTick;
 	int m_nextStep;
 
-	protected:
-		SynchedEntityData m_entityData;
-		bool m_bMakeStepSound;
-		const EntityTypeDescriptor* m_pDescriptor;
+public:
+	static Entity::ID entityCounter;
+	static Random sharedRandom;
 };

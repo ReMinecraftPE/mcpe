@@ -125,7 +125,8 @@ void CreateWorldScreen::buttonClicked(Button* pButton)
 				seed = Util::hashCode(seedThing);
 		}
 
-		m_pMinecraft->selectLevel(levelUniqueName, levelNickname, seed);
+		LevelSettings levelSettings(seed);
+		m_pMinecraft->selectLevel(levelUniqueName, levelNickname, levelSettings);
 	}
 }
 

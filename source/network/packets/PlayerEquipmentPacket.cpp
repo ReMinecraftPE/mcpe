@@ -6,22 +6,23 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "PlayerEquipmentPacket.hpp"
+#include "network/NetEventCallback.hpp"
 
-void PlayerEquipmentPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void PlayerEquipmentPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
-void PlayerEquipmentPacket::write(RakNet::BitStream* bs)
+void PlayerEquipmentPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_PLAYER_EQUIPMENT);
-	bs->Write(m_playerID);
-	bs->Write(m_itemID);
+	bs.Write((unsigned char)PACKET_PLAYER_EQUIPMENT);
+	bs.Write(m_playerID);
+	bs.Write(m_itemID);
 }
 
-void PlayerEquipmentPacket::read(RakNet::BitStream* bs)
+void PlayerEquipmentPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_playerID);
-	bs->Read(m_itemID);
+	bs.Read(m_playerID);
+	bs.Read(m_itemID);
 }

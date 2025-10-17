@@ -197,7 +197,7 @@ int StairTile::getRenderLayer() const
 	return m_pParent->getRenderLayer();
 }
 
-int StairTile::use(Level* level, const TilePos& pos, Player* player)
+bool StairTile::use(Level* level, const TilePos& pos, Player* player)
 {
 	return m_pParent->use(level, pos, player);
 }

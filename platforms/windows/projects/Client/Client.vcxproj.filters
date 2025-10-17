@@ -81,6 +81,12 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{14572243-8875-4ea9-aae1-7f52b1953754}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Multiplayer">
+      <UniqueIdentifier>{0b8efc29-fe37-4a05-ab72-4de5c8a0d22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Multiplayer">
+      <UniqueIdentifier>{05de3cac-cea2-493b-a8c5-84601a5cd26a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.hpp">
@@ -467,6 +473,15 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ArrowRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.hpp">
+      <Filter>Header Files\Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\LocalPlayer.hpp">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp">
+      <Filter>Header Files\Multiplayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -840,6 +855,15 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ArrowRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.cpp">
+      <Filter>Source Files\Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\LocalPlayer.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp">
+      <Filter>Source Files\Multiplayer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

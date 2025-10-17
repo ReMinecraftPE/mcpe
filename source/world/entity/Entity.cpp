@@ -12,6 +12,7 @@
 #include "nbt/CompoundTag.hpp"
 
 #define TOTAL_AIR_SUPPLY (300)
+#define DATA_SHARED_FLAGS_ID (0)
 
 int Entity::entityCounter;
 Random Entity::sharedRandom;
@@ -19,15 +20,12 @@ Random Entity::sharedRandom;
 void Entity::_init()
 {
 	m_bInAChunk = false;
-	m_chunkPos = ChunkPos(0, 0);
 	field_20 = 0;
 	field_24 = 0;
 	field_28 = 0;
 	field_30 = 1.0f;
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
-	m_rot = Vec2::ZERO;
-	m_oRot = Vec2::ZERO;
 	m_bOnGround = false;
 	m_bHorizontalCollision = false;
 	m_bCollision = false;
@@ -36,6 +34,8 @@ void Entity::_init()
 	m_bIsInWeb = false;
 	m_bSlide = 1;
 	m_bRemoved = false;
+	m_bIsInvisible = false;
+	m_bForceRemove = false;
 	m_heightOffset = 0.0f;
 	m_bbWidth = 0.6f;
 	m_bbHeight = 1.8f;
@@ -45,7 +45,7 @@ void Entity::_init()
 	m_ySlideOffset = 0.0f;
 	m_footSize = 0.0f;
 	m_bNoPhysics = false;
-	field_B0 = 0.0f;
+	m_pushthrough = 0.0f;
     m_tickCount = 0;
 	m_invulnerableTime = 0;
 	m_airCapacity = TOTAL_AIR_SUPPLY;
@@ -59,7 +59,6 @@ void Entity::_init()
 	m_bFireImmune = false;
 	m_bFirstTick = true;
 	m_nextStep = 1;
-	m_entityData = SynchedEntityData();
 	m_pDescriptor = &EntityTypeDescriptor::unknown;
 }
 
@@ -71,11 +70,31 @@ Entity::Entity(Level* pLevel)
 	m_EntityID = ++entityCounter;
 	setPos(Vec3::ZERO);
 
-	m_entityData.define<int8_t>(0, 0);
+	m_entityData.define<SharedFlag>(DATA_SHARED_FLAGS_ID, 0);
 }
 
 Entity::~Entity()
 {
+	m_entityData.clear();
+}
+
+bool Entity::getSharedFlag(SharedFlag flag) const
+{
+	return (getEntityData().get<int8_t>(DATA_SHARED_FLAGS_ID) & 1 << flag) != 0;
+}
+
+void Entity::setSharedFlag(SharedFlag flag, bool value)
+{
+	SynchedEntityData& entityData = getEntityData();
+	int8_t var3 = entityData.get<int8_t>(DATA_SHARED_FLAGS_ID);
+	if (value)
+	{
+		entityData.set(DATA_SHARED_FLAGS_ID, (int8_t)(var3 | 1 << flag));
+	}
+	else
+	{
+		entityData.set(DATA_SHARED_FLAGS_ID, (int8_t)(var3 & ~(1 << flag)));
+	}
 }
 
 void Entity::setLevel(Level* pLvl)
@@ -109,7 +128,7 @@ void Entity::remove()
 	m_bRemoved = true;
 }
 
-int Entity::move(const Vec3& pos)
+void Entity::move(const Vec3& pos)
 {
 	if (m_bNoPhysics)
 	{
@@ -321,11 +340,9 @@ int Entity::move(const Vec3& pos)
 		}
 
 	}
-
-	return 1300;
 }
 
-void Entity::moveTo(const Vec3& pos, const Vec2& rot)
+void Entity::moveTo(const Vec3& pos)
 {
 	Vec3 newPos(pos);
 	newPos.y += m_heightOffset;
@@ -333,19 +350,28 @@ void Entity::moveTo(const Vec3& pos, const Vec2& rot)
 	setPos(newPos);
 	m_oPos = newPos;
 	m_posPrev = newPos;
+}
 
+void Entity::moveTo(const Vec3& pos, const Vec2& rot)
+{
+	moveTo(pos);
 	m_rot = rot;
+}
+
+void Entity::absMoveTo(const Vec3& pos)
+{
+	m_ySlideOffset = 0.0f;
+
+	setPos(pos);
+	m_oPos = pos;
 }
 
 void Entity::absMoveTo(const Vec3& pos, const Vec2& rot)
 {
-	m_ySlideOffset = 0.0f;
+	absMoveTo(pos);
 
 	m_oRot = rot;
 	setRot(rot);
-
-	setPos(pos);
-	m_oPos = pos;
 
 	// This looks like a rebounding check for the angle
 	float dyRot = (m_oRot.y - m_rot.y);
@@ -668,7 +694,7 @@ void Entity::push(Entity* bud)
 	float x2 = 1.0f / x1;
 	if (x2 > 1.0f)
 		x2 = 1.0f;
-	float x3 = 1.0f - this->field_B0;
+	float x3 = 1.0f - m_pushthrough;
 	float x4 = x3 * diffX / x1 * x2 * 0.05f;
 	float x5 = x3 * diffZ / x1 * x2 * 0.05f;
 
@@ -683,6 +709,9 @@ void Entity::push(const Vec3& pos)
 
 bool Entity::shouldRender(Vec3& camPos) const
 {
+	if (m_bIsInvisible)
+		return false;
+
 	return shouldRenderAtSqrDistance(distanceToSqr(camPos));
 }
 
@@ -735,10 +764,17 @@ void Entity::setEquippedSlot(int a, int b, int c)
 
 }
 
-void Entity::setRot(const Vec2& rot)
+void Entity::setRot(const Vec2& rot, bool rebound)
 {
-	m_rot.x = /*Mth::abs(rot.x) > 360.0f ? fmod(rot.x, 360.0f) :*/ rot.x;
-	m_rot.y = /*Mth::abs(rot.y) > 360.0f ? fmod(rot.y, 360.0f) :*/ rot.y;
+	if (rebound)
+	{
+		m_rot.x = Mth::abs(rot.x) > 360.0f ? fmod(rot.x, 360.0f) : rot.x;
+		m_rot.y = Mth::abs(rot.y) > 360.0f ? fmod(rot.y, 360.0f) : rot.y;
+	}
+	else
+	{
+		m_rot = rot;
+	}
 }
 
 void Entity::setSize(float rad, float height)
@@ -760,7 +796,7 @@ void Entity::setPos(EntityPos* pPos)
 		setRot(m_rot);
 }
 
-void Entity::resetPos()
+void Entity::resetPos(bool respawn)
 {
 	if (!m_pLevel)
 		// No level?  Fine
@@ -855,8 +891,9 @@ void Entity::handleInsidePortal()
 {
 }
 
-void Entity::handleEntityEvent(int event)
+void Entity::handleEntityEvent(EventType::ID eventId)
 {
+	LOG_W("Unknown EntityEvent ID: %d, EntityType: %s", eventId, getDescriptor().getEntityType().getName().c_str());
 }
 
 /*void Entity::thunderHit(LightningBolt* bolt)

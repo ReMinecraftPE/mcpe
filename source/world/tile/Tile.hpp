@@ -76,7 +76,7 @@ public: // virtual functions
 	virtual HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3);
 	virtual void wasExploded(Level*, const TilePos& pos);
 	virtual int getRenderLayer() const;
-	virtual int use(Level*, const TilePos& pos, Player*);
+	virtual bool use(Level*, const TilePos& pos, Player*);
 	virtual void stepOn(Level*, const TilePos& pos, Entity*);
 	virtual void setPlacedOnFace(Level*, const TilePos& pos, Facing::Name face);
 	virtual void setPlacedBy(Level*, const TilePos& pos, Mob*);

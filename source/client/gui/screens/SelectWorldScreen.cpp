@@ -134,7 +134,12 @@ void SelectWorldScreen::tick()
 			}
 		}
 
-		m_pMinecraft->selectLevel(levelUniqueName, levelNickname, seed);
+		GameType gameType = GAME_TYPE_CREATIVE;
+		if (userInput.size() > 2 && userInput[2].compare("survival") == 0)
+			gameType = GAME_TYPE_SURVIVAL;
+
+		LevelSettings settings(seed, gameType);
+		m_pMinecraft->selectLevel(levelUniqueName, levelNickname, settings);
 
 		// @BUG: Use of deallocated memory. SetScreen frees us
 #ifdef ORIGINAL_CODE
