@@ -686,15 +686,15 @@ bool ServerSideNetworkHandler::canReplicateEntity(const Entity* pEntity) const
 	switch (entityTypeId)
 	{
 	case EntityType::SHEEP:
-		return true;
 	case EntityType::ZOMBIE:
-		return true;
 	case EntityType::PIG:
 		return true;
 	default:
 		return false;
 	}
 #endif
+
+	return true;
 }
 
 ///////////////// In-Game Commands /////////////////
