@@ -50,5 +50,5 @@ void MultiPlayerLevel::putEntity(int id, Entity* e)
         m_reEntries.push_back(e);
     }
 
-    m_entitiesById.emplace(id, e);
+    m_entitiesById[id] = e;
 }
