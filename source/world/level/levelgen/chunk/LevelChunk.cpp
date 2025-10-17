@@ -657,6 +657,7 @@ bool LevelChunk::setData(const ChunkTilePos& pos, TileData data)
 		return false;
 
 	m_tileData.set(pos, data);
+
 	return true;
 }
 
