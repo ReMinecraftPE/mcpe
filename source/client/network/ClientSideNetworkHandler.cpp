@@ -17,7 +17,7 @@
 #include "world/entity/MobFactory.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
-#define VERBOSE_CLIENT
+//#define VERBOSE_CLIENT
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_CLIENT)
 #define puts_ignorable(str) LOG_I(str)
@@ -39,6 +39,7 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	m_pLevel = nullptr;
 	m_field_14 = 0;
 	m_field_24 = 0;
+	clearChunksLoaded();
 }
 
 void ClientSideNetworkHandler::levelGenerated(Level* level)
@@ -579,7 +580,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetHeal
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AnimatePacket* pkt)
 {
-	puts_ignorable("AnimatePacket");
+	//puts_ignorable("AnimatePacket");
 
 	if (!m_pLevel)
 		return;

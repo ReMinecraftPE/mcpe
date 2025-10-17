@@ -17,7 +17,7 @@
 #define NETWORK_TIME_SEND_FREQUENCY 12
 
 // This lets you make the server shut up and not log events in the debug console.
-#define VERBOSE_SERVER
+//#define VERBOSE_SERVER
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_SERVER)
 #define puts_ignorable(str) LOG_I(str)
@@ -489,7 +489,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RequestChu
 
 void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, AnimatePacket* packet)
 {
-	puts_ignorable("AnimatePacket");
+	//puts_ignorable("AnimatePacket");
 
 	if (!m_pLevel)
 		return;
