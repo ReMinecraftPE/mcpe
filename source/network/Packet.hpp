@@ -13,7 +13,7 @@
 #include "MessageIdentifiers.h"
 
 #define NETWORK_PROTOCOL_VERSION_MIN 3 // 3 because the packet IDs changed completely between 2 and 3
-//#define NETWORK_PROTOCOL_VERSION 2   // 0.1.0
+//#define NETWORK_PROTOCOL_VERSION 2   // 0.1.0 (actual client crashes with unrecognized tiles)
 #define NETWORK_PROTOCOL_VERSION 3	   // 0.2.0
 
 class NetEventCallback;
