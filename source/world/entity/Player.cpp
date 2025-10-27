@@ -308,6 +308,12 @@ void Player::attack(Entity* pEnt)
 		pEnt->hurt(this, atkDmg);
 }
 
+void Player::useItem(ItemInstance& item) const
+{
+	if (!isCreative())
+		item.remove(1);
+}
+
 bool Player::canDestroy(const Tile* pTile) const
 {
 	return true;
@@ -362,6 +368,8 @@ void Player::setRespawnPos(const TilePos& pos)
 
 void Player::drop()
 {
+	// From b1.2_02, doesn't exist in PE
+	// Isn't called anywhere, but is overriden in MultiplayerLocalPlayer with a PlayerActionPacket
 	/*ItemInstance* item = getSelectedItem();
 	if (!item)
 		return;

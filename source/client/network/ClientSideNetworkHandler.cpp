@@ -189,9 +189,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 	ItemInstance* pItem = pPlayer->getSelectedItem();
 	if (pItem)
 	{
-		pItem->m_itemID = pAddPlayerPkt->m_itemId;
-		pItem->setAuxValue(pAddPlayerPkt->m_itemAuxValue);
-		pItem->m_count = 63;
+		*pItem = ItemInstance(pAddPlayerPkt->m_itemId, pAddPlayerPkt->m_itemAuxValue, 63);
 	}
 
 	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
@@ -246,6 +244,13 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddItem
 	if (!m_pLevel) return;
 
 	ItemInstance* pItemInstance = new ItemInstance(packet->m_itemId, packet->m_itemCount, packet->m_auxValue);
+	if (pItemInstance->isNull())
+	{
+		delete pItemInstance;
+		LOG_E("Received invalid or null ItemInstance from server!");
+		return;
+	}
+
 	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, packet->m_pos, pItemInstance);
 
 	pItemEntity->m_vel.x = packet->m_velX * (1.f / 128.f);
@@ -391,13 +396,15 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateBlockPacket* pkt)
 {
+	BlockUpdate update(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data);
+
 	if (!areAllChunksLoaded())
 	{
-		m_bufferedBlockUpdates.push_back(SBufferedBlockUpdate(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data));
+		m_bufferedBlockUpdates.push_back(update);
 		return;
 	}
 
-	m_pLevel->setTileAndData(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data);
+	handleBlockUpdate(update);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LevelEventPacket* pkt)
@@ -818,7 +825,11 @@ void ClientSideNetworkHandler::flushAllBufferedUpdates()
 {
 	for (int i = 0; i < int(m_bufferedBlockUpdates.size()); i++)
 	{
-		SBufferedBlockUpdate& u = m_bufferedBlockUpdates[i];
-		m_pLevel->setTileAndData(u.pos, u.tile, u.data);
+		handleBlockUpdate(m_bufferedBlockUpdates[i]);
 	}
+}
+
+void ClientSideNetworkHandler::handleBlockUpdate(const BlockUpdate& u)
+{
+	m_pLevel->setTileAndData(u.pos, Tile::TransformToValidBlockId(u.tile), u.data);
 }

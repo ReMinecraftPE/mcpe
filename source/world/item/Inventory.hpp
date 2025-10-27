@@ -9,9 +9,10 @@
 class Entity;
 class Player; // in case we're included from Player.hpp
 
+#define C_POP_TIME_DURATION (5)
 #define C_MAX_HOTBAR_ITEMS (9)
-#define C_NUM_SURVIVAL_SLOTS (36)
-#define C_MAX_AMOUNT (64)
+#define C_SURVIVAL_INVENTORY_SIZE (36)
+#define C_MAX_INVENTORY_STACK_SIZE (64)
 
 class Inventory
 {

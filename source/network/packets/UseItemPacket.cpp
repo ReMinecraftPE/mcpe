@@ -6,11 +6,15 @@ UseItemPacket::UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t e
 	m_tilePos = tilePos;
 	m_tileFace = tileFace;
 	m_entityId = entityId;
-	m_itemId = TILE_AIR;
 	if (pItem)
 	{
 		m_itemId = pItem->getId();
 		m_itemAuxValue = pItem->getAuxValue();
+	}
+	else
+	{
+		m_itemId = TILE_AIR;
+		m_itemAuxValue = 0;
 	}
 }
 
@@ -41,7 +45,5 @@ void UseItemPacket::read(RakNet::BitStream& bs)
 	bs.Read(m_itemAuxValue);
 	bs.Read(m_entityId);
 
-	m_item.m_itemID = m_itemId;
-	m_item.setAuxValue(m_itemAuxValue);
-	m_item.m_count = m_itemId > 0 ? 1 : 0;
+	m_item = ItemInstance(m_itemId, m_itemId > 0 ? 1 : 0, m_itemAuxValue);
 }

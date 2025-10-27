@@ -13,12 +13,12 @@
 #include "client/multiplayer/MultiPlayerLevel.hpp"
 #include "network/RakNetInstance.hpp"
 
-struct SBufferedBlockUpdate
+struct BlockUpdate
 {
 	TilePos pos;
 	uint8_t tile, data;
 
-	SBufferedBlockUpdate(const TilePos& pos, TileID tile, TileData data) :
+	BlockUpdate(const TilePos& pos, TileID tile, TileData data) :
 		pos(pos), tile(uint8_t(tile)), data(uint8_t(data))
 	{}
 };
@@ -64,6 +64,7 @@ public:
 	void clearChunksLoaded();
 	void requestNextChunk();
 	void flushAllBufferedUpdates(); // inlined
+	void handleBlockUpdate(const BlockUpdate& u);
 
 private:
 	Minecraft* m_pMinecraft;
@@ -73,7 +74,7 @@ private:
 	int m_field_14;
 	RakNet::RakNetGUID m_serverGUID;
 	int m_field_24;
-	std::vector<SBufferedBlockUpdate> m_bufferedBlockUpdates;
+	std::vector<BlockUpdate> m_bufferedBlockUpdates;
 	int m_chunksRequested;
 	int m_chunkCount;
 	ChunkPos m_orderedChunks[C_MAX_CHUNKS];

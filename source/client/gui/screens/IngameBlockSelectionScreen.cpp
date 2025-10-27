@@ -94,7 +94,7 @@ void IngameBlockSelectionScreen::init()
 	for (int i = 0; i < nItems; i++)
 	{
 		ItemInstance* item = pInv->getItem(i);
-		if (item && item->m_itemID == pInv->getSelectedItemId())
+		if (item && item->getId() == pInv->getSelectedItemId())
 		{
 			m_selectedSlot = i;
 			break;

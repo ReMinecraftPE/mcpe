@@ -7,7 +7,7 @@ AddItemEntityPacket::AddItemEntityPacket(ItemEntity& itemEntity)
 	m_pos = itemEntity.m_pos;
 
 	ItemInstance& itemInstance = *itemEntity.m_pItemInstance;
-	m_itemId = itemInstance.m_itemID;
+	m_itemId = itemInstance.getId();
 	m_auxValue = itemInstance.getAuxValue();
 	m_itemCount = itemInstance.m_count;
 

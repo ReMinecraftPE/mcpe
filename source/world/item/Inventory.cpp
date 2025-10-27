@@ -116,7 +116,7 @@ void Inventory::prepareCreativeInventory()
 void Inventory::prepareSurvivalInventory()
 {
 	clear();
-	m_items.resize(C_NUM_SURVIVAL_SLOTS);
+	m_items.resize(C_SURVIVAL_INVENTORY_SIZE);
 
 	// Add some items for testing
 	addTestItem(Item::stick->m_itemID, 64);
@@ -136,7 +136,7 @@ int Inventory::getNumSlots()
 	switch (_getGameMode())
 	{
 	case GAME_TYPE_SURVIVAL:
-		return C_NUM_SURVIVAL_SLOTS;
+		return C_SURVIVAL_INVENTORY_SIZE;
 	default:
 		return getNumItems();
 	}
@@ -186,7 +186,7 @@ bool Inventory::addItem(ItemInstance& instance)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (!item || item->m_itemID != instance.m_itemID)
+		if (!item || item->getItem() != instance.getItem())
 			continue;
 
 		int maxStackSize = item->getMaxStackSize();
@@ -201,10 +201,10 @@ bool Inventory::addItem(ItemInstance& instance)
 		if (leftover < 0)
 			leftover = 0;
 		else
-			combinedItemAmount = C_MAX_AMOUNT;
+			combinedItemAmount = C_MAX_INVENTORY_STACK_SIZE;
 
 		item->m_count = combinedItemAmount;
-		item->m_popTime = 5;
+		item->m_popTime = C_POP_TIME_DURATION;
 
 		instance.m_count = leftover;
 
@@ -223,13 +223,13 @@ bool Inventory::addItem(ItemInstance& instance)
 
 		if (item)
 		{
-			if (item->m_itemID != 0)
+			if (item->getId() != 0)
 				continue;
 			delete item;
 		}
 
-		item = m_items[i] = new ItemInstance(instance);
-        item->m_popTime = 5;
+		item = m_items[i] = instance.copy();
+        item->m_popTime = C_POP_TIME_DURATION;
 		instance.m_count = 0;
 		return true;
 	}
@@ -272,8 +272,9 @@ ItemInstance* Inventory::getItem(int slotNo) const
 	if (!item)
 		return nullptr;
 
-	if (item->m_count <= 0)
-		item->m_itemID = 0;
+	// @TODO: do we even need this?
+	/*if (item->m_count <= 0)
+		item->m_itemID = 0;*/
 
 	return item;
 }
@@ -284,7 +285,7 @@ int Inventory::getQuickSlotItemId(int slotNo) const
 	if (!pInst)
 		return -1;
 
-	return pInst->m_itemID;
+	return pInst->getId();
 }
 
 ItemInstance* Inventory::getQuickSlotItem(int slotNo) const
@@ -365,7 +366,7 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (item && item->m_itemID == itemID)
+		if (item && item->getId() == itemID)
 		{
 			m_hotbar[slotNo] = i;
 			return;
@@ -380,7 +381,7 @@ void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (!item || item->m_itemID != itemID)
+		if (!item || item->getId() != itemID)
 			continue;
 
 		selectItem(i, maxHotBarSlot);
@@ -395,7 +396,7 @@ void Inventory::selectItemByIdAux(int itemID, int auxValue, int maxHotBarSlot)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (!item || item->m_itemID != itemID || item->getAuxValue() != auxValue)
+		if (!item || item->getId() != itemID || item->getAuxValue() != auxValue)
 			continue;
 
 		selectItem(i, maxHotBarSlot);
@@ -419,11 +420,11 @@ void Inventory::dropAll(bool onlyClearContainer)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (item && item->m_count > 0)
+		if (!ItemInstance::isNull(item))
 		{
 			if (!onlyClearContainer)
 				m_pPlayer->drop(*item, true);
-			item->m_count = 0;
+			item->setNull();
 		}
 	}
 }
@@ -463,7 +464,7 @@ void Inventory::load(const ListTag& tag)
 		return;
 
 	clear();
-	m_items.resize(C_NUM_SURVIVAL_SLOTS);
+	m_items.resize(C_SURVIVAL_INVENTORY_SIZE);
 
 	const std::vector<Tag*>& itemTags = tag.rawView();
 

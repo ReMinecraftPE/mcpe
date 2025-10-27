@@ -66,6 +66,7 @@ public:
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
 	void attack(Entity* pEnt);
+	void useItem(ItemInstance& item) const;
 	bool canDestroy(const Tile*) const;
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);

@@ -549,117 +549,122 @@ int Item::getIcon(const ItemInstance* pInstance) const
 	return m_icon;
 }
 
-bool Item::useOn(ItemInstance* instance, Level* level, const TilePos& pos, Facing::Name face)
+bool Item::useOn(ItemInstance* instance, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	return false;
 }
 
-bool Item::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face)
+bool Item::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	return false;
 }
 
-float Item::getDestroySpeed(ItemInstance* instance, Tile* tile)
+float Item::getDestroySpeed(ItemInstance* instance, Tile* tile) const
 {
 	return 1.0f;
 }
 
-ItemInstance* Item::use(ItemInstance* instance, Level* level, Player* player)
+ItemInstance* Item::use(ItemInstance* instance, Level* level, Player* player) const
 {
 	return instance;
 }
 
-int Item::getMaxStackSize()
+int Item::getMaxStackSize() const
 {
 	return m_maxStackSize;
 }
 
-int Item::getLevelDataForAuxValue(int x)
+TileData Item::getLevelDataForAuxValue(int x) const
 {
 	return 0;
 }
 
-bool Item::isStackedByData()
+bool Item::isStackedByData() const
 {
 	return m_bStackedByData;
 }
 
-int Item::getMaxDamage()
+int Item::getMaxDamage() const
 {
 	return m_maxDamage;
 }
 
-void Item::hurtEnemy(ItemInstance* instance, Mob* mob)
+void Item::hurtEnemy(ItemInstance* instance, Mob* mob) const
 {
 
 }
 
-void Item::mineBlock(ItemInstance* instance, const TilePos& pos, Facing::Name face)
+void Item::mineBlock(ItemInstance* instance, const TilePos& pos, Facing::Name face) const
 {
 
 }
 
-int Item::getAttackDamage(Entity* ent)
+int Item::getAttackDamage(Entity* ent) const
 {
 	return 1;
 }
 
-bool Item::canDestroySpecial(Tile* tile)
+bool Item::canDestroySpecial(Tile* tile) const
 {
 	return false;
 }
 
-void Item::interactEnemy(ItemInstance* instance, Mob* mob)
+void Item::interactEnemy(ItemInstance* instance, Mob* mob) const
 {
 
 }
 
-bool Item::isHandEquipped()
+bool Item::isHandEquipped() const
 {
 	return m_bHandEquipped;
 }
 
-bool Item::isMirroredArt()
+bool Item::isMirroredArt() const
 {
 	return false;
 }
 
-std::string Item::getDescription()
+std::string Item::getDescription() const
 {
 	return m_DescriptionID;
 }
 
-std::string Item::getDescription(ItemInstance* inst)
+std::string Item::getDescription(ItemInstance* inst) const
 {
 	return m_DescriptionID;
 }
 
-std::string Item::getDescriptionId()
+std::string Item::getDescriptionId() const
 {
 	return m_DescriptionID;
 }
 
-std::string Item::getDescriptionId(ItemInstance* inst)
+std::string Item::getDescriptionId(ItemInstance* inst) const
 {
 	return m_DescriptionID;
 }
 
-Item* Item::getCraftingRemainingItem()
+Item* Item::getCraftingRemainingItem() const
 {
 	return m_pCraftingRemainingItem;
 }
 
-bool Item::hasCraftingRemainingItem()
+bool Item::hasCraftingRemainingItem() const
 {
 	return m_pCraftingRemainingItem != 0;
 }
 
-std::string Item::getName()
+std::string Item::getName() const
 {
 	return getDescriptionId() + ".name";
 }
 
-int Item::buildIdAux(int16_t auxValue, const CompoundTag* userData)
+std::string Item::getHovertextName() const
+{
+	return getName();
+}
+
+int Item::buildIdAux(int16_t auxValue, const CompoundTag* userData) const
 {
 	return auxValue | (unsigned int)(m_itemID << 16);
 }

@@ -12,7 +12,7 @@ int AuxTileItem::getIcon(const ItemInstance* item) const
 	return Tile::tiles[m_itemID]->getTexture(Facing::NORTH, item->getAuxValue());
 }
 
-int AuxTileItem::getLevelDataForAuxValue(int x)
+TileData AuxTileItem::getLevelDataForAuxValue(int x) const
 {
 	return x;
 }

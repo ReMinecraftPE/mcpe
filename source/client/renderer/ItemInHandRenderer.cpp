@@ -50,11 +50,12 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
     float bright = m_pMinecraft->m_pLocalPlayer->getBrightness(0.0f);
 #endif
     
-    if (inst->m_itemID < C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
+    Tile* pTile = inst->getTile();
+    if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
     {
         float red, grn, blu, alp = 1.0f;
         
-        if (inst->m_itemID == Tile::leaves->m_ID)
+        if (pTile == Tile::leaves)
         {
             red = 0.35f;
             grn = 0.65f;
@@ -75,7 +76,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 #	define ARGPATCH
 #endif
         
-        m_tileRenderer.renderTile(Tile::tiles[inst->m_itemID], inst->getAuxValue() ARGPATCH);
+        m_tileRenderer.renderTile(pTile, inst->getAuxValue() ARGPATCH);
         
 #ifdef ARGPATCH
 #	undef ARGPATCH
@@ -85,7 +86,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
     else
     {
         std::string toBind;
-        if (inst->m_itemID < C_MAX_TILES)
+        if (pTile)
             toBind = C_TERRAIN_NAME;
         else
             toBind = "gui/items.png";
@@ -322,10 +323,13 @@ void ItemInHandRenderer::tick()
 		bSameItem = true;
 
 	// without this, the player hand remains hidden
-	if (!ItemInstance::isNull(item) && !ItemInstance::isNull(&m_selectedItem) && item != &m_selectedItem && item->m_itemID == m_selectedItem.m_itemID && item->getAuxValue() == m_selectedItem.getAuxValue())
+	if (!ItemInstance::isNull(item) && !ItemInstance::isNull(&m_selectedItem))
 	{
-		bSameItem = true;
-		m_selectedItem = *item;
+        if (item != &m_selectedItem && *item == m_selectedItem)
+        {
+            bSameItem = true;
+            m_selectedItem = *item;
+        }
 	}
 
 	float b = bSameItem ? 1.0f : 0.0f;
@@ -341,7 +345,7 @@ void ItemInHandRenderer::tick()
 	if (m_height < 0.1f)
 	{
 		if (ItemInstance::isNull(item))
-			m_selectedItem.m_itemID = 0;
+			m_selectedItem.setNull();
 		else
 			m_selectedItem = *item;
 

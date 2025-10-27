@@ -411,7 +411,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 
 					if (isOnline())
 					{
-						if (ItemInstance::isNull(pItem) || pItem->m_itemID > C_MAX_TILES)
+						if (ItemInstance::isNull(pItem) || !pItem->getTile())
 							return;
 
 						TilePos tp(m_hitResult.m_tilePos);
@@ -423,7 +423,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 							hitSide = Facing::DOWN;
 						}
 
-						m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), TileID(pItem->m_itemID), hitSide, pItem->getAuxValue()));
+						m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), (TileID)pItem->getId(), hitSide, pItem->getAuxValue()));
 					}
 				}
 			}
@@ -520,8 +520,12 @@ void Minecraft::tickInput()
 				ItemInstance *item = m_pLocalPlayer->m_pInventory->getSelected();
 				if (!ItemInstance::isNull(item))
 				{
-					ItemInstance itemDrop = m_pLocalPlayer->isSurvival() ? item->remove(1) : ItemInstance(*item);
+					ItemInstance itemDrop(*item);
 					itemDrop.m_count = 1;
+
+					if (m_pLocalPlayer->isSurvival())
+						item->remove(1);
+
 					m_pLocalPlayer->drop(itemDrop);
 				}
 			}
@@ -1203,9 +1207,7 @@ ItemInstance* Minecraft::getSelectedItem()
 	if (m_pGameMode->isCreativeType())
 	{
 		// Create new "unlimited" ItemInstance for Creative mode
-		m_CurrItemInstance.m_itemID = pInst->m_itemID;
-		m_CurrItemInstance.m_count = 999;
-		m_CurrItemInstance.setAuxValue(pInst->getAuxValue());
+		m_CurrItemInstance = ItemInstance(pInst->getId(), 999, pInst->getAuxValue());
 		return &m_CurrItemInstance;
 	}
 

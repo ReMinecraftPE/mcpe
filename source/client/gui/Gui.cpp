@@ -297,7 +297,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 			b1 = player->m_invulnerableTime / 3 % 2;
 			emptyHeartX += 9 * b1;
 		}
-#ifdef ANDROID || TARGET_OS_IPHONE
+#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
 		//@NOTE: Pocket-style health UI.
 		int heartX = 2;
 		int heartYStart = 2;
@@ -342,7 +342,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 			int breathRaw = player->m_airCapacity;
 			int breathFull  = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
 			int breathMeter = int(ceilf((float(breathRaw)     * 10.0f) / 300.0f)) - breathFull;
-#ifdef ANDROID || TARGET_OS_IPHONE
+#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
 			// pe
 			int bubbleX = 2;
 			int bubbleY = 12;

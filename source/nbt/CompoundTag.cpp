@@ -57,6 +57,16 @@ void CompoundTag::put(const std::string& name, Tag* tag)
 		return;
 	}
 
+	if (!m_bLeak)
+	{
+		Tag* oldTag = m_tags[name];
+		if (oldTag)
+		{
+			oldTag->deleteChildren();
+			delete oldTag;
+		}
+	}
+
 	m_tags[name] = tag;
 }
 
@@ -279,9 +289,21 @@ CompoundTag* CompoundTag::copy() const
 	return new CompoundTag(*this);
 }
 
-CompoundTag CompoundTag::clone()
+CompoundTag CompoundTag::clone() const
 {
 	return CompoundTag(*this);
+}
+
+CompoundTag* CompoundTag::uniqueClone() const
+{
+	CompoundTag* newTag = new CompoundTag();
+
+	for (NamedTagMap::const_iterator it = m_tags.begin(); it != m_tags.end(); it++)
+	{
+		newTag->put(it->first, it->second->copy());
+	}
+
+	return newTag;
 }
 
 bool CompoundTag::remove(const std::string& name)

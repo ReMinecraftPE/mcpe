@@ -26,7 +26,7 @@ AddPlayerPacket::AddPlayerPacket(const Player *player)
 	ItemInstance* pItem = player->getSelectedItem();
 	if (pItem)
 	{
-		m_itemId = pItem->m_itemID;
+		m_itemId = pItem->getId();
 		m_itemAuxValue = pItem->getAuxValue();
 	}
 }

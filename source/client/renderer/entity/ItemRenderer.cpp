@@ -42,9 +42,9 @@ void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
 	glPushMatrix();
 	float yOffset = Mth::sin((float(pItemEntity->m_age) + a) / 10.0f + pItemEntity->m_bobOffs);
 	const ItemInstance* pItemInstance = pItemEntity->m_pItemInstance;
-	if (!pItemInstance)
+	if (ItemInstance::isNull(pItemInstance))
 	{
-		assert(pItemInstance != nullptr);
+		assert(!"Tried to render invalid ItemInstance for ItemEntity");
 		return;
 	}
 
@@ -59,8 +59,8 @@ void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
 	glTranslatef(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z);
 	glEnable(GL_RESCALE_NORMAL);
 
-	int itemID = pItemInstance->m_itemID;
-	if (itemID < C_MAX_TILES && TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()))
+	Tile* pTile = pItemInstance->getTile();
+	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
 		glRotatef(((float(pItemEntity->m_age) + a) / 20.0f + pItemEntity->m_bobOffs) * 57.296f, 0.0f, 1.0f, 0.0f);
 		bindTexture(C_TERRAIN_NAME);
@@ -69,7 +69,7 @@ void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
 
 		// @BUG: If cacti existed and were able to be dropped, they would be 2x the size of a regular tile.
 		// This bug has been in the main game until Java Edition Beta 1.8.
-		if (Tile::tiles[itemID]->isCubeShaped() || pItemInstance->m_itemID == Tile::stoneSlabHalf->m_ID)
+		if (pTile->isCubeShaped() || pTile == Tile::stoneSlabHalf)
 			scale = 0.25f;
 
 		glScalef(scale, scale, scale);
@@ -85,7 +85,7 @@ void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale);
 			}
 
-			tileRenderer->renderTile(Tile::tiles[itemID], pItemInstance->getAuxValue(), pItemEntity->getBrightness(1.0f));
+			tileRenderer->renderTile(pTile, pItemInstance->getAuxValue(), pItemEntity->getBrightness(1.0f));
 			glPopMatrix();
 		}
 	}
@@ -94,7 +94,7 @@ void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
 		glScalef(0.5f, 0.5f, 0.5f);
 		int icon = pItemInstance->getIcon();
 
-		bindTexture(pItemInstance->m_itemID < C_MAX_TILES ? C_TERRAIN_NAME : C_ITEMS_NAME);
+		bindTexture(pItemInstance->getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
 
 		for (int i = 0; i < itemsToRender; i++)
 		{
@@ -180,12 +180,14 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 {
 	// @NOTE: Font unused but would presumably be used to draw the item amount.
 	// As if that actually works due to us blocking t.begin() and t.draw() calls...
-	if (!instance)
+	if (!instance || !instance->isValid())
 		return;
 
-	int itemID = instance->m_itemID;
 	if (!b)
 		return;
+
+	Item* pItem = instance->getItem();
+	Tile* pTile = instance->getTile();
 
 	// @BUG: This is one of the reasons you can't actually hold items in early Minecraft.
 	// There's an attempt to index `Tile::tiles` out of bounds, which of course fails, and likely crashes the game. :(
@@ -193,31 +195,31 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 #ifdef ORIGINAL_CODE
 #define COND_PRE
 #else
-#define COND_PRE (0 <= itemID && itemID < C_MAX_TILES) && 
+#define COND_PRE pTile && 
 #endif
 
 	bool bCanRenderAsIs = false;
 
 #ifdef ENH_3D_INVENTORY_TILES
 	// We don't need to care about g_ItemFrames at all since blocks will get 3D rendered and 2D props will use the terrain.png as the texture.
-	if (COND_PRE(TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape())))
+	if (COND_PRE(TileRenderer::canRender(pTile->getRenderShape())))
 	{
 		bCanRenderAsIs = true;
 	}
 #else
-	if (COND_PRE(TileRenderer::canRender(Tile::tiles[itemID]->getRenderShape()) || g_ItemFrames[itemID] != 0))
+	if (COND_PRE(TileRenderer::canRender(pTile->getRenderShape()) || g_ItemFrames[itemID] != 0))
 	{
 		bCanRenderAsIs = true;
 	}
 #endif
 	
-	if (itemID < C_MAX_TILES && bCanRenderAsIs)
+	if (pTile && bCanRenderAsIs)
 	{
 #ifndef ENH_3D_INVENTORY_TILES
 		textures->loadAndBindTexture(C_BLOCKS_NAME);
 
-		float texU = float(g_ItemFrames[instance->m_itemID] % 10) * 48.0f;
-		float texV = float(g_ItemFrames[instance->m_itemID] / 10) * 48.0f;
+		float texU = float(g_ItemFrames[instance->getId()] % 10) * 48.0f;
+		float texV = float(g_ItemFrames[instance->getId()] / 10) * 48.0f;
 
 		Tesselator& t = Tesselator::instance;
 		// @NOTE: These do nothing, due to a previous t.voidBeginAndEndCalls call.
@@ -242,10 +244,10 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 
 		// TODO: Why can't we rotate stairs 90deg also? What's rotating them!?
-		if (Tile::tiles[itemID]->getRenderShape() != SHAPE_STAIRS)
+		if (pTile->getRenderShape() != SHAPE_STAIRS)
 			glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
 		
-		tileRenderer->renderTile(Tile::tiles[itemID], instance->getAuxValue(), 1.0f, true);
+		tileRenderer->renderTile(pTile, instance->getAuxValue(), 1.0f, true);
 		#undef PARM_HACK
 
 		glPopMatrix();
@@ -258,7 +260,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 	{
 		// @BUG: The last bound texture will be the texture that ALL items will take. This is because begin and end calls
 		// have been void'ed by a  t.voidBeginAndEndCalls call in Gui::render.
-		if (instance->m_itemID <= 255)
+		if (instance->getTile())
 			textures->loadAndBindTexture(C_TERRAIN_NAME);
 		else
 			textures->loadAndBindTexture(C_ITEMS_NAME);
