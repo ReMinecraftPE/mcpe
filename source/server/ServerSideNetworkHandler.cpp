@@ -357,16 +357,18 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 		const Tile::SoundType* pSound = pTile->m_pSound;
 		m_pLevel->playSound(pos + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
 
-		/* 0.2.1
-		ItemInstance item(pTile, 1, auxValue);
-		if (m_pMinecraft->m_pGameMode->isSurvivalType() && pTile->m_ID == Tile::grass->m_ID || !m_pMinecraft->m_pLocalPlayer->m_pInventory->hasUnlimitedResource(item))
-		{
-			pTile->spawnResources(m_pLevel, pos, auxValue);
-		}*/
-
 		if (pPlayer->isSurvival())
 		{
+#ifdef MOD_POCKET_SURVIVAL
+			// 0.2.1
+			ItemInstance tileItem(pTile, 1, auxValue);
+			if (pTile == Tile::grass || !pPlayer->m_pInventory->hasUnlimitedResource(&tileItem))
+			{
+				pTile->spawnResources(m_pLevel, pos, auxValue);
+			}
+#else
 			pTile->spawnResources(m_pLevel, pos, auxValue);
+#endif
 		}
 
 		pTile->destroy(m_pLevel, pos, auxValue);
@@ -681,6 +683,7 @@ bool ServerSideNetworkHandler::canReplicateEntity(const Entity* pEntity) const
 
 	// All clients on V3 will just crash if an unknown 
 	// EntityType ID is replicated in an AddMobPacket.
+	// V4 and above has the neccessary nullptr check to not need this.
 #if NETWORK_PROTOCOL_VERSION <= 3
 	EntityType::ID entityTypeId = pEntity->getDescriptor().getEntityType().getId();
 	switch (entityTypeId)

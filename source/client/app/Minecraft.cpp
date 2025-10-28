@@ -518,7 +518,7 @@ void Minecraft::tickInput()
 			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
 				ItemInstance *item = m_pLocalPlayer->m_pInventory->getSelected();
-				if (!ItemInstance::isNull(item))
+				if (!ItemInstance::isNull(item) && item->m_count > 0)
 				{
 					ItemInstance itemDrop(*item);
 					itemDrop.m_count = 1;

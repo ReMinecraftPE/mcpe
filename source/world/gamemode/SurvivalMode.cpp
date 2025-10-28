@@ -75,7 +75,15 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 
 	if (changed && couldDestroy)
 	{
+#ifdef MOD_POCKET_SURVIVAL
+		ItemInstance tileItem(tile, 1, data);
+		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(&tileItem))
+		{
+			Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
+		}
+#else
 		Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
+#endif
 	}
 
 	return changed;
@@ -151,4 +159,21 @@ void SurvivalMode::render(float f)
 		m_pMinecraft->m_gui.field_8 = x;
 		m_pMinecraft->m_pLevelRenderer->field_10 = x;
 	}
+}
+
+bool SurvivalMode::useItemOn(Player* player, Level* level, ItemInstance* instance, const TilePos& pos, Facing::Name face)
+{
+#ifdef MOD_POCKET_SURVIVAL
+	if (!instance)
+		return GameMode::useItemOn(player, level, instance, pos, face);
+
+	int oldCount = instance->m_count;
+	bool result = GameMode::useItemOn(player, level, instance, pos, face);
+	if (player->m_pInventory->hasUnlimitedResource(instance))
+		instance->m_count = oldCount;
+
+	return result;
+#else
+	return GameMode::useItemOn(player, level, instance, pos, face);
+#endif
 }

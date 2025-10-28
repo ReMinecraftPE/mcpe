@@ -218,8 +218,10 @@ void ItemInstance::set(int inCount)
 
 	m_count = inCount;
 
+#ifndef MOD_POCKET_SURVIVAL
 	if (inCount == 0)
 		setNull();
+#endif
 }
 
 bool ItemInstance::canDestroySpecial(Tile* tile)
@@ -453,16 +455,16 @@ void ItemInstance::load(const CompoundTag& tag)
 {
 	_setItem(tag.getInt16("id"));
 	m_count = tag.getInt8("Count");
-	m_auxValue = tag.getInt16("Damage");
+	setAuxValue(tag.getInt16("Damage"));
 
-	CompoundTag* newTag = nullptr;
+	CompoundTag* userData = nullptr;
 
 	if (tag.contains("tag"))
 	{
-		newTag = tag.getCompound("tag")->copy();
+		userData = tag.getCompound("tag")->copy();
 	}
 
-	m_userData = newTag;
+	m_userData = userData;
 }
 
 CompoundTag& ItemInstance::save(CompoundTag& tag) const

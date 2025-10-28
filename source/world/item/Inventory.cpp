@@ -116,16 +116,87 @@ void Inventory::prepareCreativeInventory()
 void Inventory::prepareSurvivalInventory()
 {
 	clear();
+#ifndef MOD_POCKET_SURVIVAL
 	m_items.resize(C_SURVIVAL_INVENTORY_SIZE);
+#endif
 
 	// Add some items for testing
-	addTestItem(Item::stick->m_itemID, 64);
+	/*addTestItem(Item::stick->m_itemID, 64);
 	addTestItem(Item::wheat->m_itemID, 64);
 	addTestItem(Item::sugar->m_itemID, 64);
 	addTestItem(Item::camera->m_itemID, 64);
 	addTestItem(Tile::ladder->m_ID, 64);
 	addTestItem(Tile::obsidian->m_ID, 64);
-	addTestItem(Tile::fire->m_ID, 64);
+	addTestItem(Tile::fire->m_ID, 64);*/
+
+	addCreativeItem(ITEM_SHOVEL_STONE);
+	addCreativeItem(ITEM_PICKAXE_STONE);
+	addCreativeItem(ITEM_HATCHET_STONE);
+	//addCreativeItem(ITEM_SHEARS);
+	addCreativeItem(ITEM_SWORD_STONE);
+	addCreativeItem(TILE_LADDER);
+	addCreativeItem(TILE_TORCH);
+	addCreativeItem(ITEM_DOOR_WOOD);
+	addCreativeItem(TILE_FENCE);
+	//addCreativeItem(TILE_FENCEGATE);
+	addCreativeItem(TILE_STONEBRICK);
+	addCreativeItem(TILE_TREE_TRUNK, 1);
+	addCreativeItem(TILE_TREE_TRUNK, 2);
+	addCreativeItem(TILE_WOOD);
+	addCreativeItem(TILE_DIRT);
+	addCreativeItem(TILE_SANDSTONE);
+	addCreativeItem(TILE_GRAVEL);
+	addCreativeItem(TILE_STONE);
+	addCreativeItem(TILE_STAIRS_WOOD);
+	addCreativeItem(TILE_STAIRS_STONE);
+	addCreativeItem(TILE_STONESLAB_HALF);
+	addCreativeItem(TILE_SAND);
+	addCreativeItem(TILE_CLOTH, 7);
+	addCreativeItem(TILE_CLOTH, 6);
+	addCreativeItem(TILE_CLOTH, 5);
+	addCreativeItem(TILE_CLOTH, 4);
+	addCreativeItem(TILE_CLOTH, 3);
+	addCreativeItem(TILE_CLOTH, 15);
+	addCreativeItem(TILE_CLOTH, 14);
+	addCreativeItem(TILE_CLOTH, 13);
+	addCreativeItem(TILE_CLOTH, 12);
+	addCreativeItem(TILE_CLOTH, 11);
+	addCreativeItem(TILE_CLOTH, 10);
+	addCreativeItem(TILE_CLOTH, 9);
+	addCreativeItem(TILE_CLOTH, 8);
+	addCreativeItem(TILE_GLASS);
+	addCreativeItem(TILE_LEAVES);
+
+	if (_getGameMode() == GAME_TYPE_CREATIVE)
+	{
+		addCreativeItem(TILE_BLOCK_GOLD);
+		addCreativeItem(TILE_BLOCK_IRON);
+		addCreativeItem(TILE_BLOCK_EMERALD);
+		addCreativeItem(TILE_OBSIDIAN);
+		addCreativeItem(TILE_BOOKSHELF);
+	}
+	else
+	{
+		addCreativeItem(TILE_OBSIDIAN); // count of 0
+	}
+
+	addCreativeItem(TILE_FLOWER);
+	addCreativeItem(TILE_ROSE);
+	addCreativeItem(TILE_MUSHROOM_1);
+	addCreativeItem(TILE_MUSHROOM_2);
+	addCreativeItem(TILE_CACTUS);
+	addCreativeItem(TILE_REEDS);
+
+#ifdef MOD_POCKET_SURVIVAL
+	for (int i = 0; i < getNumSlots(); i++)
+	{
+		ItemInstance* item = m_items[i];
+		if (_getGameMode() == GAME_TYPE_SURVIVAL && !hasUnlimitedResource(item))
+		{
+			item->m_count = 0;
+		}
+	}
+#endif
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;
@@ -152,11 +223,16 @@ void Inventory::addCreativeItem(int itemID, int auxValue)
 	m_items.push_back(new ItemInstance(itemID, 1, auxValue));
 }
 
+void Inventory::release(int slotNo)
+{
+	SAFE_DELETE(m_items[slotNo]);
+}
+
 void Inventory::empty()
 {
 	for (int i = 0; i < m_items.size(); i++)
 	{
-		delete m_items[i];
+		release(i);
 		m_items[i] = nullptr;
 	}
 }
@@ -165,7 +241,7 @@ void Inventory::clear()
 {
 	for (int i = 0; i < m_items.size(); i++)
 	{
-		delete m_items[i];
+		release(i);
 	}
 	m_items.clear();
 }
@@ -178,7 +254,7 @@ bool Inventory::addItem(ItemInstance& instance)
 	if (_getGameMode() == GAME_TYPE_CREATIVE)
 	{
 		// Just get rid of the item.
-		instance.m_count = 0;
+		instance.setNull();
 		return true;
 	}
 	
@@ -263,6 +339,50 @@ void Inventory::addTestItem(int itemID, int amount, int auxValue)
 	}
 }
 
+bool Inventory::hasUnlimitedResource(const ItemInstance* pInstance) const
+{
+	if (ItemInstance::isNull(pInstance))
+		return true;
+
+	int itemId = pInstance->getId();
+
+	switch (itemId)
+	{
+	case ITEM_DOOR_WOOD:
+		return true;
+	}
+
+	// strictly an item, not a tile
+	if (!pInstance->getTile())
+		return true;
+
+	// big ol' if statement in 0.2.1
+	switch (itemId)
+	{
+	case TILE_DIRT:
+	case TILE_GRAVEL:
+	case TILE_STONE:
+	case TILE_SAND:
+	case TILE_SANDSTONE:
+	case TILE_CACTUS:
+	case TILE_TREE_TRUNK:
+
+	case TILE_MUSHROOM_1:
+	case TILE_MUSHROOM_2:
+	case TILE_FLOWER:
+	case TILE_ROSE:
+	case TILE_STONEBRICK:
+
+	case TILE_OBSIDIAN:
+		return false;
+
+	case TILE_LEAVES:
+		return true;
+	}
+
+	return true;
+}
+
 ItemInstance* Inventory::getItem(int slotNo) const
 {
 	if (slotNo < 0 || slotNo >= int(m_items.size()))
@@ -271,11 +391,7 @@ ItemInstance* Inventory::getItem(int slotNo) const
 	ItemInstance* item = m_items[slotNo];
 	if (!item)
 		return nullptr;
-
-	// @TODO: do we even need this?
-	/*if (item->m_count <= 0)
-		item->m_itemID = 0;*/
-
+	
 	return item;
 }
 
@@ -478,6 +594,14 @@ void Inventory::load(const ListTag& tag)
 			if (slot >= 0 && slot < m_items.size())
 			{
 				m_items[slot] = item;
+
+#ifdef MOD_POCKET_SURVIVAL
+				// 0.2.1
+				if (item->m_count == 0 && hasUnlimitedResource(item))
+				{
+					item->m_count = 1;
+				}
+#endif
 			}
 
 			/*if (slot >= 100 && slot < m_armor.size() + 100)

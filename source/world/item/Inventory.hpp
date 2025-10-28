@@ -11,7 +11,11 @@ class Player; // in case we're included from Player.hpp
 
 #define C_POP_TIME_DURATION (5)
 #define C_MAX_HOTBAR_ITEMS (9)
+#ifdef MOD_POCKET_SURVIVAL
+#define C_SURVIVAL_INVENTORY_SIZE (42)
+#else
 #define C_SURVIVAL_INVENTORY_SIZE (36)
+#endif
 #define C_MAX_INVENTORY_STACK_SIZE (64)
 
 class Inventory
@@ -28,6 +32,9 @@ public:
 	void addCreativeItem(int itemID, int auxValue = 0);
 	void addTestItem(int itemID, int amount, int auxValue = 0);
 
+	bool hasUnlimitedResource(const ItemInstance* pInstance) const;
+
+	void release(int slotNo);
 	void empty();
 	void clear();
 	bool addItem(ItemInstance& instance);

@@ -45,7 +45,7 @@ bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const
 		case Facing::EAST: tp.x++; break;
 	}
 
-	if (!instance->m_count)
+	if (instance->m_count == 0)
 		return false;
 
 	if (!level->mayPlace(m_tile, tp, false))
