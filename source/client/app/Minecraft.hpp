@@ -62,7 +62,7 @@ public:
 	void resetInput();
 	void sendMessage(const std::string& message);
 	void respawnPlayer();
-	std::string getVersionString() const;
+	std::string getVersionString(const std::string& str = Util::EMPTY_STRING) const;
 	bool isTouchscreen() const;
 	bool useSplitControls() const;
 	bool useController() const;

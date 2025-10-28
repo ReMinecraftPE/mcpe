@@ -641,13 +641,13 @@ void Minecraft::respawnPlayer()
 {
 	_resetPlayer(m_pLocalPlayer);
 
-	// Lets client dictate respawn position. Why?
+	// Allows client to dictate respawn position. Why?
 	m_pRakNetInstance->send(new RespawnPacket(m_pLocalPlayer->m_EntityID, m_pLocalPlayer->m_pos));
 }
 
-std::string Minecraft::getVersionString() const
+std::string Minecraft::getVersionString(const std::string& str) const
 {
-	return "v0.1.0 alpha";
+	return "v0.2.0" + str + " alpha";
 }
 
 void Minecraft::_reloadInput()
