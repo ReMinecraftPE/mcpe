@@ -531,7 +531,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, InteractPacket* pkt)
 {
-	puts_ignorable("InteractPacket");
+	//puts_ignorable("InteractPacket");
 	if (!m_pLevel) return;
 
 	Entity* pSource = m_pLevel->getEntity(pkt->m_sourceId);
