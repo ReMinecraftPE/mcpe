@@ -185,7 +185,7 @@ void Inventory::prepareSurvivalInventory()
 	addCreativeItem(TILE_MUSHROOM_1);
 	addCreativeItem(TILE_MUSHROOM_2);
 	addCreativeItem(TILE_CACTUS);
-	addCreativeItem(TILE_REEDS);
+	addCreativeItem(ITEM_REEDS);
 
 #ifdef MOD_POCKET_SURVIVAL
 	for (int i = 0; i < getNumSlots(); i++)
