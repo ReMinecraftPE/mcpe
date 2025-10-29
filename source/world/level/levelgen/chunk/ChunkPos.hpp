@@ -26,6 +26,11 @@ public:
 	ChunkPos(const Vec3& pos) { _init(pos); }
 	ChunkPos(const TilePos& pos) { _init(pos); }
 
+	int lengthSqr() const
+	{
+		return x * x + z * z;
+	}
+
 	bool operator<(const ChunkPos& b) const;
 	bool operator>(const ChunkPos& b) const;
 	bool operator<=(const ChunkPos& b) const;

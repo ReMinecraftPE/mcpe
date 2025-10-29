@@ -8,6 +8,7 @@
 
 #include "GameMode.hpp"
 #include "client/app/Minecraft.hpp"
+#include "network/packets/RemoveBlockPacket.hpp"
 
 GameMode::GameMode(Minecraft* pMinecraft, Level& level) :
 	m_pMinecraft(pMinecraft),
@@ -32,23 +33,23 @@ bool GameMode::startDestroyBlock(Player* player, const TilePos& pos, Facing::Nam
 
 bool GameMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	Tile* pTile = Tile::tiles[_level.getTile(pos)];
-	if (!pTile)
+	Tile* oldTile = Tile::tiles[_level.getTile(pos)];
+	if (!oldTile)
 		return false;
 
 	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
 
 	int tileData = _level.getData(pos);
-	pTile->playerWillDestroy(player, pos, face);
-	bool bChanged = _level.setTile(pos, TILE_AIR);
-	if (!bChanged)
+	oldTile->playerWillDestroy(player, pos, face);
+	bool changed = _level.setTile(pos, TILE_AIR);
+	if (!changed)
 		return false;
 
 
-	_level.playSound(pos + 0.5f, "step." + pTile->m_pSound->m_name,
-		(pTile->m_pSound->volume * 0.5f) + 0.5f, pTile->m_pSound->pitch * 0.8f);
+	_level.playSound(pos + 0.5f, "step." + oldTile->m_pSound->m_name,
+		(oldTile->m_pSound->volume * 0.5f) + 0.5f, oldTile->m_pSound->pitch * 0.8f);
 
-	pTile->destroy(&_level, pos, tileData);
+	oldTile->destroy(&_level, pos, tileData);
 
 	if (m_pMinecraft->isOnline())
 	{
@@ -147,12 +148,25 @@ bool GameMode::useItem(Player* player, Level* level, ItemInstance* instance)
 bool GameMode::useItemOn(Player* player, Level* level, ItemInstance* instance, const TilePos& pos, Facing::Name face)
 {
 	TileID tile = level->getTile(pos);
+	if (tile == Tile::invisible_bedrock->m_ID)
+		return false;
+
+	bool success = false;
+
 	if (tile > 0 && Tile::tiles[tile]->use(level, pos, player))
-		return true;
+	{
+		success = true;
+	}
+	else if (instance)
+	{
+		success = instance->useOn(player, level, pos, face);
+	}
 
-	if (instance)
-		return instance->useOn(player, level, pos, face);
+	if (success)
+	{
+		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, instance));
+	}
 
-	return false;
+	return success;
 }
 

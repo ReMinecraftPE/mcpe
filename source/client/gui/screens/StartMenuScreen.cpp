@@ -349,7 +349,13 @@ const char* gSplashes[] =
 	// custom:
 	"https://github.com/ReMinecraftPE/mcpe",
 	"Also try Minecraft!",
-	"Also try Noita!"
+	"Also try Noita!",
+	"Also try Castle Crashers!",
+	"Also try Unturned!",
+	"Controller support!",
+	"Check out our GitHub!",
+	"Woo, newgrounds!",
+	"Woo, curseforge!"
 };
 
 StartMenuScreen::StartMenuScreen() :
@@ -467,7 +473,7 @@ void StartMenuScreen::init()
 	field_154 = "\xFFMojang AB";
 	field_16C = m_width - 1 - m_pFont->width(field_154);
 
-	field_170 = "v0.1.0 alpha"
+	field_170 = m_pMinecraft->getVersionString();
 #ifdef DEMO
 		" (Demo)"
 #endif

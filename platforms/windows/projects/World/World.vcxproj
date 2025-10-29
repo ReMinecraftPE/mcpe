@@ -39,7 +39,6 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\FallingTile.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\ItemEntity.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\world\entity\LocalPlayer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Mob.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Player.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\PrimedTnt.cpp" />
@@ -197,7 +196,6 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\FallingTile.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\ItemEntity.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\world\entity\LocalPlayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Mob.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Player.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\entity\PrimedTnt.hpp" />
@@ -334,6 +332,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\entity\EntityFactory.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

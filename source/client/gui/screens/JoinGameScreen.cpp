@@ -78,7 +78,8 @@ void JoinGameScreen::init()
 	m_buttons.push_back(&m_btnDirectConnect);
 	m_buttons.push_back(&m_btnBack);
 	
-	m_pMinecraft->m_pRakNetInstance->clearServerList();
+	if (m_pMinecraft->m_pRakNetInstance)
+		m_pMinecraft->m_pRakNetInstance->clearServerList();
 
 	m_pAvailableGamesList = new AvailableGamesList(m_pMinecraft, m_width, m_height, 24, m_height - 30, 28);
 

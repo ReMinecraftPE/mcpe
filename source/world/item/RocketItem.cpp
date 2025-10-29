@@ -15,7 +15,7 @@ RocketItem::RocketItem(int id) : Item(id)
 {
 }
 
-bool RocketItem::useOn(ItemInstance* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face)
+bool RocketItem::useOn(ItemInstance* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	TilePos tp(pos);
 

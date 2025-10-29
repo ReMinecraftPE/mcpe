@@ -19,6 +19,6 @@ void ConvertWorldScreen::postResult(bool b)
     else
     {
         // Don't Convert
-        m_pMinecraft->selectLevel(m_level.m_fileName, m_level.m_levelName, 0, false);
+        m_pMinecraft->selectLevel(m_level.m_fileName, m_level.m_levelName, LevelSettings(), false);
     }
 }

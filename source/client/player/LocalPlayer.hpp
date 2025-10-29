@@ -16,32 +16,42 @@ class Minecraft;
 
 class LocalPlayer : public Player
 {
+private:
+	void _init();
+
 public:
 	LocalPlayer(Minecraft*, Level*, User*, GameType, int);
 	virtual ~LocalPlayer();
 
-	virtual void animateRespawn() override;
-	virtual void aiStep() override;
-	virtual bool isSneaking() const override;
-	virtual int move(const Vec3& pos) override;
-	virtual void tick() override;
-	virtual void updateAi() override;
-	virtual void addAdditionalSaveData(CompoundTag& tag) const override;
-	virtual void readAdditionalSaveData(const CompoundTag& tag) override;
-	virtual bool isLocalPlayer() const override { return true; }
-	virtual void drop(const ItemInstance& item, bool randomly = false) override;
-	virtual bool isImmobile() const override;
-	virtual void setPlayerGameType(GameType gameType) override;
+public:
+	void reset() override;
+	void animateRespawn() override;
+	void aiStep() override;
+	bool isSneaking() const override;
+	void move(const Vec3& pos) override;
+	void tick() override;
+	void updateAi() override;
+	void addAdditionalSaveData(CompoundTag& tag) const override;
+	void readAdditionalSaveData(const CompoundTag& tag) override;
+	bool isLocalPlayer() const override { return true; }
+	void drop(const ItemInstance& item, bool randomly = false) override;
+	bool isImmobile() const override;
+	bool interpolateOnly() const override { return false; }
+	void setPlayerGameType(GameType gameType) override;
+	void swing() override;
+
+	virtual void hurtTo(int newHealth);
 
 	void calculateFlight(const Vec3& pos);
 	void closeContainer(); //@HUH: oddly enough not a virtual/override
 	void respawn();
+	void sendPosition();
 
 private:
 	// Made these private since they're only accessed by LocalPlayer
 	// multiplayer related
-	Vec3 field_C24;
-	Vec2 field_C30;
+	Vec3 m_lastSentPos;
+	Vec2 m_lastSentRot;
 	// multiplayer related -- end
 
 public:

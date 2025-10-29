@@ -9,12 +9,16 @@
 #include "Level.hpp"
 
 #include <algorithm>
+
 #include "common/Util.hpp"
+#include "network/RakNetInstance.hpp"
+#include "network/packets/EntityEventPacket.hpp"
+#include "network/packets/SetEntityDataPacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
 #include "Explosion.hpp"
 #include "Region.hpp"
 
-Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension *pDimension)
+Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
 	m_bIsClientSide = false;
@@ -23,6 +27,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int sto
 	field_30 = 0;
 	m_pDimension = nullptr;
     m_difficulty = 2; // Java has no actual default, it just always pulls from Options. Putting 2 here just so there's no chance of mobs getting despawned accidentally.
+	m_pRakNetInstance = nullptr;
 	m_bCalculatingInitialSpawn = false;
 	m_pChunkSource = nullptr;
 	m_pLevelStorage = pStor;
@@ -36,7 +41,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int sto
 
 	LevelData* pData = m_pLevelStorage->prepareLevel(this);
 
-	field_B0C = pData == 0;
+	field_B0C = pData == nullptr;
 
 	// @BUG: leaking a Dimension*?
 	if (pDimension)
@@ -45,7 +50,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, int32_t seed, int sto
 		m_pDimension = new Dimension;
 
 	if (!pData)
-		m_pLevelData = new LevelData(seed, name, storageVersion);
+		m_pLevelData = new LevelData(settings, name, storageVersion);
 	else
 		m_pLevelData = pData;
 
@@ -111,6 +116,20 @@ int Level::getSkyDarken(float f) const
 		return 8; // full dark
 
 	return int(y * 11.0f);
+}
+
+void Level::updateSkyDarken()
+{
+	bool skyColorChanged = updateSkyBrightness();
+
+	if (skyColorChanged)
+	{
+		for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+		{
+			LevelListener* pListener = *it;
+			pListener->skyColorChanged();
+		}
+	}
 }
 
 bool Level::updateSkyBrightness()
@@ -265,8 +284,10 @@ Material* Level::getMaterial(const TilePos& pos) const
 	return pTile->m_pMaterial;
 }
 
-Entity* Level::getEntity(int id) const
+Entity* Level::getEntity(Entity::ID id) const
 {
+	// @TODO: wtf? no map??
+
 	// prioritize players first.
 	for (std::vector<Player*>::const_iterator it = m_players.begin(); it != m_players.end(); it++)
 	{
@@ -755,6 +776,15 @@ void Level::entityRemoved(Entity* pEnt)
 	}
 }
 
+void Level::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data)
+{
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	{
+		LevelListener* pListener = *it;
+		pListener->levelEvent(pPlayer, eventId, pos, data);
+	}
+}
+
 AABBVector* Level::getCubes(const Entity* pEntUnused, const AABB& aabb)
 {
 	m_aabbs.clear();
@@ -804,7 +834,7 @@ Player* Level::_getNearestPlayer(const Vec3& source, float maxDist, bool onlyFin
 
 		if (onlyFindAttackable)
 		{
-			if (player->isCreative())
+			if (player->isCreative() || !player->isAlive())
 				continue;
 		}
 
@@ -982,7 +1012,7 @@ bool Level::checkAndHandleWater(const AABB& aabb, const Material* pMtl, Entity* 
 	return bInWater;
 }
 
-TilePos Level::getSharedSpawnPos() const
+const TilePos& Level::getSharedSpawnPos() const
 {
 	return m_pLevelData->getSpawn();
 }
@@ -1145,13 +1175,8 @@ bool Level::addEntity(Entity* pEnt)
 	Entity* pOldEnt = getEntity(pEnt->hashCode());
 	if (pOldEnt)
 	{
-		LOG_W("Entity %d already exists.", pEnt->hashCode());
-		//removeEntity(pOldEnt);
-	}
-
-	if (!pEnt->isPlayer() && m_bIsClientSide)
-	{
-		LOG_W("Hey, why are you trying to add an non-player entity in a multiplayer world?");
+		LOG_W("Entity %d already exists. Replacing...", pEnt->hashCode());
+		removeEntity(pOldEnt);
 	}
 
 	//@NOTE: useless Mth::floor() calls
@@ -1228,6 +1253,21 @@ void Level::loadEntities()
 	if (m_pLevelStorage)
 	{
 		m_pLevelStorage->loadEntities(this);
+	}
+}
+
+void Level::sendEntityData()
+{
+	if (!m_pRakNetInstance)
+		return;
+
+	// Inlined on 0.2.1, god bless PerfTimer
+	for (EntityVector::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+	{
+		Entity* ent = *it;
+		SynchedEntityData& data = ent->getEntityData();
+		if (data.isDirty())
+			m_pRakNetInstance->send(new SetEntityDataPacket(ent->m_EntityID, data));
 	}
 }
 
@@ -1395,6 +1435,14 @@ bool Level::mayPlace(TileID tile, const TilePos& pos, bool b) const
 	return pTile->mayPlace(this, pos);
 }
 
+void Level::broadcastEntityEvent(const Entity& entity, Entity::EventType::ID eventId)
+{
+	if (m_bIsClientSide)
+		return;
+
+	m_pRakNetInstance->send(new EntityEventPacket(entity.m_EntityID, eventId));
+}
+
 void Level::removeListener(LevelListener* listener)
 {
 	std::vector<LevelListener*>::iterator iter = std::find(m_levelListeners.begin(), m_levelListeners.end(), listener);
@@ -1532,24 +1580,15 @@ void Level::tick()
 	m_pChunkSource->tick();
 
 #ifdef ENH_RUN_DAY_NIGHT_CYCLE
-	bool skyColorChanged = updateSkyBrightness();
+	updateSkyDarken();
 
-	int time = getTime() + 1;
-	_setTime(time); // Bypasses the normally-required update to LevelListeners
-
-	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
-	{
-		LevelListener* pListener = *it;
-
-		if (skyColorChanged)
-			pListener->skyColorChanged();
-
-		pListener->timeChanged(time);
-	}
+	setTime(getTime() + 1);
 #endif
 
 	tickPendingTicks(false);
 	tickTiles();
+
+	sendEntityData();
 }
 
 void Level::tickEntities()
@@ -1565,7 +1604,7 @@ void Level::tickEntities()
 		{
 			tick(pEnt);
 		}
-		else
+		else if (!pEnt->isPlayer() || pEnt->m_bForceRemove)
 		{
 			if (pEnt->m_bInAChunk && hasChunk(pEnt->m_chunkPos))
 				getChunk(pEnt->m_chunkPos)->removeEntity(pEnt);
@@ -1574,10 +1613,7 @@ void Level::tickEntities()
 			i--;
 
 			entityRemoved(pEnt);
-
-			// If the entity isn't a player (managed by Minecraft* or through OnlinePlayer), then delete it.
-			if (!pEnt->isPlayer())
-				delete pEnt;
+			delete pEnt;
 		}
 	}
 }
@@ -1806,11 +1842,11 @@ void Level::explode(Entity* entity, const Vec3& pos, float power, bool bIsFiery)
 	expl.addParticles();
 }
 
-void Level::addEntities(const std::vector<Entity*>& entities)
+void Level::addEntities(const EntityVector& entities)
 {
 	m_entities.insert(m_entities.end(), entities.begin(), entities.end());
 
-	for (std::vector<Entity*>::iterator it = m_entities.begin(); it != m_entities.end(); it++)
+	for (EntityVector::iterator it = m_entities.begin(); it != m_entities.end(); it++)
 	{
 		Entity* pEnt = *it;
 		entityAdded(pEnt);

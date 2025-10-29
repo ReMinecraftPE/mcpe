@@ -6,20 +6,21 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "RemoveEntityPacket.hpp"
+#include "network/NetEventCallback.hpp"
 
-void RemoveEntityPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void RemoveEntityPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
-void RemoveEntityPacket::write(RakNet::BitStream* bs)
+void RemoveEntityPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_REMOVE_ENTITY);
-	bs->Write(m_id);
+	bs.Write((unsigned char)PACKET_REMOVE_ENTITY);
+	bs.Write(m_id);
 }
 
-void RemoveEntityPacket::read(RakNet::BitStream* bs)
+void RemoveEntityPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_id);
+	bs.Read(m_id);
 }

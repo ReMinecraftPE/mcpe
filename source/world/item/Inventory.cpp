@@ -116,16 +116,87 @@ void Inventory::prepareCreativeInventory()
 void Inventory::prepareSurvivalInventory()
 {
 	clear();
-	m_items.resize(C_NUM_SURVIVAL_SLOTS);
+#ifndef MOD_POCKET_SURVIVAL
+	m_items.resize(C_SURVIVAL_INVENTORY_SIZE);
+#endif
 
 	// Add some items for testing
-	addTestItem(Item::stick->m_itemID, 64);
+	/*addTestItem(Item::stick->m_itemID, 64);
 	addTestItem(Item::wheat->m_itemID, 64);
 	addTestItem(Item::sugar->m_itemID, 64);
 	addTestItem(Item::camera->m_itemID, 64);
 	addTestItem(Tile::ladder->m_ID, 64);
 	addTestItem(Tile::obsidian->m_ID, 64);
-	addTestItem(Tile::fire->m_ID, 64);
+	addTestItem(Tile::fire->m_ID, 64);*/
+
+	addCreativeItem(ITEM_SHOVEL_STONE);
+	addCreativeItem(ITEM_PICKAXE_STONE);
+	addCreativeItem(ITEM_HATCHET_STONE);
+	//addCreativeItem(ITEM_SHEARS);
+	addCreativeItem(ITEM_SWORD_STONE);
+	addCreativeItem(TILE_LADDER);
+	addCreativeItem(TILE_TORCH);
+	addCreativeItem(ITEM_DOOR_WOOD);
+	addCreativeItem(TILE_FENCE);
+	//addCreativeItem(TILE_FENCEGATE);
+	addCreativeItem(TILE_STONEBRICK);
+	addCreativeItem(TILE_TREE_TRUNK, 1);
+	addCreativeItem(TILE_TREE_TRUNK, 2);
+	addCreativeItem(TILE_WOOD);
+	addCreativeItem(TILE_DIRT);
+	addCreativeItem(TILE_SANDSTONE);
+	addCreativeItem(TILE_GRAVEL);
+	addCreativeItem(TILE_STONE);
+	addCreativeItem(TILE_STAIRS_WOOD);
+	addCreativeItem(TILE_STAIRS_STONE);
+	addCreativeItem(TILE_STONESLAB_HALF);
+	addCreativeItem(TILE_SAND);
+	addCreativeItem(TILE_CLOTH, 7);
+	addCreativeItem(TILE_CLOTH, 6);
+	addCreativeItem(TILE_CLOTH, 5);
+	addCreativeItem(TILE_CLOTH, 4);
+	addCreativeItem(TILE_CLOTH, 3);
+	addCreativeItem(TILE_CLOTH, 15);
+	addCreativeItem(TILE_CLOTH, 14);
+	addCreativeItem(TILE_CLOTH, 13);
+	addCreativeItem(TILE_CLOTH, 12);
+	addCreativeItem(TILE_CLOTH, 11);
+	addCreativeItem(TILE_CLOTH, 10);
+	addCreativeItem(TILE_CLOTH, 9);
+	addCreativeItem(TILE_CLOTH, 8);
+	addCreativeItem(TILE_GLASS);
+	addCreativeItem(TILE_LEAVES);
+
+	if (_getGameMode() == GAME_TYPE_CREATIVE)
+	{
+		addCreativeItem(TILE_BLOCK_GOLD);
+		addCreativeItem(TILE_BLOCK_IRON);
+		addCreativeItem(TILE_BLOCK_EMERALD);
+		addCreativeItem(TILE_OBSIDIAN);
+		addCreativeItem(TILE_BOOKSHELF);
+	}
+	else
+	{
+		addCreativeItem(TILE_OBSIDIAN); // count of 0
+	}
+
+	addCreativeItem(TILE_FLOWER);
+	addCreativeItem(TILE_ROSE);
+	addCreativeItem(TILE_MUSHROOM_1);
+	addCreativeItem(TILE_MUSHROOM_2);
+	addCreativeItem(TILE_CACTUS);
+	addCreativeItem(ITEM_REEDS);
+
+#ifdef MOD_POCKET_SURVIVAL
+	for (int i = 0; i < getNumSlots(); i++)
+	{
+		ItemInstance* item = m_items[i];
+		if (_getGameMode() == GAME_TYPE_SURVIVAL && !hasUnlimitedResource(item))
+		{
+			item->m_count = 0;
+		}
+	}
+#endif
 
 	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
 		m_hotbar[i] = i;
@@ -136,7 +207,7 @@ int Inventory::getNumSlots()
 	switch (_getGameMode())
 	{
 	case GAME_TYPE_SURVIVAL:
-		return C_NUM_SURVIVAL_SLOTS;
+		return C_SURVIVAL_INVENTORY_SIZE;
 	default:
 		return getNumItems();
 	}
@@ -152,11 +223,16 @@ void Inventory::addCreativeItem(int itemID, int auxValue)
 	m_items.push_back(new ItemInstance(itemID, 1, auxValue));
 }
 
+void Inventory::release(int slotNo)
+{
+	SAFE_DELETE(m_items[slotNo]);
+}
+
 void Inventory::empty()
 {
 	for (int i = 0; i < m_items.size(); i++)
 	{
-		delete m_items[i];
+		release(i);
 		m_items[i] = nullptr;
 	}
 }
@@ -165,7 +241,7 @@ void Inventory::clear()
 {
 	for (int i = 0; i < m_items.size(); i++)
 	{
-		delete m_items[i];
+		release(i);
 	}
 	m_items.clear();
 }
@@ -178,7 +254,7 @@ bool Inventory::addItem(ItemInstance& instance)
 	if (_getGameMode() == GAME_TYPE_CREATIVE)
 	{
 		// Just get rid of the item.
-		instance.m_count = 0;
+		instance.setNull();
 		return true;
 	}
 	
@@ -186,7 +262,7 @@ bool Inventory::addItem(ItemInstance& instance)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (!item || item->m_itemID != instance.m_itemID)
+		if (!item || item->getItem() != instance.getItem())
 			continue;
 
 		int maxStackSize = item->getMaxStackSize();
@@ -201,10 +277,10 @@ bool Inventory::addItem(ItemInstance& instance)
 		if (leftover < 0)
 			leftover = 0;
 		else
-			combinedItemAmount = C_MAX_AMOUNT;
+			combinedItemAmount = C_MAX_INVENTORY_STACK_SIZE;
 
 		item->m_count = combinedItemAmount;
-		item->m_popTime = 5;
+		item->m_popTime = C_POP_TIME_DURATION;
 
 		instance.m_count = leftover;
 
@@ -223,13 +299,13 @@ bool Inventory::addItem(ItemInstance& instance)
 
 		if (item)
 		{
-			if (item->m_itemID != 0)
+			if (item->getId() != 0)
 				continue;
 			delete item;
 		}
 
-		item = m_items[i] = new ItemInstance(instance);
-        item->m_popTime = 5;
+		item = m_items[i] = instance.copy();
+        item->m_popTime = C_POP_TIME_DURATION;
 		instance.m_count = 0;
 		return true;
 	}
@@ -263,7 +339,51 @@ void Inventory::addTestItem(int itemID, int amount, int auxValue)
 	}
 }
 
-ItemInstance* Inventory::getItem(int slotNo)
+bool Inventory::hasUnlimitedResource(const ItemInstance* pInstance) const
+{
+	if (ItemInstance::isNull(pInstance))
+		return true;
+
+	int itemId = pInstance->getId();
+
+	switch (itemId)
+	{
+	case ITEM_DOOR_WOOD:
+		return true;
+	}
+
+	// strictly an item, not a tile
+	if (!pInstance->getTile())
+		return true;
+
+	// big ol' if statement in 0.2.1
+	switch (itemId)
+	{
+	case TILE_DIRT:
+	case TILE_GRAVEL:
+	case TILE_STONE:
+	case TILE_SAND:
+	case TILE_SANDSTONE:
+	case TILE_CACTUS:
+	case TILE_TREE_TRUNK:
+
+	case TILE_MUSHROOM_1:
+	case TILE_MUSHROOM_2:
+	case TILE_FLOWER:
+	case TILE_ROSE:
+	case TILE_STONEBRICK:
+
+	case TILE_OBSIDIAN:
+		return false;
+
+	case TILE_LEAVES:
+		return true;
+	}
+
+	return true;
+}
+
+ItemInstance* Inventory::getItem(int slotNo) const
 {
 	if (slotNo < 0 || slotNo >= int(m_items.size()))
 		return nullptr;
@@ -271,23 +391,20 @@ ItemInstance* Inventory::getItem(int slotNo)
 	ItemInstance* item = m_items[slotNo];
 	if (!item)
 		return nullptr;
-
-	if (item->m_count <= 0)
-		item->m_itemID = 0;
-
+	
 	return item;
 }
 
-int Inventory::getQuickSlotItemId(int slotNo)
+int Inventory::getQuickSlotItemId(int slotNo) const
 {
 	ItemInstance* pInst = getQuickSlotItem(slotNo);
 	if (!pInst)
 		return -1;
 
-	return pInst->m_itemID;
+	return pInst->getId();
 }
 
-ItemInstance* Inventory::getQuickSlotItem(int slotNo)
+ItemInstance* Inventory::getQuickSlotItem(int slotNo) const
 {
 	if (slotNo < 0 || slotNo >= C_MAX_HOTBAR_ITEMS)
 		return nullptr;
@@ -297,14 +414,31 @@ ItemInstance* Inventory::getQuickSlotItem(int slotNo)
 	return !ItemInstance::isNull(pInst) ? pInst : nullptr;
 }
 
-ItemInstance* Inventory::getSelectedItem()
+ItemInstance* Inventory::getSelectedItem() const
 {
 	return getQuickSlotItem(m_selectedHotbarSlot);
 }
 
-int Inventory::getSelectedItemId()
+int Inventory::getSelectedItemId() const
 {
 	return getQuickSlotItemId(m_selectedHotbarSlot);
+}
+
+void Inventory::setItem(int index, ItemInstance* item)
+{
+	if (index >= m_items.size())
+	{
+		//m_armor[index - m_items.size()] = item;
+	}
+	else
+	{
+		m_items[index] = item;
+	}
+}
+
+void Inventory::setSelectedItem(ItemInstance* item)
+{
+	setItem(m_selectedHotbarSlot, item);
 }
 
 void Inventory::selectItem(int slotNo, int maxHotBarSlot)
@@ -348,7 +482,7 @@ void Inventory::setQuickSlotIndexByItemId(int slotNo, int itemID)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (item && item->m_itemID == itemID)
+		if (item && item->getId() == itemID)
 		{
 			m_hotbar[slotNo] = i;
 			return;
@@ -363,7 +497,7 @@ void Inventory::selectItemById(int itemID, int maxHotBarSlot)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (!item || item->m_itemID != itemID)
+		if (!item || item->getId() != itemID)
 			continue;
 
 		selectItem(i, maxHotBarSlot);
@@ -378,7 +512,7 @@ void Inventory::selectItemByIdAux(int itemID, int auxValue, int maxHotBarSlot)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (!item || item->m_itemID != itemID || item->getAuxValue() != auxValue)
+		if (!item || item->getId() != itemID || item->getAuxValue() != auxValue)
 			continue;
 
 		selectItem(i, maxHotBarSlot);
@@ -402,11 +536,11 @@ void Inventory::dropAll(bool onlyClearContainer)
 	for (int i = 0; i < getNumItems(); i++)
 	{
 		ItemInstance* item = m_items[i];
-		if (item && item->m_count > 0)
+		if (!ItemInstance::isNull(item))
 		{
 			if (!onlyClearContainer)
 				m_pPlayer->drop(*item, true);
-			item->m_count = 0;
+			item->setNull();
 		}
 	}
 }
@@ -446,7 +580,7 @@ void Inventory::load(const ListTag& tag)
 		return;
 
 	clear();
-	m_items.resize(C_NUM_SURVIVAL_SLOTS);
+	m_items.resize(C_SURVIVAL_INVENTORY_SIZE);
 
 	const std::vector<Tag*>& itemTags = tag.rawView();
 
@@ -460,6 +594,14 @@ void Inventory::load(const ListTag& tag)
 			if (slot >= 0 && slot < m_items.size())
 			{
 				m_items[slot] = item;
+
+#ifdef MOD_POCKET_SURVIVAL
+				// 0.2.1
+				if (item->m_count == 0 && hasUnlimitedResource(item))
+				{
+					item->m_count = 1;
+				}
+#endif
 			}
 
 			/*if (slot >= 100 && slot < m_armor.size() + 100)

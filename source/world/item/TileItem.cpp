@@ -17,17 +17,17 @@ TileItem::TileItem(int id) : Item(id)
 	m_icon = Tile::tiles[id]->getTexture(Facing::NORTH);
 }
 
-std::string TileItem::getDescriptionId()
+std::string TileItem::getDescriptionId() const
 {
 	return Tile::tiles[m_tile]->getDescriptionId();
 }
 
-std::string TileItem::getDescriptionId(ItemInstance* instance)
+std::string TileItem::getDescriptionId(ItemInstance* instance) const
 {
 	return Tile::tiles[m_tile]->getDescriptionId();
 }
 
-bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face)
+bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	TilePos tp(pos);
 
@@ -45,7 +45,7 @@ bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const
 		case Facing::EAST: tp.x++; break;
 	}
 
-	if (!instance->m_count)
+	if (instance->m_count == 0)
 		return false;
 
 	if (!level->mayPlace(m_tile, tp, false))
@@ -66,6 +66,6 @@ bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const
 		pTile->m_pSound->pitch * 0.8f
 	);
 
-	instance->m_count--;
+	player->useItem(*instance);
 	return true;
 }

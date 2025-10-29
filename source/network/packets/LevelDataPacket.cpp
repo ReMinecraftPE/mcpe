@@ -6,15 +6,18 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "LevelDataPacket.hpp"
+#include "network/NetEventCallback.hpp"
+#include "world/level/Level.hpp"
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
+#include "ChunkDataPacket.hpp"
 
-void LevelDataPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void LevelDataPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
-void LevelDataPacket::write(RakNet::BitStream* pbs)
+void LevelDataPacket::write(RakNet::BitStream& bs)
 {
 	// @TODO: Maybe offload this to a different 'worker thread'? Or maybe just the compression job?
 
@@ -22,41 +25,41 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 	int chunksX = C_MAX_CHUNKS_X;
 	int chunksZ = C_MAX_CHUNKS_Z;
 	int minus9999 = -9999;
-	RakNet::BitStream bs;
-	pbs->Write((unsigned char)PACKET_LEVEL_DATA);
+	RakNet::BitStream bs2;
+	bs.Write((unsigned char)PACKET_LEVEL_DATA);
 
 	int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
-	bs.Write(uncompMagic);
-	bs.Write(chunksX);
-	bs.Write(chunksZ);
+	bs2.Write(uncompMagic);
+	bs2.Write(chunksX);
+	bs2.Write(chunksZ);
 	ChunkPos chunkPos(0, 0);
 	for (chunkPos.x = 0; chunkPos.x < chunksX; chunkPos.x++)
 	{
 		for (chunkPos.z = 0; chunkPos.z < chunksZ; chunkPos.z++)
 		{
-			bs.Write(chunkSepMagic);
+			bs2.Write(chunkSepMagic);
 
-			RakNet::BitStream bs2;
+			RakNet::BitStream bs3;
 			LevelChunk* pChunk = m_pLevel->getChunk(chunkPos);
 			ChunkDataPacket cdp(chunkPos, pChunk);
-			cdp.write(&bs2);
+			cdp.write(bs3);
 
-			int dataSize = int(bs2.GetNumberOfBytesUsed());
-			bs.Write(dataSize);
-			bs.Write((const char*)bs2.GetData(), dataSize);
+			int dataSize = int(bs3.GetNumberOfBytesUsed());
+			bs2.Write(dataSize);
+			bs2.Write((const char*)bs3.GetData(), dataSize);
 		}
 	}
 
 	// compress it
 	size_t compSize = 0;
-	size_t uncompSize = bs.GetNumberOfBytesUsed();
+	size_t uncompSize = bs2.GetNumberOfBytesUsed();
 	uint8_t* pCompressedData = nullptr;
 
 	if (uncompSize > 1024)
 	{
 		// takes about 5ms on release to compress everything on L4, compression ratio is around 14-15%.
 		// Increase or decrease this depending on your server's load.
-		pCompressedData = ZlibDeflateToMemoryLvl(bs.GetData(), uncompSize, &compSize, 4);
+		pCompressedData = ZlibDeflateToMemoryLvl(bs2.GetData(), uncompSize, &compSize, 4);
 	}
 
 	if (pCompressedData)
@@ -65,11 +68,11 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 		//LOG_I("Compression ratio: %.2f (%d comp, %d uncomp)", ratio, int(compSize), int(uncompSize));
 
 		int cs2 = int(compSize), us2 = int(uncompSize);
-		bs.Reset();
-		bs.Write(compMagic);
-		bs.Write(us2);
-		bs.Write(cs2);
-		bs.Write((const char*)pCompressedData, compSize);
+		bs2.Reset();
+		bs2.Write(compMagic);
+		bs2.Write(us2);
+		bs2.Write(cs2);
+		bs2.Write((const char*)pCompressedData, compSize);
 		SAFE_DELETE_ARRAY(pCompressedData);
 	}
 	else
@@ -77,11 +80,11 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 		//LOG_I("Level not compressed.");
 	}
 
-	pbs->Write(bs);
+	bs.Write(bs2);
 	return;
 }
 
-void LevelDataPacket::read(RakNet::BitStream* bs)
+void LevelDataPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_data);
+	bs.Read(m_data);
 }

@@ -6,22 +6,23 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "RequestChunkPacket.hpp"
+#include "network/NetEventCallback.hpp"
 
-void RequestChunkPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void RequestChunkPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
-void RequestChunkPacket::write(RakNet::BitStream* bs)
+void RequestChunkPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_REQUEST_CHUNK);
-	bs->Write(m_chunkPos.x);
-	bs->Write(m_chunkPos.z);
+	bs.Write((unsigned char)PACKET_REQUEST_CHUNK);
+	bs.Write(m_chunkPos.x);
+	bs.Write(m_chunkPos.z);
 }
 
-void RequestChunkPacket::read(RakNet::BitStream* bs)
+void RequestChunkPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_chunkPos.x);
-	bs->Read(m_chunkPos.z);
+	bs.Read(m_chunkPos.x);
+	bs.Read(m_chunkPos.z);
 }

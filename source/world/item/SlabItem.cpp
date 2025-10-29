@@ -5,7 +5,7 @@ SlabItem::SlabItem(int id) : AuxTileItem(id)
 {
 }
 
-std::string SlabItem::getDescriptionId(ItemInstance* item)
+std::string SlabItem::getDescriptionId(ItemInstance* item) const
 {
 	int var2 = item->getAuxValue();
 	if (var2 < 0 || var2 >= 4)

@@ -6,26 +6,27 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "../Packet.hpp"
+#include "LoginPacket.hpp"
+#include "network/NetEventCallback.hpp"
 
-void LoginPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback* pCallback)
+void LoginPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)
 {
-	pCallback->handle(guid, this);
+	callback.handle(guid, this);
 }
 
-void LoginPacket::write(RakNet::BitStream* bs)
+void LoginPacket::write(RakNet::BitStream& bs)
 {
-	bs->Write((unsigned char)PACKET_LOGIN);
-	bs->Write(m_str);
-	bs->Write(m_clientNetworkVersion);
-	bs->Write(m_clientNetworkVersion2);
+	bs.Write((unsigned char)PACKET_LOGIN);
+	bs.Write(m_userName);
+	bs.Write(m_clientNetworkVersion);
+	bs.Write(m_clientNetworkVersionMin);
 }
 
-void LoginPacket::read(RakNet::BitStream* bs)
+void LoginPacket::read(RakNet::BitStream& bs)
 {
-	bs->Read(m_str);
+	bs.Read(m_userName);
 
-	if (!bs->Read(m_clientNetworkVersion))
+	if (!bs.Read(m_clientNetworkVersion))
 		return;
-	bs->Read(m_clientNetworkVersion2);
+	bs.Read(m_clientNetworkVersionMin);
 }

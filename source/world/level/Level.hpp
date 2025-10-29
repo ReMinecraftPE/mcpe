@@ -14,9 +14,9 @@
 #endif
 #include <math.h>
 
+#include "client/renderer/LightUpdate.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/entity/Entity.hpp"
-#include "world/entity/LocalPlayer.hpp"
 #include "world/level/TileChange.hpp"
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
 #include "world/level/levelgen/chunk/ChunkSource.hpp"
@@ -27,26 +27,30 @@
 #include "Dimension.hpp"
 #include "LevelListener.hpp"
 #include "TickNextTickData.hpp"
-#include "client/renderer/LightUpdate.hpp"
+#include "LevelEvent.hpp"
 
 class Dimension;
 class Level;
 class LevelListener;
+class RakNetInstance;
 
 typedef std::vector<Entity*> EntityVector;
 typedef std::vector<AABB> AABBVector;
 
 class Level : public LevelSource
 {
-private:
-	// @NOTE: LevelListeners do NOT get updated here
-	void _setTime(int32_t time) { m_pLevelData->setTime(time); }
-	Player* _getNearestPlayer(const Vec3&, float, bool) const;
-
 public:
-	Level(LevelStorage* pStor, const std::string& name, int32_t seed, int storageVersion, Dimension* pDimension = nullptr);
+	Level(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion = LEVEL_STORAGE_VERSION_DEFAULT, Dimension* pDimension = nullptr);
 	~Level();
 
+private:
+	Player* _getNearestPlayer(const Vec3&, float, bool) const;
+
+protected:
+	// @NOTE: LevelListeners do NOT get updated here
+	void _setTime(int32_t time) { m_pLevelData->setTime(time); }
+
+public:
 	// TODO
 	TileID getTile(const TilePos& pos) const override;
 	float getBrightness(const TilePos& pos) const override;
@@ -55,7 +59,7 @@ public:
 	bool isSolidTile(const TilePos& pos) const override;
 
 	ChunkSource* getChunkSource() const;
-	ChunkSource* createChunkSource();
+	virtual ChunkSource* createChunkSource();
 	LevelChunk* getChunk(const ChunkPos& pos) const;
 	LevelChunk* getChunkAt(const TilePos& pos) const;
 	int getRawBrightness(const TilePos& pos) const;
@@ -66,7 +70,7 @@ public:
 	int getSeed() const { return m_pLevelData->getSeed(); }
 	int32_t getTime() const { return m_pLevelData->getTime(); }
 	void setTime(int32_t time);
-	GameType getDefaultGameType() { return m_pLevelData->getGameType(); }
+	GameType getDefaultGameType() const { return m_pLevelData->getGameType(); }
 	int getHeightmap(const TilePos& pos);
 	bool isDay() const;
 	bool isSkyLit(const TilePos& pos) const;
@@ -75,9 +79,10 @@ public:
 	bool hasChunk(const ChunkPos& pos) const;
 	bool hasChunksAt(const TilePos& min, const TilePos& max) const;
 	bool hasChunksAt(const TilePos& pos, int rad) const;
-	bool updateSkyBrightness();
 	float getTimeOfDay(float f) const;
 	int getSkyDarken(float f) const;
+	void updateSkyDarken();
+	bool updateSkyBrightness();
 	void setUpdateLights(bool b);
 	bool updateLights();
 	void updateLight(const LightLayer&, const TilePos& tilePos1, const TilePos& tilePos2);
@@ -96,13 +101,14 @@ public:
 	void setTilesDirty(const TilePos& min, const TilePos& max);
 	void entityAdded(Entity* pEnt);
 	void entityRemoved(Entity* pEnt);
+	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data = 0);
 	void lightColumnChanged(int x, int z, int y1, int y2);
 	bool containsFireTile(const AABB&);
 	bool containsAnyLiquid(const AABB&);
 	bool containsLiquid(const AABB&, const Material *pMtl);
 	bool containsMaterial(const AABB&, const Material *pMtl);
 	bool checkAndHandleWater(const AABB&, const Material* pMtl, Entity* pEnt);
-	TilePos getSharedSpawnPos() const;
+	const TilePos& getSharedSpawnPos() const;
 	void validateSpawn();
 	TileID getTopTile(const TilePos& pos) const;
 	int getTopTileY(const TilePos& pos) const;
@@ -118,6 +124,7 @@ public:
 	void saveAllChunks();
 	void saveGame();
 	void loadEntities();
+	void sendEntityData();
 	void setInitialSpawn();
 	void setSpawnPos(const TilePos& pos) { m_pLevelData->setSpawn(pos); }
 	void setSpawnSettings(bool a, bool b) { }
@@ -128,11 +135,12 @@ public:
 	bool isUnobstructed(AABB*) const;
 	bool mayInteract(Player* player, const TilePos& pos) const;
 	bool mayPlace(TileID tid, const TilePos& pos, bool b) const;
+	void broadcastEntityEvent(const Entity& entity, Entity::EventType::ID eventId);
 	void removeListener(LevelListener*);
 	void addListener(LevelListener*);
 	void tick(Entity*, bool);
 	void tick(Entity*);
-	void tick();
+	virtual void tick();
 	void tickPendingTicks(bool b);
 	void tickTiles();
 	void tickEntities();
@@ -145,7 +153,7 @@ public:
 	float getSeenPercent(Vec3, AABB) const;
 	void explode(Entity*, const Vec3& pos, float power);
 	void explode(Entity*, const Vec3& pos, float power, bool bIsFiery);
-	void addEntities(const std::vector<Entity*>& entities);
+	void addEntities(const EntityVector& entities);
 	void ensureAdded(Entity* entity);
 	bool extinguishFire(Player* player, const TilePos& pos, Facing::Name face);
 	int findPath(Path* path, Entity* ent1, Entity* ent2, float f) const;
@@ -157,7 +165,7 @@ public:
 
 	HitResult clip(const Vec3& a, const Vec3& b) const;
 	HitResult clip(Vec3 a, Vec3 b, bool c) const;
-	Entity* getEntity(int id) const;
+	Entity* getEntity(Entity::ID id) const;
 	const EntityVector* getAllEntities() const;
 	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
 	BiomeSource* getBiomeSource() const override;
@@ -199,6 +207,7 @@ public:
 	Dimension* m_pDimension;
     int m_difficulty; // @TODO: Difficulty enum
 	Random m_random;
+	RakNetInstance* m_pRakNetInstance;
 	bool m_bCalculatingInitialSpawn;
 	std::vector<LevelListener*> m_levelListeners;
 	ChunkSource* m_pChunkSource;

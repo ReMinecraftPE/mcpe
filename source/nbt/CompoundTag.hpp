@@ -18,8 +18,12 @@
 class CompoundTag : public Tag
 {
 public:
+    typedef std::map<std::string, Tag*> NamedTagMap;
+
+public:
     CompoundTag();
 
+public:
     Tag::Type getId() const override { return TAG_TYPE_COMPOUND; }
 
     void write(IDataOutput& dos) const override;
@@ -62,19 +66,20 @@ public:
 
 	std::string toString() const override;
 	CompoundTag* copy() const override;
-	CompoundTag clone();
+	CompoundTag clone() const;
+    CompoundTag* uniqueClone() const;
 	bool remove(const std::string& name);
     void deleteChildren() override;
     void leak() { m_bLeak = true; }
 
 	bool isEmpty() const { return m_tags.empty(); }
-    std::map<std::string, Tag*>& rawView() { return m_tags; }
-    const std::map<std::string, Tag*>& rawView() const { return m_tags; }
+    NamedTagMap& rawView() { return m_tags; }
+    const NamedTagMap& rawView() const { return m_tags; }
 	
 	bool operator==(const Tag& other) const override;
 	bool operator!=(const Tag& other) const { return !(*this == other); }
 
 private:
-    std::map<std::string, Tag*> m_tags;
+    NamedTagMap m_tags;
     bool m_bLeak;
 };

@@ -6,5 +6,5 @@ class SlabItem : public AuxTileItem
 {
 public:
 	SlabItem(int id);
-	std::string getDescriptionId(ItemInstance* item) override;
+	std::string getDescriptionId(ItemInstance* item) const override;
 };

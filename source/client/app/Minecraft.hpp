@@ -19,12 +19,12 @@
 #include "client/player/input/IInputHolder.hpp"
 #include "client/player/input/MouseHandler.hpp"
 #include "client/player/input/BuildActionIntention.hpp"
+#include "client/player/LocalPlayer.hpp"
 #include "client/renderer/GameRenderer.hpp"
 #include "client/renderer/LevelRenderer.hpp"
 #include "client/renderer/entity/EntityRenderDispatcher.hpp"
 #include "client/sound/SoundEngine.hpp"
 #include "world/level/Level.hpp"
-#include "world/entity/LocalPlayer.hpp"
 #include "world/gamemode/GameMode.hpp"
 #include "world/gamemode/GameType.hpp"
 #include "world/particle/ParticleEngine.hpp"
@@ -37,6 +37,7 @@ public:
 	Minecraft();
 	virtual ~Minecraft();
 
+public:
 	int getLicenseId();
 	void setScreen(Screen * pScreen);
 	void releaseMouse();
@@ -47,7 +48,7 @@ public:
 	void handleBuildAction(const BuildActionIntention& action);
 	bool isLevelGenerated() const;
     void selectLevel(const LevelSummary& ls, bool forceConversion = false);
-	void selectLevel(const std::string& levelDir, const std::string& levelName, int32_t seed = 0, bool forceConversion = false);
+	void selectLevel(const std::string& levelDir, const std::string& levelName, const LevelSettings& levelSettings, bool forceConversion = false);
 	void setLevel(Level*, const std::string&, LocalPlayer*);
 	bool pauseGame();
 	bool resumeGame();
@@ -60,9 +61,8 @@ public:
 	void handleCharInput(char chr);
 	void resetInput();
 	void sendMessage(const std::string& message);
-	void resetPlayer(Player* player);
-	void respawnPlayer(Player* player);
-	std::string getVersionString() const;
+	void respawnPlayer();
+	std::string getVersionString(const std::string& str = Util::EMPTY_STRING) const;
 	bool isTouchscreen() const;
 	bool useSplitControls() const;
 	bool useController() const;
@@ -92,6 +92,7 @@ private:
 	void _reloadInput();
 	void _levelGenerated();
 	void _initTextures();
+	void _resetPlayer(Player* player);
 	GameMode* createGameMode(GameType gameType, Level& level);
 
 private:

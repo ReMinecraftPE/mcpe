@@ -7,5 +7,5 @@ class AuxTileItem : public TileItem
 public:
 	AuxTileItem(int id);
 	int getIcon(const ItemInstance*) const override;
-	int getLevelDataForAuxValue(int x) override;
+	TileData getLevelDataForAuxValue(int x) const override;
 };

@@ -13,7 +13,6 @@
 		8406FD2E2AF1820700B09C1D /* Packet.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD63E2AC810620006A435 /* Packet.hpp */; };
 		8406FD2F2AF1820700B09C1D /* PingedCompatibleServer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD64D2AC810620006A435 /* PingedCompatibleServer.hpp */; };
 		8406FD302AF1820700B09C1D /* RakNetInstance.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD64F2AC810620006A435 /* RakNetInstance.hpp */; };
-		8406FD312AF1820700B09C1D /* ServerSideNetworkHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6512AC810620006A435 /* ServerSideNetworkHandler.hpp */; };
 		8406FD322AF1823600B09C1D /* CThread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6272AC810620006A435 /* CThread.hpp */; };
 		8406FD332AF1823600B09C1D /* Logger.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6292AC810620006A435 /* Logger.hpp */; };
 		8406FD352AF1823600B09C1D /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD62C2AC810620006A435 /* Matrix.hpp */; };
@@ -196,7 +195,6 @@
 		8426107C2AE989730065905F /* StartGamePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64B2AC810620006A435 /* StartGamePacket.cpp */; };
 		8426107D2AE989730065905F /* UpdateBlockPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64C2AC810620006A435 /* UpdateBlockPacket.cpp */; };
 		8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD64E2AC810620006A435 /* RakNetInstance.cpp */; };
-		8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */; };
 		842610882AE98A4C0065905F /* libRakNet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FFBD7E2ACA2876005A8CCF /* libRakNet.a */; };
 		8435BB192DCD47F400D38282 /* SoundStreamAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamAL.cpp */; };
 		8435BB1A2DCD47F400D38282 /* SoundStreamAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8435BB182DCD47F400D38282 /* SoundStreamAL.cpp */; };
@@ -976,7 +974,6 @@
 		84BF630C2AF18631008A9995 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6582AC810620006A435 /* Entity.cpp */; };
 		84BF630D2AF18631008A9995 /* FallingTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD65A2AC810620006A435 /* FallingTile.cpp */; };
 		84BF630E2AF18631008A9995 /* ItemEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD65C2AC810620006A435 /* ItemEntity.cpp */; };
-		84BF630F2AF18631008A9995 /* LocalPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD65E2AC810620006A435 /* LocalPlayer.cpp */; };
 		84BF63102AF18631008A9995 /* Mob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6602AC810620006A435 /* Mob.cpp */; };
 		84BF63112AF18631008A9995 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6622AC810620006A435 /* Player.cpp */; };
 		84BF63122AF18631008A9995 /* PrimedTnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6642AC810620006A435 /* PrimedTnt.cpp */; };
@@ -1085,7 +1082,6 @@
 		84BF63792AF186C8008A9995 /* Entity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6592AC810620006A435 /* Entity.hpp */; };
 		84BF637A2AF186C8008A9995 /* FallingTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD65B2AC810620006A435 /* FallingTile.hpp */; };
 		84BF637B2AF186C8008A9995 /* ItemEntity.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD65D2AC810620006A435 /* ItemEntity.hpp */; };
-		84BF637C2AF186C8008A9995 /* LocalPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD65F2AC810620006A435 /* LocalPlayer.hpp */; };
 		84BF637D2AF186C8008A9995 /* Mob.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6612AC810620006A435 /* Mob.hpp */; };
 		84BF637E2AF186C8008A9995 /* Player.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6632AC810620006A435 /* Player.hpp */; };
 		84BF637F2AF186C8008A9995 /* PrimedTnt.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6652AC810620006A435 /* PrimedTnt.hpp */; };
@@ -1322,6 +1318,61 @@
 		84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */; };
 		84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */; };
 		84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */; };
+		84F77A002EA1BFB40045C907 /* libNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842610682AE988D30065905F /* libNetwork.a */; };
+		84F77A032EA1BFF30045C907 /* libServer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F779FD2EA1BF8E0045C907 /* libServer.a */; };
+		84F77A092EA1C0050045C907 /* ServerPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A052EA1C0050045C907 /* ServerPlayer.cpp */; };
+		84F77A0A2EA1C0050045C907 /* ServerPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A062EA1C0050045C907 /* ServerPlayer.hpp */; };
+		84F77A0B2EA1C0050045C907 /* ServerSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A072EA1C0050045C907 /* ServerSideNetworkHandler.cpp */; };
+		84F77A0C2EA1C0050045C907 /* ServerSideNetworkHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A082EA1C0050045C907 /* ServerSideNetworkHandler.hpp */; };
+		84F77A372EA1C01C0045C907 /* AddItemEntityPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A0D2EA1C01B0045C907 /* AddItemEntityPacket.cpp */; };
+		84F77A382EA1C01C0045C907 /* AddItemEntityPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A0E2EA1C01B0045C907 /* AddItemEntityPacket.hpp */; };
+		84F77A392EA1C01C0045C907 /* AddMobPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A0F2EA1C01B0045C907 /* AddMobPacket.cpp */; };
+		84F77A3A2EA1C01C0045C907 /* AddMobPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A102EA1C01B0045C907 /* AddMobPacket.hpp */; };
+		84F77A3B2EA1C01C0045C907 /* AddPlayerPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A112EA1C01B0045C907 /* AddPlayerPacket.hpp */; };
+		84F77A3C2EA1C01C0045C907 /* AnimatePacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A122EA1C01B0045C907 /* AnimatePacket.cpp */; };
+		84F77A3D2EA1C01C0045C907 /* AnimatePacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A132EA1C01B0045C907 /* AnimatePacket.hpp */; };
+		84F77A3E2EA1C01C0045C907 /* ChunkDataPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A142EA1C01B0045C907 /* ChunkDataPacket.hpp */; };
+		84F77A3F2EA1C01C0045C907 /* EntityEventPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A152EA1C01B0045C907 /* EntityEventPacket.cpp */; };
+		84F77A402EA1C01C0045C907 /* EntityEventPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */; };
+		84F77A412EA1C01C0045C907 /* InteractPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A172EA1C01C0045C907 /* InteractPacket.cpp */; };
+		84F77A422EA1C01C0045C907 /* InteractPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A182EA1C01C0045C907 /* InteractPacket.hpp */; };
+		84F77A432EA1C01C0045C907 /* LevelDataPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */; };
+		84F77A442EA1C01C0045C907 /* LevelEventPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */; };
+		84F77A452EA1C01C0045C907 /* LevelEventPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A1B2EA1C01C0045C907 /* LevelEventPacket.hpp */; };
+		84F77A462EA1C01C0045C907 /* LoginPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A1C2EA1C01C0045C907 /* LoginPacket.hpp */; };
+		84F77A472EA1C01C0045C907 /* LoginStatusPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A1D2EA1C01C0045C907 /* LoginStatusPacket.hpp */; };
+		84F77A482EA1C01C0045C907 /* MessagePacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A1E2EA1C01C0045C907 /* MessagePacket.hpp */; };
+		84F77A492EA1C01C0045C907 /* MoveEntityPacket_PosRot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A1F2EA1C01C0045C907 /* MoveEntityPacket_PosRot.cpp */; };
+		84F77A4A2EA1C01C0045C907 /* MoveEntityPacket_PosRot.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A202EA1C01C0045C907 /* MoveEntityPacket_PosRot.hpp */; };
+		84F77A4B2EA1C01C0045C907 /* MoveEntityPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A212EA1C01C0045C907 /* MoveEntityPacket.cpp */; };
+		84F77A4C2EA1C01C0045C907 /* MoveEntityPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A222EA1C01C0045C907 /* MoveEntityPacket.hpp */; };
+		84F77A4D2EA1C01C0045C907 /* MovePlayerPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A232EA1C01C0045C907 /* MovePlayerPacket.hpp */; };
+		84F77A4E2EA1C01C0045C907 /* PlaceBlockPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A242EA1C01C0045C907 /* PlaceBlockPacket.hpp */; };
+		84F77A4F2EA1C01C0045C907 /* PlayerEquipmentPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A252EA1C01C0045C907 /* PlayerEquipmentPacket.hpp */; };
+		84F77A502EA1C01C0045C907 /* ReadyPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A262EA1C01C0045C907 /* ReadyPacket.hpp */; };
+		84F77A512EA1C01C0045C907 /* RemoveBlockPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A272EA1C01C0045C907 /* RemoveBlockPacket.hpp */; };
+		84F77A522EA1C01C0045C907 /* RemoveEntityPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A282EA1C01C0045C907 /* RemoveEntityPacket.hpp */; };
+		84F77A532EA1C01C0045C907 /* RequestChunkPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A292EA1C01C0045C907 /* RequestChunkPacket.hpp */; };
+		84F77A542EA1C01C0045C907 /* RespawnPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A2A2EA1C01C0045C907 /* RespawnPacket.cpp */; };
+		84F77A552EA1C01C0045C907 /* RespawnPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A2B2EA1C01C0045C907 /* RespawnPacket.hpp */; };
+		84F77A562EA1C01C0045C907 /* SetEntityDataPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A2C2EA1C01C0045C907 /* SetEntityDataPacket.cpp */; };
+		84F77A572EA1C01C0045C907 /* SetEntityDataPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A2D2EA1C01C0045C907 /* SetEntityDataPacket.hpp */; };
+		84F77A582EA1C01C0045C907 /* SetHealthPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A2E2EA1C01C0045C907 /* SetHealthPacket.cpp */; };
+		84F77A592EA1C01C0045C907 /* SetHealthPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A2F2EA1C01C0045C907 /* SetHealthPacket.hpp */; };
+		84F77A5A2EA1C01C0045C907 /* SetTimePacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A302EA1C01C0045C907 /* SetTimePacket.hpp */; };
+		84F77A5B2EA1C01C0045C907 /* StartGamePacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A312EA1C01C0045C907 /* StartGamePacket.hpp */; };
+		84F77A5C2EA1C01C0045C907 /* TakeItemEntityPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A322EA1C01C0045C907 /* TakeItemEntityPacket.cpp */; };
+		84F77A5D2EA1C01C0045C907 /* TakeItemEntityPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A332EA1C01C0045C907 /* TakeItemEntityPacket.hpp */; };
+		84F77A5E2EA1C01C0045C907 /* UpdateBlockPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A342EA1C01C0045C907 /* UpdateBlockPacket.hpp */; };
+		84F77A5F2EA1C01C0045C907 /* UseItemPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A352EA1C01C0045C907 /* UseItemPacket.cpp */; };
+		84F77A602EA1C01C0045C907 /* UseItemPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A362EA1C01C0045C907 /* UseItemPacket.hpp */; };
+		84F77A622EA1C0610045C907 /* LevelEvent.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A612EA1C0610045C907 /* LevelEvent.hpp */; };
+		84F77A682EA1C0A10045C907 /* MultiPlayerLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A642EA1C0A10045C907 /* MultiPlayerLevel.cpp */; };
+		84F77A692EA1C0A10045C907 /* MultiPlayerLevel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A652EA1C0A10045C907 /* MultiPlayerLevel.hpp */; };
+		84F77A6A2EA1C0A10045C907 /* MultiplayerLocalPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A662EA1C0A10045C907 /* MultiplayerLocalPlayer.cpp */; };
+		84F77A6B2EA1C0A10045C907 /* MultiplayerLocalPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A672EA1C0A10045C907 /* MultiplayerLocalPlayer.hpp */; };
+		84F77A6E2EA1C27B0045C907 /* LocalPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A6C2EA1C27B0045C907 /* LocalPlayer.cpp */; };
+		84F77A6F2EA1C27B0045C907 /* LocalPlayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A6D2EA1C27B0045C907 /* LocalPlayer.hpp */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
 		84FFBE962ACA3415005A8CCF /* Base64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73E2AC810620006A435 /* Base64Encoder.cpp */; };
 		84FFBE972ACA3415005A8CCF /* BitStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7402AC810620006A435 /* BitStream.cpp */; };
@@ -1540,6 +1591,20 @@
 			remoteGlobalIDString = 8406FD162AF1814500B09C1D;
 			remoteInfo = Renderer;
 		};
+		84F779FE2EA1BFA40045C907 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 842610672AE988D30065905F;
+			remoteInfo = Network;
+		};
+		84F77A012EA1BFC90045C907 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8489B08F2A86D4B2004CA8EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84F779CE2EA1BF8E0045C907;
+			remoteInfo = Server;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1701,8 +1766,6 @@
 		840DD64D2AC810620006A435 /* PingedCompatibleServer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PingedCompatibleServer.hpp; sourceTree = "<group>"; };
 		840DD64E2AC810620006A435 /* RakNetInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RakNetInstance.cpp; sourceTree = "<group>"; };
 		840DD64F2AC810620006A435 /* RakNetInstance.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RakNetInstance.hpp; sourceTree = "<group>"; };
-		840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerSideNetworkHandler.cpp; sourceTree = "<group>"; };
-		840DD6512AC810620006A435 /* ServerSideNetworkHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServerSideNetworkHandler.hpp; sourceTree = "<group>"; };
 		840DD6542AC810620006A435 /* GL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL.cpp; sourceTree = "<group>"; };
 		840DD6552AC810620006A435 /* GL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GL.hpp; sourceTree = "<group>"; };
 		840DD6582AC810620006A435 /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
@@ -1711,8 +1774,6 @@
 		840DD65B2AC810620006A435 /* FallingTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FallingTile.hpp; sourceTree = "<group>"; };
 		840DD65C2AC810620006A435 /* ItemEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemEntity.cpp; sourceTree = "<group>"; };
 		840DD65D2AC810620006A435 /* ItemEntity.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ItemEntity.hpp; sourceTree = "<group>"; };
-		840DD65E2AC810620006A435 /* LocalPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalPlayer.cpp; sourceTree = "<group>"; };
-		840DD65F2AC810620006A435 /* LocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LocalPlayer.hpp; sourceTree = "<group>"; };
 		840DD6602AC810620006A435 /* Mob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mob.cpp; sourceTree = "<group>"; };
 		840DD6612AC810620006A435 /* Mob.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mob.hpp; sourceTree = "<group>"; };
 		840DD6622AC810620006A435 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
@@ -3035,6 +3096,60 @@
 		84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataLayer.cpp; sourceTree = "<group>"; };
 		84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataLayer.hpp; sourceTree = "<group>"; };
 		84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileChange.hpp; sourceTree = "<group>"; };
+		84F779FD2EA1BF8E0045C907 /* libServer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libServer.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		84F77A052EA1C0050045C907 /* ServerPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerPlayer.cpp; sourceTree = "<group>"; };
+		84F77A062EA1C0050045C907 /* ServerPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServerPlayer.hpp; sourceTree = "<group>"; };
+		84F77A072EA1C0050045C907 /* ServerSideNetworkHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerSideNetworkHandler.cpp; sourceTree = "<group>"; };
+		84F77A082EA1C0050045C907 /* ServerSideNetworkHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServerSideNetworkHandler.hpp; sourceTree = "<group>"; };
+		84F77A0D2EA1C01B0045C907 /* AddItemEntityPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddItemEntityPacket.cpp; sourceTree = "<group>"; };
+		84F77A0E2EA1C01B0045C907 /* AddItemEntityPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AddItemEntityPacket.hpp; sourceTree = "<group>"; };
+		84F77A0F2EA1C01B0045C907 /* AddMobPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AddMobPacket.cpp; sourceTree = "<group>"; };
+		84F77A102EA1C01B0045C907 /* AddMobPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AddMobPacket.hpp; sourceTree = "<group>"; };
+		84F77A112EA1C01B0045C907 /* AddPlayerPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AddPlayerPacket.hpp; sourceTree = "<group>"; };
+		84F77A122EA1C01B0045C907 /* AnimatePacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimatePacket.cpp; sourceTree = "<group>"; };
+		84F77A132EA1C01B0045C907 /* AnimatePacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AnimatePacket.hpp; sourceTree = "<group>"; };
+		84F77A142EA1C01B0045C907 /* ChunkDataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ChunkDataPacket.hpp; sourceTree = "<group>"; };
+		84F77A152EA1C01B0045C907 /* EntityEventPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityEventPacket.cpp; sourceTree = "<group>"; };
+		84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityEventPacket.hpp; sourceTree = "<group>"; };
+		84F77A172EA1C01C0045C907 /* InteractPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InteractPacket.cpp; sourceTree = "<group>"; };
+		84F77A182EA1C01C0045C907 /* InteractPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InteractPacket.hpp; sourceTree = "<group>"; };
+		84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelDataPacket.hpp; sourceTree = "<group>"; };
+		84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelEventPacket.cpp; sourceTree = "<group>"; };
+		84F77A1B2EA1C01C0045C907 /* LevelEventPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelEventPacket.hpp; sourceTree = "<group>"; };
+		84F77A1C2EA1C01C0045C907 /* LoginPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LoginPacket.hpp; sourceTree = "<group>"; };
+		84F77A1D2EA1C01C0045C907 /* LoginStatusPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LoginStatusPacket.hpp; sourceTree = "<group>"; };
+		84F77A1E2EA1C01C0045C907 /* MessagePacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MessagePacket.hpp; sourceTree = "<group>"; };
+		84F77A1F2EA1C01C0045C907 /* MoveEntityPacket_PosRot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoveEntityPacket_PosRot.cpp; sourceTree = "<group>"; };
+		84F77A202EA1C01C0045C907 /* MoveEntityPacket_PosRot.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MoveEntityPacket_PosRot.hpp; sourceTree = "<group>"; };
+		84F77A212EA1C01C0045C907 /* MoveEntityPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MoveEntityPacket.cpp; sourceTree = "<group>"; };
+		84F77A222EA1C01C0045C907 /* MoveEntityPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MoveEntityPacket.hpp; sourceTree = "<group>"; };
+		84F77A232EA1C01C0045C907 /* MovePlayerPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MovePlayerPacket.hpp; sourceTree = "<group>"; };
+		84F77A242EA1C01C0045C907 /* PlaceBlockPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlaceBlockPacket.hpp; sourceTree = "<group>"; };
+		84F77A252EA1C01C0045C907 /* PlayerEquipmentPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayerEquipmentPacket.hpp; sourceTree = "<group>"; };
+		84F77A262EA1C01C0045C907 /* ReadyPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ReadyPacket.hpp; sourceTree = "<group>"; };
+		84F77A272EA1C01C0045C907 /* RemoveBlockPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RemoveBlockPacket.hpp; sourceTree = "<group>"; };
+		84F77A282EA1C01C0045C907 /* RemoveEntityPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RemoveEntityPacket.hpp; sourceTree = "<group>"; };
+		84F77A292EA1C01C0045C907 /* RequestChunkPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RequestChunkPacket.hpp; sourceTree = "<group>"; };
+		84F77A2A2EA1C01C0045C907 /* RespawnPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RespawnPacket.cpp; sourceTree = "<group>"; };
+		84F77A2B2EA1C01C0045C907 /* RespawnPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RespawnPacket.hpp; sourceTree = "<group>"; };
+		84F77A2C2EA1C01C0045C907 /* SetEntityDataPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SetEntityDataPacket.cpp; sourceTree = "<group>"; };
+		84F77A2D2EA1C01C0045C907 /* SetEntityDataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SetEntityDataPacket.hpp; sourceTree = "<group>"; };
+		84F77A2E2EA1C01C0045C907 /* SetHealthPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SetHealthPacket.cpp; sourceTree = "<group>"; };
+		84F77A2F2EA1C01C0045C907 /* SetHealthPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SetHealthPacket.hpp; sourceTree = "<group>"; };
+		84F77A302EA1C01C0045C907 /* SetTimePacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SetTimePacket.hpp; sourceTree = "<group>"; };
+		84F77A312EA1C01C0045C907 /* StartGamePacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StartGamePacket.hpp; sourceTree = "<group>"; };
+		84F77A322EA1C01C0045C907 /* TakeItemEntityPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TakeItemEntityPacket.cpp; sourceTree = "<group>"; };
+		84F77A332EA1C01C0045C907 /* TakeItemEntityPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TakeItemEntityPacket.hpp; sourceTree = "<group>"; };
+		84F77A342EA1C01C0045C907 /* UpdateBlockPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = UpdateBlockPacket.hpp; sourceTree = "<group>"; };
+		84F77A352EA1C01C0045C907 /* UseItemPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UseItemPacket.cpp; sourceTree = "<group>"; };
+		84F77A362EA1C01C0045C907 /* UseItemPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = UseItemPacket.hpp; sourceTree = "<group>"; };
+		84F77A612EA1C0610045C907 /* LevelEvent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelEvent.hpp; sourceTree = "<group>"; };
+		84F77A642EA1C0A10045C907 /* MultiPlayerLevel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiPlayerLevel.cpp; sourceTree = "<group>"; };
+		84F77A652EA1C0A10045C907 /* MultiPlayerLevel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiPlayerLevel.hpp; sourceTree = "<group>"; };
+		84F77A662EA1C0A10045C907 /* MultiplayerLocalPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiplayerLocalPlayer.cpp; sourceTree = "<group>"; };
+		84F77A672EA1C0A10045C907 /* MultiplayerLocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MultiplayerLocalPlayer.hpp; sourceTree = "<group>"; };
+		84F77A6C2EA1C27B0045C907 /* LocalPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalPlayer.cpp; sourceTree = "<group>"; };
+		84F77A6D2EA1C27B0045C907 /* LocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LocalPlayer.hpp; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -3122,6 +3237,7 @@
 				84B8AF872AF18A2C008DE93D /* libCommon.a in Frameworks */,
 				84B8AF882AF18A2C008DE93D /* libNetwork.a in Frameworks */,
 				84E8DCE52E84ACBC00B30789 /* libRenderer.a in Frameworks */,
+				84F77A032EA1BFF30045C907 /* libServer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3145,6 +3261,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84F779E12EA1BF8E0045C907 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84F77A002EA1BFB40045C907 /* libNetwork.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3181,6 +3305,7 @@
 				84CCBC4E2E61857800E251AF /* nbt */,
 				840DD6392AC810620006A435 /* network */,
 				840DD6522AC810620006A435 /* renderer */,
+				84F77A042EA1C0050045C907 /* server */,
 				840DD6562AC810620006A435 /* world */,
 			);
 			name = source;
@@ -3193,6 +3318,7 @@
 				840DD57D2AC810620006A435 /* app */,
 				840DD5862AC810620006A435 /* gui */,
 				840DD5BD2AC810620006A435 /* model */,
+				84F77A632EA1C0A10045C907 /* multiplayer */,
 				840DD5C62AC810620006A435 /* network */,
 				840DD5C92AC810620006A435 /* options */,
 				840DD5CC2AC810620006A435 /* player */,
@@ -3358,6 +3484,8 @@
 			isa = PBXGroup;
 			children = (
 				840DD5CD2AC810620006A435 /* input */,
+				84F77A6C2EA1C27B0045C907 /* LocalPlayer.cpp */,
+				84F77A6D2EA1C27B0045C907 /* LocalPlayer.hpp */,
 			);
 			path = player;
 			sourceTree = "<group>";
@@ -3485,8 +3613,6 @@
 				84CCBC962E61886800E251AF /* RakIO.hpp */,
 				840DD64E2AC810620006A435 /* RakNetInstance.cpp */,
 				840DD64F2AC810620006A435 /* RakNetInstance.hpp */,
-				840DD6502AC810620006A435 /* ServerSideNetworkHandler.cpp */,
-				840DD6512AC810620006A435 /* ServerSideNetworkHandler.hpp */,
 			);
 			path = network;
 			sourceTree = "<group>";
@@ -3494,22 +3620,64 @@
 		840DD63F2AC810620006A435 /* packets */ = {
 			isa = PBXGroup;
 			children = (
+				84F77A0D2EA1C01B0045C907 /* AddItemEntityPacket.cpp */,
+				84F77A0E2EA1C01B0045C907 /* AddItemEntityPacket.hpp */,
+				84F77A0F2EA1C01B0045C907 /* AddMobPacket.cpp */,
+				84F77A102EA1C01B0045C907 /* AddMobPacket.hpp */,
 				840DD6402AC810620006A435 /* AddPlayerPacket.cpp */,
+				84F77A112EA1C01B0045C907 /* AddPlayerPacket.hpp */,
+				84F77A122EA1C01B0045C907 /* AnimatePacket.cpp */,
+				84F77A132EA1C01B0045C907 /* AnimatePacket.hpp */,
 				840DD6412AC810620006A435 /* ChunkDataPacket.cpp */,
+				84F77A142EA1C01B0045C907 /* ChunkDataPacket.hpp */,
+				84F77A152EA1C01B0045C907 /* EntityEventPacket.cpp */,
+				84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */,
+				84F77A172EA1C01C0045C907 /* InteractPacket.cpp */,
+				84F77A182EA1C01C0045C907 /* InteractPacket.hpp */,
 				840DD6422AC810620006A435 /* LevelDataPacket.cpp */,
+				84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */,
+				84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */,
+				84F77A1B2EA1C01C0045C907 /* LevelEventPacket.hpp */,
 				840DD6432AC810620006A435 /* LoginPacket.cpp */,
+				84F77A1C2EA1C01C0045C907 /* LoginPacket.hpp */,
 				8470AF322BE9B63900BCA54E /* LoginStatusPacket.cpp */,
+				84F77A1D2EA1C01C0045C907 /* LoginStatusPacket.hpp */,
 				840DD6442AC810620006A435 /* MessagePacket.cpp */,
+				84F77A1E2EA1C01C0045C907 /* MessagePacket.hpp */,
+				84F77A212EA1C01C0045C907 /* MoveEntityPacket.cpp */,
+				84F77A222EA1C01C0045C907 /* MoveEntityPacket.hpp */,
+				84F77A1F2EA1C01C0045C907 /* MoveEntityPacket_PosRot.cpp */,
+				84F77A202EA1C01C0045C907 /* MoveEntityPacket_PosRot.hpp */,
 				840DD6452AC810620006A435 /* MovePlayerPacket.cpp */,
+				84F77A232EA1C01C0045C907 /* MovePlayerPacket.hpp */,
 				840DD6462AC810620006A435 /* PlaceBlockPacket.cpp */,
+				84F77A242EA1C01C0045C907 /* PlaceBlockPacket.hpp */,
 				840DD6472AC810620006A435 /* PlayerEquipmentPacket.cpp */,
+				84F77A252EA1C01C0045C907 /* PlayerEquipmentPacket.hpp */,
 				8470AF332BE9B63900BCA54E /* ReadyPacket.cpp */,
+				84F77A262EA1C01C0045C907 /* ReadyPacket.hpp */,
 				840DD6482AC810620006A435 /* RemoveBlockPacket.cpp */,
+				84F77A272EA1C01C0045C907 /* RemoveBlockPacket.hpp */,
 				840DD6492AC810620006A435 /* RemoveEntityPacket.cpp */,
+				84F77A282EA1C01C0045C907 /* RemoveEntityPacket.hpp */,
 				840DD64A2AC810620006A435 /* RequestChunkPacket.cpp */,
+				84F77A292EA1C01C0045C907 /* RequestChunkPacket.hpp */,
+				84F77A2A2EA1C01C0045C907 /* RespawnPacket.cpp */,
+				84F77A2B2EA1C01C0045C907 /* RespawnPacket.hpp */,
+				84F77A2C2EA1C01C0045C907 /* SetEntityDataPacket.cpp */,
+				84F77A2D2EA1C01C0045C907 /* SetEntityDataPacket.hpp */,
+				84F77A2E2EA1C01C0045C907 /* SetHealthPacket.cpp */,
+				84F77A2F2EA1C01C0045C907 /* SetHealthPacket.hpp */,
 				8470AF342BE9B63900BCA54E /* SetTimePacket.cpp */,
+				84F77A302EA1C01C0045C907 /* SetTimePacket.hpp */,
 				840DD64B2AC810620006A435 /* StartGamePacket.cpp */,
+				84F77A312EA1C01C0045C907 /* StartGamePacket.hpp */,
+				84F77A322EA1C01C0045C907 /* TakeItemEntityPacket.cpp */,
+				84F77A332EA1C01C0045C907 /* TakeItemEntityPacket.hpp */,
 				840DD64C2AC810620006A435 /* UpdateBlockPacket.cpp */,
+				84F77A342EA1C01C0045C907 /* UpdateBlockPacket.hpp */,
+				84F77A352EA1C01C0045C907 /* UseItemPacket.cpp */,
+				84F77A362EA1C01C0045C907 /* UseItemPacket.hpp */,
 			);
 			path = packets;
 			sourceTree = "<group>";
@@ -3573,8 +3741,6 @@
 				840DD65B2AC810620006A435 /* FallingTile.hpp */,
 				840DD65C2AC810620006A435 /* ItemEntity.cpp */,
 				840DD65D2AC810620006A435 /* ItemEntity.hpp */,
-				840DD65E2AC810620006A435 /* LocalPlayer.cpp */,
-				840DD65F2AC810620006A435 /* LocalPlayer.hpp */,
 				840DD6602AC810620006A435 /* Mob.cpp */,
 				840DD6612AC810620006A435 /* Mob.hpp */,
 				8445E79A2D769329008DC834 /* MobCategory.cpp */,
@@ -3663,6 +3829,7 @@
 				840DD6822AC810620006A435 /* Explosion.hpp */,
 				840DD6832AC810620006A435 /* Level.cpp */,
 				840DD6842AC810620006A435 /* Level.hpp */,
+				84F77A612EA1C0610045C907 /* LevelEvent.hpp */,
 				840DD6852AC810620006A435 /* levelgen */,
 				840DD6AF2AC810620006A435 /* LevelListener.cpp */,
 				840DD6B02AC810620006A435 /* LevelListener.hpp */,
@@ -4571,6 +4738,7 @@
 				84498A832AF18C7A005EF5A5 /* libZLib.a */,
 				84CCBC452E61849800E251AF /* libNBT.a */,
 				844496762E76685C008CF2E0 /* MinecraftClient.SDL1 */,
+				84F779FD2EA1BF8E0045C907 /* libServer.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5513,6 +5681,28 @@
 			path = sdl;
 			sourceTree = "<group>";
 		};
+		84F77A042EA1C0050045C907 /* server */ = {
+			isa = PBXGroup;
+			children = (
+				84F77A052EA1C0050045C907 /* ServerPlayer.cpp */,
+				84F77A062EA1C0050045C907 /* ServerPlayer.hpp */,
+				84F77A072EA1C0050045C907 /* ServerSideNetworkHandler.cpp */,
+				84F77A082EA1C0050045C907 /* ServerSideNetworkHandler.hpp */,
+			);
+			path = server;
+			sourceTree = "<group>";
+		};
+		84F77A632EA1C0A10045C907 /* multiplayer */ = {
+			isa = PBXGroup;
+			children = (
+				84F77A642EA1C0A10045C907 /* MultiPlayerLevel.cpp */,
+				84F77A652EA1C0A10045C907 /* MultiPlayerLevel.hpp */,
+				84F77A662EA1C0A10045C907 /* MultiplayerLocalPlayer.cpp */,
+				84F77A672EA1C0A10045C907 /* MultiplayerLocalPlayer.hpp */,
+			);
+			path = multiplayer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -5528,13 +5718,41 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84F77A462EA1C01C0045C907 /* LoginPacket.hpp in Headers */,
+				84F77A3E2EA1C01C0045C907 /* ChunkDataPacket.hpp in Headers */,
 				8406FD2C2AF1820700B09C1D /* MinecraftPackets.hpp in Headers */,
+				84F77A5B2EA1C01C0045C907 /* StartGamePacket.hpp in Headers */,
+				84F77A4E2EA1C01C0045C907 /* PlaceBlockPacket.hpp in Headers */,
+				84F77A3A2EA1C01C0045C907 /* AddMobPacket.hpp in Headers */,
+				84F77A3D2EA1C01C0045C907 /* AnimatePacket.hpp in Headers */,
+				84F77A532EA1C01C0045C907 /* RequestChunkPacket.hpp in Headers */,
 				8406FD2D2AF1820700B09C1D /* NetEventCallback.hpp in Headers */,
+				84F77A382EA1C01C0045C907 /* AddItemEntityPacket.hpp in Headers */,
+				84F77A432EA1C01C0045C907 /* LevelDataPacket.hpp in Headers */,
+				84F77A5D2EA1C01C0045C907 /* TakeItemEntityPacket.hpp in Headers */,
+				84F77A482EA1C01C0045C907 /* MessagePacket.hpp in Headers */,
+				84F77A552EA1C01C0045C907 /* RespawnPacket.hpp in Headers */,
+				84F77A402EA1C01C0045C907 /* EntityEventPacket.hpp in Headers */,
 				8406FD2E2AF1820700B09C1D /* Packet.hpp in Headers */,
 				8406FD2F2AF1820700B09C1D /* PingedCompatibleServer.hpp in Headers */,
 				8406FD302AF1820700B09C1D /* RakNetInstance.hpp in Headers */,
+				84F77A4C2EA1C01C0045C907 /* MoveEntityPacket.hpp in Headers */,
+				84F77A3B2EA1C01C0045C907 /* AddPlayerPacket.hpp in Headers */,
+				84F77A592EA1C01C0045C907 /* SetHealthPacket.hpp in Headers */,
+				84F77A572EA1C01C0045C907 /* SetEntityDataPacket.hpp in Headers */,
+				84F77A5E2EA1C01C0045C907 /* UpdateBlockPacket.hpp in Headers */,
+				84F77A602EA1C01C0045C907 /* UseItemPacket.hpp in Headers */,
+				84F77A452EA1C01C0045C907 /* LevelEventPacket.hpp in Headers */,
+				84F77A4A2EA1C01C0045C907 /* MoveEntityPacket_PosRot.hpp in Headers */,
 				84CCBC982E61886800E251AF /* RakIO.hpp in Headers */,
-				8406FD312AF1820700B09C1D /* ServerSideNetworkHandler.hpp in Headers */,
+				84F77A4D2EA1C01C0045C907 /* MovePlayerPacket.hpp in Headers */,
+				84F77A4F2EA1C01C0045C907 /* PlayerEquipmentPacket.hpp in Headers */,
+				84F77A522EA1C01C0045C907 /* RemoveEntityPacket.hpp in Headers */,
+				84F77A5A2EA1C01C0045C907 /* SetTimePacket.hpp in Headers */,
+				84F77A422EA1C01C0045C907 /* InteractPacket.hpp in Headers */,
+				84F77A472EA1C01C0045C907 /* LoginStatusPacket.hpp in Headers */,
+				84F77A502EA1C01C0045C907 /* ReadyPacket.hpp in Headers */,
+				84F77A512EA1C01C0045C907 /* RemoveBlockPacket.hpp in Headers */,
 				8470AF312BE9B62600BCA54E /* PacketUtil.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5570,7 +5788,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84F77A6B2EA1C0A10045C907 /* MultiplayerLocalPlayer.hpp in Headers */,
 				84B8AF362AF189D8008DE93D /* App.hpp in Headers */,
+				84F77A692EA1C0A10045C907 /* MultiPlayerLevel.hpp in Headers */,
 				84B8AF372AF189D8008DE93D /* AppPlatform.hpp in Headers */,
 				84B8AF382AF189D8008DE93D /* Minecraft.hpp in Headers */,
 				84B8AF392AF189D8008DE93D /* NinecraftApp.hpp in Headers */,
@@ -5608,6 +5828,7 @@
 				84B8AF572AF189D8008DE93D /* PolygonQuad.hpp in Headers */,
 				84B8AF582AF189D8008DE93D /* ClientSideNetworkHandler.hpp in Headers */,
 				84B8AF592AF189D8008DE93D /* Options.hpp in Headers */,
+				84F77A6F2EA1C27B0045C907 /* LocalPlayer.hpp in Headers */,
 				84B8AF5A2AF189D8008DE93D /* Controller.hpp in Headers */,
 				84B8AF5B2AF189D8008DE93D /* ControllerTurnInput.hpp in Headers */,
 				84B8AF5C2AF189D8008DE93D /* ITurnInput.hpp in Headers */,
@@ -5708,7 +5929,6 @@
 				84BF637A2AF186C8008A9995 /* FallingTile.hpp in Headers */,
 				84E1C9D42E7FDC26007D2F5D /* FenceTile.hpp in Headers */,
 				84BF637B2AF186C8008A9995 /* ItemEntity.hpp in Headers */,
-				84BF637C2AF186C8008A9995 /* LocalPlayer.hpp in Headers */,
 				84BF637D2AF186C8008A9995 /* Mob.hpp in Headers */,
 				84BF637E2AF186C8008A9995 /* Player.hpp in Headers */,
 				8477B3A92C4DC3B3004E1AC5 /* Facing.hpp in Headers */,
@@ -5793,6 +6013,7 @@
 				8445E7AA2D769329008DC834 /* SynchedEntityData.hpp in Headers */,
 				84BF63BF2AF186C9008A9995 /* LeafTile.hpp in Headers */,
 				84BF63C02AF186C9008A9995 /* LiquidTile.hpp in Headers */,
+				84F77A622EA1C0610045C907 /* LevelEvent.hpp in Headers */,
 				84BF63C12AF186C9008A9995 /* LiquidTileDynamic.hpp in Headers */,
 				84BF63C22AF186C9008A9995 /* LiquidTileStatic.hpp in Headers */,
 				84BF63C32AF186C9008A9995 /* MetalTile.hpp in Headers */,
@@ -5884,6 +6105,15 @@
 				8406FD3B2AF1823700B09C1D /* Utils.hpp in Headers */,
 				84E001B92AF3A3CB009B9555 /* SmoothFloat.hpp in Headers */,
 				84C0D8032B15A1D0007E1E76 /* PlatformDefinitions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84F779E32EA1BF8E0045C907 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84F77A0C2EA1C0050045C907 /* ServerSideNetworkHandler.hpp in Headers */,
+				84F77A0A2EA1C0050045C907 /* ServerPlayer.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6195,6 +6425,7 @@
 				84B8AF842AF18A25008DE93D /* PBXTargetDependency */,
 				84B8AF862AF18A25008DE93D /* PBXTargetDependency */,
 				84E8DCE42E84ACB000B30789 /* PBXTargetDependency */,
+				84F77A022EA1BFC90045C907 /* PBXTargetDependency */,
 			);
 			name = Client;
 			productName = Client;
@@ -6252,6 +6483,24 @@
 			name = Common;
 			productName = Common;
 			productReference = 84E4BFAE2AE9854B0023E16A /* libCommon.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		84F779CE2EA1BF8E0045C907 /* Server */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84F779F32EA1BF8E0045C907 /* Build configuration list for PBXNativeTarget "Server" */;
+			buildPhases = (
+				84F779D12EA1BF8E0045C907 /* Sources */,
+				84F779E12EA1BF8E0045C907 /* Frameworks */,
+				84F779E32EA1BF8E0045C907 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84F779FF2EA1BFA40045C907 /* PBXTargetDependency */,
+			);
+			name = Server;
+			productName = NBT;
+			productReference = 84F779FD2EA1BF8E0045C907 /* libServer.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		84FFBD7D2ACA2876005A8CCF /* RakNet */ = {
@@ -6313,6 +6562,7 @@
 				842610672AE988D30065905F /* Network */,
 				84FFBD7D2ACA2876005A8CCF /* RakNet */,
 				8406FD162AF1814500B09C1D /* Renderer */,
+				84F779CE2EA1BF8E0045C907 /* Server */,
 				84BF62FE2AF1859D008A9995 /* World */,
 				84AAF5972AF18B9500BD67F4 /* OpenGL */,
 				84498A762AF18C7A005EF5A5 /* ZLib */,
@@ -6805,27 +7055,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84F77A5F2EA1C01C0045C907 /* UseItemPacket.cpp in Sources */,
+				84F77A442EA1C01C0045C907 /* LevelEventPacket.cpp in Sources */,
 				8426106F2AE989720065905F /* MinecraftPackets.cpp in Sources */,
+				84F77A3C2EA1C01C0045C907 /* AnimatePacket.cpp in Sources */,
+				84F77A392EA1C01C0045C907 /* AddMobPacket.cpp in Sources */,
+				84F77A412EA1C01C0045C907 /* InteractPacket.cpp in Sources */,
 				842610702AE989720065905F /* NetEventCallback.cpp in Sources */,
+				84F77A562EA1C01C0045C907 /* SetEntityDataPacket.cpp in Sources */,
 				842610712AE989720065905F /* AddPlayerPacket.cpp in Sources */,
+				84F77A372EA1C01C0045C907 /* AddItemEntityPacket.cpp in Sources */,
 				842610722AE989720065905F /* ChunkDataPacket.cpp in Sources */,
 				842610732AE989730065905F /* LevelDataPacket.cpp in Sources */,
 				842610742AE989730065905F /* LoginPacket.cpp in Sources */,
 				842610752AE989730065905F /* MessagePacket.cpp in Sources */,
 				842610762AE989730065905F /* MovePlayerPacket.cpp in Sources */,
+				84F77A3F2EA1C01C0045C907 /* EntityEventPacket.cpp in Sources */,
 				842610772AE989730065905F /* PlaceBlockPacket.cpp in Sources */,
 				842610782AE989730065905F /* PlayerEquipmentPacket.cpp in Sources */,
 				842610792AE989730065905F /* RemoveBlockPacket.cpp in Sources */,
 				8426107A2AE989730065905F /* RemoveEntityPacket.cpp in Sources */,
+				84F77A4B2EA1C01C0045C907 /* MoveEntityPacket.cpp in Sources */,
 				8426107B2AE989730065905F /* RequestChunkPacket.cpp in Sources */,
 				8426107C2AE989730065905F /* StartGamePacket.cpp in Sources */,
 				8426107D2AE989730065905F /* UpdateBlockPacket.cpp in Sources */,
 				8426107E2AE989730065905F /* RakNetInstance.cpp in Sources */,
-				8426107F2AE989730065905F /* ServerSideNetworkHandler.cpp in Sources */,
+				84F77A492EA1C01C0045C907 /* MoveEntityPacket_PosRot.cpp in Sources */,
 				8470AF302BE9B62600BCA54E /* PacketUtil.cpp in Sources */,
 				84CCBC972E61886800E251AF /* RakIO.cpp in Sources */,
 				8470AF352BE9B63900BCA54E /* LoginStatusPacket.cpp in Sources */,
 				8470AF362BE9B63900BCA54E /* ReadyPacket.cpp in Sources */,
+				84F77A542EA1C01C0045C907 /* RespawnPacket.cpp in Sources */,
+				84F77A582EA1C01C0045C907 /* SetHealthPacket.cpp in Sources */,
+				84F77A5C2EA1C01C0045C907 /* TakeItemEntityPacket.cpp in Sources */,
 				8470AF372BE9B63900BCA54E /* SetTimePacket.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -6926,6 +7188,7 @@
 				8477B3A22C4DC374004E1AC5 /* ControllerBuildInput.cpp in Sources */,
 				84B8AF082AF1896F008DE93D /* Model.cpp in Sources */,
 				84B8AF092AF1896F008DE93D /* PolygonQuad.cpp in Sources */,
+				84F77A682EA1C0A10045C907 /* MultiPlayerLevel.cpp in Sources */,
 				84B8AF0A2AF1896F008DE93D /* ClientSideNetworkHandler.cpp in Sources */,
 				84B8AF0B2AF1896F008DE93D /* Options.cpp in Sources */,
 				84B8AF0C2AF1896F008DE93D /* Controller.cpp in Sources */,
@@ -6996,6 +7259,8 @@
 				84AA8C0D2B32F3F3003F5B82 /* SpiderRenderer.cpp in Sources */,
 				84AA8C0F2B32F3F3003F5B82 /* TntRenderer.cpp in Sources */,
 				84AA8C112B32F3F3003F5B82 /* TripodCameraRenderer.cpp in Sources */,
+				84F77A6E2EA1C27B0045C907 /* LocalPlayer.cpp in Sources */,
+				84F77A6A2EA1C0A10045C907 /* MultiplayerLocalPlayer.cpp in Sources */,
 				84AA8C152B32F3F3003F5B82 /* FireTexture.cpp in Sources */,
 				84AA8C162B32F3F3003F5B82 /* FoliageColor.cpp in Sources */,
 				84AA8C182B32F3F3003F5B82 /* Font.cpp in Sources */,
@@ -7044,7 +7309,6 @@
 				84BF630C2AF18631008A9995 /* Entity.cpp in Sources */,
 				84BF630D2AF18631008A9995 /* FallingTile.cpp in Sources */,
 				84BF630E2AF18631008A9995 /* ItemEntity.cpp in Sources */,
-				84BF630F2AF18631008A9995 /* LocalPlayer.cpp in Sources */,
 				84BF63102AF18631008A9995 /* Mob.cpp in Sources */,
 				84BF63112AF18631008A9995 /* Player.cpp in Sources */,
 				8445E7A52D769329008DC834 /* MobCategory.cpp in Sources */,
@@ -7236,6 +7500,15 @@
 				84E4BFBC2AE9869A0023E16A /* Util.cpp in Sources */,
 				84E4BFBD2AE9869A0023E16A /* Utils.cpp in Sources */,
 				84E001B82AF3A3CB009B9555 /* SmoothFloat.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84F779D12EA1BF8E0045C907 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84F77A092EA1C0050045C907 /* ServerPlayer.cpp in Sources */,
+				84F77A0B2EA1C0050045C907 /* ServerSideNetworkHandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7433,6 +7706,16 @@
 			isa = PBXTargetDependency;
 			target = 8406FD162AF1814500B09C1D /* Renderer */;
 			targetProxy = 84E8DCE32E84ACB000B30789 /* PBXContainerItemProxy */;
+		};
+		84F779FF2EA1BFA40045C907 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 842610672AE988D30065905F /* Network */;
+			targetProxy = 84F779FE2EA1BFA40045C907 /* PBXContainerItemProxy */;
+		};
+		84F77A022EA1BFC90045C907 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84F779CE2EA1BF8E0045C907 /* Server */;
+			targetProxy = 84F77A012EA1BFC90045C907 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -9028,6 +9311,78 @@
 			};
 			name = "Release [SDL1] (Default)";
 		};
+		84F779F42EA1BF8E0045C907 /* Debug [SDL2] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Debug [SDL2] (Default)";
+		};
+		84F779F52EA1BF8E0045C907 /* Debug [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Debug [SDL1] (Default)";
+		};
+		84F779F62EA1BF8E0045C907 /* Debug [iOS] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Debug [iOS] (Default)";
+		};
+		84F779F72EA1BF8E0045C907 /* Release [SDL2] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Release [SDL2] (Default)";
+		};
+		84F779F82EA1BF8E0045C907 /* Release [SDL1] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Release [SDL1] (Default)";
+		};
+		84F779F92EA1BF8E0045C907 /* Release [iOS] (Default) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Release [iOS] (Default)";
+		};
+		84F779FA2EA1BF8E0045C907 /* Release [SDL2] (x86) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Release [SDL2] (x86)";
+		};
+		84F779FB2EA1BF8E0045C907 /* Release [SDL1] (PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Release [SDL1] (PPC)";
+		};
+		84F779FC2EA1BF8E0045C907 /* Release [SDL1] (x86-PPC) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = Server;
+			};
+			name = "Release [SDL1] (x86-PPC)";
+		};
 		84FFBD7F2ACA2876005A8CCF /* Debug [SDL2] (Default) */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -9259,6 +9614,22 @@
 				84E4BFB12AE9854B0023E16A /* Release [SDL2] (x86) */,
 				84E4BFB22AE9854B0023E16A /* Release [SDL1] (PPC) */,
 				84E4BFB32AE9854B0023E16A /* Release [SDL1] (x86-PPC) */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Release [SDL2] (Default)";
+		};
+		84F779F32EA1BF8E0045C907 /* Build configuration list for PBXNativeTarget "Server" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84F779F42EA1BF8E0045C907 /* Debug [SDL2] (Default) */,
+				84F779F52EA1BF8E0045C907 /* Debug [SDL1] (Default) */,
+				84F779F62EA1BF8E0045C907 /* Debug [iOS] (Default) */,
+				84F779F72EA1BF8E0045C907 /* Release [SDL2] (Default) */,
+				84F779F82EA1BF8E0045C907 /* Release [SDL1] (Default) */,
+				84F779F92EA1BF8E0045C907 /* Release [iOS] (Default) */,
+				84F779FA2EA1BF8E0045C907 /* Release [SDL2] (x86) */,
+				84F779FB2EA1BF8E0045C907 /* Release [SDL1] (PPC) */,
+				84F779FC2EA1BF8E0045C907 /* Release [SDL1] (x86-PPC) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release [SDL2] (Default)";

@@ -26,15 +26,15 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	glPushMatrix();
 	m_pHumanoidModel->m_arm1.translateTo(0.0625f);
 	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
-#pragma warning(disable : 6385) // this warning is just wrong; intellisense cant handle it being a pointer->index
-	if (inst && inst->m_itemID < C_MAX_TILES && TileRenderer::canRender(Tile::tiles[inst->m_itemID]->getRenderShape()))
+
+	if (inst && inst->getTile() && TileRenderer::canRender(inst->getTile()->getRenderShape()))
 	{
 		glTranslatef(0.0f, 0.1875f, -0.3125f);
 		glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glScalef(0.375f, -0.375f, 0.375f);
 	}
-	else if (inst && Item::items[inst->m_itemID]->isHandEquipped())
+	else if (inst && inst->getItem() && inst->getItem()->isHandEquipped())
 	{
 		glTranslatef(0.0f, 0.1875f, 0.0f);
 		glScalef(0.625f, -0.625f, 0.625f);
@@ -64,11 +64,15 @@ void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, flo
 		ItemInstance* item = player->getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
 	}
+
 	if (pEntity->isSneaking())
 	{
+		m_pHumanoidModel->m_bSneaking = true;
 		Vec3 pos2 = pos;
 		pos2.y -= 0.125f;
 		MobRenderer::render(pEntity, pos2, f1, f2);
+		// https://github.com/ReMinecraftPE/mcpe/pull/197/#discussion_r2437985914
+		m_pHumanoidModel->m_bSneaking = false;
 	}
 	else
 	{

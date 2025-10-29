@@ -9,9 +9,9 @@
 #pragma once
 
 #include <map>
-#include "NetEventCallback.hpp"
 #include "client/app/Minecraft.hpp"
-#include "RakNetInstance.hpp"
+#include "network/NetEventCallback.hpp"
+#include "network/RakNetInstance.hpp"
 #include "world/level/LevelListener.hpp"
 
 class Minecraft;
@@ -28,6 +28,7 @@ struct OnlinePlayer
 typedef void(ServerSideNetworkHandler::* CommandFunction)(OnlinePlayer* player, const std::vector<std::string>& parms);
 typedef std::map<std::string, CommandFunction> CommandMap;
 typedef std::map<RakNet::RakNetGUID, OnlinePlayer*> OnlinePlayerMap;
+typedef std::map<RakNet::RakNetGUID, Player*> PlayerMap;
 
 // @TODO: Rename to ServerNetworkHandler?
 class ServerSideNetworkHandler : public NetEventCallback, public LevelListener
@@ -48,26 +49,37 @@ public:
 	void onNewClient(const RakNet::RakNetGUID&) override;
 	void onDisconnect(const RakNet::RakNetGUID&) override;
 	void handle(const RakNet::RakNetGUID&, LoginPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ReadyPacket*) override;
 	void handle(const RakNet::RakNetGUID&, MessagePacket*) override;
 	void handle(const RakNet::RakNetGUID&, MovePlayerPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
+	void handle(const RakNet::RakNetGUID&, InteractPacket*) override;
+	void handle(const RakNet::RakNetGUID&, UseItemPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RequestChunkPacket*) override;
+	void handle(const RakNet::RakNetGUID&, AnimatePacket*) override;
+	void handle(const RakNet::RakNetGUID&, RespawnPacket*) override;
 
 	// Overridden from LevelListener
 	void tileBrightnessChanged(const TilePos& pos) override;
 	void tileChanged(const TilePos& pos) override;
 	void timeChanged(uint32_t time) override;
+	void entityAdded(Entity* entity) override;
+	void entityRemoved(Entity* entity) override;
+	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data) override;
 
 	void allowIncomingConnections(bool b);
+	Player* popPendingPlayer(const RakNet::RakNetGUID& guid);
 	void displayGameMessage(const std::string&);
 	void sendMessage(const RakNet::RakNetGUID& guid, const std::string&);
 	void sendMessage(OnlinePlayer*, const std::string&);
 	void redistributePacket(Packet* packet, const RakNet::RakNetGUID& source);
 
 	// Custom
-	OnlinePlayer* getPlayerByGUID(const RakNet::RakNetGUID& guid);
+	OnlinePlayer* getOnlinePlayerByGUID(const RakNet::RakNetGUID& guid);
+	Player* getPendingPlayerByGUID(const RakNet::RakNetGUID& guid);
+	bool canReplicateEntity(const Entity* pEntity) const;
 	void setupCommands();
 
 	// Commands
@@ -86,6 +98,7 @@ public:
 	Level* m_pLevel;
 	RakNetInstance* m_pRakNetInstance;
 	RakNet::RakPeerInterface* m_pRakNetPeer;
+	PlayerMap m_pendingPlayers;
 	bool m_bAllowIncoming;
 
 	OnlinePlayerMap m_onlinePlayers;

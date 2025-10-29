@@ -8,6 +8,7 @@
 
 #include "SurvivalMode.hpp"
 #include "client/app/Minecraft.hpp"
+#include "network/packets/RemoveBlockPacket.hpp"
 
 SurvivalMode::SurvivalMode(Minecraft* pMC, Level& level) : GameMode(pMC, level),
 	m_destroyingPos(-1, -1, -1),
@@ -55,28 +56,37 @@ bool SurvivalMode::startDestroyBlock(Player* player, const TilePos& pos, Facing:
 
 bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	m_pMinecraft->m_pParticleEngine->destroyEffect(pos);
-
 	TileID tile = _level.getTile(pos);
 	int    data = _level.getData(pos);
 
-	if (!GameMode::destroyBlock(player, pos, face))
-		return false;
+	bool changed = GameMode::destroyBlock(player, pos, face);
 
-	//@HUH: check too late?
-	bool bCanDestroy = m_pMinecraft->m_pLocalPlayer->canDestroy(Tile::tiles[tile]);
-
-	if (bCanDestroy)
+	bool couldDestroy = player->canDestroy(Tile::tiles[tile]);
+	ItemInstance* item = player->getSelectedItem();
+	if (item)
 	{
-		Tile::tiles[tile]->playerDestroy(&_level, m_pMinecraft->m_pLocalPlayer, pos, data);
-
-		if (m_pMinecraft->isOnline())
+		item->mineBlock(pos, face);
+		if (item->m_count == 0)
 		{
-			m_pMinecraft->m_pRakNetInstance->send(new RemoveBlockPacket(m_pMinecraft->m_pLocalPlayer->m_EntityID, pos));
+			item->snap(player);
+			player->removeSelectedItem();
 		}
 	}
 
-	return true;
+	if (changed && couldDestroy)
+	{
+#ifdef MOD_POCKET_SURVIVAL
+		ItemInstance tileItem(tile, 1, data);
+		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(&tileItem))
+		{
+			Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
+		}
+#else
+		Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
+#endif
+	}
+
+	return changed;
 }
 
 bool SurvivalMode::continueDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
@@ -149,4 +159,21 @@ void SurvivalMode::render(float f)
 		m_pMinecraft->m_gui.field_8 = x;
 		m_pMinecraft->m_pLevelRenderer->field_10 = x;
 	}
+}
+
+bool SurvivalMode::useItemOn(Player* player, Level* level, ItemInstance* instance, const TilePos& pos, Facing::Name face)
+{
+#ifdef MOD_POCKET_SURVIVAL
+	if (!instance)
+		return GameMode::useItemOn(player, level, instance, pos, face);
+
+	int oldCount = instance->m_count;
+	bool result = GameMode::useItemOn(player, level, instance, pos, face);
+	if (player->m_pInventory->hasUnlimitedResource(instance))
+		instance->m_count = oldCount;
+
+	return result;
+#else
+	return GameMode::useItemOn(player, level, instance, pos, face);
+#endif
 }

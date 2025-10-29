@@ -10,18 +10,24 @@
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
 
+void Player::_init()
+{
+	// I just guessed, it's 5/5 fields
+	m_score = 0;
+	m_oBob = 0.0f;
+	m_bob = 0.0f;
+	m_dimension = 0;
+	m_destroyingBlock = false;
+}
+
 Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 {
+	_init();
 	m_pDescriptor = &EntityTypeDescriptor::player;
 	m_pInventory = nullptr;
 	field_B94 = 0;
-	m_score = 0;
-    m_oBob = 0.0f;
-    m_bob = 0.0f;
 	m_name = "";
-	m_dimension = 0;
 	m_bHasRespawnPos = false;
-	m_destroyingBlock = false;
 
 	field_C8 = RENDER_HUMANOID;
 
@@ -35,7 +41,7 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	moveTo(Vec3(pos.x + 0.5f, pos.y + 1.0f, pos.z + 0.5f));
 
-	m_health = 20;
+	m_health = getMaxHealth();
 
 	m_class = "humanoid";
 	m_texture = "mob/char.png";
@@ -49,11 +55,21 @@ Player::~Player()
 	delete m_pInventory;
 }
 
+void Player::reallyDrop(ItemEntity* pEnt)
+{
+	m_pLevel->addEntity(pEnt);
+}
+
 void Player::reset()
 {
 	Mob::reset();
+	_init();
+}
 
-	// TODO what fields to reset???
+void Player::remove()
+{
+	m_bIsInvisible = true;
+	Mob::remove();
 }
 
 bool Player::hurt(Entity* pEnt, int damage)
@@ -102,15 +118,18 @@ void Player::awardKillScore(Entity* pKilled, int score)
 	m_score += score;
 }
 
-void Player::resetPos()
+void Player::resetPos(bool respawn)
 {
 	setDefaultHeadHeight();
 	setSize(0.6f, 1.8f);
 
 	Entity::resetPos();
-
-	m_health = 20;
-	m_deathTime = 0;
+	m_bIsInvisible = false;
+	if (respawn)
+	{
+		m_deathTime = 0;
+		m_health = getMaxHealth();
+	}
 }
 
 void Player::die(Entity* pCulprit)
@@ -120,9 +139,12 @@ void Player::die(Entity* pCulprit)
 	setPos(m_pos); // update hitbox
 	m_vel.y = 0.1f;
 
-	if (m_name == "Notch")
-		drop(ItemInstance(Item::apple), true);
-	m_pInventory->dropAll();
+	if (!m_pLevel->m_bIsClientSide)
+	{
+		if (m_name == "Notch")
+			drop(ItemInstance(Item::apple), true);
+	}
+	m_pInventory->dropAll(m_pLevel->m_bIsClientSide);
 
 	if (pCulprit)
 	{
@@ -286,6 +308,12 @@ void Player::attack(Entity* pEnt)
 		pEnt->hurt(this, atkDmg);
 }
 
+void Player::useItem(ItemInstance& item) const
+{
+	if (!isCreative())
+		item.remove(1);
+}
+
 bool Player::canDestroy(const Tile* pTile) const
 {
 	return true;
@@ -301,45 +329,6 @@ void Player::displayClientMessage(const std::string& msg)
 
 }
 
-void Player::drop(const ItemInstance& item, bool randomly)
-{
-	if (item.isNull())
-		return;
-
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item.copy());
-	pItemEntity->m_throwTime = 40;
-
-	if (randomly)
-	{
-		float throwPower = 0.5f * m_random.nextFloat();
-		float throwAngle = m_random.nextFloat();
-
-		pItemEntity->m_vel.x = -(throwPower * Mth::sin(2 * float(M_PI) * throwAngle));
-		pItemEntity->m_vel.z =  (throwPower * Mth::cos(2 * float(M_PI) * throwAngle));
-		pItemEntity->m_vel.y = 0.2f;
-	}
-	else
-	{
-		pItemEntity->m_vel.x = -(Mth::sin(m_rot.x / 180.0f * float(M_PI)) * Mth::cos(m_rot.y / 180.0f * float(M_PI))) * 0.3f;
-		pItemEntity->m_vel.z =  (Mth::cos(m_rot.x / 180.0f * float(M_PI)) * Mth::cos(m_rot.y / 180.0f * float(M_PI))) * 0.3f;
-		pItemEntity->m_vel.y = 0.1f - Mth::sin(m_rot.y / 180.0f * float(M_PI)) * 0.3f;
-
-		float f1 = m_random.nextFloat();
-		float f2 = m_random.nextFloat();
-
-		pItemEntity->m_vel.x += 0.02f * f2 * Mth::cos(2 * float(M_PI) * f1);
-		pItemEntity->m_vel.y += 0.1f * (m_random.nextFloat() - m_random.nextFloat());
-		pItemEntity->m_vel.z += 0.02f * f2 * Mth::sin(2 * float(M_PI) * f1);
-	}
-
-	reallyDrop(pItemEntity);
-}
-
-void Player::drop()
-{
-
-}
-
 int Player::getInventorySlot(int x) const
 {
 	return 0;
@@ -348,11 +337,6 @@ int Player::getInventorySlot(int x) const
 void Player::prepareCustomTextures()
 {
 
-}
-
-void Player::reallyDrop(ItemEntity* pEnt)
-{
-	m_pLevel->addEntity(pEnt);
 }
 
 void Player::respawn()
@@ -382,6 +366,51 @@ void Player::setRespawnPos(const TilePos& pos)
 	m_respawnPos = pos;
 }
 
+void Player::drop()
+{
+	// From b1.2_02, doesn't exist in PE
+	// Isn't called anywhere, but is overriden in MultiplayerLocalPlayer with a PlayerActionPacket
+	/*ItemInstance* item = getSelectedItem();
+	if (!item)
+		return;
+
+	drop(m_pInventory->removeItem(*item, 1));*/
+}
+
+void Player::drop(const ItemInstance& item, bool randomly)
+{
+	if (item.isNull())
+		return;
+
+	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item.copy());
+	pItemEntity->m_throwTime = 40;
+
+	if (randomly)
+	{
+		float throwPower = 0.5f * m_random.nextFloat();
+		float throwAngle = m_random.nextFloat();
+
+		pItemEntity->m_vel.x = -(throwPower * Mth::sin(2 * float(M_PI) * throwAngle));
+		pItemEntity->m_vel.z = (throwPower * Mth::cos(2 * float(M_PI) * throwAngle));
+		pItemEntity->m_vel.y = 0.2f;
+	}
+	else
+	{
+		pItemEntity->m_vel.x = -(Mth::sin(m_rot.x / 180.0f * float(M_PI)) * Mth::cos(m_rot.y / 180.0f * float(M_PI))) * 0.3f;
+		pItemEntity->m_vel.z = (Mth::cos(m_rot.x / 180.0f * float(M_PI)) * Mth::cos(m_rot.y / 180.0f * float(M_PI))) * 0.3f;
+		pItemEntity->m_vel.y = 0.1f - Mth::sin(m_rot.y / 180.0f * float(M_PI)) * 0.3f;
+
+		float f1 = m_random.nextFloat();
+		float f2 = m_random.nextFloat();
+
+		pItemEntity->m_vel.x += 0.02f * f2 * Mth::cos(2 * float(M_PI) * f1);
+		pItemEntity->m_vel.y += 0.1f * (m_random.nextFloat() - m_random.nextFloat());
+		pItemEntity->m_vel.z += 0.02f * f2 * Mth::sin(2 * float(M_PI) * f1);
+	}
+
+	reallyDrop(pItemEntity);
+}
+
 void Player::startCrafting(const TilePos& pos)
 {
 
@@ -402,11 +431,6 @@ void Player::stopDestroying()
 	m_destroyingBlock = false;
 }
 
-void Player::take(Entity* pEnt, int x)
-{
-
-}
-
 void Player::touch(Entity* pEnt)
 {
 	pEnt->playerTouch(this);
@@ -420,4 +444,9 @@ void Player::interact(Entity* pEnt)
 ItemInstance* Player::getSelectedItem() const
 {
 	return m_pInventory->getSelected();
+}
+
+void Player::removeSelectedItem()
+{
+	m_pInventory->setSelectedItem(nullptr);
 }

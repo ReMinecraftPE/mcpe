@@ -9,6 +9,7 @@
 #include "RakNetInstance.hpp"
 #include "MinecraftPackets.hpp"
 #include "GetTime.h"
+#include "NetEventCallback.hpp"
 
 //#define LOG_PACKETS
 
@@ -128,7 +129,7 @@ void RakNetInstance::pingForHosts(int port)
 	m_pRakPeerInterface->Ping("255.255.255.255", port, true, 0);
 }
 
-void RakNetInstance::runEvents(NetEventCallback* callback)
+void RakNetInstance::runEvents(NetEventCallback& callback)
 {
 	while (true)
 	{
@@ -149,7 +150,7 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 			Packet* pUserPacket = MinecraftPackets::createPacket(packetType);
 			if (pUserPacket)
 			{
-				pUserPacket->read(pBitStream);
+				pUserPacket->read(*pBitStream);
 				//LOG_PACKET("Packet: %d", packetType);
 				pUserPacket->handle(pPacket->guid, callback);
 				delete pUserPacket;
@@ -166,23 +167,23 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 			{
 				// @BUG: Two players sending connection requests at the same time could cause one of them to fail to connect
 				m_guid = pPacket->guid;
-				callback->onConnect(pPacket->guid);
+				callback.onConnect(pPacket->guid);
 				break;
 			}
 			case ID_CONNECTION_ATTEMPT_FAILED:
 			{
-				callback->onUnableToConnect();
+				callback.onUnableToConnect();
 				break;
 			}
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				callback->onNewClient(pPacket->guid);
+				callback.onNewClient(pPacket->guid);
 				break;
 			}
 			case ID_DISCONNECTION_NOTIFICATION:
 			case ID_CONNECTION_LOST:
 			{
-				callback->onDisconnect(pPacket->guid);
+				callback.onDisconnect(pPacket->guid);
 				break;
 			}
 			case ID_UNCONNECTED_PONG:
@@ -260,7 +261,7 @@ void RakNetInstance::runEvents(NetEventCallback* callback)
 void RakNetInstance::send(Packet* packet)
 {
 	RakNet::BitStream bs;
-	packet->write(&bs);
+	packet->write(bs);
 
     uint32_t result;
 	if (m_bIsHost)
@@ -287,14 +288,13 @@ void RakNetInstance::send(Packet* packet)
     }
 
 	delete packet;
-	// return 1300; --- ida tells me this returns 1300. Huh
 }
 
 // this sends a specific peer a message
 void RakNetInstance::send(const RakNet::RakNetGUID& guid, Packet* packet)
 {
 	RakNet::BitStream bs;
-	packet->write(&bs);
+	packet->write(bs);
 
 	m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, guid, false);
 

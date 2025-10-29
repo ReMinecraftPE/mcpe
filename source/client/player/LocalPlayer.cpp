@@ -9,8 +9,23 @@
 #include "LocalPlayer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "nbt/CompoundTag.hpp"
+#include "network/packets/MovePlayerPacket.hpp"
+#include "network/packets/PlayerEquipmentPacket.hpp"
 
 int dword_250ADC, dword_250AE0;
+
+void LocalPlayer::_init()
+{
+	m_nAutoJumpFrames = 0;
+	// multiplayer related
+	m_lastSentPos = Vec3::ZERO;
+	m_lastSentRot = Vec2::ZERO;
+	// multiplayer related -- end
+
+	m_renderArmRot = Vec2::ZERO;
+	m_lastRenderArmRot = Vec2::ZERO;
+	field_C38 = m_pInventory->getSelectedItemId();
+}
 
 LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int dimensionId) : Player(pLevel, playerGameType)
 {
@@ -25,22 +40,14 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, Game
 	field_C14 = 0.0f;
 	field_C18 = 0.0f;
 	field_C1C = 0.0f;
-	m_nAutoJumpFrames = 0;
-	// multiplayer related
-	field_C24 = Vec3::ZERO;
-	field_C30 = Vec2::ZERO;
-	// multiplayer related -- end
 	field_C38 = 0;
 	m_pMoveInput = nullptr;
-
-	m_renderArmRot = Vec2::ZERO;
-	m_lastRenderArmRot = Vec2::ZERO;
 
 	m_pMinecraft = pMinecraft;
 	m_name = pUser->field_0;
 
 	m_dimension = dimensionId;
-	field_C38 = m_pInventory->getSelectedItemId();
+	_init();
 }
 
 LocalPlayer::~LocalPlayer()
@@ -59,6 +66,9 @@ void LocalPlayer::aiStep()
 
 	Mob::aiStep();
 	Player::aiStep();
+
+	if (interpolateOnly())
+		updateAi();
 }
 
 void LocalPlayer::drop(const ItemInstance& item, bool randomly)
@@ -94,9 +104,41 @@ void LocalPlayer::setPlayerGameType(GameType gameType)
 	Player::setPlayerGameType(gameType);
 }
 
+void LocalPlayer::swing()
+{
+	Player::swing();
+
+	m_pMinecraft->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::SWING));
+}
+
+void LocalPlayer::reset()
+{
+	Player::reset();
+	_init();
+}
+
 void LocalPlayer::animateRespawn()
 {
 
+}
+
+void LocalPlayer::hurtTo(int newHealth)
+{
+    // only called by client network handler
+	int dmg = m_health - newHealth;
+	if (dmg <= 0)
+	{
+		m_health = newHealth;
+	}
+	else
+	{
+		m_lastHurt = dmg;
+		m_lastHealth = m_health;
+        // makes EntityEventPacket the authority for client-side invulnerability
+		//m_invulnerableTime = m_invulnerableDuration;
+		actuallyHurt(dmg);
+		m_hurtTime = m_hurtDuration = 10;
+	}
 }
 
 void LocalPlayer::calculateFlight(const Vec3& pos)
@@ -148,7 +190,7 @@ void LocalPlayer::closeContainer()
 
 void LocalPlayer::respawn()
 {
-	m_pMinecraft->respawnPlayer(this);
+	m_pMinecraft->respawnPlayer();
 }
 
 bool LocalPlayer::isSneaking() const
@@ -156,10 +198,8 @@ bool LocalPlayer::isSneaking() const
 	return m_pMoveInput->m_bSneaking;
 }
 
-int LocalPlayer::move(const Vec3& pos)
+void LocalPlayer::move(const Vec3& pos)
 {
-	int result = 0;
-
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
 	if (Minecraft::DEADMAU5_CAMERA_CHEATS && pLP == this && m_pMinecraft->getOptions()->m_bFlyCheat)
 	{
@@ -173,7 +213,7 @@ int LocalPlayer::move(const Vec3& pos)
 		pLP->m_vel.y = 0.0f;
 
 		// This looks very funny.
-		result = pLP->Entity::move(field_BF0);
+		pLP->Entity::move(field_BF0);
 
 		pLP->m_bOnGround = true;
 
@@ -196,7 +236,7 @@ int LocalPlayer::move(const Vec3& pos)
 		float posX = m_pos.x;
 		float posY = m_pos.y;
 
-		result = Entity::move(pos);
+		Entity::move(pos);
 
 		//@BUG: backing up posZ too late
 		float posZ = m_pos.z;
@@ -206,7 +246,7 @@ int LocalPlayer::move(const Vec3& pos)
 			if (Mth::floor(posX * 2) == Mth::floor(m_pos.x * 2) &&
 				Mth::floor(posY * 2) == Mth::floor(m_pos.y * 2) &&
 				Mth::floor(posZ * 2) == Mth::floor(m_pos.z * 2))
-				return result;
+				return;
 
 			float dist = Mth::sqrt(pos.x * pos.x + pos.z * pos.z);
 			int x1 = Mth::floor(pos.x / dist + m_pos.x);
@@ -216,15 +256,15 @@ int LocalPlayer::move(const Vec3& pos)
 
 			// not standing on top of a tile?
 			if (!m_pLevel->isSolidTile(TilePos(x1, int(m_pos.y - 1.0f), z1)))
-				return 0;
+				return;
 
 			// aren't inside of a tile right now
 			if (m_pLevel->isSolidTile(TilePos(x1, int(m_pos.y), z1)))
-				return 0;
+				return;
 
 			// don't have anything on top of us
 			if (m_pLevel->isSolidTile(TilePos(x1, int(m_pos.y + 1.0f), z1)))
-				return 1;
+				return;
 
 			// are we trying to walk into stairs or a slab?
 			if (tileOnTop != Tile::stairs_stone->m_ID && tileOnTop != Tile::stairs_wood->m_ID && tileOnTop != Tile::stoneSlabHalf->m_ID && m_pMinecraft->getOptions()->m_bAutoJump)
@@ -232,8 +272,6 @@ int LocalPlayer::move(const Vec3& pos)
 				m_nAutoJumpFrames = 1;
 		}
 	}
-
-	return result;
 }
 
 void LocalPlayer::tick()
@@ -242,16 +280,7 @@ void LocalPlayer::tick()
 
 	if (m_pMinecraft->isOnline())
 	{
-		if (fabsf(m_pos.x - field_C24.x) > 0.1f ||
-			fabsf(m_pos.y - field_C24.y) > 0.01f ||
-			fabsf(m_pos.z - field_C24.z) > 0.1f ||
-			fabsf(field_C30.y - m_rot.y) > 1.0f ||
-			fabsf(field_C30.x - m_rot.x) > 1.0f)
-		{
-			m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
-			field_C24 = m_pos;
-			field_C30 = m_rot;
-		}
+		sendPosition();
 
 		if (field_C38 != m_pInventory->getSelectedItemId())
 		{
@@ -283,4 +312,18 @@ void LocalPlayer::readAdditionalSaveData(const CompoundTag& tag)
 	Player::readAdditionalSaveData(tag);
 
 	m_score = tag.getInt32("Score");
+}
+
+void LocalPlayer::sendPosition()
+{
+	if (fabsf(m_pos.x - m_lastSentPos.x) > 0.1f ||
+		fabsf(m_pos.y - m_lastSentPos.y) > 0.01f ||
+		fabsf(m_pos.z - m_lastSentPos.z) > 0.1f ||
+		fabsf(m_lastSentRot.y - m_rot.y) > 1.0f ||
+		fabsf(m_lastSentRot.x - m_rot.x) > 1.0f)
+	{
+		m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
+		m_lastSentPos = m_pos;
+		m_lastSentRot = m_rot;
+	}
 }

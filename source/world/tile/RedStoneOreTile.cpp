@@ -102,7 +102,7 @@ void RedStoneOreTile::attack(Level* level, const TilePos& pos, Player* player)
 	interact(level, pos);
 }
 
-int RedStoneOreTile::use(Level* level, const TilePos& pos, Player* player)
+bool RedStoneOreTile::use(Level* level, const TilePos& pos, Player* player)
 {
 	interact(level, pos);
 	return Tile::use(level, pos, player);
