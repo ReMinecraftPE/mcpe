@@ -10,6 +10,8 @@
 
 #include "Utils.hpp"
 
+#include <string>
+
 #if MC_PLATFORM_WINPC
 
 #include <winsock.h>
