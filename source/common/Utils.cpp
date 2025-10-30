@@ -10,7 +10,7 @@
 
 #include "Utils.hpp"
 
-#include <string>
+#include <cstring>
 
 #if MC_PLATFORM_WINPC
 
