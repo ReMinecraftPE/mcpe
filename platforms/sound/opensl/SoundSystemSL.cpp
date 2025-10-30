@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "CustomSoundSystem.hpp"
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
 
 #define C_MAX_SOUNDS 4
 

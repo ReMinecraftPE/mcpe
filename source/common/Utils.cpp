@@ -8,20 +8,18 @@
 
 // note: not an official file name
 
-#include "common/Utils.hpp"
-#include "compat/PlatformDefinitions.h"
+#include "Utils.hpp"
 
-#if defined(_WIN32) && !defined(_XBOX)
+#include <cstring>
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <io.h>
-#include <direct.h>
+#if MC_PLATFORM_WINPC
+
+#include <winsock.h>
 
 // Why are we not using GetTickCount64()? It's simple -- getTimeMs has the exact same problem as using regular old GetTickCount.
 #pragma warning(disable : 28159)
 
-#elif defined(_XBOX)
+#elif MC_PLATFORM_XBOX360
 
 #else
 
@@ -37,7 +35,7 @@
 
 int g_TimeSecondsOnInit = 0;
 
-#if (!defined(USE_SDL) || defined(_WIN32)) && !defined(ANDROID) && !MC_PLATFORM_MAC
+#ifdef _WIN32
 
 DIR* opendir(const char* name)
 {
@@ -163,21 +161,6 @@ bool DeleteDirectory(const std::string& name2, bool unused)
 #endif
 }
 
-const char* GetTerrainName()
-{
-	return "terrain.png";
-}
-
-const char* GetItemsName()
-{
-	return "gui/items.png";
-}
-
-const char* GetGUIBlocksName()
-{
-	return "gui/gui_blocks.png";
-}
-
 #ifdef _WIN32
 int gettimeofday(struct timeval* tp, struct timezone* tzp)
 {
@@ -275,87 +258,6 @@ time_t getEpochTimeS()
 {
 	return time(0);
 }
-
-#if defined(_WIN32) && !defined(USE_SDL)
-
-HINSTANCE g_hInstance = NULL;
-HWND g_hWnd = NULL;
-
-void SetInstance(HINSTANCE hinst)
-{
-	g_hInstance = hinst;
-}
-
-HINSTANCE GetInstance()
-{
-	return g_hInstance;
-}
-
-void SetHWND(HWND hwnd)
-{
-	g_hWnd = hwnd;
-}
-
-HWND GetHWND()
-{
-	return g_hWnd;
-}
-
-void CenterWindow(HWND hWnd)
-{
-	RECT r, desk;
-	GetWindowRect(hWnd, &r);
-	GetWindowRect(GetDesktopWindow(), &desk);
-
-	int wa, ha, wb, hb;
-
-	wa = (r.right - r.left) / 2;
-	ha = (r.bottom - r.top) / 2;
-
-	wb = (desk.right - desk.left) / 2;
-	hb = (desk.bottom - desk.top) / 2;
-
-	SetWindowPos(hWnd, NULL, wb - wa, hb - ha, r.right - r.left, r.bottom - r.top, 0);
-}
-
-void EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hRC)
-{
-	PIXELFORMATDESCRIPTOR pfd;
-
-	int iFormat;
-
-	/* get the device context (DC) */
-	*hDC = GetDC(hwnd);
-
-	/* set the pixel format for the DC */
-	ZeroMemory(&pfd, sizeof(pfd));
-
-	pfd.nSize = sizeof(pfd);
-	pfd.nVersion = 1;
-	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-	pfd.iPixelType = PFD_TYPE_RGBA;
-	pfd.cColorBits = 24;
-	pfd.cDepthBits = 8;
-	pfd.iLayerType = PFD_MAIN_PLANE;
-
-	iFormat = ChoosePixelFormat(*hDC, &pfd);
-
-	SetPixelFormat(*hDC, iFormat, &pfd);
-
-	/* create and enable the render context (RC) */
-	*hRC = wglCreateContext(*hDC);
-
-	wglMakeCurrent(*hDC, *hRC);
-}
-
-void DisableOpenGL(HWND hwnd, HDC hDC, HGLRC hRC)
-{
-	wglMakeCurrent(NULL, NULL);
-	wglDeleteContext(hRC);
-	ReleaseDC(hwnd, hDC);
-}
-
-#endif
 
 void sleepMs(int ms)
 {

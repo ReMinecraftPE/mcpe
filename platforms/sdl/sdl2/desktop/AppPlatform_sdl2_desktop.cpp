@@ -1,7 +1,5 @@
 #include "AppPlatform_sdl2_desktop.hpp"
 
-#include "common/Utils.hpp"
-
 AppPlatform_sdl2_desktop::AppPlatform_sdl2_desktop(std::string storageDir, SDL_Window *window)
 	: AppPlatform_sdl2(storageDir, window)
 {

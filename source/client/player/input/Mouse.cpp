@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "Mouse.hpp"
-#include "common/Utils.hpp"
 
 MouseDevice Mouse::_instance;
 

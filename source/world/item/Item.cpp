@@ -8,6 +8,8 @@
 
 #include "Item.hpp"
 
+#include "common/Logger.hpp"
+
 #include "CameraItem.hpp"
 #include "DoorItem.hpp"
 #include "TileItem.hpp"

@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "SurvivalMode.hpp"
+#include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "network/packets/RemoveBlockPacket.hpp"
 

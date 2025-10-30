@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "GameMods.hpp"
 #include "world/item/ItemInstance.hpp"
 #include "world/entity/Player.hpp"
 #include "world/gamemode/GameType.hpp"

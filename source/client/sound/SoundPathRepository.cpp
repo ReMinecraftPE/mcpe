@@ -1,6 +1,6 @@
 #include "SoundPathRepository.hpp"
 
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
 #include "common/Mth.hpp"
 
 void SoundPathRepository::add(const std::string& name, const std::string& path)

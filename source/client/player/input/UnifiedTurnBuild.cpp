@@ -9,7 +9,6 @@
 #include "UnifiedTurnBuild.hpp"
 #include "Multitouch.hpp"
 
-#include "common/Utils.hpp"
 #include "world/entity/Player.hpp"
 
 UnifiedTurnBuild::UnifiedTurnBuild(int a, int width, int height, float d, float e, IInputHolder* pHolder) :

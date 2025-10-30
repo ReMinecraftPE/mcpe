@@ -10,6 +10,7 @@
 
 #include "AppPlatform_android.hpp"
 #include "CustomSoundSystem.hpp"
+#include "common/Logger.hpp"
 #include "client/player/input/Mouse.hpp"
 
 #include "stb_image.h"

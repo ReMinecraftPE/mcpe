@@ -13,7 +13,6 @@
 
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
-#include "common/Utils.hpp"
 #include "LoggerWin32.hpp"
 #include "CustomSoundSystem.hpp"
 
@@ -23,6 +22,10 @@ public:
 	AppPlatform_win32();
 	~AppPlatform_win32();
 
+protected:
+	HWND _getHWND() const { return (HWND)m_hWND; }
+
+public:
 	void initSoundSystem() override;
 
 	void buyGame() override;
@@ -61,18 +64,34 @@ public:
 	const char* const getWindowTitle() const { return m_WindowTitle; }
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 
+	void initializeWindow(HWND hWnd, int nCmdShow);
+	void destroyWindow(HWND hWnd);
+	void centerWindow(HWND hWnd);
+	void enableOpenGL(HWND hWnd);
+	void disableOpenGL(HWND hWnd);
+	void destroyWindow() { destroyWindow(_getHWND()); }
+	void centerWindow() { centerWindow(_getHWND()); }
+	void enableOpenGL() { enableOpenGL(_getHWND()); }
+	void disableOpenGL() { disableOpenGL(_getHWND()); }
+	void swapBuffers();
+
 	static MouseButtonType GetMouseButtonType(UINT iMsg);
 	static bool GetMouseButtonState(UINT iMsg, WPARAM wParam);
 	static Keyboard::KeyState GetKeyState(UINT iMsg);
 
 private:
+	HICON m_cursor;
+
+	// OpenGL
+	HDC m_hDC; // device context
+	HGLRC m_hRC; // render context
+
 	const char* m_WindowTitle;
 	int m_ScreenWidth;
 	int m_ScreenHeight;
 
 	std::vector<std::string> m_UserInput;
 	int m_UserInputStatus;
-
 	eDialogType m_DialogType;
 
 	bool m_bIsFocused;

@@ -16,6 +16,7 @@
 #include <android/sensor.h>
 #include <android/log.h>
 
+#include "common/Logger.hpp"
 #include "compat/KeyCodes.hpp"
 #include "thirdparty/GL/GL.hpp"
 #include "platforms/android/AppPlatform_android.hpp"

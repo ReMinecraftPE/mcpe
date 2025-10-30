@@ -649,7 +649,7 @@ void StartMenuScreen::draw3dTitle(float f)
 		glScalef(0.89f, 1.0f, 0.4f);
 		glTranslatef(-Width * 0.5f, -Height * 0.5f, 0.0f);
 
-		m_pMinecraft->m_pTextures->loadAndBindTexture("terrain.png");
+		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 		if (i == 0) {
 			m_pMinecraft->m_pTextures->loadAndBindTexture("gui/black.png");
 		}

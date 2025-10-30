@@ -24,6 +24,7 @@ protected:
 	virtual void _setMouseGrabbed(bool b) {}
 	virtual void _handleKeyEvent(int key, uint8_t state);
 	virtual void _ensureDirectoryExists(const char* path); // desktop only
+	virtual void* _getHWND() const { return nullptr; }
 
 	void _setIcon(const Texture& icon); // note: this takes ownership of the texture, so no memory leaks!
 	void _setDefaultIcon();

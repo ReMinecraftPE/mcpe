@@ -1,4 +1,5 @@
 #include "MobFactory.hpp"
+#include "common/Logger.hpp"
 #include "nbt/CompoundTag.hpp"
 
 #include "Chicken.hpp"

@@ -9,7 +9,6 @@
 #pragma once
 
 #include <utility>
-#include "common/Utils.hpp"
 #include "client/renderer/VertexPT.hpp"
 #include "client/renderer/Tesselator.hpp"
 #include "GameMods.hpp"

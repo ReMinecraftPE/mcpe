@@ -9,6 +9,7 @@ Minecraft: Pocket Edition - Decompilation Project
 #pragma once
 
 #include <stdint.h>
+#include "compat/LegacyCPP.hpp"
 
 struct AssetFile {
     int64_t size;

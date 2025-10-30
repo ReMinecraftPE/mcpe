@@ -6,8 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <cstring>
+
 #include "DynamicTexture.hpp"
-#include "common/Utils.hpp"
 
 DynamicTexture::DynamicTexture(int a2) : m_textureIndex(a2)
 {

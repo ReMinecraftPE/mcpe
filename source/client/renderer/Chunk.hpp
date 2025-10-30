@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "common/Utils.hpp"
 #include "FrustumCuller.hpp"
 #include "RenderList.hpp"
 #include "Tesselator.hpp"

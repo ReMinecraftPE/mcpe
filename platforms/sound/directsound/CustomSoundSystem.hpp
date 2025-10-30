@@ -44,6 +44,7 @@ private:
 	};
 
 	bool m_available;
+	HWND m_hWnd;
 	IDirectSound* m_directsound;
 	LPDIRECTSOUND3DLISTENER m_listener;
 	std::vector<BufferInfo> m_buffers;

@@ -7,7 +7,8 @@
  ********************************************************************/
 
 #include "ServerSideNetworkHandler.hpp"
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
+#include "GameMods.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
 #include "ServerPlayer.hpp"

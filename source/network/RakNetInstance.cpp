@@ -7,8 +7,11 @@
  ********************************************************************/
 
 #include "RakNetInstance.hpp"
+
+#include "common/Logger.hpp"
+#include "thirdparty/raknet/GetTime.h"
+
 #include "MinecraftPackets.hpp"
-#include "GetTime.h"
 #include "NetEventCallback.hpp"
 
 //#define LOG_PACKETS

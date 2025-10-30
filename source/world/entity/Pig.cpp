@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "Pig.hpp"
-#include "common/Utils.hpp"
 
 Pig::Pig(Level* pLevel) : Animal(pLevel)
 {

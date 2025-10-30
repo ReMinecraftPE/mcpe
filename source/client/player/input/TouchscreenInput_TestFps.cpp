@@ -8,6 +8,7 @@
 
 #include "TouchscreenInput_TestFps.hpp"
 #include "Multitouch.hpp"
+#include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/options/Options.hpp"
 #include "world/entity/Player.hpp"

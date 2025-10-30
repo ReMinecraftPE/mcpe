@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "common/Utils.hpp"
 #include "Item.hpp"
 #include "world/level/TilePos.hpp"
 #include "world/Facing.hpp"

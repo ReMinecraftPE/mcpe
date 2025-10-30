@@ -7,9 +7,12 @@
  ********************************************************************/
 
 #include "Entity.hpp"
-#include "Player.hpp"
-#include "world/level/Level.hpp"
+
+#include "common/Logger.hpp"
 #include "nbt/CompoundTag.hpp"
+#include "world/level/Level.hpp"
+
+#include "Player.hpp"
 
 #define TOTAL_AIR_SUPPLY (300)
 #define DATA_SHARED_FLAGS_ID (0)

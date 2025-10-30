@@ -3,7 +3,6 @@
 #include "thirdparty/SDL/SDL_gamecontroller.h"
 #include "thirdparty/GL/GL.hpp"
 
-#include "common/Utils.hpp"
 #include "CustomSoundSystem.hpp"
 #include "client/player/input/Controller.hpp"
 
@@ -40,6 +39,18 @@ void AppPlatform_sdl1::_setMouseGrabbed(bool b)
 {
     SDL_WM_GrabInput(b ? SDL_GRAB_ON : SDL_GRAB_OFF);
     SDL_ShowCursor(b ? SDL_FALSE : SDL_TRUE);
+}
+
+void* AppPlatform_sdl1::_getHWND() const
+{
+#ifdef _WIN32
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWMInfo(&wmInfo);
+    return wmInfo.window;
+#else
+    return AppPlatform_sdl::_getHWND();
+#endif
 }
 
 const char* AppPlatform_sdl1::getWindowTitle() const

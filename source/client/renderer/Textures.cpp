@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "Textures.hpp"
-#include "common/Utils.hpp"
 
 bool Textures::MIPMAP = false;
 

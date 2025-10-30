@@ -9,7 +9,8 @@
 #include <fstream>
 
 #include "AppPlatform.hpp"
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
+#include "compat/LegacyCPP.hpp"
 
 AppPlatform* AppPlatform::m_singleton = nullptr;
 
@@ -21,6 +22,7 @@ AppPlatform* const AppPlatform::singleton()
 AppPlatform::AppPlatform()
 {
 	m_singleton = this;
+	m_hWND = nullptr;
 }
 
 AppPlatform::~AppPlatform()

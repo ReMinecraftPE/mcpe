@@ -17,7 +17,6 @@
 #include "world/item/ItemInstance.hpp"
 #include "SynchedEntityData.hpp"
 #include "EntityTypeDescriptor.hpp"
-#include "common/Utils.hpp"
 
 #define C_ENTITY_FLAG_ONFIRE (0)
 #define C_ENTITY_FLAG_SNEAKING (1)

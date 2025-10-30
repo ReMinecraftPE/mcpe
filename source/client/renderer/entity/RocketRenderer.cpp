@@ -22,7 +22,7 @@ void RocketRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 
 	float brightness = entity->getBrightness(1.0f);
 
-	bindTexture("gui/items.png");
+	bindTexture(C_ITEMS_NAME);
 	m_renderer.renderTile(&m_tile, 0, brightness);
 
 	glPopMatrix();

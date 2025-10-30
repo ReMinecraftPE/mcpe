@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Dimension.hpp"
+#include "GameMods.hpp"
 #include "world/level/levelgen/chunk/TestChunkSource.hpp"
 #include "world/level/levelgen/chunk/RandomLevelSource.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"

@@ -29,17 +29,6 @@ static void teardown()
     }
 }
 
-// DirectSound Support
-#ifdef _WIN32
-HWND GetHWND()
-{
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWMInfo(&wmInfo);
-    return wmInfo.window;
-}
-#endif
-
 // Handle Events
 static bool window_resized = false;
 static void handle_events()

@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "RenderList.hpp"
-#include "common/Utils.hpp"
 #include "Tesselator.hpp"
 
 #include <cstddef>

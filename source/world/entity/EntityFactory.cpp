@@ -1,5 +1,6 @@
 #include "EntityFactory.hpp"
 #include "MobFactory.hpp"
+#include "common/Logger.hpp"
 #include "nbt/CompoundTag.hpp"
 
 #include "ItemEntity.hpp"

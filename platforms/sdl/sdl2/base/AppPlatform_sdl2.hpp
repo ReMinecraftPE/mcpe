@@ -22,6 +22,7 @@ protected:
 	void _updateWindowIcon() override;
 	void _setMouseGrabbed(bool b) override;
 	void _handleKeyEvent(int key, uint8_t state) override;
+	void* _getHWND() const override;
 
 public:
 	const char* getWindowTitle() const override;
