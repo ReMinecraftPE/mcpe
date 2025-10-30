@@ -5,6 +5,7 @@
 #define STB_VORBIS_HEADER_ONLY
 #include "thirdparty/stb_image/include/stb_vorbis.c"
 
+#include "compat/LegacyCPP.hpp"
 #include "client/sound/SoundData.hpp"
 
 class SoundStream

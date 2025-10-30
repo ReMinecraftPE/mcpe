@@ -1,4 +1,5 @@
 #include "MobCategory.hpp"
+#include "compat/LegacyCPP.hpp"
 #include "world/level/Material.hpp"
 
 MobCategory MobCategory::monster       = MobCategory(EntityCategories(EntityCategories::MONSTER),      10, 20, nullptr, false);

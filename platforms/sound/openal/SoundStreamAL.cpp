@@ -1,5 +1,6 @@
-#include "SoundStreamAL.hpp"
 #include <assert.h>
+
+#include "SoundStreamAL.hpp"
 #include "common/Logger.hpp"
 
 SoundStreamAL::SoundStreamAL()

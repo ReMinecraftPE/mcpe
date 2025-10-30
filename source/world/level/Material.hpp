@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "compat/LegacyCPP.hpp"
+
 class Material
 {
 public:

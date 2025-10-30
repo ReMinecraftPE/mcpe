@@ -6,6 +6,8 @@
 
 #include "thirdparty/OpenAL.h"
 
+#include "compat/LegacyCPP.hpp"
+
 #include "client/sound/SoundStream.hpp"
 
 class SoundStreamAL : public SoundStream
