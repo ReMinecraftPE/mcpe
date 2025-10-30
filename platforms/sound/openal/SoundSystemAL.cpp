@@ -1,6 +1,7 @@
 #include "CustomSoundSystem.hpp"
 
-#include "common/Utils.hpp"
+#include "thirdparty/OpenAL.h"
+#include "common/Logger.hpp"
 
 #include "SoundStreamAL.hpp"
 

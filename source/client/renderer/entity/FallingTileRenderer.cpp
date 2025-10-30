@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "GameMods.hpp"
-#if defined(ENH_ALLOW_SAND_GRAVITY)
+#ifdef ENH_ALLOW_SAND_GRAVITY
 #include "FallingTileRenderer.hpp"
 #include "world/entity/FallingTile.hpp"
 

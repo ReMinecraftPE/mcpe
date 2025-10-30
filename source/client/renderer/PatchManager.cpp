@@ -1,6 +1,7 @@
 #include "PatchManager.hpp"
+
+#include "common/Logger.hpp"
 #include "client/app/AppPlatform.hpp"
-#include "common/Utils.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/Item.hpp"
 #include "thirdparty/GL/GL.hpp"

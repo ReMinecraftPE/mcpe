@@ -1,4 +1,5 @@
 #include "NetEventCallback.hpp"
+#include "common/Logger.hpp"
 #include "world/level/Level.hpp"
 
 Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId, const RakNet::RakNetGUID* guid)

@@ -10,7 +10,6 @@
 
 #include "../GuiComponent.hpp"
 #include "../Screen.hpp"
-#include "common/Utils.hpp"
 
 class Screen;
 class Minecraft;

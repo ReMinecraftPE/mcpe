@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "common/Utils.hpp"
 #include "thirdparty/raknet/RakNetTypes.h"
 #include "world/item/Inventory.hpp"
 #include "world/entity/Mob.hpp"

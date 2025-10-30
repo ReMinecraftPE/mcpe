@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include "common/Logger.hpp"
 #include "world/level/Level.hpp"
 #include "world/phys/AABB.hpp"
 

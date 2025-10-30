@@ -8,18 +8,17 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include "CustomSoundSystem.hpp"
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
 
 // @TODO: fix crash in playAt when Asan is active
 
-SoundSystemDS::SoundSystemDS()
+SoundSystemDS::SoundSystemDS(const HWND* pHWnd)
 {
-	LOG_I("Init SoundSystemDS");
+	m_available = false;
+	m_pHWnd = pHWnd;
 
 	HRESULT result;
 	DSBUFFERDESC bufferDesc;
-	m_available = false;
-
 
 	result = DirectSoundCreate(NULL, &m_directsound, NULL);
 	if (FAILED(result))
@@ -28,7 +27,7 @@ SoundSystemDS::SoundSystemDS()
 		return;
 	}
 
-	result = m_directsound->SetCooperativeLevel(GetHWND(), DSSCL_NORMAL);
+	result = m_directsound->SetCooperativeLevel(*m_pHWnd, DSSCL_NORMAL);
 	if (FAILED(result))
 	{
 		LOG_E("SoundSystemDS failed set cooperation level");

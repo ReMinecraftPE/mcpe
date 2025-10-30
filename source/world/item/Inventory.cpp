@@ -1,6 +1,10 @@
 #include "Inventory.hpp"
-#include "Item.hpp"
+
+#include "GameMods.hpp"
+#include "common/Logger.hpp"
 #include "nbt/CompoundTag.hpp"
+
+#include "Item.hpp"
 
 Inventory::Inventory(Player* pPlayer)
 {

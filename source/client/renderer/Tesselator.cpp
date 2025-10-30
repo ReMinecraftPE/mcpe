@@ -8,7 +8,7 @@
 
 #include "Tesselator.hpp"
 #include "thirdparty/GL/GL.hpp"
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
 #include "compat/EndianDefinitions.h"
 
 #include <cstddef>

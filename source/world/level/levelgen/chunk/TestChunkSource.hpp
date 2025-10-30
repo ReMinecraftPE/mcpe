@@ -9,7 +9,6 @@
 #pragma once
 
 #include <cstring>
-#include "common/Utils.hpp"
 #include "ChunkSource.hpp"
 
 class Level;

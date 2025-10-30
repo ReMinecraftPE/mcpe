@@ -12,7 +12,7 @@
 #include "thirdparty/SDL/SDL_gamecontroller.h"
 
 #include "Options.hpp"
-#include "common/Util.hpp"
+#include "common/Logger.hpp"
 #include "compat/KeyCodes.hpp"
 #include "client/app/Minecraft.hpp"
 

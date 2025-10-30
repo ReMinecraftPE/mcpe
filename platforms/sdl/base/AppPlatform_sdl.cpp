@@ -16,6 +16,7 @@
 #include "AppPlatform_sdl.hpp"
 
 #include "common/Utils.hpp"
+#include "compat/KeyCodes.hpp"
 
 #include "CustomSoundSystem.hpp"
 // Macros are cursed
@@ -140,15 +141,14 @@ void AppPlatform_sdl::_setDefaultIcon()
 
 void AppPlatform_sdl::initSoundSystem()
 {
-	if (!m_pSoundSystem)
-	{
-		LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
-		m_pSoundSystem = new SOUND_SYSTEM();
-	}
-	else
+	if (m_pSoundSystem)
 	{
 		LOG_E("Trying to initialize SoundSystem more than once!");
+		return;
 	}
+
+	LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
+	m_pSoundSystem = new SOUND_SYSTEM();
 }
 
 int AppPlatform_sdl::checkLicense()

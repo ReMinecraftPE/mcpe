@@ -12,7 +12,6 @@
 #include "client/player/input/RectangleArea.hpp"
 #include "client/app/Minecraft.hpp"
 #include "common/Random.hpp"
-#include "common/Utils.hpp"
 
 class Minecraft; // in case we're included from Minecraft.hpp
 

@@ -11,7 +11,7 @@
 #include "thirdparty/GL/GL.hpp"
 #endif
 
-#include "common/Utils.hpp"
+#include "compat/KeyCodes.hpp"
 
 #include "CustomSoundSystem.hpp"
 // Macros are cursed

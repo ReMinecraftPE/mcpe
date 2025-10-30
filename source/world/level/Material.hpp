@@ -6,8 +6,6 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "common/Utils.hpp"
-
 #pragma once
 
 class Material

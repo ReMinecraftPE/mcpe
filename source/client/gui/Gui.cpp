@@ -367,7 +367,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		}
 	}
 
-	textures->loadAndBindTexture("gui/gui_blocks.png");
+	textures->loadAndBindTexture(C_BLOCKS_NAME);
 
 	int diff = mc->isTouchscreen();
 

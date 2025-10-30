@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "PerlinNoise.hpp"
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
 
 PerlinNoise::PerlinNoise(int nOctaves)
 {

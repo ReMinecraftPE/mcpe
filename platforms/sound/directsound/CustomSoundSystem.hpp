@@ -27,7 +27,7 @@
 class SoundSystemDS : public SoundSystem
 {
 public:
-	SoundSystemDS();
+	SoundSystemDS(const HWND* pHWnd);
 	~SoundSystemDS();
 	virtual bool isAvailable() override;
 	virtual void setListenerPos(const Vec3& pos) override;
@@ -44,6 +44,7 @@ private:
 	};
 
 	bool m_available;
+	const HWND* m_pHWnd;
 	IDirectSound* m_directsound;
 	LPDIRECTSOUND3DLISTENER m_listener;
 	std::vector<BufferInfo> m_buffers;

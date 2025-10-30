@@ -10,7 +10,7 @@
 
 #include "GameMods.hpp"
 
-#if defined(ENH_ALLOW_SAND_GRAVITY)
+#ifdef ENH_ALLOW_SAND_GRAVITY
 
 #include "EntityRenderer.hpp"
 #include "../TileRenderer.hpp"

@@ -9,7 +9,6 @@
 #pragma once
 
 #include <stdint.h>
-#include "common/Utils.hpp"
 
 struct Texture
 {

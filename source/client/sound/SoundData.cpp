@@ -11,6 +11,7 @@
 
 #include "SoundData.hpp"
 
+#include "common/Logger.hpp"
 #include "client/app/AppPlatform.hpp"
 
 std::string SoundDesc::dirs[] = {

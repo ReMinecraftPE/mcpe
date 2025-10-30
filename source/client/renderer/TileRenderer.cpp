@@ -9,10 +9,11 @@
 #include "TileRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/PatchManager.hpp"
-#include "world/tile/FireTile.hpp"
-#include "world/tile/LiquidTile.hpp"
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
+#include "world/tile/FireTile.hpp"
+#include "world/tile/LiquidTile.hpp"
+#include "GameMods.hpp"
 
 bool TileRenderer::m_bFancyGrass = false;
 bool TileRenderer::m_bBiomeColors = false;

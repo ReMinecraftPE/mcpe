@@ -11,22 +11,34 @@
 #include <sstream>
 #include <shlobj.h>
 
-#include "GameMods.hpp"
-
 #include "AppPlatform_win32.hpp"
+
+#include "GameMods.hpp"
+#include "common/Logger.hpp"
 
 #include "thirdparty/GL/GL.hpp"
 
 #include "thirdparty/stb_image/include/stb_image.h"
 #include "thirdparty/stb_image/include/stb_image_write.h"
 
+// Macros are cursed
+#define _STR(x) #x
+#define STR(x) _STR(x)
+
 AppPlatform_win32::AppPlatform_win32()
 {
+	m_hWnd = NULL;
+	m_cursor = NULL;
+
+	m_hDC = NULL;
+	m_hRC = NULL;
+
 	m_WindowTitle = "ReMinecraftPE";
 	// just assume an 854x480 window for now:
 	m_ScreenWidth = C_DEFAULT_SCREEN_WIDTH;
 	m_ScreenHeight = C_DEFAULT_SCREEN_HEIGHT;
 	m_UserInputStatus = -1;
+	m_DialogType = DLG_NONE;
 
 	m_bIsFocused = false;
 	m_bGrabbedMouse = false;
@@ -46,10 +58,18 @@ AppPlatform_win32::~AppPlatform_win32()
 
 void AppPlatform_win32::initSoundSystem()
 {
-	if (!m_pSoundSystem)
-		m_pSoundSystem = new SOUND_SYSTEM();
-	else
+	if (m_pSoundSystem)
+	{
 		LOG_E("Trying to initialize SoundSystem more than once!");
+		return;
+	}
+
+	LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
+#if SOUND_SYSTEM == SoundSystemDS
+	m_pSoundSystem = new SOUND_SYSTEM(&m_hWnd);
+#else
+	m_pSoundSystem = new SOUND_SYSTEM();
+#endif
 }
 
 int AppPlatform_win32::checkLicense()
@@ -60,7 +80,7 @@ int AppPlatform_win32::checkLicense()
 
 void AppPlatform_win32::buyGame()
 {
-	MessageBoxA(GetHWND(), "Buying the game!", getWindowTitle(), MB_OK | MB_ICONINFORMATION);
+	MessageBoxA(m_hWnd, "Buying the game!", getWindowTitle(), MB_OK | MB_ICONINFORMATION);
 }
 
 void AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, int height)
@@ -163,7 +183,7 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
 			return Texture(0, 0, nullptr, 1, 0);
 
 		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?\n\nNote, you will be warned for every missing texture.";
-		MessageBoxA(GetHWND(), msg.c_str(), getWindowTitle(), MB_OK | MB_ICONERROR);
+		MessageBoxA(m_hWnd, msg.c_str(), getWindowTitle(), MB_OK | MB_ICONERROR);
 
 		if (f)
 			fclose(f);
@@ -236,7 +256,7 @@ void AppPlatform_win32::recenterMouse()
 		return;
 
 	// If we aren't the foreground window, return
-	if (GetForegroundWindow() != GetHWND())
+	if (GetForegroundWindow() != m_hWnd)
 	{
 		m_bWasUnfocused = true;
 		return;
@@ -247,10 +267,10 @@ void AppPlatform_win32::recenterMouse()
 
 	/* We're doing this for FUN???
 	RECT rect;
-	GetClientRect(GetHWND(), &rect);*/
+	GetClientRect(m_hWnd, &rect);*/
 
 	POINT offs = { getScreenWidth() / 2, getScreenHeight() / 2 };
-	ClientToScreen(GetHWND(), &offs);
+	ClientToScreen(m_hWnd, &offs);
 
 	SetCursorPos(offs.x, offs.y);
 
@@ -299,10 +319,10 @@ void AppPlatform_win32::setMouseGrabbed(bool b)
 
 		//confine it to our client area
 		RECT rect;
-		GetClientRect(GetHWND(), &rect);
+		GetClientRect(m_hWnd, &rect);
 
 		POINT offs = { 0, 0 };
-		ClientToScreen(GetHWND(), &offs);
+		ClientToScreen(m_hWnd, &offs);
 		rect.left   += offs.x;
 		rect.top    += offs.y;
 		rect.right  += offs.x;
@@ -332,6 +352,76 @@ void AppPlatform_win32::updateFocused(bool focused)
 {
 	m_bIsFocused = focused;
 	setMouseGrabbed(m_bGrabbedMouse);
+}
+
+void AppPlatform_win32::initializeWindow(HWND hWnd, int nCmdShow)
+{
+	m_hWnd = hWnd;
+
+	centerWindow();
+	ShowWindow(hWnd, nCmdShow);
+
+	// enable OpenGL for the window
+	enableOpenGL();
+}
+
+void AppPlatform_win32::centerWindow()
+{
+	RECT r, desk;
+	GetWindowRect(m_hWnd, &r);
+	GetWindowRect(GetDesktopWindow(), &desk);
+
+	int wa, ha, wb, hb;
+
+	wa = (r.right - r.left) / 2;
+	ha = (r.bottom - r.top) / 2;
+
+	wb = (desk.right - desk.left) / 2;
+	hb = (desk.bottom - desk.top) / 2;
+
+	SetWindowPos(m_hWnd, NULL, wb - wa, hb - ha, r.right - r.left, r.bottom - r.top, 0);
+}
+
+void AppPlatform_win32::enableOpenGL()
+{
+	PIXELFORMATDESCRIPTOR pfd;
+
+	int iFormat;
+
+	/* get the device context (DC) */
+	m_hDC = GetDC(m_hWnd);
+
+	/* set the pixel format for the DC */
+	ZeroMemory(&pfd, sizeof(pfd));
+
+	pfd.nSize = sizeof(pfd);
+	pfd.nVersion = 1;
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+	pfd.iPixelType = PFD_TYPE_RGBA;
+	pfd.cColorBits = 24;
+	pfd.cDepthBits = 8;
+	pfd.iLayerType = PFD_MAIN_PLANE;
+
+	iFormat = ChoosePixelFormat(m_hDC, &pfd);
+
+	SetPixelFormat(m_hDC, iFormat, &pfd);
+
+	/* create and enable the render context (RC) */
+	m_hRC = wglCreateContext(m_hDC);
+
+	wglMakeCurrent(m_hDC, m_hRC);
+}
+
+void AppPlatform_win32::disableOpenGL()
+{
+	wglMakeCurrent(NULL, NULL);
+	wglDeleteContext(m_hRC);
+	ReleaseDC(m_hWnd, m_hDC);
+}
+
+void AppPlatform_win32::swapBuffers()
+{
+	SwapBuffers(m_hDC);
 }
 
 MouseButtonType AppPlatform_win32::GetMouseButtonType(UINT iMsg)

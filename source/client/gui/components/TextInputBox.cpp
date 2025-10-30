@@ -7,6 +7,8 @@
  ********************************************************************/
 
 #include "TextInputBox.hpp"
+#include "common/Logger.hpp"
+#include "compat/KeyCodes.hpp"
 #include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE
 

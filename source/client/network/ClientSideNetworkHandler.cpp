@@ -8,7 +8,7 @@
 
 #include <RakPeer.h>
 #include "ClientSideNetworkHandler.hpp"
-#include "common/Utils.hpp"
+#include "common/Logger.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/DisconnectionScreen.hpp"
 #include "client/multiplayer/MultiPlayerLevel.hpp"

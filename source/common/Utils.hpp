@@ -27,23 +27,23 @@
 #include <sstream>
 
 #include "compat/LegacyCPP.hpp"
+#include "compat/PlatformDefinitions.h"
 
 #ifdef _MSC_VER
 #pragma warning (disable : 4068)
 #endif
 
-#if defined(_WIN32)
+#ifdef _WIN32
 
 // Do we even need all this WinSock stuff anymore?
-#ifndef _XBOX // assume we're on a normal Windows device
+#if MC_PLATFORM_WINPC
+
 #define WIN32_LEAN_AND_MEAN
-#include <winsock2.h>
 #include <windows.h>
-#include <ws2tcpip.h>
 #include <direct.h>
 #include <io.h>
 
-#elif defined(_XBOX)
+#elif MC_PLATFORM_XBOX360
 
 #include <xtl.h>
 #include <winsockx.h>
@@ -101,24 +101,7 @@ void closedir(DIR* dir);
 
 #endif
 
-#include "../../compat/KeyCodes.hpp"
-#include "Logger.hpp"
-
-// options:
-#include "../../GameMods.hpp"
-
 // don't know where to declare these:
-
-#ifndef MOD_USE_BIGGER_SCREEN_SIZE
-#define C_DEFAULT_SCREEN_WIDTH  (854)
-#define C_DEFAULT_SCREEN_HEIGHT (480)
-#elif defined(__DREAMCAST__)
-#define C_DEFAULT_SCREEN_WIDTH  (800)
-#define C_DEFAULT_SCREEN_HEIGHT (600)
-#else
-#define C_DEFAULT_SCREEN_WIDTH  (1280)
-#define C_DEFAULT_SCREEN_HEIGHT (720)
-#endif
 
 #define C_MAX_TILES (256)
 
@@ -128,20 +111,6 @@ void closedir(DIR* dir);
 constexpr int C_MIN_X = -32000000, C_MAX_X = 32000000;
 constexpr int C_MIN_Z = -32000000, C_MAX_Z = 32000000;
 constexpr int C_MIN_Y = 0, C_MAX_Y = 128;
-
-const char* GetTerrainName();
-const char* GetItemsName();
-const char* GetGUIBlocksName();
-
-#ifdef ORIGINAL_CODE
-#define C_TERRAIN_NAME "terrain.png"
-#define C_ITEMS_NAME   "gui/items.png"
-#define C_BLOCKS_NAME  "gui/gui_blocks.png"
-#else
-#define C_TERRAIN_NAME GetTerrainName()
-#define C_ITEMS_NAME   "gui/items.png"
-#define C_BLOCKS_NAME  "gui/gui_blocks.png"
-#endif
 
 #define C_MAX_CHUNKS_X (16)
 #define C_MAX_CHUNKS_Z (16)
@@ -428,7 +397,7 @@ enum // Textures
 	TEXTURE_BOOKSHELF,
 	TEXTURE_MOSSY_STONE,
 	TEXTURE_OBSIDIAN,
-	TEXTURE_OBSIDIAN_CRYING, // would become grass side overaly after removel
+	TEXTURE_OBSIDIAN_CRYING, // would become grass side overlay after removel
 	TEXTURE_NONE39, // tall grass
 	TEXTURE_NONE40,
 	TEXTURE_CHEST_TWO_FRONT_LEFT,
@@ -566,18 +535,6 @@ typedef uint8_t TileID;
 // Create "Tile" class containing TileTypeId, and TileData
 typedef uint8_t TileData;
 
-/*struct Pos
-{
-	int x, y, z;
-	Pos()
-	{
-		x = 0;
-		y = 0;
-		z = 0;
-	}
-	Pos(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
-};*/
-
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)
 #define SAFE_DELETE_ARRAY(ptr) do { if (ptr) delete[] ptr; } while (0)
 
@@ -599,18 +556,3 @@ bool DeleteDirectory(const std::string& name, bool unused);
 uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize);
 uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t *compressedSizeOut);
 uint8_t* ZlibDeflateToMemoryLvl(uint8_t* pInput, size_t sizeBytes, size_t* compressedSizeOut, int level);
-
-// things that we added:
-
-#ifdef _WIN32
-
-HINSTANCE GetInstance();
-HWND GetHWND();
-void CenterWindow(HWND hWnd);
-void EnableOpenGL(HWND hwnd, HDC*, HGLRC*);
-void DisableOpenGL(HWND, HDC, HGLRC);
-
-void SetInstance(HINSTANCE hinst);
-void SetHWND(HWND hwnd);
-
-#endif

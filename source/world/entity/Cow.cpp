@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "Cow.hpp"
-#include "common/Utils.hpp"
 
 Cow::Cow(Level* pLevel) : Animal(pLevel)
 {

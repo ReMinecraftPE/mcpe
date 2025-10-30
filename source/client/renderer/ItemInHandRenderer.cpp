@@ -89,7 +89,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
         if (pTile)
             toBind = C_TERRAIN_NAME;
         else
-            toBind = "gui/items.png";
+            toBind = C_ITEMS_NAME;
         m_pMinecraft->m_pTextures->loadAndBindTexture(toBind);
         
         constexpr float C_RATIO     = 1.0f / 256.0f;

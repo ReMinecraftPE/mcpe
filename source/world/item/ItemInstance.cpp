@@ -8,6 +8,7 @@
 
 #include <sstream>
 #include "ItemInstance.hpp"
+#include "GameMods.hpp"
 #include "world/tile/Tile.hpp"
 #include "nbt/CompoundTag.hpp"
 

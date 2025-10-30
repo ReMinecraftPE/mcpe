@@ -105,7 +105,7 @@ extern "C" void resize_from_js(int new_width, int new_height)
 }
 #endif
 
-// DirectSound Support
+// Can be used by DirectSound
 #ifdef _WIN32
 HWND GetHWND()
 {
@@ -314,7 +314,7 @@ int main(int argc, char *argv[])
 	// Setup SDL
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0)
 	{
-		//LOG_E("Unable To Initialize SDL: %s", SDL_GetError());
+		LOG_E("Unable To Initialize SDL: %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 
@@ -353,7 +353,7 @@ int main(int argc, char *argv[])
 	if (!context)
 	{
 		const char* const GL_ERROR_MSG = "Unable to create OpenGL context";
-		//LOG_E(GL_ERROR_MSG);
+		LOG_E(GL_ERROR_MSG);
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
@@ -362,11 +362,11 @@ int main(int argc, char *argv[])
     // Not setting this explicitly results in undefined behavior
     if (SDL_GL_SetSwapInterval(-1) == -1) // Try adaptive
     {
-        //LOG_W("Adaptive V-Sync is not supported on this platform. Falling back to standard V-Sync...");
+        LOG_W("Adaptive V-Sync is not supported on this platform. Falling back to standard V-Sync...");
         // fallback to standard
 		if (SDL_GL_SetSwapInterval(1) == -1)
 		{
-			//LOG_W("Setting the swap interval for V-Sync is not supported on this platform!");
+			LOG_W("Setting the swap interval for V-Sync is not supported on this platform!");
 		}
     }
 
@@ -376,7 +376,7 @@ int main(int argc, char *argv[])
 	if (!xglInitted())
 	{
 		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
-		//LOG_E(GL_ERROR_MSG);
+		LOG_E(GL_ERROR_MSG);
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}

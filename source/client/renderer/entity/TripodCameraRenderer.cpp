@@ -38,7 +38,7 @@ void TripodCameraRenderer::render(Entity* entity, const Vec3& pos, float rot, fl
 
 	float brightness = entity->getBrightness(1.0f);
 
-	bindTexture("gui/items.png");
+	bindTexture(C_ITEMS_NAME);
 	//t.begin();
 	//m_renderer.tesselateCrossTexture(&m_tile, 0, -0.5f, -0.5f, -0.5f);
 	m_renderer.renderTile(&m_tile, 0, brightness);

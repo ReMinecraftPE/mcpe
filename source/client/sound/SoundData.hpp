@@ -8,8 +8,8 @@
 
 #pragma once
 
+#include <string>
 #include <stdint.h>
-#include "common/Utils.hpp"
 #include "client/app/AssetFile.hpp"
 
 class AppPlatform;

@@ -29,7 +29,7 @@ static void teardown()
     }
 }
 
-// DirectSound Support
+// Can be used by DirectSound
 #ifdef _WIN32
 HWND GetHWND()
 {

@@ -15,12 +15,26 @@
 #include "client/sound/SoundSystem.hpp"
 #include "AssetFile.hpp"
 
+#include "GameMods.hpp"
+
+#ifndef MOD_USE_BIGGER_SCREEN_SIZE
+#define C_DEFAULT_SCREEN_WIDTH  (854)
+#define C_DEFAULT_SCREEN_HEIGHT (480)
+#elif defined(__DREAMCAST__)
+#define C_DEFAULT_SCREEN_WIDTH  (800)
+#define C_DEFAULT_SCREEN_HEIGHT (600)
+#else
+#define C_DEFAULT_SCREEN_WIDTH  (1280)
+#define C_DEFAULT_SCREEN_HEIGHT (720)
+#endif
+
 class AppPlatform
 {
 public:
 	enum eDialogType
 	{
-		DLG_CREATE_WORLD = 1,
+		DLG_NONE,
+		DLG_CREATE_WORLD,
 		DLG_CHAT,
 		DLG_OPTIONS,
 		DLG_RENAME_MP_WORLD,

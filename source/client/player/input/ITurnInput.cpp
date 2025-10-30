@@ -6,8 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "common/Utils.hpp"
 #include "ITurnInput.hpp"
+#include "common/Utils.hpp"
 
 ITurnInput::~ITurnInput()
 {
