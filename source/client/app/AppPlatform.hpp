@@ -113,5 +113,9 @@ public:
 	virtual std::string getAssetPath(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string&, bool) const;
 #endif
+
+public:
+	//std::multimap<float, AppPlatformListener*> m_listeners;
+	void* m_hWND; // the Mojang solution
 };
 

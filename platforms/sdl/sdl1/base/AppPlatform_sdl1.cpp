@@ -41,6 +41,18 @@ void AppPlatform_sdl1::_setMouseGrabbed(bool b)
     SDL_ShowCursor(b ? SDL_FALSE : SDL_TRUE);
 }
 
+void* AppPlatform_sdl1::_getHWND() const
+{
+#ifdef _WIN32
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWMInfo(&wmInfo);
+    return wmInfo.window;
+#else
+    return AppPlatform_sdl::_getHWND();
+#endif
+}
+
 const char* AppPlatform_sdl1::getWindowTitle() const
 {
     char* title;

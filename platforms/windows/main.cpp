@@ -218,7 +218,7 @@ _cleanup:
 	g_AppPlatform.disableOpenGL();
 
 	// destroy the window explicitly, since we ignored the WM_QUIT message
-	DestroyWindow(hWnd);
+	g_AppPlatform.destroyWindow();
 
 	delete g_pApp;
 

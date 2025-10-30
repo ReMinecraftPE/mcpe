@@ -76,6 +76,18 @@ void AppPlatform_sdl2::_handleKeyEvent(int key, uint8_t state)
 	return AppPlatform_sdl::_handleKeyEvent(key, state);
 }
 
+void* AppPlatform_sdl2::_getHWND() const
+{
+#ifdef _WIN32
+	SDL_SysWMinfo wmInfo;
+	SDL_VERSION(&wmInfo.version);
+	SDL_GetWindowWMInfo(m_pWindow, &wmInfo);
+	return wmInfo.info.win.window;
+#else
+	return AppPlatform_sdl::_getHWND();
+#endif
+}
+
 const char* AppPlatform_sdl2::getWindowTitle() const
 {
 	return SDL_GetWindowTitle(m_pWindow);

@@ -22,6 +22,10 @@ public:
 	AppPlatform_win32();
 	~AppPlatform_win32();
 
+protected:
+	HWND _getHWND() const { return (HWND)m_hWND; }
+
+public:
 	void initSoundSystem() override;
 
 	void buyGame() override;
@@ -61,9 +65,14 @@ public:
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 
 	void initializeWindow(HWND hWnd, int nCmdShow);
-	void centerWindow();
-	void enableOpenGL();
-	void disableOpenGL();
+	void destroyWindow(HWND hWnd);
+	void centerWindow(HWND hWnd);
+	void enableOpenGL(HWND hWnd);
+	void disableOpenGL(HWND hWnd);
+	void destroyWindow() { destroyWindow(_getHWND()); }
+	void centerWindow() { centerWindow(_getHWND()); }
+	void enableOpenGL() { enableOpenGL(_getHWND()); }
+	void disableOpenGL() { disableOpenGL(_getHWND()); }
 	void swapBuffers();
 
 	static MouseButtonType GetMouseButtonType(UINT iMsg);
@@ -71,7 +80,6 @@ public:
 	static Keyboard::KeyState GetKeyState(UINT iMsg);
 
 private:
-	HWND m_hWnd;
 	HICON m_cursor;
 
 	// OpenGL

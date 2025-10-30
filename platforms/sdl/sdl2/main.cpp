@@ -105,17 +105,6 @@ extern "C" void resize_from_js(int new_width, int new_height)
 }
 #endif
 
-// Can be used by DirectSound
-#ifdef _WIN32
-HWND GetHWND()
-{
-	SDL_SysWMinfo wmInfo;
-	SDL_VERSION(&wmInfo.version);
-	SDL_GetWindowWMInfo(window, &wmInfo);
-	return wmInfo.info.win.window;
-}
-#endif
-
 // Handle Events
 static bool window_resized = false;
 static void handle_events()

@@ -29,6 +29,8 @@ void AppPlatform_sdl::_init(std::string storageDir)
 {
 	m_storageDir = storageDir;
 
+	m_hWND = _getHWND();
+
 	m_pIconTexture = nullptr;
 	m_pIcon = nullptr;
 

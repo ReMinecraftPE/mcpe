@@ -22,6 +22,7 @@ AppPlatform* const AppPlatform::singleton()
 AppPlatform::AppPlatform()
 {
 	m_singleton = this;
+	m_hWND = nullptr;
 }
 
 AppPlatform::~AppPlatform()

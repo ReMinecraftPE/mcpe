@@ -27,7 +27,6 @@
 
 AppPlatform_win32::AppPlatform_win32()
 {
-	m_hWnd = NULL;
 	m_cursor = NULL;
 
 	m_hDC = NULL;
@@ -65,11 +64,7 @@ void AppPlatform_win32::initSoundSystem()
 	}
 
 	LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
-#if SOUND_SYSTEM == SoundSystemDS
-	m_pSoundSystem = new SOUND_SYSTEM(&m_hWnd);
-#else
 	m_pSoundSystem = new SOUND_SYSTEM();
-#endif
 }
 
 int AppPlatform_win32::checkLicense()
@@ -80,7 +75,7 @@ int AppPlatform_win32::checkLicense()
 
 void AppPlatform_win32::buyGame()
 {
-	MessageBoxA(m_hWnd, "Buying the game!", getWindowTitle(), MB_OK | MB_ICONINFORMATION);
+	MessageBoxA(_getHWND(), "Buying the game!", getWindowTitle(), MB_OK | MB_ICONINFORMATION);
 }
 
 void AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, int height)
@@ -183,7 +178,7 @@ Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
 			return Texture(0, 0, nullptr, 1, 0);
 
 		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?\n\nNote, you will be warned for every missing texture.";
-		MessageBoxA(m_hWnd, msg.c_str(), getWindowTitle(), MB_OK | MB_ICONERROR);
+		MessageBoxA(_getHWND(), msg.c_str(), getWindowTitle(), MB_OK | MB_ICONERROR);
 
 		if (f)
 			fclose(f);
@@ -256,7 +251,7 @@ void AppPlatform_win32::recenterMouse()
 		return;
 
 	// If we aren't the foreground window, return
-	if (GetForegroundWindow() != m_hWnd)
+	if (GetForegroundWindow() != _getHWND())
 	{
 		m_bWasUnfocused = true;
 		return;
@@ -267,10 +262,10 @@ void AppPlatform_win32::recenterMouse()
 
 	/* We're doing this for FUN???
 	RECT rect;
-	GetClientRect(m_hWnd, &rect);*/
+	GetClientRect(_getHWND(), &rect);*/
 
 	POINT offs = { getScreenWidth() / 2, getScreenHeight() / 2 };
-	ClientToScreen(m_hWnd, &offs);
+	ClientToScreen(_getHWND(), &offs);
 
 	SetCursorPos(offs.x, offs.y);
 
@@ -319,10 +314,10 @@ void AppPlatform_win32::setMouseGrabbed(bool b)
 
 		//confine it to our client area
 		RECT rect;
-		GetClientRect(m_hWnd, &rect);
+		GetClientRect(_getHWND(), &rect);
 
 		POINT offs = { 0, 0 };
-		ClientToScreen(m_hWnd, &offs);
+		ClientToScreen(_getHWND(), &offs);
 		rect.left   += offs.x;
 		rect.top    += offs.y;
 		rect.right  += offs.x;
@@ -356,19 +351,24 @@ void AppPlatform_win32::updateFocused(bool focused)
 
 void AppPlatform_win32::initializeWindow(HWND hWnd, int nCmdShow)
 {
-	m_hWnd = hWnd;
+	m_hWND = hWnd;
 
 	centerWindow();
 	ShowWindow(hWnd, nCmdShow);
 
 	// enable OpenGL for the window
-	enableOpenGL();
+	enableOpenGL(hWnd);
 }
 
-void AppPlatform_win32::centerWindow()
+void AppPlatform_win32::destroyWindow(HWND hWnd)
+{
+	DestroyWindow(hWnd);
+}
+
+void AppPlatform_win32::centerWindow(HWND hWnd)
 {
 	RECT r, desk;
-	GetWindowRect(m_hWnd, &r);
+	GetWindowRect(hWnd, &r);
 	GetWindowRect(GetDesktopWindow(), &desk);
 
 	int wa, ha, wb, hb;
@@ -379,17 +379,16 @@ void AppPlatform_win32::centerWindow()
 	wb = (desk.right - desk.left) / 2;
 	hb = (desk.bottom - desk.top) / 2;
 
-	SetWindowPos(m_hWnd, NULL, wb - wa, hb - ha, r.right - r.left, r.bottom - r.top, 0);
+	SetWindowPos(hWnd, NULL, wb - wa, hb - ha, r.right - r.left, r.bottom - r.top, 0);
 }
 
-void AppPlatform_win32::enableOpenGL()
+void AppPlatform_win32::enableOpenGL(HWND hWnd)
 {
 	PIXELFORMATDESCRIPTOR pfd;
-
 	int iFormat;
 
 	/* get the device context (DC) */
-	m_hDC = GetDC(m_hWnd);
+	m_hDC = GetDC(hWnd);
 
 	/* set the pixel format for the DC */
 	ZeroMemory(&pfd, sizeof(pfd));
@@ -412,11 +411,11 @@ void AppPlatform_win32::enableOpenGL()
 	wglMakeCurrent(m_hDC, m_hRC);
 }
 
-void AppPlatform_win32::disableOpenGL()
+void AppPlatform_win32::disableOpenGL(HWND hWnd)
 {
 	wglMakeCurrent(NULL, NULL);
 	wglDeleteContext(m_hRC);
-	ReleaseDC(m_hWnd, m_hDC);
+	ReleaseDC(hWnd, m_hDC);
 }
 
 void AppPlatform_win32::swapBuffers()
