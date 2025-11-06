@@ -1221,6 +1221,8 @@ int Minecraft::getFpsIntlCounter()
 
 void Minecraft::leaveGame(bool bCopyMap)
 {
+	Keyboard::setBlocked(true);
+
 	m_bPreparingLevel = false;
 	if (m_pRakNetInstance)
 		m_pRakNetInstance->disconnect();
