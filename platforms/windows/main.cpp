@@ -18,6 +18,8 @@
 
 #include "client/player/input/Multitouch.hpp"
 
+#include "renderer/platform/ogl/Extensions.hpp"
+
 #include "AppPlatform_win32.hpp"
 #include "resource.h"
 #include "LoggerWin32.hpp"
@@ -165,9 +167,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	g_AppPlatform.initializeWindow(hWnd, nCmdShow);
 
-	xglInit();
-
-	if (!xglInitted())
+	if (!mce::Platform::OGL::InitBindings())
 	{
 		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
 		LOG_E(GL_ERROR_MSG);

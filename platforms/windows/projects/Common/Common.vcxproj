@@ -83,6 +83,10 @@
     <ClCompile Include="$(MC_ROOT)\source\common\Utils.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\SmoothFloat.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\DataIO.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\math\Color.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\utility\AlignmentHelper.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\utility\JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\common\utility\Singleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp" />
@@ -98,6 +102,11 @@
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Compat.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Info.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\math\Color.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\AlignmentHelper.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\InheritanceTree.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\JsonParser.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\Singleton.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

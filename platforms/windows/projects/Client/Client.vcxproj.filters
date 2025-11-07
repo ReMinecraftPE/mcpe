@@ -482,6 +482,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp">
       <Filter>Header Files\Multiplayer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\app\AppPlatformListener.hpp">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -864,6 +870,12 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp">
       <Filter>Source Files\Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\app\AppPlatformListener.cpp">
+      <Filter>Source Files\App</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

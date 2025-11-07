@@ -1,0 +1,238 @@
+#include "RenderMaterial.hpp"
+
+#include "PlatformDefinitions.h"
+
+#include "hal/enums/RenderState_JsonParser.hpp"
+#include "hal/enums/ComparisonFunc_JsonParser.hpp"
+#include "hal/enums/StencilOp_JsonParser.hpp"
+#include "hal/enums/ShaderStagesBits.hpp"
+#include "RenderContextImmediate.hpp"
+
+#include "EnableScissorTest.hpp"
+
+#if MCE_GFX_API_OGL
+#include "platform/ogl/ShaderPrecision.hpp"
+#endif
+
+using namespace mce;
+
+RenderMaterial::RenderMaterial()
+{
+    m_stateMask = 0;
+    m_polygonOffsetLevel = -2.0f;
+    m_pShader = nullptr;
+}
+
+RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMaterial& parent)
+    : RenderMaterial(parent)
+{
+    _parseRenderStates(root);
+    _parseRuntimeStates(root);
+    _parseShaderPaths(root);
+
+    if (!m_vertexShader.empty() && !m_fragmentShader.empty())
+    {
+        _parseDefines(root);
+        _loadShader(*ShaderGroup::singleton());
+    }
+
+    _applyRenderStates();
+
+    RenderContext& renderContext = RenderContextImmediate::get();
+    m_blendState.createBlendState(renderContext, m_blendStateDescription);
+    m_depthStencilState.createDepthState(renderContext, m_depthStencilStateDescription);
+    m_rasterizerState.createRasterizerStateDescription(renderContext, m_rasterizerStateDescription);
+}
+
+RenderState RenderMaterial::_parseStateName(const std::string& stateName) const
+{
+    return _renderStateMap.at(stateName);
+}
+
+void RenderMaterial::_parseRenderStates(const rapidjson::Value& root)
+{
+    const rapidjson::Value& statesValue = root["states"];
+    for (rapidjson::Value::ConstValueIterator it = statesValue.Begin(); it != statesValue.End(); it++)
+    {
+        std::string stateName = it->GetString();
+        RenderState state = _parseStateName(stateName);
+        addState(state);
+    }
+}
+
+void RenderMaterial::_parseRuntimeStates(const rapidjson::Value& root)
+{
+    _parseDepthStencilState(root);
+    _parseBlendState(root);
+
+    const rapidjson::Value& polygonOffsetLevelValue = root["polygonOffsetLevel"];
+    if (!polygonOffsetLevelValue.IsNull())
+        m_polygonOffsetLevel = polygonOffsetLevelValue.GetFloat();
+}
+
+void RenderMaterial::_parseDepthStencilFace(const rapidjson::Value& root, const char* depthStencilFaceName, StencilFaceDescription& faceDescription) const
+{
+    const rapidjson::Value& value = root[depthStencilFaceName];
+    if (value.IsNull())
+        return;
+    
+    parse(value, "stencilFunc", faceDescription.stencilFunc);
+    parse(value, "stencilFailOp", faceDescription.stencilFailOp);
+    parse(value, "stencilDepthFailOp", faceDescription.stencilDepthFailOp);
+    parse(value, "stencilPassOp", faceDescription.stencilPassOp);
+}
+
+void RenderMaterial::_parseDepthStencilState(const rapidjson::Value& root)
+{
+    DepthStencilStateDescription& desc = m_depthStencilStateDescription;
+    
+    parse(root, "depthFunc", desc.depthFunc);
+    _parseDepthStencilFace(root, "frontFace", desc.frontFace);
+    _parseDepthStencilFace(root, "backFace", desc.frontFace);
+
+    {
+        const rapidjson::Value& stencilRefValue = root["stencilRef"];
+        if (!stencilRefValue.IsNull())
+        {
+            desc.overwroteStencilRef = true;
+            desc.stencilRef = stencilRefValue.GetUint();
+        }
+    }
+
+    {
+        const rapidjson::Value& stencilReadMaskValue = root["stencilReadMask"];
+        if (!stencilReadMaskValue.IsNull())
+        {
+            desc.stencilReadMask = stencilReadMaskValue.GetUint();
+        }
+    }
+}
+
+void RenderMaterial::_parseBlendState(const rapidjson::Value& root)
+{
+    parse(root, "blendSrc", m_blendStateDescription.blendSource);
+    parse(root, "blendDst", m_blendStateDescription.blendDestination);
+}
+
+void RenderMaterial::_parseDefines(const rapidjson::Value& root)
+{
+    const rapidjson::Value& definesValue = root["defines"];
+    for (rapidjson::Value::ConstValueIterator it = definesValue.Begin(); it != definesValue.End(); it++)
+    {
+        std::string defineStr = it->GetString();
+        m_defines.insert(defineStr);
+    }
+}
+
+std::string RenderMaterial::_buildHeader()
+{
+    std::string result;
+
+    for (std::set<std::string>::const_iterator it = m_defines.begin(); it != m_defines.end(); it++)
+    {
+        result += "#define " + *it + "\n";
+    }
+
+#if MCE_GFX_API_OGL
+    result += Platform::OGL::Precision::buildHeader();
+#endif
+
+    return result;
+}
+
+void RenderMaterial::_parseShaderPaths(const rapidjson::Value& root)
+{
+    {
+        const rapidjson::Value& pathValue = root["vertexShader"];
+        if (!pathValue.IsNull())
+            m_vertexShader = pathValue.GetString();
+    }
+    {
+        const rapidjson::Value& pathValue = root["fragmentShader"];
+        if (!pathValue.IsNull())
+            m_fragmentShader = pathValue.GetString();
+    }
+    {
+        const rapidjson::Value& pathValue = root["geometryShader"];
+        if (!pathValue.IsNull())
+            m_geometryShader = pathValue.GetString();
+    }
+}
+
+void RenderMaterial::_loadShader(ShaderGroup& shaderGroup)
+{
+    std::string header = _buildHeader();
+    m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader);
+}
+
+void RenderMaterial::_applyRenderStates()
+{
+    ColorWriteMask colorWriteMask;
+    if (hasState(RS_DISABLE_COLOR_WRITE))
+        colorWriteMask = COLOR_WRITE_MASK_NONE;
+    else
+        colorWriteMask = COLOR_WRITE_MASK_ALL;
+
+    CullMode cullMode;
+    if (hasState(RS_INVERT_CULLING))
+        cullMode = CULL_FRONT;
+    else
+        cullMode = CULL_BACK;
+    
+    if (hasState(RS_DISABLE_CULLING))
+        cullMode = CULL_NONE;
+
+    m_depthStencilStateDescription.depthTestEnabled = !hasState(RS_DISABLE_DEPTH_TEST);
+    m_depthStencilStateDescription.depthWriteMask = hasState(RS_DISABLE_DEPTH_WRITE) ? DEPTH_WRITE_MASK_NONE : DEPTH_WRITE_MASK_ALL;
+    m_depthStencilStateDescription.stencilTestEnabled = hasState(RS_ENABLE_STENCIL_TEST);
+    m_blendStateDescription.enableBlend = hasState(RS_BLENDING);
+
+    float polygonOffsetLevel = 0.0f;
+    if (hasState(RS_POLYGON_OFFSET))
+        polygonOffsetLevel = m_polygonOffsetLevel;
+
+    m_blendStateDescription.colorWriteMask = colorWriteMask;
+    m_rasterizerStateDescription.cullMode = cullMode;
+    m_rasterizerStateDescription.depthBias = polygonOffsetLevel;
+}
+
+void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexFormat, const void *basePtr)
+{
+    m_blendState.bindBlendState(context);
+
+    if (EnableScissorTest::scissorTestEnabled)
+    {
+        RasterizerStateDescription rasterizerDesc;
+        rasterizerDesc = m_rasterizerStateDescription;
+        rasterizerDesc.enableScissorTest = true;
+        
+        RasterizerState rasterizerState;
+        rasterizerState.createRasterizerStateDescription(context, rasterizerDesc);
+        rasterizerState.bindRasterizerState(context);
+        rasterizerState.setScissorRect(
+            context,
+            EnableScissorTest::activeScissorBox[0], EnableScissorTest::activeScissorBox[1],
+            EnableScissorTest::activeScissorBox[2], EnableScissorTest::activeScissorBox[3]
+        );
+    }
+    else
+    {
+        m_rasterizerState.bindRasterizerState(context);
+    }
+
+    m_depthStencilState.bindDepthStencilState(context);
+
+    lastUsedMaterial = this;
+
+    m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
+}
+
+void RenderMaterial::addState(RenderState state)
+{
+    m_stateMask |= 1 << (state & 0x1F);
+}
+
+void RenderMaterial::initContext()
+{
+    lastUsedMaterial = nullptr;
+}

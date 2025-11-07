@@ -11,6 +11,7 @@
 #include "AppPlatform.hpp"
 #include "common/Logger.hpp"
 #include "compat/LegacyCPP.hpp"
+#include "AppPlatformListener.hpp"
 
 AppPlatform* AppPlatform::m_singleton = nullptr;
 
@@ -213,32 +214,51 @@ bool AppPlatform::getRecenterMouseEveryTick()
 
 void AppPlatform::_fireLowMemory()
 {
-	
+	for (ListenerMap::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
+	{
+		it->second->onLowMemory();
+	}
 }
 
 void AppPlatform::_fireAppSuspended()
 {
-	
+	for (ListenerMap::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
+	{
+		it->second->onAppSuspended();
+	}
+	_fireLowMemory();
 }
 
 void AppPlatform::_fireAppResumed()
 {
-	
+	for (ListenerMap::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
+	{
+		it->second->onAppResumed();
+	}
 }
 
 void AppPlatform::_fireAppFocusLost()
 {
-	
+	for (ListenerMap::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
+	{
+		it->second->onAppFocusLost();
+	}
 }
 
 void AppPlatform::_fireAppFocusGained()
 {
-	
+	for (ListenerMap::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
+	{
+		it->second->onAppFocusGained();
+	}
 }
 
 void AppPlatform::_fireAppTerminated()
 {
-	
+	for (ListenerMap::iterator it = m_listeners.begin(); it != m_listeners.end(); it++)
+	{
+		it->second->terminate();
+	}
 }
 
 bool AppPlatform::hasFileSystemAccess()
@@ -302,7 +322,17 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
     ifs.close();
     
 	// Return
-	return AssetFile((int64_t)size, (unsigned char*)buf);
+	return AssetFile((int64_t)size, (uint8_t*)buf);
+}
+
+std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) const
+{
+	AssetFile file = readAssetFile(path, quiet);
+	if (!file.data)
+		return "";
+	std::string out = std::string(file.data, file.data + file.size);
+	delete file.data;
+	return out;
 }
 
 void AppPlatform::initSoundSystem()

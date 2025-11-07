@@ -9,6 +9,18 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{c390ed47-685f-4617-9de1-c590e54cfdc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{79b3759f-6b47-454b-a5eb-fa59fb69e149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{bf9115c5-2bb6-4bfc-a140-ed36088b13c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{53e4ada8-db6a-4d9a-b3b1-4f5b0c3a8f39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp">
@@ -40,6 +52,18 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\common\DataIO.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\math\Color.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\utility\AlignmentHelper.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\utility\JsonParser.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\common\utility\Singleton.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +105,21 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Info.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\math\Color.hpp">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\AlignmentHelper.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\InheritanceTree.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\JsonParser.hpp">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\common\utility\Singleton.hpp">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

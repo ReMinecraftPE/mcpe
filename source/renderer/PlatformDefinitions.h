@@ -1,0 +1,4 @@
+#define MCE_GFX_API_NULL 0
+#define MCE_GFX_API_OGL 1
+#define MCE_GFX_API_DX11 0
+#define MCE_GFX_API_3DS 0

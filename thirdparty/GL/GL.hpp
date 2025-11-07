@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include <common/Utils.hpp> // it includes GL/gl.h
-#include <compat/PlatformDefinitions.h>
+#include "common/Utils.hpp" // needed for M_PI
+#include "compat/PlatformDefinitions.h"
 
 #ifdef USE_NATIVE_ANDROID
 	#define USE_GLES
@@ -114,6 +114,7 @@ bool xglInitted();
 #define xglBufferData glBufferData
 #define xglGenBuffers glGenBuffers
 #define xglDeleteBuffers glDeleteBuffers
+#define xglBufferSubData glBufferSubData
 #define xglEnableClientState glEnableClientState
 #define xglDisableClientState glDisableClientState
 #define xglTexCoordPointer glTexCoordPointer
@@ -121,6 +122,42 @@ bool xglInitted();
 #define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
+#define xglUniform1i glUniform1i
+#define xglUniform1fv glUniform1fv
+#define xglUniform2fv glUniform2fv
+#define xglUniform3fv glUniform3fv
+#define xglUniform4fv glUniform4fv
+#define xglUniform1iv glUniform1iv
+#define xglUniform2iv glUniform2iv
+#define xglUniform3iv glUniform3iv
+#define xglUniform4iv glUniform4iv
+#define xglUniformMatrix2fv glUniformMatrix2fv
+#define xglUniformMatrix3fv glUniformMatrix3fv
+#define xglUniformMatrix4fv glUniformMatrix4fv
+#define xglStencilFuncSeparate glStencilFuncSeparate
+#define xglStencilOpSeparate glStencilOpSeparate
+#define xglCreateShader glCreateShader
+#define xglShaderSource glShaderSource
+#define xglCompileShader glCompileShader
+#define xglGetShaderiv glGetShaderiv
+#define xglGetShaderInfoLog glGetShaderInfoLog
+#define xglDeleteShader glDeleteShader
+#define xglDeleteProgram glDeleteProgram
+#define xglReleaseShaderCompiler glReleaseShaderCompiler
+#define xglCreateProgram glCreateProgram
+#define xglAttachShader glAttachShader
+#define xglLinkProgram glLinkProgram
+#define xglGetProgramiv glGetProgramiv
+#define xglGetProgramInfoLog glGetProgramInfoLog
+#define xglVertexAttribPointer glVertexAttribPointer
+#define xglUseProgram glUseProgram
+#define xglGetActiveUniform glGetActiveUniform
+#define xglGetActiveAttrib glGetActiveAttrib
+#define xglGetUniformLocation glGetUniformLocation
+#define xglGetAttribLocation glGetAttribLocation
+#define xglEnableVertexAttribArray glEnableVertexAttribArray
+#define xglActiveTexture glActiveTexture
+#define xglGetShaderPrecisionFormat glGetShaderPrecisionFormat
 
 #else
 
@@ -128,6 +165,43 @@ void xglBindBuffer(GLenum target, GLuint buffer);
 void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
 void xglGenBuffers(GLsizei num, GLuint* buffers);
 void xglDeleteBuffers(GLsizei num, GLuint* buffers);
+void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
+void xglUniform1i(GLint location, GLint v0);
+void xglUniform1fv(GLint location, GLsizei count, const GLfloat* value);
+void xglUniform2fv(GLint location, GLsizei count, const GLfloat* value);
+void xglUniform3fv(GLint location, GLsizei count, const GLfloat* value);
+void xglUniform4fv(GLint location, GLsizei count, const GLfloat* value);
+void xglUniform1iv(GLint location, GLsizei count, const GLint* value);
+void xglUniform2iv(GLint location, GLsizei count, const GLint* value);
+void xglUniform3iv(GLint location, GLsizei count, const GLint* value);
+void xglUniform4iv(GLint location, GLsizei count, const GLint* value);
+void xglUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
+void xglUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
+void xglUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
+void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
+void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
+GLuint xglCreateShader(GLenum type);
+void xglShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length);
+void xglCompileShader(GLuint shader);
+void xglGetShaderiv(GLuint shader, GLenum pname, GLint* params);
+void xglGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei* length, GLchar* infoLog);
+void xglDeleteShader(GLuint shader);
+void xglDeleteProgram(GLuint program);
+void xglReleaseShaderCompiler();
+GLuint xglCreateProgram();
+void xglAttachShader(GLuint program, GLuint shader);
+void xglLinkProgram(GLuint program);
+void xglGetProgramiv(GLuint program, GLenum pname, GLint* params);
+void xglGetProgramInfoLog(GLuint program, GLsizei bufSize, GLsizei* length, GLchar* infoLog);
+void xglVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* pointer);
+void xglUseProgram(GLuint program);
+void xglGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei* length, GLint* size, GLenum* type, GLchar* name);
+void xglGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei* length, GLint* size, GLenum* type, GLchar* name);
+GLint xglGetUniformLocation(GLuint program, const GLchar* name);
+GLint xglGetAttribLocation(GLuint program, const GLchar* name);
+void xglEnableVertexAttribArray(GLuint index);
+void xglActiveTexture(GLenum texture);
+void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision);
 void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearpl, GLfloat farpl);
 void xglSwapIntervalEXT(int interval);
 void xglEnableClientState(GLenum _array);

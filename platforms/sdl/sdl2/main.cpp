@@ -16,6 +16,8 @@ typedef AppPlatform_sdl2_desktop UsedAppPlatform;
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
 
+#include "renderer/platform/ogl/Extensions.hpp"
+
 // Video Mode Flags
 #define VIDEO_FLAGS (SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)
 
@@ -360,9 +362,7 @@ int main(int argc, char *argv[])
     }
 
 #ifdef _WIN32
-	xglInit();
-
-	if (!xglInitted())
+	if (!mce::Platform::OGL::InitBindings())
 	{
 		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
 		LOG_E(GL_ERROR_MSG);

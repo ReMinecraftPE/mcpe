@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "client/renderer/Texture.hpp"
 #include "client/sound/SoundSystem.hpp"
@@ -28,8 +29,13 @@
 #define C_DEFAULT_SCREEN_HEIGHT (720)
 #endif
 
+class AppPlatformListener;
+
 class AppPlatform
 {
+public:
+	typedef std::multimap<float, AppPlatformListener*> ListenerMap;
+
 public:
 	enum eDialogType
 	{
@@ -111,11 +117,12 @@ public:
 	virtual SoundSystem* const getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
-	virtual AssetFile readAssetFile(const std::string&, bool) const;
+	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
+	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
 #endif
 
 public:
-	//std::multimap<float, AppPlatformListener*> m_listeners;
+	ListenerMap m_listeners;
 	void* m_hWND; // the Mojang solution
 };
 

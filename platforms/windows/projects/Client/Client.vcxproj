@@ -199,6 +199,8 @@
     <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\LocalPlayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\app\AppPlatformListener.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -328,6 +330,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiPlayerLevel.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\LocalPlayer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\app\AppPlatformListener.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
