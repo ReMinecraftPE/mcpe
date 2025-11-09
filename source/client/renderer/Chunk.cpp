@@ -159,7 +159,7 @@ void Chunk::rebuild()
 						if (tileRenderer.useAmbientOcclusion())
 							glShadeModel(GL_SMOOTH);
 						t.begin();
-						t.offset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
+						t.setOffset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
 					}
 
 					Tile* pTile = Tile::tiles[tile];
@@ -187,7 +187,7 @@ void Chunk::rebuild()
 			pRChk->field_10 = float(m_pos.y);
 			pRChk->field_14 = float(m_pos.z);
 
-			t.offset(0.0f, 0.0f, 0.0f);
+			t.setOffset(0.0f, 0.0f, 0.0f);
 
 			if (bDrewThisLayer)
 				field_1C[layer] = false;

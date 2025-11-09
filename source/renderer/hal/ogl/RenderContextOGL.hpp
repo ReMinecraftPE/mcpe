@@ -11,7 +11,7 @@ namespace mce
 {
     const GLenum modeMap[] = {
         /*PRIMITIVE_MODE_NONE*/           GL_NONE,
-        /*PRIMITIVE_MODE_QUAD_LIS*/       GL_TRIANGLES, // intentionally not using GL_QUADS
+        /*PRIMITIVE_MODE_QUAD_LIST*/      GL_TRIANGLES, // intentionally not using GL_QUADS
         /*PRIMITIVE_MODE_TRIANGLE_LIST*/  GL_TRIANGLES,
         /*PRIMITIVE_MODE_TRIANGLE_STRIP*/ GL_TRIANGLE_STRIP,
         /*PRIMITIVE_MODE_LINE_LIST*/      GL_LINES,

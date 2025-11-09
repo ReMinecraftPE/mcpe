@@ -11,8 +11,7 @@ VertexFormat::VertexFormat()
 {
     m_fieldMask = 0;
     m_vertexSize = 0;
-    if (m_vertexSize != m_fieldOffset[0])
-        memset(m_fieldOffset, -1, sizeof(m_fieldOffset));
+    memset(m_fieldOffset, -1, sizeof(m_fieldOffset));
 }
 
 void VertexFormat::enableField(VertexField vertexField)

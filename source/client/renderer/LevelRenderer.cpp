@@ -825,7 +825,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		Tesselator& t = Tesselator::instance;
 		glEnable(GL_ALPHA_TEST); // Fixes for b1.7.3 terrain
 		t.begin();
-		t.offset(-px, -py, -pz);
+		t.setOffset(-px, -py, -pz);
 		t.noColor();
 		if (!pTile)
 			pTile = Tile::rock;
@@ -833,7 +833,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos, 240 + int(field_10 * 10.0f));
 
 		t.draw();
-		t.offset(0, 0, 0);
+		t.setOffset(0, 0, 0);
 
 		glPolygonOffset(0.0f, 0.0f);
 		glDisable(GL_POLYGON_OFFSET_FILL);
@@ -875,7 +875,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
-	t.offset(-px, -py, -pz);
+	t.setOffset(-px, -py, -pz);
 	t.noColor();
 	if (!pTile)
 		pTile = Tile::rock;
@@ -883,7 +883,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 	m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos);
 
 	t.draw();
-	t.offset(0, 0, 0);
+	t.setOffset(0, 0, 0);
 
 	glPolygonOffset(0.0f, 0.0f);
 	glDisable(GL_POLYGON_OFFSET_FILL);

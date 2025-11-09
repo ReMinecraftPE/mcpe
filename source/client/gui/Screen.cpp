@@ -427,13 +427,13 @@ void Screen::renderDirtBackground(int unk)
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
-	t.offset(0, m_yOffset, 0);
+	t.setOffset(0, m_yOffset, 0);
 	t.color(0x404040);
 	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(unk) + float(m_height) / 32.0f);
 	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(unk) + float(m_height) / 32.0f);
 	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(unk) + 0.0f);
 	t.vertexUV(0.0f,           0,               0, 0,                      float(unk) + 0.0f);
-	t.offset(0, 0, 0);
+	t.setOffset(0, 0, 0);
 	t.draw();
 }
 

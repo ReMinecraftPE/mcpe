@@ -961,7 +961,7 @@ void GameRenderer::renderWeather(float f)
 			float f4 = pLevel->getBrightness(tp);
 			t.begin();
 			glColor4f(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
-			t.offset(-pos.x, -pos.y, -pos.z);
+			t.setOffset(-pos.x, -pos.y, -pos.z);
 			t.vertexUV(float(tp.x + 0), float(minY), float(tp.z + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 1), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
@@ -970,7 +970,7 @@ void GameRenderer::renderWeather(float f)
 			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 0), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 0), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 0), float(maxY), float(tp.z + 1), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
-			t.offset(0.0f, 0.0f, 0.0f);
+			t.setOffset(0.0f, 0.0f, 0.0f);
 			t.draw();
 		}
 	}
