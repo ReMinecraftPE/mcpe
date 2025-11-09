@@ -19,6 +19,9 @@
 // Disable this on OpenGL ES 2+
 #define USE_GL_NORMAL_LIGHTING
 
+#define MC_GL_DEBUG
+#define MC_GL_DEBUG_OUTPUT
+
 #ifdef USE_GLES
 	#if MC_PLATFORM_IOS
 		 #import <OpenGLES/ES1/gl.h>
@@ -103,6 +106,24 @@
 	}
 #endif
 
+// Only tested on Windows
+#ifndef GL_ARB_debug_output
+#undef MC_GL_DEBUG_OUTPUT
+#endif
+
+#ifdef MC_GL_DEBUG_OUTPUT
+#ifndef GL_DEBUG_OUTPUT
+#define GL_DEBUG_OUTPUT 0x92E0
+#endif
+typedef void (APIENTRY* DEBUGPROC)(GLenum source,
+	GLenum type,
+	GLuint id,
+	GLenum severity,
+	GLsizei length,
+	const GLchar* message,
+	GLvoid* userParam);
+#endif
+
 #ifdef _WIN32
 void xglInit();
 bool xglInitted();
@@ -115,6 +136,9 @@ bool xglInitted();
 #define xglGenBuffers glGenBuffers
 #define xglDeleteBuffers glDeleteBuffers
 #define xglBufferSubData glBufferSubData
+#ifdef MC_GL_DEBUG_OUTPUT
+#define xglDebugMessageCallback glDebugMessageCallback
+#endif
 #define xglEnableClientState glEnableClientState
 #define xglDisableClientState glDisableClientState
 #define xglTexCoordPointer glTexCoordPointer
@@ -166,6 +190,9 @@ void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum us
 void xglGenBuffers(GLsizei num, GLuint* buffers);
 void xglDeleteBuffers(GLsizei num, GLuint* buffers);
 void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
+#ifdef MC_GL_DEBUG_OUTPUT
+void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam);
+#endif
 void xglUniform1i(GLint location, GLint v0);
 void xglUniform1fv(GLint location, GLsizei count, const GLfloat* value);
 void xglUniform2fv(GLint location, GLsizei count, const GLfloat* value);

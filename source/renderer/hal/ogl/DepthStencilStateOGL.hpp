@@ -29,7 +29,7 @@ namespace mce
         StencilFaceDescriptionOGL m_backFaceStencilInfo;
         GLuint m_stencilReadMask;
         GLuint m_stencilWriteMask;
-        bool m_bDepthWriteMask;
+        uint8_t m_depthWriteMask;
 
     public:
         DepthStencilStateOGL();

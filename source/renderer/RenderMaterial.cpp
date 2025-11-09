@@ -24,8 +24,8 @@ RenderMaterial::RenderMaterial()
 }
 
 RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMaterial& parent)
-    : RenderMaterial(parent)
 {
+	*this = parent;
     _parseRenderStates(root);
     _parseRuntimeStates(root);
     _parseShaderPaths(root);

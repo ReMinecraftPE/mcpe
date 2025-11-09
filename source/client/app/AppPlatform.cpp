@@ -8,6 +8,8 @@
 
 #include <fstream>
 
+#include "thirdparty/stb_image/include/stb_image.h"
+
 #include "AppPlatform.hpp"
 #include "common/Logger.hpp"
 #include "compat/LegacyCPP.hpp"
@@ -119,13 +121,35 @@ void AppPlatform::uploadPlatformDependentData(int, void*)
 
 }
 
-
-Texture AppPlatform::loadTexture(const std::string&, bool bIsRequired)
+void AppPlatform::loadImage(ImageData& data, const std::string& path)
 {
-	return Texture(0, 0, nullptr, 1, 0);
+	AssetFile file = readAssetFile(path, true);
+
+	// Parse Image
+	int desired_channels = STBI_rgb_alpha; // STB will convert the image for us
+	int channels = 0;
+	stbi_uc* img = stbi_load_from_memory(file.data, file.size, &data.m_width, &data.m_height, &channels, desired_channels);
+	delete[] file.data;
+	if (!img)
+	{
+		// Failed To Parse Image
+		LOG_E("The image could not be loaded properly: %s", path.c_str());
+		return;
+	}
+
+	if (desired_channels == STBI_rgb_alpha)
+		channels = STBI_rgb_alpha;
+
+	data.m_data = img;
+	data.m_colorSpace = channels == 3 ? COLOR_SPACE_RGB : COLOR_SPACE_RGBA;
 }
 
-#ifndef ORIGINAL_CODE
+TextureData AppPlatform::loadTexture(const std::string& path, bool bIsRequired)
+{
+	TextureData out;
+	loadImage(out.m_imageData, path);
+	return out;
+}
 
 bool AppPlatform::doesTextureExist(const std::string& path) const
 {
@@ -268,13 +292,7 @@ bool AppPlatform::hasFileSystemAccess()
 
 std::string AppPlatform::getPatchData()
 {
-	AssetFile file = readAssetFile(_getPatchDataPath(), false);
-	if (!file.data)
-		return "";
-
-	std::string out = std::string(file.data, file.data + file.size);
-	delete file.data;
-	return out;
+	return readAssetFileStr(_getPatchDataPath(), false);
 }
 
 std::string AppPlatform::getAssetPath(const std::string& path) const
@@ -343,5 +361,3 @@ SoundSystem* const AppPlatform::getSoundSystem() const
 {
 	return nullptr;
 }
-
-#endif

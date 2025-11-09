@@ -20,16 +20,16 @@
 
 class DynamicTexture; // in case we are being included from DynamicTexture. We don't store complete references to that
 
-struct TextureData
+struct TextureDataGL
 {
 	int glID;
 	Texture textureData;
 
-	TextureData()
+	TextureDataGL()
 	{
 		glID = 0;
 	}
-	TextureData(int i, Texture& x)
+	TextureDataGL(int i, Texture& x)
 	{
 		glID = i;
 		textureData = x;
@@ -38,13 +38,17 @@ struct TextureData
 
 class Textures
 {
+protected:
+	typedef std::map<std::string, TextureData*> TextureMap;
+
 public:
-	int loadTexture(const std::string& name, bool bRequired);
-	int loadAndBindTexture(const std::string& name, bool isRequired = true);
+	TextureData* loadTexture(const std::string& name, bool bRequired);
+	TextureData* loadAndBindTexture(const std::string& name, bool isRequired = true, unsigned int textureUnit = 0);
+	TextureData* getTextureData(const std::string& name, bool isRequired);
+	void unloadAll();
 	void clear();
 	void tick();
 	void addDynamicTexture(DynamicTexture* pTexture);
-	Texture* getTemporaryTextureData(GLuint id);
 
 	// set smoothing for next texture to be loaded
 	void setSmoothing(bool b)
@@ -64,16 +68,15 @@ public:
 private:
 	static bool MIPMAP;
 
-	int assignTexture(const std::string& name, Texture& t);
+	TextureData* uploadTexture(const std::string& name, TextureData& t);
 
 protected:
-	std::map<std::string, GLuint> m_textures;
+	TextureMap m_textures;
 	Options* m_pOptions;
 	AppPlatform* m_pPlatform;
 	int m_currBoundTex;
 	bool m_bClamp;
 	bool m_bBlur;
-	std::map<GLuint, TextureData> m_textureData;
 	std::vector<DynamicTexture*> m_dynamicTextures;
 
 	friend class StartMenuScreen;

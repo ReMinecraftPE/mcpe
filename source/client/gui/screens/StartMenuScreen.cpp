@@ -502,20 +502,13 @@ void StartMenuScreen::drawLegacyTitle()
 	//int titleYPos = 30; // -- MC Java position
 	int titleYPos = 15;
 
-	int id = tx->loadTexture("gui/title.png", true);
-	Texture* pTex = tx->getTemporaryTextureData(id);
+	TextureData* pTex = tx->loadAndBindTexture("gui/title.png", true);
 
 	if (pTex)
 	{
-		if (id != tx->m_currBoundTex)
-		{
-			glBindTexture(GL_TEXTURE_2D, id);
-			tx->m_currBoundTex = id;
-		}
-
-		int left = (m_width - pTex->m_width) / 2;
-		int width = pTex->m_width;
-		int height = pTex->m_height;
+		int left = (m_width - pTex->m_imageData.m_width) / 2;
+		int width = pTex->m_imageData.m_width;
+		int height = pTex->m_imageData.m_height;
 
 		if (m_width * 3 / 4 < width)
 		{

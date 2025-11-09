@@ -19,7 +19,7 @@ DynamicTexture::DynamicTexture(int a2) : m_textureIndex(a2)
 
 bool DynamicTexture::bindTexture(Textures* pTextures)
 {
-	return pTextures->loadAndBindTexture(C_TERRAIN_NAME) != -1;
+	return pTextures->loadAndBindTexture(C_TERRAIN_NAME) != nullptr;
 }
 
 DynamicTexture::~DynamicTexture()

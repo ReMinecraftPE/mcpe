@@ -7,9 +7,9 @@ namespace mce
 {
 	struct ImageDescription
 	{
-        uint32_t width;
-        uint32_t height;
-        char *pixels;
+        unsigned int width;
+        unsigned int height;
+        void* pixels;
         TextureFormat textureFormat;
 		
 		ImageDescription();

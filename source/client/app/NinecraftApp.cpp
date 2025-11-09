@@ -11,6 +11,11 @@
 #include "world/entity/MobCategory.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
+#include "renderer/GlobalConstantBufferManager.hpp"
+#include "renderer/GlobalConstantBuffers.hpp"
+#include "renderer/ConstantBufferMetaDataManager.hpp"
+#include "renderer/RenderContextImmediate.hpp"
+#include "renderer/platform/ogl/Extensions.hpp"
 
 #ifdef DEMO
 #include "world/level/storage/MemoryLevelStorageSource.hpp"
@@ -58,6 +63,12 @@ bool NinecraftApp::handleBack(bool b)
 
 void NinecraftApp::initGLStates()
 {
+#ifdef MC_GL_DEBUG_OUTPUT
+	glEnable(GL_DEBUG_OUTPUT);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+	xglDebugMessageCallback(&mce::Platform::OGL::DebugMessage, nullptr);
+#endif
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_ALPHA_TEST);
@@ -92,6 +103,7 @@ void NinecraftApp::init()
 		//TileEntity::initTileEntities();
 	}
 
+	setupRenderer();
 	initGLStates();
 	Tesselator::instance.init();
 	platform()->initSoundSystem();
@@ -106,6 +118,15 @@ void NinecraftApp::init()
 	field_D9C = 0;
 
 	setScreen(new StartMenuScreen);
+}
+
+void NinecraftApp::setupRenderer()
+{
+	mce::GlobalConstantBufferManager::createInstance();
+	mce::GlobalConstantBuffers::createInstance();
+	mce::ConstantBufferMetaDataManager::createInstance();
+	mce::RenderDevice::createInstance();
+	mce::GlobalConstantBufferManager::getInstance().allocateAndSetupConstantBuffersFromMetadata(mce::RenderContextImmediate::get());
 }
 
 void NinecraftApp::onGraphicsReset()

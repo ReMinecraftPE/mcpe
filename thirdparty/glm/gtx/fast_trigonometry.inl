@@ -1,142 +1,75 @@
-/// @ref gtx_fast_trigonometry
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// OpenGL Mathematics Copyright (c) 2005 - 2014 G-Truc Creation (www.g-truc.net)
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Created : 2006-01-08
+// Updated : 2011-10-14
+// Licence : This source is under MIT License
+// File    : glm/gtx/fast_trigonometry.inl
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace glm{
-namespace detail
+namespace glm
 {
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> taylorCos(vec<L, T, Q> const& x)
+	// sin
+	template <typename T> 
+	GLM_FUNC_QUALIFIER T fastSin(T const & x)
 	{
-		return static_cast<T>(1)
-			- (x * x) * (1.f / 2.f)
-			+ ((x * x) * (x * x)) * (1.f / 24.f)
-			- (((x * x) * (x * x)) * (x * x)) * (1.f / 720.f)
-			+ (((x * x) * (x * x)) * ((x * x) * (x * x))) * (1.f / 40320.f);
+		return x - ((x * x * x) / T(6)) + ((x * x * x * x * x) / T(120)) - ((x * x * x * x * x * x * x) / T(5040));
 	}
 
-	template<typename T>
-	GLM_FUNC_QUALIFIER T cos_52s(T x)
-	{
-		T const xx(x * x);
-		return (T(0.9999932946) + xx * (T(-0.4999124376) + xx * (T(0.0414877472) + xx * T(-0.0012712095))));
-	}
-
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> cos_52s(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(cos_52s, x);
-	}
-}//namespace detail
-
-	// wrapAngle
-	template<typename T>
-	GLM_FUNC_QUALIFIER T wrapAngle(T angle)
-	{
-		return abs<T>(mod<T>(angle, two_pi<T>()));
-	}
-
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> wrapAngle(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(wrapAngle, x);
-	}
+	VECTORIZE_VEC(fastSin)
 
 	// cos
-	template<typename T>
-	GLM_FUNC_QUALIFIER T fastCos(T x)
+	template <typename T> 
+	GLM_FUNC_QUALIFIER T fastCos(T const & x)
 	{
-		T const angle(wrapAngle<T>(x));
-
-		if(angle < half_pi<T>())
-			return detail::cos_52s(angle);
-		if(angle < pi<T>())
-			return -detail::cos_52s(pi<T>() - angle);
-		if(angle < (T(3) * half_pi<T>()))
-			return -detail::cos_52s(angle - pi<T>());
-
-		return detail::cos_52s(two_pi<T>() - angle);
+		return T(1) - (x * x * T(0.5)) + (x * x * x * x * T(0.041666666666)) - (x * x * x * x * x * x * T(0.00138888888888));
 	}
 
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> fastCos(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(fastCos, x);
-	}
-
-	// sin
-	template<typename T>
-	GLM_FUNC_QUALIFIER T fastSin(T x)
-	{
-		return fastCos<T>(half_pi<T>() - x);
-	}
-
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> fastSin(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(fastSin, x);
-	}
+	VECTORIZE_VEC(fastCos)
 
 	// tan
-	template<typename T>
-	GLM_FUNC_QUALIFIER T fastTan(T x)
+	template <typename T> 
+	GLM_FUNC_QUALIFIER T fastTan(T const & x)
 	{
 		return x + (x * x * x * T(0.3333333333)) + (x * x * x * x * x * T(0.1333333333333)) + (x * x * x * x * x * x * x * T(0.0539682539));
 	}
 
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> fastTan(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(fastTan, x);
-	}
+	VECTORIZE_VEC(fastTan)
 
 	// asin
-	template<typename T>
-	GLM_FUNC_QUALIFIER T fastAsin(T x)
+	template <typename T> 
+	GLM_FUNC_QUALIFIER T fastAsin(T const & x)
 	{
 		return x + (x * x * x * T(0.166666667)) + (x * x * x * x * x * T(0.075)) + (x * x * x * x * x * x * x * T(0.0446428571)) + (x * x * x * x * x * x * x * x * x * T(0.0303819444));// + (x * x * x * x * x * x * x * x * x * x * x * T(0.022372159));
 	}
 
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> fastAsin(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(fastAsin, x);
-	}
+	VECTORIZE_VEC(fastAsin)
 
 	// acos
-	template<typename T>
-	GLM_FUNC_QUALIFIER T fastAcos(T x)
+	template <typename T> 
+	GLM_FUNC_QUALIFIER T fastAcos(T const & x)
 	{
 		return T(1.5707963267948966192313216916398) - fastAsin(x); //(PI / 2)
 	}
 
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> fastAcos(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(fastAcos, x);
-	}
+	VECTORIZE_VEC(fastAcos)
 
 	// atan
-	template<typename T>
-	GLM_FUNC_QUALIFIER T fastAtan(T y, T x)
+	template <typename T> 
+	GLM_FUNC_QUALIFIER T fastAtan(T const & y, T const & x)
 	{
 		T sgn = sign(y) * sign(x);
 		return abs(fastAtan(y / x)) * sgn;
 	}
 
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> fastAtan(vec<L, T, Q> const& y, vec<L, T, Q> const& x)
-	{
-		return detail::functor2<vec, L, T, Q>::call(fastAtan, y, x);
-	}
+	VECTORIZE_VEC_VEC(fastAtan)
 
-	template<typename T>
-	GLM_FUNC_QUALIFIER T fastAtan(T x)
+	template <typename T> 
+	GLM_FUNC_QUALIFIER T fastAtan(T const & x)
 	{
 		return x - (x * x * x * T(0.333333333333)) + (x * x * x * x * x * T(0.2)) - (x * x * x * x * x * x * x * T(0.1428571429)) + (x * x * x * x * x * x * x * x * x * T(0.111111111111)) - (x * x * x * x * x * x * x * x * x * x * x * T(0.0909090909));
 	}
 
-	template<length_t L, typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<L, T, Q> fastAtan(vec<L, T, Q> const& x)
-	{
-		return detail::functor1<vec, L, T, T, Q>::call(fastAtan, x);
-	}
+	VECTORIZE_VEC(fastAtan)
+
 }//namespace glm

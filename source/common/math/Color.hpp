@@ -10,8 +10,8 @@ public:
 
 public:
     Color()
-        : Color(NIL)
     {
+		*this = NIL;
     }
 
     Color(float r, float g, float b, float a = 1.0f)

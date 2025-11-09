@@ -200,7 +200,10 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\LocalPlayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\app\AppPlatformListener.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\ColorSpace.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -331,7 +334,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\LocalPlayer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\app\AppPlatformListener.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
@@ -343,6 +348,11 @@
     </ProjectReference>
     <ProjectReference Include="..\Server\Server.vcxproj">
       <Project>{38723be5-0310-4941-b11f-ea7ff21394d9}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\STB\STB.vcxproj">
       <Project>{f332cb57-ff16-4d43-bbe0-76f28301daa8}</Project>

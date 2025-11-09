@@ -1,7 +1,6 @@
 #include <unordered_map>
 #include "Extensions.hpp"
-
-#include "thirdparty/GL/GL.hpp"
+#include "common/Logger.hpp"
 
 using namespace mce::Platform;
 
@@ -36,6 +35,13 @@ void* OGL::GetProcAddress(const char* name)
     return result;
 }
 
+#ifdef MC_GL_DEBUG_OUTPUT
+void APIENTRY OGL::DebugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam)
+{
+	LOG_I("GL CALLBACK: type = 0x%x, severity = 0x%x, message = %s\n", type, severity, message);
+}
+#endif
+
 #if defined(_WIN32) || defined(__DREAMCAST__)
 
 #ifdef __DREAMCAST__
@@ -63,6 +69,9 @@ PFNGLBUFFERDATAPROC p_glBufferData;
 PFNGLGENBUFFERSPROC p_glGenBuffers;
 PFNGLDELETEBUFFERSPROC p_glDeleteBuffers;
 PFNGLBUFFERSUBDATAPROC p_glBufferSubData;
+#ifdef MC_GL_DEBUG_OUTPUT
+PFNGLDEBUGMESSAGECALLBACKARBPROC p_glDebugMessageCallback;
+#endif
 PFNGLUNIFORM1IPROC p_glUniform1i;
 PFNGLUNIFORM1FVPROC p_glUniform1fv;
 PFNGLUNIFORM2FVPROC p_glUniform2fv;
@@ -114,6 +123,9 @@ bool xglInitted()
 		&& p_glGenBuffers
 		&& p_glDeleteBuffers
 		&& p_glBufferSubData
+#ifdef MC_GL_DEBUG_OUTPUT
+		&& p_glDebugMessageCallback
+#endif
 		&& p_glUniform1i
 		&& p_glUniform1fv
 		&& p_glUniform2fv
@@ -164,6 +176,9 @@ void xglInit()
 	p_glGenBuffers = (PFNGLGENBUFFERSPROC)OGL::GetProcAddress("glGenBuffers");
 	p_glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)OGL::GetProcAddress("glDeleteBuffers");
 	p_glBufferSubData = (PFNGLBUFFERSUBDATAPROC)OGL::GetProcAddress("glBufferSubData");
+#ifdef MC_GL_DEBUG_OUTPUT
+	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)OGL::GetProcAddress("glDebugMessageCallback");
+#endif
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)OGL::GetProcAddress("glUniform1i");
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)OGL::GetProcAddress("glUniform1fv");
 	p_glUniform2fv = (PFNGLUNIFORM2FVPROC)OGL::GetProcAddress("glUniform2fv");
@@ -206,6 +221,9 @@ void xglInit()
 	p_glGenBuffers = (PFNGLGENBUFFERSPROC)glGenBuffers;
 	p_glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)glDeleteBuffers;
 	p_glBufferSubData = (PFNGLBUFFERSUBDATAPROC)glBufferSubData;
+#ifdef MC_GL_DEBUG_OUTPUT
+	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)glDebugMessageCallbackARB;
+#endif
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)glUniform1i;
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)glUniform1fv;
 	p_glUniform2fv = (PFNGLUNIFORM2FVPROC)glUniform2fv;
@@ -275,6 +293,13 @@ void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLv
 {
 	p_glBufferSubData(target, offset, size, data);
 }
+
+#ifdef MC_GL_DEBUG_OUTPUT
+void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam)
+{
+	p_glDebugMessageCallback(callback, userParam);
+}
+#endif
 
 void xglUniform1i(GLint location, GLint v0)
 {

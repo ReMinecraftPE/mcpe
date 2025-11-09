@@ -8,37 +8,37 @@
 
 #include "Matrix.hpp"
 
-Matrix::Matrix()
+MatrixGL::MatrixGL()
 {
 	c[0] = 0.0f;
 
 	memset(c, 0, sizeof c);
 }
 
-Matrix::Matrix(float x)
+MatrixGL::MatrixGL(float x)
 {
 	memset(c, 0, sizeof c);
 	c[0] = c[4 * 1 + 1] = c[4 * 2 + 2] = c[4 * 3 + 3] = x;
 }
 
-Matrix::Matrix(float* p)
+MatrixGL::MatrixGL(float* p)
 {
 	memcpy(c, p, sizeof c);
 }
 
-Matrix::Matrix(float a, float b, float q, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p)
+MatrixGL::MatrixGL(float a, float b, float q, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p)
 {
 	c[0] = a, c[1] = b, c[2] = q, c[3] = d, c[4] = e, c[5] = f, c[6] = g, c[7] = h, c[8] = i, c[9] = j, c[10] = k, c[11] = l, c[12] = m, c[13] = n, c[14] = o, c[15] = p;
 }
 
-void Matrix::fetchGL(GLenum pname)
+void MatrixGL::fetchGL(GLenum pname)
 {
 	glGetFloatv(pname, c);
 }
 
-Matrix operator*(const Matrix& a, const Matrix& b)
+MatrixGL operator*(const MatrixGL& a, const MatrixGL& b)
 {
-	Matrix result;
+	MatrixGL result;
 
 	//this is ugly
 	result.c[0]  = a.c[0]  * b.c[0] + a.c[1]  * b.c[4] + a.c[2]  * b.c[8]  + a.c[3]  * b.c[12];

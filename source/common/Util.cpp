@@ -96,3 +96,14 @@ std::string Util::getFileName(const std::string& path)
 
 	return path.substr(namePos, nameSize);
 }
+
+std::string Util::getExtension(const std::string& path)
+{
+	size_t dotPos = path.rfind('.');
+	if (dotPos == std::string::npos)
+	{
+		return "";
+	}
+
+	return path.substr(dotPos + 1);
+}

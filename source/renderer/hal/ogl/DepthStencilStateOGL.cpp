@@ -5,7 +5,7 @@ using namespace mce;
 DepthStencilStateOGL::DepthStencilStateOGL()
     : DepthStencilStateBase()
 {
-    m_bDepthWriteMask = true;
+    m_depthWriteMask = DEPTH_WRITE_MASK_ALL;
     m_depthFunc = GL_NONE;
     m_stencilReadMask = 0;
     m_stencilWriteMask = 0;
@@ -43,7 +43,7 @@ GLenum getStencilOpAction(StencilOp stencilOp)
 void DepthStencilStateOGL::createDepthState(RenderContext& context, const DepthStencilStateDescription& description)
 {
     *this = DepthStencilStateOGL();
-    createDepthState(context, description);
+    DepthStencilStateBase::createDepthState(context, description);
 
     m_depthFunc = getDepthStencilFunc(description.depthFunc);
 
@@ -57,7 +57,7 @@ void DepthStencilStateOGL::createDepthState(RenderContext& context, const DepthS
     m_backFaceStencilInfo.stencilPassDepthFailAction = getStencilOpAction(description.backFace.stencilDepthFailOp);
     m_backFaceStencilInfo.stencilPassDepthPassAction = getStencilOpAction(description.backFace.stencilPassOp);
 
-    m_bDepthWriteMask = description.depthWriteMask;
+    m_depthWriteMask = description.depthWriteMask;
     m_stencilReadMask = description.stencilReadMask;
     m_stencilWriteMask = description.stencilWriteMask;
 
@@ -149,7 +149,7 @@ bool DepthStencilStateOGL::bindDepthStencilState(RenderContext& context, bool fo
 
     if (force || currentDesc.depthWriteMask != m_description.depthWriteMask)
     {
-        glDepthMask(m_bDepthWriteMask);
+        glDepthMask(m_depthWriteMask);
         currentDesc.depthWriteMask = m_description.depthWriteMask;
     }
 

@@ -1,15 +1,21 @@
-/// @ref gtx_integer
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// OpenGL Mathematics Copyright (c) 2005 - 2014 G-Truc Creation (www.g-truc.net)
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Created : 2005-12-24
+// Updated : 2011-10-13
+// Licence : This source is under MIT License
+// File    : glm/gtx/integer.inl
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace glm
 {
 	// pow
-	GLM_FUNC_QUALIFIER int pow(int x, uint y)
+	GLM_FUNC_QUALIFIER int pow(int x, int y)
 	{
 		if(y == 0)
-			return x >= 0 ? 1 : -1;
-
+			return 1;
 		int result = x;
-		for(uint i = 1; i < y; ++i)
+		for(int i = 1; i < y; ++i)
 			result *= x;
 		return result;
 	}
@@ -47,7 +53,21 @@ namespace detail
 		x += (x >> 16);
 		return(x & 0x0000003f);
 	}
-}//namespace detail
+
+	template <>
+	struct compute_log2<false>
+	{
+		template <typename T>
+		GLM_FUNC_QUALIFIER T operator() (T const & Value) const
+		{
+#if(GLM_COMPILER & (GLM_COMPILER_VC | GLM_COMPILER_GCC))
+			return Value <= static_cast<T>(1) ? T(0) : T(32) - nlz(Value - T(1));
+#else
+			return T(32) - nlz(Value - T(1));
+#endif
+		}
+	};
+}//namespace _detail
 
 	// Henry Gordon Dietz: http://aggregate.org/MAGIC/
 /*
@@ -65,12 +85,12 @@ namespace detail
 	// mod
 	GLM_FUNC_QUALIFIER int mod(int x, int y)
 	{
-		return ((x % y) + y) % y;
+		return x - y * (x / y);
 	}
 
 	// factorial (!12 max, integer only)
-	template<typename genType>
-	GLM_FUNC_QUALIFIER genType factorial(genType const& x)
+	template <typename genType>
+	GLM_FUNC_QUALIFIER genType factorial(genType const & x)
 	{
 		genType Temp = x;
 		genType Result;
@@ -79,30 +99,30 @@ namespace detail
 		return Result;
 	}
 
-	template<typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<2, T, Q> factorial(
-		vec<2, T, Q> const& x)
+	template <typename T, precision P>
+	GLM_FUNC_QUALIFIER detail::tvec2<T, P> factorial(
+		detail::tvec2<T, P> const & x)
 	{
-		return vec<2, T, Q>(
+		return detail::tvec2<T, P>(
 			factorial(x.x),
 			factorial(x.y));
 	}
 
-	template<typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<3, T, Q> factorial(
-		vec<3, T, Q> const& x)
+	template <typename T, precision P>
+	GLM_FUNC_QUALIFIER detail::tvec3<T, P> factorial(
+		detail::tvec3<T, P> const & x)
 	{
-		return vec<3, T, Q>(
+		return detail::tvec3<T, P>(
 			factorial(x.x),
 			factorial(x.y),
 			factorial(x.z));
 	}
 
-	template<typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<4, T, Q> factorial(
-		vec<4, T, Q> const& x)
+	template <typename T, precision P>
+	GLM_FUNC_QUALIFIER detail::tvec4<T, P> factorial(
+		detail::tvec4<T, P> const & x)
 	{
-		return vec<4, T, Q>(
+		return detail::tvec4<T, P>(
 			factorial(x.x),
 			factorial(x.y),
 			factorial(x.z),
@@ -111,9 +131,6 @@ namespace detail
 
 	GLM_FUNC_QUALIFIER uint pow(uint x, uint y)
 	{
-		if (y == 0)
-			return 1u;
-
 		uint result = x;
 		for(uint i = 1; i < y; ++i)
 			result *= x;
@@ -141,17 +158,17 @@ namespace detail
 		return x - y * (x / y);
 	}
 
-//#if(GLM_COMPILER & (GLM_COMPILER_VC | GLM_COMPILER_GCC))
+#if(GLM_COMPILER & (GLM_COMPILER_VC | GLM_COMPILER_GCC))
 
-	GLM_FUNC_QUALIFIER unsigned int nlz(unsigned int x)
+	GLM_FUNC_QUALIFIER unsigned int nlz(unsigned int x) 
 	{
-		return 31u - static_cast<unsigned int>(findMSB(x));
+		return 31u - findMSB(x);
 	}
-/*
+
 #else
 
 	// Hackers Delight: http://www.hackersdelight.org/HDcode/nlz.c.txt
-	GLM_FUNC_QUALIFIER unsigned int nlz(unsigned int x)
+	GLM_FUNC_QUALIFIER unsigned int nlz(unsigned int x) 
 	{
 		int y, m, n;
 
@@ -181,5 +198,5 @@ namespace detail
 	}
 
 #endif//(GLM_COMPILER)
-*/
+
 }//namespace glm

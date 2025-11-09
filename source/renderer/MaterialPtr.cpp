@@ -2,7 +2,7 @@
 
 #include "MaterialPtr.hpp"
 #include "common/Logger.hpp"
-#include "client/renderer/RenderMaterialGroup.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 
 using namespace mce;
 

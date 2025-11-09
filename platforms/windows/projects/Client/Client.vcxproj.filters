@@ -87,6 +87,18 @@
     <Filter Include="Header Files\Multiplayer">
       <UniqueIdentifier>{05de3cac-cea2-493b-a8c5-84601a5cd26a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Renderer\Renderer">
+      <UniqueIdentifier>{de650680-1915-489c-a5be-eb96787d1adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Texture">
+      <UniqueIdentifier>{02c6befe-2a85-492e-87d1-293fa26590c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer\Renderer">
+      <UniqueIdentifier>{a77298bd-19e1-4d70-bd4c-90df3144a00b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer\Texture">
+      <UniqueIdentifier>{936e5c8b-a3b9-4fc8-8d85-b6157dd551b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.hpp">
@@ -482,11 +494,20 @@
     <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp">
       <Filter>Header Files\Multiplayer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.hpp">
-      <Filter>Header Files\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\app\AppPlatformListener.hpp">
       <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.hpp">
+      <Filter>Header Files\Renderer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\ColorSpace.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -871,11 +892,17 @@
     <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp">
       <Filter>Source Files\Multiplayer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderMaterialGroup.cpp">
-      <Filter>Source Files\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\app\AppPlatformListener.cpp">
       <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.cpp">
+      <Filter>Source Files\Renderer\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.cpp">
+      <Filter>Source Files\Renderer\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.cpp">
+      <Filter>Source Files\Renderer\Texture</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

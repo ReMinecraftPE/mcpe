@@ -30,9 +30,9 @@ void Frustum::doOurJobInGameRenderer()
 	}
 }
 
-void Frustum::normalizePlane(Matrix* pMtxArr, int idx)
+void Frustum::normalizePlane(MatrixGL* pMtxArr, int idx)
 {
-	Matrix& mtx = pMtxArr[idx];
+	MatrixGL& mtx = pMtxArr[idx];
 
 	float x = Mth::invSqrt(mtx.c[1] * mtx.c[1] + mtx.c[0] * mtx.c[0] + mtx.c[2] * mtx.c[2]);
 

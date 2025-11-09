@@ -14,9 +14,6 @@
 #include "source/common/Utils.hpp"
 #include "android_native_app_glue.h"
 
-// note: probably won't add AppPlatform_android until it's time
-// to build an Android app
-
 class AppPlatform_android : public AppPlatform
 {
 public:
@@ -33,8 +30,6 @@ public:
 	int getScreenHeight() const override;
 	void showDialog(eDialogType) override;
 	std::string getDateString(int time) override;
-	Texture loadTexture(const std::string& str, bool b) override;
-	//std::vector<std::string>  getOptionStrings() override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;
@@ -50,8 +45,6 @@ public:
 	void hideKeyboard() override;
 	int getKeyboardUpOffset() override;
 	
-	// Also add these to allow saving options.
-	//void setOptionStrings(const std::vector <std::string>& str) override;
 	bool hasFileSystemAccess() override;	
 
 	SoundSystem* const getSoundSystem() const override;

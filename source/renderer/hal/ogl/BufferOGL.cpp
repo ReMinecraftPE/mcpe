@@ -4,7 +4,7 @@
 
 using namespace mce;
 
-GLenum glTargetFromBufferType(BufferType bufferType)
+GLenum mce::glTargetFromBufferType(BufferType bufferType)
 {
     switch (bufferType)
     {

@@ -26,7 +26,7 @@ protected:
 	virtual void _ensureDirectoryExists(const char* path); // desktop only
 	virtual void* _getHWND() const { return nullptr; }
 
-	void _setIcon(const Texture& icon); // note: this takes ownership of the texture, so no memory leaks!
+	void _setIcon(ImageData& image);
 	void _setDefaultIcon();
 
 public:
@@ -37,7 +37,6 @@ public:
 	int checkLicense() override;
 	int getUserInputStatus() override;
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
-	Texture loadTexture(const std::string& path, bool bIsRequired = false) override;
 	bool doesTextureExist(const std::string& path) const override;
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 
@@ -63,7 +62,7 @@ public:
 	AssetFile readAssetFile(const std::string&, bool) const override;
 
 protected:
-	static SDL_Surface* _GetSurfaceForTexture(const Texture& texture);
+	static SDL_Surface* _GetSurfaceForImage(ImageData& image);
 	static int _SavePng(const char* filename, unsigned char* pixels, int line_size, int width, int height);
 	static int _TranslateSDLKeyCodeToVirtual(int sdlCode);
 
@@ -73,7 +72,7 @@ public:
 	static Keyboard::KeyState GetKeyState(uint8_t state);
 
 protected:
-	const Texture* m_pIconTexture;
+	ImageData m_iconImage;
 	SDL_Surface* m_pIcon;
 	bool m_bShiftPressed[2];
 

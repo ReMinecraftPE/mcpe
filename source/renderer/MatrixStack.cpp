@@ -1,7 +1,8 @@
 #include <typeinfo>
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_RADIANS
 #include "thirdparty/glm/glm.hpp"
-#include "thirdparty/glm/ext/matrix_transform.hpp"
-#include "thirdparty/glm/ext/matrix_clip_space.hpp"
+#include "thirdparty/glm/gtc/matrix_transform.hpp"
 #include "MatrixStack.hpp"
 #include "common/Logger.hpp"
 
@@ -60,6 +61,11 @@ void Matrix::transform3(Vec3& outVec, float& outW)
 void Matrix::translate(const Vec3& t)
 {
     _m = glm::translate(_m, glm::vec3(t.x, t.y, t.z));
+}
+
+Matrix Matrix::operator*(const Matrix& other) const
+{
+    return Matrix(this->_m * other._m);
 }
 
 MatrixStack::MatrixStack()

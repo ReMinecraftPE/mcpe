@@ -30,5 +30,18 @@ namespace mce
 		static int sizeInBytesFromShaderPrimitiveType(ShaderPrimitiveTypes shaderPrimitiveType);
 	};
 
-	const char* ShaderPrimitiveTypeToString[SHADER_PRIMITIVES_MAX + 1];
+	static const char* ShaderPrimitiveTypeToString[] = {
+		"UnknownPrimitiveType",
+		"Float1",
+		"Float2",
+		"Float3",
+		"Float4",
+		"Int1",
+		"Int2",
+		"Int3",
+		"Int4",
+		"Matrix2x2",
+		"Matrix3x3",
+		"Matrix4x4"
+	};
 }

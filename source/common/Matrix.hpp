@@ -12,20 +12,20 @@
 #include "Mth.hpp"
 #include "thirdparty/GL/GL.hpp"
 
-class Matrix
+class MatrixGL
 {
 public:
-	Matrix();         // create an empty matrix
-	Matrix(float a);  // create an identity matrix
-	Matrix(float* p); // load matrix from memory
-	Matrix(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p);
+	MatrixGL();         // create an empty matrix
+	MatrixGL(float a);  // create an identity matrix
+	MatrixGL(float* p); // load matrix from memory
+	MatrixGL(float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l, float m, float n, float o, float p);
 	void fetchGL(GLenum pname);
 
-	friend Matrix operator*(const Matrix& a, const Matrix& b);
+	friend MatrixGL operator*(const MatrixGL& a, const MatrixGL& b);
 
 public:
 	float c[16];
 };
 
-Matrix operator*(const Matrix& a, const Matrix& b);
+MatrixGL operator*(const MatrixGL& a, const MatrixGL& b);
 

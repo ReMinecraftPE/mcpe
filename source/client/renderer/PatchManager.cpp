@@ -4,7 +4,7 @@
 #include "client/app/AppPlatform.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/Item.hpp"
-#include "thirdparty/GL/GL.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
 #define PM_SEPARATOR ('|')
 
@@ -171,7 +171,7 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 	}
 }
 
-void PatchManager::PatchTextures(AppPlatform* pAppPlatform, ePatchType patchType)
+void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 {
 	// Use glTexSubImage2D to patch the terrain.png texture on the fly.
 	for (int i = 0; i < int(m_patchData.size()); i++)
@@ -192,8 +192,9 @@ void PatchManager::PatchTextures(AppPlatform* pAppPlatform, ePatchType patchType
 		}
 
 		// N.B. Well, in some cases, you do want things to fail nicely.
-		Texture texture = pAppPlatform->loadTexture("patches/" + pd.m_filename, false);
-		if (!texture.m_pixels || !texture.m_width || !texture.m_height)
+		ImageData image;
+		AppPlatform::singleton()->loadImage(image, "patches/" + pd.m_filename);
+		if (image.isEmpty())
 		{
 			LOG_W("Image %s was not found?! Skipping", pd.m_filename.c_str());
 			if (bDisableFancyGrassIfFailed)
@@ -201,19 +202,13 @@ void PatchManager::PatchTextures(AppPlatform* pAppPlatform, ePatchType patchType
 			continue;
 		}
 
-		glTexSubImage2D(
-			GL_TEXTURE_2D,
-			0,
-			pd.m_destX,
-			pd.m_destY,
-			texture.m_width,
-			texture.m_height,
-			GL_RGBA,
-			GL_UNSIGNED_BYTE,
-			texture.m_pixels
-		);
+		if (image.m_colorSpace != COLOR_SPACE_RGBA)
+		{
+			LOG_E("Patch textures must be RGBA");
+			throw std::bad_cast();
+		}
 
-		SAFE_DELETE_ARRAY(texture.m_pixels);
+		texture.m_texture.subBuffer(mce::RenderContextImmediate::get(), image.m_data, pd.m_destX, pd.m_destY, image.m_width, image.m_height, 0);
 	}
 }
 

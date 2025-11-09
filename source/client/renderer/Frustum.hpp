@@ -14,7 +14,7 @@
 class Frustum
 {
 public:
-	void normalizePlane(Matrix*, int);
+	void normalizePlane(MatrixGL*, int);
 
 	//it's inlined in GameRenderer
 	static void doOurJobInGameRenderer();
@@ -22,7 +22,7 @@ public:
 	static Frustum frustum;
 
 public:
-	Matrix m[19];
+	MatrixGL m[19];
 };
 
 class FrustumData

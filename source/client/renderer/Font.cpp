@@ -21,8 +21,7 @@ Font::Font(Options* pOpts, const std::string& fileName, Textures* pTexs) :
 
 void Font::init(Options* pOpts)
 {
-	GLuint texID = m_pTextures->loadTexture(m_fileName, true);
-	Texture* pTexture = m_pTextures->getTemporaryTextureData(texID);
+	TextureData* pTexture = m_pTextures->getTextureData(m_fileName, true);
 	if (!pTexture) return;
 
 	for (int i = 0; i < 256; i++) // character number
@@ -39,17 +38,17 @@ void Font::init(Options* pOpts)
 			for (int j = 7; j >= 0; j--) // x position
 			{
 				int x = (i % 16), y = (i / 16);
-				int pixelDataIndex = pTexture->m_width * 8 * y + 8 * x + j;
+				int pixelDataIndex = pTexture->m_imageData.m_width * 8 * y + 8 * x + j;
 
 				for (int k = 0; k < 8; k++)
 				{
-					if ((uint8_t)pTexture->m_pixels[pixelDataIndex] != 0)
+					if ((uint8_t)pTexture->m_imageData.m_data[pixelDataIndex] != 0)
 					{
 						if (widthMax < j)
 							widthMax = j;
 					}
 
-					pixelDataIndex += pTexture->m_width;
+					pixelDataIndex += pTexture->m_imageData.m_width;
 				}
 			}
 		}

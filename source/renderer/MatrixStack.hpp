@@ -9,7 +9,7 @@ class Matrix
 public:
     static Matrix IDENTITY;
     
-private:
+public:
     glm::mat4 _m;
 
 public:
@@ -24,10 +24,7 @@ public:
 	void transform3(Vec3& outVec, float& outW);
 	void translate(const Vec3& t);
     
-    friend Matrix operator*(const Matrix& a, const Matrix& b)
-    {
-        return Matrix(a._m * b._m);
-    }
+    Matrix operator*(const Matrix& other) const;
 };
 
 class MatrixStack

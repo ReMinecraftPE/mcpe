@@ -11,6 +11,9 @@ namespace mce
     private:
         bool m_testEnabled;
 
+	private:
+		void _init(bool enableTest);
+
     public:
         EnableScissorTest(bool enableTest);
         EnableScissorTest(int x, int y, int w, int h);

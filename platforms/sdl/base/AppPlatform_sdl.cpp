@@ -31,7 +31,6 @@ void AppPlatform_sdl::_init(std::string storageDir)
 
 	m_hWND = _getHWND();
 
-	m_pIconTexture = nullptr;
 	m_pIcon = nullptr;
 
 	m_bShiftPressed[0] = false;
@@ -67,7 +66,8 @@ void AppPlatform_sdl::_init(std::string storageDir)
 AppPlatform_sdl::~AppPlatform_sdl()
 {
 	if (m_pIcon) SDL_FreeSurface(m_pIcon);
-	SAFE_DELETE(m_pIconTexture);
+	// SDL_FreeSurface already frees it?
+	m_iconImage.m_data = nullptr;
 
 	SAFE_DELETE(m_pSoundSystem);
 }
@@ -122,23 +122,24 @@ void AppPlatform_sdl::_ensureDirectoryExists(const char* path)
 	}
 }
 
-void AppPlatform_sdl::_setIcon(const Texture& icon)
+void AppPlatform_sdl::_setIcon(ImageData& image)
 {
-	if (!icon.m_pixels)
+	if (image.isEmpty())
 		return;
 
-	SAFE_DELETE(m_pIconTexture);
 	if (m_pIcon) SDL_FreeSurface(m_pIcon);
 
-	m_pIconTexture = new Texture(icon);
-	m_pIcon = _GetSurfaceForTexture(*m_pIconTexture);
+	m_iconImage.move(image);
+	m_pIcon = _GetSurfaceForImage(m_iconImage);
 
 	_updateWindowIcon();
 }
 
 void AppPlatform_sdl::_setDefaultIcon()
 {
-	_setIcon(loadTexture("icon.png", false));
+	ImageData data;
+	loadImage(data, "icon.png");
+	_setIcon(data);
 }
 
 void AppPlatform_sdl::initSoundSystem()
@@ -276,58 +277,6 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	}
 }
 
-Texture AppPlatform_sdl::loadTexture(const std::string& path, bool bIsRequired)
-{
-	Texture out;
-	out.m_hasAlpha = true;
-	out.field_D = 0;
-
-	// Get Full Path
-	std::string realPath = getAssetPath(path);
-
-	// Read File
-	SDL_RWops* io = SDL_RWFromFile(realPath.c_str(), "rb");
-	if (!io)
-	{
-		LOG_E("Couldn't find file: %s", path.c_str());
-		return out;
-	}
-	Sint64 size;
-#if SDL_MAJOR_VERSION >= 2
-	size = SDL_RWsize(io);
-#else
-	size = SDL_RWseek(io, 0, SEEK_END);
-	SDL_RWseek(io, 0, SEEK_SET);
-#endif
-	unsigned char* file = new unsigned char[size];
-	SDL_RWread(io, file, size, 1);
-	SDL_RWclose(io);
-
-	// Parse Image
-	int width = 0, height = 0, channels = 0;
-	stbi_uc* img = stbi_load_from_memory(file, size, &width, &height, &channels, STBI_rgb_alpha);
-	delete[] file;
-	if (!img)
-	{
-		// Failed To Parse Image
-		LOG_E("The image could not be loaded properly: %s", path.c_str());
-		return out;
-	}
-
-	// Copy Image
-	uint32_t* img2 = new uint32_t[width * height];
-	memcpy(img2, img, width * height * sizeof(uint32_t));
-	stbi_image_free(img);
-
-	// Create Texture
-	out.m_width = width;
-	out.m_height = height;
-	out.m_pixels = img2;
-
-	// Return
-	return out;
-}
-
 bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
 {
 	// Get Full Path
@@ -432,21 +381,27 @@ AssetFile AppPlatform_sdl::readAssetFile(const std::string& str, bool quiet) con
 	return AssetFile(size, buf);
 }
 
-SDL_Surface* AppPlatform_sdl::_GetSurfaceForTexture(const Texture& texture)
+SDL_Surface* AppPlatform_sdl::_GetSurfaceForImage(ImageData& image)
 {
-	void* pixels = texture.m_pixels;
-	int width = texture.m_width;
-	int height = texture.m_height;
+	image.forceRGBA();
+
+	void* pixels = image.m_data;
+	int width = image.m_width;
+	int height = image.m_height;
 	int depth = 32; // Color depth (32-bit by default)
+
+	Uint32 Rmask, Gmask, Bmask, Amask;
+
+#if MC_ENDIANNESS_LITTLE
+	Rmask = 0x000000FF; Gmask = 0x0000FF00; Bmask = 0x00FF0000; Amask = 0xFF000000;
+#else // MC_ENDIANNESS_BIG
+	Rmask = 0xFF000000; Gmask = 0x00FF0000; Bmask = 0x0000FF00; Amask = 0x000000FF;
+#endif
 
 	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(
 		pixels, width, height, depth,
 		width * 4, // Pitch
-#if MC_ENDIANNESS_LITTLE
-		0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000
-#else // MC_ENDIANNESS_BIG
-		0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF
-#endif
+		Rmask, Gmask, Bmask, Amask
 	);
 	if (!surface)
 		LOG_E("Failed loading SDL_Surface from Texture: %s", SDL_GetError());

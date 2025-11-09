@@ -159,51 +159,6 @@ std::string AppPlatform_win32::getDateString(int time)
 	return std::string(buf);
 }
 
-Texture AppPlatform_win32::loadTexture(const std::string& str, bool bIsRequired)
-{
-	std::string realPath = str;
-	if (realPath.size() && realPath[0] == '/')
-		// trim it off
-		realPath = realPath.substr(1);
-
-	realPath = "assets/" + realPath;
-
-	FILE* f = fopen(realPath.c_str(), "rb");
-	if (!f)
-	{
-		LOG_E("File %s couldn't be opened", realPath.c_str());
-
-	_error:
-		if (!bIsRequired)
-			return Texture(0, 0, nullptr, 1, 0);
-
-		const std::string msg = "Error loading " + realPath + ". Did you unzip the Minecraft assets?\n\nNote, you will be warned for every missing texture.";
-		MessageBoxA(_getHWND(), msg.c_str(), getWindowTitle(), MB_OK | MB_ICONERROR);
-
-		if (f)
-			fclose(f);
-
-		return Texture(0, 0, nullptr, 0, 0);
-	}
-
-	int width = 0, height = 0, channels = 0;
-
-	stbi_uc* img = stbi_load_from_file(f, &width, &height, &channels, STBI_rgb_alpha);
-	if (!img)
-	{
-		LOG_E("File %s couldn't be loaded via stb_image", realPath.c_str());
-		goto _error;
-	}
-
-	uint32_t* img2 = new uint32_t[width * height];
-	memcpy(img2, img, width * height * sizeof(uint32_t));
-	stbi_image_free(img);
-	img = nullptr;
-
-	fclose(f);
-	return Texture(width, height, img2, 1, 0);
-}
-
 bool AppPlatform_win32::doesTextureExist(const std::string& path) const
 {
 	// Get Full Path

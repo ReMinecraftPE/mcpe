@@ -5,6 +5,7 @@
 #include <sstream>
 
 class AppPlatform;
+class TextureData;
 
 enum ePatchType
 {
@@ -73,7 +74,7 @@ public:
 
 	void LoadPatchData(const std::string& patchData);
 
-	void PatchTextures(AppPlatform*, ePatchType);
+	void PatchTextures(TextureData& texture, ePatchType patchType);
 	void PatchTiles();
 
 	// Features

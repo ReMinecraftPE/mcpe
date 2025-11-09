@@ -1,18 +1,28 @@
-/// @ref gtx_closest_point
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// OpenGL Mathematics Copyright (c) 2005 - 2014 G-Truc Creation (www.g-truc.net)
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Created : 2005-12-30
+// Updated : 2008-10-05
+// Licence : This source is under MIT License
+// File    : glm/gtx/closest_point.inl
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef glm_gtx_closest_point
+#define glm_gtx_closest_point
 
 namespace glm
 {
-	template<typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<3, T, Q> closestPointOnLine
+	template <typename T, precision P>
+	GLM_FUNC_QUALIFIER detail::tvec3<T, P> closestPointOnLine
 	(
-		vec<3, T, Q> const& point,
-		vec<3, T, Q> const& a,
-		vec<3, T, Q> const& b
+		detail::tvec3<T, P> const & point,
+		detail::tvec3<T, P> const & a,
+		detail::tvec3<T, P> const & b
 	)
 	{
 		T LineLength = distance(a, b);
-		vec<3, T, Q> Vector = point - a;
-		vec<3, T, Q> LineDirection = (b - a) / LineLength;
+		detail::tvec3<T, P> Vector = point - a;
+		detail::tvec3<T, P> LineDirection = (b - a) / LineLength;
 
 		// Project Vector to LineDirection to get the distance of point from a
 		T Distance = dot(Vector, LineDirection);
@@ -21,25 +31,6 @@ namespace glm
 		if(Distance >= LineLength) return b;
 		return a + LineDirection * Distance;
 	}
-
-	template<typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER vec<2, T, Q> closestPointOnLine
-	(
-		vec<2, T, Q> const& point,
-		vec<2, T, Q> const& a,
-		vec<2, T, Q> const& b
-	)
-	{
-		T LineLength = distance(a, b);
-		vec<2, T, Q> Vector = point - a;
-		vec<2, T, Q> LineDirection = (b - a) / LineLength;
-
-		// Project Vector to LineDirection to get the distance of point from a
-		T Distance = dot(Vector, LineDirection);
-
-		if(Distance <= T(0)) return a;
-		if(Distance >= LineLength) return b;
-		return a + LineDirection * Distance;
-	}
-
 }//namespace glm
+
+#endif//glm_gtx_closest_point

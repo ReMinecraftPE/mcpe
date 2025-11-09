@@ -8,7 +8,7 @@
 
 namespace gl
 {
-    extern bool hardwareOverideOpenGLES3;
+    static bool hardwareOverideOpenGLES3 = false;
     
     std::string getOpenGLVendor();
     std::string getOpenGLRenderer();

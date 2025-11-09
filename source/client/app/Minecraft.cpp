@@ -38,8 +38,6 @@
 
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
-
-// custom:
 #include "client/renderer/PatchManager.hpp"
 
 float Minecraft::_renderScaleMultiplier = 1.0f;
@@ -694,12 +692,13 @@ void Minecraft::_levelGenerated()
 
 void Minecraft::_initTextures()
 {
-	m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_TERRAIN);
-	m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
-	GetPatchManager()->PatchTextures(platform(), TYPE_ITEMS);
+	TextureData* pTexture;
+	pTexture = m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	//GetPatchManager()->PatchTextures(*pTexture, TYPE_TERRAIN);
+	pTexture = m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+	//GetPatchManager()->PatchTextures(*pTexture, TYPE_ITEMS);
 	
-	GetPatchManager()->PatchTiles();	
+	//GetPatchManager()->PatchTiles();	
 }
 
 void Minecraft::_resetPlayer(Player* player)

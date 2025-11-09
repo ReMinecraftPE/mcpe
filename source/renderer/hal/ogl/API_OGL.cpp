@@ -1,4 +1,4 @@
-#include <locale>
+#include <cctype>
 #include "API_OGL.hpp"
 
 std::string gl::getOpenGLVendor()

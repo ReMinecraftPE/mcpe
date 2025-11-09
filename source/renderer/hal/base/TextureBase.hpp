@@ -1,6 +1,7 @@
 #pragma once
 
 #include "renderer/hal/TextureDescription.hpp"
+#include "renderer/hal/enums/ShaderStagesBits.hpp"
 
 namespace mce
 {
@@ -17,7 +18,7 @@ namespace mce
     public:
         const TextureDescription& getDescription() const;
         void deleteTexture();
-        void bindTexture(RenderContext& context, unsigned int textureUnit, unsigned int shaderStagesBits);
+        void bindTexture(RenderContext& context, unsigned int textureUnit = 0, unsigned int shaderStagesBits = SHADER_STAGE_BIT_PIXEL);
         bool isLoaded() const;
 
         void convertToMipmapedTexture(unsigned int mipmaps);
@@ -36,6 +37,6 @@ namespace mce
         void lock(RenderContext& context);
         void unlock(RenderContext& context);
 
-        bool supportsMipMaps();
+        static bool supportsMipMaps();
     };
 }
