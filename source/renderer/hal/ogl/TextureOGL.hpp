@@ -5,8 +5,6 @@
 
 namespace mce
 {
-    class Texture;
-
     class TextureOGL : public TextureBase
     {
     private:
@@ -46,6 +44,8 @@ namespace mce
 
         void lock(RenderContext& context);
         void unlock(RenderContext& context);
+
+        void move(TextureOGL& other);
 
         static bool supportsMipMaps();
     };

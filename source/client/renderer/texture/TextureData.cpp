@@ -43,7 +43,7 @@ void TextureData::_move(TextureData& other)
 {
     this->m_bEnableFiltering = other.m_bEnableFiltering;
     this->m_imageData.move(other.m_imageData);
-    this->m_texture = other.m_texture;
+    this->m_texture.move(other.m_texture);
 }
 
 void TextureData::_loadTexData(mce::Texture& texture, bool enableFiltering, bool wrap)

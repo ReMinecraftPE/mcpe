@@ -694,11 +694,11 @@ void Minecraft::_initTextures()
 {
 	TextureData* pTexture;
 	pTexture = m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	//GetPatchManager()->PatchTextures(*pTexture, TYPE_TERRAIN);
+	GetPatchManager()->PatchTextures(*pTexture, TYPE_TERRAIN);
 	pTexture = m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
-	//GetPatchManager()->PatchTextures(*pTexture, TYPE_ITEMS);
+	GetPatchManager()->PatchTextures(*pTexture, TYPE_ITEMS);
 	
-	//GetPatchManager()->PatchTiles();	
+	GetPatchManager()->PatchTiles();	
 }
 
 void Minecraft::_resetPlayer(Player* player)

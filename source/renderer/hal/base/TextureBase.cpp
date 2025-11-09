@@ -5,6 +5,11 @@
 
 using namespace mce;
 
+TextureBase::TextureBase()
+{
+	m_bCreated = false;
+}
+
 const TextureDescription& TextureBase::getDescription() const
 {
     return m_description;
@@ -73,6 +78,16 @@ void TextureBase::lock(RenderContext& context)
 
 void TextureBase::unlock(RenderContext& context)
 {
+}
+
+void TextureBase::move(TextureBase& other)
+{
+    TextureDescription tempDesc = this->m_description;
+    this->m_description = tempDesc;
+    other.m_description = other.m_description;
+    bool tempCreated = this->m_bCreated;
+    this->m_bCreated = other.m_bCreated;
+    other.m_bCreated = tempCreated;
 }
 
 bool TextureBase::supportsMipMaps()

@@ -42,7 +42,7 @@ void Font::init(Options* pOpts)
 
 				for (int k = 0; k < 8; k++)
 				{
-					if ((uint8_t)pTexture->m_imageData.m_data[pixelDataIndex] != 0)
+					if ((uint8_t)pTexture->getData()[pixelDataIndex] != 0)
 					{
 						if (widthMax < j)
 							widthMax = j;

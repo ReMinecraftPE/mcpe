@@ -49,6 +49,8 @@ GLenum getOpenGLTextureTypeFromTextureFormat(TextureFormat textureFormat)
 
 void TextureOGL::deleteTexture()
 {
+	ErrorHandler::checkForErrors();
+
     glDeleteTextures(1, &m_state.m_textureName);
     TextureBase::deleteTexture();
 
@@ -61,6 +63,7 @@ void TextureOGL::bindTexture(RenderContext& context, unsigned int textureUnit, u
 {
     ErrorHandler::checkForErrors();
 
+    assert(textureUnit == 0);
     GLenum texture = GL_TEXTURE0 + textureUnit;
     if (context.m_activeTexture != texture)
     {
@@ -163,8 +166,16 @@ void TextureOGL::createTexture(RenderContext& context, const TextureDescription&
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         break;
     case TEXTURE_FILTERING_POINT:
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        if (description.bWrap)
+        {
+            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        }
+        else
+        {
+            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        }
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         break;
@@ -191,6 +202,14 @@ void TextureOGL::unlock(RenderContext& context)
     bindTexture(context);
     subBuffer(context, context.m_activePixels.data());
     context.m_activePixels.clear();
+}
+
+void TextureOGL::move(TextureOGL& other)
+{
+    TextureBase::move(other);
+    State tempState = this->m_state;
+    this->m_state = other.m_state;
+    other.m_state = tempState;
 }
 
 bool TextureOGL::supportsMipMaps()

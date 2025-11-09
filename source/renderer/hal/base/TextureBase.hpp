@@ -16,6 +16,9 @@ namespace mce
         bool m_bCreated;
 
     public:
+		TextureBase();
+
+	public:
         const TextureDescription& getDescription() const;
         void deleteTexture();
         void bindTexture(RenderContext& context, unsigned int textureUnit = 0, unsigned int shaderStagesBits = SHADER_STAGE_BIT_PIXEL);
@@ -36,6 +39,8 @@ namespace mce
 
         void lock(RenderContext& context);
         void unlock(RenderContext& context);
+
+        void move(TextureBase& other);
 
         static bool supportsMipMaps();
     };
