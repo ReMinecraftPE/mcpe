@@ -15,7 +15,7 @@
 class Vec2
 {
 public:
-	static const Vec2 ZERO;
+	static const Vec2 ZERO, ONE;
 
 public:
 	float x, y;

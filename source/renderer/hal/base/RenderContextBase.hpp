@@ -34,5 +34,7 @@ namespace mce
         RenderDevice* getDevice();
         void setStencilReference(unsigned int value);
         unsigned int getStencilReference() const;
+
+        static int getMaxVertexCount();
     };
 }

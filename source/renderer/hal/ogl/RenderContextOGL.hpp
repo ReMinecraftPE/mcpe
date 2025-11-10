@@ -66,7 +66,7 @@ namespace mce
         void setRenderTarget();
         void swapBuffers();
         void lostContext();
-        int getMaxVertexCount() const;
+        static int getMaxVertexCount();
 
         GLuint& getActiveBuffer(BufferType bufferType);
         GLuint getActiveBuffer(BufferType bufferType) const;

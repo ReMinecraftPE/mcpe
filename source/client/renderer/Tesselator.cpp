@@ -10,7 +10,7 @@
 #include "thirdparty/GL/GL.hpp"
 #include "common/Logger.hpp"
 #include "compat/EndianDefinitions.h"
-#include "renderer/hal/ogl/RenderContextOGL.hpp"
+#include "renderer/hal/interface/RenderContext.hpp"
 
 #include <cstddef>
 
@@ -23,14 +23,21 @@ void Tesselator::CurrentVertexPointers::_init()
 	pos = nullptr;
 	color = nullptr;
 	normal = nullptr;
-	u = nullptr;
-	v = nullptr;
+	uvs[0] = nullptr;
+	uvs[1] = nullptr;
+	pFormat = nullptr;
+}
+
+Tesselator::CurrentVertexPointers::CurrentVertexPointers()
+{
+	_init();
 }
 
 Tesselator::CurrentVertexPointers::CurrentVertexPointers(uint8_t* vertexData, const mce::VertexFormat& vertexFormat)
-	: format(vertexFormat)
 {
 	_init();
+
+	pFormat = &vertexFormat;
 
 	pos = (Vec3*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_POSITION, vertexData);
 	
@@ -46,42 +53,53 @@ Tesselator::CurrentVertexPointers::CurrentVertexPointers(uint8_t* vertexData, co
 
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
 	{
-		u = (float*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0, vertexData);
+		uvs[0] = (Vec2*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0, vertexData);
 	}
 
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_UV1))
 	{
-		v = (float*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV1, vertexData);
+		uvs[1] = (Vec2*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV1, vertexData);
 	}
 }
 
 void Tesselator::CurrentVertexPointers::nextVertex()
 {
-	unsigned int vertexSize = format.getVertexSize();
+	unsigned int vertexSize = pFormat->getVertexSize();
 
-	pos += vertexSize;
+	pos += vertexSize / sizeof(Vec3);
 
-	if (color) color += vertexSize;
-	if (normal) normal += vertexSize;
-	if (u) u += vertexSize;
-	if (v) v += vertexSize;
+	if (color) color += vertexSize / sizeof(uint32_t);
+	if (normal) normal += vertexSize / sizeof(uint32_t);
+	if (uvs[0]) uvs[0] += vertexSize / sizeof(Vec2);
+	if (uvs[1]) uvs[1] += vertexSize / sizeof(Vec2);
+}
+
+void Tesselator::CurrentVertexPointers::clear()
+{
+	pos = nullptr;
+	color = nullptr;
+	normal = nullptr;
 }
 
 void Tesselator::_init()
 {
-	m_bIsFormatFixed = false;
+	m_bHasIndices = false;
 
 	m_indexSize = 0;
 	m_indexCount = 0;
 
 	m_vertices = 0;
 
+	m_pendingVertices = 0;
+
+	resetScale();
+
 	m_nextVtxUVs[0] = Vec2::ZERO;
 	m_nextVtxUVs[1] = Vec2::ZERO;
 	m_nextVtxColor = 0;
 	m_nextVtxNormal = 0;
 
-	m_bTilt = false;
+	resetTilt();
 
 	m_count = 0;
 	m_bNoColorFlag = false;
@@ -127,11 +145,17 @@ Tesselator::~Tesselator()
 		delete[] m_pVertices;
 }
 
+void* Tesselator::_allocateIndices(int count)
+{
+	m_indices.resize(m_indexSize * count);
+	return &m_indices.front();
+}
+
 void Tesselator::_tex(const Vec2& uv, int count)
 {
 	m_nextVtxUVs[count] = uv;
 
-	if (!m_bIsFormatFixed)
+	if (!isFormatFixed())
 	{
 		m_vertexFormat.enableField((mce::VertexField)(mce::VERTEX_FIELD_UV0 + count));
 	}
@@ -139,19 +163,19 @@ void Tesselator::_tex(const Vec2& uv, int count)
 
 void Tesselator::clear()
 {
+	// @HAL remove
 	m_accessMode = 2;
 	m_vertices = 0;
 	
 	m_count = 0;
+	m_indices.clear();
 	m_vertexFormat = mce::VertexFormat::EMPTY;
-	m_bIsFormatFixed = false;
-	//m_pVtxColor = nullptr;
-	//m_pVtxNormal = nullptr;
+	m_currentVertex.clear();
 	m_indexCount = 0;
 	m_nVertices = 0;
 	m_bVoidBeginEnd = false;
 	m_bTesselating = false;
-	//m_field_28 = 0;
+	m_bHasIndices = false;
 }
 
 void Tesselator::cancel()
@@ -209,7 +233,7 @@ void Tesselator::colorABGR(uint32_t c)
 
 	m_nextVtxColor = c;
 
-	if (!m_bIsFormatFixed)
+	if (!isFormatFixed())
 	{
 		m_vertexFormat.enableField(mce::VERTEX_FIELD_COLOR);
 	}
@@ -232,7 +256,7 @@ void Tesselator::begin(mce::PrimitiveMode mode, int maxVertices)
 	m_vertexFormat.enableField(mce::VERTEX_FIELD_POSITION);
 	m_indexSize = 0;
 	m_indexCount = 0;
-	m_vertices = maxVertices;
+	m_pendingVertices = maxVertices;
 
 	// @HAL: remove
 	m_drawArraysMode = mce::modeMap[mode];
@@ -354,6 +378,11 @@ void Tesselator::init()
 	xglGenBuffers(m_vboCounts, m_vboIds);
 }
 
+void Tesselator::trim()
+{
+	m_indices.clear();
+}
+
 void Tesselator::enableColor()
 {
 	m_bNoColorFlag = false;
@@ -374,6 +403,25 @@ void Tesselator::resetTilt()
 	m_bTilt = false;
 }
 
+void Tesselator::scale2d(float x, float y)
+{
+	m_scale2D.x *= x;
+	m_scale2D.y *= y;
+}
+
+void Tesselator::scale3d(float x, float y, float z)
+{
+	m_scale3D.x *= x;
+	m_scale3D.y *= y;
+	m_scale3D.z *= z;
+}
+
+void Tesselator::resetScale()
+{
+	m_scale2D = Vec2::ONE;
+	m_scale3D = Vec3::ONE;
+}
+
 void Tesselator::normal(float x, float y, float z)
 {
 #ifdef USE_GL_NORMAL_LIGHTING
@@ -389,7 +437,7 @@ void Tesselator::normal(float x, float y, float z)
 	m_nextVtxNormal = (bx << 0) | (by << 8) | (bz << 16);
 #endif
 
-	if (!m_bIsFormatFixed)
+	if (!isFormatFixed())
 	{
 		m_vertexFormat.enableField(mce::VERTEX_FIELD_NORMAL);
 	}
@@ -431,10 +479,13 @@ void Tesselator::tex1(float u, float v)
 	tex1(Vec2(u, v));
 }
 
-void Tesselator::vertexUV(const Vec3& pos, float u, float v)
+void Tesselator::triangle(unsigned int x, unsigned int y, unsigned int z)
 {
-	tex(u, v);
-	vertex(pos);
+	uint8_t* indices = (uint8_t*)_allocateIndices(3);
+	indices[0 * m_indexSize] = x;
+	indices[1 * m_indexSize] = y;
+	indices[2 * m_indexSize] = z;
+	m_indexCount += 3;
 }
 
 void Tesselator::vertex(float x, float y, float z)
@@ -444,7 +495,61 @@ void Tesselator::vertex(float x, float y, float z)
 		clear();
 	}
 
+	if (m_count == mce::RenderContext::getMaxVertexCount())
+		return;
+
 	m_count++;
+
+	uint8_t* oldIndicesPtr = !m_indices.empty() ? &m_indices.front() : nullptr;
+	unsigned int vertexSize = m_vertexFormat.getVertexSize();
+
+	if (m_pendingVertices > 0)
+	{
+		m_indices.reserve(vertexSize * m_pendingVertices);
+		m_pendingVertices = 0;
+	}
+
+	m_indices.resize((m_nVertices+1) * vertexSize);
+
+	// Make sure m_indices front pointer hasn't changed from reallocation as a result of reserve or resize
+	if (isFormatFixed() && oldIndicesPtr == &m_indices.front())
+	{
+		m_currentVertex.nextVertex();
+	}
+	else
+	{
+		m_currentVertex = CurrentVertexPointers(&m_indices[m_nVertices * vertexSize], m_vertexFormat);
+	}
+
+	if (m_bTilt)
+	{
+		LOG_E("Tilt support not implemented");
+		throw std::bad_cast();
+	}
+
+	// Set vertex pos
+	m_currentVertex.pos->x = (m_offset.x + (x * m_scale3D.x)) * m_scale2D.x;
+	m_currentVertex.pos->y = (m_offset.y + (y * m_scale3D.x)) * m_scale2D.y;
+	m_currentVertex.pos->z =  m_offset.z + (z * m_scale3D.x);
+
+	// Set vertex UVs
+	for (int i = 0; i < 2; i++)
+	{
+		if (m_currentVertex.uvs[i])
+		{
+			m_currentVertex.uvs[i]->x = ceilf(m_nextVtxUVs[i].x * 65535.f);
+			m_currentVertex.uvs[i]->x = ceilf(m_nextVtxUVs[i].y * 65535.f);
+		}
+	}
+
+	// Set vertex color
+	if (m_currentVertex.color)
+		*m_currentVertex.color = m_nextVtxColor;
+
+	// Set vertex normal
+	if (m_currentVertex.normal)
+		*m_currentVertex.normal = m_nextVtxNormal;
+
 	if (m_drawArraysMode == GL_QUADS && TRIANGLE_MODE && (m_count % 4) == 0)
 	{
 		for (int idx = 3; idx != 1; idx--)
@@ -512,6 +617,12 @@ void Tesselator::vertex(float x, float y, float z)
 
 	m_vertices++;
 	m_nVertices++;
+}
+
+void Tesselator::vertexUV(const Vec3& pos, float u, float v)
+{
+	tex(u, v);
+	vertex(pos);
 }
 
 void Tesselator::voidBeginAndEndCalls(bool b)

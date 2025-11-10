@@ -23,7 +23,7 @@ struct TilePos;
 class Vec3
 {
 public:
-	static const Vec3 ZERO;
+	static const Vec3 ZERO, ONE;
 
 public:
 	float x, y, z;

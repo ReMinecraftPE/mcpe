@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include <map>
+#include <vector>
 #include "thirdparty/GL/GL.hpp"
 #include "RenderChunk.hpp"
 #include "world/phys/Vec2.hpp"
@@ -56,18 +57,19 @@ public:
 		Vec3* pos;
 		uint32_t* color;
 		uint32_t* normal;
-		float* u;
-		float* v;
-		const mce::VertexFormat format;
+		Vec2* uvs[2];
+		const mce::VertexFormat* pFormat;
 
 	private:
 		void _init();
 
 	public:
+		CurrentVertexPointers();
 		CurrentVertexPointers(uint8_t* vertexData, const mce::VertexFormat& vertexFormat);
 
 	public:
 		void nextVertex();
+		void clear();
 	};
 
 private:
@@ -78,6 +80,7 @@ public:
 	~Tesselator();
 
 private:
+	void* _allocateIndices(int count);
 	void _tex(const Vec2& uv, int count);
 
 public:
@@ -97,10 +100,14 @@ public:
 	void draw();
 	int  getVboCount();
 	void init();
+	void trim();
 	void enableColor();
 	void noColor();
 	void tilt();
 	void resetTilt();
+	void scale2d(float x, float y);
+	void scale3d(float x, float y, float z);
+	void resetScale();
 	void normal(float x, float y, float z);
 	void normal(const Vec3& pos) { normal(pos.x, pos.y, pos.z); }
 	void setOffset(const Vec3& pos);
@@ -112,6 +119,7 @@ public:
 	void tex1(const Vec2& uv);
 	void tex(float u, float v);
 	void tex1(float u, float v);
+	void triangle(unsigned int x, unsigned int y, unsigned int z);
 	void vertex(float x, float y, float z);
 	void vertex(const Vec3& pos) { vertex(pos.x, pos.y, pos.z); }
 	void vertexUV(const Vec3& pos, float u, float v);
@@ -120,19 +128,31 @@ public:
 
 	RenderChunk end(int);
 
+	bool isFormatFixed() const { return m_currentVertex.pos != nullptr; }
+
 private:
-	bool m_bIsFormatFixed;
+	CurrentVertexPointers m_currentVertex;
 
 	// Buffer
 	Vertex* m_pVertices;
+
+	std::vector<uint8_t> m_indices;
+	bool m_bHasIndices;
 
 	uint8_t m_indexSize;
 	//_BYTE gap2D[3];
 	unsigned int m_indexCount;
 	mce::VertexFormat m_vertexFormat;
 
+	// @HAL: remove
 	// Tesselation state
 	int m_vertices;
+
+	int m_pendingVertices;
+
+	Vec3 m_offset;
+	Vec3 m_scale3D;
+	Vec2 m_scale2D;
 
 	Vec2 m_nextVtxUVs[2]; // u, v
 	uint32_t m_nextVtxColor; // col
@@ -143,9 +163,8 @@ private:
 	int m_count;
 	bool m_bNoColorFlag;
 
+	// @HAL: remove
 	GLenum m_drawArraysMode; // draw_mode
-
-	Vec3 m_offset;
 
 	// State
 	bool m_bTesselating;

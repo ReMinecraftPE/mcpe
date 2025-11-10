@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <sstream>
 #include "thirdparty/GL/GL.hpp"
+#include "client/app/AppPlatformListener.hpp"
 #include "world/level/LevelListener.hpp"
 #include "Textures.hpp"
 #include "RenderList.hpp"
@@ -67,7 +68,7 @@ public:
 	}
 };
 
-class LevelRenderer : public LevelListener
+class LevelRenderer : public LevelListener, public AppPlatformListener
 {
 private:
 	static bool _areCloudsAvailable;
@@ -80,6 +81,9 @@ public:
 
 public:
 	LevelRenderer(Minecraft*, Textures*);
+
+	// AppPlatformListener overrides
+	void onLowMemory() override;
 
 	// LevelListener overrides
 	void allChanged() override;

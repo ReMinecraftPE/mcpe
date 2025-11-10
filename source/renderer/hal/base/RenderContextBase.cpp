@@ -41,3 +41,8 @@ unsigned int RenderContextBase::getStencilReference() const
 {
     return m_stencilReference;
 }
+
+int RenderContextBase::getMaxVertexCount()
+{
+    return 0;
+}

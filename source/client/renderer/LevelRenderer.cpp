@@ -212,6 +212,11 @@ void LevelRenderer::cull(Culler* pCuller, float f)
 	field_30++;
 }
 
+void LevelRenderer::onLowMemory()
+{
+	Tesselator::instance.trim();
+}
+
 void LevelRenderer::allChanged()
 {
 	deleteChunks();

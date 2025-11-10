@@ -9,6 +9,7 @@
 #include "Vec2.hpp"
 
 const Vec2 Vec2::ZERO = Vec2(0, 0);
+const Vec2 Vec2::ONE  = Vec2(1, 1);
 
 void Vec2::_init(float x, float y)
 {
