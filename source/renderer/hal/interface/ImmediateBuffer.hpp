@@ -1,11 +1,13 @@
 #pragma once
 
-#include "renderer/hal/ogl/ImmediateBufferOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(ImmediateBuffer)
 
 namespace mce
 {
-    class ImmediateBuffer : public ImmediateBufferOGL
+    class ImmediateBuffer : public MCE_GFX_CLASS(ImmediateBuffer)
     {
-
+    public:
+        ImmediateBuffer();
     };
 }

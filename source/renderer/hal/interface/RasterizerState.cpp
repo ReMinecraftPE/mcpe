@@ -3,6 +3,6 @@
 using namespace mce;
 
 RasterizerState::RasterizerState()
-    : RasterizerStateOGL()
+    : MCE_GFX_CLASS(RasterizerState)()
 {
 }

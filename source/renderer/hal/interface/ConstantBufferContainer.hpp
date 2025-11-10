@@ -1,10 +1,11 @@
 #pragma once
 
-#include "renderer/hal/ogl/ConstantBufferContainerOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(ConstantBufferContainer)
 
 namespace mce
 {
-    class ConstantBufferContainer : public ConstantBufferContainerOGL
+    class ConstantBufferContainer : public MCE_GFX_CLASS(ConstantBufferContainer)
     {
     public:
         ConstantBufferContainer();

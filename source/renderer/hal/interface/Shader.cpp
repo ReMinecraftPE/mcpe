@@ -3,6 +3,6 @@
 using namespace mce;
 
 Shader::Shader(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry)
-    : ShaderOGL(vertex, fragment, geometry)
+    : MCE_GFX_CLASS(Shader)(vertex, fragment, geometry)
 {
 }

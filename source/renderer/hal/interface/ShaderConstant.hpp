@@ -1,10 +1,11 @@
 #pragma once
 
-#include "renderer/hal/ogl/ShaderConstantOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(ShaderConstant)
 
 namespace mce
 {
-    class ShaderConstant : public ShaderConstantOGL
+    class ShaderConstant : public MCE_GFX_CLASS(ShaderConstant)
     {
         
     };

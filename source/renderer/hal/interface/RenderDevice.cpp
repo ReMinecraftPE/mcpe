@@ -4,6 +4,7 @@
 using namespace mce;
 
 RenderDevice::RenderDevice()
+    : MCE_GFX_CLASS(RenderDevice)()
 {
     m_immediateContext = new RenderContext();
 }

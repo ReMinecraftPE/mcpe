@@ -1,20 +1,21 @@
 #pragma once
 
-#include "renderer/hal/ogl/ShaderConstantWithDataOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(ShaderConstantWithData)
 
 namespace mce
 {
     template <ShaderPrimitiveTypes T>
-    class ShaderConstantWithData : public ShaderConstantWithDataOGL<T>
+    class ShaderConstantWithData : public MCE_GFX_CLASS(ShaderConstantWithData)<T>
     {
     public:
-        ShaderConstantWithData(): ShaderConstantWithDataOGL<T>(T)
+        ShaderConstantWithData(): MCE_GFX_CLASS(ShaderConstantWithData)<T>(T)
         {
         }
 
         virtual void syncUniform(int value)
         {
-            ShaderConstantWithDataOGL<T>::syncUniform(value);
+            MCE_GFX_CLASS(ShaderConstantWithData)<T>::syncUniform(value);
             ShaderConstant::syncUniform(value);
         }
     };

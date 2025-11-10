@@ -63,6 +63,12 @@
     <Filter Include="Header Files\HAL\OGL">
       <UniqueIdentifier>{401f738a-aea7-4a49-9844-842d2f62aadc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\HAL\Null">
+      <UniqueIdentifier>{d8de1dcd-c91a-46a0-94ce-63c0d0b32491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\Null">
+      <UniqueIdentifier>{d1d2f648-6a5d-4700-b21c-30831ad9f50c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp">
@@ -410,6 +416,45 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderDeviceNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantWithDataNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
@@ -672,6 +717,45 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\WorldConstants.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderDeviceNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantWithDataNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

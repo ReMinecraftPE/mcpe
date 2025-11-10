@@ -24,6 +24,6 @@ void Buffer::createDynamicVertexBuffer(RenderContext& context, unsigned int size
 
 Buffer& Buffer::operator=(Buffer&& other)
 {
-    this->BufferOGL::operator=(std::move(other));
+    this->MCE_GFX_CLASS(Buffer)::operator=(std::move(other));
     return *this;
 }

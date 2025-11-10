@@ -1,10 +1,11 @@
 #pragma once
 
-#include "renderer/hal/ogl/BufferOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(Buffer)
 
 namespace mce
 {
-    class Buffer : public BufferOGL
+    class Buffer : public MCE_GFX_CLASS(Buffer)
     {
     public:
         void createIndexBuffer(RenderContext& context, unsigned int sizeOfSingleIndice, const void *indices, unsigned int numberOfIndices);

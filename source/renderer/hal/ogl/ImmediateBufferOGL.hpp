@@ -5,7 +5,7 @@
 
 namespace mce
 {
-    class ImmediateBufferOGL : ImmediateBufferBase
+    class ImmediateBufferOGL : public ImmediateBufferBase
     {
     private:
         GLenum m_target;

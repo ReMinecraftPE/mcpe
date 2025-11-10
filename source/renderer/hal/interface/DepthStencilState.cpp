@@ -3,6 +3,6 @@
 using namespace mce;
 
 DepthStencilState::DepthStencilState()
-    : DepthStencilStateOGL()
+    : MCE_GFX_CLASS(DepthStencilState)()
 {
 }

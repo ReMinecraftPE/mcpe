@@ -3,6 +3,6 @@
 using namespace mce;
 
 ConstantBufferContainer::ConstantBufferContainer()
-    : ConstantBufferContainerOGL()
+    : MCE_GFX_CLASS(ConstantBufferContainer)()
 {
 }

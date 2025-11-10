@@ -1,11 +1,12 @@
 #pragma once
 
 #include "common/utility/Singleton.hpp"
-#include "renderer/hal/ogl/RenderDeviceOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(RenderDevice)
 
 namespace mce
 {
-    class RenderDevice : public RenderDeviceOGL, public Singleton<RenderDevice>
+    class RenderDevice : public MCE_GFX_CLASS(RenderDevice), public Singleton<RenderDevice>
     {
     public:
         RenderContext *m_immediateContext;

@@ -1,10 +1,13 @@
 #pragma once
 
-#include "renderer/hal/ogl/RenderContextOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(RenderContext)
 
 namespace mce
 {
-    class RenderContext : public RenderContextOGL
+    class RenderContext : public MCE_GFX_CLASS(RenderContext)
     {
+    public:
+        RenderContext();
     };
 }

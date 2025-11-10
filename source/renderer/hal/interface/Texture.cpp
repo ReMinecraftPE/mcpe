@@ -3,7 +3,7 @@
 using namespace mce;
 
 Texture::Texture()
-    : TextureOGL()
+    : MCE_GFX_CLASS(Texture)()
 {
 }
 

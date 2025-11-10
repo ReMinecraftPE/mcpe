@@ -64,25 +64,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderConstantWithData.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderProgram.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\RasterizerStateDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\StencilFaceDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\TextureDescription.cpp" />
@@ -106,6 +87,42 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\VertexFormat.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\WeatherConstants.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\WorldConstants.cpp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderDeviceNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantWithDataNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.cpp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='OGL'">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp" />
@@ -179,25 +196,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderConstantWithData.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ShaderProgram.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\RasterizerStateDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ShaderStage.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\StencilFaceDescription.hpp" />
@@ -223,6 +221,42 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\VertexFormat.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\WeatherConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp" />
+  </ItemGroup>
+   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderDeviceNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantWithDataNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.hpp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='OGL'">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

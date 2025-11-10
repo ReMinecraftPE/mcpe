@@ -1,10 +1,11 @@
 #pragma once
 
-#include "renderer/hal/ogl/BlendStateOGL.hpp"
+#include "renderer/PlatformDefinitions.h"
+#include MCE_GFX_CLASS_HEADER(BlendState)
 
 namespace mce
 {
-    class BlendState : public BlendStateOGL
+    class BlendState : public MCE_GFX_CLASS(BlendState)
     {
     public:
         BlendState();
