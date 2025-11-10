@@ -13,15 +13,18 @@ namespace mce
     class ShaderBase
     {
     public:
+        static std::map<std::string, VertexField> builtinAttributeMap;
+
+    public:
         unsigned int m_attributeListIndex;
         ShaderProgram& m_vertexShader;
         ShaderProgram& m_fragmentShader;
         ShaderProgram& m_geometryShader;
 
-        static std::map<std::string, VertexField> builtinAttributeMap;
-
+    public:
         ShaderBase(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry);
 
+    public:
         void finalizeShaderUniforms();
         static void freeCompilerResources();
         static void resetLastProgram();

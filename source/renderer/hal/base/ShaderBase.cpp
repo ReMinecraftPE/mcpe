@@ -5,6 +5,8 @@
 
 using namespace mce;
 
+std::map<std::string, VertexField> ShaderBase::builtinAttributeMap;
+
 ShaderBase::ShaderBase(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry)
     : m_vertexShader(vertex)
     , m_fragmentShader(fragment)

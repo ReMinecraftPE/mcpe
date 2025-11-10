@@ -330,6 +330,49 @@ void Tesselator::draw()
 	clear();
 }
 
+void Tesselator::draw(const mce::MaterialPtr& materialPtr)
+{
+	if (!m_bTesselating || m_bVoidBeginEnd)
+		return;
+
+	if (m_nVertices > 0)
+	{
+		mce::Mesh mesh = end("draw", true);
+		mesh.render(materialPtr);
+	}
+
+	clear();
+}
+
+mce::Mesh Tesselator::end(const char* debugName, bool temporary)
+{
+	if (!m_bTesselating || m_bVoidBeginEnd)
+	{
+		return mce::Mesh();
+	}
+
+	if (m_nVertices && isFormatFixed())
+	{
+		mce::Mesh mesh(m_vertexFormat,
+			m_nVertices,
+			m_indexCount,
+			m_indexSize,
+			m_mode,
+			&m_indices.front(),
+			temporary);
+
+		if (!temporary)
+			clear();
+
+		return mesh;
+	}
+	else
+	{
+		m_bTesselating = false;
+		return mce::Mesh();
+	}
+}
+
 RenderChunk Tesselator::end(int vboIdx)
 {
 	if (!m_bTesselating || m_bVoidBeginEnd)

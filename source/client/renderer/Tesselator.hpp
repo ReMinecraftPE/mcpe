@@ -18,6 +18,7 @@
 #include "common/math/Color.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
+#include "renderer/Mesh.hpp"
 
 #define GET_RED(c)   (uint8_t(((c) >>  0) & 0xFF))
 #define GET_GREEN(c) (uint8_t(((c) >>  8) & 0xFF))
@@ -98,6 +99,7 @@ public:
 	void color(float r, float g, float b, float a);
 	void colorABGR(uint32_t c);
 	void draw();
+	void draw(const mce::MaterialPtr& materialPtr);
 	int  getVboCount();
 	void init();
 	void trim();
@@ -126,6 +128,7 @@ public:
 	void vertexUV(float x, float y, float z, float u, float v) { vertexUV(Vec3(x, y, z), u, v); }
 	void voidBeginAndEndCalls(bool b);
 
+	mce::Mesh end(const char* debugName = nullptr, bool temporary = false);
 	RenderChunk end(int);
 
 	bool isFormatFixed() const { return m_currentVertex.pos != nullptr; }

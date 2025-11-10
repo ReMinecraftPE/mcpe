@@ -87,6 +87,15 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\VertexFormat.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\WeatherConstants.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\WorldConstants.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\BlendTarget_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ComparisonFunc_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.hpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderStagesBits_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\StencilOp_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp" />
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.cpp" />
@@ -154,30 +163,22 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\BlendStateDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\DepthStencilStateDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\BlendTarget.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\BlendTarget_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\BufferType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ColorWriteMask.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ComparisonFunc.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ComparisonFunc_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\CullMode.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\DepthWriteMask.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderPrimitiveTypes.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderStagesBits.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderStagesBits_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\StencilMask.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\StencilOp.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\StencilOp_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFormat.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\VertexFieldType.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\helpers\ErrorHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\helpers\TextureHelper.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ImageDescription.hpp" />
@@ -222,7 +223,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\WeatherConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp" />
   </ItemGroup>
-   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
+  <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.hpp" />

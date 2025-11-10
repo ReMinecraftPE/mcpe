@@ -2,9 +2,11 @@
 
 #include "PlatformDefinitions.h"
 
+#include "common/utility/JsonParser.hpp"
+
 #include "hal/enums/RenderState_JsonParser.hpp"
-#include "hal/enums/ComparisonFunc_JsonParser.hpp"
-#include "hal/enums/StencilOp_JsonParser.hpp"
+#include "hal/enums/ComparisonFunc.hpp"
+#include "hal/enums/StencilOp.hpp"
 #include "hal/enums/ShaderStagesBits.hpp"
 #include "RenderContextImmediate.hpp"
 
@@ -15,6 +17,8 @@
 #endif
 
 using namespace mce;
+
+RenderMaterial* RenderMaterial::lastUsedMaterial = nullptr;
 
 RenderMaterial::RenderMaterial()
 {

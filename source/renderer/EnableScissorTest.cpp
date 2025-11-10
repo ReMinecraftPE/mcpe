@@ -2,6 +2,9 @@
 
 using namespace mce;
 
+int EnableScissorTest::activeScissorBox[4];
+bool EnableScissorTest::scissorTestEnabled;
+
 void EnableScissorTest::_init(bool enableTest)
 {
     m_testEnabled = enableTest;
