@@ -29,7 +29,7 @@ void VertexFormat::enableField(VertexField vertexField)
 
 bool VertexFormat::hasField(VertexField vertexField) const
 {
-    return ((int)m_fieldMask >> vertexField) & 1;
+    return (m_fieldMask >> vertexField) & 1;
 }
 
 const void* VertexFormat::getFieldOffset(VertexField vertexField, const void *vertexData) const

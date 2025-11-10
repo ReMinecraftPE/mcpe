@@ -10,6 +10,7 @@
 #include "thirdparty/GL/GL.hpp"
 #include "common/Logger.hpp"
 #include "compat/EndianDefinitions.h"
+#include "renderer/hal/ogl/RenderContextOGL.hpp"
 
 #include <cstddef>
 
@@ -234,12 +235,11 @@ void Tesselator::begin(mce::PrimitiveMode mode, int maxVertices)
 	m_vertices = maxVertices;
 
 	// @HAL: remove
-	if (mode != mce::PRIMITIVE_MODE_QUAD_LIST)
+	m_drawArraysMode = mce::modeMap[mode];
+	if (mode == mce::PRIMITIVE_MODE_QUAD_LIST)
 	{
-		LOG_E("Primitive mode is unsupported for Tessellation: %d", mode);
-		throw std::bad_cast();
+		m_drawArraysMode = GL_QUADS;
 	}
-	m_drawArraysMode = GL_QUADS;
 }
 
 void Tesselator::draw()

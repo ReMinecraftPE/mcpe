@@ -906,7 +906,7 @@ void GameRenderer::renderWeather(float f)
 {
 	if (m_envTexturePresence == 0)
 	{
-		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("snow.png", false) >= 0;
+		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("environment/snow.png", false) != nullptr;
 		m_envTexturePresence = bLoadedSuccessfully ? 2 : 1;
 	}
 	
@@ -924,7 +924,7 @@ void GameRenderer::renderWeather(float f)
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_pMinecraft->m_pTextures->loadAndBindTexture("snow.png");
+	m_pMinecraft->m_pTextures->loadAndBindTexture("environment/snow.png");
 
 	int range = m_pMinecraft->getOptions()->m_bFancyGraphics ? 10 : 5;
 

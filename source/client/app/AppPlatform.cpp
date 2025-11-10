@@ -125,6 +125,9 @@ void AppPlatform::loadImage(ImageData& data, const std::string& path)
 {
 	AssetFile file = readAssetFile(path, true);
 
+	if (!file.data)
+		return;
+
 	// Parse Image
 	int desired_channels = STBI_rgb_alpha; // STB will convert the image for us
 	int channels = 0;

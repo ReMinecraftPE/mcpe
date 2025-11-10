@@ -403,21 +403,21 @@ void LevelRenderer::render(const AABB& aabb) const
 {
 	Tesselator& t = Tesselator::instance;
 
-	t.begin(GL_LINE_STRIP);
+	t.begin(mce::PRIMITIVE_MODE_LINE_STRIP);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.min.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.min.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.min.z);
 	t.draw();
-	t.begin(GL_LINE_STRIP);
+	t.begin(mce::PRIMITIVE_MODE_LINE_STRIP);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
 	t.draw();
-	t.begin(GL_LINES);
+	t.begin(mce::PRIMITIVE_MODE_LINE_LIST);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.min.z);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.min.y, aabb.min.z);
