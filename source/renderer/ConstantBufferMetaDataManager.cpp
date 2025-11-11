@@ -45,7 +45,7 @@ void ConstantBufferMetaDataManager::loadJsonFile(const std::string& document)
     Document d;
     d.Parse(document.c_str());
     const Value& root = d.GetObj();
-    m_constantBufferMetaDataList.reserve(root.Size());
+    m_constantBufferMetaDataList.reserve(root.MemberCount());
 
     // <root>
     for (Value::ConstMemberIterator it = root.MemberBegin(); it != root.MemberEnd(); it++)
@@ -63,9 +63,9 @@ void ConstantBufferMetaDataManager::loadJsonFile(const std::string& document)
 
             ShaderPrimitiveTypes primitiveType = SHADER_PRIMITIVE_UNKNOWN;
             const char* primitiveTypeStr = uniformDef->value.GetString();
-            for (int i = 0; i < SHADER_PRIMITIVES_MAX; i++)
+            for (int i = 0; i <= SHADER_PRIMITIVES_MAX; i++)
             {
-                if (ShaderPrimitiveTypeToString[i] == primitiveTypeStr)
+                if (strcmp(ShaderPrimitiveTypeToString[i], primitiveTypeStr) == 0)
                 {
                     primitiveType = (ShaderPrimitiveTypes)i;
                     break;

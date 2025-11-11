@@ -55,6 +55,9 @@ RenderState RenderMaterial::_parseStateName(const std::string& stateName) const
 
 void RenderMaterial::_parseRenderStates(const rapidjson::Value& root)
 {
+    if (!root.HasMember("states"))
+        return;
+
     const rapidjson::Value& statesValue = root["states"];
     for (rapidjson::Value::ConstValueIterator it = statesValue.Begin(); it != statesValue.End(); it++)
     {
@@ -69,13 +72,19 @@ void RenderMaterial::_parseRuntimeStates(const rapidjson::Value& root)
     _parseDepthStencilState(root);
     _parseBlendState(root);
 
-    const rapidjson::Value& polygonOffsetLevelValue = root["polygonOffsetLevel"];
-    if (!polygonOffsetLevelValue.IsNull())
-        m_polygonOffsetLevel = polygonOffsetLevelValue.GetFloat();
+    if (root.HasMember("polygonOffsetLevel"))
+    {
+        const rapidjson::Value& polygonOffsetLevelValue = root["polygonOffsetLevel"];
+        if (!polygonOffsetLevelValue.IsNull())
+            m_polygonOffsetLevel = polygonOffsetLevelValue.GetFloat();
+    }
 }
 
 void RenderMaterial::_parseDepthStencilFace(const rapidjson::Value& root, const char* depthStencilFaceName, StencilFaceDescription& faceDescription) const
 {
+    if (!root.HasMember("depthStencilFaceName"))
+        return;
+
     const rapidjson::Value& value = root[depthStencilFaceName];
     if (value.IsNull())
         return;
@@ -94,6 +103,7 @@ void RenderMaterial::_parseDepthStencilState(const rapidjson::Value& root)
     _parseDepthStencilFace(root, "frontFace", desc.frontFace);
     _parseDepthStencilFace(root, "backFace", desc.frontFace);
 
+    if (root.HasMember("stencilRef"))
     {
         const rapidjson::Value& stencilRefValue = root["stencilRef"];
         if (!stencilRefValue.IsNull())
@@ -103,6 +113,7 @@ void RenderMaterial::_parseDepthStencilState(const rapidjson::Value& root)
         }
     }
 
+    if (root.HasMember("stencilReadMask"))
     {
         const rapidjson::Value& stencilReadMaskValue = root["stencilReadMask"];
         if (!stencilReadMaskValue.IsNull())
@@ -120,6 +131,9 @@ void RenderMaterial::_parseBlendState(const rapidjson::Value& root)
 
 void RenderMaterial::_parseDefines(const rapidjson::Value& root)
 {
+    if (!root.HasMember("defines"))
+        return;
+
     const rapidjson::Value& definesValue = root["defines"];
     for (rapidjson::Value::ConstValueIterator it = definesValue.Begin(); it != definesValue.End(); it++)
     {
@@ -146,16 +160,19 @@ std::string RenderMaterial::_buildHeader()
 
 void RenderMaterial::_parseShaderPaths(const rapidjson::Value& root)
 {
+    if (root.HasMember("vertexShader"))
     {
         const rapidjson::Value& pathValue = root["vertexShader"];
         if (!pathValue.IsNull())
             m_vertexShader = pathValue.GetString();
     }
+    if (root.HasMember("fragmentShader"))
     {
         const rapidjson::Value& pathValue = root["fragmentShader"];
         if (!pathValue.IsNull())
             m_fragmentShader = pathValue.GetString();
     }
+    if (root.HasMember("geometryShader"))
     {
         const rapidjson::Value& pathValue = root["geometryShader"];
         if (!pathValue.IsNull())

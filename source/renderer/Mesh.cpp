@@ -151,7 +151,7 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
 
 bool Mesh::isValid() const
 {
-    return m_vertexBuffer.isValid() && (m_vertexCount > 0 || m_rawData != 0) && m_vertexFormat;
+    return ((m_vertexBuffer.isValid() && m_vertexCount > 0) || isTemporary()) && m_vertexFormat;
 }
 
 bool Mesh::isTemporary() const

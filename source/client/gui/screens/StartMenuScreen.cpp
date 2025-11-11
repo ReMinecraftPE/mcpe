@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "StartMenuScreen.hpp"
+#include "client/renderer/ScreenRenderer.hpp"
 #include "InvalidLicenseScreen.hpp"
 #include "OptionsScreen.hpp"
 #include "ProgressScreen.hpp"
@@ -493,7 +494,7 @@ bool StartMenuScreen::isInGameScreen()
 	return false;
 }
 
-void StartMenuScreen::drawLegacyTitle()
+void StartMenuScreen::draw2dTitle()
 {
 	Textures* tx = m_pMinecraft->m_pTextures;
 
@@ -510,73 +511,21 @@ void StartMenuScreen::drawLegacyTitle()
 		int width = pTex->m_imageData.m_width;
 		int height = pTex->m_imageData.m_height;
 
-		if (m_width * 3 / 4 < width)
+		if (m_width * 3 / 4 < m_2dTitleBounds.w)
 		{
 			crampedMode = true;
 			titleYPos = 4;
 		}
 
-		Tesselator& t = Tesselator::instance;
+		m_2dTitleBounds.x = left;
+		m_2dTitleBounds.y = titleYPos;
+		m_2dTitleBounds.w = width;
+		m_2dTitleBounds.h = height;
+
 		glColor4f(1, 1, 1, 1);
-		t.begin();
-		t.vertexUV(left, height + titleYPos, field_4, 0.0f, 1.0f);
-		t.vertexUV(left + width, height + titleYPos, field_4, 1.0f, 1.0f);
-		t.vertexUV(left + width, titleYPos, field_4, 1.0f, 0.0f);
-		t.vertexUV(left, titleYPos, field_4, 0.0f, 0.0f);
-		t.draw();
+		ScreenRenderer::singleton().blit(m_2dTitleBounds);
 	}
 
-}
-
-void StartMenuScreen::render(int a, int b, float c)
-{
-#ifdef TITLE_CROP_MODE
-	fill(0, 0, m_width, m_height, 0xFF00FF00);
-#else
-	//renderBackground();
-	renderMenuBackground(c);
-#endif
-
-	//int titleYPos = 4;
-	//int titleYPos = 30; // -- MC Java position.
-	int titleYPos = 15;
-	bool crampedMode = false;
-
-	if (m_width * 3 / 4 < 256)
-	{
-		crampedMode = true;
-		titleYPos = 4;
-	}
-
-	if (m_pMinecraft->getOptions()->m_bOldTitleLogo)
-		drawLegacyTitle();
-	else
-		draw3dTitle(c);
-
-	drawString(m_pFont, field_170, field_188, 58 + titleYPos, 0xFFCCCCCC);
-	drawString(m_pFont, field_154, field_16C, m_height - 10, 0x00FFFFFF);
-
-	// Draw the splash text, if we have enough room.
-#ifndef TITLE_CROP_MODE
-	if (!crampedMode)
-		drawSplash();
-#endif
-
-	Screen::render(a, b, c);
-}
-
-void StartMenuScreen::tick()
-{
-	Screen::tick();
-	_updateLicense();
-
-	if (m_pTiles)
-	{
-		int Width = int(sizeof gLogoLine1 - 1);
-		int Height = int(sizeof gLogoLines / sizeof * gLogoLines);
-		for (int i = 0; i < Width * Height; i++)
-			m_pTiles[i]->tick();
-	}
 }
 
 void StartMenuScreen::draw3dTitle(float f)
@@ -694,6 +643,57 @@ void StartMenuScreen::draw3dTitle(float f)
 	glPopMatrix();
 	glViewport(0, 0, Minecraft::width, Minecraft::height);
 	//glEnable(GL_CULL_FACE);
+}
+
+void StartMenuScreen::render(int a, int b, float c)
+{
+#ifdef TITLE_CROP_MODE
+	fill(0, 0, m_width, m_height, 0xFF00FF00);
+#else
+	//renderBackground();
+	renderMenuBackground(c);
+#endif
+
+	//int titleYPos = 4;
+	//int titleYPos = 30; // -- MC Java position.
+	int titleYPos = 15;
+	bool crampedMode = false;
+
+	if (m_width * 3 / 4 < 256)
+	{
+		crampedMode = true;
+		titleYPos = 4;
+	}
+
+	if (m_pMinecraft->getOptions()->m_bOldTitleLogo)
+		draw2dTitle();
+	else
+		draw3dTitle(c);
+
+	drawString(m_pFont, field_170, field_188, 58 + titleYPos, 0xFFCCCCCC);
+	drawString(m_pFont, field_154, field_16C, m_height - 10, 0x00FFFFFF);
+
+	// Draw the splash text, if we have enough room.
+#ifndef TITLE_CROP_MODE
+	if (!crampedMode)
+		drawSplash();
+#endif
+
+	Screen::render(a, b, c);
+}
+
+void StartMenuScreen::tick()
+{
+	Screen::tick();
+	_updateLicense();
+
+	if (m_pTiles)
+	{
+		int Width = int(sizeof gLogoLine1 - 1);
+		int Height = int(sizeof gLogoLines / sizeof * gLogoLines);
+		for (int i = 0; i < Width * Height; i++)
+			m_pTiles[i]->tick();
+	}
 }
 
 void StartMenuScreen::drawSplash()

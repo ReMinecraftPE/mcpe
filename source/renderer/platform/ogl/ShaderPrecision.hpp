@@ -23,7 +23,7 @@ namespace mce
                 Precision(GLenum shaderType);
 
             private:
-                GLint _getPrecision(GLenum shaderType, GLenum precisionType);
+                static GLint _getPrecision(GLenum shaderType, GLenum precisionType);
 
             public:
                 static const std::string& atLeast(int atleast);

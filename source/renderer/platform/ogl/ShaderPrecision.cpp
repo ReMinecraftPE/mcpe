@@ -26,8 +26,34 @@ Precision::Precision(GLenum shaderType)
 
 GLint Precision::_getPrecision(GLenum shaderType, GLenum precisionType)
 {
-    GLint range, precision;
-    xglGetShaderPrecisionFormat(shaderType, precisionType, &range, &precision);
+    GLint range[2];
+    GLint precision = -1;
+
+#if GL_VERSION_4_1
+    xglGetShaderPrecisionFormat(shaderType, precisionType, range, &precision);
+#endif
+
+    // We only need precision
+    if (precision == -1)
+    {
+        // Default values for GL 4.1
+        switch (shaderType)
+        {
+        case GL_VERTEX_SHADER:
+            switch (precisionType)
+            {
+            case GL_LOW_FLOAT:
+                precision = 10;
+                break;
+            case GL_MEDIUM_FLOAT:
+                precision = 10;
+                break;
+            case GL_HIGH_FLOAT:
+                precision = 23;
+            }
+            break;
+        }
+    }
 
     return precision;
 }

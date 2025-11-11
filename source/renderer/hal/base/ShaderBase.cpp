@@ -5,7 +5,18 @@
 
 using namespace mce;
 
-std::map<std::string, VertexField> ShaderBase::builtinAttributeMap;
+// I could not find anything responsible for setting this in 0.12.1
+std::map<std::string, VertexField> _CreateBuiltinAttributeMap()
+{
+    std::map<std::string, VertexField> m;
+    m["POSITION"] = VERTEX_FIELD_POSITION;
+    m["COLOR"] = VERTEX_FIELD_COLOR;
+    m["NORMAL"] = VERTEX_FIELD_NORMAL;
+    m["TEXCOORD_0"] = VERTEX_FIELD_UV0;
+    m["TEXCOORD_1"] = VERTEX_FIELD_UV1;
+    return m;
+}
+std::map<std::string, VertexField> ShaderBase::builtinAttributeMap = _CreateBuiltinAttributeMap();
 
 ShaderBase::ShaderBase(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry)
     : m_vertexShader(vertex)

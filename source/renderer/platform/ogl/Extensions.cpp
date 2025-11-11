@@ -159,8 +159,7 @@ bool xglInitted()
 		&& p_glGetUniformLocation
 		&& p_glGetAttribLocation
 		&& p_glEnableVertexAttribArray
-		&& p_glActiveTexture
-		&& p_glGetShaderPrecisionFormat;
+		&& p_glActiveTexture;
 #else
 	return true;
 #endif
@@ -478,6 +477,10 @@ void xglActiveTexture(GLenum texture)
 
 void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision)
 {
+	// Requires GL 4.1
+	if (!p_glGetShaderPrecisionFormat)
+		return;
+	
 	p_glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
 }
 

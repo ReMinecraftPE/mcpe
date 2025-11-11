@@ -27,7 +27,7 @@ void ConstantBufferContainerBase::_init()
 void ConstantBufferContainerBase::reserveMemoryForShaderConstants(unsigned int shaderConstSize, unsigned int constBufferSize)
 {
     m_shaderConstants.reserve(shaderConstSize);
-    m_constantBufferBytes.reserve(constBufferSize);
+    m_constantBufferBytes.resize(constBufferSize);
 }
 
 void ConstantBufferContainerBase::registerReflectedShaderParameter(const UniformMetaData& uniMeta)

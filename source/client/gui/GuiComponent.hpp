@@ -12,7 +12,6 @@
 #include "client/renderer/Font.hpp"
 
 
-// @TODO: GuiElement (virtuals) inheriting GuiComponent
 class GuiComponent
 {
 public:

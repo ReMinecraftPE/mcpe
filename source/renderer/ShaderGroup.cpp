@@ -64,7 +64,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
 
         if (shaderType != SHADER_TYPE_GEOMETRY && programCode.empty())
         {
-            LOG_E("\nProgram not found: \"%s\"\n\n", codeOrPath);
+            LOG_E("\nProgram not found: \"%s\"\n\n", codeOrPath.c_str());
         }
     }
     else

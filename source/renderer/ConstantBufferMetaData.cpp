@@ -11,11 +11,14 @@ ConstantBufferMetaData::ConstantBufferMetaData()
 
 void ConstantBufferMetaData::addUniformMetaData(UniformMetaData& uniformMetaData)
 {
-    const UniformMetaData& lastUniformMeta = m_uniformMetaData.back();
-    uniformMetaData.m_byteOffset = AlignmentHelper::getAlignedOffset(
-        lastUniformMeta.m_byteOffset + lastUniformMeta.getSize(),
-        ShaderPrimitiveTypeHelper::sizeInBytesFromShaderPrimitiveType(uniformMetaData.m_shaderPrimitiveType)
-    );
+    if (!m_uniformMetaData.empty())
+    {
+        const UniformMetaData& lastUniformMeta = m_uniformMetaData.back();
+        uniformMetaData.m_byteOffset = AlignmentHelper::getAlignedOffset(
+            lastUniformMeta.m_byteOffset + lastUniformMeta.getSize(),
+            ShaderPrimitiveTypeHelper::sizeInBytesFromShaderPrimitiveType(uniformMetaData.m_shaderPrimitiveType)
+        );
+    }
 
     m_uniformMetaData.push_back(uniformMetaData);
 }

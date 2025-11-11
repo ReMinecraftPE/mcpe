@@ -98,8 +98,7 @@ public:
 	void color(float r, float g, float b);
 	void color(float r, float g, float b, float a);
 	void colorABGR(uint32_t c);
-	void draw();
-	void draw(const mce::MaterialPtr& materialPtr);
+	void draw(const mce::MaterialPtr& materialPtr = mce::MaterialPtr::NONE);
 	int  getVboCount();
 	void init();
 	void trim();
@@ -147,9 +146,8 @@ private:
 	unsigned int m_indexCount;
 	mce::VertexFormat m_vertexFormat;
 
-	// @HAL: remove
 	// Tesselation state
-	int m_vertices;
+	unsigned int m_vertices;
 
 	int m_pendingVertices;
 
@@ -184,7 +182,6 @@ private:
 
 private:
 	bool m_bVoidBeginEnd;
-	unsigned int m_nVertices;
 
 	int field_48;
 

@@ -30,5 +30,7 @@ namespace mce
         void onGroupReloaded();
 
         MaterialPtr& operator=(MaterialPtr&& other);
+        bool operator==(const MaterialPtr& other) const;
+        bool operator!=(const MaterialPtr& other) const;
     };
 }

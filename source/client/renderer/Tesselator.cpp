@@ -113,7 +113,6 @@ void Tesselator::_init()
 	m_vboId = -1;
 
 	m_bVoidBeginEnd = false;
-	m_nVertices = 0;
 
 	field_48 = 0;
 
@@ -165,14 +164,13 @@ void Tesselator::clear()
 {
 	// @HAL remove
 	m_accessMode = 2;
-	m_vertices = 0;
 	
 	m_count = 0;
 	m_indices.clear();
 	m_vertexFormat = mce::VertexFormat::EMPTY;
 	m_currentVertex.clear();
 	m_indexCount = 0;
-	m_nVertices = 0;
+	m_vertices = 0;
 	m_bVoidBeginEnd = false;
 	m_bTesselating = false;
 	m_bHasIndices = false;
@@ -266,7 +264,7 @@ void Tesselator::begin(mce::PrimitiveMode mode, int maxVertices)
 	}
 }
 
-void Tesselator::draw()
+void Tesselator::draw(const mce::MaterialPtr& materialPtr)
 {
 	if (!m_bTesselating || m_bVoidBeginEnd)
 		return;
@@ -275,70 +273,64 @@ void Tesselator::draw()
 
 	if (m_vertices > 0)
 	{
-		if (m_bVboMode)
+		if (materialPtr != mce::MaterialPtr::NONE)
 		{
-			/*m_vboId++;
-			if (m_vboId >= m_vboCounts)
-				m_vboId = 0;*/
-			m_vboId = (m_vboId + 1) % m_vboCounts;
-
-			xglBindBuffer(GL_ARRAY_BUFFER, m_vboIds[m_vboId]);
-			xglBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_nVertices, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+			mce::Mesh mesh = end("draw", true);
+			mesh.render(materialPtr);
 		}
-
-		if (m_vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
-		{
-			// it won't use address 12, because we've bound a buffer object
-			xglTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_u));
-			xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		}
-		if (m_vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
-		{
-			// it won't use address 12, because we've bound a buffer object
-			xglColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, m_color));
-			xglEnableClientState(GL_COLOR_ARRAY);
-		}
-#ifdef USE_GL_NORMAL_LIGHTING
-		if (m_vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
-		{
-			xglNormalPointer(GL_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, m_normal));
-			xglEnableClientState(GL_NORMAL_ARRAY);
-		}
-#endif
-
-		xglVertexPointer(3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_x));
-		xglEnableClientState(GL_VERTEX_ARRAY);
-
-		// if we want to draw quads, draw triangles actually
-		// otherwise, just pass the mode, it's fine
-		if (m_drawArraysMode == GL_QUADS && TRIANGLE_MODE)
-			xglDrawArrays(GL_TRIANGLES, 0, m_vertices);
 		else
-			xglDrawArrays(m_drawArraysMode, 0, m_vertices);
+		{
+			if (m_bVboMode)
+			{
+				/*m_vboId++;
+				if (m_vboId >= m_vboCounts)
+					m_vboId = 0;*/
+				m_vboId = (m_vboId + 1) % m_vboCounts;
 
-		xglDisableClientState(GL_VERTEX_ARRAY);
+				xglBindBuffer(GL_ARRAY_BUFFER, m_vboIds[m_vboId]);
+				xglBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_vertices, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+			}
+
+			if (m_vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
+			{
+				// it won't use address 12, because we've bound a buffer object
+				xglTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_u));
+				xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			}
+			if (m_vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
+			{
+				// it won't use address 12, because we've bound a buffer object
+				xglColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, m_color));
+				xglEnableClientState(GL_COLOR_ARRAY);
+			}
 #ifdef USE_GL_NORMAL_LIGHTING
-		if (m_vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
-			xglDisableClientState(GL_NORMAL_ARRAY);
+			if (m_vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
+			{
+				xglNormalPointer(GL_BYTE, sizeof(Vertex), (void*)offsetof(Vertex, m_normal));
+				xglEnableClientState(GL_NORMAL_ARRAY);
+			}
 #endif
-		if (m_vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
-			xglDisableClientState(GL_COLOR_ARRAY);
-		if (m_vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
-			xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	}
 
-	clear();
-}
+			xglVertexPointer(3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, m_x));
+			xglEnableClientState(GL_VERTEX_ARRAY);
 
-void Tesselator::draw(const mce::MaterialPtr& materialPtr)
-{
-	if (!m_bTesselating || m_bVoidBeginEnd)
-		return;
+			// if we want to draw quads, draw triangles actually
+			// otherwise, just pass the mode, it's fine
+			if (m_drawArraysMode == GL_QUADS && TRIANGLE_MODE)
+				xglDrawArrays(GL_TRIANGLES, 0, m_vertices);
+			else
+				xglDrawArrays(m_drawArraysMode, 0, m_vertices);
 
-	if (m_nVertices > 0)
-	{
-		mce::Mesh mesh = end("draw", true);
-		mesh.render(materialPtr);
+			xglDisableClientState(GL_VERTEX_ARRAY);
+#ifdef USE_GL_NORMAL_LIGHTING
+			if (m_vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
+				xglDisableClientState(GL_NORMAL_ARRAY);
+#endif
+			if (m_vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
+				xglDisableClientState(GL_COLOR_ARRAY);
+			if (m_vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
+				xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		}
 	}
 
 	clear();
@@ -351,10 +343,10 @@ mce::Mesh Tesselator::end(const char* debugName, bool temporary)
 		return mce::Mesh();
 	}
 
-	if (m_nVertices && isFormatFixed())
+	if (m_vertices && isFormatFixed())
 	{
 		mce::Mesh mesh(m_vertexFormat,
-			m_nVertices,
+			m_vertices,
 			m_indexCount,
 			m_indexSize,
 			m_mode,
@@ -396,10 +388,10 @@ RenderChunk Tesselator::end(int vboIdx)
 				vboIdx = m_vboIds[m_vboId];
 
 			xglBindBuffer(GL_ARRAY_BUFFER, vboIdx);
-			xglBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_nVertices, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+			xglBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_vertices, m_pVertices, m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 		}
 
-		field_48 += sizeof (Vertex) * m_nVertices;
+		field_48 += sizeof (Vertex) * m_vertices;
 	}
 
 	clear();
@@ -533,7 +525,7 @@ void Tesselator::triangle(unsigned int x, unsigned int y, unsigned int z)
 
 void Tesselator::vertex(float x, float y, float z)
 {
-	if (m_nVertices >= m_maxVertices) {
+	if (m_vertices >= m_maxVertices) {
 		LOG_W("Overwriting the vertex buffer! This chunk/entity won't show up");
 		clear();
 	}
@@ -552,7 +544,7 @@ void Tesselator::vertex(float x, float y, float z)
 		m_pendingVertices = 0;
 	}
 
-	m_indices.resize((m_nVertices+1) * vertexSize);
+	m_indices.resize((m_vertices+1) * vertexSize);
 
 	// Make sure m_indices front pointer hasn't changed from reallocation as a result of reserve or resize
 	if (isFormatFixed() && oldIndicesPtr == &m_indices.front())
@@ -561,7 +553,7 @@ void Tesselator::vertex(float x, float y, float z)
 	}
 	else
 	{
-		m_currentVertex = CurrentVertexPointers(&m_indices[m_nVertices * vertexSize], m_vertexFormat);
+		m_currentVertex = CurrentVertexPointers(&m_indices[m_vertices * vertexSize], m_vertexFormat);
 	}
 
 	if (m_bTilt)
@@ -598,7 +590,7 @@ void Tesselator::vertex(float x, float y, float z)
 		for (int idx = 3; idx != 1; idx--)
 		{
 			// duplicate the last 2 added vertices in quad mode
-			Vertex *pVert1 = &m_pVertices[m_nVertices - idx], *pVert2 = &m_pVertices[m_nVertices];
+			Vertex *pVert1 = &m_pVertices[m_vertices - idx], *pVert2 = &m_pVertices[m_vertices];
 			if (m_vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
 			{
 				pVert2->m_u = pVert1->m_u;
@@ -624,18 +616,17 @@ void Tesselator::vertex(float x, float y, float z)
 			pVert2->m_z = pVert1->m_z;
 
 			m_vertices++;
-			m_nVertices++;
 
 #ifdef _DEBUG
 			g_nVertices++;
 #endif
 
-			if (m_nVertices >= m_maxVertices)
+			if (m_vertices >= m_maxVertices)
 				return;
 		}
 	}
 
-	Vertex* pVert = &m_pVertices[m_nVertices];
+	Vertex* pVert = &m_pVertices[m_vertices];
 	if (m_vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
 	{
 		pVert->m_u = m_nextVtxUVs[0].x;
@@ -659,7 +650,6 @@ void Tesselator::vertex(float x, float y, float z)
 	pVert->m_z = m_offset.z + z;
 
 	m_vertices++;
-	m_nVertices++;
 }
 
 void Tesselator::vertexUV(const Vec3& pos, float u, float v)

@@ -68,3 +68,13 @@ MaterialPtr& MaterialPtr::operator=(MaterialPtr&& other)
     _move(std::move(other));
     return *this;
 }
+
+bool MaterialPtr::operator==(const MaterialPtr& other) const
+{
+    return m_material == m_material;
+}
+
+bool MaterialPtr::operator!=(const MaterialPtr& other) const
+{
+    return m_material != m_material;
+}

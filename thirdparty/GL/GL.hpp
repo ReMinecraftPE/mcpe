@@ -181,7 +181,9 @@ bool xglInitted();
 #define xglGetAttribLocation glGetAttribLocation
 #define xglEnableVertexAttribArray glEnableVertexAttribArray
 #define xglActiveTexture glActiveTexture
+#if GL_VERSION_4_1
 #define xglGetShaderPrecisionFormat glGetShaderPrecisionFormat
+#endif
 
 #else
 

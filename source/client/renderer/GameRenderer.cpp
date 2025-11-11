@@ -14,6 +14,7 @@
 #include "Frustum.hpp"
 #include "Lighting.hpp"
 #include "renderer/GL/GL.hpp"
+#include "renderer/GlobalConstantBuffers.hpp"
 
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
 
@@ -76,6 +77,10 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 
 	m_pItemInHandRenderer = new ItemInHandRenderer(pMinecraft);
 	EntityRenderDispatcher::getInstance()->m_pItemInHandRenderer = m_pItemInHandRenderer;
+
+#ifdef FEATURE_SHADERS
+	mce::GlobalConstantBuffers::getInstance().init();
+#endif
 }
 
 GameRenderer::~GameRenderer()

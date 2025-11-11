@@ -37,6 +37,6 @@ namespace mce
         bool operator==(const VertexFormat &other) const;
         bool operator!=(const VertexFormat &other) const;
         bool operator<(const VertexFormat &other) const;
-        operator bool() const { return this != &VertexFormat::EMPTY; }
+        operator bool() const { return *this != VertexFormat::EMPTY; }
     };
 }

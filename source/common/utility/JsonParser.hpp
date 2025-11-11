@@ -10,7 +10,7 @@ namespace mce
     template <typename T>
     bool parse(const rapidjson::Value& root, const std::string& name, const std::map<std::string, T>& map, T& out)
     {
-        if (root.IsNull())
+        if (root.IsNull() || !root.HasMember(name.c_str()))
             return false;
 
         const rapidjson::Value& value = root[name.c_str()];

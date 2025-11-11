@@ -11,6 +11,7 @@
 #include "world/entity/MobCategory.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
@@ -107,6 +108,12 @@ void NinecraftApp::init()
 	initGLStates();
 	Tesselator::instance.init();
 	platform()->initSoundSystem();
+
+#ifdef FEATURE_SHADERS
+	// Load materials
+	mce::RenderMaterialGroup::common.loadList("materials/common.json");
+#endif
+
 	Minecraft::init();
 
 #ifdef DEMO
@@ -124,7 +131,14 @@ void NinecraftApp::setupRenderer()
 {
 	mce::GlobalConstantBufferManager::createInstance();
 	mce::GlobalConstantBuffers::createInstance();
-	mce::ConstantBufferMetaDataManager::createInstance();
+	if (mce::ConstantBufferMetaDataManager::createInstance())
+	{
+#ifdef FEATURE_SHADERS
+		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::getInstance();
+		std::string fileContents = AppPlatform::singleton()->readAssetFileStr("shaders/uniforms.json", false);
+		metaDataManager.loadJsonFile(fileContents);
+#endif
+	}
 	mce::RenderDevice::createInstance();
 	mce::GlobalConstantBufferManager::getInstance().allocateAndSetupConstantBuffersFromMetadata(mce::RenderContextImmediate::get());
 }
