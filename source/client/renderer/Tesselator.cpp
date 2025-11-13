@@ -13,7 +13,6 @@
 #include "common/Logger.hpp"
 #include "compat/EndianDefinitions.h"
 #include "renderer/RenderContextImmediate.hpp"
-#include "renderer/hal/interface/ImmediateBuffer.hpp"
 
 int g_nVertices = 0, g_nTriangles = 0;
 
@@ -253,32 +252,11 @@ void Tesselator::draw(const mce::MaterialPtr& materialPtr)
 
 	if (m_vertices > 0)
 	{
-		if (false)
-		{
-			mce::Mesh mesh = end("draw", true);
-			if (materialPtr == mce::MaterialPtr::NONE)
-				mesh.render();
-			else
-				mesh.render(materialPtr);
-		}
+		mce::Mesh mesh = end("draw", true);
+		if (materialPtr == mce::MaterialPtr::NONE)
+			mesh.render();
 		else
-		{
-#ifndef FEATURE_SHADERS
-			if (m_bVboMode)
-			{
-				m_vboId = (m_vboId + 1) % m_vboCounts;
-
-				xglBindBuffer(GL_ARRAY_BUFFER, m_vboIds[m_vboId]);
-				xglBufferData(GL_ARRAY_BUFFER, m_vertexFormat.getVertexSize() * m_vertices, &m_indices[0], m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-			}
-
-			mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
-
-			renderContext.setDrawState(m_vertexFormat);
-			renderContext.draw(m_drawMode, 0, m_vertices);
-			renderContext.clearDrawState(m_vertexFormat);
-#endif
-		}
+			mesh.render(materialPtr);
 	}
 
 	clear();

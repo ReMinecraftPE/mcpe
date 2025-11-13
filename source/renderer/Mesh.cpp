@@ -183,7 +183,7 @@ void Mesh::render(unsigned int startOffset, unsigned int count)
 
     context.setDrawState(m_vertexFormat);
     context.draw(m_primitiveMode, startOffset, vertexCount);
-    context.setDrawState(m_vertexFormat);
+    context.clearDrawState(m_vertexFormat);
 }
 
 bool Mesh::isValid() const
