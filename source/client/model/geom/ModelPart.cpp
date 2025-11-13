@@ -7,33 +7,9 @@
  ********************************************************************/
 #include "ModelPart.hpp"
 #include "renderer/GL/GL.hpp"
+#include "../models/Model.hpp"
 
 #define MUL_DEG_TO_RAD (180.0f / float(M_PI))  // formerly known as Cube::c
-
-ModelPart::ModelPart(int a, int b)
-{
-	_init(a, b);
-}
-
-ModelPart::ModelPart(Model* model, int a, int b)
-{
-	_init(a, b);
-	setModel(model);
-}
-
-ModelPart::ModelPart(const std::string& baseId)
-{
-	m_pModel = nullptr;
-	field_34 = baseId;
-	field_40 = 0;
-	field_44 = 0;
-	_init();
-}
-
-ModelPart::~ModelPart()
-{
-	clear();
-}
 
 void ModelPart::_init()
 {
@@ -42,19 +18,41 @@ void ModelPart::_init()
 	m_buffer = 0;
 	m_textureWidth = 64.0f;
 	m_textureHeight = 32.0f;
+	m_pMaterial = nullptr;
 	field_4C = 0;
 	m_bMirror = false;
 	field_48 = true;
 	field_49 = false;
 	m_bCompiled = false;
+	m_pModel = nullptr;
 }
 
-void ModelPart::_init(int a, int b)
+void ModelPart::_init(int xTexOffs, int yTexOffs)
 {
-	m_pModel = nullptr;
-	field_40 = a;
-	field_44 = b;
 	_init();
+	texOffs(xTexOffs, yTexOffs);
+}
+
+ModelPart::ModelPart(int xTexOffs, int yTexOffs)
+{
+	_init(xTexOffs, yTexOffs);
+}
+
+ModelPart::ModelPart(Model* model, int xTexOffs, int yTexOffs)
+{
+	_init(xTexOffs, yTexOffs);
+	setModel(model);
+}
+
+ModelPart::ModelPart(const std::string& baseId)
+{
+	_init();
+	field_34 = baseId;
+}
+
+ModelPart::~ModelPart()
+{
+	clear();
 }
 
 void ModelPart::addChild(ModelPart* pPart)
@@ -64,13 +62,13 @@ void ModelPart::addChild(ModelPart* pPart)
 
 void ModelPart::addBox(float a, float b, float c, int d, int e, int f, float g)
 {
-	Cube* pCube = new Cube(this, field_40, field_44, a, b, c, d, e, f, g);
+	Cube* pCube = new Cube(this, m_texOffs, a, b, c, d, e, f, g);
 	m_pCubes.push_back(pCube);
 }
 
 void ModelPart::addBox(const std::string& id, float a, float b, float c, int d, int e, int f, float g)
 {
-	Cube* pCube = new Cube(this, field_40, field_44, a, b, c, d, e, f, g);
+	Cube* pCube = new Cube(this, m_texOffs, a, b, c, d, e, f, g);
 	pCube->setId(field_34 + "." + id);
 	m_pCubes.push_back(pCube);
 }
@@ -112,31 +110,17 @@ void ModelPart::compile(float scale)
 	m_bCompiled = true;
 }
 
-void ModelPart::draw()
+void ModelPart::draw(float scale)
 {
 	// We are not using drawArrayVTC here since that would use the color that's compiled initially into the ModelPart
 	// and would therefore not allow for on-the-fly coloring.
-	drawArrayVTN(this->m_buffer, 36 * (int)m_pCubes.size(), sizeof(Tesselator::Vertex));
+	drawArrayVTN(this->m_buffer, 36 * (int)m_pCubes.size());
 }
 
-void ModelPart::drawSlow(float scale)
+void ModelPart::mimic(const ModelPart& other)
 {
-	Tesselator& t = Tesselator::instance;
-	t.begin();
-
-	for (size_t i = 0; i < m_pCubes.size(); i++)
-	{
-		for (int f = 0; f < 6; f++)
-			m_pCubes[i]->m_faces[f].render(t, scale);
-	}
-	
-	t.draw();
-}
-
-void ModelPart::mimic(ModelPart* pPart)
-{
-	m_pos = pPart->m_pos;
-	m_rot = pPart->m_rot;
+	m_pos = other.m_pos;
+	m_rot = other.m_rot;
 }
 
 void ModelPart::translatePosTo(float scale)
@@ -146,10 +130,23 @@ void ModelPart::translatePosTo(float scale)
 
 void ModelPart::translateRotTo(float scale)
 {
-	glTranslatef(m_pos.x * scale, m_pos.y * scale, m_pos.z * scale);
+	translatePosTo(scale);
 	if (m_rot.z != 0) glRotatef(m_rot.z * MUL_DEG_TO_RAD, 0, 0, 1);
 	if (m_rot.y != 0) glRotatef(m_rot.y * MUL_DEG_TO_RAD, 0, 1, 0);
 	if (m_rot.x != 0) glRotatef(m_rot.x * MUL_DEG_TO_RAD, 1, 0, 0);
+}
+
+void ModelPart::translatePosTo(Matrix& matrix, float scale)
+{
+	matrix.translate(m_pos * scale);
+}
+
+void ModelPart::translateRotTo(Matrix& matrix, float scale)
+{
+	translatePosTo(matrix, scale);
+	if (m_rot.z != 0.0f) matrix.rotate(m_rot.z * MUL_DEG_TO_RAD, Vec3::UNIT_Z);
+	if (m_rot.y != 0.0f) matrix.rotate(m_rot.y * MUL_DEG_TO_RAD, Vec3::UNIT_Y);
+	if (m_rot.x != 0.0f) matrix.rotate(m_rot.x * MUL_DEG_TO_RAD, Vec3::UNIT_X);
 }
 
 void ModelPart::render(float scale)
@@ -168,72 +165,20 @@ void ModelPart::render(float scale)
 		glPushMatrix();
 
 		translateRotTo(scale);
-		draw();
+		draw(scale);
 
 		glPopMatrix();
 	}
 	else if (!hasDefaultPos())
 	{
 		translatePosTo(scale);
-		draw();
+		draw(scale);
 		translatePosTo(-scale);
 	}
 	else
 	{
-		draw();
+		draw(scale);
 	}
-}
-
-void ModelPart::renderHorrible(float scale)
-{
-	if (field_49)
-		return;
-
-	if (!field_48)
-		return;
-
-	if (!m_bCompiled)
-		compile(scale);
-
-	if (!hasDefaultRot())
-	{
-		glPushMatrix();
-
-		translateRotTo(scale);
-		drawSlow(scale);
-
-		glPopMatrix();
-	}
-	else if (!hasDefaultPos())
-	{
-		translatePosTo(scale);
-		drawSlow(scale);
-		translatePosTo(-scale);
-	}
-	else
-	{
-		drawSlow(scale);
-	}
-}
-
-void ModelPart::renderRollable(float scale)
-{
-	if (field_49)
-		return;
-
-	if (!field_48)
-		return;
-
-	if (!m_bCompiled)
-		compile(scale);
-
-	glPushMatrix();
-	translatePosTo(scale);
-
-	translateRotTo(scale);
-	draw();
-
-	glPopMatrix();
 }
 
 void ModelPart::setModel(Model* pModel)
@@ -259,10 +204,10 @@ void ModelPart::setTexSize(int width, int height)
 	m_textureHeight = float(height);
 }
 
-void ModelPart::texOffs(int a, int b)
+void ModelPart::texOffs(int xTexOffs, int yTexOffs)
 {
-	field_40 = a;
-	field_44 = b;
+	m_texOffs.x = xTexOffs;
+	m_texOffs.y = yTexOffs;
 }
 
 void ModelPart::translateTo(float scale)
@@ -277,6 +222,14 @@ void ModelPart::translateTo(float scale)
 		translateRotTo(scale);
 	else if (!hasDefaultPos())
 		translatePosTo(scale);
+}
+
+void ModelPart::translateTo(Matrix& matrix, float scale)
+{
+	if (!hasDefaultRot())
+		translateRotTo(matrix, scale);
+	else if (!hasDefaultPos())
+		translatePosTo(matrix, scale);
 }
 
 void ModelPart::setBrightness(float brightness)

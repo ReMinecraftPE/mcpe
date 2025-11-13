@@ -15,17 +15,22 @@ namespace mce
         };
 
     public:
-        static const VertexFormat EMPTY;
-        static const unsigned int FieldSize[8];
+        static const VertexFormat EMPTY, VT, VTC, VTN;
+        static const unsigned int FieldSize[VERTEX_FIELDS_COUNT];
 
     private:
         uint8_t m_fieldMask;
         uint8_t m_fieldOffset[5];
         uint8_t m_vertexSize;
 
+    private:
+        void _init();
+
     public:
         VertexFormat();
+        VertexFormat(uint8_t fieldMask);
 
+    public:
         void enableField(VertexField vertexField);
 
         bool hasField(VertexField vertexField) const;
@@ -38,5 +43,7 @@ namespace mce
         bool operator!=(const VertexFormat &other) const;
         bool operator<(const VertexFormat &other) const;
         operator bool() const { return *this != VertexFormat::EMPTY; }
+
+        static bool HasField(uint8_t fieldMask, VertexField vertexField);
     };
 }

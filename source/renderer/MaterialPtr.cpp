@@ -71,10 +71,10 @@ MaterialPtr& MaterialPtr::operator=(MaterialPtr&& other)
 
 bool MaterialPtr::operator==(const MaterialPtr& other) const
 {
-    return m_material == m_material;
+    return this->m_material == other.m_material;
 }
 
 bool MaterialPtr::operator!=(const MaterialPtr& other) const
 {
-    return m_material != m_material;
+    return this->m_material != other.m_material;
 }

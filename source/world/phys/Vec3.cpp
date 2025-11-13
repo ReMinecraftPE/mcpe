@@ -9,8 +9,11 @@
 #include "Vec3.hpp"
 #include "world/level/TilePos.hpp"
 
-const Vec3 Vec3::ZERO = Vec3(0, 0, 0);
-const Vec3 Vec3::ONE  = Vec3(1, 1, 1);
+const Vec3 Vec3::ZERO   = Vec3(0, 0, 0), Vec3::ONE        = Vec3(1, 1, 1);
+const Vec3 Vec3::UNIT_X = Vec3(1, 0, 0), Vec3::NEG_UNIT_X = Vec3(-1, 0, 0);
+const Vec3 Vec3::UNIT_Y = Vec3(0, 1, 0), Vec3::NEG_UNIT_Y = Vec3(0, -1, 0);
+const Vec3 Vec3::UNIT_Z = Vec3(0, 0, 1), Vec3::NEG_UNIT_Z = Vec3(0, 0, -1);
+const Vec3 Vec3::MIN = Vec3(INT_MIN, INT_MIN, INT_MIN), Vec3::MAX = Vec3(INT_MAX, INT_MAX, INT_MAX);
 
 void Vec3::_init(float x, float y, float z)
 {

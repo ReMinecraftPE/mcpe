@@ -77,7 +77,7 @@ void LevelRenderer::generateSky()
 	int d = 256 / s + 2;
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(324); // pre-computed m_skyBufferCount
 	m_skyBufferCount = 0;
 	float yy = 16.0f;
 
@@ -98,7 +98,7 @@ void LevelRenderer::generateSky()
 
 	// This code is almost the same, ugly
 
-	t.begin();
+	t.begin(324); // pre-computed m_darkBufferCount
 	m_darkBufferCount = 0;
 	yy = -16.0f;
 
@@ -122,7 +122,7 @@ void LevelRenderer::generateStars()
 {
 	Random random = Random(10842L);
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(3160); // pre-determined m_starBufferCount
 	m_starBufferCount = 0;
 
 	for (int i = 0; i < 1500; i++)
@@ -1146,7 +1146,7 @@ void LevelRenderer::renderSky(float alpha)
 	glEnable(GL_FOG);
 	glColor4f(sc.x, sc.y, sc.z, 1.0f);
 
-	drawArrayVT(m_skyBuffer, m_skyBufferCount, sizeof(Tesselator::Vertex));
+	drawArrayVT(m_skyBuffer, m_skyBufferCount);
 
 	glDisable(GL_FOG);
 	glDisable(GL_ALPHA_TEST);
@@ -1222,7 +1222,7 @@ void LevelRenderer::renderSky(float alpha)
 	if (a > 0.0f)
 	{
 		glColor4f(a, a, a, a);
-		drawArrayVT(m_starBuffer, m_starBufferCount, sizeof(Tesselator::Vertex));
+		drawArrayVT(m_starBuffer, m_starBufferCount);
 	}
 
 	// Dark plane
@@ -1234,7 +1234,7 @@ void LevelRenderer::renderSky(float alpha)
 
 	glColor4f(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f, 1.0f);
 	glDisable(GL_TEXTURE_2D);
-	drawArrayVT(m_darkBuffer, m_darkBufferCount, sizeof(Tesselator::Vertex));
+	drawArrayVT(m_darkBuffer, m_darkBufferCount);
 	glEnable(GL_TEXTURE_2D);
 
 	glDepthMask(true);

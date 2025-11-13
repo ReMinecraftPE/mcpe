@@ -6,8 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "thirdparty/GL/GL.hpp"
 #include "GameRenderer.hpp"
+#include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/player/input/Controller.hpp"

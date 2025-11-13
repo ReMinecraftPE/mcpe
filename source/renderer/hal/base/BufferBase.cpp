@@ -1,20 +1,19 @@
+#include <utility>
 #include "BufferBase.hpp"
 
 using namespace mce;
 
 BufferBase::BufferBase()
 {
-    m_stride = 0;
-    m_bufferType = BUFFER_TYPE_NONE;
-    m_count = 0;
     m_internalSize = 0;
+    m_bufferOffset = 0;
     
-    release();
+    releaseBuffer();
 }
 
 BufferBase::~BufferBase()
 {
-    release();
+    releaseBuffer();
 }
 
 BufferBase::BufferBase(const BufferBase& other)
@@ -28,10 +27,10 @@ BufferBase::BufferBase(const BufferBase& other)
 BufferBase::BufferBase(BufferBase&& other)
 {
     *this = std::move(other);
-    release();
+    releaseBuffer();
 }
 
-void BufferBase::release()
+void BufferBase::releaseBuffer()
 {
     m_stride = 0;
     m_bufferType = BUFFER_TYPE_NONE;
@@ -42,19 +41,16 @@ void BufferBase::createBuffer(RenderContext& context, unsigned int stride, const
 {
     m_stride = stride;
     m_count = count;
-    m_bufferType = bufferType;
     m_internalSize = count * stride;
-}
-
-void BufferBase::createDynamicBuffer(RenderContext& context, unsigned int size, BufferType bufferType, const void *data)
-{
-    m_internalSize = size;
     m_bufferType = bufferType;
-    m_stride = 0;
-    m_count = 0;
 }
 
-void BufferBase::updateBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count)
+void BufferBase::createDynamicBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
+{
+    createBuffer(context, stride, data, count, bufferType);
+}
+
+void BufferBase::updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count)
 {
     m_stride = stride;
     m_count = count;

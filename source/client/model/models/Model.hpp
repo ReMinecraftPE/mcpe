@@ -8,20 +8,24 @@
 
 #pragma once
 
-#include "Cube.hpp"
+#include "client/model/geom/Cube.hpp"
+#include "client/app/AppPlatformListener.hpp"
 
 class Mob;
 class ModelPart;
 
-class Model
+class Model : public AppPlatformListener
 {
 public:
 	Model(int width, int height);
+	virtual void clear();
 	virtual void onGraphicsReset();
 	virtual void prepareMobModel(Mob*, float, float, float);
 	virtual void render(float, float, float, float, float, float);
 	virtual void setupAnim(float, float, float, float, float, float);
 	virtual void setBrightness(float);
+
+	static void copyModelPart(const ModelPart& a, ModelPart& b);
 
 public:
 	float field_4;

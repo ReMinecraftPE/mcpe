@@ -1,6 +1,8 @@
 #include <typeinfo>
 #include "BufferOGL.hpp"
+#include "common/Logger.hpp"
 #include "renderer/hal/helpers/ErrorHandler.hpp"
+#include "renderer/hal/interface/RenderContext.hpp"
 
 using namespace mce;
 
@@ -22,14 +24,31 @@ BufferOGL::BufferOGL()
 {
     m_bufferName = GL_NONE;
     m_target = GL_NONE;
+    m_usage = GL_STATIC_DRAW;
 }
 
 BufferOGL::~BufferOGL()
 {
-    release();
+    releaseBuffer();
 }
 
-void BufferOGL::release()
+void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
+{
+    m_target = mce::glTargetFromBufferType(bufferType);
+
+    xglGenBuffers(1, &m_bufferName);
+    xglBindBuffer(m_target, m_bufferName);
+
+    // Set active buffer
+    GLuint& activeBuffer = context.getActiveBuffer(m_bufferType);
+    activeBuffer = m_bufferName;
+
+    xglBufferData(m_target, m_internalSize, data, m_usage);
+
+    ErrorHandler::checkForErrors();
+}
+
+void BufferOGL::releaseBuffer()
 {
     if (isValid())
         xglDeleteBuffers(1, &m_bufferName);
@@ -37,7 +56,7 @@ void BufferOGL::release()
     m_bufferName = GL_NONE;
     m_target = GL_NONE;
 
-    BufferBase::release();
+    BufferBase::releaseBuffer();
 }
 
 void BufferOGL::bindBuffer(RenderContext& context)
@@ -53,51 +72,33 @@ void BufferOGL::bindBuffer(RenderContext& context)
 void BufferOGL::createBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count, BufferType bufferType)
 {
     BufferBase::createBuffer(context, stride, data, count, bufferType);
-    m_target = mce::glTargetFromBufferType(bufferType);
-
-    xglGenBuffers(1, &m_bufferName);
-    xglBindBuffer(m_target, m_bufferName);
-
-    // Set active buffer
-    GLuint& activeBuffer = context.getActiveBuffer(m_bufferType);
-    activeBuffer = m_bufferName;
-
-    m_internalSize = count * stride;
-    xglBufferData(m_target, m_internalSize, data, GL_STATIC_DRAW);
-
-    ErrorHandler::checkForErrors();
+    
+    m_usage = GL_STATIC_DRAW;
+    _createBuffer(context, stride, data, count, bufferType);
 }
 
-void BufferOGL::createDynamicBuffer(RenderContext& context, unsigned int size, BufferType bufferType, const void *data)
+void BufferOGL::createDynamicBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
 {
-    BufferBase::createDynamicBuffer(context, size, bufferType, data);
-    m_target = mce::glTargetFromBufferType(bufferType);
+    BufferBase::createDynamicBuffer(context, stride, data, count, bufferType);
 
-    xglGenBuffers(1, &m_bufferName);
-    xglBindBuffer(m_target, m_bufferName);
-
-    // Set active buffer
-    GLuint& activeBuffer = context.getActiveBuffer(m_bufferType);
-    activeBuffer = m_bufferName;
-
-    xglBufferData(m_target, size, data, GL_STATIC_DRAW);
-    ErrorHandler::checkForErrors();
+    m_usage = GL_STREAM_DRAW;
+    _createBuffer(context, stride, data, count, bufferType);
 }
 
 void BufferOGL::resizeBuffer(RenderContext& context, const void* data, unsigned int size)
 {
-    xglBufferData(m_target, size, data, GL_STATIC_DRAW);
+    xglBufferData(m_target, size, data, m_usage);
     m_internalSize = size;
 }
 
-void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count)
+void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count)
 {
     bindBuffer(context);
 
     const unsigned int size = count * stride;
 
     if (size <= m_internalSize)
-        xglBufferSubData(m_target, 0, size, data);
+        xglBufferSubData(m_target, m_bufferOffset, size, data);
     else
         resizeBuffer(context, data, size);
         
@@ -106,17 +107,20 @@ void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, const 
 
 BufferOGL& BufferOGL::operator=(BufferOGL&& other)
 {
-    this->m_bufferType = other.m_bufferType;
-    this->m_stride = other.m_stride;
-    this->m_count = other.m_count;
-    this->m_internalSize = other.m_internalSize;
-    this->m_bufferName = other.m_bufferName;
-    this->m_target = other.m_target;
+    if (this != &other)
+    {
+        this->releaseBuffer();
 
-    other.m_bufferType = BUFFER_TYPE_NONE;
-    other.m_stride = 0;
-    other.m_target = GL_NONE;
-    other.m_bufferName = GL_NONE;
+        this->m_target = other.m_target;
+        this->m_bufferName = other.m_bufferName;
+        this->m_usage = other.m_usage;
+        
+        other.m_bufferName = GL_NONE;
+        other.m_target = GL_NONE;
+        other.m_usage = GL_NONE;
+    }
+
+    this->mce::BufferBase::operator=(std::move(other));
 
     return *this;
 }

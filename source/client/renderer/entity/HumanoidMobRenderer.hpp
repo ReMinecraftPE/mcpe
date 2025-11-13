@@ -9,6 +9,7 @@
 #pragma once
 
 #include "MobRenderer.hpp"
+#include "client/model/models/HumanoidModel.hpp"
 
 class HumanoidMobRenderer : public MobRenderer
 {

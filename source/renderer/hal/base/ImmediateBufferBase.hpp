@@ -9,12 +9,10 @@ namespace mce
 	class ImmediateBufferBase
 	{
 	public:
-        BufferType m_bufferType;
-		
         ImmediateBufferBase();
 
-        void createDynamicBuffer(RenderContext& context, unsigned int bufferSize, BufferType bufferType, const void *data);
-		void updateBuffer(RenderContext& context, unsigned int itemSize, void const* data, unsigned int bufferSize);
+        void createDynamicBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType);
+		void updateBuffer(RenderContext& context, unsigned int stride, void const* data, unsigned int count);
 
 		bool isValid() const;
 	};

@@ -10,6 +10,51 @@ RenderContextOGL::RenderContextOGL()
     m_activeShaderProgram = GL_NONE;
 }
 
+void RenderContextOGL::setDrawState(const VertexFormat& vertexFormat)
+{
+    unsigned int vertexSize = vertexFormat.getVertexSize();
+
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_POSITION))
+    {
+        xglVertexPointer(3, GL_FLOAT, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_POSITION));
+        xglEnableClientState(GL_VERTEX_ARRAY);
+    }
+
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
+    {
+        xglTexCoordPointer(2, GL_FLOAT, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0));
+        xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
+    {
+        xglColorPointer(4, GL_UNSIGNED_BYTE, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_COLOR));
+        xglEnableClientState(GL_COLOR_ARRAY);
+    }
+
+#ifdef USE_GL_NORMAL_LIGHTING
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
+    {
+        xglNormalPointer(GL_BYTE, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_NORMAL));
+        xglEnableClientState(GL_NORMAL_ARRAY);
+    }
+#endif
+}
+
+void RenderContextOGL::clearDrawState(const VertexFormat& vertexFormat)
+{
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_POSITION))
+        xglDisableClientState(GL_VERTEX_ARRAY);
+#ifdef USE_GL_NORMAL_LIGHTING
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
+        xglDisableClientState(GL_NORMAL_ARRAY);
+#endif
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
+        xglDisableClientState(GL_COLOR_ARRAY);
+    if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
+        xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+
 void RenderContextOGL::draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count)
 {
     xglDrawArrays(modeMap[primitiveMode], startOffset, count);

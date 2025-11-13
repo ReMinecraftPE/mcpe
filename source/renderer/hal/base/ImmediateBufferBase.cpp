@@ -4,12 +4,10 @@ using namespace mce;
 
 ImmediateBufferBase::ImmediateBufferBase()
 {
-    m_bufferType = BUFFER_TYPE_NONE;
 }
 
-void ImmediateBufferBase::createDynamicBuffer(RenderContext& context, unsigned int bufferSize, BufferType bufferType, const void *data)
+void ImmediateBufferBase::createDynamicBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
 {
-    m_bufferType = bufferType;
 }
 
 void ImmediateBufferBase::updateBuffer(RenderContext& context, unsigned int itemSize, void const* data, unsigned int bufferSize)

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "EntityRenderer.hpp"
+#include "client/model/models/Model.hpp"
 
 class MobRenderer : public EntityRenderer
 {

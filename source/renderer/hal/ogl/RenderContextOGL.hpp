@@ -55,6 +55,8 @@ namespace mce
         RenderContextOGL();
 
     public:
+        void setDrawState(const VertexFormat& vertexFormat);
+        void clearDrawState(const VertexFormat& vertexFormat);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);

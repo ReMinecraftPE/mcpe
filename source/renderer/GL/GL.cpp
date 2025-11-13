@@ -1,49 +1,30 @@
 #include "GL.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
-void drawArrayVT(GLuint buffer, int count, int stride)
+void drawVertexArray(const mce::VertexFormat vertexFormat, GLuint buffer, int count)
 {
-	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglDrawArrays(GL_TRIANGLES, 0, count);
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-}
+    mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-void drawArrayVTC(GLuint buffer, int count, int stride)
-{
-	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	xglColorPointer(4, GL_UNSIGNED_BYTE, stride, (void*)20);
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglEnableClientState(GL_COLOR_ARRAY);
-	xglDrawArrays(GL_TRIANGLES, 0, count);
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglDisableClientState(GL_COLOR_ARRAY);
-}
-
-void drawArrayVTN(GLuint buffer, int count, int stride)
-{
-#ifdef USE_GL_NORMAL_LIGHTING
     xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-    xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-    xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-    xglEnableClientState(GL_VERTEX_ARRAY);
-    xglNormalPointer(GL_BYTE, stride, (void*)24);
-    xglEnableClientState(GL_NORMAL_ARRAY);
-    xglDrawArrays(GL_TRIANGLES, 0, count);
-    xglDisableClientState(GL_NORMAL_ARRAY);
-    xglDisableClientState(GL_VERTEX_ARRAY);
-    xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-#else
-    drawArrayVT(buffer, count, stride);
-#endif
+
+    renderContext.setDrawState(vertexFormat);
+    renderContext.draw(mce::PRIMITIVE_MODE_TRIANGLE_LIST, 0, count);
+    renderContext.clearDrawState(vertexFormat);
+}
+
+void drawArrayVT(GLuint buffer, int count)
+{
+    drawVertexArray(mce::VertexFormat::VT, buffer, count);
+}
+
+void drawArrayVTC(GLuint buffer, int count)
+{
+	drawVertexArray(mce::VertexFormat::VTC, buffer, count);
+}
+
+void drawArrayVTN(GLuint buffer, int count)
+{
+    drawVertexArray(mce::VertexFormat::VTN, buffer, count);
 }
 
 // It appears Mojang took the code from:

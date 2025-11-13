@@ -9,6 +9,7 @@
 #pragma once
 
 #include "EntityRenderer.hpp"
+#include "client/model/geom/ModelPart.hpp"
 #include "client/renderer/TileRenderer.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/entity/TripodCamera.hpp"

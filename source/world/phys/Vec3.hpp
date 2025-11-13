@@ -24,6 +24,10 @@ class Vec3
 {
 public:
 	static const Vec3 ZERO, ONE;
+	static const Vec3 UNIT_X, NEG_UNIT_X;
+	static const Vec3 UNIT_Y, NEG_UNIT_Y;
+	static const Vec3 UNIT_Z, NEG_UNIT_Z;
+	static const Vec3 MIN, MAX;
 
 public:
 	float x, y, z;
@@ -171,6 +175,13 @@ public:
 		return x == b.x &&
 			   y == b.y &&
 			   z == b.z;
+	}
+
+	bool operator!=(const Vec3& b) const
+	{
+		return x != b.x &&
+			   y != b.y &&
+			   z != b.z;
 	}
 };
 

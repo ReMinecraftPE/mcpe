@@ -17,6 +17,14 @@ Model::Model(int width, int height)
 	m_textureHeight = height;
 }
 
+void Model::clear()
+{
+	for (size_t i = 0; i < m_parts.size(); i++)
+	{
+		m_parts[i]->m_mesh.reset();
+	}
+}
+
 void Model::onGraphicsReset()
 {
 	for (size_t i = 0; i < m_parts.size(); i++)
@@ -42,4 +50,10 @@ void Model::setupAnim(float, float, float, float, float, float)
 
 void Model::setBrightness(float)
 {
+}
+
+void Model::copyModelPart(const ModelPart& a, ModelPart& b)
+{
+	b.m_rot = a.m_rot;
+	b.m_pos = a.m_pos;
 }

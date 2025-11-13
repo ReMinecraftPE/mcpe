@@ -10,14 +10,14 @@
 #include "client/app/Minecraft.hpp"
 #include "../ItemInHandRenderer.hpp"
 
-#include "client/model/PigModel.hpp"
-#include "client/model/SheepModel.hpp"
-#include "client/model/CowModel.hpp"
-#include "client/model/ChickenModel.hpp"
-#include "client/model/CreeperModel.hpp"
-#include "client/model/SpiderModel.hpp"
-#include "client/model/SkeletonModel.hpp"
-#include "client/model/ZombieModel.hpp"
+#include "client/model/models/PigModel.hpp"
+#include "client/model/models/SheepModel.hpp"
+#include "client/model/models/CowModel.hpp"
+#include "client/model/models/ChickenModel.hpp"
+#include "client/model/models/CreeperModel.hpp"
+#include "client/model/models/SpiderModel.hpp"
+#include "client/model/models/SkeletonModel.hpp"
+#include "client/model/models/ZombieModel.hpp"
 
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 Vec3 EntityRenderDispatcher::off;

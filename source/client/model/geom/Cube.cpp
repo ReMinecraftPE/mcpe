@@ -11,7 +11,7 @@
 
 #define MUL_DEG_TO_RAD (180.0f / float(M_PI))
 
-Cube::Cube(ModelPart* a2, int a3, int a4, float x, float y, float z, int d, int e, int f, float g)
+Cube::Cube(ModelPart* a2, const TextureOffset& texOffs, float x, float y, float z, int d, int e, int f, float g)
 {
 	float x1 = x, y1 = y, z1 = z;
 	float x2 = x + float(d), y2 = y + float(e), z2 = z + float(f);
@@ -42,7 +42,7 @@ Cube::Cube(ModelPart* a2, int a3, int a4, float x, float y, float z, int d, int 
 	m_verts[6] = VertexPT(x2, y2, z2, 8.0f, 8.0f);
 	m_verts[7] = VertexPT(x1, y2, z2, 8.0f, 0.0f);
 	
-	int m = a3, n = a4;
+	int m = texOffs.x, n = texOffs.y;
 
 	m_faces[0] = PolygonQuad(&m_verts[5], &m_verts[1], &m_verts[2], &m_verts[6], m + f + d,     n + f, m + f + d + f,     n + f + e);     // x2 face
 	m_faces[1] = PolygonQuad(&m_verts[0], &m_verts[4], &m_verts[7], &m_verts[3], m,             n + f, m + f,             n + f + e);     // x1 face

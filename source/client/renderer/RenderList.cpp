@@ -108,6 +108,9 @@ void RenderList::render()
 
 void RenderList::renderChunks()
 {
+	const mce::VertexFormat vertexFormat = mce::VertexFormat::VTC;
+	const unsigned int vertexSize = vertexFormat.getVertexSize();
+
 	xglEnableClientState(GL_VERTEX_ARRAY);
 	xglEnableClientState(GL_COLOR_ARRAY);
 	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -121,9 +124,9 @@ void RenderList::renderChunks()
 
 			glTranslatef(chk.field_C, chk.field_10, chk.field_14);
 			xglBindBuffer(GL_ARRAY_BUFFER, chk.field_0);
-			xglVertexPointer  (3, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_x));
-			xglTexCoordPointer(2, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_u));
-			xglColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_color));
+			xglVertexPointer  (3, GL_FLOAT,         vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_POSITION));
+			xglTexCoordPointer(2, GL_FLOAT,         vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0));
+			xglColorPointer   (4, GL_UNSIGNED_BYTE, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_COLOR));
 			xglDrawArrays(GL_TRIANGLES, 0, chk.field_4);
 
 			glPopMatrix();

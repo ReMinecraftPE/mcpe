@@ -9,5 +9,8 @@ namespace mce
     {
     public:
         RenderContext();
+
+    public:
+        void lostContext();
     };
 }

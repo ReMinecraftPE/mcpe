@@ -12,14 +12,14 @@ void Buffer::createVertexBuffer(RenderContext& context, unsigned int vertexStrid
     createBuffer(context, vertexStride, vertices, numberOfVertices, BUFFER_TYPE_VERTEX);
 }
 
-void Buffer::createDynamicIndexBuffer(RenderContext& context, unsigned int size)
+void Buffer::createDynamicIndexBuffer(RenderContext& context, unsigned int stride)
 {
-    createDynamicBuffer(context, size, BUFFER_TYPE_INDEX, nullptr);
+    createDynamicBuffer(context, 1, nullptr, stride, BUFFER_TYPE_INDEX);
 }
 
-void Buffer::createDynamicVertexBuffer(RenderContext& context, unsigned int size)
+void Buffer::createDynamicVertexBuffer(RenderContext& context, unsigned int stride)
 {
-    createDynamicBuffer(context, size, BUFFER_TYPE_VERTEX, nullptr);
+    createDynamicBuffer(context, 1, nullptr, stride, BUFFER_TYPE_VERTEX);
 }
 
 Buffer& Buffer::operator=(Buffer&& other)

@@ -10,7 +10,6 @@
 
 #include "world/phys/AABB.hpp"
 #include "world/phys/Vec3.hpp"
-#include "client/model/HumanoidModel.hpp"
 #include "client/renderer/Font.hpp"
 
 class EntityRenderDispatcher;
@@ -47,8 +46,4 @@ public:
 	float m_shadowRadius;
 	float m_shadowStrength;
 	EntityRenderDispatcher* m_pDispatcher;
-
-	// @HUH: Why is there a HumanoidModel here? There's another
-	// in HumanoidMobRenderer...
-	HumanoidModel m_model;
 };

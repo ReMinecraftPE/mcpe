@@ -1,6 +1,6 @@
 #include "SpiderRenderer.hpp"
 #include "world/entity/Mob.hpp"
-#include "client/model/SpiderModel.hpp"
+#include "client/model/models/SpiderModel.hpp"
 
 SpiderRenderer::SpiderRenderer() : MobRenderer(new SpiderModel, 1.0f)
 {

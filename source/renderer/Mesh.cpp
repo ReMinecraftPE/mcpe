@@ -64,8 +64,8 @@ void Mesh::_move(Mesh& other)
 
 void Mesh::reset()
 {
-    m_vertexBuffer.release();
-    m_indexBuffer.release();
+    m_vertexBuffer.releaseBuffer();
+    m_indexBuffer.releaseBuffer();
     m_vertexCount = 0;
     m_indexCount = 0;
     m_primitiveMode = PRIMITIVE_MODE_NONE;
@@ -111,12 +111,14 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
 
         if (!immediateBuffer.isValid())
         {
-            immediateBuffer.createDynamicBuffer(context, 0x100000, BUFFER_TYPE_VERTEX, nullptr);
+            // Create 1MB shared vertex buffer in VRAM
+            immediateBuffer.createDynamicBuffer(context, 1, nullptr, 0x100000, BUFFER_TYPE_VERTEX);
         }
 
         unsigned int vertexSize = m_vertexFormat.getVertexSize();
+        void* vertexData = m_rawData;
         unsigned int vertexCount = (count > 0) ? count : m_vertexCount;
-        immediateBuffer.updateBuffer(context, vertexSize, m_rawData, vertexCount);
+        immediateBuffer.updateBuffer(context, vertexSize, vertexData, vertexCount);
     }
     else
     {
@@ -129,11 +131,12 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
 
     if (m_primitiveMode == PRIMITIVE_MODE_QUAD_LIST)
     {
-        Buffer& quadIndexBuffer = QuadIndexBuffer::get(context, m_vertexCount, m_indexSize);
+        uint8_t indexSize = m_indexSize;
+        Buffer& quadIndexBuffer = QuadIndexBuffer::get(context, m_vertexCount, indexSize);
         quadIndexBuffer.bindBuffer(context);
 
         unsigned int indexCountToDraw = (count > 0) ? count : (m_vertexCount / 4) * 6;
-        context.drawIndexed(m_primitiveMode, indexCountToDraw, startOffset, m_indexSize);
+        context.drawIndexed(m_primitiveMode, indexCountToDraw, startOffset, indexSize);
     }
     else if (m_indexCount > 0)
     {
@@ -147,6 +150,40 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
         unsigned int vertexCountToDraw = (count > 0) ? count : m_vertexCount;
         context.draw(m_primitiveMode, startOffset, vertexCountToDraw);
     }
+}
+
+void Mesh::render(unsigned int startOffset, unsigned int count)
+{
+    GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
+    RenderContext& context = RenderContextImmediate::get();
+
+    if (!isValid())
+        return;
+
+    unsigned int vertexCount = (count > 0) ? count : m_vertexCount;
+
+    if (isTemporary())
+    {
+        ImmediateBuffer& immediateBuffer = context.m_immediateBuffer;
+
+        if (!immediateBuffer.isValid())
+        {
+            // Create 1MB shared vertex buffer in VRAM
+            immediateBuffer.createDynamicBuffer(context, 1, nullptr, 0x100000, BUFFER_TYPE_VERTEX);
+        }
+
+        unsigned int vertexSize = m_vertexFormat.getVertexSize();
+        void* vertexData = m_rawData;
+        immediateBuffer.updateBuffer(context, vertexSize, vertexData, vertexCount);
+    }
+    else
+    {
+        m_vertexBuffer.bindBuffer(context);
+    }
+
+    context.setDrawState(m_vertexFormat);
+    context.draw(m_primitiveMode, startOffset, vertexCount);
+    context.setDrawState(m_vertexFormat);
 }
 
 bool Mesh::isValid() const

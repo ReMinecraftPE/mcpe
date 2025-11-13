@@ -18,7 +18,7 @@ void QuadIndexBuffer::onAppTerminated()
 void QuadIndexBuffer::onAppSuspended()
 {
     m_capacity = 1;
-    m_globalBuffer.release();
+    m_globalBuffer.releaseBuffer();
     m_indexSize = 0;
 }
 

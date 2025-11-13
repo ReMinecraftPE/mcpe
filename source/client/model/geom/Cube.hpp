@@ -16,7 +16,7 @@ class ModelPart;
 class Cube
 {
 public:
-	Cube(ModelPart*, int, int, float, float, float, int, int, int, float);
+	Cube(ModelPart*, const TextureOffset& texOffs, float, float, float, int, int, int, float);
 
 	void compile(Tesselator& t, float scale);
 	void setId(const std::string& s);

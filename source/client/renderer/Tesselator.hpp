@@ -35,23 +35,6 @@ public:
 	static Tesselator instance; // singleton
 
 public:
-	struct Vertex
-	{
-		// position
-		float m_x;
-		float m_y;
-		float m_z;
-		// texture mapping coords
-		float m_u;
-		float m_v;
-		// RGBA color
-		uint32_t m_color;
-#ifdef USE_GL_NORMAL_LIGHTING
-		// the legend
-        uint32_t m_normal;
-#endif
-	};
-
 	class CurrentVertexPointers
 	{
 	public:
@@ -66,7 +49,7 @@ public:
 
 	public:
 		CurrentVertexPointers();
-		CurrentVertexPointers(uint8_t* vertexData, const mce::VertexFormat& vertexFormat);
+		CurrentVertexPointers(void* vertexData, const mce::VertexFormat& vertexFormat);
 
 	public:
 		void nextVertex();
@@ -115,7 +98,7 @@ public:
 	void addOffset(const Vec3& pos);
 	void setOffset(float x, float y, float z) { setOffset(Vec3(x, y, z)); }
 	void addOffset(float x, float y, float z) { addOffset(Vec3(x, y, z)); }
-	void setAccessMode(int mode); // sets m_DrawArraysMode
+	void setAccessMode(int mode);
 	void tex(const Vec2& uv);
 	void tex1(const Vec2& uv);
 	void tex(float u, float v);
@@ -130,13 +113,10 @@ public:
 	mce::Mesh end(const char* debugName = nullptr, bool temporary = false);
 	RenderChunk end(int);
 
-	bool isFormatFixed() const { return m_currentVertex.pos != nullptr; }
+	bool isFormatFixed() const;
 
 private:
 	CurrentVertexPointers m_currentVertex;
-
-	// Buffer
-	Vertex* m_pVertices;
 
 	std::vector<uint8_t> m_indices;
 	bool m_bHasIndices;
@@ -164,12 +144,9 @@ private:
 	int m_count;
 	bool m_bNoColorFlag;
 
-	// @HAL: remove
-	GLenum m_drawArraysMode; // draw_mode
-
 	// State
 	bool m_bTesselating;
-	mce::PrimitiveMode m_mode;
+	mce::PrimitiveMode m_drawMode;
 	bool m_bVboMode;
 
 	// VBO State
@@ -182,8 +159,6 @@ private:
 
 private:
 	bool m_bVoidBeginEnd;
-
-	int field_48;
 
 	int m_accessMode;
 

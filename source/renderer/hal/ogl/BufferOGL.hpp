@@ -9,20 +9,25 @@ namespace mce
 
     class BufferOGL : public BufferBase
     {
-    private:
+    protected:
         GLuint m_bufferName;
         GLenum m_target;
+        GLenum m_usage;
 
     public:
         BufferOGL();
         ~BufferOGL();
 
-        void release();
+    protected:
+        void _createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType);
+
+    public:
+        void releaseBuffer();
         void bindBuffer(RenderContext& context);
 		void createBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count, BufferType bufferType);
-		void createDynamicBuffer(RenderContext& context, unsigned int size, BufferType bufferType, const void *data);
+		void createDynamicBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType);
         void resizeBuffer(RenderContext& context, const void* data, unsigned int size);
-        void updateBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count);
+        void updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count);
         bool isValid() const { return m_bufferName != GL_NONE; }
 
         BufferOGL& operator=(BufferOGL&& other);

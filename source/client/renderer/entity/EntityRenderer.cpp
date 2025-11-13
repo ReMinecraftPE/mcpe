@@ -11,7 +11,7 @@
 
 bool EntityRenderer::_areShadowsAvailable = false; // false because PE used a reimplementation with geometry later on, rather than a texture
 
-EntityRenderer::EntityRenderer() : m_model(0.0f, 0.0f)
+EntityRenderer::EntityRenderer()
 {
 	m_shadowRadius = 0.0f;
 	m_shadowStrength = 1.0f;

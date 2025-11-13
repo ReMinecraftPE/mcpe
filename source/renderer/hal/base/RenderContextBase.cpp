@@ -7,6 +7,14 @@ RenderContextBase::RenderContextBase()
     m_renderDevice = nullptr;
 }
 
+void RenderContextBase::setDrawState(const VertexFormat& vertexFormat)
+{
+}
+
+void RenderContextBase::clearDrawState(const VertexFormat& vertexFormat)
+{
+}
+
 void RenderContextBase::draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count)
 {
 }
@@ -19,12 +27,17 @@ void RenderContextBase::drawIndexed(PrimitiveMode primitiveMode, unsigned int co
 {
 }
 
-void RenderContextBase::lostContext()
+void RenderContextBase::clearContextState()
 {
     m_immediateBuffer = ImmediateBuffer();
     field_38 = 0;
     field_3C = 0;
     field_40 = 0;
+}
+
+void RenderContextBase::lostContext()
+{
+    clearContextState();
 }
 
 RenderDevice* RenderContextBase::getDevice()

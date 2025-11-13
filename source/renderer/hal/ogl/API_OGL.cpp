@@ -1,34 +1,81 @@
-#include <cctype>
 #include "API_OGL.hpp"
+
+gl::Version* gl::Version::singletonPtr = nullptr;
+
+const gl::Version& gl::Version::singleton()
+{
+    if (!gl::Version::singletonPtr)
+    {
+        gl::Version* versionPtr = new gl::Version();
+        versionPtr->parse();
+        gl::Version::singletonPtr = versionPtr;
+    }
+
+    return *singletonPtr;
+}
+
+void gl::Version::_findMajorMinor()
+{
+    major = 0;
+    minor = 0;
+    core = false;
+
+    const char* versionString = (const char*)glGetString(GL_VERSION);
+    if (!versionString)
+        return;
+
+    char* endPtr;
+
+    major = strtol(versionString, &endPtr, 10);
+
+    if (*endPtr == '.')
+        minor = strtol(endPtr + 1, nullptr, 10);
+}
+
+void gl::Version::parse()
+{
+    _findMajorMinor();
+
+    if (major == 2)
+    {
+        featureLevel = GLES_2_0;
+    }
+    else if (major >= 3)
+    {
+        if (minor == 0)
+        {
+            featureLevel = GLES_3_0;
+        }
+        else if (minor == 1)
+        {
+            featureLevel = GLES_3_1;
+        }
+        else if (minor >= 2)
+        {
+            featureLevel = GLES_3_2;
+        }
+    }
+}
 
 std::string gl::getOpenGLVendor()
 {
-    const GLubyte* glVendor = glGetString(GL_VENDOR);
-    return glVendor ? std::string((char*)glVendor) : "";
+    const GLubyte* glVendorStr = glGetString(GL_VENDOR);
+    static std::string glVendor = glVendorStr ? std::string((char*)glVendorStr) : "";
+    return glVendor;
 }
 
 std::string gl::getOpenGLRenderer()
 {
-    const GLubyte* glRenderer = glGetString(GL_RENDERER);
-    return glRenderer ? std::string((char*)glRenderer) : "";
+    const GLubyte* glRendererStr = glGetString(GL_RENDERER);
+    static std::string glRenderer = glRendererStr ? std::string((char*)glRendererStr) : "";
+    return glRenderer;
 }
 
 std::string gl::getOpenGLVersion()
 {
-    const GLubyte* glVersion = glGetString(GL_VERSION);
-    return glVersion ? std::string((char*)glVersion) : "";
-}
-
-unsigned int gl::getOpenGLMajorVersion()
-{
-    std::string version = getOpenGLVersion();
-    const char* versionStr = version.c_str();
-    while (versionStr[0] != '\0' && !std::isdigit(versionStr[0]))
-    {
-        versionStr++;
-    }
-    
-    return std::atoi(versionStr);
+    const GLubyte* glVersionStr = glGetString(GL_VERSION);
+    static std::string glVersion = glVersionStr ? std::string((char*)glVersionStr) : "";
+    return glVersion;
 }
 
 bool gl::isOpenGLES3()
@@ -38,7 +85,9 @@ bool gl::isOpenGLES3()
         return false;
     }
 
-    return getOpenGLMajorVersion() >= 3;
+    const gl::Version& glVersion = gl::Version::singleton();
+
+    return glVersion.major >= 3;
 }
 
 int gl::getMaxVertexCount()
@@ -70,4 +119,17 @@ bool gl::supportsMipmaps()
             supportsMipmaps = 1;
     }
     return supportsMipmaps == 1;
+}
+
+bool gl::supportsImmediateMode()
+{
+    return false;
+
+    static int supportsImmediateMode = -1;
+    if (supportsImmediateMode < 0)
+    {
+        const gl::Version& glVersion = gl::Version::singleton();
+        supportsImmediateMode = glVersion.core == false;
+    }
+    return supportsImmediateMode == 1;
 }
