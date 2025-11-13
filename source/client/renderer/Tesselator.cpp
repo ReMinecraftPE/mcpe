@@ -467,7 +467,7 @@ void Tesselator::vertex(float x, float y, float z)
 	}
 
 	// @HAL: remove, drawIndexed should take care of this
-	if (m_drawMode == mce::PRIMITIVE_MODE_QUAD_LIST && TRIANGLE_MODE && (m_count % 4) == 0)
+	if (false && m_drawMode == mce::PRIMITIVE_MODE_QUAD_LIST && TRIANGLE_MODE && (m_count % 4) == 0)
 	{
 		for (int idx = 3; idx != 1; idx--)
 		{
@@ -531,11 +531,9 @@ void Tesselator::vertex(float x, float y, float z)
 	if (m_currentVertex.color)
 		*m_currentVertex.color = m_nextVtxColor;
 
-#ifdef USE_GL_NORMAL_LIGHTING
 	// Set vertex normal
 	if (m_currentVertex.normal)
 		*m_currentVertex.normal = m_nextVtxNormal;
-#endif
 
 	m_vertices++;
 }

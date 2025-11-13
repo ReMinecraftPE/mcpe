@@ -182,7 +182,26 @@ void Mesh::render(unsigned int startOffset, unsigned int count)
     }
 
     context.setDrawState(m_vertexFormat);
-    context.draw(m_primitiveMode, startOffset, vertexCount);
+    if (m_primitiveMode == PRIMITIVE_MODE_QUAD_LIST)
+    {
+        uint8_t indexSize = m_indexSize;
+        Buffer& quadIndexBuffer = QuadIndexBuffer::get(context, m_vertexCount, indexSize);
+        quadIndexBuffer.bindBuffer(context);
+
+        unsigned int indexCountToDraw = (count > 0) ? count : (m_vertexCount / 4) * 6;
+        context.drawIndexed(m_primitiveMode, indexCountToDraw, startOffset, indexSize);
+    }
+    else if (m_indexCount > 0)
+    {
+        m_indexBuffer.bindBuffer(context);
+
+        unsigned int indexCountToDraw = (count > 0) ? count : m_indexCount;
+        context.drawIndexed(m_primitiveMode, indexCountToDraw, startOffset, m_indexSize);
+    }
+    else
+    {
+        context.draw(m_primitiveMode, startOffset, vertexCount);
+    }
     context.clearDrawState(m_vertexFormat);
 }
 

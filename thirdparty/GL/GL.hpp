@@ -20,7 +20,7 @@
 #define USE_GL_NORMAL_LIGHTING
 
 //#define MC_GL_DEBUG
-//#define MC_GL_DEBUG_OUTPUT
+#define MC_GL_DEBUG_OUTPUT
 
 #ifdef USE_GLES
 	#if MC_PLATFORM_IOS
