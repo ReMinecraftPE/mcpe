@@ -214,13 +214,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 _cleanup:
 	g_pApp->saveOptions();
 
+	// Cleanup networking, renderer, sounds, textures, etc.
+	delete g_pApp;
+
 	// disable OpenGL for the window
 	g_AppPlatform.disableOpenGL();
 
 	// destroy the window explicitly, since we ignored the WM_QUIT message
 	g_AppPlatform.destroyWindow();
-
-	delete g_pApp;
 
 	return 0;
 }
