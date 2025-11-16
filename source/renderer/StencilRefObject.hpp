@@ -1,16 +1,18 @@
 #pragma once
 
+#include <stdint.h>
+
 namespace mce
 {
     class StencilRefObject
     {
     private:
-        unsigned int stencilRef;
+        uint8_t stencilRef;
 
     public:
-        StencilRefObject(unsigned int ref = 0);
+        StencilRefObject(uint8_t ref = 0);
 
-        unsigned int operator=(unsigned int value)
+        uint8_t operator=(uint8_t value)
         {
             return stencilRef = value;
         }
@@ -18,6 +20,6 @@ namespace mce
         bool operator==(const StencilRefObject& other) const;
         bool operator!=(const StencilRefObject& other) const;
 
-        operator unsigned int() const { return stencilRef; }
+        operator uint8_t() const { return stencilRef; }
     };
 }

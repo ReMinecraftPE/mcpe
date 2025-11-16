@@ -30,9 +30,9 @@ void RenderContextBase::drawIndexed(PrimitiveMode primitiveMode, unsigned int co
 void RenderContextBase::clearContextState()
 {
     m_immediateBuffer = ImmediateBuffer();
-    field_38 = 0;
-    field_3C = 0;
-    field_40 = 0;
+    m_lastShaderPrograms[SHADER_TYPE_VERTEX] = nullptr;
+    m_lastShaderPrograms[SHADER_TYPE_FRAGMENT] = nullptr;
+    m_lastShaderPrograms[SHADER_TYPE_GEOMETRY] = nullptr;
 }
 
 void RenderContextBase::lostContext()
@@ -45,12 +45,12 @@ RenderDevice* RenderContextBase::getDevice()
     return m_renderDevice;
 }
 
-void RenderContextBase::setStencilReference(unsigned int value)
+void RenderContextBase::setStencilReference(uint8_t value)
 {
     m_stencilReference = value;
 }
 
-unsigned int RenderContextBase::getStencilReference() const
+uint8_t RenderContextBase::getStencilReference() const
 {
     return m_stencilReference;
 }

@@ -47,7 +47,7 @@ VertexFormat::VertexFormat(uint8_t fieldMask)
 void VertexFormat::enableField(VertexField vertexField)
 {
     if (hasField(vertexField)) return;
-    //if (vertexField == VERTEX_FIELD_COLOR) return;
+    //if (vertexField != VERTEX_FIELD_POSITION) return;
 
     m_fieldOffset[vertexField] = m_vertexSize;
     uint8_t v6 = m_vertexSize + VertexFormat::FieldSize[vertexField];

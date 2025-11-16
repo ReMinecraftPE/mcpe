@@ -144,7 +144,11 @@ void RenderMaterial::_parseDefines(const rapidjson::Value& root)
 
 std::string RenderMaterial::_buildHeader()
 {
-    std::string result;
+    std::string result; // Uses std::ostream in DX11
+
+#if MCE_GFX_API_DX11
+    // add R8G8B8A8_SNORM_UNSUPPORTED to defines if less than D3D_FEATURE_LEVEL_10_0
+#endif
 
     for (std::set<std::string>::const_iterator it = m_defines.begin(); it != m_defines.end(); it++)
     {
@@ -182,6 +186,11 @@ void RenderMaterial::_parseShaderPaths(const rapidjson::Value& root)
 
 void RenderMaterial::_loadShader(ShaderGroup& shaderGroup)
 {
+#if MCE_GFX_API_DX11
+    SpliceShaderPath(m_vertexShader);
+    SpliceShaderPath(m_fragmentShader);
+    SpliceShaderPath(m_geometryShader);
+#endif
     std::string header = _buildHeader();
     m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader);
 }
@@ -251,6 +260,16 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 void RenderMaterial::addState(RenderState state)
 {
     m_stateMask |= 1 << (state & 0x1F);
+}
+
+void RenderMaterial::SpliceShaderPath(std::string& shaderName)
+{
+    size_t shaderPathPos = shaderName.find_first_not_of("shaders");
+    if (shaderPathPos != std::string::npos && shaderName.find(".hlsl") == std::string::npos)
+    {
+        shaderName.insert(shaderPathPos, "/dx11");
+        shaderName.append(".hlsl");
+    }
 }
 
 void RenderMaterial::initContext()

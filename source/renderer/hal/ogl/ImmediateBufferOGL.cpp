@@ -35,7 +35,7 @@ void ImmediateBufferOGL::updateBuffer(RenderContext& context, unsigned int strid
         activeBuffer = GL_NONE;
 
         // @0.16.1: set *(context + 0x164) to 0
-        /*if (m_bufferType == 1)
+        /*if (m_bufferType == BUFFER_TYPE_INDEX)
             *&context->m_activeTextureUnits[1].m_bIsShaderUniformDirty = 0;*/
     }
     else

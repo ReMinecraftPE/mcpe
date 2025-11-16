@@ -160,6 +160,8 @@ void Mesh::render(unsigned int startOffset, unsigned int count)
     if (!isValid())
         return;
 
+    ErrorHandler::checkForErrors();
+
     unsigned int vertexCount = (count > 0) ? count : m_vertexCount;
 
     if (isTemporary())
@@ -175,11 +177,15 @@ void Mesh::render(unsigned int startOffset, unsigned int count)
         unsigned int vertexSize = m_vertexFormat.getVertexSize();
         void* vertexData = m_rawData;
         immediateBuffer.updateBuffer(context, vertexSize, vertexData, vertexCount);
+        if (vertexData != m_rawData)
+            startOffset = (unsigned int)vertexData;
     }
     else
     {
         m_vertexBuffer.bindBuffer(context);
     }
+
+    ErrorHandler::checkForErrors();
 
     context.setDrawState(m_vertexFormat);
     if (m_primitiveMode == PRIMITIVE_MODE_QUAD_LIST)
@@ -203,6 +209,8 @@ void Mesh::render(unsigned int startOffset, unsigned int count)
         context.draw(m_primitiveMode, startOffset, vertexCount);
     }
     context.clearDrawState(m_vertexFormat);
+
+    ErrorHandler::checkForErrors();
 }
 
 bool Mesh::isValid() const

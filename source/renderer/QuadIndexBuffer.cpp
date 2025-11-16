@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <vector>
+#include <typeinfo>
 #include "QuadIndexBuffer.hpp"
 
 using namespace mce;
@@ -23,25 +26,28 @@ void QuadIndexBuffer::onAppSuspended()
 }
 
 template <typename T>
-void _makeIndexBuffer(std::vector<T>& indices, unsigned int numQuads)
+void _makeIndexBuffer(std::vector<uint8_t>& indices, unsigned int vertexCount)
 {
-        indices.resize(numQuads * 6);
-        for (unsigned int i = 0; i < numQuads; i++)
-        {
-            T baseVertex = static_cast<T>(i * 4);
-            size_t baseIndex = i * 6;
+    constexpr unsigned int indexSize = sizeof(T) * 6;
+    const unsigned int quadCount = vertexCount / 4;
+    indices.resize(indexSize * quadCount);
+    for (unsigned int i = 0; i < quadCount; i++)
+    {
+        T baseVertex = static_cast<T>(i * 4);
+        size_t baseIndex = i * indexSize;
 
-            // The index pattern creates two triangles for each quad (v, v+1, v+2, v+3):
-            // Triangle 1: (v+1, v+2, v)
-            // Triangle 2: (v,   v+2, v+3)
-            indices[baseIndex + 0] = baseVertex + 1;
-            indices[baseIndex + 1] = baseVertex + 2;
-            indices[baseIndex + 2] = baseVertex + 0;
-            
-            indices[baseIndex + 3] = baseVertex + 0;
-            indices[baseIndex + 4] = baseVertex + 2;
-            indices[baseIndex + 5] = baseVertex + 3;
-        }
+        T* data = (T*)&indices[baseIndex];
+
+        // The index pattern creates two triangles for each quad (v, v+1, v+2, v+3):
+        // Triangle 1: (v+1, v+2, v)
+        data[0] = baseVertex + 1;
+        data[1] = baseVertex + 2;
+        data[2] = baseVertex + 0;
+        // Triangle 2: (v,   v+2, v+3)
+        data[3] = baseVertex + 0;
+        data[4] = baseVertex + 2;
+        data[5] = baseVertex + 3;
+    }
 }
 
 Buffer& QuadIndexBuffer::getGlobalQuadBuffer(RenderContext& context, unsigned int requiredCapacity, uint8_t& outIndexSize)
@@ -61,32 +67,22 @@ Buffer& QuadIndexBuffer::getGlobalQuadBuffer(RenderContext& context, unsigned in
     while (m_capacity < requiredCapacity)
         m_capacity *= 2;
 
-    const unsigned int numQuads = m_capacity / 4;
-
-    void* data;
-    unsigned int dataSize;
+    std::vector<uint8_t> indices;
 
     // Use 16-bit indices for smaller buffers to save memory, otherwise use 32-bit.
     if (m_capacity < 0x10000)
     {
         m_indexSize = sizeof(uint16_t);
-        
-        std::vector<uint16_t> indices;
-        _makeIndexBuffer(indices, numQuads);
-
-        data = indices.data();
-        dataSize = indices.size();
+        _makeIndexBuffer<uint16_t>(indices, m_capacity);
     }
     else
     {
         m_indexSize = sizeof(uint32_t);
-
-        std::vector<uint32_t> indices;
-        _makeIndexBuffer(indices, numQuads);
-
-        data = indices.data();
-        dataSize = indices.size();
+        _makeIndexBuffer<uint32_t>(indices, m_capacity);
     }
+
+    void* data = indices.data();
+    unsigned int dataSize = indices.size();
 
     m_globalBuffer.createDynamicIndexBuffer(context, dataSize * m_indexSize);
     m_globalBuffer.updateBuffer(context, m_indexSize, data, dataSize);

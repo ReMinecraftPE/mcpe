@@ -2,7 +2,7 @@
 
 using namespace mce;
 
-StencilRefObject::StencilRefObject(unsigned int ref)
+StencilRefObject::StencilRefObject(uint8_t ref)
 {
     stencilRef = ref;
 }

@@ -3,6 +3,8 @@
 #include "RenderContextStateBase.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
+#include "renderer/hal/enums/ShaderType.hpp"
+#include "renderer/hal/interface/ShaderProgram.hpp"
 #include "renderer/hal/interface/ImmediateBuffer.hpp"
 #include "renderer/hal/interface/RenderDevice.hpp"
 
@@ -13,11 +15,10 @@ namespace mce
     public:
         RenderContextStateBase m_currentState;
         VertexFormat m_lastVertexFormat;
-        // These are unused in OGL HAL
+        // Unused in OGL
         int field_34;
-        int field_38;
-        int field_3C;
-        int field_40;
+        // Only used in DX11
+        ShaderProgram* m_lastShaderPrograms[SHADER_TYPES_COUNT];
         ImmediateBuffer m_immediateBuffer;
         StencilRefObject m_stencilReference;
         RenderDevice *m_renderDevice;
@@ -35,8 +36,8 @@ namespace mce
         void lostContext();
 
         RenderDevice* getDevice();
-        void setStencilReference(unsigned int value);
-        unsigned int getStencilReference() const;
+        void setStencilReference(uint8_t value);
+        uint8_t getStencilReference() const;
 
         static int getMaxVertexCount();
     };
