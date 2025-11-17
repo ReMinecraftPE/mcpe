@@ -253,10 +253,7 @@ void Tesselator::draw(const mce::MaterialPtr& materialPtr)
 	if (m_vertices > 0)
 	{
 		mce::Mesh mesh = end("draw", true);
-		if (materialPtr == mce::MaterialPtr::NONE)
-			mesh.render();
-		else
-			mesh.render(materialPtr);
+		mesh.render(materialPtr);
 	}
 
 	clear();
@@ -464,34 +461,6 @@ void Tesselator::vertex(float x, float y, float z)
 	{
 		m_indices.reserve(vertexSize * m_pendingVertices);
 		m_pendingVertices = 0;
-	}
-
-	// @HAL: remove, drawIndexed should take care of this
-	if (false && m_drawMode == mce::PRIMITIVE_MODE_QUAD_LIST && TRIANGLE_MODE && (m_count % 4) == 0)
-	{
-		for (int idx = 3; idx != 1; idx--)
-		{
-			// duplicate the last 2 added vertices in quad mode
-			m_indices.resize((m_vertices + 1) * vertexSize);
-			void* currentVertex = &m_indices[(m_vertices - idx) * vertexSize];
-			void* nextVertex = &m_indices[m_vertices * vertexSize];
-			memcpy(nextVertex, currentVertex, vertexSize);
-
-			// Make sure m_indices front pointer hasn't changed from reallocation as a result of reserve or resize
-			if (isFormatFixed() && oldIndicesPtr == &m_indices.front())
-			{
-				m_currentVertex.nextVertex();
-			}
-
-			m_vertices++;
-
-#ifdef _DEBUG
-			g_nVertices++;
-#endif
-
-			if (m_vertices >= mce::RenderContext::getMaxVertexCount())
-				return;
-		}
 	}
 
 	m_indices.resize((m_vertices+1) * vertexSize);

@@ -11,6 +11,7 @@
 #include "common/Logger.hpp"
 #include "common/Mth.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/GL/GL.hpp"
 
 #include "world/tile/LeafTile.hpp"
@@ -63,22 +64,20 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	xglGenBuffers(m_nBuffers, m_pBuffers);
 	LOG_I("numBuffers: %d", m_nBuffers);
 
-	xglGenBuffers(1, &m_starBuffer);
-	generateStars();
+	m_matStars = mce::MaterialPtr(mce::RenderMaterialGroup::common, "stars");
+	m_matSkyplane = mce::MaterialPtr(mce::RenderMaterialGroup::common, "skyplane");
 
-	xglGenBuffers(1, &m_skyBuffer);
-	xglGenBuffers(1, &m_darkBuffer);
-	generateSky(); // inlined in the 0.1.0 demo
+	_initResources();
 }
 
-void LevelRenderer::generateSky()
+void LevelRenderer::_buildSkyMesh()
 {
 	int s = 128;
 	int d = 256 / s + 2;
 
 	Tesselator& t = Tesselator::instance;
-	t.begin(324); // pre-computed m_skyBufferCount
-	m_skyBufferCount = 0;
+	// @TODO: 12-vertex MCPE sky
+	t.begin(324);
 	float yy = 16.0f;
 
 	for (int xx = -s * d; xx <= s * d; xx += s)
@@ -89,17 +88,14 @@ void LevelRenderer::generateSky()
 			t.vertex(xx + s, yy, zz + 0);
 			t.vertex(xx + s, yy, zz + s);
 			t.vertex(xx + 0, yy, zz + s);
-
-			m_skyBufferCount += 4;
 		}
 	}
 
-	t.end(m_skyBuffer);
+	m_skyMesh = t.end();
 
 	// This code is almost the same, ugly
 
 	t.begin(324); // pre-computed m_darkBufferCount
-	m_darkBufferCount = 0;
 	yy = -16.0f;
 
 	for (int xx = -s * d; xx <= s * d; xx += s)
@@ -110,20 +106,17 @@ void LevelRenderer::generateSky()
 			t.vertex(xx + 0, yy, zz + 0);
 			t.vertex(xx + 0, yy, zz + s);
 			t.vertex(xx + s, yy, zz + s);
-
-			m_darkBufferCount += 4;
 		}
 	}
 
-	t.end(m_darkBuffer);
+	m_darkMesh = t.end();
 }
 
-void LevelRenderer::generateStars()
+void LevelRenderer::_buildStarsMesh()
 {
-	Random random = Random(10842L);
+	Random random = Random(10842L); // is there any good reason why this specifically is a long?
 	Tesselator& t = Tesselator::instance;
-	t.begin(3160); // pre-determined m_starBufferCount
-	m_starBufferCount = 0;
+	t.begin(3160);
 
 	for (int i = 0; i < 1500; i++)
 	{
@@ -164,11 +157,64 @@ void LevelRenderer::generateStars()
 				float zo = __zo * ySin + _xo * yCos;
 				t.vertex(xp + xo, yp + _yo, zp + zo);
 			}
-			m_starBufferCount += 4;
 		}
 	}
 
-	t.end(m_starBuffer);
+	m_starsMesh = t.end();
+}
+
+void LevelRenderer::_buildSunAndMoonMeshes()
+{
+
+}
+
+void LevelRenderer::_buildShadowVolume()
+{
+
+}
+
+void LevelRenderer::_buildShadowOverlay()
+{
+
+}
+
+void LevelRenderer::_initResources()
+{
+	_buildSkyMesh();
+	_buildStarsMesh();
+	_buildSunAndMoonMeshes();
+	_buildShadowVolume();
+	_buildShadowOverlay();
+}
+
+void LevelRenderer::_renderStars(float alpha)
+{
+	float a = m_pLevel->getStarBrightness(alpha);
+	if (a > 0.0f)
+	{
+		glColor4f(a, a, a, a);
+		m_starsMesh.render(m_matStars);
+	}
+}
+
+void LevelRenderer::_recreateTessellators()
+{
+
+}
+
+void LevelRenderer::onLowMemory()
+{
+	Tesselator::instance.trim();
+}
+
+void LevelRenderer::onAppResumed()
+{
+	onGraphicsReset();
+}
+
+void LevelRenderer::onAppSuspended()
+{
+	m_starsMesh.reset();
 }
 
 void LevelRenderer::deleteChunks()
@@ -210,11 +256,6 @@ void LevelRenderer::cull(Culler* pCuller, float f)
 	}
 
 	field_30++;
-}
-
-void LevelRenderer::onLowMemory()
-{
-	Tesselator::instance.trim();
 }
 
 void LevelRenderer::allChanged()
@@ -394,14 +435,11 @@ std::string LevelRenderer::gatherStats2()
 
 void LevelRenderer::onGraphicsReset()
 {
-	xglGenBuffers(m_nBuffers, m_pBuffers);
+	mce::Mesh::clearGlobalBuffers();
+	_initResources();
+	_recreateTessellators();
+	xglGenBuffers(m_nBuffers, m_pBuffers); // @HAL: remove
 	allChanged();
-
-	xglGenBuffers(1, &m_starBuffer);
-	generateStars();
-
-	xglGenBuffers(1, &m_skyBuffer);
-	generateSky(); // inlined in the 0.1.0 demo
 }
 
 void LevelRenderer::render(const AABB& aabb) const
@@ -1146,7 +1184,7 @@ void LevelRenderer::renderSky(float alpha)
 	glEnable(GL_FOG);
 	glColor4f(sc.x, sc.y, sc.z, 1.0f);
 
-	drawArrayVT(m_skyBuffer, m_skyBufferCount);
+	m_skyMesh.render(m_matSkyplane);
 
 	glDisable(GL_FOG);
 	glDisable(GL_ALPHA_TEST);
@@ -1218,12 +1256,7 @@ void LevelRenderer::renderSky(float alpha)
 
 	glDisable(GL_TEXTURE_2D);
 
-	float a = m_pLevel->getStarBrightness(alpha);
-	if (a > 0.0f)
-	{
-		glColor4f(a, a, a, a);
-		drawArrayVT(m_starBuffer, m_starBufferCount);
-	}
+	_renderStars(alpha);
 
 	// Dark plane
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -1234,7 +1267,7 @@ void LevelRenderer::renderSky(float alpha)
 
 	glColor4f(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f, 1.0f);
 	glDisable(GL_TEXTURE_2D);
-	drawArrayVT(m_darkBuffer, m_darkBufferCount);
+	m_darkMesh.render(m_matSkyplane); // this is probably not the right material for this
 	glEnable(GL_TEXTURE_2D);
 
 	glDepthMask(true);

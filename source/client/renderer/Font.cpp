@@ -117,7 +117,7 @@ void Font::drawSlow(const std::string& str, int x, int y, int colorI, bool bShad
 	glPushMatrix();
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4 * str.size());
 
 	glTranslatef(float(x), float(y), 0.0f);
 

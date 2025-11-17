@@ -32,13 +32,15 @@ RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMateria
 	*this = parent;
     _parseRenderStates(root);
     _parseRuntimeStates(root);
-    _parseShaderPaths(root);
 
+#ifdef FEATURE_SHADERS
+    _parseShaderPaths(root);
     if (!m_vertexShader.empty() && !m_fragmentShader.empty())
     {
         _parseDefines(root);
         _loadShader(*ShaderGroup::singleton());
     }
+#endif
 
     _applyRenderStates();
 
@@ -254,7 +256,9 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 
     lastUsedMaterial = this;
 
+#ifdef FEATURE_SHADERS
     m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
+#endif
 }
 
 void RenderMaterial::addState(RenderState state)

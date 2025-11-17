@@ -33,7 +33,6 @@ namespace mce
         void reset();
         bool loadRawData(RenderContext& context, uint8_t *data);
         void render(const MaterialPtr& materialPtr, unsigned int startOffset = 0, unsigned int count = 0);
-        void render(unsigned int startOffset = 0, unsigned int count = 0);
         bool isValid() const;
         bool isTemporary() const;
 

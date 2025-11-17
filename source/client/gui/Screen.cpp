@@ -180,7 +180,7 @@ void Screen::renderMenuBackground(float f)
 		m_pMinecraft->m_pTextures->setClampToEdge(false);
 
 		Tesselator& t = Tesselator::instance;
-		t.begin(6);
+		t.begin(4);
 		t.vertexUV(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
 		t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
 		t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);

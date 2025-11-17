@@ -7,8 +7,6 @@ using namespace mce;
 
 GlobalConstantBufferManager::GlobalConstantBufferManager()
 {
-    // should call Singleton constructor automatically
-    // should initialize m_constantBufferContainers automatically
 }
 
 void GlobalConstantBufferManager::refreshWorldConstants()

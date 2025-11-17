@@ -4,7 +4,7 @@ using namespace mce;
 
 RenderContextBase::RenderContextBase()
 {
-    m_renderDevice = nullptr;
+    m_pRenderDevice = nullptr;
 }
 
 void RenderContextBase::setDrawState(const VertexFormat& vertexFormat)
@@ -42,7 +42,7 @@ void RenderContextBase::lostContext()
 
 RenderDevice* RenderContextBase::getDevice()
 {
-    return m_renderDevice;
+    return m_pRenderDevice;
 }
 
 void RenderContextBase::setStencilReference(uint8_t value)

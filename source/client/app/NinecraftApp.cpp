@@ -109,10 +109,8 @@ void NinecraftApp::init()
 	Tesselator::instance.init();
 	platform()->initSoundSystem();
 
-#ifdef FEATURE_SHADERS
 	// Load materials
 	mce::RenderMaterialGroup::common.loadList("materials/common.json");
-#endif
 
 	Minecraft::init();
 

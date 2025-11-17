@@ -105,6 +105,8 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
     if (!isValid())
         return;
 
+    unsigned int vertexCount = (count > 0) ? count : m_vertexCount;
+
     if (isTemporary())
     {
         ImmediateBuffer& immediateBuffer = context.m_immediateBuffer; 
@@ -117,7 +119,6 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
 
         unsigned int vertexSize = m_vertexFormat.getVertexSize();
         void* vertexData = m_rawData;
-        unsigned int vertexCount = (count > 0) ? count : m_vertexCount;
         immediateBuffer.updateBuffer(context, vertexSize, vertexData, vertexCount);
     }
     else
@@ -125,10 +126,20 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
         m_vertexBuffer.bindBuffer(context);
     }
 
-    bufferManager.refreshWorldConstants();
-    materialPtr.m_material->useWith(context, m_vertexFormat, m_rawData);
-    materialPtr.m_material->m_pShader->validateVertexFormat(m_vertexFormat);
+    if (materialPtr)
+    {
+#ifdef FEATURE_SHADERS
+        bufferManager.refreshWorldConstants();
+#endif
+        materialPtr->useWith(context, m_vertexFormat, m_rawData);
+#ifdef FEATURE_SHADERS
+        materialPtr->m_pShader->validateVertexFormat(m_vertexFormat);
+#endif
+    }
 
+#ifndef FEATURE_SHADERS
+    context.setDrawState(m_vertexFormat);
+#endif
     if (m_primitiveMode == PRIMITIVE_MODE_QUAD_LIST)
     {
         uint8_t indexSize = m_indexSize;
@@ -147,70 +158,11 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
     }
     else
     {
-        unsigned int vertexCountToDraw = (count > 0) ? count : m_vertexCount;
-        context.draw(m_primitiveMode, startOffset, vertexCountToDraw);
-    }
-}
-
-void Mesh::render(unsigned int startOffset, unsigned int count)
-{
-    GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
-    RenderContext& context = RenderContextImmediate::get();
-
-    if (!isValid())
-        return;
-
-    ErrorHandler::checkForErrors();
-
-    unsigned int vertexCount = (count > 0) ? count : m_vertexCount;
-
-    if (isTemporary())
-    {
-        ImmediateBuffer& immediateBuffer = context.m_immediateBuffer;
-
-        if (!immediateBuffer.isValid())
-        {
-            // Create 1MB shared vertex buffer in VRAM
-            immediateBuffer.createDynamicBuffer(context, 1, nullptr, 0x100000, BUFFER_TYPE_VERTEX);
-        }
-
-        unsigned int vertexSize = m_vertexFormat.getVertexSize();
-        void* vertexData = m_rawData;
-        immediateBuffer.updateBuffer(context, vertexSize, vertexData, vertexCount);
-        if (vertexData != m_rawData)
-            startOffset = (unsigned int)vertexData;
-    }
-    else
-    {
-        m_vertexBuffer.bindBuffer(context);
-    }
-
-    ErrorHandler::checkForErrors();
-
-    context.setDrawState(m_vertexFormat);
-    if (m_primitiveMode == PRIMITIVE_MODE_QUAD_LIST)
-    {
-        uint8_t indexSize = m_indexSize;
-        Buffer& quadIndexBuffer = QuadIndexBuffer::get(context, m_vertexCount, indexSize);
-        quadIndexBuffer.bindBuffer(context);
-
-        unsigned int indexCountToDraw = (count > 0) ? count : (m_vertexCount / 4) * 6;
-        context.drawIndexed(m_primitiveMode, indexCountToDraw, startOffset, indexSize);
-    }
-    else if (m_indexCount > 0)
-    {
-        m_indexBuffer.bindBuffer(context);
-
-        unsigned int indexCountToDraw = (count > 0) ? count : m_indexCount;
-        context.drawIndexed(m_primitiveMode, indexCountToDraw, startOffset, m_indexSize);
-    }
-    else
-    {
         context.draw(m_primitiveMode, startOffset, vertexCount);
     }
+#ifndef FEATURE_SHADERS
     context.clearDrawState(m_vertexFormat);
-
-    ErrorHandler::checkForErrors();
+#endif
 }
 
 bool Mesh::isValid() const

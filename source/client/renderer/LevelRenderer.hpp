@@ -82,8 +82,21 @@ public:
 public:
 	LevelRenderer(Minecraft*, Textures*);
 
+protected:
+	void _buildSkyMesh();
+	void _buildStarsMesh();
+	void _buildSunAndMoonMeshes();
+	void _buildShadowVolume();
+	void _buildShadowOverlay();
+	void _initResources();
+	void _renderStars(float alpha);
+	void _recreateTessellators();
+
+public:
 	// AppPlatformListener overrides
 	void onLowMemory() override;
+	void onAppResumed() override;
+	void onAppSuspended() override;
 
 	// LevelListener overrides
 	void allChanged() override;
@@ -96,8 +109,6 @@ public:
 	void skyColorChanged() override;
 	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data) override;
 
-	void generateSky();
-	void generateStars();
 	void cull(Culler*, float);
 	void deleteChunks();
 	void resortChunks(const TilePos& pos);
@@ -162,12 +173,11 @@ public:
 	//...
 	int m_nBuffers;
 	GLuint* m_pBuffers;
-	GLuint  m_skyBuffer;
-	int     m_skyBufferCount;
-	GLuint  m_starBuffer;
-	int     m_starBufferCount;
-	GLuint  m_darkBuffer;
-	int     m_darkBufferCount;
+	mce::Mesh  m_skyMesh;
+	mce::Mesh  m_starsMesh;
+	mce::Mesh  m_darkMesh;
 	//...
 	Textures* m_pTextures;
+	mce::MaterialPtr m_matStars;
+	mce::MaterialPtr m_matSkyplane;
 };

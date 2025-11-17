@@ -40,14 +40,19 @@ void ImmediateBufferOGL::updateBuffer(RenderContext& context, unsigned int strid
     }
     else
     {
+        BufferOGL::updateBuffer(context, stride, data, count);
+        /* @0.16.1: Unnecessary, Tessellator only did the following to allow for non-temporary buffers
         // More or less doing what the Tessellator did with the VBOs array
         // except we're using one contiguous OGL buffer
-        unsigned int bufferSize = m_bufferOffset + count * stride;
-        if (bufferSize > getInternalBufferSize())
+        unsigned int nextBufferOffset = m_bufferOffset + (count * stride);
+        if (nextBufferOffset > getInternalBufferSize())
+        {
             m_bufferOffset = 0;
+        }
         BufferOGL::updateBuffer(context, stride, data, count);
         data = (void*)m_bufferOffset;
-        m_bufferOffset = bufferSize;
+        m_bufferOffset += count * stride;
+        */
     }
 }
 

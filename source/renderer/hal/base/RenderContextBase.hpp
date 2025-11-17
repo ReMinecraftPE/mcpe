@@ -21,7 +21,7 @@ namespace mce
         ShaderProgram* m_lastShaderPrograms[SHADER_TYPES_COUNT];
         ImmediateBuffer m_immediateBuffer;
         StencilRefObject m_stencilReference;
-        RenderDevice *m_renderDevice;
+        RenderDevice *m_pRenderDevice;
 
     public:
         RenderContextBase();

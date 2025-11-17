@@ -18,14 +18,12 @@ ScreenRenderer& ScreenRenderer::singleton()
 
 ScreenRenderer::ScreenRenderer()
 {
-#ifdef FEATURE_SHADERS
     m_matBlit          = MaterialPtr(RenderMaterialGroup::common, "ui_textured");
     m_matFill          = MaterialPtr(RenderMaterialGroup::common, "ui_fill_color");
     m_matFillGradient  = MaterialPtr(RenderMaterialGroup::common, "ui_fill_gradient");
     m_matColorBlit     = MaterialPtr(RenderMaterialGroup::common, "ui_texture_and_color");
     m_matColorBlitBlur = MaterialPtr(RenderMaterialGroup::common, "ui_textured_and_glcolor");
     m_matStencilFill   = MaterialPtr(RenderMaterialGroup::common, "ui_fill_stencil");
-#endif
 }
 
 void ScreenRenderer::blit(const IntRectangle& rect)

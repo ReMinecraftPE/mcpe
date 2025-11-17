@@ -10,8 +10,8 @@ MaterialPtr MaterialPtr::NONE = MaterialPtr();
 
 MaterialPtr::MaterialPtr()
 {
-    m_group = nullptr;
-    m_material = nullptr;
+    m_pGroup = nullptr;
+    m_pMaterial = nullptr;
 }
 
 MaterialPtr::MaterialPtr(MaterialPtr&& other)
@@ -20,11 +20,11 @@ MaterialPtr::MaterialPtr(MaterialPtr&& other)
 }
 
 MaterialPtr::MaterialPtr(RenderMaterialGroup& group, const std::string& name)
-    : m_group(&group)
-    , m_material(nullptr)
+    : m_pGroup(&group)
+    , m_pMaterial(nullptr)
     , m_name(name)
 {
-    m_group->_addRef(*this);
+    m_pGroup->_addRef(*this);
     onGroupReloaded();
 }
 
@@ -35,32 +35,47 @@ MaterialPtr::~MaterialPtr()
 
 void MaterialPtr::_move(MaterialPtr&& other)
 {
-    m_group = other.m_group;
-    m_material = other.m_material;
+    m_pGroup = other.m_pGroup;
+    m_pMaterial = other.m_pMaterial;
     std::swap(m_name, other.m_name);
     other._deref();
-    m_group->_addRef(*this);
+    m_pGroup->_addRef(*this);
 }
 
 void MaterialPtr::_deref()
 {
-    if (m_group != nullptr)
+    if (m_pGroup != nullptr)
     {
-        m_group->_removeRef(*this);
-        m_group = nullptr;
+        m_pGroup->_removeRef(*this);
+        m_pGroup = nullptr;
     }
-    m_material = nullptr;
+    m_pMaterial = nullptr;
 }
 
 void MaterialPtr::onGroupReloaded()
 {
-    if (m_group == nullptr)
+    if (m_pGroup == nullptr)
     {
         LOG_E("Null ptrs may never be registered!");
         throw std::bad_cast();
     }
 
-    m_material = m_group->_getMaterial(m_name);
+    m_pMaterial = m_pGroup->_getMaterial(m_name);
+}
+
+RenderMaterial* MaterialPtr::operator->() const
+{
+    if (!m_pMaterial)
+    {
+        LOG_E("Invalid dereference");
+        throw std::bad_cast();
+    }
+    return m_pMaterial;
+}
+
+MaterialPtr::operator bool() const
+{
+    return *this != MaterialPtr::NONE;
 }
 
 MaterialPtr& MaterialPtr::operator=(MaterialPtr&& other)
@@ -71,10 +86,10 @@ MaterialPtr& MaterialPtr::operator=(MaterialPtr&& other)
 
 bool MaterialPtr::operator==(const MaterialPtr& other) const
 {
-    return this->m_material == other.m_material;
+    return this->m_pMaterial == other.m_pMaterial;
 }
 
 bool MaterialPtr::operator!=(const MaterialPtr& other) const
 {
-    return this->m_material != other.m_material;
+    return this->m_pMaterial != other.m_pMaterial;
 }

@@ -14,8 +14,8 @@ namespace mce
         static MaterialPtr NONE;
 
     public:
-        RenderMaterialGroup* m_group;
-        RenderMaterial* m_material;
+        RenderMaterialGroup* m_pGroup;
+        RenderMaterial* m_pMaterial;
         std::string m_name;
 
     public:
@@ -29,6 +29,8 @@ namespace mce
 
         void onGroupReloaded();
 
+        RenderMaterial* operator->() const;
+        operator bool() const;
         MaterialPtr& operator=(MaterialPtr&& other);
         bool operator==(const MaterialPtr& other) const;
         bool operator!=(const MaterialPtr& other) const;

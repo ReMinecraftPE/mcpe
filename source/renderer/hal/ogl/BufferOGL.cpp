@@ -34,6 +34,8 @@ BufferOGL::~BufferOGL()
 
 void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
 {
+    ErrorHandler::checkForErrors();
+
     m_target = mce::glTargetFromBufferType(bufferType);
 
     xglGenBuffers(1, &m_bufferName);
