@@ -146,7 +146,7 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
         Buffer& quadIndexBuffer = QuadIndexBuffer::get(context, m_vertexCount, indexSize);
         quadIndexBuffer.bindBuffer(context);
 
-        unsigned int indexCountToDraw = (count > 0) ? count : (m_vertexCount / 4) * 6;
+        unsigned int indexCountToDraw = (count > 0) ? count : (m_vertexCount / 4) * 6; // 6 vertecies per quad
         context.drawIndexed(m_primitiveMode, indexCountToDraw, startOffset, indexSize);
     }
     else if (m_indexCount > 0)

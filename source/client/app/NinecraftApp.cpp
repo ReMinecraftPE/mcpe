@@ -105,12 +105,12 @@ void NinecraftApp::init()
 	}
 
 	setupRenderer();
+	// Load materials
+	mce::RenderMaterialGroup::common.loadList("materials/common.json");
+	// Do this after, since material loading messed with the GL state, particularly depth
 	initGLStates();
 	Tesselator::instance.init();
 	platform()->initSoundSystem();
-
-	// Load materials
-	mce::RenderMaterialGroup::common.loadList("materials/common.json");
 
 	Minecraft::init();
 
