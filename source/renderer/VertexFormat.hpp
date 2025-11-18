@@ -15,7 +15,7 @@ namespace mce
         };
 
     public:
-        static const VertexFormat EMPTY, VT, VTC, VTN;
+        static const VertexFormat EMPTY;
         static const unsigned int FieldSize[VERTEX_FIELDS_COUNT];
 
     private:
@@ -28,7 +28,6 @@ namespace mce
 
     public:
         VertexFormat();
-        VertexFormat(uint8_t fieldMask);
 
     public:
         void enableField(VertexField vertexField);

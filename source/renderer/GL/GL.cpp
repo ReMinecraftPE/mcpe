@@ -1,31 +1,4 @@
 #include "GL.hpp"
-#include "renderer/RenderContextImmediate.hpp"
-
-void drawVertexArray(const mce::VertexFormat vertexFormat, GLuint buffer, int count)
-{
-    mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
-
-    xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-
-    renderContext.setDrawState(vertexFormat);
-    renderContext.draw(mce::PRIMITIVE_MODE_TRIANGLE_LIST, 0, count);
-    renderContext.clearDrawState(vertexFormat);
-}
-
-void drawArrayVT(GLuint buffer, int count)
-{
-    drawVertexArray(mce::VertexFormat::VT, buffer, count);
-}
-
-void drawArrayVTC(GLuint buffer, int count)
-{
-	drawVertexArray(mce::VertexFormat::VTC, buffer, count);
-}
-
-void drawArrayVTN(GLuint buffer, int count)
-{
-    drawVertexArray(mce::VertexFormat::VTN, buffer, count);
-}
 
 // It appears Mojang took the code from:
 // https://www.khronos.org/opengl/wiki/GluProject_and_gluUnProject_code

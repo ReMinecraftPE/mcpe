@@ -7,9 +7,6 @@
 using namespace mce;
 
 const VertexFormat VertexFormat::EMPTY = VertexFormat();
-const VertexFormat VertexFormat::VT  = VertexFormat(1 << VERTEX_FIELD_POSITION | 1 << VERTEX_FIELD_UV0);
-const VertexFormat VertexFormat::VTC = VertexFormat(1 << VERTEX_FIELD_POSITION | 1 << VERTEX_FIELD_UV0 | 1 << VERTEX_FIELD_COLOR);
-const VertexFormat VertexFormat::VTN = VertexFormat(1 << VERTEX_FIELD_POSITION | 1 << VERTEX_FIELD_UV0 | 1 << VERTEX_FIELD_NORMAL);
 const unsigned int VertexFormat::FieldSize[] = {
     /* VERTEX_FIELD_POSITION */ sizeof(Vec3),
     /* VERTEX_FIELD_COLOR */    sizeof(uint32_t),
@@ -31,17 +28,6 @@ void VertexFormat::_init()
 VertexFormat::VertexFormat()
 {
     _init();
-}
-
-VertexFormat::VertexFormat(uint8_t fieldMask)
-{
-    _init();
-
-    for (int i = 0; i <= VERTEX_FIELDS_MAX; i++)
-    {
-        if (HasField(fieldMask, (VertexField)i))
-            enableField((VertexField)i);
-    }
 }
 
 void VertexFormat::enableField(VertexField vertexField)
