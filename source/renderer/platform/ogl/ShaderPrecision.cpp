@@ -1,6 +1,10 @@
 #include <sstream>
 
 #include "ShaderPrecision.hpp"
+
+#include "GameMods.hpp"
+#if FEATURE_SHADERS
+
 #include "common/Util.hpp"
 
 using namespace mce::Platform::OGL;
@@ -84,3 +88,5 @@ std::string Precision::buildHeader()
 
     return headerStream.str();
 }
+
+#endif // FEATURE_SHADERS

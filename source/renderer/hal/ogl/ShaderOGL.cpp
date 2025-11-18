@@ -3,6 +3,8 @@
 
 #include "ShaderOGL.hpp"
 
+#if FEATURE_SHADERS
+
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
@@ -278,3 +280,6 @@ void ShaderOGL::reflectShader()
     reflectShaderUniforms();
     reflectShaderAttributes();
 }
+
+
+#endif // FEATURE_SHADERS

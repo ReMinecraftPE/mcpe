@@ -2,6 +2,9 @@
 
 #include <string>
 
+#include "GameMods.hpp"
+#if FEATURE_SHADERS
+
 #include "renderer/hal/ogl/API_OGL.hpp"
 
 namespace mce
@@ -32,3 +35,5 @@ namespace mce
         }
     }
 }
+
+#endif // FEATURE_SHADERS

@@ -1,6 +1,7 @@
 #include <unordered_map>
 #include "Extensions.hpp"
 #include "common/Logger.hpp"
+#include "GameMods.hpp"
 
 using namespace mce::Platform;
 
@@ -64,14 +65,22 @@ typedef BOOL(WINAPI* PFNWGLSWAPINTERVALEXTPROC) (int interval);
 #endif
 
 #ifdef USE_HARDWARE_GL_BUFFERS
+#if GL_VERSION_1_3
+PFNGLACTIVETEXTUREPROC p_glActiveTexture;
+#endif
+#if GL_VERSION_1_5
 PFNGLBINDBUFFERPROC p_glBindBuffer;
 PFNGLBUFFERDATAPROC p_glBufferData;
 PFNGLGENBUFFERSPROC p_glGenBuffers;
 PFNGLDELETEBUFFERSPROC p_glDeleteBuffers;
 PFNGLBUFFERSUBDATAPROC p_glBufferSubData;
-#ifdef MC_GL_DEBUG_OUTPUT
-PFNGLDEBUGMESSAGECALLBACKARBPROC p_glDebugMessageCallback;
 #endif
+#if GL_VERSION_2_0
+PFNGLSTENCILFUNCSEPARATEPROC p_glStencilFuncSeparate;
+PFNGLSTENCILOPSEPARATEPROC p_glStencilOpSeparate;
+#endif // GL_VERSION_2_0
+#if FEATURE_SHADERS
+#if GL_VERSION_2_0
 PFNGLUNIFORM1IPROC p_glUniform1i;
 PFNGLUNIFORM1FVPROC p_glUniform1fv;
 PFNGLUNIFORM2FVPROC p_glUniform2fv;
@@ -84,8 +93,6 @@ PFNGLUNIFORM4IVPROC p_glUniform4iv;
 PFNGLUNIFORMMATRIX2FVPROC p_glUniformMatrix2fv;
 PFNGLUNIFORMMATRIX3FVPROC p_glUniformMatrix3fv;
 PFNGLUNIFORMMATRIX4FVPROC p_glUniformMatrix4fv;
-PFNGLSTENCILFUNCSEPARATEPROC p_glStencilFuncSeparate;
-PFNGLSTENCILOPSEPARATEPROC p_glStencilOpSeparate;
 PFNGLCREATESHADERPROC p_glCreateShader;
 PFNGLSHADERSOURCEPROC p_glShaderSource;
 PFNGLCOMPILESHADERPROC p_glCompileShader;
@@ -93,7 +100,6 @@ PFNGLGETSHADERIVPROC p_glGetShaderiv;
 PFNGLGETSHADERINFOLOGPROC p_glGetShaderInfoLog;
 PFNGLDELETESHADERPROC p_glDeleteShader;
 PFNGLDELETEPROGRAMPROC p_glDeleteProgram;
-PFNGLRELEASESHADERCOMPILERPROC p_glReleaseShaderCompiler;
 PFNGLCREATEPROGRAMPROC p_glCreateProgram;
 PFNGLATTACHSHADERPROC p_glAttachShader;
 PFNGLLINKPROGRAMPROC p_glLinkProgram;
@@ -106,8 +112,15 @@ PFNGLGETACTIVEATTRIBPROC p_glGetActiveAttrib;
 PFNGLGETUNIFORMLOCATIONPROC p_glGetUniformLocation;
 PFNGLGETATTRIBLOCATIONPROC p_glGetAttribLocation;
 PFNGLENABLEVERTEXATTRIBARRAYPROC p_glEnableVertexAttribArray;
-PFNGLACTIVETEXTUREPROC p_glActiveTexture;
+#endif // GL_VERSION_2_0
+#if GL_VERSION_4_1
+PFNGLRELEASESHADERCOMPILERPROC p_glReleaseShaderCompiler;
 PFNGLGETSHADERPRECISIONFORMATPROC p_glGetShaderPrecisionFormat;
+#endif // GL_VERSION_4_1
+#endif // FEATURE_SHADERS
+#ifdef MC_GL_DEBUG_OUTPUT
+PFNGLDEBUGMESSAGECALLBACKARBPROC p_glDebugMessageCallback;
+#endif
 #endif
 #ifndef USE_OPENGL_2_FEATURES
 // Note: don't use xglSwapIntervalEXT if you want vsync, you don't know if it's supported
@@ -118,14 +131,16 @@ PFNWGLSWAPINTERVALEXTPROC p_wglSwapIntervalEXT;
 bool xglInitted()
 {
 #ifdef USE_HARDWARE_GL_BUFFERS
-	return p_glBindBuffer
+	return p_glActiveTexture
+		&& p_glBindBuffer
 		&& p_glBufferData
 		&& p_glGenBuffers
 		&& p_glDeleteBuffers
 		&& p_glBufferSubData
-#ifdef MC_GL_DEBUG_OUTPUT
-		&& p_glDebugMessageCallback
-#endif
+#if GL_VERSION_2_0
+		&& p_glStencilFuncSeparate
+		&& p_glStencilOpSeparate
+#if FEATURE_SHADERS
 		&& p_glUniform1i
 		&& p_glUniform1fv
 		&& p_glUniform2fv
@@ -137,8 +152,6 @@ bool xglInitted()
 		&& p_glUniformMatrix2fv
 		&& p_glUniformMatrix3fv
 		&& p_glUniformMatrix4fv
-		&& p_glStencilFuncSeparate
-		&& p_glStencilOpSeparate
 		&& p_glCreateShader
 		&& p_glShaderSource
 		&& p_glCompileShader
@@ -146,7 +159,6 @@ bool xglInitted()
 		&& p_glGetShaderInfoLog
 		&& p_glDeleteShader
 		&& p_glDeleteProgram
-		&& p_glReleaseShaderCompiler
 		&& p_glCreateProgram
 		&& p_glAttachShader
 		&& p_glLinkProgram
@@ -159,7 +171,12 @@ bool xglInitted()
 		&& p_glGetUniformLocation
 		&& p_glGetAttribLocation
 		&& p_glEnableVertexAttribArray
-		&& p_glActiveTexture;
+#endif // FEATURE_SHADERS
+#endif // GL_VERSION_2_0
+#ifdef MC_GL_DEBUG_OUTPUT
+		&& p_glDebugMessageCallback
+#endif
+		;
 #else
 	return true;
 #endif
@@ -170,14 +187,22 @@ void xglInit()
 {
 #ifdef USE_HARDWARE_GL_BUFFERS
 #ifdef _WIN32
+#if GL_VERSION_1_3
+	p_glActiveTexture = (PFNGLACTIVETEXTUREPROC)OGL::GetProcAddress("glActiveTexture");
+#endif
+#if GL_VERSION_1_5
 	p_glBindBuffer = (PFNGLBINDBUFFERPROC)OGL::GetProcAddress("glBindBuffer");
 	p_glBufferData = (PFNGLBUFFERDATAPROC)OGL::GetProcAddress("glBufferData");
 	p_glGenBuffers = (PFNGLGENBUFFERSPROC)OGL::GetProcAddress("glGenBuffers");
 	p_glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)OGL::GetProcAddress("glDeleteBuffers");
 	p_glBufferSubData = (PFNGLBUFFERSUBDATAPROC)OGL::GetProcAddress("glBufferSubData");
-#ifdef MC_GL_DEBUG_OUTPUT
-	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)OGL::GetProcAddress("glDebugMessageCallback");
 #endif
+#if GL_VERSION_2_0
+	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)OGL::GetProcAddress("glStencilFuncSeparate");
+	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)OGL::GetProcAddress("glStencilOpSeparate");
+#endif
+#if FEATURE_SHADERS
+#if GL_VERSION_2_0
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)OGL::GetProcAddress("glUniform1i");
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)OGL::GetProcAddress("glUniform1fv");
 	p_glUniform2fv = (PFNGLUNIFORM2FVPROC)OGL::GetProcAddress("glUniform2fv");
@@ -190,8 +215,6 @@ void xglInit()
 	p_glUniformMatrix2fv = (PFNGLUNIFORMMATRIX2FVPROC)OGL::GetProcAddress("glUniformMatrix2fv");
 	p_glUniformMatrix3fv = (PFNGLUNIFORMMATRIX3FVPROC)OGL::GetProcAddress("glUniformMatrix3fv");
 	p_glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)OGL::GetProcAddress("glUniformMatrix4fv");
-	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)OGL::GetProcAddress("glStencilFuncSeparate");
-	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)OGL::GetProcAddress("glStencilOpSeparate");
 	p_glCreateShader = (PFNGLCREATESHADERPROC)OGL::GetProcAddress("glCreateShader");
 	p_glShaderSource = (PFNGLSHADERSOURCEPROC)OGL::GetProcAddress("glShaderSource");
 	p_glCompileShader = (PFNGLCOMPILESHADERPROC)OGL::GetProcAddress("glCompileShader");
@@ -199,7 +222,6 @@ void xglInit()
 	p_glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC)OGL::GetProcAddress("glGetShaderInfoLog");
 	p_glDeleteShader = (PFNGLDELETESHADERPROC)OGL::GetProcAddress("glDeleteShader");
 	p_glDeleteProgram = (PFNGLDELETEPROGRAMPROC)OGL::GetProcAddress("glDeleteProgram");
-	p_glReleaseShaderCompiler = (PFNGLRELEASESHADERCOMPILERPROC)OGL::GetProcAddress("glReleaseShaderCompiler");
 	p_glCreateProgram = (PFNGLCREATEPROGRAMPROC)OGL::GetProcAddress("glCreateProgram");
 	p_glAttachShader = (PFNGLATTACHSHADERPROC)OGL::GetProcAddress("glAttachShader");
 	p_glLinkProgram = (PFNGLLINKPROGRAMPROC)OGL::GetProcAddress("glLinkProgram");
@@ -212,17 +234,32 @@ void xglInit()
 	p_glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)OGL::GetProcAddress("glGetUniformLocation");
 	p_glGetAttribLocation = (PFNGLGETATTRIBLOCATIONPROC)OGL::GetProcAddress("glGetAttribLocation");
 	p_glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)OGL::GetProcAddress("glEnableVertexAttribArray");
-	p_glActiveTexture = (PFNGLACTIVETEXTUREPROC)OGL::GetProcAddress("glActiveTexture");
+#endif // GL_VERSION_2_0
+#if GL_VERSION_4_1
+	p_glReleaseShaderCompiler = (PFNGLRELEASESHADERCOMPILERPROC)OGL::GetProcAddress("glReleaseShaderCompiler");
 	p_glGetShaderPrecisionFormat = (PFNGLGETSHADERPRECISIONFORMATPROC)OGL::GetProcAddress("glGetShaderPrecisionFormat");
-#else
+#endif // GL_VERSION_4_1
+#endif // FEATURE_SHADERS
+#ifdef MC_GL_DEBUG_OUTPUT
+	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)OGL::GetProcAddress("glDebugMessageCallback");
+#endif
+#else // !defined(_WIN32) // wtf would this even be?
+#if GL_VERSION_1_3
+	p_glActiveTexture = (PFNGLACTIVETEXTUREPROC)glActiveTexture;
+#endif
+#if GL_VERSION_1_5
 	p_glBindBuffer = (PFNGLBINDBUFFERPROC)glBindBuffer;
 	p_glBufferData = (PFNGLBUFFERDATAPROC)glBufferData;
 	p_glGenBuffers = (PFNGLGENBUFFERSPROC)glGenBuffers;
 	p_glDeleteBuffers = (PFNGLDELETEBUFFERSPROC)glDeleteBuffers;
 	p_glBufferSubData = (PFNGLBUFFERSUBDATAPROC)glBufferSubData;
-#ifdef MC_GL_DEBUG_OUTPUT
-	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)glDebugMessageCallbackARB;
 #endif
+#if GL_VERSION_2_0
+	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)glStencilFuncSeparate;
+	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)glStencilOpSeparate;
+#endif
+#if FEATURE_SHADERS
+#if GL_VERSION_2_0
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)glUniform1i;
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)glUniform1fv;
 	p_glUniform2fv = (PFNGLUNIFORM2FVPROC)glUniform2fv;
@@ -235,8 +272,6 @@ void xglInit()
 	p_glUniformMatrix2fv = (PFNGLUNIFORMMATRIX2FVPROC)glUniformMatrix2fv;
 	p_glUniformMatrix3fv = (PFNGLUNIFORMMATRIX3FVPROC)glUniformMatrix3fv;
 	p_glUniformMatrix4fv = (PFNGLUNIFORMMATRIX4FVPROC)glUniformMatrix4fv;
-	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)glStencilFuncSeparate;
-	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)glStencilOpSeparate;
 	p_glCreateShader = (PFNGLCREATESHADERPROC)glCreateShader;
 	p_glShaderSource = (PFNGLSHADERSOURCEPROC)glShaderSource;
 	p_glCompileShader = (PFNGLCOMPILESHADERPROC)glCompileShader;
@@ -244,7 +279,6 @@ void xglInit()
 	p_glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC)glGetShaderInfoLog;
 	p_glDeleteShader = (PFNGLDELETESHADERPROC)glDeleteShader;
 	p_glDeleteProgram = (PFNGLDELETEPROGRAMPROC)glDeleteProgram;
-	p_glReleaseShaderCompiler = (PFNGLRELEASESHADERCOMPILERPROC)glReleaseShaderCompiler;
 	p_glCreateProgram = (PFNGLCREATEPROGRAMPROC)glCreateProgram;
 	p_glAttachShader = (PFNGLATTACHSHADERPROC)glAttachShader;
 	p_glLinkProgram = (PFNGLLINKPROGRAMPROC)glLinkProgram;
@@ -257,8 +291,15 @@ void xglInit()
 	p_glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)glGetUniformLocation;
 	p_glGetAttribLocation = (PFNGLGETATTRIBLOCATIONPROC)glGetAttribLocation;
 	p_glEnableVertexAttribArray = (PFNGLENABLEVERTEXATTRIBARRAYPROC)glEnableVertexAttribArray;
-	p_glActiveTexture = (PFNGLACTIVETEXTUREPROC)glActiveTexture;
+#endif // GL_VERSION_2_0
+#if GL_VERSION_4_1
+	p_glReleaseShaderCompiler = (PFNGLRELEASESHADERCOMPILERPROC)glReleaseShaderCompiler;
 	p_glGetShaderPrecisionFormat = (PFNGLGETSHADERPRECISIONFORMATPROC)glGetShaderPrecisionFormat;
+#endif // GL_VERSION_4_1
+#endif // FEATURE_SHADERS
+#ifdef MC_GL_DEBUG_OUTPUT
+	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)glDebugMessageCallbackARB;
+#endif
 #endif
 #endif
 
@@ -268,6 +309,18 @@ void xglInit()
 }
 
 #ifdef USE_HARDWARE_GL_BUFFERS
+
+#if GL_VERSION_1_3
+
+void xglActiveTexture(GLenum texture)
+{
+	p_glActiveTexture(texture);
+}
+
+#endif // GL_VERSION_1_3
+
+#if GL_VERSION_1_5
+
 void xglBindBuffer(GLenum target, GLuint buffer)
 {
 	p_glBindBuffer(target, buffer);
@@ -293,12 +346,25 @@ void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLv
 	p_glBufferSubData(target, offset, size, data);
 }
 
-#ifdef MC_GL_DEBUG_OUTPUT
-void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam)
+#endif // GL_VERSION_1_5
+
+#if GL_VERSION_2_0
+
+void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask)
 {
-	p_glDebugMessageCallback(callback, userParam);
+	p_glStencilFuncSeparate(face, func, ref, mask);
 }
-#endif
+
+void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass)
+{
+	p_glStencilOpSeparate(face, sfail, dpfail, dppass);
+}
+
+#endif // GL_VERSION_2_0
+
+#if FEATURE_SHADERS
+
+#if GL_VERSION_2_0
 
 void xglUniform1i(GLint location, GLint v0)
 {
@@ -360,16 +426,6 @@ void xglUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, con
 	p_glUniformMatrix4fv(location, count, transpose, value);
 }
 
-void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask)
-{
-	p_glStencilFuncSeparate(face, func, ref, mask);
-}
-
-void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass)
-{
-	p_glStencilOpSeparate(face, sfail, dpfail, dppass);
-}
-
 GLuint xglCreateShader(GLenum type)
 {
 	return p_glCreateShader(type);
@@ -403,11 +459,6 @@ void xglDeleteShader(GLuint shader)
 void xglDeleteProgram(GLuint program)
 {
 	p_glDeleteProgram(program);
-}
-
-void xglReleaseShaderCompiler()
-{
-	p_glReleaseShaderCompiler();
 }
 
 GLuint xglCreateProgram()
@@ -470,19 +521,36 @@ void xglEnableVertexAttribArray(GLuint index)
 	p_glEnableVertexAttribArray(index);
 }
 
-void xglActiveTexture(GLenum texture)
+#endif // GL_VERSION_2_0
+
+#if GL_VERSION_4_1
+
+void xglReleaseShaderCompiler()
 {
-	p_glActiveTexture(texture);
+	if (!p_glReleaseShaderCompiler)
+		return;
+
+	p_glReleaseShaderCompiler();
 }
 
 void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision)
 {
-	// Requires GL 4.1
 	if (!p_glGetShaderPrecisionFormat)
 		return;
 	
 	p_glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
 }
+
+#endif // GL_VERSION_4_1
+
+#endif // FEATURE_SHADERS
+
+#ifdef MC_GL_DEBUG_OUTPUT
+void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam)
+{
+	p_glDebugMessageCallback(callback, userParam);
+}
+#endif
 
 void xglEnableClientState(GLenum _array)
 {

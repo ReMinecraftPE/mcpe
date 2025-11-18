@@ -3,6 +3,9 @@
 #include <vector>
 
 #include "API_OGL.hpp"
+
+#if FEATURE_SHADERS
+
 #include "ShaderUniformOGL.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/base/ShaderBase.hpp"
@@ -48,3 +51,5 @@ namespace mce
         void reflectShader();
     };
 }
+
+#endif // FEATURE_SHADERS

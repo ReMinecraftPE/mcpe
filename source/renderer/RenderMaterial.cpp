@@ -131,6 +131,8 @@ void RenderMaterial::_parseBlendState(const rapidjson::Value& root)
     parse(root, "blendDst", m_blendStateDescription.blendDestination);
 }
 
+#if FEATURE_SHADERS
+
 void RenderMaterial::_parseDefines(const rapidjson::Value& root)
 {
     if (!root.HasMember("defines"))
@@ -196,6 +198,8 @@ void RenderMaterial::_loadShader(ShaderGroup& shaderGroup)
     std::string header = _buildHeader();
     m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader);
 }
+
+#endif // FEATURE_SHADERS
 
 void RenderMaterial::_applyRenderStates()
 {

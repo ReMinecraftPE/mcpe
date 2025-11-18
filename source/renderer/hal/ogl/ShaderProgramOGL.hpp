@@ -1,6 +1,9 @@
 #pragma once
 
 #include "API_OGL.hpp"
+
+#if FEATURE_SHADERS
+
 #include "renderer/hal/base/ShaderProgramBase.hpp"
 
 namespace mce
@@ -18,3 +21,5 @@ namespace mce
         void deleteShader();
     };
 }
+
+#endif // FEATURE_SHADERS

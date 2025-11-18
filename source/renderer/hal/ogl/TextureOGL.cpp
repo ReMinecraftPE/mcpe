@@ -63,7 +63,6 @@ void TextureOGL::bindTexture(RenderContext& context, unsigned int textureUnit, u
 {
     ErrorHandler::checkForErrors();
 
-    assert(textureUnit == 0);
     GLenum texture = GL_TEXTURE0 + textureUnit;
     if (context.m_activeTexture != texture)
     {
@@ -73,9 +72,6 @@ void TextureOGL::bindTexture(RenderContext& context, unsigned int textureUnit, u
 
     ErrorHandler::checkForErrors();
 
-#ifdef MC_GL_DEBUG
-    LOG_I("glBindTexture: target=0x%X, texture=%d", m_state.m_textureTarget, m_state.m_textureName);
-#endif
     glBindTexture(m_state.m_textureTarget, m_state.m_textureName);
 
     RenderContextOGL::ActiveTextureUnit& activeTextureUnit = context.getActiveTextureUnit(textureUnit);
@@ -114,9 +110,6 @@ void TextureOGL::subBuffer(RenderContext& context, const void* pixels, unsigned 
         throw std::bad_cast();
     }
 
-#ifdef MC_GL_DEBUG
-    LOG_I("glTexSubImage2D: xoffset=%d, yoffset=%d, width=%d, height=%d, format=0x%X, type=0x%X, pixels=0x%X", xoffset, yoffset, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
-#endif
     glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
     ErrorHandler::checkForErrors();
 }
@@ -134,9 +127,6 @@ void TextureOGL::createMipMap(RenderContext& context, const void* pixels, unsign
         throw std::bad_cast();
     }
     
-#ifdef MC_GL_DEBUG
-    LOG_I("glTexImage2D: internalFormat=0x%X, width=%d, height=%d, format=0x%X, type=0x%X, pixels=0x%X", m_state.m_internalTextureFormat, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
-#endif
     glTexImage2D(GL_TEXTURE_2D, level, m_state.m_internalTextureFormat, width, height, 0, m_state.m_textureFormat, m_state.m_textureType, pixels);
     m_bCreated = true;
     ErrorHandler::checkForErrors();

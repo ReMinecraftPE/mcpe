@@ -19,7 +19,6 @@
 // Disable this on OpenGL ES 2+
 #define USE_GL_NORMAL_LIGHTING
 
-//#define MC_GL_DEBUG
 //#define MC_GL_DEBUG_OUTPUT
 
 #ifdef USE_GLES
@@ -106,8 +105,7 @@
 	}
 #endif
 
-// Only tested on Windows
-#ifndef GL_ARB_debug_output
+#if defined(MC_GL_DEBUG_OUTPUT) && !defined(GL_ARB_debug_output)
 #undef MC_GL_DEBUG_OUTPUT
 #endif
 
@@ -131,14 +129,15 @@ bool xglInitted();
 
 #if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32) && !defined(__DREAMCAST__)
 
+#if GL_VERSION_1_3 || GL_ES_VERSION_1_0
+#define xglActiveTexture glActiveTexture
+#endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
+#if GL_VERSION_1_5 || GL_ES_VERSION_1_0
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData
 #define xglGenBuffers glGenBuffers
 #define xglDeleteBuffers glDeleteBuffers
 #define xglBufferSubData glBufferSubData
-#ifdef MC_GL_DEBUG_OUTPUT
-#define xglDebugMessageCallback glDebugMessageCallback
-#endif
 #define xglEnableClientState glEnableClientState
 #define xglDisableClientState glDisableClientState
 #define xglTexCoordPointer glTexCoordPointer
@@ -146,6 +145,13 @@ bool xglInitted();
 #define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
+#endif // GL_VERSION_1_5 || GL_ES_VERSION_1_0
+#if GL_VERSION_2_0 || GL_ES_VERSION_1_0
+#define xglStencilFuncSeparate glStencilFuncSeparate
+#define xglStencilOpSeparate glStencilOpSeparate
+#endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
+#if FEATURE_SHADERS
+#if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define xglUniform1i glUniform1i
 #define xglUniform1fv glUniform1fv
 #define xglUniform2fv glUniform2fv
@@ -158,8 +164,6 @@ bool xglInitted();
 #define xglUniformMatrix2fv glUniformMatrix2fv
 #define xglUniformMatrix3fv glUniformMatrix3fv
 #define xglUniformMatrix4fv glUniformMatrix4fv
-#define xglStencilFuncSeparate glStencilFuncSeparate
-#define xglStencilOpSeparate glStencilOpSeparate
 #define xglCreateShader glCreateShader
 #define xglShaderSource glShaderSource
 #define xglCompileShader glCompileShader
@@ -167,7 +171,6 @@ bool xglInitted();
 #define xglGetShaderInfoLog glGetShaderInfoLog
 #define xglDeleteShader glDeleteShader
 #define xglDeleteProgram glDeleteProgram
-#define xglReleaseShaderCompiler glReleaseShaderCompiler
 #define xglCreateProgram glCreateProgram
 #define xglAttachShader glAttachShader
 #define xglLinkProgram glLinkProgram
@@ -180,21 +183,34 @@ bool xglInitted();
 #define xglGetUniformLocation glGetUniformLocation
 #define xglGetAttribLocation glGetAttribLocation
 #define xglEnableVertexAttribArray glEnableVertexAttribArray
-#define xglActiveTexture glActiveTexture
-#if GL_VERSION_4_1
+#endif // GL_VERSION_2_0 || GL_ES_VERSION_2_0
+#if GL_VERSION_4_1 || GL_ES_VERSION_2_0
+#define xglReleaseShaderCompiler glReleaseShaderCompiler
 #define xglGetShaderPrecisionFormat glGetShaderPrecisionFormat
+#endif // GL_VERSION_4_1 || GL_ES_VERSION_2_0
+#endif // FEATURE_SHADERS
+#ifdef MC_GL_DEBUG_OUTPUT
+#define xglDebugMessageCallback glDebugMessageCallback
 #endif
 
 #else
 
+#if GL_VERSION_1_3 || GL_ES_VERSION_1_0
+void xglActiveTexture(GLenum texture);
+#endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
+#if GL_VERSION_1_5 || GL_ES_VERSION_1_0
 void xglBindBuffer(GLenum target, GLuint buffer);
 void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
 void xglGenBuffers(GLsizei num, GLuint* buffers);
 void xglDeleteBuffers(GLsizei num, GLuint* buffers);
 void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
-#ifdef MC_GL_DEBUG_OUTPUT
-void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam);
-#endif
+#endif // GL_VERSION_1_5 || GL_ES_VERSION_1_0
+#if GL_VERSION_2_0 || GL_ES_VERSION_1_0
+void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
+void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
+#endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
+#if FEATURE_SHADERS
+#if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 void xglUniform1i(GLint location, GLint v0);
 void xglUniform1fv(GLint location, GLsizei count, const GLfloat* value);
 void xglUniform2fv(GLint location, GLsizei count, const GLfloat* value);
@@ -207,8 +223,6 @@ void xglUniform4iv(GLint location, GLsizei count, const GLint* value);
 void xglUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
 void xglUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
 void xglUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
-void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
-void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
 GLuint xglCreateShader(GLenum type);
 void xglShaderSource(GLuint shader, GLsizei count, const GLchar** string, const GLint* length);
 void xglCompileShader(GLuint shader);
@@ -216,7 +230,6 @@ void xglGetShaderiv(GLuint shader, GLenum pname, GLint* params);
 void xglGetShaderInfoLog(GLuint shader, GLsizei bufSize, GLsizei* length, GLchar* infoLog);
 void xglDeleteShader(GLuint shader);
 void xglDeleteProgram(GLuint program);
-void xglReleaseShaderCompiler();
 GLuint xglCreateProgram();
 void xglAttachShader(GLuint program, GLuint shader);
 void xglLinkProgram(GLuint program);
@@ -229,8 +242,15 @@ void xglGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei* 
 GLint xglGetUniformLocation(GLuint program, const GLchar* name);
 GLint xglGetAttribLocation(GLuint program, const GLchar* name);
 void xglEnableVertexAttribArray(GLuint index);
-void xglActiveTexture(GLenum texture);
+#endif // GL_VERSION_2_0 || GL_ES_VERSION_2_0
+#if GL_VERSION_4_1 || GL_ES_VERSION_2_0
+void xglReleaseShaderCompiler();
 void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision);
+#endif
+#endif // FEATURE_SHADERS
+#ifdef MC_GL_DEBUG_OUTPUT
+void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam);
+#endif
 void xglOrthof(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearpl, GLfloat farpl);
 void xglSwapIntervalEXT(int interval);
 void xglEnableClientState(GLenum _array);

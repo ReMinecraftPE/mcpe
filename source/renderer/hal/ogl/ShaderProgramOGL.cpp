@@ -1,4 +1,7 @@
 #include "ShaderProgramOGL.hpp"
+
+#if FEATURE_SHADERS
+
 #include "RenderContextOGL.hpp"
 
 using namespace mce;
@@ -52,3 +55,5 @@ void ShaderProgramOGL::deleteShader()
     xglDeleteShader(m_shaderName);
     m_shaderName = GL_NONE;
 }
+
+#endif // FEATURE_SHADERS
