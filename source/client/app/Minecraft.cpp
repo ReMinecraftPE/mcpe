@@ -62,7 +62,7 @@ const char* Minecraft::progressMessages[] =
 Minecraft::Minecraft() :
 	m_gui(this)
 {
-	m_options = nullptr;
+	m_pOptions = nullptr;
 	field_18 = false;
 	m_bIsGamePaused = false;
 	m_pLevelRenderer = nullptr;
@@ -105,7 +105,7 @@ Minecraft::Minecraft() :
 
 Minecraft::~Minecraft()
 {
-	SAFE_DELETE(m_options);
+	SAFE_DELETE(m_pOptions);
 	SAFE_DELETE(m_pNetEventCallback);
 	SAFE_DELETE(m_pRakNetInstance);
 	SAFE_DELETE(m_pLevelRenderer);
@@ -276,12 +276,12 @@ bool Minecraft::isTouchscreen() const
 
 bool Minecraft::useSplitControls() const
 {
-	return !m_bIsTouchscreen || m_options->m_bSplitControls;
+	return !m_bIsTouchscreen || getOptions()->m_bSplitControls;
 }
 
 bool Minecraft::useController() const
 {
-	return m_pPlatform->hasGamepad() && m_options->m_bUseController;
+	return m_pPlatform->hasGamepad() && getOptions()->m_bUseController;
 }
 
 GameMode* Minecraft::createGameMode(GameType gameType, Level& level)
@@ -655,12 +655,12 @@ void Minecraft::_reloadInput()
 
 	if (isTouchscreen())
 	{
-		m_pInputHolder = new TouchInputHolder(this, m_options);
+		m_pInputHolder = new TouchInputHolder(this, getOptions());
 	}
 	else if (useController())
 	{
 		m_pInputHolder = new CustomInputHolder(
-			new ControllerMoveInput(m_options),
+			new ControllerMoveInput(getOptions()),
 			new ControllerTurnInput(),
 			new ControllerBuildInput()
 		);
@@ -668,7 +668,7 @@ void Minecraft::_reloadInput()
 	else
 	{
 		m_pInputHolder = new CustomInputHolder(
-			new KeyboardInput(m_options),
+			new KeyboardInput(getOptions()),
 			new MouseTurnInput(this),
 			new MouseBuildInput()
 		);
@@ -681,7 +681,7 @@ void Minecraft::_reloadInput()
 		m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
 	}
 
-	m_options->field_19 = !isTouchscreen();
+	getOptions()->field_19 = !isTouchscreen();
 }
 
 void Minecraft::_levelGenerated()
@@ -739,7 +739,7 @@ void Minecraft::tick()
 
 		if (m_pLevel && !isGamePaused())
 		{
-            m_pLevel->m_difficulty = m_options->m_difficulty;
+            m_pLevel->m_difficulty = getOptions()->m_difficulty;
             if (m_pLevel->m_bIsClientSide)
             {
                 m_pLevel->m_difficulty = 3;
@@ -824,22 +824,11 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
-	// Optional features that you really should be able to get away with not including.
-	Screen::setIsMenuPanoramaAvailable(platform()->doesTextureExist("gui/background/panorama_0.png"));
-	LevelRenderer::setAreCloudsAvailable(platform()->doesTextureExist("environment/clouds.png"));
-	LevelRenderer::setArePlanetsAvailable(platform()->doesTextureExist("terrain/sun.png") && platform()->doesTextureExist("terrain/moon.png"));
-	GrassColor::setIsAvailable(platform()->doesTextureExist("misc/grasscolor.png"));
-	FoliageColor::setIsAvailable(platform()->doesTextureExist("misc/foliagecolor.png"));
-	Gui::setIsVignetteAvailable(platform()->doesTextureExist("misc/vignette.png"));
-	EntityRenderer::setAreShadowsAvailable(platform()->doesTextureExist("misc/shadow.png"));
-
-	GetPatchManager()->LoadPatchData(platform()->getPatchData());
-
 	m_bIsTouchscreen = platform()->isTouchscreen();
 
 	m_pRakNetInstance = new RakNetInstance;
 
-	m_pTextures = new Textures(m_options, platform());
+	m_pTextures = new Textures(getOptions(), platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
 	m_pTextures->addDynamicTexture(new LavaTexture);
@@ -847,19 +836,14 @@ void Minecraft::init()
 	m_pTextures->addDynamicTexture(new FireTexture(0));
 	m_pTextures->addDynamicTexture(new FireTexture(1));
 
-	if (platform()->hasFileSystemAccess())
-		m_options = new Options(m_externalStorageDir);
-	else
-		m_options = new Options();
-
-	m_options->m_bUseController = platform()->hasGamepad();
-	m_options->loadControls();
+	getOptions()->m_bUseController = platform()->hasGamepad();
+	getOptions()->loadControls();
 
 	_reloadInput();
 	_initTextures();
 
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
-	m_pSoundEngine->init(m_options, platform());
+	m_pSoundEngine->init(getOptions(), platform());
 
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
@@ -867,7 +851,7 @@ void Minecraft::init()
 	m_pUser = new User(getOptions()->m_playerName, "");
 
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
-	m_pFont = new Font(m_options, "font/default8.png", m_pTextures);
+	m_pFont = new Font(getOptions(), "font/default8.png", m_pTextures);
 
 	if (GrassColor::isAvailable())
 	{

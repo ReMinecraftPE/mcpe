@@ -13,9 +13,6 @@
 
 void ModelPart::_init()
 {
-	m_pos = Vec3::ZERO;
-	m_rot = Vec3::ZERO;
-	m_buffer = 0;
 	m_textureWidth = 64.0f;
 	m_textureHeight = 32.0f;
 	m_pMaterial = nullptr;
@@ -87,26 +84,14 @@ void ModelPart::clear()
 void ModelPart::compile(float scale)
 {
 	Tesselator& t = Tesselator::instance;
-	xglGenBuffers(1, &m_buffer);
-	t.begin();
-	t.color(255, 255, 255, 255);
-
-	// @HUH: Recompiling every cube six times??
-#ifdef ORIGINAL_CODE
-	for (int i = 0; i < 6; i++)
-	{
-#endif
+	t.begin(24 * (m_pCubes.size() / 4));
 
 	for (size_t i = 0; i < m_pCubes.size(); i++)
 	{
 		m_pCubes[i]->compile(t, scale);
 	}
 
-#ifdef ORIGINAL_CODE
-	}
-#endif
-
-	t.end(m_buffer);
+	m_mesh = t.end();
 	m_bCompiled = true;
 }
 
@@ -114,7 +99,13 @@ void ModelPart::draw(float scale)
 {
 	// We are not using drawArrayVTC here since that would use the color that's compiled initially into the ModelPart
 	// and would therefore not allow for on-the-fly coloring.
-	drawArrayVTN(this->m_buffer, 36 * (int)m_pCubes.size());
+	//drawArrayVTN(this->m_buffer, 36 * (int)m_pCubes.size());
+
+	if (!m_mesh.isValid())
+		compile(scale);
+
+	mce::MaterialPtr& materialPtr = m_pMaterial ? *m_pMaterial : *m_pModel->m_pMaterial;
+	m_mesh.render(materialPtr);
 }
 
 void ModelPart::mimic(const ModelPart& other)

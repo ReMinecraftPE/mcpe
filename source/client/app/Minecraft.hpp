@@ -86,7 +86,7 @@ public:
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
-	Options* getOptions() const { return m_options; }
+	Options* getOptions() const { return m_pOptions; }
 	
 private:
 	void _reloadInput();
@@ -109,8 +109,8 @@ public:
 	static const bool DEADMAU5_CAMERA_CHEATS;
 	static int customDebugId;
 
-private:
-	Options *m_options;
+protected:
+	Options *m_pOptions;
 
 public:
 	bool field_18;

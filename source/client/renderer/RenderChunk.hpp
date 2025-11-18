@@ -9,39 +9,24 @@
 #pragma once
 
 #include "thirdparty/GL/GL.hpp"
+#include "renderer/Mesh.hpp"
+#include "world/level/TilePos.hpp"
 
 class RenderChunk
 {
-	static int runningId;
+public:
+	TilePos m_pos;
+	mce::Mesh m_mesh;
+
+private:
+	void _init();
 
 public:
-	GLuint field_0;
-	int field_4;
-	int m_id;
-	float field_C;
-	float field_10;
-	float field_14;
-
+	RenderChunk() { _init(); }
+	RenderChunk(const TilePos& pos, mce::Mesh& mesh);
+	
 public:
-	RenderChunk()
-	{
-		field_0 = -1;
-		field_4 = 0;
-		field_C = 0.0f;
-		field_10 = 0.0f;
-		field_14 = 0.0f;
-
-		m_id = ++runningId;
-	}
-	RenderChunk(GLuint a1, int a2)
-	{
-		field_C = 0.0f;
-		field_10 = 0.0f;
-		field_14 = 0.0f;
-
-		m_id = ++runningId;
-		field_0 = a1;
-		field_4 = a2;
-	}
+	void render();
+	void reset();
 };
 

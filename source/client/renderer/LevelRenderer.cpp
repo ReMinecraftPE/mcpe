@@ -310,7 +310,7 @@ void LevelRenderer::allChanged()
 			{
 				int index = cp.x + field_A4 * (cp.y + field_A8 * cp.z);
 
-				Chunk* pChunk = new Chunk(m_pLevel, cp * 16, 16, x3 + field_B0, &m_pBuffers[x3]);
+				Chunk* pChunk = new Chunk(m_pLevel, cp * 16, 16, x3 + field_B0);
 
 				if (field_B8)
 					pChunk->field_50 = 0;
@@ -518,18 +518,15 @@ int LevelRenderer::renderChunks(int start, int end, int a, float b)
 
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
 
-	float fPosX = pMob->m_posPrev.x + (pMob->m_pos.x - pMob->m_posPrev.x) * b;
-	float fPosY = pMob->m_posPrev.y + (pMob->m_pos.y - pMob->m_posPrev.y) * b;
-	float fPosZ = pMob->m_posPrev.z + (pMob->m_pos.z - pMob->m_posPrev.z) * b;
+	Vec3 fPos = pMob->m_posPrev + (pMob->m_pos - pMob->m_posPrev) * b;
 
 	m_renderList.clear();
-	m_renderList.init(fPosX, fPosY, fPosZ);
+	m_renderList.init(fPos);
 
 	for (int i = 0; i < int(field_24.size()); i++)
 	{
 		Chunk* pChk = field_24[i];
-		m_renderList.addR(*pChk->getRenderChunk(a));
-		m_renderList.field_14++;
+		m_renderList.addR(pChk->getRenderChunk(a));
 	}
 
 	renderSameAsLast(a, b);

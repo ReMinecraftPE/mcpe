@@ -50,9 +50,9 @@ int Chunk::getList(int idx)
 	return field_8C + idx;
 }
 
-RenderChunk* Chunk::getRenderChunk(int idx)
+RenderChunk& Chunk::getRenderChunk(int idx)
 {
-	return &m_renderChunks[idx];
+	return m_renderChunks[idx];
 }
 
 int Chunk::getAllLists(int* arr, int arr_idx, int idx)
@@ -158,7 +158,7 @@ void Chunk::rebuild()
 						bTesselatedAnything = true;
 						if (tileRenderer.useAmbientOcclusion())
 							glShadeModel(GL_SMOOTH);
-						t.begin();
+						t.begin(12000);
 						t.setOffset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
 					}
 
@@ -179,15 +179,12 @@ void Chunk::rebuild()
 
 		if (bTesselatedAnything)
 		{
-			RenderChunk rchk = t.end(field_90[layer]);
+			mce::Mesh chunkMesh = t.end();
 			RenderChunk* pRChk = &m_renderChunks[layer];
 
-			*pRChk = rchk;
-			pRChk->field_C  = float(m_pos.x);
-			pRChk->field_10 = float(m_pos.y);
-			pRChk->field_14 = float(m_pos.z);
+			*pRChk = RenderChunk(m_pos, chunkMesh);
 
-			t.setOffset(0.0f, 0.0f, 0.0f);
+			t.setOffset(Vec3::ZERO);
 
 			if (bDrewThisLayer)
 				field_1C[layer] = false;
@@ -206,7 +203,7 @@ void Chunk::translateToPos()
 	glTranslatef(float(m_pos.x), float(m_pos.y), float(m_pos.z));
 }
 
-Chunk::Chunk(Level* level, const TilePos& pos, int a, int b, GLuint* bufs)
+Chunk::Chunk(Level* level, const TilePos& pos, int a, int b)
 {
 	field_4D = true;
 	field_4E = false;
@@ -219,7 +216,6 @@ Chunk::Chunk(Level* level, const TilePos& pos, int a, int b, GLuint* bufs)
 	field_8C = b;
 	m_pos.x = -999;
 	field_2C = Vec3(pos).lengthSqr() / 2;
-	field_90 = bufs;
 
 	setPos(pos);
 }

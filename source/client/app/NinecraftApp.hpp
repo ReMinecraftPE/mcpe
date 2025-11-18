@@ -20,6 +20,12 @@ public:
 	NinecraftApp();
 	virtual ~NinecraftApp();
 
+protected:
+	void _reloadFancy(bool isFancy);
+	void _reloadOptionalFeatures();
+	void _reloadPatchData();
+
+public:
 	bool handleBack(bool) override;
 	void init() override;
 	void setupRenderer();

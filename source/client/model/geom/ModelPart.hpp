@@ -69,7 +69,6 @@ public:
 	bool field_49;
 	bool m_bCompiled;
 	int field_4C;
-	GLuint m_buffer; // @HAL: remove
 	mce::Mesh m_mesh;
 	Model* m_pModel;
 };

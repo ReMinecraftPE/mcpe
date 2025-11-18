@@ -7,6 +7,20 @@
  ********************************************************************/
 
 #include "Model.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
+
+Model::Materials::Materials()
+{
+	MATERIAL_PTR(switchable, entity);
+	MATERIAL_PTR(switchable, entity_alphatest);
+	MATERIAL_PTR(switchable, entity_alphablend);
+	MATERIAL_PTR(switchable, entity_static);
+	MATERIAL_PTR(switchable, entity_emissive);
+	MATERIAL_PTR(switchable, entity_emissive_alpha);
+	MATERIAL_PTR(switchable, entity_change_color);
+	MATERIAL_PTR(switchable, entity_glint);
+	MATERIAL_PTR(switchable, entity_alphatest_glint);
+}
 
 Model::Model(int width, int height)
 {
@@ -15,6 +29,7 @@ Model::Model(int width, int height)
 	m_bIsBaby = true; // @HUH: Why is this true?
 	m_textureWidth  = width;
 	m_textureHeight = height;
+	m_pMaterial = &m_materials.entity;
 }
 
 void Model::clear()

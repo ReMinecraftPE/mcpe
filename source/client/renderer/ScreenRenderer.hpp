@@ -5,6 +5,20 @@
 
 class ScreenRenderer
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_textured;
+		mce::MaterialPtr ui_fill_color;
+		mce::MaterialPtr ui_fill_gradient;
+		mce::MaterialPtr ui_texture_and_color;
+		mce::MaterialPtr ui_textured_and_glcolor;
+		mce::MaterialPtr ui_fill_stencil;
+
+		Materials();
+	};
+
 private:
 	static ScreenRenderer* singletonPtr;
 public:
@@ -17,11 +31,6 @@ public:
 	void blit(const IntRectangle& rect);
 
 private:
-	mce::MaterialPtr m_matBlit;
-	mce::MaterialPtr m_matFill;
-	mce::MaterialPtr m_matFillGradient;
-	mce::MaterialPtr m_matColorBlit;
-	mce::MaterialPtr m_matColorBlitBlur;
-	mce::MaterialPtr m_matStencilFill;
+	Materials m_materials;
 };
 

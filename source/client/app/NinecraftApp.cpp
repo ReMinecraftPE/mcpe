@@ -11,6 +11,9 @@
 #include "world/entity/MobCategory.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/FoliageColor.hpp"
+#include "client/renderer/PatchManager.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
@@ -25,6 +28,29 @@
 #endif
 
 bool NinecraftApp::_hasInitedStatics;
+
+void NinecraftApp::_reloadFancy(bool isFancy)
+{
+	std::string listPath = isFancy ? "materials/fancy.json" : "materials/sad.json";
+	mce::RenderMaterialGroup::switchable.loadList(listPath);
+}
+
+void NinecraftApp::_reloadOptionalFeatures()
+{
+	// Optional features that you really should be able to get away with not including.
+	Screen::setIsMenuPanoramaAvailable(platform()->doesTextureExist("gui/background/panorama_0.png"));
+	LevelRenderer::setAreCloudsAvailable(platform()->doesTextureExist("environment/clouds.png"));
+	LevelRenderer::setArePlanetsAvailable(platform()->doesTextureExist("terrain/sun.png") && platform()->doesTextureExist("terrain/moon.png"));
+	GrassColor::setIsAvailable(platform()->doesTextureExist("misc/grasscolor.png"));
+	FoliageColor::setIsAvailable(platform()->doesTextureExist("misc/foliagecolor.png"));
+	Gui::setIsVignetteAvailable(platform()->doesTextureExist("misc/vignette.png"));
+	EntityRenderer::setAreShadowsAvailable(platform()->doesTextureExist("misc/shadow.png"));
+}
+
+void NinecraftApp::_reloadPatchData()
+{
+	GetPatchManager()->LoadPatchData(platform()->getPatchData());
+}
 
 bool NinecraftApp::handleBack(bool b)
 {
@@ -104,9 +130,22 @@ void NinecraftApp::init()
 		//TileEntity::initTileEntities();
 	}
 
+	// Must be loaded before options, certain options states are forced based on this
+	_reloadOptionalFeatures();
+	_reloadPatchData();
+
+	if (platform()->hasFileSystemAccess())
+		m_pOptions = new Options(m_externalStorageDir);
+	else
+		m_pOptions = new Options();
+
 	setupRenderer();
+
 	// Load materials
 	mce::RenderMaterialGroup::common.loadList("materials/common.json");
+	Options* pOptions = getOptions();
+	_reloadFancy(pOptions->m_bFancyGraphics);
+
 	// Do this after, since material loading messed with the GL state, particularly depth
 	initGLStates();
 	Tesselator::instance.init();

@@ -119,8 +119,8 @@ void RenderMaterialGroup::_loadList()
 
         if (value.HasMember("defines"))
         {
-            const rapidjson::Value& defines = value["defines"];
-            for (rapidjson::Value::ConstValueIterator it = root.Begin(); it != root.End(); it++)
+            const rapidjson::Value& defines = value["defines"].GetArray();
+            for (rapidjson::Value::ConstValueIterator it = defines.Begin(); it != defines.End(); it++)
             {
                 material.m_defines.insert(it->GetString());
             }
@@ -199,6 +199,11 @@ RenderMaterial& RenderMaterialGroup::_getMaterialOrDefault(const std::string& na
         return *materialPtr;
     else
         return defaultMaterial;
+}
+
+MaterialPtr RenderMaterialGroup::getMaterial(const std::string& name)
+{
+    return MaterialPtr(*this, name);
 }
 
 void RenderMaterialGroup::loadList(const std::string listPath)

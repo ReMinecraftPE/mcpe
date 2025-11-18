@@ -18,13 +18,14 @@ class Entity;
 class Chunk
 {
 public:
-	Chunk(Level*, const TilePos& pos, int, int, GLuint*);
+	Chunk(Level*, const TilePos& pos, int, int);
 
+public:
 	float distanceToSqr(const Entity*) const;
 	float squishedDistanceToSqr(const Entity*) const;
 	void reset();
 	int getList(int idx);
-	RenderChunk* getRenderChunk(int idx);
+	RenderChunk& getRenderChunk(int idx);
 	int getAllLists(int* arr, int arr_idx, int idx);
 	void cull(Culler* pCuller);
 	void renderBB();
@@ -56,7 +57,6 @@ public:
 	RenderChunk m_renderChunks[2];
 	Tesselator* m_pTesselator;
 	int field_8C;
-	GLuint* field_90;
 	bool field_94;
 	bool m_bDirty;
 };

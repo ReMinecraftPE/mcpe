@@ -39,8 +39,6 @@ Gui::Gui(Minecraft* pMinecraft)
 	m_bRenderMessages = true;
 
 	m_pMinecraft = pMinecraft;
-
-	xglGenBuffers(1, &m_renderChunk.field_0);
 }
 
 void Gui::addMessage(const std::string& s)

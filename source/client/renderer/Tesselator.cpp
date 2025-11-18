@@ -263,6 +263,7 @@ mce::Mesh Tesselator::end(const char* debugName, bool temporary)
 {
 	if (!m_bTesselating || m_bVoidBeginEnd)
 	{
+		//LOG_W("Not tesselating!");
 		return mce::Mesh();
 	}
 
@@ -286,39 +287,6 @@ mce::Mesh Tesselator::end(const char* debugName, bool temporary)
 		m_bTesselating = false;
 		return mce::Mesh();
 	}
-}
-
-RenderChunk Tesselator::end(int vboIdx)
-{
-	if (!m_bTesselating || m_bVoidBeginEnd)
-	{
-		//LOG_W("Not tesselating!");
-		return RenderChunk(); // empty render chunk
-	}
-	int count = m_vertices;
-	m_bTesselating = false;
-
-	if (count > 0)
-	{
-		// Bind VBO
-		if (m_bVboMode)
-		{
-			m_vboId = (m_vboId + 1) % m_vboCounts;
-			if (vboIdx < 0)
-				vboIdx = m_vboIds[m_vboId];
-
-			xglBindBuffer(GL_ARRAY_BUFFER, vboIdx);
-			xglBufferData(GL_ARRAY_BUFFER, m_vertexFormat.getVertexSize() * m_vertices, &m_indices[0], m_accessMode == 1 ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
-		}
-	}
-
-	clear();
-
-	RenderChunk rchk(vboIdx, count);
-
-	m_VboIdxToRenderChunkID[vboIdx] = rchk.m_id;
-
-	return rchk;
 }
 
 bool Tesselator::isFormatFixed() const

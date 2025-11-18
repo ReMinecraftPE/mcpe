@@ -15,12 +15,9 @@ constexpr int C_MAX_RENDERS = 3072;
 
 RenderList::RenderList()
 {
-	m_posX = 0.0f;
-	m_posY = 0.0f;
-	m_posZ = 0.0f;
 	field_14 = 0;
-	field_18 = false;
-	field_19 = false;
+	m_bInited = false;
+	m_bRendered = false;
 	field_1C = 0;
 
 	field_C = new int[C_MAX_RENDERS];
@@ -43,9 +40,9 @@ void RenderList::add(int x)
 	if (field_14 == C_MAX_RENDERS)
 	{
 		render();
-		init(m_posX, m_posY, m_posZ);
+		init(m_pos);
 		field_1C = 0;
-		field_19 = false;
+		m_bRendered = false;
 	}
 #endif
 
@@ -55,44 +52,44 @@ void RenderList::add(int x)
 		render();
 }
 
-void RenderList::addR(const RenderChunk& rc)
+void RenderList::addR(RenderChunk& rc)
 {
 	// @BUG: If too many chunks are rendered, this has the potential to overflow.
 #ifndef ORIGINAL_CODE
 	if (field_14 == C_MAX_RENDERS)
 	{
 		render();
-		init(m_posX, m_posY, m_posZ);
+		init(m_pos);
 		field_1C = 0;
-		field_19 = false;
+		m_bRendered = false;
 	}
 #endif
 
 	field_10[field_14] = rc;
+
+	field_14++;
 }
 
 void RenderList::clear()
 {
-	field_18 = false;
-	field_19 = false;
+	m_bInited = false;
+	m_bRendered = false;
 }
 
-void RenderList::init(float x, float y, float z)
+void RenderList::init(const Vec3& pos)
 {
-	m_posX = x;
-	m_posY = y;
-	m_posZ = z;
+	m_pos = pos;
 	field_14 = 0;
-	field_18 = true;
+	m_bInited = true;
 }
 
 void RenderList::render()
 {
-	if (!field_18) return;
+	if (!m_bInited) return;
 
-	if (!field_19)
+	if (!m_bRendered)
 	{
-		field_19 = true;
+		m_bRendered = true;
 		field_1C = field_14;
 		field_14 = 0;
 	}
@@ -100,7 +97,7 @@ void RenderList::render()
 	if (field_14 < field_1C)
 	{
 		glPushMatrix();
-		glTranslatef(-m_posX, -m_posY, -m_posZ);
+		glTranslatef(-m_pos.x, -m_pos.y, -m_pos.z);
 		renderChunks();
 		glPopMatrix();
 	}
@@ -108,32 +105,19 @@ void RenderList::render()
 
 void RenderList::renderChunks()
 {
-	const mce::VertexFormat vertexFormat = mce::VertexFormat::VTC;
-	const unsigned int vertexSize = vertexFormat.getVertexSize();
-
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglEnableClientState(GL_COLOR_ARRAY);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
 	if (field_1C > 0)
 	{
 		for (int i = 0; i < field_1C; i++)
 		{
 			RenderChunk& chk = field_10[i];
+
 			glPushMatrix();
 
-			glTranslatef(chk.field_C, chk.field_10, chk.field_14);
-			xglBindBuffer(GL_ARRAY_BUFFER, chk.field_0);
-			xglVertexPointer  (3, GL_FLOAT,         vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_POSITION));
-			xglTexCoordPointer(2, GL_FLOAT,         vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0));
-			xglColorPointer   (4, GL_UNSIGNED_BYTE, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_COLOR));
-			xglDrawArrays(GL_TRIANGLES, 0, chk.field_4);
+			glTranslatef(chk.m_pos.x, chk.m_pos.y, chk.m_pos.z);
+
+			chk.render();
 
 			glPopMatrix();
 		}
 	}
-
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_COLOR_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }

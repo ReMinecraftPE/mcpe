@@ -111,7 +111,6 @@ public:
 	void voidBeginAndEndCalls(bool b);
 
 	mce::Mesh end(const char* debugName = nullptr, bool temporary = false);
-	RenderChunk end(int);
 
 	bool isFormatFixed() const;
 
@@ -161,7 +160,5 @@ private:
 	bool m_bVoidBeginEnd;
 
 	int m_accessMode;
-
-	std::map<uint32_t, uint32_t> m_VboIdxToRenderChunkID;
 };
 

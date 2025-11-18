@@ -2,7 +2,15 @@
 #include "renderer/RenderMaterialGroup.hpp"
 #include "client/renderer/Tesselator.hpp"
 
-using namespace mce;
+ScreenRenderer::Materials::Materials()
+{
+    MATERIAL_PTR(common, ui_textured);
+    MATERIAL_PTR(common, ui_fill_color);
+    MATERIAL_PTR(common, ui_fill_gradient);
+    MATERIAL_PTR(common, ui_texture_and_color);
+    MATERIAL_PTR(common, ui_textured_and_glcolor);
+    MATERIAL_PTR(common, ui_fill_stencil);
+}
 
 ScreenRenderer* ScreenRenderer::singletonPtr = nullptr;
 
@@ -18,12 +26,6 @@ ScreenRenderer& ScreenRenderer::singleton()
 
 ScreenRenderer::ScreenRenderer()
 {
-    m_matBlit          = MaterialPtr(RenderMaterialGroup::common, "ui_textured");
-    m_matFill          = MaterialPtr(RenderMaterialGroup::common, "ui_fill_color");
-    m_matFillGradient  = MaterialPtr(RenderMaterialGroup::common, "ui_fill_gradient");
-    m_matColorBlit     = MaterialPtr(RenderMaterialGroup::common, "ui_texture_and_color");
-    m_matColorBlitBlur = MaterialPtr(RenderMaterialGroup::common, "ui_textured_and_glcolor");
-    m_matStencilFill   = MaterialPtr(RenderMaterialGroup::common, "ui_fill_stencil");
 }
 
 void ScreenRenderer::blit(const IntRectangle& rect)
@@ -34,5 +36,5 @@ void ScreenRenderer::blit(const IntRectangle& rect)
     t.vertexUV(rect.w + rect.x, rect.h + rect.y, 0.0f, 1.0f, 1.0f);
     t.vertexUV(rect.w + rect.x, rect.y, 0.0f, 1.0f, 0.0f);
     t.vertexUV(rect.x, rect.y, 0.0f, 0.0f, 0.0f);
-    t.draw(m_matBlit);
+    t.draw(m_materials.ui_textured);
 }
