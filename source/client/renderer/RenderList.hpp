@@ -18,7 +18,7 @@ public:
 	~RenderList();
 
 	void add(int x);
-	void addR(RenderChunk&);
+	void addR(RenderChunk*);
 	void clear();
 	void init(const Vec3& pos);
 	void render();
@@ -27,7 +27,7 @@ public:
 private:
 	Vec3 m_pos;
 	int* field_C;
-	RenderChunk* field_10;
+	RenderChunk** field_10;
 	int field_14;
 	bool m_bInited;
 	bool m_bRendered;

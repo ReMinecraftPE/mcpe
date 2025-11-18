@@ -50,9 +50,9 @@ int Chunk::getList(int idx)
 	return field_8C + idx;
 }
 
-RenderChunk& Chunk::getRenderChunk(int idx)
+RenderChunk* Chunk::getRenderChunk(int idx)
 {
-	return m_renderChunks[idx];
+	return &m_renderChunks[idx];
 }
 
 int Chunk::getAllLists(int* arr, int arr_idx, int idx)

@@ -21,7 +21,7 @@ RenderList::RenderList()
 	field_1C = 0;
 
 	field_C = new int[C_MAX_RENDERS];
-	field_10 = new RenderChunk[C_MAX_RENDERS];
+	field_10 = new RenderChunk*[C_MAX_RENDERS];
 }
 
 RenderList::~RenderList()
@@ -52,7 +52,7 @@ void RenderList::add(int x)
 		render();
 }
 
-void RenderList::addR(RenderChunk& rc)
+void RenderList::addR(RenderChunk* rc)
 {
 	// @BUG: If too many chunks are rendered, this has the potential to overflow.
 #ifndef ORIGINAL_CODE
@@ -109,13 +109,14 @@ void RenderList::renderChunks()
 	{
 		for (int i = 0; i < field_1C; i++)
 		{
-			RenderChunk& chk = field_10[i];
+			RenderChunk* chk = field_10[i];
+			if (!chk) continue;
 
 			glPushMatrix();
 
-			glTranslatef(chk.m_pos.x, chk.m_pos.y, chk.m_pos.z);
+			glTranslatef(chk->m_pos.x, chk->m_pos.y, chk->m_pos.z);
 
-			chk.render();
+			chk->render();
 
 			glPopMatrix();
 		}

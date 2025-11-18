@@ -25,7 +25,7 @@ public:
 	float squishedDistanceToSqr(const Entity*) const;
 	void reset();
 	int getList(int idx);
-	RenderChunk& getRenderChunk(int idx);
+	RenderChunk* getRenderChunk(int idx);
 	int getAllLists(int* arr, int arr_idx, int idx);
 	void cull(Culler* pCuller);
 	void renderBB();
