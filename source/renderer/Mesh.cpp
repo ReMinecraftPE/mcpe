@@ -3,6 +3,7 @@
 #include "RenderContextImmediate.hpp"
 #include "RenderMaterial.hpp"
 #include "QuadIndexBuffer.hpp"
+#include "MatrixStack.hpp"
 
 using namespace mce;
 
@@ -62,6 +63,44 @@ void Mesh::_move(Mesh& other)
     other.m_vertexCount = 0;
 }
 
+void Mesh::_refreshMatrices()
+{
+#if FEATURE_GFX_SHADERS
+    GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
+    bufferManager.refreshWorldConstants();
+#elseif ENH_GFX_MATRIX_STACK
+    // copied from WorldConstants::refreshWorldConstants()
+
+    // @TODO: keep MatrixStack states in RC, make MatrixStack ID enum, make loadMatrixStack(stackIdEnum, stackPtr)
+
+    if (MatrixStack::Projection.isDirty())
+    {
+        const Matrix& matrix = MatrixStack::Projection.top();
+
+        // @TODO: abstract
+        glMatrixMode(GL_PROJECTION);
+        xglLoadTransposeMatrixf((float*)&matrix._m);
+        glMatrixMode(GL_MODELVIEW);
+
+        MatrixStack::Projection.makeClean();
+    }
+
+    if (MatrixStack::World.isDirty() || MatrixStack::View.isDirty())
+    {
+        const Matrix& worldMatrix = MatrixStack::World.top();
+        const Matrix& viewMatrix = MatrixStack::View.top();
+        Matrix modelViewMatrix = worldMatrix * viewMatrix;
+
+        // @TODO: abstract
+        glMatrixMode(GL_MODELVIEW);
+        xglLoadTransposeMatrixf((float*)&modelViewMatrix._m);
+
+        MatrixStack::World.makeClean();
+        MatrixStack::View.makeClean();
+    }
+#endif
+}
+
 void Mesh::reset()
 {
     m_vertexBuffer.releaseBuffer();
@@ -99,7 +138,6 @@ bool Mesh::loadRawData(RenderContext& context, uint8_t *data)
 
 void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsigned int count)
 {
-    GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
     RenderContext& context = RenderContextImmediate::get();
 
     if (!isValid())
@@ -126,18 +164,17 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
         m_vertexBuffer.bindBuffer(context);
     }
 
+    _refreshMatrices();
+
     if (materialPtr)
     {
-#ifdef FEATURE_SHADERS
-        bufferManager.refreshWorldConstants();
-#endif
         materialPtr->useWith(context, m_vertexFormat, m_rawData);
-#ifdef FEATURE_SHADERS
+#ifdef FEATURE_GFX_SHADERS
         materialPtr->m_pShader->validateVertexFormat(m_vertexFormat);
 #endif
     }
 
-#ifndef FEATURE_SHADERS
+#ifndef FEATURE_GFX_SHADERS
     context.setDrawState(m_vertexFormat);
 #endif
     if (m_primitiveMode == PRIMITIVE_MODE_QUAD_LIST)
@@ -160,7 +197,7 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
     {
         context.draw(m_primitiveMode, startOffset, vertexCount);
     }
-#ifndef FEATURE_SHADERS
+#ifndef FEATURE_GFX_SHADERS
     context.clearDrawState(m_vertexFormat);
 #endif
 }

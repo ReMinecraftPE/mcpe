@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "renderer/MaterialPtr.hpp"
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "components/Button.hpp"
@@ -18,6 +19,15 @@ class TextInputBox;
 
 class Screen : public GuiComponent
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_cubemap;
+
+		Materials();
+	};
+
 private:
 	static bool _isPanoramaAvailable;
 public:
@@ -82,5 +92,7 @@ public:
 	std::vector<TextInputBox*> m_textInputs;
 	int m_yOffset;
 #endif
+
+	Materials m_materials;
 };
 

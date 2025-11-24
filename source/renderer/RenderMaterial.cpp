@@ -33,7 +33,7 @@ RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMateria
     _parseRenderStates(root);
     _parseRuntimeStates(root);
 
-#ifdef FEATURE_SHADERS
+#ifdef FEATURE_GFX_SHADERS
     _parseShaderPaths(root);
     if (!m_vertexShader.empty() && !m_fragmentShader.empty())
     {
@@ -131,7 +131,7 @@ void RenderMaterial::_parseBlendState(const rapidjson::Value& root)
     parse(root, "blendDst", m_blendStateDescription.blendDestination);
 }
 
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 
 void RenderMaterial::_parseDefines(const rapidjson::Value& root)
 {
@@ -199,7 +199,7 @@ void RenderMaterial::_loadShader(ShaderGroup& shaderGroup)
     m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader);
 }
 
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 
 void RenderMaterial::_applyRenderStates()
 {
@@ -260,7 +260,7 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 
     lastUsedMaterial = this;
 
-#ifdef FEATURE_SHADERS
+#ifdef FEATURE_GFX_SHADERS
     m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
 #endif
 }

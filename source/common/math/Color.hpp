@@ -1,5 +1,12 @@
 #pragma once
 
+#include <stdint.h>
+
+#define GET_RED(c)   (uint8_t(((c) >>  0) & 0xFF))
+#define GET_GREEN(c) (uint8_t(((c) >>  8) & 0xFF))
+#define GET_BLUE(c)  (uint8_t(((c) >> 16) & 0xFF))
+#define GET_ALPHA(c) (uint8_t(((c) >> 24) & 0xFF))
+
 struct Color
 {
 public:
@@ -8,6 +15,23 @@ public:
     float b;
     float a;
 
+private:
+    void _init(float r, float g, float b, float a)
+    {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+        this->a = a;
+    }
+
+    void _init(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+    {
+        this->r = float(r) / 255.0f;
+        this->g = float(g) / 255.0f;
+        this->b = float(b) / 255.0f;
+        this->a = float(a) / 255.0f;
+    }
+
 public:
     Color()
     {
@@ -15,19 +39,21 @@ public:
     }
 
     Color(float r, float g, float b, float a = 1.0f)
-        : r(r), g(g), b(b), a(a)
     {
+        _init(r, g, b, a);
+    }
+
+    Color(int r, int g, int b, int a = 255)
+    {
+        _init((uint8_t)r, (uint8_t)g, (uint8_t)b, (uint8_t)a);
+    }
+
+    Color(unsigned int c)
+    {
+        _init(GET_RED(c), GET_GREEN(c), GET_BLUE(c), GET_ALPHA(c));
     }
 
     void fromHSB(float h, float s, float b);
-
-    void operator=(const Color& other)
-    {
-        this->r = other.r;
-        this->g = other.g;
-        this->b = other.b;
-        this->a = other.a;
-    }
 
 public:
     static Color SHADE_WEST_EAST;

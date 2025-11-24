@@ -6,6 +6,7 @@
 #include "MatrixStack.hpp"
 #include "common/Logger.hpp"
 
+Matrix Matrix::EMPTY = Matrix(0.0f);
 Matrix Matrix::IDENTITY = Matrix(1.0f);
 
 MatrixStack MatrixStack::View = MatrixStack();
@@ -14,7 +15,8 @@ MatrixStack MatrixStack::Projection = MatrixStack();
 
 Matrix::Matrix()
 {
-    _m = glm::mat4();
+    // Empty glm::mat4 ctor makes identity matrix no matter what in GLM 0.9.5.4
+    _m = glm::mat4(EMPTY._m);
 }
 
 Matrix::Matrix(float s)
@@ -74,21 +76,21 @@ MatrixStack::MatrixStack()
     _pushIdentity();
 }
 
-MatrixStack::Ref* MatrixStack::push()
+MatrixStack::Ref MatrixStack::push()
 {
     m_bIsDirty = true;
-    return new Ref(*this, _push());
+    return Ref(*this, _push());
 }
 
-MatrixStack::Ref* MatrixStack::pushIdentity()
+MatrixStack::Ref MatrixStack::pushIdentity()
 {
     m_bIsDirty = true;
-    return new Ref(*this, _pushIdentity());
+    return Ref(*this, _pushIdentity());
 }
 
 Matrix& MatrixStack::_push()
 {
-    m_stack.push(Matrix());
+    m_stack.push(Matrix(m_stack.top()));
     return m_stack.top();
 }
 
@@ -103,10 +105,10 @@ const Matrix& MatrixStack::top() const
     return m_stack.top();
 }
 
-const Matrix& MatrixStack::getTop()
+Matrix& MatrixStack::getTop()
 {
     m_bIsDirty = true;
-    return top();
+    return m_stack.top();
 }
 
 void MatrixStack::pop()
@@ -124,14 +126,14 @@ void MatrixStack::pop()
 
 MatrixStack::Ref::Ref()
 {
-	m_mtxStack = nullptr;
-	m_matrix = nullptr;
+	m_pStack = nullptr;
+	m_pMatrix = nullptr;
 }
 
 MatrixStack::Ref::Ref(MatrixStack& mtxStk, Matrix& mtx)
 {
-	m_mtxStack = &mtxStk;
-	m_matrix = &mtx;
+	m_pStack = &mtxStk;
+	m_pMatrix = &mtx;
 }
 
 MatrixStack::Ref::Ref(Ref&& other)
@@ -149,39 +151,44 @@ void MatrixStack::Ref::_move(MatrixStack::Ref& other)
     if (this == &other)
         return;
 
-    if (m_matrix || m_mtxStack)
+    if (m_pMatrix || m_pStack)
     {
         LOG_E("It doesn't really make sense to pop here, so can't release");
         throw std::bad_cast();
     }
 
-    this->m_mtxStack = other.m_mtxStack;
-    this->m_matrix = other.m_matrix;
-    other.m_mtxStack = nullptr;
+    this->m_pStack = other.m_pStack;
+    this->m_pMatrix = other.m_pMatrix;
+    other.m_pStack = nullptr;
 }
 
 void MatrixStack::Ref::release()
 {
-    if (m_mtxStack)
-        m_mtxStack->pop();
-    m_matrix = nullptr;
-    m_mtxStack = nullptr;
+    if (m_pStack)
+        m_pStack->pop();
+    m_pMatrix = nullptr;
+    m_pStack = nullptr;
+}
+
+Matrix* MatrixStack::Ref::operator->() const
+{
+    return getMatrix();
 }
 
 Matrix* MatrixStack::Ref::operator*()
 {
-	if (!m_matrix)
+	if (!m_pMatrix)
 	{
 		LOG_E("Dereferencing a null reference");
 		throw std::bad_cast();
 	}
-	m_mtxStack->m_bIsDirty = true;
-	return m_matrix;
+	m_pStack->m_bIsDirty = true;
+	return m_pMatrix;
 }
 
 MatrixStack::Ref& MatrixStack::Ref::operator=(const Matrix& value)
 {
-    *(this->m_matrix) = value;
+    *(this->m_pMatrix) = value;
     return *this;
 }
 

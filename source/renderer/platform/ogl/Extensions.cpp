@@ -67,6 +67,7 @@ typedef BOOL(WINAPI* PFNWGLSWAPINTERVALEXTPROC) (int interval);
 #ifdef USE_HARDWARE_GL_BUFFERS
 #if GL_VERSION_1_3
 PFNGLACTIVETEXTUREPROC p_glActiveTexture;
+PFNGLLOADTRANSPOSEMATRIXFPROC p_glLoadTransposeMatrixf;
 #endif
 #if GL_VERSION_1_5
 PFNGLBINDBUFFERPROC p_glBindBuffer;
@@ -79,7 +80,7 @@ PFNGLBUFFERSUBDATAPROC p_glBufferSubData;
 PFNGLSTENCILFUNCSEPARATEPROC p_glStencilFuncSeparate;
 PFNGLSTENCILOPSEPARATEPROC p_glStencilOpSeparate;
 #endif // GL_VERSION_2_0
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0
 PFNGLUNIFORM1IPROC p_glUniform1i;
 PFNGLUNIFORM1FVPROC p_glUniform1fv;
@@ -117,7 +118,7 @@ PFNGLENABLEVERTEXATTRIBARRAYPROC p_glEnableVertexAttribArray;
 PFNGLRELEASESHADERCOMPILERPROC p_glReleaseShaderCompiler;
 PFNGLGETSHADERPRECISIONFORMATPROC p_glGetShaderPrecisionFormat;
 #endif // GL_VERSION_4_1
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 #ifdef MC_GL_DEBUG_OUTPUT
 PFNGLDEBUGMESSAGECALLBACKARBPROC p_glDebugMessageCallback;
 #endif
@@ -132,6 +133,7 @@ bool xglInitted()
 {
 #ifdef USE_HARDWARE_GL_BUFFERS
 	return p_glActiveTexture
+		&& p_glLoadTransposeMatrixf
 		&& p_glBindBuffer
 		&& p_glBufferData
 		&& p_glGenBuffers
@@ -140,7 +142,7 @@ bool xglInitted()
 #if GL_VERSION_2_0
 		&& p_glStencilFuncSeparate
 		&& p_glStencilOpSeparate
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 		&& p_glUniform1i
 		&& p_glUniform1fv
 		&& p_glUniform2fv
@@ -171,7 +173,7 @@ bool xglInitted()
 		&& p_glGetUniformLocation
 		&& p_glGetAttribLocation
 		&& p_glEnableVertexAttribArray
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 #endif // GL_VERSION_2_0
 #ifdef MC_GL_DEBUG_OUTPUT
 		&& p_glDebugMessageCallback
@@ -189,6 +191,7 @@ void xglInit()
 #ifdef _WIN32
 #if GL_VERSION_1_3
 	p_glActiveTexture = (PFNGLACTIVETEXTUREPROC)OGL::GetProcAddress("glActiveTexture");
+	p_glLoadTransposeMatrixf = (PFNGLLOADTRANSPOSEMATRIXFPROC)OGL::GetProcAddress("glLoadTransposeMatrixf");
 #endif
 #if GL_VERSION_1_5
 	p_glBindBuffer = (PFNGLBINDBUFFERPROC)OGL::GetProcAddress("glBindBuffer");
@@ -201,7 +204,7 @@ void xglInit()
 	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)OGL::GetProcAddress("glStencilFuncSeparate");
 	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)OGL::GetProcAddress("glStencilOpSeparate");
 #endif
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)OGL::GetProcAddress("glUniform1i");
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)OGL::GetProcAddress("glUniform1fv");
@@ -239,13 +242,14 @@ void xglInit()
 	p_glReleaseShaderCompiler = (PFNGLRELEASESHADERCOMPILERPROC)OGL::GetProcAddress("glReleaseShaderCompiler");
 	p_glGetShaderPrecisionFormat = (PFNGLGETSHADERPRECISIONFORMATPROC)OGL::GetProcAddress("glGetShaderPrecisionFormat");
 #endif // GL_VERSION_4_1
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 #ifdef MC_GL_DEBUG_OUTPUT
 	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)OGL::GetProcAddress("glDebugMessageCallback");
 #endif
 #else // !defined(_WIN32) // wtf would this even be?
 #if GL_VERSION_1_3
 	p_glActiveTexture = (PFNGLACTIVETEXTUREPROC)glActiveTexture;
+	p_glLoadTransposeMatrixf = (PFNGLLOADTRANSPOSEMATRIXFPROC)glLoadTransposeMatrixf;
 #endif
 #if GL_VERSION_1_5
 	p_glBindBuffer = (PFNGLBINDBUFFERPROC)glBindBuffer;
@@ -258,7 +262,7 @@ void xglInit()
 	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)glStencilFuncSeparate;
 	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)glStencilOpSeparate;
 #endif
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)glUniform1i;
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)glUniform1fv;
@@ -296,7 +300,7 @@ void xglInit()
 	p_glReleaseShaderCompiler = (PFNGLRELEASESHADERCOMPILERPROC)glReleaseShaderCompiler;
 	p_glGetShaderPrecisionFormat = (PFNGLGETSHADERPRECISIONFORMATPROC)glGetShaderPrecisionFormat;
 #endif // GL_VERSION_4_1
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 #ifdef MC_GL_DEBUG_OUTPUT
 	p_glDebugMessageCallback = (PFNGLDEBUGMESSAGECALLBACKARBPROC)glDebugMessageCallbackARB;
 #endif
@@ -315,6 +319,11 @@ void xglInit()
 void xglActiveTexture(GLenum texture)
 {
 	p_glActiveTexture(texture);
+}
+
+void xglLoadTransposeMatrixf(const GLfloat* m)
+{
+	p_glLoadTransposeMatrixf(m);
 }
 
 #endif // GL_VERSION_1_3
@@ -362,7 +371,7 @@ void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppas
 
 #endif // GL_VERSION_2_0
 
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 
 #if GL_VERSION_2_0
 
@@ -543,7 +552,7 @@ void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint*
 
 #endif // GL_VERSION_4_1
 
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 
 #ifdef MC_GL_DEBUG_OUTPUT
 void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam)

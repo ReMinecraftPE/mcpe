@@ -45,7 +45,7 @@
 #define _MCE_GFX_CLASS_IMPL_MANUAL(apiDir, className) _MCE_GFX_CLASS_FILE(apiDir, className, cpp)
 #define MCE_GFX_CLASS_IMPL(className) _MCE_GFX_CLASS_IMPL_MANUAL(MCE_GFX_API_DIR, MCE_GFX_CLASS(className))
 
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 #define MCE_GFX_CLASS_SHADER(className) MCE_GFX_CLASS(className)
 #define MCE_GFX_CLASS_HEADER_SHADER(className) MCE_GFX_CLASS_HEADER(className)
 #else

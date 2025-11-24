@@ -3,7 +3,7 @@
 
 #include "ShaderOGL.hpp"
 
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
@@ -282,4 +282,4 @@ void ShaderOGL::reflectShader()
 }
 
 
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS

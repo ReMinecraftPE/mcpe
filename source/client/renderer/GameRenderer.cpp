@@ -78,7 +78,7 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 	m_pItemInHandRenderer = new ItemInHandRenderer(pMinecraft);
 	EntityRenderDispatcher::getInstance()->m_pItemInHandRenderer = m_pItemInHandRenderer;
 
-#ifdef FEATURE_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 	mce::GlobalConstantBuffers::getInstance().init();
 #endif
 }
@@ -472,7 +472,7 @@ void GameRenderer::renderLevel(float f)
 			glShadeModel(GL_SMOOTH);
 
 		Frustum& frust = Frustum::frustum;
-		Frustum::doOurJobInGameRenderer();
+		Frustum::calculateFrustum();
 
 		FrustumCuller frustumCuller;
 		frustumCuller.m_frustumData.x = frust;

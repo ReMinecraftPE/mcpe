@@ -131,6 +131,7 @@ bool xglInitted();
 
 #if GL_VERSION_1_3 || GL_ES_VERSION_1_0
 #define xglActiveTexture glActiveTexture
+#define xglLoadTransposeMatrixf glLoadTransposeMatrixf
 #endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
 #if GL_VERSION_1_5 || GL_ES_VERSION_1_0
 #define xglBindBuffer glBindBuffer
@@ -150,7 +151,7 @@ bool xglInitted();
 #define xglStencilFuncSeparate glStencilFuncSeparate
 #define xglStencilOpSeparate glStencilOpSeparate
 #endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define xglUniform1i glUniform1i
 #define xglUniform1fv glUniform1fv
@@ -188,7 +189,7 @@ bool xglInitted();
 #define xglReleaseShaderCompiler glReleaseShaderCompiler
 #define xglGetShaderPrecisionFormat glGetShaderPrecisionFormat
 #endif // GL_VERSION_4_1 || GL_ES_VERSION_2_0
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 #ifdef MC_GL_DEBUG_OUTPUT
 #define xglDebugMessageCallback glDebugMessageCallback
 #endif
@@ -197,6 +198,7 @@ bool xglInitted();
 
 #if GL_VERSION_1_3 || GL_ES_VERSION_1_0
 void xglActiveTexture(GLenum texture);
+void xglLoadTransposeMatrixf(const GLfloat* m);
 #endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
 #if GL_VERSION_1_5 || GL_ES_VERSION_1_0
 void xglBindBuffer(GLenum target, GLuint buffer);
@@ -209,7 +211,7 @@ void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLv
 void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
 void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
 #endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 void xglUniform1i(GLint location, GLint v0);
 void xglUniform1fv(GLint location, GLsizei count, const GLfloat* value);
@@ -247,7 +249,7 @@ void xglEnableVertexAttribArray(GLuint index);
 void xglReleaseShaderCompiler();
 void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision);
 #endif
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
 #ifdef MC_GL_DEBUG_OUTPUT
 void xglDebugMessageCallback(DEBUGPROC callback, GLvoid* userParam);
 #endif

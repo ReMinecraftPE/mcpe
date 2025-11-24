@@ -1,6 +1,6 @@
 #include "ShaderConstantWithDataOGL.hpp"
 
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 
 using namespace mce;
 
@@ -27,4 +27,4 @@ void ShaderConstantWithDataOGL<SHADER_PRIMITIVE_MATRIX3x3>::syncUniform(int valu
 template <>
 void ShaderConstantWithDataOGL<SHADER_PRIMITIVE_MATRIX4x4>::syncUniform(int value) { xglUniformMatrix4fv(value, 1, 0, (const GLfloat*)m_data); }
 
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS

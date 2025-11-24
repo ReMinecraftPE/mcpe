@@ -43,20 +43,20 @@ void GuiComponent::drawString(Font* pFont, const std::string& str, int cx, int c
 	pFont->drawShadow(str, cx, cy, color);
 }
 
-void GuiComponent::fill(int a2, int a3, int a4, int a5, int a6)
+void GuiComponent::fill(int left, int top, int right, int bottom, const Color& color)
 {
 	glEnable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(float(GET_RED(a6)) / 255.0f, float(GET_GREEN(a6)) / 255.0f, float(GET_BLUE(a6)) / 255.0f, float(GET_ALPHA(a6)) / 255.0f);
+	glColor4f(color.r, color.g, color.b, color.a);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 
-	t.vertex(a2, a5, 0.0f);
-	t.vertex(a4, a5, 0.0f);
-	t.vertex(a4, a3, 0.0f);
-	t.vertex(a2, a3, 0.0f);
+	t.vertex(left, bottom, 0.0f);
+	t.vertex(right, bottom, 0.0f);
+	t.vertex(right, top, 0.0f);
+	t.vertex(left, top, 0.0f);
 
 	t.draw();
 
@@ -64,7 +64,7 @@ void GuiComponent::fill(int a2, int a3, int a4, int a5, int a6)
 	glDisable(GL_BLEND);
 }
 
-void GuiComponent::fillGradient(int a2, int a3, int a4, int a5, int a6, int a7)
+void GuiComponent::fillGradient(int left, int top, int right, int bottom, const Color& colorUp, const Color& colorDown)
 {
 	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
@@ -75,13 +75,12 @@ void GuiComponent::fillGradient(int a2, int a3, int a4, int a5, int a6, int a7)
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 
-	// note: for some stupid reason OG uses the float overload.
-	t.color(float(GET_RED(a6)) / 255.0f, float(GET_GREEN(a6)) / 255.0f, float(GET_BLUE(a6)) / 255.0f, float(GET_ALPHA(a6)) / 255.0f);
-	t.vertex(a2, a5, 0.0f);
-	t.vertex(a4, a5, 0.0f);
-	t.color(float(GET_RED(a7)) / 255.0f, float(GET_GREEN(a7)) / 255.0f, float(GET_BLUE(a7)) / 255.0f, float(GET_ALPHA(a7)) / 255.0f);
-	t.vertex(a4, a3, 0.0f);
-	t.vertex(a2, a3, 0.0f);
+	t.color(colorUp);
+	t.vertex(left, bottom, 0.0f);
+	t.vertex(right, bottom, 0.0f);
+	t.color(colorDown);
+	t.vertex(right, top, 0.0f);
+	t.vertex(left, top, 0.0f);
 
 	t.draw();
 

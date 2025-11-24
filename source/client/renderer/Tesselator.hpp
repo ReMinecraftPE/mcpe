@@ -20,11 +20,6 @@
 #include "renderer/hal/enums/PrimitiveMode.hpp"
 #include "renderer/Mesh.hpp"
 
-#define GET_RED(c)   (uint8_t(((c) >>  0) & 0xFF))
-#define GET_GREEN(c) (uint8_t(((c) >>  8) & 0xFF))
-#define GET_BLUE(c)  (uint8_t(((c) >> 16) & 0xFF))
-#define GET_ALPHA(c) (uint8_t(((c) >> 24) & 0xFF))
-
 #define TRIANGLE_MODE true
 // false on Java
 #define USE_VBO true

@@ -17,7 +17,7 @@ public:
 	void normalizePlane(MatrixGL*, int);
 
 	//it's inlined in GameRenderer
-	static void doOurJobInGameRenderer();
+	static void calculateFrustum();
 
 	static Frustum frustum;
 

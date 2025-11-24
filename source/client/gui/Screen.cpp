@@ -7,6 +7,12 @@
  ********************************************************************/
 
 #include "Screen.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
+
+Screen::Materials::Materials()
+{
+	MATERIAL_PTR(common, ui_cubemap);
+}
 
 bool Screen::_isPanoramaAvailable = false;
 
@@ -118,59 +124,65 @@ void Screen::renderMenuBackground(float f)
 	aspectRatio = 1.0f;
 	//aspectRatio = float(m_width) / float(m_height);
 
-	// not in 0.8
-	glDisable(GL_BLEND);
+	mce::MaterialPtr* materialPtr = &m_materials.ui_cubemap;
+
+#if ENH_GFX_MATRIX_STACK
+
+	/*glDisable(GL_BLEND);
 	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);*/
+
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
+
+	MatrixStack::Ref projMtx = MatrixStack::Projection.push();
+	Matrix mtx(1.0f);
+	mtx.setPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
+	projMtx = mtx;
+	
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glLoadIdentity();
+
+	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
+	MatrixStack::Ref worldMtx = MatrixStack::World.push();
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-	glRotatef(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, 1.0f, 0.0f, 0.0f);
-	glRotatef(-0.1f * (f + g_panoramaAngle), 0.0f, 1.0f, 0.0f);
+	worldMtx->rotate(180.0f, Vec3::UNIT_X);
+	worldMtx->rotate(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, Vec3::UNIT_X);
+	worldMtx->rotate(-0.1f * (f + g_panoramaAngle), Vec3::UNIT_Y);
 
 	for (int i = 0; i < 6; i++)
 	{
-		glPushMatrix();
+		MatrixStack::Ref mtx = MatrixStack::World.push();
 
-		float xm = 0.0f, ym = 0.0f, ang = 0.0f;
+		float ang = 0.0f;
+		Vec2 axis;
 		switch (i)
 		{
 			case 1:
 				ang = 90.0f;
-				xm = 0.0f;
-				ym = 1.0f;
+				axis = Vec2::UNIT_Y;
 				break;
 			case 2:
 				ang = 180.0f;
-				xm = 0.0f;
-				ym = 1.0f;
+				axis = Vec2::UNIT_Y;
 				break;
 			case 3:
 				ang = -90.0f;
-				xm = 0.0f;
-				ym = 1.0f;
+				axis = Vec2::UNIT_Y;
 				break;
 			case 4:
 				ang = 90.0f;
-				ym = 0.0f;
-				xm = 1.0f;
+				axis = Vec2::UNIT_X;
 				break;
 			case 5:
 				ang = -90.0f;
-				ym = 0.0f;
-				xm = 1.0f;
+				axis = Vec2::UNIT_X;
 				break;
 			default:
 				goto skip_rotate;
 		}
 
-		glRotatef(ang, xm, ym, 0.0f);
+		mtx->rotate(ang, Vec3(axis.x, axis.y, 0.0f));
 
 	skip_rotate:
 		m_pMinecraft->m_pTextures->setSmoothing(true);
@@ -185,7 +197,84 @@ void Screen::renderMenuBackground(float f)
 		t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
 		t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
 		t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
-		t.draw();
+		t.draw(*materialPtr);
+	}
+
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+
+	/*glEnable(GL_BLEND);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);*/
+
+#else
+
+	// not in 0.8
+	glDisable(GL_CULL_FACE);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef(-0.1f * (f + g_panoramaAngle), 0.0f, 1.0f, 0.0f);
+
+	for (int i = 0; i < 6; i++)
+	{
+		glPushMatrix();
+
+		float ang = 0.0f;
+		Vec2 vec;
+		switch (i)
+		{
+		case 1:
+			ang = 90.0f;
+			vec = Vec2::UNIT_Y;
+			break;
+		case 2:
+			ang = 180.0f;
+			vec = Vec2::UNIT_Y;
+			break;
+		case 3:
+			ang = -90.0f;
+			vec = Vec2::UNIT_Y;
+			break;
+		case 4:
+			ang = 90.0f;
+			vec = Vec2::UNIT_X;
+			break;
+		case 5:
+			ang = -90.0f;
+			vec = Vec2::UNIT_X;
+			break;
+		default:
+			goto skip_rotate;
+		}
+
+		glRotatef(ang, vec.x, vec.y, 0.0f);
+
+	skip_rotate:
+		m_pMinecraft->m_pTextures->setSmoothing(true);
+		m_pMinecraft->m_pTextures->setClampToEdge(true);
+		m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
+		m_pMinecraft->m_pTextures->setSmoothing(false);
+		m_pMinecraft->m_pTextures->setClampToEdge(false);
+
+		Tesselator& t = Tesselator::instance;
+		t.begin(4);
+		t.vertexUV(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
+		t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
+		t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
+		t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
+		t.draw(*materialPtr);
 
 		glPopMatrix();
 	}
@@ -194,11 +283,12 @@ void Screen::renderMenuBackground(float f)
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-	glEnable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
 
-	fillGradient(0, 0, m_width, m_height, 0x89000000, 0x89FFFFFF);
+	glEnable(GL_CULL_FACE);
+
+#endif
+
+	fillGradient(0, 0, m_width, m_height, Color(0, 0, 0, 137), Color(255, 255, 255, 137));
 }
 
 void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
@@ -405,7 +495,7 @@ void Screen::renderBackground(int unk)
 	{
 		// draw the background offset by the Y offset so that the smaller virtual
 		// keyboards don't reveal undrawn areas
-		fillGradient(0, m_yOffset, m_width, m_height, 0xC0101010, 0xD0101010);
+		fillGradient(0, m_yOffset, m_width, m_height, Color(16, 16, 16, 192), Color(16, 16, 16, 208)); // 0xC0101010, 0xD0101010
 	}
 	else
 	{

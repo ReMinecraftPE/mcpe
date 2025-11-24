@@ -7,9 +7,7 @@
  ********************************************************************/
 
 #include "RenderList.hpp"
-#include "Tesselator.hpp"
-
-#include <cstddef>
+#include "renderer/MatrixStack.hpp"
 
 constexpr int C_MAX_RENDERS = 3072;
 
@@ -112,12 +110,15 @@ void RenderList::renderChunks()
 			RenderChunk* chk = field_10[i];
 			if (!chk) continue;
 
+			MatrixStack::Ref matrix = MatrixStack::World.push();
 			glPushMatrix();
 
+			matrix->translate(chk->m_pos);
 			glTranslatef(chk->m_pos.x, chk->m_pos.y, chk->m_pos.z);
 
 			chk->render();
 
+			// Matrix gets popped later in WorldConstants::refreshWorldConstants()
 			glPopMatrix();
 		}
 	}

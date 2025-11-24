@@ -3,7 +3,7 @@
 #include "ShaderPrecision.hpp"
 
 #include "GameMods.hpp"
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 
 #include "common/Util.hpp"
 
@@ -89,4 +89,4 @@ std::string Precision::buildHeader()
     return headerStream.str();
 }
 
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS

@@ -2,7 +2,7 @@
 
 #include "API_OGL.hpp"
 
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 
 #include "renderer/hal/base/ShaderConstantWithDataBase.hpp"
 
@@ -21,4 +21,4 @@ namespace mce
     };
 }
 
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS

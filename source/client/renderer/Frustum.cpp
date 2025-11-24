@@ -10,14 +10,14 @@
 
 Frustum Frustum::frustum;
 
-void Frustum::doOurJobInGameRenderer()
+void Frustum::calculateFrustum()
 {
 	Frustum& f = Frustum::frustum;
 
-	f.m[16].fetchGL(GL_PROJECTION_MATRIX);
-	f.m[17].fetchGL(GL_MODELVIEW_MATRIX);
+	f.m[16].fetchGL(GL_PROJECTION_MATRIX); // _proj
+	f.m[17].fetchGL(GL_MODELVIEW_MATRIX); // _modl
 
-	f.m[18] = f.m[17] * f.m[16];
+	f.m[18] = f.m[17] * f.m[16]; // _clip
 
 	for (int i = 0; i < 6; i++)
 	{

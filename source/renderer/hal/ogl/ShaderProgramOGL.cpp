@@ -1,6 +1,6 @@
 #include "ShaderProgramOGL.hpp"
 
-#if FEATURE_SHADERS
+#if FEATURE_GFX_SHADERS
 
 #include "RenderContextOGL.hpp"
 
@@ -56,4 +56,4 @@ void ShaderProgramOGL::deleteShader()
     m_shaderName = GL_NONE;
 }
 
-#endif // FEATURE_SHADERS
+#endif // FEATURE_GFX_SHADERS
