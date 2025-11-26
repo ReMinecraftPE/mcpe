@@ -77,7 +77,7 @@ void Gui::addMessage(const std::string& s)
 
 	if (m_guiMessages.size() > 50)
 	{
-		m_guiMessages.erase(m_guiMessages.end());
+		m_guiMessages.erase(m_guiMessages.end() - 1);
 	}
 
 	m_guiMessages.insert(m_guiMessages.begin(), GuiMessage(str, 0));
