@@ -328,6 +328,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBl
 {
 	puts_ignorable("PlaceBlockPacket");
 
+	if (!m_pLevel) return;
+
 	Player* pPlayer = (Player*)m_pLevel->getEntity(pPlaceBlockPkt->m_entityId);
 	if (!pPlayer)
 	{
@@ -363,6 +365,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 {
 	puts_ignorable("RemoveBlockPacket");
 
+	if (!m_pLevel) return;
+
 	Entity* pEntity = m_pLevel->getEntity(pRemoveBlockPkt->m_entityId);
 	if (!pEntity || !pEntity->isPlayer())
 	{
@@ -396,6 +400,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveB
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateBlockPacket* pkt)
 {
+	if (!m_pLevel) return;
+
 	BlockUpdate update(pkt->m_pos, pkt->m_tileTypeId, pkt->m_data);
 
 	if (!areAllChunksLoaded())
@@ -632,6 +638,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RespawnPac
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)
 {
+	if (!m_pLevel) return;
+
 	const int uncompMagic = 12847812, compMagic = 58712758, chunkSepMagic = 284787658;
 	RakNet::BitStream* bs = &packet->m_data, bs2;
 
