@@ -164,7 +164,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	glDisable(GL_FOG);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	renderScrollBackground();
 
@@ -192,7 +192,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 
 		if (m_bRenderSelection && isSelectedItem(i))
 		{
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			glDisable(GL_TEXTURE_2D);
 			t.begin();
 			t.color(0x808080);
@@ -255,7 +255,7 @@ void ScrolledSelectionList::renderHoleBackground(float a, float b, int c, int d)
 {
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();

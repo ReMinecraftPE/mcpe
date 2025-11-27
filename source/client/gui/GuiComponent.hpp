@@ -8,23 +8,17 @@
 
 #pragma once
 
-#include "client/renderer/Tesselator.hpp"
+#include "client/renderer/ScreenRenderer.hpp"
 #include "client/renderer/Font.hpp"
 
 
-class GuiComponent
+class GuiComponent : public ScreenRenderer
 {
 public:
-	GuiComponent();
 	virtual ~GuiComponent() {}
 
-	void blit(int dstX, int dstY, int srcX, int srcY, int dstWidth, int dstHeight, int srcWidth, int srcHeight);
-	void drawCenteredString(Font*, const std::string&, int cx, int cy, int color);
-	void drawString(Font*, const std::string&, int cx, int cy, int color);
-	void fill(int left, int top, int right, int bottom, const Color& color);
+	void drawCenteredString(Font*, const std::string&, int cx, int cy, const Color& color);
+	void drawString(Font*, const std::string&, int cx, int cy, const Color& color);
 	void fillGradient(int left, int top, int right, int bottom, const Color& colorUp, const Color& colorDown);
-
-public:
-	float field_4;
 };
 

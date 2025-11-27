@@ -8,6 +8,7 @@
 
 #include "Font.hpp"
 #include "Tesselator.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 constexpr char COLOR_START_CHAR = '\xa7';
 
@@ -77,43 +78,44 @@ void Font::buildChar(unsigned char chr, float x, float y)
 #undef CO
 }
 
-void Font::draw(const std::string& str, int x, int y, int color)
+void Font::draw(const std::string& str, int x, int y, const Color& color)
 {
 	draw(str, x, y, color, false);
 }
 
-void Font::drawShadow(const std::string& str, int x, int y, int color)
+void Font::drawShadow(const std::string& str, int x, int y, const Color& color)
 {
 	draw(str, x + 1, y + 1, color, true);
 	draw(str, x, y, color, false);
 }
 
-void Font::draw(const std::string& str, int x, int y, int color, bool bShadow)
+void Font::draw(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
 	drawSlow(str, x, y, color, bShadow);
 }
 
-void Font::drawSlow(const std::string& str, int x, int y, int colorI, bool bShadow)
+void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
 	if (str.empty()) return;
 
-	uint32_t color = colorI;
-
 	if (bShadow)
-		color = (color & 0xFF000000U) + ((color & 0xFCFCFCu) >> 2);
+	{
+		currentShaderDarkColor = Color(0.25f, 0.25f, 0.25f);
+	}
+	else
+	{
+		currentShaderDarkColor = Color::WHITE;
+	}
 
 	m_pTextures->loadAndBindTexture(m_fileName);
 
-	uint32_t red = (color >> 16) & 0xFF;
-	uint32_t grn = (color >>  8) & 0xFF;
-	uint32_t blu = (color >>  0) & 0xFF;
-	uint32_t alp = (color >> 24) & 0xFF;
+	Color finalColor = color;
+	// For hex colors which don't specify an alpha
+	if (finalColor.a == 0.0f)
+		finalColor.a = 1.0f;
 
-	float alpf = float(alp) / 255.0f;
-	if (alpf == 0.0f)
-		alpf = 1.0f;
+	currentShaderColor = finalColor;
 
-	glColor4f(float(red) / 255.0f, float(grn) / 255.0f, float(blu) / 255.0f, alpf);
 	glPushMatrix();
 
 	Tesselator& t = Tesselator::instance;

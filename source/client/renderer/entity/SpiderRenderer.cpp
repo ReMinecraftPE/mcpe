@@ -1,6 +1,7 @@
 #include "SpiderRenderer.hpp"
-#include "world/entity/Mob.hpp"
 #include "client/model/models/SpiderModel.hpp"
+#include "renderer/ShaderConstants.hpp"
+#include "world/entity/Mob.hpp"
 
 SpiderRenderer::SpiderRenderer() : MobRenderer(new SpiderModel, 1.0f)
 {
@@ -23,7 +24,8 @@ int SpiderRenderer::prepareArmor(Mob* spider, int layer, float a)
 	glEnable(GL_BLEND);
 	glDisable(GL_ALPHA_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(1.0f, 1.0f, 1.0f, br);
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, br);
 
 	return 1;
 }

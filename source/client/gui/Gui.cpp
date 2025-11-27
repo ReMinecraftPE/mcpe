@@ -10,6 +10,7 @@
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/gui/screens/ChatScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 #ifdef _WIN32
 #pragma warning(disable : 4244)
@@ -25,7 +26,7 @@ bool Gui::_isVignetteAvailable = false; // false because PE never seemed to have
 
 Gui::Gui(Minecraft* pMinecraft)
 {
-	field_8 = 0;
+	m_progress = 0;
 	field_C = "";
 	field_24 = 0;
 	field_28 = 0;
@@ -93,7 +94,7 @@ void Gui::renderPumpkin(int var1, int var2)
 	glDisable(GL_DEPTH_TEST);
 	glDepthMask(false);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
 	glDisable(GL_ALPHA_TEST);
 
 	m_pMinecraft->m_pTextures->setSmoothing(true);
@@ -111,7 +112,7 @@ void Gui::renderPumpkin(int var1, int var2)
 	glDepthMask(true);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_ALPHA_TEST);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 
@@ -127,7 +128,6 @@ void Gui::renderVignette(float a2, int a3, int a4)
 	glDisable(GL_DEPTH_TEST);
 	glDepthMask(false);
 	glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-	glColor4f(field_A20, field_A20, field_A20, 1.0f);
 
 	//! @BUG: No misc/vignette.png to be found in the original.
 	//! This function is unused anyways
@@ -137,6 +137,7 @@ void Gui::renderVignette(float a2, int a3, int a4)
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
+	t.color(field_A20, field_A20, field_A20);
 	t.vertexUV(0.0f, a4,   -90.0f, 0.0f, 1.0f);
 	t.vertexUV(a3,   a4,   -90.0f, 1.0f, 1.0f);
 	t.vertexUV(a3,   0.0f, -90.0f, 1.0f, 0.0f);
@@ -145,7 +146,7 @@ void Gui::renderVignette(float a2, int a3, int a4)
 
 	glDepthMask(true);
 	glEnable(GL_DEPTH_TEST);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
@@ -178,17 +179,18 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		//renderPumpkin(width, height);
 	}
 
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color::WHITE;
+
 #ifndef ENH_TRANSPARENT_HOTBAR
-	glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
-#else
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor.a = 0.5f;
 #endif
 
 	Textures* textures = mc->m_pTextures;
 
 	textures->loadAndBindTexture("gui/gui.png");
 
-	field_4 = -90.0f;
+	m_blitOffset = -90.0f;
 
 #ifdef ENH_TRANSPARENT_HOTBAR
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -212,74 +214,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	textures->loadAndBindTexture("gui/icons.png");
 
-	if (mc->useSplitControls())
-	{
-#ifndef ENH_TRANSPARENT_HOTBAR
-		//glEnable(GL_BLEND);
-#endif
-
-		// draw crosshair
-		glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
-		blit(cenX - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0);
-
-#ifndef ENH_TRANSPARENT_HOTBAR
-		//glDisable(GL_BLEND);
-#endif
-	}
-	else
-	{
-		IInputHolder* input = mc->m_pInputHolder;
-		// if needed, draw feedback
-
-		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
-		// "last progress". Well guess what? The game mode in question updates our m_fSensitivity with
-		// the pre-interpolated break progress! Isn't that awesome?!
-		float breakProgress = field_8;
-
-		// don't know about this if-structure, it feels like it'd be like
-		// if (m_bFoggy >= 0.0f && breakProgress <= 0.0f)
-		//     that;
-		// else
-		//     this;
-		if (breakProgress > 0.0f || input->m_feedbackAlpha < 0.0f)
-		{
-			if (breakProgress > 0.0f)
-			{
-				float xPos = input->m_feedbackX;
-				float yPos = input->m_feedbackY;
-
-				textures->loadAndBindTexture("gui/feedback_outer.png");
-				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				//glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
-
-				glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
-				textures->loadAndBindTexture("gui/feedback_fill.png");
-
-				// note: scale starts from 4.0f
-				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
-
-				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256);
-
-				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				//glDisable(GL_BLEND);
-			}
-		}
-		else
-		{
-			float xPos = input->m_feedbackX;
-			float yPos = input->m_feedbackY;
-
-			textures->loadAndBindTexture("gui/feedback_outer.png");
-			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, input->m_feedbackAlpha));
-			//glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			//glDisable(GL_BLEND);
-		}
-	}
+	renderProgressIndicator(width, height);
 
 	glDisable(GL_BLEND);
 
@@ -603,6 +538,81 @@ void Gui::renderMessages(bool bShowAll)
 	}
 
 	glDisable(GL_BLEND);
+}
+
+void Gui::renderProgressIndicator(int width, int height)
+{
+	Minecraft& mc = *m_pMinecraft;
+	Textures& textures = *mc.m_pTextures;
+
+	if (m_pMinecraft->useSplitControls())
+	{
+#ifndef ENH_TRANSPARENT_HOTBAR
+		//glEnable(GL_BLEND);
+#endif
+
+		// draw crosshair
+		glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+		blit(width / 2 - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0);
+
+#ifndef ENH_TRANSPARENT_HOTBAR
+		//glDisable(GL_BLEND);
+#endif
+	}
+	else
+	{
+		IInputHolder& input = *mc.m_pInputHolder;
+		// if needed, draw feedback
+
+		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
+		// "last progress". Well guess what? The game mode in question updates our m_fSensitivity with
+		// the pre-interpolated break progress! Isn't that awesome?!
+		float breakProgress = m_progress;
+
+		// don't know about this if-structure, it feels like it'd be like
+		// if (m_bFoggy >= 0.0f && breakProgress <= 0.0f)
+		//     that;
+		// else
+		//     this;
+		if (breakProgress > 0.0f || input.m_feedbackAlpha < 0.0f)
+		{
+			if (breakProgress > 0.0f)
+			{
+				float xPos = input.m_feedbackX;
+				float yPos = input.m_feedbackY;
+
+				textures.loadAndBindTexture("gui/feedback_outer.png");
+				currentShaderColor = Color::WHITE;
+				//glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
+
+				glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+				textures.loadAndBindTexture("gui/feedback_fill.png");
+
+				// note: scale starts from 4.0f
+				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
+
+				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256);
+
+				//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				//glDisable(GL_BLEND);
+			}
+		}
+		else
+		{
+			float xPos = input.m_feedbackX;
+			float yPos = input.m_feedbackY;
+
+			textures.loadAndBindTexture("gui/feedback_outer.png");
+			currentShaderColor = Color(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, input.m_feedbackAlpha));
+			//glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
+			//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			//glDisable(GL_BLEND);
+		}
+	}
 }
 
 int Gui::getNumSlots()

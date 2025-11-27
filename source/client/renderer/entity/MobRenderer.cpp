@@ -9,8 +9,9 @@
 #include <sstream>
 
 #include "MobRenderer.hpp"
-#include "EntityRenderDispatcher.hpp"
 #include "client/app/Minecraft.hpp"
+#include "renderer/ShaderConstants.hpp"
+#include "EntityRenderDispatcher.hpp"
 
 MobRenderer::MobRenderer(Model* pModel, float f)
 {
@@ -154,14 +155,14 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 
 		if (pMob->m_hurtTime > 0 || pMob->m_deathTime > 0)
 		{
-			glColor4f(fBright, 0.0f, 0.0f, 0.4f);
+			currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
 			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // was 0.059375f. Why?
 
 			for (int i = 0; i < 4; i++)
 			{
 				if (prepareArmor(pMob, i, f))
 				{
-					glColor4f(fBright, 0.0f, 0.0f, 0.4f);
+					currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
 					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 				}
 			}
@@ -173,7 +174,7 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 			float g = float(GET_GREEN(iOverlayColor)) / 255.0f;
 			float b = float(GET_BLUE(iOverlayColor)) / 255.0f;
 			float aa = float(GET_ALPHA(iOverlayColor)) / 255.0f;
-			glColor4f(r, g, b, aa);
+			currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
 
 			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
 
@@ -181,7 +182,7 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 			{
 				if (prepareArmor(pMob, i, f))
 				{
-					glColor4f(r, g, b, aa);
+					currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
 					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 				}
 			}
@@ -248,13 +249,14 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, const Vec3& po
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_TEXTURE_2D);
 	
+	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.25f);
+
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 
 	int width = font->width(str);
 	float widthHalf = float(width / 2);
 
-	t.color(0.0f, 0.0f, 0.0f, 0.25f);
 	t.vertex(-1.0f - widthHalf, -1.0f, 0.0f);
 	t.vertex(-1.0f - widthHalf, 8.0f, 0.0f);
 	t.vertex(widthHalf + 1.0f, 8.0f, 0.0f);
@@ -270,6 +272,6 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, const Vec3& po
 	font->draw(str, -font->width(str) / 2, 0, 0xFFFFFFFF);
 
 	glDisable(GL_BLEND);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glPopMatrix();
 }

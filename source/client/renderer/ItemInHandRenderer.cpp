@@ -7,8 +7,9 @@
  ********************************************************************/
 
 #include "ItemInHandRenderer.hpp"
-#include "client/app/Minecraft.hpp"
 #include "common/Mth.hpp"
+#include "client/app/Minecraft.hpp"
+#include "renderer/ShaderConstants.hpp"
 #include "Lighting.hpp"
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
@@ -53,20 +54,15 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
     Tile* pTile = inst->getTile();
     if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
     {
-        float red, grn, blu, alp = 1.0f;
+        Color color = Color::WHITE;
         
         if (pTile == Tile::leaves)
         {
-            red = 0.35f;
-            grn = 0.65f;
-            blu = 0.25f;
+            color = Color(0.35f, 0.65f, 0.25f);
         }
-        else
-        {
-            blu = grn = red = 1.0f;
-        }
-        
-        glColor4f(red, grn, blu, alp);
+
+        currentShaderColor = color;
+        currentShaderDarkColor = Color::WHITE;
         
         m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
         
@@ -185,7 +181,8 @@ void ItemInHandRenderer::render(float f)
 	}
 
 	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
-	glColor4f(fBright, fBright, fBright, 1.0f);
+    currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color(fBright, fBright, fBright);
 
 	ItemInstance* pItem = &m_selectedItem;
 	/*if (pLP->m_fishing != null) {
@@ -249,7 +246,8 @@ void ItemInHandRenderer::render(float f)
 
 void ItemInHandRenderer::renderFire(float f)
 {
-	glColor4f(1.0f, 1.0f, 1.0f, 0.9f);
+    currentShaderColor = Color(1.0f, 1.0f, 1.0f, 0.9f);
+    currentShaderDarkColor = Color::WHITE;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	for (int i = 0; i < 2; i++)
@@ -277,14 +275,15 @@ void ItemInHandRenderer::renderFire(float f)
 		glPopMatrix();
 	}
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glDisable(GL_BLEND);
 }
 
 void ItemInHandRenderer::renderTex(float f, int texture)
 {
 	//float brightness = m_pMinecraft->m_pLocalPlayer->getBrightness(f);
-	glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
+    currentShaderColor = Color(0.1f, 0.1f, 0.1f, 0.5f);
+    currentShaderDarkColor = Color::WHITE;
 	glPushMatrix();
 
 	// @BUG: The texture x/y isn't multiplied by 16. This causes some weird textures to show up instead of the correct ones.
@@ -308,7 +307,7 @@ void ItemInHandRenderer::renderTex(float f, int texture)
 	t.draw();
 
 	glPopMatrix();
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void ItemInHandRenderer::tick()

@@ -63,6 +63,6 @@ namespace mce
     protected:
         static void SpliceShaderPath(std::string& shaderName);
     public:
-        static void initContext();
+        static void InitContext();
     };
 }

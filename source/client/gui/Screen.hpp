@@ -59,9 +59,9 @@ public:
 	virtual bool handleBackEvent(bool b) { return false; }
 	virtual void tick();
 	virtual void removed() {};
-	virtual void renderBackground(int);
+	virtual void renderBackground(int vo);
 	virtual void renderBackground();
-	virtual void renderDirtBackground(int);
+	virtual void renderDirtBackground(int vo);
 	virtual bool isPauseScreen() { return true; }
 	virtual bool isErrorScreen() { return false; }
 	virtual bool isInGameScreen() { return true; }

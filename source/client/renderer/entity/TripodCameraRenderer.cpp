@@ -8,6 +8,7 @@
 
 #include "TripodCameraRenderer.hpp"
 #include "client/app/Minecraft.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 TripodCameraRenderer::TripodCameraRenderer() :
 	m_tile(),
@@ -53,8 +54,8 @@ void TripodCameraRenderer::render(Entity* entity, const Vec3& pos, float rot, fl
 	float time = getFlashTime((TripodCamera*)entity, a);
 	if (time >= 0.0f)
 	{
-		glColor4f(1.0f, 1.0f, 1.0f, sinf(float(M_PI) * 2.0f * time));
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // @BUG: overwriting the sinf result with 1.0f
+		currentShaderColor = Color::WHITE;
+		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, sinf(float(M_PI) * 2.0f * time));
 	}
 
 	if (entity == pHREntity)
@@ -63,9 +64,9 @@ void TripodCameraRenderer::render(Entity* entity, const Vec3& pos, float rot, fl
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// @TODO FIX: With ENH_ENTITY_SHADING on, the cube is fully opaque.
-		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
+		currentShaderColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
 		m_modelPart.render(0.0625f);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 		glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
 	}

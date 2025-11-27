@@ -4,9 +4,8 @@
 #include "renderer/hal/interface/ShaderConstantWithData.hpp"
 #include "common/math/Color.hpp"
 
-// couldn't find that these were even initialized
-static Color currentShaderColor;
-static Color currentShaderDarkColor;
+extern Color currentShaderColor;
+extern Color currentShaderDarkColor;
 
 namespace mce
 {

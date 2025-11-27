@@ -161,15 +161,15 @@ void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Te
 	m_pMinecraft->m_pTextures->loadAndBindTexture(m_previewImages[index]);
 	
 	// @NOTE: useless assignment of color
-	t.color(0.3f, 1.0f, 0.2f);
+	//t.color(0.3f, 1.0f, 0.2f);
 
 	t.begin();
 	t.color(color1);
 	float y = float(yPos) - 6.0f;
-	t.vertexUV(float(xCenter - 32), y,         this->field_4, 0.0f, 0.0f);
-	t.vertexUV(float(xCenter - 32), y + 48.0f, this->field_4, 0.0f, 1.0f);
-	t.vertexUV(float(xCenter + 32), y + 48.0f, this->field_4, 1.0f, 1.0f);
-	t.vertexUV(float(xCenter + 32), y,         this->field_4, 1.0f, 0.0f);
+	t.vertexUV(float(xCenter - 32), y,         m_blitOffset, 0.0f, 0.0f);
+	t.vertexUV(float(xCenter - 32), y + 48.0f, m_blitOffset, 0.0f, 1.0f);
+	t.vertexUV(float(xCenter + 32), y + 48.0f, m_blitOffset, 1.0f, 1.0f);
+	t.vertexUV(float(xCenter + 32), y,         m_blitOffset, 1.0f, 0.0f);
 	t.draw();
 }
 

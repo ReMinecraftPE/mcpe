@@ -38,7 +38,7 @@ public:
 	int m_buttonId;
 	bool m_bEnabled;
 	bool m_bVisible;
-	bool field_36;
+	bool m_bHovered;
 
 #ifndef ORIGINAL_CODE
 	int m_lastX;

@@ -34,6 +34,13 @@ namespace mce
 
             return false;
         }
+
+        static void deleteInstance()
+        {
+            if (instance)
+                delete instance;
+            instance = nullptr;
+        }
         
         static T& getInstance()
         {

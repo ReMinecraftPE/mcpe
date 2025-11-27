@@ -7,7 +7,10 @@
  ********************************************************************/
 
 #include "StartMenuScreen.hpp"
+
 #include "client/renderer/ScreenRenderer.hpp"
+#include "renderer/ShaderConstants.hpp"
+
 #include "InvalidLicenseScreen.hpp"
 #include "OptionsScreen.hpp"
 #include "ProgressScreen.hpp"
@@ -522,7 +525,7 @@ void StartMenuScreen::draw2dTitle()
 		m_2dTitleBounds.w = width;
 		m_2dTitleBounds.h = height;
 
-		glColor4f(1, 1, 1, 1);
+		currentShaderColor = Color::WHITE;
 		ScreenRenderer::singleton().blit(m_2dTitleBounds);
 	}
 
@@ -670,8 +673,8 @@ void StartMenuScreen::render(int a, int b, float c)
 	else
 		draw3dTitle(c);
 
-	drawString(m_pFont, field_170, field_188, 58 + titleYPos, 0xFFCCCCCC);
-	drawString(m_pFont, field_154, field_16C, m_height - 10, 0x00FFFFFF);
+	drawString(m_pFont, field_170, field_188, 58 + titleYPos, Color(204, 204, 204));
+	drawString(m_pFont, field_154, field_16C, m_height - 10, Color::WHITE);
 
 	// Draw the splash text, if we have enough room.
 #ifndef TITLE_CROP_MODE
@@ -712,7 +715,7 @@ void StartMenuScreen::drawSplash()
 	scale = (scale * 100.0f) / (32.0f + textWidth);
 	glScalef(scale, scale, scale);
 
-	drawCenteredString(m_pFont, splashText, 0, -8, 0xFFFF00);
+	drawCenteredString(m_pFont, splashText, 0, -8, Color::YELLOW);
 
 	glPopMatrix();
 }

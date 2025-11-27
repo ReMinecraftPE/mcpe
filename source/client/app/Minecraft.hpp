@@ -37,6 +37,14 @@ public:
 	Minecraft();
 	virtual ~Minecraft();
 
+private:
+	void _levelGenerated();
+	void _resetPlayer(Player* player);
+	GameMode* _createGameMode(GameType gameType, Level& level);
+
+protected:
+	void _reloadInput();
+
 public:
 	int getLicenseId();
 	void setScreen(Screen * pScreen);
@@ -71,7 +79,6 @@ public:
 
 	virtual void update() override;
 	virtual void init() override;
-	virtual void onGraphicsReset();
 	virtual void sizeUpdate(int newWidth, int newHeight) override;
 	virtual int getFpsIntlCounter();
 
@@ -87,13 +94,6 @@ public:
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
 	Options* getOptions() const { return m_pOptions; }
-	
-private:
-	void _reloadInput();
-	void _levelGenerated();
-	void _initTextures();
-	void _resetPlayer(Player* player);
-	GameMode* createGameMode(GameType gameType, Level& level);
 
 private:
     // Value provided by the OS
@@ -131,7 +131,7 @@ public:
 	Level* m_pLevel;
 	LocalPlayer* m_pLocalPlayer;
 	Mob* m_pMobPersp; // why is there a duplicate?
-	Gui m_gui;
+	Gui* m_pGui;
 	int field_D0C;
 	CThread* m_pPrepThread;
 	Screen* m_pScreen;

@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "EntityRenderer.hpp"
+#include "renderer/ShaderConstants.hpp"
 #include "EntityRenderDispatcher.hpp"
 
 bool EntityRenderer::_areShadowsAvailable = false; // false because PE used a reimplementation with geometry later on, rather than a texture
@@ -63,7 +64,7 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 	float h = e->m_bbHeight / e->m_bbWidth;
 	glRotatef(-m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
 	glTranslatef(0.0f, 0.0f, -0.4f + (float)((int)h) * 0.02f);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
 	t.begin();
 
 	while (h > 0.0f)
@@ -128,7 +129,7 @@ void EntityRenderer::renderShadow(Entity* e, const Vec3& pos, float pow, float a
 	}
 	tt.draw();
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glDisable(GL_BLEND);
 	glDepthMask(true);
 }
@@ -169,7 +170,7 @@ void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 {
 	glDisable(GL_TEXTURE_2D);
 	Tesselator& t = Tesselator::instance;
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
 	t.begin();
 	//t.vertex(pos); // Why were we doing this?
 	t.setOffset(pos);

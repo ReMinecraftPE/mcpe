@@ -33,6 +33,6 @@ ConstantBufferContainer* GlobalConstantBufferManager::findConstantBufferContaine
             return &*it; // solid
     }
 
-    LOG_E("Couldn't find the constant buffer named: %s was it properly reflected in the uniforms metadata file?", bufferName);
+    LOG_E("Couldn't find the constant buffer named: %s was it properly reflected in the uniforms metadata file?", bufferName.c_str());
     throw std::bad_cast();
 }

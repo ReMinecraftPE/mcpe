@@ -20,7 +20,16 @@ public:
 	NinecraftApp();
 	virtual ~NinecraftApp();
 
+private:
+	void _initOptions();
+	void _initTextures();
+	void _initMaterials();
+	void _initInput();
+	void _updateStats();
+	void _initGLStates();
+
 protected:
+	void _reloadTextures();
 	void _reloadFancy(bool isFancy);
 	void _reloadOptionalFeatures();
 	void _reloadPatchData();
@@ -30,11 +39,9 @@ public:
 	void init() override;
 	void setupRenderer();
 	void update() override;
-	void onGraphicsReset() override;
+	void onGraphicsReset();
 	void teardown();
-
-	void updateStats();
-	void initGLStates();
+	void teardownRenderer();
 
 	int getFpsIntlCounter() override;
 

@@ -13,6 +13,7 @@ WorldConstants::WorldConstants()
 
 void WorldConstants::refreshWorldConstants()
 {
+#if FEATURE_GFX_SHADERS
     if (!MatrixStack::Projection.isDirty() &&
         !MatrixStack::View.isDirty() &&
         !MatrixStack::World.isDirty())
@@ -22,13 +23,11 @@ void WorldConstants::refreshWorldConstants()
     }
 
     // Get the current transformation matrices from the global stacks.
-    const Matrix& projectionMatrix = MatrixStack::Projection.top();
-    const Matrix& viewMatrix       = MatrixStack::View.top();
-    const Matrix& worldMatrix      = MatrixStack::World.top();
+    const Matrix& projMatrix  = MatrixStack::Projection.top();
+    const Matrix& viewMatrix  = MatrixStack::View.top();
+    const Matrix& worldMatrix = MatrixStack::World.top();
 
-    // Calculate the combined World-View-Projection matrix.
-    // The order is crucial: Projection * View * World.
-    Matrix worldViewProjMatrix = (projectionMatrix * viewMatrix) * worldMatrix;
+    Matrix worldViewProjMatrix = worldMatrix * viewMatrix * projMatrix;
 
     if (WORLDVIEWPROJ)
         WORLDVIEWPROJ->setData(&worldViewProjMatrix);
@@ -42,8 +41,36 @@ void WorldConstants::refreshWorldConstants()
     MatrixStack::World.makeClean();
 
     // Sync the updated constant buffer data to the GPU.
-    RenderContext& renderContext = RenderContextImmediate::get();
-    m_constantBuffer->sync(renderContext);
+    sync();
+#elseif ENH_GFX_MATRIX_STACK
+    // @TODO: keep MatrixStack states in RC, make MatrixStack ID enum, make loadMatrixStack(stackIdEnum, stackPtr)
+
+    if (MatrixStack::Projection.isDirty())
+    {
+        const Matrix& matrix = MatrixStack::Projection.top();
+
+        // @TODO: abstract
+        glMatrixMode(GL_PROJECTION);
+        xglLoadTransposeMatrixf((float*)&matrix._m);
+        glMatrixMode(GL_MODELVIEW);
+
+        MatrixStack::Projection.makeClean();
+    }
+
+    if (MatrixStack::World.isDirty() || MatrixStack::View.isDirty())
+    {
+        const Matrix& worldMatrix = MatrixStack::World.top();
+        const Matrix& viewMatrix = MatrixStack::View.top();
+        Matrix modelViewMatrix = worldMatrix * viewMatrix;
+
+        // @TODO: abstract
+        glMatrixMode(GL_MODELVIEW);
+        xglLoadTransposeMatrixf((float*)&modelViewMatrix._m);
+
+        MatrixStack::World.makeClean();
+        MatrixStack::View.makeClean();
+    }
+#endif
 }
 
 void WorldConstants::init()

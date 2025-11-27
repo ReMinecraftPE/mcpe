@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "TntRenderer.hpp"
+#include "renderer/ShaderConstants.hpp"
 #include "world/entity/PrimedTnt.hpp"
 
 TntRenderer::TntRenderer()
@@ -54,9 +55,11 @@ void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 		glDisable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-		glColor4f(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
+		currentShaderColor = Color::WHITE;
+		//glColor4f(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
+		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
 		m_tileRenderer.renderTile(Tile::tnt, 0 ARGPATCH);
-		glColor4f(1.0f, 1.0, 1.0f, 1.0f);
+		//glColor4f(1.0f, 1.0, 1.0f, 1.0f);
 		glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
 	}

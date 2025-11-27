@@ -104,7 +104,7 @@ void ModelPart::draw(float scale)
 	if (!m_mesh.isValid())
 		compile(scale);
 
-	mce::MaterialPtr& materialPtr = m_pMaterial ? *m_pMaterial : *m_pModel->m_pMaterial;
+	mce::MaterialPtr& materialPtr = m_pMaterial ? *m_pMaterial : (m_pModel ? *m_pModel->m_pMaterial : mce::MaterialPtr::NONE);
 	m_mesh.render(materialPtr);
 }
 

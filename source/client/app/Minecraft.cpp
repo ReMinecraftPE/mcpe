@@ -59,8 +59,7 @@ const char* Minecraft::progressMessages[] =
 	"Saving chunks",
 };
 
-Minecraft::Minecraft() :
-	m_gui(this)
+Minecraft::Minecraft()
 {
 	m_pOptions = nullptr;
 	field_18 = false;
@@ -79,6 +78,7 @@ Minecraft::Minecraft() :
 	m_pLevel = nullptr;
 	m_pLocalPlayer = nullptr;
 	m_pMobPersp = nullptr; // why is there a duplicate?
+	m_pGui = nullptr;
 	field_D0C = 0;
 	m_pPrepThread = nullptr;
 	m_pScreen = nullptr;
@@ -105,6 +105,7 @@ Minecraft::Minecraft() :
 
 Minecraft::~Minecraft()
 {
+	SAFE_DELETE(m_pGui);
 	SAFE_DELETE(m_pOptions);
 	SAFE_DELETE(m_pNetEventCallback);
 	SAFE_DELETE(m_pRakNetInstance);
@@ -130,6 +131,71 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pInputHolder);
     
 	//@BUG: potentially leaking a CThread instance if this is destroyed early?
+}
+
+void Minecraft::_levelGenerated()
+{
+	if (m_pNetEventCallback)
+		m_pNetEventCallback->levelGenerated(m_pLevel);
+}
+
+void Minecraft::_resetPlayer(Player* player)
+{
+	m_pLevel->validateSpawn();
+	player->reset();
+
+	TilePos pos = m_pLevel->getSharedSpawnPos();
+	player->setPos(pos);
+	player->resetPos();
+}
+
+GameMode* Minecraft::_createGameMode(GameType gameType, Level& level)
+{
+	switch (gameType)
+	{
+	case GAME_TYPE_SURVIVAL:
+		return new SurvivalMode(this, level);
+	case GAME_TYPE_CREATIVE:
+		return new CreativeMode(this, level);
+	default:
+		return nullptr;
+	}
+}
+
+void Minecraft::_reloadInput()
+{
+	if (m_pInputHolder)
+		delete m_pInputHolder;
+
+	if (isTouchscreen())
+	{
+		m_pInputHolder = new TouchInputHolder(this, getOptions());
+	}
+	else if (useController())
+	{
+		m_pInputHolder = new CustomInputHolder(
+			new ControllerMoveInput(getOptions()),
+			new ControllerTurnInput(),
+			new ControllerBuildInput()
+		);
+	}
+	else
+	{
+		m_pInputHolder = new CustomInputHolder(
+			new KeyboardInput(getOptions()),
+			new MouseTurnInput(this),
+			new MouseBuildInput()
+		);
+	}
+
+	m_mouseHandler.setTurnInput(m_pInputHolder->getTurnInput());
+
+	if (m_pLevel && m_pLocalPlayer)
+	{
+		m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
+	}
+
+	getOptions()->field_19 = !isTouchscreen();
 }
 
 int Minecraft::getLicenseId()
@@ -230,21 +296,6 @@ void Minecraft::setScreen(Screen* pScreen)
 	}
 }
 
-void Minecraft::onGraphicsReset()
-{
-	m_pTextures->clear();
-	_initTextures();
-	m_pFont->onGraphicsReset();
-
-	if (m_pLevelRenderer)
-		m_pLevelRenderer->onGraphicsReset();
-
-	if (m_pGameRenderer)
-		m_pGameRenderer->onGraphicsReset();
-
-	EntityRenderDispatcher::getInstance()->onGraphicsReset();
-}
-
 void Minecraft::saveOptions()
 {
 	if (platform()->hasFileSystemAccess())
@@ -284,25 +335,12 @@ bool Minecraft::useController() const
 	return m_pPlatform->hasGamepad() && getOptions()->m_bUseController;
 }
 
-GameMode* Minecraft::createGameMode(GameType gameType, Level& level)
-{
-	switch (gameType)
-	{
-	case GAME_TYPE_SURVIVAL:
-		return new SurvivalMode(this, level);
-	case GAME_TYPE_CREATIVE:
-		return new CreativeMode(this, level);
-	default:
-		return nullptr;
-	}
-}
-
 void Minecraft::setGameMode(GameType gameType)
 {
 	if (m_pLevel)
 	{
         SAFE_DELETE(m_pGameMode);
-		m_pGameMode = createGameMode(gameType, *m_pLevel);
+		m_pGameMode = _createGameMode(gameType, *m_pLevel);
 		m_pGameMode->initLevel(m_pLevel);
 	}
 }
@@ -464,7 +502,7 @@ void Minecraft::tickInput()
 	if (!m_pLocalPlayer)
 		return;
 
-	bool bIsInGUI = m_gui.isInside(Mouse::getX(), Mouse::getY());
+	bool bIsInGUI = m_pGui->isInside(Mouse::getX(), Mouse::getY());
 
 	while (Mouse::next())
 	{
@@ -476,7 +514,7 @@ void Minecraft::tickInput()
 			// @HACK: on SDL1, we don't recenter the mouse every tick, meaning the user can
 			// unintentionally click the hotbar while swinging their fist
 			if (platform()->getRecenterMouseEveryTick() || m_pScreen)
-				m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
+				m_pGui->handleClick(1, Mouse::getX(), Mouse::getY());
 		}
 
 		MouseButtonType buttonType = Mouse::getEventButton();
@@ -484,7 +522,7 @@ void Minecraft::tickInput()
 
 #ifdef ENH_ALLOW_SCROLL_WHEEL
 		if (buttonType == BUTTON_SCROLLWHEEL)
-			m_gui.handleScroll(bPressed);
+			m_pGui->handleScroll(bPressed);
 #endif
 	}
 
@@ -497,9 +535,9 @@ void Minecraft::tickInput()
 
 		if (bPressed)
 		{
-			m_gui.handleKeyPressed(keyCode);
+			m_pGui->handleKeyPressed(keyCode);
 
-			for (int i = 0; i < m_gui.getNumUsableSlots(); i++)
+			for (int i = 0; i < m_pGui->getNumUsableSlots(); i++)
 			{
 				if (getOptions()->isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
 					m_pLocalPlayer->m_pInventory->selectSlot(i);
@@ -622,7 +660,7 @@ void Minecraft::sendMessage(const std::string& message)
 		if (m_pRakNetInstance)
 			m_pRakNetInstance->send(new MessagePacket(message));
 		else
-			m_gui.addMessage("You aren't actually playing multiplayer!");
+			m_pGui->addMessage("You aren't actually playing multiplayer!");
 	}
 	else
 	{
@@ -631,7 +669,7 @@ void Minecraft::sendMessage(const std::string& message)
 		if (m_pNetEventCallback && m_pRakNetInstance)
 			m_pNetEventCallback->handle(m_pRakNetInstance->m_pRakPeerInterface->GetMyGUID(), &mp);
 		else
-			m_gui.addMessage("You aren't hosting a multiplayer server!");
+			m_pGui->addMessage("You aren't hosting a multiplayer server!");
 	}
 }
 
@@ -648,69 +686,6 @@ std::string Minecraft::getVersionString(const std::string& str) const
 	return "v0.2.0" + str + " alpha";
 }
 
-void Minecraft::_reloadInput()
-{
-	if (m_pInputHolder)
-		delete m_pInputHolder;
-
-	if (isTouchscreen())
-	{
-		m_pInputHolder = new TouchInputHolder(this, getOptions());
-	}
-	else if (useController())
-	{
-		m_pInputHolder = new CustomInputHolder(
-			new ControllerMoveInput(getOptions()),
-			new ControllerTurnInput(),
-			new ControllerBuildInput()
-		);
-	}
-	else
-	{
-		m_pInputHolder = new CustomInputHolder(
-			new KeyboardInput(getOptions()),
-			new MouseTurnInput(this),
-			new MouseBuildInput()
-		);
-	}
-
-	m_mouseHandler.setTurnInput(m_pInputHolder->getTurnInput());
-
-	if (m_pLevel && m_pLocalPlayer)
-	{
-		m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
-	}
-
-	getOptions()->field_19 = !isTouchscreen();
-}
-
-void Minecraft::_levelGenerated()
-{
-	if (m_pNetEventCallback)
-		m_pNetEventCallback->levelGenerated(m_pLevel);
-}
-
-void Minecraft::_initTextures()
-{
-	TextureData* pTexture;
-	pTexture = m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-	GetPatchManager()->PatchTextures(*pTexture, TYPE_TERRAIN);
-	pTexture = m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
-	GetPatchManager()->PatchTextures(*pTexture, TYPE_ITEMS);
-	
-	GetPatchManager()->PatchTiles();	
-}
-
-void Minecraft::_resetPlayer(Player* player)
-{
-	m_pLevel->validateSpawn();
-	player->reset();
-
-	TilePos pos = m_pLevel->getSharedSpawnPos();
-	player->setPos(pos);
-	player->resetPos();
-}
-
 void Minecraft::tick()
 {
 	if (!m_pScreen)
@@ -723,7 +698,7 @@ void Minecraft::tick()
 
 	tickInput();
 
-	m_gui.tick();
+	m_pGui->tick();
 
 	// if the level has been prepared, delete the prep thread
 	if (!m_bPreparingLevel)
@@ -824,43 +799,7 @@ void Minecraft::update()
 
 void Minecraft::init()
 {
-	m_bIsTouchscreen = platform()->isTouchscreen();
-
 	m_pRakNetInstance = new RakNetInstance;
-
-	m_pTextures = new Textures(getOptions(), platform());
-	m_pTextures->addDynamicTexture(new WaterTexture);
-	m_pTextures->addDynamicTexture(new WaterSideTexture);
-	m_pTextures->addDynamicTexture(new LavaTexture);
-	m_pTextures->addDynamicTexture(new LavaSideTexture);
-	m_pTextures->addDynamicTexture(new FireTexture(0));
-	m_pTextures->addDynamicTexture(new FireTexture(1));
-
-	getOptions()->m_bUseController = platform()->hasGamepad();
-	getOptions()->loadControls();
-
-	_reloadInput();
-	_initTextures();
-
-	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
-	m_pSoundEngine->init(getOptions(), platform());
-
-	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
-	m_pGameRenderer = new GameRenderer(this);
-	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
-	m_pUser = new User(getOptions()->m_playerName, "");
-
-	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
-	m_pFont = new Font(getOptions(), "font/default8.png", m_pTextures);
-
-	if (GrassColor::isAvailable())
-	{
-		GrassColor::init(m_pPlatform->loadTexture("misc/grasscolor.png", true));
-	}
-	if (FoliageColor::isAvailable())
-	{
-		FoliageColor::init(m_pPlatform->loadTexture("misc/foliagecolor.png", true));
-	}
 }
 
 void Minecraft::prepareLevel(const std::string& unused)

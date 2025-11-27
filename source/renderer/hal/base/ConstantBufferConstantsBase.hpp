@@ -14,5 +14,6 @@ namespace mce
         virtual ~ConstantBufferConstantsBase() {};
     
         virtual void init() = 0;
+        void sync();
     };
 }

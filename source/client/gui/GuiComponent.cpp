@@ -7,61 +7,18 @@
  ********************************************************************/
 
 #include "GuiComponent.hpp"
+#include "client/renderer/Tesselator.hpp"
 
-#ifdef _WIN32
-#pragma warning (disable : 4244)
-#endif
-
-GuiComponent::GuiComponent() : field_4 (0)
-{
-}
-
-void GuiComponent::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw, int sh)
-{
-	Tesselator& t = Tesselator::instance;
-
-	if (!sh) sh = th;
-	if (!sw) sw = tw;
-
-	t.begin();
-	t.vertexUV(dx,      dy + th, field_4, float(sx)      / 256.0f, float(sy + sh) / 256.0f);
-	t.vertexUV(dx + tw, dy + th, field_4, float(sx + sw) / 256.0f, float(sy + sh) / 256.0f);
-	t.vertexUV(dx + tw, dy,      field_4, float(sx + sw) / 256.0f, float(sy)      / 256.0f);
-	t.vertexUV(dx,      dy,      field_4, float(sx)      / 256.0f, float(sy)      / 256.0f);
-	t.draw();
-}
-
-void GuiComponent::drawCenteredString(Font* pFont, const std::string& str, int cx, int cy, int color)
+void GuiComponent::drawCenteredString(Font* pFont, const std::string& str, int cx, int cy, const Color& color)
 {
 	int width = pFont->width(str);
 	int height = pFont->height(str);
 	pFont->drawShadow(str, cx - width / 2, cy - height / 2, color);
 }
 
-void GuiComponent::drawString(Font* pFont, const std::string& str, int cx, int cy, int color)
+void GuiComponent::drawString(Font* pFont, const std::string& str, int cx, int cy, const Color& color)
 {
 	pFont->drawShadow(str, cx, cy, color);
-}
-
-void GuiComponent::fill(int left, int top, int right, int bottom, const Color& color)
-{
-	glEnable(GL_BLEND);
-	glDisable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(color.r, color.g, color.b, color.a);
-
-	Tesselator& t = Tesselator::instance;
-	t.begin();
-
-	t.vertex(left, bottom, 0.0f);
-	t.vertex(right, bottom, 0.0f);
-	t.vertex(right, top, 0.0f);
-	t.vertex(left, top, 0.0f);
-
-	t.draw();
-
-	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_BLEND);
 }
 
 void GuiComponent::fillGradient(int left, int top, int right, int bottom, const Color& colorUp, const Color& colorDown)

@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Animal.hpp"
+#include "common/math/Color.hpp"
 
 class Sheep : public Animal
 {
 public:
-	static const float COLOR[][3];
+	static const Color COLOR[];
 	static const unsigned int COLOR_COUNT; // NumColors on PE, stupid name
 
 public:

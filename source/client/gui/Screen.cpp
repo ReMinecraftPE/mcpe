@@ -8,6 +8,7 @@
 
 #include "Screen.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 Screen::Materials::Materials()
 {
@@ -145,7 +146,7 @@ void Screen::renderMenuBackground(float f)
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
 	MatrixStack::Ref worldMtx = MatrixStack::World.push();
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE; //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	worldMtx->rotate(180.0f, Vec3::UNIT_X);
 	worldMtx->rotate(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, Vec3::UNIT_X);
 	worldMtx->rotate(-0.1f * (f + g_panoramaAngle), Vec3::UNIT_Y);
@@ -222,7 +223,7 @@ void Screen::renderMenuBackground(float f)
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE; //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
 	glRotatef(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, 1.0f, 0.0f, 0.0f);
 	glRotatef(-0.1f * (f + g_panoramaAngle), 0.0f, 1.0f, 0.0f);
@@ -489,7 +490,7 @@ void Screen::mouseEvent()
 		handleScroll(Mouse::getEventButtonState());
 }
 
-void Screen::renderBackground(int unk)
+void Screen::renderBackground(int vo)
 {
 	if (m_pMinecraft->isLevelGenerated())
 	{
@@ -499,7 +500,7 @@ void Screen::renderBackground(int unk)
 	}
 	else
 	{
-		renderDirtBackground(unk);
+		renderDirtBackground(vo);
 	}
 }
 
@@ -508,21 +509,22 @@ void Screen::renderBackground()
 	renderBackground(0);
 }
 
-void Screen::renderDirtBackground(int unk)
+void Screen::renderDirtBackground(int vo)
 {
+	//glDisable(GL_LIGHTING);
 	glDisable(GL_FOG);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	glColor4f(1, 1, 1, 1);
+	currentShaderColor = Color::WHITE;
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 	t.setOffset(0, m_yOffset, 0);
 	t.color(0x404040);
-	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(unk) + float(m_height) / 32.0f);
-	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(unk) + float(m_height) / 32.0f);
-	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(unk) + 0.0f);
-	t.vertexUV(0.0f,           0,               0, 0,                      float(unk) + 0.0f);
+	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(vo) + float(m_height) / 32.0f);
+	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(vo) + float(m_height) / 32.0f);
+	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(vo) + 0.0f);
+	t.vertexUV(0.0f,           0,               0, 0,                      float(vo) + 0.0f);
 	t.setOffset(0, 0, 0);
 	t.draw();
 }
@@ -534,7 +536,7 @@ void Screen::updateTabButtonSelection()
 	{
 		for (int i = 0; i < int(m_buttonTabList.size()); i++)
 		{
-			m_buttonTabList[i]->field_36 = m_tabButtonIndex == i;
+			m_buttonTabList[i]->m_bHovered = m_tabButtonIndex == i;
 		}
 	}
 }

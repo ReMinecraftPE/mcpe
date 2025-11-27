@@ -7,10 +7,6 @@ using namespace mce;
 
 void ConstantBufferContainerBase::_init()
 {
-    m_reflectedShaderConstants = std::vector<ShaderConstantBase>();
-    m_constantBufferName = "";
-    m_shaderConstants = std::vector<ShaderConstant*>();
-    m_constantBufferBytes = std::vector<uint8_t>();
     m_currentlyMapped = false;
 }
 

@@ -1,8 +1,10 @@
 #include "GlobalConstantBufferManager.hpp"
-#include "RenderContextImmediate.hpp"
 #include "ShaderConstants.hpp"
 
 using namespace mce;
+
+Color currentShaderColor = Color::WHITE;
+Color currentShaderDarkColor = Color::WHITE;
 
 ShaderConstants::ShaderConstants()
 {
@@ -12,14 +14,21 @@ ShaderConstants::ShaderConstants()
 
 void ShaderConstants::setShaderColor(const Color& shaderColor)
 {
-    CURRENT_COLOR->m_data = (uint8_t*)&shaderColor;
+#if FEATURE_GFX_SHADERS
+    Color* pCurrentColor = (Color*)CURRENT_COLOR->m_data;
+    *pCurrentColor = shaderColor;
     CURRENT_COLOR->m_dirty = true;
     
-    m_constantBuffer->sync(RenderContextImmediate::get());
+    sync();
+#else
+    // @TODO: abstract
+    glColor4f(shaderColor.r, shaderColor.g, shaderColor.b, shaderColor.a);
+#endif
 }
 
 void ShaderConstants::setShaderColors(const Color& shaderColor, const Color& shaderDarkenColor)
 {
+#if FEATURE_GFX_SHADERS
     Color* pCurrentColor = (Color*)CURRENT_COLOR->m_data;
     *pCurrentColor = shaderColor;
     CURRENT_COLOR->m_dirty = true;
@@ -28,7 +37,12 @@ void ShaderConstants::setShaderColors(const Color& shaderColor, const Color& sha
     *pDarkenColor = shaderDarkenColor;
     DARKEN->m_dirty = true;
 
-    m_constantBuffer->sync(RenderContextImmediate::get());
+    sync();
+#else
+    Color color = shaderColor * shaderDarkenColor;
+    // @TODO: abstract
+    glColor4f(color.r, color.g, color.b, color.a);
+#endif
 }
 
 void ShaderConstants::init()

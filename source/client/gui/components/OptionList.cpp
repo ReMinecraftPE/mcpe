@@ -100,7 +100,7 @@ void HeaderOptionItem::render(OptionList* pList, int x, int y)
 		m_text,
 		x + 2,
 		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
-		0xFFFFFF);
+		Color::WHITE);
 }
 
 DistanceOptionItem::DistanceOptionItem(int* pValue, const std::string& text)
@@ -133,7 +133,7 @@ void DistanceOptionItem::render(OptionList* pList, int x, int y)
 		m_text,
 		x + 22,
 		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
-		0xCCCCCC);
+		Color(204, 204, 204));
 
 	const char* distanceText = "???";
 	switch (*m_pValue)

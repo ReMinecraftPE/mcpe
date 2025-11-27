@@ -280,7 +280,7 @@ void RenderMaterial::SpliceShaderPath(std::string& shaderName)
     }
 }
 
-void RenderMaterial::initContext()
+void RenderMaterial::InitContext()
 {
     lastUsedMaterial = nullptr;
 }

@@ -70,6 +70,26 @@ public:
 
 class LevelRenderer : public LevelListener, public AppPlatformListener
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr shadow_back;
+		mce::MaterialPtr shadow_front;
+		mce::MaterialPtr shadow_overlay;
+		mce::MaterialPtr stars;
+		mce::MaterialPtr skyplane;
+		mce::MaterialPtr sun_moon;
+		mce::MaterialPtr selection_overlay;
+		mce::MaterialPtr selection_overlay_opaque;
+		mce::MaterialPtr selection_overlay_double_sided;
+		mce::MaterialPtr cracks_overlay;
+		mce::MaterialPtr cracks_overlay_tile_entity;
+		mce::MaterialPtr clouds;
+
+		Materials();
+	};
+
 private:
 	static bool _areCloudsAvailable;
 	static bool _arePlanetsAvailable;
@@ -128,7 +148,7 @@ public:
 	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();
 	bool updateDirtyChunks(Mob* pMob, bool b);
-	void renderHit(Player* pPlayer, const HitResult& hr, int, void*, float);
+	void renderCracks(Player* pPlayer, const HitResult& hr, int, void*, float);
 	void renderHitSelect(Player* pPlayer, const HitResult& hr, int, void*, float);
 	void renderHitOutline(Player* pPlayer, const HitResult& hr, int, void*, float);
 
@@ -136,7 +156,7 @@ public:
 	float field_4;
 	float field_8;
 	float field_C;
-	float field_10;
+	float m_destroyProgress;
 	int m_noEntityRenderFrames;
 	int m_totalEntities;
 	int m_renderedEntities;
@@ -178,6 +198,6 @@ public:
 	mce::Mesh  m_darkMesh;
 	//...
 	Textures* m_pTextures;
-	mce::MaterialPtr m_matStars;
-	mce::MaterialPtr m_matSkyplane;
+private:
+	Materials m_materials;
 };

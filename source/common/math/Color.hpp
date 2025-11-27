@@ -55,6 +55,16 @@ public:
 
     void fromHSB(float h, float s, float b);
 
+    Color operator*(float f) const
+    {
+        return Color(r * f, g * f, b * f, a * f);
+    }
+
+    Color operator*(const Color& c) const
+    {
+        return Color(r * c.r, g * c.g, b * c.b, a * c.a);
+    }
+
 public:
     static Color SHADE_WEST_EAST;
     static Color SHADE_NORTH_SOUTH;

@@ -13,9 +13,26 @@
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/GL/GL.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
+
+LevelRenderer::Materials::Materials()
+{
+	MATERIAL_PTR(common, shadow_back);
+	MATERIAL_PTR(common, shadow_front);
+	MATERIAL_PTR(common, shadow_overlay);
+	MATERIAL_PTR(common, stars);
+	MATERIAL_PTR(common, skyplane);
+	MATERIAL_PTR(common, sun_moon);
+	MATERIAL_PTR(common, selection_overlay);
+	MATERIAL_PTR(common, selection_overlay_opaque);
+	MATERIAL_PTR(common, selection_overlay_double_sided);
+	MATERIAL_PTR(common, cracks_overlay);
+	MATERIAL_PTR(common, cracks_overlay_tile_entity);
+	MATERIAL_PTR(switchable, clouds);
+}
 
 bool LevelRenderer::_areCloudsAvailable = false; // false because 0.1 didn't have them
 bool LevelRenderer::_arePlanetsAvailable = false; // false because 0.1 didn't have them
@@ -25,7 +42,7 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	field_4 = -9999.0f;
 	field_8 = -9999.0f;
 	field_C = -9999.0f;
-	field_10 = 0.0f;
+	m_destroyProgress = 0.0f;
 	m_noEntityRenderFrames = 2;
 	m_totalEntities = 0;
 	m_renderedEntities = 0;
@@ -63,9 +80,6 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	m_pBuffers = new GLuint[m_nBuffers];
 	xglGenBuffers(m_nBuffers, m_pBuffers);
 	LOG_I("numBuffers: %d", m_nBuffers);
-
-	m_matStars = mce::MaterialPtr(mce::RenderMaterialGroup::common, "stars");
-	m_matSkyplane = mce::MaterialPtr(mce::RenderMaterialGroup::common, "skyplane");
 
 	_initResources();
 }
@@ -192,8 +206,8 @@ void LevelRenderer::_renderStars(float alpha)
 	float a = m_pLevel->getStarBrightness(alpha);
 	if (a > 0.0f)
 	{
-		glColor4f(a, a, a, a);
-		m_starsMesh.render(m_matStars);
+		currentShaderColor = Color(a, a, a);
+		m_starsMesh.render(m_materials.stars);
 	}
 }
 
@@ -834,7 +848,7 @@ bool LevelRenderer::updateDirtyChunks(Mob* pMob, bool b)
 	return nr1 + nr2 == sz;
 }
 
-void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void* vp, float f)
+void LevelRenderer::renderCracks(Player* pPlayer, const HitResult& hr, int i, void* vp, float f)
 {
 	glEnable(GL_BLEND);
 	glEnable(GL_ALPHA_TEST);
@@ -843,12 +857,13 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
 	//glColor4f(1.0f, 1.0f, 1.0f, 0.5f * (0.4f + 0.2f * Mth::sin(float(getTimeMs()) / 100.0f)));
 
-	if (!i && field_10 > 0.0f)
+	if (!i && m_destroyProgress > 0.0f)
 	{
 		glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
 
 		m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-		glColor4f(1.0f, 1.0f, 1.0f, 0.5f);
+		currentShaderColor = Color::WHITE;
+		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, 0.5f);
 		glPushMatrix();
 		Tile* pTile = nullptr;
 		TileID tile = m_pLevel->getTile(hr.m_tilePos);
@@ -870,7 +885,7 @@ void LevelRenderer::renderHit(Player* pPlayer, const HitResult& hr, int i, void*
 		if (!pTile)
 			pTile = Tile::rock;
 
-		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos, 240 + int(field_10 * 10.0f));
+		m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos, 240 + int(m_destroyProgress * 10.0f));
 
 		t.draw();
 		t.setOffset(0, 0, 0);
@@ -904,7 +919,7 @@ void LevelRenderer::renderHitSelect(Player* pPlayer, const HitResult& hr, int i,
 		pTile = Tile::tiles[tileID];
 
 	glDisable(GL_ALPHA_TEST);
-	glColor4f(0.65f, 0.65f, 0.65f, 0.65f);
+	currentShaderColor = Color(0.65f, 0.65f, 0.65f, 0.65f);
 	glPushMatrix();
 	glPolygonOffset(-0.3f, -0.3f);
 	glEnable(GL_POLYGON_OFFSET_FILL);
@@ -941,7 +956,7 @@ void LevelRenderer::renderHitOutline(Player* pPlayer, const HitResult& hr, int i
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColor4f(0.0f, 0.0f, 0.0f, 0.4f);
+	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
 	//glLineWidth(1.0f);
 	glDisable(GL_TEXTURE_2D);
 	glDepthMask(false);
@@ -1173,15 +1188,16 @@ void LevelRenderer::renderSky(float alpha)
 		sc.z = ((sc.x * 30.0f) + (sc.z * 70.0f)) / 100.0f;
 	}
 
-	glColor4f(sc.x, sc.y, Mth::Min(1.0f, sc.z), 1.0f);
+	// called again a few lines down, no min in Java, why is it here?s
+	//glColor4f(sc.x, sc.y, Mth::Min(1.0f, sc.z), 1.0f);
 
 	Tesselator& t = Tesselator::instance;
 
 	glDepthMask(false);
 	glEnable(GL_FOG);
-	glColor4f(sc.x, sc.y, sc.z, 1.0f);
+	currentShaderColor = Color(sc.x, sc.y, sc.z);
 
-	m_skyMesh.render(m_matSkyplane);
+	m_skyMesh.render(m_materials.skyplane);
 
 	glDisable(GL_FOG);
 	glDisable(GL_ALPHA_TEST);
@@ -1224,7 +1240,8 @@ void LevelRenderer::renderSky(float alpha)
 	glBlendFunc(GL_ONE, GL_ONE);
 	glPushMatrix();
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color::WHITE;
 	glTranslatef(sc.x, sc.y, sc.z);
 	glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
 	glRotatef(m_pLevel->getTimeOfDay(alpha) * 360.0f, 1.0f, 0.0f, 0.0f);
@@ -1256,15 +1273,15 @@ void LevelRenderer::renderSky(float alpha)
 	_renderStars(alpha);
 
 	// Dark plane
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glDisable(GL_BLEND);
 	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_FOG);
 	glPopMatrix();
 
-	glColor4f(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f, 1.0f);
+	currentShaderColor = Color(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f);
 	glDisable(GL_TEXTURE_2D);
-	m_darkMesh.render(m_matSkyplane); // this is probably not the right material for this
+	m_darkMesh.render(m_materials.skyplane); // this is probably not the right material for this
 	glEnable(GL_TEXTURE_2D);
 
 	glDepthMask(true);
@@ -1336,7 +1353,7 @@ void LevelRenderer::renderClouds(float alpha)
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
 }
@@ -1507,7 +1524,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
 }

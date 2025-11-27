@@ -11,6 +11,7 @@
 #include "ChatScreen.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
@@ -117,7 +118,7 @@ void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 
 void IngameBlockSelectionScreen::renderSlots()
 {
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
 
 	for (int y = 0; y != -22 * getSlotsHeight(); y -= 22)
@@ -201,14 +202,14 @@ void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 
 void IngameBlockSelectionScreen::removed()
 {
-	m_pMinecraft->m_gui.inventoryUpdated();
+	m_pMinecraft->m_pGui->inventoryUpdated();
 }
 
 void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();
 	
-	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_gui.getNumUsableSlots());
+	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_pGui->getNumUsableSlots());
 
 	m_pMinecraft->m_pSoundEngine->playUI("random.click");
 	m_pMinecraft->setScreen(nullptr);

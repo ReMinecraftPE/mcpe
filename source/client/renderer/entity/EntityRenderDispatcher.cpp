@@ -8,6 +8,7 @@
 
 #include "EntityRenderDispatcher.hpp"
 #include "client/app/Minecraft.hpp"
+#include "renderer/ShaderConstants.hpp"
 #include "../ItemInHandRenderer.hpp"
 
 #include "client/model/models/PigModel.hpp"
@@ -86,6 +87,7 @@ EntityRenderDispatcher* EntityRenderDispatcher::getInstance()
 
 EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 {
+	// @HAL @TODO: make map
 	switch (renderType)
 	{
 		case RENDER_TNT:
@@ -174,7 +176,8 @@ void EntityRenderDispatcher::render(Entity* entity, float a)
 	float yaw = entity->m_oRot.x + a * (entity->m_rot.x - entity->m_oRot.x);
 
 	float bright = entity->getBrightness(1.0f);
-	glColor4f(bright, bright, bright, 1.0f);
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color(bright, bright, bright); //glColor4f(bright, bright, bright, 1.0f);
 
 	render(entity, pos - off, yaw, a);
 }
@@ -185,9 +188,8 @@ void EntityRenderDispatcher::render(Entity* entity, const Vec3& pos, float rot, 
 
 	if (!pRenderer)
 	{
-		//LOG_E("Failed to fetch renderer for entity: %s", entity->getDescriptor().getEntityType().getName());
-		assert(!"Failed to fetch renderer for an entity");
-		return;
+		LOG_E("Failed to fetch renderer for entity: %s", entity->getDescriptor().getEntityType().getName().c_str());
+		throw std::bad_cast();
 	}
 
 	pRenderer->render(entity, pos, rot, a);

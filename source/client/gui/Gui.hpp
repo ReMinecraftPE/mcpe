@@ -9,9 +9,10 @@
 #pragma once
 
 #include "GuiComponent.hpp"
+#include "common/Random.hpp"
 #include "client/player/input/RectangleArea.hpp"
 #include "client/app/Minecraft.hpp"
-#include "common/Random.hpp"
+#include "client/renderer/RenderChunk.hpp"
 
 class Minecraft; // in case we're included from Minecraft.hpp
 
@@ -51,6 +52,7 @@ public:
 	void handleScroll(bool down);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
+	void renderProgressIndicator(int width, int height);
 	int getNumSlots();					  // Gets the number of slots in the inventory. Includes the '...' if in touch mode.
 	int getNumUsableSlots();			  // Gets the number of usable slots in the inventory. Does not include the '...' if in touch mode.
 	RectangleArea getRectangleArea(bool b);
@@ -59,7 +61,7 @@ public:
 	static float InvGuiScale;
 
 public:
-	float field_8;
+	float m_progress;
 	std::string field_C;
 	std::vector<GuiMessage> m_guiMessages;
 	int field_24;

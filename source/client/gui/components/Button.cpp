@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Button.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 void Button::_init()
 {
@@ -17,7 +18,7 @@ void Button::_init()
 	m_text = "";
 	m_bEnabled = true;
 	m_bVisible = true;
-	field_36 = false;
+	m_bHovered = false;
 
 #ifndef ORIGINAL_CODE
 	m_lastX = 0;
@@ -92,28 +93,28 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	if (!m_bVisible) return;
 
 	if (!pMinecraft->useController())
-		field_36 = clicked(pMinecraft, xPos, yPos);
+		m_bHovered = clicked(pMinecraft, xPos, yPos);
 
 	Font* pFont = pMinecraft->m_pFont;
 	Textures* pTexs = pMinecraft->m_pTextures;
 
 	pTexs->loadAndBindTexture("gui/gui.png");
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	int iYPos = 20 * getYImage(field_36) + 46;
+	currentShaderColor = Color::WHITE;
+	int iYPos = 20 * getYImage(m_bHovered) + 46;
 
 	blit(m_xPos, m_yPos, 0, iYPos, m_width / 2, m_height, 0, 20);
 	blit(m_xPos + m_width / 2, m_yPos, 200 - m_width / 2, iYPos, m_width / 2, m_height, 0, 20);
 
 	renderBg(pMinecraft, xPos, yPos);
 
-	int textColor;
+	Color textColor;
 	if (!m_bEnabled)
-		textColor = int(0xFFA0A0A0U);
-	else if (field_36)
-		textColor = int(0xFFFFA0U);
+		textColor = Color(160, 160, 160); // 0xFFA0A0A0
+	else if (m_bHovered)
+		textColor = Color(255, 255, 160); // 0xFFFFA0U
 	else
-		textColor = int(0xE0E0E0U);
+		textColor = Color(224, 224, 224); // 0xE0E0E0U
 
 	drawCenteredString(pFont, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 }

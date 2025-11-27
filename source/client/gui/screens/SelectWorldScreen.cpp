@@ -69,10 +69,10 @@ void SelectWorldScreen::keyPressed(int code)
 	if (m_pMinecraft->getOptions()->getKey(KM_MENU_OK) == code)
 		m_pWorldSelectionList->selectItem(m_pWorldSelectionList->getItemAtPosition(m_width / 2, m_height / 2), false);
 
-	m_btnUnknown.field_36 = true;
+	m_btnUnknown.m_bHovered = true;
 #endif
 
-	if (m_btnUnknown.field_36)
+	if (m_btnUnknown.m_bHovered)
 	{
 		if (m_pMinecraft->getOptions()->getKey(KM_LEFT) == code)
 			m_pWorldSelectionList->stepLeft();
@@ -89,7 +89,7 @@ static char g_SelectWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','
 void SelectWorldScreen::tick()
 {
 #ifndef ORIGINAL_CODE
-	m_btnUnknown.field_36 = true;
+	m_btnUnknown.m_bHovered = true;
 #endif
 
 	if (field_130 == 1)
@@ -168,9 +168,9 @@ void SelectWorldScreen::render(int mouseX, int mouseY, float f)
 {
 	renderBackground();
 #ifndef ORIGINAL_CODE
-	m_btnUnknown.field_36 = true;
+	m_btnUnknown.m_bHovered = true;
 #endif
-	m_pWorldSelectionList->setComponentSelected(m_btnUnknown.field_36);
+	m_pWorldSelectionList->setComponentSelected(m_btnUnknown.m_bHovered);
 	if (field_12C)
 	{
 		m_pWorldSelectionList->render(mouseX, mouseY, f);

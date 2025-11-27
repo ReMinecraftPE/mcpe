@@ -339,7 +339,8 @@ void GameRenderer::setupFog(int i)
 #ifndef __EMSCRIPTEN__
 	glNormal3f(0.0f, -1.0f, 0.0f);
 #endif
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color::WHITE;
 
 	if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::water))
 	{
@@ -530,8 +531,7 @@ void GameRenderer::renderLevel(float f)
 		{
 			glDisable(GL_ALPHA_TEST);
 
-			// added by iProgramInCpp - renders the cracks
-			pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+			pLR->renderCracks((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
 			if (m_pMinecraft->getOptions()->m_bBlockOutlines)
 				pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
@@ -656,7 +656,7 @@ void GameRenderer::render(float f)
 					return;
 			}
 
-			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
+			m_pMinecraft->m_pGui->render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
 		}
 	}
 	else
@@ -738,7 +738,8 @@ void GameRenderer::render(float f)
 
 		glDisable(GL_DEPTH_TEST);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		currentShaderColor = Color::WHITE;
+		currentShaderDarkColor = Color::WHITE;
 
 		t.begin();
 		t.color(1.0f, 1.0f, 1.0f, 0.15f);
@@ -965,7 +966,8 @@ void GameRenderer::renderWeather(float f)
 			float f3 = Mth::sqrt(f1 * f1 + f2 * f2) / float(range);
 			float f4 = pLevel->getBrightness(tp);
 			t.begin();
-			glColor4f(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
+			currentShaderColor = Color(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
+			currentShaderDarkColor = Color::WHITE;
 			t.setOffset(-pos.x, -pos.y, -pos.z);
 			t.vertexUV(float(tp.x + 0), float(minY), float(tp.z + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
@@ -980,7 +982,7 @@ void GameRenderer::renderWeather(float f)
 		}
 	}
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
 }

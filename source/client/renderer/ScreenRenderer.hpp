@@ -1,7 +1,8 @@
 #pragma once
 
-#include "renderer/MaterialPtr.hpp"
+#include "common/math/Color.hpp"
 #include "client/gui/IntRectangle.hpp"
+#include "renderer/MaterialPtr.hpp"
 
 class ScreenRenderer
 {
@@ -29,8 +30,12 @@ public:
 
 public:
 	void blit(const IntRectangle& rect);
+	void blit(int dstX, int dstY, int srcX, int srcY, int dstWidth, int dstHeight, int srcWidth, int srcHeight, mce::MaterialPtr* materialPtr = nullptr);
+	void fill(int left, int top, int right, int bottom, const Color& color);
 
 private:
 	Materials m_materials;
+protected:
+	float m_blitOffset;
 };
 

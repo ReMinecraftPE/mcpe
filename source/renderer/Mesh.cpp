@@ -164,7 +164,8 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
         m_vertexBuffer.bindBuffer(context);
     }
 
-    _refreshMatrices();
+    GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
+    bufferManager.refreshWorldConstants();
 
     if (materialPtr)
     {

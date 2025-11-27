@@ -167,7 +167,7 @@ _done:
 	glDisable(GL_FOG);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
@@ -194,7 +194,7 @@ _done:
 
 		if (m_bRenderSelection && isSelectedItem(i))
 		{
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			glDisable(GL_TEXTURE_2D);
 
 			t.begin();
@@ -284,7 +284,7 @@ _done:
 void RolledSelectionList::renderHoleBackground(float y1, float y2, int a, int b)
 {
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
