@@ -13,8 +13,13 @@
 #ifndef OLD_OPTIONS_SCREEN
 
 OptionsScreen::OptionsScreen() :
+	m_videoButton(1, "Video"),
+	m_controlsButton(2, "Controls"),
+	m_multiplayerButton(3, "Multiplayer"),
+	m_miscButton(4, "Misc"),
 	m_backButton(100, "Done"),
-	m_pList(nullptr)
+	m_pList(nullptr),
+	m_currentCategory(OC_VIDEO)
 {
 }
 
@@ -29,15 +34,49 @@ void OptionsScreen::init()
 		SAFE_DELETE(m_pList);
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
-	m_pList->initDefaultMenu();
+	setCategory(m_currentCategory);
+
+	int buttonWidth = 64;
+	int buttonHeight = 20;
+	int buttonSpacing = 5;
+	int totalWidth = (buttonWidth * 4) + (buttonSpacing * 3);
+	int startX = (m_width - totalWidth) / 2;
+
+	m_videoButton.m_width = buttonWidth;
+	m_videoButton.m_height = buttonHeight;
+	m_videoButton.m_xPos = startX;
+	m_videoButton.m_yPos = 4.3;
+
+	m_controlsButton.m_width = buttonWidth;
+	m_controlsButton.m_height = buttonHeight;
+	m_controlsButton.m_xPos = startX + buttonWidth + buttonSpacing;
+	m_controlsButton.m_yPos = 4.3;
+
+	m_multiplayerButton.m_width = buttonWidth;
+	m_multiplayerButton.m_height = buttonHeight;
+	m_multiplayerButton.m_xPos = startX + (buttonWidth + buttonSpacing) * 2;
+	m_multiplayerButton.m_yPos = 4.3;
+
+	m_miscButton.m_width = buttonWidth;
+	m_miscButton.m_height = buttonHeight;
+	m_miscButton.m_xPos = startX + (buttonWidth + buttonSpacing) * 3;
+	m_miscButton.m_yPos = 4.3;
 
 	m_backButton.m_width = 100;
 	m_backButton.m_height = 20;
-
 	m_backButton.m_xPos = (m_width - m_backButton.m_width) / 2;
 	m_backButton.m_yPos = m_height - m_backButton.m_height - (28 - m_backButton.m_height) / 2;
 
+	m_buttons.push_back(&m_videoButton);
+	m_buttons.push_back(&m_controlsButton);
+	m_buttons.push_back(&m_multiplayerButton);
+	m_buttons.push_back(&m_miscButton);
 	m_buttons.push_back(&m_backButton);
+
+	m_buttonTabList.push_back(&m_videoButton);
+	m_buttonTabList.push_back(&m_controlsButton);
+	m_buttonTabList.push_back(&m_multiplayerButton);
+	m_buttonTabList.push_back(&m_miscButton);
 	m_buttonTabList.push_back(&m_backButton);
 }
 
@@ -50,7 +89,29 @@ void OptionsScreen::render(int mouseX, int mouseY, float f)
 
 	Screen::render(mouseX, mouseY, f);
 
-	drawCenteredString(m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
+	Button* pButton = nullptr;
+	switch (m_currentCategory)
+	{
+	case OC_VIDEO:
+		pButton = &m_videoButton;
+		break;
+	case OC_CONTROLS:
+		pButton = &m_controlsButton;
+		break;
+	case OC_MULTIPLAYER:
+		pButton = &m_multiplayerButton;
+		break;
+	case OC_MISCELLANEOUS:
+		pButton = &m_miscButton;
+		break;
+	}
+
+	if (pButton)
+	{
+		// Original concept
+		//fill(pButton->m_xPos, pButton->m_yPos + pButton->m_height, pButton->m_xPos + pButton->m_width, pButton->m_yPos + pButton->m_height + 1, 0xFFFFFFFF);
+	}
+	drawCenteredString(m_pFont, "", m_width / 2, 10, 0xFFFFFF);
 }
 
 void OptionsScreen::removed()
@@ -60,10 +121,43 @@ void OptionsScreen::removed()
 #endif
 }
 
+void OptionsScreen::setCategory(OptionsCategory category)
+{
+	m_currentCategory = category;
+	m_pList->clear();
+
+	m_videoButton.m_bEnabled = m_currentCategory != OC_VIDEO;
+	m_controlsButton.m_bEnabled = m_currentCategory != OC_CONTROLS;
+	m_multiplayerButton.m_bEnabled = m_currentCategory != OC_MULTIPLAYER;
+	m_miscButton.m_bEnabled = m_currentCategory != OC_MISCELLANEOUS;
+
+	switch (category)
+	{
+	case OC_VIDEO:
+		m_pList->initVideoMenu();
+		break;
+	case OC_CONTROLS:
+		m_pList->initControlsMenu();
+		break;
+	case OC_MULTIPLAYER:
+		m_pList->initMultiplayerMenu();
+		break;
+	case OC_MISCELLANEOUS:
+		m_pList->initMiscMenu();
+		break;
+	}
+}
+
 void OptionsScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == 100)
+	if (pButton->m_buttonId >= 1 && pButton->m_buttonId <= 4)
+	{
+		setCategory((OptionsCategory)(pButton->m_buttonId - 1));
+	}
+	else if (pButton->m_buttonId == 100) // random buttonId
+	{
 		handleBackEvent(false);
+	}
 }
 
 bool OptionsScreen::handleBackEvent(bool b)

@@ -355,7 +355,8 @@ const char* gSplashes[] =
 	"Controller support!",
 	"Check out our GitHub!",
 	"Woo, newgrounds!",
-	"Woo, curseforge!"
+	"Woo, curseforge!",
+	"Nostalgic!"
 };
 
 StartMenuScreen::StartMenuScreen() :
@@ -498,8 +499,34 @@ void StartMenuScreen::drawLegacyTitle()
 	Textures* tx = m_pMinecraft->m_pTextures;
 
 	bool crampedMode = false;
+#ifdef ENH_JAVA_TITLE_LOGO 
+	int titleYPos = 30; // -- MC Java position
+
+	tx->loadAndBindTexture("title/mclogo.png");
+
+	int width = 274;
+	int leftPos = m_width / 2 - width / 2;
+
+	if (m_width * 3 / 4 < width)
+	{
+		crampedMode = true;
+		titleYPos = 4;
+	}
+
+	Tesselator& t = Tesselator::instance;
+	glColor4f(1, 1, 1, 1);
+	t.begin();
+	t.vertexUV(leftPos,        titleYPos + 44, 0, 0.0f,         44.0f / 256.0f);
+	t.vertexUV(leftPos + 155,  titleYPos + 44, 0, 155.0f / 256.0f, 44.0f / 256.0f);
+	t.vertexUV(leftPos + 155,  titleYPos,      0, 155.0f / 256.0f, 0.0f);
+	t.vertexUV(leftPos,        titleYPos,      0, 0.0f,         0.0f);
+	t.vertexUV(leftPos + 155, titleYPos + 44, 0, 0.0f,         (45.0f + 44.0f) / 256.0f);
+	t.vertexUV(leftPos + 310, titleYPos + 44, 0, 155.0f / 256.0f, (45.0f + 44.0f) / 256.0f);
+	t.vertexUV(leftPos + 310, titleYPos,      0, 155.0f / 256.0f, 45.0f / 256.0f);
+	t.vertexUV(leftPos + 155, titleYPos,      0, 0.0f,         45.0f / 256.0f);
+	t.draw();
+#else
 	//int titleYPos = 4;
-	//int titleYPos = 30; // -- MC Java position
 	int titleYPos = 15;
 
 	int id = tx->loadTexture("gui/title.png", true);
@@ -532,7 +559,7 @@ void StartMenuScreen::drawLegacyTitle()
 		t.vertexUV(left, titleYPos, field_4, 0.0f, 0.0f);
 		t.draw();
 	}
-
+#endif
 }
 
 void StartMenuScreen::render(int a, int b, float c)
@@ -545,8 +572,11 @@ void StartMenuScreen::render(int a, int b, float c)
 #endif
 
 	//int titleYPos = 4;
-	//int titleYPos = 30; // -- MC Java position.
+#ifdef ENH_JAVA_TITLE_LOGO 
+	int titleYPos = 30; // -- MC Java position.
+#else
 	int titleYPos = 15;
+#endif
 	bool crampedMode = false;
 
 	if (m_width * 3 / 4 < 256)
@@ -649,7 +679,7 @@ void StartMenuScreen::draw3dTitle(float f)
 		glScalef(0.89f, 1.0f, 0.4f);
 		glTranslatef(-Width * 0.5f, -Height * 0.5f, 0.0f);
 
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+		m_pMinecraft->m_pTextures->loadAndBindTexture("terrain.png");
 		if (i == 0) {
 			m_pMinecraft->m_pTextures->loadAndBindTexture("gui/black.png");
 		}
