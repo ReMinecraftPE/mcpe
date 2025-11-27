@@ -162,7 +162,7 @@ void Entity::move(const Vec3& pos)
 		bool validSneaking = m_bOnGround && isSneaking();
 		if (validSneaking)
 		{
-			for (float dx = 0.05f; pos.x != 0.0f && m_pLevel->getCubes(this, AABB(m_hitbox).move(newPos.x, -1.0f, 0.0f))->size() == 0; cPosX = newPos.x)
+			for (float dx = 0.05f; newPos.x != 0.0f && m_pLevel->getCubes(this, AABB(m_hitbox).move(newPos.x, -1.0f, 0.0f))->size() == 0; cPosX = newPos.x)
 			{
 				if (newPos.x < dx && newPos.x >= -dx)
 					newPos.x = 0.0;

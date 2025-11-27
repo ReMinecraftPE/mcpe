@@ -127,7 +127,7 @@ void Screen::renderMenuBackground(float f)
 
 	mce::MaterialPtr* materialPtr = &m_materials.ui_cubemap;
 
-#if ENH_GFX_MATRIX_STACK
+#ifdef ENH_GFX_MATRIX_STACK
 
 	/*glDisable(GL_BLEND);
 	glDisable(GL_CULL_FACE);

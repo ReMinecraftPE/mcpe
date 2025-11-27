@@ -14,7 +14,7 @@ ShaderConstants::ShaderConstants()
 
 void ShaderConstants::setShaderColor(const Color& shaderColor)
 {
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
     Color* pCurrentColor = (Color*)CURRENT_COLOR->m_data;
     *pCurrentColor = shaderColor;
     CURRENT_COLOR->m_dirty = true;
@@ -28,7 +28,7 @@ void ShaderConstants::setShaderColor(const Color& shaderColor)
 
 void ShaderConstants::setShaderColors(const Color& shaderColor, const Color& shaderDarkenColor)
 {
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
     Color* pCurrentColor = (Color*)CURRENT_COLOR->m_data;
     *pCurrentColor = shaderColor;
     CURRENT_COLOR->m_dirty = true;

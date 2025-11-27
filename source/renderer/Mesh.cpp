@@ -63,44 +63,6 @@ void Mesh::_move(Mesh& other)
     other.m_vertexCount = 0;
 }
 
-void Mesh::_refreshMatrices()
-{
-#if FEATURE_GFX_SHADERS
-    GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
-    bufferManager.refreshWorldConstants();
-#elseif ENH_GFX_MATRIX_STACK
-    // copied from WorldConstants::refreshWorldConstants()
-
-    // @TODO: keep MatrixStack states in RC, make MatrixStack ID enum, make loadMatrixStack(stackIdEnum, stackPtr)
-
-    if (MatrixStack::Projection.isDirty())
-    {
-        const Matrix& matrix = MatrixStack::Projection.top();
-
-        // @TODO: abstract
-        glMatrixMode(GL_PROJECTION);
-        xglLoadTransposeMatrixf((float*)&matrix._m);
-        glMatrixMode(GL_MODELVIEW);
-
-        MatrixStack::Projection.makeClean();
-    }
-
-    if (MatrixStack::World.isDirty() || MatrixStack::View.isDirty())
-    {
-        const Matrix& worldMatrix = MatrixStack::World.top();
-        const Matrix& viewMatrix = MatrixStack::View.top();
-        Matrix modelViewMatrix = worldMatrix * viewMatrix;
-
-        // @TODO: abstract
-        glMatrixMode(GL_MODELVIEW);
-        xglLoadTransposeMatrixf((float*)&modelViewMatrix._m);
-
-        MatrixStack::World.makeClean();
-        MatrixStack::View.makeClean();
-    }
-#endif
-}
-
 void Mesh::reset()
 {
     m_vertexBuffer.releaseBuffer();

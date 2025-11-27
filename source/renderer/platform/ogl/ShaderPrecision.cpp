@@ -3,7 +3,7 @@
 #include "ShaderPrecision.hpp"
 
 #include "GameMods.hpp"
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 #include "common/Util.hpp"
 

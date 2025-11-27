@@ -80,7 +80,7 @@ PFNGLBUFFERSUBDATAPROC p_glBufferSubData;
 PFNGLSTENCILFUNCSEPARATEPROC p_glStencilFuncSeparate;
 PFNGLSTENCILOPSEPARATEPROC p_glStencilOpSeparate;
 #endif // GL_VERSION_2_0
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0
 PFNGLUNIFORM1IPROC p_glUniform1i;
 PFNGLUNIFORM1FVPROC p_glUniform1fv;
@@ -142,7 +142,7 @@ bool xglInitted()
 #if GL_VERSION_2_0
 		&& p_glStencilFuncSeparate
 		&& p_glStencilOpSeparate
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 		&& p_glUniform1i
 		&& p_glUniform1fv
 		&& p_glUniform2fv
@@ -204,7 +204,7 @@ void xglInit()
 	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)OGL::GetProcAddress("glStencilFuncSeparate");
 	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)OGL::GetProcAddress("glStencilOpSeparate");
 #endif
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)OGL::GetProcAddress("glUniform1i");
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)OGL::GetProcAddress("glUniform1fv");
@@ -262,7 +262,7 @@ void xglInit()
 	p_glStencilFuncSeparate = (PFNGLSTENCILFUNCSEPARATEPROC)glStencilFuncSeparate;
 	p_glStencilOpSeparate = (PFNGLSTENCILOPSEPARATEPROC)glStencilOpSeparate;
 #endif
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0
 	p_glUniform1i = (PFNGLUNIFORM1IPROC)glUniform1i;
 	p_glUniform1fv = (PFNGLUNIFORM1FVPROC)glUniform1fv;
@@ -371,7 +371,7 @@ void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppas
 
 #endif // GL_VERSION_2_0
 
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 #if GL_VERSION_2_0
 

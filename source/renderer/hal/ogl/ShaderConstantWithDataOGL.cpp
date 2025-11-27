@@ -1,6 +1,6 @@
 #include "ShaderConstantWithDataOGL.hpp"
 
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 using namespace mce;
 

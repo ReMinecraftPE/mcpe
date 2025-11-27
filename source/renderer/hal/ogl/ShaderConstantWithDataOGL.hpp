@@ -1,8 +1,9 @@
 #pragma once
 
 #include "API_OGL.hpp"
+#include "GameMods.hpp"
 
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 #include "renderer/hal/base/ShaderConstantWithDataBase.hpp"
 

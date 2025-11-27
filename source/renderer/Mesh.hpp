@@ -28,7 +28,6 @@ namespace mce
 
     protected:
         void _move(Mesh& other);
-        void _refreshMatrices();
 
     public:
         void reset();

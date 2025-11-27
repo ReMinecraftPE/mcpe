@@ -47,7 +47,7 @@ namespace mce
         void _parseDepthStencilFace(const rapidjson::Value& root, const char* depthStencilFaceName, StencilFaceDescription& faceDescription) const;
         void _parseDepthStencilState(const rapidjson::Value& root);
         void _parseBlendState(const rapidjson::Value& root);
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
         void _parseShaderPaths(const rapidjson::Value& root);
         void _parseDefines(const rapidjson::Value& root);
         std::string _buildHeader();

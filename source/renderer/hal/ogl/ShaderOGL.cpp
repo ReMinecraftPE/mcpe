@@ -3,7 +3,7 @@
 
 #include "ShaderOGL.hpp"
 
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"

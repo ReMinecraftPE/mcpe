@@ -131,7 +131,7 @@ void RenderMaterial::_parseBlendState(const rapidjson::Value& root)
     parse(root, "blendDst", m_blendStateDescription.blendDestination);
 }
 
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 void RenderMaterial::_parseDefines(const rapidjson::Value& root)
 {

@@ -3,7 +3,7 @@
 #include <string>
 
 #include "GameMods.hpp"
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 #include "renderer/hal/ogl/API_OGL.hpp"
 

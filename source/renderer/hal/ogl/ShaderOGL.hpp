@@ -4,7 +4,7 @@
 
 #include "API_OGL.hpp"
 
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 #include "ShaderUniformOGL.hpp"
 #include "renderer/VertexFormat.hpp"

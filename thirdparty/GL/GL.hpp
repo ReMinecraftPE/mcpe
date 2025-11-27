@@ -10,6 +10,7 @@
 
 #include "common/Utils.hpp" // needed for M_PI
 #include "compat/PlatformDefinitions.h"
+#include "GameMods.hpp"
 
 #ifdef USE_NATIVE_ANDROID
 	#define USE_GLES
@@ -151,7 +152,7 @@ bool xglInitted();
 #define xglStencilFuncSeparate glStencilFuncSeparate
 #define xglStencilOpSeparate glStencilOpSeparate
 #endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define xglUniform1i glUniform1i
 #define xglUniform1fv glUniform1fv
@@ -211,7 +212,7 @@ void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLv
 void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
 void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
 #endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 void xglUniform1i(GLint location, GLint v0);
 void xglUniform1fv(GLint location, GLsizei count, const GLfloat* value);

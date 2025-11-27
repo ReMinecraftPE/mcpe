@@ -13,7 +13,7 @@ WorldConstants::WorldConstants()
 
 void WorldConstants::refreshWorldConstants()
 {
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
     if (!MatrixStack::Projection.isDirty() &&
         !MatrixStack::View.isDirty() &&
         !MatrixStack::World.isDirty())
@@ -42,7 +42,7 @@ void WorldConstants::refreshWorldConstants()
 
     // Sync the updated constant buffer data to the GPU.
     sync();
-#elseif ENH_GFX_MATRIX_STACK
+#elif ENH_GFX_MATRIX_STACK
     // @TODO: keep MatrixStack states in RC, make MatrixStack ID enum, make loadMatrixStack(stackIdEnum, stackPtr)
 
     if (MatrixStack::Projection.isDirty())

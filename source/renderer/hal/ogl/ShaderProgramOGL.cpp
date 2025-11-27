@@ -1,6 +1,6 @@
 #include "ShaderProgramOGL.hpp"
 
-#if FEATURE_GFX_SHADERS
+#ifdef FEATURE_GFX_SHADERS
 
 #include "RenderContextOGL.hpp"
 
