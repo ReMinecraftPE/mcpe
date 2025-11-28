@@ -292,7 +292,7 @@ void LevelChunk::addEntity(Entity* pEnt)
 	assert(pEnt != nullptr); // Cannot add a null entity
 	field_238 = 1;
 
-	int yCoord = int(floorf(pEnt->m_pos.y / 16));
+	int yCoord = ChunkPos::toChunkCoordinate(pEnt->m_pos.y);
 	if (yCoord < 0) yCoord = 0;
 	if (yCoord > 7) yCoord = 7;
 	pEnt->m_bInAChunk = true;
@@ -300,6 +300,50 @@ void LevelChunk::addEntity(Entity* pEnt)
 	pEnt->m_chunkPosY = yCoord;
 
 	m_entities[yCoord].push_back(pEnt);
+}
+
+void LevelChunk::updateEntity(Entity* pEnt)
+{
+	assert(pEnt != nullptr);
+
+	if (!pEnt->m_bInAChunk)
+	{
+		assert(false);
+		return;
+	}
+
+	if (pEnt->m_chunkPos != m_chunkPos)
+	{
+		assert(false);
+		return;
+	}
+
+	int newYCoord = ChunkPos::toChunkCoordinate(pEnt->m_pos.y);
+	int oldYCoord = pEnt->m_chunkPosY;
+	if (oldYCoord == newYCoord)
+	{
+		return;
+	}
+
+	if (oldYCoord < 0 || oldYCoord > 7)
+	{
+		assert(false);
+		return;
+	}
+
+	std::vector<Entity*>::iterator it = std::find(m_entities[oldYCoord].begin(), m_entities[oldYCoord].end(), pEnt);
+	if (it != m_entities[oldYCoord].end())
+	{
+		m_entities[oldYCoord].erase(it);
+	}
+	else
+	{
+		assert(false);
+	}
+
+	assert(std::find(m_entities[newYCoord].begin(), m_entities[newYCoord].end(), pEnt) == m_entities[newYCoord].end());
+	m_entities[newYCoord].push_back(pEnt);
+	pEnt->m_chunkPosY = newYCoord;
 }
 
 void LevelChunk::clearUpdateMap()

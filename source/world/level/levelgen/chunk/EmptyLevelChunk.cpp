@@ -41,6 +41,11 @@ void EmptyLevelChunk::removeEntity(Entity*, int vec)
 
 }
 
+void EmptyLevelChunk::updateEntity(Entity* pEnt)
+{
+
+}
+
 bool EmptyLevelChunk::isSkyLit(const ChunkTilePos& pos)
 {
 	return false;
