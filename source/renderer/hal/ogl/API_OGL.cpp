@@ -123,7 +123,9 @@ bool gl::supportsMipmaps()
 
 bool gl::supportsImmediateMode()
 {
+#ifndef FEATURE_GFX_SHADERS
     return false;
+#endif
 
     static int supportsImmediateMode = -1;
     if (supportsImmediateMode < 0)

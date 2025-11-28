@@ -10,9 +10,19 @@
 
 #include "Textures.hpp"
 #include "client/options/Options.hpp"
+#include "renderer/MaterialPtr.hpp"
 
 class Font
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_text;
+
+		Materials();
+	};
+
 public:
 	Font(Options* pOpts, const std::string& fileName, Textures* pTexs);
 
@@ -41,5 +51,6 @@ private:
 	std::string m_fileName;
 	Options* m_pOptions;
 	Textures* m_pTextures;
+	Materials m_materials;
 };
 

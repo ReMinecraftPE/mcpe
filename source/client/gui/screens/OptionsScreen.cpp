@@ -50,7 +50,7 @@ void OptionsScreen::render(int mouseX, int mouseY, float f)
 
 	Screen::render(mouseX, mouseY, f);
 
-	drawCenteredString(m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
+	drawCenteredString(*m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
 }
 
 void OptionsScreen::removed()
@@ -302,7 +302,7 @@ void OptionsScreen::render(int a, int b, float c)
 	}
 
 #ifndef ORIGINAL_CODE
-	drawCenteredString(m_pFont, "Options", m_width / 2, isCramped() ? 5 : 20, 0xFFFFFF);
+	drawCenteredString(*m_pFont, "Options", m_width / 2, isCramped() ? 5 : 20, 0xFFFFFF);
 
 	Screen::render(a, b, c);
 #endif

@@ -42,7 +42,7 @@ void WorldConstants::refreshWorldConstants()
 
     // Sync the updated constant buffer data to the GPU.
     sync();
-#elif ENH_GFX_MATRIX_STACK
+#elif defined(ENH_GFX_MATRIX_STACK)
     // @TODO: keep MatrixStack states in RC, make MatrixStack ID enum, make loadMatrixStack(stackIdEnum, stackPtr)
 
     if (MatrixStack::Projection.isDirty())
@@ -51,7 +51,7 @@ void WorldConstants::refreshWorldConstants()
 
         // @TODO: abstract
         glMatrixMode(GL_PROJECTION);
-        xglLoadTransposeMatrixf((float*)&matrix._m);
+        glLoadMatrixf((float*)&matrix._m);
         glMatrixMode(GL_MODELVIEW);
 
         MatrixStack::Projection.makeClean();
@@ -65,7 +65,7 @@ void WorldConstants::refreshWorldConstants()
 
         // @TODO: abstract
         glMatrixMode(GL_MODELVIEW);
-        xglLoadTransposeMatrixf((float*)&modelViewMatrix._m);
+        glLoadMatrixf((float*)&modelViewMatrix._m);
 
         MatrixStack::World.makeClean();
         MatrixStack::View.makeClean();

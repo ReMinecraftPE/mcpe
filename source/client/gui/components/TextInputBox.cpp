@@ -386,7 +386,7 @@ void TextInputBox::render()
 	rendered_text = getRenderedText(scroll_pos, rendered_text);
 
 	int textYPos = (m_height - 8) / 2;
-	drawString(m_pFont, rendered_text, m_xPos + PADDING, m_yPos + textYPos, text_color);
+	drawString(*m_pFont, rendered_text, m_xPos + PADDING, m_yPos + textYPos, text_color);
 
 	if (m_bCursorOn)
 	{
@@ -398,7 +398,7 @@ void TextInputBox::render()
 
 			std::string str;
 			str += CURSOR_CHAR;
-			drawString(m_pFont, str, m_xPos + xPos, m_yPos + textYPos + 2, 0xffffff);
+			drawString(*m_pFont, str, m_xPos + xPos, m_yPos + textYPos + 2, 0xffffff);
 		}
 	}
 }

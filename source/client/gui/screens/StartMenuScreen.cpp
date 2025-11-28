@@ -673,8 +673,8 @@ void StartMenuScreen::render(int a, int b, float c)
 	else
 		draw3dTitle(c);
 
-	drawString(m_pFont, field_170, field_188, 58 + titleYPos, Color(204, 204, 204));
-	drawString(m_pFont, field_154, field_16C, m_height - 10, Color::WHITE);
+	drawString(*m_pFont, field_170, field_188, 58 + titleYPos, Color(204, 204, 204));
+	drawString(*m_pFont, field_154, field_16C, m_height - 10, Color::WHITE);
 
 	// Draw the splash text, if we have enough room.
 #ifndef TITLE_CROP_MODE
@@ -701,23 +701,38 @@ void StartMenuScreen::tick()
 
 void StartMenuScreen::drawSplash()
 {
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref mtx = MatrixStack::World.push();
+#else
 	glPushMatrix();
+#endif
 
 	std::string splashText = getSplashString();
 	int textWidth = m_pFont->width(splashText);
 	//int textHeight = m_pFont->height(splashText);
 
+#ifdef ENH_GFX_MATRIX_STACK
+	mtx->translate(Vec3(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f));
+	mtx->rotate(-20.0f, Vec3::UNIT_Z);
+#else
 	glTranslatef(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f);
 	glRotatef(-20.0f, 0.0f, 0.0f, 1.0f);
+#endif
 
 	float timeMS = float(getTimeMs() % 1000) / 1000.0f;
 	float scale = 1.8f - Mth::abs(0.1f * Mth::sin(2.0f * float(M_PI) * timeMS));
 	scale = (scale * 100.0f) / (32.0f + textWidth);
+#ifdef ENH_GFX_MATRIX_STACK
+	mtx->scale(scale);
+#else
 	glScalef(scale, scale, scale);
+#endif
 
-	drawCenteredString(m_pFont, splashText, 0, -8, Color::YELLOW);
+	drawCenteredString(*m_pFont, splashText, 0, -8, Color::YELLOW);
 
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
 }
 
 std::string StartMenuScreen::getSplashString()

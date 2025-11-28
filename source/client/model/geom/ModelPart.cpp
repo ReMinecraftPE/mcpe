@@ -153,18 +153,32 @@ void ModelPart::render(float scale)
 
 	if (!hasDefaultRot())
 	{
+#ifdef ENH_GFX_MATRIX_STACK
+		MatrixStack::Ref mtx = MatrixStack::World.push();
+
+		translateRotTo(**mtx, scale);
+		draw(scale);
+#else
 		glPushMatrix();
 
 		translateRotTo(scale);
 		draw(scale);
 
 		glPopMatrix();
+#endif
 	}
 	else if (!hasDefaultPos())
 	{
+#ifdef ENH_GFX_MATRIX_STACK
+		MatrixStack::Ref mtx = MatrixStack::World.push();
+
+		translatePosTo(**mtx, scale);
+		draw(scale);
+#else
 		translatePosTo(scale);
 		draw(scale);
 		translatePosTo(-scale);
+#endif
 	}
 	else
 	{

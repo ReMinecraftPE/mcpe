@@ -149,14 +149,14 @@ void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Te
 
     int x = xCenter + 5 - m_itemWidth / 2;
 	// Draw name
-	drawString(m_pMinecraft->m_pFont, details[0], x, yPos + 50 + yPadding, color1);
+	drawString(*m_pMinecraft->m_pFont, details[0], x, yPos + 50 + yPadding, color1);
 	// Draw other details
 	for (unsigned int i = 1; i < details.size()-1; i++)
 	{
-		drawString(m_pMinecraft->m_pFont, details[i], x, yPos + (50 + yPadding + (10 * i)), color2);
+		drawString(*m_pMinecraft->m_pFont, details[i], x, yPos + (50 + yPadding + (10 * i)), color2);
 	}
     // Draw storage version
-    drawString(m_pMinecraft->m_pFont, details[details.size()-1], xCenter + 42, yPos + (50 + yPadding + (10 * 3)), color2);
+    drawString(*m_pMinecraft->m_pFont, details[details.size()-1], xCenter + 42, yPos + (50 + yPadding + (10 * 3)), color2);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture(m_previewImages[index]);
 	

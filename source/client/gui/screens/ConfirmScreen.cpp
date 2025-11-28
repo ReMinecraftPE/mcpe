@@ -62,8 +62,8 @@ void ConfirmScreen::init()
 void ConfirmScreen::render(int mouseX, int mouseY, float f)
 {
 	renderBackground();
-	drawCenteredString(m_pFont, m_textLine1, m_width / 2, 50, 0xFFFFFF);
-	drawCenteredString(m_pFont, m_textLine2, m_width / 2, 70, 0xFFFFFF);
+	drawCenteredString(*m_pFont, m_textLine1, m_width / 2, 50, 0xFFFFFF);
+	drawCenteredString(*m_pFont, m_textLine2, m_width / 2, 70, 0xFFFFFF);
 	Screen::render(mouseX, mouseY, f);
 }
 

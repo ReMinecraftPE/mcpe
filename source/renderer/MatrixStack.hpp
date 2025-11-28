@@ -78,10 +78,10 @@ public:
     public:
         void release();
 
-        MatrixStack* getStack() const { return m_pStack; }
-        Matrix* getMatrix() const { return m_pMatrix; }
+        const MatrixStack* stack() const { return m_pStack; }
+        const Matrix* matrix() const { return m_pMatrix; }
 
-        Matrix* operator->() const;
+        Matrix* operator->();
         Matrix* operator*();
         Ref& operator=(const Matrix& value);
         void operator=(Ref&& other);

@@ -120,7 +120,7 @@ void PauseScreen::render(int a, int b, float c)
 {
 	renderBackground();
 
-	drawCenteredString(m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
+	drawCenteredString(*m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
 	Screen::render(a, b, c);
 }
 

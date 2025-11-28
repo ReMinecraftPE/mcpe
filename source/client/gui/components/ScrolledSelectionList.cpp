@@ -9,6 +9,7 @@
 // @TODO: Add keyboard based control
 
 #include "ScrolledSelectionList.hpp"
+#include "renderer/EnableScissorTest.hpp"
 
 #define C_ITEM_WIDTH C_SCROLLED_LIST_ITEM_WIDTH
 
@@ -86,13 +87,13 @@ void ScrolledSelectionList::onClickItem(int index, int mouseX, int mouseY)
 void ScrolledSelectionList::renderScrollBackground()
 {
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.color(0x202020);
 	t.vertexUV(field_24, field_10, 0.0f, field_24 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_20, field_10, 0.0f, field_20 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_20, field_C,  0.0f, field_20 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_24, field_C,  0.0f, field_24 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
-	t.draw();
+	t.draw(m_materials.ui_texture_and_color);
 }
 
 void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
@@ -160,8 +161,10 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	field_38 *= 0.75f;
 	capYPosition();
 
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_LIGHTING);
 	glDisable(GL_FOG);
+#endif
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -177,52 +180,59 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	// Note, X/Y are the lower left's X/Y coordinates, not the upper left's.
 	int lowerY = Minecraft::height - int(field_10 / Gui::InvGuiScale);
 	int upperY = Minecraft::height - int(field_C  / Gui::InvGuiScale);
-	glScissor(0, lowerY, Minecraft::width, upperY - lowerY);
-	glEnable(GL_SCISSOR_TEST);
 
-	for (int i = 0; i < nItems; i++)
 	{
-		float itemY = float(field_48 + scrollY + i * m_itemHeight);
-		if (field_10 < itemY)
-			continue;
+		mce::EnableScissorTest scissor(0, lowerY, Minecraft::width, upperY - lowerY);
 
-		float lowerY = itemY + m_itemHeight - 4;
-		if (lowerY < field_C)
-			continue;
-
-		if (m_bRenderSelection && isSelectedItem(i))
+		for (int i = 0; i < nItems; i++)
 		{
-			//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			glDisable(GL_TEXTURE_2D);
-			t.begin();
-			t.color(0x808080);
-			t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f, lowerY + 2.0f, 0.0f, 0.0f, 1.0f);
-			t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f, lowerY + 2.0f, 0.0f, 1.0f, 1.0f);
-			t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f, itemY  - 2.0f, 0.0f, 1.0f, 0.0f);
-			t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f, itemY  - 2.0f, 0.0f, 0.0f, 0.0f);
-			t.color(0x000000);
-			t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f + 1, lowerY + 1.0f, 0.0f, 0.0f, 1.0f);
-			t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f - 1, lowerY + 1.0f, 0.0f, 1.0f, 1.0f);
-			t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f - 1, itemY  - 1.0f, 0.0f, 1.0f, 0.0f);
-			t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f + 1, itemY  - 1.0f, 0.0f, 0.0f, 0.0f);
-			t.draw();
-			glEnable(GL_TEXTURE_2D);
-		}
+			float itemY = float(field_48 + scrollY + i * m_itemHeight);
+			if (field_10 < itemY)
+				continue;
 
-		renderItem(i, itemX, int(itemY), int(m_itemHeight - 4.0f), t);
+			float lowerY = itemY + m_itemHeight - 4;
+			if (lowerY < field_C)
+				continue;
+
+			if (m_bRenderSelection && isSelectedItem(i))
+			{
+#ifndef FEATURE_GFX_SHADERS
+				//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				glDisable(GL_TEXTURE_2D);
+#endif
+				t.begin(8);
+				t.color(0x808080);
+				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f, lowerY + 2.0f, 0.0f, 0.0f, 1.0f);
+				t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f, lowerY + 2.0f, 0.0f, 1.0f, 1.0f);
+				t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f, itemY - 2.0f, 0.0f, 1.0f, 0.0f);
+				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f, itemY - 2.0f, 0.0f, 0.0f, 0.0f);
+				t.color(0x000000);
+				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f + 1, lowerY + 1.0f, 0.0f, 0.0f, 1.0f);
+				t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f - 1, lowerY + 1.0f, 0.0f, 1.0f, 1.0f);
+				t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f - 1, itemY - 1.0f, 0.0f, 1.0f, 0.0f);
+				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f + 1, itemY - 1.0f, 0.0f, 0.0f, 0.0f);
+				t.draw(m_materials.ui_fill_color);
+#ifndef FEATURE_GFX_SHADERS
+				glEnable(GL_TEXTURE_2D);
+#endif
+			}
+
+			renderItem(i, itemX, int(itemY), int(m_itemHeight - 4.0f), t);
+		}
 	}
-	
-	glDisable(GL_SCISSOR_TEST);
-	glDisable(GL_DEPTH_TEST);
+
+	//glDisable(GL_DEPTH_TEST);
 
 	renderHoleBackground(0.0f, field_C, 255, 255);
 	renderHoleBackground(field_10, float(field_1C), 255, 255);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#ifndef FEATURE_GFX_SHADERS
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_ALPHA_TEST);
 	glShadeModel(GL_SMOOTH);
 	glDisable(GL_TEXTURE_2D);
+#endif
 
 	t.begin();
 	t.color(0, 0);
@@ -231,7 +241,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 255);
 	t.vertexUV(field_20, field_C, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(field_24, field_C, 0.0f, 0.0f, 0.0f);
-	t.draw();
+	t.draw(m_materials.ui_fill_color);
 
 	t.begin();
 	t.color(0, 255);
@@ -240,15 +250,17 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 0);
 	t.vertexUV(field_20, field_10 - 4.0f, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(field_24, field_10 - 4.0f, 0.0f, 0.0f, 0.0f);
-	t.draw();
+	t.draw(m_materials.ui_fill_color);
 
 	renderDecorations(mouseX, mouseY);
 
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	glShadeModel(GL_FLAT);
 	glEnable(GL_ALPHA_TEST);
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
+#endif
 }
 
 void ScrolledSelectionList::renderHoleBackground(float a, float b, int c, int d)
@@ -258,14 +270,14 @@ void ScrolledSelectionList::renderHoleBackground(float a, float b, int c, int d)
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.color(0x505050, d);
 	t.vertexUV(0.0f,            b, 0.0f, 0.0f,             b / 32.0f);
 	t.vertexUV(float(field_18), b, 0.0f, field_18 / 32.0f, b / 32.0f);
 	t.color(0x505050, c);
 	t.vertexUV(float(field_18), a, 0.0f, field_18 / 32.0f, a / 32.0f);
 	t.vertexUV(0.0f,            a, 0.0f, 0.0f,             a / 32.0f);
-	t.draw();
+	t.draw(m_materials.ui_texture_and_color);
 }
 
 void ScrolledSelectionList::setRenderHeader(bool b, int i)

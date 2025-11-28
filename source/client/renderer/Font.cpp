@@ -8,9 +8,16 @@
 
 #include "Font.hpp"
 #include "Tesselator.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
+#include "renderer/MatrixStack.hpp"
 
 constexpr char COLOR_START_CHAR = '\xa7';
+
+Font::Materials::Materials()
+{
+	MATERIAL_PTR(common, ui_text);
+}
 
 Font::Font(Options* pOpts, const std::string& fileName, Textures* pTexs) :
 	m_fileName(fileName), m_pOptions(pOpts), m_pTextures(pTexs)
@@ -116,12 +123,16 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 
 	currentShaderColor = finalColor;
 
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref mtx = MatrixStack::World.push();
+	mtx->translate(Vec3(x, y, 0.0f));
+#else
 	glPushMatrix();
+	glTranslatef(float(x), float(y), 0.0f);
+#endif
 
 	Tesselator& t = Tesselator::instance;
 	t.begin(4 * str.size());
-
-	glTranslatef(float(x), float(y), 0.0f);
 
 	float cXPos = 0.0f, cYPos = 0.0f;
 
@@ -141,9 +152,11 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 		cXPos += m_charWidthFloat[x];
 	}
 
-	t.draw();
+	t.draw(m_materials.ui_text);
 
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
 }
 
 void Font::onGraphicsReset()

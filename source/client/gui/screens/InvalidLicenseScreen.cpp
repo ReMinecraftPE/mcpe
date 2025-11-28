@@ -64,7 +64,7 @@ void InvalidLicenseScreen::tick()
 void InvalidLicenseScreen::render(int mouseX, int mouseY, float f)
 {
 	renderDirtBackground(0);
-	drawCenteredString(m_pMinecraft->m_pFont, m_textLine1, m_width / 2, field_E4, 0xFFFFFF);
-	drawCenteredString(m_pMinecraft->m_pFont, m_textLine2, m_width / 2, field_E4 + 24, 0xFFFFFF);
+	drawCenteredString(*m_pMinecraft->m_pFont, m_textLine1, m_width / 2, field_E4, 0xFFFFFF);
+	drawCenteredString(*m_pMinecraft->m_pFont, m_textLine2, m_width / 2, field_E4 + 24, 0xFFFFFF);
 	Screen::render(mouseX, mouseY, f);
 }

@@ -38,6 +38,7 @@ private:
 public:
 	// this constructor is nice to have, but it's probably inlined
 	Vec3();
+	Vec3(float xyz);
 	Vec3(float x, float y, float z);
 	Vec3(const TilePos& tilePos);
 

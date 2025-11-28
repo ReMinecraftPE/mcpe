@@ -15,6 +15,7 @@
 #include "Lighting.hpp"
 #include "renderer/GL/GL.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
 
@@ -44,16 +45,11 @@ void GameRenderer::_init()
 	field_38 = 0.0f;
 	field_3C = 0.0f;
 	field_40 = 0.0f;
-	field_44 = 1.0f;
-	field_48 = 0.0f;
-	field_4C = 0.0f;
+	m_zoom = 1.0f;
 	field_50 = 0.0f;
 	field_54 = 0.0f;
 	field_58 = 0.0f;
 	field_5C = 0.0f;
-	field_60 = 0.0f;
-	field_64 = 0.0f;
-	field_68 = 0.0f;
 	field_6C = 0.0f;
 	field_70 = 0.0f;
 	field_74 = 0.0f;
@@ -61,9 +57,10 @@ void GameRenderer::_init()
 	field_7C = 0.0f;
 	field_80 = 0.0f;
 	field_84 = 0.0f;
-	m_lastUpdatedMS = 0;
-	m_shownFPS = 0;
-	m_shownChunkUpdates = 0;
+
+	m_depthStencilState = nullptr;
+
+	m_shownFPS = m_shownChunkUpdates = m_lastUpdatedMS = 0;
 
 	m_envTexturePresence = 0;
 }
@@ -81,23 +78,45 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 #ifdef FEATURE_GFX_SHADERS
 	mce::GlobalConstantBuffers::getInstance().init();
 #endif
+
+	_initDepthStencilState();
 }
 
 GameRenderer::~GameRenderer()
 {
 	delete m_pItemInHandRenderer;
+	delete m_depthStencilState; // marked with no p to indicate that we own the object
 }
 
-void GameRenderer::zoomRegion(float a, float b, float c)
+void GameRenderer::_initDepthStencilState()
 {
-	field_44 = a;
-	field_48 = b;
-	field_4C = c;
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	m_depthStencilState = new mce::DepthStencilState();
+
+	mce::DepthStencilStateDescription desc;
+	m_depthStencilState->createDepthState(renderContext, desc);
+}
+
+void GameRenderer::_clearFrameBuffer()
+{
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+	renderContext.setRenderTarget();
+	renderContext.clearFrameBuffer(Color(0.0f, 0.3f, 0.2f, 0.0f));
+	renderContext.clearDepthStencilBuffer();
+}
+
+void GameRenderer::zoomRegion(float zoom, const Vec2& region)
+{
+	m_zoom = zoom;
+	m_zoomRegion = region;
 }
 
 void GameRenderer::unZoomRegion()
 {
-	field_44 = 1.0f;
+	m_zoom = 1.0f;
 }
 
 void GameRenderer::setupCamera(float f, int i)
@@ -112,10 +131,10 @@ void GameRenderer::setupCamera(float f, int i)
 		glTranslatef(float(1 - 2 * i) * 0.07f, 0.0f, 0.0f);
 	}
 
-	if (field_44 != 1.0)
+	if (m_zoom != 1.0)
 	{
-		glTranslatef(field_48, -field_4C, 0.0);
-		glScalef(field_44, field_44, 1.0);
+		glTranslatef(m_zoomRegion.x, -m_zoomRegion.y, 0.0);
+		glScalef(m_zoom, m_zoom, 1.0);
 	}
 
 	float fov = getFov(f);
@@ -222,13 +241,25 @@ void GameRenderer::setupGuiScreen()
 {
 	float x = Gui::InvGuiScale * Minecraft::width;
 	float y = Gui::InvGuiScale * Minecraft::height;
-	glClear(GL_DEPTH_BUFFER_BIT);
+	
+	//glClear(GL_DEPTH_BUFFER_BIT);
+
+#ifdef ENH_GFX_MATRIX_STACK
+	Matrix& projMtx = MatrixStack::Projection.getTop();
+	projMtx.setOrtho(0, x, y, 0, 2000.0f, 3000.0f);
+
+	Matrix& viewMtx = MatrixStack::View.getTop();
+	viewMtx = Matrix::IDENTITY;
+	viewMtx.translate(Vec3(0.0f, 0.0f, -2000.0f));
+#else
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f); // @NOTE: for whatever reason, nearpl is 1000.0f on LCE
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, -2000.0f);
+#endif
 }
 
 void GameRenderer::bobHurt(float f)
@@ -278,45 +309,35 @@ void GameRenderer::setupClearColor(float f)
 
 	Vec3 skyColor = pLevel->getSkyColor(pMob, f), fogColor = pLevel->getFogColor(f);
 
-	//@BUG: double set to these?
-	field_60 = fogColor.x;
-	field_64 = fogColor.y;
-
-	field_60 = fogColor.x + (skyColor.x - fogColor.x) * x1;
-	field_64 = fogColor.y + (skyColor.y - fogColor.y) * x1;
-	field_68 = fogColor.z + (skyColor.z - fogColor.z) * x1;
+	m_fogColor.r = fogColor.x + (skyColor.x - fogColor.x) * x1;
+	m_fogColor.g = fogColor.y + (skyColor.y - fogColor.y) * x1;
+	m_fogColor.b = fogColor.z + (skyColor.z - fogColor.z) * x1;
 
 	if (pMob->isUnderLiquid(Material::water))
 	{
-		field_60 = 0.02f;
-		field_64 = 0.02f;
-		field_68 = 0.2f;
+		m_fogColor.r = 0.02f;
+		m_fogColor.g = 0.02f;
+		m_fogColor.b = 0.2f;
 	}
 	else if (pMob->isUnderLiquid(Material::lava))
 	{
-		field_60 = 0.6f;
-		field_64 = 0.1f;
-		field_68 = 0.0f;
+		m_fogColor.r = 0.6f;
+		m_fogColor.g = 0.1f;
+		m_fogColor.b = 0.0f;
 	}
 
 	float x2 = field_6C + (field_70 - field_6C) * f;
 
-	field_60 *= x2;
-	field_64 *= x2;
-	field_68 *= x2;
+	m_fogColor *= x2;
 
 	if (pMC->getOptions()->m_bAnaglyphs)
 	{
-		float r = (field_60 * 30.0f + field_64 * 59.0f + field_68 * 11.0f) / 100.0f;
-		float g = (field_60 * 30.0f + field_64 * 70.0f) / 100.0f;
-		float b = (field_60 * 30.0f + field_68 * 70.0f) / 100.0f;
-
-		field_60 = r;
-		field_64 = g;
-		field_68 = b;
+		m_fogColor.r = (m_fogColor.r * 30.0f + m_fogColor.g * 59.0f + m_fogColor.b * 11.0f) / 100.0f;
+		m_fogColor.g = (m_fogColor.r * 30.0f + m_fogColor.g * 70.0f) / 100.0f;
+		m_fogColor.b = (m_fogColor.r * 30.0f + m_fogColor.b * 70.0f) / 100.0f;
 	}
 
-	glClearColor(field_60, field_64, field_68, 1.0f);
+	glClearColor(m_fogColor.r, m_fogColor.g, m_fogColor.b, m_fogColor.a);
 }
 
 #ifndef ORIGINAL_CODE
@@ -329,13 +350,7 @@ void GameRenderer::renderNoCamera()
 
 void GameRenderer::setupFog(int i)
 {
-	float fog_color[4];
-	fog_color[0] = field_60;
-	fog_color[1] = field_64;
-	fog_color[2] = field_68;
-	fog_color[3] = 1.0f;
-
-	glFogfv(GL_FOG_COLOR, fog_color);
+	glFogfv(GL_FOG_COLOR, (float*)&m_fogColor);
 #ifndef __EMSCRIPTEN__
 	glNormal3f(0.0f, -1.0f, 0.0f);
 #endif
@@ -424,16 +439,11 @@ void GameRenderer::renderLevel(float f)
 	pick(f);
 
 	Mob* pMob = m_pMinecraft->m_pMobPersp;
-	Vec3 fCamPos;
-
-	fCamPos.x = pMob->m_posPrev.x + (pMob->m_pos.x - pMob->m_posPrev.x) * f;
-	fCamPos.y = pMob->m_posPrev.y + (pMob->m_pos.y - pMob->m_posPrev.y) * f;
-	fCamPos.z = pMob->m_posPrev.z + (pMob->m_pos.z - pMob->m_posPrev.z) * f;
+	Vec3 camPos = pMob->m_posPrev + (pMob->m_pos - pMob->m_posPrev) * f;
 
 	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
-	LevelRenderer* pLR = m_pMinecraft->m_pLevelRenderer;
-	ParticleEngine* pPE = m_pMinecraft->m_pParticleEngine;
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -445,17 +455,35 @@ void GameRenderer::renderLevel(float f)
 				glColorMask(false, true, true, false);
 		}
 
-		glViewport(0, 0, Minecraft::width, Minecraft::height);
+		renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+		renderContext.setRenderTarget();
 		setupClearColor(f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderContext.clearFrameBuffer(m_fogColor);
+		m_depthStencilState->bindDepthStencilState(renderContext);
+		renderContext.clearDepthStencilBuffer();
 
+		// @HAL: remove
 		glEnable(GL_CULL_FACE);
+		renderContext.m_currentState.m_rasterizerStateDescription.cullMode = mce::CULL_FRONT;
+
 		setupCamera(f, i);
 		saveMatrices();
 
-		/*
-		if (m_pMinecraft->getOptions()->m_iViewDistance <= 1)
-		{
+		renderFramedItems(camPos, *m_pMinecraft->m_pLevelRenderer, pMob, f, *m_pMinecraft->m_pParticleEngine, i);
+
+		if (!bAnaglyph)
+			break;
+	}
+
+	if (bAnaglyph)
+		glColorMask(true, true, true, false);
+}
+
+void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, Mob* pMob, float f, ParticleEngine& particleEngine, float i)
+{
+	/*
+	if (m_pMinecraft->getOptions()->m_iViewDistance <= 1)
+	{
 #ifndef ORIGINAL_CODE
 			// @NOTE: For whatever reason, Minecraft doesn't enable GL_FOG right away.
 			// It appears to work in bluestacks for whatever reason though...
@@ -466,98 +494,91 @@ void GameRenderer::renderLevel(float f)
 		}
 		*/
 
-		glEnable(GL_FOG);
-		setupFog(1);
+	glEnable(GL_FOG);
+	setupFog(1);
 
-		if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
-			glShadeModel(GL_SMOOTH);
-
-		Frustum& frust = Frustum::frustum;
-		Frustum::calculateFrustum();
-
-		FrustumCuller frustumCuller;
-		frustumCuller.m_frustumData.x = frust;
-		frustumCuller.prepare(fCamPos.x, fCamPos.y, fCamPos.z);
-
-		pLR->cull(&frustumCuller, f);
-		pLR->updateDirtyChunks(pMob, false);
-
-		// TODO[v0.6.1]: what is (this+4)+63 (byte)?
-		prepareAndRenderClouds(pLR, f);
-
-		setupFog(0);
-		glEnable(GL_FOG);
-
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-
-		Lighting::turnOff();
-		// render the opaque layer
-		pLR->render(pMob, 0, f);
-
-		Lighting::turnOn();
-		pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
-		pPE->renderLit(pMob, f);
-		Lighting::turnOff();
-		pPE->render(pMob, f);
-
-		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
-		//glEnable(GL_ALPHA);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		setupFog(0);
-
-#ifndef ORIGINAL_CODE
+	if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
 		glShadeModel(GL_SMOOTH);
-#endif
 
-		//glEnable(GL_BLEND);
-		glDisable(GL_CULL_FACE);
-		// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
+	Frustum& frust = Frustum::frustum;
+	Frustum::calculateFrustum();
 
-		// render the alpha layer
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-		pLR->render(pMob, 1, f);
+	FrustumCuller frustumCuller;
+	frustumCuller.m_frustumData.x = frust;
+	frustumCuller.prepare(camPos.x, camPos.y, camPos.z);
 
-		glDepthMask(true);
+	levelRenderer.cull(&frustumCuller, f);
+	levelRenderer.updateDirtyChunks(pMob, false);
+
+	// TODO[v0.6.1]: what is (this+4)+63 (byte)?
+	prepareAndRenderClouds(levelRenderer, f);
+
+	setupFog(0);
+	glEnable(GL_FOG);
+
+	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+
+	Lighting::turnOff();
+	// render the opaque layer
+	levelRenderer.render(pMob, 0, f);
+
+	Lighting::turnOn();
+	levelRenderer.renderEntities(pMob->getPos(f), &frustumCuller, f);
+	particleEngine.renderLit(pMob, f);
+	Lighting::turnOff();
+	particleEngine.render(pMob, f);
+
+	// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
+	//glEnable(GL_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	setupFog(0);
 
 #ifndef ORIGINAL_CODE
-		glShadeModel(GL_FLAT);
+	glShadeModel(GL_SMOOTH);
 #endif
-		glEnable(GL_CULL_FACE);
-		glDisable(GL_BLEND);
 
-		//renderNameTags(f);
-		if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
-		{
-			glDisable(GL_ALPHA_TEST);
+	//glEnable(GL_BLEND);
+	glDisable(GL_CULL_FACE);
+	// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
 
-			pLR->renderCracks((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+	// render the alpha layer
+	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	levelRenderer.render(pMob, 1, f);
 
-			if (m_pMinecraft->getOptions()->m_bBlockOutlines)
-				pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-			else
-				pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+	glDepthMask(true);
 
-			glEnable(GL_ALPHA_TEST);
-		}
+#ifndef ORIGINAL_CODE
+	glShadeModel(GL_FLAT);
+#endif
+	glEnable(GL_CULL_FACE);
+	glDisable(GL_BLEND);
 
-		glDisable(GL_FOG);
+	//renderNameTags(f);
+	if (m_zoom == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
+	{
+		glDisable(GL_ALPHA_TEST);
 
-		if (false) // TODO: Figure out how to enable weather
-			renderWeather(f);
+		levelRenderer.renderCracks((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
-		if (field_44 == 1.0f)
-		{
-			glClear(GL_DEPTH_BUFFER_BIT);
-			renderItemInHand(f, i);
-		}
+		if (m_pMinecraft->getOptions()->m_bBlockOutlines)
+			levelRenderer.renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
+		else
+			levelRenderer.renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
-		if (!bAnaglyph)
-			break;
+		glEnable(GL_ALPHA_TEST);
 	}
 
-	if (bAnaglyph)
-		glColorMask(true, true, true, false);
+	glDisable(GL_FOG);
+
+	if (false) // TODO: Figure out how to enable weather
+		renderWeather(f);
+
+	if (m_zoom == 1.0f)
+	{
+		glClear(GL_DEPTH_BUFFER_BIT);
+		renderItemInHand(f, i);
+	}
 }
 
 void GameRenderer::render(float f)
@@ -661,11 +682,20 @@ void GameRenderer::render(float f)
 	}
 	else
 	{
-		glViewport(0, 0, Minecraft::width, Minecraft::height);
+		//glViewport(0, 0, Minecraft::width, Minecraft::height);
+		_clearFrameBuffer();
+
+#ifdef ENH_GFX_MATRIX_STACK
+		MatrixStack::Projection.getTop() = Matrix::IDENTITY;
+		MatrixStack::View.getTop()       = Matrix::IDENTITY;
+		MatrixStack::World.getTop()      = Matrix::IDENTITY;
+#else
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+#endif
+
 		setupGuiScreen();
 	}
 
@@ -880,7 +910,7 @@ void GameRenderer::renderItemInHand(float f, int i)
 		bobView(f);
 }
 
-void GameRenderer::prepareAndRenderClouds(LevelRenderer* pLR, float f)
+void GameRenderer::prepareAndRenderClouds(LevelRenderer& levelRenderer, float f)
 {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -893,10 +923,10 @@ void GameRenderer::prepareAndRenderClouds(LevelRenderer* pLR, float f)
 	glEnable(GL_FOG);
 	glFogf(GL_FOG_START, field_8 * 0.2f);
 	glFogf(GL_FOG_END,   field_8 * 0.75f);
-	pLR->renderSky(f);
+	levelRenderer.renderSky(f);
 	glFogf(GL_FOG_START, field_8 * 4.2f * 0.6f);
 	glFogf(GL_FOG_END,   field_8 * 4.2f);
-	pLR->renderClouds(f);
+	levelRenderer.renderClouds(f);
 	glFogf(GL_FOG_START, field_8 * 0.6f);
 	glFogf(GL_FOG_END,   field_8);
 	glDisable(GL_FOG);

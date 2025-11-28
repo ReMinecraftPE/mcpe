@@ -26,6 +26,16 @@ struct GuiMessage
 
 class Gui : public GuiComponent
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_invert_overlay;
+		mce::MaterialPtr ui_crosshair;
+
+		Materials();
+	};
+
 private:
 	static bool _isVignetteAvailable;
 public:
@@ -39,6 +49,10 @@ private:
 public:
 	Gui(Minecraft* pMinecraft);
 
+private:
+	void _updateHudPositions();
+
+public:
 	void addMessage(const std::string& str);
 	void inventoryUpdated();
 	void setNowPlaying(const std::string& str);
@@ -52,13 +66,21 @@ public:
 	void handleScroll(bool down);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
+	void renderHearts();
+	void renderHunger();
+	void renderBubbles();
 	void renderProgressIndicator(int width, int height);
+	void renderExperience();
+	void renderToolBar(float f, float alpha);
 	int getNumSlots();					  // Gets the number of slots in the inventory. Includes the '...' if in touch mode.
 	int getNumUsableSlots();			  // Gets the number of usable slots in the inventory. Does not include the '...' if in touch mode.
 	RectangleArea getRectangleArea(bool b);
 
 public:
 	static float InvGuiScale;
+
+protected:
+	Materials m_guiMaterials;
 
 public:
 	float m_progress;
@@ -77,5 +99,7 @@ public:
 	RenderChunk m_renderChunk;
 	bool field_A3C;
 	bool m_bRenderMessages;
+	int m_width;
+	int m_height;
 };
 

@@ -95,10 +95,10 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	if (!pMinecraft->useController())
 		m_bHovered = clicked(pMinecraft, xPos, yPos);
 
-	Font* pFont = pMinecraft->m_pFont;
-	Textures* pTexs = pMinecraft->m_pTextures;
+	Font& font = *pMinecraft->m_pFont;
+	Textures& texs = *pMinecraft->m_pTextures;
 
-	pTexs->loadAndBindTexture("gui/gui.png");
+	texs.loadAndBindTexture("gui/gui.png");
 
 	currentShaderColor = Color::WHITE;
 	int iYPos = 20 * getYImage(m_bHovered) + 46;
@@ -116,5 +116,5 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	else
 		textColor = Color(224, 224, 224); // 0xE0E0E0U
 
-	drawCenteredString(pFont, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
+	drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 }

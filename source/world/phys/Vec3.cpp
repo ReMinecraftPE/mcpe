@@ -27,6 +27,11 @@ Vec3::Vec3()
     _init(0, 0, 0);
 }
 
+Vec3::Vec3(float xyz)
+{
+    _init(xyz, xyz, xyz);
+}
+
 Vec3::Vec3(float x, float y, float z)
 {
     _init(x, y, z);

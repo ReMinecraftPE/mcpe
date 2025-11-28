@@ -93,6 +93,7 @@ public:
 	int m_yOffset;
 #endif
 
-	Materials m_materials;
+protected:
+	Materials m_screenMaterials;
 };
 

@@ -24,6 +24,11 @@ Vec2::Vec2()
     _init(0, 0);
 }
 
+Vec2::Vec2(float xy)
+{
+    _init(xy, xy);
+}
+
 Vec2::Vec2(float x, float y)
 {
     _init(x, y);

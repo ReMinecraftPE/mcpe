@@ -9,16 +9,11 @@
 #pragma once
 
 #include "client/renderer/ScreenRenderer.hpp"
-#include "client/renderer/Font.hpp"
 
 
 class GuiComponent : public ScreenRenderer
 {
 public:
 	virtual ~GuiComponent() {}
-
-	void drawCenteredString(Font*, const std::string&, int cx, int cy, const Color& color);
-	void drawString(Font*, const std::string&, int cx, int cy, const Color& color);
-	void fillGradient(int left, int top, int right, int bottom, const Color& colorUp, const Color& colorDown);
 };
 

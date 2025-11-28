@@ -1,5 +1,7 @@
 #include "RenderMaterialGroup.hpp"
 
+#include "thirdparty/rapidjson/error/en.h"
+
 #include "common/Util.hpp"
 #include "common/utility/InheritanceTree.hpp"
 
@@ -134,19 +136,22 @@ void RenderMaterialGroup::_loadList()
 
         fileContents = AppPlatform::singleton()->readAssetFileStr(path, false);
         rapidjson::Document doc;
-        doc.Parse(fileContents.c_str());
-        if (!doc.HasParseError())
+        rapidjson::ParseResult ok = doc.Parse(fileContents.c_str());
+        if (!ok)
         {
-            const rapidjson::Value& root = doc.GetObj();
-            if (_isMaterialGroup(root))
-            {
-                _loadMaterialSet(root, material, tag);
-            }
-            else
-            {
-                RenderMaterial& materialRef = _material(Util::getFileName(path), tag);
-                materialRef = RenderMaterial(root, materialRef);
-            }
+            LOG_E("Error parsing \"%s\", offset %u: %s", m_listPath.c_str(), ok.Offset(), rapidjson::GetParseError_En(ok.Code()));
+            continue;
+        }
+
+        const rapidjson::Value& root = doc.GetObj();
+        if (_isMaterialGroup(root))
+        {
+            _loadMaterialSet(root, material, tag);
+        }
+        else
+        {
+            RenderMaterial& materialRef = _material(Util::getFileName(path), tag);
+            materialRef = RenderMaterial(root, materialRef);
         }
     }
 

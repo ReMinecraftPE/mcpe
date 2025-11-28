@@ -122,10 +122,10 @@ void IngameBlockSelectionScreen::renderSlots()
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
 
 	for (int y = 0; y != -22 * getSlotsHeight(); y -= 22)
-		blit(m_width / 2 - 182 / 2, m_height - 3 - getBottomY() + y, 0, 0, 182, 22, 0, 0);
+		blit(m_width / 2 - 182 / 2, m_height - 3 - getBottomY() + y, 0, 0, 182, 22, 0, 0, &m_materials.ui_textured_and_glcolor);
 
 	if (m_selectedSlot >= 0)
-		blit(m_width / 2 - 92 + 20 * (m_selectedSlot % 9), m_height - 4 - getBottomY() - 22 * (m_selectedSlot / 9), 0, 22, 24, 22, 0, 0);
+		blit(m_width / 2 - 92 + 20 * (m_selectedSlot % 9), m_height - 4 - getBottomY() - 22 * (m_selectedSlot / 9), 0, 22, 24, 22, 0, 0, &m_materials.ui_textured_and_glcolor);
 
 	for (int y = 0, index = 0; y < getSlotsHeight(); y++)
 	{
@@ -145,7 +145,7 @@ void IngameBlockSelectionScreen::renderDemoOverlay()
 	int x = (getSlotPosX(4) + getSlotPosX(5)) / 2;
 	int y = (getSlotPosY(0) + getSlotPosY(1)) / 2 + 5;
 
-	drawCenteredString(m_pMinecraft->m_pFont, g_sNotAvailableInDemoVersion, x, y, 0xFFFFFFFF);
+	drawCenteredString(*m_pMinecraft->m_pFont, g_sNotAvailableInDemoVersion, x, y, 0xFFFFFFFF);
 }
 
 void IngameBlockSelectionScreen::render(int x, int y, float f)

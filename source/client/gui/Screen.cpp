@@ -125,24 +125,17 @@ void Screen::renderMenuBackground(float f)
 	aspectRatio = 1.0f;
 	//aspectRatio = float(m_width) / float(m_height);
 
-	mce::MaterialPtr* materialPtr = &m_materials.ui_cubemap;
+	mce::MaterialPtr* materialPtr = &m_screenMaterials.ui_cubemap;
+
+	// not in 0.8
+	// @HAL: why is this needed for us?
+	glDisable(GL_CULL_FACE);
 
 #ifdef ENH_GFX_MATRIX_STACK
-
-	/*glDisable(GL_BLEND);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);*/
-
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-
 	MatrixStack::Ref projMtx = MatrixStack::Projection.push();
 	Matrix mtx(1.0f);
 	mtx.setPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
 	projMtx = mtx;
-	
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
 	MatrixStack::Ref worldMtx = MatrixStack::World.push();
@@ -201,19 +194,7 @@ void Screen::renderMenuBackground(float f)
 		t.draw(*materialPtr);
 	}
 
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-
-	/*glEnable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);*/
-
 #else
-
-	// not in 0.8
-	glDisable(GL_CULL_FACE);
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -285,9 +266,9 @@ void Screen::renderMenuBackground(float f)
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 
-	glEnable(GL_CULL_FACE);
-
 #endif
+
+	glEnable(GL_CULL_FACE);
 
 	fillGradient(0, 0, m_width, m_height, Color(0, 0, 0, 137), Color(255, 255, 255, 137));
 }
@@ -511,22 +492,24 @@ void Screen::renderBackground()
 
 void Screen::renderDirtBackground(int vo)
 {
-	//glDisable(GL_LIGHTING);
+#ifndef FEATURE_GFX_SHADERS
+	glDisable(GL_LIGHTING);
 	glDisable(GL_FOG);
+#endif
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	currentShaderColor = Color::WHITE;
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
-	t.setOffset(0, m_yOffset, 0);
+	t.begin(4);
+	//t.setOffset(0, m_yOffset, 0);
 	t.color(0x404040);
 	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(vo) + float(m_height) / 32.0f);
 	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(vo) + float(m_height) / 32.0f);
 	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(vo) + 0.0f);
 	t.vertexUV(0.0f,           0,               0, 0,                      float(vo) + 0.0f);
-	t.setOffset(0, 0, 0);
-	t.draw();
+	//t.setOffset(0, 0, 0);
+	t.draw(m_materials.ui_texture_and_color);
 }
 
 

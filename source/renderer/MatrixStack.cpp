@@ -170,9 +170,9 @@ void MatrixStack::Ref::release()
     m_pStack = nullptr;
 }
 
-Matrix* MatrixStack::Ref::operator->() const
+Matrix* MatrixStack::Ref::operator->()
 {
-    return getMatrix();
+    return m_pMatrix;
 }
 
 Matrix* MatrixStack::Ref::operator*()

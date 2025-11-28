@@ -29,6 +29,7 @@ private:
 public:
 	// this constructor is nice to have, but it's probably inlined
 	Vec2();
+	Vec2(float xy);
 	Vec2(float x, float y);
     
     Vec2 normalize() const;

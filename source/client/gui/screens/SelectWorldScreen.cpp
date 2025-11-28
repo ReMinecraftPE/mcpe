@@ -183,7 +183,7 @@ void SelectWorldScreen::render(int mouseX, int mouseY, float f)
 
 	Screen::render(mouseX, mouseY, f);
 
-	drawCenteredString(m_pMinecraft->m_pFont, "Select world", m_width / 2, 8, 0xFFFFFFFF);
+	drawCenteredString(*m_pMinecraft->m_pFont, "Select world", m_width / 2, 8, 0xFFFFFFFF);
 }
 
 bool SelectWorldScreen::handleBackEvent(bool b)

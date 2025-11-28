@@ -9,11 +9,13 @@
 #pragma once
 
 #include "ItemInHandRenderer.hpp"
+#include "renderer/hal/interface/DepthStencilState.hpp"
 
 class Minecraft;
 class Entity;
 
 class LevelRenderer;
+class ParticleEngine;
 class GameRenderer
 {
 private:
@@ -22,6 +24,12 @@ public:
 	GameRenderer() { _init(); }
 	GameRenderer(Minecraft*);
 	~GameRenderer();
+
+private:
+	void _initDepthStencilState();
+	void _clearFrameBuffer();
+
+public:
 	void saveMatrices();
 	void setupCamera(float f, int i);
 	void bobHurt(float);
@@ -33,17 +41,18 @@ public:
 #endif
 
 	void renderLevel(float);
+	void renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, Mob* pMob, float f, ParticleEngine& particleEngine, float i);
 	void render(float);
 	void tick();
 	void setupGuiScreen();
 	void onGraphicsReset();
-	void zoomRegion(float a, float b, float c);
+	void zoomRegion(float zoom, const Vec2& region);
 	void unZoomRegion();
 	void setupClearColor(float f);
 	void setupFog(int i);
 	void pick(float);
 	void renderItemInHand(float, int);
-	void prepareAndRenderClouds(LevelRenderer* pLR, float f);
+	void prepareAndRenderClouds(LevelRenderer& levelRenderer, float f);
 	void renderWeather(float f);
 
 	float getFov(float f);
@@ -67,16 +76,13 @@ public:
 	float field_38;
 	float field_3C;
 	float field_40;
-	float field_44;
-	float field_48;
-	float field_4C;
+	float m_zoom;
+	Vec2 m_zoomRegion;
 	float field_50;
 	float field_54;
 	float field_58;
 	float field_5C;
-	float field_60;
-	float field_64;
-	float field_68;
+	Color m_fogColor;
 	float field_6C;
 	float field_70;
 	float field_74;
@@ -84,6 +90,8 @@ public:
 	float field_7C;
 	float field_80;
 	float field_84;
+
+	mce::DepthStencilState* m_depthStencilState;
 
 	float m_matrix_projection[16];
 	float m_matrix_model_view[16];

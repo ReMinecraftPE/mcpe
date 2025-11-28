@@ -65,6 +65,16 @@ public:
         return Color(r * c.r, g * c.g, b * c.b, a * c.a);
     }
 
+    Color& operator*=(const Color& c)
+    {
+        r *= c.r;
+        g *= c.g;
+        b *= c.b;
+        a *= c.a;
+
+        return *this;
+    }
+
 public:
     static Color SHADE_WEST_EAST;
     static Color SHADE_NORTH_SOUTH;
