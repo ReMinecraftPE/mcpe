@@ -83,6 +83,7 @@ public:
 	virtual void clearDiff();
 	virtual void updateFocused(bool focused);
 	// Also add this to allow proper text input within the game.
+	virtual bool controlPressed();
 	virtual bool shiftPressed();
 	// On-screen keyboard
 	virtual void showKeyboard(int x, int y, int w, int h);
@@ -96,6 +97,7 @@ public:
   #endif
 	virtual void vibrate(int milliSeconds);
     virtual bool getRecenterMouseEveryTick();
+	virtual std::string getClipboardText();
 	
 	void _fireLowMemory();
 	void _fireAppSuspended();

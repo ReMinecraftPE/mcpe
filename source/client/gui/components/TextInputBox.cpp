@@ -16,6 +16,11 @@
 #define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
 #endif
 
+static bool isInvalidCharacter(char c)
+{
+	return c == '\n' || c < ' ' || c > '~';
+}
+
 TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int height, const std::string& placeholder, const std::string& text)
 {
 	m_ID = id;
@@ -326,7 +331,7 @@ void TextInputBox::charPressed(int k)
         default:
         {
             // Ignore Unprintable Characters
-            if (k == '\n' || k < ' ' || k > '~')
+            if (isInvalidCharacter(k))
                 return;
             
             // Check Max Length
@@ -343,6 +348,47 @@ void TextInputBox::charPressed(int k)
         }
     }
 	m_pParent->onTextBoxUpdated(m_ID);
+}
+
+void TextInputBox::pasteText(const std::string& text)
+{
+	if (!m_bFocused)
+		return;
+
+	const std::string sanitizedText = sanitizePasteText(text);
+
+	if (!sanitizedText.empty())
+	{
+		m_text.insert(m_insertHead, sanitizedText);
+		m_insertHead += int(sanitizedText.length());
+		recalculateScroll();
+	}
+}
+
+std::string TextInputBox::sanitizePasteText(const std::string& text)
+{
+	// check max size, can we add any further text?
+	if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
+		return "";
+
+	// sanitize the text
+	std::string sanitized;
+	sanitized.reserve(text.length());
+
+	for (int i = 0; i < text.length(); ++i)
+	{
+		char c = text[i];
+		if (!isInvalidCharacter(c))
+		{
+			sanitized += c;
+
+			// check if we can add any further text
+			if (m_maxLength != -1 && int(m_text.length() + sanitized.length()) >= m_maxLength)
+				break;
+		}
+	}
+
+	return sanitized;
 }
 
 constexpr int PADDING = 5;

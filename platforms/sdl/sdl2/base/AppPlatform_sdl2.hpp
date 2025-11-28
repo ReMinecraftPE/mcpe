@@ -34,6 +34,8 @@ public:
 	void showKeyboard(int x, int y, int w, int h) override;
 	void hideKeyboard() override;
 
+	std::string getClipboardText() override;
+
 	// Game controller
 	bool hasGamepad() const override;
 	SDL_GameController* getPrimaryGameController() const { return m_pController; }

@@ -48,6 +48,8 @@ public:
 	void clearDiff() override;
 
 	// Also add these to allow proper text input within the game.
+	bool controlPressed() override;
+	void setControlPressed(bool b, bool isLeft);
 	bool shiftPressed() override;
 	void setShiftPressed(bool b, bool isLeft);
 
@@ -75,6 +77,7 @@ public:
 protected:
 	const Texture* m_pIconTexture;
 	SDL_Surface* m_pIcon;
+	bool m_bControlPressed[2];
 	bool m_bShiftPressed[2];
 
 	int m_xrel;

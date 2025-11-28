@@ -165,6 +165,11 @@ void AppPlatform::updateFocused(bool focused)
 {
 }
 
+bool AppPlatform::controlPressed()
+{
+	return false;
+}
+
 bool AppPlatform::shiftPressed()
 {
 	return false;
@@ -209,6 +214,11 @@ void AppPlatform::vibrate(int milliSeconds)
 bool AppPlatform::getRecenterMouseEveryTick()
 {
     return true;
+}
+
+std::string AppPlatform::getClipboardText()
+{
+	return "";
 }
 
 void AppPlatform::_fireLowMemory()

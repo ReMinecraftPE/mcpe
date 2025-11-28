@@ -51,7 +51,11 @@ public:
 	void clearDiff() override;
 	void updateFocused(bool focused) override;
 
+	std::string getClipboardText() override;
+
 	// Also add these to allow proper text input within the game.
+	bool controlPressed() override { return m_bControlPressed; }
+	void setControlPressed(bool b) { m_bControlPressed = b; }
 	bool shiftPressed() override { return m_bShiftPressed; }
 	void setShiftPressed(bool b) { m_bShiftPressed = b; }
 
@@ -98,6 +102,7 @@ private:
 	bool m_bGrabbedMouse;
 	bool m_bActuallyGrabbedMouse;
 	bool m_bWasUnfocused;
+	bool m_bControlPressed;
 	bool m_bShiftPressed;
 
 	int m_MouseDiffX, m_MouseDiffY;

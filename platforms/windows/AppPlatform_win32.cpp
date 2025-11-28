@@ -349,6 +349,24 @@ void AppPlatform_win32::updateFocused(bool focused)
 	setMouseGrabbed(m_bGrabbedMouse);
 }
 
+std::string AppPlatform_win32::getClipboardText()
+{
+	if (!OpenClipboard(nullptr))
+		return "";
+
+	HANDLE h = GetClipboardData(CF_TEXT);
+	if (!h)
+		return "";
+
+	GlobalLock(h);
+	std::string text((char*)h);
+	GlobalUnlock(h);
+
+	CloseClipboard();
+
+	return text;
+}
+
 void AppPlatform_win32::initializeWindow(HWND hWnd, int nCmdShow)
 {
 	m_hWND = hWnd;

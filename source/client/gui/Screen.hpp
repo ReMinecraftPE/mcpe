@@ -62,6 +62,7 @@ public:
 	virtual void mouseReleased(int, int, int);
 	virtual void keyPressed(int);
 	virtual void keyboardNewChar(char);
+	virtual void keyboardTextPaste(const std::string& text);
 	virtual void handleScroll(bool down);
 
 	// ported from 0.8
