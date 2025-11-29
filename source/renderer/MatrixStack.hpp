@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stack>
+#define GLM_FORCE_RADIANS
 #include "thirdparty/glm/glm.hpp"
 #include "world/phys/Vec3.hpp"
 
@@ -10,7 +11,7 @@ public:
     static Matrix EMPTY;
     static Matrix IDENTITY;
     
-public:
+private:
     glm::mat4 _m;
 
 public:
@@ -24,6 +25,7 @@ public:
 	void setPerspective(float fov, float aspect, float Znear, float Zfar);
 	void transform3(Vec3& outVec, float& outW);
 	void translate(const Vec3& t);
+    const float* getPtr() const;
     
     Matrix operator*(const Matrix& other) const;
 };

@@ -27,6 +27,7 @@ void WorldConstants::refreshWorldConstants()
     const Matrix& viewMatrix  = MatrixStack::View.top();
     const Matrix& worldMatrix = MatrixStack::World.top();
 
+    // Order matters!
     Matrix worldViewProjMatrix = worldMatrix * viewMatrix * projMatrix;
 
     if (WORLDVIEWPROJ)
@@ -51,7 +52,7 @@ void WorldConstants::refreshWorldConstants()
 
         // @TODO: abstract
         glMatrixMode(GL_PROJECTION);
-        glLoadMatrixf((float*)&matrix._m);
+        glLoadMatrixf(matrix.getPtr());
         glMatrixMode(GL_MODELVIEW);
 
         MatrixStack::Projection.makeClean();
@@ -61,11 +62,12 @@ void WorldConstants::refreshWorldConstants()
     {
         const Matrix& worldMatrix = MatrixStack::World.top();
         const Matrix& viewMatrix = MatrixStack::View.top();
-        Matrix modelViewMatrix = worldMatrix * viewMatrix;
+        // Order matters!
+        Matrix modelViewMatrix = viewMatrix * worldMatrix;
 
         // @TODO: abstract
         glMatrixMode(GL_MODELVIEW);
-        glLoadMatrixf((float*)&modelViewMatrix._m);
+        glLoadMatrixf(modelViewMatrix.getPtr());
 
         MatrixStack::World.makeClean();
         MatrixStack::View.makeClean();

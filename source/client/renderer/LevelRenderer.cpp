@@ -1350,6 +1350,7 @@ void LevelRenderer::renderClouds(float alpha)
 	float yy = ((float)C_MAX_Y - yPos) + 0.33f; // 108.0f on b1.2_02, see below
 
 	if (yy > 1.0f) {
+		// @HAL: remove, handled in GameRenderer::_clearFrameBuffer
 		glClear(GL_DEPTH_BUFFER_BIT);
 	}
 	

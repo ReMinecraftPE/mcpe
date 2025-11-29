@@ -125,17 +125,15 @@ void Screen::renderMenuBackground(float f)
 	aspectRatio = 1.0f;
 	//aspectRatio = float(m_width) / float(m_height);
 
-	mce::MaterialPtr* materialPtr = &m_screenMaterials.ui_cubemap;
+	mce::MaterialPtr& materialPtr = m_screenMaterials.ui_cubemap;
 
 	// not in 0.8
 	// @HAL: why is this needed for us?
 	glDisable(GL_CULL_FACE);
 
 #ifdef ENH_GFX_MATRIX_STACK
-	MatrixStack::Ref projMtx = MatrixStack::Projection.push();
-	Matrix mtx(1.0f);
-	mtx.setPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
-	projMtx = mtx;
+	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
+	projMtx->setPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
 	MatrixStack::Ref worldMtx = MatrixStack::World.push();
@@ -191,7 +189,7 @@ void Screen::renderMenuBackground(float f)
 		t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
 		t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
 		t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
-		t.draw(*materialPtr);
+		t.draw(materialPtr);
 	}
 
 #else
@@ -256,7 +254,7 @@ void Screen::renderMenuBackground(float f)
 		t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
 		t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
 		t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
-		t.draw(*materialPtr);
+		t.draw(materialPtr);
 
 		glPopMatrix();
 	}
@@ -386,16 +384,24 @@ void Screen::setSize(int width, int height)
 void Screen::onRender(int mouseX, int mouseY, float f)
 {
 	m_yOffset = getYOffset();
-	if (m_yOffset != 0) {
+	if (m_yOffset != 0)
+	{
 		// push the entire screen up
+#ifdef ENH_GFX_MATRIX_STACK
+		MatrixStack::Ref worldMtx = MatrixStack::World.push();
+		worldMtx->translate(Vec3(0.0f, -m_yOffset, 0.0f));
+#else
 		glPushMatrix();
 		glTranslatef(0.0f, -float(m_yOffset), 0.0f);
+#endif
 	}
 
 	render(mouseX, mouseY, f);
 
+#ifndef ENH_GFX_MATRIX_STACK
 	if (m_yOffset != 0)
 		glPopMatrix();
+#endif
 }
 
 int Screen::getYOffset()

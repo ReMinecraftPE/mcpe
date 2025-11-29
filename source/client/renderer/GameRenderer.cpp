@@ -250,11 +250,11 @@ void GameRenderer::setupGuiScreen()
 
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
-	viewMtx.translate(Vec3(0.0f, 0.0f, -2000.0f));
+	viewMtx.translate(Vec3(0.0f, 0.0f, -2000.0f)); // -2000 to -3000
 #else
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f); // @NOTE: for whatever reason, nearpl is 1000.0f on LCE
+	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f); // @NOTE: for whatever reason, nearpl is 1000.0f on LCE (where?)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -705,7 +705,8 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->m_pScreen)
 	{
-		glClear(GL_DEPTH_BUFFER_BIT);
+		//glClear(GL_DEPTH_BUFFER_BIT);
+		mce::RenderContextImmediate::get().clearDepthStencilBuffer();
 		m_pMinecraft->m_pScreen->onRender(mouseX, mouseY, f);
 
 		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())

@@ -1,9 +1,7 @@
 #include <typeinfo>
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_RADIANS
-#include "thirdparty/glm/glm.hpp"
-#include "thirdparty/glm/gtc/matrix_transform.hpp"
 #include "MatrixStack.hpp"
+#include "thirdparty/glm/gtc/matrix_transform.hpp"
+#include "thirdparty/glm/gtc/type_ptr.hpp"
 #include "common/Logger.hpp"
 
 Matrix Matrix::EMPTY = Matrix(0.0f);
@@ -65,6 +63,11 @@ void Matrix::translate(const Vec3& t)
     _m = glm::translate(_m, glm::vec3(t.x, t.y, t.z));
 }
 
+const float* Matrix::getPtr() const
+{
+    return glm::value_ptr(_m);
+}
+
 Matrix Matrix::operator*(const Matrix& other) const
 {
     return Matrix(this->_m * other._m);
@@ -96,7 +99,7 @@ Matrix& MatrixStack::_push()
 
 Matrix& MatrixStack::_pushIdentity()
 {
-    m_stack.push(Matrix::IDENTITY);
+    m_stack.push(Matrix(1.0f)); // cannot count on Matrix::IDENTITY being initialized
     return m_stack.top();
 }
 
