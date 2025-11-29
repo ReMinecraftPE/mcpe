@@ -319,6 +319,9 @@ void LevelChunk::updateEntity(Entity* pEnt)
 	}
 
 	int newYCoord = ChunkPos::toChunkCoordinate(pEnt->m_pos.y);
+	if (newYCoord < 0) newYCoord = 0;
+	if (newYCoord > 7) newYCoord = 7;
+
 	int oldYCoord = pEnt->m_chunkPosY;
 	if (oldYCoord == newYCoord)
 	{
