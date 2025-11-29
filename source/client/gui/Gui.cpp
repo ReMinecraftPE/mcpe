@@ -559,8 +559,6 @@ void Gui::renderMessages(bool bShowAll)
 	int height = int(ceilf(Minecraft::height * InvGuiScale));
 
 	int topEdge = height - 49;
-	if (m_pMinecraft->isTouchscreen())
-		topEdge = 49;
 
 	for (int i = 0; i < int(m_guiMessages.size()); i++)
 	{
