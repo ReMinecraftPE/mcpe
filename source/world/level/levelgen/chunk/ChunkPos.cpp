@@ -15,7 +15,7 @@ void ChunkPos::_init(const Vec3& pos)
 
 void ChunkPos::_init(const TilePos& pos)
 {
-    _init(toChunkCoordinate(pos.x), toChunkCoordinate(pos.z));
+    _init(ToChunkCoordinate(pos.x), ToChunkCoordinate(pos.z));
 }
 
 ChunkPos::ChunkPos()

@@ -1567,7 +1567,7 @@ void Level::tick(Entity* pEnt, bool shouldTick)
 	}
 	else if (pEnt->m_bInAChunk)
 	{
-		if (pEnt->m_chunkPosY != ChunkPos::toChunkCoordinate(pEnt->m_pos.y))
+		if (pEnt->m_chunkPosY != ChunkPos::ToChunkCoordinate(pEnt->m_pos.y))
 		{
 			getChunk(cp)->updateEntity(pEnt);
 		}

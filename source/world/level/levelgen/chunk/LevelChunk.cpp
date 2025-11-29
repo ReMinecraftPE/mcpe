@@ -292,7 +292,7 @@ void LevelChunk::addEntity(Entity* pEnt)
 	assert(pEnt != nullptr); // Cannot add a null entity
 	field_238 = 1;
 
-	int yCoord = ChunkPos::toChunkCoordinate(pEnt->m_pos.y);
+	int yCoord = ChunkPos::ToChunkCoordinate(pEnt->m_pos.y);
 	if (yCoord < 0) yCoord = 0;
 	if (yCoord > 7) yCoord = 7;
 	pEnt->m_bInAChunk = true;
@@ -318,7 +318,7 @@ void LevelChunk::updateEntity(Entity* pEnt)
 		return;
 	}
 
-	int newYCoord = ChunkPos::toChunkCoordinate(pEnt->m_pos.y);
+	int newYCoord = ChunkPos::ToChunkCoordinate(pEnt->m_pos.y);
 	if (newYCoord < 0) newYCoord = 0;
 	if (newYCoord > 7) newYCoord = 7;
 

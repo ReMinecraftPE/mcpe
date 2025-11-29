@@ -51,12 +51,12 @@ public:
 
 	operator TilePos() const;
 
-	static int toChunkCoordinate(int value)
+	static int ToChunkCoordinate(int value)
 	{
 		return value / 16;
 	}
 
-	static int toChunkCoordinate(float value)
+	static int ToChunkCoordinate(float value)
 	{
 		return int(floorf(value / 16));
 	}
