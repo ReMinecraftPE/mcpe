@@ -305,18 +305,8 @@ void LevelChunk::addEntity(Entity* pEnt)
 void LevelChunk::updateEntity(Entity* pEnt)
 {
 	assert(pEnt != nullptr);
-
-	if (!pEnt->m_bInAChunk)
-	{
-		assert(false);
-		return;
-	}
-
-	if (pEnt->m_chunkPos != m_chunkPos)
-	{
-		assert(false);
-		return;
-	}
+	assert(pEnt->m_bInAChunk);
+	assert(pEnt->m_chunkPos == m_chunkPos);
 
 	int newYCoord = ChunkPos::ToChunkCoordinate(pEnt->m_pos.y);
 	if (newYCoord < 0) newYCoord = 0;
