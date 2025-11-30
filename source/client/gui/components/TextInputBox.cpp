@@ -362,6 +362,8 @@ void TextInputBox::pasteText(const std::string& text)
 		m_text.insert(m_insertHead, sanitizedText);
 		m_insertHead += int(sanitizedText.length());
 		recalculateScroll();
+
+		m_pParent->onTextBoxUpdated(m_ID);
 	}
 }
 
