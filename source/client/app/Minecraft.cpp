@@ -1010,7 +1010,7 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
-//#define USE_JAVA_SCREEN_SCALING
+#define USE_JAVA_SCREEN_SCALING
 #ifdef USE_JAVA_SCREEN_SCALING
 	int scale;
 	for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
