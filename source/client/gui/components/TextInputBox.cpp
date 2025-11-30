@@ -355,7 +355,7 @@ void TextInputBox::pasteText(const std::string& text)
 	if (!m_bFocused)
 		return;
 
-	const std::string sanitizedText = sanitizePasteText(text);
+	const std::string sanitizedText = _sanitizePasteText(text);
 
 	if (!sanitizedText.empty())
 	{
@@ -365,7 +365,7 @@ void TextInputBox::pasteText(const std::string& text)
 	}
 }
 
-std::string TextInputBox::sanitizePasteText(const std::string& text)
+std::string TextInputBox::_sanitizePasteText(const std::string& text)
 {
 	// check max size, can we add any further text?
 	if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
