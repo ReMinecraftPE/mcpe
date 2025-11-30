@@ -16,7 +16,7 @@
 #define HANDLE_CHARS_SEPARATELY // faked though, see platforms/android/minecraftcpp/minecraftcpp.NativeActivity/main.cpp
 #endif
 
-static bool isInvalidCharacter(char c)
+static bool IsInvalidCharacter(char c)
 {
 	return c == '\n' || c < ' ' || c > '~';
 }
@@ -331,7 +331,7 @@ void TextInputBox::charPressed(int k)
         default:
         {
             // Ignore Unprintable Characters
-            if (isInvalidCharacter(k))
+            if (IsInvalidCharacter(k))
                 return;
             
             // Check Max Length
@@ -378,7 +378,7 @@ std::string TextInputBox::sanitizePasteText(const std::string& text)
 	for (int i = 0; i < text.length(); ++i)
 	{
 		char c = text[i];
-		if (!isInvalidCharacter(c))
+		if (!IsInvalidCharacter(c))
 		{
 			sanitized += c;
 
