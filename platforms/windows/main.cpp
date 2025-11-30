@@ -108,9 +108,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			if (wParam == '\x16')
 			{
 				// we are pasting text
-				std::string text = g_AppPlatform.getClipboardText();
-				if (!text.empty())
-					g_pApp->handleTextPaste(text);
+				g_pApp->handleTextPaste();
 			}
 			else
 			{

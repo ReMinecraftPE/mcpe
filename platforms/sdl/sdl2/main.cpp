@@ -133,9 +133,7 @@ static void handle_events()
 				// Copy and pasting
 				if (event.key.state == SDL_PRESSED && event.key.keysym.sym == SDLK_v && g_pAppPlatform->controlPressed())
 				{
-					std::string text = g_pAppPlatform->getClipboardText();
-					if (!text.empty())
-						g_pApp->handleTextPaste(text);
+					g_pApp->handleTextPaste();
 					break;
 				}
 
