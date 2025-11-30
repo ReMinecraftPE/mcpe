@@ -50,7 +50,7 @@ public:
 	std::string getText() const { return m_text; }
 
 private:
-	std::string _sanitizePasteText(const std::string& text);
+	std::string _sanitizePasteText(const std::string& text) const;
 
 public:
 #ifndef HANDLE_CHARS_SEPARATELY

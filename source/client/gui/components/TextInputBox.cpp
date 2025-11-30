@@ -365,7 +365,7 @@ void TextInputBox::pasteText(const std::string& text)
 	}
 }
 
-std::string TextInputBox::_sanitizePasteText(const std::string& text)
+std::string TextInputBox::_sanitizePasteText(const std::string& text) const
 {
 	// check max size, can we add any further text?
 	if (m_maxLength != -1 && int(m_text.length()) >= m_maxLength)
