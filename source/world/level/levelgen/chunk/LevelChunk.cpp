@@ -324,18 +324,21 @@ void LevelChunk::updateEntity(Entity* pEnt)
 		return;
 	}
 
-	std::vector<Entity*>::iterator it = std::find(m_entities[oldYCoord].begin(), m_entities[oldYCoord].end(), pEnt);
-	if (it != m_entities[oldYCoord].end())
+	std::vector<Entity*>& oldTerrainLayer = m_entities[oldYCoord];
+	std::vector<Entity*>& newTerrainLayer = m_entities[newYCoord];
+
+	std::vector<Entity*>::iterator it = std::find(oldTerrainLayer.begin(), oldTerrainLayer.end(), pEnt);
+	if (it != oldTerrainLayer.end())
 	{
-		m_entities[oldYCoord].erase(it);
+		oldTerrainLayer.erase(it);
 	}
 	else
 	{
 		assert(false);
 	}
 
-	assert(std::find(m_entities[newYCoord].begin(), m_entities[newYCoord].end(), pEnt) == m_entities[newYCoord].end());
-	m_entities[newYCoord].push_back(pEnt);
+	assert(std::find(newTerrainLayer.begin(), newTerrainLayer.end(), pEnt) == newTerrainLayer.end());
+	newTerrainLayer.push_back(pEnt);
 	pEnt->m_chunkPosY = newYCoord;
 }
 
