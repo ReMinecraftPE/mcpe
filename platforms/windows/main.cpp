@@ -105,6 +105,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			if (lParam & (1 << 31))
 				break;
 
+			// CTRL+V corresponds to character 0x16
 			if (wParam == '\x16')
 			{
 				// we are pasting text
