@@ -130,11 +130,14 @@ static void handle_events()
 					g_pApp->handleCharInput('\b');
 				}
 
-				// Copy and pasting
-				if (event.key.state == SDL_PRESSED && event.key.keysym.sym == SDLK_v && g_pAppPlatform->controlPressed())
+				if (g_pAppPlatform->controlPressed())
 				{
-					g_pApp->handleTextPaste();
-					break;
+					// Copy and pasting
+					if (event.key.keysym.sym == SDLK_v && event.key.state == SDL_PRESSED)
+					{
+						g_pApp->handleTextPaste();
+						break;
+					}
 				}
 
 				g_pAppPlatform->handleKeyEvent(event);
