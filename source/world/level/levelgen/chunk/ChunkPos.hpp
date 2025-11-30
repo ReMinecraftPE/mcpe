@@ -53,7 +53,7 @@ public:
 
 	static int ToChunkCoordinate(int value)
 	{
-		return value / 16;
+		return value >> 4;
 	}
 
 	static int ToChunkCoordinate(float value)
