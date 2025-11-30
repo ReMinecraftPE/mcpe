@@ -1522,11 +1522,11 @@ void Level::tickTiles()
 	}
 }
 
-void Level::tick(Entity* pEnt, bool b)
+void Level::tick(Entity* pEnt, bool shouldTick)
 {
 	TilePos tilePos(pEnt->m_pos);
 
-	if (b)
+	if (shouldTick)
 	{
 		if (!hasChunksAt(TilePos(tilePos.x - 32, 0, tilePos.z - 32), TilePos(tilePos.x + 32, 128, tilePos.z + 32)))
 		{
@@ -1558,7 +1558,6 @@ void Level::tick(Entity* pEnt, bool b)
 
 		if (hasChunk(cp))
 		{
-			pEnt->m_bInAChunk = true;
 			getChunk(cp)->addEntity(pEnt);
 		}
 		else
@@ -1566,7 +1565,13 @@ void Level::tick(Entity* pEnt, bool b)
 			pEnt->m_bInAChunk = false;
 		}
 	}
-
+	else if (pEnt->m_bInAChunk)
+	{
+		if (pEnt->m_chunkPosY != ChunkPos::ToChunkCoordinate(pEnt->m_pos.y))
+		{
+			getChunk(cp)->updateEntity(pEnt);
+		}
+	}
 }
 
 void Level::tick(Entity* pEnt)

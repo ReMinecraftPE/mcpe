@@ -49,6 +49,7 @@ public:
 	virtual void addEntity(Entity*);
 	virtual void removeEntity(Entity*);
 	virtual void removeEntity(Entity*, int vec);
+	virtual void updateEntity(Entity* pEnt);
 	virtual bool isSkyLit(const ChunkTilePos& pos);
 	virtual void lightLava();
 	virtual void recalcBlockLights();

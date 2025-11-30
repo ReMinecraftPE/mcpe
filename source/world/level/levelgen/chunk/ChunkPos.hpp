@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 #ifndef __VEC3_HPP
 class Vec3;
@@ -49,4 +50,14 @@ public:
 	bool operator!=(const ChunkPos& other) const;
 
 	operator TilePos() const;
+
+	static int ToChunkCoordinate(int value)
+	{
+		return value / 16;
+	}
+
+	static int ToChunkCoordinate(float value)
+	{
+		return int(floorf(value / 16));
+	}
 };

@@ -292,7 +292,7 @@ void LevelChunk::addEntity(Entity* pEnt)
 	assert(pEnt != nullptr); // Cannot add a null entity
 	field_238 = 1;
 
-	int yCoord = int(floorf(pEnt->m_pos.y / 16));
+	int yCoord = ChunkPos::ToChunkCoordinate(pEnt->m_pos.y);
 	if (yCoord < 0) yCoord = 0;
 	if (yCoord > 7) yCoord = 7;
 	pEnt->m_bInAChunk = true;
@@ -300,6 +300,46 @@ void LevelChunk::addEntity(Entity* pEnt)
 	pEnt->m_chunkPosY = yCoord;
 
 	m_entities[yCoord].push_back(pEnt);
+}
+
+void LevelChunk::updateEntity(Entity* pEnt)
+{
+	assert(pEnt != nullptr);
+	assert(pEnt->m_bInAChunk);
+	assert(pEnt->m_chunkPos == m_chunkPos);
+
+	int newYCoord = ChunkPos::ToChunkCoordinate(pEnt->m_pos.y);
+	if (newYCoord < 0) newYCoord = 0;
+	if (newYCoord > 7) newYCoord = 7;
+
+	int oldYCoord = pEnt->m_chunkPosY;
+	if (oldYCoord == newYCoord)
+	{
+		return;
+	}
+
+	if (oldYCoord < 0 || oldYCoord > 7)
+	{
+		assert(false);
+		return;
+	}
+
+	std::vector<Entity*>& oldTerrainLayer = m_entities[oldYCoord];
+	std::vector<Entity*>& newTerrainLayer = m_entities[newYCoord];
+
+	std::vector<Entity*>::iterator it = std::find(oldTerrainLayer.begin(), oldTerrainLayer.end(), pEnt);
+	if (it != oldTerrainLayer.end())
+	{
+		oldTerrainLayer.erase(it);
+	}
+	else
+	{
+		assert(false);
+	}
+
+	assert(std::find(newTerrainLayer.begin(), newTerrainLayer.end(), pEnt) == newTerrainLayer.end());
+	newTerrainLayer.push_back(pEnt);
+	pEnt->m_chunkPosY = newYCoord;
 }
 
 void LevelChunk::clearUpdateMap()
