@@ -90,6 +90,10 @@ void AppPlatform_sdl::_handleKeyEvent(int key, uint8_t state)
 		/*if (state == SDL_PRESSED)
 			g_pApp->handleCharInput('\b');*/
 		break;
+	case SDLVK_LCTRL:
+	case SDLVK_RCTRL:
+		setControlPressed(state == SDL_PRESSED, key == SDLVK_LCTRL);
+		break;
 	case SDLVK_LSHIFT:
 	case SDLVK_RSHIFT:
 		setShiftPressed(state == SDL_PRESSED, key == SDLVK_LSHIFT);
@@ -181,6 +185,16 @@ void AppPlatform_sdl::clearDiff()
 {
 	m_xrel = 0;
 	m_yrel = 0;
+}
+
+bool AppPlatform_sdl::controlPressed()
+{
+	return m_bControlPressed[0] || m_bControlPressed[1];
+}
+
+void AppPlatform_sdl::setControlPressed(bool b, bool isLeft)
+{
+	m_bControlPressed[isLeft ? 0 : 1] = b;
 }
 
 bool AppPlatform_sdl::shiftPressed()

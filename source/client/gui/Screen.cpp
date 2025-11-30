@@ -87,6 +87,15 @@ void Screen::keyboardNewChar(char chr)
 	}
 }
 
+void Screen::keyboardTextPaste(const std::string& text)
+{
+	for (int i = 0; i < int(m_textInputs.size()); i++)
+	{
+		TextInputBox* textInput = m_textInputs[i];
+		textInput->pasteText(text);
+	}
+}
+
 void Screen::handleScroll(bool down)
 {
 }

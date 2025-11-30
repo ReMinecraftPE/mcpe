@@ -34,6 +34,7 @@ public:
 	void setEnabled(bool bEnabled);
 	void keyPressed(int key);
 	void charPressed(int chr);
+	void pasteText(const std::string& text);
 	void render();
 	void tick();
 	void setFocused(bool b);
@@ -47,6 +48,9 @@ public:
 	// From TextBox in 0.7.0
 	int getKey() const { return m_ID; }
 	std::string getText() const { return m_text; }
+
+private:
+	std::string _sanitizePasteText(const std::string& text) const;
 
 public:
 #ifndef HANDLE_CHARS_SEPARATELY

@@ -608,6 +608,19 @@ void Minecraft::handleCharInput(char chr)
 		m_pScreen->keyboardNewChar(chr);
 }
 
+void Minecraft::handleTextPaste(const std::string& text)
+{
+	if (m_pScreen)
+		m_pScreen->keyboardTextPaste(text);
+}
+
+void Minecraft::handleTextPaste()
+{
+	std::string text = AppPlatform::singleton()->getClipboardText();
+	if (!text.empty())
+		handleTextPaste(text);
+}
+
 void Minecraft::resetInput()
 {
 	Keyboard::reset();

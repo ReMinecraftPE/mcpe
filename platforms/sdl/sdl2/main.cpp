@@ -130,6 +130,16 @@ static void handle_events()
 					g_pApp->handleCharInput('\b');
 				}
 
+				if (g_pAppPlatform->controlPressed())
+				{
+					// Copy and pasting
+					if (event.key.keysym.sym == SDLK_v && event.key.state == SDL_PRESSED)
+					{
+						g_pApp->handleTextPaste();
+						break;
+					}
+				}
+
 				g_pAppPlatform->handleKeyEvent(event);
 				break;
 			}
@@ -200,10 +210,7 @@ static void handle_events()
 					for (size_t i = 0; i < length; i++)
 					{
 						char x = event.text.text[i];
-						if (x >= ' ' && x <= '~')
-						{
-							g_pApp->handleCharInput(x);
-						}
+						g_pApp->handleCharInput(x);
 					}
 				}
 				break;

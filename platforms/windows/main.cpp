@@ -94,6 +94,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 			if (wParam == VK_SHIFT)
 				g_AppPlatform.setShiftPressed(state == Keyboard::KeyState::DOWN);
+			else if (wParam == VK_CONTROL)
+				g_AppPlatform.setControlPressed(state == Keyboard::KeyState::DOWN);
 
 			break;
 		}
@@ -103,10 +105,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			if (lParam & (1 << 31))
 				break;
 
-			if (wParam >= '~' && wParam < ' ')
-				break;
+			// CTRL+V corresponds to character 0x16
+			if (wParam == '\x16')
+			{
+				// we are pasting text
+				g_pApp->handleTextPaste();
+			}
+			else
+			{
+				g_pApp->handleCharInput(char(wParam));
+			}
 
-			g_pApp->handleCharInput(char(wParam));
 			break;
 		}
 

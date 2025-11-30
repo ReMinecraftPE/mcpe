@@ -19,6 +19,7 @@
 #define STR(x) _STR(x)
 
 #include "client/player/input/Controller.hpp"
+#include "client/app/NinecraftApp.hpp"
 
 void AppPlatform_sdl2::_init(SDL_Window *window)
 {
@@ -128,6 +129,14 @@ void AppPlatform_sdl2::hideKeyboard()
 	{
 		SDL_StopTextInput();
 	}
+}
+
+std::string AppPlatform_sdl2::getClipboardText()
+{
+	char* temp = SDL_GetClipboardText();
+	std::string str = temp;
+	SDL_free(temp);
+	return str;
 }
 
 bool AppPlatform_sdl2::hasGamepad() const
