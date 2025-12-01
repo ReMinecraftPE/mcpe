@@ -19,7 +19,7 @@ public:
 	ItemInHandRenderer(Minecraft* pMC);
 	void itemPlaced();
 	void itemUsed();
-	void render(float f);
+	void render(float a);
 	void renderItem(ItemInstance*);
 	void renderScreenEffect(float f);
 	void renderFire(float f);

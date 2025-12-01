@@ -39,11 +39,15 @@ int CreeperRenderer::getOverlayColor(Mob* pMob, float a, float b)
 	return _a << 24 | red << 16 | green << 8 | blue;
 }
 
-void CreeperRenderer::scale(Mob* pMob, float f)
+#ifdef ENH_GFX_MATRIX_STACK
+void CreeperRenderer::scale(Mob* pMob, Matrix& matrix, float a)
+#else
+void CreeperRenderer::scale(Mob* pMob, float a)
+#endif
 {
 	Creeper* pCreeper = (Creeper*)pMob;
 
-	float g = pCreeper->getSwelling(f);
+	float g = pCreeper->getSwelling(a);
 	float wobble = 1.0f + Mth::sin(g * 100.0f) * g * 0.01f;
 
 	if (g < 0.0f) 
@@ -62,5 +66,9 @@ void CreeperRenderer::scale(Mob* pMob, float f)
 	float s = (1.0f + g * 0.4f) * wobble;
 	float hs = (1.0f + g * 0.1f) / wobble;
 
+#ifdef ENH_GFX_MATRIX_STACK
+	matrix.scale(Vec3(s, hs, s));
+#else
 	glScalef(s, hs, s);
+#endif
 }

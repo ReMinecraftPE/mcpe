@@ -156,7 +156,7 @@ void ModelPart::render(float scale)
 #ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref mtx = MatrixStack::World.push();
 
-		translateRotTo(**mtx, scale);
+		translateRotTo(mtx, scale);
 		draw(scale);
 #else
 		glPushMatrix();
@@ -172,7 +172,7 @@ void ModelPart::render(float scale)
 #ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref mtx = MatrixStack::World.push();
 
-		translatePosTo(**mtx, scale);
+		translatePosTo(mtx, scale);
 		draw(scale);
 #else
 		translatePosTo(scale);

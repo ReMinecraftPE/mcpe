@@ -138,9 +138,9 @@ Vec3 LiquidTile::getFlow(const LevelSource* level, const TilePos& pos) const
 	return result.normalize();
 }
 
-int LiquidTile::getRenderLayer() const
+Tile::RenderLayer LiquidTile::getRenderLayer() const
 {
-	return m_pMaterial == Material::water ? LAYER_ALPHA : LAYER_OPAQUE;
+	return m_pMaterial == Material::water ? RENDER_LAYER_BLEND : RENDER_LAYER_OPAQUE;
 }
 
 int LiquidTile::getRenderShape() const

@@ -384,12 +384,15 @@ void Screen::setSize(int width, int height)
 void Screen::onRender(int mouseX, int mouseY, float f)
 {
 	m_yOffset = getYOffset();
+
+	MatrixStack::Ref matrix;
+
 	if (m_yOffset != 0)
 	{
 		// push the entire screen up
 #ifdef ENH_GFX_MATRIX_STACK
-		MatrixStack::Ref worldMtx = MatrixStack::World.push();
-		worldMtx->translate(Vec3(0.0f, -m_yOffset, 0.0f));
+		matrix = MatrixStack::World.push();
+		matrix->translate(Vec3(0.0f, -m_yOffset, 0.0f));
 #else
 		glPushMatrix();
 		glTranslatef(0.0f, -float(m_yOffset), 0.0f);

@@ -15,7 +15,7 @@ class IceTile : public HalfTransparentTile
 public:
 	IceTile(int ID, int texture, Material*);
 
-	int getRenderLayer() const override;
+	RenderLayer getRenderLayer() const override;
 	int getResourceCount(Random*) const override;
 	void onRemove(Level*, const TilePos& pos) override;
 	bool shouldRenderFace(const LevelSource*, const TilePos& pos, Facing::Name face) const override;

@@ -13,18 +13,18 @@
 
 int Chunk::updates;
 
-float Chunk::distanceToSqr(const Entity* pEnt) const
+float Chunk::distanceToSqr(const Entity& entity) const
 {
-	float dX = pEnt->m_pos.x - float(m_pos2.x);
-	float dY = pEnt->m_pos.y - float(m_pos2.y);
-	float dZ = pEnt->m_pos.z - float(m_pos2.z);
+	float dX = entity.m_pos.x - float(m_posM.x);
+	float dY = entity.m_pos.y - float(m_posM.y);
+	float dZ = entity.m_pos.z - float(m_posM.z);
 	return dX * dX + dY * dY + dZ * dZ;
 }
-float Chunk::squishedDistanceToSqr(const Entity* pEnt) const
+float Chunk::squishedDistanceToSqr(const Entity& entity) const
 {
-	float dX = pEnt->m_pos.x - float(m_pos2.x);
-	float dY = pEnt->m_pos.y - float(m_pos2.y);
-	float dZ = pEnt->m_pos.z - float(m_pos2.z);
+	float dX = entity.m_pos.x - float(m_posM.x);
+	float dY = entity.m_pos.y - float(m_posM.y);
+	float dZ = entity.m_pos.z - float(m_posM.z);
 
 	dY *= 2;
 
@@ -33,39 +33,41 @@ float Chunk::squishedDistanceToSqr(const Entity* pEnt) const
 
 void Chunk::reset()
 {
-	field_1C[0] = true;
-	field_1C[1] = true;
+	for (int i = Tile::RENDER_LAYERS_MIN; i <= Tile::RENDER_LAYERS_MAX; i++)
+	{
+		m_empty[i] = true;
+	}
 	m_bVisible = false;
-	field_94 = false;
+	m_bCompiled = false;
 }
 
-int Chunk::getList(int idx)
+int Chunk::getList(Tile::RenderLayer layer)
 {
 	if (!m_bVisible)
 		return -1;
 
-	if (field_1C[idx])
+	if (m_empty[layer])
 		return -1;
 
-	return field_8C + idx;
+	return m_lists + layer;
 }
 
-RenderChunk* Chunk::getRenderChunk(int idx)
+RenderChunk* Chunk::getRenderChunk(Tile::RenderLayer layer)
 {
-	return &m_renderChunks[idx];
+	return &m_renderChunks[layer];
 }
 
-int Chunk::getAllLists(int* arr, int arr_idx, int idx)
+int Chunk::getAllLists(int* displayLists, int p, Tile::RenderLayer layer)
 {
 	if (!m_bVisible)
-		return arr_idx;
+		return p;
 
-	if (field_1C[idx])
-		return arr_idx;
+	if (m_empty[layer])
+		return p;
 
-	arr[arr_idx++] = field_8C + idx;
+	displayLists[p++] = m_lists + layer;
 
-	return arr_idx;
+	return p;
 }
 
 void Chunk::cull(Culler* pCuller)
@@ -75,20 +77,20 @@ void Chunk::cull(Culler* pCuller)
 
 void Chunk::renderBB()
 {
-
+	//glCallList(m_lists + 2);
 }
 
 bool Chunk::isEmpty()
 {
-	if (!field_94)
+	if (!m_bCompiled)
 		return false;
 
-	if (!field_1C[0])
-		return false;
-
-	if (!field_1C[1])
-		return false;
-
+	for (int i = Tile::RENDER_LAYERS_MIN; i <= Tile::RENDER_LAYERS_MAX; i++)
+	{
+		if (!m_empty[i])
+			return false;
+	}
+	
 	return true;
 }
 
@@ -104,9 +106,9 @@ void Chunk::setPos(const TilePos& pos)
 		return;
 
 	m_pos = pos;
-	m_pos2 = pos + field_10 / 2;
+	m_posM = pos + m_posS / 2;
 
-	m_aabb = AABB(m_pos - 1, m_pos + field_10 + 1);
+	m_aabb = AABB(m_pos - 1, m_pos + m_posS + 1);
 
 	setDirty();
 }
@@ -130,10 +132,12 @@ void Chunk::rebuild()
 
 	LevelChunk::touchedSky = false;
 
-	field_1C[0] = true;
-	field_1C[1] = true;
+	for (int i = Tile::RENDER_LAYERS_MIN; i <= Tile::RENDER_LAYERS_MAX; i++)
+	{
+		m_empty[i] = true;
+	}
 
-	TilePos min(m_pos), max(m_pos + field_10);
+	TilePos min(m_pos), max(m_pos + m_posS);
 
 	Region region(m_pLevel, min - 1, max + 1);
 	TileRenderer tileRenderer(&region);
@@ -141,9 +145,9 @@ void Chunk::rebuild()
 	Tesselator& t = Tesselator::instance;
 
 	TilePos tp(min);
-	for (int layer = 0; layer < 2; layer++)
+	for (int layer = Tile::RENDER_LAYERS_MIN; layer <= Tile::RENDER_LAYERS_MAX; layer++)
 	{
-		bool bTesselatedAnything = false, bDrewThisLayer = false, bNeedAnotherLayer = false;
+		bool started = false, rendered = false, renderNextLayer = false;
 		for (tp.y = min.y; tp.y < max.y; tp.y++)
 		{
 			for (tp.z = min.z; tp.z < max.z; tp.z++)
@@ -153,13 +157,13 @@ void Chunk::rebuild()
 					TileID tile = region.getTile(tp);
 					if (tile <= 0) continue;
 
-					if (!bTesselatedAnything)
+					if (!started)
 					{
-						bTesselatedAnything = true;
+						started = true;
 						if (tileRenderer.useAmbientOcclusion())
 							glShadeModel(GL_SMOOTH);
 						t.begin(12000);
-						t.setOffset(float(-m_pos.x), float(-m_pos.y), float(-m_pos.z));
+						t.setOffset(-m_pos);
 					}
 
 					Tile* pTile = Tile::tiles[tile];
@@ -167,17 +171,17 @@ void Chunk::rebuild()
 					if (layer == pTile->getRenderLayer())
 					{
 						if (tileRenderer.tesselateInWorld(pTile, tp))
-							bDrewThisLayer = true;
+							rendered = true;
 					}
 					else
 					{
-						bNeedAnotherLayer = true;
+						renderNextLayer = true;
 					}
 				}
 			}
 		}
 
-		if (bTesselatedAnything)
+		if (started)
 		{
 			mce::Mesh chunkMesh = t.end();
 			RenderChunk* pRChk = &m_renderChunks[layer];
@@ -186,16 +190,16 @@ void Chunk::rebuild()
 
 			t.setOffset(Vec3::ZERO);
 
-			if (bDrewThisLayer)
-				field_1C[layer] = false;
+			if (rendered)
+				m_empty[layer] = false;
 		}
 
-		if (!bNeedAnotherLayer)
+		if (!renderNextLayer)
 			break;
 	}
 
 	field_54 = LevelChunk::touchedSky;
-	field_94 = true;
+	m_bCompiled = true;
 }
 
 void Chunk::translateToPos()
@@ -203,17 +207,17 @@ void Chunk::translateToPos()
 	glTranslatef(float(m_pos.x), float(m_pos.y), float(m_pos.z));
 }
 
-Chunk::Chunk(Level* level, const TilePos& pos, int a, int b)
+Chunk::Chunk(Level* level, const TilePos& pos, int size, int lists)
 {
-	field_4D = true;
-	field_4E = false;
-	field_94 = false;
+	m_bOcclusionVisible = true;
+	m_bOcclusionQuerying = false;
+	m_bCompiled = false;
 	m_bDirty = false;
 
 	m_pLevel = level;
-	field_10 = TilePos(a, a, a);
+	m_posS = TilePos(size, size, size);
 	m_pTesselator = &Tesselator::instance;
-	field_8C = b;
+	m_lists = lists;
 	m_pos.x = -999;
 	field_2C = Vec3(pos).lengthSqr() / 2;
 

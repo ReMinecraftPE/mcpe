@@ -19,10 +19,10 @@ int GlassTile::getResourceCount(Random* pRandom) const
 	return 0;
 }
 
-int GlassTile::getRenderLayer() const
+Tile::RenderLayer GlassTile::getRenderLayer() const
 {
 	if (GetPatchManager()->IsGlassSemiTransparent())
-		return LAYER_ALPHA;
+		return RENDER_LAYER_ALPHATEST;
 
-	return LAYER_OPAQUE;
+	return RENDER_LAYER_OPAQUE;
 }

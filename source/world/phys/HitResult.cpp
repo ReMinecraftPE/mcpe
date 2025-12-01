@@ -16,10 +16,10 @@ void HitResult::_init()
 	m_hitSide = Facing::DOWN;
 
 	m_pEnt = nullptr;
-	m_bUnk24 = 0;
+	m_bUnk24 = false;
 }
 
-HitResult::HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3& vec)
+HitResult::HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3& pos)
 {
 	_init();
 
@@ -27,7 +27,7 @@ HitResult::HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3& v
 	m_hitSide = hitSide;
 	m_tilePos = tilePos;
 	m_bUnk24 = false;
-	m_hitPos = vec;
+	m_hitPos = pos;
 }
 
 HitResult::HitResult(Entity* pEnt)

@@ -63,7 +63,12 @@ void Matrix::translate(const Vec3& t)
     _m = glm::translate(_m, glm::vec3(t.x, t.y, t.z));
 }
 
-const float* Matrix::getPtr() const
+const float* Matrix::ptr() const
+{
+    return glm::value_ptr(_m);
+}
+
+float* Matrix::getPtr()
 {
     return glm::value_ptr(_m);
 }

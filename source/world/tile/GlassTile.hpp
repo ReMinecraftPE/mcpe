@@ -16,5 +16,5 @@ public:
 	GlassTile(int ID, int texture, Material*);
 
 	int getResourceCount(Random*) const override;
-	int getRenderLayer() const override;
+	RenderLayer getRenderLayer() const override;
 };

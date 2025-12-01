@@ -650,6 +650,26 @@ float Entity::getBrightness(float f) const
 	return m_pLevel->getBrightness(tilePos);
 }
 
+Vec3 Entity::getPos(float f) const
+{
+	if (f == 1.0f)
+		return m_pos;
+
+	return Vec3(
+		Mth::Lerp(m_oPos.x, m_pos.x, f),
+		Mth::Lerp(m_oPos.y, m_pos.y, f),
+		Mth::Lerp(m_oPos.z, m_pos.z, f)
+	);
+}
+
+Vec2 Entity::getRot(float f) const
+{
+	return Vec2(
+		Mth::Lerp(m_oRot.x, m_rot.x, f),
+		Mth::Lerp(m_oRot.y, m_rot.y, f)
+	);
+}
+
 float Entity::distanceTo(Entity* pEnt) const
 {
 	return distanceTo(pEnt->m_pos);

@@ -77,7 +77,7 @@ Minecraft::Minecraft()
 	m_pUser = nullptr;
 	m_pLevel = nullptr;
 	m_pLocalPlayer = nullptr;
-	m_pMobPersp = nullptr; // why is there a duplicate?
+	m_pCameraEntity = nullptr; // why is there a duplicate?
 	m_pGui = nullptr;
 	field_D0C = 0;
 	m_pPrepThread = nullptr;
@@ -740,7 +740,7 @@ void Minecraft::tick()
 			m_pParticleEngine->tick();
 
 #ifndef ORIGINAL_CODE
-			m_pSoundEngine->update(m_pMobPersp, m_timer.m_renderTicks);
+			m_pSoundEngine->update(m_pCameraEntity, m_timer.m_renderTicks);
 #endif
 		}
 
@@ -1000,7 +1000,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	pLevel->validateSpawn();
 	pLevel->loadPlayer(*m_pLocalPlayer);
 
-	m_pMobPersp = m_pLocalPlayer;
+	m_pCameraEntity = m_pLocalPlayer;
 	m_pLevel = pLevel;
 
 	m_bPreparingLevel = false;
@@ -1044,7 +1044,7 @@ bool Minecraft::resumeGame()
 
 void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pLocalPlayer)
 {
-	m_pMobPersp = nullptr;
+	m_pCameraEntity = nullptr;
 
 	if (pLevel)
 	{
@@ -1146,7 +1146,7 @@ void Minecraft::leaveGame(bool bCopyMap)
 	m_bPreparingLevel = false;
 	if (m_pRakNetInstance)
 		m_pRakNetInstance->disconnect();
-	m_pMobPersp = nullptr;
+	m_pCameraEntity = nullptr;
 	m_pLevelRenderer->setLevel(nullptr);
 	m_pParticleEngine->setLevel(nullptr);
 

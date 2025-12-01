@@ -144,6 +144,8 @@ public:
 	virtual float getHeadHeight() const { return 0.0f; }
 	virtual float getShadowHeightOffs() const { return m_bbHeight / 2.0f; }
 	virtual float getBrightness(float f) const;
+	virtual Vec3 getPos(float f) const;
+	virtual Vec2 getRot(float f) const;
 	virtual float distanceTo(Entity*) const;
 	virtual float distanceToSqr(const Vec3& pos) const;
 	virtual float distanceTo(const Vec3& pos) const;

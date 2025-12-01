@@ -1340,13 +1340,11 @@ bool Level::canSeeSky(const TilePos& pos) const
 	return pChunk->isSkyLit(pos);
 }
 
-Vec3 Level::getSkyColor(Entity* pEnt, float f) const
+Vec3 Level::getSkyColor(const Entity& entity, float f) const
 {
 	Vec3 result;
 
 	float fTODCosAng = Mth::cos(getSunAngle(f));
-
-	// @TODO: Fix the gotos
 
 	result.z = 2 * fTODCosAng + 0.5f;
 	if (result.z < 0.0f)
@@ -1355,8 +1353,8 @@ Vec3 Level::getSkyColor(Entity* pEnt, float f) const
 		result.z = 1.0f;
 
 	// @NOTE: Unused result. In JE, it tries to get the biome that the player is standing in.
-	Mth::floor(pEnt->m_pos.x);
-	Mth::floor(pEnt->m_pos.z);
+	//Mth::floor(entity.m_pos.x);
+	//Mth::floor(entity.m_pos.z);
 
 	result.x = result.z * 0.6f;
 	result.y = result.x;

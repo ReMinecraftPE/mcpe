@@ -238,9 +238,9 @@ bool Tile::isSignalSource() const
 	return false;
 }
 
-int Tile::getRenderLayer() const
+Tile::RenderLayer Tile::getRenderLayer() const
 {
-	return LAYER_OPAQUE;
+	return RENDER_LAYER_OPAQUE;
 }
 
 bool Tile::isSolidRender() const

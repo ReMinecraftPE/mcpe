@@ -2540,7 +2540,7 @@ void TileRenderer::renderTile(Tile* tile, TileData data, float bright, bool pres
 			// This is a hack to accomodate the start menu screen procedurally generated title logo.
 #define IF_NEEDED(x) do { if (data != 255) { (x); } } while (0)
 
-			glTranslatef(-0.5f, -0.5f, -0.5f);
+			t.addOffset(-0.5f, -0.5f, -0.5f);
 			t.begin();
 			SHADE_DEFINE;
 			SHADE_PREPARE;
@@ -2567,7 +2567,7 @@ void TileRenderer::renderTile(Tile* tile, TileData data, float bright, bool pres
 			IF_NEEDED(renderEast (tile, Vec3::ZERO, tile->getTexture(Facing::EAST, data)));
 			SHADE_IF_NEEDED(1.0f);
 			t.draw();
-			glTranslatef(0.5f, 0.5f, 0.5f);
+			t.addOffset(0.5f, 0.5f, 0.5f);
 			break;
 		}
 		case SHAPE_CROSS:

@@ -3,7 +3,7 @@
 // It appears Mojang took the code from:
 // https://www.khronos.org/opengl/wiki/GluProject_and_gluUnProject_code
 
-int glhProjectf(float objx, float objy, float objz, float* modelview, float* projection, int* viewport, float* windowCoordinate)
+int glhProjectf(float objx, float objy, float objz, const float* modelview, const float* projection, int* viewport, float* windowCoordinate)
 {
     // Transformation vectors
     float fTempo[8];
@@ -35,7 +35,7 @@ int glhProjectf(float objx, float objy, float objz, float* modelview, float* pro
     return 1;
 }
 
-int glhUnProjectf(float winx, float winy, float winz, float* modelview, float* projection, int* viewport, float* objectCoordinate)
+int glhUnProjectf(float winx, float winy, float winz, const float* modelview, const float* projection, int* viewport, float* objectCoordinate)
 {
     // Transformation matrices
     float m[16], A[16];
@@ -62,7 +62,7 @@ int glhUnProjectf(float winx, float winy, float winz, float* modelview, float* p
     return 1;
 }
 
-void MultiplyMatrices4by4OpenGL_FLOAT(float* result, float* matrix1, float* matrix2)
+void MultiplyMatrices4by4OpenGL_FLOAT(float* result, const float* matrix1, const float* matrix2)
 {
     result[0] = matrix1[0] * matrix2[0] +
         matrix1[4] * matrix2[1] +

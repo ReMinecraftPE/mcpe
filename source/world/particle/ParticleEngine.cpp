@@ -142,22 +142,22 @@ void ParticleEngine::destroyEffect(const TilePos& pos)
 bool g_bDisableParticles;
 #endif
 
-void ParticleEngine::render(Entity* ent, float f)
+void ParticleEngine::render(const Entity& camera, float f)
 {
 #ifdef ENH_CAMERA_NO_PARTICLES
 	if (g_bDisableParticles)
 		return;
 #endif
 
-	float x1 = Mth::cos(float(M_PI) * ent->m_rot.x / 180.0f);
-	float x3 = Mth::sin(float(M_PI) * ent->m_rot.x / 180.0f);
-	float x4 = -(x3 * Mth::sin(float(M_PI) * ent->m_rot.y / 180.0f));
-	float x5 = x1 * Mth::sin(float(M_PI) * ent->m_rot.y / 180.0f);
-	float x2 = Mth::cos(float(M_PI) * ent->m_rot.y / 180.0f);
+	float x1 = Mth::cos(float(M_PI) * camera.m_rot.x / 180.0f);
+	float x3 = Mth::sin(float(M_PI) * camera.m_rot.x / 180.0f);
+	float x4 = -(x3 * Mth::sin(float(M_PI) * camera.m_rot.y / 180.0f));
+	float x5 = x1 * Mth::sin(float(M_PI) * camera.m_rot.y / 180.0f);
+	float x2 = Mth::cos(float(M_PI) * camera.m_rot.y / 180.0f);
 
-	Particle::xOff = Mth::Lerp(ent->m_posPrev.x, ent->m_pos.x, f);
-	Particle::yOff = Mth::Lerp(ent->m_posPrev.y, ent->m_pos.y, f);
-	Particle::zOff = Mth::Lerp(ent->m_posPrev.z, ent->m_pos.z, f);
+	Particle::xOff = Mth::Lerp(camera.m_posPrev.x, camera.m_pos.x, f);
+	Particle::yOff = Mth::Lerp(camera.m_posPrev.y, camera.m_pos.y, f);
+	Particle::zOff = Mth::Lerp(camera.m_posPrev.z, camera.m_pos.z, f);
 
 	// @BUG: Ignoring the last particle array. Invisible?
 	Tesselator& t = Tesselator::instance;
@@ -180,7 +180,7 @@ void ParticleEngine::render(Entity* ent, float f)
 	}
 }
 
-void ParticleEngine::renderLit(Entity* player, float a)
+void ParticleEngine::renderLit(const Entity& camera, float a)
 {
 	int tt = 3;
 	if (m_particles[tt].size() != 0)

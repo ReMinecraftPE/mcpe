@@ -9,6 +9,7 @@
 #include "StartMenuScreen.hpp"
 
 #include "client/renderer/ScreenRenderer.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 #include "renderer/ShaderConstants.hpp"
 
 #include "InvalidLicenseScreen.hpp"
@@ -358,8 +359,15 @@ const char* gSplashes[] =
 	"Also try Unturned!",
 	"Controller support!",
 	"Check out our GitHub!",
+	"Now with graphics abstraction!",
+	"Now with HAL!",
+	"Supports PowerPC!",
+	// These guys carried
+	"The Work of Aron Nieminen!",      // https://minecraft.wiki/w/Aron_Nieminen
+	"The Work of Johan Bernhardsson!", // https://minecraft.wiki/w/Johan_Bernhardsson
+	"The Work of Tommaso Checchi!"     // https://minecraft.wiki/w/Tommaso_Checchi
 	"Woo, newgrounds!",
-	"Woo, curseforge!"
+	"Woo, curseforge!",
 };
 
 StartMenuScreen::StartMenuScreen() :
@@ -526,7 +534,7 @@ void StartMenuScreen::draw2dTitle()
 		m_2dTitleBounds.h = height;
 
 		currentShaderColor = Color::WHITE;
-		ScreenRenderer::singleton().blit(m_2dTitleBounds);
+		blit(m_2dTitleBounds);
 	}
 
 }
@@ -550,26 +558,50 @@ void StartMenuScreen::draw3dTitle(float f)
 	if (m_width * 3 / 4 < 256) // cramped mode
 		titleHeight = int(80 / Gui::InvGuiScale);
 
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
+	projMtx->setPerspective(70.0f, float(Minecraft::width) / titleHeight, 0.05f, 100.0f);
+#else
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
 	gluPerspective(70.0f, float(Minecraft::width) / titleHeight, 0.05f, 100.0f);
-	glViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight);
+#endif
+
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	renderContext.setViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight, 0.0f, 0.7f);
+
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
+#else
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
+#endif
+
 	//glDisable(GL_CULL_FACE);
 	glDepthMask(true);
 
 	for (int i = 0; i < 3; i++)
 	{
+#ifdef ENH_GFX_MATRIX_STACK
+		MatrixStack::Ref matrix = MatrixStack::View.push();
+		matrix->translate(Vec3(0.4f, 0.6f, -12.0f));
+#else
 		glPushMatrix();
 		glTranslatef(0.4f, 0.6f, -12.0f);
+#endif
 		switch (i)
 		{
 			case 0:
-				glClear(GL_DEPTH_BUFFER_BIT);
+				//glClear(GL_DEPTH_BUFFER_BIT);
+				renderContext.clearDepthStencilBuffer();
+#ifdef ENH_GFX_MATRIX_STACK
+				matrix->translate(Vec3(0.0f, -0.5f, -0.5f));
+#else
 				glTranslatef(0.0f, -0.5f, -0.5f);
+#endif
 				glEnable(GL_BLEND);
 				//force set alpha
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -577,7 +609,8 @@ void StartMenuScreen::draw3dTitle(float f)
 
 			case 1:
 				glDisable(GL_BLEND);
-				glClear(GL_DEPTH_BUFFER_BIT);
+				//glClear(GL_DEPTH_BUFFER_BIT);
+				renderContext.clearDepthStencilBuffer();
 				//revert
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				break;
@@ -588,11 +621,19 @@ void StartMenuScreen::draw3dTitle(float f)
 				break;
 		}
 
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix->scale(Vec3(1.0f, -1.0f, 1.0f));
+		matrix->rotate(8.0f, Vec3::UNIT_X);
+		//matrix->rotate(15.0f, Vec3::UNIT_X);
+		matrix->scale(Vec3(0.89f, 1.0f, 0.4f));
+		matrix->translate(Vec3(-Width * 0.5f, -Height * 0.5f, 0.0f));
+#else
 		glScalef(1.0f, -1.0f, 1.0f);
 		glRotatef(8.0f, 1.0f, 0.0f, 0.0f);
 		//glRotatef(15.0f, 1.0f, 0.0f, 0.0f);
 		glScalef(0.89f, 1.0f, 0.4f);
 		glTranslatef(-Width * 0.5f, -Height * 0.5f, 0.0f);
+#endif
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 		if (i == 0) {
@@ -608,7 +649,11 @@ void StartMenuScreen::draw3dTitle(float f)
 
 				Tile* pTile = TitleTile::getTileFromChar(gLogoLines[y][x]);
 
+#ifdef ENH_GFX_MATRIX_STACK
+				MatrixStack::Ref matrix = MatrixStack::View.push();
+#else
 				glPushMatrix();
+#endif
 
 				TitleTile* pTTile = m_pTiles[y * Width + x];
 				float z = Mth::Lerp(pTTile->lastHeight, pTTile->height, f);
@@ -623,6 +668,15 @@ void StartMenuScreen::draw3dTitle(float f)
 					z = 0.0f;
 				}
 
+#ifdef ENH_GFX_MATRIX_STACK
+				matrix->translate(Vec3(x, y, z));
+				matrix->scale(scale);
+				matrix->scale(Vec3(-1.0f, 1.0f, 1.0f));
+				matrix->rotate(rotation, Vec3::UNIT_Z);
+
+				// rotate 90 deg on the X axis to correct lighting
+				matrix->rotate(90.0f, Vec3::UNIT_X);
+#else
 				glTranslatef(float(x), float(y), z);
 				glScalef(scale, scale, scale);
 				glScalef(-1.0f, 1.0f, 1.0f);
@@ -630,21 +684,31 @@ void StartMenuScreen::draw3dTitle(float f)
 
 				// rotate 90 deg on the X axis to correct lighting
 				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+#endif
+
 				m_tileRenderer.renderTile(pTile, i == 0 ? 255 : 0, bright, true);
 
+#ifndef ENH_GFX_MATRIX_STACK
 				glPopMatrix();
+#endif
 			}
 		}
 
+#ifndef ENH_GFX_MATRIX_STACK
 		glPopMatrix();
+#endif
 	}
 
 	glDisable(GL_BLEND);
+
+#ifndef ENH_GFX_MATRIX_STACK
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
-	glViewport(0, 0, Minecraft::width, Minecraft::height);
+#endif
+
+	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 	//glEnable(GL_CULL_FACE);
 }
 

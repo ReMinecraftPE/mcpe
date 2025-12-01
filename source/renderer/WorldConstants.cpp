@@ -48,11 +48,11 @@ void WorldConstants::refreshWorldConstants()
 
     if (MatrixStack::Projection.isDirty())
     {
-        const Matrix& matrix = MatrixStack::Projection.top();
+        const Matrix& projMatrix = MatrixStack::Projection.top();
 
         // @TODO: abstract
         glMatrixMode(GL_PROJECTION);
-        glLoadMatrixf(matrix.getPtr());
+        glLoadMatrixf(projMatrix.ptr());
         glMatrixMode(GL_MODELVIEW);
 
         MatrixStack::Projection.makeClean();
@@ -67,7 +67,7 @@ void WorldConstants::refreshWorldConstants()
 
         // @TODO: abstract
         glMatrixMode(GL_MODELVIEW);
-        glLoadMatrixf(modelViewMatrix.getPtr());
+        glLoadMatrixf(modelViewMatrix.ptr());
 
         MatrixStack::World.makeClean();
         MatrixStack::View.makeClean();

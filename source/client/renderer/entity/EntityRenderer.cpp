@@ -7,8 +7,18 @@
  ********************************************************************/
 
 #include "EntityRenderer.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "EntityRenderDispatcher.hpp"
+
+EntityRenderer::Materials::Materials()
+{
+	MATERIAL_PTR(switchable, entity_alphatest);
+	MATERIAL_PTR(switchable, entity_alphatest_glint);
+	MATERIAL_PTR(common, name_tag);
+	MATERIAL_PTR(common, name_tag_depth_tested);
+	MATERIAL_PTR(common, name_text_depth_tested);
+}
 
 bool EntityRenderer::_areShadowsAvailable = false; // false because PE used a reimplementation with geometry later on, rather than a texture
 
@@ -45,6 +55,7 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 	ePos.y -= e->m_heightOffset; // Fixed fire rendering above player's head in third-person
 
 	glDisable(GL_LIGHTING);
+
 	int tex = Tile::fire->getTexture(Facing::NORTH);
 	int xt = (tex & 15) << 4;
 	int yt = tex & 240;
@@ -52,18 +63,33 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 	float u1 = ((float)xt + 15.99f) / 256.0f;
 	float v0 = (float)yt / 256.0f;
 	float v1 = ((float)yt + 15.99f) / 256.0f;
+
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+#else
 	glPushMatrix();
-	glTranslatef(ePos.x, ePos.y, ePos.z);
+#endif
+
 	float s = e->m_bbWidth * 1.4f; // bbWidth instead of e->m_hitbox.max.x
+	float h = e->m_bbHeight / e->m_bbWidth;
+
+#ifdef ENH_GFX_MATRIX_STACK
+	matrix->translate(ePos);
+	matrix->scale(s);
+	matrix->rotate(-m_pDispatcher->m_rot.x, Vec3::UNIT_Y);
+	matrix->translate(Vec3(0.0f, 0.0f, -0.4f + (float)((int)h) * 0.02f));
+#else
+	glTranslatef(ePos.x, ePos.y, ePos.z);
 	glScalef(s, s, s);
+	glRotatef(-m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
+	glTranslatef(0.0f, 0.0f, -0.4f + (float)((int)h) * 0.02f);
+#endif
+	
 	bindTexture(C_TERRAIN_NAME);
 	Tesselator& t = Tesselator::instance;
 	float r = 1.0f;
 	float xo = 0.5f;
 	float yo = 0.0f;
-	float h = e->m_bbHeight / e->m_bbWidth;
-	glRotatef(-m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
-	glTranslatef(0.0f, 0.0f, -0.4f + (float)((int)h) * 0.02f);
 	currentShaderColor = Color::WHITE;
 	t.begin();
 
@@ -76,11 +102,19 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 		--h;
 		--yo;
 		r *= 0.9f;
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix->translate(Vec3(0.0f, 0.0f, -0.04f));
+#else
 		glTranslatef(0.0f, 0.0f, -0.04f);
+#endif
 	}
 
 	t.draw();
+
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
+
 	glEnable(GL_LIGHTING);
 }
 

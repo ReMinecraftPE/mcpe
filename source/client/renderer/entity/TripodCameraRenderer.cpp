@@ -29,8 +29,14 @@ float TripodCameraRenderer::getFlashTime(TripodCamera* camera, float f)
 
 void TripodCameraRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(pos);
+#else
 	glPushMatrix();
 	glTranslatef(pos.x, pos.y, pos.z);
+#endif
+
 	m_modelPart.m_rot.x  = 0.017453f * (180.0f + 0.5f * entity->m_rot.y);
 	m_modelPart.m_rot.y = -0.017453f * entity->m_rot.x;
 
@@ -71,7 +77,9 @@ void TripodCameraRenderer::render(Entity* entity, const Vec3& pos, float rot, fl
 		glEnable(GL_TEXTURE_2D);
 	}
 
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
 }
 
 TripodTile::TripodTile() : Tile(0, 243, Material::plant)

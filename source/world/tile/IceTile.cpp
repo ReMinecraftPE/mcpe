@@ -15,9 +15,9 @@ IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 	setTicking(true);
 }
 
-int IceTile::getRenderLayer() const
+Tile::RenderLayer IceTile::getRenderLayer() const
 {
-	return LAYER_ALPHA;
+	return RENDER_LAYER_ALPHATEST;
 }
 
 int IceTile::getResourceCount(Random* pRandom) const

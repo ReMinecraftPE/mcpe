@@ -46,19 +46,41 @@ void QuadrupedModel::render(float a, float b, float c, float d, float e, float f
 
 	if (m_bIsBaby)
 	{
-		glPushMatrix();
-		glTranslatef(0.0f, f * field_28C, f * field_290);
-		m_head.render(f);
-		glPopMatrix();
+		{
+#ifdef ENH_GFX_MATRIX_STACK
+			MatrixStack::Ref matrix = MatrixStack::World.push();
+			matrix->translate(Vec3(0.0f, f * field_28C, f * field_290));
+#else
+			glPushMatrix();
+			glTranslatef(0.0f, f * field_28C, f * field_290);
+#endif
+
+			m_head.render(f);
+
+#ifndef ENH_GFX_MATRIX_STACK
+			glPopMatrix();
+#endif
+		}
+
+#ifdef ENH_GFX_MATRIX_STACK
+		MatrixStack::Ref matrix = MatrixStack::World.push();
+		matrix->scale(0.5f);
+		matrix->translate(Vec3(0.0f, f * 24.0f, 0.0f));
+#else
 		glPushMatrix();
 		glScalef(0.5f, 0.5f, 0.5f);
 		glTranslatef(0.0f, f * 24.0f, 0.0f);
+#endif
+
 		m_body.render(f);
 		m_leg1.render(f);
 		m_leg2.render(f);
 		m_leg3.render(f);
 		m_leg4.render(f);
+
+#ifndef ENH_GFX_MATRIX_STACK
 		glPopMatrix();
+#endif
 	}
 	else
 	{

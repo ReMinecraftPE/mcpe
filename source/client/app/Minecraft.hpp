@@ -94,6 +94,7 @@ public:
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
 	Options* getOptions() const { return m_pOptions; }
+	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 
 private:
     // Value provided by the OS
@@ -130,7 +131,7 @@ public:
 	User* m_pUser;
 	Level* m_pLevel;
 	LocalPlayer* m_pLocalPlayer;
-	Mob* m_pMobPersp; // why is there a duplicate?
+	Mob* m_pCameraEntity;
 	Gui* m_pGui;
 	int field_D0C;
 	CThread* m_pPrepThread;

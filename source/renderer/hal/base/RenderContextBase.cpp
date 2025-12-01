@@ -27,12 +27,40 @@ void RenderContextBase::drawIndexed(PrimitiveMode primitiveMode, unsigned int co
 {
 }
 
+void RenderContextBase::setDepthRange(float nearVal, float farVal)
+{
+}
+
+void RenderContextBase::setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal)
+{
+}
+
+void RenderContextBase::clearFrameBuffer(const Color& color)
+{
+}
+
+void RenderContextBase::clearStencilBuffer()
+{
+}
+
+void RenderContextBase::clearDepthStencilBuffer()
+{
+}
+
 void RenderContextBase::clearContextState()
 {
     m_immediateBuffer = ImmediateBuffer();
     m_lastShaderPrograms[SHADER_TYPE_VERTEX] = nullptr;
     m_lastShaderPrograms[SHADER_TYPE_FRAGMENT] = nullptr;
     m_lastShaderPrograms[SHADER_TYPE_GEOMETRY] = nullptr;
+}
+
+void RenderContextBase::setRenderTarget()
+{
+}
+
+void RenderContextBase::swapBuffers()
+{
 }
 
 void RenderContextBase::lostContext()

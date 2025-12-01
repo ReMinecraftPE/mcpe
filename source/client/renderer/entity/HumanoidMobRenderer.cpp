@@ -23,36 +23,72 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 {
 	ItemInstance* inst = mob->getCarriedItem();
 
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+#else
 	glPushMatrix();
+#endif
+
+#ifdef ENH_GFX_MATRIX_STACK
+	m_pHumanoidModel->m_arm1.translateTo(matrix, 0.0625f);
+	matrix->translate(Vec3(-0.0625f, 0.4375f, 0.0625f));
+#else
 	m_pHumanoidModel->m_arm1.translateTo(0.0625f);
 	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
+#endif
 
 	if (inst && inst->getTile() && TileRenderer::canRender(inst->getTile()->getRenderShape()))
 	{
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix->translate(Vec3(0.0f, 0.1875f, -0.3125f));
+		matrix->rotate(20.0f, Vec3::UNIT_X);
+		matrix->rotate(45.0f, Vec3::UNIT_Y);
+		matrix->scale(Vec3(0.375f, -0.375f, 0.375f));
+#else
 		glTranslatef(0.0f, 0.1875f, -0.3125f);
 		glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 		glScalef(0.375f, -0.375f, 0.375f);
+#endif
 	}
 	else if (inst && inst->getItem() && inst->getItem()->isHandEquipped())
 	{
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix->translate(Vec3(0.0f, 0.1875f, 0.0f));
+		matrix->scale(Vec3(0.625f, -0.625f, 0.625f));
+		matrix->rotate(-100.0f, Vec3::UNIT_X);
+		matrix->rotate(45.0f, Vec3::UNIT_Y);
+#else
 		glTranslatef(0.0f, 0.1875f, 0.0f);
 		glScalef(0.625f, -0.625f, 0.625f);
 		glRotatef(-100.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+#endif
 	}
 	else
 	{
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix->translate(Vec3(0.25f, 0.1875f, -0.1875f));
+		matrix->scale(Vec3(0.375f, 0.375f, 0.375f));
+		matrix->rotate(60.0f, Vec3::UNIT_Z);
+		matrix->rotate(-90.0f, Vec3::UNIT_X);
+		matrix->rotate(20.0f, Vec3::UNIT_Z);
+#else
 		glTranslatef(0.25f, 0.1875f, -0.1875f);
 		glScalef(0.375f, 0.375f, 0.375f);
 		glRotatef(60.0f, 0.0f, 0.0f, 1.0f);
 		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(20.0f, 0.0f, 0.0f, 1.0f);
+#endif
 	}
 
 	glEnable(GL_RESCALE_NORMAL);
 	m_pDispatcher->m_pItemInHandRenderer->renderItem(inst);
+
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
+
 	glDisable(GL_RESCALE_NORMAL);
 }
 
@@ -88,7 +124,7 @@ void HumanoidMobRenderer::onGraphicsReset()
 void HumanoidMobRenderer::renderHand()
 {
 	m_pHumanoidModel->field_4 = 0;
-	m_pHumanoidModel->setBrightness(m_pDispatcher->m_pMinecraft->m_pMobPersp->getBrightness(1.0f));
+	m_pHumanoidModel->setBrightness(m_pDispatcher->m_pMinecraft->m_pCameraEntity->getBrightness(1.0f));
 	m_pHumanoidModel->setupAnim(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
 	m_pHumanoidModel->m_arm1.render(0.0625f);
 }

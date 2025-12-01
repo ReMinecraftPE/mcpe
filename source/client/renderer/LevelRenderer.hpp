@@ -21,18 +21,18 @@ class Minecraft;
 
 class DistanceChunkSorter
 {
-	Mob* m_pMob;
+	const Entity& m_entity;
 
 public:
-	DistanceChunkSorter(Mob* pMob)
+	DistanceChunkSorter(const Entity& entity)
+		: m_entity(entity)
 	{
-		m_pMob = pMob;
 	}
 
 	bool operator()(const Chunk* a, const Chunk* b)
 	{
-		float d1 = a->distanceToSqr(m_pMob);
-		float d2 = b->distanceToSqr(m_pMob);
+		float d1 = a->distanceToSqr(m_entity);
+		float d2 = b->distanceToSqr(m_entity);
 
 		if (d1 > 1024.0f && a->m_pos.y <= 63) d1 *= 10.0f;
 		if (d2 > 1024.0f && b->m_pos.y <= 63) d2 *= 10.0f;
@@ -43,12 +43,12 @@ public:
 
 class DirtyChunkSorter
 {
-	Mob* m_pMob;
+	const Entity& m_entity;
 
 public:
-	DirtyChunkSorter(Mob* pMob)
+	DirtyChunkSorter(const Entity& entity)
+		: m_entity(entity)
 	{
-		m_pMob = pMob;
 	}
 
 	bool operator()(const Chunk* a, const Chunk* b)
@@ -58,13 +58,13 @@ public:
 		if (!a->m_bVisible && b->m_bVisible)
 			return true;
 
-		float d1 = a->distanceToSqr(m_pMob);
-		float d2 = b->distanceToSqr(m_pMob);
+		float d1 = a->distanceToSqr(m_entity);
+		float d2 = b->distanceToSqr(m_entity);
 
 		if (d1 < d2) return false;
 		if (d1 > d2) return true;
 
-		return a->field_48 > b->field_48;
+		return a->m_id > b->m_id;
 	}
 };
 
@@ -109,8 +109,13 @@ protected:
 	void _buildShadowVolume();
 	void _buildShadowOverlay();
 	void _initResources();
+	void _renderSunrise(float alpha);
+	void _renderSolarSystem(float alpha);
+	void _renderSunAndMoon(float alpha);
 	void _renderStars(float alpha);
 	void _recreateTessellators();
+	void _setupFog(const Entity& camera, int i);
+	const mce::MaterialPtr& _chooseOverlayMaterial(Tile::RenderLayer layer) const;
 
 public:
 	// AppPlatformListener overrides
@@ -136,26 +141,29 @@ public:
 	std::string gatherStats2();
 	void onGraphicsReset();
 	void render(const AABB& aabb) const;
-	void render(Mob* pMob, int a, float b);
+	void render(const Entity& camera, Tile::RenderLayer layer, float alpha);
+	void renderLevel(const Entity& camera, FrustumCuller& culler, float a1, float f);
 	void renderEntities(Vec3 pos, Culler*, float f);
-	void renderSky(float);
-	void renderClouds(float);
+	void renderSky(const Entity& camera, float alpha);
+	void prepareAndRenderClouds(const Entity& camera, float f);
+	void renderClouds(const Entity& camera, float f);
 	void renderAdvancedClouds(float);
 	void checkQueryResults(int, int);
 	void renderSameAsLast(int, float);
-	int  renderChunks(int start, int end, int a, float b);
+	int  renderChunks(int start, int end, Tile::RenderLayer layer, float alpha);
+	void setupClearColor(float f);
 	void setLevel(Level*);
 	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();
-	bool updateDirtyChunks(Mob* pMob, bool b);
-	void renderCracks(Player* pPlayer, const HitResult& hr, int, void*, float);
-	void renderHitSelect(Player* pPlayer, const HitResult& hr, int, void*, float);
-	void renderHitOutline(Player* pPlayer, const HitResult& hr, int, void*, float);
+	bool updateDirtyChunks(const Entity& camera, bool b);
+	void renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a);
+	void renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a);
+	void renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a);
 
+protected:
+	Materials m_materials;
 public:
-	float field_4;
-	float field_8;
-	float field_C;
+	Vec3 m_posPrev;
 	float m_destroyProgress;
 	int m_noEntityRenderFrames;
 	int m_totalEntities;
@@ -170,34 +178,36 @@ public:
 	int m_renderedChunks;
 	int m_emptyChunks;
 	int field_68;
-	int m_resortedMinX;
-	int m_resortedMinY;
-	int m_resortedMinZ;
-	int m_resortedMaxX;
-	int m_resortedMaxY;
-	int m_resortedMaxZ;
+	int m_xMinChunk;
+	int m_yMinChunk;
+	int m_zMinChunk;
+	int m_xMaxChunk;
+	int m_yMaxChunk;
+	int m_zMaxChunk;
 	Level* m_pLevel;
-	std::vector<Chunk*> field_88;
+	std::vector<Chunk*> m_dirtyChunks;
 	Chunk** m_chunks;
-	Chunk** field_98;
+	Chunk** m_sortedChunks;
 	int m_chunksLength;
 	TileRenderer* m_pTileRenderer;
-	int field_A4;
-	int field_A8;
-	int field_AC;
-	int field_B0;
+	int m_xChunks;
+	int m_yChunks;
+	int m_zChunks;
+	int m_chunkLists;
 	Minecraft* m_pMinecraft;
-	bool field_B8;
-	int field_BC;
+	bool m_bOcclusionCheck;
+	int m_lastViewDistance;
 	int m_ticksSinceStart;
+	Color m_fogColor;
+	float m_fogBrO;
+	float m_fogBr;
 	//...
-	int m_nBuffers;
-	GLuint* m_pBuffers;
-	mce::Mesh  m_skyMesh;
-	mce::Mesh  m_starsMesh;
-	mce::Mesh  m_darkMesh;
+	//mce::Mesh m_shadowVolumeMesh;
+	//mce::Mesh m_shadowOverlayMesh;
+	mce::Mesh m_skyMesh;
+	mce::Mesh m_cloudsMesh;
+	mce::Mesh m_starsMesh;
+	mce::Mesh m_darkMesh;
 	//...
 	Textures* m_pTextures;
-private:
-	Materials m_materials;
 };

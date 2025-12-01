@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RenderContextStateBase.hpp"
+#include "common/math/Color.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
 #include "renderer/hal/enums/ShaderType.hpp"
@@ -32,7 +33,14 @@ namespace mce
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);
+        void setDepthRange(float nearVal, float farVal);
+        void setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal);
+        void clearFrameBuffer(const Color& color);
+        void clearStencilBuffer();
+        void clearDepthStencilBuffer();
         void clearContextState();
+        void setRenderTarget();
+        void swapBuffers();
         void lostContext();
 
         RenderDevice* getDevice();

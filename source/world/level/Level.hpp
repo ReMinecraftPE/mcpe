@@ -129,7 +129,7 @@ public:
 	void setSpawnPos(const TilePos& pos) { m_pLevelData->setSpawn(pos); }
 	void setSpawnSettings(bool a, bool b) { }
 	bool canSeeSky(const TilePos& pos) const;
-	Vec3 getSkyColor(Entity* pEnt, float f) const;
+	Vec3 getSkyColor(const Entity& entity, float f) const;
 	Vec3 getFogColor(float f) const;
 	Vec3 getCloudColor(float f) const;
 	bool isUnobstructed(AABB*) const;

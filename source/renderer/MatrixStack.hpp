@@ -25,7 +25,8 @@ public:
 	void setPerspective(float fov, float aspect, float Znear, float Zfar);
 	void transform3(Vec3& outVec, float& outW);
 	void translate(const Vec3& t);
-    const float* getPtr() const;
+    const float* ptr() const;
+    float* getPtr();
     
     Matrix operator*(const Matrix& other) const;
 };
@@ -83,6 +84,7 @@ public:
         const MatrixStack* stack() const { return m_pStack; }
         const Matrix* matrix() const { return m_pMatrix; }
 
+        operator Matrix&() { return *m_pMatrix; }
         Matrix* operator->();
         Matrix* operator*();
         Ref& operator=(const Matrix& value);

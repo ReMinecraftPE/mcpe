@@ -192,7 +192,7 @@ void StairTile::wasExploded(Level* level, const TilePos& pos)
 	return m_pParent->wasExploded(level, pos);
 }
 
-int StairTile::getRenderLayer() const
+Tile::RenderLayer StairTile::getRenderLayer() const
 {
 	return m_pParent->getRenderLayer();
 }

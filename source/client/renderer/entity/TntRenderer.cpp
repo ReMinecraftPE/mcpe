@@ -8,6 +8,7 @@
 
 #include "TntRenderer.hpp"
 #include "renderer/ShaderConstants.hpp"
+#include "renderer/MatrixStack.hpp"
 #include "world/entity/PrimedTnt.hpp"
 
 TntRenderer::TntRenderer()
@@ -19,8 +20,13 @@ void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
 	PrimedTnt* tnt = (PrimedTnt*)entity;
 
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(pos);
+#else
 	glPushMatrix();
 	glTranslatef(pos.x, pos.y, pos.z);
+#endif
 
 	float m = 1.0f + float(tnt->m_fuseTimer) - a;
 	if (m < 10.0f)
@@ -32,7 +38,11 @@ void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 			n = 1.0f;
 
 		float scale = 1.0f + 0.3f * n * n * n * n;
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix->scale(scale);
+#else
 		glScalef(scale, scale, scale);
+#endif
 	}
 
 	bindTexture(C_TERRAIN_NAME);
@@ -64,7 +74,9 @@ void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 		glEnable(GL_TEXTURE_2D);
 	}
 
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
 
 #ifdef ARGPATCH
 #undef ARGPATCH

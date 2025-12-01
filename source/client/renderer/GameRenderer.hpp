@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ItemInHandRenderer.hpp"
+#include "renderer/MatrixStack.hpp"
 #include "renderer/hal/interface/DepthStencilState.hpp"
 
 class Minecraft;
@@ -28,31 +29,34 @@ public:
 private:
 	void _initDepthStencilState();
 	void _clearFrameBuffer();
+	void _renderItemInHand(float, int);
 
 public:
 	void saveMatrices();
 	void setupCamera(float f, int i);
-	void bobHurt(float);
-	void bobView(float);
-	void moveCameraToPlayer(float);
+#ifdef ENH_GFX_MATRIX_STACK
+	void bobHurt(Matrix& matrix, float f);
+	void bobView(Matrix& matrix, float f);
+	void moveCameraToPlayer(Matrix& matrix, float f);
+#else
+	void bobHurt(float f);
+	void bobView(float f);
+	void moveCameraToPlayer(float f);
+#endif
 
 #ifndef ORIGINAL_CODE
 	void renderNoCamera();
 #endif
 
 	void renderLevel(float);
-	void renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, Mob* pMob, float f, ParticleEngine& particleEngine, float i);
+	void renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, const Entity& camera, float f, ParticleEngine& particleEngine, float i);
 	void render(float);
 	void tick();
 	void setupGuiScreen();
 	void onGraphicsReset();
 	void zoomRegion(float zoom, const Vec2& region);
 	void unZoomRegion();
-	void setupClearColor(float f);
-	void setupFog(int i);
 	void pick(float);
-	void renderItemInHand(float, int);
-	void prepareAndRenderClouds(LevelRenderer& levelRenderer, float f);
 	void renderWeather(float f);
 
 	float getFov(float f);
@@ -61,7 +65,7 @@ public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	Minecraft* m_pMinecraft;
 
-	float field_8;
+	float m_renderDistance;
 	int field_C;
 	Entity* m_pHovered;
 	float field_14;
@@ -82,9 +86,6 @@ public:
 	float field_54;
 	float field_58;
 	float field_5C;
-	Color m_fogColor;
-	float field_6C;
-	float field_70;
 	float field_74;
 	float field_78;
 	float field_7C;
@@ -93,8 +94,8 @@ public:
 
 	mce::DepthStencilState* m_depthStencilState;
 
-	float m_matrix_projection[16];
-	float m_matrix_model_view[16];
+	Matrix m_mtxProj;
+	Matrix m_mtxView;
 
 	int m_shownFPS, m_shownChunkUpdates, m_lastUpdatedMS;
 

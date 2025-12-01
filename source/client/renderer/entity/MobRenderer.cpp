@@ -60,21 +60,32 @@ int MobRenderer::getOverlayColor(Mob* mob, float a, float b)
 	return 0;
 }
 
-void MobRenderer::scale(Mob*, float)
-{
-
-}
-
+#ifdef ENH_GFX_MATRIX_STACK
+void MobRenderer::setupPosition(Entity* entity, const Vec3& pos, Matrix& matrix)
+#else
 void MobRenderer::setupPosition(Entity* entity, const Vec3& pos)
+#endif
 {
 	// @HACK: I eye-balled a corrective offset of 1/13, since I still can't figure out why all mobs are floating - Brent
 	// This was due to "0.059375f" being used for scale instead of "0.0625f"
+#ifdef ENH_GFX_MATRIX_STACK
+	matrix.translate(pos);
+#else
 	glTranslatef(pos.x, pos.y, pos.z);
+#endif
 }
 
+#ifdef ENH_GFX_MATRIX_STACK
+void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, Matrix& matrix, float a)
+#else
 void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, float a)
+#endif
 {
+#ifdef ENH_GFX_MATRIX_STACK
+	matrix.rotate(180.0f - bodyRot, Vec3::UNIT_Y);
+#else
 	glRotatef(180.0f - bodyRot, 0.0f, 1.0f, 0.0f);
+#endif
 
 	Mob* mob = (Mob*)entity;
 	if (mob->m_deathTime > 0)
@@ -83,120 +94,152 @@ void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, float
 		if (t > 1.0f)
 			t = 1.0f;
 
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix.rotate(getFlipDegrees(mob) * t, Vec3::UNIT_Z);
+#else
 		glRotatef(getFlipDegrees(mob) * t, 0.0f, 0.0f, 1.0f);
+#endif
 	}
+}
+
+#ifdef ENH_GFX_MATRIX_STACK
+void MobRenderer::scale(Mob* pMob, Matrix& matrix, float a)
+#else
+void MobRenderer::scale(Mob* pMob, float a)
+#endif
+{
+
 }
 
 void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 {
 	Mob* pMob = (Mob*)entity;
 
-	glPushMatrix();
-	glDisable(GL_CULL_FACE);
-
-	m_pModel->field_4 = getAttackAnim(pMob, f);
-	m_pModel->m_bRiding = false;
-	m_pModel->m_bIsBaby = pMob->isBaby();
-
-	if (m_pArmorModel != nullptr)
 	{
-		m_pArmorModel->m_bRiding = m_pModel->m_bRiding;
-		m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
-	}
+#ifdef ENH_GFX_MATRIX_STACK
+		MatrixStack::Ref matrix = MatrixStack::World.push();
+#else
+		glPushMatrix();
+#endif
 
-	float aYaw   = pMob->m_oRot.x + (pMob->m_rot.x   - pMob->m_oRot.x) * f;
-	float aPitch = pMob->m_oRot.y + (pMob->m_rot.y - pMob->m_oRot.y) * f;
-	float fBob   = getBob(pMob, f);
-	float fSmth  = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
+		glDisable(GL_CULL_FACE);
 
-	setupPosition(pMob, Vec3(pos.x, pos.y - pMob->m_heightOffset, pos.z));
-	setupRotations(pMob, fBob, fSmth, f);
+		m_pModel->field_4 = getAttackAnim(pMob, f);
+		m_pModel->m_bRiding = false;
+		m_pModel->m_bIsBaby = pMob->isBaby();
 
-	float fScale = 0.0625f; // the scale variable according to b1.2_02
-	glScalef(-1.0f, -1.0f, 1.0f);
-	scale(pMob, f);
-	//glTranslatef(0.0f, -1.5078f, 0.0f);
-	glTranslatef(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f);
-
-	float x1 = pMob->field_128 + (pMob->m_walkAnimSpeed - pMob->field_128) * f;
-	if (x1 > 1.0f)
-		x1 = 1.0f;
-	float x2 = pMob->field_130 - pMob->m_walkAnimSpeed * (1.0f - f);
-
-	bindTexture(pMob->getTexture());
-	glEnable(GL_ALPHA_TEST);
-
-	m_pModel->setBrightness(entity->getBrightness(1.0f));
-	m_pModel->prepareMobModel(pMob, x2, x1, f);
-	m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // last float here (scale) was set to "0.059375f" for some reason
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (prepareArmor(pMob, i, f))
+		if (m_pArmorModel != nullptr)
 		{
-			m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+			m_pArmorModel->m_bRiding = m_pModel->m_bRiding;
+			m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
+		}
+
+		float aYaw = pMob->m_oRot.x + (pMob->m_rot.x - pMob->m_oRot.x) * f;
+		float aPitch = pMob->m_oRot.y + (pMob->m_rot.y - pMob->m_oRot.y) * f;
+		float fBob = getBob(pMob, f);
+		float fSmth = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
+
+#ifdef ENH_GFX_MATRIX_STACK
+		setupPosition(pMob, Vec3(pos.x, pos.y - pMob->m_heightOffset, pos.z), matrix);
+		setupRotations(pMob, fBob, fSmth, matrix, f);
+#else
+		setupPosition(pMob, Vec3(pos.x, pos.y - pMob->m_heightOffset, pos.z));
+		setupRotations(pMob, fBob, fSmth, f);
+#endif
+
+		constexpr float fScale = 0.0625f; // the scale variable according to b1.2_02
+#ifdef ENH_GFX_MATRIX_STACK
+		matrix->scale(Vec3(-1.0f, -1.0f, 1.0f));
+		scale(pMob, matrix, f);
+		matrix->translate(Vec3(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f));
+#else
+		glScalef(-1.0f, -1.0f, 1.0f);
+		scale(pMob, f);
+		glTranslatef(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f);
+#endif
+
+		float x1 = pMob->field_128 + (pMob->m_walkAnimSpeed - pMob->field_128) * f;
+		if (x1 > 1.0f)
+			x1 = 1.0f;
+		float x2 = pMob->field_130 - pMob->m_walkAnimSpeed * (1.0f - f);
+
+		bindTexture(pMob->getTexture());
+		glEnable(GL_ALPHA_TEST);
+
+		m_pModel->setBrightness(entity->getBrightness(1.0f));
+		m_pModel->prepareMobModel(pMob, x2, x1, f);
+		m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (prepareArmor(pMob, i, f))
+			{
+				m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+				glDisable(GL_BLEND);
+				glEnable(GL_ALPHA_TEST);
+			}
+		}
+
+		additionalRendering(pMob, f);
+
+		float fBright = pMob->getBrightness(f);
+		int iOverlayColor = getOverlayColor(pMob, fBright, f);
+
+		if (GET_ALPHA(iOverlayColor) || pMob->m_hurtTime > 0 || pMob->m_deathTime > 0)
+		{
+			glDisable(GL_TEXTURE_2D);
+			glDisable(GL_ALPHA_TEST);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glDepthFunc(GL_EQUAL);
+
+			if (pMob->m_hurtTime > 0 || pMob->m_deathTime > 0)
+			{
+				currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
+				m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+
+				for (int i = 0; i < 4; i++)
+				{
+					if (prepareArmor(pMob, i, f))
+					{
+						currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
+						m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+					}
+				}
+
+			}
+			if (GET_ALPHA(iOverlayColor))
+			{
+				float r = float(GET_RED(iOverlayColor)) / 255.0f;
+				float g = float(GET_GREEN(iOverlayColor)) / 255.0f;
+				float b = float(GET_BLUE(iOverlayColor)) / 255.0f;
+				float aa = float(GET_ALPHA(iOverlayColor)) / 255.0f;
+				currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
+
+				m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
+
+				for (int i = 0; i < 4; i++)
+				{
+					if (prepareArmor(pMob, i, f))
+					{
+						currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
+						m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+					}
+				}
+
+			}
+
+			glDepthFunc(GL_LEQUAL);
 			glDisable(GL_BLEND);
+			glEnable(GL_TEXTURE_2D);
 			glEnable(GL_ALPHA_TEST);
 		}
+
+		glEnable(GL_CULL_FACE);
+#ifndef ENH_GFX_MATRIX_STACK
+		glPopMatrix();
+#endif
 	}
-
-	additionalRendering(pMob, f);
-	
-	float fBright = pMob->getBrightness(f);
-	int iOverlayColor = getOverlayColor(pMob, fBright, f);
-
-	if (GET_ALPHA(iOverlayColor) || pMob->m_hurtTime > 0 || pMob->m_deathTime > 0)
-	{
-		glDisable(GL_TEXTURE_2D);
-		glDisable(GL_ALPHA_TEST);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glDepthFunc(GL_EQUAL);
-
-		if (pMob->m_hurtTime > 0 || pMob->m_deathTime > 0)
-		{
-			currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
-			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // was 0.059375f. Why?
-
-			for (int i = 0; i < 4; i++)
-			{
-				if (prepareArmor(pMob, i, f))
-				{
-					currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
-					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
-				}
-			}
-
-		}
-		if (GET_ALPHA(iOverlayColor))
-		{
-			float r = float(GET_RED(iOverlayColor)) / 255.0f;
-			float g = float(GET_GREEN(iOverlayColor)) / 255.0f;
-			float b = float(GET_BLUE(iOverlayColor)) / 255.0f;
-			float aa = float(GET_ALPHA(iOverlayColor)) / 255.0f;
-			currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
-
-			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
-
-			for (int i = 0; i < 4; i++)
-			{
-				if (prepareArmor(pMob, i, f))
-				{
-					currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
-					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
-				}
-			}
-
-		}
-
-		glDepthFunc(GL_LEQUAL);
-		glDisable(GL_BLEND);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_ALPHA_TEST);
-	}
-	
-	glEnable(GL_CULL_FACE);
-	glPopMatrix();
 	renderName(pMob, pos);
 }
 
@@ -234,17 +277,30 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, const Vec3& po
 
 	Font* font = getFont();
 
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(Vec3(pos.x + 0.0f, pos.y + 2.3f, pos.z));
+#else
 	glPushMatrix();
 	glTranslatef(pos.x + 0.0f, pos.y + 2.3f, pos.z);
+#endif
 #ifndef __EMSCRIPTEN__
 	glNormal3f(0.0f, 1.0f, 0.0f);
 #endif
 	// billboard the name towards the camera
+#ifdef ENH_GFX_MATRIX_STACK
+	matrix->rotate(-m_pDispatcher->m_rot.x, Vec3::UNIT_Y);
+	matrix->rotate(+m_pDispatcher->m_rot.y, Vec3::UNIT_X);
+	matrix->scale(Vec3(-0.026667f, -0.026667f, 0.026667f));
+#else
 	glRotatef(-m_pDispatcher->m_rot.x,   0.0f, 1.0f, 0.0f);
 	glRotatef(+m_pDispatcher->m_rot.y, 1.0f, 0.0f, 0.0f);
 	glScalef(-0.026667f, -0.026667f, 0.026667f);
+#endif
+
 	glDepthMask(false);
 	glDisable(GL_DEPTH_TEST);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDisable(GL_TEXTURE_2D);
@@ -273,5 +329,7 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, const Vec3& po
 
 	glDisable(GL_BLEND);
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
 }

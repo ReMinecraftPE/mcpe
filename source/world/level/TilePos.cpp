@@ -23,7 +23,7 @@ TilePos::TilePos()
 
 TilePos::TilePos(int _x, int _y, int _z)
 {
-    _init(_x, _y < 0 ? 0 : _y, _z);
+    _init(_x, _y, _z);
 }
 
 TilePos::TilePos(float _x, float _y, float _z)

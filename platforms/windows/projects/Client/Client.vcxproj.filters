@@ -527,11 +527,14 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\Cube.hpp">
       <Filter>Header Files\Model\Geom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\model\geom\TextureOffset.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\model\geom\TextureOffset.hpp">
       <Filter>Header Files\Model\Geom</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.hpp">
       <Filter>Header Files\Model\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.hpp">
+      <Filter>Header Files\Renderer\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -933,6 +936,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.cpp">
       <Filter>Source Files\Model\Geom</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.cpp">
+      <Filter>Source Files\Renderer\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

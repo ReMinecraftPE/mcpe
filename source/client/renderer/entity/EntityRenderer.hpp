@@ -8,16 +8,30 @@
 
 #pragma once
 
+#include "client/renderer/Font.hpp"
+#include "client/renderer/renderer/EntityShaderManager.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/phys/Vec3.hpp"
-#include "client/renderer/Font.hpp"
 
 class EntityRenderDispatcher;
 class Level;
 class Tile;
 
-class EntityRenderer
+class EntityRenderer : public EntityShaderManager
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr entity_alphatest;
+		mce::MaterialPtr entity_alphatest_glint;
+		mce::MaterialPtr name_tag;
+		mce::MaterialPtr name_tag_depth_tested;
+		mce::MaterialPtr name_text_depth_tested;
+
+		Materials();
+	};
+
 private:
 	static bool _areShadowsAvailable;
 public:
@@ -42,6 +56,8 @@ public:
 	virtual void render(Entity* entity, const Vec3& pos, float rot, float a) = 0;
 	virtual void onGraphicsReset();
 
+protected:
+	Materials m_materials;
 public:
 	float m_shadowRadius;
 	float m_shadowStrength;

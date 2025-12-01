@@ -9,6 +9,7 @@
 #include "GameMods.hpp"
 #ifdef ENH_ALLOW_SAND_GRAVITY
 #include "FallingTileRenderer.hpp"
+#include "renderer/MatrixStack.hpp"
 #include "world/entity/FallingTile.hpp"
 
 FallingTileRenderer::FallingTileRenderer()
@@ -19,9 +20,14 @@ FallingTileRenderer::FallingTileRenderer()
 void FallingTileRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 {
 	FallingTile* tile = (FallingTile*)entity;
-
+	
+#ifdef ENH_GFX_MATRIX_STACK
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(pos);
+#else
 	glPushMatrix();
 	glTranslatef(pos.x, pos.y, pos.z);
+#endif
 
 	bindTexture(C_TERRAIN_NAME);
 
@@ -37,7 +43,9 @@ void FallingTileRenderer::render(Entity* entity, const Vec3& pos, float rot, flo
 	
 	m_tileRenderer.renderTile(Tile::tiles[tile->m_id], 0 ARGPATCH);
 
+#ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
+#endif
 
 #ifdef ARGPATCH
 #undef ARGPATCH

@@ -523,16 +523,10 @@ enum eRenderShape
 	SHAPE_RANDOM_CROSS
 };
 
-enum eRenderLayer
-{
-	LAYER_OPAQUE,
-	LAYER_ALPHA
-};
-
 typedef uint8_t TileID;
 // @TODO: Rename this to "TileTypeId"
 // Rename "Tile" to "TileType"
-// Create "Tile" class containing TileTypeId, and TileData
+// Rename "FullTile" to "Tile"
 typedef uint8_t TileData;
 
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)

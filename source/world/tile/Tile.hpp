@@ -30,7 +30,20 @@ class LiquidTile;
 
 class Tile
 {
-public: // structs
+public: // types
+	enum RenderLayer
+	{
+		RENDER_LAYER_DOUBLE_SIDED,
+		RENDER_LAYER_BLEND,
+		RENDER_LAYER_OPAQUE,
+		RENDER_LAYER_OPTIONAL_ALPHATEST,
+		RENDER_LAYER_ALPHATEST,
+		RENDER_LAYER_SEASONS_OPAQUE,
+		RENDER_LAYER_SEASONS_OPTIONAL_ALPHATEST,
+		RENDER_LAYERS_MIN = RENDER_LAYER_DOUBLE_SIDED,
+		RENDER_LAYERS_MAX = RENDER_LAYER_SEASONS_OPTIONAL_ALPHATEST,
+		RENDER_LAYERS_COUNT
+	};
 	struct SoundType
 	{
 		std::string m_name;
@@ -75,7 +88,7 @@ public: // virtual functions
 	virtual float getExplosionResistance(Entity*) const;
 	virtual HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3);
 	virtual void wasExploded(Level*, const TilePos& pos);
-	virtual int getRenderLayer() const;
+	virtual RenderLayer getRenderLayer() const;
 	virtual bool use(Level*, const TilePos& pos, Player*);
 	virtual void stepOn(Level*, const TilePos& pos, Entity*);
 	virtual void setPlacedOnFace(Level*, const TilePos& pos, Facing::Name face);
@@ -232,4 +245,21 @@ public:
 	float m_blastResistance;
 	AABB m_aabbReturned;
 	std::string m_descriptionID;
+};
+
+class FullTile
+{
+public:
+	TileID tileId;
+	TileData data;
+
+public:
+	FullTile(TileID tileId, TileData data)
+	{
+		this->tileId = tileId;
+		this->data = data;
+	}
+
+public:
+	const Tile* getTile() const { return Tile::tiles[tileId]; }
 };

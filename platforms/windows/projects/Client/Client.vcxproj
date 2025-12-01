@@ -207,7 +207,8 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\GuiElement.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\IntRectangle.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\model\geom\TextureOffset.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\model\geom\TextureOffset.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -343,6 +344,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
