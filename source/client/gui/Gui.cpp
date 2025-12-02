@@ -19,6 +19,7 @@
 
 Gui::Materials::Materials()
 {
+	MATERIAL_PTR(common, ui_overlay);
 	MATERIAL_PTR(common, ui_invert_overlay);
 	MATERIAL_PTR(common, ui_crosshair);
 }
@@ -107,11 +108,14 @@ void Gui::setNowPlaying(const std::string& str)
 void Gui::renderPumpkin(int var1, int var2)
 {
 	// @HAL: remove
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+#ifndef FEATURE_GFX_SHADERS
 	// @HAL: must be in shader
-	glDisable(GL_ALPHA_TEST);
+	//glDisable(GL_ALPHA_TEST);
+#endif
 
 	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color::WHITE;
 
 	m_pMinecraft->m_pTextures->setSmoothing(true);
 	m_pMinecraft->m_pTextures->loadAndBindTexture("/misc/pumpkinblur.png");
@@ -123,7 +127,7 @@ void Gui::renderPumpkin(int var1, int var2)
 	t.vertexUV(var1, var2, -90.0f, 1.0f, 1.0f);
 	t.vertexUV(var1, 0.0f, -90.0f, 1.0f, 0.0f);
 	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_gradient);
+	t.draw(m_guiMaterials.ui_overlay);
 }
 
 
@@ -178,7 +182,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	{
 		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
 		// WARNING: TOO SPOOKY, DO NOT UNCOMMENT, YOU WILL GET SPOOKED
-		//renderPumpkin(m_width, m_height);
+		renderPumpkin(m_width, m_height);
 	}
 
 	currentShaderColor = Color::WHITE;
@@ -258,7 +262,7 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 #endif
 		}
 
-		ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
+		ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
 
 #ifndef ENH_GFX_MATRIX_STACK
 		if (var6 > 0.0f)
@@ -277,7 +281,7 @@ void Gui::renderSlotOverlay(int slot, int x, int y, float f)
 	if (ItemInstance::isNull(pInst))
 		return;
 
-	ItemRenderer::renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
+	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
 }
 
 int Gui::getSlotIdAt(int mouseX, int mouseY)
@@ -423,13 +427,13 @@ void Gui::renderMessages(bool bShowAll)
 		}
 
 		fill(2, topEdge, 322, topEdge + 9, bkgdColor);
-		glEnable(GL_BLEND);
+		//glEnable(GL_BLEND);
 		m_pMinecraft->m_pFont->drawShadow(msg.msg, 2, topEdge + 1, textColor);
 
 		topEdge -= 9;
 	}
 
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 }
 
 void Gui::renderHearts()
@@ -563,16 +567,16 @@ void Gui::renderProgressIndicator(int width, int height)
 				textures.loadAndBindTexture("gui/feedback_outer.png");
 				currentShaderColor = Color::WHITE;
 				//glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
+				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay);
 
-				glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+				//glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
 				textures.loadAndBindTexture("gui/feedback_fill.png");
 
 				// note: scale starts from 4.0f
 				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
 
-				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256);
+				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256, &m_guiMaterials.ui_invert_overlay);
 
 				//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				//glDisable(GL_BLEND);
@@ -586,8 +590,8 @@ void Gui::renderProgressIndicator(int width, int height)
 			textures.loadAndBindTexture("gui/feedback_outer.png");
 			currentShaderColor = Color(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, input.m_feedbackAlpha));
 			//glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
+			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay);
 			//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			//glDisable(GL_BLEND);
 		}
@@ -657,7 +661,7 @@ void Gui::renderToolBar(float f, float alpha)
 	if (mc->isTouchscreen())
 	{
 		textures->loadAndBindTexture(C_TERRAIN_NAME);
-		blit(cenX + hotbarWidth / 2 - 19, m_height - 19, 208, 208, 16, 16, 0, 0);
+		blit(cenX + hotbarWidth / 2 - 19, m_height - 19, 208, 208, 16, 16, 0, 0, material);
 	}
 }
 

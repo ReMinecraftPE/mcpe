@@ -112,8 +112,8 @@ void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 	if (ItemInstance::isNull(pItem))
 		return;
 
-	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, true);
-	ItemRenderer::renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y);
+	ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, true);
+	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y);
 }
 
 void IngameBlockSelectionScreen::renderSlots()
@@ -151,18 +151,18 @@ void IngameBlockSelectionScreen::renderDemoOverlay()
 void IngameBlockSelectionScreen::render(int x, int y, float f)
 {
 	Screen::render(x, y, f);
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 
 	fill(0, 0, m_width, m_height, 0x80000000);
 
-	glEnable(GL_BLEND);
+	//glEnable(GL_BLEND);
 	renderSlots();
 
 #ifdef DEMO
 	renderDemoOverlay();
 #endif
 
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 }
 
 void IngameBlockSelectionScreen::buttonClicked(Button* pButton)

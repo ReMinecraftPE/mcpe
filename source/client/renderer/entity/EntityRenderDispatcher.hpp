@@ -36,12 +36,12 @@ public:
 	EntityRenderDispatcher();
 	float distanceToSqr(const Vec3& pos);
 	Font* getFont();
-	EntityRenderer* getRenderer(Entity* pEnt);
-	EntityRenderer* getRenderer(int renderType);
+	EntityRenderer* getRenderer(const Entity& entity);
+	EntityRenderer* getRenderer(Entity::RenderType renderType);
 	void onGraphicsReset();
-	void prepare(Level*, Textures*, Font*, Mob*, Options*, float);
-	void render(Entity*, float);
-	void render(Entity*, const Vec3& pos, float rot, float a);
+	void prepare(Level*, Textures*, Font*, const Mob* camera, Options*, float);
+	void render(const Entity& entity, float);
+	void render(const Entity& entity, const Vec3& pos, float rot, float a);
 	void setLevel(Level*);
 	void setMinecraft(Minecraft*);
 
@@ -69,7 +69,7 @@ public:
 	Textures* m_pTextures;
 	Level* m_pLevel;
 	Minecraft* m_pMinecraft;
-	Mob* m_pMob;
+	const Mob* m_pCamera;
 	Vec2 m_rot;
 	Options* m_pOptions;
 	Vec3 m_pos;

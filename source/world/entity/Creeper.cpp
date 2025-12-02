@@ -3,7 +3,7 @@
 Creeper::Creeper(Level* pLevel) : Monster(pLevel)
 {
 	m_pDescriptor = &EntityTypeDescriptor::creeper;
-	field_C8 = RENDER_CREEPER;
+	m_renderType = RENDER_CREEPER;
 	m_texture = "mob/creeper.png";
 	m_swell = 0;
 	m_oldSwell = 0;

@@ -14,18 +14,38 @@
 
 class ItemRenderer : public EntityRenderer
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_fill_color;
+		mce::MaterialPtr ui_textured;
+		mce::MaterialPtr ui_texture_and_color;
+		mce::MaterialPtr ui_item; // only supposed to be in TileRenderer
+		mce::MaterialPtr ui_item_glint;
+
+		Materials();
+	};
+
+private:
+	static ItemRenderer* singletonPtr;
+public:
+	static ItemRenderer& singleton();
+
 public:
 	ItemRenderer();
 
-	void render(Entity* entity, const Vec3& pos, float rot, float a) override;
+	void render(const Entity& entity, const Vec3& pos, float rot, float a) override;
 	void blitRect(Tesselator&, int, int, int, int, int);
 
-	static void blit(int, int, int, int, int, int);
-	static void renderGuiItem(Font*, Textures*, ItemInstance*, int, int, bool);
-	static void renderGuiItemOverlay(Font*, Textures*, ItemInstance*, int, int);
+	void blit(int dx, int dy, int sx, int sy, int tw, int th);
+	void renderGuiItem(Font*, Textures*, ItemInstance*, int, int, bool);
+	void renderGuiItemOverlay(Font*, Textures*, ItemInstance*, int, int);
 
+private:
+	TileRenderer* m_pTileRenderer;
+	Materials m_itemMaterials;
 public:
 	Random m_random;
-	static TileRenderer* tileRenderer;
 };
 

@@ -19,9 +19,9 @@ HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRe
 	m_pHumanoidModel = pModel;
 }
 
-void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
+void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 {
-	ItemInstance* inst = mob->getCarriedItem();
+	ItemInstance* inst = mob.getCarriedItem();
 
 #ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -92,27 +92,27 @@ void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
 	glDisable(GL_RESCALE_NORMAL);
 }
 
-void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, float f2)
+void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1, float f2)
 {
-	if (pEntity->isPlayer())
+	if (entity.isPlayer())
 	{
-		Player* player = (Player*)pEntity;
-		ItemInstance* item = player->getSelectedItem();
+		const Player& player = (const Player&)entity;
+		ItemInstance* item = player.getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
 	}
 
-	if (pEntity->isSneaking())
+	if (entity.isSneaking())
 	{
 		m_pHumanoidModel->m_bSneaking = true;
 		Vec3 pos2 = pos;
 		pos2.y -= 0.125f;
-		MobRenderer::render(pEntity, pos2, f1, f2);
+		MobRenderer::render(entity, pos2, f1, f2);
 		// https://github.com/ReMinecraftPE/mcpe/pull/197/#discussion_r2437985914
 		m_pHumanoidModel->m_bSneaking = false;
 	}
 	else
 	{
-		MobRenderer::render(pEntity, pos, f1, f2);
+		MobRenderer::render(entity, pos, f1, f2);
 	}
 }
 

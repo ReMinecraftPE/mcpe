@@ -9,5 +9,5 @@ public:
 	SheepRenderer(Model*, Model*, float);
 	~SheepRenderer();
 protected:
-	virtual int prepareArmor(Mob* mob, int, float) override;
+	virtual int prepareArmor(const Mob& mob, int, float) override;
 };

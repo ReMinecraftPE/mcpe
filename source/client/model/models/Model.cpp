@@ -48,7 +48,7 @@ void Model::onGraphicsReset()
 	}
 }
 
-void Model::prepareMobModel(Mob*, float, float, float)
+void Model::prepareMobModel(const Mob& mob, float, float, float)
 {
 	
 }

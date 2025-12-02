@@ -136,6 +136,10 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
         materialPtr->m_pShader->validateVertexFormat(m_vertexFormat);
 #endif
     }
+    else
+    {
+        assert(false);
+    }
 
 #ifndef FEATURE_GFX_SHADERS
     context.setDrawState(m_vertexFormat);

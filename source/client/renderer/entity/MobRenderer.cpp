@@ -31,39 +31,39 @@ void MobRenderer::setArmor(Model* model)
 	m_pArmorModel = model;
 }
 
-int MobRenderer::prepareArmor(Mob* mob, int a, float b)
+int MobRenderer::prepareArmor(const Mob& mob, int a, float b)
 {
 	return 0;
 }
 
-void MobRenderer::additionalRendering(Mob* mob, float f)
+void MobRenderer::additionalRendering(const Mob& mob, float f)
 {
 }
 
-float MobRenderer::getAttackAnim(Mob* mob, float f)
+float MobRenderer::getAttackAnim(const Mob& mob, float f)
 {
-	return mob->getAttackAnim(f);
+	return mob.getAttackAnim(f);
 }
 
-float MobRenderer::getBob(Mob* mob, float f)
+float MobRenderer::getBob(const Mob& mob, float f)
 {
-	return float(mob->m_tickCount) + f;
+	return float(mob.m_tickCount) + f;
 }
 
-float MobRenderer::getFlipDegrees(Mob* mob)
+float MobRenderer::getFlipDegrees(const Mob& mob)
 {
 	return 90.0f;
 }
 
-int MobRenderer::getOverlayColor(Mob* mob, float a, float b)
+int MobRenderer::getOverlayColor(const Mob& mob, float a, float b)
 {
 	return 0;
 }
 
 #ifdef ENH_GFX_MATRIX_STACK
-void MobRenderer::setupPosition(Entity* entity, const Vec3& pos, Matrix& matrix)
+void MobRenderer::setupPosition(const Entity& entity, const Vec3& pos, Matrix& matrix)
 #else
-void MobRenderer::setupPosition(Entity* entity, const Vec3& pos)
+void MobRenderer::setupPosition(const Entity& entity, const Vec3& pos)
 #endif
 {
 	// @HACK: I eye-balled a corrective offset of 1/13, since I still can't figure out why all mobs are floating - Brent
@@ -76,9 +76,9 @@ void MobRenderer::setupPosition(Entity* entity, const Vec3& pos)
 }
 
 #ifdef ENH_GFX_MATRIX_STACK
-void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, Matrix& matrix, float a)
+void MobRenderer::setupRotations(const Entity& entity, float bob, float bodyRot, Matrix& matrix, float a)
 #else
-void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, float a)
+void MobRenderer::setupRotations(const Entity& entity, float bob, float bodyRot, float a)
 #endif
 {
 #ifdef ENH_GFX_MATRIX_STACK
@@ -87,10 +87,10 @@ void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, float
 	glRotatef(180.0f - bodyRot, 0.0f, 1.0f, 0.0f);
 #endif
 
-	Mob* mob = (Mob*)entity;
-	if (mob->m_deathTime > 0)
+	const Mob& mob = (const Mob&)entity;
+	if (mob.m_deathTime > 0)
 	{
-		float t = Mth::sqrt((float(mob->m_deathTime) + a - 1.0f) / 20.0f * 1.6f);
+		float t = Mth::sqrt((float(mob.m_deathTime) + a - 1.0f) / 20.0f * 1.6f);
 		if (t > 1.0f)
 			t = 1.0f;
 
@@ -103,17 +103,17 @@ void MobRenderer::setupRotations(Entity* entity, float bob, float bodyRot, float
 }
 
 #ifdef ENH_GFX_MATRIX_STACK
-void MobRenderer::scale(Mob* pMob, Matrix& matrix, float a)
+void MobRenderer::scale(const Mob& mob, Matrix& matrix, float a)
 #else
-void MobRenderer::scale(Mob* pMob, float a)
+void MobRenderer::scale(const Mob& mob, float a)
 #endif
 {
 
 }
 
-void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
+void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, float f)
 {
-	Mob* pMob = (Mob*)entity;
+	const Mob& mob = (const Mob&)entity;
 
 	{
 #ifdef ENH_GFX_MATRIX_STACK
@@ -122,11 +122,11 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 		glPushMatrix();
 #endif
 
-		glDisable(GL_CULL_FACE);
+		//glDisable(GL_CULL_FACE);
 
-		m_pModel->field_4 = getAttackAnim(pMob, f);
+		m_pModel->field_4 = getAttackAnim(mob, f);
 		m_pModel->m_bRiding = false;
-		m_pModel->m_bIsBaby = pMob->isBaby();
+		m_pModel->m_bIsBaby = mob.isBaby();
 
 		if (m_pArmorModel != nullptr)
 		{
@@ -134,73 +134,79 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 			m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
 		}
 
-		float aYaw = pMob->m_oRot.x + (pMob->m_rot.x - pMob->m_oRot.x) * f;
-		float aPitch = pMob->m_oRot.y + (pMob->m_rot.y - pMob->m_oRot.y) * f;
-		float fBob = getBob(pMob, f);
-		float fSmth = pMob->field_EC + (pMob->field_E8 - pMob->field_EC) * f;
+		float aYaw = mob.m_oRot.x + (mob.m_rot.x - mob.m_oRot.x) * f;
+		float aPitch = mob.m_oRot.y + (mob.m_rot.y - mob.m_oRot.y) * f;
+		float fBob = getBob(mob, f);
+		float fSmth = mob.field_EC + (mob.field_E8 - mob.field_EC) * f;
 
 #ifdef ENH_GFX_MATRIX_STACK
-		setupPosition(pMob, Vec3(pos.x, pos.y - pMob->m_heightOffset, pos.z), matrix);
-		setupRotations(pMob, fBob, fSmth, matrix, f);
+		setupPosition(mob, Vec3(pos.x, pos.y - mob.m_heightOffset, pos.z), matrix);
+		setupRotations(mob, fBob, fSmth, matrix, f);
 #else
-		setupPosition(pMob, Vec3(pos.x, pos.y - pMob->m_heightOffset, pos.z));
-		setupRotations(pMob, fBob, fSmth, f);
+		setupPosition(mob, Vec3(pos.x, pos.y - mob.m_heightOffset, pos.z));
+		setupRotations(mob, fBob, fSmth, f);
 #endif
 
 		constexpr float fScale = 0.0625f; // the scale variable according to b1.2_02
 #ifdef ENH_GFX_MATRIX_STACK
 		matrix->scale(Vec3(-1.0f, -1.0f, 1.0f));
-		scale(pMob, matrix, f);
+		scale(mob, matrix, f);
 		matrix->translate(Vec3(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f));
 #else
 		glScalef(-1.0f, -1.0f, 1.0f);
-		scale(pMob, f);
+		scale(mob, f);
 		glTranslatef(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f);
 #endif
 
-		float x1 = pMob->field_128 + (pMob->m_walkAnimSpeed - pMob->field_128) * f;
+		float x1 = mob.field_128 + (mob.m_walkAnimSpeed - mob.field_128) * f;
 		if (x1 > 1.0f)
 			x1 = 1.0f;
-		float x2 = pMob->field_130 - pMob->m_walkAnimSpeed * (1.0f - f);
+		float x2 = mob.field_130 - mob.m_walkAnimSpeed * (1.0f - f);
 
-		bindTexture(pMob->getTexture());
+		bindTexture(mob.getTexture());
+#ifndef FEATURE_GFX_SHADERS
 		glEnable(GL_ALPHA_TEST);
+#endif
 
-		m_pModel->setBrightness(entity->getBrightness(1.0f));
-		m_pModel->prepareMobModel(pMob, x2, x1, f);
+		m_pModel->setBrightness(entity.getBrightness(1.0f));
+		m_pModel->prepareMobModel(mob, x2, x1, f);
 		m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 
 		for (int i = 0; i < 4; i++)
 		{
-			if (prepareArmor(pMob, i, f))
+			if (prepareArmor(mob, i, f))
 			{
 				m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
-				glDisable(GL_BLEND);
+				//glDisable(GL_BLEND);
+#ifndef FEATURE_GFX_SHADERS
 				glEnable(GL_ALPHA_TEST);
+#endif
 			}
 		}
 
-		additionalRendering(pMob, f);
+		additionalRendering(mob, f);
 
-		float fBright = pMob->getBrightness(f);
-		int iOverlayColor = getOverlayColor(pMob, fBright, f);
+		float fBright = mob.getBrightness(f);
+		int iOverlayColor = getOverlayColor(mob, fBright, f);
 
-		if (GET_ALPHA(iOverlayColor) || pMob->m_hurtTime > 0 || pMob->m_deathTime > 0)
+		if (GET_ALPHA(iOverlayColor) || mob.m_hurtTime > 0 || mob.m_deathTime > 0)
 		{
+#ifndef FEATURE_GFX_SHADERS
 			glDisable(GL_TEXTURE_2D);
 			glDisable(GL_ALPHA_TEST);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glDepthFunc(GL_EQUAL);
+#endif
+			//glEnable(GL_BLEND);
+			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+			//glDepthFunc(GL_EQUAL);
 
-			if (pMob->m_hurtTime > 0 || pMob->m_deathTime > 0)
+			if (mob.m_hurtTime > 0 || mob.m_deathTime > 0)
 			{
 				currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
 				m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 
 				for (int i = 0; i < 4; i++)
 				{
-					if (prepareArmor(pMob, i, f))
+					if (prepareArmor(mob, i, f))
 					{
 						currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
 						m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
@@ -220,7 +226,7 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 
 				for (int i = 0; i < 4; i++)
 				{
-					if (prepareArmor(pMob, i, f))
+					if (prepareArmor(mob, i, f))
 					{
 						currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
 						m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
@@ -229,18 +235,20 @@ void MobRenderer::render(Entity* entity, const Vec3& pos, float unused, float f)
 
 			}
 
-			glDepthFunc(GL_LEQUAL);
-			glDisable(GL_BLEND);
+			//glDepthFunc(GL_LEQUAL);
+			//glDisable(GL_BLEND);
+#ifndef FEATURE_GFX_SHADERS
 			glEnable(GL_TEXTURE_2D);
 			glEnable(GL_ALPHA_TEST);
+#endif
 		}
 
-		glEnable(GL_CULL_FACE);
+		//glEnable(GL_CULL_FACE);
 #ifndef ENH_GFX_MATRIX_STACK
 		glPopMatrix();
 #endif
 	}
-	renderName(pMob, pos);
+	renderName(mob, pos);
 }
 
 void MobRenderer::onGraphicsReset()
@@ -248,31 +256,31 @@ void MobRenderer::onGraphicsReset()
 	m_pModel->onGraphicsReset();
 }
 
-void MobRenderer::renderName(Mob* mob, const Vec3& pos)
+void MobRenderer::renderName(const Mob& mob, const Vec3& pos)
 {
-	if (mob->isPlayer())
+	if (mob.isPlayer())
 	{
-		Player* player = (Player*)mob;
-		if (player == m_pDispatcher->m_pMinecraft->m_pLocalPlayer)
+		const Player& player = (const Player&)mob;
+		if (&player == m_pDispatcher->m_pMinecraft->m_pLocalPlayer)
 			return;
 
 		// @TODO: don't know why but I have to add this correction. look into it and fix it!
-		renderNameTag(mob, player->m_name, Vec3(pos.x, pos.y - 1.5f, pos.z), mob->isSneaking() ? 32 : 64);
+		renderNameTag(mob, player.m_name, Vec3(pos.x, pos.y - 1.5f, pos.z), mob.isSneaking() ? 32 : 64);
 	}
 	else
 	{
 		if (m_pDispatcher->m_pOptions->m_bDebugText)
 		{
 			std::stringstream ss;
-			ss << mob->m_EntityID;
+			ss << mob.m_EntityID;
 			renderNameTag(mob, ss.str(), pos, 64);
 		}
 	}
 }
 
-void MobRenderer::renderNameTag(Mob* mob, const std::string& str, const Vec3& pos, int a)
+void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Vec3& pos, int a)
 {
-	if (mob->distanceToSqr(m_pDispatcher->m_pMob) > float(a * a))
+	if (mob.distanceToSqr(m_pDispatcher->m_pCamera) > float(a * a))
 		return;
 
 	Font* font = getFont();
@@ -302,7 +310,7 @@ void MobRenderer::renderNameTag(Mob* mob, const std::string& str, const Vec3& po
 	glDisable(GL_DEPTH_TEST);
 
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	glDisable(GL_TEXTURE_2D);
 	
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.25f);

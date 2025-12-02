@@ -29,7 +29,7 @@ FallingTile::FallingTile(Level* level, const Vec3& pos, int id) : Entity(level),
 	m_vel = Vec3::ZERO;
 
 #if defined(ENH_ALLOW_SAND_GRAVITY)
-	field_C8 = RENDER_FALLING_TILE;
+	m_renderType = RENDER_FALLING_TILE;
 #endif
 }
 

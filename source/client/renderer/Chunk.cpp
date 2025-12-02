@@ -138,11 +138,10 @@ void Chunk::rebuild()
 	}
 
 	TilePos min(m_pos), max(m_pos + m_posS);
-
 	Region region(m_pLevel, min - 1, max + 1);
-	TileRenderer tileRenderer(&region);
 
 	Tesselator& t = Tesselator::instance;
+	TileRenderer tileRenderer(t, &region);
 
 	TilePos tp(min);
 	for (int layer = Tile::RENDER_LAYERS_MIN; layer <= Tile::RENDER_LAYERS_MAX; layer++)

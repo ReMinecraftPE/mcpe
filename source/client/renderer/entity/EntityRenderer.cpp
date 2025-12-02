@@ -8,11 +8,13 @@
 
 #include "EntityRenderer.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "client/app/Minecraft.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "EntityRenderDispatcher.hpp"
 
 EntityRenderer::Materials::Materials()
 {
+	MATERIAL_PTR(switchable, entity);
 	MATERIAL_PTR(switchable, entity_alphatest);
 	MATERIAL_PTR(switchable, entity_alphatest_glint);
 	MATERIAL_PTR(common, name_tag);
@@ -49,10 +51,10 @@ void EntityRenderer::onGraphicsReset()
 
 }
 
-void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
+void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 {
 	Vec3 ePos(pos);
-	ePos.y -= e->m_heightOffset; // Fixed fire rendering above player's head in third-person
+	ePos.y -= entity.m_heightOffset; // Fixed fire rendering above player's head in third-person
 
 	glDisable(GL_LIGHTING);
 
@@ -70,8 +72,8 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 	glPushMatrix();
 #endif
 
-	float s = e->m_bbWidth * 1.4f; // bbWidth instead of e->m_hitbox.max.x
-	float h = e->m_bbHeight / e->m_bbWidth;
+	float s = entity.m_bbWidth * 1.4f; // bbWidth instead of e->m_hitbox.max.x
+	float h = entity.m_bbHeight / entity.m_bbWidth;
 
 #ifdef ENH_GFX_MATRIX_STACK
 	matrix->translate(ePos);
@@ -109,7 +111,7 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 #endif
 	}
 
-	t.draw();
+	t.draw(m_materials.entity);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
@@ -118,87 +120,10 @@ void EntityRenderer::renderFlame(Entity* e, const Vec3& pos, float a)
 	glEnable(GL_LIGHTING);
 }
 
-void EntityRenderer::renderShadow(Entity* e, const Vec3& pos, float pow, float a)
-{
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	m_pDispatcher->m_pTextures->setClampToEdge(true);
-	bindTexture("misc/shadow.png");
-	m_pDispatcher->m_pTextures->setClampToEdge(false);
-
-	Level* level = getLevel();
-
-	glDepthMask(false);
-	float r = m_shadowRadius;
-
-	Vec3 ePos(e->m_posPrev + (e->m_pos - e->m_posPrev) * a);
-	ePos.y -= e->m_heightOffset; // We gotta do this so the renderer can correctly determine if there's a tile below the entity
-	ePos.y += e->getShadowHeightOffs();
-
-	TilePos tpMin(ePos - r);
-	TilePos tpMax(ePos.x + r, ePos.y, ePos.z + r);
-	Vec3 ePosO(pos - ePos);
-
-	Tesselator& tt = Tesselator::instance;
-	tt.begin();
-	TilePos tp(tpMin);
-	for (tp.x = tpMin.x; tp.x <= tpMax.x; tp.x++)
-	{
-		for (tp.y = tpMin.y; tp.y <= tpMax.y; tp.y++)
-		{
-			for (tp.z = tpMin.z; tp.z <= tpMax.z; tp.z++)
-			{
-				TileID t = level->getTile(tp.below());
-				if (t > 0 && level->getRawBrightness(tp) > 3)
-				{
-					renderTileShadow(Tile::tiles[t],
-						Vec3(pos.x, pos.y - e->m_heightOffset + e->getShadowHeightOffs(), pos.z), tp,
-						pow, r,
-						Vec3(ePosO.x, ePosO.y - e->m_heightOffset + e->getShadowHeightOffs(), ePosO.z)
-					);
-				}
-			}
-		}
-	}
-	tt.draw();
-
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glDisable(GL_BLEND);
-	glDepthMask(true);
-}
-
 Level* EntityRenderer::getLevel() const
 {
 	return m_pDispatcher->m_pLevel;
 }
-
-void EntityRenderer::renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePos, float pow, float r, const Vec3& oPos)
-{
-	Tesselator& t = Tesselator::instance;
-	if (!tt->isCubeShaped()) return;
-
-	float a = (pow - (pos.y - ((float)tilePos.y + oPos.y)) / 2.0f) * 0.5f * getLevel()->getBrightness(tilePos);
-	if (a < 0.0f)
-		return;
-	if (a > 1.0f) a = 1.0f;
-
-	t.color(1.0f, 1.0f, 1.0f, a);
-	float x0 = (float)tilePos.x + tt->m_aabb.min.x + oPos.x;
-	float x1 = (float)tilePos.x + tt->m_aabb.max.x + oPos.x;
-	float y0 = (float)tilePos.y + tt->m_aabb.min.y + oPos.y + (1.0f / 64.0f);
-	float z0 = (float)tilePos.z + tt->m_aabb.min.z + oPos.z;
-	float z1 = (float)tilePos.z + tt->m_aabb.max.z + oPos.z;
-	float u0 = ((pos.x - x0) / 2.0f / r + 0.5f);
-	float u1 = ((pos.x - x1) / 2.0f / r + 0.5f);
-	float v0 = ((pos.z - z0) / 2.0f / r + 0.5f);
-	float v1 = ((pos.z - z1) / 2.0f / r + 0.5f);
-	t.vertexUV(x0, y0, z0, u0, v0);
-	t.vertexUV(x0, y0, z1, u0, v1);
-	t.vertexUV(x1, y0, z1, u1, v1);
-	t.vertexUV(x1, y0, z0, u1, v0);
-}
-
 
 void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 {
@@ -281,16 +206,16 @@ void EntityRenderer::renderFlat(const AABB& aabb)
 	t.draw(); // t.end() on Java
 }
 
-void EntityRenderer::postRender(Entity* entity, const Vec3& pos, float rot, float a)
+void EntityRenderer::postRender(const Entity& entity, const Vec3& pos, float rot, float a)
 {
 	if (m_pDispatcher->m_pOptions->m_bFancyGraphics && areShadowsAvailable() && m_shadowRadius > 0.0f)
 	{
-		float dist = m_pDispatcher->distanceToSqr(entity->m_pos);
+		float dist = m_pDispatcher->distanceToSqr(entity.m_pos);
 		float pow = (1.0f - dist / 256.0f) * m_shadowStrength;
 		if (pow > 0.0f)
-			renderShadow(entity, pos, pow, a);
+			m_pDispatcher->m_pMinecraft->m_pLevelRenderer->renderShadow(entity, pos, m_shadowRadius, pow, a);
 	}
 
-	if (entity->isOnFire())
+	if (entity.isOnFire())
 		renderFlame(entity, pos, a);
 }

@@ -71,7 +71,7 @@ public:
 	virtual Vec3 getLookAngle(float f) const { return getViewVector(1.0f); }
 	virtual Vec3 getViewVector(float f) const;
 	virtual int getMaxSpawnClusterSize() const { return 4; }
-	virtual ItemInstance* getCarriedItem() { return nullptr; }
+	virtual ItemInstance* getCarriedItem() const { return nullptr; }
 	virtual bool isBaby() const { return false; }
 	virtual bool removeWhenFarAway() const { return true; }
 	virtual int getDeathLoot() const { return 0; }

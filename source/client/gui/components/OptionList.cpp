@@ -222,7 +222,7 @@ void OptionList::renderHoleBackground(float a, float b, int c, int d)
 {
 #ifndef FEATURE_GFX_SHADERS
 	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	glDisable(GL_TEXTURE_2D);
 #endif
 
@@ -245,7 +245,7 @@ void OptionList::renderScrollBackground()
 {
 #ifndef FEATURE_GFX_SHADERS
 	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	glDisable(GL_TEXTURE_2D);
 #endif
 

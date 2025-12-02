@@ -3,7 +3,7 @@
 Skeleton::Skeleton(Level* pLevel) : Monster(pLevel)
 {
 	m_pDescriptor = &EntityTypeDescriptor::skeleton;
-	field_C8 = RENDER_SKELETON;
+	m_renderType = RENDER_SKELETON;
 	m_texture = "mob/skeleton.png";
 }
 
@@ -57,7 +57,7 @@ void Skeleton::dropDeathLoot()
 }
 
 ItemInstance* Skeleton::bow = nullptr;
-ItemInstance* Skeleton::getCarriedItem()
+ItemInstance* Skeleton::getCarriedItem() const
 {
 	if (!bow)
 		bow = new ItemInstance(Item::bow, 1);

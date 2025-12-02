@@ -15,7 +15,7 @@ RocketRenderer::RocketRenderer() :
 	m_shadowRadius = 0.5f;
 }
 
-void RocketRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
+void RocketRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
 #ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -25,10 +25,10 @@ void RocketRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 	glTranslatef(pos.x, pos.y, pos.z);
 #endif
 
-	float brightness = entity->getBrightness(1.0f);
+	float brightness = entity.getBrightness(1.0f);
 
 	bindTexture(C_ITEMS_NAME);
-	m_renderer.renderTile(&m_tile, 0, brightness);
+	m_renderer.renderTile(FullTile(&m_tile, 0), m_materials.entity, brightness);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();

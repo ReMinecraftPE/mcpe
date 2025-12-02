@@ -31,19 +31,36 @@ enum TerrainLayer
 
 class RenderChunk
 {
+private:
+	static bool _isUnderwater;
+public:
+	static mce::MaterialPtr fogMaterialMap[10];
+	static mce::MaterialPtr materialMap[10];
+	static mce::MaterialPtr fadingSeasonsAlphaChunkMaterial;
+	static mce::MaterialPtr fadingSeasonsChunksMaterial;
+	static mce::MaterialPtr fadingChunksMaterial;
+
+private:
+	double m_lastRebuilt;
 public:
 	TilePos m_pos;
 	mce::Mesh m_mesh;
 
 private:
 	void _init();
+	const mce::MaterialPtr& _chooseMaterial(TerrainLayer layer, double a, bool fog);
 
 public:
 	RenderChunk() { _init(); }
 	RenderChunk(const TilePos& pos, mce::Mesh& mesh);
 	
 public:
-	void render();
+	void render(TerrainLayer layer, double a, bool fog);
 	void reset();
+
+private:
+	static void _InitLayers(mce::MaterialPtr* materials, const std::string& suffix);
+public:
+	static void InitMaterials();
 };
 

@@ -13,7 +13,7 @@
 void ItemEntity::_init(ItemInstance* itemInstance)
 {
 	m_pDescriptor = &EntityTypeDescriptor::item;
-	field_C8 = RENDER_ITEM;
+	m_renderType = RENDER_ITEM;
 	m_age = 0;
 	m_throwTime = 0;
 	m_tickCount = 0;

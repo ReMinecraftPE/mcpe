@@ -38,6 +38,15 @@ private:
 
 class StartMenuScreen : public Screen
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_title_tile;
+
+		Materials();
+	};
+
 public:
 	StartMenuScreen();
 	~StartMenuScreen();
@@ -78,5 +87,6 @@ protected:
 	TileRenderer m_tileRenderer;
 	Random m_random;
 	TitleTile** m_pTiles;
+	Materials m_screenMaterials;
 };
 

@@ -555,8 +555,8 @@ void GameRenderer::renderLevel(float f)
 		renderContext.clearDepthStencilBuffer();
 
 		// @HAL: remove
-		glEnable(GL_CULL_FACE);
-		renderContext.m_currentState.m_rasterizerStateDescription.cullMode = mce::CULL_FRONT;
+		//glEnable(GL_CULL_FACE);
+		//renderContext.m_currentState.m_rasterizerStateDescription.cullMode = mce::CULL_FRONT;
 
 		setupCamera(f, i);
 		saveMatrices();
@@ -936,7 +936,7 @@ void GameRenderer::renderWeather(float f)
 
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	m_pMinecraft->m_pTextures->loadAndBindTexture("environment/snow.png");
 
 	int range = m_pMinecraft->getOptions()->m_bFancyGraphics ? 10 : 5;

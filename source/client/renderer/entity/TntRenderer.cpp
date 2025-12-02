@@ -16,9 +16,9 @@ TntRenderer::TntRenderer()
 	m_shadowRadius = 0.5f;
 }
 
-void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
+void TntRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
-	PrimedTnt* tnt = (PrimedTnt*)entity;
+	const PrimedTnt& tnt = (const PrimedTnt&)entity;
 
 #ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -28,7 +28,7 @@ void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 	glTranslatef(pos.x, pos.y, pos.z);
 #endif
 
-	float m = 1.0f + float(tnt->m_fuseTimer) - a;
+	float m = 1.0f + float(tnt.m_fuseTimer) - a;
 	if (m < 10.0f)
 	{
 		float n = (m / -10.0f) + 1.0f;
@@ -57,18 +57,18 @@ void TntRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
 #define ARGPATCH
 #endif
 	
-	m_tileRenderer.renderTile(Tile::tnt, 0 ARGPATCH);
+	m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), mce::MaterialPtr::NONE ARGPATCH);
 
 	// @NOTE: Converting to a uint8 for whatever reason
-	if (((uint8_t(tnt->m_fuseTimer) / 5) & 1) == 0)
+	if (((uint8_t(tnt.m_fuseTimer) / 5) & 1) == 0)
 	{
 		glDisable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 		currentShaderColor = Color::WHITE;
 		//glColor4f(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
-		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
-		m_tileRenderer.renderTile(Tile::tnt, 0 ARGPATCH);
+		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, (((float(tnt.m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
+		m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), mce::MaterialPtr::NONE ARGPATCH);
 		//glColor4f(1.0f, 1.0, 1.0f, 1.0f);
 		glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);

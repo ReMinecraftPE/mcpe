@@ -6,7 +6,7 @@ ItemSpriteRenderer::ItemSpriteRenderer(int sprite)
 	m_sprite = sprite;
 }
 
-void ItemSpriteRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
+void ItemSpriteRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
 #ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();

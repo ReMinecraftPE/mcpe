@@ -18,25 +18,25 @@ public:
     virtual ~MobRenderer();
 	void setArmor(Model*);
 
-	virtual void render(Entity*, const Vec3& pos, float, float) override;
+	virtual void render(const Entity& entity, const Vec3& pos, float, float) override;
 	virtual void onGraphicsReset() override;
-	virtual int prepareArmor(Mob*, int, float);
+	virtual int prepareArmor(const Mob& mob, int, float);
 #ifdef ENH_GFX_MATRIX_STACK
-	virtual void setupPosition(Entity*, const Vec3& pos, Matrix& matrix);
-	virtual void setupRotations(Entity*, float bob, float bodyRot, Matrix& matrix, float a);
-	virtual void scale(Mob* pMob, Matrix& matrix, float a);
+	virtual void setupPosition(const Entity& entity, const Vec3& pos, Matrix& matrix);
+	virtual void setupRotations(const Entity& entity, float bob, float bodyRot, Matrix& matrix, float a);
+	virtual void scale(const Mob& mob, Matrix& matrix, float a);
 #else
-	virtual void setupPosition(Entity*, const Vec3& pos);
-	virtual void setupRotations(Entity*, float bob, float bodyRot, float a);
-	virtual void scale(Mob* pMob, float a);
+	virtual void setupPosition(const Entity& entity, const Vec3& pos);
+	virtual void setupRotations(const Entity& entity, float bob, float bodyRot, float a);
+	virtual void scale(const Mob& mob, float a);
 #endif
-	virtual float getAttackAnim(Mob*, float);
-	virtual float getBob(Mob*, float);
-	virtual float getFlipDegrees(Mob*);
-	virtual int getOverlayColor(Mob*, float, float);
-	virtual void renderName(Mob*, const Vec3& pos);
-	virtual void renderNameTag(Mob*, const std::string&, const Vec3& pos, int);
-	virtual void additionalRendering(Mob*, float);
+	virtual float getAttackAnim(const Mob& mob, float);
+	virtual float getBob(const Mob& mob, float);
+	virtual float getFlipDegrees(const Mob& mob);
+	virtual int getOverlayColor(const Mob& mob, float, float);
+	virtual void renderName(const Mob& mob, const Vec3& pos);
+	virtual void renderNameTag(const Mob& mob, const std::string&, const Vec3& pos, int);
+	virtual void additionalRendering(const Mob& mob, float);
 
 public:
 	Model* m_pModel;

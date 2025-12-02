@@ -29,7 +29,7 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 	m_name = "";
 	m_bHasRespawnPos = false;
 
-	field_C8 = RENDER_HUMANOID;
+	m_renderType = RENDER_HUMANOID;
 
 	setPlayerGameType(playerGameType);
 
@@ -218,7 +218,7 @@ void Player::aiStep()
 	updateAttackAnim();
 }
 
-ItemInstance* Player::getCarriedItem()
+ItemInstance* Player::getCarriedItem() const
 {
 	// This only gets the first row slot
 	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);

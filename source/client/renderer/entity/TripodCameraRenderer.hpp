@@ -26,9 +26,9 @@ class TripodCameraRenderer : public EntityRenderer
 public:
 	TripodCameraRenderer();
 
-	void render(Entity*, const Vec3& pos, float rot, float a) override;
+	void render(const Entity& entity, const Vec3& pos, float rot, float a) override;
 	
-	static float getFlashTime(TripodCamera*, float f);
+	static float getFlashTime(const TripodCamera& camera, float f);
 
 public:
 	TileRenderer m_renderer;

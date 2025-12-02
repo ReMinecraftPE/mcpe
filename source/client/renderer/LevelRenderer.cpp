@@ -21,6 +21,16 @@
 
 #include "Lighting.hpp"
 
+TerrainLayer renderLayerToTerrainLayerMap[Tile::RENDER_LAYERS_COUNT] = {
+	/*RENDER_LAYER_DOUBLE_SIDED*/               TERRAIN_LAYER_DOUBLE_SIDED,
+	/*RENDER_LAYER_BLEND*/                      TERRAIN_LAYER_BLEND,
+	/*RENDER_LAYER_OPAQUE*/                     TERRAIN_LAYER_OPAQUE,
+	/*RENDER_LAYER_OPTIONAL_ALPHATEST*/         TERRAIN_LAYER_ALPHATEST,
+	/*RENDER_LAYER_ALPHATEST*/                  TERRAIN_LAYER_ALPHATEST,
+	/*RENDER_LAYER_SEASONS_OPAQUE*/             TERRAIN_LAYER_OPAQUE_SEASONS,
+	/*RENDER_LAYER_SEASONS_OPTIONAL_ALPHATEST*/ TERRAIN_LAYER_ALPHATEST_SEASONS
+};
+
 LevelRenderer::Materials::Materials()
 {
 	MATERIAL_PTR(common, shadow_back);
@@ -80,6 +90,7 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	m_pTextures = pTexs;
 
 	_initResources();
+	RenderChunk::InitMaterials();
 }
 
 void LevelRenderer::_buildSkyMesh()
@@ -206,8 +217,10 @@ void LevelRenderer::_renderSunrise(float alpha)
 	float* c = m_pLevel->m_pDimension->getSunriseColor(m_pLevel->getTimeOfDay(alpha), alpha);
 	if (c != nullptr && arePlanetsAvailable())
 	{
+#ifndef FEATURE_GFX_SHADERS
 		glDisable(GL_TEXTURE_2D);
 		//glShadeModel(GL_SMOOTH); // I'd rather fuck up the sunrise gradient than AO, but it doesn't even look like it does that
+#endif
 
 #ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -236,7 +249,7 @@ void LevelRenderer::_renderSunrise(float alpha)
 			t.vertex((sin * 120.0f), (cos * 120.0f), (-cos * 40.0f * c[3]));
 		}
 
-		t.draw();
+		t.draw(m_materials.sun_moon);
 #ifndef ENH_GFX_MATRIX_STACK
 		glPopMatrix();
 #endif
@@ -264,8 +277,10 @@ void LevelRenderer::_renderSunAndMoon(float alpha)
 {
 	Tesselator& t = Tesselator::instance;
 
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_TEXTURE_2D);
-	glBlendFunc(GL_ONE, GL_ONE);
+#endif
+	//glBlendFunc(GL_ONE, GL_ONE);
 
 #ifdef ENH_GFX_MATRIX_STACK
 	Matrix& matrix = MatrixStack::World.getTop();
@@ -295,7 +310,7 @@ void LevelRenderer::_renderSunAndMoon(float alpha)
 		t.vertexUV(ss, 100.0f, -ss, 1.0f, 0.0f);
 		t.vertexUV(ss, 100.0f, ss, 1.0f, 1.0f);
 		t.vertexUV(-ss, 100.0f, ss, 0.0f, 1.0f);
-		t.draw();
+		t.draw(m_materials.sun_moon);
 
 		ss = 20.0f;
 		m_pTextures->loadAndBindTexture("terrain/moon.png");
@@ -304,10 +319,12 @@ void LevelRenderer::_renderSunAndMoon(float alpha)
 		t.vertexUV(ss, -100.0f, ss, 0.0f, 1.0f);
 		t.vertexUV(ss, -100.0f, -ss, 0.0f, 0.0f);
 		t.vertexUV(-ss, -100.0f, -ss, 1.0f, 0.0f);
-		t.draw();
+		t.draw(m_materials.sun_moon);
 	}
 
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_TEXTURE_2D);
+#endif
 }
 
 void LevelRenderer::_renderStars(float alpha)
@@ -318,6 +335,32 @@ void LevelRenderer::_renderStars(float alpha)
 		currentShaderColor = Color(a, a, a);
 		m_starsMesh.render(m_materials.stars);
 	}
+}
+
+void LevelRenderer::_renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePos, float pow, float r, const Vec3& oPos)
+{
+	Tesselator& t = Tesselator::instance;
+	if (!tt->isCubeShaped()) return;
+
+	float a = (pow - (pos.y - ((float)tilePos.y + oPos.y)) / 2.0f) * 0.5f * m_pLevel->getBrightness(tilePos);
+	if (a < 0.0f)
+		return;
+	if (a > 1.0f) a = 1.0f;
+
+	t.color(1.0f, 1.0f, 1.0f, a);
+	float x0 = (float)tilePos.x + tt->m_aabb.min.x + oPos.x;
+	float x1 = (float)tilePos.x + tt->m_aabb.max.x + oPos.x;
+	float y0 = (float)tilePos.y + tt->m_aabb.min.y + oPos.y + (1.0f / 64.0f);
+	float z0 = (float)tilePos.z + tt->m_aabb.min.z + oPos.z;
+	float z1 = (float)tilePos.z + tt->m_aabb.max.z + oPos.z;
+	float u0 = ((pos.x - x0) / 2.0f / r + 0.5f);
+	float u1 = ((pos.x - x1) / 2.0f / r + 0.5f);
+	float v0 = ((pos.z - z0) / 2.0f / r + 0.5f);
+	float v1 = ((pos.z - z1) / 2.0f / r + 0.5f);
+	t.vertexUV(x0, y0, z0, u0, v0);
+	t.vertexUV(x0, y0, z1, u0, v1);
+	t.vertexUV(x1, y0, z1, u1, v1);
+	t.vertexUV(x1, y0, z0, u1, v0);
 }
 
 void LevelRenderer::_recreateTessellators()
@@ -645,7 +688,7 @@ void LevelRenderer::onGraphicsReset()
 	allChanged();
 }
 
-void LevelRenderer::render(const AABB& aabb) const
+void LevelRenderer::render(const AABB& aabb, const mce::MaterialPtr& material) const
 {
 	Tesselator& t = Tesselator::instance;
 
@@ -655,14 +698,14 @@ void LevelRenderer::render(const AABB& aabb) const
 	t.vertex(aabb.max.x, aabb.min.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.min.z);
-	t.draw();
+	t.draw(material);
 	t.begin(mce::PRIMITIVE_MODE_LINE_STRIP, 5);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
-	t.draw();
+	t.draw(material);
 	t.begin(mce::PRIMITIVE_MODE_LINE_LIST, 5);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.min.z);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
@@ -672,19 +715,19 @@ void LevelRenderer::render(const AABB& aabb) const
 	t.vertex(aabb.max.x, aabb.max.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.min.y, aabb.max.z);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.max.z);
-	t.draw();
+	t.draw(material);
 }
 
 void LevelRenderer::checkQueryResults(int a, int b)
 {
 }
 
-void LevelRenderer::renderSameAsLast(int layer, float alpha)
+void LevelRenderer::renderSameAsLast(TerrainLayer layer, float alpha, bool fog)
 {
-	m_renderList.render();
+	m_renderList.render(layer, fog);
 }
 
-int LevelRenderer::renderChunks(int start, int end, Tile::RenderLayer layer, float alpha)
+int LevelRenderer::renderChunks(int start, int end, Tile::RenderLayer layer, float alpha, bool fog)
 {
 	field_24.clear();
 
@@ -729,14 +772,14 @@ int LevelRenderer::renderChunks(int start, int end, Tile::RenderLayer layer, flo
 	for (int i = 0; i < int(field_24.size()); i++)
 	{
 		Chunk* pChk = field_24[i];
-		m_renderList.addR(pChk->getRenderChunk(layer));
+		m_renderList.addR(pChk->getRenderChunk(layer), renderLayerToTerrainLayerMap[layer], fog);
 	}
 
-	renderSameAsLast(layer, alpha);
+	renderSameAsLast(renderLayerToTerrainLayerMap[layer], alpha, fog);
 	return result;
 }
 
-void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float alpha)
+void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float alpha, bool fog)
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -847,7 +890,7 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 	}
 	else
 	{
-		renderChunks(0, m_chunksLength, layer, alpha);
+		renderChunks(0, m_chunksLength, layer, alpha, fog);
 	}
 }
 
@@ -907,7 +950,7 @@ void LevelRenderer::setLevel(Level* level)
 	m_pLevel = level;
 
 	delete m_pTileRenderer;
-	m_pTileRenderer = new TileRenderer(m_pLevel);
+	m_pTileRenderer = new TileRenderer(Tesselator::instance, m_pLevel);
 
 	if (level)
 	{
@@ -1092,9 +1135,11 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 
 void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
 {
-	glEnable(GL_BLEND);
+	//glEnable(GL_BLEND);
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_ALPHA_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+#endif
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
 	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
 	//glColor4f(1.0f, 1.0f, 1.0f, (Mth::sin(float(getTimeMs()) / 100.0f) * 0.2f + 0.4f) * 0.5f);
@@ -1103,7 +1148,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 	{
 		if (m_destroyProgress > 0.0f)
 		{
-			glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
+			//glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
 
 			m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 			currentShaderColor = Color::WHITE;
@@ -1119,16 +1164,20 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			TileID tile = m_pLevel->getTile(hr.m_tilePos);
 			if (tile > 0)
 				pTile = Tile::tiles[tile];
+#ifndef FEATURE_GFX_SHADERS
 			glDisable(GL_ALPHA_TEST);
-			glPolygonOffset(-3.0f, -3.0f);
-			glEnable(GL_POLYGON_OFFSET_FILL);
+#endif
+			//glPolygonOffset(-3.0f, -3.0f);
+			//glEnable(GL_POLYGON_OFFSET_FILL);
 
 			float px = camera.m_posPrev.x + (camera.m_pos.x - camera.m_posPrev.x) * a;
 			float py = camera.m_posPrev.y + (camera.m_pos.y - camera.m_posPrev.y) * a;
 			float pz = camera.m_posPrev.z + (camera.m_pos.z - camera.m_posPrev.z) * a;
 
 			Tesselator& t = Tesselator::instance;
+#ifndef FEATURE_GFX_SHADERS
 			glEnable(GL_ALPHA_TEST); // Fixes for b1.7.3 terrain
+#endif
 			t.begin(0);
 			t.setOffset(-px, -py, -pz);
 			t.noColor();
@@ -1140,10 +1189,10 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			t.draw(m_materials.cracks_overlay);
 			t.setOffset(0, 0, 0);
 
-			glPolygonOffset(0.0f, 0.0f);
-			glDisable(GL_POLYGON_OFFSET_FILL);
+			//glPolygonOffset(0.0f, 0.0f);
+			//glDisable(GL_POLYGON_OFFSET_FILL);
 
-			glDepthMask(true); //@HUH: What is the reason for this? You never disable the depth mask.
+			//glDepthMask(true); //@HUH: What is the reason for this? You never disable the depth mask.
 #ifndef ENH_GFX_MATRIX_STACK
 			glPopMatrix();
 #endif
@@ -1151,7 +1200,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 	}
     else if (inventoryItem != nullptr)
 	{
-         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+         //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
          float br = Mth::sin((float)getTimeMs() / 100.0f) * 0.2f + 0.8f;
 		 currentShaderColor = Color(br, br, br, Mth::sin((float)getTimeMs() / 200.0f) * 0.2f + 0.5f);
 		 m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
@@ -1159,8 +1208,10 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 	}
 
 
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_ALPHA_TEST);
+#endif
 }
 
 void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
@@ -1228,12 +1279,13 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 	if (mode != 0 || hr.m_hitType != 0)
 		return;
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
-	//glLineWidth(1.0f);
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_TEXTURE_2D);
-	glDepthMask(false);
+#endif
+	//glDepthMask(false);
 
 	// Maximize Line Width
 	glEnable(GL_LINE_SMOOTH);
@@ -1263,12 +1315,14 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 		aabb.max.z = tileAABB.max.z + 0.002f - posZ;
 		aabb.min.x = tileAABB.min.x - 0.002f - posX;
 		aabb.max.x = tileAABB.max.x + 0.002f - posX;
-		render(aabb);
+		render(aabb, m_materials.selection_overlay);
 	}
 
-	glDepthMask(true);
+	//glDepthMask(true);
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_BLEND);
+#endif
+	//glDisable(GL_BLEND);
 }
 
 void LevelRenderer::tileChanged(const TilePos& pos)
@@ -1433,30 +1487,29 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	Lighting::turnOff();
 	particleEngine.render(camera, f);
 
-	// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
 	//glEnable(GL_ALPHA);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	_setupFog(camera, 0);
 
-#ifndef ORIGINAL_CODE
+#ifndef FEATURE_GFX_SHADERS
 	glShadeModel(GL_SMOOTH);
 #endif
 
 	//glEnable(GL_BLEND);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_CULL_FACE);
 	// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
 
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
 	render(camera, Tile::RENDER_LAYER_ALPHATEST, f);
 
-	glDepthMask(true);
+	//glDepthMask(true);
 
-#ifndef ORIGINAL_CODE
+#ifndef FEATURE_GFX_SHADERS
 	glShadeModel(GL_FLAT);
 #endif
-	glEnable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
+	//glEnable(GL_CULL_FACE);
+	//glDisable(GL_BLEND);
 
 	//renderNameTags(f);
 
@@ -1472,46 +1525,96 @@ void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
 		return;
 	}
 
-	Mob* mob = m_pMinecraft->m_pCameraEntity;
+	const Mob* camera = m_pMinecraft->m_pCameraEntity;
 
-	EntityRenderDispatcher::getInstance()->prepare(m_pLevel, m_pMinecraft->m_pTextures, m_pMinecraft->m_pFont, mob, m_pMinecraft->getOptions(), f);
+	EntityRenderDispatcher::getInstance()->prepare(m_pLevel, m_pMinecraft->m_pTextures, m_pMinecraft->m_pFont, camera, m_pMinecraft->getOptions(), f);
 
 	m_totalEntities = 0;
 	m_renderedEntities = 0;
 	m_culledEntities = 0;
 
-	EntityRenderDispatcher::off = mob->m_posPrev + (mob->m_pos - mob->m_posPrev) * f;
+	EntityRenderDispatcher::off = camera->m_posPrev + (camera->m_pos - camera->m_posPrev) * f;
 
 	const EntityVector* pVec = m_pLevel->getAllEntities();
 	m_totalEntities = int(pVec->size());
 
 	for (int i = 0; i < m_totalEntities; i++)
 	{
-		Entity* pEnt = (*pVec)[i];
-		if (!pEnt->shouldRender(pos))
+		const Entity* entity = (*pVec)[i];
+		if (!entity->shouldRender(pos))
 			continue;
 
-		if (!culler->isVisible(pEnt->m_hitbox))
+		if (!culler->isVisible(entity->m_hitbox))
 			continue;
 
-		if (m_pMinecraft->m_pCameraEntity == pEnt && !m_pMinecraft->getOptions()->m_bThirdPerson)
+		if (m_pMinecraft->m_pCameraEntity == entity && !m_pMinecraft->getOptions()->m_bThirdPerson)
 			continue;
 
-		if (m_pLevel->hasChunkAt(pEnt->m_pos))
+		if (m_pLevel->hasChunkAt(entity->m_pos))
 		{
 			m_renderedEntities++;
-			EntityRenderDispatcher::getInstance()->render(pEnt, f);
+			EntityRenderDispatcher::getInstance()->render(*entity, f);
 		}
 	}
 }
 
+void LevelRenderer::renderShadow(const Entity& entity, const Vec3& pos, float r, float pow, float a)
+{
+	Textures& textures = *m_pMinecraft->m_pTextures;
+
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+
+	textures.setClampToEdge(true);
+	textures.loadAndBindTexture("misc/shadow.png");
+	textures.setClampToEdge(false);
+
+	//glDepthMask(false);
+
+	Vec3 ePos(entity.m_posPrev + (entity.m_pos - entity.m_posPrev) * a);
+	ePos.y -= entity.m_heightOffset; // We gotta do this so the renderer can correctly determine if there's a tile below the entity
+	ePos.y += entity.getShadowHeightOffs();
+
+	TilePos tpMin(ePos - r);
+	TilePos tpMax(ePos.x + r, ePos.y, ePos.z + r);
+	Vec3 ePosO(pos - ePos);
+
+	Tesselator& tt = Tesselator::instance;
+	tt.begin();
+	TilePos tp(tpMin);
+	for (tp.x = tpMin.x; tp.x <= tpMax.x; tp.x++)
+	{
+		for (tp.y = tpMin.y; tp.y <= tpMax.y; tp.y++)
+		{
+			for (tp.z = tpMin.z; tp.z <= tpMax.z; tp.z++)
+			{
+				TileID t = m_pLevel->getTile(tp.below());
+				if (t > 0 && m_pLevel->getRawBrightness(tp) > 3)
+				{
+					_renderTileShadow(Tile::tiles[t],
+						Vec3(pos.x, pos.y - entity.m_heightOffset + entity.getShadowHeightOffs(), pos.z), tp,
+						pow, r,
+						Vec3(ePosO.x, ePosO.y - entity.m_heightOffset + entity.getShadowHeightOffs(), ePosO.z)
+					);
+				}
+			}
+		}
+	}
+	tt.draw(m_materials.shadow_overlay);
+
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//glDisable(GL_BLEND);
+	//glDepthMask(true);
+}
 
 void LevelRenderer::renderSky(const Entity& camera, float alpha)
 {
 	if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
 		return;
 
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_TEXTURE_2D);
+#endif
 
 	Vec3 sc = m_pLevel->getSkyColor(camera, alpha);
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
@@ -1526,30 +1629,38 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 
 	Tesselator& t = Tesselator::instance;
 
-	glDepthMask(false);
+	//glDepthMask(false);
 	glEnable(GL_FOG);
 	currentShaderColor = Color(sc.x, sc.y, sc.z);
 
 	m_skyMesh.render(m_materials.skyplane);
 
 	glDisable(GL_FOG);
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_ALPHA_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#endif
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 
 	_renderSunrise(alpha);
 	_renderSolarSystem(alpha);
 	
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_ALPHA_TEST);
+#endif
 	glEnable(GL_FOG);
 
 	currentShaderColor = Color(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f);
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_TEXTURE_2D);
+#endif
 	m_darkMesh.render(m_materials.skyplane); // this is probably not the right material for this
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_TEXTURE_2D);
+#endif
 
-	glDepthMask(true);
+	//glDepthMask(true);
 }
 
 void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
@@ -1574,7 +1685,7 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 #endif
 	_setupFog(camera, 0);
 
-	glDepthMask(false);
+	//glDepthMask(false);
 	glEnable(GL_FOG);
 
 	glFogf(GL_FOG_START, renderDistance * 0.2f);
@@ -1591,7 +1702,7 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 	glFogf(GL_FOG_END, renderDistance);
 
 	glDisable(GL_FOG);
-	glDepthMask(true);
+	//glDepthMask(true);
 
 	_setupFog(camera, 1);
 
@@ -1615,14 +1726,17 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 		return;
 	}
 
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_CULL_FACE);
+#endif
+	// @TODO: make sure this works as intended
+	//glDisable(GL_CULL_FACE);
 
 	float yPos = Mth::Lerp(camera.m_posPrev.y, camera.m_pos.y, alpha); // not certain if this old pos Y is used
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 
 	Vec3 cloudColor = m_pLevel->getCloudColor(alpha);
 
@@ -1643,9 +1757,9 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 	t.begin();
 	t.color(cloudColor.x, cloudColor.y, cloudColor.z, 0.8f);
 
-	const int incr = 16 * 2;
-	const int maxX = C_MAX_CHUNKS_X * 16;
-	const int maxZ = C_MAX_CHUNKS_Z * 16;
+	constexpr int incr = 16 * 2;
+	constexpr int maxX = C_MAX_CHUNKS_X * 16;
+	constexpr int maxZ = C_MAX_CHUNKS_Z * 16;
 	for (int x = -maxX; x < maxX; x += incr)
 	{
 		for (int z = -maxZ; z < maxZ; z += incr)
@@ -1659,7 +1773,7 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 	}
 
 	t.voidBeginAndEndCalls(false); // why??
-	t.draw();
+	t.draw(m_materials.clouds);
 
 	
 
@@ -1672,13 +1786,14 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 	}
 	
 	currentShaderColor = Color::WHITE;
-	glDisable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
+	//glDisable(GL_BLEND);
+	//glEnable(GL_CULL_FACE);
 }
 
 void LevelRenderer::renderAdvancedClouds(float alpha)
 {
-	glDisable(GL_CULL_FACE);
+	// @TODO: make sure this works as intended
+	//glDisable(GL_CULL_FACE);
 
 	float yOffs = //Mth::Lerp(m_pMinecraft->m_pCameraEntity->m_posPrev.y, m_pMinecraft->m_pCameraEntity->m_pos.y, alpha);
     m_pMinecraft->m_pCameraEntity->m_posPrev.y + (m_pMinecraft->m_pCameraEntity->m_pos.y - m_pMinecraft->m_pCameraEntity->m_posPrev.y) * alpha;
@@ -1701,8 +1816,8 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	zo -= zOffs * 2048;
 
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 
 	Vec3 cc = m_pLevel->getCloudColor(alpha);
 	float cr = cc.x;
@@ -1739,7 +1854,12 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	constexpr int radius = 3;
 	constexpr float e = 1.0f / 1024.0f;
 
+#ifdef ENH_GFX_MATRIX_STACK
+	Matrix& matrix = MatrixStack::View.getTop();
+	matrix.scale(Vec3(ss, 1.0f, ss));
+#else
 	glScalef(ss, 1.0f, ss);
+#endif
 
 	for (int pass = 0; pass < 2; pass++)
 	{
@@ -1781,7 +1901,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 
 				if (xPos > -1)
 				{
-					t.normal(-1.0f, 0.0f, 0.0f);
+					t.normal(Vec3::NEG_UNIT_X);
 
 					for (int i = 0; i < D; i++)
 					{
@@ -1794,7 +1914,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 
 				if (xPos <= 1)
 				{
-					t.normal(1.0f, 0.0f, 0.0f);
+					t.normal(Vec3::UNIT_X);
 
 					for (int i = 0; i < D; i++)
 					{
@@ -1808,7 +1928,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 				t.color(cr * 0.8f, cg * 0.8f, cb * 0.8f, 0.8f);
 				if (zPos > -1)
 				{
-					t.normal(0.0f, 0.0f, -1.0f);
+					t.normal(Vec3::NEG_UNIT_Z);
 
 					for (int i = 0; i < D; i++)
 					{
@@ -1821,7 +1941,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 
 				if (zPos <= 1)
 				{
-					t.normal(0.0f, 0.0f, 1.0f);
+					t.normal(Vec3::UNIT_Z);
 
 					for (int i = 0; i < D; i++)
 					{
@@ -1832,7 +1952,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 					}
 				}
 
-				t.draw();
+				t.draw(m_materials.clouds);
 			}
 		}
 	}
@@ -1844,8 +1964,8 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	}
 
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glDisable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
+	//glDisable(GL_BLEND);
+	//glEnable(GL_CULL_FACE);
 }
 
 void LevelRenderer::skyColorChanged()

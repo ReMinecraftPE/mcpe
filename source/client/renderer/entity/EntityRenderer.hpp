@@ -23,6 +23,7 @@ protected:
 	class Materials
 	{
 	public:
+		mce::MaterialPtr entity;
 		mce::MaterialPtr entity_alphatest;
 		mce::MaterialPtr entity_alphatest_glint;
 		mce::MaterialPtr name_tag;
@@ -40,9 +41,7 @@ public:
 
 private:
 	Level* getLevel() const;
-	void renderFlame(Entity* e, const Vec3& pos, float a);
-	void renderShadow(Entity* e, const Vec3& pos, float pow, float a);
-	void renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePos, float pow, float r, const Vec3& oPos);
+	void renderFlame(const Entity& entity, const Vec3& pos, float a);
 
 public:
 	EntityRenderer();
@@ -51,9 +50,9 @@ public:
 	void init(EntityRenderDispatcher* d);
 	static void render(const AABB&, const Vec3& pos);
 	static void renderFlat(const AABB&);
-	void postRender(Entity* entity, const Vec3& pos, float rot, float a);
+	void postRender(const Entity& entity, const Vec3& pos, float rot, float a);
 
-	virtual void render(Entity* entity, const Vec3& pos, float rot, float a) = 0;
+	virtual void render(const Entity& entity, const Vec3& pos, float rot, float a) = 0;
 	virtual void onGraphicsReset();
 
 protected:

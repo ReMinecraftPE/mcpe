@@ -14,6 +14,16 @@
 
 class ParticleEngine
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr particles_opaque;
+		mce::MaterialPtr particles_alpha;
+
+		Materials();
+	};
+
 public:
 	ParticleEngine(Level*, Textures*);
 
@@ -32,5 +42,6 @@ public:
 	std::vector<Particle*> m_particles[4];
 	Textures* m_pTextures;
 	Random m_random;
+	Materials m_materials;
 };
 

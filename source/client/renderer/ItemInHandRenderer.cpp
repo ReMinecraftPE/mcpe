@@ -9,8 +9,19 @@
 #include "ItemInHandRenderer.hpp"
 #include "common/Mth.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "Lighting.hpp"
+
+ItemInHandRenderer::Materials::Materials()
+{
+    MATERIAL_PTR(switchable, entity);
+    MATERIAL_PTR(switchable, entity_alphatest);
+    MATERIAL_PTR(switchable, item_in_hand);
+    MATERIAL_PTR(switchable, entity_glint);
+    MATERIAL_PTR(switchable, entity_alphatest_glint);
+    MATERIAL_PTR(switchable, item_in_hand_glint);
+}
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
 	m_selectedItem(0, 1, 0),
@@ -77,7 +88,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 #	define ARGPATCH
 #endif
         
-        m_tileRenderer.renderTile(pTile, inst->getAuxValue() ARGPATCH);
+        m_tileRenderer.renderTile(FullTile(pTile, inst->getAuxValue()), m_materials.item_in_hand ARGPATCH);
         
 #ifdef ARGPATCH
 #	undef ARGPATCH
@@ -123,20 +134,20 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
         t.begin();
         SHADE_IF_NEEDED(1.0f);
         
-        t.normal(0.0f, 0.0f, 1.0f);
+        t.normal(Vec3::UNIT_Z);
         t.vertexUV(0.0f, 0.0f, 0.0f,         texU_2, texV_2);
         t.vertexUV(1.0f, 0.0f, 0.0f,         texU_1, texV_2);
         t.vertexUV(1.0f, 1.0f, 0.0f,         texU_1, texV_1);
         t.vertexUV(0.0f, 1.0f, 0.0f,         texU_2, texV_1);
         
-        t.normal(0.0f, 0.0f, -1.0f);
+        t.normal(Vec3::NEG_UNIT_Z);
         t.vertexUV(0.0f, 1.0f, -C_ONE_PIXEL, texU_2, texV_1);
         t.vertexUV(1.0f, 1.0f, -C_ONE_PIXEL, texU_1, texV_1);
         t.vertexUV(1.0f, 0.0f, -C_ONE_PIXEL, texU_1, texV_2);
         t.vertexUV(0.0f, 0.0f, -C_ONE_PIXEL, texU_2, texV_2);
         
         SHADE_IF_NEEDED(0.8f);
-        t.normal(-1.0f, 0.0f, 0.0f);
+        t.normal(Vec3::NEG_UNIT_X);
         for (int i = 0; i < 16; i++)
         {
             t.vertexUV(i * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
@@ -168,7 +179,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
             t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
         }
         
-        t.draw();
+        t.draw(m_materials.item_in_hand);
     }
     
 #ifndef ENH_GFX_MATRIX_STACK
@@ -309,7 +320,7 @@ void ItemInHandRenderer::render(float a)
         glTranslatef(5.6f, 0.0f, 0.0f);
 #endif
 
-        HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(pLP);
+        HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(*pLP);
         swing2 = 1.0f;
 #ifdef ENH_GFX_MATRIX_STACK
         matrix->scale(swing2);
@@ -332,7 +343,7 @@ void ItemInHandRenderer::renderFire(float f)
     currentShaderColor = Color(1.0f, 1.0f, 1.0f, 0.9f);
     currentShaderDarkColor = Color::WHITE;
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	for (int i = 0; i < 2; i++)
 	{
 #ifdef ENH_GFX_MATRIX_STACK

@@ -24,6 +24,7 @@ protected:
 	{
 	public:
 		mce::MaterialPtr ui_cubemap;
+		mce::MaterialPtr ui_background;
 
 		Materials();
 	};

@@ -17,11 +17,22 @@
 
 class FallingTileRenderer : public EntityRenderer
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr heavy_tile;
+
+		Materials();
+	};
+
 public:
 	FallingTileRenderer();
 
-	void render(Entity* entity, const Vec3& pos, float rot, float a) override;
+	void render(const Entity& entity, const Vec3& pos, float rot, float a) override;
 
+protected:
+	Materials m_heavyMaterials;
 public:
 	TileRenderer m_tileRenderer;
 };

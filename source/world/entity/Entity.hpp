@@ -27,30 +27,6 @@ class Player;
 class ItemInstance;
 class ItemEntity;
 
-enum eEntityRenderType
-{
-	RENDER_NONE,
-	RENDER_DYNAMIC,
-	RENDER_TNT,
-	RENDER_HUMANOID,
-	RENDER_ITEM,
-	RENDER_CAMERA,
-	RENDER_CHICKEN,
-	RENDER_COW,
-	RENDER_PIG,
-	RENDER_SHEEP,
-	RENDER_SHEEP_FUR,
-	RENDER_ZOMBIE,
-	RENDER_SKELETON,
-	RENDER_SPIDER,
-	RENDER_CREEPER,
-	RENDER_ROCKET,
-	RENDER_ARROW,
-
-	// custom
-	RENDER_FALLING_TILE = 50,
-};
-
 struct EntityPos
 {
 	Vec3 m_pos;
@@ -103,6 +79,29 @@ public:
 			STOP_ATTACKING
 		};
 	};
+	enum RenderType
+	{
+		RENDER_NONE,
+		RENDER_DYNAMIC,
+		RENDER_TNT,
+		RENDER_HUMANOID,
+		RENDER_ITEM,
+		RENDER_CAMERA,
+		RENDER_CHICKEN,
+		RENDER_COW,
+		RENDER_PIG,
+		RENDER_SHEEP,
+		RENDER_SHEEP_FUR,
+		RENDER_ZOMBIE,
+		RENDER_SKELETON,
+		RENDER_SPIDER,
+		RENDER_CREEPER,
+		RENDER_ROCKET,
+		RENDER_ARROW,
+
+		// custom
+		RENDER_FALLING_TILE = 50,
+	};
 
 private:
 	void _init();
@@ -146,10 +145,10 @@ public:
 	virtual float getBrightness(float f) const;
 	virtual Vec3 getPos(float f) const;
 	virtual Vec2 getRot(float f) const;
-	virtual float distanceTo(Entity*) const;
+	virtual float distanceTo(const Entity*) const;
 	virtual float distanceToSqr(const Vec3& pos) const;
 	virtual float distanceTo(const Vec3& pos) const;
-	virtual float distanceToSqr(Entity*) const;
+	virtual float distanceToSqr(const Entity*) const;
 	virtual int interactPreventDefault();
 	virtual bool interact(Player*);
 	virtual void playerTouch(Player*);
@@ -187,7 +186,7 @@ public:
 	virtual void markHurt();
 	virtual void burn(int);
 	virtual void lavaHurt();
-	virtual int queryEntityRenderer();
+	virtual RenderType queryEntityRenderer() const;
 	virtual const AABB* getCollideBox() const;
 	virtual AABB* getCollideAgainstBox(Entity* ent) const;
 	virtual void handleInsidePortal();
@@ -264,7 +263,7 @@ public:
 	int m_airCapacity;
 	int16_t m_fireTicks;
 	int m_flameTime;
-	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
+	RenderType m_renderType;
 	float m_distanceFallen; // Supposed to be protected
 	int16_t m_airSupply;
 	bool m_bWasInWater;

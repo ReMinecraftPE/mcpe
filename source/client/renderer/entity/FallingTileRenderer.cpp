@@ -9,17 +9,23 @@
 #include "GameMods.hpp"
 #ifdef ENH_ALLOW_SAND_GRAVITY
 #include "FallingTileRenderer.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/MatrixStack.hpp"
 #include "world/entity/FallingTile.hpp"
+
+FallingTileRenderer::Materials::Materials()
+{
+	MATERIAL_PTR(switchable, heavy_tile);
+}
 
 FallingTileRenderer::FallingTileRenderer()
 {
 	m_shadowRadius = 0.5f;
 }
 
-void FallingTileRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
+void FallingTileRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
-	FallingTile* tile = (FallingTile*)entity;
+	const FallingTile& tile = (const FallingTile&)entity;
 	
 #ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -36,12 +42,12 @@ void FallingTileRenderer::render(Entity* entity, const Vec3& pos, float rot, flo
 
 	// Render the base
 #ifdef ENH_SHADE_HELD_TILES
-#define ARGPATCH , entity->getBrightness(0.0f)
+#define ARGPATCH , entity.getBrightness(0.0f)
 #else
 #define ARGPATCH
 #endif
 	
-	m_tileRenderer.renderTile(Tile::tiles[tile->m_id], 0 ARGPATCH);
+	m_tileRenderer.renderTile(FullTile(tile.m_id, 0), m_heavyMaterials.heavy_tile ARGPATCH);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();

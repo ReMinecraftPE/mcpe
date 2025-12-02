@@ -15,11 +15,11 @@ CreeperRenderer::~CreeperRenderer()
 {
 }
 
-int CreeperRenderer::getOverlayColor(Mob* pMob, float a, float b)
+int CreeperRenderer::getOverlayColor(const Mob& mob, float a, float b)
 {
-	Creeper* pCreeper = (Creeper*)pMob;
+	const Creeper& creeper = (const Creeper&)mob;
 
-	float step = pCreeper->getSwelling(b);
+	float step = creeper.getSwelling(b);
 
 	if (static_cast<int>(step * 10.0f) % 2 == 0)
 	{
@@ -40,14 +40,14 @@ int CreeperRenderer::getOverlayColor(Mob* pMob, float a, float b)
 }
 
 #ifdef ENH_GFX_MATRIX_STACK
-void CreeperRenderer::scale(Mob* pMob, Matrix& matrix, float a)
+void CreeperRenderer::scale(const Mob& mob, Matrix& matrix, float a)
 #else
-void CreeperRenderer::scale(Mob* pMob, float a)
+void CreeperRenderer::scale(const Mob& mob, float a)
 #endif
 {
-	Creeper* pCreeper = (Creeper*)pMob;
+	const Creeper& creeper = (const Creeper&)mob;
 
-	float g = pCreeper->getSwelling(a);
+	float g = creeper.getSwelling(a);
 	float wobble = 1.0f + Mth::sin(g * 100.0f) * g * 0.01f;
 
 	if (g < 0.0f) 

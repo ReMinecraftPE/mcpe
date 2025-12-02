@@ -9,6 +9,7 @@
 #include "StartMenuScreen.hpp"
 
 #include "client/renderer/ScreenRenderer.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/ShaderConstants.hpp"
 
@@ -370,6 +371,11 @@ const char* gSplashes[] =
 	"Woo, curseforge!",
 };
 
+StartMenuScreen::Materials::Materials()
+{
+	MATERIAL_PTR(common, ui_title_tile);
+}
+
 StartMenuScreen::StartMenuScreen() :
 	m_startButton  (2,   0, 0, 160, 24, "Start Game"),
 	m_joinButton   (3,   0, 0, 160, 24, "Join Game"),
@@ -581,12 +587,12 @@ void StartMenuScreen::draw3dTitle(float f)
 #endif
 
 	//glDisable(GL_CULL_FACE);
-	glDepthMask(true);
+	//glDepthMask(true);
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 #ifdef ENH_GFX_MATRIX_STACK
-		MatrixStack::Ref matrix = MatrixStack::View.push();
+		MatrixStack::Ref matrix = MatrixStack::World.push();
 		matrix->translate(Vec3(0.4f, 0.6f, -12.0f));
 #else
 		glPushMatrix();
@@ -594,7 +600,7 @@ void StartMenuScreen::draw3dTitle(float f)
 #endif
 		switch (i)
 		{
-			case 0:
+			case 0: // shadow
 				//glClear(GL_DEPTH_BUFFER_BIT);
 				renderContext.clearDepthStencilBuffer();
 #ifdef ENH_GFX_MATRIX_STACK
@@ -602,21 +608,21 @@ void StartMenuScreen::draw3dTitle(float f)
 #else
 				glTranslatef(0.0f, -0.5f, -0.5f);
 #endif
-				glEnable(GL_BLEND);
+				//glEnable(GL_BLEND);
 				//force set alpha
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 				break;
 
-			case 1:
-				glDisable(GL_BLEND);
+			case 1: // tiles
+				//glDisable(GL_BLEND);
 				//glClear(GL_DEPTH_BUFFER_BIT);
 				renderContext.clearDepthStencilBuffer();
 				//revert
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 				break;
 				
-			case 2:
-				glEnable(GL_BLEND);
+			case 2: // tiles again
+				//glEnable(GL_BLEND);
 				//glBlendFunc(GL_SRC_COLOR, GL_ONE);
 				break;
 		}
@@ -650,7 +656,7 @@ void StartMenuScreen::draw3dTitle(float f)
 				Tile* pTile = TitleTile::getTileFromChar(gLogoLines[y][x]);
 
 #ifdef ENH_GFX_MATRIX_STACK
-				MatrixStack::Ref matrix = MatrixStack::View.push();
+				MatrixStack::Ref matrix = MatrixStack::World.push();
 #else
 				glPushMatrix();
 #endif
@@ -686,7 +692,7 @@ void StartMenuScreen::draw3dTitle(float f)
 				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
 #endif
 
-				m_tileRenderer.renderTile(pTile, i == 0 ? 255 : 0, bright, true);
+				m_tileRenderer.renderTile(FullTile(pTile, i == 0 ? 255 : 0), m_screenMaterials.ui_title_tile, bright, true);
 
 #ifndef ENH_GFX_MATRIX_STACK
 				glPopMatrix();
@@ -699,7 +705,7 @@ void StartMenuScreen::draw3dTitle(float f)
 #endif
 	}
 
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glMatrixMode(GL_PROJECTION);

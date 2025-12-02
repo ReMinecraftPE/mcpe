@@ -77,7 +77,7 @@ void ScreenRenderer::fill(float left, float top, float right, float bottom, cons
 #ifndef FEATURE_GFX_SHADERS
     //glEnable(GL_BLEND);
     glDisable(GL_TEXTURE_2D);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 #endif
 
     currentShaderColor = color;
@@ -109,7 +109,7 @@ void ScreenRenderer::fillGradient(float left, float top, float right, float bott
     glDisable(GL_TEXTURE_2D);
     //glEnable(GL_BLEND);
     glDisable(GL_ALPHA_TEST);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
     glShadeModel(GL_SMOOTH);
 #endif
 

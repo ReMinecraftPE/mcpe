@@ -46,7 +46,7 @@ public:
 	void resetPos(bool respawn = false) override;
 	void die(Entity* pCulprit) override;
 	void aiStep() override;
-	ItemInstance* getCarriedItem() override;
+	ItemInstance* getCarriedItem() const override;
 	bool isImmobile() const override { return m_health <= 0; }
 	void updateAi() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;

@@ -47,6 +47,6 @@ namespace mce
         void onAppSuspended() override;
     };
 
-#define GET_MATERIAL_PTR(group, name) mce::RenderMaterialGroup::group.getMaterial(#name)
-#define MATERIAL_PTR(group, name) name = GET_MATERIAL_PTR(group, name)
+#define GET_MATERIAL_PTR(group, name) mce::RenderMaterialGroup::group.getMaterial(name)
+#define MATERIAL_PTR(group, name) name = GET_MATERIAL_PTR(group, #name)
 }

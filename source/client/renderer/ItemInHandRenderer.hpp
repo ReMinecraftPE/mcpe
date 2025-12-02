@@ -15,6 +15,20 @@ class Minecraft;
 
 class ItemInHandRenderer
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr entity;
+		mce::MaterialPtr entity_alphatest;
+		mce::MaterialPtr item_in_hand;
+		mce::MaterialPtr entity_glint;
+		mce::MaterialPtr entity_alphatest_glint;
+		mce::MaterialPtr item_in_hand_glint;
+
+		Materials();
+	};
+
 public:
 	ItemInHandRenderer(Minecraft* pMC);
 	void itemPlaced();
@@ -35,5 +49,6 @@ private:
 	float m_height;
 	float m_oHeight;
 	TileRenderer m_tileRenderer;
+	Materials m_materials;
 };
 

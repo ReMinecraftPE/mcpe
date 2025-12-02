@@ -31,13 +31,13 @@ RenderList::~RenderList()
 		delete[] field_10;
 }
 
-void RenderList::add(int x)
+void RenderList::add(int x, TerrainLayer layer, bool fog)
 {
 	// @BUG: If too many chunks are rendered, this has the potential to overflow.
 #ifndef ORIGINAL_CODE
 	if (field_14 == C_MAX_RENDERS)
 	{
-		render();
+		render(layer, fog);
 		init(m_pos);
 		field_1C = 0;
 		m_bRendered = false;
@@ -47,16 +47,16 @@ void RenderList::add(int x)
 	field_C[field_14] = x;
 
 	if (field_14 == C_MAX_RENDERS)
-		render();
+		render(layer, fog);
 }
 
-void RenderList::addR(RenderChunk* rc)
+void RenderList::addR(RenderChunk* rc, TerrainLayer layer, bool fog)
 {
 	// @BUG: If too many chunks are rendered, this has the potential to overflow.
 #ifndef ORIGINAL_CODE
 	if (field_14 == C_MAX_RENDERS)
 	{
-		render();
+		render(layer, fog);
 		init(m_pos);
 		field_1C = 0;
 		m_bRendered = false;
@@ -81,7 +81,7 @@ void RenderList::init(const Vec3& pos)
 	m_bInited = true;
 }
 
-void RenderList::render()
+void RenderList::render(TerrainLayer layer, bool fog)
 {
 	if (!m_bInited) return;
 
@@ -102,7 +102,7 @@ void RenderList::render()
 		glTranslatef(-m_pos.x, -m_pos.y, -m_pos.z);
 #endif
 
-		renderChunks();
+		renderChunks(layer, fog);
 
 #ifndef ENH_GFX_MATRIX_STACK
 		glPopMatrix();
@@ -110,8 +110,10 @@ void RenderList::render()
 	}
 }
 
-void RenderList::renderChunks()
+void RenderList::renderChunks(TerrainLayer layer, bool fog)
 {
+	double time = getTimeS();
+
 	if (field_1C > 0)
 	{
 		for (int i = 0; i < field_1C; i++)
@@ -127,7 +129,7 @@ void RenderList::renderChunks()
 			glTranslatef(chk->m_pos.x, chk->m_pos.y, chk->m_pos.z);
 #endif
 
-			chk->render();
+			chk->render(layer, time, fog);
 
 #ifndef ENH_GFX_MATRIX_STACK
 			glPopMatrix();

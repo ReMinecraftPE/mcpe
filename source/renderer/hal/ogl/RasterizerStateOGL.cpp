@@ -64,6 +64,7 @@ void RasterizerStateOGL::createRasterizerStateDescription(RenderContext& context
 {
     RasterizerStateBase::createRasterizerStateDescription(context, desc);
     m_enableScissorTest = desc.enableScissorTest;
+    m_cullMode = desc.cullMode != CULL_NONE ? true : false;
     switch (desc.cullMode)
     {
         case CULL_NONE:

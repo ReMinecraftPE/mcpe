@@ -310,7 +310,7 @@ void TouchscreenInput_TestFps::render(float f)
 {
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
 

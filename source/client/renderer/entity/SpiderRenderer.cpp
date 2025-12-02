@@ -12,7 +12,7 @@ SpiderRenderer::~SpiderRenderer()
 {
 }
 
-int SpiderRenderer::prepareArmor(Mob* spider, int layer, float a)
+int SpiderRenderer::prepareArmor(const Mob& spider, int layer, float a)
 {
 	if (layer != 0)
 		return 0;
@@ -20,10 +20,10 @@ int SpiderRenderer::prepareArmor(Mob* spider, int layer, float a)
 	if (!bindTexture("mob/spider_eyes.png", false))
 		return 0;
 
-	float br = (1.0f - spider->getBrightness(1.0f)) * 0.5f;
-	glEnable(GL_BLEND);
-	glDisable(GL_ALPHA_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	float br = (1.0f - spider.getBrightness(1.0f)) * 0.5f;
+	//glEnable(GL_BLEND);
+	//glDisable(GL_ALPHA_TEST);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, br);
 

@@ -3,7 +3,7 @@
 Zombie::Zombie(Level* pLevel) : Monster(pLevel)
 {
 	m_pDescriptor = &EntityTypeDescriptor::zombie;
-	field_C8 = RENDER_ZOMBIE;
+	m_renderType = RENDER_ZOMBIE;
 	m_texture = "mob/zombie.png";
 	m_runSpeed = 0.5f;
 	m_attackDamage = 5;

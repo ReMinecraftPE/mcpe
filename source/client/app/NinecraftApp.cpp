@@ -115,15 +115,53 @@ void NinecraftApp::_initGLStates()
 	xglDebugMessageCallback(&mce::Platform::OGL::DebugMessage, nullptr);
 #endif
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	// Set depth stencil state
+	{
+		mce::DepthStencilStateDescription desc;
+		desc.depthTestEnabled = true; // glEnable(GL_DEPTH_TEST);
+		desc.depthFunc = mce::COMPARISON_FUNC_LESS_EQUAL; // glDepthFunc(GL_LEQUAL);
+
+		mce::DepthStencilState state;
+		state.createDepthState(renderContext, desc);
+		state.bindDepthStencilState(renderContext);
+	}
+
+	// managed by shaders
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.1f);
-	glCullFace(GL_BACK);
+
+	// Set rasterizer state
+	{
+		mce::RasterizerStateDescription desc;
+		desc.cullMode = mce::CULL_BACK; // glCullFace(GL_BACK);
+
+		mce::RasterizerState state;
+		state.createRasterizerStateDescription(renderContext, desc);
+		state.bindRasterizerState(renderContext);
+	}
+
+	// managed by shaders
 	glEnable(GL_TEXTURE_2D);
+	
+	// how tf do we set this?
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// Set blend state
+	{
+		mce::BlendStateDescription desc;
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+		desc.blendSource = mce::BLEND_TARGET_SOURCE_ALPHA;
+		desc.blendDestination = mce::BLEND_TARGET_ONE_MINUS_SRC_ALPHA;
+		//desc.enableBlend = true;
+
+		mce::BlendState state;
+		state.createBlendState(renderContext, desc);
+		state.bindBlendState(renderContext);
+	}
 }
 
 void NinecraftApp::_reloadTextures()

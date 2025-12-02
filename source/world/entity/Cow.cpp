@@ -10,7 +10,7 @@
 Cow::Cow(Level* pLevel) : Animal(pLevel)
 {
 	m_pDescriptor = &EntityTypeDescriptor::cow;
-	field_C8 = RENDER_COW;
+	m_renderType = RENDER_COW;
 	m_texture = "mob/cow.png";
 	setSize(0.9f, 1.3f);
 }

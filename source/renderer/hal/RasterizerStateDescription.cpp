@@ -6,7 +6,7 @@ RasterizerStateDescription::RasterizerStateDescription()
 {
     depthBias = 0.0f;
     cullMode = CULL_BACK;
-    enableScissorTest = 0;
+    enableScissorTest = false;
 }
 
 bool RasterizerStateDescription::operator==(const RasterizerStateDescription& other) const

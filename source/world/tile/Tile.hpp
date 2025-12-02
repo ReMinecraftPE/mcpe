@@ -249,17 +249,30 @@ public:
 
 class FullTile
 {
+private:
+	Tile* _tileType;
 public:
-	TileID tileId;
 	TileData data;
 
-public:
-	FullTile(TileID tileId, TileData data)
+private:
+	void _init(Tile* tileType, TileData data)
 	{
-		this->tileId = tileId;
+		this->_tileType = tileType;
 		this->data = data;
 	}
 
 public:
-	const Tile* getTile() const { return Tile::tiles[tileId]; }
+	FullTile(TileID tileId, TileData data)
+	{
+		_init(Tile::tiles[tileId], data);
+	}
+
+	FullTile(Tile* tileType, TileData data)
+	{
+		_init(tileType, data);
+	}
+
+public:
+	TileID getTypeId() const { return _tileType->m_ID; }
+	Tile* getType() const { return _tileType; }
 };

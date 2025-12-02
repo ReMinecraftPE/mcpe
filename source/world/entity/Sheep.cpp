@@ -28,7 +28,7 @@ const unsigned int Sheep::COLOR_COUNT = sizeof(Sheep::COLOR) / (sizeof(float) * 
 Sheep::Sheep(Level* pLevel) : Animal(pLevel)
 {
 	m_pDescriptor = &EntityTypeDescriptor::sheep;
-	field_C8 = RENDER_SHEEP;
+	m_renderType = RENDER_SHEEP;
 	m_texture = "mob/sheep.png";
 	setSize(0.9f, 1.3f);
 

@@ -55,7 +55,7 @@ void Entity::_init()
 	m_fireTicks = 0;
 	m_flameTime = 1;
     m_tickCount = 0;
-	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
+	m_renderType = RENDER_NONE;
 	m_distanceFallen = 0.0f;
 	m_airSupply = TOTAL_AIR_SUPPLY;
 	m_bWasInWater = false;
@@ -670,7 +670,7 @@ Vec2 Entity::getRot(float f) const
 	);
 }
 
-float Entity::distanceTo(Entity* pEnt) const
+float Entity::distanceTo(const Entity* pEnt) const
 {
 	return distanceTo(pEnt->m_pos);
 }
@@ -680,7 +680,7 @@ float Entity::distanceTo(const Vec3& pos) const
 	return m_pos.distanceTo(pos);
 }
 
-float Entity::distanceToSqr(Entity* pEnt) const
+float Entity::distanceToSqr(const Entity* pEnt) const
 {
 	return distanceToSqr(pEnt->m_pos);
 }
@@ -893,11 +893,11 @@ void Entity::lavaHurt()
 	}
 }
 
-int Entity::queryEntityRenderer()
+Entity::RenderType Entity::queryEntityRenderer() const
 {
-	// If field_C8 is equal to RENDER_DYNAMIC, EntityRenderDispatcher
+	// If m_renderType is equal to RENDER_DYNAMIC, EntityRenderDispatcher
 	// calls here. Used for sheared sheep.
-	return 0;
+	return RENDER_NONE;
 }
 
 const AABB* Entity::getCollideBox() const

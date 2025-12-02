@@ -8,6 +8,13 @@
 
 #include <sstream>
 #include "ParticleEngine.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
+
+ParticleEngine::Materials::Materials()
+{
+	MATERIAL_PTR(common, particles_opaque);
+	MATERIAL_PTR(common, particles_alpha);
+}
 
 ParticleEngine::ParticleEngine(Level* level, Textures* textures)
 {
@@ -168,7 +175,7 @@ void ParticleEngine::render(const Entity& camera, float f)
 		else
 			m_pTextures->loadAndBindTexture("particles.png");
 
-		t.begin();
+		t.begin(4 * m_particles[i].size());
 
 		for (std::vector<Particle*>::iterator it = m_particles[i].begin(); it != m_particles[i].end(); it++)
 		{
@@ -176,7 +183,7 @@ void ParticleEngine::render(const Entity& camera, float f)
 			pParticle->render(t, f, x1, x2, x3, x4, x5);
 		}
 
-		t.draw();
+		t.draw(m_materials.particles_opaque);
 	}
 }
 

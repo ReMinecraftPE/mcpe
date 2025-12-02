@@ -17,12 +17,12 @@ public:
 	RenderList();
 	~RenderList();
 
-	void add(int x);
-	void addR(RenderChunk*);
+	void add(int x, TerrainLayer layer, bool fog);
+	void addR(RenderChunk* rc, TerrainLayer layer, bool fog);
 	void clear();
 	void init(const Vec3& pos);
-	void render();
-	void renderChunks();
+	void render(TerrainLayer layer, bool fog);
+	void renderChunks(TerrainLayer layer, bool fog);
 
 private:
 	Vec3 m_pos;

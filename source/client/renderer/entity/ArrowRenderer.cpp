@@ -61,9 +61,9 @@ void ArrowRenderer::onAppSuspended()
     m_mesh.reset();
 }
 
-void ArrowRenderer::render(Entity* ent, const Vec3& pos, float rot, float a)
+void ArrowRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
-    Arrow* arrow = reinterpret_cast<Arrow*>(ent);
+    const Arrow& arrow = reinterpret_cast<const Arrow&>(entity);
 
     if (!m_mesh.isValid())
         _buildMesh();
@@ -73,16 +73,16 @@ void ArrowRenderer::render(Entity* ent, const Vec3& pos, float rot, float a)
 #ifdef ENH_GFX_MATRIX_STACK
     MatrixStack::Ref matrix = MatrixStack::World.push();
     matrix->translate(pos);
-    matrix->rotate(arrow->m_oRot.y + (arrow->m_rot.y - arrow->m_oRot.y) * a - 90.0f, Vec3::UNIT_Y);
-    matrix->rotate(arrow->m_oRot.x + (arrow->m_rot.x - arrow->m_oRot.x) * a,         Vec3::UNIT_Z);
+    matrix->rotate(arrow.m_oRot.y + (arrow.m_rot.y - arrow.m_oRot.y) * a - 90.0f, Vec3::UNIT_Y);
+    matrix->rotate(arrow.m_oRot.x + (arrow.m_rot.x - arrow.m_oRot.x) * a,         Vec3::UNIT_Z);
 #else
     glPushMatrix();
     glTranslatef(pos.x, pos.y, pos.z);
-    glRotatef(arrow->m_oRot.y + (arrow->m_rot.y - arrow->m_oRot.y) * a - 90.0f, 0.0f, 1.0f, 0.0f);
-    glRotatef(arrow->m_oRot.x + (arrow->m_rot.x - arrow->m_oRot.x) * a, 0.0f, 0.0f, 1.0f);
+    glRotatef(arrow.m_oRot.y + (arrow.m_rot.y - arrow.m_oRot.y) * a - 90.0f, 0.0f, 1.0f, 0.0f);
+    glRotatef(arrow.m_oRot.x + (arrow.m_rot.x - arrow.m_oRot.x) * a, 0.0f, 0.0f, 1.0f);
 #endif
 
-    float shake = arrow->m_shakeTime - a;
+    float shake = arrow.m_shakeTime - a;
     if (shake > 0.0f)
     {
         float pow = -Mth::sin(shake * 3.0f) * shake;
@@ -105,7 +105,7 @@ void ArrowRenderer::render(Entity* ent, const Vec3& pos, float rot, float a)
 
     //_setupShaderParameters(ent, Color::NIL, a);
 
-    glDisable(GL_CULL_FACE); // @HAL: remove
+    //glDisable(GL_CULL_FACE); // @HAL: remove
     m_mesh.render(m_materials.entity_alphatest);
 
 #ifndef ENH_GFX_MATRIX_STACK
