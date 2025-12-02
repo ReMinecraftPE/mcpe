@@ -63,14 +63,14 @@ void TntRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 	if (((uint8_t(tnt.m_fuseTimer) / 5) & 1) == 0)
 	{
 		glDisable(GL_TEXTURE_2D);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 		currentShaderColor = Color::WHITE;
 		//glColor4f(1.0f, 1.0f, 1.0f, (((float(tnt->m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
 		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, (((float(tnt.m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
-		m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), mce::MaterialPtr::NONE ARGPATCH);
+		m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), m_shaderMaterials.entity ARGPATCH);
 		//glColor4f(1.0f, 1.0, 1.0f, 1.0f);
-		glDisable(GL_BLEND);
+		//glDisable(GL_BLEND);
 		glEnable(GL_TEXTURE_2D);
 	}
 

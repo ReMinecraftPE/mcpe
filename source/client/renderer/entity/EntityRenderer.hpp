@@ -23,7 +23,6 @@ protected:
 	class Materials
 	{
 	public:
-		mce::MaterialPtr entity;
 		mce::MaterialPtr entity_alphatest;
 		mce::MaterialPtr entity_alphatest_glint;
 		mce::MaterialPtr name_tag;

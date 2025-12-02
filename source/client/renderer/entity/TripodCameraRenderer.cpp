@@ -16,7 +16,7 @@ TripodCameraRenderer::TripodCameraRenderer() :
 {
 	m_modelPart.addBox(-4.0f, -4.0f, -6.0f, 8, 8, 10);
 	m_modelPart.m_pos.y = 11.0f;
-	m_modelPart.m_pMaterial = &m_materials.entity;
+	m_modelPart.m_pMaterial = &m_shaderMaterials.entity;
 	m_shadowRadius = 0.5f;
 }
 
@@ -49,7 +49,7 @@ void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float r
 	bindTexture(C_ITEMS_NAME);
 	//t.begin();
 	//m_renderer.tesselateCrossTexture(&m_tile, 0, -0.5f, -0.5f, -0.5f);
-	m_renderer.renderTile(FullTile(&m_tile, 0), m_materials.entity, brightness);
+	m_renderer.renderTile(FullTile(&m_tile, 0), m_shaderMaterials.entity, brightness);
 	//t.draw();
 
 	bindTexture("item/camera.png");

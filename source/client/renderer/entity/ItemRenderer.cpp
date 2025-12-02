@@ -98,7 +98,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 #ifdef ENH_GFX_MATRIX_STACK
 		matrix->rotate(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, Vec3::UNIT_Y);
 #else
-		glRotatef(((float(pItemEntity->m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, 0.0f, 1.0f, 0.0f);
+		glRotatef(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, 0.0f, 1.0f, 0.0f);
 #endif
 
 		bindTexture(C_TERRAIN_NAME);
@@ -138,7 +138,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 #endif
 			}
 
-			m_pTileRenderer->renderTile(FullTile(pTile, pItemInstance->getAuxValue()), mce::MaterialPtr::NONE, itemEntity.getBrightness(1.0f));
+			m_pTileRenderer->renderTile(FullTile(pTile, pItemInstance->getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
 #ifndef ENH_GFX_MATRIX_STACK
 			glPopMatrix();
 #endif

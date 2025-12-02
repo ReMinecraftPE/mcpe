@@ -28,7 +28,7 @@ void RocketRenderer::render(const Entity& entity, const Vec3& pos, float rot, fl
 	float brightness = entity.getBrightness(1.0f);
 
 	bindTexture(C_ITEMS_NAME);
-	m_renderer.renderTile(FullTile(&m_tile, 0), m_materials.entity, brightness);
+	m_renderer.renderTile(FullTile(&m_tile, 0), m_shaderMaterials.entity, brightness);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();

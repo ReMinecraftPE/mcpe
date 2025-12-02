@@ -182,7 +182,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	{
 		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
 		// WARNING: TOO SPOOKY, DO NOT UNCOMMENT, YOU WILL GET SPOOKED
-		renderPumpkin(m_width, m_height);
+		//renderPumpkin(m_width, m_height);
 	}
 
 	currentShaderColor = Color::WHITE;

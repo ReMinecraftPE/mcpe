@@ -342,8 +342,8 @@ void ItemInHandRenderer::renderFire(float f)
 {
     currentShaderColor = Color(1.0f, 1.0f, 1.0f, 0.9f);
     currentShaderDarkColor = Color::WHITE;
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	for (int i = 0; i < 2; i++)
 	{
 #ifdef ENH_GFX_MATRIX_STACK
@@ -367,13 +367,8 @@ void ItemInHandRenderer::renderFire(float f)
 		glRotatef(float(-(i * 2 - 1)) * 10.0f, 0.0f, 1.0f, 0.0f);
 #endif
 
-		Tesselator& t = Tesselator::instance;
-		t.begin();
-		t.vertexUV(-0.5f, -0.5f, -0.5f, texU_2, texV_2);
-		t.vertexUV(+0.5f, -0.5f, -0.5f, texU_1, texV_2);
-		t.vertexUV(+0.5f, +0.5f, -0.5f, texU_1, texV_1);
-		t.vertexUV(-0.5f, +0.5f, -0.5f, texU_2, texV_1);
-		t.draw();
+        ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+        screenRenderer.blitRaw(-0.5f, 0.5f, -0.5f, 0.5f, -0.5f, texU_1, texU_2, texV_1, texV_2);
 
 #ifndef ENH_GFX_MATRIX_STACK
 		glPopMatrix();
@@ -381,7 +376,7 @@ void ItemInHandRenderer::renderFire(float f)
 	}
 
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 }
 
 void ItemInHandRenderer::renderTex(float f, int texture)

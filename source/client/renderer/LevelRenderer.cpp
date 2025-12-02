@@ -36,12 +36,14 @@ LevelRenderer::Materials::Materials()
 	MATERIAL_PTR(common, shadow_back);
 	MATERIAL_PTR(common, shadow_front);
 	MATERIAL_PTR(common, shadow_overlay);
+	MATERIAL_PTR(common, shadow_image_overlay);
 	MATERIAL_PTR(common, stars);
 	MATERIAL_PTR(common, skyplane);
 	MATERIAL_PTR(common, sun_moon);
 	MATERIAL_PTR(common, selection_overlay);
 	MATERIAL_PTR(common, selection_overlay_opaque);
 	MATERIAL_PTR(common, selection_overlay_double_sided);
+	MATERIAL_PTR(common, selection_box);
 	MATERIAL_PTR(common, cracks_overlay);
 	MATERIAL_PTR(common, cracks_overlay_tile_entity);
 	MATERIAL_PTR(switchable, clouds);
@@ -1218,11 +1220,13 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 {
 	if (mode != 0) return;
 
-	glEnable(GL_BLEND);
+	//glEnable(GL_BLEND);
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
-	glEnable(GL_DEPTH_TEST);
+#endif
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	//glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
+	//glEnable(GL_DEPTH_TEST);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 
@@ -1231,7 +1235,9 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	if (tileID > 0)
 		pTile = Tile::tiles[tileID];
 
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_ALPHA_TEST);
+#endif
 	currentShaderColor = Color(0.65f, 0.65f, 0.65f, 0.65f);
 
 #ifdef ENH_GFX_MATRIX_STACK
@@ -1240,8 +1246,8 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	glPushMatrix();
 #endif
 
-	glPolygonOffset(-0.3f, -0.3f);
-	glEnable(GL_POLYGON_OFFSET_FILL);
+	//glPolygonOffset(-0.3f, -0.3f);
+	//glEnable(GL_POLYGON_OFFSET_FILL);
 
 	float px = camera.m_posPrev.x + (camera.m_pos.x - camera.m_posPrev.x) * a;
 	float py = camera.m_posPrev.y + (camera.m_pos.y - camera.m_posPrev.y) * a;
@@ -1262,16 +1268,20 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	t.draw(material);
 	t.setOffset(0, 0, 0);
 
-	glPolygonOffset(0.0f, 0.0f);
-	glDisable(GL_POLYGON_OFFSET_FILL);
+	//glPolygonOffset(0.0f, 0.0f);
+	//glDisable(GL_POLYGON_OFFSET_FILL);
 
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_TEXTURE_2D);
-	glDepthMask(true);
+#endif
+	//glDepthMask(true);
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
 #endif
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_ALPHA_TEST);
-	glDisable(GL_BLEND);
+#endif
+	//glDisable(GL_BLEND);
 }
 
 void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
@@ -1315,7 +1325,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 		aabb.max.z = tileAABB.max.z + 0.002f - posZ;
 		aabb.min.x = tileAABB.min.x - 0.002f - posX;
 		aabb.max.x = tileAABB.max.x + 0.002f - posX;
-		render(aabb, m_materials.selection_overlay);
+		render(aabb, m_materials.selection_box);
 	}
 
 	//glDepthMask(true);
@@ -1479,7 +1489,9 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
 	Lighting::turnOff();
+	render(camera, Tile::RENDER_LAYER_SEASONS_OPAQUE, f);
 	render(camera, Tile::RENDER_LAYER_OPAQUE, f);
+	render(camera, Tile::RENDER_LAYER_DOUBLE_SIDED, f);
 	Lighting::turnOn();
 
 	renderEntities(camera.getPos(f), &culler, f);
@@ -1600,7 +1612,7 @@ void LevelRenderer::renderShadow(const Entity& entity, const Vec3& pos, float r,
 			}
 		}
 	}
-	tt.draw(m_materials.shadow_overlay);
+	tt.draw(m_materials.shadow_image_overlay);
 
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	//glDisable(GL_BLEND);
@@ -1754,7 +1766,7 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 	float fYPos = ((float)C_MAX_Y - yPos) + 0.33f;
 	offX /= 2048.0f;
 	offZ /= 2048.0f;
-	t.begin();
+	t.begin(1024);
 	t.color(cloudColor.x, cloudColor.y, cloudColor.z, 0.8f);
 
 	constexpr int incr = 16 * 2;

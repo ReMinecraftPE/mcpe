@@ -60,6 +60,18 @@ void ScreenRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th, int sw
     t.draw(materialPtr ? *materialPtr : m_materials.ui_textured);
 }
 
+void ScreenRenderer::blitRaw(float x1, float x2, float y1, float y2, float z, float u1, float u2, float v1, float v2)
+{
+    Tesselator& t = Tesselator::instance;
+
+    t.begin(4);
+    t.vertexUV(x1, y1, z, u2, v2);
+    t.vertexUV(x2, y1, z, u1, v2);
+    t.vertexUV(x2, y2, z, u1, v1);
+    t.vertexUV(x1, y2, z, u2, v1);
+    t.draw(m_materials.ui_textured_and_glcolor);
+}
+
 void ScreenRenderer::drawCenteredString(Font& font, const std::string& str, int cx, int cy, const Color& color)
 {
     int width = font.width(str);

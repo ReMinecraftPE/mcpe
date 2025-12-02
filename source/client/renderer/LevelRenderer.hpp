@@ -77,12 +77,14 @@ protected:
 		mce::MaterialPtr shadow_back;
 		mce::MaterialPtr shadow_front;
 		mce::MaterialPtr shadow_overlay;
+		mce::MaterialPtr shadow_image_overlay;
 		mce::MaterialPtr stars;
 		mce::MaterialPtr skyplane;
 		mce::MaterialPtr sun_moon;
 		mce::MaterialPtr selection_overlay;
 		mce::MaterialPtr selection_overlay_opaque;
 		mce::MaterialPtr selection_overlay_double_sided;
+		mce::MaterialPtr selection_box;
 		mce::MaterialPtr cracks_overlay;
 		mce::MaterialPtr cracks_overlay_tile_entity;
 		mce::MaterialPtr clouds;

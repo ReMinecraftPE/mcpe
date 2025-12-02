@@ -14,7 +14,6 @@
 
 EntityRenderer::Materials::Materials()
 {
-	MATERIAL_PTR(switchable, entity);
 	MATERIAL_PTR(switchable, entity_alphatest);
 	MATERIAL_PTR(switchable, entity_alphatest_glint);
 	MATERIAL_PTR(common, name_tag);
@@ -93,7 +92,7 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 	float xo = 0.5f;
 	float yo = 0.0f;
 	currentShaderColor = Color::WHITE;
-	t.begin();
+	t.begin(12);
 
 	while (h > 0.0f)
 	{
@@ -111,7 +110,7 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 #endif
 	}
 
-	t.draw(m_materials.entity);
+	t.draw(m_shaderMaterials.entity);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
