@@ -174,6 +174,97 @@ void GameRenderer::_renderItemInHand(float f, int i)
 	}
 }
 
+void GameRenderer::_renderDebugOverlay(float a)
+{
+	std::stringstream debugText;
+	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
+	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
+
+	/*
+	 * The "!m_pMinecraft->m_bPreparingLevel" check *needs* to be here.
+	 * If said check is not here, when getBiome() is called for the biome display,
+	 * it would allocate an array with a size of 1 before the level was even generated.
+	 * Then, during level generation, said array would be written to as if it had a size
+	 * of 256, leading to a heap corruption that took ASan to debug successfully.
+	 * Unfortunately, ASan and DirectSound don't mix, and Microsoft's ASan team has stated that they don't even know why:
+	 * https://developercommunity.visualstudio.com/t/ASAN-x64-causes-unhandled-exception-at-0/1365655#T-N10460750
+	 * Since all SoundSystems are backed with DirectSound, SoundSystemNull is needed to use ASan.
+	 * This heap corruption bug, which (only if the F3 menu was open) would cause multiplayer functionality to be entirely
+	 * based on luck, had been around since Commit 53200be, on March 5th of 2025, and was fixed on September 30th of 2025.
+	 */
+	if (m_pMinecraft->m_pLocalPlayer && !m_pMinecraft->m_bPreparingLevel)
+	{
+		char posStr[96];
+		Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(a);
+		sprintf(posStr, "%.2f / %.2f / %.2f", pos.x, pos.y, pos.z);
+
+		debugText << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+		debugText << m_pMinecraft->m_pLevelRenderer->gatherStats2() << "\n";
+		debugText << "XYZ: " << posStr << "\n";
+		debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
+	}
+#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
+	extern int g_nVertices; // Tesselator.cpp
+	debugText << "\nverts: " << g_nVertices;
+
+	static int vertGraph[200];
+	memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
+	vertGraph[(sizeof(vertGraph) / sizeof(vertGraph[0])) - 1] = g_nVertices;
+
+	g_nVertices = 0;
+
+	Tesselator& t = Tesselator::instance;
+
+	int max = 0;
+	for (int i = 0; i < 200; i++)
+		max = std::max(max, vertGraph[i]);
+
+	int maxht = 100;
+	int h = int(Minecraft::height * Gui::InvGuiScale);
+
+	glDisable(GL_DEPTH_TEST);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color::WHITE;
+
+	t.begin(4);
+	t.color(1.0f, 1.0f, 1.0f, 0.15f);
+	t.vertex(000, h - maxht, 0);
+	t.vertex(000, h, 0);
+	t.vertex(200, h, 0);
+	t.vertex(200, h - maxht, 0);
+	t.draw();
+
+	t.begin();
+	t.color(0.0f, 1.0f, 0.0f, 1.0f);
+
+	for (int i = 0; i < 200 && max != 0; i++)
+	{
+		t.vertex(i + 0, h - (vertGraph[i] * maxht / max), 0);
+		t.vertex(i + 0, h - 0, 0);
+		t.vertex(i + 1, h - 0, 0);
+		t.vertex(i + 1, h - (vertGraph[i] * maxht / max), 0);
+	}
+
+	t.draw();
+	glEnable(GL_DEPTH_TEST);
+
+
+	m_pMinecraft->m_pFont->drawShadow(std::to_string(max), 200, h - maxht, Color::WHITE);
+#endif
+
+	/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
+	debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
+	debugText << "\nGameRenderer::field_7C: "      << field_7C;
+	debugText << "\nGameRenderer::field_80: "      << field_80;*/
+
+	m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, Color::WHITE);
+
+#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
+	g_nVertices = 0;
+#endif
+}
+
 void GameRenderer::zoomRegion(float zoom, const Vec2& region)
 {
 	m_zoom = zoom;
@@ -594,7 +685,7 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 
 	FrustumCuller frustumCuller;
 	frustumCuller.m_frustumData.x = frust;
-	frustumCuller.prepare(camPos.x, camPos.y, camPos.z);
+	frustumCuller.prepare(camPos);
 
 	levelRenderer.renderLevel(camera, frustumCuller, 0.0f, f);
 
@@ -763,96 +854,9 @@ void GameRenderer::render(float f)
 		}
 	}
 
-	// @TODO: Move to its own function
-	std::stringstream debugText;
-	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
-	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
-
 	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
-		/*
-		 * The "!m_pMinecraft->m_bPreparingLevel" check *needs* to be here.
-		 * If said check is not here, when getBiome() is called for the biome display,
-		 * it would allocate an array with a size of 1 before the level was even generated.
-		 * Then, during level generation, said array would be written to as if it had a size
-		 * of 256, leading to a heap corruption that took ASan to debug successfully.
-		 * Unfortunately, ASan and DirectSound don't mix, and Microsoft's ASan team has stated that they don't even know why:
-		 * https://developercommunity.visualstudio.com/t/ASAN-x64-causes-unhandled-exception-at-0/1365655#T-N10460750
-		 * Since all SoundSystems are backed with DirectSound, SoundSystemNull is needed to use ASan.
-		 * This heap corruption bug, which (only if the F3 menu was open) would cause multiplayer functionality to be entirely
-		 * based on luck, had been around since Commit 53200be, on March 5th of 2025, and was fixed on September 30th of 2025.
-		 */
-		if (m_pMinecraft->m_pLocalPlayer && !m_pMinecraft->m_bPreparingLevel)
-		{
-			char posStr[96];
-			Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(f);
-			sprintf(posStr, "%.2f / %.2f / %.2f", pos.x, pos.y, pos.z);
-
-			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats1();
-			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats2() << "\n";
-			debugText << "XYZ: " << posStr << "\n";
-			debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
-		}
-#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
-		extern int g_nVertices; // Tesselator.cpp
-		debugText << "\nverts: " << g_nVertices;
-
-		static int vertGraph[200];
-		memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
-		vertGraph [ (sizeof(vertGraph) / sizeof(vertGraph[0])) - 1 ] = g_nVertices;
-
-		g_nVertices = 0;
-
-		Tesselator& t = Tesselator::instance;
-
-		int max = 0;
-		for (int i = 0; i < 200; i++)
-			max = std::max(max, vertGraph[i]);
-
-		int maxht = 100;
-		int h = int(Minecraft::height * Gui::InvGuiScale);
-
-		glDisable(GL_DEPTH_TEST);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		currentShaderColor = Color::WHITE;
-		currentShaderDarkColor = Color::WHITE;
-
-		t.begin();
-		t.color(1.0f, 1.0f, 1.0f, 0.15f);
-		t.vertex(000, h-maxht, 0);
-		t.vertex(000, h,       0);
-		t.vertex(200, h,       0);
-		t.vertex(200, h-maxht, 0);
-		t.draw();
-
-		t.begin();
-		t.color(0.0f, 1.0f, 0.0f, 1.0f);
-
-		for (int i = 0; i < 200 && max != 0; i++)
-		{
-			t.vertex(i + 0, h - (vertGraph[i] * maxht / max), 0);
-			t.vertex(i + 0, h - 0, 0);
-			t.vertex(i + 1, h - 0, 0);
-			t.vertex(i + 1, h - (vertGraph[i] * maxht / max), 0);
-		}
-
-		t.draw();
-		glEnable(GL_DEPTH_TEST);
-
-
-		m_pMinecraft->m_pFont->drawShadow(std::to_string(max), 200, h - maxht, 0xFFFFFF);
-#endif
-
-		/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
-		debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
-		debugText << "\nGameRenderer::field_7C: "      << field_7C;
-		debugText << "\nGameRenderer::field_80: "      << field_80;*/
-
-		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
-
-#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
-		g_nVertices = 0;
-#endif
+		_renderDebugOverlay(f);
 	}
 
 	int timeMs = getTimeMs();

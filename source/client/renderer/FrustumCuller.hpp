@@ -15,10 +15,9 @@
 class FrustumCuller : public Culler
 {
 public:
-	bool cubeFullyInFrustum(float, float, float, float, float, float);
-	bool cubeInFrustum(float, float, float, float, float, float);
-	bool isVisible(const AABB&);
-	void prepare(float x, float y, float z);
+	bool cubeInFrustum(const Vec3& min, const Vec3& max);
+	bool isVisible(const AABB& aabb);
+	void prepare(const Vec3& camPos);
 
 public:
 	FrustumData m_frustumData;

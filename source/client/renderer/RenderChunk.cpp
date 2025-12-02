@@ -60,6 +60,8 @@ RenderChunk::RenderChunk(const TilePos& pos, mce::Mesh& mesh)
 
 void RenderChunk::render(TerrainLayer layer, double a, bool fog)
 {
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color::WHITE;
 	m_mesh.render(_chooseMaterial(layer, a, fog));
 }
 

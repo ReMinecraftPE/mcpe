@@ -30,6 +30,7 @@ private:
 	void _initDepthStencilState();
 	void _clearFrameBuffer();
 	void _renderItemInHand(float, int);
+	void _renderDebugOverlay(float a);
 
 public:
 	void saveMatrices();

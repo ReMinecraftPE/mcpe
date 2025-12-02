@@ -14,9 +14,8 @@ class Culler
 {
 public:
 	virtual ~Culler();
-	virtual bool isVisible(const AABB&) = 0;
-	virtual bool cubeInFrustum(float, float, float, float, float, float) = 0;
-	virtual bool cubeFullyInFrustum(float, float, float, float, float, float) = 0;
-	virtual void prepare(float, float, float);
+	virtual bool isVisible(const AABB& aabb) = 0;
+	virtual bool cubeInFrustum(const Vec3& min, const Vec3& max) = 0;
+	virtual void prepare(const Vec3& camPos);
 };
 

@@ -55,11 +55,6 @@ float MobRenderer::getFlipDegrees(const Mob& mob)
 	return 90.0f;
 }
 
-int MobRenderer::getOverlayColor(const Mob& mob, float a, float b)
-{
-	return 0;
-}
-
 #ifdef ENH_GFX_MATRIX_STACK
 void MobRenderer::setupPosition(const Entity& entity, const Vec3& pos, Matrix& matrix)
 #else
@@ -186,10 +181,8 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 
 		additionalRendering(mob, f);
 
-		float fBright = mob.getBrightness(f);
-		int iOverlayColor = getOverlayColor(mob, fBright, f);
-
-		if (GET_ALPHA(iOverlayColor) || mob.m_hurtTime > 0 || mob.m_deathTime > 0)
+		Color overlayColor = getOverlayColor(mob, f);
+		if (overlayColor.a > 0)
 		{
 #ifndef FEATURE_GFX_SHADERS
 			glDisable(GL_TEXTURE_2D);
@@ -199,40 +192,17 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 			//glDepthFunc(GL_EQUAL);
 
-			if (mob.m_hurtTime > 0 || mob.m_deathTime > 0)
+			currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
+
+			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
+
+			for (int i = 0; i < 4; i++)
 			{
-				currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
-				m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
-
-				for (int i = 0; i < 4; i++)
+				if (prepareArmor(mob, i, f))
 				{
-					if (prepareArmor(mob, i, f))
-					{
-						currentShaderDarkColor = Color(fBright, 0.0f, 0.0f, 0.4f); //glColor4f(fBright, 0.0f, 0.0f, 0.4f);
-						m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
-					}
+					currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
+					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 				}
-
-			}
-			if (GET_ALPHA(iOverlayColor))
-			{
-				float r = float(GET_RED(iOverlayColor)) / 255.0f;
-				float g = float(GET_GREEN(iOverlayColor)) / 255.0f;
-				float b = float(GET_BLUE(iOverlayColor)) / 255.0f;
-				float aa = float(GET_ALPHA(iOverlayColor)) / 255.0f;
-				currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
-
-				m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
-
-				for (int i = 0; i < 4; i++)
-				{
-					if (prepareArmor(mob, i, f))
-					{
-						currentShaderColor = Color(r, g, b, aa); //glColor4f(r, g, b, aa);
-						m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
-					}
-				}
-
 			}
 
 			//glDepthFunc(GL_LEQUAL);
@@ -306,12 +276,14 @@ void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Ve
 	glScalef(-0.026667f, -0.026667f, 0.026667f);
 #endif
 
-	glDepthMask(false);
-	glDisable(GL_DEPTH_TEST);
+	//glDepthMask(false);
+	//glDisable(GL_DEPTH_TEST);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
+#ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_TEXTURE_2D);
+#endif
 	
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.25f);
 
@@ -325,17 +297,19 @@ void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Ve
 	t.vertex(-1.0f - widthHalf, 8.0f, 0.0f);
 	t.vertex(widthHalf + 1.0f, 8.0f, 0.0f);
 	t.vertex(widthHalf + 1.0f, -1.0f, 0.0f);
-	t.draw();
+	t.draw(m_materials.name_tag);
 
+#ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_TEXTURE_2D);
+#endif
 
 	font->draw(str, -font->width(str) / 2, 0, 0x20FFFFFF);
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(true);
+	//glEnable(GL_DEPTH_TEST);
+	//glDepthMask(true);
 
 	font->draw(str, -font->width(str) / 2, 0, 0xFFFFFFFF);
 
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();

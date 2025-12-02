@@ -33,7 +33,6 @@ public:
 	virtual float getAttackAnim(const Mob& mob, float);
 	virtual float getBob(const Mob& mob, float);
 	virtual float getFlipDegrees(const Mob& mob);
-	virtual int getOverlayColor(const Mob& mob, float, float);
 	virtual void renderName(const Mob& mob, const Vec3& pos);
 	virtual void renderNameTag(const Mob& mob, const std::string&, const Vec3& pos, int);
 	virtual void additionalRendering(const Mob& mob, float);

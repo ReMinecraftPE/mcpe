@@ -2,20 +2,20 @@
 
 SpiderModel::SpiderModel() : 
 	Model(64, 64),
-	m_head(32, 4),
-	m_body0(0, 0),
-	m_body1(0, 12),
-	m_leg0(18, 0),
-	m_leg1(18, 0),
-	m_leg2(18, 0),
-	m_leg3(18, 0),
-	m_leg4(18, 0),
-	m_leg5(18, 0),
-	m_leg6(18, 0),
-	m_leg7(18, 0)
+	m_head(this, 32, 4),
+	m_body0(this, 0, 0),
+	m_body1(this, 0, 12),
+	m_leg0(this, 18, 0),
+	m_leg1(this, 18, 0),
+	m_leg2(this, 18, 0),
+	m_leg3(this, 18, 0),
+	m_leg4(this, 18, 0),
+	m_leg5(this, 18, 0),
+	m_leg6(this, 18, 0),
+	m_leg7(this, 18, 0)
 {
-	static float g = 0.0f;
-	static int yo = 15;
+	constexpr float g = 0.0f;
+    constexpr int yo = 15;
 
 	m_head.addBox(-4.0f, -4.0f, -8.0f, 8, 8, 8, g);
     m_head.addBox(-4.0f, -4.0f, -8.0f, 8, 8, 8, g);
@@ -77,7 +77,7 @@ void SpiderModel::setupAnim(float time, float r, float bob, float yRot, float xR
     m_head.m_rot.y = yRot / 57.295776f;
     m_head.m_rot.x = xRot / 57.295776f;
 
-    static float sr = 0.7853982f;
+    constexpr float sr = 0.7853982f;
     m_leg0.m_rot.z = -sr;
     m_leg1.m_rot.z = sr;
     m_leg2.m_rot.z = -sr * 0.74f;
@@ -87,8 +87,8 @@ void SpiderModel::setupAnim(float time, float r, float bob, float yRot, float xR
     m_leg6.m_rot.z = -sr;
     m_leg7.m_rot.z = sr;
 
-    static float ro = -0.0f;
-    static float ur = 0.3926991f;
+    constexpr float ro = -0.0f;
+    constexpr float ur = 0.3926991f;
     m_leg0.m_rot.y = ur * 2.0f + ro;
     m_leg1.m_rot.y = -ur * 2.0f - ro;
     m_leg2.m_rot.y = ur * 1.0f + ro;

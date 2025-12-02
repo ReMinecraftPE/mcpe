@@ -11,7 +11,7 @@ public:
     static Matrix EMPTY;
     static Matrix IDENTITY;
     
-private:
+public:
     glm::mat4 _m;
 
 public:

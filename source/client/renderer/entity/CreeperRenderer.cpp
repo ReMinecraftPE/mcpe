@@ -15,15 +15,15 @@ CreeperRenderer::~CreeperRenderer()
 {
 }
 
-int CreeperRenderer::getOverlayColor(const Mob& mob, float a, float b)
+Color CreeperRenderer::getOverlayColor(const Entity& entity, float a)
 {
-	const Creeper& creeper = (const Creeper&)mob;
+	const Creeper& creeper = (const Creeper&)entity;
 
-	float step = creeper.getSwelling(b);
+	float step = creeper.getSwelling(a);
 
 	if (static_cast<int>(step * 10.0f) % 2 == 0)
 	{
-		return 0;
+		return EntityShaderManager::getOverlayColor(entity, a);
 	}
 
 	int _a = step * 0.2f * 255.0f;
@@ -32,11 +32,7 @@ int CreeperRenderer::getOverlayColor(const Mob& mob, float a, float b)
 
 	if (_a > 255) { _a = 255; }
 
-	int red = 255;
-	int green = 255;
-	int blue = 255;
-
-	return _a << 24 | red << 16 | green << 8 | blue;
+	return Color(255, 255, 255, _a);
 }
 
 #ifdef ENH_GFX_MATRIX_STACK
