@@ -81,6 +81,7 @@ protected:
 		mce::MaterialPtr stars;
 		mce::MaterialPtr skyplane;
 		mce::MaterialPtr sun_moon;
+		mce::MaterialPtr sunrise;
 		mce::MaterialPtr selection_overlay;
 		mce::MaterialPtr selection_overlay_opaque;
 		mce::MaterialPtr selection_overlay_double_sided;

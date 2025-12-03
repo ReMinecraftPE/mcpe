@@ -40,6 +40,7 @@ LevelRenderer::Materials::Materials()
 	MATERIAL_PTR(common, stars);
 	MATERIAL_PTR(common, skyplane);
 	MATERIAL_PTR(common, sun_moon);
+	MATERIAL_PTR(common, sunrise);
 	MATERIAL_PTR(common, selection_overlay);
 	MATERIAL_PTR(common, selection_overlay_opaque);
 	MATERIAL_PTR(common, selection_overlay_double_sided);
@@ -251,7 +252,7 @@ void LevelRenderer::_renderSunrise(float alpha)
 			t.vertex((sin * 120.0f), (cos * 120.0f), (-cos * 40.0f * c[3]));
 		}
 
-		t.draw(m_materials.sun_moon);
+		t.draw(m_materials.sunrise);
 #ifndef ENH_GFX_MATRIX_STACK
 		glPopMatrix();
 #endif
