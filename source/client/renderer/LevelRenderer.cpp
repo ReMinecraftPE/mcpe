@@ -379,8 +379,6 @@ void LevelRenderer::_setupFog(const Entity& camera, int i)
 #ifndef __EMSCRIPTEN__
 	glNormal3f(0.0f, -1.0f, 0.0f);
 #endif
-	currentShaderColor = Color::WHITE;
-	currentShaderDarkColor = Color::WHITE;
 
 	if (camera.isUnderLiquid(Material::water))
 	{
@@ -425,7 +423,10 @@ void LevelRenderer::_setupFog(const Entity& camera, int i)
 
 	}
 
+#if !defined(__EMSCRIPTEN__) && !defined(USE_GLES)
 	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT);
+#endif
 }
 
 const mce::MaterialPtr& LevelRenderer::_chooseOverlayMaterial(Tile::RenderLayer layer) const
@@ -896,7 +897,7 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 	}
 }
 
-void LevelRenderer::setupClearColor(float f)
+const Color& LevelRenderer::setupClearColor(float f)
 {
 	Minecraft& mc = *m_pMinecraft;
 	const Options& options = *mc.getOptions();
@@ -910,6 +911,7 @@ void LevelRenderer::setupClearColor(float f)
 	m_fogColor.r = fogColor.x + (skyColor.x - fogColor.x) * x1;
 	m_fogColor.g = fogColor.y + (skyColor.y - fogColor.y) * x1;
 	m_fogColor.b = fogColor.z + (skyColor.z - fogColor.z) * x1;
+	m_fogColor.a = 1.0f;
 
 	if (camera.isUnderLiquid(Material::water))
 	{
@@ -935,8 +937,7 @@ void LevelRenderer::setupClearColor(float f)
 		m_fogColor.b = (m_fogColor.r * 30.0f + m_fogColor.b * 70.0f) / 100.0f;
 	}
 
-	mce::RenderContextImmediate::get().clearFrameBuffer(m_fogColor);
-	//glClearColor(m_fogColor.r, m_fogColor.g, m_fogColor.b, m_fogColor.a);
+	return m_fogColor;
 }
 
 void LevelRenderer::setLevel(Level* level)
@@ -1643,13 +1644,13 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 	Tesselator& t = Tesselator::instance;
 
 	//glDepthMask(false);
-	glEnable(GL_FOG);
+	//glEnable(GL_FOG);
 	currentShaderColor = Color(sc.x, sc.y, sc.z);
 
 	m_skyMesh.render(m_materials.skyplane);
 
-	glDisable(GL_FOG);
 #ifndef FEATURE_GFX_SHADERS
+	glDisable(GL_FOG);
 	glDisable(GL_ALPHA_TEST);
 #endif
 	//glEnable(GL_BLEND);
@@ -1661,8 +1662,8 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 	//glDisable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
 	glEnable(GL_ALPHA_TEST);
-#endif
 	glEnable(GL_FOG);
+#endif
 
 	currentShaderColor = Color(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f);
 #ifndef FEATURE_GFX_SHADERS

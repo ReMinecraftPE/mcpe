@@ -640,14 +640,10 @@ void GameRenderer::renderLevel(float f)
 
 		renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 		renderContext.setRenderTarget();
-		levelRenderer.setupClearColor(f);
-		renderContext.clearFrameBuffer(levelRenderer.m_fogColor);
+		const Color& clearColor = levelRenderer.setupClearColor(f);
+		renderContext.clearFrameBuffer(clearColor);
 		m_depthStencilState->bindDepthStencilState(renderContext);
 		renderContext.clearDepthStencilBuffer();
-
-		// @HAL: remove
-		//glEnable(GL_CULL_FACE);
-		//renderContext.m_currentState.m_rasterizerStateDescription.cullMode = mce::CULL_FRONT;
 
 		setupCamera(f, i);
 		saveMatrices();

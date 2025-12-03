@@ -40,7 +40,7 @@ public:
 	bool m_bFoggy;
 	bool field_D;
 	bool field_E;
-	float field_10[16];
+	float m_brightnessRamp[16];
 	int field_50;
 	float m_sunriseColor[4];
 };

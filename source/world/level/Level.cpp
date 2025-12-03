@@ -20,6 +20,9 @@
 #include "Explosion.hpp"
 #include "Region.hpp"
 
+float Brightness::MIN = 0;
+float Brightness::MAX = 15;
+
 Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& settings, int storageVersion, Dimension *pDimension)
 {
 	m_bInstantTicking = false;
@@ -199,7 +202,7 @@ int Level::getBrightness(const LightLayer& ll, const TilePos& pos) const
 
 float Level::getBrightness(const TilePos& pos) const
 {
-	return m_pDimension->field_10[getRawBrightness(pos)];
+	return m_pDimension->m_brightnessRamp[getRawBrightness(pos)];
 }
 
 int Level::getRawBrightness(const TilePos& pos) const

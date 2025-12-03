@@ -75,6 +75,15 @@ public:
         return *this;
     }
 
+    Color& operator*=(float f)
+    {
+        r *= f;
+        g *= f;
+        b *= f;
+
+        return *this;
+    }
+
 public:
     static Color SHADE_WEST_EAST;
     static Color SHADE_NORTH_SOUTH;

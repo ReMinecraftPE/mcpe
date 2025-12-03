@@ -26,6 +26,7 @@ GLenum BlendStateOGL::translateBlendFunc(BlendTarget blendTarget)
     case BLEND_TARGET_ONE_MINUS_DEST_COLOR: return GL_ONE_MINUS_DST_COLOR;
     case BLEND_TARGET_ONE_MINUS_SRC_COLOR:  return GL_ONE_MINUS_SRC_COLOR;
     case BLEND_TARGET_SOURCE_ALPHA:         return GL_SRC_ALPHA;
+    case BLEND_TARGET_DEST_ALPHA:           return GL_DST_ALPHA;
     case BLEND_TARGET_ONE_MINUS_SRC_ALPHA:  return GL_ONE_MINUS_SRC_ALPHA;
     default:
         LOG_E("Unknown blendFunc: %d", blendTarget);

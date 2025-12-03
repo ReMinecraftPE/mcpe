@@ -120,15 +120,24 @@ float Dimension::getTimeOfDay(int32_t l, float f)
 
 void Dimension::updateLightRamp()
 {
-	for (int i = 0; i < 16; i++)
+	constexpr float var1 = 0.05f;
+
+	for (int i = 0; i <= Brightness::MAX; i++)
 	{
+		float f1 = float(i) / Brightness::MAX;
+		float f2 = 1.0f - f1;
+
 #ifdef ENH_USE_JAVA_LIGHT_RAMP
-		float f1 = 1.0f - float(i) / 15.0f;
-		field_10[i] = ((1.0f - f1) / (f1 * 3.0f + 1.0f)) * (1.0f - 0.1f) + 0.1f;
+		m_brightnessRamp[i] = ((1.0f - f2) / (f2 * 3.0f + 1.0f)) * (1.0f - var1) + var1;
 #else
+		// 0.1.0
 		// @NOTE: Adjusted calculation causes full bright tiles to render at 80% brightness.
 		// This was probably done so that highlighted tiles don't have their brightness blown up and the texture doesn't look weird.
-		m_destroyProgress[i] = ((1.0f - ((i * -0.0625f) + 1.0f)) / ((((i * -0.0625f) + 1.0f) * 3.0f) + 1.0f)) * 0.95f + 0.05f;
+		m_brightnessRamp[i] = ((1.0f - ((i * -0.0625f) + 1.0f)) / ((((i * -0.0625f) + 1.0f) * 3.0f) + 1.0f)) * 0.95f + 0.05f;
+
+		// 0.12.1
+		/*float v6 = f1 / ((f2 * 3.0f) + 1.0f);
+		m_brightnessRamp[i] = Mth::clamp(v6, 0.0f, 1.0f);*/
 #endif
 	}
 }

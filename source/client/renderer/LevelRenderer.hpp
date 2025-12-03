@@ -155,7 +155,7 @@ public:
 	void checkQueryResults(int, int);
 	void renderSameAsLast(TerrainLayer layer, float alpha, bool fog);
 	int  renderChunks(int start, int end, Tile::RenderLayer layer, float alpha, bool fog);
-	void setupClearColor(float f);
+	const Color& setupClearColor(float f);
 	void setLevel(Level*);
 	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();

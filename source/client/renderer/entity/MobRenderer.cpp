@@ -193,6 +193,8 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			//glDepthFunc(GL_EQUAL);
 
 			currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
+			mce::MaterialPtr* pMaterial = m_pModel->m_pMaterial;
+			m_pModel->m_pMaterial = &m_pModel->m_materials.entity_change_color;
 
 			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
 
@@ -200,10 +202,17 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			{
 				if (prepareArmor(mob, i, f))
 				{
+					mce::MaterialPtr* pMaterial = m_pArmorModel->m_pMaterial;
+					m_pArmorModel->m_pMaterial = &m_pArmorModel->m_materials.entity_change_color;
+
 					currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
 					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
+
+					m_pArmorModel->m_pMaterial = pMaterial;
 				}
 			}
+
+			m_pModel->m_pMaterial = pMaterial;
 
 			//glDepthFunc(GL_LEQUAL);
 			//glDisable(GL_BLEND);

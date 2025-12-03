@@ -37,6 +37,11 @@ class RakNetInstance;
 typedef std::vector<Entity*> EntityVector;
 typedef std::vector<AABB> AABBVector;
 
+struct Brightness
+{
+	static float MIN, MAX;
+};
+
 class Level : public LevelSource
 {
 public:
