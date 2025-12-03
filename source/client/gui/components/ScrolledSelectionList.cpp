@@ -229,7 +229,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 #ifndef FEATURE_GFX_SHADERS
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-	glDisable(GL_ALPHA_TEST);
+	//glDisable(GL_ALPHA_TEST);
 	glShadeModel(GL_SMOOTH);
 	glDisable(GL_TEXTURE_2D);
 #endif
@@ -258,7 +258,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	glEnable(GL_TEXTURE_2D);
 	//glEnable(GL_DEPTH_TEST);
 	glShadeModel(GL_FLAT);
-	glEnable(GL_ALPHA_TEST);
+	//glEnable(GL_ALPHA_TEST);
 	//glDisable(GL_BLEND);
 #endif
 }

@@ -160,7 +160,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 
 		bindTexture(mob.getTexture());
 #ifndef FEATURE_GFX_SHADERS
-		glEnable(GL_ALPHA_TEST);
+		//glEnable(GL_ALPHA_TEST);
 #endif
 
 		m_pModel->setBrightness(entity.getBrightness(1.0f));
@@ -174,7 +174,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 				m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 				//glDisable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
-				glEnable(GL_ALPHA_TEST);
+				//glEnable(GL_ALPHA_TEST);
 #endif
 			}
 		}
@@ -186,7 +186,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 		{
 #ifndef FEATURE_GFX_SHADERS
 			glDisable(GL_TEXTURE_2D);
-			glDisable(GL_ALPHA_TEST);
+			//glDisable(GL_ALPHA_TEST);
 #endif
 			//glEnable(GL_BLEND);
 			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
@@ -218,7 +218,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			//glDisable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
 			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_ALPHA_TEST);
+			//glEnable(GL_ALPHA_TEST);
 #endif
 		}
 

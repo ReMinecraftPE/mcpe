@@ -1141,7 +1141,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 {
 	//glEnable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_ALPHA_TEST);
+	//glEnable(GL_ALPHA_TEST);
 #endif
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
@@ -1169,7 +1169,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			if (tile > 0)
 				pTile = Tile::tiles[tile];
 #ifndef FEATURE_GFX_SHADERS
-			glDisable(GL_ALPHA_TEST);
+			//glDisable(GL_ALPHA_TEST);
 #endif
 			//glPolygonOffset(-3.0f, -3.0f);
 			//glEnable(GL_POLYGON_OFFSET_FILL);
@@ -1180,7 +1180,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 
 			Tesselator& t = Tesselator::instance;
 #ifndef FEATURE_GFX_SHADERS
-			glEnable(GL_ALPHA_TEST); // Fixes for b1.7.3 terrain
+			//glEnable(GL_ALPHA_TEST); // Fixes for b1.7.3 terrain
 #endif
 			t.begin(0);
 			t.setOffset(-px, -py, -pz);
@@ -1214,7 +1214,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 
 	//glDisable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_ALPHA_TEST);
+	//glDisable(GL_ALPHA_TEST);
 #endif
 }
 
@@ -1238,7 +1238,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 		pTile = Tile::tiles[tileID];
 
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_ALPHA_TEST);
+	//glDisable(GL_ALPHA_TEST);
 #endif
 	currentShaderColor = Color(0.65f, 0.65f, 0.65f, 0.65f);
 
@@ -1281,7 +1281,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	glPopMatrix();
 #endif
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_ALPHA_TEST);
+	//glEnable(GL_ALPHA_TEST);
 #endif
 	//glDisable(GL_BLEND);
 }
@@ -1652,7 +1652,7 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 
 #ifndef FEATURE_GFX_SHADERS
 	glDisable(GL_FOG);
-	glDisable(GL_ALPHA_TEST);
+	//glDisable(GL_ALPHA_TEST);
 #endif
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
@@ -1662,7 +1662,7 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 	
 	//glDisable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_ALPHA_TEST);
+	//glEnable(GL_ALPHA_TEST);
 	glEnable(GL_FOG);
 #endif
 

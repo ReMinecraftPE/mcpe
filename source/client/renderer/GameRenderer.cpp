@@ -688,7 +688,7 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 	if (m_zoom == 1.0f && camera.isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !camera.isUnderLiquid(Material::water))
 	{
 #ifndef FEATURE_GFX_SHADERS
-		glDisable(GL_ALPHA_TEST);
+		//glDisable(GL_ALPHA_TEST);
 #endif
 
 		levelRenderer.renderCracks(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
@@ -699,7 +699,7 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 			levelRenderer.renderHitSelect(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
 #ifndef FEATURE_GFX_SHADERS
-		glEnable(GL_ALPHA_TEST);
+		//glEnable(GL_ALPHA_TEST);
 #endif
 	}
 

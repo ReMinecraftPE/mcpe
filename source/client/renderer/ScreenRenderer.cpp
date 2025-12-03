@@ -120,7 +120,7 @@ void ScreenRenderer::fillGradient(float left, float top, float right, float bott
 #ifndef FEATURE_GFX_SHADERS
     glDisable(GL_TEXTURE_2D);
     //glEnable(GL_BLEND);
-    glDisable(GL_ALPHA_TEST);
+    //glDisable(GL_ALPHA_TEST);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
     glShadeModel(GL_SMOOTH);
 #endif
@@ -140,7 +140,7 @@ void ScreenRenderer::fillGradient(float left, float top, float right, float bott
 #ifndef FEATURE_GFX_SHADERS
     glShadeModel(GL_FLAT);
     //glDisable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
+    //glEnable(GL_ALPHA_TEST);
     glEnable(GL_TEXTURE_2D);
 #endif
 }

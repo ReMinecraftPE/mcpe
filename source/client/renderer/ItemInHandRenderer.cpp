@@ -464,7 +464,7 @@ void ItemInHandRenderer::turn(const Vec2& rot)
 
 void ItemInHandRenderer::renderScreenEffect(float f)
 {
-	glDisable(GL_ALPHA_TEST);
+	//glDisable(GL_ALPHA_TEST);
 
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 	Textures* textures = m_pMinecraft->m_pTextures;
@@ -488,6 +488,6 @@ void ItemInHandRenderer::renderScreenEffect(float f)
 		}
 	}
 
-	glEnable(GL_ALPHA_TEST);
+	//glEnable(GL_ALPHA_TEST);
 }
 
