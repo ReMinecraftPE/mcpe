@@ -271,3 +271,7 @@ xcuserdata/
 /tools/__pycache__
 /tools/venv
 /game/assets
+
+# iOS ipa files
+/ios-ipa
+*.ipa
