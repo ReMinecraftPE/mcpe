@@ -1516,6 +1516,7 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
 	render(camera, Tile::RENDER_LAYER_ALPHATEST, f);
+	render(camera, Tile::RENDER_LAYER_BLEND, f);
 
 	//glDepthMask(true);
 
@@ -1525,7 +1526,6 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	//glEnable(GL_CULL_FACE);
 	//glDisable(GL_BLEND);
 
-	render(camera, Tile::RENDER_LAYER_BLEND, f);
 	//renderNameTags(f);
 
 	// Was after renderCracks in GameRenderer

@@ -30,6 +30,7 @@ protected:
 	class Materials
 	{
 	public:
+		mce::MaterialPtr ui_vignette;
 		mce::MaterialPtr ui_overlay;
 		mce::MaterialPtr ui_invert_overlay;
 		mce::MaterialPtr ui_crosshair;

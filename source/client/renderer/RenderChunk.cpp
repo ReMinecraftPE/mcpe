@@ -63,6 +63,7 @@ void RenderChunk::render(TerrainLayer layer, double a, bool fog)
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 	m_mesh.render(_chooseMaterial(layer, a, fog));
+
 }
 
 void RenderChunk::reset()

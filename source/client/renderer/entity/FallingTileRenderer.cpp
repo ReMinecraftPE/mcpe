@@ -9,6 +9,7 @@
 #include "GameMods.hpp"
 #ifdef ENH_ALLOW_SAND_GRAVITY
 #include "FallingTileRenderer.hpp"
+#include "client/renderer/entity/EntityRenderDispatcher.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/MatrixStack.hpp"
 #include "world/entity/FallingTile.hpp"
@@ -47,7 +48,7 @@ void FallingTileRenderer::render(const Entity& entity, const Vec3& pos, float ro
 #define ARGPATCH
 #endif
 	
-	m_tileRenderer.renderTile(FullTile(tile.m_id, 0), m_heavyMaterials.heavy_tile ARGPATCH);
+	m_pDispatcher->m_tileRenderer->renderTile(FullTile(tile.m_id, 0), m_heavyMaterials.heavy_tile ARGPATCH);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();

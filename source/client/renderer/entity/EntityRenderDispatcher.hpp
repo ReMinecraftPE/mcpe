@@ -30,7 +30,7 @@ class Entity;
 class Textures;
 class ItemInHandRenderer;
 
-class EntityRenderDispatcher
+class EntityRenderDispatcher : AppPlatformListener
 {
 public:
 	EntityRenderDispatcher();
@@ -45,10 +45,14 @@ public:
 	void setLevel(Level*);
 	void setMinecraft(Minecraft*);
 
+	void onAppSuspended() override;
+
 	static EntityRenderDispatcher* getInstance();
 
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
+	TileRenderer* m_tileRenderer;
+
 	HumanoidMobRenderer m_HumanoidMobRenderer;
 	PigRenderer m_PigRenderer;
 	SheepRenderer m_SheepRenderer;
@@ -65,7 +69,11 @@ public:
 	//SheepFurRenderer m_SheepFurRenderer;
 	TripodCameraRenderer m_CameraRenderer;
 	ArrowRenderer m_ArrowRenderer;
+#ifdef ENH_ALLOW_SAND_GRAVITY
+	FallingTileRenderer m_FallingTileRenderer;
+#endif
 	RocketRenderer m_RocketRenderer;
+
 	Textures* m_pTextures;
 	Level* m_pLevel;
 	Minecraft* m_pMinecraft;
@@ -74,10 +82,6 @@ public:
 	Options* m_pOptions;
 	Vec3 m_pos;
 	Font* m_pFont;
-
-#ifdef ENH_ALLOW_SAND_GRAVITY
-	FallingTileRenderer m_FallingTileRenderer;
-#endif
 
 	static EntityRenderDispatcher* instance;
 	static Vec3 off;

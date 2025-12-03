@@ -19,6 +19,7 @@
 
 Gui::Materials::Materials()
 {
+	MATERIAL_PTR(common, ui_vignette);
 	MATERIAL_PTR(common, ui_overlay);
 	MATERIAL_PTR(common, ui_invert_overlay);
 	MATERIAL_PTR(common, ui_crosshair);
@@ -127,7 +128,7 @@ void Gui::renderPumpkin(int var1, int var2)
 	t.vertexUV(var1, var2, -90.0f, 1.0f, 1.0f);
 	t.vertexUV(var1, 0.0f, -90.0f, 1.0f, 0.0f);
 	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
-	t.draw(m_guiMaterials.ui_overlay);
+	t.draw(m_materials.ui_textured);
 }
 
 
@@ -142,7 +143,7 @@ void Gui::renderVignette(float brightness, int width, int height)
 	field_A20 += ((brightness - field_A20) * 0.01f);
 
 	// @HAL: remove
-	glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+	//glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
 
 	//! @BUG: No misc/vignette.png to be found in the original.
 	//! This function is unused anyways
@@ -157,7 +158,7 @@ void Gui::renderVignette(float brightness, int width, int height)
 	t.vertexUV(width, height, -90.0f, 1.0f, 1.0f);
 	t.vertexUV(width, 0.0f,   -90.0f, 1.0f, 0.0f);
 	t.vertexUV(0.0f,  0.0f,   -90.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_gradient);
+	t.draw(m_guiMaterials.ui_vignette);
 }
 
 void Gui::inventoryUpdated()

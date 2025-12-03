@@ -42,6 +42,7 @@ public:
 	void onGraphicsReset();
 	void teardown();
 	void teardownRenderer();
+	void reloadFancy(bool isFancy) override;
 
 	int getFpsIntlCounter() override;
 

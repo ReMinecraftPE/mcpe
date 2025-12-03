@@ -88,6 +88,18 @@ void AORenderOptionItem::toggleState(OptionList* pList)
 	pList->m_pMinecraft->m_pLevelRenderer->allChanged();
 }
 
+
+FancyRenderOptionItem::FancyRenderOptionItem(bool* pValue, const std::string& text) :
+	RenderOptionItem(pValue, text)
+{
+}
+
+void FancyRenderOptionItem::toggleState(OptionList* pList)
+{
+	BooleanOptionItem::toggleState(pList);
+	pList->m_pMinecraft->reloadFancy(*m_pValue);
+}
+
 HeaderOptionItem::HeaderOptionItem(const std::string& text)
 {
 	m_text = text;
@@ -303,7 +315,7 @@ void OptionList::initDefaultMenu()
 		OPTION(Distance, m_iViewDistance,         "Render Distance");
 		OPTION(Boolean,  m_bThirdPerson,          "Third Person View");
 		OPTION(AORender, m_bAmbientOcclusion,     "Smooth Lighting");
-		OPTION(Render,   m_bFancyGraphics,        "Fancy Graphics");
+		OPTION(FancyRender,   m_bFancyGraphics,        "Fancy Graphics");
 		OPTION(Boolean,  m_bViewBobbing,          "View Bobbing");
 		OPTION(Boolean,  m_bAnaglyphs,            "3D Anaglyph");
 		OPTION(Boolean,  m_bBlockOutlines,        "Block Outlines");

@@ -1136,6 +1136,10 @@ ItemInstance* Minecraft::getSelectedItem()
 	return pInst;
 }
 
+void Minecraft::reloadFancy(bool isFancy)
+{
+}
+
 int Minecraft::getFpsIntlCounter()
 {
 	return 0;

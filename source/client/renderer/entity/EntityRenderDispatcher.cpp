@@ -23,19 +23,21 @@
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 Vec3 EntityRenderDispatcher::off;
 
-EntityRenderDispatcher::EntityRenderDispatcher() :
-	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f),
-	m_PigRenderer(new PigModel(0.0f), /*new PigModel(0.5f),*/ 0.7f),
-	m_SheepRenderer(new SheepModel(false), new SheepModel(true), 0.7f),
-	m_CowRenderer(new CowModel, 0.7f),
-	m_ChickenRenderer(new ChickenModel, 0.3f),
-	m_CreeperRenderer(new CreeperModel, 0.5f),
-	m_SpiderRenderer(),
-	m_SkeletonRenderer(new SkeletonModel, 0.5f),
-	m_ZombieRenderer(new ZombieModel, 0.5f),
-	m_ArrowRenderer()
+EntityRenderDispatcher::EntityRenderDispatcher()
+	: m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f)
+	, m_PigRenderer(new PigModel(0.0f), /*new PigModel(0.5f),*/ 0.7f)
+	, m_SheepRenderer(new SheepModel(false), new SheepModel(true), 0.7f)
+	, m_CowRenderer(new CowModel, 0.7f)
+	, m_ChickenRenderer(new ChickenModel, 0.3f)
+	, m_CreeperRenderer(new CreeperModel, 0.5f)
+	, m_SpiderRenderer()
+	, m_SkeletonRenderer(new SkeletonModel, 0.5f)
+	, m_ZombieRenderer(new ZombieModel, 0.5f)
+	, m_ArrowRenderer()
+	, m_FallingTileRenderer()
 {
 	m_pItemInHandRenderer = nullptr;
+	m_tileRenderer = new TileRenderer();
 	m_pTextures = nullptr;
 	m_pLevel = nullptr;
 	m_pMinecraft = nullptr;
@@ -55,6 +57,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_CreeperRenderer.init(this);
 	m_ZombieRenderer.init(this);
 	m_ArrowRenderer.init(this);
+	m_FallingTileRenderer.init(this);
 	
 	// TODO
 
@@ -204,4 +207,9 @@ void EntityRenderDispatcher::setLevel(Level* level)
 void EntityRenderDispatcher::setMinecraft(Minecraft* mc)
 {
 	m_pMinecraft = mc;
+}
+
+void EntityRenderDispatcher::onAppSuspended()
+{
+	//m_tileRenderer->clearTileCache();
 }

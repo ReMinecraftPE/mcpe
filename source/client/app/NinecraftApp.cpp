@@ -339,6 +339,13 @@ void NinecraftApp::teardownRenderer()
 	mce::GlobalConstantBufferManager::deleteInstance();
 }
 
+void NinecraftApp::reloadFancy(bool isFancy)
+{
+	m_pLevelRenderer->allChanged();
+	EntityRenderDispatcher::instance->onAppSuspended();
+	_reloadFancy(isFancy);
+}
+
 void NinecraftApp::update()
 {
 	++m_fps;

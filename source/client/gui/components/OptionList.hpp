@@ -37,6 +37,7 @@ public:
 
 protected:
 	friend class AORenderOptionItem;
+	friend class FancyRenderOptionItem;
 
 	std::string m_text;
 	bool* m_pValue; // Reference to the value to be modified by this item
@@ -76,6 +77,13 @@ class AORenderOptionItem : public RenderOptionItem
 {
 public:
 	AORenderOptionItem(bool* pValue, const std::string& text);
+	void toggleState(OptionList*) override;
+};
+
+class FancyRenderOptionItem : public RenderOptionItem
+{
+public:
+	FancyRenderOptionItem(bool* pValue, const std::string& text);
 	void toggleState(OptionList*) override;
 };
 

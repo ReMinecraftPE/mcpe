@@ -33,8 +33,6 @@ public:
 
 protected:
 	Materials m_heavyMaterials;
-public:
-	TileRenderer m_tileRenderer;
 };
 
 #endif

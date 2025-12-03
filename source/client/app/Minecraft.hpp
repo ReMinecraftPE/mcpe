@@ -77,9 +77,11 @@ public:
 
 	void setGameMode(GameType gameType);
 
-	virtual void update() override;
-	virtual void init() override;
-	virtual void sizeUpdate(int newWidth, int newHeight) override;
+	void update() override;
+	void init() override;
+	void sizeUpdate(int newWidth, int newHeight) override;
+
+	virtual void reloadFancy(bool isFancy);
 	virtual int getFpsIntlCounter();
 
 	float getBestScaleForThisScreenSize(int width, int height);

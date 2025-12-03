@@ -61,6 +61,11 @@ int GrassTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
 	return TEXTURE_GRASS_SIDE;
 }
 
+Tile::RenderLayer GrassTile::getRenderLayer() const
+{
+	return RENDER_LAYER_OPAQUE;
+}
+
 void GrassTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	// Controls the spread/death of grass.
