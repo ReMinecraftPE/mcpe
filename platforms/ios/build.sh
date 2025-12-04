@@ -9,6 +9,8 @@ targets='armv7-apple-ios3 arm64-apple-ios7'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
+platformdir='platforms/ios'
+
 printf '\nDownloading iOS SDK...\n\n'
 
 rm -rf build
@@ -127,6 +129,6 @@ done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
 "$strip" "build/$bin"
-ldid -Splatforms/ios/minecraftpe.entitlements "build/$bin"
+ldid -S"$platformdir/minecraftpe.entitlements" "build/$bin"
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"

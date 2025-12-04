@@ -5,6 +5,11 @@ set -e
 ipaname='ReMCPE.ipa'
 # must be kept in sync with the cmake executable name
 bin='reminecraftpe'
+# must be kept in sync with the info.plist
+execname='minecraftpe'
+
+platformdir='platforms/ios'
+assetdir='game/assets'
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot/../.."
@@ -20,13 +25,13 @@ if ! command -v plistutil >/dev/null; then
     exit 1
 fi
 
-rm -rf platforms/ios/build/ipa
-apppath='platforms/ios/build/ipa/Payload/ReMCPE.app'
+rm -rf "$assetdir/build/ipa"
+apppath="$platformdir/build/ipa/Payload/ReMCPE.app"
 mkdir -p "$apppath"
-cp "build/$bin" "$apppath/minecraftpe"
-sed -E -e 's|\$\{EXECUTABLE_NAME\}|minecraftpe|' -e 's|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|minecraftpe|g' platforms/ios/minecraftpe-Info.plist |
+cp "build/$bin" "$apppath/$execname"
+sed -E -e "s|\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
     plistutil -o "$apppath/Info.plist" -f bin
-cd game/assets
+cd "$assetdir"
 apppath="../../$apppath"
 if [ -f font/default.png ]; then
     cp font/default.png "$apppath/default8.png"
@@ -35,7 +40,7 @@ elif [ -f font/default8.png ]; then
 fi
 cp icon.png "$apppath/Icon.png" || true
 cp -a \
-    ../../platforms/ios/precompiled/* \
+    "../../$platformdir/precompiled"/* \
     gui/*.png \
     mob/* \
     item/* \
@@ -46,8 +51,8 @@ cp -a \
     terrain.png \
     particles.png \
     "$apppath" || true
-cd ../../platforms/ios/build/ipa
+cd "../../$platformdir/build/ipa"
 rm -f "../$ipaname"
 zip -r "../$ipaname" Payload
 
-printf '\nDone! Your IPA is at platforms/ios/build/%s\n' "$ipaname"
+printf '\nDone! Your IPA is at %s/build/%s\n' "$platformdir" "$ipaname"
