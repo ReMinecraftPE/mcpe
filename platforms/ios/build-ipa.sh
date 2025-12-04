@@ -7,13 +7,13 @@ cd "$scriptroot/../.."
 
 if ! [ -f build/reminecraftpe ]; then
     printf 'Expected working binary at build/reminecraftpe.\n'
-    printf 'Please do a cmake build before running this script.'
+    printf 'Please do a cmake build before running this script.\n'
     exit 1
 fi
 
 for dep in ldid plistutil; do
     if ! command -v "$dep" >/dev/null; then
-        printf '%s must be in $PATH to run this script.\n' "$dep"
+        printf '%s not found!\n' "$dep"
         exit 1
     fi
 done
