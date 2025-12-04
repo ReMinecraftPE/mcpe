@@ -101,7 +101,7 @@ jobs:
                 wget https://apt.llvm.org/llvm.sh
                 sudo bash llvm.sh 21
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y clang-21 libplist-dev libplist-utils
+                sudo apt-get install --no-install-recommends -y clang-21 libplist-dev libplist-utils libssl-dev
 
           - name: Build iOS IPA
             run: ./platforms/ios/ios-build.sh
