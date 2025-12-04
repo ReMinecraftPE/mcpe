@@ -52,7 +52,7 @@ wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.t
 cd "cctools-port-$cctools_commit/cctools"
 ./configure --enable-silent-rules
 make -C ld64 -j"$(nproc)"
-cp ld64/src/ld/ld ../../bin/arm64-apple-ios7-ld
+mv ld64/src/ld/ld ../../bin/arm64-apple-ios7-ld
 make -C libmacho -j"$(nproc)"
 make -C libstuff -j"$(nproc)"
 make -C misc strip
@@ -62,6 +62,16 @@ ln -s arm64-apple-ios7-ld bin/armv7-apple-ios3-ld
 for cc in armv7-apple-ios3-cc armv7-apple-ios3-c++ arm64-apple-ios7-cc arm64-apple-ios7-c++; do
     ln -s ../../ios-cc.sh "bin/$cc"
 done
+
+printf 'Building ldid...\n'
+
+ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
+wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
+
+cd "ldid-$ldid_commit"
+make CXX=clang++
+mv ldid ../bin
+cd ..
 
 printf 'Downloading iOS SDKs...\n'
 
