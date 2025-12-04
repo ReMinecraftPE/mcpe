@@ -12,23 +12,25 @@ nproc() {
     fi
 }
 
-if [ "$(uname -s)" != "Darwin" ] && [ -z "$AR" ] && [ -z "$LIPO" ] && [ -z "$CLANG" ] && [ -z "$RANLIB" ]; then
-    for dep in llvm-ar llvm-lipo llvm-ranlib clang make cmake; do
-        if ! command -v "$dep" >/dev/null; then
-            printf '%s not found!\n' "$dep"
-            exit 1
-        fi
-    done
-    ar="${AR:-"llvm-ar"}"
-    lipo="${LIPO:-"llvm-lipo"}"
-    ranlib="${RANLIB:-"llvm-ranlib"}"
-    strip='cctools-strip'
-else
+if [ "$(uname -s)" = "Darwin" ]; then
     ar="${AR:-ar}"
     lipo="${LIPO:-lipo}"
     ranlib="${RANLIB:-ranlib}"
     strip='strip'
+else
+    ar="${AR:-"llvm-ar"}"
+    lipo="${LIPO:-"llvm-lipo"}"
+    ranlib="${RANLIB:-"llvm-ranlib"}"
+    strip='cctools-strip'
 fi
+
+for var in ar lipo ranlib strip; do
+    dep="$(eval "echo \$$var")"
+    if ! command -v "$dep" >/dev/null; then
+        printf '%s not found!\n' "$dep"
+        exit 1
+    fi
+done
 
 export REMCPE_IOS_BUILD=1
 
