@@ -12,16 +12,16 @@ nproc() {
     fi
 }
 
-if [ "$(uname -s)" != "Darwin" ] && [ -z "$AR" ] && [ -z "$LIPO" ] && [ -z "$CLANG" ]; then
+if [ "$(uname -s)" != "Darwin" ] && [ -z "$AR" ] && [ -z "$LIPO" ] && [ -z "$CLANG" ] && [ -z "$RANLIB" ]; then
     for dep in llvm-ar llvm-lipo llvm-ranlib clang make cmake; do
         if ! command -v "$dep" >/dev/null; then
             printf '%s not found!\n' "$dep"
             exit 1
         fi
     done
-    ar='llvm-ar'
-    lipo='llvm-lipo'
-    ranlib='llvm-ranlib'
+    ar="${AR:-"llvm-ar"}"
+    lipo="${LIPO:-"llvm-lipo"}"
+    ranlib="${RANLIB:-"llvm-ranlib"}"
     strip='cctools-strip'
 else
     ar="${AR:-ar}"
