@@ -91,6 +91,7 @@ cd "ldid-$ldid_commit"
 make CXX=clang++
 mv ldid ../bin
 
+# go to the root of the project
 cd ../../../../..
 
 for target in $targets; do
