@@ -2,6 +2,8 @@
 # shellcheck disable=2016
 set -e
 
+ipaname='ReMCPE.ipa'
+
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot/../.."
 
@@ -40,7 +42,7 @@ cp -a \
     game/assets/particles.png \
     "$apppath"
 cd platforms/ios/build/ios-ipa
-rm -f ../ReMCPE.ipa
-zip -r ../ReMCPE.ipa Payload
+rm -f "../$ipaname"
+zip -r "../$ipaname" Payload
 
-printf '\nDone! Your IPA is at platforms/ios/build/ReMCPE.ipa\n'
+printf '\nDone! Your IPA is at platforms/ios/build/%s\n' "$ipaname"
