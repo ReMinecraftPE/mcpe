@@ -24,7 +24,7 @@ else
     strip='cctools-strip'
 fi
 
-for var in ar lipo ranlib strip; do
+for var in ar lipo ranlib; do
     dep="$(eval "echo \$$var")"
     if ! command -v "$dep" >/dev/null; then
         printf '%s not found!\n' "$dep"
