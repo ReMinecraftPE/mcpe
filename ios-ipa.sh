@@ -25,11 +25,21 @@ cp build/reminecraftpe "$apppath/minecraftpe"
 ldid -Splatforms/ios/minecraftpe.entitlements "$apppath/minecraftpe"
 sed -E -e 's|\$\{EXECUTABLE_NAME\}|minecraftpe|' -e 's|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|minecraftpe|g' platforms/ios/minecraftpe-Info.plist |
     plistutil -o "$apppath/Info.plist" -f bin
+cp game/assets/font/default.png "$apppath/default8.png"
 cp -a \
     platforms/ios/precompiled/* \
-    game/assets/images/mob/char.png \
+    game/assets/gui/*.png \
+    game/assets/mob/* \
+    game/assets/item/* \
+    game/assets/sound/* \
+    game/assets/sounds/random/* \
+    game/assets/app/launch/* \
+    game/assets/patches/* \
+    game/assets/terrain.png \
+    game/assets/particles.png \
     "$apppath"
 cd ios-ipa
+rm -f ../ReMCPE.ipa
 zip -r ../ReMCPE.ipa Payload
 
 printf '\nDone! Your IPA is at ReMCPE.ipa.\n'
