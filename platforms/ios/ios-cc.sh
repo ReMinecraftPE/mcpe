@@ -16,8 +16,8 @@ target="${target%-*}"
 exec "$cc" \
     -mlinker-version=762 \
     -stdlib=libstdc++ \
-    -isysroot "${0%/*}/../ios-sdk" \
     "$@" \
+    -isysroot "${0%/*}/../ios-sdk" \
     -target "$target" \
     -fuse-ld=ld64 \
     -Wno-unused-command-line-argument
