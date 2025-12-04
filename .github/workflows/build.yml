@@ -105,7 +105,7 @@ jobs:
                 sudo apt-get install --no-install-recommends -y clang-21 libplist-dev libplist-utils libssl-dev
 
           - name: Build iOS binary
-            run: ./platforms/ios/ios-build.sh
+            run: ./platforms/ios/build.sh
             env:
               CLANG: clang-21
               AR: llvm-ar-21
