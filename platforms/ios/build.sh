@@ -127,6 +127,6 @@ done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
 "$strip" "build/$bin"
-ldid -Splatform/ios/minecraftpe.entitlements "build/$bin"
+ldid -Splatforms/ios/minecraftpe.entitlements "build/$bin"
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
