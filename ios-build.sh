@@ -48,15 +48,14 @@ wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.t
 cd "cctools-port-$cctools_commit/cctools"
 ./configure --enable-silent-rules
 make -C ld64 -j"$(nproc)"
-cp ld64/src/ld/ld ../../bin/armv6-apple-ios3-ld
+cp ld64/src/ld/ld ../../bin/arm64-apple-ios7-ld
 make -C libmacho -j"$(nproc)"
 make -C libstuff -j"$(nproc)"
 make -C misc strip
 cp misc/strip ../../bin/cctools-strip
 cd ../..
-ln -s armv6-apple-ios3-ld bin/armv7-apple-ios3-ld
-ln -s armv6-apple-ios3-ld bin/arm64-apple-ios7-ld
-for cc in armv6-apple-ios3-cc armv6-apple-ios3-c++ armv7-apple-ios3-cc armv7-apple-ios3-c++ arm64-apple-ios7-cc arm64-apple-ios7-c++; do
+ln -s arm64-apple-ios7-ld bin/armv7-apple-ios3-ld
+for cc in armv7-apple-ios3-cc armv7-apple-ios3-c++ arm64-apple-ios7-cc arm64-apple-ios7-c++; do
     ln -s ../../ios-cc.sh "bin/$cc"
 done
 
@@ -67,35 +66,11 @@ tar xf iPhoneOS8.0.sdk.tar.lzma
 mv iPhoneOS8.0.sdk arm64-apple-ios7-sdk
 rm iPhoneOS8.0.sdk.tar.lzma
 
-wget https://invoxiplaygames.uk/sdks/iPhoneOS5.0.sdk.tar.lzma
-tar xf iPhoneOS5.0.sdk.tar.lzma
-mv iPhoneOS5.0.sdk armv6-apple-ios3-sdk
-rm iPhoneOS5.0.sdk.tar.lzma
-
 ln -s arm64-apple-ios7-sdk armv7-apple-ios3-sdk
 
 rm -rf ../build
 mkdir ../build
 cd ../build
-
-cmake .. \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_SYSTEM_NAME=Darwin \
-    -DREMCPE_PLATFORM=ios \
-    -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
-    -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
-    -DCMAKE_AR="$(command -v "$ar")" \
-    -DCMAKE_FIND_ROOT_PATH="$PWD/../ios-work/armv6-apple-ios3-sdk/usr" \
-    -DCMAKE_C_COMPILER=armv6-apple-ios3-cc \
-    -DCMAKE_CXX_COMPILER=armv6-apple-ios3-c++
-make -j"$(nproc)"
-"$strip" reminecraftpe
-mv reminecraftpe ../ios-work/reminecraftpe-armv6
-
-cd ..
-rm -rf build
-mkdir build
-cd build
 
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
@@ -130,6 +105,6 @@ make -j"$(nproc)"
 "$strip" reminecraftpe
 mv reminecraftpe ../ios-work/reminecraftpe-arm64
 
-"$lipo" -create ../ios-work/reminecraftpe-arm64 ../ios-work/reminecraftpe-armv7 ../ios-work/reminecraftpe-armv6 -output reminecraftpe
+"$lipo" -create ../ios-work/reminecraftpe-arm64 ../ios-work/reminecraftpe-armv7 -output reminecraftpe
 
 ../ios-ipa.sh
