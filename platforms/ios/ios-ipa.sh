@@ -42,3 +42,5 @@ cp -a \
 cd platforms/ios/build/ios-ipa
 rm -f ../ReMCPE.ipa
 zip -r ../ReMCPE.ipa Payload
+
+printf '\nDone! Your IPA is at platforms/ios/build/ReMCPE.ipa\n'

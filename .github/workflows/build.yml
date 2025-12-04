@@ -90,6 +90,7 @@ jobs:
                 -quiet \
                 clean archive 
     ios:
+        name: iOS
         runs-on: ubuntu-latest
         steps:
           - name: Checkout Repository
@@ -103,7 +104,7 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y clang-21 libplist-dev libplist-utils libssl-dev
 
-          - name: Build iOS IPA
+          - name: Build iOS binary
             run: ./platforms/ios/ios-build.sh
             env:
               CLANG: clang-21
