@@ -4,12 +4,21 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
-for dep in llvm-ar llvm-lipo clang; do
-    if ! command -v "$dep" >/dev/null; then
-        printf '%s not found!\n' "$dep"
-        exit 1
-    fi
-done
+if [ "$(uname -s)" != "Darwin" ]; then
+    for dep in llvm-ar llvm-lipo clang; do
+        if ! command -v "$dep" >/dev/null; then
+            printf '%s not found!\n' "$dep"
+            exit 1
+        fi
+    done
+    ar=llvm-ar
+    lipo=llvm-lipo
+    strip=cctools-strip
+else
+    ar=ar
+    lipo=lipo
+    strip=strip
+fi
 
 export REMCPE_IOS_BUILD=1
 
@@ -37,8 +46,6 @@ ln -s armv6-apple-ios3-ld bin/arm64-apple-ios7-ld
 for cc in armv6-apple-ios3-cc armv6-apple-ios3-c++ arm64-apple-ios7-cc arm64-apple-ios7-c++; do
     ln -s ../../ios-cc.sh "bin/$cc"
 done
-ln -s "$(command -v llvm-ar)" bin/armv6-apple-ios3-ar
-ln -s armv6-apple-ios3-ar bin/arm64-apple-ios7-ar
 
 wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
 tar xf iPhoneOS8.0.sdk.tar.lzma
@@ -60,11 +67,12 @@ cmake .. \
     -DREMCPE_PLATFORM=ios \
     -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
     -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+    -DCMAKE_AR="$(command -v "$ar")" \
     -DCMAKE_FIND_ROOT_PATH="$PWD/../ios-work/armv6-apple-ios3-sdk/usr" \
     -DCMAKE_C_COMPILER=armv6-apple-ios3-cc \
     -DCMAKE_CXX_COMPILER=armv6-apple-ios3-c++
 make -j"$(nproc)"
-cctools-strip reminecraftpe
+"$strip" reminecraftpe
 mv reminecraftpe ../ios-work/reminecraftpe-armv6
 
 cd ..
@@ -78,13 +86,14 @@ cmake .. \
     -DREMCPE_PLATFORM=ios \
     -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
     -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+    -DCMAKE_AR="$(command -v "$ar")" \
     -DCMAKE_FIND_ROOT_PATH="$PWD/../ios-work/arm64-apple-ios7-sdk/usr" \
     -DCMAKE_C_COMPILER=arm64-apple-ios7-cc \
     -DCMAKE_CXX_COMPILER=arm64-apple-ios7-c++
 make -j"$(nproc)"
-cctools-strip reminecraftpe
+"$strip" reminecraftpe
 mv reminecraftpe ../ios-work/reminecraftpe-arm64
 
-llvm-lipo -create ../ios-work/reminecraftpe-arm64 ../ios-work/reminecraftpe-armv6 -output reminecraftpe
+"$lipo" -create ../ios-work/reminecraftpe-arm64 ../ios-work/reminecraftpe-armv6 -output reminecraftpe
 
 ../ios-ipa.sh
