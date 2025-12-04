@@ -12,18 +12,6 @@ nproc() {
     fi
 }
 
-download() {
-    tries=3
-    while true; do
-        curl -# -L "$1" && break
-        tries=$((tries - 1))
-        if [ $tries -lt 1 ]; then
-            printf 'Failed to download after 3 tries!\n'
-            exit 1
-        fi
-    done
-}
-
 if [ "$(uname -s)" != "Darwin" ]; then
     for dep in llvm-ar llvm-lipo clang; do
         if ! command -v "$dep" >/dev/null; then
@@ -55,7 +43,7 @@ printf 'Building ld64...\n'
 # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
 
 cctools_commit=35dcdf0285e0a07a32799be3dc08980b6f05313c
-download "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
 cd "cctools-port-$cctools_commit/cctools"
 ./configure --enable-silent-rules
@@ -73,12 +61,12 @@ done
 
 printf 'Downloading iOS SDKs...\n'
 
-download https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma > iPhoneOS8.0.sdk.tar.lzma
+wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
 tar xf iPhoneOS8.0.sdk.tar.lzma
 mv iPhoneOS8.0.sdk arm64-apple-ios7-sdk
 rm iPhoneOS8.0.sdk.tar.lzma
 
-download https://invoxiplaygames.uk/sdks/iPhoneOS5.0.sdk.tar.lzma > iPhoneOS5.0.sdk.tar.lzma
+wget https://invoxiplaygames.uk/sdks/iPhoneOS5.0.sdk.tar.lzma
 tar xf iPhoneOS5.0.sdk.tar.lzma
 mv iPhoneOS5.0.sdk armv6-apple-ios3-sdk
 rm iPhoneOS5.0.sdk.tar.lzma
