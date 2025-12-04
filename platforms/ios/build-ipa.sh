@@ -29,8 +29,12 @@ cp "build/$bin" "$apppath/minecraftpe"
 ldid -Splatforms/ios/minecraftpe.entitlements "$apppath/minecraftpe"
 sed -E -e 's|\$\{EXECUTABLE_NAME\}|minecraftpe|' -e 's|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|minecraftpe|g' platforms/ios/minecraftpe-Info.plist |
     plistutil -o "$apppath/Info.plist" -f bin
-cp game/assets/font/default.png "$apppath/default8.png"
-cp game/assets/icon.png "$apppath/Icon.png"
+if [ -f game/assets/font/default.png ]; then
+    cp game/assets/font/default.png "$apppath/default8.png"
+elif [ -f game/assets/font/default8.png ]; then
+    cp game/assets/font/default8.png "$apppath/default8.png"
+fi
+cp game/assets/icon.png "$apppath/Icon.png" || true
 cp -a \
     platforms/ios/precompiled/* \
     game/assets/gui/*.png \
@@ -42,7 +46,7 @@ cp -a \
     game/assets/patches/* \
     game/assets/terrain.png \
     game/assets/particles.png \
-    "$apppath"
+    "$apppath" || true
 cd platforms/ios/build/ipa
 rm -f "../$ipaname"
 zip -r "../$ipaname" Payload
