@@ -10,6 +10,7 @@ targets='armv7-apple-ios3 arm64-apple-ios7'
 bin='reminecraftpe'
 
 platformdir='platforms/ios'
+entitlements="$platformdir/minecraftpe.entitlements"
 
 printf '\nDownloading iOS SDK...\n\n'
 
@@ -129,6 +130,6 @@ done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
 "$strip" "build/$bin"
-ldid -S"$platformdir/minecraftpe.entitlements" "build/$bin"
+ldid -S"$entitlements" "build/$bin"
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
