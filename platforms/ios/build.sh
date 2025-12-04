@@ -4,9 +4,11 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
+# Make nproc work on macOS and BSDs
 nproc() {
-    if command -v nproc >/dev/null; then
-        nproc
+    cmd="$(command -v nproc)"
+    if [ -f "$cmd" ]; then
+        command nproc
     else
         sysctl -n hw.ncpu
     fi
