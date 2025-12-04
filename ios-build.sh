@@ -54,8 +54,9 @@ make -C libstuff -j"$(nproc)"
 make -C misc strip
 cp misc/strip ../../bin/cctools-strip
 cd ../..
+ln -s armv6-apple-ios3-ld bin/armv7-apple-ios3-ld
 ln -s armv6-apple-ios3-ld bin/arm64-apple-ios7-ld
-for cc in armv6-apple-ios3-cc armv6-apple-ios3-c++ arm64-apple-ios7-cc arm64-apple-ios7-c++; do
+for cc in armv6-apple-ios3-cc armv6-apple-ios3-c++ armv7-apple-ios3-cc armv7-apple-ios3-c++ arm64-apple-ios7-cc arm64-apple-ios7-c++; do
     ln -s ../../ios-cc.sh "bin/$cc"
 done
 
@@ -70,6 +71,8 @@ wget https://invoxiplaygames.uk/sdks/iPhoneOS5.0.sdk.tar.lzma
 tar xf iPhoneOS5.0.sdk.tar.lzma
 mv iPhoneOS5.0.sdk armv6-apple-ios3-sdk
 rm iPhoneOS5.0.sdk.tar.lzma
+
+ln -s arm64-apple-ios7-sdk armv7-apple-ios3-sdk
 
 rm -rf ../build
 mkdir ../build
@@ -101,6 +104,25 @@ cmake .. \
     -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
     -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
     -DCMAKE_AR="$(command -v "$ar")" \
+    -DCMAKE_FIND_ROOT_PATH="$PWD/../ios-work/armv7-apple-ios3-sdk/usr" \
+    -DCMAKE_C_COMPILER=armv7-apple-ios3-cc \
+    -DCMAKE_CXX_COMPILER=armv7-apple-ios3-c++
+make -j"$(nproc)"
+"$strip" reminecraftpe
+mv reminecraftpe ../ios-work/reminecraftpe-armv7
+
+cd ..
+rm -rf build
+mkdir build
+cd build
+
+cmake .. \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_SYSTEM_NAME=Darwin \
+    -DREMCPE_PLATFORM=ios \
+    -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+    -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+    -DCMAKE_AR="$(command -v "$ar")" \
     -DCMAKE_FIND_ROOT_PATH="$PWD/../ios-work/arm64-apple-ios7-sdk/usr" \
     -DCMAKE_C_COMPILER=arm64-apple-ios7-cc \
     -DCMAKE_CXX_COMPILER=arm64-apple-ios7-c++
@@ -108,6 +130,6 @@ make -j"$(nproc)"
 "$strip" reminecraftpe
 mv reminecraftpe ../ios-work/reminecraftpe-arm64
 
-"$lipo" -create ../ios-work/reminecraftpe-arm64 ../ios-work/reminecraftpe-armv6 -output reminecraftpe
+"$lipo" -create ../ios-work/reminecraftpe-arm64 ../ios-work/reminecraftpe-armv7 ../ios-work/reminecraftpe-armv6 -output reminecraftpe
 
 ../ios-ipa.sh
