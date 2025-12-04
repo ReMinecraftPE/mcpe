@@ -151,18 +151,14 @@ void IngameBlockSelectionScreen::renderDemoOverlay()
 void IngameBlockSelectionScreen::render(int x, int y, float f)
 {
 	Screen::render(x, y, f);
-	//glDisable(GL_DEPTH_TEST);
 
 	fill(0, 0, m_width, m_height, 0x80000000);
 
-	//glEnable(GL_BLEND);
 	renderSlots();
 
 #ifdef DEMO
 	renderDemoOverlay();
 #endif
-
-	//glEnable(GL_DEPTH_TEST);
 }
 
 void IngameBlockSelectionScreen::buttonClicked(Button* pButton)

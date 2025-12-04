@@ -255,9 +255,6 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 #else
 		textures->loadAndBindTexture(C_TERRAIN_NAME);
 
-		//glDisable(GL_BLEND);
-		//glEnable(GL_DEPTH_TEST);
-
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 
 		// scale, rotate, and translate the tile onto the correct screen coordinate
@@ -274,9 +271,6 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		
 		m_pTileRenderer->renderTile(FullTile(pTile, instance->getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
 		#undef PARM_HACK
-
-		//glDisable(GL_DEPTH_TEST);
-		//glEnable(GL_BLEND);
 #endif
 	}
 	else if (instance->getIcon() >= 0)

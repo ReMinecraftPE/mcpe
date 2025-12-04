@@ -265,8 +265,6 @@ void ItemInHandRenderer::renderFire(float f)
 {
     currentShaderColor = Color(1.0f, 1.0f, 1.0f, 0.9f);
     currentShaderDarkColor = Color::WHITE;
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	for (int i = 0; i < 2; i++)
 	{
         MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -284,9 +282,6 @@ void ItemInHandRenderer::renderFire(float f)
         ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
         screenRenderer.blitRaw(-0.5f, 0.5f, -0.5f, 0.5f, -0.5f, texU_1, texU_2, texV_1, texV_2);
 	}
-
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	//glDisable(GL_BLEND);
 }
 
 void ItemInHandRenderer::renderTex(float f, int texture)
@@ -309,14 +304,13 @@ void ItemInHandRenderer::renderTex(float f, int texture)
 	float texV_2 = (texY + 15.99f) / 256.0f + 1 / 128.0f;
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.vertexUV(-1.0f, -1.0f, -0.5f, texU_2, texV_2);
 	t.vertexUV(+1.0f, -1.0f, -0.5f, texU_1, texV_2);
 	t.vertexUV(+1.0f, +1.0f, -0.5f, texU_1, texV_1);
 	t.vertexUV(-1.0f, +1.0f, -0.5f, texU_2, texV_1);
 	t.draw();
-
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    // @HAL
 }
 
 void ItemInHandRenderer::tick()
@@ -367,8 +361,6 @@ void ItemInHandRenderer::turn(const Vec2& rot)
 
 void ItemInHandRenderer::renderScreenEffect(float f)
 {
-	//glDisable(GL_ALPHA_TEST);
-
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 	Textures* textures = m_pMinecraft->m_pTextures;
 	Level* level = m_pMinecraft->m_pLevel;
@@ -390,7 +382,5 @@ void ItemInHandRenderer::renderScreenEffect(float f)
 			renderTex(f, texture);
 		}
 	}
-
-	//glEnable(GL_ALPHA_TEST);
 }
 

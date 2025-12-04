@@ -100,7 +100,6 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	checkInput(mouseX, mouseY, f);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	renderScrollBackground();
 
@@ -120,11 +119,6 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 
 		if (m_bRenderSelection && isSelectedItem(i))
 		{
-			//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-#ifndef FEATURE_GFX_SHADERS
-			//glDisable(GL_TEXTURE_2D);
-#endif
-
 			t.begin(8);
 			t.color(m_bComponentSelected ? 0x7F89BF : 0x808080);
 			
@@ -142,26 +136,16 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 			t.vertexUV(right + 1, dn - 1.0f, 0.0f, 1.0f, 1.0f);
 			t.vertexUV(right + 1, up + 1.0f, 0.0f, 0.0f, 1.0f);
 			t.draw(m_materials.ui_fill_color);
-
-#ifndef FEATURE_GFX_SHADERS
-			//glEnable(GL_TEXTURE_2D);
-#endif
 		}
 
 		renderItem(i, int(itemX), field_1C / 2 - 40, int(width), t);
 	}
 
-	//glDisable(GL_DEPTH_TEST);
-
 	renderHoleBackground(0.0f, field_20, 255, 255);
 	renderHoleBackground(field_24, float(field_1C), 255, 255);
 	
 #ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-	//glDisable(GL_ALPHA_TEST);
 	glShadeModel(GL_SMOOTH);
-	//glDisable(GL_TEXTURE_2D);
 #endif
 	
 	// @BUG: The X and Y coordinates have been swapped. This causes the gradient to not render
@@ -207,18 +191,13 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	renderDecorations(mouseX, mouseY);
 	
 #ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_DEPTH_TEST);
 	glShadeModel(GL_FLAT);
-	//glEnable(GL_ALPHA_TEST);
-	//glDisable(GL_BLEND);
 #endif
 }
 
 void RolledSelectionList::renderHoleBackground(float y1, float y2, int a, int b)
 {
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin(4);

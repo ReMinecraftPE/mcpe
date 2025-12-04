@@ -162,7 +162,6 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	capYPosition();
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	renderScrollBackground();
 
@@ -191,10 +190,6 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 
 			if (m_bRenderSelection && isSelectedItem(i))
 			{
-#ifndef FEATURE_GFX_SHADERS
-				//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				//glDisable(GL_TEXTURE_2D);
-#endif
 				t.begin(8);
 				t.color(0x808080);
 				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f, lowerY + 2.0f, 0.0f, 0.0f, 1.0f);
@@ -207,29 +202,20 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 				t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f - 1, itemY - 1.0f, 0.0f, 1.0f, 0.0f);
 				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f + 1, itemY - 1.0f, 0.0f, 0.0f, 0.0f);
 				t.draw(m_materials.ui_fill_color);
-#ifndef FEATURE_GFX_SHADERS
-				//glEnable(GL_TEXTURE_2D);
-#endif
 			}
 
 			renderItem(i, itemX, int(itemY), int(m_itemHeight - 4.0f), t);
 		}
 	}
 
-	//glDisable(GL_DEPTH_TEST);
-
 	renderHoleBackground(0.0f, field_C, 255, 255);
 	renderHoleBackground(field_10, float(field_1C), 255, 255);
 
 #ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-	//glDisable(GL_ALPHA_TEST);
 	glShadeModel(GL_SMOOTH);
-	//glDisable(GL_TEXTURE_2D);
 #endif
 
-	t.begin();
+	t.begin(4);
 	t.color(0, 0);
 	t.vertexUV(field_24, field_C + 4.0f, 0.0f, 0.0f, 1.0f);
 	t.vertexUV(field_20, field_C + 4.0f, 0.0f, 1.0f, 1.0f);
@@ -238,7 +224,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.vertexUV(field_24, field_C, 0.0f, 0.0f, 0.0f);
 	t.draw(m_materials.ui_fill_color);
 
-	t.begin();
+	t.begin(4);
 	t.color(0, 255);
 	t.vertexUV(field_24, field_10, 0.0f, 0.0f, 1.0f);
 	t.vertexUV(field_20, field_10, 0.0f, 1.0f, 1.0f);
@@ -250,19 +236,13 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	renderDecorations(mouseX, mouseY);
 
 #ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_TEXTURE_2D);
-	//glEnable(GL_DEPTH_TEST);
 	glShadeModel(GL_FLAT);
-	//glEnable(GL_ALPHA_TEST);
-	//glDisable(GL_BLEND);
 #endif
 }
 
 void ScrolledSelectionList::renderHoleBackground(float a, float b, int c, int d)
 {
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin(4);

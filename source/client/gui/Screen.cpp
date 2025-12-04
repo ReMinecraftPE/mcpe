@@ -137,7 +137,7 @@ void Screen::renderMenuBackground(float f)
 
 		MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
 		MatrixStack::Ref worldMtx = MatrixStack::World.push();
-		currentShaderColor = Color::WHITE; //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		currentShaderColor = Color::WHITE;
 		worldMtx->rotate(180.0f, Vec3::UNIT_X);
 		worldMtx->rotate(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, Vec3::UNIT_X);
 		worldMtx->rotate(-0.1f * (f + g_panoramaAngle), Vec3::UNIT_Y);
@@ -191,8 +191,6 @@ void Screen::renderMenuBackground(float f)
 			t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
 			t.draw(materialPtr);
 		}
-
-		//glEnable(GL_CULL_FACE);
 	}
 
 	fillGradient(0, 0, m_width, m_height, Color(0, 0, 0, 137), Color(255, 255, 255, 137));

@@ -232,12 +232,6 @@ void OptionList::renderBackground(float f)
 
 void OptionList::renderHoleBackground(float a, float b, int c, int d)
 {
-#ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-	//glDisable(GL_TEXTURE_2D);
-#endif
-
 	Tesselator& t = Tesselator::instance;
 	t.begin(4);
 	t.color(0x202020, 0xC0);
@@ -246,21 +240,10 @@ void OptionList::renderHoleBackground(float a, float b, int c, int d)
 	t.vertexUV(float(field_18), a, 0.0f, field_18 / 32.0f, a / 32.0f);
 	t.vertexUV(0.0f, a, 0.0f, 0.0f, a / 32.0f);
 	t.draw(m_materials.ui_fill_color);
-
-#ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_TEXTURE_2D);
-	//glDisable(GL_BLEND);
-#endif
 }
 
 void OptionList::renderScrollBackground()
 {
-#ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-	//glDisable(GL_TEXTURE_2D);
-#endif
-
 	Tesselator& t = Tesselator::instance;
 	t.begin(4);
 	t.color(0x202020, 0x90);
@@ -269,11 +252,6 @@ void OptionList::renderScrollBackground()
 	t.vertexUV(field_20, field_C,  0.0f, field_20 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_24, field_C,  0.0f, field_24 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
 	t.draw(m_materials.ui_fill_color);
-
-#ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_TEXTURE_2D);
-	//glDisable(GL_BLEND);
-#endif
 }
 
 void OptionList::onClickItem(int index, int mouseX, int mouseY)

@@ -574,9 +574,6 @@ void StartMenuScreen::draw3dTitle(float f)
 	renderContext.setViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight, 0.0f, 0.7f);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
-
-	//glDisable(GL_CULL_FACE);
-	//glDepthMask(true);
 	
 	mce::MaterialPtr* pMaterial;
 
@@ -665,10 +662,7 @@ void StartMenuScreen::draw3dTitle(float f)
 		}
 	}
 
-	//glDisable(GL_BLEND);
-
 	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
-	//glEnable(GL_CULL_FACE);
 }
 
 void StartMenuScreen::render(int a, int b, float c)

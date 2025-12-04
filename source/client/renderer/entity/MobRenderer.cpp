@@ -89,8 +89,6 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 	{
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 
-		//glDisable(GL_CULL_FACE);
-
 		m_pModel->field_4 = getAttackAnim(mob, f);
 		m_pModel->m_bRiding = false;
 		m_pModel->m_bIsBaby = mob.isBaby();
@@ -120,9 +118,6 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 		float x2 = mob.field_130 - mob.m_walkAnimSpeed * (1.0f - f);
 
 		bindTexture(mob.getTexture());
-#ifndef FEATURE_GFX_SHADERS
-		//glEnable(GL_ALPHA_TEST);
-#endif
 
 		m_pModel->setBrightness(entity.getBrightness(1.0f));
 		m_pModel->prepareMobModel(mob, x2, x1, f);
@@ -133,10 +128,6 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			if (prepareArmor(mob, i, f))
 			{
 				m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
-				//glDisable(GL_BLEND);
-#ifndef FEATURE_GFX_SHADERS
-				//glEnable(GL_ALPHA_TEST);
-#endif
 			}
 		}
 
@@ -145,15 +136,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 		Color overlayColor = getOverlayColor(mob, f);
 		if (overlayColor.a > 0)
 		{
-#ifndef FEATURE_GFX_SHADERS
-			//glDisable(GL_TEXTURE_2D);
-			//glDisable(GL_ALPHA_TEST);
-#endif
-			//glEnable(GL_BLEND);
-			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-			//glDepthFunc(GL_EQUAL);
-
-			currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
+			currentShaderColor = overlayColor;
 			mce::MaterialPtr* pMaterial = m_pModel->m_pMaterial;
 			m_pModel->m_pMaterial = &m_pModel->m_materials.entity_color_overlay;
 
@@ -166,7 +149,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 					mce::MaterialPtr* pMaterial = m_pArmorModel->m_pMaterial;
 					m_pArmorModel->m_pMaterial = &m_pArmorModel->m_materials.entity_color_overlay;
 
-					currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
+					currentShaderColor = overlayColor;
 					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 
 					m_pArmorModel->m_pMaterial = pMaterial;
@@ -174,16 +157,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			}
 
 			m_pModel->m_pMaterial = pMaterial;
-
-			//glDepthFunc(GL_LEQUAL);
-			//glDisable(GL_BLEND);
-#ifndef FEATURE_GFX_SHADERS
-			//glEnable(GL_TEXTURE_2D);
-			//glEnable(GL_ALPHA_TEST);
-#endif
 		}
-
-		//glEnable(GL_CULL_FACE);
 	}
 	renderName(mob, pos);
 }
@@ -224,22 +198,11 @@ void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Ve
 
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 	matrix->translate(Vec3(pos.x + 0.0f, pos.y + 2.3f, pos.z));
-#ifndef __EMSCRIPTEN__
-	glNormal3f(0.0f, 1.0f, 0.0f);
-#endif
+
 	// billboard the name towards the camera
 	matrix->rotate(-m_pDispatcher->m_rot.x, Vec3::UNIT_Y);
 	matrix->rotate(+m_pDispatcher->m_rot.y, Vec3::UNIT_X);
 	matrix->scale(Vec3(-0.026667f, -0.026667f, 0.026667f));
-
-	//glDepthMask(false);
-	//glDisable(GL_DEPTH_TEST);
-
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-#ifndef FEATURE_GFX_SHADERS
-	//glDisable(GL_TEXTURE_2D);
-#endif
 	
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.25f);
 
@@ -249,22 +212,13 @@ void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Ve
 	int width = font->width(str);
 	float widthHalf = float(width / 2);
 
+	t.normal(Vec3::UNIT_Y);
 	t.vertex(-1.0f - widthHalf, -1.0f, 0.0f);
 	t.vertex(-1.0f - widthHalf, 8.0f, 0.0f);
 	t.vertex(widthHalf + 1.0f, 8.0f, 0.0f);
 	t.vertex(widthHalf + 1.0f, -1.0f, 0.0f);
 	t.draw(m_materials.name_tag);
 
-#ifndef FEATURE_GFX_SHADERS
-	//glEnable(GL_TEXTURE_2D);
-#endif
-
 	font->draw(str, -font->width(str) / 2, 0, 0x20FFFFFF);
-	//glEnable(GL_DEPTH_TEST);
-	//glDepthMask(true);
-
 	font->draw(str, -font->width(str) / 2, 0, 0xFFFFFFFF);
-
-	//glDisable(GL_BLEND);
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 }

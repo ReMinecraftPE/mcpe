@@ -86,12 +86,6 @@ void ScreenRenderer::drawString(Font& font, const std::string& str, int cx, int 
 
 void ScreenRenderer::fill(float left, float top, float right, float bottom, const Color& color)
 {
-#ifndef FEATURE_GFX_SHADERS
-    //glEnable(GL_BLEND);
-    //glDisable(GL_TEXTURE_2D);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-#endif
-
     currentShaderColor = color;
 
     Tesselator& t = Tesselator::instance;
@@ -103,11 +97,6 @@ void ScreenRenderer::fill(float left, float top, float right, float bottom, cons
     t.vertex(left,  top,    0.0f);
 
     t.draw(m_materials.ui_fill_color);
-
-#ifndef FEATURE_GFX_SHADERS
-    //glEnable(GL_TEXTURE_2D);
-    //glDisable(GL_BLEND);
-#endif
 }
 
 void ScreenRenderer::fill(int left, int top, int right, int bottom, const Color& color)
@@ -118,10 +107,6 @@ void ScreenRenderer::fill(int left, int top, int right, int bottom, const Color&
 void ScreenRenderer::fillGradient(float left, float top, float right, float bottom, const Color& colorUp, const Color& colorDown)
 {
 #ifndef FEATURE_GFX_SHADERS
-    //glDisable(GL_TEXTURE_2D);
-    //glEnable(GL_BLEND);
-    //glDisable(GL_ALPHA_TEST);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
     glShadeModel(GL_SMOOTH);
 #endif
 
@@ -139,9 +124,6 @@ void ScreenRenderer::fillGradient(float left, float top, float right, float bott
 
 #ifndef FEATURE_GFX_SHADERS
     glShadeModel(GL_FLAT);
-    //glDisable(GL_BLEND);
-    //glEnable(GL_ALPHA_TEST);
-    //glEnable(GL_TEXTURE_2D);
 #endif
 }
 

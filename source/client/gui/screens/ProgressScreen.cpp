@@ -42,9 +42,6 @@ void ProgressScreen::render(int a, int b, float c)
 		float lX = float(x_width) / 2 - 50, rX = float(x_width) / 2 + 50;
 		float prog = float(m_pMinecraft->m_progressPercent);
 
-		// disable the texturing
-		//glDisable(GL_TEXTURE_2D);
-
 		t.begin(8);
 
 		t.color(0x808080); // gray background
@@ -60,11 +57,6 @@ void ProgressScreen::render(int a, int b, float c)
 		t.vertex(lX + prog, float(yPos + 16), 0);
 
 		t.draw(m_materials.ui_fill_color);
-
-#ifndef FEATURE_GFX_SHADERS
-		// restore old state
-		//glEnable(GL_TEXTURE_2D);
-#endif
 	}
 
 	//! Using m_pMinecraft->m_pFont instead of m_pFont.

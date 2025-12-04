@@ -108,7 +108,6 @@ Level* EntityRenderer::getLevel() const
 
 void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 {
-	//glDisable(GL_TEXTURE_2D);
 	Tesselator& t = Tesselator::instance;
 	currentShaderColor = Color::WHITE;
 	t.begin(24);
@@ -152,7 +151,6 @@ void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 	
 	t.setOffset(Vec3::ZERO);
 	t.draw(m_shaderMaterials.entity); // t.end() on Java
-	//glEnable(GL_TEXTURE_2D);
 }
 
 void EntityRenderer::renderFlat(const AABB& aabb)

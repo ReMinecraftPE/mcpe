@@ -88,6 +88,5 @@ void ArrowRenderer::render(const Entity& entity, const Vec3& pos, float rot, flo
 
     //_setupShaderParameters(ent, Color::NIL, a);
 
-    //glDisable(GL_CULL_FACE); // @HAL: remove
     m_mesh.render(m_materials.entity_alphatest);
 }

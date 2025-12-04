@@ -180,7 +180,7 @@ void EntityRenderDispatcher::render(const Entity& entity, float a)
 
 	float bright = entity.getBrightness(1.0f);
 	currentShaderColor = Color::WHITE;
-	currentShaderDarkColor = Color(bright, bright, bright); //glColor4f(bright, bright, bright, 1.0f);
+	currentShaderDarkColor = Color(bright, bright, bright);
 
 	render(entity, pos - off, yaw, a);
 }

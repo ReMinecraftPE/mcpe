@@ -64,19 +64,9 @@ void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float r
 
 	if (&entity == pHREntity)
 	{
-#ifndef FEATURE_GFX_SHADERS
-		//glDisable(GL_TEXTURE_2D);
-#endif
-		//glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 		// @TODO FIX: With ENH_ENTITY_SHADING on, the cube is fully opaque.
 		currentShaderColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
 		m_modelPart.render(0.0625f, &m_shaderMaterials.entity_color_overlay);
-		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		//glDisable(GL_BLEND);
-#ifndef FEATURE_GFX_SHADERS
-		//glEnable(GL_TEXTURE_2D);
-#endif
 	}
 }
 

@@ -108,13 +108,6 @@ void Gui::setNowPlaying(const std::string& str)
 
 void Gui::renderPumpkin(int var1, int var2)
 {
-	// @HAL: remove
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-#ifndef FEATURE_GFX_SHADERS
-	// @HAL: must be in shader
-	//glDisable(GL_ALPHA_TEST);
-#endif
-
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 
@@ -141,9 +134,6 @@ void Gui::renderVignette(float brightness, int width, int height)
 		brightness = 0.0f;
 
 	field_A20 += ((brightness - field_A20) * 0.01f);
-
-	// @HAL: remove
-	//glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
 
 	//! @BUG: No misc/vignette.png to be found in the original.
 	//! This function is unused anyways
@@ -416,13 +406,10 @@ void Gui::renderMessages(bool bShowAll)
 		}
 
 		fill(2, topEdge, 322, topEdge + 9, bkgdColor);
-		//glEnable(GL_BLEND);
 		m_pMinecraft->m_pFont->drawShadow(msg.msg, 2, topEdge + 1, textColor);
 
 		topEdge -= 9;
 	}
-
-	//glDisable(GL_BLEND);
 }
 
 void Gui::renderHearts()
@@ -555,20 +542,14 @@ void Gui::renderProgressIndicator(int width, int height)
 
 				textures.loadAndBindTexture("gui/feedback_outer.png");
 				currentShaderColor = Color::WHITE;
-				//glEnable(GL_BLEND);
-				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay);
 
-				//glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
 				textures.loadAndBindTexture("gui/feedback_fill.png");
 
 				// note: scale starts from 4.0f
 				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
 
 				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256, &m_guiMaterials.ui_invert_overlay);
-
-				//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				//glDisable(GL_BLEND);
 			}
 		}
 		else
@@ -578,11 +559,7 @@ void Gui::renderProgressIndicator(int width, int height)
 
 			textures.loadAndBindTexture("gui/feedback_outer.png");
 			currentShaderColor = Color(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, input.m_feedbackAlpha));
-			//glEnable(GL_BLEND);
-			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay);
-			//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			//glDisable(GL_BLEND);
 		}
 	}
 }

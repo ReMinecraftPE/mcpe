@@ -362,8 +362,6 @@ void GameRenderer::setupGuiScreen()
 {
 	float x = Gui::InvGuiScale * Minecraft::width;
 	float y = Gui::InvGuiScale * Minecraft::height;
-	
-	//glClear(GL_DEPTH_BUFFER_BIT);
 
 	Matrix& projMtx = MatrixStack::Projection.getTop();
 	projMtx.setOrtho(0, x, y, 0, 2000.0f, 3000.0f);
@@ -418,7 +416,6 @@ void GameRenderer::renderNoCamera()
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	renderContext.clearFrameBuffer(Color::WHITE);
 	renderContext.clearDepthStencilBuffer();
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 #endif
 
@@ -525,20 +522,12 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 
 	if (m_zoom == 1.0f && camera.isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !camera.isUnderLiquid(Material::water))
 	{
-#ifndef FEATURE_GFX_SHADERS
-		//glDisable(GL_ALPHA_TEST);
-#endif
-
 		levelRenderer.renderCracks(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
 
 		if (m_pMinecraft->getOptions()->m_bBlockOutlines)
 			levelRenderer.renderHitOutline(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
 		else
 			levelRenderer.renderHitSelect(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
-
-#ifndef FEATURE_GFX_SHADERS
-		//glEnable(GL_ALPHA_TEST);
-#endif
 	}
 
 	if (false) // TODO: Figure out how to enable weather
@@ -652,7 +641,6 @@ void GameRenderer::render(float f)
 	}
 	else
 	{
-		//glViewport(0, 0, Minecraft::width, Minecraft::height);
 		_clearFrameBuffer();
 
 		MatrixStack::Projection.getTop() = Matrix::IDENTITY;
@@ -668,7 +656,6 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->m_pScreen)
 	{
-		//glClear(GL_DEPTH_BUFFER_BIT);
 		mce::RenderContextImmediate::get().clearDepthStencilBuffer();
 		m_pMinecraft->m_pScreen->onRender(mouseX, mouseY, f);
 
@@ -825,7 +812,6 @@ void GameRenderer::renderWeather(float f)
 		}
 	}
 
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_CULL_FACE);
 	glDisable(GL_BLEND);
 }
