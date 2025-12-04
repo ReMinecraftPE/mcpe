@@ -54,6 +54,13 @@ for var in ar lipo ranlib; do
     fi
 done
 
+for dep in "${CLANG:-clang}" make cmake; do
+    if ! command -v "$dep" >/dev/null; then
+        printf '%s not found!\n' "$dep"
+        exit 1
+    fi
+done
+
 export REMCPE_IOS_BUILD=1
 
 mkdir bin
