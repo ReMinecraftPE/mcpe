@@ -36,7 +36,7 @@ cd ios-work
 mkdir bin
 export PATH="$PWD/bin:$PATH"
 
-[ -n "$CLANG" ] && ln -s "$(command -v "$CLANG")" bin/clang
+[ -n "$CLANG" ] && ln -s "$(command -v "$CLANG")" bin/clang && ln -s clang bin/clang++
 
 printf 'Building ld64...\n'
 
