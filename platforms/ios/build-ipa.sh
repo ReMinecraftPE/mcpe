@@ -10,6 +10,7 @@ execname='minecraftpe'
 
 platformdir='platforms/ios'
 assetdir='game/assets'
+apppath="$platformdir/build/ipa/Payload/ReMCPE.app"
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot/../.."
@@ -26,7 +27,6 @@ if ! command -v plistutil >/dev/null; then
 fi
 
 rm -rf "$assetdir/build/ipa"
-apppath="$platformdir/build/ipa/Payload/ReMCPE.app"
 mkdir -p "$apppath"
 cp "build/$bin" "$apppath/$execname"
 sed -E -e "s|\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
