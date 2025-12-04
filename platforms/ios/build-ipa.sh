@@ -3,12 +3,14 @@
 set -e
 
 ipaname='ReMCPE.ipa'
+# must be kept in sync with the cmake executable name
+bin='reminecraftpe'
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot/../.."
 
-if ! [ -f build/reminecraftpe ]; then
-    printf 'Expected working binary at build/reminecraftpe.\n'
+if ! [ -f "build/$bin" ]; then
+    printf 'Expected working binary at build/%s.\n' "$bin"
     printf 'Please do a cmake build before running this script.\n'
     exit 1
 fi
@@ -23,7 +25,7 @@ done
 rm -rf platforms/ios/ios-ipa
 apppath='platforms/ios/build/ios-ipa/Payload/ReMCPE.app'
 mkdir -p "$apppath"
-cp build/reminecraftpe "$apppath/minecraftpe"
+cp "build/$bin" "$apppath/minecraftpe"
 ldid -Splatforms/ios/minecraftpe.entitlements "$apppath/minecraftpe"
 sed -E -e 's|\$\{EXECUTABLE_NAME\}|minecraftpe|' -e 's|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|minecraftpe|g' platforms/ios/minecraftpe-Info.plist |
     plistutil -o "$apppath/Info.plist" -f bin
