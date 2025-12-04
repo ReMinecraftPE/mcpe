@@ -50,7 +50,7 @@ cctools_commit=35dcdf0285e0a07a32799be3dc08980b6f05313c
 download "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
 cd "cctools-port-$cctools_commit/cctools"
-./configure
+./configure --enable-silent-rules
 make -C ld64 -j"$(nproc)"
 cp ld64/src/ld/ld ../../bin/armv6-apple-ios3-ld
 make -C libmacho -j"$(nproc)"
