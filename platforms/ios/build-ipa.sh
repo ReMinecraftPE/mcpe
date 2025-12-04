@@ -15,18 +15,15 @@ if ! [ -f "build/$bin" ]; then
     exit 1
 fi
 
-for dep in ldid plistutil; do
-    if ! command -v "$dep" >/dev/null; then
-        printf '%s not found!\n' "$dep"
-        exit 1
-    fi
-done
+if ! command -v plistutil >/dev/null; then
+    printf 'plistutil not found!\n'
+    exit 1
+fi
 
 rm -rf platforms/ios/ipa
 apppath='platforms/ios/build/ipa/Payload/ReMCPE.app'
 mkdir -p "$apppath"
 cp "build/$bin" "$apppath/minecraftpe"
-ldid -Splatforms/ios/minecraftpe.entitlements "$apppath/minecraftpe"
 sed -E -e 's|\$\{EXECUTABLE_NAME\}|minecraftpe|' -e 's|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|minecraftpe|g' platforms/ios/minecraftpe-Info.plist |
     plistutil -o "$apppath/Info.plist" -f bin
 if [ -f game/assets/font/default.png ]; then

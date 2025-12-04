@@ -112,12 +112,13 @@ for target in $targets; do
         -DCMAKE_CXX_COMPILER="$target-c++" \
         -DCMAKE_FIND_ROOT_PATH="$sdk/usr"
     make -j"$(nproc)"
-    "$strip" "$bin"
     mv "$bin" "$workdir/$bin-$target"
 
     cd ..
 done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
+"$strip" "build/$bin"
+ldid -Splatform/ios/minecraftpe.entitlements "build/$bin"
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
