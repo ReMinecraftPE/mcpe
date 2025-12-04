@@ -26,25 +26,27 @@ mkdir -p "$apppath"
 cp "build/$bin" "$apppath/minecraftpe"
 sed -E -e 's|\$\{EXECUTABLE_NAME\}|minecraftpe|' -e 's|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|minecraftpe|g' platforms/ios/minecraftpe-Info.plist |
     plistutil -o "$apppath/Info.plist" -f bin
-if [ -f game/assets/font/default.png ]; then
-    cp game/assets/font/default.png "$apppath/default8.png"
-elif [ -f game/assets/font/default8.png ]; then
-    cp game/assets/font/default8.png "$apppath/default8.png"
+cd game/assets
+apppath="../../$apppath"
+if [ -f font/default.png ]; then
+    cp font/default.png "$apppath/default8.png"
+elif [ -f font/default8.png ]; then
+    cp font/default8.png "$apppath/default8.png"
 fi
-cp game/assets/icon.png "$apppath/Icon.png" || true
+cp icon.png "$apppath/Icon.png" || true
 cp -a \
-    platforms/ios/precompiled/* \
-    game/assets/gui/*.png \
-    game/assets/mob/* \
-    game/assets/item/* \
-    game/assets/sound/* \
-    game/assets/sounds/random/* \
-    game/assets/app/launch/* \
-    game/assets/patches/* \
-    game/assets/terrain.png \
-    game/assets/particles.png \
+    ../../platforms/ios/precompiled/* \
+    gui/*.png \
+    mob/* \
+    item/* \
+    sound/* \
+    sounds/random/* \
+    app/launch/* \
+    patches/* \
+    terrain.png \
+    particles.png \
     "$apppath" || true
-cd platforms/ios/build/ipa
+cd ../../platforms/ios/build/ipa
 rm -f "../$ipaname"
 zip -r "../$ipaname" Payload
 
