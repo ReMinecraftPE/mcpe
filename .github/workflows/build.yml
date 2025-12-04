@@ -107,6 +107,8 @@ jobs:
             run: ./ios-build.sh
             env:
               CLANG: clang-21
+              AR: llvm-ar-21
+              LIPO: llvm-lipo-21
     android:
         strategy:
             fail-fast: false

@@ -12,7 +12,7 @@ nproc() {
     fi
 }
 
-if [ "$(uname -s)" != "Darwin" ]; then
+if [ "$(uname -s)" != "Darwin" ] && [ -z "$AR" ] && [ -z "$LIPO" ] && [ -z "$CLANG" ]; then
     for dep in llvm-ar llvm-lipo clang; do
         if ! command -v "$dep" >/dev/null; then
             printf '%s not found!\n' "$dep"
@@ -23,8 +23,8 @@ if [ "$(uname -s)" != "Darwin" ]; then
     lipo='llvm-lipo'
     strip='cctools-strip'
 else
-    ar='ar'
-    lipo='lipo'
+    ar="${AR:-ar}"
+    lipo="${LIPO:-lipo}"
     strip='strip'
 fi
 
