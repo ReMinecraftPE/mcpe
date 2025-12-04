@@ -4,6 +4,18 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
+download() {
+    tries=3
+    while true; do
+        curl -# -L "$1" && break
+        tries=$((tries - 1))
+        if [ $tries -lt 1 ]; then
+            printf 'Failed to download after 3 tries!\n'
+            exit 1
+        fi
+    done
+}
+
 if [ "$(uname -s)" != "Darwin" ]; then
     for dep in llvm-ar llvm-lipo clang; do
         if ! command -v "$dep" >/dev/null; then
@@ -11,13 +23,13 @@ if [ "$(uname -s)" != "Darwin" ]; then
             exit 1
         fi
     done
-    ar=llvm-ar
-    lipo=llvm-lipo
-    strip=cctools-strip
+    ar='llvm-ar'
+    lipo='llvm-lipo'
+    strip='cctools-strip'
 else
-    ar=ar
-    lipo=lipo
-    strip=strip
+    ar='ar'
+    lipo='lipo'
+    strip='strip'
 fi
 
 export REMCPE_IOS_BUILD=1
@@ -30,8 +42,12 @@ export PATH="$PWD/bin:$PATH"
 
 [ -n "$CLANG" ] && ln -s "$(command -v "$CLANG")" bin/clang
 
+printf 'Building ld64...\n'
+
+# this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
+
 cctools_commit=35dcdf0285e0a07a32799be3dc08980b6f05313c
-wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+download "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
 cd "cctools-port-$cctools_commit/cctools"
 ./configure
@@ -47,12 +63,14 @@ for cc in armv6-apple-ios3-cc armv6-apple-ios3-c++ arm64-apple-ios7-cc arm64-app
     ln -s ../../ios-cc.sh "bin/$cc"
 done
 
-wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
+printf 'Downloading iOS SDKs...\n'
+
+download https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma > iPhoneOS8.0.sdk.tar.lzma
 tar xf iPhoneOS8.0.sdk.tar.lzma
 mv iPhoneOS8.0.sdk arm64-apple-ios7-sdk
 rm iPhoneOS8.0.sdk.tar.lzma
 
-wget https://invoxiplaygames.uk/sdks/iPhoneOS5.0.sdk.tar.lzma
+download https://invoxiplaygames.uk/sdks/iPhoneOS5.0.sdk.tar.lzma > iPhoneOS5.0.sdk.tar.lzma
 tar xf iPhoneOS5.0.sdk.tar.lzma
 mv iPhoneOS5.0.sdk armv6-apple-ios3-sdk
 rm iPhoneOS5.0.sdk.tar.lzma
