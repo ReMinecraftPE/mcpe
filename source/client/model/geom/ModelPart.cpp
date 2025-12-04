@@ -113,19 +113,6 @@ void ModelPart::mimic(const ModelPart& other)
 	m_rot = other.m_rot;
 }
 
-void ModelPart::translatePosTo(float scale)
-{
-	glTranslatef(m_pos.x * scale, m_pos.y * scale, m_pos.z * scale);
-}
-
-void ModelPart::translateRotTo(float scale)
-{
-	translatePosTo(scale);
-	if (m_rot.z != 0) glRotatef(m_rot.z * MUL_DEG_TO_RAD, 0, 0, 1);
-	if (m_rot.y != 0) glRotatef(m_rot.y * MUL_DEG_TO_RAD, 0, 1, 0);
-	if (m_rot.x != 0) glRotatef(m_rot.x * MUL_DEG_TO_RAD, 1, 0, 0);
-}
-
 void ModelPart::translatePosTo(Matrix& matrix, float scale)
 {
 	matrix.translate(m_pos * scale);
@@ -152,32 +139,17 @@ void ModelPart::render(float scale, const mce::MaterialPtr* materialOverride)
 
 	if (!hasDefaultRot())
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref mtx = MatrixStack::World.push();
 
 		translateRotTo(mtx, scale);
 		draw(scale, materialOverride);
-#else
-		glPushMatrix();
-
-		translateRotTo(scale);
-		draw(scale);
-
-		glPopMatrix();
-#endif
 	}
 	else if (!hasDefaultPos())
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref mtx = MatrixStack::World.push();
 
 		translatePosTo(mtx, scale);
 		draw(scale, materialOverride);
-#else
-		translatePosTo(scale);
-		draw(scale);
-		translatePosTo(-scale);
-#endif
 	}
 	else
 	{
@@ -212,20 +184,6 @@ void ModelPart::texOffs(int xTexOffs, int yTexOffs)
 {
 	m_texOffs.x = xTexOffs;
 	m_texOffs.y = yTexOffs;
-}
-
-void ModelPart::translateTo(float scale)
-{
-	if (field_49)
-		return;
-
-	if (!field_48)
-		return;
-
-	if (!hasDefaultRot())
-		translateRotTo(scale);
-	else if (!hasDefaultPos())
-		translatePosTo(scale);
 }
 
 void ModelPart::translateTo(Matrix& matrix, float scale)

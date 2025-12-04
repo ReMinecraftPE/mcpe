@@ -225,15 +225,9 @@ void LevelRenderer::_renderSunrise(float alpha)
 		//glShadeModel(GL_SMOOTH); // I'd rather fuck up the sunrise gradient than AO, but it doesn't even look like it does that
 #endif
 
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 		matrix->rotate(90.0f, Vec3::UNIT_X);
 		matrix->rotate(m_pLevel->getTimeOfDay(alpha) > 0.5f ? 180 : 0, Vec3::UNIT_Z);
-#else
-		glPushMatrix();
-		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(m_pLevel->getTimeOfDay(alpha) > 0.5f ? 180 : 0, 0.0f, 0.0f, 1.0f);
-#endif
 
 		int steps = 16;
 
@@ -253,27 +247,16 @@ void LevelRenderer::_renderSunrise(float alpha)
 		}
 
 		t.draw(m_materials.sunrise);
-#ifndef ENH_GFX_MATRIX_STACK
-		glPopMatrix();
-#endif
 		//glShadeModel(GL_FLAT); // fuck it, don't bother, doing this SOMEHOW breaks AO
 	}
 }
 
 void LevelRenderer::_renderSolarSystem(float alpha)
 {
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref planetMtx = MatrixStack::World.push();
-#else
-	glPushMatrix();
-#endif
 
 	_renderSunAndMoon(alpha);
 	_renderStars(alpha);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
 }
 
 void LevelRenderer::_renderSunAndMoon(float alpha)
@@ -285,24 +268,16 @@ void LevelRenderer::_renderSunAndMoon(float alpha)
 #endif
 	//glBlendFunc(GL_ONE, GL_ONE);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	Matrix& matrix = MatrixStack::World.getTop();
-#endif
 
 	Vec3 p = Vec3::ZERO;
 
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	matrix.translate(p);
 	matrix.rotate(0.0f, Vec3::UNIT_Z);
 	matrix.rotate(m_pLevel->getTimeOfDay(alpha) * 360.0f, Vec3::UNIT_X);
-#else
-	glTranslatef(p.x, p.y, p.z);
-	glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
-	glRotatef(m_pLevel->getTimeOfDay(alpha) * 360.0f, 1.0f, 0.0f, 0.0f);
-#endif
 
 	if (arePlanetsAvailable())
 	{
@@ -1164,11 +1139,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			currentShaderColor = Color::WHITE;
 			currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, 0.5f);
 
-#ifdef ENH_GFX_MATRIX_STACK
 			MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-			glPushMatrix();
-#endif
 
 			Tile* pTile = nullptr;
 			TileID tile = m_pLevel->getTile(hr.m_tilePos);
@@ -1203,9 +1174,6 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			//glDisable(GL_POLYGON_OFFSET_FILL);
 
 			//glDepthMask(true); //@HUH: What is the reason for this? You never disable the depth mask.
-#ifndef ENH_GFX_MATRIX_STACK
-			glPopMatrix();
-#endif
 		}
 	}
     else if (inventoryItem != nullptr)
@@ -1248,12 +1216,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 #endif
 	currentShaderColor = Color(0.65f, 0.65f, 0.65f, 0.65f);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-	glPushMatrix();
-#endif
-
 	//glPolygonOffset(-0.3f, -0.3f);
 	//glEnable(GL_POLYGON_OFFSET_FILL);
 
@@ -1283,9 +1246,6 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	//glEnable(GL_TEXTURE_2D);
 #endif
 	//glDepthMask(true);
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
 #ifndef FEATURE_GFX_SHADERS
 	//glEnable(GL_ALPHA_TEST);
 #endif
@@ -1691,20 +1651,10 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 	float renderDistance = gameRenderer.m_renderDistance;
 	float fov = gameRenderer.getFov(f);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
 	projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.push();
-#else
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-#endif
 	_setupFog(camera, 0);
 
 	//glDepthMask(false);
@@ -1727,14 +1677,6 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 	//glDepthMask(true);
 
 	_setupFog(camera, 1);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-#endif
 }
 
 void LevelRenderer::renderClouds(const Entity& camera, float alpha)
@@ -1886,12 +1828,8 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	constexpr int radius = 3;
 	constexpr float e = 1.0f / 1024.0f;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	Matrix& matrix = MatrixStack::View.getTop();
 	matrix.scale(Vec3(ss, 1.0f, ss));
-#else
-	glScalef(ss, 1.0f, ss);
-#endif
 
 	for (int pass = 0; pass < 2; pass++)
 	{

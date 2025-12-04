@@ -28,13 +28,8 @@ void FallingTileRenderer::render(const Entity& entity, const Vec3& pos, float ro
 {
 	const FallingTile& tile = (const FallingTile&)entity;
 	
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 	matrix->translate(pos);
-#else
-	glPushMatrix();
-	glTranslatef(pos.x, pos.y, pos.z);
-#endif
 
 	bindTexture(C_TERRAIN_NAME);
 
@@ -49,10 +44,6 @@ void FallingTileRenderer::render(const Entity& entity, const Vec3& pos, float ro
 #endif
 	
 	m_pDispatcher->m_tileRenderer->renderTile(FullTile(tile.m_id, 0), m_heavyMaterials.heavy_tile ARGPATCH);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
 
 #ifdef ARGPATCH
 #undef ARGPATCH

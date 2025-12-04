@@ -43,7 +43,7 @@ void WorldConstants::refreshWorldConstants()
 
     // Sync the updated constant buffer data to the GPU.
     sync();
-#elif defined(ENH_GFX_MATRIX_STACK)
+#else
 
     RenderContext& renderContext = RenderContextImmediate::get();
 

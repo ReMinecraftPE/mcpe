@@ -35,11 +35,7 @@ Color CreeperRenderer::getOverlayColor(const Entity& entity, float a)
 	return Color(255, 255, 255, _a);
 }
 
-#ifdef ENH_GFX_MATRIX_STACK
 void CreeperRenderer::scale(const Mob& mob, Matrix& matrix, float a)
-#else
-void CreeperRenderer::scale(const Mob& mob, float a)
-#endif
 {
 	const Creeper& creeper = (const Creeper&)mob;
 
@@ -62,9 +58,5 @@ void CreeperRenderer::scale(const Mob& mob, float a)
 	float s = (1.0f + g * 0.4f) * wobble;
 	float hs = (1.0f + g * 0.1f) / wobble;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	matrix.scale(Vec3(s, hs, s));
-#else
-	glScalef(s, hs, s);
-#endif
 }

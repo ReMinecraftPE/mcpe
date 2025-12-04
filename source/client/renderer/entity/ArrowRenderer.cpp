@@ -70,45 +70,24 @@ void ArrowRenderer::render(const Entity& entity, const Vec3& pos, float rot, flo
 
     bindTexture("item/arrows.png");
 
-#ifdef ENH_GFX_MATRIX_STACK
     MatrixStack::Ref matrix = MatrixStack::World.push();
     matrix->translate(pos);
     matrix->rotate(arrow.m_oRot.y + (arrow.m_rot.y - arrow.m_oRot.y) * a - 90.0f, Vec3::UNIT_Y);
     matrix->rotate(arrow.m_oRot.x + (arrow.m_rot.x - arrow.m_oRot.x) * a,         Vec3::UNIT_Z);
-#else
-    glPushMatrix();
-    glTranslatef(pos.x, pos.y, pos.z);
-    glRotatef(arrow.m_oRot.y + (arrow.m_rot.y - arrow.m_oRot.y) * a - 90.0f, 0.0f, 1.0f, 0.0f);
-    glRotatef(arrow.m_oRot.x + (arrow.m_rot.x - arrow.m_oRot.x) * a, 0.0f, 0.0f, 1.0f);
-#endif
 
     float shake = arrow.m_shakeTime - a;
     if (shake > 0.0f)
     {
         float pow = -Mth::sin(shake * 3.0f) * shake;
-#ifdef ENH_GFX_MATRIX_STACK
         matrix->rotate(pow, Vec3::UNIT_Z);
-#else
-        glRotatef(pow, 0.0f, 0.0f, 1.0f);
-#endif
     }
 
-#ifdef ENH_GFX_MATRIX_STACK
     matrix->rotate(45.0f, Vec3::UNIT_X);
     matrix->scale(ARROW_SCALE);
     matrix->translate(Vec3(-4.0f, 0.0f, 0.0f));
-#else
-    glRotatef(45.0f, 1.0f, 0.0f, 0.0f);
-    glScalef(ARROW_SCALE, ARROW_SCALE, ARROW_SCALE);
-    glTranslatef(-4.0f, 0.0f, 0.0f);
-#endif
 
     //_setupShaderParameters(ent, Color::NIL, a);
 
     //glDisable(GL_CULL_FACE); // @HAL: remove
     m_mesh.render(m_materials.entity_alphatest);
-
-#ifndef ENH_GFX_MATRIX_STACK
-    glPopMatrix();
-#endif
 }

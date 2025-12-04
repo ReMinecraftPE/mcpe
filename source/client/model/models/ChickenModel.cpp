@@ -51,43 +51,24 @@ void ChickenModel::render(float a, float b, float c, float d, float e, float f)
 	if (m_bIsBaby)
 	{
 		{
-#ifdef ENH_GFX_MATRIX_STACK
 			MatrixStack::Ref matrix = MatrixStack::World.push();
 			matrix->translate(Vec3(0.0f, f * 5.0f, f * 2.0f));
-#else
-			glPushMatrix();
-			glTranslatef(0.0f, f * 5.0f, f * 2.0f);
-#endif
 
 			m_head.render(f);
 			m_beak.render(f);
 			m_wattle.render(f);
-
-#ifndef ENH_GFX_MATRIX_STACK
-			glPopMatrix();
-#endif
 		}
 
 		{
-#ifdef ENH_GFX_MATRIX_STACK
 			MatrixStack::Ref matrix = MatrixStack::World.push();
 			matrix->scale(0.5f);
 			matrix->translate(Vec3(0.0f, f * 24.0f, 0.0f));
-#else
-			glPushMatrix();
-			glScalef(0.5f, 0.5f, 0.5f);
-			glTranslatef(0.0f, f * 24.0f, 0.0f);
-#endif
 
 			m_body.render(f);
 			m_leg1.render(f);
 			m_leg2.render(f);
 			m_wing1.render(f);
 			m_wing2.render(f);
-
-#ifndef ENH_GFX_MATRIX_STACK
-			glPopMatrix();
-#endif
 		}
 	}
 	else

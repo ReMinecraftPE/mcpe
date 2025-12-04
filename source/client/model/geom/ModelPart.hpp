@@ -41,15 +41,12 @@ public:
 	void setPos(float x, float y, float z);
 	void setTexSize(int, int);
 	void texOffs(int a, int b);
-	void translateTo(float scale);
 	void translateTo(Matrix& matrix, float scale);
 	void setBrightness(float brightness);
 
 private:
 	bool hasDefaultPos() { return m_pos == Vec3::ZERO; }
 	bool hasDefaultRot() { return m_rot == Vec3::ZERO; }
-	void translatePosTo(float scale);
-	void translateRotTo(float scale);
 	void translatePosTo(Matrix& matrix, float scale);
 	void translateRotTo(Matrix& matrix, float scale);
 

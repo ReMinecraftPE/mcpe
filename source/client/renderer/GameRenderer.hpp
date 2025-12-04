@@ -34,15 +34,9 @@ private:
 public:
 	void saveMatrices();
 	void setupCamera(float f, int i);
-#ifdef ENH_GFX_MATRIX_STACK
 	void bobHurt(Matrix& matrix, float f);
 	void bobView(Matrix& matrix, float f);
 	void moveCameraToPlayer(Matrix& matrix, float f);
-#else
-	void bobHurt(float f);
-	void bobView(float f);
-	void moveCameraToPlayer(float f);
-#endif
 
 #ifndef ORIGINAL_CODE
 	void renderNoCamera();

@@ -17,9 +17,5 @@ public:
 	~CreeperRenderer();
 
 	Color getOverlayColor(const Entity& entity, float a) override;
-#ifdef ENH_GFX_MATRIX_STACK
 	void scale(const Mob& mob, Matrix& matrix, float a) override;
-#else
-	void scale(const Mob& mob, float a) override;
-#endif
 };

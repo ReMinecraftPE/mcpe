@@ -132,7 +132,6 @@ void Screen::renderMenuBackground(float f)
 	mce::MaterialPtr& materialPtr = m_screenMaterials.ui_background;
 
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
 		projMtx->setPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
 
@@ -192,80 +191,6 @@ void Screen::renderMenuBackground(float f)
 			t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
 			t.draw(materialPtr);
 		}
-
-#else
-
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadIdentity();
-		gluPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
-
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
-		currentShaderColor = Color::WHITE; //glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(-0.1f * (f + g_panoramaAngle), 0.0f, 1.0f, 0.0f);
-
-		for (int i = 0; i < 6; i++)
-		{
-			glPushMatrix();
-
-			float ang = 0.0f;
-			Vec2 vec;
-			switch (i)
-			{
-			case 1:
-				ang = 90.0f;
-				vec = Vec2::UNIT_Y;
-				break;
-			case 2:
-				ang = 180.0f;
-				vec = Vec2::UNIT_Y;
-				break;
-			case 3:
-				ang = -90.0f;
-				vec = Vec2::UNIT_Y;
-				break;
-			case 4:
-				ang = 90.0f;
-				vec = Vec2::UNIT_X;
-				break;
-			case 5:
-				ang = -90.0f;
-				vec = Vec2::UNIT_X;
-				break;
-			default:
-				goto skip_rotate;
-			}
-
-			glRotatef(ang, vec.x, vec.y, 0.0f);
-
-		skip_rotate:
-			m_pMinecraft->m_pTextures->setSmoothing(true);
-			m_pMinecraft->m_pTextures->setClampToEdge(true);
-			m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
-			m_pMinecraft->m_pTextures->setSmoothing(false);
-			m_pMinecraft->m_pTextures->setClampToEdge(false);
-
-			Tesselator& t = Tesselator::instance;
-			t.begin(4);
-			t.vertexUV(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
-			t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
-			t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
-			t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
-			t.draw(materialPtr);
-
-			glPopMatrix();
-		}
-
-		glMatrixMode(GL_PROJECTION);
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
-		glPopMatrix();
-
-#endif
 
 		//glEnable(GL_CULL_FACE);
 	}
@@ -392,21 +317,11 @@ void Screen::onRender(int mouseX, int mouseY, float f)
 	if (m_yOffset != 0)
 	{
 		// push the entire screen up
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix = MatrixStack::World.push();
 		matrix->translate(Vec3(0.0f, -m_yOffset, 0.0f));
-#else
-		glPushMatrix();
-		glTranslatef(0.0f, -float(m_yOffset), 0.0f);
-#endif
 	}
 
 	render(mouseX, mouseY, f);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	if (m_yOffset != 0)
-		glPopMatrix();
-#endif
 }
 
 int Screen::getYOffset()

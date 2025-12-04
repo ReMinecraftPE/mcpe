@@ -566,27 +566,14 @@ void StartMenuScreen::draw3dTitle(float f)
 	if (m_width * 3 / 4 < 256) // cramped mode
 		titleHeight = int(80 / Gui::InvGuiScale);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
 	projMtx->setPerspective(70.0f, float(Minecraft::width) / titleHeight, 0.05f, 100.0f);
-#else
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(70.0f, float(Minecraft::width) / titleHeight, 0.05f, 100.0f);
-#endif
 
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
 	renderContext.setViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight, 0.0f, 0.7f);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
-#else
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-#endif
 
 	//glDisable(GL_CULL_FACE);
 	//glDepthMask(true);
@@ -595,23 +582,14 @@ void StartMenuScreen::draw3dTitle(float f)
 
 	for (int i = 0; i < 2; i++)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 		matrix->translate(Vec3(0.4f, 0.6f, -12.0f));
-#else
-		glPushMatrix();
-		glTranslatef(0.4f, 0.6f, -12.0f);
-#endif
 		switch (i)
 		{
 			case 0: // shadow
 				//glClear(GL_DEPTH_BUFFER_BIT);
 				renderContext.clearDepthStencilBuffer();
-#ifdef ENH_GFX_MATRIX_STACK
 				matrix->translate(Vec3(0.0f, -0.5f, -0.5f));
-#else
-				glTranslatef(0.0f, -0.5f, -0.5f);
-#endif
 				//glEnable(GL_BLEND);
 				//force set alpha
 				//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
@@ -631,19 +609,11 @@ void StartMenuScreen::draw3dTitle(float f)
 				break;
 		}
 
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix->scale(Vec3(1.0f, -1.0f, 1.0f));
 		matrix->rotate(8.0f, Vec3::UNIT_X);
 		//matrix->rotate(15.0f, Vec3::UNIT_X);
 		matrix->scale(Vec3(0.89f, 1.0f, 0.4f));
 		matrix->translate(Vec3(-Width * 0.5f, -Height * 0.5f, 0.0f));
-#else
-		glScalef(1.0f, -1.0f, 1.0f);
-		glRotatef(8.0f, 1.0f, 0.0f, 0.0f);
-		//glRotatef(15.0f, 1.0f, 0.0f, 0.0f);
-		glScalef(0.89f, 1.0f, 0.4f);
-		glTranslatef(-Width * 0.5f, -Height * 0.5f, 0.0f);
-#endif
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 		if (i == 0)
@@ -667,11 +637,7 @@ void StartMenuScreen::draw3dTitle(float f)
 
 				Tile* pTile = TitleTile::getTileFromChar(gLogoLines[y][x]);
 
-#ifdef ENH_GFX_MATRIX_STACK
 				MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-				glPushMatrix();
-#endif
 
 				TitleTile* pTTile = m_pTiles[y * Width + x];
 				float z = Mth::Lerp(pTTile->lastHeight, pTTile->height, f);
@@ -686,7 +652,6 @@ void StartMenuScreen::draw3dTitle(float f)
 					z = 0.0f;
 				}
 
-#ifdef ENH_GFX_MATRIX_STACK
 				matrix->translate(Vec3(x, y, z));
 				matrix->scale(scale);
 				matrix->scale(Vec3(-1.0f, 1.0f, 1.0f));
@@ -694,37 +659,13 @@ void StartMenuScreen::draw3dTitle(float f)
 
 				// rotate 90 deg on the X axis to correct lighting
 				matrix->rotate(90.0f, Vec3::UNIT_X);
-#else
-				glTranslatef(float(x), float(y), z);
-				glScalef(scale, scale, scale);
-				glScalef(-1.0f, 1.0f, 1.0f);
-				glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-
-				// rotate 90 deg on the X axis to correct lighting
-				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-#endif
 
 				m_tileRenderer.renderTile(FullTile(pTile, i == 0 ? 255 : 0), *pMaterial, bright, true);
-
-#ifndef ENH_GFX_MATRIX_STACK
-				glPopMatrix();
-#endif
 			}
 		}
-
-#ifndef ENH_GFX_MATRIX_STACK
-		glPopMatrix();
-#endif
 	}
 
 	//glDisable(GL_BLEND);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-#endif
 
 	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 	//glEnable(GL_CULL_FACE);
@@ -783,38 +724,21 @@ void StartMenuScreen::tick()
 
 void StartMenuScreen::drawSplash()
 {
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref mtx = MatrixStack::World.push();
-#else
-	glPushMatrix();
-#endif
 
 	std::string splashText = getSplashString();
 	int textWidth = m_pFont->width(splashText);
 	//int textHeight = m_pFont->height(splashText);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	mtx->translate(Vec3(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f));
 	mtx->rotate(-20.0f, Vec3::UNIT_Z);
-#else
-	glTranslatef(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f);
-	glRotatef(-20.0f, 0.0f, 0.0f, 1.0f);
-#endif
 
 	float timeMS = float(getTimeMs() % 1000) / 1000.0f;
 	float scale = 1.8f - Mth::abs(0.1f * Mth::sin(2.0f * float(M_PI) * timeMS));
 	scale = (scale * 100.0f) / (32.0f + textWidth);
-#ifdef ENH_GFX_MATRIX_STACK
 	mtx->scale(scale);
-#else
-	glScalef(scale, scale, scale);
-#endif
 
 	drawCenteredString(*m_pFont, splashText, 0, -8, Color::YELLOW);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
 }
 
 std::string StartMenuScreen::getSplashString()

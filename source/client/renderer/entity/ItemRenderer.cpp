@@ -62,11 +62,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	m_random.init_genrand(187);
 	const ItemEntity& itemEntity = (const ItemEntity&)entity;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-	glPushMatrix();
-#endif
 
 	float yOffset = Mth::sin((float(itemEntity.m_age) + a) / 10.0f + itemEntity.m_bobOffs);
 	const ItemInstance* pItemInstance = itemEntity.m_pItemInstance;
@@ -84,22 +80,14 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	if (pItemInstance->m_count > 20)
 		itemsToRender = 4;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	matrix->translate(Vec3(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z));
-#else
-	glTranslatef(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z);
-#endif
 
 	glEnable(GL_RESCALE_NORMAL);
 
 	Tile* pTile = pItemInstance->getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix->rotate(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, Vec3::UNIT_Y);
-#else
-		glRotatef(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, 0.0f, 1.0f, 0.0f);
-#endif
 
 		bindTexture(C_TERRAIN_NAME);
 
@@ -110,78 +98,41 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 		if (pTile->isCubeShaped() || pTile == Tile::stoneSlabHalf)
 			scale = 0.25f;
 
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix->scale(scale);
-#else
-		glScalef(scale, scale, scale);
-#endif
 
 		for (int i = 0; i < itemsToRender; i++)
 		{
-#ifdef ENH_GFX_MATRIX_STACK
 			MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-			glPushMatrix();
-#endif
 			if (i != 0)
 			{
-#ifdef ENH_GFX_MATRIX_STACK
 				matrix->translate(Vec3(
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale,
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale,
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale));
-#else
-				glTranslatef(
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale,
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale,
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale);
-#endif
 			}
 
 			m_pTileRenderer->renderTile(FullTile(pTile, pItemInstance->getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
-#ifndef ENH_GFX_MATRIX_STACK
-			glPopMatrix();
-#endif
 		}
 	}
 	else
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix->scale(0.5f);
-#else
-		glScalef(0.5f, 0.5f, 0.5f);
-#endif
 		int icon = pItemInstance->getIcon();
 
 		bindTexture(pItemInstance->getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
 
 		for (int i = 0; i < itemsToRender; i++)
 		{
-#ifdef ENH_GFX_MATRIX_STACK
 			MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-			glPushMatrix();
-#endif
 			if (i != 0)
 			{
-#ifdef ENH_GFX_MATRIX_STACK
 				matrix->translate(Vec3(
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f,
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f,
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f));
-#else
-				glTranslatef(
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f,
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f,
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f);
-#endif
 			}
 
-#ifdef ENH_GFX_MATRIX_STACK
 			matrix->rotate(180.0f - m_pDispatcher->m_rot.x, Vec3::UNIT_Y);
-#else
-			glRotatef(180.0f - m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
-#endif
 
 			Tesselator& t = Tesselator::instance;
 			t.begin(4);
@@ -197,18 +148,10 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 			t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16))     / 256.0f);
 
 			t.draw(m_materials.entity_alphatest);
-
-#ifndef ENH_GFX_MATRIX_STACK
-			glPopMatrix();
-#endif
 		}
 	}
 
 	glDisable(GL_RESCALE_NORMAL);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
 }
 
 void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color)
@@ -315,41 +258,22 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 		//glDisable(GL_BLEND);
 		//glEnable(GL_DEPTH_TEST);
 
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-		glPushMatrix();
-#endif
 
 		// scale, rotate, and translate the tile onto the correct screen coordinate
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix->translate(Vec3(x + 8, y + 8, -8));
 		matrix->scale(10);
 		matrix->rotate(210.0f, Vec3::UNIT_X);
 		matrix->rotate(45.0f, Vec3::UNIT_Y);
-#else
-		glTranslatef((GLfloat)x + 8, (GLfloat)y + 8, -8);
-		glScalef(10, 10, 10);
-		glRotatef(210.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-#endif
 
 		// TODO: Why can't we rotate stairs 90deg also? What's rotating them!?
 		if (pTile->getRenderShape() != SHAPE_STAIRS)
 		{
-#ifdef ENH_GFX_MATRIX_STACK
 			matrix->rotate(-90.0f, Vec3::UNIT_Y);
-#else
-			glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
-#endif
 		}
 		
 		m_pTileRenderer->renderTile(FullTile(pTile, instance->getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
 		#undef PARM_HACK
-
-#ifndef ENH_GFX_MATRIX_STACK
-		glPopMatrix();
-#endif
 
 		//glDisable(GL_DEPTH_TEST);
 		//glEnable(GL_BLEND);

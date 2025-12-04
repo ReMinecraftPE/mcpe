@@ -94,19 +94,10 @@ void RenderList::render(TerrainLayer layer, bool fog)
 
 	if (field_14 < field_1C)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 		matrix->translate(-m_pos);
-#else
-		glPushMatrix();
-		glTranslatef(-m_pos.x, -m_pos.y, -m_pos.z);
-#endif
 
 		renderChunks(layer, fog);
-
-#ifndef ENH_GFX_MATRIX_STACK
-		glPopMatrix();
-#endif
 	}
 }
 
@@ -121,19 +112,10 @@ void RenderList::renderChunks(TerrainLayer layer, bool fog)
 			RenderChunk* chk = field_10[i];
 			if (!chk) continue;
 
-#ifdef ENH_GFX_MATRIX_STACK
 			MatrixStack::Ref matrix = MatrixStack::World.push();
 			matrix->translate(chk->m_pos);
-#else
-			glPushMatrix();
-			glTranslatef(chk->m_pos.x, chk->m_pos.y, chk->m_pos.z);
-#endif
 
 			chk->render(layer, time, fog);
-
-#ifndef ENH_GFX_MATRIX_STACK
-			glPopMatrix();
-#endif
 		}
 	}
 }

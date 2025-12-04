@@ -15,6 +15,7 @@
 #include "renderer/GL/GL.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "thirdparty/glm/glm.hpp"
 
 // #define SHOW_VERTEX_COUNTER_GRAPHIC
 
@@ -92,41 +93,21 @@ void GameRenderer::_clearFrameBuffer()
 
 void GameRenderer::_renderItemInHand(float f, int i)
 {
-#ifdef ENH_GFX_MATRIX_STACK
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
-#else
-	glLoadIdentity();
-#endif
 
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		viewMtx.translate(Vec3(float(2 * i - 1) * 0.1f, 0.0f, 0.0f));
-#else
-		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
-#endif
 	}
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-	glPushMatrix();
-#endif
 
-#ifdef ENH_GFX_MATRIX_STACK
 	bobHurt(matrix, f);
-#else
-	bobHurt(f);
-#endif
 
 	if (m_pMinecraft->getOptions()->m_bViewBobbing)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		bobView(matrix, f);
-#else
-		bobView(f);
-#endif
 	}
 
 	if (!m_pMinecraft->getOptions()->m_bThirdPerson && !m_pMinecraft->getOptions()->m_bDontRenderGui)
@@ -135,27 +116,15 @@ void GameRenderer::_renderItemInHand(float f, int i)
 		m_pItemInHandRenderer->render(f);
 	}
 
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
-
 	if (!m_pMinecraft->getOptions()->m_bThirdPerson)
 	{
 		m_pItemInHandRenderer->renderScreenEffect(f);
-#ifdef ENH_GFX_MATRIX_STACK
 		bobHurt(matrix, f);
-#else
-		bobHurt(f);
-#endif
 	}
 
 	if (m_pMinecraft->getOptions()->m_bViewBobbing)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		bobView(matrix, f);
-#else
-		bobView(f);
-#endif
 	}
 }
 
@@ -265,84 +234,41 @@ void GameRenderer::setupCamera(float f, int i)
 {
 	m_renderDistance = float(256 >> m_pMinecraft->getOptions()->m_iViewDistance);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	Matrix& projMtx = MatrixStack::Projection.getTop();
 	projMtx = Matrix::IDENTITY;
-#else
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-#endif
 
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		projMtx.translate(Vec3(float(1 - 2 * i) * 0.07f, 0.0f, 0.0f));
-#else
-		glTranslatef(float(1 - 2 * i) * 0.07f, 0.0f, 0.0f);
-#endif
 	}
 
 	if (m_zoom != 1.0)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		projMtx.translate(Vec3(m_zoomRegion.x, -m_zoomRegion.y, 0.0f));
 		projMtx.scale(Vec3(m_zoom, m_zoom, 1.0f));
-#else
-		glTranslatef(m_zoomRegion.x, -m_zoomRegion.y, 0.0f);
-		glScalef(m_zoom, m_zoom, 1.0f);
-#endif
 	}
 
 	float fov = getFov(f);
-#ifdef ENH_GFX_MATRIX_STACK
 	projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance);
-#else
-	gluPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance);
-#endif
 
-#ifdef ENH_GFX_MATRIX_STACK
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
-#else
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-#endif
 
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		viewMtx.translate(Vec3(float(2 * i - 1) * 0.1f, 0.0f, 0.0f));
-#else
-		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
-#endif
 	}
 
-#ifdef ENH_GFX_MATRIX_STACK
 	bobHurt(viewMtx, f);
-#else
-	bobHurt(f);
-#endif
 	if (m_pMinecraft->getOptions()->m_bViewBobbing)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		bobView(viewMtx, f);
-#else
-		bobView(f);
-#endif
 	}
 
-#ifdef ENH_GFX_MATRIX_STACK
 	moveCameraToPlayer(viewMtx, f);
-#else
-	moveCameraToPlayer(f);
-#endif
 }
 
-#ifdef ENH_GFX_MATRIX_STACK
 void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
-#else
-void GameRenderer::moveCameraToPlayer(float f)
-#endif
 {
 	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 
@@ -352,26 +278,16 @@ void GameRenderer::moveCameraToPlayer(float f)
 	float posY = Mth::Lerp(pMob->m_oPos.y, pMob->m_pos.y, f);
 	float posZ = Mth::Lerp(pMob->m_oPos.z, pMob->m_pos.z, f);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	matrix.rotate(field_5C + f * (field_58 - field_5C), Vec3::UNIT_Z);
-#else
-	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
-#endif
 
 	if (m_pMinecraft->getOptions()->m_bThirdPerson)
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
 		if (m_pMinecraft->getOptions()->field_241)
 		{
-#ifdef ENH_GFX_MATRIX_STACK
 			matrix.translate(Vec3::NEG_UNIT_Z * v11);
 			matrix.rotate(field_38 + (field_34 - field_38) * f, Vec3::UNIT_X);
 			matrix.rotate(field_40 + (field_3C - field_40) * f, Vec3::UNIT_Y);
-#else
-			glTranslatef(0.0f, 0.0f, -v11);
-			glRotatef(field_38 + (field_34 - field_38) * f, 1.0f, 0.0f, 0.0f);
-			glRotatef(field_40 + (field_3C - field_40) * f, 0.0f, 1.0f, 0.0f);
-#endif
 		}
 		else
 		{
@@ -406,47 +322,25 @@ void GameRenderer::moveCameraToPlayer(float f)
 				}
 			}
 
-			// @HUH: Why the hell is it rotating by 0
-#ifdef ENH_GFX_MATRIX_STACK
 			matrix.rotate(pMob->m_rot.y - mob_pitch, Vec3::UNIT_X);
 			matrix.rotate(pMob->m_rot.x - mob_yaw, Vec3::UNIT_Y);
 			matrix.translate(Vec3::NEG_UNIT_Z * v11);
 			matrix.rotate(mob_yaw - pMob->m_rot.x, Vec3::UNIT_Y);
 			matrix.rotate(mob_pitch - pMob->m_rot.y, Vec3::UNIT_X);
-#else
-			glRotatef(pMob->m_rot.y - mob_pitch, 1.0f, 0.0f, 0.0f);
-			glRotatef(pMob->m_rot.x - mob_yaw, 0.0f, 1.0f, 0.0f);
-			glTranslatef(0.0, 0.0, -v11);
-			glRotatef(mob_yaw - pMob->m_rot.x, 0.0f, 1.0f, 0.0f);
-			glRotatef(mob_pitch - pMob->m_rot.y, 1.0f, 0.0f, 0.0f);
-#endif
 		}
 	}
 	else
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix.translate(Vec3(0.0f, 0.0f, -0.1f));
-#else
-		glTranslatef(0.0f, 0.0f, -0.1f);
-#endif
 	}
 
 	if (!m_pMinecraft->getOptions()->field_241)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix.rotate(pMob->m_oRot.y + f * (pMob->m_rot.y - pMob->m_oRot.y), Vec3::UNIT_X);
 		matrix.rotate(pMob->m_oRot.x + f * (pMob->m_rot.x - pMob->m_oRot.x) + 180.0f, Vec3::UNIT_Y);
-#else
-		glRotatef(pMob->m_oRot.y + f * (pMob->m_rot.y - pMob->m_oRot.y), 1.0f, 0.0f, 0.0f);
-		glRotatef(pMob->m_oRot.x + f * (pMob->m_rot.x - pMob->m_oRot.x) + 180.0f, 0.0f, 1.0f, 0.0f);
-#endif
 	}
 
-#ifdef ENH_GFX_MATRIX_STACK
 	matrix.translate(Vec3::UNIT_Y * headHeightDiff);
-#else
-	glTranslatef(0.0f, headHeightDiff, 0.0f);
-#endif
 }
 
 void GameRenderer::saveMatrices()
@@ -454,7 +348,6 @@ void GameRenderer::saveMatrices()
 	if (m_pMinecraft->useSplitControls() || !m_pMinecraft->m_pInputHolder->allowPicking())
 		return;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	// Save projection matrix
 	m_mtxProj = MatrixStack::Projection.top();
 
@@ -463,10 +356,6 @@ void GameRenderer::saveMatrices()
 	const Matrix& viewMatrix = MatrixStack::View.top();
 	// Order matters!
 	m_mtxView = viewMatrix * worldMatrix;
-#else
-	glGetFloatv(GL_PROJECTION_MATRIX, m_mtxProj.getPtr());
-	glGetFloatv(GL_MODELVIEW_MATRIX,  m_mtxView.getPtr());
-#endif
 }
 
 void GameRenderer::setupGuiScreen()
@@ -476,62 +365,34 @@ void GameRenderer::setupGuiScreen()
 	
 	//glClear(GL_DEPTH_BUFFER_BIT);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	Matrix& projMtx = MatrixStack::Projection.getTop();
 	projMtx.setOrtho(0, x, y, 0, 2000.0f, 3000.0f);
 
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
 	viewMtx.translate(Vec3(0.0f, 0.0f, -2000.0f)); // -2000 to -3000
-#else
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f); // @NOTE: for whatever reason, nearpl is 1000.0f on LCE (where?)
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, -2000.0f);
-#endif
 }
 
-#ifdef ENH_GFX_MATRIX_STACK
 void GameRenderer::bobHurt(Matrix& matrix, float f)
-#else
-void GameRenderer::bobHurt(float f)
-#endif
 {
 	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 
 	if (pMob->m_health <= 0)
 	{
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix.rotate(-8000.0f / (float(pMob->m_deathTime) + f + 200.0f) + 40.0f, Vec3::UNIT_Z);
-#else
-		glRotatef(-8000.0f / (float(pMob->m_deathTime) + f + 200.0f) + 40.0f, 0.0f, 0.0f, 1.0f);
-#endif
 	}
 
 	if (pMob->m_hurtTime > 0)
 	{
 		float val = (pMob->m_hurtTime - f) / pMob->m_hurtDuration;
 
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix.rotate(-pMob->m_hurtDir, Vec3::UNIT_Y);
 		matrix.rotate(Mth::sin(val * val * val * val * 3.1416f) * -14.0f, Vec3::UNIT_Z);
 		matrix.rotate(pMob->m_hurtDir, Vec3::UNIT_Y);
-#else
-		glRotatef(-pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
-		glRotatef(Mth::sin(val * val * val * val * 3.1416f) * -14.0f, 0.0f, 0.0f, 1.0f);
-		glRotatef(pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
-#endif
 	}
 }
 
-#ifdef ENH_GFX_MATRIX_STACK
 void GameRenderer::bobView(Matrix& matrix, float f)
-#else
-void GameRenderer::bobView(float f)
-#endif
 {
 	if (!m_pMinecraft->m_pCameraEntity->isPlayer())
 		return;
@@ -545,17 +406,10 @@ void GameRenderer::bobView(float f)
 	float f5 = Mth::cos(f3);
 	float f6 = Mth::cos(f3 - 0.2f);
 
-#ifdef ENH_GFX_MATRIX_STACK
 	matrix.translate(Vec3((f4 * f1) * 0.5f, -fabsf(f5 * f1), 0.0f));
 	matrix.rotate((f4 * f1) * 3.0f, Vec3::UNIT_Z);
 	matrix.rotate(fabsf(f6 * f1) * 5.0f, Vec3::UNIT_X);
 	matrix.rotate(f2, Vec3::UNIT_X);
-#else
-	glTranslatef((f4 * f1) * 0.5f, -fabsf(f5 * f1), 0.0f);
-	glRotatef((f4 * f1) * 3.0f, 0.0f, 0.0f, 1.0f);
-	glRotatef(fabsf(f6 * f1) * 5.0f, 1.0f, 0.0f, 0.0f);
-	glRotatef(f2, 1.0f, 0.0f, 0.0f);
-#endif
 }
 
 #ifndef ORIGINAL_CODE
@@ -801,16 +655,9 @@ void GameRenderer::render(float f)
 		//glViewport(0, 0, Minecraft::width, Minecraft::height);
 		_clearFrameBuffer();
 
-#ifdef ENH_GFX_MATRIX_STACK
 		MatrixStack::Projection.getTop() = Matrix::IDENTITY;
 		MatrixStack::View.getTop()       = Matrix::IDENTITY;
 		MatrixStack::World.getTop()      = Matrix::IDENTITY;
-#else
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-#endif
 
 		setupGuiScreen();
 	}
@@ -905,6 +752,7 @@ void GameRenderer::tick()
 
 void GameRenderer::renderWeather(float f)
 {
+	// @HAL: todo
 	if (m_envTexturePresence == 0)
 	{
 		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("environment/snow.png", false) != nullptr;

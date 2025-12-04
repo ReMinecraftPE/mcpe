@@ -123,13 +123,8 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 
 	currentShaderColor = finalColor;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref mtx = MatrixStack::World.push();
 	mtx->translate(Vec3(x, y, 0.0f));
-#else
-	glPushMatrix();
-	glTranslatef(float(x), float(y), 0.0f);
-#endif
 
 	Tesselator& t = Tesselator::instance;
 	t.begin(4 * str.size());
@@ -153,10 +148,6 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 	}
 
 	t.draw(m_materials.ui_text);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
 }
 
 void Font::onGraphicsReset()

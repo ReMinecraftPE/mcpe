@@ -250,25 +250,13 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 		if (var6 > 0.0f)
 		{
 			float var7 = 1.0f + var6 / 5.0f;
-#ifdef ENH_GFX_MATRIX_STACK
 			matrix = MatrixStack::World.push();
 			matrix->translate(Vec3(x + 8, y + 12, 0.0f));
 			matrix->scale(Vec3(1.0f / var7, (var7 + 1.0f) / 2.0f, 1.0f));
 			matrix->translate(Vec3(-(x + 8), -(y + 12), 0.0f));
-#else
-			glPushMatrix();
-			glTranslatef(x + 8, y + 12, 0.0f);
-			glScalef(1.0f / var7, (var7 + 1.0f) / 2.0f, 1.0f);
-			glTranslatef(-(x + 8), -(y + 12), 0.0f);
-#endif
 		}
 
 		ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
-
-#ifndef ENH_GFX_MATRIX_STACK
-		if (var6 > 0.0f)
-			glPopMatrix();
-#endif
 	}
 
     //ItemRenderer::renderGuiItemDecorations(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);

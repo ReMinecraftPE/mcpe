@@ -66,26 +66,15 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 	float v0 = (float)yt / 256.0f;
 	float v1 = ((float)yt + 15.99f) / 256.0f;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
-#else
-	glPushMatrix();
-#endif
 
 	float s = entity.m_bbWidth * 1.4f; // bbWidth instead of e->m_hitbox.max.x
 	float h = entity.m_bbHeight / entity.m_bbWidth;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	matrix->translate(ePos);
 	matrix->scale(s);
 	matrix->rotate(-m_pDispatcher->m_rot.x, Vec3::UNIT_Y);
 	matrix->translate(Vec3(0.0f, 0.0f, -0.4f + (float)((int)h) * 0.02f));
-#else
-	glTranslatef(ePos.x, ePos.y, ePos.z);
-	glScalef(s, s, s);
-	glRotatef(-m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
-	glTranslatef(0.0f, 0.0f, -0.4f + (float)((int)h) * 0.02f);
-#endif
 	
 	bindTexture(C_TERRAIN_NAME);
 	Tesselator& t = Tesselator::instance;
@@ -104,18 +93,10 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 		--h;
 		--yo;
 		r *= 0.9f;
-#ifdef ENH_GFX_MATRIX_STACK
 		matrix->translate(Vec3(0.0f, 0.0f, -0.04f));
-#else
-		glTranslatef(0.0f, 0.0f, -0.04f);
-#endif
 	}
 
 	t.draw(m_shaderMaterials.entity);
-
-#ifndef ENH_GFX_MATRIX_STACK
-	glPopMatrix();
-#endif
 
 	Lighting::turnOn(false);
 }

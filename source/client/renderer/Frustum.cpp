@@ -17,19 +17,11 @@ void Frustum::calculateFrustum()
 {
 	Frustum& f = Frustum::frustum;
 
-#ifdef ENH_GFX_MATRIX_STACK
 	const Matrix& projMtx = MatrixStack::Projection.top();
 	const Matrix& worldMtx = MatrixStack::World.top();
 	const Matrix& viewMtx = MatrixStack::View.top();
 	// Order matters!
 	Matrix worldViewProjMtx = projMtx * viewMtx * worldMtx;
-#else
-	Matrix projMtx, viewMtx;
-	glGetFloatv(GL_PROJECTION_MATRIX, projMtx.getPtr()); // _proj
-	glGetFloatv(GL_MODELVIEW_MATRIX, viewMtx.getPtr()); // _modl
-	// Order matters!
-	Matrix worldViewProjMtx = projMtx * viewMtx;
-#endif
 
 	glm::mat4& mtx = worldViewProjMtx._m;
 
