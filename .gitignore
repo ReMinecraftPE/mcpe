@@ -274,4 +274,5 @@ xcuserdata/
 
 # iOS ipa files
 /ios-ipa
+/ios-work
 *.ipa
