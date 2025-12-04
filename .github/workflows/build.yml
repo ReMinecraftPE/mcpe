@@ -108,6 +108,7 @@ jobs:
             env:
               CLANG: clang-21
               AR: llvm-ar-21
+              RANLIB: llvm-ranlib-21
               LIPO: llvm-lipo-21
     android:
         strategy:

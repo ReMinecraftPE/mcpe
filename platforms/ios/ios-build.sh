@@ -13,7 +13,7 @@ nproc() {
 }
 
 if [ "$(uname -s)" != "Darwin" ] && [ -z "$AR" ] && [ -z "$LIPO" ] && [ -z "$CLANG" ]; then
-    for dep in llvm-ar llvm-lipo clang make cmake; do
+    for dep in llvm-ar llvm-lipo llvm-ranlib clang make cmake; do
         if ! command -v "$dep" >/dev/null; then
             printf '%s not found!\n' "$dep"
             exit 1
@@ -21,10 +21,12 @@ if [ "$(uname -s)" != "Darwin" ] && [ -z "$AR" ] && [ -z "$LIPO" ] && [ -z "$CLA
     done
     ar='llvm-ar'
     lipo='llvm-lipo'
+    ranlib='llvm-ranlib'
     strip='cctools-strip'
 else
     ar="${AR:-ar}"
     lipo="${LIPO:-lipo}"
+    ranlib="${RANLIB:-ranlib}"
     strip='strip'
 fi
 
@@ -79,6 +81,7 @@ cmake .. \
     -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
     -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
     -DCMAKE_AR="$(command -v "$ar")" \
+    -DCMAKE_RANLIB="$(command -v "$ranlib")" \
     -DCMAKE_FIND_ROOT_PATH="$PWD/../platforms/ios/ios-work/armv7-apple-ios3-sdk/usr" \
     -DCMAKE_C_COMPILER=armv7-apple-ios3-cc \
     -DCMAKE_CXX_COMPILER=armv7-apple-ios3-c++
@@ -98,6 +101,7 @@ cmake .. \
     -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
     -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
     -DCMAKE_AR="$(command -v "$ar")" \
+    -DCMAKE_RANLIB="$(command -v "$ranlib")" \
     -DCMAKE_FIND_ROOT_PATH="$PWD/../platforms/ios/ios-work/arm64-apple-ios7-sdk/usr" \
     -DCMAKE_C_COMPILER=arm64-apple-ios7-cc \
     -DCMAKE_CXX_COMPILER=arm64-apple-ios7-c++
