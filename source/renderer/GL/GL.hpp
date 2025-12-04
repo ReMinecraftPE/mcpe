@@ -1,7 +1,5 @@
 #pragma once
 
-#include "thirdparty/GL/GL.hpp"
-
 int glhInvertMatrixf2(float* m, float* out);
 int glhProjectf(float objx, float objy, float objz, const float* modelview, const float* projection, int* viewport, float* windowCoordinate);
 int glhUnProjectf(float winx, float winy, float winz, const float* modelview, const float* projection, int* viewport, float* objectCoordinate);

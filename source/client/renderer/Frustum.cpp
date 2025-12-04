@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "Frustum.hpp"
-#include "GL/GL.hpp"
 #include "thirdparty/glm/gtc/matrix_access.hpp"
 #include "thirdparty/glm/gtc/type_ptr.hpp"
 

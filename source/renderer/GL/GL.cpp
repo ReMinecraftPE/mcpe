@@ -1,3 +1,4 @@
+#include <math.h>
 #include "GL.hpp"
 
 // It appears Mojang took the code from:

@@ -12,7 +12,6 @@
 #include "common/Mth.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
-#include "renderer/GL/GL.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
