@@ -26,6 +26,7 @@ ldid -Splatforms/ios/minecraftpe.entitlements "$apppath/minecraftpe"
 sed -E -e 's|\$\{EXECUTABLE_NAME\}|minecraftpe|' -e 's|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|minecraftpe|g' platforms/ios/minecraftpe-Info.plist |
     plistutil -o "$apppath/Info.plist" -f bin
 cp game/assets/font/default.png "$apppath/default8.png"
+cp game/assets/icon.png "$apppath/Icon.png"
 cp -a \
     platforms/ios/precompiled/* \
     game/assets/gui/*.png \
