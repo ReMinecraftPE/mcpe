@@ -123,4 +123,4 @@ mv reminecraftpe ../platforms/ios/ios-work/reminecraftpe-arm64
 
 "$lipo" -create ../platforms/ios/ios-work/reminecraftpe-arm64 ../platforms/ios/ios-work/reminecraftpe-armv7 -output reminecraftpe
 
-[ -n "$REMCPE_NO_IPA" ] || ../platforms/ios/ios-ipa.sh
+[ -n "$REMCPE_NO_IPA" ] || ../platforms/ios/build-ipa.sh

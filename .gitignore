@@ -271,7 +271,3 @@ xcuserdata/
 /tools/__pycache__
 /tools/venv
 /game/assets
-
-# iOS ipa files
-/platforms/ios/ios-work
-/platforms/ios/build
