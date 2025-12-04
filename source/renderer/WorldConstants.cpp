@@ -44,16 +44,14 @@ void WorldConstants::refreshWorldConstants()
     // Sync the updated constant buffer data to the GPU.
     sync();
 #elif defined(ENH_GFX_MATRIX_STACK)
-    // @TODO: keep MatrixStack states in RC, make MatrixStack ID enum, make loadMatrixStack(stackIdEnum, stackPtr)
+
+    RenderContext& renderContext = RenderContextImmediate::get();
 
     if (MatrixStack::Projection.isDirty())
     {
         const Matrix& projMatrix = MatrixStack::Projection.top();
 
-        // @TODO: abstract
-        glMatrixMode(GL_PROJECTION);
-        glLoadMatrixf(projMatrix.ptr());
-        glMatrixMode(GL_MODELVIEW);
+        renderContext.loadMatrix(MATRIX_PROJECTION, projMatrix);
 
         MatrixStack::Projection.makeClean();
     }
@@ -65,9 +63,7 @@ void WorldConstants::refreshWorldConstants()
         // Order matters!
         Matrix modelViewMatrix = viewMatrix * worldMatrix;
 
-        // @TODO: abstract
-        glMatrixMode(GL_MODELVIEW);
-        glLoadMatrixf(modelViewMatrix.ptr());
+        renderContext.loadMatrix(MATRIX_VIEW, modelViewMatrix);
 
         MatrixStack::World.makeClean();
         MatrixStack::View.makeClean();

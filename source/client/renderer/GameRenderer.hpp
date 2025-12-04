@@ -27,7 +27,6 @@ public:
 	~GameRenderer();
 
 private:
-	void _initDepthStencilState();
 	void _clearFrameBuffer();
 	void _renderItemInHand(float, int);
 	void _renderDebugOverlay(float a);
@@ -92,8 +91,6 @@ public:
 	float field_7C;
 	float field_80;
 	float field_84;
-
-	mce::DepthStencilState* m_depthStencilState;
 
 	Matrix m_mtxProj;
 	Matrix m_mtxView;

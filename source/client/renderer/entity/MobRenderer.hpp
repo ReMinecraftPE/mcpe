@@ -31,7 +31,7 @@ public:
 	virtual void scale(const Mob& mob, float a);
 #endif
 	virtual float getAttackAnim(const Mob& mob, float);
-	virtual float getBob(const Mob& mob, float);
+	virtual float getBob(const Mob& mob, float f);
 	virtual float getFlipDegrees(const Mob& mob);
 	virtual void renderName(const Mob& mob, const Vec3& pos);
 	virtual void renderNameTag(const Mob& mob, const std::string&, const Vec3& pos, int);

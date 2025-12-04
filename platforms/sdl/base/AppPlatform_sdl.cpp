@@ -11,6 +11,7 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+// needed for screenshots
 #include "thirdparty/GL/GL.hpp"
 
 #include "AppPlatform_sdl.hpp"

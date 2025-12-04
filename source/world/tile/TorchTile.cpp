@@ -11,6 +11,7 @@
 
 TorchTile::TorchTile(int ID, int texture, Material* pMtl) : Tile(ID, texture, pMtl)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setTicking(true);
 }
 

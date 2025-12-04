@@ -50,7 +50,7 @@ void ItemInHandRenderer::itemUsed()
 #define SHADE_IF_NEEDED(col)
 #endif
 
-void ItemInHandRenderer::renderItem(ItemInstance* inst)
+void ItemInHandRenderer::renderItem(const ItemInstance* inst)
 {
 #ifndef ORIGINAL_CODE
     if (ItemInstance::isNull(inst))
@@ -131,7 +131,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
         glTranslatef(-0.9375f, -0.0625f, 0.0f);
 #endif
         
-        t.begin();
+        t.begin(264);
         SHADE_IF_NEEDED(1.0f);
         
         t.normal(Vec3::UNIT_Z);
@@ -191,21 +191,25 @@ void ItemInHandRenderer::render(float a)
 {
 	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
 
+#ifndef FEATURE_GFX_SHADERS
+    // Apply lighting
     {
 #ifdef ENH_GFX_MATRIX_STACK
         MatrixStack::Ref matrix = MatrixStack::World.push();
         matrix->rotate(pLP->m_oRot.y + (pLP->m_rot.y - pLP->m_oRot.y) * a, Vec3::UNIT_X);
         matrix->rotate(pLP->m_oRot.x + (pLP->m_rot.x - pLP->m_oRot.x) * a, Vec3::UNIT_Y);
+        Lighting::turnOn(matrix);
 #else
         glPushMatrix();
         glRotatef(pLP->m_oRot.y + (pLP->m_rot.y - pLP->m_oRot.y) * a, 1.0f, 0.0f, 0.0f);
         glRotatef(pLP->m_oRot.x + (pLP->m_rot.x - pLP->m_oRot.x) * a, 0.0f, 1.0f, 0.0f);
+        Lighting::turnOn();
 #endif
-        Lighting::turnOn(); // must be called before glPopMatrix()
 #ifndef ENH_GFX_MATRIX_STACK
         glPopMatrix();
 #endif
     }
+#endif
 
 #ifdef ENH_GFX_MATRIX_STACK
     MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -293,8 +297,6 @@ void ItemInHandRenderer::render(float a)
         glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 #endif
 
-        glEnable(GL_RESCALE_NORMAL);
-
 #ifdef ENH_GFX_MATRIX_STACK
         matrix->rotate(Mth::sin(float(M_PI) * Mth::sqrt(fAnim)) * 70.0f, Vec3::UNIT_Y);
         matrix->rotate(Mth::sin(float(M_PI) * fAnim * fAnim) * -20.0f, Vec3::UNIT_Z);
@@ -334,7 +336,6 @@ void ItemInHandRenderer::render(float a)
     glPopMatrix();
 #endif
 
-	glDisable(GL_RESCALE_NORMAL);
 	Lighting::turnOff();
 }
 

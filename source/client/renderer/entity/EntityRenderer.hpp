@@ -47,8 +47,8 @@ public:
 	bool bindTexture(const std::string& file, bool isRequired = true);
 	Font* getFont();
 	void init(EntityRenderDispatcher* d);
-	static void render(const AABB&, const Vec3& pos);
-	static void renderFlat(const AABB&);
+	void render(const AABB&, const Vec3& pos);
+	void renderFlat(const AABB&);
 	void postRender(const Entity& entity, const Vec3& pos, float rot, float a);
 
 	virtual void render(const Entity& entity, const Vec3& pos, float rot, float a) = 0;

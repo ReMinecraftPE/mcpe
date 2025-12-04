@@ -24,6 +24,7 @@ namespace mce
         GL_UNSIGNED_INT
     };
 
+    class DepthStencilState;
     class RenderContextOGL : public RenderContextBase
     {
     public:
@@ -42,6 +43,7 @@ namespace mce
     private:
         GLuint m_activeBuffer[2]; // indexed by BufferType
         ActiveTextureUnit m_activeTextureUnits[8];
+        DepthStencilState* m_emptyDepthStencilState;
 
     public:
         GLuint m_activeTexture;
@@ -54,8 +56,12 @@ namespace mce
         RenderContextOGL();
 
     public:
-        void setDrawState(const VertexFormat& vertexFormat);
-        void clearDrawState(const VertexFormat& vertexFormat);
+        void loadMatrix(MatrixType matrixType, const Matrix& matrix);
+        void setVertexState(const VertexFormat& vertexFormat);
+        void clearVertexState(const VertexFormat& vertexFormat);
+        void enableFixedLighting(bool init);
+        void disableFixedLighting(bool teardown);
+        bool setCurrentColor(const Color& color);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);
@@ -64,9 +70,9 @@ namespace mce
         void clearFrameBuffer(const Color& color);
         void clearStencilBuffer();
         void clearDepthStencilBuffer();
+        void clearContextState();
         void setRenderTarget();
         void swapBuffers();
-        void lostContext();
         static int getMaxVertexCount();
 
         GLuint& getActiveBuffer(BufferType bufferType);
@@ -75,4 +81,6 @@ namespace mce
         ActiveTextureUnit& getActiveTextureUnit(unsigned int index);
         const ActiveTextureUnit& getActiveTextureUnit(unsigned int index) const;
     };
+
+    GLenum getComparisonFunc(ComparisonFunc comparisonFunc);
 }

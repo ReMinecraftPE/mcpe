@@ -354,6 +354,7 @@ const char* gSplashes[] =
 
 	// custom:
 	"https://github.com/ReMinecraftPE/mcpe",
+	"100% (render)dragon free!",
 	"Also try Minecraft!",
 	"Also try Noita!",
 	"Also try Castle Crashers!",
@@ -366,7 +367,7 @@ const char* gSplashes[] =
 	// These guys carried
 	"The Work of Aron Nieminen!",      // https://minecraft.wiki/w/Aron_Nieminen
 	"The Work of Johan Bernhardsson!", // https://minecraft.wiki/w/Johan_Bernhardsson
-	"The Work of Tommaso Checchi!"     // https://minecraft.wiki/w/Tommaso_Checchi
+	"The Work of Tommaso Checchi!",     // https://minecraft.wiki/w/Tommaso_Checchi
 	"Woo, newgrounds!",
 	"Woo, curseforge!",
 };
@@ -374,6 +375,7 @@ const char* gSplashes[] =
 StartMenuScreen::Materials::Materials()
 {
 	MATERIAL_PTR(common, ui_title_tile);
+	MATERIAL_PTR(common, ui_title_tile_shadow);
 }
 
 StartMenuScreen::StartMenuScreen() :
@@ -588,6 +590,8 @@ void StartMenuScreen::draw3dTitle(float f)
 
 	//glDisable(GL_CULL_FACE);
 	//glDepthMask(true);
+	
+	mce::MaterialPtr* pMaterial;
 
 	for (int i = 0; i < 2; i++)
 	{
@@ -642,8 +646,16 @@ void StartMenuScreen::draw3dTitle(float f)
 #endif
 
 		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-		if (i == 0) {
+		if (i == 0)
+		{
 			m_pMinecraft->m_pTextures->loadAndBindTexture("gui/black.png");
+			pMaterial = &m_screenMaterials.ui_title_tile_shadow;
+			//currentShaderColor = Color(0, 0, 0, 100);
+		}
+		else
+		{
+			pMaterial = &m_screenMaterials.ui_title_tile;
+			currentShaderColor = Color::WHITE;
 		}
 
 		for (int y = 0; y < Height; y++)
@@ -692,7 +704,7 @@ void StartMenuScreen::draw3dTitle(float f)
 				glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
 #endif
 
-				m_tileRenderer.renderTile(FullTile(pTile, i == 0 ? 255 : 0), m_screenMaterials.ui_title_tile, bright, true);
+				m_tileRenderer.renderTile(FullTile(pTile, i == 0 ? 255 : 0), *pMaterial, bright, true);
 
 #ifndef ENH_GFX_MATRIX_STACK
 				glPopMatrix();

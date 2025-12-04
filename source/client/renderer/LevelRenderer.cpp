@@ -25,8 +25,8 @@ TerrainLayer renderLayerToTerrainLayerMap[Tile::RENDER_LAYERS_COUNT] = {
 	/*RENDER_LAYER_DOUBLE_SIDED*/               TERRAIN_LAYER_DOUBLE_SIDED,
 	/*RENDER_LAYER_BLEND*/                      TERRAIN_LAYER_BLEND,
 	/*RENDER_LAYER_OPAQUE*/                     TERRAIN_LAYER_OPAQUE,
-	/*RENDER_LAYER_OPTIONAL_ALPHATEST*/         TERRAIN_LAYER_ALPHATEST,
-	/*RENDER_LAYER_ALPHATEST*/                  TERRAIN_LAYER_ALPHATEST,
+	/*RENDER_LAYER_OPTIONAL_ALPHATEST*/         TERRAIN_LAYER_ALPHATEST_SINGLE_SIDE, // Shouldn't be single-sided, but this
+	/*RENDER_LAYER_ALPHATEST*/                  TERRAIN_LAYER_ALPHATEST_SINGLE_SIDE, // breaks leaves and glass blocks.
 	/*RENDER_LAYER_SEASONS_OPAQUE*/             TERRAIN_LAYER_OPAQUE_SEASONS,
 	/*RENDER_LAYER_SEASONS_OPTIONAL_ALPHATEST*/ TERRAIN_LAYER_ALPHATEST_SEASONS
 };
@@ -221,7 +221,7 @@ void LevelRenderer::_renderSunrise(float alpha)
 	if (c != nullptr && arePlanetsAvailable())
 	{
 #ifndef FEATURE_GFX_SHADERS
-		glDisable(GL_TEXTURE_2D);
+		//glDisable(GL_TEXTURE_2D);
 		//glShadeModel(GL_SMOOTH); // I'd rather fuck up the sunrise gradient than AO, but it doesn't even look like it does that
 #endif
 
@@ -281,7 +281,7 @@ void LevelRenderer::_renderSunAndMoon(float alpha)
 	Tesselator& t = Tesselator::instance;
 
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 #endif
 	//glBlendFunc(GL_ONE, GL_ONE);
 
@@ -326,7 +326,7 @@ void LevelRenderer::_renderSunAndMoon(float alpha)
 	}
 
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 }
 
@@ -818,6 +818,12 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 		std::sort(&m_sortedChunks[0], &m_sortedChunks[m_chunksLength], DistanceChunkSorter(camera));
 	}
 
+	if (layer == Tile::RENDER_LAYER_BLEND)
+	{
+		mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+		renderContext.clearStencilBuffer();
+	}
+
 	// @NOTE: m_bOcclusionCheck is always false
 	if (m_bOcclusionCheck && layer == Tile::RENDER_LAYER_OPAQUE && !m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
@@ -1224,7 +1230,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 
 	//glEnable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	//glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
@@ -1274,7 +1280,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	//glDisable(GL_POLYGON_OFFSET_FILL);
 
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 #endif
 	//glDepthMask(true);
 #ifndef ENH_GFX_MATRIX_STACK
@@ -1295,7 +1301,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 	//glDepthMask(false);
 
@@ -1332,7 +1338,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 
 	//glDepthMask(true);
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 #endif
 	//glDisable(GL_BLEND);
 }
@@ -1494,6 +1500,8 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	render(camera, Tile::RENDER_LAYER_SEASONS_OPAQUE, f);
 	render(camera, Tile::RENDER_LAYER_OPAQUE, f);
 	render(camera, Tile::RENDER_LAYER_DOUBLE_SIDED, f);
+
+	render(camera, Tile::RENDER_LAYER_ALPHATEST, f);
 	Lighting::turnOn();
 
 	renderEntities(camera.getPos(f), &culler, f);
@@ -1515,7 +1523,6 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
 
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
-	render(camera, Tile::RENDER_LAYER_ALPHATEST, f);
 	render(camera, Tile::RENDER_LAYER_BLEND, f);
 
 	//glDepthMask(true);
@@ -1628,7 +1635,7 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 		return;
 
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 
 	Vec3 sc = m_pLevel->getSkyColor(camera, alpha);
@@ -1668,11 +1675,11 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 
 	currentShaderColor = Color(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f);
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 	m_darkMesh.render(m_materials.skyplane); // this is probably not the right material for this
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 #endif
 
 	//glDepthMask(true);
@@ -1741,13 +1748,22 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 		return;
 	}
 
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	float yPos = Mth::Lerp(camera.m_posPrev.y, camera.m_pos.y, alpha); // not certain if this old pos Y is used
+	float yy = ((float)C_MAX_Y - yPos) + 0.33f; // 108.0f on b1.2_02, see below
+
+	if (yy > 1.0f)
+	{
+		renderContext.setDepthRange(0.0f, 1.0f);
+	}
+
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 #endif
 	// @TODO: make sure this works as intended
 	//glDisable(GL_CULL_FACE);
 
-	float yPos = Mth::Lerp(camera.m_posPrev.y, camera.m_pos.y, alpha); // not certain if this old pos Y is used
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
 
 	//glEnable(GL_BLEND);
@@ -1790,14 +1806,9 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 	t.voidBeginAndEndCalls(false); // why??
 	t.draw(m_materials.clouds);
 
-	
-
-
-	float yy = ((float)C_MAX_Y - yPos) + 0.33f; // 108.0f on b1.2_02, see below
-
-	if (yy > 1.0f) {
-		// @HAL: remove, handled in GameRenderer::_clearFrameBuffer
-		glClear(GL_DEPTH_BUFFER_BIT);
+	if (yy > 1.0f)
+	{
+		renderContext.setDepthRange(0.0f, 0.7f);
 	}
 	
 	currentShaderColor = Color::WHITE;
@@ -1807,6 +1818,7 @@ void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 
 void LevelRenderer::renderAdvancedClouds(float alpha)
 {
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	// @TODO: make sure this works as intended
 	//glDisable(GL_CULL_FACE);
 
@@ -1829,6 +1841,11 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 
 	xo -= xOffs * 2048;
 	zo -= zOffs * 2048;
+
+	if (yy > 1.0f)
+	{
+		renderContext.setDepthRange(0.0f, 1.0f);
+	}
 
 	m_pTextures->loadAndBindTexture("environment/clouds.png");
 	//glEnable(GL_BLEND);
@@ -1972,10 +1989,9 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 		}
 	}
 
-	if (yy > 1.0f) {
-		// @HAL: remove, handled in GameRenderer::_clearFrameBuffer
-		glDepthRange(0.f, 7.f);
-		glClear(GL_DEPTH_BUFFER_BIT);
+	if (yy > 1.0f)
+	{
+		renderContext.setDepthRange(0.0f, 0.7f);
 	}
 
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

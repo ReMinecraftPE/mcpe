@@ -1,7 +1,6 @@
 #include "AppPlatform_sdl1.hpp"
 
 #include "thirdparty/SDL/SDL_gamecontroller.h"
-#include "thirdparty/GL/GL.hpp"
 
 #include "CustomSoundSystem.hpp"
 #include "client/player/input/Controller.hpp"

@@ -20,6 +20,8 @@ ChickenModel::ChickenModel() :
 	m_beak(this, 14, 0),
 	m_wattle(this, 14, 4) // Yes, it's called a wattle. Look it up.
 {
+	m_pMaterial = &m_materials.entity_alphatest;
+
 	m_head.addBox(-2, -6, -2, 4, 6, 3);
 	m_head.setPos(0, 15, -4);
 	m_beak.addBox(-2, -4, -4, 4, 2, 2, 0);

@@ -139,7 +139,7 @@ void RenderMaterialGroup::_loadList()
         rapidjson::ParseResult ok = doc.Parse(fileContents.c_str());
         if (!ok)
         {
-            LOG_E("Error parsing \"%s\", offset %u: %s", m_listPath.c_str(), ok.Offset(), rapidjson::GetParseError_En(ok.Code()));
+            LOG_E("Error parsing \"%s\", offset %u: %s", path.c_str(), ok.Offset(), rapidjson::GetParseError_En(ok.Code()));
             continue;
         }
 

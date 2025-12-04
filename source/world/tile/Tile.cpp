@@ -105,6 +105,7 @@ void Tile::_init()
 	m_hardness = 0.0f;
 	m_blastResistance = 0.0f;
 	m_descriptionID = "";
+	m_renderLayer = RENDER_LAYER_OPAQUE;
 }
 
 void Tile::_init(TileID ID, Material* pMaterial, int texture)
@@ -240,7 +241,7 @@ bool Tile::isSignalSource() const
 
 Tile::RenderLayer Tile::getRenderLayer() const
 {
-	return RENDER_LAYER_OPAQUE;
+	return m_renderLayer;
 }
 
 bool Tile::isSolidRender() const

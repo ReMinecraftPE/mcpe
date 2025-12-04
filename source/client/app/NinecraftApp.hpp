@@ -26,7 +26,6 @@ private:
 	void _initMaterials();
 	void _initInput();
 	void _updateStats();
-	void _initGLStates();
 
 protected:
 	void _reloadTextures();

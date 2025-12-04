@@ -161,11 +161,6 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	field_38 *= 0.75f;
 	capYPosition();
 
-#ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_LIGHTING);
-	glDisable(GL_FOG);
-#endif
-
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -198,7 +193,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 			{
 #ifndef FEATURE_GFX_SHADERS
 				//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-				glDisable(GL_TEXTURE_2D);
+				//glDisable(GL_TEXTURE_2D);
 #endif
 				t.begin(8);
 				t.color(0x808080);
@@ -213,7 +208,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f + 1, itemY - 1.0f, 0.0f, 0.0f, 0.0f);
 				t.draw(m_materials.ui_fill_color);
 #ifndef FEATURE_GFX_SHADERS
-				glEnable(GL_TEXTURE_2D);
+				//glEnable(GL_TEXTURE_2D);
 #endif
 			}
 
@@ -231,7 +226,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	//glDisable(GL_ALPHA_TEST);
 	glShadeModel(GL_SMOOTH);
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 
 	t.begin();
@@ -255,7 +250,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	renderDecorations(mouseX, mouseY);
 
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 	//glEnable(GL_DEPTH_TEST);
 	glShadeModel(GL_FLAT);
 	//glEnable(GL_ALPHA_TEST);

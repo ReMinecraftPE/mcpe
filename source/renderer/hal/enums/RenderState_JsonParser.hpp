@@ -18,6 +18,8 @@ namespace mce
         m["StencilWrite"] = RS_STENCIL_WRITE;
         m["InvertCulling"] = RS_INVERT_CULLING;
         m["EnableStencilTest"] = RS_ENABLE_STENCIL_TEST;
+        m["EnableAlphaTest"] = RS_ENABLE_ALPHA_TEST;
+        m["Textured"] = RS_ENABLE_TEXTURE;
         return m;
     }
     const std::map<std::string, RenderState> _renderStateMap = _CreateRenderStateMap();

@@ -7,12 +7,35 @@ RenderContextBase::RenderContextBase()
     m_pRenderDevice = nullptr;
 }
 
-void RenderContextBase::setDrawState(const VertexFormat& vertexFormat)
+void RenderContextBase::loadMatrix(MatrixType matrixType, const Matrix& matrix)
 {
 }
 
-void RenderContextBase::clearDrawState(const VertexFormat& vertexFormat)
+void RenderContextBase::setVertexState(const VertexFormat& vertexFormat)
 {
+    m_lastVertexFormat = vertexFormat;
+}
+
+void RenderContextBase::clearVertexState(const VertexFormat& vertexFormat)
+{
+}
+
+void RenderContextBase::enableFixedLighting(bool init)
+{
+}
+
+void RenderContextBase::disableFixedLighting(bool teardown)
+{
+}
+
+bool RenderContextBase::setCurrentColor(const Color& color)
+{
+    if (color == m_currentColor)
+        return false;
+
+    m_currentColor = color;
+
+    return true;
 }
 
 void RenderContextBase::draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count)

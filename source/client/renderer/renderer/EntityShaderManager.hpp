@@ -11,6 +11,7 @@ protected:
 	{
 	public:
 		mce::MaterialPtr entity;
+		mce::MaterialPtr entity_color_overlay;
 		mce::MaterialPtr entity_alphatest;
 		mce::MaterialPtr entity_static;
 

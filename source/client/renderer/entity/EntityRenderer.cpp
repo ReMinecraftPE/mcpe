@@ -7,8 +7,9 @@
  ********************************************************************/
 
 #include "EntityRenderer.hpp"
-#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "client/renderer/Lighting.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "EntityRenderDispatcher.hpp"
 
@@ -55,7 +56,7 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 	Vec3 ePos(pos);
 	ePos.y -= entity.m_heightOffset; // Fixed fire rendering above player's head in third-person
 
-	glDisable(GL_LIGHTING);
+	Lighting::turnOff(false);
 
 	int tex = Tile::fire->getTexture(Facing::NORTH);
 	int xt = (tex & 15) << 4;
@@ -116,7 +117,7 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 	glPopMatrix();
 #endif
 
-	glEnable(GL_LIGHTING);
+	Lighting::turnOn(false);
 }
 
 Level* EntityRenderer::getLevel() const
@@ -126,10 +127,10 @@ Level* EntityRenderer::getLevel() const
 
 void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 {
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 	Tesselator& t = Tesselator::instance;
 	currentShaderColor = Color::WHITE;
-	t.begin();
+	t.begin(24);
 	//t.vertex(pos); // Why were we doing this?
 	t.setOffset(pos);
 	t.normal(0.0f, 0.0f, -1.0f);
@@ -169,15 +170,15 @@ void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 	t.vertex(aabb.max.x, aabb.min.y, aabb.max.z);
 	
 	t.setOffset(Vec3::ZERO);
-	t.draw(); // t.end() on Java
-	glEnable(GL_TEXTURE_2D);
+	t.draw(m_shaderMaterials.entity); // t.end() on Java
+	//glEnable(GL_TEXTURE_2D);
 }
 
 void EntityRenderer::renderFlat(const AABB& aabb)
 {
 	Tesselator& t = Tesselator::instance;
 
-	t.begin();
+	t.begin(24);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.min.y, aabb.min.z);
@@ -202,7 +203,7 @@ void EntityRenderer::renderFlat(const AABB& aabb)
 	t.vertex(aabb.max.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.max.z);
 	t.vertex(aabb.max.x, aabb.min.y, aabb.max.z);
-	t.draw(); // t.end() on Java
+	t.draw(m_shaderMaterials.entity); // t.end() on Java
 }
 
 void EntityRenderer::postRender(const Entity& entity, const Vec3& pos, float rot, float a)

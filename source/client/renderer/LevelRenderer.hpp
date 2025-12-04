@@ -10,7 +10,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include "thirdparty/GL/GL.hpp"
 #include "client/app/AppPlatformListener.hpp"
 #include "world/level/LevelListener.hpp"
 #include "Textures.hpp"

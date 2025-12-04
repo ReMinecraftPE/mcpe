@@ -13,11 +13,13 @@ Model::Materials::Materials()
 {
 	MATERIAL_PTR(switchable, entity);
 	MATERIAL_PTR(switchable, entity_alphatest);
+	MATERIAL_PTR(switchable, entity_alphatest_cull);
 	MATERIAL_PTR(switchable, entity_alphablend);
 	MATERIAL_PTR(switchable, entity_static);
 	MATERIAL_PTR(switchable, entity_emissive);
 	MATERIAL_PTR(switchable, entity_emissive_alpha);
 	MATERIAL_PTR(switchable, entity_change_color);
+	MATERIAL_PTR(switchable, entity_color_overlay);
 	MATERIAL_PTR(switchable, entity_glint);
 	MATERIAL_PTR(switchable, entity_alphatest_glint);
 }

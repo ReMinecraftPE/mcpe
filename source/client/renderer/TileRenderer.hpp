@@ -43,7 +43,7 @@ public:
 	void renderNorth(Tile*, const Vec3& pos, int texture);
 	void renderFaceDown(Tile*, const Vec3& pos, int texture);
 	void renderFaceUp(Tile*, const Vec3& pos, int texture);
-	void tesselateCrossTexture(const FullTile& tile, const Vec3& pos);
+	void tesselateCrossTexture(const FullTile& tile, const Vec3& pos, bool simple = false);
 	void tesselateTorch(Tile*, const Vec3& pos, float a, float b);
 	
 	bool tesselateBlockInWorldWithAmbienceOcclusion(Tile*, const TilePos& pos, float r, float g, float b);

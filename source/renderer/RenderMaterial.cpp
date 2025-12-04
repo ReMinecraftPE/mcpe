@@ -33,14 +33,15 @@ RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMateria
     _parseRenderStates(root);
     _parseRuntimeStates(root);
 
-#ifdef FEATURE_GFX_SHADERS
+
     _parseShaderPaths(root);
     if (!m_vertexShader.empty() && !m_fragmentShader.empty())
     {
         _parseDefines(root);
+#ifdef FEATURE_GFX_SHADERS
         _loadShader(*ShaderGroup::singleton());
-    }
 #endif
+    }
 
     _applyRenderStates();
 
@@ -48,6 +49,7 @@ RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMateria
     m_blendState.createBlendState(renderContext, m_blendStateDescription);
     m_depthStencilState.createDepthState(renderContext, m_depthStencilStateDescription);
     m_rasterizerState.createRasterizerStateDescription(renderContext, m_rasterizerStateDescription);
+    m_fixedPipelineState.createFixedPipelineState(renderContext, m_fixedPipelineStateDescription);
 }
 
 RenderState RenderMaterial::_parseStateName(const std::string& stateName) const
@@ -73,6 +75,7 @@ void RenderMaterial::_parseRuntimeStates(const rapidjson::Value& root)
 {
     _parseDepthStencilState(root);
     _parseBlendState(root);
+    _parseFixedPipelineState(root);
 
     if (root.HasMember("polygonOffsetLevel"))
     {
@@ -131,7 +134,17 @@ void RenderMaterial::_parseBlendState(const rapidjson::Value& root)
     parse(root, "blendDst", m_blendStateDescription.blendDestination);
 }
 
-#ifdef FEATURE_GFX_SHADERS
+void RenderMaterial::_parseFixedPipelineState(const rapidjson::Value& root)
+{
+    parse(root, "alphaFunc", m_fixedPipelineStateDescription.alphaFunc);
+
+    if (root.HasMember("alphaRef"))
+    {
+        const rapidjson::Value& alphaRefValue = root["alphaRef"];
+        if (!alphaRefValue.IsNull())
+            m_fixedPipelineStateDescription.alphaRef = alphaRefValue.GetFloat();
+    }
+}
 
 void RenderMaterial::_parseDefines(const rapidjson::Value& root)
 {
@@ -144,26 +157,6 @@ void RenderMaterial::_parseDefines(const rapidjson::Value& root)
         std::string defineStr = it->GetString();
         m_defines.insert(defineStr);
     }
-}
-
-std::string RenderMaterial::_buildHeader()
-{
-    std::string result; // Uses std::ostream in DX11
-
-#if MCE_GFX_API_DX11
-    // add R8G8B8A8_SNORM_UNSUPPORTED to defines if less than D3D_FEATURE_LEVEL_10_0
-#endif
-
-    for (std::set<std::string>::const_iterator it = m_defines.begin(); it != m_defines.end(); it++)
-    {
-        result += "#define " + *it + "\n";
-    }
-
-#if MCE_GFX_API_OGL
-    result += Platform::OGL::Precision::buildHeader();
-#endif
-
-    return result;
 }
 
 void RenderMaterial::_parseShaderPaths(const rapidjson::Value& root)
@@ -186,6 +179,28 @@ void RenderMaterial::_parseShaderPaths(const rapidjson::Value& root)
         if (!pathValue.IsNull())
             m_geometryShader = pathValue.GetString();
     }
+}
+
+#ifdef FEATURE_GFX_SHADERS
+
+std::string RenderMaterial::_buildHeader()
+{
+    std::string result; // Uses std::ostream in DX11
+
+#if MCE_GFX_API_DX11
+    // add R8G8B8A8_SNORM_UNSUPPORTED to defines if less than D3D_FEATURE_LEVEL_10_0
+#endif
+
+    for (std::set<std::string>::const_iterator it = m_defines.begin(); it != m_defines.end(); it++)
+    {
+        result += "#define " + *it + "\n";
+    }
+
+#if MCE_GFX_API_OGL
+    result += Platform::OGL::Precision::buildHeader();
+#endif
+
+    return result;
 }
 
 void RenderMaterial::_loadShader(ShaderGroup& shaderGroup)
@@ -222,6 +237,8 @@ void RenderMaterial::_applyRenderStates()
     m_depthStencilStateDescription.depthWriteMask = hasState(RS_DISABLE_DEPTH_WRITE) ? DEPTH_WRITE_MASK_NONE : DEPTH_WRITE_MASK_ALL;
     m_depthStencilStateDescription.stencilTestEnabled = hasState(RS_ENABLE_STENCIL_TEST);
     m_blendStateDescription.enableBlend = hasState(RS_BLENDING);
+    m_fixedPipelineStateDescription.enableAlphaTest = hasState(RS_ENABLE_ALPHA_TEST);
+    m_fixedPipelineStateDescription.enableTexture = hasState(RS_ENABLE_TEXTURE);
 
     float polygonOffsetLevel = 0.0f;
     if (hasState(RS_POLYGON_OFFSET))
@@ -262,6 +279,8 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 
 #ifdef FEATURE_GFX_SHADERS
     m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
+#else
+    m_fixedPipelineState.bindFixedPipelineState(context);
 #endif
 }
 

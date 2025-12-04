@@ -48,7 +48,11 @@
 #ifdef FEATURE_GFX_SHADERS
 #define MCE_GFX_CLASS_SHADER(className) MCE_GFX_CLASS(className)
 #define MCE_GFX_CLASS_HEADER_SHADER(className) MCE_GFX_CLASS_HEADER(className)
+#define MCE_GFX_CLASS_FIXED(className) _MCE_GFX_CLASS_MANUA(className, Null)
+#define MCE_GFX_CLASS_HEADER_FIXED(className) _MCE_GFX_CLASS_HEADER_MANUAL(null, MCE_GFX_CLASS_FIXED(className))
 #else
 #define MCE_GFX_CLASS_SHADER(className) _MCE_GFX_CLASS_MANUA(className, Null)
 #define MCE_GFX_CLASS_HEADER_SHADER(className) _MCE_GFX_CLASS_HEADER_MANUAL(null, MCE_GFX_CLASS_SHADER(className))
+#define MCE_GFX_CLASS_FIXED(className) MCE_GFX_CLASS(className)
+#define MCE_GFX_CLASS_HEADER_FIXED(className) MCE_GFX_CLASS_HEADER(className)
 #endif

@@ -11,6 +11,7 @@
 
 RocketLauncherTile::RocketLauncherTile(TileID id) : Tile(id, 16*14+2, Material::wood)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setTicking(true);
 }
 

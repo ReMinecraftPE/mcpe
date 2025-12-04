@@ -503,11 +503,6 @@ void Screen::renderBackground()
 
 void Screen::renderDirtBackground(int vo)
 {
-#ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_LIGHTING);
-	glDisable(GL_FOG);
-#endif
-
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 	currentShaderColor = Color::WHITE;
 

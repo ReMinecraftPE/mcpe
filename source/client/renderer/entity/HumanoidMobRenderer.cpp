@@ -21,7 +21,7 @@ HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRe
 
 void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 {
-	ItemInstance* inst = mob.getCarriedItem();
+	const ItemInstance* inst = mob.getCarriedItem();
 
 #ifdef ENH_GFX_MATRIX_STACK
 	MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -39,57 +39,57 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 
 	if (inst && inst->getTile() && TileRenderer::canRender(inst->getTile()->getRenderShape()))
 	{
+		constexpr float s = 0.5f * 0.75f;
 #ifdef ENH_GFX_MATRIX_STACK
 		matrix->translate(Vec3(0.0f, 0.1875f, -0.3125f));
-		matrix->rotate(20.0f, Vec3::UNIT_X);
+		matrix->rotate(200.0f, Vec3::UNIT_X);
 		matrix->rotate(45.0f, Vec3::UNIT_Y);
-		matrix->scale(Vec3(0.375f, -0.375f, 0.375f));
+		matrix->scale(s);
 #else
 		glTranslatef(0.0f, 0.1875f, -0.3125f);
 		glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-		glScalef(0.375f, -0.375f, 0.375f);
+		glScalef(s, -s, s);
 #endif
 	}
 	else if (inst && inst->getItem() && inst->getItem()->isHandEquipped())
 	{
+		constexpr float s = 0.625f;
 #ifdef ENH_GFX_MATRIX_STACK
 		matrix->translate(Vec3(0.0f, 0.1875f, 0.0f));
-		matrix->scale(Vec3(0.625f, -0.625f, 0.625f));
-		matrix->rotate(-100.0f, Vec3::UNIT_X);
+		matrix->scale(s);
+		matrix->rotate(80.0f, Vec3::UNIT_X);
 		matrix->rotate(45.0f, Vec3::UNIT_Y);
 #else
 		glTranslatef(0.0f, 0.1875f, 0.0f);
-		glScalef(0.625f, -0.625f, 0.625f);
+		glScalef(s, -s, s);
 		glRotatef(-100.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
 #endif
 	}
 	else
 	{
+		constexpr float s = 0.375;
 #ifdef ENH_GFX_MATRIX_STACK
 		matrix->translate(Vec3(0.25f, 0.1875f, -0.1875f));
-		matrix->scale(Vec3(0.375f, 0.375f, 0.375f));
+		matrix->scale(s);
 		matrix->rotate(60.0f, Vec3::UNIT_Z);
 		matrix->rotate(-90.0f, Vec3::UNIT_X);
 		matrix->rotate(20.0f, Vec3::UNIT_Z);
 #else
 		glTranslatef(0.25f, 0.1875f, -0.1875f);
-		glScalef(0.375f, 0.375f, 0.375f);
+		glScalef(s, s, s);
 		glRotatef(60.0f, 0.0f, 0.0f, 1.0f);
 		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 		glRotatef(20.0f, 0.0f, 0.0f, 1.0f);
 #endif
 	}
 
-	glEnable(GL_RESCALE_NORMAL);
 	m_pDispatcher->m_pItemInHandRenderer->renderItem(inst);
 
 #ifndef ENH_GFX_MATRIX_STACK
 	glPopMatrix();
 #endif
-
-	glDisable(GL_RESCALE_NORMAL);
 }
 
 void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1, float f2)

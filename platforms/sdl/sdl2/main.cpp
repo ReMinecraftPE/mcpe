@@ -2,7 +2,6 @@
 
 #include "thirdparty/SDL/SDL.h"
 
-#include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
 
 #ifdef __EMSCRIPTEN__

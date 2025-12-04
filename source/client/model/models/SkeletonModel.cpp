@@ -2,6 +2,8 @@
 
 SkeletonModel::SkeletonModel() : ZombieModel()
 {
+    m_pMaterial = &m_materials.entity_alphatest;
+
     m_arm1.clear();
     m_arm2.clear();
     m_leg1.clear();

@@ -245,6 +245,9 @@ public:
 	float m_blastResistance;
 	AABB m_aabbReturned;
 	std::string m_descriptionID;
+
+protected:
+	RenderLayer m_renderLayer;
 };
 
 class FullTile

@@ -3,6 +3,7 @@
 
 Web::Web(TileID id, int texture) : Tile(id, texture, Material::web)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 }
 
 int Web::getRenderShape() const

@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "Cube.hpp"
-#include "renderer/GL/GL.hpp"
 
 #define MUL_DEG_TO_RAD (180.0f / float(M_PI))
 

@@ -43,6 +43,7 @@ protected:
 	{
 	public:
 		mce::MaterialPtr ui_title_tile;
+		mce::MaterialPtr ui_title_tile_shadow;
 
 		Materials();
 	};

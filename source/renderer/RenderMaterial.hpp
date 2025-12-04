@@ -11,6 +11,7 @@
 #include "hal/interface/BlendState.hpp"
 #include "hal/interface/DepthStencilState.hpp"
 #include "hal/interface/RasterizerState.hpp"
+#include "hal/interface/FixedPipelineState.hpp"
 
 #include "ShaderGroup.hpp"
 
@@ -35,6 +36,8 @@ namespace mce
         DepthStencilStateDescription m_depthStencilStateDescription;
         RasterizerState m_rasterizerState;
         RasterizerStateDescription m_rasterizerStateDescription;
+        FixedPipelineState m_fixedPipelineState;
+        FixedPipelineStateDescription m_fixedPipelineStateDescription;
 
     public:
         RenderMaterial();
@@ -47,9 +50,10 @@ namespace mce
         void _parseDepthStencilFace(const rapidjson::Value& root, const char* depthStencilFaceName, StencilFaceDescription& faceDescription) const;
         void _parseDepthStencilState(const rapidjson::Value& root);
         void _parseBlendState(const rapidjson::Value& root);
-#ifdef FEATURE_GFX_SHADERS
-        void _parseShaderPaths(const rapidjson::Value& root);
+        void _parseFixedPipelineState(const rapidjson::Value& root);
         void _parseDefines(const rapidjson::Value& root);
+        void _parseShaderPaths(const rapidjson::Value& root);
+#ifdef FEATURE_GFX_SHADERS
         std::string _buildHeader();
         void _loadShader(ShaderGroup& shaderGroup);
 #endif

@@ -19,6 +19,5 @@ public:
 	int getColor(const LevelSource*, const TilePos& pos) const override;
 	int getTexture(Facing::Name face) const override;
 	int getTexture(const LevelSource*, const TilePos& pos, Facing::Name face) const override;
-	RenderLayer getRenderLayer() const override;
 	void tick(Level*, const TilePos& pos, Random*) override;
 };

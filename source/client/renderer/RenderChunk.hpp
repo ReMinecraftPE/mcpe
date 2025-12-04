@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "thirdparty/GL/GL.hpp"
 #include "renderer/Mesh.hpp"
 #include "world/level/TilePos.hpp"
 

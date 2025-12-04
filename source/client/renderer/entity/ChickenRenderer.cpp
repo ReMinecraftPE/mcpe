@@ -16,11 +16,11 @@ ChickenRenderer::~ChickenRenderer()
 {
 }
 
-float ChickenRenderer::getBob(Mob* mob, float time)
+float ChickenRenderer::getBob(const Mob& mob, float time)
 {
-	Chicken* chicken = (Chicken *)mob;
+	const Chicken& chicken = (const Chicken&)mob;
 
-	return (float)((Mth::sin((chicken->m_oFlap + (float)((float)(chicken->m_flap - chicken->m_oFlap) * time))/*, *(float*)&chicken->m_flap*/))
+	return (float)((Mth::sin((chicken.m_oFlap + (float)((float)(chicken.m_flap - chicken.m_oFlap) * time))/*, *(float*)&chicken->m_flap*/))
 		+ 1.0)
-		* chicken->m_oFlapSpeed + (float)((float)(chicken->m_flapSpeed - chicken->m_oFlapSpeed) * time);
+		* chicken.m_oFlapSpeed + (float)((float)(chicken.m_flapSpeed - chicken.m_oFlapSpeed) * time);
 }

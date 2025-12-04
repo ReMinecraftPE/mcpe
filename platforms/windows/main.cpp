@@ -9,7 +9,6 @@
 #include <cstdarg>
 #include <windowsx.h>
 
-#include "thirdparty/GL/GL.hpp"
 #include "compat/KeyCodes.hpp"
 #include "GameMods.hpp"
 

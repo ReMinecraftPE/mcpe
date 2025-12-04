@@ -12,6 +12,7 @@
 Bush::Bush(TileID id, int texture) : Tile(id, Material::plant)
 {
 	m_TextureFrame = texture;
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setTicking(true);
 	setShape(0.3f, 0.0f, 0.3f, 0.7f, 0.6f, 0.7f);
 }

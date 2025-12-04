@@ -67,7 +67,6 @@ typedef BOOL(WINAPI* PFNWGLSWAPINTERVALEXTPROC) (int interval);
 #ifdef USE_HARDWARE_GL_BUFFERS
 #if GL_VERSION_1_3
 PFNGLACTIVETEXTUREPROC p_glActiveTexture;
-PFNGLLOADTRANSPOSEMATRIXFPROC p_glLoadTransposeMatrixf;
 #endif
 #if GL_VERSION_1_5
 PFNGLBINDBUFFERPROC p_glBindBuffer;
@@ -133,7 +132,6 @@ bool xglInitted()
 {
 #ifdef USE_HARDWARE_GL_BUFFERS
 	return p_glActiveTexture
-		&& p_glLoadTransposeMatrixf
 		&& p_glBindBuffer
 		&& p_glBufferData
 		&& p_glGenBuffers
@@ -191,7 +189,6 @@ void xglInit()
 #ifdef _WIN32
 #if GL_VERSION_1_3
 	p_glActiveTexture = (PFNGLACTIVETEXTUREPROC)OGL::GetProcAddress("glActiveTexture");
-	p_glLoadTransposeMatrixf = (PFNGLLOADTRANSPOSEMATRIXFPROC)OGL::GetProcAddress("glLoadTransposeMatrixf");
 #endif
 #if GL_VERSION_1_5
 	p_glBindBuffer = (PFNGLBINDBUFFERPROC)OGL::GetProcAddress("glBindBuffer");
@@ -319,11 +316,6 @@ void xglInit()
 void xglActiveTexture(GLenum texture)
 {
 	p_glActiveTexture(texture);
-}
-
-void xglLoadTransposeMatrixf(const GLfloat* m)
-{
-	p_glLoadTransposeMatrixf(m);
 }
 
 #endif // GL_VERSION_1_3

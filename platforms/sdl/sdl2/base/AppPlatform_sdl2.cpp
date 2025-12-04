@@ -7,8 +7,6 @@
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
-#else
-#include "thirdparty/GL/GL.hpp"
 #endif
 
 #include "compat/KeyCodes.hpp"

@@ -7,9 +7,15 @@
  ********************************************************************/
 
 #include "TntRenderer.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/MatrixStack.hpp"
 #include "world/entity/PrimedTnt.hpp"
+
+TntRenderer::Materials::Materials()
+{
+	MATERIAL_PTR(switchable, primed_tnt);
+}
 
 TntRenderer::TntRenderer()
 {
@@ -62,7 +68,7 @@ void TntRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 	// @NOTE: Converting to a uint8 for whatever reason
 	if (((uint8_t(tnt.m_fuseTimer) / 5) & 1) == 0)
 	{
-		glDisable(GL_TEXTURE_2D);
+		//glDisable(GL_TEXTURE_2D);
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 		currentShaderColor = Color::WHITE;
@@ -71,7 +77,7 @@ void TntRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 		m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), m_shaderMaterials.entity ARGPATCH);
 		//glColor4f(1.0f, 1.0, 1.0f, 1.0f);
 		//glDisable(GL_BLEND);
-		glEnable(GL_TEXTURE_2D);
+		//glEnable(GL_TEXTURE_2D);
 	}
 
 #ifndef ENH_GFX_MATRIX_STACK

@@ -12,7 +12,6 @@
 #include "renderer/Mesh.hpp"
 #include "world/phys/Vec3.hpp"
 #include "TextureOffset.hpp"
-#include "thirdparty/GL/GL.hpp" // needed for m_buffer's GLuint
 
 class Cube;
 class Model;
@@ -34,9 +33,9 @@ public:
 	void addBox(const std::string& id, float a, float b, float c, int d, int e, int f, float g = 0);
 	void clear();
 	void compile(float scale);
-	void draw(float scale);
+	void draw(float scale, const mce::MaterialPtr* materialOverride = nullptr);
 	void mimic(const ModelPart& other);
-	void render(float scale);
+	void render(float scale, const mce::MaterialPtr* materialOverride = nullptr);
 	void setModel(Model* pModel);
 	void setPos(const Vec3& pos);
 	void setPos(float x, float y, float z);

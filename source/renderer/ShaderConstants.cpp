@@ -1,5 +1,6 @@
-#include "GlobalConstantBufferManager.hpp"
 #include "ShaderConstants.hpp"
+#include "GlobalConstantBufferManager.hpp"
+#include "RenderContextImmediate.hpp"
 
 using namespace mce;
 
@@ -21,8 +22,8 @@ void ShaderConstants::setShaderColor(const Color& shaderColor)
     
     sync();
 #else
-    // @TODO: abstract
-    glColor4f(shaderColor.r, shaderColor.g, shaderColor.b, shaderColor.a);
+    RenderContext& renderContext = RenderContextImmediate::get();
+    renderContext.setCurrentColor(shaderColor);
 #endif
 }
 
@@ -39,9 +40,8 @@ void ShaderConstants::setShaderColors(const Color& shaderColor, const Color& sha
 
     sync();
 #else
-    Color color = shaderColor * shaderDarkenColor;
-    // @TODO: abstract
-    glColor4f(color.r, color.g, color.b, color.a);
+    RenderContext& renderContext = RenderContextImmediate::get();
+    renderContext.setCurrentColor(shaderColor * shaderDarkenColor);
 #endif
 }
 

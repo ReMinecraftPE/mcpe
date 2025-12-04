@@ -6,6 +6,7 @@
 EntityShaderManager::Materials::Materials()
 {
 	MATERIAL_PTR(switchable, entity);
+	MATERIAL_PTR(switchable, entity_color_overlay);
 	MATERIAL_PTR(switchable, entity_alphatest);
 	MATERIAL_PTR(switchable, entity_static);
 }

@@ -11,23 +11,6 @@ DepthStencilStateOGL::DepthStencilStateOGL()
     m_stencilWriteMask = 0;
 }
 
-GLenum getDepthStencilFunc(ComparisonFunc depthFunc)
-{
-    switch (depthFunc)
-    {
-    case COMPARISON_FUNC_EQUAL:         return GL_EQUAL;
-    case COMPARISON_FUNC_NOT_EQUAL:     return GL_NOTEQUAL;
-    case COMPARISON_FUNC_ALWAYS:        return GL_ALWAYS;
-    case COMPARISON_FUNC_LESS:          return GL_LESS;
-    case COMPARISON_FUNC_GREATER:       return GL_GREATER;
-    case COMPARISON_FUNC_GREATER_EQUAL: return GL_GEQUAL;
-    case COMPARISON_FUNC_LESS_EQUAL:    return GL_LEQUAL;
-    default:
-        LOG_E("Unknown depthFunc: %d", depthFunc);
-        throw std::bad_cast();
-    }
-}
-
 GLenum getStencilOpAction(StencilOp stencilOp)
 {
     switch (stencilOp)
@@ -45,14 +28,14 @@ void DepthStencilStateOGL::createDepthState(RenderContext& context, const DepthS
     *this = DepthStencilStateOGL();
     DepthStencilStateBase::createDepthState(context, description);
 
-    m_depthFunc = getDepthStencilFunc(description.depthFunc);
+    m_depthFunc = getComparisonFunc(description.depthFunc);
 
-    m_frontFaceStencilInfo.func = getDepthStencilFunc(description.frontFace.stencilFunc);
+    m_frontFaceStencilInfo.func = getComparisonFunc(description.frontFace.stencilFunc);
     m_frontFaceStencilInfo.stencilFailAction = getStencilOpAction(description.frontFace.stencilFailOp);
     m_frontFaceStencilInfo.stencilPassDepthFailAction = getStencilOpAction(description.frontFace.stencilDepthFailOp);
     m_frontFaceStencilInfo.stencilPassDepthPassAction = getStencilOpAction(description.frontFace.stencilPassOp);
 
-    m_backFaceStencilInfo.func = getDepthStencilFunc(description.backFace.stencilFunc);
+    m_backFaceStencilInfo.func = getComparisonFunc(description.backFace.stencilFunc);
     m_backFaceStencilInfo.stencilFailAction = getStencilOpAction(description.backFace.stencilFailOp);
     m_backFaceStencilInfo.stencilPassDepthFailAction = getStencilOpAction(description.backFace.stencilDepthFailOp);
     m_backFaceStencilInfo.stencilPassDepthPassAction = getStencilOpAction(description.backFace.stencilPassOp);

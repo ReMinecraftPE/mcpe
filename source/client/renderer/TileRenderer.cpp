@@ -527,7 +527,7 @@ void TileRenderer::renderFaceUp(Tile* tile, const Vec3& pos, int texture)
 		tile->updateShape(m_pTileSource, pos);
 }
 
-void TileRenderer::tesselateCrossTexture(const FullTile& tile, const Vec3& pos)
+void TileRenderer::tesselateCrossTexture(const FullTile& tile, const Vec3& pos, bool simple)
 {
 	static constexpr float C_RATIO = 1.0f / 256.0f;
 
@@ -566,11 +566,15 @@ void TileRenderer::tesselateCrossTexture(const FullTile& tile, const Vec3& pos)
 	t.vertexUV(x2, newY + 0, z2, texU_r, texV_d);
 	t.vertexUV(x2, newY + 1, z2, texU_r, texV_u);
 
-	// face 2
-	t.vertexUV(x2, newY + 1, z2, texU_l, texV_u);
-	t.vertexUV(x2, newY + 0, z2, texU_l, texV_d);
-	t.vertexUV(x1, newY + 0, z1, texU_r, texV_d);
-	t.vertexUV(x1, newY + 1, z1, texU_r, texV_u);
+	// Check if we're culling the other faces
+	if (!simple)
+	{
+		// face 2
+		t.vertexUV(x2, newY + 1, z2, texU_l, texV_u);
+		t.vertexUV(x2, newY + 0, z2, texU_l, texV_d);
+		t.vertexUV(x1, newY + 0, z1, texU_r, texV_d);
+		t.vertexUV(x1, newY + 1, z1, texU_r, texV_u);
+	}
 
 	// face 3
 	t.vertexUV(x1, newY + 1, z2, texU_l, texV_u);
@@ -578,11 +582,14 @@ void TileRenderer::tesselateCrossTexture(const FullTile& tile, const Vec3& pos)
 	t.vertexUV(x2, newY + 0, z1, texU_r, texV_d);
 	t.vertexUV(x2, newY + 1, z1, texU_r, texV_u);
 
-	// face 4
-	t.vertexUV(x2, newY + 1, z1, texU_l, texV_u);
-	t.vertexUV(x2, newY + 0, z1, texU_l, texV_d);
-	t.vertexUV(x1, newY + 0, z2, texU_r, texV_d);
-	t.vertexUV(x1, newY + 1, z2, texU_r, texV_u);
+	if (!simple)
+	{
+		// face 4
+		t.vertexUV(x2, newY + 1, z1, texU_l, texV_u);
+		t.vertexUV(x2, newY + 0, z1, texU_l, texV_d);
+		t.vertexUV(x1, newY + 0, z2, texU_r, texV_d);
+		t.vertexUV(x1, newY + 1, z2, texU_r, texV_u);
+	}
 }
 
 bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r, float g, float b)
@@ -2579,9 +2586,9 @@ void TileRenderer::renderTile(const FullTile& tile, const mce::MaterialPtr& mate
 		case SHAPE_CROSS:
 		{
 			// unused as cross items render like regular items in the hand
-			t.begin();
-			t.normal(0.0f, -1.0f, 0.0f);
-			tesselateCrossTexture(tile, Vec3(-0.5f, -0.5f, -0.5f));
+			t.begin(16);
+			t.normal(Vec3::NEG_UNIT_Y);
+			tesselateCrossTexture(tile, Vec3(-0.5f, -0.5f, -0.5f), true);
 			t.draw(material);
 			break;
 		}

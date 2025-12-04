@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "thirdparty/GL/GL.hpp"
 #include "client/app/AppPlatform.hpp"
 
 #include "client/player/input/Mouse.hpp"

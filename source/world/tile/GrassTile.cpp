@@ -13,6 +13,7 @@
 GrassTile::GrassTile(TileID id, Material* c) : Tile(id, c)
 {
 	m_TextureFrame = TEXTURE_GRASS_SIDE;
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setTicking(true);
 }
 
@@ -59,11 +60,6 @@ int GrassTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
 		return TEXTURE_GRASS_SIDE_SNOW;
 
 	return TEXTURE_GRASS_SIDE;
-}
-
-Tile::RenderLayer GrassTile::getRenderLayer() const
-{
-	return RENDER_LAYER_OPAQUE;
 }
 
 void GrassTile::tick(Level* level, const TilePos& pos, Random* random)

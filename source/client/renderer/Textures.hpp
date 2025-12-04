@@ -9,7 +9,6 @@
 #pragma once
 #include <map>
 
-#include "thirdparty/GL/GL.hpp"
 #include "client/options/Options.hpp"
 #include "client/app/AppPlatform.hpp"
 #include "DynamicTexture.hpp"
@@ -19,22 +18,6 @@
 #define C_BLOCKS_NAME  "gui/gui_blocks.png"
 
 class DynamicTexture; // in case we are being included from DynamicTexture. We don't store complete references to that
-
-struct TextureDataGL
-{
-	int glID;
-	Texture textureData;
-
-	TextureDataGL()
-	{
-		glID = 0;
-	}
-	TextureDataGL(int i, Texture& x)
-	{
-		glID = i;
-		textureData = x;
-	}
-};
 
 class Textures
 {

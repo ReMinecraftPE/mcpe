@@ -170,7 +170,7 @@ void WorldSelectionList::renderItem(int index, int xPos, int yPos, int width, Te
 	t.vertexUV(float(xCenter - 32), y + 48.0f, m_blitOffset, 0.0f, 1.0f);
 	t.vertexUV(float(xCenter + 32), y + 48.0f, m_blitOffset, 1.0f, 1.0f);
 	t.vertexUV(float(xCenter + 32), y,         m_blitOffset, 1.0f, 0.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_texture_and_color);
 }
 
 void WorldSelectionList::renderBackground()

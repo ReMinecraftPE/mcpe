@@ -13,6 +13,15 @@
 
 class TntRenderer : public EntityRenderer
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr primed_tnt;
+
+		Materials();
+	};
+
 public:
 	TntRenderer();
 

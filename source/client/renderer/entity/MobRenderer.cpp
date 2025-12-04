@@ -185,7 +185,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 		if (overlayColor.a > 0)
 		{
 #ifndef FEATURE_GFX_SHADERS
-			glDisable(GL_TEXTURE_2D);
+			//glDisable(GL_TEXTURE_2D);
 			//glDisable(GL_ALPHA_TEST);
 #endif
 			//glEnable(GL_BLEND);
@@ -194,7 +194,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 
 			currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
 			mce::MaterialPtr* pMaterial = m_pModel->m_pMaterial;
-			m_pModel->m_pMaterial = &m_pModel->m_materials.entity_change_color;
+			m_pModel->m_pMaterial = &m_pModel->m_materials.entity_color_overlay;
 
 			m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale); // same here
 
@@ -203,7 +203,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 				if (prepareArmor(mob, i, f))
 				{
 					mce::MaterialPtr* pMaterial = m_pArmorModel->m_pMaterial;
-					m_pArmorModel->m_pMaterial = &m_pArmorModel->m_materials.entity_change_color;
+					m_pArmorModel->m_pMaterial = &m_pArmorModel->m_materials.entity_color_overlay;
 
 					currentShaderColor = overlayColor; //glColor4f(overlayColor.r, overlayColor.g, overlayColor.b, overlayColor.a);
 					m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
@@ -217,7 +217,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			//glDepthFunc(GL_LEQUAL);
 			//glDisable(GL_BLEND);
 #ifndef FEATURE_GFX_SHADERS
-			glEnable(GL_TEXTURE_2D);
+			//glEnable(GL_TEXTURE_2D);
 			//glEnable(GL_ALPHA_TEST);
 #endif
 		}
@@ -291,7 +291,7 @@ void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Ve
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 #ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 	
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.25f);
@@ -309,7 +309,7 @@ void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Ve
 	t.draw(m_materials.name_tag);
 
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 #endif
 
 	font->draw(str, -font->width(str) / 2, 0, 0x20FFFFFF);

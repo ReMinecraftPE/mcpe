@@ -13,6 +13,7 @@
 DoorTile::DoorTile(int ID, Material* pMtl) : Tile(ID, pMtl)
 {
 	m_TextureFrame = TEXTURE_DOOR_BOTTOM;
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 
 	if (pMtl == Material::metal)
 		m_TextureFrame = TEXTURE_DOOR_IRON_BOTTOM;

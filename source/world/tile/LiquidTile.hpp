@@ -21,7 +21,6 @@ public:
 	void animateTick(Level*, const TilePos& pos, Random* random) override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	float getBrightness(const LevelSource*, const TilePos& pos) const override;
-	RenderLayer getRenderLayer() const override;
 	int getRenderShape() const override;
 	int getResource(TileData, Random*) const override;
 	int getResourceCount(Random*) const override;

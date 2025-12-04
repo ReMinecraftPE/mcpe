@@ -6,7 +6,6 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "ModelPart.hpp"
-#include "renderer/GL/GL.hpp"
 #include "../models/Model.hpp"
 
 #define MUL_DEG_TO_RAD (180.0f / float(M_PI))  // formerly known as Cube::c
@@ -95,7 +94,7 @@ void ModelPart::compile(float scale)
 	m_bCompiled = true;
 }
 
-void ModelPart::draw(float scale)
+void ModelPart::draw(float scale, const mce::MaterialPtr* materialOverride)
 {
 	// We are not using drawArrayVTC here since that would use the color that's compiled initially into the ModelPart
 	// and would therefore not allow for on-the-fly coloring.
@@ -105,7 +104,7 @@ void ModelPart::draw(float scale)
 		compile(scale);
 
 	mce::MaterialPtr& materialPtr = m_pMaterial ? *m_pMaterial : (m_pModel ? *m_pModel->m_pMaterial : mce::MaterialPtr::NONE);
-	m_mesh.render(materialPtr);
+	m_mesh.render(materialOverride ? *materialOverride : materialPtr);
 }
 
 void ModelPart::mimic(const ModelPart& other)
@@ -140,7 +139,7 @@ void ModelPart::translateRotTo(Matrix& matrix, float scale)
 	if (m_rot.x != 0.0f) matrix.rotate(m_rot.x * MUL_DEG_TO_RAD, Vec3::UNIT_X);
 }
 
-void ModelPart::render(float scale)
+void ModelPart::render(float scale, const mce::MaterialPtr* materialOverride)
 {
 	if (field_49)
 		return;
@@ -157,7 +156,7 @@ void ModelPart::render(float scale)
 		MatrixStack::Ref mtx = MatrixStack::World.push();
 
 		translateRotTo(mtx, scale);
-		draw(scale);
+		draw(scale, materialOverride);
 #else
 		glPushMatrix();
 
@@ -173,7 +172,7 @@ void ModelPart::render(float scale)
 		MatrixStack::Ref mtx = MatrixStack::World.push();
 
 		translatePosTo(mtx, scale);
-		draw(scale);
+		draw(scale, materialOverride);
 #else
 		translatePosTo(scale);
 		draw(scale);
@@ -182,7 +181,7 @@ void ModelPart::render(float scale)
 	}
 	else
 	{
-		draw(scale);
+		draw(scale, materialOverride);
 	}
 }
 

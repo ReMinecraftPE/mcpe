@@ -3,6 +3,7 @@
 #include "RenderContextStateBase.hpp"
 #include "common/math/Color.hpp"
 #include "renderer/VertexFormat.hpp"
+#include "renderer/MatrixStack.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
 #include "renderer/hal/enums/ShaderType.hpp"
 #include "renderer/hal/interface/ShaderProgram.hpp"
@@ -16,6 +17,7 @@ namespace mce
     public:
         RenderContextStateBase m_currentState;
         VertexFormat m_lastVertexFormat;
+        Color m_currentColor;
         // Unused in OGL
         int field_34;
         // Only used in DX11
@@ -28,8 +30,12 @@ namespace mce
         RenderContextBase();
 
     public:
-        void setDrawState(const VertexFormat& vertexFormat);
-        void clearDrawState(const VertexFormat& vertexFormat);
+        void loadMatrix(MatrixType matrixType, const Matrix& matrix);
+        void setVertexState(const VertexFormat& vertexFormat);
+        void clearVertexState(const VertexFormat& vertexFormat);
+        void enableFixedLighting(bool init);
+        void disableFixedLighting(bool teardown);
+        bool setCurrentColor(const Color& color);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);

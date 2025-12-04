@@ -5,6 +5,12 @@
 #include "thirdparty/glm/glm.hpp"
 #include "world/phys/Vec3.hpp"
 
+enum MatrixType
+{
+    MATRIX_VIEW,
+    MATRIX_PROJECTION
+};
+
 class Matrix
 {
 public:

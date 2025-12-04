@@ -11,7 +11,6 @@
 #include <stdint.h>
 #include <map>
 #include <vector>
-#include "thirdparty/GL/GL.hpp"
 #include "RenderChunk.hpp"
 #include "world/phys/Vec2.hpp"
 #include "world/phys/Vec3.hpp"
@@ -77,7 +76,6 @@ public:
 	void color(float r, float g, float b, float a);
 	void colorABGR(uint32_t c);
 	void draw(const mce::MaterialPtr& materialPtr = mce::MaterialPtr::NONE);
-	int  getVboCount();
 	void init();
 	void trim();
 	void enableColor();
@@ -93,7 +91,6 @@ public:
 	void addOffset(const Vec3& pos);
 	void setOffset(float x, float y, float z) { setOffset(Vec3(x, y, z)); }
 	void addOffset(float x, float y, float z) { addOffset(Vec3(x, y, z)); }
-	void setAccessMode(int mode);
 	void tex(const Vec2& uv);
 	void tex1(const Vec2& uv);
 	void tex(float u, float v);
@@ -141,19 +138,11 @@ private:
 	// State
 	bool m_bTesselating;
 	mce::PrimitiveMode m_drawMode;
-	bool m_bVboMode;
-
-	// VBO State
-	GLuint* m_vboIds;
-	int m_vboId;
-	int m_vboCounts;
 
 	// Buffer state
 	int m_maxVertices;
 
 private:
 	bool m_bVoidBeginEnd;
-
-	int m_accessMode;
 };
 

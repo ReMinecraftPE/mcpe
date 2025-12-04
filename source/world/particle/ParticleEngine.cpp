@@ -183,7 +183,7 @@ void ParticleEngine::render(const Entity& camera, float f)
 			pParticle->render(t, f, x1, x2, x3, x4, x5);
 		}
 
-		t.draw(m_materials.particles_opaque);
+		t.draw(m_materials.particles_alpha);
 	}
 }
 

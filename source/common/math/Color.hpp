@@ -84,6 +84,14 @@ public:
         return *this;
     }
 
+    bool operator==(const Color& other) const
+    {
+        return this->r == other.r
+            && this->g == other.g
+            && this->b == other.b
+            && this->a == other.a;
+    }
+
 public:
     static Color SHADE_WEST_EAST;
     static Color SHADE_NORTH_SOUTH;

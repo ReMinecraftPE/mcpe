@@ -1,7 +1,6 @@
 #include <stdarg.h>
 #include "thirdparty/SDL/SDL.h"
 #include "thirdparty/SDL/SDL_gamecontroller.h"
-#include "thirdparty/GL/GL.hpp"
 
 #include "client/app/App.hpp"
 #include "desktop/AppPlatform_sdl1_desktop.hpp"

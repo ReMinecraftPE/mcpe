@@ -7,4 +7,5 @@ RenderContextStateBase::RenderContextStateBase()
     m_bBoundBlendState = false;
     m_bBoundDepthStencilState = false;
     m_bBoundRasterizerState = false;
+    m_bBoundFixedPipelineState = false;
 }

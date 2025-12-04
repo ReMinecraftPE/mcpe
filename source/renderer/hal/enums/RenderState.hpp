@@ -13,6 +13,9 @@ namespace mce
         RS_DISABLE_DEPTH_WRITE,
         RS_STENCIL_WRITE,
         RS_INVERT_CULLING,
-        RS_ENABLE_STENCIL_TEST
+        RS_ENABLE_STENCIL_TEST,
+        // Fixed pipeline stuff
+        RS_ENABLE_ALPHA_TEST,
+        RS_ENABLE_TEXTURE
     };
 }

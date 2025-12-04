@@ -23,11 +23,13 @@ protected:
 	public:
 		mce::MaterialPtr entity;
 		mce::MaterialPtr entity_alphatest;
+		mce::MaterialPtr entity_alphatest_cull;
 		mce::MaterialPtr entity_alphablend;
 		mce::MaterialPtr entity_static;
 		mce::MaterialPtr entity_emissive;
 		mce::MaterialPtr entity_emissive_alpha;
 		mce::MaterialPtr entity_change_color;
+		mce::MaterialPtr entity_color_overlay;
 		mce::MaterialPtr entity_glint;
 		mce::MaterialPtr entity_alphatest_glint;
 

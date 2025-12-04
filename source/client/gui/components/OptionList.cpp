@@ -235,7 +235,7 @@ void OptionList::renderHoleBackground(float a, float b, int c, int d)
 #ifndef FEATURE_GFX_SHADERS
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 
 	Tesselator& t = Tesselator::instance;
@@ -248,7 +248,7 @@ void OptionList::renderHoleBackground(float a, float b, int c, int d)
 	t.draw(m_materials.ui_fill_color);
 
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 	//glDisable(GL_BLEND);
 #endif
 }
@@ -258,7 +258,7 @@ void OptionList::renderScrollBackground()
 #ifndef FEATURE_GFX_SHADERS
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 #endif
 
 	Tesselator& t = Tesselator::instance;
@@ -271,7 +271,7 @@ void OptionList::renderScrollBackground()
 	t.draw(m_materials.ui_fill_color);
 
 #ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 	//glDisable(GL_BLEND);
 #endif
 }

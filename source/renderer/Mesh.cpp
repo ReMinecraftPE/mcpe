@@ -129,17 +129,11 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
     GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
     bufferManager.refreshWorldConstants();
 
-#ifndef FEATURE_GFX_SHADERS
-    bool hasAlphaTest = false;
-#endif
-
     if (materialPtr)
     {
         materialPtr->useWith(context, m_vertexFormat, m_rawData);
 #ifdef FEATURE_GFX_SHADERS
         materialPtr->m_pShader->validateVertexFormat(m_vertexFormat);
-#else
-        hasAlphaTest = materialPtr->m_defines.find("ALPHA_TEST") != materialPtr->m_defines.end();
 #endif
     }
     else
@@ -148,9 +142,9 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
     }
 
 #ifndef FEATURE_GFX_SHADERS
-    if (hasAlphaTest) glEnable(GL_ALPHA_TEST);
-    context.setDrawState(m_vertexFormat);
+    context.setVertexState(m_vertexFormat);
 #endif
+
     if (m_primitiveMode == PRIMITIVE_MODE_QUAD_LIST)
     {
         uint8_t indexSize = m_indexSize;
@@ -171,9 +165,9 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
     {
         context.draw(m_primitiveMode, startOffset, vertexCount);
     }
+
 #ifndef FEATURE_GFX_SHADERS
-    context.clearDrawState(m_vertexFormat);
-    if (hasAlphaTest) glDisable(GL_ALPHA_TEST);
+    context.clearVertexState(m_vertexFormat);
 #endif
 }
 

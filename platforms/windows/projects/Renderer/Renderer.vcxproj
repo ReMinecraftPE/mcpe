@@ -33,6 +33,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferConstantsBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferContainerBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\ImmediateBufferBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\RasterizerStateBase.cpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBuffer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBufferContainer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\RasterizerState.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\RenderContext.cpp" />
@@ -96,12 +98,14 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\StencilOp_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.cpp" />
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.cpp" />
@@ -118,6 +122,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.cpp" />
@@ -148,6 +153,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferConstantsBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\ConstantBufferContainerBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\ImmediateBufferBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\RasterizerStateBase.hpp" />
@@ -188,6 +194,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBufferConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ConstantBufferContainer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\RasterizerState.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\RenderContext.hpp" />
@@ -222,12 +229,14 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\VertexFormat.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\WeatherConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.hpp" />
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.hpp" />
@@ -244,6 +253,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.hpp" />

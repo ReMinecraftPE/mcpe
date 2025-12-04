@@ -92,6 +92,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.hpp">
       <Filter>Header Files\HAL\Base</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.hpp">
+      <Filter>Header Files\HAL\Base</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.hpp">
       <Filter>Header Files\HAL\Base</Filter>
     </ClInclude>
@@ -203,6 +206,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.hpp">
+      <Filter>Header Files\HAL\Interface</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
@@ -243,6 +249,9 @@
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp">
+      <Filter>Header Files\HAL\OGL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp">
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp">
@@ -392,6 +401,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.hpp">
+      <Filter>Header Files\HAL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
@@ -413,6 +425,9 @@
       <Filter>Source Files\HAL\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\DepthStencilStateBase.cpp">
+      <Filter>Source Files\HAL\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.cpp">
       <Filter>Source Files\HAL\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.cpp">
@@ -475,6 +490,9 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\DepthStencilState.cpp">
       <Filter>Source Files\HAL\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.cpp">
+      <Filter>Source Files\HAL\Interface</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.cpp">
       <Filter>Source Files\HAL\Interface</Filter>
     </ClCompile>
@@ -512,6 +530,9 @@
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp">
+      <Filter>Source Files\HAL\OGL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp">
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp">
@@ -681,6 +702,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.cpp">
+      <Filter>Source Files\HAL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

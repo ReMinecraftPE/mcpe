@@ -11,8 +11,9 @@
 #include "world/entity/MobCategory.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
-#include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
+#include "client/renderer/GrassColor.hpp"
+#include "client/renderer/Lighting.hpp"
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
@@ -105,63 +106,6 @@ void NinecraftApp::_updateStats()
 		m_fps = 0;
 	}
 	*/
-}
-
-void NinecraftApp::_initGLStates()
-{
-#ifdef MC_GL_DEBUG_OUTPUT
-	glEnable(GL_DEBUG_OUTPUT);
-	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
-	xglDebugMessageCallback(&mce::Platform::OGL::DebugMessage, nullptr);
-#endif
-
-	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
-
-	// Set depth stencil state
-	{
-		mce::DepthStencilStateDescription desc;
-		desc.depthTestEnabled = true; // glEnable(GL_DEPTH_TEST);
-		desc.depthFunc = mce::COMPARISON_FUNC_LESS_EQUAL; // glDepthFunc(GL_LEQUAL);
-
-		mce::DepthStencilState state;
-		state.createDepthState(renderContext, desc);
-		state.bindDepthStencilState(renderContext);
-	}
-
-	// managed by shaders
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.1f);
-
-	// Set rasterizer state
-	{
-		mce::RasterizerStateDescription desc;
-		desc.cullMode = mce::CULL_BACK; // glCullFace(GL_BACK);
-
-		mce::RasterizerState state;
-		state.createRasterizerStateDescription(renderContext, desc);
-		state.bindRasterizerState(renderContext);
-	}
-
-	// managed by shaders
-	glEnable(GL_TEXTURE_2D);
-	
-	// how tf do we set this?
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-
-	glDisable(GL_LIGHTING);
-
-	// Set blend state
-	{
-		mce::BlendStateDescription desc;
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-		desc.blendSource = mce::BLEND_TARGET_SOURCE_ALPHA;
-		desc.blendDestination = mce::BLEND_TARGET_ONE_MINUS_SRC_ALPHA;
-		//desc.enableBlend = true;
-
-		mce::BlendState state;
-		state.createBlendState(renderContext, desc);
-		state.bindBlendState(renderContext);
-	}
 }
 
 void NinecraftApp::_reloadTextures()
@@ -272,9 +216,6 @@ void NinecraftApp::init()
 
 	_initMaterials();
 
-	// Do this after, since material loading messed with the GL state, particularly depth
-	_initGLStates();
-
 	m_pGui = new Gui(this);
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
 	m_pFont = new Font(getOptions(), "font/default8.png", m_pTextures);
@@ -312,7 +253,8 @@ void NinecraftApp::setupRenderer()
 
 void NinecraftApp::onGraphicsReset()
 {
-	_initGLStates();
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.lostContext();
 	Tesselator::instance.init();
 
 	m_pTextures->clear();

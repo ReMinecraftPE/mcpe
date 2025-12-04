@@ -8,7 +8,6 @@
 
 #include <cstddef>
 #include "Tesselator.hpp"
-#include "thirdparty/GL/GL.hpp"
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
 #include "compat/EndianDefinitions.h"
@@ -44,12 +43,10 @@ Tesselator::CurrentVertexPointers::CurrentVertexPointers(void* vertexData, const
 		color = (uint32_t*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_COLOR, vertexData);
 	}
 
-#ifdef USE_GL_NORMAL_LIGHTING
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
 	{
 		normal = (uint32_t*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_NORMAL, vertexData);
 	}
-#endif
 
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
 	{
@@ -105,31 +102,16 @@ void Tesselator::_init()
 	m_bTesselating = false;
 	m_drawMode = mce::PRIMITIVE_MODE_NONE;
 
-	m_vboCounts = 1024; // 10 on Java
-	m_vboId = -1;
-
 	m_bVoidBeginEnd = false;
-
-	m_accessMode = 2;
 }
 
 Tesselator::Tesselator(int size)
 {
 	_init();
-
-	// Setup VBO
-	m_bVboMode = USE_VBO; // && lwjgl::GLContext::getCapabilities()["GL_ARB_vertex_buffer_object"];
-	if (m_bVboMode)
-	{
-		m_vboIds = new GLuint[m_vboCounts];
-		//init(); // Java
-	}
 }
 
 Tesselator::~Tesselator()
 {
-	if (m_vboIds)
-		delete[] m_vboIds;
 }
 
 void* Tesselator::_allocateIndices(int count)
@@ -149,10 +131,7 @@ void Tesselator::_tex(const Vec2& uv, int count)
 }
 
 void Tesselator::clear()
-{
-	// @HAL remove
-	m_accessMode = 2;
-	
+{	
 	m_count = 0;
 	m_indices.clear();
 	m_vertexFormat = mce::VertexFormat::EMPTY;
@@ -294,14 +273,8 @@ bool Tesselator::isFormatFixed() const
 	return m_currentVertex.pos != nullptr;
 }
 
-int Tesselator::getVboCount()
-{
-	return m_vboCounts;
-}
-
 void Tesselator::init()
 {
-	xglGenBuffers(m_vboCounts, m_vboIds);
 }
 
 void Tesselator::trim()
@@ -351,7 +324,6 @@ void Tesselator::resetScale()
 
 void Tesselator::normal(float x, float y, float z)
 {
-#ifdef USE_GL_NORMAL_LIGHTING
 	/*if (!m_bTesselating)
 		LOG_W("But...");*/
 
@@ -368,7 +340,6 @@ void Tesselator::normal(float x, float y, float z)
 	{
 		m_vertexFormat.enableField(mce::VERTEX_FIELD_NORMAL);
 	}
-#endif
 }
 
 void Tesselator::setOffset(const Vec3& pos)
@@ -379,11 +350,6 @@ void Tesselator::setOffset(const Vec3& pos)
 void Tesselator::addOffset(const Vec3& pos)
 {
 	m_offset += pos;
-}
-
-void Tesselator::setAccessMode(int mode)
-{
-	m_accessMode = mode;
 }
 
 void Tesselator::tex(const Vec2& uv)

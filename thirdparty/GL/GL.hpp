@@ -132,7 +132,6 @@ bool xglInitted();
 
 #if GL_VERSION_1_3 || GL_ES_VERSION_1_0
 #define xglActiveTexture glActiveTexture
-#define xglLoadTransposeMatrixf glLoadTransposeMatrixf
 #endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
 #if GL_VERSION_1_5 || GL_ES_VERSION_1_0
 #define xglBindBuffer glBindBuffer
@@ -199,7 +198,6 @@ bool xglInitted();
 
 #if GL_VERSION_1_3 || GL_ES_VERSION_1_0
 void xglActiveTexture(GLenum texture);
-void xglLoadTransposeMatrixf(const GLfloat* m);
 #endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
 #if GL_VERSION_1_5 || GL_ES_VERSION_1_0
 void xglBindBuffer(GLenum target, GLuint buffer);

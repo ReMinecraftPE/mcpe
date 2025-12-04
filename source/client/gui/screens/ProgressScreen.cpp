@@ -33,7 +33,7 @@ void ProgressScreen::render(int a, int b, float c)
 	t.vertexUV(float(x_width), float(x_height), 0, float(x_width) / 32.0f, float(x_height) / 32.0f);
 	t.vertexUV(float(x_width), 0,               0, float(x_width) / 32.0f, 0);
 	t.vertexUV(0.0f,           0,               0, 0,                      0);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_texture_and_color);
 
 	int yPos = x_height / 2;
 
@@ -43,7 +43,7 @@ void ProgressScreen::render(int a, int b, float c)
 		float prog = float(m_pMinecraft->m_progressPercent);
 
 		// disable the texturing
-		glDisable(GL_TEXTURE_2D);
+		//glDisable(GL_TEXTURE_2D);
 
 		t.begin(8);
 
@@ -63,7 +63,7 @@ void ProgressScreen::render(int a, int b, float c)
 
 #ifndef FEATURE_GFX_SHADERS
 		// restore old state
-		glEnable(GL_TEXTURE_2D);
+		//glEnable(GL_TEXTURE_2D);
 #endif
 	}
 

@@ -12,12 +12,8 @@
 IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {
 	m_friction = 0.98f;
+	m_renderLayer = RENDER_LAYER_BLEND;
 	setTicking(true);
-}
-
-Tile::RenderLayer IceTile::getRenderLayer() const
-{
-	return RENDER_LAYER_BLEND;
 }
 
 int IceTile::getResourceCount(Random* pRandom) const

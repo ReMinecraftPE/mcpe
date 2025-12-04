@@ -55,8 +55,6 @@ void GameRenderer::_init()
 	field_80 = 0.0f;
 	field_84 = 0.0f;
 
-	m_depthStencilState = nullptr;
-
 	m_shownFPS = m_shownChunkUpdates = m_lastUpdatedMS = 0;
 
 	m_envTexturePresence = 0;
@@ -75,24 +73,11 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 #ifdef FEATURE_GFX_SHADERS
 	mce::GlobalConstantBuffers::getInstance().init();
 #endif
-
-	_initDepthStencilState();
 }
 
 GameRenderer::~GameRenderer()
 {
 	delete m_pItemInHandRenderer;
-	delete m_depthStencilState; // marked with no p to indicate that we own the object
-}
-
-void GameRenderer::_initDepthStencilState()
-{
-	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
-
-	m_depthStencilState = new mce::DepthStencilState();
-
-	mce::DepthStencilStateDescription desc;
-	m_depthStencilState->createDepthState(renderContext, desc);
 }
 
 void GameRenderer::_clearFrameBuffer()
@@ -642,7 +627,6 @@ void GameRenderer::renderLevel(float f)
 		renderContext.setRenderTarget();
 		const Color& clearColor = levelRenderer.setupClearColor(f);
 		renderContext.clearFrameBuffer(clearColor);
-		m_depthStencilState->bindDepthStencilState(renderContext);
 		renderContext.clearDepthStencilBuffer();
 
 		setupCamera(f, i);

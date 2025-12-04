@@ -16,6 +16,7 @@
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
 
+// needed for screenshots
 #include "thirdparty/GL/GL.hpp"
 
 #include "thirdparty/stb_image/include/stb_image.h"
