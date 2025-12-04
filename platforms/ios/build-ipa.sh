@@ -20,7 +20,7 @@ if ! command -v plistutil >/dev/null; then
     exit 1
 fi
 
-rm -rf platforms/ios/ipa
+rm -rf platforms/ios/build/ipa
 apppath='platforms/ios/build/ipa/Payload/ReMCPE.app'
 mkdir -p "$apppath"
 cp "build/$bin" "$apppath/minecraftpe"
