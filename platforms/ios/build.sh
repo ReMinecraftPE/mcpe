@@ -11,9 +11,9 @@ bin='reminecraftpe'
 
 printf '\nDownloading iOS SDK...\n\n'
 
-rm -rf ios-work
-mkdir ios-work
-cd ios-work
+rm -rf build
+mkdir -p build/work
+cd build/work
 workdir="$PWD"
 
 # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
@@ -78,8 +78,8 @@ make -C misc strip
 cp misc/strip ../../bin/cctools-strip
 cd ../..
 for target in $targets; do
-    ln -s ../../ios-cc.sh "bin/$target-cc"
-    ln -s ../../ios-cc.sh "bin/$target-c++"
+    ln -s ../../../ios-cc.sh "bin/$target-cc"
+    ln -s ../../../ios-cc.sh "bin/$target-c++"
 done
 
 printf '\nBuilding ldid...\n\n'
@@ -91,7 +91,7 @@ cd "ldid-$ldid_commit"
 make CXX=clang++
 mv ldid ../bin
 
-cd ../../../..
+cd ../../../../..
 
 for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
@@ -120,4 +120,4 @@ done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
 
-[ -n "$REMCPE_NO_IPA" ] || "$workdir/../build-ipa.sh"
+[ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"

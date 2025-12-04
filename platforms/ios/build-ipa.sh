@@ -22,8 +22,8 @@ for dep in ldid plistutil; do
     fi
 done
 
-rm -rf platforms/ios/ios-ipa
-apppath='platforms/ios/build/ios-ipa/Payload/ReMCPE.app'
+rm -rf platforms/ios/ipa
+apppath='platforms/ios/build/ipa/Payload/ReMCPE.app'
 mkdir -p "$apppath"
 cp "build/$bin" "$apppath/minecraftpe"
 ldid -Splatforms/ios/minecraftpe.entitlements "$apppath/minecraftpe"
@@ -43,7 +43,7 @@ cp -a \
     game/assets/terrain.png \
     game/assets/particles.png \
     "$apppath"
-cd platforms/ios/build/ios-ipa
+cd platforms/ios/build/ipa
 rm -f "../$ipaname"
 zip -r "../$ipaname" Payload
 
