@@ -13,7 +13,7 @@ nproc() {
 }
 
 if [ "$(uname -s)" != "Darwin" ] && [ -z "$AR" ] && [ -z "$LIPO" ] && [ -z "$CLANG" ]; then
-    for dep in llvm-ar llvm-lipo clang; do
+    for dep in llvm-ar llvm-lipo clang make cmake; do
         if ! command -v "$dep" >/dev/null; then
             printf '%s not found!\n' "$dep"
             exit 1
