@@ -68,9 +68,9 @@ rm iPhoneOS8.0.sdk.tar.lzma
 
 ln -s arm64-apple-ios7-sdk armv7-apple-ios3-sdk
 
-rm -rf ../build
-mkdir ../build
-cd ../build
+rm -rf ../../../build
+mkdir ../../../build
+cd ../../../build
 
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
@@ -79,12 +79,12 @@ cmake .. \
     -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
     -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
     -DCMAKE_AR="$(command -v "$ar")" \
-    -DCMAKE_FIND_ROOT_PATH="$PWD/../ios-work/armv7-apple-ios3-sdk/usr" \
+    -DCMAKE_FIND_ROOT_PATH="$PWD/../platforms/ios/ios-work/armv7-apple-ios3-sdk/usr" \
     -DCMAKE_C_COMPILER=armv7-apple-ios3-cc \
     -DCMAKE_CXX_COMPILER=armv7-apple-ios3-c++
 make -j"$(nproc)"
 "$strip" reminecraftpe
-mv reminecraftpe ../ios-work/reminecraftpe-armv7
+mv reminecraftpe ../platforms/ios/ios-work/reminecraftpe-armv7
 
 cd ..
 rm -rf build
@@ -98,13 +98,13 @@ cmake .. \
     -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
     -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
     -DCMAKE_AR="$(command -v "$ar")" \
-    -DCMAKE_FIND_ROOT_PATH="$PWD/../ios-work/arm64-apple-ios7-sdk/usr" \
+    -DCMAKE_FIND_ROOT_PATH="$PWD/../platforms/ios/ios-work/arm64-apple-ios7-sdk/usr" \
     -DCMAKE_C_COMPILER=arm64-apple-ios7-cc \
     -DCMAKE_CXX_COMPILER=arm64-apple-ios7-c++
 make -j"$(nproc)"
 "$strip" reminecraftpe
-mv reminecraftpe ../ios-work/reminecraftpe-arm64
+mv reminecraftpe ../platforms/ios/ios-work/reminecraftpe-arm64
 
-"$lipo" -create ../ios-work/reminecraftpe-arm64 ../ios-work/reminecraftpe-armv7 -output reminecraftpe
+"$lipo" -create ../platforms/ios/ios-work/reminecraftpe-arm64 ../platforms/ios/ios-work/reminecraftpe-armv7 -output reminecraftpe
 
-../ios-ipa.sh
+../platforms/ios/ios-ipa.sh

@@ -3,7 +3,7 @@
 set -e
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
-cd "$scriptroot"
+cd "$scriptroot/../.."
 
 if ! [ -f build/reminecraftpe ]; then
     printf 'Expected working binary at build/reminecraftpe.\n'
@@ -18,8 +18,8 @@ for dep in ldid plistutil; do
     fi
 done
 
-rm -rf ios-ipa
-apppath='ios-ipa/Payload/ReMCPE.app'
+rm -rf platforms/ios/ios-ipa
+apppath='platforms/ios/ios-ipa/Payload/ReMCPE.app'
 mkdir -p "$apppath"
 cp build/reminecraftpe "$apppath/minecraftpe"
 ldid -Splatforms/ios/minecraftpe.entitlements "$apppath/minecraftpe"
@@ -39,8 +39,6 @@ cp -a \
     game/assets/terrain.png \
     game/assets/particles.png \
     "$apppath"
-cd ios-ipa
-rm -f ../ReMCPE.ipa
-zip -r ../ReMCPE.ipa Payload
-
-printf '\nDone! Your IPA is at ReMCPE.ipa.\n'
+cd platforms/ios/ios-ipa
+rm -f ../../../ReMCPE.ipa
+zip -r ../../../ReMCPE.ipa Payload
