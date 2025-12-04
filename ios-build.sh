@@ -4,6 +4,14 @@ set -e
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
+nproc() {
+    if command -v nproc >/dev/null; then
+        nproc
+    else
+        sysctl -n hw.ncpu
+    fi
+}
+
 download() {
     tries=3
     while true; do
