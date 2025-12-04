@@ -273,6 +273,5 @@ xcuserdata/
 /game/assets
 
 # iOS ipa files
-/platforms/ios/ios-ipa
 /platforms/ios/ios-work
-*.ipa
+/platforms/ios/build
