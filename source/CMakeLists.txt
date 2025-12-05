@@ -454,7 +454,6 @@ endif()
 message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
 
 if(REMCPE_GFX_API STREQUAL "OGL")
-	message(STATUS "Selected GFX API: OGL")
     target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/ogl/API_OGL.cpp
@@ -500,6 +499,8 @@ elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
 		renderer/hal/null/ShaderProgramNull.cpp
 		renderer/hal/null/TextureNull.cpp
 	)
+else()
+	message(FATAL_ERROR "An unknown or unsupported GFX API was specified: ${REMCPE_GFX_API}")
 endif()
 
 # RakNet
