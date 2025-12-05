@@ -67,6 +67,9 @@ else()
     file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/game/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
 endif()
 
+# GFX API
+set(REMCPE_GFX_API, "OGL")
+
 #VBO Emulation
 if(USE_GL_VBO_EMULATION)
     add_compile_options(-DUSE_GL_VBO_EMULATION)

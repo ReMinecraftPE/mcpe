@@ -443,31 +443,40 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/interface/ShaderConstantWithData.cpp
     renderer/hal/interface/ShaderProgram.cpp
     renderer/hal/interface/Texture.cpp
-    renderer/hal/ogl/API_OGL.cpp
-    renderer/hal/ogl/BlendStateOGL.cpp
-    renderer/hal/ogl/BufferOGL.cpp
-    renderer/hal/ogl/ConstantBufferContainerOGL.cpp
-    renderer/hal/ogl/DepthStencilStateOGL.cpp
-    renderer/hal/ogl/FixedPipelineStateOGL.cpp
-    renderer/hal/ogl/FogStateOGL.cpp
-    renderer/hal/ogl/GPUEventsOGL.cpp
-    renderer/hal/ogl/ImmediateBufferOGL.cpp
-    renderer/hal/ogl/ProfileSectionOGL.cpp
-    renderer/hal/ogl/RasterizerStateOGL.cpp
-    renderer/hal/ogl/RenderContextOGL.cpp
-    renderer/hal/ogl/RenderDeviceOGL.cpp
-    renderer/hal/ogl/ResourceOGL.cpp
-    renderer/hal/ogl/ShaderConstantOGL.cpp
-    renderer/hal/ogl/ShaderConstantWithDataOGL.cpp
-    renderer/hal/ogl/ShaderOGL.cpp
-    renderer/hal/ogl/ShaderProgramOGL.cpp
-    renderer/hal/ogl/ShaderResourceOGL.cpp
-    renderer/hal/ogl/ShaderUniformOGL.cpp
-    renderer/hal/ogl/TextureOGL.cpp
-    renderer/platform/ogl/Extensions.cpp
-    renderer/platform/ogl/ShaderPrecision.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)
+
+# OGL
+if(MCPE_GFX_API EQUAL "OGL")
+
+	add_compile_options(-DMCE_GFX_API_OGL=1)
+	target_sources(reminecraftpe-core PRIVATE
+		renderer/hal/ogl/API_OGL.cpp
+		renderer/hal/ogl/BlendStateOGL.cpp
+		renderer/hal/ogl/BufferOGL.cpp
+		renderer/hal/ogl/ConstantBufferContainerOGL.cpp
+		renderer/hal/ogl/DepthStencilStateOGL.cpp
+		renderer/hal/ogl/FixedPipelineStateOGL.cpp
+		renderer/hal/ogl/FogStateOGL.cpp
+		renderer/hal/ogl/GPUEventsOGL.cpp
+		renderer/hal/ogl/ImmediateBufferOGL.cpp
+		renderer/hal/ogl/ProfileSectionOGL.cpp
+		renderer/hal/ogl/RasterizerStateOGL.cpp
+		renderer/hal/ogl/RenderContextOGL.cpp
+		renderer/hal/ogl/RenderDeviceOGL.cpp
+		renderer/hal/ogl/ResourceOGL.cpp
+		renderer/hal/ogl/ShaderConstantOGL.cpp
+		renderer/hal/ogl/ShaderConstantWithDataOGL.cpp
+		renderer/hal/ogl/ShaderOGL.cpp
+		renderer/hal/ogl/ShaderProgramOGL.cpp
+		renderer/hal/ogl/ShaderResourceOGL.cpp
+		renderer/hal/ogl/ShaderUniformOGL.cpp
+		renderer/hal/ogl/TextureOGL.cpp
+		renderer/platform/ogl/Extensions.cpp
+		renderer/platform/ogl/ShaderPrecision.cpp
+	)
+
+endif() # OGL
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
@@ -490,10 +499,6 @@ else()
     target_link_libraries(zlib-interface INTERFACE ZLIB::ZLIB)
 endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib-interface)
-# OpenGL Support Code
-if(MCPE_WIN32)
-    target_sources(reminecraftpe-core PRIVATE ../thirdparty/GL/GLExt.cpp)
-endif()
 
 # OGG Support
 target_link_libraries(reminecraftpe-core PUBLIC stb_vorbis)

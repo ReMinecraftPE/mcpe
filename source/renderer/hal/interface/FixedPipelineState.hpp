@@ -5,7 +5,7 @@
 
 namespace mce
 {
-    class FixedPipelineState : public MCE_GFX_CLASS(FixedPipelineState)
+    class FixedPipelineState : public MCE_GFX_CLASS_FIXED(FixedPipelineState)
     {
     public:
         FixedPipelineState();
