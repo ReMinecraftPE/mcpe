@@ -1690,9 +1690,17 @@ void LevelRenderer::renderAdvancedClouds(float alpha)
 	for (int pass = 0; pass < 2; pass++)
 	{
 		if (pass == 0)
+		{
+#if MCE_GFX_API_OGL
 			glColorMask(false, false, false, false);
+#endif
+		}
 		else
+		{
+#if MCE_GFX_API_OGL
 			glColorMask(true, true, true, true);
+#endif
+		}
 
 		for (int xPos = -radius + 1; xPos <= radius; xPos++)
 		{
