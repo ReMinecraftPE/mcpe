@@ -536,6 +536,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.hpp">
       <Filter>Header Files\Renderer\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -939,6 +942,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.cpp">
       <Filter>Source Files\Renderer\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -36,7 +36,6 @@ public:
 	void setClean();
 	bool isDirty();
 	void rebuild();
-	void translateToPos();
 
 public:
 	static int updates;

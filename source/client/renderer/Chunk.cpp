@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Chunk.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 #include "world/level/Level.hpp"
 #include "world/level/Region.hpp"
 #include "TileRenderer.hpp"
@@ -140,6 +141,7 @@ void Chunk::rebuild()
 	TilePos min(m_pos), max(m_pos + m_posS);
 	Region region(m_pLevel, min - 1, max + 1);
 
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	Tesselator& t = Tesselator::instance;
 	TileRenderer tileRenderer(t, &region);
 
@@ -160,7 +162,9 @@ void Chunk::rebuild()
 					{
 						started = true;
 						if (tileRenderer.useAmbientOcclusion())
-							glShadeModel(GL_SMOOTH);
+						{
+							renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
+						}
 						t.begin(12000);
 						t.setOffset(-m_pos);
 					}
@@ -199,11 +203,6 @@ void Chunk::rebuild()
 
 	field_54 = LevelChunk::touchedSky;
 	m_bCompiled = true;
-}
-
-void Chunk::translateToPos()
-{
-	glTranslatef(float(m_pos.x), float(m_pos.y), float(m_pos.z));
 }
 
 Chunk::Chunk(Level* level, const TilePos& pos, int size, int lists)

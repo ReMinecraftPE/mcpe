@@ -33,15 +33,18 @@ GLenum _getGLMatrixModeFromMatrixType(MatrixType matrixType)
 
 void RenderContextOGL::loadMatrix(MatrixType matrixType, const Matrix& matrix)
 {
+#ifndef FEATURE_GFX_SHADERS
     GLenum matrixMode = _getGLMatrixModeFromMatrixType(matrixType);
     glMatrixMode(matrixMode);
     glLoadMatrixf(matrix.ptr());
+#endif
 }
 
 void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
 {
     RenderContextBase::setVertexState(vertexFormat);
 
+#ifndef FEATURE_GFX_SHADERS
     unsigned int vertexSize = vertexFormat.getVertexSize();
 
     if (vertexFormat.hasField(mce::VERTEX_FIELD_POSITION))
@@ -69,10 +72,12 @@ void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
         xglEnableClientState(GL_NORMAL_ARRAY);
     }
 #endif
+#endif
 }
 
 void RenderContextOGL::clearVertexState(const VertexFormat& vertexFormat)
 {
+#ifndef FEATURE_GFX_SHADERS
     if (vertexFormat.hasField(mce::VERTEX_FIELD_POSITION))
         xglDisableClientState(GL_VERTEX_ARRAY);
 #ifdef USE_GL_NORMAL_LIGHTING
@@ -83,6 +88,7 @@ void RenderContextOGL::clearVertexState(const VertexFormat& vertexFormat)
         xglDisableClientState(GL_COLOR_ARRAY);
     if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
         xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
+#endif
 }
 
 float* _getBuffer(const Vec3& abc, float d)
@@ -98,6 +104,7 @@ float* _getBuffer(const Vec3& abc, float d)
 
 void RenderContextOGL::enableFixedLighting(bool init)
 {
+#ifndef FEATURE_GFX_SHADERS
 #ifdef USE_GL_NORMAL_LIGHTING
 	glEnable(GL_LIGHTING);
 #endif
@@ -127,13 +134,13 @@ void RenderContextOGL::enableFixedLighting(bool init)
         glLightfv(GL_LIGHT1, GL_SPECULAR,      _getBuffer(s,    1.0f));
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, _getBuffer(a,    1.0f));
 #endif
-
-        glShadeModel(GL_FLAT);
+#endif
     }
 }
 
 void RenderContextOGL::disableFixedLighting(bool teardown)
 {
+#ifndef FEATURE_GFX_SHADERS
 #ifdef USE_GL_NORMAL_LIGHTING
     glDisable(GL_LIGHTING);
     if (teardown)
@@ -143,6 +150,19 @@ void RenderContextOGL::disableFixedLighting(bool teardown)
         glDisable(GL_COLOR_MATERIAL);
     }
 #endif
+#endif
+}
+
+bool RenderContextOGL::setShadeMode(ShadeMode mode)
+{
+    if (!RenderContextBase::setShadeMode(mode))
+        return false;
+
+#ifndef FEATURE_GFX_SHADERS
+    glShadeModel(shadeModeMap[mode]);
+#endif
+
+    return true;
 }
 
 bool RenderContextOGL::setCurrentColor(const Color& color)
@@ -150,7 +170,9 @@ bool RenderContextOGL::setCurrentColor(const Color& color)
     if (!RenderContextBase::setCurrentColor(color))
         return false;
 
+#ifndef FEATURE_GFX_SHADERS
     glColor4f(color.r, color.g, color.b, color.a);
+#endif
 
     return true;
 }

@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <sstream>
 #include "client/app/AppPlatformListener.hpp"
+#include "renderer/hal/interface/FogState.hpp"
 #include "world/level/LevelListener.hpp"
 #include "Textures.hpp"
 #include "RenderList.hpp"
@@ -143,7 +144,7 @@ public:
 	std::string gatherStats1();
 	std::string gatherStats2();
 	void onGraphicsReset();
-	void render(const AABB& aabb, const mce::MaterialPtr& material) const;
+	void renderLineBox(const AABB& aabb, const mce::MaterialPtr& material, float lineWidth) const;
 	void render(const Entity& camera, Tile::RenderLayer layer, float alpha, bool fog = false);
 	void renderLevel(const Entity& camera, FrustumCuller& culler, float a1, float f);
 	void renderEntities(Vec3 pos, Culler*, float f);
@@ -202,7 +203,6 @@ public:
 	bool m_bOcclusionCheck;
 	int m_lastViewDistance;
 	int m_ticksSinceStart;
-	Color m_fogColor;
 	float m_fogBrO;
 	float m_fogBr;
 	//...

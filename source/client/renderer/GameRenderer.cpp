@@ -17,7 +17,7 @@
 #include "renderer/RenderContextImmediate.hpp"
 #include "thirdparty/glm/glm.hpp"
 
-// #define SHOW_VERTEX_COUNTER_GRAPHIC
+//#define SHOW_VERTEX_COUNTER_GRAPHIC
 
 #if defined SHOW_VERTEX_COUNTER_GRAPHIC && !defined _DEBUG
 #undef  SHOW_VERTEX_COUNTER_GRAPHIC
@@ -130,6 +130,9 @@ void GameRenderer::_renderItemInHand(float f, int i)
 
 void GameRenderer::_renderDebugOverlay(float a)
 {
+	ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+	Font& font = *m_pMinecraft->m_pFont;
+
 	std::stringstream debugText;
 	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
 	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
@@ -157,15 +160,34 @@ void GameRenderer::_renderDebugOverlay(float a)
 		debugText << "XYZ: " << posStr << "\n";
 		debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
 	}
+
 #ifdef SHOW_VERTEX_COUNTER_GRAPHIC
 	extern int g_nVertices; // Tesselator.cpp
 	debugText << "\nverts: " << g_nVertices;
 
+	_renderVertexGraph(g_nVertices, int(Minecraft::height * Gui::InvGuiScale));
+#endif
+
+	/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
+	debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
+	debugText << "\nGameRenderer::field_7C: "      << field_7C;
+	debugText << "\nGameRenderer::field_80: "      << field_80;*/
+
+	font.drawShadow(debugText.str(), 2, 2, Color::WHITE);
+
+#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
+	g_nVertices = 0;
+#endif
+}
+
+void GameRenderer::_renderVertexGraph(int vertices, int h)
+{
+	ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+	Font& font = *m_pMinecraft->m_pFont;
+
 	static int vertGraph[200];
 	memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
-	vertGraph[(sizeof(vertGraph) / sizeof(vertGraph[0])) - 1] = g_nVertices;
-
-	g_nVertices = 0;
+	vertGraph[(sizeof(vertGraph) / sizeof(vertGraph[0])) - 1] = vertices;
 
 	Tesselator& t = Tesselator::instance;
 
@@ -174,9 +196,7 @@ void GameRenderer::_renderDebugOverlay(float a)
 		max = std::max(max, vertGraph[i]);
 
 	int maxht = 100;
-	int h = int(Minecraft::height * Gui::InvGuiScale);
 
-	glDisable(GL_DEPTH_TEST);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
@@ -187,9 +207,9 @@ void GameRenderer::_renderDebugOverlay(float a)
 	t.vertex(000, h, 0);
 	t.vertex(200, h, 0);
 	t.vertex(200, h - maxht, 0);
-	t.draw();
+	t.draw(screenRenderer.m_materials.ui_fill_color);
 
-	t.begin();
+	t.begin(200 * 4);
 	t.color(0.0f, 1.0f, 0.0f, 1.0f);
 
 	for (int i = 0; i < 200 && max != 0; i++)
@@ -200,23 +220,9 @@ void GameRenderer::_renderDebugOverlay(float a)
 		t.vertex(i + 1, h - (vertGraph[i] * maxht / max), 0);
 	}
 
-	t.draw();
-	glEnable(GL_DEPTH_TEST);
+	t.draw(screenRenderer.m_materials.ui_fill_color);
 
-
-	m_pMinecraft->m_pFont->drawShadow(std::to_string(max), 200, h - maxht, Color::WHITE);
-#endif
-
-	/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
-	debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
-	debugText << "\nGameRenderer::field_7C: "      << field_7C;
-	debugText << "\nGameRenderer::field_80: "      << field_80;*/
-
-	m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, Color::WHITE);
-
-#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
-	g_nVertices = 0;
-#endif
+	screenRenderer.drawString(font, std::to_string(max), 200, h - maxht);
 }
 
 void GameRenderer::zoomRegion(float zoom, const Vec2& region)
@@ -468,10 +474,12 @@ void GameRenderer::renderLevel(float f)
 	{
 		if (bAnaglyph)
 		{
+#if MCE_GFX_API_OGL
 			if (i > 0)
 				glColorMask(true, false, false, false);
 			else
 				glColorMask(false, true, true, false);
+#endif
 		}
 
 		renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
@@ -490,7 +498,11 @@ void GameRenderer::renderLevel(float f)
 	}
 
 	if (bAnaglyph)
+	{
+#if MCE_GFX_API_OGL
 		glColorMask(true, true, true, false);
+#endif
+	}
 }
 
 void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, const Entity& camera, float f, ParticleEngine& particleEngine, float i)
@@ -501,15 +513,19 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 #ifndef ORIGINAL_CODE
 			// @NOTE: For whatever reason, Minecraft doesn't enable GL_FOG right away.
 			// It appears to work in bluestacks for whatever reason though...
-			glEnable(GL_FOG);
+			Fog::enable();
 #endif
 			setupFog(-1);
 			pLR->renderSky(f);
 		}
 		*/
 
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
 	if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
-		glShadeModel(GL_SMOOTH);
+	{
+		renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
+	}
 
 	Frustum& frust = Frustum::frustum;
 	Frustum::calculateFrustum();
@@ -532,7 +548,6 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 
 	if (m_zoom == 1.0f)
 	{
-		glClear(GL_DEPTH_BUFFER_BIT);
 		_renderItemInHand(f, i);
 	}
 }

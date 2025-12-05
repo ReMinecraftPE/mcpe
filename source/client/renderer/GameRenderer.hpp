@@ -30,6 +30,7 @@ private:
 	void _clearFrameBuffer();
 	void _renderItemInHand(float, int);
 	void _renderDebugOverlay(float a);
+	void _renderVertexGraph(int vertices, int h);
 
 public:
 	void saveMatrices();

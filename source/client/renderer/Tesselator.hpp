@@ -75,7 +75,7 @@ public:
 	void color(float r, float g, float b);
 	void color(float r, float g, float b, float a);
 	void colorABGR(uint32_t c);
-	void draw(const mce::MaterialPtr& materialPtr = mce::MaterialPtr::NONE);
+	void draw(const mce::MaterialPtr& materialPtr);
 	void init();
 	void trim();
 	void enableColor();

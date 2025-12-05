@@ -11,6 +11,7 @@ void Lighting::turnOn(bool init)
 {
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	renderContext.enableFixedLighting(init);
+	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 }
 
 void Lighting::turnOn(const Matrix& matrix)

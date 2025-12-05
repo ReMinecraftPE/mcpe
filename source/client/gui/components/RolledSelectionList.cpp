@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "RolledSelectionList.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
 static float g_RolledSelectionListUnk, g_RolledSelectionListUnk2;
 
@@ -92,6 +93,8 @@ void RolledSelectionList::tick()
 
 void RolledSelectionList::render(int mouseX, int mouseY, float f)
 {
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
 	renderBackground();
 
 	int nItems = getNumberOfItems();
@@ -144,9 +147,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	renderHoleBackground(0.0f, field_20, 255, 255);
 	renderHoleBackground(field_24, float(field_1C), 255, 255);
 	
-#ifndef FEATURE_GFX_SHADERS
-	glShadeModel(GL_SMOOTH);
-#endif
+	renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
 	
 	// @BUG: The X and Y coordinates have been swapped. This causes the gradient to not render
 	// in the right place.
@@ -190,9 +191,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	
 	renderDecorations(mouseX, mouseY);
 	
-#ifndef FEATURE_GFX_SHADERS
-	glShadeModel(GL_FLAT);
-#endif
+	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 }
 
 void RolledSelectionList::renderHoleBackground(float y1, float y2, int a, int b)

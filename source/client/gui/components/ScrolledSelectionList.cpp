@@ -10,6 +10,7 @@
 
 #include "ScrolledSelectionList.hpp"
 #include "renderer/EnableScissorTest.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
 #define C_ITEM_WIDTH C_SCROLLED_LIST_ITEM_WIDTH
 
@@ -150,6 +151,8 @@ void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
 
 void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 {
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
 	renderBackground(f);
 
 	int nItems = getNumberOfItems();
@@ -211,9 +214,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	renderHoleBackground(0.0f, field_C, 255, 255);
 	renderHoleBackground(field_10, float(field_1C), 255, 255);
 
-#ifndef FEATURE_GFX_SHADERS
-	glShadeModel(GL_SMOOTH);
-#endif
+	renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
 
 	t.begin(4);
 	t.color(0, 0);
@@ -235,9 +236,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 
 	renderDecorations(mouseX, mouseY);
 
-#ifndef FEATURE_GFX_SHADERS
-	glShadeModel(GL_FLAT);
-#endif
+	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 }
 
 void ScrolledSelectionList::renderHoleBackground(float a, float b, int c, int d)

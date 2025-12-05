@@ -1,4 +1,5 @@
 #include "ScreenRenderer.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 #include "renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "client/renderer/Tesselator.hpp"
@@ -106,9 +107,8 @@ void ScreenRenderer::fill(int left, int top, int right, int bottom, const Color&
 
 void ScreenRenderer::fillGradient(float left, float top, float right, float bottom, const Color& colorUp, const Color& colorDown)
 {
-#ifndef FEATURE_GFX_SHADERS
-    glShadeModel(GL_SMOOTH);
-#endif
+    mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+    renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
 
     Tesselator& t = Tesselator::instance;
     t.begin(4);
@@ -122,9 +122,7 @@ void ScreenRenderer::fillGradient(float left, float top, float right, float bott
 
     t.draw(m_materials.ui_fill_gradient);
 
-#ifndef FEATURE_GFX_SHADERS
-    glShadeModel(GL_FLAT);
-#endif
+    renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 }
 
 void ScreenRenderer::fillGradient(int left, int top, int right, int bottom, const Color& colorUp, const Color& colorDown)

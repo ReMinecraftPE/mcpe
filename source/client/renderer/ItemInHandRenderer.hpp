@@ -35,9 +35,9 @@ public:
 	void itemUsed();
 	void render(float a);
 	void renderItem(const ItemInstance*);
-	void renderScreenEffect(float f);
-	void renderFire(float f);
-	void renderTex(float f, int tex);
+	void renderScreenEffect(float a);
+	void renderFire(float a);
+	void renderTex(float a, int tex);
 	void tick();
 	void turn(const Vec2& rot);
 

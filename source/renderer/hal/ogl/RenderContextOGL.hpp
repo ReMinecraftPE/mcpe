@@ -16,6 +16,10 @@ namespace mce
         /*PRIMITIVE_MODE_LINE_LIST*/      GL_LINES,
         /*PRIMITIVE_MODE_LINE_STRIP*/     GL_LINE_STRIP
     };
+    const GLenum shadeModeMap[] = {
+        /*SHADE_MODE_FLAT*/   GL_FLAT,
+        /*SHADE_MODE_SMOOTH*/ GL_SMOOTH
+    };
     const GLenum indexType[] = {
         GL_NONE,
         GL_UNSIGNED_BYTE,
@@ -61,6 +65,7 @@ namespace mce
         void clearVertexState(const VertexFormat& vertexFormat);
         void enableFixedLighting(bool init);
         void disableFixedLighting(bool teardown);
+        bool setShadeMode(ShadeMode mode);
         bool setCurrentColor(const Color& color);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);

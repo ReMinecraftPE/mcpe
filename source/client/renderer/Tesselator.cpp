@@ -439,6 +439,10 @@ void Tesselator::vertex(float x, float y, float z)
 		*m_currentVertex.normal = m_nextVtxNormal;
 
 	m_vertices++;
+
+#ifdef _DEBUG
+	g_nVertices++;
+#endif
 }
 
 void Tesselator::vertexUV(const Vec3& pos, float u, float v)

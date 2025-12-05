@@ -95,6 +95,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.hpp">
       <Filter>Header Files\HAL\Base</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FogStateBase.hpp">
+      <Filter>Header Files\HAL\Base</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.hpp">
       <Filter>Header Files\HAL\Base</Filter>
     </ClInclude>
@@ -149,10 +152,16 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\DepthWriteMask.hpp">
       <Filter>Header Files\HAL\Enums</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\FogMode.hpp">
+      <Filter>Header Files\HAL\Enums</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode.hpp">
       <Filter>Header Files\HAL\Enums</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState.hpp">
+      <Filter>Header Files\HAL\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShadeMode.hpp">
       <Filter>Header Files\HAL\Enums</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderPrimitiveTypes.hpp">
@@ -209,6 +218,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\FogState.hpp">
+      <Filter>Header Files\HAL\Interface</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
@@ -252,6 +264,9 @@
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp">
+      <Filter>Header Files\HAL\OGL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.hpp">
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp">
@@ -306,6 +321,12 @@
       <Filter>Header Files\HAL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\DepthStencilStateDescription.hpp">
+      <Filter>Header Files\HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.hpp">
+      <Filter>Header Files\HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.hpp">
       <Filter>Header Files\HAL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ImageDescription.hpp">
@@ -401,9 +422,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.hpp">
-      <Filter>Header Files\HAL</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
@@ -428,6 +446,9 @@
       <Filter>Source Files\HAL\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FixedPipelineStateBase.cpp">
+      <Filter>Source Files\HAL\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FogStateBase.cpp">
       <Filter>Source Files\HAL\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\FrameBufferObjectBase.cpp">
@@ -466,7 +487,34 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\base\TextureBase.cpp">
       <Filter>Source Files\HAL\Base</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\BlendTarget_JsonParser.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.hpp">
+      <Filter>Header Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ComparisonFunc_JsonParser.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode_JsonParser.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderPrimitiveTypes.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderStagesBits_JsonParser.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\StencilOp_JsonParser.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\helpers\ErrorHandler.cpp">
@@ -491,6 +539,9 @@
       <Filter>Source Files\HAL\Interface</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FixedPipelineState.cpp">
+      <Filter>Source Files\HAL\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\FogState.cpp">
       <Filter>Source Files\HAL\Interface</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\ImmediateBuffer.cpp">
@@ -533,6 +584,9 @@
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp">
+      <Filter>Source Files\HAL\OGL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.cpp">
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp">
@@ -581,6 +635,12 @@
       <Filter>Source Files\HAL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\DepthStencilStateDescription.cpp">
+      <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.cpp">
+      <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.cpp">
       <Filter>Source Files\HAL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ImageDescription.cpp">
@@ -675,36 +735,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\WorldConstants.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\BlendTarget_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.hpp">
-      <Filter>Header Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ComparisonFunc_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\PrimitiveMode_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\RenderState_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderStagesBits_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\StencilOp_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp">
-      <Filter>Source Files\HAL\Enums</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.cpp">
-      <Filter>Source Files\HAL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

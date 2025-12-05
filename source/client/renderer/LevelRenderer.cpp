@@ -18,6 +18,7 @@
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
 
+#include "Fog.hpp"
 #include "Lighting.hpp"
 
 TerrainLayer renderLayerToTerrainLayerMap[Tile::RENDER_LAYERS_COUNT] = {
@@ -219,8 +220,6 @@ void LevelRenderer::_renderSunrise(float alpha)
 	float* c = m_pLevel->m_pDimension->getSunriseColor(m_pLevel->getTimeOfDay(alpha), alpha);
 	if (c != nullptr && arePlanetsAvailable())
 	{
-		//glShadeModel(GL_SMOOTH); // I'd rather fuck up the sunrise gradient than AO, but it doesn't even look like it does that
-
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 		matrix->rotate(90.0f, Vec3::UNIT_X);
 		matrix->rotate(m_pLevel->getTimeOfDay(alpha) > 0.5f ? 180 : 0, Vec3::UNIT_Z);
@@ -243,7 +242,6 @@ void LevelRenderer::_renderSunrise(float alpha)
 		}
 
 		t.draw(m_materials.sunrise);
-		//glShadeModel(GL_FLAT); // fuck it, don't bother, doing this SOMEHOW breaks AO
 	}
 }
 
@@ -335,61 +333,43 @@ void LevelRenderer::_recreateTessellators()
 
 void LevelRenderer::_setupFog(const Entity& camera, int i)
 {
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	mce::FogStateDescription& desc = Fog::nextState;
 	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
 	float renderDistance = gameRenderer.m_renderDistance;
 
-	glFogfv(GL_FOG_COLOR, (float*)&m_fogColor);
-#ifndef __EMSCRIPTEN__
-	glNormal3f(0.0f, -1.0f, 0.0f);
-#endif
-
 	if (camera.isUnderLiquid(Material::water))
 	{
-#if defined(ORIGINAL_CODE) || defined(ANDROID)
-		glFogx(GL_FOG_MODE, GL_EXP);
-#else
-		glFogi(GL_FOG_MODE, GL_EXP);
-#endif
-
-		glFogf(GL_FOG_DENSITY, 0.1f);
+		desc.fogMode = mce::FOG_MODE_EXP;
+		desc.fogDensity = 0.1f;
 	}
 	else if (camera.isUnderLiquid(Material::lava))
 	{
-#if defined(ORIGINAL_CODE) || defined(ANDROID)
-		glFogx(GL_FOG_MODE, GL_EXP);
-#else
-		glFogi(GL_FOG_MODE, GL_EXP);
-#endif
-
-		glFogf(GL_FOG_DENSITY, 2.0f);
+		desc.fogMode = mce::FOG_MODE_EXP;
+		desc.fogDensity = 2.0f;
 	}
 	else
 	{
-#if defined(ORIGINAL_CODE) || defined(ANDROID)
-		glFogx(GL_FOG_MODE, GL_LINEAR);
-#else
-		glFogi(GL_FOG_MODE, GL_LINEAR);
-#endif
+		desc.fogMode = mce::FOG_MODE_LINEAR;
 
-		glFogf(GL_FOG_START, renderDistance * 0.25f);
-		glFogf(GL_FOG_END, renderDistance);
 		if (i < 0)
 		{
-			glFogf(GL_FOG_START, 0.0f);
-			glFogf(GL_FOG_END, renderDistance * 0.8f);
+			desc.fogStartZ = 0.0f;
+			desc.fogEndZ = renderDistance * 0.8f;
+		}
+		else
+		{
+			desc.fogStartZ = renderDistance * 0.25f;
+			desc.fogEndZ = renderDistance;
 		}
 
 		if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
 		{
-			glFogf(GL_FOG_START, 0.0f);
+			desc.fogStartZ = 0.0f;
 		}
-
 	}
 
-#if !defined(__EMSCRIPTEN__) && !defined(USE_GLES)
-	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT, GL_AMBIENT);
-#endif
+	Fog::updateState();
 }
 
 const mce::MaterialPtr& LevelRenderer::_chooseOverlayMaterial(Tile::RenderLayer layer) const
@@ -654,8 +634,21 @@ void LevelRenderer::onGraphicsReset()
 	allChanged();
 }
 
-void LevelRenderer::render(const AABB& aabb, const mce::MaterialPtr& material) const
+void LevelRenderer::renderLineBox(const AABB& aabb, const mce::MaterialPtr& material, float lineWidth) const
 {
+#if MCE_GFX_API_OGL
+	// Maximize Line Width
+	glEnable(GL_LINE_SMOOTH);
+
+	float range[2];
+	glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, range);
+
+	if (lineWidth > range[1])
+		lineWidth = range[1];
+
+	glLineWidth(lineWidth);
+#endif
+
 	Tesselator& t = Tesselator::instance;
 
 	t.begin(mce::PRIMITIVE_MODE_LINE_STRIP, 5);
@@ -875,38 +868,36 @@ const Color& LevelRenderer::setupClearColor(float f)
 
 	float x1 = 1.0f - powf(1.0f / float(4 - options.m_iViewDistance), 0.25f);
 
-	Vec3 skyColor = level.getSkyColor(camera, f), fogColor = level.getFogColor(f);
+	Vec3 skyColor = level.getSkyColor(camera, f), fogColorVec = level.getFogColor(f);
 
-	m_fogColor.r = fogColor.x + (skyColor.x - fogColor.x) * x1;
-	m_fogColor.g = fogColor.y + (skyColor.y - fogColor.y) * x1;
-	m_fogColor.b = fogColor.z + (skyColor.z - fogColor.z) * x1;
-	m_fogColor.a = 1.0f;
+	Color& fogColor = Fog::nextState.fogColor;
+
+	fogColor.r = fogColorVec.x + (skyColor.x - fogColorVec.x) * x1;
+	fogColor.g = fogColorVec.y + (skyColor.y - fogColorVec.y) * x1;
+	fogColor.b = fogColorVec.z + (skyColor.z - fogColorVec.z) * x1;
+	fogColor.a = 1.0f;
 
 	if (camera.isUnderLiquid(Material::water))
 	{
-		m_fogColor.r = 0.02f;
-		m_fogColor.g = 0.02f;
-		m_fogColor.b = 0.2f;
+		fogColor = Color(0.02f, 0.02f, 0.2f);
 	}
 	else if (camera.isUnderLiquid(Material::lava))
 	{
-		m_fogColor.r = 0.6f;
-		m_fogColor.g = 0.1f;
-		m_fogColor.b = 0.0f;
+		fogColor = Color(0.6f, 0.1f, 0.0f);
 	}
 
 	float x2 = m_fogBrO + (m_fogBr - m_fogBrO) * f;
 
-	m_fogColor *= x2;
+	fogColor *= x2;
 
 	if (options.m_bAnaglyphs)
 	{
-		m_fogColor.r = (m_fogColor.r * 30.0f + m_fogColor.g * 59.0f + m_fogColor.b * 11.0f) / 100.0f;
-		m_fogColor.g = (m_fogColor.r * 30.0f + m_fogColor.g * 70.0f) / 100.0f;
-		m_fogColor.b = (m_fogColor.r * 30.0f + m_fogColor.b * 70.0f) / 100.0f;
+		fogColor.r = (fogColor.r * 30.0f + fogColor.g * 59.0f + fogColor.b * 11.0f) / 100.0f;
+		fogColor.g = (fogColor.r * 30.0f + fogColor.g * 70.0f) / 100.0f;
+		fogColor.b = (fogColor.r * 30.0f + fogColor.b * 70.0f) / 100.0f;
 	}
 
-	return m_fogColor;
+	return fogColor;
 }
 
 void LevelRenderer::setLevel(Level* level)
@@ -1194,17 +1185,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
 
-	// Maximize Line Width
-	glEnable(GL_LINE_SMOOTH);
-	
-	float range[2];
-	glGetFloatv(GL_SMOOTH_LINE_WIDTH_RANGE, range);
-
 	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
-	if (lineWidth > range[1])
-		lineWidth = range[1];
-
-	glLineWidth(lineWidth);
 
 	TileID tile = m_pLevel->getTile(hr.m_tilePos);
 	if (tile > 0)
@@ -1222,7 +1203,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 		aabb.max.z = tileAABB.max.z + 0.002f - posZ;
 		aabb.min.x = tileAABB.min.x - 0.002f - posX;
 		aabb.max.x = tileAABB.max.x + 0.002f - posX;
-		render(aabb, m_materials.selection_box);
+		renderLineBox(aabb, m_materials.selection_box, lineWidth);
 	}
 }
 
@@ -1365,8 +1346,9 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 {
 	ParticleEngine& particleEngine = *m_pMinecraft->m_pParticleEngine;
 	Textures& textures = *m_pMinecraft->m_pTextures;
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	glEnable(GL_FOG);
+	Fog::enable();
 	_setupFog(camera, 1);
 
 	cull(&culler, f);
@@ -1376,7 +1358,7 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	prepareAndRenderClouds(camera, f);
 
 	_setupFog(camera, 0);
-	glEnable(GL_FOG);
+	Fog::enable();
 
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
 	Lighting::turnOff();
@@ -1394,9 +1376,7 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 
 	_setupFog(camera, 0);
 
-#ifndef FEATURE_GFX_SHADERS
-	glShadeModel(GL_SMOOTH);
-#endif
+	renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
 
 	if (camera.isUnderLiquid(Material::water))
 	{
@@ -1411,9 +1391,7 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
 	render(camera, Tile::RENDER_LAYER_BLEND, f);
 
-#ifndef FEATURE_GFX_SHADERS
-	glShadeModel(GL_FLAT);
-#endif
+	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 
 	//renderNameTags(f);
 
@@ -1423,7 +1401,7 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	}
 
 	// Was after renderCracks in GameRenderer
-	glDisable(GL_FOG);
+	Fog::disable();
 }
 
 void LevelRenderer::renderEntities(Vec3 pos, Culler* culler, float f)
@@ -1525,21 +1503,17 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 
 	Tesselator& t = Tesselator::instance;
 
-	//glEnable(GL_FOG);
+	Fog::enable();
 	currentShaderColor = Color(sc.x, sc.y, sc.z);
 
 	m_skyMesh.render(m_materials.skyplane);
 
-#ifndef FEATURE_GFX_SHADERS
-	glDisable(GL_FOG);
-#endif
+	Fog::disable();
 
 	_renderSunrise(alpha);
 	_renderSolarSystem(alpha);
 	
-#ifndef FEATURE_GFX_SHADERS
-	glEnable(GL_FOG);
-#endif
+	Fog::enable();
 
 	currentShaderColor = Color(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f);
 	m_darkMesh.render(m_materials.skyplane); // this is probably not the right material for this
@@ -1557,22 +1531,17 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 	MatrixStack::Ref viewMtx = MatrixStack::View.push();
 	_setupFog(camera, 0);
 
-	glEnable(GL_FOG);
+	Fog::enable();
 
-	glFogf(GL_FOG_START, renderDistance * 0.2f);
-	glFogf(GL_FOG_END, renderDistance * 0.75f);
-
+	Fog::updateRange(renderDistance * 0.2f, renderDistance * 0.75f);
 	renderSky(camera, f);
 
-	glFogf(GL_FOG_START, renderDistance * 4.2f * 0.6f);
-	glFogf(GL_FOG_END, renderDistance * 4.2f);
-
+	Fog::updateRange(renderDistance * 4.2f * 0.6f, renderDistance * 4.2f);
 	renderClouds(camera, f);
 
-	glFogf(GL_FOG_START, renderDistance * 0.6f);
-	glFogf(GL_FOG_END, renderDistance);
+	Fog::updateRange(renderDistance * 0.6f, renderDistance);
 
-	glDisable(GL_FOG);
+	Fog::disable();
 
 	_setupFog(camera, 1);
 }

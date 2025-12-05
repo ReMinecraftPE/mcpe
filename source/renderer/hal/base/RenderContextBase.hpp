@@ -5,6 +5,7 @@
 #include "renderer/VertexFormat.hpp"
 #include "renderer/MatrixStack.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
+#include "renderer/hal/enums/ShadeMode.hpp"
 #include "renderer/hal/enums/ShaderType.hpp"
 #include "renderer/hal/interface/ShaderProgram.hpp"
 #include "renderer/hal/interface/ImmediateBuffer.hpp"
@@ -18,6 +19,7 @@ namespace mce
         RenderContextStateBase m_currentState;
         VertexFormat m_lastVertexFormat;
         Color m_currentColor;
+        ShadeMode m_currentShadeMode;
         // Unused in OGL
         int field_34;
         // Only used in DX11
@@ -35,6 +37,7 @@ namespace mce
         void clearVertexState(const VertexFormat& vertexFormat);
         void enableFixedLighting(bool init);
         void disableFixedLighting(bool teardown);
+        bool setShadeMode(ShadeMode mode);
         bool setCurrentColor(const Color& color);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
