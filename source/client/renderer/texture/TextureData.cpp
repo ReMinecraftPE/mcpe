@@ -16,7 +16,7 @@ TextureData::TextureData()
     _init();
 }
 
-TextureData::TextureData(TextureData& other)
+TextureData::TextureData(TextureData&& other)
 {
     _init();
     _move(other);
@@ -157,7 +157,7 @@ bool TextureData::isEmpty() const
     return m_imageData.isEmpty();
 }
 
-void TextureData::operator=(TextureData& other)
+void TextureData::operator=(TextureData&& other)
 {
     move(other);
 }

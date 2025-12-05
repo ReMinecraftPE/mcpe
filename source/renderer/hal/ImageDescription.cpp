@@ -1,4 +1,5 @@
 #include "ImageDescription.hpp"
+#include "compat/LegacyCPP.hpp"
 #include "renderer/hal/helpers/TextureHelper.hpp"
 
 using namespace mce;

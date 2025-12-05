@@ -1,6 +1,7 @@
 #pragma once
 
 #include <typeinfo>
+#include "compat/LegacyCPP.hpp"
 #include "common/Logger.hpp"
 
 namespace mce

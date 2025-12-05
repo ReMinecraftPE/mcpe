@@ -1,5 +1,6 @@
-#include "common/utility/AlignmentHelper.hpp"
 #include "ConstantBufferMetaData.hpp"
+#include "compat/LegacyCPP.hpp"
+#include "common/utility/AlignmentHelper.hpp"
 
 using namespace mce;
 

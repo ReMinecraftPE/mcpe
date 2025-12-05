@@ -3,14 +3,18 @@
 
 using namespace mce;
 
-const std::map<std::string, TextureFiltering> _textureFilterMap = {
-    {"Point", TEXTURE_FILTERING_POINT},
-    {"Bilinear", TEXTURE_FILTERING_BILINEAR},
-    {"Trilinear", TEXTURE_FILTERING_TRILINEAR},
-    {"MipMapBilinear", TEXTURE_FILTERING_MIPMAP_BILINEAR},
-    {"TexelAA", TEXTURE_FILTERING_TEXEL_AA},
-    {"PCF", TEXTURE_FILTERING_PCF}
-};
+std::map<std::string, TextureFiltering> _CreateTextureFilterMap()
+{
+	std::map<std::string, TextureFiltering> m;
+    m["Point"]          = TEXTURE_FILTERING_POINT;
+    m["Bilinear"]       = TEXTURE_FILTERING_BILINEAR;
+    m["Trilinear"]      = TEXTURE_FILTERING_TRILINEAR;
+    m["MipMapBilinear"] = TEXTURE_FILTERING_MIPMAP_BILINEAR;
+    m["TexelAA"]        = TEXTURE_FILTERING_TEXEL_AA;
+    m["PCF"]            = TEXTURE_FILTERING_PCF;
+	return m;
+}
+const std::map<std::string, TextureFiltering> _textureFilterMap = _CreateTextureFilterMap();
 
 template <>
 bool mce::parse<TextureFiltering>(const rapidjson::Value& root, const std::string& name, TextureFiltering& out)

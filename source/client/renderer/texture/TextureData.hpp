@@ -22,7 +22,7 @@ private:
 
 public:
     TextureData();
-    TextureData(TextureData& other);
+    TextureData(TextureData&& other);
     TextureData(unsigned int width, unsigned int height, bool enableFiltering);
     ~TextureData();
 
@@ -44,7 +44,7 @@ public:
     bool isEmpty() const;
 
 public:
-    void operator=(TextureData& other);
+    void operator=(TextureData&& other);
 
 public:
     static void unbind(unsigned int textureUnit);

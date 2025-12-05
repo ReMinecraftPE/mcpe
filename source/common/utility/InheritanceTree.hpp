@@ -34,7 +34,7 @@ public:
 public:
     Node& _node(const std::string& name)
     {
-        std::map<const std::string, Node>::iterator it = m_nodes.find(name);
+        typename std::map<const std::string, Node>::iterator it = m_nodes.find(name);
         if (it != m_nodes.end())
         {
             return it->second;

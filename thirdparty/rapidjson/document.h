@@ -75,7 +75,7 @@ class GenericDocument;
     User can define this to use CrtAllocator or MemoryPoolAllocator.
 */
 #ifndef RAPIDJSON_DEFAULT_ALLOCATOR
-#define RAPIDJSON_DEFAULT_ALLOCATOR ::RAPIDJSON_NAMESPACE::MemoryPoolAllocator<::RAPIDJSON_NAMESPACE::CrtAllocator>
+#define RAPIDJSON_DEFAULT_ALLOCATOR ::RAPIDJSON_NAMESPACE::MemoryPoolAllocator< ::RAPIDJSON_NAMESPACE::CrtAllocator >
 #endif
 
 /*! \def RAPIDJSON_DEFAULT_STACK_ALLOCATOR
@@ -1230,18 +1230,19 @@ public:
         else {
             RAPIDJSON_ASSERT(false);    // see above note
 
-#if RAPIDJSON_HAS_CXX11
+            // https://stackoverflow.com/questions/76373965/rapidjson-and-clang-tidy-and-thread-local
+#if RAPIDJSON_HAS_CXX11 && !defined(RAPIDJSON_NO_THREAD_LOCAL)
             // Use thread-local storage to prevent races between threads.
             // Use static buffer and placement-new to prevent destruction, with
             // alignas() to ensure proper alignment.
             alignas(GenericValue) thread_local static char buffer[sizeof(GenericValue)];
             return *new (buffer) GenericValue();
-#elif defined(_MSC_VER) && _MSC_VER < 1900
+#elif defined(_MSC_VER) && _MSC_VER < 1900 && !defined(RAPIDJSON_NO_THREAD_LOCAL)
             // There's no way to solve both thread locality and proper alignment
             // simultaneously.
             __declspec(thread) static char buffer[sizeof(GenericValue)];
             return *new (buffer) GenericValue();
-#elif defined(__GNUC__) || defined(__clang__)
+#elif (defined(__GNUC__) || defined(__clang__)) && !defined(RAPIDJSON_NO_THREAD_LOCAL)
             // This will generate -Wexit-time-destructors in clang, but that's
             // better than having under-alignment.
             __thread static GenericValue buffer;

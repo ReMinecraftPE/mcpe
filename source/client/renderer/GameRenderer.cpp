@@ -17,7 +17,7 @@
 #include "renderer/RenderContextImmediate.hpp"
 #include "thirdparty/glm/glm.hpp"
 
-//#define SHOW_VERTEX_COUNTER_GRAPHIC
+#define SHOW_VERTEX_COUNTER_GRAPHIC
 
 #if defined SHOW_VERTEX_COUNTER_GRAPHIC && !defined _DEBUG
 #undef  SHOW_VERTEX_COUNTER_GRAPHIC
@@ -197,7 +197,7 @@ void GameRenderer::_renderVertexGraph(int vertices, int h)
 
 	int maxht = 100;
 
-	glClear(GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_DEPTH_BUFFER_BIT);
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 
@@ -222,7 +222,7 @@ void GameRenderer::_renderVertexGraph(int vertices, int h)
 
 	t.draw(screenRenderer.m_materials.ui_fill_color);
 
-	screenRenderer.drawString(font, std::to_string(max), 200, h - maxht);
+	screenRenderer.drawString(font, SSTR(max), 200, h - maxht);
 }
 
 void GameRenderer::zoomRegion(float zoom, const Vec2& region)

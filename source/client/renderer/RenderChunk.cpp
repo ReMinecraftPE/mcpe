@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <stdexcept>
 #include "RenderChunk.hpp"
 #include "common/Util.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"

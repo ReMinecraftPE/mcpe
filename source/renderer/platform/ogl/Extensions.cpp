@@ -1,4 +1,3 @@
-#include <unordered_map>
 #include "Extensions.hpp"
 #include "common/Logger.hpp"
 #include "GameMods.hpp"
@@ -44,6 +43,8 @@ void APIENTRY OGL::DebugMessage(GLenum source, GLenum type, GLuint id, GLenum se
 #endif
 
 #if defined(_WIN32) || defined(__DREAMCAST__)
+
+#include <unordered_map>
 
 #ifdef __DREAMCAST__
 

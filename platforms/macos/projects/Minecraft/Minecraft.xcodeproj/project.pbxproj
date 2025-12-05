@@ -15,7 +15,6 @@
 		8406FD302AF1820700B09C1D /* RakNetInstance.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD64F2AC810620006A435 /* RakNetInstance.hpp */; };
 		8406FD322AF1823600B09C1D /* CThread.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6272AC810620006A435 /* CThread.hpp */; };
 		8406FD332AF1823600B09C1D /* Logger.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6292AC810620006A435 /* Logger.hpp */; };
-		8406FD352AF1823600B09C1D /* Matrix.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD62C2AC810620006A435 /* Matrix.hpp */; };
 		8406FD362AF1823600B09C1D /* Mth.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD62E2AC810620006A435 /* Mth.hpp */; };
 		8406FD372AF1823600B09C1D /* Random.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6302AC810620006A435 /* Random.hpp */; };
 		8406FD392AF1823700B09C1D /* Timer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6342AC810620006A435 /* Timer.hpp */; };
@@ -504,28 +503,6 @@
 		84AA8C392B32F3F3003F5B82 /* VertexPT.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8BE82B32F3F3003F5B82 /* VertexPT.hpp */; };
 		84AA8C3A2B32F3F3003F5B82 /* WaterSideTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8BE92B32F3F3003F5B82 /* WaterSideTexture.cpp */; };
 		84AA8C3B2B32F3F3003F5B82 /* WaterTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8BEA2B32F3F3003F5B82 /* WaterTexture.cpp */; };
-		84AA8C5A2B32F535003F5B82 /* ChickenModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C3C2B32F535003F5B82 /* ChickenModel.cpp */; };
-		84AA8C5B2B32F535003F5B82 /* ChickenModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C3D2B32F535003F5B82 /* ChickenModel.hpp */; };
-		84AA8C5C2B32F535003F5B82 /* CowModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C3E2B32F535003F5B82 /* CowModel.cpp */; };
-		84AA8C5D2B32F535003F5B82 /* CowModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C3F2B32F535003F5B82 /* CowModel.hpp */; };
-		84AA8C5E2B32F535003F5B82 /* CreeperModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C402B32F535003F5B82 /* CreeperModel.cpp */; };
-		84AA8C5F2B32F535003F5B82 /* CreeperModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C412B32F535003F5B82 /* CreeperModel.hpp */; };
-		84AA8C662B32F535003F5B82 /* ModelPart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C482B32F535003F5B82 /* ModelPart.cpp */; };
-		84AA8C672B32F535003F5B82 /* ModelPart.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C492B32F535003F5B82 /* ModelPart.hpp */; };
-		84AA8C682B32F535003F5B82 /* PigModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4A2B32F535003F5B82 /* PigModel.cpp */; };
-		84AA8C692B32F535003F5B82 /* PigModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C4B2B32F535003F5B82 /* PigModel.hpp */; };
-		84AA8C6C2B32F535003F5B82 /* QuadrupedModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */; };
-		84AA8C6D2B32F535003F5B82 /* QuadrupedModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */; };
-		84AA8C6E2B32F535003F5B82 /* SheepFurModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */; };
-		84AA8C6F2B32F535003F5B82 /* SheepFurModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C512B32F535003F5B82 /* SheepFurModel.hpp */; };
-		84AA8C702B32F535003F5B82 /* SheepModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C522B32F535003F5B82 /* SheepModel.cpp */; };
-		84AA8C712B32F535003F5B82 /* SheepModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C532B32F535003F5B82 /* SheepModel.hpp */; };
-		84AA8C722B32F535003F5B82 /* SkeletonModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C542B32F535003F5B82 /* SkeletonModel.cpp */; };
-		84AA8C732B32F535003F5B82 /* SkeletonModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C552B32F535003F5B82 /* SkeletonModel.hpp */; };
-		84AA8C742B32F535003F5B82 /* SpiderModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C562B32F535003F5B82 /* SpiderModel.cpp */; };
-		84AA8C752B32F536003F5B82 /* SpiderModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C572B32F535003F5B82 /* SpiderModel.hpp */; };
-		84AA8C762B32F536003F5B82 /* ZombieModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8C582B32F535003F5B82 /* ZombieModel.cpp */; };
-		84AA8C772B32F536003F5B82 /* ZombieModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84AA8C592B32F535003F5B82 /* ZombieModel.hpp */; };
 		84AA8C792B32F578003F5B82 /* gui_custom.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AA8C782B32F578003F5B82 /* gui_custom.png */; };
 		84AA8E802B32FB33003F5B82 /* stb_image_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8E462B32FB33003F5B82 /* stb_image_impl.c */; };
 		84AAF6432AF18BD000BD67F4 /* GLExt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7332AC810620006A435 /* GLExt.cpp */; };
@@ -902,10 +879,6 @@
 		84B8AF032AF1896F008DE93D /* SavingWorldScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5B72AC810620006A435 /* SavingWorldScreen.cpp */; };
 		84B8AF042AF1896F008DE93D /* SelectWorldScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5B92AC810620006A435 /* SelectWorldScreen.cpp */; };
 		84B8AF052AF1896F008DE93D /* StartMenuScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5BB2AC810620006A435 /* StartMenuScreen.cpp */; };
-		84B8AF062AF1896F008DE93D /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5BE2AC810620006A435 /* Cube.cpp */; };
-		84B8AF072AF1896F008DE93D /* HumanoidModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5C02AC810620006A435 /* HumanoidModel.cpp */; };
-		84B8AF082AF1896F008DE93D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5C22AC810620006A435 /* Model.cpp */; };
-		84B8AF092AF1896F008DE93D /* PolygonQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5C42AC810620006A435 /* PolygonQuad.cpp */; };
 		84B8AF0A2AF1896F008DE93D /* ClientSideNetworkHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5C72AC810620006A435 /* ClientSideNetworkHandler.cpp */; };
 		84B8AF0B2AF1896F008DE93D /* Options.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5CA2AC810620006A435 /* Options.cpp */; };
 		84B8AF0C2AF1896F008DE93D /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD5CE2AC810620006A435 /* Controller.cpp */; };
@@ -949,10 +922,6 @@
 		84B8AF512AF189D8008DE93D /* SavingWorldScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5B82AC810620006A435 /* SavingWorldScreen.hpp */; };
 		84B8AF522AF189D8008DE93D /* SelectWorldScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5BA2AC810620006A435 /* SelectWorldScreen.hpp */; };
 		84B8AF532AF189D8008DE93D /* StartMenuScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5BC2AC810620006A435 /* StartMenuScreen.hpp */; };
-		84B8AF542AF189D8008DE93D /* Cube.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5BF2AC810620006A435 /* Cube.hpp */; };
-		84B8AF552AF189D8008DE93D /* HumanoidModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5C12AC810620006A435 /* HumanoidModel.hpp */; };
-		84B8AF562AF189D8008DE93D /* Model.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5C32AC810620006A435 /* Model.hpp */; };
-		84B8AF572AF189D8008DE93D /* PolygonQuad.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5C52AC810620006A435 /* PolygonQuad.hpp */; };
 		84B8AF582AF189D8008DE93D /* ClientSideNetworkHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5C82AC810620006A435 /* ClientSideNetworkHandler.hpp */; };
 		84B8AF592AF189D8008DE93D /* Options.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5CB2AC810620006A435 /* Options.hpp */; };
 		84B8AF5A2AF189D8008DE93D /* Controller.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD5CF2AC810620006A435 /* Controller.hpp */; };
@@ -1291,7 +1260,6 @@
 		84E1C9F02E7FDC89007D2F5D /* VegetationFeature.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E1C9ED2E7FDC89007D2F5D /* VegetationFeature.cpp */; };
 		84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6262AC810620006A435 /* CThread.cpp */; };
 		84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6282AC810620006A435 /* Logger.cpp */; };
-		84E4BFB72AE9869A0023E16A /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62B2AC810620006A435 /* Matrix.cpp */; };
 		84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62D2AC810620006A435 /* Mth.cpp */; };
 		84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD62F2AC810620006A435 /* Random.cpp */; };
 		84E4BFBB2AE9869A0023E16A /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6332AC810620006A435 /* Timer.cpp */; };
@@ -1314,6 +1282,283 @@
 		84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */; };
 		84EAE8E42AF1EABE000894E8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */; };
 		84EAE8F72AF1EAFA000894E8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE8F12AF1EAFA000894E8 /* main.cpp */; };
+		84EB09962EE2CC25008FB007 /* AppPlatformListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09942EE2CC25008FB007 /* AppPlatformListener.cpp */; };
+		84EB09972EE2CC25008FB007 /* AppPlatformListener.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09952EE2CC25008FB007 /* AppPlatformListener.hpp */; };
+		84EB099B2EE2CC3B008FB007 /* GuiElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09982EE2CC3B008FB007 /* GuiElement.cpp */; };
+		84EB099C2EE2CC3B008FB007 /* GuiElement.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09992EE2CC3B008FB007 /* GuiElement.hpp */; };
+		84EB099D2EE2CC3B008FB007 /* IntRectangle.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB099A2EE2CC3B008FB007 /* IntRectangle.hpp */; };
+		84EB09C12EE2CC86008FB007 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09A12EE2CC86008FB007 /* Cube.cpp */; };
+		84EB09C22EE2CC86008FB007 /* Cube.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09A22EE2CC86008FB007 /* Cube.hpp */; };
+		84EB09C32EE2CC86008FB007 /* ModelPart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09A32EE2CC86008FB007 /* ModelPart.cpp */; };
+		84EB09C42EE2CC86008FB007 /* ModelPart.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09A42EE2CC86008FB007 /* ModelPart.hpp */; };
+		84EB09C52EE2CC86008FB007 /* PolygonQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09A52EE2CC86008FB007 /* PolygonQuad.cpp */; };
+		84EB09C62EE2CC86008FB007 /* PolygonQuad.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09A62EE2CC86008FB007 /* PolygonQuad.hpp */; };
+		84EB09C72EE2CC86008FB007 /* TextureOffset.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09A72EE2CC86008FB007 /* TextureOffset.hpp */; };
+		84EB09C82EE2CC86008FB007 /* ChickenModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09A92EE2CC86008FB007 /* ChickenModel.cpp */; };
+		84EB09C92EE2CC86008FB007 /* ChickenModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09AA2EE2CC86008FB007 /* ChickenModel.hpp */; };
+		84EB09CA2EE2CC86008FB007 /* CowModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09AB2EE2CC86008FB007 /* CowModel.cpp */; };
+		84EB09CB2EE2CC86008FB007 /* CowModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09AC2EE2CC86008FB007 /* CowModel.hpp */; };
+		84EB09CC2EE2CC86008FB007 /* CreeperModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09AD2EE2CC86008FB007 /* CreeperModel.cpp */; };
+		84EB09CD2EE2CC86008FB007 /* CreeperModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09AE2EE2CC86008FB007 /* CreeperModel.hpp */; };
+		84EB09CE2EE2CC86008FB007 /* HumanoidModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09AF2EE2CC86008FB007 /* HumanoidModel.cpp */; };
+		84EB09CF2EE2CC86008FB007 /* HumanoidModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09B02EE2CC86008FB007 /* HumanoidModel.hpp */; };
+		84EB09D02EE2CC86008FB007 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09B12EE2CC86008FB007 /* Model.cpp */; };
+		84EB09D12EE2CC86008FB007 /* Model.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09B22EE2CC86008FB007 /* Model.hpp */; };
+		84EB09D22EE2CC86008FB007 /* PigModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09B32EE2CC86008FB007 /* PigModel.cpp */; };
+		84EB09D32EE2CC86008FB007 /* PigModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09B42EE2CC86008FB007 /* PigModel.hpp */; };
+		84EB09D42EE2CC86008FB007 /* QuadrupedModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09B52EE2CC86008FB007 /* QuadrupedModel.cpp */; };
+		84EB09D52EE2CC86008FB007 /* QuadrupedModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09B62EE2CC86008FB007 /* QuadrupedModel.hpp */; };
+		84EB09D62EE2CC86008FB007 /* SheepFurModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09B72EE2CC86008FB007 /* SheepFurModel.cpp */; };
+		84EB09D72EE2CC86008FB007 /* SheepFurModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09B82EE2CC86008FB007 /* SheepFurModel.hpp */; };
+		84EB09D82EE2CC86008FB007 /* SheepModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09B92EE2CC86008FB007 /* SheepModel.cpp */; };
+		84EB09D92EE2CC86008FB007 /* SheepModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09BA2EE2CC86008FB007 /* SheepModel.hpp */; };
+		84EB09DA2EE2CC86008FB007 /* SkeletonModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09BB2EE2CC86008FB007 /* SkeletonModel.cpp */; };
+		84EB09DB2EE2CC86008FB007 /* SkeletonModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09BC2EE2CC86008FB007 /* SkeletonModel.hpp */; };
+		84EB09DC2EE2CC86008FB007 /* SpiderModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09BD2EE2CC86008FB007 /* SpiderModel.cpp */; };
+		84EB09DD2EE2CC86008FB007 /* SpiderModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09BE2EE2CC86008FB007 /* SpiderModel.hpp */; };
+		84EB09DE2EE2CC86008FB007 /* ZombieModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09BF2EE2CC86008FB007 /* ZombieModel.cpp */; };
+		84EB09DF2EE2CC86008FB007 /* ZombieModel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09C02EE2CC86008FB007 /* ZombieModel.hpp */; };
+		84EB09EF2EE2CCA8008FB007 /* Fog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09E02EE2CCA8008FB007 /* Fog.cpp */; };
+		84EB09F02EE2CCA8008FB007 /* Fog.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09E12EE2CCA8008FB007 /* Fog.hpp */; };
+		84EB09F12EE2CCA8008FB007 /* EntityShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09E32EE2CCA8008FB007 /* EntityShaderManager.cpp */; };
+		84EB09F22EE2CCA8008FB007 /* EntityShaderManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09E42EE2CCA8008FB007 /* EntityShaderManager.hpp */; };
+		84EB09F32EE2CCA8008FB007 /* RenderMaterialGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09E52EE2CCA8008FB007 /* RenderMaterialGroup.cpp */; };
+		84EB09F42EE2CCA8008FB007 /* RenderMaterialGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09E62EE2CCA8008FB007 /* RenderMaterialGroup.hpp */; };
+		84EB09F52EE2CCA8008FB007 /* ScreenRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09E72EE2CCA8008FB007 /* ScreenRenderer.cpp */; };
+		84EB09F62EE2CCA8008FB007 /* ScreenRenderer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09E82EE2CCA8008FB007 /* ScreenRenderer.hpp */; };
+		84EB09F72EE2CCA8008FB007 /* ColorSpace.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09EA2EE2CCA8008FB007 /* ColorSpace.hpp */; };
+		84EB09F82EE2CCA8008FB007 /* ImageData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09EB2EE2CCA8008FB007 /* ImageData.cpp */; };
+		84EB09F92EE2CCA8008FB007 /* ImageData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09EC2EE2CCA8008FB007 /* ImageData.hpp */; };
+		84EB09FA2EE2CCA8008FB007 /* TextureData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09ED2EE2CCA8008FB007 /* TextureData.cpp */; };
+		84EB09FB2EE2CCA8008FB007 /* TextureData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09EE2EE2CCA8008FB007 /* TextureData.hpp */; };
+		84EB0D122EE2D4B3008FB007 /* Attribute.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C102EE2D4B2008FB007 /* Attribute.cpp */; };
+		84EB0D132EE2D4B3008FB007 /* Attribute.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C112EE2D4B2008FB007 /* Attribute.hpp */; };
+		84EB0D142EE2D4B3008FB007 /* ConstantBufferMetaData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C122EE2D4B2008FB007 /* ConstantBufferMetaData.cpp */; };
+		84EB0D152EE2D4B3008FB007 /* ConstantBufferMetaData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C132EE2D4B2008FB007 /* ConstantBufferMetaData.hpp */; };
+		84EB0D162EE2D4B3008FB007 /* ConstantBufferMetaDataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C142EE2D4B2008FB007 /* ConstantBufferMetaDataManager.cpp */; };
+		84EB0D172EE2D4B3008FB007 /* ConstantBufferMetaDataManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C152EE2D4B2008FB007 /* ConstantBufferMetaDataManager.hpp */; };
+		84EB0D182EE2D4B3008FB007 /* EnableScissorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C162EE2D4B2008FB007 /* EnableScissorTest.cpp */; };
+		84EB0D192EE2D4B3008FB007 /* EnableScissorTest.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C172EE2D4B2008FB007 /* EnableScissorTest.hpp */; };
+		84EB0D1A2EE2D4B3008FB007 /* EntityConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C182EE2D4B2008FB007 /* EntityConstants.cpp */; };
+		84EB0D1B2EE2D4B3008FB007 /* EntityConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C192EE2D4B2008FB007 /* EntityConstants.hpp */; };
+		84EB0D1C2EE2D4B3008FB007 /* GlobalConstantBufferManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C1A2EE2D4B2008FB007 /* GlobalConstantBufferManager.cpp */; };
+		84EB0D1D2EE2D4B3008FB007 /* GlobalConstantBufferManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C1B2EE2D4B2008FB007 /* GlobalConstantBufferManager.hpp */; };
+		84EB0D1E2EE2D4B3008FB007 /* GlobalConstantBuffers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C1C2EE2D4B2008FB007 /* GlobalConstantBuffers.cpp */; };
+		84EB0D1F2EE2D4B3008FB007 /* GlobalConstantBuffers.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C1D2EE2D4B2008FB007 /* GlobalConstantBuffers.hpp */; };
+		84EB0D202EE2D4B3008FB007 /* BlendStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C202EE2D4B2008FB007 /* BlendStateBase.cpp */; };
+		84EB0D212EE2D4B3008FB007 /* BlendStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C212EE2D4B2008FB007 /* BlendStateBase.hpp */; };
+		84EB0D222EE2D4B3008FB007 /* BufferBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C222EE2D4B2008FB007 /* BufferBase.cpp */; };
+		84EB0D232EE2D4B3008FB007 /* BufferBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C232EE2D4B2008FB007 /* BufferBase.hpp */; };
+		84EB0D242EE2D4B3008FB007 /* ConstantBufferBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C242EE2D4B2008FB007 /* ConstantBufferBase.cpp */; };
+		84EB0D252EE2D4B3008FB007 /* ConstantBufferBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C252EE2D4B2008FB007 /* ConstantBufferBase.hpp */; };
+		84EB0D262EE2D4B3008FB007 /* ConstantBufferConstantsBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C262EE2D4B2008FB007 /* ConstantBufferConstantsBase.cpp */; };
+		84EB0D272EE2D4B3008FB007 /* ConstantBufferConstantsBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C272EE2D4B2008FB007 /* ConstantBufferConstantsBase.hpp */; };
+		84EB0D282EE2D4B3008FB007 /* ConstantBufferContainerBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C282EE2D4B2008FB007 /* ConstantBufferContainerBase.cpp */; };
+		84EB0D292EE2D4B3008FB007 /* ConstantBufferContainerBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C292EE2D4B2008FB007 /* ConstantBufferContainerBase.hpp */; };
+		84EB0D2A2EE2D4B3008FB007 /* DepthStencilStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C2A2EE2D4B2008FB007 /* DepthStencilStateBase.cpp */; };
+		84EB0D2B2EE2D4B3008FB007 /* DepthStencilStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C2B2EE2D4B2008FB007 /* DepthStencilStateBase.hpp */; };
+		84EB0D2C2EE2D4B3008FB007 /* FixedPipelineStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C2C2EE2D4B2008FB007 /* FixedPipelineStateBase.cpp */; };
+		84EB0D2D2EE2D4B3008FB007 /* FixedPipelineStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C2D2EE2D4B2008FB007 /* FixedPipelineStateBase.hpp */; };
+		84EB0D2E2EE2D4B3008FB007 /* FogStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C2E2EE2D4B2008FB007 /* FogStateBase.cpp */; };
+		84EB0D2F2EE2D4B3008FB007 /* FogStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C2F2EE2D4B2008FB007 /* FogStateBase.hpp */; };
+		84EB0D302EE2D4B3008FB007 /* FrameBufferObjectBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C302EE2D4B2008FB007 /* FrameBufferObjectBase.cpp */; };
+		84EB0D312EE2D4B3008FB007 /* FrameBufferObjectBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C312EE2D4B2008FB007 /* FrameBufferObjectBase.hpp */; };
+		84EB0D322EE2D4B3008FB007 /* ImmediateBufferBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C322EE2D4B2008FB007 /* ImmediateBufferBase.cpp */; };
+		84EB0D332EE2D4B3008FB007 /* ImmediateBufferBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C332EE2D4B2008FB007 /* ImmediateBufferBase.hpp */; };
+		84EB0D342EE2D4B3008FB007 /* RasterizerStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C342EE2D4B2008FB007 /* RasterizerStateBase.cpp */; };
+		84EB0D352EE2D4B3008FB007 /* RasterizerStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C352EE2D4B2008FB007 /* RasterizerStateBase.hpp */; };
+		84EB0D362EE2D4B3008FB007 /* RenderContextBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C362EE2D4B2008FB007 /* RenderContextBase.cpp */; };
+		84EB0D372EE2D4B3008FB007 /* RenderContextBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C372EE2D4B2008FB007 /* RenderContextBase.hpp */; };
+		84EB0D382EE2D4B3008FB007 /* RenderContextStateBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C382EE2D4B2008FB007 /* RenderContextStateBase.cpp */; };
+		84EB0D392EE2D4B3008FB007 /* RenderContextStateBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C392EE2D4B2008FB007 /* RenderContextStateBase.hpp */; };
+		84EB0D3A2EE2D4B3008FB007 /* RenderDeviceBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C3A2EE2D4B2008FB007 /* RenderDeviceBase.cpp */; };
+		84EB0D3B2EE2D4B3008FB007 /* RenderDeviceBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C3B2EE2D4B2008FB007 /* RenderDeviceBase.hpp */; };
+		84EB0D3C2EE2D4B3008FB007 /* ShaderBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C3C2EE2D4B2008FB007 /* ShaderBase.cpp */; };
+		84EB0D3D2EE2D4B3008FB007 /* ShaderBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C3D2EE2D4B2008FB007 /* ShaderBase.hpp */; };
+		84EB0D3E2EE2D4B3008FB007 /* ShaderConstantBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C3E2EE2D4B2008FB007 /* ShaderConstantBase.cpp */; };
+		84EB0D3F2EE2D4B3008FB007 /* ShaderConstantBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C3F2EE2D4B2008FB007 /* ShaderConstantBase.hpp */; };
+		84EB0D402EE2D4B3008FB007 /* ShaderConstantWithDataBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C402EE2D4B2008FB007 /* ShaderConstantWithDataBase.cpp */; };
+		84EB0D412EE2D4B3008FB007 /* ShaderConstantWithDataBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C412EE2D4B2008FB007 /* ShaderConstantWithDataBase.hpp */; };
+		84EB0D422EE2D4B3008FB007 /* ShaderContextBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C422EE2D4B2008FB007 /* ShaderContextBase.cpp */; };
+		84EB0D432EE2D4B3008FB007 /* ShaderContextBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C432EE2D4B2008FB007 /* ShaderContextBase.hpp */; };
+		84EB0D442EE2D4B3008FB007 /* ShaderProgramBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C442EE2D4B2008FB007 /* ShaderProgramBase.cpp */; };
+		84EB0D452EE2D4B3008FB007 /* ShaderProgramBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C452EE2D4B2008FB007 /* ShaderProgramBase.hpp */; };
+		84EB0D462EE2D4B3008FB007 /* TextureBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C462EE2D4B2008FB007 /* TextureBase.cpp */; };
+		84EB0D472EE2D4B3008FB007 /* TextureBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C472EE2D4B2008FB007 /* TextureBase.hpp */; };
+		84EB0D482EE2D4B3008FB007 /* BlendStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C482EE2D4B3008FB007 /* BlendStateDescription.cpp */; };
+		84EB0D492EE2D4B3008FB007 /* BlendStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C492EE2D4B3008FB007 /* BlendStateDescription.hpp */; };
+		84EB0D4A2EE2D4B3008FB007 /* DepthStencilStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C4A2EE2D4B3008FB007 /* DepthStencilStateDescription.cpp */; };
+		84EB0D4B2EE2D4B3008FB007 /* DepthStencilStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C4B2EE2D4B3008FB007 /* DepthStencilStateDescription.hpp */; };
+		84EB0D4C2EE2D4B3008FB007 /* BlendTarget.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C4D2EE2D4B3008FB007 /* BlendTarget.hpp */; };
+		84EB0D4D2EE2D4B3008FB007 /* BlendTarget_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C4E2EE2D4B3008FB007 /* BlendTarget_JsonParser.cpp */; };
+		84EB0D4E2EE2D4B3008FB007 /* BufferType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C4F2EE2D4B3008FB007 /* BufferType.hpp */; };
+		84EB0D4F2EE2D4B3008FB007 /* ColorWriteMask.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C502EE2D4B3008FB007 /* ColorWriteMask.hpp */; };
+		84EB0D502EE2D4B3008FB007 /* ComparisonFunc.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C512EE2D4B3008FB007 /* ComparisonFunc.hpp */; };
+		84EB0D512EE2D4B3008FB007 /* ComparisonFunc_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C522EE2D4B3008FB007 /* ComparisonFunc_JsonParser.cpp */; };
+		84EB0D522EE2D4B3008FB007 /* CullMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C532EE2D4B3008FB007 /* CullMode.hpp */; };
+		84EB0D532EE2D4B3008FB007 /* DepthWriteMask.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C542EE2D4B3008FB007 /* DepthWriteMask.hpp */; };
+		84EB0D542EE2D4B3008FB007 /* FogMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C552EE2D4B3008FB007 /* FogMode.hpp */; };
+		84EB0D552EE2D4B3008FB007 /* PrimitiveMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C562EE2D4B3008FB007 /* PrimitiveMode.hpp */; };
+		84EB0D562EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C572EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp */; };
+		84EB0D572EE2D4B3008FB007 /* RenderState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C582EE2D4B3008FB007 /* RenderState.hpp */; };
+		84EB0D582EE2D4B3008FB007 /* RenderState_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C592EE2D4B3008FB007 /* RenderState_JsonParser.cpp */; };
+		84EB0D592EE2D4B3008FB007 /* RenderState_JsonParser.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5A2EE2D4B3008FB007 /* RenderState_JsonParser.hpp */; };
+		84EB0D5A2EE2D4B3008FB007 /* ShadeMode.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5B2EE2D4B3008FB007 /* ShadeMode.hpp */; };
+		84EB0D5B2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp */; };
+		84EB0D5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5D2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp */; };
+		84EB0D5D2EE2D4B3008FB007 /* ShaderStagesBits.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C5E2EE2D4B3008FB007 /* ShaderStagesBits.hpp */; };
+		84EB0D5E2EE2D4B3008FB007 /* ShaderStagesBits_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C5F2EE2D4B3008FB007 /* ShaderStagesBits_JsonParser.cpp */; };
+		84EB0D5F2EE2D4B3008FB007 /* ShaderType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C602EE2D4B3008FB007 /* ShaderType.hpp */; };
+		84EB0D602EE2D4B3008FB007 /* StencilMask.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C612EE2D4B3008FB007 /* StencilMask.hpp */; };
+		84EB0D612EE2D4B3008FB007 /* StencilOp.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C622EE2D4B3008FB007 /* StencilOp.hpp */; };
+		84EB0D622EE2D4B3008FB007 /* StencilOp_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C632EE2D4B3008FB007 /* StencilOp_JsonParser.cpp */; };
+		84EB0D632EE2D4B3008FB007 /* TextureFiltering.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C642EE2D4B3008FB007 /* TextureFiltering.hpp */; };
+		84EB0D642EE2D4B3008FB007 /* TextureFiltering_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C652EE2D4B3008FB007 /* TextureFiltering_JsonParser.cpp */; };
+		84EB0D652EE2D4B3008FB007 /* TextureFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C662EE2D4B3008FB007 /* TextureFormat.hpp */; };
+		84EB0D662EE2D4B3008FB007 /* VertexField.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C672EE2D4B3008FB007 /* VertexField.hpp */; };
+		84EB0D672EE2D4B3008FB007 /* VertexField_JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C682EE2D4B3008FB007 /* VertexField_JsonParser.cpp */; };
+		84EB0D682EE2D4B3008FB007 /* VertexFieldType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C692EE2D4B3008FB007 /* VertexFieldType.hpp */; };
+		84EB0D692EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp */; };
+		84EB0D6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */; };
+		84EB0D6B2EE2D4B3008FB007 /* FogStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */; };
+		84EB0D6C2EE2D4B3008FB007 /* FogStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */; };
+		84EB0D6D2EE2D4B3008FB007 /* ErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6F2EE2D4B3008FB007 /* ErrorHandler.cpp */; };
+		84EB0D6E2EE2D4B3008FB007 /* ErrorHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C702EE2D4B3008FB007 /* ErrorHandler.hpp */; };
+		84EB0D6F2EE2D4B3008FB007 /* TextureHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */; };
+		84EB0D702EE2D4B3008FB007 /* TextureHelper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C722EE2D4B3008FB007 /* TextureHelper.hpp */; };
+		84EB0D712EE2D4B3008FB007 /* ImageDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C732EE2D4B3008FB007 /* ImageDescription.cpp */; };
+		84EB0D722EE2D4B3008FB007 /* ImageDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C742EE2D4B3008FB007 /* ImageDescription.hpp */; };
+		84EB0D732EE2D4B3008FB007 /* BlendState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C762EE2D4B3008FB007 /* BlendState.cpp */; };
+		84EB0D742EE2D4B3008FB007 /* BlendState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C772EE2D4B3008FB007 /* BlendState.hpp */; };
+		84EB0D752EE2D4B3008FB007 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C782EE2D4B3008FB007 /* Buffer.cpp */; };
+		84EB0D762EE2D4B3008FB007 /* Buffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C792EE2D4B3008FB007 /* Buffer.hpp */; };
+		84EB0D772EE2D4B3008FB007 /* ConstantBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C7A2EE2D4B3008FB007 /* ConstantBuffer.cpp */; };
+		84EB0D782EE2D4B3008FB007 /* ConstantBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C7B2EE2D4B3008FB007 /* ConstantBuffer.hpp */; };
+		84EB0D792EE2D4B3008FB007 /* ConstantBufferConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C7C2EE2D4B3008FB007 /* ConstantBufferConstants.hpp */; };
+		84EB0D7A2EE2D4B3008FB007 /* ConstantBufferContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C7D2EE2D4B3008FB007 /* ConstantBufferContainer.cpp */; };
+		84EB0D7B2EE2D4B3008FB007 /* ConstantBufferContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C7E2EE2D4B3008FB007 /* ConstantBufferContainer.hpp */; };
+		84EB0D7C2EE2D4B3008FB007 /* DepthStencilState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C7F2EE2D4B3008FB007 /* DepthStencilState.cpp */; };
+		84EB0D7D2EE2D4B3008FB007 /* DepthStencilState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C802EE2D4B3008FB007 /* DepthStencilState.hpp */; };
+		84EB0D7E2EE2D4B3008FB007 /* FixedPipelineState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C812EE2D4B3008FB007 /* FixedPipelineState.cpp */; };
+		84EB0D7F2EE2D4B3008FB007 /* FixedPipelineState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C822EE2D4B3008FB007 /* FixedPipelineState.hpp */; };
+		84EB0D802EE2D4B3008FB007 /* FogState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C832EE2D4B3008FB007 /* FogState.cpp */; };
+		84EB0D812EE2D4B3008FB007 /* FogState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C842EE2D4B3008FB007 /* FogState.hpp */; };
+		84EB0D822EE2D4B3008FB007 /* ImmediateBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C852EE2D4B3008FB007 /* ImmediateBuffer.cpp */; };
+		84EB0D832EE2D4B3008FB007 /* ImmediateBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C862EE2D4B3008FB007 /* ImmediateBuffer.hpp */; };
+		84EB0D842EE2D4B3008FB007 /* RasterizerState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C872EE2D4B3008FB007 /* RasterizerState.cpp */; };
+		84EB0D852EE2D4B3008FB007 /* RasterizerState.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C882EE2D4B3008FB007 /* RasterizerState.hpp */; };
+		84EB0D862EE2D4B3008FB007 /* RenderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C892EE2D4B3008FB007 /* RenderContext.cpp */; };
+		84EB0D872EE2D4B3008FB007 /* RenderContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C8A2EE2D4B3008FB007 /* RenderContext.hpp */; };
+		84EB0D882EE2D4B3008FB007 /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C8B2EE2D4B3008FB007 /* RenderDevice.cpp */; };
+		84EB0D892EE2D4B3008FB007 /* RenderDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C8C2EE2D4B3008FB007 /* RenderDevice.hpp */; };
+		84EB0D8A2EE2D4B3008FB007 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C8D2EE2D4B3008FB007 /* Shader.cpp */; };
+		84EB0D8B2EE2D4B3008FB007 /* Shader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C8E2EE2D4B3008FB007 /* Shader.hpp */; };
+		84EB0D8C2EE2D4B3008FB007 /* ShaderConstant.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C8F2EE2D4B3008FB007 /* ShaderConstant.hpp */; };
+		84EB0D8D2EE2D4B3008FB007 /* ShaderConstantWithData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C902EE2D4B3008FB007 /* ShaderConstantWithData.cpp */; };
+		84EB0D8E2EE2D4B3008FB007 /* ShaderConstantWithData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C912EE2D4B3008FB007 /* ShaderConstantWithData.hpp */; };
+		84EB0D8F2EE2D4B3008FB007 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C922EE2D4B3008FB007 /* ShaderProgram.cpp */; };
+		84EB0D902EE2D4B3008FB007 /* ShaderProgram.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C932EE2D4B3008FB007 /* ShaderProgram.hpp */; };
+		84EB0D912EE2D4B3008FB007 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C942EE2D4B3008FB007 /* Texture.cpp */; };
+		84EB0D922EE2D4B3008FB007 /* Texture.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C952EE2D4B3008FB007 /* Texture.hpp */; };
+		84EB0DB12EE2D4B4008FB007 /* API_OGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CB62EE2D4B3008FB007 /* API_OGL.cpp */; };
+		84EB0DB22EE2D4B4008FB007 /* API_OGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CB72EE2D4B3008FB007 /* API_OGL.hpp */; };
+		84EB0DB32EE2D4B4008FB007 /* BlendStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CB82EE2D4B3008FB007 /* BlendStateOGL.cpp */; };
+		84EB0DB42EE2D4B4008FB007 /* BlendStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CB92EE2D4B3008FB007 /* BlendStateOGL.hpp */; };
+		84EB0DB52EE2D4B4008FB007 /* BufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CBA2EE2D4B3008FB007 /* BufferOGL.cpp */; };
+		84EB0DB62EE2D4B4008FB007 /* BufferOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CBB2EE2D4B3008FB007 /* BufferOGL.hpp */; };
+		84EB0DB72EE2D4B4008FB007 /* ConstantBufferContainerOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CBC2EE2D4B3008FB007 /* ConstantBufferContainerOGL.cpp */; };
+		84EB0DB82EE2D4B4008FB007 /* ConstantBufferContainerOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CBD2EE2D4B3008FB007 /* ConstantBufferContainerOGL.hpp */; };
+		84EB0DB92EE2D4B4008FB007 /* DepthStencilStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CBE2EE2D4B3008FB007 /* DepthStencilStateOGL.cpp */; };
+		84EB0DBA2EE2D4B4008FB007 /* DepthStencilStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CBF2EE2D4B3008FB007 /* DepthStencilStateOGL.hpp */; };
+		84EB0DBB2EE2D4B4008FB007 /* FixedPipelineStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC02EE2D4B3008FB007 /* FixedPipelineStateOGL.cpp */; };
+		84EB0DBC2EE2D4B4008FB007 /* FixedPipelineStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC12EE2D4B3008FB007 /* FixedPipelineStateOGL.hpp */; };
+		84EB0DBD2EE2D4B4008FB007 /* FogStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC22EE2D4B3008FB007 /* FogStateOGL.cpp */; };
+		84EB0DBE2EE2D4B4008FB007 /* FogStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */; };
+		84EB0DBF2EE2D4B4008FB007 /* GPUEventsOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */; };
+		84EB0DC02EE2D4B4008FB007 /* GPUEventsOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC52EE2D4B3008FB007 /* GPUEventsOGL.hpp */; };
+		84EB0DC12EE2D4B4008FB007 /* ImmediateBufferOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC62EE2D4B3008FB007 /* ImmediateBufferOGL.cpp */; };
+		84EB0DC22EE2D4B4008FB007 /* ImmediateBufferOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC72EE2D4B3008FB007 /* ImmediateBufferOGL.hpp */; };
+		84EB0DC32EE2D4B4008FB007 /* ProfileSectionOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CC82EE2D4B3008FB007 /* ProfileSectionOGL.cpp */; };
+		84EB0DC42EE2D4B4008FB007 /* ProfileSectionOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CC92EE2D4B3008FB007 /* ProfileSectionOGL.hpp */; };
+		84EB0DC52EE2D4B4008FB007 /* RasterizerStateOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CCA2EE2D4B3008FB007 /* RasterizerStateOGL.cpp */; };
+		84EB0DC62EE2D4B4008FB007 /* RasterizerStateOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CCB2EE2D4B3008FB007 /* RasterizerStateOGL.hpp */; };
+		84EB0DC72EE2D4B4008FB007 /* RenderContextOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CCC2EE2D4B3008FB007 /* RenderContextOGL.cpp */; };
+		84EB0DC82EE2D4B4008FB007 /* RenderContextOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CCD2EE2D4B3008FB007 /* RenderContextOGL.hpp */; };
+		84EB0DC92EE2D4B4008FB007 /* RenderDeviceOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CCE2EE2D4B3008FB007 /* RenderDeviceOGL.cpp */; };
+		84EB0DCA2EE2D4B4008FB007 /* RenderDeviceOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CCF2EE2D4B3008FB007 /* RenderDeviceOGL.hpp */; };
+		84EB0DCB2EE2D4B4008FB007 /* ResourceOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CD02EE2D4B3008FB007 /* ResourceOGL.cpp */; };
+		84EB0DCC2EE2D4B4008FB007 /* ResourceOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CD12EE2D4B3008FB007 /* ResourceOGL.hpp */; };
+		84EB0DCD2EE2D4B4008FB007 /* ShaderConstantOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CD22EE2D4B3008FB007 /* ShaderConstantOGL.cpp */; };
+		84EB0DCE2EE2D4B4008FB007 /* ShaderConstantOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CD32EE2D4B3008FB007 /* ShaderConstantOGL.hpp */; };
+		84EB0DCF2EE2D4B4008FB007 /* ShaderConstantWithDataOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CD42EE2D4B3008FB007 /* ShaderConstantWithDataOGL.cpp */; };
+		84EB0DD02EE2D4B4008FB007 /* ShaderConstantWithDataOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CD52EE2D4B3008FB007 /* ShaderConstantWithDataOGL.hpp */; };
+		84EB0DD12EE2D4B4008FB007 /* ShaderOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CD62EE2D4B3008FB007 /* ShaderOGL.cpp */; };
+		84EB0DD22EE2D4B4008FB007 /* ShaderOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CD72EE2D4B3008FB007 /* ShaderOGL.hpp */; };
+		84EB0DD32EE2D4B4008FB007 /* ShaderProgramOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CD82EE2D4B3008FB007 /* ShaderProgramOGL.cpp */; };
+		84EB0DD42EE2D4B4008FB007 /* ShaderProgramOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CD92EE2D4B3008FB007 /* ShaderProgramOGL.hpp */; };
+		84EB0DD52EE2D4B4008FB007 /* ShaderResourceOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CDA2EE2D4B3008FB007 /* ShaderResourceOGL.cpp */; };
+		84EB0DD62EE2D4B4008FB007 /* ShaderResourceOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CDB2EE2D4B3008FB007 /* ShaderResourceOGL.hpp */; };
+		84EB0DD72EE2D4B4008FB007 /* ShaderUniformOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CDC2EE2D4B3008FB007 /* ShaderUniformOGL.cpp */; };
+		84EB0DD82EE2D4B4008FB007 /* ShaderUniformOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CDD2EE2D4B3008FB007 /* ShaderUniformOGL.hpp */; };
+		84EB0DD92EE2D4B4008FB007 /* TextureOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CDE2EE2D4B3008FB007 /* TextureOGL.cpp */; };
+		84EB0DDA2EE2D4B4008FB007 /* TextureOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CDF2EE2D4B3008FB007 /* TextureOGL.hpp */; };
+		84EB0DDB2EE2D4B4008FB007 /* RasterizerStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CE02EE2D4B3008FB007 /* RasterizerStateDescription.cpp */; };
+		84EB0DDC2EE2D4B4008FB007 /* RasterizerStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CE12EE2D4B3008FB007 /* RasterizerStateDescription.hpp */; };
+		84EB0DDD2EE2D4B4008FB007 /* ShaderStage.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CE22EE2D4B3008FB007 /* ShaderStage.hpp */; };
+		84EB0DDE2EE2D4B4008FB007 /* StencilFaceDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CE32EE2D4B3008FB007 /* StencilFaceDescription.cpp */; };
+		84EB0DDF2EE2D4B4008FB007 /* StencilFaceDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CE42EE2D4B3008FB007 /* StencilFaceDescription.hpp */; };
+		84EB0DE02EE2D4B4008FB007 /* TextureDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CE52EE2D4B3008FB007 /* TextureDescription.cpp */; };
+		84EB0DE12EE2D4B4008FB007 /* TextureDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CE62EE2D4B3008FB007 /* TextureDescription.hpp */; };
+		84EB0DE22EE2D4B4008FB007 /* MaterialPtr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CE72EE2D4B3008FB007 /* MaterialPtr.cpp */; };
+		84EB0DE32EE2D4B4008FB007 /* MaterialPtr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CE82EE2D4B3008FB007 /* MaterialPtr.hpp */; };
+		84EB0DE42EE2D4B4008FB007 /* MatrixStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CE92EE2D4B3008FB007 /* MatrixStack.cpp */; };
+		84EB0DE52EE2D4B4008FB007 /* MatrixStack.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CEA2EE2D4B3008FB007 /* MatrixStack.hpp */; };
+		84EB0DE62EE2D4B4008FB007 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CEB2EE2D4B3008FB007 /* Mesh.cpp */; };
+		84EB0DE72EE2D4B4008FB007 /* Mesh.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CEC2EE2D4B3008FB007 /* Mesh.hpp */; };
+		84EB0DE82EE2D4B4008FB007 /* PerFrameConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CED2EE2D4B3008FB007 /* PerFrameConstants.cpp */; };
+		84EB0DE92EE2D4B4008FB007 /* PerFrameConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CEE2EE2D4B3008FB007 /* PerFrameConstants.hpp */; };
+		84EB0DEA2EE2D4B4008FB007 /* Extensions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CF12EE2D4B3008FB007 /* Extensions.cpp */; };
+		84EB0DEB2EE2D4B4008FB007 /* Extensions.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CF22EE2D4B3008FB007 /* Extensions.hpp */; };
+		84EB0DEC2EE2D4B4008FB007 /* ShaderPrecision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CF32EE2D4B3008FB007 /* ShaderPrecision.cpp */; };
+		84EB0DED2EE2D4B4008FB007 /* ShaderPrecision.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CF42EE2D4B3008FB007 /* ShaderPrecision.hpp */; };
+		84EB0DEE2EE2D4B4008FB007 /* PlatformDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CF52EE2D4B3008FB007 /* PlatformDefinitions.h */; };
+		84EB0DEF2EE2D4B4008FB007 /* QuadIndexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CF62EE2D4B3008FB007 /* QuadIndexBuffer.cpp */; };
+		84EB0DF02EE2D4B4008FB007 /* QuadIndexBuffer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CF72EE2D4B3008FB007 /* QuadIndexBuffer.hpp */; };
+		84EB0DF12EE2D4B4008FB007 /* RenderChunkConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CF82EE2D4B3008FB007 /* RenderChunkConstants.cpp */; };
+		84EB0DF22EE2D4B4008FB007 /* RenderChunkConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CF92EE2D4B3008FB007 /* RenderChunkConstants.hpp */; };
+		84EB0DF32EE2D4B4008FB007 /* RenderContextImmediate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CFA2EE2D4B3008FB007 /* RenderContextImmediate.cpp */; };
+		84EB0DF42EE2D4B4008FB007 /* RenderContextImmediate.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CFB2EE2D4B3008FB007 /* RenderContextImmediate.hpp */; };
+		84EB0DF52EE2D4B4008FB007 /* RenderMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CFC2EE2D4B3008FB007 /* RenderMaterial.cpp */; };
+		84EB0DF62EE2D4B4008FB007 /* RenderMaterial.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CFD2EE2D4B3008FB007 /* RenderMaterial.hpp */; };
+		84EB0DF72EE2D4B4008FB007 /* ShaderConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CFE2EE2D4B3008FB007 /* ShaderConstants.cpp */; };
+		84EB0DF82EE2D4B4008FB007 /* ShaderConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CFF2EE2D4B3008FB007 /* ShaderConstants.hpp */; };
+		84EB0DF92EE2D4B4008FB007 /* ShaderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D002EE2D4B3008FB007 /* ShaderGroup.cpp */; };
+		84EB0DFA2EE2D4B4008FB007 /* ShaderGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D012EE2D4B3008FB007 /* ShaderGroup.hpp */; };
+		84EB0DFB2EE2D4B4008FB007 /* ShaderGroupBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D022EE2D4B3008FB007 /* ShaderGroupBase.cpp */; };
+		84EB0DFC2EE2D4B4008FB007 /* ShaderGroupBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D032EE2D4B3008FB007 /* ShaderGroupBase.hpp */; };
+		84EB0DFD2EE2D4B4008FB007 /* StencilRefObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D042EE2D4B3008FB007 /* StencilRefObject.cpp */; };
+		84EB0DFE2EE2D4B4008FB007 /* StencilRefObject.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D052EE2D4B3008FB007 /* StencilRefObject.hpp */; };
+		84EB0DFF2EE2D4B4008FB007 /* TextureGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D062EE2D4B3008FB007 /* TextureGroup.cpp */; };
+		84EB0E002EE2D4B4008FB007 /* TextureGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D072EE2D4B3008FB007 /* TextureGroup.hpp */; };
+		84EB0E012EE2D4B4008FB007 /* TexturePtr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D082EE2D4B3008FB007 /* TexturePtr.cpp */; };
+		84EB0E022EE2D4B4008FB007 /* TexturePtr.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D092EE2D4B3008FB007 /* TexturePtr.hpp */; };
+		84EB0E032EE2D4B4008FB007 /* UniformMetaData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D0A2EE2D4B3008FB007 /* UniformMetaData.cpp */; };
+		84EB0E042EE2D4B4008FB007 /* UniformMetaData.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D0B2EE2D4B3008FB007 /* UniformMetaData.hpp */; };
+		84EB0E052EE2D4B4008FB007 /* VertexFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D0C2EE2D4B3008FB007 /* VertexFormat.cpp */; };
+		84EB0E062EE2D4B4008FB007 /* VertexFormat.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D0D2EE2D4B3008FB007 /* VertexFormat.hpp */; };
+		84EB0E072EE2D4B4008FB007 /* WeatherConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D0E2EE2D4B3008FB007 /* WeatherConstants.cpp */; };
+		84EB0E082EE2D4B4008FB007 /* WeatherConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D0F2EE2D4B3008FB007 /* WeatherConstants.hpp */; };
+		84EB0E092EE2D4B4008FB007 /* WorldConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D102EE2D4B3008FB007 /* WorldConstants.cpp */; };
+		84EB0E0A2EE2D4B4008FB007 /* WorldConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D112EE2D4B3008FB007 /* WorldConstants.hpp */; };
+		84EB0E0B2EE2D4CA008FB007 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB09FD2EE2CCC0008FB007 /* Color.cpp */; };
+		84EB0E0C2EE2D4CA008FB007 /* Color.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB09FE2EE2CCC0008FB007 /* Color.hpp */; };
+		84EB0E0D2EE2D4D4008FB007 /* AlignmentHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0A002EE2CCC0008FB007 /* AlignmentHelper.cpp */; };
+		84EB0E0E2EE2D4D4008FB007 /* AlignmentHelper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A012EE2CCC0008FB007 /* AlignmentHelper.hpp */; };
+		84EB0E0F2EE2D4D4008FB007 /* InheritanceTree.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A022EE2CCC0008FB007 /* InheritanceTree.hpp */; };
+		84EB0E102EE2D4D4008FB007 /* JsonParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0A032EE2CCC0008FB007 /* JsonParser.cpp */; };
+		84EB0E112EE2D4D4008FB007 /* JsonParser.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A042EE2CCC0008FB007 /* JsonParser.hpp */; };
+		84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0A052EE2CCC0008FB007 /* Singleton.cpp */; };
+		84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0A062EE2CCC0008FB007 /* Singleton.hpp */; };
 		84ED99D52AFF12D1003B6AF0 /* minecraftpe.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */; };
 		84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */; };
 		84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */; };
@@ -1693,14 +1938,6 @@
 		840DD5BA2AC810620006A435 /* SelectWorldScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SelectWorldScreen.hpp; sourceTree = "<group>"; };
 		840DD5BB2AC810620006A435 /* StartMenuScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StartMenuScreen.cpp; sourceTree = "<group>"; };
 		840DD5BC2AC810620006A435 /* StartMenuScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StartMenuScreen.hpp; sourceTree = "<group>"; };
-		840DD5BE2AC810620006A435 /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
-		840DD5BF2AC810620006A435 /* Cube.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cube.hpp; sourceTree = "<group>"; };
-		840DD5C02AC810620006A435 /* HumanoidModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanoidModel.cpp; sourceTree = "<group>"; };
-		840DD5C12AC810620006A435 /* HumanoidModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HumanoidModel.hpp; sourceTree = "<group>"; };
-		840DD5C22AC810620006A435 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
-		840DD5C32AC810620006A435 /* Model.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
-		840DD5C42AC810620006A435 /* PolygonQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolygonQuad.cpp; sourceTree = "<group>"; };
-		840DD5C52AC810620006A435 /* PolygonQuad.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolygonQuad.hpp; sourceTree = "<group>"; };
 		840DD5C72AC810620006A435 /* ClientSideNetworkHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientSideNetworkHandler.cpp; sourceTree = "<group>"; };
 		840DD5C82AC810620006A435 /* ClientSideNetworkHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ClientSideNetworkHandler.hpp; sourceTree = "<group>"; };
 		840DD5CA2AC810620006A435 /* Options.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Options.cpp; sourceTree = "<group>"; };
@@ -1733,8 +1970,6 @@
 		840DD6272AC810620006A435 /* CThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CThread.hpp; sourceTree = "<group>"; };
 		840DD6282AC810620006A435 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
 		840DD6292AC810620006A435 /* Logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
-		840DD62B2AC810620006A435 /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
-		840DD62C2AC810620006A435 /* Matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		840DD62D2AC810620006A435 /* Mth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mth.cpp; sourceTree = "<group>"; };
 		840DD62E2AC810620006A435 /* Mth.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mth.hpp; sourceTree = "<group>"; };
 		840DD62F2AC810620006A435 /* Random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
@@ -2544,28 +2779,6 @@
 		84AA8BE82B32F3F3003F5B82 /* VertexPT.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexPT.hpp; sourceTree = "<group>"; };
 		84AA8BE92B32F3F3003F5B82 /* WaterSideTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaterSideTexture.cpp; sourceTree = "<group>"; };
 		84AA8BEA2B32F3F3003F5B82 /* WaterTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaterTexture.cpp; sourceTree = "<group>"; };
-		84AA8C3C2B32F535003F5B82 /* ChickenModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChickenModel.cpp; sourceTree = "<group>"; };
-		84AA8C3D2B32F535003F5B82 /* ChickenModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ChickenModel.hpp; sourceTree = "<group>"; };
-		84AA8C3E2B32F535003F5B82 /* CowModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CowModel.cpp; sourceTree = "<group>"; };
-		84AA8C3F2B32F535003F5B82 /* CowModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CowModel.hpp; sourceTree = "<group>"; };
-		84AA8C402B32F535003F5B82 /* CreeperModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreeperModel.cpp; sourceTree = "<group>"; };
-		84AA8C412B32F535003F5B82 /* CreeperModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreeperModel.hpp; sourceTree = "<group>"; };
-		84AA8C482B32F535003F5B82 /* ModelPart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelPart.cpp; sourceTree = "<group>"; };
-		84AA8C492B32F535003F5B82 /* ModelPart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelPart.hpp; sourceTree = "<group>"; };
-		84AA8C4A2B32F535003F5B82 /* PigModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PigModel.cpp; sourceTree = "<group>"; };
-		84AA8C4B2B32F535003F5B82 /* PigModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PigModel.hpp; sourceTree = "<group>"; };
-		84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadrupedModel.cpp; sourceTree = "<group>"; };
-		84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuadrupedModel.hpp; sourceTree = "<group>"; };
-		84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SheepFurModel.cpp; sourceTree = "<group>"; };
-		84AA8C512B32F535003F5B82 /* SheepFurModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SheepFurModel.hpp; sourceTree = "<group>"; };
-		84AA8C522B32F535003F5B82 /* SheepModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SheepModel.cpp; sourceTree = "<group>"; };
-		84AA8C532B32F535003F5B82 /* SheepModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SheepModel.hpp; sourceTree = "<group>"; };
-		84AA8C542B32F535003F5B82 /* SkeletonModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonModel.cpp; sourceTree = "<group>"; };
-		84AA8C552B32F535003F5B82 /* SkeletonModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkeletonModel.hpp; sourceTree = "<group>"; };
-		84AA8C562B32F535003F5B82 /* SpiderModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpiderModel.cpp; sourceTree = "<group>"; };
-		84AA8C572B32F535003F5B82 /* SpiderModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpiderModel.hpp; sourceTree = "<group>"; };
-		84AA8C582B32F535003F5B82 /* ZombieModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZombieModel.cpp; sourceTree = "<group>"; };
-		84AA8C592B32F535003F5B82 /* ZombieModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZombieModel.hpp; sourceTree = "<group>"; };
 		84AA8C782B32F578003F5B82 /* gui_custom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gui_custom.png; sourceTree = "<group>"; };
 		84AA8CB72B32FB32003F5B82 /* stb_c_lexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_c_lexer.h; sourceTree = "<group>"; };
 		84AA8CB82B32FB32003F5B82 /* stb_connected_components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_connected_components.h; sourceTree = "<group>"; };
@@ -3089,6 +3302,283 @@
 		84EAE8E32AF1EABE000894E8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		84EAE8F02AF1EAFA000894E8 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		84EAE8F12AF1EAFA000894E8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		84EB09942EE2CC25008FB007 /* AppPlatformListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppPlatformListener.cpp; sourceTree = "<group>"; };
+		84EB09952EE2CC25008FB007 /* AppPlatformListener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AppPlatformListener.hpp; sourceTree = "<group>"; };
+		84EB09982EE2CC3B008FB007 /* GuiElement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiElement.cpp; sourceTree = "<group>"; };
+		84EB09992EE2CC3B008FB007 /* GuiElement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GuiElement.hpp; sourceTree = "<group>"; };
+		84EB099A2EE2CC3B008FB007 /* IntRectangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IntRectangle.hpp; sourceTree = "<group>"; };
+		84EB09A12EE2CC86008FB007 /* Cube.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
+		84EB09A22EE2CC86008FB007 /* Cube.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Cube.hpp; sourceTree = "<group>"; };
+		84EB09A32EE2CC86008FB007 /* ModelPart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelPart.cpp; sourceTree = "<group>"; };
+		84EB09A42EE2CC86008FB007 /* ModelPart.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ModelPart.hpp; sourceTree = "<group>"; };
+		84EB09A52EE2CC86008FB007 /* PolygonQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PolygonQuad.cpp; sourceTree = "<group>"; };
+		84EB09A62EE2CC86008FB007 /* PolygonQuad.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PolygonQuad.hpp; sourceTree = "<group>"; };
+		84EB09A72EE2CC86008FB007 /* TextureOffset.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureOffset.hpp; sourceTree = "<group>"; };
+		84EB09A92EE2CC86008FB007 /* ChickenModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChickenModel.cpp; sourceTree = "<group>"; };
+		84EB09AA2EE2CC86008FB007 /* ChickenModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ChickenModel.hpp; sourceTree = "<group>"; };
+		84EB09AB2EE2CC86008FB007 /* CowModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CowModel.cpp; sourceTree = "<group>"; };
+		84EB09AC2EE2CC86008FB007 /* CowModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CowModel.hpp; sourceTree = "<group>"; };
+		84EB09AD2EE2CC86008FB007 /* CreeperModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreeperModel.cpp; sourceTree = "<group>"; };
+		84EB09AE2EE2CC86008FB007 /* CreeperModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CreeperModel.hpp; sourceTree = "<group>"; };
+		84EB09AF2EE2CC86008FB007 /* HumanoidModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HumanoidModel.cpp; sourceTree = "<group>"; };
+		84EB09B02EE2CC86008FB007 /* HumanoidModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HumanoidModel.hpp; sourceTree = "<group>"; };
+		84EB09B12EE2CC86008FB007 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		84EB09B22EE2CC86008FB007 /* Model.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Model.hpp; sourceTree = "<group>"; };
+		84EB09B32EE2CC86008FB007 /* PigModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PigModel.cpp; sourceTree = "<group>"; };
+		84EB09B42EE2CC86008FB007 /* PigModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PigModel.hpp; sourceTree = "<group>"; };
+		84EB09B52EE2CC86008FB007 /* QuadrupedModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadrupedModel.cpp; sourceTree = "<group>"; };
+		84EB09B62EE2CC86008FB007 /* QuadrupedModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuadrupedModel.hpp; sourceTree = "<group>"; };
+		84EB09B72EE2CC86008FB007 /* SheepFurModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SheepFurModel.cpp; sourceTree = "<group>"; };
+		84EB09B82EE2CC86008FB007 /* SheepFurModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SheepFurModel.hpp; sourceTree = "<group>"; };
+		84EB09B92EE2CC86008FB007 /* SheepModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SheepModel.cpp; sourceTree = "<group>"; };
+		84EB09BA2EE2CC86008FB007 /* SheepModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SheepModel.hpp; sourceTree = "<group>"; };
+		84EB09BB2EE2CC86008FB007 /* SkeletonModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SkeletonModel.cpp; sourceTree = "<group>"; };
+		84EB09BC2EE2CC86008FB007 /* SkeletonModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SkeletonModel.hpp; sourceTree = "<group>"; };
+		84EB09BD2EE2CC86008FB007 /* SpiderModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpiderModel.cpp; sourceTree = "<group>"; };
+		84EB09BE2EE2CC86008FB007 /* SpiderModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpiderModel.hpp; sourceTree = "<group>"; };
+		84EB09BF2EE2CC86008FB007 /* ZombieModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZombieModel.cpp; sourceTree = "<group>"; };
+		84EB09C02EE2CC86008FB007 /* ZombieModel.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ZombieModel.hpp; sourceTree = "<group>"; };
+		84EB09E02EE2CCA8008FB007 /* Fog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fog.cpp; sourceTree = "<group>"; };
+		84EB09E12EE2CCA8008FB007 /* Fog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Fog.hpp; sourceTree = "<group>"; };
+		84EB09E32EE2CCA8008FB007 /* EntityShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityShaderManager.cpp; sourceTree = "<group>"; };
+		84EB09E42EE2CCA8008FB007 /* EntityShaderManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityShaderManager.hpp; sourceTree = "<group>"; };
+		84EB09E52EE2CCA8008FB007 /* RenderMaterialGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderMaterialGroup.cpp; sourceTree = "<group>"; };
+		84EB09E62EE2CCA8008FB007 /* RenderMaterialGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderMaterialGroup.hpp; sourceTree = "<group>"; };
+		84EB09E72EE2CCA8008FB007 /* ScreenRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenRenderer.cpp; sourceTree = "<group>"; };
+		84EB09E82EE2CCA8008FB007 /* ScreenRenderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ScreenRenderer.hpp; sourceTree = "<group>"; };
+		84EB09EA2EE2CCA8008FB007 /* ColorSpace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ColorSpace.hpp; sourceTree = "<group>"; };
+		84EB09EB2EE2CCA8008FB007 /* ImageData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageData.cpp; sourceTree = "<group>"; };
+		84EB09EC2EE2CCA8008FB007 /* ImageData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImageData.hpp; sourceTree = "<group>"; };
+		84EB09ED2EE2CCA8008FB007 /* TextureData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureData.cpp; sourceTree = "<group>"; };
+		84EB09EE2EE2CCA8008FB007 /* TextureData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureData.hpp; sourceTree = "<group>"; };
+		84EB09FD2EE2CCC0008FB007 /* Color.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Color.cpp; sourceTree = "<group>"; };
+		84EB09FE2EE2CCC0008FB007 /* Color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Color.hpp; sourceTree = "<group>"; };
+		84EB0A002EE2CCC0008FB007 /* AlignmentHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AlignmentHelper.cpp; sourceTree = "<group>"; };
+		84EB0A012EE2CCC0008FB007 /* AlignmentHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlignmentHelper.hpp; sourceTree = "<group>"; };
+		84EB0A022EE2CCC0008FB007 /* InheritanceTree.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InheritanceTree.hpp; sourceTree = "<group>"; };
+		84EB0A032EE2CCC0008FB007 /* JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0A042EE2CCC0008FB007 /* JsonParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = JsonParser.hpp; sourceTree = "<group>"; };
+		84EB0A052EE2CCC0008FB007 /* Singleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Singleton.cpp; sourceTree = "<group>"; };
+		84EB0A062EE2CCC0008FB007 /* Singleton.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Singleton.hpp; sourceTree = "<group>"; };
+		84EB0C102EE2D4B2008FB007 /* Attribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Attribute.cpp; sourceTree = "<group>"; };
+		84EB0C112EE2D4B2008FB007 /* Attribute.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Attribute.hpp; sourceTree = "<group>"; };
+		84EB0C122EE2D4B2008FB007 /* ConstantBufferMetaData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBufferMetaData.cpp; sourceTree = "<group>"; };
+		84EB0C132EE2D4B2008FB007 /* ConstantBufferMetaData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferMetaData.hpp; sourceTree = "<group>"; };
+		84EB0C142EE2D4B2008FB007 /* ConstantBufferMetaDataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBufferMetaDataManager.cpp; sourceTree = "<group>"; };
+		84EB0C152EE2D4B2008FB007 /* ConstantBufferMetaDataManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferMetaDataManager.hpp; sourceTree = "<group>"; };
+		84EB0C162EE2D4B2008FB007 /* EnableScissorTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnableScissorTest.cpp; sourceTree = "<group>"; };
+		84EB0C172EE2D4B2008FB007 /* EnableScissorTest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EnableScissorTest.hpp; sourceTree = "<group>"; };
+		84EB0C182EE2D4B2008FB007 /* EntityConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EntityConstants.cpp; sourceTree = "<group>"; };
+		84EB0C192EE2D4B2008FB007 /* EntityConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityConstants.hpp; sourceTree = "<group>"; };
+		84EB0C1A2EE2D4B2008FB007 /* GlobalConstantBufferManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlobalConstantBufferManager.cpp; sourceTree = "<group>"; };
+		84EB0C1B2EE2D4B2008FB007 /* GlobalConstantBufferManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GlobalConstantBufferManager.hpp; sourceTree = "<group>"; };
+		84EB0C1C2EE2D4B2008FB007 /* GlobalConstantBuffers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlobalConstantBuffers.cpp; sourceTree = "<group>"; };
+		84EB0C1D2EE2D4B2008FB007 /* GlobalConstantBuffers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GlobalConstantBuffers.hpp; sourceTree = "<group>"; };
+		84EB0C202EE2D4B2008FB007 /* BlendStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateBase.cpp; sourceTree = "<group>"; };
+		84EB0C212EE2D4B2008FB007 /* BlendStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendStateBase.hpp; sourceTree = "<group>"; };
+		84EB0C222EE2D4B2008FB007 /* BufferBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferBase.cpp; sourceTree = "<group>"; };
+		84EB0C232EE2D4B2008FB007 /* BufferBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferBase.hpp; sourceTree = "<group>"; };
+		84EB0C242EE2D4B2008FB007 /* ConstantBufferBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBufferBase.cpp; sourceTree = "<group>"; };
+		84EB0C252EE2D4B2008FB007 /* ConstantBufferBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferBase.hpp; sourceTree = "<group>"; };
+		84EB0C262EE2D4B2008FB007 /* ConstantBufferConstantsBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBufferConstantsBase.cpp; sourceTree = "<group>"; };
+		84EB0C272EE2D4B2008FB007 /* ConstantBufferConstantsBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferConstantsBase.hpp; sourceTree = "<group>"; };
+		84EB0C282EE2D4B2008FB007 /* ConstantBufferContainerBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBufferContainerBase.cpp; sourceTree = "<group>"; };
+		84EB0C292EE2D4B2008FB007 /* ConstantBufferContainerBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferContainerBase.hpp; sourceTree = "<group>"; };
+		84EB0C2A2EE2D4B2008FB007 /* DepthStencilStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateBase.cpp; sourceTree = "<group>"; };
+		84EB0C2B2EE2D4B2008FB007 /* DepthStencilStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateBase.hpp; sourceTree = "<group>"; };
+		84EB0C2C2EE2D4B2008FB007 /* FixedPipelineStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateBase.cpp; sourceTree = "<group>"; };
+		84EB0C2D2EE2D4B2008FB007 /* FixedPipelineStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateBase.hpp; sourceTree = "<group>"; };
+		84EB0C2E2EE2D4B2008FB007 /* FogStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateBase.cpp; sourceTree = "<group>"; };
+		84EB0C2F2EE2D4B2008FB007 /* FogStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateBase.hpp; sourceTree = "<group>"; };
+		84EB0C302EE2D4B2008FB007 /* FrameBufferObjectBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameBufferObjectBase.cpp; sourceTree = "<group>"; };
+		84EB0C312EE2D4B2008FB007 /* FrameBufferObjectBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameBufferObjectBase.hpp; sourceTree = "<group>"; };
+		84EB0C322EE2D4B2008FB007 /* ImmediateBufferBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImmediateBufferBase.cpp; sourceTree = "<group>"; };
+		84EB0C332EE2D4B2008FB007 /* ImmediateBufferBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImmediateBufferBase.hpp; sourceTree = "<group>"; };
+		84EB0C342EE2D4B2008FB007 /* RasterizerStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RasterizerStateBase.cpp; sourceTree = "<group>"; };
+		84EB0C352EE2D4B2008FB007 /* RasterizerStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RasterizerStateBase.hpp; sourceTree = "<group>"; };
+		84EB0C362EE2D4B2008FB007 /* RenderContextBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderContextBase.cpp; sourceTree = "<group>"; };
+		84EB0C372EE2D4B2008FB007 /* RenderContextBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContextBase.hpp; sourceTree = "<group>"; };
+		84EB0C382EE2D4B2008FB007 /* RenderContextStateBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderContextStateBase.cpp; sourceTree = "<group>"; };
+		84EB0C392EE2D4B2008FB007 /* RenderContextStateBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContextStateBase.hpp; sourceTree = "<group>"; };
+		84EB0C3A2EE2D4B2008FB007 /* RenderDeviceBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDeviceBase.cpp; sourceTree = "<group>"; };
+		84EB0C3B2EE2D4B2008FB007 /* RenderDeviceBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDeviceBase.hpp; sourceTree = "<group>"; };
+		84EB0C3C2EE2D4B2008FB007 /* ShaderBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderBase.cpp; sourceTree = "<group>"; };
+		84EB0C3D2EE2D4B2008FB007 /* ShaderBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderBase.hpp; sourceTree = "<group>"; };
+		84EB0C3E2EE2D4B2008FB007 /* ShaderConstantBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderConstantBase.cpp; sourceTree = "<group>"; };
+		84EB0C3F2EE2D4B2008FB007 /* ShaderConstantBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstantBase.hpp; sourceTree = "<group>"; };
+		84EB0C402EE2D4B2008FB007 /* ShaderConstantWithDataBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderConstantWithDataBase.cpp; sourceTree = "<group>"; };
+		84EB0C412EE2D4B2008FB007 /* ShaderConstantWithDataBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstantWithDataBase.hpp; sourceTree = "<group>"; };
+		84EB0C422EE2D4B2008FB007 /* ShaderContextBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderContextBase.cpp; sourceTree = "<group>"; };
+		84EB0C432EE2D4B2008FB007 /* ShaderContextBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderContextBase.hpp; sourceTree = "<group>"; };
+		84EB0C442EE2D4B2008FB007 /* ShaderProgramBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgramBase.cpp; sourceTree = "<group>"; };
+		84EB0C452EE2D4B2008FB007 /* ShaderProgramBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderProgramBase.hpp; sourceTree = "<group>"; };
+		84EB0C462EE2D4B2008FB007 /* TextureBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBase.cpp; sourceTree = "<group>"; };
+		84EB0C472EE2D4B2008FB007 /* TextureBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureBase.hpp; sourceTree = "<group>"; };
+		84EB0C482EE2D4B3008FB007 /* BlendStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateDescription.cpp; sourceTree = "<group>"; };
+		84EB0C492EE2D4B3008FB007 /* BlendStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendStateDescription.hpp; sourceTree = "<group>"; };
+		84EB0C4A2EE2D4B3008FB007 /* DepthStencilStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateDescription.cpp; sourceTree = "<group>"; };
+		84EB0C4B2EE2D4B3008FB007 /* DepthStencilStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateDescription.hpp; sourceTree = "<group>"; };
+		84EB0C4D2EE2D4B3008FB007 /* BlendTarget.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendTarget.hpp; sourceTree = "<group>"; };
+		84EB0C4E2EE2D4B3008FB007 /* BlendTarget_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendTarget_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C4F2EE2D4B3008FB007 /* BufferType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferType.hpp; sourceTree = "<group>"; };
+		84EB0C502EE2D4B3008FB007 /* ColorWriteMask.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ColorWriteMask.hpp; sourceTree = "<group>"; };
+		84EB0C512EE2D4B3008FB007 /* ComparisonFunc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ComparisonFunc.hpp; sourceTree = "<group>"; };
+		84EB0C522EE2D4B3008FB007 /* ComparisonFunc_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ComparisonFunc_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C532EE2D4B3008FB007 /* CullMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CullMode.hpp; sourceTree = "<group>"; };
+		84EB0C542EE2D4B3008FB007 /* DepthWriteMask.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthWriteMask.hpp; sourceTree = "<group>"; };
+		84EB0C552EE2D4B3008FB007 /* FogMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogMode.hpp; sourceTree = "<group>"; };
+		84EB0C562EE2D4B3008FB007 /* PrimitiveMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PrimitiveMode.hpp; sourceTree = "<group>"; };
+		84EB0C572EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PrimitiveMode_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C582EE2D4B3008FB007 /* RenderState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderState.hpp; sourceTree = "<group>"; };
+		84EB0C592EE2D4B3008FB007 /* RenderState_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderState_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C5A2EE2D4B3008FB007 /* RenderState_JsonParser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderState_JsonParser.hpp; sourceTree = "<group>"; };
+		84EB0C5B2EE2D4B3008FB007 /* ShadeMode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShadeMode.hpp; sourceTree = "<group>"; };
+		84EB0C5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderPrimitiveTypes.cpp; sourceTree = "<group>"; };
+		84EB0C5D2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderPrimitiveTypes.hpp; sourceTree = "<group>"; };
+		84EB0C5E2EE2D4B3008FB007 /* ShaderStagesBits.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderStagesBits.hpp; sourceTree = "<group>"; };
+		84EB0C5F2EE2D4B3008FB007 /* ShaderStagesBits_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderStagesBits_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C602EE2D4B3008FB007 /* ShaderType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderType.hpp; sourceTree = "<group>"; };
+		84EB0C612EE2D4B3008FB007 /* StencilMask.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilMask.hpp; sourceTree = "<group>"; };
+		84EB0C622EE2D4B3008FB007 /* StencilOp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilOp.hpp; sourceTree = "<group>"; };
+		84EB0C632EE2D4B3008FB007 /* StencilOp_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StencilOp_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C642EE2D4B3008FB007 /* TextureFiltering.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureFiltering.hpp; sourceTree = "<group>"; };
+		84EB0C652EE2D4B3008FB007 /* TextureFiltering_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureFiltering_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C662EE2D4B3008FB007 /* TextureFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureFormat.hpp; sourceTree = "<group>"; };
+		84EB0C672EE2D4B3008FB007 /* VertexField.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexField.hpp; sourceTree = "<group>"; };
+		84EB0C682EE2D4B3008FB007 /* VertexField_JsonParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexField_JsonParser.cpp; sourceTree = "<group>"; };
+		84EB0C692EE2D4B3008FB007 /* VertexFieldType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexFieldType.hpp; sourceTree = "<group>"; };
+		84EB0C6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateDescription.cpp; sourceTree = "<group>"; };
+		84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateDescription.hpp; sourceTree = "<group>"; };
+		84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateDescription.cpp; sourceTree = "<group>"; };
+		84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateDescription.hpp; sourceTree = "<group>"; };
+		84EB0C6F2EE2D4B3008FB007 /* ErrorHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ErrorHandler.cpp; sourceTree = "<group>"; };
+		84EB0C702EE2D4B3008FB007 /* ErrorHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ErrorHandler.hpp; sourceTree = "<group>"; };
+		84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureHelper.cpp; sourceTree = "<group>"; };
+		84EB0C722EE2D4B3008FB007 /* TextureHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureHelper.hpp; sourceTree = "<group>"; };
+		84EB0C732EE2D4B3008FB007 /* ImageDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDescription.cpp; sourceTree = "<group>"; };
+		84EB0C742EE2D4B3008FB007 /* ImageDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImageDescription.hpp; sourceTree = "<group>"; };
+		84EB0C762EE2D4B3008FB007 /* BlendState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendState.cpp; sourceTree = "<group>"; };
+		84EB0C772EE2D4B3008FB007 /* BlendState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendState.hpp; sourceTree = "<group>"; };
+		84EB0C782EE2D4B3008FB007 /* Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
+		84EB0C792EE2D4B3008FB007 /* Buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Buffer.hpp; sourceTree = "<group>"; };
+		84EB0C7A2EE2D4B3008FB007 /* ConstantBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBuffer.cpp; sourceTree = "<group>"; };
+		84EB0C7B2EE2D4B3008FB007 /* ConstantBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBuffer.hpp; sourceTree = "<group>"; };
+		84EB0C7C2EE2D4B3008FB007 /* ConstantBufferConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferConstants.hpp; sourceTree = "<group>"; };
+		84EB0C7D2EE2D4B3008FB007 /* ConstantBufferContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBufferContainer.cpp; sourceTree = "<group>"; };
+		84EB0C7E2EE2D4B3008FB007 /* ConstantBufferContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferContainer.hpp; sourceTree = "<group>"; };
+		84EB0C7F2EE2D4B3008FB007 /* DepthStencilState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilState.cpp; sourceTree = "<group>"; };
+		84EB0C802EE2D4B3008FB007 /* DepthStencilState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilState.hpp; sourceTree = "<group>"; };
+		84EB0C812EE2D4B3008FB007 /* FixedPipelineState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineState.cpp; sourceTree = "<group>"; };
+		84EB0C822EE2D4B3008FB007 /* FixedPipelineState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineState.hpp; sourceTree = "<group>"; };
+		84EB0C832EE2D4B3008FB007 /* FogState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogState.cpp; sourceTree = "<group>"; };
+		84EB0C842EE2D4B3008FB007 /* FogState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogState.hpp; sourceTree = "<group>"; };
+		84EB0C852EE2D4B3008FB007 /* ImmediateBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImmediateBuffer.cpp; sourceTree = "<group>"; };
+		84EB0C862EE2D4B3008FB007 /* ImmediateBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImmediateBuffer.hpp; sourceTree = "<group>"; };
+		84EB0C872EE2D4B3008FB007 /* RasterizerState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RasterizerState.cpp; sourceTree = "<group>"; };
+		84EB0C882EE2D4B3008FB007 /* RasterizerState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RasterizerState.hpp; sourceTree = "<group>"; };
+		84EB0C892EE2D4B3008FB007 /* RenderContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderContext.cpp; sourceTree = "<group>"; };
+		84EB0C8A2EE2D4B3008FB007 /* RenderContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContext.hpp; sourceTree = "<group>"; };
+		84EB0C8B2EE2D4B3008FB007 /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
+		84EB0C8C2EE2D4B3008FB007 /* RenderDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDevice.hpp; sourceTree = "<group>"; };
+		84EB0C8D2EE2D4B3008FB007 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		84EB0C8E2EE2D4B3008FB007 /* Shader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
+		84EB0C8F2EE2D4B3008FB007 /* ShaderConstant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstant.hpp; sourceTree = "<group>"; };
+		84EB0C902EE2D4B3008FB007 /* ShaderConstantWithData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderConstantWithData.cpp; sourceTree = "<group>"; };
+		84EB0C912EE2D4B3008FB007 /* ShaderConstantWithData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstantWithData.hpp; sourceTree = "<group>"; };
+		84EB0C922EE2D4B3008FB007 /* ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
+		84EB0C932EE2D4B3008FB007 /* ShaderProgram.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderProgram.hpp; sourceTree = "<group>"; };
+		84EB0C942EE2D4B3008FB007 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		84EB0C952EE2D4B3008FB007 /* Texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
+		84EB0CB62EE2D4B3008FB007 /* API_OGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = API_OGL.cpp; sourceTree = "<group>"; };
+		84EB0CB72EE2D4B3008FB007 /* API_OGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = API_OGL.hpp; sourceTree = "<group>"; };
+		84EB0CB82EE2D4B3008FB007 /* BlendStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlendStateOGL.cpp; sourceTree = "<group>"; };
+		84EB0CB92EE2D4B3008FB007 /* BlendStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BlendStateOGL.hpp; sourceTree = "<group>"; };
+		84EB0CBA2EE2D4B3008FB007 /* BufferOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferOGL.cpp; sourceTree = "<group>"; };
+		84EB0CBB2EE2D4B3008FB007 /* BufferOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BufferOGL.hpp; sourceTree = "<group>"; };
+		84EB0CBC2EE2D4B3008FB007 /* ConstantBufferContainerOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConstantBufferContainerOGL.cpp; sourceTree = "<group>"; };
+		84EB0CBD2EE2D4B3008FB007 /* ConstantBufferContainerOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ConstantBufferContainerOGL.hpp; sourceTree = "<group>"; };
+		84EB0CBE2EE2D4B3008FB007 /* DepthStencilStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthStencilStateOGL.cpp; sourceTree = "<group>"; };
+		84EB0CBF2EE2D4B3008FB007 /* DepthStencilStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DepthStencilStateOGL.hpp; sourceTree = "<group>"; };
+		84EB0CC02EE2D4B3008FB007 /* FixedPipelineStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateOGL.cpp; sourceTree = "<group>"; };
+		84EB0CC12EE2D4B3008FB007 /* FixedPipelineStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateOGL.hpp; sourceTree = "<group>"; };
+		84EB0CC22EE2D4B3008FB007 /* FogStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateOGL.cpp; sourceTree = "<group>"; };
+		84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateOGL.hpp; sourceTree = "<group>"; };
+		84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GPUEventsOGL.cpp; sourceTree = "<group>"; };
+		84EB0CC52EE2D4B3008FB007 /* GPUEventsOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GPUEventsOGL.hpp; sourceTree = "<group>"; };
+		84EB0CC62EE2D4B3008FB007 /* ImmediateBufferOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImmediateBufferOGL.cpp; sourceTree = "<group>"; };
+		84EB0CC72EE2D4B3008FB007 /* ImmediateBufferOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ImmediateBufferOGL.hpp; sourceTree = "<group>"; };
+		84EB0CC82EE2D4B3008FB007 /* ProfileSectionOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProfileSectionOGL.cpp; sourceTree = "<group>"; };
+		84EB0CC92EE2D4B3008FB007 /* ProfileSectionOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ProfileSectionOGL.hpp; sourceTree = "<group>"; };
+		84EB0CCA2EE2D4B3008FB007 /* RasterizerStateOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RasterizerStateOGL.cpp; sourceTree = "<group>"; };
+		84EB0CCB2EE2D4B3008FB007 /* RasterizerStateOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RasterizerStateOGL.hpp; sourceTree = "<group>"; };
+		84EB0CCC2EE2D4B3008FB007 /* RenderContextOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderContextOGL.cpp; sourceTree = "<group>"; };
+		84EB0CCD2EE2D4B3008FB007 /* RenderContextOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContextOGL.hpp; sourceTree = "<group>"; };
+		84EB0CCE2EE2D4B3008FB007 /* RenderDeviceOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDeviceOGL.cpp; sourceTree = "<group>"; };
+		84EB0CCF2EE2D4B3008FB007 /* RenderDeviceOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderDeviceOGL.hpp; sourceTree = "<group>"; };
+		84EB0CD02EE2D4B3008FB007 /* ResourceOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceOGL.cpp; sourceTree = "<group>"; };
+		84EB0CD12EE2D4B3008FB007 /* ResourceOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResourceOGL.hpp; sourceTree = "<group>"; };
+		84EB0CD22EE2D4B3008FB007 /* ShaderConstantOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderConstantOGL.cpp; sourceTree = "<group>"; };
+		84EB0CD32EE2D4B3008FB007 /* ShaderConstantOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstantOGL.hpp; sourceTree = "<group>"; };
+		84EB0CD42EE2D4B3008FB007 /* ShaderConstantWithDataOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderConstantWithDataOGL.cpp; sourceTree = "<group>"; };
+		84EB0CD52EE2D4B3008FB007 /* ShaderConstantWithDataOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstantWithDataOGL.hpp; sourceTree = "<group>"; };
+		84EB0CD62EE2D4B3008FB007 /* ShaderOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderOGL.cpp; sourceTree = "<group>"; };
+		84EB0CD72EE2D4B3008FB007 /* ShaderOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderOGL.hpp; sourceTree = "<group>"; };
+		84EB0CD82EE2D4B3008FB007 /* ShaderProgramOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgramOGL.cpp; sourceTree = "<group>"; };
+		84EB0CD92EE2D4B3008FB007 /* ShaderProgramOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderProgramOGL.hpp; sourceTree = "<group>"; };
+		84EB0CDA2EE2D4B3008FB007 /* ShaderResourceOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderResourceOGL.cpp; sourceTree = "<group>"; };
+		84EB0CDB2EE2D4B3008FB007 /* ShaderResourceOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderResourceOGL.hpp; sourceTree = "<group>"; };
+		84EB0CDC2EE2D4B3008FB007 /* ShaderUniformOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderUniformOGL.cpp; sourceTree = "<group>"; };
+		84EB0CDD2EE2D4B3008FB007 /* ShaderUniformOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderUniformOGL.hpp; sourceTree = "<group>"; };
+		84EB0CDE2EE2D4B3008FB007 /* TextureOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureOGL.cpp; sourceTree = "<group>"; };
+		84EB0CDF2EE2D4B3008FB007 /* TextureOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureOGL.hpp; sourceTree = "<group>"; };
+		84EB0CE02EE2D4B3008FB007 /* RasterizerStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RasterizerStateDescription.cpp; sourceTree = "<group>"; };
+		84EB0CE12EE2D4B3008FB007 /* RasterizerStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RasterizerStateDescription.hpp; sourceTree = "<group>"; };
+		84EB0CE22EE2D4B3008FB007 /* ShaderStage.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderStage.hpp; sourceTree = "<group>"; };
+		84EB0CE32EE2D4B3008FB007 /* StencilFaceDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StencilFaceDescription.cpp; sourceTree = "<group>"; };
+		84EB0CE42EE2D4B3008FB007 /* StencilFaceDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilFaceDescription.hpp; sourceTree = "<group>"; };
+		84EB0CE52EE2D4B3008FB007 /* TextureDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureDescription.cpp; sourceTree = "<group>"; };
+		84EB0CE62EE2D4B3008FB007 /* TextureDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureDescription.hpp; sourceTree = "<group>"; };
+		84EB0CE72EE2D4B3008FB007 /* MaterialPtr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialPtr.cpp; sourceTree = "<group>"; };
+		84EB0CE82EE2D4B3008FB007 /* MaterialPtr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MaterialPtr.hpp; sourceTree = "<group>"; };
+		84EB0CE92EE2D4B3008FB007 /* MatrixStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatrixStack.cpp; sourceTree = "<group>"; };
+		84EB0CEA2EE2D4B3008FB007 /* MatrixStack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MatrixStack.hpp; sourceTree = "<group>"; };
+		84EB0CEB2EE2D4B3008FB007 /* Mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
+		84EB0CEC2EE2D4B3008FB007 /* Mesh.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
+		84EB0CED2EE2D4B3008FB007 /* PerFrameConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PerFrameConstants.cpp; sourceTree = "<group>"; };
+		84EB0CEE2EE2D4B3008FB007 /* PerFrameConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PerFrameConstants.hpp; sourceTree = "<group>"; };
+		84EB0CF12EE2D4B3008FB007 /* Extensions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Extensions.cpp; sourceTree = "<group>"; };
+		84EB0CF22EE2D4B3008FB007 /* Extensions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Extensions.hpp; sourceTree = "<group>"; };
+		84EB0CF32EE2D4B3008FB007 /* ShaderPrecision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderPrecision.cpp; sourceTree = "<group>"; };
+		84EB0CF42EE2D4B3008FB007 /* ShaderPrecision.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderPrecision.hpp; sourceTree = "<group>"; };
+		84EB0CF52EE2D4B3008FB007 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions.h; sourceTree = "<group>"; };
+		84EB0CF62EE2D4B3008FB007 /* QuadIndexBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QuadIndexBuffer.cpp; sourceTree = "<group>"; };
+		84EB0CF72EE2D4B3008FB007 /* QuadIndexBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuadIndexBuffer.hpp; sourceTree = "<group>"; };
+		84EB0CF82EE2D4B3008FB007 /* RenderChunkConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderChunkConstants.cpp; sourceTree = "<group>"; };
+		84EB0CF92EE2D4B3008FB007 /* RenderChunkConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderChunkConstants.hpp; sourceTree = "<group>"; };
+		84EB0CFA2EE2D4B3008FB007 /* RenderContextImmediate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderContextImmediate.cpp; sourceTree = "<group>"; };
+		84EB0CFB2EE2D4B3008FB007 /* RenderContextImmediate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderContextImmediate.hpp; sourceTree = "<group>"; };
+		84EB0CFC2EE2D4B3008FB007 /* RenderMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderMaterial.cpp; sourceTree = "<group>"; };
+		84EB0CFD2EE2D4B3008FB007 /* RenderMaterial.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderMaterial.hpp; sourceTree = "<group>"; };
+		84EB0CFE2EE2D4B3008FB007 /* ShaderConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderConstants.cpp; sourceTree = "<group>"; };
+		84EB0CFF2EE2D4B3008FB007 /* ShaderConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstants.hpp; sourceTree = "<group>"; };
+		84EB0D002EE2D4B3008FB007 /* ShaderGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderGroup.cpp; sourceTree = "<group>"; };
+		84EB0D012EE2D4B3008FB007 /* ShaderGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderGroup.hpp; sourceTree = "<group>"; };
+		84EB0D022EE2D4B3008FB007 /* ShaderGroupBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderGroupBase.cpp; sourceTree = "<group>"; };
+		84EB0D032EE2D4B3008FB007 /* ShaderGroupBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderGroupBase.hpp; sourceTree = "<group>"; };
+		84EB0D042EE2D4B3008FB007 /* StencilRefObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StencilRefObject.cpp; sourceTree = "<group>"; };
+		84EB0D052EE2D4B3008FB007 /* StencilRefObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StencilRefObject.hpp; sourceTree = "<group>"; };
+		84EB0D062EE2D4B3008FB007 /* TextureGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureGroup.cpp; sourceTree = "<group>"; };
+		84EB0D072EE2D4B3008FB007 /* TextureGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureGroup.hpp; sourceTree = "<group>"; };
+		84EB0D082EE2D4B3008FB007 /* TexturePtr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TexturePtr.cpp; sourceTree = "<group>"; };
+		84EB0D092EE2D4B3008FB007 /* TexturePtr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TexturePtr.hpp; sourceTree = "<group>"; };
+		84EB0D0A2EE2D4B3008FB007 /* UniformMetaData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UniformMetaData.cpp; sourceTree = "<group>"; };
+		84EB0D0B2EE2D4B3008FB007 /* UniformMetaData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = UniformMetaData.hpp; sourceTree = "<group>"; };
+		84EB0D0C2EE2D4B3008FB007 /* VertexFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexFormat.cpp; sourceTree = "<group>"; };
+		84EB0D0D2EE2D4B3008FB007 /* VertexFormat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VertexFormat.hpp; sourceTree = "<group>"; };
+		84EB0D0E2EE2D4B3008FB007 /* WeatherConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WeatherConstants.cpp; sourceTree = "<group>"; };
+		84EB0D0F2EE2D4B3008FB007 /* WeatherConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WeatherConstants.hpp; sourceTree = "<group>"; };
+		84EB0D102EE2D4B3008FB007 /* WorldConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldConstants.cpp; sourceTree = "<group>"; };
+		84EB0D112EE2D4B3008FB007 /* WorldConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WorldConstants.hpp; sourceTree = "<group>"; };
 		84ED99D42AFF12D1003B6AF0 /* minecraftpe.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = minecraftpe.entitlements; sourceTree = "<group>"; };
 		84EDD07A2E76E2B600375AEF /* LegacyCPP.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP.hpp; sourceTree = "<group>"; };
 		84EDD07B2E76E2B600375AEF /* LegacyCPP_Compat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LegacyCPP_Compat.hpp; sourceTree = "<group>"; };
@@ -3331,15 +3821,17 @@
 		840DD57D2AC810620006A435 /* app */ = {
 			isa = PBXGroup;
 			children = (
-				840DD57F2AC810620006A435 /* App.hpp */,
 				840DD57E2AC810620006A435 /* App.cpp */,
-				840DD5812AC810620006A435 /* AppPlatform.hpp */,
+				840DD57F2AC810620006A435 /* App.hpp */,
 				840DD5802AC810620006A435 /* AppPlatform.cpp */,
+				840DD5812AC810620006A435 /* AppPlatform.hpp */,
+				84EB09942EE2CC25008FB007 /* AppPlatformListener.cpp */,
+				84EB09952EE2CC25008FB007 /* AppPlatformListener.hpp */,
 				84A2FF152DB5B7B70090CE3E /* AssetFile.hpp */,
-				840DD5832AC810620006A435 /* Minecraft.hpp */,
 				840DD5822AC810620006A435 /* Minecraft.cpp */,
-				840DD5852AC810620006A435 /* NinecraftApp.hpp */,
+				840DD5832AC810620006A435 /* Minecraft.hpp */,
 				840DD5842AC810620006A435 /* NinecraftApp.cpp */,
+				840DD5852AC810620006A435 /* NinecraftApp.hpp */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -3352,6 +3844,9 @@
 				840DD5972AC810620006A435 /* Gui.hpp */,
 				840DD5982AC810620006A435 /* GuiComponent.cpp */,
 				840DD5992AC810620006A435 /* GuiComponent.hpp */,
+				84EB09982EE2CC3B008FB007 /* GuiElement.cpp */,
+				84EB09992EE2CC3B008FB007 /* GuiElement.hpp */,
+				84EB099A2EE2CC3B008FB007 /* IntRectangle.hpp */,
 				840DD59A2AC810620006A435 /* Screen.cpp */,
 				840DD59B2AC810620006A435 /* Screen.hpp */,
 				840DD59C2AC810620006A435 /* screens */,
@@ -3428,36 +3923,8 @@
 		840DD5BD2AC810620006A435 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				84AA8C3D2B32F535003F5B82 /* ChickenModel.hpp */,
-				84AA8C3C2B32F535003F5B82 /* ChickenModel.cpp */,
-				84AA8C3F2B32F535003F5B82 /* CowModel.hpp */,
-				84AA8C3E2B32F535003F5B82 /* CowModel.cpp */,
-				84AA8C412B32F535003F5B82 /* CreeperModel.hpp */,
-				84AA8C402B32F535003F5B82 /* CreeperModel.cpp */,
-				840DD5BF2AC810620006A435 /* Cube.hpp */,
-				840DD5BE2AC810620006A435 /* Cube.cpp */,
-				840DD5C12AC810620006A435 /* HumanoidModel.hpp */,
-				840DD5C02AC810620006A435 /* HumanoidModel.cpp */,
-				840DD5C32AC810620006A435 /* Model.hpp */,
-				840DD5C22AC810620006A435 /* Model.cpp */,
-				84AA8C492B32F535003F5B82 /* ModelPart.hpp */,
-				84AA8C482B32F535003F5B82 /* ModelPart.cpp */,
-				84AA8C4B2B32F535003F5B82 /* PigModel.hpp */,
-				84AA8C4A2B32F535003F5B82 /* PigModel.cpp */,
-				840DD5C52AC810620006A435 /* PolygonQuad.hpp */,
-				840DD5C42AC810620006A435 /* PolygonQuad.cpp */,
-				84AA8C4F2B32F535003F5B82 /* QuadrupedModel.hpp */,
-				84AA8C4E2B32F535003F5B82 /* QuadrupedModel.cpp */,
-				84AA8C512B32F535003F5B82 /* SheepFurModel.hpp */,
-				84AA8C502B32F535003F5B82 /* SheepFurModel.cpp */,
-				84AA8C532B32F535003F5B82 /* SheepModel.hpp */,
-				84AA8C522B32F535003F5B82 /* SheepModel.cpp */,
-				84AA8C552B32F535003F5B82 /* SkeletonModel.hpp */,
-				84AA8C542B32F535003F5B82 /* SkeletonModel.cpp */,
-				84AA8C572B32F535003F5B82 /* SpiderModel.hpp */,
-				84AA8C562B32F535003F5B82 /* SpiderModel.cpp */,
-				84AA8C592B32F535003F5B82 /* ZombieModel.hpp */,
-				84AA8C582B32F535003F5B82 /* ZombieModel.cpp */,
+				84EB09A02EE2CC86008FB007 /* geom */,
+				84EB09A82EE2CC86008FB007 /* models */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3579,8 +4046,7 @@
 				84CCBC3E2E6183F300E251AF /* DataIO.hpp */,
 				840DD6282AC810620006A435 /* Logger.cpp */,
 				840DD6292AC810620006A435 /* Logger.hpp */,
-				840DD62B2AC810620006A435 /* Matrix.cpp */,
-				840DD62C2AC810620006A435 /* Matrix.hpp */,
+				84EB09FC2EE2CCC0008FB007 /* math */,
 				840DD62D2AC810620006A435 /* Mth.cpp */,
 				840DD62E2AC810620006A435 /* Mth.hpp */,
 				840DD62F2AC810620006A435 /* Random.cpp */,
@@ -3591,6 +4057,7 @@
 				840DD6342AC810620006A435 /* Timer.hpp */,
 				840DD6352AC810620006A435 /* Util.cpp */,
 				840DD6362AC810620006A435 /* Util.hpp */,
+				84EB09FF2EE2CCC0008FB007 /* utility */,
 				840DD6372AC810620006A435 /* Utils.cpp */,
 				840DD6382AC810620006A435 /* Utils.hpp */,
 			);
@@ -3685,7 +4152,60 @@
 		840DD6522AC810620006A435 /* renderer */ = {
 			isa = PBXGroup;
 			children = (
+				84EB0C102EE2D4B2008FB007 /* Attribute.cpp */,
+				84EB0C112EE2D4B2008FB007 /* Attribute.hpp */,
+				84EB0C122EE2D4B2008FB007 /* ConstantBufferMetaData.cpp */,
+				84EB0C132EE2D4B2008FB007 /* ConstantBufferMetaData.hpp */,
+				84EB0C142EE2D4B2008FB007 /* ConstantBufferMetaDataManager.cpp */,
+				84EB0C152EE2D4B2008FB007 /* ConstantBufferMetaDataManager.hpp */,
+				84EB0C162EE2D4B2008FB007 /* EnableScissorTest.cpp */,
+				84EB0C172EE2D4B2008FB007 /* EnableScissorTest.hpp */,
+				84EB0C182EE2D4B2008FB007 /* EntityConstants.cpp */,
+				84EB0C192EE2D4B2008FB007 /* EntityConstants.hpp */,
 				840DD6532AC810620006A435 /* GL */,
+				84EB0C1A2EE2D4B2008FB007 /* GlobalConstantBufferManager.cpp */,
+				84EB0C1B2EE2D4B2008FB007 /* GlobalConstantBufferManager.hpp */,
+				84EB0C1C2EE2D4B2008FB007 /* GlobalConstantBuffers.cpp */,
+				84EB0C1D2EE2D4B2008FB007 /* GlobalConstantBuffers.hpp */,
+				84EB0C1E2EE2D4B2008FB007 /* hal */,
+				84EB0CE72EE2D4B3008FB007 /* MaterialPtr.cpp */,
+				84EB0CE82EE2D4B3008FB007 /* MaterialPtr.hpp */,
+				84EB0CE92EE2D4B3008FB007 /* MatrixStack.cpp */,
+				84EB0CEA2EE2D4B3008FB007 /* MatrixStack.hpp */,
+				84EB0CEB2EE2D4B3008FB007 /* Mesh.cpp */,
+				84EB0CEC2EE2D4B3008FB007 /* Mesh.hpp */,
+				84EB0CED2EE2D4B3008FB007 /* PerFrameConstants.cpp */,
+				84EB0CEE2EE2D4B3008FB007 /* PerFrameConstants.hpp */,
+				84EB0CEF2EE2D4B3008FB007 /* platform */,
+				84EB0CF52EE2D4B3008FB007 /* PlatformDefinitions.h */,
+				84EB0CF62EE2D4B3008FB007 /* QuadIndexBuffer.cpp */,
+				84EB0CF72EE2D4B3008FB007 /* QuadIndexBuffer.hpp */,
+				84EB0CF82EE2D4B3008FB007 /* RenderChunkConstants.cpp */,
+				84EB0CF92EE2D4B3008FB007 /* RenderChunkConstants.hpp */,
+				84EB0CFA2EE2D4B3008FB007 /* RenderContextImmediate.cpp */,
+				84EB0CFB2EE2D4B3008FB007 /* RenderContextImmediate.hpp */,
+				84EB0CFC2EE2D4B3008FB007 /* RenderMaterial.cpp */,
+				84EB0CFD2EE2D4B3008FB007 /* RenderMaterial.hpp */,
+				84EB0CFE2EE2D4B3008FB007 /* ShaderConstants.cpp */,
+				84EB0CFF2EE2D4B3008FB007 /* ShaderConstants.hpp */,
+				84EB0D002EE2D4B3008FB007 /* ShaderGroup.cpp */,
+				84EB0D012EE2D4B3008FB007 /* ShaderGroup.hpp */,
+				84EB0D022EE2D4B3008FB007 /* ShaderGroupBase.cpp */,
+				84EB0D032EE2D4B3008FB007 /* ShaderGroupBase.hpp */,
+				84EB0D042EE2D4B3008FB007 /* StencilRefObject.cpp */,
+				84EB0D052EE2D4B3008FB007 /* StencilRefObject.hpp */,
+				84EB0D062EE2D4B3008FB007 /* TextureGroup.cpp */,
+				84EB0D072EE2D4B3008FB007 /* TextureGroup.hpp */,
+				84EB0D082EE2D4B3008FB007 /* TexturePtr.cpp */,
+				84EB0D092EE2D4B3008FB007 /* TexturePtr.hpp */,
+				84EB0D0A2EE2D4B3008FB007 /* UniformMetaData.cpp */,
+				84EB0D0B2EE2D4B3008FB007 /* UniformMetaData.hpp */,
+				84EB0D0C2EE2D4B3008FB007 /* VertexFormat.cpp */,
+				84EB0D0D2EE2D4B3008FB007 /* VertexFormat.hpp */,
+				84EB0D0E2EE2D4B3008FB007 /* WeatherConstants.cpp */,
+				84EB0D0F2EE2D4B3008FB007 /* WeatherConstants.hpp */,
+				84EB0D102EE2D4B3008FB007 /* WorldConstants.cpp */,
+				84EB0D112EE2D4B3008FB007 /* WorldConstants.hpp */,
 			);
 			path = renderer;
 			sourceTree = "<group>";
@@ -4807,6 +5327,12 @@
 		84AA8B982B32F3F3003F5B82 /* renderer */ = {
 			isa = PBXGroup;
 			children = (
+				84EB09E02EE2CCA8008FB007 /* Fog.cpp */,
+				84EB09E12EE2CCA8008FB007 /* Fog.hpp */,
+				84EB09E22EE2CCA8008FB007 /* renderer */,
+				84EB09E72EE2CCA8008FB007 /* ScreenRenderer.cpp */,
+				84EB09E82EE2CCA8008FB007 /* ScreenRenderer.hpp */,
+				84EB09E92EE2CCA8008FB007 /* texture */,
 				84AA8B9A2B32F3F3003F5B82 /* Chunk.hpp */,
 				84AA8B992B32F3F3003F5B82 /* Chunk.cpp */,
 				84AA8B9C2B32F3F3003F5B82 /* Culler.hpp */,
@@ -5681,6 +6207,327 @@
 			path = sdl;
 			sourceTree = "<group>";
 		};
+		84EB09A02EE2CC86008FB007 /* geom */ = {
+			isa = PBXGroup;
+			children = (
+				84EB09A12EE2CC86008FB007 /* Cube.cpp */,
+				84EB09A22EE2CC86008FB007 /* Cube.hpp */,
+				84EB09A32EE2CC86008FB007 /* ModelPart.cpp */,
+				84EB09A42EE2CC86008FB007 /* ModelPart.hpp */,
+				84EB09A52EE2CC86008FB007 /* PolygonQuad.cpp */,
+				84EB09A62EE2CC86008FB007 /* PolygonQuad.hpp */,
+				84EB09A72EE2CC86008FB007 /* TextureOffset.hpp */,
+			);
+			path = geom;
+			sourceTree = "<group>";
+		};
+		84EB09A82EE2CC86008FB007 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				84EB09A92EE2CC86008FB007 /* ChickenModel.cpp */,
+				84EB09AA2EE2CC86008FB007 /* ChickenModel.hpp */,
+				84EB09AB2EE2CC86008FB007 /* CowModel.cpp */,
+				84EB09AC2EE2CC86008FB007 /* CowModel.hpp */,
+				84EB09AD2EE2CC86008FB007 /* CreeperModel.cpp */,
+				84EB09AE2EE2CC86008FB007 /* CreeperModel.hpp */,
+				84EB09AF2EE2CC86008FB007 /* HumanoidModel.cpp */,
+				84EB09B02EE2CC86008FB007 /* HumanoidModel.hpp */,
+				84EB09B12EE2CC86008FB007 /* Model.cpp */,
+				84EB09B22EE2CC86008FB007 /* Model.hpp */,
+				84EB09B32EE2CC86008FB007 /* PigModel.cpp */,
+				84EB09B42EE2CC86008FB007 /* PigModel.hpp */,
+				84EB09B52EE2CC86008FB007 /* QuadrupedModel.cpp */,
+				84EB09B62EE2CC86008FB007 /* QuadrupedModel.hpp */,
+				84EB09B72EE2CC86008FB007 /* SheepFurModel.cpp */,
+				84EB09B82EE2CC86008FB007 /* SheepFurModel.hpp */,
+				84EB09B92EE2CC86008FB007 /* SheepModel.cpp */,
+				84EB09BA2EE2CC86008FB007 /* SheepModel.hpp */,
+				84EB09BB2EE2CC86008FB007 /* SkeletonModel.cpp */,
+				84EB09BC2EE2CC86008FB007 /* SkeletonModel.hpp */,
+				84EB09BD2EE2CC86008FB007 /* SpiderModel.cpp */,
+				84EB09BE2EE2CC86008FB007 /* SpiderModel.hpp */,
+				84EB09BF2EE2CC86008FB007 /* ZombieModel.cpp */,
+				84EB09C02EE2CC86008FB007 /* ZombieModel.hpp */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		84EB09E22EE2CCA8008FB007 /* renderer */ = {
+			isa = PBXGroup;
+			children = (
+				84EB09E32EE2CCA8008FB007 /* EntityShaderManager.cpp */,
+				84EB09E42EE2CCA8008FB007 /* EntityShaderManager.hpp */,
+				84EB09E52EE2CCA8008FB007 /* RenderMaterialGroup.cpp */,
+				84EB09E62EE2CCA8008FB007 /* RenderMaterialGroup.hpp */,
+			);
+			path = renderer;
+			sourceTree = "<group>";
+		};
+		84EB09E92EE2CCA8008FB007 /* texture */ = {
+			isa = PBXGroup;
+			children = (
+				84EB09EA2EE2CCA8008FB007 /* ColorSpace.hpp */,
+				84EB09EB2EE2CCA8008FB007 /* ImageData.cpp */,
+				84EB09EC2EE2CCA8008FB007 /* ImageData.hpp */,
+				84EB09ED2EE2CCA8008FB007 /* TextureData.cpp */,
+				84EB09EE2EE2CCA8008FB007 /* TextureData.hpp */,
+			);
+			path = texture;
+			sourceTree = "<group>";
+		};
+		84EB09FC2EE2CCC0008FB007 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				84EB09FD2EE2CCC0008FB007 /* Color.cpp */,
+				84EB09FE2EE2CCC0008FB007 /* Color.hpp */,
+			);
+			path = math;
+			sourceTree = "<group>";
+		};
+		84EB09FF2EE2CCC0008FB007 /* utility */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0A002EE2CCC0008FB007 /* AlignmentHelper.cpp */,
+				84EB0A012EE2CCC0008FB007 /* AlignmentHelper.hpp */,
+				84EB0A022EE2CCC0008FB007 /* InheritanceTree.hpp */,
+				84EB0A032EE2CCC0008FB007 /* JsonParser.cpp */,
+				84EB0A042EE2CCC0008FB007 /* JsonParser.hpp */,
+				84EB0A052EE2CCC0008FB007 /* Singleton.cpp */,
+				84EB0A062EE2CCC0008FB007 /* Singleton.hpp */,
+			);
+			path = utility;
+			sourceTree = "<group>";
+		};
+		84EB0C1E2EE2D4B2008FB007 /* hal */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0C1F2EE2D4B2008FB007 /* base */,
+				84EB0C482EE2D4B3008FB007 /* BlendStateDescription.cpp */,
+				84EB0C492EE2D4B3008FB007 /* BlendStateDescription.hpp */,
+				84EB0C4A2EE2D4B3008FB007 /* DepthStencilStateDescription.cpp */,
+				84EB0C4B2EE2D4B3008FB007 /* DepthStencilStateDescription.hpp */,
+				84EB0C4C2EE2D4B3008FB007 /* enums */,
+				84EB0C6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp */,
+				84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */,
+				84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */,
+				84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */,
+				84EB0C6E2EE2D4B3008FB007 /* helpers */,
+				84EB0C732EE2D4B3008FB007 /* ImageDescription.cpp */,
+				84EB0C742EE2D4B3008FB007 /* ImageDescription.hpp */,
+				84EB0C752EE2D4B3008FB007 /* interface */,
+				84EB0CB52EE2D4B3008FB007 /* ogl */,
+				84EB0CE02EE2D4B3008FB007 /* RasterizerStateDescription.cpp */,
+				84EB0CE12EE2D4B3008FB007 /* RasterizerStateDescription.hpp */,
+				84EB0CE22EE2D4B3008FB007 /* ShaderStage.hpp */,
+				84EB0CE32EE2D4B3008FB007 /* StencilFaceDescription.cpp */,
+				84EB0CE42EE2D4B3008FB007 /* StencilFaceDescription.hpp */,
+				84EB0CE52EE2D4B3008FB007 /* TextureDescription.cpp */,
+				84EB0CE62EE2D4B3008FB007 /* TextureDescription.hpp */,
+			);
+			path = hal;
+			sourceTree = "<group>";
+		};
+		84EB0C1F2EE2D4B2008FB007 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0C202EE2D4B2008FB007 /* BlendStateBase.cpp */,
+				84EB0C212EE2D4B2008FB007 /* BlendStateBase.hpp */,
+				84EB0C222EE2D4B2008FB007 /* BufferBase.cpp */,
+				84EB0C232EE2D4B2008FB007 /* BufferBase.hpp */,
+				84EB0C242EE2D4B2008FB007 /* ConstantBufferBase.cpp */,
+				84EB0C252EE2D4B2008FB007 /* ConstantBufferBase.hpp */,
+				84EB0C262EE2D4B2008FB007 /* ConstantBufferConstantsBase.cpp */,
+				84EB0C272EE2D4B2008FB007 /* ConstantBufferConstantsBase.hpp */,
+				84EB0C282EE2D4B2008FB007 /* ConstantBufferContainerBase.cpp */,
+				84EB0C292EE2D4B2008FB007 /* ConstantBufferContainerBase.hpp */,
+				84EB0C2A2EE2D4B2008FB007 /* DepthStencilStateBase.cpp */,
+				84EB0C2B2EE2D4B2008FB007 /* DepthStencilStateBase.hpp */,
+				84EB0C2C2EE2D4B2008FB007 /* FixedPipelineStateBase.cpp */,
+				84EB0C2D2EE2D4B2008FB007 /* FixedPipelineStateBase.hpp */,
+				84EB0C2E2EE2D4B2008FB007 /* FogStateBase.cpp */,
+				84EB0C2F2EE2D4B2008FB007 /* FogStateBase.hpp */,
+				84EB0C302EE2D4B2008FB007 /* FrameBufferObjectBase.cpp */,
+				84EB0C312EE2D4B2008FB007 /* FrameBufferObjectBase.hpp */,
+				84EB0C322EE2D4B2008FB007 /* ImmediateBufferBase.cpp */,
+				84EB0C332EE2D4B2008FB007 /* ImmediateBufferBase.hpp */,
+				84EB0C342EE2D4B2008FB007 /* RasterizerStateBase.cpp */,
+				84EB0C352EE2D4B2008FB007 /* RasterizerStateBase.hpp */,
+				84EB0C362EE2D4B2008FB007 /* RenderContextBase.cpp */,
+				84EB0C372EE2D4B2008FB007 /* RenderContextBase.hpp */,
+				84EB0C382EE2D4B2008FB007 /* RenderContextStateBase.cpp */,
+				84EB0C392EE2D4B2008FB007 /* RenderContextStateBase.hpp */,
+				84EB0C3A2EE2D4B2008FB007 /* RenderDeviceBase.cpp */,
+				84EB0C3B2EE2D4B2008FB007 /* RenderDeviceBase.hpp */,
+				84EB0C3C2EE2D4B2008FB007 /* ShaderBase.cpp */,
+				84EB0C3D2EE2D4B2008FB007 /* ShaderBase.hpp */,
+				84EB0C3E2EE2D4B2008FB007 /* ShaderConstantBase.cpp */,
+				84EB0C3F2EE2D4B2008FB007 /* ShaderConstantBase.hpp */,
+				84EB0C402EE2D4B2008FB007 /* ShaderConstantWithDataBase.cpp */,
+				84EB0C412EE2D4B2008FB007 /* ShaderConstantWithDataBase.hpp */,
+				84EB0C422EE2D4B2008FB007 /* ShaderContextBase.cpp */,
+				84EB0C432EE2D4B2008FB007 /* ShaderContextBase.hpp */,
+				84EB0C442EE2D4B2008FB007 /* ShaderProgramBase.cpp */,
+				84EB0C452EE2D4B2008FB007 /* ShaderProgramBase.hpp */,
+				84EB0C462EE2D4B2008FB007 /* TextureBase.cpp */,
+				84EB0C472EE2D4B2008FB007 /* TextureBase.hpp */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		84EB0C4C2EE2D4B3008FB007 /* enums */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0C4D2EE2D4B3008FB007 /* BlendTarget.hpp */,
+				84EB0C4E2EE2D4B3008FB007 /* BlendTarget_JsonParser.cpp */,
+				84EB0C4F2EE2D4B3008FB007 /* BufferType.hpp */,
+				84EB0C502EE2D4B3008FB007 /* ColorWriteMask.hpp */,
+				84EB0C512EE2D4B3008FB007 /* ComparisonFunc.hpp */,
+				84EB0C522EE2D4B3008FB007 /* ComparisonFunc_JsonParser.cpp */,
+				84EB0C532EE2D4B3008FB007 /* CullMode.hpp */,
+				84EB0C542EE2D4B3008FB007 /* DepthWriteMask.hpp */,
+				84EB0C552EE2D4B3008FB007 /* FogMode.hpp */,
+				84EB0C562EE2D4B3008FB007 /* PrimitiveMode.hpp */,
+				84EB0C572EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp */,
+				84EB0C582EE2D4B3008FB007 /* RenderState.hpp */,
+				84EB0C592EE2D4B3008FB007 /* RenderState_JsonParser.cpp */,
+				84EB0C5A2EE2D4B3008FB007 /* RenderState_JsonParser.hpp */,
+				84EB0C5B2EE2D4B3008FB007 /* ShadeMode.hpp */,
+				84EB0C5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp */,
+				84EB0C5D2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp */,
+				84EB0C5E2EE2D4B3008FB007 /* ShaderStagesBits.hpp */,
+				84EB0C5F2EE2D4B3008FB007 /* ShaderStagesBits_JsonParser.cpp */,
+				84EB0C602EE2D4B3008FB007 /* ShaderType.hpp */,
+				84EB0C612EE2D4B3008FB007 /* StencilMask.hpp */,
+				84EB0C622EE2D4B3008FB007 /* StencilOp.hpp */,
+				84EB0C632EE2D4B3008FB007 /* StencilOp_JsonParser.cpp */,
+				84EB0C642EE2D4B3008FB007 /* TextureFiltering.hpp */,
+				84EB0C652EE2D4B3008FB007 /* TextureFiltering_JsonParser.cpp */,
+				84EB0C662EE2D4B3008FB007 /* TextureFormat.hpp */,
+				84EB0C672EE2D4B3008FB007 /* VertexField.hpp */,
+				84EB0C682EE2D4B3008FB007 /* VertexField_JsonParser.cpp */,
+				84EB0C692EE2D4B3008FB007 /* VertexFieldType.hpp */,
+			);
+			path = enums;
+			sourceTree = "<group>";
+		};
+		84EB0C6E2EE2D4B3008FB007 /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0C6F2EE2D4B3008FB007 /* ErrorHandler.cpp */,
+				84EB0C702EE2D4B3008FB007 /* ErrorHandler.hpp */,
+				84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */,
+				84EB0C722EE2D4B3008FB007 /* TextureHelper.hpp */,
+			);
+			path = helpers;
+			sourceTree = "<group>";
+		};
+		84EB0C752EE2D4B3008FB007 /* interface */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0C762EE2D4B3008FB007 /* BlendState.cpp */,
+				84EB0C772EE2D4B3008FB007 /* BlendState.hpp */,
+				84EB0C782EE2D4B3008FB007 /* Buffer.cpp */,
+				84EB0C792EE2D4B3008FB007 /* Buffer.hpp */,
+				84EB0C7A2EE2D4B3008FB007 /* ConstantBuffer.cpp */,
+				84EB0C7B2EE2D4B3008FB007 /* ConstantBuffer.hpp */,
+				84EB0C7C2EE2D4B3008FB007 /* ConstantBufferConstants.hpp */,
+				84EB0C7D2EE2D4B3008FB007 /* ConstantBufferContainer.cpp */,
+				84EB0C7E2EE2D4B3008FB007 /* ConstantBufferContainer.hpp */,
+				84EB0C7F2EE2D4B3008FB007 /* DepthStencilState.cpp */,
+				84EB0C802EE2D4B3008FB007 /* DepthStencilState.hpp */,
+				84EB0C812EE2D4B3008FB007 /* FixedPipelineState.cpp */,
+				84EB0C822EE2D4B3008FB007 /* FixedPipelineState.hpp */,
+				84EB0C832EE2D4B3008FB007 /* FogState.cpp */,
+				84EB0C842EE2D4B3008FB007 /* FogState.hpp */,
+				84EB0C852EE2D4B3008FB007 /* ImmediateBuffer.cpp */,
+				84EB0C862EE2D4B3008FB007 /* ImmediateBuffer.hpp */,
+				84EB0C872EE2D4B3008FB007 /* RasterizerState.cpp */,
+				84EB0C882EE2D4B3008FB007 /* RasterizerState.hpp */,
+				84EB0C892EE2D4B3008FB007 /* RenderContext.cpp */,
+				84EB0C8A2EE2D4B3008FB007 /* RenderContext.hpp */,
+				84EB0C8B2EE2D4B3008FB007 /* RenderDevice.cpp */,
+				84EB0C8C2EE2D4B3008FB007 /* RenderDevice.hpp */,
+				84EB0C8D2EE2D4B3008FB007 /* Shader.cpp */,
+				84EB0C8E2EE2D4B3008FB007 /* Shader.hpp */,
+				84EB0C8F2EE2D4B3008FB007 /* ShaderConstant.hpp */,
+				84EB0C902EE2D4B3008FB007 /* ShaderConstantWithData.cpp */,
+				84EB0C912EE2D4B3008FB007 /* ShaderConstantWithData.hpp */,
+				84EB0C922EE2D4B3008FB007 /* ShaderProgram.cpp */,
+				84EB0C932EE2D4B3008FB007 /* ShaderProgram.hpp */,
+				84EB0C942EE2D4B3008FB007 /* Texture.cpp */,
+				84EB0C952EE2D4B3008FB007 /* Texture.hpp */,
+			);
+			path = interface;
+			sourceTree = "<group>";
+		};
+		84EB0CB52EE2D4B3008FB007 /* ogl */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0CB62EE2D4B3008FB007 /* API_OGL.cpp */,
+				84EB0CB72EE2D4B3008FB007 /* API_OGL.hpp */,
+				84EB0CB82EE2D4B3008FB007 /* BlendStateOGL.cpp */,
+				84EB0CB92EE2D4B3008FB007 /* BlendStateOGL.hpp */,
+				84EB0CBA2EE2D4B3008FB007 /* BufferOGL.cpp */,
+				84EB0CBB2EE2D4B3008FB007 /* BufferOGL.hpp */,
+				84EB0CBC2EE2D4B3008FB007 /* ConstantBufferContainerOGL.cpp */,
+				84EB0CBD2EE2D4B3008FB007 /* ConstantBufferContainerOGL.hpp */,
+				84EB0CBE2EE2D4B3008FB007 /* DepthStencilStateOGL.cpp */,
+				84EB0CBF2EE2D4B3008FB007 /* DepthStencilStateOGL.hpp */,
+				84EB0CC02EE2D4B3008FB007 /* FixedPipelineStateOGL.cpp */,
+				84EB0CC12EE2D4B3008FB007 /* FixedPipelineStateOGL.hpp */,
+				84EB0CC22EE2D4B3008FB007 /* FogStateOGL.cpp */,
+				84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */,
+				84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */,
+				84EB0CC52EE2D4B3008FB007 /* GPUEventsOGL.hpp */,
+				84EB0CC62EE2D4B3008FB007 /* ImmediateBufferOGL.cpp */,
+				84EB0CC72EE2D4B3008FB007 /* ImmediateBufferOGL.hpp */,
+				84EB0CC82EE2D4B3008FB007 /* ProfileSectionOGL.cpp */,
+				84EB0CC92EE2D4B3008FB007 /* ProfileSectionOGL.hpp */,
+				84EB0CCA2EE2D4B3008FB007 /* RasterizerStateOGL.cpp */,
+				84EB0CCB2EE2D4B3008FB007 /* RasterizerStateOGL.hpp */,
+				84EB0CCC2EE2D4B3008FB007 /* RenderContextOGL.cpp */,
+				84EB0CCD2EE2D4B3008FB007 /* RenderContextOGL.hpp */,
+				84EB0CCE2EE2D4B3008FB007 /* RenderDeviceOGL.cpp */,
+				84EB0CCF2EE2D4B3008FB007 /* RenderDeviceOGL.hpp */,
+				84EB0CD02EE2D4B3008FB007 /* ResourceOGL.cpp */,
+				84EB0CD12EE2D4B3008FB007 /* ResourceOGL.hpp */,
+				84EB0CD22EE2D4B3008FB007 /* ShaderConstantOGL.cpp */,
+				84EB0CD32EE2D4B3008FB007 /* ShaderConstantOGL.hpp */,
+				84EB0CD42EE2D4B3008FB007 /* ShaderConstantWithDataOGL.cpp */,
+				84EB0CD52EE2D4B3008FB007 /* ShaderConstantWithDataOGL.hpp */,
+				84EB0CD62EE2D4B3008FB007 /* ShaderOGL.cpp */,
+				84EB0CD72EE2D4B3008FB007 /* ShaderOGL.hpp */,
+				84EB0CD82EE2D4B3008FB007 /* ShaderProgramOGL.cpp */,
+				84EB0CD92EE2D4B3008FB007 /* ShaderProgramOGL.hpp */,
+				84EB0CDA2EE2D4B3008FB007 /* ShaderResourceOGL.cpp */,
+				84EB0CDB2EE2D4B3008FB007 /* ShaderResourceOGL.hpp */,
+				84EB0CDC2EE2D4B3008FB007 /* ShaderUniformOGL.cpp */,
+				84EB0CDD2EE2D4B3008FB007 /* ShaderUniformOGL.hpp */,
+				84EB0CDE2EE2D4B3008FB007 /* TextureOGL.cpp */,
+				84EB0CDF2EE2D4B3008FB007 /* TextureOGL.hpp */,
+			);
+			path = ogl;
+			sourceTree = "<group>";
+		};
+		84EB0CEF2EE2D4B3008FB007 /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0CF02EE2D4B3008FB007 /* ogl */,
+			);
+			path = platform;
+			sourceTree = "<group>";
+		};
+		84EB0CF02EE2D4B3008FB007 /* ogl */ = {
+			isa = PBXGroup;
+			children = (
+				84EB0CF12EE2D4B3008FB007 /* Extensions.cpp */,
+				84EB0CF22EE2D4B3008FB007 /* Extensions.hpp */,
+				84EB0CF32EE2D4B3008FB007 /* ShaderPrecision.cpp */,
+				84EB0CF42EE2D4B3008FB007 /* ShaderPrecision.hpp */,
+			);
+			path = ogl;
+			sourceTree = "<group>";
+		};
 		84F77A042EA1C0050045C907 /* server */ = {
 			isa = PBXGroup;
 			children = (
@@ -5710,7 +6557,124 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84EB0DFE2EE2D4B4008FB007 /* StencilRefObject.hpp in Headers */,
+				84EB0DD02EE2D4B4008FB007 /* ShaderConstantWithDataOGL.hpp in Headers */,
+				84EB0E002EE2D4B4008FB007 /* TextureGroup.hpp in Headers */,
+				84EB0D4E2EE2D4B3008FB007 /* BufferType.hpp in Headers */,
+				84EB0DD62EE2D4B4008FB007 /* ShaderResourceOGL.hpp in Headers */,
+				84EB0D6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp in Headers */,
+				84EB0DDD2EE2D4B4008FB007 /* ShaderStage.hpp in Headers */,
+				84EB0D892EE2D4B3008FB007 /* RenderDevice.hpp in Headers */,
+				84EB0D8E2EE2D4B3008FB007 /* ShaderConstantWithData.hpp in Headers */,
+				84EB0D6C2EE2D4B3008FB007 /* FogStateDescription.hpp in Headers */,
+				84EB0DE92EE2D4B4008FB007 /* PerFrameConstants.hpp in Headers */,
+				84EB0D3F2EE2D4B3008FB007 /* ShaderConstantBase.hpp in Headers */,
+				84EB0D522EE2D4B3008FB007 /* CullMode.hpp in Headers */,
+				84EB0D602EE2D4B3008FB007 /* StencilMask.hpp in Headers */,
+				84EB0DF02EE2D4B4008FB007 /* QuadIndexBuffer.hpp in Headers */,
+				84EB0D8B2EE2D4B3008FB007 /* Shader.hpp in Headers */,
+				84EB0DCA2EE2D4B4008FB007 /* RenderDeviceOGL.hpp in Headers */,
+				84EB0DEB2EE2D4B4008FB007 /* Extensions.hpp in Headers */,
+				84EB0DC02EE2D4B4008FB007 /* GPUEventsOGL.hpp in Headers */,
+				84EB0D4C2EE2D4B3008FB007 /* BlendTarget.hpp in Headers */,
+				84EB0DCE2EE2D4B4008FB007 /* ShaderConstantOGL.hpp in Headers */,
+				84EB0D492EE2D4B3008FB007 /* BlendStateDescription.hpp in Headers */,
+				84EB0D3D2EE2D4B3008FB007 /* ShaderBase.hpp in Headers */,
+				84EB0D392EE2D4B3008FB007 /* RenderContextStateBase.hpp in Headers */,
+				84EB0D292EE2D4B3008FB007 /* ConstantBufferContainerBase.hpp in Headers */,
 				84619B392AF1F73900B0DE81 /* GL.hpp in Headers */,
+				84EB0DDC2EE2D4B4008FB007 /* RasterizerStateDescription.hpp in Headers */,
+				84EB0D5C2EE2D4B3008FB007 /* ShaderPrimitiveTypes.hpp in Headers */,
+				84EB0D7F2EE2D4B3008FB007 /* FixedPipelineState.hpp in Headers */,
+				84EB0DB22EE2D4B4008FB007 /* API_OGL.hpp in Headers */,
+				84EB0D1B2EE2D4B3008FB007 /* EntityConstants.hpp in Headers */,
+				84EB0D762EE2D4B3008FB007 /* Buffer.hpp in Headers */,
+				84EB0DED2EE2D4B4008FB007 /* ShaderPrecision.hpp in Headers */,
+				84EB0DE32EE2D4B4008FB007 /* MaterialPtr.hpp in Headers */,
+				84EB0D4F2EE2D4B3008FB007 /* ColorWriteMask.hpp in Headers */,
+				84EB0D1D2EE2D4B3008FB007 /* GlobalConstantBufferManager.hpp in Headers */,
+				84EB0E082EE2D4B4008FB007 /* WeatherConstants.hpp in Headers */,
+				84EB0E022EE2D4B4008FB007 /* TexturePtr.hpp in Headers */,
+				84EB0D5D2EE2D4B3008FB007 /* ShaderStagesBits.hpp in Headers */,
+				84EB0D2B2EE2D4B3008FB007 /* DepthStencilStateBase.hpp in Headers */,
+				84EB0DB62EE2D4B4008FB007 /* BufferOGL.hpp in Headers */,
+				84EB0D742EE2D4B3008FB007 /* BlendState.hpp in Headers */,
+				84EB0D232EE2D4B3008FB007 /* BufferBase.hpp in Headers */,
+				84EB0D8C2EE2D4B3008FB007 /* ShaderConstant.hpp in Headers */,
+				84EB0D3B2EE2D4B3008FB007 /* RenderDeviceBase.hpp in Headers */,
+				84EB0D702EE2D4B3008FB007 /* TextureHelper.hpp in Headers */,
+				84EB0D6E2EE2D4B3008FB007 /* ErrorHandler.hpp in Headers */,
+				84EB0D852EE2D4B3008FB007 /* RasterizerState.hpp in Headers */,
+				84EB0DD82EE2D4B4008FB007 /* ShaderUniformOGL.hpp in Headers */,
+				84EB0E042EE2D4B4008FB007 /* UniformMetaData.hpp in Headers */,
+				84EB0D812EE2D4B3008FB007 /* FogState.hpp in Headers */,
+				84EB0D7B2EE2D4B3008FB007 /* ConstantBufferContainer.hpp in Headers */,
+				84EB0D2D2EE2D4B3008FB007 /* FixedPipelineStateBase.hpp in Headers */,
+				84EB0D312EE2D4B3008FB007 /* FrameBufferObjectBase.hpp in Headers */,
+				84EB0DE12EE2D4B4008FB007 /* TextureDescription.hpp in Headers */,
+				84EB0D662EE2D4B3008FB007 /* VertexField.hpp in Headers */,
+				84EB0DBE2EE2D4B4008FB007 /* FogStateOGL.hpp in Headers */,
+				84EB0D352EE2D4B3008FB007 /* RasterizerStateBase.hpp in Headers */,
+				84EB0DBA2EE2D4B4008FB007 /* DepthStencilStateOGL.hpp in Headers */,
+				84EB0D412EE2D4B3008FB007 /* ShaderConstantWithDataBase.hpp in Headers */,
+				84EB0DC82EE2D4B4008FB007 /* RenderContextOGL.hpp in Headers */,
+				84EB0D632EE2D4B3008FB007 /* TextureFiltering.hpp in Headers */,
+				84EB0D172EE2D4B3008FB007 /* ConstantBufferMetaDataManager.hpp in Headers */,
+				84EB0E062EE2D4B4008FB007 /* VertexFormat.hpp in Headers */,
+				84EB0D502EE2D4B3008FB007 /* ComparisonFunc.hpp in Headers */,
+				84EB0D572EE2D4B3008FB007 /* RenderState.hpp in Headers */,
+				84EB0DCC2EE2D4B4008FB007 /* ResourceOGL.hpp in Headers */,
+				84EB0D722EE2D4B3008FB007 /* ImageDescription.hpp in Headers */,
+				84EB0DC22EE2D4B4008FB007 /* ImmediateBufferOGL.hpp in Headers */,
+				84EB0E0A2EE2D4B4008FB007 /* WorldConstants.hpp in Headers */,
+				84EB0D922EE2D4B3008FB007 /* Texture.hpp in Headers */,
+				84EB0D332EE2D4B3008FB007 /* ImmediateBufferBase.hpp in Headers */,
+				84EB0D272EE2D4B3008FB007 /* ConstantBufferConstantsBase.hpp in Headers */,
+				84EB0D4B2EE2D4B3008FB007 /* DepthStencilStateDescription.hpp in Headers */,
+				84EB0D5A2EE2D4B3008FB007 /* ShadeMode.hpp in Headers */,
+				84EB0DB42EE2D4B4008FB007 /* BlendStateOGL.hpp in Headers */,
+				84EB0D192EE2D4B3008FB007 /* EnableScissorTest.hpp in Headers */,
+				84EB0DFC2EE2D4B4008FB007 /* ShaderGroupBase.hpp in Headers */,
+				84EB0D252EE2D4B3008FB007 /* ConstantBufferBase.hpp in Headers */,
+				84EB0DDA2EE2D4B4008FB007 /* TextureOGL.hpp in Headers */,
+				84EB0DF42EE2D4B4008FB007 /* RenderContextImmediate.hpp in Headers */,
+				84EB0D152EE2D4B3008FB007 /* ConstantBufferMetaData.hpp in Headers */,
+				84EB0D652EE2D4B3008FB007 /* TextureFormat.hpp in Headers */,
+				84EB0D902EE2D4B3008FB007 /* ShaderProgram.hpp in Headers */,
+				84EB0D782EE2D4B3008FB007 /* ConstantBuffer.hpp in Headers */,
+				84EB0D452EE2D4B3008FB007 /* ShaderProgramBase.hpp in Headers */,
+				84EB0DD42EE2D4B4008FB007 /* ShaderProgramOGL.hpp in Headers */,
+				84EB0D532EE2D4B3008FB007 /* DepthWriteMask.hpp in Headers */,
+				84EB0D792EE2D4B3008FB007 /* ConstantBufferConstants.hpp in Headers */,
+				84EB0DF22EE2D4B4008FB007 /* RenderChunkConstants.hpp in Headers */,
+				84EB0DE72EE2D4B4008FB007 /* Mesh.hpp in Headers */,
+				84EB0DC42EE2D4B4008FB007 /* ProfileSectionOGL.hpp in Headers */,
+				84EB0DC62EE2D4B4008FB007 /* RasterizerStateOGL.hpp in Headers */,
+				84EB0DE52EE2D4B4008FB007 /* MatrixStack.hpp in Headers */,
+				84EB0DF62EE2D4B4008FB007 /* RenderMaterial.hpp in Headers */,
+				84EB0D552EE2D4B3008FB007 /* PrimitiveMode.hpp in Headers */,
+				84EB0DB82EE2D4B4008FB007 /* ConstantBufferContainerOGL.hpp in Headers */,
+				84EB0D832EE2D4B3008FB007 /* ImmediateBuffer.hpp in Headers */,
+				84EB0D212EE2D4B3008FB007 /* BlendStateBase.hpp in Headers */,
+				84EB0DFA2EE2D4B4008FB007 /* ShaderGroup.hpp in Headers */,
+				84EB0D132EE2D4B3008FB007 /* Attribute.hpp in Headers */,
+				84EB0DBC2EE2D4B4008FB007 /* FixedPipelineStateOGL.hpp in Headers */,
+				84EB0D542EE2D4B3008FB007 /* FogMode.hpp in Headers */,
+				84EB0D612EE2D4B3008FB007 /* StencilOp.hpp in Headers */,
+				84EB0DDF2EE2D4B4008FB007 /* StencilFaceDescription.hpp in Headers */,
+				84EB0DD22EE2D4B4008FB007 /* ShaderOGL.hpp in Headers */,
+				84EB0D5F2EE2D4B3008FB007 /* ShaderType.hpp in Headers */,
+				84EB0D7D2EE2D4B3008FB007 /* DepthStencilState.hpp in Headers */,
+				84EB0D872EE2D4B3008FB007 /* RenderContext.hpp in Headers */,
+				84EB0DEE2EE2D4B4008FB007 /* PlatformDefinitions.h in Headers */,
+				84EB0D432EE2D4B3008FB007 /* ShaderContextBase.hpp in Headers */,
+				84EB0D2F2EE2D4B3008FB007 /* FogStateBase.hpp in Headers */,
+				84EB0DF82EE2D4B4008FB007 /* ShaderConstants.hpp in Headers */,
+				84EB0D472EE2D4B3008FB007 /* TextureBase.hpp in Headers */,
+				84EB0D1F2EE2D4B3008FB007 /* GlobalConstantBuffers.hpp in Headers */,
+				84EB0D682EE2D4B3008FB007 /* VertexFieldType.hpp in Headers */,
+				84EB0D372EE2D4B3008FB007 /* RenderContextBase.hpp in Headers */,
+				84EB0D592EE2D4B3008FB007 /* RenderState_JsonParser.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5801,20 +6765,26 @@
 				84B8AF3D2AF189D8008DE93D /* ScrolledSelectionList.hpp in Headers */,
 				84B8AF3E2AF189D8008DE93D /* SmallButton.hpp in Headers */,
 				84B8AF3F2AF189D8008DE93D /* TextInputBox.hpp in Headers */,
+				84EB09F02EE2CCA8008FB007 /* Fog.hpp in Headers */,
+				84EB09D72EE2CC86008FB007 /* SheepFurModel.hpp in Headers */,
 				84B8AF402AF189D8008DE93D /* WorldSelectionList.hpp in Headers */,
 				84B8AF412AF189D8008DE93D /* Gui.hpp in Headers */,
 				84B8AF422AF189D8008DE93D /* GuiComponent.hpp in Headers */,
 				84B8AF432AF189D8008DE93D /* Screen.hpp in Headers */,
 				8477B3A32C4DC374004E1AC5 /* ControllerBuildInput.hpp in Headers */,
+				84EB09F62EE2CCA8008FB007 /* ScreenRenderer.hpp in Headers */,
 				84B8AF442AF189D8008DE93D /* ChatScreen.hpp in Headers */,
 				84B8AF452AF189D8008DE93D /* ConfirmScreen.hpp in Headers */,
 				84B8AF462AF189D8008DE93D /* CreateWorldScreen.hpp in Headers */,
 				84B8AF472AF189D8008DE93D /* DeathScreen.hpp in Headers */,
 				84B8AF482AF189D8008DE93D /* DeleteWorldScreen.hpp in Headers */,
 				84B8AF492AF189D8008DE93D /* DirectConnectScreen.hpp in Headers */,
+				84EB09C42EE2CC86008FB007 /* ModelPart.hpp in Headers */,
 				84B8AF4A2AF189D8008DE93D /* IngameBlockSelectionScreen.hpp in Headers */,
 				84B8AF4B2AF189D8008DE93D /* InvalidLicenseScreen.hpp in Headers */,
 				84B8AF4C2AF189D8008DE93D /* JoinGameScreen.hpp in Headers */,
+				84EB09F22EE2CCA8008FB007 /* EntityShaderManager.hpp in Headers */,
+				84EB09DD2EE2CC86008FB007 /* SpiderModel.hpp in Headers */,
 				84B8AF4D2AF189D8008DE93D /* OptionsScreen.hpp in Headers */,
 				84B8AF4E2AF189D8008DE93D /* PauseScreen.hpp in Headers */,
 				84B8AF4F2AF189D8008DE93D /* ProgressScreen.hpp in Headers */,
@@ -5822,14 +6792,14 @@
 				84B8AF512AF189D8008DE93D /* SavingWorldScreen.hpp in Headers */,
 				84B8AF522AF189D8008DE93D /* SelectWorldScreen.hpp in Headers */,
 				84B8AF532AF189D8008DE93D /* StartMenuScreen.hpp in Headers */,
-				84B8AF542AF189D8008DE93D /* Cube.hpp in Headers */,
-				84B8AF552AF189D8008DE93D /* HumanoidModel.hpp in Headers */,
-				84B8AF562AF189D8008DE93D /* Model.hpp in Headers */,
-				84B8AF572AF189D8008DE93D /* PolygonQuad.hpp in Headers */,
+				84EB099C2EE2CC3B008FB007 /* GuiElement.hpp in Headers */,
+				84EB09D52EE2CC86008FB007 /* QuadrupedModel.hpp in Headers */,
+				84EB09F42EE2CCA8008FB007 /* RenderMaterialGroup.hpp in Headers */,
 				84B8AF582AF189D8008DE93D /* ClientSideNetworkHandler.hpp in Headers */,
 				84B8AF592AF189D8008DE93D /* Options.hpp in Headers */,
 				84F77A6F2EA1C27B0045C907 /* LocalPlayer.hpp in Headers */,
 				84B8AF5A2AF189D8008DE93D /* Controller.hpp in Headers */,
+				84EB09C62EE2CC86008FB007 /* PolygonQuad.hpp in Headers */,
 				84B8AF5B2AF189D8008DE93D /* ControllerTurnInput.hpp in Headers */,
 				84B8AF5C2AF189D8008DE93D /* ITurnInput.hpp in Headers */,
 				84B8AF5D2AF189D8008DE93D /* Keyboard.hpp in Headers */,
@@ -5837,8 +6807,10 @@
 				84B8AF5F2AF189D8008DE93D /* Mouse.hpp in Headers */,
 				84B8AF602AF189D8008DE93D /* MouseTurnInput.hpp in Headers */,
 				84B8AF612AF189D8008DE93D /* User.hpp in Headers */,
+				84EB09CF2EE2CC86008FB007 /* HumanoidModel.hpp in Headers */,
 				84B8AF7E2AF189D8008DE93D /* SoundData.hpp in Headers */,
 				84B8AF7F2AF189D8008DE93D /* SoundDefs.hpp in Headers */,
+				84EB09D32EE2CC86008FB007 /* PigModel.hpp in Headers */,
 				84B8AF802AF189D8008DE93D /* SoundEngine.hpp in Headers */,
 				84B8AF812AF189D8008DE93D /* SoundRepository.hpp in Headers */,
 				84B8AF822AF189D8008DE93D /* SoundSystem.hpp in Headers */,
@@ -5854,16 +6826,20 @@
 				84E0012C2AF39E84009B9555 /* MouseHandler.hpp in Headers */,
 				84E0012E2AF39E84009B9555 /* Multitouch.hpp in Headers */,
 				84E001302AF39E84009B9555 /* PolygonArea.hpp in Headers */,
+				84EB09DF2EE2CC86008FB007 /* ZombieModel.hpp in Headers */,
 				84E001322AF39E84009B9555 /* RectangleArea.hpp in Headers */,
 				84E001342AF39E84009B9555 /* TouchAreaModel.hpp in Headers */,
 				84E001362AF39E84009B9555 /* TouchInputHolder.hpp in Headers */,
 				84E001382AF39E84009B9555 /* TouchscreenInput_TestFps.hpp in Headers */,
+				84EB09CB2EE2CC86008FB007 /* CowModel.hpp in Headers */,
 				84E0013A2AF39E84009B9555 /* UnifiedTurnBuild.hpp in Headers */,
+				84EB09D12EE2CC86008FB007 /* Model.hpp in Headers */,
 				84C90EA62AF8861A008973F9 /* OptionList.hpp in Headers */,
 				84AA8BEC2B32F3F3003F5B82 /* Chunk.hpp in Headers */,
 				84AA8BEE2B32F3F3003F5B82 /* Culler.hpp in Headers */,
 				84AA8BF02B32F3F3003F5B82 /* DynamicTexture.hpp in Headers */,
 				84AA8BF22B32F3F3003F5B82 /* ChickenRenderer.hpp in Headers */,
+				84EB09C22EE2CC86008FB007 /* Cube.hpp in Headers */,
 				84AA8BF42B32F3F3003F5B82 /* CowRenderer.hpp in Headers */,
 				849488372C9284DA006DB706 /* Lighting.hpp in Headers */,
 				84AA8BF62B32F3F3003F5B82 /* CreeperRenderer.hpp in Headers */,
@@ -5874,11 +6850,14 @@
 				84AA8C002B32F3F3003F5B82 /* ItemRenderer.hpp in Headers */,
 				84AA8C022B32F3F3003F5B82 /* ItemSpriteRenderer.hpp in Headers */,
 				84AA8C042B32F3F3003F5B82 /* MobRenderer.hpp in Headers */,
+				84EB09D92EE2CC86008FB007 /* SheepModel.hpp in Headers */,
 				84AA8C062B32F3F3003F5B82 /* PigRenderer.hpp in Headers */,
 				84AA8C082B32F3F3003F5B82 /* SheepFurRenderer.hpp in Headers */,
+				84EB09C92EE2CC86008FB007 /* ChickenModel.hpp in Headers */,
 				84AA8C0A2B32F3F3003F5B82 /* SheepRenderer.hpp in Headers */,
 				84AA8C0E2B32F3F3003F5B82 /* SpiderRenderer.hpp in Headers */,
 				84AA8C102B32F3F3003F5B82 /* TntRenderer.hpp in Headers */,
+				84EB09CD2EE2CC86008FB007 /* CreeperModel.hpp in Headers */,
 				84AA8C122B32F3F3003F5B82 /* TripodCameraRenderer.hpp in Headers */,
 				84AA8C172B32F3F3003F5B82 /* FoliageColor.hpp in Headers */,
 				84AA8C192B32F3F3003F5B82 /* Font.hpp in Headers */,
@@ -5886,10 +6865,14 @@
 				84AA8C1D2B32F3F3003F5B82 /* FrustumCuller.hpp in Headers */,
 				84AA8C1F2B32F3F3003F5B82 /* GameRenderer.hpp in Headers */,
 				84AA8C212B32F3F3003F5B82 /* GrassColor.hpp in Headers */,
+				84EB09C72EE2CC86008FB007 /* TextureOffset.hpp in Headers */,
+				84EB09F92EE2CCA8008FB007 /* ImageData.hpp in Headers */,
 				84AA8C232B32F3F3003F5B82 /* ItemInHandRenderer.hpp in Headers */,
 				84AA8C272B32F3F3003F5B82 /* LevelRenderer.hpp in Headers */,
 				84AA8C292B32F3F3003F5B82 /* LightLayer.hpp in Headers */,
+				84EB09DB2EE2CC86008FB007 /* SkeletonModel.hpp in Headers */,
 				84A2FF182DB61D440090CE3E /* SoundPathRepository.hpp in Headers */,
+				84EB09FB2EE2CCA8008FB007 /* TextureData.hpp in Headers */,
 				84B1E0302E04FD4500ED000A /* ArrowRenderer.hpp in Headers */,
 				84AA8C2B2B32F3F3003F5B82 /* LightUpdate.hpp in Headers */,
 				84AA8C2D2B32F3F3003F5B82 /* PatchManager.hpp in Headers */,
@@ -5902,19 +6885,11 @@
 				84AA8C362B32F3F3003F5B82 /* Textures.hpp in Headers */,
 				84AA8C382B32F3F3003F5B82 /* TileRenderer.hpp in Headers */,
 				84AA8C392B32F3F3003F5B82 /* VertexPT.hpp in Headers */,
-				84AA8C5B2B32F535003F5B82 /* ChickenModel.hpp in Headers */,
-				84AA8C5D2B32F535003F5B82 /* CowModel.hpp in Headers */,
+				84EB09F72EE2CCA8008FB007 /* ColorSpace.hpp in Headers */,
 				84A2FF1C2DB61F650090CE3E /* SoundStream.hpp in Headers */,
-				84AA8C5F2B32F535003F5B82 /* CreeperModel.hpp in Headers */,
-				84AA8C672B32F535003F5B82 /* ModelPart.hpp in Headers */,
-				84AA8C692B32F535003F5B82 /* PigModel.hpp in Headers */,
+				84EB099D2EE2CC3B008FB007 /* IntRectangle.hpp in Headers */,
+				84EB09972EE2CC25008FB007 /* AppPlatformListener.hpp in Headers */,
 				8477B3A72C4DC374004E1AC5 /* MouseBuildInput.hpp in Headers */,
-				84AA8C6D2B32F535003F5B82 /* QuadrupedModel.hpp in Headers */,
-				84AA8C6F2B32F535003F5B82 /* SheepFurModel.hpp in Headers */,
-				84AA8C712B32F535003F5B82 /* SheepModel.hpp in Headers */,
-				84AA8C732B32F535003F5B82 /* SkeletonModel.hpp in Headers */,
-				84AA8C752B32F536003F5B82 /* SpiderModel.hpp in Headers */,
-				84AA8C772B32F536003F5B82 /* ZombieModel.hpp in Headers */,
 				84E78C802B58B5CC00D515EF /* RocketRenderer.hpp in Headers */,
 				8470AF412BE9B80900BCA54E /* DisconnectionScreen.hpp in Headers */,
 			);
@@ -6094,12 +7069,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84EB0E0E2EE2D4D4008FB007 /* AlignmentHelper.hpp in Headers */,
+				84EB0E112EE2D4D4008FB007 /* JsonParser.hpp in Headers */,
 				8406FD322AF1823600B09C1D /* CThread.hpp in Headers */,
+				84EB0E0F2EE2D4D4008FB007 /* InheritanceTree.hpp in Headers */,
 				8406FD332AF1823600B09C1D /* Logger.hpp in Headers */,
-				8406FD352AF1823600B09C1D /* Matrix.hpp in Headers */,
 				8406FD362AF1823600B09C1D /* Mth.hpp in Headers */,
 				8406FD372AF1823600B09C1D /* Random.hpp in Headers */,
+				84EB0E0C2EE2D4CA008FB007 /* Color.hpp in Headers */,
 				8406FD392AF1823700B09C1D /* Timer.hpp in Headers */,
+				84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */,
 				84CCBC402E6183F300E251AF /* DataIO.hpp in Headers */,
 				8406FD3A2AF1823700B09C1D /* Util.hpp in Headers */,
 				8406FD3B2AF1823700B09C1D /* Utils.hpp in Headers */,
@@ -7047,7 +8026,109 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84EB0DC72EE2D4B4008FB007 /* RenderContextOGL.cpp in Sources */,
+				84EB0D342EE2D4B3008FB007 /* RasterizerStateBase.cpp in Sources */,
+				84EB0DC52EE2D4B4008FB007 /* RasterizerStateOGL.cpp in Sources */,
+				84EB0DD72EE2D4B4008FB007 /* ShaderUniformOGL.cpp in Sources */,
+				84EB0DE82EE2D4B4008FB007 /* PerFrameConstants.cpp in Sources */,
+				84EB0DCD2EE2D4B4008FB007 /* ShaderConstantOGL.cpp in Sources */,
+				84EB0DB12EE2D4B4008FB007 /* API_OGL.cpp in Sources */,
+				84EB0D8F2EE2D4B3008FB007 /* ShaderProgram.cpp in Sources */,
+				84EB0D142EE2D4B3008FB007 /* ConstantBufferMetaData.cpp in Sources */,
+				84EB0DE02EE2D4B4008FB007 /* TextureDescription.cpp in Sources */,
+				84EB0DC12EE2D4B4008FB007 /* ImmediateBufferOGL.cpp in Sources */,
+				84EB0D442EE2D4B3008FB007 /* ShaderProgramBase.cpp in Sources */,
+				84EB0E012EE2D4B4008FB007 /* TexturePtr.cpp in Sources */,
+				84EB0D7A2EE2D4B3008FB007 /* ConstantBufferContainer.cpp in Sources */,
+				84EB0D7E2EE2D4B3008FB007 /* FixedPipelineState.cpp in Sources */,
+				84EB0D122EE2D4B3008FB007 /* Attribute.cpp in Sources */,
+				84EB0D802EE2D4B3008FB007 /* FogState.cpp in Sources */,
+				84EB0D242EE2D4B3008FB007 /* ConstantBufferBase.cpp in Sources */,
+				84EB0DFB2EE2D4B4008FB007 /* ShaderGroupBase.cpp in Sources */,
+				84EB0D4D2EE2D4B3008FB007 /* BlendTarget_JsonParser.cpp in Sources */,
+				84EB0D6B2EE2D4B3008FB007 /* FogStateDescription.cpp in Sources */,
+				84EB0D1E2EE2D4B3008FB007 /* GlobalConstantBuffers.cpp in Sources */,
+				84EB0D382EE2D4B3008FB007 /* RenderContextStateBase.cpp in Sources */,
+				84EB0D6D2EE2D4B3008FB007 /* ErrorHandler.cpp in Sources */,
+				84EB0DFF2EE2D4B4008FB007 /* TextureGroup.cpp in Sources */,
+				84EB0DCB2EE2D4B4008FB007 /* ResourceOGL.cpp in Sources */,
+				84EB0D862EE2D4B3008FB007 /* RenderContext.cpp in Sources */,
+				84EB0D912EE2D4B3008FB007 /* Texture.cpp in Sources */,
+				84EB0D772EE2D4B3008FB007 /* ConstantBuffer.cpp in Sources */,
+				84EB0D182EE2D4B3008FB007 /* EnableScissorTest.cpp in Sources */,
+				84EB0D4A2EE2D4B3008FB007 /* DepthStencilStateDescription.cpp in Sources */,
+				84EB0D162EE2D4B3008FB007 /* ConstantBufferMetaDataManager.cpp in Sources */,
+				84EB0DC32EE2D4B4008FB007 /* ProfileSectionOGL.cpp in Sources */,
+				84EB0D8A2EE2D4B3008FB007 /* Shader.cpp in Sources */,
+				84EB0E092EE2D4B4008FB007 /* WorldConstants.cpp in Sources */,
+				84EB0DB72EE2D4B4008FB007 /* ConstantBufferContainerOGL.cpp in Sources */,
+				84EB0DB52EE2D4B4008FB007 /* BufferOGL.cpp in Sources */,
+				84EB0D842EE2D4B3008FB007 /* RasterizerState.cpp in Sources */,
+				84EB0DFD2EE2D4B4008FB007 /* StencilRefObject.cpp in Sources */,
+				84EB0DF32EE2D4B4008FB007 /* RenderContextImmediate.cpp in Sources */,
+				84EB0D642EE2D4B3008FB007 /* TextureFiltering_JsonParser.cpp in Sources */,
+				84EB0DBD2EE2D4B4008FB007 /* FogStateOGL.cpp in Sources */,
+				84EB0D322EE2D4B3008FB007 /* ImmediateBufferBase.cpp in Sources */,
+				84EB0D282EE2D4B3008FB007 /* ConstantBufferContainerBase.cpp in Sources */,
+				84EB0D2A2EE2D4B3008FB007 /* DepthStencilStateBase.cpp in Sources */,
+				84EB0D5E2EE2D4B3008FB007 /* ShaderStagesBits_JsonParser.cpp in Sources */,
+				84EB0D882EE2D4B3008FB007 /* RenderDevice.cpp in Sources */,
+				84EB0D3E2EE2D4B3008FB007 /* ShaderConstantBase.cpp in Sources */,
+				84EB0D1A2EE2D4B3008FB007 /* EntityConstants.cpp in Sources */,
+				84EB0DDE2EE2D4B4008FB007 /* StencilFaceDescription.cpp in Sources */,
+				84EB0D7C2EE2D4B3008FB007 /* DepthStencilState.cpp in Sources */,
+				84EB0D622EE2D4B3008FB007 /* StencilOp_JsonParser.cpp in Sources */,
+				84EB0DCF2EE2D4B4008FB007 /* ShaderConstantWithDataOGL.cpp in Sources */,
+				84EB0DE62EE2D4B4008FB007 /* Mesh.cpp in Sources */,
+				84EB0E072EE2D4B4008FB007 /* WeatherConstants.cpp in Sources */,
+				84EB0D402EE2D4B3008FB007 /* ShaderConstantWithDataBase.cpp in Sources */,
+				84EB0D3A2EE2D4B3008FB007 /* RenderDeviceBase.cpp in Sources */,
+				84EB0DC92EE2D4B4008FB007 /* RenderDeviceOGL.cpp in Sources */,
+				84EB0D2E2EE2D4B3008FB007 /* FogStateBase.cpp in Sources */,
+				84EB0DE22EE2D4B4008FB007 /* MaterialPtr.cpp in Sources */,
+				84EB0DEC2EE2D4B4008FB007 /* ShaderPrecision.cpp in Sources */,
+				84EB0DB32EE2D4B4008FB007 /* BlendStateOGL.cpp in Sources */,
+				84EB0DF52EE2D4B4008FB007 /* RenderMaterial.cpp in Sources */,
+				84EB0D822EE2D4B3008FB007 /* ImmediateBuffer.cpp in Sources */,
+				84EB0D1C2EE2D4B3008FB007 /* GlobalConstantBufferManager.cpp in Sources */,
+				84EB0DBF2EE2D4B4008FB007 /* GPUEventsOGL.cpp in Sources */,
+				84EB0DF92EE2D4B4008FB007 /* ShaderGroup.cpp in Sources */,
+				84EB0DBB2EE2D4B4008FB007 /* FixedPipelineStateOGL.cpp in Sources */,
+				84EB0DDB2EE2D4B4008FB007 /* RasterizerStateDescription.cpp in Sources */,
+				84EB0DD32EE2D4B4008FB007 /* ShaderProgramOGL.cpp in Sources */,
+				84EB0D262EE2D4B3008FB007 /* ConstantBufferConstantsBase.cpp in Sources */,
+				84EB0D3C2EE2D4B3008FB007 /* ShaderBase.cpp in Sources */,
+				84EB0D462EE2D4B3008FB007 /* TextureBase.cpp in Sources */,
+				84EB0DEF2EE2D4B4008FB007 /* QuadIndexBuffer.cpp in Sources */,
+				84EB0D362EE2D4B3008FB007 /* RenderContextBase.cpp in Sources */,
+				84EB0E052EE2D4B4008FB007 /* VertexFormat.cpp in Sources */,
+				84EB0D752EE2D4B3008FB007 /* Buffer.cpp in Sources */,
+				84EB0D2C2EE2D4B3008FB007 /* FixedPipelineStateBase.cpp in Sources */,
+				84EB0E032EE2D4B4008FB007 /* UniformMetaData.cpp in Sources */,
+				84EB0D5B2EE2D4B3008FB007 /* ShaderPrimitiveTypes.cpp in Sources */,
+				84EB0DF72EE2D4B4008FB007 /* ShaderConstants.cpp in Sources */,
+				84EB0D562EE2D4B3008FB007 /* PrimitiveMode_JsonParser.cpp in Sources */,
 				8406FD2A2AF181B800B09C1D /* GL.cpp in Sources */,
+				84EB0D692EE2D4B3008FB007 /* FixedPipelineStateDescription.cpp in Sources */,
+				84EB0DD92EE2D4B4008FB007 /* TextureOGL.cpp in Sources */,
+				84EB0DD52EE2D4B4008FB007 /* ShaderResourceOGL.cpp in Sources */,
+				84EB0D732EE2D4B3008FB007 /* BlendState.cpp in Sources */,
+				84EB0DB92EE2D4B4008FB007 /* DepthStencilStateOGL.cpp in Sources */,
+				84EB0D222EE2D4B3008FB007 /* BufferBase.cpp in Sources */,
+				84EB0D512EE2D4B3008FB007 /* ComparisonFunc_JsonParser.cpp in Sources */,
+				84EB0DEA2EE2D4B4008FB007 /* Extensions.cpp in Sources */,
+				84EB0D712EE2D4B3008FB007 /* ImageDescription.cpp in Sources */,
+				84EB0D302EE2D4B3008FB007 /* FrameBufferObjectBase.cpp in Sources */,
+				84EB0D202EE2D4B3008FB007 /* BlendStateBase.cpp in Sources */,
+				84EB0D482EE2D4B3008FB007 /* BlendStateDescription.cpp in Sources */,
+				84EB0D6F2EE2D4B3008FB007 /* TextureHelper.cpp in Sources */,
+				84EB0D8D2EE2D4B3008FB007 /* ShaderConstantWithData.cpp in Sources */,
+				84EB0DD12EE2D4B4008FB007 /* ShaderOGL.cpp in Sources */,
+				84EB0D582EE2D4B3008FB007 /* RenderState_JsonParser.cpp in Sources */,
+				84EB0D422EE2D4B3008FB007 /* ShaderContextBase.cpp in Sources */,
+				84EB0D672EE2D4B3008FB007 /* VertexField_JsonParser.cpp in Sources */,
+				84EB0DE42EE2D4B4008FB007 /* MatrixStack.cpp in Sources */,
+				84EB0DF12EE2D4B4008FB007 /* RenderChunkConstants.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7183,11 +8264,7 @@
 				84B8AF032AF1896F008DE93D /* SavingWorldScreen.cpp in Sources */,
 				84B8AF042AF1896F008DE93D /* SelectWorldScreen.cpp in Sources */,
 				84B8AF052AF1896F008DE93D /* StartMenuScreen.cpp in Sources */,
-				84B8AF062AF1896F008DE93D /* Cube.cpp in Sources */,
-				84B8AF072AF1896F008DE93D /* HumanoidModel.cpp in Sources */,
 				8477B3A22C4DC374004E1AC5 /* ControllerBuildInput.cpp in Sources */,
-				84B8AF082AF1896F008DE93D /* Model.cpp in Sources */,
-				84B8AF092AF1896F008DE93D /* PolygonQuad.cpp in Sources */,
 				84F77A682EA1C0A10045C907 /* MultiPlayerLevel.cpp in Sources */,
 				84B8AF0A2AF1896F008DE93D /* ClientSideNetworkHandler.cpp in Sources */,
 				84B8AF0B2AF1896F008DE93D /* Options.cpp in Sources */,
@@ -7202,6 +8279,7 @@
 				84B8AF332AF1896F008DE93D /* SoundEngine.cpp in Sources */,
 				84B8AF342AF1896F008DE93D /* SoundRepository.cpp in Sources */,
 				84B8AF352AF1896F008DE93D /* SoundSystem.cpp in Sources */,
+				84EB09DE2EE2CC86008FB007 /* ZombieModel.cpp in Sources */,
 				84B1E02F2E04FD4500ED000A /* ArrowRenderer.cpp in Sources */,
 				84B8AEE82AF1890A008DE93D /* App.cpp in Sources */,
 				84B8AEE92AF1890A008DE93D /* AppPlatform.cpp in Sources */,
@@ -7209,16 +8287,21 @@
 				84B8AEEB2AF1890A008DE93D /* NinecraftApp.cpp in Sources */,
 				84B8AEEC2AF1890A008DE93D /* AvailableGamesList.cpp in Sources */,
 				84B8AEED2AF1890A008DE93D /* Button.cpp in Sources */,
+				84EB09FA2EE2CCA8008FB007 /* TextureData.cpp in Sources */,
 				84B8AEEE2AF1890A008DE93D /* RolledSelectionList.cpp in Sources */,
 				84B8AEEF2AF1890A008DE93D /* ScrolledSelectionList.cpp in Sources */,
 				84B8AEF02AF1890A008DE93D /* SmallButton.cpp in Sources */,
 				84B8AEF12AF1890A008DE93D /* TextInputBox.cpp in Sources */,
+				84EB09F12EE2CCA8008FB007 /* EntityShaderManager.cpp in Sources */,
 				84CED51F2E672826006BC585 /* ConvertWorldScreen.cpp in Sources */,
 				84B8AEF22AF1890A008DE93D /* WorldSelectionList.cpp in Sources */,
+				84EB09F32EE2CCA8008FB007 /* RenderMaterialGroup.cpp in Sources */,
 				84B8AEF32AF1890A008DE93D /* Gui.cpp in Sources */,
 				84B8AEF42AF1890A008DE93D /* GuiComponent.cpp in Sources */,
 				84B8AEF52AF1890A008DE93D /* Screen.cpp in Sources */,
 				84B8AEF62AF1890A008DE93D /* ChatScreen.cpp in Sources */,
+				84EB09C12EE2CC86008FB007 /* Cube.cpp in Sources */,
+				84EB09D02EE2CC86008FB007 /* Model.cpp in Sources */,
 				84B8AEF72AF1890A008DE93D /* ConfirmScreen.cpp in Sources */,
 				84B8AEF82AF1890A008DE93D /* CreateWorldScreen.cpp in Sources */,
 				84B8AEF92AF1890A008DE93D /* DeathScreen.cpp in Sources */,
@@ -7228,11 +8311,14 @@
 				84E001212AF39E84009B9555 /* IInputHolder.cpp in Sources */,
 				84E001232AF39E84009B9555 /* IMoveInput.cpp in Sources */,
 				84E001252AF39E84009B9555 /* IncludeExcludeArea.cpp in Sources */,
+				84EB09D62EE2CC86008FB007 /* SheepFurModel.cpp in Sources */,
+				84EB09DA2EE2CC86008FB007 /* SkeletonModel.cpp in Sources */,
 				84E001272AF39E84009B9555 /* ITouchScreenModel.cpp in Sources */,
 				84E001292AF39E84009B9555 /* MouseDevice.cpp in Sources */,
 				84E0012B2AF39E84009B9555 /* MouseHandler.cpp in Sources */,
 				84E0012D2AF39E84009B9555 /* Multitouch.cpp in Sources */,
 				84E0012F2AF39E84009B9555 /* PolygonArea.cpp in Sources */,
+				84EB09C32EE2CC86008FB007 /* ModelPart.cpp in Sources */,
 				84E001312AF39E84009B9555 /* RectangleArea.cpp in Sources */,
 				84E001332AF39E84009B9555 /* TouchAreaModel.cpp in Sources */,
 				84E001352AF39E84009B9555 /* TouchInputHolder.cpp in Sources */,
@@ -7244,21 +8330,28 @@
 				84AA8BEF2B32F3F3003F5B82 /* DynamicTexture.cpp in Sources */,
 				84AA8BF12B32F3F3003F5B82 /* ChickenRenderer.cpp in Sources */,
 				84AA8BF32B32F3F3003F5B82 /* CowRenderer.cpp in Sources */,
+				84EB09CA2EE2CC86008FB007 /* CowModel.cpp in Sources */,
 				84AA8BF52B32F3F3003F5B82 /* CreeperRenderer.cpp in Sources */,
 				84AA8BF72B32F3F3003F5B82 /* EntityRenderDispatcher.cpp in Sources */,
 				8477B3A42C4DC374004E1AC5 /* ControllerMoveInput.cpp in Sources */,
+				84EB09EF2EE2CCA8008FB007 /* Fog.cpp in Sources */,
 				84AA8BF92B32F3F3003F5B82 /* EntityRenderer.cpp in Sources */,
+				84EB09C52EE2CC86008FB007 /* PolygonQuad.cpp in Sources */,
 				84AA8BFB2B32F3F3003F5B82 /* FallingTileRenderer.cpp in Sources */,
+				84EB09C82EE2CC86008FB007 /* ChickenModel.cpp in Sources */,
 				84AA8BFD2B32F3F3003F5B82 /* HumanoidMobRenderer.cpp in Sources */,
+				84EB09CE2EE2CC86008FB007 /* HumanoidModel.cpp in Sources */,
 				84AA8BFF2B32F3F3003F5B82 /* ItemRenderer.cpp in Sources */,
 				84AA8C012B32F3F3003F5B82 /* ItemSpriteRenderer.cpp in Sources */,
 				84AA8C032B32F3F3003F5B82 /* MobRenderer.cpp in Sources */,
+				84EB09962EE2CC25008FB007 /* AppPlatformListener.cpp in Sources */,
 				84AA8C052B32F3F3003F5B82 /* PigRenderer.cpp in Sources */,
 				84AA8C072B32F3F3003F5B82 /* SheepFurRenderer.cpp in Sources */,
 				84AA8C092B32F3F3003F5B82 /* SheepRenderer.cpp in Sources */,
 				84AA8C0D2B32F3F3003F5B82 /* SpiderRenderer.cpp in Sources */,
 				84AA8C0F2B32F3F3003F5B82 /* TntRenderer.cpp in Sources */,
 				84AA8C112B32F3F3003F5B82 /* TripodCameraRenderer.cpp in Sources */,
+				84EB09D42EE2CC86008FB007 /* QuadrupedModel.cpp in Sources */,
 				84F77A6E2EA1C27B0045C907 /* LocalPlayer.cpp in Sources */,
 				84F77A6A2EA1C0A10045C907 /* MultiplayerLocalPlayer.cpp in Sources */,
 				84AA8C152B32F3F3003F5B82 /* FireTexture.cpp in Sources */,
@@ -7268,13 +8361,18 @@
 				84AA8C1C2B32F3F3003F5B82 /* FrustumCuller.cpp in Sources */,
 				84A2FF1A2DB61D720090CE3E /* SoundPathRepository.cpp in Sources */,
 				84AA8C1E2B32F3F3003F5B82 /* GameRenderer.cpp in Sources */,
+				84EB09F52EE2CCA8008FB007 /* ScreenRenderer.cpp in Sources */,
 				84AA8C202B32F3F3003F5B82 /* GrassColor.cpp in Sources */,
 				84AA8C222B32F3F3003F5B82 /* ItemInHandRenderer.cpp in Sources */,
 				84AA8C242B32F3F3003F5B82 /* LavaSideTexture.cpp in Sources */,
 				84AA8C252B32F3F3003F5B82 /* LavaTexture.cpp in Sources */,
+				84EB09CC2EE2CC86008FB007 /* CreeperModel.cpp in Sources */,
+				84EB099B2EE2CC3B008FB007 /* GuiElement.cpp in Sources */,
 				84AA8C262B32F3F3003F5B82 /* LevelRenderer.cpp in Sources */,
 				84AA8C282B32F3F3003F5B82 /* LightLayer.cpp in Sources */,
+				84EB09D82EE2CC86008FB007 /* SheepModel.cpp in Sources */,
 				84AA8C2A2B32F3F3003F5B82 /* LightUpdate.cpp in Sources */,
+				84EB09D22EE2CC86008FB007 /* PigModel.cpp in Sources */,
 				84AA8C2C2B32F3F3003F5B82 /* PatchManager.cpp in Sources */,
 				84AA8C2E2B32F3F3003F5B82 /* RenderChunk.cpp in Sources */,
 				849488362C9284DA006DB706 /* Lighting.cpp in Sources */,
@@ -7285,18 +8383,9 @@
 				84AA8C372B32F3F3003F5B82 /* TileRenderer.cpp in Sources */,
 				84AA8C3A2B32F3F3003F5B82 /* WaterSideTexture.cpp in Sources */,
 				84AA8C3B2B32F3F3003F5B82 /* WaterTexture.cpp in Sources */,
-				84AA8C5A2B32F535003F5B82 /* ChickenModel.cpp in Sources */,
-				84AA8C5C2B32F535003F5B82 /* CowModel.cpp in Sources */,
-				84AA8C5E2B32F535003F5B82 /* CreeperModel.cpp in Sources */,
+				84EB09DC2EE2CC86008FB007 /* SpiderModel.cpp in Sources */,
+				84EB09F82EE2CCA8008FB007 /* ImageData.cpp in Sources */,
 				8477B3A62C4DC374004E1AC5 /* MouseBuildInput.cpp in Sources */,
-				84AA8C662B32F535003F5B82 /* ModelPart.cpp in Sources */,
-				84AA8C682B32F535003F5B82 /* PigModel.cpp in Sources */,
-				84AA8C6C2B32F535003F5B82 /* QuadrupedModel.cpp in Sources */,
-				84AA8C6E2B32F535003F5B82 /* SheepFurModel.cpp in Sources */,
-				84AA8C702B32F535003F5B82 /* SheepModel.cpp in Sources */,
-				84AA8C722B32F535003F5B82 /* SkeletonModel.cpp in Sources */,
-				84AA8C742B32F535003F5B82 /* SpiderModel.cpp in Sources */,
-				84AA8C762B32F536003F5B82 /* ZombieModel.cpp in Sources */,
 				84E78C7F2B58B5CC00D515EF /* RocketRenderer.cpp in Sources */,
 				8470AF402BE9B80900BCA54E /* DisconnectionScreen.cpp in Sources */,
 			);
@@ -7490,14 +8579,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */,
 				84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */,
 				84CCBC3F2E6183F300E251AF /* DataIO.cpp in Sources */,
+				84EB0E102EE2D4D4008FB007 /* JsonParser.cpp in Sources */,
 				84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */,
-				84E4BFB72AE9869A0023E16A /* Matrix.cpp in Sources */,
 				84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */,
 				84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */,
 				84E4BFBB2AE9869A0023E16A /* Timer.cpp in Sources */,
 				84E4BFBC2AE9869A0023E16A /* Util.cpp in Sources */,
+				84EB0E0B2EE2D4CA008FB007 /* Color.cpp in Sources */,
+				84EB0E0D2EE2D4D4008FB007 /* AlignmentHelper.cpp in Sources */,
 				84E4BFBD2AE9869A0023E16A /* Utils.cpp in Sources */,
 				84E001B82AF3A3CB009B9555 /* SmoothFloat.cpp in Sources */,
 			);
@@ -7819,6 +8911,10 @@
 					"\\\"$(DEVELOPER_FRAMEWORKS_DIR)\\\"",
 				);
 				GCC_FAST_MATH = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(BACKEND_SDL2)",
+					"$(inherited)",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -8539,6 +9635,10 @@
 				);
 				GCC_FAST_MATH = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(BACKEND_SDL2)",
+					"$(inherited)",
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -8605,6 +9705,10 @@
 					"\\\"$(DEVELOPER_FRAMEWORKS_DIR)\\\"",
 				);
 				GCC_FAST_MATH = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(BACKEND_SDL2)",
+					"$(inherited)",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

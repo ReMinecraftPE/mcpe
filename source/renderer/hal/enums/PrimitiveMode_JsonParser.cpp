@@ -3,14 +3,19 @@
 
 using namespace mce;
 
-const std::map<std::string, PrimitiveMode> _primitiveModeMap = {
-    {"None", PRIMITIVE_MODE_NONE},
-    {"QuadList", PRIMITIVE_MODE_QUAD_LIST},
-    {"TriangleList", PRIMITIVE_MODE_TRIANGLE_LIST},
-    {"TriangleStrip", PRIMITIVE_MODE_TRIANGLE_STRIP},
-    {"LineList", PRIMITIVE_MODE_LINE_LIST},
-    {"Line", PRIMITIVE_MODE_LINE_STRIP}
-};
+std::map<std::string, PrimitiveMode> _CreatePrimitiveModeMap()
+{
+	std::map<std::string, PrimitiveMode> m;
+    m["None"]          = PRIMITIVE_MODE_NONE;
+    m["QuadList"]      = PRIMITIVE_MODE_QUAD_LIST;
+    m["TriangleList"]  = PRIMITIVE_MODE_TRIANGLE_LIST;
+    m["TriangleStrip"] = PRIMITIVE_MODE_TRIANGLE_STRIP;
+    m["LineList"]      = PRIMITIVE_MODE_LINE_LIST;
+    m["Line"]          = PRIMITIVE_MODE_LINE_STRIP;
+	return m;
+}
+
+const std::map<std::string, PrimitiveMode> _primitiveModeMap = _CreatePrimitiveModeMap();
 
 template <>
 bool mce::parse<PrimitiveMode>(const rapidjson::Value& root, const std::string& name, PrimitiveMode& out)

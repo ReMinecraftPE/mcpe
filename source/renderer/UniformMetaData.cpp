@@ -1,4 +1,5 @@
 #include "UniformMetaData.hpp"
+#include "compat/LegacyCPP.hpp"
 
 using namespace mce;
 

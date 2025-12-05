@@ -1,5 +1,6 @@
 #include <utility>
 #include "BufferBase.hpp"
+#include "compat/LegacyCPP.hpp"
 
 using namespace mce;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <typeinfo>
+#include <stdint.h>
 #include "renderer/hal/base/BufferBase.hpp"
 
 namespace mce

@@ -1,5 +1,6 @@
 #include <typeinfo>
 #include "ImageData.hpp"
+#include "compat/LegacyCPP.hpp"
 #include "common/Logger.hpp"
 
 void ImageData::_init()

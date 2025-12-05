@@ -15,7 +15,7 @@ void ErrorHandler::checkForErrors()
 	GLenum __err = glGetError();
 	if (__err != GL_NO_ERROR)
 	{
-		LOG_E("OpenGL Error: %s", gluErrorString(__err));
+		LOG_E("OpenGL Error: 0x%X", __err);
 		throw std::bad_cast();
 	}
 #endif

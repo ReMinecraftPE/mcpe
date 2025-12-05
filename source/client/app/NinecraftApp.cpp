@@ -62,11 +62,13 @@ void NinecraftApp::_initTextures()
 
 	if (GrassColor::isAvailable())
 	{
-		GrassColor::init(m_pPlatform->loadTexture("misc/grasscolor.png", true));
+        TextureData textureData = m_pPlatform->loadTexture("misc/grasscolor.png", true);
+		GrassColor::init(textureData);
 	}
 	if (FoliageColor::isAvailable())
 	{
-		FoliageColor::init(m_pPlatform->loadTexture("misc/foliagecolor.png", true));
+        TextureData textureData = m_pPlatform->loadTexture("misc/foliagecolor.png", true);
+		FoliageColor::init(textureData);
 	}
 }
 
