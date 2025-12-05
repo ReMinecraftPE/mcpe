@@ -6,12 +6,12 @@
 
 #include "thirdparty/rapidjson/document.h"
 
-#include "hal/enums/RenderState.hpp"
-#include "hal/interface/Shader.hpp"
-#include "hal/interface/BlendState.hpp"
-#include "hal/interface/DepthStencilState.hpp"
-#include "hal/interface/RasterizerState.hpp"
-#include "hal/interface/FixedPipelineState.hpp"
+#include "renderer/hal/enums/RenderState.hpp"
+#include "renderer/hal/interface/Shader.hpp"
+#include "renderer/hal/interface/BlendState.hpp"
+#include "renderer/hal/interface/DepthStencilState.hpp"
+#include "renderer/hal/interface/RasterizerState.hpp"
+#include "renderer/hal/interface/FixedPipelineState.hpp"
 
 #include "ShaderGroup.hpp"
 

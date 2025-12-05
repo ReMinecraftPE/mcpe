@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "hal/enums/ShaderPrimitiveTypes.hpp"
+#include "renderer/hal/enums/ShaderPrimitiveTypes.hpp"
 
 namespace mce
 {

@@ -4,10 +4,10 @@
 
 #include "common/utility/JsonParser.hpp"
 
-#include "hal/enums/RenderState_JsonParser.hpp"
-#include "hal/enums/ComparisonFunc.hpp"
-#include "hal/enums/StencilOp.hpp"
-#include "hal/enums/ShaderStagesBits.hpp"
+#include "renderer/hal/enums/RenderState_JsonParser.hpp"
+#include "renderer/hal/enums/ComparisonFunc.hpp"
+#include "renderer/hal/enums/StencilOp.hpp"
+#include "renderer/hal/enums/ShaderStagesBits.hpp"
 #include "RenderContextImmediate.hpp"
 
 #include "EnableScissorTest.hpp"

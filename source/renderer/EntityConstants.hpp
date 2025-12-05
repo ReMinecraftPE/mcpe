@@ -1,7 +1,7 @@
 #pragma once
 
-#include "hal/interface/ConstantBufferConstants.hpp"
-#include "hal/interface/ShaderConstantWithData.hpp"
+#include "renderer/hal/interface/ConstantBufferConstants.hpp"
+#include "renderer/hal/interface/ShaderConstantWithData.hpp"
 
 namespace mce
 {

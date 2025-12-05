@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hal/enums/VertexField.hpp"
+#include "renderer/hal/enums/VertexField.hpp"
 
 namespace mce
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hal/interface/RenderContext.hpp"
+#include "renderer/hal/interface/RenderContext.hpp"
 
 namespace mce
 {

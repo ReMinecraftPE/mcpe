@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-#include "hal/enums/VertexField.hpp"
+#include "renderer/hal/enums/VertexField.hpp"
 
 namespace mce
 {

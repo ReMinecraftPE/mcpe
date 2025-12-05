@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hal/base/ConstantBufferConstantsBase.hpp"
+#include "renderer/hal/base/ConstantBufferConstantsBase.hpp"
 
 namespace mce
 {

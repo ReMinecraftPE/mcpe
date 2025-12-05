@@ -3,8 +3,8 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "hal/interface/Shader.hpp"
-#include "hal/interface/ShaderProgram.hpp"
+#include "renderer/hal/interface/Shader.hpp"
+#include "renderer/hal/interface/ShaderProgram.hpp"
 
 namespace mce
 {

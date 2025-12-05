@@ -1,7 +1,7 @@
 #pragma once
 
-#include "hal/enums/PrimitiveMode.hpp"
-#include "hal/interface/Buffer.hpp"
+#include "renderer/hal/enums/PrimitiveMode.hpp"
+#include "renderer/hal/interface/Buffer.hpp"
 
 #include "VertexFormat.hpp"
 #include "MaterialPtr.hpp"
