@@ -1,0 +1,213 @@
+{
+  "ui_base": {
+    "states": [
+      "EnableStencilTest",
+      "DisableDepthTest",
+      "Blending"
+    ],
+
+    "frontFace": {
+      "stencilFunc": "Equal",
+      "stencilFailOp": "Keep",
+      "stencilDepthFailOp": "Keep",
+      "stencilPassOp": "Keep"
+    },
+
+    "backFace": {
+      "stencilFunc": "Equal",
+      "stencilFailOp": "Keep",
+      "stencilDepthFailOp": "Keep",
+      "stencilPassOp": "Keep"
+    },
+
+    "stencilReadMask": 127,
+    "stencilWriteMask": 127
+
+  },
+
+  "ui_texture_and_color:ui_base": {
+    "states": ["Textured"],
+    "vertexShader": "shaders/color_uv.vertex",
+    "fragmentShader": "shaders/color_texture.fragment"
+  },
+
+  "ui_text:ui_texture_and_color": {
+    "states": [
+      "EnableAlphaTest"
+    ],
+    "fragmentShader": "shaders/text.fragment"
+  },
+
+  "ui_fill_color:ui_base": {
+
+    "vertexShader": "shaders/position.vertex",
+    "fragmentShader": "shaders/current_color.fragment"
+  },
+
+  "ui_fill_stencil:ui_base": {
+
+    "vertexShader": "shaders/position.vertex",
+    "fragmentShader": "shaders/current_color.fragment",
+
+    "states": [
+      "StencilWrite",
+      "EnableStencilTest",
+      "DisableColorWrite",
+      "DisableDepthWrite"
+    ],
+
+    "frontFace": {
+      "stencilFunc": "Always",
+      "stencilFailOp": "Replace",
+      "stencilDepthFailOp": "Replace",
+      "stencilPassOp": "Replace"
+    },
+
+    "backFace": {
+      "stencilFunc": "Always",
+      "stencilFailOp": "Replace",
+      "stencilDepthFailOp": "Replace",
+      "stencilPassOp": "Replace"
+    },
+
+    "stencilRef": 1
+  },
+
+  "ui_fill_gradient:ui_base": {
+
+    "vertexShader": "shaders/color.vertex",
+    "fragmentShader": "shaders/color.fragment"
+  },
+
+  "ui_textured:ui_base": {
+    "states": ["Textured"],
+    "vertexShader": "shaders/uv.vertex",
+    "fragmentShader": "shaders/texture.fragment"
+  },
+
+  "ui_textured_and_glcolor:ui_textured": {
+    "fragmentShader": "shaders/texture_ccolor.fragment"
+  },
+
+  "ui_item:ui_base": {
+    "vertexShader": "shaders/color_uv.vertex",
+    "fragmentShader": "shaders/color_texture.fragment",
+	
+	"states":["EnableAlphaTest", "Textured"],
+
+    "defines": [ "ALPHA_TEST" ]
+  },
+
+  "ui_item_foil_stencil:ui_item": {
+    "vertexShader": "shaders/color_uv.vertex",
+    "fragmentShader": "shaders/color_texture.fragment",
+
+    "states": [
+      "StencilWrite",
+      "EnableStencilTest"
+    ],
+
+    "frontFace": {
+      "stencilFunc": "Always",
+      "stencilPassOp": "Replace"
+    },
+
+    "backFace": {
+      "stencilFunc": "Always",
+      "stencilPassOp": "Replace"
+    },
+
+    "stencilRef": 255,
+    "stencilReadMask": 128,
+    "stencilWriteMask": 128,
+
+    "defines": [ "ALPHA_TEST" ]
+  },
+
+  "ui_item_glint:ui_base": {
+	"states": ["Textured"],
+    "vertexShader": "shaders/color_uv.vertex",
+    "fragmentShader": "shaders/color_texture.fragment",
+    "defines": [ "GLINT" ]
+  },
+
+  "ui_inventory_item_glint:ui_item_glint": {
+    "blendSrc": "SourceColor",
+    "blendDst": "One",
+
+    "states": [ "EnableStencilTest" ],
+
+    "frontFace": {
+      "stencilFunc": "Equal"
+    },
+
+    "backFace": {
+      "stencilFunc": "Equal"
+    },
+
+    "stencilRef": 255,
+    "stencilReadMask": 128,
+    "stencilWriteMask": 0,
+
+    "defines": [ "INVENTORY" ]
+  },
+  
+  "ui_vignette:ui_textured": {
+    "blendSrc": "Zero",
+    "blendDst": "OneMinusSrcColor"
+  },
+
+  "ui_overlay:ui_base": {
+    "vertexShader": "shaders/position.vertex",
+    "fragmentShader": "shaders/flat_white.fragment"
+  },
+
+  "ui_invert_overlay:ui_overlay": {
+    "blendSrc": "OneMinusDestColor",
+    "blendDst": "OneMinusSrcColor"
+  },
+
+  "ui_cubemap:ui_base": {
+	"states": ["Textured"],
+    "vertexShader": "shaders/uv.vertex",
+    "fragmentShader": "shaders/texture.fragment"
+  },
+  
+  "ui_background:ui_cubemap": {
+	"states": [
+	  "DisableCulling"
+	]
+  },
+  
+  "ui_title_tile": {
+    "vertexShader": "shaders/color_uv.vertex",
+    "fragmentShader": "shaders/color_texture.fragment",
+	
+	"states": [
+      "EnableStencilTest",
+	  "DisableCulling",
+      "Blending",
+	  "EnableAlphaTest",
+	  "Textured"
+	],
+
+    "defines": [ "ALPHA_TEST" ]
+  },
+  
+  "ui_title_tile_shadow": {
+    "vertexShader": "shaders/color.vertex",
+    "fragmentShader": "shaders/color.fragment",
+	
+	"states": [
+	  "DisableCulling",
+      "Blending",
+	  "Textured"
+	]
+  },
+
+  "ui_crosshair:ui_invert_overlay": {
+	"states": ["Textured"],
+    "vertexShader": "shaders/uv.vertex",
+    "fragmentShader": "shaders/texture.fragment"
+  }
+}

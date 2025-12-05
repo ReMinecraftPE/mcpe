@@ -1,0 +1,47 @@
+{
+	"sun_moon": {
+		"states":[
+			"DisableDepthWrite",
+			"Blending",
+			"Textured"],
+
+		"blendSrc": "SourceAlpha",
+		"blendDst": "One",
+
+		"vertexShader" : "shaders/uv.vertex",
+		"fragmentShader" : "shaders/texture_ccolor.fragment"
+	},
+
+	"stars": {
+		"states":[
+			"DisableDepthWrite", 
+			"Blending"],
+
+		"blendSrc": "OneMinusDestColor",
+		"blendDst": "One",
+
+		"vertexShader" : "shaders/position.vertex",
+		"fragmentShader" : "shaders/current_color.fragment"
+	},
+	
+	"sunrise": {
+		"states":[
+			"DisableDepthWrite",
+			"Blending"],
+
+		"blendSrc": "SourceAlpha",
+		"blendDst": "OneMinusSrcAlpha",
+		
+		"depthFunc": "LessEqual",
+
+		"vertexShader" : "shaders/sky.vertex",
+		"fragmentShader" : "shaders/color.fragment"
+	},
+
+	"skyplane": {
+		"states":[ "DisableDepthWrite" ],
+
+		"vertexShader" : "shaders/sky.vertex",
+		"fragmentShader" : "shaders/color.fragment"
+	}
+}
