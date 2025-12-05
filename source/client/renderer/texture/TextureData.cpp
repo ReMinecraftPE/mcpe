@@ -16,6 +16,12 @@ TextureData::TextureData()
     _init();
 }
 
+TextureData::TextureData(TextureData& other)
+{
+    _init();
+    _move(other);
+}
+
 TextureData::TextureData(TextureData&& other)
 {
     _init();
@@ -155,6 +161,11 @@ void TextureData::loadMipmap(ImageData& data)
 bool TextureData::isEmpty() const
 {
     return m_imageData.isEmpty();
+}
+
+void TextureData::operator=(TextureData& other)
+{
+    move(other);
 }
 
 void TextureData::operator=(TextureData&& other)

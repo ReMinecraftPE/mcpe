@@ -16,6 +16,11 @@ Mesh::Mesh()
     m_rawData = nullptr;
 }
 
+Mesh::Mesh(Mesh& other)
+{
+    _move(other);
+}
+
 Mesh::Mesh(Mesh&& other)
 {
     _move(other);
@@ -179,6 +184,12 @@ bool Mesh::isValid() const
 bool Mesh::isTemporary() const
 {
     return m_rawData != nullptr;
+}
+
+Mesh& Mesh::operator=(Mesh& other)
+{
+    _move(other);
+    return *this;
 }
 
 Mesh& Mesh::operator=(Mesh&& other)

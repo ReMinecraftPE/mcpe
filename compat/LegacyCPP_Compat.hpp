@@ -20,6 +20,8 @@
 #define noexcept
 #endif
 
+#ifndef _WIN32
+
 namespace std
 {
     template<class T> struct remove_reference { typedef T type; };
@@ -32,5 +34,7 @@ namespace std
         return static_cast<typename remove_reference<T>::type&&>(t);
     }
 }
+
+#endif // _WIN32
 
 #endif // USE_OLD_CPP

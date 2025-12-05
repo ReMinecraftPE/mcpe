@@ -17,7 +17,7 @@
 #include "renderer/RenderContextImmediate.hpp"
 #include "thirdparty/glm/glm.hpp"
 
-#define SHOW_VERTEX_COUNTER_GRAPHIC
+//#define SHOW_VERTEX_COUNTER_GRAPHIC
 
 #if defined SHOW_VERTEX_COUNTER_GRAPHIC && !defined _DEBUG
 #undef  SHOW_VERTEX_COUNTER_GRAPHIC

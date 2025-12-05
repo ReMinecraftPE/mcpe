@@ -27,8 +27,27 @@ BufferBase::BufferBase(const BufferBase& other)
 
 BufferBase::BufferBase(BufferBase&& other)
 {
-    *this = std::move(other);
+    _move(other);
     releaseBuffer();
+}
+
+void BufferBase::_move(BufferBase& other)
+{
+    unsigned int stride = m_stride;
+    this->m_stride = other.m_stride;
+    other.m_stride = stride;
+
+    BufferType bufferType = m_bufferType;
+    this->m_bufferType = other.m_bufferType;
+    other.m_bufferType = bufferType;
+    
+    unsigned int internalSize = m_internalSize;
+    this->m_internalSize = other.m_internalSize;
+    other.m_internalSize = internalSize;
+
+    unsigned int count = m_count;
+    this->m_count = other.m_count;
+    other.m_count = count;
 }
 
 void BufferBase::releaseBuffer()
@@ -59,21 +78,7 @@ void BufferBase::updateBuffer(RenderContext& context, unsigned int stride, void*
 
 BufferBase& BufferBase::operator=(BufferBase&& other)
 {
-    unsigned int stride = m_stride;
-    this->m_stride = other.m_stride;
-    other.m_stride = stride;
-
-    BufferType bufferType = m_bufferType;
-    this->m_bufferType = other.m_bufferType;
-    other.m_bufferType = bufferType;
-    
-    unsigned int internalSize = m_internalSize;
-    this->m_internalSize = other.m_internalSize;
-    other.m_internalSize = internalSize;
-
-    unsigned int count = m_count;
-    this->m_count = other.m_count;
-    other.m_count = count;
+	_move(other);
 
     return *this;
 }

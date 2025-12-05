@@ -14,6 +14,10 @@ namespace mce
         unsigned int m_internalSize;
         unsigned int m_bufferOffset;
 		
+	private:
+		void _move(BufferBase& other);
+
+	public:
         BufferBase();
         ~BufferBase();
 		BufferBase(const BufferBase& other);

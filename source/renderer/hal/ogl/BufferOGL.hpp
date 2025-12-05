@@ -16,6 +16,7 @@ namespace mce
 
     public:
         BufferOGL();
+		BufferOGL(BufferOGL&& other);
         ~BufferOGL();
 
     protected:
