@@ -27,8 +27,13 @@ BufferOGL::BufferOGL()
     m_usage = GL_STATIC_DRAW;
 }
 
-BufferOGL::BufferOGL(BufferOGL&& other)
+BufferOGL::BufferOGL(BufferOGL& other)
 	: BufferBase(other)
+{
+}
+
+BufferOGL::BufferOGL(BufferOGL&& other)
+: BufferBase(other)
 {
 }
 

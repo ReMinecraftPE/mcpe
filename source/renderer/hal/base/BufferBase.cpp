@@ -25,6 +25,12 @@ BufferBase::BufferBase(const BufferBase& other)
     m_internalSize = other.m_internalSize;
 }
 
+BufferBase::BufferBase(BufferBase& other)
+{
+    _move(other);
+    releaseBuffer();
+}
+
 BufferBase::BufferBase(BufferBase&& other)
 {
     _move(other);

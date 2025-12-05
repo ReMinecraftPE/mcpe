@@ -21,6 +21,7 @@ namespace mce
         BufferBase();
         ~BufferBase();
 		BufferBase(const BufferBase& other);
+        BufferBase(BufferBase& other);
 		BufferBase(BufferBase&& other);
 
         void releaseBuffer();

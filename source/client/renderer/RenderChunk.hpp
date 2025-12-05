@@ -47,15 +47,24 @@ public:
 
 private:
 	void _init();
-	const mce::MaterialPtr& _chooseMaterial(TerrainLayer layer, double a, bool fog);
 
 public:
 	RenderChunk() { _init(); }
+    RenderChunk(RenderChunk& other);
+    RenderChunk(RenderChunk&& other);
 	RenderChunk(const TilePos& pos, mce::Mesh& mesh);
 	
+private:
+    void _move(RenderChunk& other);
+	const mce::MaterialPtr& _chooseMaterial(TerrainLayer layer, double a, bool fog);
+    
 public:
 	void render(TerrainLayer layer, double a, bool fog);
 	void reset();
+    
+public:
+    RenderChunk& operator=(RenderChunk& other);
+    RenderChunk& operator=(RenderChunk&& other);
 
 private:
 	static void _InitLayers(mce::MaterialPtr* materials, const std::string& suffix);

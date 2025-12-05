@@ -15,6 +15,10 @@
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
+#if MCE_GFX_API_OGL
+#include "thirdparty/GL/GL.hpp"
+#endif
+
 #include "world/tile/LeafTile.hpp"
 #include "world/tile/GrassTile.hpp"
 

@@ -20,7 +20,7 @@
 #define noexcept
 #endif
 
-#ifndef _WIN32
+#if !defined(_WIN32)
 
 namespace std
 {
@@ -35,6 +35,6 @@ namespace std
     }
 }
 
-#endif // _WIN32
+#endif // !defined(_WIN32)
 
 #endif // USE_OLD_CPP

@@ -24,32 +24,16 @@ void RenderChunk::_init()
 	m_lastRebuilt = 0.0;
 }
 
-const mce::MaterialPtr& RenderChunk::_chooseMaterial(TerrainLayer layer, double a, bool fog)
+RenderChunk::RenderChunk(RenderChunk& other)
 {
-	if (layer < TERRAIN_LAYERS_MIN || layer > TERRAIN_LAYERS_MAX)
-		throw std::out_of_range("Invalid TerrainLayer");
+    _move(other);
+    _init();
+}
 
-	double diff = a - m_lastRebuilt;
-
-	if (diff < 1.2)
-	{
-		currentShaderColor.r = (1.2 - diff) * 0.2;
-		switch (layer)
-		{
-		case TERRAIN_LAYER_SEASONS_FAR:
-			return fadingSeasonsChunksMaterial;
-		case TERRAIN_LAYER_SEASONS_FAR_ALPHATEST:
-			return fadingSeasonsAlphaChunkMaterial;
-		default:
-			return fadingChunksMaterial;
-		}
-	}
-
-	mce::MaterialPtr* map;
-	if (fog) map = fogMaterialMap;
-	else     map = materialMap;
-
-	return map[layer];
+RenderChunk::RenderChunk(RenderChunk&& other)
+{
+    _move(other);
+    _init();
 }
 
 RenderChunk::RenderChunk(const TilePos& pos, mce::Mesh& mesh)
@@ -57,6 +41,52 @@ RenderChunk::RenderChunk(const TilePos& pos, mce::Mesh& mesh)
 	, m_mesh(mesh)
 {
 	_init();
+}
+
+RenderChunk& RenderChunk::operator=(RenderChunk& other)
+{
+    _move(other);
+    return *this;
+}
+
+RenderChunk& RenderChunk::operator=(RenderChunk&& other)
+{
+    _move(other);
+    return *this;
+}
+
+void RenderChunk::_move(RenderChunk& other)
+{
+    m_pos = other.m_pos;
+    m_mesh = other.m_mesh;
+}
+
+const mce::MaterialPtr& RenderChunk::_chooseMaterial(TerrainLayer layer, double a, bool fog)
+{
+	if (layer < TERRAIN_LAYERS_MIN || layer > TERRAIN_LAYERS_MAX)
+		throw std::out_of_range("Invalid TerrainLayer");
+    
+	double diff = a - m_lastRebuilt;
+    
+	if (diff < 1.2)
+	{
+		currentShaderColor.r = (1.2 - diff) * 0.2;
+		switch (layer)
+		{
+            case TERRAIN_LAYER_SEASONS_FAR:
+                return fadingSeasonsChunksMaterial;
+            case TERRAIN_LAYER_SEASONS_FAR_ALPHATEST:
+                return fadingSeasonsAlphaChunkMaterial;
+            default:
+                return fadingChunksMaterial;
+		}
+	}
+    
+	mce::MaterialPtr* map;
+	if (fog) map = fogMaterialMap;
+	else     map = materialMap;
+    
+	return map[layer];
 }
 
 void RenderChunk::render(TerrainLayer layer, double a, bool fog)
