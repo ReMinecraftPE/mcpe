@@ -449,7 +449,7 @@ target_include_directories(reminecraftpe-core PUBLIC . ..)
 # OGL
 if(MCPE_GFX_API EQUAL "OGL")
 
-    target_compile_options(zlib-interface INTERFACE -sMCE_GFX_API_OGL=1)
+    target_compile_options(reminecraftpe-core PRIVATE -sMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/ogl/API_OGL.cpp
 		renderer/hal/ogl/BlendStateOGL.cpp
