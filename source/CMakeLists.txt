@@ -108,7 +108,6 @@ add_library(reminecraftpe-core STATIC
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
     client/gui/GuiElement.cpp
-    client/gui/IntRectangle.cpp
     client/model/geom/PolygonQuad.cpp
     client/model/geom/Model.cpp
     client/model/geom/Cube.cpp
