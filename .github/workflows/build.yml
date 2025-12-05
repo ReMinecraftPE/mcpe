@@ -11,10 +11,10 @@ jobs:
             matrix:
                 include:
                   - name: SDL 2
-                    flags: '-DREMCPE_PLATFORM=sdl2'
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl2-dev'
                   - name: SDL 1.2
-                    flags: '-DREMCPE_PLATFORM=sdl1'
+                    flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl1.2-dev'
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-latest
@@ -140,12 +140,12 @@ jobs:
             matrix:
                 include:
                   - name: Win32
-                    flags: '-DREMCPE_PLATFORM=windows'
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL'
                   - name: SDL2
-                    flags: "-DREMCPE_PLATFORM=sdl2"
+                    flags: "-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL"
                   # CMake can't find it
                   #- name: SDL 1.2
-                  #  flags: "-DREMCPE_PLATFORM=sdl1"
+                  #  flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-latest
         steps:
