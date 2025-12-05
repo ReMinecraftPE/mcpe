@@ -8,6 +8,7 @@
 
 #include "Textures.hpp"
 #include "common/Util.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
 #define MIP_TAG "_mip"
 #define MIP_TAG_SIZE 4
@@ -159,32 +160,28 @@ Textures::~Textures()
 
 void Textures::tick()
 {
-	// skip dynamic textures for now
-	return;
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
 	// tick dynamic textures here
 	for (std::vector<DynamicTexture*>::iterator it = m_dynamicTextures.begin(); it < m_dynamicTextures.end(); it++)
 	{
 		DynamicTexture* pDynaTex = *it;
 
-		pDynaTex->bindTexture(this);
+		TextureData* pData = pDynaTex->bindTexture(this);
+		if (!pData) continue;
 		pDynaTex->tick();
+
+		mce::Texture& texture = pData->m_texture;
 
 		for (int x = 0; x < pDynaTex->m_textureSize; x++)
 		{
 			for (int y = 0; y < pDynaTex->m_textureSize; y++)
 			{
-				// texture is already bound so this is fine:
-				glTexSubImage2D(
-					GL_TEXTURE_2D,
-					0,
+				texture.subBuffer(renderContext,
+					pDynaTex->m_pixels,
 					16 * (x + pDynaTex->m_textureIndex % 16),
 					16 * (y + pDynaTex->m_textureIndex / 16),
-					16, 16,
-					GL_RGBA,
-					GL_UNSIGNED_BYTE,
-					pDynaTex->m_pixels
-				);
+					16, 16, 0);
 			}
 		}
 	}

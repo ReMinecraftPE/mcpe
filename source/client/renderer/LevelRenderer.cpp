@@ -1398,6 +1398,16 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	glShadeModel(GL_SMOOTH);
 #endif
 
+	if (camera.isUnderLiquid(Material::water))
+	{
+		//renderWeather(f);
+		RenderChunk::SetUnderwater(true);
+	}
+	else
+	{
+		RenderChunk::SetUnderwater(false);
+	}
+
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
 	render(camera, Tile::RENDER_LAYER_BLEND, f);
 
@@ -1406,6 +1416,11 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 #endif
 
 	//renderNameTags(f);
+
+	if (!camera.isUnderLiquid(Material::water))
+	{
+		//renderWeather(f);
+	}
 
 	// Was after renderCracks in GameRenderer
 	glDisable(GL_FOG);

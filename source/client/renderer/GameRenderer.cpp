@@ -530,9 +530,6 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 			levelRenderer.renderHitSelect(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
 	}
 
-	if (false) // TODO: Figure out how to enable weather
-		renderWeather(f);
-
 	if (m_zoom == 1.0f)
 	{
 		glClear(GL_DEPTH_BUFFER_BIT);

@@ -94,3 +94,17 @@ void RenderChunk::InitMaterials()
 	_InitLayers(materialMap, Util::EMPTY_STRING);
 	_InitLayers(fogMaterialMap, "_fog");
 }
+
+void RenderChunk::SetUnderwater(bool isUnderwater)
+{
+	if (_isUnderwater == isUnderwater)
+		return;
+
+	_isUnderwater = isUnderwater;
+
+	std::string materialName = isUnderwater ? "terrain_blend_below" : "terrain_blend";
+	materialMap[TERRAIN_LAYER_BLEND] = GET_MATERIAL_PTR(switchable, materialName);
+
+	materialName = isUnderwater ? "terrain_blend_below_fog" : "terrain_blend_fog";
+	fogMaterialMap[TERRAIN_LAYER_BLEND] = GET_MATERIAL_PTR(switchable, materialName);
+}

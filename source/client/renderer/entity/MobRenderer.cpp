@@ -207,7 +207,7 @@ void MobRenderer::renderNameTag(const Mob& mob, const std::string& str, const Ve
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.25f);
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 
 	int width = font->width(str);
 	float widthHalf = float(width / 2);

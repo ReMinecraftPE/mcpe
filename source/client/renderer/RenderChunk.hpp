@@ -61,5 +61,6 @@ private:
 	static void _InitLayers(mce::MaterialPtr* materials, const std::string& suffix);
 public:
 	static void InitMaterials();
+	static void SetUnderwater(bool isUnderwater);
 };
 
