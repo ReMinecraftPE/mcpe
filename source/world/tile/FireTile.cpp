@@ -36,7 +36,7 @@ FireTile::FireTile(int ID, int texture) : Tile(ID, texture, Material::fire)
 	setTicking(true);
 }
 
-int FireTile::getRenderShape() const
+eRenderShape FireTile::getRenderShape() const
 {
 	// @BUG: Since the shape is set to FIRE, but TileRenderer doesn't handle it,
 	// fire is invisible in this version of Minecraft.

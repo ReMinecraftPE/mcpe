@@ -16,7 +16,7 @@ public:
 	FireTile(int ID, int texture);
 
 	AABB* getAABB(const Level*, const TilePos& pos) override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
 	int getResourceCount(Random*) const override;

@@ -209,9 +209,9 @@ Tile* Tile::init()
 	return this;
 }
 
-int Tile::getRenderShape() const
+eRenderShape Tile::getRenderShape() const
 {
-	return 0;
+	return SHAPE_SOLID;
 }
 
 void Tile::updateDefaultShape()

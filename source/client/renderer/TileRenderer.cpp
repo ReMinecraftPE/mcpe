@@ -2554,7 +2554,7 @@ void TileRenderer::renderTile(const FullTile& tile, const mce::MaterialPtr& mate
 #define IF_NEEDED(x) do { if (tile.data != 255) { (x); } } while (0)
 
 			t.addOffset(-0.5f, -0.5f, -0.5f);
-			t.begin();
+			t.begin(0);
 			SHADE_DEFINE;
 			SHADE_PREPARE;
 			SHADE_IF_NEEDED(1.0f);
@@ -2604,7 +2604,7 @@ void TileRenderer::renderTile(const FullTile& tile, const mce::MaterialPtr& mate
 					tileType->setShape(0.0f, 0.0f, 0.5f, 1.0f, 0.5f, 1.0f);
 
 
-				t.begin();
+				t.begin(24);
 				SHADE_DEFINE;
 				SHADE_PREPARE;
 				SHADE_IF_NEEDED(0.5f);
@@ -2643,7 +2643,7 @@ void TileRenderer::renderTile(const FullTile& tile, const mce::MaterialPtr& mate
 				case 3: tileType->setShape(0.5f - v5, 0.5f - v5 * 3.0f, -v5 * 2.0f, 0.5f + v5, 0.5f - v5, 1.0f + v5 * 2.0f); break;
 				}
 
-				t.begin();
+				t.begin(24);
 				SHADE_DEFINE;
 				SHADE_PREPARE;
 				SHADE_IF_NEEDED(1.0f);

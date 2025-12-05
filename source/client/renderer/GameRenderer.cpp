@@ -736,8 +736,7 @@ void GameRenderer::tick()
 
 void GameRenderer::renderWeather(float f)
 {
-	// @HAL: todo
-	if (m_envTexturePresence == 0)
+	/*if (m_envTexturePresence == 0)
 	{
 		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("environment/snow.png", false) != nullptr;
 		m_envTexturePresence = bLoadedSuccessfully ? 2 : 1;
@@ -754,9 +753,6 @@ void GameRenderer::renderWeather(float f)
 	Tesselator& t = Tesselator::instance;
 	Level* pLevel = m_pMinecraft->m_pLevel;
 
-	glDisable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
 	m_pMinecraft->m_pTextures->loadAndBindTexture("environment/snow.png");
 
 	int range = m_pMinecraft->getOptions()->m_bFancyGraphics ? 10 : 5;
@@ -792,7 +788,7 @@ void GameRenderer::renderWeather(float f)
 			float f2 = float(tp.z + 0.5f) - pLP->m_pos.z;
 			float f3 = Mth::sqrt(f1 * f1 + f2 * f2) / float(range);
 			float f4 = pLevel->getBrightness(tp);
-			t.begin();
+			t.begin(8);
 			currentShaderColor = Color(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
 			currentShaderDarkColor = Color::WHITE;
 			t.setOffset(-pos.x, -pos.y, -pos.z);
@@ -805,12 +801,9 @@ void GameRenderer::renderWeather(float f)
 			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 0), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 0), float(maxY), float(tp.z + 1), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
 			t.setOffset(0.0f, 0.0f, 0.0f);
-			t.draw();
+			t.draw(); // use "snow" or "weather" material
 		}
-	}
-
-	glEnable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
+	}*/
 }
 
 void GameRenderer::onGraphicsReset()

@@ -54,7 +54,7 @@ bool CactusTile::isCubeShaped() const
 	return false;
 }
 
-int CactusTile::getRenderShape() const
+eRenderShape CactusTile::getRenderShape() const
 {
 	return SHAPE_CACTUS;
 }

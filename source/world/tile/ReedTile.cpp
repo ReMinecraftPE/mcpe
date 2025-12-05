@@ -17,9 +17,9 @@ ReedTile::ReedTile(TileID id) : Tile(id, Material::plant)
 	setTicking(true);
 }
 
-int ReedTile::getRenderShape() const
+eRenderShape ReedTile::getRenderShape() const
 {
-	return 1;
+	return SHAPE_CROSS;
 }
 
 bool ReedTile::isCubeShaped() const

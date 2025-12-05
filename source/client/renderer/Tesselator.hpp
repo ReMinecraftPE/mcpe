@@ -62,8 +62,8 @@ private:
 	void _tex(const Vec2& uv, int count);
 
 public:
-	void begin(int maxVertices = 0);
-	void begin(mce::PrimitiveMode mode, int maxVertices = 0);
+	void begin(int maxVertices);
+	void begin(mce::PrimitiveMode mode, int maxVertices);
 	void clear();
 	void cancel();
 	void color(int32_t c);

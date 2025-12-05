@@ -86,7 +86,7 @@ int DoorTile::getDir(TileData data) const
 	return data & 3;
 }
 
-int DoorTile::getRenderShape() const
+eRenderShape DoorTile::getRenderShape() const
 {
 	return SHAPE_DOOR;
 }

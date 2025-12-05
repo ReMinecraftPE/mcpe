@@ -139,7 +139,7 @@ Vec3 LiquidTile::getFlow(const LevelSource* level, const TilePos& pos) const
 	return result.normalize();
 }
 
-int LiquidTile::getRenderShape() const
+eRenderShape LiquidTile::getRenderShape() const
 {
 	return SHAPE_WATER;
 }

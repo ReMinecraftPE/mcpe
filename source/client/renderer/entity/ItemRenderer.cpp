@@ -157,13 +157,13 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color)
 {
 	// UNUSED
-	t.begin();
+	t.begin(4);
 	t.color(color);
 	t.vertex(float(x),     float(y),     0.0f);
 	t.vertex(float(x),     float(y + h), 0.0f);
 	t.vertex(float(x + w), float(y + h), 0.0f);
 	t.vertex(float(x + w), float(y),     0.0f);
-	t.draw();
+	t.draw(m_itemMaterials.ui_fill_color);
 }
 
 void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
@@ -174,7 +174,7 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	float uw = float(tw), uh = float(th);
 	float vx = float(sx), vy = float(sy);
 
-	t.begin();
+	t.begin(4);
 	t.vertexUV(ex,      ey + uh, 0.0f, float(vx)      / 256.0f, float(vy + uh) / 256.0f);
 	t.vertexUV(ex + uw, ey + uh, 0.0f, float(vx + uw) / 256.0f, float(vy + uh) / 256.0f);
 	t.vertexUV(ex + uw, ey,      0.0f, float(vx + uw) / 256.0f, float(vy)      / 256.0f);

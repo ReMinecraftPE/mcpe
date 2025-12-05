@@ -308,15 +308,10 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 
 void TouchscreenInput_TestFps::render(float f)
 {
-	// @HAL
-	glDisable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // default
-
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(0);
 #ifdef ENH_NEW_TOUCH_CONTROLS
 	if (field_40 && !isButtonDown(100 + INPUT_JUMP)) 
 	{
@@ -370,10 +365,7 @@ void TouchscreenInput_TestFps::render(float f)
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 	RenderTouchButton(&t, m_pAreaJump, 0, 176);
 #endif
-	t.draw();
-
-	glDisable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
+	t.draw(m_materials.ui_texture_and_color);
 }
 
 RectangleArea TouchscreenInput_TestFps::getRectangleArea()

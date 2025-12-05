@@ -55,7 +55,7 @@ public: // types
 public: // virtual functions
 	virtual ~Tile();
 	virtual bool isCubeShaped() const;
-	virtual int getRenderShape() const;
+	virtual eRenderShape getRenderShape() const;
 	virtual Tile* setShape(float, float, float, float, float, float);
 	virtual void updateShape(const LevelSource*, const TilePos& pos);
 	virtual void updateDefaultShape();

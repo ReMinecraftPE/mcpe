@@ -20,7 +20,7 @@ AABB* TorchTile::getAABB(const Level*, const TilePos& pos)
 	return nullptr;
 }
 
-int TorchTile::getRenderShape() const
+eRenderShape TorchTile::getRenderShape() const
 {
 	return SHAPE_TORCH;
 }

@@ -17,7 +17,7 @@ public:
 
 	bool canSurvive(const Level*, const TilePos& pos) const override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
 	bool mayPlace(const Level*, const TilePos& pos) const override;

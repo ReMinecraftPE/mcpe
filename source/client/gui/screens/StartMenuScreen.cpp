@@ -796,15 +796,11 @@ Tile* TitleTile::getTileFromChar(char c)
 // NOTE: Using the tile enum instead of Tile::tileName->id, may want to.. not?
 static const int _tileBlockList[] = {
 	TILE_BOOKSHELF,
-	TILE_STAIRS_WOOD,
-	TILE_STAIRS_STONE,
 	TILE_TOPSNOW,
 	TILE_GRASS,
 	TILE_INFO_UPDATEGAME1,
 	TILE_INFO_UPDATEGAME2,
-	TILE_STONESLAB_HALF,
-	TILE_CACTUS,
-	TILE_FENCE,
+	TILE_LEAVES_CARRIED
 };
 static const int _tileBlockListSize = sizeof _tileBlockList / sizeof(int);
 
@@ -827,7 +823,8 @@ Tile* TitleTile::getRandomTile(Tile* except1, Tile* except2)
 
 		// If found a tile, check if it can be rendered
 		Tile* pTile = Tile::tiles[id];
-		if (!TileRenderer::canRender(pTile->getRenderShape()))
+		eRenderShape renderShape = pTile->getRenderShape();
+		if (!TileRenderer::canRender(renderShape) || renderShape != SHAPE_SOLID)
 			continue;
 
 		if (pTile == except1 || pTile == except2)

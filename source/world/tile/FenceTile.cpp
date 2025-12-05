@@ -36,7 +36,7 @@ bool FenceTile::isCubeShaped() const
 	return false;
 }
 
-int FenceTile::getRenderShape() const
+eRenderShape FenceTile::getRenderShape() const
 {
 	return SHAPE_FENCE;
 }

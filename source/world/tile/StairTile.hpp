@@ -18,7 +18,7 @@ public:
 	void addAABBs(const Level*, const TilePos& pos, const AABB*, std::vector<AABB>&) override;
 	bool isSolidRender() const override;
 	bool isCubeShaped() const override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 
 	// Just overloads to forward to parent tile.
 	void addLights(Level*, const TilePos& pos) override;

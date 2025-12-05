@@ -25,7 +25,7 @@ AABB* RocketLauncherTile::getAABB(const Level*, const TilePos& pos)
 	return nullptr;
 }
 
-int RocketLauncherTile::getRenderShape() const
+eRenderShape RocketLauncherTile::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }

@@ -76,7 +76,7 @@ bool StairTile::isCubeShaped() const
 	return false;
 }
 
-int StairTile::getRenderShape() const
+eRenderShape StairTile::getRenderShape() const
 {
 	return SHAPE_STAIRS;
 }

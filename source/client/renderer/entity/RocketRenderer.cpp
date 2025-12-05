@@ -30,7 +30,7 @@ FakeRocketTile::FakeRocketTile() : Tile(0, 16*2+14, Material::plant)
 {
 }
 
-int FakeRocketTile::getRenderShape() const
+eRenderShape FakeRocketTile::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }

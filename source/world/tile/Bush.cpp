@@ -17,7 +17,7 @@ Bush::Bush(TileID id, int texture) : Tile(id, Material::plant)
 	setShape(0.3f, 0.0f, 0.3f, 0.7f, 0.6f, 0.7f);
 }
 
-int Bush::getRenderShape() const
+eRenderShape Bush::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }
