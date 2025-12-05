@@ -89,25 +89,29 @@ jobs:
                 GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
                 -quiet \
                 clean archive 
-    # @NOTE: Newer versions of Xcode will complain and refuse to build old XIB files or target old iOS versions
-    #ios:
-    #    runs-on: macos-latest
-    #    steps:
-    #      - name: Checkout Repository
-    #        uses: actions/checkout@v3
-    #        with:
-    #            submodules: true
-    #      - name: Build iOS Archive
-    #        run: |
-    #            cd platforms/macos/projects/Minecraft
-    #            xcodebuild -scheme "minecraftpe" \
-    #            -archivePath $RUNNER_TEMP/GitHubActions_iOS.xcarchive \
-    #            -sdk iphoneos \
-    #            -configuration "Release [iOS] (Default)" \
-    #            -destination generic/platform=iOS \
-    #            GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
-    #            -quiet \
-    #            clean archive 
+    ios:
+        name: iOS
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                wget https://apt.llvm.org/llvm.sh
+                sudo bash llvm.sh 21
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y clang-21 libplist-dev libplist-utils libssl-dev
+
+          - name: Build iOS binary
+            run: ./platforms/ios/build.sh
+            env:
+              CLANG: clang-21
+              AR: llvm-ar-21
+              RANLIB: llvm-ranlib-21
+              LIPO: llvm-lipo-21
+              REMCPE_NO_IPA: 1
     android:
         strategy:
             fail-fast: false

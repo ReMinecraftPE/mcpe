@@ -22,6 +22,9 @@ if(ANDROID)
 elseif(EMSCRIPTEN)
     # Use Emscripten's OpenAL
     target_link_libraries(reminecraftpe-sound PUBLIC openal)
+elseif(APPLE)
+    # Use System OpenAL Framework
+    target_link_libraries(reminecraftpe-sound PUBLIC "-framework OpenAL")
 else()
     # Use System OpenAL
     find_package(OpenAL REQUIRED)
