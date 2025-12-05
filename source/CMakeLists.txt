@@ -446,8 +446,12 @@ add_library(reminecraftpe-core STATIC
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)
 
+message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
+
 # OGL
-if(REMCPE_GFX_API EQUAL "OGL")
+if(REMCPE_GFX_API STREQUAL "OGL")
+
+	message(STATUS "Selected GFX API: OGL")
 
     target_compile_options(reminecraftpe-core PRIVATE -sMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
