@@ -12,7 +12,9 @@ void ItemSpriteRenderer::render(const Entity& entity, const Vec3& pos, float rot
 
 	matrix->translate(pos);
 
-	//glEnable(GL_RESCALE_NORMAL);
+#if MCE_GFX_API_OGL
+	glEnable(GL_RESCALE_NORMAL);
+#endif
 
 	matrix->scale(0.5f);
 
@@ -36,5 +38,7 @@ void ItemSpriteRenderer::render(const Entity& entity, const Vec3& pos, float rot
 	t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (m_sprite % 16))     / 256.0f, float(16 * (m_sprite / 16))     / 256.0f);
 	t.draw(m_shaderMaterials.entity_alphatest);
 
-	//glDisable(GL_RESCALE_NORMAL);
+#if MCE_GFX_API_OGL
+	glDisable(GL_RESCALE_NORMAL);
+#endif
 }

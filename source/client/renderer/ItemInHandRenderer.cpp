@@ -218,7 +218,9 @@ void ItemInHandRenderer::render(float a)
         matrix->translate(Vec3(0.7f * d, -0.65f * d - (1.0f - h) * 0.6f, -0.9f * d));
         matrix->rotate(45.0f, Vec3::UNIT_Y);
 
+#if MCE_GFX_API_OGL
         glEnable(GL_RESCALE_NORMAL);
+#endif
 
         swing3 = Mth::sin(float(M_PI) * fAnim * fAnim);
         swing2 = Mth::sin(float(M_PI) * Mth::sqrt(fAnim));
@@ -240,6 +242,9 @@ void ItemInHandRenderer::render(float a)
         matrix->translate(Vec3(-0.3f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.4f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.4f * Mth::sin(float(M_PI) * fAnim)));
         matrix->translate(Vec3(0.8f * d, -0.75f * d - (1.0f - h) * 0.6f, -0.9f * d));
         matrix->rotate(45.0f, Vec3::UNIT_Y);
+#if MCE_GFX_API_OGL
+        glEnable(GL_RESCALE_NORMAL);
+#endif
 
         matrix->rotate(Mth::sin(float(M_PI) * Mth::sqrt(fAnim)) * 70.0f, Vec3::UNIT_Y);
         matrix->rotate(Mth::sin(float(M_PI) * fAnim * fAnim) * -20.0f, Vec3::UNIT_Z);
@@ -258,6 +263,9 @@ void ItemInHandRenderer::render(float a)
         pRenderer->renderHand();
 	}
 
+#if MCE_GFX_API_OGL
+    glDisable(GL_RESCALE_NORMAL);
+#endif
 	Lighting::turnOff();
 }
 

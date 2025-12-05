@@ -82,7 +82,9 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 
 	matrix->translate(Vec3(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z));
 
+#if MCE_GFX_API_OGL
 	glEnable(GL_RESCALE_NORMAL);
+#endif
 
 	Tile* pTile = pItemInstance->getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
@@ -151,7 +153,9 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 		}
 	}
 
+#if MCE_GFX_API_OGL
 	glDisable(GL_RESCALE_NORMAL);
+#endif
 }
 
 void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color)
