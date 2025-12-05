@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <climits>
+
 #include "Vec3.hpp"
 #include "world/level/TilePos.hpp"
 
