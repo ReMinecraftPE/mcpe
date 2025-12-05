@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <cstring>
 #include "renderer/hal/interface/ShaderConstant.hpp"
 
 namespace mce
