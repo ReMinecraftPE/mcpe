@@ -9,8 +9,9 @@ bin='reminecraftpe'
 execname='minecraftpe'
 
 platformdir='platforms/ios'
+builddir="$platformdir/build"
 assetdir='game/assets'
-apppath="$platformdir/build/ipa/Payload/ReMCPE.app"
+apppath="$builddir/ipa/Payload/ReMCPE.app"
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot/../.."
@@ -26,7 +27,7 @@ if ! command -v plistutil >/dev/null; then
     exit 1
 fi
 
-rm -rf "$platformdir/build/ipa"
+rm -rf "$builddir/ipa"
 mkdir -p "$apppath"
 cp "build/$bin" "$apppath/$execname"
 sed -E -e "s|\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
@@ -51,8 +52,8 @@ cp -a \
     terrain.png \
     particles.png \
     "$apppath" || true
-cd "../../$platformdir/build/ipa"
+cd "../../$builddir/ipa"
 rm -f "../$ipaname"
 zip -r "../$ipaname" Payload
 
-printf '\nDone! Your IPA is at %s/build/%s\n' "$platformdir" "$ipaname"
+printf '\nDone! Your IPA is at %s/%s\n' "$builddir" "$ipaname"
