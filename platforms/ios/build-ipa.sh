@@ -26,7 +26,7 @@ if ! command -v plistutil >/dev/null; then
     exit 1
 fi
 
-rm -rf "$assetdir/build/ipa"
+rm -rf "$platformdir/build/ipa"
 mkdir -p "$apppath"
 cp "build/$bin" "$apppath/$execname"
 sed -E -e "s|\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
