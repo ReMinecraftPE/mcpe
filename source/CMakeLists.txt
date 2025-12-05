@@ -109,13 +109,13 @@ add_library(reminecraftpe-core STATIC
     client/gui/GuiComponent.cpp
     client/gui/GuiElement.cpp
     client/model/geom/PolygonQuad.cpp
-    client/model/geom/Model.cpp
     client/model/geom/Cube.cpp
     client/model/geom/ModelPart.cpp
     client/model/models/QuadrupedModel.cpp
     client/model/models/PigModel.cpp
     client/model/models/SheepModel.cpp
     client/model/models/HumanoidModel.cpp
+    client/model/models/Model.cpp
     client/model/models/SpiderModel.cpp
     client/model/models/ZombieModel.cpp
     client/model/models/SkeletonModel.cpp
