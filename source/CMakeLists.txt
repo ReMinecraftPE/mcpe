@@ -450,7 +450,7 @@ message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
 
 if(REMCPE_GFX_API STREQUAL "OGL")
 	message(STATUS "Selected GFX API: OGL")
-    target_compile_options(reminecraftpe-core PRIVATE -sMCE_GFX_API_OGL=1)
+    target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/ogl/API_OGL.cpp
 		renderer/hal/ogl/BlendStateOGL.cpp
@@ -477,7 +477,7 @@ if(REMCPE_GFX_API STREQUAL "OGL")
 		renderer/platform/ogl/ShaderPrecision.cpp
 	)
 elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
-    target_compile_options(reminecraftpe-core PRIVATE -sMCE_GFX_API_NULL=1)
+    target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_NULL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/null/BlendStateNull.cpp
 		renderer/hal/null/BufferNull.cpp
