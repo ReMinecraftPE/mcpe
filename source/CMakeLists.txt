@@ -447,7 +447,7 @@ add_library(reminecraftpe-core STATIC
 target_include_directories(reminecraftpe-core PUBLIC . ..)
 
 # OGL
-if(MCPE_GFX_API EQUAL "OGL")
+if(REMCPE_GFX_API EQUAL "OGL")
 
     target_compile_options(reminecraftpe-core PRIVATE -sMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
