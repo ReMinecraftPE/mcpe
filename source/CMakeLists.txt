@@ -448,11 +448,8 @@ target_include_directories(reminecraftpe-core PUBLIC . ..)
 
 message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
 
-# OGL
 if(REMCPE_GFX_API STREQUAL "OGL")
-
 	message(STATUS "Selected GFX API: OGL")
-
     target_compile_options(reminecraftpe-core PRIVATE -sMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/ogl/API_OGL.cpp
@@ -479,8 +476,26 @@ if(REMCPE_GFX_API STREQUAL "OGL")
 		renderer/platform/ogl/Extensions.cpp
 		renderer/platform/ogl/ShaderPrecision.cpp
 	)
-
-endif() # OGL
+elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
+    target_compile_options(reminecraftpe-core PRIVATE -sMCE_GFX_API_NULL=1)
+	target_sources(reminecraftpe-core PRIVATE
+		renderer/hal/null/BlendStateNull.cpp
+		renderer/hal/null/BufferNull.cpp
+		renderer/hal/null/ConstantBufferContainerNull.cpp
+		renderer/hal/null/DepthStencilStateNull.cpp
+		renderer/hal/null/FixedPipelineStateNull.cpp
+		renderer/hal/null/FogStateNull.cpp
+		renderer/hal/null/ImmediateBufferNull.cpp
+		renderer/hal/null/RasterizerStateNull.cpp
+		renderer/hal/null/RenderContextNull.cpp
+		renderer/hal/null/RenderDeviceNull.cpp
+		renderer/hal/null/ShaderConstantNull.cpp
+		renderer/hal/null/ShaderConstantWithDataNull.cpp
+		renderer/hal/null/ShaderNull.cpp
+		renderer/hal/null/ShaderProgramNull.cpp
+		renderer/hal/null/TextureNull.cpp
+	)
+endif()
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
