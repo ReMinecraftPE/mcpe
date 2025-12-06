@@ -39,6 +39,8 @@ namespace std
 
 #endif // USE_OLD_CPP
 
+// https://gcc.gnu.org/legacy-ml/gcc-help/2006-04/msg00062.html
+
 #define MC_FUNC_MOVE(className)                      \
 className& operator=(const className& move)          \
 {                                                    \
