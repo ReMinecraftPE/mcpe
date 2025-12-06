@@ -144,11 +144,6 @@ MatrixStack::Ref::Ref(MatrixStack& mtxStk, Matrix& mtx)
 	m_pMatrix = &mtx;
 }
 
-MatrixStack::Ref::Ref(Ref&& other)
-{
-	_move(other);
-}
-
 MatrixStack::Ref::~Ref()
 {
     release();
@@ -198,9 +193,4 @@ MatrixStack::Ref& MatrixStack::Ref::operator=(const Matrix& value)
 {
     *(this->m_pMatrix) = value;
     return *this;
-}
-
-void MatrixStack::Ref::operator=(Ref&& other)
-{
-    _move(other);
 }

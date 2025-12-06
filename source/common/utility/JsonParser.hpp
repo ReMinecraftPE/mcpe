@@ -18,7 +18,7 @@ namespace mce
             return false;
 
         std::string valueStr = value.GetString();
-        out = map.at(valueStr);
+        out = ((std::map<std::string, T>&)map)[valueStr];
 
         return true;
     }

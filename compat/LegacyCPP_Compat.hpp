@@ -20,7 +20,7 @@
 #define noexcept
 #endif
 
-#if !defined(_WIN32)
+/*#if !defined(_WIN32)
 
 namespace std
 {
@@ -33,8 +33,30 @@ namespace std
     {
         return static_cast<typename remove_reference<T>::type&&>(t);
     }
-}
+}                                   
 
-#endif // !defined(_WIN32)
+#endif // !defined(_WIN32)*/
 
 #endif // USE_OLD_CPP
+
+#define MC_FUNC_MOVE(className)                      \
+className& operator=(const className& move)          \
+{                                                    \
+	className& other = const_cast<className&>(move); \
+	_move(other);                                    \
+	return *this;                                    \
+}
+
+#define MC_CTOR_MOVE(className)                      \
+className::className(const className& move)          \
+{                                                    \
+    className& other = const_cast<className&>(move); \
+    _move(other);                                    \
+}
+
+#define MC_CTOR_MOVE_CUSTOM(className)               \
+className::className(const className& move)          \
+{                                                    \
+    className& other = const_cast<className&>(move); \
+    _init(other);                                    \
+}

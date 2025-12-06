@@ -11,21 +11,15 @@ void TextureData::_init()
     m_bWrap = false;
 }
 
+void TextureData::_init(TextureData& other)
+{
+    _init();
+    _move(other);
+}
+
 TextureData::TextureData()
 {
     _init();
-}
-
-TextureData::TextureData(TextureData& other)
-{
-    _init();
-    _move(other);
-}
-
-TextureData::TextureData(TextureData&& other)
-{
-    _init();
-    _move(other);
 }
 
 TextureData::TextureData(unsigned int width, unsigned int height, bool enableFiltering)
@@ -161,16 +155,6 @@ void TextureData::loadMipmap(ImageData& data)
 bool TextureData::isEmpty() const
 {
     return m_imageData.isEmpty();
-}
-
-void TextureData::operator=(TextureData& other)
-{
-    move(other);
-}
-
-void TextureData::operator=(TextureData&& other)
-{
-    move(other);
 }
 
 void TextureData::unbind(unsigned int textureUnit)

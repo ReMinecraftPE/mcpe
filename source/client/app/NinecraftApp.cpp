@@ -255,16 +255,23 @@ void NinecraftApp::setupRenderer()
 
 void NinecraftApp::onGraphicsReset()
 {
+	platform()->_fireAppSuspended();
+	
+	// Needs to be called before materials are reloaded
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	renderContext.lostContext();
+	
+	platform()->_fireAppResumed();
+	
+	// The rest should be in onAppResumed, but we haven't added that yet
+	
+	//mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	//renderContext.lostContext();
 	Tesselator::instance.init();
 
 	m_pTextures->clear();
 	_reloadTextures();
 	m_pFont->onGraphicsReset();
-
-	if (m_pLevelRenderer)
-		m_pLevelRenderer->onGraphicsReset();
 
 	if (m_pGameRenderer)
 		m_pGameRenderer->onGraphicsReset();

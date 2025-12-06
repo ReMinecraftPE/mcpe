@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "compat/LegacyCPP.hpp"
 #include "renderer/hal/interface/Texture.hpp"
 #include "ImageData.hpp"
 
@@ -19,11 +20,11 @@ public:
 
 private:
     void _init();
+	void _init(TextureData& other);
 
 public:
     TextureData();
-	TextureData(TextureData& other);
-    TextureData(TextureData&& other);
+	MC_CTOR_MOVE_CUSTOM(TextureData);
     TextureData(unsigned int width, unsigned int height, bool enableFiltering);
     ~TextureData();
 
@@ -45,8 +46,7 @@ public:
     bool isEmpty() const;
 
 public:
-    void operator=(TextureData& other);
-    void operator=(TextureData&& other);
+    MC_FUNC_MOVE(TextureData);
 
 public:
     static void unbind(unsigned int textureUnit);

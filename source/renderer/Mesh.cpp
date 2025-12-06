@@ -16,11 +16,6 @@ Mesh::Mesh()
     m_rawData = nullptr;
 }
 
-Mesh::Mesh(Mesh& other)
-{
-    _move(other);
-}
-
 Mesh::Mesh(const VertexFormat& vertexFormat, unsigned int vertexCount, unsigned int indexCount, uint8_t indexSize, PrimitiveMode primitiveMode, uint8_t *data, bool temporary)
     : m_vertexCount(vertexCount)
     , m_indexCount(indexCount)
@@ -179,12 +174,6 @@ bool Mesh::isValid() const
 bool Mesh::isTemporary() const
 {
     return m_rawData != nullptr;
-}
-
-Mesh& Mesh::operator=(Mesh& other)
-{
-    _move(other);
-    return *this;
 }
 
 void Mesh::clearGlobalBuffers()

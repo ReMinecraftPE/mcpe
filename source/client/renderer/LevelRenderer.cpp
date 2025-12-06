@@ -405,6 +405,8 @@ void LevelRenderer::onAppResumed()
 
 void LevelRenderer::onAppSuspended()
 {
+	m_renderList.reset();
+	
 	//m_shadowVolumeMesh.reset();
 	//m_shadowOverlayMesh.reset();
 	m_starsMesh.reset();

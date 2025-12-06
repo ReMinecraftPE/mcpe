@@ -20,6 +20,7 @@ public:
 	void add(int x, TerrainLayer layer, bool fog);
 	void addR(RenderChunk* rc, TerrainLayer layer, bool fog);
 	void clear();
+	void reset();
 	void init(const Vec3& pos);
 	void render(TerrainLayer layer, bool fog);
 	void renderChunks(TerrainLayer layer, bool fog);

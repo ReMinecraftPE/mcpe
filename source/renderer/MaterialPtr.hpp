@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "compat/LegacyCPP.hpp"
 
 namespace mce
 {
@@ -19,7 +20,7 @@ namespace mce
 
     public:
         MaterialPtr();
-        MaterialPtr(MaterialPtr& other);
+        MC_CTOR_MOVE(MaterialPtr);
         MaterialPtr(RenderMaterialGroup& group, std::string const& name);
         ~MaterialPtr();
 
@@ -30,7 +31,7 @@ namespace mce
 
         RenderMaterial* operator->() const;
         operator bool() const;
-        MaterialPtr& operator=(MaterialPtr& other);
+        MC_FUNC_MOVE(MaterialPtr);
         bool operator==(const MaterialPtr& other) const;
         bool operator!=(const MaterialPtr& other) const;
     };

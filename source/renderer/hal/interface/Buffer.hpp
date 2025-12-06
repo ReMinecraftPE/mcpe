@@ -14,6 +14,6 @@ namespace mce
         void createDynamicVertexBuffer(RenderContext& context, unsigned int size);
 
     public:
-        Buffer& operator=(Buffer& other);
+        MC_FUNC_MOVE(Buffer);
     };
 }

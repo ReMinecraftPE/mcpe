@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "compat/LegacyCPP.hpp"
 #include "renderer/Mesh.hpp"
 #include "world/level/TilePos.hpp"
 
@@ -47,24 +48,25 @@ public:
 
 private:
 	void _init();
+    void _init(RenderChunk& other);
 
 public:
 	RenderChunk() { _init(); }
-    RenderChunk(RenderChunk& other);
-    RenderChunk(RenderChunk&& other);
+	MC_CTOR_MOVE(RenderChunk);
 	RenderChunk(const TilePos& pos, mce::Mesh& mesh);
 	
 private:
-    void _move(RenderChunk& other);
 	const mce::MaterialPtr& _chooseMaterial(TerrainLayer layer, double a, bool fog);
     
 public:
+    void _move(RenderChunk& other);
+	
+public:
 	void render(TerrainLayer layer, double a, bool fog);
 	void reset();
-    
+	
 public:
-    RenderChunk& operator=(RenderChunk& other);
-    RenderChunk& operator=(RenderChunk&& other);
+	MC_FUNC_MOVE(RenderChunk);
 
 private:
 	static void _InitLayers(mce::MaterialPtr* materials, const std::string& suffix);

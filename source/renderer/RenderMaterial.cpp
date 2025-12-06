@@ -54,7 +54,7 @@ RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMateria
 
 RenderState RenderMaterial::_parseStateName(const std::string& stateName) const
 {
-    return _renderStateMap.at(stateName);
+    return ((std::map<std::string, RenderState>)_renderStateMap)[stateName];
 }
 
 void RenderMaterial::_parseRenderStates(const rapidjson::Value& root)

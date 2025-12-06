@@ -6,17 +6,12 @@
 
 using namespace mce;
 
-MaterialPtr MaterialPtr::NONE = MaterialPtr();
+MaterialPtr MaterialPtr::NONE;
 
 MaterialPtr::MaterialPtr()
 {
     m_pGroup = nullptr;
     m_pMaterial = nullptr;
-}
-
-MaterialPtr::MaterialPtr(MaterialPtr& other)
-{
-    _move(other);
 }
 
 MaterialPtr::MaterialPtr(RenderMaterialGroup& group, const std::string& name)
@@ -76,12 +71,6 @@ RenderMaterial* MaterialPtr::operator->() const
 MaterialPtr::operator bool() const
 {
     return *this != MaterialPtr::NONE;
-}
-
-MaterialPtr& MaterialPtr::operator=(MaterialPtr& other)
-{
-    _move(other);
-    return *this;
 }
 
 bool MaterialPtr::operator==(const MaterialPtr& other) const

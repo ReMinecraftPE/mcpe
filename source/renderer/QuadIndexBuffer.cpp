@@ -81,7 +81,7 @@ Buffer& QuadIndexBuffer::getGlobalQuadBuffer(RenderContext& context, unsigned in
         _makeIndexBuffer<uint32_t>(indices, m_capacity);
     }
 
-    void* data = indices.data();
+    void* data = &indices[0];
 
     m_globalBuffer.createDynamicIndexBuffer(context, indices.size());
     m_globalBuffer.updateBuffer(context, m_indexSize, data, indices.size() / m_indexSize);

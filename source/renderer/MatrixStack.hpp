@@ -3,6 +3,7 @@
 #include <stack>
 #define GLM_FORCE_RADIANS
 #include "thirdparty/glm/glm.hpp"
+#include "compat/LegacyCPP.hpp"
 #include "world/phys/Vec3.hpp"
 
 enum MatrixType
@@ -78,7 +79,7 @@ public:
     public:
         Ref();
         Ref(MatrixStack& mtxStk, Matrix& mtx);
-        Ref(Ref&& other);
+        MC_CTOR_MOVE(Ref);
         ~Ref();
         
     private:
@@ -94,6 +95,6 @@ public:
         Matrix* operator->();
         Matrix* operator*();
         Ref& operator=(const Matrix& value);
-        void operator=(Ref&& other);
+        MC_FUNC_MOVE(Ref);
     };
 };

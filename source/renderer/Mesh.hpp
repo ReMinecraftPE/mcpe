@@ -22,7 +22,7 @@ namespace mce
 
     public:
         Mesh();
-        Mesh(Mesh& other);
+        MC_CTOR_MOVE(Mesh);
         Mesh(const VertexFormat& vertexFormat, unsigned int vertexCount, unsigned int indexCount, uint8_t indexSize, PrimitiveMode primitiveMode, uint8_t *data, bool temporary);
         ~Mesh();
 
@@ -37,7 +37,7 @@ namespace mce
         bool isTemporary() const;
 
     public:
-        Mesh& operator=(Mesh& other);
+        MC_FUNC_MOVE(Mesh);
 
     public:
         static void clearGlobalBuffers();

@@ -27,11 +27,6 @@ BufferOGL::BufferOGL()
     m_usage = GL_STATIC_DRAW;
 }
 
-BufferOGL::BufferOGL(BufferOGL& other)
-	: BufferBase(other)
-{
-}
-
 BufferOGL::~BufferOGL()
 {
     releaseBuffer();
@@ -53,6 +48,24 @@ void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const
     xglBufferData(m_target, m_internalSize, data, m_usage);
 
     ErrorHandler::checkForErrors();
+}
+
+void BufferOGL::_move(BufferOGL& other)
+{
+    if (this != &other)
+    {
+        this->releaseBuffer();
+		
+        this->m_target = other.m_target;
+        this->m_bufferName = other.m_bufferName;
+        this->m_usage = other.m_usage;
+        
+        other.m_bufferName = GL_NONE;
+        other.m_target = GL_NONE;
+        other.m_usage = GL_NONE;
+    }
+	
+    BufferBase::_move(other);
 }
 
 void BufferOGL::releaseBuffer()
@@ -110,24 +123,4 @@ void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*&
         resizeBuffer(context, data, size);
         
     BufferBase::updateBuffer(context, stride, data, count);
-}
-
-BufferOGL& BufferOGL::operator=(BufferOGL& other)
-{
-    if (this != &other)
-    {
-        this->releaseBuffer();
-
-        this->m_target = other.m_target;
-        this->m_bufferName = other.m_bufferName;
-        this->m_usage = other.m_usage;
-        
-        other.m_bufferName = GL_NONE;
-        other.m_target = GL_NONE;
-        other.m_usage = GL_NONE;
-    }
-
-    this->mce::BufferBase::operator=(other);
-
-    return *this;
 }

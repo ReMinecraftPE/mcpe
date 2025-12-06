@@ -83,6 +83,7 @@ void RenderContextBase::clearDepthStencilBuffer()
 
 void RenderContextBase::clearContextState()
 {
+	m_currentState.clear();
     m_immediateBuffer = ImmediateBuffer();
     m_lastShaderPrograms[SHADER_TYPE_VERTEX] = nullptr;
     m_lastShaderPrograms[SHADER_TYPE_FRAGMENT] = nullptr;

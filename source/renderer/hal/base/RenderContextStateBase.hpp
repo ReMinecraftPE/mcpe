@@ -24,5 +24,8 @@ namespace mce
 
     public:
         RenderContextStateBase();
+		
+	public:
+		void clear();
     };
 }

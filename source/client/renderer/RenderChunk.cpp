@@ -24,13 +24,7 @@ void RenderChunk::_init()
 	m_lastRebuilt = 0.0;
 }
 
-RenderChunk::RenderChunk(RenderChunk& other)
-{
-    _move(other);
-    _init();
-}
-
-RenderChunk::RenderChunk(RenderChunk&& other)
+void RenderChunk::_init(RenderChunk& other)
 {
     _move(other);
     _init();
@@ -41,24 +35,6 @@ RenderChunk::RenderChunk(const TilePos& pos, mce::Mesh& mesh)
 	, m_mesh(mesh)
 {
 	_init();
-}
-
-RenderChunk& RenderChunk::operator=(RenderChunk& other)
-{
-    _move(other);
-    return *this;
-}
-
-RenderChunk& RenderChunk::operator=(RenderChunk&& other)
-{
-    _move(other);
-    return *this;
-}
-
-void RenderChunk::_move(RenderChunk& other)
-{
-    m_pos = other.m_pos;
-    m_mesh = other.m_mesh;
 }
 
 const mce::MaterialPtr& RenderChunk::_chooseMaterial(TerrainLayer layer, double a, bool fog)
@@ -89,12 +65,17 @@ const mce::MaterialPtr& RenderChunk::_chooseMaterial(TerrainLayer layer, double 
 	return map[layer];
 }
 
+void RenderChunk::_move(RenderChunk& other)
+{
+    m_pos = other.m_pos;
+    m_mesh = other.m_mesh;
+}
+
 void RenderChunk::render(TerrainLayer layer, double a, bool fog)
 {
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
 	m_mesh.render(_chooseMaterial(layer, a, fog));
-
 }
 
 void RenderChunk::reset()

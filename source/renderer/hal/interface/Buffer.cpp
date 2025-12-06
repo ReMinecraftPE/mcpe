@@ -23,9 +23,3 @@ void Buffer::createDynamicVertexBuffer(RenderContext& context, unsigned int stri
 {
     createDynamicBuffer(context, 1, nullptr, stride, BUFFER_TYPE_VERTEX);
 }
-
-Buffer& Buffer::operator=(Buffer& other)
-{
-    this->MCE_GFX_CLASS(Buffer)::operator=(other);
-    return *this;
-}

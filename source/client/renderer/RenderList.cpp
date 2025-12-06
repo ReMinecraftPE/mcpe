@@ -74,6 +74,17 @@ void RenderList::clear()
 	m_bRendered = false;
 }
 
+void RenderList::reset()
+{
+	for (int i = 0; i < field_1C; i++)
+	{
+		RenderChunk* chk = field_10[i];
+		if (!chk) continue;
+		
+		chk->reset();
+	}
+}
+
 void RenderList::init(const Vec3& pos)
 {
 	m_pos = pos;

@@ -190,7 +190,7 @@ void TextureOGL::lock(RenderContext& context)
 void TextureOGL::unlock(RenderContext& context)
 {
     bindTexture(context);
-    subBuffer(context, context.m_activePixels.data());
+    subBuffer(context, &context.m_activePixels[0]);
     context.m_activePixels.clear();
 }
 

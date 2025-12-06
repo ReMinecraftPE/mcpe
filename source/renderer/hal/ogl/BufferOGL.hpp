@@ -16,13 +16,14 @@ namespace mce
 
     public:
         BufferOGL();
-		BufferOGL(BufferOGL& other);
+		MC_CTOR_MOVE(BufferOGL);
         ~BufferOGL();
 
     protected:
         void _createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType);
 
     public:
+		void _move(BufferOGL& other);
         void releaseBuffer();
         void bindBuffer(RenderContext& context);
 		void createBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count, BufferType bufferType);
@@ -31,6 +32,6 @@ namespace mce
         void updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count);
         bool isValid() const { return m_bufferName != GL_NONE; }
 
-        BufferOGL& operator=(BufferOGL& other);
-    };
+        MC_FUNC_MOVE(BufferOGL);
+	};
 }
