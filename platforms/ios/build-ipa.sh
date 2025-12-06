@@ -31,7 +31,7 @@ fi
 rm -rf "$ipadir"
 mkdir -p "$apppath"
 cp "build/$bin" "$apppath/$execname"
-sed -E -e "s|\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
+sed -E -e "s|\\\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\\\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
     plistutil -o "$apppath/Info.plist" -f bin
 cd "$assetdir"
 apppath="../../$apppath"
