@@ -7,7 +7,7 @@ AppPlatform_sdl2_emscripten::AppPlatform_sdl2_emscripten(std::string storageDir,
 {
 }
 
-void AppPlatform_sdl2_emscripten::loadImage(ImageData& data, const std::string& path);
+void AppPlatform_sdl2_emscripten::loadImage(ImageData& data, const std::string& path)
 {
     std::string realPath = getAssetPath(path);
 
