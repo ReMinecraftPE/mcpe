@@ -15,6 +15,7 @@ typedef AppPlatform_sdl2_desktop UsedAppPlatform;
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
 
+#include "renderer/PlatformDefinitions.h"
 #include "renderer/platform/ogl/Extensions.hpp"
 
 // Video Mode Flags
@@ -26,12 +27,76 @@ UsedAppPlatform *g_pAppPlatform;
 NinecraftApp *g_pApp;
 
 SDL_Window *window = NULL;
-SDL_GLContext context = NULL;
+SDL_GLContext glContext = NULL;
+
+static void preInitGraphics()
+{
+#if MCE_GFX_API_OGL
+	// Configure OpenGL ES Context
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+#ifdef USE_GLES
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+#else
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+#endif
+	// Double-Buffering
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+#else
+#endif
+}
+
+static void initGraphics()
+{
+#if MCE_GFX_API_OGL
+	// Create OpenGL ES Context
+	glContext = SDL_GL_CreateContext(window);
+	if (!glContext)
+	{
+		const char* const GL_ERROR_MSG = "Unable to create OpenGL context";
+		LOG_E(GL_ERROR_MSG);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
+		exit(EXIT_FAILURE);
+	}
+
+    // Enable V-Sync
+    // Not setting this explicitly results in undefined behavior
+    if (SDL_GL_SetSwapInterval(-1) == -1) // Try adaptive
+    {
+        LOG_W("Adaptive V-Sync is not supported on this platform. Falling back to standard V-Sync...");
+        // fallback to standard
+		if (SDL_GL_SetSwapInterval(1) == -1)
+		{
+			LOG_W("Setting the swap interval for V-Sync is not supported on this platform!");
+		}
+    }
+
+	if (!mce::Platform::OGL::InitBindings())
+	{
+		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
+		LOG_E(GL_ERROR_MSG);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
+		exit(EXIT_FAILURE);
+	}
+#else
+#endif
+}
+
+static void teardownGraphics()
+{
+#if MCE_GFX_API_OGL
+	SDL_GL_DeleteContext(glContext);
+#else
+#endif
+}
+
 static void teardown()
 {
 	if (window != NULL)
 	{
-		SDL_GL_DeleteContext(context);
+		teardownGraphics();
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 		window = NULL;
@@ -235,9 +300,12 @@ static void handle_events()
 // Resizing
 static void resize()
 {
+#if MCE_GFX_API_OGL
 	int drawWidth, drawHeight;
 	SDL_GL_GetDrawableSize(window,
 		&drawWidth, &drawHeight);
+#else
+#endif
 	
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(window,
@@ -308,27 +376,16 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	// Configure OpenGL ES Context
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-#ifdef USE_GLES
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-#else
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-#endif
-	// Double-Buffering
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	preInitGraphics();
+
+	// Lock To Landscape
+	SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
 
 	// Window Size
 #ifdef __EMSCRIPTEN__
 	Minecraft::width = std::stoi(argv[1]);
 	Minecraft::height = std::stoi(argv[2]);
 #endif
-
-	// Lock To Landscape
-	SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
 
 	// Create Window
 	window = SDL_CreateWindow("ReMinecraftPE", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Minecraft::width, Minecraft::height, VIDEO_FLAGS);
@@ -338,35 +395,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	// Create OpenGL ES Context
-	context = SDL_GL_CreateContext(window);
-	if (!context)
-	{
-		const char* const GL_ERROR_MSG = "Unable to create OpenGL context";
-		LOG_E(GL_ERROR_MSG);
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
-		exit(EXIT_FAILURE);
-	}
-
-    // Enable V-Sync
-    // Not setting this explicitly results in undefined behavior
-    if (SDL_GL_SetSwapInterval(-1) == -1) // Try adaptive
-    {
-        LOG_W("Adaptive V-Sync is not supported on this platform. Falling back to standard V-Sync...");
-        // fallback to standard
-		if (SDL_GL_SetSwapInterval(1) == -1)
-		{
-			LOG_W("Setting the swap interval for V-Sync is not supported on this platform!");
-		}
-    }
-
-	if (!mce::Platform::OGL::InitBindings())
-	{
-		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
-		LOG_E(GL_ERROR_MSG);
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
-		exit(EXIT_FAILURE);
-	}
+	initGraphics();
 
 	// Setup Teardown
 #ifndef __EMSCRIPTEN__
