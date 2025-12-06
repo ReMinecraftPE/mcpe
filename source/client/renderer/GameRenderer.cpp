@@ -446,6 +446,9 @@ float GameRenderer::getFov(float f)
 
 void GameRenderer::renderLevel(float f)
 {
+	if (!m_pLevel)
+		return;
+
 	Mob*& pCamera = m_pMinecraft->m_pCameraEntity;
 	if (!pCamera)
 	{

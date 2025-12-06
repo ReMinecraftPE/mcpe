@@ -135,6 +135,8 @@ Minecraft::~Minecraft()
 
 void Minecraft::_levelGenerated()
 {
+	onClientStartedLevel(m_pLevel, m_pLocalPlayer);
+
 	if (m_pNetEventCallback)
 		m_pNetEventCallback->levelGenerated(m_pLevel);
 }
@@ -1012,11 +1014,8 @@ void Minecraft::setupLevelRendering(Level* pLevel, Dimension* pDimension, Mob* p
 
 void Minecraft::onClientStartedLevel(Level* pLevel, LocalPlayer* pLocalPlayer)
 {
-	m_pLocalPlayer = pLocalPlayer;
-	m_pGameMode->initPlayer(pLocalPlayer);
 	// already added in Level::loadPlayer()
 	//pLevel->addEntity(pLocalPlayer); // addPlayer on 0.12.1
-	pLocalPlayer->resetPos();
 	setupLevelRendering(pLevel, pLocalPlayer->getDimension(), pLocalPlayer);
 }
 
@@ -1035,6 +1034,8 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	if (!pLocalPlayer)
 	{
 		pLocalPlayer = m_pGameMode->createPlayer(pLevel);
+		pLocalPlayer->resetPos();
+		m_pGameMode->initPlayer(pLocalPlayer);
 	}
 
 	if (pLocalPlayer)
@@ -1045,7 +1046,7 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	pLevel->validateSpawn();
 	pLevel->loadPlayer(*pLocalPlayer);
 
-	onClientStartedLevel(pLevel, pLocalPlayer);
+	m_pLocalPlayer = pLocalPlayer;
 
 	m_bPreparingLevel = false;
 
@@ -1103,9 +1104,6 @@ void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pL
 			// We're not on any server
 			pLevel->addEntity(m_pLocalPlayer);
 		}
-
-		if (m_pLocalPlayer)
-			m_pLocalPlayer->resetPos();
 
 		m_pLevel = pLevel;
 		m_bPreparingLevel = true;

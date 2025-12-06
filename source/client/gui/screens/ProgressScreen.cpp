@@ -77,6 +77,7 @@ void ProgressScreen::updateEvents()
 {
 	if (m_pMinecraft->isLevelGenerated())
 	{
+
 		m_pMinecraft->setScreen(nullptr);
 		return;
 	}

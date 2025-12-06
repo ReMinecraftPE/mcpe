@@ -909,6 +909,9 @@ const Color& LevelRenderer::setupClearColor(float f)
 
 void LevelRenderer::setLevel(Level* level)
 {
+	if (m_pLevel == level)
+		return;
+
 	if (m_pLevel)
 		m_pLevel->removeListener(this);
 
@@ -925,8 +928,9 @@ void LevelRenderer::setLevel(Level* level)
 	if (level)
 	{
 		level->addListener(this);
-		allChanged();
 	}
+
+	allChanged();
 }
 
 void LevelRenderer::setDimension(Dimension* dimension)
