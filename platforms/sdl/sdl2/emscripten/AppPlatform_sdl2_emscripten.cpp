@@ -19,7 +19,7 @@ void AppPlatform_sdl2_emscripten::loadImage(ImageData& data, const std::string& 
 	}
 	
 	data.m_data = (uint8_t*)rawData;
-	data.m_colorSpace = channels == 3 ? COLOR_SPACE_RGB : COLOR_SPACE_RGBA;
+	data.m_colorSpace = COLOR_SPACE_RGBA;
 }
 
 bool AppPlatform_sdl2_emscripten::doesTextureExist(const std::string& path) const
