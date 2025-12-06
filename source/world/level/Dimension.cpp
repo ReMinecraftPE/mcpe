@@ -11,18 +11,21 @@
 #include "world/level/levelgen/chunk/TestChunkSource.hpp"
 #include "world/level/levelgen/chunk/RandomLevelSource.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
+#include "world/level/levelgen/biome/BiomeSource.hpp"
+#include "world/level/levelgen/chunk/ChunkSource.hpp"
+#include "Level.hpp"
 
 #define C_TIMEOFDAY_SCALE_JAVA 24000
 #define C_TIMEOFDAY_SCALE_POCKET 14400
 #define C_TIMEOFDAY_SCALE C_TIMEOFDAY_SCALE_JAVA
 
-Dimension* Dimension::getNew(int type)
+Dimension* Dimension::createNew(DimensionId type)
 {
 	switch (type)
 	{
-	case 0:
+	case DIMENSION_NORMAL:
 		return new Dimension;
-	/*case -1:
+	/*case DIMENSION_HELL:
 		return new HellDimension;*/
 	default: // type not supported
 		return nullptr;

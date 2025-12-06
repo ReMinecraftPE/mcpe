@@ -46,19 +46,21 @@ public:
 	void renderLevel(float);
 	void renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, const Entity& camera, float f, ParticleEngine& particleEngine, float i);
 	void render(float);
+	void renderWeather(float f);
+	void setLevel(Level* pLevel, Dimension* pDimension);
 	void tick();
 	void setupGuiScreen();
 	void onGraphicsReset();
 	void zoomRegion(float zoom, const Vec2& region);
 	void unZoomRegion();
 	void pick(float);
-	void renderWeather(float f);
 
 	float getFov(float f);
 
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	Minecraft* m_pMinecraft;
+	Level* m_pLevel;
 
 	float m_renderDistance;
 	int field_C;

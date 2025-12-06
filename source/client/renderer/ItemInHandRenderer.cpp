@@ -107,7 +107,7 @@ void ItemInHandRenderer::render(float a)
             matrix->rotate(180.0f, Vec3::UNIT_Y);
         }
 
-        renderItem(pItem);
+        renderItem(*pLP, *pItem, a);
 	}
 	else
 	{
@@ -147,20 +147,16 @@ void ItemInHandRenderer::render(float a)
 #define SHADE_IF_NEEDED(col)
 #endif
 
-void ItemInHandRenderer::renderItem(const ItemInstance* inst)
+void ItemInHandRenderer::renderItem(const Entity& entity, const ItemInstance& item, float a)
 {
-#ifndef ORIGINAL_CODE
-    if (ItemInstance::isNull(inst))
+    if (item.isNull())
         return;
-#endif
-    
-    MatrixStack::Ref matrix = MatrixStack::World.push();
 
 #ifdef ENH_SHADE_HELD_TILES
-    float bright = m_pMinecraft->m_pLocalPlayer->getBrightness(0.0f);
+    float bright = entity.getBrightness(0.0f);
 #endif
     
-    Tile* pTile = inst->getTile();
+    Tile* pTile = item.getTile();
     if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
     {
         Color color = Color::WHITE;
@@ -181,7 +177,7 @@ void ItemInHandRenderer::renderItem(const ItemInstance* inst)
 #	define ARGPATCH
 #endif
         
-        m_tileRenderer.renderTile(FullTile(pTile, inst->getAuxValue()), m_materials.item_in_hand ARGPATCH);
+        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand ARGPATCH);
         
 #ifdef ARGPATCH
 #	undef ARGPATCH
@@ -190,6 +186,8 @@ void ItemInHandRenderer::renderItem(const ItemInstance* inst)
     }
     else
     {
+        MatrixStack::Ref matrix = MatrixStack::World.push();
+
         std::string toBind;
         if (pTile)
             toBind = C_TERRAIN_NAME;
@@ -201,8 +199,8 @@ void ItemInHandRenderer::renderItem(const ItemInstance* inst)
         constexpr float C_RATIO_2   = 1.0f / 512.0f;
         constexpr float C_ONE_PIXEL = 1.0f / 16.0f;
         
-        int textureX = inst->getIcon() % 16 * 16;
-        int textureY = inst->getIcon() / 16 * 16;
+        int textureX = item.getIcon() % 16 * 16;
+        int textureY = item.getIcon() / 16 * 16;
         
         float texU_1 = C_RATIO * float(textureX + 0.0f);
         float texU_2 = C_RATIO * float(textureX + 15.99f);
@@ -216,6 +214,12 @@ void ItemInHandRenderer::renderItem(const ItemInstance* inst)
         matrix->rotate(50.0f, Vec3::UNIT_Y);
         matrix->rotate(335.0f, Vec3::UNIT_Z);
         matrix->translate(Vec3(-0.9375f, -0.0625f, 0.0f));
+        /*matrix->translate(Vec3(0.075f, -0.245f, -0.1f));
+        matrix->scale(0.0625f);
+        matrix->rotate(90.0f, Vec3::UNIT_Z);
+        matrix->rotate(-90.0f, Vec3::UNIT_X);
+        matrix->rotate(-90.0f, Vec3::UNIT_Y);
+        matrix->translate(Vec3(0.0f, 0.0f, -16.0f));*/
         
         t.begin(264);
         SHADE_IF_NEEDED(1.0f);

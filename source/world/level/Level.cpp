@@ -154,6 +154,11 @@ BiomeSource* Level::getBiomeSource() const
 	return m_pDimension->m_pBiomeSource;
 }
 
+Dimension* Level::getDimension(DimensionId type) const
+{
+	return m_pDimension;
+}
+
 ChunkSource* Level::getChunkSource() const
 {
 	return m_pChunkSource;

@@ -11,6 +11,7 @@
 #include "world/phys/Vec3.hpp"
 #include "world/phys/Vec2.hpp"
 #include "world/phys/AABB.hpp"
+#include "world/level/Dimension.hpp"
 #include "world/level/Material.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/tile/Tile.hpp"
@@ -143,6 +144,7 @@ public:
 	virtual float getHeadHeight() const { return 0.0f; }
 	virtual float getShadowHeightOffs() const { return m_bbHeight / 2.0f; }
 	virtual float getBrightness(float f) const;
+	virtual DimensionId getDimensionId() const { return m_dimensionId; }
 	virtual Vec3 getPos(float f) const;
 	virtual Vec2 getRot(float f) const;
 	virtual float distanceTo(const Entity*) const;
@@ -231,6 +233,8 @@ public:
 	int field_28;
 	Entity::ID m_EntityID;
 	float field_30;
+	//TileSource* m_pTileSource;
+	DimensionId m_dimensionId;
 	bool m_bBlocksBuilding;
 	Level* m_pLevel;
 	Vec3 m_oPos; // "o" in Java or "xo" "yo" "zo"

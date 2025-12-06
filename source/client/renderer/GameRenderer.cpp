@@ -29,6 +29,7 @@ int t_keepPic;
 void GameRenderer::_init()
 {
 	//ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
+	m_pLevel = nullptr;
 
 	m_renderDistance = 0.0f;
 	field_C = 0;
@@ -819,6 +820,17 @@ void GameRenderer::renderWeather(float f)
 			t.draw(); // use "snow" or "weather" material
 		}
 	}*/
+}
+
+
+void GameRenderer::setLevel(Level* pLevel, Dimension* pDimension)
+{
+	m_pLevel = pLevel;
+
+	if (!pLevel || !pDimension)
+		return;
+
+	//_tickLightTexture(pDimension, 1.0f);
 }
 
 void GameRenderer::onGraphicsReset()

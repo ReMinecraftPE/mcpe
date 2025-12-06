@@ -79,6 +79,7 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	m_yMaxChunk = 0;
 	m_zMaxChunk = 0;
 	m_pLevel = nullptr;
+	m_pDimension = nullptr;
 	m_chunks = nullptr;
 	m_sortedChunks = nullptr;
 	m_chunksLength = 0;
@@ -924,6 +925,16 @@ void LevelRenderer::setLevel(Level* level)
 	if (level)
 	{
 		level->addListener(this);
+		allChanged();
+	}
+}
+
+void LevelRenderer::setDimension(Dimension* dimension)
+{
+	m_pDimension = dimension;
+
+	if (dimension)
+	{
 		allChanged();
 	}
 }

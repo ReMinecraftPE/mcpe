@@ -34,7 +34,7 @@ public:
 	void itemPlaced();
 	void itemUsed();
 	void render(float a);
-	void renderItem(const ItemInstance*);
+	void renderItem(const Entity& entity, const ItemInstance& item, float a);
 	void renderScreenEffect(float a);
 	void renderFire(float a);
 	void renderTex(float a, int tex);

@@ -73,6 +73,7 @@ public:
 	int getInventorySlot(int x) const;
 	TilePos getRespawnPosition() const { return m_respawnPos; }
 	int getScore() const { return m_score; }
+	Dimension* getDimension() const;
 	void prepareCustomTextures();
 	void respawn();
 	void rideTick();

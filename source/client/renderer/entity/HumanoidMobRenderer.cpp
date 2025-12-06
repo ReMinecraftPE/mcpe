@@ -39,10 +39,13 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 	else if (inst && inst->getItem() && inst->getItem()->isHandEquipped())
 	{
 		constexpr float s = 0.625f;
-		matrix->translate(Vec3(0.0f, 0.1875f, 0.0f));
+		matrix->rotate(180.0f, Vec3::UNIT_Y);
+		// PE's fucked up translation value
+		//matrix->translate(Vec3(0.1f, 0.265f, 0.0f));
+		matrix->translate(Vec3(0.06f, 0.1875f, 0.0f));
 		matrix->scale(s);
 		matrix->rotate(80.0f, Vec3::UNIT_X);
-		matrix->rotate(45.0f, Vec3::UNIT_Y);
+		matrix->rotate(35.0f, Vec3::UNIT_Y);
 	}
 	else
 	{
@@ -54,7 +57,10 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 		matrix->rotate(20.0f, Vec3::UNIT_Z);
 	}
 
-	m_pDispatcher->m_pItemInHandRenderer->renderItem(inst);
+	if (inst)
+	{
+		m_pDispatcher->m_pItemInHandRenderer->renderItem(mob, *inst, f);
+	}
 }
 
 void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1, float f2)

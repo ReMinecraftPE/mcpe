@@ -681,6 +681,43 @@ void Minecraft::respawnPlayer()
 	m_pRakNetInstance->send(new RespawnPacket(m_pLocalPlayer->m_EntityID, m_pLocalPlayer->m_pos));
 }
 
+void Minecraft::freeResources(bool bCopyMap)
+{
+	m_pLevelRenderer->setLevel(nullptr);
+	m_pParticleEngine->setLevel(nullptr);
+
+	m_pCameraEntity = nullptr;
+	m_pLocalPlayer = nullptr;
+
+#ifndef ENH_IMPROVED_SAVING
+	if (bCopyMap)
+		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
+	else
+		setScreen(new StartMenuScreen);
+#endif
+
+	m_pGameRenderer->setLevel(nullptr, nullptr);
+
+	delete m_pNetEventCallback;
+	m_pNetEventCallback = nullptr;
+
+#ifdef ENH_IMPROVED_SAVING
+	m_bIsGamePaused = true;
+	setScreen(new SavingWorldScreen(bCopyMap/*, m_pLocalPlayer*/));
+#else
+	if (m_pLevel)
+	{
+		LevelStorage* pStorage = m_pLevel->getLevelStorage();
+		SAFE_DELETE(pStorage);
+		SAFE_DELETE(m_pLevel);
+
+		m_pLevel = nullptr;
+	}
+#endif
+
+	field_D9C = 0;
+}
+
 std::string Minecraft::getVersionString(const std::string& str) const
 {
 	return "v0.2.0" + str + " alpha";
@@ -963,6 +1000,26 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 	return 1.0f;
 }
 
+void Minecraft::setupLevelRendering(Level* pLevel, Dimension* pDimension, Mob* pCamera)
+{
+	m_pCameraEntity = pCamera;
+
+	m_pParticleEngine->setLevel(pLevel);
+	m_pGameRenderer->setLevel(pLevel, pDimension);
+	m_pLevelRenderer->setLevel(pLevel);
+	m_pLevelRenderer->setDimension(pDimension);
+}
+
+void Minecraft::onClientStartedLevel(Level* pLevel, LocalPlayer* pLocalPlayer)
+{
+	m_pLocalPlayer = pLocalPlayer;
+	m_pGameMode->initPlayer(pLocalPlayer);
+	// already added in Level::loadPlayer()
+	//pLevel->addEntity(pLocalPlayer); // addPlayer on 0.12.1
+	pLocalPlayer->resetPos();
+	setupLevelRendering(pLevel, pLocalPlayer->getDimension(), pLocalPlayer);
+}
+
 void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 {
 	float time = float(getTimeS()); //@UNUSED
@@ -978,30 +1035,17 @@ void Minecraft::generateLevel(const std::string& unused, Level* pLevel)
 	if (!pLocalPlayer)
 	{
 		pLocalPlayer = m_pGameMode->createPlayer(pLevel);
-		m_pLocalPlayer = pLocalPlayer;
-		m_pGameMode->initPlayer(pLocalPlayer);
 	}
 
 	if (pLocalPlayer)
 		pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
 
-	if (m_pLevelRenderer)
-		m_pLevelRenderer->setLevel(pLevel);
-
-	if (m_pParticleEngine)
-		m_pParticleEngine->setLevel(pLevel);
-
-	m_pGameMode->adjustPlayer(m_pLocalPlayer);
-
-	// was after loadPlayer for some reason
-	if (m_pLocalPlayer)
-		m_pLocalPlayer->resetPos();
+	m_pGameMode->adjustPlayer(pLocalPlayer);
 
 	pLevel->validateSpawn();
-	pLevel->loadPlayer(*m_pLocalPlayer);
+	pLevel->loadPlayer(*pLocalPlayer);
 
-	m_pCameraEntity = m_pLocalPlayer;
-	m_pLevel = pLevel;
+	onClientStartedLevel(pLevel, pLocalPlayer);
 
 	m_bPreparingLevel = false;
 
@@ -1098,7 +1142,7 @@ void Minecraft::selectLevel(const LevelSummary& ls, bool forceConversion)
 void Minecraft::selectLevel(const std::string& levelDir, const std::string& levelName, const LevelSettings& levelSettings, bool forceConversion)
 {
 	LevelStorage* pStor = m_pLevelStorageSource->selectLevel(levelDir, false, forceConversion);
-	Dimension* pDim = Dimension::getNew(0);
+	Dimension* pDim = Dimension::createNew(DIMENSION_NORMAL);
 
 	m_pLevel = new Level(pStor, levelName, levelSettings, LEVEL_STORAGE_VERSION_DEFAULT, pDim);
 	setLevel(m_pLevel, "Generating level", nullptr);
@@ -1148,49 +1192,11 @@ int Minecraft::getFpsIntlCounter()
 void Minecraft::leaveGame(bool bCopyMap)
 {
 	m_bPreparingLevel = false;
+
 	if (m_pRakNetInstance)
 		m_pRakNetInstance->disconnect();
-	m_pCameraEntity = nullptr;
-	m_pLevelRenderer->setLevel(nullptr);
-	m_pParticleEngine->setLevel(nullptr);
 
-#ifndef ORIGINAL_CODE
-	// @BUG: Deleting ServerSideNetworkHandler too late! This causes
-	// access to invalid memory in the destructor seeing as we already deleted the level.
-	delete m_pNetEventCallback;
-#endif
-
-#ifdef ENH_IMPROVED_SAVING
-	m_bIsGamePaused = true;
-	setScreen(new SavingWorldScreen(bCopyMap/*, m_pLocalPlayer*/));
-#else
-	if (m_pLevel)
-	{
-		LevelStorage* pStorage = m_pLevel->getLevelStorage();
-		SAFE_DELETE(pStorage);
-		SAFE_DELETE(m_pLevel);
-
-		m_pLevel = nullptr;
-	}
-#endif
-
-#ifdef ORIGINAL_CODE
-	delete m_pNetEventCallback;
-#endif
-
-	m_pLocalPlayer = nullptr;
-	m_pNetEventCallback = nullptr;
-	field_D9C = 0;
-
-#ifndef ENH_IMPROVED_SAVING
-	// this is safe to do, since on destruction, we don't actually delete it.
-	SAFE_DELETE(m_pLocalPlayer);
-
-	if (bCopyMap)
-		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
-	else
-		setScreen(new StartMenuScreen);
-#endif
+	freeResources(bCopyMap);
 }
 
 void Minecraft::hostMultiplayer()

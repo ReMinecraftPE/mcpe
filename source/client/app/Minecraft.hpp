@@ -70,6 +70,7 @@ public:
 	void resetInput();
 	void sendMessage(const std::string& message);
 	void respawnPlayer();
+	void freeResources(bool bCopyMap);
 	std::string getVersionString(const std::string& str = Util::EMPTY_STRING) const;
 	bool isTouchscreen() const;
 	bool useSplitControls() const;
@@ -85,6 +86,8 @@ public:
 	virtual int getFpsIntlCounter();
 
 	float getBestScaleForThisScreenSize(int width, int height);
+	void setupLevelRendering(Level* pLevel, Dimension* pDimension, Mob* pCamera);
+	void onClientStartedLevel(Level* pLevel, LocalPlayer* pLocalPlayer);
 	void generateLevel(const std::string& unused, Level* pLevel);
 	void prepareLevel(const std::string& unused);
 	bool isOnline() const;

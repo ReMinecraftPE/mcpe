@@ -158,6 +158,7 @@ public:
 	int  renderChunks(int start, int end, Tile::RenderLayer layer, float alpha, bool fog);
 	const Color& setupClearColor(float f);
 	void setLevel(Level*);
+	void setDimension(Dimension*);
 	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();
 	bool updateDirtyChunks(const Entity& camera, bool b);
@@ -190,6 +191,7 @@ public:
 	int m_yMaxChunk;
 	int m_zMaxChunk;
 	Level* m_pLevel;
+	Dimension* m_pDimension;
 	std::vector<Chunk*> m_dirtyChunks;
 	Chunk** m_chunks;
 	Chunk** m_sortedChunks;
