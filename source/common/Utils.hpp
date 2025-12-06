@@ -556,9 +556,3 @@ bool DeleteDirectory(const std::string& name, bool unused);
 uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize);
 uint8_t* ZlibDeflateToMemory(uint8_t* pInput, size_t sizeBytes, size_t *compressedSizeOut);
 uint8_t* ZlibDeflateToMemoryLvl(uint8_t* pInput, size_t sizeBytes, size_t* compressedSizeOut, int level);
-
-static inline float abs_float(float arg) {
-	if (arg < 0.0f)
-		return -arg;
-	return arg;
-}
