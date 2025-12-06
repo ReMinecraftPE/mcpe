@@ -76,7 +76,7 @@ public:
 	virtual void saveScreenshot(const std::string&, int, int);
 	virtual void showDialog(eDialogType);
 	virtual void uploadPlatformDependentData(int, void*);
-	void loadImage(ImageData& data, const std::string& path);
+	virtual void loadImage(ImageData& data, const std::string& path);
 	TextureData loadTexture(const std::string& path, bool bIsRequired = false);
 	virtual bool doesTextureExist(const std::string& path) const;
 	// From v0.1.1. Also add these to determine touch screen use within the game.

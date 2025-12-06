@@ -360,7 +360,6 @@ int main(int argc, char *argv[])
 		}
     }
 
-#ifdef _WIN32
 	if (!mce::Platform::OGL::InitBindings())
 	{
 		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
@@ -368,7 +367,6 @@ int main(int argc, char *argv[])
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OpenGL Error", GL_ERROR_MSG, window);
 		exit(EXIT_FAILURE);
 	}
-#endif
 
 	// Setup Teardown
 #ifndef __EMSCRIPTEN__
