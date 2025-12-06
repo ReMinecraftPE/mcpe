@@ -9,7 +9,7 @@ typedef AppPlatform_sdl1_desktop UsedAppPlatform;
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
 
-#include "renderer/PlatformDefinitions.h"
+#define MCE_GFX_API_OGL 1
 #include "renderer/platform/ogl/Extensions.hpp"
 
 // Video Mode Flags
