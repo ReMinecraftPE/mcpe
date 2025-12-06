@@ -32,7 +32,7 @@
 #include "setup.hpp"
 
 #if GLM_HAS_EXTENDED_INTEGER_TYPE
-#	include <cstdint>
+#	include <stdint.h>
 #endif
 
 namespace glm{
