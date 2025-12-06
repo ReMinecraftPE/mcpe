@@ -36,14 +36,6 @@ double ITurnInput::getDeltaTime()
 
 // @TODO: Where does the a1 parameter come from? It's not `this` because it's used
 // directly as a float. Its mangled name is _ZN10ITurnInput15linearTransformEfffb
-
-static float abs_float(float arg) {
-	if (arg < 0.0f)
-		return -arg;
-	else
-		return arg;
-}
-
 float ITurnInput::linearTransform(float a1, float a2, float a3, bool a4)
 {
 	float v1;
