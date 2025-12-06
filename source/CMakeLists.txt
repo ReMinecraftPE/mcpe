@@ -448,7 +448,7 @@ target_include_directories(reminecraftpe-core PUBLIC . ..)
 
 if(NOT DEFINED REMCPE_GFX_API)
 	message(STATUS "No GFX API specified, defaulting to OGL...")
-	set(REMCPE_GFX_API "OGL" CACHE STRING)
+	set(REMCPE_GFX_API "OGL")
 endif()
 
 message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
