@@ -48,14 +48,14 @@ className& operator=(const className& move)          \
 }
 
 #define MC_CTOR_MOVE(className)                      \
-className::className(const className& move)          \
+className(const className& move)          \
 {                                                    \
     className& other = const_cast<className&>(move); \
     _move(other);                                    \
 }
 
 #define MC_CTOR_MOVE_CUSTOM(className)               \
-className::className(const className& move)          \
+className(const className& move)          \
 {                                                    \
     className& other = const_cast<className&>(move); \
     _init(other);                                    \
