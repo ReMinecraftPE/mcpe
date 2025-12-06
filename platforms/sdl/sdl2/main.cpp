@@ -15,8 +15,10 @@ typedef AppPlatform_sdl2_desktop UsedAppPlatform;
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
 
+#ifndef MCE_GFX_API_NULL
 #define MCE_GFX_API_OGL 1
 #include "renderer/platform/ogl/Extensions.hpp"
+#endif
 
 // Video Mode Flags
 #define VIDEO_FLAGS (SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)
@@ -300,7 +302,7 @@ static void handle_events()
 // Resizing
 static void resize()
 {
-	int drawWidth, drawHeight;
+	int drawWidth = 0, drawHeight = 0;
 #if MCE_GFX_API_OGL
 	SDL_GL_GetDrawableSize(window,
 		&drawWidth, &drawHeight);

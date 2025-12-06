@@ -202,6 +202,7 @@ int AppPlatform_sdl::getUserInputStatus()
 
 void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, int glHeight)
 {
+#if MCE_GFX_API_OGL
 	// Get Directory
 	std::string screenshots = m_storageDir + "/screenshots";
 
@@ -276,6 +277,7 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 	{
 		delete[] pixels;
 	}
+#endif
 }
 
 bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
