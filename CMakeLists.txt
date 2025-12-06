@@ -5,6 +5,8 @@ project(reminecraftpe)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
+set(CMAKE_CXX_STANDARD 98)
+
 # WASM
 if(EMSCRIPTEN)
     function(add_compile_and_link_options)
