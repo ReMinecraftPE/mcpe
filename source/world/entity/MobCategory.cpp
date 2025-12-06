@@ -8,7 +8,7 @@ MobCategory MobCategory::waterCreature = MobCategory(EntityCategories(EntityCate
 const MobCategory MobCategory::values[] = {
 	MobCategory::monster,
 	MobCategory::creature,
-	MobCategory::waterCreature
+	//MobCategory::waterCreature
 };
 const int MobCategory::numValues = sizeof(MobCategory::values) / sizeof(MobCategory);
 

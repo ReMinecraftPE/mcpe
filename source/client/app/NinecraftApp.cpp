@@ -9,6 +9,7 @@
 #include "NinecraftApp.hpp"
 #include "world/item/Item.hpp"
 #include "world/entity/MobCategory.hpp"
+#include "world/entity/MobFactory.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/renderer/FoliageColor.hpp"
@@ -232,6 +233,7 @@ void NinecraftApp::init()
 		Material::initMaterials();
 		EntityTypeDescriptor::initDescriptors(); // custom
 		MobCategory::initMobCategories();
+		MobFactory::initMobLists(); 
 		Tile::initTiles();
 		Item::initItems();
 		Biome::initBiomes();

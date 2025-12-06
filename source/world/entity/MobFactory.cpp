@@ -24,6 +24,13 @@
 
 #define ENT(enumType, classType) case EntityType::enumType: return new classType(level);
 
+
+
+std::map<EntityType::ID, int> monsterList;
+std::map<EntityType::ID, int> creatureList;
+std::map<EntityType::ID, int> waterCreatureList;
+std::map<EntityType::ID, int> nullCreatureList;
+
 Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
 {
     switch (entityType)
@@ -33,6 +40,27 @@ Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
         LOG_W("Unknown mob type requested: %d", entityType);
         return nullptr;
     }
+}
+
+void MobFactory::initMobLists() {
+    monsterList.insert(std::make_pair(EntityType::SPIDER,   10));
+    monsterList.insert(std::make_pair(EntityType::ZOMBIE,   10));
+    monsterList.insert(std::make_pair(EntityType::SKELETON, 10));
+    monsterList.insert(std::make_pair(EntityType::CREEPER,  10));
+    //monsterList.insert(std::make_pair(EntityType::SLIME,    10));
+
+    creatureList.insert(std::make_pair(EntityType::SHEEP,   12));
+    creatureList.insert(std::make_pair(EntityType::PIG,     10));
+    creatureList.insert(std::make_pair(EntityType::CHICKEN, 10));
+    creatureList.insert(std::make_pair(EntityType::COW,      8));
+	
+    waterCreatureList.insert(std::make_pair(EntityType::SQUID, 10));
+}
+
+std::map<EntityType::ID, int> MobFactory::GetMobListOfCategory(EntityCategories::CategoriesMask category) {
+    return category == EntityCategories::MONSTER ? monsterList :
+           category == EntityCategories::ANIMAL ? creatureList :
+           nullCreatureList;
 }
 
 #undef ENT
