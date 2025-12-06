@@ -38,7 +38,7 @@ Note: While the original Minecraft PE v0.1.3 may not work on newer devices, ReMi
 
 ## License information
 
-This project is licensed under the [BSD 1 clause license](LICENSE.txt). However, it contains third party
+This project is licensed under the [AGPLv3 license](LICENSE), with some parts being [BSD 1 clause](LICENSE-BSD1). However, it contains third party
 software with different but compatible licenses:
 
 - [RakNet](https://github.com/facebookarchive/RakNet): [Licensed under the BSD 2 clause license](thirdparty/raknet/LICENSE)
