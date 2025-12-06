@@ -11,14 +11,14 @@ void AppPlatform_sdl2_emscripten::loadImage(ImageData& data, const std::string& 
 {
     std::string realPath = getAssetPath(path);
 
-	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &data.m_width, &data.m_height);
-	if (data == nullptr)
+	char *rawData = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &data.m_width, &data.m_height);
+	if (rawData == nullptr)
 	{
 		LOG_E("Couldn't find file: %s", realPath.c_str());
 		return;
 	}
 	
-	data.m_data = (uint8_t*)data;
+	data.m_data = (uint8_t*)rawData;
 	data.m_colorSpace = channels == 3 ? COLOR_SPACE_RGB : COLOR_SPACE_RGBA;
 }
 
