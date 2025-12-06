@@ -17,7 +17,6 @@ namespace mce
     public:
         BufferOGL();
 		BufferOGL(BufferOGL& other);
-		BufferOGL(BufferOGL&& other);
         ~BufferOGL();
 
     protected:
@@ -32,6 +31,6 @@ namespace mce
         void updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count);
         bool isValid() const { return m_bufferName != GL_NONE; }
 
-        BufferOGL& operator=(BufferOGL&& other);
+        BufferOGL& operator=(BufferOGL& other);
     };
 }

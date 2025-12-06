@@ -32,11 +32,6 @@ BufferOGL::BufferOGL(BufferOGL& other)
 {
 }
 
-BufferOGL::BufferOGL(BufferOGL&& other)
-: BufferBase(other)
-{
-}
-
 BufferOGL::~BufferOGL()
 {
     releaseBuffer();
@@ -117,7 +112,7 @@ void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*&
     BufferBase::updateBuffer(context, stride, data, count);
 }
 
-BufferOGL& BufferOGL::operator=(BufferOGL&& other)
+BufferOGL& BufferOGL::operator=(BufferOGL& other)
 {
     if (this != &other)
     {
@@ -132,7 +127,7 @@ BufferOGL& BufferOGL::operator=(BufferOGL&& other)
         other.m_usage = GL_NONE;
     }
 
-    this->mce::BufferBase::operator=(std::move(other));
+    this->mce::BufferBase::operator=(other);
 
     return *this;
 }

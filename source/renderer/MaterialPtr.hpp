@@ -7,7 +7,6 @@ namespace mce
     class RenderMaterial;
     class RenderMaterialGroup;
 
-    // @NOTE: Requires C++11 due to rvalues
     class MaterialPtr
     {
     public:
@@ -20,18 +19,18 @@ namespace mce
 
     public:
         MaterialPtr();
-        MaterialPtr(MaterialPtr&& other);
+        MaterialPtr(MaterialPtr& other);
         MaterialPtr(RenderMaterialGroup& group, std::string const& name);
         ~MaterialPtr();
 
         void _deref();
-        void _move(MaterialPtr&& other);
+        void _move(MaterialPtr& other);
 
         void onGroupReloaded();
 
         RenderMaterial* operator->() const;
         operator bool() const;
-        MaterialPtr& operator=(MaterialPtr&& other);
+        MaterialPtr& operator=(MaterialPtr& other);
         bool operator==(const MaterialPtr& other) const;
         bool operator!=(const MaterialPtr& other) const;
     };

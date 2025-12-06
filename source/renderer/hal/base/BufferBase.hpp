@@ -22,7 +22,6 @@ namespace mce
         ~BufferBase();
 		BufferBase(const BufferBase& other);
         BufferBase(BufferBase& other);
-		BufferBase(BufferBase&& other);
 
         void releaseBuffer();
         void bindBuffer(RenderContext& context) {}
@@ -33,6 +32,6 @@ namespace mce
         unsigned int getInternalBufferSize() const { return m_internalSize; }
         bool isValid() const { return false; }
 
-        BufferBase& operator=(BufferBase&& other);
+        BufferBase& operator=(BufferBase& other);
 	};
 }

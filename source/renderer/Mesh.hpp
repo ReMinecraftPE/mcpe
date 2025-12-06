@@ -23,7 +23,6 @@ namespace mce
     public:
         Mesh();
         Mesh(Mesh& other);
-        Mesh(Mesh&& other);
         Mesh(const VertexFormat& vertexFormat, unsigned int vertexCount, unsigned int indexCount, uint8_t indexSize, PrimitiveMode primitiveMode, uint8_t *data, bool temporary);
         ~Mesh();
 
@@ -39,7 +38,6 @@ namespace mce
 
     public:
         Mesh& operator=(Mesh& other);
-        Mesh& operator=(Mesh&& other);
 
     public:
         static void clearGlobalBuffers();

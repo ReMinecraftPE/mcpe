@@ -21,11 +21,6 @@ Mesh::Mesh(Mesh& other)
     _move(other);
 }
 
-Mesh::Mesh(Mesh&& other)
-{
-    _move(other);
-}
-
 Mesh::Mesh(const VertexFormat& vertexFormat, unsigned int vertexCount, unsigned int indexCount, uint8_t indexSize, PrimitiveMode primitiveMode, uint8_t *data, bool temporary)
     : m_vertexCount(vertexCount)
     , m_indexCount(indexCount)
@@ -54,8 +49,8 @@ Mesh::~Mesh()
 
 void Mesh::_move(Mesh& other)
 {
-    this->m_vertexBuffer = std::move(other.m_vertexBuffer);
-    this->m_indexBuffer = std::move(other.m_indexBuffer);
+    this->m_vertexBuffer = other.m_vertexBuffer;
+    this->m_indexBuffer = other.m_indexBuffer;
     this->m_vertexCount = other.m_vertexCount;
     this->m_vertexFormat = other.m_vertexFormat;
     this->m_indexCount = other.m_indexCount;
@@ -192,13 +187,7 @@ Mesh& Mesh::operator=(Mesh& other)
     return *this;
 }
 
-Mesh& Mesh::operator=(Mesh&& other)
-{
-    _move(other);
-    return *this;
-}
-
 void Mesh::clearGlobalBuffers()
 {
-    // Empty on OGL
+    // Empty on OGL and DX11
 }

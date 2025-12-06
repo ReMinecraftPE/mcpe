@@ -31,12 +31,6 @@ BufferBase::BufferBase(BufferBase& other)
     releaseBuffer();
 }
 
-BufferBase::BufferBase(BufferBase&& other)
-{
-    _move(other);
-    releaseBuffer();
-}
-
 void BufferBase::_move(BufferBase& other)
 {
     unsigned int stride = m_stride;
@@ -82,7 +76,7 @@ void BufferBase::updateBuffer(RenderContext& context, unsigned int stride, void*
     m_count = count;
 }
 
-BufferBase& BufferBase::operator=(BufferBase&& other)
+BufferBase& BufferBase::operator=(BufferBase& other)
 {
 	_move(other);
 

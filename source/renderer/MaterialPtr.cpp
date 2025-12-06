@@ -14,9 +14,9 @@ MaterialPtr::MaterialPtr()
     m_pMaterial = nullptr;
 }
 
-MaterialPtr::MaterialPtr(MaterialPtr&& other)
+MaterialPtr::MaterialPtr(MaterialPtr& other)
 {
-    _move(std::move(other));
+    _move(other);
 }
 
 MaterialPtr::MaterialPtr(RenderMaterialGroup& group, const std::string& name)
@@ -33,7 +33,7 @@ MaterialPtr::~MaterialPtr()
     _deref();
 }
 
-void MaterialPtr::_move(MaterialPtr&& other)
+void MaterialPtr::_move(MaterialPtr& other)
 {
     m_pGroup = other.m_pGroup;
     m_pMaterial = other.m_pMaterial;
@@ -78,9 +78,9 @@ MaterialPtr::operator bool() const
     return *this != MaterialPtr::NONE;
 }
 
-MaterialPtr& MaterialPtr::operator=(MaterialPtr&& other)
+MaterialPtr& MaterialPtr::operator=(MaterialPtr& other)
 {
-    _move(std::move(other));
+    _move(other);
     return *this;
 }
 
