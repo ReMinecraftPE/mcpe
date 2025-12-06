@@ -12,7 +12,7 @@ platformdir='platforms/ios'
 builddir="$platformdir/build"
 assetdir='game/assets'
 ipadir="$builddir/ipa"
-apppath="$builddir/$ipadir/Payload/ReMCPE.app"
+apppath="$ipadir/Payload/ReMCPE.app"
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot/../.."
