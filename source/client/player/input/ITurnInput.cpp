@@ -44,13 +44,13 @@ float ITurnInput::linearTransform(float a1, float a2, float a3, bool a4)
 	else
 		v1 = a2;
 
-	float v2 = abs(v1);
-	if (v2 >= abs(a1))
+	float v2 = fabsf(v1);
+	if (v2 >= fabsf(a1))
 		return 0.0f;
 
 	float v3 = (a1 - v1) * a3;
-	if (a4 && abs(v3) > 1.0f)
-		v3 /= abs(v3);
+	if (a4 && fabsf(v3) > 1.0f)
+		v3 /= fabsf(v3);
 
 	return v3;
 }

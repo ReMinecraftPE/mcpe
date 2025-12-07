@@ -109,7 +109,7 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 			xd = field_C4 * linearTransform(m1 - field_78, 0.0f, 1.0f, false);
 			yd = field_C4 * linearTransform(m2 - field_7C, 0.0f, 1.0f, false);
 
-			float c3 = abs(xd) * abs(yd);
+			float c3 = fabsf(xd) * fabsf(yd);
 			if (field_C0 < c3)
 				c3 = yd = xd = 0.0f;
 
