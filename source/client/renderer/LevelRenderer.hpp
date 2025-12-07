@@ -176,7 +176,7 @@ public:
 	int m_renderedEntities;
 	int m_culledEntities;
 	std::vector<Chunk*> field_24;
-	int field_30;
+	int m_cullStep;
 	RenderList m_renderList;
 	int m_totalChunks;
 	int m_offscreenChunks;

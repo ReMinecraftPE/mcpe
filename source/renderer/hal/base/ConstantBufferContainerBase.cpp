@@ -81,7 +81,7 @@ void ConstantBufferContainerBase::registerShaderParameter(const ShaderConstantBa
             newConst = new ShaderConstantMatrix3x3();
             break;
         case SHADER_PRIMITIVE_MATRIX4x4:
-            newConst = new ShaderConstantMatrix3x3();
+            newConst = new ShaderConstantMatrix4x4();
             break;
         default:
             LOG_E("Unknown shaderConstantBase.shaderPrimitiveType: %d", shaderConstantBase.m_shaderPrimitiveType); // line 101

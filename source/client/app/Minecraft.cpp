@@ -817,7 +817,7 @@ void Minecraft::update()
 		m_timer.advanceTime();
 	}
 
-	if (m_pRakNetInstance)
+	if (m_pRakNetInstance && m_pNetEventCallback)
 	{
 		m_pRakNetInstance->runEvents(*m_pNetEventCallback);
 	}

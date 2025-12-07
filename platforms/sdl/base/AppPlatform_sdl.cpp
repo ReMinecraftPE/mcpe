@@ -34,8 +34,8 @@ void AppPlatform_sdl::_init(std::string storageDir)
 
 	m_pIcon = nullptr;
 
-	m_bShiftPressed[0] = false;
-	m_bShiftPressed[1] = false;
+	m_bControlPressed[0] = m_bControlPressed[1] = false;
+	m_bShiftPressed[0] = m_bShiftPressed[1] = false;
 
 	_ensureDirectoryExists(m_storageDir.c_str());
 
