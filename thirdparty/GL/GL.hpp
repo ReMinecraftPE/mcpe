@@ -216,6 +216,7 @@ void xglDeleteBuffers(GLsizei num, GLuint* buffers);
 void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
 #endif // GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0
 #if GL_VERSION_2_0 || GL_VERSION_ES_CM_1_0
+#define USE_GL_STENCIL_SEPARATE
 void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
 void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
 #endif // GL_VERSION_2_0 || GL_VERSION_ES_CM_1_0

@@ -248,6 +248,12 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.hpp">
       <Filter>Header Files\HAL\Interface</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.hpp">
+      <Filter>Header Files\HAL\Null</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.hpp">
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
@@ -567,6 +573,12 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\Texture.cpp">
       <Filter>Source Files\HAL\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FixedPipelineStateNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.cpp">
+      <Filter>Source Files\HAL\Null</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.cpp">
       <Filter>Source Files\HAL\OGL</Filter>

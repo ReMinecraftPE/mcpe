@@ -3,6 +3,6 @@
 using namespace mce;
 
 FogState::FogState()
-    : MCE_GFX_CLASS(FogState)()
+    : MCE_GFX_CLASS_FIXED(FogState)()
 {
 }

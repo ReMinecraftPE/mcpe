@@ -134,8 +134,8 @@ void RenderContextOGL::enableFixedLighting(bool init)
         glLightfv(GL_LIGHT1, GL_SPECULAR,      _getBuffer(s,    1.0f));
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, _getBuffer(a,    1.0f));
 #endif
-#endif
     }
+#endif
 }
 
 void RenderContextOGL::disableFixedLighting(bool teardown)
