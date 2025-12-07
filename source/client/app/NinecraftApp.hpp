@@ -44,6 +44,11 @@ public:
 	void reloadFancy(bool isFancy) override;
 
 	int getFpsIntlCounter() override;
+    
+    void onAppResumed() override;
+    void onAppFocusLost() override;
+    void onAppFocusGained() override;
+    void onAppSuspended() override;
 
 private:
 	int field_DBC;

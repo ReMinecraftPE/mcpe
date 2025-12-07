@@ -9,8 +9,9 @@
 #pragma once
 
 #include "AppPlatform.hpp"
+#include "AppPlatformListener.hpp"
 
-class App
+class App : public AppPlatformListener
 {
 protected:
 	App()

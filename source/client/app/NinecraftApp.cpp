@@ -187,6 +187,41 @@ int NinecraftApp::getFpsIntlCounter()
 	return ofps;
 }
 
+void NinecraftApp::onAppResumed()
+{
+	// Needs to be called before materials are reloaded
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.lostContext();
+	
+	Tesselator::instance.init();
+    
+	m_pTextures->clear();
+	_reloadTextures();
+	m_pFont->onGraphicsReset();
+    
+	if (m_pGameRenderer)
+		m_pGameRenderer->onGraphicsReset();
+    
+	EntityRenderDispatcher::getInstance()->onGraphicsReset();
+}
+
+void NinecraftApp::onAppFocusLost()
+{
+    //releaseMouse();
+}
+
+void NinecraftApp::onAppFocusGained()
+{
+    //if (getScreen()->shouldStealMouse())
+    //    grabMouse();
+}
+
+void NinecraftApp::onAppSuspended()
+{
+    m_pTextures->unloadAll();
+    mce::Mesh::clearGlobalBuffers();
+}
+
 void NinecraftApp::init()
 {
 	Mth::initMth();
@@ -256,27 +291,7 @@ void NinecraftApp::setupRenderer()
 void NinecraftApp::onGraphicsReset()
 {
 	platform()->_fireAppSuspended();
-	
-	// Needs to be called before materials are reloaded
-	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
-	renderContext.lostContext();
-	
 	platform()->_fireAppResumed();
-	
-	// The rest should be in onAppResumed, but we haven't added that yet
-	
-	//mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
-	//renderContext.lostContext();
-	Tesselator::instance.init();
-
-	m_pTextures->clear();
-	_reloadTextures();
-	m_pFont->onGraphicsReset();
-
-	if (m_pGameRenderer)
-		m_pGameRenderer->onGraphicsReset();
-
-	EntityRenderDispatcher::getInstance()->onGraphicsReset();
 }
 
 void NinecraftApp::teardown()
