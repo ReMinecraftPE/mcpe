@@ -5850,7 +5850,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ldid -S\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/minecraftpe.entitlements\" \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"\necho \"Fake-signed ${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"";
+			shellScript = "codesign -s - --entitlements \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/minecraftpe.entitlements\" \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"\necho \"Fake-signed ${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
