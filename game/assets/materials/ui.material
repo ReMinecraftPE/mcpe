@@ -31,6 +31,10 @@
     "fragmentShader": "shaders/color_texture.fragment"
   },
 
+  "ui_texture_and_color_nocull:ui_texture_and_color": {
+    "states": ["DisableCulling"]
+  },
+
   "ui_text:ui_texture_and_color": {
     "states": [
       "EnableAlphaTest"

@@ -14,6 +14,7 @@ ScreenRenderer::Materials::Materials()
     MATERIAL_PTR(common, ui_fill_color);
     MATERIAL_PTR(common, ui_fill_gradient);
     MATERIAL_PTR(common, ui_texture_and_color);
+    MATERIAL_PTR(common, ui_texture_and_color_nocull);
     MATERIAL_PTR(common, ui_textured_and_glcolor);
     MATERIAL_PTR(common, ui_fill_stencil);
 }

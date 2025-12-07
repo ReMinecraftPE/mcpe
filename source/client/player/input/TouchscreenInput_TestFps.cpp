@@ -369,7 +369,7 @@ void TouchscreenInput_TestFps::render(float f)
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 	RenderTouchButton(&t, m_pAreaJump, 0, 176);
 #endif
-	t.draw(m_materials.ui_texture_and_color);
+	t.draw(m_materials.ui_texture_and_color_nocull);
 }
 
 RectangleArea TouchscreenInput_TestFps::getRectangleArea()
