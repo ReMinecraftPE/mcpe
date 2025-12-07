@@ -428,9 +428,9 @@ int main(int argc, char *argv[])
 		createFolderIfNotExists(storagePath.c_str());
 	
 	// Start MCPE
+	g_pAppPlatform = new UsedAppPlatform(storagePath, window);
 	g_pApp = new NinecraftApp;
 	g_pApp->m_externalStorageDir = storagePath;
-	g_pAppPlatform = new UsedAppPlatform(g_pApp->m_externalStorageDir, window);
 	g_pApp->m_pPlatform = g_pAppPlatform;
 	g_pApp->init();
 	

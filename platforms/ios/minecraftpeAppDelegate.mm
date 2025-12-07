@@ -67,8 +67,10 @@ NSError *G_audioSessionError = nil;
     };
     bgTask = [application beginBackgroundTaskWithExpirationHandler:handler];
     viewController->suspended = YES;
+    
     AppPlatform_iOS *platform = [self.viewController platform];
     platform->_fireAppSuspended();
+    
     [application endBackgroundTask:bgTask];
     bgTask = UIBackgroundTaskInvalid;
 }
@@ -79,6 +81,9 @@ NSError *G_audioSessionError = nil;
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
     viewController->suspended = NO;
+    
+    AppPlatform_iOS *platform = [self.viewController platform];
+    platform->_fireAppResumed();
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

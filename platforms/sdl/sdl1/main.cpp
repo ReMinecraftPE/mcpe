@@ -207,9 +207,9 @@ int main(int argc, char* argv[])
     if (!storagePath.empty())
         createFolderIfNotExists(storagePath.c_str());
 
+    g_pAppPlatform = new UsedAppPlatform(storagePath, screen);
     g_pApp = new NinecraftApp;
     g_pApp->m_externalStorageDir = storagePath;
-    g_pAppPlatform = new UsedAppPlatform(g_pApp->m_externalStorageDir, screen);
     g_pApp->m_pPlatform = g_pAppPlatform;
     g_pApp->init();
 
