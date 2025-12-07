@@ -33,13 +33,12 @@ mkdir -p "$apppath"
 cp "build/$bin" "$apppath/$execname"
 sed -E -e "s|\\\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\\\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
     plistutil -o "$apppath/Info.plist" -f bin
-cp "$assetdir/icon.png" "$apppath/Icon.png" || true
 cp -a \
     "$platformdir/precompiled"/* \
     "$assetdir" \
     "$apppath" || true
 [ -f "$apppath/assets/font/default.png" ] && mv "$apppath/assets/font/default.png" "$apppath/assets/font/default8.png"
-mv "$apppath/assets/app/launch"/* "$apppath"
+mv "$apppath/assets/icon.png" "$apppath/assets/app/launch"/* "$apppath"
 rm -rf "$apppath/assets/app"
 find "$apppath" -name .gitignore -delete
 cd "$ipadir"
