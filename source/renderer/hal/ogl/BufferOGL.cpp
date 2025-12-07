@@ -101,10 +101,11 @@ void BufferOGL::createDynamicBuffer(RenderContext& context, unsigned int stride,
 {
     BufferBase::createDynamicBuffer(context, stride, data, count, bufferType);
 
+    // Mojang used GL_STREAM_DRAW in 0.16.1, and GL_STATIC_DRAW in 0.12.1
 #ifdef GL_STREAM_DRAW
     m_usage = GL_STREAM_DRAW;
 #else // GLES 1
-    m_usage = GL_STATIC_DRAW;
+    m_usage = GL_DYNAMIC_DRAW;
 #endif
     _createBuffer(context, stride, data, count, bufferType);
 }
@@ -119,9 +120,21 @@ void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*&
 {
     bindBuffer(context);
 
+    // https://community.khronos.org/t/vbo-test-glbufferdata-vs-glbuffersubdata-vs-glmapbufferoes/2748
+    // Summary: Calling glBufferData is significantly faster than calling glBufferSubData
+    // because whoever did the GLES 1 implementation at Apple is retarded.
+    // This may be fixed by acquiring a GLES 2 context, but doing that causes nothing to
+    // to be rendered, so perhaps some day...
+    // Additionally, we could try holding the vertex buffer data in memory and pass
+    // it in the draw call, as supposedly not even using buffers is faster.
+    bool useAppleWorkaround = false;
+#if MC_PLATFORM_IOS
+    useAppleWorkaround = true;
+#endif
+    
     const unsigned int size = count * stride;
 
-    if (size <= m_internalSize)
+    if (!useAppleWorkaround && size <= m_internalSize)
         xglBufferSubData(m_target, m_bufferOffset, size, data);
     else
         resizeBuffer(context, data, size);

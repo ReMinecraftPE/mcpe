@@ -19,8 +19,6 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 
-#define CAN_QUIT
-
 // special mode so that we can crop out the title:
 //#define TITLE_CROP_MODE
 
@@ -444,10 +442,11 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 		TitleTile::regenerate();
 		return;
 #endif
-#if !defined(DEMO) && defined(CAN_QUIT)
-		m_pMinecraft->quit();
+        
+#ifdef DEMO
+        m_pMinecraft->platform()->buyGame();
 #else
-		m_pMinecraft->platform()->buyGame();
+		m_pMinecraft->quit();
 #endif
 	}
 	else if (pButton->m_buttonId == m_optionsButton.m_buttonId)
@@ -483,9 +482,16 @@ void StartMenuScreen::init()
 	m_buttons.push_back(&m_joinButton);
 	m_buttons.push_back(&m_optionsButton);
 
-#if defined(DEMO) || defined(CAN_QUIT)
-	m_buttons.push_back(&m_buyButton);
+    bool canQuit = false;
+    
+#if defined(DEMO) || (!MC_PLATFORM_IOS && !MC_PLATFORM_ANDROID)
+    canQuit = true;
 #endif
+    
+    if (canQuit)
+    {
+        m_buttons.push_back(&m_buyButton);
+    }
 
 	for (int i = 0; i < int(m_buttons.size()); i++)
 		m_buttonTabList.push_back(m_buttons[i]);
@@ -501,7 +507,7 @@ void StartMenuScreen::init()
 
 	field_188 = (m_width - m_pFont->width(field_170)) / 2;
 
-#if !defined(DEMO) && defined(CAN_QUIT)
+#ifndef DEMO
 	m_buyButton.m_text = "Quit";
 #endif
 

@@ -31,6 +31,13 @@
 /* Apple - Device Simulator */
 #define MC_PLATFORM_SIMULATOR (TARGET_OS_SIMULATOR || TARGET_IPHONE_SIMULATOR)
 
+/* Google - Android */
+#if (defined(ANDROID))
+#define MC_PLATFORM_ANDROID 1
+#else
+#define MC_PLATFORM_ANDROID 0
+#endif
+
 /* Microsoft - Xbox */
 #ifdef _XBOX
 #define MC_PLATFORM_XBOX 1
