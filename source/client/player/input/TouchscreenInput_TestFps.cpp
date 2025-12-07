@@ -11,6 +11,7 @@
 #include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/options/Options.hpp"
+#include "renderer/ShaderConstants.hpp"
 #include "world/entity/Player.hpp"
 
 TouchscreenInput_TestFps::TouchscreenInput_TestFps(Minecraft* pMinecraft, Options* pOptions) :
@@ -310,6 +311,9 @@ void TouchscreenInput_TestFps::render(float f)
 {
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
 
+    currentShaderColor = Color::WHITE;
+    currentShaderDarkColor = Color::WHITE;
+    
 	Tesselator& t = Tesselator::instance;
 	t.begin(0);
 #ifdef ENH_NEW_TOUCH_CONTROLS

@@ -255,6 +255,11 @@ int RenderContextOGL::getMaxVertexCount()
     return gl::getMaxVertexCount();
 }
 
+bool RenderContextOGL::supports32BitIndices()
+{
+    return gl::supports32BitIndices();
+}
+
 GLuint& RenderContextOGL::getActiveBuffer(BufferType bufferType)
 {
     if (bufferType < BUFFER_TYPES_MIN || bufferType > BUFFER_TYPES_MAX)

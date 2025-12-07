@@ -122,3 +122,8 @@ int RenderContextBase::getMaxVertexCount()
 {
     return 0;
 }
+
+bool RenderContextBase::supports32BitIndices()
+{
+    return true;
+}

@@ -93,8 +93,13 @@ bool DepthStencilStateOGL::bindDepthStencilState(RenderContext& context, bool fo
         || currentDesc.stencilReadMask != m_description.stencilReadMask
         || currentDesc.stencilRef != m_description.stencilRef)
     {
+#ifdef USE_GL_STENCIL_SEPARATE
         xglStencilFuncSeparate(GL_FRONT, m_frontFaceStencilInfo.func, m_description.stencilRef, m_stencilReadMask);
         xglStencilFuncSeparate(GL_BACK, m_backFaceStencilInfo.func, m_description.stencilRef, m_stencilReadMask);
+#else
+        // This shit's running on thoughts and prayers
+        glStencilFunc(m_frontFaceStencilInfo.func, m_description.stencilRef, m_stencilReadMask);
+#endif
 
         currentDesc.frontFace.stencilFunc = m_description.frontFace.stencilFunc;
         currentDesc.backFace.stencilFunc = m_description.backFace.stencilFunc;
@@ -102,6 +107,7 @@ bool DepthStencilStateOGL::bindDepthStencilState(RenderContext& context, bool fo
         currentDesc.stencilRef = m_description.stencilRef;
     }
 
+#ifdef USE_GL_STENCIL_SEPARATE
     if (force || currentDesc.frontFace.stencilDepthFailOp != m_description.frontFace.stencilDepthFailOp)
     {
         xglStencilOpSeparate(GL_FRONT, m_frontFaceStencilInfo.stencilFailAction, m_frontFaceStencilInfo.stencilPassDepthFailAction, m_frontFaceStencilInfo.stencilPassDepthPassAction);
@@ -117,6 +123,22 @@ bool DepthStencilStateOGL::bindDepthStencilState(RenderContext& context, bool fo
         currentDesc.backFace.stencilPassOp = m_description.backFace.stencilPassOp;
         currentDesc.backFace.stencilFailOp = m_description.backFace.stencilFailOp;
     }
+#else
+    if (force || currentDesc.frontFace.stencilDepthFailOp != m_description.frontFace.stencilDepthFailOp
+              || currentDesc.backFace.stencilDepthFailOp != m_description.backFace.stencilDepthFailOp)
+    {
+        // and this shit's running on hopes and dreams
+        glStencilOp(m_frontFaceStencilInfo.stencilFailAction, m_frontFaceStencilInfo.stencilPassDepthFailAction, m_frontFaceStencilInfo.stencilPassDepthPassAction);
+        
+        currentDesc.frontFace.stencilDepthFailOp = m_description.frontFace.stencilDepthFailOp;
+        currentDesc.frontFace.stencilPassOp = m_description.frontFace.stencilPassOp;
+        currentDesc.frontFace.stencilFailOp = m_description.frontFace.stencilFailOp;
+        
+        currentDesc.backFace.stencilDepthFailOp = m_description.backFace.stencilDepthFailOp;
+        currentDesc.backFace.stencilPassOp = m_description.backFace.stencilPassOp;
+        currentDesc.backFace.stencilFailOp = m_description.backFace.stencilFailOp;
+    }
+#endif
     
     if (force || currentDesc.stencilWriteMask != m_description.stencilWriteMask)
     {

@@ -70,7 +70,7 @@ Buffer& QuadIndexBuffer::getGlobalQuadBuffer(RenderContext& context, unsigned in
     std::vector<uint8_t> indices;
 
     // Use 16-bit indices for smaller buffers to save memory, otherwise use 32-bit.
-    if (m_capacity < 0x10000)
+    if (m_capacity < 0x10000 || !RenderContext::supports32BitIndices())
     {
         m_indexSize = sizeof(uint16_t);
         _makeIndexBuffer<uint16_t>(indices, m_capacity);

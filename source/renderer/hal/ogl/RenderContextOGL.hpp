@@ -78,7 +78,9 @@ namespace mce
         void clearContextState();
         void setRenderTarget();
         void swapBuffers();
+        
         static int getMaxVertexCount();
+        static bool supports32BitIndices();
 
         GLuint& getActiveBuffer(BufferType bufferType);
         GLuint getActiveBuffer(BufferType bufferType) const;

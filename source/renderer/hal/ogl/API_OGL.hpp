@@ -29,6 +29,7 @@ namespace gl
         int minor;
         GL_FEATURE_LEVEL featureLevel;
         bool core;
+        bool gles;
 
     private:
         void _findMajorMinor();
@@ -41,9 +42,11 @@ namespace gl
     std::string getOpenGLVendor();
     std::string getOpenGLRenderer();
     std::string getOpenGLVersion();
+    bool isOpenGLES();
     bool isOpenGLES3();
     int getMaxVertexCount();
-    std::string getOpenGLExtensions();
+    const std::string& getOpenGLExtensions();
     bool supportsMipmaps();
     bool supportsImmediateMode();
+    bool supports32BitIndices();
 }

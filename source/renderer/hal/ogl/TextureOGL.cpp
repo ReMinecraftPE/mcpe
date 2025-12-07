@@ -28,7 +28,7 @@ GLint getOpenGLInternalTextureFormatFromTextureFormat(TextureFormat textureForma
     switch (textureFormat)
     {
         case TEXTURE_FORMAT_R8G8B8A8_UNORM:
-            return GL_RGBA8;
+            return GL_RGBA;
         default:
             LOG_E("Unknown textureFormat: %d", textureFormat);
             throw std::bad_cast();
@@ -93,8 +93,10 @@ void TextureOGL::convertToMipmapedTexture(RenderContext& context, unsigned int m
     TextureBase::convertToMipmapedTexture(mipmaps - 1);
 
     glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-     // @NOTE: Need GL 1.2 for GL_TEXTURE_MAX_LEVEL
-    glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAX_LEVEL, mipmaps - 1);
+    if (gl::isOpenGLES3() || !gl::isOpenGLES())
+    {
+        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAX_LEVEL, mipmaps - 1);
+    }
 
     ErrorHandler::checkForErrors();
 }

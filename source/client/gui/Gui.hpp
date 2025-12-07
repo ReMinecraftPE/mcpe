@@ -33,6 +33,8 @@ protected:
 		mce::MaterialPtr ui_vignette;
 		mce::MaterialPtr ui_overlay;
 		mce::MaterialPtr ui_invert_overlay;
+		mce::MaterialPtr ui_overlay_textured;
+		mce::MaterialPtr ui_invert_overlay_textured;
 		mce::MaterialPtr ui_crosshair;
 
 		Materials();
@@ -68,9 +70,9 @@ public:
 	void handleScroll(bool down);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
-	void renderHearts();
-	void renderHunger();
-	void renderBubbles();
+	void renderHearts(bool topLeft);
+	void renderHunger(bool topLeft);
+	void renderBubbles(bool topLeft);
 	void renderProgressIndicator(int width, int height);
 	void renderExperience();
 	void renderToolBar(float f, float alpha);
@@ -101,6 +103,7 @@ public:
 	RenderChunk m_renderChunk;
 	bool field_A3C;
 	bool m_bRenderMessages;
+    bool m_bRenderHunger;
 	int m_width;
 	int m_height;
 };

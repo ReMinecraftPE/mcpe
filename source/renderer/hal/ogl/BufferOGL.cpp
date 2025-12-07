@@ -101,7 +101,11 @@ void BufferOGL::createDynamicBuffer(RenderContext& context, unsigned int stride,
 {
     BufferBase::createDynamicBuffer(context, stride, data, count, bufferType);
 
+#ifdef GL_STREAM_DRAW
     m_usage = GL_STREAM_DRAW;
+#else // GLES 1
+    m_usage = GL_STATIC_DRAW;
+#endif
     _createBuffer(context, stride, data, count, bufferType);
 }
 

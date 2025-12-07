@@ -166,6 +166,17 @@
     "blendSrc": "OneMinusDestColor",
     "blendDst": "OneMinusSrcColor"
   },
+  
+  "ui_overlay_textured:ui_overlay": {
+    "states": ["Textured"],
+    "vertexShader": "shaders/uv.vertex",
+    "fragmentShader": "shaders/texture.fragment"
+  },
+  
+  "ui_invert_overlay_textured:ui_overlay_textured": {
+    "blendSrc": "OneMinusDestColor",
+    "blendDst": "OneMinusSrcColor"
+  },
 
   "ui_cubemap:ui_base": {
 	"states": ["Textured"],

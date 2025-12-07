@@ -57,5 +57,6 @@ namespace mce
         uint8_t getStencilReference() const;
 
         static int getMaxVertexCount();
+        static bool supports32BitIndices();
     };
 }

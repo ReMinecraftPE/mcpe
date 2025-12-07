@@ -22,6 +22,8 @@ Gui::Materials::Materials()
 	MATERIAL_PTR(common, ui_vignette);
 	MATERIAL_PTR(common, ui_overlay);
 	MATERIAL_PTR(common, ui_invert_overlay);
+	MATERIAL_PTR(common, ui_overlay_textured);
+	MATERIAL_PTR(common, ui_invert_overlay_textured);
 	MATERIAL_PTR(common, ui_crosshair);
 }
 
@@ -47,6 +49,7 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_A20 = 1.0f;
 	field_A3C = true;
 	m_bRenderMessages = true;
+    m_bRenderHunger = false;
 	m_width = 0;
 	m_height = 0;
 
@@ -161,6 +164,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	Minecraft& mc = *m_pMinecraft;
 	GameRenderer& renderer = *mc.m_pGameRenderer;
 	Textures& textures = *mc.m_pTextures;
+    bool isTouchscreen = AppPlatform::singleton()->isTouchscreen();
 
 	renderer.setupGuiScreen();
 
@@ -189,9 +193,10 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		t.begin(0);
 		t.voidBeginAndEndCalls(true);
 
-		renderHearts();
-		renderBubbles();
-		renderHunger();
+		renderHearts(isTouchscreen);
+		renderBubbles(isTouchscreen);
+        if (m_bRenderHunger)
+            renderHunger(isTouchscreen);
 
 		t.voidBeginAndEndCalls(false);
 		t.draw(m_materials.ui_textured);
@@ -412,7 +417,7 @@ void Gui::renderMessages(bool bShowAll)
 	}
 }
 
-void Gui::renderHearts()
+void Gui::renderHearts(bool topLeft)
 {
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 
@@ -425,19 +430,26 @@ void Gui::renderHearts()
 		b1 = player->m_invulnerableTime / 3 % 2;
 		emptyHeartX += 9 * b1;
 	}
-#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
-	//@NOTE: Pocket-style health UI.
-	int heartX = 2;
-	int heartYStart = 2;
-#else
-	// @NOTE: At the default scale, this would go off screen.
-	int heartX = cenX - 191; // why?
-	int heartYStart = m_height - 10;
+    
+	int heartX;
+	int heartYStart;
+    
+    if (topLeft)
+    {
+        heartX = 2;
+        heartYStart = 2;
+    }
+    else
+    {
+        // @NOTE: At the default scale, this would go off screen.
+        // Renders to the left of the hotbar, why?
+        /*heartX = cenX - 191; // why?
+        heartYStart = m_height - 10;*/
+        
+        heartX = cenX - 91;
+        heartYStart = m_height - 32;
+    }
 
-	//@NOTE: Alpha-style health UI. I'll probably remove this on release.
-	heartX = cenX - 91;
-	heartYStart = m_height - 32;
-#endif
 	int playerHealth = player->m_health;
 
 	for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
@@ -466,12 +478,12 @@ void Gui::renderHearts()
 	}
 }
 
-void Gui::renderHunger()
+void Gui::renderHunger(bool topLeft)
 {
 
 }
 
-void Gui::renderBubbles()
+void Gui::renderBubbles(bool topLeft)
 {
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 
@@ -482,17 +494,30 @@ void Gui::renderBubbles()
 		int breathRaw = player->m_airCapacity;
 		int breathFull = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
 		int breathMeter = int(ceilf((float(breathRaw) * 10.0f) / 300.0f)) - breathFull;
-#if defined(ANDROID) || defined(TARGET_OS_IPHONE)
-		// pe
-		int bubbleX = 2;
-		int bubbleY = 12;
-#else
-		int bubbleX = cenX - 191;
-		int bubbleY = m_height - 19;
 
-		bubbleX = cenX - 91;
-		bubbleY = m_height - 41;
-#endif
+        int bubbleX;
+		int bubbleY;
+        
+        if (topLeft)
+        {
+            bubbleX = 2;
+            bubbleY = 12;
+        }
+        else if (m_bRenderHunger)
+        {
+            // @TODO
+            bubbleX = 2;
+            bubbleY = 12;
+        }
+        else
+        {
+            // Renders to the left of the hotbar, why?
+            /*bubbleX = cenX - 191;
+            bubbleY = m_height - 19;*/
+            bubbleX = cenX - 91;
+            bubbleY = m_height - 41;
+        }
+        
 		//@NOTE: Not sure this works as it should
 
 		for (int bubbleNo = 0; bubbleNo < breathFull + breathMeter; bubbleNo++)
@@ -511,6 +536,9 @@ void Gui::renderProgressIndicator(int width, int height)
 {
 	Minecraft& mc = *m_pMinecraft;
 	Textures& textures = *mc.m_pTextures;
+    
+    currentShaderColor = Color::WHITE;
+    currentShaderDarkColor = Color::WHITE;
 
 	if (m_pMinecraft->useSplitControls())
 	{
@@ -542,14 +570,14 @@ void Gui::renderProgressIndicator(int width, int height)
 
 				textures.loadAndBindTexture("gui/feedback_outer.png");
 				currentShaderColor = Color::WHITE;
-				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay);
+				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay_textured);
 
 				textures.loadAndBindTexture("gui/feedback_fill.png");
 
 				// note: scale starts from 4.0f
 				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
 
-				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256, &m_guiMaterials.ui_invert_overlay);
+				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256, &m_guiMaterials.ui_invert_overlay_textured);
 			}
 		}
 		else
@@ -559,7 +587,7 @@ void Gui::renderProgressIndicator(int width, int height)
 
 			textures.loadAndBindTexture("gui/feedback_outer.png");
 			currentShaderColor = Color(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, input.m_feedbackAlpha));
-			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay);
+			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256, &m_guiMaterials.ui_overlay_textured);
 		}
 	}
 }

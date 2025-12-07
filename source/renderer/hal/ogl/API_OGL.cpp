@@ -19,6 +19,11 @@ void gl::Version::_findMajorMinor()
     major = 0;
     minor = 0;
     core = false;
+#ifdef USE_GLES
+    gles = true;
+#else
+    gles = false;
+#endif
 
     const char* versionString = (const char*)glGetString(GL_VERSION);
     if (!versionString)
@@ -59,23 +64,48 @@ void gl::Version::parse()
 
 std::string gl::getOpenGLVendor()
 {
-    const GLubyte* glVendorStr = glGetString(GL_VENDOR);
-    static std::string glVendor = glVendorStr ? std::string((char*)glVendorStr) : "";
+    static bool fetched = false;
+    static std::string glVendor;
+    if (!fetched)
+    {
+        const GLubyte* glVendorStr = glGetString(GL_VENDOR);
+        glVendor = glVendorStr ? std::string((char*)glVendorStr) : "";
+        fetched = true;
+    }
     return glVendor;
 }
 
 std::string gl::getOpenGLRenderer()
 {
-    const GLubyte* glRendererStr = glGetString(GL_RENDERER);
-    static std::string glRenderer = glRendererStr ? std::string((char*)glRendererStr) : "";
+    static bool fetched = false;
+    static std::string glRenderer;
+    if (!fetched)
+    {
+        const GLubyte* glRendererStr = glGetString(GL_RENDERER);
+        glRenderer = glRendererStr ? std::string((char*)glRendererStr) : "";
+        fetched = true;
+    }
     return glRenderer;
 }
 
 std::string gl::getOpenGLVersion()
 {
-    const GLubyte* glVersionStr = glGetString(GL_VERSION);
-    static std::string glVersion = glVersionStr ? std::string((char*)glVersionStr) : "";
+    static bool fetched = false;
+    static std::string glVersion;
+    if (!fetched)
+    {
+        const GLubyte* glVersionStr = glGetString(GL_VERSION);
+        glVersion = glVersionStr ? std::string((char*)glVersionStr) : "";
+        fetched = true;
+    }
     return glVersion;
+}
+
+bool gl::isOpenGLES()
+{
+    const gl::Version& glVersion = gl::Version::singleton();
+    
+    return glVersion.gles;
 }
 
 bool gl::isOpenGLES3()
@@ -87,7 +117,7 @@ bool gl::isOpenGLES3()
 
     const gl::Version& glVersion = gl::Version::singleton();
 
-    return glVersion.major >= 3;
+    return glVersion.gles && glVersion.major >= 3;
 }
 
 int gl::getMaxVertexCount()
@@ -103,10 +133,16 @@ int gl::getMaxVertexCount()
     return maxVertexCount;
 }
 
-std::string gl::getOpenGLExtensions()
+const std::string& gl::getOpenGLExtensions()
 {
-    const GLubyte* glExtensions = glGetString(GL_EXTENSIONS);
-    return glExtensions ? std::string((char*)glExtensions) : "";
+    static bool fetched = false;
+    static std::string glExtensions;
+    if (!fetched)
+    {
+        const GLubyte* glExtensionsStr = glGetString(GL_EXTENSIONS);
+        glExtensions = glExtensionsStr ? std::string((char*)glExtensionsStr) : "";
+    }
+    return glExtensions;
 }
 
 bool gl::supportsMipmaps()
@@ -114,7 +150,7 @@ bool gl::supportsMipmaps()
     static int supportsMipmaps = -1;
     if (supportsMipmaps < 0)
     {
-        std::string glExtensions = gl::getOpenGLExtensions();
+        const std::string& glExtensions = gl::getOpenGLExtensions();
         if (isOpenGLES3() || glExtensions.find("GL_APPLE_texture_max_level") != std::string::npos)
             supportsMipmaps = 1;
     }
@@ -134,4 +170,16 @@ bool gl::supportsImmediateMode()
         supportsImmediateMode = glVersion.core == false;
     }
     return supportsImmediateMode == 1;
+}
+
+bool gl::supports32BitIndices()
+{
+    static int isSupported = -1;
+    if (isSupported < 0)
+    {
+        const std::string& glExtensions = gl::getOpenGLExtensions();
+        if (isOpenGLES3() || glExtensions.find("GL_OES_element_index") != std::string::npos)
+            isSupported = 1;
+    }
+    return isSupported == 1;
 }

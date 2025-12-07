@@ -191,7 +191,7 @@ RenderMaterial* RenderMaterialGroup::_getMaterial(const std::string& name)
     RenderMaterial* materialPtr = _getMaterialPtr(name);
     if (!materialPtr)
     {
-        LOG_W("Filename: %s not found", name.c_str());
+        LOG_W("Material: %s not found", name.c_str());
     }
 
     return materialPtr;

@@ -31,7 +31,15 @@
 	#else
 		#include <GLES/gl.h>
 	#endif
-	#define GL_QUADS 0x7
+    #ifndef GL_NONE
+        #define GL_NONE 0x0
+    #endif
+    #ifndef GL_UNSIGNED_INT
+        #define GL_UNSIGNED_INT 0x1405
+    #endif
+    #ifndef GL_TEXTURE_MAX_LEVEL
+        #define GL_TEXTURE_MAX_LEVEL 0x813D
+    #endif
 
 	#define USE_OPENGL_2_FEATURES
 
@@ -130,10 +138,10 @@ bool xglInitted();
 
 #if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32) && !defined(__DREAMCAST__)
 
-#if GL_VERSION_1_3 || GL_ES_VERSION_1_0
+#if GL_VERSION_1_3 || GL_OES_VERSION_1_0
 #define xglActiveTexture glActiveTexture
-#endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
-#if GL_VERSION_1_5 || GL_ES_VERSION_1_0
+#endif // GL_VERSION_1_3 || GL_OES_VERSION_1_0
+#if GL_VERSION_1_5 || GL_OES_VERSION_1_0
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData
 #define xglGenBuffers glGenBuffers
@@ -146,11 +154,12 @@ bool xglInitted();
 #define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
-#endif // GL_VERSION_1_5 || GL_ES_VERSION_1_0
-#if GL_VERSION_2_0 || GL_ES_VERSION_1_0
+#endif // GL_VERSION_1_5 || GL_OES_VERSION_1_0
+#if GL_VERSION_2_0 || GL_ES_VERSION_2_0
+#define USE_GL_STENCIL_SEPARATE
 #define xglStencilFuncSeparate glStencilFuncSeparate
 #define xglStencilOpSeparate glStencilOpSeparate
-#endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
+#endif // GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define xglUniform1i glUniform1i
