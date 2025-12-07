@@ -65,7 +65,7 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 	m_totalEntities = 0;
 	m_renderedEntities = 0;
 	m_culledEntities = 0;
-	field_30 = 0;
+	m_cullStep = 0;
 	m_totalChunks = 0;
 	m_offscreenChunks = 0;
 	m_occludedChunks = 0;
@@ -447,14 +447,13 @@ void LevelRenderer::cull(Culler* pCuller, float f)
 		if (pChunk->isEmpty())
 			continue;
 
-		//@TODO: What does the shift do? (x % 4 == 0)?
-		if (!pChunk->m_bVisible || !((i + field_30) << 28))
+		if (!pChunk->m_bVisible || (i + m_cullStep & 15) == 0)
 		{
 			pChunk->cull(pCuller);
 		}
 	}
 
-	field_30++;
+	m_cullStep++;
 }
 
 void LevelRenderer::allChanged()

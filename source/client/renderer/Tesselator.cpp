@@ -164,7 +164,7 @@ void Tesselator::color(uint8_t r, uint8_t g, uint8_t b)
 
 void Tesselator::color(const Color& c)
 {
-	color(int8_t(c.r * 255), int8_t(c.g * 255), int8_t(c.b * 255), int8_t(c.a * 255));
+	color(Mth::floor(c.r * 255), Mth::floor(c.g * 255), Mth::floor(c.b * 255), Mth::floor(c.a * 255));
 }
 
 void Tesselator::color(int32_t c, int a)
@@ -327,9 +327,16 @@ void Tesselator::normal(float x, float y, float z)
 	/*if (!m_bTesselating)
 		LOG_W("But...");*/
 
+	// Java
+	int8_t bx = static_cast<int8_t>(x * 128);
+	int8_t by = static_cast<int8_t>(y * 127);
+	int8_t bz = static_cast<int8_t>(z * 127);
+
+	/* 0.12.1
 	int8_t bx = static_cast<int8_t>(ceilf(x * 127));
 	int8_t by = static_cast<int8_t>(ceilf(y * 127));
-	int8_t bz = static_cast<int8_t>(ceilf(z * 127));
+	int8_t bz = static_cast<int8_t>(ceilf(z * 127));*/
+
 #if MC_ENDIANNESS_BIG
 	m_nextVtxNormal = (bx << 24) | (by << 16) | (bz << 8);
 #else // MC_ENDIANNESS_LITTLE

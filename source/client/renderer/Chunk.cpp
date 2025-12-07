@@ -219,5 +219,6 @@ Chunk::Chunk(Level* level, const TilePos& pos, int size, int lists)
 	m_pos.x = -999;
 	field_2C = Vec3(pos).lengthSqr() / 2;
 
+	reset();
 	setPos(pos);
 }

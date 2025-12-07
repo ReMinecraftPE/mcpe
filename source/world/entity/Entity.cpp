@@ -27,6 +27,7 @@ void Entity::_init()
 	field_24 = 0;
 	field_28 = 0;
 	field_30 = 1.0f;
+	m_dimensionId = DIMENSION_NORMAL;
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
 	m_bOnGround = false;

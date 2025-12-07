@@ -51,7 +51,7 @@ bool VertexFormat::hasField(VertexField vertexField) const
 
 const void* VertexFormat::getFieldOffset(VertexField vertexField, const void *vertexData) const
 {
-    return (uint8_t*)vertexData + m_fieldOffset[vertexField];
+    return (void*)((uintptr_t)vertexData + m_fieldOffset[vertexField]);
 }
 
 bool VertexFormat::operator==(const VertexFormat &other) const
