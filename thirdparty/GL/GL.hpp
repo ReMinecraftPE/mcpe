@@ -138,10 +138,10 @@ bool xglInitted();
 
 #if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32) && !defined(__DREAMCAST__)
 
-#if GL_VERSION_1_3 || GL_OES_VERSION_1_0
+#if GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
 #define xglActiveTexture glActiveTexture
-#endif // GL_VERSION_1_3 || GL_OES_VERSION_1_0
-#if GL_VERSION_1_5 || GL_OES_VERSION_1_0
+#endif // GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
+#if GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData
 #define xglGenBuffers glGenBuffers
@@ -154,12 +154,12 @@ bool xglInitted();
 #define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
-#endif // GL_VERSION_1_5 || GL_OES_VERSION_1_0
+#endif // GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define USE_GL_STENCIL_SEPARATE
 #define xglStencilFuncSeparate glStencilFuncSeparate
 #define xglStencilOpSeparate glStencilOpSeparate
-#endif // GL_VERSION_2_0 || GL_ES_VERSION_2_0
+#endif // GL_VERSION_2_0 || GL_VERSION_ES_CM_1_0
 #ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define xglUniform1i glUniform1i
@@ -205,20 +205,20 @@ bool xglInitted();
 
 #else
 
-#if GL_VERSION_1_3 || GL_ES_VERSION_1_0
+#if GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
 void xglActiveTexture(GLenum texture);
-#endif // GL_VERSION_1_3 || GL_ES_VERSION_1_0
-#if GL_VERSION_1_5 || GL_ES_VERSION_1_0
+#endif // GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
+#if GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0
 void xglBindBuffer(GLenum target, GLuint buffer);
 void xglBufferData(GLenum target, GLsizeiptr size, const GLvoid* data, GLenum usage);
 void xglGenBuffers(GLsizei num, GLuint* buffers);
 void xglDeleteBuffers(GLsizei num, GLuint* buffers);
 void xglBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid* data);
-#endif // GL_VERSION_1_5 || GL_ES_VERSION_1_0
-#if GL_VERSION_2_0 || GL_ES_VERSION_1_0
+#endif // GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0
+#if GL_VERSION_2_0 || GL_VERSION_ES_CM_1_0
 void xglStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
 void xglStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
-#endif // GL_VERSION_2_0 || GL_ES_VERSION_1_0
+#endif // GL_VERSION_2_0 || GL_VERSION_ES_CM_1_0
 #ifdef FEATURE_GFX_SHADERS
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 void xglUniform1i(GLint location, GLint v0);
