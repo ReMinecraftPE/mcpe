@@ -27,15 +27,11 @@ tar xf iPhoneOS8.0.sdk.tar.lzma
 mv iPhoneOS8.0.sdk "$sdk"
 rm iPhoneOS8.0.sdk.tar.lzma
 
-# Make nproc work on macOS and BSDs
-nproc() {
-    cmd="$(command -v nproc)"
-    if [ -f "$cmd" ]; then
-        command nproc
-    else
-        sysctl -n hw.ncpu
-    fi
-}
+if command -v nproc >/dev/null; then
+    ncpus="$(nproc)"
+else
+    ncpus="$(sysctl -n hw.ncpu)"
+fi
 
 if [ "$(uname -s)" = "Darwin" ]; then
     ar="${AR:-ar}"
@@ -80,10 +76,10 @@ wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.t
 
 cd "cctools-port-$cctools_commit/cctools"
 ./configure --enable-silent-rules
-make -C ld64 -j"$(nproc)"
+make -C ld64 -j"$ncpus"
 mv ld64/src/ld/ld ../../bin/ld64.ld64
-make -C libmacho -j"$(nproc)"
-make -C libstuff -j"$(nproc)"
+make -C libmacho -j"$ncpus"
+make -C libstuff -j"$ncpus"
 make -C misc strip
 cp misc/strip ../../bin/cctools-strip
 cd ../..
@@ -122,7 +118,7 @@ for target in $targets; do
         -DCMAKE_C_COMPILER="$target-cc" \
         -DCMAKE_CXX_COMPILER="$target-c++" \
         -DCMAKE_FIND_ROOT_PATH="$sdk/usr"
-    make -j"$(nproc)"
+    make -j"$ncpus"
     mv "$bin" "$workdir/$bin-$target"
 
     cd ..
