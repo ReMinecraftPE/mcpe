@@ -12,17 +12,10 @@
 
 GlassTile::GlassTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 }
 
 int GlassTile::getResourceCount(Random* pRandom) const
 {
 	return 0;
-}
-
-int GlassTile::getRenderLayer() const
-{
-	if (GetPatchManager()->IsGlassSemiTransparent())
-		return LAYER_ALPHA;
-
-	return LAYER_OPAQUE;
 }

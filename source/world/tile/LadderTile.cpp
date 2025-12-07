@@ -11,9 +11,10 @@
 
 LadderTile::LadderTile(int ID, int texture) : Tile(ID, texture, Material::decoration)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 }
 
-int LadderTile::getRenderShape() const
+eRenderShape LadderTile::getRenderShape() const
 {
 	return SHAPE_LADDER;
 }

@@ -7,24 +7,19 @@
  ********************************************************************/
 
 #include "RenderList.hpp"
-#include "Tesselator.hpp"
-
-#include <cstddef>
+#include "renderer/MatrixStack.hpp"
 
 constexpr int C_MAX_RENDERS = 3072;
 
 RenderList::RenderList()
 {
-	m_posX = 0.0f;
-	m_posY = 0.0f;
-	m_posZ = 0.0f;
 	field_14 = 0;
-	field_18 = false;
-	field_19 = false;
+	m_bInited = false;
+	m_bRendered = false;
 	field_1C = 0;
 
 	field_C = new int[C_MAX_RENDERS];
-	field_10 = new RenderChunk[C_MAX_RENDERS];
+	field_10 = new RenderChunk*[C_MAX_RENDERS];
 }
 
 RenderList::~RenderList()
@@ -36,101 +31,102 @@ RenderList::~RenderList()
 		delete[] field_10;
 }
 
-void RenderList::add(int x)
+void RenderList::add(int x, TerrainLayer layer, bool fog)
 {
 	// @BUG: If too many chunks are rendered, this has the potential to overflow.
 #ifndef ORIGINAL_CODE
 	if (field_14 == C_MAX_RENDERS)
 	{
-		render();
-		init(m_posX, m_posY, m_posZ);
+		render(layer, fog);
+		init(m_pos);
 		field_1C = 0;
-		field_19 = false;
+		m_bRendered = false;
 	}
 #endif
 
 	field_C[field_14] = x;
 
 	if (field_14 == C_MAX_RENDERS)
-		render();
+		render(layer, fog);
 }
 
-void RenderList::addR(const RenderChunk& rc)
+void RenderList::addR(RenderChunk* rc, TerrainLayer layer, bool fog)
 {
 	// @BUG: If too many chunks are rendered, this has the potential to overflow.
 #ifndef ORIGINAL_CODE
 	if (field_14 == C_MAX_RENDERS)
 	{
-		render();
-		init(m_posX, m_posY, m_posZ);
+		render(layer, fog);
+		init(m_pos);
 		field_1C = 0;
-		field_19 = false;
+		m_bRendered = false;
 	}
 #endif
 
 	field_10[field_14] = rc;
+
+	field_14++;
 }
 
 void RenderList::clear()
 {
-	field_18 = false;
-	field_19 = false;
+	m_bInited = false;
+	m_bRendered = false;
 }
 
-void RenderList::init(float x, float y, float z)
+void RenderList::reset()
 {
-	m_posX = x;
-	m_posY = y;
-	m_posZ = z;
-	field_14 = 0;
-	field_18 = true;
-}
-
-void RenderList::render()
-{
-	if (!field_18) return;
-
-	if (!field_19)
+	for (int i = 0; i < field_1C; i++)
 	{
-		field_19 = true;
+		RenderChunk* chk = field_10[i];
+		if (!chk) continue;
+		
+		chk->reset();
+	}
+}
+
+void RenderList::init(const Vec3& pos)
+{
+	m_pos = pos;
+	field_14 = 0;
+	m_bInited = true;
+}
+
+void RenderList::render(TerrainLayer layer, bool fog)
+{
+	if (!m_bInited) return;
+
+	if (!m_bRendered)
+	{
+		m_bRendered = true;
 		field_1C = field_14;
 		field_14 = 0;
 	}
 
 	if (field_14 < field_1C)
 	{
-		glPushMatrix();
-		glTranslatef(-m_posX, -m_posY, -m_posZ);
-		renderChunks();
-		glPopMatrix();
+		MatrixStack::Ref matrix = MatrixStack::World.push();
+		matrix->translate(-m_pos);
+
+		renderChunks(layer, fog);
 	}
 }
 
-void RenderList::renderChunks()
+void RenderList::renderChunks(TerrainLayer layer, bool fog)
 {
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglEnableClientState(GL_COLOR_ARRAY);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	double time = getTimeS();
 
 	if (field_1C > 0)
 	{
 		for (int i = 0; i < field_1C; i++)
 		{
-			RenderChunk& chk = field_10[i];
-			glPushMatrix();
+			RenderChunk* chk = field_10[i];
+			if (!chk) continue;
 
-			glTranslatef(chk.field_C, chk.field_10, chk.field_14);
-			xglBindBuffer(GL_ARRAY_BUFFER, chk.field_0);
-			xglVertexPointer  (3, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_x));
-			xglTexCoordPointer(2, GL_FLOAT,         sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_u));
-			xglColorPointer   (4, GL_UNSIGNED_BYTE, sizeof(Tesselator::Vertex), (void*)offsetof(Tesselator::Vertex, m_color));
-			xglDrawArrays(GL_TRIANGLES, 0, chk.field_4);
+			MatrixStack::Ref matrix = MatrixStack::World.push();
+			matrix->translate(chk->m_pos);
 
-			glPopMatrix();
+			chk->render(layer, time, fog);
 		}
 	}
-
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_COLOR_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }

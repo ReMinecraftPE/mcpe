@@ -3,6 +3,7 @@
 
 CactusTile::CactusTile(int id, int texture) : Tile(id, texture, Material::cactus)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setTicking(true);
 }
 
@@ -53,7 +54,7 @@ bool CactusTile::isCubeShaped() const
 	return false;
 }
 
-int CactusTile::getRenderShape() const
+eRenderShape CactusTile::getRenderShape() const
 {
 	return SHAPE_CACTUS;
 }

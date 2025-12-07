@@ -8,8 +8,16 @@
 
 #include "Font.hpp"
 #include "Tesselator.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "renderer/ShaderConstants.hpp"
+#include "renderer/MatrixStack.hpp"
 
 constexpr char COLOR_START_CHAR = '\xa7';
+
+Font::Materials::Materials()
+{
+	MATERIAL_PTR(common, ui_text);
+}
 
 Font::Font(Options* pOpts, const std::string& fileName, Textures* pTexs) :
 	m_fileName(fileName), m_pOptions(pOpts), m_pTextures(pTexs)
@@ -21,8 +29,7 @@ Font::Font(Options* pOpts, const std::string& fileName, Textures* pTexs) :
 
 void Font::init(Options* pOpts)
 {
-	GLuint texID = m_pTextures->loadTexture(m_fileName, true);
-	Texture* pTexture = m_pTextures->getTemporaryTextureData(texID);
+	TextureData* pTexture = m_pTextures->getTextureData(m_fileName, true);
 	if (!pTexture) return;
 
 	for (int i = 0; i < 256; i++) // character number
@@ -39,17 +46,17 @@ void Font::init(Options* pOpts)
 			for (int j = 7; j >= 0; j--) // x position
 			{
 				int x = (i % 16), y = (i / 16);
-				int pixelDataIndex = pTexture->m_width * 8 * y + 8 * x + j;
+				int pixelDataIndex = pTexture->m_imageData.m_width * 8 * y + 8 * x + j;
 
 				for (int k = 0; k < 8; k++)
 				{
-					if ((uint8_t)pTexture->m_pixels[pixelDataIndex] != 0)
+					if ((uint8_t)pTexture->getData()[pixelDataIndex] != 0)
 					{
 						if (widthMax < j)
 							widthMax = j;
 					}
 
-					pixelDataIndex += pTexture->m_width;
+					pixelDataIndex += pTexture->m_imageData.m_width;
 				}
 			}
 		}
@@ -78,49 +85,49 @@ void Font::buildChar(unsigned char chr, float x, float y)
 #undef CO
 }
 
-void Font::draw(const std::string& str, int x, int y, int color)
+void Font::draw(const std::string& str, int x, int y, const Color& color)
 {
 	draw(str, x, y, color, false);
 }
 
-void Font::drawShadow(const std::string& str, int x, int y, int color)
+void Font::drawShadow(const std::string& str, int x, int y, const Color& color)
 {
 	draw(str, x + 1, y + 1, color, true);
 	draw(str, x, y, color, false);
 }
 
-void Font::draw(const std::string& str, int x, int y, int color, bool bShadow)
+void Font::draw(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
 	drawSlow(str, x, y, color, bShadow);
 }
 
-void Font::drawSlow(const std::string& str, int x, int y, int colorI, bool bShadow)
+void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
 	if (str.empty()) return;
 
-	uint32_t color = colorI;
-
 	if (bShadow)
-		color = (color & 0xFF000000U) + ((color & 0xFCFCFCu) >> 2);
+	{
+		currentShaderDarkColor = Color(0.25f, 0.25f, 0.25f);
+	}
+	else
+	{
+		currentShaderDarkColor = Color::WHITE;
+	}
 
 	m_pTextures->loadAndBindTexture(m_fileName);
 
-	uint32_t red = (color >> 16) & 0xFF;
-	uint32_t grn = (color >>  8) & 0xFF;
-	uint32_t blu = (color >>  0) & 0xFF;
-	uint32_t alp = (color >> 24) & 0xFF;
+	Color finalColor = color;
+	// For hex colors which don't specify an alpha
+	if (finalColor.a == 0.0f)
+		finalColor.a = 1.0f;
 
-	float alpf = float(alp) / 255.0f;
-	if (alpf == 0.0f)
-		alpf = 1.0f;
+	currentShaderColor = finalColor;
 
-	glColor4f(float(red) / 255.0f, float(grn) / 255.0f, float(blu) / 255.0f, alpf);
-	glPushMatrix();
+	MatrixStack::Ref mtx = MatrixStack::World.push();
+	mtx->translate(Vec3(x, y, 0.0f));
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
-
-	glTranslatef(float(x), float(y), 0.0f);
+	t.begin(4 * str.size());
 
 	float cXPos = 0.0f, cYPos = 0.0f;
 
@@ -140,9 +147,7 @@ void Font::drawSlow(const std::string& str, int x, int y, int colorI, bool bShad
 		cXPos += m_charWidthFloat[x];
 	}
 
-	t.draw();
-
-	glPopMatrix();
+	t.draw(m_materials.ui_text);
 }
 
 void Font::onGraphicsReset()

@@ -15,7 +15,10 @@
 class Vec2
 {
 public:
-	static const Vec2 ZERO;
+	static const Vec2 ZERO, ONE;
+	static const Vec2 UNIT_X, NEG_UNIT_X;
+	static const Vec2 UNIT_Y, NEG_UNIT_Y;
+	static const Vec2 MIN, MAX;
 
 public:
 	float x, y;
@@ -26,6 +29,7 @@ private:
 public:
 	// this constructor is nice to have, but it's probably inlined
 	Vec2();
+	Vec2(float xy);
 	Vec2(float x, float y);
     
     Vec2 normalize() const;
@@ -77,6 +81,12 @@ public:
 	{
 		return x == b.x &&
 			   y == b.y;
+	}
+
+	bool operator!=(const Vec2& b) const
+	{
+		return x != b.x &&
+			   y != b.y;
 	}
 
 	Vec2 translate(float tx, float ty) const

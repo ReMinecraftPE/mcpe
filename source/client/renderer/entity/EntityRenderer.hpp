@@ -8,17 +8,31 @@
 
 #pragma once
 
+#include "client/renderer/Font.hpp"
+#include "client/renderer/renderer/EntityShaderManager.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/phys/Vec3.hpp"
-#include "client/model/HumanoidModel.hpp"
-#include "client/renderer/Font.hpp"
 
 class EntityRenderDispatcher;
 class Level;
 class Tile;
 
-class EntityRenderer
+class EntityRenderer : public EntityShaderManager
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr entity_alphatest;
+		mce::MaterialPtr entity_alphatest_cull;
+		mce::MaterialPtr entity_alphatest_glint;
+		mce::MaterialPtr name_tag;
+		mce::MaterialPtr name_tag_depth_tested;
+		mce::MaterialPtr name_text_depth_tested;
+
+		Materials();
+	};
+
 private:
 	static bool _areShadowsAvailable;
 public:
@@ -27,28 +41,24 @@ public:
 
 private:
 	Level* getLevel() const;
-	void renderFlame(Entity* e, const Vec3& pos, float a);
-	void renderShadow(Entity* e, const Vec3& pos, float pow, float a);
-	void renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePos, float pow, float r, const Vec3& oPos);
+	void renderFlame(const Entity& entity, const Vec3& pos, float a);
 
 public:
 	EntityRenderer();
 	bool bindTexture(const std::string& file, bool isRequired = true);
 	Font* getFont();
 	void init(EntityRenderDispatcher* d);
-	static void render(const AABB&, const Vec3& pos);
-	static void renderFlat(const AABB&);
-	void postRender(Entity* entity, const Vec3& pos, float rot, float a);
+	void render(const AABB&, const Vec3& pos);
+	void renderFlat(const AABB&);
+	void postRender(const Entity& entity, const Vec3& pos, float rot, float a);
 
-	virtual void render(Entity* entity, const Vec3& pos, float rot, float a) = 0;
+	virtual void render(const Entity& entity, const Vec3& pos, float rot, float a) = 0;
 	virtual void onGraphicsReset();
 
+protected:
+	Materials m_materials;
 public:
 	float m_shadowRadius;
 	float m_shadowStrength;
 	EntityRenderDispatcher* m_pDispatcher;
-
-	// @HUH: Why is there a HumanoidModel here? There's another
-	// in HumanoidMobRenderer...
-	HumanoidModel m_model;
 };

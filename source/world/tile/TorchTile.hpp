@@ -18,7 +18,7 @@ public:
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	bool isSolidRender() const override;
 	bool isCubeShaped() const override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 	void animateTick(Level*, const TilePos& pos, Random*) override;
 	HitResult clip(const Level*, const TilePos& pos, Vec3 a, Vec3 b) override;
 	bool mayPlace(const Level*, const TilePos& pos) const override;

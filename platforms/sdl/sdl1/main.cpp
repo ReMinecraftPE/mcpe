@@ -1,7 +1,6 @@
 #include <stdarg.h>
 #include "thirdparty/SDL/SDL.h"
 #include "thirdparty/SDL/SDL_gamecontroller.h"
-#include "thirdparty/GL/GL.hpp"
 
 #include "client/app/App.hpp"
 #include "desktop/AppPlatform_sdl1_desktop.hpp"
@@ -9,6 +8,11 @@ typedef AppPlatform_sdl1_desktop UsedAppPlatform;
 
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
+
+#ifndef MCE_GFX_API_NULL
+#define MCE_GFX_API_OGL 1
+#include "renderer/platform/ogl/Extensions.hpp"
+#endif
 
 // Video Mode Flags
 #define VIDEO_FLAGS (SDL_OPENGL | SDL_RESIZABLE)
@@ -19,6 +23,27 @@ UsedAppPlatform* g_pAppPlatform;
 NinecraftApp* g_pApp;
 
 SDL_Surface* screen = NULL;
+
+static void preInitGraphics()
+{
+#if MCE_GFX_API_OGL
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+#else
+#endif
+}
+
+static void initGraphics()
+{
+#if MCE_GFX_API_OGL
+    if (!mce::Platform::OGL::InitBindings())
+    {
+        const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required.";
+        exit(EXIT_FAILURE);
+    }
+#else
+#endif
+}
 
 static void teardown()
 {
@@ -156,8 +181,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	preInitGraphics();
     
     SDL_EnableUNICODE(SDL_TRUE);
 
@@ -168,14 +192,7 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-#ifdef _WIN32
-    xglInit();
-    if (!xglInitted())
-    {
-        const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required.";
-        exit(EXIT_FAILURE);
-    }
-#endif
+	initGraphics();
 
     atexit(teardown);
 

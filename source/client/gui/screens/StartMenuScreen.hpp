@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "../IntRectangle.hpp"
 #include "client/renderer/TileRenderer.hpp"
 
 class StartMenuScreen;
@@ -37,6 +38,16 @@ private:
 
 class StartMenuScreen : public Screen
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_title_tile;
+		mce::MaterialPtr ui_title_tile_shadow;
+
+		Materials();
+	};
+
 public:
 	StartMenuScreen();
 	~StartMenuScreen();
@@ -50,8 +61,8 @@ public:
 	void tick() override;
 
 	void drawSplash();
+	void draw2dTitle();
 	void draw3dTitle(float f);
-	void drawLegacyTitle();
 
 	std::string getSplashString();
 
@@ -72,8 +83,11 @@ protected:
 
 	int m_chosenSplash;
 
+	IntRectangle m_2dTitleBounds;
+
 	TileRenderer m_tileRenderer;
 	Random m_random;
 	TitleTile** m_pTiles;
+	Materials m_screenMaterials;
 };
 

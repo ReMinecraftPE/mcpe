@@ -11,6 +11,8 @@
     <MC_GLOBAL_PROPS>whattimeisit?</MC_GLOBAL_PROPS>
     <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
     <RAKNET_PATH>$(MC_ROOT)thirdparty\raknet\</RAKNET_PATH>
+	<MC_GFX_API>OGL</MC_GFX_API>
+	<MC_GFX_API_MACRO>MCE_GFX_API_OGL</MC_GFX_API_MACRO>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
@@ -38,7 +40,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HANDLE_CHARS_SEPARATELY;NOMINMAX;$(MC_GFX_API_MACRO);_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 	  <ConformanceMode>false</ConformanceMode>
 	  <!-- Needed to allow __cplusplus to be set correctly -->
 	  <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>

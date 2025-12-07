@@ -55,7 +55,7 @@ void Entity::_init()
 	m_fireTicks = 0;
 	m_flameTime = 1;
     m_tickCount = 0;
-	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
+	m_renderType = RENDER_NONE;
 	m_distanceFallen = 0.0f;
 	m_airSupply = TOTAL_AIR_SUPPLY;
 	m_bWasInWater = false;
@@ -162,7 +162,7 @@ void Entity::move(const Vec3& pos)
 		bool validSneaking = m_bOnGround && isSneaking();
 		if (validSneaking)
 		{
-			for (float dx = 0.05f; pos.x != 0.0f && m_pLevel->getCubes(this, AABB(m_hitbox).move(newPos.x, -1.0f, 0.0f))->size() == 0; cPosX = newPos.x)
+			for (float dx = 0.05f; newPos.x != 0.0f && m_pLevel->getCubes(this, AABB(m_hitbox).move(newPos.x, -1.0f, 0.0f))->size() == 0; cPosX = newPos.x)
 			{
 				if (newPos.x < dx && newPos.x >= -dx)
 					newPos.x = 0.0;
@@ -650,7 +650,27 @@ float Entity::getBrightness(float f) const
 	return m_pLevel->getBrightness(tilePos);
 }
 
-float Entity::distanceTo(Entity* pEnt) const
+Vec3 Entity::getPos(float f) const
+{
+	if (f == 1.0f)
+		return m_pos;
+
+	return Vec3(
+		Mth::Lerp(m_oPos.x, m_pos.x, f),
+		Mth::Lerp(m_oPos.y, m_pos.y, f),
+		Mth::Lerp(m_oPos.z, m_pos.z, f)
+	);
+}
+
+Vec2 Entity::getRot(float f) const
+{
+	return Vec2(
+		Mth::Lerp(m_oRot.x, m_rot.x, f),
+		Mth::Lerp(m_oRot.y, m_rot.y, f)
+	);
+}
+
+float Entity::distanceTo(const Entity* pEnt) const
 {
 	return distanceTo(pEnt->m_pos);
 }
@@ -660,7 +680,7 @@ float Entity::distanceTo(const Vec3& pos) const
 	return m_pos.distanceTo(pos);
 }
 
-float Entity::distanceToSqr(Entity* pEnt) const
+float Entity::distanceToSqr(const Entity* pEnt) const
 {
 	return distanceToSqr(pEnt->m_pos);
 }
@@ -873,11 +893,11 @@ void Entity::lavaHurt()
 	}
 }
 
-int Entity::queryEntityRenderer()
+Entity::RenderType Entity::queryEntityRenderer() const
 {
-	// If field_C8 is equal to RENDER_DYNAMIC, EntityRenderDispatcher
+	// If m_renderType is equal to RENDER_DYNAMIC, EntityRenderDispatcher
 	// calls here. Used for sheared sheep.
-	return 0;
+	return RENDER_NONE;
 }
 
 const AABB* Entity::getCollideBox() const

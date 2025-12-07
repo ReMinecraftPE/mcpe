@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "RolledSelectionList.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
 static float g_RolledSelectionListUnk, g_RolledSelectionListUnk2;
 
@@ -92,10 +93,163 @@ void RolledSelectionList::tick()
 
 void RolledSelectionList::render(int mouseX, int mouseY, float f)
 {
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
 	renderBackground();
 
 	int nItems = getNumberOfItems();
+	Tesselator& t = Tesselator::instance;
 
+	checkInput(mouseX, mouseY, f);
+
+	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
+
+	renderScrollBackground();
+
+	if (!getNumberOfItems())
+		field_30 = 0.0f;
+
+	if (field_48)
+		renderHeader(int(field_C + 4.0f - float(int(field_30))), field_1C / 2 - 40, t);
+
+	for (int i = 0; i < nItems; i++)
+	{
+		float itemX = float(field_44 + float(int(field_C + 4.0f - float(field_30))) + m_itemWidth * i);
+		if (field_10 < itemX) continue;
+
+		float width = m_itemWidth - 4.0f;
+		if (itemX + width < field_C) continue;
+
+		if (m_bRenderSelection && isSelectedItem(i))
+		{
+			t.begin(8);
+			t.color(m_bComponentSelected ? 0x7F89BF : 0x808080);
+			
+			float right = itemX + width;
+			float up = float(field_1C) / 2.0f - 48.0f - 4.0f;
+			float dn = float(field_1C) / 2.0f + 48.0f - 4.0f;
+
+			t.vertexUV(itemX - 2, up, 0.0f, 0.0f, 0.0f);
+			t.vertexUV(itemX - 2, dn, 0.0f, 1.0f, 0.0f);
+			t.vertexUV(right + 2, dn, 0.0f, 1.0f, 1.0f);
+			t.vertexUV(right + 2, up, 0.0f, 0.0f, 1.0f);
+			t.color(0x000000);
+			t.vertexUV(itemX - 1, up + 1.0f, 0.0f, 0.0f, 0.0f);
+			t.vertexUV(itemX - 1, dn - 1.0f, 0.0f, 1.0f, 0.0f);
+			t.vertexUV(right + 1, dn - 1.0f, 0.0f, 1.0f, 1.0f);
+			t.vertexUV(right + 1, up + 1.0f, 0.0f, 0.0f, 1.0f);
+			t.draw(m_materials.ui_fill_color);
+		}
+
+		renderItem(i, int(itemX), field_1C / 2 - 40, int(width), t);
+	}
+
+	renderHoleBackground(0.0f, field_20, 255, 255);
+	renderHoleBackground(field_24, float(field_1C), 255, 255);
+	
+	renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
+	
+	// @BUG: The X and Y coordinates have been swapped. This causes the gradient to not render
+	// in the right place.
+#ifdef ORIGINAL_CODE
+	t.begin(4);
+	t.color(0, 0);
+	t.vertexUV(m_culledEntities, m_rotX + 4.0f, 0.0f, 0.0f, 1.0f);
+	t.vertexUV(field_24, m_rotX + 4.0f, 0.0f, 1.0f, 1.0f);
+	t.color(0, 255);
+	t.vertexUV(field_24, m_rotX, 0.0f, 1.0f, 0.0f);
+	t.vertexUV(m_culledEntities, m_rotX, 0.0f, 0.0f, 0.0f);
+	t.draw(m_materials.ui_fill_color);
+
+	t.begin(4);
+	t.color(0, 255);
+	t.vertexUV(m_culledEntities, m_rotY, 0.0f, 0.0f, 1.0f);
+	t.vertexUV(field_24, m_rotY, 0.0f, 1.0f, 1.0f);
+	t.color(0, 0);
+	t.vertexUV(field_24, m_rotY - 4.0f, 0.0f, 1.0f, 0.0f);
+	t.vertexUV(m_culledEntities, m_rotY - 4.0f, 0.0f, 0.0f, 0.0f);
+	t.draw(m_materials.ui_fill_color);
+#else
+	t.begin(4);
+	t.color(0, 0);
+	t.vertexUV(field_C + 4.0f, field_20, 0.0f, 0.0f, 1.0f);
+	t.vertexUV(field_C + 4.0f, field_24, 0.0f, 1.0f, 1.0f);
+	t.color(0, 255);
+	t.vertexUV(field_C, field_24, 0.0f, 1.0f, 0.0f);
+	t.vertexUV(field_C, field_20, 0.0f, 0.0f, 0.0f);
+	t.draw(m_materials.ui_fill_color);
+
+	t.begin(4);
+	t.color(0, 255);
+	t.vertexUV(field_10, field_20, 0.0f, 0.0f, 1.0f);
+	t.vertexUV(field_10, field_24, 0.0f, 1.0f, 1.0f);
+	t.color(0, 0);
+	t.vertexUV(field_10 - 4.0f, field_24, 0.0f, 1.0f, 0.0f);
+	t.vertexUV(field_10 - 4.0f, field_20, 0.0f, 0.0f, 0.0f);
+	t.draw(m_materials.ui_fill_color);
+#endif
+	
+	renderDecorations(mouseX, mouseY);
+	
+	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
+}
+
+void RolledSelectionList::renderHoleBackground(float y1, float y2, int a, int b)
+{
+	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
+
+	Tesselator& t = Tesselator::instance;
+	t.begin(4);
+	t.color(0x505050, b);
+	t.vertexUV(0.0f, y2, 0.0f, 0.0f, y2 / 32.0f);
+	t.vertexUV(float(field_18), y2, 0.0f, float(field_18) / 32.0f, y2 / 32.0f);
+	t.color(0x505050, a);
+	t.vertexUV(float(field_18), y1, 0.0f, float(field_18) / 32.0f, y1 / 32.0f);
+	t.vertexUV(0.0f, y1, 0.0f, 0.0f, y1 / 32.0f);
+	t.draw(m_materials.ui_texture_and_color);
+}
+
+void RolledSelectionList::setRenderSelection(bool b)
+{
+	m_bRenderSelection = b;
+}
+
+void RolledSelectionList::setComponentSelected(bool b)
+{
+	m_bComponentSelected = b;
+}
+
+int RolledSelectionList::getMaxPosition()
+{
+	return field_44 + m_itemWidth * getNumberOfItems();
+}
+
+float RolledSelectionList::getPos(float f)
+{
+	return field_34 - field_38 * f;
+}
+
+void RolledSelectionList::touched()
+{
+
+}
+
+void RolledSelectionList::renderHeader(int a, int b, Tesselator& t)
+{
+
+}
+
+void RolledSelectionList::renderDecorations(int x, int y)
+{
+}
+
+void RolledSelectionList::clickedHeader(int x, int y)
+{
+
+}
+
+void RolledSelectionList::checkInput(int mouseX, int mouseY, float f)
+{
 	// @TODO: fix gotos.
 	if (!Mouse::isButtonDown(BUTTON_LEFT))
 	{
@@ -162,178 +316,18 @@ _done:
 	field_2C = float(mouseX);
 	
 	capXPosition();
-	
-	glDisable(GL_LIGHTING);
-	glDisable(GL_FOG);
+}
 
-	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
+void RolledSelectionList::renderScrollBackground()
+{
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.color(0x202020);
 	t.vertexUV(field_C,  field_24, 0.0f, (field_C  + float(int(field_30))) / 32.0f, field_24 / 32.0f);
 	t.vertexUV(field_10, field_24, 0.0f, (field_10 + float(int(field_30))) / 32.0f, field_24 / 32.0f);
 	t.vertexUV(field_10, field_20, 0.0f, (field_10 + float(int(field_30))) / 32.0f, field_20 / 32.0f);
 	t.vertexUV(field_C,  field_20, 0.0f, (field_C  + float(int(field_30))) / 32.0f, field_20 / 32.0f);
-	t.draw();
-
-	if (!getNumberOfItems())
-		field_30 = 0.0f;
-
-	if (field_48)
-		renderHeader(int(field_C + 4.0f - float(int(field_30))), field_1C / 2 - 40, t);
-
-	for (int i = 0; i < nItems; i++)
-	{
-		float itemX = float(field_44 + float(int(field_C + 4.0f - float(field_30))) + m_itemWidth * i);
-		if (field_10 < itemX) continue;
-
-		float width = m_itemWidth - 4.0f;
-		if (itemX + width < field_C) continue;
-
-		if (m_bRenderSelection && isSelectedItem(i))
-		{
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			glDisable(GL_TEXTURE_2D);
-
-			t.begin();
-			t.color(m_bComponentSelected ? 0x7F89BF : 0x808080);
-			
-			float right = itemX + width;
-			float up = float(field_1C) / 2.0f - 48.0f - 4.0f;
-			float dn = float(field_1C) / 2.0f + 48.0f - 4.0f;
-
-			t.vertexUV(itemX - 2, up, 0.0f, 0.0f, 0.0f);
-			t.vertexUV(itemX - 2, dn, 0.0f, 1.0f, 0.0f);
-			t.vertexUV(right + 2, dn, 0.0f, 1.0f, 1.0f);
-			t.vertexUV(right + 2, up, 0.0f, 0.0f, 1.0f);
-			t.color(0x000000);
-			t.vertexUV(itemX - 1, up + 1.0f, 0.0f, 0.0f, 0.0f);
-			t.vertexUV(itemX - 1, dn - 1.0f, 0.0f, 1.0f, 0.0f);
-			t.vertexUV(right + 1, dn - 1.0f, 0.0f, 1.0f, 1.0f);
-			t.vertexUV(right + 1, up + 1.0f, 0.0f, 0.0f, 1.0f);
-			t.draw();
-
-			glEnable(GL_TEXTURE_2D);
-		}
-
-		renderItem(i, int(itemX), field_1C / 2 - 40, int(width), t);
-	}
-
-	glDisable(GL_DEPTH_TEST);
-
-	renderHoleBackground(0.0f, field_20, 255, 255);
-	renderHoleBackground(field_24, float(field_1C), 255, 255);
-	
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_ALPHA_TEST);
-	glShadeModel(GL_SMOOTH);
-	glDisable(GL_TEXTURE_2D);
-	
-	// @BUG: The X and Y coordinates have been swapped. This causes the gradient to not render
-	// in the right place.
-#ifdef ORIGINAL_CODE
-	t.begin();
-	t.color(0, 0);
-	t.vertexUV(m_culledEntities, m_rotX + 4.0f, 0.0f, 0.0f, 1.0f);
-	t.vertexUV(field_24, m_rotX + 4.0f, 0.0f, 1.0f, 1.0f);
-	t.color(0, 255);
-	t.vertexUV(field_24, m_rotX, 0.0f, 1.0f, 0.0f);
-	t.vertexUV(m_culledEntities, m_rotX, 0.0f, 0.0f, 0.0f);
-	t.draw();
-
-	t.begin();
-	t.color(0, 255);
-	t.vertexUV(m_culledEntities, m_rotY, 0.0f, 0.0f, 1.0f);
-	t.vertexUV(field_24, m_rotY, 0.0f, 1.0f, 1.0f);
-	t.color(0, 0);
-	t.vertexUV(field_24, m_rotY - 4.0f, 0.0f, 1.0f, 0.0f);
-	t.vertexUV(m_culledEntities, m_rotY - 4.0f, 0.0f, 0.0f, 0.0f);
-	t.draw();
-#else
-	t.begin();
-	t.color(0, 0);
-	t.vertexUV(field_C + 4.0f, field_20, 0.0f, 0.0f, 1.0f);
-	t.vertexUV(field_C + 4.0f, field_24, 0.0f, 1.0f, 1.0f);
-	t.color(0, 255);
-	t.vertexUV(field_C, field_24, 0.0f, 1.0f, 0.0f);
-	t.vertexUV(field_C, field_20, 0.0f, 0.0f, 0.0f);
-	t.draw();
-
-	t.begin();
-	t.color(0, 255);
-	t.vertexUV(field_10, field_20, 0.0f, 0.0f, 1.0f);
-	t.vertexUV(field_10, field_24, 0.0f, 1.0f, 1.0f);
-	t.color(0, 0);
-	t.vertexUV(field_10 - 4.0f, field_24, 0.0f, 1.0f, 0.0f);
-	t.vertexUV(field_10 - 4.0f, field_20, 0.0f, 0.0f, 0.0f);
-	t.draw();
-#endif
-	
-	renderDecorations(mouseX, mouseY);
-	
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_DEPTH_TEST);
-	glShadeModel(GL_FLAT);
-	glEnable(GL_ALPHA_TEST);
-	glDisable(GL_BLEND);
-}
-
-void RolledSelectionList::renderHoleBackground(float y1, float y2, int a, int b)
-{
-	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	Tesselator& t = Tesselator::instance;
-	t.begin();
-	t.color(0x505050, b);
-	t.vertexUV(0.0f, y2, 0.0f, 0.0f, y2 / 32.0f);
-	t.vertexUV(float(field_18), y2, 0.0f, float(field_18) / 32.0f, y2 / 32.0f);
-	t.color(0x505050, a);
-	t.vertexUV(float(field_18), y1, 0.0f, float(field_18) / 32.0f, y1 / 32.0f);
-	t.vertexUV(0.0f, y1, 0.0f, 0.0f, y1 / 32.0f);
-	t.draw();
-}
-
-void RolledSelectionList::setRenderSelection(bool b)
-{
-	m_bRenderSelection = b;
-}
-
-void RolledSelectionList::setComponentSelected(bool b)
-{
-	m_bComponentSelected = b;
-}
-
-int RolledSelectionList::getMaxPosition()
-{
-	return field_44 + m_itemWidth * getNumberOfItems();
-}
-
-float RolledSelectionList::getPos(float f)
-{
-	return field_34 - field_38 * f;
-}
-
-void RolledSelectionList::touched()
-{
-
-}
-
-void RolledSelectionList::renderHeader(int a, int b, Tesselator& t)
-{
-
-}
-
-void RolledSelectionList::renderDecorations(int x, int y)
-{
-}
-
-void RolledSelectionList::clickedHeader(int x, int y)
-{
-
+	t.draw(m_materials.ui_texture_and_color);
 }
 
 void RolledSelectionList::handleScroll(bool down)

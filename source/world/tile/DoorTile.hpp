@@ -19,7 +19,7 @@ public:
 	bool use(Level*, const TilePos& pos, Player*) override;
 	HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3) override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 	int getResource(TileData data, Random*) const override;
 	int getTexture(Facing::Name face, TileData data) const override;
 	AABB getTileAABB(const Level*, const TilePos& pos) override;

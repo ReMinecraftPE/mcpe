@@ -11,6 +11,7 @@
 
 RocketLauncherTile::RocketLauncherTile(TileID id) : Tile(id, 16*14+2, Material::wood)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setTicking(true);
 }
 
@@ -24,7 +25,7 @@ AABB* RocketLauncherTile::getAABB(const Level*, const TilePos& pos)
 	return nullptr;
 }
 
-int RocketLauncherTile::getRenderShape() const
+eRenderShape RocketLauncherTile::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }

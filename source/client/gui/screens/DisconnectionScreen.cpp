@@ -34,7 +34,7 @@ void DisconnectionScreen::init()
 void DisconnectionScreen::render(int mouseX, int mouseY, float f)
 {
 	renderBackground();
-	drawCenteredString(m_pFont, m_text, m_width / 2, m_height / 2 - 32, 0xFFFFFF);
+	drawCenteredString(*m_pFont, m_text, m_width / 2, m_height / 2 - 32, 0xFFFFFF);
 	Screen::render(mouseX, mouseY, f);
 }
 

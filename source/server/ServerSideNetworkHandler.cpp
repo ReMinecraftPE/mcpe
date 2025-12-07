@@ -213,7 +213,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ReadyPacke
 	else
 		pPlayer->m_pInventory->prepareSurvivalInventory();
 
-	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
+	m_pMinecraft->m_pGui->addMessage(pPlayer->m_name + " joined the game");
 
 #if NETWORK_PROTOCOL_VERSION >= 3
 	// send the connecting player info about all entities in the world
@@ -631,7 +631,7 @@ Player* ServerSideNetworkHandler::popPendingPlayer(const RakNet::RakNetGUID& gui
 
 void ServerSideNetworkHandler::displayGameMessage(const std::string& msg)
 {
-	m_pMinecraft->m_gui.addMessage(msg);
+	m_pMinecraft->m_pGui->addMessage(msg);
 	m_pRakNetInstance->send(new MessagePacket(msg));
 }
 
@@ -639,7 +639,7 @@ void ServerSideNetworkHandler::sendMessage(const RakNet::RakNetGUID& guid, const
 {
 	if (m_pRakNetPeer->GetMyGUID() == guid)
 	{
-		m_pMinecraft->m_gui.addMessage(msg);
+		m_pMinecraft->m_pGui->addMessage(msg);
 		return;
 	}
 

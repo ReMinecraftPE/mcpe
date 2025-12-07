@@ -9,7 +9,6 @@
 #include <cstdarg>
 #include <windowsx.h>
 
-#include "thirdparty/GL/GL.hpp"
 #include "compat/KeyCodes.hpp"
 #include "GameMods.hpp"
 
@@ -17,6 +16,8 @@
 #include "client/app/NinecraftApp.hpp"
 
 #include "client/player/input/Multitouch.hpp"
+
+#include "renderer/platform/ogl/Extensions.hpp"
 
 #include "AppPlatform_win32.hpp"
 #include "resource.h"
@@ -174,9 +175,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	g_AppPlatform.initializeWindow(hWnd, nCmdShow);
 
-	xglInit();
-
-	if (!xglInitted())
+	if (!mce::Platform::OGL::InitBindings())
 	{
 		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
 		LOG_E(GL_ERROR_MSG);
@@ -223,13 +222,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 _cleanup:
 	g_pApp->saveOptions();
 
+	// Cleanup networking, renderer, sounds, textures, etc.
+	delete g_pApp;
+
 	// disable OpenGL for the window
 	g_AppPlatform.disableOpenGL();
 
 	// destroy the window explicitly, since we ignored the WM_QUIT message
 	g_AppPlatform.destroyWindow();
-
-	delete g_pApp;
 
 	return 0;
 }

@@ -10,18 +10,28 @@
 
 #include "Textures.hpp"
 #include "client/options/Options.hpp"
+#include "renderer/MaterialPtr.hpp"
 
 class Font
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_text;
+
+		Materials();
+	};
+
 public:
 	Font(Options* pOpts, const std::string& fileName, Textures* pTexs);
 
 	void init(Options* pOpts);
 	void buildChar(unsigned char chr, float x, float y);
-	void draw(const std::string&, int x, int y, int color);
-	void draw(const std::string&, int x, int y, int color, bool bShadow);
-	void drawSlow(const std::string&, int x, int y, int color, bool bShadow);
-	void drawShadow(const std::string&, int x, int y, int color);
+	void draw(const std::string&, int x, int y, const Color& color);
+	void draw(const std::string&, int x, int y, const Color& color, bool bShadow);
+	void drawSlow(const std::string&, int x, int y, const Color& color, bool bShadow);
+	void drawShadow(const std::string&, int x, int y, const Color& color);
 
 	//int Font::drawWordWrap(Font *this, const StlString *a2, int a3, int a4, int a5, int a6).
 	// +- I probably won't actually implement this because
@@ -41,5 +51,6 @@ private:
 	std::string m_fileName;
 	Options* m_pOptions;
 	Textures* m_pTextures;
+	Materials m_materials;
 };
 

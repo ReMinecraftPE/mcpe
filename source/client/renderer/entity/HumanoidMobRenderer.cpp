@@ -19,64 +19,71 @@ HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRe
 	m_pHumanoidModel = pModel;
 }
 
-void HumanoidMobRenderer::additionalRendering(Mob* mob, float f)
+void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 {
-	ItemInstance* inst = mob->getCarriedItem();
+	const ItemInstance* inst = mob.getCarriedItem();
 
-	glPushMatrix();
-	m_pHumanoidModel->m_arm1.translateTo(0.0625f);
-	glTranslatef(-0.0625f, 0.4375f, 0.0625f);
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+
+	m_pHumanoidModel->m_arm1.translateTo(matrix, 0.0625f);
+	matrix->translate(Vec3(-0.0625f, 0.4375f, 0.0625f));
 
 	if (inst && inst->getTile() && TileRenderer::canRender(inst->getTile()->getRenderShape()))
 	{
-		glTranslatef(0.0f, 0.1875f, -0.3125f);
-		glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-		glScalef(0.375f, -0.375f, 0.375f);
+		constexpr float s = 0.5f * 0.75f;
+		matrix->translate(Vec3(0.0f, 0.1875f, -0.3125f));
+		matrix->rotate(200.0f, Vec3::UNIT_X);
+		matrix->rotate(45.0f, Vec3::UNIT_Y);
+		matrix->scale(s);
 	}
 	else if (inst && inst->getItem() && inst->getItem()->isHandEquipped())
 	{
-		glTranslatef(0.0f, 0.1875f, 0.0f);
-		glScalef(0.625f, -0.625f, 0.625f);
-		glRotatef(-100.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+		constexpr float s = 0.625f;
+		matrix->rotate(180.0f, Vec3::UNIT_Y);
+		// PE's fucked up translation value
+		//matrix->translate(Vec3(0.1f, 0.265f, 0.0f));
+		matrix->translate(Vec3(0.06f, 0.1875f, 0.0f));
+		matrix->scale(s);
+		matrix->rotate(80.0f, Vec3::UNIT_X);
+		matrix->rotate(35.0f, Vec3::UNIT_Y);
 	}
 	else
 	{
-		glTranslatef(0.25f, 0.1875f, -0.1875f);
-		glScalef(0.375f, 0.375f, 0.375f);
-		glRotatef(60.0f, 0.0f, 0.0f, 1.0f);
-		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(20.0f, 0.0f, 0.0f, 1.0f);
+		constexpr float s = 0.375;
+		matrix->translate(Vec3(0.25f, 0.1875f, -0.1875f));
+		matrix->scale(s);
+		matrix->rotate(60.0f, Vec3::UNIT_Z);
+		matrix->rotate(-90.0f, Vec3::UNIT_X);
+		matrix->rotate(20.0f, Vec3::UNIT_Z);
 	}
 
-	glEnable(GL_RESCALE_NORMAL);
-	m_pDispatcher->m_pItemInHandRenderer->renderItem(inst);
-	glPopMatrix();
-	glDisable(GL_RESCALE_NORMAL);
+	if (inst)
+	{
+		m_pDispatcher->m_pItemInHandRenderer->renderItem(mob, *inst, f);
+	}
 }
 
-void HumanoidMobRenderer::render(Entity* pEntity, const Vec3& pos, float f1, float f2)
+void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1, float f2)
 {
-	if (pEntity->isPlayer())
+	if (entity.isPlayer())
 	{
-		Player* player = (Player*)pEntity;
-		ItemInstance* item = player->getSelectedItem();
+		const Player& player = (const Player&)entity;
+		ItemInstance* item = player.getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
 	}
 
-	if (pEntity->isSneaking())
+	if (entity.isSneaking())
 	{
 		m_pHumanoidModel->m_bSneaking = true;
 		Vec3 pos2 = pos;
 		pos2.y -= 0.125f;
-		MobRenderer::render(pEntity, pos2, f1, f2);
+		MobRenderer::render(entity, pos2, f1, f2);
 		// https://github.com/ReMinecraftPE/mcpe/pull/197/#discussion_r2437985914
 		m_pHumanoidModel->m_bSneaking = false;
 	}
 	else
 	{
-		MobRenderer::render(pEntity, pos, f1, f2);
+		MobRenderer::render(entity, pos, f1, f2);
 	}
 }
 
@@ -88,7 +95,7 @@ void HumanoidMobRenderer::onGraphicsReset()
 void HumanoidMobRenderer::renderHand()
 {
 	m_pHumanoidModel->field_4 = 0;
-	m_pHumanoidModel->setBrightness(m_pDispatcher->m_pMinecraft->m_pMobPersp->getBrightness(1.0f));
+	m_pHumanoidModel->setBrightness(m_pDispatcher->m_pMinecraft->m_pCameraEntity->getBrightness(1.0f));
 	m_pHumanoidModel->setupAnim(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
 	m_pHumanoidModel->m_arm1.render(0.0625f);
 }

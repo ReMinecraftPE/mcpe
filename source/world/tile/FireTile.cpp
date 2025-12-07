@@ -31,10 +31,12 @@ FireTile::FireTile(int ID, int texture) : Tile(ID, texture, Material::fire)
 	m_burnOdds  [Tile::cloth->m_ID]     = 60;
 	// @NOTE: Not setting the other cloths' properties
 
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
+
 	setTicking(true);
 }
 
-int FireTile::getRenderShape() const
+eRenderShape FireTile::getRenderShape() const
 {
 	// @BUG: Since the shape is set to FIRE, but TileRenderer doesn't handle it,
 	// fire is invisible in this version of Minecraft.

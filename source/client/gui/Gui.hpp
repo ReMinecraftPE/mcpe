@@ -9,9 +9,10 @@
 #pragma once
 
 #include "GuiComponent.hpp"
+#include "common/Random.hpp"
 #include "client/player/input/RectangleArea.hpp"
 #include "client/app/Minecraft.hpp"
-#include "common/Random.hpp"
+#include "client/renderer/RenderChunk.hpp"
 
 class Minecraft; // in case we're included from Minecraft.hpp
 
@@ -25,6 +26,20 @@ struct GuiMessage
 
 class Gui : public GuiComponent
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_vignette;
+		mce::MaterialPtr ui_overlay;
+		mce::MaterialPtr ui_invert_overlay;
+		mce::MaterialPtr ui_overlay_textured;
+		mce::MaterialPtr ui_invert_overlay_textured;
+		mce::MaterialPtr ui_crosshair;
+
+		Materials();
+	};
+
 private:
 	static bool _isVignetteAvailable;
 public:
@@ -38,6 +53,10 @@ private:
 public:
 	Gui(Minecraft* pMinecraft);
 
+private:
+	void _updateHudPositions();
+
+public:
 	void addMessage(const std::string& str);
 	void inventoryUpdated();
 	void setNowPlaying(const std::string& str);
@@ -51,6 +70,12 @@ public:
 	void handleScroll(bool down);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
+	void renderHearts(bool topLeft);
+	void renderHunger(bool topLeft);
+	void renderBubbles(bool topLeft);
+	void renderProgressIndicator(int width, int height);
+	void renderExperience();
+	void renderToolBar(float f, float alpha);
 	int getNumSlots();					  // Gets the number of slots in the inventory. Includes the '...' if in touch mode.
 	int getNumUsableSlots();			  // Gets the number of usable slots in the inventory. Does not include the '...' if in touch mode.
 	RectangleArea getRectangleArea(bool b);
@@ -58,8 +83,11 @@ public:
 public:
 	static float InvGuiScale;
 
+protected:
+	Materials m_guiMaterials;
+
 public:
-	float field_8;
+	float m_progress;
 	std::string field_C;
 	std::vector<GuiMessage> m_guiMessages;
 	int field_24;
@@ -75,5 +103,8 @@ public:
 	RenderChunk m_renderChunk;
 	bool field_A3C;
 	bool m_bRenderMessages;
+    bool m_bRenderHunger;
+	int m_width;
+	int m_height;
 };
 

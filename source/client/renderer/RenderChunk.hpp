@@ -8,40 +8,70 @@
 
 #pragma once
 
-#include "thirdparty/GL/GL.hpp"
+#include "compat/LegacyCPP.hpp"
+#include "renderer/Mesh.hpp"
+#include "world/level/TilePos.hpp"
+
+enum TerrainLayer
+{
+	TERRAIN_LAYER_OPAQUE,
+	TERRAIN_LAYER_OPAQUE_SEASONS,
+	TERRAIN_LAYER_DOUBLE_SIDED,
+	TERRAIN_LAYER_ALPHATEST,
+	TERRAIN_LAYER_ALPHATEST_SINGLE_SIDE,
+	TERRAIN_LAYER_ALPHATEST_SEASONS,
+	TERRAIN_LAYER_BLEND,
+	TERRAIN_LAYER_FAR,
+	TERRAIN_LAYER_SEASONS_FAR,
+	TERRAIN_LAYER_SEASONS_FAR_ALPHATEST,
+	TERRAIN_LAYERS_MIN = TERRAIN_LAYER_OPAQUE,
+	TERRAIN_LAYERS_MAX = TERRAIN_LAYER_SEASONS_FAR_ALPHATEST,
+	TERRAIN_LAYERS_COUNT
+};
 
 class RenderChunk
 {
-	static int runningId;
+private:
+	static bool _isUnderwater;
+public:
+	static mce::MaterialPtr fogMaterialMap[10];
+	static mce::MaterialPtr materialMap[10];
+	static mce::MaterialPtr fadingSeasonsAlphaChunkMaterial;
+	static mce::MaterialPtr fadingSeasonsChunksMaterial;
+	static mce::MaterialPtr fadingChunksMaterial;
+
+private:
+	double m_lastRebuilt;
+public:
+	TilePos m_pos;
+	mce::Mesh m_mesh;
+
+private:
+	void _init();
+    void _init(RenderChunk& other);
 
 public:
-	GLuint field_0;
-	int field_4;
-	int m_id;
-	float field_C;
-	float field_10;
-	float field_14;
-
+	RenderChunk() { _init(); }
+	MC_CTOR_MOVE(RenderChunk);
+	RenderChunk(const TilePos& pos, mce::Mesh& mesh);
+	
+private:
+	const mce::MaterialPtr& _chooseMaterial(TerrainLayer layer, double a, bool fog);
+    
 public:
-	RenderChunk()
-	{
-		field_0 = -1;
-		field_4 = 0;
-		field_C = 0.0f;
-		field_10 = 0.0f;
-		field_14 = 0.0f;
+    void _move(RenderChunk& other);
+	
+public:
+	void render(TerrainLayer layer, double a, bool fog);
+	void reset();
+	
+public:
+	MC_FUNC_MOVE(RenderChunk);
 
-		m_id = ++runningId;
-	}
-	RenderChunk(GLuint a1, int a2)
-	{
-		field_C = 0.0f;
-		field_10 = 0.0f;
-		field_14 = 0.0f;
-
-		m_id = ++runningId;
-		field_0 = a1;
-		field_4 = a2;
-	}
+private:
+	static void _InitLayers(mce::MaterialPtr* materials, const std::string& suffix);
+public:
+	static void InitMaterials();
+	static void SetUnderwater(bool isUnderwater);
 };
 

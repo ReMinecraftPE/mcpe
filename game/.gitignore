@@ -1,0 +1,6 @@
+# Ignore the games directory - where levels will be saved
+/games
+
+# Ignore options.txt - where your configuration will be saved
+/options.txt
+/assetsO

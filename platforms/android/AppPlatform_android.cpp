@@ -135,38 +135,6 @@ std::string AppPlatform_android::getDateString(int time)
 	return std::string(buffer);
 }
 
-Texture AppPlatform_android::loadTexture(const std::string& str, bool bIsRequired)
-{
-	std::string realPath = str;
-	if (realPath.size() && realPath[0] == '/')
-		// trim it off
-		realPath = realPath.substr(1);
-
-	AAsset* asset = AAssetManager_open(m_app->activity->assetManager, str.c_str(), AASSET_MODE_BUFFER);
-	if (!asset) {
-		LOG_E("File %s couldn't be opened", realPath.c_str());
-		assert(!bIsRequired && "Hey, a texture couldn't be loaded");
-		return Texture(0, 0, nullptr, 1, 0);
-	}
-	size_t cnt = AAsset_getLength(asset);
-	unsigned char* buffer = (unsigned char*)calloc(cnt, sizeof(unsigned char));
-	AAsset_read(asset, (void*)buffer, cnt);
-	AAsset_close(asset);
-
-	int width = 0, height = 0, channels = 0;
-
-	stbi_uc* img = stbi_load_from_memory(buffer, cnt, &width, &height, &channels, STBI_rgb_alpha);
-	if (!img)
-	{
-		LOG_E("File %s couldn't be loaded via stb_image", realPath.c_str());
-		assert(!bIsRequired && "Hey, a texture couldn't be loaded");
-		return Texture(0, 0, nullptr, 1, 0);
-	}
-
-	free(buffer);
-	return Texture(width, height, (uint32_t*)img, 1, 0);
-}
-
 SoundSystem* const AppPlatform_android::getSoundSystem() const
 {
 	return m_pSoundSystem;
@@ -185,53 +153,6 @@ bool AppPlatform_android::isTouchscreen() const
 	return true;
 }
 
-/*
-std::vector<std::string> AppPlatform_android::getOptionStrings()
-{
-	std::vector<std::string> o;
-
-	//o.push_back("mp_username");
-	//o.push_back("iProgramInCpp");
-
-	std::ifstream ifs("options.txt");
-	if (!ifs.is_open())
-		return o;
-
-	std::string str;
-	while (true)
-	{
-		if (!std::getline(ifs, str, '\n'))
-			break;
-
-		if (str.empty() || str[0] == '#')
-			continue;
-
-		std::stringstream ss;
-		ss << str;
-
-		std::string key, value;
-		if (std::getline(ss, key, '|') && std::getline(ss, value))
-		{
-			o.push_back(key);
-			o.push_back(value);
-		}
-	}
-
-	return o;
-}
-
-void AppPlatform_android::setOptionStrings(const std::vector<std::string>& str)
-{
-	assert(str.size() % 2 == 0);
-
-	std::ofstream os("options.txt");
-
-	os << "#Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.\n\n";
-	
-	for (int i = 0; i < int(str.size()); i += 2)
-		os << str[i] << '|' << str[i + 1] << '\n';
-}
-*/
 void AppPlatform_android::setScreenSize(int width, int height)
 {
 	m_ScreenWidth = width;

@@ -25,24 +25,12 @@ public:
 		NONE,
 	};
 
-	// Replaced with Facing::Name
-	/*enum HitSide //: signed char
-	{
-		NOHIT = -1,
-		MINY  =  0,
-		MAXY, // 1
-		MINZ, // 2
-		MAXZ, // 3
-		MINX, // 4
-		MAXX, // 5
-	};*/
-
 private:
 	void _init();
 public:
 	HitResult() { _init(); }
 	HitResult(Entity*);
-	HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3&);
+	HitResult(const TilePos& tilePos, Facing::Name hitSide, const Vec3& pos);
 	bool isHit() const {
 		return m_hitType != NONE;
 	}

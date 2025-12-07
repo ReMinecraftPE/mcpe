@@ -17,7 +17,7 @@ public:
 
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 	int getResourceCount(Random* random) const override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
 	AABB getTileAABB(const Level*, const TilePos& pos) override;

@@ -15,7 +15,7 @@ InvisibleTile::InvisibleTile(TileID ID, int texture, Material* pMtl) :
 
 }
 
-int InvisibleTile::getRenderShape() const
+eRenderShape InvisibleTile::getRenderShape() const
 {
 	return SHAPE_NONE;
 }

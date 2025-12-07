@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "world/tile/Tile.hpp"
 #include "FrustumCuller.hpp"
 #include "RenderList.hpp"
 #include "Tesselator.hpp"
@@ -18,14 +19,15 @@ class Entity;
 class Chunk
 {
 public:
-	Chunk(Level*, const TilePos& pos, int, int, GLuint*);
+	Chunk(Level*, const TilePos& pos, int, int);
 
-	float distanceToSqr(const Entity*) const;
-	float squishedDistanceToSqr(const Entity*) const;
+public:
+	float distanceToSqr(const Entity& entity) const;
+	float squishedDistanceToSqr(const Entity& entity) const;
 	void reset();
-	int getList(int idx);
-	RenderChunk* getRenderChunk(int idx);
-	int getAllLists(int* arr, int arr_idx, int idx);
+	int getList(Tile::RenderLayer layer);
+	RenderChunk* getRenderChunk(Tile::RenderLayer layer);
+	int getAllLists(int* displayLists, int p, Tile::RenderLayer layer);
 	void cull(Culler* pCuller);
 	void renderBB();
 	bool isEmpty();
@@ -34,7 +36,6 @@ public:
 	void setClean();
 	bool isDirty();
 	void rebuild();
-	void translateToPos();
 
 public:
 	static int updates;
@@ -42,22 +43,23 @@ public:
 public:
 	Level* m_pLevel;
 	TilePos m_pos;
-	TilePos field_10;
-	bool field_1C[2];
-	TilePos m_pos2;
+	TilePos m_posS;
+	bool m_empty[Tile::RENDER_LAYERS_COUNT];
+	TilePos m_posM;
 	float field_2C;
 	AABB m_aabb;
-	int field_48;
+	int m_id;
 	bool m_bVisible;
-	bool field_4D;
-	bool field_4E;
-	int field_50;
+	bool m_bOcclusionVisible;
+	bool m_bOcclusionQuerying;
+	int m_occlusionId;
 	bool field_54;
-	RenderChunk m_renderChunks[2];
+	RenderChunk m_renderChunks[Tile::RENDER_LAYERS_COUNT];
 	Tesselator* m_pTesselator;
-	int field_8C;
-	GLuint* field_90;
-	bool field_94;
+private:
+	int m_lists;
+public:
+	bool m_bCompiled;
 	bool m_bDirty;
 };
 

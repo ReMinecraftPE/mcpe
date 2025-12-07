@@ -6,16 +6,18 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "thirdparty/GL/GL.hpp"
 #include "GameRenderer.hpp"
+#include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/player/input/Controller.hpp"
 #include "Frustum.hpp"
-#include "Lighting.hpp"
 #include "renderer/GL/GL.hpp"
+#include "renderer/GlobalConstantBuffers.hpp"
+#include "renderer/RenderContextImmediate.hpp"
+#include "thirdparty/glm/glm.hpp"
 
-// #define SHOW_VERTEX_COUNTER_GRAPHIC
+//#define SHOW_VERTEX_COUNTER_GRAPHIC
 
 #if defined SHOW_VERTEX_COUNTER_GRAPHIC && !defined _DEBUG
 #undef  SHOW_VERTEX_COUNTER_GRAPHIC
@@ -27,8 +29,9 @@ int t_keepPic;
 void GameRenderer::_init()
 {
 	//ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
+	m_pLevel = nullptr;
 
-	field_8 = 0.0f;
+	m_renderDistance = 0.0f;
 	field_C = 0;
 	m_pHovered = nullptr;
 	field_14 = 0.0f;
@@ -43,26 +46,18 @@ void GameRenderer::_init()
 	field_38 = 0.0f;
 	field_3C = 0.0f;
 	field_40 = 0.0f;
-	field_44 = 1.0f;
-	field_48 = 0.0f;
-	field_4C = 0.0f;
+	m_zoom = 1.0f;
 	field_50 = 0.0f;
 	field_54 = 0.0f;
 	field_58 = 0.0f;
 	field_5C = 0.0f;
-	field_60 = 0.0f;
-	field_64 = 0.0f;
-	field_68 = 0.0f;
-	field_6C = 0.0f;
-	field_70 = 0.0f;
 	field_74 = 0.0f;
 	field_78 = 0.0f;
 	field_7C = 0.0f;
 	field_80 = 0.0f;
 	field_84 = 0.0f;
-	m_lastUpdatedMS = 0;
-	m_shownFPS = 0;
-	m_shownChunkUpdates = 0;
+
+	m_shownFPS = m_shownChunkUpdates = m_lastUpdatedMS = 0;
 
 	m_envTexturePresence = 0;
 }
@@ -76,6 +71,10 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 
 	m_pItemInHandRenderer = new ItemInHandRenderer(pMinecraft);
 	EntityRenderDispatcher::getInstance()->m_pItemInHandRenderer = m_pItemInHandRenderer;
+
+#ifdef FEATURE_GFX_SHADERS
+	mce::GlobalConstantBuffers::getInstance().init();
+#endif
 }
 
 GameRenderer::~GameRenderer()
@@ -83,57 +82,202 @@ GameRenderer::~GameRenderer()
 	delete m_pItemInHandRenderer;
 }
 
-void GameRenderer::zoomRegion(float a, float b, float c)
+void GameRenderer::_clearFrameBuffer()
 {
-	field_44 = a;
-	field_48 = b;
-	field_4C = c;
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+	renderContext.setRenderTarget();
+	renderContext.clearFrameBuffer(Color(0.0f, 0.3f, 0.2f, 0.0f));
+	renderContext.clearDepthStencilBuffer();
+}
+
+void GameRenderer::_renderItemInHand(float f, int i)
+{
+	Matrix& viewMtx = MatrixStack::View.getTop();
+	viewMtx = Matrix::IDENTITY;
+
+	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
+	{
+		viewMtx.translate(Vec3(float(2 * i - 1) * 0.1f, 0.0f, 0.0f));
+	}
+
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+
+	bobHurt(matrix, f);
+
+	if (m_pMinecraft->getOptions()->m_bViewBobbing)
+	{
+		bobView(matrix, f);
+	}
+
+	if (!m_pMinecraft->getOptions()->m_bThirdPerson && !m_pMinecraft->getOptions()->m_bDontRenderGui)
+	{
+		mce::RenderContextImmediate::get().clearDepthStencilBuffer();
+		m_pItemInHandRenderer->render(f);
+	}
+
+	if (!m_pMinecraft->getOptions()->m_bThirdPerson)
+	{
+		m_pItemInHandRenderer->renderScreenEffect(f);
+		bobHurt(matrix, f);
+	}
+
+	if (m_pMinecraft->getOptions()->m_bViewBobbing)
+	{
+		bobView(matrix, f);
+	}
+}
+
+void GameRenderer::_renderDebugOverlay(float a)
+{
+	ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+	Font& font = *m_pMinecraft->m_pFont;
+
+	std::stringstream debugText;
+	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
+	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
+
+	/*
+	 * The "!m_pMinecraft->m_bPreparingLevel" check *needs* to be here.
+	 * If said check is not here, when getBiome() is called for the biome display,
+	 * it would allocate an array with a size of 1 before the level was even generated.
+	 * Then, during level generation, said array would be written to as if it had a size
+	 * of 256, leading to a heap corruption that took ASan to debug successfully.
+	 * Unfortunately, ASan and DirectSound don't mix, and Microsoft's ASan team has stated that they don't even know why:
+	 * https://developercommunity.visualstudio.com/t/ASAN-x64-causes-unhandled-exception-at-0/1365655#T-N10460750
+	 * Since all SoundSystems are backed with DirectSound, SoundSystemNull is needed to use ASan.
+	 * This heap corruption bug, which (only if the F3 menu was open) would cause multiplayer functionality to be entirely
+	 * based on luck, had been around since Commit 53200be, on March 5th of 2025, and was fixed on September 30th of 2025.
+	 */
+	if (m_pMinecraft->m_pLocalPlayer && !m_pMinecraft->m_bPreparingLevel)
+	{
+		char posStr[96];
+		Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(a);
+		sprintf(posStr, "%.2f / %.2f / %.2f", pos.x, pos.y, pos.z);
+
+		debugText << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+		debugText << m_pMinecraft->m_pLevelRenderer->gatherStats2() << "\n";
+		debugText << "XYZ: " << posStr << "\n";
+		debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
+	}
+
+#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
+	extern int g_nVertices; // Tesselator.cpp
+	debugText << "\nverts: " << g_nVertices;
+
+	_renderVertexGraph(g_nVertices, int(Minecraft::height * Gui::InvGuiScale));
+#endif
+
+	/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
+	debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
+	debugText << "\nGameRenderer::field_7C: "      << field_7C;
+	debugText << "\nGameRenderer::field_80: "      << field_80;*/
+
+	font.drawShadow(debugText.str(), 2, 2, Color::WHITE);
+
+#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
+	g_nVertices = 0;
+#endif
+}
+
+void GameRenderer::_renderVertexGraph(int vertices, int h)
+{
+	ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+	Font& font = *m_pMinecraft->m_pFont;
+
+	static int vertGraph[200];
+	memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
+	vertGraph[(sizeof(vertGraph) / sizeof(vertGraph[0])) - 1] = vertices;
+
+	Tesselator& t = Tesselator::instance;
+
+	int max = 0;
+	for (int i = 0; i < 200; i++)
+		max = std::max(max, vertGraph[i]);
+
+	int maxht = 100;
+
+	//glClear(GL_DEPTH_BUFFER_BIT);
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color::WHITE;
+
+	t.begin(4);
+	t.color(1.0f, 1.0f, 1.0f, 0.15f);
+	t.vertex(000, h - maxht, 0);
+	t.vertex(000, h, 0);
+	t.vertex(200, h, 0);
+	t.vertex(200, h - maxht, 0);
+	t.draw(screenRenderer.m_materials.ui_fill_color);
+
+	t.begin(200 * 4);
+	t.color(0.0f, 1.0f, 0.0f, 1.0f);
+
+	for (int i = 0; i < 200 && max != 0; i++)
+	{
+		t.vertex(i + 0, h - (vertGraph[i] * maxht / max), 0);
+		t.vertex(i + 0, h - 0, 0);
+		t.vertex(i + 1, h - 0, 0);
+		t.vertex(i + 1, h - (vertGraph[i] * maxht / max), 0);
+	}
+
+	t.draw(screenRenderer.m_materials.ui_fill_color);
+
+	screenRenderer.drawString(font, SSTR(max), 200, h - maxht);
+}
+
+void GameRenderer::zoomRegion(float zoom, const Vec2& region)
+{
+	m_zoom = zoom;
+	m_zoomRegion = region;
 }
 
 void GameRenderer::unZoomRegion()
 {
-	field_44 = 1.0f;
+	m_zoom = 1.0f;
 }
 
 void GameRenderer::setupCamera(float f, int i)
 {
-	field_8 = float(256 >> m_pMinecraft->getOptions()->m_iViewDistance);
+	m_renderDistance = float(256 >> m_pMinecraft->getOptions()->m_iViewDistance);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	Matrix& projMtx = MatrixStack::Projection.getTop();
+	projMtx = Matrix::IDENTITY;
 
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-		glTranslatef(float(1 - 2 * i) * 0.07f, 0.0f, 0.0f);
+		projMtx.translate(Vec3(float(1 - 2 * i) * 0.07f, 0.0f, 0.0f));
 	}
 
-	if (field_44 != 1.0)
+	if (m_zoom != 1.0)
 	{
-		glTranslatef(field_48, -field_4C, 0.0);
-		glScalef(field_44, field_44, 1.0);
+		projMtx.translate(Vec3(m_zoomRegion.x, -m_zoomRegion.y, 0.0f));
+		projMtx.scale(Vec3(m_zoom, m_zoom, 1.0f));
 	}
 
 	float fov = getFov(f);
-	gluPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, field_8);
+	projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	Matrix& viewMtx = MatrixStack::View.getTop();
+	viewMtx = Matrix::IDENTITY;
 
 	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
 	{
-		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
+		viewMtx.translate(Vec3(float(2 * i - 1) * 0.1f, 0.0f, 0.0f));
 	}
 
-	bobHurt(f);
+	bobHurt(viewMtx, f);
 	if (m_pMinecraft->getOptions()->m_bViewBobbing)
-		bobView(f);
+	{
+		bobView(viewMtx, f);
+	}
 
-	moveCameraToPlayer(f);
+	moveCameraToPlayer(viewMtx, f);
 }
 
-void GameRenderer::moveCameraToPlayer(float f)
+void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 {
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
+	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 
 	float headHeightDiff = pMob->m_heightOffset - 1.62f;
 
@@ -141,16 +285,16 @@ void GameRenderer::moveCameraToPlayer(float f)
 	float posY = Mth::Lerp(pMob->m_oPos.y, pMob->m_pos.y, f);
 	float posZ = Mth::Lerp(pMob->m_oPos.z, pMob->m_pos.z, f);
 
-	glRotatef(field_5C + f * (field_58 - field_5C), 0.0f, 0.0f, 1.0f);
+	matrix.rotate(field_5C + f * (field_58 - field_5C), Vec3::UNIT_Z);
 
 	if (m_pMinecraft->getOptions()->m_bThirdPerson)
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
 		if (m_pMinecraft->getOptions()->field_241)
 		{
-			glTranslatef(0.0f, 0.0f, -v11);
-			glRotatef(field_38 + (field_34 - field_38) * f, 1.0f, 0.0f, 0.0f);
-			glRotatef(field_40 + (field_3C - field_40) * f, 0.0f, 1.0f, 0.0f);
+			matrix.translate(Vec3::NEG_UNIT_Z * v11);
+			matrix.rotate(field_38 + (field_34 - field_38) * f, Vec3::UNIT_X);
+			matrix.rotate(field_40 + (field_3C - field_40) * f, Vec3::UNIT_Y);
 		}
 		else
 		{
@@ -185,206 +329,106 @@ void GameRenderer::moveCameraToPlayer(float f)
 				}
 			}
 
-			// @HUH: Why the hell is it rotating by 0
-			glRotatef(pMob->m_rot.y - mob_pitch, 1.0f, 0.0f, 0.0f);
-			glRotatef(pMob->m_rot.x - mob_yaw, 0.0f, 1.0f, 0.0f);
-			glTranslatef(0.0, 0.0, -v11);
-			glRotatef(mob_yaw - pMob->m_rot.x, 0.0f, 1.0f, 0.0f);
-			glRotatef(mob_pitch - pMob->m_rot.y, 1.0f, 0.0f, 0.0f);
+			matrix.rotate(pMob->m_rot.y - mob_pitch, Vec3::UNIT_X);
+			matrix.rotate(pMob->m_rot.x - mob_yaw, Vec3::UNIT_Y);
+			matrix.translate(Vec3::NEG_UNIT_Z * v11);
+			matrix.rotate(mob_yaw - pMob->m_rot.x, Vec3::UNIT_Y);
+			matrix.rotate(mob_pitch - pMob->m_rot.y, Vec3::UNIT_X);
 		}
 	}
 	else
 	{
-		glTranslatef(0.0f, 0.0f, -0.1f);
+		matrix.translate(Vec3(0.0f, 0.0f, -0.1f));
 	}
 
 	if (!m_pMinecraft->getOptions()->field_241)
 	{
-		glRotatef(pMob->m_oRot.y + f * (pMob->m_rot.y - pMob->m_oRot.y), 1.0f, 0.0f, 0.0f);
-		glRotatef(pMob->m_oRot.x + f * (pMob->m_rot.x - pMob->m_oRot.x) + 180.0f, 0.0f, 1.0f, 0.0f);
+		matrix.rotate(pMob->m_oRot.y + f * (pMob->m_rot.y - pMob->m_oRot.y), Vec3::UNIT_X);
+		matrix.rotate(pMob->m_oRot.x + f * (pMob->m_rot.x - pMob->m_oRot.x) + 180.0f, Vec3::UNIT_Y);
 	}
 
-	glTranslatef(0.0f, headHeightDiff, 0.0f);
+	matrix.translate(Vec3::UNIT_Y * headHeightDiff);
 }
 
 void GameRenderer::saveMatrices()
 {
-	glGetFloatv(GL_PROJECTION_MATRIX, m_matrix_projection);
-	glGetFloatv(GL_MODELVIEW_MATRIX,  m_matrix_model_view);
+	if (m_pMinecraft->useSplitControls() || !m_pMinecraft->m_pInputHolder->allowPicking())
+		return;
+
+	// Save projection matrix
+	m_mtxProj = MatrixStack::Projection.top();
+
+	// Save modelview matrix
+	const Matrix& worldMatrix = MatrixStack::World.top();
+	const Matrix& viewMatrix = MatrixStack::View.top();
+	// Order matters!
+	m_mtxView = viewMatrix * worldMatrix;
 }
 
 void GameRenderer::setupGuiScreen()
 {
 	float x = Gui::InvGuiScale * Minecraft::width;
 	float y = Gui::InvGuiScale * Minecraft::height;
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	xglOrthof(0, x, y, 0, 2000.0f, 3000.0f); // @NOTE: for whatever reason, nearpl is 1000.0f on LCE
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, -2000.0f);
+
+	Matrix& projMtx = MatrixStack::Projection.getTop();
+	projMtx.setOrtho(0, x, y, 0, 2000.0f, 3000.0f);
+
+	Matrix& viewMtx = MatrixStack::View.getTop();
+	viewMtx = Matrix::IDENTITY;
+	viewMtx.translate(Vec3(0.0f, 0.0f, -2000.0f)); // -2000 to -3000
 }
 
-void GameRenderer::bobHurt(float f)
+void GameRenderer::bobHurt(Matrix& matrix, float f)
 {
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
+	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 
 	if (pMob->m_health <= 0)
-		glRotatef(-8000.0f / (float(pMob->m_deathTime) + f + 200.0f) + 40.0f, 0.0f, 0.0f, 1.0f);
+	{
+		matrix.rotate(-8000.0f / (float(pMob->m_deathTime) + f + 200.0f) + 40.0f, Vec3::UNIT_Z);
+	}
 
 	if (pMob->m_hurtTime > 0)
 	{
 		float val = (pMob->m_hurtTime - f) / pMob->m_hurtDuration;
 
-		glRotatef(-pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
-		glRotatef(Mth::sin(val * val * val * val * 3.1416f) * -14.0f, 0.0f, 0.0f, 1.0f);
-		glRotatef(pMob->m_hurtDir, 0.0f, 1.0f, 0.0f);
+		matrix.rotate(-pMob->m_hurtDir, Vec3::UNIT_Y);
+		matrix.rotate(Mth::sin(val * val * val * val * 3.1416f) * -14.0f, Vec3::UNIT_Z);
+		matrix.rotate(pMob->m_hurtDir, Vec3::UNIT_Y);
 	}
 }
 
-void GameRenderer::bobView(float f)
+void GameRenderer::bobView(Matrix& matrix, float f)
 {
-	if (!m_pMinecraft->m_pMobPersp->isPlayer())
+	if (!m_pMinecraft->m_pCameraEntity->isPlayer())
 		return;
 
-	Player* player = (Player*)m_pMinecraft->m_pMobPersp;
+	Player* player = (Player*)m_pMinecraft->m_pCameraEntity;
 	float f1 = Mth::Lerp(player->m_oBob, player->m_bob, f);
 	float f2 = Mth::Lerp(player->m_oTilt, player->m_tilt, f);
 	// @NOTE: Multiplying by M_PI inside of the paren makes it stuttery for some reason? Anyways it works now :)
 	float f3 = -(player->m_walkDist + (player->m_walkDist - player->field_90) * f) * float(M_PI);
 	float f4 = Mth::sin(f3);
 	float f5 = Mth::cos(f3);
-	glTranslatef((f4 * f1) * 0.5f, -fabsf(f5 * f1), 0.0f);
-	float f6 = Mth::sin(f3);
-	glRotatef((f6 * f1) * 3.0f, 0.0f, 0.0f, 1.0f);
-	float f7 = Mth::cos(f3 - 0.2f);
-	glRotatef(fabsf(f7 * f1) * 5.0f, 1.0f, 0.0f, 0.0f);
-	glRotatef(f2, 1.0f, 0.0f, 0.0f);
-}
+	float f6 = Mth::cos(f3 - 0.2f);
 
-void GameRenderer::setupClearColor(float f)
-{
-	Minecraft* pMC = m_pMinecraft;
-	Level* pLevel = pMC->m_pLevel;
-	Mob* pMob = pMC->m_pMobPersp;
-
-	float x1 = 1.0f - powf(1.0f / float(4 - pMC->getOptions()->m_iViewDistance), 0.25f);
-
-	Vec3 skyColor = pLevel->getSkyColor(pMob, f), fogColor = pLevel->getFogColor(f);
-
-	//@BUG: double set to these?
-	field_60 = fogColor.x;
-	field_64 = fogColor.y;
-
-	field_60 = fogColor.x + (skyColor.x - fogColor.x) * x1;
-	field_64 = fogColor.y + (skyColor.y - fogColor.y) * x1;
-	field_68 = fogColor.z + (skyColor.z - fogColor.z) * x1;
-
-	if (pMob->isUnderLiquid(Material::water))
-	{
-		field_60 = 0.02f;
-		field_64 = 0.02f;
-		field_68 = 0.2f;
-	}
-	else if (pMob->isUnderLiquid(Material::lava))
-	{
-		field_60 = 0.6f;
-		field_64 = 0.1f;
-		field_68 = 0.0f;
-	}
-
-	float x2 = field_6C + (field_70 - field_6C) * f;
-
-	field_60 *= x2;
-	field_64 *= x2;
-	field_68 *= x2;
-
-	if (pMC->getOptions()->m_bAnaglyphs)
-	{
-		float r = (field_60 * 30.0f + field_64 * 59.0f + field_68 * 11.0f) / 100.0f;
-		float g = (field_60 * 30.0f + field_64 * 70.0f) / 100.0f;
-		float b = (field_60 * 30.0f + field_68 * 70.0f) / 100.0f;
-
-		field_60 = r;
-		field_64 = g;
-		field_68 = b;
-	}
-
-	glClearColor(field_60, field_64, field_68, 1.0f);
+	matrix.translate(Vec3((f4 * f1) * 0.5f, -fabsf(f5 * f1), 0.0f));
+	matrix.rotate((f4 * f1) * 3.0f, Vec3::UNIT_Z);
+	matrix.rotate(fabsf(f6 * f1) * 5.0f, Vec3::UNIT_X);
+	matrix.rotate(f2, Vec3::UNIT_X);
 }
 
 #ifndef ORIGINAL_CODE
 void GameRenderer::renderNoCamera()
 {
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.clearFrameBuffer(Color::WHITE);
+	renderContext.clearDepthStencilBuffer();
 }
 #endif
-
-void GameRenderer::setupFog(int i)
-{
-	float fog_color[4];
-	fog_color[0] = field_60;
-	fog_color[1] = field_64;
-	fog_color[2] = field_68;
-	fog_color[3] = 1.0f;
-
-	glFogfv(GL_FOG_COLOR, fog_color);
-#ifndef __EMSCRIPTEN__
-	glNormal3f(0.0f, -1.0f, 0.0f);
-#endif
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::water))
-	{
-	#if defined(ORIGINAL_CODE) || defined(ANDROID)
-		glFogx(GL_FOG_MODE, GL_EXP);
-	#else
-		glFogi(GL_FOG_MODE, GL_EXP);
-	#endif
-
-		glFogf(GL_FOG_DENSITY, 0.1f);
-	}
-	else if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::lava))
-	{
-	#if defined(ORIGINAL_CODE) || defined(ANDROID)
-		glFogx(GL_FOG_MODE, GL_EXP);
-	#else
-		glFogi(GL_FOG_MODE, GL_EXP);
-	#endif
-
-		glFogf(GL_FOG_DENSITY, 2.0f);
-	}
-	else
-	{
-	#if defined(ORIGINAL_CODE) || defined(ANDROID)
-		glFogx(GL_FOG_MODE, GL_LINEAR);
-	#else
-		glFogi(GL_FOG_MODE, GL_LINEAR);
-	#endif
-
-		glFogf(GL_FOG_START, field_8 * 0.25f);
-		glFogf(GL_FOG_END, field_8);
-		if (i < 0)
-		{
-			glFogf(GL_FOG_START, 0.0f);
-			glFogf(GL_FOG_END, field_8 * 0.8f);
-		}
-
-		if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
-		{
-			glFogf(GL_FOG_START, 0.0f);
-		}
-
-	}
-
-	glEnable(GL_COLOR_MATERIAL);
-}
 
 float GameRenderer::getFov(float f)
 {
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
+	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 
 	float x1 = 70.0f;
 
@@ -402,11 +446,15 @@ float GameRenderer::getFov(float f)
 
 void GameRenderer::renderLevel(float f)
 {
-	if (!m_pMinecraft->m_pMobPersp)
-	{
-		m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer;
+	if (!m_pLevel)
+		return;
 
-		if (!m_pMinecraft->m_pMobPersp)
+	Mob*& pCamera = m_pMinecraft->m_pCameraEntity;
+	if (!pCamera)
+	{
+		pCamera = m_pMinecraft->m_pLocalPlayer;
+
+		if (!pCamera)
 		{
 		#ifndef ORIGINAL_CODE
 			renderNoCamera();
@@ -417,142 +465,95 @@ void GameRenderer::renderLevel(float f)
 
 	pick(f);
 
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
-	Vec3 fCamPos;
-
-	fCamPos.x = pMob->m_posPrev.x + (pMob->m_pos.x - pMob->m_posPrev.x) * f;
-	fCamPos.y = pMob->m_posPrev.y + (pMob->m_pos.y - pMob->m_posPrev.y) * f;
-	fCamPos.z = pMob->m_posPrev.z + (pMob->m_pos.z - pMob->m_posPrev.z) * f;
+	const Entity& camera = *pCamera;
+	Vec3 camPos = camera.m_posPrev + (camera.m_pos - camera.m_posPrev) * f;
 
 	bool bAnaglyph = m_pMinecraft->getOptions()->m_bAnaglyphs;
 
-	LevelRenderer* pLR = m_pMinecraft->m_pLevelRenderer;
-	ParticleEngine* pPE = m_pMinecraft->m_pParticleEngine;
+	LevelRenderer& levelRenderer = *m_pMinecraft->m_pLevelRenderer;
+	ParticleEngine& particleEngine = *m_pMinecraft->m_pParticleEngine;
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
 	for (int i = 0; i < 2; i++)
 	{
 		if (bAnaglyph)
 		{
+#if MCE_GFX_API_OGL
 			if (i > 0)
 				glColorMask(true, false, false, false);
 			else
 				glColorMask(false, true, true, false);
+#endif
 		}
 
-		glViewport(0, 0, Minecraft::width, Minecraft::height);
-		setupClearColor(f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+		renderContext.setRenderTarget();
+		const Color& clearColor = levelRenderer.setupClearColor(f);
+		renderContext.clearFrameBuffer(clearColor);
+		renderContext.clearDepthStencilBuffer();
 
-		glEnable(GL_CULL_FACE);
 		setupCamera(f, i);
 		saveMatrices();
 
-		/*
-		if (m_pMinecraft->getOptions()->m_iViewDistance <= 1)
-		{
-#ifndef ORIGINAL_CODE
-			// @NOTE: For whatever reason, Minecraft doesn't enable GL_FOG right away.
-			// It appears to work in bluestacks for whatever reason though...
-			glEnable(GL_FOG);
-#endif
-			setupFog(-1);
-			pLR->renderSky(f);
-		}
-		*/
-
-		glEnable(GL_FOG);
-		setupFog(1);
-
-		if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
-			glShadeModel(GL_SMOOTH);
-
-		Frustum& frust = Frustum::frustum;
-		Frustum::doOurJobInGameRenderer();
-
-		FrustumCuller frustumCuller;
-		frustumCuller.m_frustumData.x = frust;
-		frustumCuller.prepare(fCamPos.x, fCamPos.y, fCamPos.z);
-
-		pLR->cull(&frustumCuller, f);
-		pLR->updateDirtyChunks(pMob, false);
-
-		// TODO[v0.6.1]: what is (this+4)+63 (byte)?
-		prepareAndRenderClouds(pLR, f);
-
-		setupFog(0);
-		glEnable(GL_FOG);
-
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-
-		Lighting::turnOff();
-		// render the opaque layer
-		pLR->render(pMob, 0, f);
-
-		Lighting::turnOn();
-		pLR->renderEntities(pMob->getPos(f), &frustumCuller, f);
-		pPE->renderLit(pMob, f);
-		Lighting::turnOff();
-		pPE->render(pMob, f);
-
-		// @BUG: The original demo calls GL_BLEND. We really should be enabling GL_BLEND.
-		//glEnable(GL_ALPHA);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		setupFog(0);
-
-#ifndef ORIGINAL_CODE
-		glShadeModel(GL_SMOOTH);
-#endif
-
-		//glEnable(GL_BLEND);
-		glDisable(GL_CULL_FACE);
-		// glDepthMask(false); -- added in 0.1.1j. Introduces more issues than fixes
-
-		// render the alpha layer
-		m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-		pLR->render(pMob, 1, f);
-
-		glDepthMask(true);
-
-#ifndef ORIGINAL_CODE
-		glShadeModel(GL_FLAT);
-#endif
-		glEnable(GL_CULL_FACE);
-		glDisable(GL_BLEND);
-
-		//renderNameTags(f);
-		if (field_44 == 1.0f && pMob->isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !pMob->isUnderLiquid(Material::water))
-		{
-			glDisable(GL_ALPHA_TEST);
-
-			// added by iProgramInCpp - renders the cracks
-			pLR->renderHit((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-
-			if (m_pMinecraft->getOptions()->m_bBlockOutlines)
-				pLR->renderHitOutline((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-			else
-				pLR->renderHitSelect((Player*)pMob, m_pMinecraft->m_hitResult, 0, nullptr, f);
-
-			glEnable(GL_ALPHA_TEST);
-		}
-
-		glDisable(GL_FOG);
-
-		if (false) // TODO: Figure out how to enable weather
-			renderWeather(f);
-
-		if (field_44 == 1.0f)
-		{
-			glClear(GL_DEPTH_BUFFER_BIT);
-			renderItemInHand(f, i);
-		}
+		renderFramedItems(camPos, levelRenderer, camera, f, particleEngine, i);
 
 		if (!bAnaglyph)
 			break;
 	}
 
 	if (bAnaglyph)
+	{
+#if MCE_GFX_API_OGL
 		glColorMask(true, true, true, false);
+#endif
+	}
+}
+
+void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, const Entity& camera, float f, ParticleEngine& particleEngine, float i)
+{
+	/*
+	if (m_pMinecraft->getOptions()->m_iViewDistance <= 1)
+	{
+#ifndef ORIGINAL_CODE
+			// @NOTE: For whatever reason, Minecraft doesn't enable GL_FOG right away.
+			// It appears to work in bluestacks for whatever reason though...
+			Fog::enable();
+#endif
+			setupFog(-1);
+			pLR->renderSky(f);
+		}
+		*/
+
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	if (m_pMinecraft->getOptions()->m_bAmbientOcclusion)
+	{
+		renderContext.setShadeMode(mce::SHADE_MODE_SMOOTH);
+	}
+
+	Frustum& frust = Frustum::frustum;
+	Frustum::calculateFrustum();
+
+	FrustumCuller frustumCuller;
+	frustumCuller.m_frustumData.x = frust;
+	frustumCuller.prepare(camPos);
+
+	levelRenderer.renderLevel(camera, frustumCuller, 0.0f, f);
+
+	if (m_zoom == 1.0f && camera.isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !camera.isUnderLiquid(Material::water))
+	{
+		levelRenderer.renderCracks(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
+
+		if (m_pMinecraft->getOptions()->m_bBlockOutlines)
+			levelRenderer.renderHitOutline(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
+		else
+			levelRenderer.renderHitSelect(camera, m_pMinecraft->m_hitResult, 0, nullptr, f);
+	}
+
+	if (m_zoom == 1.0f)
+	{
+		_renderItemInHand(f, i);
+	}
 }
 
 void GameRenderer::render(float f)
@@ -651,16 +652,17 @@ void GameRenderer::render(float f)
 					return;
 			}
 
-			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
+			m_pMinecraft->m_pGui->render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
 		}
 	}
 	else
 	{
-		glViewport(0, 0, Minecraft::width, Minecraft::height);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		_clearFrameBuffer();
+
+		MatrixStack::Projection.getTop() = Matrix::IDENTITY;
+		MatrixStack::View.getTop()       = Matrix::IDENTITY;
+		MatrixStack::World.getTop()      = Matrix::IDENTITY;
+
 		setupGuiScreen();
 	}
 
@@ -670,7 +672,7 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->m_pScreen)
 	{
-		glClear(GL_DEPTH_BUFFER_BIT);
+		mce::RenderContextImmediate::get().clearDepthStencilBuffer();
 		m_pMinecraft->m_pScreen->onRender(mouseX, mouseY, f);
 
 		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())
@@ -682,95 +684,9 @@ void GameRenderer::render(float f)
 		}
 	}
 
-	// @TODO: Move to its own function
-	std::stringstream debugText;
-	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
-	debugText << " (" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates)" << "\n";
-
 	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
-		/*
-		 * The "!m_pMinecraft->m_bPreparingLevel" check *needs* to be here.
-		 * If said check is not here, when getBiome() is called for the biome display,
-		 * it would allocate an array with a size of 1 before the level was even generated.
-		 * Then, during level generation, said array would be written to as if it had a size
-		 * of 256, leading to a heap corruption that took ASan to debug successfully.
-		 * Unfortunately, ASan and DirectSound don't mix, and Microsoft's ASan team has stated that they don't even know why:
-		 * https://developercommunity.visualstudio.com/t/ASAN-x64-causes-unhandled-exception-at-0/1365655#T-N10460750
-		 * Since all SoundSystems are backed with DirectSound, SoundSystemNull is needed to use ASan.
-		 * This heap corruption bug, which (only if the F3 menu was open) would cause multiplayer functionality to be entirely
-		 * based on luck, had been around since Commit 53200be, on March 5th of 2025, and was fixed on September 30th of 2025.
-		 */
-		if (m_pMinecraft->m_pLocalPlayer && !m_pMinecraft->m_bPreparingLevel)
-		{
-			char posStr[96];
-			Vec3 pos = m_pMinecraft->m_pLocalPlayer->getPos(f);
-			sprintf(posStr, "%.2f / %.2f / %.2f", pos.x, pos.y, pos.z);
-
-			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats1();
-			debugText << m_pMinecraft->m_pLevelRenderer->gatherStats2() << "\n";
-			debugText << "XYZ: " << posStr << "\n";
-			debugText << "Biome: " << m_pMinecraft->m_pLevel->getBiomeSource()->getBiome(pos)->m_name << "\n";
-		}
-#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
-		extern int g_nVertices; // Tesselator.cpp
-		debugText << "\nverts: " << g_nVertices;
-
-		static int vertGraph[200];
-		memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
-		vertGraph [ (sizeof(vertGraph) / sizeof(vertGraph[0])) - 1 ] = g_nVertices;
-
-		g_nVertices = 0;
-
-		Tesselator& t = Tesselator::instance;
-
-		int max = 0;
-		for (int i = 0; i < 200; i++)
-			max = std::max(max, vertGraph[i]);
-
-		int maxht = 100;
-		int h = int(Minecraft::height * Gui::InvGuiScale);
-
-		glDisable(GL_DEPTH_TEST);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-		t.begin();
-		t.color(1.0f, 1.0f, 1.0f, 0.15f);
-		t.vertex(000, h-maxht, 0);
-		t.vertex(000, h,       0);
-		t.vertex(200, h,       0);
-		t.vertex(200, h-maxht, 0);
-		t.draw();
-
-		t.begin();
-		t.color(0.0f, 1.0f, 0.0f, 1.0f);
-
-		for (int i = 0; i < 200 && max != 0; i++)
-		{
-			t.vertex(i + 0, h - (vertGraph[i] * maxht / max), 0);
-			t.vertex(i + 0, h - 0, 0);
-			t.vertex(i + 1, h - 0, 0);
-			t.vertex(i + 1, h - (vertGraph[i] * maxht / max), 0);
-		}
-
-		t.draw();
-		glEnable(GL_DEPTH_TEST);
-
-
-		m_pMinecraft->m_pFont->drawShadow(std::to_string(max), 200, h - maxht, 0xFFFFFF);
-#endif
-
-		/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
-		debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
-		debugText << "\nGameRenderer::field_7C: "      << field_7C;
-		debugText << "\nGameRenderer::field_80: "      << field_80;*/
-
-		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
-
-#ifdef SHOW_VERTEX_COUNTER_GRAPHIC
-		g_nVertices = 0;
-#endif
+		_renderDebugOverlay(f);
 	}
 
 	int timeMs = getTimeMs();
@@ -820,93 +736,28 @@ void GameRenderer::tick()
 
 	field_74 = 0.0f;
 	field_78 = 0.0f;
-	field_6C = field_70;
 	field_30 = field_2C;
 	field_38 = field_34;
 	field_40 = field_3C;
 	field_54 = field_50;
 	field_5C = field_58;
 
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
+	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 	if (!pMob)
 	{
-		pMob = m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer;
+		pMob = m_pMinecraft->m_pCameraEntity = m_pMinecraft->m_pLocalPlayer;
 	}
 
-	float bright = m_pMinecraft->m_pLevel->getBrightness(pMob->m_pos);
-	float x3 = float(3 - m_pMinecraft->getOptions()->m_iViewDistance);
-
 	field_C++;
-
-	float x4 = x3 / 3.0f;
-	float x5 = (x4 + bright * (1.0f - x4) - field_70) * 0.1f;
-
-	field_70 += x5;
 
 	m_pItemInHandRenderer->tick();
 }
 
-void GameRenderer::renderItemInHand(float f, int i)
-{
-	glLoadIdentity();
-
-	if (m_pMinecraft->getOptions()->m_bAnaglyphs)
-		glTranslatef(float(2 * i - 1) * 0.1f, 0.0f, 0.0f);
-
-	glPushMatrix();
-	bobHurt(f);
-
-	if (m_pMinecraft->getOptions()->m_bViewBobbing)
-		bobView(f);
-
-	if (!m_pMinecraft->getOptions()->m_bThirdPerson && !m_pMinecraft->getOptions()->m_bDontRenderGui)
-		m_pItemInHandRenderer->render(f);
-
-	glPopMatrix();
-
-	if (!m_pMinecraft->getOptions()->m_bThirdPerson)
-	{
-		m_pItemInHandRenderer->renderScreenEffect(f);
-		bobHurt(f);
-	}
-
-	if (m_pMinecraft->getOptions()->m_bViewBobbing)
-		bobView(f);
-}
-
-void GameRenderer::prepareAndRenderClouds(LevelRenderer* pLR, float f)
-{
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(getFov(f), float(Minecraft::width) / float(Minecraft::height), 0.05f, field_8 * 512.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	setupFog(0);
-	glDepthMask(false);
-	glEnable(GL_FOG);
-	glFogf(GL_FOG_START, field_8 * 0.2f);
-	glFogf(GL_FOG_END,   field_8 * 0.75f);
-	pLR->renderSky(f);
-	glFogf(GL_FOG_START, field_8 * 4.2f * 0.6f);
-	glFogf(GL_FOG_END,   field_8 * 4.2f);
-	pLR->renderClouds(f);
-	glFogf(GL_FOG_START, field_8 * 0.6f);
-	glFogf(GL_FOG_END,   field_8);
-	glDisable(GL_FOG);
-	glDepthMask(true);
-	setupFog(1);
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-}
-
 void GameRenderer::renderWeather(float f)
 {
-	if (m_envTexturePresence == 0)
+	/*if (m_envTexturePresence == 0)
 	{
-		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("snow.png", false) >= 0;
+		bool bLoadedSuccessfully = m_pMinecraft->m_pTextures->loadTexture("environment/snow.png", false) != nullptr;
 		m_envTexturePresence = bLoadedSuccessfully ? 2 : 1;
 	}
 	
@@ -921,10 +772,7 @@ void GameRenderer::renderWeather(float f)
 	Tesselator& t = Tesselator::instance;
 	Level* pLevel = m_pMinecraft->m_pLevel;
 
-	glDisable(GL_CULL_FACE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	m_pMinecraft->m_pTextures->loadAndBindTexture("snow.png");
+	m_pMinecraft->m_pTextures->loadAndBindTexture("environment/snow.png");
 
 	int range = m_pMinecraft->getOptions()->m_bFancyGraphics ? 10 : 5;
 
@@ -959,9 +807,10 @@ void GameRenderer::renderWeather(float f)
 			float f2 = float(tp.z + 0.5f) - pLP->m_pos.z;
 			float f3 = Mth::sqrt(f1 * f1 + f2 * f2) / float(range);
 			float f4 = pLevel->getBrightness(tp);
-			t.begin();
-			glColor4f(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
-			t.offset(-pos.x, -pos.y, -pos.z);
+			t.begin(8);
+			currentShaderColor = Color(f4, f4, f4, (1.0f - f3 * f3) * 0.7f);
+			currentShaderDarkColor = Color::WHITE;
+			t.setOffset(-pos.x, -pos.y, -pos.z);
 			t.vertexUV(float(tp.x + 0), float(minY), float(tp.z + 0), 0.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 1), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 1), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
@@ -970,14 +819,21 @@ void GameRenderer::renderWeather(float f)
 			t.vertexUV(float(tp.x + 1), float(minY), float(tp.z + 0), 1.0f * offs + x3, float(minY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 1), float(maxY), float(tp.z + 0), 1.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
 			t.vertexUV(float(tp.x + 0), float(maxY), float(tp.z + 1), 0.0f * offs + x3, float(maxY) * offs / 8.0f + x2 * offs + x4);
-			t.offset(0.0f, 0.0f, 0.0f);
-			t.draw();
+			t.setOffset(0.0f, 0.0f, 0.0f);
+			t.draw(); // use "snow" or "weather" material
 		}
-	}
+	}*/
+}
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glEnable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
+
+void GameRenderer::setLevel(Level* pLevel, Dimension* pDimension)
+{
+	m_pLevel = pLevel;
+
+	if (!pLevel || !pDimension)
+		return;
+
+	//_tickLightTexture(pDimension, 1.0f);
 }
 
 void GameRenderer::onGraphicsReset()
@@ -987,10 +843,10 @@ void GameRenderer::onGraphicsReset()
 
 void GameRenderer::pick(float f)
 {
-	if (!m_pMinecraft->m_pMobPersp || !m_pMinecraft->m_pLevel)
+	if (!m_pMinecraft->m_pCameraEntity || !m_pMinecraft->m_pLevel)
 		return;
 
-	Mob* pMob = m_pMinecraft->m_pMobPersp;
+	Mob* pMob = m_pMinecraft->m_pCameraEntity;
 	HitResult& mchr = m_pMinecraft->m_hitResult;
 	float dist = m_pMinecraft->m_pGameMode->getBlockReachDistance();
 	bool isFirstPerson = !m_pMinecraft->getOptions()->m_bThirdPerson;
@@ -1012,8 +868,8 @@ void GameRenderer::pick(float f)
 			if (glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
 				              Minecraft::height - m_pMinecraft->m_pInputHolder->m_feedbackY,
 				              1.0f,
-				              m_matrix_model_view,
-				              m_matrix_projection,
+				              m_mtxView.ptr(),
+				              m_mtxProj.ptr(),
 				              viewport,
 				              obj_coord))
 			{
@@ -1022,8 +878,8 @@ void GameRenderer::pick(float f)
 				glhUnProjectf(m_pMinecraft->m_pInputHolder->m_feedbackX,
 				              Minecraft::height - m_pMinecraft->m_pInputHolder->m_feedbackY,
 				              0.0f,
-				              m_matrix_model_view,
-				              m_matrix_projection,
+				              m_mtxView.ptr(),
+				              m_mtxProj.ptr(),
 				              viewport,
 				              obj_coord);
 
@@ -1057,9 +913,9 @@ void GameRenderer::pick(float f)
 			{
 				HitResult hr = m_pMinecraft->m_pLevel->clip(foundPosNear, foundPosFar, false);
 
-				float diffX = float(hr.m_tilePos.x) - m_pMinecraft->m_pMobPersp->m_pos.x;
-				float diffY = float(hr.m_tilePos.y) - m_pMinecraft->m_pMobPersp->m_pos.y;
-				float diffZ = float(hr.m_tilePos.z) - m_pMinecraft->m_pMobPersp->m_pos.z;
+				float diffX = float(hr.m_tilePos.x) - m_pMinecraft->m_pCameraEntity->m_pos.x;
+				float diffY = float(hr.m_tilePos.y) - m_pMinecraft->m_pCameraEntity->m_pos.y;
+				float diffZ = float(hr.m_tilePos.z) - m_pMinecraft->m_pCameraEntity->m_pos.z;
 
 				if (hr.m_hitType == HitResult::NONE || diffX * diffX + diffY * diffY + diffZ * diffZ > offset * offset)
 					mchr.m_hitType = HitResult::NONE;

@@ -1,0 +1,6 @@
+[
+	{"path":"materials/sad.material"},
+	{"path":"materials/entity.material"},
+	{"path":"materials/terrain.material"},
+	{"path":"materials/terrain.material", "defines":["FOG"], "tag":"_fog"}
+]

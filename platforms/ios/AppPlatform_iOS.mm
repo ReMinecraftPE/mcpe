@@ -64,12 +64,8 @@ int AppPlatform_iOS::getScreenHeight() const
 	return m_pViewController.height;
 }
 
-Texture AppPlatform_iOS::loadTexture(const std::string& path, bool b)
+void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
 {
-	Texture out;
-	out.m_hasAlpha = true;
-	out.field_D = 0;
-	
 	std::string realPath = getAssetPath(path);
 	
 	UIImage * image = [UIImage imageWithContentsOfFile:
@@ -78,28 +74,26 @@ Texture AppPlatform_iOS::loadTexture(const std::string& path, bool b)
 	if (!image || !image.CGImage)
 	{
 		LOG_E("Couldn't find file: %s", path.c_str());
-		return out;
+		return;
 	}
 	
-	out.m_width = CGImageGetWidth(image.CGImage);
-	out.m_height = CGImageGetHeight(image.CGImage);
-	out.m_pixels = new uint32_t[out.m_width * out.m_height];
+	data.m_width = CGImageGetWidth(image.CGImage);
+	data.m_height = CGImageGetHeight(image.CGImage);
+	data.m_data = (uint8_t*)new uint32_t[data.m_width * data.m_height];
 	
 	CGColorSpace *colorSpace = CGColorSpaceCreateDeviceRGB();
-	CGContextRef context = CGBitmapContextCreate(out.m_pixels, out.m_width, out.m_height, 8u, sizeof(uint32_t) * out.m_width, colorSpace, 0x4001u);
+	CGContextRef context = CGBitmapContextCreate(data.m_data, data.m_width, data.m_height, 8u, sizeof(uint32_t) * data.m_width, colorSpace, 0x4001u);
 	CGColorSpaceRelease(colorSpace);
 	
 	CGRect rect;
 	rect.origin.x = 0.0;
 	rect.origin.y = 0.0;
-	rect.size.width = static_cast<float>(out.m_width);
-	rect.size.height = static_cast<float>(out.m_height);
+	rect.size.width = static_cast<float>(data.m_width);
+	rect.size.height = static_cast<float>(data.m_height);
 	CGContextClearRect(context, rect);
 	CGContextTranslateCTM(context, 0.0, 0.0);
 	CGContextDrawImage(context, rect, image.CGImage);
 	CGContextRelease(context);
-	
-	return out;
 }
 
 bool AppPlatform_iOS::doesTextureExist(const std::string& path) const
@@ -158,6 +152,7 @@ NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
 	size_t slashPos = path.rfind("/", -1, 1);
 	size_t dotPos2 = path.rfind('.', -1);
 	std::string fileName;
+    std::string fileDir = "assets/" + path.substr(0, slashPos + 1);
 	std::string fileExtension = dotPos2 != std::string::npos ? path.substr(dotPos2+1, path.length()-dotPos2) : "";
 	if ((slashPos & dotPos) != std::string::npos)
 	{
@@ -171,7 +166,8 @@ NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
     
     return [[NSBundle mainBundle]
                 pathForResource:[NSString stringWithUTF8String:fileName.c_str()]
-                ofType:[NSString stringWithUTF8String:fileExtension.c_str()]];
+                ofType:[NSString stringWithUTF8String:fileExtension.c_str()]
+                inDirectory: [NSString stringWithUTF8String:fileDir.c_str()]];
 }
 
 std::string AppPlatform_iOS::getAssetPath(const std::string &path) const

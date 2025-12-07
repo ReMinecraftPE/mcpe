@@ -53,8 +53,8 @@ void DirectConnectScreen::render(int x, int y, float f)
 	renderBackground();
 	Screen::render(x, y, f);
 
-	drawCenteredString(m_pFont, "Direct Connect", m_width / 2, 30, 0xFFFFFF);
-	drawString(m_pFont, "Server Address", m_textAddress.m_xPos, m_textAddress.m_yPos - 15, 0x999999);
+	drawCenteredString(*m_pFont, "Direct Connect", m_width / 2, 30, 0xFFFFFF);
+	drawString(*m_pFont, "Server Address", m_textAddress.m_xPos, m_textAddress.m_yPos - 15, 0x999999);
 }
 
 void DirectConnectScreen::buttonClicked(Button* pButton)

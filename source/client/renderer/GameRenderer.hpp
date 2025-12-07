@@ -9,11 +9,14 @@
 #pragma once
 
 #include "ItemInHandRenderer.hpp"
+#include "renderer/MatrixStack.hpp"
+#include "renderer/hal/interface/DepthStencilState.hpp"
 
 class Minecraft;
 class Entity;
 
 class LevelRenderer;
+class ParticleEngine;
 class GameRenderer
 {
 private:
@@ -22,37 +25,44 @@ public:
 	GameRenderer() { _init(); }
 	GameRenderer(Minecraft*);
 	~GameRenderer();
+
+private:
+	void _clearFrameBuffer();
+	void _renderItemInHand(float, int);
+	void _renderDebugOverlay(float a);
+	void _renderVertexGraph(int vertices, int h);
+
+public:
 	void saveMatrices();
 	void setupCamera(float f, int i);
-	void bobHurt(float);
-	void bobView(float);
-	void moveCameraToPlayer(float);
+	void bobHurt(Matrix& matrix, float f);
+	void bobView(Matrix& matrix, float f);
+	void moveCameraToPlayer(Matrix& matrix, float f);
 
 #ifndef ORIGINAL_CODE
 	void renderNoCamera();
 #endif
 
 	void renderLevel(float);
+	void renderFramedItems(const Vec3& camPos, LevelRenderer& levelRenderer, const Entity& camera, float f, ParticleEngine& particleEngine, float i);
 	void render(float);
+	void renderWeather(float f);
+	void setLevel(Level* pLevel, Dimension* pDimension);
 	void tick();
 	void setupGuiScreen();
 	void onGraphicsReset();
-	void zoomRegion(float a, float b, float c);
+	void zoomRegion(float zoom, const Vec2& region);
 	void unZoomRegion();
-	void setupClearColor(float f);
-	void setupFog(int i);
 	void pick(float);
-	void renderItemInHand(float, int);
-	void prepareAndRenderClouds(LevelRenderer* pLR, float f);
-	void renderWeather(float f);
 
 	float getFov(float f);
 
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
 	Minecraft* m_pMinecraft;
+	Level* m_pLevel;
 
-	float field_8;
+	float m_renderDistance;
 	int field_C;
 	Entity* m_pHovered;
 	float field_14;
@@ -67,26 +77,20 @@ public:
 	float field_38;
 	float field_3C;
 	float field_40;
-	float field_44;
-	float field_48;
-	float field_4C;
+	float m_zoom;
+	Vec2 m_zoomRegion;
 	float field_50;
 	float field_54;
 	float field_58;
 	float field_5C;
-	float field_60;
-	float field_64;
-	float field_68;
-	float field_6C;
-	float field_70;
 	float field_74;
 	float field_78;
 	float field_7C;
 	float field_80;
 	float field_84;
 
-	float m_matrix_projection[16];
-	float m_matrix_model_view[16];
+	Matrix m_mtxProj;
+	Matrix m_mtxView;
 
 	int m_shownFPS, m_shownChunkUpdates, m_lastUpdatedMS;
 

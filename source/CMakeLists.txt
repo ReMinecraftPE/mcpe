@@ -6,15 +6,19 @@ add_library(reminecraftpe-core STATIC
     common/CThread.cpp
     common/DataIO.cpp
     common/Logger.cpp
-    common/Matrix.cpp
+    common/math/Color.cpp
     common/Mth.cpp
     common/Random.cpp
     common/SmoothFloat.cpp
     common/Timer.cpp
     common/Util.cpp
+    common/utility/AlignmentHelper.cpp
+    common/utility/JsonParser.cpp
+    common/utility/Singleton.cpp
     common/Utils.cpp
     client/app/App.cpp
     client/app/AppPlatform.cpp
+    client/app/AppPlatformListener.cpp
     client/app/Minecraft.cpp
     client/app/NinecraftApp.cpp
     client/options/Options.cpp
@@ -38,7 +42,12 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/PigRenderer.cpp
     client/renderer/entity/ChickenRenderer.cpp
     client/renderer/entity/RocketRenderer.cpp
+    client/renderer/renderer/EntityShaderManager.cpp
+    client/renderer/renderer/RenderMaterialGroup.cpp
+    client/renderer/texture/ImageData.cpp
+    client/renderer/texture/TextureData.cpp
     client/renderer/RenderList.cpp
+    client/renderer/ScreenRenderer.cpp
     client/renderer/Chunk.cpp
     client/renderer/RenderChunk.cpp
     client/renderer/Frustum.cpp
@@ -48,6 +57,7 @@ add_library(reminecraftpe-core STATIC
     client/renderer/Textures.cpp
     client/renderer/FrustumCuller.cpp
     client/renderer/LightUpdate.cpp
+    client/renderer/Fog.cpp
     client/renderer/Font.cpp
     client/renderer/WaterSideTexture.cpp
     client/renderer/Tesselator.cpp
@@ -97,24 +107,25 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/OptionList.cpp
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
-    client/model/PolygonQuad.cpp
-    client/model/Model.cpp
-    client/model/Cube.cpp
-    client/model/ModelPart.cpp
-    client/model/QuadrupedModel.cpp
-    client/model/PigModel.cpp
-    client/model/SheepModel.cpp
-    client/model/HumanoidModel.cpp
-    client/model/SpiderModel.cpp
-    client/model/ZombieModel.cpp
-    client/model/SkeletonModel.cpp
-    client/model/SheepModel.cpp
-    client/model/SheepFurModel.cpp
-    client/model/CreeperModel.cpp
-    client/model/CowModel.cpp
-    client/model/ChickenModel.cpp
-	client/multiplayer/MultiPlayerLevel.cpp
-	client/multiplayer/MultiplayerLocalPlayer.cpp
+    client/gui/GuiElement.cpp
+    client/model/geom/PolygonQuad.cpp
+    client/model/geom/Cube.cpp
+    client/model/geom/ModelPart.cpp
+    client/model/models/QuadrupedModel.cpp
+    client/model/models/PigModel.cpp
+    client/model/models/SheepModel.cpp
+    client/model/models/HumanoidModel.cpp
+    client/model/models/Model.cpp
+    client/model/models/SpiderModel.cpp
+    client/model/models/ZombieModel.cpp
+    client/model/models/SkeletonModel.cpp
+    client/model/models/SheepModel.cpp
+    client/model/models/SheepFurModel.cpp
+    client/model/models/CreeperModel.cpp
+    client/model/models/CowModel.cpp
+    client/model/models/ChickenModel.cpp
+    client/multiplayer/MultiPlayerLevel.cpp
+    client/multiplayer/MultiplayerLocalPlayer.cpp
     client/player/input/Controller.cpp
     client/player/input/ControllerBuildInput.cpp
     client/player/input/ControllerMoveInput.cpp
@@ -161,7 +172,7 @@ add_library(reminecraftpe-core STATIC
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
     network/packets/InteractPacket.cpp
-	network/packets/UseItemPacket.cpp
+    network/packets/UseItemPacket.cpp
     network/packets/SetEntityDataPacket.cpp
     network/packets/SetHealthPacket.cpp
     network/packets/ChunkDataPacket.cpp
@@ -278,7 +289,7 @@ add_library(reminecraftpe-core STATIC
     world/level/levelgen/chunk/ChunkCache.cpp
     world/level/levelgen/chunk/ChunkPos.cpp
     world/level/levelgen/chunk/ChunkSource.cpp
-	world/level/levelgen/chunk/DataLayer.cpp
+    world/level/levelgen/chunk/DataLayer.cpp
     world/level/levelgen/chunk/EmptyLevelChunk.cpp
     world/level/levelgen/chunk/PerformanceTestChunkSource.cpp
     world/level/levelgen/chunk/TestChunkSource.cpp
@@ -352,8 +363,145 @@ add_library(reminecraftpe-core STATIC
     world/tile/Web.cpp
     world/tile/FenceTile.cpp
     renderer/GL/GL.cpp
+    renderer/Attribute.cpp
+    renderer/ConstantBufferMetaData.cpp
+    renderer/ConstantBufferMetaDataManager.cpp
+    renderer/EnableScissorTest.cpp
+    renderer/EntityConstants.cpp
+    renderer/GlobalConstantBufferManager.cpp
+    renderer/GlobalConstantBuffers.cpp
+    renderer/MaterialPtr.cpp
+    renderer/MatrixStack.cpp
+    renderer/Mesh.cpp
+    renderer/PerFrameConstants.cpp
+    renderer/QuadIndexBuffer.cpp
+    renderer/RenderChunkConstants.cpp
+    renderer/RenderContextImmediate.cpp
+    renderer/RenderMaterial.cpp
+    renderer/ShaderConstants.cpp
+    renderer/ShaderGroup.cpp
+    renderer/ShaderGroupBase.cpp
+    renderer/StencilRefObject.cpp
+    renderer/TextureGroup.cpp
+    renderer/TexturePtr.cpp
+    renderer/UniformMetaData.cpp
+    renderer/VertexFormat.cpp
+    renderer/WeatherConstants.cpp
+    renderer/WorldConstants.cpp
+    renderer/hal/BlendStateDescription.cpp
+    renderer/hal/DepthStencilStateDescription.cpp
+    renderer/hal/FixedPipelineStateDescription.cpp
+    renderer/hal/FogStateDescription.cpp
+    renderer/hal/ImageDescription.cpp
+    renderer/hal/RasterizerStateDescription.cpp
+    renderer/hal/StencilFaceDescription.cpp
+    renderer/hal/TextureDescription.cpp
+    renderer/hal/base/BlendStateBase.cpp
+    renderer/hal/base/BufferBase.cpp
+    renderer/hal/base/ConstantBufferBase.cpp
+    renderer/hal/base/ConstantBufferConstantsBase.cpp
+    renderer/hal/base/ConstantBufferContainerBase.cpp
+    renderer/hal/base/DepthStencilStateBase.cpp
+    renderer/hal/base/FixedPipelineStateBase.cpp
+    renderer/hal/base/FogStateBase.cpp
+    renderer/hal/base/FrameBufferObjectBase.cpp
+    renderer/hal/base/ImmediateBufferBase.cpp
+    renderer/hal/base/RasterizerStateBase.cpp
+    renderer/hal/base/RenderContextBase.cpp
+    renderer/hal/base/RenderContextStateBase.cpp
+    renderer/hal/base/RenderDeviceBase.cpp
+    renderer/hal/base/ShaderBase.cpp
+    renderer/hal/base/ShaderConstantBase.cpp
+    renderer/hal/base/ShaderConstantWithDataBase.cpp
+    renderer/hal/base/ShaderContextBase.cpp
+    renderer/hal/base/ShaderProgramBase.cpp
+    renderer/hal/base/TextureBase.cpp
+    renderer/hal/enums/BlendTarget_JsonParser.cpp
+    renderer/hal/enums/ComparisonFunc_JsonParser.cpp
+    renderer/hal/enums/PrimitiveMode_JsonParser.cpp
+    renderer/hal/enums/RenderState_JsonParser.cpp
+    renderer/hal/enums/RenderState_JsonParser.hpp
+    renderer/hal/enums/ShaderPrimitiveTypes.cpp
+    renderer/hal/enums/ShaderStagesBits_JsonParser.cpp
+    renderer/hal/enums/StencilOp_JsonParser.cpp
+    renderer/hal/enums/TextureFiltering_JsonParser.cpp
+    renderer/hal/enums/VertexField_JsonParser.cpp
+    renderer/hal/helpers/ErrorHandler.cpp
+    renderer/hal/helpers/TextureHelper.cpp
+    renderer/hal/interface/BlendState.cpp
+    renderer/hal/interface/Buffer.cpp
+    renderer/hal/interface/ConstantBuffer.cpp
+    renderer/hal/interface/ConstantBufferContainer.cpp
+    renderer/hal/interface/DepthStencilState.cpp
+    renderer/hal/interface/FixedPipelineState.cpp
+    renderer/hal/interface/FogState.cpp
+    renderer/hal/interface/ImmediateBuffer.cpp
+    renderer/hal/interface/RasterizerState.cpp
+    renderer/hal/interface/RenderContext.cpp
+    renderer/hal/interface/RenderDevice.cpp
+    renderer/hal/interface/Shader.cpp
+    renderer/hal/interface/ShaderConstantWithData.cpp
+    renderer/hal/interface/ShaderProgram.cpp
+    renderer/hal/interface/Texture.cpp
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)
+
+if(NOT DEFINED REMCPE_GFX_API)
+	message(STATUS "No GFX API specified, defaulting to OGL...")
+	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
+endif()
+
+message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
+
+if(REMCPE_GFX_API STREQUAL "OGL")
+    target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_OGL=1)
+	target_sources(reminecraftpe-core PRIVATE
+		renderer/hal/ogl/API_OGL.cpp
+		renderer/hal/ogl/BlendStateOGL.cpp
+		renderer/hal/ogl/BufferOGL.cpp
+		renderer/hal/ogl/ConstantBufferContainerOGL.cpp
+		renderer/hal/ogl/DepthStencilStateOGL.cpp
+		renderer/hal/ogl/FixedPipelineStateOGL.cpp
+		renderer/hal/ogl/FogStateOGL.cpp
+		renderer/hal/ogl/GPUEventsOGL.cpp
+		renderer/hal/ogl/ImmediateBufferOGL.cpp
+		renderer/hal/ogl/ProfileSectionOGL.cpp
+		renderer/hal/ogl/RasterizerStateOGL.cpp
+		renderer/hal/ogl/RenderContextOGL.cpp
+		renderer/hal/ogl/RenderDeviceOGL.cpp
+		renderer/hal/ogl/ResourceOGL.cpp
+		renderer/hal/ogl/ShaderConstantOGL.cpp
+		renderer/hal/ogl/ShaderConstantWithDataOGL.cpp
+		renderer/hal/ogl/ShaderOGL.cpp
+		renderer/hal/ogl/ShaderProgramOGL.cpp
+		renderer/hal/ogl/ShaderResourceOGL.cpp
+		renderer/hal/ogl/ShaderUniformOGL.cpp
+		renderer/hal/ogl/TextureOGL.cpp
+		renderer/platform/ogl/Extensions.cpp
+		renderer/platform/ogl/ShaderPrecision.cpp
+	)
+elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
+    target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_NULL=1)
+	target_sources(reminecraftpe-core PRIVATE
+		renderer/hal/null/BlendStateNull.cpp
+		renderer/hal/null/BufferNull.cpp
+		renderer/hal/null/ConstantBufferContainerNull.cpp
+		renderer/hal/null/DepthStencilStateNull.cpp
+		renderer/hal/null/FixedPipelineStateNull.cpp
+		renderer/hal/null/FogStateNull.cpp
+		renderer/hal/null/ImmediateBufferNull.cpp
+		renderer/hal/null/RasterizerStateNull.cpp
+		renderer/hal/null/RenderContextNull.cpp
+		renderer/hal/null/RenderDeviceNull.cpp
+		renderer/hal/null/ShaderConstantNull.cpp
+		renderer/hal/null/ShaderConstantWithDataNull.cpp
+		renderer/hal/null/ShaderNull.cpp
+		renderer/hal/null/ShaderProgramNull.cpp
+		renderer/hal/null/TextureNull.cpp
+	)
+else()
+	message(FATAL_ERROR "An unknown or unsupported GFX API was specified: ${REMCPE_GFX_API}")
+endif()
 
 # RakNet
 add_subdirectory(../thirdparty/raknet raknet)
@@ -376,10 +524,6 @@ else()
     target_link_libraries(zlib-interface INTERFACE ZLIB::ZLIB)
 endif()
 target_link_libraries(reminecraftpe-core PUBLIC zlib-interface)
-# OpenGL Support Code
-if(MCPE_WIN32)
-    target_sources(reminecraftpe-core PRIVATE ../thirdparty/GL/GLExt.cpp)
-endif()
 
 # OGG Support
 target_link_libraries(reminecraftpe-core PUBLIC stb_vorbis)

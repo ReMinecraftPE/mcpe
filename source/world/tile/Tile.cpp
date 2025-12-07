@@ -105,6 +105,7 @@ void Tile::_init()
 	m_hardness = 0.0f;
 	m_blastResistance = 0.0f;
 	m_descriptionID = "";
+	m_renderLayer = RENDER_LAYER_OPAQUE;
 }
 
 void Tile::_init(TileID ID, Material* pMaterial, int texture)
@@ -208,9 +209,9 @@ Tile* Tile::init()
 	return this;
 }
 
-int Tile::getRenderShape() const
+eRenderShape Tile::getRenderShape() const
 {
-	return 0;
+	return SHAPE_SOLID;
 }
 
 void Tile::updateDefaultShape()
@@ -238,9 +239,9 @@ bool Tile::isSignalSource() const
 	return false;
 }
 
-int Tile::getRenderLayer() const
+Tile::RenderLayer Tile::getRenderLayer() const
 {
-	return LAYER_OPAQUE;
+	return m_renderLayer;
 }
 
 bool Tile::isSolidRender() const

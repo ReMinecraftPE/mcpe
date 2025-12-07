@@ -37,6 +37,14 @@ public:
 	Minecraft();
 	virtual ~Minecraft();
 
+private:
+	void _levelGenerated();
+	void _resetPlayer(Player* player);
+	GameMode* _createGameMode(GameType gameType, Level& level);
+
+protected:
+	void _reloadInput();
+
 public:
 	int getLicenseId();
 	void setScreen(Screen * pScreen);
@@ -64,6 +72,7 @@ public:
 	void resetInput();
 	void sendMessage(const std::string& message);
 	void respawnPlayer();
+	void freeResources(bool bCopyMap);
 	std::string getVersionString(const std::string& str = Util::EMPTY_STRING) const;
 	bool isTouchscreen() const;
 	bool useSplitControls() const;
@@ -71,13 +80,16 @@ public:
 
 	void setGameMode(GameType gameType);
 
-	virtual void update() override;
-	virtual void init() override;
-	virtual void onGraphicsReset();
-	virtual void sizeUpdate(int newWidth, int newHeight) override;
+	void update() override;
+	void init() override;
+	void sizeUpdate(int newWidth, int newHeight) override;
+
+	virtual void reloadFancy(bool isFancy);
 	virtual int getFpsIntlCounter();
 
 	float getBestScaleForThisScreenSize(int width, int height);
+	void setupLevelRendering(Level* pLevel, Dimension* pDimension, Mob* pCamera);
+	void onClientStartedLevel(Level* pLevel, LocalPlayer* pLocalPlayer);
 	void generateLevel(const std::string& unused, Level* pLevel);
 	void prepareLevel(const std::string& unused);
 	bool isOnline() const;
@@ -88,14 +100,8 @@ public:
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
-	Options* getOptions() const { return m_options; }
-	
-private:
-	void _reloadInput();
-	void _levelGenerated();
-	void _initTextures();
-	void _resetPlayer(Player* player);
-	GameMode* createGameMode(GameType gameType, Level& level);
+	Options* getOptions() const { return m_pOptions; }
+	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 
 private:
     // Value provided by the OS
@@ -111,8 +117,8 @@ public:
 	static const bool DEADMAU5_CAMERA_CHEATS;
 	static int customDebugId;
 
-private:
-	Options *m_options;
+protected:
+	Options *m_pOptions;
 
 public:
 	bool field_18;
@@ -132,8 +138,8 @@ public:
 	User* m_pUser;
 	Level* m_pLevel;
 	LocalPlayer* m_pLocalPlayer;
-	Mob* m_pMobPersp; // why is there a duplicate?
-	Gui m_gui;
+	Mob* m_pCameraEntity;
+	Gui* m_pGui;
 	int field_D0C;
 	CThread* m_pPrepThread;
 	Screen* m_pScreen;

@@ -30,25 +30,29 @@ class Entity;
 class Textures;
 class ItemInHandRenderer;
 
-class EntityRenderDispatcher
+class EntityRenderDispatcher : AppPlatformListener
 {
 public:
 	EntityRenderDispatcher();
 	float distanceToSqr(const Vec3& pos);
 	Font* getFont();
-	EntityRenderer* getRenderer(Entity* pEnt);
-	EntityRenderer* getRenderer(int renderType);
+	EntityRenderer* getRenderer(const Entity& entity);
+	EntityRenderer* getRenderer(Entity::RenderType renderType);
 	void onGraphicsReset();
-	void prepare(Level*, Textures*, Font*, Mob*, Options*, float);
-	void render(Entity*, float);
-	void render(Entity*, const Vec3& pos, float rot, float a);
+	void prepare(Level*, Textures*, Font*, const Mob* camera, Options*, float);
+	void render(const Entity& entity, float);
+	void render(const Entity& entity, const Vec3& pos, float rot, float a);
 	void setLevel(Level*);
 	void setMinecraft(Minecraft*);
+
+	void onAppSuspended() override;
 
 	static EntityRenderDispatcher* getInstance();
 
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
+	TileRenderer* m_tileRenderer;
+
 	HumanoidMobRenderer m_HumanoidMobRenderer;
 	PigRenderer m_PigRenderer;
 	SheepRenderer m_SheepRenderer;
@@ -65,19 +69,19 @@ public:
 	//SheepFurRenderer m_SheepFurRenderer;
 	TripodCameraRenderer m_CameraRenderer;
 	ArrowRenderer m_ArrowRenderer;
+#ifdef ENH_ALLOW_SAND_GRAVITY
+	FallingTileRenderer m_FallingTileRenderer;
+#endif
 	RocketRenderer m_RocketRenderer;
+
 	Textures* m_pTextures;
 	Level* m_pLevel;
 	Minecraft* m_pMinecraft;
-	Mob* m_pMob;
+	const Mob* m_pCamera;
 	Vec2 m_rot;
 	Options* m_pOptions;
 	Vec3 m_pos;
 	Font* m_pFont;
-
-#ifdef ENH_ALLOW_SAND_GRAVITY
-	FallingTileRenderer m_FallingTileRenderer;
-#endif
 
 	static EntityRenderDispatcher* instance;
 	static Vec3 off;

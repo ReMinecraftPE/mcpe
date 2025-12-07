@@ -90,7 +90,7 @@ void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
 	if (m_pLevel)
 		m_pLevel->m_bIsClientSide = false;
 
-	m_pMinecraft->m_gui.addMessage("Disconnected from server");
+	m_pMinecraft->m_pGui->addMessage("Disconnected from server");
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LoginStatusPacket* pPacket)
@@ -112,7 +112,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Message
 {
 	puts_ignorable("MessagePacket");
 
-	m_pMinecraft->m_gui.addMessage(pMsgPkt->m_str.C_String());
+	m_pMinecraft->m_pGui->addMessage(pMsgPkt->m_str.C_String());
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetTimePacket* pPacket)
@@ -192,7 +192,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 		*pItem = ItemInstance(pAddPlayerPkt->m_itemId, pAddPlayerPkt->m_itemAuxValue, 63);
 	}
 
-	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
+	m_pMinecraft->m_pGui->addMessage(pPlayer->m_name + " joined the game");
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddMobPacket* pAddMobPkt)

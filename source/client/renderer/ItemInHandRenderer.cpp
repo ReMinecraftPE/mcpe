@@ -7,9 +7,21 @@
  ********************************************************************/
 
 #include "ItemInHandRenderer.hpp"
-#include "client/app/Minecraft.hpp"
 #include "common/Mth.hpp"
+#include "client/app/Minecraft.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "renderer/ShaderConstants.hpp"
 #include "Lighting.hpp"
+
+ItemInHandRenderer::Materials::Materials()
+{
+    MATERIAL_PTR(switchable, entity);
+    MATERIAL_PTR(switchable, entity_alphatest);
+    MATERIAL_PTR(switchable, item_in_hand);
+    MATERIAL_PTR(switchable, entity_glint);
+    MATERIAL_PTR(switchable, entity_alphatest_glint);
+    MATERIAL_PTR(switchable, item_in_hand_glint);
+}
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
 	m_selectedItem(0, 1, 0),
@@ -32,41 +44,130 @@ void ItemInHandRenderer::itemUsed()
 	m_height = 0;
 }
 
+void ItemInHandRenderer::render(float a)
+{
+	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
+
+#ifndef FEATURE_GFX_SHADERS
+    // Apply lighting
+    {
+        MatrixStack::Ref matrix = MatrixStack::World.push();
+        matrix->rotate(pLP->m_oRot.y + (pLP->m_rot.y - pLP->m_oRot.y) * a, Vec3::UNIT_X);
+        matrix->rotate(pLP->m_oRot.x + (pLP->m_rot.x - pLP->m_oRot.x) * a, Vec3::UNIT_Y);
+
+        Lighting::turnOn(matrix);
+    }
+#endif
+
+    MatrixStack::Ref matrix = MatrixStack::World.push();
+
+	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pCameraEntity == pLP)
+	{
+		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmRot.x, pLP->m_renderArmRot.x, a);
+		float rPitch = Mth::Lerp(pLP->m_lastRenderArmRot.y, pLP->m_renderArmRot.y, a);
+		matrix->rotate((pLP->m_rot.y - rPitch) * 0.1f, Vec3::UNIT_X);
+		matrix->rotate((pLP->m_rot.x - rYaw  ) * 0.1f, Vec3::UNIT_Y);
+	}
+
+	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
+    currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color(fBright, fBright, fBright);
+
+	ItemInstance* pItem = &m_selectedItem;
+	/*if (pLP->m_fishing != null)
+    {
+		pItem = new ItemInstance(Item::stick);
+	}*/
+    
+    float swing2, swing3;
+    float fAnim = pLP->getAttackAnim(a);
+    float h = m_oHeight + (m_height - m_oHeight) * a;
+    constexpr float d = 0.8f;
+    
+	if (!ItemInstance::isNull(pItem))
+	{
+        matrix->translate(Vec3(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim)));
+        matrix->translate(Vec3(0.7f * d, -0.65f * d - (1.0f - h) * 0.6f, -0.9f * d));
+        matrix->rotate(45.0f, Vec3::UNIT_Y);
+
+#if MCE_GFX_API_OGL
+        glEnable(GL_RESCALE_NORMAL);
+#endif
+
+        swing3 = Mth::sin(float(M_PI) * fAnim * fAnim);
+        swing2 = Mth::sin(float(M_PI) * Mth::sqrt(fAnim));
+
+        matrix->rotate(swing3 * -20.0f, Vec3::UNIT_Y);
+        matrix->rotate(swing2 * -20.0f, Vec3::UNIT_Z);
+        matrix->rotate(swing2 * -80.0f, Vec3::UNIT_X);
+        matrix->scale(0.4f);
+
+        if (pItem->getItem()->isMirroredArt())
+        {
+            matrix->rotate(180.0f, Vec3::UNIT_Y);
+        }
+
+        renderItem(*pLP, *pItem, a);
+	}
+	else
+	{
+        matrix->translate(Vec3(-0.3f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.4f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.4f * Mth::sin(float(M_PI) * fAnim)));
+        matrix->translate(Vec3(0.8f * d, -0.75f * d - (1.0f - h) * 0.6f, -0.9f * d));
+        matrix->rotate(45.0f, Vec3::UNIT_Y);
+#if MCE_GFX_API_OGL
+        glEnable(GL_RESCALE_NORMAL);
+#endif
+
+        matrix->rotate(Mth::sin(float(M_PI) * Mth::sqrt(fAnim)) * 70.0f, Vec3::UNIT_Y);
+        matrix->rotate(Mth::sin(float(M_PI) * fAnim * fAnim) * -20.0f, Vec3::UNIT_Z);
+
+        m_pMinecraft->m_pTextures->loadAndBindTexture("mob/char.png");
+        matrix->translate(Vec3(-1.0f, 3.6f, 3.5f));
+        matrix->rotate(120.0f, Vec3::UNIT_Z);
+        matrix->rotate(200.0f, Vec3::UNIT_X);
+        matrix->rotate(-135.0f, Vec3::UNIT_Y);
+        matrix->scale(1.0f);
+        matrix->translate(Vec3(5.6f, 0.0f, 0.0f));
+
+        HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(*pLP);
+        swing2 = 1.0f;
+        matrix->scale(swing2);
+        pRenderer->renderHand();
+	}
+
+#if MCE_GFX_API_OGL
+    glDisable(GL_RESCALE_NORMAL);
+#endif
+	Lighting::turnOff();
+}
+
 #ifdef ENH_SHADE_HELD_TILES
 #define SHADE_IF_NEEDED(col) t.color(col*bright,col*bright,col*bright,1.0f)
 #else
 #define SHADE_IF_NEEDED(col)
 #endif
 
-void ItemInHandRenderer::renderItem(ItemInstance* inst)
+void ItemInHandRenderer::renderItem(const Entity& entity, const ItemInstance& item, float a)
 {
-#ifndef ORIGINAL_CODE
-    if (ItemInstance::isNull(inst))
+    if (item.isNull())
         return;
-#endif
-    
-    glPushMatrix();
+
 #ifdef ENH_SHADE_HELD_TILES
-    float bright = m_pMinecraft->m_pLocalPlayer->getBrightness(0.0f);
+    float bright = entity.getBrightness(0.0f);
 #endif
     
-    Tile* pTile = inst->getTile();
+    Tile* pTile = item.getTile();
     if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
     {
-        float red, grn, blu, alp = 1.0f;
+        Color color = Color::WHITE;
         
         if (pTile == Tile::leaves)
         {
-            red = 0.35f;
-            grn = 0.65f;
-            blu = 0.25f;
+            color = Color(0.35f, 0.65f, 0.25f);
         }
-        else
-        {
-            blu = grn = red = 1.0f;
-        }
-        
-        glColor4f(red, grn, blu, alp);
+
+        currentShaderColor = color;
+        currentShaderDarkColor = Color::WHITE;
         
         m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
         
@@ -76,7 +177,7 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
 #	define ARGPATCH
 #endif
         
-        m_tileRenderer.renderTile(pTile, inst->getAuxValue() ARGPATCH);
+        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand ARGPATCH);
         
 #ifdef ARGPATCH
 #	undef ARGPATCH
@@ -85,6 +186,8 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
     }
     else
     {
+        MatrixStack::Ref matrix = MatrixStack::World.push();
+
         std::string toBind;
         if (pTile)
             toBind = C_TERRAIN_NAME;
@@ -96,8 +199,8 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
         constexpr float C_RATIO_2   = 1.0f / 512.0f;
         constexpr float C_ONE_PIXEL = 1.0f / 16.0f;
         
-        int textureX = inst->getIcon() % 16 * 16;
-        int textureY = inst->getIcon() / 16 * 16;
+        int textureX = item.getIcon() % 16 * 16;
+        int textureY = item.getIcon() / 16 * 16;
         
         float texU_1 = C_RATIO * float(textureX + 0.0f);
         float texU_2 = C_RATIO * float(textureX + 15.99f);
@@ -105,29 +208,36 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
         float texV_2 = C_RATIO * float(textureY + 15.99f);
         
         Tesselator& t = Tesselator::instance;
-        glTranslatef(-0.0f, -0.3f, 0.0f);
-        glScalef(1.5f, 1.5f, 1.5f);
-        glRotatef(50.0f, 0.0f, 1.0f, 0.0f);
-        glRotatef(335.0f, 0.0f, 0.0f, 1.0f);
-        glTranslatef(-0.9375f, -0.0625f, 0.0f);
+
+        matrix->translate(Vec3(-0.0f, -0.3f, 0.0f));
+        matrix->scale(1.5f);
+        matrix->rotate(50.0f, Vec3::UNIT_Y);
+        matrix->rotate(335.0f, Vec3::UNIT_Z);
+        matrix->translate(Vec3(-0.9375f, -0.0625f, 0.0f));
+        /*matrix->translate(Vec3(0.075f, -0.245f, -0.1f));
+        matrix->scale(0.0625f);
+        matrix->rotate(90.0f, Vec3::UNIT_Z);
+        matrix->rotate(-90.0f, Vec3::UNIT_X);
+        matrix->rotate(-90.0f, Vec3::UNIT_Y);
+        matrix->translate(Vec3(0.0f, 0.0f, -16.0f));*/
         
-        t.begin();
+        t.begin(264);
         SHADE_IF_NEEDED(1.0f);
         
-        t.normal(0.0f, 0.0f, 1.0f);
+        t.normal(Vec3::UNIT_Z);
         t.vertexUV(0.0f, 0.0f, 0.0f,         texU_2, texV_2);
         t.vertexUV(1.0f, 0.0f, 0.0f,         texU_1, texV_2);
         t.vertexUV(1.0f, 1.0f, 0.0f,         texU_1, texV_1);
         t.vertexUV(0.0f, 1.0f, 0.0f,         texU_2, texV_1);
         
-        t.normal(0.0f, 0.0f, -1.0f);
+        t.normal(Vec3::NEG_UNIT_Z);
         t.vertexUV(0.0f, 1.0f, -C_ONE_PIXEL, texU_2, texV_1);
         t.vertexUV(1.0f, 1.0f, -C_ONE_PIXEL, texU_1, texV_1);
         t.vertexUV(1.0f, 0.0f, -C_ONE_PIXEL, texU_1, texV_2);
         t.vertexUV(0.0f, 0.0f, -C_ONE_PIXEL, texU_2, texV_2);
         
         SHADE_IF_NEEDED(0.8f);
-        t.normal(-1.0f, 0.0f, 0.0f);
+        t.normal(Vec3::NEG_UNIT_X);
         for (int i = 0; i < 16; i++)
         {
             t.vertexUV(i * C_ONE_PIXEL, 0.0f, -C_ONE_PIXEL, Mth::Lerp(texU_2, texU_1, i * C_ONE_PIXEL) - C_RATIO_2, texV_2);
@@ -159,102 +269,42 @@ void ItemInHandRenderer::renderItem(ItemInstance* inst)
             t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
         }
         
-        t.draw();
+        t.draw(m_materials.item_in_hand);
     }
-    
-	glPopMatrix();
 }
 
-void ItemInHandRenderer::render(float f)
+void ItemInHandRenderer::renderScreenEffect(float a)
 {
-	LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
+    LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
+    Textures* textures = m_pMinecraft->m_pTextures;
+    Level* level = m_pMinecraft->m_pLevel;
 
-	float h = m_oHeight + (m_height - m_oHeight) * f;
-	glPushMatrix();
-	glRotatef(pLP->m_oRot.y + (pLP->m_rot.y - pLP->m_oRot.y) * f, 1.0f, 0.0f, 0.0f);
-	glRotatef(pLP->m_oRot.x + (pLP->m_rot.x - pLP->m_oRot.x) * f, 0.0f, 1.0f, 0.0f);
-    Lighting::turnOn(); // must be called before glPopMatrix()
-	glPopMatrix();
+    if (player->isOnFire())
+    {
+        textures->loadAndBindTexture(C_TERRAIN_NAME);
+        renderFire(a);
+    }
 
-	if (m_pMinecraft->getOptions()->m_bDynamicHand && m_pMinecraft->m_pMobPersp == pLP)
-	{
-		float rYaw   = Mth::Lerp(pLP->m_lastRenderArmRot.x, pLP->m_renderArmRot.x, f);
-		float rPitch = Mth::Lerp(pLP->m_lastRenderArmRot.y, pLP->m_renderArmRot.y, f);
-		glRotatef((pLP->m_rot.y - rPitch) * 0.1f, 1.0f, 0.0f, 0.0f);
-		glRotatef((pLP->m_rot.x - rYaw  ) * 0.1f, 0.0f, 1.0f, 0.0f);
-	}
+    if (player->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
+    {
+        textures->loadAndBindTexture(C_TERRAIN_NAME);
 
-	float fBright = m_pMinecraft->m_pLevel->getBrightness(pLP->m_pos);
-	glColor4f(fBright, fBright, fBright, 1.0f);
-
-	ItemInstance* pItem = &m_selectedItem;
-	/*if (pLP->m_fishing != null) {
-		pItem = new ItemInstance(Item::stick);
-	}*/
-    
-    glPushMatrix();
-    
-    float swing2, swing3;
-    float fAnim = pLP->getAttackAnim(f);
-    constexpr float d = 0.8f;
-    
-	if (!ItemInstance::isNull(pItem))
-	{
-        glTranslatef(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim));
-        glTranslatef(0.7f * d, -0.65f * d - (1.0f - h) * 0.6f, -0.9f * d);
-        glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-        glEnable(GL_RESCALE_NORMAL);
-
-        swing3 = Mth::sin(float(M_PI) * fAnim * fAnim);
-        swing2 = Mth::sin(float(M_PI) * Mth::sqrt(fAnim));
-
-        glRotatef(swing3 * -20.0f, 0.0f, 1.0f, 0.0f);
-        glRotatef(swing2 * -20.0f, 0.0f, 0.0f, 1.0f);
-        glRotatef(swing2 * -80.0f, 1.0f, 0.0f, 0.0f);
-        glScalef(0.4f, 0.4f, 0.4f);
-
-        if (pItem->getItem()->isMirroredArt())
-            glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
-
-        renderItem(pItem);
-	}
-	else
-	{
-        glTranslatef(-0.3f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.4f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.4f * Mth::sin(float(M_PI) * fAnim));
-        glTranslatef(0.8f * d, -0.75f * d - (1.0f - h) * 0.6f, -0.9f * d);
-        glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-        glEnable(GL_RESCALE_NORMAL);
-
-        glRotatef(Mth::sin(float(M_PI) * Mth::sqrt(fAnim)) * 70.0f, 0.0f, 1.0f, 0.0f);
-        glRotatef(Mth::sin(float(M_PI) * fAnim * fAnim) * -20.0f, 0.0f, 0.0f, 1.0f);
-
-        m_pMinecraft->m_pTextures->loadAndBindTexture("mob/char.png");
-        glTranslatef(-1.0f, 3.6f, 3.5f);
-        glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
-        glRotatef(200.0f, 1.0f, 0.0f, 0.0f);
-        glRotatef(-135.0f, 0.0f, 1.0f, 0.0f);
-        glScalef(1.0f, 1.0f, 1.0f);
-        glTranslatef(5.6f, 0.0f, 0.0f);
-
-        HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(pLP);
-        swing2 = 1.0f;
-        glScalef(swing2, swing2, swing2);
-        pRenderer->renderHand();
-	}
-
-    glPopMatrix();
-	glDisable(GL_RESCALE_NORMAL);
-	Lighting::turnOff();
+        Tile* pTile = Tile::tiles[level->getTile(player->m_pos)];
+        if (pTile)
+        {
+            int texture = pTile->getTexture(Facing::NORTH);
+            renderTex(a, texture);
+        }
+    }
 }
 
-void ItemInHandRenderer::renderFire(float f)
+void ItemInHandRenderer::renderFire(float a)
 {
-	glColor4f(1.0f, 1.0f, 1.0f, 0.9f);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    currentShaderColor = Color(1.0f, 1.0f, 1.0f, 0.9f);
+    currentShaderDarkColor = Color::WHITE;
 	for (int i = 0; i < 2; i++)
 	{
-		glPushMatrix();
+        MatrixStack::Ref matrix = MatrixStack::World.push();
 		int texture = Tile::fire->m_TextureFrame + i * 16;
 
 		float texX = 16.0f * float(texture % 16), texY = 16.0f * float(texture / 16);
@@ -263,29 +313,23 @@ void ItemInHandRenderer::renderFire(float f)
 		float texV_1 =  texY           / 256.0f;
 		float texV_2 = (texY + 15.99f) / 256.0f;
 
-		glTranslatef(float(-(i * 2 - 1)) * 0.24f, -0.3f, 0.0f);
-		glRotatef(float(-(i * 2 - 1)) * 10.0f, 0.0f, 1.0f, 0.0f);
+		matrix->translate(Vec3(float(-(i * 2 - 1)) * 0.24f, -0.3f, 0.0f));
+		matrix->rotate(float(-(i * 2 - 1)) * 10.0f, Vec3::UNIT_Y);
 
-		Tesselator& t = Tesselator::instance;
-		t.begin();
-		t.vertexUV(-0.5f, -0.5f, -0.5f, texU_2, texV_2);
-		t.vertexUV(+0.5f, -0.5f, -0.5f, texU_1, texV_2);
-		t.vertexUV(+0.5f, +0.5f, -0.5f, texU_1, texV_1);
-		t.vertexUV(-0.5f, +0.5f, -0.5f, texU_2, texV_1);
-		t.draw();
-
-		glPopMatrix();
+        ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+        screenRenderer.blitRaw(-0.5f, 0.5f, -0.5f, 0.5f, -0.5f, texU_1, texU_2, texV_1, texV_2);
 	}
-
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glDisable(GL_BLEND);
 }
 
-void ItemInHandRenderer::renderTex(float f, int texture)
+void ItemInHandRenderer::renderTex(float a, int texture)
 {
-	//float brightness = m_pMinecraft->m_pLocalPlayer->getBrightness(f);
-	glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
-	glPushMatrix();
+    ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+
+	//m_pMinecraft->m_pLocalPlayer->getBrightness(a);
+    constexpr float br = 0.1f; // 0.3f on PE 0.12.1
+    currentShaderColor = Color(br, br, br, 0.5f);
+    currentShaderDarkColor = Color::WHITE;
+    MatrixStack::Ref matrix = MatrixStack::World.push();
 
 	// @BUG: The texture x/y isn't multiplied by 16. This causes some weird textures to show up instead of the correct ones.
 #ifdef ORIGINAL_CODE
@@ -300,15 +344,12 @@ void ItemInHandRenderer::renderTex(float f, int texture)
 	float texV_2 = (texY + 15.99f) / 256.0f + 1 / 128.0f;
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.vertexUV(-1.0f, -1.0f, -0.5f, texU_2, texV_2);
 	t.vertexUV(+1.0f, -1.0f, -0.5f, texU_1, texV_2);
 	t.vertexUV(+1.0f, +1.0f, -0.5f, texU_1, texV_1);
 	t.vertexUV(-1.0f, +1.0f, -0.5f, texU_2, texV_1);
-	t.draw();
-
-	glPopMatrix();
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	t.draw(screenRenderer.m_materials.ui_textured_and_glcolor);
 }
 
 void ItemInHandRenderer::tick()
@@ -355,34 +396,5 @@ void ItemInHandRenderer::tick()
 
 void ItemInHandRenderer::turn(const Vec2& rot)
 {
-}
-
-void ItemInHandRenderer::renderScreenEffect(float f)
-{
-	glDisable(GL_ALPHA_TEST);
-
-	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
-	Textures* textures = m_pMinecraft->m_pTextures;
-	Level* level = m_pMinecraft->m_pLevel;
-
-	if (player->isOnFire())
-	{
-		textures->loadAndBindTexture(C_TERRAIN_NAME);
-		renderFire(f);
-	}
-
-	if (player->isInWall() && !m_pMinecraft->getOptions()->m_bFlyCheat)
-	{
-		textures->loadAndBindTexture(C_TERRAIN_NAME);
-		
-		Tile* pTile = Tile::tiles[level->getTile(player->m_pos)];
-		if (pTile)
-		{
-			int texture = pTile->getTexture(Facing::NORTH);
-			renderTex(f, texture);
-		}
-	}
-
-	glEnable(GL_ALPHA_TEST);
 }
 

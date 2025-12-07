@@ -7,26 +7,19 @@ AppPlatform_sdl2_emscripten::AppPlatform_sdl2_emscripten(std::string storageDir,
 {
 }
 
-Texture AppPlatform_sdl2_emscripten::loadTexture(const std::string& path, bool bIsRequired)
+void AppPlatform_sdl2_emscripten::loadImage(ImageData& data, const std::string& path)
 {
-	Texture out;
-	out.m_hasAlpha = true;
-	out.field_D = 0;
-
     std::string realPath = getAssetPath(path);
 
-	char *data = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &out.m_width, &out.m_height);
-	if (data != NULL)
+	char *rawData = emscripten_get_preloaded_image_data(("/" + realPath).c_str(), &data.m_width, &data.m_height);
+	if (rawData == nullptr)
 	{
-		size_t data_size = out.m_width * out.m_height;
-		out.m_pixels = new uint32_t[data_size];
-		memcpy(out.m_pixels, data, data_size * sizeof(uint32_t));
-		free(data);
-		return out;
+		LOG_E("Couldn't find file: %s", realPath.c_str());
+		return;
 	}
-
-	LOG_E("Couldn't find file: %s", realPath.c_str());
-	return out;
+	
+	data.m_data = (uint8_t*)rawData;
+	data.m_colorSpace = COLOR_SPACE_RGBA;
 }
 
 bool AppPlatform_sdl2_emscripten::doesTextureExist(const std::string& path) const

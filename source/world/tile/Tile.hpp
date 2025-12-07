@@ -30,7 +30,20 @@ class LiquidTile;
 
 class Tile
 {
-public: // structs
+public: // types
+	enum RenderLayer
+	{
+		RENDER_LAYER_DOUBLE_SIDED,
+		RENDER_LAYER_BLEND,
+		RENDER_LAYER_OPAQUE,
+		RENDER_LAYER_OPTIONAL_ALPHATEST,
+		RENDER_LAYER_ALPHATEST,
+		RENDER_LAYER_SEASONS_OPAQUE,
+		RENDER_LAYER_SEASONS_OPTIONAL_ALPHATEST,
+		RENDER_LAYERS_MIN = RENDER_LAYER_DOUBLE_SIDED,
+		RENDER_LAYERS_MAX = RENDER_LAYER_SEASONS_OPTIONAL_ALPHATEST,
+		RENDER_LAYERS_COUNT
+	};
 	struct SoundType
 	{
 		std::string m_name;
@@ -42,7 +55,7 @@ public: // structs
 public: // virtual functions
 	virtual ~Tile();
 	virtual bool isCubeShaped() const;
-	virtual int getRenderShape() const;
+	virtual eRenderShape getRenderShape() const;
 	virtual Tile* setShape(float, float, float, float, float, float);
 	virtual void updateShape(const LevelSource*, const TilePos& pos);
 	virtual void updateDefaultShape();
@@ -75,7 +88,7 @@ public: // virtual functions
 	virtual float getExplosionResistance(Entity*) const;
 	virtual HitResult clip(const Level*, const TilePos& pos, Vec3, Vec3);
 	virtual void wasExploded(Level*, const TilePos& pos);
-	virtual int getRenderLayer() const;
+	virtual RenderLayer getRenderLayer() const;
 	virtual bool use(Level*, const TilePos& pos, Player*);
 	virtual void stepOn(Level*, const TilePos& pos, Entity*);
 	virtual void setPlacedOnFace(Level*, const TilePos& pos, Facing::Name face);
@@ -232,4 +245,37 @@ public:
 	float m_blastResistance;
 	AABB m_aabbReturned;
 	std::string m_descriptionID;
+
+protected:
+	RenderLayer m_renderLayer;
+};
+
+class FullTile
+{
+private:
+	Tile* _tileType;
+public:
+	TileData data;
+
+private:
+	void _init(Tile* tileType, TileData data)
+	{
+		this->_tileType = tileType;
+		this->data = data;
+	}
+
+public:
+	FullTile(TileID tileId, TileData data)
+	{
+		_init(Tile::tiles[tileId], data);
+	}
+
+	FullTile(Tile* tileType, TileData data)
+	{
+		_init(tileType, data);
+	}
+
+public:
+	TileID getTypeId() const { return _tileType->m_ID; }
+	Tile* getType() const { return _tileType; }
 };

@@ -1,0 +1,116 @@
+{
+    "terrain_opaque": {
+		"depthFunc": "LessEqual",
+		
+        "vertexShader": "shaders/renderchunk.vertex",
+        "fragmentShader": "shaders/renderchunk.fragment",
+
+		"states": ["Textured"],
+
+        "defines": [ "LOW_PRECISION" ]
+    },
+
+    "terrain_opaque_seasons:terrain_opaque": {
+        "defines": [ "SEASONS" ]
+    },
+
+    "terrain_blend:terrain_opaque": {
+        "defines": [ "BLEND", "NEAR_WATER" ],
+        "states": [
+            "Blending",
+            "EnableStencilTest"
+        ],
+
+        "frontFace": {
+            "stencilFunc": "NotEqual",
+            "stencilFailOp": "Keep",
+            "stencilDepthFailOp": "Keep",
+            "stencilPassOp": "Keep"
+        },
+
+        "backFace": {
+            "stencilFunc": "NotEqual",
+            "stencilFailOp": "Keep",
+            "stencilDepthFailOp": "Keep",
+            "stencilPassOp": "Keep"
+        },
+
+        "stencilRef": 1
+    },
+
+    "terrain_blend_below:terrain_blend": {
+        "states": [ "InvertCulling" ]
+    },
+
+    "terrain_doubleside:terrain_opaque": {
+        "states": [ "DisableCulling" ]
+    },
+
+    "terrain_alpha_single_side:terrain_opaque": {
+		"states":["EnableAlphaTest"],
+        "defines": [ "ALPHA_TEST" ]
+    },
+
+    "terrain_alpha_seasons:terrain_opaque": {
+        "defines": [ "ALPHA_TEST", "SEASONS" ],
+        "states": [ "DisableCulling", "EnableAlphaTest" ]
+    },
+
+    "terrain_alpha:terrain_alpha_single_side": {
+        "states": [ "DisableCulling" ]
+    },
+
+    "terrain_opaque_fog:terrain_opaque": {
+        "defines": [ "FOG" ]
+    },
+
+    "terrain_blend_fog:terrain_blend": {
+        "defines": [ "FOG" ]
+    },
+
+    "terrain_doubleside_fog:terrain_doubleside": {
+        "defines": [ "FOG" ]
+    },
+
+    "terrain_alpha_single_side_fog:terrain_alpha_single_side": {
+        "defines": [ "FOG" ]
+    },
+
+    "terrain_alpha_fog:terrain_alpha": {
+        "defines": [ "FOG" ]
+    },
+
+    "terrain_far:terrain_opaque": {
+        "defines": [
+            "FOG",
+            "LOW_PRECISION"
+        ]
+    },
+
+    "terrain_seasons_far:terrain_opaque_seasons": {
+        "defines": [
+            "FOG",
+            "LOW_PRECISION"
+        ]
+    },
+
+    "terrain_seasons_far_alpha:terrain_opaque_seasons": {
+        "defines": [
+            "FOG",
+            "LOW_PRECISION",
+            "SEASONS_FAR"
+        ]
+    },
+
+	"terrain_fading_in:terrain_far": {
+		"defines" : ["ALLOW_FADE"]
+	},
+
+    "terrain_seasons_fading_in:terrain_seasons_far": {
+        "defines": [ "ALLOW_FADE" ]
+    },
+
+	"terrain_seasons_fading_in_alpha:terrain_seasons_far_alpha": {
+		"defines" : ["ALLOW_FADE"]
+	}
+}

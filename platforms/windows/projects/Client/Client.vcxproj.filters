@@ -87,6 +87,30 @@
     <Filter Include="Header Files\Multiplayer">
       <UniqueIdentifier>{05de3cac-cea2-493b-a8c5-84601a5cd26a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Renderer\Renderer">
+      <UniqueIdentifier>{de650680-1915-489c-a5be-eb96787d1adf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderer\Texture">
+      <UniqueIdentifier>{02c6befe-2a85-492e-87d1-293fa26590c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer\Renderer">
+      <UniqueIdentifier>{a77298bd-19e1-4d70-bd4c-90df3144a00b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderer\Texture">
+      <UniqueIdentifier>{936e5c8b-a3b9-4fc8-8d85-b6157dd551b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model\Geom">
+      <UniqueIdentifier>{434d2080-ff31-42d1-9c89-39efb6f33153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Geom">
+      <UniqueIdentifier>{658788db-d839-4212-9afd-66f7e65cffeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model\Models">
+      <UniqueIdentifier>{48d498c3-5cea-459c-9417-1b3fef53a2fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Models">
+      <UniqueIdentifier>{dee8e1cc-9021-48b4-b8ac-f7a3f385cc26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.hpp">
@@ -172,18 +196,6 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\Screen.hpp">
       <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\Cube.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\HumanoidModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\Model.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\PolygonQuad.hpp">
-      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp">
       <Filter>Header Files\Player\Input</Filter>
@@ -380,12 +392,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\ModelPart.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\QuadrupedModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\GrassColor.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
@@ -415,36 +421,6 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\ChickenRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\ZombieModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\ChickenModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\CowModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\CreeperModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\GameMods.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\PigModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\SheepFurModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\SheepModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\SkeletonModel.hpp">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\model\SpiderModel.hpp">
-      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\entity\RocketRenderer.hpp">
       <Filter>Header Files\Renderer\Entity</Filter>
@@ -481,6 +457,87 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.hpp">
       <Filter>Header Files\Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\app\AppPlatformListener.hpp">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.hpp">
+      <Filter>Header Files\Renderer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\ColorSpace.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\IntRectangle.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\GuiElement.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\geom\ModelPart.hpp">
+      <Filter>Header Files\Model\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\ChickenModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\CowModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\CreeperModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\GameMods.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\HumanoidModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\Model.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\PigModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\QuadrupedModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\SheepFurModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\SheepModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\SkeletonModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\SpiderModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\models\ZombieModel.hpp">
+      <Filter>Header Files\Model\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\geom\Cube.hpp">
+      <Filter>Header Files\Model\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\geom\TextureOffset.hpp">
+      <Filter>Header Files\Model\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.hpp">
+      <Filter>Header Files\Model\Geom</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.hpp">
+      <Filter>Header Files\Renderer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp">
+      <Filter>Header Files\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -567,18 +624,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp">
       <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\PolygonQuad.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\Cube.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\HumanoidModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\Model.cpp">
-      <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp">
       <Filter>Source Files\Player\Input</Filter>
@@ -775,12 +820,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\TouchInputHolder.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\ModelPart.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\QuadrupedModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\OptionList.cpp">
       <Filter>Source Files\GUI\Components</Filter>
     </ClCompile>
@@ -789,30 +828,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\FoliageColor.cpp">
       <Filter>Source Files\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\CowModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\ChickenModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\CreeperModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\PigModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\SheepFurModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\SheepModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\SkeletonModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\SpiderModel.cpp">
-      <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ChickenRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
@@ -850,9 +865,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Lighting.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\model\ZombieModel.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\entity\ArrowRenderer.cpp">
       <Filter>Source Files\Renderer\Entity</Filter>
     </ClCompile>
@@ -864,6 +876,75 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\multiplayer\MultiplayerLocalPlayer.cpp">
       <Filter>Source Files\Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\app\AppPlatformListener.cpp">
+      <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.cpp">
+      <Filter>Source Files\Renderer\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.cpp">
+      <Filter>Source Files\Renderer\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.cpp">
+      <Filter>Source Files\Renderer\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\geom\ModelPart.cpp">
+      <Filter>Source Files\Model\Geom</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\geom\Cube.cpp">
+      <Filter>Source Files\Model\Geom</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\ChickenModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\CowModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\CreeperModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\HumanoidModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\Model.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\PigModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\QuadrupedModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\SheepFurModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\SheepModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\SkeletonModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\SpiderModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\models\ZombieModel.cpp">
+      <Filter>Source Files\Model\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.cpp">
+      <Filter>Source Files\Model\Geom</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.cpp">
+      <Filter>Source Files\Renderer\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

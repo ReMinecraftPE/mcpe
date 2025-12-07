@@ -17,9 +17,9 @@ DynamicTexture::DynamicTexture(int a2) : m_textureIndex(a2)
 	memset(m_pixels, 0, sizeof m_pixels);
 }
 
-bool DynamicTexture::bindTexture(Textures* pTextures)
+TextureData* DynamicTexture::bindTexture(Textures* pTextures)
 {
-	return pTextures->loadAndBindTexture(C_TERRAIN_NAME) != -1;
+	return pTextures->loadAndBindTexture(C_TERRAIN_NAME);
 }
 
 DynamicTexture::~DynamicTexture()

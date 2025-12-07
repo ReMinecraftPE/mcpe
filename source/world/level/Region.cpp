@@ -73,7 +73,7 @@ int Region::getRawBrightness(const TilePos& pos) const
 
 float Region::getBrightness(const TilePos& pos) const
 {
-	return m_pLevel->m_pDimension->field_10[getRawBrightness(pos)];
+	return m_pLevel->m_pDimension->m_brightnessRamp[getRawBrightness(pos)];
 }
 
 TileData Region::getData(const TilePos& pos) const

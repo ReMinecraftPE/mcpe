@@ -15,15 +15,15 @@ CreeperRenderer::~CreeperRenderer()
 {
 }
 
-int CreeperRenderer::getOverlayColor(Mob* pMob, float a, float b)
+Color CreeperRenderer::getOverlayColor(const Entity& entity, float a)
 {
-	Creeper* pCreeper = (Creeper*)pMob;
+	const Creeper& creeper = (const Creeper&)entity;
 
-	float step = pCreeper->getSwelling(b);
+	float step = creeper.getSwelling(a);
 
 	if (static_cast<int>(step * 10.0f) % 2 == 0)
 	{
-		return 0;
+		return EntityShaderManager::getOverlayColor(entity, a);
 	}
 
 	int _a = step * 0.2f * 255.0f;
@@ -32,18 +32,14 @@ int CreeperRenderer::getOverlayColor(Mob* pMob, float a, float b)
 
 	if (_a > 255) { _a = 255; }
 
-	int red = 255;
-	int green = 255;
-	int blue = 255;
-
-	return _a << 24 | red << 16 | green << 8 | blue;
+	return Color(255, 255, 255, _a);
 }
 
-void CreeperRenderer::scale(Mob* pMob, float f)
+void CreeperRenderer::scale(const Mob& mob, Matrix& matrix, float a)
 {
-	Creeper* pCreeper = (Creeper*)pMob;
+	const Creeper& creeper = (const Creeper&)mob;
 
-	float g = pCreeper->getSwelling(f);
+	float g = creeper.getSwelling(a);
 	float wobble = 1.0f + Mth::sin(g * 100.0f) * g * 0.01f;
 
 	if (g < 0.0f) 
@@ -62,5 +58,5 @@ void CreeperRenderer::scale(Mob* pMob, float f)
 	float s = (1.0f + g * 0.4f) * wobble;
 	float hs = (1.0f + g * 0.1f) / wobble;
 
-	glScalef(s, hs, s);
+	matrix.scale(Vec3(s, hs, s));
 }

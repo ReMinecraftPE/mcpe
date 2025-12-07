@@ -15,15 +15,29 @@ class Minecraft;
 
 class ItemInHandRenderer
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr entity;
+		mce::MaterialPtr entity_alphatest;
+		mce::MaterialPtr item_in_hand;
+		mce::MaterialPtr entity_glint;
+		mce::MaterialPtr entity_alphatest_glint;
+		mce::MaterialPtr item_in_hand_glint;
+
+		Materials();
+	};
+
 public:
 	ItemInHandRenderer(Minecraft* pMC);
 	void itemPlaced();
 	void itemUsed();
-	void render(float f);
-	void renderItem(ItemInstance*);
-	void renderScreenEffect(float f);
-	void renderFire(float f);
-	void renderTex(float f, int tex);
+	void render(float a);
+	void renderItem(const Entity& entity, const ItemInstance& item, float a);
+	void renderScreenEffect(float a);
+	void renderFire(float a);
+	void renderTex(float a, int tex);
 	void tick();
 	void turn(const Vec2& rot);
 
@@ -35,5 +49,6 @@ private:
 	float m_height;
 	float m_oHeight;
 	TileRenderer m_tileRenderer;
+	Materials m_materials;
 };
 

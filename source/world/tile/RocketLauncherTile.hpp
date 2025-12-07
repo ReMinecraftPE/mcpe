@@ -17,7 +17,7 @@ public:
 
 	int getTexture(Facing::Name face, TileData data) const override;
 	AABB* getAABB(const Level*, const TilePos& pos) override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 	bool isCubeShaped() const override;
 	bool isSolidRender() const override;
 	bool use(Level* pLevel, const TilePos& pos, Player* player) override;

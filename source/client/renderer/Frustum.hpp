@@ -8,30 +8,27 @@
 
 #pragma once
 
-#include "common/Matrix.hpp"
+#include "renderer/MatrixStack.hpp"
 #include "world/phys/AABB.hpp"
 
 class Frustum
 {
 public:
-	void normalizePlane(Matrix*, int);
-
 	//it's inlined in GameRenderer
-	static void doOurJobInGameRenderer();
+	static void calculateFrustum();
 
 	static Frustum frustum;
 
 public:
-	Matrix m[19];
+	glm::vec4 m[6];
 };
 
 class FrustumData
 {
 public:
-	bool pointInFrustum(float x, float y, float z);
-	bool sphereInFrustum(float x, float y, float z, float radius);
-	bool cubeFullyInFrustum(float x1, float y1, float z1, float x2, float y2, float z2);
-	bool cubeInFrustum(float x1, float y1, float z1, float x2, float y2, float z2);
+	bool pointInFrustum(const Vec3& vec);
+	bool sphereInFrustum(const Vec3& vec, float radius);
+	bool cubeInFrustum(const Vec3& min, const Vec3& max);
 	bool cubeInFrustum(const AABB& aabb);
 
 public:

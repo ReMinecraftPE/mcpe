@@ -14,13 +14,22 @@
 
 class TileRenderer
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_item;
+
+		Materials();
+	};
+
 private:
 	void _init();
 public:
-	TileRenderer();
-	TileRenderer(LevelSource*);
+	TileRenderer(Tesselator& tessellator = Tesselator::instance, LevelSource* pLevelSource = nullptr);
+
 	float getWaterHeight(const TilePos& pos, const Material*);
-	void renderTile(Tile*, TileData data, float bright = 1.0f, bool preshade = false);
+	void renderTile(const FullTile& tile, const mce::MaterialPtr& material = mce::MaterialPtr::NONE, float bright = 1.0f, bool preshade = false);
 
 	// TODO
 
@@ -34,7 +43,7 @@ public:
 	void renderNorth(Tile*, const Vec3& pos, int texture);
 	void renderFaceDown(Tile*, const Vec3& pos, int texture);
 	void renderFaceUp(Tile*, const Vec3& pos, int texture);
-	void tesselateCrossTexture(Tile* tile, TileData data, const Vec3& pos);
+	void tesselateCrossTexture(const FullTile& tile, const Vec3& pos, bool simple = false);
 	void tesselateTorch(Tile*, const Vec3& pos, float a, float b);
 	
 	bool tesselateBlockInWorldWithAmbienceOcclusion(Tile*, const TilePos& pos, float r, float g, float b);
@@ -63,10 +72,10 @@ public:
 	static bool m_bBiomeColors;
 
 private:
-	LevelSource* m_pLevelSource;
-	int m_textureOverride;
-	bool field_8;
-	bool m_bDisableCulling;
+	LevelSource* m_pTileSource;
+	int m_fixedTexture;
+	bool m_bXFlipTexture;
+	bool m_bNoCulling;
 	bool m_bAmbientOcclusion;
 	float field_C;
 	float field_10;
@@ -117,4 +126,6 @@ private:
 	bool field_B5;
 	bool field_B6;
 	bool field_B7;
+	Materials m_materials;
+	Tesselator& m_tessellator;
 };

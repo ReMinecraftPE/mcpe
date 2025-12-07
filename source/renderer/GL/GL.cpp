@@ -1,55 +1,10 @@
+#include <math.h>
 #include "GL.hpp"
-
-void drawArrayVT(GLuint buffer, int count, int stride)
-{
-	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglDrawArrays(GL_TRIANGLES, 0, count);
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-}
-
-void drawArrayVTC(GLuint buffer, int count, int stride)
-{
-	xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-	xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-	xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-	xglColorPointer(4, GL_UNSIGNED_BYTE, stride, (void*)20);
-	xglEnableClientState(GL_VERTEX_ARRAY);
-	xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglEnableClientState(GL_COLOR_ARRAY);
-	xglDrawArrays(GL_TRIANGLES, 0, count);
-	xglDisableClientState(GL_VERTEX_ARRAY);
-	xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	xglDisableClientState(GL_COLOR_ARRAY);
-}
-
-void drawArrayVTN(GLuint buffer, int count, int stride)
-{
-#ifdef USE_GL_NORMAL_LIGHTING
-    xglBindBuffer(GL_ARRAY_BUFFER, buffer);
-    xglTexCoordPointer(2, GL_FLOAT, stride, (void*)12);
-    xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    xglVertexPointer(3, GL_FLOAT, stride, nullptr);
-    xglEnableClientState(GL_VERTEX_ARRAY);
-    xglNormalPointer(GL_BYTE, stride, (void*)24);
-    xglEnableClientState(GL_NORMAL_ARRAY);
-    xglDrawArrays(GL_TRIANGLES, 0, count);
-    xglDisableClientState(GL_NORMAL_ARRAY);
-    xglDisableClientState(GL_VERTEX_ARRAY);
-    xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
-#else
-    drawArrayVT(buffer, count, stride);
-#endif
-}
 
 // It appears Mojang took the code from:
 // https://www.khronos.org/opengl/wiki/GluProject_and_gluUnProject_code
 
-int glhProjectf(float objx, float objy, float objz, float* modelview, float* projection, int* viewport, float* windowCoordinate)
+int glhProjectf(float objx, float objy, float objz, const float* modelview, const float* projection, int* viewport, float* windowCoordinate)
 {
     // Transformation vectors
     float fTempo[8];
@@ -81,7 +36,7 @@ int glhProjectf(float objx, float objy, float objz, float* modelview, float* pro
     return 1;
 }
 
-int glhUnProjectf(float winx, float winy, float winz, float* modelview, float* projection, int* viewport, float* objectCoordinate)
+int glhUnProjectf(float winx, float winy, float winz, const float* modelview, const float* projection, int* viewport, float* objectCoordinate)
 {
     // Transformation matrices
     float m[16], A[16];
@@ -108,7 +63,7 @@ int glhUnProjectf(float winx, float winy, float winz, float* modelview, float* p
     return 1;
 }
 
-void MultiplyMatrices4by4OpenGL_FLOAT(float* result, float* matrix1, float* matrix2)
+void MultiplyMatrices4by4OpenGL_FLOAT(float* result, const float* matrix1, const float* matrix2)
 {
     result[0] = matrix1[0] * matrix2[0] +
         matrix1[4] * matrix2[1] +

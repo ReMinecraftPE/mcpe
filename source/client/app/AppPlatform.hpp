@@ -10,8 +10,10 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "client/renderer/Texture.hpp"
+#include "client/renderer/texture/TextureData.hpp"
 #include "client/sound/SoundSystem.hpp"
 #include "AssetFile.hpp"
 
@@ -28,8 +30,13 @@
 #define C_DEFAULT_SCREEN_HEIGHT (720)
 #endif
 
+class AppPlatformListener;
+
 class AppPlatform
 {
+public:
+	typedef std::multimap<float, AppPlatformListener*> ListenerMap;
+
 public:
 	enum eDialogType
 	{
@@ -53,7 +60,7 @@ private:
 	virtual void _tick();
 
 protected:
-	virtual std::string _getPatchDataPath() const { return "patches/patch_data.txt"; }
+	std::string _getPatchDataPath() const { return "patches/patch_data.txt"; }
 
 public:
 	virtual void buyGame();
@@ -69,9 +76,8 @@ public:
 	virtual void saveScreenshot(const std::string&, int, int);
 	virtual void showDialog(eDialogType);
 	virtual void uploadPlatformDependentData(int, void*);
-	virtual Texture loadTexture(const std::string&, bool bIsRequired);
-
-#ifndef ORIGINAL_CODE
+	virtual void loadImage(ImageData& data, const std::string& path);
+	TextureData loadTexture(const std::string& path, bool bIsRequired = false);
 	virtual bool doesTextureExist(const std::string& path) const;
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	virtual bool isTouchscreen() const;
@@ -113,11 +119,11 @@ public:
 	virtual SoundSystem* const getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
-	virtual AssetFile readAssetFile(const std::string&, bool) const;
-#endif
+	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
+	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
 
 public:
-	//std::multimap<float, AppPlatformListener*> m_listeners;
+	ListenerMap m_listeners;
 	void* m_hWND; // the Mojang solution
 };
 

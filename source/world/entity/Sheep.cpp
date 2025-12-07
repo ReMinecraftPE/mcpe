@@ -4,23 +4,23 @@
 
 #define DATA_WOOL_ID (16)
 
-const float Sheep::COLOR[][3] = {
-	{1.00f, 1.00f, 1.00f},
-	{0.95f, 0.70f, 0.20f},
-	{0.90f, 0.50f, 0.85f},
-	{0.60f, 0.70f, 0.95f},
-	{0.90f, 0.90f, 0.20f},
-	{0.50f, 0.80f, 0.10f},
-	{0.95f, 0.70f, 0.80f},
-	{0.30f, 0.30f, 0.30f},
-	{0.60f, 0.60f, 0.60f},
-	{0.30f, 0.60f, 0.70f}, 
-	{0.70f, 0.40f, 0.90f},
-	{0.20f, 0.40f, 0.80f},
-	{0.50f, 0.40f, 0.30f},
-	{0.40f, 0.50f, 0.20f},
-	{0.80f, 0.30f, 0.30f}, 
-	{0.10f, 0.10f, 0.10f}
+const Color Sheep::COLOR[] = {
+	Color(1.00f, 1.00f, 1.00f),
+	Color(0.95f, 0.70f, 0.20f),
+	Color(0.90f, 0.50f, 0.85f),
+	Color(0.60f, 0.70f, 0.95f),
+	Color(0.90f, 0.90f, 0.20f),
+	Color(0.50f, 0.80f, 0.10f),
+	Color(0.95f, 0.70f, 0.80f),
+	Color(0.30f, 0.30f, 0.30f),
+	Color(0.60f, 0.60f, 0.60f),
+	Color(0.30f, 0.60f, 0.70f), 
+	Color(0.70f, 0.40f, 0.90f),
+	Color(0.20f, 0.40f, 0.80f),
+	Color(0.50f, 0.40f, 0.30f),
+	Color(0.40f, 0.50f, 0.20f),
+	Color(0.80f, 0.30f, 0.30f), 
+	Color(0.10f, 0.10f, 0.10f)
 };
 
 const unsigned int Sheep::COLOR_COUNT = sizeof(Sheep::COLOR) / (sizeof(float) * 3);
@@ -28,7 +28,7 @@ const unsigned int Sheep::COLOR_COUNT = sizeof(Sheep::COLOR) / (sizeof(float) * 
 Sheep::Sheep(Level* pLevel) : Animal(pLevel)
 {
 	m_pDescriptor = &EntityTypeDescriptor::sheep;
-	field_C8 = RENDER_SHEEP;
+	m_renderType = RENDER_SHEEP;
 	m_texture = "mob/sheep.png";
 	setSize(0.9f, 1.3f);
 

@@ -44,7 +44,7 @@ void ChatScreen::init()
 void ChatScreen::removed()
 {
 	// Now let them be rendered.
-	m_pMinecraft->m_gui.m_bRenderMessages = true;
+	m_pMinecraft->m_pGui->m_bRenderMessages = true;
 }
 
 void ChatScreen::render(int mouseX, int mouseY, float f)
@@ -52,8 +52,8 @@ void ChatScreen::render(int mouseX, int mouseY, float f)
 	renderBackground();
 
 	// override the default behavior of rendering chat messages
-	m_pMinecraft->m_gui.m_bRenderMessages = false;
-	m_pMinecraft->m_gui.renderMessages(true);
+	m_pMinecraft->m_pGui->m_bRenderMessages = false;
+	m_pMinecraft->m_pGui->renderMessages(true);
 
 	Screen::render(mouseX, mouseY, f);
 }

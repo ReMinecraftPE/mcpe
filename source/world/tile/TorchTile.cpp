@@ -11,6 +11,7 @@
 
 TorchTile::TorchTile(int ID, int texture, Material* pMtl) : Tile(ID, texture, pMtl)
 {
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setTicking(true);
 }
 
@@ -19,7 +20,7 @@ AABB* TorchTile::getAABB(const Level*, const TilePos& pos)
 	return nullptr;
 }
 
-int TorchTile::getRenderShape() const
+eRenderShape TorchTile::getRenderShape() const
 {
 	return SHAPE_TORCH;
 }

@@ -46,7 +46,7 @@ void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 void BooleanOptionItem::render(OptionList* pList, int x, int y)
 {
 	pList->drawString(
-		pList->m_pMinecraft->m_pFont,
+		*pList->m_pMinecraft->m_pFont,
 		m_text,
 		x + 22,
 		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
@@ -88,6 +88,18 @@ void AORenderOptionItem::toggleState(OptionList* pList)
 	pList->m_pMinecraft->m_pLevelRenderer->allChanged();
 }
 
+
+FancyRenderOptionItem::FancyRenderOptionItem(bool* pValue, const std::string& text) :
+	RenderOptionItem(pValue, text)
+{
+}
+
+void FancyRenderOptionItem::toggleState(OptionList* pList)
+{
+	BooleanOptionItem::toggleState(pList);
+	pList->m_pMinecraft->reloadFancy(*m_pValue);
+}
+
 HeaderOptionItem::HeaderOptionItem(const std::string& text)
 {
 	m_text = text;
@@ -96,11 +108,11 @@ HeaderOptionItem::HeaderOptionItem(const std::string& text)
 void HeaderOptionItem::render(OptionList* pList, int x, int y)
 {
 	pList->drawString(
-		pList->m_pMinecraft->m_pFont,
+		*pList->m_pMinecraft->m_pFont,
 		m_text,
 		x + 2,
 		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
-		0xFFFFFF);
+		Color::WHITE);
 }
 
 DistanceOptionItem::DistanceOptionItem(int* pValue, const std::string& text)
@@ -129,11 +141,11 @@ void DistanceOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 void DistanceOptionItem::render(OptionList* pList, int x, int y)
 {
 	pList->drawString(
-		pList->m_pMinecraft->m_pFont,
+		*pList->m_pMinecraft->m_pFont,
 		m_text,
 		x + 22,
 		y + (C_OPTION_ITEM_HEIGHT - 8) / 2 - 2,
-		0xCCCCCC);
+		Color(204, 204, 204));
 
 	const char* distanceText = "???";
 	switch (*m_pValue)
@@ -152,7 +164,7 @@ void DistanceOptionItem::render(OptionList* pList, int x, int y)
 	pList->fill(x + 0, y + 0, x + C_DISTANCE_SWITCH_WIDTH - 0, y + C_DISTANCE_SWITCH_HEIGHT - 0, 0xFF444444);
 	pList->fill(x + 1, y + 1, x + C_DISTANCE_SWITCH_WIDTH - 1, y + C_DISTANCE_SWITCH_HEIGHT - 1, 0xFF111111);
 	pList->drawCenteredString(
-		pList->m_pMinecraft->m_pFont,
+		*pList->m_pMinecraft->m_pFont,
 		distanceTextStr,
 		x + C_DISTANCE_SWITCH_WIDTH / 2,
 		y + (C_DISTANCE_SWITCH_HEIGHT - 8) / 2,
@@ -220,40 +232,26 @@ void OptionList::renderBackground(float f)
 
 void OptionList::renderHoleBackground(float a, float b, int c, int d)
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_TEXTURE_2D);
-
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.color(0x202020, 0xC0);
 	t.vertexUV(0.0f, b, 0.0f, 0.0f, b / 32.0f);
 	t.vertexUV(float(field_18), b, 0.0f, field_18 / 32.0f, b / 32.0f);
 	t.vertexUV(float(field_18), a, 0.0f, field_18 / 32.0f, a / 32.0f);
 	t.vertexUV(0.0f, a, 0.0f, 0.0f, a / 32.0f);
-	t.draw();
-
-	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_BLEND);
+	t.draw(m_materials.ui_fill_color);
 }
 
 void OptionList::renderScrollBackground()
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glDisable(GL_TEXTURE_2D);
-
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.color(0x202020, 0x90);
 	t.vertexUV(field_24, field_10, 0.0f, field_24 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_20, field_10, 0.0f, field_20 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_20, field_C,  0.0f, field_20 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_24, field_C,  0.0f, field_24 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
-	t.draw();
-
-	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_BLEND);
+	t.draw(m_materials.ui_fill_color);
 }
 
 void OptionList::onClickItem(int index, int mouseX, int mouseY)
@@ -295,7 +293,7 @@ void OptionList::initDefaultMenu()
 		OPTION(Distance, m_iViewDistance,         "Render Distance");
 		OPTION(Boolean,  m_bThirdPerson,          "Third Person View");
 		OPTION(AORender, m_bAmbientOcclusion,     "Smooth Lighting");
-		OPTION(Render,   m_bFancyGraphics,        "Fancy Graphics");
+		OPTION(FancyRender,   m_bFancyGraphics,        "Fancy Graphics");
 		OPTION(Boolean,  m_bViewBobbing,          "View Bobbing");
 		OPTION(Boolean,  m_bAnaglyphs,            "3D Anaglyph");
 		OPTION(Boolean,  m_bBlockOutlines,        "Block Outlines");

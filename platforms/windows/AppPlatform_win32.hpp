@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "thirdparty/GL/GL.hpp"
 #include "client/app/AppPlatform.hpp"
 
 #include "client/player/input/Mouse.hpp"
@@ -38,7 +37,6 @@ public:
 	int getScreenHeight() const override { return m_ScreenHeight; }
 	void showDialog(eDialogType) override;
 	std::string getDateString(int time) override;
-	Texture loadTexture(const std::string& str, bool bIsRequired) override;
 	bool doesTextureExist(const std::string& path) const override;
 
 	// From v0.1.1. Also add these to determine touch screen use within the game.

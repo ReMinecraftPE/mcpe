@@ -14,5 +14,5 @@ class ChickenRenderer : public MobRenderer
 public:
 	ChickenRenderer(Model*, float);
 	~ChickenRenderer();
-	float getBob(Mob*, float);
+	float getBob(const Mob& mob, float f) override;
 };

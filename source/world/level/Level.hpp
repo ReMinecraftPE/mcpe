@@ -37,6 +37,11 @@ class RakNetInstance;
 typedef std::vector<Entity*> EntityVector;
 typedef std::vector<AABB> AABBVector;
 
+struct Brightness
+{
+	static float MIN, MAX;
+};
+
 class Level : public LevelSource
 {
 public:
@@ -129,7 +134,7 @@ public:
 	void setSpawnPos(const TilePos& pos) { m_pLevelData->setSpawn(pos); }
 	void setSpawnSettings(bool a, bool b) { }
 	bool canSeeSky(const TilePos& pos) const;
-	Vec3 getSkyColor(Entity* pEnt, float f) const;
+	Vec3 getSkyColor(const Entity& entity, float f) const;
 	Vec3 getFogColor(float f) const;
 	Vec3 getCloudColor(float f) const;
 	bool isUnobstructed(AABB*) const;
@@ -170,6 +175,7 @@ public:
 	EntityVector getEntities(Entity* pAvoid, const AABB&) const;
 	BiomeSource* getBiomeSource() const override;
 	LevelStorage* getLevelStorage() const { return m_pLevelStorage; }
+	Dimension* getDimension(DimensionId type) const;
 	const LevelData* getLevelData() const { return m_pLevelData; }
 	AABBVector* getCubes(const Entity* pEnt, const AABB& aabb);
 	std::vector<LightUpdate>* getLightsToUpdate();

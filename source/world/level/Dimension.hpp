@@ -9,18 +9,23 @@
 #pragma once
 
 #include "world/phys/Vec3.hpp"
-#include "world/level/levelgen/biome/BiomeSource.hpp"
-#include "world/level/levelgen/chunk/ChunkSource.hpp"
-#include "Level.hpp"
 
 class Level; // if included from Level.hpp
+class ChunkSource;
+class BiomeSource;
+
+enum DimensionId
+{
+	DIMENSION_NORMAL,
+	DIMENSION_HELL
+};
 
 class Dimension
 {
 public:
 	Dimension();
 	virtual ~Dimension();
-	static Dimension* getNew(int type);
+	static Dimension* createNew(DimensionId type);
 
 	virtual Vec3 getFogColor(float, float);
 	virtual void init();
@@ -40,7 +45,7 @@ public:
 	bool m_bFoggy;
 	bool field_D;
 	bool field_E;
-	float field_10[16];
+	float m_brightnessRamp[16];
 	int field_50;
 	float m_sunriseColor[4];
 };

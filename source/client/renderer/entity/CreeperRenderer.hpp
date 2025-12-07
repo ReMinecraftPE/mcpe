@@ -16,6 +16,6 @@ public:
 	CreeperRenderer(Model*, float);
 	~CreeperRenderer();
 
-	int getOverlayColor(Mob*, float, float) override;
-	void scale(Mob*, float) override;
+	Color getOverlayColor(const Entity& entity, float a) override;
+	void scale(const Mob& mob, Matrix& matrix, float a) override;
 };

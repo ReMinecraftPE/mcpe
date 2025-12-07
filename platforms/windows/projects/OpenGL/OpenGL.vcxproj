@@ -55,9 +55,6 @@
     <ClInclude Include="$(MC_ROOT)\thirdparty\GL\glext.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\thirdparty\GL\GLExt.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
     </ProjectReference>

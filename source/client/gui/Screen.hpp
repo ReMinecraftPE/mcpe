@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "renderer/MaterialPtr.hpp"
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "components/Button.hpp"
@@ -18,6 +19,16 @@ class TextInputBox;
 
 class Screen : public GuiComponent
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr ui_cubemap;
+		mce::MaterialPtr ui_background;
+
+		Materials();
+	};
+
 private:
 	static bool _isPanoramaAvailable;
 public:
@@ -49,9 +60,9 @@ public:
 	virtual bool handleBackEvent(bool b) { return false; }
 	virtual void tick();
 	virtual void removed() {};
-	virtual void renderBackground(int);
+	virtual void renderBackground(int vo);
 	virtual void renderBackground();
-	virtual void renderDirtBackground(int);
+	virtual void renderDirtBackground(int vo);
 	virtual bool isPauseScreen() { return true; }
 	virtual bool isErrorScreen() { return false; }
 	virtual bool isInGameScreen() { return true; }
@@ -83,5 +94,8 @@ public:
 	std::vector<TextInputBox*> m_textInputs;
 	int m_yOffset;
 #endif
+
+protected:
+	Materials m_screenMaterials;
 };
 

@@ -10,9 +10,8 @@
 #include "ItemRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
 #include "client/renderer/TileRenderer.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "world/entity/ItemEntity.hpp"
-
-TileRenderer* ItemRenderer::tileRenderer = new TileRenderer;
 
 #ifndef ENH_3D_INVENTORY_TILES
 const uint8_t g_ItemFrames[C_MAX_TILES] =
@@ -28,20 +27,45 @@ const uint8_t g_ItemFrames[C_MAX_TILES] =
 };
 #endif
 
+ItemRenderer::Materials::Materials()
+{
+	MATERIAL_PTR(common, ui_fill_color);
+	MATERIAL_PTR(common, ui_textured);
+	MATERIAL_PTR(common, ui_texture_and_color);
+	MATERIAL_PTR(common, ui_item);
+	MATERIAL_PTR(common, ui_item_glint);
+}
+
+ItemRenderer* ItemRenderer::singletonPtr = nullptr;
+
+ItemRenderer& ItemRenderer::singleton()
+{
+	if (!ItemRenderer::singletonPtr)
+	{
+		ItemRenderer::singletonPtr = new ItemRenderer();
+	}
+
+	return *singletonPtr;
+}
+
 ItemRenderer::ItemRenderer()
 {
+	static TileRenderer* tileRenderer = new TileRenderer();
+	m_pTileRenderer = tileRenderer;
+
 	m_shadowRadius = 0.15f;
 	m_shadowStrength = 0.75f;
 }
 
-void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
+void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
 	m_random.init_genrand(187);
-	ItemEntity* pItemEntity = (ItemEntity*)pEntity;
+	const ItemEntity& itemEntity = (const ItemEntity&)entity;
 
-	glPushMatrix();
-	float yOffset = Mth::sin((float(pItemEntity->m_age) + a) / 10.0f + pItemEntity->m_bobOffs);
-	const ItemInstance* pItemInstance = pItemEntity->m_pItemInstance;
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+
+	float yOffset = Mth::sin((float(itemEntity.m_age) + a) / 10.0f + itemEntity.m_bobOffs);
+	const ItemInstance* pItemInstance = itemEntity.m_pItemInstance;
 	if (ItemInstance::isNull(pItemInstance))
 	{
 		assert(!"Tried to render invalid ItemInstance for ItemEntity");
@@ -56,13 +80,17 @@ void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
 	if (pItemInstance->m_count > 20)
 		itemsToRender = 4;
 
-	glTranslatef(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z);
+	matrix->translate(Vec3(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z));
+
+#if MCE_GFX_API_OGL
 	glEnable(GL_RESCALE_NORMAL);
+#endif
 
 	Tile* pTile = pItemInstance->getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
-		glRotatef(((float(pItemEntity->m_age) + a) / 20.0f + pItemEntity->m_bobOffs) * 57.296f, 0.0f, 1.0f, 0.0f);
+		matrix->rotate(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, Vec3::UNIT_Y);
+
 		bindTexture(C_TERRAIN_NAME);
 
 		float scale = 0.5f;
@@ -72,75 +100,74 @@ void ItemRenderer::render(Entity* pEntity, const Vec3& pos, float rot, float a)
 		if (pTile->isCubeShaped() || pTile == Tile::stoneSlabHalf)
 			scale = 0.25f;
 
-		glScalef(scale, scale, scale);
+		matrix->scale(scale);
 
 		for (int i = 0; i < itemsToRender; i++)
 		{
-			glPushMatrix();
+			MatrixStack::Ref matrix = MatrixStack::World.push();
 			if (i != 0)
 			{
-				glTranslatef(
+				matrix->translate(Vec3(
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale,
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale,
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale);
+					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale));
 			}
 
-			tileRenderer->renderTile(pTile, pItemInstance->getAuxValue(), pItemEntity->getBrightness(1.0f));
-			glPopMatrix();
+			m_pTileRenderer->renderTile(FullTile(pTile, pItemInstance->getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
 		}
 	}
 	else
 	{
-		glScalef(0.5f, 0.5f, 0.5f);
+		matrix->scale(0.5f);
 		int icon = pItemInstance->getIcon();
 
 		bindTexture(pItemInstance->getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
 
 		for (int i = 0; i < itemsToRender; i++)
 		{
-			glPushMatrix();
+			MatrixStack::Ref matrix = MatrixStack::World.push();
 			if (i != 0)
 			{
-				glTranslatef(
+				matrix->translate(Vec3(
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f,
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f,
-					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f);
+					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) * 0.3f));
 			}
 
-			glRotatef(180.0f - m_pDispatcher->m_rot.x, 0.0f, 1.0f, 0.0f);
+			matrix->rotate(180.0f - m_pDispatcher->m_rot.x, Vec3::UNIT_Y);
 
 			Tesselator& t = Tesselator::instance;
-			t.begin();
+			t.begin(4);
 
 #ifdef ENH_SHADE_HELD_TILES
-			float bright = pItemEntity->getBrightness(1.0f);
+			float bright = itemEntity.getBrightness(1.0f);
 			t.color(bright, bright, bright);
 #endif
-			t.normal(0.0f, 1.0f, 0.0f);
+			t.normal(Vec3::UNIT_Y);
 			t.vertexUV(-0.5f, -0.25f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, -0.25f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
 			t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16))     / 256.0f);
 
-			t.draw();
-
-			glPopMatrix();
+			t.draw(m_materials.entity_alphatest);
 		}
 	}
 
+#if MCE_GFX_API_OGL
 	glDisable(GL_RESCALE_NORMAL);
-	glPopMatrix();
+#endif
 }
 
 void ItemRenderer::blitRect(Tesselator& t, int x, int y, int w, int h, int color)
 {
-	t.begin();
+	// UNUSED
+	t.begin(4);
 	t.color(color);
 	t.vertex(float(x),     float(y),     0.0f);
 	t.vertex(float(x),     float(y + h), 0.0f);
 	t.vertex(float(x + w), float(y + h), 0.0f);
 	t.vertex(float(x + w), float(y),     0.0f);
-	t.draw();
+	t.draw(m_itemMaterials.ui_fill_color);
 }
 
 void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
@@ -151,12 +178,12 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	float uw = float(tw), uh = float(th);
 	float vx = float(sx), vy = float(sy);
 
-	t.begin();
+	t.begin(4);
 	t.vertexUV(ex,      ey + uh, 0.0f, float(vx)      / 256.0f, float(vy + uh) / 256.0f);
 	t.vertexUV(ex + uw, ey + uh, 0.0f, float(vx + uw) / 256.0f, float(vy + uh) / 256.0f);
 	t.vertexUV(ex + uw, ey,      0.0f, float(vx + uw) / 256.0f, float(vy)      / 256.0f);
 	t.vertexUV(ex,      ey,      0.0f, float(vx)      / 256.0f, float(vy)      / 256.0f);
-	t.draw();
+	t.draw(m_itemMaterials.ui_textured);
 }
 
 void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInstance* instance, int x, int y)
@@ -232,28 +259,22 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 #else
 		textures->loadAndBindTexture(C_TERRAIN_NAME);
 
-		//glDisable(GL_BLEND);
-		//glEnable(GL_DEPTH_TEST);
-
-		glPushMatrix();
+		MatrixStack::Ref matrix = MatrixStack::World.push();
 
 		// scale, rotate, and translate the tile onto the correct screen coordinate
-		glTranslatef((GLfloat)x + 8, (GLfloat)y + 8, -8);
-		glScalef(10, 10, 10);
-		glRotatef(210.0f, 1.0f, 0.0f, 0.0f);
-		glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+		matrix->translate(Vec3(x + 8, y + 8, -8));
+		matrix->scale(10);
+		matrix->rotate(210.0f, Vec3::UNIT_X);
+		matrix->rotate(45.0f, Vec3::UNIT_Y);
 
 		// TODO: Why can't we rotate stairs 90deg also? What's rotating them!?
 		if (pTile->getRenderShape() != SHAPE_STAIRS)
-			glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+		{
+			matrix->rotate(-90.0f, Vec3::UNIT_Y);
+		}
 		
-		tileRenderer->renderTile(pTile, instance->getAuxValue(), 1.0f, true);
+		m_pTileRenderer->renderTile(FullTile(pTile, instance->getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
 		#undef PARM_HACK
-
-		glPopMatrix();
-
-		//glDisable(GL_DEPTH_TEST);
-		//glEnable(GL_BLEND);
 #endif
 	}
 	else if (instance->getIcon() >= 0)

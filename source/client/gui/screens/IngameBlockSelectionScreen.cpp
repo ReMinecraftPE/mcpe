@@ -11,6 +11,7 @@
 #include "ChatScreen.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
@@ -111,20 +112,20 @@ void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 	if (ItemInstance::isNull(pItem))
 		return;
 
-	ItemRenderer::renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, true);
-	ItemRenderer::renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y);
+	ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, true);
+	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y);
 }
 
 void IngameBlockSelectionScreen::renderSlots()
 {
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	currentShaderColor = Color::WHITE;
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
 
 	for (int y = 0; y != -22 * getSlotsHeight(); y -= 22)
-		blit(m_width / 2 - 182 / 2, m_height - 3 - getBottomY() + y, 0, 0, 182, 22, 0, 0);
+		blit(m_width / 2 - 182 / 2, m_height - 3 - getBottomY() + y, 0, 0, 182, 22, 0, 0, &m_materials.ui_textured_and_glcolor);
 
 	if (m_selectedSlot >= 0)
-		blit(m_width / 2 - 92 + 20 * (m_selectedSlot % 9), m_height - 4 - getBottomY() - 22 * (m_selectedSlot / 9), 0, 22, 24, 22, 0, 0);
+		blit(m_width / 2 - 92 + 20 * (m_selectedSlot % 9), m_height - 4 - getBottomY() - 22 * (m_selectedSlot / 9), 0, 22, 24, 22, 0, 0, &m_materials.ui_textured_and_glcolor);
 
 	for (int y = 0, index = 0; y < getSlotsHeight(); y++)
 	{
@@ -144,24 +145,20 @@ void IngameBlockSelectionScreen::renderDemoOverlay()
 	int x = (getSlotPosX(4) + getSlotPosX(5)) / 2;
 	int y = (getSlotPosY(0) + getSlotPosY(1)) / 2 + 5;
 
-	drawCenteredString(m_pMinecraft->m_pFont, g_sNotAvailableInDemoVersion, x, y, 0xFFFFFFFF);
+	drawCenteredString(*m_pMinecraft->m_pFont, g_sNotAvailableInDemoVersion, x, y, 0xFFFFFFFF);
 }
 
 void IngameBlockSelectionScreen::render(int x, int y, float f)
 {
 	Screen::render(x, y, f);
-	glDisable(GL_DEPTH_TEST);
 
 	fill(0, 0, m_width, m_height, 0x80000000);
 
-	glEnable(GL_BLEND);
 	renderSlots();
 
 #ifdef DEMO
 	renderDemoOverlay();
 #endif
-
-	glEnable(GL_DEPTH_TEST);
 }
 
 void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
@@ -201,14 +198,14 @@ void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 
 void IngameBlockSelectionScreen::removed()
 {
-	m_pMinecraft->m_gui.inventoryUpdated();
+	m_pMinecraft->m_pGui->inventoryUpdated();
 }
 
 void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();
 	
-	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_gui.getNumUsableSlots());
+	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_pGui->getNumUsableSlots());
 
 	m_pMinecraft->m_pSoundEngine->playUI("random.click");
 	m_pMinecraft->setScreen(nullptr);

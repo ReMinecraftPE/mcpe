@@ -18,7 +18,7 @@ public:
 	void addAABBs(const Level*, const TilePos& pos, const AABB*, std::vector<AABB>&) override;
 	bool isSolidRender() const override;
 	bool isCubeShaped() const override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 
 	// Just overloads to forward to parent tile.
 	void addLights(Level*, const TilePos& pos) override;
@@ -43,7 +43,7 @@ public:
 	void spawnResources(Level*, const TilePos& pos, TileData data, float) override;
 	float getExplosionResistance(Entity*) const override;
 	void wasExploded(Level*, const TilePos& pos) override;
-	int getRenderLayer() const override;
+	RenderLayer getRenderLayer() const override;
 	bool use(Level*, const TilePos& pos, Player*) override;
 	void stepOn(Level*, const TilePos& pos, Entity*) override;
 	void setPlacedBy(Level*, const TilePos& pos, Mob*) override;

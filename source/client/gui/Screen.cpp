@@ -7,6 +7,16 @@
  ********************************************************************/
 
 #include "Screen.hpp"
+#include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "renderer/ShaderConstants.hpp"
+#include "renderer/RenderContextImmediate.hpp"
+#include "renderer/hal/interface/RasterizerState.hpp"
+
+Screen::Materials::Materials()
+{
+	MATERIAL_PTR(common, ui_cubemap);
+	MATERIAL_PTR(common, ui_background);
+}
 
 bool Screen::_isPanoramaAvailable = false;
 
@@ -127,87 +137,72 @@ void Screen::renderMenuBackground(float f)
 	aspectRatio = 1.0f;
 	//aspectRatio = float(m_width) / float(m_height);
 
-	// not in 0.8
-	glDisable(GL_BLEND);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_DEPTH_TEST);
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-	glRotatef(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, 1.0f, 0.0f, 0.0f);
-	glRotatef(-0.1f * (f + g_panoramaAngle), 0.0f, 1.0f, 0.0f);
+	// @HAL: this should be using ui_cubemap, but for whatever reason we need to disable culling
+	mce::MaterialPtr& materialPtr = m_screenMaterials.ui_background;
 
-	for (int i = 0; i < 6; i++)
 	{
-		glPushMatrix();
+		MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
+		projMtx->setPerspective(120.0f, aspectRatio, 0.05f, 10.0f);
 
-		float xm = 0.0f, ym = 0.0f, ang = 0.0f;
-		switch (i)
+		MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
+		MatrixStack::Ref worldMtx = MatrixStack::World.push();
+		currentShaderColor = Color::WHITE;
+		worldMtx->rotate(180.0f, Vec3::UNIT_X);
+		worldMtx->rotate(Mth::sin((f + g_panoramaAngle) / 400.0f) * 25.0f + 20.0f, Vec3::UNIT_X);
+		worldMtx->rotate(-0.1f * (f + g_panoramaAngle), Vec3::UNIT_Y);
+
+		for (int i = 0; i < 6; i++)
 		{
+			MatrixStack::Ref mtx = MatrixStack::World.push();
+
+			float ang = 0.0f;
+			Vec2 axis;
+			switch (i)
+			{
 			case 1:
 				ang = 90.0f;
-				xm = 0.0f;
-				ym = 1.0f;
+				axis = Vec2::UNIT_Y;
 				break;
 			case 2:
 				ang = 180.0f;
-				xm = 0.0f;
-				ym = 1.0f;
+				axis = Vec2::UNIT_Y;
 				break;
 			case 3:
 				ang = -90.0f;
-				xm = 0.0f;
-				ym = 1.0f;
+				axis = Vec2::UNIT_Y;
 				break;
 			case 4:
 				ang = 90.0f;
-				ym = 0.0f;
-				xm = 1.0f;
+				axis = Vec2::UNIT_X;
 				break;
 			case 5:
 				ang = -90.0f;
-				ym = 0.0f;
-				xm = 1.0f;
+				axis = Vec2::UNIT_X;
 				break;
 			default:
 				goto skip_rotate;
+			}
+
+			mtx->rotate(ang, Vec3(axis.x, axis.y, 0.0f));
+
+		skip_rotate:
+			m_pMinecraft->m_pTextures->setSmoothing(true);
+			m_pMinecraft->m_pTextures->setClampToEdge(true);
+			m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
+			m_pMinecraft->m_pTextures->setSmoothing(false);
+			m_pMinecraft->m_pTextures->setClampToEdge(false);
+
+			Tesselator& t = Tesselator::instance;
+			t.begin(4);
+			t.vertexUV(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
+			t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
+			t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
+			t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
+			t.draw(materialPtr);
 		}
-
-		glRotatef(ang, xm, ym, 0.0f);
-
-	skip_rotate:
-		m_pMinecraft->m_pTextures->setSmoothing(true);
-		m_pMinecraft->m_pTextures->setClampToEdge(true);
-		m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
-		m_pMinecraft->m_pTextures->setSmoothing(false);
-		m_pMinecraft->m_pTextures->setClampToEdge(false);
-
-		Tesselator& t = Tesselator::instance;
-		t.begin();
-		t.vertexUV(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
-		t.vertexUV(+1.0f, -1.0f, 1.0f, 1.0f, 0.0f);
-		t.vertexUV(+1.0f, +1.0f, 1.0f, 1.0f, 1.0f);
-		t.vertexUV(-1.0f, +1.0f, 1.0f, 0.0f, 1.0f);
-		t.draw();
-
-		glPopMatrix();
 	}
 
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	glEnable(GL_BLEND);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-
-	fillGradient(0, 0, m_width, m_height, 0x89000000, 0x89FFFFFF);
+	fillGradient(0, 0, m_width, m_height, Color(0, 0, 0, 137), Color(255, 255, 255, 137));
 }
 
 void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
@@ -323,16 +318,17 @@ void Screen::setSize(int width, int height)
 void Screen::onRender(int mouseX, int mouseY, float f)
 {
 	m_yOffset = getYOffset();
-	if (m_yOffset != 0) {
+
+	MatrixStack::Ref matrix;
+
+	if (m_yOffset != 0)
+	{
 		// push the entire screen up
-		glPushMatrix();
-		glTranslatef(0.0f, -float(m_yOffset), 0.0f);
+		matrix = MatrixStack::World.push();
+		matrix->translate(Vec3(0.0f, -m_yOffset, 0.0f));
 	}
 
 	render(mouseX, mouseY, f);
-
-	if (m_yOffset != 0)
-		glPopMatrix();
 }
 
 int Screen::getYOffset()
@@ -408,17 +404,17 @@ void Screen::mouseEvent()
 		handleScroll(Mouse::getEventButtonState());
 }
 
-void Screen::renderBackground(int unk)
+void Screen::renderBackground(int vo)
 {
 	if (m_pMinecraft->isLevelGenerated())
 	{
 		// draw the background offset by the Y offset so that the smaller virtual
 		// keyboards don't reveal undrawn areas
-		fillGradient(0, m_yOffset, m_width, m_height, 0xC0101010, 0xD0101010);
+		fillGradient(0, m_yOffset, m_width, m_height, Color(16, 16, 16, 192), Color(16, 16, 16, 208)); // 0xC0101010, 0xD0101010
 	}
 	else
 	{
-		renderDirtBackground(unk);
+		renderDirtBackground(vo);
 	}
 }
 
@@ -427,23 +423,21 @@ void Screen::renderBackground()
 	renderBackground(0);
 }
 
-void Screen::renderDirtBackground(int unk)
+void Screen::renderDirtBackground(int vo)
 {
-	glDisable(GL_FOG);
-
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
-	glColor4f(1, 1, 1, 1);
+	currentShaderColor = Color::WHITE;
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
-	t.offset(0, m_yOffset, 0);
+	t.begin(4);
+	//t.setOffset(0, m_yOffset, 0);
 	t.color(0x404040);
-	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(unk) + float(m_height) / 32.0f);
-	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(unk) + float(m_height) / 32.0f);
-	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(unk) + 0.0f);
-	t.vertexUV(0.0f,           0,               0, 0,                      float(unk) + 0.0f);
-	t.offset(0, 0, 0);
-	t.draw();
+	t.vertexUV(0.0f,           float(m_height), 0, 0,                      float(vo) + float(m_height) / 32.0f);
+	t.vertexUV(float(m_width), float(m_height), 0, float(m_width) / 32.0f, float(vo) + float(m_height) / 32.0f);
+	t.vertexUV(float(m_width), 0,               0, float(m_width) / 32.0f, float(vo) + 0.0f);
+	t.vertexUV(0.0f,           0,               0, 0,                      float(vo) + 0.0f);
+	//t.setOffset(0, 0, 0);
+	t.draw(m_materials.ui_texture_and_color);
 }
 
 
@@ -453,7 +447,7 @@ void Screen::updateTabButtonSelection()
 	{
 		for (int i = 0; i < int(m_buttonTabList.size()); i++)
 		{
-			m_buttonTabList[i]->field_36 = m_tabButtonIndex == i;
+			m_buttonTabList[i]->m_bHovered = m_tabButtonIndex == i;
 		}
 	}
 }

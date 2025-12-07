@@ -8,7 +8,7 @@ const unsigned int Arrow::ARROW_BASE_DAMAGE = 4;
 void Arrow::_init()
 {
     m_pDescriptor = &EntityTypeDescriptor::arrow;
-    field_C8 = RENDER_ARROW;
+    m_renderType = RENDER_ARROW;
     setSize(0.5f, 0.5f);
 
     m_tilePos = Vec3(-1, -1, -1);

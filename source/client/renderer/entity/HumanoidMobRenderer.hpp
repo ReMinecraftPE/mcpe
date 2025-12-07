@@ -9,13 +9,14 @@
 #pragma once
 
 #include "MobRenderer.hpp"
+#include "client/model/models/HumanoidModel.hpp"
 
 class HumanoidMobRenderer : public MobRenderer
 {
 public:
 	HumanoidMobRenderer(HumanoidModel*, float);
-	virtual void additionalRendering(Mob*, float) override;
-	virtual void render(Entity*, const Vec3&, float, float) override;
+	virtual void additionalRendering(const Mob& mob, float) override;
+	virtual void render(const Entity& entity, const Vec3&, float, float) override;
 	virtual void onGraphicsReset() override;
 
 	void renderHand();

@@ -9,6 +9,7 @@
 #pragma once
 
 #include "RenderChunk.hpp"
+#include "world/phys/Vec3.hpp"
 
 class RenderList
 {
@@ -16,22 +17,21 @@ public:
 	RenderList();
 	~RenderList();
 
-	void add(int x);
-	void addR(const RenderChunk&);
+	void add(int x, TerrainLayer layer, bool fog);
+	void addR(RenderChunk* rc, TerrainLayer layer, bool fog);
 	void clear();
-	void init(float, float, float);
-	void render();
-	void renderChunks();
+	void reset();
+	void init(const Vec3& pos);
+	void render(TerrainLayer layer, bool fog);
+	void renderChunks(TerrainLayer layer, bool fog);
 
-public:
-	float m_posX;
-	float m_posY;
-	float m_posZ;
+private:
+	Vec3 m_pos;
 	int* field_C;
-	RenderChunk* field_10;
+	RenderChunk** field_10;
 	int field_14;
-	bool field_18;
-	bool field_19;
+	bool m_bInited;
+	bool m_bRendered;
 	int field_1C;
 };
 

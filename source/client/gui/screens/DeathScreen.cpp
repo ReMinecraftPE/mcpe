@@ -47,10 +47,11 @@ void DeathScreen::render(int x, int y, float f)
 {
 	fillGradient(0, 0, m_width, m_height, 0xA0303080, 0x60000050);
 
-	glPushMatrix();
-	glScalef(2.0f, 2.0f, 2.0f);
-	drawCenteredString(m_pFont, "You died!", m_width / 4, m_height / 8, 0xFFFFFF);
-	glPopMatrix();
+	{
+		MatrixStack::Ref matrix = MatrixStack::World.push();
+		matrix->scale(2.0f);
+		drawCenteredString(*m_pFont, "You died!", m_width / 4, m_height / 8, 0xFFFFFF);
+	}
 
 	// render the buttons after 1.5 seconds
 	if (m_tickCounter >= 30)

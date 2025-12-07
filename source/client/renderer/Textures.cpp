@@ -7,110 +7,131 @@
  ********************************************************************/
 
 #include "Textures.hpp"
+#include "common/Util.hpp"
+#include "renderer/RenderContextImmediate.hpp"
+
+#define MIP_TAG "_mip"
+#define MIP_TAG_SIZE 4
 
 bool Textures::MIPMAP = false;
 
-int Textures::loadTexture(const std::string& name, bool bIsRequired)
+TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
-	std::map<std::string, GLuint>::iterator i = m_textures.find(name);
-	if (i != m_textures.end())
-	{
-		return i->second != 0 ? i->second : -1;
-	}
+	TextureMap::iterator it = m_textures.find(name);
+	assert(it == m_textures.end());
 
-	Texture t = m_pPlatform->loadTexture(name, bIsRequired);
+	TextureData t = m_pPlatform->loadTexture(name, bIsRequired);
 
-	if (!t.m_pixels)
+	if (t.isEmpty())
 	{
 		if (bIsRequired)
 		{
-			t.m_hasAlpha = true;
-			t.field_D = 0;
-			t.m_width = 2;
-			t.m_height = 2;
-			t.m_pixels = new uint32_t[4];
-			t.m_pixels[0] = 0xfff800f8;
-			t.m_pixels[1] = 0xff000000;
-			t.m_pixels[3] = 0xfff800f8;
-			t.m_pixels[2] = 0xff000000;
+			t.m_imageData.m_colorSpace = COLOR_SPACE_RGBA;
+			t.m_imageData.m_width = 2;
+			t.m_imageData.m_height = 2;
+			uint32_t* placeholder = new uint32_t[4];
+			placeholder[0] = 0xfff800f8;
+			placeholder[1] = 0xff000000;
+			placeholder[3] = 0xfff800f8;
+			placeholder[2] = 0xff000000;
+			t.m_imageData.m_data = (uint8_t*)placeholder;
 		}
 		else
 		{
 			// Record the fact that the texture file couldn't be loaded
 			// This means we can stop checking the filesystem every frame to see if the texture can be found
-			m_textures[name] = 0;
-			return -1;
+			m_textures[name] = nullptr;
+			return nullptr;
 		}
 	}
 
-	return assignTexture(name, t);
+	t.m_bEnableFiltering = m_bBlur;
+	t.m_bWrap = !m_bClamp;
+
+	return uploadTexture(name, t);
 }
 
-int Textures::assignTexture(const std::string& name, Texture& texture)
+size_t _mipTagStart(const std::string& path)
 {
-	GLuint textureID = 0;
+	// "_mip" + "0."
+	constexpr size_t mipSuffixLength = MIP_TAG_SIZE + 2;
 
-	glGenTextures(1, &textureID);
-	if (textureID != m_currBoundTex)
+	std::string extension = Util::getExtension(path);
+
+	return path.length() - mipSuffixLength - extension.length();
+}
+
+bool _isMipmap(const std::string& path)
+{
+	std::string mipTag = path.substr(_mipTagStart(path), MIP_TAG_SIZE);
+	return mipTag == MIP_TAG;
+}
+
+TextureData* Textures::uploadTexture(const std::string& name, TextureData& t)
+{
+	TextureData* result = nullptr;
+
+	bool isMipmap = _isMipmap(name);
+	if (isMipmap && name.find(MIP_TAG))
 	{
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		m_currBoundTex = textureID;
+		if (mce::Texture::supportsMipMaps())
+		{
+			// Find the starting position of the mipmap tag (e.g., "_mip") in the filename.
+			size_t mipTagPos = _mipTagStart(name);
+
+			// Reconstruct the base texture name from the mipmapped filename.
+			// e.g., "images/terrain-atlas_mip0.tga" -> "images/terrain-atlas.tga"
+			std::string basePathNoExtension = name.substr(0, mipTagPos);
+			std::string extension = Util::getExtension(name); // "tga"
+			std::string basePath = basePathNoExtension + "." + extension;
+
+			TextureMap::iterator it = m_textures.find(basePath);
+			if (it != m_textures.end())
+			{
+				char mipLevelChar = name[mipTagPos + MIP_TAG_SIZE];
+				t.m_imageData.m_mipCount = mipLevelChar - '0';
+
+				TextureData* pBaseTexture = it->second;
+
+				if (pBaseTexture)
+				{
+					pBaseTexture->loadMipmap(t.m_imageData);
+				}
+
+				result = pBaseTexture;
+			}
+		}
+		return result;
 	}
 
-	if (MIPMAP)
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-	else
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
+	t.load();
+	result = new TextureData(t);
+	m_textures[name] = result;
 
-	if (m_bBlur)
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
+	return result;
+}
 
-	if (m_bClamp)
+void Textures::unloadAll()
+{
+	for (TextureMap::iterator it = m_textures.begin(); it != m_textures.end(); it++)
 	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
-	else
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		TextureData* pTexture = it->second;
+		if (pTexture)
+			pTexture->unload();
 	}
 
-	GLuint internalFormat = GL_RGB;
-
-	if (texture.m_hasAlpha)
-		internalFormat = GL_RGBA;
-
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, texture.m_width, texture.m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture.m_pixels);
-
-	m_textures[name] = textureID;
-
-	m_textureData[textureID] = TextureData(textureID, texture);
-
-	return textureID;
+	TextureData::unbindAll();
 }
 
 void Textures::clear()
 {
+	unloadAll();
 	// note: Textures::clear() does not touch the dynamic textures vector
 
-	for (std::map<std::string, GLuint>::iterator it = m_textures.begin(); it != m_textures.end(); it++)
-		glDeleteTextures(1, &it->second);
-
-	for (std::map<GLuint, TextureData>::iterator it = m_textureData.begin(); it != m_textureData.end(); it++)
-		delete[] it->second.textureData.m_pixels;
+	for (TextureMap::iterator it = m_textures.begin(); it != m_textures.end(); it++)
+		delete it->second;
 
 	m_textures.clear();
-	m_textureData.clear();
 	m_currBoundTex = -1;
 }
 
@@ -139,58 +160,61 @@ Textures::~Textures()
 
 void Textures::tick()
 {
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
 	// tick dynamic textures here
 	for (std::vector<DynamicTexture*>::iterator it = m_dynamicTextures.begin(); it < m_dynamicTextures.end(); it++)
 	{
 		DynamicTexture* pDynaTex = *it;
 
-		pDynaTex->bindTexture(this);
+		TextureData* pData = pDynaTex->bindTexture(this);
+		if (!pData) continue;
 		pDynaTex->tick();
+
+		mce::Texture& texture = pData->m_texture;
 
 		for (int x = 0; x < pDynaTex->m_textureSize; x++)
 		{
 			for (int y = 0; y < pDynaTex->m_textureSize; y++)
 			{
-				// texture is already bound so this is fine:
-				glTexSubImage2D(
-					GL_TEXTURE_2D,
-					0,
+				texture.subBuffer(renderContext,
+					pDynaTex->m_pixels,
 					16 * (x + pDynaTex->m_textureIndex % 16),
 					16 * (y + pDynaTex->m_textureIndex / 16),
-					16, 16,
-					GL_RGBA,
-					GL_UNSIGNED_BYTE,
-					pDynaTex->m_pixels
-				);
+					16, 16, 0);
 			}
 		}
 	}
 }
 
-int Textures::loadAndBindTexture(const std::string& name, bool isRequired)
+TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
 {
-	int id = loadTexture(name, isRequired);
+	TextureMap::iterator it = m_textures.find(name);
+	TextureData* pTexture = getTextureData(name, isRequired);
 
-	if (m_currBoundTex != id)
-	{
-		m_currBoundTex = id;
-		glBindTexture(GL_TEXTURE_2D, id);
-	}
+	if (!pTexture)
+		return nullptr;
 
-	return id;
+	// bound twice on initial load in _loadTexData
+	// if it was just loaded, this is our third call to glBindTexture
+	pTexture->bind(textureUnit);
+
+	return pTexture;
+}
+
+TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
+{
+	TextureMap::iterator it = m_textures.find(name);
+	TextureData* pTexture;
+	if (it != m_textures.end())
+		pTexture = it->second;
+	else
+		pTexture = loadTexture(name, isRequired);
+	return pTexture;
 }
 
 void Textures::addDynamicTexture(DynamicTexture* pTexture)
 {
 	m_dynamicTextures.push_back(pTexture);
 	pTexture->tick();
-}
-
-Texture* Textures::getTemporaryTextureData(GLuint id)
-{
-	std::map<GLuint, TextureData>::iterator i = m_textureData.find(id);
-	if (i == m_textureData.end())
-		return nullptr;
-
-	return &i->second.textureData;
 }

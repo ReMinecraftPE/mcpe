@@ -14,6 +14,16 @@
 
 class ParticleEngine
 {
+protected:
+	class Materials
+	{
+	public:
+		mce::MaterialPtr particles_opaque;
+		mce::MaterialPtr particles_alpha;
+
+		Materials();
+	};
+
 public:
 	ParticleEngine(Level*, Textures*);
 
@@ -21,8 +31,8 @@ public:
 	std::string countParticles();
 	void crack(const TilePos& tilePos, Facing::Name face);
 	void destroyEffect(const TilePos& pos);
-	void render(Entity*, float f);
-	void renderLit(Entity*, float a);
+	void render(const Entity& camera, float f);
+	void renderLit(const Entity& camera, float a);
 	void tick();
 	void setLevel(Level*);
 
@@ -32,5 +42,6 @@ public:
 	std::vector<Particle*> m_particles[4];
 	Textures* m_pTextures;
 	Random m_random;
+	Materials m_materials;
 };
 

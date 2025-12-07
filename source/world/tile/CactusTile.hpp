@@ -12,7 +12,7 @@ public:
 	void neighborChanged(Level* level, const TilePos& pos, TileID tile) override;
 	bool isSolidRender() const override;
 	bool isCubeShaped() const override;
-	int getRenderShape() const override;
+	eRenderShape getRenderShape() const override;
 	void tick(Level*, const TilePos& pos, Random*) override;
 	void entityInside(Level*, const TilePos& pos, Entity*) const override;
 	int getTexture(Facing::Name face) const override;

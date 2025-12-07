@@ -60,7 +60,7 @@ void SavingWorldScreen::tick()
 		//SAFE_DELETE(m_pEntityToDeleteAfterSave);
 		// already done by the Level
 
-		m_pMinecraft->m_pMobPersp = m_pMinecraft->m_pLocalPlayer = nullptr;
+		m_pMinecraft->m_pCameraEntity = m_pMinecraft->m_pLocalPlayer = nullptr;
 
 
 		m_pMinecraft->m_bUsingScreen = true;

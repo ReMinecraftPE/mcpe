@@ -1,0 +1,121 @@
+{
+	"entity_static": {
+		"states":["Textured"],
+		"vertexShader" : "shaders/entity.vertex",
+		"fragmentShader" : "shaders/entity.fragment"
+	},
+
+	"entity_flat_color": {
+		"vertexShader" : "shaders/position.vertex",
+		"fragmentShader" : "shaders/current_color.fragment"
+	},
+
+	"entity:entity_static": {
+		"defines":["USE_OVERLAY"]
+	},
+
+	"entity_change_color:entity_static": {
+		"defines":[
+			"USE_OVERLAY",
+			"USE_COLOR_MASK"
+		]
+	},
+	
+	"entity_color_overlay": {
+		"states":["Blending"],
+		"depthFunc": "Equal",
+		"vertexShader" : "shaders/position.vertex",
+		"fragmentShader" : "shaders/current_color.fragment"
+	},
+
+	"entity_nocull:entity": {
+		"states":["DisableCulling"]
+	},
+
+	"entity_alphatest:entity_nocull": {
+		"states":["EnableAlphaTest"],
+		"defines":["ALPHA_TEST"]
+	},
+	
+	"entity_alphatest_cull:entity": {
+		"states":["EnableAlphaTest"],
+		"defines":["ALPHA_TEST"]
+	},
+
+	"entity_alphablend:entity_nocull": {
+		"states" : [
+			"Blending"]
+	},
+
+	"entity_emissive:entity": {
+		"defines":["USE_EMISSIVE"]
+	},
+
+    "entity_emissive_alpha:entity_nocull": {
+		"states":["EnableAlphaTest"],
+		"defines":[
+            "ALPHA_TEST",
+			"USE_EMISSIVE"]
+    },
+
+	"entity_custom:entity": {
+		"states":["Blending", "EnableAlphaTest"],
+		"defines":["ALPHA_TEST", "Blending", "USE_OVERLAY", "USE_MASK"],
+
+		"blendSrc": "SourceColor",
+		"blendDst": "Zero"
+	},
+	
+	"primed_tnt:entity": {
+		"states":["Blending"],
+
+		"blendSrc": "SourceAlpha",
+		"blendDst": "DestAlpha",
+		
+		"vertexShader" : "shaders/position.vertex",
+		"fragmentShader" : "shaders/current_color.fragment"
+	},
+
+	"slime_outer:entity": {
+		"states" : ["Blending"]
+	},
+
+	"item_in_hand:entity": {
+		"states": ["EnableAlphaTest"],
+		"defines": ["COLOR_BASED"]
+	},
+
+	"heavy_tile:entity_static": {
+		"states":["PolygonOffset"],
+
+		"polygonOffsetLevel":-6
+	},
+
+	"charged_creeper:entity_static": {
+		"defines": [ "USE_UV_ANIM" ],
+		"states": [ "Blending", "DisableCulling", "DisableDepthWrite" ],
+		"blendSrc":"One",
+		"blendDst":"One"
+	},
+	
+	"item_in_hand_glint:item_in_hand": {
+		"defines": [
+			"GLINT",
+			"USE_COLOR_MASK"
+		]
+	},
+
+	"entity_glint:entity": {
+		"defines":[
+			"GLINT",
+			"USE_COLOR_MASK"
+		]
+	},
+
+	"entity_alphatest_glint:entity_alphatest": {
+		"defines":[
+			"GLINT",
+			"USE_COLOR_MASK"
+		]
+    }
+}

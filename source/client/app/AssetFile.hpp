@@ -11,10 +11,11 @@ Minecraft: Pocket Edition - Decompilation Project
 #include <stdint.h>
 #include "compat/LegacyCPP.hpp"
 
-struct AssetFile {
+struct AssetFile
+{
     int64_t size;
-    unsigned char *data;
+    uint8_t* data;
 
     AssetFile(): size(-1), data(nullptr) {}
-    AssetFile(int64_t size, unsigned char *data): size(size), data(data) {}
+    AssetFile(int64_t size, uint8_t* data): size(size), data(data) {}
 };

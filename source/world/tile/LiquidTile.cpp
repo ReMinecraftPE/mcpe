@@ -11,6 +11,7 @@
 
 LiquidTile::LiquidTile(int id, Material* pMtl) : Tile(id, pMtl == Material::lava ? TEXTURE_LAVA : TEXTURE_WATER, pMtl)
 {
+	m_renderLayer = m_pMaterial == Material::water ? RENDER_LAYER_BLEND : RENDER_LAYER_OPAQUE;
 	field_6C = 0;
 	field_70[0] = 0;
 	field_74[0] = 0;
@@ -138,12 +139,7 @@ Vec3 LiquidTile::getFlow(const LevelSource* level, const TilePos& pos) const
 	return result.normalize();
 }
 
-int LiquidTile::getRenderLayer() const
-{
-	return m_pMaterial == Material::water ? LAYER_ALPHA : LAYER_OPAQUE;
-}
-
-int LiquidTile::getRenderShape() const
+eRenderShape LiquidTile::getRenderShape() const
 {
 	return SHAPE_WATER;
 }

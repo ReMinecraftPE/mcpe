@@ -32,7 +32,7 @@ public:
 	int checkLicense() override;
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
-	Texture loadTexture(const std::string& path, bool b = false) override;
+	void loadImage(ImageData& data, const std::string& path) override;
     bool doesTextureExist(const std::string& path) const override;
 	int getUserInputStatus() override;
 	bool isTouchscreen() const override;

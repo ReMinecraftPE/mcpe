@@ -12,13 +12,14 @@
 ReedTile::ReedTile(TileID id) : Tile(id, Material::plant)
 {
 	m_TextureFrame = TEXTURE_REEDS;
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 	setShape(0.125f, 0.0f, 0.125f, 0.875f, 1.0f, 0.875f);
 	setTicking(true);
 }
 
-int ReedTile::getRenderShape() const
+eRenderShape ReedTile::getRenderShape() const
 {
-	return 1;
+	return SHAPE_CROSS;
 }
 
 bool ReedTile::isCubeShaped() const

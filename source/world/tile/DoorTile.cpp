@@ -13,6 +13,7 @@
 DoorTile::DoorTile(int ID, Material* pMtl) : Tile(ID, pMtl)
 {
 	m_TextureFrame = TEXTURE_DOOR_BOTTOM;
+	m_renderLayer = RENDER_LAYER_ALPHATEST;
 
 	if (pMtl == Material::metal)
 		m_TextureFrame = TEXTURE_DOOR_IRON_BOTTOM;
@@ -85,7 +86,7 @@ int DoorTile::getDir(TileData data) const
 	return data & 3;
 }
 
-int DoorTile::getRenderShape() const
+eRenderShape DoorTile::getRenderShape() const
 {
 	return SHAPE_DOOR;
 }

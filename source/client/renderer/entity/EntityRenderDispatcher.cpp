@@ -8,37 +8,40 @@
 
 #include "EntityRenderDispatcher.hpp"
 #include "client/app/Minecraft.hpp"
+#include "renderer/ShaderConstants.hpp"
 #include "../ItemInHandRenderer.hpp"
 
-#include "client/model/PigModel.hpp"
-#include "client/model/SheepModel.hpp"
-#include "client/model/CowModel.hpp"
-#include "client/model/ChickenModel.hpp"
-#include "client/model/CreeperModel.hpp"
-#include "client/model/SpiderModel.hpp"
-#include "client/model/SkeletonModel.hpp"
-#include "client/model/ZombieModel.hpp"
+#include "client/model/models/PigModel.hpp"
+#include "client/model/models/SheepModel.hpp"
+#include "client/model/models/CowModel.hpp"
+#include "client/model/models/ChickenModel.hpp"
+#include "client/model/models/CreeperModel.hpp"
+#include "client/model/models/SpiderModel.hpp"
+#include "client/model/models/SkeletonModel.hpp"
+#include "client/model/models/ZombieModel.hpp"
 
 EntityRenderDispatcher* EntityRenderDispatcher::instance;
 Vec3 EntityRenderDispatcher::off;
 
-EntityRenderDispatcher::EntityRenderDispatcher() :
-	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f),
-	m_PigRenderer(new PigModel(0.0f), /*new PigModel(0.5f),*/ 0.7f),
-	m_SheepRenderer(new SheepModel(false), new SheepModel(true), 0.7f),
-	m_CowRenderer(new CowModel, 0.7f),
-	m_ChickenRenderer(new ChickenModel, 0.3f),
-	m_CreeperRenderer(new CreeperModel, 0.5f),
-	m_SpiderRenderer(),
-	m_SkeletonRenderer(new SkeletonModel, 0.5f),
-	m_ZombieRenderer(new ZombieModel, 0.5f),
-	m_ArrowRenderer()
+EntityRenderDispatcher::EntityRenderDispatcher()
+	: m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.5f)
+	, m_PigRenderer(new PigModel(0.0f), /*new PigModel(0.5f),*/ 0.7f)
+	, m_SheepRenderer(new SheepModel(false), new SheepModel(true), 0.7f)
+	, m_CowRenderer(new CowModel, 0.7f)
+	, m_ChickenRenderer(new ChickenModel, 0.3f)
+	, m_CreeperRenderer(new CreeperModel, 0.5f)
+	, m_SpiderRenderer()
+	, m_SkeletonRenderer(new SkeletonModel, 0.5f)
+	, m_ZombieRenderer(new ZombieModel, 0.5f)
+	, m_ArrowRenderer()
+	, m_FallingTileRenderer()
 {
 	m_pItemInHandRenderer = nullptr;
+	m_tileRenderer = new TileRenderer();
 	m_pTextures = nullptr;
 	m_pLevel = nullptr;
 	m_pMinecraft = nullptr;
-	m_pMob = nullptr;
+	m_pCamera = nullptr;
 	m_rot = Vec2::ZERO;
 	m_pOptions = nullptr;
 	m_pFont = nullptr;
@@ -54,6 +57,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_CreeperRenderer.init(this);
 	m_ZombieRenderer.init(this);
 	m_ArrowRenderer.init(this);
+	m_FallingTileRenderer.init(this);
 	
 	// TODO
 
@@ -84,41 +88,42 @@ EntityRenderDispatcher* EntityRenderDispatcher::getInstance()
 	return instance;
 }
 
-EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
+EntityRenderer* EntityRenderDispatcher::getRenderer(Entity::RenderType renderType)
 {
+	// @HAL @TODO: make map
 	switch (renderType)
 	{
-		case RENDER_TNT:
+		case Entity::RENDER_TNT:
 			return &m_TntRenderer;
-		case RENDER_HUMANOID:
+		case Entity::RENDER_HUMANOID:
 			return &m_HumanoidMobRenderer;
-		case RENDER_ITEM:
+		case Entity::RENDER_ITEM:
 			return &m_ItemRenderer;
-		case RENDER_CAMERA:
+		case Entity::RENDER_CAMERA:
 			return &m_CameraRenderer;
-		case RENDER_CHICKEN:
+		case Entity::RENDER_CHICKEN:
 			return &m_ChickenRenderer;
-		case RENDER_COW:
+		case Entity::RENDER_COW:
 			return &m_CowRenderer;
-		case RENDER_PIG:
+		case Entity::RENDER_PIG:
 			return &m_PigRenderer;
-		case RENDER_SHEEP:
+		case Entity::RENDER_SHEEP:
 			return &m_SheepRenderer;
-		case RENDER_SPIDER:
+		case Entity::RENDER_SPIDER:
 			return &m_SpiderRenderer;
-		case RENDER_SKELETON:
+		case Entity::RENDER_SKELETON:
 			return &m_SkeletonRenderer;
-		case RENDER_CREEPER:
+		case Entity::RENDER_CREEPER:
 			return &m_CreeperRenderer;
-		case RENDER_ZOMBIE:
+		case Entity::RENDER_ZOMBIE:
 			return &m_ZombieRenderer;
-		case RENDER_ARROW:
+		case Entity::RENDER_ARROW:
 			return &m_ArrowRenderer;
-		case RENDER_ROCKET:
+		case Entity::RENDER_ROCKET:
 			return &m_RocketRenderer;
 #ifdef ENH_ALLOW_SAND_GRAVITY
 		// TODO
-		case RENDER_FALLING_TILE:
+		case Entity::RENDER_FALLING_TILE:
 			return &m_FallingTileRenderer;
 #endif
 	}
@@ -126,11 +131,11 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 	return nullptr;
 }
 
-EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
+EntityRenderer* EntityRenderDispatcher::getRenderer(const Entity& entity)
 {
-	int renderType = pEnt->field_C8;
-	if (renderType == RENDER_DYNAMIC)
-		renderType = pEnt->queryEntityRenderer();
+	Entity::RenderType renderType = entity.m_renderType;
+	if (renderType == Entity::RENDER_DYNAMIC)
+		renderType = entity.queryEntityRenderer();
 
 	return getRenderer(renderType);
 }
@@ -157,37 +162,37 @@ void EntityRenderDispatcher::onGraphicsReset()
 #endif
 }
 
-void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* font, Mob* mob, Options* options, float f)
+void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* font, const Mob* camera, Options* options, float f)
 {
 	m_pLevel = level;
 	m_pTextures = textures;
-	m_pMob = mob;
+	m_pCamera = camera;
 	m_pFont = font;
 	m_pOptions = options;
-	m_rot = mob->m_oRot + (mob->m_rot - mob->m_oRot) * f;
-	m_pos = mob->m_posPrev + (mob->m_pos - mob->m_posPrev) * f;
+	m_rot = camera->m_oRot    + (camera->m_rot - camera->m_oRot)    * f;
+	m_pos = camera->m_posPrev + (camera->m_pos - camera->m_posPrev) * f;
 }
 
-void EntityRenderDispatcher::render(Entity* entity, float a)
+void EntityRenderDispatcher::render(const Entity& entity, float a)
 {
-	Vec3 pos = Vec3(entity->m_posPrev + (entity->m_pos - entity->m_posPrev) * a);
-	float yaw = entity->m_oRot.x + a * (entity->m_rot.x - entity->m_oRot.x);
+	Vec3 pos = Vec3(entity.m_posPrev + (entity.m_pos - entity.m_posPrev) * a);
+	float yaw = entity.m_oRot.x + a * (entity.m_rot.x - entity.m_oRot.x);
 
-	float bright = entity->getBrightness(1.0f);
-	glColor4f(bright, bright, bright, 1.0f);
+	float bright = entity.getBrightness(1.0f);
+	currentShaderColor = Color::WHITE;
+	currentShaderDarkColor = Color(bright, bright, bright);
 
 	render(entity, pos - off, yaw, a);
 }
 
-void EntityRenderDispatcher::render(Entity* entity, const Vec3& pos, float rot, float a)
+void EntityRenderDispatcher::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
 	EntityRenderer* pRenderer = getRenderer(entity);
 
 	if (!pRenderer)
 	{
-		//LOG_E("Failed to fetch renderer for entity: %s", entity->getDescriptor().getEntityType().getName());
-		assert(!"Failed to fetch renderer for an entity");
-		return;
+		LOG_E("Failed to fetch renderer for entity: %s", entity.getDescriptor().getEntityType().getName().c_str());
+		throw std::bad_cast();
 	}
 
 	pRenderer->render(entity, pos, rot, a);
@@ -202,4 +207,9 @@ void EntityRenderDispatcher::setLevel(Level* level)
 void EntityRenderDispatcher::setMinecraft(Minecraft* mc)
 {
 	m_pMinecraft = mc;
+}
+
+void EntityRenderDispatcher::onAppSuspended()
+{
+	//m_tileRenderer->clearTileCache();
 }

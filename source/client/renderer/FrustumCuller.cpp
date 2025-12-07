@@ -8,36 +8,17 @@
 
 #include "FrustumCuller.hpp"
 
-bool FrustumCuller::cubeFullyInFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+bool FrustumCuller::cubeInFrustum(const Vec3& min, const Vec3& max)
 {
-	return m_frustumData.cubeFullyInFrustum(
-		minX - m_camPos.x,
-		minY - m_camPos.y,
-		minZ - m_camPos.z,
-		maxX - m_camPos.x,
-		maxY - m_camPos.y,
-		maxZ - m_camPos.z
-	);
-}
-
-bool FrustumCuller::cubeInFrustum(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
-{
-	return m_frustumData.cubeInFrustum(
-		minX - m_camPos.x,
-		minY - m_camPos.y,
-		minZ - m_camPos.z,
-		maxX - m_camPos.x,
-		maxY - m_camPos.y,
-		maxZ - m_camPos.z
-	);
+	return m_frustumData.cubeInFrustum(min - m_camPos, max - m_camPos);
 }
 
 bool FrustumCuller::isVisible(const AABB& aabb)
 {
-	return cubeInFrustum(aabb.min.x, aabb.min.y, aabb.min.z, aabb.max.x, aabb.max.y, aabb.max.z);
+	return cubeInFrustum(aabb.min, aabb.max);
 }
 
-void FrustumCuller::prepare(float x, float y, float z)
+void FrustumCuller::prepare(const Vec3& camPos)
 {
-	m_camPos = Vec3(x, y, z);
+	m_camPos = camPos;
 }

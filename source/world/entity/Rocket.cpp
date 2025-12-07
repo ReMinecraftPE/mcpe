@@ -14,7 +14,7 @@ Rocket::Rocket(Level* level, const Vec3& pos) : Entity(level)
 {
 	field_B8C = 0;
 	field_B90 = 80;
-	field_C8 = RENDER_ROCKET;
+	m_renderType = RENDER_ROCKET;
 
     m_bBlocksBuilding = true;
 

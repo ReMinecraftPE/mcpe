@@ -34,7 +34,7 @@ int TallGrass::getTexture(const LevelSource* level, const TilePos& pos, Facing::
 	return data == 1 ? m_TextureFrame : (data == 2 ? m_TextureFrame + 16 + 1 : (data == 0 ? m_TextureFrame + 16 : m_TextureFrame));
 }
 
-int TallGrass::getRenderShape() const
+eRenderShape TallGrass::getRenderShape() const
 {
 	return SHAPE_RANDOM_CROSS;
 }

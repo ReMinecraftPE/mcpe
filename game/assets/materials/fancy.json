@@ -1,0 +1,6 @@
+[
+	{"path":"materials/fancy.material"},
+	{"path":"materials/entity.material", "defines":["FANCY"]},
+	{"path":"materials/terrain.material", "defines":["FANCY"]},
+	{"path":"materials/terrain.material", "defines":["FANCY", "FOG"], "tag":"_fog"}
+]

@@ -27,13 +27,13 @@ void ProgressScreen::render(int a, int b, float c)
 	int x_height = int(Minecraft::height * Gui::InvGuiScale);
 
 	Tesselator& t = Tesselator::instance;
-	t.begin();
+	t.begin(4);
 	t.color(0x404040);
 	t.vertexUV(0.0f,           float(x_height), 0, 0,                      float(x_height) / 32.0f);
 	t.vertexUV(float(x_width), float(x_height), 0, float(x_width) / 32.0f, float(x_height) / 32.0f);
 	t.vertexUV(float(x_width), 0,               0, float(x_width) / 32.0f, 0);
 	t.vertexUV(0.0f,           0,               0, 0,                      0);
-	t.draw();
+	t.draw(m_materials.ui_texture_and_color);
 
 	int yPos = x_height / 2;
 
@@ -42,10 +42,7 @@ void ProgressScreen::render(int a, int b, float c)
 		float lX = float(x_width) / 2 - 50, rX = float(x_width) / 2 + 50;
 		float prog = float(m_pMinecraft->m_progressPercent);
 
-		// disable the texturing
-		glDisable(GL_TEXTURE_2D);
-
-		t.begin();
+		t.begin(8);
 
 		t.color(0x808080); // gray background
 		t.vertex(lX, float(yPos + 16), 0);
@@ -59,10 +56,7 @@ void ProgressScreen::render(int a, int b, float c)
 		t.vertex(lX + prog, float(yPos + 18), 0);
 		t.vertex(lX + prog, float(yPos + 16), 0);
 
-		t.draw();
-
-		// restore old state
-		glEnable(GL_TEXTURE_2D);
+		t.draw(m_materials.ui_fill_color);
 	}
 
 	//! Using m_pMinecraft->m_pFont instead of m_pFont.
@@ -83,6 +77,7 @@ void ProgressScreen::updateEvents()
 {
 	if (m_pMinecraft->isLevelGenerated())
 	{
+
 		m_pMinecraft->setScreen(nullptr);
 		return;
 	}

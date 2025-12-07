@@ -15,24 +15,22 @@ RocketRenderer::RocketRenderer() :
 	m_shadowRadius = 0.5f;
 }
 
-void RocketRenderer::render(Entity* entity, const Vec3& pos, float rot, float a)
+void RocketRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
-	glPushMatrix();
-	glTranslatef(pos.x, pos.y, pos.z);
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(pos);
 
-	float brightness = entity->getBrightness(1.0f);
+	float brightness = entity.getBrightness(1.0f);
 
 	bindTexture(C_ITEMS_NAME);
-	m_renderer.renderTile(&m_tile, 0, brightness);
-
-	glPopMatrix();
+	m_renderer.renderTile(FullTile(&m_tile, 0), m_materials.entity_alphatest, brightness);
 }
 
 FakeRocketTile::FakeRocketTile() : Tile(0, 16*2+14, Material::plant)
 {
 }
 
-int FakeRocketTile::getRenderShape() const
+eRenderShape FakeRocketTile::getRenderShape() const
 {
 	return SHAPE_CROSS;
 }

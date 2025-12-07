@@ -23,6 +23,7 @@ LeafTile::LeafTile(TileID id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, 
 
 	m_TextureFrame = TEXTURE_LEAVES_TRANSPARENT;
 	field_74 = TEXTURE_LEAVES_TRANSPARENT;
+	m_renderLayer = RENDER_LAYER_ALPHATEST; // RENDER_LAYER_SEASONS_OPTIONAL_ALPHATEST
 
 	setTicking(true);
 }
