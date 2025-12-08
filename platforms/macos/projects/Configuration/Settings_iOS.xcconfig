@@ -15,7 +15,7 @@ SDKROOT_IOS = iphoneos
 SDKROOT = $(SDKROOT_IOS)
 
 // Target as many architectures as we can
-ARCHS_IOS = armv6 armv7 armv7s arm64
+ARCHS_IOS = armv7 arm64
 ARCHS = $(ARCHS_IOS)
 
 // Set this to the iOS version of the device you intend to debug with
