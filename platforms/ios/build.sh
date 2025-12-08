@@ -97,10 +97,11 @@ if [ "$(uname -s)" != "Darwin" ]; then
     cd "ldid-$ldid_commit"
     make CXX=clang++
     mv ldid ../bin
+    cd ..
 fi
 
 # go to the root of the project
-cd ../../../../..
+cd ../../../..
 
 for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
