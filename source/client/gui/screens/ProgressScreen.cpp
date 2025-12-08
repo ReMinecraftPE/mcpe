@@ -56,7 +56,7 @@ void ProgressScreen::render(int a, int b, float c)
 		t.vertex(lX + prog, float(yPos + 18), 0);
 		t.vertex(lX + prog, float(yPos + 16), 0);
 
-		t.draw(m_materials.ui_fill_color);
+		t.draw(m_materials.ui_fill_gradient);
 	}
 
 	//! Using m_pMinecraft->m_pFont instead of m_pFont.
