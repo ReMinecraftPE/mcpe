@@ -20,6 +20,6 @@ ARCHS = $(ARCHS_IOS)
 
 // Set this to the iOS version of the device you intend to debug with
 // Should be raised if Xcode gives ambiguous error
-//IPHONEOS_DEPLOYMENT_TARGET = 3.0 // iOS 3.0
+//IPHONEOS_DEPLOYMENT_TARGET = 3.1 // iOS 3.1
 
 TARGETED_DEVICE_FAMILY = 1,2 // iPhone/iPad
