@@ -28,7 +28,7 @@ void WorldConstants::refreshWorldConstants()
     const Matrix& worldMatrix = MatrixStack::World.top();
 
     // Order matters!
-    Matrix worldViewProjMatrix = worldMatrix * viewMatrix * projMatrix;
+    Matrix worldViewProjMatrix = projMatrix * viewMatrix * worldMatrix;
 
     if (WORLDVIEWPROJ)
         WORLDVIEWPROJ->setData(&worldViewProjMatrix);

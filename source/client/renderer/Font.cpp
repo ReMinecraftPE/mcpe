@@ -121,13 +121,17 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 	if (finalColor.a == 0.0f)
 		finalColor.a = 1.0f;
 
-	currentShaderColor = finalColor;
+#ifndef FEATURE_GFX_SHADERS
+	finalColor *= currentShaderDarkColor;
+#endif
 
 	MatrixStack::Ref mtx = MatrixStack::World.push();
 	mtx->translate(Vec3(x, y, 0.0f));
 
 	Tesselator& t = Tesselator::instance;
 	t.begin(4 * str.size());
+
+	t.color(finalColor);
 
 	float cXPos = 0.0f, cYPos = 0.0f;
 

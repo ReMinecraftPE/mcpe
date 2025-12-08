@@ -16,8 +16,11 @@ ShaderConstants::ShaderConstants()
 void ShaderConstants::setShaderColor(const Color& shaderColor)
 {
 #ifdef FEATURE_GFX_SHADERS
-    Color* pCurrentColor = (Color*)CURRENT_COLOR->m_data;
-    *pCurrentColor = shaderColor;
+    float* pCurrentColor = (float*)CURRENT_COLOR->m_data;
+    pCurrentColor[0] = shaderColor.r;
+    pCurrentColor[1] = shaderColor.g;
+    pCurrentColor[2] = shaderColor.b;
+    pCurrentColor[3] = shaderColor.a;
     CURRENT_COLOR->m_dirty = true;
     
     sync();
@@ -30,12 +33,18 @@ void ShaderConstants::setShaderColor(const Color& shaderColor)
 void ShaderConstants::setShaderColors(const Color& shaderColor, const Color& shaderDarkenColor)
 {
 #ifdef FEATURE_GFX_SHADERS
-    Color* pCurrentColor = (Color*)CURRENT_COLOR->m_data;
-    *pCurrentColor = shaderColor;
+    float* pCurrentColor = (float*)CURRENT_COLOR->m_data;
+    pCurrentColor[0] = shaderColor.r;
+    pCurrentColor[1] = shaderColor.g;
+    pCurrentColor[2] = shaderColor.b;
+    pCurrentColor[3] = shaderColor.a;
     CURRENT_COLOR->m_dirty = true;
 
-    Color* pDarkenColor = (Color*)DARKEN->m_data;
-    *pDarkenColor = shaderDarkenColor;
+    float* pDarkenColor = (float*)DARKEN->m_data;
+    pDarkenColor[0] = shaderDarkenColor.r;
+    pDarkenColor[1] = shaderDarkenColor.g;
+    pDarkenColor[2] = shaderDarkenColor.b;
+    pDarkenColor[3] = shaderDarkenColor.a;
     DARKEN->m_dirty = true;
 
     sync();

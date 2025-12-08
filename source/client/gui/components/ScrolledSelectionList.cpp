@@ -204,7 +204,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 				t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f - 1, lowerY + 1.0f, 0.0f, 1.0f, 1.0f);
 				t.vertexUV(float(field_18) / 2.0f + C_ITEM_WIDTH / 2.0f - 1, itemY - 1.0f, 0.0f, 1.0f, 0.0f);
 				t.vertexUV(float(field_18) / 2.0f - C_ITEM_WIDTH / 2.0f + 1, itemY - 1.0f, 0.0f, 0.0f, 0.0f);
-				t.draw(m_materials.ui_fill_color);
+				t.draw(m_materials.ui_fill_gradient);
 			}
 
 			renderItem(i, itemX, int(itemY), int(m_itemHeight - 4.0f), t);
@@ -223,7 +223,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 255);
 	t.vertexUV(field_20, field_C, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(field_24, field_C, 0.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 
 	t.begin(4);
 	t.color(0, 255);
@@ -232,7 +232,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 0);
 	t.vertexUV(field_20, field_10 - 4.0f, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(field_24, field_10 - 4.0f, 0.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 
 	renderDecorations(mouseX, mouseY);
 

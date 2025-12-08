@@ -8,9 +8,10 @@
 
 #include "OptionList.hpp"
 #include "client/options/Options.hpp"
-#include "client/renderer/PatchManager.hpp"
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/GrassColor.hpp"
+#include "client/renderer/PatchManager.hpp"
+#include "renderer/ShaderConstants.hpp"
 
 #define C_OPTION_ITEM_HEIGHT (20)
 
@@ -207,6 +208,8 @@ bool OptionList::isSelectedItem(int index)
 
 void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 {
+	currentShaderColor = Color::WHITE;
+
 	// Obs: The color setting that affected disabled items' texts will also affect this.
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui_custom.png");
@@ -239,7 +242,7 @@ void OptionList::renderHoleBackground(float a, float b, int c, int d)
 	t.vertexUV(float(field_18), b, 0.0f, field_18 / 32.0f, b / 32.0f);
 	t.vertexUV(float(field_18), a, 0.0f, field_18 / 32.0f, a / 32.0f);
 	t.vertexUV(0.0f, a, 0.0f, 0.0f, a / 32.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 }
 
 void OptionList::renderScrollBackground()
@@ -251,7 +254,7 @@ void OptionList::renderScrollBackground()
 	t.vertexUV(field_20, field_10, 0.0f, field_20 / 32.0f, (field_10 + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_20, field_C,  0.0f, field_20 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
 	t.vertexUV(field_24, field_C,  0.0f, field_24 / 32.0f, (field_C  + float(int(field_34))) / 32.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 }
 
 void OptionList::onClickItem(int index, int mouseX, int mouseY)

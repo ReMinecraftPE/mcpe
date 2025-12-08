@@ -15,8 +15,10 @@ static ShaderOGL::VertexFieldFormat vertexFieldFormats[] = {
     { GL_FLOAT,          3, GL_FALSE }, // VERTEX_FIELD_POSITION
     { GL_UNSIGNED_BYTE,  4, GL_TRUE  }, // VERTEX_FIELD_COLOR
     { GL_BYTE,           4, GL_FALSE }, // VERTEX_FIELD_NORMAL
-    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }, // VERTEX_FIELD_UV0
-    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }  // VERTEX_FIELD_UV1
+    //{ GL_UNSIGNED_SHORT, 2, GL_TRUE  }, // VERTEX_FIELD_UV0
+    //{ GL_UNSIGNED_SHORT, 2, GL_TRUE  }  // VERTEX_FIELD_UV1
+    { GL_FLOAT,          4, GL_TRUE  }, // VERTEX_FIELD_UV0
+    { GL_FLOAT,          4, GL_TRUE  }  // VERTEX_FIELD_UV1
 };
 
 ShaderOGL::ShaderOGL(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry)

@@ -13,10 +13,10 @@ namespace mce
         {
         }
 
-        virtual void syncUniform(int value)
+        virtual void syncUniform(int location)
         {
-            MCE_GFX_CLASS_SHADER(ShaderConstantWithData)<T>::syncUniform(value);
-            ShaderConstant::syncUniform(value);
+            MCE_GFX_CLASS_SHADER(ShaderConstantWithData)<T>::syncUniform(location);
+            ShaderConstant::syncUniform(location);
         }
     };
 

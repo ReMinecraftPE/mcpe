@@ -210,8 +210,8 @@
   },
   
   "ui_title_tile_shadow": {
-    "vertexShader": "shaders/color.vertex",
-    "fragmentShader": "shaders/color.fragment",
+    "vertexShader": "shaders/uv.vertex",
+    "fragmentShader": "shaders/texture.fragment",
 	
 	"states": [
 	  "DisableCulling",
