@@ -88,7 +88,7 @@ for target in $targets; do
     ln -s ../../../ios-cc.sh "bin/$target-c++"
 done
 
-if [ "$(uname -s)" != "Darwin" ]; then
+if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
     printf '\nBuilding ldid...\n\n'
 
     ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
