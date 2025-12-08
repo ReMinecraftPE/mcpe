@@ -111,7 +111,7 @@ for target in $targets; do
     cd build
 
     cmake .. \
-        -DCMAKE_BUILD_TYPE=MinSizeRel \
+        -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM=ios \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
