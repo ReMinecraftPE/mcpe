@@ -25,7 +25,7 @@
 #endif
 
 /* Apple - Device Simulator */
-#define MC_PLATFORM_SIMULATOR (TARGET_OS_SIMULATOR || TARGET_IPHONE_SIMULATOR || __APPLE_EMBEDDED_SIMULATOR__)
+#define MC_PLATFORM_SIMULATOR __APPLE_EMBEDDED_SIMULATOR__
 
 /* Google - Android */
 #if (defined(ANDROID))
