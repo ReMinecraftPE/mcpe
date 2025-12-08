@@ -39,8 +39,7 @@ cp -a \
     "$apppath" || true
 [ -f "$apppath/assets/font/default.png" ] && mv "$apppath/assets/font/default.png" "$apppath/assets/font/default8.png"
 mv "$apppath/assets/icon.png" "$apppath/assets/app/launch"/* "$apppath"
-rm -rf "$apppath/assets/app"
-find "$apppath" -name .gitignore -delete
+rm -rf "$apppath/assets/app" "$apppath/assets/.gitignore"
 cd "$ipadir"
 rm -f "../$ipaname"
 zip -r "../$ipaname" Payload
