@@ -88,14 +88,16 @@ for target in $targets; do
     ln -s ../../../ios-cc.sh "bin/$target-c++"
 done
 
-printf '\nBuilding ldid...\n\n'
+if [ "$(uname -s)" != "Darwin" ]; then
+    printf '\nBuilding ldid...\n\n'
 
-ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
-wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
+    ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
+    wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
 
-cd "ldid-$ldid_commit"
-make CXX=clang++
-mv ldid ../bin
+    cd "ldid-$ldid_commit"
+    make CXX=clang++
+    mv ldid ../bin
+fi
 
 # go to the root of the project
 cd ../../../../..
@@ -126,6 +128,10 @@ done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
 "$strip" "build/$bin"
-ldid -S"$entitlements" "build/$bin"
+if [ "$(uname -s)" = "Darwin" ]; then
+    codesign -s - --entitlements "$entitlements" "build/$bin"
+else
+    ldid -S"$entitlements" "build/$bin"
+fi
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
