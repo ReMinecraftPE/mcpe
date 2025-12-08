@@ -128,10 +128,10 @@ done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
 "$strip" "build/$bin"
-if [ "$(uname -s)" = "Darwin" ]; then
-    codesign -s - --entitlements "$entitlements" "build/$bin"
-else
+if command -v ldid >/dev/null; then
     ldid -S"$entitlements" "build/$bin"
+else
+    codesign -s - --entitlements "$entitlements" "build/$bin"
 fi
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
