@@ -103,6 +103,12 @@ fi
 # go to the root of the project
 cd ../../../..
 
+if [ -n "$DEBUG" ]; then
+    build=Debug
+else
+    build=Release
+fi
+
 for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
 
@@ -111,7 +117,7 @@ for target in $targets; do
     cd build
 
     cmake .. \
-        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM=ios \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
@@ -128,7 +134,7 @@ for target in $targets; do
 done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
-"$strip" "build/$bin"
+[ -z "$DEBUG" ] && "$strip" "build/$bin"
 if command -v ldid >/dev/null; then
     ldid -S"$entitlements" "build/$bin"
 else
