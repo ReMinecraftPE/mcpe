@@ -32,6 +32,7 @@ Mesh::Mesh(const VertexFormat& vertexFormat, unsigned int vertexCount, unsigned 
         m_rawData = nullptr;
         if (!loadRawData(RenderContextImmediate::get(), data))
         {
+            assert(false);
             reset();
         }
     }
@@ -108,7 +109,7 @@ void Mesh::render(const MaterialPtr& materialPtr, unsigned int startOffset, unsi
 
         if (!immediateBuffer.isValid())
         {
-            // Create 1MB shared vertex buffer in VRAM
+            // Create 1Mb shared vertex buffer in VRAM
             immediateBuffer.createDynamicBuffer(context, 1, nullptr, 0x100000, BUFFER_TYPE_VERTEX);
         }
 

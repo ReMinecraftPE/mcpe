@@ -28,8 +28,7 @@ void ImmediateBufferOGL::updateBuffer(RenderContext& context, unsigned int strid
 {
     if (gl::supportsImmediateMode())
     {
-        // This is not what immediate mode is, and we should not be using buffer 0, it's reserved
-        // Not sure what Mojang was doing here
+        // See supportsImmediateMode() definition for explanation on what this is doing
         xglBindBuffer(m_target, GL_NONE);
         GLuint& activeBuffer = context.getActiveBuffer(m_bufferType);
         activeBuffer = GL_NONE;

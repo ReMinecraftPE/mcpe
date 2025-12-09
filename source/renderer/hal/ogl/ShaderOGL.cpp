@@ -256,6 +256,8 @@ void ShaderOGL::reflectShaderAttributes()
         GLint size;
         GLenum type;
 
+        //LOG_I("\nReflecting attributes for shader: %s", m_vertexShader.m_shaderPath.c_str());
+
         for (GLint i = 0; i < attrCount; i++)
         {
             xglGetActiveAttrib(m_program, i, sizeof(name), &nameLen, &size, &type, name);
@@ -271,6 +273,8 @@ void ShaderOGL::reflectShaderAttributes()
 
             xglEnableVertexAttribArray(location);
             xglVertexAttribPointer(0, 1, GL_UNSIGNED_BYTE, 0, 1, this);
+
+            //LOG_I("Reflected attribute: name=%s location=%d", name, location);
         }
     }
 

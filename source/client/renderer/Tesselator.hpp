@@ -64,6 +64,7 @@ private:
 public:
 	void begin(int maxVertices);
 	void begin(mce::PrimitiveMode mode, int maxVertices);
+	void beginIndices(int maxIndices);
 	void clear();
 	void cancel();
 	void color(int32_t c);

@@ -14,6 +14,9 @@
 	<MC_GFX_API>OGL</MC_GFX_API>
 	<MC_GFX_API_MACRO>MCE_GFX_API_OGL</MC_GFX_API_MACRO>
   </PropertyGroup>
+  <!--PropertyGroup Label="Configuration">
+    <EnableASAN>true</EnableASAN>
+  </PropertyGroup-->
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>

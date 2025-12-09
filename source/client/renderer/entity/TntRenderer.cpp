@@ -59,8 +59,7 @@ void TntRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 	// @NOTE: Converting to a uint8 for whatever reason
 	if (((uint8_t(tnt.m_fuseTimer) / 5) & 1) == 0)
 	{
-		currentShaderColor = Color::WHITE;
-		currentShaderDarkColor = Color(1.0f, 1.0f, 1.0f, (((float(tnt.m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
+		currentShaderColor = Color(1.0f, 1.0f, 1.0f, (((float(tnt.m_fuseTimer) - a) + 1.0f) / -100.0f + 1.0f) * 0.8f);
 		m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), m_shaderMaterials.entity ARGPATCH);
 	}
 

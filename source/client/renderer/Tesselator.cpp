@@ -224,6 +224,28 @@ void Tesselator::begin(mce::PrimitiveMode mode, int maxVertices)
 	m_pendingVertices = maxVertices;
 }
 
+void Tesselator::beginIndices(int maxIndices)
+{
+	m_bHasIndices = true;
+
+	if (m_vertices < 0x10000 || !mce::RenderContext::supports32BitIndices())
+		m_indexSize = sizeof(uint16_t);
+	else
+		m_indexSize = sizeof(uint32_t);
+
+	if (maxIndices <= 0 && m_drawMode == mce::PRIMITIVE_MODE_QUAD_LIST)
+	{
+		maxIndices = m_indexSize * 6 * (m_vertices / 4);
+	}
+
+	if (maxIndices > 0)
+	{
+		maxIndices *= m_indexSize;
+	}
+
+	m_indices.resize(m_indices.size() + maxIndices);
+}
+
 void Tesselator::draw(const mce::MaterialPtr& materialPtr)
 {
 	if (!m_bTesselating || m_bVoidBeginEnd)

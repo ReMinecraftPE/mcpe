@@ -538,7 +538,7 @@ void GameRenderer::renderFramedItems(const Vec3& camPos, LevelRenderer& levelRen
 	frustumCuller.m_frustumData.x = frust;
 	frustumCuller.prepare(camPos);
 
-	levelRenderer.renderLevel(camera, frustumCuller, 0.0f, f);
+	levelRenderer.renderLevel(camera, frustumCuller, m_renderDistance, f);
 
 	if (m_zoom == 1.0f && camera.isPlayer() && m_pMinecraft->m_hitResult.m_hitType != HitResult::NONE && !camera.isUnderLiquid(Material::water))
 	{

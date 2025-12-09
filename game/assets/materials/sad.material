@@ -6,8 +6,10 @@
 			"EnableAlphaTest"
 		],
 	
-		"vertexShader" : "shaders/cloud.vertex",
-		"fragmentShader" : "shaders/color.fragment"
+		"defines": [ "ALPHA_TEST" ],
+
+		"vertexShader" : "shaders/uv.vertex",
+		"fragmentShader" : "shaders/texture.fragment"
 	}
 }
 

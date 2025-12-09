@@ -34,7 +34,7 @@
 		
 		"depthFunc": "LessEqual",
 
-		"vertexShader" : "shaders/sky.vertex",
+		"vertexShader" : "shaders/color.vertex",
 		"fragmentShader" : "shaders/color.fragment"
 	},
 

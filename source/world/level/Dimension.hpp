@@ -27,13 +27,14 @@ public:
 	virtual ~Dimension();
 	static Dimension* createNew(DimensionId type);
 
-	virtual Vec3 getFogColor(float, float);
+	virtual Vec3 getFogColor(float, float) const;
+	virtual bool isNaturalDimension() const;
 	virtual void init();
-	virtual bool mayRespawn();
-	virtual bool isValidSpawn(const TilePos& pos);
+	virtual bool mayRespawn() const;
+	virtual bool isValidSpawn(const TilePos& pos) const;
 
-	float* getSunriseColor(float, float);
-	float getTimeOfDay(int32_t, float);
+	const float* getSunriseColor(float, float);
+	float getTimeOfDay(int32_t, float) const;
 	void init(Level* pLevel);
 	void updateLightRamp();
 

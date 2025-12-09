@@ -651,6 +651,7 @@ float Entity::getBrightness(float f) const
 	return m_pLevel->getBrightness(tilePos);
 }
 
+// renamed to getInterpolatedPosition in 0.12.1
 Vec3 Entity::getPos(float f) const
 {
 	if (f == 1.0f)
@@ -663,12 +664,37 @@ Vec3 Entity::getPos(float f) const
 	);
 }
 
+// renamed to getInterpolatedRotation in 0.12.1
 Vec2 Entity::getRot(float f) const
 {
 	return Vec2(
 		Mth::Lerp(m_oRot.x, m_rot.x, f),
 		Mth::Lerp(m_oRot.y, m_rot.y, f)
 	);
+}
+
+Vec3 Entity::getViewVector(float f) const
+{
+	constexpr float C_180_OVER_PI = 0.017453f;
+	constexpr float C_PI = 3.1416f; // @HUH: Why not just use M_PI here?
+
+	if (f == 1.0)
+	{
+		Vec3 x(Mth::cos(-(m_rot.x * C_180_OVER_PI) - C_PI),
+			Mth::sin(-(m_rot.x * C_180_OVER_PI) - C_PI),
+			-Mth::cos(-(m_rot.y * C_180_OVER_PI)));
+
+		return Vec3(x.x * x.z, Mth::sin(-(m_rot.y * C_180_OVER_PI)), x.y * x.z);
+	}
+
+	float x1 = m_oRot.y + (m_rot.y - m_oRot.y) * f;
+	float x2 = -((m_oRot.x + (m_rot.x - m_oRot.x) * f) * C_180_OVER_PI) - C_PI;
+	float x3 = Mth::cos(x2);
+	float x4 = Mth::sin(x2);
+	float x5 = -(x1 * C_180_OVER_PI);
+	float x6 = -Mth::cos(x5);
+
+	return Vec3(x4 * x6, Mth::sin(x5), x3 * x6);
 }
 
 float Entity::distanceTo(const Entity* pEnt) const

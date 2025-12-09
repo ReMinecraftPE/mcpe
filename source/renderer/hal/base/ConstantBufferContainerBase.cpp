@@ -7,30 +7,59 @@ using namespace mce;
 
 void ConstantBufferContainerBase::_init()
 {
+    m_reflectedShaderConstants = new std::vector<ShaderConstantBase>();
+    m_shaderConstants = new std::vector<ShaderConstant*>();
+    m_constantBufferBytes = new std::vector<uint8_t>();
     m_currentlyMapped = false;
 }
 
-// causes more problems than it solves, only called in 0.12.1 in vector::reserve
-/*ConstantBufferContainerBase::ConstantBufferContainerBase(ConstantBufferContainerBase&& other)
+void ConstantBufferContainerBase::_init(ConstantBufferContainerBase& other)
 {
     _init();
+    _move(other);
+}
+
+ConstantBufferContainerBase::~ConstantBufferContainerBase()
+{
+    delete m_reflectedShaderConstants;
+    delete m_shaderConstants;
+    delete m_constantBufferBytes;
+}
+
+void ConstantBufferContainerBase::_move(ConstantBufferContainerBase& other)
+{
+    std::string tempName = m_constantBufferName;
+    m_constantBufferName = other.m_constantBufferName;
+    other.m_constantBufferName = tempName;
+
+    void* tempPtr = m_reflectedShaderConstants;
+    m_reflectedShaderConstants = other.m_reflectedShaderConstants;
+    other.m_reflectedShaderConstants = (std::vector<ShaderConstantBase>*)tempPtr;
+
+    tempPtr = m_shaderConstants;
     m_shaderConstants = other.m_shaderConstants;
-    other.m_shaderConstants = std::vector<ShaderConstant*>();
+    other.m_shaderConstants = (std::vector<ShaderConstant*>*)tempPtr;
+
+    tempPtr = m_constantBufferBytes;
     m_constantBufferBytes = other.m_constantBufferBytes;
-    other.m_constantBufferBytes = std::vector<uint8_t>();
-}*/
+    other.m_constantBufferBytes = (std::vector<uint8_t>*)tempPtr;
+
+    bool temp = m_currentlyMapped;
+    m_currentlyMapped = other.m_currentlyMapped;
+    other.m_currentlyMapped = temp;
+}
 
 void ConstantBufferContainerBase::reserveMemoryForShaderConstants(unsigned int shaderConstSize, unsigned int constBufferSize)
 {
-    m_shaderConstants.reserve(shaderConstSize);
-    m_constantBufferBytes.resize(constBufferSize);
+    m_shaderConstants->reserve(shaderConstSize);
+    m_constantBufferBytes->resize(constBufferSize);
 }
 
 void ConstantBufferContainerBase::registerReflectedShaderParameter(const UniformMetaData& uniMeta)
 {
     ShaderConstantBase shaderConst(uniMeta);
 
-    for (std::vector<ShaderConstantBase>::iterator it = m_reflectedShaderConstants.begin(); it != m_reflectedShaderConstants.end(); it++)
+    for (std::vector<ShaderConstantBase>::iterator it = m_reflectedShaderConstants->begin(); it != m_reflectedShaderConstants->end(); it++)
     {
         if (*it == shaderConst)
         {
@@ -39,13 +68,13 @@ void ConstantBufferContainerBase::registerReflectedShaderParameter(const Uniform
         }
     }
 
-    m_reflectedShaderConstants.push_back(shaderConst);
+    m_reflectedShaderConstants->push_back(shaderConst);
 }
 
 void ConstantBufferContainerBase::registerShaderParameter(const ShaderConstantBase &shaderConstantBase)
 {
     ShaderConstantWithDataBase* newConst;
-    uint8_t* buffer = &m_constantBufferBytes[shaderConstantBase.m_byteOffset];
+    uint8_t* buffer = &(*m_constantBufferBytes)[shaderConstantBase.m_byteOffset];
     //shaderConstantBase.getSize(); // called for fun?
 
     switch (shaderConstantBase.getType())
@@ -91,12 +120,12 @@ void ConstantBufferContainerBase::registerShaderParameter(const ShaderConstantBa
     newConst->m_data = buffer;
     newConst->m_name = shaderConstantBase.m_name;
     newConst->m_byteOffset = shaderConstantBase.m_byteOffset;
-    m_shaderConstants.push_back(newConst);
+    m_shaderConstants->push_back(newConst);
 }
 
 void ConstantBufferContainerBase::finalizeConstantBufferLayout()
 {
-    for (std::vector<ShaderConstantBase>::iterator it = m_reflectedShaderConstants.begin(); it != m_reflectedShaderConstants.end(); it++)
+    for (std::vector<ShaderConstantBase>::iterator it = m_reflectedShaderConstants->begin(); it != m_reflectedShaderConstants->end(); it++)
     {
         registerShaderParameter(*it);
     }
@@ -104,7 +133,7 @@ void ConstantBufferContainerBase::finalizeConstantBufferLayout()
 
 bool ConstantBufferContainerBase::isDirty() const
 {
-    for (std::vector<ShaderConstant*>::const_iterator it = m_shaderConstants.begin(); it != m_shaderConstants.end(); it++)
+    for (std::vector<ShaderConstant*>::const_iterator it = m_shaderConstants->begin(); it != m_shaderConstants->end(); it++)
     {
         if ((*it)->isDirty())
             return true;
