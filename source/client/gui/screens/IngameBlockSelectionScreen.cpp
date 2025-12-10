@@ -93,13 +93,13 @@ void IngameBlockSelectionScreen::init()
 	m_btnPause.m_width = 25;
 	m_btnPause.m_xPos = m_width - m_btnPause.m_width / 1.05;
 	m_btnPause.m_yPos = 0;
-	//if (m_pMinecraft->isTouchscreen())
+	if (m_pMinecraft->isTouchscreen())
 		m_buttons.push_back(&m_btnPause);
 
 	m_btnChat.m_width = 25;
-	m_btnChat.m_xPos = m_width - m_btnPause.m_width - m_btnChat.m_width / 1.1;
+	m_btnChat.m_xPos = 0;
 	m_btnChat.m_yPos = 0;
-	//if (m_pMinecraft->isTouchscreen())
+	if (m_pMinecraft->isTouchscreen())
 		m_buttons.push_back(&m_btnChat);
 	
 	/*m_btnCraft.m_width = 40;
