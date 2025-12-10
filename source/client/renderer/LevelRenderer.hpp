@@ -120,7 +120,6 @@ protected:
 	void _recreateTessellators();
 	void _setupFog(const Entity& camera, int i);
 	const Color& _getFogColor() const;
-	Vec2 _getFogControl() const;
 	void _updateViewArea(const Entity& camera);
 	void _startFrame(FrustumCuller& culler, float renderDistance, float f);
 	const mce::MaterialPtr& _chooseOverlayMaterial(Tile::RenderLayer layer) const;
@@ -175,6 +174,7 @@ protected:
 	Materials m_materials;
 	double m_initTime;
 	mce::FogStateDescription m_lastFogState;
+	Vec2 m_fogControl;
 public:
 	Vec3 m_posPrev;
 	float m_destroyProgress;

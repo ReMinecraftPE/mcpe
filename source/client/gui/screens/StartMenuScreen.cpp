@@ -345,7 +345,7 @@ const char* gSplashes[] =
 	"Pretty scary!",
 	"I have a suggestion.",
 	"Now with extra hugs!",
-	"Almost C++03!", // "Almost C++11!",
+	"Almost C++98!", // "Almost C++11!",
 	"Woah.",
 	"HURNERJSGER?",
 	"What's up, Doc?",
@@ -367,7 +367,8 @@ const char* gSplashes[] =
 	"The Work of Johan Bernhardsson!", // https://minecraft.wiki/w/Johan_Bernhardsson
 	"The Work of Tommaso Checchi!",     // https://minecraft.wiki/w/Tommaso_Checchi
 	"Woo, newgrounds!",
-	"Woo, curseforge!",
+	"Woo, forge!",
+	"Woo, fabric!",
 };
 
 StartMenuScreen::Materials::Materials()

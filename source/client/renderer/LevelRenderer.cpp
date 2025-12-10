@@ -143,12 +143,11 @@ void LevelRenderer::_buildSkyMesh()
 #elif defined(FEATURE_GFX_SHADERS)
 
 	constexpr float angleStep = 6.2832f * 0.1f;
-	constexpr float yy = 128.0f; //10000.0f; //4000.0f; //62.0f
+	constexpr float yy = 128.0f;
 
-	const mce::FogStateDescription& desc = Fog::nextState;
-	float fogStart = desc.fogStartZ;
 	// calculates the radius of the sky based on the fogStart
 	// PE/Bedrock do not have this
+	float fogStart = Fog::nextState.fogStartZ;
 	float radius = fogStart * 26.375f; // magic number determined to match Java thru eyeballing
 
 	Color topColor = Color::BLACK;
@@ -437,25 +436,25 @@ void LevelRenderer::_setupFog(const Entity& camera, int i)
 
 		if (i < 0)
 		{
-			desc.fogStartZ = 0.0f;
-			desc.fogEndZ = renderDistance * 0.8f;
+			m_fogControl = Vec2(0.0f, 0.8f);
 		}
 		else
 		{
-			desc.fogStartZ = renderDistance * 0.25f;
-			desc.fogEndZ = renderDistance;
+			m_fogControl = Vec2(0.25f, 1.0f);
 		}
 
 		if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
 		{
-			desc.fogStartZ = 0.0f;
+			m_fogControl.x = 0.0f;
 		}
+
+		desc.fogStartZ = m_fogControl.x * renderDistance;
+		desc.fogEndZ = m_fogControl.y * renderDistance;
 	}
 
 	Fog::updateState();
 
-
-	if (desc.fogStartZ != m_lastFogState.fogStartZ)
+	if (desc.fogStartZ != m_lastFogState.fogStartZ || desc.fogEndZ != m_lastFogState.fogEndZ)
 	{
 #ifdef FEATURE_GFX_SHADERS
 		// rebuild sky mesh to account for updated fog distance
@@ -470,30 +469,6 @@ const Color& LevelRenderer::_getFogColor() const
 	const mce::FogStateDescription& fogState = Fog::nextState;
 
 	return fogState.fogColor;
-}
-
-Vec2 LevelRenderer::_getFogControl() const
-{
-	const mce::FogStateDescription& fogState = Fog::nextState;
-	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
-	float renderDistance = gameRenderer.m_renderDistance;
-
-	Vec2 fogControl = Vec2(renderDistance * 0.25f, renderDistance);
-
-	if (fogState.fogDensity <= 0.0f)
-	{
-		fogControl.y = fogControl.x;
-	}
-	else if (fogState.fogMode == mce::FOG_MODE_EXP2)
-	{
-		fogControl.y = 2.0f / fogState.fogDensity;
-	}
-	else if (fogState.fogMode == mce::FOG_MODE_EXP)
-	{
-		fogControl.y = 5.0f / fogState.fogDensity;
-	}
-
-	return fogControl;
 }
 
 void LevelRenderer::_updateViewArea(const Entity& camera)
@@ -522,16 +497,11 @@ void LevelRenderer::_startFrame(FrustumCuller& culler, float renderDistance, flo
 
 	frame.FOG_COLOR->setData(&_getFogColor());
 
-	constexpr float fogModifier = 1.0f / 15.0f;
-
-	renderDistance *= fogModifier;
 	frame.RENDER_DISTANCE->setData(&renderDistance);
 
 	frame.VIEW_POS->setData(&m_viewPos);
 
-	Vec2 fogControl = _getFogControl();
-	fogControl *= fogModifier;
-	frame.FOG_CONTROL->setData(&fogControl);
+	frame.FOG_CONTROL->setData(&m_fogControl);
 
 	frame.sync();
 #endif
@@ -1689,12 +1659,19 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 
 	Tesselator& t = Tesselator::instance;
 
-	Fog::enable();
+	{
+		Fog::enable();
+		// @TODO: can we avoid rebuilding the mesh every time the fog updates?
+		//float fogStart = Fog::nextState.fogStartZ;
 
-	currentShaderColor = Color(sc.x, sc.y, sc.z);
-	m_skyMesh.render(m_materials.skyplane);
+		//MatrixStack::Ref matrix = MatrixStack::World.push();
+		//matrix->scale(Vec3(fogStart, 0.0f, fogStart));
 
-	Fog::disable();
+		currentShaderColor = Color(sc.x, sc.y, sc.z);
+		m_skyMesh.render(m_materials.skyplane);
+
+		Fog::disable();
+	}
 
 	_renderSunrise(alpha);
 	_renderSolarSystem(alpha);
@@ -1737,8 +1714,6 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 
 void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 {
-	return;
-
 	if (!areCloudsAvailable())
 		return;
 

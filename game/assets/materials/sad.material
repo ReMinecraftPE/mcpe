@@ -8,7 +8,7 @@
 	
 		"defines": [ "ALPHA_TEST" ],
 
-		"vertexShader" : "shaders/color_uv.vertex",
+		"vertexShader" : "shaders/cloud.vertex",
 		"fragmentShader" : "shaders/color_texture.fragment"
 	}
 }

@@ -62,6 +62,12 @@ public:
 		y *= f;
 	}
 
+	void operator/=(float f)
+	{
+		x /= f;
+		y /= f;
+	}
+
 	Vec2 operator-() const
 	{
 		return Vec2(-x, -y);
