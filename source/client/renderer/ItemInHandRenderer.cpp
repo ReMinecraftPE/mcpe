@@ -156,6 +156,8 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemInstance& it
     float bright = entity.getBrightness(a);
 #endif
     
+    _setupShaderParameters(entity, Color::NIL, a);
+
     Tile* pTile = item.getTile();
     if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
     {
@@ -268,8 +270,6 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemInstance& it
             t.vertexUV(0.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_2, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
             t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
         }
-
-        _setupShaderParameters(entity, Color::NIL, a);
         
         t.draw(m_materials.item_in_hand);
     }

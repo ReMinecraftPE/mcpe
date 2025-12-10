@@ -32,6 +32,12 @@ namespace mce
     class RenderContextOGL : public RenderContextBase
     {
     public:
+        struct VertexFieldFormat
+        {
+            GLenum componentsType;
+            GLint components;
+            GLboolean normalized;
+        };
         struct ActiveTextureUnit
         {
             GLuint m_textureUnit;
@@ -43,6 +49,9 @@ namespace mce
                 m_bIsShaderUniformDirty = true;
             }
         };
+
+    public:
+        static VertexFieldFormat vertexFieldFormats[];
 
     private:
         GLuint m_activeBuffer[2]; // indexed by BufferType

@@ -18,14 +18,6 @@ namespace mce
 {
     class ShaderOGL : public ShaderBase
     {
-    public:
-        struct VertexFieldFormat
-        {
-            GLenum componentsType;
-            GLint components;
-            GLboolean normalized;
-        };
-
     private:
         GLuint m_program;
         std::vector<ShaderUniformOGL> m_uniformList;

@@ -50,12 +50,12 @@ Tesselator::CurrentVertexPointers::CurrentVertexPointers(void* vertexData, const
 
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
 	{
-		uvs[0] = (Vec2*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0, vertexData);
+		uvs[0] = (UV*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0, vertexData);
 	}
 
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_UV1))
 	{
-		uvs[1] = (Vec2*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV1, vertexData);
+		uvs[1] = (UV*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV1, vertexData);
 	}
 }
 
@@ -67,8 +67,8 @@ void Tesselator::CurrentVertexPointers::nextVertex()
 
 	if (color)  color  = (uint32_t*)((uint8_t*)color + vertexSize);
 	if (normal) normal = (uint32_t*)((uint8_t*)normal + vertexSize);
-	if (uvs[0]) uvs[0] = (Vec2*)((uint8_t*)uvs[0] + vertexSize);
-	if (uvs[1]) uvs[1] = (Vec2*)((uint8_t*)uvs[1] + vertexSize);
+	if (uvs[0]) uvs[0] = (UV*)((uint8_t*)uvs[0] + vertexSize);
+	if (uvs[1]) uvs[1] = (UV*)((uint8_t*)uvs[1] + vertexSize);
 }
 
 void Tesselator::CurrentVertexPointers::clear()
@@ -454,8 +454,13 @@ void Tesselator::vertex(float x, float y, float z)
 	{
 		if (m_currentVertex.uvs[i])
 		{
-			m_currentVertex.uvs[i]->x = m_nextVtxUVs[0].x;//ceilf(m_nextVtxUVs[i].x * 65535.f);
-			m_currentVertex.uvs[i]->y = m_nextVtxUVs[0].y;//ceilf(m_nextVtxUVs[i].y * 65535.f);
+#ifdef ENH_GFX_COMPACT_UVS
+			m_currentVertex.uvs[i][0] = ceilf(m_nextVtxUVs[i].x * 65535.f);
+			m_currentVertex.uvs[i][1] = ceilf(m_nextVtxUVs[i].y * 65535.f);
+#else
+			m_currentVertex.uvs[i][0] = m_nextVtxUVs[i].x;
+			m_currentVertex.uvs[i][1] = m_nextVtxUVs[i].y;
+#endif
 		}
 	}
 
