@@ -13,8 +13,13 @@
 #ifndef OLD_OPTIONS_SCREEN
 
 OptionsScreen::OptionsScreen() :
+	m_videoButton(1, "Video"),
+	m_controlsButton(2, "Controls"),
+	m_multiplayerButton(3, "Multiplayer"),
+	m_miscButton(4, "Misc"),
 	m_backButton(100, "Done"),
-	m_pList(nullptr)
+	m_pList(nullptr),
+	m_currentCategory(OC_VIDEO)
 {
 }
 
@@ -29,7 +34,21 @@ void OptionsScreen::init()
 		SAFE_DELETE(m_pList);
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
-	m_pList->initDefaultMenu();
+	
+	int buttonWidth = 64;
+	int buttonHeight = 20;
+	int buttonSpacing = 5;
+	int totalWidth = (buttonWidth * 4) + (buttonSpacing * 3);
+	int startX = (m_width - totalWidth) / 2;
+	
+	Button* buttons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
+	for (int i = 0; i < 4; ++i)
+	{
+		buttons[i]->m_width = buttonWidth;
+		buttons[i]->m_height = buttonHeight;
+		buttons[i]->m_xPos = startX + (buttonWidth + buttonSpacing) * i;
+		buttons[i]->m_yPos = 4.3;
+	}
 
 	m_backButton.m_width = 100;
 	m_backButton.m_height = 20;
@@ -37,8 +56,19 @@ void OptionsScreen::init()
 	m_backButton.m_xPos = (m_width - m_backButton.m_width) / 2;
 	m_backButton.m_yPos = m_height - m_backButton.m_height - (28 - m_backButton.m_height) / 2;
 
+	m_buttons.push_back(&m_videoButton);
+	m_buttons.push_back(&m_controlsButton);
+	m_buttons.push_back(&m_multiplayerButton);
+	m_buttons.push_back(&m_miscButton);
 	m_buttons.push_back(&m_backButton);
+
+	m_buttonTabList.push_back(&m_videoButton);
+	m_buttonTabList.push_back(&m_controlsButton);
+	m_buttonTabList.push_back(&m_multiplayerButton);
+	m_buttonTabList.push_back(&m_miscButton);
 	m_buttonTabList.push_back(&m_backButton);
+
+	setCategory(m_currentCategory);
 }
 
 void OptionsScreen::render(int mouseX, int mouseY, float f)
@@ -50,7 +80,7 @@ void OptionsScreen::render(int mouseX, int mouseY, float f)
 
 	Screen::render(mouseX, mouseY, f);
 
-	drawCenteredString(*m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
+	//drawCenteredString(*m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
 }
 
 void OptionsScreen::removed()
@@ -59,11 +89,40 @@ void OptionsScreen::removed()
 	m_pMinecraft->saveOptions();
 #endif
 }
+void OptionsScreen::setCategory(OptionsCategory category)
+{
+	m_buttonTabList[m_currentCategory]->m_bEnabled = true;
+	m_currentCategory = category;
+	m_buttonTabList[m_currentCategory]->m_bEnabled = false;
+	m_pList->clear();
+
+	switch (category)
+	{
+	case OC_VIDEO:
+		m_pList->initVideoMenu();
+		break;
+	case OC_CONTROLS:
+		m_pList->initControlsMenu();
+		break;
+	case OC_MULTIPLAYER:
+		m_pList->initMultiplayerMenu();
+		break;
+	case OC_MISCELLANEOUS:
+		m_pList->initMiscMenu();
+		break;
+	}
+}
 
 void OptionsScreen::buttonClicked(Button* pButton)
 {
-	if (pButton->m_buttonId == 100)
+if (pButton->m_buttonId >= 1 && pButton->m_buttonId <= 4)
+	{
+		setCategory((OptionsCategory)(pButton->m_buttonId - 1));
+	}
+	else if (pButton->m_buttonId == 100)
+	{
 		handleBackEvent(false);
+	}
 }
 
 bool OptionsScreen::handleBackEvent(bool b)

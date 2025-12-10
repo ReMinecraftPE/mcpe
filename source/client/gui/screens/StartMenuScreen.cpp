@@ -353,10 +353,13 @@ const char* gSplashes[] =
 	// custom:
 	"https://github.com/ReMinecraftPE/mcpe",
 	"100% (render)dragon free!",
-	"Also try Minecraft!",
+	"Also try Minecraft!", // Notch
 	"Also try Noita!",
 	"Also try Castle Crashers!",
 	"Also try Unturned!",
+	"Also try Minecraft Pi Reborn!", // TheBrokenRail
+	"Also try RePocket!", // atipls
+	"Also try PEtoLE!", // Wilyicaro
 	"Controller support!",
 	"Check out our GitHub!",
 	"Now with graphics abstraction!",
@@ -473,7 +476,14 @@ void StartMenuScreen::init()
 	int x1 = m_width - m_joinButton.m_width;
 
 	m_joinButton.m_xPos = x1 / 2;
+	
+#if defined(DEMO) || (!MC_PLATFORM_IOS && !MC_PLATFORM_ANDROID)
 	m_optionsButton.m_xPos = x1 / 2;
+#else
+	m_optionsButton.m_xPos = m_startButton.m_xPos;
+	m_optionsButton.m_width = m_startButton.m_width;
+#endif
+	
 	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 

@@ -9,6 +9,8 @@
 #include "IngameBlockSelectionScreen.hpp"
 #include "PauseScreen.hpp"
 #include "ChatScreen.hpp"
+//#include "CraftingScreen.hpp"
+//#include "ArmorScreen.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 #include "renderer/ShaderConstants.hpp"
@@ -16,8 +18,10 @@
 std::string g_sNotAvailableInDemoVersion = "Not available in the demo version";
 
 IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
-	m_btnPause(0, "Pause"),
-	m_btnChat(1, "Chat") // Temp chat button
+	m_btnPause(0, "\xF0"), // 3 lined bars
+	m_btnChat(1, "\x01\x27"), // face and comma
+	m_btnCraft(2, "Craft"),
+	m_btnArmor(3, "Armor")
 {
 	m_selectedSlot = 0;
 }
@@ -69,24 +73,44 @@ int IngameBlockSelectionScreen::getSlotsHeight()
 
 bool IngameBlockSelectionScreen::isAllowed(int slot)
 {
-	return slot >= 0 && slot < getInventory()->getNumSlots();
+	return slot >= 0 && slot < getInventory()->getNumItems();
+}
+
+bool IngameBlockSelectionScreen::isInsideSelectionArea(int x, int y)
+{
+	int slotsWidth = 9 * 20 + 2;
+	int left = m_width / 2 - slotsWidth / 2;
+	int right = left + slotsWidth;
+
+	int top = getSlotPosY(getSlotsHeight() - 1);
+	int bottom = getSlotPosY(0) + 22;
+
+	return x >= left && x < right && y >= top && y < bottom;
 }
 
 void IngameBlockSelectionScreen::init()
 {
-	m_btnPause.m_width = 40;
-	m_btnPause.m_xPos = 0;
+	m_btnPause.m_width = 25;
+	m_btnPause.m_xPos = m_width - m_btnPause.m_width / 1.05;
 	m_btnPause.m_yPos = 0;
-#if MC_PLATFORM_IOS
-	if (m_pMinecraft->isTouchscreen())
+	//if (m_pMinecraft->isTouchscreen())
 		m_buttons.push_back(&m_btnPause);
-#endif
-	
-	m_btnChat.m_width = 40;
-	m_btnChat.m_xPos = m_width - m_btnChat.m_width; // Right edge
-    m_btnChat.m_yPos = 0;
-	if (m_pMinecraft->isTouchscreen())
+
+	m_btnChat.m_width = 25;
+	m_btnChat.m_xPos = m_width - m_btnPause.m_width - m_btnChat.m_width / 1.1;
+	m_btnChat.m_yPos = 0;
+	//if (m_pMinecraft->isTouchscreen())
 		m_buttons.push_back(&m_btnChat);
+	
+	/*m_btnCraft.m_width = 40;
+	m_btnCraft.m_xPos = 0;
+	m_btnCraft.m_yPos = 0;
+	m_buttons.push_back(&m_btnCraft);*/
+
+	/*m_btnArmor.m_width = 40;
+	m_btnArmor.m_xPos = m_btnCraft.m_width;
+	m_btnArmor.m_yPos = 0;
+	m_buttons.push_back(&m_btnArmor);*/
 
 	Inventory* pInv = getInventory();
 
@@ -150,8 +174,6 @@ void IngameBlockSelectionScreen::renderDemoOverlay()
 
 void IngameBlockSelectionScreen::render(int x, int y, float f)
 {
-	Screen::render(x, y, f);
-
 	fill(0, 0, m_width, m_height, 0x80000000);
 
 	renderSlots();
@@ -159,6 +181,8 @@ void IngameBlockSelectionScreen::render(int x, int y, float f)
 #ifdef DEMO
 	renderDemoOverlay();
 #endif
+
+	Screen::render(x, y, f);
 }
 
 void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
@@ -168,11 +192,20 @@ void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
 
 	if (pButton->m_buttonId == m_btnChat.m_buttonId)
         m_pMinecraft->setScreen(new ChatScreen(true));
+
+		/*if (pButton->m_buttonId == m_btnCraft.m_buttonId)
+		m_pMinecraft->setScreen(new CraftingScreen(m_pMinecraft->m_pLocalPlayer));*/
+
+	/*if (pButton->m_buttonId == m_btnArmor.m_buttonId)
+		m_pMinecraft->setScreen(new ArmorScreen(m_pMinecraft->m_pLocalPlayer));*/
 }
 
 void IngameBlockSelectionScreen::mouseClicked(int x, int y, int type)
 {
 	Screen::mouseClicked(x, y, type);
+
+	m_bReleased = true;
+	m_bClickedOnSlot = isInsideSelectionArea(x, y);
 	
 	// not a left click
 	if (type != 1)
@@ -190,6 +223,26 @@ void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 	// not a left click
 	if (type != 1)
 		return;
+
+	for (std::vector<Button*>::iterator i = m_buttons.begin(); i != m_buttons.end(); ++i)
+	{
+		Button* btn = *i;
+		if (btn->clicked(m_pMinecraft, x, y))
+			return;
+	}
+	
+	if (isInsideSelectionArea(x, y))
+	{
+		int slot = getSelectedSlot(x, y);
+		if (isAllowed(slot) && slot == m_selectedSlot)
+			selectSlotAndClose();
+		return;
+	}
+
+	if (m_bReleased && !m_bClickedOnSlot)
+	{
+		m_pMinecraft->setScreen(nullptr);
+	}
 
 	int slot = getSelectedSlot(x, y);
 	if (isAllowed(slot) && slot == m_selectedSlot)

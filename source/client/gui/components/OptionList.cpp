@@ -279,72 +279,81 @@ void OptionList::clear()
 
 void OptionList::initDefaultMenu()
 {
-	Options* pOptions = m_pMinecraft->getOptions();
-
-	int currentIndex = -1;
+	initVideoMenu();
+}
 
 #define HEADER(text) do { m_items.push_back(new HeaderOptionItem(text)); currentIndex++; } while (0)
 #define OPTION(type, name, text) do { m_items.push_back(new type ## OptionItem(&pOptions->name, text)); currentIndex++; } while (0)
 
-	int idxLM = -1, idxGrass = -1, idxBiome = -1, idxSplit = -1, idxController = -1, idxPano = -1;
+void OptionList::initVideoMenu()
+{
+	Options* pOptions = m_pMinecraft->getOptions();
+	int currentIndex = -1;
+	int idxGrass = -1, idxBiome = -1;
 
-	HEADER("Video");
-	{
-		OPTION(Distance, m_iViewDistance,         "Render Distance");
-		OPTION(Boolean,  m_bThirdPerson,          "Third Person View");
-		OPTION(AORender, m_bAmbientOcclusion,     "Smooth Lighting");
-		OPTION(FancyRender,   m_bFancyGraphics,        "Fancy Graphics");
-		OPTION(Boolean,  m_bViewBobbing,          "View Bobbing");
-		OPTION(Boolean,  m_bAnaglyphs,            "3D Anaglyph");
-		OPTION(Boolean,  m_bBlockOutlines,        "Block Outlines");
-		OPTION(Render,   m_bFancyGrass,           "Fancy Grass");   idxGrass = currentIndex; // renders colored grass side overlay
-		OPTION(Render,   m_bBiomeColors,          "Biome Colors");  idxBiome = currentIndex; // colors the grass based on the current biome
-		OPTION(Boolean,  m_bDontRenderGui,        "Hide GUI");
-		OPTION(Boolean,  m_bDynamicHand,          "Dynamic Hand Movement");
-	}
-
-	HEADER("Controls");
-	{
-		OPTION(Boolean,  m_bAutoJump,             "Auto Jump");
-		OPTION(Boolean,  m_bInvertMouse,          "Invert Y-axis");
-		OPTION(Boolean,  m_bSplitControls,        "Split Controls"); idxSplit = currentIndex;
-		OPTION(Boolean,  m_bUseController,        "Use Controller"); idxController = currentIndex;
-		OPTION(Boolean,  m_bFlyCheat,             "Flight Hax");
-	}
-
-	HEADER("Multiplayer");
-	{
-		OPTION(Boolean, m_bServerVisibleDefault,  "Local Server Multiplayer"); idxLM = currentIndex;
-	}
-
-	HEADER("Miscellaneous");
-	{
-		OPTION(Boolean, m_bDebugText,			  "Debug Text");
-		OPTION(Boolean, m_bOldTitleLogo,		  "Old Title Logo");
-#ifdef ENH_MENU_BACKGROUND
-		OPTION(Boolean, m_bMenuPanorama,		  "Menu Panorama"); idxPano = currentIndex; // renders a spinning panorama on the main menu
-#endif
-	}
-
-#ifdef __EMSCRIPTEN
-	m_items[idxLM]->setDisabled(true);
-#endif
+	OPTION(Distance, m_iViewDistance, "Render Distance");
+	OPTION(Boolean, m_bThirdPerson, "Third Person View");
+	OPTION(AORender, m_bAmbientOcclusion, "Smooth Lighting");
+	OPTION(Render, m_bFancyGraphics, "Fancy Graphics");
+	OPTION(Boolean, m_bViewBobbing, "View Bobbing");
+	OPTION(Boolean, m_bAnaglyphs, "3D Anaglyph");
+	OPTION(Boolean, m_bBlockOutlines, "Block Outlines");
+	OPTION(Render, m_bFancyGrass, "Fancy Grass");   idxGrass = currentIndex; // renders colored grass side overlay
+	OPTION(Render, m_bBiomeColors, "Biome Colors");  idxBiome = currentIndex; // colors the grass based on the current biome
+	OPTION(Boolean, m_bDontRenderGui, "Hide GUI");
+	OPTION(Boolean, m_bDynamicHand, "Dynamic Hand Movement");
 
 	if (!GetPatchManager()->IsGrassSidesTinted())
 		m_items[idxGrass]->setDisabled(true);
 
 	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
 		m_items[idxBiome]->setDisabled(true);
+}
+
+void OptionList::initControlsMenu()
+{
+	Options* pOptions = m_pMinecraft->getOptions();
+	int currentIndex = -1;
+	int idxSplit = -1, idxController = -1;
+
+	OPTION(Boolean, m_bAutoJump, "Auto Jump");
+	OPTION(Boolean, m_bInvertMouse, "Invert Y-axis");
+	OPTION(Boolean, m_bSplitControls, "Split Controls"); idxSplit = currentIndex;
+	OPTION(Boolean, m_bUseController, "Use Controller"); idxController = currentIndex;
+	OPTION(Boolean, m_bFlyCheat, "Flight Hax");
+
+	if (!m_pMinecraft->isTouchscreen())
+		m_items[idxSplit]->setDisabled(true);
+	m_items[idxController]->setDisabled(true);
+}
+
+void OptionList::initMultiplayerMenu()
+{
+	Options* pOptions = m_pMinecraft->getOptions();
+	int currentIndex = -1;
+	int idxLM = -1;
+
+	OPTION(Boolean, m_bServerVisibleDefault, "Local Server Multiplayer"); idxLM = currentIndex;
+
+#ifdef __EMSCRIPTEN
+	m_items[idxLM]->setDisabled(true);
+#endif
+}
+
+void OptionList::initMiscMenu()
+{
+	Options* pOptions = m_pMinecraft->getOptions();
+	int currentIndex = -1;
+	int idxPano = -1;
+
+	OPTION(Boolean, m_bDebugText, "Debug Text");
+	OPTION(Boolean, m_bOldTitleLogo, "2D Title Logo");
+#ifdef ENH_MENU_BACKGROUND
+	OPTION(Boolean, m_bMenuPanorama, "Menu Panorama"); idxPano = currentIndex;
+#endif
 
 #ifdef ENH_MENU_BACKGROUND
 	if (!Screen::isMenuPanoramaAvailable())
 		m_items[idxPano]->setDisabled(true);
 #endif
-
-	if (!m_pMinecraft->isTouchscreen())
-		m_items[idxSplit]->setDisabled(true);
-
-	// Currently just used as a status indicator + prevents need to re-compile to get input mapped for controller
-	//if (!m_pMinecraft->platform()->hasGamepad())
-		m_items[idxController]->setDisabled(true);
 }
