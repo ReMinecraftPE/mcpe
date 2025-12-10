@@ -56,17 +56,17 @@ void OptionsScreen::init()
 	m_backButton.m_xPos = (m_width - m_backButton.m_width) / 2;
 	m_backButton.m_yPos = m_height - m_backButton.m_height - (28 - m_backButton.m_height) / 2;
 
-	m_buttons.push_back(&m_videoButton);
-	m_buttons.push_back(&m_controlsButton);
-	m_buttons.push_back(&m_multiplayerButton);
-	m_buttons.push_back(&m_miscButton);
-	m_buttons.push_back(&m_backButton);
+	Button* allButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton, &m_backButton };
 
-	m_buttonTabList.push_back(&m_videoButton);
-	m_buttonTabList.push_back(&m_controlsButton);
-	m_buttonTabList.push_back(&m_multiplayerButton);
-	m_buttonTabList.push_back(&m_miscButton);
-	m_buttonTabList.push_back(&m_backButton);
+	for (int i = 0; i < 5; ++i)
+	{
+		m_buttonTabList.push_back(allButtons[i]);
+	}
+
+	for (int i = 0; i < 5; ++i)
+	{
+		m_buttons.push_back(allButtons[i]);
+	}
 
 	setCategory(m_currentCategory);
 }
