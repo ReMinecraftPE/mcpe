@@ -490,18 +490,18 @@ void StartMenuScreen::init()
 	m_buttons.push_back(&m_optionsButton);
 
     bool canQuit = false;
-    
+	
 #if defined(DEMO) || (!MC_PLATFORM_IOS && !MC_PLATFORM_ANDROID)
-    canQuit = true;
+	canQuit = true;
+
+	if (canQuit)
+    {
+        m_buttons.push_back(&m_buyButton);
+    }
 #else
 	m_optionsButton.m_xPos = m_startButton.m_xPos;
 	m_optionsButton.m_width = m_startButton.m_width;
 #endif
-    
-    if (canQuit)
-    {
-        m_buttons.push_back(&m_buyButton);
-    }
 
 	for (int i = 0; i < int(m_buttons.size()); i++)
 		m_buttonTabList.push_back(m_buttons[i]);
