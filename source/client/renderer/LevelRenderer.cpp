@@ -105,23 +105,22 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 
 void LevelRenderer::_buildSkyMesh()
 {
-	constexpr int s = 128;
-
 	Tesselator& t = Tesselator::instance;
 
 #if 0
 
 	// 12-vertex MCPE sky
 
-	float angleStep = 6.2832f * 0.1f;
-	float currentSin = 0.0f;
-	float currentCos = 1.0f;
-	float radius = 2000.0f;
+	constexpr float angleStep = 6.2832f * 0.1f;
+	constexpr float currentSin = 0.0f;
+	constexpr float currentCos = 1.0f;
+	constexpr float radius = 2000.0f;
+	constexpr float yy = 128.0f;
 
 	t.begin(mce::PRIMITIVE_MODE_TRIANGLE_LIST, 12);
 
 	t.color(Color::BLACK);
-	t.vertex(0.0f, s, 0.0f);
+	t.vertex(0.0f, yy, 0.0f);
 
 	for (int step = 0; step <= 10; step++)
 	{
@@ -131,7 +130,7 @@ void LevelRenderer::_buildSkyMesh()
 		currentCos = cos(angle);
 
 		t.color(Color::WHITE);
-		t.vertex(currentCos * radius, s, -(radius * currentSin));
+		t.vertex(currentCos * radius, yy, -(radius * currentSin));
 	}
 
 	// this shit is fucked
@@ -143,8 +142,17 @@ void LevelRenderer::_buildSkyMesh()
 
 #elif defined(FEATURE_GFX_SHADERS)
 
-	float angleStep = 6.2832f * 0.1f;
-	float radius = 2000.0f;
+	constexpr float angleStep = 6.2832f * 0.1f;
+	constexpr float yy = 128.0f; //10000.0f; //4000.0f; //62.0f
+
+	const mce::FogStateDescription& desc = Fog::nextState;
+	float fogStart = desc.fogStartZ;
+	// calculates the radius of the sky based on the fogStart
+	// PE/Bedrock do not have this
+	float radius = fogStart * 26.375f; // magic number determined to match Java thru eyeballing
+
+	Color topColor = Color::BLACK;
+	Color bottomColor = Color::WHITE;
 
 	t.begin(mce::PRIMITIVE_MODE_TRIANGLE_LIST, 30);
 
@@ -153,21 +161,24 @@ void LevelRenderer::_buildSkyMesh()
 		float angle = -((float)step * angleStep);
 		float nextAngle = -((float)(step + 1) * angleStep);
 
-		t.color(Color::BLACK);
-		t.vertex(0.0f, s, 0.0f);
+		t.color(topColor);
+		t.vertex(0.0f, yy, 0.0f);
 
-		t.color(Color::WHITE);
-		t.vertex(cos(angle) * radius, s, -(radius * sin(angle)));
+		t.color(bottomColor);
+		t.vertex(cos(angle) * radius, yy, -(radius * sin(angle)));
 
-		t.color(Color::WHITE);
-		t.vertex(cos(nextAngle) * radius, s, -(radius * sin(nextAngle)));
+		t.color(bottomColor);
+		t.vertex(cos(nextAngle) * radius, yy, -(radius * sin(nextAngle)));
 	}
 
 	m_skyMesh = t.end();
 
 #else
-	t.begin(324);
+
+	constexpr int s = 128;
 	constexpr int d = 256 / s + 2;
+
+	t.begin(324);
 	float yy = 16.0f;
 
 	for (int xx = -s * d; xx <= s * d; xx += s)
@@ -442,6 +453,16 @@ void LevelRenderer::_setupFog(const Entity& camera, int i)
 	}
 
 	Fog::updateState();
+
+
+	if (desc.fogStartZ != m_lastFogState.fogStartZ)
+	{
+#ifdef FEATURE_GFX_SHADERS
+		// rebuild sky mesh to account for updated fog distance
+		_buildSkyMesh();
+#endif
+		m_lastFogState = desc;
+	}
 }
 
 const Color& LevelRenderer::_getFogColor() const
@@ -1716,6 +1737,8 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 
 void LevelRenderer::renderClouds(const Entity& camera, float alpha)
 {
+	return;
+
 	if (!areCloudsAvailable())
 		return;
 

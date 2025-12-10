@@ -46,7 +46,7 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_A00 = "";
 	field_A18 = 0;
 	field_A1C = false;
-	field_A20 = 1.0f;
+	m_tbr = 1.0f;
 	field_A3C = true;
 	m_bRenderMessages = true;
     m_bRenderHunger = false;
@@ -131,22 +131,19 @@ void Gui::renderPumpkin(int var1, int var2)
 void Gui::renderVignette(float brightness, int width, int height)
 {
 	brightness = 1.0f - brightness;
-	if (brightness > 1.0f)
-		brightness = 1.0f;
-	if (brightness < 0.0f)
-		brightness = 0.0f;
+	brightness = Mth::clamp(brightness, 0.0f, 1.0f);
 
-	field_A20 += ((brightness - field_A20) * 0.01f);
+	m_tbr += ((brightness - m_tbr) * 0.01f);
 
-	//! @BUG: No misc/vignette.png to be found in the original.
-	//! This function is unused anyways
 	m_pMinecraft->m_pTextures->setSmoothing(true);
 	m_pMinecraft->m_pTextures->loadAndBindTexture("misc/vignette.png");
 	m_pMinecraft->m_pTextures->setSmoothing(false);
 
+	// @TODO: bake this mesh and use currentShaderColor for recoloring
+
 	Tesselator& t = Tesselator::instance;
 	t.begin(4);
-	t.color(field_A20, field_A20, field_A20);
+	t.color(m_tbr, m_tbr, m_tbr);
 	t.vertexUV(0.0f,  height, -90.0f, 0.0f, 1.0f);
 	t.vertexUV(width, height, -90.0f, 1.0f, 1.0f);
 	t.vertexUV(width, 0.0f,   -90.0f, 1.0f, 0.0f);

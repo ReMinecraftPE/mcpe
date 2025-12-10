@@ -156,7 +156,7 @@
     "defines": [ "INVENTORY" ]
   },
   
-  "ui_vignette:ui_textured": {
+  "ui_vignette:ui_texture_and_color": {
     "blendSrc": "Zero",
     "blendDst": "OneMinusSrcColor"
   },

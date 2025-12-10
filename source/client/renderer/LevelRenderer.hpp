@@ -174,6 +174,7 @@ protected:
 	Vec3 m_viewPos;
 	Materials m_materials;
 	double m_initTime;
+	mce::FogStateDescription m_lastFogState;
 public:
 	Vec3 m_posPrev;
 	float m_destroyProgress;
