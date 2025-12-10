@@ -1,0 +1,19 @@
+#version 100
+
+uniform MAT4 WORLDVIEWPROJ;
+uniform vec4 FOG_COLOR;
+uniform vec4 CURRENT_COLOR;
+
+attribute mediump vec4 POSITION;
+attribute vec4 COLOR;
+
+varying vec4 color;
+
+const float fogNear = 0.3;
+
+void main()
+{
+    gl_Position = WORLDVIEWPROJ * POSITION;
+
+    color = mix( CURRENT_COLOR, FOG_COLOR, COLOR.r );
+}

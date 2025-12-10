@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 
+#include "common/Util.hpp"
 #include "renderer/Attribute.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/interface/ShaderProgram.hpp"
@@ -33,5 +34,9 @@ namespace mce
         void bindShader(RenderContext& context, const VertexFormat& format, const void *dataBasePtr, unsigned int shaderStageBits);
         void reflectShader(RenderDevice& renderDevice);
         VertexField getAttributeForName(const std::string& name, unsigned int id) const;
+
+        static void SpliceShaderPath(std::string& shaderName, const std::string& shaderDir, const std::string& shaderFileExtension = Util::EMPTY_STRING);
+        static void SpliceShaderPath(std::string& shaderName);
+        static void BuildHeader(std::ostringstream& stream);
     };
 }

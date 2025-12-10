@@ -29,8 +29,8 @@ namespace mce
                 static GLint _getPrecision(GLenum shaderType, GLenum precisionType);
 
             public:
-                static const std::string& atLeast(int atleast);
-                static std::string buildHeader();
+                static const std::string& AtLeast(int atleast);
+                static void BuildHeader(std::ostringstream& stream);
             };
         }
     }

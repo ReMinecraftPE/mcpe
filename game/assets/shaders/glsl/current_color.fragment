@@ -1,0 +1,8 @@
+#version 100
+
+uniform vec4 CURRENT_COLOR;
+
+void main()
+{
+	gl_FragColor = CURRENT_COLOR;
+}

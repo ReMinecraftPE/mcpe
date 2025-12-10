@@ -1,0 +1,15 @@
+#version 100
+
+uniform MAT4 WORLDVIEWPROJ;
+
+attribute mediump vec4 POSITION;
+attribute vec2 TEXCOORD_1;
+
+varying vec2 uv;
+
+void main()
+{
+    gl_Position = WORLDVIEWPROJ * POSITION;
+
+    uv = TEXCOORD_1;
+}

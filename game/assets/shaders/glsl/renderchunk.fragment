@@ -1,0 +1,53 @@
+#version 100
+
+varying vec2 uv0;
+//varying vec2 uv1;
+varying vec4 color;
+
+#ifdef FOG
+	varying vec4 fogColor;
+#endif
+
+uniform sampler2D TEXTURE_0;
+//uniform sampler2D TEXTURE_1;
+uniform sampler2D TEXTURE_2;
+
+void main()
+{
+	//vec4 diffuse = texture2D( TEXTURE_0, uv0 ) * texture2D( TEXTURE_1, uv1 );
+	vec4 diffuse = texture2D( TEXTURE_0, uv0 );
+	vec4 inColor = color;
+	
+#ifdef SEASONS_FAR
+	diffuse.a = 1.0;
+	inColor.b = 1.0;
+#endif
+
+#ifdef ALPHA_TEST
+	if(diffuse.a < 0.5)
+	 	discard;
+#endif
+	
+#ifndef SEASONS
+
+#if !defined(ALPHA_TEST) && !defined(BLEND)
+	inColor.rgb = mix(inColor.aaa, inColor.rgb, diffuse.a);
+#elif defined(BLEND)
+	diffuse.a *= inColor.a;
+#endif	
+
+	diffuse.rgb *= inColor.rgb;
+#else
+	vec2 uv = inColor.xy;
+	uv.y += 1.0 / 512.0;
+	diffuse.rgb *= mix(vec3(1.0,1.0,1.0), texture2D( TEXTURE_2, uv).rgb*2.0, inColor.b);
+	diffuse.rgb *= inColor.aaa;
+	diffuse.a = 1.0;
+#endif
+
+#ifdef FOG
+	diffuse.rgb = mix( diffuse.rgb, fogColor.rgb, fogColor.a );
+#endif
+
+	gl_FragColor = diffuse;
+}

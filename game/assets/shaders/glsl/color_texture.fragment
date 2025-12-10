@@ -1,0 +1,46 @@
+#version 100
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_1;
+uniform vec4 OVERLAY_COLOR;
+uniform vec4 CHANGE_COLOR;
+
+varying vec4 color;
+varying vec2 uv;
+
+#ifdef GLINT
+	varying vec2 layer1UV;
+	varying vec2 layer2UV;
+
+	vec4 glintBlend(vec4 dest, vec4 source) {
+		return vec4(source.rgb * source.rgb, 0.0) + dest;
+	}
+#endif
+
+void main()
+{
+	vec4 diffuse = texture2D( TEXTURE_0,  uv );
+
+#ifdef ALPHA_TEST
+	if(diffuse.a < 0.5)
+	 	discard;
+#endif
+
+#ifdef GLINT
+	vec4 layer1 = texture2D(TEXTURE_1, layer1UV).rgbr * CHANGE_COLOR;
+	vec4 layer2 = texture2D(TEXTURE_1, layer2UV).rgbr * CHANGE_COLOR;
+	vec4 glint = (layer1 + layer2);
+
+	#ifdef INVENTORY
+		diffuse = glint;
+	#else
+		diffuse = glintBlend(diffuse, glint);
+	#endif
+#endif
+
+#ifdef USE_OVERLAY
+	//use either the diffuse or the OVERLAY_COLOR
+	diffuse.rgb = mix(diffuse, OVERLAY_COLOR, OVERLAY_COLOR.a).rgb;
+#endif
+
+	gl_FragColor = diffuse * color;
+}

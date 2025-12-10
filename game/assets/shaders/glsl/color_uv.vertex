@@ -1,0 +1,44 @@
+#version 100
+
+uniform MAT4 WORLDVIEWPROJ;
+
+uniform vec2 UV_OFFSET;
+uniform vec2 UV_ROTATION;
+uniform vec2 GLINT_UV_SCALE;
+
+attribute mediump vec4 POSITION;
+attribute vec4 COLOR;
+attribute vec2 TEXCOORD_0;
+
+varying vec4 color;
+varying vec2 uv;
+
+#ifdef GLINT
+varying vec2 layer1UV;
+varying vec2 layer2UV;
+
+vec2 calculateLayerUV(float offset, float rotation) {
+	vec2 uv = TEXCOORD_0;
+	uv -= 0.5;
+	float rsin = sin(rotation);
+	float rcos = cos(rotation);
+	uv = mat2(rcos, -rsin, rsin, rcos) * uv;
+	uv.x += offset;
+	uv += 0.5;
+
+	return uv * GLINT_UV_SCALE;
+}
+#endif
+
+void main()
+{
+	gl_Position = WORLDVIEWPROJ * POSITION;
+
+	color = COLOR;
+	uv = TEXCOORD_0;
+
+#ifdef GLINT
+	layer1UV = calculateLayerUV(UV_OFFSET.x, UV_ROTATION.x);
+	layer2UV = calculateLayerUV(UV_OFFSET.y, UV_ROTATION.y);
+#endif
+}

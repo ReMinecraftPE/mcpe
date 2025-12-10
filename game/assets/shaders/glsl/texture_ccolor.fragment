@@ -1,0 +1,18 @@
+#version 100
+
+varying vec2 uv;
+
+uniform vec4 CURRENT_COLOR;
+uniform sampler2D TEXTURE_0;
+
+void main()
+{
+	vec4 diffuse = texture2D( TEXTURE_0, uv );
+
+#ifdef ALPHA_TEST
+	if(diffuse.a < 0.5)
+		discard;
+#endif
+
+	gl_FragColor = CURRENT_COLOR * diffuse;
+}

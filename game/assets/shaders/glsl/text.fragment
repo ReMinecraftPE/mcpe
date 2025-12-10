@@ -1,0 +1,16 @@
+#version 100
+uniform sampler2D TEXTURE_0;
+uniform vec4 DARKEN;
+
+varying vec4 color;
+varying vec2 uv;
+
+void main()
+{
+	vec4 diffuse = texture2D( TEXTURE_0,  uv );
+
+	if(diffuse.a < 0.5)
+	 	discard;
+
+	gl_FragColor = diffuse * color * DARKEN;
+}

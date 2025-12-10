@@ -62,7 +62,7 @@ GLint Precision::_getPrecision(GLenum shaderType, GLenum precisionType)
     return precision;
 }
 
-const std::string& Precision::atLeast(int atleast)
+const std::string& Precision::AtLeast(int atleast)
 {
     static Precision info(GL_VERTEX_SHADER);
 
@@ -77,16 +77,12 @@ const std::string& Precision::atLeast(int atleast)
     return Util::EMPTY_STRING;
 }
 
-std::string Precision::buildHeader()
+void Precision::BuildHeader(std::ostringstream& stream)
 {
-    std::stringstream headerStream;
-
-    headerStream << "#define MAT4 " << Precision::atLeast(23) << " mat4\n";
-    headerStream << "#define POS4 " << Precision::atLeast(23) << " vec4\n";
-    headerStream << "#define POS3 " << Precision::atLeast(23) << " vec3\n";
-    headerStream << "precision "    << Precision::atLeast(9)  << " float;\n";
-
-    return headerStream.str();
+    stream << "#define MAT4 " << AtLeast(23) << " mat4\n";
+    stream << "#define POS4 " << AtLeast(23) << " vec4\n";
+    stream << "#define POS3 " << AtLeast(23) << " vec3\n";
+    stream << "precision "    << AtLeast(9)  << " float;\n";
 }
 
 #endif // FEATURE_GFX_SHADERS

@@ -1,0 +1,13 @@
+#version 100
+uniform vec4 OVERLAY_COLOR;
+
+varying vec4 light;
+
+void main()
+{
+	vec4 color = mix(vec4(1), light, light.a );
+
+	color.rgb = mix(color, OVERLAY_COLOR, OVERLAY_COLOR.a).rgb;
+
+	gl_FragColor = color;
+}

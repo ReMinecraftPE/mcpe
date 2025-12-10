@@ -5,9 +5,11 @@
 
 #ifdef FEATURE_GFX_SHADERS
 
+#include "common/Util.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "renderer/platform/ogl/ShaderPrecision.hpp"
 
 using namespace mce;
 
@@ -26,7 +28,7 @@ ShaderOGL::~ShaderOGL()
     deleteShader();
 }
 
-ShaderPrimitiveTypes ShaderOGL::shaderPrimitiveTypeFromOGLUniformType(GLenum uniformType)
+ShaderPrimitiveTypes shaderPrimitiveTypeFromOGLUniformType(GLenum uniformType)
 {
     switch (uniformType)
     {
@@ -277,5 +279,14 @@ void ShaderOGL::reflectShader()
     reflectShaderAttributes();
 }
 
+void ShaderOGL::SpliceShaderPath(std::string& shaderName)
+{
+    ShaderBase::SpliceShaderPath(shaderName, "/glsl");
+}
+
+void ShaderOGL::BuildHeader(std::ostringstream& stream)
+{
+    Platform::OGL::Precision::BuildHeader(stream);
+}
 
 #endif // FEATURE_GFX_SHADERS

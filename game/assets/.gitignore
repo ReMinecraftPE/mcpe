@@ -104,9 +104,6 @@
 /mob/spider_eyes.png
 /mob/squid.png
 
-# Ignore shaders for now
-/shaders
-
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /gui/background/panorama_0.png
 /gui/background/panorama_1.png

@@ -63,9 +63,7 @@ namespace mce
         void useWith(RenderContext& context, const VertexFormat& vertexFormat, const void *basePtr);
         void addState(RenderState state);
         bool hasState(RenderState state) const { return (m_stateMask & (1 << state)) != 0; }
-
-    protected:
-        static void SpliceShaderPath(std::string& shaderName);
+        
     public:
         static void InitContext();
     };

@@ -1,0 +1,114 @@
+#version 100
+uniform MAT4 WORLDVIEWPROJ;
+uniform MAT4 WORLD;
+uniform vec4 TILE_LIGHT_COLOR;
+uniform vec4 OVERLAY_COLOR;
+uniform vec4 CHANGE_COLOR;
+uniform vec4 FOG_COLOR;
+uniform vec2 FOG_CONTROL;
+uniform float RENDER_DISTANCE;
+uniform vec2 UV_ANIM;
+uniform vec2 UV_OFFSET;
+uniform vec2 UV_ROTATION;
+uniform vec2 GLINT_UV_SCALE;
+
+attribute mediump vec4 POSITION;
+attribute vec2 TEXCOORD_0;
+attribute vec4 NORMAL;
+
+#ifdef COLOR_BASED
+	attribute vec4 COLOR;
+#endif
+
+varying vec2 uv;
+varying vec4 light;
+varying vec4 fogColor;
+
+#ifdef USE_OVERLAY
+varying vec4 overlayColor;
+#endif
+
+#ifdef USE_COLOR_MASK
+varying vec4 changeColor;
+#endif
+
+#ifdef GLINT
+	varying vec2 layer1UV;
+	varying vec2 layer2UV;
+#endif
+
+const float AMBIENT = 0.45;
+
+const float XFAC = -0.1;
+const float ZFAC = 0.1;
+
+float lightIntensity() {
+#ifdef FANCY
+    vec3 N = normalize( WORLD * NORMAL ).xyz;
+
+    //take care of double sided polygons on materials without culling
+#ifdef FLIP_BACKFACES
+    vec3 viewDir = normalize((WORLD * POSITION).xyz);
+    if( dot(N, viewDir) > 0.0 )
+        N *= -1.0;
+#endif
+
+    float yLight = (1.0+N.y) * 0.5;
+    return yLight * (1.0-AMBIENT) + N.x*N.x * XFAC + N.z*N.z * ZFAC + AMBIENT;
+#else
+    return 1.0;
+#endif
+}
+
+#ifdef GLINT
+vec2 calculateLayerUV(float offset, float rotation) {
+	vec2 uv = TEXCOORD_0;
+	uv -= 0.5;
+	float rsin = sin(rotation);
+	float rcos = cos(rotation);
+	uv = mat2(rcos, -rsin, rsin, rcos) * uv;
+	uv.x += offset;
+	uv += 0.5;
+
+	return uv * GLINT_UV_SCALE;
+}
+#endif
+
+void main()
+{
+    POS4 pos = WORLDVIEWPROJ * POSITION;
+    gl_Position = pos;
+
+    float L = lightIntensity();
+
+#ifdef USE_OVERLAY
+	L += OVERLAY_COLOR.a * 0.35;
+    overlayColor = OVERLAY_COLOR;
+#endif
+
+#ifdef USE_COLOR_MASK
+    changeColor = CHANGE_COLOR;
+#endif
+
+    light = vec4(vec3(L) * TILE_LIGHT_COLOR.xyz, 1.0);
+
+#ifdef COLOR_BASED
+	light *= COLOR;
+#else
+    uv = TEXCOORD_0;
+#endif
+
+#ifdef USE_UV_ANIM
+	uv.xy += UV_ANIM.xy;
+#endif
+
+#ifdef GLINT
+	layer1UV = calculateLayerUV(UV_OFFSET.x, UV_ROTATION.x);
+	layer2UV = calculateLayerUV(UV_OFFSET.y, UV_ROTATION.y);
+#endif
+
+
+//fog
+    fogColor.rgb = FOG_COLOR.rgb;
+    fogColor.a = clamp(((pos.z / RENDER_DISTANCE) - FOG_CONTROL.x) / (FOG_CONTROL.y - FOG_CONTROL.x), 0.0, 1.0);
+}

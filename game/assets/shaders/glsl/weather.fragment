@@ -1,0 +1,29 @@
+#version 100
+
+varying vec2 uv0;
+varying vec2 uv1;
+varying vec4 color;
+
+#ifdef FOG
+	varying vec4 fogColor;
+#endif
+
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_1;
+
+void main()
+{
+	vec4 diffuse = texture2D( TEXTURE_0, uv0 ) * texture2D( TEXTURE_1, uv1 );
+
+#ifdef ALPHA_TEST
+	if(diffuse.a < 0.5)
+	 	discard;
+#endif
+	diffuse *= color;
+
+#ifdef FOG
+	diffuse.rgb = mix( diffuse.rgb, fogColor.rgb, fogColor.a );
+#endif
+
+	gl_FragColor.rgba = diffuse;
+}
