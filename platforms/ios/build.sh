@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=2086
 set -e
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
@@ -71,11 +72,12 @@ printf '\nBuilding ld64 and strip...\n\n'
 
 # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
 
-cctools_commit=35dcdf0285e0a07a32799be3dc08980b6f05313c
-wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
+wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
 cd "cctools-port-$cctools_commit/cctools"
-./configure --enable-silent-rules
+[ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
+./configure --enable-silent-rules $llvm_config
 make -C ld64 -j"$ncpus"
 mv ld64/src/ld/ld ../../bin/ld64.ld64
 make -C libmacho -j"$ncpus"
@@ -87,6 +89,11 @@ for target in $targets; do
     ln -s ../../../ios-cc.sh "bin/$target-cc"
     ln -s ../../../ios-cc.sh "bin/$target-c++"
 done
+
+# checks if the linker we build successfully linked with LLVM and supports LTO,
+# and enables LTO in the cmake build if it does.
+printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1
+[ -f "$workdir/testout" ] && lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto' && rm "$workdir/testout"
 
 if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
     printf '\nBuilding ldid...\n\n'
@@ -126,7 +133,8 @@ for target in $targets; do
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
         -DCMAKE_C_COMPILER="$target-cc" \
         -DCMAKE_CXX_COMPILER="$target-c++" \
-        -DCMAKE_FIND_ROOT_PATH="$sdk/usr"
+        -DCMAKE_FIND_ROOT_PATH="$sdk/usr" \
+        $lto
     make -j"$ncpus"
     mv "$bin" "$workdir/$bin-$target"
 
