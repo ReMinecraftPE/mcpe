@@ -8,28 +8,24 @@
 
 #pragma once
 
-#ifdef __APPLE__
-#include <TargetConditionals.h>
-#endif
-
 #include "EndianDefinitions.h"
 
 /* Apple - Mac OS X / macOS */
-#if (TARGET_OS_MAC && (TARGET_OS_OSX || !defined(TARGET_OS_OSX)))
+#ifdef __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__
 #define MC_PLATFORM_MAC 1
 #else
 #define MC_PLATFORM_MAC 0
 #endif
 
 /* Apple - iPhoneOS / iOS */
-#if (TARGET_OS_IPHONE && (TARGET_OS_IOS || !defined(TARGET_OS_IOS)))
+#ifdef __ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__
 #define MC_PLATFORM_IOS 1
 #else
 #define MC_PLATFORM_IOS 0
 #endif
 
 /* Apple - Device Simulator */
-#define MC_PLATFORM_SIMULATOR (TARGET_OS_SIMULATOR || TARGET_IPHONE_SIMULATOR)
+#define MC_PLATFORM_SIMULATOR __APPLE_EMBEDDED_SIMULATOR__
 
 /* Google - Android */
 #if (defined(ANDROID))
