@@ -1,11 +1,12 @@
 #!/bin/sh
+# shellcheck disable=2086
 set -e
 
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot"
 
 # We could build for armv6, but we don't due to unplayable performance.
-targets='armv7-apple-ios3 arm64-apple-ios7'
+targets='armv7-apple-ios3.1 arm64-apple-ios7.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
@@ -27,15 +28,11 @@ tar xf iPhoneOS8.0.sdk.tar.lzma
 mv iPhoneOS8.0.sdk "$sdk"
 rm iPhoneOS8.0.sdk.tar.lzma
 
-# Make nproc work on macOS and BSDs
-nproc() {
-    cmd="$(command -v nproc)"
-    if [ -f "$cmd" ]; then
-        command nproc
-    else
-        sysctl -n hw.ncpu
-    fi
-}
+if command -v nproc >/dev/null; then
+    ncpus="$(nproc)"
+else
+    ncpus="$(sysctl -n hw.ncpu)"
+fi
 
 if [ "$(uname -s)" = "Darwin" ]; then
     ar="${AR:-ar}"
@@ -75,15 +72,16 @@ printf '\nBuilding ld64 and strip...\n\n'
 
 # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
 
-cctools_commit=35dcdf0285e0a07a32799be3dc08980b6f05313c
-wget -O- "https://github.com/tpoechtrager/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
+wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
 cd "cctools-port-$cctools_commit/cctools"
-./configure --enable-silent-rules
-make -C ld64 -j"$(nproc)"
+[ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
+./configure --enable-silent-rules $llvm_config
+make -C ld64 -j"$ncpus"
 mv ld64/src/ld/ld ../../bin/ld64.ld64
-make -C libmacho -j"$(nproc)"
-make -C libstuff -j"$(nproc)"
+make -C libmacho -j"$ncpus"
+make -C libstuff -j"$ncpus"
 make -C misc strip
 cp misc/strip ../../bin/cctools-strip
 cd ../..
@@ -92,17 +90,31 @@ for target in $targets; do
     ln -s ../../../ios-cc.sh "bin/$target-c++"
 done
 
-printf '\nBuilding ldid...\n\n'
+# checks if the linker we build successfully linked with LLVM and supports LTO,
+# and enables LTO in the cmake build if it does.
+printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1
+[ -f "$workdir/testout" ] && lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto' && rm "$workdir/testout"
 
-ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
-wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
+if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
+    printf '\nBuilding ldid...\n\n'
 
-cd "ldid-$ldid_commit"
-make CXX=clang++
-mv ldid ../bin
+    ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
+    wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
+
+    cd "ldid-$ldid_commit"
+    make CXX=clang++
+    mv ldid ../bin
+    cd ..
+fi
 
 # go to the root of the project
-cd ../../../../..
+cd ../../../..
+
+if [ -n "$DEBUG" ]; then
+    build=Debug
+else
+    build=Release
+fi
 
 for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
@@ -112,7 +124,7 @@ for target in $targets; do
     cd build
 
     cmake .. \
-        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM=ios \
         -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
@@ -121,15 +133,20 @@ for target in $targets; do
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
         -DCMAKE_C_COMPILER="$target-cc" \
         -DCMAKE_CXX_COMPILER="$target-c++" \
-        -DCMAKE_FIND_ROOT_PATH="$sdk/usr"
-    make -j"$(nproc)"
+        -DCMAKE_FIND_ROOT_PATH="$sdk/usr" \
+        $lto
+    make -j"$ncpus"
     mv "$bin" "$workdir/$bin-$target"
 
     cd ..
 done
 
 "$lipo" -create "$workdir/$bin"-* -output "build/$bin"
-"$strip" "build/$bin"
-ldid -S"$entitlements" "build/$bin"
+[ -z "$DEBUG" ] && "$strip" "build/$bin"
+if command -v ldid >/dev/null; then
+    ldid -S"$entitlements" "build/$bin"
+else
+    codesign -s - --entitlements "$entitlements" "build/$bin"
+fi
 
 [ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
