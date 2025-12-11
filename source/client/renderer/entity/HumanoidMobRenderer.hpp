@@ -19,7 +19,7 @@ public:
 	virtual void render(const Entity& entity, const Vec3&, float, float) override;
 	virtual void onGraphicsReset() override;
 
-	void renderHand();
+	void renderHand(const Entity& entity, float a);
 
 public:
 	HumanoidModel* m_pHumanoidModel;

@@ -163,6 +163,13 @@ bool gl::supportsImmediateMode()
     return false;
 #endif
 
+    /**
+     * https://stackoverflow.com/a/57723081
+     * When you use glVertexAttribPointer then a named buffer object has to be bound to the ARRAY_BUFFER target and the last parameter is treated as a byte offset into this buffer.
+     * In Legacy OpenGL (compatibility context) there is the option to bind a zero named buffer (0). Then the last parameter is a pointer to the buffer data.
+     * But if you use a core profile context, then a named buffer object has to be bound in any case.
+     **/
+
     static int supportsImmediateMode = -1;
     if (supportsImmediateMode < 0)
     {
@@ -178,7 +185,7 @@ bool gl::supports32BitIndices()
     if (isSupported < 0)
     {
         const std::string& glExtensions = gl::getOpenGLExtensions();
-        if (isOpenGLES3() || glExtensions.find("GL_OES_element_index") != std::string::npos)
+        if (!isOpenGLES() || isOpenGLES3() || glExtensions.find("GL_OES_element_index") != std::string::npos)
             isSupported = 1;
     }
     return isSupported == 1;

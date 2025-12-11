@@ -74,3 +74,21 @@ VertexField ShaderBase::getAttributeForName(const std::string& name, unsigned in
         return it->second;
     }
 }
+
+void ShaderBase::SpliceShaderPath(std::string& shaderName, const std::string& shaderDir, const std::string& shaderFileExtension)
+{
+    size_t shaderPathPos = shaderName.find_first_not_of("shaders");
+    if (shaderPathPos != std::string::npos && shaderName.find(shaderDir) == std::string::npos)
+    {
+        shaderName.insert(shaderPathPos, shaderDir);
+        shaderName.append(shaderFileExtension);
+    }
+}
+
+void ShaderBase::SpliceShaderPath(std::string& shaderName)
+{
+}
+
+void ShaderBase::BuildHeader(std::ostringstream& stream)
+{
+}

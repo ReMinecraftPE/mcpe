@@ -1,0 +1,85 @@
+// __multiversion__
+uniform sampler2D TEXTURE_0;
+uniform sampler2D TEXTURE_1;
+uniform vec4 TILE_LIGHT_COLOR;
+
+varying vec4 light;
+varying vec4 fogColor;
+
+#ifndef COLOR_BASED
+	varying vec2 uv;
+#endif
+#ifdef USE_OVERLAY
+	varying vec4 overlayColor;
+#endif
+
+#ifdef USE_COLOR_MASK
+	varying vec4 changeColor;
+#endif
+
+#ifdef GLINT
+	varying vec2 layer1UV;
+	varying vec2 layer2UV;
+#endif
+
+vec4 glintBlend(vec4 dest, vec4 source) {
+	// glBlendFuncSeparate(GL_SRC_COLOR, GL_ONE, GL_ONE, GL_ZERO)
+	return vec4(source.rgb * source.rgb, source.a) + vec4(dest.rgb, 0.0);
+}
+
+#ifdef USE_EMISSIVE
+#define NEEDS_DISCARD(C)	(C.a + C.r + C.g + C.b == 0.0)
+#else
+#define NEEDS_DISCARD(C)	(C.a < 0.5)
+#endif
+
+void main()
+{
+	vec4 color = vec4(1.0);
+
+#ifndef COLOR_BASED
+	color = texture2D( TEXTURE_0, uv );
+
+	#ifdef ALPHA_TEST
+		if(NEEDS_DISCARD(color))
+			discard;
+	#endif
+#endif
+
+#ifdef USE_COLOR_MASK
+	#ifdef GLINT
+		// Applies color mask to glint texture instead and blends with original color
+		vec4 layer1 = texture2D(TEXTURE_1, layer1UV).rgbr * changeColor;
+		vec4 layer2 = texture2D(TEXTURE_1, layer2UV).rgbr * changeColor;
+		vec4 glint = (layer1 + layer2) * TILE_LIGHT_COLOR;
+	#else
+		// Original color mask behavior
+		color.rgb = mix(color.rgb, color.rgb*changeColor.rgb, color.a);
+		color.a = 1.0;
+	#endif
+#endif
+
+#ifdef USE_OVERLAY
+	//use either the diffuse or the OVERLAY_COLOR
+	color.rgb = mix(color, overlayColor, overlayColor.a).rgb;
+#endif
+
+#ifdef USE_EMISSIVE
+	//make glowy stuff
+	color *= mix(vec4(1.0), light, color.a );
+#else
+	color *= light;
+#endif
+
+	//apply fog
+	color.rgb = mix( color.rgb, fogColor.rgb, fogColor.a );
+
+#ifdef USE_COLOR_MASK
+	#ifdef GLINT
+		color = glintBlend(color, glint);
+	#endif
+#endif
+
+	//WARNING do not refactor this 
+	gl_FragColor = color;
+}

@@ -34,7 +34,11 @@ GLint Precision::_getPrecision(GLenum shaderType, GLenum precisionType)
     GLint precision = -1;
 
 #if GL_VERSION_4_1
-    xglGetShaderPrecisionFormat(shaderType, precisionType, range, &precision);
+    const gl::Version& glVersion = gl::Version::singleton();
+    if (glVersion.major >= 4 && glVersion.minor >= 1)
+    {
+        xglGetShaderPrecisionFormat(shaderType, precisionType, range, &precision);
+    }
 #endif
 
     // We only need precision
@@ -62,31 +66,31 @@ GLint Precision::_getPrecision(GLenum shaderType, GLenum precisionType)
     return precision;
 }
 
-const std::string& Precision::atLeast(int atleast)
+const std::string& Precision::AtLeast(int atleast)
 {
     static Precision info(GL_VERTEX_SHADER);
 
-    for (int i = 0; i < 3; i++)
+    if (gl::isOpenGLES())
     {
-        if (info.m_precision[i] >= atleast)
+        for (int i = 0; i < 3; i++)
         {
-            return name[i];
+            if (info.m_precision[i] >= atleast)
+            {
+                return name[i];
+            }
         }
     }
 
     return Util::EMPTY_STRING;
 }
 
-std::string Precision::buildHeader()
+void Precision::BuildHeader(std::ostringstream& stream)
 {
-    std::stringstream headerStream;
-
-    headerStream << "#define MAT4 " << Precision::atLeast(23) << " mat4\n";
-    headerStream << "#define POS4 " << Precision::atLeast(23) << " vec4\n";
-    headerStream << "#define POS3 " << Precision::atLeast(23) << " vec3\n";
-    headerStream << "precision "    << Precision::atLeast(9)  << " float;\n";
-
-    return headerStream.str();
+    stream << "#define MAT4 " << AtLeast(23) << " mat4\n";
+    stream << "#define POS4 " << AtLeast(23) << " vec4\n";
+    stream << "#define POS3 " << AtLeast(23) << " vec3\n";
+    if (gl::isOpenGLES())
+        stream << "precision "    << AtLeast(9)  << " float;\n";
 }
 
 #endif // FEATURE_GFX_SHADERS

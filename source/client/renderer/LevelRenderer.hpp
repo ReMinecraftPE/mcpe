@@ -119,6 +119,9 @@ protected:
 	void _renderTileShadow(Tile* tt, const Vec3& pos, TilePos& tilePos, float pow, float r, const Vec3& oPos);
 	void _recreateTessellators();
 	void _setupFog(const Entity& camera, int i);
+	const Color& _getFogColor() const;
+	void _updateViewArea(const Entity& camera);
+	void _startFrame(FrustumCuller& culler, float renderDistance, float f);
 	const mce::MaterialPtr& _chooseOverlayMaterial(Tile::RenderLayer layer) const;
 
 public:
@@ -167,7 +170,11 @@ public:
 	void renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a);
 
 protected:
+	Vec3 m_viewPos;
 	Materials m_materials;
+	double m_initTime;
+	mce::FogStateDescription m_lastFogState;
+	Vec2 m_fogControl;
 public:
 	Vec3 m_posPrev;
 	float m_destroyProgress;

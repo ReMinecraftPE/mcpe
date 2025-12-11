@@ -791,30 +791,6 @@ float Mob::getAttackAnim(float f) const
 	return m_oAttackAnim + (x * f);
 }
 
-Vec3 Mob::getViewVector(float f) const
-{
-	constexpr float C_180_OVER_PI = 0.017453f;
-	constexpr float C_PI = 3.1416f; // @HUH: Why not just use M_PI here?
-	
-	if (f == 1.0)
-	{
-		Vec3 x(Mth::cos(-(m_rot.x * C_180_OVER_PI) - C_PI),
-			   Mth::sin(-(m_rot.x * C_180_OVER_PI) - C_PI),
-			   -Mth::cos(-(m_rot.y * C_180_OVER_PI)));
-
-		return Vec3(x.x * x.z, Mth::sin(-(m_rot.y * C_180_OVER_PI)), x.y * x.z);
-	}
-
-	float x1 = m_oRot.y + (m_rot.y - m_oRot.y) * f;
-	float x2 = -((m_oRot.x + (m_rot.x - m_oRot.x) * f) * C_180_OVER_PI) - C_PI;
-	float x3 = Mth::cos(x2);
-	float x4 = Mth::sin(x2);
-	float x5 = -(x1 * C_180_OVER_PI);
-	float x6 = -Mth::cos(x5);
-
-	return Vec3(x4 * x6, Mth::sin(x5), x3 * x6);
-}
-
 void Mob::dropDeathLoot()
 {
 	int itemId = getDeathLoot();

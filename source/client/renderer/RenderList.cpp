@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "RenderList.hpp"
+#include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/MatrixStack.hpp"
 
 constexpr int C_MAX_RENDERS = 3072;
@@ -125,6 +126,16 @@ void RenderList::renderChunks(TerrainLayer layer, bool fog)
 
 			MatrixStack::Ref matrix = MatrixStack::World.push();
 			matrix->translate(chk->m_pos);
+
+#ifdef FEATURE_GFX_SHADERS
+			mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+			mce::RenderChunkConstants& chunkConstants = globalBuffers.m_renderChunkConstants;
+
+			Vec3 chunkOrigin = chk->m_pos;
+			chunkConstants.CHUNK_ORIGIN->setData(&chunkOrigin);
+
+			chunkConstants.sync();
+#endif
 
 			chk->render(layer, time, fog);
 		}

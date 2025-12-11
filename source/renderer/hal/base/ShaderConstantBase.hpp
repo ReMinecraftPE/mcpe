@@ -26,7 +26,7 @@ namespace mce
 
         void release();
         const std::string& getName() const { return m_name; }
-        const unsigned int getSize() const { return ShaderPrimitiveTypeHelper::sizeInBytesFromShaderPrimitiveType(m_shaderPrimitiveType); }
+        unsigned int getSize() const { return ShaderPrimitiveTypeHelper::sizeInBytesFromShaderPrimitiveType(m_shaderPrimitiveType); }
         ShaderPrimitiveTypes getType() const { return m_shaderPrimitiveType; }
         bool isDirty() const { return m_dirty; }
 

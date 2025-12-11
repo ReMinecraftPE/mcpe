@@ -18,7 +18,7 @@ public:
     virtual ~MobRenderer();
 	void setArmor(Model*);
 
-	virtual void render(const Entity& entity, const Vec3& pos, float, float) override;
+	virtual void render(const Entity& entity, const Vec3& pos, float rot, float a) override;
 	virtual void onGraphicsReset() override;
 	virtual int prepareArmor(const Mob& mob, int, float);
 	virtual void setupPosition(const Entity& entity, const Vec3& pos, Matrix& matrix);

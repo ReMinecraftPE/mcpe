@@ -18,14 +18,6 @@ namespace mce
 {
     class ShaderOGL : public ShaderBase
     {
-    public:
-        struct VertexFieldFormat
-        {
-            GLenum componentsType;
-            GLint components;
-            GLboolean normalized;
-        };
-
     private:
         GLuint m_program;
         std::vector<ShaderUniformOGL> m_uniformList;
@@ -36,8 +28,6 @@ namespace mce
         ~ShaderOGL();
 
     public:
-        static ShaderPrimitiveTypes shaderPrimitiveTypeFromOGLUniformType(GLenum uniformType);
-
         void deleteShader();
         void finalizeShaderUniforms();
         static void freeCompilerResources();
@@ -49,6 +39,9 @@ namespace mce
         void reflectShaderUniforms();
         void reflectShaderAttributes();
         void reflectShader();
+
+        static void SpliceShaderPath(std::string& shaderName);
+        static void BuildHeader(std::ostringstream& stream);
     };
 }
 

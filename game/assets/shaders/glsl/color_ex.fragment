@@ -1,0 +1,10 @@
+// __multiversion__
+
+uniform vec4 CURRENT_COLOR;
+
+varying vec4 color;
+
+void main()
+{
+	gl_FragColor = color * CURRENT_COLOR;
+}

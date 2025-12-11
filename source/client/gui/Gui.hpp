@@ -99,7 +99,7 @@ public:
 	std::string field_A00;
 	int field_A18;
 	bool field_A1C;
-	float field_A20;
+	float m_tbr;
 	RenderChunk m_renderChunk;
 	bool field_A3C;
 	bool m_bRenderMessages;

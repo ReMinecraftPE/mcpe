@@ -98,7 +98,7 @@ Shader& ShaderGroup::loadShader(const std::string& header, const std::string& ve
             return *shader;
     }
 
-    ShaderProgram& vertexProgram = getShaderProgram(SHADER_TYPE_VERTEX, vertexCodeOrPath, header);
+    ShaderProgram& vertexProgram   = getShaderProgram(SHADER_TYPE_VERTEX,   vertexCodeOrPath,   header);
     ShaderProgram& fragmentProgram = getShaderProgram(SHADER_TYPE_FRAGMENT, fragmentCodeOrPath, header);
     ShaderProgram& geometryProgram = getShaderProgram(SHADER_TYPE_GEOMETRY, geometryCodeOrPath, header);
 

@@ -3,16 +3,21 @@
     "states": [
       "PolygonOffset",
       "Blending",
-	  "Textured",
 	  "EnableAlphaTest"
     ],
 
     "polygonOffsetLevel": -0.6,
 
     "depthFunc": "LessEqual",
-
+	
     "vertexShader": "shaders/uv.vertex",
     "fragmentShader": "shaders/texture_cutout.fragment"
+  },
+  
+  "block_overlay_textured:block_overlay": {
+    "states": [
+	  "Textured"
+    ]
   },
 
   "selection_overlay:block_overlay": {
@@ -43,7 +48,7 @@
     "fragmentShader": "shaders/current_color.fragment"
   },
 
-  "cracks_overlay:block_overlay": {
+  "cracks_overlay:block_overlay_textured": {
 
     "blendSrc": "DestColor",
     "blendDst": "SourceColor",

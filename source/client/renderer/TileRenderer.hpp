@@ -28,6 +28,11 @@ private:
 public:
 	TileRenderer(Tesselator& tessellator = Tesselator::instance, LevelSource* pLevelSource = nullptr);
 
+private:
+	void _tex1(const Vec2& uv);
+	Vec2 getLightColor(const Tile* tile, const TilePos& pos);
+
+public:
 	float getWaterHeight(const TilePos& pos, const Material*);
 	void renderTile(const FullTile& tile, const mce::MaterialPtr& material = mce::MaterialPtr::NONE, float bright = 1.0f, bool preshade = false);
 
@@ -76,6 +81,7 @@ private:
 	int m_fixedTexture;
 	bool m_bXFlipTexture;
 	bool m_bNoCulling;
+	bool m_bRenderingGui;
 	bool m_bAmbientOcclusion;
 	float field_C;
 	float field_10;
@@ -113,6 +119,7 @@ private:
 	float m_vtxGreen[4];
 	//blue
 	float m_vtxBlue[4];
+	Vec2 m_vtxLightTex[4];
 
 	bool field_AC;
 	bool field_AD;

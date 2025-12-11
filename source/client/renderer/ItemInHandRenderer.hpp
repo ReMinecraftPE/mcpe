@@ -8,12 +8,14 @@
 
 #pragma once
 
+#include "client/app/AppPlatformListener.hpp"
+#include "client/renderer/renderer/EntityShaderManager.hpp"
 #include "world/item/ItemInstance.hpp"
 #include "TileRenderer.hpp"
 
 class Minecraft;
 
-class ItemInHandRenderer
+class ItemInHandRenderer : public EntityShaderManager, public AppPlatformListener
 {
 protected:
 	class Materials

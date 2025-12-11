@@ -65,11 +65,14 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 
 void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1, float f2)
 {
+	bool bSetRHolding = false;
+
 	if (entity.isPlayer())
 	{
 		const Player& player = (const Player&)entity;
 		ItemInstance* item = player.getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
+		bSetRHolding = true;
 	}
 
 	if (entity.isSneaking())
@@ -85,6 +88,12 @@ void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1
 	{
 		MobRenderer::render(entity, pos, f1, f2);
 	}
+
+	if (bSetRHolding)
+	{
+		// Fix the weird first-person hand orientation bug
+		m_pHumanoidModel->m_bHoldingRightHand = false;
+	}
 }
 
 void HumanoidMobRenderer::onGraphicsReset()
@@ -92,10 +101,12 @@ void HumanoidMobRenderer::onGraphicsReset()
 	m_pHumanoidModel->onGraphicsReset();
 }
 
-void HumanoidMobRenderer::renderHand()
+void HumanoidMobRenderer::renderHand(const Entity& entity, float a)
 {
 	m_pHumanoidModel->field_4 = 0;
 	m_pHumanoidModel->setBrightness(m_pDispatcher->m_pMinecraft->m_pCameraEntity->getBrightness(1.0f));
 	m_pHumanoidModel->setupAnim(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
+
+	_setupShaderParameters(entity, a);
 	m_pHumanoidModel->m_arm1.render(0.0625f);
 }

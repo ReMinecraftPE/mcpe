@@ -59,10 +59,12 @@ const mce::MaterialPtr& RenderChunk::_chooseMaterial(TerrainLayer layer, double 
 	}
     
 	mce::MaterialPtr* map;
-	if (fog) map = fogMaterialMap;
-	else     map = materialMap;
+	if (fog) 
+		map = fogMaterialMap;
+	else
+		map = materialMap;
     
-	return map[layer];
+	return map[layer] ? map[layer] : materialMap[layer];
 }
 
 void RenderChunk::_move(RenderChunk& other)

@@ -127,14 +127,15 @@ void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*&
     // to be rendered, so perhaps some day...
     // Additionally, we could try holding the vertex buffer data in memory and pass
     // it in the draw call, as supposedly not even using buffers is faster.
-    bool useAppleWorkaround = false;
-#if MC_PLATFORM_IOS
-    useAppleWorkaround = true;
+#ifdef GL_VERSION_ES_CM_1_0
+#define GLES1_WORKAROUND true
+#else
+#define GLES1_WORKAROUND false
 #endif
     
     const unsigned int size = count * stride;
 
-    if (!useAppleWorkaround && size <= m_internalSize)
+    if (!GLES1_WORKAROUND && size <= m_internalSize)
         xglBufferSubData(m_target, m_bufferOffset, size, data);
     else
         resizeBuffer(context, data, size);

@@ -2,7 +2,7 @@
 
 using namespace mce;
 
-void ShaderConstantOGL::syncUniform(int value)
+void ShaderConstantOGL::syncUniform(int location)
 {
     m_dirty = false;
 }

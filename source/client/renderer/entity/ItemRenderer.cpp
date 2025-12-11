@@ -149,6 +149,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
 			t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16))     / 256.0f);
 
+			_setupShaderParameters(entity, Color::NIL, a);
 			t.draw(m_materials.entity_alphatest);
 		}
 	}

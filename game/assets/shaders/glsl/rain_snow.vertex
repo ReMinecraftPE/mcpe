@@ -1,0 +1,65 @@
+// __multiversion__
+uniform MAT4	WORLDVIEWPROJ;
+uniform vec4	POSITION_OFFSET;
+uniform vec4	VELOCITY;
+uniform vec4	ALPHA;
+uniform vec4	VIEW_POSITION;
+uniform vec4	SIZE_SCALE;
+uniform vec4	LIGHTING;
+uniform vec4	FORWARD;
+uniform vec4	UV_INFO;
+uniform vec4	PARTICLE_BOX;
+
+attribute POS4 POSITION;
+attribute vec2 TEXCOORD_0;
+attribute vec4 COLOR;
+
+varying vec2 uv;
+varying vec4 color;
+varying vec4 worldPosition;
+
+void main()
+{
+	float spriteSelector = COLOR.x*255.0;
+	uv = UV_INFO.xy + (TEXCOORD_0 * UV_INFO.zw);
+	uv.x += spriteSelector * UV_INFO.z;
+
+	vec3 pos = POSITION.xyz;
+		
+	// subtract the offset then fmod into (0.0f, PARTICLE_BOX)
+	pos.xyz += POSITION_OFFSET.xyz;
+	pos.xyz = mod(pos.xyz, PARTICLE_BOX.xyz);
+	
+	// centre box on origin
+	pos.xyz -= PARTICLE_BOX.xyz * 0.5;
+	
+	// push along view vector so box is positioned more infront of camera
+	pos.xyz += FORWARD.xyz;
+	
+	// get world position
+	vec4 worldPositionBottom = vec4(pos.xyz, 1.0);
+	vec4 worldPositionTop = vec4(worldPositionBottom.xyz + (VELOCITY.xyz * SIZE_SCALE.y), 1.0);
+
+	// get projected positions of top and bottom of particle, and top of particle in previous frame
+	vec4 bottom = WORLDVIEWPROJ * worldPositionBottom;
+	vec4 top = WORLDVIEWPROJ * worldPositionTop;
+	
+	// get 2d vector in screenspace between top and bottom of particle
+	vec2 dir = (top.xy/top.w) - (bottom.xy/bottom.w);
+	
+	// get 2d vector perpendicular to velocity
+	vec2 dirPerp = normalize(vec2(-dir.y, dir.x));
+
+	// choose either the top or bottom projected position using uv.y
+	gl_Position = mix(top, bottom, TEXCOORD_0.y);
+	 	
+	// offset the position of each side of the particle using uv.x 
+	gl_Position.xy += (0.5 - TEXCOORD_0.x) * dirPerp * SIZE_SCALE.x;
+	
+	color = ALPHA.rgba;
+
+	worldPositionBottom.xz *= 1.0 / 64.0;	// Scale by 1/TextureDimensions to get values between
+	worldPositionBottom.xz += 0.5;			// Offset so that center of view is in the center of occlusion texture
+	worldPositionBottom.y += VIEW_POSITION.y - 0.5;
+	worldPosition = worldPositionBottom;
+}
