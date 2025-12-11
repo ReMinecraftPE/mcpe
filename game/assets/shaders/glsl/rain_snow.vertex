@@ -1,4 +1,4 @@
-#version 100
+// __multiversion__
 uniform MAT4	WORLDVIEWPROJ;
 uniform vec4	POSITION_OFFSET;
 uniform vec4	VELOCITY;

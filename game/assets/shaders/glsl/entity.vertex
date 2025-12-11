@@ -1,4 +1,4 @@
-#version 100
+// __multiversion__
 uniform MAT4 WORLDVIEWPROJ;
 uniform MAT4 WORLD;
 uniform vec4 TILE_LIGHT_COLOR;

@@ -1,4 +1,4 @@
-#version 100
+// __multiversion__
 uniform sampler2D TEXTURE_0;
 uniform vec4 DARKEN;
 

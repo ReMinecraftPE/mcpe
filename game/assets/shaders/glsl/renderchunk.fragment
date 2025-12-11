@@ -1,4 +1,4 @@
-#version 100
+// __multiversion__
 
 varying vec2 uv0;
 //varying vec2 uv1;

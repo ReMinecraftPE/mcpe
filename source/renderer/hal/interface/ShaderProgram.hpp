@@ -11,6 +11,6 @@ namespace mce
     class ShaderProgram : public MCE_GFX_CLASS_SHADER(ShaderProgram)
     {
     public:
-        ShaderProgram(ShaderType shaderType, const std::string& shaderSource, const std::string& header, const std::string& shaderPath);
+        ShaderProgram(ShaderType shaderType, std::string& shaderSource, const std::string& header, const std::string& shaderPath);
     };
 }

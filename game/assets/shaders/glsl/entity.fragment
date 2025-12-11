@@ -1,4 +1,4 @@
-#version 100
+// __multiversion__
 uniform sampler2D TEXTURE_0;
 uniform sampler2D TEXTURE_1;
 uniform vec4 TILE_LIGHT_COLOR;

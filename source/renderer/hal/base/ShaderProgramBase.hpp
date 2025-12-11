@@ -9,13 +9,16 @@ namespace mce
     {
     protected:
         bool m_bValid;
+
     public:
         const std::string m_header;
         const std::string m_shaderPath;
         const ShaderType m_shaderType;
 
+    public:
         ShaderProgramBase(const std::string& header, const std::string& shaderPath, ShaderType shaderType);
 
+    public:
         bool isValid() const { return m_bValid; }
     };
 }
