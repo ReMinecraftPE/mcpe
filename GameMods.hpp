@@ -21,7 +21,7 @@
 
 // Features (major changes)
 //#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass, and dead bushes around the world.
-/#define FEATURE_GFX_SHADERS 	           // Loads and uses Shaders from the assets folder for rendering.
+//#define FEATURE_GFX_SHADERS 	           // Loads and uses Shaders from the assets folder for rendering.
 
 // Enhancements (minor changes)
 //#define ENH_ENTITY_SHADING      	       // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
