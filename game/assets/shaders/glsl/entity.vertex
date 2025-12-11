@@ -12,7 +12,7 @@ uniform vec2 UV_OFFSET;
 uniform vec2 UV_ROTATION;
 uniform vec2 GLINT_UV_SCALE;
 
-attribute mediump vec4 POSITION;
+attribute POS4 POSITION;
 attribute vec2 TEXCOORD_0;
 attribute vec4 NORMAL;
 

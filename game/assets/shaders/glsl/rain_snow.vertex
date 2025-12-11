@@ -10,7 +10,7 @@ uniform vec4	FORWARD;
 uniform vec4	UV_INFO;
 uniform vec4	PARTICLE_BOX;
 
-attribute mediump vec4 POSITION;
+attribute POS4 POSITION;
 attribute vec2 TEXCOORD_0;
 attribute vec4 COLOR;
 

@@ -78,6 +78,8 @@ void ShaderOGL::resetLastProgram()
 
 void ShaderOGL::createAndAttachPrograms()
 {
+    ErrorHandler::checkForErrors();
+    
     m_program = xglCreateProgram();
 
     xglAttachShader(m_program, m_vertexShader.m_shaderName);

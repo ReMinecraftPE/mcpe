@@ -5,7 +5,7 @@ uniform float RENDER_DISTANCE;
 uniform vec4 FOG_COLOR;
 uniform vec4 CURRENT_COLOR;
 
-attribute mediump vec4 POSITION;
+attribute POS4 POSITION;
 attribute vec4 COLOR;
 attribute vec2 TEXCOORD_0;
 

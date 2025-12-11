@@ -2,7 +2,7 @@
 
 uniform MAT4 WORLDVIEWPROJ;
 
-attribute mediump vec4 POSITION;
+attribute POS4 POSITION;
 
 void main()
 {

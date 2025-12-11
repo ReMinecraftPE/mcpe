@@ -3,7 +3,7 @@
 uniform MAT4 WORLDVIEWPROJ;
 uniform vec2 GLINT_UV_SCALE;
 
-attribute mediump vec4 POSITION;
+attribute POS4 POSITION;
 attribute vec2 TEXCOORD_0;
 
 varying vec2 uv;

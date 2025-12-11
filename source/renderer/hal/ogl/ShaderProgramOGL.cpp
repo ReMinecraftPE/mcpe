@@ -3,6 +3,7 @@
 #ifdef FEATURE_GFX_SHADERS
 
 #include "RenderContextOGL.hpp"
+#include "renderer/hal/helpers/ErrorHandler.hpp"
 
 using namespace mce;
 
@@ -116,6 +117,8 @@ std::string _getVersionMacro()
 
 bool ShaderProgramOGL::compileShaderProgram(std::string& shaderSource)
 {
+    ErrorHandler::checkForErrors();
+    
     m_shaderName = xglCreateShader(shaderTypeMap[m_shaderType]);
 
     if (strncmp(shaderSource.c_str(), MULTIVERSION_STRING, sizeof(MULTIVERSION_STRING) - 1) == 0)
@@ -142,6 +145,8 @@ bool ShaderProgramOGL::compileShaderProgram(std::string& shaderSource)
         }
         return false;
     }
+
+    ErrorHandler::checkForErrors();
 
     return true;
 }
