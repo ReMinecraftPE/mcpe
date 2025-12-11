@@ -428,6 +428,8 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/enums/VertexField_JsonParser.cpp
     renderer/hal/helpers/ErrorHandler.cpp
     renderer/hal/helpers/TextureHelper.cpp
+	renderer/hal/null/FixedPipelineStateNull.cpp
+	renderer/hal/null/FogStateNull.cpp
     renderer/hal/interface/BlendState.cpp
     renderer/hal/interface/Buffer.cpp
     renderer/hal/interface/ConstantBuffer.cpp
@@ -487,8 +489,6 @@ elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
 		renderer/hal/null/BufferNull.cpp
 		renderer/hal/null/ConstantBufferContainerNull.cpp
 		renderer/hal/null/DepthStencilStateNull.cpp
-		renderer/hal/null/FixedPipelineStateNull.cpp
-		renderer/hal/null/FogStateNull.cpp
 		renderer/hal/null/ImmediateBufferNull.cpp
 		renderer/hal/null/RasterizerStateNull.cpp
 		renderer/hal/null/RenderContextNull.cpp
