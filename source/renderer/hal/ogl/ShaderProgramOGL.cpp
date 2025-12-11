@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "ShaderProgramOGL.hpp"
 
 #ifdef FEATURE_GFX_SHADERS
@@ -17,6 +19,8 @@ const GLenum shaderTypeMap[] = {
 ShaderProgramOGL::ShaderProgramOGL(ShaderType shaderType, std::string& shaderSource, const std::string& header, const std::string& shaderPath)
     : ShaderProgramBase(header, shaderPath, shaderType)
 {
+    m_shaderName = GL_NONE;
+
     if (shaderSource.empty() || shaderType > SHADER_TYPE_FRAGMENT)
     {
         m_bValid = false;
