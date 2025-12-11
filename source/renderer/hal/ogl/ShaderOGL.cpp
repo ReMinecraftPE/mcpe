@@ -102,12 +102,12 @@ void ShaderOGL::linkShader()
 
     if (m_geometryShader.isValid())
     {
-        LOG_E("Failed to link %s to %s and %s", m_vertexShader.m_shaderPath, m_fragmentShader.m_shaderPath, m_geometryShader.m_shaderPath);
+        LOG_E("Failed to link %s to %s and %s", m_vertexShader.m_shaderPath.c_str(), m_fragmentShader.m_shaderPath.c_str(), m_geometryShader.m_shaderPath.c_str());
         throw std::bad_cast();
     }
     else
     {
-        LOG_E("Failed to link %s to %s", m_vertexShader.m_shaderPath, m_fragmentShader.m_shaderPath);
+        LOG_E("Failed to link %s to %s", m_vertexShader.m_shaderPath.c_str(), m_fragmentShader.m_shaderPath.c_str());
         throw std::bad_cast();
     }
 

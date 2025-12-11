@@ -31,6 +31,8 @@ RenderContextOGL::RenderContextOGL()
     m_emptyDepthStencilState->createDepthState(*(RenderContext*)this, desc);
 
     clearContextState();
+    
+    LOG_I("OpenGL Version: %s", gl::getOpenGLVersion().c_str());
 }
 
 GLenum _getGLMatrixModeFromMatrixType(MatrixType matrixType)

@@ -36,7 +36,7 @@ ShaderProgramOGL::ShaderProgramOGL(ShaderType shaderType, const std::string& sha
         {
             std::string infoLog(maxLength, 0);
             xglGetShaderInfoLog(m_shaderName, maxLength, &maxLength, (GLchar*)infoLog.data());
-            LOG_E("Compiler error:\n %s", infoLog);
+            LOG_E("Compiler error:\n %s", infoLog.c_str());
         }
         m_bValid = false;
         return;
