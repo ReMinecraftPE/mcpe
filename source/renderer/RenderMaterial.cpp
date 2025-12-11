@@ -27,7 +27,6 @@ RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMateria
     _parseRenderStates(root);
     _parseRuntimeStates(root);
 
-
     _parseShaderPaths(root);
     if (!m_vertexShader.empty() && !m_fragmentShader.empty())
     {

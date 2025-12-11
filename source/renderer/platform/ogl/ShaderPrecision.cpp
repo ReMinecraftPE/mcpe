@@ -34,7 +34,11 @@ GLint Precision::_getPrecision(GLenum shaderType, GLenum precisionType)
     GLint precision = -1;
 
 #if GL_VERSION_4_1
-    xglGetShaderPrecisionFormat(shaderType, precisionType, range, &precision);
+    const gl::Version& glVersion = gl::Version::singleton();
+    if (glVersion.major >= 4 && glVersion.minor >= 1)
+    {
+        xglGetShaderPrecisionFormat(shaderType, precisionType, range, &precision);
+    }
 #endif
 
     // We only need precision
