@@ -24,8 +24,13 @@
 
 #ifdef USE_GLES
 	#if MC_PLATFORM_IOS
-		 #import <OpenGLES/ES1/gl.h>
-		 #import <OpenGLES/ES1/glext.h>
+        #ifdef FEATURE_GFX_SHADERS
+                #import <OpenGLES/ES2/gl.h>
+                #import <OpenGLES/ES2/glext.h>
+        #else
+                #import <OpenGLES/ES1/gl.h>
+                #import <OpenGLES/ES1/glext.h>
+        #endif
 
 		#define glFogi glFogx
 	#else
@@ -49,7 +54,7 @@
 
 	// https://discourse.libsdl.org/t/opengl-es2-support-on-windows/20177/10
 	// float on GLES for performance reasons (mobile hardware) rather than double precision on GL
-	#if GL_ES_VERSION_2_0
+	#if GL_ES_VERSION_2_0 && !MC_PLATFORM_IOS
 		#define glClearColor glClearColorf
 	#endif
 	#define glClearDepth glClearDepthf
@@ -83,37 +88,6 @@
 	// use our macro for glOrtho
 #endif
 
-#if defined(USE_GLES) || defined(USE_SDL)
-	// https://cgit.freedesktop.org/mesa/glu/tree/src/libutil/project.c
-	inline void __gluMakeIdentityf(GLfloat m[16]) {
-		m[0 + 4 * 0] = 1; m[0 + 4 * 1] = 0; m[0 + 4 * 2] = 0; m[0 + 4 * 3] = 0;
-		m[1 + 4 * 0] = 0; m[1 + 4 * 1] = 1; m[1 + 4 * 2] = 0; m[1 + 4 * 3] = 0;
-		m[2 + 4 * 0] = 0; m[2 + 4 * 1] = 0; m[2 + 4 * 2] = 1; m[2 + 4 * 3] = 0;
-		m[3 + 4 * 0] = 0; m[3 + 4 * 1] = 0; m[3 + 4 * 2] = 0; m[3 + 4 * 3] = 1;
-	}
-	inline void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) {
-		GLfloat m[4][4];
-		float sine, cotangent, deltaZ;
-		float radians = fovy / 2.0f * float(M_PI) / 180.0f;
-
-		deltaZ = zFar - zNear;
-		sine = sin(radians);
-		if ((deltaZ == 0) || (sine == 0) || (aspect == 0)) {
-			return;
-		}
-		cotangent = cosf(radians) / sine;
-
-		__gluMakeIdentityf(&m[0][0]);
-		m[0][0] = cotangent / aspect;
-		m[1][1] = cotangent;
-		m[2][2] = -(zFar + zNear) / deltaZ;
-		m[2][3] = -1;
-		m[3][2] = -2 * zNear * zFar / deltaZ;
-		m[3][3] = 0;
-		glMultMatrixf(&m[0][0]);
-	}
-#endif
-
 #if defined(MC_GL_DEBUG_OUTPUT) && !defined(GL_ARB_debug_output)
 #undef MC_GL_DEBUG_OUTPUT
 #endif
@@ -138,10 +112,10 @@ bool xglInitted();
 
 #if defined(USE_OPENGL_2_FEATURES) && !defined(_WIN32) && !defined(__DREAMCAST__)
 
-#if GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
+#if GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
 #define xglActiveTexture glActiveTexture
-#endif // GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0
-#if GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0
+#endif // GL_VERSION_1_3 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
+#if GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
 #define xglBindBuffer glBindBuffer
 #define xglBufferData glBufferData
 #define xglGenBuffers glGenBuffers
@@ -154,7 +128,7 @@ bool xglInitted();
 #define xglNormalPointer glNormalPointer
 #define xglVertexPointer glVertexPointer
 #define xglDrawArrays glDrawArrays
-#endif // GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0
+#endif // GL_VERSION_1_5 || GL_VERSION_ES_CM_1_0 || GL_ES_VERSION_2_0
 #if GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #define USE_GL_STENCIL_SEPARATE
 #define xglStencilFuncSeparate glStencilFuncSeparate

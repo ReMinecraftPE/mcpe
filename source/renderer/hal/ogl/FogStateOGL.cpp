@@ -2,6 +2,8 @@
 
 #include "FogStateOGL.hpp"
 
+#ifndef FEATURE_GFX_SHADERS
+
 using namespace mce;
 
 FogStateOGL::FogStateOGL()
@@ -101,3 +103,5 @@ bool FogStateOGL::bindFogState(RenderContext& context, bool forceBind)
 
     return FogStateBase::bindFogState(context);
 }
+
+#endif // !defined(FEATURE_GFX_SHADERS)

@@ -67,7 +67,8 @@
    <ProfileAction
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
-      useCustomWorkingDirectory = "NO"
+      useCustomWorkingDirectory = "YES"
+      customWorkingDirectory = "$(MC_ROOT)/game"
       buildConfiguration = "Release [SDL1] (Default)"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable>

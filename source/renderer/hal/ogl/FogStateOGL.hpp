@@ -1,6 +1,9 @@
 #pragma once
 
 #include "API_OGL.hpp"
+
+#ifndef FEATURE_GFX_SHADERS
+
 #include "renderer/hal/base/FogStateBase.hpp"
 
 namespace mce
@@ -25,3 +28,5 @@ namespace mce
         bool bindFogState(RenderContext& context, bool forceBind = false);
     };
 }
+
+#endif // !defined(FEATURE_GFX_SHADERS)

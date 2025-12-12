@@ -2139,8 +2139,6 @@
 		8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeAppDelegate.mm; sourceTree = "<group>"; };
 		8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeViewController.h; sourceTree = "<group>"; };
 		849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeViewController.mm; sourceTree = "<group>"; };
-		849259522AD8FD4F0081F5B9 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
-		849259532AD8FD4F0081F5B9 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
 		8492595F2AD8FDCB0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		849259612AD8FDD10081F5B9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		849259632AD8FDD90081F5B9 /* minecraftpe-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "minecraftpe-Info.plist"; sourceTree = "<group>"; };
@@ -4182,8 +4180,6 @@
 				849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */,
 				849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */,
 				8484ABDC2B32935700076873 /* PlatformDefinitions_iOS.h */,
-				849259522AD8FD4F0081F5B9 /* Shader.fsh */,
-				849259532AD8FD4F0081F5B9 /* Shader.vsh */,
 				8488C0882B1EDD4F001AEC4F /* ShowKeyboardView.h */,
 				8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */,
 				8492595D2AD8FDB70081F5B9 /* Supporting Files */,

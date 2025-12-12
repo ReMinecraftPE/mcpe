@@ -1,5 +1,7 @@
 #include "API_OGL.hpp"
 
+#define GLES_VESION_PREFIX "OpenGL ES "
+
 gl::Version* gl::Version::singletonPtr = nullptr;
 
 const gl::Version& gl::Version::singleton()
@@ -29,12 +31,17 @@ void gl::Version::_findMajorMinor()
     if (!versionString)
         return;
 
+    if (strncmp(versionString, GLES_VESION_PREFIX, sizeof(GLES_VESION_PREFIX) - 1) == 0)
+    {
+        versionString += sizeof(GLES_VESION_PREFIX) - 1;
+    }
+    
     char* endPtr;
 
-    major = strtol(versionString, &endPtr, 10);
+    major = (int)strtol(versionString, &endPtr, 10);
 
     if (*endPtr == '.')
-        minor = strtol(endPtr + 1, nullptr, 10);
+        minor = (int)strtol(endPtr + 1, nullptr, 10);
 }
 
 void gl::Version::parse()
