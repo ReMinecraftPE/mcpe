@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "API_OGL.hpp"
 
 #define GLES_VESION_PREFIX "OpenGL ES "
