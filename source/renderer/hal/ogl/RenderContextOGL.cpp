@@ -35,6 +35,7 @@ RenderContextOGL::RenderContextOGL()
     LOG_I("OpenGL Version: %s", gl::getOpenGLVersion().c_str());
 }
 
+#ifndef FEATURE_GFX_SHADERS
 GLenum _getGLMatrixModeFromMatrixType(MatrixType matrixType)
 {
     switch (matrixType)
@@ -46,6 +47,7 @@ GLenum _getGLMatrixModeFromMatrixType(MatrixType matrixType)
         throw std::bad_cast();
     }
 }
+#endif
 
 void RenderContextOGL::loadMatrix(MatrixType matrixType, const Matrix& matrix)
 {
@@ -260,7 +262,10 @@ void RenderContextOGL::clearContextState()
     xglDebugMessageCallback(&mce::Platform::OGL::DebugMessage, nullptr);
 #endif
 
+#ifdef GL_PERSPECTIVE_CORRECTION_HINT
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+#endif
+    
 #ifndef FEATURE_GFX_SHADERS
     disableFixedLighting(false);
 #endif

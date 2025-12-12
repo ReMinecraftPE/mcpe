@@ -16,10 +16,12 @@ namespace mce
         /*PRIMITIVE_MODE_LINE_LIST*/      GL_LINES,
         /*PRIMITIVE_MODE_LINE_STRIP*/     GL_LINE_STRIP
     };
+#ifndef FEATURE_GFX_SHADERS
     const GLenum shadeModeMap[] = {
         /*SHADE_MODE_FLAT*/   GL_FLAT,
         /*SHADE_MODE_SMOOTH*/ GL_SMOOTH
     };
+#endif
     const GLenum indexType[] = {
         GL_NONE,
         GL_UNSIGNED_BYTE,

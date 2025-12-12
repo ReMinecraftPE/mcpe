@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 
+#include "GameMods.hpp"
 #include "client/app/App.hpp"
 #include "client/app/NinecraftApp.hpp"
 #include "AppContext.hpp"
@@ -158,14 +159,11 @@ NSThread *G_drawFrameThread = nil;
     // Setup logging
     Logger::setSingleton(new Logger);
     
-    //EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    //
-    //if (!aContext)
-    //{
-    //    aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
-    //}
-    
+#ifdef FEATURE_GFX_SHADERS
+	EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+#else
 	EAGLContext *aContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+#endif
     
     if (!aContext)
         NSLog(@"Failed to create ES context");
@@ -176,9 +174,6 @@ NSThread *G_drawFrameThread = nil;
 	
     [(EAGLView *)self.view setContext:context];
     [(EAGLView *)self.view setFramebuffer];
-    
-    //if ([context API] == kEAGLRenderingAPIOpenGLES2)
-    //    [self loadShaders];
     
     animating = FALSE;
     animationFrameInterval = 1;

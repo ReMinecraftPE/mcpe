@@ -415,7 +415,6 @@ void LevelRenderer::_setupFog(const Entity& camera, int i)
 		return;
 #endif
 
-	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	mce::FogStateDescription& desc = Fog::nextState;
 	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
 	float renderDistance = gameRenderer.m_renderDistance;
@@ -772,7 +771,7 @@ void LevelRenderer::onGraphicsReset()
 
 void LevelRenderer::renderLineBox(const AABB& aabb, const mce::MaterialPtr& material, float lineWidth) const
 {
-#if MCE_GFX_API_OGL
+#if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
 	// Maximize Line Width
 	glEnable(GL_LINE_SMOOTH);
 
