@@ -1,0 +1,13 @@
+// __multiversion__
+
+uniform MAT4 WORLDVIEWPROJ;
+
+attribute POS4 POSITION;
+
+void main()
+{
+    gl_Position = WORLDVIEWPROJ * POSITION;
+
+    //this is to make it come closer to the camera and avoid z-fighting
+    gl_Position.z -= 0.0001;
+}

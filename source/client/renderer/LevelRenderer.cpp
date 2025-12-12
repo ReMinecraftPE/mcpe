@@ -12,6 +12,7 @@
 #include "common/Mth.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
@@ -99,15 +100,83 @@ LevelRenderer::LevelRenderer(Minecraft* pMC, Textures* pTexs)
 
 	_initResources();
 	RenderChunk::InitMaterials();
+	m_initTime = getTimeS();
 }
 
 void LevelRenderer::_buildSkyMesh()
 {
-	int s = 128;
-	int d = 256 / s + 2;
-
 	Tesselator& t = Tesselator::instance;
-	// @TODO: 12-vertex MCPE sky
+
+#if 0
+
+	// 12-vertex MCPE sky
+
+	constexpr float angleStep = 6.2832f * 0.1f;
+	constexpr float currentSin = 0.0f;
+	constexpr float currentCos = 1.0f;
+	constexpr float radius = 2000.0f;
+	constexpr float yy = 128.0f;
+
+	t.begin(mce::PRIMITIVE_MODE_TRIANGLE_LIST, 12);
+
+	t.color(Color::BLACK);
+	t.vertex(0.0f, yy, 0.0f);
+
+	for (int step = 0; step <= 10; step++)
+	{
+		float angle = -((float)step * angleStep);
+
+		currentSin = sin(angle);
+		currentCos = cos(angle);
+
+		t.color(Color::WHITE);
+		t.vertex(currentCos * radius, yy, -(radius * currentSin));
+	}
+
+	// this shit is fucked
+	t.beginIndices(0);
+	for (int i = 0; i <= 10; i++)
+		t.triangle(0, i, i % 10 + 1);
+
+	m_skyMesh = t.end();
+
+#elif defined(FEATURE_GFX_SHADERS)
+
+	constexpr float angleStep = 6.2832f * 0.1f;
+	constexpr float yy = 128.0f;
+
+	// calculates the radius of the sky based on the fogStart
+	// PE/Bedrock do not have this
+	float fogStart = Fog::nextState.fogStartZ;
+	float radius = fogStart * 26.375f; // magic number determined to match Java thru eyeballing
+
+	Color topColor = Color::BLACK;
+	Color bottomColor = Color::WHITE;
+
+	t.begin(mce::PRIMITIVE_MODE_TRIANGLE_LIST, 30);
+
+	for (int step = 0; step < 10; step++)
+	{
+		float angle = -((float)step * angleStep);
+		float nextAngle = -((float)(step + 1) * angleStep);
+
+		t.color(topColor);
+		t.vertex(0.0f, yy, 0.0f);
+
+		t.color(bottomColor);
+		t.vertex(cos(angle) * radius, yy, -(radius * sin(angle)));
+
+		t.color(bottomColor);
+		t.vertex(cos(nextAngle) * radius, yy, -(radius * sin(nextAngle)));
+	}
+
+	m_skyMesh = t.end();
+
+#else
+
+	constexpr int s = 128;
+	constexpr int d = 256 / s + 2;
+
 	t.begin(324);
 	float yy = 16.0f;
 
@@ -126,7 +195,7 @@ void LevelRenderer::_buildSkyMesh()
 
 	// This code is almost the same, ugly
 
-	t.begin(324); // pre-computed m_darkBufferCount
+	t.begin(324);
 	yy = -16.0f;
 
 	for (int xx = -s * d; xx <= s * d; xx += s)
@@ -141,6 +210,8 @@ void LevelRenderer::_buildSkyMesh()
 	}
 
 	m_darkMesh = t.end();
+
+#endif
 }
 
 void LevelRenderer::_buildStarsMesh()
@@ -222,7 +293,7 @@ void LevelRenderer::_renderSunrise(float alpha)
 {
 	Tesselator& t = Tesselator::instance;
 
-	float* c = m_pLevel->m_pDimension->getSunriseColor(m_pLevel->getTimeOfDay(alpha), alpha);
+	const float* c = m_pLevel->m_pDimension->getSunriseColor(m_pLevel->getTimeOfDay(alpha), alpha);
 	if (c != nullptr && arePlanetsAvailable())
 	{
 		MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -246,6 +317,7 @@ void LevelRenderer::_renderSunrise(float alpha)
 			t.vertex((sin * 120.0f), (cos * 120.0f), (-cos * 40.0f * c[3]));
 		}
 
+		// @HAL: sky.vertex shader will not work here, it ignores the vertex colors
 		t.draw(m_materials.sunrise);
 	}
 }
@@ -338,7 +410,11 @@ void LevelRenderer::_recreateTessellators()
 
 void LevelRenderer::_setupFog(const Entity& camera, int i)
 {
-	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+#ifdef FEATURE_GFX_SHADERS
+	if (i != 1)
+		return;
+#endif
+
 	mce::FogStateDescription& desc = Fog::nextState;
 	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
 	float renderDistance = gameRenderer.m_renderDistance;
@@ -359,22 +435,75 @@ void LevelRenderer::_setupFog(const Entity& camera, int i)
 
 		if (i < 0)
 		{
-			desc.fogStartZ = 0.0f;
-			desc.fogEndZ = renderDistance * 0.8f;
+			m_fogControl = Vec2(0.0f, 0.8f);
 		}
 		else
 		{
-			desc.fogStartZ = renderDistance * 0.25f;
-			desc.fogEndZ = renderDistance;
+			m_fogControl = Vec2(0.25f, 1.0f);
 		}
 
 		if (m_pMinecraft->m_pLevel->m_pDimension->m_bFoggy)
 		{
-			desc.fogStartZ = 0.0f;
+			m_fogControl.x = 0.0f;
 		}
+
+		desc.fogStartZ = m_fogControl.x * renderDistance;
+		desc.fogEndZ = m_fogControl.y * renderDistance;
 	}
 
 	Fog::updateState();
+
+	if (desc.fogStartZ != m_lastFogState.fogStartZ || desc.fogEndZ != m_lastFogState.fogEndZ)
+	{
+#ifdef FEATURE_GFX_SHADERS
+		// rebuild sky mesh to account for updated fog distance
+		_buildSkyMesh();
+#endif
+		m_lastFogState = desc;
+	}
+}
+
+const Color& LevelRenderer::_getFogColor() const
+{
+	const mce::FogStateDescription& fogState = Fog::nextState;
+
+	return fogState.fogColor;
+}
+
+void LevelRenderer::_updateViewArea(const Entity& camera)
+{
+}
+
+void LevelRenderer::_startFrame(FrustumCuller& culler, float renderDistance, float f)
+{
+	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+	mce::PerFrameConstants& frame = globalBuffers.m_perFrameConstants;
+
+	const Entity& camera = *m_pMinecraft->m_pCameraEntity;
+	m_viewPos = camera.getPos(f);
+
+	_setupFog(camera, 1);
+
+#ifdef FEATURE_GFX_SHADERS
+	Vec3 viewVector = camera.getViewVector(f);
+	frame.VIEW_DIRECTION->setData(&viewVector);
+
+	float time = getTimeS() - m_initTime;
+	frame.TIME->setData(&time);
+
+	float farChunksDistance = renderDistance - 7.0; // something minus 7, just a guess
+	frame.FAR_CHUNKS_DISTANCE->setData(&farChunksDistance);
+
+	frame.FOG_COLOR->setData(&_getFogColor());
+
+	frame.RENDER_DISTANCE->setData(&renderDistance);
+
+	frame.VIEW_POS->setData(&m_viewPos);
+
+	frame.FOG_CONTROL->setData(&m_fogControl);
+
+	frame.sync();
+#endif
 }
 
 const mce::MaterialPtr& LevelRenderer::_chooseOverlayMaterial(Tile::RenderLayer layer) const
@@ -642,7 +771,7 @@ void LevelRenderer::onGraphicsReset()
 
 void LevelRenderer::renderLineBox(const AABB& aabb, const mce::MaterialPtr& material, float lineWidth) const
 {
-#if MCE_GFX_API_OGL
+#if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
 	// Maximize Line Width
 	glEnable(GL_LINE_SMOOTH);
 
@@ -1362,14 +1491,18 @@ void LevelRenderer::playSound(const std::string& name, const Vec3& pos, float vo
 		m_pMinecraft->m_pSoundEngine->play(name, pos, volume, pitch);
 }
 
-void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, float a1, float f)
+void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, float renderDistance, float f)
 {
+	if (!m_pLevel)
+		return;
+
 	ParticleEngine& particleEngine = *m_pMinecraft->m_pParticleEngine;
 	Textures& textures = *m_pMinecraft->m_pTextures;
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
+	_updateViewArea(camera);
+	_startFrame(culler, renderDistance, f);
 	Fog::enable();
-	_setupFog(camera, 1);
 
 	cull(&culler, f);
 	updateDirtyChunks(camera, false);
@@ -1380,13 +1513,15 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	_setupFog(camera, 0);
 	Fog::enable();
 
+	bool fog = m_pDimension->isNaturalDimension();
+
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
 	Lighting::turnOff();
-	render(camera, Tile::RENDER_LAYER_SEASONS_OPAQUE, f);
-	render(camera, Tile::RENDER_LAYER_OPAQUE, f);
-	render(camera, Tile::RENDER_LAYER_DOUBLE_SIDED, f);
+	render(camera, Tile::RENDER_LAYER_SEASONS_OPAQUE, f, fog);
+	render(camera, Tile::RENDER_LAYER_OPAQUE, f, fog);
+	render(camera, Tile::RENDER_LAYER_DOUBLE_SIDED, f, fog);
 
-	render(camera, Tile::RENDER_LAYER_ALPHATEST, f);
+	render(camera, Tile::RENDER_LAYER_ALPHATEST, f, fog);
 	Lighting::turnOn();
 
 	renderEntities(camera.getPos(f), &culler, f);
@@ -1409,7 +1544,7 @@ void LevelRenderer::renderLevel(const Entity& camera, FrustumCuller& culler, flo
 	}
 
 	textures.loadAndBindTexture(C_TERRAIN_NAME);
-	render(camera, Tile::RENDER_LAYER_BLEND, f);
+	render(camera, Tile::RENDER_LAYER_BLEND, f, fog);
 
 	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 
@@ -1523,20 +1658,30 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 
 	Tesselator& t = Tesselator::instance;
 
-	Fog::enable();
-	currentShaderColor = Color(sc.x, sc.y, sc.z);
+	{
+		Fog::enable();
+		// @TODO: can we avoid rebuilding the mesh every time the fog updates?
+		//float fogStart = Fog::nextState.fogStartZ;
 
-	m_skyMesh.render(m_materials.skyplane);
+		//MatrixStack::Ref matrix = MatrixStack::World.push();
+		//matrix->scale(Vec3(fogStart, 0.0f, fogStart));
 
-	Fog::disable();
+		currentShaderColor = Color(sc.x, sc.y, sc.z);
+		m_skyMesh.render(m_materials.skyplane);
+
+		Fog::disable();
+	}
 
 	_renderSunrise(alpha);
 	_renderSolarSystem(alpha);
 	
 	Fog::enable();
 
-	currentShaderColor = Color(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f);
-	m_darkMesh.render(m_materials.skyplane); // this is probably not the right material for this
+	if (m_darkMesh.isValid())
+	{
+		currentShaderColor = Color(sc.x * 0.2f + 0.04f, sc.y * 0.2f + 0.04f, sc.z * 0.6f + 0.1f);
+		m_darkMesh.render(m_materials.skyplane);
+	}
 }
 
 void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)

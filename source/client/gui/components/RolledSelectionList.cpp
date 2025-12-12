@@ -138,7 +138,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 			t.vertexUV(itemX - 1, dn - 1.0f, 0.0f, 1.0f, 0.0f);
 			t.vertexUV(right + 1, dn - 1.0f, 0.0f, 1.0f, 1.0f);
 			t.vertexUV(right + 1, up + 1.0f, 0.0f, 0.0f, 1.0f);
-			t.draw(m_materials.ui_fill_color);
+			t.draw(m_materials.ui_fill_gradient);
 		}
 
 		renderItem(i, int(itemX), field_1C / 2 - 40, int(width), t);
@@ -159,7 +159,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 255);
 	t.vertexUV(field_24, m_rotX, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(m_culledEntities, m_rotX, 0.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 
 	t.begin(4);
 	t.color(0, 255);
@@ -168,7 +168,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 0);
 	t.vertexUV(field_24, m_rotY - 4.0f, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(m_culledEntities, m_rotY - 4.0f, 0.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 #else
 	t.begin(4);
 	t.color(0, 0);
@@ -177,7 +177,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 255);
 	t.vertexUV(field_C, field_24, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(field_C, field_20, 0.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 
 	t.begin(4);
 	t.color(0, 255);
@@ -186,7 +186,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.color(0, 0);
 	t.vertexUV(field_10 - 4.0f, field_24, 0.0f, 1.0f, 0.0f);
 	t.vertexUV(field_10 - 4.0f, field_20, 0.0f, 0.0f, 0.0f);
-	t.draw(m_materials.ui_fill_color);
+	t.draw(m_materials.ui_fill_gradient);
 #endif
 	
 	renderDecorations(mouseX, mouseY);

@@ -2,9 +2,23 @@
 #include "RenderContextOGL.hpp"
 #include "common/Logger.hpp"
 #include "renderer/hal/interface/DepthStencilState.hpp"
+#include "renderer/hal/helpers/ErrorHandler.hpp"
 #include "world/phys/Vec3.hpp"
 
 using namespace mce;
+
+RenderContextOGL::VertexFieldFormat RenderContextOGL::vertexFieldFormats[] = {
+    { GL_FLOAT,          3, GL_FALSE }, // VERTEX_FIELD_POSITION
+    { GL_UNSIGNED_BYTE,  4, GL_TRUE  }, // VERTEX_FIELD_COLOR
+    { GL_BYTE,           4, GL_FALSE }, // VERTEX_FIELD_NORMAL
+#ifdef ENH_GFX_COMPACT_UVS
+    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }, // VERTEX_FIELD_UV0
+    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }  // VERTEX_FIELD_UV1
+#else
+    { GL_FLOAT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0
+    { GL_FLOAT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1
+#endif
+};
 
 RenderContextOGL::RenderContextOGL()
     : RenderContextBase()
@@ -17,8 +31,11 @@ RenderContextOGL::RenderContextOGL()
     m_emptyDepthStencilState->createDepthState(*(RenderContext*)this, desc);
 
     clearContextState();
+    
+    LOG_I("OpenGL Version: %s", gl::getOpenGLVersion().c_str());
 }
 
+#ifndef FEATURE_GFX_SHADERS
 GLenum _getGLMatrixModeFromMatrixType(MatrixType matrixType)
 {
     switch (matrixType)
@@ -30,6 +47,7 @@ GLenum _getGLMatrixModeFromMatrixType(MatrixType matrixType)
         throw std::bad_cast();
     }
 }
+#endif
 
 void RenderContextOGL::loadMatrix(MatrixType matrixType, const Matrix& matrix)
 {
@@ -47,29 +65,37 @@ void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
 #ifndef FEATURE_GFX_SHADERS
     unsigned int vertexSize = vertexFormat.getVertexSize();
 
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_POSITION))
+    if (vertexFormat.hasField(VERTEX_FIELD_POSITION))
     {
-        xglVertexPointer(3, GL_FLOAT, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_POSITION));
+        const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_POSITION];
+        xglVertexPointer(field.components, field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_POSITION));
         xglEnableClientState(GL_VERTEX_ARRAY);
+        ErrorHandler::checkForErrors();
     }
 
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
+    if (vertexFormat.hasField(VERTEX_FIELD_UV0))
     {
-        xglTexCoordPointer(2, GL_FLOAT, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0));
+        const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_UV0];
+        xglTexCoordPointer(field.components, field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_UV0));
         xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        ErrorHandler::checkForErrors();
     }
 
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
+    if (vertexFormat.hasField(VERTEX_FIELD_COLOR))
     {
-        xglColorPointer(4, GL_UNSIGNED_BYTE, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_COLOR));
+        const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_COLOR];
+        xglColorPointer(field.components, field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_COLOR));
         xglEnableClientState(GL_COLOR_ARRAY);
+        ErrorHandler::checkForErrors();
     }
 
 #ifdef USE_GL_NORMAL_LIGHTING
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
+    if (vertexFormat.hasField(VERTEX_FIELD_NORMAL))
     {
-        xglNormalPointer(GL_BYTE, vertexSize, vertexFormat.getFieldOffset(mce::VERTEX_FIELD_NORMAL));
+        const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_NORMAL];
+        xglNormalPointer(field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_NORMAL));
         xglEnableClientState(GL_NORMAL_ARRAY);
+        ErrorHandler::checkForErrors();
     }
 #endif
 #endif
@@ -78,15 +104,15 @@ void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
 void RenderContextOGL::clearVertexState(const VertexFormat& vertexFormat)
 {
 #ifndef FEATURE_GFX_SHADERS
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_POSITION))
+    if (vertexFormat.hasField(VERTEX_FIELD_POSITION))
         xglDisableClientState(GL_VERTEX_ARRAY);
 #ifdef USE_GL_NORMAL_LIGHTING
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_NORMAL))
+    if (vertexFormat.hasField(VERTEX_FIELD_NORMAL))
         xglDisableClientState(GL_NORMAL_ARRAY);
 #endif
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_COLOR))
+    if (vertexFormat.hasField(VERTEX_FIELD_COLOR))
         xglDisableClientState(GL_COLOR_ARRAY);
-    if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
+    if (vertexFormat.hasField(VERTEX_FIELD_UV0))
         xglDisableClientState(GL_TEXTURE_COORD_ARRAY);
 #endif
 }
@@ -236,7 +262,10 @@ void RenderContextOGL::clearContextState()
     xglDebugMessageCallback(&mce::Platform::OGL::DebugMessage, nullptr);
 #endif
 
+#ifdef GL_PERSPECTIVE_CORRECTION_HINT
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
+#endif
+    
 #ifndef FEATURE_GFX_SHADERS
     disableFixedLighting(false);
 #endif

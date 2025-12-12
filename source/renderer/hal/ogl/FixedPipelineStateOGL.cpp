@@ -1,5 +1,7 @@
 #include "FixedPipelineStateOGL.hpp"
 
+#ifndef FEATURE_GFX_SHADERS
+
 using namespace mce;
 
 FixedPipelineStateOGL::FixedPipelineStateOGL()
@@ -53,3 +55,5 @@ bool FixedPipelineStateOGL::bindFixedPipelineState(RenderContext& context, bool 
 
     return FixedPipelineStateBase::bindFixedPipelineState(context);
 }
+
+#endif // !defined(FEATURE_GFX_SHADERS)

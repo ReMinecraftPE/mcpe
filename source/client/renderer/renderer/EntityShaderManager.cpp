@@ -1,7 +1,9 @@
 #include "EntityShaderManager.hpp"
 
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "renderer/GlobalConstantBuffers.hpp"
 #include "world/entity/Mob.hpp"
+#include "world/level/Level.hpp"
 
 EntityShaderManager::Materials::Materials()
 {
@@ -9,6 +11,134 @@ EntityShaderManager::Materials::Materials()
 	MATERIAL_PTR(switchable, entity_color_overlay);
 	MATERIAL_PTR(switchable, entity_alphatest);
 	MATERIAL_PTR(switchable, entity_static);
+}
+
+void EntityShaderManager::_setupShaderParameters(float br, const Color& overlayColor)
+{
+#ifdef FEATURE_GFX_SHADERS
+	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+	mce::EntityConstants& cEntity = globalBuffers.m_entityConstants;
+
+	Color tileLightColor = Color(br, br, br, 1.0f);
+	cEntity.TILE_LIGHT_COLOR->setData(&tileLightColor);
+
+	cEntity.OVERLAY_COLOR->setData(&overlayColor);
+
+	cEntity.sync();
+#endif
+}
+
+void EntityShaderManager::_setupShaderParameters(const Entity& entity,
+	const Color& overlayColor, const Color& tintColor,
+	const Vec2& uvOffset, const Vec2& uvRot,
+	const Vec2& glintUVScale, const Vec2& uvAnim, float a)
+{
+#ifdef FEATURE_GFX_SHADERS
+	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+	mce::EntityConstants& cEntity = globalBuffers.m_entityConstants;
+
+	Vec3 entityPos = entity.m_pos;
+
+	Color tileLightColor = Color::WHITE * entity.getBrightness(a);
+
+	if (a != 1.0f)
+	{
+		tileLightColor *= a;
+	}
+
+	cEntity.TILE_LIGHT_COLOR->setData(&tileLightColor);
+	cEntity.OVERLAY_COLOR->setData(&overlayColor);
+	cEntity.CHANGE_COLOR->setData(&tintColor);
+	cEntity.UV_OFFSET->setData(&uvOffset);
+	cEntity.UV_ROTATION->setData(&uvRot);
+	Vec2 glintUV = glintUVScale * 0.017453f;
+	cEntity.GLINT_UV_SCALE->setData(&glintUV);
+	cEntity.UV_ANIM->setData(&uvAnim);
+
+	cEntity.sync();
+#endif
+}
+
+void EntityShaderManager::_setupShaderParameters(const Entity& entity, const Color& overlayColor, float a)
+{
+	_setupShaderParameters(entity, overlayColor, entity.m_tintColor, a);
+}
+
+void EntityShaderManager::_setupShaderParameters(const Entity& entity, float a)
+{
+	_setupShaderParameters(entity, getOverlayColor(entity, a), a);
+}
+
+void EntityShaderManager::_setupShaderParameters(const Entity& entity, const Color& overlayColor, const Color& tintColor, float a)
+{
+	_setupShaderParameters(entity,
+		overlayColor, tintColor,
+		Vec2::ZERO, Vec2::ZERO,
+		Vec2::ONE, Vec2::ZERO,
+		1.0f);
+}
+
+void EntityShaderManager::_setupShaderParameters(const Entity& entity,
+	const Color& overlayColor, const Color& tintColor,
+	const Vec2& glintUVScale, float a)
+{
+	_setupShaderParameters( entity,
+		overlayColor, tintColor,
+		Vec2::ZERO, Vec2::ZERO,
+		Vec2::ONE, glintUVScale,
+		a);
+}
+
+void EntityShaderManager::_setupShaderParameters(const Entity& entity,
+	const Color& tintColor,
+	const Vec2& uvOffset, const Vec2& uvRot,
+	const Vec2& glintUVScale, float a)
+{
+	_setupShaderParameters(entity,
+		getOverlayColor(entity, a), tintColor,
+		uvOffset, uvRot,
+		glintUVScale, Vec2::ZERO,
+		1.0f);
+}
+
+void EntityShaderManager::_setupShaderParameters(const Color& overlayColor, const Color& tintColor,
+	const Vec2& uvOffset, const Vec2& uvRot,
+	const Vec2& glintUVScale, const Vec2& uvAnim,
+	float a)
+{
+#ifdef FEATURE_GFX_SHADERS
+	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+	mce::EntityConstants& cEntity = globalBuffers.m_entityConstants;
+
+	cEntity.TILE_LIGHT_COLOR->setData(&Color::WHITE);
+	cEntity.OVERLAY_COLOR->setData(&overlayColor);
+	cEntity.CHANGE_COLOR->setData(&tintColor);
+	cEntity.UV_OFFSET->setData(&uvOffset);
+	cEntity.UV_ROTATION->setData(&uvRot);
+	Vec2 glintUV = glintUVScale * 0.017453f;
+	cEntity.GLINT_UV_SCALE->setData(&glintUV);
+	cEntity.UV_ANIM->setData(&uvAnim);
+
+	cEntity.sync();
+#endif
+}
+
+void EntityShaderManager::_setupShaderParameters(const LevelSource& source,
+	const TilePos& pos,
+	float a,
+	const Vec2& uvScale)
+{
+#ifdef FEATURE_GFX_SHADERS
+	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+	mce::EntityConstants& cEntity = globalBuffers.m_entityConstants;
+
+	cEntity.TILE_LIGHT_COLOR->setData(&Color::WHITE); // source.getLightColor(pos, 0)
+	cEntity.OVERLAY_COLOR->setData(&Color::NIL);
+	cEntity.CHANGE_COLOR->setData(&Color::WHITE);
+	cEntity.GLINT_UV_SCALE->setData(&uvScale);
+
+	cEntity.sync();
+#endif
 }
 
 Color EntityShaderManager::getOverlayColor(const Entity& entity, float a)

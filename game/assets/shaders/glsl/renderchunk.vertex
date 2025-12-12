@@ -1,0 +1,88 @@
+// __multiversion__
+uniform MAT4 WORLDVIEWPROJ;
+uniform vec4 FOG_COLOR;
+uniform vec2 FOG_CONTROL;
+uniform float RENDER_DISTANCE;
+uniform vec2 VIEWPORT_DIMENSION;
+uniform vec4 CURRENT_COLOR;		//current color r contains the offset to apply to the fog for the "fade in"
+uniform POS3 CHUNK_ORIGIN;
+uniform POS3 VIEW_POS;
+uniform float FAR_CHUNKS_DISTANCE;
+
+attribute POS4 POSITION;
+attribute vec4 COLOR;
+attribute vec2 TEXCOORD_0;
+//attribute vec2 TEXCOORD_1;
+
+varying vec2 uv0;
+//varying vec2 uv1;
+varying vec4 color;
+
+#ifdef FOG
+	varying vec4 fogColor;
+#endif
+
+const float rA = 1.0;
+const float rB = 1.0;
+const vec3 UNIT_Y = vec3(0,1,0);
+const float DIST_DESATURATION = 56.0 / 255.0; //WARNING this value is also hardcoded in the water color, don'tchange
+
+void main()
+{
+    POS4 pos = WORLDVIEWPROJ * POSITION;
+    gl_Position = pos;
+
+    uv0 = TEXCOORD_0;
+    //uv1 = TEXCOORD_1;
+	color = COLOR;
+
+///// find distance from the camera
+
+#if defined(FOG) || defined(NEAR_WATER)
+	#ifdef FANCY
+		vec3 relPos = VIEW_POS - (POSITION.xyz + CHUNK_ORIGIN);
+		float cameraDepth = length(relPos);
+	#else
+		float cameraDepth = pos.z;
+	#endif
+#endif
+
+///// apply fog
+
+#ifdef FOG
+	float len = cameraDepth / RENDER_DISTANCE;
+	#ifdef ALLOW_FADE
+		len += CURRENT_COLOR.r;
+	#endif
+
+    fogColor.rgb = FOG_COLOR.rgb;
+	fogColor.a = clamp((len - FOG_CONTROL.x) / (FOG_CONTROL.y - FOG_CONTROL.x), 0.0, 1.0);
+#endif
+
+///// water magic
+#ifdef NEAR_WATER
+	#ifdef FANCY  /////enhance water
+		float F = dot(normalize(relPos), UNIT_Y);
+
+		//if both NEAR_WATER and FOG are defined, it's forced fog and we're underwater
+		#ifndef FOG  //over water
+			F = 1.0 - max(F, 0.1);
+		#else //under water
+			color.a = 0.7; //disable fake transparency and be transparent
+		#endif
+
+		F = 1.0 - mix(F*F*F*F, 1.0, min(1.0, cameraDepth / FAR_CHUNKS_DISTANCE));
+
+		color.rg -= vec2(F * DIST_DESATURATION);
+
+		vec4 depthColor = vec4(color.rgb * 0.5, 1.0);
+		vec4 traspColor = vec4(color.rgb * 0.45, 0.8);
+		vec4 surfColor = vec4(color.rgb, 1.0);
+
+		vec4 nearColor = mix(traspColor, depthColor, color.a);
+		color = mix(surfColor, nearColor, F);
+	#else
+		color.a = pos.z / FAR_CHUNKS_DISTANCE + 0.5;
+	#endif //FANCY
+#endif
+}

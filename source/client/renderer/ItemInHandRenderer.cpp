@@ -90,7 +90,7 @@ void ItemInHandRenderer::render(float a)
         matrix->translate(Vec3(0.7f * d, -0.65f * d - (1.0f - h) * 0.6f, -0.9f * d));
         matrix->rotate(45.0f, Vec3::UNIT_Y);
 
-#if MCE_GFX_API_OGL
+#if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
         glEnable(GL_RESCALE_NORMAL);
 #endif
 
@@ -114,7 +114,7 @@ void ItemInHandRenderer::render(float a)
         matrix->translate(Vec3(-0.3f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.4f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.4f * Mth::sin(float(M_PI) * fAnim)));
         matrix->translate(Vec3(0.8f * d, -0.75f * d - (1.0f - h) * 0.6f, -0.9f * d));
         matrix->rotate(45.0f, Vec3::UNIT_Y);
-#if MCE_GFX_API_OGL
+#if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
         glEnable(GL_RESCALE_NORMAL);
 #endif
 
@@ -132,10 +132,10 @@ void ItemInHandRenderer::render(float a)
         HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(*pLP);
         swing2 = 1.0f;
         matrix->scale(swing2);
-        pRenderer->renderHand();
+        pRenderer->renderHand(*pLP, a);
 	}
 
-#if MCE_GFX_API_OGL
+#if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
     glDisable(GL_RESCALE_NORMAL);
 #endif
 	Lighting::turnOff();
@@ -153,9 +153,11 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemInstance& it
         return;
 
 #ifdef ENH_SHADE_HELD_TILES
-    float bright = entity.getBrightness(0.0f);
+    float bright = entity.getBrightness(a);
 #endif
     
+    _setupShaderParameters(entity, Color::NIL, a);
+
     Tile* pTile = item.getTile();
     if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
     {
@@ -327,7 +329,7 @@ void ItemInHandRenderer::renderTex(float a, int texture)
 
 	//m_pMinecraft->m_pLocalPlayer->getBrightness(a);
     constexpr float br = 0.1f; // 0.3f on PE 0.12.1
-    currentShaderColor = Color(br, br, br, 0.5f);
+    currentShaderColor = Color(br, br, br, 0.5f); // 1.0f on PE 0.12.1
     currentShaderDarkColor = Color::WHITE;
     MatrixStack::Ref matrix = MatrixStack::World.push();
 

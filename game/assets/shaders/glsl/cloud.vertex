@@ -1,0 +1,33 @@
+// __multiversion__
+
+uniform MAT4 WORLDVIEWPROJ;
+uniform float RENDER_DISTANCE;
+uniform vec4 FOG_COLOR;
+uniform vec4 CURRENT_COLOR;
+
+attribute POS4 POSITION;
+attribute vec4 COLOR;
+attribute vec2 TEXCOORD_0;
+
+varying vec4 color;
+varying vec2 uv;
+
+const float fogNear = 0.9;
+
+const vec3 inverseLightDirection = vec3(0.62, 0.78, 0.0);
+const float ambient = 0.7;
+
+void main()
+{
+    POS4 pos = WORLDVIEWPROJ * POSITION;
+ 	gl_Position = pos;
+
+ 	color = COLOR * CURRENT_COLOR;
+
+ 	float depth = pos.z / RENDER_DISTANCE;
+ 	float fog = max(depth - fogNear, 0.0);
+
+ 	color.a *= 1.0 - fog;
+	
+	uv = TEXCOORD_0;
+}

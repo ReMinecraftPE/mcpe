@@ -18,7 +18,7 @@
 Random::Random(int32_t seed)
 {
 	setSeed(seed);
-	nextNextGaussian = std::numeric_limits<double>::max();;
+	nextNextGaussian = std::numeric_limits<double>::max();
 }
 
 void Random::setSeed(int32_t seed)

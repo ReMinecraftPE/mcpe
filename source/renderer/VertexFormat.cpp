@@ -11,8 +11,13 @@ const unsigned int VertexFormat::FieldSize[] = {
     /* VERTEX_FIELD_POSITION */ sizeof(Vec3),
     /* VERTEX_FIELD_COLOR */    sizeof(uint32_t),
     /* VERTEX_FIELD_NORMAL */   sizeof(uint32_t),
-    /* VERTEX_FIELD_UV0 */      sizeof(Vec2), // 4 on 0.12.1. in our case, it's 8; 2 floats, one for U, and one for V
+#ifdef ENH_GFX_COMPACT_UVS
+    /* VERTEX_FIELD_UV0 */      sizeof(uint16_t[2]),
+    /* VERTEX_FIELD_UV1 */      sizeof(uint16_t[2]),
+#else
+    /* VERTEX_FIELD_UV0 */      sizeof(Vec2),
     /* VERTEX_FIELD_UV1 */      sizeof(Vec2),
+#endif
     /* VERTEX_FIELD_UV2 */      0,
     /* VERTEX_FIELD_PBR_IDX */  0,
     /* VERTEX_FIELD_BONEID_0 */ 0

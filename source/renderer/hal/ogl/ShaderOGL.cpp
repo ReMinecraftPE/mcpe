@@ -5,19 +5,13 @@
 
 #ifdef FEATURE_GFX_SHADERS
 
+#include "common/Util.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "renderer/platform/ogl/ShaderPrecision.hpp"
 
 using namespace mce;
-
-static ShaderOGL::VertexFieldFormat vertexFieldFormats[] = {
-    { GL_FLOAT,          3, GL_FALSE }, // VERTEX_FIELD_POSITION
-    { GL_UNSIGNED_BYTE,  4, GL_TRUE  }, // VERTEX_FIELD_COLOR
-    { GL_BYTE,           4, GL_FALSE }, // VERTEX_FIELD_NORMAL
-    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }, // VERTEX_FIELD_UV0
-    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }  // VERTEX_FIELD_UV1
-};
 
 ShaderOGL::ShaderOGL(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry)
     : ShaderBase(vertex, fragment, geometry)
@@ -34,7 +28,7 @@ ShaderOGL::~ShaderOGL()
     deleteShader();
 }
 
-ShaderPrimitiveTypes ShaderOGL::shaderPrimitiveTypeFromOGLUniformType(GLenum uniformType)
+ShaderPrimitiveTypes shaderPrimitiveTypeFromOGLUniformType(GLenum uniformType)
 {
     switch (uniformType)
     {
@@ -84,6 +78,8 @@ void ShaderOGL::resetLastProgram()
 
 void ShaderOGL::createAndAttachPrograms()
 {
+    ErrorHandler::checkForErrors();
+    
     m_program = xglCreateProgram();
 
     xglAttachShader(m_program, m_vertexShader.m_shaderName);
@@ -108,12 +104,12 @@ void ShaderOGL::linkShader()
 
     if (m_geometryShader.isValid())
     {
-        LOG_E("Failed to link %s to %s and %s", m_vertexShader.m_shaderPath, m_fragmentShader.m_shaderPath, m_geometryShader.m_shaderPath);
+        LOG_E("Failed to link %s to %s and %s", m_vertexShader.m_shaderPath.c_str(), m_fragmentShader.m_shaderPath.c_str(), m_geometryShader.m_shaderPath.c_str());
         throw std::bad_cast();
     }
     else
     {
-        LOG_E("Failed to link %s to %s", m_vertexShader.m_shaderPath, m_fragmentShader.m_shaderPath);
+        LOG_E("Failed to link %s to %s", m_vertexShader.m_shaderPath.c_str(), m_fragmentShader.m_shaderPath.c_str());
         throw std::bad_cast();
     }
 
@@ -148,7 +144,7 @@ void ShaderOGL::bindVertexPointers(const VertexFormat& vertexFormat, const void*
             continue;
 
         GLuint location = attr.getLocation();
-        const VertexFieldFormat& format = vertexFieldFormats[vertexField];
+        const RenderContextOGL::VertexFieldFormat& format = RenderContextOGL::vertexFieldFormats[vertexField];
         xglVertexAttribPointer(
             location,
             format.components,
@@ -254,6 +250,8 @@ void ShaderOGL::reflectShaderAttributes()
         GLint size;
         GLenum type;
 
+        //LOG_I("\nReflecting attributes for shader: %s", m_vertexShader.m_shaderPath.c_str());
+
         for (GLint i = 0; i < attrCount; i++)
         {
             xglGetActiveAttrib(m_program, i, sizeof(name), &nameLen, &size, &type, name);
@@ -269,6 +267,8 @@ void ShaderOGL::reflectShaderAttributes()
 
             xglEnableVertexAttribArray(location);
             xglVertexAttribPointer(0, 1, GL_UNSIGNED_BYTE, 0, 1, this);
+
+            //LOG_I("Reflected attribute: name=%s location=%d", name, location);
         }
     }
 
@@ -281,5 +281,14 @@ void ShaderOGL::reflectShader()
     reflectShaderAttributes();
 }
 
+void ShaderOGL::SpliceShaderPath(std::string& shaderName)
+{
+    ShaderBase::SpliceShaderPath(shaderName, "/glsl");
+}
+
+void ShaderOGL::BuildHeader(std::ostringstream& stream)
+{
+    Platform::OGL::Precision::BuildHeader(stream);
+}
 
 #endif // FEATURE_GFX_SHADERS

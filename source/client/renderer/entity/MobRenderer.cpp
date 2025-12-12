@@ -82,14 +82,14 @@ void MobRenderer::scale(const Mob& mob, Matrix& matrix, float a)
 
 }
 
-void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, float f)
+void MobRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
 	const Mob& mob = (const Mob&)entity;
 
 	{
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 
-		m_pModel->field_4 = getAttackAnim(mob, f);
+		m_pModel->field_4 = getAttackAnim(mob, a);
 		m_pModel->m_bRiding = false;
 		m_pModel->m_bIsBaby = mob.isBaby();
 
@@ -99,41 +99,43 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 			m_pArmorModel->m_bIsBaby = m_pModel->m_bIsBaby;
 		}
 
-		float aYaw = mob.m_oRot.x + (mob.m_rot.x - mob.m_oRot.x) * f;
-		float aPitch = mob.m_oRot.y + (mob.m_rot.y - mob.m_oRot.y) * f;
-		float fBob = getBob(mob, f);
-		float fSmth = mob.field_EC + (mob.field_E8 - mob.field_EC) * f;
+		float aYaw = mob.m_oRot.x + (mob.m_rot.x - mob.m_oRot.x) * a;
+		float aPitch = mob.m_oRot.y + (mob.m_rot.y - mob.m_oRot.y) * a;
+		float fBob = getBob(mob, a);
+		float fSmth = mob.field_EC + (mob.field_E8 - mob.field_EC) * a;
 
 		setupPosition(mob, Vec3(pos.x, pos.y - mob.m_heightOffset, pos.z), matrix);
-		setupRotations(mob, fBob, fSmth, matrix, f);
+		setupRotations(mob, fBob, fSmth, matrix, a);
 
 		constexpr float fScale = 0.0625f; // the scale variable according to b1.2_02
 		matrix->scale(Vec3(-1.0f, -1.0f, 1.0f));
-		scale(mob, matrix, f);
+		scale(mob, matrix, a);
 		matrix->translate(Vec3(0.0f, -24.0f * fScale - (1.0f / 128.0f), 0.0f));
 
-		float x1 = mob.field_128 + (mob.m_walkAnimSpeed - mob.field_128) * f;
+		float x1 = mob.field_128 + (mob.m_walkAnimSpeed - mob.field_128) * a;
 		if (x1 > 1.0f)
 			x1 = 1.0f;
-		float x2 = mob.field_130 - mob.m_walkAnimSpeed * (1.0f - f);
+		float x2 = mob.field_130 - mob.m_walkAnimSpeed * (1.0f - a);
+
+		_setupShaderParameters(entity, a);
 
 		bindTexture(mob.getTexture());
 
 		m_pModel->setBrightness(entity.getBrightness(1.0f));
-		m_pModel->prepareMobModel(mob, x2, x1, f);
+		m_pModel->prepareMobModel(mob, x2, x1, a);
 		m_pModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 
 		for (int i = 0; i < 4; i++)
 		{
-			if (prepareArmor(mob, i, f))
+			if (prepareArmor(mob, i, a))
 			{
 				m_pArmorModel->render(x2, x1, fBob, aYaw - fSmth, aPitch, fScale);
 			}
 		}
 
-		additionalRendering(mob, f);
+		additionalRendering(mob, a);
 
-		Color overlayColor = getOverlayColor(mob, f);
+		Color overlayColor = getOverlayColor(mob, a);
 		if (overlayColor.a > 0)
 		{
 			currentShaderColor = overlayColor;
@@ -144,7 +146,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float unused, fl
 
 			for (int i = 0; i < 4; i++)
 			{
-				if (prepareArmor(mob, i, f))
+				if (prepareArmor(mob, i, a))
 				{
 					mce::MaterialPtr* pMaterial = m_pArmorModel->m_pMaterial;
 					m_pArmorModel->m_pMaterial = &m_pArmorModel->m_materials.entity_color_overlay;

@@ -93,8 +93,8 @@
 			"Textured"
         ],
 
-		"vertexShader": "shaders/uv.vertex",
-		"fragmentShader": "shaders/texture.fragment"
+		"vertexShader": "shaders/color_uv.vertex",
+		"fragmentShader": "shaders/color_texture.fragment"
     },
 
     "water_hole_front:shadow_front" : { 

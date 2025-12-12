@@ -1,0 +1,15 @@
+// __multiversion__
+
+uniform MAT4 WORLDVIEWPROJ;
+
+attribute POS4 POSITION;
+attribute vec4 COLOR;
+
+varying vec4 color;
+
+void main()
+{
+    gl_Position = WORLDVIEWPROJ * POSITION;
+
+    color = COLOR;
+}

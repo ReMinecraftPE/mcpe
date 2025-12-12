@@ -7,6 +7,6 @@ namespace mce
     class ShaderConstantOGL : public ShaderConstantBase
     {
     public:
-        virtual void syncUniform(int value);
+        virtual void syncUniform(int location);
     };
 }

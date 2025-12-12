@@ -1121,6 +1121,10 @@
 		84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */; };
 		84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */; };
 		84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */; };
+		84F4880E2EEA4F5C00309B1E /* FixedPipelineStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */; };
+		84F4880F2EEA4F5C00309B1E /* FixedPipelineStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */; };
+		84F488102EEA4F5C00309B1E /* FogStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */; };
+		84F488112EEA4F5C00309B1E /* FogStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */; };
 		84F77A002EA1BFB40045C907 /* libNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842610682AE988D30065905F /* libNetwork.a */; };
 		84F77A032EA1BFF30045C907 /* libServer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84F779FD2EA1BF8E0045C907 /* libServer.a */; };
 		84F77A092EA1C0050045C907 /* ServerPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A052EA1C0050045C907 /* ServerPlayer.cpp */; };
@@ -2135,8 +2139,6 @@
 		8492594E2AD8FD4F0081F5B9 /* minecraftpeAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeAppDelegate.mm; sourceTree = "<group>"; };
 		8492594F2AD8FD4F0081F5B9 /* minecraftpeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minecraftpeViewController.h; sourceTree = "<group>"; };
 		849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = minecraftpeViewController.mm; sourceTree = "<group>"; };
-		849259522AD8FD4F0081F5B9 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
-		849259532AD8FD4F0081F5B9 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
 		8492595F2AD8FDCB0081F5B9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		849259612AD8FDD10081F5B9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		849259632AD8FDD90081F5B9 /* minecraftpe-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "minecraftpe-Info.plist"; sourceTree = "<group>"; };
@@ -2699,6 +2701,10 @@
 		84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataLayer.cpp; sourceTree = "<group>"; };
 		84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataLayer.hpp; sourceTree = "<group>"; };
 		84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileChange.hpp; sourceTree = "<group>"; };
+		84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateNull.cpp; sourceTree = "<group>"; };
+		84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateNull.hpp; sourceTree = "<group>"; };
+		84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateNull.cpp; sourceTree = "<group>"; };
+		84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateNull.hpp; sourceTree = "<group>"; };
 		84F779FD2EA1BF8E0045C907 /* libServer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libServer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84F77A052EA1C0050045C907 /* ServerPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerPlayer.cpp; sourceTree = "<group>"; };
 		84F77A062EA1C0050045C907 /* ServerPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ServerPlayer.hpp; sourceTree = "<group>"; };
@@ -4174,8 +4180,6 @@
 				849259502AD8FD4F0081F5B9 /* minecraftpeViewController.mm */,
 				849259482AD8FD4F0081F5B9 /* minecraftpeViewController.xib */,
 				8484ABDC2B32935700076873 /* PlatformDefinitions_iOS.h */,
-				849259522AD8FD4F0081F5B9 /* Shader.fsh */,
-				849259532AD8FD4F0081F5B9 /* Shader.vsh */,
 				8488C0882B1EDD4F001AEC4F /* ShowKeyboardView.h */,
 				8488C0892B1EDD4F001AEC4F /* ShowKeyboardView.mm */,
 				8492595D2AD8FDB70081F5B9 /* Supporting Files */,
@@ -4612,6 +4616,7 @@
 				84EB0C732EE2D4B3008FB007 /* ImageDescription.cpp */,
 				84EB0C742EE2D4B3008FB007 /* ImageDescription.hpp */,
 				84EB0C752EE2D4B3008FB007 /* interface */,
+				84F487E72EEA4F5C00309B1E /* null */,
 				84EB0CB52EE2D4B3008FB007 /* ogl */,
 				84EB0CE02EE2D4B3008FB007 /* RasterizerStateDescription.cpp */,
 				84EB0CE12EE2D4B3008FB007 /* RasterizerStateDescription.hpp */,
@@ -4825,6 +4830,17 @@
 			path = ogl;
 			sourceTree = "<group>";
 		};
+		84F487E72EEA4F5C00309B1E /* null */ = {
+			isa = PBXGroup;
+			children = (
+				84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */,
+				84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */,
+				84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */,
+				84F487F32EEA4F5C00309B1E /* FogStateNull.hpp */,
+			);
+			path = null;
+			sourceTree = "<group>";
+		};
 		84F77A042EA1C0050045C907 /* server */ = {
 			isa = PBXGroup;
 			children = (
@@ -4861,6 +4877,7 @@
 				84EB0DD62EE2D4B4008FB007 /* ShaderResourceOGL.hpp in Headers */,
 				84EB0D6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp in Headers */,
 				84EB0DDD2EE2D4B4008FB007 /* ShaderStage.hpp in Headers */,
+				84F488112EEA4F5C00309B1E /* FogStateNull.hpp in Headers */,
 				84EB0D892EE2D4B3008FB007 /* RenderDevice.hpp in Headers */,
 				84EB0D8E2EE2D4B3008FB007 /* ShaderConstantWithData.hpp in Headers */,
 				84EB0D6C2EE2D4B3008FB007 /* FogStateDescription.hpp in Headers */,
@@ -4910,6 +4927,7 @@
 				84EB0D312EE2D4B3008FB007 /* FrameBufferObjectBase.hpp in Headers */,
 				84EB0DE12EE2D4B4008FB007 /* TextureDescription.hpp in Headers */,
 				84EB0D662EE2D4B3008FB007 /* VertexField.hpp in Headers */,
+				84F4880F2EEA4F5C00309B1E /* FixedPipelineStateNull.hpp in Headers */,
 				84EB0DBE2EE2D4B4008FB007 /* FogStateOGL.hpp in Headers */,
 				84EB0D352EE2D4B3008FB007 /* RasterizerStateBase.hpp in Headers */,
 				84EB0DBA2EE2D4B4008FB007 /* DepthStencilStateOGL.hpp in Headers */,
@@ -5850,7 +5868,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ldid -S\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/minecraftpe.entitlements\" \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"\necho \"Fake-signed ${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"";
+			shellScript = "codesign -s - --entitlements \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/minecraftpe.entitlements\" \"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"\necho \"Fake-signed ${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/${EXECUTABLE_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -5860,6 +5878,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84EB0DC72EE2D4B4008FB007 /* RenderContextOGL.cpp in Sources */,
+				84F4880E2EEA4F5C00309B1E /* FixedPipelineStateNull.cpp in Sources */,
 				84EB0D342EE2D4B3008FB007 /* RasterizerStateBase.cpp in Sources */,
 				84EB0DC52EE2D4B4008FB007 /* RasterizerStateOGL.cpp in Sources */,
 				84EB0DD72EE2D4B4008FB007 /* ShaderUniformOGL.cpp in Sources */,
@@ -5947,6 +5966,7 @@
 				84EB0DD52EE2D4B4008FB007 /* ShaderResourceOGL.cpp in Sources */,
 				84EB0D732EE2D4B3008FB007 /* BlendState.cpp in Sources */,
 				84EB0DB92EE2D4B4008FB007 /* DepthStencilStateOGL.cpp in Sources */,
+				84F488102EEA4F5C00309B1E /* FogStateNull.cpp in Sources */,
 				84EB0D222EE2D4B3008FB007 /* BufferBase.cpp in Sources */,
 				84EB0D512EE2D4B3008FB007 /* ComparisonFunc_JsonParser.cpp in Sources */,
 				84EB0DEA2EE2D4B4008FB007 /* Extensions.cpp in Sources */,

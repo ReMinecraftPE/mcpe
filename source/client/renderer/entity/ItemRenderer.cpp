@@ -82,7 +82,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 
 	matrix->translate(Vec3(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z));
 
-#if MCE_GFX_API_OGL
+#if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
 	glEnable(GL_RESCALE_NORMAL);
 #endif
 
@@ -149,11 +149,12 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
 			t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16))     / 256.0f);
 
+			_setupShaderParameters(entity, Color::NIL, a);
 			t.draw(m_materials.entity_alphatest);
 		}
 	}
 
-#if MCE_GFX_API_OGL
+#if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
 	glDisable(GL_RESCALE_NORMAL);
 #endif
 }

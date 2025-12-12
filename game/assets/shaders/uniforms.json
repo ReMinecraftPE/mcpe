@@ -1,0 +1,46 @@
+{
+    "RenderChunkConstants": [
+        { "CHUNK_ORIGIN": "Float3" }
+    ],
+
+    "EntityConstants": [
+        { "OVERLAY_COLOR": "Float4" },
+        { "TILE_LIGHT_COLOR": "Float4" },
+        { "CHANGE_COLOR": "Float4" },
+        { "UV_ANIM": "Float2" },
+        { "UV_OFFSET": "Float2" },
+        { "UV_ROTATION": "Float2" },
+        { "GLINT_UV_SCALE": "Float2" }
+    ],
+
+    "PerFrameConstants": [
+        { "VIEW_DIRECTION": "Float3" },
+        { "TIME": "Float1" },
+        { "VIEW_POS": "Float3" },
+        { "FAR_CHUNKS_DISTANCE": "Float1" },
+        { "FOG_COLOR": "Float4" },
+        { "FOG_CONTROL": "Float2" },
+        { "RENDER_DISTANCE": "Float1" }
+    ],
+
+    "WorldConstants": [
+        { "WORLDVIEWPROJ": "Matrix4x4" },
+        { "WORLD": "Matrix4x4" }
+    ],
+
+    "ShaderConstants": [
+        { "CURRENT_COLOR": "Float4" },
+        { "DARKEN": "Float4" }
+    ],
+
+    "WeatherConstants": [
+        { "POSITION_OFFSET": "Float4" },
+        { "VELOCITY": "Float4" },
+        { "ALPHA": "Float4" },
+        { "VIEW_POSITION": "Float4" },
+        { "SIZE_SCALE": "Float4" },
+        { "FORWARD": "Float4" },
+        { "UV_INFO": "Float4" },
+		{ "PARTICLE_BOX": "Float4" }
+    ]
+}

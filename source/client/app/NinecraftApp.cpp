@@ -255,7 +255,10 @@ void NinecraftApp::init()
 
 	m_pGui = new Gui(this);
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
-	m_pFont = new Font(getOptions(), "font/default8.png", m_pTextures);
+	std::string font = "font/default8.png";
+	if (!platform()->doesTextureExist(font))
+		font = "font/default.png";
+	m_pFont = new Font(getOptions(), font, m_pTextures);
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
 	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);

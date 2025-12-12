@@ -15,21 +15,27 @@
 #include "EndianDefinitions.h"
 
 /* Apple - Mac OS X / macOS */
-#if (TARGET_OS_MAC && (TARGET_OS_OSX || !defined(TARGET_OS_OSX)))
+#if defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) || \
+    (defined(TARGET_OS_MAC) && TARGET_OS_MAC)
 #define MC_PLATFORM_MAC 1
 #else
 #define MC_PLATFORM_MAC 0
 #endif
 
 /* Apple - iPhoneOS / iOS */
-#if (TARGET_OS_IPHONE && (TARGET_OS_IOS || !defined(TARGET_OS_IOS)))
+#if defined(__ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__) || \
+    (defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE)
 #define MC_PLATFORM_IOS 1
 #else
 #define MC_PLATFORM_IOS 0
 #endif
 
 /* Apple - Device Simulator */
-#define MC_PLATFORM_SIMULATOR (TARGET_OS_SIMULATOR || TARGET_IPHONE_SIMULATOR)
+#if defined(__APPLE_EMBEDDED_SIMULATOR__) || \
+    (defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR) || \
+    (defined(TARGET_IPHONE_SIMULATOR) || TARGET_IPHONE_SIMULATOR)
+#define MC_PLATFORM_SIMULATOR 1
+#endif
 
 /* Google - Android */
 #if (defined(ANDROID))

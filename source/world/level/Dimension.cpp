@@ -32,7 +32,7 @@ Dimension* Dimension::createNew(DimensionId type)
 	}
 }
 
-Vec3 Dimension::getFogColor(float a, float b)
+Vec3 Dimension::getFogColor(float a, float b) const
 {
 	float x1 = cosf(a * M_PI * 2.0f);
 	float x2 = x1 * 2 + 0.5f;
@@ -59,7 +59,7 @@ Vec3 Dimension::getFogColor(float a, float b)
 	return v;
 }
 
-float* Dimension::getSunriseColor(float a, float b)
+const float* Dimension::getSunriseColor(float a, float b)
 {
 	float radial = 0.4f;
 	float dot = Mth::cos(a * M_PI * 2.0f) - 0.125f; // * 2.0f + 0.5f;
@@ -96,7 +96,7 @@ float* Dimension::getSunriseColor(float a, float b)
 	*/
 }
 
-float Dimension::getTimeOfDay(int32_t l, float f)
+float Dimension::getTimeOfDay(int32_t l, float f) const
 {
 #ifndef ENH_RUN_DAY_NIGHT_CYCLE
 	//@QUIRK: This is a constant.
@@ -173,7 +173,7 @@ Dimension::~Dimension()
 		delete m_pBiomeSource;
 }
 
-bool Dimension::mayRespawn()
+bool Dimension::mayRespawn() const
 {
 	return true;
 }
@@ -187,7 +187,7 @@ ChunkSource* Dimension::createRandomLevelSource()
 #endif
 }
 
-bool Dimension::isValidSpawn(const TilePos& pos)
+bool Dimension::isValidSpawn(const TilePos& pos) const
 {
 	TileID tile = m_pLevel->getTopTile(pos);
 	if (tile == Tile::invisible_bedrock->m_ID)
@@ -199,4 +199,10 @@ bool Dimension::isValidSpawn(const TilePos& pos)
 #endif
 	
 	return Tile::tiles[tile]->isSolidRender();
+}
+
+bool Dimension::isNaturalDimension() const
+{
+	// false in Hell
+	return true;
 }

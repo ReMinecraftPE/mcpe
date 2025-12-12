@@ -80,9 +80,7 @@
 		"states" : ["Blending"]
 	},
 
-	"item_in_hand:entity": {
-		"states": ["EnableAlphaTest"],
-		"defines": ["COLOR_BASED"]
+	"item_in_hand:entity_alphatest": {
 	},
 
 	"heavy_tile:entity_static": {

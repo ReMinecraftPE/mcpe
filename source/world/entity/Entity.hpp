@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "common/math/Color.hpp"
 #include "world/phys/Vec3.hpp"
 #include "world/phys/Vec2.hpp"
 #include "world/phys/AABB.hpp"
@@ -147,6 +148,7 @@ public:
 	virtual DimensionId getDimensionId() const { return m_dimensionId; }
 	virtual Vec3 getPos(float f) const;
 	virtual Vec2 getRot(float f) const;
+	virtual Vec3 getViewVector(float f) const;
 	virtual float distanceTo(const Entity*) const;
 	virtual float distanceToSqr(const Vec3& pos) const;
 	virtual float distanceTo(const Vec3& pos) const;
@@ -241,6 +243,7 @@ public:
 	Vec3 m_vel;
 	Vec2 m_rot;
 	Vec2 m_oRot; // "RotO" in Java or "xRotO" "yRotO"
+	Color m_tintColor;
 	AABB m_hitbox;
 	bool m_bOnGround;
 	bool m_bHorizontalCollision;

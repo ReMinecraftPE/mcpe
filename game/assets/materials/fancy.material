@@ -7,9 +7,11 @@
 			"EnableAlphaTest"
 		],
 		"depthFunc": "LessEqual",
+		
+		"defines": [ "ALPHA_TEST" ],
 
 		"vertexShader" : "shaders/cloud.vertex",
-		"fragmentShader" : "shaders/color.fragment"
+		"fragmentShader" : "shaders/color_texture.fragment"
 	}
 }
 

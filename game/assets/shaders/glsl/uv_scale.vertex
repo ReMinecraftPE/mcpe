@@ -1,0 +1,16 @@
+// __multiversion__
+
+uniform MAT4 WORLDVIEWPROJ;
+uniform vec2 GLINT_UV_SCALE;
+
+attribute POS4 POSITION;
+attribute vec2 TEXCOORD_0;
+
+varying vec2 uv;
+
+void main()
+{
+    gl_Position = WORLDVIEWPROJ * POSITION;
+
+    uv = TEXCOORD_0 * GLINT_UV_SCALE.xy;
+}
