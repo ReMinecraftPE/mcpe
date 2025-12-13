@@ -143,7 +143,7 @@ for target in $targets; do
 done
 
 lipo -create "$workdir/$bin"-* -output "build/$bin"
-[ -z "$DEBUG" ] && "$strip" "build/$bin"
+[ -z "$DEBUG" ] && "$strip" -no_code_signature_warning "build/$bin"
 if command -v ldid >/dev/null; then
     ldid -S"$entitlements" "build/$bin"
 else
