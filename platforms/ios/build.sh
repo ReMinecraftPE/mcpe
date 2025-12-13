@@ -92,8 +92,10 @@ done
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
-printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1
-[ -f "$workdir/testout" ] && lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto' && rm "$workdir/testout"
+if [ -z "$DEBUG" ]; then
+    printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1
+    [ -f "$workdir/testout" ] && lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto' && rm "$workdir/testout"
+fi
 
 if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
     printf '\nBuilding ldid...\n\n'
