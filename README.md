@@ -21,7 +21,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 	* Linux
 	* WebGL
 	* macOS (10.4 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
-	* iOS (3.0 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
+	* iOS (3.1 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
 
 **We will not do the following:**
