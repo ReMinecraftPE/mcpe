@@ -50,12 +50,12 @@ Tesselator::CurrentVertexPointers::CurrentVertexPointers(void* vertexData, const
 
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_UV0))
 	{
-		uvs[0] = (UV*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0, vertexData);
+		uvs[0] = (void*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV0, vertexData);
 	}
 
 	if (vertexFormat.hasField(mce::VERTEX_FIELD_UV1))
 	{
-		uvs[1] = (UV*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV1, vertexData);
+		uvs[1] = (void*)vertexFormat.getFieldOffset(mce::VERTEX_FIELD_UV1, vertexData);
 	}
 }
 
@@ -67,8 +67,8 @@ void Tesselator::CurrentVertexPointers::nextVertex()
 
 	if (color)  color  = (uint32_t*)((uint8_t*)color + vertexSize);
 	if (normal) normal = (uint32_t*)((uint8_t*)normal + vertexSize);
-	if (uvs[0]) uvs[0] = (UV*)((uint8_t*)uvs[0] + vertexSize);
-	if (uvs[1]) uvs[1] = (UV*)((uint8_t*)uvs[1] + vertexSize);
+	if (uvs[0]) uvs[0] = (uint8_t*)uvs[0] + vertexSize;
+	if (uvs[1]) uvs[1] = (uint8_t*)uvs[1] + vertexSize;
 }
 
 void Tesselator::CurrentVertexPointers::clear()
@@ -226,9 +226,11 @@ void Tesselator::begin(mce::PrimitiveMode mode, int maxVertices)
 
 void Tesselator::beginIndices(int maxIndices)
 {
+	const mce::RenderContext& renderContext = mce::RenderContextImmediate::getAsConst();
+
 	m_bHasIndices = true;
 
-	if (m_vertices < 0x10000 || !mce::RenderContext::supports32BitIndices())
+	if (m_vertices < 0x10000 || !renderContext.supports32BitIndices())
 		m_indexSize = sizeof(uint16_t);
 	else
 		m_indexSize = sizeof(uint32_t);
@@ -412,7 +414,9 @@ void Tesselator::triangle(unsigned int x, unsigned int y, unsigned int z)
 
 void Tesselator::vertex(float x, float y, float z)
 {
-	if (m_count == mce::RenderContext::getMaxVertexCount())
+	const mce::RenderContext& renderContext = mce::RenderContextImmediate::getAsConst();
+
+	if (m_count == renderContext.getMaxVertexCount())
 		return;
 
 	m_count++;
@@ -455,11 +459,19 @@ void Tesselator::vertex(float x, float y, float z)
 		if (m_currentVertex.uvs[i])
 		{
 #ifdef ENH_GFX_COMPACT_UVS
-			m_currentVertex.uvs[i][0] = ceilf(m_nextVtxUVs[i].x * 65535.f);
-			m_currentVertex.uvs[i][1] = ceilf(m_nextVtxUVs[i].y * 65535.f);
+			if (renderContext.supports16BitUnsignedUVs())
+			{
+				((uint16_t*)m_currentVertex.uvs[i])[0] = (uint16_t)ceilf(m_nextVtxUVs[i].x * 65535.f);
+				((uint16_t*)m_currentVertex.uvs[i])[1] = (uint16_t)ceilf(m_nextVtxUVs[i].y * 65535.f);
+			}
+			else
+			{
+				((int16_t*)m_currentVertex.uvs[i])[0] = (int16_t)ceilf(m_nextVtxUVs[i].x * 32767.f);
+				((int16_t*)m_currentVertex.uvs[i])[1] = (int16_t)ceilf(m_nextVtxUVs[i].y * 32767.f);
+			}
 #else
-			m_currentVertex.uvs[i][0] = m_nextVtxUVs[i].x;
-			m_currentVertex.uvs[i][1] = m_nextVtxUVs[i].y;
+			((float*)m_currentVertex.uvs[i])[0] = m_nextVtxUVs[i].x;
+			((float*)m_currentVertex.uvs[i])[1] = m_nextVtxUVs[i].y;
 #endif
 		}
 	}

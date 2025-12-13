@@ -118,12 +118,17 @@ uint8_t RenderContextBase::getStencilReference() const
     return m_stencilReference;
 }
 
-int RenderContextBase::getMaxVertexCount()
+int RenderContextBase::getMaxVertexCount() const
 {
-    return 0;
+    return -1;
 }
 
-bool RenderContextBase::supports32BitIndices()
+bool RenderContextBase::supports32BitIndices() const
+{
+    return true;
+}
+
+bool RenderContextBase::supports16BitUnsignedUVs() const
 {
     return true;
 }

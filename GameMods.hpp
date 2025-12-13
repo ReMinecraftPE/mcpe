@@ -53,8 +53,4 @@
 // Toggle Demo Mode
 //#define DEMO
 
-#ifndef FEATURE_GFX_SHADERS
-#undef ENH_GFX_COMPACT_UVS
-#endif
-
 #endif

@@ -12,12 +12,17 @@ RenderContextOGL::VertexFieldFormat RenderContextOGL::vertexFieldFormats[] = {
     { GL_UNSIGNED_BYTE,  4, GL_TRUE  }, // VERTEX_FIELD_COLOR
     { GL_BYTE,           4, GL_FALSE }, // VERTEX_FIELD_NORMAL
 #ifdef ENH_GFX_COMPACT_UVS
+#ifdef FEATURE_GFX_SHADERS
     { GL_UNSIGNED_SHORT, 2, GL_TRUE  }, // VERTEX_FIELD_UV0
     { GL_UNSIGNED_SHORT, 2, GL_TRUE  }  // VERTEX_FIELD_UV1
 #else
+    { GL_SHORT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0
+    { GL_SHORT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1
+#endif // FEATURE_GFX_SHADERS
+#else
     { GL_FLOAT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0
     { GL_FLOAT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1
-#endif
+#endif // ENH_GFX_COMPACT_UVS
 };
 
 RenderContextOGL::RenderContextOGL()
@@ -279,14 +284,19 @@ void RenderContextOGL::swapBuffers()
 {
 }
 
-int RenderContextOGL::getMaxVertexCount()
+int RenderContextOGL::getMaxVertexCount() const
 {
     return gl::getMaxVertexCount();
 }
 
-bool RenderContextOGL::supports32BitIndices()
+bool RenderContextOGL::supports32BitIndices() const
 {
     return gl::supports32BitIndices();
+}
+
+bool RenderContextOGL::supports16BitUnsignedUVs() const
+{
+    return gl::supports16BitUnsignedUVs();
 }
 
 GLuint& RenderContextOGL::getActiveBuffer(BufferType bufferType)

@@ -29,20 +29,13 @@ public:
 	static Tesselator instance; // singleton
 
 public:
-#ifdef ENH_GFX_COMPACT_UVS
-	typedef uint16_t UV;
-#else
-	typedef float UV;
-#endif
-
-public:
 	class CurrentVertexPointers
 	{
 	public:
 		Vec3* pos;
 		uint32_t* color;
 		uint32_t* normal;
-		UV* uvs[2];
+		void* uvs[2];
 		const mce::VertexFormat* pFormat;
 
 	private:

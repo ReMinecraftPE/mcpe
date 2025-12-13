@@ -56,7 +56,8 @@ namespace mce
         void setStencilReference(uint8_t value);
         uint8_t getStencilReference() const;
 
-        static int getMaxVertexCount();
-        static bool supports32BitIndices();
+        int getMaxVertexCount() const;
+        bool supports32BitIndices() const;
+        bool supports16BitUnsignedUVs() const;
     };
 }
