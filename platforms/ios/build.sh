@@ -36,17 +36,15 @@ fi
 
 if [ "$(uname -s)" = "Darwin" ]; then
     ar="${AR:-ar}"
-    lipo="${LIPO:-lipo}"
     ranlib="${RANLIB:-ranlib}"
     strip='strip'
 else
     ar="${AR:-"llvm-ar"}"
-    lipo="${LIPO:-"llvm-lipo"}"
     ranlib="${RANLIB:-"llvm-ranlib"}"
     strip='cctools-strip'
 fi
 
-for var in ar lipo ranlib; do
+for var in ar ranlib; do
     dep="$(eval "echo \$$var")"
     if ! command -v "$dep" >/dev/null; then
         printf '%s not found!\n' "$dep"
@@ -82,8 +80,9 @@ make -C ld64 -j"$ncpus"
 mv ld64/src/ld/ld ../../bin/ld64.ld64
 make -C libmacho -j"$ncpus"
 make -C libstuff -j"$ncpus"
-make -C misc strip
+make -C misc strip lipo
 cp misc/strip ../../bin/cctools-strip
+cp misc/lipo ../../bin/lipo
 cd ../..
 for target in $targets; do
     ln -s ../../../ios-cc.sh "bin/$target-cc"
@@ -143,7 +142,7 @@ for target in $targets; do
     cd ..
 done
 
-"$lipo" -create "$workdir/$bin"-* -output "build/$bin"
+lipo -create "$workdir/$bin"-* -output "build/$bin"
 [ -z "$DEBUG" ] && "$strip" "build/$bin"
 if command -v ldid >/dev/null; then
     ldid -S"$entitlements" "build/$bin"
