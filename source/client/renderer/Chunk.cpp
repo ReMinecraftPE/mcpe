@@ -146,6 +146,7 @@ void Chunk::rebuild()
 	TileRenderer tileRenderer(t, &region);
 
 	TilePos tp(min);
+	LevelChunk* chunk = region.getChunkAt(tp);
 	for (int layer = Tile::RENDER_LAYERS_MIN; layer <= Tile::RENDER_LAYERS_MAX; layer++)
 	{
 		bool started = false, rendered = false, renderNextLayer = false;
@@ -155,7 +156,7 @@ void Chunk::rebuild()
 			{
 				for (tp.x = min.x; tp.x < max.x; tp.x++)
 				{
-					TileID tile = region.getTile(tp);
+					TileID tile = chunk->getTile(tp);
 					if (tile <= 0) continue;
 
 					if (!started)
