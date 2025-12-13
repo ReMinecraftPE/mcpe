@@ -110,7 +110,6 @@ jobs:
               CLANG: clang-21
               AR: llvm-ar-21
               RANLIB: llvm-ranlib-21
-              LIPO: llvm-lipo-21
               LLVM_CONFIG: llvm-config-21
               REMCPE_NO_IPA: 1
     android:
