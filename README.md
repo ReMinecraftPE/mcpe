@@ -167,13 +167,16 @@ To build, perform the same steps as on Linux.
 
 #### Dependencies (Ubuntu/Debian cross build)
 
-- `build-essential` (C/C++ Toolchain)
 - `clang` (Clang)
 - `llvm` (LLVM)
 - `cmake` (CMake)
 - `make` (GNU Make)
+- `pkg-config` (pkg-config)
 - `wget` (Wget)
+- `zip` (zip)
+- `libplist-utils` (plistutil)
 - `libplist-dev` (libplist development headers)
+- `libssl-dev` (OpenSSL development headers)
 
 #### How To Build
 
