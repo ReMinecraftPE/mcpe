@@ -1,9 +1,9 @@
 #include <stdexcept>
+#include "RenderContextOGL.hpp"
 #include "common/Logger.hpp"
 #include "renderer/hal/interface/DepthStencilState.hpp"
+#include "renderer/hal/helpers/ErrorHandler.hpp"
 #include "world/phys/Vec3.hpp"
-#include "RenderContextOGL.hpp"
-#include "helpers/ErrorHandlerOGL.hpp"
 
 using namespace mce;
 
@@ -75,7 +75,7 @@ void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
         const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_POSITION];
         xglVertexPointer(field.components, field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_POSITION));
         xglEnableClientState(GL_VERTEX_ARRAY);
-        ErrorHandlerOGL::checkForErrors();
+        ErrorHandler::checkForErrors();
     }
 
     if (vertexFormat.hasField(VERTEX_FIELD_UV0))
@@ -83,7 +83,7 @@ void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
         const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_UV0];
         xglTexCoordPointer(field.components, field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_UV0));
         xglEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        ErrorHandlerOGL::checkForErrors();
+        ErrorHandler::checkForErrors();
     }
 
     if (vertexFormat.hasField(VERTEX_FIELD_COLOR))
@@ -91,7 +91,7 @@ void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
         const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_COLOR];
         xglColorPointer(field.components, field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_COLOR));
         xglEnableClientState(GL_COLOR_ARRAY);
-        ErrorHandlerOGL::checkForErrors();
+        ErrorHandler::checkForErrors();
     }
 
 #ifdef USE_GL_NORMAL_LIGHTING
@@ -100,7 +100,7 @@ void RenderContextOGL::setVertexState(const VertexFormat& vertexFormat)
         const VertexFieldFormat& field = vertexFieldFormats[VERTEX_FIELD_NORMAL];
         xglNormalPointer(field.componentsType, vertexSize, vertexFormat.getFieldOffset(VERTEX_FIELD_NORMAL));
         xglEnableClientState(GL_NORMAL_ARRAY);
-        ErrorHandlerOGL::checkForErrors();
+        ErrorHandler::checkForErrors();
     }
 #endif
 #endif

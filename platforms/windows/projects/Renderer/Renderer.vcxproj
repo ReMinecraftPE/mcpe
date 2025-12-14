@@ -52,7 +52,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\ShaderPrimitiveTypes.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\helpers\ErrorHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\helpers\TextureHelper.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ImageDescription.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\interface\BlendState.cpp" />
@@ -129,6 +128,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.cpp" />
@@ -142,6 +142,30 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.cpp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='D3D11'">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\API_DXGI.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\ErrorHandlerDXGI.cpp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='D3D11'">
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\API_D3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\BlendStateD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\BufferD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ConstantBufferContainerD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\DepthStencilStateD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\GPUEventsD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ImmediateBufferD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ProfileSectionD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\RasterizerStateD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderContextD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderDeviceD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantWithDataD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderProgramD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderResourceD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderUniformD3D11.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\TextureD3D11.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp" />
@@ -195,7 +219,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\VertexFieldType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FixedPipelineStateDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\FogStateDescription.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\helpers\ErrorHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\helpers\TextureHelper.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ImageDescription.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\interface\BlendState.hpp" />
@@ -267,6 +290,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.hpp" />
@@ -281,12 +305,37 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.hpp" />
   </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='D3D11'">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\API_DXGI.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\ErrorHandlerDXGI.hpp" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='D3D11'">
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\API_D3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\BlendStateD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\BufferD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ConstantBufferContainerD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\DepthStencilStateD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\GPUEventsD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ImmediateBufferD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ProfileSectionD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\RasterizerStateD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderContextD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderDeviceD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantWithDataD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderProgramD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderResourceD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderUniformD3D11.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\TextureD3D11.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{bd8b8369-d75d-4d12-a85f-c521349b9125}</ProjectGuid>
     <RootNamespace>Renderer</RootNamespace>
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ProjectName>Renderer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />

@@ -121,7 +121,7 @@ std::string _getVersionMacro()
 
 bool ShaderProgramOGL::compileShaderProgram(std::string& shaderSource)
 {
-    ErrorHandlerOGL::checkForErrors();
+    ErrorHandler::checkForErrors();
     
     m_shaderName = xglCreateShader(shaderTypeMap[m_shaderType]);
 
@@ -150,7 +150,7 @@ bool ShaderProgramOGL::compileShaderProgram(std::string& shaderSource)
         return false;
     }
 
-    ErrorHandlerOGL::checkForErrors();
+    ErrorHandler::checkForErrors();
 
     return true;
 }

@@ -78,7 +78,7 @@ void ShaderOGL::resetLastProgram()
 
 void ShaderOGL::createAndAttachPrograms()
 {
-    ErrorHandlerOGL::checkForErrors();
+    ErrorHandler::checkForErrors();
     
     m_program = xglCreateProgram();
 
@@ -87,14 +87,14 @@ void ShaderOGL::createAndAttachPrograms()
     if (m_geometryShader.isValid())
         xglAttachShader(m_program, m_geometryShader.m_shaderName);
     
-    ErrorHandlerOGL::checkForErrors();
+    ErrorHandler::checkForErrors();
 }
 
 void ShaderOGL::linkShader()
 {
     xglLinkProgram(m_program);
 
-    ErrorHandlerOGL::checkForErrors();
+    ErrorHandler::checkForErrors();
 
     GLint linkStatus;
     xglGetProgramiv(m_program, GL_LINK_STATUS, &linkStatus);
@@ -154,7 +154,7 @@ void ShaderOGL::bindVertexPointers(const VertexFormat& vertexFormat, const void*
             vertexFormat.getFieldOffset(vertexField, vertexData)
         );
 
-        ErrorHandlerOGL::checkForErrors();
+        ErrorHandler::checkForErrors();
     }
 }
 

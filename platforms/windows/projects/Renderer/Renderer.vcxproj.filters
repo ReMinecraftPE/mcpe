@@ -69,6 +69,24 @@
     <Filter Include="Source Files\HAL\Null">
       <UniqueIdentifier>{d1d2f648-6a5d-4700-b21c-30831ad9f50c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\HAL\D3D11">
+      <UniqueIdentifier>{c66b2208-5e22-4538-8326-f1486c14f70d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\D3D11">
+      <UniqueIdentifier>{e29a92fd-622b-445d-b195-b435d63b382e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HAL\DXGI">
+      <UniqueIdentifier>{e54a3651-7943-4ccd-9e7c-5e1e401bfba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HAL\DXGI\Helpers">
+      <UniqueIdentifier>{f0ac9809-0b72-487d-b203-6c77f8b78b30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\DXGI">
+      <UniqueIdentifier>{5da2ff22-06fc-44c5-8c78-cd6a0f82e255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\DXGI\Helpers">
+      <UniqueIdentifier>{860bbb98-0c9b-45dc-a01f-23643e8678af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp">
@@ -191,9 +209,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\VertexFieldType.hpp">
       <Filter>Header Files\HAL\Enums</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\helpers\ErrorHandler.hpp">
-      <Filter>Header Files\HAL\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\helpers\TextureHelper.hpp">
       <Filter>Header Files\HAL\Helpers</Filter>
     </ClInclude>
@@ -276,6 +291,9 @@
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp">
+      <Filter>Header Files\HAL\OGL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.hpp">
       <Filter>Header Files\HAL\OGL</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.hpp">
@@ -523,9 +541,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\helpers\ErrorHandler.cpp">
-      <Filter>Source Files\HAL\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\helpers\TextureHelper.cpp">
       <Filter>Source Files\HAL\Helpers</Filter>
     </ClCompile>
@@ -602,6 +617,9 @@
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp">
+      <Filter>Source Files\HAL\OGL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.cpp">
       <Filter>Source Files\HAL\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.cpp">

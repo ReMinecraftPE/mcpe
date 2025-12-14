@@ -1,8 +1,8 @@
 #include <typeinfo>
 #include "BufferOGL.hpp"
 #include "common/Logger.hpp"
+#include "renderer/hal/helpers/ErrorHandler.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
-#include "helpers/ErrorHandlerOGL.hpp"
 
 using namespace mce;
 
@@ -34,7 +34,7 @@ BufferOGL::~BufferOGL()
 
 void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
 {
-    ErrorHandlerOGL::checkForErrors();
+    ErrorHandler::checkForErrors();
 
     m_target = mce::glTargetFromBufferType(bufferType);
 
@@ -47,7 +47,7 @@ void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const
 
     xglBufferData(m_target, m_internalSize, data, m_usage);
 
-    ErrorHandlerOGL::checkForErrors();
+    ErrorHandler::checkForErrors();
 }
 
 void BufferOGL::_move(BufferOGL& other)
