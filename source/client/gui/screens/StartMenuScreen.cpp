@@ -494,14 +494,13 @@ void StartMenuScreen::init()
 
 #if defined(DEMO) || (!MC_PLATFORM_IOS && !MC_PLATFORM_ANDROID)
 	canQuit = true;
-#else
-	m_optionsButton.m_xPos = m_startButton.m_xPos;
-	m_optionsButton.m_width = m_startButton.m_width;
 #endif
 
 	if (canQuit)
     {
-        m_buttons.push_back(&m_buyButton);
+        //m_buttons.push_back(&m_buyButton);
+		m_optionsButton.m_xPos = m_startButton.m_xPos;
+		m_optionsButton.m_width = m_startButton.m_width;
     }
 
 	for (int i = 0; i < int(m_buttons.size()); i++)
