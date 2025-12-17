@@ -11,7 +11,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
   * Pocket Edition sky colors
   * Normal lighting (something Pocket Edition lacked)
   * Alpha title logo
-* To (in the future) provide a cross-platform modding API in a language like [Luau](https://luau.org/), giving more creative control to the community.
+* To (in the future) provide a cross-platform modding API in [WebAssembly](https://webassembly.org/), giving more creative control to the community.
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
 * To add support for as many platforms as possible, such as the Xbox 360, PlayStation 3, Wii, and more.
