@@ -14,7 +14,7 @@ uniform vec2 GLINT_UV_SCALE;
 
 attribute POS4 POSITION;
 attribute vec2 TEXCOORD_0;
-attribute vec2 TEXCOORD_1;
+attribute vec2 TEXCOORD_1; // attribute padding (see PR #235)
 attribute vec4 NORMAL;
 
 #ifdef COLOR_BASED
