@@ -36,17 +36,15 @@ fi
 
 if [ "$(uname -s)" = "Darwin" ]; then
     ar="${AR:-ar}"
-    lipo="${LIPO:-lipo}"
     ranlib="${RANLIB:-ranlib}"
     strip='strip'
 else
     ar="${AR:-"llvm-ar"}"
-    lipo="${LIPO:-"llvm-lipo"}"
     ranlib="${RANLIB:-"llvm-ranlib"}"
     strip='cctools-strip'
 fi
 
-for var in ar lipo ranlib; do
+for var in ar ranlib; do
     dep="$(eval "echo \$$var")"
     if ! command -v "$dep" >/dev/null; then
         printf '%s not found!\n' "$dep"
@@ -82,8 +80,9 @@ make -C ld64 -j"$ncpus"
 mv ld64/src/ld/ld ../../bin/ld64.ld64
 make -C libmacho -j"$ncpus"
 make -C libstuff -j"$ncpus"
-make -C misc strip
+make -C misc strip lipo
 cp misc/strip ../../bin/cctools-strip
+cp misc/lipo ../../bin/lipo
 cd ../..
 for target in $targets; do
     ln -s ../../../ios-cc.sh "bin/$target-cc"
@@ -93,8 +92,10 @@ done
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1
-    [ -f "$workdir/testout" ] && lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto' && rm "$workdir/testout"
+    if printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+        lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
+    fi
+    rm -f "$workdir/testout"
 fi
 
 if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
@@ -143,8 +144,8 @@ for target in $targets; do
     cd ..
 done
 
-"$lipo" -create "$workdir/$bin"-* -output "build/$bin"
-[ -z "$DEBUG" ] && "$strip" "build/$bin"
+lipo -create "$workdir/$bin"-* -output "build/$bin"
+[ -z "$DEBUG" ] && "$strip" -no_code_signature_warning "build/$bin"
 if command -v ldid >/dev/null; then
     ldid -S"$entitlements" "build/$bin"
 else
