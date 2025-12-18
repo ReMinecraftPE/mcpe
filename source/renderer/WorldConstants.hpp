@@ -10,6 +10,8 @@ namespace mce
     public:
         ShaderConstantMatrix4x4* WORLDVIEWPROJ;
         ShaderConstantMatrix4x4* WORLD;
+        ShaderConstantMatrix4x4* WORLDVIEW;
+        ShaderConstantMatrix4x4* PROJ;
 
     public:
         WorldConstants();

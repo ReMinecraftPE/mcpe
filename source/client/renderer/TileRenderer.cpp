@@ -86,7 +86,8 @@ TileRenderer::TileRenderer(Tesselator& tessellator, LevelSource* pLevelSource)
 
 void TileRenderer::_tex1(const Vec2& uv)
 {
-#if 0
+	// for use of 3rdparty (including vanilla) shaders
+#ifdef FEATURE_SHADER_TEX1
 	if (m_bRenderingGui)
 		return;
 
