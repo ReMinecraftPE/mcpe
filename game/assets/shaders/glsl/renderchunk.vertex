@@ -12,7 +12,7 @@ uniform float FAR_CHUNKS_DISTANCE;
 attribute POS4 POSITION;
 attribute vec4 COLOR;
 attribute vec2 TEXCOORD_0;
-//attribute vec2 TEXCOORD_1;
+attribute vec2 TEXCOORD_1;
 
 varying vec2 uv0;
 //varying vec2 uv1;
@@ -29,6 +29,8 @@ const float DIST_DESATURATION = 56.0 / 255.0; //WARNING this value is also hardc
 
 void main()
 {
+	vec2 unused_tex1 = TEXCOORD_1; // unused
+
     POS4 pos = WORLDVIEWPROJ * POSITION;
     gl_Position = pos;
 
