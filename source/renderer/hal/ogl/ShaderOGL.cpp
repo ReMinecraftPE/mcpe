@@ -110,7 +110,7 @@ void ShaderOGL::linkShader()
     else
     {
         LOG_E("Failed to link %s to %s", m_vertexShader.m_shaderPath.c_str(), m_fragmentShader.m_shaderPath.c_str());
-        throw std::bad_cast();
+      //  throw std::bad_cast();
     }
 
     GLint logLength = 0;

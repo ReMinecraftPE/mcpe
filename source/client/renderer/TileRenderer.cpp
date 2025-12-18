@@ -84,17 +84,21 @@ TileRenderer::TileRenderer(Tesselator& tessellator, LevelSource* pLevelSource)
 	m_pTileSource = pLevelSource;
 }
 
+// tex1 should be mandatory to keep opengl happy as there are no explicit padding available in glsl
+//   and also for the benefits of using vanilla shaders / modded shaders back in the day
+//
+// in terms of the content of tex1, it is a lookup table of light colors since JE b1.8/ PE 0.10
+//   this as a mod in the future, or tex1 influence can be oblterated from the shader for now
+//   so it falls back to the monochromatic lighting seen in old versions
 void TileRenderer::_tex1(const Vec2& uv)
 {
-	// for use of 3rdparty (including vanilla) shaders
-#ifdef FEATURE_SHADER_TEX1
-	if (m_bRenderingGui)
-		return;
+	
+	//if (m_bRenderingGui)
+	//	return;
 
 	//constexpr float s = 0.0039062f;
 
 	m_tessellator.tex1(uv);
-#endif
 }
 
 Vec2 TileRenderer::getLightColor(const Tile* tile, const TilePos& pos)
