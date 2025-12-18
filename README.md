@@ -162,7 +162,30 @@ Dependencies:
 - `ninja` (Ninja)
 
 To build, perform the same steps as on Linux.
- 
+
+### iOS
+
+#### Dependencies (Ubuntu/Debian cross build)
+
+- `clang` (Clang)
+- `llvm` (LLVM)
+- `cmake` (CMake)
+- `make` (GNU Make)
+- `pkg-config` (pkg-config)
+- `wget` (Wget)
+- `zip` (zip)
+- `libplist-utils` (plistutil)
+- `libplist-dev` (libplist development headers)
+- `libssl-dev` (OpenSSL development headers)
+
+#### How To Build
+
+```sh
+./platforms/ios/build.sh
+```
+
+Then install the IPA at `platforms/ios/build/ReMCPE.ipa`
+
 ## Have seams when playing?
 
 I've had texture seams when playing Minecraft Classic, ClassiCube and this recreation of Minecraft PE, on a
