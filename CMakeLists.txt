@@ -69,12 +69,6 @@ add_subdirectory(source)
 # Load Platform-Specific Code
 add_subdirectory(platforms)
 
-# Assets
-if(EMSCRIPTEN)
-    target_link_options(reminecraftpe PRIVATE --use-preload-plugins --preload-file "${CMAKE_CURRENT_SOURCE_DIR}/game@/")
-else()
-    file(CREATE_LINK "${CMAKE_CURRENT_SOURCE_DIR}/game/assets" "${CMAKE_CURRENT_BINARY_DIR}/assets" SYMBOLIC)
-endif()
 
 #VBO Emulation
 if(USE_GL_VBO_EMULATION)
