@@ -84,6 +84,7 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 	float yo = 0.0f;
 	currentShaderColor = Color::WHITE;
 	t.begin(12);
+	t.tex1(Vec2::ZERO);
 
 	while (h > 0.0f)
 	{
@@ -111,7 +112,9 @@ void EntityRenderer::render(const AABB& aabb, const Vec3& pos)
 {
 	Tesselator& t = Tesselator::instance;
 	currentShaderColor = Color::WHITE;
+
 	t.begin(24);
+	t.tex1(Vec2::ZERO);
 	//t.vertex(pos); // Why were we doing this?
 	t.setOffset(pos);
 	t.normal(0.0f, 0.0f, -1.0f);
@@ -159,6 +162,7 @@ void EntityRenderer::renderFlat(const AABB& aabb)
 	Tesselator& t = Tesselator::instance;
 
 	t.begin(24);
+	t.tex1(Vec2::ZERO);
 	t.vertex(aabb.min.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.max.y, aabb.min.z);
 	t.vertex(aabb.max.x, aabb.min.y, aabb.min.z);
