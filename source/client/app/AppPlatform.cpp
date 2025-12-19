@@ -323,6 +323,11 @@ std::string AppPlatform::getAssetPath(const std::string& path) const
 
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
+	if (path.empty()) {
+		LOG_E("Empty asset file path!");
+		return AssetFile();
+	}
+
 	std::string realPath = getAssetPath(path);
 	std::ifstream ifs(realPath.c_str(), std::ios::binary);
     
