@@ -324,7 +324,7 @@ std::string AppPlatform::getAssetPath(const std::string& path) const
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
 	if (path.empty()) {
-		LOG_E("Empty asset file path!");
+		LOG_W("Empty asset file path!");
 		return AssetFile();
 	}
 
