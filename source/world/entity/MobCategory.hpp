@@ -24,8 +24,11 @@ public:
 	const Material* getSpawnPositionMaterial() const { return m_pSpawnPositionMaterial; }
 	bool isFriendly() const { return m_bIsFriendly; }
 
+	// custom addition
+	static MobCategory& GetCategoryByIndex(int i);
+
 private:
-	const EntityCategories& m_baseType;
+	const EntityCategories m_baseType;
 	int field_4;
 	int m_maxInstancesPerChunk;
 	const Material* m_pSpawnPositionMaterial;
