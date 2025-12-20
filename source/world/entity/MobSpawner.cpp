@@ -28,6 +28,13 @@ void MobSpawner::tick(Level *level, bool allowHostile, bool allowFriendly)
 
     for (int i = 0; i < MobCategory::numValues; i++)
     {
+        /*
+            Note:
+            MobCategory::values does not work, we may want to refactor it so it initializes during static initialization
+            pCategory->getBaseTyoe() returns bad data, hence a seeparate CategoriesMask is used
+
+            i have no idea why above happens, blame c++!
+        */
         MobCategory* pCategory = nullptr; 
         EntityCategories::CategoriesMask mask;
         switch (i) {
@@ -162,14 +169,20 @@ int MobSpawner::AddMob(Level *level, Mob *mob, const Vec3& pos, const Vec2& rot)
 
 bool MobSpawner::IsSpawnPositionOk(MobCategory *category, Level *level, const TilePos& pos) 
 {
+    int brightness = level->getRawBrightness(pos);
+
     if (!level->isEmptyTile(pos)) 
         return false;
 
+    if (!category->isFriendly() && brightness >= MOB_SPAWNER_HOSTILE_BRIGHTNESS)
+        return false;
+
+    if (category->isFriendly() && brightness < MOB_SPAWNER_HOSTILE_BRIGHTNESS)
+        return false;
+
+
     if (category->getSpawnPositionMaterial() == Material::water) 
         return level->getMaterial(pos)->isLiquid() && !level->isSolidTile(pos.above());
-
-    if (!category->isFriendly() && level->getRawBrightness(pos) >= MOB_SPAWNER_HOSTILE_BRIGHTNESS)
-        return false;
 
     return level->isSolidTile(pos.below()) && !level->isSolidTile(pos) && !level->getMaterial(pos)->isLiquid() && !level->isSolidTile(pos.above());
 }
