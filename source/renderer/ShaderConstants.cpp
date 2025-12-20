@@ -11,6 +11,9 @@ ShaderConstants::ShaderConstants()
 {
     CURRENT_COLOR = nullptr;
     DARKEN = nullptr;
+    TEXTURE_DIMENSIONS = nullptr;
+    HUD_OPACITY = nullptr;
+    UV_TRANSFORM = nullptr;
 }
 
 void ShaderConstants::setShaderColor(const Color& shaderColor)
@@ -65,6 +68,48 @@ void ShaderConstants::init()
         else
         {
             DARKEN = nullptr;
+        }
+    }
+
+
+    ShaderConstantBase* pTextureDimensions = m_constantBuffer->getUnspecializedShaderConstant("TEXTURE_DIMENSIONS");
+    if (pTextureDimensions)
+    {
+        if (pTextureDimensions->getType() == SHADER_PRIMITIVE_FLOAT3)
+        {
+            TEXTURE_DIMENSIONS = (ShaderConstantFloat3*)pTextureDimensions;
+        }
+        else
+        {
+            TEXTURE_DIMENSIONS = nullptr;
+        }
+    }
+
+
+    ShaderConstantBase* pHudOpacity = m_constantBuffer->getUnspecializedShaderConstant("HUD_OPACITY");
+    if (pHudOpacity)
+    {
+        if (pHudOpacity->getType() == SHADER_PRIMITIVE_FLOAT1)
+        {
+            HUD_OPACITY = (ShaderConstantFloat1*)pHudOpacity;
+        }
+        else
+        {
+            HUD_OPACITY = nullptr;
+        }
+    }
+
+
+    ShaderConstantBase* pUVTransform = m_constantBuffer->getUnspecializedShaderConstant("UV_TRANSFORM");
+    if (pUVTransform)
+    {
+        if (pUVTransform->getType() == SHADER_PRIMITIVE_MATRIX4x4)
+        {
+            UV_TRANSFORM = (ShaderConstantMatrix4x4*)pUVTransform;
+        }
+        else
+        {
+            UV_TRANSFORM = nullptr;
         }
     }
 }

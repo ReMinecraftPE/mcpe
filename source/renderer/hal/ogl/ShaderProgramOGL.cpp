@@ -43,6 +43,11 @@ void ShaderProgramOGL::deleteShader()
 
 std::string _getVersionMacro()
 {
+// for compatibility reason
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+    return "\n";
+#endif
+
     std::string glslVersion = "140";
     const gl::Version& glVersion = gl::Version::singleton();
 
