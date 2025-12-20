@@ -89,15 +89,9 @@ void Precision::BuildHeader(std::ostringstream& stream)
     stream << "#define MAT4 " << AtLeast(23) << " mat4\n";
     stream << "#define POS4 " << AtLeast(23) << " vec4\n";
     stream << "#define POS3 " << AtLeast(23) << " vec3\n";
-    if (gl::isOpenGLES()) {
-        const std::string& glExtensions = gl::getOpenGLExtensions();
-        bool supportsSDs = (glExtensions.find("GL_OES_standard_derivatives") != std::string::npos);
-
-        if (supportsSDs)
-            stream << "#extension GL_OES_standard_derivatives : enable\n";
-
+    if (gl::isOpenGLES())
         stream << "precision "    << AtLeast(9)  << " float;\n";
-    }
+        
 }
 
 #endif // FEATURE_GFX_SHADERS
