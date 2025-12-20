@@ -91,7 +91,6 @@ void Precision::BuildHeader(std::ostringstream& stream)
     stream << "#define POS3 " << AtLeast(23) << " vec3\n";
     if (gl::isOpenGLES())
         stream << "precision "    << AtLeast(9)  << " float;\n";
-        
 }
 
 #endif // FEATURE_GFX_SHADERS
