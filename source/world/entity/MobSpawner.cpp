@@ -31,7 +31,7 @@ void MobSpawner::tick(Level *level, bool allowHostile, bool allowFriendly)
 
     for (int i = 0; i < MobCategory::numValues; i++)
     {
-        MobCategory& category = MobCategory::getCategoryByIndex(i); 
+        MobCategory& category = MobCategory::GetCategoryByIndex(i); 
         const EntityCategories::CategoriesMask& mask = category.getBaseType().getCategoryMask();
         bool isFriendly = category.isFriendly();
 
