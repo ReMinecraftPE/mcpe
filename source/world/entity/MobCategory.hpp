@@ -6,6 +6,13 @@ class Material;
 class MobCategory
 {
 public:
+	enum ID {
+		MONSTER,
+		CREATURE,
+		// WATER_CREATURE
+	};
+
+
 	static MobCategory monster;
 	static MobCategory creature;
 	static MobCategory waterCreature;
@@ -25,7 +32,7 @@ public:
 	bool isFriendly() const { return m_bIsFriendly; }
 
 	// custom addition
-	static MobCategory& GetCategoryByIndex(int i);
+	static MobCategory& GetCategoryByIndex(MobCategory::ID i);
 
 private:
 	const EntityCategories m_baseType;

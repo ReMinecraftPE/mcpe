@@ -8,7 +8,8 @@
 
 #pragma once
 
-#include <set>
+#include <set>	
+#include <map>
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
@@ -194,7 +195,7 @@ public:
 	bool hasNeighborSignal(const TilePos& pos) const;
 
 
-	int getEntityCountOfCategory(EntityCategories::CategoriesMask) const;
+	int countInstanceOfType(EntityCategories::CategoriesMask);
 
 #ifdef ENH_IMPROVED_SAVING
 	void saveUnsavedChunks();
@@ -234,5 +235,7 @@ public:
 	int field_B10;
 	PathFinder* m_pPathFinder;
 	MobSpawner* m_pMobSpawner;
+
+	std::map<EntityCategories::CategoriesMask, int> m_entityTypeCounts;
 };
 

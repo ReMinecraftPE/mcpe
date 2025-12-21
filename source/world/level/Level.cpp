@@ -772,15 +772,22 @@ void Level::setTilesDirty(const TilePos& min, const TilePos& max)
 
 void Level::entityAdded(Entity* pEnt)
 {
+	EntityCategories::CategoriesMask mask = pEnt->getDescriptor().getCategories().getCategoryMask();
+	m_entityTypeCounts[mask]++;
+
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->entityAdded(pEnt);
 	}
+
 }
 
 void Level::entityRemoved(Entity* pEnt)
 {
+	EntityCategories::CategoriesMask mask = pEnt->getDescriptor().getCategories().getCategoryMask();
+	m_entityTypeCounts[mask]++;
+
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
@@ -1592,7 +1599,7 @@ int LASTTICKED = 0;
 
 void Level::tick()
 {
-	m_pMobSpawner->tick(this, m_difficulty > 0, true);
+	m_pMobSpawner->tick(*this, m_difficulty > 0, true);
 	m_pChunkSource->tick();
 
 #ifdef ENH_RUN_DAY_NIGHT_CYCLE
@@ -1943,15 +1950,7 @@ float Level::getSunAngle(float f) const
 	return (float(M_PI) * getTimeOfDay(f)) * 2;
 }
 
-int Level::getEntityCountOfCategory(EntityCategories::CategoriesMask category) const
+int Level::countInstanceOfType(EntityCategories::CategoriesMask category)
 {
-	int count = 0;
-	for (std::vector<Entity*>::const_iterator it = m_entities.begin(); it != m_entities.end(); it++)
-	{
-		Entity* pEnt = *it;
-		if (pEnt && pEnt->getDescriptor().getCategories().contains(category) )
-			count++;
-
-	}
-	return count;
+	return m_entityTypeCounts[category];
 }

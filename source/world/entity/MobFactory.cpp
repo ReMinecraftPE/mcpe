@@ -25,7 +25,7 @@
 #define ENT(enumType, classType) case EntityType::enumType: return new classType(level);
 
 
-
+// format: ID, spawnrate
 std::map<EntityType::ID, int> monsterList;
 std::map<EntityType::ID, int> creatureList;
 std::map<EntityType::ID, int> waterCreatureList;
@@ -43,6 +43,8 @@ Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
 }
 
 void MobFactory::initMobLists() {
+    // format: ID, spawnrate
+    
     monsterList.insert(std::make_pair(EntityType::SPIDER,   10));
     monsterList.insert(std::make_pair(EntityType::ZOMBIE,   10));
     monsterList.insert(std::make_pair(EntityType::SKELETON, 10));
@@ -57,7 +59,7 @@ void MobFactory::initMobLists() {
     waterCreatureList.insert(std::make_pair(EntityType::SQUID, 10));
 }
 
-std::map<EntityType::ID, int> MobFactory::GetMobListOfCategory(EntityCategories::CategoriesMask category) {
+const std::map<EntityType::ID, int>& MobFactory::GetMobListOfCategory(EntityCategories::CategoriesMask category) {
     return category == EntityCategories::MONSTER ? monsterList :
            category == EntityCategories::ANIMAL ? creatureList :
            nullCreatureList;

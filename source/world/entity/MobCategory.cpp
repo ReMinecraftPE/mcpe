@@ -28,13 +28,13 @@ void MobCategory::initMobCategories()
 	MobCategory::waterCreature.m_pSpawnPositionMaterial = Material::water;
 }
 
-MobCategory& MobCategory::GetCategoryByIndex(int i) 
+MobCategory& MobCategory::GetCategoryByIndex(MobCategory::ID i) 
 {
 	switch (i) 
 	{
-		case 1:
+		case MobCategory::CREATURE:
 			return MobCategory::creature;
-		case 0:
+		case MobCategory::MONSTER:
 		default:
 			return MobCategory::monster;
 	}
