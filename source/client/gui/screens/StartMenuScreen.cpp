@@ -485,6 +485,13 @@ void StartMenuScreen::init()
 	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 
+	// fill in empty space
+	if (m_pMinecraft->isTouchscreen())
+	{
+		m_optionsButton.m_xPos = m_startButton.m_xPos;
+		m_optionsButton.m_width = m_startButton.m_width;
+	}
+
 	// add the buttons to the screen:
 	m_buttons.push_back(&m_startButton);
 	m_buttons.push_back(&m_joinButton);
@@ -498,9 +505,7 @@ void StartMenuScreen::init()
 
 	if (canQuit)
     {
-        //m_buttons.push_back(&m_buyButton);
-		m_optionsButton.m_xPos = m_startButton.m_xPos;
-		m_optionsButton.m_width = m_startButton.m_width;
+        m_buttons.push_back(&m_buyButton);
     }
 
 	for (int i = 0; i < int(m_buttons.size()); i++)
