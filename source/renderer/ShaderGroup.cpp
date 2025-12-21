@@ -1,5 +1,7 @@
 #include "ShaderGroup.hpp"
 #include "common/Util.hpp"
+//#include <unordered_map>
+#include <map>
 
 using namespace mce;
 
@@ -76,6 +78,57 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
     if (!programCode.empty())
     {
         programCode.insert(programCode.find('\n') + 1, header);
+
+        std::map<std::string, bool> includeGuards;
+        size_t offset = 0;
+        while ((offset = programCode.find("#include")) != std::string::npos) 
+        {
+            size_t openOffset = programCode.find("\"", offset);
+            size_t closeOffset = programCode.find("\"", openOffset+1);
+            // 4 ... 7 (5, 6, 1, )
+
+            if (openOffset == std::string::npos || closeOffset == std::string::npos || openOffset == closeOffset) 
+            {
+                LOG_E("\nMalformed Include directive: \"%s\"\n\n", codeOrPath.c_str());
+                throw std::bad_cast();
+            }
+
+            std::string includeFile = programCode.substr(openOffset+1, closeOffset-openOffset-1);
+            includeFile = "shaders/" + includeFile;
+
+            Shader::SpliceShaderPath(includeFile);
+
+            // pragma once
+            if (includeGuards[includeFile]) 
+            {
+                programCode.erase(offset, closeOffset-offset+1);
+                continue;
+            }
+
+            if (!Util::isValidPath(includeFile)) 
+            {
+                LOG_E("\nInvalid shader include: \"%s\"\n\n", codeOrPath.c_str());
+                throw std::bad_cast();
+            }
+
+            std::string includeCode = AppPlatform::singleton()->readAssetFileStr(includeFile, true);
+
+            if (includeCode.empty())
+            {
+                LOG_E("\nProgram not found: \"%s\"\n\n", includeFile.c_str());
+                throw std::bad_cast();
+            }
+
+            programCode.erase(offset, closeOffset-offset+1);
+            programCode.insert(offset, includeCode);
+            programCode.insert(offset, "\n");
+
+            // a xxhash() is nicer for performance concerns, but will do for now as there are less permutations.....
+            includeGuards[includeFile] = true;
+
+        }
+
+      //  printf("FILE: \n %s \n\n\n\n", programCode.data());
     }
 
     ShaderProgram* shaderProgram = new ShaderProgram(shaderType, programCode, programPath, shaderPath);

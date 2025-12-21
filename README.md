@@ -11,7 +11,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
   * Pocket Edition sky colors
   * Normal lighting (something Pocket Edition lacked)
   * Alpha title logo
-* To (in the future) provide a cross-platform modding API in a language like [Luau](https://luau.org/), giving more creative control to the community.
+* To (in the future) provide a cross-platform modding API in [WebAssembly](https://webassembly.org/), giving more creative control to the community.
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
 * To add support for as many platforms as possible, such as the Xbox 360, PlayStation 3, Wii, and more.
@@ -21,7 +21,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 	* Linux
 	* WebGL
 	* macOS (10.4 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
-	* iOS (3.0 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
+	* iOS (3.1 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
 
 **We will not do the following:**
@@ -162,13 +162,35 @@ Dependencies:
 - `ninja` (Ninja)
 
 To build, perform the same steps as on Linux.
- 
+
+### iOS
+
+#### Dependencies (Ubuntu/Debian cross build)
+
+- `clang` (Clang)
+- `llvm` (LLVM)
+- `cmake` (CMake)
+- `make` (GNU Make)
+- `pkg-config` (pkg-config)
+- `wget` (Wget)
+- `zip` (zip)
+- `libplist-utils` (plistutil)
+- `libplist-dev` (libplist development headers)
+- `libssl-dev` (OpenSSL development headers)
+
+#### How To Build
+
+```sh
+./platforms/ios/build.sh
+```
+
+Then install the IPA at `platforms/ios/build/ReMCPE.ipa`
+
 ## Have seams when playing?
 
 I've had texture seams when playing Minecraft Classic, ClassiCube and this recreation of Minecraft PE, on a
 fresh new laptop. If seams bother you, and you are using an NVIDIA graphics card, go to the NVIDIA Control
 Panel, then in "Manage 3D Settings", change "Antialiasing - Mode" to "Application Controlled".
-a custom script which downloads and sets up all assets needed for the game.
 
 ## Screenshots (from the decomp)
 

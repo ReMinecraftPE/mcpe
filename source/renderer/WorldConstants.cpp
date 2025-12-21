@@ -9,6 +9,8 @@ WorldConstants::WorldConstants()
 {
     WORLDVIEWPROJ = nullptr;
     WORLD = nullptr;
+    WORLDVIEW = nullptr;
+    PROJ = nullptr;
 }
 
 void WorldConstants::refreshWorldConstants()
@@ -29,12 +31,19 @@ void WorldConstants::refreshWorldConstants()
 
     // Order matters!
     Matrix worldViewProjMatrix = projMatrix * viewMatrix * worldMatrix;
+    Matrix worldViewMatrix = viewMatrix * worldMatrix;
 
     if (WORLDVIEWPROJ)
         WORLDVIEWPROJ->setData(&worldViewProjMatrix);
 
     if (WORLD)
         WORLD->setData(&worldMatrix);
+
+    if (WORLDVIEW)
+        WORLDVIEW->setData(&worldViewMatrix);
+
+    if (PROJ)
+        PROJ->setData(&projMatrix);
 
     // Mark the stacks as clean to prevent redundant calculations in subsequent calls.
     MatrixStack::Projection.makeClean();
@@ -99,6 +108,33 @@ void WorldConstants::init()
         else
         {
             WORLD = nullptr;
+        }
+    }
+
+
+    ShaderConstantBase* pWorldView = m_constantBuffer->getUnspecializedShaderConstant("WORLDVIEW");
+    if (pWorldView)
+    {
+        if (pWorldView->getType() == SHADER_PRIMITIVE_MATRIX4x4)
+        {
+            WORLDVIEW = (ShaderConstantMatrix4x4*)pWorldView;
+        }
+        else
+        {
+            WORLDVIEW = nullptr;
+        }
+    }
+
+    ShaderConstantBase* pProj = m_constantBuffer->getUnspecializedShaderConstant("PROJ");
+    if (pProj)
+    {
+        if (pProj->getType() == SHADER_PRIMITIVE_MATRIX4x4)
+        {
+            PROJ = (ShaderConstantMatrix4x4*)pProj;
+        }
+        else
+        {
+            PROJ = nullptr;
         }
     }
 }
