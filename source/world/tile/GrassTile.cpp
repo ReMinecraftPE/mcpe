@@ -53,6 +53,8 @@ int GrassTile::getTexture(const LevelSource* level, const TilePos& pos, Facing::
 		return TEXTURE_GRASS_TOP;
 	case Facing::DOWN:
 		return TEXTURE_DIRT;
+	default:
+		break;
 	}
 
 	Material* pMat = level->getMaterial(pos.above());
