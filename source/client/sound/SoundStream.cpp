@@ -12,7 +12,7 @@ SoundStream::SoundStream()
     m_totalSamplesLeft = 0;
 
     m_tempPcmBuffer.m_dataSize = 4096 * 8;
-    m_tempPcmBuffer.m_pData = new int16_t[m_tempPcmBuffer.m_dataSize];
+    m_tempPcmBuffer.m_pData = new short[m_tempPcmBuffer.m_dataSize];
 }
 
 SoundStream::~SoundStream()

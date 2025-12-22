@@ -35,7 +35,7 @@ struct PCMSoundHeader
 
 struct SoundBuffer
 {
-	void* m_pData;
+	short *m_pData;
 	int m_dataSize;
 };
 

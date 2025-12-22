@@ -54,7 +54,7 @@ bool SoundDesc::_loadPcm(const AppPlatform* platform, const char *name)
     m_codecType = AudioCodec::PCM;
     m_fileData = m_file.data;
     m_header = *(PCMSoundHeader *) m_fileData;
-    m_buffer.m_pData = (void *) (m_fileData + sizeof(PCMSoundHeader));
+    m_buffer.m_pData = (short *) (m_fileData + sizeof(PCMSoundHeader));
     m_buffer.m_dataSize = m_header.m_channels * m_header.m_length * m_header.m_bytes_per_sample;
 
     // Success!
