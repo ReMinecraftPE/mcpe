@@ -21,7 +21,7 @@ mkdir -p "$workdir"
 [ -d ios-sdk-backup ] && mv ios-sdk-backup "$sdk"
 cd "$workdir"
 
-# Change this if we ever make a change to the SDK, for example
+# Increase this if we ever make a change to the SDK, for example
 # using a newer SDK version, and we need to invalidate the cache.
 sdkver=1
 if ! [ -d "$sdk" ] || [ "$(cat "$sdk/sdkver")" != "$sdkver" ]; then
