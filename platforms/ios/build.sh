@@ -21,14 +21,18 @@ mkdir -p "$workdir"
 [ -d ios-sdk-backup ] && mv ios-sdk-backup "$sdk"
 cd "$workdir"
 
-# The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
-# It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
-if ! [ -d "$sdk" ]; then
+# Change this if we ever make a change to the SDK, for example
+# using a newer SDK version, and we need to invalidate the cache.
+sdkver=1
+if ! [ -d "$sdk" ] || [ "$(cat "$sdk/sdkver")" != "$sdkver" ]; then
+    # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
+    # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
     printf '\nDownloading iOS SDK...\n\n'
     wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
     tar xf iPhoneOS8.0.sdk.tar.lzma
     mv iPhoneOS8.0.sdk "$sdk"
     rm iPhoneOS8.0.sdk.tar.lzma
+    printf '%s' "$sdkver" > "$sdk/sdkver"
 fi
 
 if command -v nproc >/dev/null; then
