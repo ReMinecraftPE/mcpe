@@ -12,12 +12,16 @@
 
 #ifndef OLD_OPTIONS_SCREEN
 
+#define MIN_CATEGORY_BUTTON_ID 1
+#define MAX_CATEGORY_BUTTON_ID 4
+#define BACK_BUTTON_ID 100
+
 OptionsScreen::OptionsScreen() :
-	m_videoButton(1, "Video"),
-	m_controlsButton(2, "Controls"),
-	m_multiplayerButton(3, "Multiplayer"),
-	m_miscButton(4, "Misc"),
-	m_backButton(100, "Done"),
+	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
+	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
+	m_multiplayerButton(MIN_CATEGORY_BUTTON_ID + 2, "Multiplayer"),
+	m_miscButton(MAX_CATEGORY_BUTTON_ID, "Misc"),
+	m_backButton(BACK_BUTTON_ID, "Done"),
 	m_pList(nullptr),
 	m_currentCategory(OC_VIDEO)
 {
@@ -41,15 +45,6 @@ void OptionsScreen::init()
 	int totalWidth = (buttonWidth * 4) + (buttonSpacing * 3);
 	int startX = (m_width - totalWidth) / 2;
 	
-	Button* buttons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
-	for (int i = 0; i < 4; ++i)
-	{
-		buttons[i]->m_width = buttonWidth;
-		buttons[i]->m_height = buttonHeight;
-		buttons[i]->m_xPos = startX + (buttonWidth + buttonSpacing) * i;
-		buttons[i]->m_yPos = 4.3;
-	}
-
 	m_backButton.m_width = 100;
 	m_backButton.m_height = 20;
 
@@ -57,6 +52,14 @@ void OptionsScreen::init()
 	m_backButton.m_yPos = m_height - m_backButton.m_height - (28 - m_backButton.m_height) / 2;
 
 	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton, &m_backButton };
+	
+	for (int i = 0; i < 4; ++i)
+	{
+		tabButtons[i]->m_width = buttonWidth;
+		tabButtons[i]->m_height = buttonHeight;
+		tabButtons[i]->m_xPos = startX + (buttonWidth + buttonSpacing) * i;
+		tabButtons[i]->m_yPos = 4.3;
+	}
 
 	for (int i = 0; i < 5; ++i)
 	{
@@ -115,11 +118,11 @@ void OptionsScreen::setCategory(OptionsCategory category)
 
 void OptionsScreen::buttonClicked(Button* pButton)
 {
-if (pButton->m_buttonId >= 1 && pButton->m_buttonId <= 4)
+	if (pButton->m_buttonId >= MIN_CATEGORY_BUTTON_ID && pButton->m_buttonId <= MAX_CATEGORY_BUTTON_ID)
 	{
-		setCategory((OptionsCategory)(pButton->m_buttonId - 1));
+		setCategory((OptionsCategory)(pButton->m_buttonId - MIN_CATEGORY_BUTTON_ID));
 	}
-	else if (pButton->m_buttonId == 100)
+	else if (pButton->m_buttonId == BACK_BUTTON_ID)
 	{
 		handleBackEvent(false);
 	}

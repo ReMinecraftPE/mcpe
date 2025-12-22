@@ -485,7 +485,7 @@ void StartMenuScreen::init()
 	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 
-	// fill in empty space
+	// fill in empty space where quit/buy button would be
 	if (m_pMinecraft->isTouchscreen())
 	{
 		m_optionsButton.m_xPos = m_startButton.m_xPos;
