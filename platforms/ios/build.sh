@@ -13,17 +13,18 @@ bin='reminecraftpe'
 platformdir='platforms/ios'
 entitlements="$platformdir/minecraftpe.entitlements"
 
-printf '\nDownloading iOS SDK...\n\n'
-
+workdir="$PWD/build/work"
+sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
+[ -d "$sdk" ] && mv "$sdk" ios-sdk-backup
 rm -rf build
-mkdir -p build/work
-cd build/work
-workdir="$PWD"
+mkdir -p "$workdir"
+[ -d ios-sdk-backup ] && mv ios-sdk-backup "$sdk"
+cd "$workdir"
 
 # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
 # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
-sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
 if ! [ -d "$sdk" ]; then
+    printf '\nDownloading iOS SDK...\n\n'
     wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
     tar xf iPhoneOS8.0.sdk.tar.lzma
     mv iPhoneOS8.0.sdk "$sdk"
