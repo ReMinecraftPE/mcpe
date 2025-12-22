@@ -28,6 +28,7 @@ if ! [ -d "$sdk" ] || [ "$(cat "$sdk/sdkver")" != "$sdkver" ]; then
     # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
     # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
     printf '\nDownloading iOS SDK...\n\n'
+    [ -d "$sdk" ] && rm -rf "$sdk"
     wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
     tar xf iPhoneOS8.0.sdk.tar.lzma
     mv iPhoneOS8.0.sdk "$sdk"
