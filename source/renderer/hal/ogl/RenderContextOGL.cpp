@@ -215,7 +215,7 @@ void RenderContextOGL::drawIndexed(PrimitiveMode primitiveMode, unsigned int cou
 
 void RenderContextOGL::drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize)
 {
-    glDrawElements(modeMap[primitiveMode], count, indexType[indexSize], (const GLvoid*)(startOffset * indexSize));
+    glDrawElements(modeMap[primitiveMode], count, indexType[indexSize], (const GLvoid*)((uintptr_t)startOffset * indexSize));
 }
 
 void RenderContextOGL::setDepthRange(float nearVal, float farVal)
