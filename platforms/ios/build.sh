@@ -23,10 +23,12 @@ workdir="$PWD"
 # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
 # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
 sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
-wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
-tar xf iPhoneOS8.0.sdk.tar.lzma
-mv iPhoneOS8.0.sdk "$sdk"
-rm iPhoneOS8.0.sdk.tar.lzma
+if ! [ -d "$sdk" ]; then
+    wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
+    tar xf iPhoneOS8.0.sdk.tar.lzma
+    mv iPhoneOS8.0.sdk "$sdk"
+    rm iPhoneOS8.0.sdk.tar.lzma
+fi
 
 if command -v nproc >/dev/null; then
     ncpus="$(nproc)"
