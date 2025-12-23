@@ -297,7 +297,7 @@ NSThread *G_drawFrameThread = nil;
     if (frameInterval >= 1)
     {
         animationFrameInterval = frameInterval;
-        NSLog(@"Set animationFrameInterval to %d\n", animationFrameInterval);
+        NSLog(@"Set animationFrameInterval to %ld\n", static_cast<long>(animationFrameInterval));
         
         if (animating)
         {

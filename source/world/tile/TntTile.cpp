@@ -28,9 +28,9 @@ int TntTile::getTexture(Facing::Name face) const
 		return m_TextureFrame + 2;
 	case Facing::UP:
 		return m_TextureFrame + 1;
+	default:
+		return m_TextureFrame;
 	}
-
-	return m_TextureFrame;
 }
 
 void TntTile::destroy(Level* level, const TilePos& pos, TileData data)

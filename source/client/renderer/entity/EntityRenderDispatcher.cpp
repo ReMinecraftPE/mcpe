@@ -126,9 +126,9 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(Entity::RenderType renderTyp
 		case Entity::RENDER_FALLING_TILE:
 			return &m_FallingTileRenderer;
 #endif
+		default:
+			return nullptr;
 	}
-
-	return nullptr;
 }
 
 EntityRenderer* EntityRenderDispatcher::getRenderer(const Entity& entity)
