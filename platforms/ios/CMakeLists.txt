@@ -4,6 +4,8 @@ project(reminecraftpe-ios)
 target_compile_definitions(reminecraftpe-core PUBLIC HANDLE_CHARS_SEPARATELY USE_GLES)
 target_compile_definitions(stb_image PUBLIC STBI_NO_THREAD_LOCALS)
 
+add_compile_options(-Wno-deprecated-declarations)
+
 # Build
 add_executable(reminecraftpe
     AppPlatform_iOS.mm
