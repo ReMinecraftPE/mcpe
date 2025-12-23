@@ -53,7 +53,7 @@ else()
 endif()
 
 # Disable thread local storage (needed for C++98 & iOS)
-add_compile_options(-DRAPIDJSON_NO_THREAD_LOCAL -DSTBI_NO_THREAD_LOCALS)
+add_compile_definitions(RAPIDJSON_NO_THREAD_LOCAL STBI_NO_THREAD_LOCALS)
 
 # Android Logging
 if(ANDROID)
