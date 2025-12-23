@@ -12,7 +12,7 @@ SoundStream::SoundStream()
     m_totalSamplesLeft = 0;
 
     m_tempPcmBuffer.m_dataSize = 4096 * 8;
-    m_tempPcmBuffer.m_pData = new short[m_tempPcmBuffer.m_dataSize];
+    m_tempPcmBuffer.m_pData = new int16_t[m_tempPcmBuffer.m_dataSize];
 }
 
 SoundStream::~SoundStream()
@@ -36,7 +36,7 @@ bool SoundStream::_stream(int bufferId)
 
     while (size < m_tempPcmBuffer.m_dataSize)
     {
-        result = stb_vorbis_get_samples_short_interleaved(m_decoder, m_info.channels, (short*)m_tempPcmBuffer.m_pData + size, m_tempPcmBuffer.m_dataSize - size);
+        result = stb_vorbis_get_samples_short_interleaved(m_decoder, m_info.channels, (int16_t *)m_tempPcmBuffer.m_pData + size, m_tempPcmBuffer.m_dataSize - size);
         if (result > 0) size += result * m_info.channels;
         else break;
     }
