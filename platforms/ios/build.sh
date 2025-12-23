@@ -13,20 +13,28 @@ bin='reminecraftpe'
 platformdir='platforms/ios'
 entitlements="$platformdir/minecraftpe.entitlements"
 
-printf '\nDownloading iOS SDK...\n\n'
-
-rm -rf build
-mkdir -p build/work
-cd build/work
-workdir="$PWD"
-
-# The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
-# It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
+workdir="$PWD/build/work"
 sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
-wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
-tar xf iPhoneOS8.0.sdk.tar.lzma
-mv iPhoneOS8.0.sdk "$sdk"
-rm iPhoneOS8.0.sdk.tar.lzma
+[ -d "$sdk" ] && mv "$sdk" ios-sdk-backup
+rm -rf build
+mkdir -p "$workdir"
+[ -d ios-sdk-backup ] && mv ios-sdk-backup "$sdk"
+cd "$workdir"
+
+# Increase this if we ever make a change to the SDK, for example
+# using a newer SDK version, and we need to invalidate the cache.
+sdkver=1
+if ! [ -d "$sdk" ] || [ "$(cat "$sdk/sdkver" 2>/dev/null)" != "$sdkver" ]; then
+    # The iOS 8 SDK supports arm64, armv7s, and armv7 and is small.
+    # It also doesn't use tbd stubs so we don't need to link ld64 with libtapi.
+    printf '\nDownloading iOS SDK...\n\n'
+    [ -d "$sdk" ] && rm -rf "$sdk"
+    wget https://invoxiplaygames.uk/sdks/iPhoneOS8.0.sdk.tar.lzma
+    tar xf iPhoneOS8.0.sdk.tar.lzma
+    mv iPhoneOS8.0.sdk "$sdk"
+    rm iPhoneOS8.0.sdk.tar.lzma
+    printf '%s' "$sdkver" > "$sdk/sdkver"
+fi
 
 if command -v nproc >/dev/null; then
     ncpus="$(nproc)"
