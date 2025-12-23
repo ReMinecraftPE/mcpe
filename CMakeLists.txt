@@ -80,3 +80,5 @@ endif()
 if(USE_GL_VBO_EMULATION)
     add_compile_options(-DUSE_GL_VBO_EMULATION)
 endif()
+
+target_compile_options(stb_vorbis PUBLIC -w)
