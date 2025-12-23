@@ -28,7 +28,7 @@ check_symbol_exists("_WIN32" "" MCPE_WIN32)
 
 # Clang
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_options(-Wno-inconsistent-missing-override -Wno-register)
+    add_compile_options(-Wno-inconsistent-missing-override)
 endif()
 
 # Windows Linking
