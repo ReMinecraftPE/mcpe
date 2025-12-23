@@ -82,3 +82,4 @@ if(USE_GL_VBO_EMULATION)
 endif()
 
 target_compile_options(stb_vorbis PRIVATE -w)
+target_compile_options(stb_image PRIVATE -w)
