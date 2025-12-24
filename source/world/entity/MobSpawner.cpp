@@ -14,7 +14,7 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
 
     for (std::vector<Player*>::const_iterator it = level.m_players.begin(); it != level.m_players.end(); ++it)
     {
-        Player* player = *it;
+        const Player* player = *it;
         int cx = Mth::floor(player->m_pos.x / 16.0f);
         int cz = Mth::floor(player->m_pos.z / 16.0f);
 
@@ -29,10 +29,10 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
 
     int totalSpawned = 0;
 
-    for (int i = 0; i < MobCategory::numValues; i++)
+    for (int i = 0; i < MobCategory::allCount; i++)
     {
-        MobCategory& category = MobCategory::GetCategoryByIndex((MobCategory::ID)i); 
-        const EntityCategories::CategoriesMask& mask = category.getBaseType().getCategoryMask();
+        const MobCategory& category = *MobCategory::all[i]; 
+        const EntityCategories& baseType = category.getBaseType();
         bool isFriendly = category.isFriendly();
 
         // good mobs don't spawn after dark, otherwise they will crowd around torches like beta
@@ -42,18 +42,18 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
         if ((isFriendly && !allowFriendly) || (!isFriendly && !allowHostile))
             continue;
 
-        if (level.countInstanceOfType(mask) <= (category.getMaxInstancesPerChunk() * (int)chunksToPoll.size() / 256))
+        if (level.getEntityCount(baseType) <= (category.getMaxInstancesPerChunk() * (int)chunksToPoll.size() / 256))
         {    
             for (std::set<ChunkPos>::iterator it = chunksToPoll.begin(); it != chunksToPoll.end(); ++it) 
             {
                 const ChunkPos& pos = *it;
 
-                const std::map<EntityType::ID, int>& spawnList = MobFactory::GetMobListOfCategory(mask);
+                const std::map<EntityType::ID, int>& spawnList = MobFactory::GetMobListOfCategory(baseType);
                                    
                 if (spawnList.empty()) 
                     continue;
 
-                EntityType::ID type = spawnList.begin()->first;
+                EntityType::ID entityID = spawnList.begin()->first;
 
                 int spawnWeight = 1; // make sure it starts with 1 so arithmetic exception doesn't occur    
 
@@ -69,7 +69,7 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                     randomRate -= it->second;
                     if (randomRate < 0) 
                     {
-                        type = it->first;
+                        entityID = it->first;
                         break;
                     }
                 }
@@ -104,7 +104,7 @@ void MobSpawner::tick(Level& level, bool allowHostile, bool allowFriendly)
                                 
                                 if (dPos.lengthSqr() >= 576.0f) 
                                 {   
-                                    Mob* entity = MobFactory::CreateMob(type, &level);
+                                    Mob* entity = MobFactory::CreateMob(entityID, &level);
                                     if (!entity) 
                                         break;
 
@@ -160,7 +160,7 @@ int MobSpawner::AddMob(Level& level, Mob *mob, const Vec3& pos, const Vec2& rot)
     return 1;
 }
 
-bool MobSpawner::IsSpawnPositionOk(MobCategory& category, Level& level, const TilePos& pos) 
+bool MobSpawner::IsSpawnPositionOk(const MobCategory& category, Level& level, const TilePos& pos) 
 {
     if (category.getSpawnPositionMaterial() == Material::water) 
         return level.getMaterial(pos)->isLiquid() && !level.isSolidTile(pos.above());

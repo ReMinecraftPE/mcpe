@@ -195,7 +195,7 @@ public:
 	bool hasNeighborSignal(const TilePos& pos) const;
 
 
-	int countInstanceOfType(EntityCategories::CategoriesMask);
+	int getEntityCount(const EntityCategories&);
 
 #ifdef ENH_IMPROVED_SAVING
 	void saveUnsavedChunks();

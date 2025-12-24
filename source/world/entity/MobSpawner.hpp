@@ -15,7 +15,7 @@
 
 class MobSpawner {
 public:
-    static bool IsSpawnPositionOk(MobCategory& category, Level& level, const TilePos& pos);
+    static bool IsSpawnPositionOk(const MobCategory& category, Level& level, const TilePos& pos);
     static void FinalizeMobSettings(Mob* mob, Level& level, const Vec3& pos);
     static void MakeBabyMob(Mob* mob, Level& level);
     static void PostProcessSpawnMobs(Level& level, Biome& biome, const Vec3& pos);

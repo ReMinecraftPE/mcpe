@@ -6,18 +6,11 @@ class Material;
 class MobCategory
 {
 public:
-	enum ID {
-		MONSTER,
-		CREATURE,
-		// WATER_CREATURE
-	};
-
-
 	static MobCategory monster;
 	static MobCategory creature;
 	static MobCategory waterCreature;
-	static const MobCategory values[];
-	static const int numValues;
+	static const MobCategory* all[];
+	static const int allCount;
 
 private:
 	MobCategory(const EntityCategories&, int, int, const Material*, bool);
@@ -31,8 +24,6 @@ public:
 	const Material* getSpawnPositionMaterial() const { return m_pSpawnPositionMaterial; }
 	bool isFriendly() const { return m_bIsFriendly; }
 
-	// custom addition
-	static MobCategory& GetCategoryByIndex(MobCategory::ID i);
 
 private:
 	const EntityCategories m_baseType;

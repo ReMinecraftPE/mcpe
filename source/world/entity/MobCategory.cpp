@@ -5,12 +5,14 @@
 MobCategory MobCategory::monster       = MobCategory(EntityCategories(EntityCategories::MONSTER),      10, 20, nullptr, false);
 MobCategory MobCategory::creature      = MobCategory(EntityCategories(EntityCategories::ANIMAL),       10, 15, nullptr, true);
 MobCategory MobCategory::waterCreature = MobCategory(EntityCategories(EntityCategories::WATER_ANIMAL), 5,  10, nullptr, true);
-const MobCategory MobCategory::values[] = {
-	MobCategory::monster,
-	MobCategory::creature,
+
+const MobCategory* MobCategory::all[] = {
+	&MobCategory::monster,
+	&MobCategory::creature,
 	//MobCategory::waterCreature
 };
-const int MobCategory::numValues = sizeof(MobCategory::values) / sizeof(MobCategory);
+
+const int MobCategory::allCount = sizeof(MobCategory::all) / sizeof(const MobCategory*);
 
 MobCategory::MobCategory(const EntityCategories& baseType, int unknown, int max, const Material* material, bool friendly)
 	: m_baseType(baseType)
@@ -26,16 +28,4 @@ void MobCategory::initMobCategories()
 	MobCategory::monster.m_pSpawnPositionMaterial       = Material::air;
 	MobCategory::creature.m_pSpawnPositionMaterial      = Material::air;
 	MobCategory::waterCreature.m_pSpawnPositionMaterial = Material::water;
-}
-
-MobCategory& MobCategory::GetCategoryByIndex(MobCategory::ID i) 
-{
-	switch (i) 
-	{
-		case MobCategory::CREATURE:
-			return MobCategory::creature;
-		case MobCategory::MONSTER:
-		default:
-			return MobCategory::monster;
-	}
 }

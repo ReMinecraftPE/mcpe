@@ -42,7 +42,8 @@ Mob* MobFactory::CreateMob(EntityType::ID entityType, Level *level)
     }
 }
 
-void MobFactory::initMobLists() {
+void MobFactory::initMobLists() 
+{
     // format: ID, spawnrate
     
     monsterList.insert(std::make_pair(EntityType::SPIDER,   10));
@@ -59,9 +60,11 @@ void MobFactory::initMobLists() {
     waterCreatureList.insert(std::make_pair(EntityType::SQUID, 10));
 }
 
-const std::map<EntityType::ID, int>& MobFactory::GetMobListOfCategory(EntityCategories::CategoriesMask category) {
-    return category == EntityCategories::MONSTER ? monsterList :
-           category == EntityCategories::ANIMAL ? creatureList :
+const std::map<EntityType::ID, int>& MobFactory::GetMobListOfCategory(const EntityCategories& category) 
+{
+    EntityCategories::CategoriesMask mask = category.getCategoryMask();
+    return mask == EntityCategories::MONSTER ? monsterList :
+           mask == EntityCategories::ANIMAL  ? creatureList :
            nullCreatureList;
 }
 

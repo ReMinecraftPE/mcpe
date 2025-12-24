@@ -24,6 +24,8 @@ public:
 		ABSTRACT_ARROW   = 1<<15 | PROJECTILE,
 		VILLAGER_BASE    = 1<<16 | PATHFINDER_MOB
 	};
+	static const CategoriesMask maskEnums[];
+	static const int maskEnumCount;
 
 public:
 	EntityCategories(CategoriesMask = ENTITY);

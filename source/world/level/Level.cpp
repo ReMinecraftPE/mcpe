@@ -772,8 +772,14 @@ void Level::setTilesDirty(const TilePos& min, const TilePos& max)
 
 void Level::entityAdded(Entity* pEnt)
 {
+	// save for a bit
 	EntityCategories::CategoriesMask mask = pEnt->getDescriptor().getCategories().getCategoryMask();
-	m_entityTypeCounts[mask]++;
+	for (int i = 0; i < EntityCategories::maskEnumCount; i++ ) 
+	{
+		EntityCategories::CategoriesMask category = EntityCategories::maskEnums[i];
+		if ((mask & category) == category)
+			m_entityTypeCounts[category]++;
+	}
 
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
@@ -786,7 +792,12 @@ void Level::entityAdded(Entity* pEnt)
 void Level::entityRemoved(Entity* pEnt)
 {
 	EntityCategories::CategoriesMask mask = pEnt->getDescriptor().getCategories().getCategoryMask();
-	m_entityTypeCounts[mask]++;
+	for (int i = 0; i < EntityCategories::maskEnumCount; i++ ) 
+	{
+		EntityCategories::CategoriesMask category = EntityCategories::maskEnums[i];
+		if ((mask & category) == category)
+			m_entityTypeCounts[category]--;
+	}
 
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
@@ -1950,7 +1961,7 @@ float Level::getSunAngle(float f) const
 	return (float(M_PI) * getTimeOfDay(f)) * 2;
 }
 
-int Level::countInstanceOfType(EntityCategories::CategoriesMask category)
+int Level::getEntityCount(const EntityCategories& category)
 {
-	return m_entityTypeCounts[category];
+	return m_entityTypeCounts[category.getCategoryMask()];
 }
