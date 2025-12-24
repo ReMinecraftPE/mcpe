@@ -778,7 +778,7 @@ void Level::entityAdded(Entity* pEnt)
 	{
 		EntityCategories::CategoriesMask category = EntityCategories::maskEnums[i];
 		if ((mask & category) == category)
-			m_entityTypeCounts[category]++;
+			m_entityCountsByCategory[category]++;
 	}
 
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
@@ -796,7 +796,7 @@ void Level::entityRemoved(Entity* pEnt)
 	{
 		EntityCategories::CategoriesMask category = EntityCategories::maskEnums[i];
 		if ((mask & category) == category)
-			m_entityTypeCounts[category]--;
+			m_entityCountsByCategory[category]--;
 	}
 
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
@@ -1963,5 +1963,5 @@ float Level::getSunAngle(float f) const
 
 int Level::getEntityCount(const EntityCategories& category)
 {
-	return m_entityTypeCounts[category.getCategoryMask()];
+	return m_entityCountsByCategory[category.getCategoryMask()];
 }

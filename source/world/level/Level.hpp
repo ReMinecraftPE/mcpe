@@ -236,6 +236,6 @@ public:
 	PathFinder* m_pPathFinder;
 	MobSpawner* m_pMobSpawner;
 
-	std::map<EntityCategories::CategoriesMask, int> m_entityTypeCounts;
+	std::map<EntityCategories::CategoriesMask, int> m_entityCountsByCategory;
 };
 
