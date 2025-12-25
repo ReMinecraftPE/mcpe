@@ -39,10 +39,11 @@ void OptionsScreen::init()
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
 	
+	constexpr int NUM_CATEGORY_BUTTONS = 4;
 	int buttonWidth = 64;
 	int buttonHeight = 20;
 	int buttonSpacing = 5;
-	int totalWidth = (buttonWidth * 4) + (buttonSpacing * 3);
+	int totalWidth = (buttonWidth * NUM_CATEGORY_BUTTONS) + (buttonSpacing * (NUM_CATEGORY_BUTTONS - 1));
 	int startX = (m_width - totalWidth) / 2;
 	
 	m_backButton.m_width = 100;
@@ -53,7 +54,7 @@ void OptionsScreen::init()
 
 	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
 	
-	for (int i = 0; i < sizeof(tabButtons) / sizeof(tabButtons[0]); ++i)
+	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
 	{
 		tabButtons[i]->m_width = buttonWidth;
 		tabButtons[i]->m_height = buttonHeight;
@@ -61,12 +62,12 @@ void OptionsScreen::init()
 		tabButtons[i]->m_yPos = 4.3;
 	}
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
 	{
 		m_buttonTabList.push_back(tabButtons[i]);
 	}
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
 	{
 		m_buttons.push_back(tabButtons[i]);
 	}
