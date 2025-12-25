@@ -117,6 +117,10 @@ public:
 
 	void clear();
 	void initDefaultMenu();
+	void initVideoMenu();
+	void initControlsMenu();
+	void initMultiplayerMenu();
+	void initMiscMenu();
 	void drawOnOffSwitch(int x, int y, bool state, bool disabled = false);
 
 private:

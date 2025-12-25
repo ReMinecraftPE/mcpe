@@ -86,8 +86,8 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 {
 	m_touchAreaModel.clear();
 
-	float heightM = height / 5.0f;
-	float widthM = heightM;
+	float widthM = float(width) * 0.094f;
+	float heightM = float(width) * 0.094f;
 
 	float x1[4], y1[4], x2[4], y2[4];
 
