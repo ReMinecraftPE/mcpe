@@ -4518,7 +4518,7 @@ uint64_t RakPeerInterface::Get64BitUniqueRandomNumber(void)
 #else
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	return tv.tv_usec + tv.tv_sec * 1000000;
+	return tv.tv_usec + (uint64_t)tv.tv_sec * 1000000;
 #endif
 }
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

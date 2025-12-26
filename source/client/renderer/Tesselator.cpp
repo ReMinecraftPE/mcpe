@@ -350,19 +350,29 @@ void Tesselator::normal(float x, float y, float z)
 		LOG_W("But...");*/
 
 	// Java
-	int8_t bx = static_cast<int8_t>(x * 128);
-	int8_t by = static_cast<int8_t>(y * 127);
-	int8_t bz = static_cast<int8_t>(z * 127);
+	// This can cause undefined behavior if bx = 128,
+	// which is too large to store in an int8_t.
+	// int8_t bx = static_cast<int8_t>(x * 128);
+	// int8_t by = static_cast<int8_t>(y * 127);
+	// int8_t bz = static_cast<int8_t>(z * 127);
 
-	/* 0.12.1
+	// 0.12.1
 	int8_t bx = static_cast<int8_t>(ceilf(x * 127));
 	int8_t by = static_cast<int8_t>(ceilf(y * 127));
-	int8_t bz = static_cast<int8_t>(ceilf(z * 127));*/
+	int8_t bz = static_cast<int8_t>(ceilf(z * 127));
+
+	int8_t *normalarray = reinterpret_cast<int8_t *>(&m_nextVtxNormal);
 
 #if MC_ENDIANNESS_BIG
-	m_nextVtxNormal = (bx << 24) | (by << 16) | (bz << 8);
+	normalarray[3] = bx;
+	normalarray[2] = by;
+	normalarray[1] = bz;
+	normalarray[0] = 0;
 #else // MC_ENDIANNESS_LITTLE
-	m_nextVtxNormal = (bx << 0) | (by << 8) | (bz << 16);
+	normalarray[0] = bx;
+	normalarray[1] = by;
+	normalarray[2] = bz;
+	normalarray[3] = 0;
 #endif
 
 	if (!isFormatFixed())
