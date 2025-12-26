@@ -30,12 +30,6 @@ void IceTile::onRemove(Level* level, const TilePos& pos)
 	}
 }
 
-bool IceTile::shouldRenderFace(const LevelSource* level, const TilePos& pos, Facing::Name face) const
-{
-	//@BUG: 1 - face? This would only work to flip the YNEG and YPOS directions.
-	return HalfTransparentTile::shouldRenderFace(level, pos, (Facing::Name)(1 - face));
-}
-
 void IceTile::tick(Level* level, const TilePos& pos, Random* random)
 {
 	if (level->getBrightness(LightLayer::Block, pos) <= 11 - Tile::lightBlock[m_ID])

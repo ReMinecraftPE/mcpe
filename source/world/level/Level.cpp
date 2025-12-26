@@ -1513,7 +1513,7 @@ void Level::tickTiles()
 
 		for (int i = 0; i < 80; i++)
 		{
-			m_randValue = m_randValue * 3 + m_addend;
+			m_randValue = (int64_t)m_randValue * 3 + m_addend;
 			int rand = m_randValue >> 2;
 
 			TilePos tilePos(
