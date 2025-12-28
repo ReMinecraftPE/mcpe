@@ -362,18 +362,10 @@ void Tesselator::normal(float x, float y, float z)
 	int8_t bz = static_cast<int8_t>(ceilf(z * 127));
 
 	int8_t *normalarray = reinterpret_cast<int8_t *>(&m_nextVtxNormal);
-
-#if MC_ENDIANNESS_BIG
-	normalarray[3] = bx;
-	normalarray[2] = by;
-	normalarray[1] = bz;
-	normalarray[0] = 0;
-#else // MC_ENDIANNESS_LITTLE
 	normalarray[0] = bx;
 	normalarray[1] = by;
 	normalarray[2] = bz;
 	normalarray[3] = 0;
-#endif
 
 	if (!isFormatFixed())
 	{
