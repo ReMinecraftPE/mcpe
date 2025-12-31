@@ -152,7 +152,7 @@ void PacketLogger::OnReliabilityLayerNotification(const char *errorMessage, cons
 }
 void PacketLogger::OnAck(unsigned int messageNumber, SystemAddress remoteSystemAddress, RakNet::TimeMS time)
 {
-	char str[256];
+	char str[512];
 	char str1[64], str2[62];
 	SystemAddress localSystemAddress = rakPeerInterface->GetExternalID(remoteSystemAddress);
 	localSystemAddress.ToString(true, str1);
