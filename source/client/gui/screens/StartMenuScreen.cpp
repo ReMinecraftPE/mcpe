@@ -353,12 +353,18 @@ const char* gSplashes[] =
 	// custom:
 	"https://github.com/ReMinecraftPE/mcpe",
 	"100% (render)dragon free!",
-	"Also try Minecraft!",
+	"Also try Minecraft!", // Notch
 	"Also try Noita!",
 	"Also try Castle Crashers!",
 	"Also try Unturned!",
+	"Also try Minecraft Pi Reborn!", // TheBrokenRail
+	"Also try RePocket!", // atipls
+	"Also try PEtoLE!", // Wilyicaro
 	"Controller support!",
 	"Check out our GitHub!",
+	"Flint and steel!",
+	"I ... am Steve!",
+	"Nostalgic!",
 	"Now with graphics abstraction!",
 	"Now with HAL!",
 	"Supports PowerPC!",
@@ -366,9 +372,9 @@ const char* gSplashes[] =
 	"The Work of Aron Nieminen!",      // https://minecraft.wiki/w/Aron_Nieminen
 	"The Work of Johan Bernhardsson!", // https://minecraft.wiki/w/Johan_Bernhardsson
 	"The Work of Tommaso Checchi!",     // https://minecraft.wiki/w/Tommaso_Checchi
-	"Woo, newgrounds!",
 	"Woo, forge!",
 	"Woo, fabric!",
+	"Woo, newgrounds!",
 };
 
 StartMenuScreen::Materials::Materials()
@@ -475,8 +481,16 @@ void StartMenuScreen::init()
 
 	m_joinButton.m_xPos = x1 / 2;
 	m_optionsButton.m_xPos = x1 / 2;
+	
 	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
+
+	// fill in empty space where quit/buy button would be
+	if (m_pMinecraft->isTouchscreen())
+	{
+		m_optionsButton.m_xPos = m_startButton.m_xPos;
+		m_optionsButton.m_width = m_startButton.m_width;
+	}
 
 	// add the buttons to the screen:
 	m_buttons.push_back(&m_startButton);
@@ -484,12 +498,12 @@ void StartMenuScreen::init()
 	m_buttons.push_back(&m_optionsButton);
 
     bool canQuit = false;
-    
+
 #if defined(DEMO) || (!MC_PLATFORM_IOS && !MC_PLATFORM_ANDROID)
-    canQuit = true;
+	canQuit = true;
 #endif
-    
-    if (canQuit)
+
+	if (canQuit)
     {
         m_buttons.push_back(&m_buyButton);
     }
@@ -525,33 +539,64 @@ void StartMenuScreen::draw2dTitle()
 	Textures* tx = m_pMinecraft->m_pTextures;
 
 	bool crampedMode = false;
-	//int titleYPos = 4;
-	//int titleYPos = 30; // -- MC Java position
-	int titleYPos = 15;
 
-	TextureData* pTex = tx->loadAndBindTexture("gui/title.png", true);
-
-	if (pTex)
+	currentShaderColor = Color::WHITE;
+  
+	int yPos, width, height, left;
+  
+	// Attempt to load Java logo first
+	TextureData* pJavaTex = tx->loadAndBindTexture("title/mclogo.png", false);
+	if (pJavaTex)
 	{
-		int left = (m_width - pTex->m_imageData.m_width) / 2;
-		int width = pTex->m_imageData.m_width;
-		int height = pTex->m_imageData.m_height;
+    	yPos = 30;
+		width = 274;
+    	height = 44;
+		left = m_width / 2 - width / 2;
 
 		if (m_width * 3 / 4 < m_2dTitleBounds.w)
 		{
 			crampedMode = true;
-			titleYPos = 4;
+			yPos = 4;
 		}
 
-		m_2dTitleBounds.x = left;
-		m_2dTitleBounds.y = titleYPos;
-		m_2dTitleBounds.w = width;
-		m_2dTitleBounds.h = height;
-
-		currentShaderColor = Color::WHITE;
-		blit(m_2dTitleBounds);
+		Tesselator& t = Tesselator::instance;
+		t.begin(8);
+		t.vertexUV(left,       yPos + height, 0, 0.0f,          44.0f / 256.0f);
+		t.vertexUV(left + 155, yPos + height, 0, 155.0f / 256.0f, 44.0f / 256.0f);
+		t.vertexUV(left + 155, yPos,          0, 155.0f / 256.0f, 0.0f);
+		t.vertexUV(left,       yPos,          0, 0.0f,          0.0f);
+		t.vertexUV(left + 155, yPos + height, 0, 0.0f,          (45.0f + 44.0f) / 256.0f);
+		t.vertexUV(left + 310, yPos + height, 0, 155.0f / 256.0f, (45.0f + 44.0f) / 256.0f);
+		t.vertexUV(left + 310, yPos,          0, 155.0f / 256.0f, 45.0f / 256.0f);
+		t.vertexUV(left + 155, yPos,          0, 0.0f,          45.0f / 256.0f);
+		t.draw(m_materials.ui_texture_and_color);
 	}
-
+	else
+	{
+		// Fallback to PE logo
+	    TextureData* pTex = tx->loadAndBindTexture("gui/title.png", true);
+	    if (pTex)
+	    {
+	      yPos = 15;
+	      left = (m_width - pTex->m_imageData.m_width) / 2;
+	      width = pTex->m_imageData.m_width;
+	      height = pTex->m_imageData.m_height;
+	
+	      if (m_width * 3 / 4 < m_2dTitleBounds.w)
+	      {
+	        crampedMode = true;
+	        yPos = 4;
+	      }
+	
+	      m_2dTitleBounds.x = left;
+	      m_2dTitleBounds.y = yPos;
+	      m_2dTitleBounds.w = width;
+	      m_2dTitleBounds.h = height;
+	
+	      currentShaderColor = Color::WHITE;
+	      blit(m_2dTitleBounds);
+	    }
+	}
 }
 
 void StartMenuScreen::draw3dTitle(float f)

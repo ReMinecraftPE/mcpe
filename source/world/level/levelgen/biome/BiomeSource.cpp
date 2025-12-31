@@ -27,9 +27,9 @@ BiomeSource* BiomeSource::init()
 }
 
 BiomeSource::BiomeSource(Level* pLevel) :
-	m_Random1(pLevel->getSeed() * 9871),
-	m_Random2(pLevel->getSeed() * 39811),
-	m_Random3(pLevel->getSeed() * 543321)
+	m_Random1((int64_t)pLevel->getSeed() * 9871),
+	m_Random2((int64_t)pLevel->getSeed() * 39811),
+	m_Random3((int64_t)pLevel->getSeed() * 543321)
 {
 	init();
 	m_pPerlinNoise[0] = new PerlinNoise(&m_Random1, 4);
