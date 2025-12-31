@@ -39,7 +39,8 @@ void OptionsScreen::init()
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
 	
-	constexpr int NUM_CATEGORY_BUTTONS = 4;
+	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
+	constexpr int NUM_CATEGORY_BUTTONS = sizeof(tabButtons) / sizeof(tabButtons[0]);
 	int buttonWidth = 64;
 	int buttonHeight = 20;
 	int buttonSpacing = 5;
@@ -51,8 +52,6 @@ void OptionsScreen::init()
 
 	m_backButton.m_xPos = (m_width - m_backButton.m_width) / 2;
 	m_backButton.m_yPos = m_height - m_backButton.m_height - (28 - m_backButton.m_height) / 2;
-
-	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
 	
 	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
 	{
