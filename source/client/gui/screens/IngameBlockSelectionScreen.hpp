@@ -24,6 +24,7 @@ public:
 	int getSlotPosY(int y);
 	int getSlotsHeight();
 	bool isAllowed(int slot);
+	bool isInsideSelectionArea(int x, int y);
 	void renderSlots();
 	void renderDemoOverlay();
 	void renderSlot(int index, int x, int y, float f);
@@ -38,7 +39,11 @@ public:
 
 private:
 	int m_selectedSlot;
+	bool m_bReleased;
+	bool m_bClickedOnSlot;
     Button m_btnPause;
 	Button m_btnChat;
+	Button m_btnCraft;
+	Button m_btnArmor;
 };
 

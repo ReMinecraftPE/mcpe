@@ -13,6 +13,13 @@
 #ifndef OLD_OPTIONS_SCREEN
 
 #include "../components/OptionList.hpp"
+enum OptionsCategory
+{
+	OC_VIDEO,
+	OC_CONTROLS,
+	OC_MULTIPLAYER,
+	OC_MISCELLANEOUS
+};
 
 class OptionsScreen : public Screen
 {
@@ -27,7 +34,15 @@ public:
 	void handleScroll(bool down) override;
 
 private:
+	void setCategory(OptionsCategory category);
+
 	OptionList* m_pList;
+	OptionsCategory m_currentCategory;
+
+	Button m_videoButton;
+	Button m_controlsButton;
+	Button m_multiplayerButton;
+	Button m_miscButton;
 
 	Button m_backButton;
 };
