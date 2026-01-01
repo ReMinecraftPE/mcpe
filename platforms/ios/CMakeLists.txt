@@ -3,8 +3,6 @@ project(reminecraftpe-ios)
 
 target_compile_definitions(reminecraftpe-core PUBLIC HANDLE_CHARS_SEPARATELY USE_GLES)
 
-add_compile_options(-Wno-deprecated-declarations)
-
 # Build
 add_executable(reminecraftpe
     AppPlatform_iOS.mm

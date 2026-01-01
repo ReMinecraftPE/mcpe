@@ -30,6 +30,9 @@ check_symbol_exists("_WIN32" "" MCPE_WIN32)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_compile_options(-Wno-inconsistent-missing-override)
 endif()
+if(APPLE)
+    add_compile_options(-Wno-deprecated-declarations)
+endif()
 
 # Windows Linking
 if(MCPE_WIN32)
