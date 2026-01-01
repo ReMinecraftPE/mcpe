@@ -2,47 +2,42 @@
 
 #include <vector>
 
-#include "API_OGL.hpp"
+#include "API_D3D11.hpp"
+#include "API_D3D11Compiler.hpp"
 
-#ifdef FEATURE_GFX_SHADERS
-
-#include "ShaderUniformOGL.hpp"
+#include "ShaderResourceD3D11.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/base/ShaderBase.hpp"
 #include "renderer/hal/enums/ShaderPrimitiveTypes.hpp"
-#include "renderer/hal/helpers/ErrorHandler.hpp"
 #include "renderer/hal/interface/ShaderProgram.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
 
 namespace mce
 {
-    class ShaderOGL : public ShaderBase
+    class ShaderD3D11 : public ShaderBase
     {
     private:
-        GLuint m_program;
-        std::vector<ShaderUniformOGL> m_uniformList;
-        std::vector<ShaderResourceOGL> m_textureList;
+        bool m_bCompiledShaders;
+        std::vector<ShaderResourceD3D11> m_resourceList;
 
     public:
-        ShaderOGL(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry);
-        ~ShaderOGL();
+        ShaderD3D11(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry);
+        ~ShaderD3D11();
+
+    protected:
+        ShaderResourceD3D11* _getShaderResource(const std::string& name);
 
     public:
-        void deleteShader();
-        void finalizeShaderUniforms();
-        static void freeCompilerResources();
-        static void resetLastProgram();
-        void createAndAttachPrograms();
-        void linkShader();
-        void bindVertexPointers(const VertexFormat&, const void*);
-        void bindShader(RenderContext& context, const VertexFormat& format, const void *dataBasePtr, unsigned int shaderStageBits);
-        void reflectShaderUniforms();
-        void reflectShaderAttributes();
-        void reflectShader();
+        void bindVertexPointers(RenderContext& context, const VertexFormat& vertexFormat);
+        void bindShader(RenderContext& context, const VertexFormat& format, const void* dataBasePtr, unsigned int shaderStageBits);
+        void compileAndLinkShader();
+        void reflectShaderResources(ComInterface<ID3D11ShaderReflection> shaderReflection, const D3D11_SHADER_DESC& shaderDesc, ShaderType shaderType);
+        void reflectShaderAttributes(ComInterface<ID3D11ShaderReflection> shaderReflection, const D3D11_SHADER_DESC& shaderDesc);
+        void reflectShader(const std::string& compiledShader, ShaderType shaderType);
+        void reflectBindableResources(ComInterface<ID3D11ShaderReflection> shaderReflection, const D3D11_SHADER_DESC& shaderDesc);
+        ComInterface<ID3D11InputLayout> createInputLayout(const VertexFormat& vertexFormat);
 
         static void SpliceShaderPath(std::string& shaderName);
         static void BuildHeader(std::ostringstream& stream);
     };
 }
-
-#endif // FEATURE_GFX_SHADERS

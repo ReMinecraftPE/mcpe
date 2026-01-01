@@ -784,6 +784,8 @@ void LevelRenderer::renderLineBox(const AABB& aabb, const mce::MaterialPtr& mate
 	glLineWidth(lineWidth);
 #endif
 
+	// @TODO: cache this as a mesh, then translate matrix
+
 	Tesselator& t = Tesselator::instance;
 
 	t.begin(mce::PRIMITIVE_MODE_LINE_STRIP, 5);

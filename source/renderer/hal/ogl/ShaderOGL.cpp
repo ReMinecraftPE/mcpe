@@ -9,6 +9,7 @@
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "renderer/hal/ogl/helpers/ErrorHandlerOGL.hpp"
 #include "renderer/platform/ogl/ShaderPrecision.hpp"
 
 using namespace mce;
@@ -61,7 +62,7 @@ void ShaderOGL::finalizeShaderUniforms()
     for (int i = 0; i < m_uniformList.size(); i++)
     {
         ShaderUniformOGL& uniform = m_uniformList[i];
-        uniform.m_shaderConstant = uniform.m_constantBufferContainer->getUnspecializedShaderConstant(uniform.m_name);
+        uniform.m_pShaderConstant = uniform.m_pConstantBufferContainer->getUnspecializedShaderConstant(uniform.m_name);
     }
 }
 
@@ -229,7 +230,7 @@ void ShaderOGL::reflectShaderUniforms()
             const std::string& bufferName = uniformMetadata.m_constantBufferMetaDataParent->getConstantBufferName();
             ConstantBufferContainer* pBufferContainer = bufferManager.findConstantBufferContainer(bufferName);
             pBufferContainer->registerReflectedShaderParameter(uniformMetadata);
-            uniform.m_constantBufferContainer = pBufferContainer;
+            uniform.m_pConstantBufferContainer = pBufferContainer;
 
             m_uniformList.push_back(uniform);
         }

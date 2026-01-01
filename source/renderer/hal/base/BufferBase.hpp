@@ -32,7 +32,7 @@ namespace mce
         void updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count);
 		void copy(BufferBase& other);
         unsigned int getInternalBufferSize() const { return m_internalSize; }
-        bool isValid() const { return false; }
+        bool isValid() const { return m_internalSize > 0; }
 
         MC_FUNC_MOVE(BufferBase);
 	};

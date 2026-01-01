@@ -4,7 +4,7 @@
 
 namespace mce
 {
-    class RenderDeviceOGL : public RenderDeviceBase
+    class RenderDeviceD3D11 : public RenderDeviceBase
     {
     };
 }

@@ -15,9 +15,12 @@
 
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
+#include "renderer/RenderContextImmediate.hpp"
 
+#if MCE_GFX_API_OGL
 // needed for screenshots
 #include "thirdparty/GL/GL.hpp"
+#endif
 
 #include "thirdparty/stb_image/include/stb_image.h"
 #include "thirdparty/stb_image/include/stb_image_write.h"
@@ -81,6 +84,7 @@ void AppPlatform_win32::buyGame()
 
 void AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, int height)
 {
+#if MCE_GFX_API_OGL
 	int npixels = width * height;
 	uint32_t* pixels = new uint32_t[npixels];
 	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
@@ -120,6 +124,7 @@ void AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, i
 	stbi_write_png(fullpath, width, height, 4, pixels, width * 4);
 
 	delete[] pixels;
+#endif
 }
 
 void AppPlatform_win32::createUserInput()
@@ -358,6 +363,7 @@ void AppPlatform_win32::centerWindow(HWND hWnd)
 
 void AppPlatform_win32::enableOpenGL(HWND hWnd)
 {
+#if MCE_GFX_API_OGL
 	PIXELFORMATDESCRIPTOR pfd;
 	int iFormat;
 
@@ -383,18 +389,26 @@ void AppPlatform_win32::enableOpenGL(HWND hWnd)
 	m_hRC = wglCreateContext(m_hDC);
 
 	wglMakeCurrent(m_hDC, m_hRC);
+#endif
 }
 
 void AppPlatform_win32::disableOpenGL(HWND hWnd)
 {
+#if MCE_GFX_API_OGL
 	wglMakeCurrent(NULL, NULL);
 	wglDeleteContext(m_hRC);
 	ReleaseDC(hWnd, m_hDC);
+#endif
 }
 
 void AppPlatform_win32::swapBuffers()
 {
+#if MCE_GFX_API_OGL
 	SwapBuffers(m_hDC);
+#else
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.swapBuffers();
+#endif
 }
 
 MouseButtonType AppPlatform_win32::GetMouseButtonType(UINT iMsg)

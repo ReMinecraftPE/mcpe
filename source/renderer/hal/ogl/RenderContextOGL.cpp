@@ -257,6 +257,7 @@ void RenderContextOGL::clearDepthStencilBuffer()
 
 void RenderContextOGL::clearContextState()
 {
+    // Doesn't call RenderContextBase::clearContextState() on 0.12.1
     m_activeTexture = GL_NONE;
     m_activeBuffer[0] = GL_NONE;
     m_activeBuffer[1] = GL_NONE;

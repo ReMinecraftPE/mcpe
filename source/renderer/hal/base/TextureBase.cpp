@@ -8,6 +8,7 @@ using namespace mce;
 TextureBase::TextureBase()
 {
 	m_bCreated = false;
+    m_bHasWriteAccess = false;
 }
 
 const TextureDescription& TextureBase::getDescription() const
@@ -33,8 +34,10 @@ void TextureBase::convertToMipmapedTexture(unsigned int mipmaps)
 {
     if (m_description.mipCount == mipmaps)
         return;
+
+    m_description.mipCount = mipmaps;
     
-    if (m_description.filteringLevel == TEXTURE_FILTERING_BILINEAR)
+    if (m_description.filteringLevel != TEXTURE_FILTERING_POINT)
     {
         LOG_E("Unsupported filtering level for mip maps, please add the correct filtering case: %d", m_description.filteringLevel);
         throw std::bad_cast();
@@ -47,8 +50,30 @@ void TextureBase::convertToMipmapedTexture(RenderContext& context, unsigned int 
 {
 }
 
+void TextureBase::bindWriteBuffer(RenderContext& context)
+{
+    m_bHasWriteAccess = true;
+}
+
+void TextureBase::releaseWriteBuffer(RenderContext& context)
+{
+    m_bHasWriteAccess = false;
+}
+
 void TextureBase::subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
 {
+    if (!m_description.bDynamic)
+    {
+        // To OpenGL, all textures are dynamic, to Direct3D, this is not the case.
+        LOG_E("Tried to write to static texture! Texture must be dynamic to be written to.");
+        throw std::bad_cast();
+    }
+    
+    if (!m_bHasWriteAccess)
+    {
+        LOG_E("Cannot write to buffer without write-access. Did you call bindWriteBuffer? Don't forget to release it after.");
+        throw std::bad_cast();
+    }
 }
 
 void TextureBase::subBuffer(RenderContext& context, const void* pixels)
@@ -68,8 +93,10 @@ void TextureBase::createTexture(const TextureDescription& description)
     m_description = description;
 }
 
-void TextureBase::createTexture(RenderContext& context, TextureDescription const&)
+void TextureBase::createTexture(RenderContext& context, const TextureDescription& description)
 {
+    createTexture(description);
+    m_bCreated = true;
 }
 
 void TextureBase::lock(RenderContext& context)
@@ -82,12 +109,9 @@ void TextureBase::unlock(RenderContext& context)
 
 void TextureBase::move(TextureBase& other)
 {
-    TextureDescription tempDesc = this->m_description;
-    this->m_description = tempDesc;
-    other.m_description = other.m_description;
-    bool tempCreated = this->m_bCreated;
-    this->m_bCreated = other.m_bCreated;
-    other.m_bCreated = tempCreated;
+    std::swap(this->m_description, other.m_description);
+    std::swap(this->m_bCreated, other.m_bCreated);
+    std::swap(this->m_bHasWriteAccess, other.m_bHasWriteAccess);
 }
 
 bool TextureBase::supportsMipMaps()

@@ -1,8 +1,3 @@
-#include "ShaderConstantOGL.hpp"
+#include "ShaderConstantD3D11.hpp"
 
 using namespace mce;
-
-void ShaderConstantOGL::syncUniform(int location)
-{
-    m_dirty = false;
-}

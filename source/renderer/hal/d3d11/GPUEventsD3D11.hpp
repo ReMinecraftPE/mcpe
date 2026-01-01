@@ -2,7 +2,7 @@
 
 namespace mce
 {
-    class GPUEventsOGL
+    class GPUEventsD3D11
     {
     public:
         void beginProfileSection(char const*);

@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{769BA146-A3A7-4801-B908-0AB49DF276B0}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{77FF2B63-1498-4301-8847-010F0EC097EC}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\HAL">
+      <UniqueIdentifier>{64a4e108-26be-4163-a3d2-7afd71efe542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL">
+      <UniqueIdentifier>{8d52878f-e5b8-4c86-a318-4cc528d37843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HAL\D3D11">
+      <UniqueIdentifier>{d16f2bb3-1621-46a7-ba67-f2544ead385d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\D3D11">
+      <UniqueIdentifier>{5ae8f25b-6716-4b35-9a83-f26b61800061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HAL\DXGI">
+      <UniqueIdentifier>{1bde1f5a-a4b1-499a-b147-db88c3dcc1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HAL\DXGI\Helpers">
+      <UniqueIdentifier>{89ef3031-5e57-47f4-ae97-d346b1975967}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\DXGI">
+      <UniqueIdentifier>{badb9f7f-65bb-4505-a443-1de6fc131aa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\DXGI\Helpers">
+      <UniqueIdentifier>{34128fb2-78f8-42c9-82fa-dffc8aa041f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\HAL\D3D11\Helpers">
+      <UniqueIdentifier>{3e9d014a-148d-4c0b-80e9-4d335de8a3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HAL\D3D11\Helpers">
+      <UniqueIdentifier>{5f3981b2-2c7d-4a2f-b61e-9944c0fcc089}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\API_D3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\BlendStateD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\BufferD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ConstantBufferContainerD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\DepthStencilStateD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ImmediateBufferD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ProfileSectionD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\RasterizerStateD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderContextD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderDeviceD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantWithDataD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderProgramD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderResourceD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\TextureD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\GPUEventsD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\API_DXGI.cpp">
+      <Filter>Source Files\HAL\DXGI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\ErrorHandlerDXGI.cpp">
+      <Filter>Source Files\HAL\DXGI\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.cpp">
+      <Filter>Source Files\HAL\DXGI\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\TextureHelperDXGI.cpp">
+      <Filter>Source Files\HAL\DXGI\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d11\helpers\TextureHelperD3D11.cpp">
+      <Filter>Source Files\HAL\D3D11\Helpers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\API_D3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\BlendStateD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\BufferD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ConstantBufferContainerD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\DepthStencilStateD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\GPUEventsD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ImmediateBufferD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ProfileSectionD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\RasterizerStateD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderContextD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\RenderDeviceD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderConstantWithDataD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderProgramD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\ShaderResourceD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\TextureD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\ErrorHandlerDXGI.hpp">
+      <Filter>Header Files\HAL\DXGI\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\API_DXGI.hpp">
+      <Filter>Header Files\HAL\DXGI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.hpp">
+      <Filter>Header Files\HAL\DXGI\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\TextureHelperDXGI.hpp">
+      <Filter>Header Files\HAL\DXGI\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\helpers\TextureHelperD3D11.hpp">
+      <Filter>Header Files\HAL\D3D11\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d11\API_D3D11Compiler.hpp">
+      <Filter>Header Files\HAL\D3D11</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

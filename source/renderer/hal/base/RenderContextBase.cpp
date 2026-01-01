@@ -85,9 +85,11 @@ void RenderContextBase::clearContextState()
 {
 	m_currentState.clear();
     m_immediateBuffer = ImmediateBuffer();
-    m_lastShaderPrograms[SHADER_TYPE_VERTEX] = nullptr;
-    m_lastShaderPrograms[SHADER_TYPE_FRAGMENT] = nullptr;
-    m_lastShaderPrograms[SHADER_TYPE_GEOMETRY] = nullptr;
+
+    for (int i = 0; i < SHADER_TYPES_COUNT; i++)
+    {
+        m_lastShaderPrograms[i] = nullptr;
+    }
 }
 
 void RenderContextBase::setRenderTarget()

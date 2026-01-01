@@ -4,9 +4,7 @@
 
 namespace mce
 {
-    class ShaderConstantOGL : public ShaderConstantBase
+    class ShaderConstantD3D11 : public ShaderConstantBase
     {
-    public:
-        virtual void syncUniform(int location);
     };
 }

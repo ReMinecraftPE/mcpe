@@ -1,12 +1,12 @@
-#include "ShaderResourceOGL.hpp"
+#include "ShaderResourceD3D11.hpp"
 
 using namespace mce;
 
-ShaderResourceOGL::ShaderResourceOGL(const std::string& name, int location, int elements, ShaderPrimitiveTypes shaderPrimitiveType)
-    : m_location(location)
-    , m_elements(elements)
-    , m_name(name)
-    , m_shaderPrimitiveType(shaderPrimitiveType)
+ShaderResourceD3D11::ShaderResourceD3D11()
 {
-    m_bValid = false;
+    m_pConstantBufferContainer = nullptr;
+    m_shaderStagesBits = 0x0;
+
+    for (int i = 0; i < SHADER_TYPES_COUNT; i++)
+        m_shaderBindPoints[i] = 0;
 }

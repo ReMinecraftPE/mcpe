@@ -47,6 +47,21 @@ GLenum getOpenGLTextureTypeFromTextureFormat(TextureFormat textureFormat)
     }
 }
 
+void TextureOGL::_subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
+{
+    bindTexture(context);
+    ErrorHandlerOGL::checkForErrors();
+
+    if (m_state.m_textureTarget != GL_TEXTURE_2D)
+    {
+        LOG_E("Unknown textureTarget %d", m_state.m_textureTarget);
+        throw std::bad_cast();
+    }
+
+    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
+    ErrorHandlerOGL::checkForErrors();
+}
+
 void TextureOGL::deleteTexture()
 {
 	ErrorHandlerOGL::checkForErrors();
@@ -103,22 +118,14 @@ void TextureOGL::convertToMipmapedTexture(RenderContext& context, unsigned int m
 
 void TextureOGL::subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
 {
-    bindTexture(context);
-    ErrorHandlerOGL::checkForErrors();
-
-    if (m_state.m_textureTarget != GL_TEXTURE_2D)
-    {
-        LOG_E("Unknown textureTarget %d", m_state.m_textureTarget);
-        throw std::bad_cast();
-    }
-
-    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
-    ErrorHandlerOGL::checkForErrors();
+    TextureBase::subBuffer(context, pixels, xoffset, yoffset, width, height, level);
+    _subBuffer(context, pixels, xoffset, yoffset, width, height, level);
 }
 
 void TextureOGL::subBuffer(RenderContext& context, const void* pixels)
 {
-    subBuffer(context, pixels, 0, 0, m_description.width, m_description.height, 0);
+    TextureBase::subBuffer(context, pixels);
+    _subBuffer(context, pixels, 0, 0, m_description.width, m_description.height, 0);
 }
 
 void TextureOGL::createMipMap(RenderContext& context, const void* pixels, unsigned int width, unsigned int height, unsigned int level)

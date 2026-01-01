@@ -27,7 +27,7 @@ void VertexFormat::_init()
 {
     m_fieldMask = 0;
     m_vertexSize = 0;
-    memset(m_fieldOffset, -1, sizeof(m_fieldOffset));
+    memset(m_fieldOffset, UINT8_MAX, sizeof(m_fieldOffset));
 }
 
 VertexFormat::VertexFormat()
@@ -38,7 +38,6 @@ VertexFormat::VertexFormat()
 void VertexFormat::enableField(VertexField vertexField)
 {
     if (hasField(vertexField)) return;
-    //if (vertexField != VERTEX_FIELD_POSITION) return;
 
     m_fieldOffset[vertexField] = m_vertexSize;
     uint8_t v6 = m_vertexSize + VertexFormat::FieldSize[vertexField];

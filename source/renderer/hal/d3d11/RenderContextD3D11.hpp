@@ -1,83 +1,76 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
-#include "API_OGL.hpp"
+#include "API_D3D11.hpp"
 #include "renderer/hal/base/RenderContextBase.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
+#include "renderer/hal/dxgi/helpers/DirectXComInterface.hpp"
+#include "world/phys/Vec2.hpp"
 
 namespace mce
 {
-    const GLenum modeMap[] = {
-        /*PRIMITIVE_MODE_NONE*/           GL_NONE,
-        /*PRIMITIVE_MODE_QUAD_LIST*/      GL_TRIANGLES, // intentionally not using GL_QUADS
-        /*PRIMITIVE_MODE_TRIANGLE_LIST*/  GL_TRIANGLES,
-        /*PRIMITIVE_MODE_TRIANGLE_STRIP*/ GL_TRIANGLE_STRIP,
-        /*PRIMITIVE_MODE_LINE_LIST*/      GL_LINES,
-        /*PRIMITIVE_MODE_LINE_STRIP*/     GL_LINE_STRIP
+    const D3D_PRIMITIVE_TOPOLOGY modeMap[] = {
+        /*PRIMITIVE_MODE_NONE*/           D3D_PRIMITIVE_TOPOLOGY_UNDEFINED,
+        /*PRIMITIVE_MODE_QUAD_LIST*/      D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+        /*PRIMITIVE_MODE_TRIANGLE_LIST*/  D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+        /*PRIMITIVE_MODE_TRIANGLE_STRIP*/ D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,
+        /*PRIMITIVE_MODE_LINE_LIST*/      D3D_PRIMITIVE_TOPOLOGY_LINELIST,
+        /*PRIMITIVE_MODE_LINE_STRIP*/     D3D_PRIMITIVE_TOPOLOGY_LINESTRIP
     };
-#ifndef FEATURE_GFX_SHADERS
-    const GLenum shadeModeMap[] = {
-        /*SHADE_MODE_FLAT*/   GL_FLAT,
-        /*SHADE_MODE_SMOOTH*/ GL_SMOOTH
-    };
-#endif
-    const GLenum indexType[] = {
-        GL_NONE,
-        GL_UNSIGNED_BYTE,
-        GL_UNSIGNED_SHORT,
-        GL_NONE,
-        GL_UNSIGNED_INT
-    };
+
+    typedef ComInterface<ID3D11Device2> D3DDevice;
+    typedef ComInterface<ID3D11DeviceContext2> D3DDeviceContext;
 
     class DepthStencilState;
-    class RenderContextOGL : public RenderContextBase
+    class RenderContextD3D11 : public RenderContextBase
     {
     public:
-        struct VertexFieldFormat
+        struct InputLayoutID
         {
-            GLenum componentsType;
-            GLint components;
-            GLboolean normalized;
-        };
-        struct ActiveTextureUnit
-        {
-            GLuint m_textureUnit;
-            bool m_bIsShaderUniformDirty;
+            VertexFormat vertexFormat;
+            unsigned int attributeListIndex;
 
-            ActiveTextureUnit()
+            /*InputLayoutID()
+                : vertexFormat(VertexFormat::EMPTY)
+                , attributeListIndex(0)
             {
-                m_textureUnit = GL_NONE;
-                m_bIsShaderUniformDirty = true;
+            }*/
+
+            InputLayoutID(const VertexFormat& vertexFormat, unsigned int attributeListIndex)
+                : vertexFormat(vertexFormat)
+                , attributeListIndex(attributeListIndex)
+            {
+            }
+
+            bool operator<(const InputLayoutID& other) const
+            {
+                return attributeListIndex < other.attributeListIndex;
             }
         };
-
-    public:
-        static VertexFieldFormat vertexFieldFormats[];
+        typedef std::map<InputLayoutID, ComInterface<ID3D11InputLayout>> InputLayoutCache;
 
     private:
-        GLuint m_activeBuffer[2]; // indexed by BufferType
-        ActiveTextureUnit m_activeTextureUnits[8];
-        DepthStencilState* m_emptyDepthStencilState;
+        D3DDevice m_D3DDevice;
+        D3DDeviceContext m_D3DDeviceContext;
+        ComInterface<IDXGISwapChain1> m_swapChain;
 
     public:
-        GLuint m_activeTexture;
-        GLuint m_activeShaderProgram;
-        //GLuint m_activeBuffer[2];
-        //ActiveTextureUnit m_activeTextureUnits[8];
-        std::vector<const GLvoid *> m_activePixels;
+        ComInterface<ID3D11RenderTargetView> m_renderTargetView;
+        ComInterface<ID3D11DepthStencilView> m_depthStencilView;
+        CD3D11_VIEWPORT m_viewport;
+        ComInterface<ID3DUserDefinedAnnotation> m_userDefinedAnnotation;
+        D3D_FEATURE_LEVEL m_featureLevel;
+        Vec2 m_logicalSize;
+        Vec2 m_compositionScale;
+        InputLayoutCache m_inputLayoutCache;
+        ID3D11Buffer* m_constantBuffers[SHADER_TYPES_COUNT][60];
 
     public:
-        RenderContextOGL();
+        RenderContextD3D11();
 
     public:
-        void loadMatrix(MatrixType matrixType, const Matrix& matrix);
-        void setVertexState(const VertexFormat& vertexFormat);
-        void clearVertexState(const VertexFormat& vertexFormat);
-        void enableFixedLighting(bool init);
-        void disableFixedLighting(bool teardown);
-        bool setShadeMode(ShadeMode mode);
-        bool setCurrentColor(const Color& color);
         void draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);
@@ -89,17 +82,16 @@ namespace mce
         void clearContextState();
         void setRenderTarget();
         void swapBuffers();
-        
-        int getMaxVertexCount() const;
-        bool supports32BitIndices() const;
-        bool supports16BitUnsignedUVs() const;
 
-        GLuint& getActiveBuffer(BufferType bufferType);
-        GLuint getActiveBuffer(BufferType bufferType) const;
-
-        ActiveTextureUnit& getActiveTextureUnit(unsigned int index);
-        const ActiveTextureUnit& getActiveTextureUnit(unsigned int index) const;
+        void createD3DDevice();
+        void initContext(const Vec2& logicalSize, const Vec2& compositionScale);
+        void initSwapChain(const Vec2& size);
+        bool resizeSwapChain(const Vec2& size);
+        D3DDevice getD3DDevice();
+        D3DDeviceContext getD3DDeviceContext();
+        bool supportsR8G8B8A8_SNORM() const;
+        bool supportsR16G16_UNORM() const;
     };
 
-    GLenum getComparisonFunc(ComparisonFunc comparisonFunc);
+    D3D11_COMPARISON_FUNC getComparisonFunc(ComparisonFunc comparisonFunc);
 }

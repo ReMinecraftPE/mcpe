@@ -14,6 +14,7 @@ namespace mce
 
     protected:
         bool m_bCreated;
+        bool m_bHasWriteAccess;
 
     public:
 		TextureBase();
@@ -27,6 +28,9 @@ namespace mce
         void convertToMipmapedTexture(unsigned int mipmaps);
         void convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps);
 
+        void bindWriteBuffer(RenderContext& context);
+        void releaseWriteBuffer(RenderContext& context);
+
         void subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level);
         void subBuffer(RenderContext& context, const void* pixels);
 
@@ -35,7 +39,7 @@ namespace mce
         void createMipMap(RenderContext& context, const void* pixels, unsigned int width, unsigned int height, unsigned int level);
         
         void createTexture(const TextureDescription& description);
-        void createTexture(RenderContext& context, TextureDescription const&);
+        void createTexture(RenderContext& context, const TextureDescription& description);
 
         void lock(RenderContext& context);
         void unlock(RenderContext& context);

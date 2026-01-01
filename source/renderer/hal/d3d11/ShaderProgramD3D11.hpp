@@ -1,26 +1,26 @@
 #pragma once
 
-#include "API_OGL.hpp"
-
-#ifdef FEATURE_GFX_SHADERS
+#include "API_D3D11.hpp"
 
 #include "renderer/hal/base/ShaderProgramBase.hpp"
+#include "renderer/hal/dxgi/helpers/DirectXComInterface.hpp"
 
 namespace mce
 {
-    class ShaderProgramOGL : public ShaderProgramBase
+    class ShaderProgramD3D11 : public ShaderProgramBase
     {
     public:
-        GLuint m_shaderName;
+        ComInterface<ID3D11VertexShader> m_vertexShader;
+        ComInterface<ID3D11PixelShader> m_pixelShader;
+        ComInterface<ID3D11GeometryShader> m_geometryShader;
+        std::string m_shaderBytecode;
+        std::string m_shaderSource;
 
     public:
-        ShaderProgramOGL(ShaderType shaderType, std::string& shaderSource, const std::string& header, const std::string& shaderPath);
-        ~ShaderProgramOGL();
+        ShaderProgramD3D11(ShaderType shaderType, std::string& shaderSource, const std::string& header, const std::string& shaderPath);
+        ~ShaderProgramD3D11();
 
-    protected:
-        void deleteShader();
-        bool compileShaderProgram(std::string& shaderSource);
+    public:
+        void compileShaderProgram();
     };
 }
-
-#endif // FEATURE_GFX_SHADERS

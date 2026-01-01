@@ -34,10 +34,8 @@ void ErrorHandlerDXGI::checkForErrors(HRESULT hResult)
 #ifdef _DEBUG
 	if (hResult != S_OK)
 	{
-		DWORD dwMessageId = HRESULTToGfxError(hResult);
-
-        LPVOID lpMsgBuf;
-        DWORD tChars = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwMessageId, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&lpMsgBuf, 0x1000, NULL);
+        CHAR lpMsgBuf[0x1000] = "";
+        DWORD tChars = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, hResult, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), lpMsgBuf, 0x1000, NULL);
         LOG_E("DXGI Error: %s", lpMsgBuf);
         LocalFree(lpMsgBuf);
 

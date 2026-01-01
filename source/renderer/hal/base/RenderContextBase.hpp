@@ -18,12 +18,10 @@ namespace mce
     public:
         RenderContextStateBase m_currentState;
         VertexFormat m_lastVertexFormat;
+        unsigned int m_lastAttributeListIndex;
+        ShaderProgram* m_lastShaderPrograms[SHADER_TYPES_COUNT];
         Color m_currentColor;
         ShadeMode m_currentShadeMode;
-        // Unused in OGL
-        int field_34;
-        // Only used in DX11
-        ShaderProgram* m_lastShaderPrograms[SHADER_TYPES_COUNT];
         ImmediateBuffer m_immediateBuffer;
         StencilRefObject m_stencilReference;
         RenderDevice *m_pRenderDevice;

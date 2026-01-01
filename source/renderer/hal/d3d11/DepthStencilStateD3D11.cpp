@@ -1,48 +1,82 @@
-#include "DepthStencilStateOGL.hpp"
+#include "DepthStencilStateD3D11.hpp"
 
 using namespace mce;
 
-DepthStencilStateOGL::DepthStencilStateOGL()
+DepthStencilStateD3D11::DepthStencilStateD3D11()
     : DepthStencilStateBase()
 {
-    m_depthWriteMask = DEPTH_WRITE_MASK_ALL;
-    m_depthFunc = GL_NONE;
-    m_stencilReadMask = 0;
-    m_stencilWriteMask = 0;
 }
 
-GLenum getStencilOpAction(StencilOp stencilOp)
+D3D11_STENCIL_OP getStencilOpAction(StencilOp stencilOp)
 {
     switch (stencilOp)
     {
-    case STENCIL_OP_KEEP:    return GL_KEEP;
-    case STENCIL_OP_REPLACE: return GL_REPLACE;
+    case STENCIL_OP_KEEP:    return D3D11_STENCIL_OP_KEEP;
+    case STENCIL_OP_REPLACE: return D3D11_STENCIL_OP_REPLACE;
     default:
         LOG_E("Unknown stencilOp: %d", stencilOp);
         throw std::bad_cast();
     }
 }
 
-void DepthStencilStateOGL::createDepthState(RenderContext& context, const DepthStencilStateDescription& description)
+D3D11_DEPTH_WRITE_MASK getDepthWriteMask(DepthWriteMask depthWriteMask)
 {
-    *this = DepthStencilStateOGL();
+    switch (depthWriteMask)
+    {
+    case DEPTH_WRITE_MASK_NONE: return D3D11_DEPTH_WRITE_MASK_ZERO;
+    case DEPTH_WRITE_MASK_ALL:  return D3D11_DEPTH_WRITE_MASK_ALL;
+    default:
+        LOG_E("Unknown depthWriteMask: %d", depthWriteMask);
+        throw std::bad_cast();
+    }
+}
+
+D3D11_DEPTH_STENCILOP_DESC getStencilOpDesc(const StencilFaceDescription& faceDesc)
+{
+    D3D11_DEPTH_STENCILOP_DESC opDesc;
+
+    opDesc.StencilFunc = getComparisonFunc(faceDesc.stencilFunc);
+    opDesc.StencilPassOp = getStencilOpAction(faceDesc.stencilPassOp);
+    opDesc.StencilFailOp = getStencilOpAction(faceDesc.stencilFailOp);
+    opDesc.StencilDepthFailOp = getStencilOpAction(faceDesc.stencilDepthFailOp);
+
+    return opDesc;
+}
+
+void DepthStencilStateD3D11::createDepthState(RenderContext& context, const DepthStencilStateDescription& description)
+{
     DepthStencilStateBase::createDepthState(context, description);
 
-    m_depthFunc = getComparisonFunc(description.depthFunc);
+    CD3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+    {
+        depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+        depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+        depthStencilDesc.DepthEnable = description.depthTestEnabled;
 
-    m_frontFaceStencilInfo.func = getComparisonFunc(description.frontFace.stencilFunc);
-    m_frontFaceStencilInfo.stencilFailAction = getStencilOpAction(description.frontFace.stencilFailOp);
-    m_frontFaceStencilInfo.stencilPassDepthFailAction = getStencilOpAction(description.frontFace.stencilDepthFailOp);
-    m_frontFaceStencilInfo.stencilPassDepthPassAction = getStencilOpAction(description.frontFace.stencilPassOp);
+        depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+        depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+        depthStencilDesc.DepthWriteMask = getDepthWriteMask(description.depthWriteMask);
 
-    m_backFaceStencilInfo.func = getComparisonFunc(description.backFace.stencilFunc);
-    m_backFaceStencilInfo.stencilFailAction = getStencilOpAction(description.backFace.stencilFailOp);
-    m_backFaceStencilInfo.stencilPassDepthFailAction = getStencilOpAction(description.backFace.stencilDepthFailOp);
-    m_backFaceStencilInfo.stencilPassDepthPassAction = getStencilOpAction(description.backFace.stencilPassOp);
+        depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+        depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+        depthStencilDesc.StencilWriteMask = description.stencilWriteMask;
 
-    m_depthWriteMask = description.depthWriteMask;
-    m_stencilReadMask = description.stencilReadMask;
-    m_stencilWriteMask = description.stencilWriteMask;
+        depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+        depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+        depthStencilDesc.StencilReadMask = description.stencilReadMask;
+
+        depthStencilDesc.DepthFunc = getComparisonFunc(description.depthFunc);
+        depthStencilDesc.StencilEnable = description.stencilTestEnabled;
+        depthStencilDesc.FrontFace = getStencilOpDesc(description.frontFace);
+        depthStencilDesc.BackFace = getStencilOpDesc(description.backFace);
+    }
+
+    m_depthStencilState.release();
+
+    {
+        D3DDevice d3dDevice = context.getD3DDevice();
+        d3dDevice->CreateDepthStencilState(&depthStencilDesc, *m_depthStencilState);
+    }
 
     if (!context.m_currentState.m_bBoundDepthStencilState)
     {
@@ -58,7 +92,7 @@ void DepthStencilStateOGL::createDepthState(RenderContext& context, const DepthS
     }
 }
 
-bool DepthStencilStateOGL::bindDepthStencilState(RenderContext& context, bool force)
+bool DepthStencilStateD3D11::bindDepthStencilState(RenderContext& context, bool force)
 {
     if (!m_description.overwroteStencilRef)
     {
@@ -67,99 +101,15 @@ bool DepthStencilStateOGL::bindDepthStencilState(RenderContext& context, bool fo
 
     DepthStencilStateDescription& currentDesc = context.m_currentState.m_depthStencilStateDescription;
 
-    if (force || currentDesc.depthTestEnabled != m_description.depthTestEnabled)
+    if (force || currentDesc != m_description)
     {
-        if (m_description.depthTestEnabled)
-            glEnable(GL_DEPTH_TEST);
-        else
-            glDisable(GL_DEPTH_TEST);
-
-        currentDesc.depthTestEnabled = m_description.depthTestEnabled;
+        D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+        d3dDeviceContext->OMSetDepthStencilState(**m_depthStencilState,m_description.stencilRef);
+        currentDesc = m_description;
     }
 
-    if (force || currentDesc.stencilTestEnabled != m_description.stencilTestEnabled)
-    {
-        if (m_description.stencilTestEnabled)
-            glEnable(GL_STENCIL_TEST);
-        else
-            glDisable(GL_STENCIL_TEST);
-        
-        currentDesc.stencilTestEnabled = m_description.stencilTestEnabled;
-    }
-
-    if (force
-        || currentDesc.frontFace.stencilFunc != m_description.frontFace.stencilFunc
-        || currentDesc.backFace.stencilFunc != m_description.backFace.stencilFunc
-        || currentDesc.stencilReadMask != m_description.stencilReadMask
-        || currentDesc.stencilRef != m_description.stencilRef)
-    {
-#ifdef USE_GL_STENCIL_SEPARATE
-        xglStencilFuncSeparate(GL_FRONT, m_frontFaceStencilInfo.func, m_description.stencilRef, m_stencilReadMask);
-        xglStencilFuncSeparate(GL_BACK, m_backFaceStencilInfo.func, m_description.stencilRef, m_stencilReadMask);
-#else
-        // This shit's running on thoughts and prayers
-        glStencilFunc(m_frontFaceStencilInfo.func, m_description.stencilRef, m_stencilReadMask);
-#endif
-
-        currentDesc.frontFace.stencilFunc = m_description.frontFace.stencilFunc;
-        currentDesc.backFace.stencilFunc = m_description.backFace.stencilFunc;
-        currentDesc.stencilReadMask = m_description.stencilReadMask;
-        currentDesc.stencilRef = m_description.stencilRef;
-    }
-
-#ifdef USE_GL_STENCIL_SEPARATE
-    if (force || currentDesc.frontFace.stencilDepthFailOp != m_description.frontFace.stencilDepthFailOp)
-    {
-        xglStencilOpSeparate(GL_FRONT, m_frontFaceStencilInfo.stencilFailAction, m_frontFaceStencilInfo.stencilPassDepthFailAction, m_frontFaceStencilInfo.stencilPassDepthPassAction);
-        currentDesc.frontFace.stencilDepthFailOp = m_description.frontFace.stencilDepthFailOp;
-        currentDesc.frontFace.stencilPassOp = m_description.frontFace.stencilPassOp;
-        currentDesc.frontFace.stencilFailOp = m_description.frontFace.stencilFailOp;
-    }
-
-    if (force || currentDesc.backFace.stencilDepthFailOp != m_description.backFace.stencilDepthFailOp)
-    {
-        xglStencilOpSeparate(GL_BACK, m_backFaceStencilInfo.stencilFailAction, m_backFaceStencilInfo.stencilPassDepthFailAction, m_backFaceStencilInfo.stencilPassDepthPassAction);
-        currentDesc.backFace.stencilDepthFailOp = m_description.backFace.stencilDepthFailOp;
-        currentDesc.backFace.stencilPassOp = m_description.backFace.stencilPassOp;
-        currentDesc.backFace.stencilFailOp = m_description.backFace.stencilFailOp;
-    }
-#else
-    if (force || currentDesc.frontFace.stencilDepthFailOp != m_description.frontFace.stencilDepthFailOp
-              || currentDesc.backFace.stencilDepthFailOp != m_description.backFace.stencilDepthFailOp)
-    {
-        // and this shit's running on hopes and dreams
-        glStencilOp(m_frontFaceStencilInfo.stencilFailAction, m_frontFaceStencilInfo.stencilPassDepthFailAction, m_frontFaceStencilInfo.stencilPassDepthPassAction);
-        
-        currentDesc.frontFace.stencilDepthFailOp = m_description.frontFace.stencilDepthFailOp;
-        currentDesc.frontFace.stencilPassOp = m_description.frontFace.stencilPassOp;
-        currentDesc.frontFace.stencilFailOp = m_description.frontFace.stencilFailOp;
-        
-        currentDesc.backFace.stencilDepthFailOp = m_description.backFace.stencilDepthFailOp;
-        currentDesc.backFace.stencilPassOp = m_description.backFace.stencilPassOp;
-        currentDesc.backFace.stencilFailOp = m_description.backFace.stencilFailOp;
-    }
-#endif
-    
-    if (force || currentDesc.stencilWriteMask != m_description.stencilWriteMask)
-    {
-        glStencilMask(m_stencilWriteMask);
-        currentDesc.stencilWriteMask = m_description.stencilWriteMask;
-    }
-
-    if (force || currentDesc.depthFunc != m_description.depthFunc)
-    {
-        glDepthFunc(m_depthFunc);
-        currentDesc.depthFunc = m_description.depthFunc;
-    }
-
-    if (force || currentDesc.depthWriteMask != m_description.depthWriteMask)
-    {
-        glDepthMask(m_depthWriteMask);
-        currentDesc.depthWriteMask = m_description.depthWriteMask;
-    }
-
-    currentDesc.overwroteStencilRef = m_description.overwroteStencilRef;
-    
+    // Doesn't exist, do we need it like we do in OGL?
+    //currentDesc.overwroteStencilRef = m_description.overwroteStencilRef;
     
     return DepthStencilStateBase::bindDepthStencilState(context);
 }

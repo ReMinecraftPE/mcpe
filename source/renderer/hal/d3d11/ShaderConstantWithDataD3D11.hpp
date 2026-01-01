@@ -1,25 +1,18 @@
 #pragma once
 
-#include "API_OGL.hpp"
-#include "GameMods.hpp"
-
-#ifdef FEATURE_GFX_SHADERS
+#include "API_D3D11.hpp"
 
 #include "renderer/hal/base/ShaderConstantWithDataBase.hpp"
 
 namespace mce
 {
     template <ShaderPrimitiveTypes T>
-    class ShaderConstantWithDataOGL : public ShaderConstantWithDataBase
+    class ShaderConstantWithDataD3D11 : public ShaderConstantWithDataBase
     {
     public:
-        ShaderConstantWithDataOGL(ShaderPrimitiveTypes primitiveType)
+        ShaderConstantWithDataD3D11(ShaderPrimitiveTypes primitiveType)
             : ShaderConstantWithDataBase(primitiveType)
         {
         }
-
-        void syncUniform(int value) override;
     };
 }
-
-#endif // FEATURE_GFX_SHADERS

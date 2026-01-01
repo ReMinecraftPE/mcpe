@@ -8,8 +8,8 @@ namespace mce
     class ShaderUniformOGL : public ShaderResourceOGL
     {
     public:
-        ShaderConstantOGL* m_shaderConstant;
-        ConstantBufferContainer *m_constantBufferContainer;
+        ShaderConstantOGL* m_pShaderConstant;
+        ConstantBufferContainer* m_pConstantBufferContainer;
 
     public:
         ShaderUniformOGL(const std::string& name, int location, int elements, ShaderPrimitiveTypes shaderPrimitiveType);

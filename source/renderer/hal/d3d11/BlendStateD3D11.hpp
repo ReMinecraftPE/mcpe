@@ -10,7 +10,7 @@ namespace mce
     public:
         FLOAT m_blendFactor[4];
         UINT m_sampleMask;
-        ID3D11BlendState* m_pBlendState;
+        ComInterface<ID3D11BlendState> m_blendState;
 
     public:
         BlendStateD3D11();

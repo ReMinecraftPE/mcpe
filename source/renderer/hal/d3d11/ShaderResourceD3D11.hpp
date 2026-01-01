@@ -1,20 +1,17 @@
 #pragma once
 
-#include <string>
-
-#include "renderer/hal/enums/ShaderPrimitiveTypes.hpp"
+#include "renderer/hal/enums/ShaderType.hpp"
+#include "renderer/hal/interface/ConstantBufferContainer.hpp"
 
 namespace mce
 {
-    class ShaderResourceOGL
+    class ShaderResourceD3D11
     {
     public:
-        int m_location;
-        int m_elements;
-        ShaderPrimitiveTypes m_shaderPrimitiveType;
-        bool m_bValid;
-        std::string m_name;
+        ConstantBufferContainer* m_pConstantBufferContainer;
+        unsigned int m_shaderBindPoints[SHADER_TYPES_COUNT];
+        unsigned int m_shaderStagesBits;
 
-        ShaderResourceOGL(const std::string& name, int location, int elements, ShaderPrimitiveTypes shaderPrimitiveType);
+        ShaderResourceD3D11();
     };
 }

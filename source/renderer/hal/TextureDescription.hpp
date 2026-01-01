@@ -13,6 +13,7 @@ namespace mce
         bool bWrap;
         TextureFiltering filteringLevel;
         bool bExcludeGpu;
+		bool bDynamic; // custom
 		
 		TextureDescription();
 	};

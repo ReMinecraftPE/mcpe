@@ -1,210 +1,234 @@
 #include <typeinfo>
 
-#include "renderer/hal/helpers/ErrorHandler.hpp"
-#include "API_OGL.hpp"
-#include "TextureOGL.hpp"
+#include "TextureD3D11.hpp"
+#include "API_D3D11.hpp"
+#include "renderer/hal/helpers/TextureHelper.hpp"
+#include "renderer/hal/dxgi/helpers/TextureHelperDXGI.hpp"
+#include "renderer/hal/dxgi/helpers/ErrorHandlerDXGI.hpp"
+#include "renderer/hal/d3d11/helpers/TextureHelperD3D11.hpp"
 
 using namespace mce;
 
-TextureOGL::TextureOGL()
+TextureD3D11::TextureD3D11()
     : TextureBase()
 {
+    m_writeBuffer = nullptr;
 }
 
-GLenum getOpenGLTextureFormat(TextureFormat textureFormat)
+void TextureD3D11::deleteTexture()
 {
-    switch (textureFormat)
-    {
-        case TEXTURE_FORMAT_R8G8B8A8_UNORM:
-            return GL_RGBA;
-        default:
-            LOG_E("Unknown textureFormat: %d", textureFormat);
-            throw std::bad_cast();
-    }
-}
+    m_texture2D.release();
+    m_samplerState.release();
+    m_shaderResourceView.release();
 
-GLint getOpenGLInternalTextureFormatFromTextureFormat(TextureFormat textureFormat)
-{
-    switch (textureFormat)
-    {
-        case TEXTURE_FORMAT_R8G8B8A8_UNORM:
-            return GL_RGBA;
-        default:
-            LOG_E("Unknown textureFormat: %d", textureFormat);
-            throw std::bad_cast();
-    }
-}
-
-GLenum getOpenGLTextureTypeFromTextureFormat(TextureFormat textureFormat)
-{
-    switch (textureFormat)
-    {
-        case TEXTURE_FORMAT_R8G8B8A8_UNORM:
-            return GL_UNSIGNED_BYTE;
-        default:
-            LOG_E("Unknown textureFormat: %d", textureFormat);
-            throw std::bad_cast();
-    }
-}
-
-void TextureOGL::deleteTexture()
-{
-	ErrorHandler::checkForErrors();
-
-    glDeleteTextures(1, &m_state.m_textureName);
     TextureBase::deleteTexture();
-
-    *this = TextureOGL();
-
-    ErrorHandler::checkForErrors();
 }
 
-void TextureOGL::bindTexture(RenderContext& context, unsigned int textureUnit, unsigned int shaderStagesBits)
+void TextureD3D11::bindTexture(RenderContext& context, unsigned int textureUnit, unsigned int shaderStagesBits)
 {
-    ErrorHandler::checkForErrors();
+    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
 
-    GLenum texture = GL_TEXTURE0 + textureUnit;
-    if (context.m_activeTexture != texture)
-    {
-        xglActiveTexture(texture);
-        context.m_activeTexture = texture;
-    }
-
-    ErrorHandler::checkForErrors();
-
-    glBindTexture(m_state.m_textureTarget, m_state.m_textureName);
-
-    RenderContextOGL::ActiveTextureUnit& activeTextureUnit = context.getActiveTextureUnit(textureUnit);
-    activeTextureUnit.m_textureUnit = textureUnit;
-    activeTextureUnit.m_bIsShaderUniformDirty = true;
-
-    ErrorHandler::checkForErrors();
+    d3dDeviceContext->PSSetShaderResources(textureUnit, 1, *m_shaderResourceView);
+    d3dDeviceContext->PSSetSamplers(textureUnit, 1, *m_samplerState);
 }
 
-void TextureOGL::convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps)
+void TextureD3D11::convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps)
 {
+    // @NOTEL mipmaps was hardcoded to 5 on DX11 for some reason
+
     if (mipmaps == 0)
     {
         LOG_E("You must have a positive number of mip maps that is greater than 1");
         throw std::bad_cast();
     }
 
-    bindTexture(context);
-    TextureBase::convertToMipmapedTexture(mipmaps - 1);
+    if (m_description.mipCount == mipmaps)
+        return;
 
-    glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-    if (gl::isOpenGLES3() || !gl::isOpenGLES())
+    TextureBase::convertToMipmapedTexture(mipmaps);
+
+    TextureD3D11 mipmapedTexture;
+    mipmapedTexture.createTexture(context, m_description);
+
+    CD3D11_BOX srcBox;
     {
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAX_LEVEL, mipmaps - 1);
+        srcBox.right = m_description.width;
+        srcBox.top = 0;
+        srcBox.bottom = m_description.height;
+        srcBox.back = 1;
+        srcBox.front = 0;
     }
 
-    ErrorHandler::checkForErrors();
-}
-
-void TextureOGL::subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
-{
-    bindTexture(context);
-    ErrorHandler::checkForErrors();
-
-    if (m_state.m_textureTarget != GL_TEXTURE_2D)
     {
-        LOG_E("Unknown textureTarget %d", m_state.m_textureTarget);
-        throw std::bad_cast();
+        D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+        d3dDeviceContext->CopySubresourceRegion(**mipmapedTexture.m_texture2D, 0, 0, 0, 0, **m_texture2D, 0, &srcBox);
     }
 
-    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
-    ErrorHandler::checkForErrors();
+    m_description = mipmapedTexture.m_description;
 }
 
-void TextureOGL::subBuffer(RenderContext& context, const void* pixels)
+void TextureD3D11::bindWriteBuffer(RenderContext& context)
 {
-    subBuffer(context, pixels, 0, 0, m_description.width, m_description.height, 0);
-}
-
-void TextureOGL::createMipMap(RenderContext& context, const void* pixels, unsigned int width, unsigned int height, unsigned int level)
-{
-    if (m_state.m_textureTarget != GL_TEXTURE_2D)
+    D3D11_MAPPED_SUBRESOURCE mappedSubresource = {0};
     {
-        LOG_E("Unknown textureTarget %d", m_state.m_textureTarget);
-        throw std::bad_cast();
+        D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+        HRESULT hResult = d3dDeviceContext->Map(**m_texture2D, 0, D3D11_MAP_WRITE_DISCARD, 0x0, &mappedSubresource); // was D3D11_MAP_WRITE
+        ErrorHandlerDXGI::checkForErrors(hResult);
+    }
+
+    m_writeBuffer = mappedSubresource.pData;
+
+    TextureBase::bindWriteBuffer(context);
+}
+
+void TextureD3D11::releaseWriteBuffer(RenderContext& context)
+{
+    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+    d3dDeviceContext->Unmap(**m_texture2D, 0);
+
+    m_writeBuffer = nullptr;
+
+    TextureBase::releaseWriteBuffer(context);
+}
+
+void TextureD3D11::subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
+{
+    TextureBase::subBuffer(context, pixels, xoffset, yoffset, width, height, level);
+
+    uint32_t* writeBuffer = (uint32_t*)m_writeBuffer;
+
+    const uint32_t* pixelPtr = (const uint32_t*)pixels;
+
+    for (int y = yoffset; y < yoffset + height; y++)
+    {
+        for (int x = xoffset; x < xoffset + width; x++)
+        {
+            int destIndex = x + y * m_description.width;
+            uint32_t color = *pixelPtr++;
+
+            writeBuffer[destIndex] = color;
+        }
+    }
+}
+
+void TextureD3D11::subBuffer(RenderContext& context, const void* pixels)
+{
+    // "Can only invoke UpdateSubresource when the destination Resource was created with D3D11_USAGE_DEFAULT and is not a multisampled Resource."
+    if (m_description.bDynamic)
+    {
+        bindWriteBuffer(context);
+        subBuffer(context, pixels, 0, 0, m_description.width, m_description.height, 0);
+        releaseWriteBuffer(context);
+        return;
+    }
+
+    TextureBase::subBuffer(context, pixels);
+
+    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+    unsigned int byteStride = TextureHelper::textureFormatToByteStride(m_description.textureFormat);
+    d3dDeviceContext->UpdateSubresource(**m_texture2D, 0, NULL, pixels, m_description.width * byteStride, 0);
+}
+
+void TextureD3D11::createTexture(RenderContext& context, const TextureDescription& description)
+{
+    DXGI_FORMAT dxgiFormat = TextureHelperDXGI::DXGIFormatFromTextureFormat(description.textureFormat);
+
+    D3DDevice d3dDevice = context.getD3DDevice();
+
+    // Create new Texture2D
+    {
+        D3D11_TEXTURE2D_DESC textureDesc;
+        {
+            textureDesc.Width = description.width;
+            textureDesc.Height = description.height;
+            textureDesc.MipLevels = description.mipCount;
+            textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+            textureDesc.ArraySize = 1;
+            textureDesc.Format = dxgiFormat;
+            textureDesc.SampleDesc.Count = description.sampleCount;
+            textureDesc.SampleDesc.Quality = 0;
+            textureDesc.Usage = D3D11_USAGE_DEFAULT;
+            textureDesc.CPUAccessFlags = 0x0;
+            textureDesc.MiscFlags = 0x0;
+            if (description.bExcludeGpu)
+            {
+                textureDesc.Usage = D3D11_USAGE_STAGING;
+                textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+                textureDesc.BindFlags = 0x0;
+            }
+            if (description.bDynamic)
+            {
+                textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+                textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+            }
+        }
+
+        m_texture2D.release();
+        HRESULT hResult = d3dDevice->CreateTexture2D(&textureDesc, NULL, *m_texture2D);
+        ErrorHandlerDXGI::checkForErrors(hResult);
+    }
+
+    if (!description.bExcludeGpu)
+    {
+        D3D11_SAMPLER_DESC samplerDesc;
+        {
+            memset(&samplerDesc, 0, sizeof(samplerDesc));
+            samplerDesc.Filter = TextureHelperD3D11::D3D11FilterFromTextureFilter(description.filteringLevel);
+            if (description.bWrap)
+            {
+                samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+                samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+                samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+            }
+            else
+            {
+                samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+                samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+                samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+            }
+
+            samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+            samplerDesc.MinLOD = 0.0f;
+            samplerDesc.MaxLOD = 3.4028e38f;
+        }
+
+        // Create new SamplerState
+        {
+            m_samplerState.release();
+            HRESULT hResult = d3dDevice->CreateSamplerState(&samplerDesc, *m_samplerState);
+            ErrorHandlerDXGI::checkForErrors(hResult);
+        }
+
+        // Create new ShaderResourceView
+        {
+            D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+            {
+                shaderResourceViewDesc.Texture1DArray.ArraySize = 0;
+                shaderResourceViewDesc.ViewDimension = D3D_SRV_DIMENSION_TEXTURE2D;
+                shaderResourceViewDesc.Texture2D.MipLevels = description.mipCount;
+                shaderResourceViewDesc.Buffer.FirstElement = 0;
+                shaderResourceViewDesc.Format = dxgiFormat;
+            }
+
+            m_shaderResourceView.release();
+            HRESULT hResult = d3dDevice->CreateShaderResourceView(**m_texture2D, &shaderResourceViewDesc, *m_shaderResourceView);
+            ErrorHandlerDXGI::checkForErrors(hResult);
+        }
     }
     
-    glTexImage2D(GL_TEXTURE_2D, level, m_state.m_internalTextureFormat, width, height, 0, m_state.m_textureFormat, m_state.m_textureType, pixels);
-    m_bCreated = true;
-    ErrorHandler::checkForErrors();
+    TextureBase::createTexture(context, description);
 }
 
-void TextureOGL::createTexture(RenderContext& context, const TextureDescription& description)
-{
-    TextureBase::createTexture(description);
-    glGenTextures(1, &m_state.m_textureName);
-    ErrorHandler::checkForErrors();
-    
-    m_state.m_internalTextureFormat = getOpenGLInternalTextureFormatFromTextureFormat(description.textureFormat);
-    m_state.m_textureFormat = getOpenGLTextureFormat(description.textureFormat);
-    m_state.m_textureType = getOpenGLTextureTypeFromTextureFormat(description.textureFormat);
-
-    bindTexture(context);
-    ErrorHandler::checkForErrors();
-    createMipMap(context, nullptr, description.width, description.height, 0);
-
-    switch (description.filteringLevel)
-    {
-    case TEXTURE_FILTERING_BILINEAR:
-        // @NOTE: Need GL 1.2 for GL_CLAMP_TO_EDGE
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        break;
-    case TEXTURE_FILTERING_POINT:
-        if (description.bWrap)
-        {
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        }
-        else
-        {
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        }
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        break;
-    case TEXTURE_FILTERING_MIPMAP_BILINEAR:
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        break;
-    default:
-        break;
-    }
-
-    ErrorHandler::checkForErrors();
-}
-
-void TextureOGL::lock(RenderContext& context)
-{
-    context.m_activePixels.resize(m_description.getSizeInBytes());
-}
-
-void TextureOGL::unlock(RenderContext& context)
-{
-    bindTexture(context);
-    subBuffer(context, &context.m_activePixels[0]);
-    context.m_activePixels.clear();
-}
-
-void TextureOGL::move(TextureOGL& other)
+void TextureD3D11::move(TextureD3D11& other)
 {
     TextureBase::move(other);
-    State tempState = this->m_state;
-    this->m_state = other.m_state;
-    other.m_state = tempState;
+    std::swap(this->m_texture2D, other.m_texture2D);
+    std::swap(this->m_samplerState, other.m_samplerState);
+    std::swap(this->m_shaderResourceView, other.m_shaderResourceView);
+    std::swap(this->m_writeBuffer, other.m_writeBuffer);
 }
 
-bool TextureOGL::supportsMipMaps()
+bool TextureD3D11::supportsMipMaps()
 {
-    return gl::supportsMipmaps();
+    return true;
 }

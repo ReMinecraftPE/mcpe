@@ -10,7 +10,7 @@
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="Header Files\GL">
-      <UniqueIdentifier>{c890ea02-9bf7-4344-aa67-b1a86cd70bf2}</UniqueIdentifier>
+      <UniqueIdentifier>{d0427062-3ac3-4eda-9d1e-4454bca70cea}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GL">
       <UniqueIdentifier>{417c33a0-5b00-4ff5-8d82-2bc6df0d2581}</UniqueIdentifier>
@@ -18,20 +18,8 @@
     <Filter Include="Header Files\HAL">
       <UniqueIdentifier>{33126d95-4e32-489d-b319-894160e6b7d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Platform">
-      <UniqueIdentifier>{f2f0eded-1568-4b30-b7b2-6a3e880d6cff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Platform">
-      <UniqueIdentifier>{6b8a0b8f-e388-4150-be97-899c5d2eb3c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\HAL">
       <UniqueIdentifier>{7e3a7c9b-073f-46a4-9b4e-558e95661660}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Platform\OGL">
-      <UniqueIdentifier>{880f32fb-b980-4d50-9995-6800a678fe1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Platform\OGL">
-      <UniqueIdentifier>{2e16adab-9fe7-4b12-93dd-d9a0c5b9fc1d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\HAL\Base">
       <UniqueIdentifier>{00effb28-b6df-4580-b320-9ca792c62b40}</UniqueIdentifier>
@@ -57,35 +45,11 @@
     <Filter Include="Source Files\HAL\Interface">
       <UniqueIdentifier>{3e87f138-1f9d-4fae-8949-29daac0d7c04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\HAL\OGL">
-      <UniqueIdentifier>{dddbe518-b175-428b-b9c2-5d49dfe045ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\HAL\OGL">
-      <UniqueIdentifier>{401f738a-aea7-4a49-9844-842d2f62aadc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\HAL\Null">
       <UniqueIdentifier>{d8de1dcd-c91a-46a0-94ce-63c0d0b32491}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\HAL\Null">
       <UniqueIdentifier>{d1d2f648-6a5d-4700-b21c-30831ad9f50c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\HAL\D3D11">
-      <UniqueIdentifier>{c66b2208-5e22-4538-8326-f1486c14f70d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HAL\D3D11">
-      <UniqueIdentifier>{e29a92fd-622b-445d-b195-b435d63b382e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\HAL\DXGI">
-      <UniqueIdentifier>{e54a3651-7943-4ccd-9e7c-5e1e401bfba7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\HAL\DXGI\Helpers">
-      <UniqueIdentifier>{f0ac9809-0b72-487d-b203-6c77f8b78b30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HAL\DXGI">
-      <UniqueIdentifier>{5da2ff22-06fc-44c5-8c78-cd6a0f82e255}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HAL\DXGI\Helpers">
-      <UniqueIdentifier>{860bbb98-0c9b-45dc-a01f-23643e8678af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -269,78 +233,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.hpp">
       <Filter>Header Files\HAL\Null</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.hpp">
-      <Filter>Header Files\HAL\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\platform\ogl\Extensions.hpp">
-      <Filter>Header Files\Platform\OGL</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.hpp">
-      <Filter>Header Files\Platform\OGL</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\BlendStateDescription.hpp">
       <Filter>Header Files\HAL</Filter>
     </ClInclude>
@@ -446,6 +338,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\MapType.hpp">
+      <Filter>Header Files\HAL\Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
@@ -538,6 +433,9 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField.cpp">
+      <Filter>Source Files\HAL\Enums</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp">
       <Filter>Source Files\HAL\Enums</Filter>
     </ClCompile>
@@ -595,72 +493,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\FogStateNull.cpp">
       <Filter>Source Files\HAL\Null</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.cpp">
-      <Filter>Source Files\HAL\OGL</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\BlendStateDescription.cpp">
       <Filter>Source Files\HAL</Filter>
     </ClCompile>
@@ -684,12 +516,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\TextureDescription.cpp">
       <Filter>Source Files\HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\platform\ogl\Extensions.cpp">
-      <Filter>Source Files\Platform\OGL</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.cpp">
-      <Filter>Source Files\Platform\OGL</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\Attribute.cpp">
       <Filter>Source Files</Filter>

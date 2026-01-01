@@ -17,7 +17,10 @@
 
 #include "client/player/input/Multitouch.hpp"
 
+#include "renderer/RenderContextImmediate.hpp"
+#if MCE_GFX_API_OGL
 #include "renderer/platform/ogl/Extensions.hpp"
+#endif
 
 #include "AppPlatform_win32.hpp"
 #include "resource.h"
@@ -27,6 +30,44 @@ LPCTSTR g_WindowClassName = TEXT("MCPEClass");
 
 AppPlatform_win32 g_AppPlatform;
 NinecraftApp* g_pApp;
+
+bool initGraphics()
+{
+#if MCE_GFX_API_OGL
+	if (!mce::Platform::OGL::InitBindings())
+	{
+		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
+		LOG_E(GL_ERROR_MSG);
+		MessageBoxA((HWND)g_AppPlatform.m_hWND, GL_ERROR_MSG, "OpenGL Error", MB_OK);
+
+		return false;
+	}
+
+	xglSwapIntervalEXT(1);
+#endif
+
+	return true;
+}
+
+void initGraphicsContext()
+{
+#if MCE_GFX_API_D3D11
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	Vec2 logicalSize(Minecraft::width, Minecraft::height);
+	Vec2 compositionScale = Vec2::ONE;
+	renderContext.initContext(logicalSize, compositionScale);
+#endif
+}
+
+void teardownGraphics()
+{
+#if MCE_GFX_API_OGL
+	// disable OpenGL for the window
+	g_AppPlatform.disableOpenGL();
+#else
+#endif
+}
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -175,16 +216,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	g_AppPlatform.initializeWindow(hWnd, nCmdShow);
 
-	if (!mce::Platform::OGL::InitBindings())
-	{
-		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
-		LOG_E(GL_ERROR_MSG);
-		MessageBoxA(hWnd, GL_ERROR_MSG, "OpenGL Error", MB_OK);
-
+	if (!initGraphics())
 		goto _cleanup;
-	}
-
-	xglSwapIntervalEXT(1);
 
 	g_pApp = new NinecraftApp;
 	g_pApp->m_pPlatform = &g_AppPlatform;
@@ -193,6 +226,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// initialize the app
 	g_pApp->init();
 	g_pApp->sizeUpdate(Minecraft::width, Minecraft::height);
+
+	initGraphicsContext();
 
 	while (!g_pApp->wantToQuit())
 	{
@@ -225,8 +260,7 @@ _cleanup:
 	// Cleanup networking, renderer, sounds, textures, etc.
 	delete g_pApp;
 
-	// disable OpenGL for the window
-	g_AppPlatform.disableOpenGL();
+	teardownGraphics();
 
 	// destroy the window explicitly, since we ignored the WM_QUIT message
 	g_AppPlatform.destroyWindow();

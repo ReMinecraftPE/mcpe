@@ -1,21 +1,18 @@
 #pragma once
 
-#include "API_OGL.hpp"
+#include "API_D3D11.hpp"
 #include "renderer/hal/base/RasterizerStateBase.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
 
 namespace mce
 {
-    class RasterizerStateOGL : public RasterizerStateBase
+    class RasterizerStateD3D11 : public RasterizerStateBase
     {
     private:
-        GLenum m_cullFace;
-        bool m_enableScissorTest;
-        bool m_cullMode;
-        GLfloat m_depthBias;
+        ComInterface<ID3D11RasterizerState> m_rasterizerState;
 
     public:
-        RasterizerStateOGL();
+        RasterizerStateD3D11();
 
     public:
         bool bindRasterizerState(RenderContext& context, bool forceBind = false);

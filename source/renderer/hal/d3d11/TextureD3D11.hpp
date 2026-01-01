@@ -2,51 +2,41 @@
 
 #include "renderer/hal/base/TextureBase.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
+#include "renderer/hal/dxgi/helpers/DirectXComInterface.hpp"
 
 namespace mce
 {
-    class TextureOGL : public TextureBase
+    class TextureD3D11 : public TextureBase
     {
     private:
-        struct State
-        {
-            GLuint m_textureName;
-            GLenum m_textureTarget;
-            GLint  m_internalTextureFormat;
-            GLenum m_textureFormat;
-            GLenum m_textureType;
+        ComInterface<ID3D11Texture2D> m_texture2D;
+        ComInterface<ID3D11SamplerState> m_samplerState;
+        ComInterface<ID3D11ShaderResourceView> m_shaderResourceView;
 
-            State()
-            {
-                m_textureName = 0;
-                m_textureTarget = GL_TEXTURE_2D;
-                m_internalTextureFormat = GL_NONE;
-                m_textureFormat = GL_NONE;
-                m_textureType = GL_NONE;
-            }
-        };
-    private:
-        State m_state;
+        // We must not read from this pointer. Doing so will incur a performance penalty, like it's a sport or some shit.
+        // https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-map#don-t-read-from-a-subresource-mapped-for-writing
+        void* m_writeBuffer;
 
     public:
-        TextureOGL();
+        TextureD3D11();
 
+    public:
         void deleteTexture();
         void bindTexture(RenderContext& context, unsigned int textureUnit = 0, unsigned int shaderStagesBits = SHADER_STAGE_BIT_PIXEL);
         
         void convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps);
 
+        void bindWriteBuffer(RenderContext& context);
+        void releaseWriteBuffer(RenderContext& context);
+
         void subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level);
         void subBuffer(RenderContext& context, const void* pixels);
 
-        void createMipMap(RenderContext& context, const void* pixels, unsigned int width, unsigned int height, unsigned int level);
         void createTexture(RenderContext& context, const TextureDescription& description);
 
-        void lock(RenderContext& context);
-        void unlock(RenderContext& context);
+        void move(TextureD3D11& other);
 
-        void move(TextureOGL& other);
-
+    public:
         static bool supportsMipMaps();
     };
 }

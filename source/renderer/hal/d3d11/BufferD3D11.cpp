@@ -1,144 +1,183 @@
 #include <typeinfo>
-#include "BufferOGL.hpp"
+#include "BufferD3D11.hpp"
 #include "common/Logger.hpp"
-#include "renderer/hal/helpers/ErrorHandler.hpp"
+#include "renderer/hal/dxgi/helpers/ErrorHandlerDXGI.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
 
 using namespace mce;
 
-GLenum mce::glTargetFromBufferType(BufferType bufferType)
+DXGI_FORMAT DXGIFormatFromStride(unsigned int stride)
 {
-    switch (bufferType)
+    switch (stride)
     {
-        case BUFFER_TYPE_VERTEX:
-            return GL_ARRAY_BUFFER;
-        case BUFFER_TYPE_INDEX:
-            return GL_ELEMENT_ARRAY_BUFFER;
-        default:
-            LOG_E("Unknown bufferType: %d", bufferType);
-            throw std::bad_cast();
+    case 1:  return DXGI_FORMAT_R8_UINT;
+    case 2:  return DXGI_FORMAT_R16_UINT;
+    case 4:  return DXGI_FORMAT_R32_UINT;
+    default: return DXGI_FORMAT_UNKNOWN;
     }
 }
 
-BufferOGL::BufferOGL()
+D3D11_MAP mapTypeToD3D11MapType(MapType mapType)
 {
-    m_bufferName = GL_NONE;
-    m_target = GL_NONE;
-    m_usage = GL_STATIC_DRAW;
+    switch (mapType)
+    {
+    case MAP_READ: return D3D11_MAP_READ;
+    case MAP_WRITE: return D3D11_MAP_WRITE;
+    case MAP_WRITE_DISCARD: return D3D11_MAP_WRITE_DISCARD;
+    case MAP_WRITE_NO_OVERWRITE: return D3D11_MAP_WRITE_NO_OVERWRITE;
+    default:
+        LOG_E("Unknown mapType: %d", mapType);
+        throw std::bad_cast();
+    }
 }
 
-BufferOGL::~BufferOGL()
+BufferD3D11::BufferD3D11()
+{
+    m_format = DXGI_FORMAT_UNKNOWN;
+    m_offset = 0;
+}
+
+BufferD3D11::~BufferD3D11()
 {
     releaseBuffer();
 }
 
-void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
+void BufferD3D11::_createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType, bool isDynamic)
 {
-    ErrorHandler::checkForErrors();
+    if (m_buffer)
+    {
+        LOG_E("Make sure to release the m_buffer first");
+        throw std::bad_cast();
+    }
 
-    m_target = mce::glTargetFromBufferType(bufferType);
+    UINT bindFlags = 0x0;
+    switch (bufferType)
+    {
+    case BUFFER_TYPE_VERTEX:
+        bindFlags = D3D11_BIND_VERTEX_BUFFER;
+        break;
+    case BUFFER_TYPE_INDEX:
+        bindFlags = D3D11_BIND_INDEX_BUFFER;
+        m_format = DXGIFormatFromStride(stride);
+        break;
+    default:
+        LOG_E("Unknown bufferType: %d", bufferType);
+        throw std::bad_cast();
+    }
 
-    xglGenBuffers(1, &m_bufferName);
-    xglBindBuffer(m_target, m_bufferName);
+    D3D11_BUFFER_DESC bufferDesc;
+    {
+        bufferDesc.Usage = isDynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+        bufferDesc.BindFlags = bindFlags;
+        bufferDesc.ByteWidth = stride * count;
+        bufferDesc.CPUAccessFlags = isDynamic ? D3D11_CPU_ACCESS_WRITE : 0x0;
+        bufferDesc.MiscFlags = 0x0;
+        bufferDesc.StructureByteStride = 0;
+    }
 
-    // Set active buffer
-    GLuint& activeBuffer = context.getActiveBuffer(m_bufferType);
-    activeBuffer = m_bufferName;
+    D3D11_SUBRESOURCE_DATA subResourceData;
+    {
+        subResourceData.SysMemPitch = 0;
+        subResourceData.SysMemSlicePitch = 0;
+        subResourceData.pSysMem = data;
+    }
 
-    xglBufferData(m_target, m_internalSize, data, m_usage);
-
-    ErrorHandler::checkForErrors();
+    D3DDevice d3dDevice = context.getD3DDevice();
+    if (data)
+    {
+        HRESULT hResult = d3dDevice->CreateBuffer(&bufferDesc, &subResourceData, *m_buffer);
+        ErrorHandlerDXGI::checkForErrors(hResult);
+    }
+    else
+    {
+        HRESULT hResult = d3dDevice->CreateBuffer(&bufferDesc, NULL, *m_buffer);
+        ErrorHandlerDXGI::checkForErrors(hResult);
+    }
 }
 
-void BufferOGL::_move(BufferOGL& other)
+void BufferD3D11::_move(BufferD3D11& other)
 {
     if (this != &other)
     {
         this->releaseBuffer();
 		
-        this->m_target = other.m_target;
-        this->m_bufferName = other.m_bufferName;
-        this->m_usage = other.m_usage;
-        
-        other.m_bufferName = GL_NONE;
-        other.m_target = GL_NONE;
-        other.m_usage = GL_NONE;
+        this->m_buffer._move(other.m_buffer);
+        std::swap(this->m_format, other.m_format);
+        std::swap(this->m_offset, other.m_offset);
     }
 	
     BufferBase::_move(other);
 }
 
-void BufferOGL::releaseBuffer()
+void BufferD3D11::releaseBuffer()
 {
-    if (isValid())
-        xglDeleteBuffers(1, &m_bufferName);
-
-    m_bufferName = GL_NONE;
-    m_target = GL_NONE;
+    m_buffer.release();
 
     BufferBase::releaseBuffer();
 }
 
-void BufferOGL::bindBuffer(RenderContext& context)
+void BufferD3D11::bindBuffer(RenderContext& context)
 {
-    GLuint& activeBuffer = context.getActiveBuffer(m_bufferType);
-    if (activeBuffer == m_bufferName)
-        return;
-    
-    xglBindBuffer(m_target, m_bufferName);
-    activeBuffer = m_bufferName;
+    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+
+    switch (m_bufferType)
+    {
+    case BUFFER_TYPE_VERTEX:
+        d3dDeviceContext->IASetVertexBuffers(0, 1, *m_buffer, &m_stride, &m_offset);
+        break;
+    case BUFFER_TYPE_INDEX:
+        d3dDeviceContext->IASetIndexBuffer(**m_buffer, m_format, m_offset);
+        break;
+    default:
+        LOG_E("Unknown m_bufferType: %d", m_bufferType);
+        throw std::bad_cast();
+    }
 }
 
-void BufferOGL::createBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count, BufferType bufferType)
+void BufferD3D11::createBuffer(RenderContext& context, unsigned int stride, const void *data, unsigned int count, BufferType bufferType)
 {
+    _createBuffer(context, stride, data, count, bufferType, false);
     BufferBase::createBuffer(context, stride, data, count, bufferType);
-    
-    m_usage = GL_STATIC_DRAW;
-    _createBuffer(context, stride, data, count, bufferType);
 }
 
-void BufferOGL::createDynamicBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
+void BufferD3D11::createDynamicBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
 {
+    _createBuffer(context, stride, data, count, bufferType, true);
     BufferBase::createDynamicBuffer(context, stride, data, count, bufferType);
-
-    // Mojang used GL_STREAM_DRAW in 0.16.1, and GL_STATIC_DRAW in 0.12.1
-#ifdef GL_STREAM_DRAW
-    m_usage = GL_STREAM_DRAW;
-#else // GLES 1
-    m_usage = GL_DYNAMIC_DRAW;
-#endif
-    _createBuffer(context, stride, data, count, bufferType);
 }
 
-void BufferOGL::resizeBuffer(RenderContext& context, const void* data, unsigned int size)
+void BufferD3D11::resizeBuffer(RenderContext& context, const void* data, unsigned int size)
 {
-    xglBufferData(m_target, size, data, m_usage);
-    m_internalSize = size;
+    LOG_E("BufferD3D11::resizeBuffer() not implemented");
+    throw std::bad_cast();
 }
 
-void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count)
+void BufferD3D11::updateBuffer(RenderContext& context, unsigned int stride, void*& data, unsigned int count, MapType mapType)
 {
-    bindBuffer(context);
+    D3D11_MAPPED_SUBRESOURCE subResource;
+    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
 
-    // https://community.khronos.org/t/vbo-test-glbufferdata-vs-glbuffersubdata-vs-glmapbufferoes/2748
-    // Summary: Calling glBufferData is significantly faster than calling glBufferSubData
-    // because whoever did the GLES 1 implementation at Apple is retarded.
-    // This may be fixed by acquiring a GLES 2 context, but doing that causes nothing to
-    // to be rendered, so perhaps some day...
-    // Additionally, we could try holding the vertex buffer data in memory and pass
-    // it in the draw call, as supposedly not even using buffers is faster.
-#ifdef GL_VERSION_ES_CM_1_0
-#define GLES1_WORKAROUND true
-#else
-#define GLES1_WORKAROUND false
-#endif
-    
-    const unsigned int size = count * stride;
+    if (m_bufferType == BUFFER_TYPE_INDEX)
+    {
+        m_format = DXGIFormatFromStride(stride);
+    }
 
-    if (!GLES1_WORKAROUND && size <= m_internalSize)
-        xglBufferSubData(m_target, m_bufferOffset, size, data);
+    {
+        D3D11_MAP d3dMap = mapTypeToD3D11MapType(mapType);
+        HRESULT hResult = d3dDeviceContext->Map(**m_buffer, 0, d3dMap, 0x0, &subResource);
+        ErrorHandlerDXGI::checkForErrors(hResult);
+    }
+
+    if (subResource.RowPitch < stride * count)
+    {
+        d3dDeviceContext->Unmap(**m_buffer, 0);
+        createDynamicBuffer(context, stride * count, data, count, m_bufferType);
+    }
     else
-        resizeBuffer(context, data, size);
+    {
+        memcpy((int8_t*)subResource.pData + m_offset, data, stride * count);
+        d3dDeviceContext->Unmap(**m_buffer, 0);
+    }
         
     BufferBase::updateBuffer(context, stride, data, count);
 }

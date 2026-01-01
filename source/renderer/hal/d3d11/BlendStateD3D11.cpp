@@ -1,6 +1,7 @@
 #include <typeinfo>
 
 #include "BlendStateD3D11.hpp"
+#include "renderer/hal/dxgi/helpers/ErrorHandlerDXGI.hpp"
 
 using namespace mce;
 
@@ -35,46 +36,32 @@ BlendStateD3D11::BlendStateD3D11()
     m_blendFactor[2] = 1.0f;
     m_blendFactor[3] = 1.0f;
     m_sampleMask = INT_MAX;
-    m_pBlendState = nullptr;
 }
 
 void BlendStateD3D11::createBlendState(RenderContext& context, const BlendStateDescription& desc)
 {
     BlendStateBase::createBlendState(context, desc);
 
-    CD3D11_BLEND_DESC blendStateDesc;
+    CD3D11_BLEND_DESC blendStateDesc(D3D11_DEFAULT);
     {
-        BlendTarget blendSource = description->blendSource;
-        BlendTarget blendDestination = description->blendDestination;
-        const D3D11_RENDER_TARGET_BLEND_DESC& renderTarget = blendStateDesc.RenderTarget[0];
+        BlendTarget blendSource = desc.blendSource;
+        BlendTarget blendDestination = desc.blendDestination;
 
-        renderTarget.RenderTargetWriteMask = description->colorWriteMask;
-        renderTarget.BlendEnable = description->enableBlend;
+        D3D11_RENDER_TARGET_BLEND_DESC& renderTarget = blendStateDesc.RenderTarget[0];
+        renderTarget.RenderTargetWriteMask = desc.colorWriteMask;
+        renderTarget.BlendEnable = desc.enableBlend;
         renderTarget.SrcBlend = blendFuncMap[blendSource];
         renderTarget.DestBlend = blendFuncMap[blendDestination];
         renderTarget.SrcBlendAlpha = blendAlphaFuncMap[blendSource];
         renderTarget.DestBlendAlpha = blendAlphaFuncMap[blendDestination];
     }
 
-    if (m_pBlendState)
-    {
-        m_pBlendState->Release(m_pBlendState);
-        m_pBlendState = nullptr;
-    }
+    m_blendState.release();
 
-    ID3D11Device2** GfxDevice; // r0
-    HRESULT v11; // r0
-    ID3D11Device2* v12; // r3
-    ID3D11Device2* v14[3]; // [sp+24h] [bp-234h] BYREF
-
-    GfxDevice = context.getGfxDevice(context);
-    v11 = (*GfxDevice)->CreateBlendState(*GfxDevice, &blendStateDesc, &this->m_pBlendState);
-    mce::HRESULTToGfxError(v11);
-    v12 = v14[0];
-    if (v14[0])
     {
-        v14[0] = 0;
-        v12->Release(v12);
+        D3DDevice d3dDevice = context.getD3DDevice();
+        HRESULT hResult = d3dDevice->CreateBlendState(&blendStateDesc, *m_blendState);
+        ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
     if (!context.m_currentState.m_bBoundBlendState)
@@ -89,25 +76,13 @@ bool BlendStateD3D11::bindBlendState(RenderContext& context, bool forceBind)
 {
     BlendStateDescription& ctxDesc = context.m_currentState.m_blendStateDescription;
 
-    if (forceBind || ctxDesc.enableBlend != m_description.enableBlend)
+    if (forceBind || ctxDesc == m_description)
     {
-        if (m_bBlend) glEnable(GL_BLEND);
-        else          glDisable(GL_BLEND);
-        ctxDesc.enableBlend = m_description.enableBlend;
+        D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+        d3dDeviceContext->OMSetBlendState(**m_blendState, m_blendFactor, m_sampleMask);
+
+        return BlendStateBase::bindBlendState(context);
     }
 
-    if (forceBind || ctxDesc.colorWriteMask != m_description.colorWriteMask)
-    {
-        glColorMask(m_bRed, m_bGreen, m_bBlue, m_bAlpha);
-        ctxDesc.colorWriteMask = m_description.colorWriteMask;
-    }
-
-    if (forceBind || ctxDesc.blendSource != m_description.blendSource || ctxDesc.blendDestination != m_description.blendDestination)
-    {
-        glBlendFunc(m_sfactor, m_dfactor);
-        ctxDesc.blendSource = m_description.blendSource;
-        ctxDesc.blendDestination = m_description.blendDestination;
-    }
-
-    return BlendStateBase::bindBlendState(context); 
+    return false;
 }
