@@ -139,11 +139,11 @@ void ShaderD3D11::compileAndLinkShader()
     m_fragmentShader.compileShaderProgram();
     m_geometryShader.compileShaderProgram();
 
-    reflectShader(m_vertexShader.m_shaderBytecode,   SHADER_TYPE_VERTEX);
-    reflectShader(m_fragmentShader.m_shaderBytecode, SHADER_TYPE_FRAGMENT);
+    reflectShader(m_vertexShader,   SHADER_TYPE_VERTEX);
+    reflectShader(m_fragmentShader, SHADER_TYPE_FRAGMENT);
 
     if (m_geometryShader.isValid())
-        reflectShader(m_geometryShader.m_shaderBytecode, SHADER_TYPE_GEOMETRY);
+        reflectShader(m_geometryShader, SHADER_TYPE_GEOMETRY);
 
     m_bCompiledShaders = true;
 }
@@ -235,12 +235,19 @@ void ShaderD3D11::reflectShaderAttributes(ComInterface<ID3D11ShaderReflection> s
     m_attributeListIndex = RenderDevice::getInstance().registerOrGetAttributeListIndex(attrList);
 }
 
-void ShaderD3D11::reflectShader(const std::string& compiledShader, ShaderType shaderType)
+void ShaderD3D11::reflectShader(const ShaderProgramD3D11& shaderProgram, ShaderType shaderType)
 {
+    if (!shaderProgram.isValid())
+    {
+        LOG_E("Tried to reflect invalid ShaderProgram. Are you missing a shader file?");
+        throw std::bad_cast();
+    }
+    const std::string& shaderBytecode = shaderProgram.m_shaderBytecode;
+    assert(!shaderBytecode.empty());
     ComInterface<ID3D11ShaderReflection> reflector;
     {
         void* pReflector;
-        HRESULT hResult = D3DReflect(compiledShader.c_str(), compiledShader.size(), IID_ID3D11ShaderReflection, &pReflector);
+        HRESULT hResult = D3DReflect(shaderBytecode.c_str(), shaderBytecode.size(), IID_ID3D11ShaderReflection, &pReflector);
         ErrorHandlerDXGI::checkForErrors(hResult);
         reflector = (ID3D11ShaderReflection*)pReflector;
     }

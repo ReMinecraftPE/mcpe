@@ -124,10 +124,14 @@ const char* gSplashes[] =
 	"Complex cellular automata!",
 	"Yes, sir!",
 	"Played by cowboys!",
+#if MCE_GFX_API_OGL
 #ifdef USE_GLES
 	"OpenGL ES 1.1!",
 #else
 	"OpenGL 1.5!",
+#endif
+#elif MCE_GFX_API_D3D11
+	"Direct3D 11.1!"
 #endif
 	"Thousands of colors!",
 	"Try it!",

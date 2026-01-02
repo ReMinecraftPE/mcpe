@@ -34,10 +34,11 @@ void ErrorHandlerDXGI::checkForErrors(HRESULT hResult)
 #ifdef _DEBUG
 	if (hResult != S_OK)
 	{
-        CHAR lpMsgBuf[0x1000] = "";
+        CHAR* lpMsgBuf = new CHAR[0x1000];
+        lpMsgBuf[0] = '\0';
         DWORD tChars = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, hResult, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), lpMsgBuf, 0x1000, NULL);
         LOG_E("DXGI Error: %s", lpMsgBuf);
-        LocalFree(lpMsgBuf);
+        delete[] lpMsgBuf;
 
         throw std::bad_cast();
 	}

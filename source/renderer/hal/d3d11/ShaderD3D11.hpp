@@ -33,7 +33,7 @@ namespace mce
         void compileAndLinkShader();
         void reflectShaderResources(ComInterface<ID3D11ShaderReflection> shaderReflection, const D3D11_SHADER_DESC& shaderDesc, ShaderType shaderType);
         void reflectShaderAttributes(ComInterface<ID3D11ShaderReflection> shaderReflection, const D3D11_SHADER_DESC& shaderDesc);
-        void reflectShader(const std::string& compiledShader, ShaderType shaderType);
+        void reflectShader(const ShaderProgramD3D11& shaderProgram, ShaderType shaderType);
         void reflectBindableResources(ComInterface<ID3D11ShaderReflection> shaderReflection, const D3D11_SHADER_DESC& shaderDesc);
         ComInterface<ID3D11InputLayout> createInputLayout(const VertexFormat& vertexFormat);
 

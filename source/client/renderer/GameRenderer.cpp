@@ -256,7 +256,10 @@ void GameRenderer::setupCamera(float f, int i)
 	}
 
 	float fov = getFov(f);
-	projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance);
+	// Java
+	//projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance);
+	// PE (0.12.1)
+	projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance * 1.2f);
 
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;

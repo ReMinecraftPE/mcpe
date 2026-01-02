@@ -1693,7 +1693,10 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 	float fov = gameRenderer.getFov(f);
 
 	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
-	projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
+	// Java
+	//projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
+	// PE (0.12.1)
+	projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 2.0f, renderDistance * 5120.0f);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.push();
 	_setupFog(camera, 0);
