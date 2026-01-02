@@ -1,8 +1,17 @@
 #pragma once
 
 #include <stack>
+
+#include "renderer/PlatformDefinitions.h"
 #define GLM_FORCE_RADIANS
+#if MCE_GFX_DEPTH_ZERO_TO_ONE
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#endif
+#if MCE_GFX_LEFT_HANDED
+#define GLM_FORCE_LEFT_HANDED
+#endif
 #include "thirdparty/glm/glm.hpp"
+
 #include "compat/LegacyCPP.hpp"
 #include "world/phys/Vec3.hpp"
 
@@ -32,6 +41,7 @@ public:
 	void setPerspective(float fov, float aspect, float Znear, float Zfar);
 	void transform3(Vec3& outVec, float& outW);
 	void translate(const Vec3& t);
+    void transpose();
     const float* ptr() const;
     float* getPtr();
     

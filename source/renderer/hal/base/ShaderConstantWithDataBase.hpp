@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <cstring>
 #include "renderer/hal/interface/ShaderConstant.hpp"
+#include "renderer/MatrixStack.hpp"
 
 namespace mce
 {
@@ -18,8 +19,19 @@ namespace mce
 
         void setData(const void* data)
         {
+            assert(data != nullptr);
             memcpy(m_data, data, getSize());
             m_dirty = true;
         }
+
+#if MCE_GFX_ROW_MAJOR
+        void setData(const Matrix* matrix)
+        {
+            assert(matrix != nullptr);
+            Matrix tMatrix = *matrix;
+            tMatrix.transpose();
+            setData((const void*) &tMatrix);
+        }
+#endif
     };
 }

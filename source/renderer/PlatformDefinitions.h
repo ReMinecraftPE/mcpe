@@ -1,5 +1,12 @@
 #include "GameMods.hpp"
 
+/*
+GFX API Settings (all 0 by default)
+	MCE_GFX_ROW_MAJOR
+	MCE_GFX_DEPTH_ZERO_TO_ONE
+	MCE_GFX_LEFT_HANDED
+*/
+
 #if MCE_GFX_API_OGL
 #define MCE_GFX_API OGL
 #define MCE_GFX_API_DIR ogl
@@ -13,6 +20,7 @@
 #if MCE_GFX_API_D3D11
 #define MCE_GFX_API D3D11
 #define MCE_GFX_API_DIR d3d11
+#define MCE_GFX_DEPTH_ZERO_TO_ONE 1
 #endif
 
 #if MCE_GFX_API_GX1

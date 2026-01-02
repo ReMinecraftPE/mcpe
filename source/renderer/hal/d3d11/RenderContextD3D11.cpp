@@ -11,13 +11,13 @@ RenderContextD3D11::RenderContextD3D11()
     m_featureLevel = D3D_FEATURE_LEVEL_9_1;
 
     // wasn't here in 0.12.1, but where else is it supposed to go?
-    createD3DDevice();
+    createDeviceResources();
 }
 
 void RenderContextD3D11::draw(PrimitiveMode primitiveMode, unsigned int startOffset, unsigned int count)
 {
-    m_D3DDeviceContext->IASetPrimitiveTopology(modeMap[primitiveMode]);
-    m_D3DDeviceContext->Draw(count, startOffset);
+    m_d3dContext->IASetPrimitiveTopology(modeMap[primitiveMode]);
+    m_d3dContext->Draw(count, startOffset);
 }
 
 void RenderContextD3D11::drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize)
@@ -27,31 +27,31 @@ void RenderContextD3D11::drawIndexed(PrimitiveMode primitiveMode, unsigned int c
 
 void RenderContextD3D11::drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize)
 {
-    m_D3DDeviceContext->IASetPrimitiveTopology(modeMap[primitiveMode]);
-    m_D3DDeviceContext->DrawIndexed(count, startOffset, indexSize);
+    m_d3dContext->IASetPrimitiveTopology(modeMap[primitiveMode]);
+    m_d3dContext->DrawIndexed(count, startOffset, 0);
 }
 
 void RenderContextD3D11::setDepthRange(float nearVal, float farVal)
 {
     m_viewport.MinDepth = nearVal;
     m_viewport.MaxDepth = farVal;
-    m_D3DDeviceContext->RSSetViewports(1, &m_viewport);
+    m_d3dContext->RSSetViewports(1, &m_viewport);
 }
 
 void RenderContextD3D11::setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal)
 {
     m_viewport.TopLeftX = topLeftX;
     m_viewport.TopLeftY = topLeftY;
-    m_viewport.Width = height;
-    m_viewport.Height = width;
+    m_viewport.Width = width;
+    m_viewport.Height = height;
     m_viewport.MinDepth = nearVal;
     m_viewport.MaxDepth = farVal;
-    m_D3DDeviceContext->RSSetViewports(1, &m_viewport);
+    m_d3dContext->RSSetViewports(1, &m_viewport);
 }
 
 void RenderContextD3D11::clearFrameBuffer(const Color& color)
 {
-    m_D3DDeviceContext->ClearRenderTargetView(**m_renderTargetView, (const FLOAT*)&color);
+    m_d3dContext->ClearRenderTargetView(**m_renderTargetView, (const FLOAT*)&color);
 }
 
 void RenderContextD3D11::clearStencilBuffer()
@@ -61,7 +61,7 @@ void RenderContextD3D11::clearStencilBuffer()
 
 void RenderContextD3D11::clearDepthStencilBuffer()
 {
-    m_D3DDeviceContext->ClearDepthStencilView(**m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 0.0f, 0);
+    m_d3dContext->ClearDepthStencilView(**m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 0.0f, 0);
 }
 
 void RenderContextD3D11::clearContextState()
@@ -71,24 +71,38 @@ void RenderContextD3D11::clearContextState()
 
 void RenderContextD3D11::setRenderTarget()
 {
-    m_D3DDeviceContext->OMSetRenderTargets(1, *m_renderTargetView, **m_depthStencilView);
+    m_d3dContext->OMSetRenderTargets(1, *m_renderTargetView, **m_depthStencilView);
 }
 
 void RenderContextD3D11::swapBuffers()
 {
-    HRESULT hResult = m_swapChain->Present(1, 0x0);
-    m_D3DDeviceContext->DiscardView(**m_renderTargetView);
-    m_D3DDeviceContext->DiscardView(**m_depthStencilView);
+    // The first argument instructs DXGI to block until VSync, putting the application
+    // to sleep until the next VSync. This ensures we don't waste any cycles rendering
+    // frames that will never be displayed to the screen.
+    HRESULT hr = m_swapChain->Present(1, 0x0);
 
-    if (hResult != DXGI_ERROR_DEVICE_REMOVED && hResult != DXGI_ERROR_DEVICE_RESET)
+    // Discard the contents of the render target.
+    // This is a valid operation only when the existing contents will be entirely
+    // overwritten. If dirty or scroll rects are used, this call should be removed.
+    m_d3dContext->DiscardView(**m_renderTargetView);
+
+    // Discard the contents of the depth stencil.
+    m_d3dContext->DiscardView(**m_depthStencilView);
+
+    if (hr != DXGI_ERROR_DEVICE_REMOVED && hr != DXGI_ERROR_DEVICE_RESET)
     {
-        ErrorHandlerDXGI::checkForErrors(hResult);
+        ErrorHandlerDXGI::checkForErrors(hr);
     }
 }
 
-void RenderContextD3D11::createD3DDevice()
+void RenderContextD3D11::createDeviceResources()
 {
-    D3D_FEATURE_LEVEL featureLevels[] = {
+    // This array defines the set of DirectX hardware feature levels this app will support.
+    // Note the ordering should be preserved.
+    // Don't forget to declare your application's minimum required feature level in its
+    // description.  All applications are assumed to support 9.1 unless otherwise stated.
+    D3D_FEATURE_LEVEL featureLevels[] = 
+    {
         D3D_FEATURE_LEVEL_11_1,
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1,
@@ -98,91 +112,98 @@ void RenderContextD3D11::createD3DDevice()
         D3D_FEATURE_LEVEL_9_1
     };
 
+    // Create the Direct3D 11 API device object and a corresponding context.
     ComInterface<ID3D11Device> device;
-    ComInterface<ID3D11DeviceContext> deviceContext;
+    ComInterface<ID3D11DeviceContext> context;
 
     // Create ID3D11Device
     {
-        unsigned int flags = 0x0;
+        UINT creationFlags = 0x0;
 
 #ifdef _DEBUG
         // If the project is in a debug build, enable the debug layer.
-        flags |= D3D11_CREATE_DEVICE_DEBUG;
+        creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
         HRESULT hResult = D3D11CreateDevice(
-        /* pAdapter           */ NULL,
-        /* DriverType         */ D3D_DRIVER_TYPE_HARDWARE,
-        /* Software           */ NULL,
-        /* Flags              */ flags,
-        /* pFeatureLevels     */ featureLevels,
-        /* FeatureLevels      */ sizeof(featureLevels) / sizeof(D3D_FEATURE_LEVEL),
-        /* SDKVersion         */ 7,
-        /* ppDevice           */ *device,
-        /* pFeatureLevel      */ &m_featureLevel,
-        /* ppImmediateContext */ *deviceContext);
+        /* pAdapter           */ NULL,                     // Specify nullptr to use the default adapter.
+        /* DriverType         */ D3D_DRIVER_TYPE_HARDWARE, // Create a device using the hardware graphics driver.
+        /* Software           */ 0,                        // Should be 0 unless the driver is D3D_DRIVER_TYPE_SOFTWARE.
+        /* Flags              */ creationFlags,            // Set debug and Direct2D compatibility flags.
+        /* pFeatureLevels     */ featureLevels,            // List of feature levels this app can support.
+        /* FeatureLevels      */ ARRAYSIZE(featureLevels), // Size of the list above.
+        /* SDKVersion         */ D3D11_SDK_VERSION,        // Always set this to D3D11_SDK_VERSION for Windows Runtime apps.
+        /* ppDevice           */ *device,                  // Returns the Direct3D device created.
+        /* pFeatureLevel      */ &m_featureLevel,          // Returns feature level of device created.
+        /* ppImmediateContext */ *context                  // Returns the device immediate context.
+        );
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
+    // Store pointers to the Direct3D 11.1 API device and immediate context.
+
     // Get ID3D11Device2
     {
-        m_D3DDevice.release();
-        HRESULT hResult = device->QueryInterface(IID_ID3D11Device2, (void**)*m_D3DDevice);
+        m_d3dDevice.release();
+        HRESULT hResult = device->QueryInterface(IID_ID3D11Device2, (void**)*m_d3dDevice);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
     // Get ID3D11DeviceContext2
     {
-        m_D3DDeviceContext.release();
-        HRESULT hResult = deviceContext->QueryInterface(IID_ID3D11DeviceContext2, (void**)*m_D3DDeviceContext);
+        m_d3dContext.release();
+        HRESULT hResult = context->QueryInterface(IID_ID3D11DeviceContext2, (void**)*m_d3dContext);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
     // Get ID3DUserDefinedAnnotation
     {
         m_userDefinedAnnotation.release();
-        HRESULT hResult = deviceContext->QueryInterface(IID_ID3DUserDefinedAnnotation, (void**)*m_userDefinedAnnotation);
+        HRESULT hResult = context->QueryInterface(IID_ID3DUserDefinedAnnotation, (void**)*m_userDefinedAnnotation);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 }
 
 // Mojang likely based this on:
 // https://github.com/microsoft/Windows-universal-samples/blob/082195895276903b6630d5cb4d03c9d365ec210c/Samples/LowLatencyInput/cpp/Common/DeviceResources.cpp#L218
-void RenderContextD3D11::initContext(const Vec2& logicalSize, const Vec2& compositionScale)
+// These resources need to be recreated every time the window size is changed.
+void RenderContextD3D11::createWindowSizeDependentResources(HWND hWnd, const Vec2& logicalSize, const Vec2& compositionScale)
 {
     m_logicalSize = logicalSize;
     m_compositionScale = compositionScale;
 
     // Calculate the necessary swap chain and render target size in pixels.
     Vec2 outputSize = m_logicalSize * m_compositionScale;
+    //std::swap(outputSize.x, outputSize.y); // D3D needs this for whatever reason
 
     // Prevent zero size Direct3D content from being created.
     outputSize.x = Mth::Max(outputSize.x, 1.0f);
     outputSize.y = Mth::Max(outputSize.y, 1.0f);
 
     ID3D11RenderTargetView* nullViews[] = { nullptr };
-    m_D3DDeviceContext->OMSetRenderTargets(ARRAYSIZE(nullViews), nullViews, nullptr);
+    m_d3dContext->OMSetRenderTargets(ARRAYSIZE(nullViews), nullViews, nullptr);
 
     m_renderTargetView.release();
     m_depthStencilView.release();
-    m_D3DDeviceContext->Flush();
+    m_d3dContext->Flush();
 
     if (m_swapChain)
     {
         // If the swap chain already exists, resize it.
-        if (!resizeSwapChain(outputSize));
+        if (!resizeSwapChain(outputSize))
         {
             m_swapChain.release();
 
             // Recreate device and try again
-            createD3DDevice();
-            initContext(m_logicalSize, m_compositionScale);
+            createDeviceResources();
+            createWindowSizeDependentResources(hWnd, m_logicalSize, m_compositionScale);
             return;
         }
     }
     else
     {
-        initSwapChain(outputSize);
+        // Otherwise, create a new one using the same adapter as the existing Direct3D device.
+        initSwapChain(hWnd, outputSize);
     }
 
     ComInterface<IDXGISwapChain2> swapChain2;
@@ -191,70 +212,59 @@ void RenderContextD3D11::initContext(const Vec2& logicalSize, const Vec2& compos
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
+    if (!hWnd)
     {
         // Setup inverse scale on the swap chain
         DXGI_MATRIX_3X2_F inverseScale = { 0 };
-        inverseScale._11 = 1.0f / outputSize.x;
-        inverseScale._22 = 1.0f / outputSize.y;
+        inverseScale._11 = 1.0f / m_compositionScale.x;
+        inverseScale._22 = 1.0f / m_compositionScale.y;
 
         HRESULT hResult = swapChain2->SetMatrixTransform(&inverseScale);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
-    ComInterface<ID3D11Resource> resource;
+    // Create a render target view of the swap chain back buffer.
     {
-        HRESULT hResult = m_swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)*resource);
-        ErrorHandlerDXGI::checkForErrors(hResult);
-    }
+        ComInterface<ID3D11Texture2D> backBuffer;
 
-    // Create RenderTargetView
-    {
+        HRESULT hResult = m_swapChain->GetBuffer(0, IID_ID3D11Texture2D, (void**)*backBuffer);
+        ErrorHandlerDXGI::checkForErrors(hResult);
+
         m_renderTargetView.release();
-        HRESULT hResult = m_D3DDevice->CreateRenderTargetView(**resource, NULL, *m_renderTargetView);
+        hResult = m_d3dDevice->CreateRenderTargetView(**backBuffer, NULL, *m_renderTargetView);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
-    ComInterface<ID3D11Texture2D> texture;
+    ComInterface<ID3D11Texture2D> depthStencil;
     {
-        D3D11_TEXTURE2D_DESC textureDesc;
-        {
-            textureDesc.MipLevels = 1;
-            textureDesc.ArraySize = 1;
-            textureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-            textureDesc.SampleDesc.Count = 1;
-            textureDesc.SampleDesc.Quality = 0;
-            textureDesc.Usage = D3D11_USAGE_DEFAULT;
-            textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-            textureDesc.CPUAccessFlags = 0x0;
-            textureDesc.MiscFlags = 0x0;
-            textureDesc.Width = lroundf(outputSize.x);
-            textureDesc.Height = lroundf(outputSize.y);
-        }
+        // Create a depth stencil view for use with 3D rendering if needed.
+        CD3D11_TEXTURE2D_DESC depthStencilDesc(
+            DXGI_FORMAT_D24_UNORM_S8_UINT,
+            lroundf(outputSize.x),
+            lroundf(outputSize.y),
+            1, // This depth stencil view has only one texture.
+            1, // Use a single mipmap level.
+            D3D11_BIND_DEPTH_STENCIL
+        );
 
-        HRESULT hResult = m_D3DDevice->CreateTexture2D(&textureDesc, NULL, *texture);
+        HRESULT hResult = m_d3dDevice->CreateTexture2D(&depthStencilDesc, NULL, *depthStencil);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
     // Create DepthStencilView
     {
-        D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
-        {
-            depthStencilViewDesc.Format = DXGI_FORMAT_UNKNOWN;
-            depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-            depthStencilViewDesc.Flags = 0;
-            depthStencilViewDesc.Texture1D.MipSlice = 0;
-        }
+        CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
 
         m_depthStencilView.release();
-        HRESULT hResult = m_D3DDevice->CreateDepthStencilView(**texture, &depthStencilViewDesc, *m_depthStencilView);
+        HRESULT hResult = m_d3dDevice->CreateDepthStencilView(**depthStencil, &depthStencilViewDesc, *m_depthStencilView);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
-    setViewport(0.0f, 0.0f, outputSize.x, outputSize.y, 0.0f, 1.0f);
+    setViewport(0.0f, 0.0f, outputSize.x, outputSize.y, D3D11_MIN_DEPTH, D3D11_MAX_DEPTH);
     setRenderTarget();
 }
 
-void RenderContextD3D11::initSwapChain(const Vec2& size)
+void RenderContextD3D11::initSwapChain(HWND hWnd, const Vec2& size)
 {
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {0};
     {
@@ -274,7 +284,7 @@ void RenderContextD3D11::initSwapChain(const Vec2& size)
 
     ComInterface<IDXGIDevice3> dxgiDevice;
     {
-        HRESULT hResult = m_D3DDevice->QueryInterface(IID_IDXGIDevice3, (void**)*dxgiDevice);
+        HRESULT hResult = m_d3dDevice->QueryInterface(IID_IDXGIDevice3, (void**)*dxgiDevice);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
@@ -293,7 +303,16 @@ void RenderContextD3D11::initSwapChain(const Vec2& size)
     // Create IDXGISwapChain1
     {
         m_swapChain.release();
-        HRESULT hResult = dxgiFactory->CreateSwapChainForComposition(**m_D3DDevice, &swapChainDesc, NULL, *m_swapChain);
+        HRESULT hResult;
+        if (hWnd)
+        {
+            // @TODO: DXGI_SWAP_CHAIN_FULLSCREEN_DESC
+            hResult = dxgiFactory->CreateSwapChainForHwnd(**m_d3dDevice, hWnd, &swapChainDesc, NULL, NULL, *m_swapChain);
+        }
+        else
+        {
+            hResult = dxgiFactory->CreateSwapChainForComposition(**m_d3dDevice, &swapChainDesc, NULL, *m_swapChain);
+        }
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 }
@@ -318,12 +337,12 @@ bool RenderContextD3D11::resizeSwapChain(const Vec2& size)
 
 D3DDevice RenderContextD3D11::getD3DDevice()
 {
-    return m_D3DDevice;
+    return m_d3dDevice;
 }
 
 D3DDeviceContext RenderContextD3D11::getD3DDeviceContext()
 {
-    return m_D3DDeviceContext;
+    return m_d3dContext;
 }
 
 bool RenderContextD3D11::supportsR8G8B8A8_SNORM() const

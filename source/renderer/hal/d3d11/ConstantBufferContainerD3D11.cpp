@@ -11,7 +11,6 @@ ConstantBufferContainerD3D11::ConstantBufferContainerD3D11()
 
 void ConstantBufferContainerD3D11::sync(RenderContext& context)
 {
-    // this code seems fucked
     for (int i = 0; i < m_shaderConstants->size(); i++)
     {
         const ShaderConstant* shaderConstant = (*m_shaderConstants)[i];
@@ -20,6 +19,7 @@ void ConstantBufferContainerD3D11::sync(RenderContext& context)
             void* data = map(context);
             memcpy(data, &m_constantBufferBytes->front(), m_constantBufferBytes->size());
             unmap(context);
+            // it returns in WP 0.12.1, but why?
             return;
         }
     }
@@ -77,10 +77,7 @@ void ConstantBufferContainerD3D11::bindBuffer(RenderContext& context, unsigned i
 
 void* ConstantBufferContainerD3D11::map(RenderContext& context)
 {
-    D3D11_MAPPED_SUBRESOURCE subResource;
-    subResource.pData = nullptr;
-    subResource.RowPitch = 0;
-    subResource.DepthPitch = 0;
+    D3D11_MAPPED_SUBRESOURCE subResource = {0};
 
     D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
     HRESULT hResult = d3dDeviceContext->Map(**m_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0x0, &subResource);

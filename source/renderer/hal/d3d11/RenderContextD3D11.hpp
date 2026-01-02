@@ -52,8 +52,8 @@ namespace mce
         typedef std::map<InputLayoutID, ComInterface<ID3D11InputLayout>> InputLayoutCache;
 
     private:
-        D3DDevice m_D3DDevice;
-        D3DDeviceContext m_D3DDeviceContext;
+        D3DDevice m_d3dDevice;
+        D3DDeviceContext m_d3dContext;
         ComInterface<IDXGISwapChain1> m_swapChain;
 
     public:
@@ -83,9 +83,9 @@ namespace mce
         void setRenderTarget();
         void swapBuffers();
 
-        void createD3DDevice();
-        void initContext(const Vec2& logicalSize, const Vec2& compositionScale);
-        void initSwapChain(const Vec2& size);
+        void createDeviceResources();
+        void createWindowSizeDependentResources(HWND hWnd, const Vec2& logicalSize, const Vec2& compositionScale);
+        void initSwapChain(HWND hWnd, const Vec2& size);
         bool resizeSwapChain(const Vec2& size);
         D3DDevice getD3DDevice();
         D3DDeviceContext getD3DDeviceContext();

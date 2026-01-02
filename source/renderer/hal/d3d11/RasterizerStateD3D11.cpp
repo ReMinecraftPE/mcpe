@@ -41,7 +41,7 @@ void RasterizerStateD3D11::createRasterizerStateDescription(RenderContext& conte
         rasterizerDesc.CullMode = cullModeMap[desc.cullMode];
         rasterizerDesc.DepthBias = 1000 * (int)desc.depthBias; //ceilf(desc.depthBias * 1000.0f);
 
-        rasterizerDesc.FrontCounterClockwise = 0;
+        rasterizerDesc.FrontCounterClockwise = true; // Mojang had this set to false in WP 0.12.1
         rasterizerDesc.MultisampleEnable = false;
         rasterizerDesc.AntialiasedLineEnable = false;
         rasterizerDesc.ScissorEnable = desc.enableScissorTest;

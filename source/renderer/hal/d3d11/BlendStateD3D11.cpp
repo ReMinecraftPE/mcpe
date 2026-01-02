@@ -76,7 +76,7 @@ bool BlendStateD3D11::bindBlendState(RenderContext& context, bool forceBind)
 {
     BlendStateDescription& ctxDesc = context.m_currentState.m_blendStateDescription;
 
-    if (forceBind || ctxDesc == m_description)
+    if (forceBind || ctxDesc != m_description)
     {
         D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
         d3dDeviceContext->OMSetBlendState(**m_blendState, m_blendFactor, m_sampleMask);

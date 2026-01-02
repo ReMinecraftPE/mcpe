@@ -124,7 +124,7 @@ void ShaderD3D11::bindShader(RenderContext& context, const VertexFormat& format,
             ShaderResourceD3D11& resource = m_resourceList[i];
             if (((1 << t) & resource.m_shaderStagesBits) != 0)
             {
-                resource.m_pConstantBufferContainer->bindBuffer(context, resource.m_shaderBindPoints[0], resource.m_shaderStagesBits);
+                resource.m_pConstantBufferContainer->bindBuffer(context, resource.m_shaderBindPoints[t], resource.m_shaderStagesBits);
             }
         }
     }
