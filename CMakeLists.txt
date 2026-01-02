@@ -12,6 +12,11 @@ set(CMAKE_CXX_STANDARD 98)
 endif()
 set(CXX_EXTENSIONS OFF)
 
+# Warnings
+if(WERROR)
+    add_compile_options(-Werror)
+endif()
+
 # WASM
 if(EMSCRIPTEN)
     function(add_compile_and_link_options)

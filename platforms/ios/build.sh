@@ -145,6 +145,7 @@ for target in $targets; do
         -DCMAKE_C_COMPILER="$target-cc" \
         -DCMAKE_CXX_COMPILER="$target-c++" \
         -DCMAKE_FIND_ROOT_PATH="$sdk/usr" \
+        -DWERROR="${WERROR:-OFF}" \
         $lto
     make -j"$ncpus"
     mv "$bin" "$workdir/$bin-$target"
