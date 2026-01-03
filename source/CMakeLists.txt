@@ -458,6 +458,7 @@ message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
 # OGL Shader variant build hack
 if(REMCPE_GFX_API STREQUAL "OGL_SHADERS")
     target_compile_options(reminecraftpe-core PRIVATE -DFEATURE_GFX_SHADERS)
+	unset(REMCPE_GFX_API CACHE)
 	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
 endif()
 
