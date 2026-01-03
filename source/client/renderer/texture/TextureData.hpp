@@ -15,7 +15,6 @@ public:
     ImageData m_imageData;
     bool m_bEnableFiltering;
     bool m_bWrap;
-    bool m_bDynamic;
     mce::Texture m_texture;
     std::vector<ImageData> m_mipmaps;
 
@@ -31,7 +30,7 @@ public:
 
 private:
     void _move(TextureData& other);
-    void _loadTexData(mce::Texture& texture, bool enableFiltering, bool wrap, bool dynamic);
+    void _loadTexData(mce::Texture& texture, bool enableFiltering, bool wrap);
     void _loadMipmap(ImageData& data);
 
 public:

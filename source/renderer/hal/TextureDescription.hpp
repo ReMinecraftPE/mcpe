@@ -12,8 +12,7 @@ namespace mce
         unsigned int mipCount;
         bool bWrap;
         TextureFiltering filteringLevel;
-        bool bExcludeGpu;
-		bool bDynamic; // custom
+        bool bIsStaging;
 		
 		TextureDescription();
 	};

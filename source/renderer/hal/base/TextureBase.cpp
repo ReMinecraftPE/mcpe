@@ -2,12 +2,45 @@
 
 #include "TextureBase.hpp"
 #include "common/Logger.hpp"
+#include "renderer/PlatformDefinitions.h"
 
 using namespace mce;
 
 TextureBase::TextureBase()
 {
 	m_bCreated = false;
+    m_bHasWriteAccess = false;
+}
+
+void TextureBase::_bindWriteBuffer(RenderContext& context)
+{
+    if (!m_description.bIsStaging)
+    {
+        LOG_E("bindWriteBuffer can only be called on staging Textures");
+        throw std::bad_cast();
+    }
+
+    if (m_bHasWriteAccess)
+    {
+        LOG_W("bindWriteBuffer called when write buffer is already bound");
+    }
+
+    m_bHasWriteAccess = true;
+}
+
+void TextureBase::_releaseWriteBuffer(RenderContext& context)
+{
+    if (!m_description.bIsStaging)
+    {
+        LOG_E("releaseWriteBuffer can only be called on staging Textures");
+        throw std::bad_cast();
+    }
+
+    if (!m_bHasWriteAccess)
+    {
+        LOG_W("releaseWriteBuffer called when write buffer was already released");
+    }
+
     m_bHasWriteAccess = false;
 }
 
@@ -18,6 +51,12 @@ const TextureDescription& TextureBase::getDescription() const
 
 void TextureBase::deleteTexture()
 {
+    if (m_bHasWriteAccess)
+    {
+        LOG_E("Tried to delete Texture that was left in write mode. Please call releaseWriteBuffer before deleting the Texture.");
+        throw std::bad_cast();
+    }
+
     m_bCreated = false;
 }
 
@@ -50,24 +89,43 @@ void TextureBase::convertToMipmapedTexture(RenderContext& context, unsigned int 
 {
 }
 
-void TextureBase::bindWriteBuffer(RenderContext& context)
+void TextureBase::enableWriteMode(RenderContext& context)
 {
+    if (m_bHasWriteAccess)
+    {
+        LOG_W("enableWriteMode called when write mode was already enabled");
+    }
+
     m_bHasWriteAccess = true;
 }
 
-void TextureBase::releaseWriteBuffer(RenderContext& context)
+void TextureBase::disableWriteMode(RenderContext& context)
 {
+    if (!m_bHasWriteAccess)
+    {
+        LOG_W("disableWriteMode called when write mode was already disabled");
+    }
+
     m_bHasWriteAccess = false;
 }
 
 void TextureBase::subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
 {
-    if (!m_description.bDynamic)
+    /*if (!m_description.bDynamic)
     {
         // To OpenGL, all textures are dynamic, to Direct3D, this is not the case.
         LOG_E("Tried to write to static texture! Texture must be dynamic to be written to.");
         throw std::bad_cast();
+    }*/
+
+#if MCE_GFX_DYNAMIC_TEXTURE_STAGING
+    if (!m_description.bIsStaging)
+    {
+        // To OpenGL, all textures on the GPU are modifiable, to Direct3D, this is not the case.
+        LOG_E("Tried to write to a non-staging texture! Textures must be explicitly created for staging in order to be modified directly.");
+        throw std::bad_cast();
     }
+#endif
     
     if (!m_bHasWriteAccess)
     {
@@ -80,7 +138,7 @@ void TextureBase::subBuffer(RenderContext& context, const void* pixels)
 {
 }
 
-void TextureBase::copyTexture(RenderContext& context, Texture* src, unsigned int startX, unsigned int startY, unsigned int width, unsigned int height)
+void TextureBase::copyTexture(RenderContext& context, const Texture* src, unsigned int startX, unsigned int startY, unsigned int width, unsigned int height)
 {
 }
 

@@ -19,6 +19,10 @@ namespace mce
     public:
 		TextureBase();
 
+    protected:
+        void _bindWriteBuffer(RenderContext& context);
+        void _releaseWriteBuffer(RenderContext& context);
+
 	public:
         const TextureDescription& getDescription() const;
         void deleteTexture();
@@ -28,13 +32,13 @@ namespace mce
         void convertToMipmapedTexture(unsigned int mipmaps);
         void convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps);
 
-        void bindWriteBuffer(RenderContext& context);
-        void releaseWriteBuffer(RenderContext& context);
+        void enableWriteMode(RenderContext& context);
+        void disableWriteMode(RenderContext& context);
 
         void subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level);
         void subBuffer(RenderContext& context, const void* pixels);
 
-        void copyTexture(RenderContext& context, Texture* src, unsigned int startX, unsigned int startY, unsigned int width, unsigned int height);
+        void copyTexture(RenderContext& context, const Texture* src, unsigned int startX, unsigned int startY, unsigned int width, unsigned int height);
 
         void createMipMap(RenderContext& context, const void* pixels, unsigned int width, unsigned int height, unsigned int level);
         

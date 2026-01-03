@@ -175,7 +175,7 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 {
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	texture.m_texture.bindWriteBuffer(renderContext);
+	texture.m_texture.enableWriteMode(renderContext);
 
 	// Use glTexSubImage2D to patch the terrain.png texture on the fly.
 	for (int i = 0; i < int(m_patchData.size()); i++)
@@ -215,7 +215,7 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 		texture.m_texture.subBuffer(renderContext, image.m_data, pd.m_destX, pd.m_destY, image.m_width, image.m_height, 0);
 	}
 
-	texture.m_texture.releaseWriteBuffer(renderContext);
+	texture.m_texture.disableWriteMode(renderContext);
 }
 
 void PatchManager::PatchTiles()

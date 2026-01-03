@@ -48,6 +48,11 @@ namespace mce
 			}
 		}
 
+		const T* getPtr() const
+		{
+			return m_pObject;
+		}
+
 	public:
 		void operator=(const ComInterface& other)
 		{

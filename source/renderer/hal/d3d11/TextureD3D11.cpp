@@ -6,12 +6,38 @@
 #include "renderer/hal/dxgi/helpers/TextureHelperDXGI.hpp"
 #include "renderer/hal/dxgi/helpers/ErrorHandlerDXGI.hpp"
 #include "renderer/hal/d3d11/helpers/TextureHelperD3D11.hpp"
+#include "renderer/hal/interface/Texture.hpp"
 
 using namespace mce;
 
 TextureD3D11::TextureD3D11()
     : TextureBase()
 {
+    m_writeBuffer = nullptr;
+    m_stagingTexture = nullptr;
+}
+
+void TextureD3D11::_bindWriteBuffer(RenderContext& context)
+{
+    TextureBase::_bindWriteBuffer(context);
+
+    D3D11_MAPPED_SUBRESOURCE mappedSubresource = { 0 };
+    {
+        D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+        HRESULT hResult = d3dDeviceContext->Map(**m_texture2D, 0, D3D11_MAP_WRITE, 0x0, &mappedSubresource);
+        ErrorHandlerDXGI::checkForErrors(hResult);
+    }
+
+    m_writeBuffer = mappedSubresource.pData;
+}
+
+void TextureD3D11::_releaseWriteBuffer(RenderContext& context)
+{
+    TextureBase::_releaseWriteBuffer(context);
+
+    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+    d3dDeviceContext->Unmap(**m_texture2D, 0);
+
     m_writeBuffer = nullptr;
 }
 
@@ -34,7 +60,7 @@ void TextureD3D11::bindTexture(RenderContext& context, unsigned int textureUnit,
 
 void TextureD3D11::convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps)
 {
-    // @NOTEL mipmaps was hardcoded to 5 on DX11 for some reason
+    // @NOTE: mipmaps was hardcoded to 5 on DX11 for some reason
 
     if (mipmaps == 0)
     {
@@ -67,32 +93,45 @@ void TextureD3D11::convertToMipmapedTexture(RenderContext& context, unsigned int
     m_description = mipmapedTexture.m_description;
 }
 
-void TextureD3D11::bindWriteBuffer(RenderContext& context)
+void TextureD3D11::enableWriteMode(RenderContext& context)
 {
-    D3D11_MAPPED_SUBRESOURCE mappedSubresource = {0};
+    TextureBase::enableWriteMode(context);
+
+    Texture* texture = new Texture();
     {
-        D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
-        HRESULT hResult = d3dDeviceContext->Map(**m_texture2D, 0, D3D11_MAP_WRITE_DISCARD, 0x0, &mappedSubresource); // was D3D11_MAP_WRITE
-        ErrorHandlerDXGI::checkForErrors(hResult);
+        TextureDescription desc(m_description);
+        {
+            desc.bIsStaging = true;
+        }
+
+        texture->createTexture(context, desc);
+        // Smuggles the current version of the texture off of the GPU so we can update it
+        texture->copyTexture(context, (const Texture*)this, 0, 0, desc.width, desc.height);
+        texture->_bindWriteBuffer(context);
     }
 
-    m_writeBuffer = mappedSubresource.pData;
-
-    TextureBase::bindWriteBuffer(context);
+    m_stagingTexture = texture;
 }
 
-void TextureD3D11::releaseWriteBuffer(RenderContext& context)
+void TextureD3D11::disableWriteMode(RenderContext& context)
 {
-    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
-    d3dDeviceContext->Unmap(**m_texture2D, 0);
+    TextureBase::disableWriteMode(context);
 
-    m_writeBuffer = nullptr;
+    m_stagingTexture->_releaseWriteBuffer(context);
+    copyTexture(context, m_stagingTexture, 0, 0, m_description.width, m_description.height);
 
-    TextureBase::releaseWriteBuffer(context);
+    delete m_stagingTexture;
 }
 
 void TextureD3D11::subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
 {
+    // Just write to our staging texture, if we have one
+    if (m_stagingTexture != nullptr)
+    {
+        m_stagingTexture->subBuffer(context, pixels, xoffset, yoffset, width, height, level);
+        return;
+    }
+
     TextureBase::subBuffer(context, pixels, xoffset, yoffset, width, height, level);
 
     uint32_t* writeBuffer = (uint32_t*)m_writeBuffer;
@@ -113,20 +152,28 @@ void TextureD3D11::subBuffer(RenderContext& context, const void* pixels, unsigne
 
 void TextureD3D11::subBuffer(RenderContext& context, const void* pixels)
 {
-    // "Can only invoke UpdateSubresource when the destination Resource was created with D3D11_USAGE_DEFAULT and is not a multisampled Resource."
-    if (m_description.bDynamic)
-    {
-        bindWriteBuffer(context);
-        subBuffer(context, pixels, 0, 0, m_description.width, m_description.height, 0);
-        releaseWriteBuffer(context);
-        return;
-    }
-
     TextureBase::subBuffer(context, pixels);
 
     D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
     unsigned int byteStride = TextureHelper::textureFormatToByteStride(m_description.textureFormat);
     d3dDeviceContext->UpdateSubresource(**m_texture2D, 0, NULL, pixels, m_description.width * byteStride, 0);
+}
+
+void TextureD3D11::copyTexture(RenderContext& context, const Texture* src, unsigned int startX, unsigned int startY, unsigned int width, unsigned int height)
+{
+    const TextureD3D11* src2 = (const TextureD3D11*)src;
+    D3D11_BOX srcBox;
+    {
+        srcBox.left = startX;
+        srcBox.top = startY;
+        srcBox.front = 0;
+        srcBox.right = width + startX;
+        srcBox.bottom = height + startY;
+        srcBox.back = 1;
+    }
+
+    D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
+    d3dDeviceContext->CopySubresourceRegion(**m_texture2D, 0, startX, startY, 0, (ID3D11Texture2D*)src2->m_texture2D.getPtr(), 0, &srcBox);
 }
 
 void TextureD3D11::createTexture(RenderContext& context, const TextureDescription& description)
@@ -150,16 +197,11 @@ void TextureD3D11::createTexture(RenderContext& context, const TextureDescriptio
             textureDesc.Usage = D3D11_USAGE_DEFAULT;
             textureDesc.CPUAccessFlags = 0x0;
             textureDesc.MiscFlags = 0x0;
-            if (description.bExcludeGpu)
+            if (description.bIsStaging)
             {
                 textureDesc.Usage = D3D11_USAGE_STAGING;
                 textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
                 textureDesc.BindFlags = 0x0;
-            }
-            if (description.bDynamic)
-            {
-                textureDesc.Usage = D3D11_USAGE_DYNAMIC;
-                textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
             }
         }
 
@@ -168,7 +210,7 @@ void TextureD3D11::createTexture(RenderContext& context, const TextureDescriptio
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
-    if (!description.bExcludeGpu)
+    if (!description.bIsStaging)
     {
         D3D11_SAMPLER_DESC samplerDesc;
         {

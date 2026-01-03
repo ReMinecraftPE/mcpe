@@ -9,7 +9,6 @@ void TextureData::_init()
 {
     m_bEnableFiltering = false;
     m_bWrap = false;
-    m_bDynamic = false;
 }
 
 void TextureData::_init(TextureData& other)
@@ -44,19 +43,17 @@ void TextureData::_move(TextureData& other)
 {
     std::swap(this->m_bEnableFiltering, other.m_bEnableFiltering);
     std::swap(this->m_bWrap, other.m_bWrap);
-    std::swap(this->m_bDynamic, other.m_bDynamic);
     this->m_imageData.move(other.m_imageData);
     this->m_texture.move(other.m_texture);
 }
 
-void TextureData::_loadTexData(mce::Texture& texture, bool enableFiltering, bool wrap, bool dynamic)
+void TextureData::_loadTexData(mce::Texture& texture, bool enableFiltering, bool wrap)
 {
     mce::TextureDescription desc;
     desc.filteringLevel = enableFiltering ? mce::TEXTURE_FILTERING_BILINEAR : mce::TEXTURE_FILTERING_POINT;
     desc.bWrap = wrap;
     desc.width = m_imageData.m_width;
     desc.height = m_imageData.m_height;
-    desc.bDynamic = dynamic;
 
     m_imageData.forceRGBA();
     
@@ -125,7 +122,7 @@ void TextureData::sync()
 {
     if (m_texture.isLoaded())
     {
-        _loadTexData(m_texture, m_bEnableFiltering, m_bWrap, m_bDynamic);
+        _loadTexData(m_texture, m_bEnableFiltering, m_bWrap);
     }
 }
 
@@ -143,7 +140,7 @@ void TextureData::setData(uint8_t* data)
 
 void TextureData::load()
 {
-    _loadTexData(m_texture, m_bEnableFiltering, m_bWrap, m_bDynamic);
+    _loadTexData(m_texture, m_bEnableFiltering, m_bWrap);
     for (int i = 0; i < m_mipmaps.size(); i++)
     {
         _loadMipmap(m_mipmaps[i]);

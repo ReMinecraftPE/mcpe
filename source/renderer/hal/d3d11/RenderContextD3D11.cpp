@@ -81,7 +81,7 @@ void RenderContextD3D11::clearStencilBuffer()
 
 void RenderContextD3D11::clearDepthStencilBuffer()
 {
-    m_d3dContext->ClearDepthStencilView(**m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 0.0f, 0);
+    m_d3dContext->ClearDepthStencilView(**m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void RenderContextD3D11::clearContextState()

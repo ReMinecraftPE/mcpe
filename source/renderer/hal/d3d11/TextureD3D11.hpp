@@ -8,7 +8,7 @@ namespace mce
 {
     class TextureD3D11 : public TextureBase
     {
-    private:
+    protected:
         ComInterface<ID3D11Texture2D> m_texture2D;
         ComInterface<ID3D11SamplerState> m_samplerState;
         ComInterface<ID3D11ShaderResourceView> m_shaderResourceView;
@@ -16,9 +16,14 @@ namespace mce
         // We must not read from this pointer. Doing so will incur a performance penalty, like it's a sport or some shit.
         // https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-map#don-t-read-from-a-subresource-mapped-for-writing
         void* m_writeBuffer;
+        Texture* m_stagingTexture;
 
     public:
         TextureD3D11();
+
+    protected:
+        void _bindWriteBuffer(RenderContext& context);
+        void _releaseWriteBuffer(RenderContext& context);
 
     public:
         void deleteTexture();
@@ -26,11 +31,13 @@ namespace mce
         
         void convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps);
 
-        void bindWriteBuffer(RenderContext& context);
-        void releaseWriteBuffer(RenderContext& context);
+        void enableWriteMode(RenderContext& context);
+        void disableWriteMode(RenderContext& context);
 
         void subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level);
         void subBuffer(RenderContext& context, const void* pixels);
+
+        void copyTexture(RenderContext& context, const Texture* src, unsigned int startX, unsigned int startY, unsigned int width, unsigned int height);
 
         void createTexture(RenderContext& context, const TextureDescription& description);
 

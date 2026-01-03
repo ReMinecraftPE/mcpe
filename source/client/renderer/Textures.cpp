@@ -15,7 +15,7 @@
 
 bool Textures::MIPMAP = false;
 
-TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired, bool isDynamic)
+TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
 	TextureMap::iterator it = m_textures.find(name);
 	assert(it == m_textures.end());
@@ -47,7 +47,6 @@ TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired, bo
 
 	t.m_bEnableFiltering = m_bBlur;
 	t.m_bWrap = !m_bClamp;
-	t.m_bDynamic = isDynamic;
 
 	return uploadTexture(name, t);
 }
@@ -174,7 +173,7 @@ void Textures::tick()
 
 		mce::Texture& texture = pData->m_texture;
 
-		texture.bindWriteBuffer(renderContext);
+		texture.enableWriteMode(renderContext);
 
 		for (int x = 0; x < pDynaTex->m_textureSize; x++)
 		{
@@ -188,14 +187,14 @@ void Textures::tick()
 			}
 		}
 
-		texture.releaseWriteBuffer(renderContext);
+		texture.disableWriteMode(renderContext);
 	}
 }
 
-TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, bool isDynamic, unsigned int textureUnit)
+TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
 {
 	TextureMap::iterator it = m_textures.find(name);
-	TextureData* pTexture = getTextureData(name, isRequired, isDynamic);
+	TextureData* pTexture = getTextureData(name, isRequired);
 
 	if (!pTexture)
 		return nullptr;
@@ -207,14 +206,14 @@ TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequir
 	return pTexture;
 }
 
-TextureData* Textures::getTextureData(const std::string& name, bool isRequired, bool isDynamic)
+TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
 {
 	TextureMap::iterator it = m_textures.find(name);
 	TextureData* pTexture;
 	if (it != m_textures.end())
 		pTexture = it->second;
 	else
-		pTexture = loadTexture(name, isRequired, isDynamic);
+		pTexture = loadTexture(name, isRequired);
 	return pTexture;
 }
 
