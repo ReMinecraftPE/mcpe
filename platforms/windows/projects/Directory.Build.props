@@ -11,8 +11,8 @@
     <MC_GLOBAL_PROPS>whattimeisit?</MC_GLOBAL_PROPS>
     <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
     <RAKNET_PATH>$(MC_ROOT)thirdparty\raknet\</RAKNET_PATH>
-	<MC_GFX_API>D3D11</MC_GFX_API>
-	<MC_GFX_API_MACRO>MCE_GFX_API_D3D11</MC_GFX_API_MACRO>
+	<MC_GFX_API>OGL</MC_GFX_API>
+	
   </PropertyGroup>
   <!--PropertyGroup Label="Configuration">
     <EnableASAN>true</EnableASAN>
@@ -37,6 +37,14 @@
   <!-- Debug -->
   <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))">
     <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  
+  <!-- GFX Macros -->
+  <PropertyGroup Label="UserMacros" Condition="'$(MC_GFX_API)'=='OGL'">
+    <MC_GFX_API_MACRO>MCE_GFX_API_OGL</MC_GFX_API_MACRO>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" Condition="'$(MC_GFX_API)'=='D3D11'">
+    <MC_GFX_API_MACRO>MCE_GFX_API_D3D11;FEATURE_GFX_SHADERS</MC_GFX_API_MACRO>
   </PropertyGroup>
   
   <!-- Item definitions -->
