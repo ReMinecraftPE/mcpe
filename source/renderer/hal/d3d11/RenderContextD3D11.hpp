@@ -38,16 +38,10 @@ namespace mce
             {
             }*/
 
-            InputLayoutID(const VertexFormat& vertexFormat, unsigned int attributeListIndex)
-                : vertexFormat(vertexFormat)
-                , attributeListIndex(attributeListIndex)
-            {
-            }
+            InputLayoutID(const VertexFormat& vertexFormat, unsigned int attributeListIndex);
 
-            bool operator<(const InputLayoutID& other) const
-            {
-                return attributeListIndex < other.attributeListIndex;
-            }
+            bool operator<(const InputLayoutID& other) const;
+            bool operator==(const InputLayoutID& other) const;
         };
         typedef std::map<InputLayoutID, ComInterface<ID3D11InputLayout>> InputLayoutCache;
 

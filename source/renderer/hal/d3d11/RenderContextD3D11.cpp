@@ -5,6 +5,26 @@
 
 using namespace mce;
 
+RenderContextD3D11::InputLayoutID::InputLayoutID(const VertexFormat& vertexFormat, unsigned int attributeListIndex)
+    : vertexFormat(vertexFormat)
+    , attributeListIndex(attributeListIndex)
+{
+}
+
+bool RenderContextD3D11::InputLayoutID::operator<(const RenderContextD3D11::InputLayoutID& other) const
+{
+    if (attributeListIndex != other.attributeListIndex)
+        return attributeListIndex < other.attributeListIndex;
+
+    return vertexFormat < other.vertexFormat;
+}
+
+bool RenderContextD3D11::InputLayoutID::operator==(const RenderContextD3D11::InputLayoutID& other) const
+{
+    return attributeListIndex == other.attributeListIndex
+        && vertexFormat == other.vertexFormat;
+}
+
 RenderContextD3D11::RenderContextD3D11()
     : RenderContextBase()
 {
