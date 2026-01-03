@@ -172,7 +172,7 @@ void ShaderD3D11::reflectShaderResources(ComInterface<ID3D11ShaderReflection> sh
             pShaderResource->m_shaderStagesBits |= shaderStagesBits;
 
             // @HAL: does nothing. for fun?
-            for (int i = 0; i < bufferDesc.Variables; i++)
+            /*for (int i = 0; i < bufferDesc.Variables; i++)
             {
                 ID3D11ShaderReflectionVariable* shaderVariable = constantBuffer->GetVariableByIndex(i);
 
@@ -180,7 +180,7 @@ void ShaderD3D11::reflectShaderResources(ComInterface<ID3D11ShaderReflection> sh
                 shaderVariable->GetDesc(&shaderVariableDesc);
 
                 pShaderResource->m_pConstantBufferContainer->getUnspecializedShaderConstant(shaderVariableDesc.Name);
-            }
+            }*/
         }
         else
         {
@@ -188,7 +188,7 @@ void ShaderD3D11::reflectShaderResources(ComInterface<ID3D11ShaderReflection> sh
             metaDataManager.findConstantBuffer(bufferDesc.Name);
 
             // @HAL: does nothing. for fun?
-            for (int i = 0; i < bufferDesc.Variables; i++)
+            /*for (int i = 0; i < bufferDesc.Variables; i++)
             {
                 ID3D11ShaderReflectionVariable* shaderVariable = constantBuffer->GetVariableByIndex(i);
 
@@ -199,7 +199,7 @@ void ShaderD3D11::reflectShaderResources(ComInterface<ID3D11ShaderReflection> sh
 
                 D3D11_SHADER_TYPE_DESC shaderTypeDesc;
                 type->GetDesc(&shaderTypeDesc);
-            }
+            }*/
 
             ConstantBufferContainer* pConstantBufferContainer = bufferManager.findConstantBufferContainer(bufferDesc.Name);
 

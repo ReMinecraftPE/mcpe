@@ -153,28 +153,6 @@ namespace glm
 		return m * Result;
 	}
 
-	template <typename T>
-	GLM_FUNC_QUALIFIER detail::tmat4x4<T, defaultp> ortho
-	(
-		T const & left,
-		T const & right,
-		T const & bottom,
-		T const & top,
-		T const & zNear,
-		T const & zFar
-	)
-	{
-#		if GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_LH_ZO
-			return orthoLH_ZO(left, right, bottom, top, zNear, zFar);
-#		elif GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_LH_NO
-			return orthoLH_NO(left, right, bottom, top, zNear, zFar);
-#		elif GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_RH_ZO
-			return orthoRH_ZO(left, right, bottom, top, zNear, zFar);
-#		elif GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_RH_NO
-			return orthoRH_NO(left, right, bottom, top, zNear, zFar);
-#		endif
-	}
-
 	template<typename T>
 	GLM_FUNC_QUALIFIER detail::tmat4x4<T, defaultp> orthoLH_ZO
 	(
@@ -328,6 +306,28 @@ namespace glm
 #		if GLM_CONFIG_CLIP_CONTROL & GLM_CLIP_CONTROL_ZO_BIT
 			return orthoRH_ZO(left, right, bottom, top, zNear, zFar);
 #		else
+			return orthoRH_NO(left, right, bottom, top, zNear, zFar);
+#		endif
+	}
+	
+	template <typename T>
+	GLM_FUNC_QUALIFIER detail::tmat4x4<T, defaultp> ortho
+	(
+		T const & left,
+		T const & right,
+		T const & bottom,
+		T const & top,
+		T const & zNear,
+		T const & zFar
+	)
+	{
+#		if GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_LH_ZO
+			return orthoLH_ZO(left, right, bottom, top, zNear, zFar);
+#		elif GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_LH_NO
+			return orthoLH_NO(left, right, bottom, top, zNear, zFar);
+#		elif GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_RH_ZO
+			return orthoRH_ZO(left, right, bottom, top, zNear, zFar);
+#		elif GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_RH_NO
 			return orthoRH_NO(left, right, bottom, top, zNear, zFar);
 #		endif
 	}
