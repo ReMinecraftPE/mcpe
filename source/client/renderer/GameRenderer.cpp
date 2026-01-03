@@ -24,7 +24,6 @@
 #endif
 
 static int t_keepHitResult; // that is its address in v0.1.1j
-int t_keepPic;
 
 void GameRenderer::_init()
 {
@@ -58,6 +57,8 @@ void GameRenderer::_init()
 	field_84 = 0.0f;
 
 	m_shownFPS = m_shownChunkUpdates = m_lastUpdatedMS = 0;
+
+	m_keepPic = 0;
 
 	m_envTexturePresence = 0;
 }
@@ -646,7 +647,7 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->isLevelGenerated())
 	{
-		if (t_keepPic < 0)
+		if (m_keepPic < 0)
 		{
 			renderLevel(f);
 			if (m_pMinecraft->getOptions()->m_bDontRenderGui)
@@ -704,13 +705,9 @@ void GameRenderer::render(float f)
 
 void GameRenderer::tick()
 {
-	--t_keepPic;
-#ifndef ORIGINAL_CODE
-	// @BUG: If the game is left on for approximately 1,242 days, the counter will underflow,
-	// causing the screen to appear frozen, and the level to not render.
-	if (t_keepPic < -100)
-		t_keepPic = -100;
-#endif
+	// Prevents underflow
+	if (m_keepPic > -100)
+		--m_keepPic;
 
 	if (!m_pMinecraft->m_pLocalPlayer)
 		return;

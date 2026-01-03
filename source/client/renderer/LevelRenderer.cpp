@@ -1363,8 +1363,6 @@ void LevelRenderer::tileChanged(const TilePos& pos)
 	setDirty(pos - 1, pos + 1);
 }
 
-extern int t_keepPic;
-
 void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
 	Mob* pOldMob = m_pMinecraft->m_pCameraEntity;
@@ -1388,7 +1386,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	g_bDisableParticles = false;
 #endif
 
-	t_keepPic = -1;
+	m_pMinecraft->m_pGameRenderer->m_keepPic = -1;
 
 	static char str[256];
 	// @HUH: This has the potential to overwrite a file

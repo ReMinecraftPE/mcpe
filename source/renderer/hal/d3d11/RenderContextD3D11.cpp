@@ -76,7 +76,8 @@ void RenderContextD3D11::clearFrameBuffer(const Color& color)
 
 void RenderContextD3D11::clearStencilBuffer()
 {
-    clearDepthStencilBuffer();
+    // WP 0.12.1 originally called clearStencilBuffer() here
+    m_d3dContext->ClearDepthStencilView(**m_depthStencilView, D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 void RenderContextD3D11::clearDepthStencilBuffer()
