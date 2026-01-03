@@ -144,8 +144,12 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  - name: Win32
+                  - name: Win32 (OGL)
                     flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL'
+                  - name: Win32 (OGL + Shaders)
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS'
+                  - name: Win32 (D3D11)
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=D3D11'
                   - name: SDL2
                     flags: "-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL"
                   # CMake can't find it

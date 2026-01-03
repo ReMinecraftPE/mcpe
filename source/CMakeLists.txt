@@ -396,6 +396,7 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/RasterizerStateDescription.cpp
     renderer/hal/StencilFaceDescription.cpp
     renderer/hal/TextureDescription.cpp
+	renderer/hal/ViewportOrigin.cpp
     renderer/hal/base/BlendStateBase.cpp
     renderer/hal/base/BufferBase.cpp
     renderer/hal/base/ConstantBufferBase.cpp
@@ -426,7 +427,6 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/enums/StencilOp_JsonParser.cpp
     renderer/hal/enums/TextureFiltering_JsonParser.cpp
     renderer/hal/enums/VertexField_JsonParser.cpp
-    renderer/hal/helpers/ErrorHandler.cpp
     renderer/hal/helpers/TextureHelper.cpp
 	renderer/hal/null/FixedPipelineStateNull.cpp
 	renderer/hal/null/FogStateNull.cpp
@@ -455,6 +455,12 @@ endif()
 
 message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
 
+# OGL Shader variant build hack
+if(REMCPE_GFX_API STREQUAL "OGL_SHADERS")
+    target_compile_options(reminecraftpe-core PRIVATE -DFEATURE_GFX_SHADERS)
+	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
+endif()
+
 if(REMCPE_GFX_API STREQUAL "OGL")
     target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
@@ -479,8 +485,35 @@ if(REMCPE_GFX_API STREQUAL "OGL")
 		renderer/hal/ogl/ShaderResourceOGL.cpp
 		renderer/hal/ogl/ShaderUniformOGL.cpp
 		renderer/hal/ogl/TextureOGL.cpp
+		renderer/hal/ogl/helpers/ErrorHandlerOGL.cpp
 		renderer/platform/ogl/Extensions.cpp
 		renderer/platform/ogl/ShaderPrecision.cpp
+	)
+elseif(REMCPE_GFX_API STREQUAL "D3D11")
+    target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_D3D11=1 -DFEATURE_GFX_SHADERS)
+	target_sources(reminecraftpe-core PRIVATE
+		renderer/hal/ogl/API_D3D11.cpp
+		renderer/hal/ogl/BlendStateD3D11.cpp
+		renderer/hal/ogl/BufferD3D11.cpp
+		renderer/hal/ogl/ConstantBufferContainerD3D11.cpp
+		renderer/hal/ogl/DepthStencilStateD3D11.cpp
+		renderer/hal/ogl/GPUEventsD3D11.cpp
+		renderer/hal/ogl/ImmediateBufferD3D11.cpp
+		renderer/hal/ogl/ProfileSectionD3D11.cpp
+		renderer/hal/ogl/RasterizerStateD3D11.cpp
+		renderer/hal/ogl/RenderContextD3D11.cpp
+		renderer/hal/ogl/RenderDeviceD3D11.cpp
+		renderer/hal/ogl/ShaderConstantD3D11.cpp
+		renderer/hal/ogl/ShaderConstantWithDataD3D11.cpp
+		renderer/hal/ogl/ShaderD3D11.cpp
+		renderer/hal/ogl/ShaderProgramD3D11.cpp
+		renderer/hal/ogl/ShaderResourceD3D11.cpp
+		renderer/hal/ogl/TextureD3D11.cpp
+		renderer/hal/ogl/helpers/TextureHelperD3D11.cpp
+		renderer/hal/dxgi/API_DXGI.cpp
+		renderer/hal/dxgi/helpers/DirectXComInterface.cpp
+		renderer/hal/dxgi/helpers/ErrorHandlerDXGI.cpp
+		renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
 	)
 elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
     target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_NULL=1)
