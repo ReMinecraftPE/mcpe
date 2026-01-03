@@ -53,7 +53,7 @@ namespace mce
     public:
         ComInterface<ID3D11RenderTargetView> m_renderTargetView;
         ComInterface<ID3D11DepthStencilView> m_depthStencilView;
-        CD3D11_VIEWPORT m_viewport;
+        D3D11_VIEWPORT m_viewport;
         ComInterface<ID3DUserDefinedAnnotation> m_userDefinedAnnotation;
         D3D_FEATURE_LEVEL m_featureLevel;
         Vec2 m_logicalSize;

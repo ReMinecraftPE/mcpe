@@ -28,6 +28,7 @@ bool RenderContextD3D11::InputLayoutID::operator==(const RenderContextD3D11::Inp
 RenderContextD3D11::RenderContextD3D11()
     : RenderContextBase()
 {
+    m_viewport = {0};
     m_featureLevel = D3D_FEATURE_LEVEL_9_1;
 
     // wasn't here in 0.12.1, but where else is it supposed to go?
