@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include "../API_DXGI.hpp"
 
 namespace mce
