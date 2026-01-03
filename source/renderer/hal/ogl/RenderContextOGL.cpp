@@ -228,9 +228,9 @@ void RenderContextOGL::setDepthRange(float nearVal, float farVal)
     glDepthRange(nearVal, farVal);
 }
 
-void RenderContextOGL::setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal)
+void RenderContextOGL::setViewport(unsigned int width, unsigned int height, float nearVal, float farVal, const ViewportOrigin& origin)
 {
-    glViewport(topLeftX, topLeftY, width, height);
+    glViewport(origin.leftX, origin.bottomLeftY, width, height);
     setDepthRange(nearVal, farVal);
 }
 

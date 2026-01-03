@@ -58,10 +58,10 @@ void RenderContextD3D11::setDepthRange(float nearVal, float farVal)
     m_d3dContext->RSSetViewports(1, &m_viewport);
 }
 
-void RenderContextD3D11::setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal)
+void RenderContextD3D11::setViewport(unsigned int width, unsigned int height, float nearVal, float farVal, const ViewportOrigin& origin)
 {
-    m_viewport.TopLeftX = topLeftX;
-    m_viewport.TopLeftY = topLeftY;
+    m_viewport.TopLeftX = origin.leftX;
+    m_viewport.TopLeftY = origin.topLeftY;
     m_viewport.Width = width;
     m_viewport.Height = height;
     m_viewport.MinDepth = nearVal;
@@ -280,7 +280,7 @@ void RenderContextD3D11::createWindowSizeDependentResources(HWND hWnd, const Vec
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
-    setViewport(0.0f, 0.0f, outputSize.x, outputSize.y, D3D11_MIN_DEPTH, D3D11_MAX_DEPTH);
+    setViewport(outputSize.x, outputSize.y, D3D11_MIN_DEPTH, D3D11_MAX_DEPTH, ViewportOrigin::ZERO);
     setRenderTarget();
 }
 

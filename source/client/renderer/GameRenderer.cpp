@@ -86,7 +86,7 @@ void GameRenderer::_clearFrameBuffer()
 {
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 	renderContext.setRenderTarget();
 	renderContext.clearFrameBuffer(Color(0.0f, 0.3f, 0.2f, 0.0f));
 	renderContext.clearDepthStencilBuffer();
@@ -489,7 +489,7 @@ void GameRenderer::renderLevel(float f)
 #endif
 		}
 
-		renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+		renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 		renderContext.setRenderTarget();
 		const Color& clearColor = levelRenderer.setupClearColor(f);
 		renderContext.clearFrameBuffer(clearColor);

@@ -582,13 +582,19 @@ void StartMenuScreen::draw3dTitle(float f)
 
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	renderContext.setViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight, 0.0f, 0.7f);
+	mce::ViewportOrigin viewportOrigin;
+	{
+		viewportOrigin.leftX = 0;
+		viewportOrigin.bottomLeftY = Minecraft::height - titleHeight;
+		viewportOrigin.topLeftY = 0;
+	}
+	renderContext.setViewport(Minecraft::width, titleHeight, 0.0f, 0.7f, viewportOrigin);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
 	
 	mce::MaterialPtr* pMaterial;
 
-	for (int i = 1; i < 2; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		MatrixStack::Ref matrix = MatrixStack::World.push();
 		matrix->translate(Vec3(0.4f, 0.6f, -12.0f));
@@ -673,7 +679,7 @@ void StartMenuScreen::draw3dTitle(float f)
 		}
 	}
 
-	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 }
 
 void StartMenuScreen::render(int a, int b, float c)

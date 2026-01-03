@@ -102,6 +102,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\TextureFiltering_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\WeatherConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\MapType.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.hpp" />
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
     <ProjectReference Include="..\Renderer.Null\Renderer.Null.vcxproj">

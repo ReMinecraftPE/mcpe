@@ -341,6 +341,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\MapType.hpp">
       <Filter>Header Files\HAL\Enums</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.hpp">
+      <Filter>Header Files\HAL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
@@ -591,6 +594,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\WorldConstants.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.cpp">
+      <Filter>Source Files\HAL</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -65,7 +65,7 @@ void RenderContextBase::setDepthRange(float nearVal, float farVal)
 {
 }
 
-void RenderContextBase::setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal)
+void RenderContextBase::setViewport(unsigned int width, unsigned int height, float nearVal, float farVal, const ViewportOrigin& origin)
 {
 }
 

@@ -69,7 +69,7 @@ namespace mce
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);
         void setDepthRange(float nearVal, float farVal);
-        void setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal);
+        void setViewport(unsigned int width, unsigned int height, float nearVal, float farVal, const ViewportOrigin& origin);
         void clearFrameBuffer(const Color& color);
         void clearStencilBuffer();
         void clearDepthStencilBuffer();
