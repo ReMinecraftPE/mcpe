@@ -465,30 +465,30 @@ endif()
 if(REMCPE_GFX_API STREQUAL "OGL")
     target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
-		renderer/hal/d3d11/API_OGL.cpp
-		renderer/hal/d3d11/BlendStateOGL.cpp
-		renderer/hal/d3d11/BufferOGL.cpp
-		renderer/hal/d3d11/ConstantBufferContainerOGL.cpp
-		renderer/hal/d3d11/DepthStencilStateOGL.cpp
-		renderer/hal/d3d11/FixedPipelineStateOGL.cpp
-		renderer/hal/d3d11/FogStateOGL.cpp
-		renderer/hal/d3d11/GPUEventsOGL.cpp
-		renderer/hal/d3d11/ImmediateBufferOGL.cpp
-		renderer/hal/d3d11/ProfileSectionOGL.cpp
-		renderer/hal/d3d11/RasterizerStateOGL.cpp
-		renderer/hal/d3d11/RenderContextOGL.cpp
-		renderer/hal/d3d11/RenderDeviceOGL.cpp
-		renderer/hal/d3d11/ResourceOGL.cpp
-		renderer/hal/d3d11/ShaderConstantOGL.cpp
-		renderer/hal/d3d11/ShaderConstantWithDataOGL.cpp
-		renderer/hal/d3d11/ShaderOGL.cpp
-		renderer/hal/d3d11/ShaderProgramOGL.cpp
-		renderer/hal/d3d11/ShaderResourceOGL.cpp
-		renderer/hal/d3d11/ShaderUniformOGL.cpp
-		renderer/hal/d3d11/TextureOGL.cpp
-		renderer/hal/d3d11/helpers/ErrorHandlerOGL.cpp
-		renderer/platform/d3d11/Extensions.cpp
-		renderer/platform/d3d11/ShaderPrecision.cpp
+		renderer/hal/ogl/API_OGL.cpp
+		renderer/hal/ogl/BlendStateOGL.cpp
+		renderer/hal/ogl/BufferOGL.cpp
+		renderer/hal/ogl/ConstantBufferContainerOGL.cpp
+		renderer/hal/ogl/DepthStencilStateOGL.cpp
+		renderer/hal/ogl/FixedPipelineStateOGL.cpp
+		renderer/hal/ogl/FogStateOGL.cpp
+		renderer/hal/ogl/GPUEventsOGL.cpp
+		renderer/hal/ogl/ImmediateBufferOGL.cpp
+		renderer/hal/ogl/ProfileSectionOGL.cpp
+		renderer/hal/ogl/RasterizerStateOGL.cpp
+		renderer/hal/ogl/RenderContextOGL.cpp
+		renderer/hal/ogl/RenderDeviceOGL.cpp
+		renderer/hal/ogl/ResourceOGL.cpp
+		renderer/hal/ogl/ShaderConstantOGL.cpp
+		renderer/hal/ogl/ShaderConstantWithDataOGL.cpp
+		renderer/hal/ogl/ShaderOGL.cpp
+		renderer/hal/ogl/ShaderProgramOGL.cpp
+		renderer/hal/ogl/ShaderResourceOGL.cpp
+		renderer/hal/ogl/ShaderUniformOGL.cpp
+		renderer/hal/ogl/TextureOGL.cpp
+		renderer/hal/ogl/helpers/ErrorHandlerOGL.cpp
+		renderer/platform/ogl/Extensions.cpp
+		renderer/platform/ogl/ShaderPrecision.cpp
 	)
 elseif(REMCPE_GFX_API STREQUAL "D3D11")
     target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_D3D11=1 -DFEATURE_GFX_SHADERS)
