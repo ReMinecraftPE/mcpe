@@ -5,11 +5,7 @@ project(reminecraftpe)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-if (WIN32 OR LINUX)
-set(CMAKE_CXX_STANDARD 11)
-else()
-set(CMAKE_CXX_STANDARD 98)
-endif()
+set(CMAKE_C_STANDARD 99)
 set(CXX_EXTENSIONS OFF)
 
 # Warnings
@@ -46,6 +42,9 @@ if(MCPE_WIN32)
         -static-libgcc
         -static-libstdc++
     )
+    set(CMAKE_CXX_STANDARD 11)
+else()
+    set(CMAKE_CXX_STANDARD 98)
 endif()
 
 # HaikuOS Network Library

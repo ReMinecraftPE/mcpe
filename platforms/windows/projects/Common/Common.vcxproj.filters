@@ -23,6 +23,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\common\vsnprintf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
