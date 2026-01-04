@@ -11,7 +11,7 @@ ConstantBufferContainerD3D11::ConstantBufferContainerD3D11()
 
 void ConstantBufferContainerD3D11::sync(RenderContext& context)
 {
-    for (int i = 0; i < m_shaderConstants->size(); i++)
+    for (size_t i = 0; i < m_shaderConstants->size(); i++)
     {
         const ShaderConstant* shaderConstant = (*m_shaderConstants)[i];
         if (shaderConstant->isDirty())
