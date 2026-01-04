@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include "RenderDeviceBase.hpp"
 
 using namespace mce;
@@ -14,7 +15,7 @@ const RenderDeviceBase::AttributeList& RenderDeviceBase::getAttributeList(unsign
 
 unsigned int RenderDeviceBase::registerOrGetAttributeListIndex(const AttributeList& attributeList)
 {
-    for (int i = 0; i < m_registeredAttributeLists.size(); i++)
+    for (size_t i = 0; i < m_registeredAttributeLists.size(); i++)
     {
         if (m_registeredAttributeLists[i] == attributeList)
         {
