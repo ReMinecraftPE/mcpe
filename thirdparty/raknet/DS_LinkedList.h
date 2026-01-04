@@ -983,9 +983,9 @@ namespace DataStructures
 				while ( current != this->root );
 			}
 
-			this->list_size = 0;
-			this->root = 0;
-			this->position = 0;
+		this->list_size = 0;
+		this->root = 0;
+		this->position = 0;
 	}
 
 	template <class CircularLinkedListType>
