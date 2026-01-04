@@ -24,7 +24,7 @@ void LevelDataPacket::write(RakNet::BitStream& bs)
 	// send a crapton of them in a raw packet(why? Laziness)
 	int chunksX = C_MAX_CHUNKS_X;
 	int chunksZ = C_MAX_CHUNKS_Z;
-	int minus9999 = -9999;
+	//int minus9999 = -9999;
 	RakNet::BitStream bs2;
 	bs.Write((unsigned char)PACKET_LEVEL_DATA);
 
@@ -64,7 +64,7 @@ void LevelDataPacket::write(RakNet::BitStream& bs)
 
 	if (pCompressedData)
 	{
-		float ratio = 100.0f * float(compSize) / float(uncompSize);
+		//float ratio = 100.0f * float(compSize) / float(uncompSize);
 		//LOG_I("Compression ratio: %.2f (%d comp, %d uncomp)", ratio, int(compSize), int(uncompSize));
 
 		int cs2 = int(compSize), us2 = int(uncompSize);

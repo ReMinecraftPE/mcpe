@@ -7,6 +7,10 @@ AppPlatformListener::AppPlatformListener(bool doInit)
     if (doInit) initListener();
 }
 
+AppPlatformListener::~AppPlatformListener()
+{
+}
+
 void AppPlatformListener::initListener(float priority)
 {
     m_pPlatform = AppPlatform::singleton();

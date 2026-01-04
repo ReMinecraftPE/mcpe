@@ -132,7 +132,6 @@ void GameRenderer::_renderItemInHand(float f, int i)
 
 void GameRenderer::_renderDebugOverlay(float a)
 {
-	ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
 	Font& font = *m_pMinecraft->m_pFont;
 
 	std::stringstream debugText;

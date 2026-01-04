@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "RenderMaterial.hpp"
 
 #include "common/utility/JsonParser.hpp"

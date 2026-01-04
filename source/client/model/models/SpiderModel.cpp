@@ -1,4 +1,5 @@
 #include "SpiderModel.hpp"
+#include "common/Utils.hpp"
 
 SpiderModel::SpiderModel() : 
 	Model(64, 64),

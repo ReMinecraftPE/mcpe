@@ -10,6 +10,7 @@
 
 #include <cmath>
 
+#include "compat/LegacyCPP.hpp"
 #include "Random.hpp"
 
 class Mth
