@@ -42,6 +42,7 @@ if(MCPE_WIN32)
         -static-libgcc
         -static-libstdc++
     )
+    # Modern MinGW doesn't support C++98 and will error if you try to use it
     set(CMAKE_CXX_STANDARD 11)
 else()
     set(CMAKE_CXX_STANDARD 98)
