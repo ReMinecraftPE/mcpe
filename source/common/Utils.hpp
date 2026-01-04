@@ -39,7 +39,9 @@
 #if MC_PLATFORM_WINPC
 
 #define WIN32_LEAN_AND_MEAN
+#ifndef NOMIMAX
 #define NOMINMAX /* don't define min() and max(). */
+#endif
 #include <windows.h>
 #include <direct.h>
 #include <io.h>
