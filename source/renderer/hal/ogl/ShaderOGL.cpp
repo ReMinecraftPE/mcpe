@@ -120,7 +120,7 @@ void ShaderOGL::linkShader()
     if (logLength > 1)
     {
         int charsWritten = 0;
-        char* infoLog;
+        char* infoLog = nullptr;
         xglGetProgramInfoLog(m_program, logLength, &charsWritten, infoLog);
 
         LOG_E("Compiler error:\n%s", infoLog);
