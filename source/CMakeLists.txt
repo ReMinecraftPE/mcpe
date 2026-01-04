@@ -458,13 +458,13 @@ message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
 
 # OGL Shader variant build hack
 if(REMCPE_GFX_API STREQUAL "OGL_SHADERS")
-    target_compile_definitions(reminecraftpe-core PUBLIC FEATURE_GFX_SHADERS)
+	target_compile_definitions(reminecraftpe-core PUBLIC FEATURE_GFX_SHADERS)
 	unset(REMCPE_GFX_API CACHE)
 	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
 endif()
 
 if(REMCPE_GFX_API STREQUAL "OGL")
-	target_compile_definitions(reminecraftpe-core PRIVATE MCE_GFX_API_OGL=1)
+	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/ogl/API_OGL.cpp
 		renderer/hal/ogl/BlendStateOGL.cpp
@@ -492,7 +492,7 @@ if(REMCPE_GFX_API STREQUAL "OGL")
 		renderer/platform/ogl/ShaderPrecision.cpp
 	)
 elseif(REMCPE_GFX_API STREQUAL "D3D11")
-	target_compile_definitions(reminecraftpe-core PRIVATE MCE_GFX_API_D3D11=1 FEATURE_GFX_SHADERS)
+	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_D3D11=1 FEATURE_GFX_SHADERS)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/d3d11/API_D3D11.cpp
 		renderer/hal/d3d11/BlendStateD3D11.cpp
@@ -518,7 +518,7 @@ elseif(REMCPE_GFX_API STREQUAL "D3D11")
 		renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
 	)
 elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
-	target_compile_definitions(reminecraftpe-core PRIVATE MCE_GFX_API_NULL=1)
+	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_NULL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/null/BlendStateNull.cpp
 		renderer/hal/null/BufferNull.cpp
