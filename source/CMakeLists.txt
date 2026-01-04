@@ -492,7 +492,7 @@ if(REMCPE_GFX_API STREQUAL "OGL")
 		renderer/platform/ogl/ShaderPrecision.cpp
 	)
 elseif(REMCPE_GFX_API STREQUAL "D3D11")
-	target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_D3D11=1 -DFEATURE_GFX_SHADERS)
+	target_compile_definitions(reminecraftpe-core PRIVATE MCE_GFX_API_D3D11=1 FEATURE_GFX_SHADERS)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/d3d11/API_D3D11.cpp
 		renderer/hal/d3d11/BlendStateD3D11.cpp
@@ -518,7 +518,7 @@ elseif(REMCPE_GFX_API STREQUAL "D3D11")
 		renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
 	)
 elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
-	target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_NULL=1)
+	target_compile_definitions(reminecraftpe-core PRIVATE MCE_GFX_API_NULL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/null/BlendStateNull.cpp
 		renderer/hal/null/BufferNull.cpp
