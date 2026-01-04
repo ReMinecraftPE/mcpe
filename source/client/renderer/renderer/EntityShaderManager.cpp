@@ -37,8 +37,6 @@ void EntityShaderManager::_setupShaderParameters(const Entity& entity,
 	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
 	mce::EntityConstants& cEntity = globalBuffers.m_entityConstants;
 
-	Vec3 entityPos = entity.m_pos;
-
 	Color tileLightColor = Color::WHITE * entity.getBrightness(a);
 
 	if (a != 1.0f)
