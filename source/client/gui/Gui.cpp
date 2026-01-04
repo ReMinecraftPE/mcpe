@@ -13,7 +13,7 @@
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-#ifdef _WIN32
+#ifdef _MSVC_VER
 #pragma warning(disable : 4244)
 #endif
 
