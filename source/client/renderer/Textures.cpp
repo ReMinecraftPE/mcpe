@@ -8,6 +8,7 @@
 
 #include "Textures.hpp"
 #include "common/Util.hpp"
+#include "common/Utils.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
 #define MIP_TAG "_mip"

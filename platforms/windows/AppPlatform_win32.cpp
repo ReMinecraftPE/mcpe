@@ -15,6 +15,7 @@
 
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
+#include "common/Utils.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
 #if MCE_GFX_API_OGL
