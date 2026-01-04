@@ -12,7 +12,7 @@
 #include "client/player/input/Multitouch.hpp"
 #include "client/player/input/Controller.hpp"
 #include "Frustum.hpp"
-#include "renderer/gl/GL.hpp"
+#include "renderer/GL/GL.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "thirdparty/glm/glm.hpp"
