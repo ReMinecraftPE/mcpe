@@ -13,7 +13,7 @@ endif()
 set(CXX_EXTENSIONS OFF)
 
 # Warnings
-add_compile_options(-Wall)
+add_compile_options(-Wall -Wno-unused-variable)
 if(WERROR)
     add_compile_options(-Werror)
 endif()
