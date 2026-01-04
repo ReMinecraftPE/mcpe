@@ -13,6 +13,7 @@ endif()
 set(CXX_EXTENSIONS OFF)
 
 # Warnings
+add_compile_options(-Wall)
 if(WERROR)
     add_compile_options(-Werror)
 endif()
