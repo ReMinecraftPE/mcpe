@@ -12,7 +12,7 @@
 #include "client/player/input/Multitouch.hpp"
 #include "client/player/input/Controller.hpp"
 #include "Frustum.hpp"
-#include "renderer/GL/GL.hpp"
+#include "renderer/gl/GL.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "thirdparty/glm/glm.hpp"
@@ -132,7 +132,6 @@ void GameRenderer::_renderItemInHand(float f, int i)
 
 void GameRenderer::_renderDebugOverlay(float a)
 {
-	ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
 	Font& font = *m_pMinecraft->m_pFont;
 
 	std::stringstream debugText;

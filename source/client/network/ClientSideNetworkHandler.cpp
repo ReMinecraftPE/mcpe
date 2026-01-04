@@ -58,8 +58,10 @@ void ClientSideNetworkHandler::levelGenerated(Level* level)
 
 void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // server guid
 {
-	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID(); // iOS 0.2.1 crashes right here after loading chunks
+#ifdef VERBOSE_CLIENT
+	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
 	printf_ignorable("onConnect, server guid: %s, local guid: %s", rakGuid.ToString(), localGuid.ToString());
+#endif
 
 	m_serverGUID = rakGuid;
 

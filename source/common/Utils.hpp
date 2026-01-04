@@ -39,6 +39,7 @@
 #if MC_PLATFORM_WINPC
 
 #define WIN32_LEAN_AND_MEAN
+#define NOMINMAX /* don't define min() and max(). */
 #include <windows.h>
 #include <direct.h>
 #include <io.h>
@@ -75,6 +76,10 @@ struct DIR
 DIR* opendir(const char* name);
 dirent* readdir(DIR* dir);
 void closedir(DIR* dir);
+
+#ifdef _WIN32
+#define _CRT_INTERNAL_NONSTDC_NAMES 1 // gives us the stat struct we need
+#endif
 
 #include <sys/stat.h>
 

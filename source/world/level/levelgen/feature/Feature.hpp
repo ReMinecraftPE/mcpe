@@ -9,6 +9,7 @@
 #pragma once
 
 #include "common/Random.hpp"
+#include "common/Utils.hpp"
 #include "world/level/TilePos.hpp"
 
 class Level;

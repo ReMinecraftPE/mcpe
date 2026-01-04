@@ -45,8 +45,10 @@ private:
 	PolygonArea* m_pAreaForward;
 	PolygonArea* m_pAreaBackward;
 	PolygonArea* m_pAreaJump;
+#ifdef ENH_NEW_TOUCH_CONTROLS
 	PolygonArea* m_pAreaForwardLeft;
 	PolygonArea* m_pAreaForwardRight;
+#endif
 	bool field_6C[8];
 };
 

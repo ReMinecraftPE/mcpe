@@ -13,7 +13,7 @@ protected:
 public:
 	bool hurt(Entity*, int) override;
 	void heal(int health) override;
-	void drop() override;
+	//void drop() override;
 	void hurtTo(int newHealth) override;
 
 private:

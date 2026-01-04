@@ -23,10 +23,6 @@ float Controller::stickValuesY[] = { 0.0f, 0.0f };
 float Controller::triggerValues[] = { 0.0f, 0.0f };
 bool Controller::inReset = true;
 
-#ifndef USE_NATIVE_ANDROID
-const float Controller_unk_1[3] = { 0.0f, 0.64f, -0.64f };
-#endif
-
 bool Controller::isValidStick(int stickNo)
 {
 	// We have 2 'sticks' on the Xperia Play

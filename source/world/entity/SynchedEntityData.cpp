@@ -153,7 +153,7 @@ void SynchedEntityData::assignValues(const ItemsArray& items)
 
 void SynchedEntityData::_WriteDataItem(IDataOutput& dos, const DataItem& dataItem)
 {
-    int8_t var2 = dataItem.getType() << C_ENTITYDATA_TYPE_SHIFT | dataItem.getId() & C_ENTITYDATA_MAX_ID_VALUE;
+    int8_t var2 = dataItem.getType() << C_ENTITYDATA_TYPE_SHIFT | (dataItem.getId() & C_ENTITYDATA_MAX_ID_VALUE);
     dos.writeInt8(var2);
     switch (dataItem.getType())
     {

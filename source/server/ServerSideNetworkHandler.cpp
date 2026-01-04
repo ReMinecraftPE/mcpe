@@ -972,8 +972,6 @@ void ServerSideNetworkHandler::commandGamemode(OnlinePlayer* player, const std::
     
 	if (!_checkPermissions(player)) return;
     
-	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-    
 	GameType gameMode;
 	std::stringstream ss;
 	ss.str(parms[0]);
