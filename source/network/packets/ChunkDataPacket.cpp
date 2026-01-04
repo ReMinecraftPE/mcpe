@@ -36,7 +36,7 @@ void ChunkDataPacket::write(RakNet::BitStream& bs)
 		{
 			if ((m_pChunk->m_updateMap[i] >> y) & 1)
 			{
-				int idx = ((i & 0xF) << 11) | ((i >> 4) << 7) + (y * 16);
+				int idx = ((i & 0xF) << 11) | (((i >> 4) << 7) + (y * 16));
 				//write the tile data
 				
 				m_data.Write((const char*) &m_pChunk->m_pBlockData[idx], 16 * sizeof(TileID));
