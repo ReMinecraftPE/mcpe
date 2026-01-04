@@ -426,6 +426,7 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/enums/ShaderStagesBits_JsonParser.cpp
     renderer/hal/enums/StencilOp_JsonParser.cpp
     renderer/hal/enums/TextureFiltering_JsonParser.cpp
+    renderer/hal/enums/VertexField.cpp
     renderer/hal/enums/VertexField_JsonParser.cpp
     renderer/hal/helpers/TextureHelper.cpp
 	renderer/hal/null/FixedPipelineStateNull.cpp
