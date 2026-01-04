@@ -412,7 +412,7 @@ bool ExternalFileLevelStorage::readLevelData(const std::string& path, LevelData&
 
 	uint8_t* data = new uint8_t[length];
 
-	if (fread(data, sizeof(uint8_t), length, pFile) != length)
+	if (fread(data, sizeof(uint8_t), length, pFile) != (size_t)length)
 	{
 		SAFE_DELETE_ARRAY(data);
 		goto _cleanup;
