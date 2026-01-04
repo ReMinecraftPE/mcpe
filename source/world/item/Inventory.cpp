@@ -320,7 +320,7 @@ bool Inventory::addItem(ItemInstance& instance)
 // Doesn't exist in PE
 void Inventory::tick()
 {
-    for (int i = 0; i < m_items.size(); i++)
+    for (size_t i = 0; i < m_items.size(); i++)
     {
 		ItemInstance* item = m_items[i];
 

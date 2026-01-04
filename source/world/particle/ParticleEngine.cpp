@@ -194,7 +194,7 @@ void ParticleEngine::renderLit(const Entity& camera, float a)
 	{
 		Tesselator& t = Tesselator::instance;
 
-		for (int i = 0; i < m_particles[tt].size(); ++i)
+		for (size_t i = 0; i < m_particles[tt].size(); ++i)
 		{
 			Particle* p = m_particles[tt].at(i);
 			p->render(t, a, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
