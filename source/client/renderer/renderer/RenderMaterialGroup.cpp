@@ -16,6 +16,11 @@ struct MaterialParent
 {
     std::string parentName;
     const rapidjson::Value* json;
+
+    MaterialParent()
+    {
+        json = nullptr;
+    }
 };
 
 typedef InheritanceTree<MaterialParent> MaterialTree;
