@@ -118,7 +118,7 @@ void ShaderD3D11::bindShader(RenderContext& context, const VertexFormat& format,
         }
     }
 
-    for (int i = 0; i < m_resourceList.size(); i++)
+    for (size_t i = 0; i < m_resourceList.size(); i++)
     {
         for (int t = 0; t < SHADER_TYPES_COUNT; t++)
         {
@@ -155,7 +155,7 @@ void ShaderD3D11::reflectShaderResources(ComInterface<ID3D11ShaderReflection> sh
 
     unsigned int shaderStagesBits = 1 << shaderType;
 
-    for (int i = 0; i < shaderDesc.ConstantBuffers; i++)
+    for (unsigned int i = 0; i < shaderDesc.ConstantBuffers; i++)
     {
         ID3D11ShaderReflectionConstantBuffer* constantBuffer = shaderReflection->GetConstantBufferByIndex(i);
 
@@ -221,7 +221,7 @@ void ShaderD3D11::reflectShaderAttributes(ComInterface<ID3D11ShaderReflection> s
     RenderDeviceBase::AttributeList attrList;
     D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
 
-    for (int i = 0; i < shaderDesc.InputParameters; i++)
+    for (unsigned int i = 0; i < shaderDesc.InputParameters; i++)
     {
         shaderReflection->GetInputParameterDesc(i, &paramDesc);
         // Check if semantic name begins with "SV_"
@@ -298,7 +298,7 @@ ComInterface<ID3D11InputLayout> ShaderD3D11::createInputLayout(const VertexForma
     std::vector<std::string> attrNames;
     attrNames.resize(attrList.size());
 
-    for (int i = 0; i < attrList.size(); i++)
+    for (size_t i = 0; i < attrList.size(); i++)
     {
         Attribute& attr = attrList[i];
         std::string& elementName = attrNames[attr.getLocation()];
