@@ -73,6 +73,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\compat\vsnprintf.c" />
     <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\vsnprintf.h" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Compat.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Info.hpp" />

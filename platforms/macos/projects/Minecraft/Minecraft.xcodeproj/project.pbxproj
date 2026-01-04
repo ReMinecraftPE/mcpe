@@ -1292,6 +1292,8 @@
 		84FFBF002ACA3416005A8CCF /* VariadicSQLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD83F2AC810630006A435 /* VariadicSQLParser.cpp */; };
 		84FFBF012ACA3416005A8CCF /* VitaIncludes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8412AC810630006A435 /* VitaIncludes.cpp */; };
 		84FFBF022ACA3416005A8CCF /* WSAStartupSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8442AC810630006A435 /* WSAStartupSingleton.cpp */; };
+		9D36D2F72F0B3C160031ADFD /* vsnprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D36D2F62F0B3C160031ADFD /* vsnprintf.c */; };
+		9D36D2F92F0B3C1F0031ADFD /* vsnprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2764,6 +2766,8 @@
 		84F77A6C2EA1C27B0045C907 /* LocalPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalPlayer.cpp; sourceTree = "<group>"; };
 		84F77A6D2EA1C27B0045C907 /* LocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LocalPlayer.hpp; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D36D2F62F0B3C160031ADFD /* vsnprintf.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsnprintf.c; sourceTree = "<group>"; };
+		9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vsnprintf.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2896,6 +2900,8 @@
 				84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */,
 				840DD57A2AC810620006A435 /* SDLKeyCodes.h */,
 				8466BD092E774DCD00DDDFC4 /* EndianDefinitions.h */,
+				9D36D2F62F0B3C160031ADFD /* vsnprintf.c */,
+				9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */,
 			);
 			name = compat;
 			path = ../../../../compat;
@@ -5401,6 +5407,7 @@
 				8406FD392AF1823700B09C1D /* Timer.hpp in Headers */,
 				84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */,
 				84CCBC402E6183F300E251AF /* DataIO.hpp in Headers */,
+				9D36D2F92F0B3C1F0031ADFD /* vsnprintf.h in Headers */,
 				8406FD3A2AF1823700B09C1D /* Util.hpp in Headers */,
 				8406FD3B2AF1823700B09C1D /* Utils.hpp in Headers */,
 				84E001B92AF3A3CB009B9555 /* SmoothFloat.hpp in Headers */,
@@ -6441,6 +6448,7 @@
 			files = (
 				84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */,
 				84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */,
+				9D36D2F72F0B3C160031ADFD /* vsnprintf.c in Sources */,
 				84CCBC3F2E6183F300E251AF /* DataIO.cpp in Sources */,
 				84EB0E102EE2D4D4008FB007 /* JsonParser.cpp in Sources */,
 				84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */,

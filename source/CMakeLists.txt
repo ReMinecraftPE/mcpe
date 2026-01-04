@@ -3,6 +3,7 @@ project(reminecraftpe-core)
 
 # Build
 add_library(reminecraftpe-core STATIC
+    ../compat/vsnprintf.c
     common/CThread.cpp
     common/DataIO.cpp
     common/Logger.cpp
