@@ -68,7 +68,9 @@ void ShaderOGL::finalizeShaderUniforms()
 
 void ShaderOGL::freeCompilerResources()
 {
+#ifdef USE_GL_SHADER_PRECISION
     xglReleaseShaderCompiler();
+#endif
     glGetError();
 }
 
