@@ -34,14 +34,14 @@ void Int64ArrayTag::load(IDataInput& dis)
 	uint8_t* buf = m_data.alloc<int64_t>(size);
 	if (buf)
 	{
-		for (uint32_t i = 0; i < elements; i++)
+		for (uint32_t i = 0; i < (uint32_t)elements; i++)
 		{
 			if (dis.numBytesLeft() == 0)
 				break;
 			if (i >= m_data.m_elements)
 			{
 				size = m_data.m_elements + MAX_SIZE;
-				if (elements < size)
+				if ((uint32_t)elements < size)
 					size = elements;
 				m_data.alloc<int64_t>(size);
 			}
