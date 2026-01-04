@@ -52,6 +52,7 @@ RandomLevelSource::RandomLevelSource(Level* level, int32_t seed, int version) :
 
 	Random random = m_random;
 	LOG_I("random.get : %d", random.genrand_int32() >> 1);
+	(void)random;
 }
 
 // @BUG: Potential collisions.

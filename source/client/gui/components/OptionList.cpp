@@ -340,6 +340,7 @@ void OptionList::initMultiplayerMenu()
 #ifdef __EMSCRIPTEN
 	m_items[currentIndex]->setDisabled(true);
 #endif
+	(void)currentIndex;
 }
 
 void OptionList::initMiscMenu()
