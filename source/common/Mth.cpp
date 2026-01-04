@@ -43,16 +43,19 @@ float Mth::invSqrt(float number)
 	// It looks familiar. With IDA I get a convoluted mess. I'm going to assume
 	// they just stole it from Quake.
 
-	int32_t i;
 	float x2, y;
 	const float threehalfs = 1.5F;
+	union {
+		float f;
+		int32_t i;
+	} un;
 
-	x2 = number * 0.5F;
-	std::memcpy(&i, &number, sizeof(float));   // evil floating point bit level hacking
-	i  = 0x5f3759df - ( i >> 1 );              // what the fuck?
-	std::memcpy(&y, &i, sizeof(float));
-	y  = y * ( threehalfs - ( x2 * y * y ) );  // 1st iteration
-  // y  = y * ( threehalfs - ( x2 * y * y ) );  // 2nd iteration, this can be removed
+	x2   = number * 0.5F;
+	un.f = number;                               // evil floating point bit level hacking
+	un.i = 0x5f3759df - ( un.i >> 1 );           // what the fuck?
+	y    = un.f;
+	y    = y * ( threehalfs - ( x2 * y * y ) );  // 1st iteration
+    // y    = y * ( threehalfs - ( x2 * y * y ) );  // 2nd iteration, this can be removed
 
 	return y;
 }
