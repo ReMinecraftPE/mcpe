@@ -117,6 +117,8 @@ void RenderContextD3D11::swapBuffers()
     }
 }
 
+// Mojang based this on:
+// https://github.com/microsoft/Windows-universal-samples/blob/082195895276903b6630d5cb4d03c9d365ec210c/Samples/LowLatencyInput/cpp/Common/DeviceResources.cpp#L123
 void RenderContextD3D11::createDeviceResources()
 {
     // This array defines the set of DirectX hardware feature levels this app will support.
@@ -167,14 +169,14 @@ void RenderContextD3D11::createDeviceResources()
     // Get ID3D11Device2
     {
         m_d3dDevice.release();
-        HRESULT hResult = device->QueryInterface(IID_ID3D11Device2, (void**)*m_d3dDevice);
+        HRESULT hResult = device->QueryInterface(__uuidof(ID3D11Device2), (void**)*m_d3dDevice);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
     // Get ID3D11DeviceContext2
     {
         m_d3dContext.release();
-        HRESULT hResult = context->QueryInterface(IID_ID3D11DeviceContext2, (void**)*m_d3dContext);
+        HRESULT hResult = context->QueryInterface(__uuidof(ID3D11DeviceContext2), (void**)*m_d3dContext);
         ErrorHandlerDXGI::checkForErrors(hResult);
     }
 
@@ -186,7 +188,7 @@ void RenderContextD3D11::createDeviceResources()
     }
 }
 
-// Mojang likely based this on:
+// Mojang based this on:
 // https://github.com/microsoft/Windows-universal-samples/blob/082195895276903b6630d5cb4d03c9d365ec210c/Samples/LowLatencyInput/cpp/Common/DeviceResources.cpp#L218
 // These resources need to be recreated every time the window size is changed.
 void RenderContextD3D11::createWindowSizeDependentResources(HWND hWnd, const Vec2& logicalSize, const Vec2& compositionScale)

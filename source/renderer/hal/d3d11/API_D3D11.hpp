@@ -10,6 +10,7 @@
 #include <d3d11_2.h>
 
 
+// https://github.com/microsoft/DirectXTK/wiki/DirectXHelpers
 // "The MinGW compiler Direct3D 11 headers are missing CD3D11_RECT, CD3D11_VIEWPORT, and CD3D11_DEPTH_STENCIL_VIEW_DESC along with D3D11_MIN_DEPTH and D3D11_MAX_DEPTH."
 #ifdef __MINGW32__
 #define D3D11_MIN_DEPTH 0.0f
