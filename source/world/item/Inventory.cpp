@@ -234,7 +234,7 @@ void Inventory::release(int slotNo)
 
 void Inventory::empty()
 {
-	for (int i = 0; i < m_items.size(); i++)
+	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		release(i);
 		m_items[i] = nullptr;
@@ -243,7 +243,7 @@ void Inventory::empty()
 
 void Inventory::clear()
 {
-	for (int i = 0; i < m_items.size(); i++)
+	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		release(i);
 	}
@@ -554,7 +554,7 @@ void Inventory::save(ListTag& tag) const
 	if (_getGameMode() == GAME_TYPE_CREATIVE)
 		return;
 
-	for (int i = 0; i < m_items.size(); i++)
+	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		const ItemInstance* item = m_items[i];
 
