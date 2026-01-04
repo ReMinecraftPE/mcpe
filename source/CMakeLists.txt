@@ -16,6 +16,7 @@ add_library(reminecraftpe-core STATIC
     common/utility/JsonParser.cpp
     common/utility/Singleton.cpp
     common/Utils.cpp
+    common/vsnprintf.c
     client/app/App.cpp
     client/app/AppPlatform.cpp
     client/app/AppPlatformListener.cpp

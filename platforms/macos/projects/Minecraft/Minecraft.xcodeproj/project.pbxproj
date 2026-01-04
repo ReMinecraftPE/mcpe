@@ -1292,6 +1292,7 @@
 		84FFBF002ACA3416005A8CCF /* VariadicSQLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD83F2AC810630006A435 /* VariadicSQLParser.cpp */; };
 		84FFBF012ACA3416005A8CCF /* VitaIncludes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8412AC810630006A435 /* VitaIncludes.cpp */; };
 		84FFBF022ACA3416005A8CCF /* WSAStartupSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8442AC810630006A435 /* WSAStartupSingleton.cpp */; };
+		9D7ACFA12F0712BC008F923D /* vsnprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D7ACFA02F0712BC008F923D /* vsnprintf.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2764,6 +2765,7 @@
 		84F77A6C2EA1C27B0045C907 /* LocalPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalPlayer.cpp; sourceTree = "<group>"; };
 		84F77A6D2EA1C27B0045C907 /* LocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LocalPlayer.hpp; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D7ACFA02F0712BC008F923D /* vsnprintf.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsnprintf.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3174,6 +3176,7 @@
 				84EB09FF2EE2CCC0008FB007 /* utility */,
 				840DD6372AC810620006A435 /* Utils.cpp */,
 				840DD6382AC810620006A435 /* Utils.hpp */,
+				9D7ACFA02F0712BC008F923D /* vsnprintf.c */,
 			);
 			path = common;
 			sourceTree = "<group>";
@@ -6441,6 +6444,7 @@
 			files = (
 				84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */,
 				84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */,
+				9D7ACFA12F0712BC008F923D /* vsnprintf.c in Sources */,
 				84CCBC3F2E6183F300E251AF /* DataIO.cpp in Sources */,
 				84EB0E102EE2D4D4008FB007 /* JsonParser.cpp in Sources */,
 				84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */,

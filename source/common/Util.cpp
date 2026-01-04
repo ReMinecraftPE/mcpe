@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Util.hpp"
+#include "compat/LegacyCPP.hpp"
 
 const std::string Util::EMPTY_STRING = "";
 

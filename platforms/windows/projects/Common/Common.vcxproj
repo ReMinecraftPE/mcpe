@@ -73,6 +73,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\common\vsnprintf.c" />
     <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp" />
