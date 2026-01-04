@@ -975,7 +975,9 @@ void ServerSideNetworkHandler::commandGamemode(OnlinePlayer* player, const std::
 	GameType gameMode;
 	std::stringstream ss;
 	ss.str(parms[0]);
-	ss >> (int&)gameMode;
+	int tmp;
+	ss >> tmp;
+	gameMode = static_cast<GameType>(tmp);
 
 	if (!_validateNum(player, gameMode, GAME_TYPES_MIN, GAME_TYPES_MAX))
 		return;
