@@ -102,7 +102,7 @@ void PacketUtil::ReadUserData(ItemInstance& item, RakNet::BitStream* bs)
     else if (item.getTile())
     {
         // Tile::readUserData (0.12.1) (never called or called virtually)
-        bool hasData;
+        bool hasData = false;
         bs->Read(hasData);
         if (!hasData)
             return;
