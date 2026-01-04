@@ -94,3 +94,4 @@ endif()
 # Disable warnings on third party libraries
 target_compile_options(stb_vorbis PRIVATE -w)
 target_compile_options(stb_image PRIVATE -w)
+target_compile_options(raknet PRIVATE -w)
