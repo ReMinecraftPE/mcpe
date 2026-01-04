@@ -34,6 +34,26 @@ public:
     
     Vec2 normalize() const;
 
+	Vec2 translate(float tx, float ty) const
+	{
+		return Vec2(x + tx, y + ty);
+	}
+
+	float lengthSqr() const
+	{
+		return x * x + y * y;
+	}
+
+	float length() const
+	{
+		return Mth::sqrt(lengthSqr());
+	}
+
+	Vec2 scale(float scale) const
+	{
+		return Vec2(x * scale, y * scale);
+	}
+
 	// these are also likely inlined, but I'll declare them in the header
 	Vec2 operator+(const Vec2& b) const
 	{
@@ -45,6 +65,11 @@ public:
 		return Vec2(x - b.x, y - b.y);
 	}
 
+	Vec2 operator*(const Vec2& b) const
+	{
+		return Vec2(x * b.x, y * b.y);
+	}
+
 	void operator+=(const Vec2& b)
 	{
 		x += b.x;
@@ -54,6 +79,18 @@ public:
 	void operator-=(const Vec2& b)
 	{
 		(*this) += -b;
+	}
+
+	void operator+=(float f)
+	{
+		x += f;
+		y += f;
+	}
+
+	void operator-=(float f)
+	{
+		x -= f;
+		y -= f;
 	}
 
 	void operator*=(float f)
@@ -73,9 +110,14 @@ public:
 		return Vec2(-x, -y);
 	}
 
+	Vec2 operator-(float f) const
+	{
+		return Vec2(x - f, y - f);
+	}
+
 	Vec2 operator*(float f) const
 	{
-		return Vec2(f * x, f * y);
+		return Vec2(x * f, y * f);
 	}
 
 	Vec2 operator/(float f) const
@@ -86,33 +128,13 @@ public:
 	bool operator==(const Vec2& b) const
 	{
 		return x == b.x &&
-			   y == b.y;
+			y == b.y;
 	}
 
 	bool operator!=(const Vec2& b) const
 	{
 		return x != b.x &&
-			   y != b.y;
-	}
-
-	Vec2 translate(float tx, float ty) const
-	{
-		return Vec2(x + tx, y + ty);
-	}
-
-	float lengthSqr() const
-	{
-		return x * x + y * y;
-	}
-
-	float length() const
-	{
-		return Mth::sqrt(lengthSqr());
-	}
-
-	Vec2 scale(float scale) const
-	{
-		return Vec2(x * scale, y * scale);
+			y != b.y;
 	}
 };
 

@@ -41,7 +41,8 @@ TextureData::~TextureData()
 
 void TextureData::_move(TextureData& other)
 {
-    this->m_bEnableFiltering = other.m_bEnableFiltering;
+    std::swap(this->m_bEnableFiltering, other.m_bEnableFiltering);
+    std::swap(this->m_bWrap, other.m_bWrap);
     this->m_imageData.move(other.m_imageData);
     this->m_texture.move(other.m_texture);
 }

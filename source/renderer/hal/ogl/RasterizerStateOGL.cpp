@@ -85,7 +85,7 @@ void RasterizerStateOGL::createRasterizerStateDescription(RenderContext& context
     {
         bindRasterizerState(context, true);
         context.m_currentState.m_rasterizerStateDescription = desc;
-        context.m_currentState.m_bBoundRasterizerState = 1;
+        context.m_currentState.m_bBoundRasterizerState = true;
     }
 }
 

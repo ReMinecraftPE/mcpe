@@ -23,4 +23,6 @@ namespace mce
 
         VERTEX_FIELD_INVALID = 0xFFFF
     };
+
+    extern const char* vertexFieldNames[];
 }

@@ -10,7 +10,7 @@ void ConstantBufferContainerBase::_init()
     m_reflectedShaderConstants = new std::vector<ShaderConstantBase>();
     m_shaderConstants = new std::vector<ShaderConstant*>();
     m_constantBufferBytes = new std::vector<uint8_t>();
-    m_currentlyMapped = false;
+    m_bCurrentlyMapped = false;
 }
 
 void ConstantBufferContainerBase::_init(ConstantBufferContainerBase& other)
@@ -44,9 +44,9 @@ void ConstantBufferContainerBase::_move(ConstantBufferContainerBase& other)
     m_constantBufferBytes = other.m_constantBufferBytes;
     other.m_constantBufferBytes = (std::vector<uint8_t>*)tempPtr;
 
-    bool temp = m_currentlyMapped;
-    m_currentlyMapped = other.m_currentlyMapped;
-    other.m_currentlyMapped = temp;
+    bool temp = m_bCurrentlyMapped;
+    m_bCurrentlyMapped = other.m_bCurrentlyMapped;
+    other.m_bCurrentlyMapped = temp;
 }
 
 void ConstantBufferContainerBase::reserveMemoryForShaderConstants(unsigned int shaderConstSize, unsigned int constBufferSize)

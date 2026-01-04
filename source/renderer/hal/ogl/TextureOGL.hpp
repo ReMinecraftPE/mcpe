@@ -31,6 +31,10 @@ namespace mce
     public:
         TextureOGL();
 
+    protected:
+        void _subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level);
+
+    public:
         void deleteTexture();
         void bindTexture(RenderContext& context, unsigned int textureUnit = 0, unsigned int shaderStagesBits = SHADER_STAGE_BIT_PIXEL);
         
@@ -47,6 +51,7 @@ namespace mce
 
         void move(TextureOGL& other);
 
+    public:
         static bool supportsMipMaps();
     };
 }

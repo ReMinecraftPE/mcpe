@@ -228,6 +228,14 @@ void RenderMaterialGroup::loadList(const std::string listPath)
     }
 }
 
+void RenderMaterialGroup::compileMaterials()
+{
+    for (std::map<const std::string, RenderMaterial>::iterator it = m_materials.begin(); it != m_materials.end(); it++)
+    {
+        it->second.compileShader();
+    }
+}
+
 void RenderMaterialGroup::onAppResumed()
 {
     m_materials.clear();

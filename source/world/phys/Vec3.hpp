@@ -101,14 +101,14 @@ public:
 		return Vec3(x + b.x, y + b.y, z + b.z);
 	}
 
-	Vec3 operator+(float f) const
-	{
-		return *this + Vec3(f, f, f);
-	}
-
 	Vec3 operator-(const Vec3& b) const
 	{
 		return Vec3(x - b.x, y - b.y, z - b.z);
+	}
+
+	Vec3 operator*(const Vec3& b) const
+	{
+		return Vec3(x * b.x, y * b.y, z * b.z);
 	}
 
 	void operator+=(const Vec3& b)

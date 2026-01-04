@@ -22,7 +22,7 @@ public:
 	~AppPlatform_win32();
 
 protected:
-	HWND _getHWND() const { return (HWND)m_hWND; }
+	HWND _getHWND() const { return (HWND)m_hWnd; }
 
 public:
 	void initSoundSystem() override;
@@ -66,15 +66,18 @@ public:
 	const char* const getWindowTitle() const { return m_WindowTitle; }
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 
+	HWND createWindow(HINSTANCE hInstance, WNDPROC wndProc, LPVOID lpParam, WORD iconId);
 	void initializeWindow(HWND hWnd, int nCmdShow);
 	void destroyWindow(HWND hWnd);
 	void centerWindow(HWND hWnd);
-	void enableOpenGL(HWND hWnd);
-	void disableOpenGL(HWND hWnd);
+	void enableGraphics(HWND hWnd);
+	void disableGraphics(HWND hWnd);
 	void destroyWindow() { destroyWindow(_getHWND()); }
 	void centerWindow() { centerWindow(_getHWND()); }
-	void enableOpenGL() { enableOpenGL(_getHWND()); }
-	void disableOpenGL() { disableOpenGL(_getHWND()); }
+	void enableGraphics() { enableGraphics(_getHWND()); }
+	void disableGraphics() { disableGraphics(_getHWND()); }
+	bool initGraphics();
+	void createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale);
 	void swapBuffers();
 
 	static MouseButtonType GetMouseButtonType(UINT iMsg);
@@ -84,9 +87,11 @@ public:
 private:
 	HICON m_cursor;
 
+#if MCE_GFX_API_OGL
 	// OpenGL
 	HDC m_hDC; // device context
 	HGLRC m_hRC; // render context
+#endif
 
 	const char* m_WindowTitle;
 	int m_ScreenWidth;
@@ -96,6 +101,7 @@ private:
 	int m_UserInputStatus;
 	eDialogType m_DialogType;
 
+	bool m_bHasGraphics;
 	bool m_bIsFocused;
 	bool m_bGrabbedMouse;
 	bool m_bActuallyGrabbedMouse;

@@ -3,6 +3,7 @@
 #include "VertexFormat.hpp"
 #include "world/phys/Vec2.hpp"
 #include "world/phys/Vec3.hpp"
+#include "GameMods.hpp"
 
 using namespace mce;
 
@@ -27,7 +28,7 @@ void VertexFormat::_init()
 {
     m_fieldMask = 0;
     m_vertexSize = 0;
-    memset(m_fieldOffset, -1, sizeof(m_fieldOffset));
+    memset(m_fieldOffset, UINT8_MAX, sizeof(m_fieldOffset));
 }
 
 VertexFormat::VertexFormat()
@@ -38,14 +39,11 @@ VertexFormat::VertexFormat()
 void VertexFormat::enableField(VertexField vertexField)
 {
     if (hasField(vertexField)) return;
-    //if (vertexField != VERTEX_FIELD_POSITION) return;
 
     m_fieldOffset[vertexField] = m_vertexSize;
-    uint8_t v6 = m_vertexSize + VertexFormat::FieldSize[vertexField];
-    uint8_t v8 = v6 & 3;
-    m_vertexSize = v6;
-    if (v8)
-        m_vertexSize += 4 - v8;
+    m_vertexSize = m_vertexSize + VertexFormat::FieldSize[vertexField];
+    if (m_vertexSize != 4 * (m_vertexSize >> 2))
+        m_vertexSize  = 4 * (m_vertexSize >> 2) + 4;
     m_fieldMask |= (1 << vertexField);
 }
 
@@ -73,7 +71,7 @@ bool VertexFormat::operator!=(const VertexFormat &other) const
 
 bool VertexFormat::operator<(const VertexFormat &other) const
 {
-    return (unsigned int)memcmp(this, &other, sizeof(VertexFormat)) >> 31;
+    return memcmp(this, &other, sizeof(VertexFormat)) < 0;
 }
 
 bool VertexFormat::HasField(uint8_t fieldMask, VertexField vertexField)

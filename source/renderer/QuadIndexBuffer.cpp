@@ -2,6 +2,7 @@
 #include <vector>
 #include <typeinfo>
 #include "QuadIndexBuffer.hpp"
+#include "RenderContextImmediate.hpp"
 
 using namespace mce;
 
@@ -68,9 +69,10 @@ Buffer& QuadIndexBuffer::getGlobalQuadBuffer(RenderContext& context, unsigned in
         m_capacity *= 2;
 
     std::vector<uint8_t> indices;
+    const mce::RenderContext& renderContext = mce::RenderContextImmediate::getAsConst();
 
     // Use 16-bit indices for smaller buffers to save memory, otherwise use 32-bit.
-    if (m_capacity < 0x10000 || !RenderContext::supports32BitIndices())
+    if (m_capacity < 0x10000 || !renderContext.supports32BitIndices())
     {
         m_indexSize = sizeof(uint16_t);
         _makeIndexBuffer<uint16_t>(indices, m_capacity);
@@ -82,6 +84,8 @@ Buffer& QuadIndexBuffer::getGlobalQuadBuffer(RenderContext& context, unsigned in
     }
 
     void* data = &indices[0];
+
+    m_globalBuffer.releaseBuffer();
 
     m_globalBuffer.createDynamicIndexBuffer(context, indices.size());
     m_globalBuffer.updateBuffer(context, m_indexSize, data, indices.size() / m_indexSize);

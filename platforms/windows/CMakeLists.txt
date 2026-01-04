@@ -8,11 +8,23 @@ target_compile_definitions(reminecraftpe-core
 
 # Libraries
 target_link_libraries(reminecraftpe-core
-    PUBLIC opengl32
-    PUBLIC glu32
     PUBLIC gdi32
     PUBLIC uuid
 )
+
+if(REMCPE_GFX_API STREQUAL "OGL")
+    target_link_libraries(reminecraftpe-core
+        PUBLIC opengl32
+        PUBLIC glu32
+    )
+elseif(REMCPE_GFX_API STREQUAL "D3D11")
+    target_link_libraries(reminecraftpe-core
+        PUBLIC d3d11
+        PUBLIC d3dcompiler
+        PUBLIC dxgi
+        PUBLIC dxguid
+    )
+endif()
 
 # Build
 add_executable(reminecraftpe WIN32

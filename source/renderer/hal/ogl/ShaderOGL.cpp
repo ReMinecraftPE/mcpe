@@ -9,6 +9,7 @@
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "renderer/hal/ogl/helpers/ErrorHandlerOGL.hpp"
 #include "renderer/platform/ogl/ShaderPrecision.hpp"
 
 using namespace mce;
@@ -61,7 +62,7 @@ void ShaderOGL::finalizeShaderUniforms()
     for (int i = 0; i < m_uniformList.size(); i++)
     {
         ShaderUniformOGL& uniform = m_uniformList[i];
-        uniform.m_shaderConstant = uniform.m_constantBufferContainer->getUnspecializedShaderConstant(uniform.m_name);
+        uniform.m_pShaderConstant = uniform.m_pConstantBufferContainer->getUnspecializedShaderConstant(uniform.m_name);
     }
 }
 
@@ -78,7 +79,7 @@ void ShaderOGL::resetLastProgram()
 
 void ShaderOGL::createAndAttachPrograms()
 {
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
     
     m_program = xglCreateProgram();
 
@@ -87,14 +88,14 @@ void ShaderOGL::createAndAttachPrograms()
     if (m_geometryShader.isValid())
         xglAttachShader(m_program, m_geometryShader.m_shaderName);
     
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void ShaderOGL::linkShader()
 {
     xglLinkProgram(m_program);
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 
     GLint linkStatus;
     xglGetProgramiv(m_program, GL_LINK_STATUS, &linkStatus);
@@ -154,7 +155,7 @@ void ShaderOGL::bindVertexPointers(const VertexFormat& vertexFormat, const void*
             vertexFormat.getFieldOffset(vertexField, vertexData)
         );
 
-        ErrorHandler::checkForErrors();
+        ErrorHandlerOGL::checkForErrors();
     }
 }
 
@@ -229,7 +230,7 @@ void ShaderOGL::reflectShaderUniforms()
             const std::string& bufferName = uniformMetadata.m_constantBufferMetaDataParent->getConstantBufferName();
             ConstantBufferContainer* pBufferContainer = bufferManager.findConstantBufferContainer(bufferName);
             pBufferContainer->registerReflectedShaderParameter(uniformMetadata);
-            uniform.m_constantBufferContainer = pBufferContainer;
+            uniform.m_pConstantBufferContainer = pBufferContainer;
 
             m_uniformList.push_back(uniform);
         }

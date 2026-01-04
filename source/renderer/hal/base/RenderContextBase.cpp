@@ -65,7 +65,7 @@ void RenderContextBase::setDepthRange(float nearVal, float farVal)
 {
 }
 
-void RenderContextBase::setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal)
+void RenderContextBase::setViewport(unsigned int width, unsigned int height, float nearVal, float farVal, const ViewportOrigin& origin)
 {
 }
 
@@ -85,9 +85,11 @@ void RenderContextBase::clearContextState()
 {
 	m_currentState.clear();
     m_immediateBuffer = ImmediateBuffer();
-    m_lastShaderPrograms[SHADER_TYPE_VERTEX] = nullptr;
-    m_lastShaderPrograms[SHADER_TYPE_FRAGMENT] = nullptr;
-    m_lastShaderPrograms[SHADER_TYPE_GEOMETRY] = nullptr;
+
+    for (int i = 0; i < SHADER_TYPES_COUNT; i++)
+    {
+        m_lastShaderPrograms[i] = nullptr;
+    }
 }
 
 void RenderContextBase::setRenderTarget()
@@ -118,12 +120,17 @@ uint8_t RenderContextBase::getStencilReference() const
     return m_stencilReference;
 }
 
-int RenderContextBase::getMaxVertexCount()
+int RenderContextBase::getMaxVertexCount() const
 {
-    return 0;
+    return -1;
 }
 
-bool RenderContextBase::supports32BitIndices()
+bool RenderContextBase::supports32BitIndices() const
+{
+    return true;
+}
+
+bool RenderContextBase::supports16BitUnsignedUVs() const
 {
     return true;
 }

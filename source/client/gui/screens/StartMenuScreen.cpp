@@ -124,10 +124,14 @@ const char* gSplashes[] =
 	"Complex cellular automata!",
 	"Yes, sir!",
 	"Played by cowboys!",
+#if MCE_GFX_API_OGL
 #ifdef USE_GLES
 	"OpenGL ES 1.1!",
 #else
 	"OpenGL 1.5!",
+#endif
+#elif MCE_GFX_API_D3D11
+	"Direct3D 11.1!"
 #endif
 	"Thousands of colors!",
 	"Try it!",
@@ -623,7 +627,13 @@ void StartMenuScreen::draw3dTitle(float f)
 
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	renderContext.setViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight, 0.0f, 0.7f);
+	mce::ViewportOrigin viewportOrigin;
+	{
+		viewportOrigin.leftX = 0;
+		viewportOrigin.bottomLeftY = Minecraft::height - titleHeight;
+		viewportOrigin.topLeftY = 0;
+	}
+	renderContext.setViewport(Minecraft::width, titleHeight, 0.0f, 0.7f, viewportOrigin);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
 	
@@ -714,7 +724,7 @@ void StartMenuScreen::draw3dTitle(float f)
 		}
 	}
 
-	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 }
 
 void StartMenuScreen::render(int a, int b, float c)

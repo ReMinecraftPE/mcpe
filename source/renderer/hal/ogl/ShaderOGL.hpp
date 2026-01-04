@@ -10,7 +10,6 @@
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/base/ShaderBase.hpp"
 #include "renderer/hal/enums/ShaderPrimitiveTypes.hpp"
-#include "renderer/hal/helpers/ErrorHandler.hpp"
 #include "renderer/hal/interface/ShaderProgram.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
 

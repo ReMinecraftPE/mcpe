@@ -42,6 +42,7 @@ namespace mce
 
         MaterialPtr getMaterial(const std::string& name);
         void loadList(const std::string listPath);
+        void compileMaterials();
 
         void onAppResumed() override;
         void onAppSuspended() override;

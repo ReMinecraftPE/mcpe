@@ -200,3 +200,12 @@ bool gl::supports32BitIndices()
     }
     return isSupported == 1;
 }
+
+bool gl::supports16BitUnsignedUVs()
+{
+#ifdef FEATURE_GFX_SHADERS
+    return true;
+#else
+    return false;
+#endif
+}
