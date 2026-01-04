@@ -10,7 +10,7 @@ void MultiPlayerLevel::tick()
     _setTime(getTime() + 1); // Bypasses the normally-required update to LevelListeners
     updateSkyDarken();
 
-    for (int i = 0; i < 10 && i < m_reEntries.size(); i++)
+    for (size_t i = 0; i < 10 && i < m_reEntries.size(); i++)
     {
         Entity* pEntity = m_reEntries[i];
         if (std::find(m_entities.begin(), m_entities.end(), pEntity) != m_entities.end())
