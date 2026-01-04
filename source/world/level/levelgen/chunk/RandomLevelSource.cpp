@@ -378,69 +378,69 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 
 	for (int i = 0; i < 10; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(128),
-		          m_random.nextInt(16));
-		ClayFeature(Tile::clay->m_ID, 32).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		ClayFeature(Tile::clay->m_ID, 32).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	
 	// Start of ore generation
 
 	for (int i = 0; i < 20; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(128),
-		          m_random.nextInt(16));
-		OreFeature(Tile::dirt->m_ID, 32).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::dirt->m_ID, 32).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(128),
-		          m_random.nextInt(16));
-		OreFeature(Tile::gravel->m_ID, 32).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::gravel->m_ID, 32).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 20; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(128),
-		          m_random.nextInt(16));
-		OreFeature(Tile::coalOre->m_ID, 16).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(128);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::coalOre->m_ID, 16).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 20; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(64),
-		          m_random.nextInt(16));
-		OreFeature(Tile::ironOre->m_ID, 8).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(64);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::ironOre->m_ID, 8).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 2; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(32),
-		          m_random.nextInt(16));
-		OreFeature(Tile::goldOre->m_ID, 8).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(32);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::goldOre->m_ID, 8).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 8; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(16),
-		          m_random.nextInt(16));
-		OreFeature(Tile::redStoneOre->m_ID, 7).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(16);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::redStoneOre->m_ID, 7).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 1; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(16),
-		          m_random.nextInt(16));
-		OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(16);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 1; i++)
 	{
-		TilePos o(m_random.nextInt(16),
-		          m_random.nextInt(16) + m_random.nextInt(16),
-		          m_random.nextInt(16));
-		OreFeature(Tile::lapisOre->m_ID, 6).place(m_pLevel, &m_random, tp + o);
+		int xo = m_random.nextInt(16);
+		int yo = m_random.nextInt(16) + m_random.nextInt(16);
+		int zo = m_random.nextInt(16);
+		OreFeature(Tile::lapisOre->m_ID, 6).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 
 	// End of ore generation
