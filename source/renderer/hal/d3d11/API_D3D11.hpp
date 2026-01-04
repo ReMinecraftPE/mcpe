@@ -5,9 +5,6 @@
 // Must always include Winsock2.h before windows.h
 #include <winsock2.h>
 
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "dxguid.lib")
-
 #include <d3d11.h>
 #include <d3d11_1.h>
 #include <d3d11_2.h>
