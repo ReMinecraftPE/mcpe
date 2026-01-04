@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include <fstream>
+#include <time.h>
 
 #include "thirdparty/stb_image/include/stb_image.h"
 
