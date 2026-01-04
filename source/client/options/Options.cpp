@@ -101,7 +101,7 @@ void Options::_load()
 {
 	std::vector<std::string> strings = readPropertiesFromFile(m_filePath);
 
-	for (int i = 0; i < strings.size(); i += 2)
+	for (size_t i = 0; i < strings.size(); i += 2)
 	{
 		std::string key = strings[i], value = strings[i + 1];
 
@@ -250,7 +250,7 @@ void Options::savePropertiesToFile(const std::string& filePath, std::vector<std:
 
 	os << "#Config file for Minecraft PE.  The # at the start denotes a comment, removing it makes it a command.\n\n";
 
-	for (int i = 0; i < properties.size(); i += 2)
+	for (size_t i = 0; i < properties.size(); i += 2)
 		os << properties[i] << ':' << properties[i + 1] << '\n';
 }
 
