@@ -58,7 +58,7 @@ void OptionsScreen::init()
 		tabButtons[i]->m_width = buttonWidth;
 		tabButtons[i]->m_height = buttonHeight;
 		tabButtons[i]->m_xPos = startX + (buttonWidth + buttonSpacing) * i;
-		tabButtons[i]->m_yPos = 4.3;
+		tabButtons[i]->m_yPos = 4;
 	}
 
 	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)

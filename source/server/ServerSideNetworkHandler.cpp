@@ -99,7 +99,7 @@ void ServerSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 		// remove it from our world
 		m_pLevel->removeEntity(pPlayer);
 	}
-	else if (pPlayer = getPendingPlayerByGUID(guid))
+	else if ((pPlayer = getPendingPlayerByGUID(guid)))
 	{
 		// Player was still loading
 		m_pendingPlayers.erase(guid);

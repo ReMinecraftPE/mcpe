@@ -467,6 +467,8 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			}
 			break;
 		}
+		default:
+			break;
 	}
 
 	if (bInteract && action.isInteract() && canInteract)

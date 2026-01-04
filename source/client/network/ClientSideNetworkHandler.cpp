@@ -105,6 +105,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LoginSt
 	case LoginStatusPacket::STATUS_SERVER_OUTDATED:
 		m_pMinecraft->setScreen(new DisconnectionScreen("Could not connect: Outdated server!"));
 		break;
+	case LoginStatusPacket::STATUS_SUCCESS:
+		break;
 	}
 }
 
