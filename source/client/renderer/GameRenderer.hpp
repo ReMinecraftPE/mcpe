@@ -94,6 +94,8 @@ public:
 
 	int m_shownFPS, m_shownChunkUpdates, m_lastUpdatedMS;
 
+	int m_keepPic;
+
 	int m_envTexturePresence;
 	Random m_random;
 };

@@ -61,6 +61,7 @@ namespace mce
 
     public:
         void useWith(RenderContext& context, const VertexFormat& vertexFormat, const void *basePtr);
+        void compileShader();
         void addState(RenderState state);
         bool hasState(RenderState state) const { return (m_stateMask & (1 << state)) != 0; }
         

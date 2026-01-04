@@ -173,6 +173,8 @@ void Textures::tick()
 
 		mce::Texture& texture = pData->m_texture;
 
+		texture.enableWriteMode(renderContext);
+
 		for (int x = 0; x < pDynaTex->m_textureSize; x++)
 		{
 			for (int y = 0; y < pDynaTex->m_textureSize; y++)
@@ -184,6 +186,8 @@ void Textures::tick()
 					16, 16, 0);
 			}
 		}
+
+		texture.disableWriteMode(renderContext);
 	}
 }
 

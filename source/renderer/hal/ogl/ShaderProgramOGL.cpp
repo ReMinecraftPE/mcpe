@@ -5,7 +5,7 @@
 #ifdef FEATURE_GFX_SHADERS
 
 #include "RenderContextOGL.hpp"
-#include "renderer/hal/helpers/ErrorHandler.hpp"
+#include "renderer/hal/ogl/helpers/ErrorHandlerOGL.hpp"
 
 using namespace mce;
 
@@ -126,7 +126,7 @@ std::string _getVersionMacro()
 
 bool ShaderProgramOGL::compileShaderProgram(std::string& shaderSource)
 {
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
     
     m_shaderName = xglCreateShader(shaderTypeMap[m_shaderType]);
 
@@ -155,7 +155,7 @@ bool ShaderProgramOGL::compileShaderProgram(std::string& shaderSource)
         return false;
     }
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 
     return true;
 }

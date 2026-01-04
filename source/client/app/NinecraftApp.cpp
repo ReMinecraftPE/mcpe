@@ -113,9 +113,9 @@ void NinecraftApp::_updateStats()
 void NinecraftApp::_reloadTextures()
 {
 	TextureData* pTexture;
-	pTexture = m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	pTexture = m_pTextures->loadAndBindTexture(C_TERRAIN_NAME, true);
 	GetPatchManager()->PatchTextures(*pTexture, TYPE_TERRAIN);
-	pTexture = m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+	pTexture = m_pTextures->loadAndBindTexture(C_ITEMS_NAME, true);
 	GetPatchManager()->PatchTextures(*pTexture, TYPE_ITEMS);
 
 	GetPatchManager()->PatchTiles();

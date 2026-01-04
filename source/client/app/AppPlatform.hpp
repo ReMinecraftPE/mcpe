@@ -124,6 +124,6 @@ public:
 
 public:
 	ListenerMap m_listeners;
-	void* m_hWND; // the Mojang solution
+	void* m_hWnd; // the Mojang solution
 };
 

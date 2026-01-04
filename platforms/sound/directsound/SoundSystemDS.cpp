@@ -16,7 +16,7 @@
 SoundSystemDS::SoundSystemDS()
 {
 	m_available = false;
-	m_hWnd = (HWND)AppPlatform::singleton()->m_hWND;
+	m_hWnd = (HWND)AppPlatform::singleton()->m_hWnd;
 
 	HRESULT result;
 	DSBUFFERDESC bufferDesc;

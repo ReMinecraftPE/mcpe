@@ -784,6 +784,8 @@ void LevelRenderer::renderLineBox(const AABB& aabb, const mce::MaterialPtr& mate
 	glLineWidth(lineWidth);
 #endif
 
+	// @TODO: cache this as a mesh, then translate matrix
+
 	Tesselator& t = Tesselator::instance;
 
 	t.begin(mce::PRIMITIVE_MODE_LINE_STRIP, 5);
@@ -1361,8 +1363,6 @@ void LevelRenderer::tileChanged(const TilePos& pos)
 	setDirty(pos - 1, pos + 1);
 }
 
-extern int t_keepPic;
-
 void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
 	Mob* pOldMob = m_pMinecraft->m_pCameraEntity;
@@ -1386,7 +1386,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	g_bDisableParticles = false;
 #endif
 
-	t_keepPic = -1;
+	m_pMinecraft->m_pGameRenderer->m_keepPic = -1;
 
 	static char str[256];
 	// @HUH: This has the potential to overwrite a file
@@ -1691,7 +1691,10 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 	float fov = gameRenderer.getFov(f);
 
 	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
-	projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
+	// Java
+	//projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
+	// PE (0.12.1)
+	projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 2.0f, renderDistance * 5120.0f);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.push();
 	_setupFog(camera, 0);

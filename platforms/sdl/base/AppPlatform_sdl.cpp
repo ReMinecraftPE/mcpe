@@ -30,7 +30,7 @@ void AppPlatform_sdl::_init(std::string storageDir)
 {
 	m_storageDir = storageDir;
 
-	m_hWND = _getHWND();
+	m_hWnd = _getHWND();
 
 	m_pIcon = nullptr;
 

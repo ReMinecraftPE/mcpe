@@ -49,4 +49,5 @@ namespace gl
     bool supportsMipmaps();
     bool supportsImmediateMode();
     bool supports32BitIndices();
+    bool supports16BitUnsignedUVs();
 }

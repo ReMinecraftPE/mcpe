@@ -53,7 +53,6 @@ void WorldConstants::refreshWorldConstants()
     // Sync the updated constant buffer data to the GPU.
     sync();
 #else
-
     RenderContext& renderContext = RenderContextImmediate::get();
 
     if (MatrixStack::Projection.isDirty())

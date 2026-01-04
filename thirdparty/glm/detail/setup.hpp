@@ -740,6 +740,36 @@ namespace glm
 #	endif
 #endif//GLM_MESSAGE
 
+///////////////////////////////////////////////////////////////////////////////////
+// Clip control, define GLM_FORCE_DEPTH_ZERO_TO_ONE before including GLM
+// to use a clip space between 0 to 1.
+// Coordinate system, define GLM_FORCE_LEFT_HANDED before including GLM
+// to use left handed coordinate system by default.
+
+#define GLM_CLIP_CONTROL_ZO_BIT		(1 << 0) // ZERO_TO_ONE
+#define GLM_CLIP_CONTROL_NO_BIT		(1 << 1) // NEGATIVE_ONE_TO_ONE
+#define GLM_CLIP_CONTROL_LH_BIT		(1 << 2) // LEFT_HANDED, For DirectX, Metal, Vulkan
+#define GLM_CLIP_CONTROL_RH_BIT		(1 << 3) // RIGHT_HANDED, For OpenGL, default in GLM
+
+#define GLM_CLIP_CONTROL_LH_ZO (GLM_CLIP_CONTROL_LH_BIT | GLM_CLIP_CONTROL_ZO_BIT)
+#define GLM_CLIP_CONTROL_LH_NO (GLM_CLIP_CONTROL_LH_BIT | GLM_CLIP_CONTROL_NO_BIT)
+#define GLM_CLIP_CONTROL_RH_ZO (GLM_CLIP_CONTROL_RH_BIT | GLM_CLIP_CONTROL_ZO_BIT)
+#define GLM_CLIP_CONTROL_RH_NO (GLM_CLIP_CONTROL_RH_BIT | GLM_CLIP_CONTROL_NO_BIT)
+
+#ifdef GLM_FORCE_DEPTH_ZERO_TO_ONE
+#	ifdef GLM_FORCE_LEFT_HANDED
+#		define GLM_CONFIG_CLIP_CONTROL GLM_CLIP_CONTROL_LH_ZO
+#	else
+#		define GLM_CONFIG_CLIP_CONTROL GLM_CLIP_CONTROL_RH_ZO
+#	endif
+#else
+#	ifdef GLM_FORCE_LEFT_HANDED
+#		define GLM_CONFIG_CLIP_CONTROL GLM_CLIP_CONTROL_LH_NO
+#	else
+#		define GLM_CONFIG_CLIP_CONTROL GLM_CLIP_CONTROL_RH_NO
+#	endif
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Qualifiers
 

@@ -1,8 +1,8 @@
 #include <typeinfo>
 
-#include "renderer/hal/helpers/ErrorHandler.hpp"
-#include "API_OGL.hpp"
 #include "TextureOGL.hpp"
+#include "API_OGL.hpp"
+#include "helpers/ErrorHandlerOGL.hpp"
 
 using namespace mce;
 
@@ -47,21 +47,36 @@ GLenum getOpenGLTextureTypeFromTextureFormat(TextureFormat textureFormat)
     }
 }
 
+void TextureOGL::_subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
+{
+    bindTexture(context);
+    ErrorHandlerOGL::checkForErrors();
+
+    if (m_state.m_textureTarget != GL_TEXTURE_2D)
+    {
+        LOG_E("Unknown textureTarget %d", m_state.m_textureTarget);
+        throw std::bad_cast();
+    }
+
+    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
+    ErrorHandlerOGL::checkForErrors();
+}
+
 void TextureOGL::deleteTexture()
 {
-	ErrorHandler::checkForErrors();
+	ErrorHandlerOGL::checkForErrors();
 
     glDeleteTextures(1, &m_state.m_textureName);
     TextureBase::deleteTexture();
 
     *this = TextureOGL();
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void TextureOGL::bindTexture(RenderContext& context, unsigned int textureUnit, unsigned int shaderStagesBits)
 {
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 
     GLenum texture = GL_TEXTURE0 + textureUnit;
     if (context.m_activeTexture != texture)
@@ -70,7 +85,7 @@ void TextureOGL::bindTexture(RenderContext& context, unsigned int textureUnit, u
         context.m_activeTexture = texture;
     }
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 
     glBindTexture(m_state.m_textureTarget, m_state.m_textureName);
 
@@ -78,7 +93,7 @@ void TextureOGL::bindTexture(RenderContext& context, unsigned int textureUnit, u
     activeTextureUnit.m_textureUnit = textureUnit;
     activeTextureUnit.m_bIsShaderUniformDirty = true;
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void TextureOGL::convertToMipmapedTexture(RenderContext& context, unsigned int mipmaps)
@@ -98,27 +113,19 @@ void TextureOGL::convertToMipmapedTexture(RenderContext& context, unsigned int m
         glTexParameteri(m_state.m_textureTarget, GL_TEXTURE_MAX_LEVEL, mipmaps - 1);
     }
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void TextureOGL::subBuffer(RenderContext& context, const void* pixels, unsigned int xoffset, unsigned int yoffset, unsigned int width, unsigned int height, unsigned int level)
 {
-    bindTexture(context);
-    ErrorHandler::checkForErrors();
-
-    if (m_state.m_textureTarget != GL_TEXTURE_2D)
-    {
-        LOG_E("Unknown textureTarget %d", m_state.m_textureTarget);
-        throw std::bad_cast();
-    }
-
-    glTexSubImage2D(GL_TEXTURE_2D, level, xoffset, yoffset, width, height, m_state.m_textureFormat, m_state.m_textureType, pixels);
-    ErrorHandler::checkForErrors();
+    TextureBase::subBuffer(context, pixels, xoffset, yoffset, width, height, level);
+    _subBuffer(context, pixels, xoffset, yoffset, width, height, level);
 }
 
 void TextureOGL::subBuffer(RenderContext& context, const void* pixels)
 {
-    subBuffer(context, pixels, 0, 0, m_description.width, m_description.height, 0);
+    TextureBase::subBuffer(context, pixels);
+    _subBuffer(context, pixels, 0, 0, m_description.width, m_description.height, 0);
 }
 
 void TextureOGL::createMipMap(RenderContext& context, const void* pixels, unsigned int width, unsigned int height, unsigned int level)
@@ -131,21 +138,21 @@ void TextureOGL::createMipMap(RenderContext& context, const void* pixels, unsign
     
     glTexImage2D(GL_TEXTURE_2D, level, m_state.m_internalTextureFormat, width, height, 0, m_state.m_textureFormat, m_state.m_textureType, pixels);
     m_bCreated = true;
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void TextureOGL::createTexture(RenderContext& context, const TextureDescription& description)
 {
     TextureBase::createTexture(description);
     glGenTextures(1, &m_state.m_textureName);
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
     
     m_state.m_internalTextureFormat = getOpenGLInternalTextureFormatFromTextureFormat(description.textureFormat);
     m_state.m_textureFormat = getOpenGLTextureFormat(description.textureFormat);
     m_state.m_textureType = getOpenGLTextureTypeFromTextureFormat(description.textureFormat);
 
     bindTexture(context);
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
     createMipMap(context, nullptr, description.width, description.height, 0);
 
     switch (description.filteringLevel)
@@ -181,7 +188,7 @@ void TextureOGL::createTexture(RenderContext& context, const TextureDescription&
         break;
     }
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void TextureOGL::lock(RenderContext& context)

@@ -32,8 +32,9 @@ namespace mce
         bool isBuiltFrom(const std::string& shaderName, const std::string& vertexPath, const std::string& fragmentPath, const std::string& geometryPath) const;
         void validateVertexFormat(const VertexFormat& vertexFormat);
         void bindShader(RenderContext& context, const VertexFormat& format, const void *dataBasePtr, unsigned int shaderStageBits);
+        void compileAndLinkShader();
         void reflectShader(RenderDevice& renderDevice);
-        VertexField getAttributeForName(const std::string& name, unsigned int id) const;
+        VertexField getAttributeForName(const std::string& name, unsigned int semanticIndex) const;
 
         static void SpliceShaderPath(std::string& shaderName, const std::string& shaderDir, const std::string& shaderFileExtension = Util::EMPTY_STRING);
         static void SpliceShaderPath(std::string& shaderName);

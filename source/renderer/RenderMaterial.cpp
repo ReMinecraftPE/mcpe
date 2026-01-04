@@ -185,9 +185,6 @@ std::string RenderMaterial::_buildHeader()
         stream << "#define " + *it + "\n";
     }
 
-#if MCE_GFX_API_DX11
-    // add R8G8B8A8_SNORM_UNSUPPORTED to defines if less than D3D_FEATURE_LEVEL_10_0
-#endif
     Shader::BuildHeader(stream);
 
     return stream.str();
@@ -271,6 +268,14 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 #else
     m_fixedPipelineState.bindFixedPipelineState(context);
 #endif
+}
+
+void RenderMaterial::compileShader()
+{
+    if (!m_pShader)
+        return;
+
+    m_pShader->compileAndLinkShader();
 }
 
 void RenderMaterial::addState(RenderState state)

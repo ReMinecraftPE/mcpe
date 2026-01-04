@@ -11,6 +11,7 @@ namespace mce
         RenderContext();
 
     public:
+        void setViewport(unsigned int width, unsigned int height, float nearVal, float farVal, const ViewportOrigin& origin = ViewportOrigin::ZERO);
         void lostContext();
     };
 }
