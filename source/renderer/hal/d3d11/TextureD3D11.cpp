@@ -76,13 +76,14 @@ void TextureD3D11::convertToMipmapedTexture(RenderContext& context, unsigned int
     TextureD3D11 mipmapedTexture;
     mipmapedTexture.createTexture(context, m_description);
 
-    CD3D11_BOX srcBox;
+    D3D11_BOX srcBox;
     {
-        srcBox.right = m_description.width;
+        srcBox.left = 0;
         srcBox.top = 0;
+        srcBox.front = 0;
+        srcBox.right = m_description.width;
         srcBox.bottom = m_description.height;
         srcBox.back = 1;
-        srcBox.front = 0;
     }
 
     {

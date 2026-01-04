@@ -302,13 +302,13 @@ ComInterface<ID3D11InputLayout> ShaderD3D11::createInputLayout(const VertexForma
         Attribute& attr = attrList[i];
         std::string& elementName = attrNames[attr.getLocation()];
         elementName = vertexFieldNames[attr.getVertexField()];
-        const void* elementOffset = vertexFormat.getFieldOffset(attr.getVertexField());
+        intptr_t elementOffset = (intptr_t)vertexFormat.getFieldOffset(attr.getVertexField());
 
         D3D11_INPUT_ELEMENT_DESC elementDesc = {0};
         {
             elementDesc.Format = formatFromVertexField(attr.getVertexField());
             elementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-            elementDesc.AlignedByteOffset = (UINT)elementOffset;
+            elementDesc.AlignedByteOffset = elementOffset;
 
             unsigned int index = 0;
 
