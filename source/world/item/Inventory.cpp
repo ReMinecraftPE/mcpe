@@ -591,7 +591,7 @@ void Inventory::load(const ListTag& tag)
 	for (std::vector<Tag*>::const_iterator it = itemTags.begin(); it != itemTags.end(); it++)
 	{
 		const CompoundTag* itemTag = (const CompoundTag*)*it;
-		int slot = itemTag->getInt8("Slot") & 255;
+		uint8_t slot = itemTag->getInt8("Slot") & 255;
 		ItemInstance* item = ItemInstance::fromTag(*itemTag);
 		if (item)
 		{
