@@ -39,9 +39,9 @@ static void initGraphics()
     if (!mce::Platform::OGL::InitBindings())
     {
         const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required.";
+        fputs(GL_ERROR_MSG, stderr);
         exit(EXIT_FAILURE);
     }
-#else
 #endif
 }
 
