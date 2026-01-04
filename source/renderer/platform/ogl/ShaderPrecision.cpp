@@ -33,7 +33,7 @@ GLint Precision::_getPrecision(GLenum shaderType, GLenum precisionType)
     GLint range[2];
     GLint precision = -1;
 
-#if GL_VERSION_4_1
+#ifdef USE_GL_SHADER_PRECISION
     const gl::Version& glVersion = gl::Version::singleton();
     if (glVersion.major >= 4 && glVersion.minor >= 1)
     {
