@@ -282,7 +282,7 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 	long v7 = ftell(pFile);
 	fseek(pFile, v6, 0);
 
-	if (size <= v7 - v6 && size > 0)
+	if (size <= (unsigned int)(v7 - v6) && size > 0)
 	{
 		uint8_t* data = new uint8_t[size];
 		fread(data, 1, size, pFile);
