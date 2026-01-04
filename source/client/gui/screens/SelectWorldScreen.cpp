@@ -111,7 +111,7 @@ void SelectWorldScreen::tick()
 		std::string levelNickname = Util::stringTrim(userInput[0]);
 		std::string levelUniqueName = levelNickname;
 
-		for (int i = 0; i < sizeof(g_SelectWorldFilterArray); i++)
+		for (size_t i = 0; i < sizeof(g_SelectWorldFilterArray); i++)
 		{
 			std::string str;
 			str.push_back(g_SelectWorldFilterArray[i]);
