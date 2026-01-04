@@ -430,7 +430,7 @@ int Inventory::getSelectedItemId() const
 
 void Inventory::setItem(int index, ItemInstance* item)
 {
-	if (index >= m_items.size())
+	if ((size_t)index >= m_items.size())
 	{
 		//m_armor[index - m_items.size()] = item;
 	}
