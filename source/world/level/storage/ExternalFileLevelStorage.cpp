@@ -451,7 +451,7 @@ bool ExternalFileLevelStorage::readPlayerData(const std::string& path, LevelData
 	if (nPlayers != 1)
 		goto _cleanup;
 
-	if (fread(&levelData.m_LocalPlayerData, 1, sizeof levelData.m_LocalPlayerData, pFile) == size)
+	if (fread(&levelData.m_LocalPlayerData, 1, sizeof levelData.m_LocalPlayerData, pFile) == (size_t)size)
 		levelData.m_nPlayers = nPlayers;
 
 	fclose(pFile);
