@@ -139,9 +139,9 @@ void TextureD3D11::subBuffer(RenderContext& context, const void* pixels, unsigne
 
     const uint32_t* pixelPtr = (const uint32_t*)pixels;
 
-    for (int y = yoffset; y < yoffset + height; y++)
+    for (unsigned int y = yoffset; y < yoffset + height; y++)
     {
-        for (int x = xoffset; x < xoffset + width; x++)
+        for (unsigned int x = xoffset; x < xoffset + width; x++)
         {
             int destIndex = x + y * m_description.width;
             uint32_t color = *pixelPtr++;
