@@ -68,7 +68,7 @@ std::string Util::format(const char *fmt, ...)
 
 bool Util::isValidPath(const std::string& path)
 {
-	for (int i = 0; i < path.size(); i++)
+	for (size_t i = 0; i < path.size(); i++)
 	{
 		switch (path.at(i))
 		{

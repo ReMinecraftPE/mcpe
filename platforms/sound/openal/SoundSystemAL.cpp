@@ -261,7 +261,6 @@ void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 		return;
 
 	bool bIsGUI = AL_FALSE;
-	float distance = 0.0f;
 	if (pos == Vec3::ZERO)
 	{
 		bIsGUI = AL_TRUE;

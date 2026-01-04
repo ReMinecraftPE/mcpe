@@ -31,7 +31,7 @@ cd build
 
 ::configure build
 echo * Configuring build.
-start emcmake cmake -GNinja "$@" ..\..\
+start emcmake cmake -GNinja -DWERROR=ON "$@" ..\..\
 echo * PRESS ANY KEY when emcmake is done.
 pause > nul
 

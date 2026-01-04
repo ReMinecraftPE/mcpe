@@ -250,7 +250,7 @@ void LevelRenderer::_buildStarsMesh()
 			{
 				float ___xo = 0.0f;
 				float ___yo = ((c & 2) - 1) * ss;
-				float ___zo = ((c + 1 & 2) - 1) * ss;
+				float ___zo = (((c + 1) & 2) - 1) * ss;
 				float __yo = ___yo * zCos - ___zo * zSin;
 				float __zo = ___zo * zCos + ___yo * zSin;
 				float _yo = __yo * xSin + ___xo * xCos;
@@ -576,7 +576,7 @@ void LevelRenderer::cull(Culler* pCuller, float f)
 		if (pChunk->isEmpty())
 			continue;
 
-		if (!pChunk->m_bVisible || (i + m_cullStep & 15) == 0)
+		if (!pChunk->m_bVisible || ((i + m_cullStep) & 15) == 0)
 		{
 			pChunk->cull(pCuller);
 		}

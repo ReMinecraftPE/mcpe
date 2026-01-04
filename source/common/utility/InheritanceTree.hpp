@@ -66,7 +66,7 @@ public:
             }
 
             // Queue child nodes
-            for (int i = 0; i < currentNode->child.size(); i++)
+            for (size_t i = 0; i < currentNode->child.size(); i++)
             {
                 queue.push_back(currentNode->child[i]);
             }
