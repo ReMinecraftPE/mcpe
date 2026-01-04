@@ -111,7 +111,7 @@ void PacketUtil::ReadUserData(ItemInstance& item, RakNet::BitStream* bs)
         int32_t repairCost;
         bs->Read(repairCost);
 
-        bool hasHoverName;
+        bool hasHoverName = false;
         bs->Read(hasHoverName);
 
         item.setRepairCost(repairCost);
