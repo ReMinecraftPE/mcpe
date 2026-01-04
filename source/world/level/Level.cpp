@@ -74,7 +74,7 @@ Level::~Level()
 	SAFE_DELETE(m_pPathFinder);
 
 	const size_t size = m_entities.size();
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		Entity* pEnt = m_entities.at(i);
 		

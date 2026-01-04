@@ -57,7 +57,7 @@ void SoundStreamAL::_createBuffers()
 
     ALuint buffers[2];
     alGenBuffers(2, buffers);
-    for (int i = 0; i < sizeof(buffers) / sizeof(ALuint); i++)
+    for (size_t i = 0; i < sizeof(buffers) / sizeof(ALuint); i++)
     {
         _buffers.push_back(buffers[i]);
         _bufferIdMap.insert(std::make_pair(buffers[i], i ));
@@ -108,7 +108,7 @@ bool SoundStreamAL::_open(const std::string& fileName)
     else _alFormat = AL_FORMAT_MONO16;
 
     size_t size = _buffers.size();
-    for (int i = 0; i < size; i++)
+    for (size_t i = 0; i < size; i++)
     {
         if (!_stream(i)) return false;
     }
