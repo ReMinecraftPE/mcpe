@@ -75,13 +75,13 @@ bool BirchFeature::place(Level* level, Random* random, const TilePos& pos)
 	for (int i = lowerY; i <= upperY; i++, diff = i - upperY)
 	{
 		int c1 = 1 - diff / 2;
-		int c2 = diff / 2 - 1;
+		//int c2 = diff / 2 - 1;
 		for (tp.x = pos.x - c1; tp.x <= pos.x + c1; tp.x++)
 		{
-			int c3 = c2;
+			//int c3 = c2;
 			int c4 = diff / 2 - 1;
-			if (c2 < 0)
-				c3 = -c2;
+			/*if (c2 < 0)
+				c3 = -c2;*/
 
 			//int c5 = c3;
 

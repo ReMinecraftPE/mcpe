@@ -1,5 +1,6 @@
 #include "ZombieModel.hpp"
 #include "common/Mth.hpp"
+#include "common/Utils.hpp"
 
 ZombieModel::ZombieModel() :
 	HumanoidModel(0.0f, 0.0f)

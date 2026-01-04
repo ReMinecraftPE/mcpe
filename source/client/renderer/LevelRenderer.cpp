@@ -476,15 +476,15 @@ void LevelRenderer::_updateViewArea(const Entity& camera)
 
 void LevelRenderer::_startFrame(FrustumCuller& culler, float renderDistance, float f)
 {
-	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
-	mce::PerFrameConstants& frame = globalBuffers.m_perFrameConstants;
-
 	const Entity& camera = *m_pMinecraft->m_pCameraEntity;
 	m_viewPos = camera.getPos(f);
 
 	_setupFog(camera, 1);
 
 #ifdef FEATURE_GFX_SHADERS
+	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+	mce::PerFrameConstants& frame = globalBuffers.m_perFrameConstants;
+
 	Vec3 viewVector = camera.getViewVector(f);
 	frame.VIEW_DIRECTION->setData(&viewVector);
 
@@ -898,7 +898,7 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 	if (layer == Tile::RENDER_LAYER_OPAQUE)
 		m_totalChunks = m_offscreenChunks = m_occludedChunks = m_renderedChunks = m_emptyChunks = 0;
 
-	Vec3 cameraPos = camera.m_posPrev + (camera.m_pos - camera.m_posPrev) * alpha;
+	//Vec3 cameraPos = camera.m_posPrev + (camera.m_pos - camera.m_posPrev) * alpha;
 
 	float dX = camera.m_pos.x - m_posPrev.x, dY = camera.m_pos.y - m_posPrev.y, dZ = camera.m_pos.z - m_posPrev.z;
 
@@ -1285,13 +1285,13 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			t.setOffset(0, 0, 0);
 		}
 	}
-    else if (inventoryItem != nullptr)
+    /*else if (inventoryItem != nullptr)
 	{
          float br = Mth::sin((float)getTimeMs() / 100.0f) * 0.2f + 0.8f;
 		 currentShaderColor = Color(br, br, br, Mth::sin((float)getTimeMs() / 200.0f) * 0.2f + 0.5f);
 		 m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
          TilePos tp = hr.m_tilePos.relative(hr.m_hitSide);
-	}
+	}*/
 }
 
 void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
@@ -1655,8 +1655,6 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 
 	// called again a few lines down, no min in Java, why is it here?
 	//currentShaderColor = Color(sc.x, sc.y, Mth::Min(1.0f, sc.z), 1.0f);
-
-	Tesselator& t = Tesselator::instance;
 
 	{
 		Fog::enable();

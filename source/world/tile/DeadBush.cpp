@@ -12,7 +12,7 @@ bool DeadBush::mayPlace(const Level* level, const TilePos& pos) const
 	return tile == Tile::sand->m_ID;
 }
 
-int DeadBush::getResource(int x, Random* random) const
+int DeadBush::getResource(TileData data, Random* random) const
 {
 	return -1;
 }

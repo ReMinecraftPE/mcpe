@@ -36,7 +36,6 @@ ItemInstance::ItemInstance(const ItemInstance& other)
 {
 	_init(other.getId(), other.m_count, other.getAuxValue());
 
-	bool v6 = false;
 	if (other.hasUserData())
 	{
 		setUserData(other.getUserData()->uniqueClone());

@@ -20,7 +20,7 @@ MAP(Vec3,         TYPE_VEC3,         Vec3())
 SynchedEntityData::SynchedEntityData()
 {
     m_itemsArray = ItemsArray();
-    m_minIdxDirty = INT_MAX;
+    m_minIdxDirty = UINT16_MAX;
     m_maxIdxDirty = 0;
 }
 
@@ -72,7 +72,7 @@ void SynchedEntityData::clear()
 
     m_itemsArray.clear();
     // Mark as clean
-    m_minIdxDirty = INT_MAX;
+    m_minIdxDirty = UINT16_MAX;
     m_maxIdxDirty = 0;
 }
 
@@ -91,7 +91,7 @@ SynchedEntityData::ItemsArray SynchedEntityData::packDirty()
     }
 
     // Mark as clean
-    m_minIdxDirty = INT_MAX;
+    m_minIdxDirty = UINT16_MAX;
     return result;
 }
 
@@ -153,7 +153,7 @@ void SynchedEntityData::assignValues(const ItemsArray& items)
 
 void SynchedEntityData::_WriteDataItem(IDataOutput& dos, const DataItem& dataItem)
 {
-    int8_t var2 = dataItem.getType() << C_ENTITYDATA_TYPE_SHIFT | dataItem.getId() & C_ENTITYDATA_MAX_ID_VALUE;
+    int8_t var2 = dataItem.getType() << C_ENTITYDATA_TYPE_SHIFT | (dataItem.getId() & C_ENTITYDATA_MAX_ID_VALUE);
     dos.writeInt8(var2);
     switch (dataItem.getType())
     {

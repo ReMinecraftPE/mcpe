@@ -99,7 +99,7 @@ void ServerSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& guid)
 		// remove it from our world
 		m_pLevel->removeEntity(pPlayer);
 	}
-	else if (pPlayer = getPendingPlayerByGUID(guid))
+	else if ((pPlayer = getPendingPlayerByGUID(guid)))
 	{
 		// Player was still loading
 		m_pendingPlayers.erase(guid);
@@ -971,8 +971,6 @@ void ServerSideNetworkHandler::commandGamemode(OnlinePlayer* player, const std::
 	}*/
     
 	if (!_checkPermissions(player)) return;
-    
-	Vec3 pos = player->m_pPlayer->getPos(1.0f);
     
 	GameType gameMode;
 	std::stringstream ss;

@@ -15,7 +15,7 @@ bool VegetationFeature::place(Level* level, Random* random, const TilePos& pos)
 	while (true)
 	{
 		int var11 = level->getTile(bPos);
-		if (var11 != 0 && var11 != Tile::leaves->m_ID || bPos.y <= 0)
+		if ((var11 != 0 && var11 != Tile::leaves->m_ID) || bPos.y <= 0)
 		{
 			for (int var7 = 0; var7 < m_count; ++var7)
 			{

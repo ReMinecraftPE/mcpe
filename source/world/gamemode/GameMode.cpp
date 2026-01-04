@@ -11,8 +11,8 @@
 #include "network/packets/RemoveBlockPacket.hpp"
 
 GameMode::GameMode(Minecraft* pMinecraft, Level& level) :
-	m_pMinecraft(pMinecraft),
 	_level(level),
+	m_pMinecraft(pMinecraft),
 	field_8(0)
 {
 }

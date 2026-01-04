@@ -270,8 +270,8 @@ void LevelChunk::setBrightness(const LightLayer& ll, const ChunkTilePos& pos, in
 int LevelChunk::getRawBrightness(const ChunkTilePos& pos, int skySubtract)
 {
 	CheckPosition(pos);
-	int bitIdx = MakeBlockDataIndex(pos);
-	int index = bitIdx >> 1, offs = bitIdx & 1;
+	//int bitIdx = MakeBlockDataIndex(pos);
+	//int index = bitIdx >> 1, offs = bitIdx & 1;
 
 	uint8_t bSky = m_lightSky.get(pos);
 	if (bSky > 0)

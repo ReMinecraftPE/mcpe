@@ -21,7 +21,7 @@ int SandStoneTile::getTexture(Facing::Name face) const
 		return TEXTURE_SANDSTONE_BOTTOM;
 	case Facing::UP:
 		return TEXTURE_SANDSTONE_TOP;
+	default:
+		return m_TextureFrame;
 	}
-
-	return m_TextureFrame;
 }

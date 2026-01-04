@@ -10,7 +10,7 @@ int PumpkinTile::getTexture(Facing::Name face, TileData data) const
 	switch (face) {
 	case Facing::UP: case Facing::DOWN: return m_TextureFrame;
 	default: 
-		return face == 2 && data == 2 || face == 5 && data == 3 || face == 3 && data == 0 || face == 4 && data == 1 ? m_TextureFrame + (m_bLantern ? 18 : 17) : m_TextureFrame + 16;
+		return (face == 2 && data == 2) || (face == 5 && data == 3) || (face == 3 && data == 0) || (face == 4 && data == 1) ? m_TextureFrame + (m_bLantern ? 18 : 17) : m_TextureFrame + 16;
 	}
 }
 

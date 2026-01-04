@@ -31,7 +31,7 @@ mkdir -p build
 cd build
 
 # Configure Build
-emcmake cmake -GNinja "$@" ../../
+emcmake cmake -GNinja -DWERROR=ON "$@" ../../
 
 # Build
 cmake --build .

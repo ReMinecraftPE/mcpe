@@ -14,17 +14,21 @@
 #include "renderer/ShaderConstants.hpp"
 #include "world/entity/Player.hpp"
 
-TouchscreenInput_TestFps::TouchscreenInput_TestFps(Minecraft* pMinecraft, Options* pOptions) :
-	m_rectArea(0.0f, 0.0f, 1.0f, 1.0f),
-	m_pOptions(pOptions),
-	field_40(false),
-	m_bJumpBeingHeld(false),
-	m_pMinecraft(pMinecraft),
-	m_pAreaLeft(nullptr),
-	m_pAreaRight(nullptr),
-	m_pAreaForward(nullptr),
-	m_pAreaBackward(nullptr),
-	m_pAreaJump(nullptr)
+TouchscreenInput_TestFps::TouchscreenInput_TestFps(Minecraft* pMinecraft, Options* pOptions)
+	: m_rectArea(0.0f, 0.0f, 1.0f, 1.0f)
+	, m_pOptions(pOptions)
+	, field_40(false)
+	, m_bJumpBeingHeld(false)
+	, m_pMinecraft(pMinecraft)
+	, m_pAreaLeft(nullptr)
+	, m_pAreaRight(nullptr)
+	, m_pAreaForward(nullptr)
+	, m_pAreaBackward(nullptr)
+	, m_pAreaJump(nullptr)
+#ifdef ENH_NEW_TOUCH_CONTROLS
+	, m_pAreaForwardLeft(nullptr)
+	, m_pAreaForwardRight(nullptr)
+#endif
 {
 	for (int i = 0; i < 10; i++)
 		field_30[i] = 0;
@@ -196,7 +200,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 		switch (pointerId)
 		{
 			case 100 + INPUT_FORWARD:
-				if (m_bJumpBeingHeld && m_pMinecraft->getOptions()->m_bFlyCheat) {
+				if (m_bJumpBeingHeld && m_pOptions->m_bFlyCheat) {
 					m_bJumpBeingHeld = true;
 					m_bWasJumping = false;
 					bJumpPressed = true;
@@ -212,7 +216,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 				break;
 
 			case 100 + INPUT_BACKWARD:
-				if (m_bJumpBeingHeld && m_pMinecraft->getOptions()->m_bFlyCheat) {
+				if (m_bJumpBeingHeld && m_pOptions->m_bFlyCheat) {
 					m_bJumpBeingHeld = true;
 					m_bWasJumping = false;
 					bJumpPressed = true;
@@ -257,7 +261,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 		m_bJumpBeingHeld = true;
 
 		if (m_bWasJumping && m_pMinecraft->m_pGameMode->isCreativeType()) {
-			m_pMinecraft->getOptions()->m_bFlyCheat = !m_pMinecraft->getOptions()->m_bFlyCheat;
+			m_pOptions->m_bFlyCheat = !m_pOptions->m_bFlyCheat;
 			m_bWasJumping = false;
 			m_bJumpBeingHeld = false;
 		}
@@ -333,10 +337,10 @@ void TouchscreenInput_TestFps::render(float f)
 	RenderTouchButton(&t, m_pAreaRight, 78, 106);
 
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	(m_pMinecraft->getOptions()->m_bFlyCheat) ?
+	(m_pOptions->m_bFlyCheat) ?
 	RenderTouchButton(&t, m_pAreaJump, 104, 132) : RenderTouchButton(&t, m_pAreaJump, 104, 106);
 
-	if (m_pMinecraft->getOptions()->m_bFlyCheat && m_bJumpBeingHeld ) 
+	if (m_pOptions->m_bFlyCheat && m_bJumpBeingHeld ) 
 	{
 		t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
 		RenderTouchButton(&t, m_pAreaForward, 52, 132);

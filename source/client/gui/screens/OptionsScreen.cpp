@@ -17,12 +17,12 @@
 #define BACK_BUTTON_ID 100
 
 OptionsScreen::OptionsScreen() :
+	m_pList(nullptr),
 	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
 	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
 	m_multiplayerButton(MIN_CATEGORY_BUTTON_ID + 2, "Multiplayer"),
 	m_miscButton(MAX_CATEGORY_BUTTON_ID, "Misc"),
 	m_backButton(BACK_BUTTON_ID, "Done"),
-	m_pList(nullptr),
 	m_currentCategory(OC_VIDEO)
 {
 }
@@ -58,7 +58,7 @@ void OptionsScreen::init()
 		tabButtons[i]->m_width = buttonWidth;
 		tabButtons[i]->m_height = buttonHeight;
 		tabButtons[i]->m_xPos = startX + (buttonWidth + buttonSpacing) * i;
-		tabButtons[i]->m_yPos = 4.3;
+		tabButtons[i]->m_yPos = 4;
 	}
 
 	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)

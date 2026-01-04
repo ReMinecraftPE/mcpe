@@ -54,7 +54,7 @@ bool SoundDesc::_loadPcm(const AppPlatform* platform, const char *name)
     m_codecType = AudioCodec::PCM;
     m_fileData = m_file.data;
     m_header = *(PCMSoundHeader *) m_fileData;
-    m_buffer.m_pData = (void *) (m_fileData + sizeof(PCMSoundHeader));
+    m_buffer.m_pData = (int16_t *) (m_fileData + sizeof(PCMSoundHeader));
     m_buffer.m_dataSize = m_header.m_channels * m_header.m_length * m_header.m_bytes_per_sample;
 
     // Success!
@@ -76,9 +76,7 @@ bool SoundDesc::_loadOgg(const AppPlatform* platform, const char* category, cons
     m_codecType = AudioCodec::OGG;
     m_fileData = m_file.data;
     m_header.m_bytes_per_sample = 2; // Always 2 (16-bit)
-    // Casting to a short** here might cause problems. Let's find out...
-    // Seems like it doesn't. Cool.
-    m_header.m_length = stb_vorbis_decode_memory(m_file.data, (int) m_file.size, &m_header.m_channels, &m_header.m_sample_rate, (short **) &m_buffer.m_pData);
+    m_header.m_length = stb_vorbis_decode_memory(m_file.data, (int) m_file.size, &m_header.m_channels, &m_header.m_sample_rate, &m_buffer.m_pData);
     if (m_header.m_length == -1)
     {
         LOG_E("An error occurred while trying to decode a sound!");

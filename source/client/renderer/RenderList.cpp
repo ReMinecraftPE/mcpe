@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "RenderList.hpp"
+#include "common/Utils.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/MatrixStack.hpp"
 

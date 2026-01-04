@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.16.0)
 project(reminecraftpe-ios)
 
 target_compile_definitions(reminecraftpe-core PUBLIC HANDLE_CHARS_SEPARATELY USE_GLES)
-target_compile_definitions(stb_image PUBLIC STBI_NO_THREAD_LOCALS)
 
 # Build
 add_executable(reminecraftpe

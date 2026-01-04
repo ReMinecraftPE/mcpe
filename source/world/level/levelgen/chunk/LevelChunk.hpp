@@ -12,6 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include "common/Random.hpp"
+#include "common/Utils.hpp"
 #include "client/renderer/LightLayer.hpp"
 #include "world/level/levelgen/chunk/ChunkPos.hpp"
 #include "world/level/levelgen/chunk/ChunkTilePos.hpp"

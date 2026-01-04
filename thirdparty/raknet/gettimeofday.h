@@ -12,7 +12,7 @@
 #define __GET_TIME_OF_DAY_H
 
 #if defined(_WIN32) && !defined(__GNUC__)  &&!defined(__GCCXML__)
-#include < time.h >
+#include <time.h>
 struct timezone
 {
   int  tz_minuteswest; /* minutes W of Greenwich */

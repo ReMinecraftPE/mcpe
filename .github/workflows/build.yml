@@ -36,7 +36,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja ${{ matrix.flags }} ..
+                cmake -GNinja -DWERROR=ON ${{ matrix.flags }} ..
                 cmake --build .
     wasm:
         name: WASM
@@ -112,6 +112,7 @@ jobs:
               RANLIB: llvm-ranlib-21
               LLVM_CONFIG: llvm-config-21
               REMCPE_NO_IPA: 1
+              WERROR: ON
     android:
         strategy:
             fail-fast: false
@@ -172,5 +173,5 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake -GNinja -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .

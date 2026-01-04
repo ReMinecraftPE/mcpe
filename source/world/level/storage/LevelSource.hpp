@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "common/Utils.hpp"
 #include "world/level/Material.hpp"
 #include "world/level/levelgen/biome/BiomeSource.hpp"
 

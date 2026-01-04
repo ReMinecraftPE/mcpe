@@ -221,7 +221,7 @@ void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 
 void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
 {
-	Font* f = m_pMinecraft->m_pFont;
+	//Font* f = m_pMinecraft->m_pFont;
 	OptionItem* pItem = m_items[index];
 
 	pItem->render(this, x, y);
@@ -334,12 +334,11 @@ void OptionList::initMultiplayerMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
 	int currentIndex = -1;
-	int idxLM = -1;
 
-	OPTION(Boolean, m_bServerVisibleDefault, "Local Server Multiplayer"); idxLM = currentIndex;
+	OPTION(Boolean, m_bServerVisibleDefault, "Local Server Multiplayer");
 
 #ifdef __EMSCRIPTEN
-	m_items[idxLM]->setDisabled(true);
+	m_items[currentIndex]->setDisabled(true);
 #endif
 }
 

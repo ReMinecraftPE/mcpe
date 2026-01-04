@@ -1,5 +1,6 @@
 #include <typeinfo>
 #include <stdexcept>
+#include <sstream>
 
 #include "ShaderD3D11.hpp"
 

@@ -102,24 +102,6 @@ int AppPlatform_android::getUserInputStatus()
 	return m_UserInputStatus;
 }
 
-void AppPlatform_android::createUserInput()
-{
-	m_UserInput.clear();
-	m_UserInputStatus = -1;
-
-	switch (m_DialogType)
-	{
-		case DLG_CREATE_WORLD:
-		{
-			// some placeholder for now
-			m_UserInput.push_back("New World");
-			m_UserInput.push_back("123456");
-			m_UserInputStatus = 1;
-			break;
-		}
-	}
-}
-
 void AppPlatform_android::showDialog(eDialogType type)
 {
 	m_DialogType = type;

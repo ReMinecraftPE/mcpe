@@ -8,6 +8,7 @@
 #include <limits>
 #include "BinaryHeap.hpp"
 #include "common/Mth.hpp"
+#include "common/Utils.hpp"
 
 void BinaryHeap::insert(Node* pNode)
 {
