@@ -28,7 +28,7 @@ bool ClayFeature::place(Level* level, Random* random, const TilePos& pos)
 
     float d0 = float(pos.x + 8) + 0.125f * float(m_count) * Mth::sin(fAng);
     float d1 = float(pos.x + 8) - 0.125f * float(m_count) * Mth::sin(fAng);
-    float d2 = float(pos.z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
+    float d2 = float(pos.z + 8) + 0.125f * float(m_count) * Mth::cos(fAng);
     float d3 = float(pos.z + 8) - 0.125f * float(m_count) * Mth::cos(fAng);
 
     float d4 = float(pos.y + random->nextInt(3) + 2);

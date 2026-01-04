@@ -11,11 +11,12 @@
 
 bool ReedsFeature::place(Level* level, Random* random, const TilePos& pos)
 {
-	TilePos tp;
+	TilePos tp(pos);
 
 	for (int i = 0; i < 20; i++)
 	{
-		tp = TilePos((pos.x + random->nextInt(4)) - random->nextInt(4), pos.y, (pos.z + random->nextInt(4)) - random->nextInt(4));
+		tp.x = pos.x + random->nextInt(4) - random->nextInt(4);
+		tp.z = pos.z + random->nextInt(4) - random->nextInt(4);
 
 		if (!level->isEmptyTile(tp))
 			continue;
