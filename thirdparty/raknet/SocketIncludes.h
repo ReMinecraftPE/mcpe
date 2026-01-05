@@ -58,9 +58,13 @@
 	#define closesocket close
 	#include <unistd.h>
 	#include <sys/types.h>
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
+	#ifdef XENON
+	
+	#else
+		#include <sys/socket.h>
+		#include <netinet/in.h>
+		#include <arpa/inet.h>
+	#endif
 	#include <unistd.h>
 	#include <fcntl.h>
 

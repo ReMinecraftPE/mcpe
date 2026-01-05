@@ -10,7 +10,7 @@
 
 // CThread - Object oriented pthread wrapper
 
-#if defined(_WIN32)
+#ifdef _WIN32
 
 #ifndef USE_WIN32_THREADS
 #if defined(_XBOX) || defined(USE_OLD_CPP) || defined(__MINGW32__)
@@ -45,6 +45,10 @@
 #endif
 
 #else
+
+#ifdef XENON
+#define _POSIX_THREADS
+#endif
 
 // pthreads
 #include <pthread.h>
