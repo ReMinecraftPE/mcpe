@@ -1,4 +1,6 @@
 #include <string.h>
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 
 #include "VertexFormat.hpp"
 #include "world/phys/Vec2.hpp"

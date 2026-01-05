@@ -88,6 +88,12 @@
 	// use our macro for glOrtho
 #endif
 
+#ifndef GL_LOW_FLOAT
+#define GL_LOW_FLOAT    0x8DF0
+#define GL_MEDIUM_FLOAT 0x8DF1
+#define GL_HIGH_FLOAT   0x8DF2
+#endif
+
 #if defined(MC_GL_DEBUG_OUTPUT) && !defined(GL_ARB_debug_output)
 #undef MC_GL_DEBUG_OUTPUT
 #endif
@@ -169,6 +175,7 @@ bool xglInitted();
 #define xglEnableVertexAttribArray glEnableVertexAttribArray
 #endif // GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #if GL_VERSION_4_1 || GL_ES_VERSION_2_0
+#define USE_GL_SHADER_PRECISION
 #define xglReleaseShaderCompiler glReleaseShaderCompiler
 #define xglGetShaderPrecisionFormat glGetShaderPrecisionFormat
 #endif // GL_VERSION_4_1 || GL_ES_VERSION_2_0
@@ -229,6 +236,7 @@ GLint xglGetAttribLocation(GLuint program, const GLchar* name);
 void xglEnableVertexAttribArray(GLuint index);
 #endif // GL_VERSION_2_0 || GL_ES_VERSION_2_0
 #if GL_VERSION_4_1 || GL_ES_VERSION_2_0
+#define USE_GL_SHADER_PRECISION
 void xglReleaseShaderCompiler();
 void xglGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision);
 #endif
