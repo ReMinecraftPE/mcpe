@@ -5,12 +5,8 @@ project(reminecraftpe)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-if (WIN32 OR LINUX)
-set(CMAKE_CXX_STANDARD 11)
-else()
-set(CMAKE_CXX_STANDARD 98)
-endif()
-set(CXX_EXTENSIONS OFF)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Warnings
 add_compile_options(-Wall)
@@ -28,6 +24,13 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 if(APPLE)
     add_compile_options(-Wno-deprecated-declarations)
+endif()
+
+if(REMCPE_WIN32)
+    # Modern MinGW doesn't support C++98 and will error if you try to use it
+    set(CMAKE_CXX_STANDARD 11)
+else()
+    set(CMAKE_CXX_STANDARD 98)
 endif()
 
 # Platform-specific stuff #
