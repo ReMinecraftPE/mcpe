@@ -54,7 +54,7 @@
 // Toggle Demo Mode
 //#define DEMO
 
-#if defined(MC_NO_NETWORKING_) && defined(FEATURE_NETWORKING)
+#if defined(MC_NO_NETWORKING) && defined(FEATURE_NETWORKING)
 #undef FEATURE_NETWORKING
 #endif
 
