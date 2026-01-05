@@ -93,7 +93,7 @@ void PauseScreen::init()
 	for (int i = 0; i < int(m_buttons.size()); i++)
 		m_buttonTabList.push_back(m_buttons[i]);
 
-#ifdef __EMSCRIPTEN__
+#ifndef FEATURE_NETWORKING
 	m_btnVisible.m_bEnabled = false;
 #endif
 }
