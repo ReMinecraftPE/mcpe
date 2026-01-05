@@ -31,7 +31,7 @@ endif()
 
 # Detect Windows
 include(CheckSymbolExists)
-check_symbol_exists("_WIN32" "" MCPE_WIN32)
+check_symbol_exists("_WIN32" "" REMCPE_WIN32)
 
 # Clang
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -42,7 +42,7 @@ if(APPLE)
 endif()
 
 # Windows Linking
-if(MCPE_WIN32)
+if(REMCPE_WIN32)
     add_link_options(
         -static-libgcc
         -static-libstdc++
@@ -64,6 +64,13 @@ endif()
 
 # Disable thread local storage (needed for C++98 & iOS)
 add_compile_definitions(RAPIDJSON_NO_THREAD_LOCAL STBI_NO_THREAD_LOCALS)
+
+if(NOT DEFINED REMCPE_GFX_API)
+	message(STATUS "No GFX API specified, defaulting to OGL...")
+	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
+endif()
+
+message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
 
 # Android Logging
 if(ANDROID)
