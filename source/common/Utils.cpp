@@ -17,7 +17,7 @@
 #include <winsock.h>
 
 // Why are we not using GetTickCount64()? It's simple -- getTimeMs has the exact same problem as using regular old GetTickCount.
-#ifdef _MSVC_VER
+#ifdef _MSC_VER
 #pragma warning(disable : 28159)
 #endif
 
