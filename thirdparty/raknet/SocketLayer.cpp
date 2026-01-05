@@ -119,7 +119,7 @@ void PrepareAddrInfoHints(addrinfo *hints)
  
 void SocketLayer::SetSocketOptions( __UDPSOCKET__ listenSocket, bool blockingSocket, bool setBroadcast)
 {
-#if (!defined(__DREAMCAST__) && !defined(_NO_NETWORKING_))
+#if (!defined(__DREAMCAST__) && !defined(MC_NO_NETWORKING))
 #ifdef __native_client__
 	(void) listenSocket;
 #else
@@ -189,7 +189,7 @@ void SocketLayer::SetSocketOptions( __UDPSOCKET__ listenSocket, bool blockingSoc
 
 RakNet::RakString SocketLayer::GetSubNetForSocketAndIp(__UDPSOCKET__ inSock, RakNet::RakString inIpString)
 {
-	#if (!defined(__DREAMCAST__) && !defined(_NO_NETWORKING_))
+	#if (!defined(__DREAMCAST__) && !defined(MC_NO_NETWORKING))
 	RakNet::RakString netMaskString;
 	RakNet::RakString ipString;
 
