@@ -59,7 +59,8 @@
 	#include <unistd.h>
 	#include <sys/types.h>
 	#ifdef XENON
-	
+		#include <lwip/sockets.h>
+		typedef struct sockaddr_in sockaddr_i;
 	#else
 		#include <sys/socket.h>
 		#include <netinet/in.h>
