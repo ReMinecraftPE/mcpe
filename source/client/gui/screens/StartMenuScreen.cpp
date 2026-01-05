@@ -542,6 +542,8 @@ void StartMenuScreen::draw2dTitle()
 {
 	Textures* tx = m_pMinecraft->m_pTextures;
 
+	// bool crampedMode = false;
+
 	currentShaderColor = Color::WHITE;
   
 	int yPos, width, height, left;
@@ -557,6 +559,7 @@ void StartMenuScreen::draw2dTitle()
 
 		if (m_width * 3 / 4 < m_2dTitleBounds.w)
 		{
+			// crampedMode = true;
 			yPos = 4;
 		}
 
@@ -585,6 +588,7 @@ void StartMenuScreen::draw2dTitle()
 	
 	      if (m_width * 3 / 4 < m_2dTitleBounds.w)
 	      {
+	        // crampedMode = true;
 	        yPos = 4;
 	      }
 	
