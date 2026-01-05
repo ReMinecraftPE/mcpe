@@ -15,8 +15,10 @@
     enum eSDLVirtualKeys
     {
         #define CODE(x) SDLVK_ ## x,
+        #define _CODE(x) SDLVK_ ## x
         #include "SDLKeyCodes.h"
         #undef  CODE
+        #undef  _CODE
     };
 #endif
 

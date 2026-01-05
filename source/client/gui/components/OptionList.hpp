@@ -53,7 +53,7 @@ class DistanceOptionItem : public OptionItem
 		RD_FAR,
 		RD_NORMAL,
 		RD_SHORT,
-		RD_COUNT,
+		RD_COUNT
 	};
 
 public:

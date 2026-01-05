@@ -361,7 +361,7 @@ enum eTileID
 
 	// Custom items
 	ITEM_ROCKET = 470,
-	ITEM_QUIVER = 484,
+	ITEM_QUIVER = 484
 };
 
 enum // Textures
@@ -508,7 +508,7 @@ enum // Textures
 	TEXTURE_INFO_UPDATEGAME1 = 252,
 	TEXTURE_INFO_UPDATEGAME2 = 253,
 
-	TEXTURE_LAVA_PLACEHOLDER = 255,
+	TEXTURE_LAVA_PLACEHOLDER = 255
 };
 
 enum eRenderShape

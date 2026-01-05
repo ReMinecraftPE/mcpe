@@ -44,7 +44,7 @@ public:
 		DLG_CREATE_WORLD,
 		DLG_CHAT,
 		DLG_OPTIONS,
-		DLG_RENAME_MP_WORLD,
+		DLG_RENAME_MP_WORLD
 	};
 
 private:

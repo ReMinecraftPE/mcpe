@@ -9,14 +9,14 @@ enum eLogLevel
 {
 	LOG_INFO = ANDROID_LOG_INFO,
 	LOG_WARN = ANDROID_LOG_WARN,
-	LOG_ERR = ANDROID_LOG_ERROR,
+	LOG_ERR = ANDROID_LOG_ERROR
 };
 #else
 enum eLogLevel
 {
 	LOG_INFO,
 	LOG_WARN,
-	LOG_ERR,
+	LOG_ERR
 };
 #endif
 

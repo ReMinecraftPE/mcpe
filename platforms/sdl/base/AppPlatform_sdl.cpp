@@ -440,8 +440,10 @@ int AppPlatform_sdl::_TranslateSDLKeyCodeToVirtual(int sdlCode)
 {
 	switch (sdlCode) {
 #define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
+#define _CODE(x) CODE(x)
 #include "compat/SDLKeyCodes.h"
 #undef  CODE
+#undef  _CODE
 	}
 	return SDLVK_UNKNOWN;
 }

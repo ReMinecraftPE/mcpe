@@ -16,14 +16,14 @@ enum eParticleTexture
 	PT_PARTICLES,
 	PT_TERRAIN,
 	PT_PARTICLES2,
-	PT_PARTICLES3,
+	PT_PARTICLES3
 };
 
 enum eParticleTextureIndex
 {
 	PTI_BUBBLE = 32,
 	PTI_FLAME = 48,
-	PTI_LAVA,
+	PTI_LAVA
 };
 
 class Particle : public Entity

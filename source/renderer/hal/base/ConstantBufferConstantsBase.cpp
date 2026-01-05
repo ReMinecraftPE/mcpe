@@ -6,7 +6,7 @@ using namespace mce;
 ConstantBufferConstantsBase::ConstantBufferConstantsBase()
 {
     m_constantBuffer = nullptr;
-};
+}
 
 void ConstantBufferConstantsBase::sync()
 {
