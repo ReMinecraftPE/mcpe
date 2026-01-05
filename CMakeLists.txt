@@ -13,6 +13,9 @@ add_compile_options(-Wall)
 if(WERROR)
     add_compile_options(-Werror)
 endif()
+if(APPLE)
+    add_compile_options(-Wno-deprecated-declarations)
+endif()
 
 # WASM
 if(EMSCRIPTEN)
@@ -29,14 +32,6 @@ endif()
 # Detect Windows
 include(CheckSymbolExists)
 check_symbol_exists("_WIN32" "" REMCPE_WIN32)
-
-# Clang
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_options(-Wno-inconsistent-missing-override)
-endif()
-if(APPLE)
-    add_compile_options(-Wno-deprecated-declarations)
-endif()
 
 # Windows Linking
 if(REMCPE_WIN32)
