@@ -340,7 +340,7 @@ void OptionList::initMultiplayerMenu()
 #ifdef __EMSCRIPTEN
 	m_items[currentIndex]->setDisabled(true);
 #endif
-	(void)currentIndex;
+	(void)currentIndex; // compiler will warn about an unused variable sometimes if this isn't here
 }
 
 void OptionList::initMiscMenu()
