@@ -22,8 +22,8 @@ void Int8ArrayTag::load(IDataInput& dis)
 	if (elements <= 0)
 		return;
 
-	unsigned int bytesLeft = dis.numBytesLeft();
-	unsigned int count = elements;
+	long bytesLeft = dis.numBytesLeft();
+	int32_t count = elements;
 	if (bytesLeft < elements)
 		count = bytesLeft;
 	void* buf = m_data.alloc<int8_t>(count);
