@@ -21,7 +21,6 @@
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/RenderMaterial.hpp"
-#include "renderer/platform/ogl/Extensions.hpp"
 
 #ifdef DEMO
 #include "world/level/storage/MemoryLevelStorageSource.hpp"
