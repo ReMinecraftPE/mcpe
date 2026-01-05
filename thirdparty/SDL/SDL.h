@@ -2,7 +2,7 @@
 
 #if (defined(_WIN32) || defined(USE_SDL1))
     #ifdef _WIN32
-        #ifdef _MSVC_VER
+        #ifdef _MSC_VER
             #ifdef USE_SDL1
                 #pragma comment(lib, "SDL.lib")
             #else
