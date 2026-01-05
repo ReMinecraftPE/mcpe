@@ -31,6 +31,8 @@ if(SDLMAIN_LIBRARY)
     target_link_libraries(reminecraftpe "${SDLMAIN_LIBRARY}")
 endif()
 
-# OpenGL
-find_package(OpenGL REQUIRED)
-target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
+if(REMCPE_GFX_API STREQUAL "OGL")
+    # OpenGL
+    find_package(OpenGL REQUIRED)
+    target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
+endif()
