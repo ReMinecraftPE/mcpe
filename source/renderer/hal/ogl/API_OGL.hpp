@@ -38,7 +38,7 @@ namespace gl
         void parse();
     };
 
-    REMCPE_UNUSED static bool hardwareOverideOpenGLES3 = false;
+    MC_UNUSED static bool hardwareOverideOpenGLES3 = false;
     
     std::string getOpenGLVendor();
     std::string getOpenGLRenderer();

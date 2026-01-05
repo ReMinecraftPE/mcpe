@@ -32,7 +32,7 @@ namespace mce
 		static int sizeInBytesFromShaderPrimitiveType(ShaderPrimitiveTypes shaderPrimitiveType);
 	};
 
-	REMCPE_UNUSED static const char* ShaderPrimitiveTypeToString[] = {
+	MC_UNUSED static const char* ShaderPrimitiveTypeToString[] = {
 		"UnknownPrimitiveType",
 		"Float1",
 		"Float2",
