@@ -51,7 +51,7 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y cmake ninja-build
           - name: Build
-            run: ./build-wasm.sh
+            run: ./build-wasm.sh -DWERROR=ON
     macos:
         strategy:
             fail-fast: false

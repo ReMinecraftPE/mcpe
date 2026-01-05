@@ -17,7 +17,7 @@ Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId, const R
     if (!guid || level.m_players.empty())
         return nullptr;
 
-    for (int i = 0; i < level.m_players.size(); i++)
+    for (size_t i = 0; i < level.m_players.size(); i++)
     {
         Player* pPlayer = level.m_players[i];
         if (pPlayer && pPlayer->m_guid == *guid)

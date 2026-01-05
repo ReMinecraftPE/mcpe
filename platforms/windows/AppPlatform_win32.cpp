@@ -117,8 +117,6 @@ void AppPlatform_win32::saveScreenshot(const std::string& fileName, int width, i
 		sprintf(str, "%s\\%s", ".", "Screenshots");
 
 	// https://stackoverflow.com/a/8233867
-	DWORD ftyp = GetFileAttributesA(str);
-
 	DWORD error = GetLastError();
 	if (error == ERROR_PATH_NOT_FOUND || error == ERROR_FILE_NOT_FOUND || error == ERROR_INVALID_NAME)
 	{
@@ -150,6 +148,8 @@ void AppPlatform_win32::createUserInput()
 			m_UserInputStatus = 1;
 			break;
 		}
+		default:
+			break;
 	}
 }
 

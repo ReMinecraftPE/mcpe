@@ -16,7 +16,7 @@ void ConstantBufferMetaDataManager::allocateConstantBufferContainers()
     GlobalConstantBufferManager& bufferManager = GlobalConstantBufferManager::getInstance();
     bufferManager.m_constantBufferContainers.reserve(m_constantBufferMetaDataList.size());
     
-    for (int i = 0; i < m_constantBufferMetaDataList.size(); i++)
+    for (size_t i = 0; i < m_constantBufferMetaDataList.size(); i++)
     {
         ConstantBufferMetaData& bufferMeta = m_constantBufferMetaDataList[i];
         ConstantBufferContainer buffer;
@@ -27,7 +27,7 @@ void ConstantBufferMetaDataManager::allocateConstantBufferContainers()
 
         buffer.m_constantBufferName = bufferMeta.getConstantBufferName();
 
-        for (int i = 0; i < bufferMeta.m_uniformMetaData.size(); i++)
+        for (size_t i = 0; i < bufferMeta.m_uniformMetaData.size(); i++)
         {
             UniformMetaData& uniformMeta = bufferMeta.m_uniformMetaData[i];
             buffer.registerReflectedShaderParameter(uniformMeta);
@@ -91,7 +91,7 @@ void ConstantBufferMetaDataManager::loadJsonFile(const std::string& document)
 
 const UniformMetaData& ConstantBufferMetaDataManager::findUniformMetaData(const std::string& uniformName) const
 {
-    for (int i = 0; i < m_constantBufferMetaDataList.size(); i++)
+    for (size_t i = 0; i < m_constantBufferMetaDataList.size(); i++)
     {
         const ConstantBufferMetaData& bufferMeta = m_constantBufferMetaDataList[i];
         const UniformMetaData* uniformMeta = bufferMeta.getUniformMetaData(uniformName);
@@ -105,7 +105,7 @@ const UniformMetaData& ConstantBufferMetaDataManager::findUniformMetaData(const 
 
 const ConstantBufferMetaData& ConstantBufferMetaDataManager::findConstantBuffer(const std::string& bufferName) const
 {
-    for (int i = 0; i < m_constantBufferMetaDataList.size(); i++)
+    for (size_t i = 0; i < m_constantBufferMetaDataList.size(); i++)
     {
         const ConstantBufferMetaData& bufferMeta = m_constantBufferMetaDataList[i];
         if (bufferMeta.getConstantBufferName() == bufferName)

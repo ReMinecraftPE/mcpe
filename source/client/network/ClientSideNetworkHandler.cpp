@@ -484,7 +484,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 					m_pLevel->setTileNoUpdate(TilePos(x16 + (k & 0xF), yPos + i, z16 + (k >> 4)), tiles[i]);
 				}
 
-				int idx = ((k & 0xF) << 11) | ((k >> 4) << 7) + yPos;
+				int idx = ((k & 0xF) << 11) | (((k >> 4) << 7) + yPos);
 				memcpy(&pChunk->m_tileData.m_data[idx >> 1], datas, sizeof datas);
 			}
 

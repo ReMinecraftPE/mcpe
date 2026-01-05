@@ -22,7 +22,7 @@ void Int8ArrayTag::load(IDataInput& dis)
 	if (elements <= 0)
 		return;
 
-	unsigned int bytesLeft = dis.numBytesLeft();
+	ssize_t bytesLeft = dis.numBytesLeft();
 	int32_t count = elements;
 	if (bytesLeft < elements)
 		count = bytesLeft;

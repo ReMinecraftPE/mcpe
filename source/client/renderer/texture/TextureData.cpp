@@ -141,7 +141,7 @@ void TextureData::setData(uint8_t* data)
 void TextureData::load()
 {
     _loadTexData(m_texture, m_bEnableFiltering, m_bWrap);
-    for (int i = 0; i < m_mipmaps.size(); i++)
+    for (size_t i = 0; i < m_mipmaps.size(); i++)
     {
         _loadMipmap(m_mipmaps[i]);
     }

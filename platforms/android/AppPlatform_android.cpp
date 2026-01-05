@@ -248,7 +248,7 @@ void AppPlatform_android::changeKeyboardVisibility(bool bShown)
 
 		// lInputMethodManager.hideSoftInput(...).
 		jmethodID MethodHideSoftInput = pEnv->GetMethodID(ClassInputMethodManager, "hideSoftInputFromWindow","(Landroid/os/IBinder;I)Z");
-		jboolean lResult = pEnv->CallBooleanMethod(lInputMethodManager, MethodHideSoftInput,lBinder, flags);
+		pEnv->CallBooleanMethod(lInputMethodManager, MethodHideSoftInput,lBinder, flags);
 
 		m_bIsKeyboardShown = false; // just treat it as hidden anyways why not
 	}

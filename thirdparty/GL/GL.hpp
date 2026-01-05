@@ -79,7 +79,7 @@
 			#include <GL/glext.h> // it'll include from a different dir, namely thirdparty/GL/glext.h
 		#endif
 
-		#ifdef _WIN32
+		#ifdef _MSVC_VER
 			#pragma comment(lib, "opengl32.lib")
 			#pragma comment(lib, "glu32.lib")
 		#endif

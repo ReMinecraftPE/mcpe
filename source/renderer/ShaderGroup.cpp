@@ -19,7 +19,7 @@ ShaderGroup::~ShaderGroup()
 
 void ShaderGroup::_clearShaders()
 {
-    for (int i = 0; i < m_shaders.size(); i++)
+    for (size_t i = 0; i < m_shaders.size(); i++)
     {
         if (m_shaders[i])
         {
@@ -150,7 +150,7 @@ void ShaderGroup::processIncludeDirectives(const std::string& path, std::string&
 
 Shader& ShaderGroup::loadShader(const std::string& header, const std::string& vertexCodeOrPath, const std::string& fragmentCodeOrPath, const std::string& geometryCodeOrPath)
 {
-    for (int i = 0; i < m_shaders.size(); i++)
+    for (size_t i = 0; i < m_shaders.size(); i++)
     {
         Shader* shader = m_shaders[i];
         if (shader->isBuiltFrom(header, vertexCodeOrPath, fragmentCodeOrPath, geometryCodeOrPath))

@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <stddef.h>
 #include "MouseDevice.hpp"
 
 MouseDevice::MouseDevice()
@@ -51,7 +52,7 @@ short MouseDevice::getY()
 
 bool MouseDevice::next()
 {
-	if (_index + 1 >= _inputs.size())
+	if ((size_t)_index + 1 >= _inputs.size())
 		return false;
 
 	_index++;

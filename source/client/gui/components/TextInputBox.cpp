@@ -377,7 +377,7 @@ std::string TextInputBox::_sanitizePasteText(const std::string& text) const
 	std::string sanitized;
 	sanitized.reserve(text.length());
 
-	for (int i = 0; i < text.length(); ++i)
+	for (size_t i = 0; i < text.length(); ++i)
 	{
 		char c = text[i];
 		if (!IsInvalidCharacter(c))

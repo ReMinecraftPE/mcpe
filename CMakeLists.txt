@@ -13,6 +13,7 @@ endif()
 set(CXX_EXTENSIONS OFF)
 
 # Warnings
+add_compile_options(-Wall)
 if(WERROR)
     add_compile_options(-Werror)
 endif()
@@ -93,3 +94,4 @@ endif()
 # Disable warnings on third party libraries
 target_compile_options(stb_vorbis PRIVATE -w)
 target_compile_options(stb_image PRIVATE -w)
+target_compile_options(raknet PRIVATE -w)

@@ -64,7 +64,7 @@ bool SynchedEntityData::isDirty() const
 
 void SynchedEntityData::clear()
 {
-    for (int i = 0; i < m_itemsArray.size(); i++)
+    for (size_t i = 0; i < m_itemsArray.size(); i++)
     {
         DataItem* item = m_itemsArray[i];
         SAFE_DELETE(item);
@@ -102,7 +102,7 @@ void SynchedEntityData::packAll(IDataOutput& dos) const
 
 void SynchedEntityData::assignValues(const ItemsArray& items)
 {
-    for (int i = 0; i < items.size(); i++)
+    for (size_t i = 0; i < items.size(); i++)
     {
         DataItem* newItem = items[i];
         DataID itemId = newItem->getId();
@@ -113,37 +113,35 @@ void SynchedEntityData::assignValues(const ItemsArray& items)
         if (!oldItem)
             continue;
 
-        bool result = false;
-
         // ugly
         switch (newItem->getType())
         {
         case TYPE_INT8:
-            result = set<int8_t>(itemId, newItem->getData<int8_t>());
+            set<int8_t>(itemId, newItem->getData<int8_t>());
             break;
         case TYPE_INT16:
-            result = set<int16_t>(itemId, newItem->getData<int16_t>());
+            set<int16_t>(itemId, newItem->getData<int16_t>());
             break;
         case TYPE_INT32:
-            result = set<int32_t>(itemId, newItem->getData<int32_t>());
+            set<int32_t>(itemId, newItem->getData<int32_t>());
             break;
         case TYPE_FLOAT:
-            result = set<float>(itemId, newItem->getData<float>());
+            set<float>(itemId, newItem->getData<float>());
             break;
         case TYPE_STRING:
-            result = set<std::string>(itemId, newItem->getData<std::string>());
+            set<std::string>(itemId, newItem->getData<std::string>());
             break;
         case TYPE_ITEMINSTANCE:
-            result = set<ItemInstance>(itemId, newItem->getData<ItemInstance>());
+            set<ItemInstance>(itemId, newItem->getData<ItemInstance>());
             break;
         case TYPE_TILEPOS:
-            result = set<TilePos>(itemId, newItem->getData<TilePos>());
+            set<TilePos>(itemId, newItem->getData<TilePos>());
             break;
         case TYPE_INT64:
-            result = set<int64_t>(itemId, newItem->getData<int64_t>());
+            set<int64_t>(itemId, newItem->getData<int64_t>());
             break;
         case TYPE_VEC3:
-            result = set<Vec3>(itemId, newItem->getData<Vec3>());
+            set<Vec3>(itemId, newItem->getData<Vec3>());
             break;
         default:
             continue;
@@ -204,7 +202,7 @@ void SynchedEntityData::_WriteDataItem(IDataOutput& dos, const DataItem& dataIte
 
 void SynchedEntityData::Pack(const ItemsArray& items, IDataOutput& dos)
 {
-    for (int i = 0; i < items.size(); i++)
+    for (size_t i = 0; i < items.size(); i++)
     {
         const DataItem* item = items[i];
         if (item)

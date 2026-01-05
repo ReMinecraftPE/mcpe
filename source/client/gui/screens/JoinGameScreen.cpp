@@ -149,8 +149,8 @@ void JoinGameScreen::tick()
 		std::vector<PingedCompatibleServer>* pGames = &m_pAvailableGamesList->m_games;
 		for (int i = int(pGames->size() - 1); i >= 0; i--)
 		{
-			int j = 0;
-			for (; j < int(serverListFiltered.size()); j++)
+			size_t j = 0;
+			for (; j < serverListFiltered.size(); j++)
 			{
 				if (serverListFiltered[j].m_address == (*pGames)[i].m_address)
 					break;

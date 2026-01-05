@@ -205,7 +205,7 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 					break;
 
 				// update the info of a pinged compatible server, if possible.
-				for (int i = 0; i < m_servers.size(); i++)
+				for (size_t i = 0; i < m_servers.size(); i++)
 				{
 					PingedCompatibleServer& server = m_servers.at(i);
 					if (server.m_address == pPacket->systemAddress)

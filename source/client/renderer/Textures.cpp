@@ -18,8 +18,7 @@ bool Textures::MIPMAP = false;
 
 TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
-	TextureMap::iterator it = m_textures.find(name);
-	assert(it == m_textures.end());
+	assert(m_textures.find(name) == m_textures.end());
 
 	TextureData t = m_pPlatform->loadTexture(name, bIsRequired);
 
@@ -194,7 +193,6 @@ void Textures::tick()
 
 TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
 {
-	TextureMap::iterator it = m_textures.find(name);
 	TextureData* pTexture = getTextureData(name, isRequired);
 
 	if (!pTexture)

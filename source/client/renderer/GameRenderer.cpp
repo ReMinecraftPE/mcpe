@@ -187,7 +187,7 @@ void GameRenderer::_renderVertexGraph(int vertices, int h)
 	Font& font = *m_pMinecraft->m_pFont;
 
 	static int vertGraph[200];
-	memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
+	memmove(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
 	vertGraph[(sizeof(vertGraph) / sizeof(vertGraph[0])) - 1] = vertices;
 
 	Tesselator& t = Tesselator::instance;

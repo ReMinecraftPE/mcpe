@@ -140,9 +140,6 @@ private:
 	bool m_bTesselating;
 	mce::PrimitiveMode m_drawMode;
 
-	// Buffer state
-	int m_maxVertices;
-
 private:
 	bool m_bVoidBeginEnd;
 };

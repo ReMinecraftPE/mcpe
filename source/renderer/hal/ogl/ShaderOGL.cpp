@@ -59,7 +59,7 @@ void ShaderOGL::deleteShader()
 
 void ShaderOGL::finalizeShaderUniforms()
 {
-    for (int i = 0; i < m_uniformList.size(); i++)
+    for (size_t i = 0; i < m_uniformList.size(); i++)
     {
         ShaderUniformOGL& uniform = m_uniformList[i];
         uniform.m_pShaderConstant = uniform.m_pConstantBufferContainer->getUnspecializedShaderConstant(uniform.m_name);
@@ -138,7 +138,7 @@ void ShaderOGL::bindVertexPointers(const VertexFormat& vertexFormat, const void*
     RenderDevice& device = RenderDevice::getInstance();
     const RenderDeviceBase::AttributeList& attrList = device.getAttributeList(m_attributeListIndex);
 
-    for (int i = 0; i < attrList.size(); i++)
+    for (size_t i = 0; i < attrList.size(); i++)
     {
         const Attribute& attr = attrList[i];
         
@@ -173,7 +173,7 @@ void ShaderOGL::bindShader(RenderContext& context, const VertexFormat& format, c
 
     bindVertexPointers(format, dataBasePtr);
 
-    for (int i = 0; i < m_textureList.size(); i++)
+    for (size_t i = 0; i < m_textureList.size(); i++)
     {
         const ShaderResourceOGL& resource = m_textureList[i];
         RenderContextOGL::ActiveTextureUnit& activeTextureUnit = context.getActiveTextureUnit(i);
@@ -184,7 +184,7 @@ void ShaderOGL::bindShader(RenderContext& context, const VertexFormat& format, c
         }
     }
 
-    for (int i = 0; i < m_uniformList.size(); i++)
+    for (size_t i = 0; i < m_uniformList.size(); i++)
     {
         ShaderUniformOGL& shaderUniform = m_uniformList[i];
         shaderUniform.bind(shaderChanged);

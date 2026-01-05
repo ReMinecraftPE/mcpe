@@ -80,7 +80,7 @@ public:
 		int32_t result = 0;
 
 		const size_t size = str.size();
-		for (int i = 0; i < size; i++)
+		for (size_t i = 0; i < size; i++)
 		{
 			result = result * 31 + str.at(i);
 		}
