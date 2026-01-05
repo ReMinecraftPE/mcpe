@@ -420,10 +420,10 @@ void StartMenuScreen::_updateLicense()
 	{
 		m_optionsButton.m_bEnabled = true;
 		m_startButton.m_bEnabled = true;
-#ifdef __EMSCRIPTEN__
-		m_joinButton.m_bEnabled = false;
-#else
+#ifdef FEATURE_NETWORKING
 		m_joinButton.m_bEnabled = true;
+#else
+		m_joinButton.m_bEnabled = false;
 #endif
 	}
 	else

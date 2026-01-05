@@ -85,6 +85,7 @@ elseif(EMSCRIPTEN) # WASM
     set(CMAKE_EXECUTABLE_SUFFIX ".js")
     add_link_options("$<$<CONFIG:DEBUG>:-gsource-map>")
     add_link_options(-Wno-pthreads-mem-growth -sALLOW_MEMORY_GROWTH=1)
+    add_compile_definitions(MC_NO_NETWORKING)
 elseif(HAIKU) # HaikuOS
     link_libraries(network)
 elseif(ANDROID) # Android

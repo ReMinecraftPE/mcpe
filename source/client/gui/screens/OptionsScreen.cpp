@@ -349,7 +349,7 @@ void OptionsScreen::init()
 
 	updateTexts();
 
-#ifdef __EMSCRIPTEN__
+#ifndef FEATURE_NETWORKING
 	m_srvVisButton.m_bEnabled = false;
 #endif
 }
