@@ -69,7 +69,8 @@ for dep in "${CLANG:-clang}" make cmake; do
     fi
 done
 
-# Increase this if we ever make a change to the toolchain and we need to invalidate the cache.
+# Increase this if we ever make a change to the toolchain, for example
+# using a newer cctools-port version, and we need to invalidate the cache.
 toolchainver=1
 if [ "$(cat bin/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
     rm -rf bin
