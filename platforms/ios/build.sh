@@ -104,6 +104,18 @@ if [ -n "$outdated_toolchain" ]; then
     cp misc/lipo ../../bin/lipo
     cd ../..
     printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
+
+    if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
+        printf '\nBuilding ldid...\n\n'
+
+        ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
+        wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
+
+        cd "ldid-$ldid_commit"
+        make CXX=clang++
+        mv ldid ../bin
+        cd ..
+    fi
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
@@ -113,18 +125,6 @@ if [ -z "$DEBUG" ]; then
         lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
     fi
     rm -f "$workdir/testout"
-fi
-
-if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
-    printf '\nBuilding ldid...\n\n'
-
-    ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
-    wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
-
-    cd "ldid-$ldid_commit"
-    make CXX=clang++
-    mv ldid ../bin
-    cd ..
 fi
 
 # go to the root of the project
