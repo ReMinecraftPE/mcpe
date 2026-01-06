@@ -72,17 +72,7 @@ if(REMCPE_GFX_API STREQUAL "OGL")
     endif()
 endif()
 
-# --- Post Build ---
 if(EMSCRIPTEN) # WASM
     # Export Resize Function
     target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
-elseif(XENON) # Xbox 360 (libXenon)
-    # ELF -> ELF32
-    add_custom_command(
-        TARGET reminecraftpe POST_BUILD
-        COMMAND ${CMAKE_OBJCOPY} -O elf32-powerpc --adjust-vma 0x80000000 
-                $<TARGET_FILE:reminecraftpe> ${CMAKE_CURRENT_BINARY_DIR}/reminecraftpe.elf32
-        COMMAND ${CMAKE_STRIP} ${CMAKE_CURRENT_BINARY_DIR}/reminecraftpe.elf32
-        COMMENT "Converting to elf32 and stripping..."
-    )
 endif()

@@ -44,11 +44,11 @@
 #include <windows.h>
 #endif
 
-#else
+#elif defined(XENON)
 
-#ifdef XENON
-#define _POSIX_THREADS
-#endif
+#include <xenon_soc/xenon_power.h>
+
+#else
 
 // pthreads
 #include <pthread.h>
@@ -72,6 +72,8 @@ private:
 	std::thread m_thrd;
 #elif defined (USE_WIN32_THREADS)
 	HANDLE m_thrd;
+#elif defined(XENON)
+	int m_thrd;
 #else
 	pthread_t m_thrd;
 	pthread_attr_t m_thrd_attr;

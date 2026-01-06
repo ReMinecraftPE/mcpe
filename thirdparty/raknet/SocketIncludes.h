@@ -55,12 +55,16 @@
 	typedef SOCKET __TCPSOCKET__;
 	typedef int socklen_t;
 #else
-	#define closesocket close
+	#ifndef XENON // lwip already defines this
+		#define closesocket close
+	#endif
 	#include <unistd.h>
 	#include <sys/types.h>
 	#ifdef XENON
 		#include <lwip/sockets.h>
-		typedef struct sockaddr_in sockaddr_i;
+		#include <lwip/inet.h>
+		#include <lwip/netdb.h>
+		typedef struct sockaddr_in sockaddr_in;
 	#else
 		#include <sys/socket.h>
 		#include <netinet/in.h>

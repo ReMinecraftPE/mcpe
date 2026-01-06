@@ -76,7 +76,8 @@ elseif(XENON) # Xbox 360 (libXenon)
         target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
     endfunction()
 
-    #add_subdirectory(thirdparty/libxenon_utils EXCLUDE_FROM_ALL)
+    add_subdirectory(thirdparty/xenon_utils EXCLUDE_FROM_ALL)
+    add_compile_definitions(MC_NO_NETWORKING)
 elseif(EMSCRIPTEN) # WASM
     function(add_compile_and_link_options)
         add_compile_options(${ARGV})
@@ -95,6 +96,8 @@ endif()
 # Threading
 if(EMSCRIPTEN)
     add_compile_and_link_options(-pthread)
+elseif(XENON)
+    link_libraries(xenon_utils)
 else()
     find_package(Threads)
     link_libraries(Threads::Threads)

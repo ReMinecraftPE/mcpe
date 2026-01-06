@@ -37,7 +37,11 @@
 
 
 #else
+#ifdef XENON
+#include <lwip/inet.h>
+#else
 #include <arpa/inet.h>
+#endif
 #include <memory.h>
 #if defined(ANDROID)
 #include <math.h>

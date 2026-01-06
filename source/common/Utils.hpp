@@ -46,7 +46,7 @@
 #include <direct.h>
 #include <io.h>
 
-#elif MC_PLATFORM_XBOX360
+#elif defined(_XBOX)
 
 #include <xtl.h>
 #include <winsockx.h>

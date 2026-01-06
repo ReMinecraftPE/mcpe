@@ -21,14 +21,17 @@
 #pragma warning(disable : 28159)
 #endif
 
-#elif MC_PLATFORM_XBOX360
-
 #else
 
 #include <sys/time.h>
 #include <unistd.h>
 #include <sys/stat.h>
 
+#endif
+
+#ifdef XENON
+// needed for udelay in sleepMs
+#include <time/time.h>
 #endif
 
 // include zlib stuff
@@ -265,6 +268,8 @@ void sleepMs(int ms)
 {
 #ifdef _WIN32
 	Sleep(ms);
+#elif defined(XENON)
+	udelay(1000 * ms);
 #else
 	usleep(1000 * ms);
 #endif

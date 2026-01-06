@@ -25,12 +25,13 @@ target_link_libraries(reminecraftpe stb_image)
 
 # SDL (From system)
 if(XENON)
-    # @TODO: is there a good way to not hardcode these paths?
-    target_include_directories(reminecraftpe-core PUBLIC "${DEVKITXENON}/usr/include/SDL")
-    target_link_libraries(reminecraftpe-core PUBLIC "${DEVKITXENON}/usr/lib/libSDL.a")
+    target_link_libraries(reminecraftpe-core PUBLIC "SDL")
     if(SDLMAIN_LIBRARY)
         target_link_libraries(reminecraftpe "${SDLMAIN_LIBRARY}")
     endif()
+    
+    # Must be linked after SDL, since libSDLXenon uses the SDK
+    target_link_libraries(reminecraftpe-core PUBLIC "xenon")
 else()
     find_package(SDL REQUIRED)
     target_include_directories(reminecraftpe-core PUBLIC "${SDL_INCLUDE_DIR}")
@@ -44,4 +45,16 @@ if(REMCPE_GFX_API STREQUAL "OGL")
     # OpenGL
     find_package(OpenGL REQUIRED)
     target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
+endif()
+
+# Post-Build
+if(XENON) # Xbox 360 (libXenon)
+    # ELF -> ELF32
+    add_custom_command(
+        TARGET reminecraftpe POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O elf32-powerpc --adjust-vma 0x80000000 
+                $<TARGET_FILE:reminecraftpe> ${CMAKE_CURRENT_BINARY_DIR}/reminecraftpe.elf32
+        COMMAND ${CMAKE_STRIP} ${CMAKE_CURRENT_BINARY_DIR}/reminecraftpe.elf32
+        COMMENT "Converting to elf32 and stripping..."
+    )
 endif()

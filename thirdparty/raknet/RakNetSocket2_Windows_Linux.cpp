@@ -157,7 +157,11 @@ void GetMyIP_Windows_Linux_IPV4And6( SystemAddress addresses[MAXIMUM_NUMBER_OF_I
 #else
 
 #if (defined(__GNUC__)  || defined(__GCCXML__)) && !defined(__WIN32__)
+#ifdef XENON
+#include <lwip/netdb.h>
+#else
 #include <netdb.h>
+#endif
 #endif
 void GetMyIP_Windows_Linux_IPV4( SystemAddress addresses[MAXIMUM_NUMBER_OF_INTERNAL_IDS] )
 {
