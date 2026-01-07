@@ -92,8 +92,8 @@ static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...) {}
 static inline void mc_log_nothing(const char *fmt, ...) {}
 
 #define LOG if (0) mc_log
-#define LOG_I mc_log_info if (0) mc_log_nothing
-#define LOG_W mc_log_warn if (0) mc_log_nothing
-#define LOG_E mc_log_err if (0) mc_log_nothing
+#define LOG_I if (0) mc_log_nothing
+#define LOG_W if (0) mc_log_nothing
+#define LOG_E if (0) mc_log_nothing
 
 #endif
