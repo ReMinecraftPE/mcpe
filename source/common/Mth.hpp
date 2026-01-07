@@ -44,7 +44,7 @@ public:
 		return sqrtf(f);
 	}
     
-	static inline float Lerp(float a, float b, float progress)
+	static inline CONSTEXPR float Lerp(float a, float b, float progress)
 	{
 		return a + progress * (b - a);
 	}
