@@ -81,19 +81,19 @@ static inline void mc_log_err(const char *fmt, ...)
 	va_end(ap);
 }
 
-#else
-
-static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...) {}
-
-static inline void mc_log_info(const char *fmt, ...) {}
-
-static inline void mc_log_warn(const char *fmt, ...) {}
-
-static inline void mc_log_err(const char *fmt, ...) {}
-
-#endif
-
 #define LOG mc_log
 #define LOG_I mc_log_info
 #define LOG_W mc_log_warn
 #define LOG_E mc_log_err
+
+#else
+
+static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...) {}
+static inline void mc_log_nothing(const char *fmt, ...) {}
+
+#define LOG if (0) mc_log
+#define LOG_I mc_log_info if (0) mc_log_nothing
+#define LOG_W mc_log_warn if (0) mc_log_nothing
+#define LOG_E mc_log_err if (0) mc_log_nothing
+
+#endif
