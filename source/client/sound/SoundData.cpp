@@ -107,20 +107,26 @@ void SoundDesc::_unload()
 // Load All Sounds
 void SoundDesc::_loadAll(const AppPlatform* platform)
 {
-#define SOUND(category, name, number) SA_##name##number._load(platform, #category, #name#number);
+#define SOUND(category, name) SA_##name._load(platform, #category, #name);
+#define SOUND_NUM(category, name, number) SA_##name##number._load(platform, #category, #name#number);
 #include "sound_list.h"
 #undef SOUND
+#undef SOUND_NUM
 }
 
 // Un-load All Sounds
 void SoundDesc::_unloadAll()
 {
-#define SOUND(category, name, number) SA_##name##number._unload();
+#define SOUND(category, name) SA_##name._unload();
+#define SOUND_NUM(category, name, number) SA_##name##number._unload();
 #include "sound_list.h"
 #undef SOUND
+#undef SOUND_NUM
 }
 
 // Declare Variables
-#define SOUND(category, name, number) SoundDesc SA_##name##number;
+#define SOUND(category, name) SoundDesc SA_##name;
+#define SOUND_NUM(category, name, number) SoundDesc SA_##name##number;
 #include "sound_list.h"
 #undef SOUND
+#undef SOUND_NUM

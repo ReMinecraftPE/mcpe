@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <stdarg.h>
 
 #ifdef ANDROID
 #include <android/log.h>
@@ -39,22 +40,60 @@ public:
 
 #ifndef NDEBUG
 
+static inline void remcpe_vlog(enum eLogLevel loglevel, const char *fmt, va_list ap)
+{
 #ifdef ANDROID
-// TODO: Add a LoggerAndroid
-#define LOG(level, ...) __android_log_print(level, "ReMinecraftPE", __VA_ARGS__)
+	__android_log_vprint(loglevel, "ReMinecraftPE", fmt, ap);
 #else
-#define LOG(level, ...) Logger::singleton()->printf(level, __VA_ARGS__)
+	Logger::singleton()->vprintf(loglevel, fmt, ap);
+#endif
+}
+
+static inline void remcpe_log(enum eLogLevel loglevel, const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	remcpe_vlog(loglevel, fmt, ap);
+	va_end(ap);
+}
+
+static inline void remcpe_log_info(const char *fmt, ...)
+{
+	va_list	ap;
+	va_start(ap, fmt);
+	remcpe_vlog(LOG_INFO, fmt, ap);
+	va_end(ap);
+}
+
+static inline void remcpe_log_warn(const char *fmt, ...)
+{
+	va_list	ap;
+	va_start(ap, fmt);
+	remcpe_vlog(LOG_WARN, fmt, ap);
+	va_end(ap);
+}
+
+static inline void remcpe_log_err(const char *fmt, ...)
+{
+	va_list	ap;
+	va_start(ap, fmt);
+	remcpe_vlog(LOG_ERR, fmt, ap);
+	va_end(ap);
+}
+
+#else
+
+static inline void remcpe_log(enum eLogLevel loglevel, const char *fmt, ...) {}
+
+static inline void remcpe_log_info(const char *fmt, ...) {}
+
+static inline void remcpe_log_warn(const char *fmt, ...) {}
+
+static inline void remcpe_log_err(const char *fmt, ...) {}
+
 #endif
 
-#define LOG_I(...) LOG(LOG_INFO, __VA_ARGS__)
-#define LOG_W(...) LOG(LOG_WARN, __VA_ARGS__)
-#define LOG_E(...) LOG(LOG_ERR,  __VA_ARGS__)
-
-#else
-
-#define LOG(...)	((void)0)
-#define LOG_I(...)	((void)0)
-#define LOG_W(...)	((void)0)
-#define LOG_E(...)	((void)0)
-
-#endif
+#define LOG remcpe_log
+#define LOG_I remcpe_log_info
+#define LOG_W remcpe_log_warn
+#define LOG_E remcpe_log_err

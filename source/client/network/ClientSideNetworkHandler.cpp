@@ -21,10 +21,8 @@
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_CLIENT)
 #define puts_ignorable(str) LOG_I(str)
-#define printf_ignorable(str, ...) LOG_I(str, __VA_ARGS__)
 #else
 #define puts_ignorable(str)
-#define printf_ignorable(str, ...)
 #endif
 
 ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNetInstance* pRakNetInstance)
@@ -60,7 +58,7 @@ void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // s
 {
 #ifdef VERBOSE_CLIENT
 	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
-	printf_ignorable("onConnect, server guid: %s, local guid: %s", rakGuid.ToString(), localGuid.ToString());
+	LOG_I("onConnect, server guid: %s, local guid: %s", rakGuid.ToString(), localGuid.ToString());
 #endif
 
 	m_serverGUID = rakGuid;
