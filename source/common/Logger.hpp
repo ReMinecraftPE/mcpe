@@ -53,7 +53,7 @@ static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
-	remcpe_vlog(loglevel, fmt, ap);
+	mc_vlog(loglevel, fmt, ap);
 	va_end(ap);
 }
 
@@ -61,7 +61,7 @@ static inline void mc_log_info(const char *fmt, ...)
 {
 	va_list	ap;
 	va_start(ap, fmt);
-	remcpe_vlog(LOG_INFO, fmt, ap);
+	mc_vlog(LOG_INFO, fmt, ap);
 	va_end(ap);
 }
 
@@ -69,7 +69,7 @@ static inline void mc_log_warn(const char *fmt, ...)
 {
 	va_list	ap;
 	va_start(ap, fmt);
-	remcpe_vlog(LOG_WARN, fmt, ap);
+	mc_vlog(LOG_WARN, fmt, ap);
 	va_end(ap);
 }
 
@@ -77,7 +77,7 @@ static inline void mc_log_err(const char *fmt, ...)
 {
 	va_list	ap;
 	va_start(ap, fmt);
-	remcpe_vlog(LOG_ERR, fmt, ap);
+	mc_vlog(LOG_ERR, fmt, ap);
 	va_end(ap);
 }
 
