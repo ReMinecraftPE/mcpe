@@ -93,7 +93,7 @@ static inline void mc_log_err(const char *fmt, ...) {}
 
 #endif
 
-#define LOG remcpe_log
-#define LOG_I remcpe_log_info
-#define LOG_W remcpe_log_warn
-#define LOG_E remcpe_log_err
+#define LOG mc_log
+#define LOG_I mc_log_info
+#define LOG_W mc_log_warn
+#define LOG_E mc_log_err
