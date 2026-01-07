@@ -40,7 +40,7 @@ public:
 
 #ifndef NDEBUG
 
-static inline void remcpe_vlog(enum eLogLevel loglevel, const char *fmt, va_list ap)
+static inline void mc_vlog(enum eLogLevel loglevel, const char *fmt, va_list ap)
 {
 #ifdef ANDROID
 	__android_log_vprint(loglevel, "ReMinecraftPE", fmt, ap);
@@ -49,7 +49,7 @@ static inline void remcpe_vlog(enum eLogLevel loglevel, const char *fmt, va_list
 #endif
 }
 
-static inline void remcpe_log(enum eLogLevel loglevel, const char *fmt, ...)
+static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
@@ -57,7 +57,7 @@ static inline void remcpe_log(enum eLogLevel loglevel, const char *fmt, ...)
 	va_end(ap);
 }
 
-static inline void remcpe_log_info(const char *fmt, ...)
+static inline void mc_log_info(const char *fmt, ...)
 {
 	va_list	ap;
 	va_start(ap, fmt);
@@ -65,7 +65,7 @@ static inline void remcpe_log_info(const char *fmt, ...)
 	va_end(ap);
 }
 
-static inline void remcpe_log_warn(const char *fmt, ...)
+static inline void mc_log_warn(const char *fmt, ...)
 {
 	va_list	ap;
 	va_start(ap, fmt);
@@ -73,7 +73,7 @@ static inline void remcpe_log_warn(const char *fmt, ...)
 	va_end(ap);
 }
 
-static inline void remcpe_log_err(const char *fmt, ...)
+static inline void mc_log_err(const char *fmt, ...)
 {
 	va_list	ap;
 	va_start(ap, fmt);
@@ -83,13 +83,13 @@ static inline void remcpe_log_err(const char *fmt, ...)
 
 #else
 
-static inline void remcpe_log(enum eLogLevel loglevel, const char *fmt, ...) {}
+static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...) {}
 
-static inline void remcpe_log_info(const char *fmt, ...) {}
+static inline void mc_log_info(const char *fmt, ...) {}
 
-static inline void remcpe_log_warn(const char *fmt, ...) {}
+static inline void mc_log_warn(const char *fmt, ...) {}
 
-static inline void remcpe_log_err(const char *fmt, ...) {}
+static inline void mc_log_err(const char *fmt, ...) {}
 
 #endif
 
