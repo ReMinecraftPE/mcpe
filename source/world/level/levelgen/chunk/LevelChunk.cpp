@@ -19,12 +19,12 @@ LevelChunk::~LevelChunk()
 	SAFE_DELETE_ARRAY(m_tileData.m_data);
 }
 
-constexpr int MakeBlockDataIndex(const ChunkTilePos& pos)
+int MakeBlockDataIndex(const ChunkTilePos& pos)
 {
 	return (pos.x << 11) | (pos.z << 7) | pos.y;
 }
 
-constexpr int MakeHeightMapIndex(const ChunkTilePos& pos)
+int MakeHeightMapIndex(const ChunkTilePos& pos)
 {
 	return pos.x | (pos.z * 16);
 }

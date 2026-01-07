@@ -38,7 +38,7 @@ public:
 	bool isTouchscreen() const override;
 	std::string getAssetPath(const std::string& path) const override;
 	std::string getPatchData() override;
-	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
+	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
 	
 	// Also add these to allow proper text input within the game.
 	bool shiftPressed() override;

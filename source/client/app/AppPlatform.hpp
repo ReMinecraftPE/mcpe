@@ -50,7 +50,7 @@ public:
 private:
 	static AppPlatform* m_singleton;
 public:
-	static AppPlatform* const singleton();
+	static AppPlatform* singleton();
 
 public:
 	AppPlatform();
@@ -116,7 +116,7 @@ public:
 	// Also add this to allow dynamic patching.
 	virtual std::string getPatchData();
 	virtual void initSoundSystem();
-	virtual SoundSystem* const getSoundSystem() const;
+	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;

@@ -25,7 +25,7 @@ class Logger
 private:
 	static Logger* m_singleton;
 public:
-	static Logger* const singleton();
+	static Logger* singleton();
 	static void setSingleton(Logger*);
 
 	virtual ~Logger();

@@ -46,7 +46,7 @@ public:
 	
 	bool hasFileSystemAccess() override;	
 
-	SoundSystem* const getSoundSystem() const override;
+	SoundSystem* getSoundSystem() const override;
 	void initSoundSystem() override;
 	bool isTouchscreen() const override;
 
