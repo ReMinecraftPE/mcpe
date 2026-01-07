@@ -44,36 +44,50 @@
 #define MC_PLATFORM_ANDROID 0
 #endif
 
-/* Microsoft - Xbox */
-#ifdef _XBOX
-#define MC_PLATFORM_XBOX 1
-#else
-#define MC_PLATFORM_XBOX 0
-#endif
-
 /* Microsoft - Xbox One */
-#if (defined (_DURANGO) || defined(_XBOX_ONE))
+#if (defined(_DURANGO) || defined(_XBOX_ONE))
 #define MC_PLATFORM_XBOXONE 1
 #else
 #define MC_PLATFORM_XBOXONE 0
 #endif
 
+/* Microsoft - Xbox 360 (XDK) */
+#if (defined(_XBOX_VER) && _XBOX_VER >= 200 && !MC_PLATFORM_XBOXONE)
+#define MC_PLATFORM_XBOX360_XDK 1
+#else
+#define MC_PLATFORM_XBOX360_XDK 0
+#endif
+
+/* Microsoft - Xbox 360 (libXenon) */
+#if (defined(XENON))
+#define MC_PLATFORM_XBOX360_XENON 1
+#else
+#define MC_PLATFORM_XBOX360_XENON 0
+#endif
+
 /* Microsoft - Xbox 360 */
-#if (defined (X360) && !MC_PLATFORM_XBOXONE)
+#if (MC_PLATFORM_XBOX360_XDK || MC_PLATFORM_XBOX360_XENON)
 #define MC_PLATFORM_XBOX360 1
 #else
 #define MC_PLATFORM_XBOX360 0
 #endif
 
 /* Microsoft - Original Xbox */
-#if (defined (_XBOX) && !MC_PLATFORM_XBOX360 && !MC_PLATFORM_XBOXONE && !defined(WINDOWS_STORE_RT))
+#if (defined(_XBOX_VER) && _XBOX_VER < 200)
 #define MC_PLATFORM_XBOXOG 1
 #else
 #define MC_PLATFORM_XBOXOG 0
 #endif
 
+/* Microsoft - Xbox */
+#if (MC_PLATFORM_XBOX360 || defined(_XBOX))
+#define MC_PLATFORM_XBOX 1
+#else
+#define MC_PLATFORM_XBOX 0
+#endif
+
 /* Microsoft - Windows PC */
-#if (defined (_WIN32) && !MC_PLATFORM_XBOX && !defined(WINDOWS_PHONE_8) && !defined(WINDOWS_STORE_RT))
+#if (defined(_WIN32) && !MC_PLATFORM_XBOX && !defined(WINDOWS_PHONE_8) && !defined(WINDOWS_STORE_RT))
 #define MC_PLATFORM_WINPC 1
 #else
 #define MC_PLATFORM_WINPC 0

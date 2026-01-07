@@ -35,7 +35,6 @@
 
 #ifdef _WIN32
 
-// Do we even need all this WinSock stuff anymore?
 #if MC_PLATFORM_WINPC
 
 #define WIN32_LEAN_AND_MEAN
@@ -49,7 +48,6 @@
 #elif defined(_XBOX)
 
 #include <xtl.h>
-#include <winsockx.h>
 
 #endif
 

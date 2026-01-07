@@ -17,26 +17,35 @@
   <!--PropertyGroup Label="Configuration">
     <EnableASAN>true</EnableASAN>
   </PropertyGroup-->
+  <!-- Win32 -->
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <PlatformToolset Condition="'$(PlatformToolsetVersion)'=='' Or $(PlatformToolsetVersion)&gt;=141">v141_xp</PlatformToolset>
 	<WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
+  <!-- x64 -->
   <PropertyGroup Condition="'$(Platform)'=='x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <PlatformToolset Condition="'$(PlatformToolsetVersion)'=='' Or $(PlatformToolsetVersion)&gt;=143">v143</PlatformToolset>
 	<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <!-- Release -->
-  <PropertyGroup Condition="$(Configuration.StartsWith('Release'))">
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+  <!-- Xbox 360 -->
+  <PropertyGroup Condition="'$(Platform)'=='Xbox 360'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(Xbox360TechPreviewInclude);$(XDKInstallDir)\include\xbox;$(VC_IncludePath);$(WindowsSDK_IncludePath);%(IncludePath)</IncludePath>
+    <RemoteRoot>hdd01:\dev\$(SolutionName)</RemoteRoot>
   </PropertyGroup>
   <!-- Debug -->
   <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))">
     <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <!-- Release -->
+  <PropertyGroup Condition="$(Configuration.StartsWith('Release'))">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   
   <!-- GFX Macros -->
@@ -112,6 +121,19 @@
     <ClCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Xbox 360 -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360'">
+    <ClCompile>
+      <PreprocessorDefinitions>RAPIDJSON_ENDIAN=RAPIDJSON_BIGENDIAN;_XBOX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+   <!-- Xbox 360 (Debug) -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Debug'))">
+    <Deploy>
+      <DeploymentType>CopyToHardDrive</DeploymentType>
+      <Progress>true</Progress>
+    </Deploy>
   </ItemDefinitionGroup>
   
 </Project>

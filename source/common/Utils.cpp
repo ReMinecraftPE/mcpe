@@ -21,6 +21,10 @@
 #pragma warning(disable : 28159)
 #endif
 
+#elif MC_PLATFORM_XBOX360_XDK
+
+
+
 #else
 
 #include <sys/time.h>
