@@ -22,7 +22,6 @@
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/RenderMaterial.hpp"
-#include "renderer/platform/ogl/Extensions.hpp"
 
 #ifdef DEMO
 #include "world/level/storage/MemoryLevelStorageSource.hpp"
@@ -73,8 +72,10 @@ void NinecraftApp::_initTextures()
 	}
 }
 
-void NinecraftApp::_initMaterials()
+void NinecraftApp::_initRenderMaterials()
 {
+	mce::RenderMaterial::InitContext();
+
 	mce::RenderMaterialGroup::common.loadList("materials/common.json");
 	_reloadFancy(getOptions()->m_bFancyGraphics);
 }
@@ -114,9 +115,9 @@ void NinecraftApp::_updateStats()
 void NinecraftApp::_reloadTextures()
 {
 	TextureData* pTexture;
-	pTexture = m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
+	pTexture = m_pTextures->loadAndBindTexture(C_TERRAIN_NAME, true);
 	GetPatchManager()->PatchTextures(*pTexture, TYPE_TERRAIN);
-	pTexture = m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+	pTexture = m_pTextures->loadAndBindTexture(C_ITEMS_NAME, true);
 	GetPatchManager()->PatchTextures(*pTexture, TYPE_ITEMS);
 
 	GetPatchManager()->PatchTiles();
@@ -143,6 +144,58 @@ void NinecraftApp::_reloadOptionalFeatures()
 void NinecraftApp::_reloadPatchData()
 {
 	GetPatchManager()->LoadPatchData(platform()->getPatchData());
+}
+
+void NinecraftApp::_initAll()
+{
+	Mth::initMth();
+
+	if (!_hasInitedStatics)
+	{
+		_hasInitedStatics = true;
+		Material::initMaterials();
+		EntityTypeDescriptor::initDescriptors(); // custom
+		MobCategory::initMobCategories();
+		MobFactory::initMobLists(); 
+		Tile::initTiles();
+		Item::initItems();
+		Biome::initBiomes();
+		//TileEntity::initTileEntities();
+	}
+
+	_initOptions();
+	setupRenderer();
+	_initRenderMaterials();
+	_initTextures();
+	Minecraft::init();
+	Tesselator::instance.init();
+
+#ifdef DEMO
+	m_pLevelStorageSource = new MemoryLevelStorageSource;
+#else
+	m_pLevelStorageSource = new ExternalFileLevelStorageSource(m_externalStorageDir);
+#endif
+
+	m_pGui = new Gui(this);
+	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
+	std::string font = "font/default8.png";
+	if (!platform()->doesTextureExist(font))
+		font = "font/default.png";
+	m_pFont = new Font(getOptions(), font, m_pTextures);
+	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
+	m_pGameRenderer = new GameRenderer(this);
+	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
+	m_pUser = new User(getOptions()->m_playerName, "");
+
+	_initInput();
+
+	platform()->initSoundSystem();
+	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
+	m_pSoundEngine->init(getOptions(), platform());
+
+	field_D9C = 0;
+
+	setScreen(new StartMenuScreen);
 }
 
 bool NinecraftApp::handleBack(bool b)
@@ -225,56 +278,20 @@ void NinecraftApp::onAppSuspended()
 
 void NinecraftApp::init()
 {
-	Mth::initMth();
-
-	if (!_hasInitedStatics)
+	// We have no way to debug with libXenon, and aborting will kill our logs
+#ifdef XENON
+	try
 	{
-		_hasInitedStatics = true;
-		Material::initMaterials();
-		EntityTypeDescriptor::initDescriptors(); // custom
-		MobCategory::initMobCategories();
-		MobFactory::initMobLists(); 
-		Tile::initTiles();
-		Item::initItems();
-		Biome::initBiomes();
-		//TileEntity::initTileEntities();
+		_initAll();
 	}
-
-	_initOptions();
-	setupRenderer();
-	_initTextures();
-	Minecraft::init();
-	mce::RenderMaterial::InitContext();
-	Tesselator::instance.init();
-
-#ifdef DEMO
-	m_pLevelStorageSource = new MemoryLevelStorageSource;
+	catch (...)
+	{
+		LOG_E("NinecraftApp encountered an exception during initialization!");
+		exit(EXIT_FAILURE);
+	}
 #else
-	m_pLevelStorageSource = new ExternalFileLevelStorageSource(m_externalStorageDir);
+	_initAll();
 #endif
-
-	_initMaterials();
-
-	m_pGui = new Gui(this);
-	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
-	std::string font = "font/default8.png";
-	if (!platform()->doesTextureExist(font))
-		font = "font/default.png";
-	m_pFont = new Font(getOptions(), font, m_pTextures);
-	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
-	m_pGameRenderer = new GameRenderer(this);
-	m_pParticleEngine = new ParticleEngine(m_pLevel, m_pTextures);
-	m_pUser = new User(getOptions()->m_playerName, "");
-	
-	_initInput();
-
-	platform()->initSoundSystem();
-	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
-	m_pSoundEngine->init(getOptions(), platform());
-
-	field_D9C = 0;
-
-	setScreen(new StartMenuScreen);
 }
 
 void NinecraftApp::setupRenderer()

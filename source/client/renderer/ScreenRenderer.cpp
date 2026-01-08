@@ -4,7 +4,7 @@
 #include "renderer/ShaderConstants.hpp"
 #include "client/renderer/Tesselator.hpp"
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning (disable : 4244)
 #endif
 

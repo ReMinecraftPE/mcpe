@@ -250,7 +250,7 @@ void LevelRenderer::_buildStarsMesh()
 			{
 				float ___xo = 0.0f;
 				float ___yo = ((c & 2) - 1) * ss;
-				float ___zo = ((c + 1 & 2) - 1) * ss;
+				float ___zo = (((c + 1) & 2) - 1) * ss;
 				float __yo = ___yo * zCos - ___zo * zSin;
 				float __zo = ___zo * zCos + ___yo * zSin;
 				float _yo = __yo * xSin + ___xo * xCos;
@@ -476,15 +476,15 @@ void LevelRenderer::_updateViewArea(const Entity& camera)
 
 void LevelRenderer::_startFrame(FrustumCuller& culler, float renderDistance, float f)
 {
-	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
-	mce::PerFrameConstants& frame = globalBuffers.m_perFrameConstants;
-
 	const Entity& camera = *m_pMinecraft->m_pCameraEntity;
 	m_viewPos = camera.getPos(f);
 
 	_setupFog(camera, 1);
 
 #ifdef FEATURE_GFX_SHADERS
+	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
+	mce::PerFrameConstants& frame = globalBuffers.m_perFrameConstants;
+
 	Vec3 viewVector = camera.getViewVector(f);
 	frame.VIEW_DIRECTION->setData(&viewVector);
 
@@ -576,7 +576,7 @@ void LevelRenderer::cull(Culler* pCuller, float f)
 		if (pChunk->isEmpty())
 			continue;
 
-		if (!pChunk->m_bVisible || (i + m_cullStep & 15) == 0)
+		if (!pChunk->m_bVisible || ((i + m_cullStep) & 15) == 0)
 		{
 			pChunk->cull(pCuller);
 		}
@@ -784,6 +784,8 @@ void LevelRenderer::renderLineBox(const AABB& aabb, const mce::MaterialPtr& mate
 	glLineWidth(lineWidth);
 #endif
 
+	// @TODO: cache this as a mesh, then translate matrix
+
 	Tesselator& t = Tesselator::instance;
 
 	t.begin(mce::PRIMITIVE_MODE_LINE_STRIP, 5);
@@ -896,7 +898,7 @@ void LevelRenderer::render(const Entity& camera, Tile::RenderLayer layer, float 
 	if (layer == Tile::RENDER_LAYER_OPAQUE)
 		m_totalChunks = m_offscreenChunks = m_occludedChunks = m_renderedChunks = m_emptyChunks = 0;
 
-	Vec3 cameraPos = camera.m_posPrev + (camera.m_pos - camera.m_posPrev) * alpha;
+	//Vec3 cameraPos = camera.m_posPrev + (camera.m_pos - camera.m_posPrev) * alpha;
 
 	float dX = camera.m_pos.x - m_posPrev.x, dY = camera.m_pos.y - m_posPrev.y, dZ = camera.m_pos.z - m_posPrev.z;
 
@@ -1283,13 +1285,13 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			t.setOffset(0, 0, 0);
 		}
 	}
-    else if (inventoryItem != nullptr)
+    /*else if (inventoryItem != nullptr)
 	{
          float br = Mth::sin((float)getTimeMs() / 100.0f) * 0.2f + 0.8f;
 		 currentShaderColor = Color(br, br, br, Mth::sin((float)getTimeMs() / 200.0f) * 0.2f + 0.5f);
 		 m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
          TilePos tp = hr.m_tilePos.relative(hr.m_hitSide);
-	}
+	}*/
 }
 
 void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
@@ -1361,8 +1363,6 @@ void LevelRenderer::tileChanged(const TilePos& pos)
 	setDirty(pos - 1, pos + 1);
 }
 
-extern int t_keepPic;
-
 void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 {
 	Mob* pOldMob = m_pMinecraft->m_pCameraEntity;
@@ -1386,7 +1386,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	g_bDisableParticles = false;
 #endif
 
-	t_keepPic = -1;
+	m_pMinecraft->m_pGameRenderer->m_keepPic = -1;
 
 	static char str[256];
 	// @HUH: This has the potential to overwrite a file
@@ -1656,8 +1656,6 @@ void LevelRenderer::renderSky(const Entity& camera, float alpha)
 	// called again a few lines down, no min in Java, why is it here?
 	//currentShaderColor = Color(sc.x, sc.y, Mth::Min(1.0f, sc.z), 1.0f);
 
-	Tesselator& t = Tesselator::instance;
-
 	{
 		Fog::enable();
 		// @TODO: can we avoid rebuilding the mesh every time the fog updates?
@@ -1691,7 +1689,10 @@ void LevelRenderer::prepareAndRenderClouds(const Entity& camera, float f)
 	float fov = gameRenderer.getFov(f);
 
 	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
-	projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
+	// Java
+	//projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, renderDistance * 512.0f);
+	// PE (0.12.1)
+	projMtx->setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 2.0f, renderDistance * 5120.0f);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.push();
 	_setupFog(camera, 0);

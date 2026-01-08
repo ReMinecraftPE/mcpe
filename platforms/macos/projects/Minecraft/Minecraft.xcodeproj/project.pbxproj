@@ -981,8 +981,6 @@
 		84EB0D6A2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */; };
 		84EB0D6B2EE2D4B3008FB007 /* FogStateDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */; };
 		84EB0D6C2EE2D4B3008FB007 /* FogStateDescription.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */; };
-		84EB0D6D2EE2D4B3008FB007 /* ErrorHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C6F2EE2D4B3008FB007 /* ErrorHandler.cpp */; };
-		84EB0D6E2EE2D4B3008FB007 /* ErrorHandler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C702EE2D4B3008FB007 /* ErrorHandler.hpp */; };
 		84EB0D6F2EE2D4B3008FB007 /* TextureHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */; };
 		84EB0D702EE2D4B3008FB007 /* TextureHelper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0C722EE2D4B3008FB007 /* TextureHelper.hpp */; };
 		84EB0D712EE2D4B3008FB007 /* ImageDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0C732EE2D4B3008FB007 /* ImageDescription.cpp */; };
@@ -1121,6 +1119,10 @@
 		84EE51312E8DCC9000D3DCA2 /* DataLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */; };
 		84EE51322E8DCC9000D3DCA2 /* DataLayer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */; };
 		84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */; };
+		84EEED632F0A01B700F741B6 /* ViewportOrigin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EEED612F0A01B700F741B6 /* ViewportOrigin.cpp */; };
+		84EEED642F0A01B700F741B6 /* ViewportOrigin.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EEED622F0A01B700F741B6 /* ViewportOrigin.hpp */; };
+		84EEED682F0A02F300F741B6 /* ErrorHandlerOGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EEED662F0A02F300F741B6 /* ErrorHandlerOGL.cpp */; };
+		84EEED692F0A02F300F741B6 /* ErrorHandlerOGL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EEED672F0A02F300F741B6 /* ErrorHandlerOGL.hpp */; };
 		84F4880E2EEA4F5C00309B1E /* FixedPipelineStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */; };
 		84F4880F2EEA4F5C00309B1E /* FixedPipelineStateNull.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */; };
 		84F488102EEA4F5C00309B1E /* FogStateNull.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */; };
@@ -1290,6 +1292,8 @@
 		84FFBF002ACA3416005A8CCF /* VariadicSQLParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD83F2AC810630006A435 /* VariadicSQLParser.cpp */; };
 		84FFBF012ACA3416005A8CCF /* VitaIncludes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8412AC810630006A435 /* VitaIncludes.cpp */; };
 		84FFBF022ACA3416005A8CCF /* WSAStartupSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8442AC810630006A435 /* WSAStartupSingleton.cpp */; };
+		9D36D2F72F0B3C160031ADFD /* vsnprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D36D2F62F0B3C160031ADFD /* vsnprintf.c */; };
+		9D36D2F92F0B3C1F0031ADFD /* vsnprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2566,8 +2570,6 @@
 		84EB0C6B2EE2D4B3008FB007 /* FixedPipelineStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateDescription.hpp; sourceTree = "<group>"; };
 		84EB0C6C2EE2D4B3008FB007 /* FogStateDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateDescription.cpp; sourceTree = "<group>"; };
 		84EB0C6D2EE2D4B3008FB007 /* FogStateDescription.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FogStateDescription.hpp; sourceTree = "<group>"; };
-		84EB0C6F2EE2D4B3008FB007 /* ErrorHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ErrorHandler.cpp; sourceTree = "<group>"; };
-		84EB0C702EE2D4B3008FB007 /* ErrorHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ErrorHandler.hpp; sourceTree = "<group>"; };
 		84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureHelper.cpp; sourceTree = "<group>"; };
 		84EB0C722EE2D4B3008FB007 /* TextureHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TextureHelper.hpp; sourceTree = "<group>"; };
 		84EB0C732EE2D4B3008FB007 /* ImageDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageDescription.cpp; sourceTree = "<group>"; };
@@ -2701,6 +2703,10 @@
 		84EE512F2E8DCC9000D3DCA2 /* DataLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataLayer.cpp; sourceTree = "<group>"; };
 		84EE51302E8DCC9000D3DCA2 /* DataLayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataLayer.hpp; sourceTree = "<group>"; };
 		84EE51332E8DCD4900D3DCA2 /* TileChange.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileChange.hpp; sourceTree = "<group>"; };
+		84EEED612F0A01B700F741B6 /* ViewportOrigin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewportOrigin.cpp; sourceTree = "<group>"; };
+		84EEED622F0A01B700F741B6 /* ViewportOrigin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ViewportOrigin.hpp; sourceTree = "<group>"; };
+		84EEED662F0A02F300F741B6 /* ErrorHandlerOGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ErrorHandlerOGL.cpp; sourceTree = "<group>"; };
+		84EEED672F0A02F300F741B6 /* ErrorHandlerOGL.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ErrorHandlerOGL.hpp; sourceTree = "<group>"; };
 		84F487F02EEA4F5C00309B1E /* FixedPipelineStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedPipelineStateNull.cpp; sourceTree = "<group>"; };
 		84F487F12EEA4F5C00309B1E /* FixedPipelineStateNull.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FixedPipelineStateNull.hpp; sourceTree = "<group>"; };
 		84F487F22EEA4F5C00309B1E /* FogStateNull.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FogStateNull.cpp; sourceTree = "<group>"; };
@@ -2760,6 +2766,8 @@
 		84F77A6C2EA1C27B0045C907 /* LocalPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalPlayer.cpp; sourceTree = "<group>"; };
 		84F77A6D2EA1C27B0045C907 /* LocalPlayer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LocalPlayer.hpp; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D36D2F62F0B3C160031ADFD /* vsnprintf.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsnprintf.c; sourceTree = "<group>"; };
+		9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vsnprintf.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2892,6 +2900,8 @@
 				84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */,
 				840DD57A2AC810620006A435 /* SDLKeyCodes.h */,
 				8466BD092E774DCD00DDDFC4 /* EndianDefinitions.h */,
+				9D36D2F62F0B3C160031ADFD /* vsnprintf.c */,
+				9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */,
 			);
 			name = compat;
 			path = ../../../../compat;
@@ -4625,6 +4635,8 @@
 				84EB0CE42EE2D4B3008FB007 /* StencilFaceDescription.hpp */,
 				84EB0CE52EE2D4B3008FB007 /* TextureDescription.cpp */,
 				84EB0CE62EE2D4B3008FB007 /* TextureDescription.hpp */,
+				84EEED612F0A01B700F741B6 /* ViewportOrigin.cpp */,
+				84EEED622F0A01B700F741B6 /* ViewportOrigin.hpp */,
 			);
 			path = hal;
 			sourceTree = "<group>";
@@ -4715,8 +4727,6 @@
 		84EB0C6E2EE2D4B3008FB007 /* helpers */ = {
 			isa = PBXGroup;
 			children = (
-				84EB0C6F2EE2D4B3008FB007 /* ErrorHandler.cpp */,
-				84EB0C702EE2D4B3008FB007 /* ErrorHandler.hpp */,
 				84EB0C712EE2D4B3008FB007 /* TextureHelper.cpp */,
 				84EB0C722EE2D4B3008FB007 /* TextureHelper.hpp */,
 			);
@@ -4781,6 +4791,7 @@
 				84EB0CC32EE2D4B3008FB007 /* FogStateOGL.hpp */,
 				84EB0CC42EE2D4B3008FB007 /* GPUEventsOGL.cpp */,
 				84EB0CC52EE2D4B3008FB007 /* GPUEventsOGL.hpp */,
+				84EEED652F0A02F300F741B6 /* helpers */,
 				84EB0CC62EE2D4B3008FB007 /* ImmediateBufferOGL.cpp */,
 				84EB0CC72EE2D4B3008FB007 /* ImmediateBufferOGL.hpp */,
 				84EB0CC82EE2D4B3008FB007 /* ProfileSectionOGL.cpp */,
@@ -4828,6 +4839,15 @@
 				84EB0CF42EE2D4B3008FB007 /* ShaderPrecision.hpp */,
 			);
 			path = ogl;
+			sourceTree = "<group>";
+		};
+		84EEED652F0A02F300F741B6 /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				84EEED662F0A02F300F741B6 /* ErrorHandlerOGL.cpp */,
+				84EEED672F0A02F300F741B6 /* ErrorHandlerOGL.hpp */,
+			);
+			path = helpers;
 			sourceTree = "<group>";
 		};
 		84F487E72EEA4F5C00309B1E /* null */ = {
@@ -4914,10 +4934,10 @@
 				84EB0DB62EE2D4B4008FB007 /* BufferOGL.hpp in Headers */,
 				84EB0D742EE2D4B3008FB007 /* BlendState.hpp in Headers */,
 				84EB0D232EE2D4B3008FB007 /* BufferBase.hpp in Headers */,
+				84EEED642F0A01B700F741B6 /* ViewportOrigin.hpp in Headers */,
 				84EB0D8C2EE2D4B3008FB007 /* ShaderConstant.hpp in Headers */,
 				84EB0D3B2EE2D4B3008FB007 /* RenderDeviceBase.hpp in Headers */,
 				84EB0D702EE2D4B3008FB007 /* TextureHelper.hpp in Headers */,
-				84EB0D6E2EE2D4B3008FB007 /* ErrorHandler.hpp in Headers */,
 				84EB0D852EE2D4B3008FB007 /* RasterizerState.hpp in Headers */,
 				84EB0DD82EE2D4B4008FB007 /* ShaderUniformOGL.hpp in Headers */,
 				84EB0E042EE2D4B4008FB007 /* UniformMetaData.hpp in Headers */,
@@ -4975,6 +4995,7 @@
 				84EB0D132EE2D4B3008FB007 /* Attribute.hpp in Headers */,
 				84EB0DBC2EE2D4B4008FB007 /* FixedPipelineStateOGL.hpp in Headers */,
 				84EB0D542EE2D4B3008FB007 /* FogMode.hpp in Headers */,
+				84EEED692F0A02F300F741B6 /* ErrorHandlerOGL.hpp in Headers */,
 				84EB0D612EE2D4B3008FB007 /* StencilOp.hpp in Headers */,
 				84EB0DDF2EE2D4B4008FB007 /* StencilFaceDescription.hpp in Headers */,
 				84EB0DD22EE2D4B4008FB007 /* ShaderOGL.hpp in Headers */,
@@ -5386,6 +5407,7 @@
 				8406FD392AF1823700B09C1D /* Timer.hpp in Headers */,
 				84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */,
 				84CCBC402E6183F300E251AF /* DataIO.hpp in Headers */,
+				9D36D2F92F0B3C1F0031ADFD /* vsnprintf.h in Headers */,
 				8406FD3A2AF1823700B09C1D /* Util.hpp in Headers */,
 				8406FD3B2AF1823700B09C1D /* Utils.hpp in Headers */,
 				84E001B92AF3A3CB009B9555 /* SmoothFloat.hpp in Headers */,
@@ -5889,6 +5911,7 @@
 				84EB0D142EE2D4B3008FB007 /* ConstantBufferMetaData.cpp in Sources */,
 				84EB0DE02EE2D4B4008FB007 /* TextureDescription.cpp in Sources */,
 				84EB0DC12EE2D4B4008FB007 /* ImmediateBufferOGL.cpp in Sources */,
+				84EEED682F0A02F300F741B6 /* ErrorHandlerOGL.cpp in Sources */,
 				84EB0D442EE2D4B3008FB007 /* ShaderProgramBase.cpp in Sources */,
 				84EB0E012EE2D4B4008FB007 /* TexturePtr.cpp in Sources */,
 				84EB0D7A2EE2D4B3008FB007 /* ConstantBufferContainer.cpp in Sources */,
@@ -5901,9 +5924,9 @@
 				84EB0D6B2EE2D4B3008FB007 /* FogStateDescription.cpp in Sources */,
 				84EB0D1E2EE2D4B3008FB007 /* GlobalConstantBuffers.cpp in Sources */,
 				84EB0D382EE2D4B3008FB007 /* RenderContextStateBase.cpp in Sources */,
-				84EB0D6D2EE2D4B3008FB007 /* ErrorHandler.cpp in Sources */,
 				84EB0DFF2EE2D4B4008FB007 /* TextureGroup.cpp in Sources */,
 				84EB0DCB2EE2D4B4008FB007 /* ResourceOGL.cpp in Sources */,
+				84EEED632F0A01B700F741B6 /* ViewportOrigin.cpp in Sources */,
 				84EB0D862EE2D4B3008FB007 /* RenderContext.cpp in Sources */,
 				84EB0D912EE2D4B3008FB007 /* Texture.cpp in Sources */,
 				84EB0D772EE2D4B3008FB007 /* ConstantBuffer.cpp in Sources */,
@@ -6425,6 +6448,7 @@
 			files = (
 				84EB0E122EE2D4D4008FB007 /* Singleton.cpp in Sources */,
 				84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */,
+				9D36D2F72F0B3C160031ADFD /* vsnprintf.c in Sources */,
 				84CCBC3F2E6183F300E251AF /* DataIO.cpp in Sources */,
 				84EB0E102EE2D4D4008FB007 /* JsonParser.cpp in Sources */,
 				84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */,

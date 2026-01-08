@@ -36,7 +36,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja ${{ matrix.flags }} ..
+                cmake -GNinja -DWERROR=ON ${{ matrix.flags }} ..
                 cmake --build .
     wasm:
         name: WASM
@@ -51,7 +51,7 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y cmake ninja-build
           - name: Build
-            run: ./build-wasm.sh
+            run: ./build-wasm.sh -DWERROR=ON
     macos:
         strategy:
             fail-fast: false
@@ -112,6 +112,7 @@ jobs:
               RANLIB: llvm-ranlib-21
               LLVM_CONFIG: llvm-config-21
               REMCPE_NO_IPA: 1
+              WERROR: ON
     android:
         strategy:
             fail-fast: false
@@ -143,8 +144,12 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  - name: Win32
+                  - name: Win32 (OGL)
                     flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL'
+                  - name: Win32 (OGL + Shaders)
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS'
+                  - name: Win32 (D3D11)
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=D3D11'
                   - name: SDL2
                     flags: "-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL"
                   # CMake can't find it
@@ -168,5 +173,5 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake -GNinja -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .

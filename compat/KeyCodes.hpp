@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "compat/PlatformDefinitions.h"
+
 #ifdef USE_SDL
     #include "thirdparty/SDL/SDL.h"
 
@@ -20,10 +22,10 @@
     };
 #endif
 
-#ifdef _WIN32
+#if MC_PLATFORM_WINPC
     #define WIN32_LEAN_AND_MEAN
     #include <windows.h>
-#elif __APPLE__
+#elif defined(__APPLE__) && !defined(USE_SDL)
     // https://i.stack.imgur.com/LD8pT.png
     #define AKEYCODE_FORWARD_DEL 0x75
     #define AKEYCODE_ARROW_LEFT  0x7B

@@ -21,6 +21,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Xbox 360">
+      <Configuration>Debug</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release_SDL1|Win32">
       <Configuration>Release_SDL1</Configuration>
       <Platform>Win32</Platform>
@@ -41,13 +49,13 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Xbox 360">
+      <Configuration>Release</Configuration>
+      <Platform>Xbox 360</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -73,6 +81,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\compat\vsnprintf.c" />
     <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Logger.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\common\Mth.cpp" />
@@ -97,6 +106,7 @@
     <ClInclude Include="$(MC_ROOT)\source\common\Utils.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\SmoothFloat.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp" />
+    <ClInclude Include="$(MC_ROOT)\compat\vsnprintf.h" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Compat.hpp" />
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP_Info.hpp" />

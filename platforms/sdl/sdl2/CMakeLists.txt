@@ -33,9 +33,10 @@ target_link_libraries(reminecraftpe stb_image)
 
 # SDL
 add_library(SDL INTERFACE)
-if(ANDROID OR MCPE_WIN32)
+if(ANDROID OR REMCPE_WIN32)
     # Use Vendored SDL2 (Only For Android)
     add_subdirectory(../../../thirdparty/SDL2/src SDL EXCLUDE_FROM_ALL)
+    set_target_properties(SDL2 PROPERTIES CXX_STANDARD 11)
     target_link_libraries(SDL INTERFACE SDL2::SDL2)
 elseif(EMSCRIPTEN)
     # Use Emscripten's SDL2
@@ -52,25 +53,26 @@ if(TARGET SDL2::SDL2main)
     target_link_libraries(reminecraftpe SDL2::SDL2main)
 endif()
 
-# OpenGL
-if(ANDROID)
-    find_library(GLES_LIB GLESv1_CM REQUIRED)
-    target_link_libraries(reminecraftpe-core PUBLIC "${GLES_LIB}")
-    target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES)
-else()
-    find_package(OpenGL REQUIRED)
-    target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
-    if(EMSCRIPTEN)
-        # Use WebGL 2
-        target_link_options(reminecraftpe-core PUBLIC
-            -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2
-            -sLEGACY_GL_EMULATION -sGL_FFP_ONLY
-        )
+if(REMCPE_GFX_API STREQUAL "OGL")
+    # OpenGL
+    if(ANDROID)
+        find_library(GLES_LIB GLESv1_CM REQUIRED)
+        target_link_libraries(reminecraftpe-core PUBLIC "${GLES_LIB}")
+        target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES)
+    else()
+        find_package(OpenGL REQUIRED)
+        target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
+        if(EMSCRIPTEN)
+            # Use WebGL 2
+            target_link_options(reminecraftpe-core PUBLIC
+                -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2
+                -sLEGACY_GL_EMULATION -sGL_FFP_ONLY
+            )
+        endif()
     endif()
 endif()
 
-# WASM
-if(EMSCRIPTEN)
+if(EMSCRIPTEN) # WASM
     # Export Resize Function
     target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
 endif()

@@ -104,7 +104,7 @@ void CreateWorldScreen::buttonClicked(Button* pButton)
 		std::string levelNickname = Util::stringTrim(nameStr);
 		std::string levelUniqueName = levelNickname;
 
-		for (int i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
+		for (size_t i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
 		{
 			std::string str;
 			str.push_back(g_CreateWorldFilterArray[i]);

@@ -9,6 +9,7 @@
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
+#include "renderer/hal/ogl/helpers/ErrorHandlerOGL.hpp"
 #include "renderer/platform/ogl/ShaderPrecision.hpp"
 
 using namespace mce;
@@ -58,16 +59,18 @@ void ShaderOGL::deleteShader()
 
 void ShaderOGL::finalizeShaderUniforms()
 {
-    for (int i = 0; i < m_uniformList.size(); i++)
+    for (size_t i = 0; i < m_uniformList.size(); i++)
     {
         ShaderUniformOGL& uniform = m_uniformList[i];
-        uniform.m_shaderConstant = uniform.m_constantBufferContainer->getUnspecializedShaderConstant(uniform.m_name);
+        uniform.m_pShaderConstant = uniform.m_pConstantBufferContainer->getUnspecializedShaderConstant(uniform.m_name);
     }
 }
 
 void ShaderOGL::freeCompilerResources()
 {
+#ifdef USE_GL_SHADER_PRECISION
     xglReleaseShaderCompiler();
+#endif
     glGetError();
 }
 
@@ -78,7 +81,7 @@ void ShaderOGL::resetLastProgram()
 
 void ShaderOGL::createAndAttachPrograms()
 {
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
     
     m_program = xglCreateProgram();
 
@@ -87,14 +90,14 @@ void ShaderOGL::createAndAttachPrograms()
     if (m_geometryShader.isValid())
         xglAttachShader(m_program, m_geometryShader.m_shaderName);
     
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void ShaderOGL::linkShader()
 {
     xglLinkProgram(m_program);
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 
     GLint linkStatus;
     xglGetProgramiv(m_program, GL_LINK_STATUS, &linkStatus);
@@ -119,7 +122,7 @@ void ShaderOGL::linkShader()
     if (logLength > 1)
     {
         int charsWritten = 0;
-        char* infoLog;
+        char* infoLog = nullptr;
         xglGetProgramInfoLog(m_program, logLength, &charsWritten, infoLog);
 
         LOG_E("Compiler error:\n%s", infoLog);
@@ -135,7 +138,7 @@ void ShaderOGL::bindVertexPointers(const VertexFormat& vertexFormat, const void*
     RenderDevice& device = RenderDevice::getInstance();
     const RenderDeviceBase::AttributeList& attrList = device.getAttributeList(m_attributeListIndex);
 
-    for (int i = 0; i < attrList.size(); i++)
+    for (size_t i = 0; i < attrList.size(); i++)
     {
         const Attribute& attr = attrList[i];
         
@@ -154,7 +157,7 @@ void ShaderOGL::bindVertexPointers(const VertexFormat& vertexFormat, const void*
             vertexFormat.getFieldOffset(vertexField, vertexData)
         );
 
-        ErrorHandler::checkForErrors();
+        ErrorHandlerOGL::checkForErrors();
     }
 }
 
@@ -170,7 +173,7 @@ void ShaderOGL::bindShader(RenderContext& context, const VertexFormat& format, c
 
     bindVertexPointers(format, dataBasePtr);
 
-    for (int i = 0; i < m_textureList.size(); i++)
+    for (size_t i = 0; i < m_textureList.size(); i++)
     {
         const ShaderResourceOGL& resource = m_textureList[i];
         RenderContextOGL::ActiveTextureUnit& activeTextureUnit = context.getActiveTextureUnit(i);
@@ -181,7 +184,7 @@ void ShaderOGL::bindShader(RenderContext& context, const VertexFormat& format, c
         }
     }
 
-    for (int i = 0; i < m_uniformList.size(); i++)
+    for (size_t i = 0; i < m_uniformList.size(); i++)
     {
         ShaderUniformOGL& shaderUniform = m_uniformList[i];
         shaderUniform.bind(shaderChanged);
@@ -229,7 +232,7 @@ void ShaderOGL::reflectShaderUniforms()
             const std::string& bufferName = uniformMetadata.m_constantBufferMetaDataParent->getConstantBufferName();
             ConstantBufferContainer* pBufferContainer = bufferManager.findConstantBufferContainer(bufferName);
             pBufferContainer->registerReflectedShaderParameter(uniformMetadata);
-            uniform.m_constantBufferContainer = pBufferContainer;
+            uniform.m_pConstantBufferContainer = pBufferContainer;
 
             m_uniformList.push_back(uniform);
         }

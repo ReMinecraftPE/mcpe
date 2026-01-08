@@ -102,15 +102,16 @@ void PacketUtil::ReadUserData(ItemInstance& item, RakNet::BitStream* bs)
     else if (item.getTile())
     {
         // Tile::readUserData (0.12.1) (never called or called virtually)
-        bool hasData;
-        bs->Read(hasData);
+        bool hasData = false;
+        if (!bs->Read(hasData))
+            return;
         if (!hasData)
             return;
 
         int32_t repairCost;
         bs->Read(repairCost);
 
-        bool hasHoverName;
+        bool hasHoverName = false;
         bs->Read(hasHoverName);
 
         item.setRepairCost(repairCost);

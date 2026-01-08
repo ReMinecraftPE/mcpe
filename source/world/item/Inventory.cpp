@@ -234,7 +234,7 @@ void Inventory::release(int slotNo)
 
 void Inventory::empty()
 {
-	for (int i = 0; i < m_items.size(); i++)
+	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		release(i);
 		m_items[i] = nullptr;
@@ -243,7 +243,7 @@ void Inventory::empty()
 
 void Inventory::clear()
 {
-	for (int i = 0; i < m_items.size(); i++)
+	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		release(i);
 	}
@@ -320,7 +320,7 @@ bool Inventory::addItem(ItemInstance& instance)
 // Doesn't exist in PE
 void Inventory::tick()
 {
-    for (int i = 0; i < m_items.size(); i++)
+    for (size_t i = 0; i < m_items.size(); i++)
     {
 		ItemInstance* item = m_items[i];
 
@@ -430,7 +430,7 @@ int Inventory::getSelectedItemId() const
 
 void Inventory::setItem(int index, ItemInstance* item)
 {
-	if (index >= m_items.size())
+	if ((size_t)index >= m_items.size())
 	{
 		//m_armor[index - m_items.size()] = item;
 	}
@@ -554,7 +554,7 @@ void Inventory::save(ListTag& tag) const
 	if (_getGameMode() == GAME_TYPE_CREATIVE)
 		return;
 
-	for (int i = 0; i < m_items.size(); i++)
+	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		const ItemInstance* item = m_items[i];
 
@@ -591,7 +591,7 @@ void Inventory::load(const ListTag& tag)
 	for (std::vector<Tag*>::const_iterator it = itemTags.begin(); it != itemTags.end(); it++)
 	{
 		const CompoundTag* itemTag = (const CompoundTag*)*it;
-		int slot = itemTag->getInt8("Slot") & 255;
+		uint8_t slot = itemTag->getInt8("Slot") & 255;
 		ItemInstance* item = ItemInstance::fromTag(*itemTag);
 		if (item)
 		{

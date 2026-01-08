@@ -6,7 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "client/app/Minecraft.hpp"
+#include "Minecraft.hpp"
+#include "GameMods.hpp"
 #include "client/gui/screens/PauseScreen.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
@@ -467,6 +468,8 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			}
 			break;
 		}
+		default:
+			break;
 	}
 
 	if (bInteract && action.isInteract() && canInteract)
@@ -504,7 +507,7 @@ void Minecraft::tickInput()
 	if (!m_pLocalPlayer)
 		return;
 
-	bool bIsInGUI = m_pGui->isInside(Mouse::getX(), Mouse::getY());
+	//bool bIsInGUI = m_pGui->isInside(Mouse::getX(), Mouse::getY());
 
 	while (Mouse::next())
 	{
@@ -1215,7 +1218,7 @@ void Minecraft::hostMultiplayer()
 	if (!m_pRakNetInstance)
 		return;
 
-#ifndef __EMSCRIPTEN__
+#ifdef FEATURE_NETWORKING
 	m_pRakNetInstance->host(m_pUser->field_0, C_DEFAULT_PORT, C_MAX_CONNECTIONS);
 	m_pNetEventCallback = new ServerSideNetworkHandler(this, m_pRakNetInstance);
 #endif
@@ -1226,7 +1229,7 @@ void Minecraft::joinMultiplayer(const PingedCompatibleServer& serverInfo)
 	if (!m_pRakNetInstance)
 		return;
 
-#ifndef __EMSCRIPTEN__
+#ifdef FEATURE_NETWORKING
 	if (field_18 && m_pNetEventCallback)
 	{
 		field_18 = false;
@@ -1240,7 +1243,7 @@ void Minecraft::cancelLocateMultiplayer()
 	if (!m_pRakNetInstance)
 		return;
 
-#ifndef __EMSCRIPTEN__
+#ifdef FEATURE_NETWORKING
 	field_18 = false;
 	m_pRakNetInstance->stopPingForHosts();
 	delete m_pNetEventCallback;
@@ -1253,7 +1256,7 @@ void Minecraft::locateMultiplayer()
 	if (!m_pRakNetInstance)
 		return;
 
-#ifndef __EMSCRIPTEN__
+#ifdef FEATURE_NETWORKING
 	field_18 = true;
 	m_pRakNetInstance->pingForHosts(C_DEFAULT_PORT);
 	m_pNetEventCallback = new ClientSideNetworkHandler(this, m_pRakNetInstance);

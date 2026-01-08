@@ -13,7 +13,7 @@
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(disable : 4244)
 #endif
 
@@ -659,7 +659,7 @@ void Gui::renderToolBar(float f, float alpha)
 int Gui::getNumSlots()
 {
 	if (m_pMinecraft->isTouchscreen())
-		return 8;
+		return 6;
 
 	return 9;
 }

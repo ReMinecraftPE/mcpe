@@ -53,7 +53,7 @@ public:
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	virtual void animateRespawn();
-	virtual void drop();
+	//virtual void drop(); // see definition
 	virtual void drop(const ItemInstance& item, bool randomly = false);
 	virtual void startCrafting(const TilePos& pos);
 	virtual void startStonecutting(const TilePos& pos);

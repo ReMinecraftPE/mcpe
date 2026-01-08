@@ -1,4 +1,14 @@
 #include <stdarg.h>
+
+#ifdef XENON
+#include <xenon_sound/sound.h>
+#include <diskio/ata.h>
+#include <input/input.h>
+#include <time/time.h>
+
+#include <libfat/fat.h>
+#endif
+
 #include "thirdparty/SDL/SDL.h"
 #include "thirdparty/SDL/SDL_gamecontroller.h"
 
@@ -15,7 +25,13 @@ typedef AppPlatform_sdl1_desktop UsedAppPlatform;
 #endif
 
 // Video Mode Flags
+#if MCE_GFX_API_OGL
 #define VIDEO_FLAGS (SDL_OPENGL | SDL_RESIZABLE)
+#elif MC_PLATFORM_XBOX
+#define VIDEO_FLAGS (0)
+#else
+#define VIDEO_FLAGS (SDL_RESIZABLE)
+#endif
 
 static float g_fPointToPixelScale = 1.0f;
 
@@ -23,6 +39,29 @@ UsedAppPlatform* g_pAppPlatform;
 NinecraftApp* g_pApp;
 
 SDL_Surface* screen = NULL;
+
+static void initPlatform()
+{
+#ifdef XENON
+    xenon_make_it_faster(XENON_SPEED_FULL);
+    xenos_init(VIDEO_MODE_AUTO);
+    xenon_sound_init();
+    console_init();
+    usb_init();
+    usb_do_poll();
+
+	xenon_ata_init();
+
+	xenon_atapi_init();
+	
+	fatInitDefault();
+
+    // disable buffering for stdout, so we don't lose our logs when abort is called
+    setbuf(stdout, NULL);
+    freopen("reminecraftpe.stdout.log", "w", stdout);
+    freopen("reminecraftpe.stderr.log", "w", stderr);
+#endif
+}
 
 static void preInitGraphics()
 {
@@ -38,15 +77,41 @@ static void initGraphics()
 #if MCE_GFX_API_OGL
     if (!mce::Platform::OGL::InitBindings())
     {
-        const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required.";
+        LOG_E("Error initializing GL extensions. OpenGL 2.0 or later is required.");
         exit(EXIT_FAILURE);
     }
-#else
 #endif
+}
+
+static std::string getStoragePath()
+{
+    // Doing this as a c-string because worst-case, an SDK
+    // will return a nullptr instead of an empty string
+    const char* pathBase;
+#ifdef _WIN32
+    pathBase = getenv("APPDATA");
+#else
+    pathBase = getenv("HOME");
+#endif
+
+    if (pathBase == nullptr || pathBase[0] == '\0')
+        pathBase = ""; // just use the current working directory
+
+    std::string path(pathBase);
+    if (!path.empty())
+        path += "/";
+    path += ".reminecraftpe";
+
+    return path;
 }
 
 static void teardown()
 {
+#ifdef XENON
+    // Give the shitty flashdrive time to finish writing the log files
+    delay(30);
+#endif
+
     if (screen != NULL)
     {
         SDL_Quit();
@@ -159,7 +224,9 @@ static void main_loop()
 
     g_pApp->update();
 
+#if MCE_GFX_API_OGL
     SDL_GL_SwapBuffers();
+#endif
 
     if (g_pApp->wantToQuit())
     {
@@ -167,17 +234,21 @@ static void main_loop()
         delete g_pApp;
         delete g_pAppPlatform;
         teardown();
-        exit(0);
+        exit(EXIT_SUCCESS);
     }
 }
 
 // Main
 int main(int argc, char* argv[])
 {
+    initPlatform();
+
     Logger::setSingleton(new Logger);
 
+    //LOG_I("Initializing SDL...");
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
     {
+        LOG_E("Couldn't initialize SDL: %s", SDL_GetError());
         exit(EXIT_FAILURE);
     }
 
@@ -186,38 +257,55 @@ int main(int argc, char* argv[])
     SDL_EnableUNICODE(SDL_TRUE);
 
 	SDL_WM_SetCaption("ReMinecraftPE", nullptr);
+    //LOG_I("Setting SDL video mode...");
+    // XENON: width and height need to be accurate to what's already set by the console,
+    // or else libXenon will crash.
     screen = SDL_SetVideoMode(Minecraft::width, Minecraft::height, 0, VIDEO_FLAGS);
     if (!screen)
     {
+        LOG_E("Failed to set SDL video mode: %s", SDL_GetError());
         exit(EXIT_FAILURE);
     }
+
+#if MC_PLATFORM_XBOX
+    SDL_EventState(SDL_ACTIVEEVENT, SDL_IGNORE);
+    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+#endif
 
 	initGraphics();
 
     atexit(teardown);
 
-    std::string storagePath;
-#ifdef _WIN32
-    storagePath = getenv("APPDATA");
-#else
-    storagePath = getenv("HOME");
-#endif
-    storagePath += "/.reminecraftpe";
-
+    std::string storagePath = getStoragePath();
     if (!storagePath.empty())
         createFolderIfNotExists(storagePath.c_str());
 
+    //LOG_I("Initializing AppPlatform...");
     g_pAppPlatform = new UsedAppPlatform(storagePath, screen);
+    //LOG_I("Initializing NinecraftApp...");
     g_pApp = new NinecraftApp;
     g_pApp->m_externalStorageDir = storagePath;
     g_pApp->m_pPlatform = g_pAppPlatform;
     g_pApp->init();
 
     resize();
-
+    // We're off to the races
     while (true)
     {
+        // We have no way to debug with libXenon, and aborting will kill our logs
+#ifdef XENON
+        try
+        {
+            main_loop();
+        }
+        catch (...)
+        {
+            LOG_E("Encountered a runtime exception!");
+            exit(EXIT_FAILURE);
+        }
+#else
         main_loop();
+#endif
     }
 
     return 0;

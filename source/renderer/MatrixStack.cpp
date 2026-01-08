@@ -39,11 +39,13 @@ void Matrix::scale(const Vec3& s)
 
 void Matrix::setOrtho(float left, float right, float bottom, float top, float Znear, float Zfar)
 {
+    assert(Znear >= 0.0f);
     _m = glm::ortho(left, right, bottom, top, Znear, Zfar);
 }
 
 void Matrix::setPerspective(float fov, float aspect, float Znear, float Zfar)
 {
+    assert(Znear >= 0.0f);
     _m = glm::perspective(glm::radians(fov), aspect, Znear, Zfar);
 }
 
@@ -61,6 +63,11 @@ void Matrix::transform3(Vec3& outVec, float& outW)
 void Matrix::translate(const Vec3& t)
 {
     _m = glm::translate(_m, glm::vec3(t.x, t.y, t.z));
+}
+
+void Matrix::transpose()
+{
+    _m = glm::transpose(_m);
 }
 
 const float* Matrix::ptr() const

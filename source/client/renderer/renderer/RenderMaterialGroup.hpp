@@ -29,7 +29,7 @@ namespace mce
         void _fireGroupReloaded();
         void _fireGroupDestroyed();
         RenderMaterial& _material(const std::string& fileName, const std::string& tag);
-        void _loadMaterialSet(const rapidjson::Value& root, RenderMaterial& groupBaseParent, const std::string& materialIdentifier);
+        void _loadMaterialSet(const rapidjson::Value::ConstObject& root, RenderMaterial& groupBaseParent, const std::string& materialIdentifier);
         void _loadList();
 
     // These are public despite being prefixed with underscores
@@ -42,6 +42,7 @@ namespace mce
 
         MaterialPtr getMaterial(const std::string& name);
         void loadList(const std::string listPath);
+        void compileMaterials();
 
         void onAppResumed() override;
         void onAppSuspended() override;

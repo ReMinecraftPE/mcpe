@@ -5,14 +5,14 @@ using namespace mce;
 ShaderUniformOGL::ShaderUniformOGL(const std::string& name, int location, int elements, ShaderPrimitiveTypes shaderPrimitiveType)
     : ShaderResourceOGL(name, location, elements, shaderPrimitiveType)
 {
-    m_shaderConstant = nullptr;
-    m_constantBufferContainer = nullptr;
+    m_pShaderConstant = nullptr;
+    m_pConstantBufferContainer = nullptr;
 }
 
 void ShaderUniformOGL::bind(bool forceBind)
 {
-    if (forceBind || m_shaderConstant->isDirty())
+    if (forceBind || m_pShaderConstant->isDirty())
     {
-        m_shaderConstant->syncUniform(m_location);
+        m_pShaderConstant->syncUniform(m_location);
     }
 }

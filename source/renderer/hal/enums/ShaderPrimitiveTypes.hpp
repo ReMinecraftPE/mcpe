@@ -1,5 +1,7 @@
 #pragma once
 
+#include "compat/Unused.hpp"
+
 namespace mce
 {
 	enum ShaderPrimitiveTypes
@@ -30,7 +32,7 @@ namespace mce
 		static int sizeInBytesFromShaderPrimitiveType(ShaderPrimitiveTypes shaderPrimitiveType);
 	};
 
-	static const char* ShaderPrimitiveTypeToString[] = {
+	MC_UNUSED static const char* ShaderPrimitiveTypeToString[] = {
 		"UnknownPrimitiveType",
 		"Float1",
 		"Float2",

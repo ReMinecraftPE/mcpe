@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Util.hpp"
+#include "compat/vsnprintf.h"
 
 const std::string Util::EMPTY_STRING = "";
 
@@ -68,7 +69,7 @@ std::string Util::format(const char *fmt, ...)
 
 bool Util::isValidPath(const std::string& path)
 {
-	for (int i = 0; i < path.size(); i++)
+	for (size_t i = 0; i < path.size(); i++)
 	{
 		switch (path.at(i))
 		{
@@ -106,4 +107,33 @@ std::string Util::getExtension(const std::string& path)
 	}
 
 	return path.substr(dotPos + 1);
+}
+
+std::string Util::toString(int value)
+{
+	std::string str;
+
+	// Handle zero explicitly
+	if (value == 0)
+	{
+		str = "0";
+		return str;
+	}
+
+	// Use unsigned to safely handle INT_MIN
+	uint32_t uval = static_cast<uint32_t>((value < 0) ? -value : value);
+
+	// Build the string backwards (more efficient than calculating powers of 10)
+	while (uval > 0)
+	{
+		str.push_back('0' + (uval % 10));
+		uval /= 10;
+	}
+
+	// Add sign and reverse
+	if (value < 0)
+		str.push_back('-');
+
+	std::reverse(str.begin(), str.end());
+	return str;
 }

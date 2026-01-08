@@ -193,7 +193,7 @@ void Entity::move(const Vec3& pos)
 		if (!m_bSlide && cPosY != newPos.y)
 			newPos = Vec3::ZERO;
 
-		bool lastsOnGround = m_bOnGround || cPosY != newPos.y && cPosY < 0.0;
+		bool lastsOnGround = m_bOnGround || (cPosY != newPos.y && cPosY < 0.0);
 
 		for (int i = 0; i < int(cubes->size()); ++i)
 			newPos.x = cubes->at(i).clipXCollide(m_hitbox, newPos.x);

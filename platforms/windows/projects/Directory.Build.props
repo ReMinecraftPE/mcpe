@@ -6,40 +6,65 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   
-  <!-- Properties -->
+  <!-- Macros -->
   <PropertyGroup Label="UserMacros">
     <MC_GLOBAL_PROPS>whattimeisit?</MC_GLOBAL_PROPS>
     <MC_ROOT>$(ProjectDir)..\..\..\..\</MC_ROOT>
     <RAKNET_PATH>$(MC_ROOT)thirdparty\raknet\</RAKNET_PATH>
 	<MC_GFX_API>OGL</MC_GFX_API>
-	<MC_GFX_API_MACRO>MCE_GFX_API_OGL</MC_GFX_API_MACRO>
   </PropertyGroup>
   <!--PropertyGroup Label="Configuration">
     <EnableASAN>true</EnableASAN>
   </PropertyGroup-->
+  <!-- Macros - Win32 & x64 -->
+  <PropertyGroup Label="UserMacros" Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+	<MC_GFX_API>OGL</MC_GFX_API>
+  </PropertyGroup>
+  <!-- Macros - Xbox 360 -->
+  <PropertyGroup Label="UserMacros" Condition="'$(Platform)'=='Xbox 360'">
+	<MC_GFX_API>Null</MC_GFX_API>
+  </PropertyGroup>
+  
+  <!-- Properties - Win32 -->
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <PlatformToolset Condition="'$(PlatformToolsetVersion)'=='' Or $(PlatformToolsetVersion)&gt;=141">v141_xp</PlatformToolset>
 	<WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
+  <!-- Properties - x64 -->
   <PropertyGroup Condition="'$(Platform)'=='x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <PlatformToolset Condition="'$(PlatformToolsetVersion)'=='' Or $(PlatformToolsetVersion)&gt;=143">v143</PlatformToolset>
 	<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-  <!-- Release -->
+  <!-- Properties - Xbox 360 -->
+  <PropertyGroup Condition="'$(Platform)'=='Xbox 360'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(Xbox360TechPreviewInclude);$(XDKInstallDir)\include\xbox;$(VC_IncludePath);$(WindowsSDK_IncludePath);%(IncludePath)</IncludePath>
+    <RemoteRoot>hdd01:\dev\$(SolutionName)</RemoteRoot>
+  </PropertyGroup>
+  <!-- Properties - Debug -->
+  <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <!-- Properties - Release -->
   <PropertyGroup Condition="$(Configuration.StartsWith('Release'))">
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-  <!-- Debug -->
-  <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))">
-    <UseDebugLibraries>true</UseDebugLibraries>
+  
+  <!-- GFX Macros -->
+  <PropertyGroup Label="UserMacros" Condition="'$(MC_GFX_API)'=='OGL'">
+    <MC_GFX_API_MACRO>MCE_GFX_API_OGL</MC_GFX_API_MACRO>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" Condition="'$(MC_GFX_API)'=='D3D11'">
+    <MC_GFX_API_MACRO>MCE_GFX_API_D3D11;FEATURE_GFX_SHADERS</MC_GFX_API_MACRO>
   </PropertyGroup>
   
-  <!-- Item definitions -->
+  <!-- Item Definitions -->
   <ItemDefinitionGroup>
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(MC_ROOT);$(MC_ROOT)\source;$(MC_ROOT)\thirdparty;$(RAKNET_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -61,33 +86,33 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <!-- SDL1 -->
+  <!-- Item Definitions - SDL1 -->
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL1'))">
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(SDL1_PATH)\include;$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>USE_SDL;USE_SDL1;USE_OPENAL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-  <!-- SDL2 -->
+  <!-- Item Definitions - SDL2 -->
   <ItemDefinitionGroup Condition="$(Configuration.EndsWith('_SDL2'))">
     <ClCompile>
 	  <AdditionalIncludeDirectories>$(SDL2_PATH)\include;$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>USE_SDL;USE_OPENAL;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-  <!-- < v140 -->
+  <!-- Item Definitions - < v140 -->
   <ItemDefinitionGroup Condition="'$(PlatformToolsetVersion)'!='' And $(PlatformToolsetVersion)&lt;140">
     <ClCompile>
 	  <PreprocessorDefinitions>USE_OLD_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-  <!-- Debug -->
+  <!-- Item Definitions - Debug -->
   <ItemDefinitionGroup Condition="$(Configuration.StartsWith('Debug'))">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-  <!-- Release -->
+  <!-- Item Definitions - Release -->
   <ItemDefinitionGroup Condition="$(Configuration.StartsWith('Release'))">
     <ClCompile>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -99,11 +124,24 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <!-- Win32 -->
+  <!-- Item Definitions - Win32 -->
   <ItemDefinitionGroup Condition="'$(Platform)' == 'Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Item Definitions - Xbox 360 -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360'">
+    <ClCompile>
+      <PreprocessorDefinitions>RAPIDJSON_ENDIAN=RAPIDJSON_BIGENDIAN;_XBOX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+   <!-- Item Definitions - Xbox 360 (Debug) -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Debug'))">
+    <Deploy>
+      <DeploymentType>CopyToHardDrive</DeploymentType>
+      <Progress>true</Progress>
+    </Deploy>
   </ItemDefinitionGroup>
   
 </Project>

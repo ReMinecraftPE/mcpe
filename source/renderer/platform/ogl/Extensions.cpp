@@ -35,13 +35,6 @@ void* OGL::GetProcAddress(const char* name)
     return result;
 }
 
-#ifdef MC_GL_DEBUG_OUTPUT
-void APIENTRY OGL::DebugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, GLvoid* userParam)
-{
-	LOG_I("GL CALLBACK: type = 0x%x, severity = 0x%x, message = %s\n", type, severity, message);
-}
-#endif
-
 #if defined(_WIN32) || defined(__DREAMCAST__)
 
 #include <unordered_map>

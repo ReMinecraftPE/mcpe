@@ -41,7 +41,8 @@ TextureData::~TextureData()
 
 void TextureData::_move(TextureData& other)
 {
-    this->m_bEnableFiltering = other.m_bEnableFiltering;
+    std::swap(this->m_bEnableFiltering, other.m_bEnableFiltering);
+    std::swap(this->m_bWrap, other.m_bWrap);
     this->m_imageData.move(other.m_imageData);
     this->m_texture.move(other.m_texture);
 }
@@ -140,7 +141,7 @@ void TextureData::setData(uint8_t* data)
 void TextureData::load()
 {
     _loadTexData(m_texture, m_bEnableFiltering, m_bWrap);
-    for (int i = 0; i < m_mipmaps.size(); i++)
+    for (size_t i = 0; i < m_mipmaps.size(); i++)
     {
         _loadMipmap(m_mipmaps[i]);
     }

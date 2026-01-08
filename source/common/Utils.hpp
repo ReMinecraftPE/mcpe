@@ -35,20 +35,22 @@
 
 #ifdef _WIN32
 
-// Do we even need all this WinSock stuff anymore?
 #if MC_PLATFORM_WINPC
 
 #define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
+#define NOMINMAX /* don't define min() and max(). */
+#endif
 #include <windows.h>
-#include <direct.h>
-#include <io.h>
 
-#elif MC_PLATFORM_XBOX360
+#elif defined(_XBOX)
 
 #include <xtl.h>
-#include <winsockx.h>
 
 #endif
+
+#include <io.h> // for _access
+#include <direct.h> // for _mkdir
 
 // XPL means "Cross PLatform"
 #define XPL_ACCESS _access
@@ -75,6 +77,10 @@ struct DIR
 DIR* opendir(const char* name);
 dirent* readdir(DIR* dir);
 void closedir(DIR* dir);
+
+#ifdef _WIN32
+#define _CRT_INTERNAL_NONSTDC_NAMES 1 // gives us the stat struct we need
+#endif
 
 #include <sys/stat.h>
 

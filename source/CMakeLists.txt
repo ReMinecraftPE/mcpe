@@ -3,6 +3,7 @@ project(reminecraftpe-core)
 
 # Build
 add_library(reminecraftpe-core STATIC
+    ../compat/vsnprintf.c
     common/CThread.cpp
     common/DataIO.cpp
     common/Logger.cpp
@@ -397,6 +398,7 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/RasterizerStateDescription.cpp
     renderer/hal/StencilFaceDescription.cpp
     renderer/hal/TextureDescription.cpp
+	renderer/hal/ViewportOrigin.cpp
     renderer/hal/base/BlendStateBase.cpp
     renderer/hal/base/BufferBase.cpp
     renderer/hal/base/ConstantBufferBase.cpp
@@ -426,8 +428,8 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/enums/ShaderStagesBits_JsonParser.cpp
     renderer/hal/enums/StencilOp_JsonParser.cpp
     renderer/hal/enums/TextureFiltering_JsonParser.cpp
+    renderer/hal/enums/VertexField.cpp
     renderer/hal/enums/VertexField_JsonParser.cpp
-    renderer/hal/helpers/ErrorHandler.cpp
     renderer/hal/helpers/TextureHelper.cpp
 	renderer/hal/null/FixedPipelineStateNull.cpp
 	renderer/hal/null/FogStateNull.cpp
@@ -449,15 +451,15 @@ add_library(reminecraftpe-core STATIC
 )
 target_include_directories(reminecraftpe-core PUBLIC . ..)
 
-if(NOT DEFINED REMCPE_GFX_API)
-	message(STATUS "No GFX API specified, defaulting to OGL...")
+# OGL Shader variant build hack
+if(REMCPE_GFX_API STREQUAL "OGL_SHADERS")
+	target_compile_definitions(reminecraftpe-core PUBLIC FEATURE_GFX_SHADERS)
+	unset(REMCPE_GFX_API CACHE)
 	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
 endif()
 
-message(STATUS "Selected GFX API: ${REMCPE_GFX_API}")
-
 if(REMCPE_GFX_API STREQUAL "OGL")
-    target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_OGL=1)
+	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_OGL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/ogl/API_OGL.cpp
 		renderer/hal/ogl/BlendStateOGL.cpp
@@ -480,11 +482,38 @@ if(REMCPE_GFX_API STREQUAL "OGL")
 		renderer/hal/ogl/ShaderResourceOGL.cpp
 		renderer/hal/ogl/ShaderUniformOGL.cpp
 		renderer/hal/ogl/TextureOGL.cpp
+		renderer/hal/ogl/helpers/ErrorHandlerOGL.cpp
 		renderer/platform/ogl/Extensions.cpp
 		renderer/platform/ogl/ShaderPrecision.cpp
 	)
+elseif(REMCPE_GFX_API STREQUAL "D3D11")
+	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_D3D11=1 FEATURE_GFX_SHADERS)
+	target_sources(reminecraftpe-core PRIVATE
+		renderer/hal/d3d11/API_D3D11.cpp
+		renderer/hal/d3d11/BlendStateD3D11.cpp
+		renderer/hal/d3d11/BufferD3D11.cpp
+		renderer/hal/d3d11/ConstantBufferContainerD3D11.cpp
+		renderer/hal/d3d11/DepthStencilStateD3D11.cpp
+		renderer/hal/d3d11/GPUEventsD3D11.cpp
+		renderer/hal/d3d11/ImmediateBufferD3D11.cpp
+		renderer/hal/d3d11/ProfileSectionD3D11.cpp
+		renderer/hal/d3d11/RasterizerStateD3D11.cpp
+		renderer/hal/d3d11/RenderContextD3D11.cpp
+		renderer/hal/d3d11/RenderDeviceD3D11.cpp
+		renderer/hal/d3d11/ShaderConstantD3D11.cpp
+		renderer/hal/d3d11/ShaderConstantWithDataD3D11.cpp
+		renderer/hal/d3d11/ShaderD3D11.cpp
+		renderer/hal/d3d11/ShaderProgramD3D11.cpp
+		renderer/hal/d3d11/ShaderResourceD3D11.cpp
+		renderer/hal/d3d11/TextureD3D11.cpp
+		renderer/hal/d3d11/helpers/TextureHelperD3D11.cpp
+		renderer/hal/dxgi/API_DXGI.cpp
+		renderer/hal/dxgi/helpers/DirectXComInterface.cpp
+		renderer/hal/dxgi/helpers/ErrorHandlerDXGI.cpp
+		renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
+	)
 elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
-    target_compile_options(reminecraftpe-core PRIVATE -DMCE_GFX_API_NULL=1)
+	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_NULL=1)
 	target_sources(reminecraftpe-core PRIVATE
 		renderer/hal/null/BlendStateNull.cpp
 		renderer/hal/null/BufferNull.cpp
@@ -510,7 +539,7 @@ target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
 # zlib
 add_library(zlib-interface INTERFACE)
-if(MCPE_WIN32)
+if(REMCPE_WIN32 OR XENON) # @TODO: libXenon has zlib included, how do we get to it?
     # Compile Vendored ZLib
     add_subdirectory(../thirdparty/zlib zlib)
     target_link_libraries(zlib-interface INTERFACE zlib)

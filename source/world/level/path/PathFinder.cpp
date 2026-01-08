@@ -11,7 +11,6 @@
 #include "world/entity/Entity.hpp"
 
 static int dword_1CD868;
-static int dword_1CD86C;
 static int dword_1CD870;
 
 constexpr int MakeNodeHash(const TilePos& pos)

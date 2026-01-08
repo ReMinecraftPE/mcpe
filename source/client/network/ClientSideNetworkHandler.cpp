@@ -58,8 +58,10 @@ void ClientSideNetworkHandler::levelGenerated(Level* level)
 
 void ClientSideNetworkHandler::onConnect(const RakNet::RakNetGUID& rakGuid) // server guid
 {
-	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID(); // iOS 0.2.1 crashes right here after loading chunks
+#ifdef VERBOSE_CLIENT
+	RakNet::RakNetGUID localGuid = ((RakNet::RakPeer*)m_pServerPeer)->GetMyGUID();
 	printf_ignorable("onConnect, server guid: %s, local guid: %s", rakGuid.ToString(), localGuid.ToString());
+#endif
 
 	m_serverGUID = rakGuid;
 
@@ -104,6 +106,8 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LoginSt
 		break;
 	case LoginStatusPacket::STATUS_SERVER_OUTDATED:
 		m_pMinecraft->setScreen(new DisconnectionScreen("Could not connect: Outdated server!"));
+		break;
+	case LoginStatusPacket::STATUS_SUCCESS:
 		break;
 	}
 }
@@ -480,7 +484,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ChunkDa
 					m_pLevel->setTileNoUpdate(TilePos(x16 + (k & 0xF), yPos + i, z16 + (k >> 4)), tiles[i]);
 				}
 
-				int idx = ((k & 0xF) << 11) | ((k >> 4) << 7) + yPos;
+				int idx = ((k & 0xF) << 11) | (((k >> 4) << 7) + yPos);
 				memcpy(&pChunk->m_tileData.m_data[idx >> 1], datas, sizeof datas);
 			}
 

@@ -11,8 +11,10 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+#if MCE_GFX_API_OGL
 // needed for screenshots
 #include "thirdparty/GL/GL.hpp"
+#endif
 
 #include "AppPlatform_sdl.hpp"
 
@@ -30,7 +32,7 @@ void AppPlatform_sdl::_init(std::string storageDir)
 {
 	m_storageDir = storageDir;
 
-	m_hWND = _getHWND();
+	m_hWnd = _getHWND();
 
 	m_pIcon = nullptr;
 
@@ -113,7 +115,7 @@ void AppPlatform_sdl::_ensureDirectoryExists(const char* path)
 	if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
 	{
 		// Create Screenshots Folder
-#if defined(_WIN32) && !defined(__MINGW32__)
+#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__clang__)
 		int ret = XPL_MKDIR(path);
 #else
 		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);

@@ -8,11 +8,11 @@ namespace mce
 {
 	struct TextureDescription : public ImageDescription
 	{
-        unsigned int unknown1;
+        unsigned int sampleCount;
         unsigned int mipCount;
         bool bWrap;
         TextureFiltering filteringLevel;
-        uint8_t unknown3;
+        bool bIsStaging;
 		
 		TextureDescription();
 	};

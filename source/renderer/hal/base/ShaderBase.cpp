@@ -9,9 +9,9 @@ using namespace mce;
 std::map<std::string, VertexField> _CreateBuiltinAttributeMap()
 {
     std::map<std::string, VertexField> m;
-    m["POSITION"] = VERTEX_FIELD_POSITION;
-    m["COLOR"] = VERTEX_FIELD_COLOR;
-    m["NORMAL"] = VERTEX_FIELD_NORMAL;
+    m["POSITION"]   = VERTEX_FIELD_POSITION;
+    m["COLOR"]      = VERTEX_FIELD_COLOR;
+    m["NORMAL"]     = VERTEX_FIELD_NORMAL;
     m["TEXCOORD_0"] = VERTEX_FIELD_UV0;
     m["TEXCOORD_1"] = VERTEX_FIELD_UV1;
     return m;
@@ -53,11 +53,15 @@ void ShaderBase::bindShader(RenderContext& context, const VertexFormat& format, 
 {
 }
 
+void ShaderBase::compileAndLinkShader()
+{
+}
+
 void ShaderBase::reflectShader(RenderDevice& renderDevice)
 {
 }
 
-VertexField ShaderBase::getAttributeForName(const std::string& name, unsigned int id) const
+VertexField ShaderBase::getAttributeForName(const std::string& name, unsigned int semanticIndex) const
 {
     std::map<std::string, VertexField>::iterator it = builtinAttributeMap.find(name);
 
@@ -68,7 +72,7 @@ VertexField ShaderBase::getAttributeForName(const std::string& name, unsigned in
     else
     {
         std::stringstream ss;
-        ss << name << id;
+        ss << name << semanticIndex;
         it = builtinAttributeMap.find(ss.str());
 
         return it->second;

@@ -24,7 +24,6 @@
 #endif
 
 static int t_keepHitResult; // that is its address in v0.1.1j
-int t_keepPic;
 
 void GameRenderer::_init()
 {
@@ -59,6 +58,8 @@ void GameRenderer::_init()
 
 	m_shownFPS = m_shownChunkUpdates = m_lastUpdatedMS = 0;
 
+	m_keepPic = 0;
+
 	m_envTexturePresence = 0;
 }
 
@@ -86,7 +87,7 @@ void GameRenderer::_clearFrameBuffer()
 {
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 	renderContext.setRenderTarget();
 	renderContext.clearFrameBuffer(Color(0.0f, 0.3f, 0.2f, 0.0f));
 	renderContext.clearDepthStencilBuffer();
@@ -131,7 +132,6 @@ void GameRenderer::_renderItemInHand(float f, int i)
 
 void GameRenderer::_renderDebugOverlay(float a)
 {
-	ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
 	Font& font = *m_pMinecraft->m_pFont;
 
 	std::stringstream debugText;
@@ -187,7 +187,7 @@ void GameRenderer::_renderVertexGraph(int vertices, int h)
 	Font& font = *m_pMinecraft->m_pFont;
 
 	static int vertGraph[200];
-	memcpy(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
+	memmove(vertGraph, vertGraph + 1, sizeof(vertGraph) - sizeof(int));
 	vertGraph[(sizeof(vertGraph) / sizeof(vertGraph[0])) - 1] = vertices;
 
 	Tesselator& t = Tesselator::instance;
@@ -256,7 +256,10 @@ void GameRenderer::setupCamera(float f, int i)
 	}
 
 	float fov = getFov(f);
-	projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance);
+	// Java
+	//projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance);
+	// PE (0.12.1)
+	projMtx.setPerspective(fov, float(Minecraft::width) / float(Minecraft::height), 0.05f, m_renderDistance * 1.2f);
 
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;
@@ -486,7 +489,7 @@ void GameRenderer::renderLevel(float f)
 #endif
 		}
 
-		renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+		renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 		renderContext.setRenderTarget();
 		const Color& clearColor = levelRenderer.setupClearColor(f);
 		renderContext.clearFrameBuffer(clearColor);
@@ -643,7 +646,7 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->isLevelGenerated())
 	{
-		if (t_keepPic < 0)
+		if (m_keepPic < 0)
 		{
 			renderLevel(f);
 			if (m_pMinecraft->getOptions()->m_bDontRenderGui)
@@ -701,13 +704,9 @@ void GameRenderer::render(float f)
 
 void GameRenderer::tick()
 {
-	--t_keepPic;
-#ifndef ORIGINAL_CODE
-	// @BUG: If the game is left on for approximately 1,242 days, the counter will underflow,
-	// causing the screen to appear frozen, and the level to not render.
-	if (t_keepPic < -100)
-		t_keepPic = -100;
-#endif
+	// Prevents underflow
+	if (m_keepPic > -100)
+		--m_keepPic;
 
 	if (!m_pMinecraft->m_pLocalPlayer)
 		return;

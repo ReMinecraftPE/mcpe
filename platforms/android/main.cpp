@@ -43,30 +43,30 @@ struct engine
     NinecraftApp* ninecraftApp = nullptr;
 };
 
-static float mapStick(AInputEvent* event, int32_t axis)
-{
-    const float deadZone = .265f;
-    float value = AMotionEvent_getAxisValue(event, axis, 0);
-    if (value > deadZone)
-        return (value - deadZone) / (1.f - deadZone);
-    else if (value < -deadZone)
-        return (value + deadZone) / (1.f - deadZone);
-    else
-        return 0.f;
-}
+// static float mapStick(AInputEvent* event, int32_t axis)
+// {
+//     const float deadZone = .265f;
+//     float value = AMotionEvent_getAxisValue(event, axis, 0);
+//     if (value > deadZone)
+//         return (value - deadZone) / (1.f - deadZone);
+//     else if (value < -deadZone)
+//         return (value + deadZone) / (1.f - deadZone);
+//     else
+//         return 0.f;
+// }
 
-static float mapTrigger(AInputEvent* event, int32_t axis)
-{
-    const float deadZone = .1f;
-    float value = AMotionEvent_getAxisValue(event, axis, 0);
-    if (value > deadZone)
-        return (value - deadZone) / (1.f - deadZone);
-    else
-        return 0.f;
-}
+// static float mapTrigger(AInputEvent* event, int32_t axis)
+// {
+//     const float deadZone = .1f;
+//     float value = AMotionEvent_getAxisValue(event, axis, 0);
+//     if (value > deadZone)
+//         return (value - deadZone) / (1.f - deadZone);
+//     else
+//         return 0.f;
+// }
 
-static bool s_lastR = false;
-static bool s_lastL = false;
+// static bool s_lastR = false;
+// static bool s_lastL = false;
 
 static char getCharFromKey(int32_t keyCode, int32_t metaState)
 {

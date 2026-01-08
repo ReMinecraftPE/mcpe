@@ -6,6 +6,7 @@ class AppPlatformListener
 {
 public:
     AppPlatformListener(bool doInit = true);
+    virtual ~AppPlatformListener();
 
     virtual void onLowMemory() {}
     virtual void onAppResumed() {}

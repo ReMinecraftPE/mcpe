@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <stddef.h>
 #include "Keyboard.hpp"
 
 #include "GameMods.hpp"
@@ -28,7 +29,7 @@ void Keyboard::feed(KeyState state, int key)
 
 bool Keyboard::next()
 {
-	if (_index + 1 >= _inputs.size())
+	if ((size_t)_index + 1 >= _inputs.size())
 		return false;
 
 	_index++;

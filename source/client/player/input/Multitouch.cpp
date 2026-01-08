@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <stddef.h>
 #include "Multitouch.hpp"
 
 int Multitouch::_activePointerCount;
@@ -132,7 +133,7 @@ bool Multitouch::isPressed(int fingerId)
 
 bool Multitouch::next()
 {
-	if (_index + 1 >= _inputs.size())
+	if ((size_t)_index + 1 >= _inputs.size())
 		return false;
 
 	_index++;

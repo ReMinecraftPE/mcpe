@@ -31,7 +31,7 @@ const std::string& ConstantBufferMetaData::getConstantBufferName() const
 
 const UniformMetaData* ConstantBufferMetaData::getUniformMetaData(const std::string& uniformName) const
 {
-    for (int i = 0; i < m_uniformMetaData.size(); i++)
+    for (size_t i = 0; i < m_uniformMetaData.size(); i++)
     {
         const UniformMetaData& uniformMeta = m_uniformMetaData[i];
         if (uniformMeta.m_uniformName == uniformName)

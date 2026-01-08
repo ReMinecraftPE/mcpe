@@ -81,13 +81,12 @@ bool RegionFile::readChunk(const ChunkPos& pos, RakNet::BitStream** pBitStream)
 		return false;
 
 	int thing = (idx >> 8);
-	int offset = (idx & 0xFF);
 
 	int length = 0;
 	fseek(m_pFile, thing * SECTOR_BYTES, SEEK_SET);
 	fread(&length, sizeof(int), 1, m_pFile);
 	
-	assert(length < ((offset & 0xff) * SECTOR_BYTES));
+	assert(length < ((idx & 0xff) * SECTOR_BYTES));
 
 	length -= 4;
 

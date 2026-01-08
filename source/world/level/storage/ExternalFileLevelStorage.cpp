@@ -282,7 +282,7 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 	long v7 = ftell(pFile);
 	fseek(pFile, v6, 0);
 
-	if (size <= v7 - v6 && size > 0)
+	if (size <= (unsigned int)(v7 - v6) && size > 0)
 	{
 		uint8_t* data = new uint8_t[size];
 		fread(data, 1, size, pFile);
@@ -412,7 +412,7 @@ bool ExternalFileLevelStorage::readLevelData(const std::string& path, LevelData&
 
 	uint8_t* data = new uint8_t[length];
 
-	if (fread(data, sizeof(uint8_t), length, pFile) != length)
+	if (fread(data, sizeof(uint8_t), length, pFile) != (size_t)length)
 	{
 		SAFE_DELETE_ARRAY(data);
 		goto _cleanup;
@@ -451,7 +451,7 @@ bool ExternalFileLevelStorage::readPlayerData(const std::string& path, LevelData
 	if (nPlayers != 1)
 		goto _cleanup;
 
-	if (fread(&levelData.m_LocalPlayerData, 1, sizeof levelData.m_LocalPlayerData, pFile) == size)
+	if (fread(&levelData.m_LocalPlayerData, 1, sizeof levelData.m_LocalPlayerData, pFile) == (size_t)size)
 		levelData.m_nPlayers = nPlayers;
 
 	fclose(pFile);
