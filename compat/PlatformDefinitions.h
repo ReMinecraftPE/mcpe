@@ -13,6 +13,7 @@
 #endif
 
 #include "EndianDefinitions.h"
+#include "ToolsetDefinitions.h"
 
 /* Apple - Mac OS X / macOS */
 #if defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) || \
@@ -51,22 +52,8 @@
 #define MC_PLATFORM_XBOXONE 0
 #endif
 
-/* Microsoft - Xbox 360 (XDK) */
-#if (defined(_XBOX_VER) && _XBOX_VER >= 200 && !MC_PLATFORM_XBOXONE)
-#define MC_PLATFORM_XBOX360_XDK 1
-#else
-#define MC_PLATFORM_XBOX360_XDK 0
-#endif
-
-/* Microsoft - Xbox 360 (libXenon) */
-#if (defined(XENON))
-#define MC_PLATFORM_XBOX360_XENON 1
-#else
-#define MC_PLATFORM_XBOX360_XENON 0
-#endif
-
 /* Microsoft - Xbox 360 */
-#if (MC_PLATFORM_XBOX360_XDK || MC_PLATFORM_XBOX360_XENON)
+#if ((defined(_XBOX_VER) && _XBOX_VER >= 200 && !MC_PLATFORM_XBOXONE) || MC_SDK_LIBXENON)
 #define MC_PLATFORM_XBOX360 1
 #else
 #define MC_PLATFORM_XBOX360 0

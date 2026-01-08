@@ -42,14 +42,15 @@
 #define NOMINMAX /* don't define min() and max(). */
 #endif
 #include <windows.h>
-#include <direct.h>
-#include <io.h>
 
 #elif defined(_XBOX)
 
 #include <xtl.h>
 
 #endif
+
+#include <io.h> // for _access
+#include <direct.h> // for _mkdir
 
 // XPL means "Cross PLatform"
 #define XPL_ACCESS _access

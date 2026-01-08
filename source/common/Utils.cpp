@@ -21,9 +21,7 @@
 #pragma warning(disable : 28159)
 #endif
 
-#elif MC_PLATFORM_XBOX360_XDK
-
-
+#elif MC_SDK_XDK
 
 #else
 
@@ -164,7 +162,7 @@ bool DeleteDirectory(const std::string& name2, bool unused)
 	closedir(dir);
 
 #ifdef _WIN32
-	return RemoveDirectoryA(name.c_str());
+	return RemoveDirectoryA(name.c_str()) != 0;
 #else
 	return remove(name.c_str()) == 0;
 #endif
