@@ -1,6 +1,13 @@
-#include "RakAssert.h"
+#ifndef RAKNET_XBOX360INCLUDES_H
+#define RAKNET_XBOX360INCLUDES_H
 
-#ifdef _XBOX
+#if defined(_XBOX)
+
+#include "WindowsIncludes.h"
+
+#include <winsockx.h>
+
+#include "RakAssert.h"
 
 // RakNet hack
 #ifdef _WIN32
@@ -19,25 +26,18 @@
 #define WC_COMPOSITECHECK         0x00000200  // convert composite to precomposed
 
 
-/* Begin WinDef.h */
-#define FAR                 far
-
-/*
- * Structures returned by network data base library, taken from the
- * BSD file netdb.h.  All addresses are supplied in host order, and
- * returned in network order (suitable for use in system calls).
- */
-
-struct  hostent {
-        char    FAR * h_name;           /* official name of host */
-        char    FAR * FAR * h_aliases;  /* alias list */
-        short   h_addrtype;             /* host address type */
-        short   h_length;               /* length of address */
-        char    FAR * FAR * h_addr_list; /* list of addresses */
-#define h_addr  h_addr_list[0]          /* address, for backward compat */
+/* Begin netdb.h */
+struct hostent {
+    char  *h_name;      /* Official name of the host. */
+    char **h_aliases;   /* A pointer to an array of pointers to alternative host names,
+                           terminated by a null pointer. */
+    int    h_addrtype;  /* Address type. */
+    int    h_length;    /* The length, in bytes, of the address. */
+    char **h_addr_list; /* A pointer to an array of pointers to network addresses (in
+                           network byte order) for the host, terminated by a null pointer. */
+#define h_addr h_addr_list[0] /* for backward compatibility */
 };
-/* End WinDef.h */
-
+/* End netdb.h */
 
 /* Begin WinSock.h */
 
@@ -59,25 +59,9 @@ struct  hostent {
 #define IP_DEFAULT_MULTICAST_LOOP  1    /* normally hear sends if a member  */
 #define IP_MAX_MEMBERSHIPS         20   /* per socket; must fit in one mbuf */
 
-struct hostent FAR * PASCAL FAR gethostbyname(__in_z const char FAR * name)
-{
-	RakAssert("Not yet supported" && 0);
-	return NULL;
-}
-
-int PASCAL FAR gethostname (
-                            __out_bcount_part(namelen, return) char FAR * name,
-                            __in int namelen)
-{
-	RakAssert("Not yet supported" && 0);
-	return NULL;
-}
-
-char FAR * PASCAL FAR inet_ntoa (__in struct in_addr in)
-{
-	RakAssert("Not yet supported" && 0);
-	return NULL;
-}
+struct hostent * gethostbyname(__in_z const char * name);
+int gethostname (__out_bcount_part(namelen, return) char * name, __in int namelen);
+char * inet_ntoa (__in struct in_addr in);
 
 /* End WinSock.h */
 
@@ -135,5 +119,5 @@ char FAR * PASCAL FAR inet_ntoa (__in struct in_addr in)
 
 
 
-
-#endif // __XBOX360_INCLUDES_H
+#endif // defined(_XBOX)
+#endif // RAKNET_XBOX360INCLUDES_H

@@ -14,7 +14,7 @@
     <ClInclude Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\sound\dummy\CustomSoundSystem.hpp">
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\dummy\CustomSoundSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -28,7 +28,7 @@
     <ClCompile Include="$(MC_ROOT)\platforms\xdk360\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\sound\dummy\SoundSystemNull.cpp">
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\dummy\SoundSystemNull.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

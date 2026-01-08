@@ -33,21 +33,18 @@
     </ClCompile>
     <Lib>
       <!--AdditionalDependencies>xapilib.lib;d3d9.lib;d3dx9.lib;xgraphics.lib;xboxkrnl.lib;xnet.lib;xaudio2.lib;xact3.lib;x3daudio.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies-->
-      <AdditionalDependencies>xapilib.lib;xgraphics.lib;xboxkrnl.lib;xnet.lib;xact3.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>xapilib.lib;xgraphics.lib;xboxkrnl.lib;xact3.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
-    <Link>
-      <SubSystem>Xbox 360</SubSystem>
-    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.hpp" />
-    <ClInclude Include="$(MC_ROOT)\sound\dummy\CustomSoundSystem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\sound\dummy\CustomSoundSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
     <ClCompile Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\xdk360\main.cpp" />
-    <ClCompile Include="$(MC_ROOT)\sound\dummy\SoundSystemNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\sound\dummy\SoundSystemNull.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">
