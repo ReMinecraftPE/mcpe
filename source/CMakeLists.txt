@@ -538,7 +538,7 @@ target_link_libraries(reminecraftpe-core PUBLIC raknet)
 
 # zlib
 add_library(zlib-interface INTERFACE)
-if(REMCPE_WIN32)
+if(REMCPE_WIN32 OR XENON) # @TODO: libXenon has zlib included, how do we get to it?
     # Compile Vendored ZLib
     add_subdirectory(../thirdparty/zlib zlib)
     target_link_libraries(zlib-interface INTERFACE zlib)

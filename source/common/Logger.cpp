@@ -45,6 +45,7 @@ const char* Logger::GetTag(eLogLevel ll)
 
 void Logger::print(eLogLevel ll, const char* const str)
 {
+    //FILE* file = ll == LOG_ERR ? stderr : stdout;
     // iProgramInCpp changed this to printf because he was worried that
     // the std::cout features wouldn't work in emscripten.
     ::printf("%s%s\n", GetTag(ll), str);

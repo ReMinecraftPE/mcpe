@@ -21,7 +21,7 @@
 #pragma warning(disable : 28159)
 #endif
 
-#elif MC_PLATFORM_XBOX360
+#elif MC_SDK_XDK
 
 #else
 
@@ -29,6 +29,11 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
+#endif
+
+#ifdef XENON
+// needed for udelay in sleepMs
+#include <time/time.h>
 #endif
 
 // include zlib stuff
@@ -157,7 +162,7 @@ bool DeleteDirectory(const std::string& name2, bool unused)
 	closedir(dir);
 
 #ifdef _WIN32
-	return RemoveDirectoryA(name.c_str());
+	return RemoveDirectoryA(name.c_str()) != 0;
 #else
 	return remove(name.c_str()) == 0;
 #endif
@@ -265,6 +270,8 @@ void sleepMs(int ms)
 {
 #ifdef _WIN32
 	Sleep(ms);
+#elif defined(XENON)
+	udelay(1000 * ms);
 #else
 	usleep(1000 * ms);
 #endif

@@ -19,6 +19,9 @@
 
 #else
 #include <pthread.h>
+#ifdef XENON
+#include "../xenon_utils/pthread.h"
+#endif
 #include <time.h>
 #include <sys/time.h>
 pthread_mutex_t fakeMutex = PTHREAD_MUTEX_INITIALIZER;

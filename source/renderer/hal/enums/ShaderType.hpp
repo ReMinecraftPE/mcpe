@@ -1,5 +1,11 @@
 #pragma once
 
+#ifdef XENON
+#ifdef SHADER_TYPE_VERTEX
+#undef SHADER_TYPE_VERTEX
+#endif
+#endif
+
 namespace mce
 {
     enum ShaderType

@@ -26,6 +26,9 @@
 
 #else
 #include <pthread.h>
+#ifdef XENON
+#include "../xenon_utils/pthread.h"
+#endif
 #include <sys/types.h>
 #endif
 #include "Export.h"

@@ -35,7 +35,6 @@
 
 #ifdef _WIN32
 
-// Do we even need all this WinSock stuff anymore?
 #if MC_PLATFORM_WINPC
 
 #define WIN32_LEAN_AND_MEAN
@@ -43,15 +42,15 @@
 #define NOMINMAX /* don't define min() and max(). */
 #endif
 #include <windows.h>
-#include <direct.h>
-#include <io.h>
 
-#elif MC_PLATFORM_XBOX360
+#elif defined(_XBOX)
 
 #include <xtl.h>
-#include <winsockx.h>
 
 #endif
+
+#include <io.h> // for _access
+#include <direct.h> // for _mkdir
 
 // XPL means "Cross PLatform"
 #define XPL_ACCESS _access

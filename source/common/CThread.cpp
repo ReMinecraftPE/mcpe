@@ -8,21 +8,15 @@
 
 #include <stdint.h>
 #include "CThread.hpp"
+#include "Utils.hpp"
 
-#if	defined(_WIN32)
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h> // for Sleep()
-#else
-#include <unistd.h>
+#ifdef XENON
+static volatile int hardwareThread = 1;
 #endif
 
 void CThread::sleep(uint32_t ms)
 {
-#ifdef _WIN32
-	Sleep(ms);
-#else
-	usleep(1000 * ms);
-#endif
+	sleepMs(ms);
 }
 
 CThread::CThread(CThreadFunction func, void* param)
@@ -42,6 +36,12 @@ CThread::CThread(CThreadFunction func, void* param)
 		0, // creation option
 		&dwThreadId // thread identifier (but does it really matter if I'm the one managing them...?)
 	);
+#elif defined(XENON)
+	m_thrd = hardwareThread++;
+	xenon_run_thread_task(m_thrd, param, (void*)m_func);
+
+	if (hardwareThread >= 6)
+		hardwareThread = 1;
 #else
 	pthread_attr_init(&m_thrd_attr);
 	//pthread_attr_setdetachstate(&m_thrd_attr, 1);
@@ -56,6 +56,8 @@ CThread::~CThread()
 #elif defined(USE_WIN32_THREADS)
 	WaitForSingleObject(m_thrd, INFINITE);
 	CloseHandle(m_thrd);
+#elif defined(XENON)
+	xenon_sleep_thread(m_thrd);
 #else
 	pthread_join(m_thrd, 0);
 	pthread_attr_destroy(&m_thrd_attr);
