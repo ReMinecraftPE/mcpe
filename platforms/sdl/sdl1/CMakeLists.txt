@@ -24,15 +24,39 @@ target_link_libraries(reminecraftpe reminecraftpe-core)
 target_link_libraries(reminecraftpe stb_image)
 
 # SDL (From system)
-find_package(SDL REQUIRED)
-target_include_directories(reminecraftpe-core PUBLIC "${SDL_INCLUDE_DIR}")
-target_link_libraries(reminecraftpe-core PUBLIC "${SDL_LIBRARY}")
-if(SDLMAIN_LIBRARY)
-    target_link_libraries(reminecraftpe "${SDLMAIN_LIBRARY}")
+if(XENON)
+    target_link_libraries(reminecraftpe-core PUBLIC "SDL")
+    if(SDLMAIN_LIBRARY)
+        target_link_libraries(reminecraftpe "${SDLMAIN_LIBRARY}")
+    endif()
+else()
+    find_package(SDL REQUIRED)
+    target_include_directories(reminecraftpe-core PUBLIC "${SDL_INCLUDE_DIR}")
+    target_link_libraries(reminecraftpe-core PUBLIC "${SDL_LIBRARY}")
+    if(SDLMAIN_LIBRARY)
+        target_link_libraries(reminecraftpe "${SDLMAIN_LIBRARY}")
+    endif()
 endif()
 
 if(REMCPE_GFX_API STREQUAL "OGL")
     # OpenGL
     find_package(OpenGL REQUIRED)
     target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
+endif()
+
+if(XENON)
+    # Must be linked after SDL, since libSDLXenon uses the SDK
+    target_link_libraries(reminecraftpe-core PUBLIC "xenon" "fat")
+endif()
+
+# Post-Build
+if(XENON) # Xbox 360 (libXenon)
+    # ELF -> ELF32
+    add_custom_command(
+        TARGET reminecraftpe POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -O elf32-powerpc --adjust-vma 0x80000000 
+                $<TARGET_FILE:reminecraftpe> ${CMAKE_CURRENT_BINARY_DIR}/reminecraftpe.elf
+        COMMAND ${CMAKE_STRIP} ${CMAKE_CURRENT_BINARY_DIR}/reminecraftpe.elf
+        COMMENT "Converting to elf32 and stripping..."
+    )
 endif()

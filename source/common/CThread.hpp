@@ -10,7 +10,7 @@
 
 // CThread - Object oriented pthread wrapper
 
-#if defined(_WIN32)
+#ifdef _WIN32
 
 #ifndef USE_WIN32_THREADS
 #if defined(_XBOX) || defined(USE_OLD_CPP) || defined(__MINGW32__)
@@ -44,6 +44,10 @@
 #include <windows.h>
 #endif
 
+#elif defined(XENON)
+
+#include <xenon_soc/xenon_power.h>
+
 #else
 
 // pthreads
@@ -68,6 +72,8 @@ private:
 	std::thread m_thrd;
 #elif defined (USE_WIN32_THREADS)
 	HANDLE m_thrd;
+#elif defined(XENON)
+	int m_thrd;
 #else
 	pthread_t m_thrd;
 	pthread_attr_t m_thrd_attr;

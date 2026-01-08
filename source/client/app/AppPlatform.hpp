@@ -18,16 +18,20 @@
 #include "AssetFile.hpp"
 
 #include "GameMods.hpp"
+#include "compat/PlatformDefinitions.h"
 
-#ifndef MOD_USE_BIGGER_SCREEN_SIZE
-#define C_DEFAULT_SCREEN_WIDTH  (854)
-#define C_DEFAULT_SCREEN_HEIGHT (480)
+#ifdef MOD_USE_BIGGER_SCREEN_SIZE
+#define C_DEFAULT_SCREEN_WIDTH  (1280)
+#define C_DEFAULT_SCREEN_HEIGHT (720)
 #elif defined(__DREAMCAST__)
 #define C_DEFAULT_SCREEN_WIDTH  (800)
 #define C_DEFAULT_SCREEN_HEIGHT (600)
-#else
+#elif MC_PLATFORM_XBOX360
 #define C_DEFAULT_SCREEN_WIDTH  (1280)
 #define C_DEFAULT_SCREEN_HEIGHT (720)
+#else
+#define C_DEFAULT_SCREEN_WIDTH  (854)
+#define C_DEFAULT_SCREEN_HEIGHT (480)
 #endif
 
 class AppPlatformListener;

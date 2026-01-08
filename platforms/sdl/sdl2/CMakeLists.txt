@@ -72,8 +72,7 @@ if(REMCPE_GFX_API STREQUAL "OGL")
     endif()
 endif()
 
-# WASM
-if(EMSCRIPTEN)
+if(EMSCRIPTEN) # WASM
     # Export Resize Function
     target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
 endif()

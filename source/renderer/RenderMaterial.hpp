@@ -41,7 +41,7 @@ namespace mce
 
     public:
         RenderMaterial();
-        RenderMaterial(const rapidjson::Value& root, const RenderMaterial& parent);
+        RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent);
 
     protected:
         RenderState _parseStateName(const std::string& stateName) const;

@@ -21,7 +21,11 @@
 #include "LinuxStrings.h"
 #include "SocketDefines.h"
 #if (defined(__GNUC__)  || defined(__GCCXML__)) && !defined(__WIN32__)
+#ifdef XENON
+#include <lwip/netdb.h>
+#else
 #include <netdb.h>
+#endif
 #endif
 
 #if defined( __HAIKU__ )
@@ -49,9 +53,18 @@ using namespace pp;
 #include <string.h> // memcpy
 #include <unistd.h>
 #include <fcntl.h>
+#ifdef XENON
+#include <lwip/inet.h>
+#else
 #include <arpa/inet.h>
+#endif
 #include <errno.h>  // error numbers
 #include <stdio.h> // RAKNET_DEBUG_PRINTF
+#ifdef XENON
+#include <lwip/inet.h>
+#include <sys/types.h>
+#include <lwip/sockets.h>
+#else
 #if (!defined(ANDROID) && !defined(__DREAMCAST__))
 #include <ifaddrs.h>
 #endif
@@ -62,6 +75,7 @@ using namespace pp;
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
+#endif
 
 #endif
 
@@ -197,7 +211,7 @@ RakNet::RakString SocketLayer::GetSubNetForSocketAndIp(__UDPSOCKET__ inSock, Rak
 
 
 
-#if   defined(WINDOWS_STORE_RT) || defined(_XBOX)
+#if   defined(WINDOWS_STORE_RT) || defined(_XBOX) || defined(XENON)
 	RakAssert("Not yet supported" && 0);
 	return "";
 #elif defined(_WIN32)
@@ -602,8 +616,10 @@ bool SocketLayer::GetFirstBindableIP(char firstBindable[128], int ipProto)
 			break;
 		if (ipList[l].GetIPVersion()==4 && ipProto==AF_INET)
 			break;
+#if RAKNET_SUPPORT_IPV6
 		if (ipList[l].GetIPVersion()==6 && ipProto==AF_INET6)
 			break;
+#endif
 	}
 
 	if (ipList[l]==UNASSIGNED_SYSTEM_ADDRESS || l==MAXIMUM_NUMBER_OF_INTERNAL_IDS)

@@ -11,8 +11,10 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+#if MCE_GFX_API_OGL
 // needed for screenshots
 #include "thirdparty/GL/GL.hpp"
+#endif
 
 #include "AppPlatform_sdl.hpp"
 
