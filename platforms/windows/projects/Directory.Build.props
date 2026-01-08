@@ -138,6 +138,22 @@
   </ItemDefinitionGroup>
    <!-- Item Definitions - Xbox 360 (Debug) -->
   <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Debug'))">
+    <!--ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <CallAttributedProfiling>Callcap</CallAttributedProfiling>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
+    </Link-->
     <Deploy>
       <DeploymentType>CopyToHardDrive</DeploymentType>
       <Progress>true</Progress>

@@ -40,6 +40,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer.OGL", "projects\Re
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer.Null", "projects\Renderer.Null\Renderer.Null.vcxproj", "{70C3540E-95CD-4A57-BDF2-E1DA7767A918}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinecraftClient.XDK360", "projects\MinecraftClient.XDK360\MinecraftClient.XDK360.vcxproj", "{CCCDDD5C-4352-4D7C-8AA8-38FD1D76B82A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_SDL1|x64 = Debug_SDL1|x64
@@ -674,6 +676,10 @@ Global
 		{70C3540E-95CD-4A57-BDF2-E1DA7767A918}.Release|x86.Build.0 = Release|Win32
 		{70C3540E-95CD-4A57-BDF2-E1DA7767A918}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
 		{70C3540E-95CD-4A57-BDF2-E1DA7767A918}.Release|Xbox 360.Build.0 = Release|Xbox 360
+		{CCCDDD5C-4352-4D7C-8AA8-38FD1D76B82A}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
+		{CCCDDD5C-4352-4D7C-8AA8-38FD1D76B82A}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{CCCDDD5C-4352-4D7C-8AA8-38FD1D76B82A}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
+		{CCCDDD5C-4352-4D7C-8AA8-38FD1D76B82A}.Release|Xbox 360.Build.0 = Release|Xbox 360
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,139 @@
+#include <fstream>
+#include <sstream>
+
+#include "AppPlatform_xdk360.hpp"
+
+#include "GameMods.hpp"
+#include "common/Logger.hpp"
+#include "common/Utils.hpp"
+#include "renderer/RenderContextImmediate.hpp"
+
+#include "thirdparty/stb_image/include/stb_image.h"
+#include "thirdparty/stb_image/include/stb_image_write.h"
+
+// Macros are cursed
+#define _STR(x) #x
+#define STR(x) _STR(x)
+
+AppPlatform_xdk360::AppPlatform_xdk360()
+{
+	m_ScreenWidth = C_DEFAULT_SCREEN_WIDTH;
+	m_ScreenHeight = C_DEFAULT_SCREEN_HEIGHT;
+
+	m_bHasGraphics = false;
+	m_bIsFocused = false;
+	m_bWasUnfocused = false;
+
+	m_pSoundSystem = nullptr;
+}
+
+AppPlatform_xdk360::~AppPlatform_xdk360()
+{
+	SAFE_DELETE(m_pSoundSystem);
+}
+
+void AppPlatform_xdk360::initSoundSystem()
+{
+	if (m_pSoundSystem)
+	{
+		LOG_E("Trying to initialize SoundSystem more than once!");
+		return;
+	}
+
+	LOG_I("Initializing " STR(SOUND_SYSTEM) "...");
+	m_pSoundSystem = new SOUND_SYSTEM();
+}
+
+int AppPlatform_xdk360::checkLicense()
+{
+	// we own the game!!
+	return 1;
+}
+
+std::string AppPlatform_xdk360::getDateString(int time)
+{
+	time_t tt = time;
+	struct tm t;
+	// using the _s variant. For a different platform there's gmtime_r. This is not directly portable however.
+	gmtime_s(&t, &tt);
+
+	//format it with strftime
+	char buf[2048];
+	strftime(buf, sizeof buf, "%b %d %Y %H:%M:%S", &t);
+	//strftime(buf, sizeof buf, "%a %b %d %H:%M:%S %Z %Y", &t);
+
+	return std::string(buf);
+}
+
+bool AppPlatform_xdk360::doesTextureExist(const std::string& path) const
+{
+	// Get Full Path
+	std::string realPath = getAssetPath(path);
+
+	return XPL_ACCESS(realPath.c_str(), 0) == 0;
+}
+
+bool AppPlatform_xdk360::isTouchscreen() const
+{
+	return false;
+}
+
+bool AppPlatform_xdk360::hasFileSystemAccess()
+{
+	return true;
+}
+
+AssetFile AppPlatform_xdk360::readAssetFile(const std::string& str, bool quiet) const
+{
+	std::string path = getAssetPath(str);
+	std::ifstream ifs(path, std::ios::binary | std::ios::ate);
+	if (!ifs.is_open())
+		return AssetFile();
+
+	std::streamsize size = ifs.tellg();
+	ifs.seekg(0, std::ios::beg);
+
+	unsigned char* buffer = new unsigned char[size];
+	ifs.read((char*) buffer, size);
+
+	return AssetFile(size, buffer);
+}
+
+void AppPlatform_xdk360::setScreenSize(int width, int height)
+{
+	m_ScreenWidth = width;
+	m_ScreenHeight = height;
+
+	if (m_bHasGraphics)
+		createWindowSizeDependentResources(Vec2(width, height), Vec2::ONE);
+}
+
+void AppPlatform_xdk360::updateFocused(bool focused)
+{
+	m_bIsFocused = focused;
+}
+
+bool AppPlatform_xdk360::initGraphics()
+{
+#if MCE_GFX_API_D3D9
+	// @TODO: this
+#endif
+
+	m_bHasGraphics = true;
+	return true;
+}
+
+void AppPlatform_xdk360::createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale)
+{
+#if MCE_GFX_API_D3D9
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.createWindowSizeDependentResources((HWND)m_hWnd, logicalSize, compositionScale);
+#endif
+}
+
+void AppPlatform_xdk360::swapBuffers()
+{
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.swapBuffers();
+}
+
