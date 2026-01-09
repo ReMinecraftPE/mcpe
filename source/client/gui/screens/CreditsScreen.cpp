@@ -6,8 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include <cstring>
+#include <fstream>
 
+#include "client/app/Minecraft.hpp"
 #include "CreditsScreen.hpp"
 #include "DeleteWorldScreen.hpp"
 #include "CreateWorldScreen.hpp"
@@ -68,24 +69,16 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 
 	drawCenteredString(*m_pMinecraft->m_pFont, "Credits", m_width / 2, 8, 0xFFFFFFFF);
 
-	// What people are listed and the order they are listed in was chosen by vibes,
-	// some people that were important but aren't active in the discord much might be excluded,
-	// and maybe some people should be higher, idk, feel free to change
-	const char *credits =
-		"iProgramMC\0"
-		"BrentDaMage\0"
-		"TheBrokenRail\0"
-		"Wilylcaro\0"
-		"Vimdo\0"
-		"Swololo\0"
-		"Un1q32\0"
-		"all the other ReMinecraftPE contributors\0"
-		"and everyone at Mojang\0";
+	std::ifstream file(m_pMinecraft->m_pPlatform->getAssetPath("credits.txt").c_str());
+	if (!file) {
+		drawCenteredString(*m_pMinecraft->m_pFont, "Failed to load credits.txt", m_width / 2, 100, 0xFFFFFFFF);
+		return;
+	}
 
-	int height = 67;
-	while (*credits != '\0') {
-		drawCenteredString(*m_pMinecraft->m_pFont, credits, m_width / 2, height, 0xFFFFFFFF);
-		credits += strlen(credits) + 1;
+	int height = 28;
+	std::string line;
+	while (std::getline(file, line)) {
+		drawCenteredString(*m_pMinecraft->m_pFont, line, m_width / 2, height, 0xFFFFFFFF);
 		height += 10;
 	}
 }

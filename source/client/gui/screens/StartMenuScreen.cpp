@@ -478,13 +478,13 @@ void StartMenuScreen::init()
 
 	m_joinButton.m_yPos = yPos + 25;
 	m_startButton.m_yPos = yPos - 3;
+	m_creditsButton.m_yPos = yPos - 55;
 
 	yPos += 55;
 
 	m_optionsButton.m_yPos = yPos;
 	m_testButton.m_yPos = yPos;
 	m_buyButton.m_yPos = yPos;
-	m_creditsButton.m_yPos = yPos + 25;
 	m_creditsButton.m_width = m_startButton.m_width;
 
 	m_startButton.m_xPos = (m_width - m_startButton.m_width) / 2;
