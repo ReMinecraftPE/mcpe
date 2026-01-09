@@ -18,6 +18,7 @@
 #include "ProgressScreen.hpp"
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
+#include "CreditsScreen.hpp"
 
 // special mode so that we can crop out the title:
 //#define TITLE_CROP_MODE
@@ -392,7 +393,8 @@ StartMenuScreen::StartMenuScreen() :
 	m_joinButton   (3,   0, 0, 160, 24, "Join Game"),
 	m_optionsButton(4,   0, 0,  78, 22, "Options"),
 	m_testButton   (999, 0, 0,  78, 22, "Test"),
-	m_buyButton    (5,   0, 0,  78, 22, "Buy")
+	m_buyButton    (5,   0, 0,  78, 22, "Buy"),
+	m_creditsButton(6,   0, 0,  78, 22, "")
 {
 	m_pTiles = nullptr;
 	m_chosenSplash = -1;
@@ -464,6 +466,10 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 	{
 		m_pMinecraft->setScreen(new OptionsScreen);
 	}
+	else if (pButton->m_buttonId == m_creditsButton.m_buttonId)
+	{
+		m_pMinecraft->setScreen(new CreditsScreen);
+	}
 }
 
 void StartMenuScreen::init()
@@ -478,6 +484,8 @@ void StartMenuScreen::init()
 	m_optionsButton.m_yPos = yPos;
 	m_testButton.m_yPos = yPos;
 	m_buyButton.m_yPos = yPos;
+	m_creditsButton.m_yPos = yPos + 25;
+	m_creditsButton.m_width = m_startButton.m_width;
 
 	m_startButton.m_xPos = (m_width - m_startButton.m_width) / 2;
 
@@ -485,6 +493,7 @@ void StartMenuScreen::init()
 
 	m_joinButton.m_xPos = x1 / 2;
 	m_optionsButton.m_xPos = x1 / 2;
+	m_creditsButton.m_xPos = x1 / 2;
 	
 	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
@@ -500,6 +509,7 @@ void StartMenuScreen::init()
 	m_buttons.push_back(&m_startButton);
 	m_buttons.push_back(&m_joinButton);
 	m_buttons.push_back(&m_optionsButton);
+	m_buttons.push_back(&m_creditsButton);
 
     bool canQuit = false;
 

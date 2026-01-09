@@ -1294,6 +1294,8 @@
 		84FFBF022ACA3416005A8CCF /* WSAStartupSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8442AC810630006A435 /* WSAStartupSingleton.cpp */; };
 		9D36D2F72F0B3C160031ADFD /* vsnprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D36D2F62F0B3C160031ADFD /* vsnprintf.c */; };
 		9D36D2F92F0B3C1F0031ADFD /* vsnprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */; };
+		9D3996282F10E9C6002945D3 /* CreditsScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */; };
+		9D3996292F10E9C6002945D3 /* CreditsScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2768,6 +2770,8 @@
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D36D2F62F0B3C160031ADFD /* vsnprintf.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vsnprintf.c; sourceTree = "<group>"; };
 		9D36D2F82F0B3C1F0031ADFD /* vsnprintf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vsnprintf.h; sourceTree = "<group>"; };
+		9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CreditsScreen.hpp; sourceTree = "<group>"; };
+		9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CreditsScreen.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3036,6 +3040,8 @@
 				840DD5BA2AC810620006A435 /* SelectWorldScreen.hpp */,
 				840DD5BB2AC810620006A435 /* StartMenuScreen.cpp */,
 				840DD5BC2AC810620006A435 /* StartMenuScreen.hpp */,
+				9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */,
+				9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */,
 			);
 			path = screens;
 			sourceTree = "<group>";
@@ -5159,6 +5165,7 @@
 				84E001362AF39E84009B9555 /* TouchInputHolder.hpp in Headers */,
 				84E001382AF39E84009B9555 /* TouchscreenInput_TestFps.hpp in Headers */,
 				84EB09CB2EE2CC86008FB007 /* CowModel.hpp in Headers */,
+				9D3996282F10E9C6002945D3 /* CreditsScreen.hpp in Headers */,
 				84E0013A2AF39E84009B9555 /* UnifiedTurnBuild.hpp in Headers */,
 				84EB09D12EE2CC86008FB007 /* Model.hpp in Headers */,
 				84C90EA62AF8861A008973F9 /* OptionList.hpp in Headers */,
@@ -6215,6 +6222,7 @@
 				84AA8C052B32F3F3003F5B82 /* PigRenderer.cpp in Sources */,
 				84AA8C072B32F3F3003F5B82 /* SheepFurRenderer.cpp in Sources */,
 				84AA8C092B32F3F3003F5B82 /* SheepRenderer.cpp in Sources */,
+				9D3996292F10E9C6002945D3 /* CreditsScreen.cpp in Sources */,
 				84AA8C0D2B32F3F3003F5B82 /* SpiderRenderer.cpp in Sources */,
 				84AA8C0F2B32F3F3003F5B82 /* TntRenderer.cpp in Sources */,
 				84AA8C112B32F3F3003F5B82 /* TripodCameraRenderer.cpp in Sources */,
