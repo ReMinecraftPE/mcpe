@@ -69,7 +69,7 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 
 	drawCenteredString(*m_pMinecraft->m_pFont, "Credits", m_width / 2, 8, 0xFFFFFFFF);
 
-	std::ifstream file(m_pMinecraft->m_pPlatform->getAssetPath("credits.txt").c_str());
+	std::istringstream file(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
 	if (!file) {
 		drawCenteredString(*m_pMinecraft->m_pFont, "Failed to load credits.txt", m_width / 2, 67, 0xFFFFFFFF);
 		return;
