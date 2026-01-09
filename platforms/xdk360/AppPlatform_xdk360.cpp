@@ -83,20 +83,11 @@ bool AppPlatform_xdk360::hasFileSystemAccess()
 	return true;
 }
 
-AssetFile AppPlatform_xdk360::readAssetFile(const std::string& str, bool quiet) const
+std::string AppPlatform_xdk360::getAssetPath(const std::string& path) const
 {
-	std::string path = getAssetPath(str);
-	std::ifstream ifs(path, std::ios::binary | std::ios::ate);
-	if (!ifs.is_open())
-		return AssetFile();
-
-	std::streamsize size = ifs.tellg();
-	ifs.seekg(0, std::ios::beg);
-
-	unsigned char* buffer = new unsigned char[size];
-	ifs.read((char*) buffer, size);
-
-	return AssetFile(size, buffer);
+	std::string assetPath = AppPlatform::getAssetPath(path);
+	toDosPath((char*)assetPath.c_str()); // casting to non-const, because fuck you
+	return "GAME:\\" + assetPath;
 }
 
 void AppPlatform_xdk360::setScreenSize(int width, int height)

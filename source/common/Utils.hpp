@@ -549,6 +549,10 @@ int getTimeMs();
 
 void sleepMs(int ms);
 
+#ifdef _WIN32
+void toDosPath(char* path);
+#endif
+
 bool createFolderIfNotExists(const char* pDir);
 bool DeleteDirectory(const std::string& name, bool unused);
 

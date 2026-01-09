@@ -23,8 +23,7 @@ public:
 	void updateFocused(bool focused) override;
 	bool hasFileSystemAccess() override;
 
-	// Also add this to allow dynamic texture patching.
-	AssetFile readAssetFile(const std::string&, bool) const override;
+	std::string getAssetPath(const std::string& path) const override;
 
 	void setScreenSize(int width, int height);
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }

@@ -44,6 +44,20 @@ int g_TimeSecondsOnInit = 0;
 
 #ifdef _WIN32
 
+void toDosPath(char* path)
+{
+    if (path == NULL) return;
+
+    while (*path != '\0')
+	{
+        if (*path == '/')
+		{
+            *path = '\\';
+        }
+        path++;
+    }
+}
+
 DIR* opendir(const char* name)
 {
 	size_t len = strlen(name);
