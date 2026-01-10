@@ -44,7 +44,7 @@
 #  define WIDECHAR
 #endif
 
-#ifdef WINAPI_FAMILY
+#if defined(WINAPI_FAMILY) || defined(_MSC_VER)
 #  define open _open
 #  define read _read
 #  define write _write
