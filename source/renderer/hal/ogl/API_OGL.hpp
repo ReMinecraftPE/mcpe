@@ -17,7 +17,7 @@ namespace gl
             GLES_2_0,
             GLES_3_0,
             GLES_3_1,
-            GLES_3_2,
+            GLES_3_2
         };
 
     private:

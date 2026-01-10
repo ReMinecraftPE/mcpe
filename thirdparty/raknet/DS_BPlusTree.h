@@ -81,7 +81,7 @@ namespace DataStructures
 				NO_ACTION,
 				REPLACE_KEY1_WITH_KEY2,
 				PUSH_KEY_TO_PARENT,
-				SET_BRANCH_KEY,
+				SET_BRANCH_KEY
 			} action; // 0=none, 1=replace key1 with key2
 		};
 

@@ -491,7 +491,7 @@ private:
 
 	// If Update::maxBitsPerSecond > 0, then throughputCapCountdown is used as a timer to prevent sends for some amount of time after each send, depending on
 	// the amount of data sent
-	long long throughputCapCountdown;
+	int64_t throughputCapCountdown;
 
 	unsigned receivePacketCount;
 

@@ -206,7 +206,7 @@ enum {
     /**
      * Start of user-defined ALooper identifiers.
      */
-    LOOPER_ID_USER = 3,
+    LOOPER_ID_USER = 3
 };
 
 enum {
@@ -308,7 +308,7 @@ enum {
      * Command from main thread: the app's activity is being destroyed,
      * and waiting for the app thread to clean up and exit before proceeding.
      */
-    APP_CMD_DESTROY,
+    APP_CMD_DESTROY
 };
 
 /**

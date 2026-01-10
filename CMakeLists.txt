@@ -9,23 +9,20 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Warnings
-add_compile_options(-Wall)
+add_compile_options(-Wall -Wignored-qualifiers -Wvariadic-macros)
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wc++11-extensions>)
 if(WERROR)
     add_compile_options(-Werror)
+endif()
+if(APPLE)
+    add_compile_options(-Wno-deprecated-declarations)
 endif()
 
 # Detect Windows
 include(CheckSymbolExists)
 check_symbol_exists("_WIN32" "" REMCPE_WIN32)
 
-# Clang
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_options(-Wno-inconsistent-missing-override)
-endif()
-if(APPLE)
-    add_compile_options(-Wno-deprecated-declarations)
-endif()
-
+# Windows Linking
 if(REMCPE_WIN32)
     # Modern MinGW doesn't support C++98 and will error if you try to use it
     set(CMAKE_CXX_STANDARD 11)

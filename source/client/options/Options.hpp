@@ -50,7 +50,7 @@ enum eKeyMappingIndex
 	KM_FLY_UP,
 	KM_FLY_DOWN,
 	KM_CHAT_CMD, // called "Open Chat" in Release 1.8
-	KM_COUNT,
+	KM_COUNT
 };
 
 struct KeyMapping

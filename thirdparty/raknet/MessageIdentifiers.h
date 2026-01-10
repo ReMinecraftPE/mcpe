@@ -33,7 +33,7 @@ enum OutOfBandIdentifiers
 	ID_XBOX_360_GET_NETWORK_ROOM,
 	ID_XBOX_360_RETURN_NETWORK_ROOM,
 	ID_NAT_PING,
-	ID_NAT_PONG,
+	ID_NAT_PONG
 };
 
 /// You should not edit the file MessageIdentifiers.h as it is a part of RakNet static library
