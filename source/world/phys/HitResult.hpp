@@ -22,7 +22,7 @@ public:
 	{
 		TILE,
 		ENTITY,
-		NONE,
+		NONE
 	};
 
 private:

@@ -10,6 +10,6 @@ public:
 		NORTH, // -Z
 		SOUTH, // +Z
 		WEST,  // -X
-		EAST,  // +X
+		EAST   // +X
 	};
 };

@@ -22,10 +22,11 @@
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_SERVER)
 #define puts_ignorable(str) LOG_I(str)
-#define printf_ignorable(str, ...) LOG_I(str, __VA_ARGS__)
+#define printf_ignorable LOG_I
 #else
+static inline void _do_nothing(...) {}
 #define puts_ignorable(str)
-#define printf_ignorable(str, ...)
+#define printf_ignorable _do_nothing
 #endif
 
 ServerSideNetworkHandler::ServerSideNetworkHandler(Minecraft* minecraft, RakNetInstance* rakNetInstance)

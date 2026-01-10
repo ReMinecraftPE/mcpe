@@ -13,13 +13,13 @@ enum ePatchType
 	TYPE_TERRAIN,
 	TYPE_ITEMS,
 	TYPE_FRAME,
-	TYPE_FEATURE,
+	TYPE_FEATURE
 };
 
 enum ePatchOption
 {
 	PO_NONE,
-	PO_GRASS_TINT,
+	PO_GRASS_TINT
 };
 
 struct PatchData

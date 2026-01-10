@@ -38,7 +38,7 @@ public:
 	int getUserInputStatus() override;
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
 	bool doesTextureExist(const std::string& path) const override;
-	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
+	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
 
 	// Also add these to allow proper turning within the game.
 	void setMouseGrabbed(bool b) override;

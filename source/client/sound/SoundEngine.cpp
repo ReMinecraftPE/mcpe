@@ -39,9 +39,11 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
     // Load Sounds
     SoundDesc::_loadAll(platform);
 
-#define SOUND(category, name, number) m_sounds.add(#category "." #name, SA_##name##number);
+#define SOUND(category, name) m_sounds.add(#category "." #name, SA_##name);
+#define SOUND_NUM(category, name, number) m_sounds.add(#category "." #name, SA_##name##number);
 #include "sound_list.h"
 #undef SOUND
+#undef SOUND_NUM
 
 #define MUSIC(name, number) m_songs.add(#name, platform->getAssetPath("music/" #name #number ".ogg"));
 #define NEWMUSIC(name, number) m_songs.add(#name, platform->getAssetPath("newmusic/" #name #number ".ogg"));

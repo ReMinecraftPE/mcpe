@@ -63,8 +63,8 @@ public:
 	AssetFile readAssetFile(const std::string&, bool) const override;
 
 	void setScreenSize(int width, int height);
-	const char* const getWindowTitle() const { return m_WindowTitle; }
-	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
+	const char* getWindowTitle() const { return m_WindowTitle; }
+	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
 
 	HWND createWindow(HINSTANCE hInstance, WNDPROC wndProc, LPVOID lpParam, WORD iconId);
 	void initializeWindow(HWND hWnd, int nCmdShow);

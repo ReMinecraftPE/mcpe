@@ -24,6 +24,7 @@ void ItemInstance::_init(int id, int count, int auxValue)
 	m_auxValue = auxValue;
     m_userData = nullptr;
 	m_popTime = 0;
+	m_bValid = false;
 	_setItem(id);
 }
 

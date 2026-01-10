@@ -3,5 +3,5 @@
 enum ColorSpace
 {
     COLOR_SPACE_RGBA,
-    COLOR_SPACE_RGB,
+    COLOR_SPACE_RGB
 };
