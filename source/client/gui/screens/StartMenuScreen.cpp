@@ -478,14 +478,12 @@ void StartMenuScreen::init()
 
 	m_joinButton.m_yPos = yPos + 25;
 	m_startButton.m_yPos = yPos - 3;
-	m_creditsButton.m_yPos = yPos - 55;
 
 	yPos += 55;
 
 	m_optionsButton.m_yPos = yPos;
 	m_testButton.m_yPos = yPos;
 	m_buyButton.m_yPos = yPos;
-	m_creditsButton.m_width = m_startButton.m_width;
 
 	m_startButton.m_xPos = (m_width - m_startButton.m_width) / 2;
 
@@ -493,10 +491,15 @@ void StartMenuScreen::init()
 
 	m_joinButton.m_xPos = x1 / 2;
 	m_optionsButton.m_xPos = x1 / 2;
-	m_creditsButton.m_xPos = x1 / 2;
 	
 	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
+
+	m_creditsButton.m_xPos = 0;
+	m_creditsButton.m_yPos = 0;
+	m_creditsButton.m_width = m_width;
+	m_creditsButton.m_height = 75;
+	//m_creditsButton.m_bOpacity = 0;
 
 	// fill in empty space where quit/buy button would be
 	if (m_pMinecraft->isTouchscreen())

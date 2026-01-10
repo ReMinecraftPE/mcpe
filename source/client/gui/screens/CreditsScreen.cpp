@@ -67,18 +67,18 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 
 	Screen::render(mouseX, mouseY, f);
 
-	drawCenteredString(*m_pMinecraft->m_pFont, "Credits", m_width / 2, 8, 0xFFFFFFFF);
+	drawCenteredString(*m_pMinecraft->m_pFont, "Credits", m_width / 2, 8, Color::WHITE);
 
 	std::istringstream credits(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
 	if (!credits) {
-		drawCenteredString(*m_pMinecraft->m_pFont, "Failed to load credits.txt", m_width / 2, 67, 0xFFFFFFFF);
+		drawCenteredString(*m_pMinecraft->m_pFont, "Failed to load credits.txt", m_width / 2, 67, Color::WHITE);
 		return;
 	}
 
 	int height = 28;
 	std::string line;
 	while (std::getline(credits, line)) {
-		drawCenteredString(*m_pMinecraft->m_pFont, line, m_width / 2, height, 0xFFFFFFFF);
+		drawCenteredString(*m_pMinecraft->m_pFont, line, m_width / 2, height, Color::WHITE);
 		height += 10;
 	}
 }
