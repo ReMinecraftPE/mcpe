@@ -81,10 +81,11 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 			credits.push_back(line);
 	}
 
-	int height = 28;
+	int lineheight = 10;
+	int height = (m_height - (credits.size() * lineheight)) / 2 - 2;
 	for (size_t i = 0; i < credits.size(); ++i) {
 		drawCenteredString(*m_pMinecraft->m_pFont, credits[i], m_width / 2, height, Color::WHITE);
-		height += 10;
+		height += lineheight;
 	}
 }
 
