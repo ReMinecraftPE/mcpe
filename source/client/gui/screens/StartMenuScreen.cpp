@@ -132,6 +132,8 @@ const char* gSplashes[] =
 #endif
 #elif MCE_GFX_API_D3D11
 	"Direct3D 11.1!"
+#elif MCE_GFX_API_D3D9
+	"Direct3D 9!"
 #endif
 	"Thousands of colors!",
 	"Try it!",

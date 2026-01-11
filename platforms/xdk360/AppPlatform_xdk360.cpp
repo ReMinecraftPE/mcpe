@@ -96,7 +96,7 @@ void AppPlatform_xdk360::setScreenSize(int width, int height)
 	m_ScreenHeight = height;
 
 	if (m_bHasGraphics)
-		createWindowSizeDependentResources(Vec2(width, height), Vec2::ONE);
+		createWindowSizeDependentResources(width, height);
 }
 
 void AppPlatform_xdk360::updateFocused(bool focused)
@@ -104,21 +104,22 @@ void AppPlatform_xdk360::updateFocused(bool focused)
 	m_bIsFocused = focused;
 }
 
-bool AppPlatform_xdk360::initGraphics()
+bool AppPlatform_xdk360::initGraphics(unsigned int width, unsigned int height)
 {
-#if MCE_GFX_API_D3D9
-	// @TODO: this
-#endif
-
 	m_bHasGraphics = true;
+
+	// D3D9 needs the RenderContext in order to create the D3DDevice using the width and height
+	mce::RenderDevice::createInstance();
+	setScreenSize(width, height);
+
 	return true;
 }
 
-void AppPlatform_xdk360::createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale)
+void AppPlatform_xdk360::createWindowSizeDependentResources(unsigned int width, unsigned int height)
 {
 #if MCE_GFX_API_D3D9
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
-	renderContext.createWindowSizeDependentResources((HWND)m_hWnd, logicalSize, compositionScale);
+	renderContext.createWindowSizeDependentResources((HWND)m_hWnd, width, height);
 #endif
 }
 

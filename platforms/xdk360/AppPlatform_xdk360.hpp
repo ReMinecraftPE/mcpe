@@ -28,8 +28,8 @@ public:
 	void setScreenSize(int width, int height);
 	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
 	
-	bool initGraphics();
-	void createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale);
+	bool initGraphics(unsigned int width, unsigned int height);
+	void createWindowSizeDependentResources(unsigned int width, unsigned int height);
 	void swapBuffers();
 
 private:

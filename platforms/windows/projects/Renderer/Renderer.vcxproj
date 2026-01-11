@@ -223,6 +223,12 @@
 	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='D3D9'">
+    <ProjectReference Include="..\Renderer.D3D9\Renderer.D3D9.vcxproj">
+      <Project>{beacd150-fc47-49ae-ac5a-19a7e2409a38}</Project>
+	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='D3D11'">
     <ProjectReference Include="..\Renderer.D3D11\Renderer.D3D11.vcxproj">
       <Project>{82e92e51-ad31-44ef-a133-ae0053256d5a}</Project>

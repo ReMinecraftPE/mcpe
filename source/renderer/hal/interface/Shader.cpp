@@ -6,3 +6,9 @@ Shader::Shader(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& ge
     : MCE_GFX_CLASS_SHADER(Shader)(vertex, fragment, geometry)
 {
 }
+
+void Shader::SpliceShaderPathAndExtension(std::string& shaderName)
+{
+    SpliceShaderPath(shaderName);
+    SpliceShaderExtension(shaderName);
+}

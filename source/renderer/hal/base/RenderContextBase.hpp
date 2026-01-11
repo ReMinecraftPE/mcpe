@@ -48,6 +48,8 @@ namespace mce
         void clearDepthStencilBuffer();
         void clearContextState();
         void setRenderTarget();
+        void beginRender();
+        void endRender();
         void swapBuffers();
         void lostContext();
 
@@ -56,6 +58,7 @@ namespace mce
         uint8_t getStencilReference() const;
 
         int getMaxVertexCount() const;
+        bool supports8BitIndices() const;
         bool supports32BitIndices() const;
         bool supports16BitUnsignedUVs() const;
     };

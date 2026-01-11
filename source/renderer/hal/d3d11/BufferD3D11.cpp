@@ -21,9 +21,9 @@ D3D11_MAP mapTypeToD3D11MapType(MapType mapType)
 {
     switch (mapType)
     {
-    case MAP_READ: return D3D11_MAP_READ;
-    case MAP_WRITE: return D3D11_MAP_WRITE;
-    case MAP_WRITE_DISCARD: return D3D11_MAP_WRITE_DISCARD;
+    case MAP_READ:               return D3D11_MAP_READ;
+    case MAP_WRITE:              return D3D11_MAP_WRITE;
+    case MAP_WRITE_DISCARD:      return D3D11_MAP_WRITE_DISCARD;
     case MAP_WRITE_NO_OVERWRITE: return D3D11_MAP_WRITE_NO_OVERWRITE;
     default:
         LOG_E("Unknown mapType: %d", mapType);
@@ -171,6 +171,7 @@ void BufferD3D11::updateBuffer(RenderContext& context, unsigned int stride, void
     if (subResource.RowPitch < stride * count)
     {
         d3dDeviceContext->Unmap(**m_buffer, 0);
+        m_buffer.release();
         createDynamicBuffer(context, stride * count, data, count, m_bufferType);
     }
     else

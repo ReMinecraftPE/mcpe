@@ -453,7 +453,7 @@ void AppPlatform_win32::disableGraphics(HWND hWnd)
 #endif
 }
 
-bool AppPlatform_win32::initGraphics()
+bool AppPlatform_win32::initGraphics(int width, int height)
 {
 #if MCE_GFX_API_OGL
 	if (!mce::Platform::OGL::InitBindings())
@@ -469,12 +469,20 @@ bool AppPlatform_win32::initGraphics()
 #endif
 
 	m_bHasGraphics = true;
+
+	// D3D9 needs the RenderContext in order to create the D3DDevice using the width and height
+	mce::RenderDevice::createInstance();
+	setScreenSize(width, height);
+
 	return true;
 }
 
 void AppPlatform_win32::createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale)
 {
-#if MCE_GFX_API_D3D11
+#if MCE_GFX_API_D3D9
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.createWindowSizeDependentResources((HWND)m_hWnd, logicalSize.x, logicalSize.y);
+#elif MCE_GFX_API_D3D11
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	renderContext.createWindowSizeDependentResources((HWND)m_hWnd, logicalSize, compositionScale);
 #endif

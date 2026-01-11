@@ -12,6 +12,9 @@ void __cdecl main()
 {
 	Logger::setSingleton(new Logger);
 
+	if (!g_AppPlatform.initGraphics(Minecraft::width, Minecraft::height))
+		goto _cleanup;
+
 	g_pApp = new NinecraftApp;
 	g_pApp->m_pPlatform = &g_AppPlatform;
 	g_pApp->m_externalStorageDir = ".";
@@ -19,7 +22,6 @@ void __cdecl main()
 	// initialize the app
 	g_pApp->init();
 	g_pApp->sizeUpdate(Minecraft::width, Minecraft::height);
-	g_AppPlatform.setScreenSize(Minecraft::width, Minecraft::height);
 
 	while (!g_pApp->wantToQuit())
 	{
@@ -27,6 +29,7 @@ void __cdecl main()
 		g_AppPlatform.swapBuffers();
 	}
 
+_cleanup:
 	g_pApp->saveOptions();
 
 	// Cleanup networking, renderer, sounds, textures, etc.

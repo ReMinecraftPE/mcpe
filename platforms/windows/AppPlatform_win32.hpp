@@ -76,7 +76,7 @@ public:
 	void centerWindow() { centerWindow(_getHWND()); }
 	void enableGraphics() { enableGraphics(_getHWND()); }
 	void disableGraphics() { disableGraphics(_getHWND()); }
-	bool initGraphics();
+	bool initGraphics(int width, int height);
 	void createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale);
 	void swapBuffers();
 

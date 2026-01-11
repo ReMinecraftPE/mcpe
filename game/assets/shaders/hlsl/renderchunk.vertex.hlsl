@@ -27,8 +27,7 @@ static const float3 UNIT_Y = float3( 0, 1, 0 );
 static const float DIST_DESATURATION = 56.0 / 255.0; //WARNING this value is also hardcoded in the water color, don'tchange
 
 
-void main( in VS_Input VSInput, out PS_Input PSInput )
-{
+VS_MAIN_BEGIN
     PSInput.uv0 = VSInput.uv0;
     //PSInput.uv1 = VSInput.uv1;
     PSInput.color = VSInput.color;
@@ -82,5 +81,4 @@ void main( in VS_Input VSInput, out PS_Input PSInput )
     PSInput.color.a = PSInput.position.z / FAR_CHUNKS_DISTANCE + 0.5;
 #endif //FANCY
 #endif
-
-}
+VS_MAIN_END

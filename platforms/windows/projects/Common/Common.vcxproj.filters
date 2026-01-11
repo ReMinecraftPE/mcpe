@@ -23,9 +23,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\compat\vsnprintf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\common\CThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,6 +62,9 @@
     <ClCompile Include="$(MC_ROOT)\source\common\utility\Singleton.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\compat\vsnprintf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\common\CThread.hpp">
@@ -94,7 +94,7 @@
     <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\compat\vsnprintf.h">
+    <ClInclude Include="..\..\..\..\compat\vsnprintf.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp">

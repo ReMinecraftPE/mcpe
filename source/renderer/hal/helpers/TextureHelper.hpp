@@ -8,5 +8,6 @@ namespace mce
     {
     public:
         static unsigned int textureFormatToByteStride(TextureFormat textureFormat);
+        static bool isTextureFormatRGBA(TextureFormat textureFormat);
     };
 }

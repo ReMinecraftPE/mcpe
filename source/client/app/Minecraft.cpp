@@ -41,6 +41,8 @@
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/PatchManager.hpp"
 
+#include "renderer/RenderContextImmediate.hpp"
+
 float Minecraft::_renderScaleMultiplier = 1.0f;
 
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
@@ -841,11 +843,17 @@ void Minecraft::update()
 	tickMouse();
 #endif
 
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	renderContext.beginRender();
+
 	m_pGameRenderer->render(m_timer.m_renderTicks);
 
 	// Added by iProgramInCpp
 	if (m_pGameMode)
 		m_pGameMode->render(m_timer.m_renderTicks);
+
+	renderContext.endRender();
 
 	double time = getTimeS();
 	m_fDeltaTime = time - m_fLastUpdated;

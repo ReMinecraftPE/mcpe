@@ -112,6 +112,7 @@ void ShaderProgramD3D11::compileShaderProgram()
 
     RenderContext& renderContext = RenderContextImmediate::get();
     std::string shaderTarget = _getShaderTarget(m_shaderType, renderContext.m_featureLevel);
+    // @TODO: probably need to call AppPlatform::singleton()->getAssetPath()
     std::string shaderSourceName = "assets/" + m_shaderPath;
 
     HRESULT hResult;

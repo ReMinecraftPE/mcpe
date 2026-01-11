@@ -1,5 +1,16 @@
 // These [aren't but] should be grouped in a way that they require the least amount of updating (world data in one, model data in another, part of model data in another one, etc)
 
+#ifdef SHADER_TYPE_FRAGMENT
+#if defined(_DIRECT3D9) && !defined(_XBOX)
+Texture2D TEXTURE_0 : register ( s0 );
+Texture2D TEXTURE_1 : register ( s1 );
+Texture2D TEXTURE_2 : register ( s2 );
+
+// Make sure this thing is actually getting bound
+sampler TextureSampler0 : register( s3 );
+sampler TextureSampler1 : register( s4 );
+sampler TextureSampler2 : register( s5 );
+#else
 Texture2D TEXTURE_0 : register ( t0 );
 Texture2D TEXTURE_1 : register ( t1 );
 Texture2D TEXTURE_2 : register ( t2 );
@@ -8,14 +19,47 @@ Texture2D TEXTURE_2 : register ( t2 );
 sampler TextureSampler0 : register( s0 );
 sampler TextureSampler1 : register( s1 );
 sampler TextureSampler2 : register( s2 );
+#endif
+#endif
 
-#ifdef LOW_PRECISION
+#if defined(LOW_PRECISION) && !defined(_DIRECT3D9)
 #define lpfloat min16float
 #define lpfloat4 min16float4
 #else
 #define lpfloat float
 #define lpfloat4 float4
 #endif
+
+#ifdef _DIRECT3D9
+
+#define VS_MAIN_BEGIN PS_Input main( VS_Input VSInput ) { PS_Input PSInput; 
+#define VS_MAIN_END return PSInput; }
+#define PS_MAIN_BEGIN PS_Output main( PS_Input PSInput ) { PS_Output PSOutput; 
+#define PS_MAIN_END return PSOutput; }
+
+#define R8G8B8A8_SNORM_UNSUPPORTED
+
+// D3D9 has OpenGL-like render state alpha testing
+#define discard PSOutput.color = float4(0,0,0,0); return PSOutput
+
+// D3D9 does not support custom semantic names, which is very unfortunate
+#define FOG_COLOR COLOR1
+#define LIGHT COLOR2
+#define OVERLAY_COLOR COLOR3
+
+// System-Value Semantics were introduced in D3D10
+// Pixel Shaders
+#define SV_Position POSITION
+#define SV_Target COLOR
+
+#else // !defined(_DIRECT3D9)
+
+#define VS_MAIN_BEGIN void main( in VS_Input VSInput, out PS_Input PSInput ) {
+#define VS_MAIN_END }
+#define PS_MAIN_BEGIN void main( in PS_Input PSInput, out PS_Output PSOutput ) {
+#define PS_MAIN_END }
+
+#endif // !defined(_DIRECT3D9)
 
 
 cbuffer RenderChunkConstants : register(b1)

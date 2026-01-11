@@ -81,8 +81,7 @@ float2 calculateLayerUV(float2 origUV, float offset, float rotation) {
 }
 #endif
 
-void main( in VS_Input VSInput, out PS_Input PSInput )
-{
+VS_MAIN_BEGIN
     PSInput.position = mul( WORLDVIEWPROJ, float4( VSInput.position, 1 ) );
     float4 normal = TransformRGBA8_SNORM( VSInput.normal );
 
@@ -113,5 +112,5 @@ void main( in VS_Input VSInput, out PS_Input PSInput )
     //fog
     PSInput.fogColor.rgb = FOG_COLOR.rgb;
     PSInput.fogColor.a = clamp( ( ( PSInput.position.z / RENDER_DISTANCE ) - FOG_CONTROL.x ) / ( FOG_CONTROL.y - FOG_CONTROL.x ), 0.0, 1.0 );
-}
+VS_MAIN_END
 

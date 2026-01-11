@@ -36,8 +36,10 @@ namespace mce
         void reflectShader(RenderDevice& renderDevice);
         VertexField getAttributeForName(const std::string& name, unsigned int semanticIndex) const;
 
-        static void SpliceShaderPath(std::string& shaderName, const std::string& shaderDir, const std::string& shaderFileExtension = Util::EMPTY_STRING);
+        static void SpliceShaderPath(std::string& shaderName, const std::string& shaderDir);
         static void SpliceShaderPath(std::string& shaderName);
+        static void SpliceShaderExtension(std::string& shaderName, const std::string& shaderFileExtension);
+        static void SpliceShaderExtension(std::string& shaderName);
         static void BuildHeader(std::ostringstream& stream);
     };
 }

@@ -37,12 +37,13 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty\stb_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty\stb_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
+  <!-- The DXSDK_DIR stuff is needed for DirectSound's dxguid.lib -->
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)\Lib\x86;$(DXSDK_DIR)\Lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

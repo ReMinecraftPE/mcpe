@@ -3,6 +3,6 @@
 using namespace mce;
 
 FixedPipelineState::FixedPipelineState()
-    : MCE_GFX_CLASS_FIXED(FixedPipelineState)()
+    : MCE_GFX_CLASS_ALPHA(FixedPipelineState)()
 {
 }

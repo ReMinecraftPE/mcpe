@@ -10,5 +10,8 @@ namespace mce
     {
     public:
         Shader(ShaderProgram& vertex, ShaderProgram& fragment, ShaderProgram& geometry);
+
+    public:
+        static void SpliceShaderPathAndExtension(std::string& shaderName);
     };
 }

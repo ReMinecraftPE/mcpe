@@ -12,8 +12,13 @@ std::map<std::string, VertexField> _CreateBuiltinAttributeMap()
     m["POSITION"]   = VERTEX_FIELD_POSITION;
     m["COLOR"]      = VERTEX_FIELD_COLOR;
     m["NORMAL"]     = VERTEX_FIELD_NORMAL;
+#if MCE_GFX_API_D3D9
+    m["TEXCOORD0"] = VERTEX_FIELD_UV0;
+    m["TEXCOORD1"] = VERTEX_FIELD_UV1;
+#else
     m["TEXCOORD_0"] = VERTEX_FIELD_UV0;
     m["TEXCOORD_1"] = VERTEX_FIELD_UV1;
+#endif
     return m;
 }
 std::map<std::string, VertexField> ShaderBase::builtinAttributeMap = _CreateBuiltinAttributeMap();
@@ -79,17 +84,30 @@ VertexField ShaderBase::getAttributeForName(const std::string& name, unsigned in
     }
 }
 
-void ShaderBase::SpliceShaderPath(std::string& shaderName, const std::string& shaderDir, const std::string& shaderFileExtension)
+void ShaderBase::SpliceShaderPath(std::string& shaderName, const std::string& shaderDir)
 {
     size_t shaderPathPos = shaderName.find_first_not_of("shaders");
     if (shaderPathPos != std::string::npos && shaderName.find(shaderDir) == std::string::npos)
     {
         shaderName.insert(shaderPathPos, shaderDir);
-        shaderName.append(shaderFileExtension);
     }
 }
 
 void ShaderBase::SpliceShaderPath(std::string& shaderName)
+{
+}
+
+void ShaderBase::SpliceShaderExtension(std::string& shaderName, const std::string& shaderFileExtension)
+{
+    if (shaderName.empty())
+        return;
+
+    const size_t extensionSize = shaderFileExtension.size();
+    if (shaderName.size() <= extensionSize || shaderName.substr(shaderName.length() - extensionSize, extensionSize) != shaderFileExtension)
+        shaderName.append(shaderFileExtension);
+}
+
+void ShaderBase::SpliceShaderExtension(std::string& shaderName)
 {
 }
 

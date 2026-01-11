@@ -15,3 +15,13 @@ unsigned int TextureHelper::textureFormatToByteStride(TextureFormat textureForma
             throw std::bad_cast();
     }
 }
+
+bool TextureHelper::isTextureFormatRGBA(TextureFormat textureFormat)
+{
+    switch (textureFormat)
+    {
+    case TEXTURE_FORMAT_R8G8B8A8_UNORM:
+    case TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB: return true;
+    default:                                 return false;
+    }
+}

@@ -18,7 +18,7 @@ namespace mce
         {
         }
 
-        void syncUniform(int value) override;
+        void syncUniform(int location) override;
     };
 }
 

@@ -36,8 +36,7 @@ float4 glintBlend(float4 dest, float4 source) {
 	return float4(source.rgb * source.rgb, source.a) + float4(dest.rgb, 0.0);
 }
 
-void main( in PS_Input PSInput, out PS_Output PSOutput )
-{
+PS_MAIN_BEGIN
     float4 color = float4( 1.0f, 1.0f, 1.0f, 1.0f );
 
 #ifndef COLOR_BASED
@@ -86,4 +85,4 @@ void main( in PS_Input PSInput, out PS_Output PSOutput )
 
     //WARNING do not refactor this 
     PSOutput.color = color;
-}
+PS_MAIN_END
