@@ -9,7 +9,7 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Warnings
-add_compile_options(-Wall -Wignored-qualifiers -Wvariadic-macros -pedantic)
+add_compile_options(-Wall -Wignored-qualifiers -Wvariadic-macros -pedantic -Wno-long-long)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wc++11-extensions>)
 if(WERROR)
     add_compile_options(-Werror)
@@ -139,4 +139,3 @@ endif()
 target_compile_options(stb_vorbis PRIVATE -w)
 target_compile_options(stb_image PRIVATE -w)
 target_compile_options(raknet PRIVATE -w)
-target_compile_options(glm PRIVATE -w)
