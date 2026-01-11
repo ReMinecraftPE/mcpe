@@ -281,7 +281,7 @@ bool Inventory::addItem(ItemInstance& instance)
 		if (leftover < 0)
 			leftover = 0;
 		else
-			combinedItemAmount = C_MAX_INVENTORY_STACK_SIZE;
+			combinedItemAmount = maxStackSize;
 
 		item->m_count = combinedItemAmount;
 		item->m_popTime = C_POP_TIME_DURATION;
