@@ -18,7 +18,7 @@
 
 AppPlatform* AppPlatform::m_singleton = nullptr;
 
-AppPlatform* const AppPlatform::singleton()
+AppPlatform* AppPlatform::singleton()
 {
 	return m_singleton;
 }
@@ -377,7 +377,7 @@ void AppPlatform::initSoundSystem()
 {
 }
 
-SoundSystem* const AppPlatform::getSoundSystem() const
+SoundSystem* AppPlatform::getSoundSystem() const
 {
 	return nullptr;
 }

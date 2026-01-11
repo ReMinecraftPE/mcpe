@@ -2791,7 +2791,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 		ETILE_FACE_DNE,// -Y+X-Z
 		ETILE_FACE_DSW,// -Y-X+Z
 		ETILE_FACE_DSE,// -Y+X+Z
-		ETILE_FACE_COUNT,
+		ETILE_FACE_COUNT
 	};
 
 	// for Facing::Name directions

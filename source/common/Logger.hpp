@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <stdarg.h>
 
 #ifdef ANDROID
 #include <android/log.h>
@@ -9,14 +10,14 @@ enum eLogLevel
 {
 	LOG_INFO = ANDROID_LOG_INFO,
 	LOG_WARN = ANDROID_LOG_WARN,
-	LOG_ERR = ANDROID_LOG_ERROR,
+	LOG_ERR = ANDROID_LOG_ERROR
 };
 #else
 enum eLogLevel
 {
 	LOG_INFO,
 	LOG_WARN,
-	LOG_ERR,
+	LOG_ERR
 };
 #endif
 
@@ -25,7 +26,7 @@ class Logger
 private:
 	static Logger* m_singleton;
 public:
-	static Logger* const singleton();
+	static Logger* singleton();
 	static void setSingleton(Logger*);
 
 	virtual ~Logger();
@@ -39,22 +40,61 @@ public:
 
 #if !defined(NDEBUG) || defined(MC_LOG_LEVEL)
 
+static inline void mc_vlog(enum eLogLevel loglevel, const char *fmt, va_list ap)
+{
 #ifdef ANDROID
-// TODO: Add a LoggerAndroid
-#define LOG(level, ...) __android_log_print(level, "ReMinecraftPE", __VA_ARGS__)
+	// TODO: Add a LoggerAndroid
+	__android_log_vprint(loglevel, "ReMinecraftPE", fmt, ap);
 #else
-#define LOG(level, ...) Logger::singleton()->printf(level, __VA_ARGS__)
+	Logger::singleton()->vprintf(loglevel, fmt, ap);
 #endif
+}
 
-#define LOG_I(...) LOG(LOG_INFO, __VA_ARGS__)
-#define LOG_W(...) LOG(LOG_WARN, __VA_ARGS__)
-#define LOG_E(...) LOG(LOG_ERR,  __VA_ARGS__)
+static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	mc_vlog(loglevel, fmt, ap);
+	va_end(ap);
+}
+
+static inline void mc_log_info(const char *fmt, ...)
+{
+	va_list	ap;
+	va_start(ap, fmt);
+	mc_vlog(LOG_INFO, fmt, ap);
+	va_end(ap);
+}
+
+static inline void mc_log_warn(const char *fmt, ...)
+{
+	va_list	ap;
+	va_start(ap, fmt);
+	mc_vlog(LOG_WARN, fmt, ap);
+	va_end(ap);
+}
+
+static inline void mc_log_err(const char *fmt, ...)
+{
+	va_list	ap;
+	va_start(ap, fmt);
+	mc_vlog(LOG_ERR, fmt, ap);
+	va_end(ap);
+}
+
+#define LOG mc_log
+#define LOG_I mc_log_info
+#define LOG_W mc_log_warn
+#define LOG_E mc_log_err
 
 #else
 
-#define LOG(...)	((void)0)
-#define LOG_I(...)	((void)0)
-#define LOG_W(...)	((void)0)
-#define LOG_E(...)	((void)0)
+static inline void mc_log(enum eLogLevel loglevel, const char *fmt, ...) {}
+static inline void mc_log_nothing(const char *fmt, ...) {}
+
+#define LOG if (0) mc_log
+#define LOG_I if (0) mc_log_nothing
+#define LOG_W if (0) mc_log_nothing
+#define LOG_E if (0) mc_log_nothing
 
 #endif

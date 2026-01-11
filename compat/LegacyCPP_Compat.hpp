@@ -4,6 +4,7 @@
 
 #ifdef USE_OLD_CPP
 
+#define CONSTEXPR
 #ifndef constexpr
 #define constexpr const
 #endif
@@ -37,6 +38,8 @@ namespace std
 
 #endif // !defined(_WIN32)*/
 
+#else
+#define CONSTEXPR constexpr
 #endif // USE_OLD_CPP
 
 // https://gcc.gnu.org/legacy-ml/gcc-help/2006-04/msg00062.html

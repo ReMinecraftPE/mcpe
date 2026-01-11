@@ -844,7 +844,7 @@ protected:
 		RakNet::TimeMS timeoutTime;
 		PublicKeyMode publicKeyMode;
 		RakNetSocket2* socket;
-		enum {CONNECT=1, /*PING=2, PING_OPEN_CONNECTIONS=4,*/ /*ADVERTISE_SYSTEM=2*/} actionToTake;
+		enum {CONNECT=1 /*PING=2, PING_OPEN_CONNECTIONS=4,*/ /*ADVERTISE_SYSTEM=2*/} actionToTake;
 
 #if LIBCAT_SECURITY==1
 		char handshakeChallenge[cat::EasyHandshake::CHALLENGE_BYTES];

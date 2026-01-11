@@ -102,7 +102,7 @@ public:
 		RENDER_ARROW,
 
 		// custom
-		RENDER_FALLING_TILE = 50,
+		RENDER_FALLING_TILE = 50
 	};
 
 private:

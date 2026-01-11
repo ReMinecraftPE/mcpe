@@ -117,7 +117,7 @@ std::string AppPlatform_android::getDateString(int time)
 	return std::string(buffer);
 }
 
-SoundSystem* const AppPlatform_android::getSoundSystem() const
+SoundSystem* AppPlatform_android::getSoundSystem() const
 {
 	return m_pSoundSystem;
 }

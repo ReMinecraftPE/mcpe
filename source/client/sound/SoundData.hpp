@@ -64,6 +64,8 @@ struct SoundDesc : AudioDescriptor
 	static void _unloadAll();
 };
 
-#define SOUND(category, name, number) extern SoundDesc SA_##name##number;
+#define SOUND(category, name) extern SoundDesc SA_##name;
+#define SOUND_NUM(category, name, number) extern SoundDesc SA_##name##number;
 #include "sound_list.h"
 #undef SOUND
+#undef SOUND_NUM

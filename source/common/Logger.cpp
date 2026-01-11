@@ -7,7 +7,7 @@
 
 Logger* Logger::m_singleton = nullptr;
 
-Logger* const Logger::singleton()
+Logger* Logger::singleton()
 {
     return m_singleton;
 }

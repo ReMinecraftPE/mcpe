@@ -337,7 +337,7 @@ void OptionList::initMultiplayerMenu()
 
 	OPTION(Boolean, m_bServerVisibleDefault, "Local Server Multiplayer");
 
-#ifdef __EMSCRIPTEN
+#ifndef FEATURE_NETWORKING
 	m_items[currentIndex]->setDisabled(true);
 #endif
 	(void)currentIndex; // compiler will warn about an unused variable sometimes if this isn't here
