@@ -43,6 +43,14 @@ void CreditsScreen::init()
 	m_buttons.push_back(&m_btnBack);
 
 	m_buttonTabList.push_back(&m_btnBack);
+
+	std::istringstream credits_stream(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
+	if (credits_stream.str().empty())
+		credits_stream.str("Failed to load credits.txt");
+
+	std::string line;
+	while (std::getline(credits_stream, line))
+		m_credits.push_back(line);
 }
 
 bool CreditsScreen::isInGameScreen()
@@ -60,8 +68,6 @@ void CreditsScreen::tick()
 	m_pDarkBackground->tick();
 }
 
-static std::vector<std::string> credits;
-
 void CreditsScreen::render(int mouseX, int mouseY, float f)
 {
 	renderBackground();
@@ -71,20 +77,10 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 
 	drawCenteredString(*m_pMinecraft->m_pFont, "Credits", m_width / 2, 8, Color::WHITE);
 
-	if (credits.empty()) {
-		std::istringstream credits_stream(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
-		if (credits_stream.str().empty())
-			credits_stream.str("Failed to load credits.txt");
-
-		std::string line;
-		while (std::getline(credits_stream, line))
-			credits.push_back(line);
-	}
-
 	int lineheight = 10;
-	int height = (m_height - (credits.size() * lineheight)) / 2 - 2;
-	for (size_t i = 0; i < credits.size(); ++i) {
-		drawCenteredString(*m_pMinecraft->m_pFont, credits[i], m_width / 2, height, Color::WHITE);
+	int height = (m_height - (m_credits.size() * lineheight)) / 2 - 2;
+	for (size_t i = 0; i < m_credits.size(); ++i) {
+		drawCenteredString(*m_pMinecraft->m_pFont, m_credits[i], m_width / 2, height, Color::WHITE);
 		height += lineheight;
 	}
 }
@@ -94,7 +90,6 @@ bool CreditsScreen::handleBackEvent(bool b)
 	if (b)
 		return true;
 
-	std::vector<std::string>().swap(credits);
 	m_pMinecraft->setScreen(new StartMenuScreen);
 	return true;
 }

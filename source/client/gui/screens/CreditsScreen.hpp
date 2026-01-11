@@ -28,4 +28,7 @@ public:
 public:
 	Button m_btnBack;
 	WorldSelectionList* m_pDarkBackground;
+
+private:
+	std::vector<std::string> m_credits;
 };
