@@ -146,10 +146,11 @@ void TextureD3D9::subBuffer(RenderContext& context, const void* pixels, unsigned
 
     for (unsigned int y = yoffset; y < yoffset + height; y++)
     {
+        // Calculate the start of the destination row using PITCH, not width
+        uint8_t* destRow = writeBuffer + (y * m_writePitch);
+
         for (unsigned int x = xoffset; x < xoffset + width; x++)
         {
-            int destIndex = x + y * m_description.width;
-            
             // RGBA -> ARGB (big-endian)
             uint8_t color[4];
 /*#if MC_ENDIANNESS_BIG
@@ -166,7 +167,7 @@ void TextureD3D9::subBuffer(RenderContext& context, const void* pixels, unsigned
 
             pixelPtr += stride;
 
-            memcpy(&writeBuffer[destIndex * stride], color, stride);
+            memcpy(&destRow[x * stride], color, stride);
         }
     }
 }
