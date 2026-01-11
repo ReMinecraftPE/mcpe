@@ -19,7 +19,7 @@ GFX-API-Specific Settings (all 0 by default)
 #define MCE_GFX_API_DIR d3d9
 #define MCE_GFX_API_D3D 1
 #define MCE_GFX_DEPTH_ZERO_TO_ONE 1
-#define MCE_GFX_USE_FF_ALPHATEST 1
+#define MCE_GFX_FF_ALPHATEST 1
 #endif
 
 #if MCE_GFX_API_D3D11
@@ -74,7 +74,7 @@ GFX-API-Specific Settings (all 0 by default)
 #endif
 
 // @TODO: Ugly and hacky
-#if defined(FEATURE_GFX_SHADERS) && !MCE_GFX_USE_FF_ALPHATEST
+#if defined(FEATURE_GFX_SHADERS) && !MCE_GFX_FF_ALPHATEST
 #define MCE_GFX_CLASS_ALPHA(className) _MCE_GFX_CLASS_MANUA(className, Null)
 #define MCE_GFX_CLASS_HEADER_ALPHA(className) _MCE_GFX_CLASS_HEADER_MANUAL(null, MCE_GFX_CLASS_ALPHA(className))
 #else

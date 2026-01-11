@@ -268,7 +268,7 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 #ifdef FEATURE_GFX_SHADERS
     m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
 #endif
-#if MCE_GFX_USE_FF_ALPHATEST
+#if !defined(FEATURE_GFX_SHADERS) || MCE_GFX_FF_ALPHATEST
     m_fixedPipelineState.bindFixedPipelineState(context);
 #endif
 }
