@@ -8,7 +8,8 @@
 
 #pragma once
 
-#include <set>
+#include <set>	
+#include <map>
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
@@ -17,6 +18,7 @@
 #include "client/renderer/LightUpdate.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/entity/Entity.hpp"
+#include "world/entity/MobSpawner.hpp"
 #include "world/level/TileChange.hpp"
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
 #include "world/level/levelgen/chunk/ChunkSource.hpp"
@@ -33,6 +35,8 @@ class Dimension;
 class Level;
 class LevelListener;
 class RakNetInstance;
+
+class MobSpawner;
 
 typedef std::vector<Entity*> EntityVector;
 typedef std::vector<AABB> AABBVector;
@@ -190,6 +194,9 @@ public:
 	bool hasDirectSignal(const TilePos& pos) const;
 	bool hasNeighborSignal(const TilePos& pos) const;
 
+
+	int getEntityCount(const EntityCategories&);
+
 #ifdef ENH_IMPROVED_SAVING
 	void saveUnsavedChunks();
 #endif
@@ -227,5 +234,8 @@ public:
 	uint8_t field_B0C;
 	int field_B10;
 	PathFinder* m_pPathFinder;
+	MobSpawner* m_pMobSpawner;
+
+	std::map<EntityCategories::CategoriesMask, int> m_entityCountsByCategory;
 };
 

@@ -62,6 +62,7 @@ Level::Level(LevelStorage* pStor, const std::string& name, const LevelSettings& 
 	m_pDimension->init(this);
 
 	m_pPathFinder = new PathFinder();
+	m_pMobSpawner = new MobSpawner();
 
 	m_pChunkSource = createChunkSource();
 	updateSkyBrightness();
@@ -72,6 +73,7 @@ Level::~Level()
 	SAFE_DELETE(m_pChunkSource);
 	SAFE_DELETE(m_pDimension);
 	SAFE_DELETE(m_pPathFinder);
+	SAFE_DELETE(m_pMobSpawner);
 
 	const size_t size = m_entities.size();
 	for (size_t i = 0; i < size; i++)
@@ -770,15 +772,33 @@ void Level::setTilesDirty(const TilePos& min, const TilePos& max)
 
 void Level::entityAdded(Entity* pEnt)
 {
+	// save for a bit
+	EntityCategories::CategoriesMask mask = pEnt->getDescriptor().getCategories().getCategoryMask();
+	for (int i = 0; i < EntityCategories::maskEnumCount; i++ ) 
+	{
+		EntityCategories::CategoriesMask category = EntityCategories::maskEnums[i];
+		if ((mask & category) == category)
+			m_entityCountsByCategory[category]++;
+	}
+
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
 		pListener->entityAdded(pEnt);
 	}
+
 }
 
 void Level::entityRemoved(Entity* pEnt)
 {
+	EntityCategories::CategoriesMask mask = pEnt->getDescriptor().getCategories().getCategoryMask();
+	for (int i = 0; i < EntityCategories::maskEnumCount; i++ ) 
+	{
+		EntityCategories::CategoriesMask category = EntityCategories::maskEnums[i];
+		if ((mask & category) == category)
+			m_entityCountsByCategory[category]--;
+	}
+
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
@@ -1590,6 +1610,7 @@ int LASTTICKED = 0;
 
 void Level::tick()
 {
+	m_pMobSpawner->tick(*this, m_difficulty > 0, true);
 	m_pChunkSource->tick();
 
 #ifdef ENH_RUN_DAY_NIGHT_CYCLE
@@ -1938,4 +1959,9 @@ float Level::getStarBrightness(float f) const
 float Level::getSunAngle(float f) const
 {
 	return (float(M_PI) * getTimeOfDay(f)) * 2;
+}
+
+int Level::getEntityCount(const EntityCategories& category)
+{
+	return m_entityCountsByCategory[category.getCategoryMask()];
 }
