@@ -6,15 +6,9 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include <fstream>
-
-#include "client/app/Minecraft.hpp"
 #include "CreditsScreen.hpp"
-#include "DeleteWorldScreen.hpp"
 #include "CreateWorldScreen.hpp"
 #include "StartMenuScreen.hpp"
-#include "ProgressScreen.hpp"
-#include "common/Util.hpp"
 
 CreditsScreen::CreditsScreen() :
 	m_btnBack(3, "Back"),
