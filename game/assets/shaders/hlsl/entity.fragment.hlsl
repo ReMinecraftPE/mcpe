@@ -1,17 +1,23 @@
 #include "ShaderConstants.fxh"
 
+#ifdef _DIRECT3D9
+// D3D9 does not support custom semantic names, which is very unfortunate
+#define PS_FOG_COLOR COLOR1
+#define LIGHT COLOR2
+#define PS_OVERLAY_COLOR COLOR3
+#endif
 
 struct PS_Input
 {
     float4 position : SV_Position;
 
     float4 light : LIGHT;
-    float4 fogColor : FOG_COLOR;
+    float4 fogColor : PS_FOG_COLOR;
 
     float2 uv : TEXCOORD_0;
 
 #ifdef USE_OVERLAY
-    float4 overlayColor : OVERLAY_COLOR;
+    float4 overlayColor : PS_OVERLAY_COLOR;
 #endif
 
 #ifdef GLINT

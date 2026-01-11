@@ -44,8 +44,8 @@ namespace mce
 
     public:
         D3DVIEWPORT9 m_viewport;
-        Vec2 m_logicalSize;
-        Vec2 m_compositionScale;
+        unsigned int m_width;
+        unsigned int m_height;
         VertexDeclCache m_vertexDeclCache;
         //IDirect3DConstantBuffer9* m_constantBuffers[SHADER_TYPES_COUNT][60];
 

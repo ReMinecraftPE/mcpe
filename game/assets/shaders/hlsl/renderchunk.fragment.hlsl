@@ -1,5 +1,10 @@
 #include "ShaderConstants.fxh"
 
+#ifdef _DIRECT3D9
+// D3D9 does not support custom semantic names, which is very unfortunate
+#define PS_FOG_COLOR COLOR1
+#endif
+
 struct PS_Input
 {
     float4 position : SV_Position;
@@ -7,7 +12,7 @@ struct PS_Input
     snorm float2 uv0 : TEXCOORD_0;
     //snorm float2 uv1 : TEXCOORD_1;
 #ifdef FOG
-    float4 fogColor : FOG_COLOR;
+    float4 fogColor : PS_FOG_COLOR;
 #endif
 };
 

@@ -26,7 +26,7 @@ public:
 	std::string getAssetPath(const std::string& path) const override;
 
 	void setScreenSize(int width, int height);
-	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
+	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
 	
 	bool initGraphics(unsigned int width, unsigned int height);
 	void createWindowSizeDependentResources(unsigned int width, unsigned int height);

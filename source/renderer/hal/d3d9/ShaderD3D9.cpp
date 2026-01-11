@@ -43,7 +43,7 @@ D3DDECLTYPE d3dDeclTypeFromVertexField(VertexField vertexField)
 
 #ifdef ENH_GFX_COMPACT_UVS
     case VERTEX_FIELD_UV0:
-    case VERTEX_FIELD_UV1:      return D3DDECLTYPE_SHORT2N;
+    case VERTEX_FIELD_UV1:      return D3DDECLTYPE_USHORT2N;
 #else
     case VERTEX_FIELD_UV0:
     case VERTEX_FIELD_UV1:      return D3DDECLTYPE_FLOAT2;

@@ -46,6 +46,8 @@ RenderContextD3D9::RenderContextD3D9()
     : RenderContextBase()
 {
     memset(&m_viewport, 0, sizeof(m_viewport));
+    m_width = 0;
+    m_height = 0;
 
     // wasn't here in 0.12.1, but where else is it supposed to go?
     createDeviceResources();
@@ -177,6 +179,9 @@ void RenderContextD3D9::createWindowSizeDependentResources(HWND hWnd, unsigned i
         m_d3dDevice->SetRenderState(D3DRS_TWOSIDEDSTENCILMODE, TRUE);
         //m_d3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
     }
+
+    m_width = width;
+    m_height = height;
 
     setViewport(width, height, 0.0f, 1.0f, ViewportOrigin::ZERO);
 }

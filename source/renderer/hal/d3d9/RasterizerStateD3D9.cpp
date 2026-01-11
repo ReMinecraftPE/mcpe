@@ -60,7 +60,7 @@ bool RasterizerStateD3D9::bindRasterizerState(RenderContext& context, bool force
 
 void RasterizerStateD3D9::setScissorRect(RenderContext& context, int x, int y, int width, int height)
 {
-    float viewSizeY = context.m_logicalSize.y;
+    unsigned int viewSizeY = context.m_height;
     
     RECT rect;
     {

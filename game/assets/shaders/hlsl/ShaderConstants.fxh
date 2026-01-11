@@ -42,11 +42,6 @@ sampler TextureSampler2 : register( s2 );
 // D3D9 has OpenGL-like render state alpha testing
 #define discard PSOutput.color = float4(0,0,0,0); return PSOutput
 
-// D3D9 does not support custom semantic names, which is very unfortunate
-#define FOG_COLOR COLOR1
-#define LIGHT COLOR2
-#define OVERLAY_COLOR COLOR3
-
 // System-Value Semantics were introduced in D3D10
 // Pixel Shaders
 #define SV_Position POSITION
