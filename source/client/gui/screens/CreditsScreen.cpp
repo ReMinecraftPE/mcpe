@@ -60,6 +60,8 @@ void CreditsScreen::tick()
 	m_pDarkBackground->tick();
 }
 
+static std::vector<std::string> credits;
+
 void CreditsScreen::render(int mouseX, int mouseY, float f)
 {
 	renderBackground();
@@ -69,16 +71,19 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 
 	drawCenteredString(*m_pMinecraft->m_pFont, "Credits", m_width / 2, 8, Color::WHITE);
 
-	std::istringstream credits(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
-	if (!credits) {
-		drawCenteredString(*m_pMinecraft->m_pFont, "Failed to load credits.txt", m_width / 2, 67, Color::WHITE);
-		return;
+	if (credits.empty()) {
+		std::istringstream credits_stream(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
+		if (credits_stream.str().empty())
+			credits_stream.str("Failed to load credits.txt");
+
+		std::string line;
+		while (std::getline(credits_stream, line))
+			credits.push_back(line);
 	}
 
 	int height = 28;
-	std::string line;
-	while (std::getline(credits, line)) {
-		drawCenteredString(*m_pMinecraft->m_pFont, line, m_width / 2, height, Color::WHITE);
+	for (size_t i = 0; i < credits.size(); ++i) {
+		drawCenteredString(*m_pMinecraft->m_pFont, credits[i], m_width / 2, height, Color::WHITE);
 		height += 10;
 	}
 }
@@ -88,6 +93,7 @@ bool CreditsScreen::handleBackEvent(bool b)
 	if (b)
 		return true;
 
+	std::vector<std::string>().swap(credits);
 	m_pMinecraft->setScreen(new StartMenuScreen);
 	return true;
 }
