@@ -1,6 +1,3 @@
-#include <fstream>
-#include <sstream>
-
 #include "AppPlatform_xdk360.hpp"
 
 #include "GameMods.hpp"
@@ -8,12 +5,8 @@
 #include "common/Utils.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
-#include "thirdparty/stb_image/include/stb_image.h"
-#include "thirdparty/stb_image/include/stb_image_write.h"
-
-// Macros are cursed
-#define _STR(x) #x
-#define STR(x) _STR(x)
+// requiring drive has at least 0 bytes free
+#define C_SAVEDEVICE_MINIMUM_FREE_BYTES 0
 
 AppPlatform_xdk360::AppPlatform_xdk360()
 {
@@ -25,11 +18,38 @@ AppPlatform_xdk360::AppPlatform_xdk360()
 	m_bWasUnfocused = false;
 
 	m_pSoundSystem = nullptr;
+
+	memset(m_saveDeviceId, 0, C_MAX_LOCAL_PLAYERS);
+	m_currentSavingPlayerId = -1;
 }
 
 AppPlatform_xdk360::~AppPlatform_xdk360()
 {
 	SAFE_DELETE(m_pSoundSystem);
+}
+
+XCONTENTDEVICEID AppPlatform_xdk360::_getSaveDeviceId(unsigned int playerId)
+{
+	if (m_saveDeviceId[playerId] != 0)
+		return m_saveDeviceId[playerId];
+
+	ULARGE_INTEGER iBytesRequested = { C_SAVEDEVICE_MINIMUM_FREE_BYTES };
+	XOVERLAPPED xov = {0};
+
+	DWORD result = XShowDeviceSelectorUI(
+		playerId,
+		XCONTENTTYPE_SAVEDGAME, XCONTENTFLAG_NONE,
+		iBytesRequested,
+		&m_saveDeviceId[playerId],
+		&xov
+	);
+
+	if (result != ERROR_IO_PENDING)
+	{
+		LOG_W("Failed to open save device for player %d", playerId);
+	}
+
+	return m_saveDeviceId[playerId];
 }
 
 void AppPlatform_xdk360::initSoundSystem()
@@ -88,6 +108,43 @@ std::string AppPlatform_xdk360::getAssetPath(const std::string& path) const
 	std::string assetPath = AppPlatform::getAssetPath(path);
 	toDosPath((char*)assetPath.c_str()); // casting to non-const, because fuck you
 	return "GAME:\\" + assetPath;
+}
+
+void AppPlatform_xdk360::makeNativePath(std::string& path) const
+{
+	toDosPath((char*)path.c_str());
+}
+
+void AppPlatform_xdk360::beginProfileDataWrite(unsigned int playerId)
+{
+	if (m_currentSavingPlayerId != -1)
+	{
+		LOG_E("Tried to begin profile data write for player %d, but player %d is already saving data!", playerId, m_currentSavingPlayerId);
+		throw std::bad_cast();
+	}
+
+	/*XCONTENT_DATA contentData = {0};
+	lstrcpyW(contentData.szDisplayName, L"Profile Data");
+	contentData.dwContentType = XCONTENTTYPE_SAVEDGAME;
+	contentData.DeviceID = _getSaveDeviceId(playerId);
+
+	// Mount the device to the "savedrive" drive name
+	XContentCreate(playerId, "savedrive", &contentData, XCONTENTFLAG_CREATEALWAYS, NULL, NULL, NULL);*/
+
+	m_currentSavingPlayerId = playerId;
+}
+
+void AppPlatform_xdk360::endProfileDataWrite(unsigned int playerId)
+{
+	if (m_currentSavingPlayerId == -1)
+	{
+		LOG_E("Tried to end profile data write for player %d, but no one is saving any data!", playerId);
+		throw std::bad_cast();
+	}
+
+	//XContentClose("savedrive", NULL);
+
+	m_currentSavingPlayerId = -1;
 }
 
 void AppPlatform_xdk360::setScreenSize(int width, int height)

@@ -34,6 +34,8 @@
 #define C_DEFAULT_SCREEN_HEIGHT (480)
 #endif
 
+#define C_MAX_LOCAL_PLAYERS 1
+
 class AppPlatformListener;
 
 class AppPlatform
@@ -125,6 +127,11 @@ public:
 	virtual std::string getAssetPath(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
 	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
+	virtual void makeNativePath(std::string& path) const;
+
+	// For getting a handle on the save device for consoles
+	virtual void beginProfileDataWrite(unsigned int playerId);
+	virtual void endProfileDataWrite(unsigned int playerId);
 
 public:
 	ListenerMap m_listeners;

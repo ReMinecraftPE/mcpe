@@ -309,6 +309,15 @@ std::string AppPlatform::getPatchData()
 	return readAssetFileStr(_getPatchDataPath(), false);
 }
 
+void AppPlatform::initSoundSystem()
+{
+}
+
+SoundSystem* AppPlatform::getSoundSystem() const
+{
+	return nullptr;
+}
+
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
 	std::string realPath = path;
@@ -373,11 +382,14 @@ std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) c
 	return out;
 }
 
-void AppPlatform::initSoundSystem()
+void AppPlatform::makeNativePath(std::string& path) const
 {
 }
 
-SoundSystem* AppPlatform::getSoundSystem() const
+void AppPlatform::beginProfileDataWrite(unsigned int playerId)
 {
-	return nullptr;
+}
+
+void AppPlatform::endProfileDataWrite(unsigned int playerId)
+{
 }

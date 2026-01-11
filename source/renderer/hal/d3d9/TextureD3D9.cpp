@@ -2,6 +2,10 @@
 
 #include "TextureD3D9.hpp"
 #include "API_D3D9.hpp"
+#ifdef _XBOX
+#include <xgraphics.h>
+#endif
+#include "compat/EndianDefinitions.h"
 #include "renderer/hal/helpers/TextureHelper.hpp"
 #include "renderer/hal/d3d9/helpers/ErrorHandlerD3D9.hpp"
 #include "renderer/hal/d3d9/helpers/TextureHelperD3D9.hpp"
@@ -146,28 +150,37 @@ void TextureD3D9::subBuffer(RenderContext& context, const void* pixels, unsigned
 
     for (unsigned int y = yoffset; y < yoffset + height; y++)
     {
+#ifndef _XBOX
         // Calculate the start of the destination row using PITCH, not width
         uint8_t* destRow = writeBuffer + (y * m_writePitch);
+#endif
 
         for (unsigned int x = xoffset; x < xoffset + width; x++)
         {
+			uint8_t* dest;
+#ifdef _XBOX
+			dest = (uint8_t*)((uint32_t*)writeBuffer + XGAddress2DTiledOffset(x, y, m_writePitch / stride, stride));
+#else
+			dest = &destRow[x * stride];
+#endif
+
             // RGBA -> ARGB (big-endian)
             uint8_t color[4];
-/*#if MC_ENDIANNESS_BIG
-            color[0] = pixelPtr[2]; // R <= A
+#if MC_ENDIANNESS_BIG
+            color[0] = pixelPtr[3]; // R <= A
             color[1] = pixelPtr[0]; // G <= R
             color[2] = pixelPtr[1]; // B <= G
-            color[3] = pixelPtr[3]; // A <= B
-#else // MC_ENDIANNESS_LITTLE*/
+            color[3] = pixelPtr[2]; // A <= B
+#else // MC_ENDIANNESS_LITTLE
             color[0] = pixelPtr[2]; // R <= B
             color[1] = pixelPtr[1]; // G <= G
             color[2] = pixelPtr[0]; // B <= R
             color[3] = pixelPtr[3]; // A <= A
-//#endif
+#endif
 
             pixelPtr += stride;
 
-            memcpy(&destRow[x * stride], color, stride);
+            memcpy(dest, color, stride);
         }
     }
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <xtl.h>
+
 #include "client/app/AppPlatform.hpp"
 #include "platforms/sound/dummy/CustomSoundSystem.hpp"
 
@@ -8,6 +10,9 @@ class AppPlatform_xdk360 : public AppPlatform
 public:
 	AppPlatform_xdk360();
 	~AppPlatform_xdk360();
+
+protected:
+	XCONTENTDEVICEID _getSaveDeviceId(unsigned int playerId);
 
 public:
 	void initSoundSystem() override;
@@ -24,6 +29,10 @@ public:
 	bool hasFileSystemAccess() override;
 
 	std::string getAssetPath(const std::string& path) const override;
+	void makeNativePath(std::string& path) const override;
+
+	void beginProfileDataWrite(unsigned int playerId) override;
+	void endProfileDataWrite(unsigned int playerId) override;
 
 	void setScreenSize(int width, int height);
 	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
@@ -41,5 +50,8 @@ private:
 	bool m_bWasUnfocused;
 
 	SOUND_SYSTEM* m_pSoundSystem;
+
+	XCONTENTDEVICEID m_saveDeviceId[C_MAX_LOCAL_PLAYERS];
+	int m_currentSavingPlayerId;
 };
 
