@@ -499,7 +499,7 @@ void StartMenuScreen::init()
 	m_creditsButton.m_yPos = 0;
 	m_creditsButton.m_width = m_width;
 	m_creditsButton.m_height = 75;
-	//m_creditsButton.m_bOpacity = 0;
+	m_creditsButton.m_fAlpha = 0;
 
 	// fill in empty space where quit/buy button would be
 	if (m_pMinecraft->isTouchscreen())
