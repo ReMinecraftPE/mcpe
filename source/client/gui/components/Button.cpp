@@ -19,6 +19,7 @@ void Button::_init()
 	m_bEnabled = true;
 	m_bVisible = true;
 	m_bHovered = false;
+	m_fAlpha = 1.0f;
 
 #ifndef ORIGINAL_CODE
 	m_lastX = 0;
@@ -100,7 +101,7 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 
 	texs.loadAndBindTexture("gui/gui.png");
 
-	currentShaderColor = Color::WHITE;
+	currentShaderColor = Color::WHITE* m_fAlpha;
 	int iYPos = 20 * getYImage(m_bHovered) + 46;
 
 	blit(m_xPos, m_yPos, 0, iYPos, m_width / 2, m_height, 0, 20);
@@ -110,11 +111,11 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 
 	Color textColor;
 	if (!m_bEnabled)
-		textColor = Color(160, 160, 160); // 0xFFA0A0A0
+		textColor = Color(160, 160, 160) * m_fAlpha; // 0xFFA0A0A0
 	else if (m_bHovered)
-		textColor = Color(255, 255, 160); // 0xFFFFA0U
+		textColor = Color(255, 255, 160) * m_fAlpha; // 0xFFFFA0U
 	else
-		textColor = Color(224, 224, 224); // 0xE0E0E0U
+		textColor = Color(224, 224, 224) * m_fAlpha; // 0xE0E0E0U
 
 	drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 }
