@@ -36,6 +36,7 @@
 #include "client/player/input/Multitouch.hpp"
 
 #include "world/tile/SandTile.hpp"
+#include "world/tile/BedTile.hpp"
 
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
@@ -147,7 +148,24 @@ void Minecraft::_resetPlayer(Player* player)
 	m_pLevel->validateSpawn();
 	player->reset();
 
-	TilePos pos = m_pLevel->getSharedSpawnPos();
+	// Use player's personal respawn position (set by sleeping in bed) if available
+	// Otherwise fall back to the level's shared spawn position
+	TilePos pos;
+	if (player->m_bHasRespawnPos)
+	{
+		pos = player->m_respawnPos;
+		// Check if the bed still exists
+		if (m_pLevel->getTile(pos) == Tile::bed->m_ID)
+		{
+			// Find a valid position near the bed to spawn
+			pos = BedTile::getRespawnTilePos(m_pLevel, pos, 0);
+		}
+	}
+	else
+	{
+		pos = m_pLevel->getSharedSpawnPos();
+	}
+	
 	player->setPos(pos);
 	player->resetPos();
 }
@@ -451,6 +469,12 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 					if (isOnline())
 					{
 						if (ItemInstance::isNull(pItem) || !pItem->getTile())
+							return;
+
+						// Don't send PlaceBlockPacket if we just interacted with a bed
+						// The bed interaction is handled via UseItemPacket
+						TileID interactedTile = m_pLevel->getTile(m_hitResult.m_tilePos);
+						if (interactedTile == Tile::bed->m_ID)
 							return;
 
 						TilePos tp(m_hitResult.m_tilePos);
@@ -1082,6 +1106,13 @@ void* Minecraft::prepareLevel_tspawn(void* ptr)
 bool Minecraft::pauseGame()
 {
 	if (isGamePaused() || m_pScreen) return false;
+
+	// If player is sleeping, wake them up instead of pausing
+	if (m_pLocalPlayer && m_pLocalPlayer->isSleeping())
+	{
+		m_pLocalPlayer->wake(false, true, true);
+		return true;
+	}
 
 	if (!isOnline())
 	{

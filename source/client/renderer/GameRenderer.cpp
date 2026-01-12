@@ -289,6 +289,35 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 	float posZ = Mth::Lerp(pMob->m_oPos.z, pMob->m_pos.z, f);
 
 	matrix.rotate(field_5C + f * (field_58 - field_5C), Vec3::UNIT_Z);
+	
+	// Adjust camera for sleeping player
+	if (pMob->isPlayer())
+	{
+		Player* player = (Player*)pMob;
+		if (player->isSleeping())
+		{
+			if (!m_pMinecraft->getOptions()->field_241)
+			{
+				// Get bed direction for camera orientation
+				float bedRot = 0.0f;
+				if (player->m_bHasBedSleepPos)
+				{
+					TileID bedTile = m_pMinecraft->m_pLevel->getTile(player->m_bedSleepPos);
+					if (bedTile == Tile::bed->m_ID)
+					{
+						int data = m_pMinecraft->m_pLevel->getData(player->m_bedSleepPos);
+						int direction = data & 3;
+						bedRot = direction * 90.0f;
+					}
+				}
+				
+				// Position camera at bed height looking up
+				matrix.translate(Vec3(0.0f, 0.2f, 0.0f));
+				matrix.rotate(bedRot, Vec3::UNIT_Y);
+			}
+			return;
+		}
+	}
 
 	if (m_pMinecraft->getOptions()->m_bThirdPerson)
 	{
@@ -564,66 +593,71 @@ void GameRenderer::render(float f)
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
 		Minecraft *pMC = m_pMinecraft;
-		pMC->m_mouseHandler.poll();
-
-		float multPitch = -1.0f;
-		float diff_field_84;
-
-		if (pMC->getOptions()->m_bInvertMouse)
-			multPitch = 1.0f;
-
-		if (pMC->m_mouseHandler.smoothTurning())
+		
+		// Don't allow camera rotation while sleeping
+		if (!pMC->m_pLocalPlayer->isSleeping())
 		{
-			float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
-			mult1 = pow(mult1, 3);
+			pMC->m_mouseHandler.poll();
 
-			float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
-			float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
+			float multPitch = -1.0f;
+			float diff_field_84;
 
-			float old_field_84 = field_84;
-			field_84 = float(field_C) + f;
-			diff_field_84 = field_84 - old_field_84;
-			field_74 += xd;
-			field_78 += yd;
+			if (pMC->getOptions()->m_bInvertMouse)
+				multPitch = 1.0f;
 
-			if (diff_field_84 > 3.0f)
-				diff_field_84 = 3.0f;
-
-			if (!pMC->getOptions()->field_240)
+			if (pMC->m_mouseHandler.smoothTurning())
 			{
-				// @TODO: untangle this code
-				float v17 = xd + field_14;
-				float v18 = field_18;
-				float v19 = field_1C;
-				field_14 = v17;
-				float v20 = mult1 * 0.25f * (v17 - v18);
-				float v21 = v19 + (v20 - v19) * 0.5f;
-				field_1C = v21;
-				if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
-					v21 = mult1 * 0.25f * (v17 - v18);
-				float v22 = yd + field_20;
-				field_18 = v18 + v21;
-				float v23 = field_24;
-				field_20 = v22;
-				float v24 = mult1 * 0.15f * (v22 - v23);
-				float v25 = field_28 + (v24 - field_28) * 0.5f;
-				field_28 = v25;
-				if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
-					v25 = v24;
-				field_24 = v23 + v25;
-			}
-		}
-		else
-		{
-			diff_field_84 = 1.0f;
-			field_7C = pMC->m_mouseHandler.m_delta.x;
-			field_80 = pMC->m_mouseHandler.m_delta.y;
-		}
+				float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
+				mult1 = pow(mult1, 3);
 
-		Vec2 rot(field_7C * diff_field_84,
-			     field_80 * diff_field_84 * multPitch);
-		m_pItemInHandRenderer->turn(rot);
-		pMC->m_pLocalPlayer->turn(rot);
+				float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
+				float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
+
+				float old_field_84 = field_84;
+				field_84 = float(field_C) + f;
+				diff_field_84 = field_84 - old_field_84;
+				field_74 += xd;
+				field_78 += yd;
+
+				if (diff_field_84 > 3.0f)
+					diff_field_84 = 3.0f;
+
+				if (!pMC->getOptions()->field_240)
+				{
+					// @TODO: untangle this code
+					float v17 = xd + field_14;
+					float v18 = field_18;
+					float v19 = field_1C;
+					field_14 = v17;
+					float v20 = mult1 * 0.25f * (v17 - v18);
+					float v21 = v19 + (v20 - v19) * 0.5f;
+					field_1C = v21;
+					if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
+						v21 = mult1 * 0.25f * (v17 - v18);
+					float v22 = yd + field_20;
+					field_18 = v18 + v21;
+					float v23 = field_24;
+					field_20 = v22;
+					float v24 = mult1 * 0.15f * (v22 - v23);
+					float v25 = field_28 + (v24 - field_28) * 0.5f;
+					field_28 = v25;
+					if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
+						v25 = v24;
+					field_24 = v23 + v25;
+				}
+			}
+			else
+			{
+				diff_field_84 = 1.0f;
+				field_7C = pMC->m_mouseHandler.m_delta.x;
+				field_80 = pMC->m_mouseHandler.m_delta.y;
+			}
+
+			Vec2 rot(field_7C * diff_field_84,
+					field_80 * diff_field_84 * multPitch);
+			m_pItemInHandRenderer->turn(rot);
+			pMC->m_pLocalPlayer->turn(rot);
+		}
 	}
 
 	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
