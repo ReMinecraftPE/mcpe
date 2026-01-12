@@ -146,6 +146,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
@@ -572,6 +575,9 @@
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp">
