@@ -41,6 +41,23 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	clearChunksLoaded();
 }
 
+Entity* ClientSideNetworkHandler::getEntityOrLocalPlayer(int entityId)
+{
+	if (!m_pLevel)
+		return nullptr;
+
+	Entity* pEntity = m_pLevel->getEntity(entityId);
+	
+	// Check if this is the local player (they may not be in the entity list on multiplayer clients)
+	if (!pEntity && m_pMinecraft && m_pMinecraft->m_pLocalPlayer && 
+		m_pMinecraft->m_pLocalPlayer->m_EntityID == entityId)
+	{
+		pEntity = m_pMinecraft->m_pLocalPlayer;
+	}
+	
+	return pEntity;
+}
+
 void ClientSideNetworkHandler::levelGenerated(Level* level)
 {
 	m_pLevel = (MultiPlayerLevel*)level;
@@ -317,14 +334,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 {
 	if (!m_pLevel) return;
 
-	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
-	
-	// Check if this is the local player (they may not be in the entity list on multiplayer clients)
-	if (!pEntity && m_pMinecraft && m_pMinecraft->m_pLocalPlayer && 
-		m_pMinecraft->m_pLocalPlayer->m_EntityID == packet->m_id)
-	{
-		pEntity = m_pMinecraft->m_pLocalPlayer;
-	}
+	Entity* pEntity = getEntityOrLocalPlayer(packet->m_id);
 	
 	if (!pEntity)
 	{
@@ -609,14 +619,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 	if (!m_pLevel)
 		return;
 
-	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
-	
-	// Check if this is the local player (they may not be in the entity list on multiplayer clients)
-	if (!pEntity && m_pMinecraft && m_pMinecraft->m_pLocalPlayer && 
-		m_pMinecraft->m_pLocalPlayer->m_EntityID == pkt->m_entityId)
-	{
-		pEntity = m_pMinecraft->m_pLocalPlayer;
-	}
+	Entity* pEntity = getEntityOrLocalPlayer(pkt->m_entityId);
 	
 	if (!pEntity)
 		return;

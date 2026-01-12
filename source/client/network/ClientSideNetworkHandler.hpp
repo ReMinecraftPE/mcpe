@@ -66,6 +66,10 @@ public:
 	void flushAllBufferedUpdates(); // inlined
 	void handleBlockUpdate(const BlockUpdate& u);
 
+protected:
+	// Helper function to get entity, with fallback to local player if not in entity list
+	Entity* getEntityOrLocalPlayer(int entityId);
+
 private:
 	Minecraft* m_pMinecraft;
 	MultiPlayerLevel* m_pLevel;
