@@ -25,11 +25,11 @@
 #ifdef USE_GLES
 	#if MC_PLATFORM_IOS
         #ifdef FEATURE_GFX_SHADERS
-                #import <OpenGLES/ES2/gl.h>
-                #import <OpenGLES/ES2/glext.h>
+                #include <OpenGLES/ES2/gl.h>
+                #include <OpenGLES/ES2/glext.h>
         #else
-                #import <OpenGLES/ES1/gl.h>
-                #import <OpenGLES/ES1/glext.h>
+                #include <OpenGLES/ES1/gl.h>
+                #include <OpenGLES/ES1/glext.h>
         #endif
 
 		#define glFogi glFogx

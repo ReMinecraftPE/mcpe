@@ -36,7 +36,7 @@ NSError *G_audioSessionError = nil;
     {
         [self.window addSubview:self.viewController.view];
     }
-    NSLog(@"ViewController: %p\n", self.viewController);
+    NSLog(@"ViewController: %p\n", (void *)self.viewController);
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -63,7 +63,7 @@ NSError *G_audioSessionError = nil;
     {
         [application endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
-        NSLog(@"TIME RAN OUT %p\n", pthread_self()); // This originally used std::out, not sure why
+        NSLog(@"TIME RAN OUT %p\n", (void *)pthread_self()); // This originally used std::out, not sure why
     };
     bgTask = [application beginBackgroundTaskWithExpirationHandler:handler];
     viewController->suspended = YES;
