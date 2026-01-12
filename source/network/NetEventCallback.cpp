@@ -1,6 +1,7 @@
 #include "NetEventCallback.hpp"
 #include "common/Logger.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/BedTile.hpp"
 
 Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId, const RakNet::RakNetGUID* guid)
 {
@@ -36,8 +37,25 @@ void NetEventCallback::handle(Level& level, const RakNet::RakNetGUID& guid, Resp
         return;
     }
 
-    // @TODO: on server, ignore client's requested coords, and teleport them to their server-determined spawn
-    pPlayer->moveTo(pkt->m_pos);
+    // Use player's personal respawn position (set by sleeping in bed) if available
+    // Otherwise fall back to the level's shared spawn position
+    TilePos spawnPos;
+    if (pPlayer->m_bHasRespawnPos)
+    {
+        spawnPos = pPlayer->m_respawnPos;
+        // Check if the bed still exists
+        if (level.getTile(spawnPos) == Tile::bed->m_ID)
+        {
+            // Find a valid position near the bed to spawn
+            spawnPos = BedTile::getRespawnTilePos(&level, spawnPos, 0);
+        }
+    }
+    else
+    {
+        spawnPos = level.getSharedSpawnPos();
+    }
+    
+    pPlayer->moveTo(Vec3(spawnPos.x + 0.5f, float(spawnPos.y), spawnPos.z + 0.5f));
     pPlayer->reset();
     pPlayer->resetPos(true);
 }

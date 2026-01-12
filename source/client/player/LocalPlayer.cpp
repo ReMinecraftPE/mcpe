@@ -11,6 +11,7 @@
 #include "nbt/CompoundTag.hpp"
 #include "network/packets/MovePlayerPacket.hpp"
 #include "network/packets/PlayerEquipmentPacket.hpp"
+#include "network/packets/AnimatePacket.hpp"
 
 int dword_250ADC, dword_250AE0;
 
@@ -325,5 +326,38 @@ void LocalPlayer::sendPosition()
 		m_pMinecraft->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
 		m_lastSentPos = m_pos;
 		m_lastSentRot = m_rot;
+	}
+}
+
+Player::BedSleepingProblem LocalPlayer::sleep(const TilePos& pos)
+{
+	Player::BedSleepingProblem result = Player::sleep(pos);
+	
+	// Broadcast position and sleep state to all clients if in multiplayer (hosting)
+	if (result == BED_SLEEPING_OK && m_pLevel && m_pLevel->m_pRakNetInstance && m_pLevel->m_pRakNetInstance->m_bIsHost)
+	{
+		// Send bed position so remote clients know exactly where the bed is
+		// Use the actual bed position, not interpolated player position
+		Vec3 bedPos(float(pos.x) + 0.5f, float(pos.y) + 0.5f, float(pos.z) + 0.5f);
+		MovePlayerPacket movePacket(m_EntityID, bedPos, m_rot);
+		RakNet::BitStream bs;
+		movePacket.write(bs);
+		m_pLevel->m_pRakNetInstance->getPeer()->Send(&bs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, m_guid, true);
+		
+		// Then send sleep animation to everyone
+		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::SLEEP));
+	}
+	
+	return result;
+}
+
+void LocalPlayer::wake(bool resetCounter, bool update, bool setSpawn)
+{
+	Player::wake(resetCounter, update, setSpawn);
+	
+	// Broadcast wake animation to all clients if in multiplayer (hosting)
+	if (m_pLevel && m_pLevel->m_pRakNetInstance && m_pLevel->m_pRakNetInstance->m_bIsHost)
+	{
+		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE));
 	}
 }

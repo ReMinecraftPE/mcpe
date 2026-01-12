@@ -9,7 +9,9 @@ public:
 	{
 		NONE,
 		SWING,
-		HURT
+		HURT,
+		WAKE,
+		SLEEP
 	};
 
 public:

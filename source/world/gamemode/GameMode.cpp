@@ -152,19 +152,23 @@ bool GameMode::useItemOn(Player* player, Level* level, ItemInstance* instance, c
 		return false;
 
 	bool success = false;
+	bool isBed = (tile > 0 && Tile::tiles[tile] == Tile::bed);
+	bool isMultiplayerClient = (level->m_pRakNetInstance != nullptr && !level->m_pRakNetInstance->m_bIsHost);
 
 	if (tile > 0 && Tile::tiles[tile]->use(level, pos, player))
 	{
 		success = true;
 	}
-	else if (instance)
+	else if (instance && !(isMultiplayerClient && isBed))
 	{
 		success = instance->useOn(player, level, pos, face);
 	}
 
-	if (success)
+	if (success || (isMultiplayerClient && isBed))
 	{
 		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, instance));
+		if (isBed)
+			return true;
 	}
 
 	return success;

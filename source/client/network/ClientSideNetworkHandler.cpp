@@ -15,6 +15,7 @@
 #include "client/multiplayer/MultiplayerLocalPlayer.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/tile/BedTile.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT
@@ -317,6 +318,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 	if (!m_pLevel) return;
 
 	Entity* pEntity = m_pLevel->getEntity(packet->m_id);
+	
+	// Check if this is the local player (they may not be in the entity list on multiplayer clients)
+	if (!pEntity && m_pMinecraft && m_pMinecraft->m_pLocalPlayer && 
+		m_pMinecraft->m_pLocalPlayer->m_EntityID == packet->m_id)
+	{
+		pEntity = m_pMinecraft->m_pLocalPlayer;
+	}
+	
 	if (!pEntity)
 	{
 		LOG_E("MovePlayerPacket: No player with id %d", packet->m_id);
@@ -601,6 +610,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 		return;
 
 	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	
+	// Check if this is the local player (they may not be in the entity list on multiplayer clients)
+	if (!pEntity && m_pMinecraft && m_pMinecraft->m_pLocalPlayer && 
+		m_pMinecraft->m_pLocalPlayer->m_EntityID == pkt->m_entityId)
+	{
+		pEntity = m_pMinecraft->m_pLocalPlayer;
+	}
+	
 	if (!pEntity)
 		return;
 
@@ -618,6 +635,89 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 		case AnimatePacket::HURT:
 		{
 			pEntity->animateHurt();
+			break;
+		}
+		case AnimatePacket::WAKE:
+		{
+			if (pEntity->isPlayer())
+			{
+				Player* pPlayer = (Player*)pEntity;
+				// Skip if this is our local player AND they're not sleeping
+				// (means they already woke themselves up)
+				// But if they ARE sleeping, the server is waking them (e.g., time skip)
+				if (pPlayer->isLocalPlayer() && !pPlayer->isSleeping())
+					break;
+				pPlayer->wake(false, false, false);
+			}
+			break;
+		}
+		case AnimatePacket::SLEEP:
+		{
+			if (pEntity->isPlayer())
+			{
+				Player* pPlayer = (Player*)pEntity;
+				
+				// Find the bed tile at the player's position
+				if (m_pLevel && Tile::bed)
+				{
+					// Use lerp target position if available (MovePlayerPacket contains exact bed position)
+					// The server sends bedPos + 0.5, so floor gives us exact tile coords
+					Vec3 searchPos = pPlayer->m_pos;
+					if (pPlayer->m_lSteps > 0)
+					{
+						searchPos = pPlayer->m_lPos;
+						searchPos.y -= pPlayer->m_heightOffset;
+					}
+					
+					// The server sends the bed center (tile + 0.5), so floor to get exact tile
+					TilePos bedPos(Mth::floor(searchPos.x), Mth::floor(searchPos.y), Mth::floor(searchPos.z));
+					
+					// First check the exact position - this is where the server said the bed is
+					if (bedPos.y >= 0 && bedPos.y < 128 && 
+						m_pLevel->getTile(bedPos) == Tile::bed->m_ID)
+					{
+						TileData data = m_pLevel->getData(bedPos);
+						int dir = BedTile::getDirectionFromData(data);
+						
+						float xOff = 0.5f;
+						float zOff = 0.5f;
+						switch (dir) {
+							case 0:
+								zOff = 0.9f;
+								break;
+							case 1:
+								xOff = 0.1f;
+								break;
+							case 2:
+								zOff = 0.1f;
+								break;
+							case 3:
+								xOff = 0.9f;
+								break;
+						}
+						
+						pPlayer->setSize(0.2f, 0.2f);
+						pPlayer->m_heightOffset = 0.2f;
+						pPlayer->updateSleepingPos(dir);
+						pPlayer->setPos(Vec3(bedPos.x + xOff, bedPos.y + 15.0f / 16.0f, bedPos.z + zOff));
+						pPlayer->m_bSleeping = true;
+						pPlayer->m_sleepTimer = 0;
+						pPlayer->setBedSleepPos(bedPos);
+						pPlayer->m_vel = Vec3::ZERO;
+						pPlayer->m_lSteps = 0;
+					}
+					else
+					{
+						pPlayer->m_bSleeping = true;
+						pPlayer->m_sleepTimer = 0;
+					}
+				}
+				else
+				{
+					pPlayer->m_bSleeping = true;
+					pPlayer->m_sleepTimer = 0;
+				}
+			}
 			break;
 		}
 		default:

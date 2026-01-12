@@ -518,6 +518,18 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, AnimatePac
 			pPlayer->animateHurt();
 			break;
 		}
+		case AnimatePacket::WAKE:
+		{
+			// Client is waking up - call wake on server player
+			pPlayer->wake(false, true, true);
+			break;
+		}
+		case AnimatePacket::SLEEP:
+		{
+			// Client sleeping is handled via UseItemPacket on bed tile
+			// This is just for forwarding to other clients
+			break;
+		}
 		default:
 		{
 			LOG_W("Received unkown action in AnimatePacket: %d, EntityType: %s", packet->m_actionId, pEntity->getDescriptor().getEntityType().getName().c_str());
