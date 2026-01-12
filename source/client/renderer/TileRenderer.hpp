@@ -48,6 +48,12 @@ public:
 	void renderNorth(Tile*, const Vec3& pos, int texture);
 	void renderFaceDown(Tile*, const Vec3& pos, int texture);
 	void renderFaceUp(Tile*, const Vec3& pos, int texture);
+	
+	// Double-sided rendering (reversed winding order)
+	void renderEastReversed(Tile*, const Vec3& pos, int texture);
+	void renderWestReversed(Tile*, const Vec3& pos, int texture);
+	void renderSouthReversed(Tile*, const Vec3& pos, int texture);
+	void renderNorthReversed(Tile*, const Vec3& pos, int texture);
 	void tesselateCrossTexture(const FullTile& tile, const Vec3& pos, bool simple = false);
 	void tesselateTorch(Tile*, const Vec3& pos, float a, float b);
 	
@@ -61,6 +67,7 @@ public:
 	bool tesselateLadderInWorld(Tile*, const TilePos& pos);
 	bool tesselateTorchInWorld(Tile*, const TilePos& pos);
 	bool tesselateDoorInWorld(Tile*, const TilePos& pos);
+	bool tesselateBedInWorld(Tile*, const TilePos& pos);
 #ifndef ORIGINAL_CODE
 	bool tesselateFireInWorld(Tile*, const TilePos& pos);
 #endif
