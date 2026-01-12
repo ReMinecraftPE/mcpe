@@ -64,6 +64,7 @@
 #include "SoulSandTile.hpp"
 #include "GlowstoneTile.hpp"
 #include "FenceTile.hpp"
+#include "BedTile.hpp"
 //#include "BedTile.hpp"
 //#include "CropsTile.hpp"
 #include "Web.hpp"
@@ -676,6 +677,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("sponge");
 
+	Tile::bed = (new BedTile(TILE_BED, TEXTURE_BED_FOOT_TOP))
+		->init()
+		->setDestroyTime(0.2f)
+		->setSoundType(Tile::SOUND_CLOTH)
+		->setDescriptionId("bed");
+
 	Tile::cryingObsidian = (new Tile(TILE_OBSIDIAN_CRYING, TEXTURE_OBSIDIAN_CRYING, Material::stone))
 		->init()
 		->setDestroyTime(10.0f)
@@ -1224,4 +1231,5 @@ Tile
 	*Tile::soulSand,
 	*Tile::glowstone,
 	*Tile::web,
-	*Tile::fence;
+	*Tile::fence,
+	*Tile::bed;
