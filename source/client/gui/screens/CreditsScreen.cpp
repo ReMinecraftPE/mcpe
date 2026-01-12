@@ -57,6 +57,7 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 {
 	renderBackground();
 
+	// Add dark background
 	Tesselator& t = Tesselator::instance;
 	float widthf = float(m_width);
 	float heightf = float(m_height);
