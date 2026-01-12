@@ -101,6 +101,46 @@ void HumanoidMobRenderer::onGraphicsReset()
 	m_pHumanoidModel->onGraphicsReset();
 }
 
+void HumanoidMobRenderer::setupPosition(const Entity& entity, const Vec3& pos, Matrix& matrix)
+{
+	if (entity.isAlive() && entity.isMob())
+	{
+		const Mob& mob = (const Mob&)entity;
+		if (mob.isSleeping() && entity.isPlayer())
+		{
+			const Player& player = (const Player&)entity;
+			Vec3 sleepPos(
+				pos.x + player.m_sleepingPos.x,
+				pos.y,
+				pos.z + player.m_sleepingPos.z
+			);
+			MobRenderer::setupPosition(entity, sleepPos, matrix);
+			return;
+		}
+	}
+	MobRenderer::setupPosition(entity, pos, matrix);
+}
+
+void HumanoidMobRenderer::setupRotations(const Entity& entity, float bob, float bodyRot, Matrix& matrix, float a)
+{
+	if (entity.isAlive() && entity.isMob())
+	{
+		const Mob& mob = (const Mob&)entity;
+		if (mob.isSleeping() && entity.isPlayer())
+		{
+			const Player& player = (const Player&)entity;
+			if (player.m_pLevel)
+			{
+				matrix.rotate(player.getBedSleepRot(), Vec3::UNIT_Y);
+				matrix.rotate(getFlipDegrees(mob), Vec3::UNIT_Z);
+				matrix.rotate(270.0f, Vec3::UNIT_Y);
+				return;
+			}
+		}
+	}
+	MobRenderer::setupRotations(entity, bob, bodyRot, matrix, a);
+}
+
 void HumanoidMobRenderer::renderHand(const Entity& entity, float a)
 {
 	m_pHumanoidModel->field_4 = 0;
