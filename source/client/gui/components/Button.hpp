@@ -39,6 +39,7 @@ public:
 	bool m_bEnabled;
 	bool m_bVisible;
 	bool m_bHovered;
+	float m_fAlpha;
 
 #ifndef ORIGINAL_CODE
 	int m_lastX;

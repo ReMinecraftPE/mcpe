@@ -33,15 +33,13 @@ void PerlinNoise::init(int nOctaves)
 	m_pImprovedNoise = new ImprovedNoise * [nOctaves];
 
 	for (int i = 0; i < nOctaves; i++)
-	{
 		m_pImprovedNoise[i] = new ImprovedNoise(m_pRandom);
-	}
 }
 
 PerlinNoise::~PerlinNoise()
 {
 	for (int i = 0; i < m_nOctaves; i++)
-		delete[] m_pImprovedNoise[i];
+		delete m_pImprovedNoise[i];
 
 	delete[] m_pImprovedNoise;
 }
