@@ -8,6 +8,7 @@
 
 #include "Player.hpp"
 #include "world/level/Level.hpp"
+#include "world/tile/BedTile.hpp"
 #include "nbt/CompoundTag.hpp"
 
 void Player::_init()
@@ -18,6 +19,9 @@ void Player::_init()
 	m_bob = 0.0f;
 	m_dimension = 0;
 	m_destroyingBlock = false;
+	m_bSleeping = false;
+	m_sleepTimer = 0;
+	m_bHasBedSleepPos = false;
 }
 
 Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
@@ -166,6 +170,16 @@ void Player::aiStep()
     {
        heal(1);
     }
+
+	// Handle sleeping
+	if (m_bSleeping) {
+		++m_sleepTimer;
+		if (m_sleepTimer >= 100) {
+			m_pLevel->updateSleeping();
+		}
+		// Don't do normal movement while sleeping
+		return;
+	}
 
 #ifdef ENH_GUI_ITEM_POP
     m_pInventory->tick();
@@ -369,6 +383,136 @@ void Player::setRespawnPos(const TilePos& pos)
 
 	m_bHasRespawnPos = true;
 	m_respawnPos = pos;
+}
+
+void Player::setBedSleepPos(const TilePos& pos)
+{
+	m_bHasBedSleepPos = true;
+	m_bedSleepPos = pos;
+}
+
+void Player::updateSleepingPos(int direction)
+{
+	m_sleepingPos.x = 0.0f;
+	m_sleepingPos.y = 0.0f;
+	m_sleepingPos.z = 0.0f;
+	switch (direction) {
+		case 0:  // +Z facing
+			m_sleepingPos.z = -1.8f;
+			break;
+		case 1:  // -X facing
+			m_sleepingPos.x = 1.8f;
+			break;
+		case 2:  // -Z facing
+			m_sleepingPos.z = 1.8f;
+			break;
+		case 3:  // +X facing
+			m_sleepingPos.x = -1.8f;
+			break;
+	}
+}
+
+Player::BedSleepingProblem Player::sleep(const TilePos& pos)
+{
+	if (isSleeping() || !isAlive())
+		return BED_SLEEPING_OTHER_PROBLEM;
+
+	if (m_pLevel->m_pDimension->m_bFoggy)
+		return BED_SLEEPING_NOT_POSSIBLE_HERE;
+
+	if (m_pLevel->isDay())
+		return BED_SLEEPING_NOT_POSSIBLE_NOW;
+
+	if (Mth::abs(m_pos.x - pos.x) > 3.0f || Mth::abs(m_pos.y - pos.y) > 2.0f || Mth::abs(m_pos.z - pos.z) > 3.0f)
+		return BED_SLEEPING_TOO_FAR_AWAY;
+
+	setSize(0.2f, 0.2f);
+	m_heightOffset = 0.2f;
+	
+	if (!m_pLevel->isEmptyTile(pos)) {
+		TileData data = m_pLevel->getData(pos);
+		int dir = BedTile::getDirectionFromData(data);
+		float xOff = 0.5f;
+		float zOff = 0.5f;
+		switch (dir) {
+			case 0:
+				zOff = 0.9f;
+				break;
+			case 1:
+				xOff = 0.1f;
+				break;
+			case 2:
+				zOff = 0.1f;
+				break;
+			case 3:
+				xOff = 0.9f;
+				break;
+		}
+		updateSleepingPos(dir);
+		setPos(Vec3(pos.x + xOff, pos.y + 15.0f / 16.0f, pos.z + zOff));
+	}
+	else {
+		setPos(Vec3(pos.x + 0.5f, pos.y + 15.0f / 16.0f, pos.z + 0.5f));
+	}
+
+	m_bSleeping = true;
+	m_sleepTimer = 0;
+	setBedSleepPos(pos);
+	m_vel = Vec3::ZERO;
+
+	m_pLevel->updateSleeping();
+
+	return BED_SLEEPING_OK;
+}
+
+void Player::wake(bool resetCounter, bool update, bool setSpawn)
+{
+	setSize(0.6f, 1.8f);
+	setDefaultHeadHeight();
+	
+	TilePos checkBedPos = m_bedSleepPos;
+	if (m_bHasBedSleepPos && m_pLevel->getTile(checkBedPos) == Tile::bed->m_ID) {
+		BedTile::setBedOccupied(m_pLevel, checkBedPos, false);
+		checkBedPos = BedTile::getRespawnTilePos(m_pLevel, checkBedPos, 0);
+		if (checkBedPos == m_bedSleepPos)
+			checkBedPos = checkBedPos.above();
+
+		setPos(Vec3(checkBedPos.x + 0.5f, checkBedPos.y + m_heightOffset + 0.1f, checkBedPos.z + 0.5f));
+	}
+
+	m_bSleeping = false;
+	if (resetCounter) {
+		m_sleepTimer = 0;
+	}
+
+	if (setSpawn && m_bHasBedSleepPos) {
+		setRespawnPos(m_bedSleepPos);
+	}
+}
+
+float Player::getBedSleepRot() const
+{
+	if (!m_pLevel || !m_bHasBedSleepPos)
+		return 0.0f;
+	
+	if (m_bedSleepPos.y < 0 || m_bedSleepPos.y >= 128)
+		return 0.0f;
+
+	TileData data = m_pLevel->getData(m_bedSleepPos);
+	int dir = BedTile::getDirectionFromData(data);
+	
+	switch (dir) {
+		case 0:
+			return 90.0f;
+		case 1:
+			return 0.0f;
+		case 2:
+			return 270.0f;
+		case 3:
+			return 180.0f;
+		default:
+			return 0.0f;
+	}
 }
 
 /*void Player::drop()

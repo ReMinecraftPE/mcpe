@@ -1939,3 +1939,58 @@ float Level::getSunAngle(float f) const
 {
 	return (float(M_PI) * getTimeOfDay(f)) * 2;
 }
+
+void Level::updateSleeping()
+{
+	// Only the host/server should manage sleep time skipping
+	if (m_bIsClientSide)
+		return;
+
+	// Check if all players are sleeping
+	bool allSleeping = true;
+	bool anyPlayerExists = false;
+
+	for (size_t i = 0; i < m_players.size(); i++) {
+		Player* player = m_players[i];
+		if (player && !player->m_bRemoved) {
+			anyPlayerExists = true;
+			if (!player->isSleeping()) {
+				allSleeping = false;
+				break;
+			}
+		}
+	}
+
+	// If all players are sleeping long enough, skip to morning
+	if (anyPlayerExists && allSleeping) {
+		bool allSleepingLongEnough = true;
+		for (size_t i = 0; i < m_players.size(); i++) {
+			Player* player = m_players[i];
+			if (player && !player->m_bRemoved) {
+				if (!player->isSleepingLongEnough()) {
+					allSleepingLongEnough = false;
+					break;
+				}
+			}
+		}
+
+		if (allSleepingLongEnough) {
+			// Skip to morning (time 0 is dawn, 24000 is a full day)
+			int32_t currentTime = getTime();
+			int32_t timeOfDay = currentTime % 24000;
+			int32_t timeToMorning = (24000 - timeOfDay) % 24000;
+			if (timeToMorning == 0)
+				timeToMorning = 24000; // Full day if already morning
+			
+			setTime(currentTime + timeToMorning);
+
+			// Wake all players
+			for (size_t i = 0; i < m_players.size(); i++) {
+				Player* player = m_players[i];
+				if (player && player->isSleeping()) {
+					player->wake(false, true, true);
+				}
+			}
+		}
+	}
+}
