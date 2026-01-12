@@ -100,7 +100,7 @@ void SoundDesc::_unload()
         free(m_buffer.m_pData);
     }
     // Free File Data
-    delete m_file.data;
+    delete[] m_file.data;
     m_isLoaded = false;
 }
 
