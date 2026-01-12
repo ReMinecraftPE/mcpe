@@ -7,27 +7,19 @@
  ********************************************************************/
 
 #include "CreditsScreen.hpp"
-#include "CreateWorldScreen.hpp"
 #include "StartMenuScreen.hpp"
 
 CreditsScreen::CreditsScreen() :
-	m_btnBack(3, "Back"),
-	m_pDarkBackground(nullptr)
+	m_btnBack(3, "Back")
 {
 }
 
 CreditsScreen::~CreditsScreen()
 {
-    SAFE_DELETE(m_pDarkBackground);
 }
 
 void CreditsScreen::init()
 {
-	SAFE_DELETE(m_pDarkBackground);
-
-	m_pDarkBackground = new WorldSelectionList(m_pMinecraft, m_width, m_height);
-	m_pDarkBackground->commit();
-
 	m_btnBack.m_yPos   = m_height - 28;
 	m_btnBack.m_width  = 84;
 	m_btnBack.m_height = 24;
@@ -59,13 +51,29 @@ void CreditsScreen::keyPressed(int code)
 
 void CreditsScreen::tick()
 {
-	m_pDarkBackground->tick();
 }
 
 void CreditsScreen::render(int mouseX, int mouseY, float f)
 {
 	renderBackground();
-	m_pDarkBackground->render(0, 0, f);
+
+	Tesselator& t = Tesselator::instance;
+	float widthf = float(m_width);
+	float heightf = float(m_height);
+	float heightsub32 = heightf - 32;
+	t.begin(4);
+	t.color(0x505050, 255);
+	t.vertexUV(0.0f, heightf, 0.0f, 0.0f, heightf / 32.0f);
+	t.vertexUV(widthf, heightf, 0.0f, widthf / 32.0f, heightf / 32.0f);
+	t.color(0x505050, 255);
+	t.vertexUV(widthf, heightsub32, 0.0f, widthf / 32.0f, heightsub32 / 32.0f);
+	t.vertexUV(0.0f, heightsub32, 0.0f, 0.0f, heightsub32 / 32.0f);
+	t.color(0x202020);
+	t.vertexUV(0.0f, heightsub32, 0.0f, 0.0f, heightsub32 / 32.0f);
+	t.vertexUV(widthf, heightsub32, 0.0f, widthf / 32.0f, heightsub32 / 32.0f);
+	t.vertexUV(widthf, 26.0f, 0.0f, widthf / 32.0f, 26.0f / 32.0f);
+	t.vertexUV(0.0f, 26.0f, 0.0f, 0.0f, 26.0f / 32.0f);
+	t.draw(m_materials.ui_texture_and_color);
 
 	Screen::render(mouseX, mouseY, f);
 

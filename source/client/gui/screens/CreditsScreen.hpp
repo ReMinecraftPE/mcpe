@@ -9,7 +9,6 @@
 #pragma once
 
 #include "../Screen.hpp"
-#include "../components/WorldSelectionList.hpp"
 
 class CreditsScreen : public Screen
 {
@@ -27,7 +26,6 @@ public:
 
 public:
 	Button m_btnBack;
-	WorldSelectionList* m_pDarkBackground;
 
 private:
 	std::vector<std::string> m_credits;
