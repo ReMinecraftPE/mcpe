@@ -11,7 +11,7 @@
 #include "renderer/hal/interface/ShaderProgram.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
 
-// So we don't have to include d3dx9mesh.h, which fails everyhere
+// So we don't have to include d3dx9mesh.h, which fails everywhere
 struct ID3DXConstantTable;
 
 namespace mce

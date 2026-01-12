@@ -32,8 +32,11 @@ sampler TextureSampler2 : register( s2 );
 
 #ifdef _DIRECT3D9
 
+#define CBUFFER_BEGIN(name, reg) cbuffer name {
+#define CBUFFER_END }
+
 #define VS_MAIN_BEGIN PS_Input main( VS_Input VSInput ) { PS_Input PSInput; 
-#define VS_MAIN_END return PSInput; }
+#define VS_MAIN_END float2 __d3d9offset = (__D3D9_OFFSET_X, __D3D9_OFFSET_Y); PSInput.position.xy += __d3d9offset.xy * PSInput.position.w; return PSInput; }
 #define PS_MAIN_BEGIN PS_Output main( PS_Input PSInput ) { PS_Output PSOutput; 
 #define PS_MAIN_END return PSOutput; }
 
@@ -51,6 +54,9 @@ sampler TextureSampler2 : register( s2 );
 
 #else // !defined(_DIRECT3D9)
 
+#define CBUFFER_BEGIN(name, reg) cbuffer name : register ( b##reg ) {
+#define CBUFFER_END }
+
 #define VS_MAIN_BEGIN void main( in VS_Input VSInput, out PS_Input PSInput ) {
 #define VS_MAIN_END }
 #define PS_MAIN_BEGIN void main( in PS_Input PSInput, out PS_Output PSOutput ) {
@@ -59,16 +65,14 @@ sampler TextureSampler2 : register( s2 );
 #endif // !defined(_DIRECT3D9)
 
 
-cbuffer RenderChunkConstants : register(b1)
-{
+CBUFFER_BEGIN(RenderChunkConstants, 1)
 	//float2 VIEWPORT_DIMENSION;
 	//float3 VIEW_POS;
 
 	float3 CHUNK_ORIGIN;
-}
+CBUFFER_END
 
-cbuffer EntityConstants : register (b2)
-{
+CBUFFER_BEGIN(EntityConstants, 2)
 	float4 OVERLAY_COLOR;
 	float4 TILE_LIGHT_COLOR;
 	float4 CHANGE_COLOR;
@@ -76,10 +80,9 @@ cbuffer EntityConstants : register (b2)
 	float2 UV_OFFSET;
 	float2 UV_ROTATION;
 	float2 GLINT_UV_SCALE;
-}
+CBUFFER_END
 
-cbuffer PerFrameConstants : register (b3)
-{
+CBUFFER_BEGIN(PerFrameConstants, 3)
 	float3 VIEW_DIRECTION; // unneeded
 	float TIME; // unneeded
 
@@ -91,21 +94,19 @@ cbuffer PerFrameConstants : register (b3)
 	float2 FOG_CONTROL;
 
 	float RENDER_DISTANCE;
-}
+CBUFFER_END
 
-cbuffer WorldConstants : register (b4)
-{
+CBUFFER_BEGIN(WorldConstants, 4)
 	float4x4 WORLDVIEWPROJ;
 	float4x4 WORLD;
-}
+CBUFFER_END
 
-cbuffer ShaderConstants : register (b5)
-{
+CBUFFER_BEGIN(ShaderConstants, 5)
 	float4 CURRENT_COLOR;
 	float4 DARKEN;
-}
+CBUFFER_END
 
-cbuffer WeatherConstants : register (b5) {
+CBUFFER_BEGIN(WeatherConstants, 5)
 	float4	POSITION_OFFSET;
 	float4	VELOCITY;
 	float4	ALPHA;
@@ -114,4 +115,4 @@ cbuffer WeatherConstants : register (b5) {
 	float4	FORWARD;
 	float4	UV_INFO;
 	float4  PARTICLE_BOX;
-}
+CBUFFER_END

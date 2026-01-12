@@ -7,6 +7,7 @@
 #include "API_D3D9Compiler.hpp"
 
 #include "common/Util.hpp"
+#include "client/app/Minecraft.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
@@ -396,4 +397,8 @@ void ShaderD3D9::BuildHeader(std::ostringstream& stream)
 #ifdef _XBOX
     stream << "#define _XBOX\n";
 #endif
+
+    // hack to fix dumb D3D9 bullshit: https://www.virtualdub.org/blog2/entry_366.html
+    stream << "#define __D3D9_OFFSET_X " << (-1.0f / Minecraft::width) << "\n";
+    stream << "#define __D3D9_OFFSET_Y " << (1.0f / Minecraft::height) << "\n";
 }
