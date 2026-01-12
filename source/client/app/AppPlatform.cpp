@@ -369,7 +369,7 @@ std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) c
 	if (!file.data)
 		return "";
 	std::string out = std::string(file.data, file.data + file.size);
-	delete file.data;
+	delete[] file.data;
 	return out;
 }
 

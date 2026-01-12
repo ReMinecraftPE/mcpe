@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <typeinfo>
 #include "ImageData.hpp"
 #include "compat/LegacyCPP.hpp"
@@ -32,7 +33,7 @@ void ImageData::release()
 {
     if (m_data)
     {
-        delete[] m_data;
+        free(m_data);
         m_data = nullptr;
     }
 }

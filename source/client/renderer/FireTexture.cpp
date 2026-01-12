@@ -19,8 +19,8 @@ FireTexture::FireTexture(int a2) : DynamicTexture(Tile::fire->m_TextureFrame + 1
 
 FireTexture::~FireTexture()
 {
-	SAFE_DELETE(m_data1);
-	SAFE_DELETE(m_data2);
+	SAFE_DELETE_ARRAY(m_data1);
+	SAFE_DELETE_ARRAY(m_data2);
 }
 
 void FireTexture::tick()
