@@ -1,5 +1,5 @@
 #include "ControllerBuildInput.hpp"
-#include "Controller.hpp"
+#include "GameControllerManager.hpp"
 #include "common/Utils.hpp"
 
 ControllerBuildInput::ControllerBuildInput()
@@ -11,12 +11,12 @@ ControllerBuildInput::ControllerBuildInput()
 
 bool ControllerBuildInput::isPerformingUse() const
 {
-	return Controller::getPressure(1) >= 0.75;
+	return GameControllerManager::getPressure(1) >= 0.75;
 }
 
 bool ControllerBuildInput::isPerformingRemove() const
 {
-	return Controller::getPressure(2) >= 0.75;
+	return GameControllerManager::getPressure(2) >= 0.75;
 }
 
 bool ControllerBuildInput::tickBuild(Player* player, BuildActionIntention* buildActionIntention)

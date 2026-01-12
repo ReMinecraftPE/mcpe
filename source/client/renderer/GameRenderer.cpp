@@ -10,7 +10,7 @@
 #include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 #include "Frustum.hpp"
 #include "renderer/GL/GL.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
@@ -169,8 +169,8 @@ void GameRenderer::_renderDebugOverlay(float a)
 	_renderVertexGraph(g_nVertices, int(Minecraft::height * Gui::InvGuiScale));
 #endif
 
-	/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
-	debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
+	/*debugText << "\nGameControllerManager::stickValuesX[1]: " << GameControllerManager::stickValuesX[1];
+	debugText << "\nGameControllerManager::stickValuesY[1]: " << GameControllerManager::stickValuesY[1];
 	debugText << "\nGameRenderer::field_7C: "      << field_7C;
 	debugText << "\nGameRenderer::field_80: "      << field_80;*/
 

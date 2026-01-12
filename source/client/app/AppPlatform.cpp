@@ -170,6 +170,11 @@ bool AppPlatform::hasGamepad() const
 	return false;
 }
 
+GameControllerHandler* AppPlatform::getGameControllerHandler()
+{
+	return nullptr;
+}
+
 void AppPlatform::recenterMouse()
 {
 

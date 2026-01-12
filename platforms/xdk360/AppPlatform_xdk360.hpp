@@ -3,6 +3,7 @@
 #include <xtl.h>
 
 #include "client/app/AppPlatform.hpp"
+#include "platforms/input/xinput/GameControllerHandler_xinput.hpp"
 #include "platforms/sound/dummy/CustomSoundSystem.hpp"
 
 class AppPlatform_xdk360 : public AppPlatform
@@ -25,6 +26,9 @@ public:
 
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	bool isTouchscreen() const override;
+	bool hasGamepad() const override;
+	GameControllerHandler* getGameControllerHandler() override;
+
 	void updateFocused(bool focused) override;
 	bool hasFileSystemAccess() override;
 
@@ -50,6 +54,7 @@ private:
 	bool m_bWasUnfocused;
 
 	SOUND_SYSTEM* m_pSoundSystem;
+	GameControllerHandler_xinput m_gameControllerHandler;
 
 	XCONTENTDEVICEID m_saveDeviceId[C_MAX_LOCAL_PLAYERS];
 	int m_currentSavingPlayerId;

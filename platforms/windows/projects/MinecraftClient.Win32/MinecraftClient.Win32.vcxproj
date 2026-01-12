@@ -37,7 +37,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\directsound;$(MC_ROOT)\thirdparty\stb_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\directsound;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -61,7 +61,6 @@
     <ClInclude Include="$(MC_ROOT)\platforms\sound\directsound\CustomSoundSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\AppPlatform_win32.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\LoggerWin32.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\windows\main.cpp" />
@@ -73,6 +72,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Input.XInput\Input.XInput.vcxproj">
+      <Project>{5399b6f0-704c-4afe-8029-6b3f28bbc4c8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Renderer\Renderer.vcxproj">
       <Project>{bd8b8369-d75d-4d12-a85f-c521349b9125}</Project>

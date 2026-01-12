@@ -29,7 +29,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MC_ROOT)\thirdparty\stb_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <!--AdditionalDependencies>xapilib.lib;d3d9.lib;d3dx9.lib;xgraphics.lib;xboxkrnl.lib;xnet.lib;xaudio2.lib;xact3.lib;x3daudio.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies-->
@@ -48,7 +48,6 @@
     <ClInclude Include="$(MC_ROOT)\platforms\sound\dummy\CustomSoundSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
     <ClCompile Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\xdk360\main.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sound\dummy\SoundSystemNull.cpp" />
@@ -56,23 +55,26 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.vcxproj">
       <Project>{a6e03dca-99f6-45b8-800d-73060ae407fc}</Project>
-	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
-	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="..\Input.XInput\Input.XInput.vcxproj">
+      <Project>{5399b6f0-704c-4afe-8029-6b3f28bbc4c8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Renderer\Renderer.vcxproj">
       <Project>{bd8b8369-d75d-4d12-a85f-c521349b9125}</Project>
-	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\World\World.vcxproj">
       <Project>{5f7cd8c1-413c-4855-a450-2c765f16c5a4}</Project>
-	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\ZLib\ZLib.vcxproj">
       <Project>{5da292fd-fa40-45d8-900a-6652c9662913}</Project>
-	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

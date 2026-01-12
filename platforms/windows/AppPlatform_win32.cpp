@@ -186,6 +186,16 @@ bool AppPlatform_win32::isTouchscreen() const
 	return false;
 }
 
+bool AppPlatform_win32::hasGamepad() const
+{
+	return m_gameControllerHandler.hasController();
+}
+
+GameControllerHandler* AppPlatform_win32::getGameControllerHandler()
+{
+	return &m_gameControllerHandler;
+}
+
 bool AppPlatform_win32::hasFileSystemAccess()
 {
 	return true;

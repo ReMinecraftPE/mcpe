@@ -10,10 +10,7 @@ struct PS_Input
 struct PS_Output
 {
     float4 color : SV_Target;
-	
-#ifndef _DIRECT3D9
     float depth  : SV_Depth; // Add this
-#endif
 };
 
 PS_MAIN_BEGIN
@@ -26,7 +23,5 @@ PS_MAIN_BEGIN
     }
 #endif
 
-#ifndef _DIRECT3D9
 	PSOutput.depth = 0.5f;
-#endif
 PS_MAIN_END

@@ -62,7 +62,7 @@
     <ClCompile Include="$(MC_ROOT)\source\common\utility\Singleton.cpp">
       <Filter>Source Files\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\compat\vsnprintf.cpp">
+    <ClCompile Include="$(MC_ROOT)\compat\vsnprintf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -94,7 +94,7 @@
     <ClInclude Include="$(MC_ROOT)\source\common\DataIO.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\compat\vsnprintf.hpp">
+    <ClInclude Include="$(MC_ROOT)\compat\vsnprintf.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\compat\LegacyCPP.hpp">

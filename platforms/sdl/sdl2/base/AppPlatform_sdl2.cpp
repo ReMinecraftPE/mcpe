@@ -16,7 +16,7 @@
 #define _STR(x) #x
 #define STR(x) _STR(x)
 
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 #include "client/app/NinecraftApp.hpp"
 
 void AppPlatform_sdl2::_init(SDL_Window *window)
@@ -147,7 +147,7 @@ void AppPlatform_sdl2::gameControllerAdded(int32_t index)
 	if (!getPrimaryGameController())
 	{
 		setPrimaryGameController(SDL_GameControllerOpen(index));
-		Controller::reset();
+		GameControllerManager::reset();
 	}
 }
 

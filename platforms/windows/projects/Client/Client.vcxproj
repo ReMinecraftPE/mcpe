@@ -117,7 +117,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\options\Options.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\player\input\GameControllerManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITurnInput.hpp" />
@@ -218,6 +218,8 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\TextureOffset.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameController.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -260,7 +262,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\options\Options.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\player\input\GameControllerManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerMoveInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp" />
@@ -355,11 +357,13 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameController.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
-	  <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\Network\Network.vcxproj">
       <Project>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</Project>

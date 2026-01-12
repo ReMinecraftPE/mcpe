@@ -12,6 +12,7 @@
 
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
+#include "platforms/input/xinput/GameControllerHandler_xinput.hpp"
 #include "LoggerWin32.hpp"
 #include "CustomSoundSystem.hpp"
 
@@ -41,6 +42,8 @@ public:
 
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	bool isTouchscreen() const override;
+	bool hasGamepad() const override;
+	GameControllerHandler* getGameControllerHandler() override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;
@@ -111,6 +114,7 @@ private:
 
 	int m_MouseDiffX, m_MouseDiffY;
 
+	GameControllerHandler_xinput m_gameControllerHandler;
 	SOUND_SYSTEM* m_pSoundSystem;
 };
 

@@ -9,8 +9,9 @@
 #pragma once
 
 #include <vector>
+#include "world/phys/Vec2.hpp"
 
-class Controller
+class GameControllerManager
 {
 private:
 	static const float DIRECTION_X_THRESHOLD;
@@ -35,6 +36,7 @@ public:
 	static void feedStickX(int stickNo, bool touched, float x);
 	static void feedStickY(int stickNo, bool touched, float y);
 	static void feedStick(int stickNo, bool touched, float x, float y);
+	static void feedStick(int stickNo, bool touched, const Vec2& vec);
 	static float getX(int stickNo);
 	static float getY(int stickNo);
 	static float getTransformedX(int stickNo, float a2, float a3, bool b);

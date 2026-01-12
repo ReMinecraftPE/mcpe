@@ -24,7 +24,7 @@
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
 
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 #include "client/player/input/ControllerBuildInput.hpp"
 #include "client/player/input/ControllerMoveInput.hpp"
 #include "client/player/input/ControllerTurnInput.hpp"
@@ -278,7 +278,7 @@ void Minecraft::setScreen(Screen* pScreen)
 
 	Mouse::reset();
 	Multitouch::reset();
-	Controller::reset();
+	GameControllerManager::reset();
 	Multitouch::resetThisUpdate();
 
 	m_pScreen = pScreen;
@@ -668,7 +668,7 @@ void Minecraft::resetInput()
 {
 	Keyboard::reset();
 	Mouse::reset();
-	Controller::reset();
+	GameControllerManager::reset();
 	Multitouch::resetThisUpdate();
 }
 

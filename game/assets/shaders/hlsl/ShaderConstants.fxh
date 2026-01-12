@@ -41,11 +41,13 @@ sampler TextureSampler2 : register( s2 );
 
 // D3D9 has OpenGL-like render state alpha testing
 #define discard PSOutput.color = float4(0,0,0,0); return PSOutput
+#define snorm
 
 // System-Value Semantics were introduced in D3D10
 // Pixel Shaders
 #define SV_Position POSITION
 #define SV_Target COLOR
+#define SV_Depth DEPTH
 
 #else // !defined(_DIRECT3D9)
 

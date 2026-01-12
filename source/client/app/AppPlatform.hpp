@@ -34,8 +34,9 @@
 #define C_DEFAULT_SCREEN_HEIGHT (480)
 #endif
 
-#define C_MAX_LOCAL_PLAYERS 1
+#define C_MAX_LOCAL_PLAYERS 4
 
+class GameControllerHandler;
 class AppPlatformListener;
 
 class AppPlatform
@@ -88,6 +89,7 @@ public:
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	virtual bool isTouchscreen() const;
 	virtual bool hasGamepad() const;
+	virtual GameControllerHandler* getGameControllerHandler();
 	// Also add these to allow proper turning within the game.
 	virtual void recenterMouse();
 	virtual void setMouseGrabbed(bool b);

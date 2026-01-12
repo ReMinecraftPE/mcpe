@@ -15,6 +15,7 @@
 #include "common/Logger.hpp"
 #include "compat/KeyCodes.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/player/input/GameController.hpp"
 
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/GrassColor.hpp"
@@ -454,6 +455,22 @@ void Options::loadControls()
 		KM(KM_SLOT_R,        SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 		KM(KM_FLY_UP,        SDL_CONTROLLER_BUTTON_A);
 		KM(KM_FLY_DOWN,      SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+#else
+		KM(KM_TOGGLEDEBUG,   GameController::BUTTON_GUIDE);
+		KM(KM_JUMP,          GameController::BUTTON_A);
+		KM(KM_MENU_NEXT,     GameController::BUTTON_DPAD_DOWN);
+		KM(KM_MENU_PREVIOUS, GameController::BUTTON_DPAD_UP);
+		KM(KM_MENU_OK,       GameController::BUTTON_A);
+		KM(KM_MENU_CANCEL,   GameController::BUTTON_B);
+		KM(KM_DROP,          GameController::BUTTON_B);
+		KM(KM_CHAT,          GameController::BUTTON_BACK);
+		KM(KM_INVENTORY,     GameController::BUTTON_Y);
+		KM(KM_SNEAK,         GameController::BUTTON_RIGHTSTICK);
+		KM(KM_TOGGLE3RD,     GameController::BUTTON_LEFTSTICK);
+		KM(KM_SLOT_L,        GameController::BUTTON_LEFTSHOULDER);
+		KM(KM_SLOT_R,        GameController::BUTTON_RIGHTSHOULDER);
+		KM(KM_FLY_UP,        GameController::BUTTON_A);
+		KM(KM_FLY_DOWN,      GameController::BUTTON_RIGHTSTICK);
 #endif
 #undef KM
 	}

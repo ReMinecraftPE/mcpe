@@ -98,9 +98,19 @@ bool AppPlatform_xdk360::isTouchscreen() const
 	return false;
 }
 
-bool AppPlatform_xdk360::hasFileSystemAccess()
+bool AppPlatform_xdk360::hasGamepad() const
 {
 	return true;
+}
+
+GameControllerHandler* AppPlatform_xdk360::getGameControllerHandler()
+{
+	return &m_gameControllerHandler;
+}
+
+bool AppPlatform_xdk360::hasFileSystemAccess()
+{
+	return false;
 }
 
 std::string AppPlatform_xdk360::getAssetPath(const std::string& path) const

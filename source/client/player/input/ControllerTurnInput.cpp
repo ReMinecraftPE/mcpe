@@ -9,7 +9,7 @@
 #include <cmath>
 
 #include "ControllerTurnInput.hpp"
-#include "Controller.hpp"
+#include "GameControllerManager.hpp"
 #include "common/Logger.hpp"
 
 ControllerTurnInput::ControllerTurnInput()
@@ -29,33 +29,33 @@ ControllerTurnInput::ControllerTurnInput()
 TurnDelta ControllerTurnInput::getTurnDelta()
 {
 #ifdef USE_NATIVE_ANDROID
-	return TurnDelta(Controller::getX(m_stickNo) * 50.f, Controller::getY(m_stickNo) * 60.f);
+	return TurnDelta(GameControllerManager::getX(m_stickNo) * 50.f, GameControllerManager::getY(m_stickNo) * 60.f);
 #endif
 
 #if 0
 	constexpr float targetFps = 60;
 	constexpr float mult = (60.0f / targetFps) * 16.0f;
 
-	TurnDelta delta(Controller::getX(m_stickNo), Controller::getY(m_stickNo));
+	TurnDelta delta(GameControllerManager::getX(m_stickNo), GameControllerManager::getY(m_stickNo));
 	delta.x = (delta.x * fabs(delta.x)) * mult;
 	delta.y = (delta.y * fabs(delta.y)) * mult;
 	return delta;
 #endif
 
-	bool isTouched = Controller::isTouched(m_stickNo);
+	bool isTouched = GameControllerManager::isTouched(m_stickNo);
 	float deltaX, deltaY;
 
 	if (field_8 == 1)
 	{
-		if (Controller::isReset())
+		if (GameControllerManager::isReset())
 			getDeltaTime();
 
 		double deltaTime = getDeltaTime();
 	    //LOG_I("deltaTime: %f", deltaTime);
 		if (isTouched)
 		{
-			m_analogTurnVector.x = Controller::getX(m_stickNo);
-			m_analogTurnVector.y = Controller::getY(m_stickNo);
+			m_analogTurnVector.x = GameControllerManager::getX(m_stickNo);
+			m_analogTurnVector.y = GameControllerManager::getY(m_stickNo);
 		}
 		else
 		{
@@ -63,7 +63,7 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 			m_analogTurnVector.y *= 0.7f;
 		}
 		
-		// Deadzone handling moved to Controller
+		// Deadzone handling moved to GameControllerManager
 		//double f = pow(5.0 * 0.6f + 0.2f, 3) * 14.0f * 1.0f; // Legacy 4J
 		//float xt = m_analogTurnVector.x * fabs(m_analogTurnVector.x) * 289.0f; // 250.0f for PE, 17.0f for LCE?
 		//float yt = m_analogTurnVector.y * fabs(m_analogTurnVector.y) * 289.0f; // 200.0f for PE, 17.0f for LCE?
@@ -82,8 +82,8 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 	}
 	else if (field_8 == 2 && (field_18 || isTouched))
 	{
-		float sx = Controller::getX(m_stickNo);
-		float sy = Controller::getY(m_stickNo);
+		float sx = GameControllerManager::getX(m_stickNo);
+		float sy = GameControllerManager::getY(m_stickNo);
 
 		getDeltaTime(); //@NOTE: call isn't useless since it updates m_prevTime
 
