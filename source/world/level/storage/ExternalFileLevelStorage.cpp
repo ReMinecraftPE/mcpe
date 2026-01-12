@@ -251,7 +251,7 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, const ChunkPos& pos)
 
 	pBitStream->Read((char*)pChunk->m_updateMap, sizeof pChunk->m_updateMap);
 	
-	delete pBitStream->GetData();
+	delete[] pBitStream->GetData();
 	delete pBitStream;
 
 	pChunk->recalcHeightmap();
