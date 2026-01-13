@@ -31,8 +31,20 @@ public:
 	static const int hiddenFaceIndex[4];
 	static const int bedDirection[4][6];
 
-	static int getDirectionFromData(TileData meta) {
+	// Returns the direction index (0-3) for array lookups
+	static int getDirectionIndex(TileData meta) {
 		return meta & 3;
+	}
+
+	// Returns the semantic direction as Facing::Name enum
+	static Facing::Name getDirectionFromData(TileData meta) {
+		switch (meta & 3) {
+			case 0: return Facing::SOUTH;
+			case 1: return Facing::WEST;
+			case 2: return Facing::NORTH;
+			case 3: return Facing::EAST;
+			default: return Facing::SOUTH;
+		}
 	}
 
 	static bool isHead(TileData meta) {

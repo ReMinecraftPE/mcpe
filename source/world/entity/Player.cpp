@@ -391,22 +391,22 @@ void Player::setBedSleepPos(const TilePos& pos)
 	m_bedSleepPos = pos;
 }
 
-void Player::updateSleepingPos(int direction)
+void Player::updateSleepingPos(Facing::Name direction)
 {
 	m_sleepingPos.x = 0.0f;
 	m_sleepingPos.y = 0.0f;
 	m_sleepingPos.z = 0.0f;
 	switch (direction) {
-		case 0:  // +Z facing
+		case Facing::SOUTH:  // +Z facing
 			m_sleepingPos.z = -1.8f;
 			break;
-		case 1:  // -X facing
+		case Facing::WEST:  // -X facing
 			m_sleepingPos.x = 1.8f;
 			break;
-		case 2:  // -Z facing
+		case Facing::NORTH:  // -Z facing
 			m_sleepingPos.z = 1.8f;
 			break;
-		case 3:  // +X facing
+		default:  // +X facing
 			m_sleepingPos.x = -1.8f;
 			break;
 	}
@@ -436,28 +436,30 @@ Player::BedSleepingProblem Player::startSleepInBed(const TilePos& pos)
 	
 	if (!m_pLevel->isEmptyTile(pos)) {
 		TileData data = m_pLevel->getData(pos);
-		int dir = BedTile::getDirectionFromData(data);
+		Facing::Name dir = BedTile::getDirectionFromData(data);
 		float xOff = 0.5f;
 		float zOff = 0.5f;
 		switch (dir) {
-			case 0:
+			case Facing::SOUTH:
 				zOff = 0.9f;
 				break;
-			case 1:
+			case Facing::WEST:
 				xOff = 0.1f;
 				break;
-			case 2:
+			case Facing::NORTH:
 				zOff = 0.1f;
 				break;
-			case 3:
+			case Facing::EAST:
 				xOff = 0.9f;
+				break;
+			default:
 				break;
 		}
 		updateSleepingPos(dir);
-		setPos(Vec3(pos.x + xOff, pos.y + 15.0f / 16.0f, pos.z + zOff));
+		setPos(Vec3(pos.x + xOff, pos.y + 1.1f, pos.z + zOff));
 	}
 	else {
-		setPos(Vec3(pos.x + 0.5f, pos.y + 15.0f / 16.0f, pos.z + 0.5f));
+		setPos(Vec3(pos.x + 0.5f, pos.y + 1.1f, pos.z + 0.5f));
 	}
 
 	m_bSleeping = true;
@@ -504,16 +506,16 @@ float Player::getBedSleepRot() const
 		return 0.0f;
 
 	TileData data = m_pLevel->getData(m_bedSleepPos);
-	int dir = BedTile::getDirectionFromData(data);
+	Facing::Name dir = BedTile::getDirectionFromData(data);
 	
 	switch (dir) {
-		case 0:
+		case Facing::SOUTH:
 			return 90.0f;
-		case 1:
+		case Facing::WEST:
 			return 0.0f;
-		case 2:
+		case Facing::NORTH:
 			return 270.0f;
-		case 3:
+		case Facing::EAST:
 			return 180.0f;
 		default:
 			return 0.0f;

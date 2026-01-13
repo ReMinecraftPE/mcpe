@@ -1205,7 +1205,6 @@ bool TileRenderer::tesselateBedInWorld(Tile* tile, const TilePos& pos)
 
 	Tesselator& t = Tesselator::instance;
 	TileData data = m_pTileSource->getData(pos);
-	int direction = BedTile::getDirectionFromData(data);
 	
 	// Brightness factors for faces
 	float fBrightDown = 0.5f;
@@ -1241,19 +1240,23 @@ bool TileRenderer::tesselateBedInWorld(Tile* tile, const TilePos& pos)
 		bDrewAnything = true;
 	}
 
+	Facing::Name direction = BedTile::getDirectionFromData(data);
 	Facing::Name flippedFace = Facing::WEST;
 	switch (direction) {
-		case 0:  // +Z facing
+		case Facing::SOUTH:
 			flippedFace = Facing::EAST;
 			break;
-		case 1:  // -X facing  
+		case Facing::WEST:
 			flippedFace = Facing::SOUTH;
 			break;
-		case 2:  // -Z facing
-			// flippedFace = WEST
+		case Facing::NORTH:
+			flippedFace = Facing::WEST;
 			break;
-		case 3:  // +X facing
+		case Facing::EAST:
 			flippedFace = Facing::NORTH;
+			break;
+		default:
+			flippedFace = Facing::WEST;
 			break;
 	}
 
@@ -1354,9 +1357,10 @@ bool TileRenderer::tesselateBedInWorld(Tile* tile, const TilePos& pos)
 	faces[3].renderFunc = &TileRenderer::renderEast;
 
 	// Determine which face to hide (the connecting face between head and foot)
-	Facing::Name hiddenFace = (Facing::Name)BedTile::hiddenFace[direction];
+	int dirIndex = BedTile::getDirectionIndex(data);
+	Facing::Name hiddenFace = (Facing::Name)BedTile::hiddenFace[dirIndex];
 	if (BedTile::isHead(data)) {
-		hiddenFace = (Facing::Name)BedTile::hiddenFace[BedTile::hiddenFaceIndex[direction]];
+		hiddenFace = (Facing::Name)BedTile::hiddenFace[BedTile::hiddenFaceIndex[dirIndex]];
 	}
 	
 	for (int i = 0; i < 4; i++) {

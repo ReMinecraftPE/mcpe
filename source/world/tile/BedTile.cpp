@@ -25,7 +25,7 @@ BedTile::BedTile(TileID id, int texture) : Tile(id, texture, Material::cloth)
 int BedTile::getTexture(Facing::Name face, TileData data) const
 {
 	if (face != Facing::DOWN && face != Facing::UP) {
-		int var3 = getDirectionFromData(data);
+		int var3 = getDirectionIndex(data);
 		int var4 = bedDirection[var3][face];
 		return isHead(data) ? (var4 == 2 ? m_TextureFrame + 2 + 16 : (var4 != 5 && var4 != 4 ? m_TextureFrame + 1 : m_TextureFrame + 1 + 16)) : (var4 == 3 ? m_TextureFrame - 1 + 16 : (var4 != 5 && var4 != 4 ? m_TextureFrame : m_TextureFrame + 16));
 	}
@@ -62,7 +62,7 @@ eRenderShape BedTile::getRenderShape() const
 void BedTile::neighborChanged(Level* level, const TilePos& pos, TileID tile)
 {
 	TileData data = level->getData(pos);
-	int dir = getDirectionFromData(data);
+	int dir = getDirectionIndex(data);
 	
 	if (isHead(data)) {
 		TilePos footPos(pos.x - headBlockToFootBlockMap[dir][0], pos.y, pos.z - headBlockToFootBlockMap[dir][1]);
@@ -91,7 +91,7 @@ bool BedTile::use(Level* level, const TilePos& pos, Player* player)
 	TilePos tp(pos);
 	
 	if (!isHead(data)) {
-		int dir = getDirectionFromData(data);
+		int dir = getDirectionIndex(data);
 		tp.x += headBlockToFootBlockMap[dir][0];
 		tp.z += headBlockToFootBlockMap[dir][1];
 		if (level->getTile(tp) != m_ID) {
@@ -102,7 +102,7 @@ bool BedTile::use(Level* level, const TilePos& pos, Player* player)
 
 	if (!level->m_pDimension->mayRespawn()) {
 		level->setTile(tp, TILE_AIR);
-		int dir = getDirectionFromData(data);
+		int dir = getDirectionIndex(data);
 		TilePos footPos(tp);
 		footPos.x -= headBlockToFootBlockMap[dir][0];
 		footPos.z -= headBlockToFootBlockMap[dir][1];
@@ -168,7 +168,7 @@ void BedTile::setBedOccupied(Level* level, const TilePos& pos, bool occupied)
 TilePos BedTile::getRespawnTilePos(const Level* level, const TilePos& pos, int steps)
 {
 	TileData data = level->getData(pos);
-	int dir = getDirectionFromData(data);
+	int dir = getDirectionIndex(data);
 
 	for (int i = 0; i <= 1; ++i) {
 		int startX = pos.x - headBlockToFootBlockMap[dir][0] * i - 1;

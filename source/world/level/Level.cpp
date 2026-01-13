@@ -702,13 +702,14 @@ bool Level::setTileAndData(const TilePos& pos, TileID tile, TileData data, TileC
 		else
 		{
 			// This is the foot part, find the head
-			int dir = BedTile::getDirectionFromData(bedData);
+			Facing::Name dir = BedTile::getDirectionFromData(bedData);
 			switch (dir)
 			{
-				case 0: bedHeadPos = pos.south(); break;
-				case 1: bedHeadPos = pos.west(); break;
-				case 2: bedHeadPos = pos.north(); break;
-				case 3: bedHeadPos = pos.east(); break;
+				case Facing::SOUTH: bedHeadPos = pos.south(); break;
+				case Facing::WEST: bedHeadPos = pos.west(); break;
+				case Facing::NORTH: bedHeadPos = pos.north(); break;
+				case Facing::EAST: bedHeadPos = pos.east(); break;
+				default: bedHeadPos = pos.east(); break;
 			}
 		}
 		

@@ -92,7 +92,7 @@ public:
 
 	// Sleeping
 	void setBedSleepPos(const TilePos& pos);
-	void updateSleepingPos(int direction);
+	void updateSleepingPos(Facing::Name direction);
 	virtual BedSleepingProblem startSleepInBed(const TilePos& pos);
 	virtual void stopSleepInBed(bool resetCounter, bool update, bool setSpawn);
 	bool isSleeping() const override { return m_bSleeping; }

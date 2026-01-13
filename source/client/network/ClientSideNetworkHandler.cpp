@@ -622,7 +622,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Interac
 		if (!m_pLevel->isEmptyTile(pkt->m_pos))
 		{
 			TileData data = m_pLevel->getData(pkt->m_pos);
-			int dir = BedTile::getDirectionFromData(data);
+			Facing::Name dir = BedTile::getDirectionFromData(data);
 			pPlayer->updateSleepingPos(dir);
 		}
 		
