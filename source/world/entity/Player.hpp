@@ -93,8 +93,8 @@ public:
 	// Sleeping
 	void setBedSleepPos(const TilePos& pos);
 	void updateSleepingPos(int direction);
-	virtual BedSleepingProblem sleep(const TilePos& pos);
-	virtual void wake(bool resetCounter, bool update, bool setSpawn);
+	virtual BedSleepingProblem startSleepInBed(const TilePos& pos);
+	virtual void stopSleepInBed(bool resetCounter, bool update, bool setSpawn);
 	bool isSleeping() const override { return m_bSleeping; }
 	bool isSleepingLongEnough() const { return m_bSleeping && m_sleepTimer >= 100; }
 	float getBedSleepRot() const;

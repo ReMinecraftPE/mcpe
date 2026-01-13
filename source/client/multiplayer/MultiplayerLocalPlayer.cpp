@@ -88,9 +88,9 @@ void MultiplayerLocalPlayer::hurtTo(int newHealth)
     }
 }
 
-void MultiplayerLocalPlayer::wake(bool resetCounter, bool update, bool setSpawn)
+void MultiplayerLocalPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 {
-	Player::wake(resetCounter, update, setSpawn);
+	Player::stopSleepInBed(resetCounter, update, setSpawn);
 	
 	// Send wake notification to server
 	if (m_pLevel && m_pLevel->m_pRakNetInstance)

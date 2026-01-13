@@ -31,9 +31,9 @@ void ServerPlayer::take(Entity* pEnt, int count)
 	Player::take(pEnt, count);
 }
 
-Player::BedSleepingProblem ServerPlayer::sleep(const TilePos& pos)
+Player::BedSleepingProblem ServerPlayer::startSleepInBed(const TilePos& pos)
 {
-	Player::BedSleepingProblem result = Player::sleep(pos);
+	Player::BedSleepingProblem result = Player::startSleepInBed(pos);
 	
 	// Broadcast position and sleep state to all clients if successful
 	if (result == BED_SLEEPING_OK && m_pLevel && m_pLevel->m_pRakNetInstance)
@@ -49,7 +49,7 @@ Player::BedSleepingProblem ServerPlayer::sleep(const TilePos& pos)
 	return result;
 }
 
-void ServerPlayer::wake(bool resetCounter, bool update, bool setSpawn)
+void ServerPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 {
 	// Clear sleeping state FIRST so isImmobile() returns false
 	m_bSleeping = false;

@@ -521,7 +521,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, AnimatePac
 		case AnimatePacket::WAKE:
 		{
 			// Client is waking up - call wake on server player
-			pPlayer->wake(false, true, true);
+			pPlayer->stopSleepInBed(false, true, true);
 			break;
 		}
 		case AnimatePacket::SLEEP:

@@ -412,7 +412,7 @@ void Player::updateSleepingPos(int direction)
 	}
 }
 
-Player::BedSleepingProblem Player::sleep(const TilePos& pos)
+Player::BedSleepingProblem Player::startSleepInBed(const TilePos& pos)
 {
 	if (isSleeping() || !isAlive())
 		return BED_SLEEPING_OTHER_PROBLEM;
@@ -470,7 +470,7 @@ Player::BedSleepingProblem Player::sleep(const TilePos& pos)
 	return BED_SLEEPING_OK;
 }
 
-void Player::wake(bool resetCounter, bool update, bool setSpawn)
+void Player::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 {
 	setSize(0.6f, 1.8f);
 	setDefaultHeadHeight();

@@ -650,7 +650,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 				// But if they ARE sleeping, the server is waking them (e.g., time skip)
 				if (pPlayer->isLocalPlayer() && !pPlayer->isSleeping())
 					break;
-				pPlayer->wake(false, false, false);
+				pPlayer->stopSleepInBed(false, false, false);
 			}
 			break;
 		}

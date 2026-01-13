@@ -1112,7 +1112,7 @@ bool Minecraft::pauseGame()
 	// If player is sleeping, wake them up instead of pausing
 	if (m_pLocalPlayer && m_pLocalPlayer->isSleeping())
 	{
-		m_pLocalPlayer->wake(false, true, true);
+		m_pLocalPlayer->stopSleepInBed(false, true, true);
 		return true;
 	}
 

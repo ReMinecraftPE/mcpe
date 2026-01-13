@@ -329,9 +329,9 @@ void LocalPlayer::sendPosition()
 	}
 }
 
-Player::BedSleepingProblem LocalPlayer::sleep(const TilePos& pos)
+Player::BedSleepingProblem LocalPlayer::startSleepInBed(const TilePos& pos)
 {
-	Player::BedSleepingProblem result = Player::sleep(pos);
+	Player::BedSleepingProblem result = Player::startSleepInBed(pos);
 	
 	// Broadcast position and sleep state to all clients if in multiplayer (hosting)
 	if (result == BED_SLEEPING_OK && m_pLevel && m_pLevel->m_pRakNetInstance && m_pLevel->m_pRakNetInstance->m_bIsHost)
@@ -351,9 +351,9 @@ Player::BedSleepingProblem LocalPlayer::sleep(const TilePos& pos)
 	return result;
 }
 
-void LocalPlayer::wake(bool resetCounter, bool update, bool setSpawn)
+void LocalPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 {
-	Player::wake(resetCounter, update, setSpawn);
+	Player::stopSleepInBed(resetCounter, update, setSpawn);
 	
 	// Broadcast wake animation to all clients if in multiplayer (hosting)
 	if (m_pLevel && m_pLevel->m_pRakNetInstance && m_pLevel->m_pRakNetInstance->m_bIsHost)

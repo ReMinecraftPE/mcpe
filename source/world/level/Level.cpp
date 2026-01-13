@@ -1988,7 +1988,7 @@ void Level::updateSleeping()
 			for (size_t i = 0; i < m_players.size(); i++) {
 				Player* player = m_players[i];
 				if (player && player->isSleeping()) {
-					player->wake(false, true, true);
+					player->stopSleepInBed(false, true, true);
 				}
 			}
 		}

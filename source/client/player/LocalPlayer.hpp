@@ -39,8 +39,8 @@ public:
 	bool interpolateOnly() const override { return false; }
 	void setPlayerGameType(GameType gameType) override;
 	void swing() override;
-	BedSleepingProblem sleep(const TilePos& pos) override;
-	void wake(bool resetCounter, bool update, bool setSpawn) override;
+	BedSleepingProblem startSleepInBed(const TilePos& pos) override;
+	void stopSleepInBed(bool resetCounter, bool update, bool setSpawn) override;
 
 	virtual void hurtTo(int newHealth);
 

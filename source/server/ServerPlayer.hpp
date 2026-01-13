@@ -8,8 +8,8 @@ public:
 public:
 	void tick() override;
 	void take(Entity* pEnt, int count) override;
-	BedSleepingProblem sleep(const TilePos& pos) override;
-	void wake(bool resetCounter, bool update, bool setSpawn) override;
+	BedSleepingProblem startSleepInBed(const TilePos& pos) override;
+	void stopSleepInBed(bool resetCounter, bool update, bool setSpawn) override;
 
 private:
 	int m_lastHealth;

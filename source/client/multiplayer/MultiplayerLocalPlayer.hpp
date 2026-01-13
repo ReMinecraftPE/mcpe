@@ -17,8 +17,8 @@ public:
 	void hurtTo(int newHealth) override;
 	
 	// Client doesn't perform sleep validation - server handles it and sends AnimatePacket
-	BedSleepingProblem sleep(const TilePos& pos) override { return BED_SLEEPING_OK; }
-	void wake(bool resetCounter, bool update, bool setSpawn) override;
+	BedSleepingProblem startSleepInBed(const TilePos& pos) override { return BED_SLEEPING_OK; }
+	void stopSleepInBed(bool resetCounter, bool update, bool setSpawn) override;
 
 private:
 	bool m_flashOnSetHealth;

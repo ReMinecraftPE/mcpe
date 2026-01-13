@@ -129,7 +129,7 @@ bool BedTile::use(Level* level, const TilePos& pos, Player* player)
 			setBedOccupied(level, tp, false);
 		}
 
-		Player::BedSleepingProblem result = player->sleep(tp);
+		Player::BedSleepingProblem result = player->startSleepInBed(tp);
 		if (result == Player::BED_SLEEPING_OK) {
 			setBedOccupied(level, tp, true);
 			return true;
