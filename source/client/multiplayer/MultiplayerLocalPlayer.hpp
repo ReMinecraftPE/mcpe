@@ -16,8 +16,7 @@ public:
 	//void drop() override;
 	void hurtTo(int newHealth) override;
 	
-	// Client doesn't perform sleep validation - server handles it and sends AnimatePacket
-	BedSleepingProblem startSleepInBed(const TilePos& pos) override { return BED_SLEEPING_OK; }
+	BedSleepingProblem startSleepInBed(const TilePos& pos) override;
 	void stopSleepInBed(bool resetCounter, bool update, bool setSpawn) override;
 
 private:

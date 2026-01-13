@@ -1147,6 +1147,8 @@
 		84F77A402EA1C01C0045C907 /* EntityEventPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */; };
 		84F77A412EA1C01C0045C907 /* InteractPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A172EA1C01C0045C907 /* InteractPacket.cpp */; };
 		84F77A422EA1C01C0045C907 /* InteractPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A182EA1C01C0045C907 /* InteractPacket.hpp */; };
+		84F77AA12EA1C01C0045C907 /* InteractionPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77AA32EA1C01C0045C907 /* InteractionPacket.cpp */; };
+		84F77AA22EA1C01C0045C907 /* InteractionPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77AA42EA1C01C0045C907 /* InteractionPacket.hpp */; };
 		84F77A432EA1C01C0045C907 /* LevelDataPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */; };
 		84F77A442EA1C01C0045C907 /* LevelEventPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */; };
 		84F77A452EA1C01C0045C907 /* LevelEventPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F77A1B2EA1C01C0045C907 /* LevelEventPacket.hpp */; };
@@ -2734,6 +2736,8 @@
 		84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EntityEventPacket.hpp; sourceTree = "<group>"; };
 		84F77A172EA1C01C0045C907 /* InteractPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InteractPacket.cpp; sourceTree = "<group>"; };
 		84F77A182EA1C01C0045C907 /* InteractPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InteractPacket.hpp; sourceTree = "<group>"; };
+		84F77AA32EA1C01C0045C907 /* InteractionPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InteractionPacket.cpp; sourceTree = "<group>"; };
+		84F77AA42EA1C01C0045C907 /* InteractionPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InteractionPacket.hpp; sourceTree = "<group>"; };
 		84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelDataPacket.hpp; sourceTree = "<group>"; };
 		84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LevelEventPacket.cpp; sourceTree = "<group>"; };
 		84F77A1B2EA1C01C0045C907 /* LevelEventPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LevelEventPacket.hpp; sourceTree = "<group>"; };
@@ -3227,6 +3231,8 @@
 				84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */,
 				84F77A172EA1C01C0045C907 /* InteractPacket.cpp */,
 				84F77A182EA1C01C0045C907 /* InteractPacket.hpp */,
+				84F77AA32EA1C01C0045C907 /* InteractionPacket.cpp */,
+				84F77AA42EA1C01C0045C907 /* InteractionPacket.hpp */,
 				840DD6422AC810620006A435 /* LevelDataPacket.cpp */,
 				84F77A192EA1C01C0045C907 /* LevelDataPacket.hpp */,
 				84F77A1A2EA1C01C0045C907 /* LevelEventPacket.cpp */,
@@ -5060,6 +5066,7 @@
 				84F77A522EA1C01C0045C907 /* RemoveEntityPacket.hpp in Headers */,
 				84F77A5A2EA1C01C0045C907 /* SetTimePacket.hpp in Headers */,
 				84F77A422EA1C01C0045C907 /* InteractPacket.hpp in Headers */,
+				84F77AA22EA1C01C0045C907 /* InteractionPacket.hpp in Headers */,
 				84F77A472EA1C01C0045C907 /* LoginStatusPacket.hpp in Headers */,
 				84F77A502EA1C01C0045C907 /* ReadyPacket.hpp in Headers */,
 				84F77A512EA1C01C0045C907 /* RemoveBlockPacket.hpp in Headers */,
@@ -6028,6 +6035,7 @@
 				84F77A3C2EA1C01C0045C907 /* AnimatePacket.cpp in Sources */,
 				84F77A392EA1C01C0045C907 /* AddMobPacket.cpp in Sources */,
 				84F77A412EA1C01C0045C907 /* InteractPacket.cpp in Sources */,
+				84F77AA12EA1C01C0045C907 /* InteractionPacket.cpp in Sources */,
 				842610702AE989720065905F /* NetEventCallback.cpp in Sources */,
 				84F77A562EA1C01C0045C907 /* SetEntityDataPacket.cpp in Sources */,
 				842610712AE989720065905F /* AddPlayerPacket.cpp in Sources */,

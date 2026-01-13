@@ -10,8 +10,7 @@ public:
 		NONE,
 		SWING,
 		HURT,
-		WAKE,
-		SLEEP
+		WAKE_UP
 	};
 
 public:

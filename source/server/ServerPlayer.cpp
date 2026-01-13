@@ -3,6 +3,7 @@
 #include "network/packets/TakeItemEntityPacket.hpp"
 #include "network/packets/AnimatePacket.hpp"
 #include "network/packets/MovePlayerPacket.hpp"
+#include "network/packets/InteractionPacket.hpp"
 #include "network/RakNetInstance.hpp"
 #include "world/level/Level.hpp"
 #include "world/tile/BedTile.hpp"
@@ -35,15 +36,15 @@ Player::BedSleepingProblem ServerPlayer::startSleepInBed(const TilePos& pos)
 {
 	Player::BedSleepingProblem result = Player::startSleepInBed(pos);
 	
-	// Broadcast position and sleep state to all clients if successful
+	// Broadcast sleep state to all clients if successful
 	if (result == BED_SLEEPING_OK && m_pLevel && m_pLevel->m_pRakNetInstance)
 	{
-		// Send position update to ALL clients including self so they can find the bed
-		// The position is the bed tile center
-		m_pLevel->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, Vec3(m_pos.x, m_pos.y - m_heightOffset, m_pos.z), m_rot));
+		// Send sleep interaction with the bed tile position
+		// Remote clients will handle positioning based on this
+		m_pLevel->m_pRakNetInstance->send(new InteractionPacket(m_EntityID, 0, pos));
 		
-		// Then send sleep animation to everyone
-		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::SLEEP));
+		// Then send actual player position after startSleepInBed positioned them
+		m_pLevel->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID, m_pos, m_rot));
 	}
 	
 	return result;
@@ -76,6 +77,6 @@ void ServerPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 	// Broadcast wake animation to all clients
 	if (m_pLevel && m_pLevel->m_pRakNetInstance)
 	{
-		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE));
+		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE_UP));
 	}
 }

@@ -88,6 +88,13 @@ void MultiplayerLocalPlayer::hurtTo(int newHealth)
     }
 }
 
+Player::BedSleepingProblem MultiplayerLocalPlayer::startSleepInBed(const TilePos& pos)
+{
+	// Client players receive sleep command from server via InteractionPacket
+	// Just apply the sleep state locally - position will be set by MovePlayerPacket
+	return Player::startSleepInBed(pos);
+}
+
 void MultiplayerLocalPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 {
 	Player::stopSleepInBed(resetCounter, update, setSpawn);
@@ -95,7 +102,7 @@ void MultiplayerLocalPlayer::stopSleepInBed(bool resetCounter, bool update, bool
 	// Send wake notification to server
 	if (m_pLevel && m_pLevel->m_pRakNetInstance)
 	{
-		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE));
+		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE_UP));
 		
 		// Also send position update so server knows where we are after waking
 		m_pLevel->m_pRakNetInstance->send(new MovePlayerPacket(m_EntityID,

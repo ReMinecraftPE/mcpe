@@ -342,7 +342,17 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 		return;
 	}
 
-	pEntity->lerpTo(packet->m_pos, packet->m_rot);
+	if (pEntity->isPlayer() && ((Player*)pEntity)->isSleeping())
+	{
+		pEntity->setPos(packet->m_pos);
+		pEntity->m_rot = packet->m_rot;
+		pEntity->m_oPos = packet->m_pos;
+		pEntity->m_posPrev = packet->m_pos;
+	}
+	else
+	{
+		pEntity->lerpTo(packet->m_pos, packet->m_rot);
+	}
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlaceBlockPacket* pPlaceBlockPkt)
@@ -586,6 +596,40 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Interac
 	}
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, InteractionPacket* pkt)
+{
+	puts_ignorable("InteractionPacket");
+
+	if (!m_pLevel)
+		return;
+
+	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	if (!pEntity || !pEntity->isPlayer())
+		return;
+
+	Player* pPlayer = (Player*)pEntity;
+	
+	if (pkt->m_actionType == InteractionPacket::SLEEP)
+	{
+		pPlayer->m_bSleeping = true;
+		pPlayer->m_sleepTimer = 0;
+		pPlayer->setBedSleepPos(pkt->m_pos);
+		pPlayer->m_vel = Vec3::ZERO;
+		pPlayer->setSize(0.2f, 0.2f);
+		pPlayer->m_heightOffset = 0.2f;
+		
+		// Update bed direction for rendering
+		if (!m_pLevel->isEmptyTile(pkt->m_pos))
+		{
+			TileData data = m_pLevel->getData(pkt->m_pos);
+			int dir = BedTile::getDirectionFromData(data);
+			pPlayer->updateSleepingPos(dir);
+		}
+		
+		m_pLevel->updateSleeping();
+	}
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetEntityDataPacket* pkt)
 {
 	puts_ignorable("SetEntityDataPacket");
@@ -640,7 +684,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 			pEntity->animateHurt();
 			break;
 		}
-		case AnimatePacket::WAKE:
+		case AnimatePacket::WAKE_UP:
 		{
 			if (pEntity->isPlayer())
 			{
@@ -651,75 +695,6 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 				if (pPlayer->isLocalPlayer() && !pPlayer->isSleeping())
 					break;
 				pPlayer->stopSleepInBed(false, false, false);
-			}
-			break;
-		}
-		case AnimatePacket::SLEEP:
-		{
-			if (pEntity->isPlayer())
-			{
-				Player* pPlayer = (Player*)pEntity;
-				
-				// Find the bed tile at the player's position
-				if (m_pLevel && Tile::bed)
-				{
-					// Use lerp target position if available (MovePlayerPacket contains exact bed position)
-					// The server sends bedPos + 0.5, so floor gives us exact tile coords
-					Vec3 searchPos = pPlayer->m_pos;
-					if (pPlayer->m_lSteps > 0)
-					{
-						searchPos = pPlayer->m_lPos;
-						searchPos.y -= pPlayer->m_heightOffset;
-					}
-					
-					// The server sends the bed center (tile + 0.5), so floor to get exact tile
-					TilePos bedPos(Mth::floor(searchPos.x), Mth::floor(searchPos.y), Mth::floor(searchPos.z));
-					
-					// First check the exact position - this is where the server said the bed is
-					if (bedPos.y >= 0 && bedPos.y < 128 && 
-						m_pLevel->getTile(bedPos) == Tile::bed->m_ID)
-					{
-						TileData data = m_pLevel->getData(bedPos);
-						int dir = BedTile::getDirectionFromData(data);
-						
-						float xOff = 0.5f;
-						float zOff = 0.5f;
-						switch (dir) {
-							case 0:
-								zOff = 0.9f;
-								break;
-							case 1:
-								xOff = 0.1f;
-								break;
-							case 2:
-								zOff = 0.1f;
-								break;
-							case 3:
-								xOff = 0.9f;
-								break;
-						}
-						
-						pPlayer->setSize(0.2f, 0.2f);
-						pPlayer->m_heightOffset = 0.2f;
-						pPlayer->updateSleepingPos(dir);
-						pPlayer->setPos(Vec3(bedPos.x + xOff, bedPos.y + 15.0f / 16.0f, bedPos.z + zOff));
-						pPlayer->m_bSleeping = true;
-						pPlayer->m_sleepTimer = 0;
-						pPlayer->setBedSleepPos(bedPos);
-						pPlayer->m_vel = Vec3::ZERO;
-						pPlayer->m_lSteps = 0;
-					}
-					else
-					{
-						pPlayer->m_bSleeping = true;
-						pPlayer->m_sleepTimer = 0;
-					}
-				}
-				else
-				{
-					pPlayer->m_bSleeping = true;
-					pPlayer->m_sleepTimer = 0;
-				}
 			}
 			break;
 		}
