@@ -33,11 +33,6 @@ void App::loadState(void* a2, int a3)
 
 }
 
-AppPlatform* App::platform()
-{
-	return m_pPlatform;
-}
-
 void App::quit()
 {
 	m_bWantToQuit = true;
