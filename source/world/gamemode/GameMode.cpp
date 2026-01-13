@@ -153,7 +153,7 @@ bool GameMode::useItemOn(Player* player, Level* level, ItemInstance* instance, c
 
 	bool success = false;
 	bool isBed = (tile > 0 && Tile::tiles[tile] == Tile::bed);
-	bool isMultiplayerClient = (level->m_pRakNetInstance != nullptr && !level->m_pRakNetInstance->m_bIsHost);
+	bool isMultiplayerClient = level->m_bIsClientSide;
 
 	if (tile > 0 && Tile::tiles[tile]->use(level, pos, player))
 	{
