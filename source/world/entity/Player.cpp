@@ -426,6 +426,11 @@ Player::BedSleepingProblem Player::sleep(const TilePos& pos)
 	if (Mth::abs(m_pos.x - pos.x) > 3.0f || Mth::abs(m_pos.y - pos.y) > 2.0f || Mth::abs(m_pos.z - pos.z) > 3.0f)
 		return BED_SLEEPING_TOO_FAR_AWAY;
 
+	// Check if bed is obstructed (has blocks on top)
+	TilePos aboveBed = pos.above();
+	if (!m_pLevel->isEmptyTile(aboveBed))
+		return BED_SLEEPING_OTHER_PROBLEM;
+
 	setSize(0.2f, 0.2f);
 	m_heightOffset = 0.2f;
 	
@@ -525,12 +530,15 @@ TilePos Player::checkRespawnPos(Level* level, const TilePos& pos)
 	level->getChunkSource()->getChunk(ChunkPos(ch.x + 1, ch.z));
 	
 	// Check if bed still exists
-	if (level->getTile(pos) != Tile::bed->m_ID) {
-		// Bed missing - return original pos as failure indicator
+	if (level->getTile(pos) != Tile::bed->m_ID)
 		return pos;
-	}
 	
-	// Find valid spawn position near bed
+	// Check if bed is obstructed (has blocks directly on top)
+	if (!level->isEmptyTile(pos.above()))
+		return pos;
+
+	// Find valid spawn position near bed (searches 3x3 area for valid spawn)
+	// Returns original position if no valid spawn found
 	return BedTile::getRespawnTilePos(level, pos, 0);
 }
 
