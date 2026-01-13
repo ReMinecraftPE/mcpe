@@ -16,6 +16,7 @@
 #include "network/packets/EntityEventPacket.hpp"
 #include "network/packets/SetEntityDataPacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
+#include "world/tile/BedTile.hpp"
 
 #include "Explosion.hpp"
 #include "Region.hpp"
@@ -688,6 +689,41 @@ bool Level::setTileAndData(const TilePos& pos, TileID tile, TileData data, TileC
 	TileID oldTile = TILE_AIR;
 	if (change.isUpdateNeighbors())
 		oldTile = pChunk->getTile(pos);
+
+	// Check if a bed is being destroyed - wake up any sleeping players
+	if (oldTile == Tile::bed->m_ID && tile != Tile::bed->m_ID)
+	{
+		TilePos bedHeadPos = pos;
+		TileData bedData = getData(pos);
+		if (BedTile::isHead(bedData))
+		{
+			bedHeadPos = pos;
+		}
+		else
+		{
+			// This is the foot part, find the head
+			int dir = BedTile::getDirectionFromData(bedData);
+			switch (dir)
+			{
+				case 0: bedHeadPos = pos.south(); break;
+				case 1: bedHeadPos = pos.west(); break;
+				case 2: bedHeadPos = pos.north(); break;
+				case 3: bedHeadPos = pos.east(); break;
+			}
+		}
+		
+		for (size_t i = 0; i < m_players.size(); i++)
+		{
+			Player* player = m_players[i];
+			if (player && player->isSleeping() && player->m_bHasBedSleepPos)
+			{
+				if (player->m_bedSleepPos == pos || player->m_bedSleepPos == bedHeadPos)
+				{
+					player->stopSleepInBed(false, true, false);
+				}
+			}
+		}
+	}
 
 	bool result = pChunk->setTileAndData(pos, tile, data);
 	if (result)
