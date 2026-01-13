@@ -41,7 +41,7 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	clearChunksLoaded();
 }
 
-Entity* ClientSideNetworkHandler::getEntityOrLocalPlayer(int entityId)
+Entity* ClientSideNetworkHandler::_getEntityOrLocalPlayer(int entityId)
 {
 	if (!m_pLevel)
 		return nullptr;
@@ -334,7 +334,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MovePla
 {
 	if (!m_pLevel) return;
 
-	Entity* pEntity = getEntityOrLocalPlayer(packet->m_id);
+	Entity* pEntity = _getEntityOrLocalPlayer(packet->m_id);
 	
 	if (!pEntity)
 	{
@@ -663,7 +663,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Animate
 	if (!m_pLevel)
 		return;
 
-	Entity* pEntity = getEntityOrLocalPlayer(pkt->m_entityId);
+	Entity* pEntity = _getEntityOrLocalPlayer(pkt->m_entityId);
 	
 	if (!pEntity)
 		return;

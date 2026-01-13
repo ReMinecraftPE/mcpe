@@ -69,7 +69,7 @@ public:
 
 protected:
 	// Helper function to get entity, with fallback to local player if not in entity list
-	Entity* getEntityOrLocalPlayer(int entityId);
+	Entity* _getEntityOrLocalPlayer(int entityId);
 
 private:
 	Minecraft* m_pMinecraft;
