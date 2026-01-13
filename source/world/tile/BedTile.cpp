@@ -4,7 +4,7 @@
 #include "world/item/Item.hpp"
 
 const int BedTile::headBlockToFootBlockMap[4][2] = {{0, 1}, {-1, 0}, {0, -1}, {1, 0}};
-const int BedTile::hiddenFace[4] = {3, 4, 2, 5};
+const Facing::Name BedTile::hiddenFace[4] = {Facing::SOUTH, Facing::WEST, Facing::NORTH, Facing::EAST};
 const int BedTile::hiddenFaceIndex[4] = {2, 3, 0, 1};
 const int BedTile::bedDirection[4][6] = {{1, 0, 3, 2, 5, 4}, {1, 0, 5, 4, 2, 3}, {1, 0, 2, 3, 4, 5}, {1, 0, 4, 5, 3, 2}};
 

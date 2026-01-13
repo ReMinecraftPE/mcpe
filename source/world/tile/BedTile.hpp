@@ -19,7 +19,7 @@ public:
 	void spawnResources(Level*, const TilePos& pos, TileData, float) override;
 
 	static const int headBlockToFootBlockMap[4][2];
-	static const int hiddenFace[4];
+	static const Facing::Name hiddenFace[4];
 	static const int hiddenFaceIndex[4];
 	static const int bedDirection[4][6];
 

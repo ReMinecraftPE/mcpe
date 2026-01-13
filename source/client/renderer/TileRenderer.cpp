@@ -1358,9 +1358,9 @@ bool TileRenderer::tesselateBedInWorld(Tile* tile, const TilePos& pos)
 
 	// Determine which face to hide (the connecting face between head and foot)
 	int dirIndex = BedTile::getDirectionIndex(data);
-	Facing::Name hiddenFace = (Facing::Name)BedTile::hiddenFace[dirIndex];
+	Facing::Name hiddenFace = BedTile::hiddenFace[dirIndex];
 	if (BedTile::isHead(data)) {
-		hiddenFace = (Facing::Name)BedTile::hiddenFace[BedTile::hiddenFaceIndex[dirIndex]];
+		hiddenFace = BedTile::hiddenFace[BedTile::hiddenFaceIndex[dirIndex]];
 	}
 	
 	for (int i = 0; i < 4; i++) {
