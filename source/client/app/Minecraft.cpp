@@ -146,30 +146,33 @@ void Minecraft::_levelGenerated()
 void Minecraft::_resetPlayer(Player* player)
 {
 	m_pLevel->validateSpawn();
-	player->reset();
-
-	// Use player's personal respawn position (set by sleeping in bed) if available
-	// Otherwise fall back to the level's shared spawn position
-	TilePos pos = m_pLevel->getSharedSpawnPos();
+	
+	TilePos spawnPos;
 	
 	if (player->m_bHasRespawnPos)
 	{
-		TilePos respawnPos = player->m_respawnPos;
-		TilePos checkedPos = Player::checkRespawnPos(m_pLevel, respawnPos);
+		spawnPos = player->getRespawnPosition();
 		
-		// If checkedPos != respawnPos, bed is valid and we found a spawn position
-		if (checkedPos != respawnPos)
+		if (m_pLevel->getTile(spawnPos) == Tile::bed->m_ID)
 		{
-			pos = checkedPos;
+			TilePos safePos = BedTile::getRespawnTilePos(m_pLevel, spawnPos, 0);
+			if (safePos == spawnPos)
+				safePos = safePos.above();
+			
+			player->reset();
+			player->moveTo(Vec3(safePos.x + 0.5f, float(safePos.y), safePos.z + 0.5f));
+			player->resetPos(true);
+			return;
 		}
-		else
-		{
-			m_pGui->addMessage("Your home bed was missing or obstructed");
-		}
+		
+		// If bed was destroyed, clear the respawn position and fall through to world spawn
+		player->setRespawnPos(TilePos(-1, -1, -1));
 	}
 	
-	player->setPos(pos);
-	player->resetPos();
+	spawnPos = m_pLevel->getSharedSpawnPos();
+	player->reset();
+	player->moveTo(Vec3(spawnPos.x + 0.5f, float(spawnPos.y), spawnPos.z + 0.5f));
+	player->resetPos(true);
 }
 
 GameMode* Minecraft::_createGameMode(GameType gameType, Level& level)

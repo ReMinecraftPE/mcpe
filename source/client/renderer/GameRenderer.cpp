@@ -300,12 +300,12 @@ void GameRenderer::moveCameraToPlayer(Matrix& matrix, float f)
 			{
 				// Get bed direction for camera orientation
 				float bedRot = 0.0f;
-				if (player->m_bHasBedSleepPos)
+				if (player->m_bHasRespawnPos)
 				{
-					TileID bedTile = m_pMinecraft->m_pLevel->getTile(player->m_bedSleepPos);
+					TileID bedTile = m_pMinecraft->m_pLevel->getTile(player->m_respawnPos);
 					if (bedTile == Tile::bed->m_ID)
 					{
-						int data = m_pMinecraft->m_pLevel->getData(player->m_bedSleepPos);
+						int data = m_pMinecraft->m_pLevel->getData(player->m_respawnPos);
 						int direction = data & 3;
 						bedRot = direction * 90.0f;
 					}

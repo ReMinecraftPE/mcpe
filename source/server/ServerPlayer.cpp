@@ -63,12 +63,12 @@ void ServerPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 	setDefaultHeadHeight();
 	
 	// Clear bed occupancy
-	if (m_bHasBedSleepPos && m_pLevel && m_pLevel->getTile(m_bedSleepPos) == Tile::bed->m_ID) {
-		BedTile::setBedOccupied(m_pLevel, m_bedSleepPos, false);
+	if (m_bHasRespawnPos && m_pLevel && m_pLevel->getTile(m_respawnPos) == Tile::bed->m_ID) {
+		BedTile::setBedOccupied(m_pLevel, m_respawnPos, false);
 	}
 	
-	if (setSpawn && m_bHasBedSleepPos) {
-		setRespawnPos(m_bedSleepPos);
+	if (setSpawn && m_bHasRespawnPos) {
+		setRespawnPos(m_respawnPos);
 	}
 	
 	// Reset lerp steps so position updates work immediately

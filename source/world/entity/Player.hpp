@@ -91,14 +91,13 @@ public:
 	void setRespawnPos(const TilePos& pos);
 
 	// Sleeping
-	void setBedSleepPos(const TilePos& pos);
 	void updateSleepingPos(Facing::Name direction);
 	virtual BedSleepingProblem startSleepInBed(const TilePos& pos);
 	virtual void stopSleepInBed(bool resetCounter, bool update, bool setSpawn);
 	bool isSleeping() const override { return m_bSleeping; }
 	bool isSleepingLongEnough() const { return m_bSleeping && m_sleepTimer >= 100; }
 	float getBedSleepRot() const;
-	static TilePos checkRespawnPos(Level* level, const TilePos& pos);
+	bool checkBed() const;
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
@@ -125,9 +124,7 @@ public:
 	std::string m_name;
 	int m_dimension;
 	RakNet::RakNetGUID m_guid;
-	//TODO
 	TilePos m_respawnPos;
-	//TODO
 	bool m_bHasRespawnPos;
 	//TODO
 	bool m_destroyingBlock;
@@ -135,8 +132,6 @@ public:
 	// Sleeping
 	bool m_bSleeping;
 	int m_sleepTimer;
-	TilePos m_bedSleepPos;
-	bool m_bHasBedSleepPos;
 	Vec3 m_sleepingPos;
 };
 

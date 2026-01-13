@@ -613,7 +613,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, Interac
 	{
 		pPlayer->m_bSleeping = true;
 		pPlayer->m_sleepTimer = 0;
-		pPlayer->setBedSleepPos(pkt->m_pos);
+		pPlayer->setRespawnPos(pkt->m_pos);
 		pPlayer->m_vel = Vec3::ZERO;
 		pPlayer->setSize(0.2f, 0.2f);
 		pPlayer->m_heightOffset = 0.2f;

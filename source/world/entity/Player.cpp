@@ -21,7 +21,6 @@ void Player::_init()
 	m_destroyingBlock = false;
 	m_bSleeping = false;
 	m_sleepTimer = 0;
-	m_bHasBedSleepPos = false;
 }
 
 Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
@@ -174,11 +173,28 @@ void Player::aiStep()
 	// Handle sleeping
 	if (m_bSleeping) {
 		++m_sleepTimer;
+		if (m_sleepTimer > 100) {
+			m_sleepTimer = 100;
+		}
+
+		if (!checkBed()) {
+			stopSleepInBed(true, true, false);
+		} 
+		else if (!m_pLevel->m_bIsClientSide && m_pLevel->isDay()) {
+			stopSleepInBed(false, true, false);
+		}
+		
+		// Check if all players are sleeping to skip time to morning
 		if (m_sleepTimer >= 100) {
 			m_pLevel->updateSleeping();
 		}
-		// Don't do normal movement while sleeping
+
 		return;
+	} else if (m_sleepTimer > 0) {
+		++m_sleepTimer;
+		if (m_sleepTimer >= 110) {
+			m_sleepTimer = 0;
+		}
 	}
 
 #ifdef ENH_GUI_ITEM_POP
@@ -259,15 +275,6 @@ void Player::addAdditionalSaveData(CompoundTag& tag) const
 
 	tag.putInt32("playerGameType", getPlayerGameType());
 	tag.putInt32("Dimension", m_dimension);
-
-	// Why would we save the player's sleep state? If they leave the game, just wake them up.
-	/*tag.putBoolean("Sleeping", m_bSleeping);
-	tag.putShort("SleepTimer", m_sleepTimer);
-	if (m_bSleeping)
-	{
-		setBedSleepPos(m_pos);
-		wake(true, true, false);
-	}*/
 
 	if (m_bHasRespawnPos)
 	{
@@ -385,12 +392,6 @@ void Player::setRespawnPos(const TilePos& pos)
 	m_respawnPos = pos;
 }
 
-void Player::setBedSleepPos(const TilePos& pos)
-{
-	m_bHasBedSleepPos = true;
-	m_bedSleepPos = pos;
-}
-
 void Player::updateSleepingPos(Facing::Name direction)
 {
 	m_sleepingPos.x = 0.0f;
@@ -464,7 +465,8 @@ Player::BedSleepingProblem Player::startSleepInBed(const TilePos& pos)
 
 	m_bSleeping = true;
 	m_sleepTimer = 0;
-	setBedSleepPos(pos);
+	
+	setRespawnPos(pos);
 	m_vel = Vec3::ZERO;
 
 	m_pLevel->updateSleeping();
@@ -477,35 +479,38 @@ void Player::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 	setSize(0.6f, 1.8f);
 	setDefaultHeadHeight();
 	
-	TilePos checkBedPos = m_bedSleepPos;
-	if (m_bHasBedSleepPos && m_pLevel->getTile(checkBedPos) == Tile::bed->m_ID) {
+	TilePos checkBedPos = m_respawnPos;
+	if (m_bHasRespawnPos && m_pLevel->getTile(checkBedPos) == Tile::bed->m_ID) {
 		BedTile::setBedOccupied(m_pLevel, checkBedPos, false);
 		checkBedPos = BedTile::getRespawnTilePos(m_pLevel, checkBedPos, 0);
-		if (checkBedPos == m_bedSleepPos)
+		if (checkBedPos == m_respawnPos)
 			checkBedPos = checkBedPos.above();
 
 		setPos(Vec3(checkBedPos.x + 0.5f, checkBedPos.y + m_heightOffset + 0.1f, checkBedPos.z + 0.5f));
 	}
 
 	m_bSleeping = false;
+	
+	if (!m_pLevel->m_bIsClientSide && update) {
+		m_pLevel->updateSleeping();
+	}
+	
 	if (resetCounter) {
 		m_sleepTimer = 0;
-	}
-
-	if (setSpawn && m_bHasBedSleepPos) {
-		setRespawnPos(m_bedSleepPos);
+	} else {
+		m_sleepTimer = 100;
 	}
 }
 
 float Player::getBedSleepRot() const
 {
-	if (!m_pLevel || !m_bHasBedSleepPos)
+	if (!m_pLevel || !m_bHasRespawnPos)
 		return 0.0f;
 	
-	if (m_bedSleepPos.y < 0 || m_bedSleepPos.y >= 128)
+	if (m_respawnPos.y < 0 || m_respawnPos.y >= 128)
 		return 0.0f;
 
-	TileData data = m_pLevel->getData(m_bedSleepPos);
+	TileData data = m_pLevel->getData(m_respawnPos);
 	Facing::Name dir = BedTile::getDirectionFromData(data);
 	
 	switch (dir) {
@@ -522,26 +527,9 @@ float Player::getBedSleepRot() const
 	}
 }
 
-TilePos Player::checkRespawnPos(Level* level, const TilePos& pos)
+bool Player::checkBed() const
 {
-	// Load nearby chunks to ensure bed data is available
-	ChunkPos ch(pos);
-	level->getChunkSource()->getChunk(ChunkPos(ch.x - 1, ch.z));
-	level->getChunkSource()->getChunk(ChunkPos(ch.x + 1, ch.z - 1));
-	level->getChunkSource()->getChunk(ChunkPos(ch.x - 1, ch.z + 1));
-	level->getChunkSource()->getChunk(ChunkPos(ch.x + 1, ch.z));
-	
-	// Check if bed still exists
-	if (level->getTile(pos) != Tile::bed->m_ID)
-		return pos;
-	
-	// Check if bed is obstructed (has blocks directly on top)
-	if (!level->isEmptyTile(pos.above()))
-		return pos;
-
-	// Find valid spawn position near bed (searches 3x3 area for valid spawn)
-	// Returns original position if no valid spawn found
-	return BedTile::getRespawnTilePos(level, pos, 0);
+	return m_pLevel->getTile(m_respawnPos) == Tile::bed->m_ID;
 }
 
 /*void Player::drop()

@@ -37,20 +37,7 @@ void NetEventCallback::handle(Level& level, const RakNet::RakNetGUID& guid, Resp
         return;
     }
 
-    // Use player's personal respawn position (set by sleeping in bed) if available
-    // Otherwise fall back to the level's shared spawn position
     TilePos spawnPos = level.getSharedSpawnPos();
-    
-    if (pPlayer->m_bHasRespawnPos)
-    {
-        TilePos respawnPos = pPlayer->m_respawnPos;
-        TilePos checkedPos = Player::checkRespawnPos(&level, respawnPos);
-        
-        // If checkedPos != respawnPos, bed is valid and we found a spawn position
-        if (checkedPos != respawnPos)
-            spawnPos = checkedPos;
-        // else: fall back to world spawn (message shown in ClientSideNetworkHandler)
-    }
     
     pPlayer->moveTo(Vec3(spawnPos.x + 0.5f, float(spawnPos.y), spawnPos.z + 0.5f));
     pPlayer->reset();

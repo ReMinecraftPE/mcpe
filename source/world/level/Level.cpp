@@ -690,42 +690,6 @@ bool Level::setTileAndData(const TilePos& pos, TileID tile, TileData data, TileC
 	if (change.isUpdateNeighbors())
 		oldTile = pChunk->getTile(pos);
 
-	// Check if a bed is being destroyed - wake up any sleeping players
-	if (oldTile == Tile::bed->m_ID && tile != Tile::bed->m_ID)
-	{
-		TilePos bedHeadPos = pos;
-		TileData bedData = getData(pos);
-		if (BedTile::isHead(bedData))
-		{
-			bedHeadPos = pos;
-		}
-		else
-		{
-			// This is the foot part, find the head
-			Facing::Name dir = BedTile::getDirectionFromData(bedData);
-			switch (dir)
-			{
-				case Facing::SOUTH: bedHeadPos = pos.south(); break;
-				case Facing::WEST: bedHeadPos = pos.west(); break;
-				case Facing::NORTH: bedHeadPos = pos.north(); break;
-				case Facing::EAST: bedHeadPos = pos.east(); break;
-				default: bedHeadPos = pos.east(); break;
-			}
-		}
-		
-		for (size_t i = 0; i < m_players.size(); i++)
-		{
-			Player* player = m_players[i];
-			if (player && player->isSleeping() && player->m_bHasBedSleepPos)
-			{
-				if (player->m_bedSleepPos == pos || player->m_bedSleepPos == bedHeadPos)
-				{
-					player->stopSleepInBed(false, true, false);
-				}
-			}
-		}
-	}
-
 	bool result = pChunk->setTileAndData(pos, tile, data);
 	if (result)
 	{
@@ -2020,6 +1984,9 @@ void Level::updateSleeping()
 				timeToMorning = 24000; // Full day if already morning
 			
 			setTime(currentTime + timeToMorning);
+			
+			// Update sky brightness and notify listeners (triggers chunk relighting)
+			updateSkyDarken();
 
 			// Wake all players
 			for (size_t i = 0; i < m_players.size(); i++) {

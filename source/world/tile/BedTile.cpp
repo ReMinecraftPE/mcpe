@@ -111,8 +111,8 @@ bool BedTile::use(Level* level, const TilePos& pos, Player* player)
 			// Check if there's a player sleeping in this bed
 			for (size_t i = 0; i < level->m_players.size(); i++) {
 				Player* p = level->m_players[i];
-				if (p->isSleeping() && p->m_bHasBedSleepPos) {
-					if (p->m_bedSleepPos == tp) {
+				if (p->isSleeping() && p->m_bHasRespawnPos) {
+					if (p->m_respawnPos == tp) {
 						// Bed is occupied by another player
 						return true;
 					}
@@ -122,17 +122,14 @@ bool BedTile::use(Level* level, const TilePos& pos, Player* player)
 		}
 
 		Player::BedSleepingProblem result = player->startSleepInBed(tp);
-		if (result == Player::BED_SLEEPING_OK) {
-			setBedOccupied(level, tp, true);
-			return true;
-		}
-		else {
-			if (result == Player::BED_SLEEPING_NOT_POSSIBLE_NOW) {
-				// Localization is to be implemented
-				// player->displayClientMessage("tile.bed.noSleep");
-			}
-
-			return true;
+		switch (result) {
+			case Player::BED_SLEEPING_OK:
+				setBedOccupied(level, tp, true);
+				return true;
+			case Player::BED_SLEEPING_NOT_POSSIBLE_NOW:
+				return true;
+			default:
+				return true;
 		}
 	}
 }
