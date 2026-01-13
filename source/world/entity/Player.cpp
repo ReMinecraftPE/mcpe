@@ -515,6 +515,25 @@ float Player::getBedSleepRot() const
 	}
 }
 
+TilePos Player::checkRespawnPos(Level* level, const TilePos& pos)
+{
+	// Load nearby chunks to ensure bed data is available
+	ChunkPos ch(pos);
+	level->getChunkSource()->getChunk(ChunkPos(ch.x - 1, ch.z));
+	level->getChunkSource()->getChunk(ChunkPos(ch.x + 1, ch.z - 1));
+	level->getChunkSource()->getChunk(ChunkPos(ch.x - 1, ch.z + 1));
+	level->getChunkSource()->getChunk(ChunkPos(ch.x + 1, ch.z));
+	
+	// Check if bed still exists
+	if (level->getTile(pos) != Tile::bed->m_ID) {
+		// Bed missing - return original pos as failure indicator
+		return pos;
+	}
+	
+	// Find valid spawn position near bed
+	return BedTile::getRespawnTilePos(level, pos, 0);
+}
+
 /*void Player::drop()
 {
 	// From b1.2_02, doesn't exist in PE

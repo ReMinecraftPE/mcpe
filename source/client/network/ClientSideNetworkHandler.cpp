@@ -738,7 +738,35 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RespawnPac
 	if (!m_pLevel)
 		return;
 
+	// Find the player to check their bed spawn status
+	Player* pPlayer = nullptr;
+	if (packet->m_entityId != -1)
+	{
+		Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+		if (pEntity && pEntity->isPlayer())
+			pPlayer = (Player*)pEntity;
+	}
+	
+	// Check if bed is valid
+	bool hadBedSpawn = pPlayer && pPlayer->m_bHasRespawnPos;
+	TilePos respawnPos, checkedPos;
+	bool bedValid = false;
+	
+	if (hadBedSpawn)
+	{
+		respawnPos = pPlayer->m_respawnPos;
+		checkedPos = Player::checkRespawnPos(m_pLevel, respawnPos);
+		bedValid = (checkedPos != respawnPos);
+	}
+
+	// Call base handler to perform the respawn
 	NetEventCallback::handle(*m_pLevel, guid, packet);
+	
+	// Show message if bed spawn failed and this is the local player
+	if (hadBedSpawn && !bedValid && pPlayer && pPlayer->isLocalPlayer())
+	{
+		m_pMinecraft->m_pGui->addMessage("Your home bed was missing or obstructed");
+	}
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)

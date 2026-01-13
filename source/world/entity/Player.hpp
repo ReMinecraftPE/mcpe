@@ -98,6 +98,7 @@ public:
 	bool isSleeping() const override { return m_bSleeping; }
 	bool isSleepingLongEnough() const { return m_bSleeping && m_sleepTimer >= 100; }
 	float getBedSleepRot() const;
+	static TilePos checkRespawnPos(Level* level, const TilePos& pos);
 
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
