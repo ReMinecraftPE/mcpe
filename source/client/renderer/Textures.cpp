@@ -191,7 +191,7 @@ void Textures::tick()
 	}
 }
 
-TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
+TextureData* Textures::_loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
 {
 	TextureData* pTexture = getTextureData(name, isRequired);
 
@@ -203,6 +203,25 @@ TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequir
 	pTexture->bind(textureUnit);
 
 	return pTexture;
+}
+
+TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
+{
+	std::vector<std::string> resourcepacks = m_pOptions->m_resourcepacks;
+	std::string fullpath, slashname = "/" + name;
+	TextureData* ret = nullptr;
+
+	for (size_t i = 0; i < resourcepacks.size(); ++i)
+	{
+		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
+		ret = _loadAndBindTexture(fullpath, false, textureUnit);
+		if (ret)
+			break;
+	}
+	if (!ret)
+		ret = _loadAndBindTexture(name, isRequired, textureUnit);
+
+	return ret;
 }
 
 TextureData* Textures::getTextureData(const std::string& name, bool isRequired)

@@ -103,8 +103,6 @@ public:
 	Options* getOptions() const { return m_pOptions; }
 	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 
-	TextureData* loadAndBindResource(const std::string& name, bool isRequired = true, unsigned int textureUnit = 0);
-
 private:
     // Value provided by the OS
     static float _renderScaleMultiplier;
