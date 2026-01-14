@@ -149,6 +149,8 @@ void Options::_load()
 			m_bOldTitleLogo = readBool(value);
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
+		else if (key == "gfx_resourcepacks")
+			m_resourcepacks = readArray(value);
 		else if (key == "misc_menupano")
 		{
 			m_bMenuPanorama = !Screen::isMenuPanoramaAvailable() ? false : readBool(value);
@@ -187,6 +189,17 @@ int Options::readInt(const std::string& str)
 	return f;
 }
 
+std::vector<std::string> Options::readArray(const std::string& str)
+{
+	std::vector<std::string> ret;
+	std::istringstream ss(str);
+	std::string pack;
+
+	while (std::getline(ss, pack, ','))
+		ret.push_back(pack);
+	return ret;
+}
+
 std::string Options::saveBool(bool b)
 {
 	return b ? "true" : "false";
@@ -197,6 +210,23 @@ std::string Options::saveInt(int i)
 	std::stringstream ss;
 	ss << i;
 	return ss.str();
+}
+
+std::string Options::saveArray(std::vector<std::string> arr)
+{
+	std::string ret;
+	bool done = false;
+	size_t i = 0;
+	while (!done)
+	{
+		ret += arr[i++];
+		size_t size = arr.size();
+		if (i < size)
+			ret += ",";
+		else
+			done = true;
+	}
+	return ret;
 }
 
 std::vector<std::string> Options::readPropertiesFromFile(const std::string& filePath)
@@ -278,6 +308,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("misc_oldtitle",             saveBool(m_bOldTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
+	SO("gfx_resourcepacks",		    saveArray(m_resourcepacks));
 
 	return vec;
 }

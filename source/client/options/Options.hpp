@@ -70,8 +70,10 @@ public:
 private:
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
+	static std::vector<std::string> readArray(const std::string& str);
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
+	static std::string saveArray(std::vector<std::string> arr);
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
 	static void savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties);
 
@@ -129,6 +131,7 @@ public:
 	bool m_bDynamicHand;
 	bool m_bOldTitleLogo;
 	bool m_bMenuPanorama;
+	std::vector<std::string> m_resourcepacks;
 
 public:
 	struct Option
