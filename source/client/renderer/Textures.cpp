@@ -222,6 +222,7 @@ TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
 	std::string fullpath, slashname = "/" + name;
 	TextureData* ret = nullptr;
 
+	// try to use the resource pack version of the texture
 	for (size_t i = 0; i < resourcepacks.size(); ++i)
 	{
 		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
@@ -229,6 +230,7 @@ TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
 		if (ret)
 			return ret;
 	}
+	// no active resource packs have the texture, use the vanilla one or missing texture
 	return _getTextureData(name, isRequired);
 }
 
