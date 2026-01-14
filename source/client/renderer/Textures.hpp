@@ -27,8 +27,8 @@ protected:
 public:
 	TextureData* loadTexture(const std::string& name, bool bRequired);
 	TextureData* loadAndBindTexture(const std::string& name, bool isRequired = true, unsigned int textureUnit = 0);
-	TextureData* _loadAndBindTexture(const std::string& name, bool isRequired = true, unsigned int textureUnit = 0);
 	TextureData* getTextureData(const std::string& name, bool isRequired);
+	TextureData* _getTextureData(const std::string& name, bool isRequired);
 	void unloadAll();
 	void clear();
 	void tick();

@@ -191,7 +191,7 @@ void Textures::tick()
 	}
 }
 
-TextureData* Textures::_loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
+TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
 {
 	TextureData* pTexture = getTextureData(name, isRequired);
 
@@ -205,23 +205,7 @@ TextureData* Textures::_loadAndBindTexture(const std::string& name, bool isRequi
 	return pTexture;
 }
 
-TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
-{
-	std::vector<std::string> resourcepacks = m_pOptions->m_resourcepacks;
-	std::string fullpath, slashname = "/" + name;
-	TextureData* ret = nullptr;
-
-	for (size_t i = 0; i < resourcepacks.size(); ++i)
-	{
-		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
-		ret = _loadAndBindTexture(fullpath, false, textureUnit);
-		if (ret)
-			return ret;
-	}
-	return _loadAndBindTexture(name, isRequired, textureUnit);
-}
-
-TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
+TextureData* Textures::_getTextureData(const std::string& name, bool isRequired)
 {
 	TextureMap::iterator it = m_textures.find(name);
 	TextureData* pTexture;
@@ -230,6 +214,22 @@ TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
 	else
 		pTexture = loadTexture(name, isRequired);
 	return pTexture;
+}
+
+TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
+{
+	std::vector<std::string> resourcepacks = m_pOptions->m_resourcepacks;
+	std::string fullpath, slashname = "/" + name;
+	TextureData* ret = nullptr;
+
+	for (size_t i = 0; i < resourcepacks.size(); ++i)
+	{
+		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
+		ret = _getTextureData(fullpath, false);
+		if (ret)
+			return ret;
+	}
+	return _getTextureData(name, isRequired);
 }
 
 void Textures::addDynamicTexture(DynamicTexture* pTexture)
