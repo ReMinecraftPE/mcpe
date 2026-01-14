@@ -20,7 +20,7 @@ std::string SoundDesc::dirs[] = {
     "sound3"
 };
 
-bool SoundDesc::_load(const AppPlatform* platform, const char* category, const char *name)
+bool SoundDesc::_load(Options* options, const AppPlatform* platform, const char* category, const char *name)
 {
 	if (m_isLoaded)
 	{
@@ -30,22 +30,43 @@ bool SoundDesc::_load(const AppPlatform* platform, const char* category, const c
 	}
 
     // Load
-    if (_loadOgg(platform, category, name) || _loadPcm(platform, name))
+	std::vector<std::string> resourcepacks = options->m_resourcepacks;
+	std::string packdir, slashname = "/" + std::string(name);
+	bool ret = false;
+
+	// try to use the resource pack version of the texture
+	for (size_t i = 0; i < resourcepacks.size(); ++i)
+	{
+        packdir = "/resource_packs/" + resourcepacks[i] + "/";
+        for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
+        {
+            ret = _loadOgg(platform, (packdir + dirs[i] + "/" + category + "/" + name + ".ogg").c_str());
+            if (ret)
+                return ret;
+        }
+		ret = _loadPcm(platform, (packdir + "sound/" + name + ".pcm").c_str());
+		if (ret)
+			return ret;
+	}
+	// no active resource packs have the texture, use the vanilla one or missing texture
+    for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
     {
-        // Success!
-        return true;
+        ret = _loadOgg(platform, (dirs[i] + "/" + category + "/" + name + ".ogg").c_str());
+        if (ret)
+            return ret;
     }
-    else
-    {
+    ret = _loadPcm(platform, ("sound/" + std::string(name) + ".pcm").c_str());
+    if (!ret) {
         m_codecType = AudioCodec::NONE;
         LOG_W("Failed to load sound \"%s\"!", name);
         return false;
-    }
+    } else
+        return true;
 }
 
 bool SoundDesc::_loadPcm(const AppPlatform* platform, const char *name)
 {
-    m_file = platform->readAssetFile(std::string("sound/") + name + ".pcm", true);
+    m_file = platform->readAssetFile(name, true);
     m_isLoaded = m_file.size > 0;
 
     // Error
@@ -61,14 +82,10 @@ bool SoundDesc::_loadPcm(const AppPlatform* platform, const char *name)
     return true;
 }
 
-bool SoundDesc::_loadOgg(const AppPlatform* platform, const char* category, const char *name)
+bool SoundDesc::_loadOgg(const AppPlatform* platform, const char *name)
 {
-    for (int i = 0; i < SOUND_DIRS_SIZE; i++)
-    {
-        m_file = platform->readAssetFile(dirs[i] + '/' + category + '/' + name + ".ogg", true);
-        m_isLoaded = m_file.size > 0;
-        if (m_isLoaded) break;
-    }
+    m_file = platform->readAssetFile(name, true);
+    m_isLoaded = m_file.size > 0;
 
     // Error
     if (!m_isLoaded) return false;
@@ -105,10 +122,10 @@ void SoundDesc::_unload()
 }
 
 // Load All Sounds
-void SoundDesc::_loadAll(const AppPlatform* platform)
+void SoundDesc::_loadAll(const AppPlatform* platform, Options* options)
 {
-#define SOUND(category, name) SA_##name._load(platform, #category, #name);
-#define SOUND_NUM(category, name, number) SA_##name##number._load(platform, #category, #name#number);
+#define SOUND(category, name) SA_##name._load(options, platform, #category, #name);
+#define SOUND_NUM(category, name, number) SA_##name##number._load(options, platform, #category, #name#number);
 #include "sound_list.h"
 #undef SOUND
 #undef SOUND_NUM
