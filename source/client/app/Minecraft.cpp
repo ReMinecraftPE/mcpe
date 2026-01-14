@@ -1262,3 +1262,22 @@ void Minecraft::locateMultiplayer()
 	m_pNetEventCallback = new ClientSideNetworkHandler(this, m_pRakNetInstance);
 #endif
 }
+
+TextureData* Minecraft::loadAndBindResource(const std::string& name, bool isRequired, unsigned int textureUnit)
+{
+	std::vector<std::string> resourcepacks = getOptions()->m_resourcepacks;
+	std::string fullpath, slashname = "/" + name;
+	TextureData* ret;
+
+	for (size_t i = 0; i < resourcepacks.size(); ++i)
+	{
+		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
+		ret = m_pTextures->loadAndBindTexture(fullpath, isRequired, textureUnit);
+		if (ret)
+			break;
+	}
+	if (!ret)
+		ret = m_pTextures->loadAndBindTexture(name, isRequired, textureUnit);
+
+	return ret;
+}
