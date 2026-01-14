@@ -311,13 +311,10 @@ std::string AppPlatform::getPatchData()
 
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
-	std::string realPath;
 	if (path.size() && path[0] == '/')
-		realPath = m_externalStorageDir + "/games/com.mojang" + path;
+		return m_externalStorageDir + "/games/com.mojang" + path;
 	else
-		realPath = "assets/" + path;
-
-	return realPath;
+		return "assets/" + path;
 }
 
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
