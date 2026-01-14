@@ -1267,12 +1267,12 @@ TextureData* Minecraft::loadAndBindResource(const std::string& name, bool isRequ
 {
 	std::vector<std::string> resourcepacks = getOptions()->m_resourcepacks;
 	std::string fullpath, slashname = "/" + name;
-	TextureData* ret;
+	TextureData* ret = nullptr;
 
 	for (size_t i = 0; i < resourcepacks.size(); ++i)
 	{
 		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
-		ret = m_pTextures->loadAndBindTexture(fullpath, isRequired, textureUnit);
+		ret = m_pTextures->loadAndBindTexture(fullpath, false, textureUnit);
 		if (ret)
 			break;
 	}
