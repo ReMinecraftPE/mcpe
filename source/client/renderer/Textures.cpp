@@ -216,12 +216,9 @@ TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequir
 		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
 		ret = _loadAndBindTexture(fullpath, false, textureUnit);
 		if (ret)
-			break;
+			return ret;
 	}
-	if (!ret)
-		ret = _loadAndBindTexture(name, isRequired, textureUnit);
-
-	return ret;
+	return _loadAndBindTexture(name, isRequired, textureUnit);
 }
 
 TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
