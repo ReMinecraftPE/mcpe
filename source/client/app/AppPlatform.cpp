@@ -313,10 +313,7 @@ std::string AppPlatform::getAssetPath(const std::string& path) const
 {
 	std::string realPath = path;
 	if (realPath.size() && realPath[0] == '/')
-	{
-		// trim it off
-		realPath = realPath.substr(1);
-	}
+		return path;
 	realPath = "assets/" + realPath;
 
 	return realPath;
