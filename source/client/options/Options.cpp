@@ -214,6 +214,8 @@ std::string Options::saveInt(int i)
 
 std::string Options::saveArray(std::vector<std::string> arr)
 {
+	if (arr.empty())
+		return "";
 	std::string ret;
 	bool done = false;
 	size_t i = 0;
