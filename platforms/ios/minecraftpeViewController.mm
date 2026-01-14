@@ -190,7 +190,7 @@ NSThread *G_drawFrameThread = nil;
     
     NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 1u, YES) objectAtIndex:0];
     NinecraftApp *app = new NinecraftApp();
-    app->m_externalStorageDir = [dir UTF8String];
+    platform->m_externalStorageDir = [dir UTF8String];
     self->_app = app;
     
     [self initView];

@@ -342,8 +342,8 @@ static void initWindow(struct engine* engine, struct android_app* app)
 
     if (!engine->initted)
     {
-        engine->ninecraftApp->m_externalStorageDir = getExternalStorageDir(engine);
-        g_AppPlatform.setExternalStoragePath(engine->ninecraftApp->m_externalStorageDir);
+        g_AppPlatform.m_externalStorageDir = getExternalStorageDir(engine);
+        g_AppPlatform.setExternalStoragePath(g_AppPlatform.m_externalStorageDir);
         engine->ninecraftApp->init();
     }
     else

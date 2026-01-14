@@ -128,6 +128,7 @@ public:
 
 public:
 	ListenerMap m_listeners;
+	std::string m_externalStorageDir;
 	void* m_hWnd; // the Mojang solution
 };
 

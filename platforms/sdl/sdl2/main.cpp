@@ -429,8 +429,8 @@ int main(int argc, char *argv[])
 	
 	// Start MCPE
 	g_pAppPlatform = new UsedAppPlatform(storagePath, window);
+	g_pAppPlatform->m_externalStorageDir = storagePath;
 	g_pApp = new NinecraftApp;
-	g_pApp->m_externalStorageDir = storagePath;
 	g_pApp->m_pPlatform = g_pAppPlatform;
 	g_pApp->init();
 	

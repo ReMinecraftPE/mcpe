@@ -148,7 +148,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	g_pApp = new NinecraftApp;
 	g_pApp->m_pPlatform = &g_AppPlatform;
-	g_pApp->m_externalStorageDir = ".";
+	g_AppPlatform->m_externalStorageDir = ".";
 
 	// initialize the app
 	g_pApp->init();

@@ -37,7 +37,7 @@ void NinecraftApp::_initOptions()
 	_reloadPatchData();
 
 	if (platform()->hasFileSystemAccess())
-		m_pOptions = new Options(m_externalStorageDir);
+		m_pOptions = new Options(platform()->m_externalStorageDir);
 	else
 		m_pOptions = new Options();
 }
@@ -171,7 +171,7 @@ void NinecraftApp::_initAll()
 #ifdef DEMO
 	m_pLevelStorageSource = new MemoryLevelStorageSource;
 #else
-	m_pLevelStorageSource = new ExternalFileLevelStorageSource(m_externalStorageDir);
+	m_pLevelStorageSource = new ExternalFileLevelStorageSource(platform()->m_externalStorageDir);
 #endif
 
 	m_pGui = new Gui(this);

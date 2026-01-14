@@ -1391,7 +1391,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	static char str[256];
 	// @HUH: This has the potential to overwrite a file
 #ifdef ORIGINAL_CODE
-	sprintf(str, "%s/games/com.mojang/img_%.4d.jpg", m_pMinecraft->m_externalStorageDir.c_str(), getTimeMs());
+	sprintf(str, "%s/games/com.mojang/img_%.4d.jpg", m_pMinecraft->platform()->m_externalStorageDir.c_str(), getTimeMs());
 #else
 	sprintf(str, "img_%.4d.png", getTimeMs());
 #endif
