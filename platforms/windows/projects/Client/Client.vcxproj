@@ -95,6 +95,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConvertWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.hpp" />
@@ -238,6 +239,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConvertWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.cpp" />
