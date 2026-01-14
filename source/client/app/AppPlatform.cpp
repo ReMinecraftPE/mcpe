@@ -312,7 +312,7 @@ std::string AppPlatform::getPatchData()
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
 	std::string realPath;
-	if (realPath.size() && realPath[0] == '/')
+	if (path.size() && path[0] == '/')
 		realPath = m_externalStorageDir + "/games/com.mojang" + path;
 	else
 		realPath = "assets/" + path;
