@@ -128,7 +128,6 @@ add_library(reminecraftpe-core STATIC
     client/model/models/ChickenModel.cpp
     client/multiplayer/MultiPlayerLevel.cpp
     client/multiplayer/MultiplayerLocalPlayer.cpp
-    client/player/input/Controller.cpp
     client/player/input/ControllerBuildInput.cpp
     client/player/input/ControllerMoveInput.cpp
     client/player/input/ControllerTurnInput.cpp
