@@ -1,3 +1,4 @@
+#include <cstring>
 #include "GameControllerHandler.hpp"
 
 GameControllerHandler::GameControllerHandler()
