@@ -10,6 +10,24 @@ CreditsScreen::~CreditsScreen()
 {
 }
 
+void CreditsScreen::_initCreditsText()
+{
+	std::istringstream credits_stream(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
+
+	std::string line;
+	while (std::getline(credits_stream, line))
+	{
+		if (line[line.size() - 1] == '\r')
+			line.erase(line.size() - 1);
+		m_credits.push_back(line);
+	}
+
+	if (m_credits.empty())
+	{
+		m_credits.push_back("Failed to load credits.txt");
+	}
+}
+
 void CreditsScreen::init()
 {
 	m_btnBack.m_yPos   = m_height - 28;
@@ -22,17 +40,7 @@ void CreditsScreen::init()
 
 	m_buttonTabList.push_back(&m_btnBack);
 
-	std::istringstream credits_stream(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
-	if (credits_stream.str().empty())
-		credits_stream.str("Failed to load credits.txt");
-
-	std::string line;
-	while (std::getline(credits_stream, line))
-	{
-		if (line[line.size() - 1] == '\r')
-			line.erase(line.size() - 1);
-		m_credits.push_back(line);
-	}
+	_initCreditsText();
 }
 
 bool CreditsScreen::isInGameScreen()
