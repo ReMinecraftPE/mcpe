@@ -17,6 +17,8 @@ void CreditsScreen::_initCreditsText()
 	std::string line;
 	while (std::getline(credits_stream, line))
 	{
+    if (line.empty())
+      continue;
 		if (line[line.size() - 1] == '\r')
 			line.erase(line.size() - 1);
 		m_credits.push_back(line);
