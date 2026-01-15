@@ -76,6 +76,7 @@ protected:
 	Button m_optionsButton;
 	Button m_testButton;
 	Button m_buyButton;
+	Button m_creditsButton;
 	std::string field_154;
 	int field_16C;
 	std::string field_170;

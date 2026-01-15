@@ -445,6 +445,7 @@ void AppPlatform_win32::enableGraphics(HWND hWnd)
 
 	BOOL success = SetPixelFormat(m_hDC, iFormat, &pfd);
 	assert(success);
+	(void)success; /* silence unused variable warn */
 
 	/* create and enable the render context (RC) */
 	m_hRC = wglCreateContext(m_hDC);
