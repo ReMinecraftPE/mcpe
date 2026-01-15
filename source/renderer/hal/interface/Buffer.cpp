@@ -1,6 +1,7 @@
 #include <utility>
 
 #include "Buffer.hpp"
+#include "RenderContext.hpp"
 
 using namespace mce;
 
@@ -14,12 +15,12 @@ void Buffer::createVertexBuffer(RenderContext& context, unsigned int vertexStrid
     createBuffer(context, vertexStride, vertices, numberOfVertices, BUFFER_TYPE_VERTEX);
 }
 
-void Buffer::createDynamicIndexBuffer(RenderContext& context, unsigned int stride)
+void Buffer::createDynamicIndexBuffer(RenderContext& context, unsigned int stride, unsigned int count)
 {
-    createDynamicBuffer(context, 1, nullptr, stride, BUFFER_TYPE_INDEX);
+    createDynamicBuffer(context, stride, nullptr, count, BUFFER_TYPE_INDEX);
 }
 
-void Buffer::createDynamicVertexBuffer(RenderContext& context, unsigned int stride)
+void Buffer::createDynamicVertexBuffer(RenderContext& context, unsigned int stride, unsigned int count)
 {
-    createDynamicBuffer(context, 1, nullptr, stride, BUFFER_TYPE_VERTEX);
+    createDynamicBuffer(context, stride, nullptr, count, BUFFER_TYPE_VERTEX);
 }

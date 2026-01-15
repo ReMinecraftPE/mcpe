@@ -22,6 +22,7 @@ ShaderD3D11::~ShaderD3D11()
 {
 }
 
+// @TODO: use VertexFieldType instead
 DXGI_FORMAT formatFromVertexField(VertexField vertexField)
 {
     const RenderContext& context = RenderContextImmediate::getAsConst();
@@ -243,8 +244,10 @@ void ShaderD3D11::reflectShader(const ShaderProgramD3D11& shaderProgram, ShaderT
         LOG_E("Tried to reflect invalid ShaderProgram. Are you missing a shader file?");
         throw std::bad_cast();
     }
+
     const std::string& shaderBytecode = shaderProgram.m_shaderBytecode;
     assert(!shaderBytecode.empty());
+
     ComInterface<ID3D11ShaderReflection> reflector;
     {
         void* pReflector;
@@ -343,7 +346,12 @@ ComInterface<ID3D11InputLayout> ShaderD3D11::createInputLayout(const VertexForma
 
 void ShaderD3D11::SpliceShaderPath(std::string& shaderName)
 {
-    ShaderBase::SpliceShaderPath(shaderName, "/hlsl", ".hlsl");
+    ShaderBase::SpliceShaderPath(shaderName, "/hlsl");
+}
+
+void ShaderD3D11::SpliceShaderExtension(std::string& shaderName)
+{
+    ShaderBase::SpliceShaderExtension(shaderName, ".hlsl");
 }
 
 void ShaderD3D11::BuildHeader(std::ostringstream& stream)

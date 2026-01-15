@@ -13,8 +13,7 @@ struct PS_Input {
 	float4 worldPosition : TEXCOORD_1;
 };
 
-void main(in VS_Input VSInput, out PS_Input PSInput)
-{
+VS_MAIN_BEGIN
 	float spriteSelector = VSInput.color.x*255.0f;
 	PSInput.uv = UV_INFO.xy + (VSInput.uv0 * UV_INFO.zw);
 	PSInput.uv.x += spriteSelector * UV_INFO.z;
@@ -58,6 +57,4 @@ void main(in VS_Input VSInput, out PS_Input PSInput)
 	worldPositionBottom.xz += 0.5f;			// Offset so that center of view is in the center of occlusion texture
 	worldPositionBottom.y += VIEW_POSITION.y - 0.5f;
 	PSInput.worldPosition = worldPositionBottom;
-}
-
-
+VS_MAIN_END

@@ -6,8 +6,3 @@ ConstantBufferContainerOGL::ConstantBufferContainerOGL()
     : ConstantBufferContainerBase()
 {
 }
-
-void ConstantBufferContainerOGL::sync(RenderContext& context)
-{
-    
-}

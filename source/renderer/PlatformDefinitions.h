@@ -17,11 +17,19 @@ GFX-API-Specific Settings (all 0 by default)
 #if MCE_GFX_API_D3D9
 #define MCE_GFX_API D3D9
 #define MCE_GFX_API_DIR d3d9
+#define MCE_GFX_API_D3D 1
+#define MCE_GFX_DEPTH_ZERO_TO_ONE 1
+#define MCE_GFX_FF_ALPHATEST 1
+#ifdef _XBOX
+#define MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS 0 // Uses the Xbox 360's Constant Buffers feature instead of calling SetXShaderConstantX
+#define MCE_GFX_D3D9_BLENDSTATE 1
+#endif
 #endif
 
 #if MCE_GFX_API_D3D11
 #define MCE_GFX_API D3D11
 #define MCE_GFX_API_DIR d3d11
+#define MCE_GFX_API_D3D 1
 #define MCE_GFX_DEPTH_ZERO_TO_ONE 1
 #define MCE_GFX_DYNAMIC_TEXTURE_STAGING 1
 #define MCE_GFX_SUPPORTS_INCLUDES 1
@@ -67,4 +75,13 @@ GFX-API-Specific Settings (all 0 by default)
 #define MCE_GFX_CLASS_HEADER_SHADER(className) _MCE_GFX_CLASS_HEADER_MANUAL(null, MCE_GFX_CLASS_SHADER(className))
 #define MCE_GFX_CLASS_FIXED(className) MCE_GFX_CLASS(className)
 #define MCE_GFX_CLASS_HEADER_FIXED(className) MCE_GFX_CLASS_HEADER(className)
+#endif
+
+// @TODO: Ugly and hacky
+#if defined(FEATURE_GFX_SHADERS) && !MCE_GFX_FF_ALPHATEST
+#define MCE_GFX_CLASS_ALPHA(className) _MCE_GFX_CLASS_MANUA(className, Null)
+#define MCE_GFX_CLASS_HEADER_ALPHA(className) _MCE_GFX_CLASS_HEADER_MANUAL(null, MCE_GFX_CLASS_ALPHA(className))
+#else
+#define MCE_GFX_CLASS_ALPHA(className) MCE_GFX_CLASS(className)
+#define MCE_GFX_CLASS_HEADER_ALPHA(className) MCE_GFX_CLASS_HEADER(className)
 #endif

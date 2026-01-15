@@ -7,21 +7,25 @@
 
 using namespace mce;
 
-RenderContextOGL::VertexFieldFormat RenderContextOGL::vertexFieldFormats[] = {
-    { GL_FLOAT,          3, GL_FALSE }, // VERTEX_FIELD_POSITION
-    { GL_UNSIGNED_BYTE,  4, GL_TRUE  }, // VERTEX_FIELD_COLOR
-    { GL_BYTE,           4, GL_FALSE }, // VERTEX_FIELD_NORMAL
+// @TODO: have this use mce::VertexFieldFormat
+const RenderContextOGL::VertexFieldFormat RenderContextOGL::vertexFieldFormats[] = {
+    { GL_FLOAT,          3, GL_FALSE }, // VERTEX_FIELD_POSITION : VERTEX_FIELD_TYPE_FLOAT32_3
+    { GL_UNSIGNED_BYTE,  4, GL_TRUE  }, // VERTEX_FIELD_COLOR    : VERTEX_FIELD_TYPE_UINT8_4_N
+    { GL_BYTE,           4, GL_FALSE }, // VERTEX_FIELD_NORMAL   : VERTEX_FIELD_TYPE_UINT8_4
 #ifdef ENH_GFX_COMPACT_UVS
 #ifdef FEATURE_GFX_SHADERS
-    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }, // VERTEX_FIELD_UV0
-    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }  // VERTEX_FIELD_UV1
+    // supports16BitUnsignedUVs()
+    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }, // VERTEX_FIELD_UV0      : VERTEX_FIELD_TYPE_UINT16_2_N
+    { GL_UNSIGNED_SHORT, 2, GL_TRUE  }  // VERTEX_FIELD_UV1      : VERTEX_FIELD_TYPE_UINT16_2_N
 #else
-    { GL_SHORT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0
-    { GL_SHORT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1
+    // !supports16BitUnsignedUVs()
+    { GL_SHORT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0      : VERTEX_FIELD_TYPE_SINT16_2_N
+    { GL_SHORT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1      : VERTEX_FIELD_TYPE_SINT16_2_N
 #endif // FEATURE_GFX_SHADERS
 #else
-    { GL_FLOAT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0
-    { GL_FLOAT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1
+    // @TODO: why are we normalizing these? what does this do in the glVertexAttribPointer call?
+    { GL_FLOAT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0      : VERTEX_FIELD_TYPE_FLOAT32_2
+    { GL_FLOAT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1      : VERTEX_FIELD_TYPE_FLOAT32_2
 #endif // ENH_GFX_COMPACT_UVS
 };
 

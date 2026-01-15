@@ -1,4 +1,5 @@
 #include "ShaderConstants.fxh"
+#include "renderchunk.fxh"
 
 struct PS_Input
 {
@@ -7,7 +8,7 @@ struct PS_Input
     snorm float2 uv0 : TEXCOORD_0;
     //snorm float2 uv1 : TEXCOORD_1;
 #ifdef FOG
-    float4 fogColor : FOG_COLOR;
+    float4 fogColor : PS_FOG_COLOR;
 #endif
 };
 
@@ -16,8 +17,7 @@ struct PS_Output
     float4 color : SV_Target;
 };
 
-void main( in PS_Input PSInput, out PS_Output PSOutput )
-{
+PS_MAIN_BEGIN
 	//float4 diffuse = TEXTURE_0.Sample( TextureSampler0, PSInput.uv0 ) * TEXTURE_1.Sample( TextureSampler1, PSInput.uv1 );
 	float4 diffuse = TEXTURE_0.Sample( TextureSampler0, PSInput.uv0 );
 
@@ -54,4 +54,4 @@ void main( in PS_Input PSInput, out PS_Output PSOutput )
 #endif
 
     PSOutput.color = diffuse;
-}
+PS_MAIN_END

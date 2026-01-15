@@ -38,7 +38,7 @@ public:
 	virtual void printf(eLogLevel, const char* const fmt, ...);
 };
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || defined(MC_LOG_LEVEL)
 
 static inline void mc_vlog(enum eLogLevel loglevel, const char *fmt, va_list ap)
 {

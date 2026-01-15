@@ -32,6 +32,12 @@ private:
         this->a = float(a) / 255.0f;
     }
 
+    void _init(uint8_t r, uint8_t g, uint8_t b, float a)
+    {
+        _init(r, g, b, (uint8_t)255);
+        this->a = a;
+    }
+
 public:
     Color()
     {
@@ -46,6 +52,11 @@ public:
     Color(int r, int g, int b, int a = 255)
     {
         _init((uint8_t)r, (uint8_t)g, (uint8_t)b, (uint8_t)a);
+    }
+
+    Color(int r, int g, int b, float a)
+    {
+        _init((uint8_t)r, (uint8_t)g, (uint8_t)b, a);
     }
 
     Color(unsigned int c)

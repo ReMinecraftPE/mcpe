@@ -19,3 +19,6 @@ endif()
 
 # Load Sound
 add_subdirectory(sound)
+
+# Load Input
+add_subdirectory(input)

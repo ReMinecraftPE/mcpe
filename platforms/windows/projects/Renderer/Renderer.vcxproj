@@ -111,6 +111,7 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\enums\VertexField_JsonParser.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\renderer\GL\GL.hpp" />
@@ -210,20 +211,30 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\WorldConstants.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\enums\MapType.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.hpp" />
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='Null'">
     <ProjectReference Include="..\Renderer.Null\Renderer.Null.vcxproj">
       <Project>{70c3540e-95cd-4a57-bdf2-e1da7767a918}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='OGL'">
     <ProjectReference Include="..\Renderer.OGL\Renderer.OGL.vcxproj">
       <Project>{aa0216ca-956e-4617-9a71-581b5eebf20c}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(MC_GFX_API)'=='D3D9'">
+    <ProjectReference Include="..\Renderer.D3D9\Renderer.D3D9.vcxproj">
+      <Project>{beacd150-fc47-49ae-ac5a-19a7e2409a38}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup Condition="'$(MC_GFX_API)'=='D3D11'">
     <ProjectReference Include="..\Renderer.D3D11\Renderer.D3D11.vcxproj">
       <Project>{82e92e51-ad31-44ef-a133-ae0053256d5a}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

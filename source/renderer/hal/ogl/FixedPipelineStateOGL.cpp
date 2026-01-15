@@ -15,6 +15,7 @@ FixedPipelineStateOGL::FixedPipelineStateOGL()
 void FixedPipelineStateOGL::createFixedPipelineState(RenderContext& context, const FixedPipelineStateDescription& desc)
 {
     FixedPipelineStateBase::createFixedPipelineState(context, desc);
+
     m_bAlphaTest = desc.enableAlphaTest;
     m_alphaFunc = getComparisonFunc(desc.alphaFunc);
     m_alphaRef = desc.alphaRef;
