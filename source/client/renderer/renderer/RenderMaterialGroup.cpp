@@ -28,6 +28,7 @@ typedef InheritanceTree<MaterialParent> MaterialTree;
 RenderMaterialGroup::RenderMaterialGroup()
     : AppPlatformListener(false)
 {
+    m_resourcepacks = std::vector<std::string>();
 }
 
 RenderMaterialGroup::~RenderMaterialGroup()
@@ -69,18 +70,18 @@ struct MaterialTreePopulator
     RenderMaterial& groupBaseParent;
     RenderMaterialGroup& group;
 
-    MaterialTreePopulator(RenderMaterialGroup& group, RenderMaterial& groupBaseParent)
+    MaterialTreePopulator(RenderMaterialGroup& group, RenderMaterial& groupBaseParent, const std::vector<std::string>& resourcepacks)
         : groupBaseParent(groupBaseParent)
         , group(group)
     {
     }
 
-	void operator()(const std::string& materialName, MaterialParent& materialParent)
+	void operator()(const std::string& materialName, MaterialParent& materialParent, const std::vector<std::string>& resourcepacks)
 	{
         // Construct material with parent and place in group
         RenderMaterial& parentMaterial = group._getMaterialOrDefault(materialParent.parentName, groupBaseParent);
         const rapidjson::Value::ConstObject obj = materialParent.json->GetObj();
-        group.m_materials[materialName] = RenderMaterial(obj, parentMaterial);
+        group.m_materials[materialName] = RenderMaterial(obj, parentMaterial, resourcepacks);
 	}
 };
 
@@ -103,8 +104,8 @@ void RenderMaterialGroup::_loadMaterialSet(const rapidjson::Value::ConstObject& 
     }
 
     // Construct all materials from the tree in order
-    MaterialTreePopulator visitor(*this, groupBaseParent);
-    familyTree.visitBFS(visitor);
+    MaterialTreePopulator visitor(*this, groupBaseParent, m_resourcepacks);
+    familyTree.visitBFS(visitor, m_resourcepacks);
 }
 
 bool _isMaterialGroup(const rapidjson::Value::ConstObject& root)
@@ -114,7 +115,7 @@ bool _isMaterialGroup(const rapidjson::Value::ConstObject& root)
 
 void RenderMaterialGroup::_loadList()
 {
-    std::string fileContents = AppPlatform::singleton()->readAssetFileStr(m_listPath, true);
+    std::string fileContents = AppPlatform::singleton()->readAssetFileStr(m_listPath, true, m_resourcepacks);
     if (fileContents.empty())
     {
         LOG_E("Failed to find RenderMaterialGroup: %s", m_listPath.c_str());
@@ -164,7 +165,7 @@ void RenderMaterialGroup::_loadList()
             tag = value["tag"].GetString();
         }
 
-        fileContents = AppPlatform::singleton()->readAssetFileStr(path, false);
+        fileContents = AppPlatform::singleton()->readAssetFileStr(path, false, m_resourcepacks);
         if (fileContents.empty())
         {
             LOG_W("RenderMaterial \"%s\" was empty! Skipping...", path.c_str());
@@ -186,7 +187,7 @@ void RenderMaterialGroup::_loadList()
         else
         {
             RenderMaterial& materialRef = _material(Util::getFileName(path), tag);
-            materialRef = RenderMaterial(root, materialRef);
+            materialRef = RenderMaterial(root, materialRef, m_resourcepacks);
         }
 
         delete material;
@@ -248,12 +249,13 @@ MaterialPtr RenderMaterialGroup::getMaterial(const std::string& name)
     return MaterialPtr(*this, name);
 }
 
-void RenderMaterialGroup::loadList(const std::string listPath)
+void RenderMaterialGroup::loadList(const std::string listPath, const std::vector<std::string>& resourcepacks)
 {
     if (!m_listPath.empty())
     {
         m_materials.clear();
         m_listPath = listPath;
+        m_resourcepacks = resourcepacks;
         _loadList();
         _fireGroupReloaded();
     }
@@ -261,6 +263,7 @@ void RenderMaterialGroup::loadList(const std::string listPath)
     {
         initListener();
         m_listPath = listPath;
+        m_resourcepacks = resourcepacks;
         _loadList();
     }
 }

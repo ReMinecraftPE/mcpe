@@ -21,6 +21,9 @@ namespace mce
         std::set<MaterialPtr*> m_references;
         std::string m_listPath;
 
+    private:
+        std::vector<std::string> m_resourcepacks;
+
     public:
         RenderMaterialGroup();
         ~RenderMaterialGroup();
@@ -41,7 +44,7 @@ namespace mce
         RenderMaterial& _getMaterialOrDefault(const std::string& name, RenderMaterial& defaultMaterial);
 
         MaterialPtr getMaterial(const std::string& name);
-        void loadList(const std::string listPath);
+        void loadList(const std::string listPath, const std::vector<std::string>& resourcepacks);
         void compileMaterials();
 
         void onAppResumed() override;

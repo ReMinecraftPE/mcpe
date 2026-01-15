@@ -48,7 +48,7 @@ public:
     }
 
     template <class TVisitor>
-    void visitBFS(TVisitor& visitor)
+    void visitBFS(TVisitor& visitor, const std::vector<std::string>& resourcepacks)
     {
         std::deque<Node*> queue;
 
@@ -62,7 +62,7 @@ public:
             // Skip root node
             if (!currentNode->name.empty())
             {
-                visitor(currentNode->name, currentNode->val);
+                visitor(currentNode->name, currentNode->val, resourcepacks);
             }
 
             // Queue child nodes
