@@ -3,7 +3,7 @@
 #ifdef _XBOX
 #include <xtl.h>
 #else
-#include <Xinput.h>
+#include <xinput.h>
 #endif
 
 #include "client/player/input/GameControllerHandler.hpp"
