@@ -16,8 +16,6 @@ void _setSize()
     Minecraft::height = Mth::Max(VideoMode.dwDisplayHeight, 720);
 }
 
-
-
 void __cdecl main()
 {
 	Logger::setSingleton(new Logger);
