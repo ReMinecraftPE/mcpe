@@ -1,6 +1,7 @@
 #include <string.h>
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
+#include <assert.h>
 
 #include "VertexFormat.hpp"
 #include "world/phys/Vec2.hpp"
@@ -42,6 +43,7 @@ bool VertexFormat::hasField(VertexField vertexField) const
 
 const void* VertexFormat::getFieldOffset(VertexField vertexField, const void *vertexData) const
 {
+    assert(m_fieldOffset[vertexField] != UINT8_MAX);
     return (void*)((uintptr_t)vertexData + m_fieldOffset[vertexField]);
 }
 
