@@ -138,6 +138,7 @@ add_library(reminecraftpe-core STATIC
     client/player/input/KeyboardInput.cpp
 	client/player/input/GameController.cpp
 	client/player/input/GameControllerHandler.cpp
+	client/player/input/GameControllerManager.cpp
     client/player/input/ITurnInput.cpp
     client/player/input/IBuildInput.cpp
     client/player/input/IncludeExcludeArea.cpp
