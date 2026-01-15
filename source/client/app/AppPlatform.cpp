@@ -322,7 +322,7 @@ std::string AppPlatform::getResourcePath(const std::string& path, std::vector<st
 	for (size_t i = 0; i < resourcepacks.size(); ++i)
 	{
 		std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
-		std::ifstream s(fullpath);
+		std::ifstream s(fullpath.c_str());
 		if (s.good())
 			return fullpath;
 	}
