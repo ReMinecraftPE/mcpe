@@ -127,7 +127,7 @@ void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*&
     // to be rendered, so perhaps some day...
     // Additionally, we could try holding the vertex buffer data in memory and pass
     // it in the draw call, as supposedly not even using buffers is faster.
-#if defined(GL_VERSION_ES_CM_1_0) || (defined(CGL_VERSION_1_0) && defined(__aarch64__))
+#if defined(GL_VERSION_ES_CM_1_0) || (!defined(FEATURE_GFX_SHADERS) && defined(__APPLE__) && defined(__aarch64__))
 #define GLES1_WORKAROUND true
 #else
 #define GLES1_WORKAROUND false
