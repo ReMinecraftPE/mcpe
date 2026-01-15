@@ -191,9 +191,9 @@ bool AppPlatform_win32::hasFileSystemAccess()
 	return true;
 }
 
-AssetFile AppPlatform_win32::readAssetFile(const std::string& str, bool quiet) const
+AssetFile AppPlatform_win32::readAssetFile(const std::string& str, bool quiet, const std::vector<std::string>& resourcepacks) const
 {
-	std::string path = getAssetPath(str);
+	std::string path = getAssetPath(str, resourcepacks);
 	std::ifstream ifs(path, std::ios::binary | std::ios::ate);
 	if (!ifs.is_open())
 		return AssetFile();
