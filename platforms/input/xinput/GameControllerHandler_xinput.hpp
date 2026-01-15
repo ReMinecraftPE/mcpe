@@ -23,7 +23,7 @@ public:
 	public:
 		InputState_xinput()
 		{
-			memset(m_inputState, 0, XUSER_MAX_COUNT);
+			memset(m_inputState, 0, sizeof(XINPUT_STATE) * XUSER_MAX_COUNT);
 		}
 	};
 
