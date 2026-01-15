@@ -8,7 +8,7 @@ namespace mce
     class FixedPipelineStateD3D9 : public FixedPipelineStateBase
     {
     public:
-        bool m_bAlphaTest;
+        BOOL m_bAlphaTest;
         D3DCMPFUNC m_alphaFunc;
         uint8_t m_alphaRef;
 

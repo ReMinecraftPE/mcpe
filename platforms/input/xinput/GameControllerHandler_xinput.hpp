@@ -8,6 +8,10 @@
 
 #include "client/player/input/GameControllerHandler.hpp"
 
+#ifndef XUSER_MAX_COUNT
+#define XUSER_MAX_COUNT C_MAX_GAME_CONTROLLERS
+#endif
+
 class GameControllerHandler_xinput : public GameControllerHandler
 {
 public:

@@ -114,12 +114,21 @@ void RenderContextD3D9::clearContextState()
 
 void RenderContextD3D9::beginRender()
 {
+#if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
+    m_d3dDevice->GpuOwn(D3DTAG_VERTEXSHADERCONSTANTS);
+    m_d3dDevice->GpuOwn(D3DTAG_PIXELSHADERCONSTANTS);
+#else
     m_d3dDevice->BeginScene();
+#endif
 }
 
 void RenderContextD3D9::endRender()
 {
+#if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
+    m_d3dDevice->GpuDisownAll();
+#else
     m_d3dDevice->EndScene();
+#endif
 }
 
 void RenderContextD3D9::swapBuffers()

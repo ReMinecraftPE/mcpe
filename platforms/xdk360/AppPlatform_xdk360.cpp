@@ -116,7 +116,7 @@ bool AppPlatform_xdk360::hasFileSystemAccess()
 std::string AppPlatform_xdk360::getAssetPath(const std::string& path) const
 {
 	std::string assetPath = AppPlatform::getAssetPath(path);
-	toDosPath((char*)assetPath.c_str()); // casting to non-const, because fuck you
+	makeNativePath(assetPath);
 	return "GAME:\\" + assetPath;
 }
 

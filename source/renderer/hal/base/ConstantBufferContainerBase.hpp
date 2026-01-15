@@ -17,7 +17,7 @@ namespace mce
         std::vector<ShaderConstant*>* m_shaderConstants;
         std::vector<uint8_t>* m_constantBufferBytes;
         std::string m_constantBufferName;
-        bool m_bCurrentlyMapped;
+        bool m_bWriteEnabled;
 
     private:
         void _init();

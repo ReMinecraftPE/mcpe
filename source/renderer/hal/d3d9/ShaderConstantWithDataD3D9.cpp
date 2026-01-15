@@ -2,8 +2,6 @@
 
 using namespace mce;
 
-// @TODO: IDirect3DConstantBuffer9 is faster on 360
-
 template <>
 void ShaderConstantWithDataD3D9<SHADER_PRIMITIVE_FLOAT1>::syncConstant(RenderContext& context, ShaderType shaderType, unsigned int location)
 {

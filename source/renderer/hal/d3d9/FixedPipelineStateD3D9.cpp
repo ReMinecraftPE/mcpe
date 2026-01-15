@@ -4,7 +4,7 @@ using namespace mce;
 
 FixedPipelineStateD3D9::FixedPipelineStateD3D9()
 {
-    m_bAlphaTest = false;
+    m_bAlphaTest = FALSE;
     m_alphaFunc = D3DCMP_ALWAYS;
     m_alphaRef = 0;
 }
@@ -13,7 +13,7 @@ void FixedPipelineStateD3D9::createFixedPipelineState(RenderContext& context, co
 {
     FixedPipelineStateBase::createFixedPipelineState(context, desc);
 
-    m_bAlphaTest = desc.enableAlphaTest;
+    m_bAlphaTest = desc.enableAlphaTest ? TRUE : FALSE;
     m_alphaFunc = getComparisonFunc(desc.alphaFunc);
     m_alphaRef = ceilf(desc.alphaRef * 255.0f);
 

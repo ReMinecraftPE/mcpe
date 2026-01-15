@@ -47,7 +47,9 @@ namespace mce
         unsigned int m_width;
         unsigned int m_height;
         VertexDeclCache m_vertexDeclCache;
-        //IDirect3DConstantBuffer9* m_constantBuffers[SHADER_TYPES_COUNT][60];
+#if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
+        IDirect3DConstantBuffer9* m_constantBuffers[SHADER_TYPES_COUNT][60];
+#endif
 
     public:
         RenderContextD3D9();

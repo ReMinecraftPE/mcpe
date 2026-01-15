@@ -170,12 +170,12 @@
     </Link>
   </ItemDefinitionGroup>
    <!-- Item Definitions - Xbox 360 (Release) -->
-  <!--ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Release'))">
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Release'))">
     <ClCompile>
       <PreprocessorDefinitions>MC_LOG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Disabled</Optimization>
       <ExceptionHandling>false</ExceptionHandling>
       <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
-  </ItemDefinitionGroup-->
+  </ItemDefinitionGroup>
 </Project>

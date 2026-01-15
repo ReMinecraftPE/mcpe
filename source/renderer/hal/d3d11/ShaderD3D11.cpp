@@ -22,6 +22,7 @@ ShaderD3D11::~ShaderD3D11()
 {
 }
 
+// @TODO: use VertexFieldType instead
 DXGI_FORMAT formatFromVertexField(VertexField vertexField)
 {
     const RenderContext& context = RenderContextImmediate::getAsConst();

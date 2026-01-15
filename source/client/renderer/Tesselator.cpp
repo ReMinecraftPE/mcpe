@@ -368,7 +368,7 @@ void Tesselator::normal(float x, float y, float z)
 	normalarray[0] = bx;
 	normalarray[1] = by;
 	normalarray[2] = bz;
-	normalarray[3] = 0;
+	normalarray[3] = 0; // wait, why are we doing this?
 
 	if (!isFormatFixed())
 	{

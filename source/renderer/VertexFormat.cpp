@@ -5,26 +5,12 @@
 #include "VertexFormat.hpp"
 #include "world/phys/Vec2.hpp"
 #include "world/phys/Vec3.hpp"
+#include "VertexFieldFormat.hpp"
 #include "GameMods.hpp"
 
 using namespace mce;
 
 const VertexFormat VertexFormat::EMPTY = VertexFormat();
-const unsigned int VertexFormat::FieldSize[] = {
-    /* VERTEX_FIELD_POSITION */ sizeof(Vec3),
-    /* VERTEX_FIELD_COLOR */    sizeof(uint32_t),
-    /* VERTEX_FIELD_NORMAL */   sizeof(uint32_t),
-#ifdef ENH_GFX_COMPACT_UVS
-    /* VERTEX_FIELD_UV0 */      sizeof(uint16_t[2]),
-    /* VERTEX_FIELD_UV1 */      sizeof(uint16_t[2]),
-#else
-    /* VERTEX_FIELD_UV0 */      sizeof(Vec2),
-    /* VERTEX_FIELD_UV1 */      sizeof(Vec2),
-#endif
-    /* VERTEX_FIELD_UV2 */      0,
-    /* VERTEX_FIELD_PBR_IDX */  0,
-    /* VERTEX_FIELD_BONEID_0 */ 0
-};
 
 void VertexFormat::_init()
 {
@@ -43,7 +29,7 @@ void VertexFormat::enableField(VertexField vertexField)
     if (hasField(vertexField)) return;
 
     m_fieldOffset[vertexField] = m_vertexSize;
-    m_vertexSize = m_vertexSize + VertexFormat::FieldSize[vertexField];
+    m_vertexSize += VertexFieldFormats::GetFormatByField(vertexField).size;
     if (m_vertexSize != 4 * (m_vertexSize >> 2))
         m_vertexSize  = 4 * (m_vertexSize >> 2) + 4;
     m_fieldMask |= (1 << vertexField);

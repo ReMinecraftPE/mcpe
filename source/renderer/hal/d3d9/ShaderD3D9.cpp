@@ -8,6 +8,7 @@
 
 #include "common/Util.hpp"
 #include "client/app/Minecraft.hpp"
+#include "renderer/VertexFieldFormat.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
@@ -25,33 +26,26 @@ ShaderD3D9::~ShaderD3D9()
 {
 }
 
-D3DDECLTYPE d3dDeclTypeFromVertexField(VertexField vertexField)
+D3DDECLTYPE d3dDeclTypeFromVertexFieldType(VertexFieldType vertexFieldType)
 {
-    switch (vertexField)
+    switch (vertexFieldType)
     {
-    case VERTEX_FIELD_POSITION: return D3DDECLTYPE_FLOAT3;
-
-        // UBYTE4N maps 4 bytes (0-255) to float (0.0-1.0)
-    case VERTEX_FIELD_COLOR:    return D3DDECLTYPE_UBYTE4N;
-
-        // Normal handling depends on storage. 
-        // If it is 4 bytes signed: DEC3N or UBYTE4N (biased) are common.
-        // If it is R8G8B8A8_UNORM equivalent: UBYTE4N.
-        // D3D9 doesn't have a direct "Byte4 Signed Normalized" declaration type widely supported 
-        // without using D3DDECLTYPE_SHORT2 or D3DDECLTYPE_FLOAT3. 
-        // Assuming UBYTE4N for generic 4-byte attributes if not specifically float.
-    case VERTEX_FIELD_NORMAL:   return D3DDECLTYPE_UBYTE4N;
-
-#ifdef ENH_GFX_COMPACT_UVS
-    case VERTEX_FIELD_UV0:
-    case VERTEX_FIELD_UV1:      return D3DDECLTYPE_USHORT2N;
-#else
-    case VERTEX_FIELD_UV0:
-    case VERTEX_FIELD_UV1:      return D3DDECLTYPE_FLOAT2;
-#endif
+    case VERTEX_FIELD_TYPE_UINT8_4:    return D3DDECLTYPE_UBYTE4;
+    case VERTEX_FIELD_TYPE_UINT8_4_N:  return D3DDECLTYPE_UBYTE4N;
+    case VERTEX_FIELD_TYPE_SINT16_2:   return D3DDECLTYPE_SHORT2;
+    case VERTEX_FIELD_TYPE_SINT16_2_N: return D3DDECLTYPE_SHORT2N;
+    case VERTEX_FIELD_TYPE_SINT16_4:   return D3DDECLTYPE_SHORT4;
+    case VERTEX_FIELD_TYPE_SINT16_4_N: return D3DDECLTYPE_SHORT4N;
+    case VERTEX_FIELD_TYPE_UINT16_2_N: return D3DDECLTYPE_USHORT2N;
+    case VERTEX_FIELD_TYPE_UINT16_4_N: return D3DDECLTYPE_USHORT4N;
+    case VERTEX_FIELD_TYPE_FLOAT32:    return D3DDECLTYPE_FLOAT1;
+    case VERTEX_FIELD_TYPE_FLOAT32_2:  return D3DDECLTYPE_FLOAT2;
+    case VERTEX_FIELD_TYPE_FLOAT32_3:  return D3DDECLTYPE_FLOAT3;
+    case VERTEX_FIELD_TYPE_FLOAT32_4:  return D3DDECLTYPE_FLOAT4;
 
     default:
-        LOG_W("Unknown vertexField: %d", vertexField);
+        LOG_W("Unknown vertexFieldType: %d", vertexFieldType);
+        assert(false);
         return D3DDECLTYPE_UNUSED;
     }
 }
@@ -66,7 +60,10 @@ D3DDECLUSAGE d3dDeclUsageFromVertexField(VertexField vertexField, int& outUsageI
     case VERTEX_FIELD_NORMAL:   return D3DDECLUSAGE_NORMAL;
     case VERTEX_FIELD_UV0:      outUsageIndex = 0; return D3DDECLUSAGE_TEXCOORD;
     case VERTEX_FIELD_UV1:      outUsageIndex = 1; return D3DDECLUSAGE_TEXCOORD;
-    default: return D3DDECLUSAGE_POSITION;
+    default:
+        LOG_W("Unknown vertexField: %d", vertexField);
+        assert(false);
+        return D3DDECLUSAGE_TEXCOORD; // worst case we fuck up the UVs
     }
 }
 
@@ -179,7 +176,11 @@ void ShaderD3D9::bindShader(RenderContext& context, const VertexFormat& format, 
             ShaderResourceD3D9& resource = m_resourceList[i];
             if (((1 << t) & resource.m_shaderStagesBits) != 0)
             {
+#if MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS
+                resource.m_pConstantBufferContainer->bindBuffer(context, resource.m_shaderBindPoints[t], resource.m_shaderStagesBits);
+#else
                 resource.bind(context, (ShaderType)t, changedShaderProgram[t]);
+#endif
             }
         }
     }
@@ -348,13 +349,14 @@ ComInterface<IDirect3DVertexDeclaration9> ShaderD3D9::createVertexDeclaration(co
     for (size_t i = 0; i < attrList.size(); i++)
     {
         Attribute& attr = attrList[i];
+        VertexField vertexField = attr.getVertexField();
 
         // Calculate offset if not explicit
-        WORD offset = (WORD)((intptr_t)vertexFormat.getFieldOffset(attr.getVertexField()));
+        WORD offset = (WORD)((intptr_t)vertexFormat.getFieldOffset(vertexField));
 
         int usageIndex = 0;
-        D3DDECLUSAGE usage = d3dDeclUsageFromVertexField(attr.getVertexField(), usageIndex);
-        D3DDECLTYPE type = d3dDeclTypeFromVertexField(attr.getVertexField());
+        D3DDECLUSAGE usage = d3dDeclUsageFromVertexField(vertexField, usageIndex);
+        D3DDECLTYPE type = d3dDeclTypeFromVertexFieldType(vertexFieldTypes[vertexField]);
 
         D3DVERTEXELEMENT9 elem;
         elem.Stream = 0; // Always stream 0 for this architecture
@@ -377,9 +379,9 @@ ComInterface<IDirect3DVertexDeclaration9> ShaderD3D9::createVertexDeclaration(co
     HRESULT hr = d3dDevice->CreateVertexDeclaration(&elements[0], &pDecl);
     ErrorHandlerD3D9::checkForErrors(hr);
 
+    // @TODO: probably calling an extra AddRef here, does this mean D3D9 never releases the memory?
     return ComInterface<IDirect3DVertexDeclaration9>(pDecl);
 }
-
 
 void ShaderD3D9::SpliceShaderPath(std::string& shaderName)
 {

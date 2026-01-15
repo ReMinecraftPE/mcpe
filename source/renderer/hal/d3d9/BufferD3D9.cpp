@@ -29,7 +29,8 @@ DWORD mapTypeToD3DLockType(MapType mapType)
 #ifdef D3DLOCK_DISCARD
 		return D3DLOCK_DISCARD;
 #else
-		return 0x0;
+        // 360 seems to discard by default
+        return 0x0;
 #endif
     case MAP_WRITE_NO_OVERWRITE: return D3DLOCK_NOOVERWRITE;
     default:

@@ -20,6 +20,10 @@ GFX-API-Specific Settings (all 0 by default)
 #define MCE_GFX_API_D3D 1
 #define MCE_GFX_DEPTH_ZERO_TO_ONE 1
 #define MCE_GFX_FF_ALPHATEST 1
+#ifdef _XBOX
+#define MCE_GFX_D3D9_SHADER_CONSTANT_BUFFERS 0 // Uses the Xbox 360's Constant Buffers feature instead of calling SetXShaderConstantX
+#define MCE_GFX_D3D9_BLENDSTATE 1
+#endif
 #endif
 
 #if MCE_GFX_API_D3D11

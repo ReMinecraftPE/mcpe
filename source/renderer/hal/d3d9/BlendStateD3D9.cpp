@@ -31,11 +31,34 @@ const D3DBLEND blendAlphaFuncMap[] = {
 
 BlendStateD3D9::BlendStateD3D9()
 {
+#if MCE_GFX_D3D9_BLENDSTATE
+    memset(&m_blendState, 0, sizeof(m_blendState));
+    // These don't change
+    m_blendState.BlendOp      = D3DBLENDOP_ADD;
+    m_blendState.BlendOpAlpha = D3DBLENDOP_ADD;
+#endif
 }
 
 void BlendStateD3D9::createBlendState(RenderContext& context, const BlendStateDescription& desc)
 {
     BlendStateBase::createBlendState(context, desc);
+
+#if MCE_GFX_D3D9_BLENDSTATE
+    if (desc.enableBlend)
+    {
+        m_blendState.SrcBlend       = blendFuncMap[m_description.blendSource];
+        m_blendState.DestBlend      = blendFuncMap[m_description.blendDestination];
+        m_blendState.SrcBlendAlpha  = blendAlphaFuncMap[m_description.blendSource];
+        m_blendState.DestBlendAlpha = blendAlphaFuncMap[m_description.blendDestination];
+    }
+    else
+    {
+        m_blendState.SrcBlend       = D3DBLEND_ONE;
+        m_blendState.DestBlend      = D3DBLEND_ZERO;
+        m_blendState.SrcBlendAlpha  = D3DBLEND_ONE;
+        m_blendState.DestBlendAlpha = D3DBLEND_ZERO;
+    }
+#endif
 
     if (!context.m_currentState.m_bBoundBlendState)
     {
@@ -51,6 +74,12 @@ bool BlendStateD3D9::bindBlendState(RenderContext& context, bool forceBind)
 
     D3DDevice d3dDevice = context.getD3DDevice();
 
+#if MCE_GFX_D3D9_BLENDSTATE
+    if (forceBind || ctxDesc != m_description)
+    {
+        d3dDevice->SetBlendState(0, m_blendState);
+    }
+#else
     if (forceBind || ctxDesc.colorWriteMask != m_description.colorWriteMask)
     {
         // Our ColorWriteMask is identical to D3D's
@@ -77,6 +106,7 @@ bool BlendStateD3D9::bindBlendState(RenderContext& context, bool forceBind)
         d3dDevice->SetRenderState(D3DRS_DESTBLENDALPHA, blendAlphaFuncMap[m_description.blendDestination]);
         ctxDesc.blendDestination = m_description.blendDestination;
     }
+#endif
 
     return BlendStateBase::bindBlendState(context);
 }
