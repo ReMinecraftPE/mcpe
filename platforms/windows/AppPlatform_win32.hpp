@@ -60,7 +60,7 @@ public:
 	bool hasFileSystemAccess() override;
 
 	// Also add this to allow dynamic texture patching.
-	AssetFile readAssetFile(const std::string&, bool) const override;
+	AssetFile readAssetFile(const std::string&, bool, const std::vector<std::string>& = std::vector<std::string>()) const override;
 
 	void setScreenSize(int width, int height);
 	const char* getWindowTitle() const { return m_WindowTitle; }

@@ -61,7 +61,7 @@ public:
 	void handleControllerAxisEvent(SDL_JoystickID controllerIndex, uint8_t axis, int16_t value);
 
 	// Needed for Android
-	AssetFile readAssetFile(const std::string&, bool, const std::vector<std::string>&) const override;
+	AssetFile readAssetFile(const std::string&, bool, const std::vector<std::string>& = std::vector<std::string>()) const override;
 
 protected:
 	static SDL_Surface* _GetSurfaceForImage(ImageData& image);
