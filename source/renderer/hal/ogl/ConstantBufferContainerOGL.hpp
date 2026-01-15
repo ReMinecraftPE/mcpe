@@ -8,7 +8,5 @@ namespace mce
     {
     public:
         ConstantBufferContainerOGL();
-
-        void sync(RenderContext& context);
     };
 }

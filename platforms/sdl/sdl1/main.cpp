@@ -7,6 +7,7 @@
 #include <time/time.h>
 
 #include <libfat/fat.h>
+#include <lwip/netdb.h>
 #endif
 
 #include "thirdparty/SDL/SDL.h"

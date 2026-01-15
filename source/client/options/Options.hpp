@@ -75,7 +75,7 @@ private:
 	static std::string saveInt(int i);
 	static std::string saveArray(std::vector<std::string> arr);
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
-	static void savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties);
+	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 
 private:
 	void _initDefaultValues();

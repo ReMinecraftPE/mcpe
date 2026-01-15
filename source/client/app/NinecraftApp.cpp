@@ -9,6 +9,7 @@
 #include "NinecraftApp.hpp"
 #include "world/item/Item.hpp"
 #include "world/entity/MobCategory.hpp"
+#include "client/player/input/GameControllerHandler.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/renderer/FoliageColor.hpp"
@@ -335,9 +336,22 @@ void NinecraftApp::reloadFancy(bool isFancy)
 void NinecraftApp::update()
 {
 	++m_fps;
+
 	Multitouch::commit();
+
+	if (getOptions()->m_bUseController)
+	{
+		GameControllerHandler* pControllerHandler = platform()->getGameControllerHandler();
+		if (pControllerHandler)
+		{
+			pControllerHandler->refresh();
+		}
+	}
+
 	Minecraft::update();
+
 	Mouse::reset2();
+
 	_updateStats();
 }
 

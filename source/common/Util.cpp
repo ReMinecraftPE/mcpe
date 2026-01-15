@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Util.hpp"
-#include "compat/vsnprintf.h"
+#include "compat/vsnprintf.hpp"
 
 const std::string Util::EMPTY_STRING = "";
 

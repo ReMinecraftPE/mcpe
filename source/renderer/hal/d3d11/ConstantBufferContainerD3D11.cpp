@@ -83,7 +83,7 @@ void* ConstantBufferContainerD3D11::map(RenderContext& context)
     HRESULT hResult = d3dDeviceContext->Map(**m_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0x0, &subResource);
     ErrorHandlerDXGI::checkForErrors(hResult);
 
-    m_bCurrentlyMapped = true;
+    m_bWriteEnabled = true;
 
     return subResource.pData;
 }
@@ -93,5 +93,5 @@ void ConstantBufferContainerD3D11::unmap(RenderContext& context)
     D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
     d3dDeviceContext->Unmap(**m_buffer, 0);
 
-    m_bCurrentlyMapped = true; // yeah, they did this
+    m_bWriteEnabled = false;
 }

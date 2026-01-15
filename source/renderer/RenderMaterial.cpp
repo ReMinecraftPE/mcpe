@@ -194,9 +194,9 @@ std::string RenderMaterial::_buildHeader()
 
 void RenderMaterial::_loadShader(ShaderGroup& shaderGroup, const std::vector<std::string>& resourcepacks)
 {
-    Shader::SpliceShaderPath(m_vertexShader);
-    Shader::SpliceShaderPath(m_fragmentShader);
-    Shader::SpliceShaderPath(m_geometryShader);
+    Shader::SpliceShaderPathAndExtension(m_vertexShader);
+    Shader::SpliceShaderPathAndExtension(m_fragmentShader);
+    Shader::SpliceShaderPathAndExtension(m_geometryShader);
 
     std::string header = _buildHeader();
     m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader, resourcepacks);
@@ -267,7 +267,8 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 
 #ifdef FEATURE_GFX_SHADERS
     m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
-#else
+#endif
+#if !defined(FEATURE_GFX_SHADERS) || MCE_GFX_FF_ALPHATEST
     m_fixedPipelineState.bindFixedPipelineState(context);
 #endif
 }

@@ -14,7 +14,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 * To (in the future) provide a cross-platform modding API in [WebAssembly](https://webassembly.org/), giving more creative control to the community.
 * To keep the source code layout similar to the original Minecraft PE (reconstructed from clues hidden within
   certain versions of the game, such as the 0.1.0 touch prototype/debug build)
-* To add support for as many platforms as possible, such as the Xbox 360, PlayStation 3, Wii, and more.
+* To add support for as many platforms as possible, such as the PlayStation 3, Wii, and more.
   Currently, the following platforms are supported:
 	* Windows (2000 and above; thanks to [iProgramInCpp](https://github.com/iProgramMC))
 	* Android (thanks to [Stom](https://github.com/Stommm) for the help)
@@ -22,6 +22,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 	* WebGL
 	* macOS (10.4 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
 	* iOS (3.1 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
+	* Xbox 360 (thanks to [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
 
 **We will not do the following:**

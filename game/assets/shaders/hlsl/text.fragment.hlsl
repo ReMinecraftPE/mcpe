@@ -13,8 +13,7 @@ struct PS_Output
     float4 color : SV_Target;
 };
 
-void main( in PS_Input PSInput, out PS_Output PSOutput )
-{
+PS_MAIN_BEGIN
     const float4 diffuse = TEXTURE_0.Sample( TextureSampler0, PSInput.uv );
 
 #ifdef ALPHA_TEST
@@ -25,5 +24,4 @@ void main( in PS_Input PSInput, out PS_Output PSOutput )
 #endif
 
     PSOutput.color = diffuse * PSInput.color * DARKEN;
-}
-
+PS_MAIN_END

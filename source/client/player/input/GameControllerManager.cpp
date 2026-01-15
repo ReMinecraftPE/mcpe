@@ -6,30 +6,31 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include "Controller.hpp"
 #include <cmath>
 
-const float Controller::DIRECTION_X_THRESHOLD = 0.3f;
-const float Controller::DIRECTION_Y_THRESHOLD = 0.3f;
+#include "GameControllerManager.hpp"
+
+const float GameControllerManager::DIRECTION_X_THRESHOLD = 0.3f;
+const float GameControllerManager::DIRECTION_Y_THRESHOLD = 0.3f;
 
 #define DEADZONE(d) { (d), (1.0f / (1.0f - d)) }
 // 0.3051f
-float Controller::_deadzonesX[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
-float Controller::_deadzonesY[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
+float GameControllerManager::_deadzonesX[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
+float GameControllerManager::_deadzonesY[][2] = { DEADZONE(0.3f), DEADZONE(0.3f) }; // Java: { DEADZONE(0.15f), DEADZONE(0.20f) };
 
-bool Controller::isTouchedValues[] = { false, false };
-float Controller::stickValuesX[] = { 0.0f, 0.0f };
-float Controller::stickValuesY[] = { 0.0f, 0.0f };
-float Controller::triggerValues[] = { 0.0f, 0.0f };
-bool Controller::inReset = true;
+bool GameControllerManager::isTouchedValues[] = { false, false };
+float GameControllerManager::stickValuesX[] = { 0.0f, 0.0f };
+float GameControllerManager::stickValuesY[] = { 0.0f, 0.0f };
+float GameControllerManager::triggerValues[] = { 0.0f, 0.0f };
+bool GameControllerManager::inReset = true;
 
-bool Controller::isValidStick(int stickNo)
+bool GameControllerManager::isValidStick(int stickNo)
 {
 	// We have 2 'sticks' on the Xperia Play
 	return stickNo >= 1 && stickNo <= 2;
 }
 
-float Controller::linearTransform(float a1, float a2, float a3, bool b)
+float GameControllerManager::linearTransform(float a1, float a2, float a3, bool b)
 {
 	if (a1 < 0.0f)
 		a2 = -a2;
@@ -44,7 +45,7 @@ float Controller::linearTransform(float a1, float a2, float a3, bool b)
 	return -1.0f;
 }
 
-void Controller::feedStickX(int stickNo, bool touched, float x)
+void GameControllerManager::feedStickX(int stickNo, bool touched, float x)
 {
 	if (!isValidStick(stickNo))
 		return;
@@ -64,7 +65,7 @@ void Controller::feedStickX(int stickNo, bool touched, float x)
 	inReset = false;
 }
 
-void Controller::feedStickY(int stickNo, bool touched, float y)
+void GameControllerManager::feedStickY(int stickNo, bool touched, float y)
 {
 	if (!isValidStick(stickNo))
 		return;
@@ -84,13 +85,18 @@ void Controller::feedStickY(int stickNo, bool touched, float y)
 	inReset = false;
 }
 
-void Controller::feedStick(int stickNo, bool touched, float x, float y)
+void GameControllerManager::feedStick(int stickNo, bool touched, float x, float y)
 {
 	feedStickX(stickNo, touched, x);
 	feedStickY(stickNo, touched, y);
 }
 
-float Controller::getX(int stickNo)
+void GameControllerManager::feedStick(int stickNo, bool touched, const Vec2& vec)
+{
+	feedStick(stickNo, touched, vec.x, vec.y);
+}
+
+float GameControllerManager::getX(int stickNo)
 {
 	if (!isValidStick(stickNo))
 		return 0.0f;
@@ -98,7 +104,7 @@ float Controller::getX(int stickNo)
 	return stickValuesX[stickNo - 1];
 }
 
-float Controller::getY(int stickNo)
+float GameControllerManager::getY(int stickNo)
 {
 	if (!isValidStick(stickNo))
 		return 0.0f;
@@ -106,7 +112,7 @@ float Controller::getY(int stickNo)
 	return stickValuesY[stickNo - 1];
 }
 
-float Controller::getTransformedX(int stickNo, float a2, float a3, bool b)
+float GameControllerManager::getTransformedX(int stickNo, float a2, float a3, bool b)
 {
 	if (!isValidStick(stickNo))
 		return 0.0f;
@@ -115,7 +121,7 @@ float Controller::getTransformedX(int stickNo, float a2, float a3, bool b)
 	return linearTransform(stickValuesX[stickNo - 1], a2, a3, b);
 }
 
-float Controller::getTransformedY(int stickNo, float a2, float a3, bool b)
+float GameControllerManager::getTransformedY(int stickNo, float a2, float a3, bool b)
 {
 	if (!isValidStick(stickNo))
 		return 0.0f;
@@ -124,44 +130,44 @@ float Controller::getTransformedY(int stickNo, float a2, float a3, bool b)
 	return linearTransform(stickValuesY[stickNo - 1], a2, a3, b);
 }
 
-Controller::StickDirection Controller::getXDirection(int stickNo, float deadzone)
+GameControllerManager::StickDirection GameControllerManager::getXDirection(int stickNo, float deadzone)
 {
-	if (Controller::isValidStick(stickNo) && Controller::isTouched(stickNo))
+	if (GameControllerManager::isValidStick(stickNo) && GameControllerManager::isTouched(stickNo))
 	{
-		float x = Controller::getX(stickNo);
+		float x = GameControllerManager::getX(stickNo);
 		if (x >= deadzone)  return DIR_RIGHT;
 		if (x <= -deadzone) return DIR_LEFT;
 	}
 	return DIR_NONE;
 }
 
-Controller::StickDirection Controller::getYDirection(int stickNo, float deadzone)
+GameControllerManager::StickDirection GameControllerManager::getYDirection(int stickNo, float deadzone)
 {
-	if (Controller::isValidStick(stickNo) && Controller::isTouched(stickNo))
+	if (GameControllerManager::isValidStick(stickNo) && GameControllerManager::isTouched(stickNo))
 	{
-		float y = Controller::getY(stickNo);
+		float y = GameControllerManager::getY(stickNo);
 		if (y >= deadzone)  return DIR_UP;
 		if (y <= -deadzone) return DIR_DOWN;
 	}
 	return DIR_NONE;
 }
 
-Controller::StickDirection Controller::getDirection(int stickNo)
+GameControllerManager::StickDirection GameControllerManager::getDirection(int stickNo)
 {
-	if (Controller::isValidStick(stickNo) && Controller::isTouched(stickNo))
+	if (GameControllerManager::isValidStick(stickNo) && GameControllerManager::isTouched(stickNo))
 	{
-		float x = fabsf(Controller::getX(stickNo));
-		float y = fabsf(Controller::getY(stickNo));
+		float x = fabsf(GameControllerManager::getX(stickNo));
+		float y = fabsf(GameControllerManager::getY(stickNo));
 		if (x >= y)
-			return Controller::getXDirection(stickNo, DIRECTION_X_THRESHOLD);
+			return GameControllerManager::getXDirection(stickNo, DIRECTION_X_THRESHOLD);
 		else
-			return Controller::getYDirection(stickNo, DIRECTION_Y_THRESHOLD);
+			return GameControllerManager::getYDirection(stickNo, DIRECTION_Y_THRESHOLD);
 	}
 
 	return DIR_NONE;
 }
 
-bool Controller::isTouched(int stickNo)
+bool GameControllerManager::isTouched(int stickNo)
 {
 	if (!isValidStick(stickNo))
 		return false;
@@ -169,24 +175,24 @@ bool Controller::isTouched(int stickNo)
 	return isTouchedValues[stickNo - 1];
 }
 
-bool Controller::isValidTrigger(int triggerNo)
+bool GameControllerManager::isValidTrigger(int triggerNo)
 {
 	// Most controllers have 2 triggers
 	return triggerNo >= 1 && triggerNo <= 2;
 }
 
-void Controller::feedTrigger(int triggerNo, float x)
+void GameControllerManager::feedTrigger(int triggerNo, float x)
 {
 	triggerValues[triggerNo - 1] = x;
 	inReset = false;
 }
 
-float Controller::getPressure(int triggerNo)
+float GameControllerManager::getPressure(int triggerNo)
 {
 	return isValidTrigger(triggerNo) ? triggerValues[triggerNo - 1] : 0;
 }
 
-void Controller::reset()
+void GameControllerManager::reset()
 {
 	feedStick(1, 0, 0.0f, 0.0f);
 	feedStick(2, 0, 0.0f, 0.0f);

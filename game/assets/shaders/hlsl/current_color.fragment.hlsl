@@ -11,7 +11,6 @@ struct PS_Output
     float4 color : SV_Target;
 };
 
-void main( in PS_Input PSInput, out PS_Output PSOutput )
-{
+PS_MAIN_BEGIN
     PSOutput.color = CURRENT_COLOR;
-}
+PS_MAIN_END
