@@ -317,6 +317,18 @@ std::string AppPlatform::getAssetPath(const std::string& path) const
 		return "assets/" + path;
 }
 
+std::string AppPlatform::getResourcePath(const std::string& path, std::vector<std::string> resourcepacks) const
+{
+	for (size_t i = 0; i < resourcepacks.size(); ++i)
+	{
+		std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
+		std::ifstream s(fullpath);
+		if (s.good())
+			return fullpath;
+	}
+	return getAssetPath(path);
+}
+
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
 	if (path.empty())

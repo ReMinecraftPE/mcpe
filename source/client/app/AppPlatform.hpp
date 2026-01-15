@@ -123,6 +123,7 @@ public:
 	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
+	virtual std::string getResourcePath(const std::string& path, std::vector<std::string> resourcepacks) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
 	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
 
