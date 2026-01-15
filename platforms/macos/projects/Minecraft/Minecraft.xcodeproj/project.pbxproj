@@ -1135,8 +1135,6 @@
 		84F66DEC2F18C9DA00DE508E /* GameControllerManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DE62F18C9DA00DE508E /* GameControllerManager.hpp */; };
 		84F66DF12F18CA3B00DE508E /* ToolsetDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DED2F18CA3B00DE508E /* ToolsetDefinitions.h */; };
 		84F66DF22F18CA3B00DE508E /* Unused.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DEE2F18CA3B00DE508E /* Unused.hpp */; };
-		84F66DF32F18CA3B00DE508E /* vsnprintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F66DEF2F18CA3B00DE508E /* vsnprintf.cpp */; };
-		84F66DF42F18CA3B00DE508E /* vsnprintf.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DF02F18CA3B00DE508E /* vsnprintf.hpp */; };
 		84F66DF72F18CB3D00DE508E /* MapType.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F66DF52F18CB3D00DE508E /* MapType.hpp */; };
 		84F66DF82F18CB3D00DE508E /* VertexField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F66DF62F18CB3D00DE508E /* VertexField.cpp */; };
 		84F77A002EA1BFB40045C907 /* libNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842610682AE988D30065905F /* libNetwork.a */; };
@@ -2731,8 +2729,6 @@
 		84F66DE62F18C9DA00DE508E /* GameControllerManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameControllerManager.hpp; sourceTree = "<group>"; };
 		84F66DED2F18CA3B00DE508E /* ToolsetDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolsetDefinitions.h; sourceTree = "<group>"; };
 		84F66DEE2F18CA3B00DE508E /* Unused.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Unused.hpp; sourceTree = "<group>"; };
-		84F66DEF2F18CA3B00DE508E /* vsnprintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vsnprintf.cpp; sourceTree = "<group>"; };
-		84F66DF02F18CA3B00DE508E /* vsnprintf.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vsnprintf.hpp; sourceTree = "<group>"; };
 		84F66DF52F18CB3D00DE508E /* MapType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MapType.hpp; sourceTree = "<group>"; };
 		84F66DF62F18CB3D00DE508E /* VertexField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VertexField.cpp; sourceTree = "<group>"; };
 		84F779FD2EA1BF8E0045C907 /* libServer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libServer.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2926,8 +2922,6 @@
 				840DD57A2AC810620006A435 /* SDLKeyCodes.h */,
 				84F66DED2F18CA3B00DE508E /* ToolsetDefinitions.h */,
 				84F66DEE2F18CA3B00DE508E /* Unused.hpp */,
-				84F66DEF2F18CA3B00DE508E /* vsnprintf.cpp */,
-				84F66DF02F18CA3B00DE508E /* vsnprintf.hpp */,
 			);
 			name = compat;
 			path = ../../../../compat;
@@ -5446,7 +5440,6 @@
 				8406FD362AF1823600B09C1D /* Mth.hpp in Headers */,
 				84F66DF22F18CA3B00DE508E /* Unused.hpp in Headers */,
 				8406FD372AF1823600B09C1D /* Random.hpp in Headers */,
-				84F66DF42F18CA3B00DE508E /* vsnprintf.hpp in Headers */,
 				84EB0E0C2EE2D4CA008FB007 /* Color.hpp in Headers */,
 				8406FD392AF1823700B09C1D /* Timer.hpp in Headers */,
 				84EB0E132EE2D4D4008FB007 /* Singleton.hpp in Headers */,
@@ -6498,7 +6491,6 @@
 				84E4BFB52AE9869A0023E16A /* CThread.cpp in Sources */,
 				84CCBC3F2E6183F300E251AF /* DataIO.cpp in Sources */,
 				84EB0E102EE2D4D4008FB007 /* JsonParser.cpp in Sources */,
-				84F66DF32F18CA3B00DE508E /* vsnprintf.cpp in Sources */,
 				84E4BFB62AE9869A0023E16A /* Logger.cpp in Sources */,
 				84E4BFB82AE9869A0023E16A /* Mth.cpp in Sources */,
 				84E4BFB92AE9869A0023E16A /* Random.cpp in Sources */,
