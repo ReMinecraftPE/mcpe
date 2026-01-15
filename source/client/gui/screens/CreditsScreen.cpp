@@ -29,7 +29,7 @@ void CreditsScreen::init()
 	std::string line;
 	while (std::getline(credits_stream, line))
 	{
-		if (line[line.size() - 1] == '\r')
+		if (!line.empty() && line[line.size() - 1] == '\r')
 			line.erase(line.size() - 1);
 		m_credits.push_back(line);
 	}
