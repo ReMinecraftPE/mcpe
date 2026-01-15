@@ -1,17 +1,17 @@
 #include "ShaderConstants.fxh"
-
+#include "entity.fxh"
 
 struct PS_Input
 {
     float4 position : SV_Position;
 
     float4 light : LIGHT;
-    float4 fogColor : FOG_COLOR;
+    float4 fogColor : PS_FOG_COLOR;
 
     float2 uv : TEXCOORD_0;
 
 #ifdef USE_OVERLAY
-    float4 overlayColor : OVERLAY_COLOR;
+    float4 overlayColor : PS_OVERLAY_COLOR;
 #endif
 
 #ifdef GLINT
@@ -36,8 +36,7 @@ float4 glintBlend(float4 dest, float4 source) {
 	return float4(source.rgb * source.rgb, source.a) + float4(dest.rgb, 0.0);
 }
 
-void main( in PS_Input PSInput, out PS_Output PSOutput )
-{
+PS_MAIN_BEGIN
     float4 color = float4( 1.0f, 1.0f, 1.0f, 1.0f );
 
 #ifndef COLOR_BASED
@@ -86,4 +85,4 @@ void main( in PS_Input PSInput, out PS_Output PSOutput )
 
     //WARNING do not refactor this 
     PSOutput.color = color;
-}
+PS_MAIN_END

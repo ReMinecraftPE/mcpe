@@ -8,6 +8,10 @@ public:
 	CreditsScreen();
     ~CreditsScreen();
 
+private:
+	void _initCreditsText();
+
+public:
 	void init() override;
 	bool isInGameScreen() override;
 	void keyPressed(int code) override;

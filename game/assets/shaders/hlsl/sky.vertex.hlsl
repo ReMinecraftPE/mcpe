@@ -14,9 +14,8 @@ struct PS_Input
 };
 
 
-void main( in VS_Input VSInput, out PS_Input PSInput )
-{
+VS_MAIN_BEGIN
     PSInput.position = mul( WORLDVIEWPROJ, float4( VSInput.position, 1 ) );
 
     PSInput.color = lerp( CURRENT_COLOR, FOG_COLOR, VSInput.color.r );
-}
+VS_MAIN_END

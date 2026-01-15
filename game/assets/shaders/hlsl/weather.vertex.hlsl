@@ -15,12 +15,11 @@ struct PS_Input {
 	float2 uv1 : TEXCOORD_1;
 };
 
-void main(in VS_Input VSInput, out PS_Input PSInput)
-{
+VS_MAIN_BEGIN
 	PSInput.position = mul(WORLDVIEWPROJ, float4(VSInput.position, 1));
 
 	PSInput.color = VSInput.color;
 	PSInput.uv0.x = VSInput.uv0.x*2.0f;
 	PSInput.uv0.y = VSInput.uv0.y*10.0f;
 	PSInput.uv1 = VSInput.uv1;
-}
+}VS_MAIN_END

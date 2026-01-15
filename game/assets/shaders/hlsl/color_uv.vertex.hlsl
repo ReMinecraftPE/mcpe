@@ -34,8 +34,7 @@ float2 calculateLayerUV(float2 origUV, float offset, float rotation) {
 #endif
 
 
-void main( in VS_Input VSInput, out PS_Input PSInput )
-{
+VS_MAIN_BEGIN
     PSInput.color = VSInput.color;
     PSInput.position = mul( WORLDVIEWPROJ, float4( VSInput.position, 1 ) );
     PSInput.texCoords = VSInput.texCoords;
@@ -43,4 +42,4 @@ void main( in VS_Input VSInput, out PS_Input PSInput )
 	PSInput.layer1UV = calculateLayerUV(VSInput.texCoords, UV_OFFSET.x, UV_ROTATION.x);
 	PSInput.layer2UV = calculateLayerUV(VSInput.texCoords, UV_OFFSET.y, UV_ROTATION.y);
 #endif
-}
+VS_MAIN_END

@@ -89,15 +89,25 @@ void ConstantBufferMetaDataManager::loadJsonFile(const std::string& document)
     allocateConstantBufferContainers();
 }
 
-const UniformMetaData& ConstantBufferMetaDataManager::findUniformMetaData(const std::string& uniformName) const
+const UniformMetaData* ConstantBufferMetaDataManager::tryFindUniformMetaData(const std::string& uniformName) const
 {
     for (size_t i = 0; i < m_constantBufferMetaDataList.size(); i++)
     {
         const ConstantBufferMetaData& bufferMeta = m_constantBufferMetaDataList[i];
         const UniformMetaData* uniformMeta = bufferMeta.getUniformMetaData(uniformName);
         if (uniformMeta)
-            return *uniformMeta;
+            return uniformMeta;
     }
+
+    return nullptr;
+}
+
+const UniformMetaData& ConstantBufferMetaDataManager::findUniformMetaData(const std::string& uniformName) const
+{
+    const UniformMetaData* uniformMetaData = tryFindUniformMetaData(uniformName);
+
+    if (uniformMetaData)
+        return *uniformMetaData;
 
     LOG_E("Couldn't find uniform: %s in the constant buffer metadata list", uniformName.c_str());
     throw std::bad_cast();

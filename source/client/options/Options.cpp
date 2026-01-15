@@ -15,6 +15,7 @@
 #include "common/Logger.hpp"
 #include "compat/KeyCodes.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/player/input/GameController.hpp"
 
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/GrassColor.hpp"
@@ -203,7 +204,9 @@ std::vector<std::string> Options::readPropertiesFromFile(const std::string& file
 {
 	std::vector<std::string> o;
 
-	const char* const path = filePath.c_str();
+	std::string nativePath(filePath);
+	AppPlatform::singleton()->makeNativePath(nativePath);
+	const char* const path = nativePath.c_str();
 	LOG_I("Loading options from %s", path);
 
 	std::ifstream ifs(path);
@@ -236,15 +239,22 @@ std::vector<std::string> Options::readPropertiesFromFile(const std::string& file
 	return o;
 }
 
-void Options::savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties)
+void Options::savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties)
 {
 	assert(properties.size() % 2 == 0);
 
+	AppPlatform* pAppPlatform = AppPlatform::singleton();
+
+	std::string nativePath(filePath);
+	pAppPlatform->makeNativePath(nativePath);
+
+	pAppPlatform->beginProfileDataWrite(0);
+
 	std::ofstream os;
-	os.open(filePath.c_str());
+	os.open(nativePath.c_str());
 	if (!os.is_open())
 	{
-		LOG_E("Failed to read %s", filePath.c_str());
+		LOG_E("Failed to save to: %s", nativePath.c_str());
 		return;
 	}
 
@@ -252,6 +262,10 @@ void Options::savePropertiesToFile(const std::string& filePath, std::vector<std:
 
 	for (size_t i = 0; i < properties.size(); i += 2)
 		os << properties[i] << ':' << properties[i + 1] << '\n';
+
+	os.close();
+
+	pAppPlatform->endProfileDataWrite(0);
 }
 
 std::vector<std::string> Options::getOptionStrings()
@@ -441,6 +455,22 @@ void Options::loadControls()
 		KM(KM_SLOT_R,        SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 		KM(KM_FLY_UP,        SDL_CONTROLLER_BUTTON_A);
 		KM(KM_FLY_DOWN,      SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+#else
+		KM(KM_TOGGLEDEBUG,   GameController::BUTTON_GUIDE);
+		KM(KM_JUMP,          GameController::BUTTON_A);
+		KM(KM_MENU_NEXT,     GameController::BUTTON_DPAD_DOWN);
+		KM(KM_MENU_PREVIOUS, GameController::BUTTON_DPAD_UP);
+		KM(KM_MENU_OK,       GameController::BUTTON_A);
+		KM(KM_MENU_CANCEL,   GameController::BUTTON_B);
+		KM(KM_DROP,          GameController::BUTTON_B);
+		KM(KM_CHAT,          GameController::BUTTON_BACK);
+		KM(KM_INVENTORY,     GameController::BUTTON_Y);
+		KM(KM_SNEAK,         GameController::BUTTON_RIGHTSTICK);
+		KM(KM_TOGGLE3RD,     GameController::BUTTON_LEFTSTICK);
+		KM(KM_SLOT_L,        GameController::BUTTON_LEFTSHOULDER);
+		KM(KM_SLOT_R,        GameController::BUTTON_RIGHTSHOULDER);
+		KM(KM_FLY_UP,        GameController::BUTTON_A);
+		KM(KM_FLY_DOWN,      GameController::BUTTON_RIGHTSTICK);
 #endif
 #undef KM
 	}

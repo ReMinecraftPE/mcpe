@@ -15,7 +15,7 @@
 #if defined(_WIN32)
 #include "WindowsIncludes.h"
 
- #if !defined(WINDOWS_PHONE_8)
+ #if !defined(WINDOWS_PHONE_8) && !defined(_XBOX)
 		// To call timeGetTime
 		// on Code::Blocks, this needs to be libwinmm.a instead
 		#pragma comment(lib, "Winmm.lib")

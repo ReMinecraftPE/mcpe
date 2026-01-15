@@ -344,6 +344,9 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.hpp">
       <Filter>Header Files\HAL</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\renderer\GL\GL.cpp">
@@ -597,6 +600,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.cpp">
       <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

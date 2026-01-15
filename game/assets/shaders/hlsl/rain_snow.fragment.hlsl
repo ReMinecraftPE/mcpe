@@ -11,8 +11,7 @@ struct PS_Output {
 	float4 color : SV_Target;
 };
 
-void main( in PS_Input PSInput, out PS_Output PSOutput ) {
-	
+PS_MAIN_BEGIN
 	PSOutput.color = TEXTURE_0.Sample(TextureSampler0, PSInput.uv);
 
 #ifdef ALPHA_TEST
@@ -36,6 +35,4 @@ void main( in PS_Input PSInput, out PS_Output PSOutput ) {
 	float mixAmount = saturate((PSInput.worldPosition.y - occlusionTexture.a)*0.1f);
 	float3 lighting = lerp(occlusionTexture.rgb, PSInput.color.rgb, mixAmount);
 	PSOutput.color.rgb *= lighting.rgb;
-}
-
-
+PS_MAIN_END
