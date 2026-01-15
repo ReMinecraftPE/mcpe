@@ -1,14 +1,16 @@
-#include <cstring>
 #include "GameControllerHandler.hpp"
 
 GameControllerHandler::GameControllerHandler()
 {
-	memset(m_connectionStates,  GameController::STATE_DISCONNECTED, C_MAX_GAME_CONTROLLERS);
-	memset(m_nextCheckTime,     0, C_MAX_GAME_CONTROLLERS);
-	memset(m_leftTrigger,       0, C_MAX_GAME_CONTROLLERS);
-	memset(m_rightTrigger,      0, C_MAX_GAME_CONTROLLERS);
-	memset(m_leftStickTouched,  0, C_MAX_GAME_CONTROLLERS);
-	memset(m_rightStickTouched, 0, C_MAX_GAME_CONTROLLERS);
+	for (int i = 0; i < C_MAX_GAME_CONTROLLERS; i++)
+	{
+		m_connectionStates[i] = GameController::STATE_DISCONNECTED;
+		m_nextCheckTime[i] = 0.0;
+		m_leftTrigger[i] = 0.0f;
+		m_rightTrigger[i] = 0.0f;
+		m_leftStickTouched[i] = false;
+		m_rightStickTouched[i] = false;
+	}
 }
 
 // @TODO: remove this when we can
