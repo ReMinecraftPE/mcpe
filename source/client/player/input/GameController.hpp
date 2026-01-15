@@ -56,7 +56,7 @@ public:
         EVENT_TRIGGER,
         EVENT_JOIN_GAME,
         EVENT_CHANGE_USER,
-        EVENT_CONNECTION_STATE_CHANGE,
+        EVENT_CONNECTION_STATE_CHANGE
     };
 
 public:
