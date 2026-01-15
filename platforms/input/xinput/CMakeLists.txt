@@ -6,6 +6,10 @@ add_library(reminecraftpe-input STATIC
 	GameControllerHandler_xinput.cpp
 )
 
+target_link_libraries(reminecraftpe-input
+	PUBLIC xinput
+)
+
 target_link_libraries(reminecraftpe-input PUBLIC reminecraftpe-core)
 
 # Headers
