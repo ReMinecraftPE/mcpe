@@ -170,6 +170,11 @@ bool AppPlatform::hasGamepad() const
 	return false;
 }
 
+GameControllerHandler* AppPlatform::getGameControllerHandler()
+{
+	return nullptr;
+}
+
 void AppPlatform::recenterMouse()
 {
 
@@ -309,6 +314,15 @@ std::string AppPlatform::getPatchData()
 	return readAssetFileStr(_getPatchDataPath(), false);
 }
 
+void AppPlatform::initSoundSystem()
+{
+}
+
+SoundSystem* AppPlatform::getSoundSystem() const
+{
+	return nullptr;
+}
+
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
 	std::string realPath = path;
@@ -326,7 +340,7 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
 	if (path.empty())
 	{
-		LOG_W("Empty asset file path!");
+		if (!quiet) LOG_W("Empty asset file path!");
 		return AssetFile();
 	}
 
@@ -373,11 +387,14 @@ std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) c
 	return out;
 }
 
-void AppPlatform::initSoundSystem()
+void AppPlatform::makeNativePath(std::string& path) const
 {
 }
 
-SoundSystem* AppPlatform::getSoundSystem() const
+void AppPlatform::beginProfileDataWrite(unsigned int playerId)
 {
-	return nullptr;
+}
+
+void AppPlatform::endProfileDataWrite(unsigned int playerId)
+{
 }

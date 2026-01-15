@@ -30,9 +30,6 @@
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl2\base\AppPlatform_sdl2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

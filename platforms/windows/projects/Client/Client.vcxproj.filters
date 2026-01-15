@@ -200,7 +200,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\Screen.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp">
+    <ClInclude Include="..\..\..\..\source\client\player\input\GameControllerManager.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp">
@@ -542,6 +542,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameController.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -631,7 +637,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp">
+    <ClCompile Include="..\..\..\..\source\client\player\input\GameControllerManager.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp">
@@ -951,6 +957,12 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp">
       <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameController.cpp">
+      <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

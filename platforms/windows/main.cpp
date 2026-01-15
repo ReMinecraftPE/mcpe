@@ -67,8 +67,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 		case WM_SIZE:
 		{
-			UINT width = LOWORD(lParam);
-			UINT height = HIWORD(lParam);
+			// Prevent creation of a 0x0 window, can cause crashes, like in GLM on the 3D title logo
+			UINT width = Mth::Max(LOWORD(lParam), 1);
+			UINT height = Mth::Max(HIWORD(lParam), 1);
 
 			Minecraft::width  = width;
 			Minecraft::height = height;
@@ -77,7 +78,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			g_AppPlatform.setScreenSize(width, height);
 
 			if (g_pApp)
+			{
 				g_pApp->sizeUpdate(width, height);
+#if MCE_GFX_API_D3D9
+				g_pApp->onGraphicsReset();
+#endif
+			}
 
 			break;
 		}
@@ -143,7 +149,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 1;
 	g_AppPlatform.initializeWindow(hWnd, nCmdShow);
 
-	if (!g_AppPlatform.initGraphics())
+	if (!g_AppPlatform.initGraphics(Minecraft::width, Minecraft::height))
 		goto _cleanup;
 
 	g_pApp = new NinecraftApp;
@@ -153,7 +159,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// initialize the app
 	g_pApp->init();
 	g_pApp->sizeUpdate(Minecraft::width, Minecraft::height);
-	g_AppPlatform.setScreenSize(Minecraft::width, Minecraft::height);
 
 	while (!g_pApp->wantToQuit())
 	{

@@ -198,7 +198,6 @@ void RenderContextD3D11::createWindowSizeDependentResources(HWND hWnd, const Vec
 
     // Calculate the necessary swap chain and render target size in pixels.
     Vec2 outputSize = m_logicalSize * m_compositionScale;
-    //std::swap(outputSize.x, outputSize.y); // D3D needs this for whatever reason
 
     // Prevent zero size Direct3D content from being created.
     outputSize.x = Mth::Max(outputSize.x, 1.0f);

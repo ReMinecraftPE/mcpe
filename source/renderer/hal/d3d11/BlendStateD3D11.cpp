@@ -80,9 +80,7 @@ bool BlendStateD3D11::bindBlendState(RenderContext& context, bool forceBind)
     {
         D3DDeviceContext d3dDeviceContext = context.getD3DDeviceContext();
         d3dDeviceContext->OMSetBlendState(**m_blendState, m_blendFactor, m_sampleMask);
-
-        return BlendStateBase::bindBlendState(context);
     }
 
-    return false;
+    return BlendStateBase::bindBlendState(context);
 }

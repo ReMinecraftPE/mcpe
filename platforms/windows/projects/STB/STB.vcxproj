@@ -43,9 +43,15 @@
   <ImportGroup Label="Minecraft">
     <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\thirdparty\stb_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_vorbis.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_image.h" />

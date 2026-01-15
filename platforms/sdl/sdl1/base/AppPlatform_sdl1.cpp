@@ -3,7 +3,7 @@
 #include "thirdparty/SDL/SDL_gamecontroller.h"
 
 #include "CustomSoundSystem.hpp"
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 
 // Macros are cursed
 #define _STR(x) #x

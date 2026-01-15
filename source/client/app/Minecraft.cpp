@@ -24,7 +24,7 @@
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
 
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 #include "client/player/input/ControllerBuildInput.hpp"
 #include "client/player/input/ControllerMoveInput.hpp"
 #include "client/player/input/ControllerTurnInput.hpp"
@@ -40,6 +40,8 @@
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/PatchManager.hpp"
+
+#include "renderer/RenderContextImmediate.hpp"
 
 float Minecraft::_renderScaleMultiplier = 1.0f;
 
@@ -276,7 +278,7 @@ void Minecraft::setScreen(Screen* pScreen)
 
 	Mouse::reset();
 	Multitouch::reset();
-	Controller::reset();
+	GameControllerManager::reset();
 	Multitouch::resetThisUpdate();
 
 	m_pScreen = pScreen;
@@ -666,7 +668,7 @@ void Minecraft::resetInput()
 {
 	Keyboard::reset();
 	Mouse::reset();
-	Controller::reset();
+	GameControllerManager::reset();
 	Multitouch::resetThisUpdate();
 }
 
@@ -841,11 +843,17 @@ void Minecraft::update()
 	tickMouse();
 #endif
 
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	renderContext.beginRender();
+
 	m_pGameRenderer->render(m_timer.m_renderTicks);
 
 	// Added by iProgramInCpp
 	if (m_pGameMode)
 		m_pGameMode->render(m_timer.m_renderTicks);
+
+	renderContext.endRender();
 
 	double time = getTimeS();
 	m_fDeltaTime = time - m_fLastUpdated;
@@ -974,7 +982,9 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
-//#define USE_JAVA_SCREEN_SCALING
+#if MC_PLATFORM_XBOX
+#define USE_JAVA_SCREEN_SCALING
+#endif
 #ifdef USE_JAVA_SCREEN_SCALING
 	int scale;
 	for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)

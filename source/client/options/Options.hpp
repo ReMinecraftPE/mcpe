@@ -73,7 +73,7 @@ private:
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
-	static void savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties);
+	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 
 private:
 	void _initDefaultValues();
