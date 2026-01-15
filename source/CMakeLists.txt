@@ -3,7 +3,7 @@ project(reminecraftpe-core)
 
 # Build
 add_library(reminecraftpe-core STATIC
-    ../compat/vsnprintf.c
+    ../compat/vsnprintf.cpp
     common/CThread.cpp
     common/DataIO.cpp
     common/Logger.cpp
@@ -137,6 +137,8 @@ add_library(reminecraftpe-core STATIC
     client/player/input/MouseBuildInput.cpp
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
+	client/player/input/GameController.cpp
+	client/player/input/GameControllerHandler.cpp
     client/player/input/ITurnInput.cpp
     client/player/input/IBuildInput.cpp
     client/player/input/IncludeExcludeArea.cpp
@@ -387,6 +389,7 @@ add_library(reminecraftpe-core STATIC
     renderer/TextureGroup.cpp
     renderer/TexturePtr.cpp
     renderer/UniformMetaData.cpp
+	renderer/VertexFieldFormat.cpp
     renderer/VertexFormat.cpp
     renderer/WeatherConstants.cpp
     renderer/WorldConstants.cpp
