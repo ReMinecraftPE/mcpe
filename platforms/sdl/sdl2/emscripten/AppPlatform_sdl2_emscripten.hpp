@@ -12,6 +12,6 @@ class AppPlatform_sdl2_emscripten : public AppPlatform_sdl2
 public:
 	AppPlatform_sdl2_emscripten(std::string storageDir, SDL_Window *window);
 
-	void loadImage(ImageData& data, const std::string& path) override;
+	void loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks = std::vector<std::string>()) override;
 	bool doesTextureExist(const std::string& path) const override;
 };

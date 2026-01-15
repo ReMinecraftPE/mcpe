@@ -20,7 +20,7 @@ TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
 	assert(m_textures.find(name) == m_textures.end());
 
-	TextureData t = m_pPlatform->loadTexture(name, bIsRequired);
+	TextureData t = m_pPlatform->loadTexture(name, bIsRequired, m_pOptions->m_resourcepacks);
 
 	if (t.isEmpty())
 	{
@@ -205,7 +205,7 @@ TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequir
 	return pTexture;
 }
 
-TextureData* Textures::_getTextureData(const std::string& name, bool isRequired)
+TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
 {
 	TextureMap::iterator it = m_textures.find(name);
 	TextureData* pTexture;
@@ -214,24 +214,6 @@ TextureData* Textures::_getTextureData(const std::string& name, bool isRequired)
 	else
 		pTexture = loadTexture(name, isRequired);
 	return pTexture;
-}
-
-TextureData* Textures::getTextureData(const std::string& name, bool isRequired)
-{
-	std::vector<std::string> resourcepacks = m_pOptions->m_resourcepacks;
-	std::string fullpath, slashname = "/" + name;
-	TextureData* ret = nullptr;
-
-	// try to use the resource pack version of the texture
-	for (size_t i = 0; i < resourcepacks.size(); ++i)
-	{
-		fullpath = "/resource_packs/" + resourcepacks[i] + slashname;
-		ret = _getTextureData(fullpath, false);
-		if (ret)
-			return ret;
-	}
-	// no active resource packs have the texture, use the vanilla one or missing texture
-	return _getTextureData(name, isRequired);
 }
 
 void Textures::addDynamicTexture(DynamicTexture* pTexture)

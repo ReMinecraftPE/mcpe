@@ -80,8 +80,8 @@ public:
 	virtual void saveScreenshot(const std::string&, int, int);
 	virtual void showDialog(eDialogType);
 	virtual void uploadPlatformDependentData(int, void*);
-	virtual void loadImage(ImageData& data, const std::string& path);
-	TextureData loadTexture(const std::string& path, bool bIsRequired = false);
+	virtual void loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks = std::vector<std::string>());
+	TextureData loadTexture(const std::string& path, bool bIsRequired = false, const std::vector<std::string>& resourcepacks = std::vector<std::string>());
 	virtual bool doesTextureExist(const std::string& path) const;
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	virtual bool isTouchscreen() const;
@@ -122,10 +122,9 @@ public:
 	virtual void initSoundSystem();
 	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
-	virtual std::string getAssetPath(const std::string& path) const;
-	virtual std::string getResourcePath(const std::string& path, std::vector<std::string> resourcepacks) const;
-	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
-	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
+	virtual std::string getAssetPath(const std::string& path, const std::vector<std::string>& resourcepacks = std::vector<std::string>()) const;
+	virtual AssetFile readAssetFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks = std::vector<std::string>()) const;
+	virtual std::string readAssetFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks = std::vector<std::string>()) const;
 
 public:
 	ListenerMap m_listeners;

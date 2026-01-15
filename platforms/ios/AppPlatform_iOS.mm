@@ -64,9 +64,9 @@ int AppPlatform_iOS::getScreenHeight() const
 	return m_pViewController.height;
 }
 
-void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
+void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
 {
-	std::string realPath = getAssetPath(path);
+	std::string realPath = getAssetPath(path, resourcepacks);
 	
 	UIImage * image = [UIImage imageWithContentsOfFile:
 						[NSString stringWithUTF8String: realPath.c_str()]];

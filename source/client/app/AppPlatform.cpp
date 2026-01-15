@@ -122,9 +122,9 @@ void AppPlatform::uploadPlatformDependentData(int, void*)
 
 }
 
-void AppPlatform::loadImage(ImageData& data, const std::string& path)
+void AppPlatform::loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
 {
-	AssetFile file = readAssetFile(path, true);
+	AssetFile file = readAssetFile(path, true, resourcepacks);
 
 	if (!file.data)
 		return;
@@ -148,10 +148,10 @@ void AppPlatform::loadImage(ImageData& data, const std::string& path)
 	data.m_colorSpace = channels == 3 ? COLOR_SPACE_RGB : COLOR_SPACE_RGBA;
 }
 
-TextureData AppPlatform::loadTexture(const std::string& path, bool bIsRequired)
+TextureData AppPlatform::loadTexture(const std::string& path, bool bIsRequired, const std::vector<std::string>& resourcepacks)
 {
 	TextureData out;
-	loadImage(out.m_imageData, path);
+	loadImage(out.m_imageData, path, resourcepacks);
 	return out;
 }
 
@@ -309,27 +309,25 @@ std::string AppPlatform::getPatchData()
 	return readAssetFileStr(_getPatchDataPath(), false);
 }
 
-std::string AppPlatform::getAssetPath(const std::string& path) const
+std::string AppPlatform::getAssetPath(const std::string& path, const std::vector<std::string>& resourcepacks) const
 {
-	if (path.size() && path[0] == '/')
-		return m_externalStorageDir + "/games/com.mojang" + path;
-	else
-		return "assets/" + path;
-}
-
-std::string AppPlatform::getResourcePath(const std::string& path, std::vector<std::string> resourcepacks) const
-{
-	for (size_t i = 0; i < resourcepacks.size(); ++i)
+	if (!resourcepacks.empty())
 	{
-		std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
-		std::ifstream s(fullpath.c_str());
-		if (s.good())
-			return fullpath;
+		for (size_t i = 0; i < resourcepacks.size(); ++i)
+		{
+			std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
+			std::ifstream s(fullpath.c_str());
+			if (s.good())
+				return fullpath;
+		}
 	}
-	return getAssetPath(path);
+	else if (path.size() && path[0] == '/')
+		return m_externalStorageDir + "/games/com.mojang" + path;
+
+	return "assets/" + path;
 }
 
-AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
+AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
 {
 	if (path.empty())
 	{
@@ -337,7 +335,7 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 		return AssetFile();
 	}
 
-	std::string realPath = getAssetPath(path);
+	std::string realPath = getAssetPath(path, resourcepacks);
 	std::ifstream ifs(realPath.c_str(), std::ios::binary);
     
 	// Open File
@@ -370,9 +368,9 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 	return AssetFile((int64_t)size, (uint8_t*)buf);
 }
 
-std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) const
+std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
 {
-	AssetFile file = readAssetFile(path, quiet);
+	AssetFile file = readAssetFile(path, quiet, resourcepacks);
 	if (!file.data)
 		return "";
 	std::string out = std::string(file.data, file.data + file.size);
