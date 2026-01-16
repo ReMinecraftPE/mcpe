@@ -40,10 +40,10 @@ void ScreenRenderer::_blitBegin(const IntRectangle& rect)
 {
     Tesselator& t = Tesselator::instance;
     t.begin(4);
-    t.vertexUV(rect.x, rect.h + rect.y, 0.0f, 0.0f, 1.0f);
+    t.vertexUV(rect.x,          rect.h + rect.y, 0.0f, 0.0f, 1.0f);
     t.vertexUV(rect.w + rect.x, rect.h + rect.y, 0.0f, 1.0f, 1.0f);
-    t.vertexUV(rect.w + rect.x, rect.y, 0.0f, 1.0f, 0.0f);
-    t.vertexUV(rect.x, rect.y, 0.0f, 0.0f, 0.0f);
+    t.vertexUV(rect.w + rect.x, rect.y,          0.0f, 1.0f, 0.0f);
+    t.vertexUV(rect.x,          rect.y,          0.0f, 0.0f, 0.0f);
 }
 
 void ScreenRenderer::blit(const IntRectangle& rect)
