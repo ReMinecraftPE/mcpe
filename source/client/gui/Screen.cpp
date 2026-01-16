@@ -12,6 +12,9 @@
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/hal/interface/RasterizerState.hpp"
 
+#define C_SOUND_BTN_PRESS   "random.click"
+#define C_SOUND_BTN_RELEASE "random.click"
+
 Screen::Materials::Materials()
 {
 	MATERIAL_PTR(common, ui_cubemap);
@@ -73,7 +76,7 @@ void Screen::keyPressed(int key)
 		{
 			if (m_buttonTabList[m_tabButtonIndex]->m_bEnabled)
 			{
-				m_pMinecraft->m_pSoundEngine->playUI("random.click");
+				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
 				buttonClicked(m_buttonTabList[m_tabButtonIndex]);
 			}
 		}
@@ -218,7 +221,7 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 
 			if (!m_pMinecraft->isTouchscreen())
 			{
-				m_pMinecraft->m_pSoundEngine->playUI("random.click");
+				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
 				buttonClicked(button);
 			}
 		}
@@ -272,7 +275,7 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 	{
 		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
 		{
-			m_pMinecraft->m_pSoundEngine->playUI("random.click");
+			m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_RELEASE);
 			buttonClicked(m_pClickedButton);
 		}
 		m_pClickedButton->released(xPos, yPos);
