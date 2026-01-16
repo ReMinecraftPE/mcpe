@@ -814,7 +814,7 @@ void StartMenuScreen::render(int a, int b, float c)
 		titleYPos = 4;
 	}
 
-	if (m_pMinecraft->getOptions()->m_bOldTitleLogo)
+	if (m_pMinecraft->getOptions()->m_b2dTitleLogo)
 		draw2dTitle();
 	else
 		draw3dTitle(c);
