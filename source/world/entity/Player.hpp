@@ -18,6 +18,16 @@ class Inventory; // in case we're included from Inventory.hpp
 
 class Player : public Mob
 {
+public:
+	enum BedSleepingProblem
+	{
+		BED_SLEEPING_OK,
+		BED_SLEEPING_NOT_POSSIBLE_HERE,
+		BED_SLEEPING_NOT_POSSIBLE_NOW,
+		BED_SLEEPING_TOO_FAR_AWAY,
+		BED_SLEEPING_OTHER_PROBLEM
+	};
+
 private:
 	GameType _playerGameType;
 
@@ -47,7 +57,7 @@ public:
 	void die(Entity* pCulprit) override;
 	void aiStep() override;
 	ItemInstance* getCarriedItem() const override;
-	bool isImmobile() const override { return m_health <= 0; }
+	bool isImmobile() const override { return m_health <= 0 || m_bSleeping; }
 	void updateAi() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
@@ -80,6 +90,15 @@ public:
 	void setDefaultHeadHeight();
 	void setRespawnPos(const TilePos& pos);
 
+	// Sleeping
+	void updateSleepingPos(Facing::Name direction);
+	virtual BedSleepingProblem startSleepInBed(const TilePos& pos);
+	virtual void stopSleepInBed(bool resetCounter, bool update, bool setSpawn);
+	bool isSleeping() const override { return m_bSleeping; }
+	bool isSleepingLongEnough() const { return m_bSleeping && m_sleepTimer >= 100; }
+	float getBedSleepRot() const;
+	bool checkBed() const;
+
 	void touch(Entity* pEnt);
 	GameType getPlayerGameType() const { return _playerGameType; }
 	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
@@ -105,11 +124,14 @@ public:
 	std::string m_name;
 	int m_dimension;
 	RakNet::RakNetGUID m_guid;
-	//TODO
 	TilePos m_respawnPos;
-	//TODO
 	bool m_bHasRespawnPos;
 	//TODO
 	bool m_destroyingBlock;
+
+	// Sleeping
+	bool m_bSleeping;
+	int m_sleepTimer;
+	Vec3 m_sleepingPos;
 };
 

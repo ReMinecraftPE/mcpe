@@ -36,6 +36,7 @@
 #include "client/player/input/Multitouch.hpp"
 
 #include "world/tile/SandTile.hpp"
+#include "world/tile/BedTile.hpp"
 
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
@@ -147,11 +148,33 @@ void Minecraft::_levelGenerated()
 void Minecraft::_resetPlayer(Player* player)
 {
 	m_pLevel->validateSpawn();
+	
+	TilePos spawnPos;
+	
+	if (player->m_bHasRespawnPos)
+	{
+		spawnPos = player->getRespawnPosition();
+		
+		if (m_pLevel->getTile(spawnPos) == Tile::bed->m_ID)
+		{
+			TilePos safePos = BedTile::getRespawnTilePos(m_pLevel, spawnPos, 0);
+			if (safePos == spawnPos)
+				safePos = safePos.above();
+			
+			player->reset();
+			player->moveTo(Vec3(safePos.x + 0.5f, float(safePos.y), safePos.z + 0.5f));
+			player->resetPos(true);
+			return;
+		}
+		
+		// If bed was destroyed, clear the respawn position and fall through to world spawn
+		player->setRespawnPos(TilePos(-1, -1, -1));
+	}
+	
+	spawnPos = m_pLevel->getSharedSpawnPos();
 	player->reset();
-
-	TilePos pos = m_pLevel->getSharedSpawnPos();
-	player->setPos(pos);
-	player->resetPos();
+	player->moveTo(Vec3(spawnPos.x + 0.5f, float(spawnPos.y), spawnPos.z + 0.5f));
+	player->resetPos(true);
 }
 
 GameMode* Minecraft::_createGameMode(GameType gameType, Level& level)
@@ -453,6 +476,12 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 					if (isOnline())
 					{
 						if (ItemInstance::isNull(pItem) || !pItem->getTile())
+							return;
+
+						// Don't send PlaceBlockPacket if we just interacted with a bed
+						// The bed interaction is handled via UseItemPacket
+						TileID interactedTile = m_pLevel->getTile(m_hitResult.m_tilePos);
+						if (interactedTile == Tile::bed->m_ID)
 							return;
 
 						TilePos tp(m_hitResult.m_tilePos);
@@ -1092,6 +1121,13 @@ void* Minecraft::prepareLevel_tspawn(void* ptr)
 bool Minecraft::pauseGame()
 {
 	if (isGamePaused() || m_pScreen) return false;
+
+	// If player is sleeping, wake them up instead of pausing
+	if (m_pLocalPlayer && m_pLocalPlayer->isSleeping())
+	{
+		m_pLocalPlayer->stopSleepInBed(false, true, true);
+		return true;
+	}
 
 	if (!isOnline())
 	{

@@ -15,6 +15,9 @@ public:
 	void heal(int health) override;
 	//void drop() override;
 	void hurtTo(int newHealth) override;
+	
+	BedSleepingProblem startSleepInBed(const TilePos& pos) override;
+	void stopSleepInBed(bool resetCounter, bool update, bool setSpawn) override;
 
 private:
 	bool m_flashOnSetHealth;

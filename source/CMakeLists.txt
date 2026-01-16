@@ -175,6 +175,7 @@ add_library(reminecraftpe-core STATIC
     network/packets/RequestChunkPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
     network/packets/InteractPacket.cpp
+    network/packets/InteractionPacket.cpp
     network/packets/UseItemPacket.cpp
     network/packets/SetEntityDataPacket.cpp
     network/packets/SetHealthPacket.cpp
@@ -303,6 +304,7 @@ add_library(reminecraftpe-core STATIC
     world/item/TileItem.cpp
     world/item/Inventory.cpp
     world/item/DoorItem.cpp
+    world/item/BedItem.cpp
     world/item/ItemInstance.cpp
     world/item/RocketItem.cpp
     world/item/Item.cpp
@@ -365,6 +367,7 @@ add_library(reminecraftpe-core STATIC
     world/tile/GlowstoneTile.cpp
     world/tile/Web.cpp
     world/tile/FenceTile.cpp
+    world/tile/BedTile.cpp
     renderer/GL/GL.cpp
     renderer/Attribute.cpp
     renderer/ConstantBufferMetaData.cpp

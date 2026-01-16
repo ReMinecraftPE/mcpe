@@ -18,6 +18,8 @@ public:
 	virtual void additionalRendering(const Mob& mob, float) override;
 	virtual void render(const Entity& entity, const Vec3&, float, float) override;
 	virtual void onGraphicsReset() override;
+	virtual void setupPosition(const Entity& entity, const Vec3& pos, Matrix& matrix) override;
+	virtual void setupRotations(const Entity& entity, float bob, float bodyRot, Matrix& matrix, float a) override;
 
 	void renderHand(const Entity& entity, float a);
 
