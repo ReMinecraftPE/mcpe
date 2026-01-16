@@ -420,6 +420,7 @@ StartMenuScreen::StartMenuScreen() :
 {
 	m_pTiles = nullptr;
 	m_chosenSplash = -1;
+	m_p2dTitleTex = nullptr;
 	m_bUsingJavaLogo = false;
 
 	// note: do it here because we don't want the title to
