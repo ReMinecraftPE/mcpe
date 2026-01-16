@@ -350,7 +350,7 @@ void OptionList::initMiscMenu()
 	int idxPano = -1;
 
 	OPTION(Boolean, m_bDebugText, "Debug Text");
-	OPTION(Boolean, m_bOldTitleLogo, "2D Title Logo");
+	OPTION(Boolean, m_b2dTitleLogo, "2D Title Logo");
 #ifdef ENH_MENU_BACKGROUND
 	OPTION(Boolean, m_bMenuPanorama, "Menu Panorama"); idxPano = currentIndex;
 #endif

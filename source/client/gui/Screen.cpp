@@ -130,11 +130,11 @@ void Screen::renderMenuBackground(float f)
 		return;
 	}
 
+	Textures* pTextures = m_pMinecraft->m_pTextures;
+
 	g_panoramaAngle += float(30.0 * m_pMinecraft->m_fDeltaTime);
 
-	float aspectRatio;
-
-	aspectRatio = 1.0f;
+	float aspectRatio = 1.0f;
 	//aspectRatio = float(m_width) / float(m_height);
 
 	// @HAL: this should be using ui_cubemap, but for whatever reason we need to disable culling
@@ -186,11 +186,11 @@ void Screen::renderMenuBackground(float f)
 			mtx->rotate(ang, Vec3(axis.x, axis.y, 0.0f));
 
 		skip_rotate:
-			m_pMinecraft->m_pTextures->setSmoothing(true);
-			m_pMinecraft->m_pTextures->setClampToEdge(true);
-			m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
-			m_pMinecraft->m_pTextures->setSmoothing(false);
-			m_pMinecraft->m_pTextures->setClampToEdge(false);
+			pTextures->setSmoothing(true);
+			pTextures->setClampToEdge(true);
+			pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
+			pTextures->setSmoothing(false);
+			pTextures->setClampToEdge(false);
 
 			Tesselator& t = Tesselator::instance;
 			t.begin(4);

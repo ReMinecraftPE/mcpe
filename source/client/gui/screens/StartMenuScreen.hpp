@@ -52,8 +52,13 @@ public:
 	StartMenuScreen();
 	~StartMenuScreen();
 
+protected:
+	void _initTextures();
+	void _initResources();
+	void _build2dTitleMesh();
 	void _updateLicense();
 
+public:
 	void init() override;
 	void buttonClicked(Button*) override;
 	bool isInGameScreen() override;
@@ -84,6 +89,9 @@ protected:
 
 	int m_chosenSplash;
 
+	TextureData* m_p2dTitleTex;
+	bool m_bUsingJavaLogo;
+	mce::Mesh m_2dTitleMesh;
 	IntRectangle m_2dTitleBounds;
 
 	TileRenderer m_tileRenderer;

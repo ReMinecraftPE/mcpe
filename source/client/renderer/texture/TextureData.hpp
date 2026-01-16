@@ -37,7 +37,7 @@ public:
     void move(TextureData& other);
     void unload();
     void clear();
-    void bind(unsigned int textureUnit);
+    void bind(unsigned int textureUnit = 0);
     void sync();
     uint32_t* getData();
     void setData(uint8_t* data);
