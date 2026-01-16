@@ -54,7 +54,6 @@ struct SoundDesc : AudioDescriptor
 
 	AssetFile m_file;
 	SoundBuffer m_buffer;
-	unsigned char* m_fileData;
 
 	bool _load(const AppPlatform* platform, const char* category, const char *name);
 	bool _loadPcm(const AppPlatform* platform, const char *name);
