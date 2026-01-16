@@ -21,7 +21,11 @@ public:
 	};
     enum StickState
     {
-        STK_STATE_UNKNOWN
+        STICK_STATE_NONE,
+        STICK_STATE_UP,
+        STICK_STATE_DOWN,
+        STICK_STATE_LEFT,
+        STICK_STATE_RIGHT
     };
 	enum EngineButtonID
 	{
