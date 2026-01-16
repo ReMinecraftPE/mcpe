@@ -19,6 +19,7 @@
 /gui/plusknapp.png
 /gui/raknet.png
 /gui/title.png
+/gui/title_xbox360.png
 /gui/touchgui.png
 /gui/controls/dpad.png
 /gui/controls/dpad_jump.png
@@ -103,6 +104,7 @@
 /mob/slime.png
 /mob/spider_eyes.png
 /mob/squid.png
+/title/mclogo.png
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /gui/background/panorama_0.png
