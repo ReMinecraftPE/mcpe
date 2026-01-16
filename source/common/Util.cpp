@@ -6,8 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <stdio.h>
 #include "Util.hpp"
-#include "compat/vsnprintf.hpp"
 
 const std::string Util::EMPTY_STRING = "";
 

@@ -129,7 +129,7 @@ public:
 	bool m_bSplitControls;
 	bool m_bUseController;
 	bool m_bDynamicHand;
-	bool m_bOldTitleLogo;
+	bool m_b2dTitleLogo;
 	bool m_bMenuPanorama;
 	std::vector<std::string> m_resourcepacks;
 

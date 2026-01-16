@@ -73,9 +73,8 @@ bool SoundDesc::_loadPcm(const AppPlatform* platform, const char *name)
     if (!m_isLoaded) return false;
 
     m_codecType = AudioCodec::PCM;
-    m_fileData = m_file.data;
-    m_header = *(PCMSoundHeader *) m_fileData;
-    m_buffer.m_pData = (int16_t *) (m_fileData + sizeof(PCMSoundHeader));
+    m_header = *(PCMSoundHeader *) m_file.data;
+    m_buffer.m_pData = (int16_t *) (m_file.data + sizeof(PCMSoundHeader));
     m_buffer.m_dataSize = m_header.m_channels * m_header.m_length * m_header.m_bytes_per_sample;
 
     // Success!
@@ -91,9 +90,12 @@ bool SoundDesc::_loadOgg(const AppPlatform* platform, const char *name)
     if (!m_isLoaded) return false;
 
     m_codecType = AudioCodec::OGG;
-    m_fileData = m_file.data;
     m_header.m_bytes_per_sample = 2; // Always 2 (16-bit)
     m_header.m_length = stb_vorbis_decode_memory(m_file.data, (int) m_file.size, &m_header.m_channels, &m_header.m_sample_rate, &m_buffer.m_pData);
+
+    delete[] m_file.data;
+    m_file.data = nullptr;
+
     if (m_header.m_length == -1)
     {
         LOG_E("An error occurred while trying to decode a sound!");
@@ -112,12 +114,16 @@ void SoundDesc::_unload()
         // Sound is already unloaded
         return;
     }
+
     // Free OGG Data
-    if (m_codecType == AudioCodec::OGG) {
+    if (m_codecType == AudioCodec::OGG)
+    {
         free(m_buffer.m_pData);
     }
+
     // Free File Data
     delete[] m_file.data;
+
     m_isLoaded = false;
 }
 

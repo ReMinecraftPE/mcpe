@@ -68,8 +68,8 @@ void Options::_initDefaultValues()
 	m_bSplitControls = false;
 	m_bUseController = false;
 	m_bDynamicHand = false;
-	m_bOldTitleLogo = false;
-	m_bMenuPanorama = false;
+	m_b2dTitleLogo = false;
+	m_bMenuPanorama = true;
 	field_19 = 1;
 
 #ifdef ORIGINAL_CODE
@@ -147,7 +147,7 @@ void Options::_load()
 		else if (key == "gfx_dynamichand")
 			m_bDynamicHand = readBool(value);
 		else if (key == "misc_oldtitle")
-			m_bOldTitleLogo = readBool(value);
+			m_b2dTitleLogo = readBool(value);
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
 		else if (key == "gfx_resourcepacks")
@@ -321,7 +321,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("gfx_fancygrass", 			saveBool(m_bFancyGrass));
 	SO("gfx_biomecolors",           saveBool(m_bBiomeColors));
 	SO("gfx_dynamichand",           saveBool(m_bDynamicHand));
-	SO("misc_oldtitle",             saveBool(m_bOldTitleLogo));
+	SO("misc_oldtitle",             saveBool(m_b2dTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
 	SO("gfx_resourcepacks",		    saveArray(m_resourcepacks));

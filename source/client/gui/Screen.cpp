@@ -12,6 +12,9 @@
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/hal/interface/RasterizerState.hpp"
 
+#define C_SOUND_BTN_PRESS   "random.click"
+#define C_SOUND_BTN_RELEASE "random.click"
+
 Screen::Materials::Materials()
 {
 	MATERIAL_PTR(common, ui_cubemap);
@@ -73,7 +76,7 @@ void Screen::keyPressed(int key)
 		{
 			if (m_buttonTabList[m_tabButtonIndex]->m_bEnabled)
 			{
-				m_pMinecraft->m_pSoundEngine->playUI("random.click");
+				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
 				buttonClicked(m_buttonTabList[m_tabButtonIndex]);
 			}
 		}
@@ -130,11 +133,11 @@ void Screen::renderMenuBackground(float f)
 		return;
 	}
 
+	Textures* pTextures = m_pMinecraft->m_pTextures;
+
 	g_panoramaAngle += float(30.0 * m_pMinecraft->m_fDeltaTime);
 
-	float aspectRatio;
-
-	aspectRatio = 1.0f;
+	float aspectRatio = 1.0f;
 	//aspectRatio = float(m_width) / float(m_height);
 
 	// @HAL: this should be using ui_cubemap, but for whatever reason we need to disable culling
@@ -186,11 +189,11 @@ void Screen::renderMenuBackground(float f)
 			mtx->rotate(ang, Vec3(axis.x, axis.y, 0.0f));
 
 		skip_rotate:
-			m_pMinecraft->m_pTextures->setSmoothing(true);
-			m_pMinecraft->m_pTextures->setClampToEdge(true);
-			m_pMinecraft->m_pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
-			m_pMinecraft->m_pTextures->setSmoothing(false);
-			m_pMinecraft->m_pTextures->setClampToEdge(false);
+			pTextures->setSmoothing(true);
+			pTextures->setClampToEdge(true);
+			pTextures->loadAndBindTexture(std::string(g_panoramaList[i]));
+			pTextures->setSmoothing(false);
+			pTextures->setClampToEdge(false);
 
 			Tesselator& t = Tesselator::instance;
 			t.begin(4);
@@ -218,7 +221,7 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 
 			if (!m_pMinecraft->isTouchscreen())
 			{
-				m_pMinecraft->m_pSoundEngine->playUI("random.click");
+				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
 				buttonClicked(button);
 			}
 		}
@@ -272,7 +275,7 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 	{
 		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
 		{
-			m_pMinecraft->m_pSoundEngine->playUI("random.click");
+			m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_RELEASE);
 			buttonClicked(m_pClickedButton);
 		}
 		m_pClickedButton->released(xPos, yPos);
