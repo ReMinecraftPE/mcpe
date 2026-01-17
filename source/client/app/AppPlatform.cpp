@@ -16,6 +16,12 @@
 #include "compat/LegacyCPP.hpp"
 #include "AppPlatformListener.hpp"
 
+#include <sys/stat.h>
+#ifdef _MSC_VER
+#define stat _stat
+#define S_ISREG(m) (m & _S_IFREG)
+#endif
+
 AppPlatform* AppPlatform::m_singleton = nullptr;
 
 AppPlatform* AppPlatform::singleton()
@@ -330,8 +336,8 @@ std::string AppPlatform::getAssetPath(const std::string& path, const std::vector
 		for (size_t i = 0; i < resourcepacks.size(); ++i)
 		{
 			std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
-			std::ifstream s(fullpath.c_str());
-			if (s.good())
+			struct stat st;
+			if (stat(fullpath.c_str(), &st) == 0 && S_ISREG(st.st_mode))
 				return fullpath;
 		}
 	}

@@ -14,6 +14,8 @@
 
 #include "platforms/sound/openal/CustomSoundSystem.hpp"
 
+#include <sys/stat.h>
+
 AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
 {
 	m_bShiftPressed[0] = false;
@@ -177,8 +179,8 @@ std::string AppPlatform_iOS::getAssetPath(const std::string &path, const std::ve
 		for (size_t i = 0; i < resourcepacks.size(); ++i)
 		{
 			std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
-			std::ifstream s(fullpath.c_str());
-			if (s.good())
+			struct stat st;
+			if (stat(fullpath.c_str(), &st) == 0 && S_ISREG(st.st_mode))
 				return fullpath;
 		}
 	}
