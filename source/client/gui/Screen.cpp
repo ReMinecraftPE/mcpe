@@ -528,7 +528,7 @@ void Screen::onRender(float f)
 	}
 
 	render(f);
-	if (m_bRenderPointer/* && _useController()*/)
+	if (m_bRenderPointer && _useController())
 		_renderPointer();
 }
 
