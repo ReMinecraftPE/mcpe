@@ -425,9 +425,9 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 {
 	if (btn == MOUSE_BUTTON_NONE) return;
 	
-	for (unsigned int i = 0; i < unsigned int(m_elements.size()); i++)
+	for (size_t i = 0; i < m_elements.size(); i++)
 	{
-		GuiElement* element = _getInternalElement(i);
+		GuiElement* element = _getInternalElement((unsigned int)i);
 		if (element->getType() != GuiElement::TYPE_BUTTON)
 			continue;
 
