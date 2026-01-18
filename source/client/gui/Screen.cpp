@@ -18,6 +18,7 @@
 #define C_POINTER_FAST_MOVE_SPEED 0.09f
 #define C_POINTER_MINIMUM_SPEED 0.04f
 #define C_POINTER_DIAGONAL_SPEED 0.4f
+#define C_POINTER_FRICTION 15.0f
 #define C_ANGLE8 (45.0f * MTH_DEG_TO_RAD)
 #define C_ANGLE16 (22.5f * MTH_DEG_TO_RAD)
 
@@ -31,6 +32,9 @@ bool Screen::_isPanoramaAvailable = false;
 
 Screen::Screen()
 {
+	m_bLastPointerPressedState = false;
+	m_currentUpdateTime = 0.0;
+	m_lastUpdateTime = 0.0;
 	m_width = 1;
 	m_height = 1;
 	field_10 = false;
@@ -41,7 +45,6 @@ Screen::Screen()
 	m_pFont = nullptr;
 	m_pClickedButton = 0;
 	m_yOffset = -1;
-	m_bLastPointerPressedState = false;
 	m_bRenderPointer = false;
 	m_lastTimeMoved = 0;
 	m_cursorTick = 0;
@@ -198,9 +201,19 @@ void Screen::_playSelectSound()
 	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_FOCUS, 1.0f, pitch);
 }
 
+void Screen::_centerMenuPointer()
+{
+	handlePointerLocation(m_width / 2, m_height / 2);
+}
+
 void Screen::_renderPointer()
 {
 	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
+
+	double deltaTime = m_pMinecraft->m_fDeltaTime;
+	m_menuPointer.x = Mth::Lerp(m_menuPointer.x, m_targetMenuPointer.x, deltaTime * C_POINTER_FRICTION);
+	m_menuPointer.y = Mth::Lerp(m_menuPointer.y, m_targetMenuPointer.y, deltaTime * C_POINTER_FRICTION);
+
 	gameRenderer.renderPointer(m_menuPointer);
 }
 
@@ -249,9 +262,7 @@ void Screen::init(Minecraft* pMinecraft, int a3, int a4)
 	m_pMinecraft = pMinecraft;
 	m_pFont = pMinecraft->m_pFont;
 
-	// Center the menu pointer
-	m_menuPointer.x = m_width / 2;
-	m_menuPointer.y = m_height / 2;
+	_centerMenuPointer();
 
 	init();
 	_updateTabButtonSelection();
@@ -761,6 +772,11 @@ void Screen::updateEvents()
 {
 	if (field_10) return;
 
+	m_currentUpdateTime = getTimeS();
+
+	if (m_lastUpdateTime == 0.0)
+		m_lastUpdateTime = m_currentUpdateTime;
+
 	while (Mouse::next())
 		mouseEvent();
 
@@ -772,6 +788,8 @@ void Screen::updateEvents()
 		checkForPointerEvent();
 		controllerEvent();
 	}
+
+	m_lastUpdateTime = m_currentUpdateTime;
 }
 
 void Screen::mouseEvent()
@@ -843,6 +861,7 @@ void Screen::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)
 {
 	m_menuPointer.x = Mth::clamp(x, 0.0f, m_width);
 	m_menuPointer.y = Mth::clamp(y, 0.0f, m_height);
+	m_targetMenuPointer = m_menuPointer;
 }
 
 void Screen::handlePointerPressed(bool isPressed)
@@ -882,10 +901,10 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 
 	if (m_bRenderPointer && stick.id == 1)
 	{
-		// Behold WilyIcaro's magic numbers
+		// Behold pizzart's magic numbers
 		float baseSensitivity = m_pMinecraft->getOptions()->m_fSensitivity;
 		float sensitivity = baseSensitivity * 2.0f;
-		float moveSensitivity = baseSensitivity / 2.0f; // Legacy4J's was * 0.5f
+		float moveSensitivity = baseSensitivity * 2.0f;
 		//float affectY = Mth::clamp((sensitivity - 0.4f) * 1.67f, 0, 1);
 
 		Vec2 stickPos(stick.x, stick.y);
@@ -901,13 +920,23 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 
 		//float speedY = Mth::Lerp(affectY * stickAbs.y, 0.5f, 1);
 
-		Vec2 move(snap * speed * moveSensitivity);
-		move.x = stickAbs.x < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(move.x) : move.x;
-		move.y = stickAbs.y < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(move.y) : move.y; // * speedY;
+		// Set up our movement vector based on our joystick input
+		Vec2 targetVelocity(snap * speed * moveSensitivity);
+		targetVelocity.x = stickAbs.x < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.x) : targetVelocity.x;
+		targetVelocity.y = stickAbs.y < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.y) : targetVelocity.y; // * speedY;
+
+		// Multiply by delta for smooth movement
+		double deltaTime = m_currentUpdateTime - m_lastUpdateTime;
+		if (deltaTime > 0.1f) deltaTime = 0.1f;
+		m_pointerVelocity.x = Mth::Lerp(m_pointerVelocity.x, targetVelocity.x, deltaTime * C_POINTER_FRICTION);
+		m_pointerVelocity.y = Mth::Lerp(m_pointerVelocity.y, targetVelocity.y, deltaTime * C_POINTER_FRICTION);
+		Vec2 move = m_pointerVelocity * deltaTime;
+
+		// Scale to our GUI
 		move *= m_height / Gui::InvGuiScale;
 
-		float scale = Gui::InvGuiScale;
-		handlePointerLocation(m_menuPointer.x + (move.x * scale), m_menuPointer.y - (move.y * scale));
+		m_targetMenuPointer.x = Mth::clamp(m_menuPointer.x + move.x, 0.0f, m_width);
+		m_targetMenuPointer.y = Mth::clamp(m_menuPointer.y - move.y, 0.0f, m_height);
 	}
 }
 

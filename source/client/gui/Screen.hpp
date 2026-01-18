@@ -61,6 +61,7 @@ protected:
 	void _selectCurrentElement();
 	void _deselectCurrentElement();
 	void _playSelectSound();
+	void _centerMenuPointer();
 	void _renderPointer();
 	GuiElement* _getInternalElement(unsigned int index);
 	GuiElement* _getElement(unsigned int index);
@@ -130,6 +131,11 @@ public:
 protected:
 	Materials m_screenMaterials;
 	MenuPointer m_menuPointer;
+	MenuPointer m_targetMenuPointer;
+	Vec2 m_pointerVelocity;
+	bool m_bLastPointerPressedState;
+	double m_currentUpdateTime;
+	double m_lastUpdateTime;
 
 public:
 	int m_width;
@@ -149,7 +155,6 @@ public:
 	int m_yOffset;
 #endif
 
-	bool m_bLastPointerPressedState;
 	bool m_bRenderPointer;
 
 	unsigned int m_lastTimeMoved;
