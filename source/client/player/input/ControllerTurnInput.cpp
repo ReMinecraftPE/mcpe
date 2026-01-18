@@ -29,7 +29,7 @@ ControllerTurnInput::ControllerTurnInput()
 Vec2 ControllerTurnInput::getTurnDelta()
 {
 #ifdef USE_NATIVE_ANDROID
-	return TurnDelta(GameControllerManager::getX(m_stickNo) * 50.f, GameControllerManager::getY(m_stickNo) * 60.f);
+	return Vec2(GameControllerManager::getX(m_stickNo) * 50.f, GameControllerManager::getY(m_stickNo) * 60.f);
 #endif
 
 #if 0

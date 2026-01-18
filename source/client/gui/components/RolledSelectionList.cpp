@@ -277,7 +277,7 @@ void RolledSelectionList::checkInput(const MenuPointer& pointer, float f)
 				int idx = transformX(pointer.x) / m_itemWidth;
 				if (idx >= 0)
 				{
-					if (field_50 == idx && abs(field_3C - pointer.x) <= 9)
+					if (field_50 == idx && fabsf(field_3C - pointer.x) <= 9)
 						selectItem(field_50, 0);
 				}
 				goto _crap;
