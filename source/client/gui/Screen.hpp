@@ -60,6 +60,7 @@ protected:
 	void _addElementList();
 	void _selectCurrentElement();
 	void _deselectCurrentElement();
+	void _playSelectSound();
 	void _renderPointer();
 	GuiElement* _getInternalElement(unsigned int index);
 	GuiElement* _getElement(unsigned int index);
@@ -72,6 +73,13 @@ public:
 	void init(Minecraft*, int, int);
 	void setSize(int width, int height);
 	void onRender(float f);
+	bool onBack(bool b);
+	bool prevElement();
+	bool nextElement();
+	bool nextElementList();
+	bool prevElementList();
+	bool nextTab();
+	bool prevTab();
 	int getYOffset() const;
 	int getCursorMoveThrottle() const { return 65; }
 	bool doElementTabbing() const;
@@ -83,8 +91,8 @@ protected:
 	virtual void _buttonClicked(Button* pButton);
 	virtual void _guiElementClicked(GuiElement& element);
 	virtual void _updateTabButtonSelection();
-	virtual void _nextTab();
-	virtual void _prevTab();
+	virtual bool _nextTab();
+	virtual bool _prevTab();
 
 public:
 	virtual void render(float a);
@@ -94,7 +102,7 @@ public:
 	virtual void keyboardEvent();
 	virtual void controllerEvent();
 	virtual void checkForPointerEvent();
-	virtual bool handleBackEvent(bool b) { return false; }
+	virtual bool handleBackEvent(bool b);
 	virtual void handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y);
 	virtual void handlePointerPressed(bool isPressed);
 	virtual void handlePointerAction(const MenuPointer& pointer);

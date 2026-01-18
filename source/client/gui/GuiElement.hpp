@@ -3,6 +3,11 @@
 #include "common/math/Color.hpp"
 #include "GuiComponent.hpp"
 
+#define C_SOUND_UI_BACK     "ui.back"
+#define C_SOUND_UI_FOCUS    "ui.focus"
+#define C_SOUND_UI_PRESS    "ui.press"
+#define C_SOUND_UI_SCROLL   "ui.scroll"
+
 class GuiElement : public GuiComponent
 {
 public:

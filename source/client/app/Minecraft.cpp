@@ -225,8 +225,7 @@ void Minecraft::releaseMouse()
 	// Note, normally the platform stuff would be located within
 	// the mouse handler, but we don't have access to the platform
 	// from there!
-	if (!useController() && !isTouchscreen())
-		platform()->recenterMouse(); // don't actually try to grab or release the mouse
+	recenterMouse();
 	platform()->setMouseGrabbed(false);
 }
 
@@ -245,6 +244,14 @@ void Minecraft::grabMouse()
 		return; // don't actually try to grab the mouse
 
 	platform()->setMouseGrabbed(true);
+}
+
+void Minecraft::recenterMouse()
+{
+	if (useController() || isTouchscreen())
+		return;
+
+	platform()->recenterMouse();
 }
 
 void Minecraft::setScreen(Screen* pScreen)
@@ -296,7 +303,7 @@ void Minecraft::setScreen(Screen* pScreen)
 	}
 	else
 	{
-		platform()->recenterMouse();
+		recenterMouse();
 		grabMouse();
 	}
 }
@@ -642,7 +649,7 @@ void Minecraft::tickMouse()
 		return; // don't actually try to recenter the mouse
 
     if (platform()->getRecenterMouseEveryTick()) // just for SDL1
-        platform()->recenterMouse();
+        recenterMouse();
 }
 
 void Minecraft::handleCharInput(char chr)

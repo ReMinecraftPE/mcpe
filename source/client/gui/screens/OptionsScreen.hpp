@@ -32,8 +32,8 @@ public:
 	~OptionsScreen();
 
 protected:
-	void _nextTab() override;
-	void _prevTab() override;
+	bool _nextTab() override;
+	bool _prevTab() override;
 
 public:
 	void init() override;

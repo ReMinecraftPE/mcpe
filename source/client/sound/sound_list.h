@@ -40,6 +40,13 @@ SOUND(random, hurt)
 SOUND(random, pop)
 SOUND(random, splash)
 
+SOUND(ui, back)
+SOUND(ui, craft)
+SOUND(ui, craftfail)
+SOUND(ui, focus)
+SOUND(ui, press)
+SOUND(ui, scroll)
+
 SOUND(fire, fire)
 
 SOUND_NUM(damage, fallbig, 1)

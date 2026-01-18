@@ -50,6 +50,7 @@ public:
 	void setScreen(Screen * pScreen);
 	void releaseMouse();
 	void grabMouse();
+	void recenterMouse();
 	void tick();
 	void tickInput();
 	void saveOptions();

@@ -60,6 +60,9 @@ bool Screen::_nextElement()
 	if (!doElementTabbing())
 		return false;
 
+	if (_getElementList().empty())
+		return false;
+
 	if (!m_bTabWrap && (m_elementIndex + 1) == _getElementList().size())
 		return false;
 
@@ -82,16 +85,21 @@ bool Screen::_prevElement()
 	if (!doElementTabbing())
 		return false;
 
+	if (_getElementList().empty())
+		return false;
+
 	if (!m_bTabWrap && m_elementIndex == 0)
 		return false;
 
 	_deselectCurrentElement();
 
-	m_elementIndex--;
-
-	if (m_bTabWrap && m_elementIndex == -1)
+	if (m_bTabWrap && m_elementIndex == 0)
 	{
 		m_elementIndex = _getElementList().size() - 1;
+	}
+	else
+	{
+		m_elementIndex--;
 	}
 
 	_selectCurrentElement();
@@ -114,6 +122,9 @@ void Screen::_addElementToList(unsigned int index, Button& element, bool isTabba
 
 bool Screen::_nextElementList()
 {
+	if (m_elementTabLists.size() == 1)
+		return false;
+
 	if (!m_bTabWrap && (m_elementListIndex + 1) == m_elementTabLists.size())
 		return false;
 
@@ -135,21 +146,27 @@ bool Screen::_nextElementList()
 
 bool Screen::_prevElementList()
 {
+	if (m_elementTabLists.size() == 1)
+		return false;
+
 	if (!m_bTabWrap && m_elementListIndex == 0)
 		return false;
 
 	_deselectCurrentElement();
 
-	m_elementListIndex--;
-
-	if (m_bTabWrap && m_elementListIndex == -1)
+	if (m_bTabWrap && m_elementListIndex == 0)
 	{
 		m_elementListIndex = m_elementTabLists.size() - 1;
+	}
+	else
+	{
+		m_elementListIndex--;
 	}
 
 	m_elementIndex = 0;
 
 	_selectCurrentElement();
+
 
 	return true;
 }
@@ -171,6 +188,14 @@ void Screen::_deselectCurrentElement()
 	GuiElement* element = _getSelectedElement();
 	if (element)
 		element->setSelected(false);
+}
+
+void Screen::_playSelectSound()
+{
+	float pitch = 1.3f; // pitched based on how TU0 sounds
+	// Randomization from Legacy4J
+	pitch += (Mth::random() - 0.5f) / 10;
+	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_FOCUS, 1.0f, pitch);
 }
 
 void Screen::_renderPointer()
@@ -239,23 +264,24 @@ void Screen::keyPressed(int key)
 		m_pMinecraft->handleBack(false);
 	}
 
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_LEFT, key))
+	{
+		prevTab();
+	}
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_RIGHT, key))
+	{
+		nextTab();
+	}
+
 	if (doElementTabbing())
 	{
 		if (m_pMinecraft->getOptions()->isKey(KM_MENU_DOWN, key))
 		{
-			_nextElement();
+			nextElement();
 		}
 		if (m_pMinecraft->getOptions()->isKey(KM_MENU_UP, key))
 		{
-			_prevElement();
-		}
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_LEFT, key))
-		{
-			_prevTab();
-		}
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_RIGHT, key))
-		{
-			_nextTab();
+			prevElement();
 		}
 		if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, key))
 		{
@@ -265,7 +291,7 @@ void Screen::keyPressed(int key)
 				if (element->getType() == GuiElement::TYPE_BUTTON)
 				{
 					Button* button = (Button*)element;
-					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
+					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
 					_buttonClicked(button);
 				}
 			}
@@ -412,7 +438,10 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 
 			if (!m_pMinecraft->isTouchscreen())
 			{
-				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
+				if (_useController())
+					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
+				else
+					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
 				_buttonClicked(button);
 			}
 		}
@@ -532,6 +561,62 @@ void Screen::onRender(float f)
 		_renderPointer();
 }
 
+bool Screen::onBack(bool b)
+{
+	bool result = handleBackEvent(b);
+	// Play the sound regardless, since NinecraftApp will set the current screen to null anyways
+	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_BACK);
+	return result;
+}
+
+bool Screen::nextElement()
+{
+	bool result = _nextElement();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::prevElement()
+{
+	bool result = _prevElement();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::nextElementList()
+{
+	bool result = _nextElementList();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::prevElementList()
+{
+	bool result = _prevElementList();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::nextTab()
+{
+	bool result = _nextTab();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::prevTab()
+{
+	bool result = _prevTab();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
 int Screen::getYOffset() const
 {
 #ifdef USE_NATIVE_ANDROID
@@ -630,10 +715,10 @@ void Screen::_controllerDirectionHeld(GameController::StickID stickId, GameContr
 		switch (stickState)
 		{
 		case GameController::STICK_STATE_UP:
-			_prevElement();
+			prevElement();
 			break;
 		case GameController::STICK_STATE_DOWN:
-			_nextElement();
+			nextElement();
 			break;
 		}
 		// Calling this every time we either go left or right was insanely dumb
@@ -660,12 +745,14 @@ void Screen::_updateTabButtonSelection()
 	}
 }
 
-void Screen::_nextTab()
+bool Screen::_nextTab()
 {
+	return false;
 }
 
-void Screen::_prevTab()
+bool Screen::_prevTab()
 {
+	return false;
 }
 
 void Screen::updateEvents()
@@ -743,6 +830,11 @@ void Screen::checkForPointerEvent()
 
 	handlePointerAction(m_menuPointer);
 	m_bLastPointerPressedState = m_menuPointer.isPressed;
+}
+
+bool Screen::handleBackEvent(bool b)
+{
+	return false;
 }
 
 void Screen::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)

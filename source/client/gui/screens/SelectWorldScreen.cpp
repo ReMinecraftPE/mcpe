@@ -39,11 +39,11 @@ void SelectWorldScreen::_controllerDirectionHeld(GameController::StickID stickId
 		switch (stickState)
 		{
 		case GameController::STICK_STATE_UP:
-			if (_prevElementList())
+			if (prevElementList())
 				_nextElement(); // skip to "Create New" button
 			break;
 		case GameController::STICK_STATE_DOWN:
-			if (_nextElementList())
+			if (nextElementList())
 				_nextElement(); // skip to "Create New" button
 			break;
 		case GameController::STICK_STATE_LEFT:
@@ -53,7 +53,7 @@ void SelectWorldScreen::_controllerDirectionHeld(GameController::StickID stickId
 			}
 			else
 			{
-				_prevElement();
+				prevElement();
 			}
 			break;
 		case GameController::STICK_STATE_RIGHT:
@@ -63,11 +63,10 @@ void SelectWorldScreen::_controllerDirectionHeld(GameController::StickID stickId
 			}
 			else
 			{
-				_nextElement();
+				nextElement();
 			}
 			break;
 		}
-		_updateTabButtonSelection();
 	}
 }
 

@@ -33,7 +33,7 @@ OptionsScreen::~OptionsScreen()
 	SAFE_DELETE(m_pList);
 }
 
-void OptionsScreen::_nextTab()
+bool OptionsScreen::_nextTab()
 {
 	OptionsCategory nextCat;
 	if (m_currentCategory == OC_MAX)
@@ -42,9 +42,11 @@ void OptionsScreen::_nextTab()
 		nextCat = (OptionsCategory)(m_currentCategory + 1);
 
 	setCategory(nextCat);
+
+	return true;
 }
 
-void OptionsScreen::_prevTab()
+bool OptionsScreen::_prevTab()
 {
 	OptionsCategory nextCat;
 	if (m_currentCategory == OC_MIN)
@@ -53,6 +55,8 @@ void OptionsScreen::_prevTab()
 		nextCat = (OptionsCategory)(m_currentCategory - 1);
 
 	setCategory(nextCat);
+
+	return true;
 }
 
 void OptionsScreen::init()

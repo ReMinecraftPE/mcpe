@@ -345,13 +345,13 @@ void AppPlatform_sdl::handleControllerAxisEvent(SDL_JoystickID controllerIndex, 
 		GameControllerManager::feedStickX(1, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_LEFTY:
-		GameControllerManager::feedStickY(1, true, val);
+		GameControllerManager::feedStickY(1, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTX:
 		GameControllerManager::feedStickX(2, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTY:
-		GameControllerManager::feedStickY(2, true, val);
+		GameControllerManager::feedStickY(2, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
 		GameControllerManager::feedTrigger(1, val);
