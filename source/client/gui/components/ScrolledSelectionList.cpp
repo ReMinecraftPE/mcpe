@@ -136,7 +136,7 @@ void ScrolledSelectionList::checkInput(const MenuPointer& pointer)
 
 			if (getTimeMs() - field_40 < 300)
 			{
-				if (transformY(pointer.y) / m_itemHeight >= 0 && m_itemHeight > abs(field_3C - pointer.y))
+				if (transformY(pointer.y) / m_itemHeight >= 0 && m_itemHeight > fabsf(field_3C - pointer.y))
 				{
 					onClickItem(transformY(pointer.y) / m_itemHeight, pointer);
 					field_38 = 0.0f;
