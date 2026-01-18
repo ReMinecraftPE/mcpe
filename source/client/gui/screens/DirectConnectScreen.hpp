@@ -16,8 +16,8 @@ public:
 	DirectConnectScreen();
 	
 	virtual void init() override;
-	virtual void buttonClicked(Button* pButton) override;
-	virtual void render(int x, int y, float f) override;
+	virtual void _buttonClicked(Button* pButton) override;
+	virtual void render(float f) override;
 	virtual void onTextBoxUpdated(int id) override;
 
 private:

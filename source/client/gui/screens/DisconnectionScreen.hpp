@@ -16,9 +16,9 @@ class DisconnectionScreen : public Screen
 public:
 	DisconnectionScreen(const std::string& text);
 
-	void buttonClicked(Button* pButton) override;
+	void _buttonClicked(Button* pButton) override;
 	void init() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void render(float f) override;
 
 	bool isInGameScreen() override { return false; }
 

@@ -69,6 +69,9 @@ public:
 	void handleCharInput(char chr);
 	void handleTextPaste(const std::string& text);
 	void handleTextPaste();
+	void handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y);
+	void handlePointerPressedButtonPress();
+	void handlePointerPressedButtonRelease();
 	void resetInput();
 	void sendMessage(const std::string& message);
 	void respawnPlayer();

@@ -516,7 +516,7 @@ void Minecraft::tickInput()
 		if (getTimeMs() - field_2B4 > 200)
 			continue;
 
-		if (Mouse::isButtonDown(BUTTON_LEFT))
+		if (Mouse::isButtonDown(MOUSE_BUTTON_LEFT))
 		{
 			// @HACK: on SDL1, we don't recenter the mouse every tick, meaning the user can
 			// unintentionally click the hotbar while swinging their fist
@@ -528,8 +528,8 @@ void Minecraft::tickInput()
 		bool bPressed = Mouse::getEventButtonState() == true;
 
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-		if (buttonType == BUTTON_SCROLLWHEEL)
-			m_pGui->handleScroll(bPressed);
+		if (buttonType == MOUSE_BUTTON_SCROLLWHEEL)
+			m_pGui->handleScrollWheel(bPressed);
 #endif
 	}
 
@@ -662,6 +662,25 @@ void Minecraft::handleTextPaste()
 	std::string text = AppPlatform::singleton()->getClipboardText();
 	if (!text.empty())
 		handleTextPaste(text);
+}
+
+void Minecraft::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)
+{
+	if (m_pScreen)
+		m_pScreen->handlePointerLocation(x, y);
+}
+
+void Minecraft::handlePointerPressedButtonPress()
+{
+	// m_pGui->handleClick();
+	if (m_pScreen)
+		m_pScreen->handlePointerPressed(true);
+}
+
+void Minecraft::handlePointerPressedButtonRelease()
+{
+	if (m_pScreen)
+		m_pScreen->handlePointerPressed(false);
 }
 
 void Minecraft::resetInput()

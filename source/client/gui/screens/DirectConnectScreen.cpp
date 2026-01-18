@@ -33,31 +33,28 @@ void DirectConnectScreen::init()
 
 	m_btnJoin.m_xPos = (m_width / 2) - (m_btnJoin.m_width / 2);
 	m_btnJoin.m_yPos = m_height - 55;
-	m_btnJoin.m_bEnabled = false;
+	m_btnJoin.setEnabled(false);
 
 	m_btnQuit.m_xPos = (m_width / 2) - (m_btnQuit.m_width / 2);
 	m_btnQuit.m_yPos = m_height - 30;
 
 	m_textInputs.push_back(&m_textAddress);
-	m_buttons.push_back(&m_btnJoin);
-	m_buttons.push_back(&m_btnQuit);
-
-	for (int i = 0; i < int(m_buttons.size()); i++)
-		m_buttonTabList.push_back(m_buttons[i]);
+	_addElement(m_btnJoin);
+	_addElement(m_btnQuit);
 
 	m_textAddress.init(m_pFont);
 }
 
-void DirectConnectScreen::render(int x, int y, float f)
+void DirectConnectScreen::render(float f)
 {
 	renderBackground();
-	Screen::render(x, y, f);
+	Screen::render(f);
 
 	drawCenteredString(*m_pFont, "Direct Connect", m_width / 2, 30, 0xFFFFFF);
 	drawString(*m_pFont, "Server Address", m_textAddress.m_xPos, m_textAddress.m_yPos - 15, 0x999999);
 }
 
-void DirectConnectScreen::buttonClicked(Button* pButton)
+void DirectConnectScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnJoin.m_buttonId)
 	{
@@ -78,8 +75,8 @@ void DirectConnectScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->joinMultiplayer(newPgs);
 		m_pMinecraft->setScreen(new ProgressScreen);
 
-		m_btnJoin.m_bEnabled = false;
-		m_textAddress.m_bEnabled = false;
+		m_btnJoin.setEnabled(false);
+		m_textAddress.setEnabled(false);
 	}
 	else if (pButton->m_buttonId == m_btnQuit.m_buttonId)
 	{
@@ -92,8 +89,8 @@ void DirectConnectScreen::onTextBoxUpdated(int id)
 	if (id == m_textAddress.getKey())
 	{
 		if (m_textAddress.getText().empty())
-			m_btnJoin.m_bEnabled = false;
+			m_btnJoin.setEnabled(false);
 		else
-			m_btnJoin.m_bEnabled = true;
+			m_btnJoin.setEnabled(true);
 	}
 }

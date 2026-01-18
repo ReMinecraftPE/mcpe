@@ -39,10 +39,8 @@ void CreateWorldScreen::init()
 
 	m_textInputs.push_back(&m_textName);
 	m_textInputs.push_back(&m_textSeed);
-	m_buttons.push_back(&m_btnBack);
-	m_buttons.push_back(&m_btnCreate);
-	m_buttonTabList.push_back(&m_btnBack);
-	m_buttonTabList.push_back(&m_btnCreate);
+	_addElement(m_btnBack);
+	_addElement(m_btnCreate);
 	m_textName.init(m_pFont);
 	m_textSeed.init(m_pFont);
 
@@ -89,7 +87,7 @@ static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::st
 	return out;
 }
 
-void CreateWorldScreen::buttonClicked(Button* pButton)
+void CreateWorldScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnBack.m_buttonId)
 	{
@@ -130,10 +128,10 @@ void CreateWorldScreen::buttonClicked(Button* pButton)
 	}
 }
 
-void CreateWorldScreen::render(int mouseX, int mouseY, float f)
+void CreateWorldScreen::render(float f)
 {
 	renderBackground();
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 
 	drawCenteredString(*m_pFont, "Create New World", m_width / 2, CRAMPED() ? 10 : 30, 0xFFFFFF);
 	drawString(*m_pFont, "World name",                    m_textName.m_xPos, m_textName.m_yPos - 10, 0xDDDDDD);

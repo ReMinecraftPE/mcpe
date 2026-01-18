@@ -91,7 +91,7 @@ void RolledSelectionList::tick()
 	field_34 = field_30 - field_38;
 }
 
-void RolledSelectionList::render(int mouseX, int mouseY, float f)
+void RolledSelectionList::render(const MenuPointer& pointer, float f)
 {
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
@@ -100,7 +100,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	int nItems = getNumberOfItems();
 	Tesselator& t = Tesselator::instance;
 
-	checkInput(mouseX, mouseY, f);
+	checkInput(pointer, f);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 
@@ -189,7 +189,7 @@ void RolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.draw(m_materials.ui_fill_gradient);
 #endif
 	
-	renderDecorations(mouseX, mouseY);
+	renderDecorations(pointer);
 	
 	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 }
@@ -239,7 +239,7 @@ void RolledSelectionList::renderHeader(int a, int b, Tesselator& t)
 
 }
 
-void RolledSelectionList::renderDecorations(int x, int y)
+void RolledSelectionList::renderDecorations(const MenuPointer& pointer)
 {
 }
 
@@ -248,10 +248,11 @@ void RolledSelectionList::clickedHeader(int x, int y)
 
 }
 
-void RolledSelectionList::checkInput(int mouseX, int mouseY, float f)
+void RolledSelectionList::checkInput(const MenuPointer& pointer, float f)
 {
 	// @TODO: fix gotos.
-	if (!Mouse::isButtonDown(BUTTON_LEFT))
+	//if (!pointer.isPressed) // this doesn't work correctly for whatever reason
+	if (!Mouse::isButtonDown(MOUSE_BUTTON_LEFT))
 	{
 		if (field_28 < 0)
 		{
@@ -273,10 +274,10 @@ void RolledSelectionList::checkInput(int mouseX, int mouseY, float f)
 		_continue:
 			if (getTimeMs() - field_4C < 300)
 			{
-				int idx = transformX(mouseX) / m_itemWidth;
+				int idx = transformX(pointer.x) / m_itemWidth;
 				if (idx >= 0)
 				{
-					if (field_50 == idx && abs(field_3C - mouseX) <= 9)
+					if (field_50 == idx && abs(field_3C - pointer.x) <= 9)
 						selectItem(field_50, 0);
 				}
 				goto _crap;
@@ -295,17 +296,17 @@ void RolledSelectionList::checkInput(int mouseX, int mouseY, float f)
 	{
 		touched();
 
-		if (float(mouseY) >= field_20 && float(mouseY) <= field_24)
+		if (float(pointer.y) >= field_20 && float(pointer.y) <= field_24)
 		{
 			if (field_28 == -1)
 			{
 				field_4C = getTimeMs();
-				field_3C = mouseX;
-				field_50 = getItemAtPosition(mouseX, field_1C / 2);
+				field_3C = pointer.x;
+				field_50 = getItemAtPosition(pointer.x, field_1C / 2);
 			}
 			else if (field_28 >= 0)
 			{
-				field_34 = field_30 = field_30 - (float(mouseX) - field_2C);
+				field_34 = field_30 = field_30 - (float(pointer.x) - field_2C);
 			}
 
 			field_28 = 0;
@@ -313,7 +314,7 @@ void RolledSelectionList::checkInput(int mouseX, int mouseY, float f)
 	}
 
 _done:
-	field_2C = float(mouseX);
+	field_2C = float(pointer.x);
 	
 	capXPosition();
 }
@@ -330,9 +331,9 @@ void RolledSelectionList::renderScrollBackground()
 	t.draw(m_materials.ui_texture_and_color);
 }
 
-void RolledSelectionList::handleScroll(bool down)
+void RolledSelectionList::handleScrollWheel(float force)
 {
-	float diff = 5.0f * (down ? -1.0f : 1.0f);
+	float diff = 5.0f * force;
 	field_34 = field_30 = field_30 + diff;
 	field_28 = 0;
 }

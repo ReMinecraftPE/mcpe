@@ -16,10 +16,10 @@ public:
 	DeathScreen();
 
 	virtual void init() override;
-	virtual void buttonClicked(Button* pButton) override;
+	virtual void _buttonClicked(Button* pButton) override;
 	virtual void tick() override;
 	virtual void keyPressed(int key) override;
-	virtual void render(int x, int y, float f) override;
+	virtual void render(float f) override;
 
 private:
 	int m_tickCounter;

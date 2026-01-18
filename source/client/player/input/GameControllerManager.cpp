@@ -24,10 +24,10 @@ float GameControllerManager::stickValuesY[] = { 0.0f, 0.0f };
 float GameControllerManager::triggerValues[] = { 0.0f, 0.0f };
 bool GameControllerManager::inReset = true;
 
-bool GameControllerManager::isValidStick(int stickNo)
+bool GameControllerManager::isValidStick(GameController::StickID stickId)
 {
 	// We have 2 'sticks' on the Xperia Play
-	return stickNo >= 1 && stickNo <= 2;
+	return stickId >= 1 && stickId <= 2;
 }
 
 float GameControllerManager::linearTransform(float a1, float a2, float a3, bool b)
@@ -45,12 +45,12 @@ float GameControllerManager::linearTransform(float a1, float a2, float a3, bool 
 	return -1.0f;
 }
 
-void GameControllerManager::feedStickX(int stickNo, bool touched, float x)
+void GameControllerManager::feedStickX(GameController::StickID stickId, bool touched, float x)
 {
-	if (!isValidStick(stickNo))
+	if (!isValidStick(stickId))
 		return;
 
-	int index = stickNo - 1;
+	int index = stickId - 1;
 	float deadzone = _deadzonesX[index][0], deadzone_mod = _deadzonesX[index][1];
 
 	isTouchedValues[index] = touched;
@@ -65,12 +65,12 @@ void GameControllerManager::feedStickX(int stickNo, bool touched, float x)
 	inReset = false;
 }
 
-void GameControllerManager::feedStickY(int stickNo, bool touched, float y)
+void GameControllerManager::feedStickY(GameController::StickID stickId, bool touched, float y)
 {
-	if (!isValidStick(stickNo))
+	if (!isValidStick(stickId))
 		return;
 
-	int index = stickNo - 1;
+	int index = stickId - 1;
 	float deadzone = _deadzonesY[index][0], deadzone_mod = _deadzonesY[index][1];
 
 	isTouchedValues[index] = touched;
@@ -85,94 +85,94 @@ void GameControllerManager::feedStickY(int stickNo, bool touched, float y)
 	inReset = false;
 }
 
-void GameControllerManager::feedStick(int stickNo, bool touched, float x, float y)
+void GameControllerManager::feedStick(GameController::StickID stickId, bool touched, float x, float y)
 {
-	feedStickX(stickNo, touched, x);
-	feedStickY(stickNo, touched, y);
+	feedStickX(stickId, touched, x);
+	feedStickY(stickId, touched, y);
 }
 
-void GameControllerManager::feedStick(int stickNo, bool touched, const Vec2& vec)
+void GameControllerManager::feedStick(GameController::StickID stickId, bool touched, const Vec2& vec)
 {
-	feedStick(stickNo, touched, vec.x, vec.y);
+	feedStick(stickId, touched, vec.x, vec.y);
 }
 
-float GameControllerManager::getX(int stickNo)
+float GameControllerManager::getX(GameController::StickID stickId)
 {
-	if (!isValidStick(stickNo))
+	if (!isValidStick(stickId))
 		return 0.0f;
 
-	return stickValuesX[stickNo - 1];
+	return stickValuesX[stickId - 1];
 }
 
-float GameControllerManager::getY(int stickNo)
+float GameControllerManager::getY(GameController::StickID stickId)
 {
-	if (!isValidStick(stickNo))
+	if (!isValidStick(stickId))
 		return 0.0f;
 
-	return stickValuesY[stickNo - 1];
+	return stickValuesY[stickId - 1];
 }
 
-float GameControllerManager::getTransformedX(int stickNo, float a2, float a3, bool b)
+float GameControllerManager::getTransformedX(GameController::StickID stickId, float a2, float a3, bool b)
 {
-	if (!isValidStick(stickNo))
-		return 0.0f;
-
-	// @BUG: subtracting by 1? What if we're trying to grab stick 0?
-	return linearTransform(stickValuesX[stickNo - 1], a2, a3, b);
-}
-
-float GameControllerManager::getTransformedY(int stickNo, float a2, float a3, bool b)
-{
-	if (!isValidStick(stickNo))
+	if (!isValidStick(stickId))
 		return 0.0f;
 
 	// @BUG: subtracting by 1? What if we're trying to grab stick 0?
-	return linearTransform(stickValuesY[stickNo - 1], a2, a3, b);
+	return linearTransform(stickValuesX[stickId - 1], a2, a3, b);
 }
 
-GameControllerManager::StickDirection GameControllerManager::getXDirection(int stickNo, float deadzone)
+float GameControllerManager::getTransformedY(GameController::StickID stickId, float a2, float a3, bool b)
 {
-	if (GameControllerManager::isValidStick(stickNo) && GameControllerManager::isTouched(stickNo))
+	if (!isValidStick(stickId))
+		return 0.0f;
+
+	// @BUG: subtracting by 1? What if we're trying to grab stick 0?
+	return linearTransform(stickValuesY[stickId - 1], a2, a3, b);
+}
+
+GameController::StickState GameControllerManager::getXDirection(GameController::StickID stickId, float deadzone)
+{
+	if (GameControllerManager::isValidStick(stickId) && GameControllerManager::isTouched(stickId))
 	{
-		float x = GameControllerManager::getX(stickNo);
-		if (x >= deadzone)  return DIR_RIGHT;
-		if (x <= -deadzone) return DIR_LEFT;
+		float x = GameControllerManager::getX(stickId);
+		if (x >= deadzone)  return GameController::STICK_STATE_RIGHT;
+		if (x <= -deadzone) return GameController::STICK_STATE_LEFT;
 	}
-	return DIR_NONE;
+	return GameController::STICK_STATE_NONE;
 }
 
-GameControllerManager::StickDirection GameControllerManager::getYDirection(int stickNo, float deadzone)
+GameController::StickState GameControllerManager::getYDirection(GameController::StickID stickId, float deadzone)
 {
-	if (GameControllerManager::isValidStick(stickNo) && GameControllerManager::isTouched(stickNo))
+	if (GameControllerManager::isValidStick(stickId) && GameControllerManager::isTouched(stickId))
 	{
-		float y = GameControllerManager::getY(stickNo);
-		if (y >= deadzone)  return DIR_UP;
-		if (y <= -deadzone) return DIR_DOWN;
+		float y = GameControllerManager::getY(stickId);
+		if (y >= deadzone)  return GameController::STICK_STATE_UP;
+		if (y <= -deadzone) return GameController::STICK_STATE_DOWN;
 	}
-	return DIR_NONE;
+	return GameController::STICK_STATE_NONE;
 }
 
-GameControllerManager::StickDirection GameControllerManager::getDirection(int stickNo)
+GameController::StickState GameControllerManager::getDirection(GameController::StickID stickId)
 {
-	if (GameControllerManager::isValidStick(stickNo) && GameControllerManager::isTouched(stickNo))
+	if (GameControllerManager::isValidStick(stickId) && GameControllerManager::isTouched(stickId))
 	{
-		float x = fabsf(GameControllerManager::getX(stickNo));
-		float y = fabsf(GameControllerManager::getY(stickNo));
+		float x = fabsf(GameControllerManager::getX(stickId));
+		float y = fabsf(GameControllerManager::getY(stickId));
 		if (x >= y)
-			return GameControllerManager::getXDirection(stickNo, DIRECTION_X_THRESHOLD);
+			return GameControllerManager::getXDirection(stickId, DIRECTION_X_THRESHOLD);
 		else
-			return GameControllerManager::getYDirection(stickNo, DIRECTION_Y_THRESHOLD);
+			return GameControllerManager::getYDirection(stickId, DIRECTION_Y_THRESHOLD);
 	}
 
-	return DIR_NONE;
+	return GameController::STICK_STATE_NONE;
 }
 
-bool GameControllerManager::isTouched(int stickNo)
+bool GameControllerManager::isTouched(GameController::StickID stickId)
 {
-	if (!isValidStick(stickNo))
+	if (!isValidStick(stickId))
 		return false;
 
-	return isTouchedValues[stickNo - 1];
+	return isTouchedValues[stickId - 1];
 }
 
 bool GameControllerManager::isValidTrigger(int triggerNo)

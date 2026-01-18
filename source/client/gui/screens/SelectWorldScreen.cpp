@@ -15,12 +15,14 @@
 
 SelectWorldScreen::SelectWorldScreen() :
 	m_btnDelete   (1, "Delete"),
-	m_btnCreateNew(2, "Create new"),
+	m_btnCreateNew(2, "Create New"),
 	m_btnBack     (3, "Back"),
-	m_btnUnknown  (4, ""),
+	m_btnWorld    (4, ""),
 	m_pWorldSelectionList(nullptr)
 {
-	m_btnDelete.m_bEnabled = false;
+	m_bTabWrap = false;
+	m_btnDelete.setEnabled(false);
+	m_btnWorld.setVisible(false);
 	field_12C = false;
 	field_130 = 0;
 }
@@ -28,6 +30,45 @@ SelectWorldScreen::SelectWorldScreen() :
 SelectWorldScreen::~SelectWorldScreen()
 {
     SAFE_DELETE(m_pWorldSelectionList);
+}
+
+void SelectWorldScreen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)
+{
+	if (stickId == 1)
+	{
+		switch (stickState)
+		{
+		case GameController::STICK_STATE_UP:
+			if (_prevElementList())
+				_nextElement(); // skip to "Create New" button
+			break;
+		case GameController::STICK_STATE_DOWN:
+			if (_nextElementList())
+				_nextElement(); // skip to "Create New" button
+			break;
+		case GameController::STICK_STATE_LEFT:
+			if (m_btnWorld.isSelected())
+			{
+				m_pWorldSelectionList->stepLeft();
+			}
+			else
+			{
+				_prevElement();
+			}
+			break;
+		case GameController::STICK_STATE_RIGHT:
+			if (m_btnWorld.isSelected())
+			{
+				m_pWorldSelectionList->stepRight();
+			}
+			else
+			{
+				_nextElement();
+			}
+			break;
+		}
+		_updateTabButtonSelection();
+	}
 }
 
 void SelectWorldScreen::init()
@@ -38,7 +79,9 @@ void SelectWorldScreen::init()
 	loadLevelSource();
 	m_pWorldSelectionList->commit();
 
-	m_btnDelete.m_yPos   = m_btnBack.m_yPos   = m_btnCreateNew.m_yPos    = m_height - 28;
+	m_btnWorld.setSelected(true);
+
+	m_btnDelete.m_yPos   = m_btnBack.m_yPos   = m_btnCreateNew.m_yPos   = m_height - 28;
 	m_btnDelete.m_width  = m_btnBack.m_width  = m_btnCreateNew.m_width  = 84;
 	m_btnDelete.m_height = m_btnBack.m_height = m_btnCreateNew.m_height = 24;
 
@@ -46,16 +89,16 @@ void SelectWorldScreen::init()
 	m_btnCreateNew.m_xPos = m_width / 2 - 42;
 	m_btnBack.m_xPos      = m_width / 2 + 46;
 
-	m_buttons.push_back(&m_btnCreateNew);
-	m_buttons.push_back(&m_btnBack);
-	m_buttons.push_back(&m_btnDelete);
+	_addElement(m_btnWorld);
 
-	field_12C = Mouse::getButtonState(BUTTON_LEFT);
+	_addElementList();
+	_nextElementList();
+		_addElement(m_btnDelete);
+		_addElement(m_btnCreateNew);
+		_addElement(m_btnBack);
+	_prevElementList();
 
-	m_buttonTabList.push_back(&m_btnUnknown);
-	m_buttonTabList.push_back(&m_btnDelete);
-	m_buttonTabList.push_back(&m_btnCreateNew);
-	m_buttonTabList.push_back(&m_btnBack);
+	field_12C = m_menuPointer.isPressed;
 }
 
 bool SelectWorldScreen::isInGameScreen()
@@ -68,11 +111,9 @@ void SelectWorldScreen::keyPressed(int code)
 #ifndef ORIGINAL_CODE
 	if (m_pMinecraft->getOptions()->getKey(KM_MENU_OK) == code)
 		m_pWorldSelectionList->selectItem(m_pWorldSelectionList->getItemAtPosition(m_width / 2, m_height / 2), false);
-
-	m_btnUnknown.m_bHovered = true;
 #endif
 
-	if (m_btnUnknown.m_bHovered)
+	if (m_btnWorld.isSelected())
 	{
 		if (m_pMinecraft->getOptions()->getKey(KM_LEFT) == code)
 			m_pWorldSelectionList->stepLeft();
@@ -88,10 +129,6 @@ static char g_SelectWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','
 
 void SelectWorldScreen::tick()
 {
-#ifndef ORIGINAL_CODE
-	m_btnUnknown.m_bHovered = true;
-#endif
-
 	if (field_130 == 1)
 	{
 		// poll the user status to get details about the world name and seed
@@ -161,27 +198,26 @@ void SelectWorldScreen::tick()
 	if (isIndexValid(m_pWorldSelectionList->m_selectedIndex))
 		ls = m_pWorldSelectionList->m_items[m_pWorldSelectionList->m_selectedIndex];*/
 
-	m_btnDelete.m_bEnabled = isIndexValid(m_pWorldSelectionList->m_selectedIndex);
+	m_btnDelete.setEnabled(isIndexValid(m_pWorldSelectionList->m_selectedIndex));
 }
 
-void SelectWorldScreen::render(int mouseX, int mouseY, float f)
+void SelectWorldScreen::render(float f)
 {
 	renderBackground();
-#ifndef ORIGINAL_CODE
-	m_btnUnknown.m_bHovered = true;
-#endif
-	m_pWorldSelectionList->setComponentSelected(m_btnUnknown.m_bHovered);
+
+	m_pWorldSelectionList->setComponentSelected(m_btnWorld.isSelected());
 	if (field_12C)
 	{
-		m_pWorldSelectionList->render(mouseX, mouseY, f);
+		m_pWorldSelectionList->render(m_menuPointer, f);
 	}
 	else
 	{
-		m_pWorldSelectionList->render(0, 0, f);
-		field_12C = Mouse::getButtonState(BUTTON_LEFT);
+		MenuPointer tempPointer;
+		m_pWorldSelectionList->render(tempPointer, f);
+		field_12C = m_menuPointer.isPressed;
 	}
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 
 	drawCenteredString(*m_pMinecraft->m_pFont, "Select world", m_width / 2, 8, 0xFFFFFFFF);
 }
@@ -196,7 +232,7 @@ bool SelectWorldScreen::handleBackEvent(bool b)
 	return true;
 }
 
-void SelectWorldScreen::buttonClicked(Button* pButton)
+void SelectWorldScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnCreateNew.m_buttonId)
 	{
@@ -221,15 +257,15 @@ void SelectWorldScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->setScreen(new StartMenuScreen);
 	}
 
-	if (pButton->m_buttonId == m_btnUnknown.m_buttonId)
+	if (pButton->m_buttonId == m_btnWorld.m_buttonId)
 	{
 		m_pWorldSelectionList->selectItem(m_pWorldSelectionList->getItemAtPosition(m_width / 2, m_height / 2), false);
 	}
 }
 
-void SelectWorldScreen::handleScroll(bool down)
+void SelectWorldScreen::handleScrollWheel(float force)
 {
-	m_pWorldSelectionList->handleScroll(down);
+	m_pWorldSelectionList->handleScrollWheel(force);
 }
 
 bool SelectWorldScreen::isIndexValid(int idx)

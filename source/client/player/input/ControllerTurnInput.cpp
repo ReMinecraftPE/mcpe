@@ -26,7 +26,7 @@ ControllerTurnInput::ControllerTurnInput()
  * Simply by taking the square root of the controller X and Y and multiplying the result of each, we get an infinitely-
  * smoother and more stable end-user experience. The only problem: this is tied to FPS rather than proper timing.
 **/
-TurnDelta ControllerTurnInput::getTurnDelta()
+Vec2 ControllerTurnInput::getTurnDelta()
 {
 #ifdef USE_NATIVE_ANDROID
 	return TurnDelta(GameControllerManager::getX(m_stickNo) * 50.f, GameControllerManager::getY(m_stickNo) * 60.f);
@@ -36,14 +36,14 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 	constexpr float targetFps = 60;
 	constexpr float mult = (60.0f / targetFps) * 16.0f;
 
-	TurnDelta delta(GameControllerManager::getX(m_stickNo), GameControllerManager::getY(m_stickNo));
+	Vec2 delta(GameControllerManager::getX(m_stickNo), GameControllerManager::getY(m_stickNo));
 	delta.x = (delta.x * fabs(delta.x)) * mult;
 	delta.y = (delta.y * fabs(delta.y)) * mult;
 	return delta;
 #endif
 
 	bool isTouched = GameControllerManager::isTouched(m_stickNo);
-	float deltaX, deltaY;
+	Vec2 delta;
 
 	if (field_8 == 1)
 	{
@@ -75,8 +75,8 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 		/*xt *= fabs(xt);
 		yt *= fabs(yt);*/
 
-		deltaX = deltaTime * tx;
-		deltaY = deltaTime * ty; // inverted on 0.9.2
+		delta.x = deltaTime * tx;
+		delta.y = deltaTime * -ty;
 		/*deltaX *= fabs(deltaX);
 		deltaY *= fabs(deltaY);*/
 	}
@@ -98,25 +98,25 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 			float diffX = sx - m_analogTurnVector.x;
 			float diffY = sy - m_analogTurnVector.y;
 
-			deltaX = fabsf(diffX) > 0.0f ? diffX * 100.0f : 0.0f;
-			deltaY = fabsf(diffY) > 0.0f ? diffY * 100.0f : 0.0f; // deltaY is inverted on 0.9.2
+			delta.x = fabsf(diffX) > 0.0f ? diffX * 100.0f : 0.0f;
+			delta.y = -(fabsf(diffY) > 0.0f ? diffY * 100.0f : 0.0f);
 			m_analogTurnVector.x = sx;
 			m_analogTurnVector.y = sy;
 		}
 		else
 		{
-			deltaX = 0.0f;
-			deltaY = -0.0f;
+			delta.x = 0.0f;
+			delta.y = -0.0f;
 		}
 	}
 	else
 	{
-		deltaX = 0.0f;
-		deltaY = -0.0f;
+		delta.x = 0.0f;
+		delta.y = -0.0f;
 	}
 
 	field_18 = isTouched;
-	return TurnDelta(deltaX, deltaY);
+	return delta;
 }
 
 bool ControllerTurnInput::smoothTurning()

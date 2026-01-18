@@ -25,7 +25,7 @@ PrimedTnt::PrimedTnt(Level* level, const Vec3& pos) : Entity(level)
 	_init();
 	setPos(pos);
 
-	float fAng = 0.017453f * 2.0f * float(M_PI) * Mth::random();
+	float fAng = MTH_DEG_TO_RAD * 2.0f * float(M_PI) * Mth::random();
 
 	m_vel.x = -0.02f * Mth::sin(fAng);
 	m_vel.z = -0.02f * Mth::cos(fAng);

@@ -18,8 +18,8 @@ public:
 	CreateWorldScreen();
 
 	void init() override;
-	void buttonClicked(Button* pButton) override;
-	void render(int mouseX, int mouseY, float f) override;
+	void _buttonClicked(Button* pButton) override;
+	void render(float f) override;
 
 public:
 	TextInputBox m_textName;

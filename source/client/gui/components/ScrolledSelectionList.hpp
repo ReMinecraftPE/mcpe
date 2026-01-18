@@ -27,16 +27,16 @@ public:
 	virtual void renderItem(int, int, int, int, Tesselator&) = 0;
 	virtual void renderHeader(int, int, Tesselator&);
 	virtual void renderBackground(float) = 0;
-	virtual void renderDecorations(int, int);
+	virtual void renderDecorations(const MenuPointer& pointer);
 	virtual void clickedHeader(int x, int y);
 	virtual int getItemAtPosition(int x, int y);
 	virtual void capYPosition();
-	virtual void render(int mouseX, int mouseY, float f);
+	virtual void render(const MenuPointer& pointer, float f);
 	virtual void renderHoleBackground(float, float, int, int);
-	virtual void checkInput(int mouseX, int mouseY);
-	virtual void onClickItem(int index, int mouseX, int mouseY);
+	virtual void checkInput(const MenuPointer& pointer);
+	virtual void onClickItem(int index, const MenuPointer& pointer);
 	virtual void renderScrollBackground();
-	virtual void handleScroll(bool down);
+	virtual void handleScrollWheel(float force);
 
 	void setRenderHeader(bool, int);
 

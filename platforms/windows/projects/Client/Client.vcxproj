@@ -118,6 +118,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\options\Options.hpp" />
+    <ClInclude Include="..\..\..\..\source\client\gui\MenuPointer.hpp" />
     <ClInclude Include="..\..\..\..\source\client\player\input\GameControllerManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp" />
@@ -264,6 +265,8 @@
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\options\Options.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\GuiElement.cpp" />
+    <ClCompile Include="..\..\..\..\source\client\gui\MenuPointer.cpp" />
     <ClCompile Include="..\..\..\..\source\client\player\input\GameControllerManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerMoveInput.cpp" />
@@ -355,7 +358,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp" />

@@ -455,13 +455,13 @@ MouseButtonType AppPlatform_sdl::GetMouseButtonType(uint8_t button)
 	switch (button)
 	{
 	case SDL_BUTTON_LEFT:
-		return BUTTON_LEFT;
+		return MOUSE_BUTTON_LEFT;
 	case SDL_BUTTON_RIGHT:
-		return BUTTON_RIGHT;
+		return MOUSE_BUTTON_RIGHT;
 	case SDL_BUTTON_MIDDLE:
-		return BUTTON_MIDDLE;
+		return MOUSE_BUTTON_MIDDLE;
 	default:
-		return BUTTON_NONE;
+		return MOUSE_BUTTON_NONE;
 	}
 }
 

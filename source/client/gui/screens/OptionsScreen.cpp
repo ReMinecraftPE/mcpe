@@ -18,18 +18,41 @@
 
 OptionsScreen::OptionsScreen() :
 	m_pList(nullptr),
-	m_currentCategory(OC_VIDEO),
+	m_currentCategory(OC_MIN),
 	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
 	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
 	m_multiplayerButton(MIN_CATEGORY_BUTTON_ID + 2, "Multiplayer"),
 	m_miscButton(MAX_CATEGORY_BUTTON_ID, "Misc"),
 	m_backButton(BACK_BUTTON_ID, "Done")
 {
+	m_bRenderPointer = true;
 }
 
 OptionsScreen::~OptionsScreen()
 {
 	SAFE_DELETE(m_pList);
+}
+
+void OptionsScreen::_nextTab()
+{
+	OptionsCategory nextCat;
+	if (m_currentCategory == OC_MAX)
+		nextCat = OC_MIN;
+	else
+		nextCat = (OptionsCategory)(m_currentCategory + 1);
+
+	setCategory(nextCat);
+}
+
+void OptionsScreen::_prevTab()
+{
+	OptionsCategory nextCat;
+	if (m_currentCategory == OC_MIN)
+		nextCat = OC_MAX;
+	else
+		nextCat = (OptionsCategory)(m_currentCategory - 1);
+
+	setCategory(nextCat);
 }
 
 void OptionsScreen::init()
@@ -63,28 +86,23 @@ void OptionsScreen::init()
 
 	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
 	{
-		m_buttonTabList.push_back(tabButtons[i]);
+		_addElement(*tabButtons[i], false);
 	}
 
-	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
-	{
-		m_buttons.push_back(tabButtons[i]);
-	}
-
-	m_buttons.push_back(&m_backButton);
-	m_buttonTabList.push_back(&m_backButton);
+	if (!_useController())
+		_addElement(m_backButton);
 
 	setCategory(m_currentCategory);
 }
 
-void OptionsScreen::render(int mouseX, int mouseY, float f)
+void OptionsScreen::render(float f)
 {
 	if (!m_pList)
 		return;
 
-	m_pList->render(mouseX, mouseY, f);
+	m_pList->render(m_menuPointer, f);
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 
 	//drawCenteredString(*m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
 }
@@ -97,9 +115,9 @@ void OptionsScreen::removed()
 }
 void OptionsScreen::setCategory(OptionsCategory category)
 {
-	m_buttonTabList[m_currentCategory]->m_bEnabled = true;
+	_getInternalElement(m_currentCategory)->setEnabled(true);
 	m_currentCategory = category;
-	m_buttonTabList[m_currentCategory]->m_bEnabled = false;
+	_getInternalElement(m_currentCategory)->setEnabled(false);
 	m_pList->clear();
 
 	switch (category)
@@ -119,7 +137,7 @@ void OptionsScreen::setCategory(OptionsCategory category)
 	}
 }
 
-void OptionsScreen::buttonClicked(Button* pButton)
+void OptionsScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId >= MIN_CATEGORY_BUTTON_ID && pButton->m_buttonId <= MAX_CATEGORY_BUTTON_ID)
 	{
@@ -144,9 +162,9 @@ bool OptionsScreen::handleBackEvent(bool b)
 	return true;
 }
 
-void OptionsScreen::handleScroll(bool down)
+void OptionsScreen::handleScrollWheel(float force)
 {
-	m_pList->handleScroll(down);
+	m_pList->handleScrollWheel(force);
 }
 
 #else
@@ -296,7 +314,6 @@ void OptionsScreen::init()
 	m_BackButton.m_xPos = m_width / 2 - m_BackButton.m_width / 2;
 	m_BackButton.m_height = 20;
 	m_BackButton.m_yPos = m_height - m_BackButton.m_height - backGap;
-	m_buttons.push_back(&m_BackButton);
 
 	m_AOButton.m_xPos         =
 	m_srvVisButton.m_xPos     = 
@@ -319,33 +336,20 @@ void OptionsScreen::init()
 	m_autoJumpButton.m_yPos = m_blockLinesButton.m_yPos    = yPos; yPos += incrementY;
 	m_fancyGrassButton.m_yPos = m_biomeColorsButton.m_yPos = yPos; yPos += incrementY;
 
-	m_buttons.push_back(&m_AOButton);
-	m_buttons.push_back(&m_srvVisButton);
-	m_buttons.push_back(&m_fancyGfxButton);
-	m_buttons.push_back(&m_invertYButton);
-	m_buttons.push_back(&m_anaglyphsButton);
-	m_buttons.push_back(&m_viewBobButton);
-	m_buttons.push_back(&m_viewDistButton);
-	m_buttons.push_back(&m_flightHaxButton);
-	m_buttons.push_back(&m_autoJumpButton);
-	m_buttons.push_back(&m_blockLinesButton);
-	m_buttons.push_back(&m_fancyGrassButton);
-	m_buttons.push_back(&m_biomeColorsButton);
+	_addElement(m_AOButton);
+	_addElement(m_srvVisButton);
+	_addElement(m_fancyGfxButton);
+	_addElement(m_viewDistButton);
+	_addElement(m_invertYButton);
+	_addElement(m_anaglyphsButton);
+	_addElement(m_viewBobButton);
+	_addElement(m_flightHaxButton);
+	_addElement(m_autoJumpButton);
+	_addElement(m_blockLinesButton);
+	_addElement(m_fancyGrassButton);
+	_addElement(m_biomeColorsButton);
 
-	m_buttonTabList.push_back(&m_AOButton);
-	m_buttonTabList.push_back(&m_srvVisButton);
-	m_buttonTabList.push_back(&m_fancyGfxButton);
-	m_buttonTabList.push_back(&m_viewDistButton);
-	m_buttonTabList.push_back(&m_invertYButton);
-	m_buttonTabList.push_back(&m_anaglyphsButton);
-	m_buttonTabList.push_back(&m_viewBobButton);
-	m_buttonTabList.push_back(&m_flightHaxButton);
-	m_buttonTabList.push_back(&m_autoJumpButton);
-	m_buttonTabList.push_back(&m_blockLinesButton);
-	m_buttonTabList.push_back(&m_fancyGrassButton);
-	m_buttonTabList.push_back(&m_biomeColorsButton);
-
-	m_buttonTabList.push_back(&m_BackButton);
+	_addElement(m_BackButton);
 
 	updateTexts();
 
@@ -382,7 +386,7 @@ void OptionsScreen::removed()
 
 #ifndef ORIGINAL_CODE
 
-void OptionsScreen::buttonClicked(Button* pButton)
+void OptionsScreen::_buttonClicked(Button* pButton)
 {
 	Options& o = *(m_pMinecraft->getOptions());
 

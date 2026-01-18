@@ -19,7 +19,7 @@ SavingWorldScreen::SavingWorldScreen(bool bCopyMap/*, Entity* pEnt*/)
 	//m_pEntityToDeleteAfterSave = pEnt;
 }
 
-void SavingWorldScreen::render(int mouseX, int mouseY, float f)
+void SavingWorldScreen::render(float f)
 {
 	renderDirtBackground(0);
 

@@ -16,9 +16,9 @@ public:
 	bool isInGameScreen() override;
 	void keyPressed(int code) override;
 	void tick() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void render(float f) override;
 	bool handleBackEvent(bool b) override;
-	void buttonClicked(Button* pButton) override;
+	void _buttonClicked(Button* pButton) override;
 
 public:
 	Button m_btnBack;
