@@ -101,7 +101,7 @@ void ScrolledSelectionList::checkInput(const MenuPointer& pointer)
 {
 	if (pointer.isPressed)
 	{
-		if (float(pointer.y) >= field_C && float(pointer.y) <= field_10 && abs(pointer.y - field_28) > 5)
+		if (float(pointer.y) >= field_C && float(pointer.y) <= field_10 && fabsf(pointer.y - field_28) > 5)
 		{
 			int field_2C_old = field_2C;
 

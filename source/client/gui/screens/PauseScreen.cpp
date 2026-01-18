@@ -91,7 +91,7 @@ void PauseScreen::init()
 #endif
 
 #ifndef FEATURE_NETWORKING
-	m_btnVisible.m_bEnabled = false;
+	m_btnVisible.setEnabled(false);
 #endif
 }
 
