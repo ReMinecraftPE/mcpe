@@ -153,20 +153,20 @@ static int evalKeyInput(struct engine* engine, AInputEvent* event)
 
 static void nativeMouseDown(int id, int x, int y)
 {
-    Mouse::feed(BUTTON_LEFT, true, x, y);
-    Multitouch::feed(BUTTON_LEFT, true, x, y, id);
+    Mouse::feed(MOUSE_BUTTON_LEFT, true, x, y);
+    Multitouch::feed(MOUSE_BUTTON_LEFT, true, x, y, id);
 }
 
 static void nativeMouseUp(int id, int x, int y)
 {
-    Mouse::feed(BUTTON_LEFT, false, x, y);
-    Multitouch::feed(BUTTON_LEFT, false, x, y, id);
+    Mouse::feed(MOUSE_BUTTON_LEFT, false, x, y);
+    Multitouch::feed(MOUSE_BUTTON_LEFT, false, x, y, id);
 }
 
 static void nativeMouseMove(int id, int x, int y)
 {
-    Mouse::feed(BUTTON_NONE, false, x, y);
-    Multitouch::feed(BUTTON_NONE, false, x, y, id);
+    Mouse::feed(MOUSE_BUTTON_NONE, false, x, y);
+    Multitouch::feed(MOUSE_BUTTON_NONE, false, x, y, id);
 }
 
 static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_t source)
