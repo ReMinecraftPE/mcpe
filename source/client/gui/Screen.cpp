@@ -720,6 +720,8 @@ void Screen::_controllerDirectionHeld(GameController::StickID stickId, GameContr
 		case GameController::STICK_STATE_DOWN:
 			nextElement();
 			break;
+		default:
+			break;
 		}
 		// Calling this every time we either go left or right was insanely dumb
 		//_updateTabButtonSelection();

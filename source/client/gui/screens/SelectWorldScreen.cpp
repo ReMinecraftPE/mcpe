@@ -66,6 +66,8 @@ void SelectWorldScreen::_controllerDirectionHeld(GameController::StickID stickId
 				nextElement();
 			}
 			break;
+		default:
+			break;
 		}
 	}
 }

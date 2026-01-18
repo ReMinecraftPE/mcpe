@@ -138,6 +138,8 @@ void OptionsScreen::setCategory(OptionsCategory category)
 	case OC_MISCELLANEOUS:
 		m_pList->initMiscMenu();
 		break;
+	default:
+		break;
 	}
 }
 
