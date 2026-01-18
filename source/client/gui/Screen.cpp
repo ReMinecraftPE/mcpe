@@ -632,7 +632,7 @@ int Screen::getYOffset() const
 	{
 		const TextInputBox* pBox = m_textInputs[i];
 
-		if (!pBox->m_bFocused)
+		if (!pBox->hasFocus())
 			continue;
 		
 		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
