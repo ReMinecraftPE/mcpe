@@ -12,7 +12,7 @@
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/hal/interface/RasterizerState.hpp"
 
-#define C_SOUND_BTN_PRESS   "random.click"
+#define C_SOUND_BTN_CLICK   "random.click"
 #define C_SOUND_BTN_RELEASE "random.click"
 
 #define C_POINTER_FAST_MOVE_SPEED 0.09f
@@ -441,7 +441,7 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 				if (_useController())
 					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
 				else
-					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
+					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_CLICK);
 				_buttonClicked(button);
 			}
 		}
