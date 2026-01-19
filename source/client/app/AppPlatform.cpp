@@ -17,12 +17,6 @@
 #include "compat/LegacyCPP.hpp"
 #include "AppPlatformListener.hpp"
 
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#define stat _stat
-#define S_ISREG(m) (m & _S_IFREG)
-#endif
-
 AppPlatform* AppPlatform::m_singleton = nullptr;
 
 AppPlatform* AppPlatform::singleton()
