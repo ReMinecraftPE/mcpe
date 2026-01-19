@@ -13,46 +13,9 @@
 
 DirectConnectScreen::DirectConnectScreen() :
 	m_textAddress(this, 1, 0, 0, 0),
-	m_btnQuit(3, "Cancel"),
+	m_btnCancel(3, "Cancel"),
 	m_btnJoin(2, "Join Server")
 {}
-
-void DirectConnectScreen::init()
-{
-	m_textAddress.m_width = 200;
-	m_textAddress.m_height = 20;
-
-	m_btnJoin.m_width = 200;
-	m_btnJoin.m_height = 20;
-
-	m_btnQuit.m_width = 200;
-	m_btnQuit.m_height = 20;
-
-	m_textAddress.m_xPos = (m_width / 2) - (m_textAddress.m_width / 2);
-	m_textAddress.m_yPos = m_height / 2 - 20;
-
-	m_btnJoin.m_xPos = (m_width / 2) - (m_btnJoin.m_width / 2);
-	m_btnJoin.m_yPos = m_height - 55;
-	m_btnJoin.setEnabled(false);
-
-	m_btnQuit.m_xPos = (m_width / 2) - (m_btnQuit.m_width / 2);
-	m_btnQuit.m_yPos = m_height - 30;
-
-	m_textInputs.push_back(&m_textAddress);
-	_addElement(m_btnJoin);
-	_addElement(m_btnQuit);
-
-	m_textAddress.init(m_pFont);
-}
-
-void DirectConnectScreen::render(float f)
-{
-	renderBackground();
-	Screen::render(f);
-
-	drawCenteredString(*m_pFont, "Direct Connect", m_width / 2, 30, 0xFFFFFF);
-	drawString(*m_pFont, "Server Address", m_textAddress.m_xPos, m_textAddress.m_yPos - 15, 0x999999);
-}
 
 void DirectConnectScreen::_buttonClicked(Button* pButton)
 {
@@ -78,10 +41,57 @@ void DirectConnectScreen::_buttonClicked(Button* pButton)
 		m_btnJoin.setEnabled(false);
 		m_textAddress.setEnabled(false);
 	}
-	else if (pButton->m_buttonId == m_btnQuit.m_buttonId)
+	else if (pButton->m_buttonId == m_btnCancel.m_buttonId)
+	{
+		DirectConnectScreen::handleBackEvent(false);
+	}
+}
+
+void DirectConnectScreen::init()
+{
+	m_textAddress.m_width = 200;
+	m_textAddress.m_height = 20;
+
+	m_btnJoin.m_width = 200;
+	m_btnJoin.m_height = 20;
+
+	m_btnCancel.m_width = 200;
+	m_btnCancel.m_height = 20;
+
+	m_textAddress.m_xPos = (m_width / 2) - (m_textAddress.m_width / 2);
+	m_textAddress.m_yPos = m_height / 2 - 20;
+
+	m_btnJoin.m_xPos = (m_width / 2) - (m_btnJoin.m_width / 2);
+	m_btnJoin.m_yPos = m_height - 55;
+	m_btnJoin.setEnabled(false);
+
+	m_btnCancel.m_xPos = (m_width / 2) - (m_btnCancel.m_width / 2);
+	m_btnCancel.m_yPos = m_height - 30;
+
+	m_textInputs.push_back(&m_textAddress);
+	_addElement(m_btnJoin);
+	_addElement(m_btnCancel);
+
+	m_textAddress.init(m_pFont);
+}
+
+void DirectConnectScreen::render(float f)
+{
+	renderBackground();
+	Screen::render(f);
+
+	drawCenteredString(*m_pFont, "Direct Connect", m_width / 2, 30, 0xFFFFFF);
+	drawString(*m_pFont, "Server Address", m_textAddress.m_xPos, m_textAddress.m_yPos - 15, 0x999999);
+}
+
+bool DirectConnectScreen::handleBackEvent(bool b)
+{
+	if (!b)
 	{
 		m_pMinecraft->setScreen(new JoinGameScreen);
 	}
+
+	return true;
 }
 
 void DirectConnectScreen::onTextBoxUpdated(int id)

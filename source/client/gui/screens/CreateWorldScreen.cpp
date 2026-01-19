@@ -11,12 +11,82 @@
 #include "ProgressScreen.hpp"
 #include "common/Util.hpp"
 
+static char g_CreateWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':' };
+
 CreateWorldScreen::CreateWorldScreen() :
 	m_textName(this, 1, 0, 0, 0, 0, "", "Unnamed world"),
 	m_textSeed(this, 2, 0, 0, 0, 0, ""),
 	m_btnBack(3, "Cancel"),
 	m_btnCreate(4, "Create New World")
 {
+}
+
+static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in)
+{
+	std::set<std::string> maps;
+
+	std::vector<LevelSummary> summaries;
+	pSource->getLevelList(summaries);
+
+	for (std::vector<LevelSummary>::const_iterator it = summaries.begin(); it != summaries.end(); it++)
+	{
+		maps.insert(it->m_fileName);
+	}
+
+	std::string out = in;
+	//unsigned int generationId = 0;
+	while (maps.find(out) != maps.end())
+	{
+		// Custom duplicate naming scheme, so the world name matches the folder name
+		/*generationId++;
+		out = in + "" + Util::format("(%d)", generationId);*/
+
+		// Java/PE default
+		out += "-";
+	}
+
+	return out;
+}
+
+void CreateWorldScreen::_buttonClicked(Button* pButton)
+{
+	if (pButton->m_buttonId == m_btnBack.m_buttonId)
+	{
+		handleBackEvent(false);
+	}
+
+	if (pButton->m_buttonId == m_btnCreate.m_buttonId)
+	{
+		std::string nameStr = m_textName.getText();
+		std::string seedStr = m_textSeed.getText();
+
+		std::string levelNickname = Util::stringTrim(nameStr);
+		std::string levelUniqueName = levelNickname;
+
+		for (size_t i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
+		{
+			std::string str;
+			str.push_back(g_CreateWorldFilterArray[i]);
+			Util::stringReplace(levelUniqueName, str, "");
+		}
+
+		levelUniqueName = GetUniqueLevelName(m_pMinecraft->m_pLevelStorageSource, levelUniqueName);
+
+		int seed = int(getEpochTimeS());
+
+		std::string seedThing = Util::stringTrim(seedStr);
+		if (!seedThing.empty())
+		{
+			int num;
+			if (sscanf(seedThing.c_str(), "%d", &num) > 0)
+				seed = num;
+			else
+				seed = Util::hashCode(seedThing);
+		}
+
+		LevelSettings levelSettings(seed);
+		m_pMinecraft->selectLevel(levelUniqueName, levelNickname, levelSettings);
+	}
 }
 
 #define CRAMPED() (100 + 32 + 58 > m_height)
@@ -58,76 +128,6 @@ void CreateWorldScreen::init()
 	}
 }
 
-static char g_CreateWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':' };
-
-static std::string GetUniqueLevelName(LevelStorageSource* pSource, const std::string& in)
-{
-	std::set<std::string> maps;
-
-	std::vector<LevelSummary> summaries;
-	pSource->getLevelList(summaries);
-
-	for (std::vector<LevelSummary>::const_iterator it = summaries.begin(); it != summaries.end(); it++)
-	{
-		maps.insert(it->m_fileName);
-	}
-
-	std::string out = in;
-	//unsigned int generationId = 0;
-	while (maps.find(out) != maps.end())
-	{
-		// Custom duplicate naming scheme, so the world name matches the folder name
-		/*generationId++;
-		out = in + "" + Util::format("(%d)", generationId);*/
-
-		// Java/PE default
-		out += "-";
-	}
-
-	return out;
-}
-
-void CreateWorldScreen::_buttonClicked(Button* pButton)
-{
-	if (pButton->m_buttonId == m_btnBack.m_buttonId)
-	{
-		m_pMinecraft->setScreen(new SelectWorldScreen);
-	}
-
-	if (pButton->m_buttonId == m_btnCreate.m_buttonId)
-	{
-		std::string nameStr = m_textName.getText();
-		std::string seedStr = m_textSeed.getText();
-
-		std::string levelNickname = Util::stringTrim(nameStr);
-		std::string levelUniqueName = levelNickname;
-
-		for (size_t i = 0; i < sizeof(g_CreateWorldFilterArray); i++)
-		{
-			std::string str;
-			str.push_back(g_CreateWorldFilterArray[i]);
-			Util::stringReplace(levelUniqueName, str, "");
-		}
-
-		levelUniqueName = GetUniqueLevelName(m_pMinecraft->m_pLevelStorageSource, levelUniqueName);
-
-		int seed = int(getEpochTimeS());
-
-		std::string seedThing = Util::stringTrim(seedStr);
-		if (!seedThing.empty())
-		{
-			int num;
-			if (sscanf(seedThing.c_str(), "%d", &num) > 0)
-				seed = num;
-			else
-				seed = Util::hashCode(seedThing);
-		}
-
-		LevelSettings levelSettings(seed);
-		m_pMinecraft->selectLevel(levelUniqueName, levelNickname, levelSettings);
-	}
-}
-
 void CreateWorldScreen::render(float f)
 {
 	renderBackground();
@@ -137,4 +137,14 @@ void CreateWorldScreen::render(float f)
 	drawString(*m_pFont, "World name",                    m_textName.m_xPos, m_textName.m_yPos - 10, 0xDDDDDD);
 	drawString(*m_pFont, "Seed for the World Generator",  m_textSeed.m_xPos, m_textSeed.m_yPos - 10, 0xDDDDDD);
 	drawString(*m_pFont, "Leave blank for a random seed", m_textSeed.m_xPos, m_textSeed.m_yPos + 22, 0x999999);
+}
+
+bool CreateWorldScreen::handleBackEvent(bool b)
+{
+	if (!b)
+	{
+		m_pMinecraft->setScreen(new SelectWorldScreen);
+	}
+
+	return true;
 }
