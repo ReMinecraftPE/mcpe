@@ -833,7 +833,7 @@ void ClientSideNetworkHandler::requestNextChunk()
 
 void ClientSideNetworkHandler::flushAllBufferedUpdates()
 {
-	for (int i = 0; i < int(m_bufferedBlockUpdates.size()); i++)
+	for (size_t i = 0; i < m_bufferedBlockUpdates.size(); i++)
 	{
 		handleBlockUpdate(m_bufferedBlockUpdates[i]);
 	}

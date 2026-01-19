@@ -1,0 +1,2 @@
+CompileFlags:
+  Add: [-I/home/uniq/devel/mcpe/source, -I/home/uniq/devel/mcpe, -I/home/uniq/devel/mcpe/thirdparty/raknet, -I/home/uniq/devel/mcpe/thirdparty/stb_image/include, -isystem/usr/include/SDL2]

@@ -1609,7 +1609,7 @@ void Level::tickEntities()
 	// inlined in the original
 	removeAllPendingEntityRemovals();
 
-	for (int i = 0; i<int(m_entities.size()); i++)
+	for (size_t i = 0; i < m_entities.size(); i++)
 	{
 		Entity* pEnt = m_entities[i];
 

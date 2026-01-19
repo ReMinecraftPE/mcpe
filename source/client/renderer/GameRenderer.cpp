@@ -994,7 +994,7 @@ void GameRenderer::pick(float f)
 	EntityVector ents = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
 
 	float fDist = 0.0f;
-	for (int i = 0; i < int(ents.size()); i++)
+	for (size_t i = 0; i < ents.size(); i++)
 	{
 		Entity *pEnt = (ents)[i];
 		if (!pEnt->isPickable())
