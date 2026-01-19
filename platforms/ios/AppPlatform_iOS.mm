@@ -14,8 +14,6 @@
 
 #include "platforms/sound/openal/CustomSoundSystem.hpp"
 
-#include <sys/stat.h>
-
 AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
 {
 	m_bShiftPressed[0] = false;
