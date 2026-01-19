@@ -16,7 +16,12 @@ class JoinGameScreen : public Screen
 public:
 	JoinGameScreen();
 	~JoinGameScreen();
+
+protected:
+	void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState) override;
 	void _buttonClicked(Button* pButton) override;
+
+public:
 	bool handleBackEvent(bool b) override;
 	void init() override;
 	bool isInGameScreen() override;

@@ -24,6 +24,24 @@ JoinGameScreen::~JoinGameScreen()
 	SAFE_DELETE(m_pAvailableGamesList);
 }
 
+void JoinGameScreen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)
+{
+	if (stickId == 1)
+	{
+		switch (stickState)
+		{
+		case GameController::STICK_STATE_LEFT:
+			prevElement();
+			break;
+		case GameController::STICK_STATE_RIGHT:
+			nextElement();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 void JoinGameScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnJoin.m_buttonId)
