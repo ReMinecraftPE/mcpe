@@ -83,18 +83,6 @@ void LocalPlayer::drop(const ItemInstance& item, bool randomly)
 	}
 }
 
-bool LocalPlayer::isImmobile() const
-{
-	// The player should never move if they aren't focused on the game.
-	// i.e. they're in a menu or the window is unfocused.
-	
-	// @BUG: This causes the player's hand to pause mid-swing while in menus, only when on gamepad.
-	// There does not seem to be a way to get around this without implementing another layer to handle input, which Mojang did later on.
-
-	// This more or less signifies that the game has focus. No GUI Screens, no other windows, just gameplay.
-	return Player::isImmobile() || (m_pMinecraft->useController() && m_pMinecraft->m_pScreen); //!m_pMinecraft->m_bGrabbedMouse; // this works if we still set this when not using a mouse
-}
-
 void LocalPlayer::setPlayerGameType(GameType gameType)
 {
 	// @HACK: This info should be updated / stored in one place, and one place only.
@@ -294,10 +282,18 @@ void LocalPlayer::updateAi()
 {
 	Player::updateAi();
 
-	field_B00.x = m_pMoveInput->m_horzInput;
-	field_B00.y = m_pMoveInput->m_vertInput;
+	if (m_pMinecraft->m_pScreen)
+	{
+		m_moveVelocity = Vec2::ZERO;
+		m_bJumping = false;
+	}
+	else
+	{
+		m_moveVelocity.x = m_pMoveInput->m_horzInput;
+		m_moveVelocity.y = m_pMoveInput->m_vertInput;
 
-	m_bJumping = m_pMoveInput->m_bJumping || m_nAutoJumpFrames > 0;
+		m_bJumping = m_pMoveInput->m_bJumping || m_nAutoJumpFrames > 0;
+	}
 }
 
 void LocalPlayer::addAdditionalSaveData(CompoundTag& tag) const

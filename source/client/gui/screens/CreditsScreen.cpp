@@ -38,9 +38,8 @@ void CreditsScreen::init()
 
 	m_btnBack.m_xPos = m_width / 2 - m_btnBack.m_width / 2;
 
-	m_buttons.push_back(&m_btnBack);
-
-	m_buttonTabList.push_back(&m_btnBack);
+	if (!_useController())
+		_addElement(m_btnBack);
 
 	_initCreditsText();
 }
@@ -59,7 +58,7 @@ void CreditsScreen::tick()
 {
 }
 
-void CreditsScreen::render(int mouseX, int mouseY, float f)
+void CreditsScreen::render(float f)
 {
 	renderBackground();
 
@@ -82,7 +81,7 @@ void CreditsScreen::render(int mouseX, int mouseY, float f)
 	t.vertexUV(0.0f, 26.0f, 0.0f, 0.0f, 26.0f / 32.0f);
 	t.draw(m_materials.ui_texture_and_color);
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 
 	drawCenteredString(*m_pMinecraft->m_pFont, "Credits", m_width / 2, 8, Color::WHITE);
 
@@ -104,7 +103,7 @@ bool CreditsScreen::handleBackEvent(bool b)
 	return true;
 }
 
-void CreditsScreen::buttonClicked(Button* pButton)
+void CreditsScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnBack.m_buttonId)
 		m_pMinecraft->setScreen(new StartMenuScreen);

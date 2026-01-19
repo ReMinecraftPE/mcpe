@@ -18,9 +18,9 @@ class Minecraft;
 
 #ifndef ORIGINAL_CODE
 
-// @TODO: Rename this to TextBox and inherit GuiElement
+// @TODO: Rename this to TextBox
 // Don't trash this in favor of Mojang's class, just mold it, since this is better at handling all platforms
-class TextInputBox : public GuiComponent
+class TextInputBox : public GuiElement
 {
 private:
 	int m_ID;
@@ -30,27 +30,31 @@ public:
 	TextInputBox(Screen*, int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
 	~TextInputBox();
 
+protected:
+	void _onFocusChanged() override;
+
+public:
+	Type getType() const override { return TYPE_TEXTINPUT; }
+
+private:
+	std::string _sanitizePasteText(const std::string& text) const;
+
+public:
 	void init(Font* pFont);
-	void setEnabled(bool bEnabled);
 	void keyPressed(int key);
 	void charPressed(int chr);
 	void pasteText(const std::string& text);
 	void render();
 	void tick();
-	void setFocused(bool b);
 	void onClick(int x, int y);
 	bool clicked(int x, int y);
 	std::string getText();
 	void setText(const std::string& text);
-	bool isFocused();
 	void setMaxLength(int max_length);
 
 	// From TextBox in 0.7.0
 	int getKey() const { return m_ID; }
 	std::string getText() const { return m_text; }
-
-private:
-	std::string _sanitizePasteText(const std::string& text) const;
 
 public:
 #ifndef HANDLE_CHARS_SEPARATELY
@@ -59,13 +63,12 @@ public:
 	std::string getRenderedText(int scroll_pos, std::string text);
 	void recalculateScroll();
 
+public:
 	int m_xPos;
 	int m_yPos;
 	int m_width;
 	int m_height;
 	std::string m_placeholder;
-	bool m_bFocused;
-	bool m_bEnabled;
 	bool m_bCursorOn;
 	int m_insertHead;
 	int m_lastFlashed;

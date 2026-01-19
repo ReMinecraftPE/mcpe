@@ -35,8 +35,8 @@ void Mob::_init()
 	m_walkAnimSpeed = 0.0f;
 	field_130 = 0.0f;
 	m_noActionTime = 0;
-	field_B00 = Vec2::ZERO;
-	field_B08 = 0.0f;
+	m_moveVelocity = Vec2::ZERO;
+	m_yRotA = 0.0f;
 	m_bJumping = false;
 	field_B10 = 0;
 	m_runSpeed = 0.7f;
@@ -718,7 +718,7 @@ void Mob::aiStep()
 	if (isImmobile())
 	{
 		m_bJumping = 0;
-		field_B00 = Vec2::ZERO;
+		m_moveVelocity = Vec2::ZERO;
 	}
 	else if (!interpolateOnly())
 	{
@@ -734,11 +734,11 @@ void Mob::aiStep()
 			jumpFromGround();
 	}
 
-	field_B00.x *= 0.98f;
-	field_B00.y *= 0.98f;
-	field_B08 *= 0.9f;
+	m_moveVelocity.x *= 0.98f;
+	m_moveVelocity.y *= 0.98f;
+	m_yRotA *= 0.9f;
 
-	travel(field_B00);
+	travel(m_moveVelocity);
 
 	AABB aabb = m_hitbox;
 	aabb.grow(0.2f, 0.2f, 0.2f);
@@ -815,7 +815,7 @@ void Mob::updateAi()
 
 	checkDespawn();
 
-	field_B00 = Vec2::ZERO;
+	m_moveVelocity = Vec2::ZERO;
 
 	if (m_random.nextFloat() < 0.02f)
 	{
@@ -828,7 +828,7 @@ void Mob::updateAi()
 		}
 		else
 		{
-			field_B08 = (m_random.nextFloat() - 0.5f) * 20.0f;
+			m_yRotA = (m_random.nextFloat() - 0.5f) * 20.0f;
 		}
 	}
 
@@ -847,9 +847,9 @@ void Mob::updateAi()
 	else
 	{
 		if (m_random.nextFloat() < 0.05f)
-			field_B08 = (m_random.nextFloat() - 0.5f) * 20.0f;
+			m_yRotA = (m_random.nextFloat() - 0.5f) * 20.0f;
 
-		m_rot.x += field_B08;
+		m_rot.x += m_yRotA;
 		m_rot.y = field_B10;
 	}
 

@@ -17,7 +17,7 @@ void ControllerMoveInput::tick(Player* player)
         float x = -GameControllerManager::getX(1);
         float y = GameControllerManager::getY(1);
         m_horzInput = x; 
-        m_vertInput = -y;
+        m_vertInput = y;
         /*if (*(player + 3169) && this->m_keys[7])
         {
             this->m_keys[INPUT_FORWARD] = m_vertInput > 0.0f;
@@ -37,7 +37,7 @@ void ControllerMoveInput::tick(Player* player)
         m_bJumping = 1;
     m_keys[INPUT_LEFT] = m_keys[INPUT_FORWARD] || m_keys[INPUT_BACKWARD];
     if (m_keys[INPUT_LEFT])
-        m_vertInput = 0.0;
+        m_vertInput = 0.0f;
 }
 
 void ControllerMoveInput::setKey(int eventKey, bool eventKeyState)

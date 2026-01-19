@@ -515,17 +515,17 @@ MouseButtonType AppPlatform_win32::GetMouseButtonType(UINT iMsg)
 	{
 	case WM_LBUTTONUP:
 	case WM_LBUTTONDOWN:
-		return BUTTON_LEFT;
+		return MOUSE_BUTTON_LEFT;
 	case WM_RBUTTONUP:
 	case WM_RBUTTONDOWN:
-		return BUTTON_RIGHT;
+		return MOUSE_BUTTON_RIGHT;
 	case WM_MBUTTONUP:
 	case WM_MBUTTONDOWN:
-		return BUTTON_MIDDLE;
+		return MOUSE_BUTTON_MIDDLE;
 	case WM_MOUSEWHEEL:
-		return BUTTON_SCROLLWHEEL;
+		return MOUSE_BUTTON_SCROLLWHEEL;
 	default:
-		return BUTTON_NONE;
+		return MOUSE_BUTTON_NONE;
 	}
 }
 

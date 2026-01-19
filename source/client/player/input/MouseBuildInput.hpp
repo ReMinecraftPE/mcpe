@@ -7,7 +7,7 @@ class MouseBuildInput : public IBuildInput
 {
 private:
 	unsigned int m_time;
-	bool m_lastButtonStates[BUTTON_COUNT];
+	bool m_lastButtonStates[MOUSE_BUTTON_COUNT];
 
 public:
 	MouseBuildInput();

@@ -526,18 +526,18 @@ void StartMenuScreen::_updateLicense()
 	int licenseID = m_pMinecraft->getLicenseId();
 	if (licenseID < 0)
 	{
-		m_optionsButton.m_bEnabled = false;
-		m_startButton.m_bEnabled = false;
-		m_joinButton.m_bEnabled = false;
+		m_optionsButton.setEnabled(false);
+		m_startButton.setEnabled(false);
+		m_joinButton.setEnabled(false);
 	}
 	else if (licenseID <= 1)
 	{
-		m_optionsButton.m_bEnabled = true;
-		m_startButton.m_bEnabled = true;
+		m_optionsButton.setEnabled(true);
+		m_startButton.setEnabled(true);
 #ifdef FEATURE_NETWORKING
-		m_joinButton.m_bEnabled = true;
+		m_joinButton.setEnabled(true);
 #else
-		m_joinButton.m_bEnabled = false;
+		m_joinButton.setEnabled(false);
 #endif
 	}
 	else
@@ -546,7 +546,7 @@ void StartMenuScreen::_updateLicense()
 	}
 }
 
-void StartMenuScreen::buttonClicked(Button* pButton)
+void StartMenuScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_startButton.m_buttonId)
 	{
@@ -611,7 +611,7 @@ void StartMenuScreen::init()
 	m_creditsButton.m_yPos = 0;
 	m_creditsButton.m_width = m_width;
 	m_creditsButton.m_height = 75;
-	m_creditsButton.m_fAlpha = 0;
+	m_creditsButton.m_color.a = 0.0f;
 
 	// fill in empty space where quit/buy button would be
 	if (m_pMinecraft->isTouchscreen())
@@ -621,10 +621,9 @@ void StartMenuScreen::init()
 	}
 
 	// add the buttons to the screen:
-	m_buttons.push_back(&m_startButton);
-	m_buttons.push_back(&m_joinButton);
-	m_buttons.push_back(&m_optionsButton);
-	m_buttons.push_back(&m_creditsButton);
+	_addElement(m_startButton);
+	_addElement(m_joinButton);
+	_addElement(m_optionsButton);
 
     bool canQuit = false;
 
@@ -634,11 +633,10 @@ void StartMenuScreen::init()
 
 	if (canQuit)
     {
-        m_buttons.push_back(&m_buyButton);
+        _addElement(m_buyButton);
     }
 
-	for (int i = 0; i < int(m_buttons.size()); i++)
-		m_buttonTabList.push_back(m_buttons[i]);
+	_addElement(m_creditsButton);
 
 	field_154 = "\xFFMojang AB";
 	field_16C = m_width - 1 - m_pFont->width(field_154);
@@ -795,13 +793,13 @@ void StartMenuScreen::draw3dTitle(float f)
 	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 }
 
-void StartMenuScreen::render(int a, int b, float c)
+void StartMenuScreen::render(float f)
 {
 #ifdef TITLE_CROP_MODE
 	fill(0, 0, m_width, m_height, 0xFF00FF00);
 #else
 	//renderBackground();
-	renderMenuBackground(c);
+	renderMenuBackground(f);
 #endif
 
 	//int titleYPos = 4;
@@ -818,7 +816,7 @@ void StartMenuScreen::render(int a, int b, float c)
 	if (m_pMinecraft->getOptions()->m_b2dTitleLogo)
 		draw2dTitle();
 	else
-		draw3dTitle(c);
+		draw3dTitle(f);
 
 	drawString(*m_pFont, field_170, field_188, 58 + titleYPos, Color(204, 204, 204));
 	drawString(*m_pFont, field_154, field_16C, m_height - 10, Color::WHITE);
@@ -829,7 +827,7 @@ void StartMenuScreen::render(int a, int b, float c)
 		drawSplash();
 #endif
 
-	Screen::render(a, b, c);
+	Screen::render(f);
 }
 
 void StartMenuScreen::tick()

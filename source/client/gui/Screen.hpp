@@ -11,11 +11,15 @@
 #include "renderer/MaterialPtr.hpp"
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
+#include "client/player/input/GameController.hpp"
 #include "components/Button.hpp"
 #include "components/TextInputBox.hpp"
+#include "MenuPointer.hpp"
 
 class Button;
 class TextInputBox;
+
+typedef std::vector<GuiElement*> GuiElementList;
 
 class Screen : public GuiComponent
 {
@@ -46,18 +50,65 @@ public:
 	Screen();
 	virtual ~Screen();
 
-	void init(Minecraft*, int, int);
-	void updateTabButtonSelection();
-	void setSize(int width, int height);
-	void onRender(int mouseX, int mouseY, float f);
-	int getYOffset();
+protected:
+	bool _prevElement();
+	bool _nextElement();
+	void _addElement(Button& element, bool isTabbable = true);
+	void _addElementToList(unsigned int index, Button& element, bool isTabbable = true);
+	bool _nextElementList();
+	bool _prevElementList();
+	void _addElementList();
+	void _selectCurrentElement();
+	void _deselectCurrentElement();
+	void _playSelectSound();
+	void _centerMenuPointer();
+	void _renderPointer();
+	GuiElement* _getInternalElement(unsigned int index);
+	GuiElement* _getElement(unsigned int index);
+	GuiElement* _getSelectedElement();
+	GuiElementList& _getElementList(unsigned int index);
+	GuiElementList& _getElementList();
+	bool _useController() const;
 
-	virtual void render(int, int, float);
+public:
+	void init(Minecraft*, int, int);
+	void setSize(int width, int height);
+	void onRender(float f);
+	bool onBack(bool b);
+	bool prevElement();
+	bool nextElement();
+	bool nextElementList();
+	bool prevElementList();
+	bool nextTab();
+	bool prevTab();
+	int getYOffset() const;
+	unsigned int getCursorMoveThrottle() const { return 65; }
+	bool doElementTabbing() const;
+
+protected:
+	virtual void _processControllerDirection(GameController::StickID stickId);
+	virtual void _controllerDirectionChanged(GameController::StickID stickId, GameController::StickState stickState);
+	virtual void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState);
+	virtual void _buttonClicked(Button* pButton);
+	virtual void _guiElementClicked(GuiElement& element);
+	virtual void _updateTabButtonSelection();
+	virtual bool _nextTab();
+	virtual bool _prevTab();
+
+public:
+	virtual void render(float a);
 	virtual void init() {};
 	virtual void updateEvents();
 	virtual void mouseEvent();
 	virtual void keyboardEvent();
-	virtual bool handleBackEvent(bool b) { return false; }
+	virtual void controllerEvent();
+	virtual void checkForPointerEvent();
+	virtual bool handleBackEvent(bool b);
+	virtual void handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y);
+	virtual void handlePointerPressed(bool isPressed);
+	virtual void handlePointerAction(const MenuPointer& pointer);
+	virtual void handleScrollWheel(float force);
+	virtual void handleControllerStickEvent(const GameController::StickEvent& stick);
 	virtual void tick();
 	virtual void removed() {};
 	virtual void renderBackground(int vo);
@@ -68,25 +119,34 @@ public:
 	virtual bool isInGameScreen() { return true; }
 	virtual void confirmResult(bool b, int i) {};
 	virtual void onTextBoxUpdated(int id) {};
-	virtual void buttonClicked(Button* pButton) {};
-	virtual void mouseClicked(int, int, int);
-	virtual void mouseReleased(int, int, int);
+	virtual void pointerPressed(int x, int y, MouseButtonType btn);
+	virtual void pointerReleased(int x, int y, MouseButtonType btn);
 	virtual void keyPressed(int);
 	virtual void keyboardNewChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
-	virtual void handleScroll(bool down);
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);
+
+protected:
+	Materials m_screenMaterials;
+	MenuPointer m_menuPointer;
+	MenuPointer m_targetMenuPointer;
+	Vec2 m_pointerVelocity;
+	bool m_bLastPointerPressedState;
+	double m_currentUpdateTime;
+	double m_lastUpdateTime;
 
 public:
 	int m_width;
 	int m_height;
 	bool field_10;
 	Minecraft* m_pMinecraft;
-	std::vector<Button*> m_buttons;
-	std::vector<Button*> m_buttonTabList; 
-	int m_tabButtonIndex;
+	GuiElementList m_elements;
+	std::vector<GuiElementList> m_elementTabLists; 
+	unsigned int m_elementListIndex;
+	unsigned int m_elementIndex;
+	bool m_bTabWrap;
 	Font* m_pFont;
 	Button* m_pClickedButton;
 
@@ -95,7 +155,10 @@ public:
 	int m_yOffset;
 #endif
 
-protected:
-	Materials m_screenMaterials;
+	bool m_bRenderPointer;
+
+	unsigned int m_lastTimeMoved;
+	unsigned int m_cursorTick;
+	std::map<GameController::StickID, GameController::StickState> m_lastStickState;
 };
 

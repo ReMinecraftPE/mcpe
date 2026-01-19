@@ -175,7 +175,7 @@ static void handle_events()
                 float scale = g_fPointToPixelScale;
                 float x = event.motion.x * scale;
                 float y = event.motion.y * scale;
-                Mouse::feed(BUTTON_NONE, false, x, y);
+                Mouse::feed(MOUSE_BUTTON_NONE, false, x, y);
                 g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
                 break;
             }

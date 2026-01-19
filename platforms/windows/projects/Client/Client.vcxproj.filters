@@ -200,7 +200,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\Screen.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\player\input\GameControllerManager.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp">
@@ -548,6 +548,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameController.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\MenuPointer.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -637,7 +640,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\player\input\GameControllerManager.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp">
@@ -904,9 +907,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\ModelPart.cpp">
       <Filter>Source Files\Model\Geom</Filter>
     </ClCompile>
@@ -963,6 +963,12 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameController.cpp">
       <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\MenuPointer.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

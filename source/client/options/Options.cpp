@@ -345,8 +345,10 @@ void Options::loadControls()
 	KM(KM_SNEAK,        "key.sneak",         0x10); // VK_SHIFT. In original, it's 10 (misspelling?)
 	KM(KM_DESTROY,      "key.destroy",       'K'); // was 'X'
 	KM(KM_PLACE,        "key.place",         'L'); // was 'C'
-	KM(KM_MENU_NEXT,    "key.menu.next",     0x28); // VK_DOWN
-	KM(KM_MENU_PREVIOUS,"key.menu.previous", 0x26); // VK_UP
+	KM(KM_MENU_UP,      "key.menu.up",       0x26); // VK_UP
+	KM(KM_MENU_DOWN,    "key.menu.down",     0x28); // VK_DOWN
+	KM(KM_MENU_LEFT,    "key.menu.left",     0x25); // VK_LEFT
+	KM(KM_MENU_RIGHT,   "key.menu.right",    0x27); // VK_RIGHT
 	KM(KM_MENU_OK,      "key.menu.ok",       0x0D); // VK_RETURN
 	KM(KM_MENU_CANCEL,  "key.menu.cancel",   0x1B); // VK_ESCAPE, was 0x08 = VK_BACK
 	KM(KM_SLOT_1,       "key.slot.1",        '1');
@@ -381,8 +383,10 @@ void Options::loadControls()
 	KM(KM_JUMP,          SDLVK_SPACE);
 	KM(KM_DESTROY,       SDLVK_x);
 	KM(KM_PLACE,         SDLVK_c);
-	KM(KM_MENU_NEXT,     SDLVK_DOWN);
-	KM(KM_MENU_PREVIOUS, SDLVK_UP);
+	KM(KM_MENU_UP,       SDLVK_UP);
+	KM(KM_MENU_DOWN,     SDLVK_DOWN);
+	KM(KM_MENU_LEFT,     SDLVK_LEFT);
+	KM(KM_MENU_RIGHT,    SDLVK_RIGHT);
 	KM(KM_MENU_OK,       SDLVK_RETURN);
 	KM(KM_MENU_CANCEL,   SDLVK_ESCAPE);
 	KM(KM_DROP,          SDLVK_q);
@@ -418,8 +422,10 @@ void Options::loadControls()
 	//KM(KM_JUMP,          AKEYCODE_DPAD_CENTER);
 	//KM(KM_DESTROY,       AKEYCODE_BUTTON_L1);
 	//KM(KM_PLACE,         AKEYCODE_BUTTON_R1);
-	//KM(KM_MENU_NEXT,     AKEYCODE_DPAD_DOWN);
-	//KM(KM_MENU_PREVIOUS, AKEYCODE_DPAD_UP);
+	//KM(KM_MENU_UP,       AKEYCODE_DPAD_UP);
+	//KM(KM_MENU_DOWN,     AKEYCODE_DPAD_DOWN);
+	//KM(KM_MENU_LEFT,     AKEYCODE_DPAD_LEFT);
+	//KM(KM_MENU_RIGHT,    AKEYCODE_DPAD_RIGHT);
 	//KM(KM_MENU_OK,       AKEYCODE_DPAD_CENTER);
 	//KM(KM_MENU_CANCEL,   AKEYCODE_BACK);
 	//custom
@@ -437,8 +443,10 @@ void Options::loadControls()
 	KM(KM_JUMP,			 AKEYCODE_BUTTON_A);
 	KM(KM_DESTROY,       AKEYCODE_X);
 	KM(KM_PLACE,         AKEYCODE_C);
-	KM(KM_MENU_NEXT,     AKEYCODE_DPAD_DOWN);
-	KM(KM_MENU_PREVIOUS, AKEYCODE_DPAD_UP);
+	KM(KM_MENU_UP,       AKEYCODE_DPAD_UP);
+	KM(KM_MENU_DOWN,     AKEYCODE_DPAD_DOWN);
+	KM(KM_MENU_LEFT,     AKEYCODE_BUTTON_L1);
+	KM(KM_MENU_RIGHT,    AKEYCODE_BUTTON_R1);
 	KM(KM_MENU_OK,       AKEYCODE_ENTER);
 	KM(KM_MENU_CANCEL,	 AKEYCODE_BUTTON_START);
 	// custom
@@ -475,8 +483,10 @@ void Options::loadControls()
 #ifdef USE_SDL
 		KM(KM_TOGGLEDEBUG,   SDL_CONTROLLER_BUTTON_GUIDE);
 		KM(KM_JUMP,          SDL_CONTROLLER_BUTTON_A);
-		KM(KM_MENU_NEXT,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-		KM(KM_MENU_PREVIOUS, SDL_CONTROLLER_BUTTON_DPAD_UP);
+		KM(KM_MENU_UP,       SDL_CONTROLLER_BUTTON_DPAD_UP);
+		KM(KM_MENU_DOWN,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+		KM(KM_MENU_LEFT,     SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		KM(KM_MENU_RIGHT,    SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 		KM(KM_MENU_OK,       SDL_CONTROLLER_BUTTON_A);
 		KM(KM_MENU_CANCEL,   SDL_CONTROLLER_BUTTON_B);
 		KM(KM_DROP,          SDL_CONTROLLER_BUTTON_B);
@@ -491,8 +501,10 @@ void Options::loadControls()
 #else
 		KM(KM_TOGGLEDEBUG,   GameController::BUTTON_GUIDE);
 		KM(KM_JUMP,          GameController::BUTTON_A);
-		KM(KM_MENU_NEXT,     GameController::BUTTON_DPAD_DOWN);
-		KM(KM_MENU_PREVIOUS, GameController::BUTTON_DPAD_UP);
+		KM(KM_MENU_UP,       GameController::BUTTON_DPAD_UP);
+		KM(KM_MENU_DOWN,     GameController::BUTTON_DPAD_DOWN);
+		KM(KM_MENU_LEFT,     GameController::BUTTON_LEFTSHOULDER);
+		KM(KM_MENU_RIGHT,    GameController::BUTTON_RIGHTSHOULDER);
 		KM(KM_MENU_OK,       GameController::BUTTON_A);
 		KM(KM_MENU_CANCEL,   GameController::BUTTON_B);
 		KM(KM_DROP,          GameController::BUTTON_B);

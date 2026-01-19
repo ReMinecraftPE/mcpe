@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "TripodCameraRenderer.hpp"
+#include "common/Mth.hpp"
 #include "client/app/Minecraft.hpp"
 #include "renderer/ShaderConstants.hpp"
 
@@ -33,8 +34,8 @@ void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float r
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 	matrix->translate(pos);
 
-	m_modelPart.m_rot.x  = 0.017453f * (180.0f + 0.5f * entity.m_rot.y);
-	m_modelPart.m_rot.y = -0.017453f * entity.m_rot.x;
+	m_modelPart.m_rot.x  = MTH_DEG_TO_RAD * (180.0f + 0.5f * entity.m_rot.y);
+	m_modelPart.m_rot.y = -MTH_DEG_TO_RAD * entity.m_rot.x;
 
 	//Tesselator& t = Tesselator::instance;
 	//t.color(1.0f, 1.0f, 1.0f);

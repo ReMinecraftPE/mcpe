@@ -5,15 +5,22 @@
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
-
 #include "Screen.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/hal/interface/RasterizerState.hpp"
 
-#define C_SOUND_BTN_PRESS   "random.click"
+#define C_SOUND_BTN_CLICK   "random.click"
 #define C_SOUND_BTN_RELEASE "random.click"
+
+#define C_POINTER_FAST_MOVE_SPEED 0.09f
+#define C_POINTER_MINIMUM_SPEED 0.04f
+#define C_POINTER_DIAGONAL_SPEED 0.4f
+#define C_POINTER_FRICTION 15.0f
+#define C_ANGLE8 (45.0f * MTH_DEG_TO_RAD)
+#define C_ANGLE16 (22.5f * MTH_DEG_TO_RAD)
 
 Screen::Materials::Materials()
 {
@@ -25,20 +32,227 @@ bool Screen::_isPanoramaAvailable = false;
 
 Screen::Screen()
 {
+	m_bLastPointerPressedState = false;
+	m_currentUpdateTime = 0.0;
+	m_lastUpdateTime = 0.0;
 	m_width = 1;
 	m_height = 1;
 	field_10 = false;
-	m_tabButtonIndex = 0;
+	m_pMinecraft = nullptr;
+	m_elementListIndex = 0;
+	m_elementIndex = 0;
+	m_bTabWrap = true;
+	m_pFont = nullptr;
 	m_pClickedButton = 0;
 	m_yOffset = -1;
-	m_pFont = nullptr;
-	m_pMinecraft = nullptr;
+	m_bRenderPointer = false;
+	m_lastTimeMoved = 0;
+	m_cursorTick = 0;
+
+	_addElementList();
 }
 
 Screen::~Screen()
 {
 	m_pClickedButton = nullptr;
-	m_buttons.clear();
+	m_elements.clear();
+}
+
+bool Screen::_nextElement()
+{
+	if (!doElementTabbing())
+		return false;
+
+	if (_getElementList().empty())
+		return false;
+
+	if (!m_bTabWrap && (m_elementIndex + 1) == _getElementList().size())
+		return false;
+
+	_deselectCurrentElement();
+
+	m_elementIndex++;
+	
+	if (m_bTabWrap && m_elementIndex == _getElementList().size())
+	{
+		m_elementIndex = 0;
+	}
+
+	_selectCurrentElement();
+
+	return true;
+}
+
+bool Screen::_prevElement()
+{
+	if (!doElementTabbing())
+		return false;
+
+	if (_getElementList().empty())
+		return false;
+
+	if (!m_bTabWrap && m_elementIndex == 0)
+		return false;
+
+	_deselectCurrentElement();
+
+	if (m_bTabWrap && m_elementIndex == 0)
+	{
+		m_elementIndex = _getElementList().size() - 1;
+	}
+	else
+	{
+		m_elementIndex--;
+	}
+
+	_selectCurrentElement();
+
+	return true;
+}
+
+void Screen::_addElement(Button& element, bool isTabbable)
+{
+	_addElementToList(m_elementListIndex, element, isTabbable);
+}
+
+void Screen::_addElementToList(unsigned int index, Button& element, bool isTabbable)
+{
+	m_elements.push_back(&element);
+
+	if (isTabbable)
+		_getElementList(index).push_back(&element);
+}
+
+bool Screen::_nextElementList()
+{
+	if (m_elementTabLists.size() == 1)
+		return false;
+
+	if (!m_bTabWrap && (m_elementListIndex + 1) == m_elementTabLists.size())
+		return false;
+
+	_deselectCurrentElement();
+
+	m_elementListIndex++;
+
+	if (m_bTabWrap && m_elementListIndex == m_elementTabLists.size())
+	{
+		m_elementListIndex = 0;
+	}
+
+	m_elementIndex = 0;
+
+	_selectCurrentElement();
+
+	return true;
+}
+
+bool Screen::_prevElementList()
+{
+	if (m_elementTabLists.size() == 1)
+		return false;
+
+	if (!m_bTabWrap && m_elementListIndex == 0)
+		return false;
+
+	_deselectCurrentElement();
+
+	if (m_bTabWrap && m_elementListIndex == 0)
+	{
+		m_elementListIndex = m_elementTabLists.size() - 1;
+	}
+	else
+	{
+		m_elementListIndex--;
+	}
+
+	m_elementIndex = 0;
+
+	_selectCurrentElement();
+
+
+	return true;
+}
+
+void Screen::_addElementList()
+{
+	m_elementTabLists.push_back(GuiElementList());
+}
+
+void Screen::_selectCurrentElement()
+{
+	GuiElement* element = _getSelectedElement();
+	if (element)
+		element->setSelected(true);
+}
+
+void Screen::_deselectCurrentElement()
+{
+	GuiElement* element = _getSelectedElement();
+	if (element)
+		element->setSelected(false);
+}
+
+void Screen::_playSelectSound()
+{
+	float pitch = 1.3f; // pitched based on how TU0 sounds
+	// Randomization from Legacy4J
+	pitch += (Mth::random() - 0.5f) / 10;
+	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_FOCUS, 1.0f, pitch);
+}
+
+void Screen::_centerMenuPointer()
+{
+	handlePointerLocation(m_width / 2, m_height / 2);
+}
+
+void Screen::_renderPointer()
+{
+	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
+
+	double deltaTime = m_pMinecraft->m_fDeltaTime;
+	m_menuPointer.x = Mth::Lerp(m_menuPointer.x, m_targetMenuPointer.x, deltaTime * C_POINTER_FRICTION);
+	m_menuPointer.y = Mth::Lerp(m_menuPointer.y, m_targetMenuPointer.y, deltaTime * C_POINTER_FRICTION);
+
+	gameRenderer.renderPointer(m_menuPointer);
+}
+
+GuiElement* Screen::_getInternalElement(unsigned int index)
+{
+	GuiElementList& list = m_elements;
+	if (index >= list.size())
+		return nullptr;
+
+	return list[index];
+}
+
+GuiElement* Screen::_getElement(unsigned int index)
+{
+	GuiElementList& list = _getElementList();
+	if (index >= list.size())
+		return nullptr;
+
+	return list[index];
+}
+
+GuiElement* Screen::_getSelectedElement()
+{
+	return _getElement(m_elementIndex);
+}
+
+GuiElementList& Screen::_getElementList(unsigned int index)
+{
+	return m_elementTabLists[index];
+}
+
+GuiElementList& Screen::_getElementList()
+{
+	return _getElementList(m_elementListIndex);
+}
+
+bool Screen::_useController() const
+{
+	return m_pMinecraft->useController();
 }
 
 void Screen::init(Minecraft* pMinecraft, int a3, int a4)
@@ -47,8 +261,11 @@ void Screen::init(Minecraft* pMinecraft, int a3, int a4)
 	m_height = a4;
 	m_pMinecraft = pMinecraft;
 	m_pFont = pMinecraft->m_pFont;
+
+	_centerMenuPointer();
+
 	init();
-	updateTabButtonSelection();
+	_updateTabButtonSelection();
 }
 
 void Screen::keyPressed(int key)
@@ -58,30 +275,41 @@ void Screen::keyPressed(int key)
 		m_pMinecraft->handleBack(false);
 	}
 
-	if (m_pMinecraft->useController() && m_buttonTabList.size() > 0)
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_LEFT, key))
 	{
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_NEXT, key))
+		prevTab();
+	}
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_RIGHT, key))
+	{
+		nextTab();
+	}
+
+	if (doElementTabbing())
+	{
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_DOWN, key))
 		{
-			m_tabButtonIndex++;
-			if (m_tabButtonIndex == int(m_buttonTabList.size()))
-				m_tabButtonIndex = 0;
+			nextElement();
 		}
-		if (m_pMinecraft->getOptions()->isKey(KM_MENU_PREVIOUS, key))
+		if (m_pMinecraft->getOptions()->isKey(KM_MENU_UP, key))
 		{
-			m_tabButtonIndex--;
-			if (m_tabButtonIndex == -1)
-				m_tabButtonIndex = int(m_buttonTabList.size() - 1);
+			prevElement();
 		}
 		if (m_pMinecraft->getOptions()->isKey(KM_MENU_OK, key))
 		{
-			if (m_buttonTabList[m_tabButtonIndex]->m_bEnabled)
+			GuiElement* element = _getSelectedElement();
+			if (element && element->isEnabled())
 			{
-				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
-				buttonClicked(m_buttonTabList[m_tabButtonIndex]);
+				if (element->getType() == GuiElement::TYPE_BUTTON)
+				{
+					Button* button = (Button*)element;
+					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
+					_buttonClicked(button);
+				}
 			}
 		}
 
-		updateTabButtonSelection();
+		// Calling this every time we either go left or right was insanely dumb
+		//_updateTabButtonSelection();
 	}
 	
 	for (int i = 0; i < int(m_textInputs.size()); i++)
@@ -107,10 +335,6 @@ void Screen::keyboardTextPaste(const std::string& text)
 		TextInputBox* textInput = m_textInputs[i];
 		textInput->pasteText(text);
 	}
-}
-
-void Screen::handleScroll(bool down)
-{
 }
 
 static const char* g_panoramaList[] =
@@ -208,21 +432,28 @@ void Screen::renderMenuBackground(float f)
 	fillGradient(0, 0, m_width, m_height, Color(0, 0, 0, 137), Color(255, 255, 255, 137));
 }
 
-void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
+void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clicked?
 {
-	if (!d) return;
+	if (btn == MOUSE_BUTTON_NONE) return;
 	
-	for (int i = 0; i < int(m_buttons.size()); i++)
+	for (size_t i = 0; i < m_elements.size(); i++)
 	{
-		Button* button = m_buttons[i];
+		GuiElement* element = _getInternalElement((unsigned int)i);
+		if (element->getType() != GuiElement::TYPE_BUTTON)
+			continue;
+
+		Button* button = (Button*)element;
 		if (button->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pClickedButton = button;
 
 			if (!m_pMinecraft->isTouchscreen())
 			{
-				m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_PRESS);
-				buttonClicked(button);
+				if (_useController())
+					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
+				else
+					m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_CLICK);
+				_buttonClicked(button);
 			}
 		}
 	}
@@ -237,7 +468,7 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		for (int i = 0; i < int(m_textInputs.size()); i++)
 		{
 			TextInputBox* textInput = m_textInputs[i];
-			if (textInput->m_bFocused == handleFocused)
+			if (textInput->hasFocus() == handleFocused)
 			{
 				textInput->onClick(xPos, yPos);
 			}
@@ -253,7 +484,7 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 		for (int i = 0; i < int(m_textInputs.size()); i++)
 		{
 			TextInputBox* textInput = m_textInputs[i];
-			if (textInput->m_bFocused)
+			if (textInput->hasFocus())
 			{
 				areAnyFocused = true;
 				break;
@@ -267,28 +498,32 @@ void Screen::mouseClicked(int xPos, int yPos, int d) // d = clicked?
 #endif
 }
 
-void Screen::mouseReleased(int xPos, int yPos, int d)
+void Screen::pointerReleased(int xPos, int yPos, MouseButtonType btn)
 {
-	if (!d) return;
+	if (btn == MOUSE_BUTTON_NONE) return;
 
 	if (m_pClickedButton)
 	{
 		if (m_pMinecraft->isTouchscreen() && m_pClickedButton->clicked(m_pMinecraft, xPos, yPos))
 		{
 			m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_BTN_RELEASE);
-			buttonClicked(m_pClickedButton);
+			_buttonClicked(m_pClickedButton);
 		}
 		m_pClickedButton->released(xPos, yPos);
 		m_pClickedButton = nullptr;
 	}
 }
 
-void Screen::render(int xPos, int yPos, float unused)
+void Screen::render(float a)
 {
-	for (int i = 0; i < int(m_buttons.size()); i++)
+	for (int i = 0; i < int(m_elements.size()); i++)
 	{
-		Button* button = m_buttons[i];
-		button->render(m_pMinecraft, xPos, yPos);
+		GuiElement* element = _getInternalElement(i);
+		if (element->getType() != GuiElement::TYPE_BUTTON)
+			continue;
+
+		Button* button = (Button*)element;
+		button->render(m_pMinecraft, m_menuPointer.x, m_menuPointer.y);
 	}
 
 #ifndef ORIGINAL_CODE
@@ -312,13 +547,14 @@ void Screen::setSize(int width, int height)
 	m_height = height;
 
 	// not original code. Will need to re-init again
-	m_buttons.clear();
-	m_buttonTabList.clear();
+	m_elements.clear();
+	m_elementTabLists.clear();
+	_addElementList();
 	m_textInputs.clear();
 	init();
 }
 
-void Screen::onRender(int mouseX, int mouseY, float f)
+void Screen::onRender(float f)
 {
 	m_yOffset = getYOffset();
 
@@ -331,10 +567,68 @@ void Screen::onRender(int mouseX, int mouseY, float f)
 		matrix->translate(Vec3(0.0f, -m_yOffset, 0.0f));
 	}
 
-	render(mouseX, mouseY, f);
+	render(f);
+	if (m_bRenderPointer && _useController())
+		_renderPointer();
 }
 
-int Screen::getYOffset()
+bool Screen::onBack(bool b)
+{
+	bool result = handleBackEvent(b);
+	// Play the sound regardless, since NinecraftApp will set the current screen to null anyways
+	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_BACK);
+	return result;
+}
+
+bool Screen::nextElement()
+{
+	bool result = _nextElement();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::prevElement()
+{
+	bool result = _prevElement();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::nextElementList()
+{
+	bool result = _nextElementList();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::prevElementList()
+{
+	bool result = _prevElementList();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::nextTab()
+{
+	bool result = _nextTab();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+bool Screen::prevTab()
+{
+	bool result = _prevTab();
+	if (result)
+		_playSelectSound();
+	return result;
+}
+
+int Screen::getYOffset() const
 {
 #ifdef USE_NATIVE_ANDROID
 	int keybOffset = m_pMinecraft->platform()->getKeyboardUpOffset();
@@ -347,9 +641,9 @@ int Screen::getYOffset()
 	// and determine its offset from there
 	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
-		TextInputBox* pBox = m_textInputs[i];
+		const TextInputBox* pBox = m_textInputs[i];
 
-		if (!pBox->m_bFocused)
+		if (!pBox->hasFocus())
 			continue;
 		
 		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
@@ -376,35 +670,274 @@ int Screen::getYOffset()
 #endif
 }
 
+bool Screen::doElementTabbing() const
+{
+	return !m_bRenderPointer && _useController();
+}
+
+void Screen::_processControllerDirection(GameController::StickID stickId)
+{
+	unsigned int time = getTimeMs();
+	GameController::StickState stickState = GameControllerManager::getDirection(stickId);
+	float stickPos;
+	switch (stickState)
+	{
+	case GameController::STICK_STATE_UP:
+	case GameController::STICK_STATE_DOWN:
+		stickPos = GameControllerManager::getY(stickId);
+		break;
+	case GameController::STICK_STATE_LEFT:
+	case GameController::STICK_STATE_RIGHT:
+		stickPos = GameControllerManager::getX(stickId);
+		break;
+	default:
+		stickPos = 0.0f;
+		break;
+	}
+
+	if (m_lastStickState[stickId] != stickState)
+	{
+		_controllerDirectionChanged(stickId, stickState);
+		m_lastTimeMoved = time;
+	}
+	else if (stickState != GameController::STICK_STATE_NONE)
+	{
+		if (fabsf(stickPos) >= 0.8f
+			&& time - m_lastTimeMoved >= 250
+			&& time - m_cursorTick > getCursorMoveThrottle())
+		{
+			_controllerDirectionHeld(stickId, stickState);
+			m_cursorTick = time;
+		}
+	}
+
+	m_lastStickState[stickId] = stickState;
+}
+
+void Screen::_controllerDirectionChanged(GameController::StickID stickId, GameController::StickState stickState)
+{
+	_controllerDirectionHeld(stickId, stickState);
+}
+
+void Screen::_controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState)
+{
+	if (stickId == 1)
+	{
+		switch (stickState)
+		{
+		case GameController::STICK_STATE_UP:
+			prevElement();
+			break;
+		case GameController::STICK_STATE_DOWN:
+			nextElement();
+			break;
+		default:
+			break;
+		}
+		// Calling this every time we either go left or right was insanely dumb
+		//_updateTabButtonSelection();
+	}
+}
+
+void Screen::_buttonClicked(Button* pButton)
+{
+}
+
+void Screen::_guiElementClicked(GuiElement& element)
+{
+}
+
+void Screen::_updateTabButtonSelection()
+{
+	if (!_useController() || m_bRenderPointer)
+		return;
+
+	for (size_t i = 0; i < _getElementList().size(); i++)
+	{
+		_getElement(i)->setSelected(m_elementIndex == i);
+	}
+}
+
+bool Screen::_nextTab()
+{
+	return false;
+}
+
+bool Screen::_prevTab()
+{
+	return false;
+}
+
 void Screen::updateEvents()
 {
 	if (field_10) return;
+
+	m_currentUpdateTime = getTimeS();
+
+	if (m_lastUpdateTime == 0.0)
+		m_lastUpdateTime = m_currentUpdateTime;
 
 	while (Mouse::next())
 		mouseEvent();
 
 	while (Keyboard::next())
 		keyboardEvent();
-}
 
-void Screen::keyboardEvent()
-{
-	if (Keyboard::getEventKeyState())
-		keyPressed(Keyboard::getEventKey());
+	if (_useController())
+	{
+		checkForPointerEvent();
+		controllerEvent();
+	}
+
+	m_lastUpdateTime = m_currentUpdateTime;
 }
 
 void Screen::mouseEvent()
 {
+	// We maintain this so we can ensure all hardware mouse inputs are properly processed, and not discarded
 	MouseAction* pAction = Mouse::getEvent();
 	if (pAction->isButton())
 	{
-		if (Mouse::getEventButtonState())
-			mouseClicked (m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
-		else
-			mouseReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
+		handlePointerLocation(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset());
+		handlePointerPressed(Mouse::getEventButtonState());
+
+		checkForPointerEvent();
 	}
-	if (pAction->_buttonType == BUTTON_SCROLLWHEEL)
-		handleScroll(Mouse::getEventButtonState());
+	if (pAction->_buttonType == MOUSE_BUTTON_SCROLLWHEEL)
+		handleScrollWheel(Mouse::getEventButtonState() ? -1.0f : 1.0f);
+}
+
+void Screen::keyboardEvent()
+{
+	// Ugly hack
+	if (!doElementTabbing())
+	{
+		if (Keyboard::getEventKeyState() && m_pMinecraft->getOptions()->isKey(KM_MENU_OK, Keyboard::getEventKey()))
+		{
+			m_menuPointer.isPressed = true;
+		}
+		else
+		{
+			m_menuPointer.isPressed = false;
+		}
+	}
+
+	if (Keyboard::getEventKeyState())
+		keyPressed(Keyboard::getEventKey());
+}
+
+void Screen::controllerEvent()
+{
+	_processControllerDirection(1);
+	_processControllerDirection(2);
+
+	// @TODO: this probably shouldn't be here
+	GameController::StickEvent event;
+	event.id = 1;
+	event.state = GameControllerManager::getDirection(1);
+	if (event.state != GameController::STICK_STATE_NONE)
+	{
+		event.x = GameControllerManager::getX(1);
+		event.y = GameControllerManager::getY(1);
+		handleControllerStickEvent(event);
+	}
+}
+
+void Screen::checkForPointerEvent()
+{
+	if (m_menuPointer.isPressed == m_bLastPointerPressedState)
+		return;
+
+	handlePointerAction(m_menuPointer);
+	m_bLastPointerPressedState = m_menuPointer.isPressed;
+}
+
+bool Screen::handleBackEvent(bool b)
+{
+	return false;
+}
+
+void Screen::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)
+{
+	m_menuPointer.x = Mth::clamp(x, 0.0f, m_width);
+	m_menuPointer.y = Mth::clamp(y, 0.0f, m_height);
+	m_targetMenuPointer = m_menuPointer;
+}
+
+void Screen::handlePointerPressed(bool isPressed)
+{
+	m_menuPointer.isPressed = isPressed;
+}
+
+void Screen::handlePointerAction(const MenuPointer& pointer)
+{
+	if (pointer.isPressed)
+	{
+		// pointerPressed(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
+		pointerPressed(pointer.x, pointer.y + getYOffset(), MOUSE_BUTTON_LEFT);
+	}
+	else
+	{
+		// pointerReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
+		pointerReleased(pointer.x, pointer.y + getYOffset(), MOUSE_BUTTON_LEFT);
+	}
+}
+
+void Screen::handleScrollWheel(float force)
+{
+}
+
+void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
+{
+	/*if (stick.state == GameController::STICK_STATE_DOWN)
+	{
+		handleScrollWheel(stick.y);
+	}
+	else if (stick.state <= GameController::STICK_STATE_UP)
+	{
+		MenuGamePad::setX(directionId + 1, x);
+		MenuGamePad::setY(directionId + 1, y);
+	}*/
+
+	if (m_bRenderPointer && stick.id == 1)
+	{
+		// Behold pizzart's magic numbers
+		float baseSensitivity = m_pMinecraft->getOptions()->m_fSensitivity;
+		float sensitivity = baseSensitivity * 2.0f;
+		float moveSensitivity = baseSensitivity * 2.0f;
+		//float affectY = Mth::clamp((sensitivity - 0.4f) * 1.67f, 0, 1);
+
+		Vec2 stickPos(stick.x, stick.y);
+		Vec2 stickAbs(Mth::abs(stickPos.x), Mth::abs(stickPos.y));
+		float deltaLength = stickPos.length() * sensitivity;
+
+		float angle = Mth::atan2(stickPos.y, stickPos.x);
+		float snapAngle = deltaLength > C_POINTER_FAST_MOVE_SPEED ?
+			Mth::floor(angle / C_ANGLE16) * C_ANGLE16 :
+			Mth::floor(angle / C_ANGLE8) * C_ANGLE8;
+		Vec2 snap(Mth::cos(snapAngle) * stickAbs.x, Mth::sin(snapAngle) * stickAbs.y);
+		float speed = Mth::Lerp(Mth::Max(Mth::abs(snap.x) + Mth::abs(snap.y) - 1, 0.0f) * 1.41f, 1, C_POINTER_DIAGONAL_SPEED);
+
+		//float speedY = Mth::Lerp(affectY * stickAbs.y, 0.5f, 1);
+
+		// Set up our movement vector based on our joystick input
+		Vec2 targetVelocity(snap * speed * moveSensitivity);
+		targetVelocity.x = stickAbs.x < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.x) : targetVelocity.x;
+		targetVelocity.y = stickAbs.y < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.y) : targetVelocity.y; // * speedY;
+
+		// Multiply by delta for smooth movement
+		double deltaTime = m_currentUpdateTime - m_lastUpdateTime;
+		if (deltaTime > 0.1f) deltaTime = 0.1f;
+		m_pointerVelocity.x = Mth::Lerp(m_pointerVelocity.x, targetVelocity.x, deltaTime * C_POINTER_FRICTION);
+		m_pointerVelocity.y = Mth::Lerp(m_pointerVelocity.y, targetVelocity.y, deltaTime * C_POINTER_FRICTION);
+		Vec2 move = m_pointerVelocity * deltaTime;
+
+		// Scale to our GUI
+		move *= m_height / Gui::InvGuiScale;
+
+		m_targetMenuPointer.x = Mth::clamp(m_menuPointer.x + move.x, 0.0f, m_width);
+		m_targetMenuPointer.y = Mth::clamp(m_menuPointer.y - move.y, 0.0f, m_height);
+	}
 }
 
 void Screen::renderBackground(int vo)
@@ -441,16 +974,4 @@ void Screen::renderDirtBackground(int vo)
 	t.vertexUV(0.0f,           0,               0, 0,                      float(vo) + 0.0f);
 	//t.setOffset(0, 0, 0);
 	t.draw(m_materials.ui_texture_and_color);
-}
-
-
-void Screen::updateTabButtonSelection()
-{
-	if (m_pMinecraft->useController())
-	{
-		for (int i = 0; i < int(m_buttonTabList.size()); i++)
-		{
-			m_buttonTabList[i]->m_bHovered = m_tabButtonIndex == i;
-		}
-	}
 }

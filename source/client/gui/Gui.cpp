@@ -308,7 +308,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
 }
 
-void Gui::handleScroll(bool down)
+void Gui::handleScrollWheel(bool down)
 {
 	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
