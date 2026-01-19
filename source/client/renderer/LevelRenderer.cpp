@@ -1144,8 +1144,7 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	Chunk* pChunks[C_MAX] = { nullptr };
 	ChunkVector* nearChunks = nullptr;
 
-	int pendingChunkRemoved = 0;
-	size_t pendingChunkSize = m_dirtyChunks.size();
+	size_t pendingChunkSize = m_dirtyChunks.size(), pendingChunkRemoved = 0;
 	for (size_t i = 0; i < pendingChunkSize; i++)
 	{
 		Chunk* pChunk = m_dirtyChunks[i];
