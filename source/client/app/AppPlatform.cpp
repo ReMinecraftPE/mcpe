@@ -13,6 +13,7 @@
 
 #include "AppPlatform.hpp"
 #include "common/Logger.hpp"
+#include "common/Utils.hpp"
 #include "compat/LegacyCPP.hpp"
 #include "AppPlatformListener.hpp"
 
