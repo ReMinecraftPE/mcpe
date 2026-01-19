@@ -30,7 +30,7 @@ bool SoundDesc::_load(Options* options, const AppPlatform* platform, const char*
 	}
 
     // Load
-	std::vector<std::string> resourcepacks = options->m_resourcepacks;
+	const std::vector<std::string>& resourcepacks = options->m_resourcepacks;
 	std::string packdir, slashname = "/" + std::string(name);
 	bool ret = false;
 
