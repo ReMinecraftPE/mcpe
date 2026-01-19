@@ -9,9 +9,9 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <stdint.h>
 #include "client/app/AssetFile.hpp"
-#include "client/options/Options.hpp"
 
 class AppPlatform;
 
@@ -56,11 +56,11 @@ struct SoundDesc : AudioDescriptor
 	AssetFile m_file;
 	SoundBuffer m_buffer;
 
-	bool _load(Options* options, const AppPlatform* platform, const char* category, const char *name);
+	bool _load(const AppPlatform* platform, const char* category, const char *name, const std::vector<std::string>& resourcepacks);
 	bool _loadPcm(const AppPlatform* platform, const char *name);
 	bool _loadOgg(const AppPlatform* platform, const char *name);
 	void _unload();
-	static void _loadAll(const AppPlatform*, Options*);
+	static void _loadAll(const AppPlatform*, const std::vector<std::string>& resourcepacks);
 	static void _unloadAll();
 };
 

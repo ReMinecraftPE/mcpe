@@ -20,7 +20,7 @@ std::string SoundDesc::dirs[] = {
     "sound3"
 };
 
-bool SoundDesc::_load(Options* options, const AppPlatform* platform, const char* category, const char *name)
+bool SoundDesc::_load(const AppPlatform* platform, const char* category, const char *name, const std::vector<std::string>& resourcepacks)
 {
 	if (m_isLoaded)
 	{
@@ -30,7 +30,6 @@ bool SoundDesc::_load(Options* options, const AppPlatform* platform, const char*
 	}
 
     // Load
-	const std::vector<std::string>& resourcepacks = options->m_resourcepacks;
 	std::string packdir, slashname = "/" + std::string(name);
 	bool ret = false;
 
@@ -128,10 +127,10 @@ void SoundDesc::_unload()
 }
 
 // Load All Sounds
-void SoundDesc::_loadAll(const AppPlatform* platform, Options* options)
+void SoundDesc::_loadAll(const AppPlatform* platform, const std::vector<std::string>& resourcepacks)
 {
-#define SOUND(category, name) SA_##name._load(options, platform, #category, #name);
-#define SOUND_NUM(category, name, number) SA_##name##number._load(options, platform, #category, #name#number);
+#define SOUND(category, name) SA_##name._load(platform, #category, #name, resourcepacks);
+#define SOUND_NUM(category, name, number) SA_##name##number._load(platform, #category, #name#number, resourcepacks);
 #include "sound_list.h"
 #undef SOUND
 #undef SOUND_NUM
