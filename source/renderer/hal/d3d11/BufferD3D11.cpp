@@ -172,6 +172,7 @@ void BufferD3D11::updateBuffer(RenderContext& context, unsigned int stride, void
     {
         d3dDeviceContext->Unmap(**m_buffer, 0);
         m_buffer.release();
+        // Mojang did "stride * count" for the stride argument here, probably a bug
         createDynamicBuffer(context, stride * count, data, count, m_bufferType);
     }
     else
