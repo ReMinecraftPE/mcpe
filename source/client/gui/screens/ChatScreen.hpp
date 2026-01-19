@@ -14,10 +14,10 @@ class ChatScreen : public Screen
 {
 public:
 	ChatScreen(bool slash = false);
-	void buttonClicked(Button*) override;
+	void _buttonClicked(Button*) override;
 	void init() override;
 	void removed() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void render(float f) override;
 	void keyPressed(int keyCode) override;
 
 	void sendMessageAndExit();

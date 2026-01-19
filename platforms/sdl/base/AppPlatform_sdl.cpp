@@ -345,13 +345,13 @@ void AppPlatform_sdl::handleControllerAxisEvent(SDL_JoystickID controllerIndex, 
 		GameControllerManager::feedStickX(1, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_LEFTY:
-		GameControllerManager::feedStickY(1, true, val);
+		GameControllerManager::feedStickY(1, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTX:
 		GameControllerManager::feedStickX(2, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTY:
-		GameControllerManager::feedStickY(2, true, val);
+		GameControllerManager::feedStickY(2, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
 		GameControllerManager::feedTrigger(1, val);
@@ -455,13 +455,13 @@ MouseButtonType AppPlatform_sdl::GetMouseButtonType(uint8_t button)
 	switch (button)
 	{
 	case SDL_BUTTON_LEFT:
-		return BUTTON_LEFT;
+		return MOUSE_BUTTON_LEFT;
 	case SDL_BUTTON_RIGHT:
-		return BUTTON_RIGHT;
+		return MOUSE_BUTTON_RIGHT;
 	case SDL_BUTTON_MIDDLE:
-		return BUTTON_MIDDLE;
+		return MOUSE_BUTTON_MIDDLE;
 	default:
-		return BUTTON_NONE;
+		return MOUSE_BUTTON_NONE;
 	}
 }
 

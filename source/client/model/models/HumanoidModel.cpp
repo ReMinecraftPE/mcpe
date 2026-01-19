@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "HumanoidModel.hpp"
+#include "common/Mth.hpp"
 #include "client/app/Minecraft.hpp"
 
 HumanoidModel::HumanoidModel(float a, float b):
@@ -69,8 +70,8 @@ void HumanoidModel::render(float a, float b, float c, float d, float e, float f)
 void HumanoidModel::setupAnim(float a2, float a3, float a4, float a5, float a6, float a7)
 {
 	//a6 = pitch, a5 = yaw-ish
-	m_head.m_rot.y = a5 * 0.017453f;
-	m_head.m_rot.x = a6 * 0.017453f;
+	m_head.m_rot.y = a5 * MTH_DEG_TO_RAD;
+	m_head.m_rot.x = a6 * MTH_DEG_TO_RAD;
 	if (m_head.m_rot.x < -1.0f)
 		m_head.m_rot.x = -1.0f;
 	if (m_head.m_rot.x > 1.0f)

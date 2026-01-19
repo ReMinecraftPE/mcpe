@@ -14,7 +14,7 @@ void MouseHandler::setTurnInput(ITurnInput* pTurnInput)
 
 void MouseHandler::grab()
 {
-	m_delta = TurnDelta();
+	m_delta = Vec2();
 }
 
 void MouseHandler::poll()

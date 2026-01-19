@@ -15,7 +15,7 @@ class ControllerTurnInput : public ITurnInput
 {
 public:
 	ControllerTurnInput();
-	TurnDelta getTurnDelta() override;
+	Vec2 getTurnDelta() override;
 	bool smoothTurning() override;
 
 private:

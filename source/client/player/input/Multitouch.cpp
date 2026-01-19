@@ -35,7 +35,7 @@ void Multitouch::commit()
 	_activePointerCount = 0;
 	for (int i = 0; i < MAX_TOUCHES; i++)
 	{
-		if (_pointers[i].isButtonDown(BUTTON_LEFT))
+		if (_pointers[i].isButtonDown(MOUSE_BUTTON_LEFT))
 		{
 			_activePointerList[_activePointerCount++] = i;
 		}
@@ -51,7 +51,7 @@ void Multitouch::feed(MouseButtonType a1, bool a2, int a3, int a4, int fingerId)
 	MouseDevice* pDevice = g(fingerId);
 	pDevice->feed(a1, a2, a3, a4);
 
-	if (a1 != BUTTON_NONE)
+	if (a1 != MOUSE_BUTTON_NONE)
 	{
 		if (a2)
 		{
@@ -86,7 +86,7 @@ int Multitouch::getFirstActivePointerIdEx()
 {
 	for (int i = 0; i < MAX_TOUCHES; i++)
 	{
-		if (_pointers[i].isButtonDown(BUTTON_LEFT))
+		if (_pointers[i].isButtonDown(MOUSE_BUTTON_LEFT))
 			return i;
 	}
 	
@@ -103,7 +103,7 @@ int Multitouch::getFirstActivePointerIdExThisUpdate()
 {
 	for (int i = 0; i < MAX_TOUCHES; i++)
 	{
-		if (_pointers[i].isButtonDown(BUTTON_LEFT))
+		if (_pointers[i].isButtonDown(MOUSE_BUTTON_LEFT))
 			return i;
 	}
 	

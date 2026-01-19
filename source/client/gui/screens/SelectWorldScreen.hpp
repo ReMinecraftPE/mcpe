@@ -17,15 +17,20 @@ public:
 	SelectWorldScreen();
     ~SelectWorldScreen();
 
+protected:
+	void _controllerDirectionHeld(GameController::StickID stickId, GameController::StickState stickState) override;
+
+public:
 	void init() override;
 	bool isInGameScreen() override;
 	void keyPressed(int code) override;
 	void tick() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void render(float f) override;
 	bool handleBackEvent(bool b) override;
-	void buttonClicked(Button* pButton) override;
-	void handleScroll(bool down) override;
+	void _buttonClicked(Button* pButton) override;
+	void handleScrollWheel(float force) override;
 
+public:
 	bool isIndexValid(int);
 	std::string getUniqueLevelName(const std::string& in);
 	void loadLevelSource();
@@ -34,7 +39,7 @@ public:
 	Button m_btnDelete;
 	Button m_btnCreateNew;
 	Button m_btnBack;
-	Button m_btnUnknown;
+	Button m_btnWorld;
 	WorldSelectionList* m_pWorldSelectionList;
 	std::vector<LevelSummary> m_levels;
 	bool field_12C;

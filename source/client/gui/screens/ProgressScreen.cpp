@@ -13,7 +13,7 @@ bool ProgressScreen::isInGameScreen()
 	return false;
 }
 
-void ProgressScreen::render(int a, int b, float c)
+void ProgressScreen::render(float f)
 {
 	renderBackground();
 

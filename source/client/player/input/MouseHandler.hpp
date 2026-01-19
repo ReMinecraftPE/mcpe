@@ -13,7 +13,7 @@ public:
 	bool smoothTurning();
 
 public:
-	TurnDelta m_delta;
+	Vec2 m_delta;
 	ITurnInput* m_pTurnInput;
 };
 

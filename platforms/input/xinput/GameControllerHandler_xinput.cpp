@@ -71,12 +71,12 @@ void GameControllerHandler_xinput::_processButton(GameController::ID controllerI
 
 void GameControllerHandler_xinput::_processMotion(GameController::ID controllerId, const XINPUT_STATE& state)
 {
-    Vec2 vec(state.Gamepad.sThumbLX, -state.Gamepad.sThumbLY);
+    Vec2 vec(state.Gamepad.sThumbLX, state.Gamepad.sThumbLY);
     normalizeAxes(vec, 0.0f);
     GameControllerManager::feedStick(1, true, vec);
     m_leftStickTouched[controllerId] = true;
 
-    vec = Vec2(state.Gamepad.sThumbRX, -state.Gamepad.sThumbRY);
+    vec = Vec2(state.Gamepad.sThumbRX, state.Gamepad.sThumbRY);
     normalizeAxes(vec, 0.0f);
     GameControllerManager::feedStick(2, true, vec);
     m_rightStickTouched[controllerId] = true;

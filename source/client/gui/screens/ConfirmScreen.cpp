@@ -30,7 +30,7 @@ ConfirmScreen::ConfirmScreen(Screen* pScreen, const std::string& line1, const st
 
 // @NOTE: potential memory leak if pScreen is set and not destroyed!
 
-void ConfirmScreen::buttonClicked(Button* pButton)
+void ConfirmScreen::_buttonClicked(Button* pButton)
 {
 	postResult(pButton->m_buttonId == 0);
 }
@@ -53,18 +53,16 @@ void ConfirmScreen::init()
 	m_btnOK.m_width  = m_btnCancel.m_width = 120;
 	m_btnOK.m_height = m_btnCancel.m_height = 24;
 
-	m_buttons.push_back(&m_btnOK);
-	m_buttons.push_back(&m_btnCancel);
-	m_buttonTabList.push_back(&m_btnOK);
-	m_buttonTabList.push_back(&m_btnCancel);
+	_addElement(m_btnOK);
+	_addElement(m_btnCancel);
 }
 
-void ConfirmScreen::render(int mouseX, int mouseY, float f)
+void ConfirmScreen::render(float f)
 {
 	renderBackground();
 	drawCenteredString(*m_pFont, m_textLine1, m_width / 2, 50, 0xFFFFFF);
 	drawCenteredString(*m_pFont, m_textLine2, m_width / 2, 70, 0xFFFFFF);
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 }
 
 void ConfirmScreen::postResult(bool b)

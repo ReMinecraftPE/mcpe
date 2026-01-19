@@ -5,15 +5,15 @@
 MouseBuildInput::MouseBuildInput()
 {
     m_time = 0;
-    for (int i = 0; i < BUTTON_COUNT; i++)
+    for (int i = 0; i < MOUSE_BUTTON_COUNT; i++)
         m_lastButtonStates[i] = false;
 }
 
 void MouseBuildInput::_updateLastButtonStates()
 {
-    m_lastButtonStates[BUTTON_LEFT]   = Mouse::isButtonDown(BUTTON_LEFT);
-    m_lastButtonStates[BUTTON_RIGHT]  = Mouse::isButtonDown(BUTTON_RIGHT);
-    m_lastButtonStates[BUTTON_MIDDLE] = Mouse::isButtonDown(BUTTON_MIDDLE);
+    m_lastButtonStates[MOUSE_BUTTON_LEFT]   = Mouse::isButtonDown(MOUSE_BUTTON_LEFT);
+    m_lastButtonStates[MOUSE_BUTTON_RIGHT]  = Mouse::isButtonDown(MOUSE_BUTTON_RIGHT);
+    m_lastButtonStates[MOUSE_BUTTON_MIDDLE] = Mouse::isButtonDown(MOUSE_BUTTON_MIDDLE);
 }
 
 bool MouseBuildInput::tickBuild(Player* player, BuildActionIntention* buildActionIntention)
@@ -22,15 +22,15 @@ bool MouseBuildInput::tickBuild(Player* player, BuildActionIntention* buildActio
     BuildActionIntention::BuildActionIntent intent = BuildActionIntention::NONE;
 
     int time = getTimeMs();
-    if (Mouse::isButtonDown(BUTTON_RIGHT))
+    if (Mouse::isButtonDown(MOUSE_BUTTON_RIGHT))
     {
         wroteIntention = true;
         intent = BuildActionIntention::KEY_USE;
     }
-    else if (Mouse::isButtonDown(BUTTON_LEFT))
+    else if (Mouse::isButtonDown(MOUSE_BUTTON_LEFT))
     {
         // Mouse controls should never be able to invoke DESTROY_START behavior
-        if (!m_lastButtonStates[BUTTON_LEFT])
+        if (!m_lastButtonStates[MOUSE_BUTTON_LEFT])
         {
             // Button was just clicked
             wroteIntention = true;
@@ -42,9 +42,9 @@ bool MouseBuildInput::tickBuild(Player* player, BuildActionIntention* buildActio
             intent = BuildActionIntention::DESTROY_CONTINUE; //  we don't wanna slap any mobs around
         }
     }
-    else if (Mouse::isButtonDown(BUTTON_MIDDLE))
+    else if (Mouse::isButtonDown(MOUSE_BUTTON_MIDDLE))
     {
-        if (!m_lastButtonStates[BUTTON_MIDDLE])
+        if (!m_lastButtonStates[MOUSE_BUTTON_MIDDLE])
         {
             wroteIntention = true;
             intent = BuildActionIntention::PICK;
@@ -53,8 +53,8 @@ bool MouseBuildInput::tickBuild(Player* player, BuildActionIntention* buildActio
 
     if (!wroteIntention)
     {
-        if ((!Mouse::isButtonDown(BUTTON_LEFT) && m_lastButtonStates[BUTTON_LEFT]) ||
-            (!Mouse::isButtonDown(BUTTON_RIGHT) && m_lastButtonStates[BUTTON_RIGHT]))
+        if ((!Mouse::isButtonDown(MOUSE_BUTTON_LEFT) && m_lastButtonStates[MOUSE_BUTTON_LEFT]) ||
+            (!Mouse::isButtonDown(MOUSE_BUTTON_RIGHT) && m_lastButtonStates[MOUSE_BUTTON_RIGHT]))
         {
             // A button was let go
             wroteIntention = true;

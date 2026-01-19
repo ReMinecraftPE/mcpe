@@ -19,7 +19,7 @@ public:
 	virtual int getItemAtPosition(int, int);
 	virtual bool capXPosition();
 	virtual void tick();
-	virtual void render(int mouseX, int mouseY, float);
+	virtual void render(const MenuPointer& pointer, float);
 	virtual void renderHoleBackground(float y1, float y2, int a, int b);
 	virtual void setRenderSelection(bool);
 	virtual void setComponentSelected(bool);
@@ -32,11 +32,11 @@ public:
 	virtual void renderItem(int, int, int, int, Tesselator&) = 0;
 	virtual void renderHeader(int, int, Tesselator&);
 	virtual void renderBackground() = 0;
-	virtual void renderDecorations(int x, int y);
+	virtual void renderDecorations(const MenuPointer& pointer);
 	virtual void clickedHeader(int, int);
-	virtual void checkInput(int mouseX, int mouseY, float f);
+	virtual void checkInput(const MenuPointer& pointer, float f);
 	virtual void renderScrollBackground();
-	virtual void handleScroll(bool down);
+	virtual void handleScrollWheel(float force);
 
 	int getItemAtXPositionRaw(int x);
 

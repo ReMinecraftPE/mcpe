@@ -60,9 +60,9 @@ protected:
 
 public:
 	void init() override;
-	void buttonClicked(Button*) override;
+	void _buttonClicked(Button*) override;
 	bool isInGameScreen() override;
-	void render(int, int, float) override;
+	void render(float f) override;
 	void tick() override;
 
 	void drawSplash();

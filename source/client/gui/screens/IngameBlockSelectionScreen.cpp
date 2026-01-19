@@ -23,6 +23,7 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	m_btnCraft(2, "Craft"),
 	m_btnArmor(3, "Armor")
 {
+	m_bRenderPointer = true;
 	m_selectedSlot = 0;
 }
 
@@ -94,23 +95,27 @@ void IngameBlockSelectionScreen::init()
 	m_btnPause.m_xPos = m_width - m_btnPause.m_width / 1.05;
 	m_btnPause.m_yPos = 0;
 	if (m_pMinecraft->isTouchscreen())
-		m_buttons.push_back(&m_btnPause);
+	{
+		_addElement(m_btnPause);
+	}
 
 	m_btnChat.m_width = 25;
 	m_btnChat.m_xPos = 0;
 	m_btnChat.m_yPos = 0;
 	if (m_pMinecraft->isTouchscreen())
-		m_buttons.push_back(&m_btnChat);
+	{
+		_addElement(m_btnChat);
+	}
 	
 	/*m_btnCraft.m_width = 40;
 	m_btnCraft.m_xPos = 0;
 	m_btnCraft.m_yPos = 0;
-	m_buttons.push_back(&m_btnCraft);*/
+	_addElement(m_btnCraft);*/
 
 	/*m_btnArmor.m_width = 40;
 	m_btnArmor.m_xPos = m_btnCraft.m_width;
 	m_btnArmor.m_yPos = 0;
-	m_buttons.push_back(&m_btnArmor);*/
+	_addElement(m_btnArmor);*/
 
 	Inventory* pInv = getInventory();
 
@@ -172,7 +177,7 @@ void IngameBlockSelectionScreen::renderDemoOverlay()
 	drawCenteredString(*m_pMinecraft->m_pFont, g_sNotAvailableInDemoVersion, x, y, 0xFFFFFFFF);
 }
 
-void IngameBlockSelectionScreen::render(int x, int y, float f)
+void IngameBlockSelectionScreen::render(float f)
 {
 	fill(0, 0, m_width, m_height, 0x80000000);
 
@@ -182,10 +187,10 @@ void IngameBlockSelectionScreen::render(int x, int y, float f)
 	renderDemoOverlay();
 #endif
 
-	Screen::render(x, y, f);
+	Screen::render(f);
 }
 
-void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
+void IngameBlockSelectionScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnPause.m_buttonId)
 		m_pMinecraft->setScreen(new PauseScreen);
@@ -200,33 +205,35 @@ void IngameBlockSelectionScreen::buttonClicked(Button* pButton)
 		m_pMinecraft->setScreen(new ArmorScreen(m_pMinecraft->m_pLocalPlayer));*/
 }
 
-void IngameBlockSelectionScreen::mouseClicked(int x, int y, int type)
+void IngameBlockSelectionScreen::pointerPressed(int x, int y, MouseButtonType btn)
 {
-	Screen::mouseClicked(x, y, type);
+	Screen::pointerPressed(x, y, btn);
+
+	if (btn != MOUSE_BUTTON_LEFT)
+		return;
 
 	m_bReleased = true;
 	m_bClickedOnSlot = isInsideSelectionArea(x, y);
-	
-	// not a left click
-	if (type != 1)
-		return;
 
 	int slot = getSelectedSlot(x, y);
 	if (isAllowed(slot))
 		m_selectedSlot = slot;
 }
 
-void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
+void IngameBlockSelectionScreen::pointerReleased(int x, int y, MouseButtonType btn)
 {
-	Screen::mouseReleased(x, y, type);
+	Screen::pointerReleased(x, y, btn);
 	
-	// not a left click
-	if (type != 1)
+	if (btn != MOUSE_BUTTON_LEFT)
 		return;
 
-	for (std::vector<Button*>::iterator i = m_buttons.begin(); i != m_buttons.end(); ++i)
+	for (unsigned int i = 0; i < m_elements.size(); i++)
 	{
-		Button* btn = *i;
+		GuiElement* element = _getInternalElement(i);
+		if (element->getType() != GuiElement::TYPE_BUTTON)
+			continue;
+
+		Button* btn = (Button*)element;
 		if (btn->clicked(m_pMinecraft, x, y))
 			return;
 	}

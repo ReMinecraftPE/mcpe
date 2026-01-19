@@ -225,8 +225,7 @@ void Minecraft::releaseMouse()
 	// Note, normally the platform stuff would be located within
 	// the mouse handler, but we don't have access to the platform
 	// from there!
-	if (!useController() && !isTouchscreen())
-		platform()->recenterMouse(); // don't actually try to grab or release the mouse
+	recenterMouse();
 	platform()->setMouseGrabbed(false);
 }
 
@@ -245,6 +244,14 @@ void Minecraft::grabMouse()
 		return; // don't actually try to grab the mouse
 
 	platform()->setMouseGrabbed(true);
+}
+
+void Minecraft::recenterMouse()
+{
+	if (useController() || isTouchscreen())
+		return;
+
+	platform()->recenterMouse();
 }
 
 void Minecraft::setScreen(Screen* pScreen)
@@ -296,7 +303,7 @@ void Minecraft::setScreen(Screen* pScreen)
 	}
 	else
 	{
-		platform()->recenterMouse();
+		recenterMouse();
 		grabMouse();
 	}
 }
@@ -516,7 +523,7 @@ void Minecraft::tickInput()
 		if (getTimeMs() - field_2B4 > 200)
 			continue;
 
-		if (Mouse::isButtonDown(BUTTON_LEFT))
+		if (Mouse::isButtonDown(MOUSE_BUTTON_LEFT))
 		{
 			// @HACK: on SDL1, we don't recenter the mouse every tick, meaning the user can
 			// unintentionally click the hotbar while swinging their fist
@@ -528,8 +535,8 @@ void Minecraft::tickInput()
 		bool bPressed = Mouse::getEventButtonState() == true;
 
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-		if (buttonType == BUTTON_SCROLLWHEEL)
-			m_pGui->handleScroll(bPressed);
+		if (buttonType == MOUSE_BUTTON_SCROLLWHEEL)
+			m_pGui->handleScrollWheel(bPressed);
 #endif
 	}
 
@@ -642,7 +649,7 @@ void Minecraft::tickMouse()
 		return; // don't actually try to recenter the mouse
 
     if (platform()->getRecenterMouseEveryTick()) // just for SDL1
-        platform()->recenterMouse();
+        recenterMouse();
 }
 
 void Minecraft::handleCharInput(char chr)
@@ -662,6 +669,25 @@ void Minecraft::handleTextPaste()
 	std::string text = AppPlatform::singleton()->getClipboardText();
 	if (!text.empty())
 		handleTextPaste(text);
+}
+
+void Minecraft::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)
+{
+	if (m_pScreen)
+		m_pScreen->handlePointerLocation(x, y);
+}
+
+void Minecraft::handlePointerPressedButtonPress()
+{
+	// m_pGui->handleClick();
+	if (m_pScreen)
+		m_pScreen->handlePointerPressed(true);
+}
+
+void Minecraft::handlePointerPressedButtonRelease()
+{
+	if (m_pScreen)
+		m_pScreen->handlePointerPressed(false);
 }
 
 void Minecraft::resetInput()

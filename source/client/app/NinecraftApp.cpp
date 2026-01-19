@@ -207,7 +207,7 @@ bool NinecraftApp::handleBack(bool b)
 		if (!m_pScreen)
 			return false;
 
-		return m_pScreen->handleBackEvent(b);
+		return m_pScreen->onBack(b);
 	}
 
 	if (b)
@@ -219,7 +219,7 @@ bool NinecraftApp::handleBack(bool b)
 		return false;
 	}
 
-	if (m_pScreen->handleBackEvent(b))
+	if (m_pScreen->onBack(b))
 		return true;
 
 	if (isGamePaused())
@@ -227,7 +227,6 @@ bool NinecraftApp::handleBack(bool b)
 		resumeGame();
 		return true;
 	}
-
 
 	setScreen(nullptr);
 	return true;
