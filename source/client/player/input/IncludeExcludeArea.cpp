@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "IncludeExcludeArea.hpp"
+#include <stddef.h>
 
 IncludeExcludeArea::IncludeExcludeArea()
 {
