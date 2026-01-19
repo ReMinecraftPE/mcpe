@@ -336,8 +336,7 @@ std::string AppPlatform::getAssetPath(const std::string& path, const std::vector
 		for (size_t i = 0; i < resourcepacks.size(); ++i)
 		{
 			std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
-			struct stat st;
-			if (stat(fullpath.c_str(), &st) == 0 && S_ISREG(st.st_mode))
+			if (isRegularFile(fullpath.c_str())
 				return fullpath;
 		}
 	}
