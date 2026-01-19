@@ -14,6 +14,8 @@
 
 #include "platforms/sound/openal/CustomSoundSystem.hpp"
 
+#include <sys/stat.h>
+
 AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
 {
 	m_bShiftPressed[0] = false;
@@ -64,9 +66,9 @@ int AppPlatform_iOS::getScreenHeight() const
 	return m_pViewController.height;
 }
 
-void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
+void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
 {
-	std::string realPath = getAssetPath(path);
+	std::string realPath = getAssetPath(path, resourcepacks);
 	
 	UIImage * image = [UIImage imageWithContentsOfFile:
 						[NSString stringWithUTF8String: realPath.c_str()]];
@@ -170,8 +172,20 @@ NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
                 inDirectory: [NSString stringWithUTF8String:fileDir.c_str()]];
 }
 
-std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
+std::string AppPlatform_iOS::getAssetPath(const std::string &path, const std::vector<std::string>& resourcepacks) const
 {
+	if (!resourcepacks.empty())
+	{
+		for (size_t i = 0; i < resourcepacks.size(); ++i)
+		{
+			std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
+			struct stat st;
+			if (stat(fullpath.c_str(), &st) == 0 && S_ISREG(st.st_mode))
+				return fullpath;
+		}
+	}
+	else if (path.size() && path[0] == '/')
+		return m_externalStorageDir + "/games/com.mojang" + path;
     NSString* assetPath = _getAssetPath(path);
     if (assetPath == nullptr)
     {

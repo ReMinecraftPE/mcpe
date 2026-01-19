@@ -28,6 +28,10 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#ifdef _MSC_VER
+#define stat _stat
+#define S_ISREG(m) (m & _S_IFREG)
+#endif
 
 #endif
 
@@ -180,6 +184,14 @@ bool DeleteDirectory(const std::string& name2, bool unused)
 #else
 	return remove(name.c_str()) == 0;
 #endif
+}
+
+bool isRegularFile(const char *path)
+{
+	struct stat st;
+	if (stat(path, &st) == 0 && S_ISREG(st.st_mode))
+		return true;
+	return false;
 }
 
 #ifdef _WIN32

@@ -154,7 +154,6 @@ public:
 	bool m_bIsTouchscreen;
 	HitResult m_hitResult;
 	int m_progressPercent;
-	std::string m_externalStorageDir;
 	Timer m_timer;
 	bool m_bPreparingLevel;
 	LevelStorageSource* m_pLevelStorageSource; // TODO

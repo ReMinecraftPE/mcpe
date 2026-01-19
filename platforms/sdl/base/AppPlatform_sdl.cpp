@@ -362,9 +362,9 @@ void AppPlatform_sdl::handleControllerAxisEvent(SDL_JoystickID controllerIndex, 
 	}
 }
 
-AssetFile AppPlatform_sdl::readAssetFile(const std::string& str, bool quiet) const
+AssetFile AppPlatform_sdl::readAssetFile(const std::string& str, bool quiet, const std::vector<std::string>& resourcepacks) const
 {
-	std::string path = getAssetPath(str);
+	std::string path = getAssetPath(str, resourcepacks);
 	SDL_RWops* io = SDL_RWFromFile(path.c_str(), "rb");
 
 	// Open File

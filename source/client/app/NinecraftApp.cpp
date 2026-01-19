@@ -38,7 +38,7 @@ void NinecraftApp::_initOptions()
 	_reloadPatchData();
 
 	if (platform()->hasFileSystemAccess())
-		m_pOptions = new Options(m_externalStorageDir);
+		m_pOptions = new Options(platform()->m_externalStorageDir);
 	else
 		m_pOptions = new Options();
 }
@@ -76,7 +76,7 @@ void NinecraftApp::_initRenderMaterials()
 {
 	mce::RenderMaterial::InitContext();
 
-	mce::RenderMaterialGroup::common.loadList("materials/common.json");
+	mce::RenderMaterialGroup::common.loadList("materials/common.json", m_pOptions->m_resourcepacks);
 	_reloadFancy(getOptions()->m_bFancyGraphics);
 }
 
@@ -126,7 +126,7 @@ void NinecraftApp::_reloadTextures()
 void NinecraftApp::_reloadFancy(bool isFancy)
 {
 	std::string listPath = isFancy ? "materials/fancy.json" : "materials/sad.json";
-	mce::RenderMaterialGroup::switchable.loadList(listPath);
+	mce::RenderMaterialGroup::switchable.loadList(listPath, m_pOptions->m_resourcepacks);
 }
 
 void NinecraftApp::_reloadOptionalFeatures()
@@ -172,14 +172,17 @@ void NinecraftApp::_initAll()
 #ifdef DEMO
 	m_pLevelStorageSource = new MemoryLevelStorageSource;
 #else
-	m_pLevelStorageSource = new ExternalFileLevelStorageSource(m_externalStorageDir);
+	m_pLevelStorageSource = new ExternalFileLevelStorageSource(platform()->m_externalStorageDir);
 #endif
 
 	m_pGui = new Gui(this);
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
 	std::string font = "font/default8.png";
-	if (!platform()->doesTextureExist(font))
-		font = "font/default.png";
+	{
+		AssetFile file = platform()->readAssetFile(font, true, getOptions()->m_resourcepacks);
+		if (!file.data)
+			font = "font/default.png";
+	}
 	m_pFont = new Font(getOptions(), font, m_pTextures);
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
@@ -300,7 +303,7 @@ void NinecraftApp::setupRenderer()
 	{
 #ifdef FEATURE_GFX_SHADERS
 		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::getInstance();
-		std::string fileContents = AppPlatform::singleton()->readAssetFileStr("shaders/uniforms.json", false);
+		std::string fileContents = AppPlatform::singleton()->readAssetFileStr("shaders/uniforms.json", false, m_pOptions->m_resourcepacks);
 		metaDataManager.loadJsonFile(fileContents);
 #endif
 	}

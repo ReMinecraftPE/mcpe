@@ -64,4 +64,3 @@ protected:
 
 	friend class StartMenuScreen;
 };
-

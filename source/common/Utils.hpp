@@ -555,6 +555,7 @@ void toDosPath(char* path);
 
 bool createFolderIfNotExists(const char* pDir);
 bool DeleteDirectory(const std::string& name, bool unused);
+bool isRegularFile(const char *path);
 
 // compress and decompress stuff with zlib: ( you must SAFE_DELETE_ARRAY what it returns )
 uint8_t* ZlibInflateToMemory(uint8_t* pInput, size_t compressedSize, size_t decompressedSize);

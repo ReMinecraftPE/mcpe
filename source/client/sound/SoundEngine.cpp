@@ -37,7 +37,7 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
     // TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
     m_pOptions = options;
     // Load Sounds
-    SoundDesc::_loadAll(platform);
+    SoundDesc::_loadAll(platform, options);
 
 #define SOUND(category, name) m_sounds.add(#category "." #name, SA_##name);
 #define SOUND_NUM(category, name, number) m_sounds.add(#category "." #name, SA_##name##number);
@@ -45,8 +45,8 @@ void SoundEngine::init(Options* options, AppPlatform* platform)
 #undef SOUND
 #undef SOUND_NUM
 
-#define MUSIC(name, number) m_songs.add(#name, platform->getAssetPath("music/" #name #number ".ogg"));
-#define NEWMUSIC(name, number) m_songs.add(#name, platform->getAssetPath("newmusic/" #name #number ".ogg"));
+#define MUSIC(name, number) m_songs.add(#name, platform->getAssetPath("music/" #name #number ".ogg", options->m_resourcepacks));
+#define NEWMUSIC(name, number) m_songs.add(#name, platform->getAssetPath("newmusic/" #name #number ".ogg", options->m_resourcepacks));
 #include "music_list.h"
 #undef MUSIC
 }
