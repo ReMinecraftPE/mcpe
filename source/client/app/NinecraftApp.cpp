@@ -179,7 +179,7 @@ void NinecraftApp::_initAll()
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
 	std::string font = "font/default8.png";
 	{
-		AssetFile file = platform()->readAssetFile(font, true, getOptions()->m_resourcepacks);
+		AssetFile file = platform()->readResourceFile(font, true, getOptions()->m_resourcepacks);
 		if (!file.data)
 			font = "font/default.png";
 	}
@@ -303,7 +303,7 @@ void NinecraftApp::setupRenderer()
 	{
 #ifdef FEATURE_GFX_SHADERS
 		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::getInstance();
-		std::string fileContents = AppPlatform::singleton()->readAssetFileStr("shaders/uniforms.json", false, m_pOptions->m_resourcepacks);
+		std::string fileContents = AppPlatform::singleton()->readResourceFileStr("shaders/uniforms.json", false, m_pOptions->m_resourcepacks);
 		metaDataManager.loadJsonFile(fileContents);
 #endif
 	}

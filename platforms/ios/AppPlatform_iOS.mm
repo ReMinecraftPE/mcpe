@@ -68,7 +68,7 @@ int AppPlatform_iOS::getScreenHeight() const
 
 void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
 {
-	std::string realPath = getAssetPath(path, resourcepacks);
+	std::string realPath = getAssetPath(getResourcePath(path, resourcepacks));
 	
 	UIImage * image = [UIImage imageWithContentsOfFile:
 						[NSString stringWithUTF8String: realPath.c_str()]];
@@ -172,19 +172,9 @@ NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
                 inDirectory: [NSString stringWithUTF8String:fileDir.c_str()]];
 }
 
-std::string AppPlatform_iOS::getAssetPath(const std::string &path, const std::vector<std::string>& resourcepacks) const
+std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
-	if (!resourcepacks.empty())
-	{
-		for (size_t i = 0; i < resourcepacks.size(); ++i)
-		{
-			std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
-			struct stat st;
-			if (stat(fullpath.c_str(), &st) == 0 && S_ISREG(st.st_mode))
-				return fullpath;
-		}
-	}
-	else if (path.size() && path[0] == '/')
+	if (path.size() && path[0] == '/')
 		return m_externalStorageDir + "/games/com.mojang" + path;
     NSString* assetPath = _getAssetPath(path);
     if (assetPath == nullptr)

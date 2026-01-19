@@ -61,7 +61,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
     std::string programCode, shaderPath;
     if (Util::isValidPath(codeOrPath))
     {
-        programCode = AppPlatform::singleton()->readAssetFileStr(codeOrPath, true, resourcepacks);
+        programCode = AppPlatform::singleton()->readResourceFileStr(codeOrPath, true, resourcepacks);
         shaderPath = codeOrPath;
 
         if (shaderType != SHADER_TYPE_GEOMETRY && programCode.empty())
@@ -131,7 +131,7 @@ void ShaderGroup::processIncludeDirectives(const std::string& path, std::string&
             throw std::bad_cast();
         }
 
-        std::string includeCode = AppPlatform::singleton()->readAssetFileStr(includeFile, true, resourcepacks);
+        std::string includeCode = AppPlatform::singleton()->readResourceFileStr(includeFile, true, resourcepacks);
 
         if (includeCode.empty())
         {

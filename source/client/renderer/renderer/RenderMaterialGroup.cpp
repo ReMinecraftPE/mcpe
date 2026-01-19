@@ -115,7 +115,7 @@ bool _isMaterialGroup(const rapidjson::Value::ConstObject& root)
 
 void RenderMaterialGroup::_loadList()
 {
-    std::string fileContents = AppPlatform::singleton()->readAssetFileStr(m_listPath, true, m_resourcepacks);
+    std::string fileContents = AppPlatform::singleton()->readResourceFileStr(m_listPath, true, m_resourcepacks);
     if (fileContents.empty())
     {
         LOG_E("Failed to find RenderMaterialGroup: %s", m_listPath.c_str());
@@ -165,7 +165,7 @@ void RenderMaterialGroup::_loadList()
             tag = value["tag"].GetString();
         }
 
-        fileContents = AppPlatform::singleton()->readAssetFileStr(path, false, m_resourcepacks);
+        fileContents = AppPlatform::singleton()->readResourceFileStr(path, false, m_resourcepacks);
         if (fileContents.empty())
         {
             LOG_W("RenderMaterial \"%s\" was empty! Skipping...", path.c_str());

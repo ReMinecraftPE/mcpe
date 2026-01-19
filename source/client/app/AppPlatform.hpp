@@ -126,9 +126,12 @@ public:
 	virtual void initSoundSystem();
 	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
-	virtual std::string getAssetPath(const std::string& path, const std::vector<std::string>& resourcepacks = std::vector<std::string>()) const;
-	virtual AssetFile readAssetFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks = std::vector<std::string>()) const;
-	virtual std::string readAssetFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks = std::vector<std::string>()) const;
+	virtual std::string getAssetPath(const std::string& path) const;
+	virtual std::string getResourcePath(const std::string& path, const std::vector<std::string>& resourcepacks) const;
+	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
+	virtual AssetFile readResourceFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const;
+	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
+	virtual std::string readResourceFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const;
 	virtual void makeNativePath(std::string& path) const;
 
 	// For getting a handle on the save device for consoles

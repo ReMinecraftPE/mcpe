@@ -125,7 +125,7 @@ void AppPlatform::uploadPlatformDependentData(int, void*)
 
 void AppPlatform::loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
 {
-	AssetFile file = readAssetFile(path, true, resourcepacks);
+	AssetFile file = readResourceFile(path, true, resourcepacks);
 
 	if (!file.data)
 		return;
@@ -324,24 +324,30 @@ SoundSystem* AppPlatform::getSoundSystem() const
 	return nullptr;
 }
 
-std::string AppPlatform::getAssetPath(const std::string& path, const std::vector<std::string>& resourcepacks) const
+std::string AppPlatform::getAssetPath(const std::string& path) const
 {
-	if (!resourcepacks.empty())
-	{
-		for (size_t i = 0; i < resourcepacks.size(); ++i)
-		{
-			std::string fullpath = getAssetPath("/resource_packs/" + resourcepacks[i] + "/" + path);
-			if (isRegularFile(fullpath.c_str()))
-				return fullpath;
-		}
-	}
-	else if (path.size() && path[0] == '/')
+	if (path.size() && path[0] == '/')
 		return m_externalStorageDir + "/games/com.mojang" + path;
-
 	return "assets/" + path;
 }
 
-AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
+std::string AppPlatform::getResourcePath(const std::string& path, const std::vector<std::string>& resourcepacks) const
+{
+	if (!resourcepacks.empty())
+	{
+		std::string slashpath = "/" + path; // move some of the string concatination out of the loop
+		for (size_t i = 0; i < resourcepacks.size(); ++i)
+		{
+			std::string assetpath = "/resource_packs/" + resourcepacks[i] + slashpath;
+			std::string fullpath = getAssetPath(assetpath);
+			if (isRegularFile(fullpath.c_str()))
+				return assetpath;
+		}
+	}
+	return path;
+}
+
+AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
 	if (path.empty())
 	{
@@ -349,7 +355,7 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet, const 
 		return AssetFile();
 	}
 
-	std::string realPath = getAssetPath(path, resourcepacks);
+	std::string realPath = getAssetPath(path);
 	std::ifstream ifs(realPath.c_str(), std::ios::binary);
     
 	// Open File
@@ -382,14 +388,24 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet, const 
 	return AssetFile((int64_t)size, (uint8_t*)buf);
 }
 
-std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
+AssetFile AppPlatform::readResourceFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
 {
-	AssetFile file = readAssetFile(path, quiet, resourcepacks);
+	return readAssetFile(getResourcePath(path, resourcepacks), quiet);
+}
+
+std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) const
+{
+	AssetFile file = readAssetFile(path, quiet);
 	if (!file.data)
 		return "";
 	std::string out = std::string(file.data, file.data + file.size);
 	delete[] file.data;
 	return out;
+}
+
+std::string AppPlatform::readResourceFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
+{
+	return readAssetFileStr(getResourcePath(path, resourcepacks), quiet);
 }
 
 void AppPlatform::makeNativePath(std::string& path) const
