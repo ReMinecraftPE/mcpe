@@ -226,7 +226,7 @@ void Entity::move(const Vec3& pos)
 			if (!m_bSlide && cPosY != newPos.y)
 				newPos = Vec3::ZERO;
 
-			for (int i = 0; i < cubes->size(); ++i)
+			for (size_t i = 0; i < cubes->size(); ++i)
 				newPos.x = cubes->at(i).clipXCollide(m_hitbox, newPos.x);
 
 			m_hitbox.move(newPos.x, 0.0f, 0.0f);
