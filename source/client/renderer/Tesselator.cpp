@@ -352,13 +352,6 @@ void Tesselator::normal(float x, float y, float z)
 	/*if (!m_bTesselating)
 		LOG_W("But...");*/
 
-	// Java
-	// This can cause undefined behavior if bx = 128,
-	// which is too large to store in an int8_t.
-	// int8_t bx = static_cast<int8_t>(x * 128);
-	// int8_t by = static_cast<int8_t>(y * 127);
-	// int8_t bz = static_cast<int8_t>(z * 127);
-
 	// 0.12.1
 	int8_t bx = static_cast<int8_t>(ceilf(x * 127));
 	int8_t by = static_cast<int8_t>(ceilf(y * 127));
