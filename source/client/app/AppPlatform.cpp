@@ -123,9 +123,9 @@ void AppPlatform::uploadPlatformDependentData(int, void*)
 
 }
 
-void AppPlatform::loadImage(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
+void AppPlatform::loadImage(ImageData& data, const std::string& path)
 {
-	AssetFile file = readResourceFile(path, true, resourcepacks);
+	AssetFile file = readAssetFile(path, true);
 
 	if (!file.data)
 		return;
@@ -147,6 +147,11 @@ void AppPlatform::loadImage(ImageData& data, const std::string& path, const std:
 
 	data.m_data = img;
 	data.m_colorSpace = channels == 3 ? COLOR_SPACE_RGB : COLOR_SPACE_RGBA;
+}
+
+void AppPlatform::loadImageResource(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
+{
+	return loadImage(data, getResourcePath(path, resourcepacks));
 }
 
 TextureData AppPlatform::loadTexture(const std::string& path, bool bIsRequired, const std::vector<std::string>& resourcepacks)
