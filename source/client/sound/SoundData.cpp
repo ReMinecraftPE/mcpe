@@ -34,7 +34,7 @@ bool SoundDesc::_load(Options* options, const AppPlatform* platform, const char*
 	std::string packdir, slashname = "/" + std::string(name);
 	bool ret = false;
 
-	// try to use the resource pack version of the texture
+	// try to use the resource pack version of the sound
 	for (size_t i = 0; i < resourcepacks.size(); ++i)
 	{
         packdir = "/resource_packs/" + resourcepacks[i] + "/";
@@ -48,7 +48,7 @@ bool SoundDesc::_load(Options* options, const AppPlatform* platform, const char*
 		if (ret)
 			return ret;
 	}
-	// no active resource packs have the texture, use the vanilla one or missing texture
+	// no active resource packs have the sound, use the vanilla one or no sound
     for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
     {
         ret = _loadOgg(platform, (dirs[i] + "/" + category + "/" + name + ".ogg").c_str());
