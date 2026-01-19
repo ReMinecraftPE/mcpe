@@ -31,7 +31,7 @@ void IncludeExcludeArea::clear()
 {
 	if (field_4)
 	{
-		for (int i = 0; i < int(m_include.size()); i++)
+		for (size_t i = 0; i < m_include.size(); i++)
 		{
 			IArea* area = m_include[i];
 
@@ -48,7 +48,7 @@ void IncludeExcludeArea::clear()
 			}
 		}
 
-		for (int i = 0; i < int(m_exclude.size()); i++)
+		for (size_t i = 0; i < m_exclude.size(); i++)
 		{
 			IArea* area = m_exclude[i];
 
@@ -79,14 +79,14 @@ bool IncludeExcludeArea::isInside(float x, float y)
 	//         return true;
 	// return false;
 
-	for (int i = 0; i < int(m_include.size()); i++)
+	for (size_t i = 0; i < m_include.size(); i++)
 	{
 		IArea* includeArea = m_include[i];
 		if (!includeArea->isInside(x, y))
 			continue;
 
 		bool good = true;
-		for (int j = 0; j < int(m_exclude.size()); j++)
+		for (size_t j = 0; j < m_exclude.size(); j++)
 		{
 			IArea* excludeArea = m_exclude[j];
 			if (excludeArea->isInside(x, y))

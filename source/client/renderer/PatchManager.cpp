@@ -178,7 +178,7 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 	texture.m_texture.enableWriteMode(renderContext);
 
 	// Use glTexSubImage2D to patch the terrain.png texture on the fly.
-	for (int i = 0; i < int(m_patchData.size()); i++)
+	for (size_t i = 0; i < m_patchData.size(); i++)
 	{
 		PatchData& pd = m_patchData[i];
 		if (pd.m_type != patchType)
@@ -220,7 +220,7 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 
 void PatchManager::PatchTiles()
 {
-	for (int i = 0; i < int(m_patchData.size()); i++)
+	for (size_t i = 0; i < m_patchData.size(); i++)
 	{
 		PatchData& pd = m_patchData[i];
 		if (pd.m_type != TYPE_FRAME)

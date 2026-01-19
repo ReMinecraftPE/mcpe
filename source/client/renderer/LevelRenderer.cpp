@@ -865,7 +865,7 @@ int LevelRenderer::renderChunks(int start, int end, Tile::RenderLayer layer, flo
 	m_renderList.clear();
 	m_renderList.init(fPos);
 
-	for (int i = 0; i < int(field_24.size()); i++)
+	for (size_t i = 0; i < field_24.size(); i++)
 	{
 		Chunk* pChk = field_24[i];
 		m_renderList.addR(pChk->getRenderChunk(layer), renderLayerToTerrainLayerMap[layer], fog);
