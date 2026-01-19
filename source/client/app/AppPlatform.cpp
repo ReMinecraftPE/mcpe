@@ -157,7 +157,7 @@ void AppPlatform::loadImageResource(ImageData& data, const std::string& path, co
 TextureData AppPlatform::loadTexture(const std::string& path, bool bIsRequired, const std::vector<std::string>& resourcepacks)
 {
 	TextureData out;
-	loadImage(out.m_imageData, path, resourcepacks);
+	loadImageResource(out.m_imageData, path, resourcepacks);
 	return out;
 }
 
