@@ -121,8 +121,8 @@ public:
 	float field_130;
 	Random m_random;
 	int m_noActionTime;
-	Vec2 field_B00;
-	float field_B08;
+	Vec2 m_moveVelocity;
+	float m_yRotA;
 	bool m_bJumping;
 	float field_B10;
 	float m_runSpeed;
