@@ -194,6 +194,14 @@ bool isRegularFile(const char *path)
 	return false;
 }
 
+bool isDirectory(const char *path)
+{
+	struct stat st;
+	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+		return true;
+	return false;
+}
+
 #ifdef _WIN32
 int gettimeofday(struct timeval* tp, struct timezone* tzp)
 {
