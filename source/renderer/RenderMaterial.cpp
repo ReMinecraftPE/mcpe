@@ -23,7 +23,7 @@ RenderMaterial::RenderMaterial()
     m_pShader = nullptr;
 }
 
-RenderMaterial::RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent, const std::vector<std::string>& resourcepacks)
+RenderMaterial::RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent)
 {
 	*this = parent;
     _parseRenderStates(root);
@@ -34,7 +34,7 @@ RenderMaterial::RenderMaterial(const rapidjson::Value::ConstObject& root, const 
     {
         _parseDefines(root);
 #ifdef FEATURE_GFX_SHADERS
-        _loadShader(*ShaderGroup::singleton(), resourcepacks);
+        _loadShader(*ShaderGroup::singleton());
 #endif
     }
 
@@ -192,14 +192,14 @@ std::string RenderMaterial::_buildHeader()
     return stream.str();
 }
 
-void RenderMaterial::_loadShader(ShaderGroup& shaderGroup, const std::vector<std::string>& resourcepacks)
+void RenderMaterial::_loadShader(ShaderGroup& shaderGroup)
 {
     Shader::SpliceShaderPathAndExtension(m_vertexShader);
     Shader::SpliceShaderPathAndExtension(m_fragmentShader);
     Shader::SpliceShaderPathAndExtension(m_geometryShader);
 
     std::string header = _buildHeader();
-    m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader, resourcepacks);
+    m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader);
 }
 
 #endif // FEATURE_GFX_SHADERS

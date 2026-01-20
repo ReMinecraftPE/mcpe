@@ -76,7 +76,7 @@ void NinecraftApp::_initRenderMaterials()
 {
 	mce::RenderMaterial::InitContext();
 
-	mce::RenderMaterialGroup::common.loadList("materials/common.json", m_pOptions->m_resourcepacks);
+	mce::RenderMaterialGroup::common.loadList("materials/common.json");
 	_reloadFancy(getOptions()->m_bFancyGraphics);
 }
 
@@ -126,7 +126,7 @@ void NinecraftApp::_reloadTextures()
 void NinecraftApp::_reloadFancy(bool isFancy)
 {
 	std::string listPath = isFancy ? "materials/fancy.json" : "materials/sad.json";
-	mce::RenderMaterialGroup::switchable.loadList(listPath, m_pOptions->m_resourcepacks);
+	mce::RenderMaterialGroup::switchable.loadList(listPath);
 }
 
 void NinecraftApp::_reloadOptionalFeatures()
@@ -303,7 +303,7 @@ void NinecraftApp::setupRenderer()
 	{
 #ifdef FEATURE_GFX_SHADERS
 		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::getInstance();
-		std::string fileContents = AppPlatform::singleton()->readResourceFileStr("shaders/uniforms.json", false, m_pOptions->m_resourcepacks);
+		std::string fileContents = AppPlatform::singleton()->readAssetFileStr("shaders/uniforms.json", false);
 		metaDataManager.loadJsonFile(fileContents);
 #endif
 	}

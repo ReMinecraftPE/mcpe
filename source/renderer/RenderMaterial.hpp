@@ -41,7 +41,7 @@ namespace mce
 
     public:
         RenderMaterial();
-        RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent, const std::vector<std::string>& resourcepacks);
+        RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent);
 
     protected:
         RenderState _parseStateName(const std::string& stateName) const;
@@ -55,7 +55,7 @@ namespace mce
         void _parseShaderPaths(const rapidjson::Value& root);
 #ifdef FEATURE_GFX_SHADERS
         std::string _buildHeader();
-        void _loadShader(ShaderGroup& shaderGroup, const std::vector<std::string>& resourcepacks);
+        void _loadShader(ShaderGroup& shaderGroup);
 #endif
         void _applyRenderStates();
 

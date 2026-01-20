@@ -51,7 +51,7 @@ void ShaderGroup::onAppSuspended()
     Shader::resetLastProgram();
 }
 
-ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::string& codeOrPath, const std::string& header, const std::vector<std::string>& resourcepacks)
+ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::string& codeOrPath, const std::string& header)
 {
     std::string programPath = codeOrPath + header;
     std::map<std::string, ShaderProgram*>::iterator it = m_programs.find(programPath);
@@ -61,7 +61,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
     std::string programCode, shaderPath;
     if (Util::isValidPath(codeOrPath))
     {
-        programCode = AppPlatform::singleton()->readResourceFileStr(codeOrPath, true, resourcepacks);
+        programCode = AppPlatform::singleton()->readAssetFileStr(codeOrPath, true);
         shaderPath = codeOrPath;
 
         if (shaderType != SHADER_TYPE_GEOMETRY && programCode.empty())
@@ -78,7 +78,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
     if (!programCode.empty())
     {
 #if !MCE_GFX_SUPPORTS_INCLUDES
-        processIncludeDirectives(codeOrPath, programCode, resourcepacks);
+        processIncludeDirectives(codeOrPath, programCode);
 #endif
 
         programCode.insert(0, Util::format("#define %s\n", ShaderTypeToString[shaderType]));
@@ -98,7 +98,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
     return *shaderProgram;
 }
 
-void ShaderGroup::processIncludeDirectives(const std::string& path, std::string& code, const std::vector<std::string>& resourcepacks)
+void ShaderGroup::processIncludeDirectives(const std::string& path, std::string& code)
 {
     std::map<std::string, bool> includeGuards;
     size_t offset = 0;
@@ -131,7 +131,7 @@ void ShaderGroup::processIncludeDirectives(const std::string& path, std::string&
             throw std::bad_cast();
         }
 
-        std::string includeCode = AppPlatform::singleton()->readResourceFileStr(includeFile, true, resourcepacks);
+        std::string includeCode = AppPlatform::singleton()->readAssetFileStr(includeFile, true);
 
         if (includeCode.empty())
         {
@@ -148,7 +148,7 @@ void ShaderGroup::processIncludeDirectives(const std::string& path, std::string&
     }
 }
 
-Shader& ShaderGroup::loadShader(const std::string& header, const std::string& vertexCodeOrPath, const std::string& fragmentCodeOrPath, const std::string& geometryCodeOrPath, const std::vector<std::string>& resourcepacks)
+Shader& ShaderGroup::loadShader(const std::string& header, const std::string& vertexCodeOrPath, const std::string& fragmentCodeOrPath, const std::string& geometryCodeOrPath)
 {
     for (size_t i = 0; i < m_shaders.size(); i++)
     {
@@ -157,9 +157,9 @@ Shader& ShaderGroup::loadShader(const std::string& header, const std::string& ve
             return *shader;
     }
 
-    ShaderProgram& vertexProgram   = getShaderProgram(SHADER_TYPE_VERTEX,   vertexCodeOrPath,   header, resourcepacks);
-    ShaderProgram& fragmentProgram = getShaderProgram(SHADER_TYPE_FRAGMENT, fragmentCodeOrPath, header, resourcepacks);
-    ShaderProgram& geometryProgram = getShaderProgram(SHADER_TYPE_GEOMETRY, geometryCodeOrPath, header, resourcepacks);
+    ShaderProgram& vertexProgram   = getShaderProgram(SHADER_TYPE_VERTEX,   vertexCodeOrPath,   header);
+    ShaderProgram& fragmentProgram = getShaderProgram(SHADER_TYPE_FRAGMENT, fragmentCodeOrPath, header);
+    ShaderProgram& geometryProgram = getShaderProgram(SHADER_TYPE_GEOMETRY, geometryCodeOrPath, header);
 
     Shader* shader = new Shader(vertexProgram, fragmentProgram, geometryProgram);
     m_shaders.push_back(shader);
