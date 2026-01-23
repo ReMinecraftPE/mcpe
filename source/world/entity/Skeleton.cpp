@@ -56,11 +56,11 @@ void Skeleton::dropDeathLoot()
 		spawnAtLocation(Item::bone->m_itemID, 1);
 }
 
-ItemInstance* Skeleton::bow = nullptr;
+ItemInstance Skeleton::bow;
 const ItemInstance& Skeleton::getCarriedItem() const
 {
-	if (!bow)
-		bow = new ItemInstance(Item::bow, 1);
+	if (bow.isEmpty())
+		bow = ItemInstance(Item::bow, 1);
 
 	return bow;
 }

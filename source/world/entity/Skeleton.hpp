@@ -6,7 +6,7 @@
 class Skeleton : public Monster
 {
 private:
-	static ItemInstance* bow;
+	static ItemInstance bow;
 
 public:
 	Skeleton(Level* pLevel);
