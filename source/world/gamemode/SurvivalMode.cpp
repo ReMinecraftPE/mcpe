@@ -78,7 +78,7 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 	{
 #ifdef MOD_POCKET_SURVIVAL
 		ItemInstance tileItem(tile, 1, data);
-		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(&tileItem))
+		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(tileItem))
 		{
 			Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
 		}
