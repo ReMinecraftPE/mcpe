@@ -21,6 +21,7 @@ class Inventory : public Container
 {
 public:
 	Inventory(Player*);
+	~Inventory();
 	void prepareCreativeInventory();
 	void prepareSurvivalInventory();
 

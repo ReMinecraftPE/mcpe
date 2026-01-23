@@ -310,7 +310,6 @@ void Player::attack(Entity* pEnt)
 
 void Player::useItem(ItemInstance& item) const
 {
-	int lastCount = item.m_count;
 	if (!isCreative())
 		item.shrink(1);
 }

@@ -12,6 +12,10 @@ Inventory::Inventory(Player* pPlayer) : m_items(C_NUM_INVENTORY_SLOTS), m_armor(
 	m_selected = 0;
 }
 
+Inventory::~Inventory()
+{
+}
+
 void Inventory::prepareCreativeInventory()
 {
 	// When we've got a proper creative inventory, use this method for aux tiles/items

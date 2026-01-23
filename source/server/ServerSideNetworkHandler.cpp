@@ -364,7 +364,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 #ifdef MOD_POCKET_SURVIVAL
 			// 0.2.1
 			ItemInstance tileItem(pTile, 1, auxValue);
-			if (pTile == Tile::grass || !pPlayer->m_pInventory->hasUnlimitedResource(&tileItem))
+			if (pTile == Tile::grass || !pPlayer->m_pInventory->hasUnlimitedResource(tileItem))
 			{
 				pTile->spawnResources(m_pLevel, pos, auxValue);
 			}
