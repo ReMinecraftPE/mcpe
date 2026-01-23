@@ -25,7 +25,7 @@ namespace mce
 #elif MCE_GFX_SUPPORTS_UINT8_4_N
         /* NORMAL*/    VERTEX_FIELD_TYPE_UINT8_4, // D3D9, should be normalized, but this somehow looks like it has no lighting
 #else
-#error Couldn't choose a VertexFieldType for NORMAL
+#error Failed to choose a VertexFieldType for NORMAL
 #endif
 #ifdef ENH_GFX_COMPACT_UVS
         // @NOTE: this assumes RenderContext::supports16BitUnsignedUVs() is true
