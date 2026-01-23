@@ -40,7 +40,7 @@ PS_MAIN_BEGIN
     float4 color = float4( 1.0f, 1.0f, 1.0f, 1.0f );
 
 #ifndef COLOR_BASED
-        color = TEXTURE_0.Sample( TextureSampler0, PSInput.uv );
+        color = sampleTex0( TextureSampler0, PSInput.uv );
 
 #ifdef ALPHA_TEST
         if( NEEDS_DISCARD( color ) )
@@ -53,8 +53,8 @@ PS_MAIN_BEGIN
 #ifdef USE_COLOR_MASK
 	#ifdef GLINT
 		// Applies color mask to glint texture instead and blends with original color
-		float4 layer1 = TEXTURE_1.Sample(TextureSampler1, frac(PSInput.layer1UV)).rgbr * CHANGE_COLOR;
-		float4 layer2 = TEXTURE_1.Sample(TextureSampler1, frac(PSInput.layer2UV)).rgbr * CHANGE_COLOR;
+		float4 layer1 = sampleTex1(TextureSampler1, frac(PSInput.layer1UV)).rgbr * CHANGE_COLOR;
+		float4 layer2 = sampleTex1(TextureSampler1, frac(PSInput.layer2UV)).rgbr * CHANGE_COLOR;
 		float4 glint = (layer1 + layer2) * TILE_LIGHT_COLOR;
 	#else
 		color.rgb = lerp( color, color * CHANGE_COLOR, color.a ).rgb;

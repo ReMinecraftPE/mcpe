@@ -5,6 +5,8 @@
 #include "renderer/hal/interface/Texture.hpp"
 #include "ImageData.hpp"
 
+// @NOTE: Never store direct pointers to these.
+// onAppSuspended (and onGraphicsReset) calls will clear them
 class TextureData
 {
 private:

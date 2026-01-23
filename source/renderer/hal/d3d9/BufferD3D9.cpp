@@ -42,7 +42,6 @@ DWORD mapTypeToD3DLockType(MapType mapType)
 BufferD3D9::BufferD3D9()
 {
     m_format = D3DFMT_UNKNOWN;
-    m_offset = 0;
 }
 
 BufferD3D9::~BufferD3D9()
@@ -112,7 +111,7 @@ void BufferD3D9::_move(BufferD3D9& other)
         this->m_vertexBuffer._move(other.m_vertexBuffer);
         this->m_indexBuffer._move(other.m_indexBuffer);
         std::swap(this->m_format, other.m_format);
-        std::swap(this->m_offset, other.m_offset);
+        std::swap(this->m_bufferOffset, other.m_bufferOffset);
     }
 	
     BufferBase::_move(other);
@@ -133,7 +132,7 @@ void BufferD3D9::bindBuffer(RenderContext& context)
     switch (m_bufferType)
     {
     case BUFFER_TYPE_VERTEX:
-        d3dDevice->SetStreamSource(0, **m_vertexBuffer, m_offset, m_stride);
+        d3dDevice->SetStreamSource(0, **m_vertexBuffer, m_bufferOffset, m_stride);
         break;
     case BUFFER_TYPE_INDEX:
         d3dDevice->SetIndices(**m_indexBuffer);
@@ -166,7 +165,7 @@ void BufferD3D9::updateBuffer(RenderContext& context, unsigned int stride, void*
 {
     if (m_internalSize < stride * count)
     {
-        createDynamicBuffer(context, stride * count, data, count, m_bufferType);
+        createDynamicBuffer(context, stride, data, count, m_bufferType);
         return;
     }
 
@@ -176,18 +175,19 @@ void BufferD3D9::updateBuffer(RenderContext& context, unsigned int stride, void*
     switch (m_bufferType)
     {
     case BUFFER_TYPE_VERTEX:
-        m_vertexBuffer->Lock(0, stride * count, &pData, lockFlags);
+        m_vertexBuffer->Lock(0, 0, &pData, lockFlags);
         break;
     case BUFFER_TYPE_INDEX:
         m_format = D3DFormatFromStride(stride);
-        m_indexBuffer->Lock(0, stride * count, &pData, lockFlags);
+        m_indexBuffer->Lock(0, 0, &pData, lockFlags);
         break;
     default:
         LOG_E("Unknown bufferType: %d", m_bufferType);
         throw std::bad_cast();
     }
 
-    memcpy((int8_t*)pData + m_offset, data, stride * count);
+    // 360 requires that we lock the entire buffer
+    memcpy((int8_t*)pData + m_bufferOffset, data, stride * count);
  
     switch (m_bufferType)
     {

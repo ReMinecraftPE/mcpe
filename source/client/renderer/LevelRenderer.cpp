@@ -1334,6 +1334,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
 
+	constexpr float distance = 0.002f;
 	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
 
 	TileID tile = m_pLevel->getTile(hr.m_tilePos);
@@ -1346,12 +1347,12 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 		float posY = camera.m_posPrev.y + ((camera.m_pos.y - camera.m_posPrev.y) * a);
 		float posZ = camera.m_posPrev.z + ((camera.m_pos.z - camera.m_posPrev.z) * a);
 		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tilePos);
-		aabb.min.y = tileAABB.min.y - 0.002f - posY;
-		aabb.max.y = tileAABB.max.y + 0.002f - posY;
-		aabb.min.z = tileAABB.min.z - 0.002f - posZ;
-		aabb.max.z = tileAABB.max.z + 0.002f - posZ;
-		aabb.min.x = tileAABB.min.x - 0.002f - posX;
-		aabb.max.x = tileAABB.max.x + 0.002f - posX;
+		aabb.min.y = tileAABB.min.y - distance - posY;
+		aabb.max.y = tileAABB.max.y + distance - posY;
+		aabb.min.z = tileAABB.min.z - distance - posZ;
+		aabb.max.z = tileAABB.max.z + distance - posZ;
+		aabb.min.x = tileAABB.min.x - distance - posX;
+		aabb.max.x = tileAABB.max.x + distance - posX;
 		renderLineBox(aabb, m_materials.selection_box, lineWidth);
 	}
 }

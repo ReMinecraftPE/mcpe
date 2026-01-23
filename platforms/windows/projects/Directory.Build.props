@@ -18,6 +18,7 @@
   </PropertyGroup-->
   <!-- Macros - Win32 & x64 -->
   <PropertyGroup Label="UserMacros" Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+    <!-- change this -->
 	<MC_GFX_API>OGL</MC_GFX_API>
   </PropertyGroup>
   <!-- Macros - Xbox 360 -->

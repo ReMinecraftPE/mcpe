@@ -89,7 +89,7 @@ protected:
 
 	int m_chosenSplash;
 
-	TextureData* m_p2dTitleTex;
+	std::string m_p2dTitleTexPath;
 	bool m_bUsingJavaLogo;
 	mce::Mesh m_2dTitleMesh;
 	IntRectangle m_2dTitleBounds;

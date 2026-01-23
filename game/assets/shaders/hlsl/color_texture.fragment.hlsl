@@ -22,7 +22,7 @@ struct PS_Output
 };
 
 PS_MAIN_BEGIN
-    float4 diffuse = TEXTURE_0.Sample( TextureSampler0, PSInput.uv );
+    float4 diffuse = sampleTex0( TextureSampler0, PSInput.uv );
 
 #ifdef ALPHA_TEST
     if( diffuse.a < 0.5 )
@@ -32,8 +32,8 @@ PS_MAIN_BEGIN
 #endif
 
 #ifdef GLINT
-	float4 layer1 = TEXTURE_1.Sample(TextureSampler1, frac(PSInput.layer1UV)).rgbr * CHANGE_COLOR;
-	float4 layer2 = TEXTURE_1.Sample(TextureSampler1, frac(PSInput.layer2UV)).rgbr * CHANGE_COLOR;
+	float4 layer1 = sampleTex1(TextureSampler1, frac(PSInput.layer1UV)).rgbr * CHANGE_COLOR;
+	float4 layer2 = sampleTex1(TextureSampler1, frac(PSInput.layer2UV)).rgbr * CHANGE_COLOR;
 	float4 glint = (layer1 + layer2);
 
 	#ifdef INVENTORY
