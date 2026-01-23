@@ -95,6 +95,7 @@ public:
 
 	// v0.2.0
 	int getAttackDamage(Entity *pEnt) const;
+	//formerly known as isNull
 	bool isEmpty() const;
 	void setEmpty();
 
@@ -108,6 +109,7 @@ public:
 	void load(const CompoundTag& tag);
 	CompoundTag& save(CompoundTag& tag) const;
 
+	//formerly known as isNull
 	static bool isEmpty(const ItemInstance*);
 	static bool matches(const ItemInstance&, const ItemInstance&);
 	static ItemInstance* fromTag(const CompoundTag& tag);
