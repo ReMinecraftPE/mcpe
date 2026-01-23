@@ -174,7 +174,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
 	}
 
-	ItemInstance headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(EquipmentSlot::HEAD);
+	ItemInstance headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(SLOT_HEAD);
 
 	if (!mc.getOptions()->m_bThirdPerson && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
 		renderPumpkin(m_width, m_height);

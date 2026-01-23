@@ -92,9 +92,9 @@ Item* Item::handEquipped()
 	return this;
 }
 
-EquipmentSlot Item::getEquipmentSlot() const
+eEquipmentSlot Item::getEquipmentSlot() const
 {
-	return EquipmentSlot::SLOT_NONE;
+	return SLOT_NONE;
 }
 
 int Item::getDefense() const

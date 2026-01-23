@@ -13,6 +13,6 @@ public:
     void onTake(ItemInstance&) override;
 
 private:
-    Container* m_pCraftSlots;
     Player* m_pPlayer;
+    Container* m_pCraftSlots;
 };

@@ -9,6 +9,7 @@ class ResultContainer : public Container
 {
 public:
     ResultContainer();
+    virtual ~ResultContainer();
 
     uint16_t getContainerSize() const override;
     ItemInstance& getItem(int index) override;

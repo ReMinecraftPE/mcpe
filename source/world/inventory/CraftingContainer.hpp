@@ -14,6 +14,7 @@ class CraftingContainer : public Container
 
 public:
     CraftingContainer(ContainerMenu* menu, int width, int height);
+    virtual ~CraftingContainer();
 
     uint16_t getContainerSize() const override;
     ItemInstance& getItem(int index) override;

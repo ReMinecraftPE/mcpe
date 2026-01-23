@@ -27,7 +27,7 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 	{
 		const Player& player = (const Player&)mob;
 
-		ItemInstance& headGear = player.m_pInventory->getArmor(EquipmentSlot::HEAD);
+		ItemInstance& headGear = player.m_pInventory->getArmor(SLOT_HEAD);
 		if (!headGear.isEmpty() && headGear.getItem()->m_itemID < C_MAX_TILES)
 		{
 			MatrixStack::Ref matrix = MatrixStack::World.push();

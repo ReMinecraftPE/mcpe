@@ -429,13 +429,13 @@ ItemInstance& Inventory::getItem(int slotNo)
 {
 	assert(slotNo >= 0 && slotNo < getContainerSize());
 
-	if (slotNo < m_items.size())
+	if (size_t(slotNo) < m_items.size())
 		return m_items[slotNo];
 	else
 		return m_armor[slotNo - m_items.size()];
 }
 
-ItemInstance& Inventory::getArmor(EquipmentSlot slotNo)
+ItemInstance& Inventory::getArmor(eEquipmentSlot slotNo)
 {
 	return m_armor[slotNo];
 }
@@ -489,7 +489,7 @@ void Inventory::pickItem(int itemID, int data, int maxHotBarSlot)
 		if (!m_items[i] || m_items[i].getId() != itemID || m_items[i].getAuxValue() != data)
 			continue;
 
-		if (i < maxHotBarSlot)
+		if (i < size_t(maxHotBarSlot))
 			selectSlot(i);
 		else
 			swapItems(i, m_selectedSlot);
@@ -515,7 +515,7 @@ void Inventory::selectItem(int itemID, int maxHotBarSlot)
 		if (!m_items[i] || m_items[i].getId() != itemID)
 			continue;
 
-		if (i < maxHotBarSlot)
+		if (i < size_t(maxHotBarSlot))
 			m_selectedSlot = i;
 		else
 			swapItems(i, m_selectedSlot);

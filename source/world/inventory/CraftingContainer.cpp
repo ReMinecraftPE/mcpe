@@ -5,6 +5,10 @@ CraftingContainer::CraftingContainer(ContainerMenu* menu, int width, int height)
 {
 }
 
+CraftingContainer::~CraftingContainer()
+{
+}
+
 uint16_t CraftingContainer::getContainerSize() const
 {
     return uint16_t(m_items.size());

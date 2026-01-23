@@ -4,6 +4,10 @@ ResultContainer::ResultContainer()
 {
 }
 
+ResultContainer::~ResultContainer()
+{
+}
+
 uint16_t ResultContainer::getContainerSize() const
 {
     return 1;

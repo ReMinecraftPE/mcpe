@@ -529,6 +529,15 @@ enum eRenderShape
 	SHAPE_RANDOM_CROSS
 };
 
+enum eEquipmentSlot
+{
+	SLOT_NONE = -1,
+	SLOT_FEET,
+	SLOT_LEGS,
+	SLOT_CHEST,
+	SLOT_HEAD
+};
+
 typedef uint8_t TileID;
 // @TODO: Rename this to "TileTypeId"
 // Rename "Tile" to "TileType"

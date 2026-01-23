@@ -31,15 +31,6 @@ class Player;
 class Tile;
 class CompoundTag;
 
-enum EquipmentSlot
-{
-	SLOT_NONE = -1,
-	FEET,
-	LEGS,
-	CHEST,
-	HEAD
-};
-
 class Item
 {
 public: // Sub structures
@@ -99,7 +90,7 @@ public: // Methods
 	virtual int buildIdAux(int16_t auxValue, const CompoundTag* userData = nullptr) const;
 
 	// Custom methods
-	virtual EquipmentSlot getEquipmentSlot() const;
+	virtual eEquipmentSlot getEquipmentSlot() const;
 	int getDefense() const;
 
 	static void initItems();

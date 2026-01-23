@@ -38,7 +38,7 @@ public:
     void tick();
 
 	ItemInstance& getItem(int slotNo) override;
-	ItemInstance& getArmor(EquipmentSlot slotNo);
+	ItemInstance& getArmor(eEquipmentSlot slotNo);
 	ItemInstance& getSelectedItem();
 	int getSelectedItemId();
 
