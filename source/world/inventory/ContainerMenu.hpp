@@ -15,12 +15,14 @@ class ContainerMenu
 {
 protected:
     std::vector<ItemInstance> m_lastSlots;
-    uint16_t m_changeUid = 0;
+    uint16_t m_changeUid;
     std::vector<ContainerListener*> m_listeners;
     std::set<Player*> unsynchedPlayers;
 
 public:
-    int m_containerId = 0;
+    ContainerMenu();
+
+    int m_containerId;
     std::vector<Slot*> m_slots;
     virtual ~ContainerMenu();
 
@@ -34,7 +36,7 @@ public:
     std::vector<ItemInstance> getItems();
     Slot* getSlotFor(Container* container, int index);
     Slot* getSlot(int index);
-    virtual ItemInstance& clicked(int slotIndex, int mouseButton, bool quickMove, Player* player);
+    virtual ItemInstance clicked(int slotIndex, int mouseButton, bool quickMove, Player* player);
     virtual ItemInstance& quickMoveStack(int index);
     virtual void moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo, bool take);
 

@@ -8,6 +8,8 @@ class ItemInstance;
 class ContainerListener
 {
 public:
+    virtual ~ContainerListener();
+
     virtual void refreshContainer(ContainerMenu* menu, const std::vector<ItemInstance>& items) = 0;
     virtual void refreshContainerItems(ContainerMenu* menu);
     virtual void slotChanged(ContainerMenu* menu, int index, ItemInstance& item) = 0;

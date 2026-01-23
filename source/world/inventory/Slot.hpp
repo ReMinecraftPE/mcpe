@@ -13,6 +13,7 @@ public:
     Container* m_pContainer;
 
     Slot(Container* container, int slot, int x, int y);
+    virtual ~Slot();
 
     virtual bool canSync();
 

@@ -24,6 +24,12 @@ void ContainerMenu::addSlotListener(ContainerListener* listener)
     broadcastChanges();
 }
 
+ContainerMenu::ContainerMenu() :
+    m_changeUid(0),
+    m_containerId(0)
+{
+}
+
 ContainerMenu::~ContainerMenu()
 {
     for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
@@ -96,7 +102,7 @@ Slot* ContainerMenu::getSlot(int index)
 
 ItemInstance& ContainerMenu::quickMoveStack(int index)
 {
-    assert(index >= 0 && index < m_slots.size());
+    assert(index >= 0 && index < int(m_slots.size()));
     return getSlot(index)->getItem();
 }
 
@@ -145,7 +151,7 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
         else
             index = slotFrom;
 
-        while (!take && index < slotTo || take && index >= slotFrom)
+        while ((!take && index < slotTo) || (take && index >= slotFrom))
         {
             Slot* slot = getSlot(index);
             ItemInstance& slotItem = slot->getItem();
@@ -165,7 +171,7 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
     }
 }
 
-ItemInstance& ContainerMenu::clicked(int slotIndex, int mouseButton, bool quickMove, Player* player)
+ItemInstance ContainerMenu::clicked(int slotIndex, int mouseButton, bool quickMove, Player* player)
 {
     ItemInstance result = ItemInstance::EMPTY;
 
@@ -310,6 +316,7 @@ ItemInstance& ContainerMenu::clicked(int slotIndex, int mouseButton, bool quickM
         }
     }
 
+    //@Note: useless return value
     return result;
 }
 
