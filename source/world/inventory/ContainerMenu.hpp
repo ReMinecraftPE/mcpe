@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <set>
-#include <cstdint>
+#include <stdint.h>
 #include "world/item/ItemInstance.hpp"
 
 class Player;
