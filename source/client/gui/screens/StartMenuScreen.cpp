@@ -420,7 +420,6 @@ StartMenuScreen::StartMenuScreen() :
 {
 	m_pTiles = nullptr;
 	m_chosenSplash = -1;
-	m_p2dTitleTex = nullptr;
 	m_bUsingJavaLogo = false;
 
 	// note: do it here because we don't want the title to
@@ -435,13 +434,12 @@ StartMenuScreen::~StartMenuScreen()
 
 void StartMenuScreen::_initTextures()
 {
-	if (m_p2dTitleTex)
+	if (!m_p2dTitleTexPath.empty())
 		return;
 
 	Textures* tx = m_pMinecraft->m_pTextures;
-
-	m_p2dTitleTex = tx->getTextureData(C_TITLE_PATH, false);
-	if (m_p2dTitleTex)
+	std::string path = C_TITLE_PATH;
+	if (tx->getTextureData(path, false))
 	{
 #ifdef C_USING_JAVA_TITLE
 		m_bUsingJavaLogo = true;
@@ -449,8 +447,12 @@ void StartMenuScreen::_initTextures()
 	}
 	else
 	{
-		m_p2dTitleTex = tx->getTextureData(C_TITLE_PATH_FALLBACK, true);
+		path = C_TITLE_PATH_FALLBACK;
+		// "preload" texture data
+		tx->getTextureData(path, true);
 	}
+
+	m_p2dTitleTexPath = path;
 }
 
 void StartMenuScreen::_initResources()
@@ -465,7 +467,7 @@ void StartMenuScreen::_build2dTitleMesh()
   
 	int yPos, width, height, left;
 
-	TextureData* pTex = m_p2dTitleTex;
+	TextureData* pTex = m_pMinecraft->m_pTextures->getTextureData(m_p2dTitleTexPath, true);
 	if (!pTex)
 		return;
   
@@ -665,7 +667,7 @@ bool StartMenuScreen::isInGameScreen()
 void StartMenuScreen::draw2dTitle()
 {
 	currentShaderColor = Color::WHITE;
-	m_p2dTitleTex->bind();
+	m_pMinecraft->m_pTextures->loadAndBindTexture(m_p2dTitleTexPath);
 	m_2dTitleMesh.render(m_materials.ui_textured);
 }
 

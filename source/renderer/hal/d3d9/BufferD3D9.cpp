@@ -166,7 +166,7 @@ void BufferD3D9::updateBuffer(RenderContext& context, unsigned int stride, void*
 {
     if (m_internalSize < stride * count)
     {
-        createDynamicBuffer(context, stride * count, data, count, m_bufferType);
+        createDynamicBuffer(context, stride, data, count, m_bufferType);
         return;
     }
 

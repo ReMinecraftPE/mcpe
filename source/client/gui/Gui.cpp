@@ -127,7 +127,6 @@ void Gui::renderPumpkin(int var1, int var2)
 	t.draw(m_materials.ui_textured);
 }
 
-
 void Gui::renderVignette(float brightness, int width, int height)
 {
 	brightness = 1.0f - brightness;
