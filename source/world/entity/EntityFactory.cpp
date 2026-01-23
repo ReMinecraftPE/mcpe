@@ -66,7 +66,7 @@ Entity* EntityFactory::LoadEntity(const CompoundTag& tag, Level* level)
         if (entityTypeDescriptor->isType(EntityType::ITEM))
         {
             ItemInstance* itemInstance = ((ItemEntity*)entity)->m_pItemInstance;
-            if (ItemInstance::isNull(itemInstance))
+            if (ItemInstance::isEmpty(itemInstance))
             {
                 delete entity;
                 entity = nullptr;

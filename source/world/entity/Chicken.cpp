@@ -61,9 +61,9 @@ void Chicken::dropDeathLoot()
 	}
 
 	/*if (isOnFire())
-		spawnAtLocation(Item::chicken_cooked->m_itemID, 1);
+		spawnAtLocation(Item::chicken_cooked->m_selectedHotbarSlot, 1);
 	else
-		spawnAtLocation(Item::chicken_raw->m_itemID, 1);*/
+		spawnAtLocation(Item::chicken_raw->m_selectedHotbarSlot, 1);*/
 }
 
 void Chicken::addAdditionalSaveData(CompoundTag& tag) const

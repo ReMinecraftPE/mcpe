@@ -70,7 +70,7 @@ public:
 	virtual float getAttackAnim(float f) const;
 	virtual Vec3 getLookAngle(float f) const { return getViewVector(1.0f); }
 	virtual int getMaxSpawnClusterSize() const { return 4; }
-	virtual ItemInstance* getCarriedItem() const { return nullptr; }
+	virtual const ItemInstance& getCarriedItem() const { return ItemInstance::EMPTY; }
 	virtual bool isBaby() const { return false; }
 	virtual bool removeWhenFarAway() const { return true; }
 	virtual int getDeathLoot() const { return 0; }

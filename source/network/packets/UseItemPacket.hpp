@@ -14,7 +14,7 @@ public:
 		m_itemId = TILE_AIR;
 		m_itemAuxValue = 0;
 	}
-	UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemInstance* pItem = nullptr);
+	UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemInstance& item = ItemInstance::EMPTY);
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
 	void write(RakNet::BitStream&) override;

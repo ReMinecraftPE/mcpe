@@ -23,5 +23,5 @@ public:
 	
 	void dropDeathLoot() override;
 	
-	ItemInstance* getCarriedItem() const override;
+	const ItemInstance& getCarriedItem() const override;
 };

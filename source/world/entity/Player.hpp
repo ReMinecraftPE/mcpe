@@ -46,7 +46,7 @@ public:
 	void resetPos(bool respawn = false) override;
 	void die(Entity* pCulprit) override;
 	void aiStep() override;
-	ItemInstance* getCarriedItem() const override;
+	const ItemInstance& getCarriedItem() const override;
 	bool isImmobile() const override { return m_health <= 0; }
 	void updateAi() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
@@ -85,9 +85,9 @@ public:
 	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
-	ItemInstance* getSelectedItem() const;
+	ItemInstance& getSelectedItem() const;
 	void removeSelectedItem();
-	bool isUsingItem() const { return !ItemInstance::isNull(getSelectedItem()); }
+	bool isUsingItem() const { return !getSelectedItem().isEmpty(); }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push

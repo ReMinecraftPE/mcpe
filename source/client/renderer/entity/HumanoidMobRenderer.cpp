@@ -21,14 +21,14 @@ HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRe
 
 void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 {
-	const ItemInstance* inst = mob.getCarriedItem();
+	const ItemInstance& inst = mob.getCarriedItem();
 
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 
 	m_pHumanoidModel->m_arm1.translateTo(matrix, 0.0625f);
 	matrix->translate(Vec3(-0.0625f, 0.4375f, 0.0625f));
 
-	if (inst && inst->getTile() && TileRenderer::canRender(inst->getTile()->getRenderShape()))
+	if (inst && inst.getTile() && TileRenderer::canRender(inst.getTile()->getRenderShape()))
 	{
 		constexpr float s = 0.5f * 0.75f;
 		matrix->translate(Vec3(0.0f, 0.1875f, -0.3125f));
@@ -36,7 +36,7 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 		matrix->rotate(45.0f, Vec3::UNIT_Y);
 		matrix->scale(s);
 	}
-	else if (inst && inst->getItem() && inst->getItem()->isHandEquipped())
+	else if (inst && inst.getItem() && inst.getItem()->isHandEquipped())
 	{
 		constexpr float s = 0.625f;
 		matrix->rotate(180.0f, Vec3::UNIT_Y);
@@ -59,7 +59,7 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 
 	if (inst)
 	{
-		m_pDispatcher->m_pItemInHandRenderer->renderItem(mob, *inst, f);
+		m_pDispatcher->m_pItemInHandRenderer->renderItem(mob, inst, f);
 	}
 }
 
@@ -70,8 +70,8 @@ void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1
 	if (entity.isPlayer())
 	{
 		const Player& player = (const Player&)entity;
-		ItemInstance* item = player.getSelectedItem();
-		m_pHumanoidModel->m_bHoldingRightHand = item != nullptr;
+		ItemInstance& item = player.getSelectedItem();
+		m_pHumanoidModel->m_bHoldingRightHand = !item.isEmpty();
 		bSetRHolding = true;
 	}
 

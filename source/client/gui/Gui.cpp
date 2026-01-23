@@ -231,14 +231,14 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 {
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
-	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
-	if (ItemInstance::isNull(pInst))
+	ItemInstance& inst = pInv->getItem(slot);
+	if (inst.isEmpty())
 		return;
 
 	{
 		MatrixStack::Ref matrix;
 
-		float var6 = ((float)pInst->m_popTime) - f;
+		float var6 = ((float)inst.m_popTime) - f;
 		if (var6 > 0.0f)
 		{
 			float var7 = 1.0f + var6 / 5.0f;
@@ -248,7 +248,7 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 			matrix->translate(Vec3(-(x + 8), -(y + 12), 0.0f));
 		}
 
-		ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y, true);
+		ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, inst, x, y, true);
 	}
 
     //ItemRenderer::renderGuiItemDecorations(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
@@ -258,11 +258,11 @@ void Gui::renderSlotOverlay(int slot, int x, int y, float f)
 {
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
-	ItemInstance* pInst = pInv->getQuickSlotItem(slot);
-	if (ItemInstance::isNull(pInst))
+	ItemInstance& inst = pInv->getItem(slot);
+	if (inst.isEmpty())
 		return;
 
-	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
+	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, inst, x, y);
 }
 
 int Gui::getSlotIdAt(int mouseX, int mouseY)
@@ -310,7 +310,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 
 void Gui::handleScrollWheel(bool down)
 {
-	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
+	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selected;
 
 	int maxItems = getNumUsableSlots() - 1;
 
@@ -345,7 +345,7 @@ void Gui::handleKeyPressed(int keyCode)
 		int maxItems = getNumSlots() - 1;
 		if (m_pMinecraft->isTouchscreen())
 			maxItems--;
-		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
+		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selected;
 
 		if (slotR)
 		{
@@ -622,7 +622,7 @@ void Gui::renderToolBar(float f, float alpha)
 	Inventory* inventory = player->m_pInventory;
 
 	// selection mark
-	blit(cenX - 1 - hotbarWidth / 2 + 20 * inventory->m_selectedHotbarSlot, m_height - 23, 0, 22, 24, 22, 0, 0, material);
+	blit(cenX - 1 - hotbarWidth / 2 + 20 * inventory->m_selected, m_height - 23, 0, 22, 24, 22, 0, 0, material);
 
 	textures->loadAndBindTexture(C_BLOCKS_NAME);
 

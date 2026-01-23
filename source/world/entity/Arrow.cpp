@@ -242,7 +242,7 @@ void Arrow::playerTouch(Player* pPlayer)
         {
             ItemInstance arrow(Item::arrow, 1);
             // they use ->add here in b1.2_02
-            if (pPlayer->m_pInventory->addItem(arrow))
+            if (pPlayer->m_pInventory->add(arrow))
             {
                 m_pLevel->playSound(this, "random.pop", 0.2f, ((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
                 pPlayer->take(this, 1);

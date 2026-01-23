@@ -75,7 +75,7 @@ void ItemEntity::playerTouch(Player* player)
 
 	Inventory* pInventory = player->m_pInventory;
 
-	if (!pInventory->addItem(*m_pItemInstance))
+	if (!pInventory->add(*m_pItemInstance))
 		return;
 
 	m_pLevel->playSound(this, "random.pop", 0.3f,

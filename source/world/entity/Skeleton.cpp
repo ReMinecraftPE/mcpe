@@ -57,7 +57,7 @@ void Skeleton::dropDeathLoot()
 }
 
 ItemInstance* Skeleton::bow = nullptr;
-ItemInstance* Skeleton::getCarriedItem() const
+const ItemInstance& Skeleton::getCarriedItem() const
 {
 	if (!bow)
 		bow = new ItemInstance(Item::bow, 1);

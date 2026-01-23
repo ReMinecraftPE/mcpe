@@ -66,7 +66,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 
 	float yOffset = Mth::sin((float(itemEntity.m_age) + a) / 10.0f + itemEntity.m_bobOffs);
 	const ItemInstance* pItemInstance = itemEntity.m_pItemInstance;
-	if (ItemInstance::isNull(pItemInstance))
+	if (ItemInstance::isEmpty(pItemInstance))
 	{
 		assert(!"Tried to render invalid ItemInstance for ItemEntity");
 		return;
@@ -187,16 +187,16 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	t.draw(m_itemMaterials.ui_textured);
 }
 
-void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInstance* instance, int x, int y)
+void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInstance& instance, int x, int y)
 {
-	if (!instance)
+	if (instance.isEmpty())
 		return;
 
-	if (instance->m_count == 1)
+	if (instance.m_count == 1)
 		return;
 
 	std::stringstream ss;
-	ss << instance->m_count;
+	ss << instance.m_count;
 	std::string amtstr = ss.str();
 
 	int width = font->width(amtstr), height = font->height(amtstr) + 8;
@@ -204,18 +204,18 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInst
 	font->drawShadow(amtstr, x + 17 - width, y + 17 - height, 0xFFFFFF);
 }
 
-void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* instance, int x, int y, bool b)
+void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance& instance, int x, int y, bool b)
 {
 	// @NOTE: Font unused but would presumably be used to draw the item amount.
 	// As if that actually works due to us blocking t.begin() and t.draw() calls...
-	if (!instance || !instance->isValid())
+	if (instance.isEmpty() || !instance.isValid())
 		return;
 
 	if (!b)
 		return;
 
 	//Item* pItem = instance->getItem();
-	Tile* pTile = instance->getTile();
+	Tile* pTile = instance.getTile();
 
 	// @BUG: This is one of the reasons you can't actually hold items in early Minecraft.
 	// There's an attempt to index `Tile::tiles` out of bounds, which of course fails, and likely crashes the game. :(
@@ -274,19 +274,19 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 			matrix->rotate(-90.0f, Vec3::UNIT_Y);
 		}
 		
-		m_pTileRenderer->renderTile(FullTile(pTile, instance->getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
+		m_pTileRenderer->renderTile(FullTile(pTile, instance.getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
 		#undef PARM_HACK
 #endif
 	}
-	else if (instance->getIcon() >= 0)
+	else if (instance.getIcon() >= 0)
 	{
 		// @BUG: The last bound texture will be the texture that ALL items will take. This is because begin and end calls
 		// have been void'ed by a  t.voidBeginAndEndCalls call in Gui::render.
-		if (instance->getTile())
+		if (instance.getTile())
 			textures->loadAndBindTexture(C_TERRAIN_NAME);
 		else
 			textures->loadAndBindTexture(C_ITEMS_NAME);
 
-		blit(x, y, 16 * (instance->getIcon() % 16), 16 * (instance->getIcon() / 16), 16, 16);
+		blit(x, y, 16 * (instance.getIcon() % 16), 16 * (instance.getIcon() / 16), 16, 16);
 	}
 }

@@ -1,21 +1,13 @@
 #include "UseItemPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-UseItemPacket::UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemInstance* pItem)
+UseItemPacket::UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemInstance& item)
 {
 	m_tilePos = tilePos;
 	m_tileFace = tileFace;
 	m_entityId = entityId;
-	if (pItem)
-	{
-		m_itemId = pItem->getId();
-		m_itemAuxValue = pItem->getAuxValue();
-	}
-	else
-	{
-		m_itemId = TILE_AIR;
-		m_itemAuxValue = 0;
-	}
+	m_itemId = item.getId();
+	m_itemAuxValue = item.getAuxValue();
 }
 
 void UseItemPacket::handle(const RakNet::RakNetGUID& guid, NetEventCallback& callback)

@@ -18,11 +18,11 @@ void PlayerEquipmentPacket::write(RakNet::BitStream& bs)
 {
 	bs.Write((unsigned char)PACKET_PLAYER_EQUIPMENT);
 	bs.Write(m_playerID);
-	bs.Write(m_itemID);
+	bs.Write(m_selectedHotbarSlot);
 }
 
 void PlayerEquipmentPacket::read(RakNet::BitStream& bs)
 {
 	bs.Read(m_playerID);
-	bs.Read(m_itemID);
+	bs.Read(m_selectedHotbarSlot);
 }

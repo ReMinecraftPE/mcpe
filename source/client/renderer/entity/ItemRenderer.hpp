@@ -39,8 +39,8 @@ public:
 	void blitRect(Tesselator&, int, int, int, int, int);
 
 	void blit(int dx, int dy, int sx, int sy, int tw, int th);
-	void renderGuiItem(Font*, Textures*, ItemInstance*, int, int, bool);
-	void renderGuiItemOverlay(Font*, Textures*, ItemInstance*, int, int);
+	void renderGuiItem(Font*, Textures*, ItemInstance&, int, int, bool);
+	void renderGuiItemOverlay(Font*, Textures*, ItemInstance&, int, int);
 
 private:
 	TileRenderer* m_pTileRenderer;

@@ -28,6 +28,8 @@ public:
 	static const std::string TAG_REPAIR_COST;
 	static const std::string TAG_ENCHANTS;
 
+	static const ItemInstance EMPTY;
+
 private:
     void _init(int id = 0, int count = 0, int auxValue = 0);
     
@@ -77,7 +79,8 @@ public:
 	bool isStackable() const;
 	bool isStackedByData() const;
 	void mineBlock(const TilePos& pos, Facing::Name face);
-	void remove(int count);
+	void shrink(int count = 1);
+	ItemInstance remove(int count);
 	void setDescriptionId(const std::string&);
 	void snap(Player*);
 	std::string toString() const;
@@ -92,8 +95,8 @@ public:
 
 	// v0.2.0
 	int getAttackDamage(Entity *pEnt) const;
-	bool isNull() const;
-	void setNull();
+	bool isEmpty() const;
+	void setEmpty();
 
 	// 0.12.1
 	int getBaseRepairCost() const;
@@ -105,8 +108,8 @@ public:
 	void load(const CompoundTag& tag);
 	CompoundTag& save(CompoundTag& tag) const;
 
-	static bool isNull(const ItemInstance*);
-	static bool matches(const ItemInstance*, const ItemInstance*);
+	static bool isEmpty(const ItemInstance*);
+	static bool matches(const ItemInstance&, const ItemInstance&);
 	static ItemInstance* fromTag(const CompoundTag& tag);
 
 	ItemInstance* operator=(const ItemInstance&);

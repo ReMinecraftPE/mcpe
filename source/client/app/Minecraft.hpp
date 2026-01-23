@@ -103,7 +103,7 @@ public:
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
-	ItemInstance* getSelectedItem();
+	ItemInstance& getSelectedItem();
 	Options* getOptions() const { return m_pOptions; }
 	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 

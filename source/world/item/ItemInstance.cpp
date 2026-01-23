@@ -17,6 +17,7 @@ ItemInstance::TAG_DISPLAY = "display",
 ItemInstance::TAG_DISPLAY_NAME = "Name",
 ItemInstance::TAG_REPAIR_COST = "RepairCost",
 ItemInstance::TAG_ENCHANTS = "ench";
+const ItemInstance ItemInstance::EMPTY;
 
 void ItemInstance::_init(int id, int count, int auxValue)
 {
@@ -193,9 +194,9 @@ void ItemInstance::setUserData(CompoundTag* tag)
 
 bool ItemInstance::hasSameUserData(const ItemInstance& other) const
 {
-	if (this->isNull() && other.isNull())
+	if (this->isEmpty() && other.isEmpty())
 		return true;
-	else if (this->isNull() || other.isNull())
+	else if (this->isEmpty() || other.isEmpty())
 		return false;
 
 	if (!this->hasUserData() && !other.hasUserData())
@@ -221,7 +222,7 @@ void ItemInstance::set(int inCount)
 
 #ifndef MOD_POCKET_SURVIVAL
 	if (inCount == 0)
-		setNull();
+		setEmpty();
 #endif
 }
 
@@ -319,9 +320,15 @@ void ItemInstance::mineBlock(const TilePos& pos, Facing::Name face)
 	return getItem()->mineBlock(this, pos, face);
 }
 
-void ItemInstance::remove(int count)
+void ItemInstance::shrink(int count)
 {
 	set(m_count - count);
+}
+
+ItemInstance ItemInstance::remove(int count)
+{
+	shrink(count);
+	return ItemInstance(getId(), m_count, m_auxValue);
 }
 
 void ItemInstance::setDescriptionId(const std::string& str)
@@ -356,27 +363,20 @@ int ItemInstance::getAttackDamage(Entity* pEnt) const
 	return getItem()->getAttackDamage(pEnt);
 }
 
-bool ItemInstance::isNull() const
+bool ItemInstance::isEmpty() const
 {
 	if (!m_bValid)
 		return true;
 
-	if (m_count != 0 ||
-		m_pItem || m_pTile ||
-		hasUserData())
-	{
-		return false;
-	}
-
-	return true;
+	return m_count <= 0 || !m_pItem;
 }
 
-bool ItemInstance::isNull(const ItemInstance* item)
+bool ItemInstance::isEmpty(const ItemInstance* item)
 {
-	return item == nullptr || item->isNull();
+	return item == nullptr || item->isEmpty();
 }
 
-void ItemInstance::setNull()
+void ItemInstance::setEmpty()
 {
 	m_count = 0;
 	m_auxValue = 0;
@@ -480,15 +480,15 @@ CompoundTag& ItemInstance::save(CompoundTag& tag) const
 	return tag;
 }
 
-bool ItemInstance::matches(const ItemInstance* a1, const ItemInstance* a2)
+bool ItemInstance::matches(const ItemInstance& a1, const ItemInstance& a2)
 {
-	if (a1 == a2 && a1 == nullptr)
+	if (&a1 == &a2 && a1.isEmpty())
 		return true;
 
-	if (a1 == nullptr || a2 == nullptr)
+	if (a1.isEmpty() || a2.isEmpty())
 		return false;
 
-	return a1 == a2;
+	return &a1 == &a2;
 }
 
 ItemInstance* ItemInstance::fromTag(const CompoundTag& tag)
@@ -546,5 +546,5 @@ bool ItemInstance::operator!=(const ItemInstance& other) const
 
 ItemInstance::operator bool() const
 {
-	return m_bValid && getItem() && !isNull();
+	return m_bValid && getItem() && !isEmpty();
 }

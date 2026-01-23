@@ -66,7 +66,7 @@ public:
 	float field_C18;
 	float field_C1C;
 	int m_nAutoJumpFrames;
-	int field_C38;
+	int m_lastSelectedSlot;
 	Minecraft* m_pMinecraft;
 	IMoveInput* m_pMoveInput;
 	Vec2 m_renderArmRot;

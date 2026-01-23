@@ -395,7 +395,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 		return;
 	}
 
-	pPlayer->m_pInventory->selectItemById(packet->m_itemID, C_MAX_HOTBAR_ITEMS);
+	pPlayer->m_pInventory->m_selected = packet->m_selectedHotbarSlot;
 
 	redistributePacket(packet, guid);
 }
@@ -458,7 +458,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, UseItemPac
 		}
 	}
 
-	if (packet->m_item.isNull())
+	if (packet->m_item.isEmpty())
 		return;
 
 	packet->m_item.useOn(pPlayer, m_pLevel, packet->m_tilePos, (Facing::Name)packet->m_tileFace);
@@ -1049,7 +1049,7 @@ void ServerSideNetworkHandler::commandClear(OnlinePlayer* player, const std::vec
 
 	Inventory* pInventory = player->m_pPlayer->m_pInventory;
 
-	pInventory->empty(); // calling "clear" will delete all of our slots
+	pInventory->clear(); // calling "clear" will delete all of our slots
 
 	sendMessage(player, "Your inventory has been cleared.");
 	return;

@@ -218,10 +218,10 @@ void Player::aiStep()
 	updateAttackAnim();
 }
 
-ItemInstance* Player::getCarriedItem() const
+const ItemInstance& Player::getCarriedItem() const
 {
 	// This only gets the first row slot
-	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
+	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selected);
   
 	if (ItemInstance::isNull(item))
 		return nullptr;
@@ -310,8 +310,9 @@ void Player::attack(Entity* pEnt)
 
 void Player::useItem(ItemInstance& item) const
 {
+	int lastCount = item.m_count;
 	if (!isCreative())
-		item.remove(1);
+		item.shrink(1);
 }
 
 bool Player::canDestroy(const Tile* pTile) const
@@ -384,7 +385,7 @@ void Player::setRespawnPos(const TilePos& pos)
 
 void Player::drop(const ItemInstance& item, bool randomly)
 {
-	if (item.isNull())
+	if (item.isEmpty())
 		return;
 
 	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item.copy());
@@ -446,12 +447,12 @@ void Player::interact(Entity* pEnt)
 	pEnt->interact(this);
 }
 
-ItemInstance* Player::getSelectedItem() const
+ItemInstance& Player::getSelectedItem() const
 {
 	return m_pInventory->getSelected();
 }
 
 void Player::removeSelectedItem()
 {
-	m_pInventory->setSelectedItem(nullptr);
+	m_pInventory->setSelectedItem(ItemInstance::EMPTY);
 }

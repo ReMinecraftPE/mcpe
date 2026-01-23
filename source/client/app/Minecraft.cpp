@@ -444,12 +444,12 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			{
 				// Try to pick the tile.
 				int auxValue = m_pLevel->getData(m_hitResult.m_tilePos);
-				player->m_pInventory->selectItemByIdAux(pTile->m_ID, auxValue, C_MAX_HOTBAR_ITEMS);
+				player->m_pInventory->selectItem(pTile->m_ID, auxValue, C_MAX_HOTBAR_ITEMS);
 			}
 			else if (action.isPlace() && canInteract)
 			{
-				ItemInstance* pItem = getSelectedItem();
-				if (m_pGameMode->useItemOn(player, m_pLevel, pItem, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
+				ItemInstance& item = getSelectedItem();
+				if (m_pGameMode->useItemOn(player, m_pLevel, item, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
 				{
 					bInteract = false;
 
@@ -459,7 +459,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 
 					if (isOnline())
 					{
-						if (ItemInstance::isNull(pItem) || !pItem->getTile())
+						if (item.isEmpty() || !item.getTile())
 							return;
 
 						TilePos tp(m_hitResult.m_tilePos);
@@ -471,7 +471,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 							hitSide = Facing::DOWN;
 						}
 
-						m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), (TileID)pItem->getId(), hitSide, pItem->getAuxValue()));
+						m_pRakNetInstance->send(new PlaceBlockPacket(player->m_EntityID, tp.relative(hitSide, 1), (TileID)item.getId(), hitSide, item.getAuxValue()));
 					}
 				}
 			}
@@ -483,11 +483,11 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 
 	if (bInteract && action.isInteract() && canInteract)
 	{
-		ItemInstance* pItem = getSelectedItem();
-		if (pItem && player->isUsingItem())
+		ItemInstance& item = getSelectedItem();
+		if (!item.isEmpty() && player->isUsingItem())
 		{
 			m_lastInteractTime = getTimeMs();
-			if (m_pGameMode->useItem(player, m_pLevel, pItem))
+			if (m_pGameMode->useItem(player, m_pLevel, item))
 				m_pGameRenderer->m_pItemInHandRenderer->itemUsed();
 		}
 	}
@@ -567,14 +567,14 @@ void Minecraft::tickInput()
 			}
 			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
-				ItemInstance *item = m_pLocalPlayer->m_pInventory->getSelected();
-				if (!ItemInstance::isNull(item) && item->m_count > 0)
+				ItemInstance& item = m_pLocalPlayer->m_pInventory->getSelected();
+				if (!item.isEmpty())
 				{
-					ItemInstance itemDrop(*item);
+					ItemInstance itemDrop(item);
 					itemDrop.m_count = 1;
 
 					if (m_pLocalPlayer->isSurvival())
-						item->remove(1);
+						item.shrink(1);
 
 					m_pLocalPlayer->drop(itemDrop);
 				}
@@ -1213,18 +1213,18 @@ LevelStorageSource* Minecraft::getLevelSource()
 	return m_pLevelStorageSource;
 }
 
-ItemInstance* Minecraft::getSelectedItem()
+ItemInstance& Minecraft::getSelectedItem()
 {
-	ItemInstance* pInst = m_pLocalPlayer->getSelectedItem();
+	ItemInstance& pInst = m_pLocalPlayer->getSelectedItem();
 
-	if (ItemInstance::isNull(pInst))
-		return nullptr;
+	if (pInst.isEmpty())
+		return pInst;
 
 	if (m_pGameMode->isCreativeType())
 	{
 		// Create new "unlimited" ItemInstance for Creative mode
-		m_CurrItemInstance = ItemInstance(pInst->getId(), 999, pInst->getAuxValue());
-		return &m_CurrItemInstance;
+		m_CurrItemInstance = ItemInstance(pInst.getId(), 999, pInst.getAuxValue());
+		return m_CurrItemInstance;
 	}
 
 	return pInst;
