@@ -63,13 +63,10 @@ public:
         return cont == m_pContainer && s == m_slot;
     }
 
-
-protected:
-    int m_slot;
-
 public:
+    Container* m_pContainer;
+    int m_slot;
     int m_index;
     int m_x;
     int m_y;
-    Container* m_pContainer;
 };
