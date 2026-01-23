@@ -9,6 +9,7 @@ using namespace mce;
 const VertexFieldFormat VertexFieldFormats::_vertexFieldFormats[] = {
     VFF(UNKNOWN,    0,                1, false),
     //VFF(SINT8,    sizeof(int8_t),   1, false),
+    VFF(SINT8_4_N,  sizeof(int8_t),   4, true ),
     //VFF(UINT8,    sizeof(uint8_t),  1, false),
     VFF(UINT8_4,    sizeof(uint8_t),  4, false),
     VFF(UINT8_4_N,  sizeof(uint8_t),  4, true ),

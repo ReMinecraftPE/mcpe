@@ -14,7 +14,7 @@ struct PS_Output
 };
 
 PS_MAIN_BEGIN
-    PSOutput.color = TEXTURE_0.Sample( TextureSampler0, PSInput.uv );
+    PSOutput.color = sampleTex0( TextureSampler0, PSInput.uv );
 
 #ifdef ALPHA_TEST
     if( PSOutput.color.a < 0.5 )

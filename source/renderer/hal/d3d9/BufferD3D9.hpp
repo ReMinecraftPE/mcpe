@@ -13,7 +13,6 @@ namespace mce
         ComInterface<IDirect3DVertexBuffer9> m_vertexBuffer;
         ComInterface<IDirect3DIndexBuffer9> m_indexBuffer;
         D3DFORMAT m_format;
-        UINT m_offset;
 
     public:
         BufferD3D9();

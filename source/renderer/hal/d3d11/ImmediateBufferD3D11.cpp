@@ -20,16 +20,16 @@ void ImmediateBufferD3D11::updateBuffer(RenderContext& context, unsigned int str
 {
     MapType mapType = MAP_WRITE_NO_OVERWRITE;
 
-    if (m_offset + count * stride > m_count)
+    if (m_bufferOffset + count * stride > m_count)
     {
-        m_offset = 0;
+        m_bufferOffset = 0;
         mapType = MAP_WRITE_DISCARD;
     }
 
     BufferD3D11::updateBuffer(context, stride, data, count, mapType);
     BufferD3D11::bindBuffer(context);
 
-    m_offset += count * stride;
+    m_bufferOffset += count * stride;
 }
 
 bool ImmediateBufferD3D11::isValid() const

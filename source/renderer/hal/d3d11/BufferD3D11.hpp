@@ -12,7 +12,6 @@ namespace mce
     protected:
         ComInterface<ID3D11Buffer> m_buffer;
         DXGI_FORMAT m_format;
-        UINT m_offset;
 
     public:
         BufferD3D11();

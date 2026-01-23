@@ -31,14 +31,17 @@
     <ClCompile>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Lib>
+    <Link Condition="$(Configuration.StartsWith('Release'))">
       <!--AdditionalDependencies>xapilib.lib;d3d9.lib;d3dx9.lib;xgraphics.lib;xboxkrnl.lib;xnet.lib;xaudio2.lib;xact3.lib;x3daudio.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies-->
-      <AdditionalDependencies>xapilib.lib;xboxkrnl.lib;xact3.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
-    <Lib Condition="$(Configuration.StartsWith('Debug'))">
-      <!--AdditionalDependencies>xapilib.lib;d3d9.lib;d3dx9.lib;xgraphics.lib;xboxkrnl.lib;xnet.lib;xaudio2.lib;xact3.lib;x3daudio.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies-->
-      <AdditionalDependencies>xapilib.lib;xboxkrnl.lib;xact3.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
+      <!--AdditionalDependencies>xapilib.lib;xboxkrnl.lib;xact3.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies-->
+	  <!-- For using PIX, which you can't do without a DevKit, of course -->
+	  <!--IgnoreSpecificDefaultLibraries>xapilib.lib</IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>xapilibi.lib;xmcorei.lib;xbdm.lib;%(AdditionalDependencies)</AdditionalDependencies-->
+    </Link>
+    <Link Condition="$(Configuration.StartsWith('Debug'))">
+      <!--AdditionalDependencies>xapilibd.lib;d3d9d.lib;d3dx9d.lib;xgraphicsd.lib;xboxkrnl.lib;xnetd.lib;xaudiod2.lib;xactd3.lib;x3daudiod.lib;xmcored.lib;xbdm.lib;vcompd.lib</AdditionalDependencies-->
+      <!--AdditionalDependencies>xapilibd.lib;xboxkrnl.lib;xact3.lib;xmcored.lib;vcompd.lib;%(AdditionalDependencies)</AdditionalDependencies-->
+    </Link>
     <Deploy>
       <DeploymentFiles>$(RemoteRoot)=$(ImagePath);$(RemoteRoot)\assets=$(MC_ROOT)\game\assets;</DeploymentFiles>
     </Deploy>
