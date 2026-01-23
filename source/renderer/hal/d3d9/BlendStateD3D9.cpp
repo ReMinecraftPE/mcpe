@@ -78,6 +78,7 @@ bool BlendStateD3D9::bindBlendState(RenderContext& context, bool forceBind)
     if (forceBind || ctxDesc != m_description)
     {
         d3dDevice->SetBlendState(0, m_blendState);
+		ctxDesc = m_description;
     }
 #else
     if (forceBind || ctxDesc.colorWriteMask != m_description.colorWriteMask)

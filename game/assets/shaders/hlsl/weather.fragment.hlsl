@@ -12,7 +12,7 @@ struct PS_Output {
 };
 
 PS_MAIN_BEGIN
-	float4 diffuse = TEXTURE_0.Sample(TextureSampler0, PSInput.uv0) * TEXTURE_1.Sample(TextureSampler1, PSInput.uv1);
+	float4 diffuse = sampleTex0(TextureSampler0, PSInput.uv0) * sampleTex1(TextureSampler1, PSInput.uv1);
 
 #ifdef ALPHA_TEST
 	if(diffuse.a < 0.5)

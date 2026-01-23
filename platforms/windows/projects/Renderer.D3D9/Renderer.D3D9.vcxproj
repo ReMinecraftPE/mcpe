@@ -85,12 +85,15 @@
     <ClCompile Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
       <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Lib>
+    <Lib Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Platform)'=='Xbox 360'">d3d9.lib;d3dx9.lib;xgraphics.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|Xbox 360'">d3d9d.lib;d3dx9d.lib;xgraphicsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories Condition="'$(Platform)'=='Win32'">$(DXSDK_DIR)\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">$(DXSDK_DIR)\Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <Lib Condition="'$(Platform)'=='Xbox 360'">
+	  <!-- Link d3d9i.lib for using PIX -->
+      <AdditionalDependencies Condition="$(Configuration.StartsWith('Release'))">d3d9.lib;d3dx9.lib;xgraphics.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="$(Configuration.StartsWith('Debug'))">d3d9d.lib;d3dx9d.lib;xgraphicsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

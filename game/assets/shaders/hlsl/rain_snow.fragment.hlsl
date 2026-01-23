@@ -12,7 +12,7 @@ struct PS_Output {
 };
 
 PS_MAIN_BEGIN
-	PSOutput.color = TEXTURE_0.Sample(TextureSampler0, PSInput.uv);
+	PSOutput.color = sampleTex0(TextureSampler0, PSInput.uv);
 
 #ifdef ALPHA_TEST
 	if (PSOutput.color.a < 0.5)
@@ -22,7 +22,7 @@ PS_MAIN_BEGIN
 	PSOutput.color.a *= PSInput.color.a;
 
 	float2 uv = PSInput.worldPosition.xz;
-	float4 occlusionTexture = TEXTURE_1.Sample(TextureSampler1, uv);
+	float4 occlusionTexture = sampleTex1(TextureSampler1, uv);
 
 	occlusionTexture.a *= 255.0f;	// Alpha stores height of world
 

@@ -34,9 +34,12 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <ItemDefinitionGroup>
-    <Lib>
-      <AdditionalDependencies Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Platform)'=='Xbox 360'">xapilib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    <Lib Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+      <AdditionalDependencies>xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib Condition="'$(Platform)' == 'Xbox 360'">
+      <AdditionalDependencies Condition="$(Configuration.StartsWith('Debug'))">xapilibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="$(Configuration.StartsWith('Release'))">xapilib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

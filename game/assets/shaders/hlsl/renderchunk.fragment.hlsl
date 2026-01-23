@@ -18,8 +18,8 @@ struct PS_Output
 };
 
 PS_MAIN_BEGIN
-	//float4 diffuse = TEXTURE_0.Sample( TextureSampler0, PSInput.uv0 ) * TEXTURE_1.Sample( TextureSampler1, PSInput.uv1 );
-	float4 diffuse = TEXTURE_0.Sample( TextureSampler0, PSInput.uv0 );
+	//float4 diffuse = sampleTex0( TextureSampler0, PSInput.uv0 ) * sampleTex1( TextureSampler1, PSInput.uv1 );
+	float4 diffuse = sampleTex0( TextureSampler0, PSInput.uv0 );
 
 #ifdef SEASONS_FAR
 	diffuse.a = 1.0f;
@@ -44,7 +44,7 @@ PS_MAIN_BEGIN
 #else
 	float2 uv = PSInput.color.xy;
 	uv.y += 1.0f / 512.0f;
-	diffuse.rgb *= lerp(1.0f, TEXTURE_2.Sample(TextureSampler2, uv).rgb*2.0f, PSInput.color.b);
+	diffuse.rgb *= lerp(1.0f, sampleTex2(TextureSampler2, uv).rgb*2.0f, PSInput.color.b);
 	diffuse.rgb *= PSInput.color.aaa;
 	diffuse.a = 1.0f;
 #endif
