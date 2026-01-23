@@ -25,7 +25,7 @@ public:
 	void prepareCreativeInventory();
 	void prepareSurvivalInventory();
 
-	int getContainerSize() const override;
+	uint16_t getContainerSize() const override;
 
 	void clear();
 
@@ -34,12 +34,13 @@ public:
 
 	bool hasUnlimitedResource(const ItemInstance& pInstance) const;
 
-	bool add(const ItemInstance& instance);
+	bool add(ItemInstance& instance);
     void tick();
 
-	ItemInstance& getItem(int slotNo) const override;
-	ItemInstance& getSelectedItem() const;
-	int getSelectedItemId() const;
+	ItemInstance& getItem(int slotNo) override;
+	ItemInstance& getArmor(EquipmentSlot slotNo);
+	ItemInstance& getSelectedItem();
+	int getSelectedItemId();
 
 	void setItem(int index, const ItemInstance& item);
 	void setSelectedItem(ItemInstance item);
@@ -49,10 +50,16 @@ public:
 	void setCarried(ItemInstance item);
 	ItemInstance& getCarried();
 
-	void selectItem(int itemID, int data, int maxHotBarSlot); // selects an item by slot number and puts it in the quick slots if needed
+	void pickItem(int itemID, int data, int maxHotBarSlot);
+	void selectItem(int itemID, int maxHotBarSlot);
+	void swapItems(int, int);
 	void selectSlot(int slotNo);
 
 	int getAttackDamage(Entity*);
+
+	int getArmorValue() const;
+
+	void hurtArmor(int amount);
 
 	void dropAll(bool onlyClearContainer = false);
 
@@ -61,7 +68,7 @@ public:
 
 	bool contains(const ItemInstance&) const;
 
-	int getSelectedSlotNo() const { return m_selected; }
+	uint16_t getSelectedSlotNo() const { return m_selectedSlot; }
 
 	// v0.2.0 name alias
 	ItemInstance& getSelected() { return getSelectedItem(); }
@@ -72,15 +79,9 @@ public:
 		return "Inventory";
 	}
 
-	void setChanged() override
-	{
+	void setChanged() override { }
 
-	}
-
-	bool stillValid(Player* player) override
-	{
-		return true;
-	}
+	bool stillValid(Player* player) override { return true;	}
 	
 private:
 	GameType _getGameMode() const;
@@ -90,11 +91,12 @@ private:
 	int getSlot(int id);
 
 public:
-	int m_selected;
-private:
 	Player* m_pPlayer;
+	uint16_t m_selectedSlot;
+
+private:
 	ItemInstance m_carried;
 
-	mutable std::vector<ItemInstance> m_items;
-	mutable std::vector<ItemInstance> m_armor;
+	std::vector<ItemInstance> m_items;
+	std::vector<ItemInstance> m_armor;
 };

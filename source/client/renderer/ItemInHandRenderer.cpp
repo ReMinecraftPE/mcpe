@@ -360,21 +360,20 @@ void ItemInHandRenderer::tick()
 
 	ItemInstance& item = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItem();
 
-	bool bSameItem = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selected == m_lastSlot && ItemInstance::matches(m_selectedItem, item);
+	bool bSameItem = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot == m_lastSlot && m_selectedItem == item;
 
 	if (item.isEmpty() && m_selectedItem.isEmpty())
 		bSameItem = true;
 
-	// without this, the player hand remains hidden
-	if (!item.isEmpty() && !m_selectedItem.isEmpty())
-	{
-        //@Note: This first condition should always be true, as m_selectedItem never was a pointer, so it couldn't be the same as the actual selected item
-        if (&item != &m_selectedItem && item.getId() == m_selectedItem.getId() && item.getAuxValue() == m_selectedItem.getAuxValue())
-        {
-            bSameItem = true;
-            m_selectedItem = ItemInstance(item);
-        }
-	}
+    // This isn't really neeeded anymore
+    //if (!item.isEmpty() && !m_selectedItem.isEmpty())
+    //{
+    //    if (&item != &m_selectedItem && item.getId() == m_selectedItem.getId() && item.getAuxValue() == m_selectedItem.getAuxValue())
+    //    {
+    //        bSameItem = true;
+    //        m_selectedItem = ItemInstance(item);
+    //    }
+    //}
 
 	float b = bSameItem ? 1.0f : 0.0f;
 
@@ -389,7 +388,7 @@ void ItemInHandRenderer::tick()
 	if (m_height < 0.1f)
 	{
 		m_selectedItem = ItemInstance(item);
-		m_lastSlot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selected;
+		m_lastSlot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
 	}
 }
 

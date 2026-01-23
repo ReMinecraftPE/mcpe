@@ -178,7 +178,7 @@ public:
 	virtual bool hurt(Entity*, int);
 	virtual void animateHurt();
 	virtual float getPickRadius() const { return 0.1f; }
-	virtual ItemEntity* spawnAtLocation(ItemInstance*, float);
+	virtual ItemEntity* spawnAtLocation(const ItemInstance&, float);
 	virtual ItemEntity* spawnAtLocation(int, int);
 	virtual ItemEntity* spawnAtLocation(int, int, float);
 	virtual void awardKillScore(Entity* pKilled, int score);

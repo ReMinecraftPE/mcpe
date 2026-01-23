@@ -72,6 +72,7 @@ public:
 	int getMaxDamage() const;
 	int getMaxStackSize() const;
 	void hurt(int by);
+	void hurtAndBreak(int, Entity*);
 	void hurtEnemy(Mob*);
 	void interactEnemy(Mob*);
 	bool isDamageableItem() const;
@@ -112,7 +113,7 @@ public:
 	//formerly known as isNull
 	static bool isEmpty(const ItemInstance*);
 	static bool matches(const ItemInstance&, const ItemInstance&);
-	static ItemInstance* fromTag(const CompoundTag& tag);
+	static ItemInstance fromTag(const CompoundTag& tag);
 
 	ItemInstance* operator=(const ItemInstance&);
 	bool operator==(const ItemInstance&) const;

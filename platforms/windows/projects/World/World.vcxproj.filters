@@ -575,6 +575,21 @@
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\Slot.cpp">
       <Filter>Source Files\Inventory</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\inventory\InventoryMenu.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\inventory\ResultContainer.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\inventory\CraftingContainer.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\inventory\ArmorSlot.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\world\inventory\ResultSlot.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -1007,6 +1022,21 @@
       <Filter>Header Files\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\Slot.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\inventory\InventoryMenu.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\inventory\ResultContainer.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\inventory\CraftingContainer.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\inventory\ResultSlot.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\world\inventory\ArmorSlot.hpp">
       <Filter>Header Files\Inventory</Filter>
     </ClInclude>
   </ItemGroup>

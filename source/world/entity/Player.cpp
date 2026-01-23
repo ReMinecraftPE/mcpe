@@ -35,6 +35,8 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	m_pInventory = new Inventory(this);
 
+	m_pContainerMenu = m_pInventoryMenu = new InventoryMenu(m_pInventory);
+
 	setDefaultHeadHeight();
 
 	Vec3 pos = m_pLevel->getSharedSpawnPos();
@@ -48,11 +50,13 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	m_flameTime = 20;
 	m_rotOffs = 180.0f;
+
 }
 
 Player::~Player()
 {
 	delete m_pInventory;
+	delete m_pInventoryMenu;
 }
 
 void Player::reallyDrop(ItemEntity* pEnt)
@@ -70,6 +74,9 @@ void Player::remove()
 {
 	m_bIsInvisible = true;
 	Mob::remove();
+	m_pInventoryMenu->removed(this);
+	if (m_pContainerMenu)
+		m_pContainerMenu->removed(this);
 }
 
 bool Player::hurt(Entity* pEnt, int damage)
@@ -218,10 +225,18 @@ void Player::aiStep()
 	updateAttackAnim();
 }
 
+void Player::tick()
+{
+	Mob::tick();
+
+	if (!m_pLevel->m_bIsClientSide && m_pContainerMenu && !m_pContainerMenu->stillValid(this))
+		closeContainer();
+}
+
 const ItemInstance& Player::getCarriedItem() const
 {
 	// This only gets the first row slot
-	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selected);
+	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedSlot);
   
 	if (ItemInstance::isNull(item))
 		return nullptr;
@@ -387,7 +402,7 @@ void Player::drop(const ItemInstance& item, bool randomly)
 	if (item.isEmpty())
 		return;
 
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item.copy());
+	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item);
 	pItemEntity->m_throwTime = 40;
 
 	if (randomly)

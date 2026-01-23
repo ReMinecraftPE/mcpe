@@ -279,6 +279,28 @@ void ItemInstance::hurt(int by)
 	}
 }
 
+void ItemInstance::hurtAndBreak(int amount, Entity* ent)
+{
+	if (isDamageableItem())
+	{
+		m_auxValue += amount;
+		if (m_auxValue > getMaxDamage())
+		{
+			if (ent->isPlayer())
+			{
+				//((Player*)ent)->awardStat(Stats::statItemBreak[m_itemID]);
+			}
+
+
+			--m_count;
+			if (m_count < 0)
+				m_count = 0;
+			m_auxValue = 0;
+		}
+
+	}
+}
+
 void ItemInstance::hurtEnemy(Mob* mob)
 {
 	getItem()->hurtEnemy(this, mob);
@@ -296,7 +318,7 @@ bool ItemInstance::isDamageableItem() const
 
 bool ItemInstance::isDamaged() const
 {
-	return m_auxValue > 0;
+	return isDamageableItem() && m_auxValue > 0;
 }
 
 bool ItemInstance::isStackable() const
@@ -488,20 +510,13 @@ bool ItemInstance::matches(const ItemInstance& a1, const ItemInstance& a2)
 	if (a1.isEmpty() || a2.isEmpty())
 		return false;
 
-	return &a1 == &a2;
+	return a1 == a2;
 }
 
-ItemInstance* ItemInstance::fromTag(const CompoundTag& tag)
+ItemInstance ItemInstance::fromTag(const CompoundTag& tag)
 {
-	ItemInstance* item = new ItemInstance();
-	item->load(tag);
-
-	if (!item->getItem())
-	{
-		delete item;
-		item = nullptr;
-	}
-
+	ItemInstance item;
+	item.load(tag);
 	return item;
 }
 

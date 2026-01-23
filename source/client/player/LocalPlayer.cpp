@@ -270,9 +270,9 @@ void LocalPlayer::tick()
 	{
 		sendPosition();
 
-		if (m_lastSelectedSlot != m_pInventory->m_selected)
+		if (m_lastSelectedSlot != m_pInventory->m_selectedSlot)
 		{
-			m_lastSelectedSlot = m_pInventory->m_selected;
+			m_lastSelectedSlot = m_pInventory->m_selectedSlot;
 			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, m_lastSelectedSlot));
 		}
 	}

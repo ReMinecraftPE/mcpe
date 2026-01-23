@@ -13,6 +13,7 @@
 #include "world/entity/Mob.hpp"
 #include "world/entity/ItemEntity.hpp"
 #include "world/gamemode/GameType.hpp"
+#include "world/inventory/InventoryMenu.hpp"
 
 class Inventory; // in case we're included from Inventory.hpp
 
@@ -46,6 +47,7 @@ public:
 	void resetPos(bool respawn = false) override;
 	void die(Entity* pCulprit) override;
 	void aiStep() override;
+	void tick() override;
 	const ItemInstance& getCarriedItem() const override;
 	bool isImmobile() const override { return m_health <= 0; }
 	void updateAi() override;
@@ -98,6 +100,8 @@ public:
 public:
 	//TODO
 	Inventory* m_pInventory;
+	InventoryMenu* m_pInventoryMenu;
+	ContainerMenu* m_pContainerMenu;
 	uint8_t field_B94;
 	int m_score;
 	float m_oBob; // field_B9C

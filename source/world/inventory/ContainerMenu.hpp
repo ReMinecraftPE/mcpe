@@ -2,8 +2,8 @@
 
 #include <vector>
 #include <set>
-#include <stdint.h>
 #include "world/item/ItemInstance.hpp"
+#include "client/player/input/MouseDevice.hpp"
 
 class Player;
 class Inventory;
@@ -36,8 +36,8 @@ public:
     std::vector<ItemInstance> getItems();
     Slot* getSlotFor(Container* container, int index);
     Slot* getSlot(int index);
-    virtual ItemInstance clicked(int slotIndex, int mouseButton, bool quickMove, Player* player);
-    virtual ItemInstance& quickMoveStack(int index);
+    virtual ItemInstance clicked(int slotIndex, MouseButtonType mouseButton, bool quickMove, Player* player);
+    virtual ItemInstance quickMoveStack(int index);
     virtual void moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo, bool take);
 
     void setItem(int slotIndex, ItemInstance item);

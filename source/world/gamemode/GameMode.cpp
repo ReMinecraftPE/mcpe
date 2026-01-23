@@ -135,11 +135,11 @@ void GameMode::handleCloseInventory(int a, Player* player)
 {
 }
 
-bool GameMode::useItem(Player * player, Level * level, ItemInstance& instance)
+bool GameMode::useItem(Player* player, Level* level, ItemInstance& instance)
 {
 	int oldCount = instance.m_count;
 
-	if (instance == instance.use(level, player))
+	if (&instance == instance.use(level, player))
 		return instance.m_count != oldCount;
 
 	return true;

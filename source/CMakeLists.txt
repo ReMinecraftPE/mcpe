@@ -305,7 +305,12 @@ add_library(reminecraftpe-core STATIC
     world/item/Inventory.cpp
     world/ContainerListener.cpp
     world/inventory/ContainerMenu.cpp
+    world/inventory/InventoryMenu.cpp
     world/inventory/Slot.cpp
+    world/inventory/ResultSlot.cpp
+    world/inventory/ArmorSlot.cpp
+    world/inventory/CraftingContainer.cpp
+    world/inventory/ResultContainer.cpp
     world/item/DoorItem.cpp
     world/item/ItemInstance.cpp
     world/item/RocketItem.cpp

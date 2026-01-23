@@ -13,3 +13,9 @@ bool Slot::canSync()
 {
     return true;
 }
+
+void Slot::set(const ItemInstance& item)
+{
+    m_pContainer->setItem(m_slot, item);
+    setChanged();
+}

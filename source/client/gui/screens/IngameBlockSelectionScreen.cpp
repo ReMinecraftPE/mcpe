@@ -119,30 +119,32 @@ void IngameBlockSelectionScreen::init()
 
 	Inventory* pInv = getInventory();
 
-	int nItems = pInv->getContainerSize();
+	//int nItems = pInv->getContainerSize();
 
-	for (int i = 0; i < nItems; i++)
-	{
-		ItemInstance& item = pInv->getItem(i);
-		if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId())
-		{
-			m_selectedSlot = i;
-			break;
-		}
-	}
+	//for (int i = 0; i < nItems; i++)
+	//{
+	//	ItemInstance& item = pInv->getItem(i);
+	//	if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId())
+	//	{
+	//		m_selectedSlot = i;
+	//		break;
+	//	}
+	//}
 
-	if (!isAllowed(m_selectedSlot))
-		m_selectedSlot = 0;
+	//if (!isAllowed(m_selectedSlot))
+	//	m_selectedSlot = 0;
+
+	m_selectedSlot = pInv->m_selectedSlot;
 }
 
 void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 {
-	ItemInstance& item = getInventory()->getItem(index);
-	if (item.isEmpty())
+	ItemInstance* item = getInventory()->tryGetItem(index);
+	if (!item || item->isEmpty())
 		return;
 
-	ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, item, x, y, true);
-	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, item, x, y);
+	ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, *item, x, y, true);
+	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, *item, x, y);
 }
 
 void IngameBlockSelectionScreen::renderSlots()
@@ -265,7 +267,7 @@ void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();
 	
-	std::swap(pInv->getItem(m_selectedSlot), pInv->getSelected());
+	pInv->swapItems(m_selectedSlot, pInv->m_selectedSlot);
 
 	m_pMinecraft->m_pSoundEngine->playUI("random.click");
 	m_pMinecraft->setScreen(nullptr);

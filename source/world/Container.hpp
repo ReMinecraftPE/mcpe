@@ -8,9 +8,17 @@ class Container
 {
 public:
 
-	virtual int getContainerSize() const = 0;
+	virtual uint16_t getContainerSize() const = 0;
 
-	virtual ItemInstance& getItem(int index) const = 0;
+	virtual ItemInstance& getItem(int index) = 0;
+
+	virtual ItemInstance* tryGetItem(int index)
+	{
+		if (index >= 0 && index < getContainerSize())
+			return &getItem(index);
+		else
+			return nullptr;
+	}
 
 	virtual ItemInstance removeItem(int index, int count) = 0;
 

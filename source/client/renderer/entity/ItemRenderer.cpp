@@ -65,19 +65,16 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 
 	float yOffset = Mth::sin((float(itemEntity.m_age) + a) / 10.0f + itemEntity.m_bobOffs);
-	const ItemInstance* pItemInstance = itemEntity.m_pItemInstance;
-	if (ItemInstance::isEmpty(pItemInstance))
-	{
-		assert(!"Tried to render invalid ItemInstance for ItemEntity");
+	const ItemInstance& itemInstance = itemEntity.m_itemInstance;
+	if (itemInstance.isEmpty())
 		return;
-	}
 
 	int itemsToRender = 1;
-	if (pItemInstance->m_count > 1)
+	if (itemInstance.m_count > 1)
 		itemsToRender = 2;
-	if (pItemInstance->m_count > 5)
+	if (itemInstance.m_count > 5)
 		itemsToRender = 3;
-	if (pItemInstance->m_count > 20)
+	if (itemInstance.m_count > 20)
 		itemsToRender = 4;
 
 	matrix->translate(Vec3(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z));
@@ -86,7 +83,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	glEnable(GL_RESCALE_NORMAL);
 #endif
 
-	Tile* pTile = pItemInstance->getTile();
+	Tile* pTile = itemInstance.getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
 		matrix->rotate(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, Vec3::UNIT_Y);
@@ -113,15 +110,15 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale));
 			}
 
-			m_pTileRenderer->renderTile(FullTile(pTile, pItemInstance->getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
+			m_pTileRenderer->renderTile(FullTile(pTile, itemInstance.getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
 		}
 	}
 	else
 	{
 		matrix->scale(0.5f);
-		int icon = pItemInstance->getIcon();
+		int icon = itemInstance.getIcon();
 
-		bindTexture(pItemInstance->getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
+		bindTexture(itemInstance.getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
 
 		for (int i = 0; i < itemsToRender; i++)
 		{

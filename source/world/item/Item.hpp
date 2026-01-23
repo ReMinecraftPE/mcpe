@@ -31,6 +31,15 @@ class Player;
 class Tile;
 class CompoundTag;
 
+enum EquipmentSlot
+{
+	SLOT_NONE = -1,
+	FEET,
+	LEGS,
+	CHEST,
+	HEAD
+};
+
 class Item
 {
 public: // Sub structures
@@ -88,6 +97,10 @@ public: // Methods
 	virtual std::string getName() const;
 	virtual std::string getHovertextName() const;
 	virtual int buildIdAux(int16_t auxValue, const CompoundTag* userData = nullptr) const;
+
+	// Custom methods
+	virtual EquipmentSlot getEquipmentSlot() const;
+	int getDefense() const;
 
 	static void initItems();
 	

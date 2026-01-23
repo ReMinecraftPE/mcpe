@@ -10,7 +10,7 @@
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
 
-void ItemEntity::_init(ItemInstance* itemInstance)
+void ItemEntity::_init(const ItemInstance& itemInstance)
 {
 	m_pDescriptor = &EntityTypeDescriptor::item;
 	m_renderType = RENDER_ITEM;
@@ -24,10 +24,10 @@ void ItemEntity::_init(ItemInstance* itemInstance)
 	m_bobOffs = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
 	m_heightOffset = m_bbHeight * 0.5f;
-	m_pItemInstance = itemInstance;
+	m_itemInstance = itemInstance;
 }
 
-void ItemEntity::_init(ItemInstance* itemInstance, const Vec3& pos)
+void ItemEntity::_init(const ItemInstance& itemInstance, const Vec3& pos)
 {
 	_init(itemInstance);
 	setPos(pos);
@@ -41,7 +41,6 @@ void ItemEntity::_init(ItemInstance* itemInstance, const Vec3& pos)
 
 ItemEntity::~ItemEntity()
 {
-	SAFE_DELETE(m_pItemInstance);
 }
 
 void ItemEntity::burn(int damage)
@@ -75,16 +74,16 @@ void ItemEntity::playerTouch(Player* player)
 
 	Inventory* pInventory = player->m_pInventory;
 
-	if (!pInventory->add(*m_pItemInstance))
+	if (!pInventory->add(m_itemInstance))
 		return;
 
 	m_pLevel->playSound(this, "random.pop", 0.3f,
 		((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 
-	player->take(this, m_pItemInstance->m_count);
+	player->take(this, m_itemInstance.m_count);
 
 	// On 0.2.1, this gets removed regardless. What about stacks??
-	if (m_pItemInstance->m_count <= 0)
+	if (m_itemInstance.m_count <= 0)
 		remove();
 }
 
@@ -140,7 +139,7 @@ void ItemEntity::addAdditionalSaveData(CompoundTag& tag) const
 	tag.putInt16("Health", m_health);
 	tag.putInt16("Age", m_age);
 	CompoundTag* itemTag = new CompoundTag();
-	m_pItemInstance->save(*itemTag);
+	m_itemInstance.save(*itemTag);
 	tag.putCompound("Item", itemTag);
 }
 
@@ -155,8 +154,7 @@ void ItemEntity::readAdditionalSaveData(const CompoundTag& tag)
 		remove();
 		return;
 	}
-	m_pItemInstance = new ItemInstance();
-	m_pItemInstance->load(*itemTag);
+	m_itemInstance.load(*itemTag);
 }
 
 void ItemEntity::checkInTile(const Vec3& pos)

@@ -13,11 +13,11 @@
 class ItemEntity : public Entity
 {
 private:
-	void _init(ItemInstance* itemInstance = nullptr);
-	void _init(ItemInstance* itemInstance, const Vec3& pos);
+	void _init(const ItemInstance& itemInstance = ItemInstance::EMPTY);
+	void _init(const ItemInstance& itemInstance, const Vec3& pos);
 public:
 	ItemEntity(Level* level) : Entity(level) { _init(); }
-	ItemEntity(Level* level, const Vec3& pos, ItemInstance* itemInstance) : Entity(level) { _init(itemInstance, pos); }
+	ItemEntity(Level* level, const Vec3& pos, const ItemInstance& itemInstance) : Entity(level) { _init(itemInstance, pos); }
 	~ItemEntity();
 
 	void burn(int damage) override;
@@ -31,7 +31,7 @@ public:
 	void checkInTile(const Vec3& pos);
 
 public:
-	ItemInstance* m_pItemInstance;
+	ItemInstance m_itemInstance;
 
 	int m_age;
 	int m_throwTime;

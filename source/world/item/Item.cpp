@@ -92,6 +92,16 @@ Item* Item::handEquipped()
 	return this;
 }
 
+EquipmentSlot Item::getEquipmentSlot() const
+{
+	return EquipmentSlot::SLOT_NONE;
+}
+
+int Item::getDefense() const
+{
+	return 0;
+}
+
 void Item::initItems()
 {
 	if (g_bInittedItems)

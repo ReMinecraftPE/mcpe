@@ -21,6 +21,28 @@ HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRe
 
 void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 {
+	constexpr float fScale = 0.625f;
+
+	if (mob.isPlayer())
+	{
+		const Player& player = (const Player&)mob;
+
+		ItemInstance& headGear = player.m_pInventory->getArmor(EquipmentSlot::HEAD);
+		if (!headGear.isEmpty() && headGear.getItem()->m_itemID < C_MAX_TILES)
+		{
+			MatrixStack::Ref matrix = MatrixStack::World.push();
+			m_pHumanoidModel->m_head.translateTo(matrix, 0.0625f);
+			if (TileRenderer::canRender(Tile::tiles[headGear.getId()]->getRenderShape()))
+			{
+				matrix->translate(Vec3(0.0F, -0.25f, 0.0F));
+				matrix->rotate(180.0f, Vec3(0.0F, 1.0F, 0.0F));
+				matrix->scale(Vec3(fScale, -fScale, fScale));
+			}
+
+			m_pDispatcher->m_pItemInHandRenderer->renderItem(mob, headGear, f);
+		}
+	}
+
 	const ItemInstance& inst = mob.getCarriedItem();
 
 	MatrixStack::Ref matrix = MatrixStack::World.push();
@@ -28,7 +50,7 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 	m_pHumanoidModel->m_arm1.translateTo(matrix, 0.0625f);
 	matrix->translate(Vec3(-0.0625f, 0.4375f, 0.0625f));
 
-	if (inst && inst.getTile() && TileRenderer::canRender(inst.getTile()->getRenderShape()))
+	if (!inst.isEmpty() && inst.getTile() && TileRenderer::canRender(inst.getTile()->getRenderShape()))
 	{
 		constexpr float s = 0.5f * 0.75f;
 		matrix->translate(Vec3(0.0f, 0.1875f, -0.3125f));
@@ -36,14 +58,13 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 		matrix->rotate(45.0f, Vec3::UNIT_Y);
 		matrix->scale(s);
 	}
-	else if (inst && inst.getItem() && inst.getItem()->isHandEquipped())
+	else if (!inst.isEmpty() && inst.getItem() && inst.getItem()->isHandEquipped())
 	{
-		constexpr float s = 0.625f;
 		matrix->rotate(180.0f, Vec3::UNIT_Y);
 		// PE's fucked up translation value
 		//matrix->translate(Vec3(0.1f, 0.265f, 0.0f));
 		matrix->translate(Vec3(0.06f, 0.1875f, 0.0f));
-		matrix->scale(s);
+		matrix->scale(fScale);
 		matrix->rotate(80.0f, Vec3::UNIT_X);
 		matrix->rotate(35.0f, Vec3::UNIT_Y);
 	}
@@ -57,7 +78,7 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 		matrix->rotate(20.0f, Vec3::UNIT_Z);
 	}
 
-	if (inst)
+	if (!inst.isEmpty())
 	{
 		m_pDispatcher->m_pItemInHandRenderer->renderItem(mob, inst, f);
 	}

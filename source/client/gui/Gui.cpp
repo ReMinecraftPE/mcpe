@@ -172,9 +172,12 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (mc.getOptions()->m_bFancyGraphics && isVignetteAvailable())
 	{
 		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
-		// WARNING: TOO SPOOKY, DO NOT UNCOMMENT, YOU WILL GET SPOOKED
-		//renderPumpkin(m_width, m_height);
 	}
+
+	ItemInstance headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(EquipmentSlot::HEAD);
+
+	if (!mc.getOptions()->m_bThirdPerson && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
+		renderPumpkin(m_width, m_height);
 
 	currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color::WHITE;
@@ -309,7 +312,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 
 void Gui::handleScrollWheel(bool down)
 {
-	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selected;
+	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
 
 	int maxItems = getNumUsableSlots() - 1;
 
@@ -344,7 +347,7 @@ void Gui::handleKeyPressed(int keyCode)
 		int maxItems = getNumSlots() - 1;
 		if (m_pMinecraft->isTouchscreen())
 			maxItems--;
-		int* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selected;
+		uint16_t* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
 
 		if (slotR)
 		{
@@ -621,7 +624,7 @@ void Gui::renderToolBar(float f, float alpha)
 	Inventory* inventory = player->m_pInventory;
 
 	// selection mark
-	blit(cenX - 1 - hotbarWidth / 2 + 20 * inventory->m_selected, m_height - 23, 0, 22, 24, 22, 0, 0, material);
+	blit(cenX - 1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, m_height - 23, 0, 22, 24, 22, 0, 0, material);
 
 	textures->loadAndBindTexture(C_BLOCKS_NAME);
 

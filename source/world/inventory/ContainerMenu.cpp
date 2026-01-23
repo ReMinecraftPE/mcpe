@@ -50,7 +50,7 @@ void ContainerMenu::broadcastChanges()
     for (size_t i = 0; i < m_slots.size(); ++i)
     {
         ItemInstance& current = m_slots[i]->getItem();
-        if (!ItemInstance::matches(m_lastSlots[i], current))
+        if (m_lastSlots[i] != current)
         {
             m_lastSlots[i] = ItemInstance(current);
             for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
@@ -100,10 +100,9 @@ Slot* ContainerMenu::getSlot(int index)
     return m_slots[index];
 }
 
-ItemInstance& ContainerMenu::quickMoveStack(int index)
+ItemInstance ContainerMenu::quickMoveStack(int index)
 {
-    assert(index >= 0 && index < int(m_slots.size()));
-    return getSlot(index)->getItem();
+    return index >= 0 && index < int(m_slots.size()) ? getSlot(index)->getItem() : ItemInstance::EMPTY;
 }
 
 void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo, bool take)
@@ -120,7 +119,7 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
             ItemInstance& slotItem = slot->getItem();
             if (slotItem && slotItem.getId() == item.getId() && (!item.isStackedByData() || item.getAuxValue() == slotItem.getAuxValue()))
             {
-                int sum = slotItem.m_count + item.m_count;
+                int16_t sum = slotItem.m_count + item.m_count;
                 if (sum <= item.getMaxStackSize())
                 {
                     item.m_count = 0;
@@ -135,12 +134,10 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
                 }
             }
 
-            if (take) {
+            if (take)
                 --index;
-            }
-            else {
+            else
                 ++index;
-            }
         }
     }
 
@@ -171,145 +168,141 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
     }
 }
 
-ItemInstance ContainerMenu::clicked(int slotIndex, int mouseButton, bool quickMove, Player* player)
+ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, bool quickMove, Player* player)
 {
     ItemInstance result = ItemInstance::EMPTY;
 
-    if (mouseButton == 0 || mouseButton == 1)
-    {
-        Inventory* inv = player->m_pInventory;
+    if (mouseButton != MOUSE_BUTTON_LEFT && mouseButton != MOUSE_BUTTON_RIGHT)
+        return result;
 
-        if (slotIndex == -999)
+    Inventory* inv = player->m_pInventory;
+
+    if (slotIndex == -999)
+    {
+        if (!inv->getCarried().isEmpty())
         {
-            if (!inv->getCarried().isEmpty())
+            if (mouseButton == MOUSE_BUTTON_LEFT)
             {
-                if (mouseButton == 0)
-                {
-                    player->drop(inv->getCarried());
+                player->drop(inv->getCarried());
+                inv->setCarried(ItemInstance::EMPTY);
+            }
+            else if (mouseButton == MOUSE_BUTTON_RIGHT)
+            {
+                ItemInstance single = inv->getCarried().remove(1);
+                player->drop(single);
+                if (!inv->getCarried().m_count)
                     inv->setCarried(ItemInstance::EMPTY);
-                }
-                else if (mouseButton == 1)
-                {
-                    ItemInstance single = inv->getCarried().remove(1);
-                    player->drop(single);
-                    if (!inv->getCarried().m_count)
-                        inv->setCarried(ItemInstance::EMPTY);
-                }
             }
         }
-        else
+    }
+    else
+    {
+        if (quickMove)
         {
-            if (quickMove)
+            ItemInstance quickMoved = quickMoveStack(slotIndex);
+            if (!quickMoved.isEmpty())
             {
-                ItemInstance& quickMoved = quickMoveStack(slotIndex);
-                if (quickMoved)
+                Slot* slot = getSlot(slotIndex);
+                if (slot && slot->getItem() && slot->getItem().m_count < quickMoved.m_count)   
+                    clicked(slotIndex, mouseButton, quickMove, player);
+            }
+
+            return result;
+        }
+
+        Slot* slot = getSlot(slotIndex);
+        if (!slot)
+            return result;
+
+        slot->setChanged();
+        ItemInstance slotItem = slot->getItem();
+
+        ItemInstance& carried = inv->getCarried();
+
+        if (slotItem.isEmpty() && carried.isEmpty())
+            return result;
+
+        int16_t count;
+        if (!slotItem.isEmpty() && carried.isEmpty())
+        {
+            count = (mouseButton == MOUSE_BUTTON_LEFT) ? slotItem.m_count : (slotItem.m_count + 1) / 2;
+            inv->setCarried(slot->remove(count));
+            if (!slotItem.m_count)
+                slot->set(ItemInstance::EMPTY);
+
+            slot->onTake(inv->getCarried());
+        }
+        else if (slotItem.isEmpty() && !carried.isEmpty() && slot->mayPlace(carried))
+        {
+            count = (mouseButton == MOUSE_BUTTON_LEFT) ? carried.m_count : 1;
+            if (count > slot->getMaxStackSize())
+                count = slot->getMaxStackSize();
+
+            slot->set(carried.remove(count));
+
+            if (!carried.m_count)
+                inv->setCarried(ItemInstance::EMPTY);
+        }
+        else if (!slotItem.isEmpty() && !carried.isEmpty())
+        {
+            if (slot->mayPlace(carried))
+            {
+                if (slotItem.getId() != carried.getId() || (slotItem.isStackedByData() && slotItem.getAuxValue() != carried.getAuxValue()))
                 {
-                    int oldCount = quickMoved.m_count;
-                    ItemInstance copy = quickMoved;
-                    Slot* slot = getSlot(slotIndex);
-                    if (slot && slot->getItem() && slot->getItem().m_count < oldCount)
+                    if (carried.m_count <= slot->getMaxStackSize())
                     {
-                        clicked(slotIndex, mouseButton, quickMove, player);
+                        slot->set(carried);
+                        inv->setCarried(slotItem);
+                    }
+                }
+                else if (slotItem.getId() == carried.getId())
+                {
+                    if (mouseButton == MOUSE_BUTTON_LEFT)
+                    {
+                        count = carried.m_count;
+                        int space = slot->getMaxStackSize() - slotItem.m_count;
+                        if (count > space) count = space;
+
+                        int maxStack = carried.getMaxStackSize() - slotItem.m_count;
+                        if (count > maxStack) count = maxStack;
+
+                        carried.remove(count);
+                        if (!carried.m_count)
+                            inv->setCarried(ItemInstance::EMPTY);
+
+                        slotItem.m_count += count;
+                    }
+                    else if (mouseButton == MOUSE_BUTTON_RIGHT)
+                    {
+                        count = 1;
+                        int space = slot->getMaxStackSize() - slotItem.m_count;
+                        if (count > space) count = space;
+
+                        int maxStack = carried.getMaxStackSize() - slotItem.m_count;
+                        if (count > maxStack) count = maxStack;
+
+                        carried.remove(count);
+                        if (carried.m_count == 0)
+                            inv->setCarried(ItemInstance::EMPTY);
+
+                        slotItem.m_count += count;
                     }
                 }
             }
             else
             {
-                Slot* slot = getSlot(slotIndex);
-                if (slot)
+                if (slotItem.getId() == carried.getId() && carried.getMaxStackSize() > 1 &&
+                    (!slotItem.isStackedByData() || slotItem.getAuxValue() == carried.getAuxValue()))
                 {
-                    slot->setChanged();
-                    ItemInstance slotItem = slot->getItem();
-
-                    ItemInstance& carried = inv->getCarried();
-
-                    if (!slotItem.isEmpty() || carried)
+                    int16_t slotCount = slotItem.m_count;
+                    if (slotCount > 0 && (slotCount + carried.m_count) <= carried.getMaxStackSize())
                     {
-                        int count;
-                        if (slotItem && !carried.isEmpty())
-                        {
-                            count = (mouseButton == 0) ? slotItem.m_count : (slotItem.m_count + 1) / 2;
-                            inv->setCarried(slot->remove(count));
-                            if (!slotItem.m_count)
-                                slot->set(ItemInstance::EMPTY);
+                        carried.m_count += slotCount;
+                        slotItem.remove(slotCount);
+                        if (slotItem.m_count == 0)
+                            slot->set(ItemInstance::EMPTY);
 
-                            slot->onTake(inv->getCarried());
-                        }
-                        else if (!slotItem && carried && slot->mayPlace(carried))
-                        {
-                            count = (mouseButton == 0) ? carried.m_count : 1;
-                            if (count > slot->getMaxStackSize())
-                                count = slot->getMaxStackSize();
-
-                            slot->set(carried.remove(count));
-
-                            if (!carried.m_count)
-                                inv->setCarried(ItemInstance::EMPTY);
-                        }
-                        else if (slotItem && carried)
-                        {
-                            if (slot->mayPlace(carried))
-                            {
-                                if (slotItem.getId() != carried.getId() || (slotItem.isStackedByData() && slotItem.getAuxValue() != carried.getAuxValue()))
-                                {
-                                    if (carried.m_count <= slot->getMaxStackSize())
-                                    {
-                                        slot->set(carried);
-                                        inv->setCarried(slotItem);
-                                    }
-                                }
-                                else if (slotItem.getId() == carried.getId())
-                                {
-                                    if (mouseButton == 0)
-                                    {
-                                        count = carried.m_count;
-                                        int space = slot->getMaxStackSize() - slotItem.m_count;
-                                        if (count > space) count = space;
-
-                                        int maxStack = carried.getMaxStackSize() - slotItem.m_count;
-                                        if (count > maxStack) count = maxStack;
-
-                                        carried.remove(count);
-                                        if (!carried.m_count)
-                                            inv->setCarried(ItemInstance::EMPTY);
-
-                                        slotItem.m_count += count;
-                                    }
-                                    else if (mouseButton == 1)
-                                    {
-                                        count = 1;
-                                        int space = slot->getMaxStackSize() - slotItem.m_count;
-                                        if (count > space) count = space;
-
-                                        int maxStack = carried.getMaxStackSize() - slotItem.m_count;
-                                        if (count > maxStack) count = maxStack;
-
-                                        carried.remove(count);
-                                        if (carried.m_count == 0)
-                                            inv->setCarried(ItemInstance::EMPTY);
-
-                                        slotItem.m_count += count;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (slotItem.getId() == carried.getId() && carried.getMaxStackSize() > 1 &&
-                                    (!slotItem.isStackedByData() || slotItem.getAuxValue() == carried.getAuxValue()))
-                                {
-                                    int slotCount = slotItem.m_count;
-                                    if (slotCount > 0 && (slotCount + carried.m_count) <= carried.getMaxStackSize())
-                                    {
-                                        carried.m_count += slotCount;
-                                        slotItem.remove(slotCount);
-                                        if (slotItem.m_count == 0)
-                                            slot->set(ItemInstance::EMPTY);
-
-                                        slot->onTake(carried);
-                                    }
-                                }
-                            }
-                        }
+                        slot->onTake(carried);
                     }
                 }
             }

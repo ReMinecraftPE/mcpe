@@ -444,7 +444,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			{
 				// Try to pick the tile.
 				int auxValue = m_pLevel->getData(m_hitResult.m_tilePos);
-				player->m_pInventory->selectItem(pTile->m_ID, auxValue, C_MAX_HOTBAR_ITEMS);
+				player->m_pInventory->pickItem(pTile->m_ID, auxValue, C_MAX_HOTBAR_ITEMS);
 			}
 			else if (action.isPlace() && canInteract)
 			{
