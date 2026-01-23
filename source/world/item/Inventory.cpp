@@ -362,9 +362,11 @@ void Inventory::tick()
     {
 		ItemInstance& item = m_items[i];
 
-        if (!item.isEmpty() && item.m_popTime > 0)
+        if (!item.isEmpty())
         {
-			item.m_popTime--;
+			if (item.m_popTime > 0)
+				item.m_popTime--;
+			item.getItem()->inventoryTick(&item, m_pPlayer->m_pLevel, m_pPlayer, i, i == m_selectedSlot);
         }
     }
 }

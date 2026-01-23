@@ -380,6 +380,17 @@ bool ItemInstance::useOn(Player* player, Level* level, const TilePos& pos, Facin
 	return getItem()->useOn(this, player, level, pos, face);
 }
 
+void ItemInstance::onCraftedBy(Player* player, Level* level)
+{
+	onCraftedBy(player, level, m_count);
+}
+
+void ItemInstance::onCraftedBy(Player* player, Level* level, int amount)
+{
+	//player->awardStat(Stats::itemCrafted[getId()], amount);
+	getItem()->onCraftedBy(this, player, level);
+}
+
 int ItemInstance::getAttackDamage(Entity* pEnt) const
 {
 	return getItem()->getAttackDamage(pEnt);

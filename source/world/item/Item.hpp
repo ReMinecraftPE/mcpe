@@ -87,6 +87,9 @@ public: // Methods
 	virtual bool hasCraftingRemainingItem() const;
 	virtual std::string getName() const;
 	virtual std::string getHovertextName() const;
+	virtual void onCraftedBy(ItemInstance*, Player*, Level*);
+	virtual void inventoryTick(ItemInstance*, Level*, Entity*, int, bool);
+	virtual bool isDamageable() const;
 	virtual int buildIdAux(int16_t auxValue, const CompoundTag* userData = nullptr) const;
 
 	// Custom methods

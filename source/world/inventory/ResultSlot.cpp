@@ -20,7 +20,7 @@ bool ResultSlot::canSync()
 
 void ResultSlot::onTake(ItemInstance& item)
 {
-	//item.onCraftedBy(m_pPlayer, m_pPlayer->m_pLevel);
+	item.onCraftedBy(m_pPlayer, m_pPlayer->m_pLevel);
 
 	//if (item.getId() == Tile::craftingTable->m_ID)
 	//	m_pPlayer->awardStat(Achievements::buildWorkBench);

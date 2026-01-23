@@ -87,6 +87,8 @@ public:
 	std::string toString() const;
 	ItemInstance* use(Level*, Player*);
 	bool useOn(Player*, Level*, const TilePos& pos, Facing::Name face);
+	void onCraftedBy(Player*, Level*);
+	void onCraftedBy(Player*, Level*, int amount);
 
 	// Both need to return non-const pointers since TileRenderer calls setShape on render
 	Item* getItem() const { return m_pItem; }
