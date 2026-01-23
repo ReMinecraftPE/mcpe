@@ -84,6 +84,7 @@ void EntityRenderer::renderFlame(const Entity& entity, const Vec3& pos, float a)
 	float yo = 0.0f;
 	currentShaderColor = Color::WHITE;
 	t.begin(12);
+	t.normal(Vec3::ZERO); // this is required for HLSL shaders since we're using the entity shader
 
 	while (h > 0.0f)
 	{

@@ -13,7 +13,7 @@ struct PS_Output
 };
 
 PS_MAIN_BEGIN
-    float4 diffuse = TEXTURE_0.Sample( TextureSampler0, PSInput.uv );
+    float4 diffuse = sampleTex0( TextureSampler0, PSInput.uv );
 
 
     if( diffuse.a < 0.5 )

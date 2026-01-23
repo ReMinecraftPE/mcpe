@@ -34,7 +34,6 @@ D3D11_MAP mapTypeToD3D11MapType(MapType mapType)
 BufferD3D11::BufferD3D11()
 {
     m_format = DXGI_FORMAT_UNKNOWN;
-    m_offset = 0;
 }
 
 BufferD3D11::~BufferD3D11()
@@ -103,7 +102,7 @@ void BufferD3D11::_move(BufferD3D11& other)
 		
         this->m_buffer._move(other.m_buffer);
         std::swap(this->m_format, other.m_format);
-        std::swap(this->m_offset, other.m_offset);
+        std::swap(this->m_bufferOffset, other.m_bufferOffset);
     }
 	
     BufferBase::_move(other);
@@ -123,10 +122,10 @@ void BufferD3D11::bindBuffer(RenderContext& context)
     switch (m_bufferType)
     {
     case BUFFER_TYPE_VERTEX:
-        d3dDeviceContext->IASetVertexBuffers(0, 1, *m_buffer, &m_stride, &m_offset);
+        d3dDeviceContext->IASetVertexBuffers(0, 1, *m_buffer, &m_stride, &m_bufferOffset);
         break;
     case BUFFER_TYPE_INDEX:
-        d3dDeviceContext->IASetIndexBuffer(**m_buffer, m_format, m_offset);
+        d3dDeviceContext->IASetIndexBuffer(**m_buffer, m_format, m_bufferOffset);
         break;
     default:
         LOG_E("Unknown m_bufferType: %d", m_bufferType);
@@ -177,7 +176,7 @@ void BufferD3D11::updateBuffer(RenderContext& context, unsigned int stride, void
     }
     else
     {
-        memcpy((int8_t*)subResource.pData + m_offset, data, stride * count);
+        memcpy((int8_t*)subResource.pData + m_bufferOffset, data, stride * count);
         d3dDeviceContext->Unmap(**m_buffer, 0);
     }
         
