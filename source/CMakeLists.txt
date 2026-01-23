@@ -303,6 +303,9 @@ add_library(reminecraftpe-core STATIC
     world/item/CameraItem.cpp
     world/item/TileItem.cpp
     world/item/Inventory.cpp
+    world/ContainerListener.cpp
+    world/inventory/ContainerMenu.cpp
+    world/inventory/Slot.cpp
     world/item/DoorItem.cpp
     world/item/ItemInstance.cpp
     world/item/RocketItem.cpp
