@@ -34,7 +34,7 @@ public:
 
 	bool hasUnlimitedResource(const ItemInstance& pInstance) const;
 
-	bool add(ItemInstance& instance);
+	bool add(const ItemInstance& instance);
     void tick();
 
 	ItemInstance& getItem(int slotNo) const override;
@@ -95,6 +95,6 @@ private:
 	Player* m_pPlayer;
 	ItemInstance m_carried;
 
-	mutable std::vector<ItemInstance> m_armor;
 	mutable std::vector<ItemInstance> m_items;
+	mutable std::vector<ItemInstance> m_armor;
 };

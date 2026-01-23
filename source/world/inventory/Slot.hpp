@@ -7,11 +7,6 @@ class ItemInstance;
 class Slot
 {
 public:
-    int m_index;
-    int m_x;
-    int m_y;
-    Container* m_pContainer;
-
     Slot(Container* container, int slot, int x, int y);
     virtual ~Slot();
 
@@ -71,4 +66,10 @@ public:
 
 protected:
     int m_slot;
+
+public:
+    int m_index;
+    int m_x;
+    int m_y;
+    Container* m_pContainer;
 };

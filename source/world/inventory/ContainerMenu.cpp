@@ -114,7 +114,7 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
 
     if (item.isStackable())
     {
-        while (item.m_count > 0 && (!take && index < slotTo || take && index >= slotFrom))
+        while (item.m_count > 0 && ((!take && index < slotTo) || (take && index >= slotFrom)))
         {
             Slot* slot = getSlot(index);
             ItemInstance& slotItem = slot->getItem();

@@ -201,23 +201,20 @@ void Inventory::addCreativeItem(int itemID, int auxValue)
 	add(ItemInstance(itemID, 1, auxValue));
 }
 
-// This code, and this function, don't exist in b1.2_02
-// "add" exists with these same arguments, which calls "addResource",
-// but addResource's code is entirely different somehow. Did we write this from scratch?
-bool Inventory::add(ItemInstance& instance)
+bool Inventory::add(const ItemInstance& instance)
 {
 	if (!instance.isDamaged())
 	{
-		instance.m_count = addResource(instance);
-		if (!instance.m_count)
+		int count = addResource(instance);
+		if (!count)
 			return true;
 	}
 
-	int var2 = getFreeSlot();
-	if (var2 >= 0)
+	int freeSlot = getFreeSlot();
+	if (freeSlot >= 0)
 	{
-		m_items[var2] = instance;
-		m_items[var2].m_popTime = C_POP_TIME_DURATION;
+		m_items[freeSlot] = instance;
+		m_items[freeSlot].m_popTime = C_POP_TIME_DURATION;
 		return true;
 	}
 	else
@@ -243,7 +240,7 @@ bool Inventory::contains(const ItemInstance& item) const
 
 int Inventory::getSlotWithRemainingSpace(const ItemInstance& item)
 {
-	for (int index = 0; index < m_items.size(); ++index)
+	for (int index = 0; index < int(m_items.size()); ++index)
 	{
 		ItemInstance& i = m_items[index];
 		if (!i.isEmpty() && i.getId() == item.getId() && i.isStackable() && i.m_count < i.getMaxStackSize() && i.m_count < getMaxStackSize() && (!i.isStackedByData() || i.getAuxValue() == item.getAuxValue()))
@@ -254,7 +251,7 @@ int Inventory::getSlotWithRemainingSpace(const ItemInstance& item)
 }
 
 int Inventory::getFreeSlot() {
-	for (int i = 0; i < m_items.size(); ++i)
+	for (int i = 0; i < int(m_items.size()); ++i)
 	{
 		if (!m_items[i])
 			return i;
@@ -328,7 +325,7 @@ ItemInstance Inventory::removeItem(int index, int count)
 
 int Inventory::getSlot(int id)
 {
-	for (int i = 0; i < m_items.size(); ++i)
+	for (int i = 0; i < int(m_items.size()); ++i)
 	{
 		if (!m_items[i].isEmpty() && m_items[i].getId() == id)
 			return i;
@@ -423,7 +420,7 @@ bool Inventory::hasUnlimitedResource(const ItemInstance& instance) const
 
 ItemInstance& Inventory::getItem(int slotNo) const
 {
-	assert(slotNo >= 0 && slotNo < m_items.size());
+	assert(slotNo >= 0 && slotNo < int(m_items.size()));
 	return m_items[slotNo];
 }
 
@@ -471,7 +468,7 @@ void Inventory::selectItem(int itemID, int data, int maxHotBarSlot)
 
 	if (!selectItem) return;
 
-	for (int i = 0; i < m_items.size(); i++)
+	for (int i = 0; i < int(m_items.size()); i++)
 	{
 		if (!m_items[i] || m_items[i].getId() != itemID || m_items[i].getAuxValue() != data)
 			continue;
