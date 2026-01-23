@@ -107,7 +107,6 @@ void ShaderD3D9::bindVertexPointers(RenderContext& context, const VertexFormat& 
 {
     // D3D9 stores Vertex Declarations instead of Input Layouts.
     // We construct a cache ID based on the vertex format. 
-    // Note: D3D9 Decl does not depend on the specific shader bytecode, only the format.
 
     RenderContextD3D9::VertexDeclID declId(vertexFormat, m_attributeListIndex);
     if (declId.vertexFormat == context.m_lastVertexFormat
@@ -336,6 +335,16 @@ void ShaderD3D9::reflectShader(const ShaderProgramD3D9& shaderProgram, ShaderTyp
     reflectShaderResources(reflector, shaderType);
 }
 
+/*struct _VertexElementSorter
+{
+    bool operator()(const D3DVERTEXELEMENT9& a, const D3DVERTEXELEMENT9& b) const
+    {
+        if (a.Stream != b.Stream)
+            return a.Stream < b.Stream;
+        return a.Offset < b.Offset;
+    }
+};*/
+
 ComInterface<IDirect3DVertexDeclaration9> ShaderD3D9::createVertexDeclaration(const VertexFormat& vertexFormat)
 {
     RenderDevice& renderDevice = RenderDevice::getInstance();
@@ -368,6 +377,9 @@ ComInterface<IDirect3DVertexDeclaration9> ShaderD3D9::createVertexDeclaration(co
 
         elements.push_back(elem);
     }
+
+    // Nothing in the docs says we need to order this in any particular way
+    //std::sort(elements.begin(), elements.end(), _VertexElementSorter());
 
     // D3DVERTEXELEMENT9 array must be terminated with D3DDECL_END()
     D3DVERTEXELEMENT9 endElem = D3DDECL_END();

@@ -25,7 +25,7 @@ struct PS_Input
 static const float rA = 1.0;
 static const float rB = 1.0;
 static const float3 UNIT_Y = float3( 0, 1, 0 );
-static const float DIST_DESATURATION = 56.0 / 255.0; //WARNING this value is also hardcoded in the water color, don'tchange
+static const float DIST_DESATURATION = 56.0 / 255.0; //WARNING this value is also hardcoded in the water color, don't change
 
 
 VS_MAIN_BEGIN

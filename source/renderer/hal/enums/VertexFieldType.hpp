@@ -6,6 +6,8 @@ namespace mce
     {
         VERTEX_FIELD_TYPE_UNKNOWN,
         //VERTEX_FIELD_TYPE_SINT8,     // @NOTE: Not natively supported on: D3D9
+        //VERTEX_FIELD_TYPE_SINT8_4,   // 4D signed byte (@NOTE: Not natively supported on: D3D9)
+        VERTEX_FIELD_TYPE_SINT8_4_N,   // Each of 4 bytes is normalized by dividing to 127.0 (@NOTE: Not natively supported on: D3D9)
         //VERTEX_FIELD_TYPE_UINT8,     // @NOTE: Not natively supported on: D3D9
         VERTEX_FIELD_TYPE_UINT8_4,     // 4D unsigned byte
         VERTEX_FIELD_TYPE_UINT8_4_N,   // Each of 4 bytes is normalized by dividing to 255.0

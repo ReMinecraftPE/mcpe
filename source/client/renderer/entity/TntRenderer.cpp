@@ -54,7 +54,7 @@ void TntRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 #define ARGPATCH
 #endif
 	
-	m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), mce::MaterialPtr::NONE ARGPATCH);
+	m_tileRenderer.renderTile(FullTile(Tile::tnt, 0), m_shaderMaterials.entity ARGPATCH);
 
 	// @NOTE: Converting to a uint8 for whatever reason
 	if (((uint8_t(tnt.m_fuseTimer) / 5) & 1) == 0)

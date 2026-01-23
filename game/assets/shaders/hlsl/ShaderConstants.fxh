@@ -1,15 +1,31 @@
 // These [aren't but] should be grouped in a way that they require the least amount of updating (world data in one, model data in another, part of model data in another one, etc)
 
 #ifdef SHADER_TYPE_FRAGMENT
-#if defined(_DIRECT3D9) && !defined(_XBOX)
-Texture2D TEXTURE_0 : register ( s0 );
-Texture2D TEXTURE_1 : register ( s1 );
-Texture2D TEXTURE_2 : register ( s2 );
+#if defined(_DIRECT3D9)
+texture TEXTURE_0 : register ( t0 );
+texture TEXTURE_1 : register ( t1 );
+texture TEXTURE_2 : register ( t2 );
 
 // Make sure this thing is actually getting bound
-sampler TextureSampler0 : register( s3 );
-sampler TextureSampler1 : register( s4 );
-sampler TextureSampler2 : register( s5 );
+sampler2D TextureSampler0 : register( s0 ) = 
+sampler_state
+{
+  Texture = (TEXTURE_0);
+};
+sampler2D TextureSampler1 : register( s1 ) = 
+sampler_state
+{
+  Texture = (TEXTURE_1);
+};
+sampler2D TextureSampler2 : register( s2 ) = 
+sampler_state
+{
+  Texture = (TEXTURE_2);
+};
+
+#define sampleTex0 tex2D
+#define sampleTex1 tex2D
+#define sampleTex2 tex2D
 #else
 Texture2D TEXTURE_0 : register ( t0 );
 Texture2D TEXTURE_1 : register ( t1 );
@@ -19,6 +35,10 @@ Texture2D TEXTURE_2 : register ( t2 );
 sampler TextureSampler0 : register( s0 );
 sampler TextureSampler1 : register( s1 );
 sampler TextureSampler2 : register( s2 );
+
+#define sampleTex0 TEXTURE_0.Sample
+#define sampleTex1 TEXTURE_1.Sample
+#define sampleTex2 TEXTURE_2.Sample
 #endif
 #endif
 
