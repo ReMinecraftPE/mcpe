@@ -190,16 +190,26 @@ int Options::readInt(const std::string& str)
 	return f;
 }
 
-void Options::readPackArray(const std::string& str, std::vector<std::string>& array)
+void Options::readArray(const std::string& str, std::vector<std::string>& array)
 {
 	std::istringstream ss(str);
 	std::string element;
 
 	while (std::getline(ss, element, ','))
+		array.push_back(element);
+}
+
+void Options::readPackArray(const std::string& str, std::vector<std::string>& array)
+{
+	// We create a new array instead of modifying the existing one
+	// because erasing elements from a vector doesn't free the memory.
+	std::vector<std::string> fullarray;
+	readArray(str, fullarray);
+	for (size_t i = 0; i < fullarray.size(); ++i)
 	{
-		std::string packpath = AppPlatform::singleton()->getAssetPath("/resource_packs/" + element);
-		if (isDirectory(packpath.c_str()))
-			array.push_back(element);
+		std::string packpath = AppPlatform::singleton()->getAssetPath("/resource_packs/" + fullarray[i]);
+		if (!isDirectory(packpath.c_str()))
+			array.push_back(fullarray[i]);
 	}
 }
 

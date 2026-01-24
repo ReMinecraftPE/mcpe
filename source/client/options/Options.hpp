@@ -72,6 +72,7 @@ public:
 private:
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
+	static void readArray(const std::string& str, std::vector<std::string>& array);
 	static void readPackArray(const std::string& str, std::vector<std::string>& array);
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
