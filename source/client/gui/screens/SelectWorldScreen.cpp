@@ -287,7 +287,7 @@ std::string SelectWorldScreen::getUniqueLevelName(const std::string& in)
 {
 	std::set<std::string> maps;
 
-	for (int i = 0; i < int(m_levels.size()); i++)
+	for (size_t i = 0; i < m_levels.size(); i++)
 	{
 		const LevelSummary& ls = m_levels[i];
 		maps.insert(ls.m_fileName);
@@ -310,7 +310,7 @@ void SelectWorldScreen::loadLevelSource()
 
 	std::sort(m_levels.begin(), m_levels.end());
 	
-	for (int i = 0; i < int(m_levels.size()); i++)
+	for (size_t i = 0; i < m_levels.size(); i++)
 	{
 		const LevelSummary& level = m_levels[i];
 

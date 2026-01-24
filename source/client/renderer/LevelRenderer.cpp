@@ -865,7 +865,7 @@ int LevelRenderer::renderChunks(int start, int end, Tile::RenderLayer layer, flo
 	m_renderList.clear();
 	m_renderList.init(fPos);
 
-	for (int i = 0; i < int(field_24.size()); i++)
+	for (size_t i = 0; i < field_24.size(); i++)
 	{
 		Chunk* pChk = field_24[i];
 		m_renderList.addR(pChk->getRenderChunk(layer), renderLayerToTerrainLayerMap[layer], fog);
@@ -1144,9 +1144,8 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	Chunk* pChunks[C_MAX] = { nullptr };
 	ChunkVector* nearChunks = nullptr;
 
-	int pendingChunkRemoved = 0;
-	int pendingChunkSize = int(m_dirtyChunks.size());
-	for (int i = 0; i < pendingChunkSize; i++)
+	size_t pendingChunkSize = m_dirtyChunks.size(), pendingChunkRemoved = 0;
+	for (size_t i = 0; i < pendingChunkSize; i++)
 	{
 		Chunk* pChunk = m_dirtyChunks[i];
 		if (!b)
@@ -1217,9 +1216,8 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 		nr2++;
 	}
 
-	int nr3 = 0;
-	int nr4 = 0;
-	for (; nr4 < int(m_dirtyChunks.size()); nr4++)
+	size_t nr3 = 0, nr4 = 0;
+	for (; nr4 < m_dirtyChunks.size(); nr4++)
 	{
 		Chunk* pChunk = m_dirtyChunks[nr4];
 		if (!pChunk)
