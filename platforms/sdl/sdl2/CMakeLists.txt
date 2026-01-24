@@ -91,6 +91,5 @@ if(NINTENDO_SWITCH)
     nx_create_nro(reminecraftpe
         NACP reminecraftpe.nacp
         ICON "../../../game/assets/icon.jpg"
-        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/ReMinecraftPE.nro"
     )
 endif()
