@@ -25,7 +25,7 @@ using namespace RakNet;
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <errno.h>  // error numbers
-#if (!defined(ANDROID) && !defined(__DREAMCAST__))
+#if (!defined(ANDROID) && !defined(__DREAMCAST__) && !defined(__SWITCH__))
 #include <ifaddrs.h>
 #endif
 #include <netinet/in.h>

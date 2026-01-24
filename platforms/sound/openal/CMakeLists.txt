@@ -25,6 +25,8 @@ elseif(EMSCRIPTEN)
 elseif(APPLE)
     # Use System OpenAL Framework
     target_link_libraries(reminecraftpe-sound PUBLIC "-framework OpenAL")
+elseif(NINTENDO_SWITCH)
+    target_link_libraries(reminecraftpe-sound PUBLIC openal)
 else()
     # Use System OpenAL
     find_package(OpenAL REQUIRED)

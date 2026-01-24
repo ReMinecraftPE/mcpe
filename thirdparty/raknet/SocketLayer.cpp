@@ -52,7 +52,7 @@ using namespace pp;
 #include <arpa/inet.h>
 #include <errno.h>  // error numbers
 #include <stdio.h> // RAKNET_DEBUG_PRINTF
-#if (!defined(ANDROID) && !defined(__DREAMCAST__))
+#if (!defined(ANDROID) && !defined(__DREAMCAST__) && !defined(__SWITCH__))
 #include <ifaddrs.h>
 #endif
 #include <netinet/in.h>

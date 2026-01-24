@@ -415,7 +415,7 @@ int main(int argc, char *argv[])
 	std::string storagePath;
 #ifdef _WIN32
 	storagePath = getenv("APPDATA");
-#elif defined(__EMSCRIPTEN__)
+#elif defined(__EMSCRIPTEN__) || defined(__SWITCH__)
 	storagePath = "";
 #elif defined(ANDROID)
 	storagePath = SDL_AndroidGetExternalStoragePath();

@@ -64,7 +64,7 @@ bool FogStateOGL::bindFogState(RenderContext& context, bool forceBind)
 
     if (forceBind || ctxDesc.fogMode != m_description.fogMode)
     {
-#ifdef ANDROID
+#if defined(ANDROID) || defined(__SWITCH__)
         glFogx(GL_FOG_MODE, m_fogMode);
 #else
         glFogi(GL_FOG_MODE, m_fogMode);
