@@ -591,7 +591,7 @@
       <Filter>Source Files\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\CompoundContainer.cpp">
       <Filter>Source Files</Filter>

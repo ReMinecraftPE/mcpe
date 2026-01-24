@@ -188,10 +188,11 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
                 inv->setCarried(ItemStack::EMPTY);
                 break;
             case MOUSE_BUTTON_RIGHT:
-                ItemStack single = inv->getCarried().remove(1);
-                player->drop(single);
+                player->drop(inv->getCarried().remove(1));
                 if (!inv->getCarried().m_count)
                     inv->setCarried(ItemStack::EMPTY);
+                break;
+            default:
                 break;
             }
         }
@@ -297,6 +298,8 @@ ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, boo
                         slotItem.m_count += count;
                         break;
                     }
+                    default:
+                        break;
                     }
                 }
             }

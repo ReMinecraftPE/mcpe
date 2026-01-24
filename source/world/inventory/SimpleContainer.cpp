@@ -1,6 +1,8 @@
 #include "SimpleContainer.hpp"
 
-SimpleContainer::SimpleContainer(int size, const std::string& name) : m_name(name), m_items(size)
+SimpleContainer::SimpleContainer(int size, const std::string& name) :
+    m_items(size),
+    m_name(name)
 {
 }
 
