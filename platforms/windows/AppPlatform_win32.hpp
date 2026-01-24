@@ -12,6 +12,7 @@
 
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
+#include "platforms/input/xinput/GameControllerHandler_xinput.hpp"
 #include "LoggerWin32.hpp"
 #include "CustomSoundSystem.hpp"
 
@@ -22,7 +23,7 @@ public:
 	~AppPlatform_win32();
 
 protected:
-	HWND _getHWND() const { return (HWND)m_hWND; }
+	HWND _getHWND() const { return (HWND)m_hWnd; }
 
 public:
 	void initSoundSystem() override;
@@ -41,6 +42,8 @@ public:
 
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	bool isTouchscreen() const override;
+	bool hasGamepad() const override;
+	GameControllerHandler* getGameControllerHandler() override;
 
 	// Also add these to allow proper turning within the game.
 	void recenterMouse() override;
@@ -63,18 +66,21 @@ public:
 	AssetFile readAssetFile(const std::string&, bool) const override;
 
 	void setScreenSize(int width, int height);
-	const char* const getWindowTitle() const { return m_WindowTitle; }
-	SoundSystem* const getSoundSystem() const override { return m_pSoundSystem; }
+	const char* getWindowTitle() const { return m_WindowTitle; }
+	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
 
+	HWND createWindow(HINSTANCE hInstance, WNDPROC wndProc, LPVOID lpParam, WORD iconId);
 	void initializeWindow(HWND hWnd, int nCmdShow);
 	void destroyWindow(HWND hWnd);
 	void centerWindow(HWND hWnd);
-	void enableOpenGL(HWND hWnd);
-	void disableOpenGL(HWND hWnd);
+	void enableGraphics(HWND hWnd);
+	void disableGraphics(HWND hWnd);
 	void destroyWindow() { destroyWindow(_getHWND()); }
 	void centerWindow() { centerWindow(_getHWND()); }
-	void enableOpenGL() { enableOpenGL(_getHWND()); }
-	void disableOpenGL() { disableOpenGL(_getHWND()); }
+	void enableGraphics() { enableGraphics(_getHWND()); }
+	void disableGraphics() { disableGraphics(_getHWND()); }
+	bool initGraphics(int width, int height);
+	void createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale);
 	void swapBuffers();
 
 	static MouseButtonType GetMouseButtonType(UINT iMsg);
@@ -84,9 +90,11 @@ public:
 private:
 	HICON m_cursor;
 
+#if MCE_GFX_API_OGL
 	// OpenGL
 	HDC m_hDC; // device context
 	HGLRC m_hRC; // render context
+#endif
 
 	const char* m_WindowTitle;
 	int m_ScreenWidth;
@@ -96,6 +104,7 @@ private:
 	int m_UserInputStatus;
 	eDialogType m_DialogType;
 
+	bool m_bHasGraphics;
 	bool m_bIsFocused;
 	bool m_bGrabbedMouse;
 	bool m_bActuallyGrabbedMouse;
@@ -105,6 +114,7 @@ private:
 
 	int m_MouseDiffX, m_MouseDiffY;
 
+	GameControllerHandler_xinput m_gameControllerHandler;
 	SOUND_SYSTEM* m_pSoundSystem;
 };
 

@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "compat/LegacyCPP.hpp"
 #include "common/Random.hpp"
 #include "Synth.hpp"
 
@@ -20,6 +21,7 @@ public:
 	float getValue(float, float) override;
 
 	ImprovedNoise();
+	virtual ~ImprovedNoise() {}
 	ImprovedNoise(Random* pRandom);
 
 	void init(Random* pRandom);

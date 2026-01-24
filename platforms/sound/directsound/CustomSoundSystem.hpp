@@ -14,9 +14,11 @@
 #include <stdexcept>
 #include <vector>
 
+#ifdef _MSC_VER
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "winmm.lib")
+#endif
 
 #include <mmsystem.h>
 #include <dsound.h>

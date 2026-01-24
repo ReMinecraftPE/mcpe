@@ -67,10 +67,11 @@ void MultiplayerLocalPlayer::heal(int health)
 {
 }
 
-void MultiplayerLocalPlayer::drop()
+/*void MultiplayerLocalPlayer::drop()
 {
-	//m_pLevel->m_pRakNetInstance->send(new PlayerActionPacket(PlayerActionPacket::DROP_ITEM))
-}
+    // From Java
+	m_pLevel->m_pRakNetInstance->send(new PlayerActionPacket(PlayerActionPacket::DROP_ITEM))
+}*/
 
 void MultiplayerLocalPlayer::hurtTo(int newHealth)
 {

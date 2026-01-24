@@ -18,18 +18,25 @@
 #include "AssetFile.hpp"
 
 #include "GameMods.hpp"
+#include "compat/PlatformDefinitions.h"
 
-#ifndef MOD_USE_BIGGER_SCREEN_SIZE
-#define C_DEFAULT_SCREEN_WIDTH  (854)
-#define C_DEFAULT_SCREEN_HEIGHT (480)
+#ifdef MOD_USE_BIGGER_SCREEN_SIZE
+#define C_DEFAULT_SCREEN_WIDTH  (1280)
+#define C_DEFAULT_SCREEN_HEIGHT (720)
 #elif defined(__DREAMCAST__)
 #define C_DEFAULT_SCREEN_WIDTH  (800)
 #define C_DEFAULT_SCREEN_HEIGHT (600)
-#else
+#elif MC_PLATFORM_XBOX360
 #define C_DEFAULT_SCREEN_WIDTH  (1280)
 #define C_DEFAULT_SCREEN_HEIGHT (720)
+#else
+#define C_DEFAULT_SCREEN_WIDTH  (854)
+#define C_DEFAULT_SCREEN_HEIGHT (480)
 #endif
 
+#define C_MAX_LOCAL_PLAYERS 4
+
+class GameControllerHandler;
 class AppPlatformListener;
 
 class AppPlatform
@@ -44,13 +51,13 @@ public:
 		DLG_CREATE_WORLD,
 		DLG_CHAT,
 		DLG_OPTIONS,
-		DLG_RENAME_MP_WORLD,
+		DLG_RENAME_MP_WORLD
 	};
 
 private:
 	static AppPlatform* m_singleton;
 public:
-	static AppPlatform* const singleton();
+	static AppPlatform* singleton();
 
 public:
 	AppPlatform();
@@ -82,6 +89,7 @@ public:
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	virtual bool isTouchscreen() const;
 	virtual bool hasGamepad() const;
+	virtual GameControllerHandler* getGameControllerHandler();
 	// Also add these to allow proper turning within the game.
 	virtual void recenterMouse();
 	virtual void setMouseGrabbed(bool b);
@@ -116,14 +124,19 @@ public:
 	// Also add this to allow dynamic patching.
 	virtual std::string getPatchData();
 	virtual void initSoundSystem();
-	virtual SoundSystem* const getSoundSystem() const;
+	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
 	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
+	virtual void makeNativePath(std::string& path) const;
+
+	// For getting a handle on the save device for consoles
+	virtual void beginProfileDataWrite(unsigned int playerId);
+	virtual void endProfileDataWrite(unsigned int playerId);
 
 public:
 	ListenerMap m_listeners;
-	void* m_hWND; // the Mojang solution
+	void* m_hWnd; // the Mojang solution
 };
 

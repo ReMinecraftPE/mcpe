@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ -z "$REMCPE_TARGET" ]; then
+    printf 'Do not run this script directly!\n'
+    exit 1
+fi
+
+case $0 in
+    *++) cc="clang++" ;;
+    *)   cc="clang"   ;;
+esac
+
+exec "$cc" \
+    -mlinker-version=762 \
+    -stdlib=libstdc++ \
+    "$@" \
+    -isysroot "${0%/*}/build/work/ios-sdk" \
+    -target "$REMCPE_TARGET" \
+    -fuse-ld=ld64 \
+    -Wno-unused-command-line-argument

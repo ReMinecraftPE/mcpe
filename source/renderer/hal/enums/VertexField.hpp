@@ -1,7 +1,10 @@
 #pragma once
 
+#include "VertexFieldType.hpp"
+
 namespace mce
 {
+    // @NOTE: See VertexField.cpp for VertexField types
     enum VertexField
     {
         VERTEX_FIELD_POSITION,
@@ -23,4 +26,7 @@ namespace mce
 
         VERTEX_FIELD_INVALID = 0xFFFF
     };
+
+    extern const char* vertexFieldNames[VERTEX_FIELDS_COUNT];
+    extern const VertexFieldType vertexFieldTypes[VERTEX_FIELDS_COUNT];
 }

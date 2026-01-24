@@ -102,7 +102,7 @@ public:
 		RENDER_ARROW,
 
 		// custom
-		RENDER_FALLING_TILE = 50,
+		RENDER_FALLING_TILE = 50
 	};
 
 private:
@@ -154,7 +154,10 @@ public:
 	virtual float distanceTo(const Vec3& pos) const;
 	virtual float distanceToSqr(const Entity*) const;
 	virtual int interactPreventDefault();
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
 	virtual bool interact(Player*);
+#pragma GCC diagnostic pop
 	virtual void playerTouch(Player*);
 	virtual void push(Entity*);
 	virtual void push(const Vec3& pos);

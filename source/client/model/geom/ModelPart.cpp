@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 #include "ModelPart.hpp"
+#include "common/Utils.hpp"
 #include "../models/Model.hpp"
 
 #define MUL_DEG_TO_RAD (180.0f / float(M_PI))  // formerly known as Cube::c

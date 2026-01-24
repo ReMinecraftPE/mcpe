@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <cstring>
 
 #include "API_OGL.hpp"
@@ -198,4 +199,13 @@ bool gl::supports32BitIndices()
             isSupported = 1;
     }
     return isSupported == 1;
+}
+
+bool gl::supports16BitUnsignedUVs()
+{
+#ifdef FEATURE_GFX_SHADERS
+    return true;
+#else
+    return false;
+#endif
 }

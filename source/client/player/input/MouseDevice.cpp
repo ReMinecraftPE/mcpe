@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <stddef.h>
 #include "MouseDevice.hpp"
 
 MouseDevice::MouseDevice()
@@ -16,20 +17,20 @@ MouseDevice::MouseDevice()
 	_xOld = 0;
 	_yOld = 0;
 
-	for (int i = 0; i < BUTTON_COUNT; i++)
+	for (int i = 0; i < MOUSE_BUTTON_COUNT; i++)
 		_buttonStates[i] = false;
 }
 
 void MouseDevice::feed(MouseButtonType buttonType, bool buttonState, int posX, int posY)
 {
-	if (buttonType != BUTTON_NONE)
+	if (buttonType != MOUSE_BUTTON_NONE)
 		_inputs.push_back(MouseAction(buttonType, buttonState, posX, posY, 0));
 
 	// Make sure button type is valid
-	if (buttonType < BUTTON_COUNT)
+	if (buttonType < MOUSE_BUTTON_COUNT)
 	{
 		// Check if we're processing a button-state update
-		if (buttonType != BUTTON_NONE)
+		if (buttonType != MOUSE_BUTTON_NONE)
 			_buttonStates[buttonType] = buttonState;
 
 		_xOld = _x;
@@ -51,7 +52,7 @@ short MouseDevice::getY()
 
 bool MouseDevice::next()
 {
-	if (_index + 1 >= _inputs.size())
+	if ((size_t)_index + 1 >= _inputs.size())
 		return false;
 
 	_index++;
@@ -81,7 +82,7 @@ MouseAction* MouseDevice::getEvent()
 
 bool MouseDevice::getButtonState(MouseButtonType btn)
 {
-	if (btn < BUTTON_MIN || btn >= BUTTON_COUNT)
+	if (btn < MOUSE_BUTTON_MIN || btn >= MOUSE_BUTTON_COUNT)
 		return false;
 
 	return _buttonStates[btn];

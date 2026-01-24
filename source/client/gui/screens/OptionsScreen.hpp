@@ -13,21 +13,46 @@
 #ifndef OLD_OPTIONS_SCREEN
 
 #include "../components/OptionList.hpp"
+enum OptionsCategory
+{
+	OC_VIDEO,
+	OC_CONTROLS,
+	OC_MULTIPLAYER,
+	OC_MISCELLANEOUS,
+
+	OC_MIN = OC_VIDEO,
+	OC_MAX = OC_MISCELLANEOUS,
+	OC_COUNT
+};
 
 class OptionsScreen : public Screen
 {
 public:
 	OptionsScreen();
 	~OptionsScreen();
+
+protected:
+	bool _nextTab() override;
+	bool _prevTab() override;
+
+public:
 	void init() override;
-	void render(int, int, float) override;
+	void render(float f) override;
 	void removed() override;
-	void buttonClicked(Button* pButton) override;
+	void _buttonClicked(Button* pButton) override;
 	bool handleBackEvent(bool b) override;
-	void handleScroll(bool down) override;
+	void handleScrollWheel(float force) override;
 
 private:
+	void setCategory(OptionsCategory category);
+
 	OptionList* m_pList;
+	OptionsCategory m_currentCategory;
+
+	Button m_videoButton;
+	Button m_controlsButton;
+	Button m_multiplayerButton;
+	Button m_miscButton;
 
 	Button m_backButton;
 };
@@ -39,11 +64,11 @@ class OptionsScreen : public Screen
 public:
 	OptionsScreen();
 	void init() override;
-	void render(int, int, float) override;
+	void render(float) override;
 	void removed() override;
 
 #ifndef ORIGINAL_CODE
-	void buttonClicked(Button* pButton) override;
+	void _buttonClicked(Button* pButton) override;
 
 	void setWidthAllButtons(int width);
 	void updateTexts();

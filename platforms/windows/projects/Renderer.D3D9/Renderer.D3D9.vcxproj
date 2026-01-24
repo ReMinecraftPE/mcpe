@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Xbox 360">
+      <Configuration>Debug</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Xbox 360">
+      <Configuration>Release</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\API_D3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\BlendStateD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\BufferD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ConstantBufferContainerD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\DepthStencilStateD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\GPUEventsD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ImmediateBufferD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ProfileSectionD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\RasterizerStateD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\RenderContextD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\RenderDeviceD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderConstantD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderConstantWithDataD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderProgramD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderResourceD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\TextureD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\TextureHelperD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\ErrorHandlerD3D9.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\FixedPipelineStateD3D9.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\API_D3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\BlendStateD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\BufferD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ConstantBufferContainerD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\DepthStencilStateD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\GPUEventsD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ImmediateBufferD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ProfileSectionD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\RasterizerStateD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\RenderContextD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\RenderDeviceD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderConstantD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderConstantWithDataD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderProgramD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\ShaderResourceD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\TextureD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\API_D3D9Compiler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\TextureHelperD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\ErrorHandlerD3D9.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\FixedPipelineStateD3D9.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{beacd150-fc47-49ae-ac5a-19a7e2409a38}</ProjectGuid>
+    <RootNamespace>Renderer.D3D9</RootNamespace>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ProjectName>Renderer.D3D9</ProjectName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Platform)'=='Win32'">$(DXSDK_DIR)\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">$(DXSDK_DIR)\Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+    <Lib Condition="'$(Platform)'=='Xbox 360'">
+	  <!-- Link d3d9i.lib for using PIX -->
+      <AdditionalDependencies Condition="$(Configuration.StartsWith('Release'))">d3d9.lib;d3dx9.lib;xgraphics.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="$(Configuration.StartsWith('Debug'))">d3d9d.lib;d3dx9d.lib;xgraphicsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="Minecraft">
+    <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

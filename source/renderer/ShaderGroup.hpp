@@ -21,7 +21,8 @@ namespace mce
     public:
         void onAppSuspended() override;
 
-        ShaderProgram& getShaderProgram(ShaderType shaderType, const std::string& path, const std::string& header);
+        ShaderProgram& getShaderProgram(ShaderType shaderType, const std::string& codeOrPath, const std::string& header);
+        void processIncludeDirectives(const std::string& path, std::string& code);
         Shader& loadShader(const std::string& header, const std::string& vertexCodeOrPath, const std::string& fragmentCodeOrPath, const std::string& geometryCodeOrPath);
 
         static ShaderGroup* singleton();

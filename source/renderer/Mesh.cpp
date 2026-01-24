@@ -17,8 +17,8 @@ Mesh::Mesh()
 }
 
 Mesh::Mesh(const VertexFormat& vertexFormat, unsigned int vertexCount, unsigned int indexCount, uint8_t indexSize, PrimitiveMode primitiveMode, uint8_t *data, bool temporary)
-    : m_vertexCount(vertexCount)
-    , m_indexCount(indexCount)
+    : m_indexCount(indexCount)
+    , m_vertexCount(vertexCount)
     , m_primitiveMode(primitiveMode)
     , m_vertexFormat(vertexFormat)
     , m_indexSize(indexSize)

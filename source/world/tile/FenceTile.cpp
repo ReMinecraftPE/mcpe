@@ -13,7 +13,7 @@ FenceTile::FenceTile(int a, int b) : Tile(a, b, Material::wood)
 {
 }
 
-bool FenceTile::mayPlace(const Level* level, const TilePos& pos, Facing::Name face) const
+bool FenceTile::mayPlace(const Level* level, const TilePos& pos) const
 {
 	TilePos below = pos.below();
 	return level->getTile(below) == m_ID || (Tile::mayPlace(level, pos) && level->getMaterial(below)->isSolid());

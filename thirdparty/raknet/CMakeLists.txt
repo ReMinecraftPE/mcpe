@@ -117,7 +117,7 @@ add_library(raknet STATIC
 target_include_directories(raknet PUBLIC .)
 
 # Windows Support
-if(MCPE_WIN32)
+if(REMCPE_WIN32)
     target_compile_definitions(raknet
         PUBLIC SHA1_HAS_TCHAR
         PUBLIC LOCKLESS_TYPES_USE_MUTEX

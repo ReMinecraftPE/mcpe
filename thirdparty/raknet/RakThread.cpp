@@ -31,6 +31,9 @@ using namespace RakNet;
 
 #else
 #include <pthread.h>
+#ifdef XENON
+#include "../xenon_utils/pthread.h"
+#endif
 #endif
 
 #if defined(_WIN32_WCE) || defined(WINDOWS_PHONE_8) || defined(WINDOWS_STORE_RT)

@@ -170,7 +170,7 @@ NSThread *G_drawFrameThread = nil;
     else if (![EAGLContext setCurrentContext:aContext])
         NSLog(@"Failed to set ES context current");
     
-	self.context = aContext;
+    self.context = aContext;
 	
     [(EAGLView *)self.view setContext:context];
     [(EAGLView *)self.view setFramebuffer];
@@ -247,7 +247,7 @@ NSThread *G_drawFrameThread = nil;
     // Tear down context.
     if ([EAGLContext currentContext] == context)
         [EAGLContext setCurrentContext:nil];
-	self.context = nil;
+    self.context = nil;
 }
 
 - (void)initView
@@ -297,7 +297,7 @@ NSThread *G_drawFrameThread = nil;
     if (frameInterval >= 1)
     {
         animationFrameInterval = frameInterval;
-        NSLog(@"Set animationFrameInterval to %d\n", animationFrameInterval);
+        NSLog(@"Set animationFrameInterval to %ld\n", static_cast<long>(animationFrameInterval));
         
         if (animating)
         {
@@ -413,8 +413,8 @@ NSThread *G_drawFrameThread = nil;
             posX = viewScale * point.x;
             posY = viewScale * point.y;
             
-            Mouse::feed(BUTTON_LEFT, true, posX, posY);
-            Multitouch::feed(BUTTON_LEFT, true, posX, posY, touchIndex);
+            Mouse::feed(MOUSE_BUTTON_LEFT, true, posX, posY);
+            Multitouch::feed(MOUSE_BUTTON_LEFT, true, posX, posY, touchIndex);
         }
     }
 }
@@ -440,8 +440,8 @@ NSThread *G_drawFrameThread = nil;
             posX = viewScale * point.x;
             posY = viewScale * point.y;
             
-            Mouse::feed(BUTTON_NONE, false, posX, posY);
-            Multitouch::feed(BUTTON_NONE, false, posX, posY, touchIndex);
+            Mouse::feed(MOUSE_BUTTON_NONE, false, posX, posY);
+            Multitouch::feed(MOUSE_BUTTON_NONE, false, posX, posY, touchIndex);
         }
     }
 }
@@ -467,8 +467,8 @@ NSThread *G_drawFrameThread = nil;
             posX = viewScale * point.x;
             posY = viewScale * point.y;
             
-            Mouse::feed(BUTTON_LEFT, false, posX, posY);
-            Multitouch::feed(BUTTON_LEFT, false, posX, posY, touchIndex);
+            Mouse::feed(MOUSE_BUTTON_LEFT, false, posX, posY);
+            Multitouch::feed(MOUSE_BUTTON_LEFT, false, posX, posY, touchIndex);
         }
     }
 }

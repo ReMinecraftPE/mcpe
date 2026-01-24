@@ -10,6 +10,7 @@
 #include "renderer/hal/interface/ShaderProgram.hpp"
 #include "renderer/hal/interface/ImmediateBuffer.hpp"
 #include "renderer/hal/interface/RenderDevice.hpp"
+#include "renderer/hal/ViewportOrigin.hpp"
 
 namespace mce
 {
@@ -18,12 +19,10 @@ namespace mce
     public:
         RenderContextStateBase m_currentState;
         VertexFormat m_lastVertexFormat;
+        unsigned int m_lastAttributeListIndex;
+        ShaderProgram* m_lastShaderPrograms[SHADER_TYPES_COUNT];
         Color m_currentColor;
         ShadeMode m_currentShadeMode;
-        // Unused in OGL
-        int field_34;
-        // Only used in DX11
-        ShaderProgram* m_lastShaderPrograms[SHADER_TYPES_COUNT];
         ImmediateBuffer m_immediateBuffer;
         StencilRefObject m_stencilReference;
         RenderDevice *m_pRenderDevice;
@@ -43,12 +42,14 @@ namespace mce
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, uint8_t indexSize);
         void drawIndexed(PrimitiveMode primitiveMode, unsigned int count, unsigned int startOffset, uint8_t indexSize);
         void setDepthRange(float nearVal, float farVal);
-        void setViewport(int topLeftX, int topLeftY, unsigned int width, unsigned int height, float nearVal, float farVal);
+        void setViewport(unsigned int width, unsigned int height, float nearVal, float farVal, const ViewportOrigin& origin);
         void clearFrameBuffer(const Color& color);
         void clearStencilBuffer();
         void clearDepthStencilBuffer();
         void clearContextState();
         void setRenderTarget();
+        void beginRender();
+        void endRender();
         void swapBuffers();
         void lostContext();
 
@@ -56,7 +57,9 @@ namespace mce
         void setStencilReference(uint8_t value);
         uint8_t getStencilReference() const;
 
-        static int getMaxVertexCount();
-        static bool supports32BitIndices();
+        int getMaxVertexCount() const;
+        bool supports8BitIndices() const;
+        bool supports32BitIndices() const;
+        bool supports16BitUnsignedUVs() const;
     };
 }

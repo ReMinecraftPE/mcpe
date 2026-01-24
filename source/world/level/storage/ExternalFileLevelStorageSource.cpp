@@ -112,7 +112,7 @@ void ExternalFileLevelStorageSource::renameLevel(const std::string& oldName, con
 		return;
 
 	std::string levelName = Util::stringTrim(newName);
-	for (int i = 0; i < sizeof(g_EFLSSFilterArray); i++)
+	for (size_t i = 0; i < sizeof(g_EFLSSFilterArray); i++)
 	{
 		std::string str;
 		str.push_back(g_EFLSSFilterArray[i]);
@@ -125,7 +125,7 @@ void ExternalFileLevelStorageSource::renameLevel(const std::string& oldName, con
 	std::set<std::string> maps;
 
 	const size_t size = vls.size();
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 		maps.insert(vls.at(i).m_fileName);
 
 	std::string levelUniqueName = levelName;

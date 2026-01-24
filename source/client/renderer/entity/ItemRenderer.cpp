@@ -214,7 +214,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 	if (!b)
 		return;
 
-	Item* pItem = instance->getItem();
+	//Item* pItem = instance->getItem();
 	Tile* pTile = instance->getTile();
 
 	// @BUG: This is one of the reasons you can't actually hold items in early Minecraft.

@@ -13,7 +13,7 @@
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 #pragma warning(disable : 4244)
 #endif
 
@@ -126,7 +126,6 @@ void Gui::renderPumpkin(int var1, int var2)
 	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
 	t.draw(m_materials.ui_textured);
 }
-
 
 void Gui::renderVignette(float brightness, int width, int height)
 {
@@ -308,7 +307,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
 }
 
-void Gui::handleScroll(bool down)
+void Gui::handleScrollWheel(bool down)
 {
 	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
@@ -659,7 +658,7 @@ void Gui::renderToolBar(float f, float alpha)
 int Gui::getNumSlots()
 {
 	if (m_pMinecraft->isTouchscreen())
-		return 8;
+		return 6;
 
 	return 9;
 }

@@ -146,6 +146,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
@@ -197,7 +200,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\Screen.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp">
@@ -539,6 +542,15 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameController.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\MenuPointer.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -572,6 +584,9 @@
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp">
@@ -625,7 +640,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp">
@@ -892,9 +907,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\ModelPart.cpp">
       <Filter>Source Files\Model\Geom</Filter>
     </ClCompile>
@@ -945,6 +957,18 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp">
       <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameController.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\MenuPointer.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

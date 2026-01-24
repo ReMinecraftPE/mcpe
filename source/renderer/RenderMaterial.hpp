@@ -41,7 +41,7 @@ namespace mce
 
     public:
         RenderMaterial();
-        RenderMaterial(const rapidjson::Value& root, const RenderMaterial& parent);
+        RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent);
 
     protected:
         RenderState _parseStateName(const std::string& stateName) const;
@@ -61,6 +61,7 @@ namespace mce
 
     public:
         void useWith(RenderContext& context, const VertexFormat& vertexFormat, const void *basePtr);
+        void compileShader();
         void addState(RenderState state);
         bool hasState(RenderState state) const { return (m_stateMask & (1 << state)) != 0; }
         

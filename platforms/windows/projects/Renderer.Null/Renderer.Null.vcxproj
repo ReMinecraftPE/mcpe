@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Xbox 360">
+      <Configuration>Debug</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Xbox 360">
+      <Configuration>Release</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\RenderDeviceNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantWithDataNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BlendStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\BufferNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ConstantBufferContainerNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\DepthStencilStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ImmediateBufferNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RasterizerStateNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderContextNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\RenderDeviceNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderConstantWithDataNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\ShaderProgramNull.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\null\TextureNull.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{70c3540e-95cd-4a57-bdf2-e1da7767a918}</ProjectGuid>
+    <RootNamespace>Renderer.Null</RootNamespace>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ProjectName>Renderer.Null</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="Minecraft">
+    <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -17,7 +17,6 @@ namespace mce
 
     public:
         static const VertexFormat EMPTY;
-        static const unsigned int FieldSize[VERTEX_FIELDS_COUNT];
 
     private:
         uint8_t m_fieldMask;

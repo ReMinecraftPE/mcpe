@@ -24,21 +24,26 @@ public:
 	int getSlotPosY(int y);
 	int getSlotsHeight();
 	bool isAllowed(int slot);
+	bool isInsideSelectionArea(int x, int y);
 	void renderSlots();
 	void renderDemoOverlay();
 	void renderSlot(int index, int x, int y, float f);
 	void selectSlotAndClose();
 
 	virtual void init() override;
-	virtual void render(int x, int y, float f) override;
-    virtual void buttonClicked(Button*) override;
-	virtual void mouseClicked(int x, int y, int type) override;
-	virtual void mouseReleased(int x, int y, int type) override;
+	virtual void render(float f) override;
+    virtual void _buttonClicked(Button*) override;
+	virtual void pointerPressed(int x, int y, MouseButtonType btn) override;
+	virtual void pointerReleased(int x, int y, MouseButtonType btn) override;
 	virtual void removed() override;
 
 private:
 	int m_selectedSlot;
+	bool m_bReleased;
+	bool m_bClickedOnSlot;
     Button m_btnPause;
 	Button m_btnChat;
+	Button m_btnCraft;
+	Button m_btnArmor;
 };
 

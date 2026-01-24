@@ -17,6 +17,14 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Xbox 360">
+      <Configuration>Debug</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Xbox 360">
+      <Configuration>Release</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -35,9 +43,15 @@
   <ImportGroup Label="Minecraft">
     <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\thirdparty\stb_image\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_vorbis.c" />
+    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\thirdparty\stb_image\include\stb_image.h" />

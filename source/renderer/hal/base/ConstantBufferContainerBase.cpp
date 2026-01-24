@@ -10,7 +10,7 @@ void ConstantBufferContainerBase::_init()
     m_reflectedShaderConstants = new std::vector<ShaderConstantBase>();
     m_shaderConstants = new std::vector<ShaderConstant*>();
     m_constantBufferBytes = new std::vector<uint8_t>();
-    m_currentlyMapped = false;
+    m_bWriteEnabled = false;
 }
 
 void ConstantBufferContainerBase::_init(ConstantBufferContainerBase& other)
@@ -44,9 +44,9 @@ void ConstantBufferContainerBase::_move(ConstantBufferContainerBase& other)
     m_constantBufferBytes = other.m_constantBufferBytes;
     other.m_constantBufferBytes = (std::vector<uint8_t>*)tempPtr;
 
-    bool temp = m_currentlyMapped;
-    m_currentlyMapped = other.m_currentlyMapped;
-    other.m_currentlyMapped = temp;
+    bool temp = m_bWriteEnabled;
+    m_bWriteEnabled = other.m_bWriteEnabled;
+    other.m_bWriteEnabled = temp;
 }
 
 void ConstantBufferContainerBase::reserveMemoryForShaderConstants(unsigned int shaderConstSize, unsigned int constBufferSize)
@@ -113,7 +113,7 @@ void ConstantBufferContainerBase::registerShaderParameter(const ShaderConstantBa
             newConst = new ShaderConstantMatrix4x4();
             break;
         default:
-            LOG_E("Unknown shaderConstantBase.shaderPrimitiveType: %d", shaderConstantBase.m_shaderPrimitiveType); // line 101
+            LOG_E("Unknown shaderConstantBase.shaderPrimitiveType: %d", shaderConstantBase.m_shaderPrimitiveType);
             throw std::bad_cast();
     }
 

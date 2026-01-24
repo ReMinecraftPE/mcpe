@@ -20,9 +20,9 @@ bool FlowerFeature::place(Level* level, Random* random, const TilePos& pos)
 
 	for (int i = 0; i < 64; i++)
 	{
-		tp = TilePos(pos.x + random->nextInt(8) - random->nextInt(8),
-			         pos.y + random->nextInt(4) - random->nextInt(4),
-			         pos.z + random->nextInt(8) - random->nextInt(8));
+		tp.x = pos.x + random->nextInt(8) - random->nextInt(8);
+		tp.y = pos.y + random->nextInt(4) - random->nextInt(4);
+		tp.z = pos.z + random->nextInt(8) - random->nextInt(8);
 
 		if (level->isEmptyTile(tp) && Tile::tiles[m_ID]->canSurvive(level, tp))
 			level->setTileNoUpdate(tp, m_ID);

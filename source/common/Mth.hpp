@@ -10,7 +10,10 @@
 
 #include <cmath>
 
+#include "compat/LegacyCPP.hpp"
 #include "Random.hpp"
+
+#define MTH_DEG_TO_RAD 0.017453f
 
 class Mth
 {
@@ -42,8 +45,14 @@ public:
 	{
 		return sqrtf(f);
 	}
+
+	template <typename T>
+	static int signum(T val)
+	{
+		return (T(0) < val) - (val < T(0));
+	}
     
-	static inline constexpr float Lerp(float a, float b, float progress)
+	static inline CONSTEXPR float Lerp(float a, float b, float progress)
 	{
 		return a + progress * (b - a);
 	}

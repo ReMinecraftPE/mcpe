@@ -12,13 +12,15 @@
 
 enum MouseButtonType
 {
-	BUTTON_NONE,
-	BUTTON_LEFT,
-	BUTTON_RIGHT,
-	BUTTON_MIDDLE,
-	BUTTON_COUNT,
-	BUTTON_SCROLLWHEEL,
-	BUTTON_MIN = BUTTON_LEFT,
+	MOUSE_BUTTON_NONE,
+	MOUSE_BUTTON_LEFT,
+	MOUSE_BUTTON_RIGHT,
+	MOUSE_BUTTON_MIDDLE,
+	MOUSE_BUTTON_COUNT,
+	MOUSE_BUTTON_SCROLLWHEEL,
+
+	MOUSE_BUTTON_MIN = MOUSE_BUTTON_LEFT,
+	MOUSE_BUTTON_MAX = MOUSE_BUTTON_SCROLLWHEEL
 };
 
 struct MouseAction
@@ -31,7 +33,7 @@ struct MouseAction
 
 	MouseAction()
 	{
-		_buttonType = BUTTON_NONE;
+		_buttonType = MOUSE_BUTTON_NONE;
 		_buttonState = 0;
 		_posX = 0;
 		_posY = 0;
@@ -50,9 +52,9 @@ struct MouseAction
 	bool isButton()
 	{
 		return
-			_buttonType == BUTTON_LEFT ||
-			_buttonType == BUTTON_RIGHT ||
-			_buttonType == BUTTON_MIDDLE;
+			_buttonType == MOUSE_BUTTON_LEFT ||
+			_buttonType == MOUSE_BUTTON_RIGHT ||
+			_buttonType == MOUSE_BUTTON_MIDDLE;
 	}
 };
 
@@ -78,7 +80,7 @@ private:
 	int _index;
 	int _x, _y;
 	int _xOld, _yOld;
-	bool _buttonStates[BUTTON_COUNT];
+	bool _buttonStates[MOUSE_BUTTON_COUNT];
 	std::vector<MouseAction> _inputs;
 };
 

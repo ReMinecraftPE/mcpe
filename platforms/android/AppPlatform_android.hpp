@@ -23,7 +23,6 @@ public:
 	void buyGame() override;
 	void saveScreenshot(const std::string& fileName, int width, int height) override;
 	int checkLicense() override;
-	void createUserInput() override;
 	std::vector<std::string> getUserInput() override;
 	int getUserInputStatus() override;
 	int getScreenWidth() const override;
@@ -47,7 +46,7 @@ public:
 	
 	bool hasFileSystemAccess() override;	
 
-	SoundSystem* const getSoundSystem() const override;
+	SoundSystem* getSoundSystem() const override;
 	void initSoundSystem() override;
 	bool isTouchscreen() const override;
 

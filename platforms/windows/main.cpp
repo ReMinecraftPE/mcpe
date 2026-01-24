@@ -17,13 +17,9 @@
 
 #include "client/player/input/Multitouch.hpp"
 
-#include "renderer/platform/ogl/Extensions.hpp"
-
 #include "AppPlatform_win32.hpp"
 #include "resource.h"
 #include "LoggerWin32.hpp"
-
-LPCTSTR g_WindowClassName = TEXT("MCPEClass");
 
 AppPlatform_win32 g_AppPlatform;
 NinecraftApp* g_pApp;
@@ -71,8 +67,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 		case WM_SIZE:
 		{
-			UINT width = LOWORD(lParam);
-			UINT height = HIWORD(lParam);
+			// Prevent creation of a 0x0 window, can cause crashes, like in GLM on the 3D title logo
+			UINT width = Mth::Max(LOWORD(lParam), 1);
+			UINT height = Mth::Max(HIWORD(lParam), 1);
 
 			Minecraft::width  = width;
 			Minecraft::height = height;
@@ -81,7 +78,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			g_AppPlatform.setScreenSize(width, height);
 
 			if (g_pApp)
+			{
 				g_pApp->sizeUpdate(width, height);
+#if MCE_GFX_API_D3D9
+				g_pApp->onGraphicsReset();
+#endif
+			}
 
 			break;
 		}
@@ -142,49 +144,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// If we didn't initialize it here, the Minecraft class would have our back
 	Logger::setSingleton(new LoggerWin32);
 
-	// register the window class:
-	WNDCLASS wc;
-	wc.style = CS_OWNDC;
-	wc.lpfnWndProc = WndProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON));
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wc.lpszMenuName = NULL;
-	wc.lpszClassName = g_WindowClassName;
-
-	RECT wr = { 0,0, g_AppPlatform.getScreenWidth(), g_AppPlatform.getScreenHeight() };
-	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);
-	int w = wr.right - wr.left;
-	int h = wr.bottom - wr.top;
-
-	const char* windowTitle = g_AppPlatform.getWindowTitle();
-	// Dumb Unicode bullshit
-	//LPTSTR windowTitle;
-	//mbstowcs(&windowTitle, windowTitleStr, 255);
-
-	if (!RegisterClass(&wc))
-	{
-		MessageBox(NULL, TEXT("Could not register Minecraft class"), windowTitle, MB_ICONERROR | MB_OK);
+	HWND hWnd = g_AppPlatform.createWindow(hInstance, WndProc, g_pApp, IDI_ICON);
+	if (!hWnd)
 		return 1;
-	}
-
-	HWND hWnd = CreateWindowEx(0, g_WindowClassName, windowTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, w, h, NULL, NULL, hInstance, g_pApp);
-
 	g_AppPlatform.initializeWindow(hWnd, nCmdShow);
 
-	if (!mce::Platform::OGL::InitBindings())
-	{
-		const char* const GL_ERROR_MSG = "Error initializing GL extensions. OpenGL 2.0 or later is required. Update your graphics drivers!";
-		LOG_E(GL_ERROR_MSG);
-		MessageBoxA(hWnd, GL_ERROR_MSG, "OpenGL Error", MB_OK);
-
+	if (!g_AppPlatform.initGraphics(Minecraft::width, Minecraft::height))
 		goto _cleanup;
-	}
-
-	xglSwapIntervalEXT(1);
 
 	g_pApp = new NinecraftApp;
 	g_pApp->m_pPlatform = &g_AppPlatform;
@@ -225,8 +191,7 @@ _cleanup:
 	// Cleanup networking, renderer, sounds, textures, etc.
 	delete g_pApp;
 
-	// disable OpenGL for the window
-	g_AppPlatform.disableOpenGL();
+	g_AppPlatform.disableGraphics();
 
 	// destroy the window explicitly, since we ignored the WM_QUIT message
 	g_AppPlatform.destroyWindow();

@@ -2,7 +2,7 @@ project(reminecraftpe-platforms)
 
 # Select & Build
 set(DEFAULT_PLATFORM "sdl2")
-if(MCPE_WIN32)
+if(REMCPE_WIN32)
     set(DEFAULT_PLATFORM "windows")
 endif()
 set(REMCPE_PLATFORM "${DEFAULT_PLATFORM}" CACHE STRING "ReMCPE Platform (Check <root>/platforms)")
@@ -19,3 +19,6 @@ endif()
 
 # Load Sound
 add_subdirectory(sound)
+
+# Load Input
+add_subdirectory(input)

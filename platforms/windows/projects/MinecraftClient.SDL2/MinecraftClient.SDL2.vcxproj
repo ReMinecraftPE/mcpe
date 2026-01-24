@@ -37,7 +37,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\openal;$(MC_ROOT)\thirdparty\stb_image\include;$(SDL2_PATH)\include;$(LIBPNG_PATH);$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\sound\openal;$(SDL2_PATH)\include;$(OPENAL_PATH)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -46,7 +46,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
     <Link>
-      <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\Win32\Release;$(LIBPNG_PATH)\projects\vstudio\Release Library\;$(OPENAL_PATH)\libs\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\Win32\Release;$(OPENAL_PATH)\libs\Win32\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy $(SDL2_PATH)\VisualC\Win32\Release\SDL2.dll $(TargetDir) /y</Command>
@@ -54,7 +54,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
     <Link>
-      <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\x64\Release;$(LIBPNG_PATH)\projects\vstudio\x64\Release Library;$(OPENAL_PATH)\libs\Win64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SDL2_PATH)\VisualC\x64\Release;$(OPENAL_PATH)\libs\Win64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>copy $(SDL2_PATH)\VisualC\x64\Release\SDL2.dll $(TargetDir) /y</Command>
@@ -65,7 +65,6 @@
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl2\main.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl2\base\AppPlatform_sdl2.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl2\desktop\AppPlatform_sdl2_desktop.cpp" />
-    <ClCompile Include="$(MC_ROOT)\thirdparty\stb_image\src\stb_image_impl.c" />
     <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.cpp" />
   </ItemGroup>

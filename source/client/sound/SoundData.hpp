@@ -35,7 +35,7 @@ struct PCMSoundHeader
 
 struct SoundBuffer
 {
-	void* m_pData;
+	int16_t *m_pData;
 	int m_dataSize;
 };
 
@@ -54,7 +54,6 @@ struct SoundDesc : AudioDescriptor
 
 	AssetFile m_file;
 	SoundBuffer m_buffer;
-	unsigned char* m_fileData;
 
 	bool _load(const AppPlatform* platform, const char* category, const char *name);
 	bool _loadPcm(const AppPlatform* platform, const char *name);
@@ -64,6 +63,8 @@ struct SoundDesc : AudioDescriptor
 	static void _unloadAll();
 };
 
-#define SOUND(category, name, number) extern SoundDesc SA_##name##number;
+#define SOUND(category, name) extern SoundDesc SA_##name;
+#define SOUND_NUM(category, name, number) extern SoundDesc SA_##name##number;
 #include "sound_list.h"
 #undef SOUND
+#undef SOUND_NUM

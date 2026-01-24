@@ -22,6 +22,7 @@
 // Features (major changes)
 //#define FEATURE_PLANT_VEGGIES 	       // Generates tall grass, and dead bushes around the world.
 //#define FEATURE_GFX_SHADERS 	           // Loads and uses Shaders from the assets folder for rendering.
+#define FEATURE_NETWORKING                 // Enables multi-player through RakNet
 
 // Enhancements (minor changes)
 //#define ENH_ENTITY_SHADING      	       // Allows shading of entities -- Currently we are abandoning this. Want to add normal support
@@ -53,8 +54,8 @@
 // Toggle Demo Mode
 //#define DEMO
 
-#ifndef FEATURE_GFX_SHADERS
-#undef ENH_GFX_COMPACT_UVS
+#if defined(MC_NO_NETWORKING) && defined(FEATURE_NETWORKING)
+#undef FEATURE_NETWORKING
 #endif
 
 #endif

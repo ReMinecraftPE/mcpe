@@ -17,9 +17,11 @@
 #include <winsock.h>
 
 // Why are we not using GetTickCount64()? It's simple -- getTimeMs has the exact same problem as using regular old GetTickCount.
+#ifdef _MSC_VER
 #pragma warning(disable : 28159)
+#endif
 
-#elif MC_PLATFORM_XBOX360
+#elif MC_SDK_XDK
 
 #else
 
@@ -29,6 +31,11 @@
 
 #endif
 
+#ifdef XENON
+// needed for udelay in sleepMs
+#include <time/time.h>
+#endif
+
 // include zlib stuff
 // cant get zlib to build on android, they include prebuilt one anyways. using that one
 #include "zlib.h"
@@ -36,6 +43,20 @@
 int g_TimeSecondsOnInit = 0;
 
 #ifdef _WIN32
+
+void toDosPath(char* path)
+{
+    if (path == NULL) return;
+
+    while (*path != '\0')
+	{
+        if (*path == '/')
+		{
+            *path = '\\';
+        }
+        path++;
+    }
+}
 
 DIR* opendir(const char* name)
 {
@@ -155,7 +176,7 @@ bool DeleteDirectory(const std::string& name2, bool unused)
 	closedir(dir);
 
 #ifdef _WIN32
-	return RemoveDirectoryA(name.c_str());
+	return RemoveDirectoryA(name.c_str()) != 0;
 #else
 	return remove(name.c_str()) == 0;
 #endif
@@ -263,6 +284,8 @@ void sleepMs(int ms)
 {
 #ifdef _WIN32
 	Sleep(ms);
+#elif defined(XENON)
+	udelay(1000 * ms);
 #else
 	usleep(1000 * ms);
 #endif

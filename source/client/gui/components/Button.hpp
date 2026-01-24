@@ -8,12 +8,12 @@
 
 #pragma once
 
-#include "../GuiComponent.hpp"
+#include "../GuiElement.hpp"
 #include "client/app/Minecraft.hpp"
 
 class Screen;
 
-class Button : public GuiComponent
+class Button : public GuiElement
 {
 private:
 	void _init();
@@ -22,6 +22,10 @@ public:
 	Button(int, int x, int y, const std::string&);
 	Button(int, const std::string&);
 
+public:
+	Type getType() const override { return TYPE_BUTTON; }
+
+public:
 	// I can't possibly explain why Minecraft is referenced here
 	bool clicked(Minecraft*, int xPos, int yPos);
 	int  getYImage(bool bHovered);
@@ -36,9 +40,7 @@ public:
 	int m_yPos;
 	std::string m_text;
 	int m_buttonId;
-	bool m_bEnabled;
-	bool m_bVisible;
-	bool m_bHovered;
+	Color m_color;
 
 #ifndef ORIGINAL_CODE
 	int m_lastX;

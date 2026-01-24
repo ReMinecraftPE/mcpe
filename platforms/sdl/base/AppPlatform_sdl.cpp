@@ -8,11 +8,13 @@
 #include <emscripten.h>
 #endif
 
-#include "stb_image.h"
-#include "stb_image_write.h"
+#include "thirdparty/stb_image/include/stb_image.h"
+#include "thirdparty/stb_image/include/stb_image_write.h"
 
+#if MCE_GFX_API_OGL
 // needed for screenshots
 #include "thirdparty/GL/GL.hpp"
+#endif
 
 #include "AppPlatform_sdl.hpp"
 
@@ -24,13 +26,13 @@
 #define _STR(x) #x
 #define STR(x) _STR(x)
 
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 
 void AppPlatform_sdl::_init(std::string storageDir)
 {
 	m_storageDir = storageDir;
 
-	m_hWND = _getHWND();
+	m_hWnd = _getHWND();
 
 	m_pIcon = nullptr;
 
@@ -113,7 +115,7 @@ void AppPlatform_sdl::_ensureDirectoryExists(const char* path)
 	if (stat(path, &obj) != 0 || !S_ISDIR(obj.st_mode))
 	{
 		// Create Screenshots Folder
-#if defined(_WIN32) && !defined(__MINGW32__)
+#if defined(_WIN32) && !defined(__MINGW32__) && !defined(__clang__)
 		int ret = XPL_MKDIR(path);
 #else
 		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -340,22 +342,22 @@ void AppPlatform_sdl::handleControllerAxisEvent(SDL_JoystickID controllerIndex, 
 	switch (axis)
 	{
 	case SDL_CONTROLLER_AXIS_LEFTX:
-		Controller::feedStickX(1, true, val);
+		GameControllerManager::feedStickX(1, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_LEFTY:
-		Controller::feedStickY(1, true, val);
+		GameControllerManager::feedStickY(1, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTX:
-		Controller::feedStickX(2, true, val);
+		GameControllerManager::feedStickX(2, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTY:
-		Controller::feedStickY(2, true, val);
+		GameControllerManager::feedStickY(2, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-		Controller::feedTrigger(1, val);
+		GameControllerManager::feedTrigger(1, val);
 		break;
 	case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-		Controller::feedTrigger(2, val);
+		GameControllerManager::feedTrigger(2, val);
 		break;
 	}
 }
@@ -440,8 +442,10 @@ int AppPlatform_sdl::_TranslateSDLKeyCodeToVirtual(int sdlCode)
 {
 	switch (sdlCode) {
 #define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
+#define _CODE(x) CODE(x)
 #include "compat/SDLKeyCodes.h"
 #undef  CODE
+#undef  _CODE
 	}
 	return SDLVK_UNKNOWN;
 }
@@ -451,13 +455,13 @@ MouseButtonType AppPlatform_sdl::GetMouseButtonType(uint8_t button)
 	switch (button)
 	{
 	case SDL_BUTTON_LEFT:
-		return BUTTON_LEFT;
+		return MOUSE_BUTTON_LEFT;
 	case SDL_BUTTON_RIGHT:
-		return BUTTON_RIGHT;
+		return MOUSE_BUTTON_RIGHT;
 	case SDL_BUTTON_MIDDLE:
-		return BUTTON_MIDDLE;
+		return MOUSE_BUTTON_MIDDLE;
 	default:
-		return BUTTON_NONE;
+		return MOUSE_BUTTON_NONE;
 	}
 }
 

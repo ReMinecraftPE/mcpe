@@ -32,10 +32,10 @@ WaterSideTexture::WaterSideTexture() : DynamicTexture(Tile::water->m_TextureFram
 
 WaterSideTexture::~WaterSideTexture()
 {
-	SAFE_DELETE(m_data1);
-	SAFE_DELETE(m_data2);
-	SAFE_DELETE(m_data3);
-	SAFE_DELETE(m_data4);
+	SAFE_DELETE_ARRAY(m_data1);
+	SAFE_DELETE_ARRAY(m_data2);
+	SAFE_DELETE_ARRAY(m_data3);
+	SAFE_DELETE_ARRAY(m_data4);
 }
 
 void WaterSideTexture::tick()

@@ -120,7 +120,7 @@ public:
 private:
     int16_t m_auxValue;
 	CompoundTag* m_userData;
-	Item* m_pItem; // @TODO: replace m_itemID with Item pointer
+	Item* m_pItem;
 	Tile* m_pTile;
 	bool m_bValid;
 };

@@ -9,6 +9,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include "CustomSoundSystem.hpp"
 #include "common/Logger.hpp"
+#include "common/Utils.hpp"
 #include "client/app/AppPlatform.hpp"
 
 // @TODO: fix crash in playAt when Asan is active
@@ -16,7 +17,7 @@
 SoundSystemDS::SoundSystemDS()
 {
 	m_available = false;
-	m_hWnd = (HWND)AppPlatform::singleton()->m_hWND;
+	m_hWnd = (HWND)AppPlatform::singleton()->m_hWnd;
 
 	HRESULT result;
 	DSBUFFERDESC bufferDesc;

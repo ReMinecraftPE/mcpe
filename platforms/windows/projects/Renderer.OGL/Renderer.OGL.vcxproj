@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\platform\ogl\Extensions.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\API_OGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BlendStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\BufferOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ConstantBufferContainerOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\DepthStencilStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FixedPipelineStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\FogStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\GPUEventsOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\helpers\ErrorHandlerOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ImmediateBufferOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ProfileSectionOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RasterizerStateOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderContextOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\RenderDeviceOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ResourceOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderConstantWithDataOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderProgramOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderResourceOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\ShaderUniformOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ogl\TextureOGL.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\platform\ogl\Extensions.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\renderer\platform\ogl\ShaderPrecision.hpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{aa0216ca-956e-4617-9a71-581b5eebf20c}</ProjectGuid>
+    <RootNamespace>Renderer.OGL</RootNamespace>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ProjectName>Renderer.OGL</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="Minecraft">
+    <Import Project="../Directory.Build.props" Condition="'$(MC_GLOBAL_PROPS)'==''" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

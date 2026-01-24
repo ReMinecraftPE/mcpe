@@ -22,7 +22,6 @@
 #include "platforms/android/AppPlatform_android.hpp"
 #include "client/app/NinecraftApp.hpp"
 #include "client/gui/screens/ProgressScreen.hpp"
-#include "client/player/input/Controller.hpp"
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Multitouch.hpp"
 
@@ -43,30 +42,30 @@ struct engine
     NinecraftApp* ninecraftApp = nullptr;
 };
 
-static float mapStick(AInputEvent* event, int32_t axis)
-{
-    const float deadZone = .265f;
-    float value = AMotionEvent_getAxisValue(event, axis, 0);
-    if (value > deadZone)
-        return (value - deadZone) / (1.f - deadZone);
-    else if (value < -deadZone)
-        return (value + deadZone) / (1.f - deadZone);
-    else
-        return 0.f;
-}
+// static float mapStick(AInputEvent* event, int32_t axis)
+// {
+//     const float deadZone = .265f;
+//     float value = AMotionEvent_getAxisValue(event, axis, 0);
+//     if (value > deadZone)
+//         return (value - deadZone) / (1.f - deadZone);
+//     else if (value < -deadZone)
+//         return (value + deadZone) / (1.f - deadZone);
+//     else
+//         return 0.f;
+// }
 
-static float mapTrigger(AInputEvent* event, int32_t axis)
-{
-    const float deadZone = .1f;
-    float value = AMotionEvent_getAxisValue(event, axis, 0);
-    if (value > deadZone)
-        return (value - deadZone) / (1.f - deadZone);
-    else
-        return 0.f;
-}
+// static float mapTrigger(AInputEvent* event, int32_t axis)
+// {
+//     const float deadZone = .1f;
+//     float value = AMotionEvent_getAxisValue(event, axis, 0);
+//     if (value > deadZone)
+//         return (value - deadZone) / (1.f - deadZone);
+//     else
+//         return 0.f;
+// }
 
-static bool s_lastR = false;
-static bool s_lastL = false;
+// static bool s_lastR = false;
+// static bool s_lastL = false;
 
 static char getCharFromKey(int32_t keyCode, int32_t metaState)
 {
@@ -154,20 +153,20 @@ static int evalKeyInput(struct engine* engine, AInputEvent* event)
 
 static void nativeMouseDown(int id, int x, int y)
 {
-    Mouse::feed(BUTTON_LEFT, true, x, y);
-    Multitouch::feed(BUTTON_LEFT, true, x, y, id);
+    Mouse::feed(MOUSE_BUTTON_LEFT, true, x, y);
+    Multitouch::feed(MOUSE_BUTTON_LEFT, true, x, y, id);
 }
 
 static void nativeMouseUp(int id, int x, int y)
 {
-    Mouse::feed(BUTTON_LEFT, false, x, y);
-    Multitouch::feed(BUTTON_LEFT, false, x, y, id);
+    Mouse::feed(MOUSE_BUTTON_LEFT, false, x, y);
+    Multitouch::feed(MOUSE_BUTTON_LEFT, false, x, y, id);
 }
 
 static void nativeMouseMove(int id, int x, int y)
 {
-    Mouse::feed(BUTTON_NONE, false, x, y);
-    Multitouch::feed(BUTTON_NONE, false, x, y, id);
+    Mouse::feed(MOUSE_BUTTON_NONE, false, x, y);
+    Multitouch::feed(MOUSE_BUTTON_NONE, false, x, y, id);
 }
 
 static int32_t evalMotionInput(struct engine* engine, AInputEvent* event, int32_t source)
@@ -297,10 +296,10 @@ static void initWindow(struct engine* engine, struct android_app* app)
     EGLConfig config;
 
     EGLint attribs[] = {
-    EGL_SURFACE_TYPE, EGL_OPENGL_ES2_BIT,
-    EGL_DEPTH_SIZE, 0x10,
-    EGL_RENDERABLE_TYPE, EGL_VERSION_1_3,
-    EGL_NONE
+        EGL_SURFACE_TYPE, EGL_OPENGL_ES2_BIT,
+        EGL_DEPTH_SIZE, 0x10,
+        EGL_RENDERABLE_TYPE, EGL_VERSION_1_3,
+        EGL_NONE
     };
 
     EGLint numConfigs = 0;
@@ -398,33 +397,8 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
     }
 }
 
-extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
-extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
-
-static void CheckOptionalTextureAvailability()
-{
-#ifdef FEATURE_MENU_BACKGROUND
-	Screen::setIsMenuPanoramaAvailable(true);
-#endif
-
-#ifdef FEATURE_CLOUDS
-	LevelRenderer::setAreCloudsAvailable(true);
-#endif
-
-#ifdef FEATURE_GRASS_COLOR
-	g_bIsGrassColorAvailable = true;
-#endif
-
-#ifdef FEATURE_FOLIAGE_COLOR
-	g_bIsFoliageColorAvailable = true;
-#endif
-}
-
-
 void android_main(struct android_app* state) {
     struct engine engine;
-	
-	CheckOptionalTextureAvailability();
 
     memset(&engine, 0, sizeof(engine));
     state->userData = &engine;

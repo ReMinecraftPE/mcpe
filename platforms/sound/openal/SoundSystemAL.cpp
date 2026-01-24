@@ -1,7 +1,10 @@
+#include <assert.h>
+
 #include "CustomSoundSystem.hpp"
 
 #include "thirdparty/OpenAL.h"
 #include "common/Logger.hpp"
+#include "common/Utils.hpp"
 
 #include "SoundStreamAL.hpp"
 
@@ -258,7 +261,6 @@ void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 		return;
 
 	bool bIsGUI = AL_FALSE;
-	float distance = 0.0f;
 	if (pos == Vec3::ZERO)
 	{
 		bIsGUI = AL_TRUE;

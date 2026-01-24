@@ -82,7 +82,7 @@ void Explosion::explode()
 	AABB aabb(m_pos - m_power - 1.0f, m_pos + m_power + 1.0f);
 
 	EntityVector ents = m_pLevel->getEntities(m_pEntity, aabb);
-	for (int i = 0; i < ents.size(); i++)
+	for (size_t i = 0; i < ents.size(); i++)
 	{
 		Entity* entity = ents.at(i);
 		float distPowerRatio = entity->distanceTo(m_pos) / m_power;

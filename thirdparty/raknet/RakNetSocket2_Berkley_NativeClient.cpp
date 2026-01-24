@@ -68,7 +68,11 @@ void DomainNameToIP_Berkley_IPV4And6(const char* domainName, char ip[65])
 }
 
 #if (defined(__GNUC__)  || defined(__GCCXML__)) && !defined(__WIN32__)
+#ifdef XENON
+#include <lwip/netdb.h>
+#else
 #include <netdb.h>
+#endif
 #endif
 void DomainNameToIP_Berkley_IPV4(const char* domainName, char ip[65])
 {

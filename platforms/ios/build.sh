@@ -16,9 +16,11 @@ entitlements="$platformdir/minecraftpe.entitlements"
 workdir="$PWD/build/work"
 sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
 [ -d "$sdk" ] && mv "$sdk" ios-sdk-backup
+[ -d "$workdir/bin" ] && mv "$workdir/bin" bin-backup
 rm -rf build
 mkdir -p "$workdir"
 [ -d ios-sdk-backup ] && mv ios-sdk-backup "$sdk"
+[ -d bin-backup ] && mv bin-backup "$workdir/bin"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
@@ -67,35 +69,55 @@ for dep in "${CLANG:-clang}" make cmake; do
     fi
 done
 
-export REMCPE_IOS_BUILD=1
+# Increase this if we ever make a change to the toolchain, for example
+# using a newer cctools-port version, and we need to invalidate the cache.
+toolchainver=1
+if [ "$(cat bin/toolchainver 2>/dev/null)" != "$toolchainver" ]; then
+    rm -rf bin
+    outdated_toolchain=1
+fi
 
-mkdir bin
+mkdir -p bin
 export PATH="$PWD/bin:$PATH"
 
-[ -n "$CLANG" ] && ln -s "$(command -v "$CLANG")" bin/clang && ln -s clang bin/clang++
+if [ -n "$CLANG" ]; then
+    ln -sf "$(command -v "$CLANG")" bin/clang && ln -sf clang bin/clang++
+else
+    rm -f bin/clang bin/clang++
+fi
 
-printf '\nBuilding ld64 and strip...\n\n'
+if [ -n "$outdated_toolchain" ]; then
+    # this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
+    printf '\nBuilding ld64 and strip...\n\n'
 
-# this step is needed even on macOS since newer versions of Xcode will straight up not let you link for old iOS versions anymore
+    cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
+    wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
-cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
-wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
+    cd "cctools-port-$cctools_commit/cctools"
+    [ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
+    ./configure --enable-silent-rules $llvm_config
+    make -C ld64 -j"$ncpus"
+    mv ld64/src/ld/ld ../../bin/ld64.ld64
+    make -C libmacho -j"$ncpus"
+    make -C libstuff -j"$ncpus"
+    make -C misc strip lipo
+    cp misc/strip ../../bin/cctools-strip
+    cp misc/lipo ../../bin/lipo
+    cd ../..
+    printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
 
-cd "cctools-port-$cctools_commit/cctools"
-[ -n "$LLVM_CONFIG" ] && llvm_config="--with-llvm-config=$LLVM_CONFIG"
-./configure --enable-silent-rules $llvm_config
-make -C ld64 -j"$ncpus"
-mv ld64/src/ld/ld ../../bin/ld64.ld64
-make -C libmacho -j"$ncpus"
-make -C libstuff -j"$ncpus"
-make -C misc strip lipo
-cp misc/strip ../../bin/cctools-strip
-cp misc/lipo ../../bin/lipo
-cd ../..
-for target in $targets; do
-    ln -s ../../../ios-cc.sh "bin/$target-cc"
-    ln -s ../../../ios-cc.sh "bin/$target-c++"
-done
+    if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
+        printf '\nBuilding ldid...\n\n'
+
+        ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
+        wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
+
+        cd "ldid-$ldid_commit"
+        make CXX=clang++
+        mv ldid ../bin
+        cd ..
+    fi
+fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
@@ -104,18 +126,6 @@ if [ -z "$DEBUG" ]; then
         lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
     fi
     rm -f "$workdir/testout"
-fi
-
-if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
-    printf '\nBuilding ldid...\n\n'
-
-    ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
-    wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
-
-    cd "ldid-$ldid_commit"
-    make CXX=clang++
-    mv ldid ../bin
-    cd ..
 fi
 
 # go to the root of the project
@@ -129,6 +139,7 @@ fi
 
 for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
+    export REMCPE_TARGET="$target"
 
     rm -rf build
     mkdir build
@@ -142,9 +153,10 @@ for target in $targets; do
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
-        -DCMAKE_C_COMPILER="$target-cc" \
-        -DCMAKE_CXX_COMPILER="$target-c++" \
+        -DCMAKE_C_COMPILER="$PWD/../$platformdir/ios-cc" \
+        -DCMAKE_CXX_COMPILER="$PWD/../$platformdir/ios-c++" \
         -DCMAKE_FIND_ROOT_PATH="$sdk/usr" \
+        -DWERROR="${WERROR:-OFF}" \
         $lto
     make -j"$ncpus"
     mv "$bin" "$workdir/$bin-$target"

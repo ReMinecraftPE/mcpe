@@ -8,6 +8,7 @@
 
 #include "Textures.hpp"
 #include "common/Util.hpp"
+#include "common/Utils.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
 #define MIP_TAG "_mip"
@@ -17,8 +18,7 @@ bool Textures::MIPMAP = false;
 
 TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
-	TextureMap::iterator it = m_textures.find(name);
-	assert(it == m_textures.end());
+	assert(m_textures.find(name) == m_textures.end());
 
 	TextureData t = m_pPlatform->loadTexture(name, bIsRequired);
 
@@ -173,6 +173,8 @@ void Textures::tick()
 
 		mce::Texture& texture = pData->m_texture;
 
+		texture.enableWriteMode(renderContext);
+
 		for (int x = 0; x < pDynaTex->m_textureSize; x++)
 		{
 			for (int y = 0; y < pDynaTex->m_textureSize; y++)
@@ -184,12 +186,13 @@ void Textures::tick()
 					16, 16, 0);
 			}
 		}
+
+		texture.disableWriteMode(renderContext);
 	}
 }
 
 TextureData* Textures::loadAndBindTexture(const std::string& name, bool isRequired, unsigned int textureUnit)
 {
-	TextureMap::iterator it = m_textures.find(name);
 	TextureData* pTexture = getTextureData(name, isRequired);
 
 	if (!pTexture)

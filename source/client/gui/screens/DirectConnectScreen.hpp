@@ -15,13 +15,17 @@ class DirectConnectScreen : public Screen
 public:
 	DirectConnectScreen();
 	
-	virtual void init() override;
-	virtual void buttonClicked(Button* pButton) override;
-	virtual void render(int x, int y, float f) override;
-	virtual void onTextBoxUpdated(int id) override;
+protected:
+	void _buttonClicked(Button* pButton) override;
+
+public:
+	void init() override;
+	void render(float f) override;
+	bool handleBackEvent(bool b) override;
+	void onTextBoxUpdated(int id) override;
 
 private:
 	TextInputBox m_textAddress;
-	Button m_btnQuit;
+	Button m_btnCancel;
 	Button m_btnJoin;
 };

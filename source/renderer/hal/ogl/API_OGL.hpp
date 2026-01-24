@@ -3,6 +3,7 @@
 #include <string>
 
 #include "thirdparty/GL/GL.hpp"
+#include "compat/Unused.hpp"
 
 // This file is actually titled "gl_header.h", but I like "API_OGL.hpp" better
 
@@ -16,7 +17,7 @@ namespace gl
             GLES_2_0,
             GLES_3_0,
             GLES_3_1,
-            GLES_3_2,
+            GLES_3_2
         };
 
     private:
@@ -37,7 +38,7 @@ namespace gl
         void parse();
     };
 
-    static bool hardwareOverideOpenGLES3 = false;
+    MC_UNUSED static bool hardwareOverideOpenGLES3 = false;
     
     std::string getOpenGLVendor();
     std::string getOpenGLRenderer();
@@ -49,4 +50,5 @@ namespace gl
     bool supportsMipmaps();
     bool supportsImmediateMode();
     bool supports32BitIndices();
+    bool supports16BitUnsignedUVs();
 }

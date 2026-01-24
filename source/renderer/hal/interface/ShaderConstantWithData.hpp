@@ -13,11 +13,13 @@ namespace mce
         {
         }
 
+#if MCE_GFX_API_OGL
         virtual void syncUniform(int location)
         {
             MCE_GFX_CLASS_SHADER(ShaderConstantWithData)<T>::syncUniform(location);
             ShaderConstant::syncUniform(location);
         }
+#endif
     };
 
     class ShaderConstantFloat1    : public ShaderConstantWithData<SHADER_PRIMITIVE_FLOAT1>    {};

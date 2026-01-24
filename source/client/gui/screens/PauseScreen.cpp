@@ -66,35 +66,32 @@ void PauseScreen::init()
 	currY += inc;
 
 	// add the buttons to the screen:
-	m_buttons.push_back(&m_btnBack);
+	_addElement(m_btnBack);
 
 #ifdef ENH_ADD_OPTIONS_PAUSE
-	m_buttons.push_back(&m_btnOptions);
+	_addElement(m_btnOptions);
 #endif
 
 	if (bAddVisibleButton)
 	{
 		updateServerVisibilityText();
-		m_buttons.push_back(&m_btnVisible);
+		_addElement(m_btnVisible);
 #ifdef ENH_ADD_OPTIONS_PAUSE
 		m_btnOptions.m_yPos += inc;
 #endif
 	}
 
-	m_buttons.push_back(&m_btnQuit);
+	_addElement(m_btnQuit);
 	
-	//m_buttons.push_back(&m_btnQuitAndCopy);
+	//_addElement(m_btnQuitAndCopy);
 
 #ifdef ENH_ADD_OPTIONS_PAUSE
 	//swap the options and quit buttons around (??)
 	std::swap(m_btnOptions.m_yPos, m_btnQuit.m_yPos);
 #endif
 
-	for (int i = 0; i < int(m_buttons.size()); i++)
-		m_buttonTabList.push_back(m_buttons[i]);
-
-#ifdef __EMSCRIPTEN__
-	m_btnVisible.m_bEnabled = false;
+#ifndef FEATURE_NETWORKING
+	m_btnVisible.setEnabled(false);
 #endif
 }
 
@@ -116,15 +113,15 @@ void PauseScreen::tick()
 	field_40++;
 }
 
-void PauseScreen::render(int a, int b, float c)
+void PauseScreen::render(float f)
 {
 	renderBackground();
 
 	drawCenteredString(*m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
-	Screen::render(a, b, c);
+	Screen::render(f);
 }
 
-void PauseScreen::buttonClicked(Button* pButton)
+void PauseScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnBack.m_buttonId)
 		m_pMinecraft->resumeGame();

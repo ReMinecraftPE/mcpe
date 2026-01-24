@@ -74,7 +74,7 @@ Level::~Level()
 	SAFE_DELETE(m_pPathFinder);
 
 	const size_t size = m_entities.size();
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		Entity* pEnt = m_entities.at(i);
 		
@@ -1513,7 +1513,7 @@ void Level::tickTiles()
 
 		for (int i = 0; i < 80; i++)
 		{
-			m_randValue = m_randValue * 3 + m_addend;
+			m_randValue = (int64_t)m_randValue * 3 + m_addend;
 			int rand = m_randValue >> 2;
 
 			TilePos tilePos(

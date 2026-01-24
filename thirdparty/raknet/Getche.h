@@ -12,12 +12,12 @@
 #include <conio.h> /* getche() */
 
 #else
-#if (!defined(__DREAMCAST__) && !defined(__SWITCH__))
+#if (!defined(__DREAMCAST__) && !defined(XENON) && !defined(__SWITCH__))
 #include <termios.h>
 #include <stdio.h>
 #include <unistd.h>
 #else
-#define NO_ONLINE
+#define NO_ONLINE // @TODO: nothing uses this, wtf is this?
 #endif
 char getche();
 #endif 

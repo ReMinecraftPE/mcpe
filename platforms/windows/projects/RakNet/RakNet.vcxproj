@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -16,6 +16,14 @@
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Xbox 360">
+      <Configuration>Debug</Configuration>
+      <Platform>Xbox 360</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Xbox 360">
+      <Configuration>Release</Configuration>
+      <Platform>Xbox 360</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -39,8 +47,18 @@
     <ClCompile>
       <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
     <Lib>
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Xbox 360'">
+    <Lib Condition="$(Configuration.StartsWith('Debug'))">
+      <AdditionalDependencies>xnetd.lib;xonlined.lib;xpartyd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib Condition="$(Configuration.StartsWith('Release'))">
+      <AdditionalDependencies>xnet.lib;xonline.lib;xparty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -310,6 +328,7 @@
     <ClCompile Include="$(RAKNET_PATH)\VitaIncludes.cpp" />
     <ClCompile Include="$(RAKNET_PATH)\WSAStartupSingleton.cpp" />
     <ClCompile Include="$(RAKNET_PATH)\_FindFirst.cpp" />
+    <ClCompile Include="..\..\..\..\thirdparty\raknet\XBox360Includes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(RAKNET_PATH)\RakNet.vcproj" />

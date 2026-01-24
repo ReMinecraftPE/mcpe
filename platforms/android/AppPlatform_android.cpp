@@ -102,24 +102,6 @@ int AppPlatform_android::getUserInputStatus()
 	return m_UserInputStatus;
 }
 
-void AppPlatform_android::createUserInput()
-{
-	m_UserInput.clear();
-	m_UserInputStatus = -1;
-
-	switch (m_DialogType)
-	{
-		case DLG_CREATE_WORLD:
-		{
-			// some placeholder for now
-			m_UserInput.push_back("New World");
-			m_UserInput.push_back("123456");
-			m_UserInputStatus = 1;
-			break;
-		}
-	}
-}
-
 void AppPlatform_android::showDialog(eDialogType type)
 {
 	m_DialogType = type;
@@ -135,7 +117,7 @@ std::string AppPlatform_android::getDateString(int time)
 	return std::string(buffer);
 }
 
-SoundSystem* const AppPlatform_android::getSoundSystem() const
+SoundSystem* AppPlatform_android::getSoundSystem() const
 {
 	return m_pSoundSystem;
 }
@@ -266,7 +248,7 @@ void AppPlatform_android::changeKeyboardVisibility(bool bShown)
 
 		// lInputMethodManager.hideSoftInput(...).
 		jmethodID MethodHideSoftInput = pEnv->GetMethodID(ClassInputMethodManager, "hideSoftInputFromWindow","(Landroid/os/IBinder;I)Z");
-		jboolean lResult = pEnv->CallBooleanMethod(lInputMethodManager, MethodHideSoftInput,lBinder, flags);
+		pEnv->CallBooleanMethod(lInputMethodManager, MethodHideSoftInput,lBinder, flags);
 
 		m_bIsKeyboardShown = false; // just treat it as hidden anyways why not
 	}

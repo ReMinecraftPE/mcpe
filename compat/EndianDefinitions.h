@@ -11,7 +11,7 @@
 // @TODO: __BIG_ENDIAN__ might be Apple-specific
 
 #ifndef MC_ENDIANNESS_BIG
-#if (defined(__BIG_ENDIAN__) && __BIG_ENDIAN__) || (defined(__powerpc__) && __powerpc__)
+#if (defined(__BIG_ENDIAN__) && __BIG_ENDIAN__) || (defined(__powerpc__) && __powerpc__) || (defined(_M_PPCBE) && _M_PPCBE)
 #define MC_ENDIANNESS_BIG 1
 #else
 #define MC_ENDIANNESS_BIG 0

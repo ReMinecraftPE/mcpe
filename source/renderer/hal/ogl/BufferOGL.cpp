@@ -1,8 +1,8 @@
 #include <typeinfo>
 #include "BufferOGL.hpp"
 #include "common/Logger.hpp"
-#include "renderer/hal/helpers/ErrorHandler.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
+#include "helpers/ErrorHandlerOGL.hpp"
 
 using namespace mce;
 
@@ -34,7 +34,7 @@ BufferOGL::~BufferOGL()
 
 void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const void* data, unsigned int count, BufferType bufferType)
 {
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 
     m_target = mce::glTargetFromBufferType(bufferType);
 
@@ -47,7 +47,7 @@ void BufferOGL::_createBuffer(RenderContext& context, unsigned int stride, const
 
     xglBufferData(m_target, m_internalSize, data, m_usage);
 
-    ErrorHandler::checkForErrors();
+    ErrorHandlerOGL::checkForErrors();
 }
 
 void BufferOGL::_move(BufferOGL& other)
@@ -127,7 +127,7 @@ void BufferOGL::updateBuffer(RenderContext& context, unsigned int stride, void*&
     // to be rendered, so perhaps some day...
     // Additionally, we could try holding the vertex buffer data in memory and pass
     // it in the draw call, as supposedly not even using buffers is faster.
-#ifdef GL_VERSION_ES_CM_1_0
+#if defined(GL_VERSION_ES_CM_1_0) || (!defined(FEATURE_GFX_SHADERS) && defined(__APPLE__) && defined(__aarch64__))
 #define GLES1_WORKAROUND true
 #else
 #define GLES1_WORKAROUND false

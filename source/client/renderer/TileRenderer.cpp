@@ -939,7 +939,7 @@ bool TileRenderer::tesselateWaterInWorld(Tile* tile1, const TilePos& pos)
 
 label_8:
 	bFlag2 = bFlag1;
-	bool bRenderedSides = false;
+	//bool bRenderedSides = false;
 
 	for (int dir = 0; dir < 4; dir++)
 	{
@@ -1011,7 +1011,7 @@ label_8:
 		texV_2 = C_RATIO * (float(texY) + (1.0f - height2) * 16.0f);
 		texV_3 = C_RATIO * (float(texY + 16.0f) - 0.01f);
 		bFlag2 = true;
-		bRenderedSides = true;
+		//bRenderedSides = true;
 
 		float brightMul = dir >= Facing::WEST ? 0.6f : 0.8f;
 		float bright = tile->getBrightness(m_pTileSource, TilePos(checkX, pos.y, checkZ));
@@ -2791,7 +2791,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 		ETILE_FACE_DNE,// -Y+X-Z
 		ETILE_FACE_DSW,// -Y-X+Z
 		ETILE_FACE_DSE,// -Y+X+Z
-		ETILE_FACE_COUNT,
+		ETILE_FACE_COUNT
 	};
 
 	// for Facing::Name directions

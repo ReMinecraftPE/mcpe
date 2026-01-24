@@ -17,7 +17,7 @@ namespace mce
         std::vector<ShaderConstant*>* m_shaderConstants;
         std::vector<uint8_t>* m_constantBufferBytes;
         std::string m_constantBufferName;
-        bool m_currentlyMapped;
+        bool m_bWriteEnabled;
 
     private:
         void _init();
@@ -53,7 +53,7 @@ namespace mce
             return nullptr;
         }
         bool isDirty() const;
-        std::string getConstantBufferName() const { return m_constantBufferName; }
+        const std::string& getConstantBufferName() const { return m_constantBufferName; }
 
         MC_FUNC_MOVE(ConstantBufferContainerBase);
     };

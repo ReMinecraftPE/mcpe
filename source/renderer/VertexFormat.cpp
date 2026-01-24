@@ -1,33 +1,23 @@
 #include <string.h>
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
+#include <assert.h>
 
 #include "VertexFormat.hpp"
 #include "world/phys/Vec2.hpp"
 #include "world/phys/Vec3.hpp"
+#include "VertexFieldFormat.hpp"
+#include "GameMods.hpp"
 
 using namespace mce;
 
 const VertexFormat VertexFormat::EMPTY = VertexFormat();
-const unsigned int VertexFormat::FieldSize[] = {
-    /* VERTEX_FIELD_POSITION */ sizeof(Vec3),
-    /* VERTEX_FIELD_COLOR */    sizeof(uint32_t),
-    /* VERTEX_FIELD_NORMAL */   sizeof(uint32_t),
-#ifdef ENH_GFX_COMPACT_UVS
-    /* VERTEX_FIELD_UV0 */      sizeof(uint16_t[2]),
-    /* VERTEX_FIELD_UV1 */      sizeof(uint16_t[2]),
-#else
-    /* VERTEX_FIELD_UV0 */      sizeof(Vec2),
-    /* VERTEX_FIELD_UV1 */      sizeof(Vec2),
-#endif
-    /* VERTEX_FIELD_UV2 */      0,
-    /* VERTEX_FIELD_PBR_IDX */  0,
-    /* VERTEX_FIELD_BONEID_0 */ 0
-};
 
 void VertexFormat::_init()
 {
     m_fieldMask = 0;
     m_vertexSize = 0;
-    memset(m_fieldOffset, -1, sizeof(m_fieldOffset));
+    memset(m_fieldOffset, UINT8_MAX, sizeof(m_fieldOffset));
 }
 
 VertexFormat::VertexFormat()
@@ -38,14 +28,11 @@ VertexFormat::VertexFormat()
 void VertexFormat::enableField(VertexField vertexField)
 {
     if (hasField(vertexField)) return;
-    //if (vertexField != VERTEX_FIELD_POSITION) return;
 
     m_fieldOffset[vertexField] = m_vertexSize;
-    uint8_t v6 = m_vertexSize + VertexFormat::FieldSize[vertexField];
-    uint8_t v8 = v6 & 3;
-    m_vertexSize = v6;
-    if (v8)
-        m_vertexSize += 4 - v8;
+    m_vertexSize += VertexFieldFormats::GetFormatByField(vertexField).size;
+    if (m_vertexSize != 4 * (m_vertexSize >> 2))
+        m_vertexSize  = 4 * (m_vertexSize >> 2) + 4;
     m_fieldMask |= (1 << vertexField);
 }
 
@@ -56,6 +43,7 @@ bool VertexFormat::hasField(VertexField vertexField) const
 
 const void* VertexFormat::getFieldOffset(VertexField vertexField, const void *vertexData) const
 {
+    assert(m_fieldOffset[vertexField] != UINT8_MAX);
     return (void*)((uintptr_t)vertexData + m_fieldOffset[vertexField]);
 }
 
@@ -73,7 +61,7 @@ bool VertexFormat::operator!=(const VertexFormat &other) const
 
 bool VertexFormat::operator<(const VertexFormat &other) const
 {
-    return (unsigned int)memcmp(this, &other, sizeof(VertexFormat)) >> 31;
+    return memcmp(this, &other, sizeof(VertexFormat)) < 0;
 }
 
 bool VertexFormat::HasField(uint8_t fieldMask, VertexField vertexField)

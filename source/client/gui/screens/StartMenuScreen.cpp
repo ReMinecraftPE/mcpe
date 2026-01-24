@@ -18,9 +18,30 @@
 #include "ProgressScreen.hpp"
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
+#include "CreditsScreen.hpp"
 
 // special mode so that we can crop out the title:
 //#define TITLE_CROP_MODE
+
+#define C_TITLE_PATH_DEFAULT  "title/mclogo.png"
+#define C_TITLE_PATH_FALLBACK "gui/title.png" // everyone should have this
+#define C_TITLE_PATH_POCKET   "gui/title_pe.png"
+#define C_TITLE_PATH_XBOX360  "gui/title_xbox360.png"
+#define C_TITLE_SCALE_DEFAULT 1.0f
+
+#if MC_PLATFORM_MOBILE
+#define C_TITLE_PATH C_TITLE_PATH_POCKET
+#elif MC_PLATFORM_XBOX360
+#define C_TITLE_PATH C_TITLE_PATH_XBOX360
+#define C_TITLE_SCALE 0.5f
+#else
+#define C_TITLE_PATH C_TITLE_PATH_DEFAULT
+#define C_USING_JAVA_TITLE
+#endif
+
+#ifndef C_TITLE_SCALE
+#define C_TITLE_SCALE C_TITLE_SCALE_DEFAULT
+#endif
 
 const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
 const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
@@ -124,10 +145,16 @@ const char* gSplashes[] =
 	"Complex cellular automata!",
 	"Yes, sir!",
 	"Played by cowboys!",
+#if MCE_GFX_API_OGL
 #ifdef USE_GLES
 	"OpenGL ES 1.1!",
 #else
 	"OpenGL 1.5!",
+#endif
+#elif MCE_GFX_API_D3D11
+	"Direct3D 11.1!",
+#elif MCE_GFX_API_D3D9
+	"Direct3D 9!",
 #endif
 	"Thousands of colors!",
 	"Try it!",
@@ -353,12 +380,18 @@ const char* gSplashes[] =
 	// custom:
 	"https://github.com/ReMinecraftPE/mcpe",
 	"100% (render)dragon free!",
-	"Also try Minecraft!",
+	"Also try Minecraft!", // Notch
 	"Also try Noita!",
 	"Also try Castle Crashers!",
 	"Also try Unturned!",
+	"Also try Minecraft Pi Reborn!", // TheBrokenRail
+	"Also try RePocket!", // atipls
+	"Also try PEtoLE!", // Wilyicaro
 	"Controller support!",
 	"Check out our GitHub!",
+	"Flint and steel!",
+	"I ... am Steve!",
+	"Nostalgic!",
 	"Now with graphics abstraction!",
 	"Now with HAL!",
 	"Supports PowerPC!",
@@ -366,9 +399,9 @@ const char* gSplashes[] =
 	"The Work of Aron Nieminen!",      // https://minecraft.wiki/w/Aron_Nieminen
 	"The Work of Johan Bernhardsson!", // https://minecraft.wiki/w/Johan_Bernhardsson
 	"The Work of Tommaso Checchi!",     // https://minecraft.wiki/w/Tommaso_Checchi
-	"Woo, newgrounds!",
 	"Woo, forge!",
 	"Woo, fabric!",
+	"Woo, newgrounds!",
 };
 
 StartMenuScreen::Materials::Materials()
@@ -382,10 +415,12 @@ StartMenuScreen::StartMenuScreen() :
 	m_joinButton   (3,   0, 0, 160, 24, "Join Game"),
 	m_optionsButton(4,   0, 0,  78, 22, "Options"),
 	m_testButton   (999, 0, 0,  78, 22, "Test"),
-	m_buyButton    (5,   0, 0,  78, 22, "Buy")
+	m_buyButton    (5,   0, 0,  78, 22, "Buy"),
+	m_creditsButton(6,   0, 0,  78, 22, "")
 {
 	m_pTiles = nullptr;
 	m_chosenSplash = -1;
+	m_bUsingJavaLogo = false;
 
 	// note: do it here because we don't want the title to
 	// show up differently when you resize
@@ -394,7 +429,98 @@ StartMenuScreen::StartMenuScreen() :
 
 StartMenuScreen::~StartMenuScreen()
 {
-	SAFE_DELETE(m_pTiles);
+	SAFE_DELETE_ARRAY(m_pTiles);
+}
+
+void StartMenuScreen::_initTextures()
+{
+	if (!m_p2dTitleTexPath.empty())
+		return;
+
+	Textures* tx = m_pMinecraft->m_pTextures;
+	std::string path = C_TITLE_PATH;
+	if (tx->getTextureData(path, false))
+	{
+#ifdef C_USING_JAVA_TITLE
+		m_bUsingJavaLogo = true;
+#endif
+	}
+	else
+	{
+		path = C_TITLE_PATH_FALLBACK;
+		// "preload" texture data
+		tx->getTextureData(path, true);
+	}
+
+	m_p2dTitleTexPath = path;
+}
+
+void StartMenuScreen::_initResources()
+{
+	_initTextures();
+	_build2dTitleMesh();
+}
+
+void StartMenuScreen::_build2dTitleMesh()
+{
+	// bool crampedMode = false;
+  
+	int yPos, width, height, left;
+
+	TextureData* pTex = m_pMinecraft->m_pTextures->getTextureData(m_p2dTitleTexPath, true);
+	if (!pTex)
+		return;
+  
+	if (m_bUsingJavaLogo)
+	{
+    	yPos = 30;
+		width = 274;
+    	height = 44;
+		left = m_width / 2 - width / 2;
+
+		if (m_width * 3 / 4 < m_2dTitleBounds.w)
+		{
+			// crampedMode = true;
+			yPos = 4;
+		}
+
+		Tesselator& t = Tesselator::instance;
+		t.begin(8);
+		t.vertexUV(left,       yPos + height, 0, 0.0f,          44.0f / 256.0f);
+		t.vertexUV(left + 155, yPos + height, 0, 155.0f / 256.0f, 44.0f / 256.0f);
+		t.vertexUV(left + 155, yPos,          0, 155.0f / 256.0f, 0.0f);
+		t.vertexUV(left,       yPos,          0, 0.0f,          0.0f);
+		t.vertexUV(left + 155, yPos + height, 0, 0.0f,          (45.0f + 44.0f) / 256.0f);
+		t.vertexUV(left + 310, yPos + height, 0, 155.0f / 256.0f, (45.0f + 44.0f) / 256.0f);
+		t.vertexUV(left + 310, yPos,          0, 155.0f / 256.0f, 45.0f / 256.0f);
+		t.vertexUV(left + 155, yPos,          0, 0.0f,          45.0f / 256.0f);
+		m_2dTitleMesh = t.end();
+	}
+	else
+	{
+		yPos = 15;
+		width = pTex->m_imageData.m_width;
+		height = pTex->m_imageData.m_height;
+		if (C_TITLE_SCALE != 1.0f)
+		{
+			width = ceilf(((float)width) * C_TITLE_SCALE);
+			height = ceilf(((float)height) * C_TITLE_SCALE);
+		}
+		left = (m_width - width) / 2;
+	
+		if (m_width * 3 / 4 < m_2dTitleBounds.w)
+		{
+			// crampedMode = true;
+			yPos = 4;
+		}
+	
+		m_2dTitleBounds.x = left;
+		m_2dTitleBounds.y = yPos;
+		m_2dTitleBounds.w = width;
+		m_2dTitleBounds.h = height;
+
+		blit(m_2dTitleMesh, m_2dTitleBounds);
+	}
 }
 
 void StartMenuScreen::_updateLicense()
@@ -402,18 +528,18 @@ void StartMenuScreen::_updateLicense()
 	int licenseID = m_pMinecraft->getLicenseId();
 	if (licenseID < 0)
 	{
-		m_optionsButton.m_bEnabled = false;
-		m_startButton.m_bEnabled = false;
-		m_joinButton.m_bEnabled = false;
+		m_optionsButton.setEnabled(false);
+		m_startButton.setEnabled(false);
+		m_joinButton.setEnabled(false);
 	}
 	else if (licenseID <= 1)
 	{
-		m_optionsButton.m_bEnabled = true;
-		m_startButton.m_bEnabled = true;
-#ifdef __EMSCRIPTEN__
-		m_joinButton.m_bEnabled = false;
+		m_optionsButton.setEnabled(true);
+		m_startButton.setEnabled(true);
+#ifdef FEATURE_NETWORKING
+		m_joinButton.setEnabled(true);
 #else
-		m_joinButton.m_bEnabled = true;
+		m_joinButton.setEnabled(false);
 #endif
 	}
 	else
@@ -422,7 +548,7 @@ void StartMenuScreen::_updateLicense()
 	}
 }
 
-void StartMenuScreen::buttonClicked(Button* pButton)
+void StartMenuScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_startButton.m_buttonId)
 	{
@@ -454,6 +580,10 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 	{
 		m_pMinecraft->setScreen(new OptionsScreen);
 	}
+	else if (pButton->m_buttonId == m_creditsButton.m_buttonId)
+	{
+		m_pMinecraft->setScreen(new CreditsScreen);
+	}
 }
 
 void StartMenuScreen::init()
@@ -475,27 +605,40 @@ void StartMenuScreen::init()
 
 	m_joinButton.m_xPos = x1 / 2;
 	m_optionsButton.m_xPos = x1 / 2;
+	
 	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
 
+	m_creditsButton.m_xPos = 0;
+	m_creditsButton.m_yPos = 0;
+	m_creditsButton.m_width = m_width;
+	m_creditsButton.m_height = 75;
+	m_creditsButton.m_color.a = 0.0f;
+
+	// fill in empty space where quit/buy button would be
+	if (m_pMinecraft->isTouchscreen())
+	{
+		m_optionsButton.m_xPos = m_startButton.m_xPos;
+		m_optionsButton.m_width = m_startButton.m_width;
+	}
+
 	// add the buttons to the screen:
-	m_buttons.push_back(&m_startButton);
-	m_buttons.push_back(&m_joinButton);
-	m_buttons.push_back(&m_optionsButton);
+	_addElement(m_startButton);
+	_addElement(m_joinButton);
+	_addElement(m_optionsButton);
 
     bool canQuit = false;
-    
-#if defined(DEMO) || (!MC_PLATFORM_IOS && !MC_PLATFORM_ANDROID)
-    canQuit = true;
+
+#if defined(DEMO) || !MC_PLATFORM_MOBILE
+	canQuit = true;
 #endif
-    
-    if (canQuit)
+
+	if (canQuit)
     {
-        m_buttons.push_back(&m_buyButton);
+        _addElement(m_buyButton);
     }
 
-	for (int i = 0; i < int(m_buttons.size()); i++)
-		m_buttonTabList.push_back(m_buttons[i]);
+	_addElement(m_creditsButton);
 
 	field_154 = "\xFFMojang AB";
 	field_16C = m_width - 1 - m_pFont->width(field_154);
@@ -512,6 +655,7 @@ void StartMenuScreen::init()
 	m_buyButton.m_text = "Quit";
 #endif
 
+	_initResources();
 	_updateLicense();
 }
 
@@ -522,36 +666,9 @@ bool StartMenuScreen::isInGameScreen()
 
 void StartMenuScreen::draw2dTitle()
 {
-	Textures* tx = m_pMinecraft->m_pTextures;
-
-	bool crampedMode = false;
-	//int titleYPos = 4;
-	//int titleYPos = 30; // -- MC Java position
-	int titleYPos = 15;
-
-	TextureData* pTex = tx->loadAndBindTexture("gui/title.png", true);
-
-	if (pTex)
-	{
-		int left = (m_width - pTex->m_imageData.m_width) / 2;
-		int width = pTex->m_imageData.m_width;
-		int height = pTex->m_imageData.m_height;
-
-		if (m_width * 3 / 4 < m_2dTitleBounds.w)
-		{
-			crampedMode = true;
-			titleYPos = 4;
-		}
-
-		m_2dTitleBounds.x = left;
-		m_2dTitleBounds.y = titleYPos;
-		m_2dTitleBounds.w = width;
-		m_2dTitleBounds.h = height;
-
-		currentShaderColor = Color::WHITE;
-		blit(m_2dTitleBounds);
-	}
-
+	currentShaderColor = Color::WHITE;
+	m_pMinecraft->m_pTextures->loadAndBindTexture(m_p2dTitleTexPath);
+	m_2dTitleMesh.render(m_materials.ui_textured);
 }
 
 void StartMenuScreen::draw3dTitle(float f)
@@ -578,7 +695,13 @@ void StartMenuScreen::draw3dTitle(float f)
 
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
-	renderContext.setViewport(0, Minecraft::height - titleHeight, Minecraft::width, titleHeight, 0.0f, 0.7f);
+	mce::ViewportOrigin viewportOrigin;
+	{
+		viewportOrigin.leftX = 0;
+		viewportOrigin.bottomLeftY = Minecraft::height - titleHeight;
+		viewportOrigin.topLeftY = 0;
+	}
+	renderContext.setViewport(Minecraft::width, titleHeight, 0.0f, 0.7f, viewportOrigin);
 
 	MatrixStack::Ref viewMtx = MatrixStack::View.pushIdentity();
 	
@@ -669,16 +792,16 @@ void StartMenuScreen::draw3dTitle(float f)
 		}
 	}
 
-	renderContext.setViewport(0, 0, Minecraft::width, Minecraft::height, 0.0f, 0.7f);
+	renderContext.setViewport(Minecraft::width, Minecraft::height, 0.0f, 0.7f);
 }
 
-void StartMenuScreen::render(int a, int b, float c)
+void StartMenuScreen::render(float f)
 {
 #ifdef TITLE_CROP_MODE
 	fill(0, 0, m_width, m_height, 0xFF00FF00);
 #else
 	//renderBackground();
-	renderMenuBackground(c);
+	renderMenuBackground(f);
 #endif
 
 	//int titleYPos = 4;
@@ -692,10 +815,10 @@ void StartMenuScreen::render(int a, int b, float c)
 		titleYPos = 4;
 	}
 
-	if (m_pMinecraft->getOptions()->m_bOldTitleLogo)
+	if (m_pMinecraft->getOptions()->m_b2dTitleLogo)
 		draw2dTitle();
 	else
-		draw3dTitle(c);
+		draw3dTitle(f);
 
 	drawString(*m_pFont, field_170, field_188, 58 + titleYPos, Color(204, 204, 204));
 	drawString(*m_pFont, field_154, field_16C, m_height - 10, Color::WHITE);
@@ -706,7 +829,7 @@ void StartMenuScreen::render(int a, int b, float c)
 		drawSplash();
 #endif
 
-	Screen::render(a, b, c);
+	Screen::render(f);
 }
 
 void StartMenuScreen::tick()

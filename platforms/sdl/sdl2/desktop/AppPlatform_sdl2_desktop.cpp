@@ -22,5 +22,5 @@ void AppPlatform_sdl2_desktop::recenterMouse()
 	int w = 0, h = 0;
 	SDL_GetWindowSize(m_pWindow, &w, &h);
 	SDL_WarpMouseInWindow(m_pWindow, w / 2, h / 2);
-	//Mouse::feed(BUTTON_NONE, false, w / 2, h / 2);
+	//Mouse::feed(MOUSE_BUTTON_NONE, false, w / 2, h / 2);
 }

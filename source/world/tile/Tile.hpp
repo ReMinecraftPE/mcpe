@@ -56,7 +56,10 @@ public: // virtual functions
 	virtual ~Tile();
 	virtual bool isCubeShaped() const;
 	virtual eRenderShape getRenderShape() const;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
 	virtual Tile* setShape(float, float, float, float, float, float);
+#pragma GCC diagnostic pop
 	virtual void updateShape(const LevelSource*, const TilePos& pos);
 	virtual void updateDefaultShape();
 	virtual void addLights(Level*, const TilePos& pos);

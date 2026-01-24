@@ -1,5 +1,6 @@
 #include "EntityShaderManager.hpp"
 
+#include "common/Mth.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "world/entity/Mob.hpp"
@@ -37,8 +38,6 @@ void EntityShaderManager::_setupShaderParameters(const Entity& entity,
 	mce::GlobalConstantBuffers& globalBuffers = mce::GlobalConstantBuffers::getInstance();
 	mce::EntityConstants& cEntity = globalBuffers.m_entityConstants;
 
-	Vec3 entityPos = entity.m_pos;
-
 	Color tileLightColor = Color::WHITE * entity.getBrightness(a);
 
 	if (a != 1.0f)
@@ -51,7 +50,7 @@ void EntityShaderManager::_setupShaderParameters(const Entity& entity,
 	cEntity.CHANGE_COLOR->setData(&tintColor);
 	cEntity.UV_OFFSET->setData(&uvOffset);
 	cEntity.UV_ROTATION->setData(&uvRot);
-	Vec2 glintUV = glintUVScale * 0.017453f;
+	Vec2 glintUV = glintUVScale * MTH_DEG_TO_RAD;
 	cEntity.GLINT_UV_SCALE->setData(&glintUV);
 	cEntity.UV_ANIM->setData(&uvAnim);
 
@@ -115,7 +114,7 @@ void EntityShaderManager::_setupShaderParameters(const Color& overlayColor, cons
 	cEntity.CHANGE_COLOR->setData(&tintColor);
 	cEntity.UV_OFFSET->setData(&uvOffset);
 	cEntity.UV_ROTATION->setData(&uvRot);
-	Vec2 glintUV = glintUVScale * 0.017453f;
+	Vec2 glintUV = glintUVScale * MTH_DEG_TO_RAD;
 	cEntity.GLINT_UV_SCALE->setData(&glintUV);
 	cEntity.UV_ANIM->setData(&uvAnim);
 

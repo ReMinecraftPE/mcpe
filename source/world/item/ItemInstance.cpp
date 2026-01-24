@@ -24,6 +24,7 @@ void ItemInstance::_init(int id, int count, int auxValue)
 	m_auxValue = auxValue;
     m_userData = nullptr;
 	m_popTime = 0;
+	m_bValid = false;
 	_setItem(id);
 }
 
@@ -36,7 +37,6 @@ ItemInstance::ItemInstance(const ItemInstance& other)
 {
 	_init(other.getId(), other.m_count, other.getAuxValue());
 
-	bool v6 = false;
 	if (other.hasUserData())
 	{
 		setUserData(other.getUserData()->uniqueClone());

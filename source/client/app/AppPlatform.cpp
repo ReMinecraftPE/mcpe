@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include <fstream>
+#include <time.h>
 
 #include "thirdparty/stb_image/include/stb_image.h"
 
@@ -17,7 +18,7 @@
 
 AppPlatform* AppPlatform::m_singleton = nullptr;
 
-AppPlatform* const AppPlatform::singleton()
+AppPlatform* AppPlatform::singleton()
 {
 	return m_singleton;
 }
@@ -25,7 +26,7 @@ AppPlatform* const AppPlatform::singleton()
 AppPlatform::AppPlatform()
 {
 	m_singleton = this;
-	m_hWND = nullptr;
+	m_hWnd = nullptr;
 }
 
 AppPlatform::~AppPlatform()
@@ -169,6 +170,11 @@ bool AppPlatform::hasGamepad() const
 	return false;
 }
 
+GameControllerHandler* AppPlatform::getGameControllerHandler()
+{
+	return nullptr;
+}
+
 void AppPlatform::recenterMouse()
 {
 
@@ -308,6 +314,15 @@ std::string AppPlatform::getPatchData()
 	return readAssetFileStr(_getPatchDataPath(), false);
 }
 
+void AppPlatform::initSoundSystem()
+{
+}
+
+SoundSystem* AppPlatform::getSoundSystem() const
+{
+	return nullptr;
+}
+
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
 	std::string realPath = path;
@@ -325,7 +340,7 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 {
 	if (path.empty())
 	{
-		LOG_W("Empty asset file path!");
+		if (!quiet) LOG_W("Empty asset file path!");
 		return AssetFile();
 	}
 
@@ -368,15 +383,18 @@ std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) c
 	if (!file.data)
 		return "";
 	std::string out = std::string(file.data, file.data + file.size);
-	delete file.data;
+	delete[] file.data;
 	return out;
 }
 
-void AppPlatform::initSoundSystem()
+void AppPlatform::makeNativePath(std::string& path) const
 {
 }
 
-SoundSystem* const AppPlatform::getSoundSystem() const
+void AppPlatform::beginProfileDataWrite(unsigned int playerId)
 {
-	return nullptr;
+}
+
+void AppPlatform::endProfileDataWrite(unsigned int playerId)
+{
 }

@@ -91,7 +91,7 @@ void SoundSystemSL::removeStoppedSounds()
 	toRemove.clear();
 	pthread_mutex_unlock(&toRemoveMutex);
 
-	for (int i = 0; i < m_tempToRemove.size(); i++)
+	for (size_t i = 0; i < m_tempToRemove.size(); i++)
 	{
 
 		for (SLSoundList::iterator it = m_playingSounds.begin();

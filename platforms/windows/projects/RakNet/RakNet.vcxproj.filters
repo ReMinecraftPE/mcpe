@@ -805,6 +805,9 @@
     <ClCompile Include="$(RAKNET_PATH)\RakNetSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\thirdparty\raknet\XBox360Includes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(RAKNET_PATH)\RakNet.vcproj">

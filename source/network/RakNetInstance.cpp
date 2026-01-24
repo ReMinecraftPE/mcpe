@@ -16,12 +16,6 @@
 
 //#define LOG_PACKETS
 
-#ifdef LOG_PACKETS
-#define LOG_PACKET(str, ...) LOG_I(str, __VA_ARGS__)
-#else
-#define LOG_PACKET(str, ...)
-#endif
-
 RakNetInstance::RakNetInstance()
 {
 	m_bIsHost = false;
@@ -145,7 +139,9 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 
 		RakNet::BitStream* pBitStream = new RakNet::BitStream(pPacket->data + 1, pPacket->length - 1, 0);
         
-        LOG_PACKET("Recieved packet from %s (id: %d bitStream: 0x%x length: %u)", pPacket->systemAddress.ToString(), packetType, pBitStream, pPacket->length);
+#ifdef LOG_PACKETS
+        LOG_I("Recieved packet from %s (id: %d bitStream: 0x%x length: %u)", pPacket->systemAddress.ToString(), packetType, pBitStream, pPacket->length);
+#endif
 
 		// @NOTE: why -1?
 		if (packetType >= PACKET_LOGIN - 1)
@@ -154,7 +150,9 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 			if (pUserPacket)
 			{
 				pUserPacket->read(*pBitStream);
-				//LOG_PACKET("Packet: %d", packetType);
+// #ifdef LOG_PACKETS
+// 				LOG_I("Packet: %d", packetType);
+// #endif
 				pUserPacket->handle(pPacket->guid, callback);
 				delete pUserPacket;
 			}
@@ -205,7 +203,7 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 					break;
 
 				// update the info of a pinged compatible server, if possible.
-				for (int i = 0; i < m_servers.size(); i++)
+				for (size_t i = 0; i < m_servers.size(); i++)
 				{
 					PingedCompatibleServer& server = m_servers.at(i);
 					if (server.m_address == pPacket->systemAddress)
@@ -282,7 +280,7 @@ void RakNetInstance::send(Packet* packet)
 #ifdef LOG_PACKETS
     uint8_t packetId;
     bs.Read(packetId);
-    LOG_PACKET("Sent packet (id: %d guid: %s)", packetId, m_bIsHost ? "UNASSIGNED_SYSTEM_ADDRESS" : m_guid.ToString());
+    LOG_I("Sent packet (id: %d guid: %s)", packetId, m_bIsHost ? "UNASSIGNED_SYSTEM_ADDRESS" : m_guid.ToString());
 #endif
     }
     else

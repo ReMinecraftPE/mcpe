@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "RenderMaterial.hpp"
 
 #include "common/utility/JsonParser.hpp"
@@ -21,7 +23,7 @@ RenderMaterial::RenderMaterial()
     m_pShader = nullptr;
 }
 
-RenderMaterial::RenderMaterial(const rapidjson::Value& root, const RenderMaterial& parent)
+RenderMaterial::RenderMaterial(const rapidjson::Value::ConstObject& root, const RenderMaterial& parent)
 {
 	*this = parent;
     _parseRenderStates(root);
@@ -185,9 +187,6 @@ std::string RenderMaterial::_buildHeader()
         stream << "#define " + *it + "\n";
     }
 
-#if MCE_GFX_API_DX11
-    // add R8G8B8A8_SNORM_UNSUPPORTED to defines if less than D3D_FEATURE_LEVEL_10_0
-#endif
     Shader::BuildHeader(stream);
 
     return stream.str();
@@ -195,9 +194,9 @@ std::string RenderMaterial::_buildHeader()
 
 void RenderMaterial::_loadShader(ShaderGroup& shaderGroup)
 {
-    Shader::SpliceShaderPath(m_vertexShader);
-    Shader::SpliceShaderPath(m_fragmentShader);
-    Shader::SpliceShaderPath(m_geometryShader);
+    Shader::SpliceShaderPathAndExtension(m_vertexShader);
+    Shader::SpliceShaderPathAndExtension(m_fragmentShader);
+    Shader::SpliceShaderPathAndExtension(m_geometryShader);
 
     std::string header = _buildHeader();
     m_pShader = &shaderGroup.loadShader(header, m_vertexShader, m_fragmentShader, m_geometryShader);
@@ -268,9 +267,18 @@ void RenderMaterial::useWith(RenderContext& context, const VertexFormat& vertexF
 
 #ifdef FEATURE_GFX_SHADERS
     m_pShader->bindShader(context, vertexFormat, basePtr, SHADER_STAGE_BITS_ALL);
-#else
+#endif
+#if !defined(FEATURE_GFX_SHADERS) || MCE_GFX_FF_ALPHATEST
     m_fixedPipelineState.bindFixedPipelineState(context);
 #endif
+}
+
+void RenderMaterial::compileShader()
+{
+    if (!m_pShader)
+        return;
+
+    m_pShader->compileAndLinkShader();
 }
 
 void RenderMaterial::addState(RenderState state)

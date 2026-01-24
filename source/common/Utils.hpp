@@ -35,20 +35,22 @@
 
 #ifdef _WIN32
 
-// Do we even need all this WinSock stuff anymore?
 #if MC_PLATFORM_WINPC
 
 #define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
+#define NOMINMAX /* don't define min() and max(). */
+#endif
 #include <windows.h>
-#include <direct.h>
-#include <io.h>
 
-#elif MC_PLATFORM_XBOX360
+#elif defined(_XBOX)
 
 #include <xtl.h>
-#include <winsockx.h>
 
 #endif
+
+#include <io.h> // for _access
+#include <direct.h> // for _mkdir
 
 // XPL means "Cross PLatform"
 #define XPL_ACCESS _access
@@ -75,6 +77,10 @@ struct DIR
 DIR* opendir(const char* name);
 dirent* readdir(DIR* dir);
 void closedir(DIR* dir);
+
+#ifdef _WIN32
+#define _CRT_INTERNAL_NONSTDC_NAMES 1 // gives us the stat struct we need
+#endif
 
 #include <sys/stat.h>
 
@@ -354,7 +360,7 @@ enum eTileID
 
 	// Custom items
 	ITEM_ROCKET = 470,
-	ITEM_QUIVER = 484,
+	ITEM_QUIVER = 484
 };
 
 enum // Textures
@@ -501,7 +507,7 @@ enum // Textures
 	TEXTURE_INFO_UPDATEGAME1 = 252,
 	TEXTURE_INFO_UPDATEGAME2 = 253,
 
-	TEXTURE_LAVA_PLACEHOLDER = 255,
+	TEXTURE_LAVA_PLACEHOLDER = 255
 };
 
 enum eRenderShape
@@ -542,6 +548,10 @@ double getTimeS();
 int getTimeMs();
 
 void sleepMs(int ms);
+
+#ifdef _WIN32
+void toDosPath(char* path);
+#endif
 
 bool createFolderIfNotExists(const char* pDir);
 bool DeleteDirectory(const std::string& name, bool unused);

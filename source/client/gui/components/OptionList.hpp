@@ -19,7 +19,7 @@ class OptionItem
 public:
 	OptionItem() {}
 	virtual ~OptionItem() {}
-	virtual void onClick(OptionList*, int mouseX, int mouseY) = 0;
+	virtual void onClick(OptionList*, const MenuPointer& pointer) = 0;
 	virtual void render(OptionList*, int x, int y) = 0;
 	virtual bool maySelect() { return true; }
 	virtual void setDisabled(bool b) { };
@@ -29,7 +29,7 @@ class BooleanOptionItem : public OptionItem
 {
 public:
 	BooleanOptionItem(bool* pValue, const std::string& text);
-	void onClick(OptionList*, int mouseX, int mouseY) override;
+	void onClick(OptionList*, const MenuPointer& pointer) override;
 	void render(OptionList*, int x, int y) override;
 	void setDisabled(bool b) override { m_bDisabled = b; }
 
@@ -53,12 +53,12 @@ class DistanceOptionItem : public OptionItem
 		RD_FAR,
 		RD_NORMAL,
 		RD_SHORT,
-		RD_COUNT,
+		RD_COUNT
 	};
 
 public:
 	DistanceOptionItem(int* pValue, const std::string& text);
-	void onClick(OptionList*, int mouseX, int mouseY) override;
+	void onClick(OptionList*, const MenuPointer& pointer) override;
 	void render(OptionList*, int x, int y) override;
 
 protected:
@@ -93,7 +93,7 @@ public:
 	HeaderOptionItem(const std::string& text);
 	void render(OptionList*, int x, int y) override;
 	bool maySelect() override { return false; }
-	void onClick(OptionList*, int mouseX, int mouseY) override {}
+	void onClick(OptionList*, const MenuPointer& pointer) override {}
 
 private:
 	std::string m_text;
@@ -112,11 +112,15 @@ public:
 	void renderItem(int, int, int, int, Tesselator&) override;
 	void renderBackground(float) override;
 	void renderHoleBackground(float, float, int, int) override;
-	void onClickItem(int index, int mouseX, int mouseY) override;
+	void onClickItem(int index, const MenuPointer& pointer) override;
 	void renderScrollBackground() override;
 
 	void clear();
 	void initDefaultMenu();
+	void initVideoMenu();
+	void initControlsMenu();
+	void initMultiplayerMenu();
+	void initMiscMenu();
 	void drawOnOffSwitch(int x, int y, bool state, bool disabled = false);
 
 private:

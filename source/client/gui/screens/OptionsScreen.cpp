@@ -12,15 +12,51 @@
 
 #ifndef OLD_OPTIONS_SCREEN
 
+#define MIN_CATEGORY_BUTTON_ID 1
+#define MAX_CATEGORY_BUTTON_ID 4
+#define BACK_BUTTON_ID 100
+
 OptionsScreen::OptionsScreen() :
-	m_backButton(100, "Done"),
-	m_pList(nullptr)
+	m_pList(nullptr),
+	m_currentCategory(OC_MIN),
+	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
+	m_controlsButton(MIN_CATEGORY_BUTTON_ID + 1, "Controls"),
+	m_multiplayerButton(MIN_CATEGORY_BUTTON_ID + 2, "Multiplayer"),
+	m_miscButton(MAX_CATEGORY_BUTTON_ID, "Misc"),
+	m_backButton(BACK_BUTTON_ID, "Done")
 {
+	m_bRenderPointer = true;
 }
 
 OptionsScreen::~OptionsScreen()
 {
 	SAFE_DELETE(m_pList);
+}
+
+bool OptionsScreen::_nextTab()
+{
+	OptionsCategory nextCat;
+	if (m_currentCategory == OC_MAX)
+		nextCat = OC_MIN;
+	else
+		nextCat = (OptionsCategory)(m_currentCategory + 1);
+
+	setCategory(nextCat);
+
+	return true;
+}
+
+bool OptionsScreen::_prevTab()
+{
+	OptionsCategory nextCat;
+	if (m_currentCategory == OC_MIN)
+		nextCat = OC_MAX;
+	else
+		nextCat = (OptionsCategory)(m_currentCategory - 1);
+
+	setCategory(nextCat);
+
+	return true;
 }
 
 void OptionsScreen::init()
@@ -29,28 +65,50 @@ void OptionsScreen::init()
 		SAFE_DELETE(m_pList);
 
 	m_pList = new OptionList(m_pMinecraft, m_width, m_height, 28, m_height - 28);
-	m_pList->initDefaultMenu();
-
+	
+	Button* tabButtons[] = { &m_videoButton, &m_controlsButton, &m_multiplayerButton, &m_miscButton };
+	constexpr int NUM_CATEGORY_BUTTONS = sizeof(tabButtons) / sizeof(tabButtons[0]);
+	int buttonWidth = 64;
+	int buttonHeight = 20;
+	int buttonSpacing = 5;
+	int totalWidth = (buttonWidth * NUM_CATEGORY_BUTTONS) + (buttonSpacing * (NUM_CATEGORY_BUTTONS - 1));
+	int startX = (m_width - totalWidth) / 2;
+	
 	m_backButton.m_width = 100;
 	m_backButton.m_height = 20;
 
 	m_backButton.m_xPos = (m_width - m_backButton.m_width) / 2;
 	m_backButton.m_yPos = m_height - m_backButton.m_height - (28 - m_backButton.m_height) / 2;
+	
+	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
+	{
+		tabButtons[i]->m_width = buttonWidth;
+		tabButtons[i]->m_height = buttonHeight;
+		tabButtons[i]->m_xPos = startX + (buttonWidth + buttonSpacing) * i;
+		tabButtons[i]->m_yPos = 4;
+	}
 
-	m_buttons.push_back(&m_backButton);
-	m_buttonTabList.push_back(&m_backButton);
+	for (int i = 0; i < NUM_CATEGORY_BUTTONS; ++i)
+	{
+		_addElement(*tabButtons[i], false);
+	}
+
+	if (!_useController())
+		_addElement(m_backButton);
+
+	setCategory(m_currentCategory);
 }
 
-void OptionsScreen::render(int mouseX, int mouseY, float f)
+void OptionsScreen::render(float f)
 {
 	if (!m_pList)
 		return;
 
-	m_pList->render(mouseX, mouseY, f);
+	m_pList->render(m_menuPointer, f);
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 
-	drawCenteredString(*m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
+	//drawCenteredString(*m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
 }
 
 void OptionsScreen::removed()
@@ -59,11 +117,42 @@ void OptionsScreen::removed()
 	m_pMinecraft->saveOptions();
 #endif
 }
-
-void OptionsScreen::buttonClicked(Button* pButton)
+void OptionsScreen::setCategory(OptionsCategory category)
 {
-	if (pButton->m_buttonId == 100)
+	_getInternalElement(m_currentCategory)->setEnabled(true);
+	m_currentCategory = category;
+	_getInternalElement(m_currentCategory)->setEnabled(false);
+	m_pList->clear();
+
+	switch (category)
+	{
+	case OC_VIDEO:
+		m_pList->initVideoMenu();
+		break;
+	case OC_CONTROLS:
+		m_pList->initControlsMenu();
+		break;
+	case OC_MULTIPLAYER:
+		m_pList->initMultiplayerMenu();
+		break;
+	case OC_MISCELLANEOUS:
+		m_pList->initMiscMenu();
+		break;
+	default:
+		break;
+	}
+}
+
+void OptionsScreen::_buttonClicked(Button* pButton)
+{
+	if (pButton->m_buttonId >= MIN_CATEGORY_BUTTON_ID && pButton->m_buttonId <= MAX_CATEGORY_BUTTON_ID)
+	{
+		setCategory((OptionsCategory)(pButton->m_buttonId - MIN_CATEGORY_BUTTON_ID));
+	}
+	else if (pButton->m_buttonId == BACK_BUTTON_ID)
+	{
 		handleBackEvent(false);
+	}
 }
 
 bool OptionsScreen::handleBackEvent(bool b)
@@ -79,9 +168,9 @@ bool OptionsScreen::handleBackEvent(bool b)
 	return true;
 }
 
-void OptionsScreen::handleScroll(bool down)
+void OptionsScreen::handleScrollWheel(float force)
 {
-	m_pList->handleScroll(down);
+	m_pList->handleScrollWheel(force);
 }
 
 #else
@@ -231,7 +320,6 @@ void OptionsScreen::init()
 	m_BackButton.m_xPos = m_width / 2 - m_BackButton.m_width / 2;
 	m_BackButton.m_height = 20;
 	m_BackButton.m_yPos = m_height - m_BackButton.m_height - backGap;
-	m_buttons.push_back(&m_BackButton);
 
 	m_AOButton.m_xPos         =
 	m_srvVisButton.m_xPos     = 
@@ -254,37 +342,24 @@ void OptionsScreen::init()
 	m_autoJumpButton.m_yPos = m_blockLinesButton.m_yPos    = yPos; yPos += incrementY;
 	m_fancyGrassButton.m_yPos = m_biomeColorsButton.m_yPos = yPos; yPos += incrementY;
 
-	m_buttons.push_back(&m_AOButton);
-	m_buttons.push_back(&m_srvVisButton);
-	m_buttons.push_back(&m_fancyGfxButton);
-	m_buttons.push_back(&m_invertYButton);
-	m_buttons.push_back(&m_anaglyphsButton);
-	m_buttons.push_back(&m_viewBobButton);
-	m_buttons.push_back(&m_viewDistButton);
-	m_buttons.push_back(&m_flightHaxButton);
-	m_buttons.push_back(&m_autoJumpButton);
-	m_buttons.push_back(&m_blockLinesButton);
-	m_buttons.push_back(&m_fancyGrassButton);
-	m_buttons.push_back(&m_biomeColorsButton);
+	_addElement(m_AOButton);
+	_addElement(m_srvVisButton);
+	_addElement(m_fancyGfxButton);
+	_addElement(m_viewDistButton);
+	_addElement(m_invertYButton);
+	_addElement(m_anaglyphsButton);
+	_addElement(m_viewBobButton);
+	_addElement(m_flightHaxButton);
+	_addElement(m_autoJumpButton);
+	_addElement(m_blockLinesButton);
+	_addElement(m_fancyGrassButton);
+	_addElement(m_biomeColorsButton);
 
-	m_buttonTabList.push_back(&m_AOButton);
-	m_buttonTabList.push_back(&m_srvVisButton);
-	m_buttonTabList.push_back(&m_fancyGfxButton);
-	m_buttonTabList.push_back(&m_viewDistButton);
-	m_buttonTabList.push_back(&m_invertYButton);
-	m_buttonTabList.push_back(&m_anaglyphsButton);
-	m_buttonTabList.push_back(&m_viewBobButton);
-	m_buttonTabList.push_back(&m_flightHaxButton);
-	m_buttonTabList.push_back(&m_autoJumpButton);
-	m_buttonTabList.push_back(&m_blockLinesButton);
-	m_buttonTabList.push_back(&m_fancyGrassButton);
-	m_buttonTabList.push_back(&m_biomeColorsButton);
-
-	m_buttonTabList.push_back(&m_BackButton);
+	_addElement(m_BackButton);
 
 	updateTexts();
 
-#ifdef __EMSCRIPTEN__
+#ifndef FEATURE_NETWORKING
 	m_srvVisButton.m_bEnabled = false;
 #endif
 }
@@ -317,7 +392,7 @@ void OptionsScreen::removed()
 
 #ifndef ORIGINAL_CODE
 
-void OptionsScreen::buttonClicked(Button* pButton)
+void OptionsScreen::_buttonClicked(Button* pButton)
 {
 	Options& o = *(m_pMinecraft->getOptions());
 

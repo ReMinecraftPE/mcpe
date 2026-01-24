@@ -19,7 +19,7 @@
 #define ITEM(x) ((x) - 256)
 
 #define NEW_ITEM(id) (new Item(ITEM(id)))
-#define NEW_X_ITEM(Type, id, ...) (new Type(ITEM(id), __VA_ARGS__))
+#define NEW_X_ITEM(Type, id, arg) (new Type(ITEM(id), arg))
 #define NEW_X_ITEMN(Type, id) (new Type(ITEM(id)))
 
 static bool g_bInittedItems = false;
