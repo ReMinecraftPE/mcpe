@@ -68,6 +68,7 @@ private:
 
 protected:
 	std::string _getPatchDataPath() const { return "patches/patch_data.txt"; }
+	virtual std::string _getAssetPath(const std::string& path) const;
 
 public:
 	virtual void buyGame();
@@ -127,7 +128,7 @@ public:
 	virtual void initSoundSystem();
 	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
-	virtual std::string getAssetPath(const std::string& path) const;
+	std::string getAssetPath(const std::string& path) const;
 	virtual std::string getResourcePath(const std::string& path, const std::vector<std::string>& resourcepacks) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
 	virtual AssetFile readResourceFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const;

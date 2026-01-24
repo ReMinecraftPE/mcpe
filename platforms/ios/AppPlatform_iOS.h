@@ -21,7 +21,7 @@
 class AppPlatform_iOS : public AppPlatform
 {
 private:
-    NSString* _getAssetPath(const std::string &path) const;
+    NSString* __getAssetPath(const std::string &path) const;
     
 public:
 	AppPlatform_iOS(minecraftpeViewController *viewController);
@@ -36,7 +36,7 @@ public:
     bool doesTextureExist(const std::string& path) const override;
 	int getUserInputStatus() override;
 	bool isTouchscreen() const override;
-	std::string getAssetPath(const std::string& path) const override;
+	std::string _getAssetPath(const std::string& path) const override;
 	std::string getPatchData() override;
 	SoundSystem* getSoundSystem() const override { return m_pSoundSystem; }
 	

@@ -333,6 +333,11 @@ std::string AppPlatform::getAssetPath(const std::string& path) const
 {
 	if (!path.empty() && path[0] == '/')
 		return m_externalStorageDir + "/games/com.mojang" + path;
+	return _getAssetPath(path);
+}
+
+std::string AppPlatform::_getAssetPath(const std::string& path) const
+{
 	return "assets/" + path;
 }
 
