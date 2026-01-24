@@ -65,16 +65,16 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 
 	float yOffset = Mth::sin((float(itemEntity.m_age) + a) / 10.0f + itemEntity.m_bobOffs);
-	const ItemInstance& itemInstance = itemEntity.m_itemInstance;
-	if (itemInstance.isEmpty())
+	const ItemStack& itemStack = itemEntity.m_itemStack;
+	if (itemStack.isEmpty())
 		return;
 
 	int itemsToRender = 1;
-	if (itemInstance.m_count > 1)
+	if (itemStack.m_count > 1)
 		itemsToRender = 2;
-	if (itemInstance.m_count > 5)
+	if (itemStack.m_count > 5)
 		itemsToRender = 3;
-	if (itemInstance.m_count > 20)
+	if (itemStack.m_count > 20)
 		itemsToRender = 4;
 
 	matrix->translate(Vec3(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z));
@@ -83,7 +83,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	glEnable(GL_RESCALE_NORMAL);
 #endif
 
-	Tile* pTile = itemInstance.getTile();
+	Tile* pTile = itemStack.getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
 		matrix->rotate(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, Vec3::UNIT_Y);
@@ -110,15 +110,15 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale));
 			}
 
-			m_pTileRenderer->renderTile(FullTile(pTile, itemInstance.getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
+			m_pTileRenderer->renderTile(FullTile(pTile, itemStack.getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
 		}
 	}
 	else
 	{
 		matrix->scale(0.5f);
-		int icon = itemInstance.getIcon();
+		int icon = itemStack.getIcon();
 
-		bindTexture(itemInstance.getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
+		bindTexture(itemStack.getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
 
 		for (int i = 0; i < itemsToRender; i++)
 		{
@@ -184,7 +184,7 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	t.draw(m_itemMaterials.ui_textured);
 }
 
-void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInstance& instance, int x, int y)
+void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStack& instance, int x, int y)
 {
 	if (instance.isEmpty())
 		return;
@@ -201,7 +201,7 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInst
 	font->drawShadow(amtstr, x + 17 - width, y + 17 - height, 0xFFFFFF);
 }
 
-void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance& instance, int x, int y, bool b)
+void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemStack& instance, int x, int y, bool b)
 {
 	// @NOTE: Font unused but would presumably be used to draw the item amount.
 	// As if that actually works due to us blocking t.begin() and t.draw() calls...

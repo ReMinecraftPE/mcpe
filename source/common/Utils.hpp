@@ -529,20 +529,13 @@ enum eRenderShape
 	SHAPE_RANDOM_CROSS
 };
 
-enum eEquipmentSlot
-{
-	SLOT_NONE = -1,
-	SLOT_FEET,
-	SLOT_LEGS,
-	SLOT_CHEST,
-	SLOT_HEAD
-};
-
 typedef uint8_t TileID;
 // @TODO: Rename this to "TileTypeId"
 // Rename "Tile" to "TileType"
 // Rename "FullTile" to "Tile"
 typedef uint8_t TileData;
+
+typedef uint16_t SlotID;
 
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)
 #define SAFE_DELETE_ARRAY(ptr) do { if (ptr) delete[] ptr; } while (0)

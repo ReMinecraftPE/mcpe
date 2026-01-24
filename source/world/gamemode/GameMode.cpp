@@ -135,7 +135,7 @@ void GameMode::handleCloseInventory(int a, Player* player)
 {
 }
 
-bool GameMode::useItem(Player* player, Level* level, ItemInstance& instance)
+bool GameMode::useItem(Player* player, Level* level, ItemStack& instance)
 {
 	int oldCount = instance.m_count;
 
@@ -145,7 +145,7 @@ bool GameMode::useItem(Player* player, Level* level, ItemInstance& instance)
 	return true;
 }
 
-bool GameMode::useItemOn(Player* player, Level* level, ItemInstance& instance, const TilePos& pos, Facing::Name face)
+bool GameMode::useItemOn(Player* player, Level* level, ItemStack& instance, const TilePos& pos, Facing::Name face)
 {
 	TileID tile = level->getTile(pos);
 	if (tile == Tile::invisible_bedrock->m_ID)

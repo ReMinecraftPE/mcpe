@@ -1245,7 +1245,7 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	return pendingChunkRemoved + nr2 == pendingChunkSize;
 }
 
-void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
+void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	// @BUG: possible leftover from Minecraft Classic? This is overridden anyways
 	//currentShaderColor = Color(1.0f, 1.0f, 1.0f, (Mth::sin(float(getTimeMs()) / 100.0f) * 0.2f + 0.4f) * 0.5f);
@@ -1292,7 +1292,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 	}*/
 }
 
-void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
+void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	if (mode != 0) return;
 
@@ -1327,7 +1327,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	t.setOffset(0, 0, 0);
 }
 
-void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a)
+void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a)
 {
 	if (mode != 0 || hr.m_hitType != 0)
 		return;

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <set>
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 #include "client/player/input/MouseDevice.hpp"
 
 class Player;
@@ -14,7 +14,7 @@ class ContainerListener;
 class ContainerMenu
 {
 protected:
-    std::vector<ItemInstance> m_lastSlots;
+    std::vector<ItemStack> m_lastSlots;
     uint16_t m_changeUid;
     std::vector<ContainerListener*> m_listeners;
     std::set<Player*> unsynchedPlayers;
@@ -33,15 +33,15 @@ public:
     virtual void removed(Player* player);
     virtual void slotsChanged(Container* container);
 
-    std::vector<ItemInstance> getItems();
+    std::vector<ItemStack> copyItems();
     Slot* getSlotFor(Container* container, int index);
     Slot* getSlot(int index);
-    virtual ItemInstance clicked(int slotIndex, MouseButtonType mouseButton, bool quickMove, Player* player);
-    virtual ItemInstance quickMoveStack(int index);
-    virtual void moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo, bool take);
+    virtual ItemStack clicked(int slotIndex, MouseButtonType mouseButton, bool quickMove, Player* player);
+    virtual ItemStack quickMoveStack(int index);
+    virtual void moveItemStackTo(ItemStack& item, int slotFrom, int slotTo, bool take);
 
-    void setItem(int slotIndex, ItemInstance item);
-    void setAll(const std::vector<ItemInstance>& items);
+    void setItem(int slotIndex, ItemStack item);
+    void setAll(const std::vector<ItemStack>& items);
     virtual void setData(int id, int value);
 
     uint16_t backup(Inventory* inventory);

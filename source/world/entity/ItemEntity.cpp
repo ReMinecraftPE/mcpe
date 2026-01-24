@@ -10,7 +10,7 @@
 #include "world/level/Level.hpp"
 #include "nbt/CompoundTag.hpp"
 
-void ItemEntity::_init(const ItemInstance& itemInstance)
+void ItemEntity::_init(const ItemStack& itemStack)
 {
 	m_pDescriptor = &EntityTypeDescriptor::item;
 	m_renderType = RENDER_ITEM;
@@ -24,12 +24,12 @@ void ItemEntity::_init(const ItemInstance& itemInstance)
 	m_bobOffs = 2 * float(M_PI) * Mth::random();
 	setSize(0.25f, 0.25f);
 	m_heightOffset = m_bbHeight * 0.5f;
-	m_itemInstance = itemInstance;
+	m_itemStack = itemStack;
 }
 
-void ItemEntity::_init(const ItemInstance& itemInstance, const Vec3& pos)
+void ItemEntity::_init(const ItemStack& itemStack, const Vec3& pos)
 {
-	_init(itemInstance);
+	_init(itemStack);
 	setPos(pos);
 
 	m_rot.x = 360.0f * Mth::random();
@@ -74,16 +74,16 @@ void ItemEntity::playerTouch(Player* player)
 
 	Inventory* pInventory = player->m_pInventory;
 
-	if (!pInventory->add(m_itemInstance))
+	if (!pInventory->add(m_itemStack))
 		return;
 
 	m_pLevel->playSound(this, "random.pop", 0.3f,
 		((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 
-	player->take(this, m_itemInstance.m_count);
+	player->take(this, m_itemStack.m_count);
 
 	// On 0.2.1, this gets removed regardless. What about stacks??
-	if (m_itemInstance.m_count <= 0)
+	if (m_itemStack.m_count <= 0)
 		remove();
 }
 
@@ -139,7 +139,7 @@ void ItemEntity::addAdditionalSaveData(CompoundTag& tag) const
 	tag.putInt16("Health", m_health);
 	tag.putInt16("Age", m_age);
 	CompoundTag* itemTag = new CompoundTag();
-	m_itemInstance.save(*itemTag);
+	m_itemStack.save(*itemTag);
 	tag.putCompound("Item", itemTag);
 }
 
@@ -154,7 +154,7 @@ void ItemEntity::readAdditionalSaveData(const CompoundTag& tag)
 		remove();
 		return;
 	}
-	m_itemInstance.load(*itemTag);
+	m_itemStack.load(*itemTag);
 }
 
 void ItemEntity::checkInTile(const Vec3& pos)

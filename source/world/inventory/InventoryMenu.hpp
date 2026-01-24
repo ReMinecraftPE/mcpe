@@ -13,7 +13,7 @@ public:
     void slotsChanged(Container* container) override;
     void removed(Player* player) override;
     bool stillValid(Player* player) const override;
-    virtual ItemInstance quickMoveStack(int index) override;
+    ItemStack quickMoveStack(int index) override;
 
 public:
     CraftingContainer* m_pCraftSlots;

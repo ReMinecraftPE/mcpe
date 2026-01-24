@@ -1,7 +1,7 @@
 #pragma once
 
 #include "world/Container.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 
 class Player;
 
@@ -12,16 +12,16 @@ public:
     virtual ~ResultContainer();
 
     uint16_t getContainerSize() const override;
-    ItemInstance& getItem(int index) override;
+    ItemStack& getItem(int index) override;
 
     std::string getName() const override;
 
-    ItemInstance removeItem(int index, int amount) override;
-    void setItem(int index, const ItemInstance& item) override;
+    ItemStack removeItem(int index, int amount) override;
+    void setItem(int index, const ItemStack& item) override;
 
     void setChanged() override;
-    bool stillValid(Player* player) override;
+    bool stillValid(Player* player) const override;
 
 private:
-    ItemInstance m_item;
+    ItemStack m_item;
 };

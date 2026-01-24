@@ -448,7 +448,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 			}
 			else if (action.isPlace() && canInteract)
 			{
-				ItemInstance& item = getSelectedItem();
+				ItemStack& item = getSelectedItem();
 				if (m_pGameMode->useItemOn(player, m_pLevel, item, m_hitResult.m_tilePos, m_hitResult.m_hitSide))
 				{
 					bInteract = false;
@@ -483,7 +483,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 
 	if (bInteract && action.isInteract() && canInteract)
 	{
-		ItemInstance& item = getSelectedItem();
+		ItemStack& item = getSelectedItem();
 		if (!item.isEmpty() && player->isUsingItem())
 		{
 			m_lastInteractTime = getTimeMs();
@@ -567,10 +567,10 @@ void Minecraft::tickInput()
 			}
 			else if (getOptions()->isKey(KM_DROP, keyCode))
 			{
-				ItemInstance& item = m_pLocalPlayer->m_pInventory->getSelected();
+				ItemStack& item = m_pLocalPlayer->m_pInventory->getSelected();
 				if (!item.isEmpty())
 				{
-					ItemInstance itemDrop(item);
+					ItemStack itemDrop(item);
 					itemDrop.m_count = 1;
 
 					if (m_pLocalPlayer->isSurvival())
@@ -1213,18 +1213,18 @@ LevelStorageSource* Minecraft::getLevelSource()
 	return m_pLevelStorageSource;
 }
 
-ItemInstance& Minecraft::getSelectedItem()
+ItemStack& Minecraft::getSelectedItem()
 {
-	ItemInstance& pInst = m_pLocalPlayer->getSelectedItem();
+	ItemStack& pInst = m_pLocalPlayer->getSelectedItem();
 
 	if (pInst.isEmpty())
 		return pInst;
 
 	if (m_pGameMode->isCreativeType())
 	{
-		// Create new "unlimited" ItemInstance for Creative mode
-		m_CurrItemInstance = ItemInstance(pInst.getId(), 999, pInst.getAuxValue());
-		return m_CurrItemInstance;
+		// Create new "unlimited" itemStack for Creative mode
+		m_CurritemStack = ItemStack(pInst.getId(), 999, pInst.getAuxValue());
+		return m_CurritemStack;
 	}
 
 	return pInst;

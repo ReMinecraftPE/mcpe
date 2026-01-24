@@ -782,9 +782,9 @@ void Entity::animateHurt()
 
 }
 
-ItemEntity* Entity::spawnAtLocation(const ItemInstance& itemInstance, float y)
+ItemEntity* Entity::spawnAtLocation(const ItemStack& itemStack, float y)
 {
-	ItemEntity *itemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemInstance);
+	ItemEntity *itemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y + y, m_pos.z), itemStack);
 	// @TODO: not sure what this does, or is for
 	itemEntity->m_oPos.x = 10;
 	m_pLevel->addEntity(itemEntity);
@@ -799,7 +799,7 @@ ItemEntity* Entity::spawnAtLocation(int itemID, int amount)
 
 ItemEntity* Entity::spawnAtLocation(int itemID, int amount, float y)
 {
-	return spawnAtLocation(ItemInstance(itemID, amount, 0), y);
+	return spawnAtLocation(ItemStack(itemID, amount, 0), y);
 }
 
 void Entity::awardKillScore(Entity* pKilled, int score)

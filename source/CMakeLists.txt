@@ -311,8 +311,10 @@ add_library(reminecraftpe-core STATIC
     world/inventory/ArmorSlot.cpp
     world/inventory/CraftingContainer.cpp
     world/inventory/ResultContainer.cpp
+    world/inventory/SimpleContainer.cpp
+    world/CompoundContainer.cpp
     world/item/DoorItem.cpp
-    world/item/ItemInstance.cpp
+    world/item/ItemStack.cpp
     world/item/RocketItem.cpp
     world/item/Item.cpp
     world/item/AuxTileItem.cpp

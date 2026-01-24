@@ -73,10 +73,10 @@ void ItemInHandRenderer::render(float a)
     currentShaderColor = Color::WHITE;
 	currentShaderDarkColor = Color(fBright, fBright, fBright);
 
-	ItemInstance* pItem = &m_selectedItem;
+	ItemStack* pItem = &m_selectedItem;
 	/*if (pLP->m_fishing != null)
     {
-		pItem = new ItemInstance(Item::stick);
+		pItem = new itemStack(Item::stick);
 	}*/
     
     float swing2, swing3;
@@ -84,7 +84,7 @@ void ItemInHandRenderer::render(float a)
     float h = m_oHeight + (m_height - m_oHeight) * a;
     constexpr float d = 0.8f;
     
-	if (!ItemInstance::isEmpty(pItem))
+	if (!ItemStack::isEmpty(pItem))
 	{
         matrix->translate(Vec3(-0.4f * Mth::sin(float(M_PI) * Mth::sqrt(fAnim)), 0.2f * Mth::sin(2.0f * float(M_PI) * Mth::sqrt(fAnim)), -0.2f * Mth::sin(float(M_PI) * fAnim)));
         matrix->translate(Vec3(0.7f * d, -0.65f * d - (1.0f - h) * 0.6f, -0.9f * d));
@@ -147,7 +147,7 @@ void ItemInHandRenderer::render(float a)
 #define SHADE_IF_NEEDED(col)
 #endif
 
-void ItemInHandRenderer::renderItem(const Entity& entity, const ItemInstance& item, float a)
+void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item, float a)
 {
     if (item.isEmpty())
         return;
@@ -358,20 +358,20 @@ void ItemInHandRenderer::tick()
 {
 	m_oHeight = m_height;
 
-	ItemInstance& item = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItem();
+	ItemStack& item = m_pMinecraft->m_pLocalPlayer->m_pInventory->getSelectedItem();
 
 	bool bSameItem = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot == m_lastSlot && m_selectedItem == item;
 
 	if (item.isEmpty() && m_selectedItem.isEmpty())
 		bSameItem = true;
 
-    // This isn't really neeeded anymore
+    // This isn't really needed anymore
     //if (!item.isEmpty() && !m_selectedItem.isEmpty())
     //{
     //    if (&item != &m_selectedItem && item.getId() == m_selectedItem.getId() && item.getAuxValue() == m_selectedItem.getAuxValue())
     //    {
     //        bSameItem = true;
-    //        m_selectedItem = ItemInstance(item);
+    //        m_selectedItem = itemStack(item);
     //    }
     //}
 
@@ -387,7 +387,7 @@ void ItemInHandRenderer::tick()
 
 	if (m_height < 0.1f)
 	{
-		m_selectedItem = ItemInstance(item);
+		m_selectedItem = ItemStack(item);
 		m_lastSlot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
 	}
 }

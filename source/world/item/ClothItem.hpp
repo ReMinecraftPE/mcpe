@@ -6,7 +6,7 @@ class ClothItem : public TileItem
 {
 public:
 	ClothItem(int id);
-	std::string getDescriptionId(ItemInstance* item) const override;
-	int getIcon(const ItemInstance*) const override;
+	std::string getDescriptionId(ItemStack* item) const override;
+	int getIcon(const ItemStack*) const override;
 	TileData getLevelDataForAuxValue(int x) const override;
 };

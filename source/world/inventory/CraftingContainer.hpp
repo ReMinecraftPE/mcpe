@@ -2,12 +2,12 @@
 
 #include <vector>
 #include "world/Container.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 #include "ContainerMenu.hpp"
 
 class ContainerMenu;
 class Player;
-class ItemInstance;
+class ItemStack;
 
 class CraftingContainer : public Container
 {
@@ -17,19 +17,19 @@ public:
     virtual ~CraftingContainer();
 
     uint16_t getContainerSize() const override;
-    ItemInstance& getItem(int index) override;
-    ItemInstance& getItem(int x, int y);
+    ItemStack& getItem(int index) override;
+    ItemStack& getItem(int x, int y);
 
     std::string getName() const override;
 
-    ItemInstance removeItem(int index, int amount) override;
-    void setItem(int index, const ItemInstance& item) override;
+    ItemStack removeItem(int index, int amount) override;
+    void setItem(int index, const ItemStack& item) override;
 
     void setChanged() override;
-    bool stillValid(Player* player) override;
+    bool stillValid(Player* player) const override;
 
 private:
-    std::vector<ItemInstance> m_items;
+    std::vector<ItemStack> m_items;
     ContainerMenu* m_pMenu;
     int m_width;
 };

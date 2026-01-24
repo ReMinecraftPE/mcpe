@@ -7,19 +7,19 @@
  ********************************************************************/
 
 #include <sstream>
-#include "ItemInstance.hpp"
+#include "ItemStack.hpp"
 #include "GameMods.hpp"
 #include "world/tile/Tile.hpp"
 #include "nbt/CompoundTag.hpp"
 
 const std::string
-ItemInstance::TAG_DISPLAY = "display",
-ItemInstance::TAG_DISPLAY_NAME = "Name",
-ItemInstance::TAG_REPAIR_COST = "RepairCost",
-ItemInstance::TAG_ENCHANTS = "ench";
-const ItemInstance ItemInstance::EMPTY;
+ItemStack::TAG_DISPLAY = "display",
+ItemStack::TAG_DISPLAY_NAME = "Name",
+ItemStack::TAG_REPAIR_COST = "RepairCost",
+ItemStack::TAG_ENCHANTS = "ench";
+const ItemStack ItemStack::EMPTY;
 
-void ItemInstance::_init(int id, int count, int auxValue)
+void ItemStack::_init(int id, int count, int auxValue)
 {
 	m_count = count;
 	m_auxValue = auxValue;
@@ -29,12 +29,12 @@ void ItemInstance::_init(int id, int count, int auxValue)
 	_setItem(id);
 }
 
-ItemInstance::ItemInstance()
+ItemStack::ItemStack()
 {
 	_init();
 }
 
-ItemInstance::ItemInstance(const ItemInstance& other)
+ItemStack::ItemStack(const ItemStack& other)
 {
 	_init(other.getId(), other.m_count, other.getAuxValue());
 
@@ -44,53 +44,53 @@ ItemInstance::ItemInstance(const ItemInstance& other)
 	}
 }
 
-ItemInstance::ItemInstance(bool isValid)
+ItemStack::ItemStack(bool isValid)
 {
 	_init();
 	m_bValid = isValid;
 }
 
-ItemInstance::ItemInstance(Item* pItem)
+ItemStack::ItemStack(Item* pItem)
 {
 	_init(pItem->m_itemID, 1);
 }
 
-ItemInstance::ItemInstance(Item* pItem, int count)
+ItemStack::ItemStack(Item* pItem, int count)
 {
 	_init(pItem->m_itemID, count);
 }
 
-ItemInstance::ItemInstance(Item* pItem, int count, int auxValue)
+ItemStack::ItemStack(Item* pItem, int count, int auxValue)
 {
 	_init(pItem->m_itemID, count, auxValue);
 }
 
-ItemInstance::ItemInstance(Tile* pTile)
+ItemStack::ItemStack(Tile* pTile)
 {
 	_init(pTile->m_ID, 1);
 }
 
-ItemInstance::ItemInstance(Tile* pTile, int count)
+ItemStack::ItemStack(Tile* pTile, int count)
 {
 	_init(pTile->m_ID, count);
 }
 
-ItemInstance::ItemInstance(Tile* pTile, int amount, int auxValue)
+ItemStack::ItemStack(Tile* pTile, int amount, int auxValue)
 {
 	_init(pTile->m_ID, amount, auxValue);
 }
 
-ItemInstance::ItemInstance(int itemID, int amount, int auxValue)
+ItemStack::ItemStack(int itemID, int amount, int auxValue)
 {
 	_init(itemID, amount, auxValue);
 }
 
-ItemInstance::~ItemInstance()
+ItemStack::~ItemStack()
 {
     SAFE_DELETE(m_userData);
 }
 
-bool ItemInstance::_setItem(int id)
+bool ItemStack::_setItem(int id)
 {
 	if (id == -1)
 	{
@@ -128,7 +128,7 @@ bool ItemInstance::_setItem(int id)
 		return _setItem(-1);
 }
 
-int ItemInstance::getId() const
+int ItemStack::getId() const
 {
 	if (!m_bValid)
 		return -1;
@@ -144,7 +144,7 @@ int ItemInstance::getId() const
 	return 0;
 }
 
-int ItemInstance::getIdAux() const
+int ItemStack::getIdAux() const
 {
 	if (!m_pItem)
 		return 0;
@@ -152,7 +152,7 @@ int ItemInstance::getIdAux() const
 	return getItem()->buildIdAux(m_auxValue, m_userData);
 }
 
-CompoundTag* ItemInstance::getNetworkUserData() const
+CompoundTag* ItemStack::getNetworkUserData() const
 {
 	CompoundTag* userData = new CompoundTag();
 	CompoundTag::NamedTagMap& tags = m_userData->rawView();
@@ -179,7 +179,7 @@ CompoundTag* ItemInstance::getNetworkUserData() const
 	return userData;
 }
 
-void ItemInstance::setUserData(CompoundTag* tag)
+void ItemStack::setUserData(CompoundTag* tag)
 {
 	if (m_userData != tag)
 	{
@@ -192,7 +192,7 @@ void ItemInstance::setUserData(CompoundTag* tag)
 	}
 }
 
-bool ItemInstance::hasSameUserData(const ItemInstance& other) const
+bool ItemStack::hasSameUserData(const ItemStack& other) const
 {
 	if (this->isEmpty() && other.isEmpty())
 		return true;
@@ -207,12 +207,12 @@ bool ItemInstance::hasSameUserData(const ItemInstance& other) const
 	return this->getUserData() == other.getUserData();
 }
 
-ItemInstance* ItemInstance::copy() const
+ItemStack* ItemStack::copy() const
 {
-	return new ItemInstance(*this);
+	return new ItemStack(*this);
 }
 
-void ItemInstance::set(int inCount)
+void ItemStack::set(int inCount)
 {
 	assert(inCount >= 0);
 	if (inCount > getMaxStackSize())
@@ -226,17 +226,17 @@ void ItemInstance::set(int inCount)
 #endif
 }
 
-bool ItemInstance::canDestroySpecial(Tile* tile)
+bool ItemStack::canDestroySpecial(Tile* tile)
 {
 	return getItem()->canDestroySpecial(tile);
 }
 
-std::string ItemInstance::getDescriptionId()
+std::string ItemStack::getDescriptionId()
 {
 	return getItem()->getDescriptionId(this);
 }
 
-std::string ItemInstance::getHovertextName() const
+std::string ItemStack::getHovertextName() const
 {
 	if (hasCustomHoverName())
 		return getHoverName();
@@ -244,27 +244,27 @@ std::string ItemInstance::getHovertextName() const
 		return getItem()->getHovertextName();
 }
 
-float ItemInstance::getDestroySpeed(Tile* tile)
+float ItemStack::getDestroySpeed(Tile* tile)
 {
 	return getItem()->getDestroySpeed(this, tile);
 }
 
-int ItemInstance::getIcon() const
+int ItemStack::getIcon() const
 {
 	return getItem()->getIcon(this);
 }
 
-int ItemInstance::getMaxDamage() const
+int ItemStack::getMaxDamage() const
 {
 	return getItem()->getMaxDamage();
 }
 
-int ItemInstance::getMaxStackSize() const
+int ItemStack::getMaxStackSize() const
 {
 	return getItem()->getMaxStackSize();
 }
 
-void ItemInstance::hurt(int by)
+void ItemStack::hurt(int by)
 {
 	if (!isDamageableItem())
 		return;
@@ -279,7 +279,7 @@ void ItemInstance::hurt(int by)
 	}
 }
 
-void ItemInstance::hurtAndBreak(int amount, Entity* ent)
+void ItemStack::hurtAndBreak(int amount, Entity* ent)
 {
 	if (isDamageableItem())
 	{
@@ -291,37 +291,35 @@ void ItemInstance::hurtAndBreak(int amount, Entity* ent)
 				//((Player*)ent)->awardStat(Stats::statItemBreak[m_itemID]);
 			}
 
-
 			--m_count;
 			if (m_count < 0)
 				m_count = 0;
 			m_auxValue = 0;
 		}
-
 	}
 }
 
-void ItemInstance::hurtEnemy(Mob* mob)
+void ItemStack::hurtEnemy(Mob* mob)
 {
 	getItem()->hurtEnemy(this, mob);
 }
 
-void ItemInstance::interactEnemy(Mob* mob)
+void ItemStack::interactEnemy(Mob* mob)
 {
 	getItem()->interactEnemy(this, mob);
 }
 
-bool ItemInstance::isDamageableItem() const
+bool ItemStack::isDamageableItem() const
 {
 	return getItem()->getMaxDamage() > 0;
 }
 
-bool ItemInstance::isDamaged() const
+bool ItemStack::isDamaged() const
 {
 	return isDamageableItem() && m_auxValue > 0;
 }
 
-bool ItemInstance::isStackable() const
+bool ItemStack::isStackable() const
 {
 	if (getMaxStackSize() <= 1)
 		return false;
@@ -332,37 +330,37 @@ bool ItemInstance::isStackable() const
 	return true;
 }
 
-bool ItemInstance::isStackedByData() const
+bool ItemStack::isStackedByData() const
 {
 	return getItem()->isStackedByData();
 }
 
-void ItemInstance::mineBlock(const TilePos& pos, Facing::Name face)
+void ItemStack::mineBlock(const TilePos& pos, Facing::Name face)
 {
 	return getItem()->mineBlock(this, pos, face);
 }
 
-void ItemInstance::shrink(int count)
+void ItemStack::shrink(int count)
 {
 	set(m_count - count);
 }
 
-ItemInstance ItemInstance::remove(int count)
+ItemStack ItemStack::remove(int count)
 {
 	shrink(count);
-	return ItemInstance(getId(), m_count, m_auxValue);
+	return ItemStack(getId(), m_count, m_auxValue);
 }
 
-void ItemInstance::setDescriptionId(const std::string& str)
+void ItemStack::setDescriptionId(const std::string& str)
 {
 }
 
-void ItemInstance::snap(Player*)
+void ItemStack::snap(Player*)
 {
 
 }
 
-std::string ItemInstance::toString() const
+std::string ItemStack::toString() const
 {
 	std::stringstream ss;
 	ss << m_count << "x" << getItem()->getDescriptionId() << "@" << m_auxValue;
@@ -370,33 +368,33 @@ std::string ItemInstance::toString() const
 	return ss.str();
 }
 
-ItemInstance* ItemInstance::use(Level* level, Player* player)
+ItemStack* ItemStack::use(Level* level, Player* player)
 {
 	return getItem()->use(this, level, player);
 }
 
-bool ItemInstance::useOn(Player* player, Level* level, const TilePos& pos, Facing::Name face)
+bool ItemStack::useOn(Player* player, Level* level, const TilePos& pos, Facing::Name face)
 {
 	return getItem()->useOn(this, player, level, pos, face);
 }
 
-void ItemInstance::onCraftedBy(Player* player, Level* level)
+void ItemStack::onCraftedBy(Player* player, Level* level)
 {
 	onCraftedBy(player, level, m_count);
 }
 
-void ItemInstance::onCraftedBy(Player* player, Level* level, int amount)
+void ItemStack::onCraftedBy(Player* player, Level* level, int amount)
 {
 	//player->awardStat(Stats::itemCrafted[getId()], amount);
 	getItem()->onCraftedBy(this, player, level);
 }
 
-int ItemInstance::getAttackDamage(Entity* pEnt) const
+int ItemStack::getAttackDamage(Entity* pEnt) const
 {
 	return getItem()->getAttackDamage(pEnt);
 }
 
-bool ItemInstance::isEmpty() const
+bool ItemStack::isEmpty() const
 {
 	if (!m_bValid)
 		return true;
@@ -404,12 +402,12 @@ bool ItemInstance::isEmpty() const
 	return m_count <= 0 || !m_pItem;
 }
 
-bool ItemInstance::isEmpty(const ItemInstance* item)
+bool ItemStack::isEmpty(const ItemStack* item)
 {
 	return item == nullptr || item->isEmpty();
 }
 
-void ItemInstance::setEmpty()
+void ItemStack::setEmpty()
 {
 	m_count = 0;
 	m_auxValue = 0;
@@ -421,7 +419,7 @@ void ItemInstance::setEmpty()
 	m_userData = nullptr;
 }
 
-int ItemInstance::getBaseRepairCost() const
+int ItemStack::getBaseRepairCost() const
 {
 	if (hasUserData() && m_userData->contains(TAG_REPAIR_COST))
 		return m_userData->getInt32(TAG_REPAIR_COST);
@@ -429,15 +427,15 @@ int ItemInstance::getBaseRepairCost() const
 		return 0;
 }
 
-void ItemInstance::setRepairCost(int repairCost)
+void ItemStack::setRepairCost(int repairCost)
 {
 	if (!hasUserData())
 		m_userData = new CompoundTag();
 
-	m_userData->putInt32(ItemInstance::TAG_REPAIR_COST, repairCost);
+	m_userData->putInt32(ItemStack::TAG_REPAIR_COST, repairCost);
 }
 
-bool ItemInstance::hasCustomHoverName() const
+bool ItemStack::hasCustomHoverName() const
 {
 	if (!hasUserData() || !m_userData->contains(TAG_DISPLAY))
 		return false;
@@ -446,7 +444,7 @@ bool ItemInstance::hasCustomHoverName() const
 	return displayTag->contains(TAG_DISPLAY_NAME);
 }
 
-std::string ItemInstance::getHoverName() const
+std::string ItemStack::getHoverName() const
 {
 	std::string hoverName;
 	if (hasUserData())
@@ -463,7 +461,7 @@ std::string ItemInstance::getHoverName() const
 	return hoverName;
 }
 
-void ItemInstance::setHoverName(const std::string& hoverName)
+void ItemStack::setHoverName(const std::string& hoverName)
 {
 	if (!hasUserData())
 		m_userData = new CompoundTag();
@@ -485,7 +483,7 @@ void ItemInstance::setHoverName(const std::string& hoverName)
 	m_userData->putCompound(TAG_DISPLAY, newDisplayTag);
 }
 
-void ItemInstance::load(const CompoundTag& tag)
+void ItemStack::load(const CompoundTag& tag)
 {
 	_setItem(tag.getInt16("id"));
 	m_count = tag.getInt8("Count");
@@ -501,7 +499,7 @@ void ItemInstance::load(const CompoundTag& tag)
 	m_userData = userData;
 }
 
-CompoundTag& ItemInstance::save(CompoundTag& tag) const
+CompoundTag& ItemStack::save(CompoundTag& tag) const
 {
 	tag.putInt16("id", getId());
 	tag.putInt8("Count", m_count);
@@ -513,7 +511,7 @@ CompoundTag& ItemInstance::save(CompoundTag& tag) const
 	return tag;
 }
 
-bool ItemInstance::matches(const ItemInstance& a1, const ItemInstance& a2)
+bool ItemStack::matches(const ItemStack& a1, const ItemStack& a2)
 {
 	if (&a1 == &a2 && a1.isEmpty())
 		return true;
@@ -524,14 +522,14 @@ bool ItemInstance::matches(const ItemInstance& a1, const ItemInstance& a2)
 	return a1 == a2;
 }
 
-ItemInstance ItemInstance::fromTag(const CompoundTag& tag)
+ItemStack ItemStack::fromTag(const CompoundTag& tag)
 {
-	ItemInstance item;
+	ItemStack item;
 	item.load(tag);
 	return item;
 }
 
-ItemInstance* ItemInstance::operator=(const ItemInstance& other)
+ItemStack* ItemStack::operator=(const ItemStack& other)
 {
 	this->m_count = other.m_count;
 	this->m_pItem = other.m_pItem;
@@ -551,7 +549,7 @@ ItemInstance* ItemInstance::operator=(const ItemInstance& other)
 	return this;
 }
 
-bool ItemInstance::operator==(const ItemInstance& other) const
+bool ItemStack::operator==(const ItemStack& other) const
 {
 	// 0.12.1 seems to intentionally leave out the auxValue comparison, not sure why
 	// but I have a feeling that doing the same will break things
@@ -561,7 +559,7 @@ bool ItemInstance::operator==(const ItemInstance& other) const
 		   this->hasSameUserData(other);
 }
 
-bool ItemInstance::operator!=(const ItemInstance& other) const
+bool ItemStack::operator!=(const ItemStack& other) const
 {
 	// doing this is likely more efficient than inverting the result of == after the fact
 	return this->getItem()     != other.getItem() ||
@@ -570,7 +568,7 @@ bool ItemInstance::operator!=(const ItemInstance& other) const
 		   !this->hasSameUserData(other);
 }
 
-ItemInstance::operator bool() const
+ItemStack::operator bool() const
 {
 	return m_bValid && getItem() && !isEmpty();
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Packet.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 #include "world/level/TilePos.hpp"
 
 class UseItemPacket : public Packet
@@ -14,7 +14,7 @@ public:
 		m_itemId = TILE_AIR;
 		m_itemAuxValue = 0;
 	}
-	UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemInstance& item = ItemInstance::EMPTY);
+	UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemStack& item = ItemStack::EMPTY);
 
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
 	void write(RakNet::BitStream&) override;
@@ -25,5 +25,5 @@ public:
 	int32_t m_entityId;
 	int16_t m_itemId;
 	int8_t m_itemAuxValue;
-	ItemInstance m_item;
+	ItemStack m_item;
 };

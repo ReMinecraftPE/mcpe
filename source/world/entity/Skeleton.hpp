@@ -6,7 +6,7 @@
 class Skeleton : public Monster
 {
 private:
-	static ItemInstance bow;
+	static ItemStack bow;
 
 public:
 	Skeleton(Level* pLevel);
@@ -23,5 +23,5 @@ public:
 	
 	void dropDeathLoot() override;
 	
-	const ItemInstance& getCarriedItem() const override;
+	const ItemStack& getCarriedItem() const override;
 };

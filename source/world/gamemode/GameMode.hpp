@@ -10,7 +10,7 @@
 
 #include "client/player/LocalPlayer.hpp"
 #include "world/level/Level.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 
 class Minecraft;
 
@@ -33,8 +33,8 @@ public:
 	// Used to be called getPickRange
 	virtual float getBlockReachDistance() const;
 	virtual float getEntityReachDistance() const;
-	virtual bool useItem(Player* player, Level* level, ItemInstance& item);
-	virtual bool useItemOn(Player*, Level*, ItemInstance&, const TilePos& pos, Facing::Name face);
+	virtual bool useItem(Player* player, Level* level, ItemStack& item);
+	virtual bool useItemOn(Player*, Level*, ItemStack&, const TilePos& pos, Facing::Name face);
 	virtual LocalPlayer* createPlayer(Level*);
 	virtual void initPlayer(Player*);
 	virtual void adjustPlayer(Player*);

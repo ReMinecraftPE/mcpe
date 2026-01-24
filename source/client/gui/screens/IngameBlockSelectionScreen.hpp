@@ -38,7 +38,7 @@ public:
 	virtual void removed() override;
 
 private:
-	int m_selectedSlot;
+	SlotID m_selectedSlot;
 	bool m_bReleased;
 	bool m_bClickedOnSlot;
     Button m_btnPause;

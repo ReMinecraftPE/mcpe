@@ -33,7 +33,7 @@ bool SurvivalMode::canHurtPlayer()
 
 bool SurvivalMode::startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	ItemInstance& item = player->getSelectedItem();
+	ItemStack& item = player->getSelectedItem();
 	if (!item.isEmpty() && item.getItem() == Item::bow)
 		return true;
 
@@ -63,7 +63,7 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 	bool changed = GameMode::destroyBlock(player, pos, face);
 
 	bool couldDestroy = player->canDestroy(Tile::tiles[tile]);
-	ItemInstance& item = player->getSelectedItem();
+	ItemStack& item = player->getSelectedItem();
 	if (!item.isEmpty())
 	{
 		item.mineBlock(pos, face);
@@ -77,7 +77,7 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 	if (changed && couldDestroy)
 	{
 #ifdef MOD_POCKET_SURVIVAL
-		ItemInstance tileItem(tile, 1, data);
+		ItemStack tileItem(tile, 1, data);
 		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(tileItem))
 		{
 			Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
@@ -162,7 +162,7 @@ void SurvivalMode::render(float f)
 	}
 }
 
-bool SurvivalMode::useItemOn(Player* player, Level* level, ItemInstance& instance, const TilePos& pos, Facing::Name face)
+bool SurvivalMode::useItemOn(Player* player, Level* level, ItemStack& instance, const TilePos& pos, Facing::Name face)
 {
 #ifdef MOD_POCKET_SURVIVAL
 	if (instance.isEmpty())

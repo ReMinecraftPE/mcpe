@@ -3,7 +3,7 @@
 #include <vector>
 #include "world/Container.hpp"
 #include "GameMods.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 #include "world/entity/Player.hpp"
 #include "world/gamemode/GameType.hpp"
 #include "nbt/ListTag.hpp"
@@ -32,23 +32,23 @@ public:
 	void addCreativeItem(int itemID, int auxValue = 0);
 	void addTestItem(int itemID, int amount, int auxValue = 0);
 
-	bool hasUnlimitedResource(const ItemInstance& pInstance) const;
+	bool hasUnlimitedResource(const ItemStack& pInstance) const;
 
-	bool add(ItemInstance& instance);
+	bool add(ItemStack& instance);
     void tick();
 
-	ItemInstance& getItem(int slotNo) override;
-	ItemInstance& getArmor(eEquipmentSlot slotNo);
-	ItemInstance& getSelectedItem();
+	ItemStack& getItem(int slotNo) override;
+	ItemStack& getArmor(Item::EquipmentSlot slotNo);
+	ItemStack& getSelectedItem();
 	int getSelectedItemId();
 
-	void setItem(int index, const ItemInstance& item);
-	void setSelectedItem(ItemInstance item);
-	ItemInstance removeItem(int index, int count) override;
+	void setItem(int index, const ItemStack& item);
+	void setSelectedItem(ItemStack item);
+	ItemStack removeItem(int index, int count) override;
 	bool removeResource(int id);
 
-	void setCarried(ItemInstance item);
-	ItemInstance& getCarried();
+	void setCarried(ItemStack item);
+	ItemStack& getCarried();
 
 	void pickItem(int itemID, int data, int maxHotBarSlot);
 	void selectItem(int itemID, int maxHotBarSlot);
@@ -66,12 +66,12 @@ public:
 	void save(ListTag& tag) const;
 	void load(const ListTag&);
 
-	bool contains(const ItemInstance&) const;
+	bool contains(const ItemStack&) const;
 
 	uint16_t getSelectedSlotNo() const { return m_selectedSlot; }
 
 	// v0.2.0 name alias
-	ItemInstance& getSelected() { return getSelectedItem(); }
+	ItemStack& getSelected() { return getSelectedItem(); }
 
 	std::string getName() const override
 	{
@@ -81,22 +81,22 @@ public:
 
 	void setChanged() override { }
 
-	bool stillValid(Player* player) override { return true;	}
+	bool stillValid(Player* player) const override { return true;	}
 	
 private:
 	GameType _getGameMode() const;
-	int getSlotWithRemainingSpace(const ItemInstance& item);
+	int getSlotWithRemainingSpace(const ItemStack& item);
 	int getFreeSlot();
-	int addResource(const ItemInstance& item);
+	int addResource(const ItemStack& item);
 	int getSlot(int id);
 
 public:
 	Player* m_pPlayer;
-	uint16_t m_selectedSlot;
+	SlotID m_selectedSlot;
 
 private:
-	ItemInstance m_carried;
+	ItemStack m_carried;
 
-	std::vector<ItemInstance> m_items;
-	std::vector<ItemInstance> m_armor;
+	std::vector<ItemStack> m_items;
+	std::vector<ItemStack> m_armor;
 };

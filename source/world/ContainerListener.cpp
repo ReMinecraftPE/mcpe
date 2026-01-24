@@ -7,5 +7,5 @@ ContainerListener::~ContainerListener()
 
 void ContainerListener::refreshContainerItems(ContainerMenu* menu)
 {
-	refreshContainer(menu, menu->getItems());
+	refreshContainer(menu, menu->copyItems());
 }

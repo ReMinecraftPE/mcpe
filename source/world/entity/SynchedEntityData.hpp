@@ -5,7 +5,7 @@
 
 #include "common/Util.hpp"
 #include "common/DataIO.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 #include "world/phys/Vec3.hpp"
 
 #define C_ENTITYDATA_EOF_MARKER (127)
@@ -26,8 +26,8 @@ public:
 		TYPE_INT32,
 		TYPE_FLOAT,
 		TYPE_STRING,
-		TYPE_ITEMINSTANCE,
-		TYPE_COMPOUNDTAG = TYPE_ITEMINSTANCE,
+		TYPE_ITEMSTACK,
+		TYPE_COMPOUNDTAG = TYPE_ITEMSTACK,
 		TYPE_TILEPOS,
 		TYPE_INT64,
 		TYPE_VEC3

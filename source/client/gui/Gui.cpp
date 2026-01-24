@@ -174,7 +174,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
 	}
 
-	ItemInstance headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(SLOT_HEAD);
+	ItemStack& headGear = mc.m_pLocalPlayer->m_pInventory->getArmor(Item::SLOT_HEAD);
 
 	if (!mc.getOptions()->m_bThirdPerson && !headGear.isEmpty() && headGear.getId() == Tile::pumpkin->m_ID)
 		renderPumpkin(m_width, m_height);
@@ -233,7 +233,7 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 {
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
-	ItemInstance& inst = pInv->getItem(slot);
+	ItemStack& inst = pInv->getItem(slot);
 	if (inst.isEmpty())
 		return;
 
@@ -260,7 +260,7 @@ void Gui::renderSlotOverlay(int slot, int x, int y, float f)
 {
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
-	ItemInstance& inst = pInv->getItem(slot);
+	ItemStack& inst = pInv->getItem(slot);
 	if (inst.isEmpty())
 		return;
 
@@ -312,7 +312,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 
 void Gui::handleScrollWheel(bool down)
 {
-	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
+	SlotID slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
 
 	int maxItems = getNumUsableSlots() - 1;
 
@@ -347,7 +347,7 @@ void Gui::handleKeyPressed(int keyCode)
 		int maxItems = getNumSlots() - 1;
 		if (m_pMinecraft->isTouchscreen())
 			maxItems--;
-		uint16_t* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
+		SlotID* slot = &m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedSlot;
 
 		if (slotR)
 		{

@@ -6,10 +6,10 @@ AddItemEntityPacket::AddItemEntityPacket(ItemEntity& itemEntity)
 	m_entityId = itemEntity.m_EntityID;
 	m_pos = itemEntity.m_pos;
 
-	ItemInstance& itemInstance = itemEntity.m_itemInstance;
-	m_itemId = itemInstance.getId();
-	m_auxValue = itemInstance.getAuxValue();
-	m_itemCount = itemInstance.m_count;
+	ItemStack& itemStack = itemEntity.m_itemStack;
+	m_itemId = itemStack.getId();
+	m_auxValue = itemStack.getAuxValue();
+	m_itemCount = itemStack.m_count;
 
 	m_velX = (itemEntity.m_vel.x * 128.0f);
 	m_velY = (itemEntity.m_vel.y * 128.0f);

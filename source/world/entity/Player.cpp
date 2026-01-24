@@ -149,7 +149,7 @@ void Player::die(Entity* pCulprit)
 	if (!m_pLevel->m_bIsClientSide)
 	{
 		if (m_name == "Notch")
-			drop(ItemInstance(Item::apple), true);
+			drop(ItemStack(Item::apple), true);
 	}
 	m_pInventory->dropAll(m_pLevel->m_bIsClientSide);
 
@@ -229,16 +229,19 @@ void Player::tick()
 {
 	Mob::tick();
 
-	if (!m_pLevel->m_bIsClientSide && m_pContainerMenu && !m_pContainerMenu->stillValid(this))
-		closeContainer();
+	if (!m_pLevel->m_bIsClientSide)
+	{
+		if (m_pContainerMenu && !m_pContainerMenu->stillValid(this))
+			closeContainer();
+	}
 }
 
-const ItemInstance& Player::getCarriedItem() const
+const ItemStack& Player::getCarriedItem() const
 {
 	// This only gets the first row slot
-	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedSlot);
+	/*itemStack* item = m_pInventory->getItem(m_pInventory->m_selectedSlot);
   
-	if (ItemInstance::isNull(item))
+	if (itemStack::isNull(item))
 		return nullptr;
 
 	return item;*/
@@ -323,7 +326,7 @@ void Player::attack(Entity* pEnt)
 		pEnt->hurt(this, atkDmg);
 }
 
-void Player::useItem(ItemInstance& item) const
+void Player::useItem(ItemStack& item) const
 {
 	if (!isCreative())
 		item.shrink(1);
@@ -390,14 +393,14 @@ void Player::setRespawnPos(const TilePos& pos)
 {
 	// From b1.2_02, doesn't exist in PE
 	// Isn't called anywhere, but is overriden in MultiplayerLocalPlayer with a PlayerActionPacket
-	ItemInstance* item = getSelectedItem();
+	itemStack* item = getSelectedItem();
 	if (!item)
 		return;
 
 	drop(m_pInventory->removeItem(*item, 1));
 }*/
 
-void Player::drop(const ItemInstance& item, bool randomly)
+void Player::drop(const ItemStack& item, bool randomly)
 {
 	if (item.isEmpty())
 		return;
@@ -461,12 +464,12 @@ void Player::interact(Entity* pEnt)
 	pEnt->interact(this);
 }
 
-ItemInstance& Player::getSelectedItem() const
+ItemStack& Player::getSelectedItem() const
 {
 	return m_pInventory->getSelected();
 }
 
 void Player::removeSelectedItem()
 {
-	m_pInventory->setSelectedItem(ItemInstance::EMPTY);
+	m_pInventory->setSelectedItem(ItemStack::EMPTY);
 }

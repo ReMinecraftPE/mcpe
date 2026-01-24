@@ -71,7 +71,7 @@ void LocalPlayer::aiStep()
 		updateAi();
 }
 
-void LocalPlayer::drop(const ItemInstance& item, bool randomly)
+void LocalPlayer::drop(const ItemStack& item, bool randomly)
 {
 	if (m_pMinecraft->isOnlineClient())
 	{

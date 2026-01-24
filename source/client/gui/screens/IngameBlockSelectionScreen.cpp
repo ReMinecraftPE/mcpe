@@ -123,7 +123,7 @@ void IngameBlockSelectionScreen::init()
 
 	//for (int i = 0; i < nItems; i++)
 	//{
-	//	ItemInstance& item = pInv->getItem(i);
+	//	itemStack& item = pInv->getItem(i);
 	//	if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId())
 	//	{
 	//		m_selectedSlot = i;
@@ -139,7 +139,7 @@ void IngameBlockSelectionScreen::init()
 
 void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 {
-	ItemInstance* item = getInventory()->tryGetItem(index);
+	ItemStack* item = getInventory()->tryGetItem(index);
 	if (!item || item->isEmpty())
 		return;
 

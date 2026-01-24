@@ -18,11 +18,11 @@
 #include "world/level/TilePos.hpp"
 #include "world/Facing.hpp"
 
-#include "ItemInstance.hpp"
+#include "ItemStack.hpp"
 
 #define C_MAX_ITEMS (C_MAX_TILES * 2)
 
-class ItemInstance; // in case we're included from ItemInstance.hpp
+class ItemStack; // in case we're included from ItemStack.hpp
 
 class Level;
 class Entity;
@@ -34,6 +34,15 @@ class CompoundTag;
 class Item
 {
 public: // Sub structures
+	enum EquipmentSlot
+	{
+		SLOT_NONE = -1,
+		SLOT_FEET,
+		SLOT_LEGS,
+		SLOT_CHEST,
+		SLOT_HEAD
+	};
+
 	struct Tier
 	{
 		int   field_0;
@@ -60,41 +69,41 @@ public: // Methods
 	virtual Item* setIcon(int icon);
 	virtual Item* setMaxStackSize(int mss);
 	virtual Item* setIcon(int ix, int iy);
-	virtual int getIcon(const ItemInstance*) const;
-	virtual bool useOn(ItemInstance*, Level*, const TilePos& pos, Facing::Name face) const;
-	virtual bool useOn(ItemInstance*, Player*, Level*, const TilePos& pos, Facing::Name face) const;
-	virtual float getDestroySpeed(ItemInstance*, Tile*) const;
-	virtual ItemInstance* use(ItemInstance*, Level*, Player*) const;
+	virtual int getIcon(const ItemStack*) const;
+	virtual bool useOn(ItemStack*, Level*, const TilePos& pos, Facing::Name face) const;
+	virtual bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const;
+	virtual float getDestroySpeed(ItemStack*, Tile*) const;
+	virtual ItemStack* use(ItemStack*, Level*, Player*) const;
 	virtual int getMaxStackSize() const;
 	virtual TileData getLevelDataForAuxValue(int x) const;
 	virtual bool isStackedByData() const;
 	virtual int getMaxDamage() const;
-	virtual void hurtEnemy(ItemInstance*, Mob*) const;
-	virtual void mineBlock(ItemInstance*, const TilePos& pos, Facing::Name face) const;
+	virtual void hurtEnemy(ItemStack*, Mob*) const;
+	virtual void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face) const;
 	virtual int getAttackDamage(Entity*) const;
 	virtual bool canDestroySpecial(Tile*) const;
-	virtual void interactEnemy(ItemInstance*, Mob*) const;
+	virtual void interactEnemy(ItemStack*, Mob*) const;
 	virtual Item* handEquipped();
 	virtual bool isHandEquipped() const;
 	virtual bool isMirroredArt() const;
 	virtual Item* setDescriptionId(const std::string& desc);
 	virtual std::string getDescription() const;
-	virtual std::string getDescription(ItemInstance*) const;
+	virtual std::string getDescription(ItemStack*) const;
 	virtual std::string getDescriptionId() const;
-	virtual std::string getDescriptionId(ItemInstance*) const;
+	virtual std::string getDescriptionId(ItemStack*) const;
 	virtual Item* setCraftingRemainingItem(Item*);
 	virtual Item* getCraftingRemainingItem() const;
 	virtual bool hasCraftingRemainingItem() const;
 	virtual std::string getName() const;
 	virtual std::string getHovertextName() const;
-	virtual void onCraftedBy(ItemInstance*, Player*, Level*);
-	virtual void inventoryTick(ItemInstance*, Level*, Entity*, int, bool);
+	virtual void onCraftedBy(ItemStack*, Player*, Level*);
+	virtual void inventoryTick(ItemStack*, Level*, Entity*, int, bool);
 	virtual bool isDamageable() const;
 	virtual int buildIdAux(int16_t auxValue, const CompoundTag* userData = nullptr) const;
 
 	// Custom methods
-	virtual eEquipmentSlot getEquipmentSlot() const;
-	int getDefense() const;
+	virtual EquipmentSlot getEquipmentSlot() const;
+	virtual int getDefense() const;
 
 	static void initItems();
 	

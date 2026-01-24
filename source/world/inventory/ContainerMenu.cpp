@@ -1,6 +1,6 @@
 #include "ContainerMenu.hpp"
 #include "Slot.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 #include "world/item/Inventory.hpp"
 #include "world/Container.hpp"
 #include "world/ContainerListener.hpp"
@@ -9,14 +9,14 @@ void ContainerMenu::addSlot(Slot* slot)
 {
     slot->m_index = m_slots.size();
     m_slots.push_back(slot);
-    m_lastSlots.push_back(ItemInstance::EMPTY);
+    m_lastSlots.push_back(ItemStack::EMPTY);
 }
 
 void ContainerMenu::addSlotListener(ContainerListener* listener)
 {
     m_listeners.push_back(listener);
 
-    std::vector<ItemInstance> snapshot;
+    std::vector<ItemStack> snapshot;
     for (std::vector<Slot*>::iterator it = m_slots.begin(); it != m_slots.end(); ++it)
         snapshot.push_back((*it)->getItem());
 
@@ -49,10 +49,10 @@ void ContainerMenu::broadcastChanges()
 {
     for (size_t i = 0; i < m_slots.size(); ++i)
     {
-        ItemInstance& current = m_slots[i]->getItem();
+        ItemStack& current = m_slots[i]->getItem();
         if (m_lastSlots[i] != current)
         {
-            m_lastSlots[i] = ItemInstance(current);
+            m_lastSlots[i] = ItemStack(current);
             for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
                 (*it)->slotChanged(this, i, m_lastSlots[i]);
         }
@@ -65,7 +65,7 @@ void ContainerMenu::removed(Player* player)
     if (!inv->getCarried().isEmpty())
     {
         player->drop(inv->getCarried());
-        inv->setCarried(ItemInstance::EMPTY);
+        inv->setCarried(ItemStack::EMPTY);
     }
 }
 
@@ -74,9 +74,9 @@ void ContainerMenu::slotsChanged(Container*)
     broadcastChanges();
 }
 
-std::vector<ItemInstance> ContainerMenu::getItems()
+std::vector<ItemStack> ContainerMenu::copyItems()
 {
-    std::vector<ItemInstance> content;
+    std::vector<ItemStack> content;
 
     for (std::vector<Slot*>::iterator it = m_slots.begin(); it != m_slots.end(); ++it)
         content.push_back((*it)->getItem());
@@ -100,12 +100,12 @@ Slot* ContainerMenu::getSlot(int index)
     return m_slots[index];
 }
 
-ItemInstance ContainerMenu::quickMoveStack(int index)
+ItemStack ContainerMenu::quickMoveStack(int index)
 {
-    return index >= 0 && index < int(m_slots.size()) ? getSlot(index)->getItem() : ItemInstance::EMPTY;
+    return index >= 0 && index < int(m_slots.size()) ? getSlot(index)->getItem() : ItemStack::EMPTY;
 }
 
-void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo, bool take)
+void ContainerMenu::moveItemStackTo(ItemStack& item, int slotFrom, int slotTo, bool take)
 {
     int index = slotFrom;
     if (take)
@@ -116,7 +116,7 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
         while (item.m_count > 0 && ((!take && index < slotTo) || (take && index >= slotFrom)))
         {
             Slot* slot = getSlot(index);
-            ItemInstance& slotItem = slot->getItem();
+            ItemStack& slotItem = slot->getItem();
             if (slotItem && slotItem.getId() == item.getId() && (!item.isStackedByData() || item.getAuxValue() == slotItem.getAuxValue()))
             {
                 int16_t sum = slotItem.m_count + item.m_count;
@@ -151,7 +151,7 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
         while ((!take && index < slotTo) || (take && index >= slotFrom))
         {
             Slot* slot = getSlot(index);
-            ItemInstance& slotItem = slot->getItem();
+            ItemStack& slotItem = slot->getItem();
             if (!slotItem)
             {
                 slot->set(item);
@@ -168,9 +168,9 @@ void ContainerMenu::moveItemStackTo(ItemInstance& item, int slotFrom, int slotTo
     }
 }
 
-ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, bool quickMove, Player* player)
+ItemStack ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, bool quickMove, Player* player)
 {
-    ItemInstance result = ItemInstance::EMPTY;
+    ItemStack result = ItemStack::EMPTY;
 
     if (mouseButton != MOUSE_BUTTON_LEFT && mouseButton != MOUSE_BUTTON_RIGHT)
         return result;
@@ -181,17 +181,18 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
     {
         if (!inv->getCarried().isEmpty())
         {
-            if (mouseButton == MOUSE_BUTTON_LEFT)
+            switch (mouseButton)
             {
+            case MOUSE_BUTTON_LEFT:
                 player->drop(inv->getCarried());
-                inv->setCarried(ItemInstance::EMPTY);
-            }
-            else if (mouseButton == MOUSE_BUTTON_RIGHT)
-            {
-                ItemInstance single = inv->getCarried().remove(1);
+                inv->setCarried(ItemStack::EMPTY);
+                break;
+            case MOUSE_BUTTON_RIGHT:
+                ItemStack single = inv->getCarried().remove(1);
                 player->drop(single);
                 if (!inv->getCarried().m_count)
-                    inv->setCarried(ItemInstance::EMPTY);
+                    inv->setCarried(ItemStack::EMPTY);
+                break;
             }
         }
     }
@@ -199,11 +200,12 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
     {
         if (quickMove)
         {
-            ItemInstance quickMoved = quickMoveStack(slotIndex);
+            ItemStack quickMoved = quickMoveStack(slotIndex);
             if (!quickMoved.isEmpty())
             {
+                result = quickMoved;
                 Slot* slot = getSlot(slotIndex);
-                if (slot && slot->getItem() && slot->getItem().m_count < quickMoved.m_count)   
+                if (slot && slot->hasItem() && slot->getItem().m_count < quickMoved.m_count)
                     clicked(slotIndex, mouseButton, quickMove, player);
             }
 
@@ -215,9 +217,13 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
             return result;
 
         slot->setChanged();
-        ItemInstance slotItem = slot->getItem();
 
-        ItemInstance& carried = inv->getCarried();
+        ItemStack& slotItem = slot->getItem();
+
+        if (!slotItem.isEmpty())
+            result = slotItem;
+
+        ItemStack& carried = inv->getCarried();
 
         if (slotItem.isEmpty() && carried.isEmpty())
             return result;
@@ -228,7 +234,7 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
             count = (mouseButton == MOUSE_BUTTON_LEFT) ? slotItem.m_count : (slotItem.m_count + 1) / 2;
             inv->setCarried(slot->remove(count));
             if (!slotItem.m_count)
-                slot->set(ItemInstance::EMPTY);
+                slot->set(ItemStack::EMPTY);
 
             slot->onTake(inv->getCarried());
         }
@@ -241,7 +247,7 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
             slot->set(carried.remove(count));
 
             if (!carried.m_count)
-                inv->setCarried(ItemInstance::EMPTY);
+                inv->setCarried(ItemStack::EMPTY);
         }
         else if (!slotItem.isEmpty() && !carried.isEmpty())
         {
@@ -257,7 +263,9 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
                 }
                 else if (slotItem.getId() == carried.getId())
                 {
-                    if (mouseButton == MOUSE_BUTTON_LEFT)
+                    switch(mouseButton)
+                    {
+                    case MOUSE_BUTTON_LEFT:
                     {
                         count = carried.m_count;
                         int space = slot->getMaxStackSize() - slotItem.m_count;
@@ -268,11 +276,12 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
 
                         carried.remove(count);
                         if (!carried.m_count)
-                            inv->setCarried(ItemInstance::EMPTY);
+                            inv->setCarried(ItemStack::EMPTY);
 
                         slotItem.m_count += count;
+                        break;
                     }
-                    else if (mouseButton == MOUSE_BUTTON_RIGHT)
+                    case MOUSE_BUTTON_RIGHT:
                     {
                         count = 1;
                         int space = slot->getMaxStackSize() - slotItem.m_count;
@@ -283,9 +292,11 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
 
                         carried.remove(count);
                         if (carried.m_count == 0)
-                            inv->setCarried(ItemInstance::EMPTY);
+                            inv->setCarried(ItemStack::EMPTY);
 
                         slotItem.m_count += count;
+                        break;
+                    }
                     }
                 }
             }
@@ -300,7 +311,7 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
                         carried.m_count += slotCount;
                         slotItem.remove(slotCount);
                         if (slotItem.m_count == 0)
-                            slot->set(ItemInstance::EMPTY);
+                            slot->set(ItemStack::EMPTY);
 
                         slot->onTake(carried);
                     }
@@ -309,16 +320,15 @@ ItemInstance ContainerMenu::clicked(int slotIndex, MouseButtonType mouseButton, 
         }
     }
 
-    //@Note: useless return value
     return result;
 }
 
-void ContainerMenu::setItem(int index, ItemInstance item)
+void ContainerMenu::setItem(int index, ItemStack item)
 {
     m_slots[index]->set(item);
 }
 
-void ContainerMenu::setAll(const std::vector<ItemInstance>& items)
+void ContainerMenu::setAll(const std::vector<ItemStack>& items)
 {
     for (size_t i = 0; i < items.size(); ++i)
     {

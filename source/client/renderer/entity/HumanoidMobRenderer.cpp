@@ -12,7 +12,7 @@
 #include "client/renderer/ItemInHandRenderer.hpp"
 #include "client/renderer/TileRenderer.hpp"
 #include "world/entity/Player.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 
 HumanoidMobRenderer::HumanoidMobRenderer(HumanoidModel* pModel, float f) : MobRenderer(pModel, f)
 {
@@ -27,15 +27,15 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 	{
 		const Player& player = (const Player&)mob;
 
-		ItemInstance& headGear = player.m_pInventory->getArmor(SLOT_HEAD);
+		ItemStack& headGear = player.m_pInventory->getArmor(Item::SLOT_HEAD);
 		if (!headGear.isEmpty() && headGear.getItem()->m_itemID < C_MAX_TILES)
 		{
 			MatrixStack::Ref matrix = MatrixStack::World.push();
 			m_pHumanoidModel->m_head.translateTo(matrix, 0.0625f);
 			if (TileRenderer::canRender(Tile::tiles[headGear.getId()]->getRenderShape()))
 			{
-				matrix->translate(Vec3(0.0F, -0.25f, 0.0F));
-				matrix->rotate(180.0f, Vec3(0.0F, 1.0F, 0.0F));
+				matrix->translate(Vec3(0.0F, -0.25f, 0.0f));
+				matrix->rotate(180.0f, Vec3(0.0f, 1.0f, 0.0f));
 				matrix->scale(Vec3(fScale, -fScale, fScale));
 			}
 
@@ -43,7 +43,7 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 		}
 	}
 
-	const ItemInstance& inst = mob.getCarriedItem();
+	const ItemStack& inst = mob.getCarriedItem();
 
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 
@@ -70,7 +70,7 @@ void HumanoidMobRenderer::additionalRendering(const Mob& mob, float f)
 	}
 	else
 	{
-		constexpr float s = 0.375;
+		constexpr float s = 0.375f;
 		matrix->translate(Vec3(0.25f, 0.1875f, -0.1875f));
 		matrix->scale(s);
 		matrix->rotate(60.0f, Vec3::UNIT_Z);
@@ -91,7 +91,7 @@ void HumanoidMobRenderer::render(const Entity& entity, const Vec3& pos, float f1
 	if (entity.isPlayer())
 	{
 		const Player& player = (const Player&)entity;
-		ItemInstance& item = player.getSelectedItem();
+		ItemStack& item = player.getSelectedItem();
 		m_pHumanoidModel->m_bHoldingRightHand = !item.isEmpty();
 		bSetRHolding = true;
 	}

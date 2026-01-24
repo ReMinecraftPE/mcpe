@@ -3,22 +3,24 @@
 #include "world/entity/Player.hpp"
 //#include "stats/Achievement.hpp"
 
-ResultSlot::ResultSlot(Player* player, Container* craftSlots, Container* resultSlots, int slotIndex, int x, int y) : Slot(resultSlots, slotIndex, x, y),
-	m_pPlayer(player), m_pCraftSlots(craftSlots)
+ResultSlot::ResultSlot(Player* player, Container* craftSlots, Container* resultSlots, int slotIndex, int x, int y) :
+	Slot(resultSlots, slotIndex, x, y),
+	m_pPlayer(player),
+	m_pCraftSlots(craftSlots)
 {
 }
 
-bool ResultSlot::mayPlace(const ItemInstance& item) const
+bool ResultSlot::mayPlace(const ItemStack& item) const
 {
 	return false;
 }
 
-bool ResultSlot::canSync()
+bool ResultSlot::canSync() const
 {
     return false;
 }
 
-void ResultSlot::onTake(ItemInstance& item)
+void ResultSlot::onTake(ItemStack& item)
 {
 	item.onCraftedBy(m_pPlayer, m_pPlayer->m_pLevel);
 
@@ -41,13 +43,13 @@ void ResultSlot::onTake(ItemInstance& item)
 
     for (int i = 0; i < m_pCraftSlots->getContainerSize(); ++i)
 	{
-		ItemInstance& instance = m_pCraftSlots->getItem(i);
+		ItemStack& instance = m_pCraftSlots->getItem(i);
         if (!instance.isEmpty())
 		{
             m_pCraftSlots->removeItem(i, 1);
             Item* item = instance.getItem();
             if (item->hasCraftingRemainingItem())
-                m_pCraftSlots->setItem(i, ItemInstance(item->getCraftingRemainingItem()));
+                m_pCraftSlots->setItem(i, ItemStack(item->getCraftingRemainingItem()));
         }
     }
 }

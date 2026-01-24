@@ -5,12 +5,13 @@
 
 class ArmorSlot : public Slot
 {
+public:
+    ArmorSlot(Container* container, Item::EquipmentSlot equipmentSlot, int slotIndex, int x, int y);
+
+    bool mayPlace(const ItemStack& item) const override;
+    int getMaxStackSize() const override;
+    int getNoItemIcon() const override;
 
 public:
-    int m_armorIndex;
-    ArmorSlot(Container* container, int armorIndex, int slotIndex, int x, int y);
-
-    bool mayPlace(const ItemInstance& item) const override;
-    int getMaxStackSize() override;
-    int getNoItemIcon() override;
+    Item::EquipmentSlot m_equipmentSlot;
 };

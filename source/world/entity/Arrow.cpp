@@ -240,7 +240,7 @@ void Arrow::playerTouch(Player* pPlayer)
         // had m_owner == pPlayer, but this logic breaks when loaded from a save, and m_owner is null
         if (m_bInGround && m_bIsPlayerOwned && m_shakeTime <= 0)
         {
-            ItemInstance arrow(Item::arrow, 1);
+            ItemStack arrow(Item::arrow, 1);
             if (pPlayer->m_pInventory->add(arrow))
             {
                 m_pLevel->playSound(this, "random.pop", 0.2f, ((sharedRandom.nextFloat() - sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);

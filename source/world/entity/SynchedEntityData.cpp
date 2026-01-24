@@ -10,7 +10,7 @@ MAP(int16_t,      TYPE_INT16,        0)
 MAP(int32_t,      TYPE_INT32,        0)
 MAP(float,        TYPE_FLOAT,        0.0f) // float because VS2010 was bitching about float_t not existing despite including math.h or cmath
 MAP(std::string,  TYPE_STRING,       Util::EMPTY_STRING)
-MAP(ItemInstance, TYPE_ITEMINSTANCE, ItemInstance())
+MAP(ItemStack,    TYPE_ITEMSTACK,    ItemStack())
 MAP(TilePos,      TYPE_TILEPOS,      TilePos())
 MAP(int64_t,      TYPE_INT64,        0)
 MAP(Vec3,         TYPE_VEC3,         Vec3())
@@ -131,8 +131,8 @@ void SynchedEntityData::assignValues(const ItemsArray& items)
         case TYPE_STRING:
             set<std::string>(itemId, newItem->getData<std::string>());
             break;
-        case TYPE_ITEMINSTANCE:
-            set<ItemInstance>(itemId, newItem->getData<ItemInstance>());
+        case TYPE_ITEMSTACK:
+            set<ItemStack>(itemId, newItem->getData<ItemStack>());
             break;
         case TYPE_TILEPOS:
             set<TilePos>(itemId, newItem->getData<TilePos>());
@@ -170,9 +170,9 @@ void SynchedEntityData::_WriteDataItem(IDataOutput& dos, const DataItem& dataIte
         case TYPE_STRING:
             dos.writeString(dataItem.getData<std::string>());
             break;
-        case TYPE_ITEMINSTANCE:
+        case TYPE_ITEMSTACK:
         {
-            ItemInstance item = dataItem.getData<ItemInstance>();
+            ItemStack item = dataItem.getData<ItemStack>();
             dos.writeInt16(item.getItem()->m_itemID);
             dos.writeInt8(item.m_count);
             dos.writeInt16(item.getAuxValue());
@@ -239,12 +239,12 @@ SynchedEntityData::ItemsArray SynchedEntityData::Unpack(IDataInput& dis)
             case TYPE_STRING:
                 dataItem = new DataItem2<std::string>(dataType, dataId, dis.readString());
                 break;
-            case TYPE_ITEMINSTANCE:
+            case TYPE_ITEMSTACK:
             {
                 int16_t itemId = dis.readInt16();
                 int8_t amount = dis.readInt8();
                 int16_t auxValue = dis.readInt16();
-                dataItem = new DataItem2<ItemInstance>(dataType, dataId, ItemInstance(itemId, amount, auxValue));
+                dataItem = new DataItem2<ItemStack>(dataType, dataId, ItemStack(itemId, amount, auxValue));
                 break;
             }
             case TYPE_TILEPOS:

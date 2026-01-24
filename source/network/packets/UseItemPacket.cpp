@@ -1,7 +1,7 @@
 #include "UseItemPacket.hpp"
 #include "network/NetEventCallback.hpp"
 
-UseItemPacket::UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemInstance& item)
+UseItemPacket::UseItemPacket(const TilePos& tilePos, int32_t tileFace, int32_t entityId, const ItemStack& item)
 {
 	m_tilePos = tilePos;
 	m_tileFace = tileFace;
@@ -37,5 +37,5 @@ void UseItemPacket::read(RakNet::BitStream& bs)
 	bs.Read(m_itemAuxValue);
 	bs.Read(m_entityId);
 
-	m_item = ItemInstance(m_itemId, m_itemId > 0 ? 1 : 0, m_itemAuxValue);
+	m_item = ItemStack(m_itemId, m_itemId > 0 ? 1 : 0, m_itemAuxValue);
 }

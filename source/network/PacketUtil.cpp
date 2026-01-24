@@ -28,7 +28,7 @@ void PacketUtil::Rot_charToEntity(Entity* entity, char yawChar, char pitchChar)
 	entity->m_rot.x = yaw;
 }
 
-void PacketUtil::WriteUserData(const ItemInstance& item, RakNet::BitStream* bs, bool minData)
+void PacketUtil::WriteUserData(const ItemStack& item, RakNet::BitStream* bs, bool minData)
 {
     if (item.getItem())
     {
@@ -79,7 +79,7 @@ void PacketUtil::WriteUserData(const ItemInstance& item, RakNet::BitStream* bs, 
     }
 }
 
-void PacketUtil::ReadUserData(ItemInstance& item, RakNet::BitStream* bs)
+void PacketUtil::ReadUserData(ItemStack& item, RakNet::BitStream* bs)
 {
     if (item.getItem())
     {
@@ -123,10 +123,10 @@ void PacketUtil::ReadUserData(ItemInstance& item, RakNet::BitStream* bs)
         }
     }
 
-    assert(!"Attempted PacketUtil::ReadUserData() for invalid ItemInstance!");
+    assert(!"Attempted PacketUtil::ReadUserData() for invalid ItemStack!");
 }
 
-void PacketUtil::WriteItemInstance(const ItemInstance& item, RakNet::BitStream* bs, bool doUserData, bool minUserData)
+void PacketUtil::WriteitemStack(const ItemStack& item, RakNet::BitStream* bs, bool doUserData, bool minUserData)
 {
     int16_t itemId = item.getId();
     int8_t count = item.m_count;
@@ -145,38 +145,38 @@ void PacketUtil::WriteItemInstance(const ItemInstance& item, RakNet::BitStream* 
         WriteUserData(item, bs, minUserData);
 }
 
-ItemInstance PacketUtil::ReadItemInstance(RakNet::BitStream* bs, bool doUserData)
+ItemStack PacketUtil::ReaditemStack(RakNet::BitStream* bs, bool doUserData)
 {
     int16_t itemId;
     if (!bs->Read(itemId))
-        return ItemInstance();
+        return ItemStack();
 
     if (itemId == -1)
-        return ItemInstance();
+        return ItemStack();
 
     uint8_t count;
     int16_t auxValue;
     if (!bs->Read(count) || !bs->Read(auxValue))
     {
-        return ItemInstance(); // Return empty if stream fails
+        return ItemStack(); // Return empty if stream fails
     }
 
-    ItemInstance itemInstance(itemId, count, auxValue);
-    if (!itemInstance.isValid())
+    ItemStack itemStack(itemId, count, auxValue);
+    if (!itemStack.isValid())
     {
-        return ItemInstance();
+        return ItemStack();
     }
 
-    if (!itemInstance.getItem())
+    if (!itemStack.getItem())
     {
         /*Item air(TILE_AIR);
         // Reading user data for fun
-        air.readUserData(itemInstance, bs);*/
-        return ItemInstance(false);
+        air.readUserData(itemStack, bs);*/
+        return ItemStack(false);
     }
 
     if (doUserData)
-        ReadUserData(itemInstance, bs);
+        ReadUserData(itemStack, bs);
 
-    return itemInstance;
+    return itemStack;
 }

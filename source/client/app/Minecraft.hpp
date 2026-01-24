@@ -103,7 +103,7 @@ public:
 
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
-	ItemInstance& getSelectedItem();
+	ItemStack& getSelectedItem();
 	Options* getOptions() const { return m_pOptions; }
 	//const Entity& getCameraEntity() const { return *m_pCameraEntity; }
 
@@ -167,7 +167,7 @@ public:
 	bool m_bHasQueuedScreen;
 	Screen* m_pQueuedScreen;
 	int m_licenseID;
-	ItemInstance m_CurrItemInstance;
+	ItemStack m_CurritemStack;
 
 	// in 0.8. Offset 3368
 	double m_fDeltaTime, m_fLastUpdated;

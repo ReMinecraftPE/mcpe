@@ -26,7 +26,7 @@ bool CreativeMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 
 bool CreativeMode::startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	ItemInstance& item = player->getSelectedItem();
+	ItemStack& item = player->getSelectedItem();
 	if (item && item.getItem() == Item::bow)
 		return true;
 

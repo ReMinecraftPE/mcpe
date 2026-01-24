@@ -2,7 +2,7 @@
 
 #include "world/Container.hpp"
 
-class ItemInstance;
+class ItemStack;
 
 class Slot
 {
@@ -10,25 +10,25 @@ public:
     Slot(Container* container, int slot, int x, int y);
     virtual ~Slot();
 
-    virtual bool canSync();
+    virtual bool canSync() const;
 
-    virtual void onTake(ItemInstance&) { setChanged(); }
+    virtual void onTake(ItemStack&) { setChanged(); }
 
-    virtual bool mayPlace(const ItemInstance& item) const { return true; }
+    virtual bool mayPlace(const ItemStack& item) const { return true; }
 
-    virtual ItemInstance& getItem() { return m_pContainer->getItem(m_slot); }
+    virtual ItemStack& getItem() { return m_pContainer->getItem(m_slot); }
 
     virtual bool hasItem() { return !getItem().isEmpty(); }
 
-    virtual void set(const ItemInstance& item);
+    virtual void set(const ItemStack& item);
 
     virtual void setChanged() { m_pContainer->setChanged(); }
 
-    virtual int getMaxStackSize() { return m_pContainer->getMaxStackSize(); }
+    virtual int getMaxStackSize() const { return m_pContainer->getMaxStackSize(); }
 
-    virtual int getNoItemIcon() { return -1; }
+    virtual int getNoItemIcon() const { return -1; }
 
-    virtual ItemInstance remove(int count) { return m_pContainer->removeItem(m_slot, count); }
+    virtual ItemStack remove(int count) { return m_pContainer->removeItem(m_slot, count); }
 
     virtual bool isAt(Container* cont, int s) { return cont == m_pContainer && s == m_slot; }
 

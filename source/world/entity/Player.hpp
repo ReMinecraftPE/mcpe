@@ -48,7 +48,7 @@ public:
 	void die(Entity* pCulprit) override;
 	void aiStep() override;
 	void tick() override;
-	const ItemInstance& getCarriedItem() const override;
+	const ItemStack& getCarriedItem() const override;
 	bool isImmobile() const override { return m_health <= 0; }
 	void updateAi() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
@@ -56,7 +56,7 @@ public:
 
 	virtual void animateRespawn();
 	//virtual void drop(); // see definition
-	virtual void drop(const ItemInstance& item, bool randomly = false);
+	virtual void drop(const ItemStack& item, bool randomly = false);
 	virtual void startCrafting(const TilePos& pos);
 	virtual void startStonecutting(const TilePos& pos);
 	virtual void startDestroying();
@@ -67,7 +67,7 @@ public:
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
 	void attack(Entity* pEnt);
-	void useItem(ItemInstance& item) const;
+	void useItem(ItemStack& item) const;
 	bool canDestroy(const Tile*) const;
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
@@ -87,7 +87,7 @@ public:
 	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
-	ItemInstance& getSelectedItem() const;
+	ItemStack& getSelectedItem() const;
 	void removeSelectedItem();
 	bool isUsingItem() const { return !getSelectedItem().isEmpty(); }
 

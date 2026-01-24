@@ -14,23 +14,25 @@ InventoryMenu::InventoryMenu(Inventory* inventory, bool active) :
 
     addSlot(new ResultSlot(inventory->m_pPlayer, m_pCraftSlots, m_pResultSlots, 0, 144, 36));
 
-    for (int y = 0; y < 2; ++y) {
-        for (int x = 0; x < 2; ++x) {
+    for (int y = 0; y < 2; ++y)
+    {
+        for (int x = 0; x < 2; ++x)
             addSlot(new Slot(m_pCraftSlots, x + y * 2, 88 + x * 18, 26 + y * 18));
-        }
     }
 
-    for (int i = 0; i < 4; ++i) {
-        addSlot(new ArmorSlot(inventory, i, inventory->getContainerSize() - 1 - i, 8, 8 + i * 18));
+    for (int i = Item::SLOT_FEET; i <= Item::SLOT_HEAD; ++i)
+    {
+        addSlot(new ArmorSlot(inventory, Item::EquipmentSlot(Item::SLOT_HEAD - i), inventory->getContainerSize() - 1 - i, 8, 8 + i * 18));
     }
 
-    for (int y = 0; y < 3; ++y) {
-        for (int x = 0; x < 9; ++x) {
+    for (int y = 0; y < 3; ++y)
+    {
+        for (int x = 0; x < 9; ++x)
             addSlot(new Slot(inventory, x + (y + 1) * 9, 8 + x * 18, 84 + y * 18));
-        }
     }
 
-    for (int i = 0; i < 9; ++i) {
+    for (int i = 0; i < 9; ++i)
+    {
         addSlot(new Slot(inventory, i, 8 + i * 18, 142));
     }
 
@@ -51,12 +53,13 @@ void InventoryMenu::slotsChanged(Container* container)
 void InventoryMenu::removed(Player* player) 
 {
     ContainerMenu::removed(player);
-    for (int i = 0; i < 4; ++i) {
-        ItemInstance& item = m_pCraftSlots->getItem(i);
+    for (int i = 0; i < 4; ++i)
+    {
+        ItemStack& item = m_pCraftSlots->getItem(i);
         if (!item.isEmpty())
         {
             player->drop(item);
-            m_pCraftSlots->setItem(i, ItemInstance::EMPTY);
+            m_pCraftSlots->setItem(i, ItemStack::EMPTY);
         }
     }
 }
@@ -66,13 +69,13 @@ bool InventoryMenu::stillValid(Player* player) const
     return true;
 }
 
-ItemInstance InventoryMenu::quickMoveStack(int index)
+ItemStack InventoryMenu::quickMoveStack(int index)
 {
-    ItemInstance item = ItemInstance::EMPTY;
+    ItemStack item = ItemStack::EMPTY;
     Slot* slot = getSlot(index);
     if (slot && slot->hasItem())
     {
-        ItemInstance& slotItem = slot->getItem();
+        ItemStack& slotItem = slot->getItem();
         item = slotItem;
         if (index == 0)
             moveItemStackTo(slotItem, 9, 45, true);
@@ -84,12 +87,12 @@ ItemInstance InventoryMenu::quickMoveStack(int index)
             moveItemStackTo(slotItem, 9, 45, false);
 
         if (slotItem.m_count == 0)
-            slot->set(ItemInstance::EMPTY);
+            slot->set(ItemStack::EMPTY);
         else
             slot->setChanged();
 
         if (slotItem.m_count == item.m_count)
-            return ItemInstance::EMPTY;
+            return ItemStack::EMPTY;
 
         slot->onTake(slotItem);
     }

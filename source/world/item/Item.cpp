@@ -92,7 +92,7 @@ Item* Item::handEquipped()
 	return this;
 }
 
-eEquipmentSlot Item::getEquipmentSlot() const
+Item::EquipmentSlot Item::getEquipmentSlot() const
 {
 	return SLOT_NONE;
 }
@@ -556,27 +556,27 @@ void Item::initItems()
 		->setDescriptionId("quiver");
 }
 
-int Item::getIcon(const ItemInstance* pInstance) const
+int Item::getIcon(const ItemStack* pInstance) const
 {
 	return m_icon;
 }
 
-bool Item::useOn(ItemInstance* instance, Level* level, const TilePos& pos, Facing::Name face) const
+bool Item::useOn(ItemStack* instance, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	return false;
 }
 
-bool Item::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool Item::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	return false;
 }
 
-float Item::getDestroySpeed(ItemInstance* instance, Tile* tile) const
+float Item::getDestroySpeed(ItemStack* instance, Tile* tile) const
 {
 	return 1.0f;
 }
 
-ItemInstance* Item::use(ItemInstance* instance, Level* level, Player* player) const
+ItemStack* Item::use(ItemStack* instance, Level* level, Player* player) const
 {
 	return instance;
 }
@@ -601,12 +601,12 @@ int Item::getMaxDamage() const
 	return m_maxDamage;
 }
 
-void Item::hurtEnemy(ItemInstance* instance, Mob* mob) const
+void Item::hurtEnemy(ItemStack* instance, Mob* mob) const
 {
 
 }
 
-void Item::mineBlock(ItemInstance* instance, const TilePos& pos, Facing::Name face) const
+void Item::mineBlock(ItemStack* instance, const TilePos& pos, Facing::Name face) const
 {
 
 }
@@ -621,7 +621,7 @@ bool Item::canDestroySpecial(Tile* tile) const
 	return false;
 }
 
-void Item::interactEnemy(ItemInstance* instance, Mob* mob) const
+void Item::interactEnemy(ItemStack* instance, Mob* mob) const
 {
 
 }
@@ -641,7 +641,7 @@ std::string Item::getDescription() const
 	return m_DescriptionID;
 }
 
-std::string Item::getDescription(ItemInstance* inst) const
+std::string Item::getDescription(ItemStack* inst) const
 {
 	return m_DescriptionID;
 }
@@ -651,7 +651,7 @@ std::string Item::getDescriptionId() const
 	return m_DescriptionID;
 }
 
-std::string Item::getDescriptionId(ItemInstance* inst) const
+std::string Item::getDescriptionId(ItemStack* inst) const
 {
 	return m_DescriptionID;
 }
@@ -676,11 +676,11 @@ std::string Item::getHovertextName() const
 	return getName();
 }
 
-void Item::onCraftedBy(ItemInstance*, Player*, Level*)
+void Item::onCraftedBy(ItemStack*, Player*, Level*)
 {
 }
 
-void Item::inventoryTick(ItemInstance*, Level*, Entity*, int, bool)
+void Item::inventoryTick(ItemStack*, Level*, Entity*, int, bool)
 {
 }
 

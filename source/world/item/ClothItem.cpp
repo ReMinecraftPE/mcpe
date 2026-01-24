@@ -11,12 +11,12 @@ ClothItem::ClothItem(int id) : TileItem(id)
 	m_bStackedByData = true;
 }
 
-std::string ClothItem::getDescriptionId(ItemInstance* item) const
+std::string ClothItem::getDescriptionId(ItemStack* item) const
 {
 	return TileItem::getDescriptionId(item) + "."/* + DyeColor::IDS[ClothTile::getColorFromData(item->getAuxValue())];*/;
 }
 
-int ClothItem::getIcon(const ItemInstance* item) const
+int ClothItem::getIcon(const ItemStack* item) const
 {
 	return Tile::cloth->getTexture(Facing::NORTH, ClothTile::getColorFromData(item->getAuxValue()));
 }

@@ -8,9 +8,9 @@ class ResultSlot : public Slot
 public:
     ResultSlot(Player* player, Container* craftSlots, Container* resultSlots, int slotIndex, int x, int y);
 
-    bool mayPlace(const ItemInstance& item) const override;
-    bool canSync() override;
-    void onTake(ItemInstance&) override;
+    bool mayPlace(const ItemStack& item) const override;
+    bool canSync() const override;
+    void onTake(ItemStack&) override;
 
 private:
     Player* m_pPlayer;
