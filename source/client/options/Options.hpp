@@ -72,10 +72,10 @@ public:
 private:
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
-	static std::vector<std::string> readPackArray(const std::string& str);
+	static void readPackArray(const std::string& str, std::vector<std::string>& array);
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
-	static std::string saveArray(std::vector<std::string> arr);
+	static std::string saveArray(const std::vector<std::string>& arr);
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
 	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 

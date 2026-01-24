@@ -151,7 +151,7 @@ void Options::_load()
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
 		else if (key == "gfx_resourcepacks")
-			m_resourcePacks = readPackArray(value);
+			readPackArray(value, m_resourcePacks);
 		else if (key == "misc_menupano")
 		{
 			m_bMenuPanorama = !Screen::isMenuPanoramaAvailable() ? false : readBool(value);
@@ -190,19 +190,17 @@ int Options::readInt(const std::string& str)
 	return f;
 }
 
-std::vector<std::string> Options::readPackArray(const std::string& str)
+void Options::readPackArray(const std::string& str, std::vector<std::string>& array)
 {
-	std::vector<std::string> ret;
 	std::istringstream ss(str);
-	std::string pack;
+	std::string element;
 
-	while (std::getline(ss, pack, ','))
+	while (std::getline(ss, element, ','))
 	{
-		std::string packpath = AppPlatform::singleton()->getAssetPath("/resource_packs/" + pack);
+		std::string packpath = AppPlatform::singleton()->getAssetPath("/resource_packs/" + element);
 		if (isDirectory(packpath.c_str()))
-			ret.push_back(pack);
+			array.push_back(element);
 	}
-	return ret;
 }
 
 std::string Options::saveBool(bool b)
