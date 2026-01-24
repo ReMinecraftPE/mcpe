@@ -84,7 +84,7 @@ endif()
 if(NINTENDO_SWITCH)
     nx_generate_nacp(reminecraftpe.nacp
         NAME "ReMinecraftPE"
-        AUTHOR "MC" 
+        AUTHOR "ReMinecraftPE Team"
         VERSION "v0.2.0 alpha"
     )
 
