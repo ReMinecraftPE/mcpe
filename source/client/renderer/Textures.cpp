@@ -20,7 +20,7 @@ TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
 	assert(m_textures.find(name) == m_textures.end());
 
-	TextureData t = m_pPlatform->loadTexture(name, m_pOptions->m_resourcepacks);
+	TextureData t = m_pPlatform->loadTexture(name, m_pOptions->m_resourcePacks);
 
 	if (t.isEmpty())
 	{

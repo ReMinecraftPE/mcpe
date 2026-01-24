@@ -179,7 +179,7 @@ void NinecraftApp::_initAll()
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
 	std::string font = "font/default8.png";
 	{
-		AssetFile file = platform()->readResourceFile(font, true, getOptions()->m_resourcepacks);
+		AssetFile file = platform()->readResourceFile(font, true, getOptions()->m_resourcePacks);
 		if (!file.data)
 			font = "font/default.png";
 	}

@@ -133,7 +133,7 @@ public:
 	bool m_bDynamicHand;
 	bool m_b2dTitleLogo;
 	bool m_bMenuPanorama;
-	std::vector<std::string> m_resourcepacks;
+	std::vector<std::string> m_resourcePacks;
 
 public:
 	struct Option

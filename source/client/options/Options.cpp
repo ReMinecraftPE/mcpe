@@ -151,7 +151,7 @@ void Options::_load()
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
 		else if (key == "gfx_resourcepacks")
-			m_resourcepacks = readPackArray(value);
+			m_resourcePacks = readPackArray(value);
 		else if (key == "misc_menupano")
 		{
 			m_bMenuPanorama = !Screen::isMenuPanoramaAvailable() ? false : readBool(value);
@@ -328,7 +328,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("misc_oldtitle",             saveBool(m_b2dTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
-	SO("gfx_resourcepacks",		    saveArray(m_resourcepacks));
+	SO("gfx_resourcepacks",		    saveArray(m_resourcePacks));
 
 	return vec;
 }
