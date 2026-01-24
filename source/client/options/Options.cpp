@@ -217,7 +217,7 @@ std::string Options::saveInt(int i)
 	return ss.str();
 }
 
-std::string Options::saveArray(std::vector<std::string> arr)
+std::string Options::saveArray(const std::vector<std::string>& arr)
 {
 	if (arr.empty())
 		return "";
