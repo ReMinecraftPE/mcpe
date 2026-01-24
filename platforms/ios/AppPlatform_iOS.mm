@@ -172,7 +172,7 @@ NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
 
 std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
-	if (path.size() && path[0] == '/')
+	if (!path.empty() && path[0] == '/')
 		return m_externalStorageDir + "/games/com.mojang" + path;
     NSString* assetPath = _getAssetPath(path);
     if (assetPath == nullptr)

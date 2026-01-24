@@ -331,7 +331,7 @@ SoundSystem* AppPlatform::getSoundSystem() const
 
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
-	if (path.size() && path[0] == '/')
+	if (!path.empty() && path[0] == '/')
 		return m_externalStorageDir + "/games/com.mojang" + path;
 	return "assets/" + path;
 }
