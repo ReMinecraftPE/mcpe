@@ -142,3 +142,6 @@ xcuserdata/
 # PCM sound extraction
 /tools/__pycache__
 /tools/venv
+
+# Clangd
+.clangd

@@ -179,7 +179,7 @@ void WorldSelectionList::renderBackground()
 
 void WorldSelectionList::commit()
 {
-	for (int i = 0; i < int(m_items.size()); i++)
+	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		LevelSummary& item = m_items[i];
 

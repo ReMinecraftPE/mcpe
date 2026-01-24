@@ -312,7 +312,7 @@ void Screen::keyPressed(int key)
 		//_updateTabButtonSelection();
 	}
 	
-	for (int i = 0; i < int(m_textInputs.size()); i++)
+	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
 		TextInputBox* textInput = m_textInputs[i];
 		textInput->keyPressed(key);
@@ -321,7 +321,7 @@ void Screen::keyPressed(int key)
 
 void Screen::keyboardNewChar(char chr)
 {
-	for (int i = 0; i < int(m_textInputs.size()); i++)
+	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
 		TextInputBox* textInput = m_textInputs[i];
 		textInput->charPressed(chr);
@@ -330,7 +330,7 @@ void Screen::keyboardNewChar(char chr)
 
 void Screen::keyboardTextPaste(const std::string& text)
 {
-	for (int i = 0; i < int(m_textInputs.size()); i++)
+	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
 		TextInputBox* textInput = m_textInputs[i];
 		textInput->pasteText(text);
@@ -465,7 +465,7 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 	for (int phase = 0; phase < 2; phase++)
 	{
 		bool handleFocused = phase == 0;
-		for (int i = 0; i < int(m_textInputs.size()); i++)
+		for (size_t i = 0; i < m_textInputs.size(); i++)
 		{
 			TextInputBox* textInput = m_textInputs[i];
 			if (textInput->hasFocus() == handleFocused)
@@ -481,7 +481,7 @@ void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clic
 	{
 		// if there are none focused at the moment:
 		bool areAnyFocused = false;
-		for (int i = 0; i < int(m_textInputs.size()); i++)
+		for (size_t i = 0; i < m_textInputs.size(); i++)
 		{
 			TextInputBox* textInput = m_textInputs[i];
 			if (textInput->hasFocus())
@@ -516,7 +516,7 @@ void Screen::pointerReleased(int xPos, int yPos, MouseButtonType btn)
 
 void Screen::render(float a)
 {
-	for (int i = 0; i < int(m_elements.size()); i++)
+	for (size_t i = 0; i < m_elements.size(); i++)
 	{
 		GuiElement* element = _getInternalElement(i);
 		if (element->getType() != GuiElement::TYPE_BUTTON)
@@ -527,7 +527,7 @@ void Screen::render(float a)
 	}
 
 #ifndef ORIGINAL_CODE
-	for (int i = 0; i < int(m_textInputs.size()); i++)
+	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
 		TextInputBox* textInput = m_textInputs[i];
 		textInput->tick();
@@ -639,7 +639,7 @@ int Screen::getYOffset() const
 
 	// look through every text box, see if one's open
 	// and determine its offset from there
-	for (int i = 0; i < int(m_textInputs.size()); i++)
+	for (size_t i = 0; i < m_textInputs.size(); i++)
 	{
 		const TextInputBox* pBox = m_textInputs[i];
 
