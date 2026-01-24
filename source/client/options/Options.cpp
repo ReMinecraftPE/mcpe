@@ -208,7 +208,7 @@ void Options::readPackArray(const std::string& str, std::vector<std::string>& ar
 	for (size_t i = 0; i < fullarray.size(); ++i)
 	{
 		std::string packpath = AppPlatform::singleton()->getAssetPath("/resource_packs/" + fullarray[i]);
-		if (!isDirectory(packpath.c_str()))
+		if (isDirectory(packpath.c_str()))
 			array.push_back(fullarray[i]);
 	}
 }
