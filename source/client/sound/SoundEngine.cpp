@@ -118,10 +118,10 @@ void SoundEngine::forcePlayMusic()
 	// we're still not playing music if you can't hear it, fuck that
     if (m_pOptions->m_fMusicVolume <= 0.0f)
         return;
-
-	if (m_pSoundSystem->isPlayingMusic())
+    
+    if (m_pSoundSystem->isPlayingMusic())
 	{
-		m_pSoundSystem->stopMusic();
+        m_pSoundSystem->stopMusic();
 	}
 
 	_playMusic();
