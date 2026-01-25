@@ -92,8 +92,8 @@ void SoundEngine::playMusic(bool resetDelay)
 {
     if (m_pOptions->m_fMusicVolume <= 0.0f || m_pSoundSystem->isPlayingMusic())
         return;
-
-	_playMusic(resetDelay);
+    
+    _playMusic(resetDelay);
 }
 
 void SoundEngine::playMusicTick()
