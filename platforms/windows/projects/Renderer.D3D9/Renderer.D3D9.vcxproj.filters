@@ -21,18 +21,6 @@
     <Filter Include="Source Files\HAL\D3D9">
       <UniqueIdentifier>{0d213c85-3a3e-4e2d-8d98-6458b1701cf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\HAL\DXGI">
-      <UniqueIdentifier>{5acb9e47-db4a-47b5-bf7f-d32c93803251}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\HAL\DXGI\Helpers">
-      <UniqueIdentifier>{fd022f1a-d13c-443a-a6a8-2f44474be127}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HAL\DXGI">
-      <UniqueIdentifier>{10ed95f5-e0bb-4a1d-a159-08ae70d16505}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\HAL\DXGI\Helpers">
-      <UniqueIdentifier>{35ccee22-ac89-45a5-a94f-41692e463ffd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\HAL\D3D9\Helpers">
       <UniqueIdentifier>{dccffe0d-ef8d-4452-b3d1-09ff10442d89}</UniqueIdentifier>
     </Filter>
@@ -91,9 +79,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\GPUEventsD3D9.cpp">
       <Filter>Source Files\HAL\D3D9</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.cpp">
-      <Filter>Source Files\HAL\DXGI\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\TextureHelperD3D9.cpp">
       <Filter>Source Files\HAL\D3D9\Helpers</Filter>
@@ -156,9 +141,6 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\TextureD3D9.hpp">
       <Filter>Header Files\HAL\D3D9</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.hpp">
-      <Filter>Header Files\HAL\DXGI\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\TextureHelperD3D9.hpp">
       <Filter>Header Files\HAL\D3D9\Helpers</Filter>

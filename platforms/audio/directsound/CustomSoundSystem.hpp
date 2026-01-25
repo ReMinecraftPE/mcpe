@@ -8,11 +8,12 @@
 
 #pragma once
 #include <string>
+#include <stdexcept>
+#include <vector>
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <uuids.h>
 #include <strmif.h>
-#include <stdexcept>
-#include <vector>
 
 #include <mmsystem.h>
 #include <dsound.h>

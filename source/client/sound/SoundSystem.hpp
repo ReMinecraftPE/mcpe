@@ -26,6 +26,7 @@ class SoundSystem
 public:
 	virtual ~SoundSystem();
 
+public:
 	virtual bool isAvailable();
 	virtual void setListenerPos(const Vec3& pos);
 	virtual void setListenerAngle(const Vec2& rot);
@@ -55,4 +56,3 @@ public:
     virtual void muteAudio();
     virtual void unMuteAudio();
 };
-

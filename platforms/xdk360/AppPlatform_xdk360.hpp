@@ -4,7 +4,7 @@
 
 #include "client/app/AppPlatform.hpp"
 #include "platforms/input/xinput/GameControllerHandler_xinput.hpp"
-#include "platforms/sound/dummy/CustomSoundSystem.hpp"
+#include "CustomSoundSystem.hpp"
 
 class AppPlatform_xdk360 : public AppPlatform
 {

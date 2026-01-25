@@ -2,24 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{C42DA6D7-5E54-4477-B960-197E6F599DB5}</UniqueIdentifier>
+      <UniqueIdentifier>{0871DA44-EFE9-4753-9E88-9DC504EDB39D}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{5D1DB960-EB2F-4C8B-A91B-94581E4D8AEF}</UniqueIdentifier>
+      <UniqueIdentifier>{FCF3CA5C-8B30-4634-9AF0-46CBC0782F2D}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.hpp">
+    <ClInclude Include="$(MC_ROOT)\thirdparty\com\ComInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\platforms\xdk360\main.cpp">
+    <ClCompile Include="$(MC_ROOT)\thirdparty\com\ComInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

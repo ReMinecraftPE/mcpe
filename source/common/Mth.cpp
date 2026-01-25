@@ -28,6 +28,9 @@ void Mth::initMth()
 	{
 		g_SinTable[i] = sinf(SIN_TABLE_INDEX_TO_ANG(i)); // value is 10430
 	}
+
+	// We need this for proper random music on the title screen
+	g_Random.setSeed(getTimeMs());
 }
 
 int Mth::intFloorDiv(int a2, int a3)

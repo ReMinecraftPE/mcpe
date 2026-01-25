@@ -4,7 +4,6 @@
 #include "common/Logger.hpp"
 
 SoundStreamOAL::SoundStreamOAL()
-    : SoundStream()
 {
     _createSource();
     _createBuffers();
