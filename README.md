@@ -24,6 +24,7 @@ The code is based on a decompilation of Minecraft: Pocket Edition (v0.1.3) as of
 	* iOS (3.1 and above; thanks to [BrentDaMage](https://github.com/BrentDaMage))
 	* Xbox 360 (thanks to [BrentDaMage](https://github.com/BrentDaMage))
 	* HaikuOS (thanks to [SanyaSho](https://github.com/SanyaSho))
+	* Nintendo Switch (thanks to [Bagietas](https://github.com/Bagietas))
 
 **We will not do the following:**
 * Add features added in or after Java Edition Beta 1.8
