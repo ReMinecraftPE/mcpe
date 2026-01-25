@@ -511,7 +511,6 @@ elseif(REMCPE_GFX_API STREQUAL "D3D11")
 		renderer/hal/d3d11/TextureD3D11.cpp
 		renderer/hal/d3d11/helpers/TextureHelperD3D11.cpp
 		renderer/hal/dxgi/API_DXGI.cpp
-		renderer/hal/dxgi/helpers/DirectXComInterface.cpp
 		renderer/hal/dxgi/helpers/ErrorHandlerDXGI.cpp
 		renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
 	)
