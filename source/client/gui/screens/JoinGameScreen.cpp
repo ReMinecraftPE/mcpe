@@ -121,7 +121,7 @@ void JoinGameScreen::tick()
 	std::vector<PingedCompatibleServer> *serverList, serverListFiltered;
 	serverList = m_pMinecraft->m_pRakNetInstance->getServerList();
 
-	for (int i = 0; i < int(serverList->size()); i++)
+	for (size_t i = 0; i < serverList->size(); i++)
 	{
 		const PingedCompatibleServer& pcs = (*serverList)[i];
 		if (pcs.m_name.GetLength())
@@ -140,7 +140,7 @@ void JoinGameScreen::tick()
 			m_pAvailableGamesList->selectItem(-1, false);
 
 			// relocate the new list item, if possible
-			for (int i = 0; i < int(serverListFiltered.size()); i++)
+			for (size_t i = 0; i < serverListFiltered.size(); i++)
 			{
 				if (serverListFiltered[i].m_address == selectedItem.m_address)
 				{

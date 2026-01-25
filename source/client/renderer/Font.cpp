@@ -135,7 +135,7 @@ void Font::drawSlow(const std::string& str, int x, int y, const Color& color, bo
 
 	float cXPos = 0.0f, cYPos = 0.0f;
 
-	for (int i = 0; i < int(str.size()); i++)
+	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (str[i] == '\n')
 		{
@@ -165,7 +165,7 @@ int Font::height(const std::string& str)
 
 	int res = 0; // note: starting at 0 looks wrong
 	
-	for (int i = 0; i < int(str.size()); i++)
+	for (size_t i = 0; i < str.size(); i++)
 		if (str[i] == '\n')
 			res += 12;
 
@@ -176,7 +176,7 @@ int Font::width(const std::string& str)
 {
 	int maxLineWidth = 0, currentLineWidth = 0;
 
-	for (int i = 0; i < int(str.size()); i++)
+	for (size_t i = 0; i < str.size(); i++)
 	{
 		char chr = str[i];
 
