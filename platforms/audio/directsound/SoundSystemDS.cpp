@@ -76,6 +76,41 @@ SoundSystemDS::~SoundSystemDS()
 	m_directsound->Release();
 }
 
+WAVEFORMATEX SoundSystemDS::_getWaveFormat(const PCMSoundHeader& header, float pitch) const
+{
+	WAVEFORMATEX wf;
+
+	wf.wFormatTag = WAVE_FORMAT_PCM;
+	wf.nSamplesPerSec = DWORD(float(header.m_sample_rate) * pitch);
+	wf.wBitsPerSample = 8 * header.m_bytes_per_sample;
+	wf.nChannels = header.m_channels;
+	wf.nBlockAlign = (wf.wBitsPerSample / 8) * wf.nChannels;
+	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
+	wf.cbSize = 0;
+
+	return wf;
+}
+
+// Release sounds that finished playing
+void SoundSystemDS::_cleanSources()
+{
+	for (size_t i = 0; i < m_buffers.size(); i++)
+	{
+		DWORD status;
+		m_buffers[i].buffer->GetStatus(&status);
+		if (status != DSBSTATUS_PLAYING)
+		{
+			m_buffers[i].buffer->Release();
+			if (m_buffers[i].object3d != NULL)
+			{
+				m_buffers[i].object3d->Release();
+			}
+			
+			m_buffers.erase(m_buffers.begin() + i);
+			i--;
+		}
+	}
+}
 
 bool SoundSystemDS::isAvailable()
 {
@@ -244,40 +279,4 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	soundbuffer->Play(0, 0, 0);
 
 	m_buffers.push_back(info);
-}
-
-WAVEFORMATEX SoundSystemDS::_getWaveFormat(const PCMSoundHeader& header, float pitch) const
-{
-	WAVEFORMATEX wf;
-
-	wf.wFormatTag = WAVE_FORMAT_PCM;
-	wf.nSamplesPerSec = DWORD(float(header.m_sample_rate) * pitch);
-	wf.wBitsPerSample = 8 * header.m_bytes_per_sample;
-	wf.nChannels = header.m_channels;
-	wf.nBlockAlign = (wf.wBitsPerSample / 8) * wf.nChannels;
-	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
-	wf.cbSize = 0;
-
-	return wf;
-}
-
-// Release sounds that finished playing
-void SoundSystemDS::_cleanSources()
-{
-	for (size_t i = 0; i < m_buffers.size(); i++)
-	{
-		DWORD status;
-		m_buffers[i].buffer->GetStatus(&status);
-		if (status != DSBSTATUS_PLAYING)
-		{
-			m_buffers[i].buffer->Release();
-			if (m_buffers[i].object3d != NULL)
-			{
-				m_buffers[i].object3d->Release();
-			}
-			
-			m_buffers.erase(m_buffers.begin() + i);
-			i--;
-		}
-	}
 }

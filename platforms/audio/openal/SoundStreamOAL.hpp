@@ -10,22 +10,14 @@
 
 #include "client/sound/SoundStream.hpp"
 
-class SoundStreamAL : public SoundStream
+class SoundStreamOAL : public SoundStream
 {
 private:
     typedef std::map<ALuint, unsigned int> BufferIdMap;
 
-private:
-    std::vector<ALuint> _buffers;
-    BufferIdMap _bufferIdMap;
-
-    ALuint _source;
-
-    ALenum _alFormat;
-
 public:
-    SoundStreamAL();
-    ~SoundStreamAL();
+    SoundStreamOAL();
+    ~SoundStreamOAL();
 
 private:
     void _deleteSource();
@@ -46,4 +38,12 @@ protected:
     void _close() override;
     void _update() override;
     void _publishBuffer(unsigned int destBufferId, const SoundBuffer& sourceBuffer);
+
+private:
+    std::vector<ALuint> m_buffers;
+    BufferIdMap m_bufferIdMap;
+
+    ALuint m_source;
+
+    ALenum m_alFormat;
 };
