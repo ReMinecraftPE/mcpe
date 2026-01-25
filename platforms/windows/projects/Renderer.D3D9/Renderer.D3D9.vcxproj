@@ -27,7 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\API_D3D9.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\BlendStateD3D9.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\BufferD3D9.cpp" />
@@ -50,7 +49,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\d3d9\FixedPipelineStateD3D9.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\API_D3D9.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\BlendStateD3D9.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\BufferD3D9.hpp" />
@@ -73,6 +71,11 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\helpers\ErrorHandlerD3D9.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\d3d9\FixedPipelineStateD3D9.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\COM\COM.vcxproj">
+      <Project>{bc0701d1-0634-4754-b078-65a45bf01fa1}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -91,7 +94,7 @@
       <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">$(DXSDK_DIR)\Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <Lib Condition="'$(Platform)'=='Xbox 360'">
-	  <!-- Link d3d9i.lib for using PIX -->
+      <!-- Link d3d9i.lib for using PIX -->
       <AdditionalDependencies Condition="$(Configuration.StartsWith('Release'))">d3d9.lib;d3dx9.lib;xgraphics.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="$(Configuration.StartsWith('Debug'))">d3d9d.lib;d3dx9d.lib;xgraphicsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>

@@ -12,7 +12,7 @@
 
 #include "common/Utils.hpp"
 
-#include "platforms/sound/openal/CustomSoundSystem.hpp"
+#include "platforms/audio/openal/CustomSoundSystem.hpp"
 
 AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
 {
@@ -32,7 +32,7 @@ void AppPlatform_iOS::initSoundSystem()
 	if (!m_pSoundSystem)
 	{
 		LOG_I("Initializing OpenAL SoundSystem...");
-		m_pSoundSystem = new SoundSystemAL();
+		m_pSoundSystem = new SoundSystemOAL();
 	}
 	else
 	{

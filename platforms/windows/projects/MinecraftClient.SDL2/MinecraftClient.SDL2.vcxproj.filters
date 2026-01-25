@@ -24,13 +24,7 @@
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl2\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundSystemAL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\sdl2\base\AppPlatform_sdl2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.cpp">
@@ -44,16 +38,10 @@
     <ClInclude Include="$(MC_ROOT)\compat\KeyCodes.hpp">
       <Filter>Header Files\Compatibility</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\CustomSoundSystem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\compat\SDLKeyCodes.h">
       <Filter>Header Files\Compatibility</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\sdl2\base\AppPlatform_sdl2.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\platforms\sound\openal\SoundStreamAL.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\platforms\sdl\base\AppPlatform_sdl.hpp">

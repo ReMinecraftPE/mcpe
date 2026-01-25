@@ -30,13 +30,13 @@
 
 typedef std::list<SLObjectItf> SLSoundList;
 
-#define SOUND_SYSTEM SoundSystemSL
+#define SOUND_SYSTEM SoundSystemOSL
 
-class SoundSystemSL : public SoundSystem
+class SoundSystemOSL : public SoundSystem
 {
 public:
-	SoundSystemSL();
-	~SoundSystemSL();
+	SoundSystemOSL();
+	~SoundSystemOSL();
 	void init();
 	void destroy();
 	bool checkErr(SLresult res);

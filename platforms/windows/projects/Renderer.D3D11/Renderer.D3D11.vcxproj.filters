@@ -98,9 +98,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\ErrorHandlerDXGI.cpp">
       <Filter>Source Files\HAL\DXGI\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.cpp">
-      <Filter>Source Files\HAL\DXGI\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\TextureHelperDXGI.cpp">
       <Filter>Source Files\HAL\DXGI\Helpers</Filter>
     </ClCompile>
@@ -165,9 +162,6 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\API_DXGI.hpp">
       <Filter>Header Files\HAL\DXGI</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\DirectXComInterface.hpp">
-      <Filter>Header Files\HAL\DXGI\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\dxgi\helpers\TextureHelperDXGI.hpp">
       <Filter>Header Files\HAL\DXGI\Helpers</Filter>

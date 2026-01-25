@@ -6,7 +6,7 @@
 #include "API_D3D9.hpp"
 #include "renderer/hal/base/RenderContextBase.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
-#include "renderer/hal/dxgi/helpers/DirectXComInterface.hpp"
+#include "thirdparty/com/ComInterface.hpp"
 #include "world/phys/Vec2.hpp"
 
 namespace mce

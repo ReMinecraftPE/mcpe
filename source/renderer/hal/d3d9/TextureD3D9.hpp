@@ -2,7 +2,7 @@
 
 #include "renderer/hal/base/TextureBase.hpp"
 #include "renderer/hal/interface/RenderContext.hpp"
-#include "renderer/hal/dxgi/helpers/DirectXComInterface.hpp"
+#include "thirdparty/com/ComInterface.hpp"
 
 namespace mce
 {
