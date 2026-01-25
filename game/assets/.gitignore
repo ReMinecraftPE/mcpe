@@ -1,16 +1,13 @@
 #-- The 'game' directory is the default working directory for Minecraft PE if running from VS directly.
 
 # Ignore original Minecraft PE assets.
-/environment/clouds.png
 /font/default.png
 /font/default8.png
 /gui/feedback.png
 /gui/feedback_fill.png
 /gui/feedback_outer.png
-/gui/background.png
 /gui/buynow.png
 /gui/default_world.png
-/gui/gui.png
 /gui/gui_blocks.png
 /gui/icons.png
 /gui/itemframe.png
@@ -31,19 +28,9 @@
 /item/camera.png
 /misc/foliagecolor.png
 /misc/grasscolor.png
-/mob/char.png
-/mob/chicken.png
 /mob/cow.png
-/mob/creeper.png
-/mob/pig.png
 /mob/pigzombie.png
-/mob/sheep.png
-/mob/sheep_fur.png
-/mob/skeleton.png
-/mob/spider.png
-/mob/zombie.png
 /particles.png
-/terrain.png
 /gui/buynow.png
 /gui/controls/dpad.png
 /gui/controls/dpadbutton.png
