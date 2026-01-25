@@ -62,6 +62,7 @@ public:
 	bool pauseGame();
 	bool resumeGame();
 	void leaveGame(bool bCopyMap);
+	void gotoMainMenu();
 	void hostMultiplayer();
 	void joinMultiplayer(const PingedCompatibleServer& serverInfo);
 	void cancelLocateMultiplayer();

@@ -6,46 +6,46 @@
 #include "common/Logger.hpp"
 #include "common/Utils.hpp"
 
-#include "SoundStreamAL.hpp"
+#include "SoundStreamOAL.hpp"
 
-SoundSystemAL::SoundSystemAL()
+SoundSystemOAL::SoundSystemOAL()
 {
 	_device = nullptr;
 	_context = nullptr;
-	_initialized = false;
-	_musicStream = nullptr;
-	_mainVolume = 1.0f;
-	_listenerPos = Vec3::ZERO;
-	_listenerYaw = 0.0f;
+	m_bInitialized = false;
+	m_musicStream = nullptr;
+	m_mainVolume = 1.0f;
+	m_listenerPos = Vec3::ZERO;
+	m_listenerYaw = 0.0f;
     
     startEngine();
 }
 
-SoundSystemAL::~SoundSystemAL()
+SoundSystemOAL::~SoundSystemOAL()
 {
     stopEngine();
 }
 
-bool SoundSystemAL::_hasMaxSources() const
+bool SoundSystemOAL::_hasMaxSources() const
 {
-	return _sources.size() + _sources_idle.size() >= SOUND_MAX_SOURCES;
+	return m_sources.size() + m_sources_idle.size() >= SOUND_MAX_SOURCES;
 }
 
-ALuint SoundSystemAL::_getIdleSource()
+ALuint SoundSystemOAL::_getIdleSource()
 {
 	ALuint al_source = AL_NONE;
 
-	if (_sources_idle.size() > 0)
+	if (m_sources_idle.size() > 0)
 	{
 		// Use Idle Source
-		al_source = _sources_idle.back();
-		_sources_idle.pop_back();
+		al_source = m_sources_idle.back();
+		m_sources_idle.pop_back();
 	}
 
 	return al_source;
 }
 
-ALuint SoundSystemAL::_getSource(bool& isNew, bool tryClean)
+ALuint SoundSystemOAL::_getSource(bool& isNew, bool tryClean)
 {
 	isNew = false;
 	ALuint al_source = _getIdleSource(); // Try to fetch pre-existing idle source
@@ -91,30 +91,30 @@ ALuint SoundSystemAL::_getSource(bool& isNew, bool tryClean)
 }
 
 // Delete Sources
-void SoundSystemAL::_deleteSources()
+void SoundSystemOAL::_deleteSources()
 {
-	if (_initialized)
+	if (m_bInitialized)
 	{
-		for (std::vector<ALuint>::iterator source = _sources_idle.begin(); source != _sources_idle.end(); source++)
+		for (std::vector<ALuint>::iterator source = m_sources_idle.begin(); source != m_sources_idle.end(); source++)
 		{
 			alDeleteSources(1, &*source);
 			AL_ERROR_CHECK();
 		}
-		for (std::vector<ALuint>::iterator source = _sources.begin(); source != _sources.end(); source++)
+		for (std::vector<ALuint>::iterator source = m_sources.begin(); source != m_sources.end(); source++)
 		{
 			alDeleteSources(1, &*source);
 			AL_ERROR_CHECK();
 		}
 	}
-	_sources_idle.clear();
-	_sources.clear();
+	m_sources_idle.clear();
+	m_sources.clear();
 }
 
 // Clear Finished Sources
-void SoundSystemAL::_cleanSources()
+void SoundSystemOAL::_cleanSources()
 {
-	std::vector<ALuint>::iterator it = _sources.begin();
-	while (it != _sources.end())
+	std::vector<ALuint>::iterator it = m_sources.begin();
+	while (it != m_sources.end())
 	{
 		ALuint source = *it;
 		bool remove = false;
@@ -129,7 +129,7 @@ void SoundSystemAL::_cleanSources()
 			{
 				// Finished Playing
 				remove = true;
-				_sources_idle.push_back(source);
+				m_sources_idle.push_back(source);
 
 				// Reset playback state of source to prevent buffer ghosting on legacy Mac OS X and Windows.
 				// see: https://stackoverflow.com/questions/6960731/openal-problem-changing-gain-of-source
@@ -147,7 +147,7 @@ void SoundSystemAL::_cleanSources()
 		// Remove If Needed
 		if (remove)
 		{
-			it = _sources.erase(it);
+			it = m_sources.erase(it);
 		}
 		else
 		{
@@ -157,12 +157,12 @@ void SoundSystemAL::_cleanSources()
 }
 
 // Get Buffer
-ALuint SoundSystemAL::_getBuffer(const SoundDesc& sound)
+ALuint SoundSystemOAL::_getBuffer(const SoundDesc& sound)
 {
 	// Fetch pre-existing buffer
-	if (_buffers.count(sound.m_buffer.m_pData) > 0)
+	if (m_buffers.count(sound.m_buffer.m_pData) > 0)
 	{
-		return _buffers[sound.m_buffer.m_pData];
+		return m_buffers[sound.m_buffer.m_pData];
 	}
 	
 	// Create Buffer
@@ -173,17 +173,17 @@ ALuint SoundSystemAL::_getBuffer(const SoundDesc& sound)
 	AL_ERROR_CHECK();
 
 	// Store
-	_buffers[sound.m_buffer.m_pData] = buffer;
+	m_buffers[sound.m_buffer.m_pData] = buffer;
 	return buffer;
 }
 
 // Delete Buffers
-void SoundSystemAL::_deleteBuffers()
+void SoundSystemOAL::_deleteBuffers()
 {
-	if (_initialized)
+	if (m_bInitialized)
 	{
-		for (std::map<void *, ALuint>::iterator it = _buffers.begin(); it != _buffers.end(); it++)
-		//for (auto &it : _buffers)
+		for (std::map<void *, ALuint>::iterator it = m_buffers.begin(); it != m_buffers.end(); it++)
+		//for (auto &it : m_buffers)
 		{
 			if (it->second && alIsBuffer(it->second))
 			{
@@ -192,10 +192,10 @@ void SoundSystemAL::_deleteBuffers()
 			}
 		}
 	}
-	_buffers.clear();
+	m_buffers.clear();
 }
 
-ALenum SoundSystemAL::_getSoundFormat(const PCMSoundHeader& header) const
+ALenum SoundSystemOAL::_getSoundFormat(const PCMSoundHeader& header) const
 {
 	switch (header.m_channels)
 	{
@@ -208,51 +208,51 @@ ALenum SoundSystemAL::_getSoundFormat(const PCMSoundHeader& header) const
 	}
 }
 
-bool SoundSystemAL::isAvailable()
+bool SoundSystemOAL::isAvailable()
 {
-	return _initialized;
+	return m_bInitialized;
 }
 
-void SoundSystemAL::setListenerPos(const Vec3& pos)
+void SoundSystemOAL::setListenerPos(const Vec3& pos)
 {
 	// Empty on iOS 0.10.0
-	if (_listenerPos == pos)
+	if (m_listenerPos == pos)
 		return; // No need to waste time doing math and talking to OpenAL
 
 	// Update Listener Position
 	alListener3f(AL_POSITION, pos.x, pos.y, pos.z);
 	AL_ERROR_CHECK();
-	_listenerPos = pos;
+	m_listenerPos = pos;
 	
 	// Update Listener Volume
-	alListenerf(AL_GAIN, _mainVolume);
+	alListenerf(AL_GAIN, m_mainVolume);
 	AL_ERROR_CHECK();
 }
 
-void SoundSystemAL::setListenerAngle(const Vec2& rot)
+void SoundSystemOAL::setListenerAngle(const Vec2& rot)
 {
-	if (_listenerYaw == rot.x)
+	if (m_listenerYaw == rot.x)
 		return; // No need to waste time doing math and talking to OpenAL
 
 	// Update Listener Orientation
-	float radian_yaw = rot.x * (M_PI / 180);
-	ALfloat orientation[] = { -sinf(radian_yaw), 0.0f, cosf(radian_yaw), 0.0f, 1.0f, 0.0f };
-	alListenerfv(AL_ORIENTATION, orientation);
+	float radian_yaw = rot.x * MTH_DEG_TO_RAD;
+	Vec3 orientation[] = { Vec3(-Mth::sin(radian_yaw), 0.0f, Mth::cos(radian_yaw)), Vec3::UNIT_Y };
+	alListenerfv(AL_ORIENTATION, (const ALfloat*)orientation);
 	AL_ERROR_CHECK();
-	_listenerYaw = rot.x;
+	m_listenerYaw = rot.x;
 }
 
-void SoundSystemAL::setMusicVolume(float vol)
+void SoundSystemOAL::setMusicVolume(float vol)
 {
-	assert(_musicStream != nullptr);
+	assert(m_musicStream != nullptr);
 
-	_musicStream->setVolume(vol);
+	m_musicStream->setVolume(vol);
 }
 
-void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
+void SoundSystemOAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch)
 {
 	// Check
-	if (!_initialized)
+	if (!m_bInitialized)
 	{
 		return;
 	}
@@ -320,37 +320,37 @@ void SoundSystemAL::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	// Play
 	alSourcePlay(al_source);
 	AL_ERROR_CHECK();
-	_sources.push_back(al_source);
+	m_sources.push_back(al_source);
 }
 
-void SoundSystemAL::playMusic(const std::string& soundPath)
+void SoundSystemOAL::playMusic(const std::string& soundPath)
 {
-	_musicStream->open(soundPath);
+	m_musicStream->open(soundPath);
 }
 
-bool SoundSystemAL::isPlayingMusic() const
+bool SoundSystemOAL::isPlayingMusic() const
 {
-	return _musicStream->isPlaying();
+	return m_musicStream->isPlaying();
 }
 
-void SoundSystemAL::stopMusic()
+void SoundSystemOAL::stopMusic()
 {
-	_musicStream->close();
+	m_musicStream->close();
 }
 
-void SoundSystemAL::pauseMusic(bool state)
+void SoundSystemOAL::pauseMusic(bool state)
 {
-	_musicStream->setPausedState(state);
+	m_musicStream->setPausedState(state);
 }
 
-void SoundSystemAL::update(float elapsedTime)
+void SoundSystemOAL::update(float elapsedTime)
 {
-	_musicStream->update();
+	m_musicStream->update();
 }
 
-void SoundSystemAL::startEngine()
+void SoundSystemOAL::startEngine()
 {
-    if (_initialized) return;
+    if (m_bInitialized) return;
     
     _device = alcOpenDevice(NULL);
 	if (!_device)
@@ -401,17 +401,17 @@ void SoundSystemAL::startEngine()
 	alListenerfv(AL_VELOCITY, velocity);
 	AL_ERROR_CHECK();*/
 
-	_musicStream = new SoundStreamAL();
+	m_musicStream = new SoundStreamOAL();
     
 	// Mark As loaded
-	_initialized = true;
+	m_bInitialized = true;
 }
 
-void SoundSystemAL::stopEngine()
+void SoundSystemOAL::stopEngine()
 {
-    if (!_initialized) return;
+    if (!m_bInitialized) return;
 
-	delete _musicStream;
+	delete m_musicStream;
     
 	// Delete Audio Sources
 	_deleteSources();
@@ -445,5 +445,5 @@ void SoundSystemAL::stopEngine()
      }*/
     
     // Mark as unloaded
-    _initialized = false;
+    m_bInitialized = false;
 }

@@ -3,7 +3,7 @@
 #include "API_D3D11.hpp"
 #include "renderer/hal/base/BufferBase.hpp"
 #include "renderer/hal/enums/MapType.hpp"
-#include "renderer/hal/dxgi/helpers/DirectXComInterface.hpp"
+#include "thirdparty/com/ComInterface.hpp"
 
 namespace mce
 {

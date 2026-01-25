@@ -29,13 +29,13 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MC_ROOT)\platforms\audio\xaudio2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link Condition="$(Configuration.StartsWith('Release'))">
       <!--AdditionalDependencies>xapilib.lib;d3d9.lib;d3dx9.lib;xgraphics.lib;xboxkrnl.lib;xnet.lib;xaudio2.lib;xact3.lib;x3daudio.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies-->
       <!--AdditionalDependencies>xapilib.lib;xboxkrnl.lib;xact3.lib;xmcore.lib;vcomp.lib;%(AdditionalDependencies)</AdditionalDependencies-->
-	  <!-- For using PIX, which you can't do without a DevKit, of course -->
-	  <!--IgnoreSpecificDefaultLibraries>xapilib.lib</IgnoreSpecificDefaultLibraries>
+      <!-- For using PIX, which you can't do without a DevKit, of course -->
+      <!--IgnoreSpecificDefaultLibraries>xapilib.lib</IgnoreSpecificDefaultLibraries>
       <AdditionalDependencies>xapilibi.lib;xmcorei.lib;xbdm.lib;%(AdditionalDependencies)</AdditionalDependencies-->
     </Link>
     <Link Condition="$(Configuration.StartsWith('Debug'))">
@@ -48,14 +48,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.hpp" />
-    <ClInclude Include="$(MC_ROOT)\platforms\sound\dummy\CustomSoundSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.cpp" />
     <ClCompile Include="$(MC_ROOT)\platforms\xdk360\main.cpp" />
-    <ClCompile Include="$(MC_ROOT)\platforms\sound\dummy\SoundSystemNull.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Audio.XAudio2\Audio.XAudio2.vcxproj">
+      <Project>{7efab98f-fbe9-4a48-9e53-d987aa3e92fa}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
     <ProjectReference Include="..\Client\Client.vcxproj">
       <Project>{a6e03dca-99f6-45b8-800d-73060ae407fc}</Project>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>

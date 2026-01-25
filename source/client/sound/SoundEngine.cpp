@@ -32,6 +32,19 @@ float SoundEngine::_getVolumeMult(const Vec3& pos)
     return Mth::clamp(distance, -1.0f, 1.0f);
 }
 
+void SoundEngine::_playMusic(bool resetDelay)
+{
+    std::string songPath;
+    if (m_songs.any(songPath))
+    {
+		if (resetDelay)
+			m_noMusicDelay = m_random.nextInt(12000) + 12000;
+
+        m_pSoundSystem->setMusicVolume(m_pOptions->m_fMusicVolume);
+        m_pSoundSystem->playMusic(songPath);
+    }
+}
+
 void SoundEngine::init(Options* options, AppPlatform* platform)
 {
     // TODO: Who's the genius who decided it'd be better to check a name string rather than an enum?
@@ -75,6 +88,14 @@ void SoundEngine::destroy()
     SoundDesc::_unloadAll();
 }
 
+void SoundEngine::playMusic(bool resetDelay)
+{
+    if (m_pOptions->m_fMusicVolume <= 0.0f || m_pSoundSystem->isPlayingMusic())
+        return;
+    
+    _playMusic(resetDelay);
+}
+
 void SoundEngine::playMusicTick()
 {
     if (m_pOptions->m_fMusicVolume <= 0.0f)
@@ -88,16 +109,23 @@ void SoundEngine::playMusicTick()
             return;
         }
 
-        std::string songPath;
-        if (m_songs.any(songPath))
-        {
-            m_noMusicDelay = m_random.nextInt(12000) + 12000;
-            m_pSoundSystem->setMusicVolume(m_pOptions->m_fMusicVolume);
-            m_pSoundSystem->playMusic(songPath);
-        }
+		_playMusic(true);
     }
 }
 
+void SoundEngine::forcePlayMusic()
+{
+	// we're still not playing music if you can't hear it, fuck that
+    if (m_pOptions->m_fMusicVolume <= 0.0f)
+        return;
+    
+    if (m_pSoundSystem->isPlayingMusic())
+	{
+        m_pSoundSystem->stopMusic();
+	}
+
+	_playMusic();
+}
 
 void SoundEngine::update(const Mob* player, float elapsedTime)
 {

@@ -11,11 +11,11 @@
 #define C_MAX_SOUNDS 4
 
 // TODO: Use other types of mutexes later.
-SLObjectItf SoundSystemSL::objEngine;
-std::vector<SLObjectItf> SoundSystemSL::toRemove;
-pthread_mutex_t SoundSystemSL::toRemoveMutex;
+SLObjectItf SoundSystemOSL::objEngine;
+std::vector<SLObjectItf> SoundSystemOSL::toRemove;
+pthread_mutex_t SoundSystemOSL::toRemoveMutex;
 
-SoundSystemSL::SoundSystemSL()
+SoundSystemOSL::SoundSystemOSL()
 {
 	m_listenerPos = Vec3::ZERO;
 	m_soundCount = 0;
@@ -24,7 +24,7 @@ SoundSystemSL::SoundSystemSL()
 	init();
 }
 
-SoundSystemSL::~SoundSystemSL()
+SoundSystemOSL::~SoundSystemOSL()
 {
 	pthread_mutex_unlock(&toRemoveMutex);
 
@@ -44,7 +44,7 @@ SoundSystemSL::~SoundSystemSL()
 	}
 }
 
-void SoundSystemSL::init()
+void SoundSystemOSL::init()
 {
 	toRemove.clear();
 	// some weird stuff
@@ -68,7 +68,7 @@ void SoundSystemSL::init()
 	checkErr((*m_slOutputMix)->Realize(m_slOutputMix, false));
 }
 
-bool SoundSystemSL::checkErr(SLresult res)
+bool SoundSystemOSL::checkErr(SLresult res)
 {
 	if (res == SL_RESULT_SUCCESS)
 		return false;
@@ -77,14 +77,14 @@ bool SoundSystemSL::checkErr(SLresult res)
 	return true;
 }
 
-void SoundSystemSL::removePlayer(SLAndroidSimpleBufferQueueItf caller, void* context)
+void SoundSystemOSL::removePlayer(SLAndroidSimpleBufferQueueItf caller, void* context)
 {
 	pthread_mutex_lock(&toRemoveMutex);
 	toRemove.push_back((SLObjectItf) context);
 	pthread_mutex_unlock(&toRemoveMutex);
 }
 
-void SoundSystemSL::removeStoppedSounds()
+void SoundSystemOSL::removeStoppedSounds()
 {
 	pthread_mutex_lock(&toRemoveMutex);
 	m_tempToRemove = toRemove;
@@ -111,7 +111,7 @@ void SoundSystemSL::removeStoppedSounds()
 }
 
 
-void SoundSystemSL::setListenerPos(const Vec3& pos)
+void SoundSystemOSL::setListenerPos(const Vec3& pos)
 {
 	if (!m_3dLocationItf)
 	{
@@ -129,7 +129,7 @@ void SoundSystemSL::setListenerPos(const Vec3& pos)
 	));
 }
 
-void SoundSystemSL::setListenerAngle(const Vec2& rot)
+void SoundSystemOSL::setListenerAngle(const Vec2& rot)
 {
 	if (!m_3dLocationItf)
 		return;
@@ -142,7 +142,7 @@ void SoundSystemSL::setListenerAngle(const Vec2& rot)
 	));
 }
 
-void SoundSystemSL::playAt(const SoundDesc &sound, const Vec3& pos, float volume, float pitch)
+void SoundSystemOSL::playAt(const SoundDesc &sound, const Vec3& pos, float volume, float pitch)
 {
 	removeStoppedSounds();
 
@@ -210,7 +210,7 @@ void SoundSystemSL::playAt(const SoundDesc &sound, const Vec3& pos, float volume
 }
 
 // Confirmed Stubs
-void SoundSystemSL::destroy()
+void SoundSystemOSL::destroy()
 {
 
 }

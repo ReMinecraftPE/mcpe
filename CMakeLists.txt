@@ -12,7 +12,7 @@ if(NOT NINTENDO_SWITCH)
 endif()
 
 # Warnings
-add_compile_options(-Wall -Wignored-qualifiers -Wvariadic-macros -pedantic -Wno-long-long)
+add_compile_options(-Wall -Wignored-qualifiers -Wvariadic-macros -pedantic -Wno-long-long -Wno-newline-eof)
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wc++11-extensions>)
 if(WERROR)
     add_compile_options(-Werror)

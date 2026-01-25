@@ -68,7 +68,7 @@ void SavingWorldScreen::tick()
 		if (m_bCopyMapAtEnd)
 			m_pMinecraft->setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 		else
-			m_pMinecraft->setScreen(new StartMenuScreen);
+			m_pMinecraft->gotoMainMenu();
 
 		m_pMinecraft->m_bUsingScreen = false;
 

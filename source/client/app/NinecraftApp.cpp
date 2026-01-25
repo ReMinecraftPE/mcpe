@@ -194,7 +194,7 @@ void NinecraftApp::_initAll()
 
 	field_D9C = 0;
 
-	setScreen(new StartMenuScreen);
+	gotoMainMenu();
 }
 
 bool NinecraftApp::handleBack(bool b)
@@ -317,6 +317,8 @@ void NinecraftApp::onGraphicsReset()
 void NinecraftApp::teardown()
 {
 	teardownRenderer();
+	// Stop our SoundSystem before we nuke our sound buffers and cause it to implode
+	platform()->getSoundSystem()->stopEngine();
 }
 
 void NinecraftApp::teardownRenderer()

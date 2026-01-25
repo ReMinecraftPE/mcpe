@@ -17,8 +17,8 @@ else()
     add_subdirectory("${REMCPE_PLATFORM}")
 endif()
 
-# Load Sound
-add_subdirectory(sound)
+# Load Audio
+add_subdirectory(audio)
 
 # Load Input
 add_subdirectory(input)
