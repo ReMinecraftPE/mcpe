@@ -90,6 +90,6 @@ if(NINTENDO_SWITCH)
 
     nx_create_nro(reminecraftpe
         NACP reminecraftpe.nacp
-        ICON "${MC_ROOT}/game/assets/icon.jpg"
+        ICON "../../../game/assets/icon.jpg"
     )
 endif()
