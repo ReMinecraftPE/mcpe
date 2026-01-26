@@ -21,6 +21,11 @@ add_library(reminecraftpe-core STATIC
     client/app/AppPlatformListener.cpp
     client/app/Minecraft.cpp
     client/app/NinecraftApp.cpp
+    client/resources/AppResourceLoader.cpp
+    client/resources/Resource.cpp
+    client/resources/ResourceLoader.cpp
+    client/resources/ResourceLocation.cpp
+    client/resources/ResourcePackManager.cpp
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
