@@ -9,6 +9,7 @@
 #include "Textures.hpp"
 #include "common/Util.hpp"
 #include "common/Utils.hpp"
+#include "client/resources/Resource.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 
 #define MIP_TAG "_mip"
@@ -20,7 +21,7 @@ TextureData* Textures::loadTexture(const std::string& name, bool bIsRequired)
 {
 	assert(m_textures.find(name) == m_textures.end());
 
-	TextureData t = m_pPlatform->loadTexture(name, m_pOptions->m_resourcePacks);
+	TextureData t = Resource::loadTexture(name);
 
 	if (t.isEmpty())
 	{
@@ -135,13 +136,11 @@ void Textures::clear()
 	m_currBoundTex = -1;
 }
 
-Textures::Textures(Options* pOptions, AppPlatform* pAppPlatform)
+Textures::Textures()
 {
 	m_bClamp = false;
 	m_bBlur = false;
 
-	m_pPlatform = pAppPlatform;
-	m_pOptions = pOptions;
 	m_currBoundTex = -1;
 }
 

@@ -27,12 +27,13 @@
 
 #include <sys/time.h>
 #include <unistd.h>
+
+#endif
+
 #include <sys/stat.h>
 #ifdef _MSC_VER
 #define stat _stat
 #define S_ISREG(m) (m & _S_IFREG)
-#endif
-
 #endif
 
 #ifdef XENON

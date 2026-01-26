@@ -23,6 +23,7 @@
 #include "client/renderer/GameRenderer.hpp"
 #include "client/renderer/LevelRenderer.hpp"
 #include "client/renderer/entity/EntityRenderDispatcher.hpp"
+#include "client/resources/ResourcePackManager.hpp"
 #include "client/sound/SoundEngine.hpp"
 #include "world/level/Level.hpp"
 #include "world/gamemode/GameMode.hpp"
@@ -128,6 +129,7 @@ protected:
 public:
 	bool field_18;
 	bool m_bIsGamePaused;
+	ResourcePackManager* m_pResourceLoader;
 	LevelRenderer* m_pLevelRenderer;
 	GameRenderer* m_pGameRenderer;
 	ParticleEngine* m_pParticleEngine;

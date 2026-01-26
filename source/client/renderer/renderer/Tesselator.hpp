@@ -11,17 +11,13 @@
 #include <stdint.h>
 #include <map>
 #include <vector>
-#include "RenderChunk.hpp"
-#include "world/phys/Vec2.hpp"
-#include "world/phys/Vec3.hpp"
 #include "common/math/Color.hpp"
+#include "client/renderer/RenderChunk.hpp"
 #include "renderer/VertexFormat.hpp"
 #include "renderer/hal/enums/PrimitiveMode.hpp"
 #include "renderer/Mesh.hpp"
-
-#define TRIANGLE_MODE true
-// false on Java
-#define USE_VBO true
+#include "world/phys/Vec2.hpp"
+#include "world/phys/Vec3.hpp"
 
 class Tesselator
 {

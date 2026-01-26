@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ShaderGroupBase.hpp"
+#include "renderer/ShaderGroupBase.hpp"
 #include "client/app/AppPlatformListener.hpp"
 
 namespace mce

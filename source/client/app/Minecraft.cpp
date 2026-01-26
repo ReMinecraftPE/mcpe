@@ -68,6 +68,7 @@ Minecraft::Minecraft()
 	m_pOptions = nullptr;
 	field_18 = false;
 	m_bIsGamePaused = false;
+	m_pResourceLoader = nullptr;
 	m_pLevelRenderer = nullptr;
 	m_pGameRenderer = nullptr;
 	m_pParticleEngine = nullptr;
@@ -113,6 +114,7 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pOptions);
 	SAFE_DELETE(m_pNetEventCallback);
 	SAFE_DELETE(m_pRakNetInstance);
+	//SAFE_DELETE(m_pResourceLoader); // not ours
 	SAFE_DELETE(m_pLevelRenderer);
 	SAFE_DELETE(m_pGameRenderer);
 	SAFE_DELETE(m_pParticleEngine);

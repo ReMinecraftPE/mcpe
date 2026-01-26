@@ -1,5 +1,5 @@
 #include "ArrowRenderer.hpp"
-#include "client/renderer/Tesselator.hpp"
+#include "client/renderer/renderer/Tesselator.hpp"
 #include "renderer/MatrixStack.hpp"
 #include "world/entity/Arrow.hpp"
 

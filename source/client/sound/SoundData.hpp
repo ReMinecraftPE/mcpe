@@ -11,9 +11,8 @@
 #include <string>
 #include <vector>
 #include <stdint.h>
-#include "client/app/AssetFile.hpp"
 
-class AppPlatform;
+struct ResourceLocation;
 
 class AudioCodec
 {
@@ -53,14 +52,14 @@ struct SoundDesc : AudioDescriptor
 {
 	static std::string dirs[SOUND_DIRS_SIZE];
 
-	AssetFile m_file;
+	std::string m_stream;
 	SoundBuffer m_buffer;
 
-	bool _load(const AppPlatform* platform, const char* category, const char *name, const std::vector<std::string>& resourcepacks);
-	bool _loadPcm(const AppPlatform* platform, const char *name);
-	bool _loadOgg(const AppPlatform* platform, const char *name);
+	bool _load(const char* category, const char *name);
+	bool _loadPcm(const ResourceLocation& location);
+	bool _loadOgg(const ResourceLocation& location);
 	void _unload();
-	static void _loadAll(const AppPlatform*, const std::vector<std::string>& resourcepacks);
+	static void _loadAll();
 	static void _unloadAll();
 };
 

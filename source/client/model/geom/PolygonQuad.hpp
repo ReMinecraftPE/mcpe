@@ -10,7 +10,7 @@
 
 #include <utility>
 #include "client/renderer/VertexPT.hpp"
-#include "client/renderer/Tesselator.hpp"
+#include "client/renderer/renderer/Tesselator.hpp"
 #include "GameMods.hpp"
 
 class PolygonQuad

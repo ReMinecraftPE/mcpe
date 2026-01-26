@@ -151,7 +151,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\PatchManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderChunk.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderList.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Tesselator.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Texture.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Textures.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\TileRenderer.hpp" />
@@ -222,6 +221,13 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameController.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\ShaderGroup.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\AppResourceLoader.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\Resource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLoader.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLocation.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -302,7 +308,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\PatchManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderChunk.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderList.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Tesselator.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Textures.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\TileRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp" />
@@ -363,6 +368,13 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameController.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\ShaderGroup.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\AppResourceLoader.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\Resource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLoader.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLocation.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

@@ -1,13 +1,14 @@
 #include "FoliageColor.hpp"
 #include "compat/EndianDefinitions.h"
+#include "client/resources/Resource.hpp"
 
 bool FoliageColor::_isAvailable = false;
 
 TextureData FoliageColor::texture;
 
-void FoliageColor::init(TextureData& texture)
+void FoliageColor::init()
 {
-	FoliageColor::texture = texture;
+	FoliageColor::texture = Resource::loadTexture("misc/foliagecolor.png");
 }
 
 uint32_t FoliageColor::get(double x, double y)

@@ -45,7 +45,7 @@ public:
 		m_bClamp = b;
 	}
 
-	Textures(Options*, AppPlatform*);
+	Textures();
 	~Textures();
 
 private:
@@ -55,13 +55,12 @@ private:
 
 protected:
 	TextureMap m_textures;
-	Options* m_pOptions;
-	AppPlatform* m_pPlatform;
 	int m_currBoundTex;
 	bool m_bClamp;
 	bool m_bBlur;
 	std::vector<DynamicTexture*> m_dynamicTextures;
 
+	// Why?
 	friend class StartMenuScreen;
 };
 

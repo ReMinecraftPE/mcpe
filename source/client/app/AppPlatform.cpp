@@ -149,15 +149,10 @@ void AppPlatform::loadImage(ImageData& data, const std::string& path)
 	data.m_colorSpace = channels == 3 ? COLOR_SPACE_RGB : COLOR_SPACE_RGBA;
 }
 
-void AppPlatform::loadImageResource(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks)
-{
-	return loadImage(data, getResourcePath(path, resourcepacks));
-}
-
-TextureData AppPlatform::loadTexture(const std::string& path, const std::vector<std::string>& resourcepacks)
+TextureData AppPlatform::loadTexture(const std::string& path)
 {
 	TextureData out;
-	loadImageResource(out.m_imageData, path, resourcepacks);
+	loadImage(out.m_imageData, path);
 	return out;
 }
 
@@ -336,25 +331,14 @@ std::string AppPlatform::getAssetPath(const std::string& path) const
 	return _getAssetPath(path);
 }
 
+bool AppPlatform::hasAssetFile(const std::string& path) const
+{
+	return isRegularFile(getAssetPath(path).c_str());
+}
+
 std::string AppPlatform::_getAssetPath(const std::string& path) const
 {
 	return "assets/" + path;
-}
-
-std::string AppPlatform::getResourcePath(const std::string& path, const std::vector<std::string>& resourcepacks) const
-{
-	if (!resourcepacks.empty())
-	{
-		std::string slashpath = "/" + path; // move some of the string concatination out of the loop
-		for (size_t i = 0; i < resourcepacks.size(); ++i)
-		{
-			std::string assetpath = "/resource_packs/" + resourcepacks[i] + slashpath;
-			std::string fullpath = getAssetPath(assetpath);
-			if (isRegularFile(fullpath.c_str()))
-				return assetpath;
-		}
-	}
-	return path;
 }
 
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
@@ -398,11 +382,6 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 	return AssetFile((int64_t)size, (uint8_t*)buf);
 }
 
-AssetFile AppPlatform::readResourceFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
-{
-	return readAssetFile(getResourcePath(path, resourcepacks), quiet);
-}
-
 std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) const
 {
 	AssetFile file = readAssetFile(path, quiet);
@@ -411,11 +390,6 @@ std::string AppPlatform::readAssetFileStr(const std::string& path, bool quiet) c
 	std::string out = std::string(file.data, file.data + file.size);
 	delete[] file.data;
 	return out;
-}
-
-std::string AppPlatform::readResourceFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const
-{
-	return readAssetFileStr(getResourcePath(path, resourcepacks), quiet);
 }
 
 void AppPlatform::makeNativePath(std::string& path) const

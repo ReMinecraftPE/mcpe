@@ -85,8 +85,7 @@ public:
 	virtual void showDialog(eDialogType);
 	virtual void uploadPlatformDependentData(int, void*);
 	virtual void loadImage(ImageData& data, const std::string& path);
-	virtual void loadImageResource(ImageData& data, const std::string& path, const std::vector<std::string>& resourcepacks);
-	TextureData loadTexture(const std::string& path, const std::vector<std::string>& resourcepacks);
+	TextureData loadTexture(const std::string& path);
 	virtual bool doesTextureExist(const std::string& path) const;
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	virtual bool isTouchscreen() const;
@@ -123,17 +122,16 @@ public:
 	void _fireAppTerminated();
 
 	virtual bool hasFileSystemAccess();
+	virtual std::string getExternalStoragePath() const { return m_externalStorageDir; }
 	// Also add this to allow dynamic patching.
 	virtual std::string getPatchData();
 	virtual void initSoundSystem();
 	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
-	virtual std::string getResourcePath(const std::string& path, const std::vector<std::string>& resourcepacks) const;
+	virtual bool hasAssetFile(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
-	virtual AssetFile readResourceFile(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const;
 	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
-	virtual std::string readResourceFileStr(const std::string& path, bool quiet, const std::vector<std::string>& resourcepacks) const;
 	virtual void makeNativePath(std::string& path) const;
 
 	// For getting a handle on the save device for consoles

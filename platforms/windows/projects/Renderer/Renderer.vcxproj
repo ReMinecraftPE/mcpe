@@ -91,7 +91,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\RenderContextImmediate.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\RenderMaterial.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderConstants.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderGroup.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderGroupBase.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\StencilRefObject.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\renderer\TextureGroup.cpp" />
@@ -200,7 +199,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\RenderContextImmediate.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\RenderMaterial.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderConstants.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderGroup.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderGroupBase.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\StencilRefObject.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\renderer\TextureGroup.hpp" />
