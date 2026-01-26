@@ -21,7 +21,7 @@
 class AppPlatform_iOS : public AppPlatform
 {
 private:
-    NSString* __getAssetPath(const std::string &path) const;
+    NSString* _getBundleResourcePath(const std::string &path) const;
     
 public:
 	AppPlatform_iOS(minecraftpeViewController *viewController);
