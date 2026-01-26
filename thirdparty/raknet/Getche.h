@@ -12,7 +12,7 @@
 #include <conio.h> /* getche() */
 
 #else
-#if (!defined(__DREAMCAST__) && !defined(XENON))
+#if (!defined(__DREAMCAST__) && !defined(XENON) && !defined(__SWITCH__))
 #include <termios.h>
 #include <stdio.h>
 #include <unistd.h>

@@ -60,6 +60,9 @@ if(REMCPE_GFX_API STREQUAL "OGL")
         find_library(GLES_LIB GLESv1_CM REQUIRED)
         target_link_libraries(reminecraftpe-core PUBLIC "${GLES_LIB}")
         target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES)
+    elseif(NINTENDO_SWITCH)
+        target_link_libraries(reminecraftpe-core PUBLIC glapi GLESv1_CM drm_nouveau)
+        target_compile_definitions(reminecraftpe-core PUBLIC USE_GLES)
     else()
         find_package(OpenGL REQUIRED)
         target_link_libraries(reminecraftpe-core PUBLIC OpenGL::GL)
@@ -76,4 +79,17 @@ endif()
 if(EMSCRIPTEN) # WASM
     # Export Resize Function
     target_link_options(reminecraftpe PRIVATE -sEXPORTED_FUNCTIONS=_main,_resize_from_js -sEXPORTED_RUNTIME_METHODS=ccall)
+endif()
+
+if(NINTENDO_SWITCH)
+    nx_generate_nacp(reminecraftpe.nacp
+        NAME "ReMinecraftPE"
+        AUTHOR "ReMinecraftPE Team"
+        VERSION "v0.2.0 alpha"
+    )
+
+    nx_create_nro(reminecraftpe
+        NACP reminecraftpe.nacp
+        ICON "../../../game/assets/icon.jpg"
+    )
 endif()

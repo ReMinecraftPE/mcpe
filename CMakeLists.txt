@@ -6,7 +6,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_EXTENSIONS OFF)
+if(NOT NINTENDO_SWITCH)
+    set(CMAKE_C_EXTENSIONS OFF)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
 
 # Warnings
 add_compile_options(-Wall -Wignored-qualifiers -Wvariadic-macros -pedantic -Wno-long-long -Wno-newline-eof)
