@@ -1,8 +1,6 @@
 #-- The 'game' directory is the default working directory for Minecraft PE if running from VS directly.
 
 # Ignore original Minecraft PE assets.
-/font/default.png
-/font/default8.png
 /gui/buynow.png
 /gui/gui_blocks.png
 /gui/itemframe.png
