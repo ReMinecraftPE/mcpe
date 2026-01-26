@@ -8,6 +8,7 @@
 
 #include "Minecraft.hpp"
 #include "GameMods.hpp"
+#include "compat/PlatformDefinitions.h"
 #include "client/gui/screens/PauseScreen.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
@@ -739,7 +740,7 @@ void Minecraft::freeResources(bool bCopyMap)
 	if (bCopyMap)
 		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 	else
-		setScreen(new StartMenuScreen);
+		gotoMainMenu();
 #endif
 
 	m_pGameRenderer->setLevel(nullptr, nullptr);
@@ -1247,6 +1248,14 @@ void Minecraft::leaveGame(bool bCopyMap)
 		m_pRakNetInstance->disconnect();
 
 	freeResources(bCopyMap);
+}
+
+void Minecraft::gotoMainMenu()
+{
+#if MC_PLATFORM_CONSOLE
+	m_pSoundEngine->forcePlayMusic();
+#endif
+	setScreen(new StartMenuScreen);
 }
 
 void Minecraft::hostMultiplayer()

@@ -13,6 +13,7 @@
 #include "compat/LegacyCPP.hpp"
 #include "Random.hpp"
 
+// M_PI / 180
 #define MTH_DEG_TO_RAD 0.017453f
 
 class Mth
