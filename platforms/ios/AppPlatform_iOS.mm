@@ -99,7 +99,7 @@ void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
 bool AppPlatform_iOS::doesTextureExist(const std::string& path) const
 {
     // check if asset could be found in bundle's resources
-    return __getAssetPath(path) != nullptr;
+    return _getBundleResourcePath(path) != nullptr;
 }
 
 bool AppPlatform_iOS::shiftPressed()
@@ -146,7 +146,7 @@ bool AppPlatform_iOS::hasFileSystemAccess()
 	return true;
 }
 
-NSString* AppPlatform_iOS::__getAssetPath(const std::string &path) const
+NSString* AppPlatform_iOS::_getBundleResourcePath(const std::string &path) const
 {
 	size_t dotPos = path.rfind(".", -1, 1);
 	size_t slashPos = path.rfind("/", -1, 1);
@@ -172,7 +172,7 @@ NSString* AppPlatform_iOS::__getAssetPath(const std::string &path) const
 
 std::string AppPlatform_iOS::_getAssetPath(const std::string &path) const
 {
-    NSString* assetPath = __getAssetPath(path);
+    NSString* assetPath = _getBundleResourcePath(path);
     if (assetPath == nullptr)
     {
         // asset couldn't be found in bundle's resources.
