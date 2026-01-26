@@ -3,9 +3,6 @@
 # Ignore original Minecraft PE assets.
 /font/default.png
 /font/default8.png
-/gui/feedback.png
-/gui/feedback_fill.png
-/gui/feedback_outer.png
 /gui/buynow.png
 /gui/gui_blocks.png
 /gui/itemframe.png
@@ -33,7 +30,6 @@
 /gui/controls/dpad.png
 /gui/controls/dpadbutton.png
 /gui/controls/dpad_jump.png
-/gui/feedback.png
 /gui/itemframe.png
 /gui/menubuttons.png
 /gui/plusknapp.png
@@ -42,8 +38,6 @@
 /gui/startmenu/sm_multi.png
 /gui/startmenu/sm_options.png
 /gui/touchgui.png
-/gui/feedback_fill.png
-/gui/feedback_outer.png
 /snow.png
 # Ignore all native iOS UI assets.
 /app/ios/
