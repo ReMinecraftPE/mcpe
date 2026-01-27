@@ -20,7 +20,7 @@ SoundEngine::SoundEngine(SoundSystem* soundSystem, float distance)
     m_listenerPosition = Vec3::ZERO;
     m_listenerOrientation = Vec2::ZERO;
     m_soundDistance = 1.0f / distance;
-    m_noMusicDelay = 0;
+    m_noMusicDelay = m_random.nextInt(12000);
     field_A20 = 0;
     m_muted = false;
 }
