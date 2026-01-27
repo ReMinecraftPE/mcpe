@@ -126,7 +126,7 @@ void PacketUtil::ReadUserData(ItemStack& item, RakNet::BitStream* bs)
     assert(!"Attempted PacketUtil::ReadUserData() for invalid ItemStack!");
 }
 
-void PacketUtil::WriteitemStack(const ItemStack& item, RakNet::BitStream* bs, bool doUserData, bool minUserData)
+void PacketUtil::WriteItemStack(const ItemStack& item, RakNet::BitStream* bs, bool doUserData, bool minUserData)
 {
     int16_t itemId = item.getId();
     int8_t count = item.m_count;
@@ -145,7 +145,7 @@ void PacketUtil::WriteitemStack(const ItemStack& item, RakNet::BitStream* bs, bo
         WriteUserData(item, bs, minUserData);
 }
 
-ItemStack PacketUtil::ReaditemStack(RakNet::BitStream* bs, bool doUserData)
+ItemStack PacketUtil::ReadItemStack(RakNet::BitStream* bs, bool doUserData)
 {
     int16_t itemId;
     if (!bs->Read(itemId))

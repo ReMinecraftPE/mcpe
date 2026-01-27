@@ -123,7 +123,7 @@ void IngameBlockSelectionScreen::init()
 
 	//for (int i = 0; i < nItems; i++)
 	//{
-	//	itemStack& item = pInv->getItem(i);
+	//	ItemStack& item = pInv->getItem(i);
 	//	if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId())
 	//	{
 	//		m_selectedSlot = i;

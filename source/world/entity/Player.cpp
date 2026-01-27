@@ -239,9 +239,9 @@ void Player::tick()
 const ItemStack& Player::getCarriedItem() const
 {
 	// This only gets the first row slot
-	/*itemStack* item = m_pInventory->getItem(m_pInventory->m_selectedSlot);
+	/*ItemStack* item = m_pInventory->getItem(m_pInventory->m_selectedSlot);
   
-	if (itemStack::isNull(item))
+	if (ItemStack::isNull(item))
 		return nullptr;
 
 	return item;*/
@@ -393,7 +393,7 @@ void Player::setRespawnPos(const TilePos& pos)
 {
 	// From b1.2_02, doesn't exist in PE
 	// Isn't called anywhere, but is overriden in MultiplayerLocalPlayer with a PlayerActionPacket
-	itemStack* item = getSelectedItem();
+	ItemStack* item = getSelectedItem();
 	if (!item)
 		return;
 

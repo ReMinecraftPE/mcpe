@@ -13,7 +13,7 @@ public:
 
 	static void WriteUserData(const ItemStack& item, RakNet::BitStream* bs, bool minData);
 	static void ReadUserData(ItemStack& item, RakNet::BitStream* bs);
-	static void WriteitemStack(const ItemStack& item, RakNet::BitStream* bs, bool doUserData, bool minUserData = false);
-	static ItemStack ReaditemStack(RakNet::BitStream* bs, bool doUserData);
+	static void WriteItemStack(const ItemStack& item, RakNet::BitStream* bs, bool doUserData, bool minUserData = false);
+	static ItemStack ReadItemStack(RakNet::BitStream* bs, bool doUserData);
 };
 

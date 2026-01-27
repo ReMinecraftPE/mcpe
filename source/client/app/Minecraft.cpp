@@ -1222,7 +1222,7 @@ ItemStack& Minecraft::getSelectedItem()
 
 	if (m_pGameMode->isCreativeType())
 	{
-		// Create new "unlimited" itemStack for Creative mode
+		// Create new "unlimited" ItemStack for Creative mode
 		m_CurrItemStack = ItemStack(item.getId(), 999, item.getAuxValue());
 		return m_CurrItemStack;
 	}
