@@ -1304,6 +1304,16 @@
 		84FFBF022ACA3416005A8CCF /* WSAStartupSingleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8442AC810630006A435 /* WSAStartupSingleton.cpp */; };
 		9D3996282F10E9C6002945D3 /* CreditsScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */; };
 		9D3996292F10E9C6002945D3 /* CreditsScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */; };
+		9DA5C6462F2845F80039B697 /* ResourcePackManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9DA5C6432F2845F80039B697 /* ResourcePackManager.hpp */; };
+		9DA5C6472F2845F80039B697 /* Resource.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9DA5C63D2F2845F80039B697 /* Resource.hpp */; };
+		9DA5C6482F2845F80039B697 /* ResourceLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9DA5C63F2F2845F80039B697 /* ResourceLoader.hpp */; };
+		9DA5C6492F2845F80039B697 /* AppResourceLoader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9DA5C63B2F2845F80039B697 /* AppResourceLoader.hpp */; };
+		9DA5C64A2F2845F80039B697 /* ResourceLocation.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 9DA5C6412F2845F80039B697 /* ResourceLocation.hpp */; };
+		9DA5C64B2F2845F80039B697 /* ResourceLocation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DA5C6422F2845F80039B697 /* ResourceLocation.cpp */; };
+		9DA5C64C2F2845F80039B697 /* AppResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DA5C63C2F2845F80039B697 /* AppResourceLoader.cpp */; };
+		9DA5C64D2F2845F80039B697 /* Resource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DA5C63E2F2845F80039B697 /* Resource.cpp */; };
+		9DA5C64E2F2845F80039B697 /* ResourceLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DA5C6402F2845F80039B697 /* ResourceLoader.cpp */; };
+		9DA5C64F2F2845F80039B697 /* ResourcePackManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DA5C6442F2845F80039B697 /* ResourcePackManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2788,6 +2798,16 @@
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CreditsScreen.hpp; sourceTree = "<group>"; };
 		9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CreditsScreen.cpp; sourceTree = "<group>"; };
+		9DA5C63B2F2845F80039B697 /* AppResourceLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AppResourceLoader.hpp; sourceTree = "<group>"; };
+		9DA5C63C2F2845F80039B697 /* AppResourceLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AppResourceLoader.cpp; sourceTree = "<group>"; };
+		9DA5C63D2F2845F80039B697 /* Resource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Resource.hpp; sourceTree = "<group>"; };
+		9DA5C63E2F2845F80039B697 /* Resource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Resource.cpp; sourceTree = "<group>"; };
+		9DA5C63F2F2845F80039B697 /* ResourceLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResourceLoader.hpp; sourceTree = "<group>"; };
+		9DA5C6402F2845F80039B697 /* ResourceLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceLoader.cpp; sourceTree = "<group>"; };
+		9DA5C6412F2845F80039B697 /* ResourceLocation.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResourceLocation.hpp; sourceTree = "<group>"; };
+		9DA5C6422F2845F80039B697 /* ResourceLocation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceLocation.cpp; sourceTree = "<group>"; };
+		9DA5C6432F2845F80039B697 /* ResourcePackManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResourcePackManager.hpp; sourceTree = "<group>"; };
+		9DA5C6442F2845F80039B697 /* ResourcePackManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ResourcePackManager.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2954,6 +2974,7 @@
 				840DD5CC2AC810620006A435 /* player */,
 				84AA8B982B32F3F3003F5B82 /* renderer */,
 				840DD61A2AC810620006A435 /* sound */,
+				9DA5C6452F2845F80039B697 /* resources */,
 			);
 			path = client;
 			sourceTree = "<group>";
@@ -4913,6 +4934,23 @@
 			path = multiplayer;
 			sourceTree = "<group>";
 		};
+		9DA5C6452F2845F80039B697 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				9DA5C63B2F2845F80039B697 /* AppResourceLoader.hpp */,
+				9DA5C63C2F2845F80039B697 /* AppResourceLoader.cpp */,
+				9DA5C63D2F2845F80039B697 /* Resource.hpp */,
+				9DA5C63E2F2845F80039B697 /* Resource.cpp */,
+				9DA5C63F2F2845F80039B697 /* ResourceLoader.hpp */,
+				9DA5C6402F2845F80039B697 /* ResourceLoader.cpp */,
+				9DA5C6412F2845F80039B697 /* ResourceLocation.hpp */,
+				9DA5C6422F2845F80039B697 /* ResourceLocation.cpp */,
+				9DA5C6432F2845F80039B697 /* ResourcePackManager.hpp */,
+				9DA5C6442F2845F80039B697 /* ResourcePackManager.cpp */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -5197,6 +5235,11 @@
 				84C90EA62AF8861A008973F9 /* OptionList.hpp in Headers */,
 				84AA8BEC2B32F3F3003F5B82 /* Chunk.hpp in Headers */,
 				84AA8BEE2B32F3F3003F5B82 /* Culler.hpp in Headers */,
+				9DA5C6462F2845F80039B697 /* ResourcePackManager.hpp in Headers */,
+				9DA5C6472F2845F80039B697 /* Resource.hpp in Headers */,
+				9DA5C6482F2845F80039B697 /* ResourceLoader.hpp in Headers */,
+				9DA5C6492F2845F80039B697 /* AppResourceLoader.hpp in Headers */,
+				9DA5C64A2F2845F80039B697 /* ResourceLocation.hpp in Headers */,
 				84AA8BF02B32F3F3003F5B82 /* DynamicTexture.hpp in Headers */,
 				84AA8BF22B32F3F3003F5B82 /* ChickenRenderer.hpp in Headers */,
 				84EB09C22EE2CC86008FB007 /* Cube.hpp in Headers */,
@@ -6234,6 +6277,11 @@
 				84C90EA52AF8861A008973F9 /* OptionList.cpp in Sources */,
 				84AA8BEB2B32F3F3003F5B82 /* Chunk.cpp in Sources */,
 				84AA8BED2B32F3F3003F5B82 /* Culler.cpp in Sources */,
+				9DA5C64B2F2845F80039B697 /* ResourceLocation.cpp in Sources */,
+				9DA5C64C2F2845F80039B697 /* AppResourceLoader.cpp in Sources */,
+				9DA5C64D2F2845F80039B697 /* Resource.cpp in Sources */,
+				9DA5C64E2F2845F80039B697 /* ResourceLoader.cpp in Sources */,
+				9DA5C64F2F2845F80039B697 /* ResourcePackManager.cpp in Sources */,
 				84AA8BEF2B32F3F3003F5B82 /* DynamicTexture.cpp in Sources */,
 				84AA8BF12B32F3F3003F5B82 /* ChickenRenderer.cpp in Sources */,
 				84AA8BF32B32F3F3003F5B82 /* CowRenderer.cpp in Sources */,
