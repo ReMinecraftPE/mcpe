@@ -188,11 +188,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 	else
 		pPlayer->m_pInventory->prepareSurvivalInventory();
 
-	ItemInstance* pItem = pPlayer->getSelectedItem();
-	if (pItem)
-	{
-		*pItem = ItemInstance(pAddPlayerPkt->m_itemId, pAddPlayerPkt->m_itemAuxValue, 63);
-	}
+	pPlayer->m_pInventory->setSelectedItem(ItemStack(pAddPlayerPkt->m_itemId, pAddPlayerPkt->m_itemAuxValue, 63));
 
 	m_pMinecraft->m_pGui->addMessage(pPlayer->m_name + " joined the game");
 }
@@ -245,15 +241,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddItem
 
 	if (!m_pLevel) return;
 
-	ItemInstance* pItemInstance = new ItemInstance(packet->m_itemId, packet->m_itemCount, packet->m_auxValue);
-	if (pItemInstance->isNull())
+	ItemStack itemStack(packet->m_itemId, packet->m_itemCount, packet->m_auxValue);
+	if (itemStack.isEmpty())
 	{
-		delete pItemInstance;
-		LOG_E("Received invalid or null ItemInstance from server!");
+		LOG_E("Received empty ItemStack from server!");
 		return;
 	}
 
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, packet->m_pos, pItemInstance);
+	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, packet->m_pos, itemStack);
 
 	pItemEntity->m_vel.x = packet->m_velX * (1.f / 128.f);
 	pItemEntity->m_vel.y = packet->m_velY * (1.f / 128.f);
@@ -281,9 +276,9 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, TakeIte
 
 	if (m_pMinecraft->m_pLocalPlayer->m_EntityID == pkt->m_sourceId)
 	{
-		if (pItemEntity->m_pItemInstance)
+		if (!pItemEntity->m_itemStack.isEmpty())
 		{
-			if (m_pMinecraft->m_pLocalPlayer->m_pInventory->addItem(*pItemEntity->m_pItemInstance))
+			if (m_pMinecraft->m_pLocalPlayer->m_pInventory->add(pItemEntity->m_itemStack))
 			{
 				m_pLevel->playSound(pItemEntity, "random.pop", 0.3f,
 					((Entity::sharedRandom.nextFloat() - Entity::sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
@@ -534,7 +529,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 		return;
 	}
 
-	pPlayer->m_pInventory->selectItemById(pPlayerEquipmentPkt->m_itemID, C_MAX_HOTBAR_ITEMS);
+	pPlayer->m_pInventory->selectItem(pPlayerEquipmentPkt->m_itemID, C_MAX_HOTBAR_ITEMS);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, InteractPacket* pkt)

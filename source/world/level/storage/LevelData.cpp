@@ -258,10 +258,6 @@ void PlayerData::loadPlayer(Player& player) const
 
 	// @NOTE: Why are we updating m_pos, m_oPos and m_posPrev above if we do this?
 	player.setPos(m_pos);
-
-	// TODO: survival mode stuff
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
-		player.m_pInventory->setQuickSlotIndexByItemId(i, m_hotbar[i]);
 }
 
 void PlayerData::savePlayer(const Player& player)
@@ -273,8 +269,4 @@ void PlayerData::savePlayer(const Player& player)
 	field_24 = player.m_fireTicks;
 	field_26 = player.m_airCapacity;
 	field_28 = player.m_bOnGround;
-
-	// TODO: survival mode stuff
-	for (int i = 0; i < C_MAX_HOTBAR_ITEMS; i++)
-		m_hotbar[i] = player.m_pInventory->getQuickSlotItemId(i);
 }

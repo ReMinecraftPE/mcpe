@@ -35,6 +35,8 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	m_pInventory = new Inventory(this);
 
+	m_pContainerMenu = m_pInventoryMenu = new InventoryMenu(m_pInventory);
+
 	setDefaultHeadHeight();
 
 	Vec3 pos = m_pLevel->getSharedSpawnPos();
@@ -48,11 +50,13 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	m_flameTime = 20;
 	m_rotOffs = 180.0f;
+
 }
 
 Player::~Player()
 {
 	delete m_pInventory;
+	delete m_pInventoryMenu;
 }
 
 void Player::reallyDrop(ItemEntity* pEnt)
@@ -70,6 +74,9 @@ void Player::remove()
 {
 	m_bIsInvisible = true;
 	Mob::remove();
+	m_pInventoryMenu->removed(this);
+	if (m_pContainerMenu)
+		m_pContainerMenu->removed(this);
 }
 
 bool Player::hurt(Entity* pEnt, int damage)
@@ -142,7 +149,7 @@ void Player::die(Entity* pCulprit)
 	if (!m_pLevel->m_bIsClientSide)
 	{
 		if (m_name == "Notch")
-			drop(ItemInstance(Item::apple), true);
+			drop(ItemStack(Item::apple), true);
 	}
 	m_pInventory->dropAll(m_pLevel->m_bIsClientSide);
 
@@ -218,12 +225,23 @@ void Player::aiStep()
 	updateAttackAnim();
 }
 
-ItemInstance* Player::getCarriedItem() const
+void Player::tick()
+{
+	Mob::tick();
+
+	if (!m_pLevel->m_bIsClientSide)
+	{
+		if (m_pContainerMenu && !m_pContainerMenu->stillValid(this))
+			closeContainer();
+	}
+}
+
+const ItemStack& Player::getCarriedItem() const
 {
 	// This only gets the first row slot
-	/*ItemInstance* item = m_pInventory->getItem(m_pInventory->m_selectedHotbarSlot);
+	/*ItemStack* item = m_pInventory->getItem(m_pInventory->m_selectedSlot);
   
-	if (ItemInstance::isNull(item))
+	if (ItemStack::isNull(item))
 		return nullptr;
 
 	return item;*/
@@ -308,10 +326,10 @@ void Player::attack(Entity* pEnt)
 		pEnt->hurt(this, atkDmg);
 }
 
-void Player::useItem(ItemInstance& item) const
+void Player::useItem(ItemStack& item) const
 {
 	if (!isCreative())
-		item.remove(1);
+		item.shrink(1);
 }
 
 bool Player::canDestroy(const Tile* pTile) const
@@ -375,19 +393,19 @@ void Player::setRespawnPos(const TilePos& pos)
 {
 	// From b1.2_02, doesn't exist in PE
 	// Isn't called anywhere, but is overriden in MultiplayerLocalPlayer with a PlayerActionPacket
-	ItemInstance* item = getSelectedItem();
+	ItemStack* item = getSelectedItem();
 	if (!item)
 		return;
 
 	drop(m_pInventory->removeItem(*item, 1));
 }*/
 
-void Player::drop(const ItemInstance& item, bool randomly)
+void Player::drop(const ItemStack& item, bool randomly)
 {
-	if (item.isNull())
+	if (item.isEmpty())
 		return;
 
-	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item.copy());
+	ItemEntity* pItemEntity = new ItemEntity(m_pLevel, Vec3(m_pos.x, m_pos.y - 0.3f + getHeadHeight(), m_pos.z), item);
 	pItemEntity->m_throwTime = 40;
 
 	if (randomly)
@@ -446,12 +464,12 @@ void Player::interact(Entity* pEnt)
 	pEnt->interact(this);
 }
 
-ItemInstance* Player::getSelectedItem() const
+ItemStack& Player::getSelectedItem() const
 {
 	return m_pInventory->getSelected();
 }
 
 void Player::removeSelectedItem()
 {
-	m_pInventory->setSelectedItem(nullptr);
+	m_pInventory->setSelectedItem(ItemStack::EMPTY);
 }

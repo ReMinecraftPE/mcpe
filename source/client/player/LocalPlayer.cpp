@@ -24,7 +24,7 @@ void LocalPlayer::_init()
 
 	m_renderArmRot = Vec2::ZERO;
 	m_lastRenderArmRot = Vec2::ZERO;
-	field_C38 = m_pInventory->getSelectedItemId();
+	m_lastSelectedSlot = m_pInventory->getSelectedItemId();
 }
 
 LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, GameType playerGameType, int dimensionId) : Player(pLevel, playerGameType)
@@ -40,7 +40,7 @@ LocalPlayer::LocalPlayer(Minecraft* pMinecraft, Level* pLevel, User* pUser, Game
 	field_C14 = 0.0f;
 	field_C18 = 0.0f;
 	field_C1C = 0.0f;
-	field_C38 = 0;
+	m_lastSelectedSlot = 0;
 	m_pMoveInput = nullptr;
 
 	m_pMinecraft = pMinecraft;
@@ -71,7 +71,7 @@ void LocalPlayer::aiStep()
 		updateAi();
 }
 
-void LocalPlayer::drop(const ItemInstance& item, bool randomly)
+void LocalPlayer::drop(const ItemStack& item, bool randomly)
 {
 	if (m_pMinecraft->isOnlineClient())
 	{
@@ -270,10 +270,10 @@ void LocalPlayer::tick()
 	{
 		sendPosition();
 
-		if (field_C38 != m_pInventory->getSelectedItemId())
+		if (m_lastSelectedSlot != m_pInventory->m_selectedSlot)
 		{
-			field_C38 = m_pInventory->getSelectedItemId();
-			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, field_C38));
+			m_lastSelectedSlot = m_pInventory->m_selectedSlot;
+			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, m_lastSelectedSlot));
 		}
 	}
 }

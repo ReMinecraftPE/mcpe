@@ -69,12 +69,12 @@ int IngameBlockSelectionScreen::getSlotPosY(int y)
 
 int IngameBlockSelectionScreen::getSlotsHeight()
 {
-	return (getInventory()->getNumSlots() + 8) / 9;
+	return (getInventory()->getContainerSize() + 8) / 9;
 }
 
 bool IngameBlockSelectionScreen::isAllowed(int slot)
 {
-	return slot >= 0 && slot < getInventory()->getNumItems();
+	return slot >= 0 && slot < getInventory()->getContainerSize();
 }
 
 bool IngameBlockSelectionScreen::isInsideSelectionArea(int x, int y)
@@ -119,30 +119,32 @@ void IngameBlockSelectionScreen::init()
 
 	Inventory* pInv = getInventory();
 
-	int nItems = pInv->getNumItems();
+	//int nItems = pInv->getContainerSize();
 
-	for (int i = 0; i < nItems; i++)
-	{
-		ItemInstance* item = pInv->getItem(i);
-		if (item && item->getId() == pInv->getSelectedItemId())
-		{
-			m_selectedSlot = i;
-			break;
-		}
-	}
+	//for (int i = 0; i < nItems; i++)
+	//{
+	//	ItemStack& item = pInv->getItem(i);
+	//	if (!item.isEmpty() && item.getId() == pInv->getSelectedItemId())
+	//	{
+	//		m_selectedSlot = i;
+	//		break;
+	//	}
+	//}
 
-	if (!isAllowed(m_selectedSlot))
-		m_selectedSlot = 0;
+	//if (!isAllowed(m_selectedSlot))
+	//	m_selectedSlot = 0;
+
+	m_selectedSlot = pInv->m_selectedSlot;
 }
 
 void IngameBlockSelectionScreen::renderSlot(int index, int x, int y, float f)
 {
-	ItemInstance* pItem = getInventory()->getItem(index);
-	if (ItemInstance::isNull(pItem))
+	ItemStack* item = getInventory()->tryGetItem(index);
+	if (!item || item->isEmpty())
 		return;
 
-	ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y, true);
-	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pItem, x, y);
+	ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, *item, x, y, true);
+	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, *item, x, y);
 }
 
 void IngameBlockSelectionScreen::renderSlots()
@@ -265,7 +267,7 @@ void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();
 	
-	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_pGui->getNumUsableSlots());
+	pInv->swapItems(m_selectedSlot, pInv->m_selectedSlot);
 
 	m_pMinecraft->m_pSoundEngine->playUI("random.click");
 	m_pMinecraft->setScreen(nullptr);

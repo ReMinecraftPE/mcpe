@@ -65,19 +65,16 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 
 	float yOffset = Mth::sin((float(itemEntity.m_age) + a) / 10.0f + itemEntity.m_bobOffs);
-	const ItemInstance* pItemInstance = itemEntity.m_pItemInstance;
-	if (ItemInstance::isNull(pItemInstance))
-	{
-		assert(!"Tried to render invalid ItemInstance for ItemEntity");
+	const ItemStack& itemStack = itemEntity.m_itemStack;
+	if (itemStack.isEmpty())
 		return;
-	}
 
 	int itemsToRender = 1;
-	if (pItemInstance->m_count > 1)
+	if (itemStack.m_count > 1)
 		itemsToRender = 2;
-	if (pItemInstance->m_count > 5)
+	if (itemStack.m_count > 5)
 		itemsToRender = 3;
-	if (pItemInstance->m_count > 20)
+	if (itemStack.m_count > 20)
 		itemsToRender = 4;
 
 	matrix->translate(Vec3(pos.x, pos.y + 0.1f + yOffset * 0.1f, pos.z));
@@ -86,7 +83,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	glEnable(GL_RESCALE_NORMAL);
 #endif
 
-	Tile* pTile = pItemInstance->getTile();
+	Tile* pTile = itemStack.getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
 		matrix->rotate(((float(itemEntity.m_age) + a) / 20.0f + itemEntity.m_bobOffs) * 57.296f, Vec3::UNIT_Y);
@@ -113,15 +110,15 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale));
 			}
 
-			m_pTileRenderer->renderTile(FullTile(pTile, pItemInstance->getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
+			m_pTileRenderer->renderTile(FullTile(pTile, itemStack.getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
 		}
 	}
 	else
 	{
 		matrix->scale(0.5f);
-		int icon = pItemInstance->getIcon();
+		int icon = itemStack.getIcon();
 
-		bindTexture(pItemInstance->getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
+		bindTexture(itemStack.getTile() ? C_TERRAIN_NAME : C_ITEMS_NAME);
 
 		for (int i = 0; i < itemsToRender; i++)
 		{
@@ -187,16 +184,16 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	t.draw(m_itemMaterials.ui_textured);
 }
 
-void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInstance* instance, int x, int y)
+void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStack& item, int x, int y)
 {
-	if (!instance)
+	if (item.isEmpty())
 		return;
 
-	if (instance->m_count == 1)
+	if (item.m_count == 1)
 		return;
 
 	std::stringstream ss;
-	ss << instance->m_count;
+	ss << item.m_count;
 	std::string amtstr = ss.str();
 
 	int width = font->width(amtstr), height = font->height(amtstr) + 8;
@@ -204,18 +201,18 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemInst
 	font->drawShadow(amtstr, x + 17 - width, y + 17 - height, 0xFFFFFF);
 }
 
-void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* instance, int x, int y, bool b)
+void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemStack& item, int x, int y, bool b)
 {
 	// @NOTE: Font unused but would presumably be used to draw the item amount.
 	// As if that actually works due to us blocking t.begin() and t.draw() calls...
-	if (!instance || !instance->isValid())
+	if (item.isEmpty() || !item.isValid())
 		return;
 
 	if (!b)
 		return;
 
-	//Item* pItem = instance->getItem();
-	Tile* pTile = instance->getTile();
+	//Item* pItem = item->getItem();
+	Tile* pTile = item.getTile();
 
 	// @BUG: This is one of the reasons you can't actually hold items in early Minecraft.
 	// There's an attempt to index `Tile::tiles` out of bounds, which of course fails, and likely crashes the game. :(
@@ -246,10 +243,10 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 #ifndef ENH_3D_INVENTORY_TILES
 		textures->loadAndBindTexture(C_BLOCKS_NAME);
 
-		float texU = float(g_ItemFrames[instance->getId()] % 10) * 48.0f;
-		float texV = float(g_ItemFrames[instance->getId()] / 10) * 48.0f;
+		float texU = float(g_ItemFrames[item->getId()] % 10) * 48.0f;
+		float texV = float(g_ItemFrames[item->getId()] / 10) * 48.0f;
 
-		Tesselator& t = Tesselator::instance;
+		Tesselator& t = Tesselator::item;
 		// @NOTE: These do nothing, due to a previous t.voidBeginAndEndCalls call.
 		t.begin();
 		t.vertexUV(float(x +  0), float(y + 16), 0.0f,  texU          / 512.0f, (texV + 48.0f) / 512.0f);
@@ -274,19 +271,19 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemInstance* i
 			matrix->rotate(-90.0f, Vec3::UNIT_Y);
 		}
 		
-		m_pTileRenderer->renderTile(FullTile(pTile, instance->getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
+		m_pTileRenderer->renderTile(FullTile(pTile, item.getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
 		#undef PARM_HACK
 #endif
 	}
-	else if (instance->getIcon() >= 0)
+	else if (item.getIcon() >= 0)
 	{
 		// @BUG: The last bound texture will be the texture that ALL items will take. This is because begin and end calls
 		// have been void'ed by a  t.voidBeginAndEndCalls call in Gui::render.
-		if (instance->getTile())
+		if (item.getTile())
 			textures->loadAndBindTexture(C_TERRAIN_NAME);
 		else
 			textures->loadAndBindTexture(C_ITEMS_NAME);
 
-		blit(x, y, 16 * (instance->getIcon() % 16), 16 * (instance->getIcon() / 16), 16, 16);
+		blit(x, y, 16 * (item.getIcon() % 16), 16 * (item.getIcon() / 16), 16, 16);
 	}
 }

@@ -10,7 +10,7 @@
 
 #include "client/app/AppPlatformListener.hpp"
 #include "client/renderer/renderer/EntityShaderManager.hpp"
-#include "world/item/ItemInstance.hpp"
+#include "world/item/ItemStack.hpp"
 #include "TileRenderer.hpp"
 
 class Minecraft;
@@ -36,7 +36,7 @@ public:
 	void itemPlaced();
 	void itemUsed();
 	void render(float a);
-	void renderItem(const Entity& entity, const ItemInstance& item, float a);
+	void renderItem(const Entity& entity, const ItemStack& item, float a);
 	void renderScreenEffect(float a);
 	void renderFire(float a);
 	void renderTex(float a, int tex);
@@ -45,7 +45,7 @@ public:
 
 private:
 	int m_lastSlot;
-	ItemInstance m_selectedItem;
+	ItemStack m_selectedItem;
 	Minecraft* m_pMinecraft;
 	int field_18;
 	float m_height;
