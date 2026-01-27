@@ -21,6 +21,11 @@ add_library(reminecraftpe-core STATIC
     client/app/AppPlatformListener.cpp
     client/app/Minecraft.cpp
     client/app/NinecraftApp.cpp
+    client/resources/AppResourceLoader.cpp
+    client/resources/Resource.cpp
+    client/resources/ResourceLoader.cpp
+    client/resources/ResourceLocation.cpp
+    client/resources/ResourcePackManager.cpp
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
@@ -44,6 +49,8 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/RocketRenderer.cpp
     client/renderer/renderer/EntityShaderManager.cpp
     client/renderer/renderer/RenderMaterialGroup.cpp
+    client/renderer/renderer/ShaderGroup.cpp
+    client/renderer/renderer/Tesselator.cpp
     client/renderer/texture/ImageData.cpp
     client/renderer/texture/TextureData.cpp
     client/renderer/RenderList.cpp
@@ -60,7 +67,6 @@ add_library(reminecraftpe-core STATIC
     client/renderer/Fog.cpp
     client/renderer/Font.cpp
     client/renderer/WaterSideTexture.cpp
-    client/renderer/Tesselator.cpp
     client/renderer/TileRenderer.cpp
     client/renderer/LightLayer.cpp
     client/renderer/Lighting.cpp
@@ -383,7 +389,6 @@ add_library(reminecraftpe-core STATIC
     renderer/RenderContextImmediate.cpp
     renderer/RenderMaterial.cpp
     renderer/ShaderConstants.cpp
-    renderer/ShaderGroup.cpp
     renderer/ShaderGroupBase.cpp
     renderer/StencilRefObject.cpp
     renderer/TextureGroup.cpp

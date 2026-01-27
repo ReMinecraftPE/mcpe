@@ -10,7 +10,7 @@
 
 #include "world/level/Region.hpp"
 #include "client/renderer/Chunk.hpp"
-#include "client/renderer/Tesselator.hpp"
+#include "client/renderer/renderer/Tesselator.hpp"
 
 class TileRenderer
 {

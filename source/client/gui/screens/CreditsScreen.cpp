@@ -1,5 +1,6 @@
 #include "CreditsScreen.hpp"
 #include "StartMenuScreen.hpp"
+#include "client/resources/Resource.hpp"
 
 CreditsScreen::CreditsScreen() :
 	m_btnBack(3, "Back")
@@ -12,7 +13,9 @@ CreditsScreen::~CreditsScreen()
 
 void CreditsScreen::_initCreditsText()
 {
-	std::istringstream credits_stream(m_pMinecraft->m_pPlatform->readAssetFileStr("credits.txt", false));
+	std::string credits;
+	Resource::load("credits.txt", credits);
+	std::istringstream credits_stream(credits);
 
 	std::string line;
 	while (std::getline(credits_stream, line))

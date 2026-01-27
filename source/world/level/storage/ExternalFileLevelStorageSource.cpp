@@ -16,6 +16,7 @@ ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string
 {
 	m_worldsPath = path;
 
+	// Should use C_HOME_PATH
 	m_worldsPath += "/games";
 	if (createFolderIfNotExists(m_worldsPath.c_str()))
 	{

@@ -154,7 +154,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	g_pApp = new NinecraftApp;
 	g_pApp->m_pPlatform = &g_AppPlatform;
-	g_pApp->m_externalStorageDir = ".";
+
+	// Storage Directory
+	{
+		std::string storagePath = getenv("APPDATA");
+		storagePath += "/.reminecraftpe";
+
+		if (!storagePath.empty())
+			createFolderIfNotExists(storagePath.c_str());
+		g_AppPlatform.m_externalStorageDir = storagePath;
+	}
 
 	// initialize the app
 	g_pApp->init();

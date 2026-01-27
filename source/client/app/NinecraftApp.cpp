@@ -17,6 +17,9 @@
 #include "client/renderer/Lighting.hpp"
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "client/resources/Resource.hpp"
+#include "client/resources/AppResourceLoader.hpp"
+#include "client/resources/ResourcePackManager.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
@@ -31,6 +34,19 @@
 
 bool NinecraftApp::_hasInitedStatics;
 
+void NinecraftApp::_initResourceLoaders()
+{
+	Resource::registerLoader(new AppResourceLoader(ResourceLocation::APP_PACKAGE));
+	//Resource::registerLoader(ResourceLocation::DATA_DIR, new AppResourceLoader(platform()->getDataUrl()));
+	//Resource::registerLoader(ResourceLocation::USER_DIR, new AppResourceLoader(dontevenknow));
+	//Resource::registerLoader(ResourceLocation::SETTINGS_DIR, new AppResourceLoader(dontevenknow));
+	Resource::registerLoader(new AppResourceLoader(ResourceLocation::EXTERNAL_DIR));
+	Resource::registerLoader(new AppResourceLoader(ResourceLocation::RAW_PATH));
+	//Resource::registerLoader(ResourceLocation::WORLD_DIR, new ScreenshotLoader(this));
+	m_pResourceLoader = new ResourcePackManager();
+	Resource::registerLoader(m_pResourceLoader);
+}
+
 void NinecraftApp::_initOptions()
 {
 	// Must be loaded before options, certain options states are forced based on this
@@ -38,14 +54,17 @@ void NinecraftApp::_initOptions()
 	_reloadPatchData();
 
 	if (platform()->hasFileSystemAccess())
-		m_pOptions = new Options(m_externalStorageDir);
+		m_pOptions = new Options(platform()->m_externalStorageDir);
 	else
 		m_pOptions = new Options();
+
+	// kind of a hack, just so we can keep everything centralized in options
+	m_pResourceLoader->m_pPacks = &m_pOptions->m_resourcePacks;
 }
 
 void NinecraftApp::_initTextures()
 {
-	m_pTextures = new Textures(getOptions(), platform());
+	m_pTextures = new Textures();
 
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
@@ -60,16 +79,8 @@ void NinecraftApp::_initTextures()
 
 	_reloadTextures();
 
-	if (GrassColor::isAvailable())
-	{
-        TextureData textureData = m_pPlatform->loadTexture("misc/grasscolor.png", true);
-		GrassColor::init(textureData);
-	}
-	if (FoliageColor::isAvailable())
-	{
-        TextureData textureData = m_pPlatform->loadTexture("misc/foliagecolor.png", true);
-		FoliageColor::init(textureData);
-	}
+	if (GrassColor::isAvailable()) GrassColor::init();
+	if (FoliageColor::isAvailable()) FoliageColor::init();
 }
 
 void NinecraftApp::_initRenderMaterials()
@@ -132,23 +143,26 @@ void NinecraftApp::_reloadFancy(bool isFancy)
 void NinecraftApp::_reloadOptionalFeatures()
 {
 	// Optional features that you really should be able to get away with not including.
-	Screen::setIsMenuPanoramaAvailable(platform()->doesTextureExist("gui/background/panorama_0.png"));
-	LevelRenderer::setAreCloudsAvailable(platform()->doesTextureExist("environment/clouds.png"));
-	LevelRenderer::setArePlanetsAvailable(platform()->doesTextureExist("terrain/sun.png") && platform()->doesTextureExist("terrain/moon.png"));
-	GrassColor::setIsAvailable(platform()->doesTextureExist("misc/grasscolor.png"));
-	FoliageColor::setIsAvailable(platform()->doesTextureExist("misc/foliagecolor.png"));
-	Gui::setIsVignetteAvailable(platform()->doesTextureExist("misc/vignette.png"));
-	EntityRenderer::setAreShadowsAvailable(platform()->doesTextureExist("misc/shadow.png"));
+	Screen::setIsMenuPanoramaAvailable(Resource::hasTexture("gui/background/panorama_0.png"));
+	LevelRenderer::setAreCloudsAvailable(Resource::hasTexture("environment/clouds.png"));
+	LevelRenderer::setArePlanetsAvailable(Resource::hasTexture("terrain/sun.png") && Resource::hasTexture("terrain/moon.png"));
+	GrassColor::setIsAvailable(Resource::hasTexture("misc/grasscolor.png"));
+	FoliageColor::setIsAvailable(Resource::hasTexture("misc/foliagecolor.png"));
+	Gui::setIsVignetteAvailable(Resource::hasTexture("misc/vignette.png"));
+	EntityRenderer::setAreShadowsAvailable(Resource::hasTexture("misc/shadow.png"));
 }
 
 void NinecraftApp::_reloadPatchData()
 {
-	GetPatchManager()->LoadPatchData(platform()->getPatchData());
+	std::string patchData;
+	Resource::load("patches/patch_data.txt", patchData);
+	GetPatchManager()->LoadPatchData(patchData);
 }
 
 void NinecraftApp::_initAll()
 {
 	Mth::initMth();
+	_initResourceLoaders();
 
 	if (!_hasInitedStatics)
 	{
@@ -172,14 +186,16 @@ void NinecraftApp::_initAll()
 #ifdef DEMO
 	m_pLevelStorageSource = new MemoryLevelStorageSource;
 #else
-	m_pLevelStorageSource = new ExternalFileLevelStorageSource(m_externalStorageDir);
+	m_pLevelStorageSource = new ExternalFileLevelStorageSource(platform()->m_externalStorageDir);
 #endif
 
 	m_pGui = new Gui(this);
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
 	std::string font = "font/default8.png";
-	if (!platform()->doesTextureExist(font))
-		font = "font/default.png";
+	{
+		if (!Resource::hasResource(font))
+			font = "font/default.png";
+	}
 	m_pFont = new Font(getOptions(), font, m_pTextures);
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
@@ -190,7 +206,7 @@ void NinecraftApp::_initAll()
 
 	platform()->initSoundSystem();
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
-	m_pSoundEngine->init(getOptions(), platform());
+	m_pSoundEngine->init(getOptions());
 
 	field_D9C = 0;
 
@@ -300,7 +316,8 @@ void NinecraftApp::setupRenderer()
 	{
 #ifdef FEATURE_GFX_SHADERS
 		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::getInstance();
-		std::string fileContents = AppPlatform::singleton()->readAssetFileStr("shaders/uniforms.json", false);
+		std::string fileContents;
+		Resource::load("shaders/uniforms.json", fileContents);
 		metaDataManager.loadJsonFile(fileContents);
 #endif
 	}
@@ -317,6 +334,7 @@ void NinecraftApp::onGraphicsReset()
 void NinecraftApp::teardown()
 {
 	teardownRenderer();
+	Resource::teardownLoaders();
 	// Stop our SoundSystem before we nuke our sound buffers and cause it to implode
 	platform()->getSoundSystem()->stopEngine();
 }

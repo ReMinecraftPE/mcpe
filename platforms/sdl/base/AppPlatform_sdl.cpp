@@ -145,7 +145,7 @@ void AppPlatform_sdl::_setIcon(ImageData& image)
 void AppPlatform_sdl::_setDefaultIcon()
 {
 	ImageData data;
-	loadImage(data, "icon.png");
+	loadImage(data, "assets/icon.png");
 	_setIcon(data);
 }
 
@@ -296,26 +296,6 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 #endif
 }
 
-bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
-{
-	// Get Full Path
-	std::string realPath = getAssetPath(path);
-
-	// Open File
-	SDL_RWops* io = SDL_RWFromFile(realPath.c_str(), "rb");
-	if (!io)
-	{
-		// Does Not Exist
-		return false;
-	}
-	else
-	{
-		// File Exists
-		SDL_RWclose(io);
-		return true;
-	}
-}
-
 bool AppPlatform_sdl::isTouchscreen() const
 {
     return m_bIsTouchscreen;
@@ -362,9 +342,25 @@ void AppPlatform_sdl::handleControllerAxisEvent(SDL_JoystickID controllerIndex, 
 	}
 }
 
-AssetFile AppPlatform_sdl::readAssetFile(const std::string& str, bool quiet) const
+bool AppPlatform_sdl::hasAssetFile(const std::string& path) const
 {
-	std::string path = getAssetPath(str);
+	// Open File
+	SDL_RWops* io = SDL_RWFromFile(path.c_str(), "rb");
+	if (!io)
+	{
+		// Does Not Exist
+		return false;
+	}
+	else
+	{
+		// File Exists
+		SDL_RWclose(io);
+		return true;
+	}
+}
+
+AssetFile AppPlatform_sdl::readAssetFile(const std::string& path, bool quiet) const
+{
 	SDL_RWops* io = SDL_RWFromFile(path.c_str(), "rb");
 
 	// Open File

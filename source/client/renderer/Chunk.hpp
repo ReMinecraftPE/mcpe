@@ -8,10 +8,10 @@
 
 #pragma once
 
+#include "client/renderer/renderer/Tesselator.hpp"
 #include "world/tile/Tile.hpp"
 #include "FrustumCuller.hpp"
 #include "RenderList.hpp"
-#include "Tesselator.hpp"
 
 class Level;
 class Entity;

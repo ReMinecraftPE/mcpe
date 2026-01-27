@@ -26,7 +26,7 @@ private:
 	void _playMusic(bool resetDelay = false);
 public:
     SoundEngine(SoundSystem* soundSystem, float distance);
-    void init(Options*, AppPlatform*);
+    void init(Options*);
     void enable(bool b);
     void updateOptions();
     void mute();

@@ -150,6 +150,8 @@ void Options::_load()
 			m_b2dTitleLogo = readBool(value);
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
+		else if (key == "gfx_resourcepacks")
+			readPackArray(value, m_resourcePacks);
 		else if (key == "misc_menupano")
 		{
 			m_bMenuPanorama = !Screen::isMenuPanoramaAvailable() ? false : readBool(value);
@@ -188,6 +190,36 @@ int Options::readInt(const std::string& str)
 	return f;
 }
 
+void Options::readArray(const std::string& str, std::vector<std::string>& array)
+{
+	std::istringstream ss(str);
+	std::string element;
+
+	while (std::getline(ss, element, ','))
+		array.push_back(element);
+}
+
+void Options::readPackArray(const std::string& str, std::vector<std::string>& array)
+{
+	// We create a new array instead of modifying the existing one
+	// because erasing elements from a vector doesn't free the memory.
+	std::vector<std::string> fullarray;
+	readArray(str, fullarray);
+	ResourceLocation location;
+	location.fileSystem = ResourceLocation::EXTERNAL_DIR;
+	for (size_t i = 0; i < fullarray.size(); ++i)
+	{
+		location.path = "/resource_packs/" + fullarray[i];
+		std::string fullPath = location.getFullPath();
+		if (!isDirectory(fullPath.c_str()))
+		{
+			LOG_W("Failed to find resource pack: %s", fullPath.c_str());
+			continue;
+		}
+		array.push_back(fullarray[i]);
+	}
+}
+
 std::string Options::saveBool(bool b)
 {
 	return b ? "true" : "false";
@@ -198,6 +230,25 @@ std::string Options::saveInt(int i)
 	std::stringstream ss;
 	ss << i;
 	return ss.str();
+}
+
+std::string Options::saveArray(const std::vector<std::string>& arr)
+{
+	if (arr.empty())
+		return "";
+	std::string ret;
+	bool done = false;
+	size_t i = 0;
+	while (!done)
+	{
+		ret += arr[i++];
+		size_t size = arr.size();
+		if (i < size)
+			ret += ",";
+		else
+			done = true;
+	}
+	return ret;
 }
 
 std::vector<std::string> Options::readPropertiesFromFile(const std::string& filePath)
@@ -292,6 +343,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("misc_oldtitle",             saveBool(m_b2dTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
+	SO("gfx_resourcepacks",		    saveArray(m_resourcePacks));
 
 	return vec;
 }

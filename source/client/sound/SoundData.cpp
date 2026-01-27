@@ -12,7 +12,8 @@
 #include "SoundData.hpp"
 
 #include "common/Logger.hpp"
-#include "client/app/AppPlatform.hpp"
+#include "client/resources/Resource.hpp"
+#include "client/resources/ResourcePackManager.hpp"
 
 std::string SoundDesc::dirs[] = {
     "sound",
@@ -20,7 +21,7 @@ std::string SoundDesc::dirs[] = {
     "sound3"
 };
 
-bool SoundDesc::_load(const AppPlatform* platform, const char* category, const char *name)
+bool SoundDesc::_load(const char* category, const char *name)
 {
 	if (m_isLoaded)
 	{
@@ -29,55 +30,93 @@ bool SoundDesc::_load(const AppPlatform* platform, const char* category, const c
         return true;
 	}
 
-    // Load
-    if (_loadOgg(platform, category, name) || _loadPcm(platform, name))
+    ResourceLoader* pLoader = Resource::getLoader(ResourceLocation::USER_PACKAGE);
+    if (!pLoader)
     {
-        // Success!
-        return true;
+        LOG_E("No ResourcePackManager singleton available!");
+        throw std::bad_cast();
     }
-    else
+    ResourcePackManager* loader = (ResourcePackManager*)pLoader;
+
+    // Load
+    std::string packdir;
+	bool ret = false;
+    ResourceLocation location;
+
+    // @HACK: We look for multiple different audio files in multiple different directories.
+    // We should always do our proper checks before falling back to a different resource pack.
+    // That's why this look so ungodly ugly.
+
+    if (loader->m_pPacks)
     {
+        // try to use the resource pack version of the sound
+        location.fileSystem = ResourceLocation::EXTERNAL_DIR;
+        for (size_t i = 0; i < loader->m_pPacks->size(); ++i)
+        {
+            packdir = "resource_packs/" + (*loader->m_pPacks)[i] + "/";
+            for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
+            {
+                location.path = packdir + dirs[i] + "/" + category + "/" + name + ".ogg";
+                ret = _loadOgg(location);
+                if (ret)
+                    return ret;
+            }
+            location.path = packdir + "sound/" + name + ".pcm";
+            ret = _loadPcm(location);
+            if (ret)
+                return ret;
+        }
+    }
+
+	// no active resource packs have the sound, use the vanilla one or no sound
+    location.fileSystem = ResourceLocation::APP_PACKAGE;
+    for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
+    {
+        location.path = dirs[i] + "/" + category + "/" + name + ".ogg";
+        ret = _loadOgg(location);
+        if (ret)
+            return ret;
+    }
+    location.path = "sound/" + std::string(name) + ".pcm";
+    ret = _loadPcm(location);
+    if (!ret) {
         m_codecType = AudioCodec::NONE;
         LOG_W("Failed to load sound \"%s\"!", name);
         return false;
-    }
+    } else
+        return true;
 }
 
-bool SoundDesc::_loadPcm(const AppPlatform* platform, const char *name)
+bool SoundDesc::_loadPcm(const ResourceLocation& location)
 {
-    m_file = platform->readAssetFile(std::string("sound/") + name + ".pcm", true);
-    m_isLoaded = m_file.size > 0;
+    Resource::load(location, m_stream);
+    m_isLoaded = !m_stream.empty();
 
     // Error
     if (!m_isLoaded) return false;
 
     m_codecType = AudioCodec::PCM;
-    m_header = *(PCMSoundHeader *) m_file.data;
-    m_buffer.m_pData = (int16_t *) (m_file.data + sizeof(PCMSoundHeader));
+    m_header = *(PCMSoundHeader *) m_stream.data();
+    m_buffer.m_pData = (int16_t *) (m_stream.data() + sizeof(PCMSoundHeader));
     m_buffer.m_dataSize = m_header.m_channels * m_header.m_length * m_header.m_bytes_per_sample;
 
     // Success!
     return true;
 }
 
-bool SoundDesc::_loadOgg(const AppPlatform* platform, const char* category, const char *name)
+bool SoundDesc::_loadOgg(const ResourceLocation& location)
 {
-    for (int i = 0; i < SOUND_DIRS_SIZE; i++)
-    {
-        m_file = platform->readAssetFile(dirs[i] + '/' + category + '/' + name + ".ogg", true);
-        m_isLoaded = m_file.size > 0;
-        if (m_isLoaded) break;
-    }
+    Resource::load(location, m_stream);
+    m_isLoaded = !m_stream.empty();
 
     // Error
     if (!m_isLoaded) return false;
 
     m_codecType = AudioCodec::OGG;
     m_header.m_bytes_per_sample = 2; // Always 2 (16-bit)
-    m_header.m_length = stb_vorbis_decode_memory(m_file.data, (int) m_file.size, &m_header.m_channels, &m_header.m_sample_rate, &m_buffer.m_pData);
+    m_header.m_length = stb_vorbis_decode_memory((const unsigned char*)m_stream.data(), m_stream.size(), &m_header.m_channels, &m_header.m_sample_rate, &m_buffer.m_pData);
 
-    delete[] m_file.data;
-    m_file.data = nullptr;
+    m_stream.clear();
 
     if (m_header.m_length == -1)
     {
@@ -105,16 +144,16 @@ void SoundDesc::_unload()
     }
 
     // Free File Data
-    delete[] m_file.data;
+    m_stream.clear();
 
     m_isLoaded = false;
 }
 
 // Load All Sounds
-void SoundDesc::_loadAll(const AppPlatform* platform)
+void SoundDesc::_loadAll()
 {
-#define SOUND(category, name) SA_##name._load(platform, #category, #name);
-#define SOUND_NUM(category, name, number) SA_##name##number._load(platform, #category, #name#number);
+#define SOUND(category, name) SA_##name._load(#category, #name);
+#define SOUND_NUM(category, name, number) SA_##name##number._load(#category, #name#number);
 #include "sound_list.h"
 #undef SOUND
 #undef SOUND_NUM

@@ -311,9 +311,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderConstants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderGroup.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderGroupBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -569,9 +566,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderConstants.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderGroupBase.cpp">

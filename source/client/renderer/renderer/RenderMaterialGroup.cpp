@@ -5,6 +5,7 @@
 #include "common/Util.hpp"
 #include "common/utility/InheritanceTree.hpp"
 
+#include "client/resources/Resource.hpp"
 #include "renderer/RenderMaterial.hpp"
 
 using namespace mce;
@@ -114,10 +115,11 @@ bool _isMaterialGroup(const rapidjson::Value::ConstObject& root)
 
 void RenderMaterialGroup::_loadList()
 {
-    std::string fileContents = AppPlatform::singleton()->readAssetFileStr(m_listPath, true);
+    std::string fileContents;
+    Resource::load(m_listPath, fileContents);
     if (fileContents.empty())
     {
-        LOG_E("Failed to find RenderMaterialGroup: %s", m_listPath.c_str());
+        LOG_E("Failed to find RenderMaterialGroup: %s", m_listPath.path.c_str());
         throw std::bad_cast();
     }
 
@@ -135,14 +137,14 @@ void RenderMaterialGroup::_loadList()
 
         if (!value.HasMember("path"))
         {
-            LOG_W("RenderMaterial in group \"%s\" is missing a path. Skipping...", m_listPath.c_str());
+            LOG_W("RenderMaterial in group \"%s\" is missing a path. Skipping...", m_listPath.path.c_str());
             continue;
         }
         const char* cPath = value["path"].GetString();
         std::string path = cPath ? cPath : "";
         if (path.empty())
         {
-            LOG_W("RenderMaterial in group \"%s\" has empty path. Skipping...", m_listPath.c_str());
+            LOG_W("RenderMaterial in group \"%s\" has empty path. Skipping...", m_listPath.path.c_str());
             continue;
         }
 
@@ -164,7 +166,7 @@ void RenderMaterialGroup::_loadList()
             tag = value["tag"].GetString();
         }
 
-        fileContents = AppPlatform::singleton()->readAssetFileStr(path, false);
+        Resource::load(path, fileContents);
         if (fileContents.empty())
         {
             LOG_W("RenderMaterial \"%s\" was empty! Skipping...", path.c_str());
@@ -248,9 +250,9 @@ MaterialPtr RenderMaterialGroup::getMaterial(const std::string& name)
     return MaterialPtr(*this, name);
 }
 
-void RenderMaterialGroup::loadList(const std::string listPath)
+void RenderMaterialGroup::loadList(const ResourceLocation& listPath)
 {
-    if (!m_listPath.empty())
+    if (!m_listPath.path.empty())
     {
         m_materials.clear();
         m_listPath = listPath;

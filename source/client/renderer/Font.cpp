@@ -7,8 +7,8 @@
  ********************************************************************/
 
 #include "Font.hpp"
-#include "Tesselator.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
+#include "client/renderer/renderer/Tesselator.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/MatrixStack.hpp"
 

@@ -1,7 +1,8 @@
+#include <map>
+
 #include "ShaderGroup.hpp"
 #include "common/Util.hpp"
-//#include <unordered_map>
-#include <map>
+#include "client/resources/Resource.hpp"
 
 using namespace mce;
 
@@ -61,7 +62,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
     std::string programCode, shaderPath;
     if (Util::isValidPath(codeOrPath))
     {
-        programCode = AppPlatform::singleton()->readAssetFileStr(codeOrPath, true);
+        Resource::load(codeOrPath, programCode);
         shaderPath = codeOrPath;
 
         if (shaderType != SHADER_TYPE_GEOMETRY && programCode.empty())
@@ -77,9 +78,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
 
     if (!programCode.empty())
     {
-#if !MCE_GFX_SUPPORTS_INCLUDES
         processIncludeDirectives(codeOrPath, programCode);
-#endif
 
         programCode.insert(0, Util::format("#define %s\n", ShaderTypeToString[shaderType]));
         programCode.insert(programCode.find('\n') + 1, header);
@@ -131,7 +130,8 @@ void ShaderGroup::processIncludeDirectives(const std::string& path, std::string&
             throw std::bad_cast();
         }
 
-        std::string includeCode = AppPlatform::singleton()->readAssetFileStr(includeFile, true);
+        std::string includeCode;
+        Resource::load(includeFile, includeCode);
 
         if (includeCode.empty())
         {

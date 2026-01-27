@@ -85,14 +85,6 @@ std::string AppPlatform_xdk360::getDateString(int time)
 	return std::string(buf);
 }
 
-bool AppPlatform_xdk360::doesTextureExist(const std::string& path) const
-{
-	// Get Full Path
-	std::string realPath = getAssetPath(path);
-
-	return XPL_ACCESS(realPath.c_str(), 0) == 0;
-}
-
 bool AppPlatform_xdk360::isTouchscreen() const
 {
 	return false;

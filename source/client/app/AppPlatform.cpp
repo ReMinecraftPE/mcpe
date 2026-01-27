@@ -13,6 +13,7 @@
 
 #include "AppPlatform.hpp"
 #include "common/Logger.hpp"
+#include "common/Utils.hpp"
 #include "compat/LegacyCPP.hpp"
 #include "AppPlatformListener.hpp"
 
@@ -148,7 +149,7 @@ void AppPlatform::loadImage(ImageData& data, const std::string& path)
 	data.m_colorSpace = channels == 3 ? COLOR_SPACE_RGB : COLOR_SPACE_RGBA;
 }
 
-TextureData AppPlatform::loadTexture(const std::string& path, bool bIsRequired)
+TextureData AppPlatform::loadTexture(const std::string& path)
 {
 	TextureData out;
 	loadImage(out.m_imageData, path);
@@ -157,7 +158,7 @@ TextureData AppPlatform::loadTexture(const std::string& path, bool bIsRequired)
 
 bool AppPlatform::doesTextureExist(const std::string& path) const
 {
-	return false;
+	return hasAssetFile(path);
 }
 
 bool AppPlatform::isTouchscreen() const
@@ -309,11 +310,6 @@ bool AppPlatform::hasFileSystemAccess()
 	return false;
 }
 
-std::string AppPlatform::getPatchData()
-{
-	return readAssetFileStr(_getPatchDataPath(), false);
-}
-
 void AppPlatform::initSoundSystem()
 {
 }
@@ -325,15 +321,17 @@ SoundSystem* AppPlatform::getSoundSystem() const
 
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
-	std::string realPath = path;
-	if (realPath.size() && realPath[0] == '/')
-	{
-		// trim it off
-		realPath = realPath.substr(1);
-	}
-	realPath = "assets/" + realPath;
+	return "assets/" + path;
+}
 
-	return realPath;
+std::string AppPlatform::getExternalStoragePath(const std::string& path) const
+{
+	return m_externalStorageDir + C_HOME_PATH + path;
+}
+
+bool AppPlatform::hasAssetFile(const std::string& path) const
+{
+	return isRegularFile(path.c_str());
 }
 
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
@@ -344,13 +342,12 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 		return AssetFile();
 	}
 
-	std::string realPath = getAssetPath(path);
-	std::ifstream ifs(realPath.c_str(), std::ios::binary);
+	std::ifstream ifs(path.c_str(), std::ios::binary);
     
 	// Open File
 	if (!ifs.is_open())
 	{
-		if (!quiet) LOG_W("Couldn't find asset file: %s", realPath.c_str());
+		if (!quiet) LOG_W("Couldn't find asset file: %s", path.c_str());
 		return AssetFile();
 	}
     
