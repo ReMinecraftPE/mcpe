@@ -23,7 +23,7 @@ public:
 	virtual TextureData loadTexture(const ResourceLocation& location) const = 0;
 	virtual std::string getPath(const std::string& path) const;
 
-	const ResourceLocation::FileSystem getFileSystem() const { return m_fileSystem; }
+	ResourceLocation::FileSystem getFileSystem() const { return m_fileSystem; }
 
 private:
 	ResourceLocation::FileSystem m_fileSystem;
