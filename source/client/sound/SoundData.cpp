@@ -39,7 +39,7 @@ bool SoundDesc::_load(const char* category, const char *name)
     ResourcePackManager* loader = (ResourcePackManager*)pLoader;
 
     // Load
-	std::string packdir, slashname = "/" + std::string(name);
+    std::string packdir;
 	bool ret = false;
     ResourceLocation location;
 
@@ -53,7 +53,7 @@ bool SoundDesc::_load(const char* category, const char *name)
         location.fileSystem = ResourceLocation::EXTERNAL_DIR;
         for (size_t i = 0; i < loader->m_pPacks->size(); ++i)
         {
-            packdir = loader->getPath() + (*loader->m_pPacks)[i] + "/";
+            packdir = "resource_packs/" + (*loader->m_pPacks)[i] + "/";
             for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
             {
                 location.path = packdir + dirs[i] + "/" + category + "/" + name + ".ogg";

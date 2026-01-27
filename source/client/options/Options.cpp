@@ -205,11 +205,18 @@ void Options::readPackArray(const std::string& str, std::vector<std::string>& ar
 	// because erasing elements from a vector doesn't free the memory.
 	std::vector<std::string> fullarray;
 	readArray(str, fullarray);
+	ResourceLocation location;
+	location.fileSystem = ResourceLocation::EXTERNAL_DIR;
 	for (size_t i = 0; i < fullarray.size(); ++i)
 	{
-		std::string packpath = AppPlatform::singleton()->getAssetPath("/resource_packs/" + fullarray[i]);
-		if (isDirectory(packpath.c_str()))
-			array.push_back(fullarray[i]);
+		location.path = "/resource_packs/" + fullarray[i];
+		std::string fullPath = location.getFullPath();
+		if (!isDirectory(fullPath.c_str()))
+		{
+			LOG_W("Failed to find resource pack: %s", fullPath.c_str());
+			continue;
+		}
+		array.push_back(fullarray[i]);
 	}
 }
 

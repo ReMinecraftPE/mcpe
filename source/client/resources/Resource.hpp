@@ -15,9 +15,10 @@ private:
 
 public:
 	static bool hasResource(const ResourceLocation& location);
+	static bool hasTexture(const ResourceLocation& location);
 	static bool load(const ResourceLocation& location, std::string& stream);
 	static TextureData loadTexture(const ResourceLocation& location);
-	static void registerLoader(ResourceLocation::FileSystem fileSystem, ResourceLoader* loader);
+	static void registerLoader(ResourceLoader* loader);
 	static void teardownLoaders();
 
 	static ResourceLoader* getLoader(ResourceLocation::FileSystem fileSystem)

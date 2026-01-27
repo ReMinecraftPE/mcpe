@@ -36,15 +36,15 @@ bool NinecraftApp::_hasInitedStatics;
 
 void NinecraftApp::_initResourceLoaders()
 {
-	Resource::registerLoader(ResourceLocation::APP_PACKAGE, new AppResourceLoader("")); // platform()->getPackagePath()
+	Resource::registerLoader(new AppResourceLoader(ResourceLocation::APP_PACKAGE));
 	//Resource::registerLoader(ResourceLocation::DATA_DIR, new AppResourceLoader(platform()->getDataUrl()));
 	//Resource::registerLoader(ResourceLocation::USER_DIR, new AppResourceLoader(dontevenknow));
 	//Resource::registerLoader(ResourceLocation::SETTINGS_DIR, new AppResourceLoader(dontevenknow));
-	Resource::registerLoader(ResourceLocation::EXTERNAL_DIR, new AppResourceLoader(platform()->getExternalStoragePath()));
-	Resource::registerLoader(ResourceLocation::RAW_PATH, new AppResourceLoader(Util::EMPTY_STRING));
+	Resource::registerLoader(new AppResourceLoader(ResourceLocation::EXTERNAL_DIR));
+	Resource::registerLoader(new AppResourceLoader(ResourceLocation::RAW_PATH));
 	//Resource::registerLoader(ResourceLocation::WORLD_DIR, new ScreenshotLoader(this));
-	m_pResourceLoader = new ResourcePackManager(platform()->getExternalStoragePath() + "/resource_packs/");
-	Resource::registerLoader(ResourceLocation::USER_PACKAGE, m_pResourceLoader);
+	m_pResourceLoader = new ResourcePackManager();
+	Resource::registerLoader(m_pResourceLoader);
 }
 
 void NinecraftApp::_initOptions()
@@ -143,18 +143,20 @@ void NinecraftApp::_reloadFancy(bool isFancy)
 void NinecraftApp::_reloadOptionalFeatures()
 {
 	// Optional features that you really should be able to get away with not including.
-	Screen::setIsMenuPanoramaAvailable(platform()->doesTextureExist("gui/background/panorama_0.png"));
-	LevelRenderer::setAreCloudsAvailable(platform()->doesTextureExist("environment/clouds.png"));
-	LevelRenderer::setArePlanetsAvailable(platform()->doesTextureExist("terrain/sun.png") && platform()->doesTextureExist("terrain/moon.png"));
-	GrassColor::setIsAvailable(platform()->doesTextureExist("misc/grasscolor.png"));
-	FoliageColor::setIsAvailable(platform()->doesTextureExist("misc/foliagecolor.png"));
-	Gui::setIsVignetteAvailable(platform()->doesTextureExist("misc/vignette.png"));
-	EntityRenderer::setAreShadowsAvailable(platform()->doesTextureExist("misc/shadow.png"));
+	Screen::setIsMenuPanoramaAvailable(Resource::hasTexture("gui/background/panorama_0.png"));
+	LevelRenderer::setAreCloudsAvailable(Resource::hasTexture("environment/clouds.png"));
+	LevelRenderer::setArePlanetsAvailable(Resource::hasTexture("terrain/sun.png") && Resource::hasTexture("terrain/moon.png"));
+	GrassColor::setIsAvailable(Resource::hasTexture("misc/grasscolor.png"));
+	FoliageColor::setIsAvailable(Resource::hasTexture("misc/foliagecolor.png"));
+	Gui::setIsVignetteAvailable(Resource::hasTexture("misc/vignette.png"));
+	EntityRenderer::setAreShadowsAvailable(Resource::hasTexture("misc/shadow.png"));
 }
 
 void NinecraftApp::_reloadPatchData()
 {
-	GetPatchManager()->LoadPatchData(platform()->getPatchData());
+	std::string patchData;
+	Resource::load("patches/patch_data.txt", patchData);
+	GetPatchManager()->LoadPatchData(patchData);
 }
 
 void NinecraftApp::_initAll()

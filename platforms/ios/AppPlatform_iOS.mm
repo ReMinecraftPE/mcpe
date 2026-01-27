@@ -96,12 +96,6 @@ void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
 	CGContextRelease(context);
 }
 
-bool AppPlatform_iOS::doesTextureExist(const std::string& path) const
-{
-    // check if asset could be found in bundle's resources
-    return _getBundleResourcePath(path) != nullptr;
-}
-
 bool AppPlatform_iOS::shiftPressed()
 {
 	return m_bShiftPressed[0] || m_bShiftPressed[1];
@@ -152,7 +146,7 @@ NSString* AppPlatform_iOS::_getBundleResourcePath(const std::string &path) const
 	size_t slashPos = path.rfind("/", -1, 1);
 	size_t dotPos2 = path.rfind('.', -1);
 	std::string fileName;
-    std::string fileDir = "assets/" + path.substr(0, slashPos + 1);
+    std::string fileDir = AppPlatform::_getAssetPath(Util::STRING_EMPTY) + path.substr(0, slashPos + 1);
 	std::string fileExtension = dotPos2 != std::string::npos ? path.substr(dotPos2+1, path.length()-dotPos2) : "";
 	if ((slashPos & dotPos) != std::string::npos)
 	{
@@ -170,7 +164,7 @@ NSString* AppPlatform_iOS::_getBundleResourcePath(const std::string &path) const
                 inDirectory: [NSString stringWithUTF8String:fileDir.c_str()]];
 }
 
-std::string AppPlatform_iOS::_getAssetPath(const std::string &path) const
+std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
     NSString* assetPath = _getBundleResourcePath(path);
     if (assetPath == nullptr)
@@ -181,17 +175,4 @@ std::string AppPlatform_iOS::_getAssetPath(const std::string &path) const
     }
     
     return [assetPath UTF8String];
-}
-
-std::string AppPlatform_iOS::getPatchData()
-{
-	std::ifstream ifs(getAssetPath("patches/patch_data.txt").c_str());
-	if (!ifs.is_open())
-		return "";
-	
-	std::stringstream ss;
-	ss << ifs.rdbuf();
-	ifs.close();
-	
-	return ss.str();
 }

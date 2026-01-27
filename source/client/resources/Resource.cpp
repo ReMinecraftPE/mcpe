@@ -11,6 +11,15 @@ bool Resource::hasResource(const ResourceLocation& location)
 	return pLoader->hasResource(location);
 }
 
+bool Resource::hasTexture(const ResourceLocation& location)
+{
+	ResourceLoader* pLoader = getLoader(location.fileSystem);
+	if (!pLoader)
+		return false;
+
+	return pLoader->hasTexture(location);
+}
+
 bool Resource::load(const ResourceLocation& location, std::string& stream)
 {
 	ResourceLoader* pLoader = getLoader(location.fileSystem);
@@ -32,8 +41,9 @@ TextureData Resource::loadTexture(const ResourceLocation& location)
 	return pLoader->loadTexture(location);
 }
 
-void Resource::registerLoader(ResourceLocation::FileSystem fileSystem, ResourceLoader* loader)
+void Resource::registerLoader(ResourceLoader* loader)
 {
+	ResourceLocation::FileSystem fileSystem = loader->getFileSystem();
 	if (m_loaders.find(fileSystem) != m_loaders.end())
 	{
 		LOG_W("ResourceLoader \"%d\" is already registered. Re-registering...", fileSystem);

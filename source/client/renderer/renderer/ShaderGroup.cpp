@@ -78,9 +78,7 @@ ShaderProgram& ShaderGroup::getShaderProgram(ShaderType shaderType, const std::s
 
     if (!programCode.empty())
     {
-#if !MCE_GFX_SUPPORTS_INCLUDES
         processIncludeDirectives(codeOrPath, programCode);
-#endif
 
         programCode.insert(0, Util::format("#define %s\n", ShaderTypeToString[shaderType]));
         programCode.insert(programCode.find('\n') + 1, header);

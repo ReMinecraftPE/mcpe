@@ -6,7 +6,6 @@ GFX-API-Specific Settings (all 0 by default)
 	MCE_GFX_DEPTH_ZERO_TO_ONE       // Tells GLM to ensure the depth of matrices is between 0.0f and 1.0f
 	MCE_GFX_LEFT_HANDED             // Tells GLM to use left-handed matrices
 	MCE_GFX_DYNAMIC_TEXTURE_STAGING // Indicates that the GFX API requires staging to occur before an existing texture can be modified on the GPU
-	MCE_GFX_SUPPORTS_INCLUDES       // Indicates that the GFX API's shader compiler has built-in support for include directives
 	MCE_GFX_SUPPORTS_UINT8_4_N      // Indicates that the GFX API supports the UINT8_4_N vertex field type
 	MCE_GFX_SUPPORTS_SINT8_4_N      // Indicates that the GFX API supports the SINT8_4_N vertex field type
 */
@@ -36,7 +35,6 @@ GFX-API-Specific Settings (all 0 by default)
 #define MCE_GFX_API_D3D 1
 #define MCE_GFX_DEPTH_ZERO_TO_ONE 1
 #define MCE_GFX_DYNAMIC_TEXTURE_STAGING 1
-#define MCE_GFX_SUPPORTS_INCLUDES 1
 #endif
 
 #if MCE_GFX_API_GX1

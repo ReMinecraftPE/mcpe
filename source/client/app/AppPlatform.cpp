@@ -158,7 +158,7 @@ TextureData AppPlatform::loadTexture(const std::string& path)
 
 bool AppPlatform::doesTextureExist(const std::string& path) const
 {
-	return false;
+	return hasAssetFile(path);
 }
 
 bool AppPlatform::isTouchscreen() const
@@ -310,11 +310,6 @@ bool AppPlatform::hasFileSystemAccess()
 	return false;
 }
 
-std::string AppPlatform::getPatchData()
-{
-	return readAssetFileStr(_getPatchDataPath(), false);
-}
-
 void AppPlatform::initSoundSystem()
 {
 }
@@ -326,19 +321,17 @@ SoundSystem* AppPlatform::getSoundSystem() const
 
 std::string AppPlatform::getAssetPath(const std::string& path) const
 {
-	if (!path.empty() && path[0] == '/')
-		return m_externalStorageDir + "/games/com.mojang" + path;
-	return _getAssetPath(path);
+	return "assets/" + path;
+}
+
+std::string AppPlatform::getExternalStoragePath(const std::string& path) const
+{
+	return m_externalStorageDir + C_HOME_PATH + path;
 }
 
 bool AppPlatform::hasAssetFile(const std::string& path) const
 {
-	return isRegularFile(getAssetPath(path).c_str());
-}
-
-std::string AppPlatform::_getAssetPath(const std::string& path) const
-{
-	return "assets/" + path;
+	return isRegularFile(path.c_str());
 }
 
 AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
@@ -349,13 +342,12 @@ AssetFile AppPlatform::readAssetFile(const std::string& path, bool quiet) const
 		return AssetFile();
 	}
 
-	std::string realPath = getAssetPath(path);
-	std::ifstream ifs(realPath.c_str(), std::ios::binary);
+	std::ifstream ifs(path.c_str(), std::ios::binary);
     
 	// Open File
 	if (!ifs.is_open())
 	{
-		if (!quiet) LOG_W("Couldn't find asset file: %s", realPath.c_str());
+		if (!quiet) LOG_W("Couldn't find asset file: %s", path.c_str());
 		return AssetFile();
 	}
     

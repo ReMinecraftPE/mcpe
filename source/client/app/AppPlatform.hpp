@@ -34,6 +34,7 @@
 #define C_DEFAULT_SCREEN_HEIGHT (480)
 #endif
 
+#define C_HOME_PATH "/games/com.mojang/"
 #define C_MAX_LOCAL_PLAYERS 4
 
 class GameControllerHandler;
@@ -65,10 +66,6 @@ public:
 
 private:
 	virtual void _tick();
-
-protected:
-	std::string _getPatchDataPath() const { return "patches/patch_data.txt"; }
-	virtual std::string _getAssetPath(const std::string& path) const;
 
 public:
 	virtual void buyGame();
@@ -122,13 +119,11 @@ public:
 	void _fireAppTerminated();
 
 	virtual bool hasFileSystemAccess();
-	virtual std::string getExternalStoragePath() const { return m_externalStorageDir; }
-	// Also add this to allow dynamic patching.
-	virtual std::string getPatchData();
 	virtual void initSoundSystem();
 	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
+	virtual std::string getExternalStoragePath(const std::string& path) const;
 	virtual bool hasAssetFile(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
 	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;

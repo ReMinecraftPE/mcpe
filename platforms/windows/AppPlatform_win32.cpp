@@ -175,10 +175,7 @@ std::string AppPlatform_win32::getDateString(int time)
 
 bool AppPlatform_win32::doesTextureExist(const std::string& path) const
 {
-	// Get Full Path
-	std::string realPath = getAssetPath(path);
-
-	return XPL_ACCESS(realPath.c_str(), 0) == 0;
+	return isRegularFile(path.c_str());
 }
 
 bool AppPlatform_win32::isTouchscreen() const
@@ -201,9 +198,8 @@ bool AppPlatform_win32::hasFileSystemAccess()
 	return true;
 }
 
-AssetFile AppPlatform_win32::readAssetFile(const std::string& str, bool quiet) const
+AssetFile AppPlatform_win32::readAssetFile(const std::string& path, bool quiet) const
 {
-	std::string path = getAssetPath(str);
 	std::ifstream ifs(path, std::ios::binary | std::ios::ate);
 	if (!ifs.is_open())
 		return AssetFile();

@@ -1,19 +1,24 @@
 #include "AppResourceLoader.hpp"
 #include "client/app/AppPlatform.hpp"
 
-AppResourceLoader::AppResourceLoader(const std::string& path)
-	: ResourceLoader(path)
+AppResourceLoader::AppResourceLoader(ResourceLocation::FileSystem fileSystem)
+	: ResourceLoader(fileSystem)
 {
 }
 
 bool AppResourceLoader::hasResource(const ResourceLocation& location) const
 {
-	return AppPlatform::singleton()->hasAssetFile(getPath() + location.path);
+	return AppPlatform::singleton()->hasAssetFile(getPath(location.path));
+}
+
+bool AppResourceLoader::hasTexture(const ResourceLocation& location) const
+{
+	return AppPlatform::singleton()->doesTextureExist(getPath(location.path));
 }
 
 bool AppResourceLoader::load(const ResourceLocation& location, std::string& stream) const
 {
-	AssetFile file = AppPlatform::singleton()->readAssetFile(getPath() + location.path, false);
+	AssetFile file = AppPlatform::singleton()->readAssetFile(getPath(location.path), true);
 
 	if (file.data)
 	{
@@ -31,5 +36,5 @@ void AppResourceLoader::loadAllVersionsOf(const ResourceLocation& location) cons
 
 TextureData AppResourceLoader::loadTexture(const ResourceLocation& location) const
 {
-	return AppPlatform::singleton()->loadTexture(getPath() + location.path);
+	return AppPlatform::singleton()->loadTexture(getPath(location.path));
 }
