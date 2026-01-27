@@ -8,6 +8,7 @@
 
 #include "CustomSoundSystem.hpp"
 #include "common/Logger.hpp"
+#include "common/Utils.hpp"
 #include "client/app/AppPlatform.hpp"
 
 // @TODO: fix crash in playAt when Asan is active
