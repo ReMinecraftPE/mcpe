@@ -1,0 +1,55 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
+#pragma once
+#include <string>
+#include <stdexcept>
+#include <vector>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <uuids.h>
+#include <strmif.h>
+
+#include <mmsystem.h>
+#include <dsound.h>
+
+#include "client/sound/SoundSystem.hpp"
+#include "client/sound/SoundData.hpp"
+
+#define SOUND_SYSTEM SoundSystemDS
+
+class SoundSystemDS : public SoundSystem
+{
+private:
+	struct BufferInfo
+	{
+		LPDIRECTSOUNDBUFFER buffer;
+		LPDIRECTSOUND3DBUFFER object3d;
+	};
+	
+public:
+	SoundSystemDS();
+	~SoundSystemDS();
+	
+private:
+	WAVEFORMATEX _getWaveFormat(const PCMSoundHeader& header, float pitch) const;
+	void _cleanSources();
+	
+public:
+	bool isAvailable() override;
+	void setListenerPos(const Vec3& pos) override;
+	void setListenerAngle(const Vec2& rot) override;
+	void playAt(const SoundDesc& sound, const Vec3& pos, float volume, float pitch) override;
+	
+private:
+	bool m_available;
+	HWND m_hWnd;
+	IDirectSound* m_directsound;
+	LPDIRECTSOUND3DLISTENER m_listener;
+	std::vector<BufferInfo> m_buffers;
+};

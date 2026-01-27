@@ -35,7 +35,6 @@ public:
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 	bool isLocalPlayer() const override { return true; }
 	void drop(const ItemInstance& item, bool randomly = false) override;
-	bool isImmobile() const override;
 	bool interpolateOnly() const override { return false; }
 	void setPlayerGameType(GameType gameType) override;
 	void swing() override;

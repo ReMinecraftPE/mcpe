@@ -6,14 +6,14 @@
 
 #include "thirdparty/rapidjson/document.h"
 
+#include "client/renderer/renderer/ShaderGroup.hpp"
+
 #include "renderer/hal/enums/RenderState.hpp"
 #include "renderer/hal/interface/Shader.hpp"
 #include "renderer/hal/interface/BlendState.hpp"
 #include "renderer/hal/interface/DepthStencilState.hpp"
 #include "renderer/hal/interface/RasterizerState.hpp"
 #include "renderer/hal/interface/FixedPipelineState.hpp"
-
-#include "ShaderGroup.hpp"
 
 namespace mce
 {

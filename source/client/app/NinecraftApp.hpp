@@ -21,6 +21,7 @@ public:
 	virtual ~NinecraftApp();
 
 private:
+	void _initResourceLoaders();
 	void _initOptions();
 	void _initTextures();
 	void _initRenderMaterials();

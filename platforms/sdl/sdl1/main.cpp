@@ -7,6 +7,7 @@
 #include <time/time.h>
 
 #include <libfat/fat.h>
+#include <lwip/netdb.h>
 #endif
 
 #include "thirdparty/SDL/SDL.h"
@@ -174,7 +175,7 @@ static void handle_events()
                 float scale = g_fPointToPixelScale;
                 float x = event.motion.x * scale;
                 float y = event.motion.y * scale;
-                Mouse::feed(BUTTON_NONE, false, x, y);
+                Mouse::feed(MOUSE_BUTTON_NONE, false, x, y);
                 g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
                 break;
             }
@@ -282,9 +283,9 @@ int main(int argc, char* argv[])
 
     //LOG_I("Initializing AppPlatform...");
     g_pAppPlatform = new UsedAppPlatform(storagePath, screen);
+    g_pAppPlatform->m_externalStorageDir = storagePath;
     //LOG_I("Initializing NinecraftApp...");
     g_pApp = new NinecraftApp;
-    g_pApp->m_externalStorageDir = storagePath;
     g_pApp->m_pPlatform = g_pAppPlatform;
     g_pApp->init();
 

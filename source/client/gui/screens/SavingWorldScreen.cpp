@@ -19,7 +19,7 @@ SavingWorldScreen::SavingWorldScreen(bool bCopyMap/*, Entity* pEnt*/)
 	//m_pEntityToDeleteAfterSave = pEnt;
 }
 
-void SavingWorldScreen::render(int mouseX, int mouseY, float f)
+void SavingWorldScreen::render(float f)
 {
 	renderDirtBackground(0);
 
@@ -68,7 +68,7 @@ void SavingWorldScreen::tick()
 		if (m_bCopyMapAtEnd)
 			m_pMinecraft->setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 		else
-			m_pMinecraft->setScreen(new StartMenuScreen);
+			m_pMinecraft->gotoMainMenu();
 
 		m_pMinecraft->m_bUsingScreen = false;
 

@@ -3,7 +3,6 @@ project(reminecraftpe-core)
 
 # Build
 add_library(reminecraftpe-core STATIC
-    ../compat/vsnprintf.c
     common/CThread.cpp
     common/DataIO.cpp
     common/Logger.cpp
@@ -22,6 +21,11 @@ add_library(reminecraftpe-core STATIC
     client/app/AppPlatformListener.cpp
     client/app/Minecraft.cpp
     client/app/NinecraftApp.cpp
+    client/resources/AppResourceLoader.cpp
+    client/resources/Resource.cpp
+    client/resources/ResourceLoader.cpp
+    client/resources/ResourceLocation.cpp
+    client/resources/ResourcePackManager.cpp
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
@@ -45,6 +49,8 @@ add_library(reminecraftpe-core STATIC
     client/renderer/entity/RocketRenderer.cpp
     client/renderer/renderer/EntityShaderManager.cpp
     client/renderer/renderer/RenderMaterialGroup.cpp
+    client/renderer/renderer/ShaderGroup.cpp
+    client/renderer/renderer/Tesselator.cpp
     client/renderer/texture/ImageData.cpp
     client/renderer/texture/TextureData.cpp
     client/renderer/RenderList.cpp
@@ -61,7 +67,6 @@ add_library(reminecraftpe-core STATIC
     client/renderer/Fog.cpp
     client/renderer/Font.cpp
     client/renderer/WaterSideTexture.cpp
-    client/renderer/Tesselator.cpp
     client/renderer/TileRenderer.cpp
     client/renderer/LightLayer.cpp
     client/renderer/Lighting.cpp
@@ -79,6 +84,7 @@ add_library(reminecraftpe-core STATIC
     client/sound/SoundRepository.cpp
     client/sound/SoundEngine.cpp
     client/gui/Screen.cpp
+    client/gui/screens/CreditsScreen.cpp
     client/gui/screens/OptionsScreen.cpp
     client/gui/screens/StartMenuScreen.cpp
     client/gui/screens/ConvertWorldScreen.cpp
@@ -109,6 +115,7 @@ add_library(reminecraftpe-core STATIC
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
     client/gui/GuiElement.cpp
+    client/gui/MenuPointer.cpp
     client/model/geom/PolygonQuad.cpp
     client/model/geom/Cube.cpp
     client/model/geom/ModelPart.cpp
@@ -127,7 +134,6 @@ add_library(reminecraftpe-core STATIC
     client/model/models/ChickenModel.cpp
     client/multiplayer/MultiPlayerLevel.cpp
     client/multiplayer/MultiplayerLocalPlayer.cpp
-    client/player/input/Controller.cpp
     client/player/input/ControllerBuildInput.cpp
     client/player/input/ControllerMoveInput.cpp
     client/player/input/ControllerTurnInput.cpp
@@ -136,6 +142,9 @@ add_library(reminecraftpe-core STATIC
     client/player/input/MouseBuildInput.cpp
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
+	client/player/input/GameController.cpp
+	client/player/input/GameControllerHandler.cpp
+	client/player/input/GameControllerManager.cpp
     client/player/input/ITurnInput.cpp
     client/player/input/IBuildInput.cpp
     client/player/input/IncludeExcludeArea.cpp
@@ -383,12 +392,12 @@ add_library(reminecraftpe-core STATIC
     renderer/RenderContextImmediate.cpp
     renderer/RenderMaterial.cpp
     renderer/ShaderConstants.cpp
-    renderer/ShaderGroup.cpp
     renderer/ShaderGroupBase.cpp
     renderer/StencilRefObject.cpp
     renderer/TextureGroup.cpp
     renderer/TexturePtr.cpp
     renderer/UniformMetaData.cpp
+	renderer/VertexFieldFormat.cpp
     renderer/VertexFormat.cpp
     renderer/WeatherConstants.cpp
     renderer/WorldConstants.cpp
@@ -510,7 +519,6 @@ elseif(REMCPE_GFX_API STREQUAL "D3D11")
 		renderer/hal/d3d11/TextureD3D11.cpp
 		renderer/hal/d3d11/helpers/TextureHelperD3D11.cpp
 		renderer/hal/dxgi/API_DXGI.cpp
-		renderer/hal/dxgi/helpers/DirectXComInterface.cpp
 		renderer/hal/dxgi/helpers/ErrorHandlerDXGI.cpp
 		renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
 	)

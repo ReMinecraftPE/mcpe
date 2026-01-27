@@ -31,10 +31,10 @@ public:
 	void selectSlotAndClose();
 
 	virtual void init() override;
-	virtual void render(int x, int y, float f) override;
-    virtual void buttonClicked(Button*) override;
-	virtual void mouseClicked(int x, int y, int type) override;
-	virtual void mouseReleased(int x, int y, int type) override;
+	virtual void render(float f) override;
+    virtual void _buttonClicked(Button*) override;
+	virtual void pointerPressed(int x, int y, MouseButtonType btn) override;
+	virtual void pointerReleased(int x, int y, MouseButtonType btn) override;
 	virtual void removed() override;
 
 private:

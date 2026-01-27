@@ -4,6 +4,7 @@
 #include "client/gui/IntRectangle.hpp"
 #include "client/renderer/Font.hpp"
 #include "renderer/MaterialPtr.hpp"
+#include "renderer/Mesh.hpp"
 
 class ScreenRenderer
 {
@@ -30,8 +31,12 @@ public:
 public:
 	ScreenRenderer();
 
+protected:
+	void _blitBegin(const IntRectangle& rect);
+
 public:
 	void blit(const IntRectangle& rect);
+	void blit(mce::Mesh& mesh, const IntRectangle& rect);
 	void blit(int dstX, int dstY, int srcX, int srcY, int dstWidth, int dstHeight, int srcWidth, int srcHeight, mce::MaterialPtr* materialPtr = nullptr);
 	void blitRaw(float x1, float x2, float y1, float y2, float z, float u1, float u2, float v1, float v2);
 	void drawCenteredString(Font& font, const std::string& str, int cx, int cy, const Color& color = Color::WHITE);

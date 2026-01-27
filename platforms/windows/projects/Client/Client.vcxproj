@@ -95,6 +95,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\ConvertWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.hpp" />
@@ -117,7 +118,8 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\options\Options.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\MenuPointer.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ITurnInput.hpp" />
@@ -149,7 +151,6 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\PatchManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderChunk.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderList.hpp" />
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Tesselator.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Texture.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Textures.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\TileRenderer.hpp" />
@@ -218,6 +219,15 @@
     <ClInclude Include="$(MC_ROOT)\source\client\model\geom\TextureOffset.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameController.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\ShaderGroup.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\AppResourceLoader.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\Resource.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLoader.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLocation.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -238,6 +248,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConfirmScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\ConvertWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeleteWorldScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DirectConnectScreen.cpp" />
@@ -260,7 +271,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\PolygonQuad.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\network\ClientSideNetworkHandler.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\options\Options.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\MenuPointer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerBuildInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerMoveInput.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp" />
@@ -295,7 +308,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\PatchManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderChunk.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderList.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Tesselator.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Textures.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\TileRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\WaterSideTexture.cpp" />
@@ -351,14 +363,23 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\RenderMaterialGroup.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\ImageData.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureData.cpp" />
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\EntityShaderManager.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameController.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\ShaderGroup.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\AppResourceLoader.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\Resource.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLoader.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLocation.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{71774270-fd1b-4269-bd8f-f75a52d43eb6}</Project>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <ProjectReference Include="..\Network\Network.vcxproj">
       <Project>{e43f7c6a-a099-48c9-9d37-b56cd8d6d785}</Project>
@@ -366,11 +387,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Server\Server.vcxproj">
       <Project>{38723be5-0310-4941-b11f-ea7ff21394d9}</Project>
-      <Private>true</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <ProjectReference Include="..\STB\STB.vcxproj">
       <Project>{f332cb57-ff16-4d43-bbe0-76f28301daa8}</Project>

@@ -30,8 +30,6 @@ TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int 
 	m_height = height;
 	m_placeholder = placeholder;
 	m_text = text;
-	m_bFocused = false;
-	m_bEnabled = true;
 	m_bCursorOn = true;
 	m_insertHead = 0;
 	m_lastFlashed = 0;
@@ -46,14 +44,36 @@ TextInputBox::~TextInputBox()
 	m_pParent->m_pMinecraft->platform()->hideKeyboard();
 }
 
+void TextInputBox::_onFocusChanged()
+{
+	if (hasFocus())
+	{
+		int x = (int)(((float)m_xPos) / Gui::InvGuiScale);
+		int y = (int)(((float)m_yPos) / Gui::InvGuiScale);
+		int w = (int)(((float)m_width) / Gui::InvGuiScale);
+		int h = (int)(((float)m_height) / Gui::InvGuiScale);
+		m_pParent->m_pMinecraft->platform()->showKeyboard(x, y, w, h);
+	}
+	else
+	{
+		m_pParent->m_pMinecraft->platform()->hideKeyboard();
+	}
+
+	if (hasFocus())
+	{
+		m_lastFlashed = getTimeMs();
+		m_bCursorOn = true;
+		m_insertHead = int(m_text.size());
+		recalculateScroll();
+	}
+
+	// don't actually hide the keyboard when unfocusing
+	// - we may be undoing the work of another text box
+}
+
 void TextInputBox::init(Font* pFont)
 {
 	m_pFont = pFont;
-}
-
-void TextInputBox::setEnabled(bool bEnabled)
-{
-	m_bEnabled = true;
 }
 
 #ifdef USE_SDL
@@ -163,7 +183,7 @@ char TextInputBox::guessCharFromKey(int key) {
 
 void TextInputBox::keyPressed(int key)
 {
-	if (!m_bFocused)
+	if (!hasFocus())
 	{
 		return;
 	}
@@ -220,7 +240,7 @@ void TextInputBox::keyPressed(int key)
 		case AKEYCODE_ENTER:
 		{
 			// Enter
-			m_bFocused = false;
+			setFocused(false);
 			break;
 		}
 	}
@@ -231,7 +251,7 @@ void TextInputBox::tick()
 	if (!m_lastFlashed)
 		m_lastFlashed = getTimeMs();
 
-	if (m_bFocused)
+	if (hasFocus())
 	{
 		if (getTimeMs() > m_lastFlashed + 500)
 		{
@@ -245,37 +265,6 @@ void TextInputBox::tick()
 	}
 }
 
-void TextInputBox::setFocused(bool b)
-{
-	if (m_bFocused == b)
-		return;
-
-	if (b)
-	{
-		int x = (int) (((float) m_xPos) / Gui::InvGuiScale);
-		int y = (int) (((float) m_yPos) / Gui::InvGuiScale);
-		int w = (int) (((float) m_width) / Gui::InvGuiScale);
-		int h = (int) (((float) m_height) / Gui::InvGuiScale);
-		m_pParent->m_pMinecraft->platform()->showKeyboard(x, y, w, h);
-	}
-	else
-	{
-		m_pParent->m_pMinecraft->platform()->hideKeyboard();
-	}
-
-	m_bFocused = b;
-	if (b)
-	{
-		m_lastFlashed = getTimeMs();
-		m_bCursorOn = true;
-		m_insertHead = int(m_text.size());
-		recalculateScroll();
-	}
-
-	// don't actually hide the keyboard when unfocusing
-	// - we may be undoing the work of another text box
-}
-
 void TextInputBox::onClick(int x, int y)
 {
 	setFocused(clicked(x, y));
@@ -283,7 +272,7 @@ void TextInputBox::onClick(int x, int y)
 
 void TextInputBox::charPressed(int k)
 {
-	if (!m_bFocused)
+	if (!hasFocus())
 		return;
 
 	switch (k) {
@@ -352,7 +341,7 @@ void TextInputBox::charPressed(int k)
 
 void TextInputBox::pasteText(const std::string& text)
 {
-	if (!m_bFocused)
+	if (!hasFocus())
 		return;
 
 	const std::string sanitizedText = _sanitizePasteText(text);
@@ -453,7 +442,7 @@ void TextInputBox::render()
 
 bool TextInputBox::clicked(int xPos, int yPos)
 {
-	if (!m_bEnabled) return false;
+	if (!isEnabled()) return false;
 
 	if (xPos < m_xPos) return false;
 	if (yPos < m_yPos) return false;
@@ -539,11 +528,6 @@ void TextInputBox::setText(const std::string& text)
 {
 	m_text = text;
 	m_insertHead = int(m_text.size());
-}
-
-bool TextInputBox::isFocused()
-{
-	return m_bFocused;
 }
 
 void TextInputBox::setMaxLength(int max_length)

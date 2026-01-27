@@ -18,11 +18,12 @@
   </PropertyGroup-->
   <!-- Macros - Win32 & x64 -->
   <PropertyGroup Label="UserMacros" Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+    <!-- change this -->
 	<MC_GFX_API>OGL</MC_GFX_API>
   </PropertyGroup>
   <!-- Macros - Xbox 360 -->
   <PropertyGroup Label="UserMacros" Condition="'$(Platform)'=='Xbox 360'">
-	<MC_GFX_API>Null</MC_GFX_API>
+	<MC_GFX_API>D3D9</MC_GFX_API>
   </PropertyGroup>
   
   <!-- Properties - Win32 -->
@@ -43,8 +44,6 @@
   <PropertyGroup Condition="'$(Platform)'=='Xbox 360'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(Xbox360TechPreviewInclude);$(XDKInstallDir)\include\xbox;$(VC_IncludePath);$(WindowsSDK_IncludePath);%(IncludePath)</IncludePath>
-    <RemoteRoot>hdd01:\dev\$(SolutionName)</RemoteRoot>
   </PropertyGroup>
   <!-- Properties - Debug -->
   <PropertyGroup Condition="$(Configuration.StartsWith('Debug'))">
@@ -59,6 +58,9 @@
   <!-- GFX Macros -->
   <PropertyGroup Label="UserMacros" Condition="'$(MC_GFX_API)'=='OGL'">
     <MC_GFX_API_MACRO>MCE_GFX_API_OGL</MC_GFX_API_MACRO>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" Condition="'$(MC_GFX_API)'=='D3D9'">
+    <MC_GFX_API_MACRO>MCE_GFX_API_D3D9;FEATURE_GFX_SHADERS</MC_GFX_API_MACRO>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros" Condition="'$(MC_GFX_API)'=='D3D11'">
     <MC_GFX_API_MACRO>MCE_GFX_API_D3D11;FEATURE_GFX_SHADERS</MC_GFX_API_MACRO>
@@ -78,11 +80,9 @@
     <ClCompile>
 	  <WarningLevel>Level3</WarningLevel>
 	  <SDLCheck>true</SDLCheck>
-	  <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -110,6 +110,7 @@
   <ItemDefinitionGroup Condition="$(Configuration.StartsWith('Debug'))">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	  <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <!-- Item Definitions - Release -->
@@ -118,6 +119,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	  <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -130,18 +132,51 @@
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
+  <!-- Item Definitions - Win32 & x64 -->
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+    <ClCompile>
+	  <PreprocessorDefinitions>_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
   <!-- Item Definitions - Xbox 360 -->
   <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360'">
     <ClCompile>
       <PreprocessorDefinitions>RAPIDJSON_ENDIAN=RAPIDJSON_BIGENDIAN;_XBOX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-  </ItemDefinitionGroup>
-   <!-- Item Definitions - Xbox 360 (Debug) -->
-  <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Debug'))">
     <Deploy>
       <DeploymentType>CopyToHardDrive</DeploymentType>
       <Progress>true</Progress>
     </Deploy>
   </ItemDefinitionGroup>
-  
+   <!-- Item Definitions - Xbox 360 (Debug) -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Debug'))">
+    <!--ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <PrecompiledHeaderOutputFile>$(OutDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
+      <CallAttributedProfiling>Callcap</CallAttributedProfiling>
+    </ClCompile-->
+    <Link>
+      <!--GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile-->
+	  <LinkIncremental>true</LinkIncremental>
+    </Link>
+  </ItemDefinitionGroup>
+   <!-- Item Definitions - Xbox 360 (Release) -->
+  <!--ItemDefinitionGroup Condition="'$(Platform)' == 'Xbox 360' And $(Configuration.StartsWith('Release'))">
+    <ClCompile>
+      <PreprocessorDefinitions>MC_LOG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+  </ItemDefinitionGroup-->
 </Project>

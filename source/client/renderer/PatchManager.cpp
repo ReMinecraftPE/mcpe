@@ -2,6 +2,7 @@
 
 #include "common/Logger.hpp"
 #include "client/app/AppPlatform.hpp"
+#include "client/resources/Resource.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/item/Item.hpp"
 #include "renderer/RenderContextImmediate.hpp"
@@ -178,7 +179,7 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 	texture.m_texture.enableWriteMode(renderContext);
 
 	// Use glTexSubImage2D to patch the terrain.png texture on the fly.
-	for (int i = 0; i < int(m_patchData.size()); i++)
+	for (size_t i = 0; i < m_patchData.size(); i++)
 	{
 		PatchData& pd = m_patchData[i];
 		if (pd.m_type != patchType)
@@ -196,9 +197,8 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 		}
 
 		// N.B. Well, in some cases, you do want things to fail nicely.
-		ImageData image;
-		AppPlatform::singleton()->loadImage(image, "patches/" + pd.m_filename);
-		if (image.isEmpty())
+		TextureData patchTex = Resource::loadTexture("patches/" + pd.m_filename);
+		if (patchTex.isEmpty())
 		{
 			LOG_W("Image %s was not found?! Skipping", pd.m_filename.c_str());
 			if (bDisableFancyGrassIfFailed)
@@ -206,13 +206,9 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 			continue;
 		}
 
-		if (image.m_colorSpace != COLOR_SPACE_RGBA)
-		{
-			LOG_E("Patch textures must be RGBA");
-			throw std::bad_cast();
-		}
+		patchTex.m_imageData.forceRGBA();
 
-		texture.m_texture.subBuffer(renderContext, image.m_data, pd.m_destX, pd.m_destY, image.m_width, image.m_height, 0);
+		texture.m_texture.subBuffer(renderContext, patchTex.getData(), pd.m_destX, pd.m_destY, patchTex.m_imageData.m_width, patchTex.m_imageData.m_height, 0);
 	}
 
 	texture.m_texture.disableWriteMode(renderContext);
@@ -220,7 +216,7 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 
 void PatchManager::PatchTiles()
 {
-	for (int i = 0; i < int(m_patchData.size()); i++)
+	for (size_t i = 0; i < m_patchData.size(); i++)
 	{
 		PatchData& pd = m_patchData[i];
 		if (pd.m_type != TYPE_FRAME)

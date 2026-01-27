@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <cstring>
 #include "DynamicTexture.hpp"
 #include "world/tile/Tile.hpp"
 
@@ -15,6 +16,8 @@ FireTexture::FireTexture(int a2) : DynamicTexture(Tile::fire->m_TextureFrame + 1
 {
 	m_data1 = new float[320];
 	m_data2 = new float[320];
+	memset(m_data1, 0, sizeof(float) * 320);
+	memset(m_data2, 0, sizeof(float) * 320);
 }
 
 FireTexture::~FireTexture()
@@ -74,8 +77,6 @@ void FireTexture::tick()
 
         m_pixels[4 * i + 0] = int(x * 155.0f + 100.0f);
         m_pixels[4 * i + 1] = int(x * x * 255.0f);
-        // -nan is outside the range of representable values of type 'int'
-        // this is probably why the fire texture ends up being 1px tall sometimes
         m_pixels[4 * i + 2] = int(x * x * x * x * x * x * x * x * x * x * 255.0f);
         m_pixels[4 * i + 3] = x >= 0.5f ? 255 : 0;
     }

@@ -10,7 +10,7 @@ public:
 	static bool isAvailable() { return _isAvailable; }
 	static void setIsAvailable(bool value) { _isAvailable = value; }
 
-	static void init(TextureData& texture);
+	static void init();
 
 	static uint32_t get(double x, double y);
 

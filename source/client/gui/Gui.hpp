@@ -67,7 +67,7 @@ public:
 	int  getSlotIdAt(int mx, int my);
 	bool isInside(int mx, int my);
 	void handleClick(int id, int mx, int my);
-	void handleScroll(bool down);
+	void handleScrollWheel(bool down);
 	void handleKeyPressed(int keyCode);
 	void renderMessages(bool bShowAll);
 	void renderHearts(bool topLeft);

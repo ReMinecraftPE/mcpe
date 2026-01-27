@@ -57,7 +57,7 @@ struct InternalPacketFixedSizeTransmissionHeader
 	///If this is a split packet, the index into the array of subsplit packets
 	SplitPacketIndexType splitPacketIndex;
 	///The size of the array of subsplit packets
-	SplitPacketIndexType splitPacketCount;;
+	SplitPacketIndexType splitPacketCount;
 	///How many bits long the data is
 	BitSize_t dataBitLength;
 	///What type of reliability algorithm to use with this packet

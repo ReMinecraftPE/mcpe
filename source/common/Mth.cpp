@@ -12,6 +12,7 @@
 #include <stdlib.h>
 
 #include "Mth.hpp"
+#include "Utils.hpp"
 
 #define C_SIN_TABLE_MULTIPLIER (10430.0f) // (3320.0f * 3.14156f)
 
@@ -28,6 +29,9 @@ void Mth::initMth()
 	{
 		g_SinTable[i] = sinf(SIN_TABLE_INDEX_TO_ANG(i)); // value is 10430
 	}
+
+	// We need this for proper random music on the title screen
+	g_Random.setSeed(getRawTimeS());
 }
 
 int Mth::intFloorDiv(int a2, int a3)

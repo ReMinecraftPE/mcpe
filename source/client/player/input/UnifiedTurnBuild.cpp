@@ -53,7 +53,7 @@ void UnifiedTurnBuild::setScreenSize(int width, int height)
 	m_touchAreaModel.addArea(100, &m_includeExcludeArea);
 }
 
-TurnDelta UnifiedTurnBuild::getTurnDelta()
+Vec2 UnifiedTurnBuild::getTurnDelta()
 {
 	double timeS = getTimeS();
 
@@ -159,7 +159,7 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 
 	m_bWasTouched = touched;
 
-	return TurnDelta(xd, -yd);
+	return Vec2(xd, -yd);
 }
 
 bool UnifiedTurnBuild::smoothTurning()

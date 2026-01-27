@@ -17,7 +17,7 @@ jobs:
                     flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl1.2-dev'
         name: Linux (${{ matrix.name }})
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
                 cmake --build .
     wasm:
         name: WASM
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v4
@@ -66,7 +66,7 @@ jobs:
                   #  backend_name: 'SDL1'
                   #  packages: 'libsdl'
         name: macOS (${{ matrix.name }})
-        runs-on: macos-latest
+        runs-on: macos-15
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v4
@@ -91,7 +91,7 @@ jobs:
                 clean archive 
     ios:
         name: iOS
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v3
@@ -123,7 +123,7 @@ jobs:
                   - name: Native
                     directory: platforms/android/project
         name: Android (${{ matrix.name }})
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v4
@@ -156,7 +156,7 @@ jobs:
                   #- name: SDL 1.2
                   #  flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
         name: MinGW-w64 (${{ matrix.name }})
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v4
@@ -175,3 +175,20 @@ jobs:
                 cd build
                 cmake -GNinja -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .
+    switch:
+        name: Nintendo Switch
+        runs-on: ubuntu-24.04
+        container:
+            image: devkitpro/devkita64@sha256:7ca6fb93e8f576a65bbfe07b537b67664a974e06eabe4e94359e3e026a0f0b0c
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v3
+            with:
+                submodules: true
+
+          - name: Build Switch binary
+            run: |
+                mkdir build
+                cd build
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DWERROR=ON ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .

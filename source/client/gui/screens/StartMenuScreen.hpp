@@ -52,12 +52,17 @@ public:
 	StartMenuScreen();
 	~StartMenuScreen();
 
+protected:
+	void _initTextures();
+	void _initResources();
+	void _build2dTitleMesh();
 	void _updateLicense();
 
+public:
 	void init() override;
-	void buttonClicked(Button*) override;
+	void _buttonClicked(Button*) override;
 	bool isInGameScreen() override;
-	void render(int, int, float) override;
+	void render(float f) override;
 	void tick() override;
 
 	void drawSplash();
@@ -76,6 +81,7 @@ protected:
 	Button m_optionsButton;
 	Button m_testButton;
 	Button m_buyButton;
+	Button m_creditsButton;
 	std::string field_154;
 	int field_16C;
 	std::string field_170;
@@ -83,6 +89,9 @@ protected:
 
 	int m_chosenSplash;
 
+	std::string m_p2dTitleTexPath;
+	bool m_bUsingJavaLogo;
+	mce::Mesh m_2dTitleMesh;
 	IntRectangle m_2dTitleBounds;
 
 	TileRenderer m_tileRenderer;

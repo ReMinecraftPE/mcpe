@@ -15,6 +15,7 @@
 #include "common/Logger.hpp"
 #include "compat/KeyCodes.hpp"
 #include "client/app/Minecraft.hpp"
+#include "client/player/input/GameController.hpp"
 
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/GrassColor.hpp"
@@ -67,8 +68,8 @@ void Options::_initDefaultValues()
 	m_bSplitControls = false;
 	m_bUseController = false;
 	m_bDynamicHand = false;
-	m_bOldTitleLogo = false;
-	m_bMenuPanorama = false;
+	m_b2dTitleLogo = false;
+	m_bMenuPanorama = true;
 	field_19 = 1;
 
 #ifdef ORIGINAL_CODE
@@ -146,9 +147,11 @@ void Options::_load()
 		else if (key == "gfx_dynamichand")
 			m_bDynamicHand = readBool(value);
 		else if (key == "misc_oldtitle")
-			m_bOldTitleLogo = readBool(value);
+			m_b2dTitleLogo = readBool(value);
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
+		else if (key == "gfx_resourcepacks")
+			readPackArray(value, m_resourcePacks);
 		else if (key == "misc_menupano")
 		{
 			m_bMenuPanorama = !Screen::isMenuPanoramaAvailable() ? false : readBool(value);
@@ -187,6 +190,36 @@ int Options::readInt(const std::string& str)
 	return f;
 }
 
+void Options::readArray(const std::string& str, std::vector<std::string>& array)
+{
+	std::istringstream ss(str);
+	std::string element;
+
+	while (std::getline(ss, element, ','))
+		array.push_back(element);
+}
+
+void Options::readPackArray(const std::string& str, std::vector<std::string>& array)
+{
+	// We create a new array instead of modifying the existing one
+	// because erasing elements from a vector doesn't free the memory.
+	std::vector<std::string> fullarray;
+	readArray(str, fullarray);
+	ResourceLocation location;
+	location.fileSystem = ResourceLocation::EXTERNAL_DIR;
+	for (size_t i = 0; i < fullarray.size(); ++i)
+	{
+		location.path = "/resource_packs/" + fullarray[i];
+		std::string fullPath = location.getFullPath();
+		if (!isDirectory(fullPath.c_str()))
+		{
+			LOG_W("Failed to find resource pack: %s", fullPath.c_str());
+			continue;
+		}
+		array.push_back(fullarray[i]);
+	}
+}
+
 std::string Options::saveBool(bool b)
 {
 	return b ? "true" : "false";
@@ -199,11 +232,32 @@ std::string Options::saveInt(int i)
 	return ss.str();
 }
 
+std::string Options::saveArray(const std::vector<std::string>& arr)
+{
+	if (arr.empty())
+		return "";
+	std::string ret;
+	bool done = false;
+	size_t i = 0;
+	while (!done)
+	{
+		ret += arr[i++];
+		size_t size = arr.size();
+		if (i < size)
+			ret += ",";
+		else
+			done = true;
+	}
+	return ret;
+}
+
 std::vector<std::string> Options::readPropertiesFromFile(const std::string& filePath)
 {
 	std::vector<std::string> o;
 
-	const char* const path = filePath.c_str();
+	std::string nativePath(filePath);
+	AppPlatform::singleton()->makeNativePath(nativePath);
+	const char* const path = nativePath.c_str();
 	LOG_I("Loading options from %s", path);
 
 	std::ifstream ifs(path);
@@ -236,15 +290,22 @@ std::vector<std::string> Options::readPropertiesFromFile(const std::string& file
 	return o;
 }
 
-void Options::savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties)
+void Options::savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties)
 {
 	assert(properties.size() % 2 == 0);
 
+	AppPlatform* pAppPlatform = AppPlatform::singleton();
+
+	std::string nativePath(filePath);
+	pAppPlatform->makeNativePath(nativePath);
+
+	pAppPlatform->beginProfileDataWrite(0);
+
 	std::ofstream os;
-	os.open(filePath.c_str());
+	os.open(nativePath.c_str());
 	if (!os.is_open())
 	{
-		LOG_E("Failed to read %s", filePath.c_str());
+		LOG_E("Failed to save to: %s", nativePath.c_str());
 		return;
 	}
 
@@ -252,6 +313,10 @@ void Options::savePropertiesToFile(const std::string& filePath, std::vector<std:
 
 	for (size_t i = 0; i < properties.size(); i += 2)
 		os << properties[i] << ':' << properties[i + 1] << '\n';
+
+	os.close();
+
+	pAppPlatform->endProfileDataWrite(0);
 }
 
 std::vector<std::string> Options::getOptionStrings()
@@ -275,9 +340,10 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("gfx_fancygrass", 			saveBool(m_bFancyGrass));
 	SO("gfx_biomecolors",           saveBool(m_bBiomeColors));
 	SO("gfx_dynamichand",           saveBool(m_bDynamicHand));
-	SO("misc_oldtitle",             saveBool(m_bOldTitleLogo));
+	SO("misc_oldtitle",             saveBool(m_b2dTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
+	SO("gfx_resourcepacks",		    saveArray(m_resourcePacks));
 
 	return vec;
 }
@@ -298,8 +364,10 @@ void Options::loadControls()
 	KM(KM_SNEAK,        "key.sneak",         0x10); // VK_SHIFT. In original, it's 10 (misspelling?)
 	KM(KM_DESTROY,      "key.destroy",       'K'); // was 'X'
 	KM(KM_PLACE,        "key.place",         'L'); // was 'C'
-	KM(KM_MENU_NEXT,    "key.menu.next",     0x28); // VK_DOWN
-	KM(KM_MENU_PREVIOUS,"key.menu.previous", 0x26); // VK_UP
+	KM(KM_MENU_UP,      "key.menu.up",       0x26); // VK_UP
+	KM(KM_MENU_DOWN,    "key.menu.down",     0x28); // VK_DOWN
+	KM(KM_MENU_LEFT,    "key.menu.left",     0x25); // VK_LEFT
+	KM(KM_MENU_RIGHT,   "key.menu.right",    0x27); // VK_RIGHT
 	KM(KM_MENU_OK,      "key.menu.ok",       0x0D); // VK_RETURN
 	KM(KM_MENU_CANCEL,  "key.menu.cancel",   0x1B); // VK_ESCAPE, was 0x08 = VK_BACK
 	KM(KM_SLOT_1,       "key.slot.1",        '1');
@@ -334,8 +402,10 @@ void Options::loadControls()
 	KM(KM_JUMP,          SDLVK_SPACE);
 	KM(KM_DESTROY,       SDLVK_x);
 	KM(KM_PLACE,         SDLVK_c);
-	KM(KM_MENU_NEXT,     SDLVK_DOWN);
-	KM(KM_MENU_PREVIOUS, SDLVK_UP);
+	KM(KM_MENU_UP,       SDLVK_UP);
+	KM(KM_MENU_DOWN,     SDLVK_DOWN);
+	KM(KM_MENU_LEFT,     SDLVK_LEFT);
+	KM(KM_MENU_RIGHT,    SDLVK_RIGHT);
 	KM(KM_MENU_OK,       SDLVK_RETURN);
 	KM(KM_MENU_CANCEL,   SDLVK_ESCAPE);
 	KM(KM_DROP,          SDLVK_q);
@@ -371,8 +441,10 @@ void Options::loadControls()
 	//KM(KM_JUMP,          AKEYCODE_DPAD_CENTER);
 	//KM(KM_DESTROY,       AKEYCODE_BUTTON_L1);
 	//KM(KM_PLACE,         AKEYCODE_BUTTON_R1);
-	//KM(KM_MENU_NEXT,     AKEYCODE_DPAD_DOWN);
-	//KM(KM_MENU_PREVIOUS, AKEYCODE_DPAD_UP);
+	//KM(KM_MENU_UP,       AKEYCODE_DPAD_UP);
+	//KM(KM_MENU_DOWN,     AKEYCODE_DPAD_DOWN);
+	//KM(KM_MENU_LEFT,     AKEYCODE_DPAD_LEFT);
+	//KM(KM_MENU_RIGHT,    AKEYCODE_DPAD_RIGHT);
 	//KM(KM_MENU_OK,       AKEYCODE_DPAD_CENTER);
 	//KM(KM_MENU_CANCEL,   AKEYCODE_BACK);
 	//custom
@@ -390,8 +462,10 @@ void Options::loadControls()
 	KM(KM_JUMP,			 AKEYCODE_BUTTON_A);
 	KM(KM_DESTROY,       AKEYCODE_X);
 	KM(KM_PLACE,         AKEYCODE_C);
-	KM(KM_MENU_NEXT,     AKEYCODE_DPAD_DOWN);
-	KM(KM_MENU_PREVIOUS, AKEYCODE_DPAD_UP);
+	KM(KM_MENU_UP,       AKEYCODE_DPAD_UP);
+	KM(KM_MENU_DOWN,     AKEYCODE_DPAD_DOWN);
+	KM(KM_MENU_LEFT,     AKEYCODE_BUTTON_L1);
+	KM(KM_MENU_RIGHT,    AKEYCODE_BUTTON_R1);
 	KM(KM_MENU_OK,       AKEYCODE_ENTER);
 	KM(KM_MENU_CANCEL,	 AKEYCODE_BUTTON_START);
 	// custom
@@ -428,8 +502,10 @@ void Options::loadControls()
 #ifdef USE_SDL
 		KM(KM_TOGGLEDEBUG,   SDL_CONTROLLER_BUTTON_GUIDE);
 		KM(KM_JUMP,          SDL_CONTROLLER_BUTTON_A);
-		KM(KM_MENU_NEXT,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-		KM(KM_MENU_PREVIOUS, SDL_CONTROLLER_BUTTON_DPAD_UP);
+		KM(KM_MENU_UP,       SDL_CONTROLLER_BUTTON_DPAD_UP);
+		KM(KM_MENU_DOWN,     SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+		KM(KM_MENU_LEFT,     SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+		KM(KM_MENU_RIGHT,    SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 		KM(KM_MENU_OK,       SDL_CONTROLLER_BUTTON_A);
 		KM(KM_MENU_CANCEL,   SDL_CONTROLLER_BUTTON_B);
 		KM(KM_DROP,          SDL_CONTROLLER_BUTTON_B);
@@ -441,6 +517,24 @@ void Options::loadControls()
 		KM(KM_SLOT_R,        SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 		KM(KM_FLY_UP,        SDL_CONTROLLER_BUTTON_A);
 		KM(KM_FLY_DOWN,      SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+#else
+		KM(KM_TOGGLEDEBUG,   GameController::BUTTON_GUIDE);
+		KM(KM_JUMP,          GameController::BUTTON_A);
+		KM(KM_MENU_UP,       GameController::BUTTON_DPAD_UP);
+		KM(KM_MENU_DOWN,     GameController::BUTTON_DPAD_DOWN);
+		KM(KM_MENU_LEFT,     GameController::BUTTON_LEFTSHOULDER);
+		KM(KM_MENU_RIGHT,    GameController::BUTTON_RIGHTSHOULDER);
+		KM(KM_MENU_OK,       GameController::BUTTON_A);
+		KM(KM_MENU_CANCEL,   GameController::BUTTON_B);
+		KM(KM_DROP,          GameController::BUTTON_B);
+		KM(KM_CHAT,          GameController::BUTTON_BACK);
+		KM(KM_INVENTORY,     GameController::BUTTON_Y);
+		KM(KM_SNEAK,         GameController::BUTTON_RIGHTSTICK);
+		KM(KM_TOGGLE3RD,     GameController::BUTTON_LEFTSTICK);
+		KM(KM_SLOT_L,        GameController::BUTTON_LEFTSHOULDER);
+		KM(KM_SLOT_R,        GameController::BUTTON_RIGHTSHOULDER);
+		KM(KM_FLY_UP,        GameController::BUTTON_A);
+		KM(KM_FLY_DOWN,      GameController::BUTTON_RIGHTSTICK);
 #endif
 #undef KM
 	}

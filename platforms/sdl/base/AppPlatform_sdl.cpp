@@ -8,8 +8,8 @@
 #include <emscripten.h>
 #endif
 
-#include "stb_image.h"
-#include "stb_image_write.h"
+#include "thirdparty/stb_image/include/stb_image.h"
+#include "thirdparty/stb_image/include/stb_image_write.h"
 
 #if MCE_GFX_API_OGL
 // needed for screenshots
@@ -26,7 +26,7 @@
 #define _STR(x) #x
 #define STR(x) _STR(x)
 
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 
 void AppPlatform_sdl::_init(std::string storageDir)
 {
@@ -145,7 +145,7 @@ void AppPlatform_sdl::_setIcon(ImageData& image)
 void AppPlatform_sdl::_setDefaultIcon()
 {
 	ImageData data;
-	loadImage(data, "icon.png");
+	loadImage(data, "assets/icon.png");
 	_setIcon(data);
 }
 
@@ -296,26 +296,6 @@ void AppPlatform_sdl::saveScreenshot(const std::string& filename, int glWidth, i
 #endif
 }
 
-bool AppPlatform_sdl::doesTextureExist(const std::string& path) const
-{
-	// Get Full Path
-	std::string realPath = getAssetPath(path);
-
-	// Open File
-	SDL_RWops* io = SDL_RWFromFile(realPath.c_str(), "rb");
-	if (!io)
-	{
-		// Does Not Exist
-		return false;
-	}
-	else
-	{
-		// File Exists
-		SDL_RWclose(io);
-		return true;
-	}
-}
-
 bool AppPlatform_sdl::isTouchscreen() const
 {
     return m_bIsTouchscreen;
@@ -342,29 +322,45 @@ void AppPlatform_sdl::handleControllerAxisEvent(SDL_JoystickID controllerIndex, 
 	switch (axis)
 	{
 	case SDL_CONTROLLER_AXIS_LEFTX:
-		Controller::feedStickX(1, true, val);
+		GameControllerManager::feedStickX(1, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_LEFTY:
-		Controller::feedStickY(1, true, val);
+		GameControllerManager::feedStickY(1, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTX:
-		Controller::feedStickX(2, true, val);
+		GameControllerManager::feedStickX(2, true, val);
 		break;
 	case SDL_CONTROLLER_AXIS_RIGHTY:
-		Controller::feedStickY(2, true, val);
+		GameControllerManager::feedStickY(2, true, -val);
 		break;
 	case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-		Controller::feedTrigger(1, val);
+		GameControllerManager::feedTrigger(1, val);
 		break;
 	case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-		Controller::feedTrigger(2, val);
+		GameControllerManager::feedTrigger(2, val);
 		break;
 	}
 }
 
-AssetFile AppPlatform_sdl::readAssetFile(const std::string& str, bool quiet) const
+bool AppPlatform_sdl::hasAssetFile(const std::string& path) const
 {
-	std::string path = getAssetPath(str);
+	// Open File
+	SDL_RWops* io = SDL_RWFromFile(path.c_str(), "rb");
+	if (!io)
+	{
+		// Does Not Exist
+		return false;
+	}
+	else
+	{
+		// File Exists
+		SDL_RWclose(io);
+		return true;
+	}
+}
+
+AssetFile AppPlatform_sdl::readAssetFile(const std::string& path, bool quiet) const
+{
 	SDL_RWops* io = SDL_RWFromFile(path.c_str(), "rb");
 
 	// Open File
@@ -455,13 +451,13 @@ MouseButtonType AppPlatform_sdl::GetMouseButtonType(uint8_t button)
 	switch (button)
 	{
 	case SDL_BUTTON_LEFT:
-		return BUTTON_LEFT;
+		return MOUSE_BUTTON_LEFT;
 	case SDL_BUTTON_RIGHT:
-		return BUTTON_RIGHT;
+		return MOUSE_BUTTON_RIGHT;
 	case SDL_BUTTON_MIDDLE:
-		return BUTTON_MIDDLE;
+		return MOUSE_BUTTON_MIDDLE;
 	default:
-		return BUTTON_NONE;
+		return MOUSE_BUTTON_NONE;
 	}
 }
 

@@ -1,17 +1,17 @@
 #include "ShaderConstants.fxh"
-
+#include "entity.fxh"
 
 struct PS_Input
 {
     float4 position : SV_Position;
 
     float4 light : LIGHT;
-    float4 fogColor : FOG_COLOR;
+    float4 fogColor : PS_FOG_COLOR;
 
     float2 uv : TEXCOORD_0;
 
 #ifdef USE_OVERLAY
-    float4 overlayColor : OVERLAY_COLOR;
+    float4 overlayColor : PS_OVERLAY_COLOR;
 #endif
 
 #ifdef GLINT
@@ -36,12 +36,11 @@ float4 glintBlend(float4 dest, float4 source) {
 	return float4(source.rgb * source.rgb, source.a) + float4(dest.rgb, 0.0);
 }
 
-void main( in PS_Input PSInput, out PS_Output PSOutput )
-{
+PS_MAIN_BEGIN
     float4 color = float4( 1.0f, 1.0f, 1.0f, 1.0f );
 
 #ifndef COLOR_BASED
-        color = TEXTURE_0.Sample( TextureSampler0, PSInput.uv );
+        color = sampleTex0( TextureSampler0, PSInput.uv );
 
 #ifdef ALPHA_TEST
         if( NEEDS_DISCARD( color ) )
@@ -54,8 +53,8 @@ void main( in PS_Input PSInput, out PS_Output PSOutput )
 #ifdef USE_COLOR_MASK
 	#ifdef GLINT
 		// Applies color mask to glint texture instead and blends with original color
-		float4 layer1 = TEXTURE_1.Sample(TextureSampler1, frac(PSInput.layer1UV)).rgbr * CHANGE_COLOR;
-		float4 layer2 = TEXTURE_1.Sample(TextureSampler1, frac(PSInput.layer2UV)).rgbr * CHANGE_COLOR;
+		float4 layer1 = sampleTex1(TextureSampler1, frac(PSInput.layer1UV)).rgbr * CHANGE_COLOR;
+		float4 layer2 = sampleTex1(TextureSampler1, frac(PSInput.layer2UV)).rgbr * CHANGE_COLOR;
 		float4 glint = (layer1 + layer2) * TILE_LIGHT_COLOR;
 	#else
 		color.rgb = lerp( color, color * CHANGE_COLOR, color.a ).rgb;
@@ -86,4 +85,4 @@ void main( in PS_Input PSInput, out PS_Output PSOutput )
 
     //WARNING do not refactor this 
     PSOutput.color = color;
-}
+PS_MAIN_END

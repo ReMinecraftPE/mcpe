@@ -198,7 +198,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ReadyPacke
 #endif
 
 	// send the connecting player info about all other players in the world
-	for (int i = 0; i < int(m_pLevel->m_players.size()); i++)
+	for (size_t i = 0; i < m_pLevel->m_players.size(); i++)
 	{
 		Player* player = m_pLevel->m_players[i];
 		AddPlayerPacket app(player);
@@ -218,7 +218,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ReadyPacke
 
 #if NETWORK_PROTOCOL_VERSION >= 3
 	// send the connecting player info about all entities in the world
-	for (int i = 0; i < int(m_pLevel->m_entities.size()); i++)
+	for (size_t i = 0; i < m_pLevel->m_entities.size(); i++)
 	{
 		Entity* entity = m_pLevel->m_entities[i];
 		if (canReplicateEntity(entity))
@@ -781,7 +781,7 @@ void ServerSideNetworkHandler::commandStats(OnlinePlayer* player, const std::vec
 	ss << "Server uptime: " << getTimeS() << " seconds.\n";
 	ss << "Host's name: " << m_pMinecraft->m_pUser->field_0 << "\n";
 
-	int nPlayers = int(m_onlinePlayers.size());
+	size_t nPlayers = m_onlinePlayers.size();
 	if (nPlayers == 1)
 		ss << "There is 1 player online.";
 	else

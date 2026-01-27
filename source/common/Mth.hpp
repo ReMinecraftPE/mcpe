@@ -13,6 +13,9 @@
 #include "compat/LegacyCPP.hpp"
 #include "Random.hpp"
 
+// M_PI / 180
+#define MTH_DEG_TO_RAD 0.017453f
+
 class Mth
 {
 	static Random g_Random;
@@ -42,6 +45,12 @@ public:
 	static inline float sqrt(float f)
 	{
 		return sqrtf(f);
+	}
+
+	template <typename T>
+	static int signum(T val)
+	{
+		return (T(0) < val) - (val < T(0));
 	}
     
 	static inline CONSTEXPR float Lerp(float a, float b, float progress)

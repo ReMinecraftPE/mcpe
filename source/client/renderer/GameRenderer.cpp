@@ -10,7 +10,7 @@
 #include "GameMods.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/player/input/Multitouch.hpp"
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 #include "Frustum.hpp"
 #include "renderer/GL/GL.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
@@ -23,16 +23,13 @@
 #undef  SHOW_VERTEX_COUNTER_GRAPHIC
 #endif
 
+#define C_MENU_POINTER_WIDTH 16
+#define C_MENU_POINTER_HEIGHT 16
+
 static int t_keepHitResult; // that is its address in v0.1.1j
 
 void GameRenderer::_init()
 {
-	//ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
-	m_pLevel = nullptr;
-
-	m_renderDistance = 0.0f;
-	field_C = 0;
-	m_pHovered = nullptr;
 	field_14 = 0.0f;
 	field_18 = 0.0f;
 	field_1C = 0.0f;
@@ -50,11 +47,14 @@ void GameRenderer::_init()
 	field_54 = 0.0f;
 	field_58 = 0.0f;
 	field_5C = 0.0f;
-	field_74 = 0.0f;
-	field_78 = 0.0f;
-	field_7C = 0.0f;
-	field_80 = 0.0f;
 	field_84 = 0.0f;
+
+	//ItemInHandRenderer* m_pItemInHandRenderer = nullptr;
+	m_pLevel = nullptr;
+
+	m_renderDistance = 0.0f;
+	field_C = 0;
+	m_pHovered = nullptr;
 
 	m_shownFPS = m_shownChunkUpdates = m_lastUpdatedMS = 0;
 
@@ -67,6 +67,7 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 	m_pMinecraft(pMinecraft)
 {
 	_init();
+	_initResources();
 
 	saveMatrices();
 
@@ -81,6 +82,24 @@ GameRenderer::GameRenderer(Minecraft* pMinecraft) :
 GameRenderer::~GameRenderer()
 {
 	delete m_pItemInHandRenderer;
+}
+
+void GameRenderer::_buildPointerMesh()
+{
+	IntRectangle rect;
+	{
+		rect.x = 0;
+		rect.y = 0;
+		rect.w = C_MENU_POINTER_WIDTH;
+		rect.h = C_MENU_POINTER_HEIGHT;
+	}
+
+	ScreenRenderer::singleton().blit(m_pointerMesh, rect);
+}
+
+void GameRenderer::_initResources()
+{
+	_buildPointerMesh();
 }
 
 void GameRenderer::_clearFrameBuffer()
@@ -169,10 +188,10 @@ void GameRenderer::_renderDebugOverlay(float a)
 	_renderVertexGraph(g_nVertices, int(Minecraft::height * Gui::InvGuiScale));
 #endif
 
-	/*debugText << "\nController::stickValuesX[1]: " << Controller::stickValuesX[1];
-	debugText << "\nController::stickValuesY[1]: " << Controller::stickValuesY[1];
-	debugText << "\nGameRenderer::field_7C: "      << field_7C;
-	debugText << "\nGameRenderer::field_80: "      << field_80;*/
+	/*debugText << "\nGameControllerManager::stickValuesX[1]: " << GameControllerManager::stickValuesX[1];
+	debugText << "\nGameControllerManager::stickValuesY[1]: " << GameControllerManager::stickValuesY[1];
+	debugText << "\nGameRenderer::m_turnDelta.x: "      << m_turnDelta.x;
+	debugText << "\nGameRenderer::m_turnDelta.y: "      << m_turnDelta.y;*/
 
 	font.drawShadow(debugText.str(), 2, 2, Color::WHITE);
 
@@ -610,14 +629,12 @@ void GameRenderer::render(float f)
 				float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
 				mult1 = pow(mult1, 3);
 
-				float xd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.x;
-				float yd = 4.0f * mult1 * pMC->m_mouseHandler.m_delta.y;
+			Vec2 d = pMC->m_mouseHandler.m_delta * (4.0f * mult1);
 
-				float old_field_84 = field_84;
-				field_84 = float(field_C) + f;
-				diff_field_84 = field_84 - old_field_84;
-				field_74 += xd;
-				field_78 += yd;
+			float old_field_84 = field_84;
+			field_84 = float(field_C) + f;
+			diff_field_84 = field_84 - old_field_84;
+			m_smoothTurnDelta += d;
 
 				if (diff_field_84 > 3.0f)
 					diff_field_84 = 3.0f;
@@ -648,34 +665,63 @@ void GameRenderer::render(float f)
 			}
 			else
 			{
-				diff_field_84 = 1.0f;
-				field_7C = pMC->m_mouseHandler.m_delta.x;
-				field_80 = pMC->m_mouseHandler.m_delta.y;
+				// @TODO: untangle this code
+				float v17 = d.x + field_14;
+				float v18 = field_18;
+				float v19 = field_1C;
+				field_14 = v17;
+				float v20 = mult1 * 0.25f * (v17 - v18);
+				float v21 = v19 + (v20 - v19) * 0.5f;
+				field_1C = v21;
+				if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
+					v21 = mult1 * 0.25f * (v17 - v18);
+				float v22 = d.y + field_20;
+				field_18 = v18 + v21;
+				float v23 = field_24;
+				field_20 = v22;
+				float v24 = mult1 * 0.15f * (v22 - v23);
+				float v25 = field_28 + (v24 - field_28) * 0.5f;
+				field_28 = v25;
+				if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
+					v25 = v24;
+				field_24 = v23 + v25;
 			}
-
-			Vec2 rot(field_7C * diff_field_84,
-					field_80 * diff_field_84 * multPitch);
-			m_pItemInHandRenderer->turn(rot);
-			pMC->m_pLocalPlayer->turn(rot);
 		}
+		else
+		{
+			diff_field_84 = 1.0f;
+			m_turnDelta = pMC->m_mouseHandler.m_delta;
+		}
+
+		Vec2 rot(m_turnDelta.x * diff_field_84,
+			     m_turnDelta.y * diff_field_84 * multPitch);
+		m_pItemInHandRenderer->turn(rot);
+		pMC->m_pLocalPlayer->turn(rot);
 	}
 
-	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
-	int mouseY = int(Mouse::getY() * Gui::InvGuiScale);
+	int mouseX = -9999;
+	int mouseY = -9999;
+	bool bMouseData = false;
 
 	if (m_pMinecraft->isTouchscreen())
 	{
 		int pointerId = Multitouch::getFirstActivePointerIdExThisUpdate();
-		if (pointerId < 0)
-		{
-			mouseX = -9999;
-			mouseY = -9999;
-		}
-		else
+		if (pointerId >= 0)
 		{
 			mouseX = int(float(Multitouch::getX(pointerId)) * Gui::InvGuiScale);
 			mouseY = int(float(Multitouch::getY(pointerId)) * Gui::InvGuiScale);
+			bMouseData = true;
 		}
+	}
+	else if (m_pMinecraft->useController())
+	{
+		// do nothing
+	}
+	else
+	{
+		mouseX = int(Mouse::getX() * Gui::InvGuiScale);
+		mouseY = int(Mouse::getY() * Gui::InvGuiScale);
+		bMouseData = true;
 	}
 
 	if (m_pMinecraft->isLevelGenerated())
@@ -703,22 +749,20 @@ void GameRenderer::render(float f)
 		setupGuiScreen();
 	}
 
-	if (m_pMinecraft->m_pLocalPlayer &&
-		m_pMinecraft->m_pLocalPlayer->m_pMoveInput)
-		m_pMinecraft->m_pLocalPlayer->m_pMoveInput->render(f);
+	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+	if (pLocalPlayer && pLocalPlayer->m_pMoveInput)
+		pLocalPlayer->m_pMoveInput->render(f);
 
-	if (m_pMinecraft->m_pScreen)
+	Screen* pScreen = m_pMinecraft->m_pScreen;
+	if (pScreen)
 	{
 		mce::RenderContextImmediate::get().clearDepthStencilBuffer();
-		m_pMinecraft->m_pScreen->onRender(mouseX, mouseY, f);
-
-		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())
+		if (bMouseData)
 		{
-#ifdef ORIGINAL_CODE
-			// force some lag for some reason. I guess it's to make it spend more time actually generating the world?
-			sleepMs(15);
-#endif
+			pScreen->handlePointerLocation(mouseX, mouseY);
+			pScreen->handlePointerPressed(Mouse::getButtonState(MOUSE_BUTTON_LEFT));
 		}
+		pScreen->onRender(f);
 	}
 
 	if (m_pMinecraft->getOptions()->m_bDebugText)
@@ -756,19 +800,19 @@ void GameRenderer::tick()
 
 	if (m_pMinecraft->m_mouseHandler.smoothTurning())
 	{
-		float x1 = powf(fabsf(field_74), 1.2f);
-		field_7C = x1 * 0.4f;
-		if (field_74 < 0.0f)
-			field_7C = -field_7C;
+		float x1 = powf(fabsf(m_smoothTurnDelta.x), 1.2f);
+		m_turnDelta.x = x1 * 0.4f;
+		if (m_smoothTurnDelta.x < 0.0f)
+			m_turnDelta.x = -m_turnDelta.x;
 
-		float x2 = powf(fabsf(field_78), 1.2f);
-		field_80 = x2 * 0.4f;
-		if (field_78 < 0.0f)
-			field_80 = -field_80;
+		float x2 = powf(fabsf(m_smoothTurnDelta.y), 1.2f);
+		m_turnDelta.y = x2 * 0.4f;
+		if (m_smoothTurnDelta.y < 0.0f)
+			m_turnDelta.y = -m_turnDelta.y;
 	}
 
-	field_74 = 0.0f;
-	field_78 = 0.0f;
+	m_smoothTurnDelta.x = 0.0f;
+	m_smoothTurnDelta.y = 0.0f;
 	field_30 = field_2C;
 	field_38 = field_34;
 	field_40 = field_3C;
@@ -858,6 +902,18 @@ void GameRenderer::renderWeather(float f)
 	}*/
 }
 
+void GameRenderer::renderPointer(const MenuPointer& pointer)
+{
+	Textures& textures = *m_pMinecraft->m_pTextures;
+
+	Vec3 pos(pointer.x - (C_MENU_POINTER_WIDTH / 2), pointer.y - (C_MENU_POINTER_HEIGHT / 2), 0);
+
+	MatrixStack::Ref mtx = MatrixStack::World.push();
+	mtx->translate(pos);
+
+	textures.loadAndBindTexture("gui/pointer.png", true);
+	m_pointerMesh.render(ScreenRenderer::singleton().m_materials.ui_textured);
+}
 
 void GameRenderer::setLevel(Level* pLevel, Dimension* pDimension)
 {
@@ -995,7 +1051,7 @@ void GameRenderer::pick(float f)
 	EntityVector ents = m_pMinecraft->m_pLevel->getEntities(pMob, scanAABB);
 
 	float fDist = 0.0f;
-	for (int i = 0; i < int(ents.size()); i++)
+	for (size_t i = 0; i < ents.size(); i++)
 	{
 		Entity *pEnt = (ents)[i];
 		if (!pEnt->isPickable())
@@ -1064,3 +1120,7 @@ void GameRenderer::pick(float f)
 	}
 }
 
+void GameRenderer::applyTurnDelta(const Vec2& turnDelta)
+{
+	m_turnDelta = turnDelta;
+}

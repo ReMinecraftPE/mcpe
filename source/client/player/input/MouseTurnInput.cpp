@@ -17,13 +17,13 @@ MouseTurnInput::MouseTurnInput(Minecraft* pMC)
 	m_lastX = m_lastY = -1;
 }
 
-TurnDelta MouseTurnInput::getTurnDelta()
+Vec2 MouseTurnInput::getTurnDelta()
 {
 	int deltaX = 0, deltaY = 0;
 	m_pMinecraft->platform()->getMouseDiff(deltaX, deltaY);
 	m_pMinecraft->platform()->clearDiff();
 
-	TurnDelta d;
+	Vec2 d;
 	d.x = C_SENSITIVITY * deltaX;
 	d.y = C_SENSITIVITY * deltaY;
 

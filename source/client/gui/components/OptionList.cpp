@@ -28,16 +28,16 @@ BooleanOptionItem::BooleanOptionItem(bool* pValue, const std::string& text)
 	m_bDisabled = false;
 }
 
-void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
+void BooleanOptionItem::onClick(OptionList* pList, const MenuPointer& pointer)
 {
 	if (m_bDisabled)
 		return;
 
 	int itemX = pList->field_18 / 2 - (C_SCROLLED_LIST_ITEM_WIDTH - 4) / 2;
 
-	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6)
+	if (pointer.x <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_ON_OFF_SWITCH_WIDTH - 6)
 		return;
-	if (mouseX > itemX + C_SCROLLED_LIST_ITEM_WIDTH - 6)
+	if (pointer.x > itemX + C_SCROLLED_LIST_ITEM_WIDTH - 6)
 		return;
 
 	// Toggle the value
@@ -122,13 +122,13 @@ DistanceOptionItem::DistanceOptionItem(int* pValue, const std::string& text)
 	m_pValue = pValue;
 }
 
-void DistanceOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
+void DistanceOptionItem::onClick(OptionList* pList, const MenuPointer& pointer)
 {
 	int itemX = pList->field_18 / 2 - (C_SCROLLED_LIST_ITEM_WIDTH - 4) / 2;
 
-	if (mouseX <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_DISTANCE_SWITCH_WIDTH - 6)
+	if (pointer.x <= itemX + C_SCROLLED_LIST_ITEM_WIDTH - C_DISTANCE_SWITCH_WIDTH - 6)
 		return;
-	if (mouseX > itemX + C_SCROLLED_LIST_ITEM_WIDTH - 6)
+	if (pointer.x > itemX + C_SCROLLED_LIST_ITEM_WIDTH - 6)
 		return;
 
 	int oldValue = *m_pValue;
@@ -257,7 +257,7 @@ void OptionList::renderScrollBackground()
 	t.draw(m_materials.ui_fill_gradient);
 }
 
-void OptionList::onClickItem(int index, int mouseX, int mouseY)
+void OptionList::onClickItem(int index, const MenuPointer& pointer)
 {
 	if (index >= getNumberOfItems())
 		index = -1;
@@ -265,7 +265,7 @@ void OptionList::onClickItem(int index, int mouseX, int mouseY)
 	selectItem(index, false);
 
 	if (index >= 0)
-		m_items[index]->onClick(this, mouseX, mouseY);
+		m_items[index]->onClick(this, pointer);
 }
 
 void OptionList::clear()
@@ -350,7 +350,7 @@ void OptionList::initMiscMenu()
 	int idxPano = -1;
 
 	OPTION(Boolean, m_bDebugText, "Debug Text");
-	OPTION(Boolean, m_bOldTitleLogo, "2D Title Logo");
+	OPTION(Boolean, m_b2dTitleLogo, "2D Title Logo");
 #ifdef ENH_MENU_BACKGROUND
 	OPTION(Boolean, m_bMenuPanorama, "Menu Panorama"); idxPano = currentIndex;
 #endif

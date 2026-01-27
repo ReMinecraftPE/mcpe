@@ -15,7 +15,7 @@ DisconnectionScreen::DisconnectionScreen(const std::string& text) :
 {
 }
 
-void DisconnectionScreen::buttonClicked(Button* pButton)
+void DisconnectionScreen::_buttonClicked(Button* pButton)
 {
 	m_pMinecraft->setScreen(new StartMenuScreen);
 }
@@ -27,15 +27,14 @@ void DisconnectionScreen::init()
 	m_btnOK.m_xPos = (m_width / 2) - (m_btnOK.m_width / 2);
 	m_btnOK.m_yPos = m_height / 2;
 
-	m_buttons.push_back(&m_btnOK);
-	m_buttonTabList.push_back(&m_btnOK);
+	_addElement(m_btnOK);
 }
 
-void DisconnectionScreen::render(int mouseX, int mouseY, float f)
+void DisconnectionScreen::render(float f)
 {
 	renderBackground();
 	drawCenteredString(*m_pFont, m_text, m_width / 2, m_height / 2 - 32, 0xFFFFFF);
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 }
 
 

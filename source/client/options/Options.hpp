@@ -27,8 +27,10 @@ enum eKeyMappingIndex
 	KM_SNEAK,
 	KM_DESTROY,
 	KM_PLACE,
-	KM_MENU_NEXT,
-	KM_MENU_PREVIOUS,
+	KM_MENU_UP,
+	KM_MENU_DOWN,
+	KM_MENU_LEFT,
+	KM_MENU_RIGHT,
 	KM_MENU_OK,
 	KM_MENU_CANCEL, KM_BACK = KM_MENU_CANCEL,
 	KM_SLOT_1,
@@ -70,10 +72,13 @@ public:
 private:
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
+	static void readArray(const std::string& str, std::vector<std::string>& array);
+	static void readPackArray(const std::string& str, std::vector<std::string>& array);
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
+	static std::string saveArray(const std::vector<std::string>& arr);
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
-	static void savePropertiesToFile(const std::string& filePath, std::vector<std::string> properties);
+	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 
 private:
 	void _initDefaultValues();
@@ -127,8 +132,9 @@ public:
 	bool m_bSplitControls;
 	bool m_bUseController;
 	bool m_bDynamicHand;
-	bool m_bOldTitleLogo;
+	bool m_b2dTitleLogo;
 	bool m_bMenuPanorama;
+	std::vector<std::string> m_resourcePacks;
 
 public:
 	struct Option

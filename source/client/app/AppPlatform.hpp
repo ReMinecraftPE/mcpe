@@ -34,6 +34,10 @@
 #define C_DEFAULT_SCREEN_HEIGHT (480)
 #endif
 
+#define C_HOME_PATH "/games/com.mojang/"
+#define C_MAX_LOCAL_PLAYERS 4
+
+class GameControllerHandler;
 class AppPlatformListener;
 
 class AppPlatform
@@ -63,9 +67,6 @@ public:
 private:
 	virtual void _tick();
 
-protected:
-	std::string _getPatchDataPath() const { return "patches/patch_data.txt"; }
-
 public:
 	virtual void buyGame();
 	virtual int checkLicense();
@@ -81,11 +82,12 @@ public:
 	virtual void showDialog(eDialogType);
 	virtual void uploadPlatformDependentData(int, void*);
 	virtual void loadImage(ImageData& data, const std::string& path);
-	TextureData loadTexture(const std::string& path, bool bIsRequired = false);
+	TextureData loadTexture(const std::string& path);
 	virtual bool doesTextureExist(const std::string& path) const;
 	// From v0.1.1. Also add these to determine touch screen use within the game.
 	virtual bool isTouchscreen() const;
 	virtual bool hasGamepad() const;
+	virtual GameControllerHandler* getGameControllerHandler();
 	// Also add these to allow proper turning within the game.
 	virtual void recenterMouse();
 	virtual void setMouseGrabbed(bool b);
@@ -117,17 +119,23 @@ public:
 	void _fireAppTerminated();
 
 	virtual bool hasFileSystemAccess();
-	// Also add this to allow dynamic patching.
-	virtual std::string getPatchData();
 	virtual void initSoundSystem();
 	virtual SoundSystem* getSoundSystem() const;
 	// Used For Sounds
 	virtual std::string getAssetPath(const std::string& path) const;
+	virtual std::string getExternalStoragePath(const std::string& path) const;
+	virtual bool hasAssetFile(const std::string& path) const;
 	virtual AssetFile readAssetFile(const std::string& path, bool quiet) const;
 	virtual std::string readAssetFileStr(const std::string& path, bool quiet) const;
+	virtual void makeNativePath(std::string& path) const;
+
+	// For getting a handle on the save device for consoles
+	virtual void beginProfileDataWrite(unsigned int playerId);
+	virtual void endProfileDataWrite(unsigned int playerId);
 
 public:
 	ListenerMap m_listeners;
+	std::string m_externalStorageDir;
 	void* m_hWnd; // the Mojang solution
 };
 

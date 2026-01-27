@@ -17,9 +17,13 @@ class CreateWorldScreen : public Screen
 public:
 	CreateWorldScreen();
 
+protected:
+	void _buttonClicked(Button* pButton) override;
+
+public:
 	void init() override;
-	void buttonClicked(Button* pButton) override;
-	void render(int mouseX, int mouseY, float f) override;
+	void render(float f) override;
+	bool handleBackEvent(bool b) override;
 
 public:
 	TextInputBox m_textName;

@@ -1,4 +1,5 @@
 #include "ShaderConstants.fxh"
+#include "renderchunk.fxh"
 
 struct VS_Input
 {
@@ -16,7 +17,7 @@ struct PS_Input
     snorm float2 uv0 : TEXCOORD_0;
     //snorm float2 uv1 : TEXCOORD_1;
 #ifdef FOG
-    float4 fogColor : FOG_COLOR;
+    float4 fogColor : PS_FOG_COLOR;
 #endif
 };
 
@@ -24,11 +25,10 @@ struct PS_Input
 static const float rA = 1.0;
 static const float rB = 1.0;
 static const float3 UNIT_Y = float3( 0, 1, 0 );
-static const float DIST_DESATURATION = 56.0 / 255.0; //WARNING this value is also hardcoded in the water color, don'tchange
+static const float DIST_DESATURATION = 56.0 / 255.0; //WARNING this value is also hardcoded in the water color, don't change
 
 
-void main( in VS_Input VSInput, out PS_Input PSInput )
-{
+VS_MAIN_BEGIN
     PSInput.uv0 = VSInput.uv0;
     //PSInput.uv1 = VSInput.uv1;
     PSInput.color = VSInput.color;
@@ -82,5 +82,4 @@ void main( in VS_Input VSInput, out PS_Input PSInput )
     PSInput.color.a = PSInput.position.z / FAR_CHUNKS_DISTANCE + 0.5;
 #endif //FANCY
 #endif
-
-}
+VS_MAIN_END

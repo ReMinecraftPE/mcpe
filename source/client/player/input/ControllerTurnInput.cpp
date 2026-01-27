@@ -9,7 +9,7 @@
 #include <cmath>
 
 #include "ControllerTurnInput.hpp"
-#include "Controller.hpp"
+#include "GameControllerManager.hpp"
 #include "common/Logger.hpp"
 
 ControllerTurnInput::ControllerTurnInput()
@@ -26,36 +26,36 @@ ControllerTurnInput::ControllerTurnInput()
  * Simply by taking the square root of the controller X and Y and multiplying the result of each, we get an infinitely-
  * smoother and more stable end-user experience. The only problem: this is tied to FPS rather than proper timing.
 **/
-TurnDelta ControllerTurnInput::getTurnDelta()
+Vec2 ControllerTurnInput::getTurnDelta()
 {
 #ifdef USE_NATIVE_ANDROID
-	return TurnDelta(Controller::getX(m_stickNo) * 50.f, Controller::getY(m_stickNo) * 60.f);
+	return Vec2(GameControllerManager::getX(m_stickNo) * 50.f, GameControllerManager::getY(m_stickNo) * 60.f);
 #endif
 
 #if 0
 	constexpr float targetFps = 60;
 	constexpr float mult = (60.0f / targetFps) * 16.0f;
 
-	TurnDelta delta(Controller::getX(m_stickNo), Controller::getY(m_stickNo));
+	Vec2 delta(GameControllerManager::getX(m_stickNo), GameControllerManager::getY(m_stickNo));
 	delta.x = (delta.x * fabs(delta.x)) * mult;
 	delta.y = (delta.y * fabs(delta.y)) * mult;
 	return delta;
 #endif
 
-	bool isTouched = Controller::isTouched(m_stickNo);
-	float deltaX, deltaY;
+	bool isTouched = GameControllerManager::isTouched(m_stickNo);
+	Vec2 delta;
 
 	if (field_8 == 1)
 	{
-		if (Controller::isReset())
+		if (GameControllerManager::isReset())
 			getDeltaTime();
 
 		double deltaTime = getDeltaTime();
 	    //LOG_I("deltaTime: %f", deltaTime);
 		if (isTouched)
 		{
-			m_analogTurnVector.x = Controller::getX(m_stickNo);
-			m_analogTurnVector.y = Controller::getY(m_stickNo);
+			m_analogTurnVector.x = GameControllerManager::getX(m_stickNo);
+			m_analogTurnVector.y = GameControllerManager::getY(m_stickNo);
 		}
 		else
 		{
@@ -63,7 +63,7 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 			m_analogTurnVector.y *= 0.7f;
 		}
 		
-		// Deadzone handling moved to Controller
+		// Deadzone handling moved to GameControllerManager
 		//double f = pow(5.0 * 0.6f + 0.2f, 3) * 14.0f * 1.0f; // Legacy 4J
 		//float xt = m_analogTurnVector.x * fabs(m_analogTurnVector.x) * 289.0f; // 250.0f for PE, 17.0f for LCE?
 		//float yt = m_analogTurnVector.y * fabs(m_analogTurnVector.y) * 289.0f; // 200.0f for PE, 17.0f for LCE?
@@ -75,15 +75,15 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 		/*xt *= fabs(xt);
 		yt *= fabs(yt);*/
 
-		deltaX = deltaTime * tx;
-		deltaY = deltaTime * ty; // inverted on 0.9.2
+		delta.x = deltaTime * tx;
+		delta.y = deltaTime * -ty;
 		/*deltaX *= fabs(deltaX);
 		deltaY *= fabs(deltaY);*/
 	}
 	else if (field_8 == 2 && (field_18 || isTouched))
 	{
-		float sx = Controller::getX(m_stickNo);
-		float sy = Controller::getY(m_stickNo);
+		float sx = GameControllerManager::getX(m_stickNo);
+		float sy = GameControllerManager::getY(m_stickNo);
 
 		getDeltaTime(); //@NOTE: call isn't useless since it updates m_prevTime
 
@@ -98,25 +98,25 @@ TurnDelta ControllerTurnInput::getTurnDelta()
 			float diffX = sx - m_analogTurnVector.x;
 			float diffY = sy - m_analogTurnVector.y;
 
-			deltaX = fabsf(diffX) > 0.0f ? diffX * 100.0f : 0.0f;
-			deltaY = fabsf(diffY) > 0.0f ? diffY * 100.0f : 0.0f; // deltaY is inverted on 0.9.2
+			delta.x = fabsf(diffX) > 0.0f ? diffX * 100.0f : 0.0f;
+			delta.y = -(fabsf(diffY) > 0.0f ? diffY * 100.0f : 0.0f);
 			m_analogTurnVector.x = sx;
 			m_analogTurnVector.y = sy;
 		}
 		else
 		{
-			deltaX = 0.0f;
-			deltaY = -0.0f;
+			delta.x = 0.0f;
+			delta.y = -0.0f;
 		}
 	}
 	else
 	{
-		deltaX = 0.0f;
-		deltaY = -0.0f;
+		delta.x = 0.0f;
+		delta.y = -0.0f;
 	}
 
 	field_18 = isTouched;
-	return TurnDelta(deltaX, deltaY);
+	return delta;
 }
 
 bool ControllerTurnInput::smoothTurning()

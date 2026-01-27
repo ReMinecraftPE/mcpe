@@ -79,3 +79,24 @@
 #else
 #define MC_PLATFORM_WINPC 0
 #endif
+
+/* Category - PC */
+#if (MC_PLATFORM_WINPC || MC_PLATFORM_MAC)
+#define MC_PLATFORM_PC 1
+#else
+#define MC_PLATFORM_PC 0
+#endif
+
+/* Category - Mobile */
+#if (MC_PLATFORM_IOS || MC_PLATFORM_ANDROID)
+#define MC_PLATFORM_MOBILE 1
+#else
+#define MC_PLATFORM_MOBILE 0
+#endif
+
+/* Category - Console */
+#if (MC_PLATFORM_XBOX)
+#define MC_PLATFORM_CONSOLE 1
+#else
+#define MC_PLATFORM_CONSOLE 0
+#endif

@@ -16,7 +16,7 @@ ChatScreen::ChatScreen(bool slash) : m_textChat(this, 1, 0, 0), m_btnSend(2, 0, 
 		m_textChat.setText("/");
 }
 
-void ChatScreen::buttonClicked(Button* pButton)
+void ChatScreen::_buttonClicked(Button* pButton)
 {
 	if (pButton->m_buttonId == m_btnSend.m_buttonId)
 		sendMessageAndExit();
@@ -37,7 +37,7 @@ void ChatScreen::init()
 	m_textChat.init(m_pFont);
 	m_textChat.setFocused(true);
 
-	m_buttons.push_back(&m_btnSend);
+	_addElement(m_btnSend);
 	m_textInputs.push_back(&m_textChat);
 }
 
@@ -47,7 +47,7 @@ void ChatScreen::removed()
 	m_pMinecraft->m_pGui->m_bRenderMessages = true;
 }
 
-void ChatScreen::render(int mouseX, int mouseY, float f)
+void ChatScreen::render(float f)
 {
 	renderBackground();
 
@@ -55,7 +55,7 @@ void ChatScreen::render(int mouseX, int mouseY, float f)
 	m_pMinecraft->m_pGui->m_bRenderMessages = false;
 	m_pMinecraft->m_pGui->renderMessages(true);
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::render(f);
 }
 
 void ChatScreen::keyPressed(int keyCode)

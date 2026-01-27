@@ -53,7 +53,7 @@ namespace mce
         };
 
     public:
-        static VertexFieldFormat vertexFieldFormats[];
+        static const VertexFieldFormat vertexFieldFormats[];
 
     private:
         GLuint m_activeBuffer[2]; // indexed by BufferType

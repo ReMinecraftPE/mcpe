@@ -311,9 +311,6 @@
     <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderConstants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderGroup.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\ShaderGroupBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -343,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.hpp">
       <Filter>Header Files\HAL</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -568,9 +568,6 @@
     <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderConstants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderGroup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\ShaderGroupBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -597,6 +594,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\renderer\hal\ViewportOrigin.cpp">
       <Filter>Source Files\HAL</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\renderer\VertexFieldFormat.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

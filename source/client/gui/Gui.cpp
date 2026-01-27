@@ -79,8 +79,8 @@ void Gui::addMessage(const std::string& s)
 
 	while (m_pMinecraft->m_pFont->width(str) > 320)
 	{
-		int i = 2;
-		for (; i < int(str.size()); i++)
+		size_t i = 2;
+		for (; i < str.size(); i++)
 		{
 			std::string sstr = str.substr(0, i);
 
@@ -126,7 +126,6 @@ void Gui::renderPumpkin(int var1, int var2)
 	t.vertexUV(0.0f, 0.0f, -90.0f, 0.0f, 0.0f);
 	t.draw(m_materials.ui_textured);
 }
-
 
 void Gui::renderVignette(float brightness, int width, int height)
 {
@@ -220,7 +219,7 @@ void Gui::tick()
 
 	field_9FC++;
 
-	for (int i = 0; i < int(m_guiMessages.size()); i++)
+	for (size_t i = 0; i < m_guiMessages.size(); i++)
 	{
 		GuiMessage& msg = m_guiMessages[i];
 		msg.field_18++;
@@ -308,7 +307,7 @@ void Gui::handleClick(int clickID, int mouseX, int mouseY)
 		m_pMinecraft->m_pLocalPlayer->m_pInventory->selectSlot(slot);
 }
 
-void Gui::handleScroll(bool down)
+void Gui::handleScrollWheel(bool down)
 {
 	int slot = m_pMinecraft->m_pLocalPlayer->m_pInventory->m_selectedHotbarSlot;
 
@@ -380,7 +379,7 @@ void Gui::renderMessages(bool bShowAll)
 	if (m_pMinecraft->isTouchscreen())
 		topEdge = 49;
 
-	for (int i = 0; i < int(m_guiMessages.size()); i++)
+	for (size_t i = 0; i < m_guiMessages.size(); i++)
 	{
 		GuiMessage& msg = m_guiMessages[i];
 		if (!bShowAll && msg.field_18 > 199)

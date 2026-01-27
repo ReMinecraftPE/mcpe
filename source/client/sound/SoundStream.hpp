@@ -13,18 +13,6 @@ class SoundStream
 protected:
     typedef unsigned int BufferId;
 
-protected:
-    float m_volume;
-    bool m_bIsStreaming;
-    bool m_bIsPaused;
-    bool m_bShouldLoop;
-
-    stb_vorbis* m_decoder;
-    stb_vorbis_info m_info;
-    size_t m_totalSamplesLeft;
-
-    SoundBuffer m_tempPcmBuffer;
-
 public:
     SoundStream();
     virtual ~SoundStream();
@@ -55,4 +43,16 @@ public:
     bool open(const std::string& fileName);
     void close();
     void update();
+
+protected:
+    float m_volume;
+    bool m_bIsStreaming;
+    bool m_bIsPaused;
+    bool m_bShouldLoop;
+
+    stb_vorbis* m_decoder;
+    stb_vorbis_info m_info;
+    size_t m_totalSamplesLeft;
+
+    SoundBuffer m_tempPcmBuffer;
 };

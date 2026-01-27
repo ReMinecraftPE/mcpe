@@ -23,6 +23,7 @@
 #include "client/renderer/GameRenderer.hpp"
 #include "client/renderer/LevelRenderer.hpp"
 #include "client/renderer/entity/EntityRenderDispatcher.hpp"
+#include "client/resources/ResourcePackManager.hpp"
 #include "client/sound/SoundEngine.hpp"
 #include "world/level/Level.hpp"
 #include "world/gamemode/GameMode.hpp"
@@ -50,6 +51,7 @@ public:
 	void setScreen(Screen * pScreen);
 	void releaseMouse();
 	void grabMouse();
+	void recenterMouse();
 	void tick();
 	void tickInput();
 	void saveOptions();
@@ -61,6 +63,7 @@ public:
 	bool pauseGame();
 	bool resumeGame();
 	void leaveGame(bool bCopyMap);
+	void gotoMainMenu();
 	void hostMultiplayer();
 	void joinMultiplayer(const PingedCompatibleServer& serverInfo);
 	void cancelLocateMultiplayer();
@@ -69,6 +72,9 @@ public:
 	void handleCharInput(char chr);
 	void handleTextPaste(const std::string& text);
 	void handleTextPaste();
+	void handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y);
+	void handlePointerPressedButtonPress();
+	void handlePointerPressedButtonRelease();
 	void resetInput();
 	void sendMessage(const std::string& message);
 	void respawnPlayer();
@@ -123,6 +129,7 @@ protected:
 public:
 	bool field_18;
 	bool m_bIsGamePaused;
+	ResourcePackManager* m_pResourceLoader;
 	LevelRenderer* m_pLevelRenderer;
 	GameRenderer* m_pGameRenderer;
 	ParticleEngine* m_pParticleEngine;
@@ -150,7 +157,6 @@ public:
 	bool m_bIsTouchscreen;
 	HitResult m_hitResult;
 	int m_progressPercent;
-	std::string m_externalStorageDir;
 	Timer m_timer;
 	bool m_bPreparingLevel;
 	LevelStorageSource* m_pLevelStorageSource; // TODO

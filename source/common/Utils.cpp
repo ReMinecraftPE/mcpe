@@ -27,8 +27,13 @@
 
 #include <sys/time.h>
 #include <unistd.h>
-#include <sys/stat.h>
 
+#endif
+
+#include <sys/stat.h>
+#ifdef _MSC_VER
+#define stat _stat
+#define S_ISREG(m) (m & _S_IFREG)
 #endif
 
 #ifdef XENON
@@ -43,6 +48,20 @@
 int g_TimeSecondsOnInit = 0;
 
 #ifdef _WIN32
+
+void toDosPath(char* path)
+{
+    if (path == NULL) return;
+
+    while (*path != '\0')
+	{
+        if (*path == '/')
+		{
+            *path = '\\';
+        }
+        path++;
+    }
+}
 
 DIR* opendir(const char* name)
 {
@@ -166,6 +185,22 @@ bool DeleteDirectory(const std::string& name2, bool unused)
 #else
 	return remove(name.c_str()) == 0;
 #endif
+}
+
+bool isRegularFile(const char *path)
+{
+	struct stat st;
+	if (stat(path, &st) == 0 && S_ISREG(st.st_mode))
+		return true;
+	return false;
+}
+
+bool isDirectory(const char *path)
+{
+	struct stat st;
+	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+		return true;
+	return false;
 }
 
 #ifdef _WIN32

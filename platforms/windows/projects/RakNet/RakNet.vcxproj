@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -51,6 +51,14 @@
   <ItemDefinitionGroup Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
     <Lib>
       <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Xbox 360'">
+    <Lib Condition="$(Configuration.StartsWith('Debug'))">
+      <AdditionalDependencies>xnetd.lib;xonlined.lib;xpartyd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib Condition="$(Configuration.StartsWith('Release'))">
+      <AdditionalDependencies>xnet.lib;xonline.lib;xparty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -320,6 +328,7 @@
     <ClCompile Include="$(RAKNET_PATH)\VitaIncludes.cpp" />
     <ClCompile Include="$(RAKNET_PATH)\WSAStartupSingleton.cpp" />
     <ClCompile Include="$(RAKNET_PATH)\_FindFirst.cpp" />
+    <ClCompile Include="..\..\..\..\thirdparty\raknet\XBox360Includes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(RAKNET_PATH)\RakNet.vcproj" />

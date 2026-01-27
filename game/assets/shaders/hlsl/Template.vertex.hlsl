@@ -14,8 +14,7 @@ struct PS_Input
 };
 
 
-void main( in VS_Input VSInput, out PS_Input PSInput )
-{
+VS_MAIN_BEGIN
     PSInput.color = VSInput.color;
     PSInput.position = mul( WORLDVIEWPROJ, VSInput.position );
-}
+VS_MAIN_END

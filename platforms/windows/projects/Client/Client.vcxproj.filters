@@ -111,6 +111,12 @@
     <Filter Include="Source Files\Model\Models">
       <UniqueIdentifier>{dee8e1cc-9021-48b4-b8ac-f7a3f385cc26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{f054e5d1-ff07-416a-a1cd-b6eb77b45332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources">
+      <UniqueIdentifier>{29c07c2c-fd63-4321-9e1f-cd0cb30b97da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.hpp">
@@ -144,6 +150,9 @@
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.hpp">
+      <Filter>Header Files\GUI\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.hpp">
       <Filter>Header Files\GUI\Screens</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.hpp">
@@ -197,7 +206,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\Screen.hpp">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\player\input\Controller.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.hpp">
       <Filter>Header Files\Player\Input</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.hpp">
@@ -288,9 +297,6 @@
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\RenderList.hpp">
-      <Filter>Header Files\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\client\renderer\Tesselator.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Texture.hpp">
@@ -539,6 +545,36 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\Fog.hpp">
       <Filter>Header Files\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\player\input\GameController.hpp">
+      <Filter>Header Files\Player\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\MenuPointer.hpp">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLocation.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\Resource.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLoader.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\AppResourceLoader.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.hpp">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\ShaderGroup.hpp">
+      <Filter>Header Files\Renderer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.hpp">
+      <Filter>Header Files\Renderer\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -572,6 +608,9 @@
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreateWorldScreen.cpp">
+      <Filter>Source Files\GUI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\CreditsScreen.cpp">
       <Filter>Source Files\GUI\Screens</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\DeathScreen.cpp">
@@ -625,7 +664,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiComponent.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\player\input\Controller.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerManager.cpp">
       <Filter>Source Files\Player\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\player\input\ControllerTurnInput.cpp">
@@ -725,9 +764,6 @@
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\RenderList.cpp">
-      <Filter>Source Files\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\renderer\Tesselator.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Textures.cpp">
@@ -892,9 +928,6 @@
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\ScreenRenderer.cpp">
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\model\geom\ModelPart.cpp">
       <Filter>Source Files\Model\Geom</Filter>
     </ClCompile>
@@ -945,6 +978,39 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\Fog.cpp">
       <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameControllerHandler.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\player\input\GameController.cpp">
+      <Filter>Source Files\Player\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\MenuPointer.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\GuiElement.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLocation.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\Resource.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLoader.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\AppResourceLoader.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\ShaderGroup.cpp">
+      <Filter>Source Files\Renderer\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.cpp">
+      <Filter>Source Files\Renderer\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

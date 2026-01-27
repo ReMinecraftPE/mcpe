@@ -96,6 +96,14 @@ void RenderContextBase::setRenderTarget()
 {
 }
 
+void RenderContextBase::beginRender()
+{
+}
+
+void RenderContextBase::endRender()
+{
+}
+
 void RenderContextBase::swapBuffers()
 {
 }
@@ -123,6 +131,11 @@ uint8_t RenderContextBase::getStencilReference() const
 int RenderContextBase::getMaxVertexCount() const
 {
     return -1;
+}
+
+bool RenderContextBase::supports8BitIndices() const
+{
+    return true;
 }
 
 bool RenderContextBase::supports32BitIndices() const

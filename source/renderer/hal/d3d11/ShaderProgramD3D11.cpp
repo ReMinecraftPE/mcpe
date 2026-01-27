@@ -112,13 +112,12 @@ void ShaderProgramD3D11::compileShaderProgram()
 
     RenderContext& renderContext = RenderContextImmediate::get();
     std::string shaderTarget = _getShaderTarget(m_shaderType, renderContext.m_featureLevel);
-    std::string shaderSourceName = "assets/" + m_shaderPath;
 
     HRESULT hResult;
     ComInterface<ID3DBlob> code, errorMsgs;
     hResult = D3DCompile(
         m_shaderSource.c_str(), m_shaderSource.size(),
-        shaderSourceName.c_str(),
+        m_shaderPath.c_str(),
         NULL,
         D3D_COMPILE_STANDARD_FILE_INCLUDE,
         "main",

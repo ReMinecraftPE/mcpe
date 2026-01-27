@@ -1,5 +1,5 @@
 #include "ShaderConstants.fxh"
-
+#include "entity.fxh"
 
 struct VS_Input
 {
@@ -17,12 +17,12 @@ struct PS_Input
     float4 position : SV_Position;
 
     float4 light : LIGHT;
-    float4 fogColor : FOG_COLOR;
+    float4 fogColor : PS_FOG_COLOR;
 
     float2 uv : TEXCOORD_0;
 
 #ifdef USE_OVERLAY
-    float4 overlayColor : OVERLAY_COLOR;
+    float4 overlayColor : PS_OVERLAY_COLOR;
 #endif
 #ifdef GLINT
 	float2 layer1UV : UV_1;
@@ -81,8 +81,7 @@ float2 calculateLayerUV(float2 origUV, float offset, float rotation) {
 }
 #endif
 
-void main( in VS_Input VSInput, out PS_Input PSInput )
-{
+VS_MAIN_BEGIN
     PSInput.position = mul( WORLDVIEWPROJ, float4( VSInput.position, 1 ) );
     float4 normal = TransformRGBA8_SNORM( VSInput.normal );
 
@@ -113,5 +112,5 @@ void main( in VS_Input VSInput, out PS_Input PSInput )
     //fog
     PSInput.fogColor.rgb = FOG_COLOR.rgb;
     PSInput.fogColor.a = clamp( ( ( PSInput.position.z / RENDER_DISTANCE ) - FOG_CONTROL.x ) / ( FOG_CONTROL.y - FOG_CONTROL.x ), 0.0, 1.0 );
-}
+VS_MAIN_END
 

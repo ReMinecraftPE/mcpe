@@ -23,7 +23,7 @@ bool IInputHolder::allowPicking()
 {
 	m_feedbackX = float(Mouse::getX());
 	m_feedbackY = float(Mouse::getY());
-	return Mouse::getButtonState(BUTTON_LEFT);
+	return Mouse::getButtonState(MOUSE_BUTTON_LEFT);
 }
 
 void IInputHolder::setScreenSize(int width, int height)

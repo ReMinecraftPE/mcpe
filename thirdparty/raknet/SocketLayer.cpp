@@ -65,7 +65,7 @@ using namespace pp;
 #include <sys/types.h>
 #include <lwip/sockets.h>
 #else
-#if (!defined(ANDROID) && !defined(__DREAMCAST__))
+#if (!defined(ANDROID) && !defined(__DREAMCAST__) && !defined(__SWITCH__))
 #include <ifaddrs.h>
 #endif
 #include <netinet/in.h>

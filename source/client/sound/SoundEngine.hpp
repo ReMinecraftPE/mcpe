@@ -23,15 +23,18 @@ class SoundEngine
 {
 private:
     float _getVolumeMult(const Vec3& pos);
+	void _playMusic(bool resetDelay = false);
 public:
     SoundEngine(SoundSystem* soundSystem, float distance);
-    void init(Options*, AppPlatform*);
+    void init(Options*);
     void enable(bool b);
     void updateOptions();
     void mute();
     void unMute();
     void destroy();
+	void playMusic(bool resetDelay = false);
     void playMusicTick();
+	void forcePlayMusic();
     void update(const Mob* player, float elapsedTime);
     void play(const std::string& name, const Vec3& pos = Vec3::ZERO, float volume = 1.0f, float pitch = 1.0f);
     void playUI(const std::string& name, float volume = 1.0f, float pitch = 1.0f);

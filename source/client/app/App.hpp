@@ -29,7 +29,8 @@ public:
 	void destroy();
 	void draw();
 	void loadState(void*, int);
-	AppPlatform* platform();
+	AppPlatform* platform() { return m_pPlatform; }
+	const AppPlatform* platform() const { return m_pPlatform; }
 	void quit();
 	void saveState(void**, int);
 	bool wantToQuit();

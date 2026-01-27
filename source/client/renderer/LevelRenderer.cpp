@@ -865,7 +865,7 @@ int LevelRenderer::renderChunks(int start, int end, Tile::RenderLayer layer, flo
 	m_renderList.clear();
 	m_renderList.init(fPos);
 
-	for (int i = 0; i < int(field_24.size()); i++)
+	for (size_t i = 0; i < field_24.size(); i++)
 	{
 		Chunk* pChk = field_24[i];
 		m_renderList.addR(pChk->getRenderChunk(layer), renderLayerToTerrainLayerMap[layer], fog);
@@ -1144,9 +1144,8 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 	Chunk* pChunks[C_MAX] = { nullptr };
 	ChunkVector* nearChunks = nullptr;
 
-	int pendingChunkRemoved = 0;
-	int pendingChunkSize = int(m_dirtyChunks.size());
-	for (int i = 0; i < pendingChunkSize; i++)
+	size_t pendingChunkSize = m_dirtyChunks.size(), pendingChunkRemoved = 0;
+	for (size_t i = 0; i < pendingChunkSize; i++)
 	{
 		Chunk* pChunk = m_dirtyChunks[i];
 		if (!b)
@@ -1217,9 +1216,8 @@ bool LevelRenderer::updateDirtyChunks(const Entity& camera, bool b)
 		nr2++;
 	}
 
-	int nr3 = 0;
-	int nr4 = 0;
-	for (; nr4 < int(m_dirtyChunks.size()); nr4++)
+	size_t nr3 = 0, nr4 = 0;
+	for (; nr4 < m_dirtyChunks.size(); nr4++)
 	{
 		Chunk* pChunk = m_dirtyChunks[nr4];
 		if (!pChunk)
@@ -1336,6 +1334,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
 
+	constexpr float distance = 0.002f;
 	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
 
 	TileID tile = m_pLevel->getTile(hr.m_tilePos);
@@ -1348,12 +1347,12 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 		float posY = camera.m_posPrev.y + ((camera.m_pos.y - camera.m_posPrev.y) * a);
 		float posZ = camera.m_posPrev.z + ((camera.m_pos.z - camera.m_posPrev.z) * a);
 		AABB aabb, tileAABB = Tile::tiles[tile]->getTileAABB(m_pLevel, hr.m_tilePos);
-		aabb.min.y = tileAABB.min.y - 0.002f - posY;
-		aabb.max.y = tileAABB.max.y + 0.002f - posY;
-		aabb.min.z = tileAABB.min.z - 0.002f - posZ;
-		aabb.max.z = tileAABB.max.z + 0.002f - posZ;
-		aabb.min.x = tileAABB.min.x - 0.002f - posX;
-		aabb.max.x = tileAABB.max.x + 0.002f - posX;
+		aabb.min.y = tileAABB.min.y - distance - posY;
+		aabb.max.y = tileAABB.max.y + distance - posY;
+		aabb.min.z = tileAABB.min.z - distance - posZ;
+		aabb.max.z = tileAABB.max.z + distance - posZ;
+		aabb.min.x = tileAABB.min.x - distance - posX;
+		aabb.max.x = tileAABB.max.x + distance - posX;
 		renderLineBox(aabb, m_materials.selection_box, lineWidth);
 	}
 }
@@ -1391,7 +1390,7 @@ void LevelRenderer::takePicture(TripodCamera* pCamera, Entity* pOwner)
 	static char str[256];
 	// @HUH: This has the potential to overwrite a file
 #ifdef ORIGINAL_CODE
-	sprintf(str, "%s/games/com.mojang/img_%.4d.jpg", m_pMinecraft->m_externalStorageDir.c_str(), getTimeMs());
+	sprintf(str, "%s" C_HOME_PATH "img_%.4d.jpg", m_pMinecraft->platform()->m_externalStorageDir.c_str(), getTimeMs());
 #else
 	sprintf(str, "img_%.4d.png", getTimeMs());
 #endif

@@ -8,6 +8,7 @@
 
 #include "Minecraft.hpp"
 #include "GameMods.hpp"
+#include "compat/PlatformDefinitions.h"
 #include "client/gui/screens/PauseScreen.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
 #include "client/gui/screens/RenameMPLevelScreen.hpp"
@@ -24,7 +25,7 @@
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
 
-#include "client/player/input/Controller.hpp"
+#include "client/player/input/GameControllerManager.hpp"
 #include "client/player/input/ControllerBuildInput.hpp"
 #include "client/player/input/ControllerMoveInput.hpp"
 #include "client/player/input/ControllerTurnInput.hpp"
@@ -41,6 +42,8 @@
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/PatchManager.hpp"
+
+#include "renderer/RenderContextImmediate.hpp"
 
 float Minecraft::_renderScaleMultiplier = 1.0f;
 
@@ -66,6 +69,7 @@ Minecraft::Minecraft()
 	m_pOptions = nullptr;
 	field_18 = false;
 	m_bIsGamePaused = false;
+	m_pResourceLoader = nullptr;
 	m_pLevelRenderer = nullptr;
 	m_pGameRenderer = nullptr;
 	m_pParticleEngine = nullptr;
@@ -111,6 +115,7 @@ Minecraft::~Minecraft()
 	SAFE_DELETE(m_pOptions);
 	SAFE_DELETE(m_pNetEventCallback);
 	SAFE_DELETE(m_pRakNetInstance);
+	//SAFE_DELETE(m_pResourceLoader); // not ours
 	SAFE_DELETE(m_pLevelRenderer);
 	SAFE_DELETE(m_pGameRenderer);
 	SAFE_DELETE(m_pParticleEngine);
@@ -246,8 +251,7 @@ void Minecraft::releaseMouse()
 	// Note, normally the platform stuff would be located within
 	// the mouse handler, but we don't have access to the platform
 	// from there!
-	if (!useController() && !isTouchscreen())
-		platform()->recenterMouse(); // don't actually try to grab or release the mouse
+	recenterMouse();
 	platform()->setMouseGrabbed(false);
 }
 
@@ -266,6 +270,14 @@ void Minecraft::grabMouse()
 		return; // don't actually try to grab the mouse
 
 	platform()->setMouseGrabbed(true);
+}
+
+void Minecraft::recenterMouse()
+{
+	if (useController() || isTouchscreen())
+		return;
+
+	platform()->recenterMouse();
 }
 
 void Minecraft::setScreen(Screen* pScreen)
@@ -299,7 +311,7 @@ void Minecraft::setScreen(Screen* pScreen)
 
 	Mouse::reset();
 	Multitouch::reset();
-	Controller::reset();
+	GameControllerManager::reset();
 	Multitouch::resetThisUpdate();
 
 	m_pScreen = pScreen;
@@ -317,7 +329,7 @@ void Minecraft::setScreen(Screen* pScreen)
 	}
 	else
 	{
-		platform()->recenterMouse();
+		recenterMouse();
 		grabMouse();
 	}
 }
@@ -543,7 +555,7 @@ void Minecraft::tickInput()
 		if (getTimeMs() - field_2B4 > 200)
 			continue;
 
-		if (Mouse::isButtonDown(BUTTON_LEFT))
+		if (Mouse::isButtonDown(MOUSE_BUTTON_LEFT))
 		{
 			// @HACK: on SDL1, we don't recenter the mouse every tick, meaning the user can
 			// unintentionally click the hotbar while swinging their fist
@@ -555,8 +567,8 @@ void Minecraft::tickInput()
 		bool bPressed = Mouse::getEventButtonState() == true;
 
 #ifdef ENH_ALLOW_SCROLL_WHEEL
-		if (buttonType == BUTTON_SCROLLWHEEL)
-			m_pGui->handleScroll(bPressed);
+		if (buttonType == MOUSE_BUTTON_SCROLLWHEEL)
+			m_pGui->handleScrollWheel(bPressed);
 #endif
 	}
 
@@ -669,7 +681,7 @@ void Minecraft::tickMouse()
 		return; // don't actually try to recenter the mouse
 
     if (platform()->getRecenterMouseEveryTick()) // just for SDL1
-        platform()->recenterMouse();
+        recenterMouse();
 }
 
 void Minecraft::handleCharInput(char chr)
@@ -691,11 +703,30 @@ void Minecraft::handleTextPaste()
 		handleTextPaste(text);
 }
 
+void Minecraft::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)
+{
+	if (m_pScreen)
+		m_pScreen->handlePointerLocation(x, y);
+}
+
+void Minecraft::handlePointerPressedButtonPress()
+{
+	// m_pGui->handleClick();
+	if (m_pScreen)
+		m_pScreen->handlePointerPressed(true);
+}
+
+void Minecraft::handlePointerPressedButtonRelease()
+{
+	if (m_pScreen)
+		m_pScreen->handlePointerPressed(false);
+}
+
 void Minecraft::resetInput()
 {
 	Keyboard::reset();
 	Mouse::reset();
-	Controller::reset();
+	GameControllerManager::reset();
 	Multitouch::resetThisUpdate();
 }
 
@@ -740,7 +771,7 @@ void Minecraft::freeResources(bool bCopyMap)
 	if (bCopyMap)
 		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
 	else
-		setScreen(new StartMenuScreen);
+		gotoMainMenu();
 #endif
 
 	m_pGameRenderer->setLevel(nullptr, nullptr);
@@ -870,11 +901,17 @@ void Minecraft::update()
 	tickMouse();
 #endif
 
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+
+	renderContext.beginRender();
+
 	m_pGameRenderer->render(m_timer.m_renderTicks);
 
 	// Added by iProgramInCpp
 	if (m_pGameMode)
 		m_pGameMode->render(m_timer.m_renderTicks);
+
+	renderContext.endRender();
 
 	double time = getTimeS();
 	m_fDeltaTime = time - m_fLastUpdated;
@@ -1003,7 +1040,9 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
-//#define USE_JAVA_SCREEN_SCALING
+#if MC_PLATFORM_XBOX
+#define USE_JAVA_SCREEN_SCALING
+#endif
 #ifdef USE_JAVA_SCREEN_SCALING
 	int scale;
 	for (scale = 1; width / (scale + 1) >= 320 && height / (scale + 1) >= 240; ++scale)
@@ -1247,6 +1286,14 @@ void Minecraft::leaveGame(bool bCopyMap)
 		m_pRakNetInstance->disconnect();
 
 	freeResources(bCopyMap);
+}
+
+void Minecraft::gotoMainMenu()
+{
+#if MC_PLATFORM_CONSOLE
+	m_pSoundEngine->forcePlayMusic();
+#endif
+	setScreen(new StartMenuScreen);
 }
 
 void Minecraft::hostMultiplayer()

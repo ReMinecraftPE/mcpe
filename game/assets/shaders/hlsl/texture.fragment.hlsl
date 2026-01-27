@@ -10,13 +10,11 @@ struct PS_Input
 struct PS_Output
 {
     float4 color : SV_Target;
-	
     float depth  : SV_Depth; // Add this
 };
 
-void main( in PS_Input PSInput, out PS_Output PSOutput )
-{
-    PSOutput.color = TEXTURE_0.Sample( TextureSampler0, PSInput.uv );
+PS_MAIN_BEGIN
+    PSOutput.color = sampleTex0( TextureSampler0, PSInput.uv );
 
 #ifdef ALPHA_TEST
     if( PSOutput.color.a < 0.5 )
@@ -25,5 +23,5 @@ void main( in PS_Input PSInput, out PS_Output PSOutput )
     }
 #endif
 
-	PSOutput.depth = 0.5f; 
-}
+	PSOutput.depth = 0.5f;
+PS_MAIN_END

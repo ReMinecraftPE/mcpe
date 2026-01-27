@@ -49,7 +49,7 @@ void ScrolledSelectionList::renderHeader(int a, int b, Tesselator& t)
 {
 }
 
-void ScrolledSelectionList::renderDecorations(int a, int b)
+void ScrolledSelectionList::renderDecorations(const MenuPointer& pointer)
 {
 }
 
@@ -80,7 +80,7 @@ void ScrolledSelectionList::capYPosition()
 		field_34 = maxY;
 }
 
-void ScrolledSelectionList::onClickItem(int index, int mouseX, int mouseY)
+void ScrolledSelectionList::onClickItem(int index, const MenuPointer& pointer)
 {
 	selectItem(index, false);
 }
@@ -97,11 +97,11 @@ void ScrolledSelectionList::renderScrollBackground()
 	t.draw(m_materials.ui_texture_and_color);
 }
 
-void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
+void ScrolledSelectionList::checkInput(const MenuPointer& pointer)
 {
-	if (Mouse::isButtonDown(BUTTON_LEFT))
+	if (pointer.isPressed)
 	{
-		if (float(mouseY) >= field_C && float(mouseY) <= field_10 && abs(mouseY - field_28) > 5)
+		if (float(pointer.y) >= field_C && float(pointer.y) <= field_10 && fabsf(pointer.y - field_28) > 5)
 		{
 			int field_2C_old = field_2C;
 
@@ -111,12 +111,12 @@ void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
 			}
 			else if (field_2C == 1)
 			{
-				field_3C = mouseY;
+				field_3C = pointer.y;
 				field_40 = getTimeMs();
 			}
 			else if (field_2C == 0)
 			{
-				float diff = float(mouseY) - field_30;
+				float diff = float(pointer.y) - field_30;
 				field_34 -= diff;
 				field_38 += diff;
 			}
@@ -136,9 +136,9 @@ void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
 
 			if (getTimeMs() - field_40 < 300)
 			{
-				if (transformY(mouseY) / m_itemHeight >= 0 && m_itemHeight > abs(field_3C - mouseY))
+				if (transformY(pointer.y) / m_itemHeight >= 0 && m_itemHeight > fabsf(field_3C - pointer.y))
 				{
-					onClickItem(transformY(mouseY) / m_itemHeight, mouseX, mouseY);
+					onClickItem(transformY(pointer.y) / m_itemHeight, pointer);
 					field_38 = 0.0f;
 				}
 			}
@@ -149,7 +149,7 @@ void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
 	}
 }
 
-void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
+void ScrolledSelectionList::render(const MenuPointer& pointer, float f)
 {
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 
@@ -158,9 +158,9 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	int nItems = getNumberOfItems();
 	Tesselator& t = Tesselator::instance;
 
-	checkInput(mouseX, mouseY);
+	checkInput(pointer);
 
-	field_30 = float(mouseY);
+	field_30 = float(pointer.y);
 	field_38 *= 0.75f;
 	capYPosition();
 
@@ -234,7 +234,7 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 	t.vertexUV(field_24, field_10 - 4.0f, 0.0f, 0.0f, 0.0f);
 	t.draw(m_materials.ui_fill_gradient);
 
-	renderDecorations(mouseX, mouseY);
+	renderDecorations(pointer);
 
 	renderContext.setShadeMode(mce::SHADE_MODE_FLAT);
 }
@@ -262,9 +262,9 @@ void ScrolledSelectionList::setRenderHeader(bool b, int i)
 	field_48 = i;
 }
 
-void ScrolledSelectionList::handleScroll(bool down)
+void ScrolledSelectionList::handleScrollWheel(float force)
 {
-	float diff = 5.0f * (down ? -1.0f : 1.0f);
+	float diff = 5.0f * force;
 	field_34 -= diff;
 	field_38 += diff;
 }

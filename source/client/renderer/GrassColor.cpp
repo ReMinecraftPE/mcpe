@@ -1,13 +1,14 @@
 #include "GrassColor.hpp"
 #include "compat/EndianDefinitions.h"
+#include "client/resources/Resource.hpp"
 
 bool GrassColor::_isAvailable = false;
 
 TextureData GrassColor::texture;
 
-void GrassColor::init(TextureData& texture)
+void GrassColor::init()
 {
-	GrassColor::texture = texture;
+	GrassColor::texture = Resource::loadTexture("misc/grasscolor.png");
 }
 
 uint32_t GrassColor::get(double x, double y)

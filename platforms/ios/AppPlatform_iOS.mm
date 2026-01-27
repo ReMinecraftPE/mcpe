@@ -11,8 +11,9 @@
 #include <fstream>
 
 #include "common/Utils.hpp"
+#include "common/Util.hpp"
 
-#include "platforms/sound/openal/CustomSoundSystem.hpp"
+#include "platforms/audio/openal/CustomSoundSystem.hpp"
 
 AppPlatform_iOS::AppPlatform_iOS(minecraftpeViewController *viewController)
 {
@@ -32,7 +33,7 @@ void AppPlatform_iOS::initSoundSystem()
 	if (!m_pSoundSystem)
 	{
 		LOG_I("Initializing OpenAL SoundSystem...");
-		m_pSoundSystem = new SoundSystemAL();
+		m_pSoundSystem = new SoundSystemOAL();
 	}
 	else
 	{
@@ -96,12 +97,6 @@ void AppPlatform_iOS::loadImage(ImageData& data, const std::string& path)
 	CGContextRelease(context);
 }
 
-bool AppPlatform_iOS::doesTextureExist(const std::string& path) const
-{
-    // check if asset could be found in bundle's resources
-    return _getAssetPath(path) != nullptr;
-}
-
 bool AppPlatform_iOS::shiftPressed()
 {
 	return m_bShiftPressed[0] || m_bShiftPressed[1];
@@ -146,13 +141,13 @@ bool AppPlatform_iOS::hasFileSystemAccess()
 	return true;
 }
 
-NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
+NSString* AppPlatform_iOS::_getBundleResourcePath(const std::string &path) const
 {
 	size_t dotPos = path.rfind(".", -1, 1);
 	size_t slashPos = path.rfind("/", -1, 1);
 	size_t dotPos2 = path.rfind('.', -1);
 	std::string fileName;
-    std::string fileDir = "assets/" + path.substr(0, slashPos + 1);
+    std::string fileDir = path.substr(0, slashPos + 1);
 	std::string fileExtension = dotPos2 != std::string::npos ? path.substr(dotPos2+1, path.length()-dotPos2) : "";
 	if ((slashPos & dotPos) != std::string::npos)
 	{
@@ -172,7 +167,7 @@ NSString* AppPlatform_iOS::_getAssetPath(const std::string &path) const
 
 std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
-    NSString* assetPath = _getAssetPath(path);
+    NSString* assetPath = _getBundleResourcePath(AppPlatform::getAssetPath(path));
     if (assetPath == nullptr)
     {
         // asset couldn't be found in bundle's resources.
@@ -181,17 +176,4 @@ std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
     }
     
     return [assetPath UTF8String];
-}
-
-std::string AppPlatform_iOS::getPatchData()
-{
-	std::ifstream ifs(getAssetPath("patches/patch_data.txt").c_str());
-	if (!ifs.is_open())
-		return "";
-	
-	std::stringstream ss;
-	ss << ifs.rdbuf();
-	ifs.close();
-	
-	return ss.str();
 }

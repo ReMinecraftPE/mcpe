@@ -190,7 +190,7 @@ NSThread *G_drawFrameThread = nil;
     
     NSString *dir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, 1u, YES) objectAtIndex:0];
     NinecraftApp *app = new NinecraftApp();
-    app->m_externalStorageDir = [dir UTF8String];
+    platform->m_externalStorageDir = [dir UTF8String];
     self->_app = app;
     
     [self initView];
@@ -413,8 +413,8 @@ NSThread *G_drawFrameThread = nil;
             posX = viewScale * point.x;
             posY = viewScale * point.y;
             
-            Mouse::feed(BUTTON_LEFT, true, posX, posY);
-            Multitouch::feed(BUTTON_LEFT, true, posX, posY, touchIndex);
+            Mouse::feed(MOUSE_BUTTON_LEFT, true, posX, posY);
+            Multitouch::feed(MOUSE_BUTTON_LEFT, true, posX, posY, touchIndex);
         }
     }
 }
@@ -440,8 +440,8 @@ NSThread *G_drawFrameThread = nil;
             posX = viewScale * point.x;
             posY = viewScale * point.y;
             
-            Mouse::feed(BUTTON_NONE, false, posX, posY);
-            Multitouch::feed(BUTTON_NONE, false, posX, posY, touchIndex);
+            Mouse::feed(MOUSE_BUTTON_NONE, false, posX, posY);
+            Multitouch::feed(MOUSE_BUTTON_NONE, false, posX, posY, touchIndex);
         }
     }
 }
@@ -467,8 +467,8 @@ NSThread *G_drawFrameThread = nil;
             posX = viewScale * point.x;
             posY = viewScale * point.y;
             
-            Mouse::feed(BUTTON_LEFT, false, posX, posY);
-            Multitouch::feed(BUTTON_LEFT, false, posX, posY, touchIndex);
+            Mouse::feed(MOUSE_BUTTON_LEFT, false, posX, posY);
+            Multitouch::feed(MOUSE_BUTTON_LEFT, false, posX, posY, touchIndex);
         }
     }
 }

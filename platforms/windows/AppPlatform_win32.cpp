@@ -175,10 +175,7 @@ std::string AppPlatform_win32::getDateString(int time)
 
 bool AppPlatform_win32::doesTextureExist(const std::string& path) const
 {
-	// Get Full Path
-	std::string realPath = getAssetPath(path);
-
-	return XPL_ACCESS(realPath.c_str(), 0) == 0;
+	return isRegularFile(path.c_str());
 }
 
 bool AppPlatform_win32::isTouchscreen() const
@@ -186,14 +183,23 @@ bool AppPlatform_win32::isTouchscreen() const
 	return false;
 }
 
+bool AppPlatform_win32::hasGamepad() const
+{
+	return m_gameControllerHandler.hasController();
+}
+
+GameControllerHandler* AppPlatform_win32::getGameControllerHandler()
+{
+	return &m_gameControllerHandler;
+}
+
 bool AppPlatform_win32::hasFileSystemAccess()
 {
 	return true;
 }
 
-AssetFile AppPlatform_win32::readAssetFile(const std::string& str, bool quiet) const
+AssetFile AppPlatform_win32::readAssetFile(const std::string& path, bool quiet) const
 {
-	std::string path = getAssetPath(str);
 	std::ifstream ifs(path, std::ios::binary | std::ios::ate);
 	if (!ifs.is_open())
 		return AssetFile();
@@ -435,6 +441,7 @@ void AppPlatform_win32::enableGraphics(HWND hWnd)
 
 	BOOL success = SetPixelFormat(m_hDC, iFormat, &pfd);
 	assert(success);
+	(void)success; /* silence unused variable warn */
 
 	/* create and enable the render context (RC) */
 	m_hRC = wglCreateContext(m_hDC);
@@ -453,7 +460,7 @@ void AppPlatform_win32::disableGraphics(HWND hWnd)
 #endif
 }
 
-bool AppPlatform_win32::initGraphics()
+bool AppPlatform_win32::initGraphics(int width, int height)
 {
 #if MCE_GFX_API_OGL
 	if (!mce::Platform::OGL::InitBindings())
@@ -469,12 +476,20 @@ bool AppPlatform_win32::initGraphics()
 #endif
 
 	m_bHasGraphics = true;
+
+	// D3D9 needs the RenderContext in order to create the D3DDevice using the width and height
+	mce::RenderDevice::createInstance();
+	setScreenSize(width, height);
+
 	return true;
 }
 
 void AppPlatform_win32::createWindowSizeDependentResources(const Vec2& logicalSize, const Vec2& compositionScale)
 {
-#if MCE_GFX_API_D3D11
+#if MCE_GFX_API_D3D9
+	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
+	renderContext.createWindowSizeDependentResources((HWND)m_hWnd, logicalSize.x, logicalSize.y);
+#elif MCE_GFX_API_D3D11
 	mce::RenderContext& renderContext = mce::RenderContextImmediate::get();
 	renderContext.createWindowSizeDependentResources((HWND)m_hWnd, logicalSize, compositionScale);
 #endif
@@ -496,17 +511,17 @@ MouseButtonType AppPlatform_win32::GetMouseButtonType(UINT iMsg)
 	{
 	case WM_LBUTTONUP:
 	case WM_LBUTTONDOWN:
-		return BUTTON_LEFT;
+		return MOUSE_BUTTON_LEFT;
 	case WM_RBUTTONUP:
 	case WM_RBUTTONDOWN:
-		return BUTTON_RIGHT;
+		return MOUSE_BUTTON_RIGHT;
 	case WM_MBUTTONUP:
 	case WM_MBUTTONDOWN:
-		return BUTTON_MIDDLE;
+		return MOUSE_BUTTON_MIDDLE;
 	case WM_MOUSEWHEEL:
-		return BUTTON_SCROLLWHEEL;
+		return MOUSE_BUTTON_SCROLLWHEEL;
 	default:
-		return BUTTON_NONE;
+		return MOUSE_BUTTON_NONE;
 	}
 }
 

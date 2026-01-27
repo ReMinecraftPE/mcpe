@@ -150,16 +150,16 @@ static void handle_touch(int x, int y, int type, char id) {
 		case SDL_FINGERDOWN:
 		case SDL_FINGERUP: {
 			bool data = type == SDL_FINGERUP ? 0 : 1;
-			Mouse::feed(BUTTON_LEFT, data, x, y);
-			Multitouch::feed(BUTTON_LEFT, data, x, y, id);
+			Mouse::feed(MOUSE_BUTTON_LEFT, data, x, y);
+			Multitouch::feed(MOUSE_BUTTON_LEFT, data, x, y, id);
 			if (type == SDL_FINGERUP) {
 				drop_touch_id(id);
 			}
 			break;
 		}
 		case SDL_FINGERMOTION: {
-			Mouse::feed(BUTTON_NONE, 0, x, y);
-			Multitouch::feed(BUTTON_NONE, 0, x, y, id);
+			Mouse::feed(MOUSE_BUTTON_NONE, 0, x, y);
+			Multitouch::feed(MOUSE_BUTTON_NONE, 0, x, y, id);
 			break;
 		}
 	}
@@ -244,8 +244,8 @@ static void handle_events()
 					float scale = g_fPointToPixelScale;
 					float x = event.motion.x * scale;
 					float y = event.motion.y * scale;
-					Multitouch::feed(BUTTON_NONE, false, x, y, 0);
-					Mouse::feed(BUTTON_NONE, false, x, y);
+					Multitouch::feed(MOUSE_BUTTON_NONE, false, x, y, 0);
+					Mouse::feed(MOUSE_BUTTON_NONE, false, x, y);
 					g_pAppPlatform->setMouseDiff(event.motion.xrel * scale, event.motion.yrel * scale);
 				}
 				break;
@@ -254,7 +254,7 @@ static void handle_events()
 			{
 				if (event.button.which != SDL_TOUCH_MOUSEID)
 				{
-					Mouse::feed(BUTTON_SCROLLWHEEL, UsedAppPlatform::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
+					Mouse::feed(MOUSE_BUTTON_SCROLLWHEEL, UsedAppPlatform::GetMouseButtonState(event), Mouse::getX(), Mouse::getY());
 				}
 				break;
 			}
@@ -415,7 +415,7 @@ int main(int argc, char *argv[])
 	std::string storagePath;
 #ifdef _WIN32
 	storagePath = getenv("APPDATA");
-#elif defined(__EMSCRIPTEN__)
+#elif defined(__EMSCRIPTEN__) || defined(__SWITCH__)
 	storagePath = "";
 #elif defined(ANDROID)
 	storagePath = SDL_AndroidGetExternalStoragePath();
@@ -429,8 +429,8 @@ int main(int argc, char *argv[])
 	
 	// Start MCPE
 	g_pAppPlatform = new UsedAppPlatform(storagePath, window);
+	g_pAppPlatform->m_externalStorageDir = storagePath;
 	g_pApp = new NinecraftApp;
-	g_pApp->m_externalStorageDir = storagePath;
 	g_pApp->m_pPlatform = g_pAppPlatform;
 	g_pApp->init();
 	
