@@ -611,23 +611,19 @@ void GameRenderer::render(float f)
 {
 	if (m_pMinecraft->m_pLocalPlayer && m_pMinecraft->m_bGrabbedMouse)
 	{
-		Minecraft *pMC = m_pMinecraft;
-		
-		// Don't allow camera rotation while sleeping
-		if (!pMC->m_pLocalPlayer->isSleeping())
+		Minecraft* pMC = m_pMinecraft;
+		pMC->m_mouseHandler.poll();
+
+		float multPitch = -1.0f;
+		float diff_field_84;
+
+		if (pMC->getOptions()->m_bInvertMouse)
+			multPitch = 1.0f;
+
+		if (pMC->m_mouseHandler.smoothTurning())
 		{
-			pMC->m_mouseHandler.poll();
-
-			float multPitch = -1.0f;
-			float diff_field_84;
-
-			if (pMC->getOptions()->m_bInvertMouse)
-				multPitch = 1.0f;
-
-			if (pMC->m_mouseHandler.smoothTurning())
-			{
-				float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
-				mult1 = pow(mult1, 3);
+			float mult1 = 2.0f * (0.2f + pMC->getOptions()->m_fSensitivity * 0.6f);
+			mult1 = pow(mult1, 3);
 
 			Vec2 d = pMC->m_mouseHandler.m_delta * (4.0f * mult1);
 
@@ -636,34 +632,10 @@ void GameRenderer::render(float f)
 			diff_field_84 = field_84 - old_field_84;
 			m_smoothTurnDelta += d;
 
-				if (diff_field_84 > 3.0f)
-					diff_field_84 = 3.0f;
+			if (diff_field_84 > 3.0f)
+				diff_field_84 = 3.0f;
 
-				if (!pMC->getOptions()->field_240)
-				{
-					// @TODO: untangle this code
-					float v17 = xd + field_14;
-					float v18 = field_18;
-					float v19 = field_1C;
-					field_14 = v17;
-					float v20 = mult1 * 0.25f * (v17 - v18);
-					float v21 = v19 + (v20 - v19) * 0.5f;
-					field_1C = v21;
-					if ((v20 <= 0.0 || v20 <= v21) && (v20 >= 0.0 || v20 >= v21))
-						v21 = mult1 * 0.25f * (v17 - v18);
-					float v22 = yd + field_20;
-					field_18 = v18 + v21;
-					float v23 = field_24;
-					field_20 = v22;
-					float v24 = mult1 * 0.15f * (v22 - v23);
-					float v25 = field_28 + (v24 - field_28) * 0.5f;
-					field_28 = v25;
-					if ((v24 <= 0.0 || v24 <= v25) && (v24 >= 0.0 || v24 >= v25))
-						v25 = v24;
-					field_24 = v23 + v25;
-				}
-			}
-			else
+			if (!pMC->getOptions()->field_240)
 			{
 				// @TODO: untangle this code
 				float v17 = d.x + field_14;
@@ -694,7 +666,7 @@ void GameRenderer::render(float f)
 		}
 
 		Vec2 rot(m_turnDelta.x * diff_field_84,
-			     m_turnDelta.y * diff_field_84 * multPitch);
+			m_turnDelta.y * diff_field_84 * multPitch);
 		m_pItemInHandRenderer->turn(rot);
 		pMC->m_pLocalPlayer->turn(rot);
 	}
