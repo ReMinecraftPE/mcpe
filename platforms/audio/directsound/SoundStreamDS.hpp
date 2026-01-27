@@ -1,15 +1,15 @@
 #pragma once
-#include <windows.h>
-#pragma comment(lib, "dsound.lib")
-#pragma comment(lib, "dxguid.lib")
-#pragma comment(lib, "winmm.lib")
-#include <mmsystem.h>
-#include <dsound.h>
+
 #include <string>
 #include <vector>
-#include <memory>
-#include "client/sound/SoundStream.hpp"
 #include <map>
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <mmsystem.h>
+#include <dsound.h>
+
+#include "client/sound/SoundStream.hpp"
 
 #define DS_ERROR_CHECK(hr) \
     if (FAILED(hr)) { \

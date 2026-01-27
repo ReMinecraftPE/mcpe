@@ -15,6 +15,7 @@ private:
 
 public:
 	static bool hasResource(const ResourceLocation& location);
+	static bool getResourcePath(const ResourceLocation& location, std::string& path);
 	static bool hasTexture(const ResourceLocation& location);
 	static bool load(const ResourceLocation& location, std::string& stream);
 	static TextureData loadTexture(const ResourceLocation& location);

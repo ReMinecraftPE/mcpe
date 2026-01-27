@@ -11,6 +11,15 @@ bool Resource::hasResource(const ResourceLocation& location)
 	return pLoader->hasResource(location);
 }
 
+bool Resource::getResourcePath(const ResourceLocation& location, std::string& path)
+{
+	ResourceLoader* pLoader = getLoader(location.fileSystem);
+	if (!pLoader)
+		return false;
+
+	return pLoader->getResourcePath(location, path);
+}
+
 bool Resource::hasTexture(const ResourceLocation& location)
 {
 	ResourceLoader* pLoader = getLoader(location.fileSystem);

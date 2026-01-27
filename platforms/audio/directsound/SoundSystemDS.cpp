@@ -6,10 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#define WIN32_LEAN_AND_MEAN
 #include "CustomSoundSystem.hpp"
 #include "common/Logger.hpp"
-#include "common/Utils.hpp"
 #include "client/app/AppPlatform.hpp"
 
 // @TODO: fix crash in playAt when Asan is active
@@ -62,12 +60,14 @@ SoundSystemDS::SoundSystemDS()
 	}
 
 	m_available = true;
-	_musicStream = new SoundStreamDS();
+	m_musicStream = new SoundStreamDS();
 }
 
 SoundSystemDS::~SoundSystemDS()
 {
 	LOG_I("Destroying SoundSystemDS");
+
+	delete m_musicStream;
 
 	if (!isAvailable())
 	{
@@ -77,6 +77,41 @@ SoundSystemDS::~SoundSystemDS()
 	m_directsound->Release();
 }
 
+WAVEFORMATEX SoundSystemDS::_getWaveFormat(const PCMSoundHeader& header, float pitch) const
+{
+	WAVEFORMATEX wf;
+
+	wf.wFormatTag = WAVE_FORMAT_PCM;
+	wf.nSamplesPerSec = DWORD(float(header.m_sample_rate) * pitch);
+	wf.wBitsPerSample = 8 * header.m_bytes_per_sample;
+	wf.nChannels = header.m_channels;
+	wf.nBlockAlign = (wf.wBitsPerSample * wf.nChannels) / 8;
+	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
+	wf.cbSize = 0;
+
+	return wf;
+}
+
+// Release sounds that finished playing
+void SoundSystemDS::_cleanSources()
+{
+	for (size_t i = 0; i < m_buffers.size(); i++)
+	{
+		DWORD status;
+		m_buffers[i].buffer->GetStatus(&status);
+		if (status != DSBSTATUS_PLAYING)
+		{
+			m_buffers[i].buffer->Release();
+			if (m_buffers[i].object3d != NULL)
+			{
+				m_buffers[i].object3d->Release();
+			}
+			
+			m_buffers.erase(m_buffers.begin() + i);
+			i--;
+		}
+	}
+}
 
 bool SoundSystemDS::isAvailable()
 {
@@ -247,63 +282,32 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	m_buffers.push_back(info);
 }
 
-WAVEFORMATEX SoundSystemDS::_getWaveFormat(const PCMSoundHeader& header, float pitch) const
+void SoundSystemDS::setMusicVolume(float vol)
 {
-	WAVEFORMATEX wf;
-
-	wf.wFormatTag = WAVE_FORMAT_PCM;
-	wf.nSamplesPerSec = DWORD(float(header.m_sample_rate) * pitch);
-	wf.wBitsPerSample = 8 * header.m_bytes_per_sample;
-	wf.nChannels = header.m_channels;
-	wf.nBlockAlign = (wf.wBitsPerSample * wf.nChannels / 8);
-	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
-	wf.cbSize = 0;
-
-	return wf;
-}
-
-// Release sounds that finished playing
-void SoundSystemDS::_cleanSources()
-{
-	for (size_t i = 0; i < m_buffers.size(); i++)
-	{
-		DWORD status;
-		m_buffers[i].buffer->GetStatus(&status);
-		if (status != DSBSTATUS_PLAYING)
-		{
-			m_buffers[i].buffer->Release();
-			if (m_buffers[i].object3d != NULL)
-			{
-				m_buffers[i].object3d->Release();
-			}
-			
-			m_buffers.erase(m_buffers.begin() + i);
-			i--;
-		}
-	}
+	m_musicStream->setVolume(vol);
 }
 
 void SoundSystemDS::playMusic(const std::string& soundPath)
 {
-	_musicStream->open(soundPath);
+	m_musicStream->open(soundPath);
 }
 
 bool SoundSystemDS::isPlayingMusic() const
 {
-	return _musicStream->isPlaying();
+	return m_musicStream->isPlaying();
 }
 
 void SoundSystemDS::stopMusic()
 {
-	_musicStream->close();
+	m_musicStream->close();
 }
 
 void SoundSystemDS::pauseMusic(bool state)
 {
-	_musicStream->setPausedState(state);
+	m_musicStream->setPausedState(state);
 }
 
 void SoundSystemDS::update(float)
 {
-	_musicStream->update();
+	m_musicStream->update();
 }

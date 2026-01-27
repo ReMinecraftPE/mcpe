@@ -1,4 +1,3 @@
-#define WIN32_LEAN_AND_MEAN
 #include "SoundStreamDS.hpp"
 #include "client/app/AppPlatform.hpp"
 #include <cassert>
@@ -73,8 +72,9 @@ void SoundStreamDS::_resetSource()
 
 void SoundStreamDS::_deleteBuffers()
 {
-    for (auto buffer : m_buffers)
+    for (std::vector<LPDIRECTSOUNDBUFFER>::iterator it = m_buffers.begin(); it != m_buffers.end(); ++it)
     {
+        LPDIRECTSOUNDBUFFER buffer = *it;
         if (buffer)
             buffer->Release();
     }
@@ -169,7 +169,7 @@ bool SoundStreamDS::_open(const std::string& fileName)
     // Verify buffers were created
     if (m_buffers.size() != 2 || !m_source)
     {
-        LOG_I("Failed to create DirectSound buffers or source");
+        LOG_E("Failed to create DirectSound buffers or source");
         return false;
     }
 
@@ -268,7 +268,7 @@ void SoundStreamDS::_publishBuffer(unsigned int destBufferId, const SoundBuffer&
     LPDIRECTSOUNDBUFFER buffer = m_buffers[destBufferId];
     if (!buffer)
     {
-        LOG_I("Invalid buffer at index %d", destBufferId);
+        LOG_E("Invalid buffer at index %d", destBufferId);
         return;
     }
 
