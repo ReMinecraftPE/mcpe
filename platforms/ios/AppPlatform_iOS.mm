@@ -147,7 +147,7 @@ NSString* AppPlatform_iOS::_getBundleResourcePath(const std::string &path) const
 	size_t slashPos = path.rfind("/", -1, 1);
 	size_t dotPos2 = path.rfind('.', -1);
 	std::string fileName;
-    std::string fileDir = AppPlatform::_getAssetPath(Util::EMPTY_STRING) + path.substr(0, slashPos + 1);
+    std::string fileDir = path.substr(0, slashPos + 1);
 	std::string fileExtension = dotPos2 != std::string::npos ? path.substr(dotPos2+1, path.length()-dotPos2) : "";
 	if ((slashPos & dotPos) != std::string::npos)
 	{
@@ -167,7 +167,7 @@ NSString* AppPlatform_iOS::_getBundleResourcePath(const std::string &path) const
 
 std::string AppPlatform_iOS::getAssetPath(const std::string &path) const
 {
-    NSString* assetPath = _getBundleResourcePath(path);
+    NSString* assetPath = _getBundleResourcePath(AppPlatform::getAssetPath(path));
     if (assetPath == nullptr)
     {
         // asset couldn't be found in bundle's resources.
