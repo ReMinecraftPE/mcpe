@@ -61,7 +61,7 @@ public:
 	const CompoundTag* getCompound(unsigned int index) const;
 	Tag* copy() const override;
 	ListTag* copyList() const;
-	void deleteChildren();
+	void deleteChildren() override;
 
 	const std::vector<Tag*>& rawView() const { return m_list; }
 

@@ -37,7 +37,7 @@ protected:
     bool _open(const std::string& fileName) override;
     void _close() override;
     void _update() override;
-    void _publishBuffer(unsigned int destBufferId, const SoundBuffer& sourceBuffer);
+    void _publishBuffer(unsigned int destBufferId, const SoundBuffer& sourceBuffer) override;
 
 private:
     std::vector<ALuint> m_buffers;
