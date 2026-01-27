@@ -522,7 +522,6 @@
 		84BF63182AF18631008A9995 /* DoorItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6722AC810620006A435 /* DoorItem.cpp */; };
 		84BF63192AF18631008A9995 /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6742AC810620006A435 /* Inventory.cpp */; };
 		84BF631A2AF18631008A9995 /* Item.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6762AC810620006A435 /* Item.cpp */; };
-		84BF631B2AF18631008A9995 /* ItemInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD6782AC810620006A435 /* ItemInstance.cpp */; };
 		84BF631C2AF18631008A9995 /* TileItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD67A2AC810620006A435 /* TileItem.cpp */; };
 		84BF631D2AF18631008A9995 /* TilePlanterItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD67C2AC810620006A435 /* TilePlanterItem.cpp */; };
 		84BF631E2AF18631008A9995 /* Dimension.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD67F2AC810620006A435 /* Dimension.cpp */; };
@@ -630,7 +629,6 @@
 		84BF63852AF186C8008A9995 /* DoorItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6732AC810620006A435 /* DoorItem.hpp */; };
 		84BF63862AF186C8008A9995 /* Inventory.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6752AC810620006A435 /* Inventory.hpp */; };
 		84BF63872AF186C8008A9995 /* Item.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6772AC810620006A435 /* Item.hpp */; };
-		84BF63882AF186C8008A9995 /* ItemInstance.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6792AC810620006A435 /* ItemInstance.hpp */; };
 		84BF63892AF186C8008A9995 /* TileItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD67B2AC810620006A435 /* TileItem.hpp */; };
 		84BF638A2AF186C8008A9995 /* TilePlanterItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD67D2AC810620006A435 /* TilePlanterItem.hpp */; };
 		84BF638B2AF186C8008A9995 /* Dimension.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6802AC810620006A435 /* Dimension.hpp */; };
@@ -834,6 +832,29 @@
 		84E78C842B58B5FB00D515EF /* RocketItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E78C822B58B5FB00D515EF /* RocketItem.hpp */; };
 		84E78C872B58B66B00D515EF /* RocketLauncherTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */; };
 		84E78C882B58B66B00D515EF /* RocketLauncherTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E78C862B58B66B00D515EF /* RocketLauncherTile.hpp */; };
+		84E7BF1A2F286A08002D3936 /* ArmorSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF0A2F286A08002D3936 /* ArmorSlot.cpp */; };
+		84E7BF1B2F286A08002D3936 /* ArmorSlot.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF0B2F286A08002D3936 /* ArmorSlot.hpp */; };
+		84E7BF1C2F286A08002D3936 /* ContainerMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF0C2F286A08002D3936 /* ContainerMenu.cpp */; };
+		84E7BF1D2F286A08002D3936 /* ContainerMenu.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF0D2F286A08002D3936 /* ContainerMenu.hpp */; };
+		84E7BF1E2F286A08002D3936 /* CraftingContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF0E2F286A08002D3936 /* CraftingContainer.cpp */; };
+		84E7BF1F2F286A08002D3936 /* CraftingContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF0F2F286A08002D3936 /* CraftingContainer.hpp */; };
+		84E7BF202F286A08002D3936 /* InventoryMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF102F286A08002D3936 /* InventoryMenu.cpp */; };
+		84E7BF212F286A08002D3936 /* InventoryMenu.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF112F286A08002D3936 /* InventoryMenu.hpp */; };
+		84E7BF222F286A08002D3936 /* ResultContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF122F286A08002D3936 /* ResultContainer.cpp */; };
+		84E7BF232F286A08002D3936 /* ResultContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF132F286A08002D3936 /* ResultContainer.hpp */; };
+		84E7BF242F286A08002D3936 /* ResultSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF142F286A08002D3936 /* ResultSlot.cpp */; };
+		84E7BF252F286A08002D3936 /* ResultSlot.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF152F286A08002D3936 /* ResultSlot.hpp */; };
+		84E7BF262F286A08002D3936 /* SimpleContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF162F286A08002D3936 /* SimpleContainer.cpp */; };
+		84E7BF272F286A08002D3936 /* SimpleContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF172F286A08002D3936 /* SimpleContainer.hpp */; };
+		84E7BF282F286A08002D3936 /* Slot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF182F286A08002D3936 /* Slot.cpp */; };
+		84E7BF292F286A08002D3936 /* Slot.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF192F286A08002D3936 /* Slot.hpp */; };
+		84E7BF2F2F286A20002D3936 /* CompoundContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF2A2F286A20002D3936 /* CompoundContainer.cpp */; };
+		84E7BF302F286A20002D3936 /* CompoundContainer.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF2B2F286A20002D3936 /* CompoundContainer.hpp */; };
+		84E7BF312F286A20002D3936 /* Container.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF2C2F286A20002D3936 /* Container.hpp */; };
+		84E7BF322F286A20002D3936 /* ContainerListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF2D2F286A20002D3936 /* ContainerListener.cpp */; };
+		84E7BF332F286A20002D3936 /* ContainerListener.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF2E2F286A20002D3936 /* ContainerListener.hpp */; };
+		84E7BF362F286A6A002D3936 /* ItemStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E7BF342F286A6A002D3936 /* ItemStack.cpp */; };
+		84E7BF372F286A6A002D3936 /* ItemStack.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E7BF352F286A6A002D3936 /* ItemStack.hpp */; };
 		84E8DCE52E84ACBC00B30789 /* libRenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8406FD292AF1814500B09C1D /* libRenderer.a */; };
 		84EAE8DE2AF1EAA1000894E8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */; };
 		84EAE8E02AF1EAA9000894E8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */; };
@@ -1598,8 +1619,6 @@
 		840DD6752AC810620006A435 /* Inventory.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		840DD6762AC810620006A435 /* Item.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Item.cpp; sourceTree = "<group>"; };
 		840DD6772AC810620006A435 /* Item.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Item.hpp; sourceTree = "<group>"; };
-		840DD6782AC810620006A435 /* ItemInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemInstance.cpp; sourceTree = "<group>"; };
-		840DD6792AC810620006A435 /* ItemInstance.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ItemInstance.hpp; sourceTree = "<group>"; };
 		840DD67A2AC810620006A435 /* TileItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TileItem.cpp; sourceTree = "<group>"; };
 		840DD67B2AC810620006A435 /* TileItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TileItem.hpp; sourceTree = "<group>"; };
 		840DD67C2AC810620006A435 /* TilePlanterItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TilePlanterItem.cpp; sourceTree = "<group>"; };
@@ -2423,6 +2442,29 @@
 		84E78C822B58B5FB00D515EF /* RocketItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RocketItem.hpp; sourceTree = "<group>"; };
 		84E78C852B58B66B00D515EF /* RocketLauncherTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RocketLauncherTile.cpp; sourceTree = "<group>"; };
 		84E78C862B58B66B00D515EF /* RocketLauncherTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RocketLauncherTile.hpp; sourceTree = "<group>"; };
+		84E7BF0A2F286A08002D3936 /* ArmorSlot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArmorSlot.cpp; sourceTree = "<group>"; };
+		84E7BF0B2F286A08002D3936 /* ArmorSlot.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArmorSlot.hpp; sourceTree = "<group>"; };
+		84E7BF0C2F286A08002D3936 /* ContainerMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContainerMenu.cpp; sourceTree = "<group>"; };
+		84E7BF0D2F286A08002D3936 /* ContainerMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ContainerMenu.hpp; sourceTree = "<group>"; };
+		84E7BF0E2F286A08002D3936 /* CraftingContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CraftingContainer.cpp; sourceTree = "<group>"; };
+		84E7BF0F2F286A08002D3936 /* CraftingContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CraftingContainer.hpp; sourceTree = "<group>"; };
+		84E7BF102F286A08002D3936 /* InventoryMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InventoryMenu.cpp; sourceTree = "<group>"; };
+		84E7BF112F286A08002D3936 /* InventoryMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InventoryMenu.hpp; sourceTree = "<group>"; };
+		84E7BF122F286A08002D3936 /* ResultContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResultContainer.cpp; sourceTree = "<group>"; };
+		84E7BF132F286A08002D3936 /* ResultContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResultContainer.hpp; sourceTree = "<group>"; };
+		84E7BF142F286A08002D3936 /* ResultSlot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResultSlot.cpp; sourceTree = "<group>"; };
+		84E7BF152F286A08002D3936 /* ResultSlot.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResultSlot.hpp; sourceTree = "<group>"; };
+		84E7BF162F286A08002D3936 /* SimpleContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleContainer.cpp; sourceTree = "<group>"; };
+		84E7BF172F286A08002D3936 /* SimpleContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SimpleContainer.hpp; sourceTree = "<group>"; };
+		84E7BF182F286A08002D3936 /* Slot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Slot.cpp; sourceTree = "<group>"; };
+		84E7BF192F286A08002D3936 /* Slot.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Slot.hpp; sourceTree = "<group>"; };
+		84E7BF2A2F286A20002D3936 /* CompoundContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompoundContainer.cpp; sourceTree = "<group>"; };
+		84E7BF2B2F286A20002D3936 /* CompoundContainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CompoundContainer.hpp; sourceTree = "<group>"; };
+		84E7BF2C2F286A20002D3936 /* Container.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Container.hpp; sourceTree = "<group>"; };
+		84E7BF2D2F286A20002D3936 /* ContainerListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContainerListener.cpp; sourceTree = "<group>"; };
+		84E7BF2E2F286A20002D3936 /* ContainerListener.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ContainerListener.hpp; sourceTree = "<group>"; };
+		84E7BF342F286A6A002D3936 /* ItemStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ItemStack.cpp; sourceTree = "<group>"; };
+		84E7BF352F286A6A002D3936 /* ItemStack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ItemStack.hpp; sourceTree = "<group>"; };
 		84EAE8DD2AF1EAA1000894E8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EAE8DF2AF1EAA9000894E8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		84EAE8E12AF1EAB5000894E8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -3370,14 +3412,20 @@
 		840DD6562AC810620006A435 /* world */ = {
 			isa = PBXGroup;
 			children = (
+				84E7BF2A2F286A20002D3936 /* CompoundContainer.cpp */,
+				84E7BF2B2F286A20002D3936 /* CompoundContainer.hpp */,
+				84E7BF2C2F286A20002D3936 /* Container.hpp */,
+				84E7BF2D2F286A20002D3936 /* ContainerListener.cpp */,
+				84E7BF2E2F286A20002D3936 /* ContainerListener.hpp */,
 				840DD6572AC810620006A435 /* entity */,
+				8477B3A82C4DC3B3004E1AC5 /* Facing.hpp */,
 				840DD6682AC810620006A435 /* gamemode */,
+				84E7BF092F286A08002D3936 /* inventory */,
 				840DD66F2AC810620006A435 /* item */,
 				840DD67E2AC810620006A435 /* level */,
 				840DD6CE2AC810620006A435 /* particle */,
 				840DD6DA2AC810620006A435 /* phys */,
 				840DD6E12AC810620006A435 /* tile */,
-				8477B3A82C4DC3B3004E1AC5 /* Facing.hpp */,
 			);
 			path = world;
 			sourceTree = "<group>";
@@ -3474,8 +3522,8 @@
 				840DD6752AC810620006A435 /* Inventory.hpp */,
 				840DD6762AC810620006A435 /* Item.cpp */,
 				840DD6772AC810620006A435 /* Item.hpp */,
-				840DD6782AC810620006A435 /* ItemInstance.cpp */,
-				840DD6792AC810620006A435 /* ItemInstance.hpp */,
+				84E7BF342F286A6A002D3936 /* ItemStack.cpp */,
+				84E7BF352F286A6A002D3936 /* ItemStack.hpp */,
 				84E78C812B58B5FB00D515EF /* RocketItem.cpp */,
 				84E78C822B58B5FB00D515EF /* RocketItem.hpp */,
 				84E1C9E32E7FDC72007D2F5D /* SlabItem.cpp */,
@@ -4525,6 +4573,29 @@
 			path = base;
 			sourceTree = "<group>";
 		};
+		84E7BF092F286A08002D3936 /* inventory */ = {
+			isa = PBXGroup;
+			children = (
+				84E7BF0A2F286A08002D3936 /* ArmorSlot.cpp */,
+				84E7BF0B2F286A08002D3936 /* ArmorSlot.hpp */,
+				84E7BF0C2F286A08002D3936 /* ContainerMenu.cpp */,
+				84E7BF0D2F286A08002D3936 /* ContainerMenu.hpp */,
+				84E7BF0E2F286A08002D3936 /* CraftingContainer.cpp */,
+				84E7BF0F2F286A08002D3936 /* CraftingContainer.hpp */,
+				84E7BF102F286A08002D3936 /* InventoryMenu.cpp */,
+				84E7BF112F286A08002D3936 /* InventoryMenu.hpp */,
+				84E7BF122F286A08002D3936 /* ResultContainer.cpp */,
+				84E7BF132F286A08002D3936 /* ResultContainer.hpp */,
+				84E7BF142F286A08002D3936 /* ResultSlot.cpp */,
+				84E7BF152F286A08002D3936 /* ResultSlot.hpp */,
+				84E7BF162F286A08002D3936 /* SimpleContainer.cpp */,
+				84E7BF172F286A08002D3936 /* SimpleContainer.hpp */,
+				84E7BF182F286A08002D3936 /* Slot.cpp */,
+				84E7BF192F286A08002D3936 /* Slot.hpp */,
+			);
+			path = inventory;
+			sourceTree = "<group>";
+		};
 		84E8DCE22E849A1600B30789 /* sdl2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -5280,13 +5351,15 @@
 				84BF63862AF186C8008A9995 /* Inventory.hpp in Headers */,
 				8477B3B52C4DC414004E1AC5 /* ChunkTilePos.hpp in Headers */,
 				84BF63872AF186C8008A9995 /* Item.hpp in Headers */,
-				84BF63882AF186C8008A9995 /* ItemInstance.hpp in Headers */,
+				84E7BF332F286A20002D3936 /* ContainerListener.hpp in Headers */,
 				84BF63892AF186C8008A9995 /* TileItem.hpp in Headers */,
 				84BF638A2AF186C8008A9995 /* TilePlanterItem.hpp in Headers */,
+				84E7BF292F286A08002D3936 /* Slot.hpp in Headers */,
 				84E1C9DC2E7FDC26007D2F5D /* TallGrass.hpp in Headers */,
 				84BF638B2AF186C8008A9995 /* Dimension.hpp in Headers */,
 				84BF638C2AF186C8008A9995 /* Explosion.hpp in Headers */,
 				84BF638D2AF186C8008A9995 /* Level.hpp in Headers */,
+				84E7BF212F286A08002D3936 /* InventoryMenu.hpp in Headers */,
 				84BF638E2AF186C8008A9995 /* Biome.hpp in Headers */,
 				84BF638F2AF186C8008A9995 /* BiomeSource.hpp in Headers */,
 				84BF63902AF186C8008A9995 /* ChunkCache.hpp in Headers */,
@@ -5299,6 +5372,8 @@
 				84BF63962AF186C8008A9995 /* Feature.hpp in Headers */,
 				8477B3AD2C4DC3F6004E1AC5 /* TilePos.hpp in Headers */,
 				84BF63972AF186C8008A9995 /* LargeCaveFeature.hpp in Headers */,
+				84E7BF1B2F286A08002D3936 /* ArmorSlot.hpp in Headers */,
+				84E7BF252F286A08002D3936 /* ResultSlot.hpp in Headers */,
 				84BF63982AF186C8008A9995 /* LargeFeature.hpp in Headers */,
 				84BF63992AF186C8008A9995 /* ImprovedNoise.hpp in Headers */,
 				84BF639A2AF186C8008A9995 /* PerlinNoise.hpp in Headers */,
@@ -5320,12 +5395,15 @@
 				84BF63A52AF186C8008A9995 /* LevelStorageSource.hpp in Headers */,
 				84BF63A62AF186C8008A9995 /* MemoryChunkStorage.hpp in Headers */,
 				84BF63A72AF186C8008A9995 /* MemoryLevelStorage.hpp in Headers */,
+				84E7BF1F2F286A08002D3936 /* CraftingContainer.hpp in Headers */,
 				84BF63A82AF186C8008A9995 /* MemoryLevelStorageSource.hpp in Headers */,
 				84E1C9EA2E7FDC72007D2F5D /* SlabItem.hpp in Headers */,
 				84BF63A92AF186C8008A9995 /* RegionFile.hpp in Headers */,
 				84BF63AA2AF186C8008A9995 /* TickNextTickData.hpp in Headers */,
 				84BF63AB2AF186C8008A9995 /* Particle.hpp in Headers */,
+				84E7BF232F286A08002D3936 /* ResultContainer.hpp in Headers */,
 				84E1C9E62E7FDC72007D2F5D /* AuxTileItem.hpp in Headers */,
+				84E7BF272F286A08002D3936 /* SimpleContainer.hpp in Headers */,
 				84B1E0402E04FD7900ED000A /* Zombie.hpp in Headers */,
 				84BF63AC2AF186C8008A9995 /* ParticleEngine.hpp in Headers */,
 				84BF63AD2AF186C8008A9995 /* AABB.hpp in Headers */,
@@ -5368,12 +5446,14 @@
 				84E1C9D22E7FDC26007D2F5D /* DeadBush.hpp in Headers */,
 				84BF63CD2AF186C9008A9995 /* StoneSlabTile.hpp in Headers */,
 				84BF63CE2AF186C9008A9995 /* StoneTile.hpp in Headers */,
+				84E7BF1D2F286A08002D3936 /* ContainerMenu.hpp in Headers */,
 				84BF63CF2AF186C9008A9995 /* Tile.hpp in Headers */,
 				84BF63D02AF186C9008A9995 /* TntTile.hpp in Headers */,
 				84BF63D12AF186C9008A9995 /* TopSnowTile.hpp in Headers */,
 				84BF63D22AF186C9008A9995 /* TorchTile.hpp in Headers */,
 				84BF63D32AF186C9008A9995 /* TransparentTile.hpp in Headers */,
 				84BF63D42AF186C9008A9995 /* TreeTile.hpp in Headers */,
+				84E7BF312F286A20002D3936 /* Container.hpp in Headers */,
 				84BF63D52AF186C9008A9995 /* WireTile.hpp in Headers */,
 				84AA8B512B32F39A003F5B82 /* BinaryHeap.hpp in Headers */,
 				84AA8B532B32F39A003F5B82 /* Node.hpp in Headers */,
@@ -5388,6 +5468,7 @@
 				84B1E03E2E04FD7900ED000A /* Spider.hpp in Headers */,
 				84AA8B8D2B32F3B5003F5B82 /* PathfinderMob.hpp in Headers */,
 				84AA8B8F2B32F3B5003F5B82 /* Pig.hpp in Headers */,
+				84E7BF372F286A6A002D3936 /* ItemStack.hpp in Headers */,
 				84EE51342E8DCD4900D3DCA2 /* TileChange.hpp in Headers */,
 				8477B3BB2C4DC42E004E1AC5 /* Vec2.hpp in Headers */,
 				8477B3B42C4DC414004E1AC5 /* ChunkPos.hpp in Headers */,
@@ -5402,6 +5483,7 @@
 				8470AF2D2BE9B60A00BCA54E /* MobFactory.hpp in Headers */,
 				8470AF392BE9B6D100BCA54E /* GameType.hpp in Headers */,
 				8470AF3D2BE9B6FA00BCA54E /* FireworkParticle.hpp in Headers */,
+				84E7BF302F286A20002D3936 /* CompoundContainer.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6303,12 +6385,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84E7BF322F286A20002D3936 /* ContainerListener.cpp in Sources */,
 				84BF630C2AF18631008A9995 /* Entity.cpp in Sources */,
 				84BF630D2AF18631008A9995 /* FallingTile.cpp in Sources */,
 				84BF630E2AF18631008A9995 /* ItemEntity.cpp in Sources */,
 				84BF63102AF18631008A9995 /* Mob.cpp in Sources */,
 				84BF63112AF18631008A9995 /* Player.cpp in Sources */,
 				8445E7A52D769329008DC834 /* MobCategory.cpp in Sources */,
+				84E7BF222F286A08002D3936 /* ResultContainer.cpp in Sources */,
 				84BF63122AF18631008A9995 /* PrimedTnt.cpp in Sources */,
 				84BF63132AF18631008A9995 /* TripodCamera.cpp in Sources */,
 				84BF63142AF18631008A9995 /* CreativeMode.cpp in Sources */,
@@ -6321,7 +6405,6 @@
 				84BF63192AF18631008A9995 /* Inventory.cpp in Sources */,
 				8445E7A22D769329008DC834 /* EntityType.cpp in Sources */,
 				84BF631A2AF18631008A9995 /* Item.cpp in Sources */,
-				84BF631B2AF18631008A9995 /* ItemInstance.cpp in Sources */,
 				84BF631C2AF18631008A9995 /* TileItem.cpp in Sources */,
 				84E1C9F02E7FDC89007D2F5D /* VegetationFeature.cpp in Sources */,
 				84BF631D2AF18631008A9995 /* TilePlanterItem.cpp in Sources */,
@@ -6332,6 +6415,7 @@
 				84BF63222AF18631008A9995 /* BiomeSource.cpp in Sources */,
 				84BF63232AF18631008A9995 /* ChunkCache.cpp in Sources */,
 				84E1C9CF2E7FDC26007D2F5D /* CactusTile.cpp in Sources */,
+				84E7BF1A2F286A08002D3936 /* ArmorSlot.cpp in Sources */,
 				84BF63242AF18631008A9995 /* ChunkSource.cpp in Sources */,
 				84BF63252AF18631008A9995 /* LevelChunk.cpp in Sources */,
 				84BF63262AF18631008A9995 /* PerformanceTestChunkSource.cpp in Sources */,
@@ -6342,6 +6426,7 @@
 				84E1C9D12E7FDC26007D2F5D /* DeadBush.cpp in Sources */,
 				84BF63292AF18631008A9995 /* BirchFeature.cpp in Sources */,
 				84BF632A2AF18631008A9995 /* ClayFeature.cpp in Sources */,
+				84E7BF262F286A08002D3936 /* SimpleContainer.cpp in Sources */,
 				84BF632B2AF18631008A9995 /* Feature.cpp in Sources */,
 				84BF632C2AF18631008A9995 /* FlowerFeature.cpp in Sources */,
 				8445E7A72D769329008DC834 /* Sheep.cpp in Sources */,
@@ -6358,6 +6443,7 @@
 				84BF63362AF18631008A9995 /* PerlinNoise.cpp in Sources */,
 				84BF63372AF18631008A9995 /* Synth.cpp in Sources */,
 				84BF63382AF18631008A9995 /* LevelListener.cpp in Sources */,
+				84E7BF2F2F286A20002D3936 /* CompoundContainer.cpp in Sources */,
 				84BF63392AF18631008A9995 /* Material.cpp in Sources */,
 				84BF633A2AF18631008A9995 /* Region.cpp in Sources */,
 				84BF633B2AF18631008A9995 /* ChunkStorage.cpp in Sources */,
@@ -6380,6 +6466,7 @@
 				84BF63452AF18631008A9995 /* RegionFile.cpp in Sources */,
 				84BF63462AF18631008A9995 /* TickNextTickData.cpp in Sources */,
 				84BF63472AF18631008A9995 /* BubbleParticle.cpp in Sources */,
+				84E7BF282F286A08002D3936 /* Slot.cpp in Sources */,
 				84BF63482AF18631008A9995 /* ExplodeParticle.cpp in Sources */,
 				8445E7A92D769329008DC834 /* SynchedEntityData.cpp in Sources */,
 				84BF63492AF18631008A9995 /* FlameParticle.cpp in Sources */,
@@ -6394,6 +6481,7 @@
 				84BF63512AF18631008A9995 /* HitResult.cpp in Sources */,
 				84BF63522AF18631008A9995 /* Vec3.cpp in Sources */,
 				84BF63532AF18631008A9995 /* BookshelfTile.cpp in Sources */,
+				84E7BF1C2F286A08002D3936 /* ContainerMenu.cpp in Sources */,
 				84BF63542AF18631008A9995 /* Bush.cpp in Sources */,
 				84BF63552AF18631008A9995 /* ClayTile.cpp in Sources */,
 				84BF63562AF18631008A9995 /* ClothTile.cpp in Sources */,
@@ -6430,6 +6518,7 @@
 				84BF63712AF18631008A9995 /* StoneTile.cpp in Sources */,
 				84BF63722AF18631008A9995 /* Tile.cpp in Sources */,
 				84BF63732AF18631008A9995 /* TntTile.cpp in Sources */,
+				84E7BF1E2F286A08002D3936 /* CraftingContainer.cpp in Sources */,
 				84BF63742AF18631008A9995 /* TopSnowTile.cpp in Sources */,
 				8445E7A32D769329008DC834 /* EntityTypeDescriptor.cpp in Sources */,
 				84BF63752AF18631008A9995 /* TorchTile.cpp in Sources */,
@@ -6449,6 +6538,8 @@
 				84AA8B7C2B32F3B5003F5B82 /* Cow.cpp in Sources */,
 				84AA8B7E2B32F3B5003F5B82 /* Creeper.cpp in Sources */,
 				84AA8B8A2B32F3B5003F5B82 /* Monster.cpp in Sources */,
+				84E7BF242F286A08002D3936 /* ResultSlot.cpp in Sources */,
+				84E7BF202F286A08002D3936 /* InventoryMenu.cpp in Sources */,
 				84AA8B8C2B32F3B5003F5B82 /* PathfinderMob.cpp in Sources */,
 				84AA8B8E2B32F3B5003F5B82 /* Pig.cpp in Sources */,
 				84AA8B962B32F3B5003F5B82 /* WaterAnimal.cpp in Sources */,
@@ -6457,6 +6548,7 @@
 				84E78C872B58B66B00D515EF /* RocketLauncherTile.cpp in Sources */,
 				8470AF2C2BE9B60A00BCA54E /* MobFactory.cpp in Sources */,
 				84E1C9E92E7FDC72007D2F5D /* SlabItem.cpp in Sources */,
+				84E7BF362F286A6A002D3936 /* ItemStack.cpp in Sources */,
 				8470AF3C2BE9B6FA00BCA54E /* FireworkParticle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
