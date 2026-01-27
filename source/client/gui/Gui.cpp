@@ -233,14 +233,14 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 {
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
-	ItemStack& inst = pInv->getItem(slot);
-	if (inst.isEmpty())
+	ItemStack& item = pInv->getItem(slot);
+	if (item.isEmpty())
 		return;
 
 	{
 		MatrixStack::Ref matrix;
 
-		float var6 = ((float)inst.m_popTime) - f;
+		float var6 = ((float)item.m_popTime) - f;
 		if (var6 > 0.0f)
 		{
 			float var7 = 1.0f + var6 / 5.0f;
@@ -250,21 +250,21 @@ void Gui::renderSlot(int slot, int x, int y, float f)
 			matrix->translate(Vec3(-(x + 8), -(y + 12), 0.0f));
 		}
 
-		ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, inst, x, y, true);
+		ItemRenderer::singleton().renderGuiItem(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, item, x, y, true);
 	}
 
-    //ItemRenderer::renderGuiItemDecorations(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, pInst, x, y);
+    //ItemRenderer::renderGuiItemDecorations(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, item, x, y);
 }
 
 void Gui::renderSlotOverlay(int slot, int x, int y, float f)
 {
 	Inventory* pInv = m_pMinecraft->m_pLocalPlayer->m_pInventory;
 
-	ItemStack& inst = pInv->getItem(slot);
-	if (inst.isEmpty())
+	ItemStack& item = pInv->getItem(slot);
+	if (item.isEmpty())
 		return;
 
-	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, inst, x, y);
+	ItemRenderer::singleton().renderGuiItemOverlay(m_pMinecraft->m_pFont, m_pMinecraft->m_pTextures, item, x, y);
 }
 
 int Gui::getSlotIdAt(int mouseX, int mouseY)

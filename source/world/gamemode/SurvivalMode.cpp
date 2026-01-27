@@ -162,20 +162,20 @@ void SurvivalMode::render(float f)
 	}
 }
 
-bool SurvivalMode::useItemOn(Player* player, Level* level, ItemStack& instance, const TilePos& pos, Facing::Name face)
+bool SurvivalMode::useItemOn(Player* player, Level* level, ItemStack& item, const TilePos& pos, Facing::Name face)
 {
 #ifdef MOD_POCKET_SURVIVAL
-	if (instance.isEmpty())
-		return GameMode::useItemOn(player, level, instance, pos, face);
+	if (item.isEmpty())
+		return GameMode::useItemOn(player, level, item, pos, face);
 
-	bool unlimited = player->m_pInventory->hasUnlimitedResource(instance);
-	int oldCount = instance.m_count;
-	bool result = GameMode::useItemOn(player, level, instance, pos, face);
+	bool unlimited = player->m_pInventory->hasUnlimitedResource(item);
+	int oldCount = item.m_count;
+	bool result = GameMode::useItemOn(player, level, item, pos, face);
 	if (unlimited)
-		instance.m_count = oldCount;
+		item.m_count = oldCount;
 
 	return result;
 #else
-	return GameMode::useItemOn(player, level, instance, pos, face);
+	return GameMode::useItemOn(player, level, item, pos, face);
 #endif
 }

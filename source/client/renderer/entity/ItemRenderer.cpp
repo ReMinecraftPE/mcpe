@@ -184,16 +184,16 @@ void ItemRenderer::blit(int dx, int dy, int sx, int sy, int tw, int th)
 	t.draw(m_itemMaterials.ui_textured);
 }
 
-void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStack& instance, int x, int y)
+void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStack& item, int x, int y)
 {
-	if (instance.isEmpty())
+	if (item.isEmpty())
 		return;
 
-	if (instance.m_count == 1)
+	if (item.m_count == 1)
 		return;
 
 	std::stringstream ss;
-	ss << instance.m_count;
+	ss << item.m_count;
 	std::string amtstr = ss.str();
 
 	int width = font->width(amtstr), height = font->height(amtstr) + 8;
@@ -201,18 +201,18 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStac
 	font->drawShadow(amtstr, x + 17 - width, y + 17 - height, 0xFFFFFF);
 }
 
-void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemStack& instance, int x, int y, bool b)
+void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemStack& item, int x, int y, bool b)
 {
 	// @NOTE: Font unused but would presumably be used to draw the item amount.
 	// As if that actually works due to us blocking t.begin() and t.draw() calls...
-	if (instance.isEmpty() || !instance.isValid())
+	if (item.isEmpty() || !item.isValid())
 		return;
 
 	if (!b)
 		return;
 
-	//Item* pItem = instance->getItem();
-	Tile* pTile = instance.getTile();
+	//Item* pItem = item->getItem();
+	Tile* pTile = item.getTile();
 
 	// @BUG: This is one of the reasons you can't actually hold items in early Minecraft.
 	// There's an attempt to index `Tile::tiles` out of bounds, which of course fails, and likely crashes the game. :(
@@ -243,10 +243,10 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemStack& inst
 #ifndef ENH_3D_INVENTORY_TILES
 		textures->loadAndBindTexture(C_BLOCKS_NAME);
 
-		float texU = float(g_ItemFrames[instance->getId()] % 10) * 48.0f;
-		float texV = float(g_ItemFrames[instance->getId()] / 10) * 48.0f;
+		float texU = float(g_ItemFrames[item->getId()] % 10) * 48.0f;
+		float texV = float(g_ItemFrames[item->getId()] / 10) * 48.0f;
 
-		Tesselator& t = Tesselator::instance;
+		Tesselator& t = Tesselator::item;
 		// @NOTE: These do nothing, due to a previous t.voidBeginAndEndCalls call.
 		t.begin();
 		t.vertexUV(float(x +  0), float(y + 16), 0.0f,  texU          / 512.0f, (texV + 48.0f) / 512.0f);
@@ -271,19 +271,19 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures, ItemStack& inst
 			matrix->rotate(-90.0f, Vec3::UNIT_Y);
 		}
 		
-		m_pTileRenderer->renderTile(FullTile(pTile, instance.getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
+		m_pTileRenderer->renderTile(FullTile(pTile, item.getAuxValue()), m_itemMaterials.ui_item, 1.0f, true);
 		#undef PARM_HACK
 #endif
 	}
-	else if (instance.getIcon() >= 0)
+	else if (item.getIcon() >= 0)
 	{
 		// @BUG: The last bound texture will be the texture that ALL items will take. This is because begin and end calls
 		// have been void'ed by a  t.voidBeginAndEndCalls call in Gui::render.
-		if (instance.getTile())
+		if (item.getTile())
 			textures->loadAndBindTexture(C_TERRAIN_NAME);
 		else
 			textures->loadAndBindTexture(C_ITEMS_NAME);
 
-		blit(x, y, 16 * (instance.getIcon() % 16), 16 * (instance.getIcon() / 16), 16, 16);
+		blit(x, y, 16 * (item.getIcon() % 16), 16 * (item.getIcon() / 16), 16, 16);
 	}
 }

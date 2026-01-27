@@ -167,7 +167,7 @@ public:
 	bool m_bHasQueuedScreen;
 	Screen* m_pQueuedScreen;
 	int m_licenseID;
-	ItemStack m_CurritemStack;
+	ItemStack m_CurrItemStack;
 
 	// in 0.8. Offset 3368
 	double m_fDeltaTime, m_fLastUpdated;

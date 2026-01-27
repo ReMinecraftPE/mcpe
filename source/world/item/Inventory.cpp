@@ -202,27 +202,27 @@ void Inventory::addCreativeItem(int itemID, int auxValue)
 	add(item);
 }
 
-bool Inventory::add(ItemStack& instance)
+bool Inventory::add(ItemStack& item)
 {
-	if (!instance.isDamaged())
+	if (!item.isDamaged())
 	{
 		int oldCount;
 		do
 		{
-			oldCount = instance.m_count;
-			instance.m_count = addResource(instance);
+			oldCount = item.m_count;
+			item.m_count = addResource(item);
 		}
-		while (instance.m_count > 0 && instance.m_count < oldCount);
+		while (item.m_count > 0 && item.m_count < oldCount);
 
-		return instance.m_count < oldCount;
+		return item.m_count < oldCount;
 	}
 
 	int freeSlot = getFreeSlot();
 	if (freeSlot >= 0)
 	{
-		m_items[freeSlot] = instance;
+		m_items[freeSlot] = item;
 		m_items[freeSlot].m_popTime = C_POP_TIME_DURATION;
-		instance.m_count = 0;
+		item.m_count = 0;
 		return true;
 	}
 	else
@@ -373,22 +373,22 @@ void Inventory::tick()
 
 void Inventory::addTestItem(int itemID, int amount, int auxValue)
 {
-	ItemStack inst(itemID, amount, auxValue);
-	add(inst);
+	ItemStack item(itemID, amount, auxValue);
+	add(item);
 
-	if (inst.m_count != 0)
+	if (item.m_count != 0)
 	{
 		LOG_I("AddTestItem: Couldn't add all %d of %s, only gave %d",
-			amount, Item::items[itemID]->m_DescriptionID.c_str(), amount - inst.m_count);
+			amount, Item::items[itemID]->m_DescriptionID.c_str(), amount - item.m_count);
 	}
 }
 
-bool Inventory::hasUnlimitedResource(const ItemStack& instance) const
+bool Inventory::hasUnlimitedResource(const ItemStack& item) const
 {
-	if (instance.isEmpty())
+	if (item.isEmpty())
 		return false;
 
-	int itemId = instance.getId();
+	int itemId = item.getId();
 
 	switch (itemId)
 	{
@@ -397,7 +397,7 @@ bool Inventory::hasUnlimitedResource(const ItemStack& instance) const
 	}
 
 	// strictly an item, not a tile
-	if (!instance.getTile())
+	if (!item.getTile())
 		return true;
 
 	// big ol' if statement in 0.2.1
@@ -539,11 +539,11 @@ void Inventory::selectSlot(int slotNo)
 
 int Inventory::getAttackDamage(Entity* pEnt)
 {
-	ItemStack& inst = getSelected();
-	if (inst.isEmpty())
+	ItemStack& item = getSelected();
+	if (item.isEmpty())
 		return 1;
 
-	return inst.getAttackDamage(pEnt);
+	return item.getAttackDamage(pEnt);
 }
 
 int Inventory::getArmorValue() const

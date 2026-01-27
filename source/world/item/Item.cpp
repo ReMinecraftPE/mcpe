@@ -556,7 +556,7 @@ void Item::initItems()
 		->setDescriptionId("quiver");
 }
 
-int Item::getIcon(const ItemStack* pInstance) const
+int Item::getIcon(const ItemStack* item) const
 {
 	return m_icon;
 }

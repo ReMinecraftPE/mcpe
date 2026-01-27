@@ -76,7 +76,7 @@ void ItemInHandRenderer::render(float a)
 	ItemStack* pItem = &m_selectedItem;
 	/*if (pLP->m_fishing != null)
     {
-		pItem = new itemStack(Item::stick);
+		pItem = new ItemStack(Item::stick);
 	}*/
     
     float swing2, swing3;
@@ -371,7 +371,7 @@ void ItemInHandRenderer::tick()
     //    if (&item != &m_selectedItem && item.getId() == m_selectedItem.getId() && item.getAuxValue() == m_selectedItem.getAuxValue())
     //    {
     //        bSameItem = true;
-    //        m_selectedItem = itemStack(item);
+    //        m_selectedItem = ItemStack(item);
     //    }
     //}
 

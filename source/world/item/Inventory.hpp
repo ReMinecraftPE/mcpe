@@ -32,9 +32,9 @@ public:
 	void addCreativeItem(int itemID, int auxValue = 0);
 	void addTestItem(int itemID, int amount, int auxValue = 0);
 
-	bool hasUnlimitedResource(const ItemStack& pInstance) const;
+	bool hasUnlimitedResource(const ItemStack& item) const;
 
-	bool add(ItemStack& instance);
+	bool add(ItemStack& item);
     void tick();
 
 	ItemStack& getItem(int slotNo) override;

@@ -1076,8 +1076,8 @@ void Tile::spawnResources(Level* pLevel, const TilePos& pos, TileData data, floa
 			   (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f,
 			   (pLevel->m_random.nextFloat() * 0.7f) + (1.0f - 0.7f) * 0.5f);
 
-		ItemStack inst(id, 1, getSpawnResourcesAuxValue(data));
-		ItemEntity* pEntity = new ItemEntity(pLevel, Vec3(pos) + o, inst);
+		ItemStack item(id, 1, getSpawnResourcesAuxValue(data));
+		ItemEntity* pEntity = new ItemEntity(pLevel, Vec3(pos) + o, item);
 		pEntity->m_throwTime = 10;
 
 		pLevel->addEntity(pEntity);

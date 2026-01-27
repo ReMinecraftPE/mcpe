@@ -1215,19 +1215,19 @@ LevelStorageSource* Minecraft::getLevelSource()
 
 ItemStack& Minecraft::getSelectedItem()
 {
-	ItemStack& pInst = m_pLocalPlayer->getSelectedItem();
+	ItemStack& item = m_pLocalPlayer->getSelectedItem();
 
-	if (pInst.isEmpty())
-		return pInst;
+	if (item.isEmpty())
+		return item;
 
 	if (m_pGameMode->isCreativeType())
 	{
 		// Create new "unlimited" itemStack for Creative mode
-		m_CurritemStack = ItemStack(pInst.getId(), 999, pInst.getAuxValue());
-		return m_CurritemStack;
+		m_CurrItemStack = ItemStack(item.getId(), 999, item.getAuxValue());
+		return m_CurrItemStack;
 	}
 
-	return pInst;
+	return item;
 }
 
 void Minecraft::reloadFancy(bool isFancy)

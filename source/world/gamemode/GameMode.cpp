@@ -135,17 +135,17 @@ void GameMode::handleCloseInventory(int a, Player* player)
 {
 }
 
-bool GameMode::useItem(Player* player, Level* level, ItemStack& instance)
+bool GameMode::useItem(Player* player, Level* level, ItemStack& item)
 {
-	int oldCount = instance.m_count;
+	int oldCount = item.m_count;
 
-	if (&instance == instance.use(level, player))
-		return instance.m_count != oldCount;
+	if (&item == item.use(level, player))
+		return item.m_count != oldCount;
 
 	return true;
 }
 
-bool GameMode::useItemOn(Player* player, Level* level, ItemStack& instance, const TilePos& pos, Facing::Name face)
+bool GameMode::useItemOn(Player* player, Level* level, ItemStack& item, const TilePos& pos, Facing::Name face)
 {
 	TileID tile = level->getTile(pos);
 	if (tile == Tile::invisible_bedrock->m_ID)
@@ -157,14 +157,14 @@ bool GameMode::useItemOn(Player* player, Level* level, ItemStack& instance, cons
 	{
 		success = true;
 	}
-	else if (!instance.isEmpty())
+	else if (!item.isEmpty())
 	{
-		success = instance.useOn(player, level, pos, face);
+		success = item.useOn(player, level, pos, face);
 	}
 
 	if (success)
 	{
-		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, instance));
+		_level.m_pRakNetInstance->send(new UseItemPacket(pos, face, player->m_EntityID, item));
 	}
 
 	return success;
