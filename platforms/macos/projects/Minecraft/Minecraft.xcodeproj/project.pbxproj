@@ -758,6 +758,8 @@
 		84D770132EE5158C00701DCB /* stb_image_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8E462B32FB33003F5B82 /* stb_image_impl.c */; };
 		84D772272EE5182B00701DCB /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 84D772262EE5180600701DCB /* assets */; };
 		84D9A30F2AF18EE700B00AD3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3252A86E4B0004CA8EC /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		84DFC1E52F285ECA00F5434F /* ShaderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DFC1E32F285ECA00F5434F /* ShaderGroup.cpp */; };
+		84DFC1E62F285ECA00F5434F /* ShaderGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DFC1E42F285ECA00F5434F /* ShaderGroup.hpp */; };
 		84E0011B2AF39E84009B9555 /* BuildActionIntention.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E000FB2AF39E84009B9555 /* BuildActionIntention.hpp */; };
 		84E0011C2AF39E84009B9555 /* CustomInputHolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84E000FC2AF39E84009B9555 /* CustomInputHolder.cpp */; };
 		84E0011D2AF39E84009B9555 /* CustomInputHolder.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E000FD2AF39E84009B9555 /* CustomInputHolder.hpp */; };
@@ -1087,8 +1089,6 @@
 		84EB0DF62EE2D4B4008FB007 /* RenderMaterial.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CFD2EE2D4B3008FB007 /* RenderMaterial.hpp */; };
 		84EB0DF72EE2D4B4008FB007 /* ShaderConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0CFE2EE2D4B3008FB007 /* ShaderConstants.cpp */; };
 		84EB0DF82EE2D4B4008FB007 /* ShaderConstants.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0CFF2EE2D4B3008FB007 /* ShaderConstants.hpp */; };
-		84EB0DF92EE2D4B4008FB007 /* ShaderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D002EE2D4B3008FB007 /* ShaderGroup.cpp */; };
-		84EB0DFA2EE2D4B4008FB007 /* ShaderGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D012EE2D4B3008FB007 /* ShaderGroup.hpp */; };
 		84EB0DFB2EE2D4B4008FB007 /* ShaderGroupBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D022EE2D4B3008FB007 /* ShaderGroupBase.cpp */; };
 		84EB0DFC2EE2D4B4008FB007 /* ShaderGroupBase.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84EB0D032EE2D4B3008FB007 /* ShaderGroupBase.hpp */; };
 		84EB0DFD2EE2D4B4008FB007 /* StencilRefObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84EB0D042EE2D4B3008FB007 /* StencilRefObject.cpp */; };
@@ -2362,6 +2362,8 @@
 		84CEF0022AE3C97D006C5829 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
 		84D6694F2B1EAEBF00B34FC1 /* GlobalDebugSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = GlobalDebugSettings.xcconfig; path = ../Configuration/GlobalDebugSettings.xcconfig; sourceTree = "<group>"; };
 		84D772262EE5180600701DCB /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../../game/assets; sourceTree = "<group>"; };
+		84DFC1E32F285ECA00F5434F /* ShaderGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderGroup.cpp; sourceTree = "<group>"; };
+		84DFC1E42F285ECA00F5434F /* ShaderGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderGroup.hpp; sourceTree = "<group>"; };
 		84E000FB2AF39E84009B9555 /* BuildActionIntention.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BuildActionIntention.hpp; sourceTree = "<group>"; };
 		84E000FC2AF39E84009B9555 /* CustomInputHolder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CustomInputHolder.cpp; sourceTree = "<group>"; };
 		84E000FD2AF39E84009B9555 /* CustomInputHolder.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CustomInputHolder.hpp; sourceTree = "<group>"; };
@@ -2696,8 +2698,6 @@
 		84EB0CFD2EE2D4B3008FB007 /* RenderMaterial.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RenderMaterial.hpp; sourceTree = "<group>"; };
 		84EB0CFE2EE2D4B3008FB007 /* ShaderConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderConstants.cpp; sourceTree = "<group>"; };
 		84EB0CFF2EE2D4B3008FB007 /* ShaderConstants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderConstants.hpp; sourceTree = "<group>"; };
-		84EB0D002EE2D4B3008FB007 /* ShaderGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderGroup.cpp; sourceTree = "<group>"; };
-		84EB0D012EE2D4B3008FB007 /* ShaderGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderGroup.hpp; sourceTree = "<group>"; };
 		84EB0D022EE2D4B3008FB007 /* ShaderGroupBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderGroupBase.cpp; sourceTree = "<group>"; };
 		84EB0D032EE2D4B3008FB007 /* ShaderGroupBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderGroupBase.hpp; sourceTree = "<group>"; };
 		84EB0D042EE2D4B3008FB007 /* StencilRefObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StencilRefObject.cpp; sourceTree = "<group>"; };
@@ -3355,8 +3355,6 @@
 				84EB0CFD2EE2D4B3008FB007 /* RenderMaterial.hpp */,
 				84EB0CFE2EE2D4B3008FB007 /* ShaderConstants.cpp */,
 				84EB0CFF2EE2D4B3008FB007 /* ShaderConstants.hpp */,
-				84EB0D002EE2D4B3008FB007 /* ShaderGroup.cpp */,
-				84EB0D012EE2D4B3008FB007 /* ShaderGroup.hpp */,
 				84EB0D022EE2D4B3008FB007 /* ShaderGroupBase.cpp */,
 				84EB0D032EE2D4B3008FB007 /* ShaderGroupBase.hpp */,
 				84EB0D042EE2D4B3008FB007 /* StencilRefObject.cpp */,
@@ -4386,8 +4384,6 @@
 				84AA8BE02B32F3F3003F5B82 /* RenderList.hpp */,
 				84EB09E72EE2CCA8008FB007 /* ScreenRenderer.cpp */,
 				84EB09E82EE2CCA8008FB007 /* ScreenRenderer.hpp */,
-				84AA8BE12B32F3F3003F5B82 /* Tesselator.cpp */,
-				84AA8BE22B32F3F3003F5B82 /* Tesselator.hpp */,
 				84EB09E92EE2CCA8008FB007 /* texture */,
 				84AA8BE32B32F3F3003F5B82 /* Texture.hpp */,
 				84AA8BE42B32F3F3003F5B82 /* Textures.cpp */,
@@ -4619,6 +4615,10 @@
 				84EB09E42EE2CCA8008FB007 /* EntityShaderManager.hpp */,
 				84EB09E52EE2CCA8008FB007 /* RenderMaterialGroup.cpp */,
 				84EB09E62EE2CCA8008FB007 /* RenderMaterialGroup.hpp */,
+				84DFC1E32F285ECA00F5434F /* ShaderGroup.cpp */,
+				84DFC1E42F285ECA00F5434F /* ShaderGroup.hpp */,
+				84AA8BE12B32F3F3003F5B82 /* Tesselator.cpp */,
+				84AA8BE22B32F3F3003F5B82 /* Tesselator.hpp */,
 			);
 			path = renderer;
 			sourceTree = "<group>";
@@ -5061,7 +5061,6 @@
 				84EB0DB82EE2D4B4008FB007 /* ConstantBufferContainerOGL.hpp in Headers */,
 				84EB0D832EE2D4B3008FB007 /* ImmediateBuffer.hpp in Headers */,
 				84EB0D212EE2D4B3008FB007 /* BlendStateBase.hpp in Headers */,
-				84EB0DFA2EE2D4B4008FB007 /* ShaderGroup.hpp in Headers */,
 				84EB0D132EE2D4B3008FB007 /* Attribute.hpp in Headers */,
 				84EB0DBC2EE2D4B4008FB007 /* FixedPipelineStateOGL.hpp in Headers */,
 				84EB0D542EE2D4B3008FB007 /* FogMode.hpp in Headers */,
@@ -5248,6 +5247,7 @@
 				84AA8BF62B32F3F3003F5B82 /* CreeperRenderer.hpp in Headers */,
 				84AA8BF82B32F3F3003F5B82 /* EntityRenderDispatcher.hpp in Headers */,
 				84AA8BFA2B32F3F3003F5B82 /* EntityRenderer.hpp in Headers */,
+				84DFC1E62F285ECA00F5434F /* ShaderGroup.hpp in Headers */,
 				84AA8BFC2B32F3F3003F5B82 /* FallingTileRenderer.hpp in Headers */,
 				84F66DEA2F18C9DA00DE508E /* GameControllerHandler.hpp in Headers */,
 				84AA8BFE2B32F3F3003F5B82 /* HumanoidMobRenderer.hpp in Headers */,
@@ -6046,7 +6046,6 @@
 				84EB0D822EE2D4B3008FB007 /* ImmediateBuffer.cpp in Sources */,
 				84EB0D1C2EE2D4B3008FB007 /* GlobalConstantBufferManager.cpp in Sources */,
 				84EB0DBF2EE2D4B4008FB007 /* GPUEventsOGL.cpp in Sources */,
-				84EB0DF92EE2D4B4008FB007 /* ShaderGroup.cpp in Sources */,
 				84EB0DBB2EE2D4B4008FB007 /* FixedPipelineStateOGL.cpp in Sources */,
 				84EB0DDB2EE2D4B4008FB007 /* RasterizerStateDescription.cpp in Sources */,
 				84EB0DD32EE2D4B4008FB007 /* ShaderProgramOGL.cpp in Sources */,
@@ -6316,6 +6315,7 @@
 				84AA8C1A2B32F3F3003F5B82 /* Frustum.cpp in Sources */,
 				84AA8C1C2B32F3F3003F5B82 /* FrustumCuller.cpp in Sources */,
 				84A2FF1A2DB61D720090CE3E /* SoundPathRepository.cpp in Sources */,
+				84DFC1E52F285ECA00F5434F /* ShaderGroup.cpp in Sources */,
 				84AA8C1E2B32F3F3003F5B82 /* GameRenderer.cpp in Sources */,
 				84EB09F52EE2CCA8008FB007 /* ScreenRenderer.cpp in Sources */,
 				84AA8C202B32F3F3003F5B82 /* GrassColor.cpp in Sources */,

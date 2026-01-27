@@ -10,7 +10,7 @@ void ResourceLocation::_init(const std::string& path, FileSystem fileSystem)
 
 ResourceLocation::ResourceLocation()
 {
-	_init(Util::EMPTY_STRING);
+	_init("");
 }
 
 ResourceLocation::ResourceLocation(const char* path)
