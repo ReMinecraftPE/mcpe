@@ -174,7 +174,7 @@ void Inventory::prepareSurvivalInventory()
 	addCreativeItem(ITEM_REEDS);
 
 #ifdef MOD_POCKET_SURVIVAL
-	for (int i = 0; i < getContainerSize(); i++)
+	for (int i = 0; i < m_items.size(); i++)
 	{
 		ItemStack& item = m_items[i];
 		if (_getGameMode() == GAME_TYPE_SURVIVAL && !hasUnlimitedResource(item))
