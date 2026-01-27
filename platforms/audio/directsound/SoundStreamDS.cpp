@@ -6,9 +6,9 @@
 SoundStreamDS::SoundStreamDS(LPDIRECTSOUND ds) : 
     m_directsound(ds),
     m_source(nullptr),
-    m_isPlaying(false),
     m_bufferSize(0),
-    m_totalBufferSize(0)
+    m_totalBufferSize(0),
+    m_isPlaying(false)
 {
     _createSource();
     _createBuffers();
