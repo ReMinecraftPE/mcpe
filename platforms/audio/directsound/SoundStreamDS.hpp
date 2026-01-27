@@ -19,7 +19,7 @@
 class SoundStreamDS : public SoundStream
 {
 public:
-    SoundStreamDS();
+    SoundStreamDS(LPDIRECTSOUND ds);
     ~SoundStreamDS();
 
 protected:
@@ -40,7 +40,7 @@ private:
     void _resetBuffers();
 
 private:
-    LPDIRECTSOUND8 m_ds;                    // DirectSound object
+    LPDIRECTSOUND m_directsound;            // DirectSound object
     LPDIRECTSOUNDBUFFER m_primaryBuffer;    // Primary buffer (optional, for format setting)
     LPDIRECTSOUNDBUFFER m_source;           // Secondary buffer acting as the source
     std::vector<LPDIRECTSOUNDBUFFER> m_buffers; // Streaming buffers

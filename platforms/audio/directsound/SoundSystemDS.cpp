@@ -27,7 +27,7 @@ SoundSystemDS::SoundSystemDS()
 		return;
 	}
 
-	result = m_directsound->SetCooperativeLevel(m_hWnd, DSSCL_NORMAL);
+	result = m_directsound->SetCooperativeLevel(m_hWnd, DSSCL_PRIORITY);
 	if (FAILED(result))
 	{
 		LOG_E("SoundSystemDS failed set cooperation level");
@@ -60,7 +60,7 @@ SoundSystemDS::SoundSystemDS()
 	}
 
 	m_available = true;
-	m_musicStream = new SoundStreamDS();
+	m_musicStream = new SoundStreamDS(m_directsound);
 }
 
 SoundSystemDS::~SoundSystemDS()

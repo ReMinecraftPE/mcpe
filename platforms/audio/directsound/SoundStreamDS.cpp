@@ -3,21 +3,13 @@
 #include <cassert>
 #include <cstring>
 
-SoundStreamDS::SoundStreamDS()
-    : SoundStream(), m_ds(nullptr), m_source(nullptr), m_isPlaying(false), m_bufferSize(0), m_totalBufferSize(0)
+SoundStreamDS::SoundStreamDS(LPDIRECTSOUND ds) : 
+    m_directsound(ds),
+    m_source(nullptr),
+    m_isPlaying(false),
+    m_bufferSize(0),
+    m_totalBufferSize(0)
 {
-    // Initialize DirectSound
-    HRESULT hr = DirectSoundCreate8(nullptr, &m_ds, nullptr);
-    DS_ERROR_CHECK(hr);
-    if (FAILED(hr)) return;
-
-    HWND hwnd = (HWND) AppPlatform::singleton()->m_hWnd;
-
-    // Set cooperative level
-    hr = m_ds->SetCooperativeLevel(hwnd, DSSCL_PRIORITY);
-    DS_ERROR_CHECK(hr);
-    if (FAILED(hr)) return;
-
     _createSource();
     _createBuffers();
     _setVolume(getVolume());
@@ -27,11 +19,6 @@ SoundStreamDS::~SoundStreamDS()
 {
     _deleteSource();
     _deleteBuffers();
-    if (m_ds)
-    {
-        m_ds->Release();
-        m_ds = nullptr;
-    }
 }
 
 void SoundStreamDS::_deleteSource()
@@ -46,7 +33,7 @@ void SoundStreamDS::_deleteSource()
 
 void SoundStreamDS::_createSource()
 {
-    if (!m_ds) return;
+    if (!m_directsound) return;
 
     // Create a secondary buffer for streaming
     DSBUFFERDESC desc = {};
@@ -55,7 +42,7 @@ void SoundStreamDS::_createSource()
     desc.dwBufferBytes = m_totalBufferSize; // Set in _open
     desc.lpwfxFormat = &m_waveFormat;
 
-    HRESULT hr = m_ds->CreateSoundBuffer(&desc, &m_source, nullptr);
+    HRESULT hr = m_directsound->CreateSoundBuffer(&desc, &m_source, nullptr);
     DS_ERROR_CHECK(hr);
 }
 
@@ -84,7 +71,7 @@ void SoundStreamDS::_deleteBuffers()
 
 void SoundStreamDS::_createBuffers()
 {
-    if (!m_ds || m_bufferSize == 0) return;
+    if (!m_directsound || m_bufferSize == 0) return;
 
     assert(m_buffers.empty());
 
@@ -98,7 +85,7 @@ void SoundStreamDS::_createBuffers()
     for (int i = 0; i < 2; ++i)
     {
         LPDIRECTSOUNDBUFFER buffer = nullptr;
-        HRESULT hr = m_ds->CreateSoundBuffer(&desc, &buffer, nullptr);
+        HRESULT hr = m_directsound->CreateSoundBuffer(&desc, &buffer, nullptr);
         if (SUCCEEDED(hr))
         {
             m_buffers.push_back(buffer);
