@@ -14,7 +14,15 @@ public:
     bool contains(const std::string& key) const;
     const std::string& get(const std::string& key) const;
 
-    static Language& getInstance();
+    static Language& singleton()
+    {
+        if (!instance)
+        {
+            instance = new Language;
+        }
+        return *instance;
+    }
+
 
 private:
     std::map<std::string, std::string> m_translations;

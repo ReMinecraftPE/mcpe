@@ -36,6 +36,11 @@ void ContainerScreen::_renderSlot(Slot* slot)
 
 Slot* ContainerScreen::_findSlot()
 {
+    return _findSlot(m_menuPointer.x, m_menuPointer.y);
+}
+
+Slot* ContainerScreen::_findSlot(int mouseX, int mouseY)
+{
     for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
     {
         Slot* slot = *it;
@@ -46,8 +51,13 @@ Slot* ContainerScreen::_findSlot()
 
 bool ContainerScreen::_isHovering(Slot* slot) const
 {
-    int mouseX = m_menuPointer.x - m_leftPos;
-    int mouseY = m_menuPointer.y - m_topPos;
+    return _isHovering(slot, m_menuPointer.x, m_menuPointer.y);
+}
+
+bool ContainerScreen::_isHovering(Slot* slot, int mouseX, int mouseY) const
+{
+    mouseX -= m_leftPos;
+    mouseY -= m_topPos;
     return mouseX >= slot->m_x - 1 && mouseX < slot->m_x + 17 && mouseY >= slot->m_y - 1 && mouseY < slot->m_y + 17;
 }
 
@@ -108,7 +118,7 @@ void ContainerScreen::render(float partialTicks)
 
     if (!inv->getCarried() && hoveredSlot && hoveredSlot->hasItem())
     {
-        std::string name = Language::getInstance().get(hoveredSlot->getItem().getDescriptionId() + ".name");
+        std::string name = Language::singleton().get(hoveredSlot->getItem().getDescriptionId() + ".name");
         if (!name.empty())
         {
             int tx = m_menuPointer.x - m_leftPos + 12;
@@ -155,7 +165,7 @@ void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button
 {
     if (button == MOUSE_BUTTON_LEFT || button == MOUSE_BUTTON_RIGHT)
     {
-        Slot* slot = _findSlot();
+        Slot* slot = _findSlot(mouseX, mouseY);
         bool outside = mouseX < m_leftPos || mouseY < m_topPos || mouseX >= m_leftPos + m_imageWidth || mouseY >= m_topPos + m_imageHeight;
         int index = -1;
         if (slot) index = slot->m_index;

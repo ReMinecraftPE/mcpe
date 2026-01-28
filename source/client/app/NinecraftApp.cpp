@@ -209,7 +209,7 @@ void NinecraftApp::_initAll()
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
 	m_pSoundEngine->init(getOptions());
 
-	Language::getInstance().init(getOptions());
+	Language::singleton().init(getOptions());
 
 	field_D9C = 0;
 
@@ -318,7 +318,7 @@ void NinecraftApp::setupRenderer()
 	if (mce::ConstantBufferMetaDataManager::createInstance())
 	{
 #ifdef FEATURE_GFX_SHADERS
-		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::getInstance();
+		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::instance();
 		std::string fileContents;
 		Resource::load("shaders/uniforms.json", fileContents);
 		metaDataManager.loadJsonFile(fileContents);

@@ -35,8 +35,6 @@ selectWorld.seedInfo=Leave blank for a random seed
 
 multiplayer.title=Play Multiplayer
 multiplayer.connect=Connect
-multiplayer.info1=Minecraft Multiplayer is currently not finished, but there
-multiplayer.info2=is some buggy early testing going on.
 multiplayer.ipinfo=Enter the IP of a server to connect to it:
 
 multiplayer.downloadingTerrain=Downloading terrain

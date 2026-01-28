@@ -47,7 +47,7 @@ InventoryMenu::~InventoryMenu()
 
 void InventoryMenu::slotsChanged(Container* container) 
 {
-    //m_pResultSlots->setItem(0, Recipes::getInstance().getItemFor(m_pCraftSlots));
+    //m_pResultSlots->setItem(0, Recipes::singleton().getItemFor(m_pCraftSlots));
 }
 
 void InventoryMenu::removed(Player* player) 

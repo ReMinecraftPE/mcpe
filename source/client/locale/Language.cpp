@@ -84,12 +84,3 @@ const std::string& Language::get(const std::string& key) const
         return it->second;
     return key;
 }
-
-Language& Language::getInstance()
-{
-    if (!instance)
-    {
-        instance = new Language;
-    }
-    return *instance;
-}
