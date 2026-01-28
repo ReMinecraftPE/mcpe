@@ -8,8 +8,8 @@ public:
     ChestScreen(Container* inventory, Container* container);
 
 protected:
-    void renderLabels() override;
-    void renderBg(float partialTicks) override;
+    void _renderLabels() override;
+    void _renderBg(float partialTicks) override;
 
 private:
     Container* m_pInventory;

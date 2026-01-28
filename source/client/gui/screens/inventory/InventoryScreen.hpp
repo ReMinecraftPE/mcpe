@@ -9,6 +9,6 @@ public:
     InventoryScreen(Player* player);
 
 protected:
-    virtual void renderLabels() override;
-    virtual void renderBg(float partialTick) override;
+    virtual void _renderLabels() override;
+    virtual void _renderBg(float partialTick) override;
 };

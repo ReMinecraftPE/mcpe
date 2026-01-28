@@ -12,13 +12,13 @@ ChestScreen::ChestScreen(Container* inventory, Container* container) : Container
     m_imageHeight = noRowHeight + m_containerRows * 18;
 }
 
-void ChestScreen::renderLabels()
+void ChestScreen::_renderLabels()
 {
     m_pFont->draw(m_pContainer->getName(), 8, 6, 0x404040);
     m_pFont->draw(m_pInventory->getName(), 8, m_imageHeight - 96 + 2, 0x404040);
 }
 
-void ChestScreen::renderBg(float partialTicks)
+void ChestScreen::_renderBg(float partialTicks)
 {
     m_pMinecraft->m_pTextures->loadAndBindTexture("gui/container.png");
     currentShaderColor = Color::WHITE;

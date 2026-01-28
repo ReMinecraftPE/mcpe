@@ -8,13 +8,13 @@ InventoryScreen::InventoryScreen(Player* player) : ContainerScreen(player->m_pIn
     //player->awardStat(Achievements::openInventory);
 }
 
-void InventoryScreen::renderLabels()
+void InventoryScreen::_renderLabels()
 {
     InventoryMenu* craftingMenu = (InventoryMenu*)m_pMenu;
 	m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, 0x404040);
 }
 
-void InventoryScreen::renderBg(float partialTick)
+void InventoryScreen::_renderBg(float partialTick)
 {
     currentShaderColor = Color::WHITE;
 

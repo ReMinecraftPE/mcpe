@@ -12,7 +12,54 @@ ContainerScreen::ContainerScreen(ContainerMenu* menu) :
     m_topPos(0),
     m_timeSlotDragged(0)
 {
+    m_bRenderPointer = true;
+}
 
+void ContainerScreen::_renderSlot(Slot* slot)
+{
+    int x = slot->m_x;
+    int y = slot->m_y;
+    ItemStack& item = slot->getItem();
+    if (item.isEmpty())
+    {
+        int icon = slot->getNoItemIcon();
+        if (icon >= 0)
+        {
+            m_pMinecraft->m_pTextures->loadAndBindTexture("gui/items.png");
+            blit(x, y, (icon % 16) * 16, (icon / 16) * 16, 16, 16, 0, 0);
+            return;
+        }
+    }
+    ItemRenderer::singleton().renderGuiItem(m_pFont, m_pMinecraft->m_pTextures, item, x, y, true);
+    ItemRenderer::singleton().renderGuiItemOverlay(m_pFont, m_pMinecraft->m_pTextures, item, x, y);
+}
+
+Slot* ContainerScreen::_findSlot(int mouseX, int mouseY)
+{
+    for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
+    {
+        Slot* slot = *it;
+        if (_isHovering(slot, mouseX, mouseY)) return slot;
+    }
+    return nullptr;
+}
+
+bool ContainerScreen::_isHovering(Slot* slot, int mouseX, int mouseY) const
+{
+    mouseX -= m_leftPos;
+    mouseY -= m_topPos;
+    return mouseX >= slot->m_x - 1 && mouseX < slot->m_x + 17 && mouseY >= slot->m_y - 1 && mouseY < slot->m_y + 17;
+}
+
+void ContainerScreen::_playInteractSound()
+{
+    m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_PRESS);
+}
+
+void ContainerScreen::_tryPlayInteractSound()
+{
+    if (_useController())
+        _playInteractSound();
 }
 
 void ContainerScreen::init()
@@ -26,7 +73,7 @@ void ContainerScreen::init()
 void ContainerScreen::render(float partialTicks)
 {
     renderBackground();
-    renderBg(partialTicks);
+    _renderBg(partialTicks);
 
     MatrixStack::Ref matrix = MatrixStack::World.push();
     matrix->translate(Vec3(m_leftPos, m_topPos, 0.0f));
@@ -37,8 +84,8 @@ void ContainerScreen::render(float partialTicks)
     for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
     {
         Slot* slot = *it;
-        renderSlot(slot);
-        if (isHovering(slot, m_menuPointer.x, m_menuPointer.y))
+        _renderSlot(slot);
+        if (_isHovering(slot, m_menuPointer.x, m_menuPointer.y))
         {
             hoveredSlot = slot;
             int slotX = slot->m_x;
@@ -56,7 +103,7 @@ void ContainerScreen::render(float partialTicks)
     }
 
     Lighting::turnOff();
-    renderLabels();
+    _renderLabels();
 
     if (!inv->getCarried() && hoveredSlot && hoveredSlot->hasItem())
     {
@@ -93,7 +140,7 @@ void ContainerScreen::pointerReleased(int mouseX, int mouseY, MouseButtonType bu
 void ContainerScreen::handlePointerPressed(bool isPressed)
 {
     Screen::handlePointerPressed(isPressed);
-    if (isPressed && findSlot(m_menuPointer.x, m_menuPointer.y))
+    if (isPressed && _findSlot(m_menuPointer.x, m_menuPointer.y))
         m_timeSlotDragged++;
     else m_timeSlotDragged = 0;
 
@@ -107,7 +154,7 @@ void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button
 {
     if (button == MOUSE_BUTTON_LEFT || button == MOUSE_BUTTON_RIGHT)
     {
-        Slot* slot = findSlot(mouseX, mouseY);
+        Slot* slot = _findSlot(mouseX, mouseY);
         bool outside = mouseX < m_leftPos || mouseY < m_topPos || mouseX >= m_leftPos + m_imageWidth || mouseY >= m_topPos + m_imageHeight;
         int index = -1;
         if (slot) index = slot->m_index;
@@ -119,12 +166,44 @@ void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button
 
 void ContainerScreen::slotClicked(Slot* slot, int index, MouseButtonType button, bool quick)
 {
+    _tryPlayInteractSound();
     m_pMinecraft->m_pGameMode->handleInventoryMouseClick(m_pMenu->m_containerId, index, button, quick, m_pMinecraft->m_pLocalPlayer);
 }
 
 void ContainerScreen::keyPressed(int keyCode)
 {
-    Screen::keyPressed(keyCode);
+    if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
+    {
+        // bad hack
+        Slot* slot = _findSlot(m_menuPointer.x, m_menuPointer.y);
+        bool outside = m_menuPointer.x < m_leftPos || m_menuPointer.y < m_topPos || m_menuPointer.x >= m_leftPos + m_imageWidth || m_menuPointer.y >= m_topPos + m_imageHeight;
+        int index = -1;
+        if (slot) index = slot->m_index;
+        if (outside) index = -999;
+        if (index != -1)
+        {
+            _tryPlayInteractSound();
+            m_pMinecraft->m_pGameMode->handleInventoryMouseClick(m_pMenu->m_containerId, index, MOUSE_BUTTON_LEFT, true, m_pMinecraft->m_pLocalPlayer);
+        }
+    }
+    else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_SPLIT, keyCode) && _useController())
+    {
+        // bad hack
+        Slot* slot = _findSlot(m_menuPointer.x, m_menuPointer.y);
+        bool outside = m_menuPointer.x < m_leftPos || m_menuPointer.y < m_topPos || m_menuPointer.x >= m_leftPos + m_imageWidth || m_menuPointer.y >= m_topPos + m_imageHeight;
+        int index = -1;
+        if (slot) index = slot->m_index;
+        if (outside) index = -999;
+        if (index != -1)
+        {
+            _tryPlayInteractSound();
+            m_pMinecraft->m_pGameMode->handleInventoryMouseClick(m_pMenu->m_containerId, index, MOUSE_BUTTON_RIGHT, false, m_pMinecraft->m_pLocalPlayer);
+        }
+    }
+    else
+    {
+        Screen::keyPressed(keyCode);
+    }
 }
 
 void ContainerScreen::onClose()
@@ -147,40 +226,4 @@ void ContainerScreen::slotsChanged(Container* container)
 bool ContainerScreen::isPauseScreen()
 {
     return false;
-}
-
-Slot* ContainerScreen::findSlot(int mouseX, int mouseY)
-{
-    for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
-    {
-        Slot* slot = *it;
-        if (isHovering(slot, mouseX, mouseY)) return slot;
-    }
-    return nullptr;
-}
-
-bool ContainerScreen::isHovering(Slot* slot, int mouseX, int mouseY) const
-{
-    mouseX -= m_leftPos;
-    mouseY -= m_topPos;
-    return mouseX >= slot->m_x - 1 && mouseX < slot->m_x + 17 && mouseY >= slot->m_y - 1 && mouseY < slot->m_y + 17;
-}
-
-void ContainerScreen::renderSlot(Slot* slot)
-{
-    int x = slot->m_x;
-    int y = slot->m_y;
-    ItemStack& item = slot->getItem();
-    if (item.isEmpty())
-    {
-        int icon = slot->getNoItemIcon();
-        if (icon >= 0)
-        {
-            m_pMinecraft->m_pTextures->loadAndBindTexture("gui/items.png");
-            blit(x, y, (icon % 16) * 16, (icon / 16) * 16, 16, 16, 0, 0);
-            return;
-        }
-    }
-    ItemRenderer::singleton().renderGuiItem(m_pFont, m_pMinecraft->m_pTextures, item, x, y, true);
-    ItemRenderer::singleton().renderGuiItemOverlay(m_pFont, m_pMinecraft->m_pTextures, item, x, y);
 }

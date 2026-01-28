@@ -9,29 +9,32 @@ class ContainerScreen : public Screen
 public:
     ContainerScreen(ContainerMenu* menu);
 
-    void init() override;
-    void render(float partialTick) override;
-    virtual void onClose() override;
-    virtual void tick() override;
-    bool isPauseScreen() override;
-
-    virtual void slotsChanged(Container* container);
-	
-    virtual void pointerPressed(int mouseX, int mouseY, MouseButtonType button) override;
-    virtual void pointerReleased(int mouseX, int mouseY, MouseButtonType button) override;
-    virtual void handlePointerPressed(bool isPressed) override;
-    virtual void slotClicked(int mouseX, int mouseY, MouseButtonType button);
-    virtual void slotClicked(Slot* slot, int index, MouseButtonType button, bool quick);
-    virtual void keyPressed(int key) override;
+private:
+    void _renderSlot(Slot* slot);
+    Slot* _findSlot(int mouseX, int mouseY);
+    bool _isHovering(Slot* slot, int mouseX, int mouseY) const;
 
 protected:
-    virtual void renderLabels() = 0;
-    virtual void renderBg(float partialTick) = 0;
+    virtual void _renderLabels() = 0;
+    virtual void _renderBg(float partialTick) = 0;
+    virtual void _playInteractSound();
+    virtual void _tryPlayInteractSound();
 
-private:
-    void renderSlot(Slot* slot);
-    Slot* findSlot(int mouseX, int mouseY);
-    bool isHovering(Slot* slot, int mouseX, int mouseY) const;
+public:
+    void init() override;
+    void render(float partialTick) override;
+    void onClose() override;
+    void tick() override;
+    bool isPauseScreen() override;
+    void pointerPressed(int mouseX, int mouseY, MouseButtonType button) override;
+    void pointerReleased(int mouseX, int mouseY, MouseButtonType button) override;
+    void handlePointerPressed(bool isPressed) override;
+    void keyPressed(int key) override;
+
+public:
+    virtual void slotsChanged(Container* container);
+    virtual void slotClicked(int mouseX, int mouseY, MouseButtonType button);
+    virtual void slotClicked(Slot* slot, int index, MouseButtonType button, bool quick);
 
 public:
     ContainerMenu* m_pMenu;
