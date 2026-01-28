@@ -209,7 +209,7 @@ void NinecraftApp::_initAll()
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
 	m_pSoundEngine->init(getOptions());
 
-	Language::getInstance()->init(getOptions());
+	Language::getInstance().init(getOptions());
 
 	field_D9C = 0;
 

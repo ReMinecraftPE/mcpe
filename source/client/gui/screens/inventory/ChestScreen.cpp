@@ -6,8 +6,8 @@ ChestScreen::ChestScreen(Container* inventory, Container* container) : Container
       m_pInventory(inventory),
       m_pContainer(container)
 {
-    const int defaultHeight = 222;
-    const int noRowHeight = defaultHeight - 108;
+    constexpr int defaultHeight = 222;
+    constexpr int noRowHeight = defaultHeight - 108;
     m_containerRows = m_pContainer->getContainerSize() / 9;
     m_imageHeight = noRowHeight + m_containerRows * 18;
 }

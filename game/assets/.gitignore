@@ -112,8 +112,8 @@
 /gui/furnace.png
 /gui/trap.png
 /gui/unknown_pack.png
-/lang/en_US.lang
-/lang/stats_US.lang
+# /lang/en_US.lang
+# /lang/stats_US.lang
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /gui/background/panorama_0.png

@@ -14,10 +14,7 @@ public:
     bool contains(const std::string& key) const;
     const std::string& get(const std::string& key) const;
 
-    static Language* getInstance() 
-    {
-        return instance;
-    }
+    static Language& getInstance();
 
 private:
     std::map<std::string, std::string> m_translations;

@@ -125,13 +125,13 @@ void Mob::tick()
 	updateWalkAnim();
 
 	//@TODO: untangle this variable mess
-	float dist, x1, x2, x3, x4, x5, x6, x7, field_E8_2, field_E8_new, v36;
+	float dist, x1, x2, x3, x4, x5, x6, x7, yBodyRot, yBodyRotLerped, v36;
 	bool angleOOB = false;
 
 	Vec3 delta = m_pos - m_oPos;
 	dist = Mth::sqrt(delta.z * delta.z + delta.x * delta.x);
-	field_E8_2 = m_yBodyRot;
-	x1 = field_E8_2;
+	yBodyRot = m_yBodyRot;
+	x1 = yBodyRot;
 
 	field_B4C = field_B50;
 
@@ -141,7 +141,7 @@ void Mob::tick()
 		v36 = Mth::atan2(delta.z, delta.x);
 		x3 = 1.0f;
 		x1 = ((v36 * 180.0f) / float(M_PI)) - 90.0f;
-		field_E8_2 = this->m_yBodyRot;
+		yBodyRot = this->m_yBodyRot;
 	}
 	else
 	{
@@ -163,16 +163,16 @@ void Mob::tick()
 
 	// Similar to rotlerp
 	// I'm pretty sure this is super inefficient and its trying to do what I have it doing in setRot already.
-	x5 = x1 - field_E8_2;
+	x5 = x1 - yBodyRot;
 	while (x5 < -180.0f)
 		x5 += 360.0f;
 	while (x5 >= 180.0f)
 		x5 -= 360.0f;
 
-	field_E8_new = field_E8_2 + (float)(x5 * 0.3);
-	this->m_yBodyRot = field_E8_new;
+	yBodyRotLerped = yBodyRot + (float)(x5 * 0.3);
+	this->m_yBodyRot = yBodyRotLerped;
 
-	x6 = x4 - field_E8_new;
+	x6 = x4 - yBodyRotLerped;
 
 
 	// Similar to rotlerp

@@ -10,7 +10,7 @@ public:
     ChestMenu(Container* inventory, Container* container);
 
     bool stillValid(Player* player) const override;
-    virtual ItemStack quickMoveStack(int index) override;
+    ItemStack quickMoveStack(int index) override;
 
 private:
     Container* m_pContainer;

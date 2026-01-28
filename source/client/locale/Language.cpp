@@ -5,7 +5,7 @@
 #include "client/resources/Resource.hpp"
 #include <sstream>
 
-Language* Language::instance = new Language();
+Language* Language::instance = nullptr;
 
 void Language::init(Options* options)
 {
@@ -83,4 +83,13 @@ const std::string& Language::get(const std::string& key) const
     if (it != m_translations.end())
         return it->second;
     return key;
+}
+
+Language& Language::getInstance()
+{
+    if (!instance)
+    {
+        instance = new Language;
+    }
+    return *instance;
 }

@@ -11,8 +11,8 @@ public:
 
 private:
     void _renderSlot(Slot* slot);
-    Slot* _findSlot(int mouseX, int mouseY);
-    bool _isHovering(Slot* slot, int mouseX, int mouseY) const;
+    Slot* _findSlot();
+    bool _isHovering(Slot* slot) const;
 
 protected:
     virtual void _renderLabels() = 0;
