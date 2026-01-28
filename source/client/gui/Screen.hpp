@@ -50,9 +50,12 @@ public:
 	Screen();
 	virtual ~Screen();
 
+private:
+	void _controllerEvent(GameController::ID controllerId);
+
 protected:
-	bool _prevElement();
 	bool _nextElement();
+	bool _prevElement();
 	void _addElement(Button& element, bool isTabbable = true);
 	void _addElementToList(unsigned int index, Button& element, bool isTabbable = true);
 	bool _nextElementList();

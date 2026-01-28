@@ -58,6 +58,20 @@ Screen::~Screen()
 	m_elements.clear();
 }
 
+void Screen::_controllerEvent(GameController::ID controllerId)
+{
+	// @TODO: this probably shouldn't be here
+	GameController::StickEvent event;
+	event.id = controllerId;
+	event.state = GameControllerManager::getDirection(controllerId);
+	if (event.state != GameController::STICK_STATE_NONE)
+	{
+		event.x = GameControllerManager::getX(controllerId);
+		event.y = GameControllerManager::getY(controllerId);
+		handleControllerStickEvent(event);
+	}
+}
+
 bool Screen::_nextElement()
 {
 	if (!doElementTabbing())
@@ -831,16 +845,8 @@ void Screen::controllerEvent()
 	_processControllerDirection(1);
 	_processControllerDirection(2);
 
-	// @TODO: this probably shouldn't be here
-	GameController::StickEvent event;
-	event.id = 1;
-	event.state = GameControllerManager::getDirection(1);
-	if (event.state != GameController::STICK_STATE_NONE)
-	{
-		event.x = GameControllerManager::getX(1);
-		event.y = GameControllerManager::getY(1);
-		handleControllerStickEvent(event);
-	}
+	_controllerEvent(1);
+	_controllerEvent(2);
 }
 
 void Screen::checkForPointerEvent()
@@ -889,16 +895,6 @@ void Screen::handleScrollWheel(float force)
 
 void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 {
-	/*if (stick.state == GameController::STICK_STATE_DOWN)
-	{
-		handleScrollWheel(stick.y);
-	}
-	else if (stick.state <= GameController::STICK_STATE_UP)
-	{
-		MenuGamePad::setX(directionId + 1, x);
-		MenuGamePad::setY(directionId + 1, y);
-	}*/
-
 	if (m_bRenderPointer && stick.id == 1)
 	{
 		// Behold pizzart's magic numbers
@@ -937,6 +933,13 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 
 		m_targetMenuPointer.x = Mth::clamp(m_menuPointer.x + move.x, 0.0f, m_width);
 		m_targetMenuPointer.y = Mth::clamp(m_menuPointer.y - move.y, 0.0f, m_height);
+	}
+	else if (stick.id == 2)
+	{
+		if (stick.state == GameController::STICK_STATE_DOWN || stick.state == GameController::STICK_STATE_UP)
+		{
+			handleScrollWheel(stick.y);
+		}
 	}
 }
 
