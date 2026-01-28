@@ -318,7 +318,7 @@ void NinecraftApp::setupRenderer()
 	if (mce::ConstantBufferMetaDataManager::createInstance())
 	{
 #ifdef FEATURE_GFX_SHADERS
-		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::instance();
+		mce::ConstantBufferMetaDataManager& metaDataManager = mce::ConstantBufferMetaDataManager::getInstance();
 		std::string fileContents;
 		Resource::load("shaders/uniforms.json", fileContents);
 		metaDataManager.loadJsonFile(fileContents);
