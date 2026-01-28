@@ -43,7 +43,7 @@ bool Language::loadOriginalLanguageFile(const std::string& path)
 {
     std::string file;
     if (!Resource::load(path, file)) return false;
-    std::stringstream stream = std::stringstream(file);
+    std::istringstream stream(file);
     std::string line;
 
     while (std::getline(stream, line))
@@ -54,7 +54,7 @@ bool Language::loadOriginalLanguageFile(const std::string& path)
         if (line[line.size() - 1] == '\r')
             line.erase(line.size() - 1);
 
-        std::stringstream lineStream = std::stringstream(line);
+        std::istringstream lineStream(line);
         std::vector<std::string> entry;
         std::string part;
         while (std::getline(lineStream, part, '='))
