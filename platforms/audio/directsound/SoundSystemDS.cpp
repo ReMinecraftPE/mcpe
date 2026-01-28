@@ -28,7 +28,8 @@ SoundSystemDS::SoundSystemDS()
 		return;
 	}
 
-	result = m_directsound->SetCooperativeLevel(m_hWnd, DSSCL_NORMAL);
+	//@NOTE: The cooperative level should be DSSCL_PRIORITY, so there's enough control over the buffer for the sound streaming
+	result = m_directsound->SetCooperativeLevel(m_hWnd, DSSCL_PRIORITY);
 	if (FAILED(result))
 	{
 		LOG_E("SoundSystemDS failed set cooperation level");
@@ -61,11 +62,14 @@ SoundSystemDS::SoundSystemDS()
 	}
 
 	m_available = true;
+	m_musicStream = new SoundStreamDS(m_directsound);
 }
 
 SoundSystemDS::~SoundSystemDS()
 {
 	LOG_I("Destroying SoundSystemDS");
+
+	delete m_musicStream;
 
 	if (!isAvailable())
 	{
@@ -83,7 +87,7 @@ WAVEFORMATEX SoundSystemDS::_getWaveFormat(const PCMSoundHeader& header, float p
 	wf.nSamplesPerSec = DWORD(float(header.m_sample_rate) * pitch);
 	wf.wBitsPerSample = 8 * header.m_bytes_per_sample;
 	wf.nChannels = header.m_channels;
-	wf.nBlockAlign = (wf.wBitsPerSample / 8) * wf.nChannels;
+	wf.nBlockAlign = (wf.wBitsPerSample * wf.nChannels) / 8;
 	wf.nAvgBytesPerSec = wf.nSamplesPerSec * wf.nBlockAlign;
 	wf.cbSize = 0;
 
@@ -278,4 +282,34 @@ void SoundSystemDS::playAt(const SoundDesc& sound, const Vec3& pos, float volume
 	soundbuffer->Play(0, 0, 0);
 
 	m_buffers.push_back(info);
+}
+
+void SoundSystemDS::setMusicVolume(float vol)
+{
+	m_musicStream->setVolume(vol);
+}
+
+void SoundSystemDS::playMusic(const std::string& soundPath)
+{
+	m_musicStream->open(soundPath);
+}
+
+bool SoundSystemDS::isPlayingMusic() const
+{
+	return m_musicStream->isPlaying();
+}
+
+void SoundSystemDS::stopMusic()
+{
+	m_musicStream->close();
+}
+
+void SoundSystemDS::pauseMusic(bool state)
+{
+	m_musicStream->setPausedState(state);
+}
+
+void SoundSystemDS::update(float)
+{
+	m_musicStream->update();
 }

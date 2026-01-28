@@ -27,7 +27,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Lib>
-	  <AdditionalLibraryDirectories Condition="'$(Platform)'=='Win32'">$(DXSDK_DIR)\Lib\x86;$(DXSDK_DIR)\Lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(Platform)'=='Win32'">$(DXSDK_DIR)\Lib\x86;$(DXSDK_DIR)\Lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">$(DXSDK_DIR)\Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dsound.lib;dxguid.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
@@ -44,9 +44,11 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\platforms\audio\directsound\SoundSystemDS.cpp" />
+    <ClCompile Include="$(MC_ROOT)\platforms\audio\directsound\SoundStreamDS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\audio\directsound\CustomSoundSystem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\platforms\audio\directsound\SoundStreamDS.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

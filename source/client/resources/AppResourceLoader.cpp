@@ -11,6 +11,12 @@ bool AppResourceLoader::hasResource(const ResourceLocation& location) const
 	return AppPlatform::singleton()->hasAssetFile(getPath(location.path));
 }
 
+bool AppResourceLoader::getResourcePath(const ResourceLocation& location, std::string& path) const
+{
+	path = getPath(location.path);
+	return AppPlatform::singleton()->hasAssetFile(path);
+}
+
 bool AppResourceLoader::hasTexture(const ResourceLocation& location) const
 {
 	return AppPlatform::singleton()->doesTextureExist(getPath(location.path));
