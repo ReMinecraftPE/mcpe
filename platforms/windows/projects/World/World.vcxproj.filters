@@ -596,10 +596,10 @@
     <ClCompile Include="$(MC_ROOT)\source\world\CompoundContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\inventory\ChestMenu.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ChestMenu.cpp">
       <Filter>Source Files\Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\DyeColor.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\item\DyeColor.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1057,10 +1057,10 @@
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.hpp">
       <Filter>Header Files\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\inventory\ChestMenu.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ChestMenu.hpp">
       <Filter>Header Files\Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\DyeColor.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\item\DyeColor.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
   </ItemGroup>

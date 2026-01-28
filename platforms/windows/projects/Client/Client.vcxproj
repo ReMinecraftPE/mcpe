@@ -228,10 +228,10 @@
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLoader.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourceLocation.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\inventory\ChestScreen.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\inventory\ContainerScreen.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\gui\screens\inventory\InventoryScreen.hpp" />
-    <ClInclude Include="..\..\..\..\source\client\locale\Language.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ChestScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ContainerScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\InventoryScreen.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -379,10 +379,10 @@
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLoader.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourceLocation.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManager.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\inventory\ChestScreen.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\inventory\ContainerScreen.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\gui\screens\inventory\InventoryScreen.cpp" />
-    <ClCompile Include="..\..\..\..\source\client\locale\Language.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ChestScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ContainerScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\InventoryScreen.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
