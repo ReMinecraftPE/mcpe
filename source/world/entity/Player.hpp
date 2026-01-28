@@ -13,6 +13,7 @@
 #include "world/entity/Mob.hpp"
 #include "world/entity/ItemEntity.hpp"
 #include "world/gamemode/GameType.hpp"
+#include "world/inventory/InventoryMenu.hpp"
 
 class Inventory; // in case we're included from Inventory.hpp
 
@@ -56,15 +57,16 @@ public:
 	void resetPos(bool respawn = false) override;
 	void die(Entity* pCulprit) override;
 	void aiStep() override;
-	ItemInstance* getCarriedItem() const override;
-	bool isImmobile() const override { return m_health <= 0 || m_bSleeping; }
+	void tick() override;
+	const ItemStack& getCarriedItem() const override;
+	bool isImmobile() const override { return m_health <= 0 || m_bSleeping;; }
 	void updateAi() override;
 	void addAdditionalSaveData(CompoundTag& tag) const override;
 	void readAdditionalSaveData(const CompoundTag& tag) override;
 
 	virtual void animateRespawn();
 	//virtual void drop(); // see definition
-	virtual void drop(const ItemInstance& item, bool randomly = false);
+	virtual void drop(const ItemStack& item, bool randomly = false);
 	virtual void startCrafting(const TilePos& pos);
 	virtual void startStonecutting(const TilePos& pos);
 	virtual void startDestroying();
@@ -75,7 +77,7 @@ public:
 	int addResource(int);
 	void animateRespawn(Player*, Level*);
 	void attack(Entity* pEnt);
-	void useItem(ItemInstance& item) const;
+	void useItem(ItemStack& item) const;
 	bool canDestroy(const Tile*) const;
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
@@ -104,9 +106,9 @@ public:
 	virtual void setPlayerGameType(GameType playerGameType) { _playerGameType = playerGameType; }
 	bool isSurvival() const { return getPlayerGameType() == GAME_TYPE_SURVIVAL; }
 	bool isCreative() const { return getPlayerGameType() == GAME_TYPE_CREATIVE; }
-	ItemInstance* getSelectedItem() const;
+	ItemStack& getSelectedItem() const;
 	void removeSelectedItem();
-	bool isUsingItem() const { return !ItemInstance::isNull(getSelectedItem()); }
+	bool isUsingItem() const { return !getSelectedItem().isEmpty(); }
 
 	// QUIRK: Yes, I did mean it like that, as did Mojang.
 #pragma GCC diagnostic push
@@ -117,6 +119,8 @@ public:
 public:
 	//TODO
 	Inventory* m_pInventory;
+	InventoryMenu* m_pInventoryMenu;
+	ContainerMenu* m_pContainerMenu;
 	uint8_t field_B94;
 	int m_score;
 	float m_oBob; // field_B9C

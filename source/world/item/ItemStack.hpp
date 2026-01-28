@@ -20,7 +20,7 @@ class Mob;
 class Player;
 class CompoundTag;
 
-class ItemInstance
+class ItemStack
 {
 public:
 	static const std::string TAG_DISPLAY;
@@ -28,21 +28,23 @@ public:
 	static const std::string TAG_REPAIR_COST;
 	static const std::string TAG_ENCHANTS;
 
+	static const ItemStack EMPTY;
+
 private:
     void _init(int id = 0, int count = 0, int auxValue = 0);
     
 public:
-	ItemInstance();
-	ItemInstance(const ItemInstance& other);
-	ItemInstance(bool isValid);
-	ItemInstance(Item*);
-	ItemInstance(Item*, int count);
-	ItemInstance(Item*, int count, int auxValue);
-	ItemInstance(Tile*);
-	ItemInstance(Tile*, int count);
-	ItemInstance(Tile*, int count, int auxValue);
-	ItemInstance(int id, int count, int auxValue);
-    ~ItemInstance();
+	ItemStack();
+	ItemStack(const ItemStack& other);
+	ItemStack(bool isValid);
+	ItemStack(Item*);
+	ItemStack(Item*, int count);
+	ItemStack(Item*, int count, int auxValue);
+	ItemStack(Tile*);
+	ItemStack(Tile*, int count);
+	ItemStack(Tile*, int count, int auxValue);
+	ItemStack(int id, int count, int auxValue);
+    ~ItemStack();
 
 private:
 	bool _setItem(int id);
@@ -59,7 +61,7 @@ public:
 	const CompoundTag* getUserData() const { return m_userData; }
 	CompoundTag* getNetworkUserData() const;
 	void setUserData(CompoundTag* tag);
-	bool hasSameUserData(const ItemInstance& other) const;
+	bool hasSameUserData(const ItemStack& other) const;
 
 	void set(int inCount);
 	bool canDestroySpecial(Tile*);
@@ -70,6 +72,7 @@ public:
 	int getMaxDamage() const;
 	int getMaxStackSize() const;
 	void hurt(int by);
+	void hurtAndBreak(int, Entity*);
 	void hurtEnemy(Mob*);
 	void interactEnemy(Mob*);
 	bool isDamageableItem() const;
@@ -77,23 +80,27 @@ public:
 	bool isStackable() const;
 	bool isStackedByData() const;
 	void mineBlock(const TilePos& pos, Facing::Name face);
-	void remove(int count);
+	void shrink(int count = 1);
+	ItemStack remove(int count);
 	void setDescriptionId(const std::string&);
 	void snap(Player*);
 	std::string toString() const;
-	ItemInstance* use(Level*, Player*);
+	ItemStack* use(Level*, Player*);
 	bool useOn(Player*, Level*, const TilePos& pos, Facing::Name face);
+	void onCraftedBy(Player*, Level*);
+	void onCraftedBy(Player*, Level*, int amount);
 
 	// Both need to return non-const pointers since TileRenderer calls setShape on render
 	Item* getItem() const { return m_pItem; }
 	Tile* getTile() const { return m_pTile; }
 	bool isValid() const { return m_bValid; }
-	ItemInstance* copy() const;
+	ItemStack* copy() const;
 
 	// v0.2.0
 	int getAttackDamage(Entity *pEnt) const;
-	bool isNull() const;
-	void setNull();
+	//formerly known as isNull
+	bool isEmpty() const;
+	void setEmpty();
 
 	// 0.12.1
 	int getBaseRepairCost() const;
@@ -105,13 +112,14 @@ public:
 	void load(const CompoundTag& tag);
 	CompoundTag& save(CompoundTag& tag) const;
 
-	static bool isNull(const ItemInstance*);
-	static bool matches(const ItemInstance*, const ItemInstance*);
-	static ItemInstance* fromTag(const CompoundTag& tag);
+	//formerly known as isNull
+	static bool isEmpty(const ItemStack*);
+	static bool matches(const ItemStack&, const ItemStack&);
+	static ItemStack fromTag(const CompoundTag& tag);
 
-	ItemInstance* operator=(const ItemInstance&);
-	bool operator==(const ItemInstance&) const;
-	bool operator!=(const ItemInstance&) const;
+	ItemStack* operator=(const ItemStack&);
+	bool operator==(const ItemStack&) const;
+	bool operator!=(const ItemStack&) const;
 	operator bool() const;
 
 public:

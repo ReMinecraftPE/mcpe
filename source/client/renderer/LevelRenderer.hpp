@@ -165,9 +165,9 @@ public:
 	void setDirty(const TilePos& min, const TilePos& max);
 	void tick();
 	bool updateDirtyChunks(const Entity& camera, bool b);
-	void renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a);
-	void renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a);
-	void renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemInstance* inventoryItem, float a);
+	void renderCracks(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
+	void renderHitSelect(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
+	void renderHitOutline(const Entity& camera, const HitResult& hr, int mode, const ItemStack* inventoryItem, float a);
 
 protected:
 	Vec3 m_viewPos;

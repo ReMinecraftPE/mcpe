@@ -33,8 +33,8 @@ bool SurvivalMode::canHurtPlayer()
 
 bool SurvivalMode::startDestroyBlock(Player* player, const TilePos& pos, Facing::Name face)
 {
-	ItemInstance* item = player->getSelectedItem();
-	if (item && item->getItem() == Item::bow)
+	ItemStack& item = player->getSelectedItem();
+	if (!item.isEmpty() && item.getItem() == Item::bow)
 		return true;
 
 	TileID tile = _level.getTile(pos);
@@ -63,13 +63,13 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 	bool changed = GameMode::destroyBlock(player, pos, face);
 
 	bool couldDestroy = player->canDestroy(Tile::tiles[tile]);
-	ItemInstance* item = player->getSelectedItem();
-	if (item)
+	ItemStack& item = player->getSelectedItem();
+	if (!item.isEmpty())
 	{
-		item->mineBlock(pos, face);
-		if (item->m_count == 0)
+		item.mineBlock(pos, face);
+		if (item.m_count == 0)
 		{
-			item->snap(player);
+			item.snap(player);
 			player->removeSelectedItem();
 		}
 	}
@@ -77,8 +77,8 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 	if (changed && couldDestroy)
 	{
 #ifdef MOD_POCKET_SURVIVAL
-		ItemInstance tileItem(tile, 1, data);
-		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(&tileItem))
+		ItemStack tileItem(tile, 1, data);
+		if (tile == TILE_GRASS || !player->m_pInventory->hasUnlimitedResource(tileItem))
 		{
 			Tile::tiles[tile]->playerDestroy(&_level, player, pos, data);
 		}
@@ -162,19 +162,20 @@ void SurvivalMode::render(float f)
 	}
 }
 
-bool SurvivalMode::useItemOn(Player* player, Level* level, ItemInstance* instance, const TilePos& pos, Facing::Name face)
+bool SurvivalMode::useItemOn(Player* player, Level* level, ItemStack& item, const TilePos& pos, Facing::Name face)
 {
 #ifdef MOD_POCKET_SURVIVAL
-	if (!instance)
-		return GameMode::useItemOn(player, level, instance, pos, face);
+	if (item.isEmpty())
+		return GameMode::useItemOn(player, level, item, pos, face);
 
-	int oldCount = instance->m_count;
-	bool result = GameMode::useItemOn(player, level, instance, pos, face);
-	if (player->m_pInventory->hasUnlimitedResource(instance))
-		instance->m_count = oldCount;
+	bool unlimited = player->m_pInventory->hasUnlimitedResource(item);
+	int oldCount = item.m_count;
+	bool result = GameMode::useItemOn(player, level, item, pos, face);
+	if (unlimited)
+		item.m_count = oldCount;
 
 	return result;
 #else
-	return GameMode::useItemOn(player, level, instance, pos, face);
+	return GameMode::useItemOn(player, level, item, pos, face);
 #endif
 }

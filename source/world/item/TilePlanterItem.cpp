@@ -15,7 +15,7 @@ TilePlanterItem::TilePlanterItem(int id, int place) : Item(id)
 	m_tile = Tile::tiles[place]->m_ID;
 }
 
-bool TilePlanterItem::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool TilePlanterItem::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	TilePos tp(pos);
 

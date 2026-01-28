@@ -552,6 +552,8 @@ typedef uint8_t TileID;
 // Rename "FullTile" to "Tile"
 typedef uint8_t TileData;
 
+typedef uint16_t SlotID;
+
 #define SAFE_DELETE(ptr) do { if (ptr) delete ptr; } while (0)
 #define SAFE_DELETE_ARRAY(ptr) do { if (ptr) delete[] ptr; } while (0)
 

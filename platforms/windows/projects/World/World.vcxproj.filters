@@ -93,6 +93,12 @@
     <Filter Include="Header Files\Level\Path">
       <UniqueIdentifier>{d3278811-f90d-45d4-9113-122e61ccf540}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Inventory">
+      <UniqueIdentifier>{a52088bb-fd48-4393-b6a3-b040a207c4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Inventory">
+      <UniqueIdentifier>{8db2ca8d-8ea6-412f-bea8-fcc1c950d0e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Entity.cpp">
@@ -143,7 +149,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\Item.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\world\item\ItemInstance.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ItemStack.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\item\SlabItem.cpp">
@@ -563,6 +569,36 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\BedItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\ContainerListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\Slot.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\InventoryMenu.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ResultContainer.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\CraftingContainer.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ArmorSlot.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\ResultSlot.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.cpp">
+      <Filter>Source Files\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\CompoundContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -613,7 +649,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\Item.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
-    <ClInclude Include="$(MC_ROOT)\source\world\item\ItemInstance.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ItemStack.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\SlabItem.hpp">
@@ -987,6 +1023,39 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\BedItem.hpp">
       <Filter>Header Files\Item</Filter>
+    </ClCompile>
+    <ClInclude Include="$(MC_ROOT)\source\world\Container.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\ContainerListener.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\Slot.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\InventoryMenu.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ResultContainer.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\CraftingContainer.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ResultSlot.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\ArmorSlot.hpp">
+      <Filter>Header Files\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\CompoundContainer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.hpp">
+      <Filter>Header Files\Inventory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

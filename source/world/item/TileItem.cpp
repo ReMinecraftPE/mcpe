@@ -22,12 +22,12 @@ std::string TileItem::getDescriptionId() const
 	return Tile::tiles[m_tile]->getDescriptionId();
 }
 
-std::string TileItem::getDescriptionId(ItemInstance* instance) const
+std::string TileItem::getDescriptionId(ItemStack* instance) const
 {
 	return Tile::tiles[m_tile]->getDescriptionId();
 }
 
-bool TileItem::useOn(ItemInstance* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool TileItem::useOn(ItemStack* instance, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	TilePos tp(pos);
 

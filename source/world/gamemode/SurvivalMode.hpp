@@ -23,7 +23,7 @@ public:
 	void render(float f) override;
 	float getBlockReachDistance() const override { return 4.0f; } // 4.0f on Java, 5.0f until 0.10.0-0.12.1
 	float getEntityReachDistance() const override { return 3.0f; }
-	bool useItemOn(Player*, Level*, ItemInstance*, const TilePos& pos, Facing::Name face) override;
+	bool useItemOn(Player*, Level*, ItemStack&, const TilePos& pos, Facing::Name face) override;
 	bool isCreativeType() const override { return false; }
 	bool isSurvivalType() const override { return true; }
 	void initPlayer(Player*) override;

@@ -23,11 +23,11 @@ AddPlayerPacket::AddPlayerPacket(const Player *player)
 	// even though Mojang initializes this to TILE_AIR
 	m_itemId = TILE_STONE;
 	m_itemAuxValue = 0;
-	ItemInstance* pItem = player->getSelectedItem();
-	if (pItem)
+	ItemStack& pItem = player->getSelectedItem();
+	if (!pItem.isEmpty())
 	{
-		m_itemId = pItem->getId();
-		m_itemAuxValue = pItem->getAuxValue();
+		m_itemId = pItem.getId();
+		m_itemAuxValue = pItem.getAuxValue();
 	}
 }
 
