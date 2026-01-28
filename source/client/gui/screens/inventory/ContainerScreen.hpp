@@ -43,5 +43,5 @@ protected:
     int m_topPos;
 
 private:
-    int m_timeSlotDragged = 0;
+    int m_timeSlotDragged;
 };

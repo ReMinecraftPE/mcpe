@@ -9,7 +9,8 @@ ContainerScreen::ContainerScreen(ContainerMenu* menu) :
     m_imageWidth(176),
     m_imageHeight(166),
     m_leftPos(0),
-    m_topPos(0)
+    m_topPos(0),
+    m_timeSlotDragged(0)
 {
 
 }
