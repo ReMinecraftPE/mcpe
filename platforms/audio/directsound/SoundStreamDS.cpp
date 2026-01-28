@@ -191,23 +191,22 @@ void SoundStreamDS::_update()
         // Re-fill buffers after restoration
         for (size_t i = 0; i < m_buffers.size(); ++i)
         {
-            if (!_stream(i))
+            if (_stream(i)) continue;
+
+            if (shouldLoop())
             {
-                if (shouldLoop())
-                {
-                    stb_vorbis_seek_start(m_decoder);
-                    m_totalSamplesLeft = stb_vorbis_stream_length_in_samples(m_decoder) * m_info.channels;
-                    if (!_stream(i))
-                    {
-                        close();
-                        return;
-                    }
-                }
-                else
+                stb_vorbis_seek_start(m_decoder);
+                m_totalSamplesLeft = stb_vorbis_stream_length_in_samples(m_decoder) * m_info.channels;
+                if (!_stream(i))
                 {
                     close();
                     return;
                 }
+            }
+            else
+            {
+                close();
+                return;
             }
         }
         _play(); // Restart playback
@@ -227,23 +226,29 @@ void SoundStreamDS::_update()
         (lastWritePos >= m_bufferSize && writeCursor < m_bufferSize))
     {
         int bufferId = (currentSegment + 1) % 2;
-        if (!_stream(bufferId))
+
+        if (_stream(bufferId))
         {
-            if (shouldLoop())
-            {
-                stb_vorbis_seek_start(m_decoder);
-                m_totalSamplesLeft = stb_vorbis_stream_length_in_samples(m_decoder) * m_info.channels;
-                if (!_stream(bufferId)) {
-                    close();
-                    return;
-                }
-            }
-            else
+            lastWritePos = writeCursor;
+            return;
+        }
+
+        if (shouldLoop())
+        {
+            stb_vorbis_seek_start(m_decoder);
+            m_totalSamplesLeft = stb_vorbis_stream_length_in_samples(m_decoder) * m_info.channels;
+            if (!_stream(bufferId))
             {
                 close();
                 return;
             }
         }
+        else
+        {
+            close();
+            return;
+        }
+
         lastWritePos = writeCursor;
     }
 }

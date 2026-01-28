@@ -28,6 +28,7 @@ SoundSystemDS::SoundSystemDS()
 		return;
 	}
 
+	//@NOTE: The cooperative level should be DSSCL_PRIORITY, so there's enough control over the buffer for the sound streaming
 	result = m_directsound->SetCooperativeLevel(m_hWnd, DSSCL_PRIORITY);
 	if (FAILED(result))
 	{
