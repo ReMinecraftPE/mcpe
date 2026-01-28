@@ -12,4 +12,14 @@ public:
 		WEST,  // -X
 		EAST   // +X
 	};
+	
+	static bool isHorizontal(Name face)
+	{
+		return face != DOWN && face != UP;
+	}
+	
+	static bool isVertical(Name face)
+	{
+		return face == DOWN || face == UP;
+	}
 };

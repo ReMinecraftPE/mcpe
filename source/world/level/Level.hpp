@@ -149,6 +149,7 @@ public:
 	void tickPendingTicks(bool b);
 	void tickTiles();
 	void tickEntities();
+	void updateSleeping();
 	void addToTickNextTick(const TilePos& tilePos, int, int);
 	void takePicture(TripodCamera* pCamera, Entity* pOwner);
 	void addParticle(const std::string& name, const Vec3& pos, const Vec3& dir = Vec3::ZERO);
