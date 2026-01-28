@@ -104,6 +104,9 @@ add_library(reminecraftpe-core STATIC
     client/gui/screens/IngameBlockSelectionScreen.cpp
     client/gui/screens/PauseScreen.cpp
     client/gui/screens/DeathScreen.cpp
+    client/gui/screens/inventory/ContainerScreen.cpp
+    client/gui/screens/inventory/InventoryScreen.cpp
+    client/gui/screens/inventory/ChestScreen.cpp
     client/gui/components/ScrolledSelectionList.cpp
     client/gui/components/AvailableGamesList.cpp
     client/gui/components/RolledSelectionList.cpp
@@ -112,9 +115,6 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/SmallButton.cpp
     client/gui/components/WorldSelectionList.cpp
     client/gui/components/OptionList.cpp
-    client/gui/inventory/ContainerScreen.cpp
-    client/gui/inventory/InventoryScreen.cpp
-    client/gui/inventory/ChestScreen.cpp
     client/locale/Language.cpp
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
