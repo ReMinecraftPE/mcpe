@@ -17,6 +17,7 @@ protected:
 
 public:
 	virtual bool hasResource(const ResourceLocation& location) const = 0;
+	virtual bool getResourcePath(const ResourceLocation& location, std::string& path) const = 0;
 	virtual bool hasTexture(const ResourceLocation& location) const = 0;
 	virtual bool load(const ResourceLocation& location, std::string& stream) const = 0;
 	virtual void loadAllVersionsOf(const ResourceLocation& location) const = 0;
