@@ -117,6 +117,18 @@
     <Filter Include="Header Files\Resources">
       <UniqueIdentifier>{29c07c2c-fd63-4321-9e1f-cd0cb30b97da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GUI\Screens\Inventory">
+      <UniqueIdentifier>{a04f2a8d-42d0-472f-95bd-38b40f0ffd3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUI\Screens\Inventory">
+      <UniqueIdentifier>{9a848365-ab89-424c-841c-1b48e4c05a02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Locale">
+      <UniqueIdentifier>{69a67830-4dac-48a2-8ca4-7d462d0ac575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Locale">
+      <UniqueIdentifier>{8d211c71-2764-43ef-8587-7414109f4ff5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.hpp">
@@ -575,6 +587,18 @@
     <ClInclude Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.hpp">
       <Filter>Header Files\Renderer\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\inventory\InventoryScreen.hpp">
+      <Filter>Header Files\GUI\Screens\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\inventory\ContainerScreen.hpp">
+      <Filter>Header Files\GUI\Screens\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\gui\screens\inventory\ChestScreen.hpp">
+      <Filter>Header Files\GUI\Screens\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\locale\Language.hpp">
+      <Filter>Header Files\Locale</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -1011,6 +1035,18 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\renderer\renderer\Tesselator.cpp">
       <Filter>Source Files\Renderer\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\inventory\ContainerScreen.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\inventory\InventoryScreen.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\gui\screens\inventory\ChestScreen.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\locale\Language.cpp">
+      <Filter>Source Files\Locale</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

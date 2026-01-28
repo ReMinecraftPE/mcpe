@@ -3,7 +3,7 @@
 #include "world/entity/Player.hpp"
 #include "world/tile/Tile.hpp"
 #include "world/tile/ClothTile.hpp"
-//#include "DyeColor.hpp"
+#include "DyeColor.hpp"
 
 ClothItem::ClothItem(int id) : TileItem(id)
 {
@@ -13,7 +13,7 @@ ClothItem::ClothItem(int id) : TileItem(id)
 
 std::string ClothItem::getDescriptionId(ItemStack* item) const
 {
-	return TileItem::getDescriptionId(item) + "."/* + DyeColor::IDS[ClothTile::getColorFromData(item->getAuxValue())];*/;
+	return TileItem::getDescriptionId(item) + "." + DyeColor::IDS[ClothTile::getColorFromData(item->getAuxValue())];
 }
 
 int ClothItem::getIcon(const ItemStack* item) const

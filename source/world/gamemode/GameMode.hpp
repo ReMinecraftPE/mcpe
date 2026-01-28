@@ -41,7 +41,7 @@ public:
 	virtual bool canHurtPlayer();
 	virtual void interact(Player*, Entity*);
 	virtual void attack(Player*, Entity*);
-	virtual int handleInventoryMouseClick(int, int, int, Player*);
+	virtual ItemStack handleInventoryMouseClick(int, int, MouseButtonType, bool, Player*);
 	virtual void handleCloseInventory(int, Player*);
 	virtual bool isCreativeType() const { return true; }
 	virtual bool isSurvivalType() const { return false; }

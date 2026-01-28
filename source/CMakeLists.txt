@@ -112,6 +112,10 @@ add_library(reminecraftpe-core STATIC
     client/gui/components/SmallButton.cpp
     client/gui/components/WorldSelectionList.cpp
     client/gui/components/OptionList.cpp
+    client/gui/inventory/ContainerScreen.cpp
+    client/gui/inventory/InventoryScreen.cpp
+    client/gui/inventory/ChestScreen.cpp
+    client/locale/Language.cpp
     client/gui/Gui.cpp
     client/gui/GuiComponent.cpp
     client/gui/GuiElement.cpp
@@ -312,6 +316,7 @@ add_library(reminecraftpe-core STATIC
     world/ContainerListener.cpp
     world/inventory/ContainerMenu.cpp
     world/inventory/InventoryMenu.cpp
+    world/inventory/ChestMenu.cpp
     world/inventory/Slot.cpp
     world/inventory/ResultSlot.cpp
     world/inventory/ArmorSlot.cpp
@@ -325,6 +330,7 @@ add_library(reminecraftpe-core STATIC
     world/item/Item.cpp
     world/item/AuxTileItem.cpp
     world/item/ClothItem.cpp
+    world/item/DyeColor.cpp
     world/item/SlabItem.cpp
     world/particle/RedDustParticle.cpp
     world/particle/TerrainParticle.cpp

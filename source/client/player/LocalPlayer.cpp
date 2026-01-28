@@ -173,6 +173,7 @@ void LocalPlayer::calculateFlight(const Vec3& pos)
 void LocalPlayer::closeContainer()
 {
 	Player::closeContainer();
+	m_pMinecraft->m_pGameMode->handleCloseInventory(m_pContainerMenu->m_containerId, this);
 	m_pMinecraft->setScreen(nullptr);
 }
 
