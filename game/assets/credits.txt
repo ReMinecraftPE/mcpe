@@ -5,6 +5,6 @@ TheBrokenRail
 Un1q32
 Vimdo
 Wilylcaro
-Textures: Goodly, MrCptCorn
+Goodly
 all the other ReMinecraftPE contributors
 and everyone at Mojang
