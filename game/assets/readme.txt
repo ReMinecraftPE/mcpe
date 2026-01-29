@@ -1,5 +1,5 @@
 Texture credits:
-GGO4: most of items.png, cow.png
+GGO4: most of items.png, parts of terrain.png, cow.png
 glitchy8015: parts of terrain.png, default_world.png
 Goodly: most of terrain.png, all mobs except the cow, All of gui.png except touch buttons, clouds.png, font/default.png
 iProgramMC: parts of terrain.png
