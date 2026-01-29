@@ -102,7 +102,7 @@ void MobRenderer::render(const Entity& entity, const Vec3& pos, float rot, float
 		float aYaw = mob.m_oRot.x + (mob.m_rot.x - mob.m_oRot.x) * a;
 		float aPitch = mob.m_oRot.y + (mob.m_rot.y - mob.m_oRot.y) * a;
 		float fBob = getBob(mob, a);
-		float fSmth = mob.field_EC + (mob.field_E8 - mob.field_EC) * a;
+		float fSmth = mob.m_yBodyRotO + (mob.m_yBodyRot - mob.m_yBodyRotO) * a;
 
 		setupPosition(mob, Vec3(pos.x, pos.y - mob.m_heightOffset, pos.z), matrix);
 		setupRotations(mob, fBob, fSmth, matrix, a);

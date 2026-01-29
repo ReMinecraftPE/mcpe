@@ -126,13 +126,19 @@ void GameMode::attack(Player* player, Entity* entity)
 	player->attack(entity);
 }
 
-int GameMode::handleInventoryMouseClick(int a, int b, int c, Player* player)
+ItemStack GameMode::handleInventoryMouseClick(int containerId, int slotNum, MouseButtonType button, bool quick, Player* player)
 {
-	return 0;
+	return player->m_pContainerMenu->clicked(slotNum, button, quick, player);
 }
 
 void GameMode::handleCloseInventory(int a, Player* player)
 {
+	player->m_pContainerMenu->removed(player);
+	if (player->m_pContainerMenu != player->m_pInventoryMenu)
+	{
+		delete player->m_pContainerMenu;
+		player->m_pContainerMenu = player->m_pInventoryMenu;
+	}
 }
 
 bool GameMode::useItem(Player* player, Level* level, ItemStack& item)

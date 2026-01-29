@@ -529,7 +529,7 @@ void Tile::initTiles()
 		->setDestroyTime(5.0f)
 		->setExplodeable(10.0f)
 		->setSoundType(Tile::SOUND_METAL)
-		->setDescriptionId("blockEmerald");
+		->setDescriptionId("blockDiamond");
 
 	Tile::farmland = (new FarmTile(TILE_FARMLAND, Material::dirt))
 		->init()
@@ -712,7 +712,7 @@ void Tile::initTiles()
 		->setDestroyTime(1.0f)
 		->setLightEmission(1.0f)
 		->setSoundType(Tile::SOUND_WOOD)
-		->setDescriptionId("litPumpkin");
+		->setDescriptionId("litpumpkin");
 	
 	Tile::netherrack = (new Tile(TILE_NETHERRACK, TEXTURE_BLOODSTONE, Material::stone))
 		->init()

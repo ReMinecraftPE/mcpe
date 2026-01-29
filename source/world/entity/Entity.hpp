@@ -280,6 +280,7 @@ public:
 	bool m_bFireImmune;
 	bool m_bFirstTick;
 	int m_nextStep;
+	float m_minBrightness;
 
 public:
 	static Entity::ID entityCounter;

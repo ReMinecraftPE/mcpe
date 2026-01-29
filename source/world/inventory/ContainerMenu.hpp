@@ -13,19 +13,11 @@ class ContainerListener;
 
 class ContainerMenu
 {
-protected:
-    std::vector<ItemStack> m_lastSlots;
-    uint16_t m_changeUid;
-    std::vector<ContainerListener*> m_listeners;
-    std::set<Player*> unsynchedPlayers;
-
 public:
     ContainerMenu();
-
-    int m_containerId;
-    std::vector<Slot*> m_slots;
     virtual ~ContainerMenu();
 
+public:
     void addSlot(Slot* slot);
     virtual void addSlotListener(ContainerListener* listener);
     void sendData(int id, int value);
@@ -51,8 +43,18 @@ public:
     bool isSynched(Player* player) const;
     void setSynched(Player* player, bool isSynched);
 
+public:
     virtual bool stillValid(Player* player) const = 0;
-
     //Unused
     virtual bool isPauseScreen() const { return false; }
+
+protected:
+    std::vector<ItemStack> m_lastSlots;
+    uint16_t m_changeUid;
+    std::vector<ContainerListener*> m_listeners;
+    std::set<Player*> unsynchedPlayers;
+
+public:
+    int m_containerId;
+    std::vector<Slot*> m_slots;
 };

@@ -63,6 +63,7 @@ void Entity::_init()
 	m_bFireImmune = false;
 	m_bFirstTick = true;
 	m_nextStep = 1;
+	m_minBrightness = 0.0f;
 	m_pDescriptor = &EntityTypeDescriptor::unknown;
 }
 
@@ -648,7 +649,7 @@ float Entity::getBrightness(float f) const
 	if (!m_pLevel->hasChunksAt(tileMin, tileMax))
 		return 0;
 
-	return m_pLevel->getBrightness(tilePos);
+	return Mth::Max(m_minBrightness, m_pLevel->getBrightness(tilePos));
 }
 
 // renamed to getInterpolatedPosition in 0.12.1

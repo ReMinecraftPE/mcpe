@@ -594,6 +594,11 @@ bool Screen::onBack(bool b)
 	return result;
 }
 
+void Screen::onClose()
+{
+	m_pMinecraft->setScreen(nullptr);
+}
+
 bool Screen::nextElement()
 {
 	bool result = _nextElement();
@@ -799,7 +804,7 @@ void Screen::updateEvents()
 
 	if (_useController())
 	{
-		checkForPointerEvent();
+		checkForPointerEvent(MOUSE_BUTTON_LEFT);
 		controllerEvent();
 	}
 
@@ -815,7 +820,7 @@ void Screen::mouseEvent()
 		handlePointerLocation(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset());
 		handlePointerPressed(Mouse::getEventButtonState());
 
-		checkForPointerEvent();
+		checkForPointerEvent(Mouse::getEventButton());
 	}
 	if (pAction->_buttonType == MOUSE_BUTTON_SCROLLWHEEL)
 		handleScrollWheel(Mouse::getEventButtonState() ? -1.0f : 1.0f);
@@ -849,12 +854,12 @@ void Screen::controllerEvent()
 	_controllerEvent(2);
 }
 
-void Screen::checkForPointerEvent()
+void Screen::checkForPointerEvent(MouseButtonType button)
 {
 	if (m_menuPointer.isPressed == m_bLastPointerPressedState)
 		return;
 
-	handlePointerAction(m_menuPointer);
+	handlePointerAction(m_menuPointer, button);
 	m_bLastPointerPressedState = m_menuPointer.isPressed;
 }
 
@@ -875,17 +880,17 @@ void Screen::handlePointerPressed(bool isPressed)
 	m_menuPointer.isPressed = isPressed;
 }
 
-void Screen::handlePointerAction(const MenuPointer& pointer)
+void Screen::handlePointerAction(const MenuPointer& pointer, MouseButtonType button)
 {
 	if (pointer.isPressed)
 	{
 		// pointerPressed(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
-		pointerPressed(pointer.x, pointer.y + getYOffset(), MOUSE_BUTTON_LEFT);
+		pointerPressed(pointer.x, pointer.y + getYOffset(), button);
 	}
 	else
 	{
 		// pointerReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
-		pointerReleased(pointer.x, pointer.y + getYOffset(), MOUSE_BUTTON_LEFT);
+		pointerReleased(pointer.x, pointer.y + getYOffset(), button);
 	}
 }
 

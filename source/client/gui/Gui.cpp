@@ -9,6 +9,7 @@
 #include "client/app/Minecraft.hpp"
 #include "client/gui/screens/IngameBlockSelectionScreen.hpp"
 #include "client/gui/screens/ChatScreen.hpp"
+#include "client/gui/screens/inventory/InventoryScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "renderer/ShaderConstants.hpp"
@@ -336,7 +337,10 @@ void Gui::handleKeyPressed(int keyCode)
 
 	if (options->isKey(KM_INVENTORY, keyCode))
 	{
-		m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
+		if (m_pMinecraft->m_pGameMode->isSurvivalType())
+			m_pMinecraft->setScreen(new InventoryScreen(m_pMinecraft->m_pLocalPlayer));
+		else
+			m_pMinecraft->setScreen(new IngameBlockSelectionScreen);
 		return;
 	}
 

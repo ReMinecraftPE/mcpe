@@ -47,7 +47,7 @@ public:
 	ItemStack removeItem(int index, int count) override;
 	bool removeResource(int id);
 
-	void setCarried(ItemStack item);
+	void setCarried(const ItemStack& item);
 	ItemStack& getCarried();
 
 	void pickItem(int itemID, int data, int maxHotBarSlot);

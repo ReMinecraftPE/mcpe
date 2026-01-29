@@ -216,27 +216,27 @@ void Item::initItems()
 
 	Item::sword_emerald = NEW_ITEM(ITEM_SWORD_EMERALD)
 		->setIcon(3, 4)
-		->setDescriptionId("swordEmerald")
+		->setDescriptionId("swordDiamond")
 		->handEquipped();
 
 	Item::pickAxe_emerald = NEW_ITEM(ITEM_PICKAXE_EMERALD)
 		->setIcon(3, 6)
-		->setDescriptionId("pickaxeEmerald")
+		->setDescriptionId("pickaxeDiamond")
 		->handEquipped();
 
 	Item::hatchet_emerald = NEW_ITEM(ITEM_HATCHET_EMERALD)
 		->setIcon(3, 7)
-		->setDescriptionId("hatchetEmerald")
+		->setDescriptionId("hatchetDiamond")
 		->handEquipped();
 
 	Item::shovel_emerald = NEW_ITEM(ITEM_SHOVEL_EMERALD)
 		->setIcon(3, 5)
-		->setDescriptionId("shovelEmerald")
+		->setDescriptionId("shovelDiamond")
 		->handEquipped();
 
 	Item::hoe_emerald = NEW_ITEM(ITEM_HOE_EMERALD)
 		->setIcon(3, 8)
-		->setDescriptionId("hoeEmerald")
+		->setDescriptionId("hoeDiamond")
 		->handEquipped();
 
 	Item::helmet_cloth = NEW_ITEM(ITEM_HELMET_CLOTH)
@@ -289,19 +289,19 @@ void Item::initItems()
 
 	Item::helmet_diamond = NEW_ITEM(ITEM_HELMET_EMERALD)
 		->setIcon(3, 0)
-		->setDescriptionId("helmetEmerald");
+		->setDescriptionId("helmetDiamond");
 
 	Item::chestplate_diamond = NEW_ITEM(ITEM_CHESTPLATE_EMERALD)
 		->setIcon(3, 1)
-		->setDescriptionId("chestplateEmerald");
+		->setDescriptionId("chestplateDiamond");
 
 	Item::leggings_diamond = NEW_ITEM(ITEM_LEGGINGS_EMERALD)
 		->setIcon(3, 2)
-		->setDescriptionId("leggingsEmerald");
+		->setDescriptionId("leggingsDiamond");
 
 	Item::boots_diamond = NEW_ITEM(ITEM_BOOTS_EMERALD)
 		->setIcon(3, 3)
-		->setDescriptionId("bootsEmerald");
+		->setDescriptionId("bootsDiamond");
 
 	Item::flintAndSteel = NEW_ITEM(ITEM_FLINT_AND_STEEL)
 		->setIcon(5, 0)
