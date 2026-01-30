@@ -13,7 +13,8 @@ public:
 	~AppPlatform_xdk360();
 
 protected:
-	XCONTENTDEVICEID _getSaveDeviceId(unsigned int playerId);
+	void _getXContentData(XCONTENT_DATA& out, unsigned int playerId);
+	const XCONTENTDEVICEID& _getSaveDeviceId(unsigned int playerId);
 
 public:
 	void initSoundSystem() override;
@@ -34,6 +35,8 @@ public:
 	std::string getAssetPath(const std::string& path) const override;
 	void makeNativePath(std::string& path) const override;
 
+	void beginProfileDataRead(unsigned int playerId) override;
+	void endProfileDataRead(unsigned int playerId) override;
 	void beginProfileDataWrite(unsigned int playerId) override;
 	void endProfileDataWrite(unsigned int playerId) override;
 

@@ -262,16 +262,21 @@ std::string Options::saveArray(const std::vector<std::string>& arr)
 std::vector<std::string> Options::readPropertiesFromFile(const std::string& filePath)
 {
 	std::vector<std::string> o;
+	AppPlatform& platform = *AppPlatform::singleton();
 
 	std::string nativePath(filePath);
-	AppPlatform::singleton()->makeNativePath(nativePath);
+	platform.makeNativePath(nativePath);
+
 	const char* const path = nativePath.c_str();
 	LOG_I("Loading options from %s", path);
+
+	platform.beginProfileDataRead(0);
 
 	std::ifstream ifs(path);
 	if (!ifs.is_open())
 	{
 		LOG_W("%s doesn't exist, resetting to defaults", path);
+		platform.endProfileDataRead(0);
 		return o;
 	}
 
@@ -295,6 +300,10 @@ std::vector<std::string> Options::readPropertiesFromFile(const std::string& file
 		}
 	}
 
+	ifs.close();
+
+	platform.endProfileDataRead(0);
+
 	return o;
 }
 
@@ -302,12 +311,12 @@ void Options::savePropertiesToFile(const std::string& filePath, const std::vecto
 {
 	assert(properties.size() % 2 == 0);
 
-	AppPlatform* pAppPlatform = AppPlatform::singleton();
+	AppPlatform& platform = *AppPlatform::singleton();
 
 	std::string nativePath(filePath);
-	pAppPlatform->makeNativePath(nativePath);
+	platform.makeNativePath(nativePath);
 
-	pAppPlatform->beginProfileDataWrite(0);
+	platform.beginProfileDataWrite(0);
 
 	std::ofstream os;
 	os.open(nativePath.c_str());
@@ -324,7 +333,7 @@ void Options::savePropertiesToFile(const std::string& filePath, const std::vecto
 
 	os.close();
 
-	pAppPlatform->endProfileDataWrite(0);
+	platform.endProfileDataWrite(0);
 }
 
 std::vector<std::string> Options::getOptionStrings()

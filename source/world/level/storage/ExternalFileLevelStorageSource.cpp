@@ -9,6 +9,7 @@
 #include "ExternalFileLevelStorageSource.hpp"
 #include "ExternalFileLevelStorage.hpp"
 #include "common/Logger.hpp"
+#include "client/app/AppPlatform.hpp"
 
 #ifndef DEMO
 
@@ -27,13 +28,13 @@ ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string
 			if (createFolderIfNotExists(m_worldsPath.c_str()))
 			{
                 // @WTF: why?
-				std::vector<LevelSummary> vls;
-				getLevelList(vls);
+				//std::vector<LevelSummary> vls;
+				//getLevelList(vls);
 			}
 		}
 	}
 
-	m_worldsPath = path + "/games" + "/com.mojang" + "/minecraftWorlds";
+	m_worldsPath = path + C_HOME_PATH + "minecraftWorlds";
 }
 
 std::string ExternalFileLevelStorageSource::getName() const
