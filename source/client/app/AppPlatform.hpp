@@ -130,6 +130,8 @@ public:
 	virtual void makeNativePath(std::string& path) const;
 
 	// For getting a handle on the save device for consoles
+	virtual void beginProfileDataRead(unsigned int playerId);
+	virtual void endProfileDataRead(unsigned int playerId);
 	virtual void beginProfileDataWrite(unsigned int playerId);
 	virtual void endProfileDataWrite(unsigned int playerId);
 
