@@ -1275,7 +1275,7 @@ void LevelRenderer::renderCracks(const Entity& camera, const HitResult& hr, int 
 			t.setOffset(-px, -py, -pz);
 			t.noColor();
 			if (!pTile)
-				pTile = Tile::stone;
+				pTile = Tile::rock;
 
 			m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos, 240 + int(m_destroyProgress * 10.0f));
 
@@ -1316,7 +1316,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 	t.setOffset(-px, -py, -pz);
 	t.noColor();
 	if (!pTile)
-		pTile = Tile::stone;
+		pTile = Tile::rock;
 
 	m_pTileRenderer->tesselateInWorld(pTile, hr.m_tilePos);
 

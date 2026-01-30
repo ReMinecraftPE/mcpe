@@ -420,7 +420,7 @@ void Minecraft::handleBuildAction(const BuildActionIntention& action)
 				// @BUG: Hits sometimes pass through fire when done from above
 				//if (extinguished) break;
 
-				if (pTile != Tile::bedrock || (player->field_B94 >= 100 && !m_hitResult.m_bUnk24))
+				if (pTile != Tile::unbreakable || (player->field_B94 >= 100 && !m_hitResult.m_bUnk24))
 				{
 					bool destroyed = false;
 					if (action.isDestroyStart())

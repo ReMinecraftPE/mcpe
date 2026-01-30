@@ -30,15 +30,15 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	//for (int i = 0; i < 16; i++) // <-- This is an example for all wool colors in order
 
 	// Original list of items.
-	addCreativeItem(Tile::stone->m_ID);
-	addCreativeItem(Tile::cobblestone->m_ID);
-	addCreativeItem(Tile::sandstone->m_ID);
+	addCreativeItem(Tile::rock->m_ID);
+	addCreativeItem(Tile::stoneBrick->m_ID);
+	addCreativeItem(Tile::sandStone->m_ID);
 	addCreativeItem(Tile::wood->m_ID);
 	addCreativeItem(Tile::treeTrunk->m_ID, 0);
 	addCreativeItem(Tile::goldBlock->m_ID);
 	addCreativeItem(Tile::ironBlock->m_ID);
-	addCreativeItem(Tile::diamondBlock->m_ID);
-	addCreativeItem(Tile::brick->m_ID);
+	addCreativeItem(Tile::emeraldBlock->m_ID);
+	addCreativeItem(Tile::redBrick->m_ID);
 	addCreativeItem(Tile::leaves->m_ID, 0);
 	addCreativeItem(Tile::cloth->m_ID, 14);
 	addCreativeItem(Tile::cloth->m_ID, 13);
@@ -53,8 +53,8 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::cloth->m_ID, 5);
 	addCreativeItem(Tile::cloth->m_ID, 4);
 	addCreativeItem(Tile::cloth->m_ID, 3);
-	addCreativeItem(Tile::stairsWood->m_ID);
-	addCreativeItem(Tile::stairsStone->m_ID);
+	addCreativeItem(Tile::stairs_wood->m_ID);
+	addCreativeItem(Tile::stairs_stone->m_ID);
 	addCreativeItem(Tile::stoneSlabHalf->m_ID, 0);
 	addCreativeItem(Tile::sand->m_ID);
 	addCreativeItem(Tile::ladder->m_ID);
@@ -79,7 +79,7 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::sapling->m_ID);
 	addCreativeItem(Tile::cryingObsidian->m_ID);
 	addCreativeItem(Tile::rocketLauncher->m_ID);
-	addCreativeItem(Tile::redstoneOre->m_ID);
+	addCreativeItem(Tile::redStoneOre->m_ID);
 
 	// test stuff
 	addCreativeItem(Tile::water->m_ID);
@@ -88,8 +88,8 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 
 	// items
 	addCreativeItem(Item::camera->m_itemID);
-	addCreativeItem(Item::woodDoor->m_itemID);
-	addCreativeItem(Item::ironDoor->m_itemID);
+	addCreativeItem(Item::door_wood->m_itemID);
+	addCreativeItem(Item::door_iron->m_itemID);
 	addCreativeItem(Item::rocket->m_itemID);
 
 	// more stuff

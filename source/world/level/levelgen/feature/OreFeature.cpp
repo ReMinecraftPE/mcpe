@@ -66,7 +66,7 @@ bool OreFeature::place(Level* level, Random* random, const TilePos& pos)
 					if (distX * distX + distY * distY + distZ * distZ >= 1.0f)
 						continue;
 
-					if (level->getTile(tp) == Tile::stone->m_ID)
+					if (level->getTile(tp) == Tile::rock->m_ID)
 						level->setTileNoUpdate(tp, m_ID);
 				}
 			}

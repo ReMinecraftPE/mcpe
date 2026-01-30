@@ -277,7 +277,7 @@ int Tile::getSpawnResourcesAuxValue(int x) const
 
 void Tile::initTiles()
 {
-	Tile::stone = (new StoneTile(TILE_STONE, TEXTURE_STONE, Material::stone))
+	Tile::rock = (new StoneTile(TILE_STONE, TEXTURE_STONE, Material::stone))
 		->init()
 		->setDestroyTime(1.5f)
 		->setExplodeable(10.0f)
@@ -296,12 +296,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_GRAVEL)
 		->setDescriptionId("dirt");
 
-	Tile::cobblestone = (new Tile(TILE_COBBLESTONE, TEXTURE_COBBLESTONE, Material::stone))
+	Tile::stoneBrick = (new Tile(TILE_STONEBRICK, TEXTURE_STONEBRICK, Material::stone))
 		->init()
 		->setDestroyTime(2.0f)
 		->setExplodeable(10.0f)
 		->setSoundType(Tile::SOUND_STONE)
-		->setDescriptionId("cobblestone");
+		->setDescriptionId("stonebrick");
 
 	Tile::wood = (new Tile(TILE_WOOD, TEXTURE_PLANKS, Material::wood))
 		->init()
@@ -310,7 +310,7 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("wood");
 
-	Tile::bedrock = (new Tile(TILE_BEDROCK, TEXTURE_BEDROCK, Material::stone))
+	Tile::unbreakable = (new Tile(TILE_BEDROCK, TEXTURE_BEDROCK, Material::stone))
 		->init()
 		->setDestroyTime(-1.0f)
 		->setExplodeable(6000000.f)
@@ -409,11 +409,11 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("blockLapis");
 
-	Tile::sandstone = (new SandStoneTile(TILE_SANDSTONE, TEXTURE_SANDSTONE_SIDE, Material::stone))
+	Tile::sandStone = (new SandStoneTile(TILE_SANDSTONE, TEXTURE_SANDSTONE_SIDE, Material::stone))
 		->init()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDestroyTime(0.8f)
-		->setDescriptionId("sandstone");
+		->setDescriptionId("sandStone");
 
 	Tile::cloth = (new ClothTile(TILE_CLOTH))
 		->init()
@@ -474,7 +474,7 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("stoneSlab");
 
-	Tile::brick = (new Tile(TILE_BRICKS, TEXTURE_BRICKS, Material::stone))
+	Tile::redBrick = (new Tile(TILE_BRICKS, TEXTURE_BRICKS, Material::stone))
 		->init()
 		->setDestroyTime(2.0f)
 		->setExplodeable(10.0f)
@@ -514,18 +514,18 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("torch");
 
-	Tile::stairsWood = (new StairTile(TILE_STAIRS_WOOD, Tile::wood))
+	Tile::stairs_wood = (new StairTile(TILE_STAIRS_WOOD, Tile::wood))
 		->init()
 		->setDescriptionId("stairsWood");
 
-	Tile::diamondOre = (new OreTile(TILE_ORE_DIAMOND, TEXTURE_ORE_DIAMOND))
+	Tile::emeraldOre = (new OreTile(TILE_ORE_EMERALD, TEXTURE_ORE_EMERALD))
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreDiamond");
 
-	Tile::diamondBlock = (new MetalTile(TILE_BLOCK_DIAMOND, TEXTURE_DIAMOND, Material::metal))
+	Tile::emeraldBlock = (new MetalTile(TILE_BLOCK_EMERALD, TEXTURE_EMERALD, Material::metal))
 		->init()
 		->setDestroyTime(5.0f)
 		->setExplodeable(10.0f)
@@ -538,7 +538,7 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_GRAVEL)
 		->setDescriptionId("farmland");
 
-	Tile::doorWood = (new DoorTile(TILE_DOOR_WOOD, Material::wood))
+	Tile::door_wood = (new DoorTile(TILE_DOOR_WOOD, Material::wood))
 		->init()
 		->setDestroyTime(3.0f)
 		->setSoundType(Tile::SOUND_WOOD)
@@ -550,24 +550,24 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("ladder");
 
-	Tile::stairsStone = (new StairTile(TILE_STAIRS_STONE, Tile::cobblestone))
+	Tile::stairs_stone = (new StairTile(TILE_STAIRS_STONE, Tile::stoneBrick))
 		->init()
 		->setDescriptionId("stairsStone");
 
-	Tile::doorIron = (new DoorTile(TILE_DOOR_IRON, Material::metal))
+	Tile::door_iron = (new DoorTile(TILE_DOOR_IRON, Material::metal))
 		->init()
 		->setDestroyTime(5.0f)
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("doorIron");
 
-	Tile::redstoneOre = (new RedStoneOreTile(TILE_ORE_REDSTONE, TEXTURE_ORE_RED_STONE, false))
+	Tile::redStoneOre = (new RedStoneOreTile(TILE_ORE_REDSTONE, TEXTURE_ORE_RED_STONE, false))
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreRedstone");
 
-	Tile::redstoneOre_lit = (new RedStoneOreTile(TILE_ORE_REDSTONE_LIT, TEXTURE_ORE_RED_STONE, true))
+	Tile::redStoneOre_lit = (new RedStoneOreTile(TILE_ORE_REDSTONE_LIT, TEXTURE_ORE_RED_STONE, true))
 		->init()
 		->setDestroyTime(3.0f)
 		->setLightEmission(0.625f)
@@ -715,7 +715,7 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_WOOD)
 		->setDescriptionId("litpumpkin");
 	
-	Tile::netherrack = (new Tile(TILE_NETHERRACK, TEXTURE_HELLROCK, Material::stone))
+	Tile::netherrack = (new Tile(TILE_NETHERRACK, TEXTURE_BLOODSTONE, Material::stone))
 		->init()
 		->setDestroyTime(0.4f)
 		->setSoundType(Tile::SOUND_STONE)
@@ -1159,16 +1159,16 @@ const Tile::SoundType
 // @TODO: Refactor this so that Tile::fire is already a FireTile* etc
 Tile
 	*Tile::sand,
-	*Tile::sandstone,
-	*Tile::cobblestone,
-	*Tile::brick,
+	*Tile::sandStone,
+	*Tile::stoneBrick,
+	*Tile::redBrick,
 	*Tile::wood,
 	*Tile::glass,
 	*Tile::calmWater,
 	*Tile::calmLava,
 	*Tile::gravel,
-	*Tile::stone,
-	*Tile::bedrock,
+	*Tile::rock,
+	*Tile::unbreakable,
 	*Tile::dirt,
 	*Tile::grass,
 	*Tile::ice,
@@ -1187,9 +1187,9 @@ Tile
 	*Tile::leaves,
 	*Tile::leaves_carried,
 	*Tile::info_reserved6,
-	*Tile::diamondOre,
-	*Tile::redstoneOre,
-	*Tile::redstoneOre_lit,
+	*Tile::emeraldOre, //! actually diamond ore
+	*Tile::redStoneOre,
+	*Tile::redStoneOre_lit,
 	*Tile::goldOre,
 	*Tile::ironOre,
 	*Tile::coalOre,
@@ -1205,11 +1205,11 @@ Tile
 	*Tile::invisible_bedrock,
 	*Tile::goldBlock,
 	*Tile::ironBlock,
-	*Tile::diamondBlock,
-	*Tile::stairsWood,
-	*Tile::stairsStone,
-	*Tile::doorWood,
-	*Tile::doorIron,
+	*Tile::emeraldBlock, //! actually diamond block
+	*Tile::stairs_wood,
+	*Tile::stairs_stone,
+	*Tile::door_wood,
+	*Tile::door_iron,
 	*Tile::info_updateGame1,
 	*Tile::info_updateGame2,
 	// custom additions here

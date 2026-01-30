@@ -291,7 +291,7 @@ void OptionList::initDefaultMenu()
 void OptionList::initVideoMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
-	int currentIndex = -1;
+	int currentIndex = false;
 
 	OPTION(Distance, m_iViewDistance, "Render Distance");
 	OPTION(Boolean, m_bThirdPerson, "Third Person View");
@@ -304,7 +304,6 @@ void OptionList::initVideoMenu()
 	OPTION(Render, m_bBiomeColors, "Biome Colors");
 	OPTION(Boolean, m_bDontRenderGui, "Hide GUI");
 	OPTION(Boolean, m_bDynamicHand, "Dynamic Hand Movement");
-
 }
 
 void OptionList::initControlsMenu()

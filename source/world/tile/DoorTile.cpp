@@ -99,9 +99,9 @@ int DoorTile::getResource(TileData data, Random* random) const
 		return 0;
 
 	if (m_pMaterial == Material::metal)
-		return Item::ironDoor->m_itemID;
+		return Item::door_iron->m_itemID;
 
-	return Item::woodDoor->m_itemID;
+	return Item::door_wood->m_itemID;
 }
 
 int DoorTile::getTexture(Facing::Name face, TileData data) const

@@ -179,7 +179,7 @@ void LargeCaveFeature::addTunnel(int x, int z, TileID* tiles, float rx, float ry
                                         TileID v34 = tiles[v37];
                                         if (Tile::grass->m_ID == v34)
                                             v66 = 1;
-                                        if (Tile::stone->m_ID == v34 ||
+                                        if (Tile::rock->m_ID == v34 ||
                                             Tile::dirt->m_ID == v34 ||
                                             Tile::grass->m_ID == v34)
                                         {
