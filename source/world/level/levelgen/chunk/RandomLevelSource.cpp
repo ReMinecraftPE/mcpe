@@ -352,7 +352,7 @@ void RandomLevelSource::buildSurfaces(const ChunkPos& pos, TileID* tiles, Biome*
 				if (j1 == 0 && byte2 == Tile::sand->m_ID)
 				{
 					j1 = m_random.nextInt(4);
-					byte2 = Tile::sandStone->m_ID;
+					byte2 = Tile::sandstone->m_ID;
 				}
 			}
 		}

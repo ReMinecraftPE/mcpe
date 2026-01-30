@@ -30,9 +30,9 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	//for (int i = 0; i < 16; i++) // <-- This is an example for all wool colors in order
 
 	// Original list of items.
+	addCreativeItem(Tile::stone->m_ID);
 	addCreativeItem(Tile::cobblestone->m_ID);
-	addCreativeItem(Tile::brick->m_ID);
-	addCreativeItem(Tile::sandStone->m_ID);
+	addCreativeItem(Tile::sandstone->m_ID);
 	addCreativeItem(Tile::wood->m_ID);
 	addCreativeItem(Tile::treeTrunk->m_ID, 0);
 	addCreativeItem(Tile::goldBlock->m_ID);

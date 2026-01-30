@@ -409,11 +409,11 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("blockLapis");
 
-	Tile::sandStone = (new SandStoneTile(TILE_SANDSTONE, TEXTURE_SANDSTONE_SIDE, Material::stone))
+	Tile::sandstone = (new SandStoneTile(TILE_SANDSTONE, TEXTURE_SANDSTONE_SIDE, Material::stone))
 		->init()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDestroyTime(0.8f)
-		->setDescriptionId("sandStone");
+		->setDescriptionId("sandstone");
 
 	Tile::cloth = (new ClothTile(TILE_CLOTH))
 		->init()
@@ -1159,7 +1159,7 @@ const Tile::SoundType
 // @TODO: Refactor this so that Tile::fire is already a FireTile* etc
 Tile
 	*Tile::sand,
-	*Tile::sandStone,
+	*Tile::sandstone,
 	*Tile::cobblestone,
 	*Tile::brick,
 	*Tile::wood,
