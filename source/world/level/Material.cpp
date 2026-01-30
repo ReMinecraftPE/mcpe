@@ -55,8 +55,8 @@ void Material::initMaterials()
 	air        = new GasMaterial();
 	dirt       = new Material();
 	wood       = new Material(true);
-	stone      = new Material();
-	metal      = new Material();
+	stone      = (new Material())->setNonMineable();
+	metal      = (new Material())->setNonMineable();
 	water      = new LiquidMaterial();
 	lava       = new LiquidMaterial();
 	leaves     = new Material(true);
@@ -70,14 +70,14 @@ void Material::initMaterials()
 	explosive  = new Material(true);
 	coral      = new Material();
 	ice        = new Material();
-	topSnow    = new DecorationMaterial();
-	snow       = new Material();
+	topSnow    = (new DecorationMaterial())->setNonMineable();
+	snow       = (new Material())->setNonMineable();
 	cactus     = new Material();
 	clay       = new Material();
 	vegetable  = new Material();
 	portal     = new Material();
 	cake       = new Material();
-	web        = new Material();
+	web        = (new Material())->setNonMineable();
 }
 
 void Material::teardownMaterials()
@@ -115,6 +115,11 @@ bool Material::isLiquid() const
 	return false;
 }
 
+bool Material::isMineable() const
+{
+	return m_bMineable;
+}
+
 bool Material::letsWaterThrough() const
 {
 	if (isLiquid())
@@ -131,6 +136,12 @@ bool Material::isSolid() const
 bool Material::isFlammable() const
 {
 	return m_bFlammable;
+}
+
+Material* Material::setNonMineable()
+{
+	m_bMineable = false;
+	return this;
 }
 
 bool Material::blocksLight() const

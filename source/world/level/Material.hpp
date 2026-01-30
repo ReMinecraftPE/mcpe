@@ -21,11 +21,13 @@ public:
 	static void teardownMaterials();
 
 	virtual bool isLiquid() const;
+	virtual bool isMineable() const;
 	virtual bool letsWaterThrough() const;
 	virtual bool isSolid() const;
 	virtual bool blocksLight() const;
 	virtual bool blocksMotion() const;
 	virtual bool isFlammable() const;
+	virtual Material* setNonMineable();
 
 public:
 	static Material
@@ -58,6 +60,7 @@ public:
 
 public:
 	bool m_bFlammable;
+	bool m_bMineable;
 };
 
 class GasMaterial : public Material

@@ -226,7 +226,7 @@ void ItemStack::set(int inCount)
 #endif
 }
 
-bool ItemStack::canDestroySpecial(Tile* tile)
+bool ItemStack::canDestroySpecial(const Tile* tile)
 {
 	return getItem()->canDestroySpecial(tile);
 }
@@ -244,7 +244,7 @@ std::string ItemStack::getHovertextName() const
 		return getItem()->getHovertextName();
 }
 
-float ItemStack::getDestroySpeed(Tile* tile)
+float ItemStack::getDestroySpeed(const Tile* tile)
 {
 	return getItem()->getDestroySpeed(this, tile);
 }
@@ -281,25 +281,28 @@ void ItemStack::hurt(int by)
 
 void ItemStack::hurtAndBreak(int amount, Entity* ent)
 {
-	if (isDamageableItem())
+	if (!isDamageableItem())
 	{
-		m_auxValue += amount;
-		if (m_auxValue > getMaxDamage())
-		{
-			if (ent->isPlayer())
-			{
-				//((Player*)ent)->awardStat(Stats::statItemBreak[m_itemID]);
-			}
+		return;
+	}
 
-			--m_count;
-			if (m_count < 0)
-				m_count = 0;
-			m_auxValue = 0;
+	m_auxValue += amount;
+	if (m_auxValue > getMaxDamage())
+	{
+		if (ent->isPlayer())
+		{
+			//((Player*)ent)->awardStat(Stats::statItemBreak[m_itemID]);
 		}
+
+		--m_count;
+		if (m_count < 0)
+			m_count = 0;
+
+		m_auxValue = 0;
 	}
 }
 
-void ItemStack::hurtEnemy(Mob* mob)
+void ItemStack::hurtEnemy(Mob* mob, Player* player)
 {
 	getItem()->hurtEnemy(this, mob);
 }
@@ -335,9 +338,9 @@ bool ItemStack::isStackedByData() const
 	return getItem()->isStackedByData();
 }
 
-void ItemStack::mineBlock(const TilePos& pos, Facing::Name face)
+void ItemStack::mineBlock(const TilePos& pos, Facing::Name face, Player* player)
 {
-	return getItem()->mineBlock(this, pos, face);
+	return getItem()->mineBlock(this, pos, face, player);
 }
 
 void ItemStack::shrink(int count)

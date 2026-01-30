@@ -1043,13 +1043,16 @@ void Tile::handleEntityInside(Level* pLevel, const TilePos& pos, const Entity* p
 
 float Tile::getDestroyProgress(Player* player) const
 {
+	if (player->isCreative())
+		return 1.0f;
+
 	if (m_hardness < 0.0f)
 		return 0.0f;
 
 	if (!player->canDestroy(this))
 		return 1.0f / m_hardness / 100.0f;
 
-	return player->getDestroySpeed() / m_hardness / 30.0f;
+	return player->getDestroySpeed(this) / m_hardness / 30.0f;
 }
 
 void Tile::spawnResources(Level* pLevel, const TilePos& pos, TileData data)

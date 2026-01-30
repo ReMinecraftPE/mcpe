@@ -71,7 +71,7 @@ public:
 	bool canDestroy(const Tile*) const;
 	void closeContainer();
 	void displayClientMessage(const std::string& msg);
-	float getDestroySpeed() const { return 1.0f; }
+	float getDestroySpeed(const Tile* tile) const;
 	int getInventorySlot(int x) const;
 	TilePos getRespawnPosition() const { return m_respawnPos; }
 	int getScore() const { return m_score; }
