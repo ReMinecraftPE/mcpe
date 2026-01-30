@@ -282,7 +282,7 @@ std::vector<std::string> Font::split(const std::string& text, int maxWidth)
 
 		if (paragraph.empty())
 		{
-			lines.emplace_back("");
+			lines.push_back("");
 			continue;
 		}
 
@@ -333,7 +333,7 @@ std::vector<std::string> Font::split(const std::string& text, int maxWidth)
 		lines.pop_back();
 
 	if (lines.empty())
-		lines.emplace_back("");
+		lines.push_back("");
 
 	return lines;
 }
