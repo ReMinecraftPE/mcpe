@@ -18,9 +18,9 @@ Inventory::~Inventory()
 
 void Inventory::prepareCreativeInventory()
 {
-	addCreativeItem(Tile::rock->m_ID);
-	addCreativeItem(Tile::stoneBrick->m_ID);
-	addCreativeItem(Tile::redBrick->m_ID);
+	addCreativeItem(Tile::stone->m_ID);
+	addCreativeItem(Tile::cobblestone->m_ID);
+	addCreativeItem(Tile::brick->m_ID);
 	addCreativeItem(Tile::dirt->m_ID);
 	addCreativeItem(Tile::wood->m_ID);
 	addCreativeItem(Tile::treeTrunk->m_ID);
@@ -40,17 +40,19 @@ void Inventory::prepareSurvivalInventory()
 	addTestItem(Tile::obsidian->m_ID, 64);
 	addTestItem(Tile::fire->m_ID, 64);*/
 
+	// 0.2.1 items
+#ifdef MOD_POCKET_SURVIVAL
 	addCreativeItem(ITEM_SHOVEL_STONE);
 	addCreativeItem(ITEM_PICKAXE_STONE);
 	addCreativeItem(ITEM_HATCHET_STONE);
-	//addCreativeItem(ITEM_SHEARS);
+	addCreativeItem(ITEM_SHEARS);
 	addCreativeItem(ITEM_SWORD_STONE);
 	addCreativeItem(TILE_LADDER);
 	addCreativeItem(TILE_TORCH);
 	addCreativeItem(ITEM_DOOR_WOOD);
 	addCreativeItem(TILE_FENCE);
 	//addCreativeItem(TILE_FENCEGATE);
-	addCreativeItem(TILE_STONEBRICK);
+	addCreativeItem(TILE_COBBLESTONE);
 	addCreativeItem(TILE_TREE_TRUNK, 1);
 	addCreativeItem(TILE_TREE_TRUNK, 2);
 	addCreativeItem(TILE_WOOD);
@@ -82,7 +84,7 @@ void Inventory::prepareSurvivalInventory()
 	{
 		addCreativeItem(TILE_BLOCK_GOLD);
 		addCreativeItem(TILE_BLOCK_IRON);
-		addCreativeItem(TILE_BLOCK_EMERALD);
+		addCreativeItem(TILE_BLOCK_DIAMOND);
 		addCreativeItem(TILE_OBSIDIAN);
 		addCreativeItem(TILE_BOOKSHELF);
 	}
@@ -98,7 +100,6 @@ void Inventory::prepareSurvivalInventory()
 	addCreativeItem(TILE_CACTUS);
 	addCreativeItem(ITEM_REEDS);
 
-#ifdef MOD_POCKET_SURVIVAL
 	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		ItemStack& item = m_items[i];
@@ -341,7 +342,7 @@ bool Inventory::hasUnlimitedResource(const ItemStack& item) const
 	case TILE_MUSHROOM_2:
 	case TILE_FLOWER:
 	case TILE_ROSE:
-	case TILE_STONEBRICK:
+	case TILE_COBBLESTONE:
 
 	case TILE_OBSIDIAN:
 		return false;

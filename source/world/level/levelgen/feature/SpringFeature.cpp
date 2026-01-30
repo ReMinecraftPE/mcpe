@@ -16,22 +16,22 @@ SpringFeature::SpringFeature(TileID id)
 
 bool SpringFeature::place(Level* level, Random* random, const TilePos& pos)
 {
-    if (level->getTile(pos.above()) != Tile::rock->m_ID)
+    if (level->getTile(pos.above()) != Tile::stone->m_ID)
         return false;
 
-    if (level->getTile(pos.below()) != Tile::rock->m_ID)
+    if (level->getTile(pos.below()) != Tile::stone->m_ID)
         return false;
 
-    if (level->getTile(pos) && level->getTile(pos) != Tile::rock->m_ID)
+    if (level->getTile(pos) && level->getTile(pos) != Tile::stone->m_ID)
         return false;
 
     int nRockTiles = 0;
     int nEmptyTiles = 0;
 
-    if (level->getTile(pos.west()) == Tile::rock->m_ID) nRockTiles++;
-    if (level->getTile(pos.east()) == Tile::rock->m_ID) nRockTiles++;
-    if (level->getTile(pos.north()) == Tile::rock->m_ID) nRockTiles++;
-    if (level->getTile(pos.south()) == Tile::rock->m_ID) nRockTiles++;
+    if (level->getTile(pos.west()) == Tile::stone->m_ID) nRockTiles++;
+    if (level->getTile(pos.east()) == Tile::stone->m_ID) nRockTiles++;
+    if (level->getTile(pos.north()) == Tile::stone->m_ID) nRockTiles++;
+    if (level->getTile(pos.south()) == Tile::stone->m_ID) nRockTiles++;
 
     if (level->isEmptyTile(pos.west())) nEmptyTiles++;
     if (level->isEmptyTile(pos.east())) nEmptyTiles++;

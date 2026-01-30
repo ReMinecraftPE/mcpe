@@ -15,6 +15,29 @@
 #include "TileItem.hpp"
 #include "TilePlanterItem.hpp"
 #include "RocketItem.hpp"
+//#include "BowlFoodItem.hpp"
+//#include "SaddleItem.hpp"
+//#include "BucketItem.hpp"
+//#include "WeaponItem.hpp"
+//#include "PickaxeItem.hpp"
+//#include "AxeItem.hpp"
+//#include "ShovelItem.hpp"
+//#include "HoeItem.hpp"
+//#include "ArmorItem.hpp"
+//#include "FlintAndSteelItem.hpp"
+//#include "CoalItem.hpp"
+//#include "BowItem.hpp"
+//#include "SeedItem.hpp"
+//#include "MinecartItem.hpp"
+//#include "BoatItem.hpp"
+//#include "BedItem.hpp"
+//#include "RecordItem.hpp"
+//#include "SignItem.hpp"
+//#include "EggItem.hpp"
+//#include "PaintingItem.hpp"
+//#include "FishingRodItem.hpp"
+//#include "MapItem.hpp"
+//#include "ShearsItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
@@ -109,197 +132,212 @@ void Item::initItems()
 
 	g_bInittedItems = true;
 
-	// @TODO: Add missing items
 	Item::bow = NEW_ITEM(ITEM_BOW)
 		->setIcon(5, 1)
 		->setDescriptionId("bow");
 
-	Item::sword_wood = NEW_ITEM(ITEM_SWORD_WOOD)
+	Item::woodSword = NEW_ITEM(ITEM_SWORD_WOOD)
 		->setIcon(0, 4)
 		->setDescriptionId("swordWood")
 		->handEquipped();
 
-	Item::pickAxe_wood = NEW_ITEM(ITEM_PICKAXE_WOOD)
+	Item::woodPickaxe = NEW_ITEM(ITEM_PICKAXE_WOOD)
 		->setIcon(0, 6)
 		->setDescriptionId("pickaxeWood")
 		->handEquipped();
 
-	Item::hatchet_wood = NEW_ITEM(ITEM_HATCHET_WOOD)
+	Item::woodAxe = NEW_ITEM(ITEM_HATCHET_WOOD)
 		->setIcon(0, 7)
 		->setDescriptionId("hatchetWood")
 		->handEquipped();
 
-	Item::shovel_wood = NEW_ITEM(ITEM_SHOVEL_WOOD)
+	Item::woodShovel = NEW_ITEM(ITEM_SHOVEL_WOOD)
 		->setIcon(0, 5)
 		->setDescriptionId("shovelWood")
 		->handEquipped();
 
-	Item::hoe_wood = NEW_ITEM(ITEM_HOE_WOOD)
+	Item::woodHoe = NEW_ITEM(ITEM_HOE_WOOD)
 		->setIcon(0, 8)
 		->setDescriptionId("hoeWood")
 		->handEquipped();
 
-	Item::sword_stone = NEW_ITEM(ITEM_SWORD_STONE)
+	Item::stoneSword = NEW_ITEM(ITEM_SWORD_STONE)
 		->setIcon(1, 4)
 		->setDescriptionId("swordStone")
 		->handEquipped();
 
-	Item::pickAxe_stone = NEW_ITEM(ITEM_PICKAXE_STONE)
+	Item::stonePickaxe = NEW_ITEM(ITEM_PICKAXE_STONE)
 		->setIcon(1, 6)
 		->setDescriptionId("pickaxeStone")
 		->handEquipped();
 
-	Item::hatchet_stone = NEW_ITEM(ITEM_HATCHET_STONE)
+	Item::stoneAxe = NEW_ITEM(ITEM_HATCHET_STONE)
 		->setIcon(1, 7)
 		->setDescriptionId("hatchetStone")
 		->handEquipped();
 
-	Item::shovel_stone = NEW_ITEM(ITEM_SHOVEL_STONE)
+	Item::stoneShovel = NEW_ITEM(ITEM_SHOVEL_STONE)
 		->setIcon(1, 5)
 		->setDescriptionId("shovelStone")
 		->handEquipped();
 
-	Item::hoe_stone = NEW_ITEM(ITEM_HOE_STONE)
+	Item::stoneHoe = NEW_ITEM(ITEM_HOE_STONE)
 		->setIcon(1, 8)
 		->setDescriptionId("hoeStone")
 		->handEquipped();
 
-	Item::sword_iron = NEW_ITEM(ITEM_SWORD_IRON)
+	Item::ironSword = NEW_ITEM(ITEM_SWORD_IRON)
 		->setIcon(2, 4)
 		->setDescriptionId("swordIron")
 		->handEquipped();
 
-	Item::pickAxe_iron = NEW_ITEM(ITEM_PICKAXE_IRON)
+	Item::ironPickaxe = NEW_ITEM(ITEM_PICKAXE_IRON)
 		->setIcon(2, 6)
 		->setDescriptionId("pickaxeIron")
 		->handEquipped();
 
-	Item::hatchet_iron = NEW_ITEM(ITEM_HATCHET_IRON)
+	Item::ironAxe = NEW_ITEM(ITEM_HATCHET_IRON)
 		->setIcon(2, 7)
 		->setDescriptionId("hatchetIron")
 		->handEquipped();
 
-	Item::shovel_iron= NEW_ITEM(ITEM_SHOVEL_IRON)
+	Item::ironShovel = NEW_ITEM(ITEM_SHOVEL_IRON)
 		->setIcon(2, 5)
 		->setDescriptionId("shovelIron")
 		->handEquipped();
 
-	Item::hoe_iron= NEW_ITEM(ITEM_HOE_IRON)
+	Item::ironHoe = NEW_ITEM(ITEM_HOE_IRON)
 		->setIcon(2, 8)
 		->setDescriptionId("hoeIron")
 		->handEquipped();
 
-	Item::sword_gold = NEW_ITEM(ITEM_SWORD_GOLD)
+	Item::goldSword = NEW_ITEM(ITEM_SWORD_GOLD)
 		->setIcon(4, 4)
 		->setDescriptionId("swordGold")
 		->handEquipped();
 
-	Item::pickAxe_gold = NEW_ITEM(ITEM_PICKAXE_GOLD)
+	Item::goldPickaxe = NEW_ITEM(ITEM_PICKAXE_GOLD)
 		->setIcon(4, 6)
 		->setDescriptionId("pickaxeGold")
 		->handEquipped();
 
-	Item::hatchet_gold = NEW_ITEM(ITEM_HATCHET_GOLD)
+	Item::goldAxe = NEW_ITEM(ITEM_HATCHET_GOLD)
 		->setIcon(4, 7)
 		->setDescriptionId("hatchetGold")
 		->handEquipped();
 
-	Item::shovel_gold = NEW_ITEM(ITEM_SHOVEL_GOLD)
+	Item::goldShovel = NEW_ITEM(ITEM_SHOVEL_GOLD)
 		->setIcon(4, 5)
 		->setDescriptionId("shovelGold")
 		->handEquipped();
 
-	Item::hoe_gold = NEW_ITEM(ITEM_HOE_GOLD)
+	Item::goldHoe = NEW_ITEM(ITEM_HOE_GOLD)
 		->setIcon(4, 8)
 		->setDescriptionId("hoeGold")
 		->handEquipped();
 
-	Item::sword_emerald = NEW_ITEM(ITEM_SWORD_EMERALD)
+	Item::diamondSword = NEW_ITEM(ITEM_SWORD_DIAMOND)
 		->setIcon(3, 4)
 		->setDescriptionId("swordDiamond")
 		->handEquipped();
 
-	Item::pickAxe_emerald = NEW_ITEM(ITEM_PICKAXE_EMERALD)
+	Item::diamondPickaxe = NEW_ITEM(ITEM_PICKAXE_DIAMOND)
 		->setIcon(3, 6)
 		->setDescriptionId("pickaxeDiamond")
 		->handEquipped();
 
-	Item::hatchet_emerald = NEW_ITEM(ITEM_HATCHET_EMERALD)
+	Item::diamondAxe = NEW_ITEM(ITEM_HATCHET_DIAMOND)
 		->setIcon(3, 7)
 		->setDescriptionId("hatchetDiamond")
 		->handEquipped();
 
-	Item::shovel_emerald = NEW_ITEM(ITEM_SHOVEL_EMERALD)
+	Item::diamondShovel = NEW_ITEM(ITEM_SHOVEL_DIAMOND)
 		->setIcon(3, 5)
 		->setDescriptionId("shovelDiamond")
 		->handEquipped();
 
-	Item::hoe_emerald = NEW_ITEM(ITEM_HOE_EMERALD)
+	Item::diamondHoe = NEW_ITEM(ITEM_HOE_DIAMOND)
 		->setIcon(3, 8)
 		->setDescriptionId("hoeDiamond")
 		->handEquipped();
 
-	Item::helmet_cloth = NEW_ITEM(ITEM_HELMET_CLOTH)
+	Item::clothHelmet = NEW_ITEM(ITEM_HELMET_CLOTH)
 		->setIcon(0, 0)
 		->setDescriptionId("helmetCloth");
 
-	Item::chestplate_cloth = NEW_ITEM(ITEM_CHESTPLATE_CLOTH)
+	Item::clothChestplate = NEW_ITEM(ITEM_CHESTPLATE_CLOTH)
 		->setIcon(0, 1)
 		->setDescriptionId("chestplateCloth");
 
-	Item::leggings_cloth = NEW_ITEM(ITEM_LEGGINGS_CLOTH)
+	Item::clothLeggings = NEW_ITEM(ITEM_LEGGINGS_CLOTH)
 		->setIcon(0, 2)
 		->setDescriptionId("leggingsCloth");
 
-	Item::boots_cloth = NEW_ITEM(ITEM_BOOTS_CLOTH)
+	Item::clothBoots = NEW_ITEM(ITEM_BOOTS_CLOTH)
 		->setIcon(0, 3)
 		->setDescriptionId("bootsCloth");
 
-	Item::helmet_iron = NEW_ITEM(ITEM_HELMET_IRON)
+	Item::chainHelmet = NEW_ITEM(ITEM_HELMET_CHAIN)
+		->setIcon(1, 0)
+		->setDescriptionId("helmetChain");
+
+	Item::chainChestplate = NEW_ITEM(ITEM_CHESTPLATE_CHAIN)
+		->setIcon(1, 1)
+		->setDescriptionId("chestplateChain");
+
+	Item::chainLeggings = NEW_ITEM(ITEM_LEGGINGS_CHAIN)
+		->setIcon(1, 2)
+		->setDescriptionId("leggingsChain");
+
+	Item::chainBoots = NEW_ITEM(ITEM_BOOTS_CHAIN)
+		->setIcon(1, 3)
+		->setDescriptionId("bootsChain");
+
+	Item::ironHelmet = NEW_ITEM(ITEM_HELMET_IRON)
 		->setIcon(2, 0)
 		->setDescriptionId("helmetIron");
 
-	Item::chestplate_iron = NEW_ITEM(ITEM_CHESTPLATE_IRON)
+	Item::ironChestplate = NEW_ITEM(ITEM_CHESTPLATE_IRON)
 		->setIcon(2, 1)
 		->setDescriptionId("chestplateIron");
 
-	Item::leggings_iron = NEW_ITEM(ITEM_LEGGINGS_IRON)
+	Item::ironLeggings = NEW_ITEM(ITEM_LEGGINGS_IRON)
 		->setIcon(2, 2)
 		->setDescriptionId("leggingsIron");
 
-	Item::boots_iron = NEW_ITEM(ITEM_BOOTS_IRON)
+	Item::ironBoots = NEW_ITEM(ITEM_BOOTS_IRON)
 		->setIcon(2, 3)
 		->setDescriptionId("bootsIron");
 
-	Item::helmet_gold = NEW_ITEM(ITEM_HELMET_GOLD)
+	Item::goldHelmet = NEW_ITEM(ITEM_HELMET_GOLD)
 		->setIcon(4, 0)
 		->setDescriptionId("helmetGold");
 
-	Item::chestplate_gold = NEW_ITEM(ITEM_CHESTPLATE_GOLD)
+	Item::goldChestplate = NEW_ITEM(ITEM_CHESTPLATE_GOLD)
 		->setIcon(4, 1)
 		->setDescriptionId("chestplateGold");
 
-	Item::leggings_gold = NEW_ITEM(ITEM_LEGGINGS_GOLD)
+	Item::goldLeggings = NEW_ITEM(ITEM_LEGGINGS_GOLD)
 		->setIcon(4, 2)
 		->setDescriptionId("leggingsGold");
 
-	Item::boots_gold = NEW_ITEM(ITEM_BOOTS_GOLD)
+	Item::goldBoots = NEW_ITEM(ITEM_BOOTS_GOLD)
 		->setIcon(4, 3)
 		->setDescriptionId("bootsGold");
 
-	Item::helmet_diamond = NEW_ITEM(ITEM_HELMET_EMERALD)
+	Item::diamondHelmet = NEW_ITEM(ITEM_HELMET_DIAMOND)
 		->setIcon(3, 0)
 		->setDescriptionId("helmetDiamond");
 
-	Item::chestplate_diamond = NEW_ITEM(ITEM_CHESTPLATE_EMERALD)
+	Item::diamondChestplate = NEW_ITEM(ITEM_CHESTPLATE_DIAMOND)
 		->setIcon(3, 1)
 		->setDescriptionId("chestplateDiamond");
 
-	Item::leggings_diamond = NEW_ITEM(ITEM_LEGGINGS_EMERALD)
+	Item::diamondLeggings = NEW_ITEM(ITEM_LEGGINGS_DIAMOND)
 		->setIcon(3, 2)
 		->setDescriptionId("leggingsDiamond");
 
-	Item::boots_diamond = NEW_ITEM(ITEM_BOOTS_EMERALD)
+	Item::diamondBoots = NEW_ITEM(ITEM_BOOTS_DIAMOND)
 		->setIcon(3, 3)
 		->setDescriptionId("bootsDiamond");
 
@@ -315,9 +353,9 @@ void Item::initItems()
 		->setIcon(7, 0)
 		->setDescriptionId("coal");
 
-	Item::emerald = NEW_ITEM(ITEM_EMERALD)
+	Item::diamond = NEW_ITEM(ITEM_DIAMOND)
 		->setIcon(7, 3)
-		->setDescriptionId("emerald");
+		->setDescriptionId("diamond");
 
 	Item::ironIngot = NEW_ITEM(ITEM_INGOT_IRON)
 		->setIcon(7, 1)
@@ -372,11 +410,11 @@ void Item::initItems()
 		->setIcon(6, 0)
 		->setDescriptionId("flint");
 
-	Item::porkChop_raw = NEW_ITEM(ITEM_PORKCHOP_RAW)
+	Item::rawPorkchop = NEW_ITEM(ITEM_PORKCHOP_RAW)
 		->setIcon(7, 5)
 		->setDescriptionId("porkchopRaw");
 
-	Item::porkChop_cooked = NEW_ITEM(ITEM_PORKCHOP_COOKED)
+	Item::cookedPorkchop = NEW_ITEM(ITEM_PORKCHOP_COOKED)
 		->setIcon(8, 5)
 		->setDescriptionId("porkchopCooked");
 
@@ -384,24 +422,24 @@ void Item::initItems()
 		->setIcon(10, 0)
 		->setDescriptionId("appleGold");
 
-	Item::apple_gold = NEW_ITEM(ITEM_APPLE_GOLD)
+	Item::goldApple = NEW_ITEM(ITEM_APPLE_GOLD)
 		->setIcon(11, 0)
 		->setDescriptionId("appleGold");
 
-	Item::door_wood = NEW_X_ITEM(DoorItem, ITEM_DOOR_WOOD, Material::wood)
+	Item::woodDoor = NEW_X_ITEM(DoorItem, ITEM_DOOR_WOOD, Material::wood)
 		->setIcon(11, 2)
 		->setDescriptionId("doorWood");
 
-	Item::bucket_empty = NEW_ITEM(ITEM_BUCKET)
+	Item::emptyBucket = NEW_ITEM(ITEM_BUCKET)
 		->setIcon(10, 4)
 		->setDescriptionId("bucket");
 
-	Item::bucket_water = NEW_ITEM(ITEM_BUCKET_WATER)
+	Item::waterBucket = NEW_ITEM(ITEM_BUCKET_WATER)
 		->setIcon(11, 4)
 		->setDescriptionId("bucketWater");
 		//->setCraftingRemainingItem(emptyBucket);
 
-	Item::bucket_lava = NEW_ITEM(ITEM_BUCKET_LAVA)
+	Item::lavaBucket = NEW_ITEM(ITEM_BUCKET_LAVA)
 		->setIcon(12, 4)
 		->setDescriptionId("bucketLava");
 		//>setCraftingRemainingItem(emptyBucket);
@@ -410,11 +448,11 @@ void Item::initItems()
 		->setIcon(7, 8)
 		->setDescriptionId("minecart");
 
-	Item::minecart_chest = NEW_ITEM(ITEM_MINECART_CHEST)
+	Item::chestMinecart = NEW_ITEM(ITEM_MINECART_CHEST)
 		->setIcon(7, 9)
 		->setDescriptionId("minecartChest");
 
-	Item::minecart_furnace = NEW_ITEM(ITEM_MINECART_FURNACE)
+	Item::furnaceMinecart = NEW_ITEM(ITEM_MINECART_FURNACE)
 		->setIcon(7, 10)
 		->setDescriptionId("minecartFurnace");
 
@@ -422,7 +460,7 @@ void Item::initItems()
 		->setIcon(8, 8)
 		->setDescriptionId("boat");
 
-	Item::door_iron = NEW_X_ITEM(DoorItem, ITEM_DOOR_IRON, Material::metal)
+	Item::ironDoor = NEW_X_ITEM(DoorItem, ITEM_DOOR_IRON, Material::metal)
 		->setIcon(12, 2)
 		->setDescriptionId("doorIron");
 	
@@ -479,7 +517,7 @@ void Item::initItems()
 		->setIcon(5, 4)
 		->setDescriptionId("fishingRod");
 
-	Item::dye_powder = NEW_ITEM(ITEM_DYE_POWDER)
+	Item::dyePowder = NEW_ITEM(ITEM_DYE_POWDER)
 		->setIcon(14, 4)
 		->setDescriptionId("dyePowder");
 
@@ -491,11 +529,11 @@ void Item::initItems()
 		->setIcon(9, 4)
 		->setDescriptionId("yellowDust");
 
-	Item::fish_raw = NEW_ITEM(ITEM_FISH_RAW)
+	Item::rawFish = NEW_ITEM(ITEM_FISH_RAW)
 		->setIcon(9, 5)
 		->setDescriptionId("fishRaw");
 
-	Item::fish_cooked = NEW_ITEM(ITEM_FISH_COOKED)
+	Item::cookedFish = NEW_ITEM(ITEM_FISH_COOKED)
 		->setIcon(10, 5)
 		->setDescriptionId("fishCooked");
 
@@ -535,6 +573,14 @@ void Item::initItems()
 		->setIcon(10, 1)
 		->setDescriptionId("painting");
 
+	Item::map = NEW_ITEM(ITEM_MAP)
+		->setIcon(12, 3)
+		->setDescriptionId("map");
+
+	Item::shears = NEW_ITEM(ITEM_SHEARS)
+		->setIcon(13, 5)
+		->setDescriptionId("shears");
+	
 	Item::record_01 = NEW_ITEM(ITEM_RECORD_01)
 		->setIcon(0, 15)
 		->setDescriptionId("record");
@@ -695,77 +741,81 @@ int Item::buildIdAux(int16_t auxValue, const CompoundTag* userData) const
 }
 
 Item
-	*Item::shovel_iron,
-	*Item::pickAxe_iron,
-	*Item::hatchet_iron,
+	*Item::ironShovel,
+	*Item::ironPickaxe,
+	*Item::ironAxe,
 	*Item::flintAndSteel,
 	*Item::apple,
 	*Item::bow,
 	*Item::arrow,
 	*Item::coal,
-	*Item::emerald,
+	*Item::diamond,
 	*Item::ironIngot,
 	*Item::goldIngot,
-	*Item::sword_iron,
-	*Item::sword_wood,
-	*Item::shovel_wood,
-	*Item::pickAxe_wood,
-	*Item::hatchet_wood,
-	*Item::sword_stone,
-	*Item::shovel_stone,
-	*Item::pickAxe_stone,
-	*Item::hatchet_stone,
-	*Item::sword_emerald,
-	*Item::shovel_emerald,
-	*Item::pickAxe_emerald,
-	*Item::hatchet_emerald,
+	*Item::ironSword,
+	*Item::woodSword,
+	*Item::woodShovel,
+	*Item::woodPickaxe,
+	*Item::woodAxe,
+	*Item::stoneSword,
+	*Item::stoneShovel,
+	*Item::stonePickaxe,
+	*Item::stoneAxe,
+	*Item::diamondSword,
+	*Item::diamondShovel,
+	*Item::diamondPickaxe,
+	*Item::diamondAxe,
 	*Item::stick,
 	*Item::bowl,
 	*Item::mushroomStew,
-	*Item::sword_gold,
-	*Item::shovel_gold,
-	*Item::pickAxe_gold,
-	*Item::hatchet_gold,
+	*Item::goldSword,
+	*Item::goldShovel,
+	*Item::goldPickaxe,
+	*Item::goldAxe,
 	*Item::string,
 	*Item::feather,
 	*Item::sulphur,
-	*Item::hoe_wood,
-	*Item::hoe_stone,
-	*Item::hoe_iron,
-	*Item::hoe_emerald,
-	*Item::hoe_gold,
+	*Item::woodHoe,
+	*Item::stoneHoe,
+	*Item::ironHoe,
+	*Item::diamondHoe,
+	*Item::goldHoe,
 	*Item::seeds,
 	*Item::wheat,
 	*Item::bread,
-	*Item::helmet_cloth,
-	*Item::chestplate_cloth,
-	*Item::leggings_cloth,
-	*Item::boots_cloth,
-	*Item::helmet_iron,
-	*Item::chestplate_iron,
-	*Item::leggings_iron,
-	*Item::boots_iron,
-	*Item::helmet_diamond,
-	*Item::chestplate_diamond,
-	*Item::leggings_diamond,
-	*Item::boots_diamond,
-	*Item::helmet_gold,
-	*Item::chestplate_gold,
-	*Item::leggings_gold,
-	*Item::boots_gold,
+	*Item::clothHelmet,
+	*Item::clothChestplate,
+	*Item::clothLeggings,
+	*Item::clothBoots,
+	*Item::chainHelmet,
+	*Item::chainChestplate,
+	*Item::chainLeggings,
+	*Item::chainBoots,
+	*Item::ironHelmet,
+	*Item::ironChestplate,
+	*Item::ironLeggings,
+	*Item::ironBoots,
+	*Item::diamondHelmet,
+	*Item::diamondChestplate,
+	*Item::diamondLeggings,
+	*Item::diamondBoots,
+	*Item::goldHelmet,
+	*Item::goldChestplate,
+	*Item::goldLeggings,
+	*Item::goldBoots,
 	*Item::flint,
-	*Item::porkChop_raw,
-	*Item::porkChop_cooked,
+	*Item::rawPorkchop,
+	*Item::cookedPorkchop,
 	*Item::painting,
-	*Item::apple_gold,
+	*Item::goldApple,
 	*Item::sign,
-	*Item::door_wood,
-	*Item::bucket_empty,
-	*Item::bucket_water,
-	*Item::bucket_lava,
+	*Item::woodDoor,
+	*Item::emptyBucket,
+	*Item::waterBucket,
+	*Item::lavaBucket,
 	*Item::minecart,
 	*Item::saddle,
-	*Item::door_iron,
+	*Item::ironDoor,
 	*Item::redStone,
 	*Item::snowBall,
 	*Item::boat,
@@ -777,22 +827,24 @@ Item
 	*Item::paper,
 	*Item::book,
 	*Item::slimeBall,
-	*Item::minecart_chest,
-	*Item::minecart_furnace,
+	*Item::chestMinecart,
+	*Item::furnaceMinecart,
 	*Item::egg,
 	*Item::compass,
 	*Item::fishingRod,
 	*Item::clock,
 	*Item::yellowDust,
-	*Item::fish_raw,
-	*Item::fish_cooked,
-	*Item::dye_powder,
+	*Item::rawFish,
+	*Item::cookedFish,
+	*Item::dyePowder,
 	*Item::bone,
 	*Item::sugar,
 	*Item::cake,
 	*Item::bed,
 	*Item::diode,
 	*Item::cookie,
+	*Item::map,
+	*Item::shears,
 	*Item::record_01,
 	*Item::record_02,
 	*Item::camera,
@@ -803,7 +855,14 @@ Item::Tier
 	Item::Tier::WOOD   (0, 59,   2.0f,  0),
 	Item::Tier::STONE  (1, 131,  4.0f,  1),
 	Item::Tier::IRON   (2, 250,  6.0f,  2),
-	Item::Tier::EMERALD(3, 1561, 8.0f,  3),
+	Item::Tier::DIAMOND(3, 1561, 8.0f,  3),
 	Item::Tier::GOLD   (0, 32,   12.0f, 0);
+
+/*Item::ArmorTier
+	Item::ArmorTier::CLOTH(0, "armor/cloth_1.png", "armor/cloth_2.png"),
+	Item::ArmorTier::CHAIN(1, "armor/chain_1.png", "armor/chain_2.png"),
+	Item::ArmorTier::IRON(2, "armor/iron_1.png", "armor/iron_2.png"),
+	Item::ArmorTier::DIAMOND(3, "armor/diamond_1.png", "armor/diamond_2.png"),
+	Item::ArmorTier::GOLD(1, "armor/gold_1.png", "armor/gold_2.png");*/
 
 std::string Item::ICON_DESCRIPTION_PREFIX = "item.";

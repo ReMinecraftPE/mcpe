@@ -23,7 +23,7 @@ bool DoorItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePo
 	if (face != Facing::UP)
 		return false;
 
-	Tile* pTile = m_pMaterial == Material::wood ? Tile::door_wood : Tile::door_iron;
+	Tile* pTile = m_pMaterial == Material::wood ? Tile::doorWood : Tile::doorIron;
 	if (!pTile->mayPlace(level, pos.above()))
 		return false;
 

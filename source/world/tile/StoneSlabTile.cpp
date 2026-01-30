@@ -69,7 +69,7 @@ int StoneSlabTile::getTexture(Facing::Name face, TileData data) const
 		case WOOD:
 			return TEXTURE_PLANKS;
 		case COBBLE:
-			return TEXTURE_STONEBRICK;
+			return TEXTURE_COBBLESTONE;
 		default:
 			return TEXTURE_STONE_SLAB_TOP;
 	}

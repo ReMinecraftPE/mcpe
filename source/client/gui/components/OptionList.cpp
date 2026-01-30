@@ -306,8 +306,8 @@ void OptionList::initVideoMenu()
 	OPTION(Boolean, m_bDontRenderGui, "Hide GUI");
 	OPTION(Boolean, m_bDynamicHand, "Dynamic Hand Movement");
 
-	if (!GetPatchManager()->IsGrassSidesTinted())
-		m_items[idxGrass]->setDisabled(true);
+	/*if (!GetPatchManager()->IsGrassSidesTinted())
+		m_items[idxGrass]->setDisabled(true);*/
 
 	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
 		m_items[idxBiome]->setDisabled(true);

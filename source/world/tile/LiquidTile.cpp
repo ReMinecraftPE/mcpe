@@ -271,7 +271,7 @@ void LiquidTile::updateLiquid(Level* level, const TilePos& pos)
 		}
 		else
 		{
-			newTile = Tile::stoneBrick;
+			newTile = Tile::cobblestone;
 		}
 
 		level->setTile(pos, newTile->m_ID);

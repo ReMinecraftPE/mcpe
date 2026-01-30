@@ -15,5 +15,5 @@ StoneTile::StoneTile(TileID id, int b, Material* c) : Tile(id, b, c)
 
 int StoneTile::getResource(TileData data, Random* b) const
 {
-	return Tile::stoneBrick->m_ID;
+	return Tile::cobblestone->m_ID;
 }

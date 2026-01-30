@@ -248,7 +248,7 @@ void RandomLevelSource::prepareHeights(const ChunkPos& pos, TileID* tiles, void*
 									tile = Tile::calmWater->m_ID;
 							}
 							if (v11 > 0.0f)
-								tile = Tile::rock->m_ID;
+								tile = Tile::stone->m_ID;
 							
 							tiles[v12] = tile;
 							v12 += 128;
@@ -295,7 +295,7 @@ void RandomLevelSource::buildSurfaces(const ChunkPos& pos, TileID* tiles, Biome*
 				int l1 = (l * 16 + k) * 128 + k1;
 				if (k1 <= int(0 + m_random.nextInt(5)))
 				{
-					tiles[l1] = Tile::unbreakable->m_ID;
+					tiles[l1] = Tile::bedrock->m_ID;
 					continue;
 				}
 
@@ -306,7 +306,7 @@ void RandomLevelSource::buildSurfaces(const ChunkPos& pos, TileID* tiles, Biome*
 					continue;
 				}
 
-				if (byte3 != Tile::rock->m_ID)
+				if (byte3 != Tile::stone->m_ID)
 					continue;
 
 				if (j1 == -1)
@@ -314,7 +314,7 @@ void RandomLevelSource::buildSurfaces(const ChunkPos& pos, TileID* tiles, Biome*
 					if (i1 <= 0)
 					{
 						byte1 = 0;
-						byte2 = Tile::rock->m_ID;
+						byte2 = Tile::stone->m_ID;
 					}
 					else if (k1 >= byte0 - 4 && k1 <= byte0 + 1)
 					{
@@ -427,14 +427,14 @@ void RandomLevelSource::postProcess(ChunkSource* src, const ChunkPos& pos)
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(16);
 		int zo = m_random.nextInt(16);
-		OreFeature(Tile::redStoneOre->m_ID, 7).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
+		OreFeature(Tile::redstoneOre->m_ID, 7).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 1; i++)
 	{
 		int xo = m_random.nextInt(16);
 		int yo = m_random.nextInt(16);
 		int zo = m_random.nextInt(16);
-		OreFeature(Tile::emeraldOre->m_ID, 7).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
+		OreFeature(Tile::diamondOre->m_ID, 7).place(m_pLevel, &m_random, TilePos(tp.x + xo, yo, tp.z + zo));
 	}
 	for (int i = 0; i < 1; i++)
 	{

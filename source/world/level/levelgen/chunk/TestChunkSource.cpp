@@ -78,7 +78,7 @@ LevelChunk* TestChunkSource::generateChunk(const ChunkPos& pos)
 				else if (i > 3)
 					*p = TILE_STONE;
 				else
-					*p = TILE_STONEBRICK;
+					*p = TILE_COBBLESTONE;
 
 				// generate a hole at (128,0,128) for testing
 				//if (i == 0 && j == 0 && k == 0 && x == 8 && z == 8)
@@ -99,14 +99,14 @@ LevelChunk* TestChunkSource::generateChunk(const ChunkPos& pos)
 	// encode this chunk's X/Z coordinate by setting bits in it
 	pChunk->setTile(0, 65, 0, TILE_WOOD);
 	pChunk->setTile(0, 65, 1, TILE_STONE);
-	pChunk->setTile(3+1, 65, 0, (x & (1 << 0)) ? TILE_STONEBRICK : TILE_BEDROCK);
-	pChunk->setTile(2+1, 65, 0, (x & (1 << 1)) ? TILE_STONEBRICK : TILE_BEDROCK);
-	pChunk->setTile(1+1, 65, 0, (x & (1 << 2)) ? TILE_STONEBRICK : TILE_BEDROCK);
-	pChunk->setTile(0+1, 65, 0, (x & (1 << 3)) ? TILE_STONEBRICK : TILE_BEDROCK);
-	pChunk->setTile(3+1, 65, 1, (z & (1 << 0)) ? TILE_STONEBRICK : TILE_BEDROCK);
-	pChunk->setTile(2+1, 65, 1, (z & (1 << 1)) ? TILE_STONEBRICK : TILE_BEDROCK);
-	pChunk->setTile(1+1, 65, 1, (z & (1 << 2)) ? TILE_STONEBRICK : TILE_BEDROCK);
-	pChunk->setTile(0+1, 65, 1, (z & (1 << 3)) ? TILE_STONEBRICK : TILE_BEDROCK);
+	pChunk->setTile(3+1, 65, 0, (x & (1 << 0)) ? TILE_COBBLESTONE : TILE_BEDROCK);
+	pChunk->setTile(2+1, 65, 0, (x & (1 << 1)) ? TILE_COBBLESTONE : TILE_BEDROCK);
+	pChunk->setTile(1+1, 65, 0, (x & (1 << 2)) ? TILE_COBBLESTONE : TILE_BEDROCK);
+	pChunk->setTile(0+1, 65, 0, (x & (1 << 3)) ? TILE_COBBLESTONE : TILE_BEDROCK);
+	pChunk->setTile(3+1, 65, 1, (z & (1 << 0)) ? TILE_COBBLESTONE : TILE_BEDROCK);
+	pChunk->setTile(2+1, 65, 1, (z & (1 << 1)) ? TILE_COBBLESTONE : TILE_BEDROCK);
+	pChunk->setTile(1+1, 65, 1, (z & (1 << 2)) ? TILE_COBBLESTONE : TILE_BEDROCK);
+	pChunk->setTile(0+1, 65, 1, (z & (1 << 3)) ? TILE_COBBLESTONE : TILE_BEDROCK);
 
 	m_pLevel->m_bUpdateLights = bOldState;
 
