@@ -20,6 +20,7 @@
 #include "client/resources/Resource.hpp"
 #include "client/resources/AppResourceLoader.hpp"
 #include "client/resources/ResourcePackManager.hpp"
+#include "client/locale/Language.hpp"
 #include "renderer/GlobalConstantBufferManager.hpp"
 #include "renderer/GlobalConstantBuffers.hpp"
 #include "renderer/ConstantBufferMetaDataManager.hpp"
@@ -208,6 +209,8 @@ void NinecraftApp::_initAll()
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem(), 20.0f); // 20.0f on 0.7.0
 	m_pSoundEngine->init(getOptions());
 
+	Language::singleton().init(getOptions());
+
 	field_D9C = 0;
 
 	gotoMainMenu();
@@ -244,7 +247,7 @@ bool NinecraftApp::handleBack(bool b)
 		return true;
 	}
 
-	setScreen(nullptr);
+	m_pScreen->onClose();
 	return true;
 }
 

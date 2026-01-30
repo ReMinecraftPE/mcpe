@@ -298,6 +298,41 @@ void ItemInHandRenderer::renderScreenEffect(float a)
             renderTex(a, texture);
         }
     }
+
+    if (player->isUnderLiquid(Material::water))
+    {
+        if (textures->loadAndBindTexture("/misc/water.png", false))
+        {
+            renderWater(a);
+        }
+    }
+}
+
+void ItemInHandRenderer::renderWater(float a)
+{
+    ScreenRenderer& screenRenderer = ScreenRenderer::singleton();
+    LocalPlayer& player = *m_pMinecraft->m_pLocalPlayer;
+
+    float br = player.getBrightness(a);
+    currentShaderColor = Color(br, br, br, 0.5f);
+    currentShaderDarkColor = Color::WHITE;
+    MatrixStack::Ref matrix = MatrixStack::World.push();
+
+    constexpr float size = 4.0f;
+    constexpr float x0  = -1.0f;
+    constexpr float x1  =  1.0f;
+    constexpr float y0  = -1.0f;
+    constexpr float y1  =  1.0f;
+    constexpr float z0  = -0.5f;
+    float uo = -player.m_rot.x / 64.0f;
+    float vo = player.m_rot.y / 64.0f;
+    Tesselator& t = Tesselator::instance;
+    t.begin(4);
+    t.vertexUV(x0, y0, z0, (size + uo), (size + vo));
+    t.vertexUV(x1, y0, z0, (0.0f + uo), (size + vo));
+    t.vertexUV(x1, y1, z0, (0.0f + uo), (0.0f + vo));
+    t.vertexUV(x0, y1, z0, (size + uo), (0.0f + vo));
+	t.draw(screenRenderer.m_materials.ui_textured_and_glcolor);
 }
 
 void ItemInHandRenderer::renderFire(float a)
@@ -329,7 +364,7 @@ void ItemInHandRenderer::renderTex(float a, int texture)
 
 	//m_pMinecraft->m_pLocalPlayer->getBrightness(a);
     constexpr float br = 0.1f; // 0.3f on PE 0.12.1
-    currentShaderColor = Color(br, br, br, 0.5f); // 1.0f on PE 0.12.1
+    currentShaderColor = Color(br, br, br); // Java passed 0.5f for transparency, but this never actually worked
     currentShaderDarkColor = Color::WHITE;
     MatrixStack::Ref matrix = MatrixStack::World.push();
 

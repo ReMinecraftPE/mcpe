@@ -58,6 +58,20 @@ Screen::~Screen()
 	m_elements.clear();
 }
 
+void Screen::_controllerEvent(GameController::ID controllerId)
+{
+	// @TODO: this probably shouldn't be here
+	GameController::StickEvent event;
+	event.id = controllerId;
+	event.state = GameControllerManager::getDirection(controllerId);
+	if (event.state != GameController::STICK_STATE_NONE)
+	{
+		event.x = GameControllerManager::getX(controllerId);
+		event.y = GameControllerManager::getY(controllerId);
+		handleControllerStickEvent(event);
+	}
+}
+
 bool Screen::_nextElement()
 {
 	if (!doElementTabbing())
@@ -580,6 +594,11 @@ bool Screen::onBack(bool b)
 	return result;
 }
 
+void Screen::onClose()
+{
+	m_pMinecraft->setScreen(nullptr);
+}
+
 bool Screen::nextElement()
 {
 	bool result = _nextElement();
@@ -785,7 +804,7 @@ void Screen::updateEvents()
 
 	if (_useController())
 	{
-		checkForPointerEvent();
+		checkForPointerEvent(MOUSE_BUTTON_LEFT);
 		controllerEvent();
 	}
 
@@ -801,7 +820,7 @@ void Screen::mouseEvent()
 		handlePointerLocation(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset());
 		handlePointerPressed(Mouse::getEventButtonState());
 
-		checkForPointerEvent();
+		checkForPointerEvent(Mouse::getEventButton());
 	}
 	if (pAction->_buttonType == MOUSE_BUTTON_SCROLLWHEEL)
 		handleScrollWheel(Mouse::getEventButtonState() ? -1.0f : 1.0f);
@@ -831,24 +850,16 @@ void Screen::controllerEvent()
 	_processControllerDirection(1);
 	_processControllerDirection(2);
 
-	// @TODO: this probably shouldn't be here
-	GameController::StickEvent event;
-	event.id = 1;
-	event.state = GameControllerManager::getDirection(1);
-	if (event.state != GameController::STICK_STATE_NONE)
-	{
-		event.x = GameControllerManager::getX(1);
-		event.y = GameControllerManager::getY(1);
-		handleControllerStickEvent(event);
-	}
+	_controllerEvent(1);
+	_controllerEvent(2);
 }
 
-void Screen::checkForPointerEvent()
+void Screen::checkForPointerEvent(MouseButtonType button)
 {
 	if (m_menuPointer.isPressed == m_bLastPointerPressedState)
 		return;
 
-	handlePointerAction(m_menuPointer);
+	handlePointerAction(m_menuPointer, button);
 	m_bLastPointerPressedState = m_menuPointer.isPressed;
 }
 
@@ -869,17 +880,17 @@ void Screen::handlePointerPressed(bool isPressed)
 	m_menuPointer.isPressed = isPressed;
 }
 
-void Screen::handlePointerAction(const MenuPointer& pointer)
+void Screen::handlePointerAction(const MenuPointer& pointer, MouseButtonType button)
 {
 	if (pointer.isPressed)
 	{
 		// pointerPressed(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
-		pointerPressed(pointer.x, pointer.y + getYOffset(), MOUSE_BUTTON_LEFT);
+		pointerPressed(pointer.x, pointer.y + getYOffset(), button);
 	}
 	else
 	{
 		// pointerReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
-		pointerReleased(pointer.x, pointer.y + getYOffset(), MOUSE_BUTTON_LEFT);
+		pointerReleased(pointer.x, pointer.y + getYOffset(), button);
 	}
 }
 
@@ -889,16 +900,6 @@ void Screen::handleScrollWheel(float force)
 
 void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 {
-	/*if (stick.state == GameController::STICK_STATE_DOWN)
-	{
-		handleScrollWheel(stick.y);
-	}
-	else if (stick.state <= GameController::STICK_STATE_UP)
-	{
-		MenuGamePad::setX(directionId + 1, x);
-		MenuGamePad::setY(directionId + 1, y);
-	}*/
-
 	if (m_bRenderPointer && stick.id == 1)
 	{
 		// Behold pizzart's magic numbers
@@ -937,6 +938,13 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 
 		m_targetMenuPointer.x = Mth::clamp(m_menuPointer.x + move.x, 0.0f, m_width);
 		m_targetMenuPointer.y = Mth::clamp(m_menuPointer.y - move.y, 0.0f, m_height);
+	}
+	else if (stick.id == 2)
+	{
+		if (stick.state == GameController::STICK_STATE_DOWN || stick.state == GameController::STICK_STATE_UP)
+		{
+			handleScrollWheel(stick.y);
+		}
 	}
 }
 

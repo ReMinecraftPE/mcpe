@@ -38,6 +38,7 @@ public:
 	void render(float a);
 	void renderItem(const Entity& entity, const ItemStack& item, float a);
 	void renderScreenEffect(float a);
+	void renderWater(float a);
 	void renderFire(float a);
 	void renderTex(float a, int tex);
 	void tick();

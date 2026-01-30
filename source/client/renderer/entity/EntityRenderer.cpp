@@ -34,6 +34,8 @@ EntityRenderer::EntityRenderer()
 
 bool EntityRenderer::bindTexture(const std::string& file, bool isRequired)
 {
+	if (!m_pDispatcher || !m_pDispatcher->m_pTextures)
+		return false;
 	return m_pDispatcher->m_pTextures->loadAndBindTexture(file, isRequired) != nullptr;
 }
 
@@ -189,7 +191,7 @@ void EntityRenderer::renderFlat(const AABB& aabb)
 
 void EntityRenderer::postRender(const Entity& entity, const Vec3& pos, float rot, float a)
 {
-	if (m_pDispatcher->m_pOptions->m_bFancyGraphics && areShadowsAvailable() && m_shadowRadius > 0.0f)
+	if (m_pDispatcher->m_pOptions && m_pDispatcher->m_pOptions->m_bFancyGraphics && areShadowsAvailable() && m_shadowRadius > 0.0f)
 	{
 		float dist = m_pDispatcher->distanceToSqr(entity.m_pos);
 		float pow = (1.0f - dist / 256.0f) * m_shadowStrength;

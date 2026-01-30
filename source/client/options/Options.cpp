@@ -254,16 +254,21 @@ std::string Options::saveArray(const std::vector<std::string>& arr)
 std::vector<std::string> Options::readPropertiesFromFile(const std::string& filePath)
 {
 	std::vector<std::string> o;
+	AppPlatform& platform = *AppPlatform::singleton();
 
 	std::string nativePath(filePath);
-	AppPlatform::singleton()->makeNativePath(nativePath);
+	platform.makeNativePath(nativePath);
+
 	const char* const path = nativePath.c_str();
 	LOG_I("Loading options from %s", path);
+
+	platform.beginProfileDataRead(0);
 
 	std::ifstream ifs(path);
 	if (!ifs.is_open())
 	{
 		LOG_W("%s doesn't exist, resetting to defaults", path);
+		platform.endProfileDataRead(0);
 		return o;
 	}
 
@@ -287,6 +292,10 @@ std::vector<std::string> Options::readPropertiesFromFile(const std::string& file
 		}
 	}
 
+	ifs.close();
+
+	platform.endProfileDataRead(0);
+
 	return o;
 }
 
@@ -294,12 +303,12 @@ void Options::savePropertiesToFile(const std::string& filePath, const std::vecto
 {
 	assert(properties.size() % 2 == 0);
 
-	AppPlatform* pAppPlatform = AppPlatform::singleton();
+	AppPlatform& platform = *AppPlatform::singleton();
 
 	std::string nativePath(filePath);
-	pAppPlatform->makeNativePath(nativePath);
+	platform.makeNativePath(nativePath);
 
-	pAppPlatform->beginProfileDataWrite(0);
+	platform.beginProfileDataWrite(0);
 
 	std::ofstream os;
 	os.open(nativePath.c_str());
@@ -316,7 +325,7 @@ void Options::savePropertiesToFile(const std::string& filePath, const std::vecto
 
 	os.close();
 
-	pAppPlatform->endProfileDataWrite(0);
+	platform.endProfileDataWrite(0);
 }
 
 std::vector<std::string> Options::getOptionStrings()
@@ -362,8 +371,8 @@ void Options::loadControls()
 	KM(KM_CHAT,         "key.chat",          'T');
 	KM(KM_FOG,          "key.fog",           'F');
 	KM(KM_SNEAK,        "key.sneak",         0x10); // VK_SHIFT. In original, it's 10 (misspelling?)
-	KM(KM_DESTROY,      "key.destroy",       'K'); // was 'X'
-	KM(KM_PLACE,        "key.place",         'L'); // was 'C'
+	KM(KM_DESTROY,      "key.destroy",       'K');  // was 'X'
+	KM(KM_PLACE,        "key.place",         'L');  // was 'C'
 	KM(KM_MENU_UP,      "key.menu.up",       0x26); // VK_UP
 	KM(KM_MENU_DOWN,    "key.menu.down",     0x28); // VK_DOWN
 	KM(KM_MENU_LEFT,    "key.menu.left",     0x25); // VK_LEFT
@@ -381,6 +390,8 @@ void Options::loadControls()
 	KM(KM_SLOT_9,       "key.slot.9",        '9');
 	KM(KM_SLOT_L,       "key.slot.left",     'Y');
 	KM(KM_SLOT_R,       "key.slot.right",    'U');
+	KM(KM_CONTAINER_QUICKMOVE, "key.container.quickmove", 0x10); // VK_SHIFT
+	KM(KM_CONTAINER_SPLIT,     "key.container.split",     0xBF); // VK_OEM_2 (keymap is unused on mouse & keyboard)
 	KM(KM_TOGGLEGUI,    "key.fn.gui",        0x70); // VK_F1
 	KM(KM_SCREENSHOT,   "key.fn.screenshot", 0x71); // VK_F2
 	KM(KM_TOGGLEDEBUG,  "key.fn.debug",      0x72); // VK_F3
@@ -422,6 +433,7 @@ void Options::loadControls()
 	KM(KM_SLOT_7,        SDLVK_7);
 	KM(KM_SLOT_8,        SDLVK_8);
 	KM(KM_SLOT_9,        SDLVK_9);
+	KM(KM_CONTAINER_QUICKMOVE, SDLVK_LSHIFT);
 	KM(KM_TOGGLEGUI,     SDLVK_F1);
 	KM(KM_SCREENSHOT,    SDLVK_F2);
 	KM(KM_TOGGLEDEBUG,   SDLVK_F3);
@@ -485,6 +497,8 @@ void Options::loadControls()
 	KM(KM_SLOT_7,        AKEYCODE_7);
 	KM(KM_SLOT_8,        AKEYCODE_8);
 	KM(KM_SLOT_9,        AKEYCODE_9);
+	KM(KM_CONTAINER_QUICKMOVE, AKEYCODE_BUTTON_Y);
+	KM(KM_CONTAINER_SPLIT,     AKEYCODE_BUTTON_X);
 	KM(KM_TOGGLEGUI,     AKEYCODE_F1);
 	KM(KM_SCREENSHOT,    AKEYCODE_F2);
 	KM(KM_TOGGLEDEBUG,   AKEYCODE_F3);
@@ -512,6 +526,8 @@ void Options::loadControls()
 		KM(KM_CHAT,          SDL_CONTROLLER_BUTTON_BACK);
 		KM(KM_INVENTORY,     SDL_CONTROLLER_BUTTON_Y);
 		KM(KM_SNEAK,         SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+		KM(KM_CONTAINER_QUICKMOVE, SDL_CONTROLLER_BUTTON_Y);
+		KM(KM_CONTAINER_SPLIT,     SDL_CONTROLLER_BUTTON_X);
 		KM(KM_TOGGLE3RD,     SDL_CONTROLLER_BUTTON_LEFTSTICK);
 		KM(KM_SLOT_L,        SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
 		KM(KM_SLOT_R,        SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
@@ -530,6 +546,8 @@ void Options::loadControls()
 		KM(KM_CHAT,          GameController::BUTTON_BACK);
 		KM(KM_INVENTORY,     GameController::BUTTON_Y);
 		KM(KM_SNEAK,         GameController::BUTTON_RIGHTSTICK);
+		KM(KM_CONTAINER_QUICKMOVE, GameController::BUTTON_Y);
+		KM(KM_CONTAINER_SPLIT,     GameController::BUTTON_X);
 		KM(KM_TOGGLE3RD,     GameController::BUTTON_LEFTSTICK);
 		KM(KM_SLOT_L,        GameController::BUTTON_LEFTSHOULDER);
 		KM(KM_SLOT_R,        GameController::BUTTON_RIGHTSHOULDER);

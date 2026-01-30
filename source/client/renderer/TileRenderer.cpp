@@ -1160,7 +1160,7 @@ bool TileRenderer::tesselateDoorInWorld(Tile* tile, const TilePos& pos)
 	t.color(fBright, fBright, fBright);
 	renderFaceDown(tile, pos, tile->getTexture(m_pTileSource, pos, Facing::UP));
 
-	fBright = tile->getBrightness(m_pTileSource, pos - 1);
+	fBright = tile->getBrightness(m_pTileSource, pos.north());
 	if (tile->m_aabb.min.z > 0.0f)       fBright = fBrightHere;
 	if (Tile::lightEmission[tile->m_ID]) fBright = 1.0f;
 	t.color(fBright * 0.8f, fBright * 0.8f, fBright * 0.8f);
@@ -1169,7 +1169,7 @@ bool TileRenderer::tesselateDoorInWorld(Tile* tile, const TilePos& pos)
 	renderNorth(tile, pos, texture);
 	m_bXFlipTexture = false;
 
-	fBright = tile->getBrightness(m_pTileSource, pos + 1);
+	fBright = tile->getBrightness(m_pTileSource, pos.south());
 	if (tile->m_aabb.max.z < 1.0f)       fBright = fBrightHere;
 	if (Tile::lightEmission[tile->m_ID]) fBright = 1.0f;
 	t.color(fBright * 0.8f, fBright * 0.8f, fBright * 0.8f);

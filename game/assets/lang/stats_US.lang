@@ -1,0 +1,81 @@
+gui.achievements=Achievements
+gui.stats=Statistics
+
+stat.generalButton=General
+stat.blocksButton=Blocks
+stat.itemsButton=Items
+
+stat.used=Times Used
+stat.mined=Times Mined
+stat.depleted=Times Depleted
+stat.crafted=Times Crafted
+
+stat.startGame=Times played
+stat.createWorld=Worlds played
+stat.loadWorld=Saves loaded
+stat.joinMultiplayer=Multiplayer joins
+stat.leaveGame=Games quit
+
+stat.playOneMinute=Minutes Played
+
+stat.walkOneCm=Distance Walked
+stat.fallOneCm=Distance Fallen
+stat.swimOneCm=Distance Swum
+stat.flyOneCm=Distance Flown
+stat.climbOneCm=Distance Climbed
+stat.diveOneCm=Distance Dove
+stat.minecartOneCm=Distance by Minecart
+stat.boatOneCm=Distance by Boat
+stat.pigOneCm=Distance by Pig
+stat.jump=Jumps
+stat.drop=Items Dropped
+
+stat.damageDealt=Damage Dealt
+stat.damageTaken=Damage Taken
+stat.deaths=Number of Deaths
+stat.mobKills=Mob Kills
+stat.playerKills=Player Kills
+stat.fishCaught=Fish Caught
+
+stat.mineBlock=%1$s Mined
+stat.craftItem=%1$s Crafted
+stat.useItem=%1$s Used
+stat.breakItem=%1$s Depleted
+
+achievement.get=Achievement get!
+
+achievement.taken=Taken!
+
+achievement.requires=Requires '%1$s'
+achievement.openInventory=Taking Inventory
+achievement.openInventory.desc=Press '%1$s' to open your inventory.
+achievement.mineWood=Getting Wood
+achievement.mineWood.desc=Attack a tree until a block of wood pops out
+achievement.buildWorkBench=Benchmarking
+achievement.buildWorkBench.desc=Craft a workbench with four blocks of planks
+achievement.buildPickaxe=Time to Mine!
+achievement.buildPickaxe.desc=Use planks and sticks to make a pickaxe
+achievement.buildFurnace=Hot Topic
+achievement.buildFurnace.desc=Construct a furnace out of eight stone blocks
+achievement.acquireIron=Acquire Hardware
+achievement.acquireIron.desc=Smelt an iron ingot
+achievement.buildHoe=Time to Farm!
+achievement.buildHoe.desc=Use planks and sticks to make a hoe
+achievement.makeBread=Bake Bread
+achievement.makeBread.desc=Turn wheat into bread
+achievement.bakeCake=The Lie
+achievement.bakeCake.desc=Wheat, sugar, milk and eggs!
+achievement.buildBetterPickaxe=Getting an Upgrade
+achievement.buildBetterPickaxe.desc=Construct a better pickaxe
+achievement.cookFish=Delicious Fish
+achievement.cookFish.desc=Catch and cook fish!
+achievement.onARail=On A Rail
+achievement.onARail.desc=Travel by minecart at least 1 km from where you started 
+achievement.buildSword=Time to Strike!
+achievement.buildSword.desc=Use planks and sticks to make a sword
+achievement.killEnemy=Monster Hunter
+achievement.killEnemy.desc=Attack and destroy a monster
+achievement.killCow=Cow Tipper
+achievement.killCow.desc=Harvest some leather
+achievement.flyPig=When Pigs Fly
+achievement.flyPig.desc=Fly a pig off a cliff

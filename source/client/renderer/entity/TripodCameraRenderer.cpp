@@ -11,9 +11,8 @@
 #include "client/app/Minecraft.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-TripodCameraRenderer::TripodCameraRenderer() :
-	m_tile(),
-	m_modelPart(0, 0)
+TripodCameraRenderer::TripodCameraRenderer()
+	: m_modelPart(0, 0)
 {
 	m_modelPart.addBox(-4.0f, -4.0f, -6.0f, 8, 8, 10);
 	m_modelPart.m_pos.y = 11.0f;
@@ -31,24 +30,50 @@ float TripodCameraRenderer::getFlashTime(const TripodCamera& camera, float f)
 
 void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float rot, float a)
 {
+	static constexpr float C_RATIO_X = 1.0f / 64.0f, C_RATIO_Y = 1.0f / 32.0f;
+
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 	matrix->translate(pos);
 
 	m_modelPart.m_rot.x  = MTH_DEG_TO_RAD * (180.0f + 0.5f * entity.m_rot.y);
 	m_modelPart.m_rot.y = -MTH_DEG_TO_RAD * entity.m_rot.x;
 
-	//Tesselator& t = Tesselator::instance;
+	Tesselator& t = Tesselator::instance;
 	//t.color(1.0f, 1.0f, 1.0f);
 
 	float brightness = entity.getBrightness(1.0f);
 
-	bindTexture(C_ITEMS_NAME);
-	//t.begin();
-	//m_renderer.tesselateCrossTexture(&m_tile, 0, -0.5f, -0.5f, -0.5f);
-	m_renderer.renderTile(FullTile(&m_tile, 0), m_shaderMaterials.entity_alphatest, brightness, false);
-	//t.draw();
-
 	bindTexture("item/camera.png");
+
+	// @TODO: Make this use PolygonQuad and stick it in TripodCameraModel
+
+	float texX = 16 * 3;
+	float texY = 16 * 1;
+
+	// calculate U and V coordinates
+	float texU_l = texX * C_RATIO_X, texU_r = (texX + 15.99f) * C_RATIO_X;
+	float texV_u = texY * C_RATIO_Y, texV_d = (texY + 15.99f) * C_RATIO_Y;
+
+	float cenX = 0.0f, cenZ = 0.0f;
+	float newY = -0.5f;
+
+	float x1 = cenX - 0.45f, x2 = cenX + 0.45f;
+	float z1 = cenZ - 0.45f, z2 = cenZ + 0.45f;
+
+	t.begin(8);
+
+	t.vertexUV(x1, newY + 1, z1, texU_l, texV_u);
+	t.vertexUV(x1, newY + 0, z1, texU_l, texV_d);
+	t.vertexUV(x2, newY + 0, z2, texU_r, texV_d);
+	t.vertexUV(x2, newY + 1, z2, texU_r, texV_u);
+
+	t.vertexUV(x1, newY + 1, z2, texU_l, texV_u);
+	t.vertexUV(x1, newY + 0, z2, texU_l, texV_d);
+	t.vertexUV(x2, newY + 0, z1, texU_r, texV_d);
+	t.vertexUV(x2, newY + 1, z1, texU_r, texV_u);
+
+	t.draw(m_shaderMaterials.entity_alphatest);
+
 	m_modelPart.setBrightness(brightness);
 	m_modelPart.render(0.0625f);
 
@@ -65,17 +90,9 @@ void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float r
 
 	if (&entity == pHREntity)
 	{
-		// @TODO FIX: With ENH_ENTITY_SHADING on, the cube is fully opaque.
+		// @TODO: Use EntityShaderManager to set overlay color, except this will only work for shaders
+		// _setupShaderParameters(entity, Color::NIL, a);
 		currentShaderColor = Color(0.5f, 0.5f, 0.5f, 0.5f);
 		m_modelPart.render(0.0625f, &m_shaderMaterials.entity_color_overlay);
 	}
-}
-
-TripodTile::TripodTile() : Tile(0, 243, Material::plant)
-{
-}
-
-eRenderShape TripodTile::getRenderShape() const
-{
-	return SHAPE_CROSS;
 }

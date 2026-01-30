@@ -388,6 +388,14 @@ void AppPlatform::makeNativePath(std::string& path) const
 {
 }
 
+void AppPlatform::beginProfileDataRead(unsigned int playerId)
+{
+}
+
+void AppPlatform::endProfileDataRead(unsigned int playerId)
+{
+}
+
 void AppPlatform::beginProfileDataWrite(unsigned int playerId)
 {
 }

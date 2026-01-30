@@ -4,6 +4,7 @@ project(reminecraftpe-audio-directsound)
 # Build
 add_library(reminecraftpe-audio STATIC
     SoundSystemDS.cpp
+    SoundStreamDS.cpp
 )
 
 # Libraries

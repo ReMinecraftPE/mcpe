@@ -102,8 +102,8 @@ public:
 	int m_invulnerableDuration;
 	float field_E0;
 	float field_E4;
-	float field_E8;
-	float field_EC;
+	float m_yBodyRot;
+	float m_yBodyRotO;
 	float m_oAttackAnim;
 	float m_attackAnim;
 	int m_health;

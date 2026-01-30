@@ -9,6 +9,7 @@
 #pragma once
 
 #include "../Screen.hpp"
+#include "world/item/ItemStack.hpp"
 
 class Inventory;
 
@@ -16,6 +17,8 @@ class IngameBlockSelectionScreen : public Screen
 {
 public:
 	IngameBlockSelectionScreen();
+
+	void addCreativeItem(int itemID, int auxValue = 0);
 
 	Inventory* getInventory();
 	int getBottomY();
@@ -45,5 +48,6 @@ private:
 	Button m_btnChat;
 	Button m_btnCraft;
 	Button m_btnArmor;
+	std::vector<ItemStack> m_items;
 };
 

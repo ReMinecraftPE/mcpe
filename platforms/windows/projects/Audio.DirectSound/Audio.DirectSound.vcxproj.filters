@@ -14,9 +14,15 @@
     <ClInclude Include="$(MC_ROOT)\platforms\audio\directsound\CustomSoundSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\platforms\audio\directsound\SoundStreamDS.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\platforms\audio\directsound\SoundSystemDS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\platforms\audio\directsound\SoundStreamDS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -422,7 +422,7 @@ void GameRenderer::setupGuiScreen()
 	float y = Gui::InvGuiScale * Minecraft::height;
 
 	Matrix& projMtx = MatrixStack::Projection.getTop();
-	projMtx.setOrtho(0, x, y, 0, 2000.0f, 3000.0f);
+	projMtx.setOrtho(0, x, y, 0, 1000.0f, 3000.0f); // 1000 for the znear is accurate to the original b1.7.3, and causes less depth problems
 
 	Matrix& viewMtx = MatrixStack::View.getTop();
 	viewMtx = Matrix::IDENTITY;

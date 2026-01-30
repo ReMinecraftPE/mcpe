@@ -28,6 +28,27 @@ bool ResourcePackManager::hasResource(const ResourceLocation& location) const
 	return hasAssetFile;
 }
 
+bool ResourcePackManager::getResourcePath(const ResourceLocation& location, std::string& path) const
+{
+	bool hasAssetFile = false;
+	std::string slashpath = "/" + location.path;
+	if (m_pPacks)
+	{
+		for (ResourcePackStack::const_iterator it = m_pPacks->begin(); it != m_pPacks->end(); it++)
+		{
+			path = getPath(*it + slashpath);
+			hasAssetFile = AppPlatform::singleton()->hasAssetFile(path);
+			if (hasAssetFile)
+				break;
+		}
+	}
+
+	if (!hasAssetFile)
+		hasAssetFile = Resource::getResourcePath(ResourceLocation(ResourceLocation::APP_PACKAGE, location.path), path);
+
+	return hasAssetFile;
+}
+
 bool ResourcePackManager::hasTexture(const ResourceLocation& location) const
 {
 	bool hasAssetFile = false;

@@ -14,13 +14,6 @@
 #include "world/tile/Tile.hpp"
 #include "world/entity/TripodCamera.hpp"
 
-class TripodTile : public Tile
-{
-public:
-	TripodTile();
-	eRenderShape getRenderShape() const override;
-};
-
 class TripodCameraRenderer : public EntityRenderer
 {
 public:
@@ -32,7 +25,6 @@ public:
 
 public:
 	TileRenderer m_renderer;
-	TripodTile m_tile;
 	ModelPart m_modelPart;
 };
 
