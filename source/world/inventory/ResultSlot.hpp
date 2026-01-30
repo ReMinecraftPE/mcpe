@@ -6,7 +6,7 @@
 class ResultSlot : public Slot
 {
 public:
-    ResultSlot(Player* player, Container* craftSlots, Container* resultSlots, int slotIndex, int x, int y);
+    ResultSlot(Player* player, Container* craftSlots, Container* resultSlots, int slotIndex);
 
     bool mayPlace(const ItemStack& item) const override;
     bool canSync() const override;

@@ -14,4 +14,8 @@ public:
 protected:
     virtual void _renderLabels() override;
     virtual void _renderBg(float partialTick) override;
+    virtual SlotDisplay _createSlotDisplay(const Slot&);
+
+public:
+    static std::string LEGACY_ARMOR_SLOTS[];
 };

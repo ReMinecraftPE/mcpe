@@ -2,8 +2,8 @@
 #include "world/tile/Tile.hpp"
 #include "world/item/Item.hpp"
 
-ArmorSlot::ArmorSlot(Container* container, Item::EquipmentSlot equipmentSlot, int slotIndex, int x, int y) :
-    Slot(container, slotIndex, x, y),
+ArmorSlot::ArmorSlot(Container* container, Item::EquipmentSlot equipmentSlot, int slotIndex) :
+    Slot(container, slotIndex, ARMOR),
     m_equipmentSlot(equipmentSlot)
 {
 }
@@ -20,9 +20,4 @@ bool ArmorSlot::mayPlace(const ItemStack& item) const
 int ArmorSlot::getMaxStackSize() const
 {
     return 1;
-}
-
-int ArmorSlot::getNoItemIcon() const
-{
-    return 16 * ((Item::SLOT_HEAD - m_equipmentSlot) + 1) - 1;
 }

@@ -4,6 +4,8 @@
 #include "world/inventory/ArmorSlot.hpp"
 //#include "stats/Achievement.hpp"
 
+std::string InventoryScreen::LEGACY_ARMOR_SLOTS[] = { "gui/container/feet_slot.png", "gui/container/legs_slot.png", "gui/container/body_slot.png", "gui/container/head_slot.png" };
+
 InventoryScreen::InventoryScreen(Player* player) : ContainerScreen(player->m_pInventoryMenu)
 {
     //player->awardStat(Achievements::openInventory);
@@ -16,58 +18,6 @@ void InventoryScreen::init()
     {
         m_imageWidth = 432;
         m_imageHeight = 436;
-
-        for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
-        {
-            Slot* slot = *it;
-            slot->m_size = 42;
-
-            if (slot->m_index == 0)
-            {
-                //result slot
-                slot->m_x = m_width;
-            }
-            else if (slot->m_index <= 4)
-            {
-                //crafting grid
-                slot->m_x = m_width;
-            }
-            else if (slot->m_index <= 5 + Item::SLOT_HEAD)
-            {
-                ArmorSlot* armorSlot = (ArmorSlot*) slot;
-                slot->m_x = 127;
-                slot->m_y = 29 + (Item::SLOT_HEAD - armorSlot->m_equipmentSlot) * slot->m_size;
-
-                switch (armorSlot->m_equipmentSlot)
-                {
-                case Item::SLOT_FEET:
-                    armorSlot->m_noItemTexture = "gui/container/feet_slot.png";
-                    break;
-                case Item::SLOT_LEGS:
-                    armorSlot->m_noItemTexture = "gui/container/legs_slot.png";
-                    break;
-                case Item::SLOT_CHEST:
-                    armorSlot->m_noItemTexture = "gui/container/body_slot.png";
-                    break;
-                case Item::SLOT_HEAD:
-                    armorSlot->m_noItemTexture = "gui/container/head_slot.png";
-                    break;
-                default:
-                    break;
-                }
-                
-            }
-            else if (slot->m_index <= 5 + Item::SLOT_HEAD + 9 * 3)
-            {
-                slot->m_x = 28 + (slot->m_slot % 9) * slot->m_size;
-                slot->m_y = 233 + ((slot->m_slot / 9) - 1) * slot->m_size;
-            }
-            else
-            {
-                slot->m_x = 28 + (slot->m_slot % 9) * slot->m_size;
-                slot->m_y = 372;
-            }
-        }
     }
     ContainerScreen::init();
     if (m_uiProfile == UI_LEGACY)
@@ -164,4 +114,52 @@ void InventoryScreen::_renderBg(float partialTick)
 #if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
     glDisable(GL_RESCALE_NORMAL);
 #endif
+}
+
+SlotDisplay InventoryScreen::_createSlotDisplay(const Slot& slot)
+{
+    if (m_uiProfile == UI_LEGACY)
+    {
+        constexpr int slotSize = 42;
+        switch (slot.m_group)
+        {
+        case Slot::OUTPUT:
+            return SlotDisplay();
+        case Slot::INPUT:
+            return SlotDisplay();
+        case Slot::ARMOR:
+        {
+            const ArmorSlot& armorSlot = (const ArmorSlot&)slot;
+            return SlotDisplay(127, 29 + (Item::SLOT_HEAD - armorSlot.m_equipmentSlot) * slotSize, slotSize, true, -1, LEGACY_ARMOR_SLOTS[armorSlot.m_equipmentSlot]);
+        }
+        case Slot::INVENTORY:
+            return SlotDisplay(28 + (slot.m_slot % 9) * slotSize, 233 + ((slot.m_slot / 9) - 1) * slotSize, slotSize, true);
+        case Slot::HOTBAR:
+            return SlotDisplay(28 + (slot.m_slot % 9) * slotSize, 372, slotSize, true);
+        default:
+            return SlotDisplay();
+        }
+    }
+    else
+    {
+        constexpr int slotSize = 18;
+        switch (slot.m_group)
+        {
+        case Slot::OUTPUT:
+            return SlotDisplay(144, 36);
+        case Slot::INPUT:
+            return SlotDisplay(88 + (slot.m_slot % 2) * slotSize, 26 + (slot.m_slot / 2) * slotSize);
+        case Slot::ARMOR:
+        {
+            const ArmorSlot& armorSlot = (const ArmorSlot&)slot;
+            return SlotDisplay(8, 8 + (Item::SLOT_HEAD - armorSlot.m_equipmentSlot) * slotSize, slotSize, false, 16 * ((Item::SLOT_HEAD - armorSlot.m_equipmentSlot) + 1) - 1);
+        }
+        case Slot::INVENTORY:
+            return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 84 + ((slot.m_slot / 9) - 1) * slotSize, slotSize);
+        case Slot::HOTBAR:
+            return SlotDisplay(8 + (slot.m_slot % 9) * slotSize, 142, slotSize);
+        default:
+            return SlotDisplay();
+        }
+    }
 }

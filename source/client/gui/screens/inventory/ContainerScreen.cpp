@@ -15,24 +15,26 @@ ContainerScreen::ContainerScreen(ContainerMenu* menu) :
     m_bRenderPointer = true;
 }
 
-void ContainerScreen::_renderSlot(Slot* slot)
+void ContainerScreen::_renderSlot(Slot& slot)
 {
-    int x = slot->m_x;
-    int y = slot->m_y;
-    if (slot->m_bIconHolder)
+    const SlotDisplay& display = getSlotDisplay(slot);
+
+    if (!display.m_bVisible) return;
+
+    if (display.m_bIconHolder)
     {
         MatrixStack::Ref matrix = MatrixStack::World.push();
-        float off = 3 * slot->m_size / 50.0f;
+        float off = 3 * display.m_size / 50.0f;
         matrix->translate(Vec3(-off, -off, 0.0f));
-        blitTexture(*m_pMinecraft->m_pTextures, "gui/container/iconholder.png", x, y, 0, 0, slot->m_size, slot->m_size, 50, 50, 50, 50);
+        blitTexture(*m_pMinecraft->m_pTextures, "gui/container/iconholder.png", display.m_x, display.m_y, 0, 0, display.m_size, display.m_size, 50, 50, 50, 50);
     }
     MatrixStack::Ref matrix = MatrixStack::World.push();
-    matrix->translate(Vec3(x, y, 0));
-    matrix->scale(slot->m_size / 18.0f);
-    ItemStack& item = slot->getItem();
+    matrix->translate(Vec3(display.m_x, display.m_y, 0));
+    matrix->scale(display.m_size / 18.0f);
+    ItemStack& item = slot.getItem();
     if (item.isEmpty())
     {
-        std::string& noItemTexture = slot->m_noItemTexture;
+        const std::string& noItemTexture = display.m_noItemTexture;
 
         if (!noItemTexture.empty())
         {
@@ -40,7 +42,7 @@ void ContainerScreen::_renderSlot(Slot* slot)
             return;
         }
 
-        int icon = slot->getNoItemIcon();
+        int icon = display.m_noItemIcon;
         if (icon >= 0)
         {
             m_pMinecraft->m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
@@ -63,22 +65,24 @@ Slot* ContainerScreen::_findSlot(int mouseX, int mouseY)
     for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
     {
         Slot* slot = *it;
-        if (_isHovering(slot)) return slot;
+        if (_isHovering(*slot)) return slot;
     }
     return nullptr;
 }
 
-bool ContainerScreen::_isHovering(Slot* slot) const
+bool ContainerScreen::_isHovering(const Slot& slot) const
 {
     return _isHovering(slot, m_menuPointer.x, m_menuPointer.y);
 }
 
-bool ContainerScreen::_isHovering(Slot* slot, int mouseX, int mouseY) const
+bool ContainerScreen::_isHovering(const Slot& slot, int mouseX, int mouseY) const
 {
+    const SlotDisplay& display = getSlotDisplay(slot);
+    if (!display.m_bVisible) return false;
     mouseX -= m_leftPos;
     mouseY -= m_topPos;
-    float off = 3 * slot->m_size / 50.0f;
-    return mouseX >= slot->m_x - off && mouseX < slot->m_x + slot->m_size - 2 * off && mouseY >= slot->m_y - off && mouseY < slot->m_y + slot->m_size - 2 * off;
+    float off = 3 * display.m_size / 50.0f;
+    return mouseX >= display.m_x - off && mouseX < display.m_x + display.m_size - 2 * off && mouseY >= display.m_y - off && mouseY < display.m_y + display.m_size - 2 * off;
 }
 
 void ContainerScreen::_playInteractSound()
@@ -98,6 +102,12 @@ void ContainerScreen::init()
     m_pMinecraft->m_pLocalPlayer->m_pContainerMenu = m_pMenu;
     m_leftPos = (m_width - m_imageWidth) / 2;
     m_topPos = (m_height - m_imageHeight) / 2;
+
+    m_slotDisplays.clear();
+    for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
+    {
+        m_slotDisplays.push_back(_createSlotDisplay(*(*it)));
+    }
 }
 
 void ContainerScreen::render(float partialTicks)
@@ -114,14 +124,15 @@ void ContainerScreen::render(float partialTicks)
     for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
     {
         Slot* slot = *it;
-        _renderSlot(slot);
-        if (_isHovering(slot))
+        _renderSlot(*slot);
+        if (_isHovering(*slot))
         {
+            const SlotDisplay& display = getSlotDisplay(*slot);
             hoveredSlot = slot;
             //@NOTE: fillGradient is being used instead of fill, so the shader color won't be changed, I think the same happened on the original
             MatrixStack::Ref highlightMatrix = MatrixStack::World.push();
-            highlightMatrix->translate(Vec3(slot->m_x, slot->m_y, 0));
-            highlightMatrix->scale(slot->m_size / 18.0f);
+            highlightMatrix->translate(Vec3(display.m_x, display.m_y, 0));
+            highlightMatrix->scale(display.m_size / 18.0f);
             fillGradient(0, 0, 16, 16, 0x80FFFFFF, 0x80FFFFFF);
         }
     }
@@ -249,6 +260,11 @@ void ContainerScreen::keyPressed(int keyCode)
     {
         Screen::keyPressed(keyCode);
     }
+}
+
+const SlotDisplay& ContainerScreen::getSlotDisplay(const Slot& slot) const
+{
+    return m_slotDisplays[slot.m_index];
 }
 
 void ContainerScreen::onClose()
