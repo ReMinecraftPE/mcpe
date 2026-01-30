@@ -35,10 +35,10 @@ void InventoryScreen::_renderLabels()
     InventoryMenu* craftingMenu = (InventoryMenu*)m_pMenu;
     if (m_uiTheme == UI_CONSOLE)
     {
-        m_pFont->drawLegacy(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, 0x404040);
+        m_pFont->drawLegacy(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, Color::GREY_TEXT);
     }
     else
-        m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, 0x404040);
+        m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, Color::GREY);
 }
 
 void InventoryScreen::_renderBg(float partialTick)
