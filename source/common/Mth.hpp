@@ -34,6 +34,7 @@ public:
 	static float cos(float);
 	static float clamp(float x, float min, float max);
 	static int floor(float);
+	static int round(float);
 	static void initMth();
 	static int intFloorDiv(int, int);
 	static float invSqrt(float);

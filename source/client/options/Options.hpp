@@ -66,12 +66,22 @@ struct KeyMapping
 	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 };
 
-enum UIProfile
+enum UITheme
 {
 	UI_POCKET,
 	UI_CLASSIC,
-	UI_LEGACY
+	UI_CONSOLE
 };
+
+//@NOTE: Used only for the UI_CONSOLE UITheme for now
+enum HUDScale
+{
+	HUD_SCALE_1 = 2,
+	HUD_SCALE_2 = 3,
+	HUD_SCALE_3 = 4
+};
+
+class Minecraft;
 
 class Options
 {
@@ -93,8 +103,8 @@ private:
 	void _initDefaultValues();
 	void _load();
 public:
-	Options();
-	Options(const std::string& folderPath);
+	Options(Minecraft*);
+	Options(const std::string& folderPath, Minecraft*);
 	void save();
 	std::string getMessage(const Options::Option&);
 	std::vector<std::string> getOptionStrings();
@@ -105,6 +115,7 @@ public:
 	void loadControls();
 
 private:
+	Minecraft* m_pMinecraft;
 	std::string m_filePath;
 	KeyMapping m_keyMappings[KM_COUNT];
 
@@ -143,7 +154,8 @@ public:
 	bool m_bDynamicHand;
 	bool m_b2dTitleLogo;
 	bool m_bMenuPanorama;
-	UIProfile m_uiProfile;
+	UITheme m_uiTheme;
+	HUDScale m_hudScale;
 	std::vector<std::string> m_resourcePacks;
 
 public:

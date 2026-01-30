@@ -11,6 +11,7 @@
 #include "client/renderer/renderer/Tesselator.hpp"
 #include "renderer/ShaderConstants.hpp"
 #include "renderer/MatrixStack.hpp"
+#include <sstream>
 
 constexpr char COLOR_START_CHAR = '\xa7';
 
@@ -110,6 +111,58 @@ void Font::drawLegacyShadow(const std::string& str, int x, int y, const Color& c
 	drawLegacy(str, x, y, color, scale);
 }
 
+void Font::drawString(const std::string& str, int x, int y, const Color& color, bool hasShadow, bool isLegacy)
+{
+	if (hasShadow)
+	{
+		if (isLegacy)
+			drawLegacyShadow(str, x, y, color);
+		else
+			drawShadow(str, x, y, color);
+	}
+	else
+	{
+		if (isLegacy)
+			drawLegacy(str, x, y, color);
+		else
+			draw(str, x, y, color);
+	}
+}
+
+void Font::drawOutlinedString(const std::string& str, int x, int y, const Color& color, const Color& outlineColor, float scale, int thickness)
+{
+	int translations[] = {0, thickness, -thickness};
+	for (int xi = 0; xi < 3; ++xi)
+	{
+		int t = translations[xi];
+		for (int yi = 0; yi < 3; ++yi)
+		{
+			int t1 = translations[yi];
+			if (t != 0 || t1 != 0) {
+				MatrixStack::Ref matrix = MatrixStack::World.push();
+				matrix->translate(Vec3(t, t1, 0));
+				drawLegacy(str, x, y, outlineColor, scale, false);
+			}
+		}
+	}
+
+	drawLegacy(str, x, y, color, scale, false);
+}
+
+void Font::drawWordWrap(const std::string& str, int x, int y, int color, int width, int lineHeight, bool shadow, bool isLegacy)
+{
+	drawWordWrap(split(str, width), x, y, color, lineHeight, shadow, isLegacy);
+}
+
+void Font::drawWordWrap(const std::vector<std::string>& lines, int x, int y, int color, int lineHeight, bool shadow, bool isLegacy)
+{
+	for (std::vector<std::string>::const_iterator it = lines.begin(); it != lines.end(); ++it)
+	{
+		drawString(*it, x, y, color, shadow, isLegacy);
+		y += lineHeight;
+	}
+}
+
 void Font::draw(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
 	drawSlow(str, x, y, color, bShadow);
@@ -173,24 +226,16 @@ void Font::onGraphicsReset()
 	init(m_pOptions);
 }
 
-int Font::height(const std::string& str)
+int Font::height(const std::string& str, int maxWidth)
 {
-	if (str.empty()) return 0;
-
-	int res = 0; // note: starting at 0 looks wrong
-	
-	for (size_t i = 0; i < str.size(); i++)
-		if (str[i] == '\n')
-			res += 12;
-
-	return res;
+	return split(str, maxWidth).size() * 8;
 }
 
 int Font::width(const std::string& str)
 {
 	int maxLineWidth = 0, currentLineWidth = 0;
 
-	for (size_t i = 0; i < str.size(); i++)
+	for (int i = 0; i < int(str.size()); i++)
 	{
 		char chr = str[i];
 
@@ -214,4 +259,81 @@ int Font::width(const std::string& str)
 		maxLineWidth = currentLineWidth;
 
 	return maxLineWidth;
+}
+
+std::vector<std::string> Font::split(const std::string& text, int maxWidth)
+{
+	std::vector<std::string> lines;
+
+	std::vector<std::string> paragraphs;
+	size_t start = 0;
+	size_t newlinePos = text.find('\n');
+	while (newlinePos != std::string::npos)
+	{
+		paragraphs.push_back(text.substr(start, newlinePos - start));
+		start = newlinePos + 1;
+		newlinePos = text.find('\n', start);
+	}
+	paragraphs.push_back(text.substr(start));
+
+	for (std::vector<std::string>::iterator it = paragraphs.begin(); it != paragraphs.end(); ++it)
+	{
+		std::string& paragraph = *it;
+
+		if (paragraph.empty())
+		{
+			lines.emplace_back("");
+			continue;
+		}
+
+		std::string currentLine;
+		std::istringstream iss(paragraph);
+		std::string word;
+
+		while (iss >> word) {
+			std::string testLine = currentLine.empty() ? word : currentLine + " " + word;
+
+			if (width(testLine) <= maxWidth)
+				currentLine = testLine;
+			else
+			{
+				if (!currentLine.empty())
+				{
+					lines.push_back(currentLine);
+					currentLine.clear();
+				}
+
+				while (!word.empty() && width(word) > maxWidth)
+				{
+					size_t breakPos = 0;
+					for (size_t j = 1; j <= word.length(); ++j)
+					{
+						if (width(word.substr(0, j)) <= maxWidth)
+							breakPos = j;
+						else
+							break;
+					}
+
+					if (breakPos == 0) breakPos = 1;
+
+					std::string chunk = word.substr(0, breakPos);
+					lines.push_back(chunk);
+					word = word.substr(breakPos);
+				}
+
+				currentLine = word;
+			}
+		}
+
+		if (!currentLine.empty())
+			lines.push_back(currentLine);
+	}
+
+	while (!lines.empty() && lines.back().empty())
+		lines.pop_back();
+
+	if (lines.empty())
+		lines.emplace_back("");
+
+	return lines;
 }

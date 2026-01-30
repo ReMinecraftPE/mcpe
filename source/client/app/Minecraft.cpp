@@ -296,14 +296,25 @@ void Minecraft::setScreen(Screen* pScreen)
 
 	if (pScreen)
 	{
-		releaseMouse();
 		// the ceil prevents under-drawing
 		pScreen->init(this, ceil(width * Gui::InvGuiScale), ceil(height * Gui::InvGuiScale));
+	}
+
+	float scale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
+
+	if (scale != lastScale)
+	{
+		sizeUpdate(Minecraft::width, Minecraft::height);
+	}
+
+	if (pScreen)
+	{
+		releaseMouse();
 
 		if (pScreen->isPauseScreen())
 		{
 			if (m_pLevel && isLevelGenerated())
-				return m_pLevel->saveGame();
+				m_pLevel->saveGame();
 		}
 	}
 	else
@@ -311,11 +322,6 @@ void Minecraft::setScreen(Screen* pScreen)
 		recenterMouse();
 		grabMouse();
 	}
-
-	float scale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
-
-	if (scale != lastScale)
-		sizeUpdate(Minecraft::width, Minecraft::height);
 }
 
 void Minecraft::saveOptions()
@@ -1024,6 +1030,8 @@ float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 		if (scale > 0)
 			return scale;
 	}
+	else if (m_pOptions->m_uiTheme == UI_CONSOLE)
+		return Screen::getConsoleScale(height);
 
 #if MC_PLATFORM_XBOX
 #define USE_JAVA_SCREEN_SCALING

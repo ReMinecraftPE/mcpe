@@ -81,8 +81,8 @@ protected:
 	Button m_optionsButton;
 	Button m_buyButton;
 	Button m_creditsButton;
-	std::string m_brandText;
-	int m_brandX;
+	std::string m_watermarkText;
+	int m_watermarkX;
 	std::string m_versionText;
 	int m_versionTextX;
 

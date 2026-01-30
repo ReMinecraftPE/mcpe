@@ -1,0 +1,212 @@
+[
+    {
+        "translate": "legacy.loadingTip.hoe"
+    },
+    {
+        "translate": "legacy.loadingTip.spawnPoint"
+    },
+    {
+        "translate": "legacy.loadingTip.famousNotch"
+    },
+    {
+        "translate": "legacy.loadingTip.netherPortal"
+    },
+    {
+        "translate": "legacy.loadingTip.cookedPorkchop"
+    },
+    {
+        "translate": "legacy.loadingTip.bugs"
+    },
+    {
+        "translate": "legacy.loadingTip.torches"
+    },
+    {
+        "translate": "legacy.loadingTip.woolFire"
+    },
+    {
+        "translate": "legacy.loadingTip.swedishCuriosity"
+    },
+    {
+        "translate": "legacy.loadingTip.neutralSpiders"
+    },
+    {
+        "translate": "legacy.loadingTip.diggingDown"
+    },
+    {
+        "translate": "legacy.loadingTip.minecraftWiki"
+    },
+    {
+        "translate": "legacy.loadingTip.noteBlockInstrument"
+    },
+    {
+        "translate": "legacy.loadingTip.ohCreeper"
+    },
+    {
+        "translate": "legacy.loadingTip.removedHerobrine"
+    },
+    {
+        "translate": "legacy.loadingTip.sleepingBed"
+    },
+    {
+        "translate": "legacy.loadingTip.diggingSoil"
+    },
+    {
+        "translate": "legacy.loadingTip.whoNotch"
+    },
+    {
+        "translate": "legacy.loadingTip.saplingGrow"
+    },
+    {
+        "translate": "legacy.loadingTip.emptyBucket"
+    },
+    {
+        "translate": "legacy.loadingTip.minecraftRecords"
+    },
+    {
+        "translate": "legacy.loadingTip.ghastCobblestone"
+    },
+    {
+        "translate": "legacy.loadingTip.minecart"
+    },
+    {
+        "translate": "legacy.loadingTip.ghastFireball"
+    },
+    {
+        "translate": "legacy.loadingTip.charcoal"
+    },
+    {
+        "translate": "legacy.loadingTip.minecraftFamous"
+    },
+    {
+        "translate": "legacy.loadingTip.rightTool"
+    },
+    {
+        "translate": "legacy.loadingTip.gamma"
+    },
+    {
+        "translate": "legacy.loadingTip.auMinecon"
+    },
+    {
+        "translate": "legacy.loadingTip.bonemeal"
+    },
+    {
+        "translate": "legacy.loadingTip.porkchop"
+    },
+    {
+        "translate": "legacy.loadingTip.creeperBorn"
+    },
+    {
+        "translate": "legacy.loadingTip.largeChest"
+    },
+    {
+        "translate": "legacy.loadingTip.legacyInfo"
+    },
+    {
+        "translate": "legacy.loadingTip.chickenDuck"
+    },
+    {
+        "translate": "legacy.loadingTip.cactus"
+    },
+    {
+        "translate": "legacy.loadingTip.digObsidian"
+    },
+    {
+        "translate": "legacy.loadingTip.junkboysFace"
+    },
+    {
+        "translate": "legacy.loadingTip.chickenEgg"
+    },
+    {
+        "translate": "legacy.loadingTip.cowArmor"
+    },
+    {
+        "translate": "legacy.loadingTip.deadmau5"
+    },
+    {
+        "translate": "legacy.loadingTip.lightMelt"
+    },
+    {
+        "translate": "legacy.loadingTip.neutralPigman"
+    },
+    {
+        "translate": "legacy.loadingTip.gameUpdate"
+    },
+    {
+        "translate": "legacy.loadingTip.wolfTame"
+    },
+    {
+        "translate": "legacy.loadingTip.peaceful"
+    },
+    {
+        "translate": "legacy.loadingTip.mojangAwards"
+    },
+    {
+        "translate": "legacy.loadingTip.creeperPowder"
+    },
+    {
+        "translate": "legacy.loadingTip.wolfCreeper"
+    },
+    {
+        "translate": "legacy.loadingTip.mineconParis"
+    },
+    {
+        "translate": "legacy.loadingTip.createObsidian"
+    },
+    {
+        "translate": "legacy.loadingTip.wolfTail"
+    },
+    {
+        "translate": "legacy.loadingTip.mojangOffice"
+    },
+    {
+        "translate": "legacy.loadingTip.neutralMobs"
+    },
+    {
+        "translate": "legacy.loadingTip.slowLava"
+    },
+    {
+        "translate": "legacy.loadingTip.party"
+    },
+    {
+        "translate": "legacy.loadingTip.lavaSmelt"
+    },
+    {
+        "translate": "legacy.loadingTip.undeadMobs"
+    },
+    {
+        "translate": "legacy.loadingTip.mineconLasVegas"
+    },
+    {
+        "translate": "legacy.loadingTip.minecraftForum"
+    },
+    {
+        "translate": "legacy.loadingTip.stackableFences"
+    },
+    {
+        "translate": "legacy.loadingTip.unknownMinecon"
+    },
+    {
+        "translate": "legacy.loadingTip.rumors"
+    },
+    {
+        "translate": "legacy.loadingTip.updateInfo"
+    },
+    {
+        "translate": "legacy.loadingTip.animalFollow"
+    },
+    {
+        "translate": "legacy.loadingTip.mineconLondon"
+    },
+    {
+        "tip": {
+            "translate": "legacy.loadingTip.coop"
+        },
+        "time": 0
+    },
+    {
+        "translate": "legacy.loadingTip.mineconCalifornia"
+    },
+    {
+        "translate": "legacy.loadingTip.C418"
+    }
+]

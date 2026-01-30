@@ -43,7 +43,7 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_24 = 0;
 	field_28 = 0;
 	field_2C = 0;
-	field_9FC = 0;
+	m_ticks = 0;
 	field_A00 = "";
 	field_A18 = 0;
 	field_A1C = false;
@@ -161,11 +161,12 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	Minecraft& mc = *m_pMinecraft;
 	GameRenderer& renderer = *mc.m_pGameRenderer;
 	Textures& textures = *mc.m_pTextures;
-    bool isTouchscreen = AppPlatform::singleton()->isTouchscreen();
+    bool isPocket = mc.getOptions()->m_uiTheme == UI_POCKET;
+	bool isConsole = mc.getOptions()->m_uiTheme == UI_CONSOLE;
 
 	renderer.setupGuiScreen();
 
-	if (bHaveScreen && mc.m_pScreen->m_uiProfile == UI_LEGACY)
+	if (bHaveScreen && isConsole)
 		return;
 
 	if (!mc.m_pLevel || !mc.m_pLocalPlayer)
@@ -188,6 +189,13 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	renderProgressIndicator(m_width, m_height);
 
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(Vec3(m_width / 2, m_height, 0));
+	if (isConsole)
+	{
+		matrix->translate(Vec3(0, -35, 0));
+		matrix->scale(mc.getOptions()->m_hudScale);
+	}
 	if (mc.m_pGameMode->canHurtPlayer())
 	{
 		textures.loadAndBindTexture("gui/icons.png");
@@ -196,10 +204,10 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		t.begin(0);
 		t.voidBeginAndEndCalls(true);
 
-		renderHearts(isTouchscreen);
-		renderBubbles(isTouchscreen);
+		renderHearts(isPocket);
+		renderBubbles(isPocket);
         if (m_bRenderHunger)
-            renderHunger(isTouchscreen);
+            renderHunger(isPocket);
 
 		t.voidBeginAndEndCalls(false);
 		t.draw(m_materials.ui_textured);
@@ -212,6 +220,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	alpha = 0.50f; // 0.65f on 0.12.1
 #endif
 	renderToolBar(f, alpha);
+	matrix.release();
 
 	if (m_bRenderMessages)
 	{
@@ -224,7 +233,7 @@ void Gui::tick()
 	if (field_A18 > 0)
 		field_A18--;
 
-	field_9FC++;
+	m_ticks++;
 
 	for (size_t i = 0; i < m_guiMessages.size(); i++)
 	{
@@ -425,47 +434,55 @@ void Gui::renderMessages(bool bShowAll)
 
 void Gui::renderHearts(bool topLeft)
 {
+	m_random.setSeed(m_ticks * 312871);
+
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 
-	int cenX = m_width / 2;
+	bool b1 = player->m_invulnerableTime >= 10 && player->m_invulnerableTime / 3 % 2;
 
-	int emptyHeartX = 16;
-	bool b1 = false;
-	if (player->m_invulnerableTime < 10)
-	{
-		b1 = player->m_invulnerableTime / 3 % 2;
-		emptyHeartX += 9 * b1;
-	}
-    
 	int heartX;
 	int heartYStart;
-    
-    if (topLeft)
-    {
-        heartX = 2;
-        heartYStart = 2;
-    }
-    else
-    {
-        // @NOTE: At the default scale, this would go off screen.
-        // Renders to the left of the hotbar, why?
-        /*heartX = cenX - 191; // why?
-        heartYStart = m_height - 10;*/
-        
-        heartX = cenX - 91;
-        heartYStart = m_height - 32;
-    }
+
+	if (topLeft)
+	{
+		heartX = -m_width / 2 + 2;
+		heartYStart = -m_height + 2;
+	}
+	else
+	{
+		// @NOTE: At the default scale, this would go off screen.
+		// Renders to the left of the hotbar, why?
+		/*heartX = cenX - 191; // why?
+		heartYStart = m_height - 10;*/
+
+		heartX = -91;
+		heartYStart = -32;
+	}
+
+	int armorX = heartX + 91 - 9;
 
 	int playerHealth = player->m_health;
+	const int armor = player->m_pInventory->getArmorValue();
 
 	for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
 	{
 		int heartY = heartYStart;
 
-		if (playerHealth <= 4 && m_random.genrand_int32() % 2)
-			heartY++;
+		if (armor > 0) {
+			if (healthNo < armor)
+				blit(armorX, heartY, 34, 9, 9, 9, 0, 0);
+			else if (healthNo == armor)
+				blit(armorX, heartY, 25, 9, 9, 9, 0, 0);
+			else if (healthNo > armor)
+				blit(armorX, heartY, 16, 9, 9, 9, 0, 0);
+		}
 
-		blit(heartX, heartY, emptyHeartX, 0, 9, 9, 0, 0);
+		armorX -= 8;
+
+		if (playerHealth <= 4)
+			heartY += m_random.nextInt(2);
+
+		blit(heartX, heartY, 16 + b1 * 9, 0, 9, 9, 0, 0);
 
 		if (b1)
 		{
@@ -481,6 +498,7 @@ void Gui::renderHearts(bool topLeft)
 			blit(heartX, heartY, 61, 0, 9, 9, 0, 0);
 
 		heartX += 8;
+
 	}
 }
 
@@ -493,8 +511,6 @@ void Gui::renderBubbles(bool topLeft)
 {
 	LocalPlayer* player = m_pMinecraft->m_pLocalPlayer;
 
-	int cenX = m_width / 2;
-
 	if (player->isUnderLiquid(Material::water))
 	{
 		int breathRaw = player->m_airCapacity;
@@ -506,8 +522,8 @@ void Gui::renderBubbles(bool topLeft)
         
         if (topLeft)
         {
-            bubbleX = 2;
-            bubbleY = 12;
+            bubbleX = -m_width / 2 + 2;
+            bubbleY = -m_height + 12;
         }
         else if (m_bRenderHunger)
         {
@@ -520,8 +536,8 @@ void Gui::renderBubbles(bool topLeft)
             // Renders to the left of the hotbar, why?
             /*bubbleX = cenX - 191;
             bubbleY = m_height - 19;*/
-            bubbleX = cenX - 91;
-            bubbleY = m_height - 41;
+            bubbleX = -91;
+            bubbleY = -41;
         }
         
 		//@NOTE: Not sure this works as it should
@@ -550,7 +566,11 @@ void Gui::renderProgressIndicator(int width, int height)
 	{
 		// draw crosshair
 		textures.loadAndBindTexture("gui/icons.png");
-		blit(width / 2 - 8, height / 2 - 8, 0, 0, 16, 16, 0, 0, &m_guiMaterials.ui_crosshair);
+		MatrixStack::Ref matrix = MatrixStack::World.push();
+		matrix->translate(Vec3(width / 2, m_height / 2, 0));
+		if (mc.getOptions()->m_uiTheme == UI_CONSOLE)
+			matrix->scale(mc.getOptions()->m_hudScale);
+		blit(-8, -8, 0, 0, 16, 16, 0, 0, &m_guiMaterials.ui_crosshair);
 	}
 	else
 	{
@@ -624,31 +644,30 @@ void Gui::renderToolBar(float f, float alpha)
 	mce::MaterialPtr* material = &m_materials.ui_textured_and_glcolor;
 
 	// hotbar
-	int cenX = m_width / 2;
-	blit(cenX - hotbarWidth / 2, m_height - 22, 0, 0, hotbarWidth - 2, 22, 0, 0, material);
-	blit(cenX + hotbarWidth / 2 - 2, m_height - 22, 180, 0, 2, 22, 0, 0, material);
+	blit(-hotbarWidth / 2, -22, 0, 0, hotbarWidth - 2, 22, 0, 0, material);
+	blit(hotbarWidth / 2 - 2, -22, 180, 0, 2, 22, 0, 0, material);
 
 	Inventory* inventory = player->m_pInventory;
 
 	// selection mark
-	blit(cenX - 1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, m_height - 23, 0, 22, 24, 22, 0, 0, material);
+	blit(-1 - hotbarWidth / 2 + 20 * inventory->m_selectedSlot, -23, 0, 22, 24, 22, 0, 0, material);
 
 	textures->loadAndBindTexture(C_BLOCKS_NAME);
 
 	int diff = mc->isTouchscreen();
 
-	int slotX = cenX - hotbarWidth / 2 + 3;
+	int slotX = -hotbarWidth / 2 + 3;
 	for (int i = 0; i < nSlots - diff; i++)
 	{
-		renderSlot(i, slotX, m_height - 19, f);
+		renderSlot(i, slotX, -19, f);
 
 		slotX += 20;
 	}
 
-	slotX = cenX - hotbarWidth / 2 + 3;
+	slotX = -hotbarWidth / 2 + 3;
 	for (int i = 0; i < nSlots - diff; i++)
 	{
-		renderSlotOverlay(i, slotX, m_height - 19, f);
+		renderSlotOverlay(i, slotX, -19, f);
 
 		slotX += 20;
 	}
@@ -661,7 +680,7 @@ void Gui::renderToolBar(float f, float alpha)
 	if (mc->isTouchscreen())
 	{
 		textures->loadAndBindTexture(C_TERRAIN_NAME);
-		blit(cenX + hotbarWidth / 2 - 19, m_height - 19, 208, 208, 16, 16, 0, 0, material);
+		blit(hotbarWidth / 2 - 19, -19, 208, 208, 16, 16, 0, 0, material);
 	}
 }
 

@@ -13,27 +13,27 @@ InventoryScreen::InventoryScreen(Player* player) : ContainerScreen(player->m_pIn
 
 void InventoryScreen::init()
 {
-    m_uiProfile = m_pMinecraft->getOptions()->m_uiProfile;
-    if (m_uiProfile == UI_LEGACY)
+    m_uiTheme = m_pMinecraft->getOptions()->m_uiTheme;
+    if (m_uiTheme == UI_CONSOLE)
     {
         m_imageWidth = 432;
         m_imageHeight = 436;
     }
     ContainerScreen::init();
-    if (m_uiProfile == UI_LEGACY)
+    if (m_uiTheme == UI_CONSOLE)
         m_topPos = Mth::Max(24, m_topPos - 48);
 }
 
 void InventoryScreen::renderBackground()
 {
-    if (!m_uiProfile == UI_LEGACY)
+    if (!m_uiTheme == UI_CONSOLE)
         ContainerScreen::renderBackground();
 }
 
 void InventoryScreen::_renderLabels()
 {
     InventoryMenu* craftingMenu = (InventoryMenu*)m_pMenu;
-    if (m_uiProfile == UI_LEGACY)
+    if (m_uiTheme == UI_CONSOLE)
     {
         m_pFont->drawLegacy(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, 0x404040);
     }
@@ -48,7 +48,7 @@ void InventoryScreen::_renderBg(float partialTick)
     int playerY;
     float scale;
 
-    if (m_uiProfile == UI_LEGACY)
+    if (m_uiTheme == UI_CONSOLE)
     {
         playerX = 243;
         playerY = 185;
@@ -118,7 +118,7 @@ void InventoryScreen::_renderBg(float partialTick)
 
 SlotDisplay InventoryScreen::_createSlotDisplay(const Slot& slot)
 {
-    if (m_uiProfile == UI_LEGACY)
+    if (m_uiTheme == UI_CONSOLE)
     {
         constexpr int slotSize = 42;
         switch (slot.m_group)

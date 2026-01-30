@@ -41,7 +41,7 @@ public:
 	std::string m_text;
 	int m_buttonId;
 	Color m_color;
-	UIProfile m_uiProfile;
+	UITheme m_uiTheme;
 
 #ifndef ORIGINAL_CODE
 	int m_lastX;

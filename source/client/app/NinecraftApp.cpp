@@ -26,6 +26,7 @@
 #include "renderer/ConstantBufferMetaDataManager.hpp"
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/RenderMaterial.hpp"
+#include "client/gui/screens/ProgressScreen.hpp"
 
 #ifdef DEMO
 #include "world/level/storage/MemoryLevelStorageSource.hpp"
@@ -55,9 +56,9 @@ void NinecraftApp::_initOptions()
 	_reloadPatchData();
 
 	if (platform()->hasFileSystemAccess())
-		m_pOptions = new Options(platform()->m_externalStorageDir);
+		m_pOptions = new Options(platform()->m_externalStorageDir, this);
 	else
-		m_pOptions = new Options();
+		m_pOptions = new Options(this);
 
 	// kind of a hack, just so we can keep everything centralized in options
 	m_pResourceLoader->m_pPacks = &m_pOptions->m_resourcePacks;
@@ -210,6 +211,7 @@ void NinecraftApp::_initAll()
 	m_pSoundEngine->init(getOptions());
 
 	Language::singleton().init(getOptions());
+	LoadingTips::singleton().init();
 
 	field_D9C = 0;
 

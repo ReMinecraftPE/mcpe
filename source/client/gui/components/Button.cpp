@@ -17,7 +17,7 @@ void Button::_init()
 	m_yPos = 0;
 	m_text = "";
 	m_color = Color::WHITE;
-	m_uiProfile = UI_POCKET;
+	m_uiTheme = UI_POCKET;
 
 #ifndef ORIGINAL_CODE
 	m_lastX = 0;
@@ -104,7 +104,7 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 
 	currentShaderColor = m_color;
 
-	if (m_uiProfile == UI_LEGACY)
+	if (m_uiTheme == UI_CONSOLE)
 	{
 		texs.setSmoothing(true);
 		blitTexture(texs, isSelected() ? "gui/highlighted_button.png" : "gui/button.png", m_xPos, m_yPos, 0, 0, m_width, m_height);
@@ -128,7 +128,7 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	else
 		textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
 
-	if (m_uiProfile == UI_LEGACY)
+	if (m_uiTheme == UI_CONSOLE)
 	{
 		int textWidth = font.width(m_text) * 2;
 		font.drawLegacyShadow(m_text, m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);

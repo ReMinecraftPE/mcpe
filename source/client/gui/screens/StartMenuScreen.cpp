@@ -445,7 +445,7 @@ void StartMenuScreen::_initTextures()
 		m_bUsingJavaLogo = true;
 #endif
 	}
-	else if (m_uiProfile == UI_LEGACY)
+	else if (m_uiTheme == UI_CONSOLE)
 	{
 		path = C_TITLE_PATH_LEGACY;
 		tx->getTextureData(path, true);
@@ -476,7 +476,7 @@ void StartMenuScreen::_build2dTitleMesh()
 	if (!pTex)
 		return;
   
-	if (m_uiProfile == UI_LEGACY)
+	if (m_uiTheme == UI_CONSOLE)
 	{
 		yPos = 56;
 		width = 571;
@@ -608,11 +608,11 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 
 void StartMenuScreen::init()
 {
-	m_uiProfile = m_pMinecraft->getOptions()->m_uiProfile;
+	m_uiTheme = m_pMinecraft->getOptions()->m_uiTheme;
 
-	bool legacyUI = m_uiProfile == UI_LEGACY;
+	bool consoleUI = m_uiTheme == UI_CONSOLE;
 
-	if (legacyUI)
+	if (consoleUI)
 	{
 		m_startButton.m_width = m_joinButton.m_width = m_optionsButton.m_width = m_buyButton.m_width = 450;
 		m_startButton.m_height = m_joinButton.m_height = m_optionsButton.m_height = m_buyButton.m_height = 40;
@@ -686,8 +686,8 @@ void StartMenuScreen::init()
 
 	_addElement(m_creditsButton);
 
-	m_brandText = "\xFFMojang AB";
-	m_brandX = m_width - 1 - m_pFont->width(m_brandText);
+	m_watermarkText = "\xFFMojang AB";
+	m_watermarkX = m_width - 1 - m_pFont->width(m_watermarkText);
 
 	m_versionText = m_pMinecraft->getVersionString();
 #ifdef DEMO
@@ -861,15 +861,15 @@ void StartMenuScreen::render(float f)
 		titleYPos = 4;
 	}
 
-	if (m_pMinecraft->getOptions()->m_b2dTitleLogo || m_uiProfile == UI_LEGACY)
+	if (m_pMinecraft->getOptions()->m_b2dTitleLogo || m_uiTheme == UI_CONSOLE)
 		draw2dTitle();
 	else
 		draw3dTitle(f);
 
-	if (m_uiProfile != UI_LEGACY)
+	if (m_uiTheme != UI_CONSOLE)
 	{
 		drawString(*m_pFont, m_versionText, m_versionTextX, 58 + titleYPos, Color(204, 204, 204));
-		drawString(*m_pFont, m_brandText, m_brandX, m_height - 10, Color::WHITE);
+		drawString(*m_pFont, m_watermarkText, m_watermarkX, m_height - 10, Color::WHITE);
 	}
 
 	// Draw the splash text, if we have enough room.
@@ -899,10 +899,10 @@ void StartMenuScreen::drawSplash()
 {
 	MatrixStack::Ref mtx = MatrixStack::World.push();
 
-	std::string splashText = "Limited Edition!";
+	std::string splashText = getSplashString();
 	int textWidth = m_pFont->width(splashText);
 	//int textHeight = m_pFont->height(splashText);
-	if (m_uiProfile == UI_LEGACY)
+	if (m_uiTheme == UI_CONSOLE)
 	{
 		mtx->translate(Vec3(float(m_width) / 2.0f + 230.0f, 170.0f, 0.0f));
 		mtx->rotate(-15.0f, Vec3::UNIT_Z);
@@ -916,7 +916,7 @@ void StartMenuScreen::drawSplash()
 	float timeMS = float(getTimeMs() % 1000) / 1000.0f;
 	float scale = 1.8f - Mth::abs(0.1f * Mth::sin(2.0f * float(M_PI) * timeMS));
 	scale = (scale * 100.0f) / (32.0f + textWidth);
-	if (m_uiProfile == UI_LEGACY)
+	if (m_uiTheme == UI_CONSOLE)
 		scale *= 3;
 	mtx->scale(scale);
 

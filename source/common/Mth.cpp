@@ -112,6 +112,11 @@ int Mth::floor(float f)
 	return result;
 }
 
+int Mth::round(float f)
+{
+	return floor(f + 0.5f);
+}
+
 float Mth::atan(float f)
 {
 	return atanf(f);

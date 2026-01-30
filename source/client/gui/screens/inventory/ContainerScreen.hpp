@@ -6,29 +6,29 @@
 
 struct SlotDisplay
 {
-    int m_x, m_y, m_size, m_noItemIcon;
-    std::string m_noItemTexture;
-    bool m_bVisible, m_bIconHolder;
+    int x, y, size, noItemIcon;
+    std::string noItemTexture;
+    bool bVisible, bIconHolder;
 
     SlotDisplay() :
-        m_x(0),
-        m_y(0),
-        m_size(0),
-        m_noItemIcon(-1),
-        m_noItemTexture(""),
-        m_bVisible(false),
-        m_bIconHolder(false)
+        x(0),
+        y(0),
+        size(0),
+        noItemIcon(-1),
+        noItemTexture(""),
+        bVisible(false),
+        bIconHolder(false)
     {
     }
 
     SlotDisplay(int x, int y, int size = 18, bool iconHolder = false, int noItemIcon = -1, const std::string& noItemTexture = "") :
-        m_x(x),
-        m_y(y),
-        m_size(size),
-        m_noItemIcon(noItemIcon),
-        m_noItemTexture(noItemTexture),
-        m_bVisible(true),
-        m_bIconHolder(iconHolder)
+        x(x),
+        y(y),
+        size(size),
+        noItemIcon(noItemIcon),
+        noItemTexture(noItemTexture),
+        bVisible(true),
+        bIconHolder(iconHolder)
     {
     }
 };

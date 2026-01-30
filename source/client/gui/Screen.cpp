@@ -48,7 +48,7 @@ Screen::Screen()
 	m_bRenderPointer = false;
 	m_lastTimeMoved = 0;
 	m_cursorTick = 0;
-	m_uiProfile = UI_POCKET;
+	m_uiTheme = UI_POCKET;
 
 	_addElementList();
 }
@@ -133,7 +133,7 @@ void Screen::_addElement(Button& element, bool isTabbable)
 void Screen::_addElementToList(unsigned int index, Button& element, bool isTabbable)
 {
 	m_elements.push_back(&element);
-	element.m_uiProfile = m_uiProfile;
+	element.m_uiTheme = m_uiTheme;
 
 	if (isTabbable)
 		_getElementList(index).push_back(&element);
@@ -355,7 +355,12 @@ void Screen::keyboardTextPaste(const std::string& text)
 
 float Screen::getScale(int width, int height)
 {
-	return m_uiProfile == UI_LEGACY ? 1 / roundf((roundf(height / 180.0f) * 180) / 720.0f) : 0.0f;
+	return m_uiTheme == UI_CONSOLE ? getConsoleScale(height) : 0.0f;
+}
+
+float Screen::getConsoleScale(int height)
+{
+	return 1 / float(Mth::round((Mth::round(height / 180.0f) * 180) / 720.0f));
 }
 
 static const char* g_panoramaList[] =
@@ -372,7 +377,7 @@ static float g_panoramaAngle = 0.0f;
 
 void Screen::renderMenuBackground(float f)
 {
-	if (m_uiProfile == UI_LEGACY)
+	if (m_uiTheme == UI_CONSOLE)
 	{
 		renderLegacyPanorama();
 		return;
@@ -931,6 +936,10 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 		float baseSensitivity = m_pMinecraft->getOptions()->m_fSensitivity;
 		float sensitivity = baseSensitivity * 2.0f;
 		float moveSensitivity = baseSensitivity * 2.0f;
+
+		if (m_uiTheme == UI_CONSOLE)
+			moveSensitivity *= 2;
+
 		//float affectY = Mth::clamp((sensitivity - 0.4f) * 1.67f, 0, 1);
 
 		Vec2 stickPos(stick.x, stick.y);

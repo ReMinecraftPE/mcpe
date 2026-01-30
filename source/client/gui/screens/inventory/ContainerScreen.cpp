@@ -19,22 +19,22 @@ void ContainerScreen::_renderSlot(Slot& slot)
 {
     const SlotDisplay& display = getSlotDisplay(slot);
 
-    if (!display.m_bVisible) return;
+    if (!display.bVisible) return;
 
-    if (display.m_bIconHolder)
+    if (display.bIconHolder)
     {
         MatrixStack::Ref matrix = MatrixStack::World.push();
-        float off = 3 * display.m_size / 50.0f;
+        float off = 3 * display.size / 50.0f;
         matrix->translate(Vec3(-off, -off, 0.0f));
-        blitTexture(*m_pMinecraft->m_pTextures, "gui/container/iconholder.png", display.m_x, display.m_y, 0, 0, display.m_size, display.m_size, 50, 50, 50, 50);
+        blitTexture(*m_pMinecraft->m_pTextures, "gui/container/iconholder.png", display.x, display.y, 0, 0, display.size, display.size, 50, 50, 50, 50);
     }
     MatrixStack::Ref matrix = MatrixStack::World.push();
-    matrix->translate(Vec3(display.m_x, display.m_y, 0));
-    matrix->scale(display.m_size / 18.0f);
+    matrix->translate(Vec3(display.x, display.y, 0));
+    matrix->scale(display.size / 18.0f);
     ItemStack& item = slot.getItem();
     if (item.isEmpty())
     {
-        const std::string& noItemTexture = display.m_noItemTexture;
+        const std::string& noItemTexture = display.noItemTexture;
 
         if (!noItemTexture.empty())
         {
@@ -42,7 +42,7 @@ void ContainerScreen::_renderSlot(Slot& slot)
             return;
         }
 
-        int icon = display.m_noItemIcon;
+        int icon = display.noItemIcon;
         if (icon >= 0)
         {
             m_pMinecraft->m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
@@ -78,11 +78,11 @@ bool ContainerScreen::_isHovering(const Slot& slot) const
 bool ContainerScreen::_isHovering(const Slot& slot, int mouseX, int mouseY) const
 {
     const SlotDisplay& display = getSlotDisplay(slot);
-    if (!display.m_bVisible) return false;
+    if (!display.bVisible) return false;
     mouseX -= m_leftPos;
     mouseY -= m_topPos;
-    float off = 3 * display.m_size / 50.0f;
-    return mouseX >= display.m_x - off && mouseX < display.m_x + display.m_size - 2 * off && mouseY >= display.m_y - off && mouseY < display.m_y + display.m_size - 2 * off;
+    float off = 3 * display.size / 50.0f;
+    return mouseX >= display.x - off && mouseX < display.x + display.size - 2 * off && mouseY >= display.y - off && mouseY < display.y + display.size - 2 * off;
 }
 
 void ContainerScreen::_playInteractSound()
@@ -131,8 +131,8 @@ void ContainerScreen::render(float partialTicks)
             hoveredSlot = slot;
             //@NOTE: fillGradient is being used instead of fill, so the shader color won't be changed, I think the same happened on the original
             MatrixStack::Ref highlightMatrix = MatrixStack::World.push();
-            highlightMatrix->translate(Vec3(display.m_x, display.m_y, 0));
-            highlightMatrix->scale(display.m_size / 18.0f);
+            highlightMatrix->translate(Vec3(display.x, display.y, 0));
+            highlightMatrix->scale(display.size / 18.0f);
             fillGradient(0, 0, 16, 16, 0x80FFFFFF, 0x80FFFFFF);
         }
     }
@@ -143,7 +143,7 @@ void ContainerScreen::render(float partialTicks)
         matrix->translate(Vec3(0.0f, 0.0f, 200.0f));
         MatrixStack::Ref carriedMatrix = MatrixStack::World.push();
         carriedMatrix->translate(Vec3(m_menuPointer.x - m_leftPos - 8, m_menuPointer.y - m_topPos - 8, 0.0f));
-        if (m_uiProfile == UI_LEGACY)
+        if (m_uiTheme == UI_CONSOLE)
             carriedMatrix->scale(3.0f); // 54 / 18.0f
         ItemRenderer::singleton().renderGuiItem(m_pFont, m_pMinecraft->m_pTextures, inv->getCarried(), 0, 0, true);
         ItemRenderer::singleton().renderGuiItemOverlay(m_pFont, m_pMinecraft->m_pTextures, inv->getCarried(), 0, 0);
@@ -160,7 +160,7 @@ void ContainerScreen::render(float partialTicks)
             int w = m_pFont->width(name);
             int tx = m_menuPointer.x - m_leftPos + 12;
             int ty = m_menuPointer.y - m_topPos - 12;
-            if (m_uiProfile == UI_LEGACY)
+            if (m_uiTheme == UI_CONSOLE)
             {
                 blitNineSlice(*m_pMinecraft->m_pTextures, tx - 6, ty - 6, w * 2 + 12, 28, 8, "gui/pointer_panel.png");
                 MatrixStack::Ref tooltipMatrix = MatrixStack::World.push();

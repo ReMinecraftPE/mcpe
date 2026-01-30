@@ -15,7 +15,7 @@
 void Mob::_init()
 {
 	// only sets 19 fields on 0.2.1
-	m_invulnerableDuration = 10;
+	m_invulnerableDuration = 20;
 	m_yBodyRot = 0.0f;
 	m_yBodyRotO = 0.0f;
 	m_oAttackAnim = 0.0f;

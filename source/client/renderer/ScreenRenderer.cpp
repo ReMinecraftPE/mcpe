@@ -175,8 +175,7 @@ void ScreenRenderer::blitNineSlice(Textures& textures, int x, int y, int width, 
 void ScreenRenderer::drawCenteredString(Font& font, const std::string& str, int cx, int cy, const Color& color)
 {
     int width = font.width(str);
-    int height = font.height(str);
-    font.drawShadow(str, cx - width / 2, cy - height / 2, color);
+    font.drawShadow(str, cx - width / 2, cy, color);
 }
 
 void ScreenRenderer::drawString(Font& font, const std::string& str, int cx, int cy, const Color& color)

@@ -129,6 +129,7 @@ public:
 	virtual void keyboardNewChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
 	virtual float getScale(int width, int height);
+	static float getConsoleScale(int height);
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);
@@ -156,7 +157,7 @@ public:
 	bool m_bTabWrap;
 	Font* m_pFont;
 	Button* m_pClickedButton;
-	UIProfile m_uiProfile;
+	UITheme m_uiTheme;
 
 #ifndef ORIGINAL_CODE
 	std::vector<TextInputBox*> m_textInputs;

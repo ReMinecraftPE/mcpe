@@ -856,7 +856,7 @@ void GameRenderer::renderPointer(const MenuPointer& pointer)
 	MatrixStack::Ref mtx = MatrixStack::World.push();
 	mtx->translate(pos);
 
-	if (m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiProfile == UI_LEGACY)
+	if (m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiTheme == UI_CONSOLE)
 		mtx->scale(2.0f);
 
 	textures.loadAndBindTexture("gui/pointer.png", true);
