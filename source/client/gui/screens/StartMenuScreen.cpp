@@ -27,6 +27,7 @@
 #define C_TITLE_PATH_FALLBACK "gui/title.png" // everyone should have this
 #define C_TITLE_PATH_POCKET   "gui/title_pe.png"
 #define C_TITLE_PATH_XBOX360  "gui/title_xbox360.png"
+#define C_TITLE_PATH_LEGACY   "gui/title_legacy.png"
 #define C_TITLE_SCALE_DEFAULT 1.0f
 
 #if MC_PLATFORM_MOBILE
@@ -414,7 +415,6 @@ StartMenuScreen::StartMenuScreen() :
 	m_startButton  (2,   0, 0, 160, 24, "Start Game"),
 	m_joinButton   (3,   0, 0, 160, 24, "Join Game"),
 	m_optionsButton(4,   0, 0,  78, 22, "Options"),
-	m_testButton   (999, 0, 0,  78, 22, "Test"),
 	m_buyButton    (5,   0, 0,  78, 22, "Buy"),
 	m_creditsButton(6,   0, 0,  78, 22, "")
 {
@@ -445,6 +445,11 @@ void StartMenuScreen::_initTextures()
 		m_bUsingJavaLogo = true;
 #endif
 	}
+	else if (m_uiProfile == UI_LEGACY)
+	{
+		path = C_TITLE_PATH_LEGACY;
+		tx->getTextureData(path, true);
+	}
 	else
 	{
 		path = C_TITLE_PATH_FALLBACK;
@@ -471,7 +476,22 @@ void StartMenuScreen::_build2dTitleMesh()
 	if (!pTex)
 		return;
   
-	if (m_bUsingJavaLogo)
+	if (m_uiProfile == UI_LEGACY)
+	{
+		yPos = 56;
+		width = 571;
+		height = 138;
+		left = (m_width - width) / 2;
+
+
+		m_2dTitleBounds.x = left;
+		m_2dTitleBounds.y = yPos;
+		m_2dTitleBounds.w = width;
+		m_2dTitleBounds.h = height;
+
+		blit(m_2dTitleMesh, m_2dTitleBounds);
+	}
+	else if (m_bUsingJavaLogo)
 	{
     	yPos = 30;
 		width = 274;
@@ -588,26 +608,52 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 
 void StartMenuScreen::init()
 {
-	int yPos = m_height / 2;
+	m_uiProfile = m_pMinecraft->getOptions()->m_uiProfile;
 
-	m_joinButton.m_yPos = yPos + 25;
-	m_startButton.m_yPos = yPos - 3;
+	bool legacyUI = m_uiProfile == UI_LEGACY;
 
-	yPos += 55;
+	if (legacyUI)
+	{
+		m_startButton.m_width = m_joinButton.m_width = m_optionsButton.m_width = m_buyButton.m_width = 450;
+		m_startButton.m_height = m_joinButton.m_height = m_optionsButton.m_height = m_buyButton.m_height = 40;
 
-	m_optionsButton.m_yPos = yPos;
-	m_testButton.m_yPos = yPos;
-	m_buyButton.m_yPos = yPos;
+		m_startButton.m_yPos = m_height / 3 + 10;
+		m_joinButton.m_yPos = m_startButton.m_yPos + 50;
+		m_optionsButton.m_yPos = m_joinButton.m_yPos + 50;
+		m_buyButton.m_yPos = m_optionsButton.m_yPos + 50;
 
-	m_startButton.m_xPos = (m_width - m_startButton.m_width) / 2;
+		int x1 = (m_width - m_startButton.m_width) / 2;
 
-	int x1 = m_width - m_joinButton.m_width;
+		m_startButton.m_xPos = x1;
+		m_joinButton.m_xPos = x1;
+		m_optionsButton.m_xPos = x1;
+		m_buyButton.m_xPos = x1;
+	}
+	else
+	{
+		int yPos = m_height / 2;
 
-	m_joinButton.m_xPos = x1 / 2;
-	m_optionsButton.m_xPos = x1 / 2;
-	
-	m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
-	m_testButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
+		m_startButton.m_yPos = m_joinButton.m_width;
+		m_optionsButton.m_width = m_buyButton.m_width = 78;
+		m_startButton.m_height = m_joinButton.m_height = m_optionsButton.m_height = m_buyButton.m_height = 25;
+
+		m_joinButton.m_yPos = yPos + 25;
+		m_startButton.m_yPos = yPos - 3;
+
+		yPos += 55;
+
+		m_optionsButton.m_yPos = yPos;
+		m_buyButton.m_yPos = yPos;
+
+		m_startButton.m_xPos = (m_width - m_startButton.m_width) / 2;
+
+		int x1 = m_width - m_joinButton.m_width;
+
+		m_joinButton.m_xPos = x1 / 2;
+		m_optionsButton.m_xPos = x1 / 2;
+
+		m_buyButton.m_xPos = x1 / 2 + m_optionsButton.m_width + 4;
+	}
 
 	m_creditsButton.m_xPos = 0;
 	m_creditsButton.m_yPos = 0;
@@ -640,16 +686,16 @@ void StartMenuScreen::init()
 
 	_addElement(m_creditsButton);
 
-	field_154 = "\xFFMojang AB";
-	field_16C = m_width - 1 - m_pFont->width(field_154);
+	m_brandText = "\xFFMojang AB";
+	m_brandX = m_width - 1 - m_pFont->width(m_brandText);
 
-	field_170 = m_pMinecraft->getVersionString();
+	m_versionText = m_pMinecraft->getVersionString();
 #ifdef DEMO
 		" (Demo)"
 #endif
 		;
 
-	field_188 = (m_width - m_pFont->width(field_170)) / 2;
+	m_versionTextX = (m_width - m_pFont->width(m_versionText)) / 2;
 
 #ifndef DEMO
 	m_buyButton.m_text = "Quit";
@@ -815,13 +861,16 @@ void StartMenuScreen::render(float f)
 		titleYPos = 4;
 	}
 
-	if (m_pMinecraft->getOptions()->m_b2dTitleLogo)
+	if (m_pMinecraft->getOptions()->m_b2dTitleLogo || m_uiProfile == UI_LEGACY)
 		draw2dTitle();
 	else
 		draw3dTitle(f);
 
-	drawString(*m_pFont, field_170, field_188, 58 + titleYPos, Color(204, 204, 204));
-	drawString(*m_pFont, field_154, field_16C, m_height - 10, Color::WHITE);
+	if (m_uiProfile != UI_LEGACY)
+	{
+		drawString(*m_pFont, m_versionText, m_versionTextX, 58 + titleYPos, Color(204, 204, 204));
+		drawString(*m_pFont, m_brandText, m_brandX, m_height - 10, Color::WHITE);
+	}
 
 	// Draw the splash text, if we have enough room.
 #ifndef TITLE_CROP_MODE
@@ -850,16 +899,25 @@ void StartMenuScreen::drawSplash()
 {
 	MatrixStack::Ref mtx = MatrixStack::World.push();
 
-	std::string splashText = getSplashString();
+	std::string splashText = "Limited Edition!";
 	int textWidth = m_pFont->width(splashText);
 	//int textHeight = m_pFont->height(splashText);
-
-	mtx->translate(Vec3(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f));
-	mtx->rotate(-20.0f, Vec3::UNIT_Z);
+	if (m_uiProfile == UI_LEGACY)
+	{
+		mtx->translate(Vec3(float(m_width) / 2.0f + 230.0f, 170.0f, 0.0f));
+		mtx->rotate(-15.0f, Vec3::UNIT_Z);
+	}
+	else
+	{
+		mtx->translate(Vec3(float(m_width) / 2.0f + 90.0f, 70.0f, 0.0f));
+		mtx->rotate(-20.0f, Vec3::UNIT_Z);
+	}
 
 	float timeMS = float(getTimeMs() % 1000) / 1000.0f;
 	float scale = 1.8f - Mth::abs(0.1f * Mth::sin(2.0f * float(M_PI) * timeMS));
 	scale = (scale * 100.0f) / (32.0f + textWidth);
+	if (m_uiProfile == UI_LEGACY)
+		scale *= 3;
 	mtx->scale(scale);
 
 	drawCenteredString(*m_pFont, splashText, 0, -8, Color::YELLOW);

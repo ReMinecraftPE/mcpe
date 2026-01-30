@@ -259,6 +259,7 @@ void Minecraft::recenterMouse()
 
 void Minecraft::setScreen(Screen* pScreen)
 {
+	float lastScale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
 #ifndef ORIGINAL_CODE
 	if (pScreen == nullptr && !isLevelGenerated())
 	{
@@ -292,6 +293,7 @@ void Minecraft::setScreen(Screen* pScreen)
 	Multitouch::resetThisUpdate();
 
 	m_pScreen = pScreen;
+
 	if (pScreen)
 	{
 		releaseMouse();
@@ -309,6 +311,11 @@ void Minecraft::setScreen(Screen* pScreen)
 		recenterMouse();
 		grabMouse();
 	}
+
+	float scale = getBestScaleForThisScreenSize(Minecraft::width, Minecraft::height);
+
+	if (scale != lastScale)
+		sizeUpdate(Minecraft::width, Minecraft::height);
 }
 
 void Minecraft::saveOptions()
@@ -1011,6 +1018,13 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 
 float Minecraft::getBestScaleForThisScreenSize(int width, int height)
 {
+	if (m_pScreen)
+	{
+		float scale = m_pScreen->getScale(width, height);
+		if (scale > 0)
+			return scale;
+	}
+
 #if MC_PLATFORM_XBOX
 #define USE_JAVA_SCREEN_SCALING
 #endif

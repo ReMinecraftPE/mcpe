@@ -128,9 +128,12 @@ public:
 	virtual void keyPressed(int);
 	virtual void keyboardNewChar(char);
 	virtual void keyboardTextPaste(const std::string& text);
+	virtual float getScale(int width, int height);
 
 	// ported from 0.8
 	virtual void renderMenuBackground(float f);
+	void renderLegacyPanorama(bool isNight);
+	void renderLegacyPanorama();
 
 protected:
 	Materials m_screenMaterials;
@@ -153,6 +156,7 @@ public:
 	bool m_bTabWrap;
 	Font* m_pFont;
 	Button* m_pClickedButton;
+	UIProfile m_uiProfile;
 
 #ifndef ORIGINAL_CODE
 	std::vector<TextInputBox*> m_textInputs;

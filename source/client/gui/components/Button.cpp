@@ -17,6 +17,7 @@ void Button::_init()
 	m_yPos = 0;
 	m_text = "";
 	m_color = Color::WHITE;
+	m_uiProfile = UI_POCKET;
 
 #ifndef ORIGINAL_CODE
 	m_lastX = 0;
@@ -102,10 +103,20 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	texs.loadAndBindTexture("gui/gui.png");
 
 	currentShaderColor = m_color;
-	int iYPos = 20 * getYImage(isSelected()) + 46;
 
-	blit(m_xPos, m_yPos, 0, iYPos, m_width / 2, m_height, 0, 20, &m_materials.ui_textured_and_glcolor);
-	blit(m_xPos + m_width / 2, m_yPos, 200 - m_width / 2, iYPos, m_width / 2, m_height, 0, 20, &m_materials.ui_textured_and_glcolor);
+	if (m_uiProfile == UI_LEGACY)
+	{
+		texs.setSmoothing(true);
+		blitTexture(texs, isSelected() ? "gui/highlighted_button.png" : "gui/button.png", m_xPos, m_yPos, 0, 0, m_width, m_height);
+		texs.setSmoothing(false);
+	}
+	else
+	{
+		int iYPos = 20 * getYImage(isSelected()) + 46;
+
+		blit(m_xPos, m_yPos, 0, iYPos, m_width / 2, m_height, 0, 20, &m_materials.ui_textured_and_glcolor);
+		blit(m_xPos + m_width / 2, m_yPos, 200 - m_width / 2, iYPos, m_width / 2, m_height, 0, 20, &m_materials.ui_textured_and_glcolor);
+	}
 
 	renderBg(pMinecraft, xPos, yPos);
 
@@ -117,5 +128,13 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	else
 		textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
 
-	drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
+	if (m_uiProfile == UI_LEGACY)
+	{
+		int textWidth = font.width(m_text) * 2;
+		font.drawLegacyShadow(m_text, m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);
+	}
+	else
+	{
+		drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
+	}
 }

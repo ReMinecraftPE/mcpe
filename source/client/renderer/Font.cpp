@@ -96,6 +96,20 @@ void Font::drawShadow(const std::string& str, int x, int y, const Color& color)
 	draw(str, x, y, color, false);
 }
 
+void Font::drawLegacy(const std::string& str, int x, int y, const Color& color, float scale, bool shadow)
+{
+	MatrixStack::Ref matrix = MatrixStack::World.push();
+	matrix->translate(Vec3(x, y, 0));
+	matrix->scale(scale);
+	draw(str, 0, 0, color, shadow);
+}
+
+void Font::drawLegacyShadow(const std::string& str, int x, int y, const Color& color, float scale)
+{
+	drawLegacy(str, x + 1, y + 1, color, scale, true);
+	drawLegacy(str, x, y, color, scale);
+}
+
 void Font::draw(const std::string& str, int x, int y, const Color& color, bool bShadow)
 {
 	drawSlow(str, x, y, color, bShadow);

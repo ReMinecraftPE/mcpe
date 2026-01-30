@@ -79,13 +79,12 @@ protected:
 	Button m_startButton;
 	Button m_joinButton;
 	Button m_optionsButton;
-	Button m_testButton;
 	Button m_buyButton;
 	Button m_creditsButton;
-	std::string field_154;
-	int field_16C;
-	std::string field_170;
-	int field_188;
+	std::string m_brandText;
+	int m_brandX;
+	std::string m_versionText;
+	int m_versionTextX;
 
 	int m_chosenSplash;
 

@@ -165,6 +165,9 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	renderer.setupGuiScreen();
 
+	if (bHaveScreen && mc.m_pScreen->m_uiProfile == UI_LEGACY)
+		return;
+
 	if (!mc.m_pLevel || !mc.m_pLocalPlayer)
 		return;
 

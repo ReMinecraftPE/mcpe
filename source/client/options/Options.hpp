@@ -66,6 +66,13 @@ struct KeyMapping
 	KeyMapping(const char* keyName, int keyCode) : key(keyName), value(keyCode) {}
 };
 
+enum UIProfile
+{
+	UI_POCKET,
+	UI_CLASSIC,
+	UI_LEGACY
+};
+
 class Options
 {
 public:
@@ -136,6 +143,7 @@ public:
 	bool m_bDynamicHand;
 	bool m_b2dTitleLogo;
 	bool m_bMenuPanorama;
+	UIProfile m_uiProfile;
 	std::vector<std::string> m_resourcePacks;
 
 public:

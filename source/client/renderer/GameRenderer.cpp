@@ -672,6 +672,8 @@ void GameRenderer::render(float f)
 		if (m_keepPic < 0)
 		{
 			renderLevel(f);
+			currentShaderColor = Color::WHITE;
+			currentShaderDarkColor = Color::WHITE;
 			if (m_pMinecraft->getOptions()->m_bDontRenderGui)
 			{
 				if (!m_pMinecraft->m_pScreen)
@@ -853,6 +855,9 @@ void GameRenderer::renderPointer(const MenuPointer& pointer)
 
 	MatrixStack::Ref mtx = MatrixStack::World.push();
 	mtx->translate(pos);
+
+	if (m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiProfile == UI_LEGACY)
+		mtx->scale(2.0f);
 
 	textures.loadAndBindTexture("gui/pointer.png", true);
 	m_pointerMesh.render(ScreenRenderer::singleton().m_materials.ui_textured);

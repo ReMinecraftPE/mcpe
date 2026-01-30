@@ -4,7 +4,9 @@ Slot::Slot(Container* container, int slot, int x, int y) :
     m_pContainer(container),
     m_slot(slot),
     m_x(x),
-    m_y(y)
+    m_y(y),
+    m_size(18),
+    m_bIconHolder(true)
 {
 }
 

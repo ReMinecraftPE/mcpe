@@ -31,7 +31,7 @@ public:
 	int  getYImage(bool bHovered);
 	void released(int xPos, int yPos);
 	void renderBg(Minecraft*, int, int);
-	void render(Minecraft*, int xPos, int yPos);
+	virtual void render(Minecraft*, int xPos, int yPos);
 
 public:
 	int m_width;
@@ -41,6 +41,7 @@ public:
 	std::string m_text;
 	int m_buttonId;
 	Color m_color;
+	UIProfile m_uiProfile;
 
 #ifndef ORIGINAL_CODE
 	int m_lastX;

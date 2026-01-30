@@ -71,6 +71,7 @@ void Options::_initDefaultValues()
 	m_b2dTitleLogo = false;
 	m_bMenuPanorama = true;
 	field_19 = 1;
+	m_uiProfile = UI_POCKET;
 
 #ifdef ORIGINAL_CODE
 	m_iViewDistance = 2;
@@ -152,6 +153,8 @@ void Options::_load()
 			m_bDebugText = readBool(value);
 		else if (key == "gfx_resourcepacks")
 			readPackArray(value, m_resourcePacks);
+		else if (key == "gfx_uiprofile")
+			m_uiProfile = (UIProfile) readInt(value);
 		else if (key == "misc_menupano")
 		{
 			m_bMenuPanorama = !Screen::isMenuPanoramaAvailable() ? false : readBool(value);
@@ -344,6 +347,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
 	SO("gfx_resourcepacks",		    saveArray(m_resourcePacks));
+	SO("gfx_uiprofile",				saveInt(m_uiProfile));
 
 	return vec;
 }
