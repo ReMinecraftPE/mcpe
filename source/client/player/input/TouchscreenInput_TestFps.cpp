@@ -313,7 +313,11 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 
 void TouchscreenInput_TestFps::render(float f)
 {
-	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui_touch.png");
+	std::string gui = "gui/gui_touch.png";
+	if (!m_pMinecraft->m_pResourceLoader->hasTexture(gui))
+		gui = "gui/gui.png";
+
+	m_pMinecraft->m_pTextures->loadAndBindTexture(gui);
 
     currentShaderColor = Color::WHITE;
     currentShaderDarkColor = Color::WHITE;
