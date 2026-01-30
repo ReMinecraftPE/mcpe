@@ -5,6 +5,7 @@ import grabsounds
 import sys
 import zipfile
 import os
+import shutil
 
 # Constants
 TITLE = 'APK Extractor'
@@ -39,7 +40,7 @@ def extract_sounds(apk_zip):
 # Extract Assets
 def extract_assets(apk_zip):
     assets = os.path.dirname(os.path.abspath(__file__))
-    assets = os.path.join(assets, '..', 'game', 'assets')
+    assets = os.path.join(assets, '..', 'resource_pack')
     # Search For Assets
     for name in apk_zip.namelist():
         if name.startswith(ASSETS_DIR):
@@ -51,6 +52,11 @@ def extract_assets(apk_zip):
             # Extract
             with open(out, 'wb') as file:
                 file.write(apk_zip.read(name))
+
+    gui = os.path.join(assets, 'gui')
+    gui_touch = os.path.join(gui, 'gui_touch.png')
+    gui = os.path.join(gui, 'gui.png')
+    shutil.copy(gui, gui_touch)
 
 # Open APK
 def open_apk():
