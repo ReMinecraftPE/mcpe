@@ -38,7 +38,7 @@ void InventoryScreen::_renderLabels()
         m_pFont->drawLegacy(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, Color::GREY_TEXT);
     }
     else
-        m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, Color::GREY);
+        m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, Color::GREY_TEXT);
 }
 
 void InventoryScreen::_renderBg(float partialTick)
