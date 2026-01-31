@@ -66,6 +66,8 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new SetHealthPacket;
 		case PACKET_ANIMATE:
 			return new AnimatePacket;
+		case PACKET_INTERACTION:
+			return new InteractionPacket;
 		case PACKET_RESPAWN:
 			return new RespawnPacket;
 

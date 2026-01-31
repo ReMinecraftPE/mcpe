@@ -199,6 +199,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\entity\Zombie.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\entity\EntityFactory.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\BedItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\ContainerListener.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\Slot.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\TileChange.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\BedItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\Container.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\ContainerListener.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ContainerMenu.hpp" />

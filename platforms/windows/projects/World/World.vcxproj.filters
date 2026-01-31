@@ -566,6 +566,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\level\levelgen\chunk\DataLayer.cpp">
       <Filter>Source Files\Level\LevelGen\Chunk</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\BedItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\world\ContainerListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1024,6 +1027,9 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\LevelEvent.hpp">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\BedItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClCompile>
     <ClInclude Include="$(MC_ROOT)\source\world\Container.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
