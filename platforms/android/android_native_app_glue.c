@@ -330,17 +330,17 @@ static void android_app_free(struct android_app* android_app) {
 }
 
 static void onDestroy(ANativeActivity* activity) {
-    LOGV("Destroy: %p\n", activity);
+    LOGV("Destroy: %p\n", (void *)activity);
     android_app_free((struct android_app*)activity->instance);
 }
 
 static void onStart(ANativeActivity* activity) {
-    LOGV("Start: %p\n", activity);
+    LOGV("Start: %p\n", (void *)activity);
     android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_START);
 }
 
 static void onResume(ANativeActivity* activity) {
-    LOGV("Resume: %p\n", activity);
+    LOGV("Resume: %p\n", (void *)activity);
     android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_RESUME);
 }
 
@@ -391,7 +391,7 @@ static void onLowMemory(ANativeActivity* activity) {
 }
 
 static void onWindowFocusChanged(ANativeActivity* activity, int focused) {
-    LOGV("WindowFocusChanged: %p -- %d\n", (void *)activity, (void *)focused);
+    LOGV("WindowFocusChanged: %p -- %d\n", (void *)activity, focused);
     android_app_write_cmd((struct android_app*)activity->instance,
             focused ? APP_CMD_GAINED_FOCUS : APP_CMD_LOST_FOCUS);
 }
