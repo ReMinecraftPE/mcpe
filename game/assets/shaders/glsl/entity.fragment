@@ -9,6 +9,11 @@ varying vec4 fogColor;
 #ifndef COLOR_BASED
 	varying vec2 uv;
 #endif
+
+#ifdef USE_VERTEX_COLORS
+	varying vec4 vertexColor;
+#endif
+
 #ifdef USE_OVERLAY
 	varying vec4 overlayColor;
 #endif
@@ -67,6 +72,8 @@ void main()
 #ifdef USE_EMISSIVE
 	//make glowy stuff
 	color *= mix(vec4(1.0), light, color.a );
+#elif defined(USE_VERTEX_COLORS)
+    color *= vertexColor;
 #else
 	color *= light;
 #endif
