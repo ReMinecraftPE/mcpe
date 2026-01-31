@@ -369,13 +369,13 @@ float Player::getDestroySpeed(const Tile* tile) const
 	// Speed penalty for being underwater
 	if (isUnderLiquid(Material::water))
 	{
-		speed /= 5.0F;
+		speed /= 5.0f;
 	}
 
 	// Speed penalty for jumping/falling
 	if (!m_bOnGround)
 	{
-		speed /= 5.0F;
+		speed /= 5.0f;
 	}
 
 	return speed;

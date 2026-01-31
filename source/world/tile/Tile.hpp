@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "common/Random.hpp"
+#include "world/item/Tool.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/level/storage/LevelSource.hpp"
 #include "world/level/Material.hpp"
@@ -119,6 +120,7 @@ public: // virtual functions
 	virtual Tile* setDestroyTime(float);
 	virtual Tile* setTicking(bool);
 	virtual int getSpawnResourcesAuxValue(int) const;
+	Tile* setToolType(unsigned int toolMask, int toolLevel = 0);
 
 private:
 	void _init();
@@ -246,6 +248,8 @@ public:
 	float m_friction;
 	float m_hardness;
 	float m_blastResistance;
+	unsigned int m_toolMask;
+	int m_requiredToolLevel;
 	AABB m_aabbReturned;
 	std::string m_descriptionID;
 

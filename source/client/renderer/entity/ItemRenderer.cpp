@@ -203,9 +203,6 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStac
 		blitRect(t, x + 2, y + 13, 13, 2, 0);
 		blitRect(t, x + 2, y + 13, 12, 1, duraBgColor);
 		blitRect(t, x + 2, y + 13, duraWidth, 1, duraColor);
-
-
-		glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
 	if (item.m_count <= 1) {

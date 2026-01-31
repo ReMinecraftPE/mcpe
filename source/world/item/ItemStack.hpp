@@ -73,13 +73,13 @@ public:
 	int getMaxStackSize() const;
 	void hurt(int by);
 	void hurtAndBreak(int, Entity*);
-	void hurtEnemy(Mob*, Player*);
+	void hurtEnemy(Mob*, Mob*);
 	void interactEnemy(Mob*);
 	bool isDamageableItem() const;
 	bool isDamaged() const;
 	bool isStackable() const;
 	bool isStackedByData() const;
-	void mineBlock(const TilePos& pos, Facing::Name face, Player* player);
+	void mineBlock(const TilePos& pos, Facing::Name face, Mob* mob);
 	void shrink(int count = 1);
 	ItemStack remove(int count);
 	void setDescriptionId(const std::string&);

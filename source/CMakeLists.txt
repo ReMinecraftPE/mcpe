@@ -333,9 +333,6 @@ add_library(reminecraftpe-core STATIC
     world/item/DyeColor.cpp
     world/item/SlabItem.cpp
     world/item/ToolItem.cpp
-    world/item/HatchetItem.cpp
-    world/item/PickaxeItem.cpp
-    world/item/ShovelItem.cpp
     world/particle/RedDustParticle.cpp
     world/particle/TerrainParticle.cpp
     world/particle/BubbleParticle.cpp

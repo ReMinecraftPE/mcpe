@@ -43,6 +43,13 @@ public: // Sub structures
 		SLOT_HEAD
 	};
 
+	enum ToolType
+	{
+		PICKAXE,
+		HATCHET,
+		SHOVEL
+	};
+
 	struct Tier
 	{
 		int   m_level;
@@ -80,7 +87,7 @@ public: // Methods
 	virtual bool isStackedByData() const;
 	virtual int getMaxDamage() const;
 	virtual void hurtEnemy(ItemStack*, Mob*) const;
-	virtual void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face, Player* player) const;
+	virtual void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face, Mob* mob) const;
 	virtual int getAttackDamage(Entity*) const;
 	virtual bool canDestroySpecial(const Tile*) const;
 	virtual void interactEnemy(ItemStack*, Mob*) const;

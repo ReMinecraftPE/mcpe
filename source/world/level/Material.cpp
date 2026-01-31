@@ -7,14 +7,15 @@
  ********************************************************************/
 
 #include "Material.hpp"
+#include "world/item/Tool.hpp"
 
 Material::Material() :
-	m_bFlammable(false)
+	m_bFlammable(false), m_toolMask(Tool::NONE), m_requiredToolLevel(0)
 {
 }
 
 Material::Material(bool bFlammable) :
-	m_bFlammable(bFlammable)
+	m_bFlammable(bFlammable), m_toolMask(Tool::NONE), m_requiredToolLevel(0)
 {
 }
 
@@ -53,31 +54,68 @@ Material
 void Material::initMaterials()
 {
 	air        = new GasMaterial();
-	dirt       = new Material();
-	wood       = new Material(true);
-	stone      = (new Material())->setNonMineable();
-	metal      = (new Material())->setNonMineable();
+
+	dirt       = (new Material())
+		->setToolType(Tool::SHOVEL);
+
+	wood       = (new Material(true))
+		->setToolType(Tool::HATCHET);
+
+	stone      = (new Material())
+		->setToolType(Tool::PICKAXE)
+		->setNotAlwaysDestroyable();
+
+	metal      = (new Material())
+		->setNotAlwaysDestroyable();
+
 	water      = new LiquidMaterial();
+
 	lava       = new LiquidMaterial();
+
 	leaves     = new Material(true);
+
 	plant      = new DecorationMaterial();
+
 	sponge     = new Material();
+
 	cloth      = new Material(true);
+
 	fire       = new GasMaterial();
-	sand       = new Material();
+
+	sand       = (new Material())
+		->setToolType(Tool::SHOVEL);
+
 	decoration = new DecorationMaterial();
+
 	glass      = new Material();
+
 	explosive  = new Material(true);
+
 	coral      = new Material();
+
 	ice        = new Material();
-	topSnow    = (new DecorationMaterial())->setNonMineable();
-	snow       = (new Material())->setNonMineable();
+
+	topSnow    = (new DecorationMaterial())
+		->setToolType(Tool::SHOVEL)
+		->setNotAlwaysDestroyable();
+
+	snow       = (new Material())
+		->setToolType(Tool::SHOVEL)
+		->setNotAlwaysDestroyable();
+
 	cactus     = new Material();
-	clay       = new Material();
+
+	clay       = (new Material())
+		->setToolType(Tool::SHOVEL);
+
 	vegetable  = new Material();
+
 	portal     = new Material();
+
 	cake       = new Material();
-	web        = (new Material())->setNonMineable();
+
+	web        = (new Material())
+		->setNotAlwaysDestroyable();
 }
 
 void Material::teardownMaterials()
@@ -138,9 +176,16 @@ bool Material::isFlammable() const
 	return m_bFlammable;
 }
 
-Material* Material::setNonMineable()
+Material* Material::setNotAlwaysDestroyable()
 {
 	m_bMineable = false;
+	return this;
+}
+
+Material* Material::setToolType(unsigned int toolMask, int toolLevel)
+{
+	m_toolMask |= toolMask;
+	m_requiredToolLevel = toolLevel;
 	return this;
 }
 
