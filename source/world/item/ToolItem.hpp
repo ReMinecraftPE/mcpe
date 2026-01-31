@@ -7,7 +7,7 @@
 class ToolItem : public Item
 {
 public:
-	ToolItem(int id, Tool::Type toolType, Tier& tier);
+	ToolItem(int id, Tool::Type toolType, Item::Tier& tier);
 
 	float getDestroySpeed(ItemStack* instance, const Tile* tile) const;
 	void hurtEnemy(ItemStack* instance, Mob* mob) const override;

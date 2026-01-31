@@ -328,11 +328,11 @@ add_library(reminecraftpe-core STATIC
     world/item/ItemStack.cpp
     world/item/RocketItem.cpp
     world/item/Item.cpp
+    world/item/ToolItem.cpp
     world/item/AuxTileItem.cpp
     world/item/ClothItem.cpp
     world/item/DyeColor.cpp
     world/item/SlabItem.cpp
-    world/item/ToolItem.cpp
     world/particle/RedDustParticle.cpp
     world/particle/TerrainParticle.cpp
     world/particle/BubbleParticle.cpp
