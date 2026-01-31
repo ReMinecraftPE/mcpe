@@ -175,13 +175,6 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 		if (pd.m_type != patchType)
 			continue;
 
-		// got the magic value, we can determine whether to disable fancy pants grass if the file doesn't exist
-		if (pd.m_destX == 1600 && pd.m_destY == 1600 && pd.m_type == TYPE_TERRAIN)
-		{
-			pd.m_destX = 4 * 16;
-			pd.m_destY = 5 * 16;
-		}
-
 		// N.B. Well, in some cases, you do want things to fail nicely.
 		TextureData patchTex = Resource::loadTexture("patches/" + pd.m_filename);
 		if (patchTex.isEmpty())

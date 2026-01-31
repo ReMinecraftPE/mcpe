@@ -291,7 +291,8 @@ void OptionList::initDefaultMenu()
 void OptionList::initVideoMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
-	int currentIndex = false;
+	int currentIndex = 0;
+	(void)currentIndex;
 
 	OPTION(Distance, m_iViewDistance, "Render Distance");
 	OPTION(Boolean, m_bThirdPerson, "Third Person View");
