@@ -510,6 +510,9 @@ enum // Textures
 
 	TEXTURE_LAVA = 237,
 
+	// If the "more items" texture was to be utilized
+	//TEXTURE_SLOT_MORE = 222,
+
 	TEXTURE_INFO_UPDATEGAME1 = 252,
 	TEXTURE_INFO_UPDATEGAME2 = 253,
 

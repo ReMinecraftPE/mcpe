@@ -111,6 +111,10 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::glowstone->m_ID);
 	addCreativeItem(Tile::web->m_ID);
 
+	// test
+	//addCreativeItem(Tile::info_updateGame1->m_ID);
+	//addCreativeItem(Tile::info_updateGame2->m_ID);
+
 }
 
 void IngameBlockSelectionScreen::addCreativeItem(int itemID, int auxValue)

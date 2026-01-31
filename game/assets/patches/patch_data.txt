@@ -13,6 +13,9 @@
 # * The X and Y destination coordinates will be multiplied by 16.
 # * The texture doesn't have to be 16x16, all of it will be patched on to terrain.png.
 
+# Add unused feature patches
+terrain|14|1|u_crying_obsidian.png
+
 # Add festive patches
 terrain|2|14|n_rocket_launcher.png
 terrain|3|14|n_rocket_launched.png
@@ -20,7 +23,9 @@ items|14|2|n_rocket.png
 
 # Add pocket patches
 terrain|12|0|p_rose.png
-terrain|14|1|p_crying_obsidian.png
+terrain|13|13|p_slot_more.png
+terrain|12|15|p_info_updategame1.png
+terrain|13|15|p_info_updategame2.png
 items|2|15|p_camera.png
 
 # Stop now to ignore the below commands. They're for a patch I'm working on that I don't want to release yet.
