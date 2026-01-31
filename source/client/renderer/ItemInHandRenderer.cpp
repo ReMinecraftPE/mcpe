@@ -155,20 +155,13 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
 #ifdef ENH_SHADE_HELD_TILES
     float bright = entity.getBrightness(a);
 #endif
-    
+
     _setupShaderParameters(entity, Color::NIL, a);
 
     Tile* pTile = item.getTile();
     if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
     {
-        Color color = Color::WHITE;
-        
-        if (pTile == Tile::leaves)
-        {
-            color = Color(0.35f, 0.65f, 0.25f);
-        }
-
-        currentShaderColor = color;
+        currentShaderColor = Color::WHITE;
         currentShaderDarkColor = Color::WHITE;
         
         m_pMinecraft->m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
@@ -188,6 +181,7 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
     }
     else
     {
+
         MatrixStack::Ref matrix = MatrixStack::World.push();
 
         std::string toBind;

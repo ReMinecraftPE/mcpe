@@ -17,6 +17,8 @@
 #define C_BIRCH_LEAF 2
 #define C_LEAF_TYPE_MASK 3
 
+const Color LeafTile::DEFAULT_COLOR = Color(0.35f, 0.65f, 0.25f);
+
 LeafTile::LeafTile(TileID id) : TransparentTile(id, TEXTURE_LEAVES_TRANSPARENT, Material::leaves, false)
 {
 	m_checkBuffer = nullptr;

@@ -62,6 +62,8 @@ void TripodCameraRenderer::render(const Entity& entity, const Vec3& pos, float r
 
 	t.begin(8);
 
+	// Needed for D3D, since the shader expects this
+	t.normal(Vec3::ZERO);
 	t.vertexUV(x1, newY + 1, z1, texU_l, texV_u);
 	t.vertexUV(x1, newY + 0, z1, texU_l, texV_d);
 	t.vertexUV(x2, newY + 0, z2, texU_r, texV_d);
