@@ -33,7 +33,7 @@ void ToolItem::mineBlock(ItemStack* instance, const TilePos& pos, Facing::Name f
 
 int ToolItem::getAttackDamage(Entity* entity) const
 {
-	int damage = m_tier.m_damage + 1; // Just add one here since all tools did the same.
+	int damage = m_tier.m_damage + 1; // Just add 1 extra damage here since all tools did the same.
 	/*
 	if ((Tool::HATCHET & m_toolType))
 		damage += 1;

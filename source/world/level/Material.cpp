@@ -10,12 +10,12 @@
 #include "world/item/Tool.hpp"
 
 Material::Material() :
-	m_bFlammable(false), m_toolMask(Tool::NONE), m_requiredToolLevel(0)
+	m_bFlammable(false), m_bMineable(true), m_toolMask(Tool::NONE), m_requiredToolLevel(0)
 {
 }
 
 Material::Material(bool bFlammable) :
-	m_bFlammable(bFlammable), m_toolMask(Tool::NONE), m_requiredToolLevel(0)
+	m_bFlammable(bFlammable), m_bMineable(true), m_toolMask(Tool::NONE), m_requiredToolLevel(0)
 {
 }
 
