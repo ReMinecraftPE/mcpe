@@ -34,12 +34,12 @@ int g_MousePosX, g_MousePosY;
 struct engine
 {
     struct android_app* androidApp;
-    EGLDisplay display = nullptr;
-    EGLSurface surface = nullptr;
-    EGLContext context = nullptr;
-    int animating = 0;
-    bool initted = false;
-    NinecraftApp* ninecraftApp = nullptr;
+    EGLDisplay display;
+    EGLSurface surface;
+    EGLContext context;
+    int animating;
+    bool initted;
+    NinecraftApp* ninecraftApp;
 };
 
 // static float mapStick(AInputEvent* event, int32_t axis)

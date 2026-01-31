@@ -330,17 +330,17 @@ static void android_app_free(struct android_app* android_app) {
 }
 
 static void onDestroy(ANativeActivity* activity) {
-    LOGV("Destroy: %p\n", activity);
+    LOGV("Destroy: %p\n", (void *)activity);
     android_app_free((struct android_app*)activity->instance);
 }
 
 static void onStart(ANativeActivity* activity) {
-    LOGV("Start: %p\n", activity);
+    LOGV("Start: %p\n", (void *)activity);
     android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_START);
 }
 
 static void onResume(ANativeActivity* activity) {
-    LOGV("Resume: %p\n", activity);
+    LOGV("Resume: %p\n", (void *)activity);
     android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_RESUME);
 }
 
@@ -348,7 +348,7 @@ static void* onSaveInstanceState(ANativeActivity* activity, size_t* outLen) {
     struct android_app* android_app = (struct android_app*)activity->instance;
     void* savedState = NULL;
 
-    LOGV("SaveInstanceState: %p\n", activity);
+    LOGV("SaveInstanceState: %p\n", (void *)activity);
     pthread_mutex_lock(&android_app->mutex);
     android_app->stateSaved = 0;
     android_app_write_cmd(android_app, APP_CMD_SAVE_STATE);
@@ -369,56 +369,56 @@ static void* onSaveInstanceState(ANativeActivity* activity, size_t* outLen) {
 }
 
 static void onPause(ANativeActivity* activity) {
-    LOGV("Pause: %p\n", activity);
+    LOGV("Pause: %p\n", (void *)activity);
     android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_PAUSE);
 }
 
 static void onStop(ANativeActivity* activity) {
-    LOGV("Stop: %p\n", activity);
+    LOGV("Stop: %p\n", (void *)activity);
     android_app_set_activity_state((struct android_app*)activity->instance, APP_CMD_STOP);
 }
 
 static void onConfigurationChanged(ANativeActivity* activity) {
     struct android_app* android_app = (struct android_app*)activity->instance;
-    LOGV("ConfigurationChanged: %p\n", activity);
+    LOGV("ConfigurationChanged: %p\n", (void *)activity);
     android_app_write_cmd(android_app, APP_CMD_CONFIG_CHANGED);
 }
 
 static void onLowMemory(ANativeActivity* activity) {
     struct android_app* android_app = (struct android_app*)activity->instance;
-    LOGV("LowMemory: %p\n", activity);
+    LOGV("LowMemory: %p\n", (void *)activity);
     android_app_write_cmd(android_app, APP_CMD_LOW_MEMORY);
 }
 
 static void onWindowFocusChanged(ANativeActivity* activity, int focused) {
-    LOGV("WindowFocusChanged: %p -- %d\n", activity, focused);
+    LOGV("WindowFocusChanged: %p -- %d\n", (void *)activity, focused);
     android_app_write_cmd((struct android_app*)activity->instance,
             focused ? APP_CMD_GAINED_FOCUS : APP_CMD_LOST_FOCUS);
 }
 
 static void onNativeWindowCreated(ANativeActivity* activity, ANativeWindow* window) {
-    LOGV("NativeWindowCreated: %p -- %p\n", activity, window);
+    LOGV("NativeWindowCreated: %p -- %p\n", (void *)activity, (void *)window);
     android_app_set_window((struct android_app*)activity->instance, window);
 }
 
 static void onNativeWindowDestroyed(ANativeActivity* activity, ANativeWindow* window) {
-    LOGV("NativeWindowDestroyed: %p -- %p\n", activity, window);
+    LOGV("NativeWindowDestroyed: %p -- %p\n", (void *)activity, (void *)window);
     android_app_set_window((struct android_app*)activity->instance, NULL);
 }
 
 static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue) {
-    LOGV("InputQueueCreated: %p -- %p\n", activity, queue);
+    LOGV("InputQueueCreated: %p -- %p\n", (void *)activity, (void *)queue);
     android_app_set_input((struct android_app*)activity->instance, queue);
 }
 
 static void onInputQueueDestroyed(ANativeActivity* activity, AInputQueue* queue) {
-    LOGV("InputQueueDestroyed: %p -- %p\n", activity, queue);
+    LOGV("InputQueueDestroyed: %p -- %p\n", (void *)activity, (void *)queue);
     android_app_set_input((struct android_app*)activity->instance, NULL);
 }
 
 void ANativeActivity_onCreate(ANativeActivity* activity,
         void* savedState, size_t savedStateSize) {
-    LOGV("Creating: %p\n", activity);
+    LOGV("Creating: %p\n", (void *)activity);
     activity->callbacks->onDestroy = onDestroy;
     activity->callbacks->onStart = onStart;
     activity->callbacks->onResume = onResume;
