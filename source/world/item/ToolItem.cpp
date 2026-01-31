@@ -2,7 +2,7 @@
 #include "world/entity/Mob.hpp"
 #include "world/entity/Player.hpp"
 
-ToolItem::ToolItem(int id, Tool::Type toolType, Item::Tier& tier) :
+ToolItem::ToolItem(int id, Tool::Type toolType, Tier& tier) :
 	Item(id),
 	m_speed(tier.m_speed),
 	m_toolType(toolType),
