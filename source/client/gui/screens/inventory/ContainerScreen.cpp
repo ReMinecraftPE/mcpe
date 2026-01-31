@@ -15,23 +15,44 @@ ContainerScreen::ContainerScreen(ContainerMenu* menu) :
     m_bRenderPointer = true;
 }
 
-void ContainerScreen::_renderSlot(Slot* slot)
+void ContainerScreen::_renderSlot(Slot& slot)
 {
-    int x = slot->m_x;
-    int y = slot->m_y;
-    ItemStack& item = slot->getItem();
+    const SlotDisplay& display = getSlotDisplay(slot);
+
+    if (!display.bVisible) return;
+
+    if (display.bIconHolder)
+    {
+        MatrixStack::Ref matrix = MatrixStack::World.push();
+        float off = 3 * display.size / 50.0f;
+        matrix->translate(Vec3(-off, -off, 0.0f));
+        blitTexture(*m_pMinecraft->m_pTextures, "gui/container/iconholder.png", display.x, display.y, 0, 0, display.size, display.size, 50, 50, 50, 50);
+    }
+    MatrixStack::Ref matrix = MatrixStack::World.push();
+    matrix->translate(Vec3(display.x, display.y, 0));
+    matrix->scale(display.size / 18.0f);
+    ItemStack& item = slot.getItem();
     if (item.isEmpty())
     {
-        int icon = slot->getNoItemIcon();
-        if (icon >= 0)
+        const std::string& noItemTexture = display.noItemTexture;
+
+        if (!noItemTexture.empty())
         {
-            m_pMinecraft->m_pTextures->loadAndBindTexture("gui/items.png");
-            blit(x, y, (icon % 16) * 16, (icon / 16) * 16, 16, 16, 0, 0);
+            blitTexture(*m_pMinecraft->m_pTextures, noItemTexture, 0, 0, 0, 0, 16, 16);
             return;
         }
+
+        int icon = display.noItemIcon;
+        if (icon >= 0)
+        {
+            m_pMinecraft->m_pTextures->loadAndBindTexture(C_ITEMS_NAME);
+            blit(0, 0, (icon % 16) * 16, (icon / 16) * 16, 16, 16, 0, 0);
+        }
+
+        return;
     }
-    ItemRenderer::singleton().renderGuiItem(m_pFont, m_pMinecraft->m_pTextures, item, x, y, true);
-    ItemRenderer::singleton().renderGuiItemOverlay(m_pFont, m_pMinecraft->m_pTextures, item, x, y);
+    ItemRenderer::singleton().renderGuiItem(m_pFont, m_pMinecraft->m_pTextures, item, 0, 0, true);
+    ItemRenderer::singleton().renderGuiItemOverlay(m_pFont, m_pMinecraft->m_pTextures, item, 0, 0);
 }
 
 Slot* ContainerScreen::_findSlot()
@@ -44,21 +65,24 @@ Slot* ContainerScreen::_findSlot(int mouseX, int mouseY)
     for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
     {
         Slot* slot = *it;
-        if (_isHovering(slot)) return slot;
+        if (_isHovering(*slot)) return slot;
     }
     return nullptr;
 }
 
-bool ContainerScreen::_isHovering(Slot* slot) const
+bool ContainerScreen::_isHovering(const Slot& slot) const
 {
     return _isHovering(slot, m_menuPointer.x, m_menuPointer.y);
 }
 
-bool ContainerScreen::_isHovering(Slot* slot, int mouseX, int mouseY) const
+bool ContainerScreen::_isHovering(const Slot& slot, int mouseX, int mouseY) const
 {
+    const SlotDisplay& display = getSlotDisplay(slot);
+    if (!display.bVisible) return false;
     mouseX -= m_leftPos;
     mouseY -= m_topPos;
-    return mouseX >= slot->m_x - 1 && mouseX < slot->m_x + 17 && mouseY >= slot->m_y - 1 && mouseY < slot->m_y + 17;
+    float off = 3 * display.size / 50.0f;
+    return mouseX >= display.x - off && mouseX < display.x + display.size - 2 * off && mouseY >= display.y - off && mouseY < display.y + display.size - 2 * off;
 }
 
 void ContainerScreen::_playInteractSound()
@@ -78,6 +102,12 @@ void ContainerScreen::init()
     m_pMinecraft->m_pLocalPlayer->m_pContainerMenu = m_pMenu;
     m_leftPos = (m_width - m_imageWidth) / 2;
     m_topPos = (m_height - m_imageHeight) / 2;
+
+    m_slotDisplays.clear();
+    for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
+    {
+        m_slotDisplays.push_back(_createSlotDisplay(*(*it)));
+    }
 }
 
 void ContainerScreen::render(float partialTicks)
@@ -94,14 +124,16 @@ void ContainerScreen::render(float partialTicks)
     for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
     {
         Slot* slot = *it;
-        _renderSlot(slot);
-        if (_isHovering(slot))
+        _renderSlot(*slot);
+        if (_isHovering(*slot))
         {
+            const SlotDisplay& display = getSlotDisplay(*slot);
             hoveredSlot = slot;
-            int slotX = slot->m_x;
-            int slotY = slot->m_y;
             //@NOTE: fillGradient is being used instead of fill, so the shader color won't be changed, I think the same happened on the original
-            fillGradient(slotX, slotY, slotX + 16, slotY + 16, 0x80FFFFFF, 0x80FFFFFF);
+            MatrixStack::Ref highlightMatrix = MatrixStack::World.push();
+            highlightMatrix->translate(Vec3(display.x, display.y, 0));
+            highlightMatrix->scale(display.size / 18.0f);
+            fillGradient(0, 0, 16, 16, 0x80FFFFFF, 0x80FFFFFF);
         }
     }
 
@@ -109,8 +141,12 @@ void ContainerScreen::render(float partialTicks)
     if (!inv->getCarried().isEmpty())
     {
         matrix->translate(Vec3(0.0f, 0.0f, 200.0f));
-        ItemRenderer::singleton().renderGuiItem(m_pFont, m_pMinecraft->m_pTextures, inv->getCarried(), m_menuPointer.x - m_leftPos - 8, m_menuPointer.y - m_topPos - 8, true);
-        ItemRenderer::singleton().renderGuiItemOverlay(m_pFont, m_pMinecraft->m_pTextures, inv->getCarried(), m_menuPointer.x - m_leftPos - 8, m_menuPointer.y - m_topPos - 8);
+        MatrixStack::Ref carriedMatrix = MatrixStack::World.push();
+        carriedMatrix->translate(Vec3(m_menuPointer.x - m_leftPos - 8, m_menuPointer.y - m_topPos - 8, 0.0f));
+        if (m_uiTheme == UI_CONSOLE)
+            carriedMatrix->scale(3.0f); // 54 / 18.0f
+        ItemRenderer::singleton().renderGuiItem(m_pFont, m_pMinecraft->m_pTextures, inv->getCarried(), 0, 0, true);
+        ItemRenderer::singleton().renderGuiItemOverlay(m_pFont, m_pMinecraft->m_pTextures, inv->getCarried(), 0, 0);
     }
 
     Lighting::turnOff();
@@ -121,11 +157,20 @@ void ContainerScreen::render(float partialTicks)
         std::string name = Language::singleton().get(hoveredSlot->getItem().getDescriptionId() + ".name");
         if (!name.empty())
         {
+            int w = m_pFont->width(name);
             int tx = m_menuPointer.x - m_leftPos + 12;
             int ty = m_menuPointer.y - m_topPos - 12;
-            int w = m_pFont->width(name);
-            fillGradient(tx - 3, ty - 3, tx + w + 3, ty + 8 + 3, 0xC0000000, 0xC0000000);
-            m_pFont->drawShadow(name, tx, ty, -1);
+            if (m_uiTheme == UI_CONSOLE)
+            {
+                blitNineSlice(*m_pMinecraft->m_pTextures, tx - 6, ty - 6, w * 2 + 12, 28, 8, "gui/pointer_panel.png");
+                MatrixStack::Ref tooltipMatrix = MatrixStack::World.push();
+                m_pFont->drawLegacy(name, tx, ty, -1);
+            }
+            else
+            {
+                fillGradient(tx - 3, ty - 3, tx + w + 3, ty + 8 + 3, 0xC0000000, 0xC0000000);
+                m_pFont->drawShadow(name, tx, ty, -1);
+            }
         }
     }
 
@@ -215,6 +260,11 @@ void ContainerScreen::keyPressed(int keyCode)
     {
         Screen::keyPressed(keyCode);
     }
+}
+
+const SlotDisplay& ContainerScreen::getSlotDisplay(const Slot& slot) const
+{
+    return m_slotDisplays[slot.m_index];
 }
 
 void ContainerScreen::onClose()

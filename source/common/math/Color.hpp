@@ -127,4 +127,6 @@ public:
     static Color BLACK;
     static Color GREY;
     static Color WHITE;
+
+    static Color GREY_TEXT;
 };

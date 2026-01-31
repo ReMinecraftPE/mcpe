@@ -28,7 +28,7 @@ bool Language::loadLanguageFile(const std::string& path)
     Document d;
     d.Parse(file.c_str());
 
-    if (d.ObjectEmpty()) return false;
+    if (!d.IsObject()) return false;
 
     for (Value::ConstMemberIterator it = d.MemberBegin(); it != d.MemberEnd(); ++it)
     {

@@ -48,6 +48,7 @@ Screen::Screen()
 	m_bRenderPointer = false;
 	m_lastTimeMoved = 0;
 	m_cursorTick = 0;
+	m_uiTheme = UI_POCKET;
 
 	_addElementList();
 }
@@ -132,6 +133,7 @@ void Screen::_addElement(Button& element, bool isTabbable)
 void Screen::_addElementToList(unsigned int index, Button& element, bool isTabbable)
 {
 	m_elements.push_back(&element);
+	element.m_uiTheme = m_uiTheme;
 
 	if (isTabbable)
 		_getElementList(index).push_back(&element);
@@ -351,6 +353,16 @@ void Screen::keyboardTextPaste(const std::string& text)
 	}
 }
 
+float Screen::getScale(int width, int height)
+{
+	return m_uiTheme == UI_CONSOLE ? getConsoleScale(height) : 0.0f;
+}
+
+float Screen::getConsoleScale(int height)
+{
+	return 1 / float(Mth::round((Mth::round(height / 180.0f) * 180) / 720.0f));
+}
+
 static const char* g_panoramaList[] =
 {
 	"gui/background/panorama_0.png",
@@ -365,6 +377,12 @@ static float g_panoramaAngle = 0.0f;
 
 void Screen::renderMenuBackground(float f)
 {
+	if (m_uiTheme == UI_CONSOLE)
+	{
+		renderLegacyPanorama();
+		return;
+	}
+
 	if (!m_pMinecraft->getOptions()->m_bMenuPanorama)
 	{
 		renderDirtBackground(0);
@@ -444,6 +462,18 @@ void Screen::renderMenuBackground(float f)
 	}
 
 	fillGradient(0, 0, m_width, m_height, Color(0, 0, 0, 137), Color(255, 255, 255, 137));
+}
+
+void Screen::renderLegacyPanorama(bool isNight)
+{
+	m_pMinecraft->m_pTextures->setSmoothing(true);
+	blitTexture(*m_pMinecraft->m_pTextures, isNight ? "gui/panorama_night.png" : "gui/panorama_day.png", 0, 0, getTimeS() * 1000 * m_height / 360 / 66.32f, 1, m_width, m_height + 2, m_height * 820 / 144, m_height + 2);
+	m_pMinecraft->m_pTextures->setSmoothing(false);
+}
+
+void Screen::renderLegacyPanorama()
+{
+	renderLegacyPanorama(m_pMinecraft->m_pLevel && !m_pMinecraft->m_pLevel->isDay());
 }
 
 void Screen::pointerPressed(int xPos, int yPos, MouseButtonType btn) // d = clicked?
@@ -906,6 +936,10 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 		float baseSensitivity = m_pMinecraft->getOptions()->m_fSensitivity;
 		float sensitivity = baseSensitivity * 2.0f;
 		float moveSensitivity = baseSensitivity * 2.0f;
+
+		if (m_uiTheme == UI_CONSOLE)
+			moveSensitivity *= 2;
+
 		//float affectY = Mth::clamp((sensitivity - 0.4f) * 1.67f, 0, 1);
 
 		Vec2 stickPos(stick.x, stick.y);
