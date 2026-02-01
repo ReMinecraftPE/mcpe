@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'ci-artifacts' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
