@@ -161,11 +161,10 @@ jobs:
                 cd build
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DWERROR=ON ..
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
-                ls
           - uses: actions/upload-artifact@v6
             with:
               name: Nintendo Switch
               path: |
                 build/platforms/sdl/sdl2/reminecraftpe.nro
-                build/platforms/sdl/sdl2/reminecraftpe.elf
+                build/reminecraftpe.elf
                 build/assets
