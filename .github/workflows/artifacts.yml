@@ -77,7 +77,7 @@ jobs:
                 GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
                 -quiet \
                 clean archive
-                mv ~/game/assets $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ~
+                mv ../../../../game/assets $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ../../../..
           - uses: actions/upload-artifact@v6
             with:
               name: macOS
