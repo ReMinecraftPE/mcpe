@@ -1,7 +1,8 @@
-name: 'Build'
+name: 'Build Artifacts'
 
 on:
-  - pull_request
+  push:
+    branches: [ 'master' ]
 
 jobs:
     linux:
@@ -12,9 +13,6 @@ jobs:
                   - name: SDL 2
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl2-dev'
-                  - name: SDL 1.2
-                    flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
-                    packages: 'libsdl1.2-dev'
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -37,59 +35,15 @@ jobs:
                 cd build
                 cmake -GNinja -DWERROR=ON ${{ matrix.flags }} ..
                 cmake --build .
-
-    wasm:
-        name: WASM
-        runs-on: ubuntu-24.04
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v4
+                cp reminecraftpe reminecraftpe-unstripped
+                strip reminecraftpe
+          - uses: actions/upload-artifact@v6
             with:
-                submodules: true
-          - name: Install Dependencies
-            run: |
-                sudo apt-get update
-                sudo apt-get install --no-install-recommends -y cmake ninja-build
-          - name: Build
-            run: ./build-wasm.sh -DWERROR=ON
-
-    macos:
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                  - name: SDL 2
-                    backend_name: 'SDL2'
-                    packages: 'libsdl2'
-                  # @NOTE: Uses SDL 1.2 compatibility layer in newer macOS versions, resulting in 30+ minutes spent building
-                  # and installing said layer each time the action is run. We're not doing that.
-                  #- name: SDL 1.2
-                  #  backend_name: 'SDL1'
-                  #  packages: 'libsdl'
-        name: macOS (${{ matrix.name }})
-        runs-on: macos-15
-        steps:
-          - name: Checkout Repository
-            uses: actions/checkout@v4
-            with:
-                submodules: true
-          - name: Install MacPorts
-            uses: melusina-org/setup-macports@v1
-          - name: Install Dependencies
-            run: |
-                port selfupdate
-                port install ${{ matrix.packages }} +universal
-          - name: Build macOS Archive
-            run: |
-                cd platforms/macos/projects/Minecraft
-                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
-                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
-                -sdk macosx \
-                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
-                -destination generic/platform=macOS \
-                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
-                -quiet \
-                clean archive
+              name: Linux (${{ matrix.name }})
+              path: |
+                build/reminecraftpe
+                build/reminecraftpe-unstripped
+                build/assets
 
     ios:
         name: iOS
@@ -118,16 +72,17 @@ jobs:
               AR: llvm-ar-21
               RANLIB: llvm-ranlib-21
               LLVM_CONFIG: llvm-config-21
-              REMCPE_NO_IPA: 1
               WERROR: ON
+          - uses: actions/upload-artifact@v6
+            with:
+              name: iOS
+              path: platforms/ios/build/ReMCPE.ipa
 
     android:
         strategy:
             fail-fast: false
             matrix:
                 include:
-                  - name: SDL 2
-                    directory: platforms/sdl/sdl2/android
                   - name: Native
                     directory: platforms/android/project
         name: Android (${{ matrix.name }})
@@ -146,7 +101,11 @@ jobs:
           - name: Build
             run: |
                 cd ${{ matrix.directory }}
-                ./gradlew assembleDebug
+                ./gradlew assembleRelease
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Android (${{ matrix.name }})
+              path: app/build/outputs/apk/release/app-release-unsigned.apk
 
     mingw:
         strategy:
@@ -157,13 +116,6 @@ jobs:
                     flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL'
                   - name: Win32 (OGL + Shaders)
                     flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS'
-                  - name: Win32 (D3D11)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=D3D11'
-                  - name: SDL2
-                    flags: "-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL"
-                  # CMake can't find it
-                  #- name: SDL 1.2
-                  #  flags: '-DREMCPE_PLATFORM=sdl1 -DREMCPE_GFX_API=OGL'
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -184,6 +136,13 @@ jobs:
                 cd build
                 cmake -GNinja -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Windows (${{ matrix.name }})
+              path: |
+                build/reminecraftpe.exe
+                build/reminecraftpe.pdb
+                build/assets
 
     switch:
         name: Nintendo Switch
@@ -202,3 +161,11 @@ jobs:
                 cd build
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DWERROR=ON ..
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
+                ls
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Nintendo Switch
+              path: |
+                build/platforms/sdl/sdl2/reminecraftpe.nro
+                build/platforms/sdl/sdl2/reminecraftpe.elf
+                build/assets
