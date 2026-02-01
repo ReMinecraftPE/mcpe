@@ -13,9 +13,6 @@ jobs:
                   - name: SDL 2
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl2-dev'
-                  - name: SDL 2 (32-bit)
-                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
-                    packages: 'libsdl2-dev gcc-multilib g++-multilib'
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -43,6 +40,48 @@ jobs:
           - uses: actions/upload-artifact@v6
             with:
               name: Linux (${{ matrix.name }})
+              path: |
+                build/reminecraftpe
+                build/reminecraftpe-unstripped
+                build/assets
+
+    linux32:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL 2
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    packages: 'libsdl2-dev:i386'
+        name: Linux 32-bit (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo dpkg --add-architecture i386
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    gcc-multilib g++-multilib \
+                    libopenal-dev:i386 \
+                    zlib1g-dev:i386 \
+                    ${{ matrix.packages }}
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS='-m32' -DCMAKE_CXX_FLAGS='-m32' ${{ matrix.flags }} ..
+                cmake --build .
+                cp reminecraftpe reminecraftpe-unstripped
+                strip reminecraftpe
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Linux 32-bit (${{ matrix.name }})
               path: |
                 build/reminecraftpe
                 build/reminecraftpe-unstripped
