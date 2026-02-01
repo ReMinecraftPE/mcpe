@@ -93,6 +93,9 @@
 /gui/background/panorama_4.png
 /gui/background/panorama_5.png
 
+# die
+/font/default8.png
+
 # Avoid including Minecraft Classic assets from Mojang, for now.
 /patches/*.png
 /patches/classic/*.png
