@@ -40,10 +40,12 @@ void Inventory::prepareSurvivalInventory()
 	addTestItem(Tile::obsidian->m_ID, 64);
 	addTestItem(Tile::fire->m_ID, 64);*/
 
+	// 0.2.1 items
+#ifdef MOD_POCKET_SURVIVAL
 	addCreativeItem(ITEM_SHOVEL_STONE);
 	addCreativeItem(ITEM_PICKAXE_STONE);
 	addCreativeItem(ITEM_HATCHET_STONE);
-	//addCreativeItem(ITEM_SHEARS);
+	addCreativeItem(ITEM_SHEARS);
 	addCreativeItem(ITEM_SWORD_STONE);
 	addCreativeItem(TILE_LADDER);
 	addCreativeItem(TILE_TORCH);
@@ -98,7 +100,6 @@ void Inventory::prepareSurvivalInventory()
 	addCreativeItem(TILE_CACTUS);
 	addCreativeItem(ITEM_REEDS);
 
-#ifdef MOD_POCKET_SURVIVAL
 	for (size_t i = 0; i < m_items.size(); i++)
 	{
 		ItemStack& item = m_items[i];

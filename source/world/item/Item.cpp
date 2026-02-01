@@ -256,6 +256,22 @@ void Item::initItems()
 		->setIcon(0, 3)
 		->setDescriptionId("bootsCloth");
 
+	Item::helmet_chain = NEW_ITEM(ITEM_HELMET_CHAIN)
+		->setIcon(1, 0)
+		->setDescriptionId("helmetChain");
+
+	Item::chestplate_chain = NEW_ITEM(ITEM_CHESTPLATE_CHAIN)
+		->setIcon(1, 1)
+		->setDescriptionId("chestplateChain");
+
+	Item::leggings_chain = NEW_ITEM(ITEM_LEGGINGS_CHAIN)
+		->setIcon(1, 2)
+		->setDescriptionId("leggingsChain");
+
+	Item::boots_chain = NEW_ITEM(ITEM_BOOTS_CHAIN)
+		->setIcon(1, 3)
+		->setDescriptionId("bootsChain");
+
 	Item::helmet_iron = NEW_ITEM(ITEM_HELMET_IRON)
 		->setIcon(2, 0)
 		->setDescriptionId("helmetIron");
@@ -536,6 +552,14 @@ void Item::initItems()
 		->setIcon(10, 1)
 		->setDescriptionId("painting");
 
+	Item::map = NEW_ITEM(ITEM_MAP)
+		->setIcon(12, 3)
+		->setDescriptionId("map");
+
+	Item::shears = NEW_ITEM(ITEM_SHEARS)
+		->setIcon(13, 5)
+		->setDescriptionId("shears");
+	
 	Item::record_01 = NEW_ITEM(ITEM_RECORD_01)
 		->setIcon(0, 15)
 		->setDescriptionId("record");
@@ -742,6 +766,10 @@ Item
 	*Item::chestplate_cloth,
 	*Item::leggings_cloth,
 	*Item::boots_cloth,
+	*Item::helmet_chain,
+	*Item::chestplate_chain,
+	*Item::leggings_chain,
+	*Item::boots_chain,
 	*Item::helmet_iron,
 	*Item::chestplate_iron,
 	*Item::leggings_iron,
@@ -794,6 +822,8 @@ Item
 	*Item::bed,
 	*Item::diode,
 	*Item::cookie,
+	*Item::map,
+	*Item::shears,
 	*Item::record_01,
 	*Item::record_02,
 	*Item::camera,

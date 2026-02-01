@@ -291,8 +291,8 @@ void OptionList::initDefaultMenu()
 void OptionList::initVideoMenu()
 {
 	Options* pOptions = m_pMinecraft->getOptions();
-	int currentIndex = -1;
-	int idxGrass = -1, idxBiome = -1;
+	int currentIndex = 0;
+	(void)currentIndex;
 
 	OPTION(Distance, m_iViewDistance, "Render Distance");
 	OPTION(Boolean, m_bThirdPerson, "Third Person View");
@@ -301,16 +301,10 @@ void OptionList::initVideoMenu()
 	OPTION(Boolean, m_bViewBobbing, "View Bobbing");
 	OPTION(Boolean, m_bAnaglyphs, "3D Anaglyph");
 	OPTION(Boolean, m_bBlockOutlines, "Block Outlines");
-	OPTION(Render, m_bFancyGrass, "Fancy Grass");   idxGrass = currentIndex; // renders colored grass side overlay
-	OPTION(Render, m_bBiomeColors, "Biome Colors");  idxBiome = currentIndex; // colors the grass based on the current biome
+	OPTION(Render, m_bFancyGrass, "Fancy Grass");
+	OPTION(Render, m_bBiomeColors, "Biome Colors");
 	OPTION(Boolean, m_bDontRenderGui, "Hide GUI");
 	OPTION(Boolean, m_bDynamicHand, "Dynamic Hand Movement");
-
-	if (!GetPatchManager()->IsGrassSidesTinted())
-		m_items[idxGrass]->setDisabled(true);
-
-	if (!GrassColor::isAvailable() || !FoliageColor::isAvailable())
-		m_items[idxBiome]->setDisabled(true);
 }
 
 void OptionList::initControlsMenu()

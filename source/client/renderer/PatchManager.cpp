@@ -157,16 +157,6 @@ void PatchManager::LoadPatchData(const std::string& patchData)
 			ReadInt(lineStream, m_nMetalSideYOffset);
 			continue;
 		}
-		if (command == "grass_sides_tint")
-		{
-			ReadBool(lineStream, m_bGrassSidesTinted);
-
-			if (m_bGrassSidesTinted)
-				// push a magic value so we can determine whether to disable it if the file doesn't exist
-				m_patchData.push_back(PatchData(TYPE_TERRAIN, 100, 100, "grass_side_transparent.png"));
-
-			continue;
-		}
 
 		LOG_W("Unknown command %s from patch data.", command.c_str());
 	}
@@ -185,24 +175,11 @@ void PatchManager::PatchTextures(TextureData& texture, ePatchType patchType)
 		if (pd.m_type != patchType)
 			continue;
 
-		bool bDisableFancyGrassIfFailed = false;
-
-		// got the magic value, we can determine whether to disable fancy pants grass if the file doesn't exist
-		if (pd.m_destX == 1600 && pd.m_destY == 1600 && pd.m_type == TYPE_TERRAIN)
-		{
-			pd.m_destX = 4 * 16;
-			pd.m_destY = 5 * 16;
-
-			bDisableFancyGrassIfFailed = true;
-		}
-
 		// N.B. Well, in some cases, you do want things to fail nicely.
 		TextureData patchTex = Resource::loadTexture("patches/" + pd.m_filename);
 		if (patchTex.isEmpty())
 		{
 			LOG_W("Image %s was not found?! Skipping", pd.m_filename.c_str());
-			if (bDisableFancyGrassIfFailed)
-				m_bGrassSidesTinted = false;
 			continue;
 		}
 
@@ -251,11 +228,6 @@ int PatchManager::GetMetalSideYOffset()
 bool PatchManager::IsGlassSemiTransparent()
 {
 	return m_bGlassSemiTransparent;
-}
-
-bool PatchManager::IsGrassSidesTinted()
-{
-	return m_bGrassSidesTinted;
 }
 
 void PatchManager::ReadBool(std::istream& is, bool& b)

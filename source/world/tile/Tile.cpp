@@ -13,6 +13,7 @@
 #include "world/item/AuxTileItem.hpp"
 #include "world/item/ClothItem.hpp"
 #include "world/item/SlabItem.hpp"
+//#include "world/item/PistonItem.hpp"
 
 // Include tile definitions here
 #include "SandStoneTile.hpp"
@@ -722,13 +723,13 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("rocketLauncher");
 
-	Tile::tallGrass = (new TallGrass(TILE_TALLGRASS, TEXTURE_NONE39))
+	Tile::tallGrass = (new TallGrass(TILE_TALL_GRASS, TEXTURE_TALL_GRASS))
 		->init()
 		->setSoundType(Tile::SOUND_GRASS)
 		->setDestroyTime(0.0f)
 		->setDescriptionId("tallGrass");
 
-	Tile::deadBush = (new DeadBush(TILE_DEAD_BUSH, TEXTURE_NONE55))
+	Tile::deadBush = (new DeadBush(TILE_DEAD_BUSH, TEXTURE_DEAD_BUSH))
 		->init()
 		->setSoundType(Tile::SOUND_GRASS)
 		->setDestroyTime(0.0f)
@@ -769,7 +770,7 @@ void Tile::initTiles()
 	Tile::web = (new Web(TILE_COBWEB, TEXTURE_COBWEB))
 		->init()
 		->setDestroyTime(4.0f)
-		//->setLightBlock(1)
+		->setLightBlock(1)
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("web");
 
@@ -788,6 +789,10 @@ void Tile::initTiles()
 
 	Item::items[Tile::sapling->m_ID] = (new AuxTileItem(Tile::sapling->m_ID - C_MAX_TILES))
 		->setDescriptionId("sapling");
+
+	//Item::items[Tile::piston->m_ID] = (new PistonItem(Tile::piston->m_ID - C_MAX_TILES));
+
+	//Item::items[Tile::stickyPiston->m_ID] = (new PistonItem(Tile::stickyPiston->m_ID - C_MAX_TILES));
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
