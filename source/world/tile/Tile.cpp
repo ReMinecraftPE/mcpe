@@ -207,6 +207,9 @@ Tile* Tile::init()
 	translucent[m_ID] = m_pMaterial->blocksLight();
 	isEntityTile[m_ID] = 0;
 
+	m_toolMask = Tool::NONE;
+	m_requiredToolLevel = 0;
+
 	return this;
 }
 
@@ -273,6 +276,25 @@ int Tile::getResourceCount(Random* pRandom) const
 int Tile::getSpawnResourcesAuxValue(int x) const
 {
 	return 0;
+}
+
+Tile* Tile::setToolTypes(unsigned int toolMask)
+{
+	m_toolMask |= toolMask;
+	return this;
+}
+
+Tile* Tile::setToolLevel(int toolLevel)
+{
+	m_requiredToolLevel = toolLevel;
+	return this;
+}
+
+Tile* Tile::setToolTypesAndLevel(unsigned int toolMask, int toolLevel)
+{
+	setToolTypes(toolMask);
+	setToolLevel(toolLevel);
+	return this;
 }
 
 void Tile::initTiles()
@@ -359,6 +381,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 2)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreGold");
 
@@ -366,6 +389,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 1)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreIron");
 
@@ -399,6 +423,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 1)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreLapis");
 
@@ -406,6 +431,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(10.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 1)
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("blockLapis");
 
@@ -450,6 +476,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(10.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 2)
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("blockGold");
 
@@ -457,6 +484,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(5.0f)
 		->setExplodeable(10.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 1)
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("blockIron");
 
@@ -504,6 +532,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(10.0f)
 		->setExplodeable(2000.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 3)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("obsidian");
 
@@ -522,6 +551,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 2)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreDiamond");
 
@@ -529,6 +559,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(5.0f)
 		->setExplodeable(10.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 2)
 		->setSoundType(Tile::SOUND_METAL)
 		->setDescriptionId("blockDiamond");
 
@@ -564,6 +595,7 @@ void Tile::initTiles()
 		->init()
 		->setDestroyTime(3.0f)
 		->setExplodeable(5.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 2)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreRedstone");
 
@@ -572,6 +604,7 @@ void Tile::initTiles()
 		->setDestroyTime(3.0f)
 		->setLightEmission(0.625f)
 		->setExplodeable(5.0f)
+		->setToolTypesAndLevel(Tool::PICKAXE, 2)
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("oreRedstone");
 
@@ -1048,13 +1081,16 @@ void Tile::handleEntityInside(Level* pLevel, const TilePos& pos, const Entity* p
 
 float Tile::getDestroyProgress(Player* player) const
 {
+	if (player->isCreative())
+		return 1.0f;
+
 	if (m_hardness < 0.0f)
 		return 0.0f;
 
 	if (!player->canDestroy(this))
 		return 1.0f / m_hardness / 100.0f;
 
-	return player->getDestroySpeed() / m_hardness / 30.0f;
+	return player->getDestroySpeed(this) / m_hardness / 30.0f;
 }
 
 void Tile::spawnResources(Level* pLevel, const TilePos& pos, TileData data)

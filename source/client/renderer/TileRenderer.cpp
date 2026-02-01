@@ -13,7 +13,9 @@
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "world/tile/FireTile.hpp"
+#include "world/tile/GrassTile.hpp"
 #include "world/tile/LiquidTile.hpp"
+#include "world/tile/LeafTile.hpp"
 #include "GameMods.hpp"
 
 #define DEFAULT_LIGHT_COLOR 16711935
@@ -1159,7 +1161,7 @@ bool TileRenderer::tesselateDoorInWorld(Tile* tile, const TilePos& pos)
 	t.color(fBright, fBright, fBright);
 	renderFaceDown(tile, pos, tile->getTexture(m_pTileSource, pos, Facing::UP));
 
-	fBright = tile->getBrightness(m_pTileSource, pos - 1);
+	fBright = tile->getBrightness(m_pTileSource, pos.north());
 	if (tile->m_aabb.min.z > 0.0f)       fBright = fBrightHere;
 	if (Tile::lightEmission[tile->m_ID]) fBright = 1.0f;
 	t.color(fBright * 0.8f, fBright * 0.8f, fBright * 0.8f);
@@ -1168,7 +1170,7 @@ bool TileRenderer::tesselateDoorInWorld(Tile* tile, const TilePos& pos)
 	renderNorth(tile, pos, texture);
 	m_bXFlipTexture = false;
 
-	fBright = tile->getBrightness(m_pTileSource, pos + 1);
+	fBright = tile->getBrightness(m_pTileSource, pos.south());
 	if (tile->m_aabb.max.z < 1.0f)       fBright = fBrightHere;
 	if (Tile::lightEmission[tile->m_ID]) fBright = 1.0f;
 	t.color(fBright * 0.8f, fBright * 0.8f, fBright * 0.8f);
@@ -2590,9 +2592,9 @@ LABEL_102:
 	red = bright, grn = bright, blu = bright; \
 	if (GetPatchManager()->IsGrassTinted()) {           \
 		if (tileType->m_ID == Tile::leaves->m_ID)           \
-			red *= 0.35f, grn *= 0.65f, blu *= 0.25f;   \
+			red *= LeafTile::DEFAULT_COLOR.r, grn *= LeafTile::DEFAULT_COLOR.g, blu *= LeafTile::DEFAULT_COLOR.b;   \
 		if (tileType->m_ID == Tile::grass->m_ID) \
-			red *= 0.25f, grn *= 0.60f, blu *= 0.25f;   \
+			red *= GrassTile::DEFAULT_COLOR.r, grn *= GrassTile::DEFAULT_COLOR.g, blu *= GrassTile::DEFAULT_COLOR.b;   \
 	}                                                   \
 } while (0)
 

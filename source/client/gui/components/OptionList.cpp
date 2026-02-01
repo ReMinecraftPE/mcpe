@@ -297,7 +297,7 @@ void OptionList::initVideoMenu()
 	OPTION(Distance, m_iViewDistance, "Render Distance");
 	OPTION(Boolean, m_bThirdPerson, "Third Person View");
 	OPTION(AORender, m_bAmbientOcclusion, "Smooth Lighting");
-	OPTION(Render, m_bFancyGraphics, "Fancy Graphics");
+	OPTION(FancyRender, m_bFancyGraphics, "Fancy Graphics");
 	OPTION(Boolean, m_bViewBobbing, "View Bobbing");
 	OPTION(Boolean, m_bAnaglyphs, "3D Anaglyph");
 	OPTION(Boolean, m_bBlockOutlines, "Block Outlines");

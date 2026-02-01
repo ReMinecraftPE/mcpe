@@ -45,6 +45,10 @@
     <Deploy>
       <DeploymentFiles>$(RemoteRoot)=$(ImagePath);$(RemoteRoot)\assets=$(MC_ROOT)\game\assets;</DeploymentFiles>
     </Deploy>
+	<ImageXex>
+	  <ConfigurationFile>$(MC_ROOT)\platforms\xdk360\xex.xml</ConfigurationFile>
+	  <AdditionalSections></AdditionalSections>
+	</ImageXex>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\platforms\xdk360\AppPlatform_xdk360.hpp" />

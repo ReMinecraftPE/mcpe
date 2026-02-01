@@ -30,6 +30,7 @@ void Entity::_init()
 	m_dimensionId = DIMENSION_NORMAL;
     m_bBlocksBuilding = false;
 	m_pLevel = nullptr;
+	m_tintColor = Color::WHITE;
 	m_bOnGround = false;
 	m_bHorizontalCollision = false;
 	m_bCollision = false;

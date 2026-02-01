@@ -15,33 +15,12 @@
 #include "TileItem.hpp"
 #include "TilePlanterItem.hpp"
 #include "RocketItem.hpp"
-//#include "BowlFoodItem.hpp"
-//#include "SaddleItem.hpp"
-//#include "BucketItem.hpp"
-//#include "WeaponItem.hpp"
-//#include "PickaxeItem.hpp"
-//#include "AxeItem.hpp"
-//#include "ShovelItem.hpp"
-//#include "HoeItem.hpp"
-//#include "ArmorItem.hpp"
-//#include "FlintAndSteelItem.hpp"
-//#include "CoalItem.hpp"
-//#include "BowItem.hpp"
-//#include "SeedItem.hpp"
-//#include "MinecartItem.hpp"
-//#include "BoatItem.hpp"
-//#include "BedItem.hpp"
-//#include "RecordItem.hpp"
-//#include "SignItem.hpp"
-//#include "EggItem.hpp"
-//#include "PaintingItem.hpp"
-//#include "FishingRodItem.hpp"
-//#include "MapItem.hpp"
-//#include "ShearsItem.hpp"
+#include "ToolItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
 #define NEW_ITEM(id) (new Item(ITEM(id)))
+#define NEW_TOOL_ITEM(id, toolType, tier) (new ToolItem(ITEM(id), toolType, tier))
 #define NEW_X_ITEM(Type, id, arg) (new Type(ITEM(id), arg))
 #define NEW_X_ITEMN(Type, id) (new Type(ITEM(id)))
 
@@ -142,17 +121,16 @@ void Item::initItems()
 		->setDescriptionId("swordWood")
 		->handEquipped();
 
-	Item::pickAxe_wood = NEW_ITEM(ITEM_PICKAXE_WOOD)
+	Item::pickAxe_wood = NEW_TOOL_ITEM(ITEM_PICKAXE_WOOD, Tool::PICKAXE, Tier::WOOD)
 		->setIcon(0, 6)
-		->setDescriptionId("pickaxeWood")
-		->handEquipped();
+		->setDescriptionId("pickaxeWood");
 
-	Item::hatchet_wood = NEW_ITEM(ITEM_HATCHET_WOOD)
+	Item::hatchet_wood = NEW_TOOL_ITEM(ITEM_HATCHET_WOOD, Tool::HATCHET, Tier::WOOD)
 		->setIcon(0, 7)
 		->setDescriptionId("hatchetWood")
 		->handEquipped();
 
-	Item::shovel_wood = NEW_ITEM(ITEM_SHOVEL_WOOD)
+	Item::shovel_wood = NEW_TOOL_ITEM(ITEM_SHOVEL_WOOD, Tool::SHOVEL, Tier::WOOD)
 		->setIcon(0, 5)
 		->setDescriptionId("shovelWood")
 		->handEquipped();
@@ -167,17 +145,17 @@ void Item::initItems()
 		->setDescriptionId("swordStone")
 		->handEquipped();
 
-	Item::pickAxe_stone = NEW_ITEM(ITEM_PICKAXE_STONE)
+	Item::pickAxe_stone = NEW_TOOL_ITEM(ITEM_PICKAXE_STONE, Tool::PICKAXE, Tier::STONE)
 		->setIcon(1, 6)
 		->setDescriptionId("pickaxeStone")
 		->handEquipped();
 
-	Item::hatchet_stone = NEW_ITEM(ITEM_HATCHET_STONE)
+	Item::hatchet_stone = NEW_TOOL_ITEM(ITEM_HATCHET_STONE, Tool::HATCHET, Tier::STONE)
 		->setIcon(1, 7)
 		->setDescriptionId("hatchetStone")
 		->handEquipped();
 
-	Item::shovel_stone = NEW_ITEM(ITEM_SHOVEL_STONE)
+	Item::shovel_stone = NEW_TOOL_ITEM(ITEM_SHOVEL_STONE, Tool::SHOVEL, Tier::STONE)
 		->setIcon(1, 5)
 		->setDescriptionId("shovelStone")
 		->handEquipped();
@@ -192,17 +170,17 @@ void Item::initItems()
 		->setDescriptionId("swordIron")
 		->handEquipped();
 
-	Item::pickAxe_iron = NEW_ITEM(ITEM_PICKAXE_IRON)
+	Item::pickAxe_iron = NEW_TOOL_ITEM(ITEM_PICKAXE_IRON, Tool::PICKAXE, Tier::IRON)
 		->setIcon(2, 6)
 		->setDescriptionId("pickaxeIron")
 		->handEquipped();
 
-	Item::hatchet_iron = NEW_ITEM(ITEM_HATCHET_IRON)
+	Item::hatchet_iron = NEW_TOOL_ITEM(ITEM_HATCHET_IRON, Tool::HATCHET, Tier::IRON)
 		->setIcon(2, 7)
 		->setDescriptionId("hatchetIron")
 		->handEquipped();
 
-	Item::shovel_iron= NEW_ITEM(ITEM_SHOVEL_IRON)
+	Item::shovel_iron = NEW_TOOL_ITEM(ITEM_SHOVEL_IRON, Tool::SHOVEL, Tier::IRON)
 		->setIcon(2, 5)
 		->setDescriptionId("shovelIron")
 		->handEquipped();
@@ -217,17 +195,17 @@ void Item::initItems()
 		->setDescriptionId("swordGold")
 		->handEquipped();
 
-	Item::pickAxe_gold = NEW_ITEM(ITEM_PICKAXE_GOLD)
+	Item::pickAxe_gold = NEW_TOOL_ITEM(ITEM_PICKAXE_GOLD, Tool::PICKAXE, Tier::GOLD)
 		->setIcon(4, 6)
 		->setDescriptionId("pickaxeGold")
 		->handEquipped();
 
-	Item::hatchet_gold = NEW_ITEM(ITEM_HATCHET_GOLD)
+	Item::hatchet_gold = NEW_TOOL_ITEM(ITEM_HATCHET_GOLD, Tool::HATCHET, Tier::GOLD)
 		->setIcon(4, 7)
 		->setDescriptionId("hatchetGold")
 		->handEquipped();
 
-	Item::shovel_gold = NEW_ITEM(ITEM_SHOVEL_GOLD)
+	Item::shovel_gold = NEW_TOOL_ITEM(ITEM_SHOVEL_GOLD, Tool::SHOVEL, Tier::GOLD)
 		->setIcon(4, 5)
 		->setDescriptionId("shovelGold")
 		->handEquipped();
@@ -242,17 +220,17 @@ void Item::initItems()
 		->setDescriptionId("swordDiamond")
 		->handEquipped();
 
-	Item::pickAxe_emerald = NEW_ITEM(ITEM_PICKAXE_EMERALD)
+	Item::pickAxe_emerald = NEW_TOOL_ITEM(ITEM_PICKAXE_EMERALD, Tool::PICKAXE, Tier::EMERALD)
 		->setIcon(3, 6)
 		->setDescriptionId("pickaxeDiamond")
 		->handEquipped();
 
-	Item::hatchet_emerald = NEW_ITEM(ITEM_HATCHET_EMERALD)
+	Item::hatchet_emerald = NEW_TOOL_ITEM(ITEM_HATCHET_EMERALD, Tool::HATCHET, Tier::EMERALD)
 		->setIcon(3, 7)
 		->setDescriptionId("hatchetDiamond")
 		->handEquipped();
 
-	Item::shovel_emerald = NEW_ITEM(ITEM_SHOVEL_EMERALD)
+	Item::shovel_emerald = NEW_TOOL_ITEM(ITEM_SHOVEL_EMERALD, Tool::SHOVEL, Tier::EMERALD)
 		->setIcon(3, 5)
 		->setDescriptionId("shovelDiamond")
 		->handEquipped();
@@ -618,7 +596,7 @@ bool Item::useOn(ItemStack* instance, Player* player, Level* level, const TilePo
 	return false;
 }
 
-float Item::getDestroySpeed(ItemStack* instance, Tile* tile) const
+float Item::getDestroySpeed(ItemStack* instance, const Tile* tile) const
 {
 	return 1.0f;
 }
@@ -653,7 +631,7 @@ void Item::hurtEnemy(ItemStack* instance, Mob* mob) const
 
 }
 
-void Item::mineBlock(ItemStack* instance, const TilePos& pos, Facing::Name face) const
+void Item::mineBlock(ItemStack* instance, const TilePos& pos, Facing::Name face, Mob* mob) const
 {
 
 }
@@ -663,7 +641,7 @@ int Item::getAttackDamage(Entity* ent) const
 	return 1;
 }
 
-bool Item::canDestroySpecial(Tile* tile) const
+bool Item::canDestroySpecial(const Tile* tile) const
 {
 	return false;
 }
@@ -853,10 +831,10 @@ Item
 	*Item::quiver;
 
 Item::Tier
-	Item::Tier::WOOD   (0, 59,   2.0f,  0),
-	Item::Tier::STONE  (1, 131,  4.0f,  1),
-	Item::Tier::IRON   (2, 250,  6.0f,  2),
-	Item::Tier::EMERALD(3, 1561, 8.0f,  3),
-	Item::Tier::GOLD   (0, 32,   12.0f, 0);
+	Item::Tier::WOOD   	(0, 59,   2.0f,  0),
+	Item::Tier::STONE  	(1, 131,  4.0f,  1),
+	Item::Tier::IRON   	(2, 250,  6.0f,  2),
+	Item::Tier::EMERALD	(3, 1561, 8.0f,  3),
+	Item::Tier::GOLD   	(0, 32,   12.0f, 0);
 
 std::string Item::ICON_DESCRIPTION_PREFIX = "item.";

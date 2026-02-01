@@ -21,11 +21,17 @@ public:
 	static void teardownMaterials();
 
 	virtual bool isLiquid() const;
+	virtual bool isMineable() const;
 	virtual bool letsWaterThrough() const;
 	virtual bool isSolid() const;
 	virtual bool blocksLight() const;
 	virtual bool blocksMotion() const;
 	virtual bool isFlammable() const;
+	virtual Material* setNotAlwaysDestroyable();
+
+	Material* setToolTypes(unsigned int toolMask);
+	Material* setToolLevel(int toolLevel);
+	Material* setToolTypesAndLevel(unsigned int toolMask, int toolLevel = 0);
 
 public:
 	static Material
@@ -58,6 +64,10 @@ public:
 
 public:
 	bool m_bFlammable;
+	bool m_bMineable;
+
+	unsigned int m_toolMask;
+	int m_requiredToolLevel;
 };
 
 class GasMaterial : public Material

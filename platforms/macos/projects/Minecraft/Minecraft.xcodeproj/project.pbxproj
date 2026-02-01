@@ -251,6 +251,8 @@
 		84498A9C2AF18CDA005EF5A5 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8652AC810630006A435 /* uncompr.c */; };
 		84498A9D2AF18CDA005EF5A5 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 840DD8682AC810630006A435 /* zutil.c */; };
 		84498AA02AF18D08005EF5A5 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
+		845BBCB52F2EA81700C7232C /* ToolItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 845BBCB32F2EA81700C7232C /* ToolItem.hpp */; };
+		845BBCB62F2EA81700C7232C /* ToolItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 845BBCB42F2EA81700C7232C /* ToolItem.cpp */; };
 		84619B222AF1EDA300B0DE81 /* libZLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84498A832AF18C7A005EF5A5 /* libZLib.a */; };
 		84619B392AF1F73900B0DE81 /* GL.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD6552AC810620006A435 /* GL.hpp */; };
 		84619B3C2AF1FE4C00B0DE81 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */; };
@@ -2148,6 +2150,8 @@
 		8445E79E2D769329008DC834 /* SynchedEntityData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SynchedEntityData.cpp; sourceTree = "<group>"; };
 		8445E79F2D769329008DC834 /* SynchedEntityData.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SynchedEntityData.hpp; sourceTree = "<group>"; };
 		84498A832AF18C7A005EF5A5 /* libZLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libZLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		845BBCB32F2EA81700C7232C /* ToolItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ToolItem.hpp; sourceTree = "<group>"; };
+		845BBCB42F2EA81700C7232C /* ToolItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ToolItem.cpp; sourceTree = "<group>"; };
 		84619B3B2AF1FE4C00B0DE81 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		84619B3D2AF1FEB700B0DE81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8466BD092E774DCD00DDDFC4 /* EndianDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndianDefinitions.h; sourceTree = "<group>"; };
@@ -3561,6 +3565,8 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
+				845BBCB32F2EA81700C7232C /* ToolItem.hpp */,
+				845BBCB42F2EA81700C7232C /* ToolItem.cpp */,
 				84E1C9DF2E7FDC72007D2F5D /* AuxTileItem.cpp */,
 				84E1C9E02E7FDC72007D2F5D /* AuxTileItem.hpp */,
 				840DD6702AC810620006A435 /* CameraItem.cpp */,
@@ -5514,6 +5520,7 @@
 				84B1E0402E04FD7900ED000A /* Zombie.hpp in Headers */,
 				84BF63AC2AF186C8008A9995 /* ParticleEngine.hpp in Headers */,
 				84BF63AD2AF186C8008A9995 /* AABB.hpp in Headers */,
+				845BBCB52F2EA81700C7232C /* ToolItem.hpp in Headers */,
 				84BF63AE2AF186C9008A9995 /* HitResult.hpp in Headers */,
 				84BF63AF2AF186C9008A9995 /* Vec3.hpp in Headers */,
 				84BF63B02AF186C9008A9995 /* BookshelfTile.hpp in Headers */,
@@ -6665,6 +6672,7 @@
 				84AA8B962B32F3B5003F5B82 /* WaterAnimal.cpp in Sources */,
 				84E78C7B2B58B3E000D515EF /* Rocket.cpp in Sources */,
 				84E78C832B58B5FB00D515EF /* RocketItem.cpp in Sources */,
+				845BBCB62F2EA81700C7232C /* ToolItem.cpp in Sources */,
 				84E78C872B58B66B00D515EF /* RocketLauncherTile.cpp in Sources */,
 				8470AF2C2BE9B60A00BCA54E /* MobFactory.cpp in Sources */,
 				84E1C9E92E7FDC72007D2F5D /* SlabItem.cpp in Sources */,

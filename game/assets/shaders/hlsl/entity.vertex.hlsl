@@ -6,7 +6,7 @@ struct VS_Input
     float3 position : POSITION;
     float4 normal : NORMAL;
     float2 texCoords : TEXCOORD_0;
-#ifdef COLOR_BASED
+#if defined(COLOR_BASED) || defined(USE_VERTEX_COLORS)
     float4 color : COLOR;
 #endif
 };
@@ -19,7 +19,13 @@ struct PS_Input
     float4 light : LIGHT;
     float4 fogColor : PS_FOG_COLOR;
 
+#ifndef COLOR_BASED
     float2 uv : TEXCOORD_0;
+#endif
+	
+#ifdef USE_VERTEX_COLORS
+	float4 color : COLOR;
+#endif
 
 #ifdef USE_OVERLAY
     float4 overlayColor : PS_OVERLAY_COLOR;
@@ -87,6 +93,10 @@ VS_MAIN_BEGIN
 
     float L = lightIntensity( float4( VSInput.position, 1 ), normal );
 
+#ifdef USE_VERTEX_COLORS
+	PSInput.color = VSInput.color;
+#endif
+
 #ifdef USE_OVERLAY
     L += OVERLAY_COLOR.a * 0.35;
     PSInput.overlayColor = OVERLAY_COLOR;
@@ -98,10 +108,9 @@ VS_MAIN_BEGIN
     PSInput.light *= VSInput.color;
 #else
     PSInput.uv = VSInput.texCoords;
-#endif
-
 #ifdef USE_UV_ANIM
-	PSInput.uv.xy += UV_ANIM.xy;
+    PSInput.uv.xy += UV_ANIM.xy;
+#endif
 #endif
 
 #ifdef GLINT

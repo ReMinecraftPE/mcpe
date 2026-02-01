@@ -7,6 +7,9 @@
 
 // requiring drive has at least 0 bytes free
 #define C_SAVEDEVICE_MINIMUM_FREE_BYTES 0
+#define C_SAVEDEVICE_ID_NONE 0
+#define C_SAVEDEVICE_ID_PENDING -1
+#define C_SAVEDEVICE_ID_ERROR -2
 
 AppPlatform_xdk360::AppPlatform_xdk360()
 {
@@ -19,7 +22,7 @@ AppPlatform_xdk360::AppPlatform_xdk360()
 
 	m_pSoundSystem = nullptr;
 
-	memset(m_saveDeviceId, 0, C_MAX_LOCAL_PLAYERS);
+	memset(m_saveDeviceId, C_SAVEDEVICE_ID_NONE, C_MAX_LOCAL_PLAYERS);
 	m_currentSavingPlayerId = -1;
 }
 
@@ -28,28 +31,47 @@ AppPlatform_xdk360::~AppPlatform_xdk360()
 	SAFE_DELETE(m_pSoundSystem);
 }
 
-XCONTENTDEVICEID AppPlatform_xdk360::_getSaveDeviceId(unsigned int playerId)
+void AppPlatform_xdk360::_getXContentData(XCONTENT_DATA& contentData, unsigned int playerId)
 {
-	if (m_saveDeviceId[playerId] != 0)
-		return m_saveDeviceId[playerId];
+	ZeroMemory(&contentData, sizeof(XCONTENT_DATA));
+	lstrcpyW(contentData.szDisplayName, L"Profile Data");
+	strcpy(contentData.szFileName, "profile.bin");
+	contentData.dwContentType = XCONTENTTYPE_SAVEDGAME;
+	contentData.DeviceID = _getSaveDeviceId(playerId);
+}
+
+const XCONTENTDEVICEID& AppPlatform_xdk360::_getSaveDeviceId(unsigned int playerId)
+{
+	XCONTENTDEVICEID& deviceId = m_saveDeviceId[playerId];
+
+	if (deviceId != C_SAVEDEVICE_ID_NONE)
+		return deviceId;
 
 	ULARGE_INTEGER iBytesRequested = { C_SAVEDEVICE_MINIMUM_FREE_BYTES };
 	XOVERLAPPED xov = {0};
 
+	deviceId = C_SAVEDEVICE_ID_PENDING;
 	DWORD result = XShowDeviceSelectorUI(
 		playerId,
 		XCONTENTTYPE_SAVEDGAME, XCONTENTFLAG_NONE,
 		iBytesRequested,
-		&m_saveDeviceId[playerId],
+		&deviceId,
 		&xov
 	);
 
 	if (result != ERROR_IO_PENDING)
 	{
 		LOG_W("Failed to open save device for player %d", playerId);
+		deviceId = C_SAVEDEVICE_ID_ERROR;
 	}
 
-	return m_saveDeviceId[playerId];
+	// Wait for the save-device handle
+	while (deviceId == C_SAVEDEVICE_ID_PENDING)
+	{
+		sleepMs(20);
+	}
+
+	return deviceId;
 }
 
 void AppPlatform_xdk360::initSoundSystem()
@@ -102,7 +124,7 @@ GameControllerHandler* AppPlatform_xdk360::getGameControllerHandler()
 
 bool AppPlatform_xdk360::hasFileSystemAccess()
 {
-	return false;
+	return true;
 }
 
 std::string AppPlatform_xdk360::getAssetPath(const std::string& path) const
@@ -117,6 +139,59 @@ void AppPlatform_xdk360::makeNativePath(std::string& path) const
 	toDosPath((char*)path.c_str());
 }
 
+void AppPlatform_xdk360::beginProfileDataRead(unsigned int playerId)
+{
+	if (m_currentSavingPlayerId != -1)
+	{
+		LOG_E("Tried to begin profile data read for player %d, but player %d is already saving data!", playerId, m_currentSavingPlayerId);
+		throw std::bad_cast();
+	}
+
+	XCONTENT_DATA contentData;
+	_getXContentData(contentData, playerId);
+
+	XUID xuid;
+	BOOL playerIsCreator;
+	XContentGetCreator(playerId, &contentData, &playerIsCreator, &xuid, NULL);
+
+	if(playerIsCreator == FALSE)
+	{
+		LOG_E("Current player is not the creator of, and therefore cannot write to, the requested profile data!");
+		throw std::bad_cast();
+	}
+
+	// Mount the device to the "savedrive" drive name
+	DWORD result = XContentCreate(playerId, "savedrive", &contentData, XCONTENTFLAG_OPENEXISTING, NULL, NULL, NULL);
+
+	switch (result)
+	{
+	case ERROR_SUCCESS:
+		m_currentSavingPlayerId = playerId;
+		break;
+	case ERROR_ACCESS_DENIED:
+		LOG_E("beginProfileDataRead failed: XContentCreate returned access denied error!");
+		break;
+	case ERROR_INVALID_NAME:
+		LOG_E("beginProfileDataRead failed: XContentCreate szRootName is invalid!");
+		throw std::bad_cast();
+	default:
+		LOG_E("beginProfileDataRead failed: XContentCreate returned unknown error: %d", result);
+	}
+}
+
+void AppPlatform_xdk360::endProfileDataRead(unsigned int playerId)
+{
+	if (m_currentSavingPlayerId == -1)
+	{
+		LOG_E("Tried to end profile data read for player %d, but no one is saving any data!", playerId);
+		throw std::bad_cast();
+	}
+
+	XContentClose("savedrive", NULL);
+
+	m_currentSavingPlayerId = -1;
+}
+
 void AppPlatform_xdk360::beginProfileDataWrite(unsigned int playerId)
 {
 	if (m_currentSavingPlayerId != -1)
@@ -125,15 +200,26 @@ void AppPlatform_xdk360::beginProfileDataWrite(unsigned int playerId)
 		throw std::bad_cast();
 	}
 
-	/*XCONTENT_DATA contentData = {0};
-	lstrcpyW(contentData.szDisplayName, L"Profile Data");
-	contentData.dwContentType = XCONTENTTYPE_SAVEDGAME;
-	contentData.DeviceID = _getSaveDeviceId(playerId);
+	XCONTENT_DATA contentData;
+	_getXContentData(contentData, playerId);
 
 	// Mount the device to the "savedrive" drive name
-	XContentCreate(playerId, "savedrive", &contentData, XCONTENTFLAG_CREATEALWAYS, NULL, NULL, NULL);*/
+	DWORD result = XContentCreate(playerId, "savedrive", &contentData, XCONTENTFLAG_CREATEALWAYS, NULL, NULL, NULL);
 
-	m_currentSavingPlayerId = playerId;
+	switch (result)
+	{
+	case ERROR_SUCCESS:
+		m_currentSavingPlayerId = playerId;
+		break;
+	case ERROR_ACCESS_DENIED:
+		LOG_E("beginProfileDataWrite failed: XContentCreate returned access denied error!");
+		break;
+	case ERROR_INVALID_NAME:
+		LOG_E("beginProfileDataWrite failed: XContentCreate szRootName is invalid!");
+		throw std::bad_cast();
+	default:
+		LOG_E("beginProfileDataWrite failed: XContentCreate returned unknown error: %d", result);
+	}
 }
 
 void AppPlatform_xdk360::endProfileDataWrite(unsigned int playerId)
@@ -144,7 +230,7 @@ void AppPlatform_xdk360::endProfileDataWrite(unsigned int playerId)
 		throw std::bad_cast();
 	}
 
-	//XContentClose("savedrive", NULL);
+	XContentClose("savedrive", NULL);
 
 	m_currentSavingPlayerId = -1;
 }
