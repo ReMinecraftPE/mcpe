@@ -2,7 +2,7 @@
 
 #ifdef FEATURE_GFX_SHADERS
 
-using namespace mce;
+namespace mce {
 
 template <>
 void ShaderConstantWithDataOGL<SHADER_PRIMITIVE_FLOAT1>::syncUniform(int location)    { xglUniform1fv(location, 1, (const GLfloat*)m_data); }
@@ -26,5 +26,7 @@ template <>
 void ShaderConstantWithDataOGL<SHADER_PRIMITIVE_MATRIX3x3>::syncUniform(int location) { xglUniformMatrix3fv(location, 1, 0, (const GLfloat*)m_data); }
 template <>
 void ShaderConstantWithDataOGL<SHADER_PRIMITIVE_MATRIX4x4>::syncUniform(int location) { xglUniformMatrix4fv(location, 1, 0, (const GLfloat*)m_data); }
+
+}
 
 #endif // FEATURE_GFX_SHADERS
