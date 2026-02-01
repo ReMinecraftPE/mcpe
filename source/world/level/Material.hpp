@@ -29,7 +29,7 @@ public:
 	virtual bool isFlammable() const;
 	virtual Material* setNotAlwaysDestroyable();
 
-	Material* setToolType(unsigned int toolMask, int toolLevel = 0);
+	Material* setToolTypes(unsigned int toolMask, int toolLevel = 0);
 
 public:
 	static Material

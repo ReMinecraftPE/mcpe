@@ -43,13 +43,6 @@ public: // Sub structures
 		SLOT_HEAD
 	};
 
-	enum ToolType
-	{
-		PICKAXE,
-		HATCHET,
-		SHOVEL
-	};
-
 	struct Tier
 	{
 		int   m_level;
