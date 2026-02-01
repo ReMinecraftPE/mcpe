@@ -253,5 +253,4 @@ jobs:
               name: Nintendo Switch
               path: |
                 build/platforms/sdl/sdl2/reminecraftpe.nro
-                build/reminecraftpe.elf
                 build/assets
