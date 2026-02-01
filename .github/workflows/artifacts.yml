@@ -153,9 +153,13 @@ jobs:
             matrix:
                 include:
                   - name: Win32 (OGL)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL'
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
                   - name: Win32 (OGL + Shaders)
-                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS'
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                  - name: Win32 (OGL) 32-bit
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
+                  - name: Win32 (OGL + Shaders) 32-bit
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -174,7 +178,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
                 cmake --build .
                 cp reminecraftpe.exe reminecraftpe-unstripped.exe
                 x86_64-w64-mingw32-strip reminecraftpe.exe
