@@ -599,13 +599,13 @@
     <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp">
       <Filter>Header Files\Locale</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\resources\ResourcePackRepository.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\resources\ResourcePack.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePack.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\resources\ResourcePackManifest.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1057,13 +1057,13 @@
     <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp">
       <Filter>Source Files\Locale</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\resources\ResourcePack.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePack.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\resources\ResourcePackRepository.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\resources\ResourcePackManifest.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
   </ItemGroup>
