@@ -193,8 +193,8 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStac
 
 	// Draw damage amount
 	if (item.isDamaged()) {
-		int duraWidth = ceilf(13.0 - static_cast<float>(item.getDamageValue()) * 13.0 / static_cast<float>(item.getMaxDamage()));
-		int duraPercent = ceilf(255.0 - static_cast<float>(item.getDamageValue()) * 255.0 / static_cast<float>(item.getMaxDamage()));
+		int duraWidth = ceilf(13.0f - static_cast<float>(item.getDamageValue()) * 13.0f / static_cast<float>(item.getMaxDamage()));
+		int duraPercent = ceilf(255.0f - static_cast<float>(item.getDamageValue()) * 255.0f / static_cast<float>(item.getMaxDamage()));
 
 
 		int duraBgColor = (((255 - duraPercent) / 4) << 16) | 0x3F00;
