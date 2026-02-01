@@ -45,17 +45,18 @@ public: // Sub structures
 
 	struct Tier
 	{
-		int   field_0;
-		int   m_Durability;
-		float m_HitStrength;
-		int   field_C;
+		int   m_level;
+		int   m_uses;
+		float m_speed;
+		int   m_damage;
 
-		Tier(int a, int b, float c, int d) :
-			field_0(a),
-			m_Durability(b),
-			m_HitStrength(c),
-			field_C(d)
-		{}
+		Tier(int level, int uses, float speed, int damage) :
+			m_level(level),
+			m_uses(uses),
+			m_speed(speed),
+			m_damage(damage)
+		{
+		}
 
 		// Item tiers
 		static Tier WOOD, STONE, IRON, EMERALD, GOLD;
@@ -72,16 +73,16 @@ public: // Methods
 	virtual int getIcon(const ItemStack*) const;
 	virtual bool useOn(ItemStack*, Level*, const TilePos& pos, Facing::Name face) const;
 	virtual bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const;
-	virtual float getDestroySpeed(ItemStack*, Tile*) const;
+	virtual float getDestroySpeed(ItemStack*, const Tile*) const;
 	virtual ItemStack* use(ItemStack*, Level*, Player*) const;
 	virtual int getMaxStackSize() const;
 	virtual TileData getLevelDataForAuxValue(int x) const;
 	virtual bool isStackedByData() const;
 	virtual int getMaxDamage() const;
 	virtual void hurtEnemy(ItemStack*, Mob*) const;
-	virtual void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face) const;
+	virtual void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face, Mob* mob) const;
 	virtual int getAttackDamage(Entity*) const;
-	virtual bool canDestroySpecial(Tile*) const;
+	virtual bool canDestroySpecial(const Tile*) const;
 	virtual void interactEnemy(ItemStack*, Mob*) const;
 	virtual Item* handEquipped();
 	virtual bool isHandEquipped() const;

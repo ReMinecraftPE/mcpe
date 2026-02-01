@@ -191,9 +191,27 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStac
 	if (item.isEmpty())
 		return;
 
-	if (item.m_count == 1)
-		return;
+	// Draw damage amount
+	if (item.isDamaged()) {
+		int duraWidth = ceilf(13.0f - static_cast<float>(item.getDamageValue()) * 13.0f / static_cast<float>(item.getMaxDamage()));
+		int duraPercent = ceilf(255.0f - static_cast<float>(item.getDamageValue()) * 255.0f / static_cast<float>(item.getMaxDamage()));
 
+
+		int duraBgColor = (((255 - duraPercent) / 4) << 16) | 0x3F00;
+		int duraColor = ((255 - duraPercent) << 16) | (duraPercent << 8);
+
+		Tesselator& t = Tesselator::instance;
+		
+		blitRect(t, x + 2, y + 13, 13, 2, 0);
+		blitRect(t, x + 2, y + 13, 12, 1, duraBgColor);
+		blitRect(t, x + 2, y + 13, duraWidth, 1, duraColor);
+	}
+
+	if (item.m_count <= 1) {
+		return;
+	}
+
+	// Draw num items
 	std::stringstream ss;
 	ss << item.m_count;
 	std::string amtstr = ss.str();

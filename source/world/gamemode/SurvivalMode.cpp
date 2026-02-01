@@ -66,7 +66,7 @@ bool SurvivalMode::destroyBlock(Player* player, const TilePos& pos, Facing::Name
 	ItemStack& item = player->getSelectedItem();
 	if (!item.isEmpty())
 	{
-		item.mineBlock(pos, face);
+		item.mineBlock(pos, face, player);
 		if (item.m_count == 0)
 		{
 			item.snap(player);
