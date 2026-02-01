@@ -78,14 +78,12 @@ jobs:
                 -quiet \
                 clean archive
                 cp $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} reminecraftpe
-                dsymutil reminecraftpe
           - uses: actions/upload-artifact@v6
             with:
               name: macOS
               path: |
-                build/reminecraftpe
-                build/reminecraftpe.dSYM
-                build/assets
+                platforms/macos/projects/Minecraft/reminecraftpe
+                game/assets
 
     ios:
         name: iOS
