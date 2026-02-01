@@ -13,6 +13,9 @@ jobs:
                   - name: SDL 2
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
                     packages: 'libsdl2-dev'
+                  - name: SDL 2 (32-bit)
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32'
+                    packages: 'libsdl2-dev'
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
