@@ -173,7 +173,7 @@ const char* gSplashes[] =
 	"20 GOTO 10!",
 	"Verlet intregration!", // [sic]
 	"Peter Griffin!",
-	"Do not distribute!",
+	"Redistributable!", // Do not distribute!
 	"Cogito ergo sum!",
 	"4815162342 lines of code!",
 	"A skeleton popped out!",

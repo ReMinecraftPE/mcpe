@@ -234,6 +234,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp" />
     <ClInclude Include="..\..\..\..\source\client\renderer\LogoRenderer.hpp" />
     <ClInclude Include="..\..\..\..\source\client\renderer\texture\TextureAtlas.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePack.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -387,6 +390,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp" />
     <ClCompile Include="..\..\..\..\source\client\renderer\LogoRenderer.cpp" />
     <ClCompile Include="..\..\..\..\source\client\renderer\texture\TextureAtlas.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePack.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

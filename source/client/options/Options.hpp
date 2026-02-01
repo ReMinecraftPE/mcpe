@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+#include "client/resources/ResourcePackManager.hpp"
+
 enum eKeyMappingIndex
 {
 	KM_FORWARD,
@@ -92,10 +94,11 @@ private:
 	static bool readBool(const std::string& str);
 	static int readInt(const std::string& str);
 	static void readArray(const std::string& str, std::vector<std::string>& array);
-	static void readPackArray(const std::string& str, std::vector<std::string>& array);
+	static void readPackArray(const std::string& str, ResourcePackStack& array);
 	static std::string saveBool(bool b);
 	static std::string saveInt(int i);
 	static std::string saveArray(const std::vector<std::string>& arr);
+	static std::string savePackArray(const ResourcePackStack& arr);
 	static std::vector<std::string> readPropertiesFromFile(const std::string& filePath);
 	static void savePropertiesToFile(const std::string& filePath, const std::vector<std::string>& properties);
 
@@ -157,6 +160,7 @@ public:
 	UITheme m_uiTheme;
 	HUDScale m_hudScale;
 	std::vector<std::string> m_resourcePacks;
+	ResourcePackStack m_resourcePacks;
 
 public:
 	struct Option

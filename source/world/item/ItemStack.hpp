@@ -64,22 +64,22 @@ public:
 	bool hasSameUserData(const ItemStack& other) const;
 
 	void set(int inCount);
-	bool canDestroySpecial(Tile*);
+	bool canDestroySpecial(const Tile*);
 	std::string getDescriptionId();
 	std::string getHovertextName() const;
-	float getDestroySpeed(Tile*);
+	float getDestroySpeed(const Tile*);
 	int getIcon() const;
 	int getMaxDamage() const;
 	int getMaxStackSize() const;
 	void hurt(int by);
 	void hurtAndBreak(int, Entity*);
-	void hurtEnemy(Mob*);
+	void hurtEnemy(Mob*, Mob*);
 	void interactEnemy(Mob*);
 	bool isDamageableItem() const;
 	bool isDamaged() const;
 	bool isStackable() const;
 	bool isStackedByData() const;
-	void mineBlock(const TilePos& pos, Facing::Name face);
+	void mineBlock(const TilePos& pos, Facing::Name face, Mob* mob);
 	void shrink(int count = 1);
 	ItemStack remove(int count);
 	void setDescriptionId(const std::string&);

@@ -166,6 +166,7 @@ void RenderMaterialGroup::_loadList()
             tag = value["tag"].GetString();
         }
 
+        fileContents.clear();
         Resource::load(path, fileContents);
         if (fileContents.empty())
         {

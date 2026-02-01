@@ -25,7 +25,10 @@ add_library(reminecraftpe-core STATIC
     client/resources/Resource.cpp
     client/resources/ResourceLoader.cpp
     client/resources/ResourceLocation.cpp
+    client/resources/ResourcePack.cpp
     client/resources/ResourcePackManager.cpp
+    client/resources/ResourcePackManifest.cpp
+    client/resources/ResourcePackRepository.cpp
     client/options/Options.cpp
     client/renderer/LevelRenderer.cpp
     client/renderer/Culler.cpp
@@ -148,9 +151,9 @@ add_library(reminecraftpe-core STATIC
     client/player/input/MouseBuildInput.cpp
     client/player/input/MouseTurnInput.cpp
     client/player/input/KeyboardInput.cpp
-	client/player/input/GameController.cpp
-	client/player/input/GameControllerHandler.cpp
-	client/player/input/GameControllerManager.cpp
+    client/player/input/GameController.cpp
+    client/player/input/GameControllerHandler.cpp
+    client/player/input/GameControllerManager.cpp
     client/player/input/ITurnInput.cpp
     client/player/input/IBuildInput.cpp
     client/player/input/IncludeExcludeArea.cpp
@@ -330,6 +333,7 @@ add_library(reminecraftpe-core STATIC
     world/item/ItemStack.cpp
     world/item/RocketItem.cpp
     world/item/Item.cpp
+    world/item/ToolItem.cpp
     world/item/AuxTileItem.cpp
     world/item/ClothItem.cpp
     world/item/DyeColor.cpp
@@ -412,7 +416,7 @@ add_library(reminecraftpe-core STATIC
     renderer/TextureGroup.cpp
     renderer/TexturePtr.cpp
     renderer/UniformMetaData.cpp
-	renderer/VertexFieldFormat.cpp
+    renderer/VertexFieldFormat.cpp
     renderer/VertexFormat.cpp
     renderer/WeatherConstants.cpp
     renderer/WorldConstants.cpp
@@ -424,7 +428,7 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/RasterizerStateDescription.cpp
     renderer/hal/StencilFaceDescription.cpp
     renderer/hal/TextureDescription.cpp
-	renderer/hal/ViewportOrigin.cpp
+    renderer/hal/ViewportOrigin.cpp
     renderer/hal/base/BlendStateBase.cpp
     renderer/hal/base/BufferBase.cpp
     renderer/hal/base/ConstantBufferBase.cpp
@@ -457,8 +461,8 @@ add_library(reminecraftpe-core STATIC
     renderer/hal/enums/VertexField.cpp
     renderer/hal/enums/VertexField_JsonParser.cpp
     renderer/hal/helpers/TextureHelper.cpp
-	renderer/hal/null/FixedPipelineStateNull.cpp
-	renderer/hal/null/FogStateNull.cpp
+    renderer/hal/null/FixedPipelineStateNull.cpp
+    renderer/hal/null/FogStateNull.cpp
     renderer/hal/interface/BlendState.cpp
     renderer/hal/interface/Buffer.cpp
     renderer/hal/interface/ConstantBuffer.cpp
@@ -479,83 +483,83 @@ target_include_directories(reminecraftpe-core PUBLIC . ..)
 
 # OGL Shader variant build hack
 if(REMCPE_GFX_API STREQUAL "OGL_SHADERS")
-	target_compile_definitions(reminecraftpe-core PUBLIC FEATURE_GFX_SHADERS)
-	unset(REMCPE_GFX_API CACHE)
-	set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
+    target_compile_definitions(reminecraftpe-core PUBLIC FEATURE_GFX_SHADERS)
+    unset(REMCPE_GFX_API CACHE)
+    set(REMCPE_GFX_API "OGL" CACHE STRING "HAL GFX API")
 endif()
 
 if(REMCPE_GFX_API STREQUAL "OGL")
-	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_OGL=1)
-	target_sources(reminecraftpe-core PRIVATE
-		renderer/hal/ogl/API_OGL.cpp
-		renderer/hal/ogl/BlendStateOGL.cpp
-		renderer/hal/ogl/BufferOGL.cpp
-		renderer/hal/ogl/ConstantBufferContainerOGL.cpp
-		renderer/hal/ogl/DepthStencilStateOGL.cpp
-		renderer/hal/ogl/FixedPipelineStateOGL.cpp
-		renderer/hal/ogl/FogStateOGL.cpp
-		renderer/hal/ogl/GPUEventsOGL.cpp
-		renderer/hal/ogl/ImmediateBufferOGL.cpp
-		renderer/hal/ogl/ProfileSectionOGL.cpp
-		renderer/hal/ogl/RasterizerStateOGL.cpp
-		renderer/hal/ogl/RenderContextOGL.cpp
-		renderer/hal/ogl/RenderDeviceOGL.cpp
-		renderer/hal/ogl/ResourceOGL.cpp
-		renderer/hal/ogl/ShaderConstantOGL.cpp
-		renderer/hal/ogl/ShaderConstantWithDataOGL.cpp
-		renderer/hal/ogl/ShaderOGL.cpp
-		renderer/hal/ogl/ShaderProgramOGL.cpp
-		renderer/hal/ogl/ShaderResourceOGL.cpp
-		renderer/hal/ogl/ShaderUniformOGL.cpp
-		renderer/hal/ogl/TextureOGL.cpp
-		renderer/hal/ogl/helpers/ErrorHandlerOGL.cpp
-		renderer/platform/ogl/Extensions.cpp
-		renderer/platform/ogl/ShaderPrecision.cpp
-	)
+    target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_OGL=1)
+    target_sources(reminecraftpe-core PRIVATE
+        renderer/hal/ogl/API_OGL.cpp
+        renderer/hal/ogl/BlendStateOGL.cpp
+        renderer/hal/ogl/BufferOGL.cpp
+        renderer/hal/ogl/ConstantBufferContainerOGL.cpp
+        renderer/hal/ogl/DepthStencilStateOGL.cpp
+        renderer/hal/ogl/FixedPipelineStateOGL.cpp
+        renderer/hal/ogl/FogStateOGL.cpp
+        renderer/hal/ogl/GPUEventsOGL.cpp
+        renderer/hal/ogl/ImmediateBufferOGL.cpp
+        renderer/hal/ogl/ProfileSectionOGL.cpp
+        renderer/hal/ogl/RasterizerStateOGL.cpp
+        renderer/hal/ogl/RenderContextOGL.cpp
+        renderer/hal/ogl/RenderDeviceOGL.cpp
+        renderer/hal/ogl/ResourceOGL.cpp
+        renderer/hal/ogl/ShaderConstantOGL.cpp
+        renderer/hal/ogl/ShaderConstantWithDataOGL.cpp
+        renderer/hal/ogl/ShaderOGL.cpp
+        renderer/hal/ogl/ShaderProgramOGL.cpp
+        renderer/hal/ogl/ShaderResourceOGL.cpp
+        renderer/hal/ogl/ShaderUniformOGL.cpp
+        renderer/hal/ogl/TextureOGL.cpp
+        renderer/hal/ogl/helpers/ErrorHandlerOGL.cpp
+        renderer/platform/ogl/Extensions.cpp
+        renderer/platform/ogl/ShaderPrecision.cpp
+    )
 elseif(REMCPE_GFX_API STREQUAL "D3D11")
-	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_D3D11=1 FEATURE_GFX_SHADERS)
-	target_sources(reminecraftpe-core PRIVATE
-		renderer/hal/d3d11/API_D3D11.cpp
-		renderer/hal/d3d11/BlendStateD3D11.cpp
-		renderer/hal/d3d11/BufferD3D11.cpp
-		renderer/hal/d3d11/ConstantBufferContainerD3D11.cpp
-		renderer/hal/d3d11/DepthStencilStateD3D11.cpp
-		renderer/hal/d3d11/GPUEventsD3D11.cpp
-		renderer/hal/d3d11/ImmediateBufferD3D11.cpp
-		renderer/hal/d3d11/ProfileSectionD3D11.cpp
-		renderer/hal/d3d11/RasterizerStateD3D11.cpp
-		renderer/hal/d3d11/RenderContextD3D11.cpp
-		renderer/hal/d3d11/RenderDeviceD3D11.cpp
-		renderer/hal/d3d11/ShaderConstantD3D11.cpp
-		renderer/hal/d3d11/ShaderConstantWithDataD3D11.cpp
-		renderer/hal/d3d11/ShaderD3D11.cpp
-		renderer/hal/d3d11/ShaderProgramD3D11.cpp
-		renderer/hal/d3d11/ShaderResourceD3D11.cpp
-		renderer/hal/d3d11/TextureD3D11.cpp
-		renderer/hal/d3d11/helpers/TextureHelperD3D11.cpp
-		renderer/hal/dxgi/API_DXGI.cpp
-		renderer/hal/dxgi/helpers/ErrorHandlerDXGI.cpp
-		renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
-	)
+    target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_D3D11=1 FEATURE_GFX_SHADERS)
+    target_sources(reminecraftpe-core PRIVATE
+        renderer/hal/d3d11/API_D3D11.cpp
+        renderer/hal/d3d11/BlendStateD3D11.cpp
+        renderer/hal/d3d11/BufferD3D11.cpp
+        renderer/hal/d3d11/ConstantBufferContainerD3D11.cpp
+        renderer/hal/d3d11/DepthStencilStateD3D11.cpp
+        renderer/hal/d3d11/GPUEventsD3D11.cpp
+        renderer/hal/d3d11/ImmediateBufferD3D11.cpp
+        renderer/hal/d3d11/ProfileSectionD3D11.cpp
+        renderer/hal/d3d11/RasterizerStateD3D11.cpp
+        renderer/hal/d3d11/RenderContextD3D11.cpp
+        renderer/hal/d3d11/RenderDeviceD3D11.cpp
+        renderer/hal/d3d11/ShaderConstantD3D11.cpp
+        renderer/hal/d3d11/ShaderConstantWithDataD3D11.cpp
+        renderer/hal/d3d11/ShaderD3D11.cpp
+        renderer/hal/d3d11/ShaderProgramD3D11.cpp
+        renderer/hal/d3d11/ShaderResourceD3D11.cpp
+        renderer/hal/d3d11/TextureD3D11.cpp
+        renderer/hal/d3d11/helpers/TextureHelperD3D11.cpp
+        renderer/hal/dxgi/API_DXGI.cpp
+        renderer/hal/dxgi/helpers/ErrorHandlerDXGI.cpp
+        renderer/hal/dxgi/helpers/TextureHelperDXGI.cpp
+    )
 elseif((NOT DEFINED REMCPE_GFX_API) OR (REMCPE_GFX_API STREQUAL "Null"))
-	target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_NULL=1)
-	target_sources(reminecraftpe-core PRIVATE
-		renderer/hal/null/BlendStateNull.cpp
-		renderer/hal/null/BufferNull.cpp
-		renderer/hal/null/ConstantBufferContainerNull.cpp
-		renderer/hal/null/DepthStencilStateNull.cpp
-		renderer/hal/null/ImmediateBufferNull.cpp
-		renderer/hal/null/RasterizerStateNull.cpp
-		renderer/hal/null/RenderContextNull.cpp
-		renderer/hal/null/RenderDeviceNull.cpp
-		renderer/hal/null/ShaderConstantNull.cpp
-		renderer/hal/null/ShaderConstantWithDataNull.cpp
-		renderer/hal/null/ShaderNull.cpp
-		renderer/hal/null/ShaderProgramNull.cpp
-		renderer/hal/null/TextureNull.cpp
-	)
+    target_compile_definitions(reminecraftpe-core PUBLIC MCE_GFX_API_NULL=1)
+    target_sources(reminecraftpe-core PRIVATE
+        renderer/hal/null/BlendStateNull.cpp
+        renderer/hal/null/BufferNull.cpp
+        renderer/hal/null/ConstantBufferContainerNull.cpp
+        renderer/hal/null/DepthStencilStateNull.cpp
+        renderer/hal/null/ImmediateBufferNull.cpp
+        renderer/hal/null/RasterizerStateNull.cpp
+        renderer/hal/null/RenderContextNull.cpp
+        renderer/hal/null/RenderDeviceNull.cpp
+        renderer/hal/null/ShaderConstantNull.cpp
+        renderer/hal/null/ShaderConstantWithDataNull.cpp
+        renderer/hal/null/ShaderNull.cpp
+        renderer/hal/null/ShaderProgramNull.cpp
+        renderer/hal/null/TextureNull.cpp
+    )
 else()
-	message(FATAL_ERROR "An unknown or unsupported GFX API was specified: ${REMCPE_GFX_API}")
+    message(FATAL_ERROR "An unknown or unsupported GFX API was specified: ${REMCPE_GFX_API}")
 endif()
 
 # RakNet

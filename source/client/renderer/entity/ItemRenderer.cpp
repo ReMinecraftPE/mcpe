@@ -29,6 +29,7 @@ const uint8_t g_ItemFrames[C_MAX_TILES] =
 
 ItemRenderer::Materials::Materials()
 {
+	MATERIAL_PTR(switchable, item_entity);
 	MATERIAL_PTR(common, ui_fill_color);
 	MATERIAL_PTR(common, ui_textured);
 	MATERIAL_PTR(common, ui_texture_and_color);
@@ -83,6 +84,8 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 	glEnable(GL_RESCALE_NORMAL);
 #endif
 
+	_setupShaderParameters(entity, Color::NIL, a);
+
 	Tile* pTile = itemStack.getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
 	{
@@ -110,7 +113,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 					0.2f * (m_random.nextFloat() * 2.0f - 1.0f) / scale));
 			}
 
-			m_pTileRenderer->renderTile(FullTile(pTile, itemStack.getAuxValue()), m_materials.entity_alphatest, itemEntity.getBrightness(1.0f));
+			m_pTileRenderer->renderTile(FullTile(pTile, itemStack.getAuxValue()), m_itemMaterials.item_entity, itemEntity.getBrightness(1.0f));
 		}
 	}
 	else
@@ -146,8 +149,7 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
 			t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16))     / 256.0f);
 
-			_setupShaderParameters(entity, Color::NIL, a);
-			t.draw(m_materials.entity_alphatest);
+			t.draw(m_itemMaterials.item_entity);
 		}
 	}
 
@@ -189,9 +191,27 @@ void ItemRenderer::renderGuiItemOverlay(Font* font, Textures* textures, ItemStac
 	if (item.isEmpty())
 		return;
 
-	if (item.m_count == 1)
-		return;
+	// Draw damage amount
+	if (item.isDamaged()) {
+		int duraWidth = ceilf(13.0f - static_cast<float>(item.getDamageValue()) * 13.0f / static_cast<float>(item.getMaxDamage()));
+		int duraPercent = ceilf(255.0f - static_cast<float>(item.getDamageValue()) * 255.0f / static_cast<float>(item.getMaxDamage()));
 
+
+		int duraBgColor = (((255 - duraPercent) / 4) << 16) | 0x3F00;
+		int duraColor = ((255 - duraPercent) << 16) | (duraPercent << 8);
+
+		Tesselator& t = Tesselator::instance;
+		
+		blitRect(t, x + 2, y + 13, 13, 2, 0);
+		blitRect(t, x + 2, y + 13, 12, 1, duraBgColor);
+		blitRect(t, x + 2, y + 13, duraWidth, 1, duraColor);
+	}
+
+	if (item.m_count <= 1) {
+		return;
+	}
+
+	// Draw num items
 	std::stringstream ss;
 	ss << item.m_count;
 	std::string amtstr = ss.str();

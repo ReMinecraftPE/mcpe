@@ -1,20 +1,9 @@
 #-- The 'game' directory is the default working directory for Minecraft PE if running from VS directly.
 
 # Ignore original Minecraft PE assets.
-/environment/clouds.png
-/font/default.png
-/font/default8.png
-/gui/feedback.png
-/gui/feedback_fill.png
-/gui/feedback_outer.png
-/gui/background.png
 /gui/buynow.png
-/gui/default_world.png
-/gui/gui.png
 /gui/gui_blocks.png
-/gui/icons.png
 /gui/itemframe.png
-/gui/items.png
 /gui/menubuttons.png
 /gui/plusknapp.png
 /gui/raknet.png
@@ -32,24 +21,11 @@
 /item/camera.png
 /misc/foliagecolor.png
 /misc/grasscolor.png
-/mob/char.png
-/mob/chicken.png
-/mob/cow.png
-/mob/creeper.png
-/mob/pig.png
 /mob/pigzombie.png
-/mob/sheep.png
-/mob/sheep_fur.png
-/mob/skeleton.png
-/mob/spider.png
-/mob/zombie.png
-/particles.png
-/terrain.png
 /gui/buynow.png
 /gui/controls/dpad.png
 /gui/controls/dpadbutton.png
 /gui/controls/dpad_jump.png
-/gui/feedback.png
 /gui/itemframe.png
 /gui/menubuttons.png
 /gui/plusknapp.png
@@ -58,8 +34,6 @@
 /gui/startmenu/sm_multi.png
 /gui/startmenu/sm_options.png
 /gui/touchgui.png
-/gui/feedback_fill.png
-/gui/feedback_outer.png
 /snow.png
 # Ignore all native iOS UI assets.
 /app/ios/
@@ -88,11 +62,8 @@
 /music
 /newmusic
 # Java
-/terrain/sun.png
-/terrain/moon.png
 /misc/vignette.png
 /misc/shadow.png
-/misc/pumpkinblur.png
 /misc/water.png
 /environment/rain.png
 /environment/snow.png
@@ -124,9 +95,18 @@
 /gui/background/panorama_4.png
 /gui/background/panorama_5.png
 
+# die
+/font/default8.png
+
 # Avoid including Minecraft Classic assets from Mojang, for now.
 /patches/*.png
 /patches/classic/*.png
 !/patches/n_rocket_launcher.png
 !/patches/n_rocket_launched.png
 !/patches/n_rocket.png
+!/patches/p_rose.png
+!/patches/p_camera.png
+!/patches/u_crying_obsidian.png
+!/patches/p_info_updategame1.png
+!/patches/p_info_updategame2.png
+!/patches/p_slot_more.png

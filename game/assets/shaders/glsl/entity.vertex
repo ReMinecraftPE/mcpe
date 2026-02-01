@@ -17,7 +17,7 @@ attribute vec2 TEXCOORD_0;
 attribute vec2 TEXCOORD_1; // attribute padding (see PR #235)
 attribute vec4 NORMAL;
 
-#ifdef COLOR_BASED
+#if defined(COLOR_BASED) || defined(USE_VERTEX_COLORS)
 	attribute vec4 COLOR;
 #endif
 
@@ -25,12 +25,16 @@ varying vec2 uv;
 varying vec4 light;
 varying vec4 fogColor;
 
+#ifdef USE_VERTEX_COLORS
+	varying vec4 vertexColor;
+#endif
+
 #ifdef USE_OVERLAY
-varying vec4 overlayColor;
+	varying vec4 overlayColor;
 #endif
 
 #ifdef USE_COLOR_MASK
-varying vec4 changeColor;
+	varying vec4 changeColor;
 #endif
 
 #ifdef GLINT
@@ -82,6 +86,10 @@ void main()
     gl_Position = pos;
 
     float L = lightIntensity();
+	
+#ifdef USE_VERTEX_COLORS
+	vertexColor = COLOR;
+#endif
 
 #ifdef USE_OVERLAY
 	L += OVERLAY_COLOR.a * 0.35;

@@ -66,6 +66,10 @@
 		"blendDst": "Zero"
 	},
 	
+	"item_entity:entity_alphatest_cull": {
+		"defines": ["USE_VERTEX_COLORS"]
+	},
+	
 	"primed_tnt:entity": {
 		"states":["Blending"],
 
@@ -80,7 +84,8 @@
 		"states" : ["Blending"]
 	},
 
-	"item_in_hand:entity_alphatest": {
+	"item_in_hand:entity_alphatest_cull": {
+		"defines": ["USE_VERTEX_COLORS"]
 	},
 
 	"heavy_tile:entity_static": {
