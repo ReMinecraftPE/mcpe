@@ -56,13 +56,13 @@ void Material::initMaterials()
 	air        = new GasMaterial();
 
 	dirt       = (new Material())
-		->setToolTypesAndLevel(Tool::SHOVEL);
+		->setToolTypes(Tool::SHOVEL);
 
 	wood       = (new Material(true))
-		->setToolTypesAndLevel(Tool::HATCHET);
+		->setToolTypes(Tool::HATCHET);
 
 	stone      = (new Material())
-		->setToolTypesAndLevel(Tool::PICKAXE)
+		->setToolTypes(Tool::PICKAXE)
 		->setNotAlwaysDestroyable();
 
 	metal      = (new Material())
@@ -83,7 +83,7 @@ void Material::initMaterials()
 	fire       = new GasMaterial();
 
 	sand       = (new Material())
-		->setToolTypesAndLevel(Tool::SHOVEL);
+		->setToolTypes(Tool::SHOVEL);
 
 	decoration = new DecorationMaterial();
 
@@ -96,17 +96,17 @@ void Material::initMaterials()
 	ice        = new Material();
 
 	topSnow    = (new DecorationMaterial())
-		->setToolTypesAndLevel(Tool::SHOVEL)
+		->setToolTypes(Tool::SHOVEL)
 		->setNotAlwaysDestroyable();
 
 	snow       = (new Material())
-		->setToolTypesAndLevel(Tool::SHOVEL)
+		->setToolTypes(Tool::SHOVEL)
 		->setNotAlwaysDestroyable();
 
 	cactus     = new Material();
 
 	clay       = (new Material())
-		->setToolTypesAndLevel(Tool::SHOVEL);
+		->setToolTypes(Tool::SHOVEL);
 
 	vegetable  = new Material();
 
@@ -182,10 +182,22 @@ Material* Material::setNotAlwaysDestroyable()
 	return this;
 }
 
-Material* Material::setToolTypesAndLevel(unsigned int toolMask, int toolLevel)
+Material* Material::setToolTypes(unsigned int toolMask)
 {
 	m_toolMask |= toolMask;
+	return this;
+}
+
+Material* Material::setToolLevel(int toolLevel)
+{
 	m_requiredToolLevel = toolLevel;
+	return this;
+}
+
+Material* Material::setToolTypesAndLevel(unsigned int toolMask, int toolLevel)
+{
+	setToolTypes(toolMask);
+	setToolLevel(toolLevel);
 	return this;
 }
 

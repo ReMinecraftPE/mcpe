@@ -29,6 +29,8 @@ public:
 	virtual bool isFlammable() const;
 	virtual Material* setNotAlwaysDestroyable();
 
+	Material* setToolTypes(unsigned int toolMask);
+	Material* setToolLevel(int toolLevel);
 	Material* setToolTypesAndLevel(unsigned int toolMask, int toolLevel = 0);
 
 public:

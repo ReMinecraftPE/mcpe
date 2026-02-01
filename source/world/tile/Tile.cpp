@@ -277,10 +277,22 @@ int Tile::getSpawnResourcesAuxValue(int x) const
 	return 0;
 }
 
-Tile* Tile::setToolTypesAndLevel(unsigned int toolMask, int toolLevel)
+Tile* Tile::setToolTypes(unsigned int toolMask)
 {
 	m_toolMask |= toolMask;
+	return this;
+}
+
+Tile* Tile::setToolLevel(int toolLevel)
+{
 	m_requiredToolLevel = toolLevel;
+	return this;
+}
+
+Tile* Tile::setToolTypesAndLevel(unsigned int toolMask, int toolLevel)
+{
+	setToolTypes(toolMask);
+	setToolLevel(toolLevel);
 	return this;
 }
 
