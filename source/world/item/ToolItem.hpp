@@ -9,7 +9,7 @@ class ToolItem : public Item
 public:
 	ToolItem(int id, Tool::Type toolType, Tier& tier);
 
-	float getDestroySpeed(ItemStack* instance, const Tile* tile) const;
+	float getDestroySpeed(ItemStack* instance, const Tile* tile) const override;
 	void hurtEnemy(ItemStack* instance, Mob* mob) const override;
 	void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face, Mob* mob) const override;
 	int getAttackDamage(Entity* entity) const override;
