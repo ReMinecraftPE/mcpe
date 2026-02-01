@@ -7,7 +7,7 @@
 struct SlotDisplay
 {
     int x, y, size, noItemIcon;
-    std::string noItemTexture;
+    std::string noItemSprite;
     bool bVisible, bIconHolder;
 
     SlotDisplay() :
@@ -15,18 +15,18 @@ struct SlotDisplay
         y(0),
         size(0),
         noItemIcon(-1),
-        noItemTexture(""),
+        noItemSprite(""),
         bVisible(false),
         bIconHolder(false)
     {
     }
 
-    SlotDisplay(int x, int y, int size = 18, bool iconHolder = false, int noItemIcon = -1, const std::string& noItemTexture = "") :
+    SlotDisplay(int x, int y, int size = 18, bool iconHolder = false, int noItemIcon = -1, const std::string& noItemSprite = "") :
         x(x),
         y(y),
         size(size),
         noItemIcon(noItemIcon),
-        noItemTexture(noItemTexture),
+        noItemSprite(noItemSprite),
         bVisible(true),
         bIconHolder(iconHolder)
     {

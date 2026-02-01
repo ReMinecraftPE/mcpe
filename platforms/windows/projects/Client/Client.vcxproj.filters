@@ -599,6 +599,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp">
       <Filter>Header Files\Locale</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\texture\TextureAtlas.hpp">
+      <Filter>Header Files\Renderer\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\source\client\renderer\LogoRenderer.hpp">
+      <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -1047,6 +1053,12 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp">
       <Filter>Source Files\Locale</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\texture\TextureAtlas.cpp">
+      <Filter>Source Files\Renderer\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\source\client\renderer\LogoRenderer.cpp">
+      <Filter>Source Files\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -106,9 +106,7 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 
 	if (m_uiTheme == UI_CONSOLE)
 	{
-		texs.setSmoothing(true);
-		blitTexture(texs, isSelected() ? "gui/highlighted_button.png" : "gui/button.png", m_xPos, m_yPos, 0, 0, m_width, m_height);
-		texs.setSmoothing(false);
+		blitSprite(texs, isSelected() ? "consolegui/Graphics/MainMenuButton_Over.png" : "consolegui/Graphics/MainMenuButton_Norm.png", m_xPos, m_yPos, m_width, m_height);
 	}
 	else
 	{
@@ -131,7 +129,7 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 	if (m_uiTheme == UI_CONSOLE)
 	{
 		int textWidth = font.width(m_text) * 2;
-		font.drawLegacyShadow(m_text, m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);
+		font.drawScalableShadow(m_text, m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);
 	}
 	else
 	{

@@ -27,6 +27,7 @@
 #include "renderer/RenderContextImmediate.hpp"
 #include "renderer/RenderMaterial.hpp"
 #include "client/gui/screens/ProgressScreen.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 #ifdef DEMO
 #include "world/level/storage/MemoryLevelStorageSource.hpp"
@@ -83,6 +84,8 @@ void NinecraftApp::_initTextures()
 
 	if (GrassColor::isAvailable()) GrassColor::init();
 	if (FoliageColor::isAvailable()) FoliageColor::init();
+
+	LogoRenderer::singleton().init(this);
 }
 
 void NinecraftApp::_initRenderMaterials()

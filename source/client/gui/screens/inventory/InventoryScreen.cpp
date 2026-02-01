@@ -4,7 +4,7 @@
 #include "world/inventory/ArmorSlot.hpp"
 //#include "stats/Achievement.hpp"
 
-std::string InventoryScreen::LEGACY_ARMOR_SLOTS[] = { "gui/container/feet_slot.png", "gui/container/legs_slot.png", "gui/container/body_slot.png", "gui/container/head_slot.png" };
+std::string InventoryScreen::CONSOLE_ARMOR_SLOTS[] = { "consolegui/Graphics/Armour_Slot_Feet.png", "consolegui/Graphics/Armour_Slot_Legs.png", "consolegui/Graphics/Armour_Slot_Body.png", "consolegui/Graphics/Armour_Slot_Head.png" };
 
 InventoryScreen::InventoryScreen(Player* player) : ContainerScreen(player->m_pInventoryMenu)
 {
@@ -35,7 +35,7 @@ void InventoryScreen::_renderLabels()
     InventoryMenu* craftingMenu = (InventoryMenu*)m_pMenu;
     if (m_uiTheme == UI_CONSOLE)
     {
-        m_pFont->drawLegacy(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, Color::GREY_TEXT);
+        m_pFont->drawScalable(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, Color::GREY_TEXT);
     }
     else
         m_pFont->draw(craftingMenu->m_pCraftSlots->getName(), 86, 16, Color::GREY_TEXT);
@@ -53,11 +53,11 @@ void InventoryScreen::_renderBg(float partialTick)
         playerX = 243;
         playerY = 185;
         scale = 75.0f;
-        blitNineSlice(*m_pMinecraft->m_pTextures, m_leftPos, m_topPos, m_imageWidth, m_imageHeight, 32, "gui/panel.png");
+        blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_SLICES, m_leftPos, m_topPos, m_imageWidth, m_imageHeight, 32);
         int playerSlotX = m_leftPos + 180;
         int playerSlotY = m_topPos + 27;
         //For some reason, TU0 didn't had a texture for the player slot, but we do!
-        blitTexture(*m_pMinecraft->m_pTextures, "gui/container/entity_slot.png", playerSlotX, playerSlotY, 0, 0, 126, 168);
+        blitNineSlice(*m_pMinecraft->m_pTextures, "gui/container/entity_slot.png", playerSlotX, playerSlotY, 126, 168, 2);
         currentShaderColor = Color::WHITE;
     }
     else
@@ -130,7 +130,7 @@ SlotDisplay InventoryScreen::_createSlotDisplay(const Slot& slot)
         case Slot::ARMOR:
         {
             const ArmorSlot& armorSlot = (const ArmorSlot&)slot;
-            return SlotDisplay(127, 29 + (Item::SLOT_HEAD - armorSlot.m_equipmentSlot) * slotSize, slotSize, true, -1, LEGACY_ARMOR_SLOTS[armorSlot.m_equipmentSlot]);
+            return SlotDisplay(127, 29 + (Item::SLOT_HEAD - armorSlot.m_equipmentSlot) * slotSize, slotSize, true, -1, CONSOLE_ARMOR_SLOTS[armorSlot.m_equipmentSlot]);
         }
         case Slot::INVENTORY:
             return SlotDisplay(28 + (slot.m_slot % 9) * slotSize, 233 + ((slot.m_slot / 9) - 1) * slotSize, slotSize, true);

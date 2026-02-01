@@ -394,7 +394,7 @@ void Screen::renderMenuBackground(float f)
 	g_panoramaAngle += float(30.0 * m_pMinecraft->m_fDeltaTime);
 
 	float aspectRatio = 1.0f;
-	//aspectRatio = float(m_width) / float(m_height);
+	//aspectRatio = float(width) / float(height);
 
 	// @HAL: this should be using ui_cubemap, but for whatever reason we need to disable culling
 	mce::MaterialPtr& materialPtr = m_screenMaterials.ui_background;
@@ -467,7 +467,7 @@ void Screen::renderMenuBackground(float f)
 void Screen::renderLegacyPanorama(bool isNight)
 {
 	m_pMinecraft->m_pTextures->setSmoothing(true);
-	blitTexture(*m_pMinecraft->m_pTextures, isNight ? "gui/panorama_night.png" : "gui/panorama_day.png", 0, 0, getTimeS() * 1000 * m_height / 360 / 66.32f, 1, m_width, m_height + 2, m_height * 820 / 144, m_height + 2);
+	blitTexture(*m_pMinecraft->m_pTextures, isNight ? "consolegui/Panorama_Background_N.png" : "consolegui/Panorama_Background_S.png", 0, 0, getTimeS() * 1000 * m_height / 360 / 66.32f, 1, m_width, m_height + 2, m_height * 820 / 144, m_height + 2);
 	m_pMinecraft->m_pTextures->setSmoothing(false);
 }
 
@@ -695,17 +695,17 @@ int Screen::getYOffset() const
 		if (!pBox->hasFocus())
 			continue;
 		
-		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
+		int heightLeft = height - int(float(keybOffset) * Gui::InvGuiScale);
 
 		// we want to keep the center of the text box in the center of the screen
-		int textCenterY = pBox->m_yPos + pBox->m_height / 2;
+		int textCenterY = pBox->m_yPos + pBox->height / 2;
 		int scrnCenterY = heightLeft / 2;
 
 		int diff = textCenterY - scrnCenterY;
 		
 		// Prevent the difference from revealing the outside of the screen.
-		if (diff > m_height - heightLeft)
-			diff = m_height - heightLeft;
+		if (diff > height - heightLeft)
+			diff = height - heightLeft;
 		if (diff < 0)
 			diff = 0;
 
@@ -914,12 +914,12 @@ void Screen::handlePointerAction(const MenuPointer& pointer, MouseButtonType but
 {
 	if (pointer.isPressed)
 	{
-		// pointerPressed(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
+		// pointerPressed(width * pAction->_posX / Minecraft::width, height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
 		pointerPressed(pointer.x, pointer.y + getYOffset(), button);
 	}
 	else
 	{
-		// pointerReleased(m_width * pAction->_posX / Minecraft::width, m_height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
+		// pointerReleased(width * pAction->_posX / Minecraft::width, height * pAction->_posY / Minecraft::height - 1 + getYOffset(), Mouse::getEventButton());
 		pointerReleased(pointer.x, pointer.y + getYOffset(), button);
 	}
 }

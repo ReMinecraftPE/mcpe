@@ -26,7 +26,7 @@ void ContainerScreen::_renderSlot(Slot& slot)
         MatrixStack::Ref matrix = MatrixStack::World.push();
         float off = 3 * display.size / 50.0f;
         matrix->translate(Vec3(-off, -off, 0.0f));
-        blitTexture(*m_pMinecraft->m_pTextures, "gui/container/iconholder.png", display.x, display.y, 0, 0, display.size, display.size, 50, 50, 50, 50);
+        blitSprite(*m_pMinecraft->m_pTextures, "consolegui/Graphics/IconHolder.png", display.x, display.y, display.size, display.size);
     }
     MatrixStack::Ref matrix = MatrixStack::World.push();
     matrix->translate(Vec3(display.x, display.y, 0));
@@ -34,11 +34,11 @@ void ContainerScreen::_renderSlot(Slot& slot)
     ItemStack& item = slot.getItem();
     if (item.isEmpty())
     {
-        const std::string& noItemTexture = display.noItemTexture;
+        const std::string& noItemSprite = display.noItemSprite;
 
-        if (!noItemTexture.empty())
+        if (!noItemSprite.empty())
         {
-            blitTexture(*m_pMinecraft->m_pTextures, noItemTexture, 0, 0, 0, 0, 16, 16);
+            blitSprite(*m_pMinecraft->m_pTextures, noItemSprite, 0, 0, 16, 16);
             return;
         }
 
@@ -162,9 +162,9 @@ void ContainerScreen::render(float partialTicks)
             int ty = m_menuPointer.y - m_topPos - 12;
             if (m_uiTheme == UI_CONSOLE)
             {
-                blitNineSlice(*m_pMinecraft->m_pTextures, tx - 6, ty - 6, w * 2 + 12, 28, 8, "gui/pointer_panel.png");
+                blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::POINTER_TEXT_PANEL_SLICES, tx - 6, ty - 6, w * 2 + 12, 28, 8);
                 MatrixStack::Ref tooltipMatrix = MatrixStack::World.push();
-                m_pFont->drawLegacy(name, tx, ty, -1);
+                m_pFont->drawScalable(name, tx, ty, -1);
             }
             else
             {

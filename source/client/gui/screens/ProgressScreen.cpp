@@ -10,6 +10,7 @@
 #include "client/resources/Resource.hpp"
 #include "ProgressScreen.hpp"
 #include "client/locale/Language.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 bool ProgressScreen::isInGameScreen()
 {
@@ -31,13 +32,13 @@ void ProgressScreen::render(float f)
 
 		int loadingBarX = m_width / 2 - 320;
 		int loadingBarY = m_height / 2 + 30;
-		m_pFont->drawLegacyShadow(m_pMinecraft->getProgressMessage(), loadingBarX + 7, loadingBarY - 15, Color::WHITE, 1.5f);
+		m_pFont->drawScalableShadow(m_pMinecraft->getProgressMessage(), loadingBarX + 7, loadingBarY - 15, Color::WHITE, 1.5f);
 		blitTexture(*m_pMinecraft->m_pTextures, "gui/loading_background.png", loadingBarX, loadingBarY, 0, 0, 640, 20);
 
 		float prog = Mth::clamp(m_pMinecraft->m_progressPercent / 100.0f, 0.0f, 1.0f);
 
 		if (prog >= 0)
-			blitTexture(*m_pMinecraft->m_pTextures, "gui/loading_bar.png", loadingBarX + 2, loadingBarY + 2, 0, 0, 636, 16, int(636 * Mth::clamp(prog / 100.0f, 0.0f, 1.0f)), 8);
+			blitTexture(*m_pMinecraft->m_pTextures, "gui/loading_bar.png", loadingBarX + 2, loadingBarY + 2, 0, 0, int(636 * Mth::clamp(prog, 0.0f, 1.0f)), 16, 636, 16);
 
 		const LoadingTip& tip = LoadingTips::singleton().getActual();
 		if (!tip.text.empty())
@@ -47,7 +48,7 @@ void ProgressScreen::render(float f)
 			int loadingBarBottom = loadingBarY + 20;
 			int panelY = loadingBarBottom + ((m_height - loadingBarBottom) - panelHeight) / 2;
 
-			blitNineSlice(*m_pMinecraft->m_pTextures, (m_width - panelWidth) / 2, panelY, panelWidth, panelHeight, 8, "gui/pointer_panel.png");
+			blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::POINTER_TEXT_PANEL_SLICES, (m_width - panelWidth) / 2, panelY, panelWidth, panelHeight, 8);
 
 			std::vector<std::string> lines = m_pFont->split(tip.text, (panelWidth - 60) / 2);
 
@@ -57,7 +58,7 @@ void ProgressScreen::render(float f)
 
 				int lineWidth = m_pFont->width(line);
 
-				m_pFont->drawLegacy(line, m_width / 2 - lineWidth, panelY + 11, Color::WHITE);
+				m_pFont->drawScalable(line, m_width / 2 - lineWidth, panelY + 11, Color::WHITE);
 
 				panelY += 24;
 			}
@@ -67,11 +68,7 @@ void ProgressScreen::render(float f)
 
 		m_pFont->drawOutlinedString(header, (m_width - m_pFont->width(header) * 4) / 2, loadingBarY - 105, Color::WHITE, Color::BLACK);
 
-
-		int logoWidth = 571;
-		int logoHeight = 138;
-		//@TODO: Replace this with a LogoRenderer
-		blitTexture(*m_pMinecraft->m_pTextures, "gui/title_legacy.png", (m_width - logoWidth) / 2, 56, 0, 0, logoWidth, logoHeight);
+		LogoRenderer::singleton().render(f);
 
 		return;
 	}

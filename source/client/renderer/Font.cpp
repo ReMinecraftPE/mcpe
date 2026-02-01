@@ -97,7 +97,7 @@ void Font::drawShadow(const std::string& str, int x, int y, const Color& color)
 	draw(str, x, y, color, false);
 }
 
-void Font::drawLegacy(const std::string& str, int x, int y, const Color& color, float scale, bool shadow)
+void Font::drawScalable(const std::string& str, int x, int y, const Color& color, float scale, bool shadow)
 {
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 	matrix->translate(Vec3(x, y, 0));
@@ -105,25 +105,25 @@ void Font::drawLegacy(const std::string& str, int x, int y, const Color& color, 
 	draw(str, 0, 0, color, shadow);
 }
 
-void Font::drawLegacyShadow(const std::string& str, int x, int y, const Color& color, float scale)
+void Font::drawScalableShadow(const std::string& str, int x, int y, const Color& color, float scale)
 {
-	drawLegacy(str, x + 1, y + 1, color, scale, true);
-	drawLegacy(str, x, y, color, scale);
+	drawScalable(str, x + 1, y + 1, color, scale, true);
+	drawScalable(str, x, y, color, scale);
 }
 
-void Font::drawString(const std::string& str, int x, int y, const Color& color, bool hasShadow, bool isLegacy)
+void Font::drawString(const std::string& str, int x, int y, const Color& color, bool hasShadow, bool isConsole)
 {
 	if (hasShadow)
 	{
-		if (isLegacy)
-			drawLegacyShadow(str, x, y, color);
+		if (isConsole)
+			drawScalableShadow(str, x, y, color);
 		else
 			drawShadow(str, x, y, color);
 	}
 	else
 	{
-		if (isLegacy)
-			drawLegacy(str, x, y, color);
+		if (isConsole)
+			drawScalable(str, x, y, color);
 		else
 			draw(str, x, y, color);
 	}
@@ -141,24 +141,24 @@ void Font::drawOutlinedString(const std::string& str, int x, int y, const Color&
 			if (t != 0 || t1 != 0) {
 				MatrixStack::Ref matrix = MatrixStack::World.push();
 				matrix->translate(Vec3(t, t1, 0));
-				drawLegacy(str, x, y, outlineColor, scale, false);
+				drawScalable(str, x, y, outlineColor, scale, false);
 			}
 		}
 	}
 
-	drawLegacy(str, x, y, color, scale, false);
+	drawScalable(str, x, y, color, scale, false);
 }
 
-void Font::drawWordWrap(const std::string& str, int x, int y, int color, int width, int lineHeight, bool shadow, bool isLegacy)
+void Font::drawWordWrap(const std::string& str, int x, int y, int color, int width, int lineHeight, bool shadow, bool isConsole)
 {
-	drawWordWrap(split(str, width), x, y, color, lineHeight, shadow, isLegacy);
+	drawWordWrap(split(str, width), x, y, color, lineHeight, shadow, isConsole);
 }
 
-void Font::drawWordWrap(const std::vector<std::string>& lines, int x, int y, int color, int lineHeight, bool shadow, bool isLegacy)
+void Font::drawWordWrap(const std::vector<std::string>& lines, int x, int y, int color, int lineHeight, bool shadow, bool isConsole)
 {
 	for (std::vector<std::string>::const_iterator it = lines.begin(); it != lines.end(); ++it)
 	{
-		drawString(*it, x, y, color, shadow, isLegacy);
+		drawString(*it, x, y, color, shadow, isConsole);
 		y += lineHeight;
 	}
 }

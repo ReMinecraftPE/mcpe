@@ -43,6 +43,7 @@
 #include "client/renderer/PatchManager.hpp"
 
 #include "renderer/RenderContextImmediate.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 float Minecraft::_renderScaleMultiplier = 1.0f;
 
@@ -799,6 +800,8 @@ void Minecraft::tick()
 
 	m_pGui->tick();
 
+	LogoRenderer::singleton().tick();
+
 	// if the level has been prepared, delete the prep thread
 	if (!m_bPreparingLevel)
 	{
@@ -1017,6 +1020,8 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 			int(ceilf(Minecraft::width * Gui::InvGuiScale)),
 			int(ceilf(Minecraft::height * Gui::InvGuiScale))
 		);
+
+	LogoRenderer::singleton().build(int(ceilf(Minecraft::width * Gui::InvGuiScale)));
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(Minecraft::width, Minecraft::height);

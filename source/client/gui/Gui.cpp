@@ -453,7 +453,7 @@ void Gui::renderHearts(bool topLeft)
 		// @NOTE: At the default scale, this would go off screen.
 		// Renders to the left of the hotbar, why?
 		/*heartX = cenX - 191; // why?
-		heartYStart = m_height - 10;*/
+		heartYStart = height - 10;*/
 
 		heartX = -91;
 		heartYStart = -32;
@@ -535,7 +535,7 @@ void Gui::renderBubbles(bool topLeft)
         {
             // Renders to the left of the hotbar, why?
             /*bubbleX = cenX - 191;
-            bubbleY = m_height - 19;*/
+            bubbleY = height - 19;*/
             bubbleX = -91;
             bubbleY = -41;
         }

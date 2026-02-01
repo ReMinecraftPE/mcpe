@@ -17,5 +17,5 @@ protected:
     virtual SlotDisplay _createSlotDisplay(const Slot&);
 
 public:
-    static std::string LEGACY_ARMOR_SLOTS[];
+    static std::string CONSOLE_ARMOR_SLOTS[];
 };
