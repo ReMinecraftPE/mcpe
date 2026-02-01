@@ -176,12 +176,13 @@ jobs:
                 cd build
                 cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .
+                cp reminecraftpe.exe reminecraftpe-unstripped.exe
+                x86_64-w64-mingw32-strip reminecraftpe.exe
           - uses: actions/upload-artifact@v6
             with:
               name: Windows (${{ matrix.name }})
               path: |
                 build/reminecraftpe.exe
-                build/reminecraftpe.pdb
                 build/assets
 
     switch:
