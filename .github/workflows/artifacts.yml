@@ -33,7 +33,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DWERROR=ON ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
                 cmake --build .
                 cp reminecraftpe reminecraftpe-unstripped
                 strip reminecraftpe
@@ -72,7 +72,6 @@ jobs:
               AR: llvm-ar-21
               RANLIB: llvm-ranlib-21
               LLVM_CONFIG: llvm-config-21
-              WERROR: ON
           - uses: actions/upload-artifact@v6
             with:
               name: iOS
@@ -134,7 +133,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .
           - uses: actions/upload-artifact@v6
             with:
@@ -159,7 +158,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DWERROR=ON ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
           - uses: actions/upload-artifact@v6
             with:
