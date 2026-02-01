@@ -134,6 +134,7 @@ jobs:
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleRelease
+                find ~ -name "*.apk"
           - uses: actions/upload-artifact@v6
             with:
               name: Android (${{ matrix.name }})
