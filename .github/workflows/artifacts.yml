@@ -45,6 +45,39 @@ jobs:
                 build/reminecraftpe-unstripped
                 build/assets
 
+    macos:
+        strategy:
+            fail-fast: false
+            matrix: # TODO add PPC build
+                include:
+                  - name: SDL 2
+                    backend_name: 'SDL2'
+                    packages: 'libsdl2'
+        name: macOS (${{ matrix.name }})
+        runs-on: macos-15
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install MacPorts
+            uses: melusina-org/setup-macports@v1
+          - name: Install Dependencies
+            run: |
+                port selfupdate
+                port install ${{ matrix.packages }} +universal +static
+          - name: Build macOS Archive
+            run: |
+                cd platforms/macos/projects/Minecraft
+                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
+                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
+                -sdk macosx \
+                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
+                -destination generic/platform=macOS \
+                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
+                -quiet \
+                clean archive
+
     ios:
         name: iOS
         runs-on: ubuntu-24.04
