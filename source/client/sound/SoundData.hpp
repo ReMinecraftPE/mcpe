@@ -50,7 +50,7 @@ struct AudioDescriptor
 
 struct SoundDesc : AudioDescriptor
 {
-	static std::string dirs[SOUND_DIRS_SIZE];
+	static const std::string DIRS[SOUND_DIRS_SIZE];
 
 	std::string m_stream;
 	SoundBuffer m_buffer;

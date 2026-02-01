@@ -1,6 +1,7 @@
 #include "ResourcePackManager.hpp"
 #include "client/app/AppPlatform.hpp"
 #include "Resource.hpp"
+#include "ResourcePackRepository.hpp"
 
 ResourcePackManager::ResourcePackManager()
 	: ResourceLoader(ResourceLocation::USER_PACKAGE)
@@ -8,15 +9,20 @@ ResourcePackManager::ResourcePackManager()
 	m_pPacks = nullptr;
 }
 
+ResourceLocation ResourcePackManager::_getLocationInPack(const ResourceLocation& location, const ResourcePack& pack) const
+{
+	return ResourceLocation(pack.m_fileSystem, ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + pack.m_name + "/" + location.path);
+}
+
 bool ResourcePackManager::hasResource(const ResourceLocation& location) const
 {
 	bool hasAssetFile = false;
-	std::string slashpath = "/" + location.path;
+
 	if (m_pPacks)
 	{
 		for (ResourcePackStack::const_iterator it = m_pPacks->begin(); it != m_pPacks->end(); it++)
 		{
-			hasAssetFile = AppPlatform::singleton()->hasAssetFile(getPath(*it + slashpath));
+			hasAssetFile = Resource::hasResource(_getLocationInPack(location, *it));
 			if (hasAssetFile)
 				break;
 		}
@@ -30,34 +36,33 @@ bool ResourcePackManager::hasResource(const ResourceLocation& location) const
 
 bool ResourcePackManager::getResourcePath(const ResourceLocation& location, std::string& path) const
 {
-	bool hasAssetFile = false;
-	std::string slashpath = "/" + location.path;
+	bool success = false;
+
 	if (m_pPacks)
 	{
 		for (ResourcePackStack::const_iterator it = m_pPacks->begin(); it != m_pPacks->end(); it++)
 		{
-			path = getPath(*it + slashpath);
-			hasAssetFile = AppPlatform::singleton()->hasAssetFile(path);
-			if (hasAssetFile)
+			success = Resource::getResourcePath(_getLocationInPack(location, *it), path);
+			if (success)
 				break;
 		}
 	}
 
-	if (!hasAssetFile)
-		hasAssetFile = Resource::getResourcePath(ResourceLocation(ResourceLocation::APP_PACKAGE, location.path), path);
+	if (!success)
+		success = Resource::getResourcePath(ResourceLocation(ResourceLocation::APP_PACKAGE, location.path), path);
 
-	return hasAssetFile;
+	return success;
 }
 
 bool ResourcePackManager::hasTexture(const ResourceLocation& location) const
 {
 	bool hasAssetFile = false;
-	std::string slashpath = "/" + location.path;
+
 	if (m_pPacks)
 	{
 		for (ResourcePackStack::const_iterator it = m_pPacks->begin(); it != m_pPacks->end(); it++)
 		{
-			hasAssetFile = AppPlatform::singleton()->doesTextureExist(getPath(*it + slashpath));
+			hasAssetFile = Resource::hasTexture(_getLocationInPack(location, *it));
 			if (hasAssetFile)
 				break;
 		}
@@ -71,29 +76,22 @@ bool ResourcePackManager::hasTexture(const ResourceLocation& location) const
 
 bool ResourcePackManager::load(const ResourceLocation& location, std::string& stream) const
 {
-	AssetFile file;
-	std::string slashpath = "/" + location.path;
+	bool success = false;
+
 	if (m_pPacks)
 	{
 		for (ResourcePackStack::const_iterator it = m_pPacks->begin(); it != m_pPacks->end(); it++)
 		{
-			file = AppPlatform::singleton()->readAssetFile(getPath(*it + slashpath), true);
-			if (file.data)
+			success = Resource::load(_getLocationInPack(location, *it), stream);
+			if (success)
 				break;
 		}
 	}
 
-	if (file.data)
-	{
-		stream.assign((char*)file.data, file.size);
-		delete[] file.data;
-	}
-	else
-	{
-		Resource::load(ResourceLocation(ResourceLocation::APP_PACKAGE, location.path), stream);
-	}
+	if (!success)
+		success = Resource::load(ResourceLocation(ResourceLocation::APP_PACKAGE, location.path), stream);
 
-	return !stream.empty();
+	return success;
 }
 
 void ResourcePackManager::loadAllVersionsOf(const ResourceLocation& location) const
@@ -104,12 +102,11 @@ void ResourcePackManager::loadAllVersionsOf(const ResourceLocation& location) co
 TextureData ResourcePackManager::loadTexture(const ResourceLocation& location) const
 {
 	TextureData data;
-	std::string slashpath = "/" + location.path;
 	if (m_pPacks)
 	{
 		for (ResourcePackStack::const_iterator it = m_pPacks->begin(); it != m_pPacks->end(); it++)
 		{
-			data = AppPlatform::singleton()->loadTexture(getPath(*it + slashpath));
+			data = Resource::loadTexture(_getLocationInPack(location, *it));
 			if (!data.isEmpty())
 				break;
 		}
@@ -123,6 +120,6 @@ TextureData ResourcePackManager::loadTexture(const ResourceLocation& location) c
 
 std::string ResourcePackManager::getPath(const std::string& path) const
 {
-	ResourceLocation location(ResourceLocation::EXTERNAL_DIR, "resource_packs/" + path);
+	ResourceLocation location(ResourceLocation::EXTERNAL_DIR, ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + path);
 	return location.getFullPath();
 }
