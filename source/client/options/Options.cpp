@@ -20,6 +20,7 @@
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
+#include "client/resources/ResourcePackRepository.hpp"
 
 Options::Option
 	Options::Option::MUSIC            (0,  "options.music",          true,  false),
@@ -194,24 +195,31 @@ void Options::readArray(const std::string& str, std::vector<std::string>& array)
 		array.push_back(element);
 }
 
-void Options::readPackArray(const std::string& str, std::vector<std::string>& array)
+void Options::readPackArray(const std::string& str, ResourcePackStack& array)
 {
 	// We create a new array instead of modifying the existing one
 	// because erasing elements from a vector doesn't free the memory.
 	std::vector<std::string> fullarray;
 	readArray(str, fullarray);
 	ResourceLocation location;
-	location.fileSystem = ResourceLocation::EXTERNAL_DIR;
 	for (size_t i = 0; i < fullarray.size(); ++i)
 	{
-		location.path = "/resource_packs/" + fullarray[i];
+		// Search internally (within assets) first
+		location.fileSystem = ResourceLocation::APP_PACKAGE;
+		location.path = "/" + ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + fullarray[i];
 		std::string fullPath = location.getFullPath();
 		if (!isDirectory(fullPath.c_str()))
 		{
-			LOG_W("Failed to find resource pack: %s", fullPath.c_str());
-			continue;
+			// Search externally (within user-writable external storage dir)
+			location.fileSystem = ResourceLocation::EXTERNAL_DIR;
+			fullPath = location.getFullPath();
+			if (!isDirectory(fullPath.c_str()))
+			{
+				LOG_W("Failed to find resource pack: %s", fullPath.c_str());
+				continue;
+			}
 		}
-		array.push_back(fullarray[i]);
+		array.push_back(ResourcePack(fullarray[i], location.fileSystem));
 	}
 }
 
@@ -244,6 +252,20 @@ std::string Options::saveArray(const std::vector<std::string>& arr)
 			done = true;
 	}
 	return ret;
+}
+
+std::string Options::savePackArray(const ResourcePackStack& arr)
+{
+	if (arr.empty())
+		return "";
+
+	std::vector<std::string> array;
+	for (ResourcePackStack::const_iterator it = arr.begin(); it != arr.end(); it++)
+	{
+		array.push_back(it->m_name);
+	}
+
+	return saveArray(array);
 }
 
 std::vector<std::string> Options::readPropertiesFromFile(const std::string& filePath)
@@ -347,7 +369,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("misc_oldtitle",             saveBool(m_b2dTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
-	SO("gfx_resourcepacks",		    saveArray(m_resourcePacks));
+	SO("gfx_resourcepacks",		    savePackArray(m_resourcePacks));
 
 	return vec;
 }
