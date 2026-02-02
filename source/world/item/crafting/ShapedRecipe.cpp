@@ -62,7 +62,7 @@ bool ShapedRecipe::matches(CraftingContainer* container, int i, int j, bool leni
             const ItemStack& secondItem = container->getItem(x, y);
             if (!secondItem.isEmpty() || !ing->isEmpty())
             {
-                if (secondItem.isEmpty() && !ing->isEmpty() || !secondItem.isEmpty() && ing->isEmpty())
+                if ((secondItem.isEmpty() && !ing->isEmpty()) || (!secondItem.isEmpty() && ing->isEmpty()))
                     return false;
 
                 if (ing->getId() != secondItem.getId())
