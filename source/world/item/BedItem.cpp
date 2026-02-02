@@ -9,7 +9,7 @@ BedItem::BedItem(int id) : Item(id)
 	m_maxStackSize = 1;
 }
 
-bool BedItem::useOn(ItemInstance* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
+bool BedItem::useOn(ItemStack* inst, Player* player, Level* level, const TilePos& pos, Facing::Name face) const
 {
 	if (face != Facing::UP) {
 		return false;

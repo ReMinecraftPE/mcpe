@@ -608,6 +608,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\ToolItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\BedTile.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -1032,7 +1035,7 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\BedItem.hpp">
       <Filter>Header Files\Item</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\Container.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1077,6 +1080,9 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\Tool.hpp">
       <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\BedTile.hpp">
+      <Filter>Header Files\Tile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

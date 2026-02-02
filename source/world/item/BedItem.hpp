@@ -7,5 +7,5 @@ class BedItem : public Item
 public:
 	BedItem(int id);
 
-	bool useOn(ItemInstance*, Player*, Level*, const TilePos& pos, Facing::Name face) const override;
+	bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const override;
 };
