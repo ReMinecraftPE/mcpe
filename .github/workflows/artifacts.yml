@@ -229,6 +229,7 @@ jobs:
               name: Windows (${{ matrix.name }})
               path: |
                 build/reminecraftpe.exe
+                build/reminecraftpe-unstripped.exe
                 build/assets
 
     switch:
