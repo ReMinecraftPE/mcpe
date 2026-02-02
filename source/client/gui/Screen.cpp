@@ -695,7 +695,7 @@ int Screen::getYOffset() const
 		if (!pBox->hasFocus())
 			continue;
 		
-		int heightLeft = height - int(float(keybOffset) * Gui::InvGuiScale);
+		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
 
 		// we want to keep the center of the text box in the center of the screen
 		int textCenterY = pBox->m_yPos + pBox->m_height / 2;
@@ -704,8 +704,8 @@ int Screen::getYOffset() const
 		int diff = textCenterY - scrnCenterY;
 		
 		// Prevent the difference from revealing the outside of the screen.
-		if (diff > height - heightLeft)
-			diff = height - heightLeft;
+		if (diff > m_height - heightLeft)
+			diff = m_height - heightLeft;
 		if (diff < 0)
 			diff = 0;
 
