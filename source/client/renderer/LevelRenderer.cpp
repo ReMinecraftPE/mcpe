@@ -1304,6 +1304,7 @@ void LevelRenderer::renderHitSelect(const Entity& camera, const HitResult& hr, i
 		pTile = Tile::tiles[tileID];
 
 	currentShaderColor = Color(0.65f, 0.65f, 0.65f, 0.65f);
+	currentShaderDarkColor = Color::WHITE;
 
 	MatrixStack::Ref matrix = MatrixStack::World.push();
 
@@ -1333,6 +1334,7 @@ void LevelRenderer::renderHitOutline(const Entity& camera, const HitResult& hr, 
 		return;
 
 	currentShaderColor = Color(0.0f, 0.0f, 0.0f, 0.4f);
+	currentShaderDarkColor = Color::WHITE;
 
 	constexpr float distance = 0.002f;
 	float lineWidth = 2.0f * Minecraft::getRenderScaleMultiplier();
