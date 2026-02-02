@@ -229,6 +229,7 @@ jobs:
               name: Windows (${{ matrix.name }})
               path: |
                 build/reminecraftpe.exe
+                build/reminecraftpe-unstripped.exe
                 build/assets
 
     switch:
@@ -248,10 +249,11 @@ jobs:
                 cd build
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
+                mv platforms/sdl/sdl2/reminecraftpe.nro .
           - uses: actions/upload-artifact@v6
             with:
               name: Nintendo Switch
               path: |
-                build/platforms/sdl/sdl2/reminecraftpe.nro
+                build/reminecraftpe.nro
                 build/reminecraftpe.elf
                 build/assets
