@@ -73,7 +73,6 @@ private:
     Minecraft* m_pMinecraft;
  
     int m_width;
-    bool m_bUsingJavaLogo;
     std::string m_p2dTitleTexPath;
     mce::Mesh m_2dTitleMesh;
     IntRectangle m_2dTitleBounds;

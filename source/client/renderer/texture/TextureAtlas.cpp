@@ -1,6 +1,7 @@
 #include <cstring>
 #include <algorithm>
 #include "TextureAtlas.hpp"
+#include "common/Utils.hpp"
 
 TextureAtlas::TextureAtlas(const std::string& name, bool enableFiltering) :
     m_currentX(0),

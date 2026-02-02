@@ -698,7 +698,7 @@ int Screen::getYOffset() const
 		int heightLeft = height - int(float(keybOffset) * Gui::InvGuiScale);
 
 		// we want to keep the center of the text box in the center of the screen
-		int textCenterY = pBox->m_yPos + pBox->height / 2;
+		int textCenterY = pBox->m_yPos + pBox->m_height / 2;
 		int scrnCenterY = heightLeft / 2;
 
 		int diff = textCenterY - scrnCenterY;
