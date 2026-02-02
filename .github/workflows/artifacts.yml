@@ -35,14 +35,11 @@ jobs:
                 cd build
                 cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
                 cmake --build .
-                cp reminecraftpe reminecraftpe-unstripped
-                strip reminecraftpe
           - uses: actions/upload-artifact@v6
             with:
               name: Linux (${{ matrix.name }})
               path: |
                 build/reminecraftpe
-                build/reminecraftpe-unstripped
                 build/assets
 
     linux32:
@@ -77,14 +74,11 @@ jobs:
                 cd build
                 cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS='-m32' -DCMAKE_CXX_FLAGS='-m32' ${{ matrix.flags }} ..
                 cmake --build .
-                cp reminecraftpe reminecraftpe-unstripped
-                strip reminecraftpe
           - uses: actions/upload-artifact@v6
             with:
               name: Linux 32-bit (${{ matrix.name }})
               path: |
                 build/reminecraftpe
-                build/reminecraftpe-unstripped
                 build/assets
 
     macos:
@@ -222,14 +216,11 @@ jobs:
                 cd build
                 cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
                 cmake --build .
-                cp reminecraftpe.exe reminecraftpe-unstripped.exe
-                x86_64-w64-mingw32-strip reminecraftpe.exe
           - uses: actions/upload-artifact@v6
             with:
               name: Windows (${{ matrix.name }})
               path: |
                 build/reminecraftpe.exe
-                build/reminecraftpe-unstripped.exe
                 build/assets
 
     switch:
