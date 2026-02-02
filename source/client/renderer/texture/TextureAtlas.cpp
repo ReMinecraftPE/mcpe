@@ -1,6 +1,6 @@
-#include "TextureAtlas.hpp"
 #include <cstring>
 #include <algorithm>
+#include "TextureAtlas.hpp"
 
 TextureAtlas::TextureAtlas(const std::string& name, bool enableFiltering) :
     m_name(name),
@@ -44,11 +44,7 @@ void TextureAtlas::addSprite(const std::string& name, const TextureData& texture
 
 bool TextureAtlas::build()
 {
-    std::sort(m_pendingSprites.begin(), m_pendingSprites.end(),
-        [](const PendingSprite& a, const PendingSprite& b)
-        {
-            return a.height > b.height;
-        });
+    std::sort(m_pendingSprites.begin(), m_pendingSprites.end(), SpriteSorter());
 
     while (!pack())
     {

@@ -13,21 +13,6 @@
 #define C_TITLE_PATH_POCKET   "gui/title_pe.png"
 #define C_TITLE_PATH_XBOX360  "gui/title_xbox360.png"
 #define C_TITLE_PATH_CONSOLE   "gui/title_console.png"
-#define C_TITLE_SCALE_DEFAULT 1.0f
-
-#if MC_PLATFORM_MOBILE
-#define C_TITLE_PATH C_TITLE_PATH_POCKET
-#elif MC_PLATFORM_XBOX360
-#define C_TITLE_PATH C_TITLE_PATH_XBOX360
-#define C_TITLE_SCALE 0.5f
-#else
-#define C_TITLE_PATH C_TITLE_PATH_DEFAULT
-#define C_USING_JAVA_TITLE
-#endif
-
-#ifndef C_TITLE_SCALE
-#define C_TITLE_SCALE C_TITLE_SCALE_DEFAULT
-#endif
 
 const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
 const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
@@ -95,19 +80,27 @@ void LogoRenderer::_initTextures()
 		return;
 
 	Textures* tx = m_pMinecraft->m_pTextures;
-	std::string path = C_TITLE_PATH;
-	if (tx->getTextureData(path, false))
+	std::string path;
+
+	switch (m_pMinecraft->getOptions()->getLogoTheme())
 	{
-#ifdef C_USING_JAVA_TITLE
-		m_bUsingJavaLogo = true;
-#endif
-	}
-	else if (m_pMinecraft->getOptions()->m_uiTheme == UI_CONSOLE)
-	{
+	case LOGO_POCKET:
+		path = C_TITLE_PATH_POCKET;
+		break;
+	case LOGO_JAVA:
+		path = C_TITLE_PATH_DEFAULT;
+		break;
+	case LOGO_CONSOLE:
 		path = C_TITLE_PATH_CONSOLE;
-		tx->getTextureData(path, true);
+		break;
+	case LOGO_XBOX360:
+		path = C_TITLE_PATH_XBOX360;
+		break;
+	default:
+		break;
 	}
-	else
+
+	if (!tx->getTextureData(path, false))
 	{
 		path = C_TITLE_PATH_FALLBACK;
 		// "preload" texture data
@@ -127,13 +120,30 @@ void LogoRenderer::_build2dTitleMesh()
 	if (!pTex)
 		return;
 
-	if (m_pMinecraft->getOptions()->m_uiTheme == UI_CONSOLE)
+	bool isConsole = m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiTheme == UI_CONSOLE;
+
+	switch (m_pMinecraft->getOptions()->getLogoTheme())
 	{
-		yPos = 56;
-		width = 571;
-		height = 138;
+	case LOGO_POCKET:
+	{
+		yPos = 15;
+		width = pTex->m_imageData.m_width;
+		height = pTex->m_imageData.m_height;
+
+		if (isConsole)
+		{
+			yPos = 56;
+			width *= 2;
+			height *= 2;
+		}
+
 		left = (m_width - width) / 2;
 
+		if (m_width * 3 / 4 < m_2dTitleBounds.w)
+		{
+			// crampedMode = true;
+			yPos = 4;
+		}
 
 		m_2dTitleBounds.x = left;
 		m_2dTitleBounds.y = yPos;
@@ -141,12 +151,23 @@ void LogoRenderer::_build2dTitleMesh()
 		m_2dTitleBounds.h = height;
 
 		blit(m_2dTitleMesh, m_2dTitleBounds);
+		break;
 	}
-	else if (m_bUsingJavaLogo)
+	case LOGO_JAVA:
 	{
 		yPos = 30;
 		width = 274;
+		int halfWidth = 155;
 		height = 44;
+
+		if (isConsole)
+		{
+			yPos = 56;
+			width *= 2;
+			halfWidth *= 2;
+			height *= 2;
+		}
+
 		left = m_width / 2 - width / 2;
 
 		if (m_width * 3 / 4 < m_2dTitleBounds.w)
@@ -158,32 +179,32 @@ void LogoRenderer::_build2dTitleMesh()
 		Tesselator& t = Tesselator::instance;
 		t.begin(8);
 		t.vertexUV(left, yPos + height, 0, 0.0f, 44.0f / 256.0f);
-		t.vertexUV(left + 155, yPos + height, 0, 155.0f / 256.0f, 44.0f / 256.0f);
-		t.vertexUV(left + 155, yPos, 0, 155.0f / 256.0f, 0.0f);
+		t.vertexUV(left + halfWidth, yPos + height, 0, 155.0f / 256.0f, 44.0f / 256.0f);
+		t.vertexUV(left + halfWidth, yPos, 0, 155.0f / 256.0f, 0.0f);
 		t.vertexUV(left, yPos, 0, 0.0f, 0.0f);
-		t.vertexUV(left + 155, yPos + height, 0, 0.0f, (45.0f + 44.0f) / 256.0f);
-		t.vertexUV(left + 310, yPos + height, 0, 155.0f / 256.0f, (45.0f + 44.0f) / 256.0f);
-		t.vertexUV(left + 310, yPos, 0, 155.0f / 256.0f, 45.0f / 256.0f);
-		t.vertexUV(left + 155, yPos, 0, 0.0f, 45.0f / 256.0f);
+		t.vertexUV(left + halfWidth, yPos + height, 0, 0.0f, (45.0f + 44.0f) / 256.0f);
+		t.vertexUV(left + halfWidth * 2, yPos + height, 0, 155.0f / 256.0f, (45.0f + 44.0f) / 256.0f);
+		t.vertexUV(left + halfWidth * 2, yPos, 0, 155.0f / 256.0f, 45.0f / 256.0f);
+		t.vertexUV(left + halfWidth, yPos, 0, 0.0f, 45.0f / 256.0f);
 		m_2dTitleMesh = t.end();
+		break;
 	}
-	else
+	case LOGO_XBOX360:
+	case LOGO_CONSOLE:
 	{
-		yPos = 15;
-		width = pTex->m_imageData.m_width;
-		height = pTex->m_imageData.m_height;
-		if (C_TITLE_SCALE != 1.0f)
+		yPos = 56;
+		width = 571;
+		height = 138;
+
+		if (!isConsole)
 		{
-			width = ceilf(((float)width) * C_TITLE_SCALE);
-			height = ceilf(((float)height) * C_TITLE_SCALE);
+			yPos = 15;
+			width /= 2;
+			height /= 2;
 		}
+
 		left = (m_width - width) / 2;
 
-		if (m_width * 3 / 4 < m_2dTitleBounds.w)
-		{
-			// crampedMode = true;
-			yPos = 4;
-		}
 
 		m_2dTitleBounds.x = left;
 		m_2dTitleBounds.y = yPos;
@@ -191,9 +212,12 @@ void LogoRenderer::_build2dTitleMesh()
 		m_2dTitleBounds.h = height;
 
 		blit(m_2dTitleMesh, m_2dTitleBounds);
+		break;
+	}
+	default:
+		break;
 	}
 }
-
 
 void LogoRenderer::render2D()
 {
@@ -204,6 +228,8 @@ void LogoRenderer::render2D()
 
 void LogoRenderer::render3D(float f)
 {
+	bool isConsole = m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiTheme == UI_CONSOLE;
+
 	int Width = int(sizeof gLogoLine1 - 1);
 	int Height = int(sizeof gLogoLines / sizeof * gLogoLines);
 
@@ -220,6 +246,9 @@ void LogoRenderer::render3D(float f)
 
 	if (m_width * 3 / 4 < 256) // cramped mode
 		titleHeight = int(80 / Gui::InvGuiScale);
+
+	if (isConsole)
+		titleHeight *= 2;
 
 	MatrixStack::Ref projMtx = MatrixStack::Projection.pushIdentity();
 	projMtx->setPerspective(70.0f, float(Minecraft::width) / titleHeight, 0.05f, 100.0f);

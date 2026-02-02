@@ -71,8 +71,17 @@ struct KeyMapping
 enum UITheme
 {
 	UI_POCKET,
-	UI_CLASSIC,
+	UI_JAVA,
 	UI_CONSOLE
+};
+
+enum LogoTheme
+{
+	LOGO_AUTO,
+	LOGO_POCKET,
+	LOGO_JAVA,
+	LOGO_CONSOLE,
+	LOGO_XBOX360
 };
 
 //@NOTE: Used only for the UI_CONSOLE UITheme for now
@@ -117,6 +126,8 @@ public:
 
 	void loadControls();
 
+	LogoTheme getLogoTheme() const;
+
 private:
 	Minecraft* m_pMinecraft;
 	std::string m_filePath;
@@ -158,8 +169,8 @@ public:
 	bool m_b2dTitleLogo;
 	bool m_bMenuPanorama;
 	UITheme m_uiTheme;
+	LogoTheme m_logoTheme;
 	HUDScale m_hudScale;
-	std::vector<std::string> m_resourcePacks;
 	ResourcePackStack m_resourcePacks;
 
 public:

@@ -203,13 +203,13 @@ void IngameBlockSelectionScreen::init()
 		_addElement(m_btnChat);
 	}
 	
-	/*m_btnCraft.width = 40;
+	/*m_btnCraft.m_width = 40;
 	m_btnCraft.m_xPos = 0;
 	m_btnCraft.m_yPos = 0;
 	_addElement(m_btnCraft);*/
 
-	/*m_btnArmor.width = 40;
-	m_btnArmor.m_xPos = m_btnCraft.width;
+	/*m_btnArmor.m_width = 40;
+	m_btnArmor.m_xPos = m_btnCraft.m_width;
 	m_btnArmor.m_yPos = 0;
 	_addElement(m_btnArmor);*/
 

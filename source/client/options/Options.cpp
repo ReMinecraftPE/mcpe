@@ -72,7 +72,12 @@ void Options::_initDefaultValues()
 	m_b2dTitleLogo = false;
 	m_bMenuPanorama = true;
 	field_19 = 1;
-	m_uiTheme = m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_CLASSIC;
+#if MC_PLATFORM_MOBILE
+	m_uiTheme = UI_CONSOLE;
+#else
+	m_uiTheme = m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA;
+#endif
+	m_logoTheme = LOGO_AUTO;
 	m_hudScale = HUD_SCALE_2;
 
 #ifdef ORIGINAL_CODE
@@ -154,6 +159,8 @@ void Options::_load()
 			readPackArray(value, m_resourcePacks);
 		else if (key == "gfx_uitheme")
 			m_uiTheme = (UITheme) readInt(value);
+		else if (key == "gfx_logotheme")
+			m_logoTheme = (LogoTheme) readInt(value);
 		else if (key == "gfx_hudscale")
 			m_hudScale = (HUDScale)readInt(value);
 		else if (key == "misc_menupano")
@@ -377,8 +384,8 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("misc_oldtitle",             saveBool(m_b2dTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
-	SO("gfx_resourcepacks",		    saveArray(m_resourcePacks));
 	SO("gfx_uitheme",				saveInt(m_uiTheme));
+	SO("gfx_logotheme",				saveInt(m_logoTheme));
 	SO("gfx_hudscale",				saveInt(m_hudScale));
 	SO("gfx_resourcepacks",		    savePackArray(m_resourcePacks));
 
@@ -584,4 +591,26 @@ void Options::loadControls()
 #endif
 #undef KM
 	}
+}
+
+LogoTheme Options::getLogoTheme() const
+{
+	if (m_logoTheme == LOGO_AUTO)
+	{
+		switch (m_uiTheme)
+		{
+		case UI_POCKET:
+			return LOGO_POCKET;
+		case UI_JAVA:
+			return LOGO_JAVA;
+		case UI_CONSOLE:
+#if MC_PLATFORM_XBOX360
+			return LOGO_XBOX360;
+#else
+			return LOGO_CONSOLE;
+#endif
+		}
+	}
+	else
+		return m_logoTheme;
 }
