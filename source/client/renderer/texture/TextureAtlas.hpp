@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <cstdint>
+#include <stdint.h>
 #include "TextureData.hpp"
 
 #define DEFAULT_ATLAS_SIZE (256)
