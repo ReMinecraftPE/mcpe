@@ -219,11 +219,6 @@ void ItemStack::set(int inCount)
 		assert(!"stack too big!");
 
 	m_count = inCount;
-
-#ifndef MOD_POCKET_SURVIVAL
-	if (inCount == 0)
-		setEmpty();
-#endif
 }
 
 bool ItemStack::canDestroySpecial(const Tile* tile)

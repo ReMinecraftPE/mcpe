@@ -156,7 +156,7 @@ public:
     }
 
     void addTools(const ItemStack& material, Item* sword, Item* pickaxe, Item* axe, Item* shovel, Item* hoe);
-    void addArmour(const ItemStack& material, Item* helmet, Item* chestplate, Item* leggings, Item* boots);
+    void addArmor(const ItemStack& material, Item* helmet, Item* chestplate, Item* leggings, Item* boots);
     void addOre(const ItemStack& material, Tile* block);
 
     const ItemStack& getItemFor(CraftingContainer* container)

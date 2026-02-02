@@ -13,13 +13,13 @@ public:
     void slotsChanged(Container* container) override;
     void removed(Player* player) override;
     bool stillValid(Player* player) const override;
-    virtual ItemStack quickMoveStack(int index) override;
-
-public:
-    CraftingContainer* m_pCraftSlots;
-    ResultContainer* m_pResultSlots;
+    ItemStack quickMoveStack(int index) override;
 
 private:
     const TilePos m_pos;
     Level* m_pLevel;
+
+public:
+    CraftingContainer* m_pCraftSlots;
+    ResultContainer* m_pResultSlots;
 };

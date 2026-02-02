@@ -9,6 +9,6 @@ public:
     CraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level);
 
 protected:
-    virtual void _renderLabels() override;
-    virtual void _renderBg(float partialTick) override;
+    void _renderLabels() override;
+    void _renderBg(float partialTick) override;
 };

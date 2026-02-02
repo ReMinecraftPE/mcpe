@@ -39,7 +39,6 @@ CraftingMenu::~CraftingMenu()
     delete m_pResultSlots;
 }
 
-
 void CraftingMenu::slotsChanged(Container* container) 
 {
     m_pResultSlots->setItem(0, Recipes::singleton().getItemFor(m_pCraftSlots));

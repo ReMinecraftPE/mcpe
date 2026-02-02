@@ -8,10 +8,10 @@ public:
     SingleInputRecipe(const ItemStack& ingredient, const ItemStack& result);
     virtual ~SingleInputRecipe();
 
-    virtual bool matches(Container* container) override;
-    virtual bool matches(const ItemStack& input);
-    virtual const ItemStack& assemble(Container* container) override;
-    virtual int size() const override;
+    bool matches(Container* container) override;
+    bool matches(const ItemStack& input);
+    const ItemStack& assemble(Container* container) override;
+    int size() const override;
 
     ItemStack m_ingredient;
 

@@ -6,7 +6,13 @@
 class FurnaceRecipes
 {
 public:
+    typedef std::multimap<int, SingleInputRecipe*> FurnaceRecipesMap;
+    typedef std::map<int, int> BurnTimeMap;
+    typedef std::map<Material*, int> MaterialBurnTimeMap;
+
+public:
     FurnaceRecipes();
+    ~FurnaceRecipes();
 
     static FurnaceRecipes& singleton()
     {
@@ -40,11 +46,11 @@ public:
     const ItemStack& getItemFor(Container* container)
     {
         ItemStack& testItem = container->getItem(0);
-        std::pair<std::multimap<int, SingleInputRecipe*>::iterator,
-            std::multimap<int, SingleInputRecipe*>::iterator> matches =
+        std::pair<FurnaceRecipesMap::iterator,
+            FurnaceRecipesMap::iterator> matches =
             m_furnaceRecipes.equal_range(testItem.getId());
 
-        for (std::multimap<int, SingleInputRecipe*>::iterator it = matches.first;
+        for (FurnaceRecipesMap::iterator it = matches.first;
             it != matches.second; ++it)
         {
             if (it->second->matches(container))
@@ -57,11 +63,11 @@ public:
     {
         if (item.isEmpty()) return false;
 
-        std::pair<std::multimap<int, SingleInputRecipe*>::iterator,
-            std::multimap<int, SingleInputRecipe*>::iterator> matches =
+        std::pair<FurnaceRecipesMap::iterator,
+            FurnaceRecipesMap::iterator> matches =
             m_furnaceRecipes.equal_range(item.getId());
 
-        for (std::multimap<int, SingleInputRecipe*>::iterator it = matches.first;
+        for (FurnaceRecipesMap::iterator it = matches.first;
             it != matches.second; ++it)
         {
             if (it->second->matches(item))
@@ -74,13 +80,13 @@ public:
     {
         if (item.isEmpty()) return 0;
 
-        std::map<int, int>::const_iterator it = m_burnDuration.find(item.getId());
+        BurnTimeMap::const_iterator it = m_burnDuration.find(item.getId());
         if (it != m_burnDuration.end())
             return it->second;
 
         if (item.getId() < 256)
         {
-            std::map<Material*, int>::const_iterator it2 =
+            MaterialBurnTimeMap::const_iterator it2 =
                 m_materialBurnDuration.find(Tile::tiles[item.getId()]->m_pMaterial);
             if (it2 != m_materialBurnDuration.end())
                 return it2->second;
@@ -106,9 +112,9 @@ public:
 private:
     static FurnaceRecipes* instance;
 
-    std::map<int, int> m_burnDuration;
-    std::map<Material*, int> m_materialBurnDuration;
+    BurnTimeMap m_burnDuration;
+    MaterialBurnTimeMap m_materialBurnDuration;
 
 public:
-    std::multimap<int, SingleInputRecipe*> m_furnaceRecipes;
+    FurnaceRecipesMap m_furnaceRecipes;
 };

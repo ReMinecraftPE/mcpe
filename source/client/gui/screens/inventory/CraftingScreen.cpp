@@ -2,7 +2,8 @@
 #include "world/inventory/CraftingMenu.hpp"
 #include "renderer/ShaderConstants.hpp"
 
-CraftingScreen::CraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level) : ContainerScreen(new CraftingMenu(inventory, tilePos, level))
+CraftingScreen::CraftingScreen(Inventory* inventory, const TilePos& tilePos, Level* level) :
+    ContainerScreen(new CraftingMenu(inventory, tilePos, level))
 {
 }
 

@@ -32,7 +32,6 @@
 /gui/startmenu/sm_multi.png
 /gui/startmenu/sm_options.png
 /gui/touchgui.png
-/consolegui
 /snow.png
 # Ignore all native iOS UI assets.
 /app/ios/

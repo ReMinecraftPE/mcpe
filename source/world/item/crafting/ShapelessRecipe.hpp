@@ -10,9 +10,9 @@ public:
     ShapelessRecipe(const ItemStack& result, const std::vector<ItemStack>& ingredients);
     virtual ~ShapelessRecipe();
 
-    virtual bool matches(Container* container) override;
-    virtual const ItemStack& assemble(Container* container) override;
-    virtual int size() const override;
+    bool matches(Container* container) override;
+    const ItemStack& assemble(Container* container) override;
+    int size() const override;
 
 private:
     ItemStack m_result;
