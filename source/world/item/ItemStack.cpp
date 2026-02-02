@@ -389,7 +389,8 @@ void ItemStack::onCraftedBy(Player* player, Level* level)
 void ItemStack::onCraftedBy(Player* player, Level* level, int amount)
 {
 	//player->awardStat(Stats::itemCrafted[getId()], amount);
-	getItem()->onCraftedBy(this, player, level);
+	if (getItem())
+		getItem()->onCraftedBy(this, player, level);
 }
 
 int ItemStack::getAttackDamage(Entity* pEnt) const

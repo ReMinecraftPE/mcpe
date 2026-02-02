@@ -18,7 +18,7 @@ public:
 
     uint16_t getContainerSize() const override;
     ItemStack& getItem(int index) override;
-    ItemStack& getItem(int x, int y);
+    const ItemStack& getItem(int x, int y);
 
     std::string getName() const override;
 

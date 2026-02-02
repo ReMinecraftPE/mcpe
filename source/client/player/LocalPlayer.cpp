@@ -11,6 +11,7 @@
 #include "nbt/CompoundTag.hpp"
 #include "network/packets/MovePlayerPacket.hpp"
 #include "network/packets/PlayerEquipmentPacket.hpp"
+#include "client/gui/screens/inventory/CraftingScreen.hpp"
 
 int dword_250ADC, dword_250AE0;
 
@@ -97,6 +98,11 @@ void LocalPlayer::swing()
 	Player::swing();
 
 	m_pMinecraft->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::SWING));
+}
+
+void LocalPlayer::startCrafting(const TilePos& pos)
+{
+	m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
 }
 
 void LocalPlayer::reset()

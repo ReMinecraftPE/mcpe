@@ -38,6 +38,7 @@ public:
 	bool interpolateOnly() const override { return false; }
 	void setPlayerGameType(GameType gameType) override;
 	void swing() override;
+	void startCrafting(const TilePos&) override;
 
 	virtual void hurtTo(int newHealth);
 
