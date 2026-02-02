@@ -3,21 +3,21 @@
 #include "TextureAtlas.hpp"
 
 TextureAtlas::TextureAtlas(const std::string& name, bool enableFiltering) :
-    m_name(name),
-    m_texture(DEFAULT_ATLAS_SIZE, DEFAULT_ATLAS_SIZE, enableFiltering),
     m_currentX(0),
     m_currentY(0),
-    m_shelfHeight(0)
+    m_shelfHeight(0),
+    m_name(name),
+    m_texture(DEFAULT_ATLAS_SIZE, DEFAULT_ATLAS_SIZE, enableFiltering)
 {
     _init();
 }
 
 TextureAtlas::TextureAtlas(const std::string& name, int initialSize, bool enableFiltering) :
-    m_name(name),
-    m_texture(initialSize, initialSize, enableFiltering),
     m_currentX(0),
     m_currentY(0),
-    m_shelfHeight(0)
+    m_shelfHeight(0),
+    m_name(name),
+    m_texture(initialSize, initialSize, enableFiltering)
 {
     _init();
 }
