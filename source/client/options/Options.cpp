@@ -609,6 +609,8 @@ LogoTheme Options::getLogoTheme() const
 #else
 			return LOGO_CONSOLE;
 #endif
+		default:
+			return m_logoTheme;
 		}
 	}
 	else
