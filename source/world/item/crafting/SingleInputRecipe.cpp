@@ -6,6 +6,10 @@ SingleInputRecipe::SingleInputRecipe(const ItemStack& ingredient, const ItemStac
 {
 }
 
+SingleInputRecipe::~SingleInputRecipe()
+{
+}
+
 bool SingleInputRecipe::matches(Container* container)
 {
     return matches(container->getItem(0));

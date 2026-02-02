@@ -8,6 +8,10 @@ ShapedRecipe::ShapedRecipe(int width, int height, const ItemStack& result, const
 {
 }
 
+ShapedRecipe::~ShapedRecipe()
+{
+}
+
 bool ShapedRecipe::matches(Container* container)
 {
     CraftingContainer* craftingContainer = (CraftingContainer*)container;

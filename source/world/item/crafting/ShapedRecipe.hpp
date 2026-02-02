@@ -9,6 +9,7 @@ class ShapedRecipe : public Recipe
 {
 public:
     ShapedRecipe(int width, int height, const ItemStack& result, const std::vector<ItemStack>& ingredients);
+    virtual ~ShapedRecipe();
 
     virtual bool matches(Container* container) override;
     virtual const ItemStack& assemble(Container* container) override;

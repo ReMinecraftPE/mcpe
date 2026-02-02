@@ -7,6 +7,10 @@ ShapelessRecipe::ShapelessRecipe(const ItemStack& result, const std::vector<Item
 {
 }
 
+ShapelessRecipe::~ShapelessRecipe()
+{
+}
+
 bool ShapelessRecipe::matches(Container* container)
 {
     CraftingContainer* craftingContainer = (CraftingContainer*)container;

@@ -6,6 +6,7 @@ class SingleInputRecipe : public Recipe
 {
 public:
     SingleInputRecipe(const ItemStack& ingredient, const ItemStack& result);
+    virtual ~SingleInputRecipe();
 
     virtual bool matches(Container* container) override;
     virtual bool matches(const ItemStack& input);

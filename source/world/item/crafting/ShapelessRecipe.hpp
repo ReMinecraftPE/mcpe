@@ -8,6 +8,7 @@ class ShapelessRecipe : public Recipe
 {
 public:
     ShapelessRecipe(const ItemStack& result, const std::vector<ItemStack>& ingredients);
+    virtual ~ShapelessRecipe();
 
     virtual bool matches(Container* container) override;
     virtual const ItemStack& assemble(Container* container) override;

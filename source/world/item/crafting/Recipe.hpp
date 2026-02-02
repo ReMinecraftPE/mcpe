@@ -5,7 +5,7 @@
 class Recipe
 {
 public:
-    virtual ~Recipe() = default;
+    virtual ~Recipe() {}
 
     virtual bool matches(Container* container) = 0;
     virtual const ItemStack& assemble(Container* container) = 0;
