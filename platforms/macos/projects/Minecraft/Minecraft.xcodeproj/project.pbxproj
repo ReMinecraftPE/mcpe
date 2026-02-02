@@ -758,6 +758,23 @@
 		84D770132EE5158C00701DCB /* stb_image_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = 84AA8E462B32FB33003F5B82 /* stb_image_impl.c */; };
 		84D772272EE5182B00701DCB /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 84D772262EE5180600701DCB /* assets */; };
 		84D9A30F2AF18EE700B00AD3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8489B3252A86E4B0004CA8EC /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		84DED1982F3095B8004001C5 /* CraftingScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED1962F3095B8004001C5 /* CraftingScreen.cpp */; };
+		84DED1992F3095B8004001C5 /* CraftingScreen.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1972F3095B8004001C5 /* CraftingScreen.hpp */; };
+		84DED19C2F3095FD004001C5 /* CraftingMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED19A2F3095FD004001C5 /* CraftingMenu.cpp */; };
+		84DED19D2F3095FD004001C5 /* CraftingMenu.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED19B2F3095FD004001C5 /* CraftingMenu.hpp */; };
+		84DED1AA2F309611004001C5 /* FurnaceRecipes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED19F2F309611004001C5 /* FurnaceRecipes.cpp */; };
+		84DED1AB2F309611004001C5 /* FurnaceRecipes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1A02F309611004001C5 /* FurnaceRecipes.hpp */; };
+		84DED1AC2F309611004001C5 /* Recipe.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1A12F309611004001C5 /* Recipe.hpp */; };
+		84DED1AD2F309611004001C5 /* Recipes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED1A22F309611004001C5 /* Recipes.cpp */; };
+		84DED1AE2F309611004001C5 /* Recipes.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1A32F309611004001C5 /* Recipes.hpp */; };
+		84DED1AF2F309611004001C5 /* ShapedRecipe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED1A42F309611004001C5 /* ShapedRecipe.cpp */; };
+		84DED1B02F309611004001C5 /* ShapedRecipe.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1A52F309611004001C5 /* ShapedRecipe.hpp */; };
+		84DED1B12F309611004001C5 /* ShapelessRecipe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED1A62F309611004001C5 /* ShapelessRecipe.cpp */; };
+		84DED1B22F309611004001C5 /* ShapelessRecipe.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1A72F309611004001C5 /* ShapelessRecipe.hpp */; };
+		84DED1B32F309611004001C5 /* SingleInputRecipe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED1A82F309611004001C5 /* SingleInputRecipe.cpp */; };
+		84DED1B42F309611004001C5 /* SingleInputRecipe.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1A92F309611004001C5 /* SingleInputRecipe.hpp */; };
+		84DED1B72F30970A004001C5 /* CraftingTableTile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DED1B52F30970A004001C5 /* CraftingTableTile.cpp */; };
+		84DED1B82F30970A004001C5 /* CraftingTableTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DED1B62F30970A004001C5 /* CraftingTableTile.hpp */; };
 		84DFC1E52F285ECA00F5434F /* ShaderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84DFC1E32F285ECA00F5434F /* ShaderGroup.cpp */; };
 		84DFC1E62F285ECA00F5434F /* ShaderGroup.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84DFC1E42F285ECA00F5434F /* ShaderGroup.hpp */; };
 		84E0011B2AF39E84009B9555 /* BuildActionIntention.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84E000FB2AF39E84009B9555 /* BuildActionIntention.hpp */; };
@@ -2405,6 +2422,23 @@
 		84CEF0022AE3C97D006C5829 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
 		84D6694F2B1EAEBF00B34FC1 /* GlobalDebugSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = GlobalDebugSettings.xcconfig; path = ../Configuration/GlobalDebugSettings.xcconfig; sourceTree = "<group>"; };
 		84D772262EE5180600701DCB /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../../game/assets; sourceTree = "<group>"; };
+		84DED1962F3095B8004001C5 /* CraftingScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CraftingScreen.cpp; sourceTree = "<group>"; };
+		84DED1972F3095B8004001C5 /* CraftingScreen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CraftingScreen.hpp; sourceTree = "<group>"; };
+		84DED19A2F3095FD004001C5 /* CraftingMenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CraftingMenu.cpp; sourceTree = "<group>"; };
+		84DED19B2F3095FD004001C5 /* CraftingMenu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CraftingMenu.hpp; sourceTree = "<group>"; };
+		84DED19F2F309611004001C5 /* FurnaceRecipes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FurnaceRecipes.cpp; sourceTree = "<group>"; };
+		84DED1A02F309611004001C5 /* FurnaceRecipes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FurnaceRecipes.hpp; sourceTree = "<group>"; };
+		84DED1A12F309611004001C5 /* Recipe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Recipe.hpp; sourceTree = "<group>"; };
+		84DED1A22F309611004001C5 /* Recipes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Recipes.cpp; sourceTree = "<group>"; };
+		84DED1A32F309611004001C5 /* Recipes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Recipes.hpp; sourceTree = "<group>"; };
+		84DED1A42F309611004001C5 /* ShapedRecipe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapedRecipe.cpp; sourceTree = "<group>"; };
+		84DED1A52F309611004001C5 /* ShapedRecipe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShapedRecipe.hpp; sourceTree = "<group>"; };
+		84DED1A62F309611004001C5 /* ShapelessRecipe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShapelessRecipe.cpp; sourceTree = "<group>"; };
+		84DED1A72F309611004001C5 /* ShapelessRecipe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShapelessRecipe.hpp; sourceTree = "<group>"; };
+		84DED1A82F309611004001C5 /* SingleInputRecipe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SingleInputRecipe.cpp; sourceTree = "<group>"; };
+		84DED1A92F309611004001C5 /* SingleInputRecipe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SingleInputRecipe.hpp; sourceTree = "<group>"; };
+		84DED1B52F30970A004001C5 /* CraftingTableTile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CraftingTableTile.cpp; sourceTree = "<group>"; };
+		84DED1B62F30970A004001C5 /* CraftingTableTile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CraftingTableTile.hpp; sourceTree = "<group>"; };
 		84DFC1E32F285ECA00F5434F /* ShaderGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderGroup.cpp; sourceTree = "<group>"; };
 		84DFC1E42F285ECA00F5434F /* ShaderGroup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ShaderGroup.hpp; sourceTree = "<group>"; };
 		84E000FB2AF39E84009B9555 /* BuildActionIntention.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BuildActionIntention.hpp; sourceTree = "<group>"; };
@@ -3577,14 +3611,13 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
-				845BBCB32F2EA81700C7232C /* ToolItem.hpp */,
-				845BBCB42F2EA81700C7232C /* ToolItem.cpp */,
 				84E1C9DF2E7FDC72007D2F5D /* AuxTileItem.cpp */,
 				84E1C9E02E7FDC72007D2F5D /* AuxTileItem.hpp */,
 				840DD6702AC810620006A435 /* CameraItem.cpp */,
 				840DD6712AC810620006A435 /* CameraItem.hpp */,
 				84E1C9E12E7FDC72007D2F5D /* ClothItem.cpp */,
 				84E1C9E22E7FDC72007D2F5D /* ClothItem.hpp */,
+				84DED19E2F309611004001C5 /* crafting */,
 				840DD6722AC810620006A435 /* DoorItem.cpp */,
 				840DD6732AC810620006A435 /* DoorItem.hpp */,
 				84E023022F2A0255003C8FFE /* DyeColor.cpp */,
@@ -3603,6 +3636,8 @@
 				840DD67B2AC810620006A435 /* TileItem.hpp */,
 				840DD67C2AC810620006A435 /* TilePlanterItem.cpp */,
 				840DD67D2AC810620006A435 /* TilePlanterItem.hpp */,
+				845BBCB42F2EA81700C7232C /* ToolItem.cpp */,
+				845BBCB32F2EA81700C7232C /* ToolItem.hpp */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -3798,6 +3833,8 @@
 				840DD6E72AC810620006A435 /* ClayTile.hpp */,
 				840DD6E82AC810620006A435 /* ClothTile.cpp */,
 				840DD6E92AC810620006A435 /* ClothTile.hpp */,
+				84DED1B52F30970A004001C5 /* CraftingTableTile.cpp */,
+				84DED1B62F30970A004001C5 /* CraftingTableTile.hpp */,
 				84E1C9C12E7FDC26007D2F5D /* DeadBush.cpp */,
 				84E1C9C22E7FDC26007D2F5D /* DeadBush.hpp */,
 				840DD6EA2AC810620006A435 /* DirtTile.cpp */,
@@ -4633,6 +4670,24 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
+		84DED19E2F309611004001C5 /* crafting */ = {
+			isa = PBXGroup;
+			children = (
+				84DED19F2F309611004001C5 /* FurnaceRecipes.cpp */,
+				84DED1A02F309611004001C5 /* FurnaceRecipes.hpp */,
+				84DED1A12F309611004001C5 /* Recipe.hpp */,
+				84DED1A22F309611004001C5 /* Recipes.cpp */,
+				84DED1A32F309611004001C5 /* Recipes.hpp */,
+				84DED1A42F309611004001C5 /* ShapedRecipe.cpp */,
+				84DED1A52F309611004001C5 /* ShapedRecipe.hpp */,
+				84DED1A62F309611004001C5 /* ShapelessRecipe.cpp */,
+				84DED1A72F309611004001C5 /* ShapelessRecipe.hpp */,
+				84DED1A82F309611004001C5 /* SingleInputRecipe.cpp */,
+				84DED1A92F309611004001C5 /* SingleInputRecipe.hpp */,
+			);
+			path = crafting;
+			sourceTree = "<group>";
+		};
 		84E022E82F2A0211003C8FFE /* inventory */ = {
 			isa = PBXGroup;
 			children = (
@@ -4640,6 +4695,8 @@
 				84E022EA2F2A0211003C8FFE /* ChestScreen.hpp */,
 				84E022EB2F2A0211003C8FFE /* ContainerScreen.cpp */,
 				84E022EC2F2A0211003C8FFE /* ContainerScreen.hpp */,
+				84DED1962F3095B8004001C5 /* CraftingScreen.cpp */,
+				84DED1972F3095B8004001C5 /* CraftingScreen.hpp */,
 				84E022ED2F2A0211003C8FFE /* InventoryScreen.cpp */,
 				84E022EE2F2A0211003C8FFE /* InventoryScreen.hpp */,
 			);
@@ -4675,6 +4732,8 @@
 				84E7BF0D2F286A08002D3936 /* ContainerMenu.hpp */,
 				84E7BF0E2F286A08002D3936 /* CraftingContainer.cpp */,
 				84E7BF0F2F286A08002D3936 /* CraftingContainer.hpp */,
+				84DED19A2F3095FD004001C5 /* CraftingMenu.cpp */,
+				84DED19B2F3095FD004001C5 /* CraftingMenu.hpp */,
 				84E7BF102F286A08002D3936 /* InventoryMenu.cpp */,
 				84E7BF112F286A08002D3936 /* InventoryMenu.hpp */,
 				84E7BF122F286A08002D3936 /* ResultContainer.cpp */,
@@ -5343,6 +5402,7 @@
 				84B8AF522AF189D8008DE93D /* SelectWorldScreen.hpp in Headers */,
 				84B8AF532AF189D8008DE93D /* StartMenuScreen.hpp in Headers */,
 				84EB099C2EE2CC3B008FB007 /* GuiElement.hpp in Headers */,
+				84DED1992F3095B8004001C5 /* CraftingScreen.hpp in Headers */,
 				84EB09D52EE2CC86008FB007 /* QuadrupedModel.hpp in Headers */,
 				84EB09F42EE2CCA8008FB007 /* RenderMaterialGroup.hpp in Headers */,
 				84B8AF582AF189D8008DE93D /* ClientSideNetworkHandler.hpp in Headers */,
@@ -5465,6 +5525,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84DED1AE2F309611004001C5 /* Recipes.hpp in Headers */,
 				84BF63792AF186C8008A9995 /* Entity.hpp in Headers */,
 				84B1E03C2E04FD7900ED000A /* Skeleton.hpp in Headers */,
 				84BF637A2AF186C8008A9995 /* FallingTile.hpp in Headers */,
@@ -5489,6 +5550,7 @@
 				84BF638A2AF186C8008A9995 /* TilePlanterItem.hpp in Headers */,
 				84E7BF292F286A08002D3936 /* Slot.hpp in Headers */,
 				84E1C9DC2E7FDC26007D2F5D /* TallGrass.hpp in Headers */,
+				84DED1AC2F309611004001C5 /* Recipe.hpp in Headers */,
 				84BF638B2AF186C8008A9995 /* Dimension.hpp in Headers */,
 				84BF638C2AF186C8008A9995 /* Explosion.hpp in Headers */,
 				84BF638D2AF186C8008A9995 /* Level.hpp in Headers */,
@@ -5503,6 +5565,7 @@
 				84B1E03A2E04FD7900ED000A /* Arrow.hpp in Headers */,
 				84BF63942AF186C8008A9995 /* RandomLevelSource.hpp in Headers */,
 				84BF63952AF186C8008A9995 /* TestChunkSource.hpp in Headers */,
+				84DED1AB2F309611004001C5 /* FurnaceRecipes.hpp in Headers */,
 				84BF63962AF186C8008A9995 /* Feature.hpp in Headers */,
 				8477B3AD2C4DC3F6004E1AC5 /* TilePos.hpp in Headers */,
 				84BF63972AF186C8008A9995 /* LargeCaveFeature.hpp in Headers */,
@@ -5516,6 +5579,7 @@
 				84E1C9D62E7FDC26007D2F5D /* GlowstoneTile.hpp in Headers */,
 				84BF639D2AF186C8008A9995 /* Material.hpp in Headers */,
 				84E1C9D02E7FDC26007D2F5D /* CactusTile.hpp in Headers */,
+				84DED1B22F309611004001C5 /* ShapelessRecipe.hpp in Headers */,
 				84BF639E2AF186C8008A9995 /* Region.hpp in Headers */,
 				84BF639F2AF186C8008A9995 /* ChunkStorage.hpp in Headers */,
 				84BF63A02AF186C8008A9995 /* ExternalFileLevelStorage.hpp in Headers */,
@@ -5526,6 +5590,7 @@
 				84BF63A42AF186C8008A9995 /* LevelStorage.hpp in Headers */,
 				84E1C9DA2E7FDC26007D2F5D /* SoulSandTile.hpp in Headers */,
 				8445E7A82D769329008DC834 /* Sheep.hpp in Headers */,
+				84DED19D2F3095FD004001C5 /* CraftingMenu.hpp in Headers */,
 				84BF63A52AF186C8008A9995 /* LevelStorageSource.hpp in Headers */,
 				84BF63A62AF186C8008A9995 /* MemoryChunkStorage.hpp in Headers */,
 				84BF63A72AF186C8008A9995 /* MemoryLevelStorage.hpp in Headers */,
@@ -5544,6 +5609,7 @@
 				845BBCB52F2EA81700C7232C /* ToolItem.hpp in Headers */,
 				84BF63AE2AF186C9008A9995 /* HitResult.hpp in Headers */,
 				84BF63AF2AF186C9008A9995 /* Vec3.hpp in Headers */,
+				84DED1B02F309611004001C5 /* ShapedRecipe.hpp in Headers */,
 				84BF63B02AF186C9008A9995 /* BookshelfTile.hpp in Headers */,
 				84BF63B12AF186C9008A9995 /* Bush.hpp in Headers */,
 				84BF63B22AF186C9008A9995 /* ClayTile.hpp in Headers */,
@@ -5551,6 +5617,7 @@
 				84BF63B42AF186C9008A9995 /* DirtTile.hpp in Headers */,
 				84BF63B52AF186C9008A9995 /* DoorTile.hpp in Headers */,
 				84BF63B62AF186C9008A9995 /* FarmTile.hpp in Headers */,
+				84DED1B82F30970A004001C5 /* CraftingTableTile.hpp in Headers */,
 				8445E7A62D769329008DC834 /* MobCategory.hpp in Headers */,
 				84BF63B72AF186C9008A9995 /* FireTile.hpp in Headers */,
 				84BF63B82AF186C9008A9995 /* GlassTile.hpp in Headers */,
@@ -5568,6 +5635,7 @@
 				84BF63C22AF186C9008A9995 /* LiquidTileStatic.hpp in Headers */,
 				84BF63C32AF186C9008A9995 /* MetalTile.hpp in Headers */,
 				84BF63C42AF186C9008A9995 /* ObsidianTile.hpp in Headers */,
+				84DED1B42F309611004001C5 /* SingleInputRecipe.hpp in Headers */,
 				84BF63C52AF186C9008A9995 /* OreTile.hpp in Headers */,
 				84BF63C62AF186C9008A9995 /* RedStoneOreTile.hpp in Headers */,
 				84BF63C72AF186C9008A9995 /* ReedTile.hpp in Headers */,
@@ -6395,6 +6463,7 @@
 				84B8AF0D2AF1896F008DE93D /* ControllerTurnInput.cpp in Sources */,
 				84B8AF0E2AF1896F008DE93D /* ITurnInput.cpp in Sources */,
 				84B8AF0F2AF1896F008DE93D /* Keyboard.cpp in Sources */,
+				84DED1982F3095B8004001C5 /* CraftingScreen.cpp in Sources */,
 				84B8AF102AF1896F008DE93D /* KeyboardInput.cpp in Sources */,
 				84E022F12F2A0211003C8FFE /* ContainerScreen.cpp in Sources */,
 				84F948272F2F5CB700217B16 /* ResourcePackManifest.cpp in Sources */,
@@ -6548,6 +6617,7 @@
 				84BF63152AF18631008A9995 /* GameMode.cpp in Sources */,
 				84BF63162AF18631008A9995 /* SurvivalMode.cpp in Sources */,
 				84BF63172AF18631008A9995 /* CameraItem.cpp in Sources */,
+				84DED1AF2F309611004001C5 /* ShapedRecipe.cpp in Sources */,
 				84E1C9E52E7FDC72007D2F5D /* AuxTileItem.cpp in Sources */,
 				84E1C9D52E7FDC26007D2F5D /* GlowstoneTile.cpp in Sources */,
 				84BF63182AF18631008A9995 /* DoorItem.cpp in Sources */,
@@ -6598,6 +6668,7 @@
 				84BF633B2AF18631008A9995 /* ChunkStorage.cpp in Sources */,
 				84E1C9EE2E7FDC89007D2F5D /* CactusFeature.cpp in Sources */,
 				8445E7A02D769329008DC834 /* EntityCategories.cpp in Sources */,
+				84DED1AA2F309611004001C5 /* FurnaceRecipes.cpp in Sources */,
 				84BF633C2AF18631008A9995 /* ExternalFileLevelStorage.cpp in Sources */,
 				84BF633D2AF18631008A9995 /* ExternalFileLevelStorageSource.cpp in Sources */,
 				84E1C9D72E7FDC26007D2F5D /* PumpkinTile.cpp in Sources */,
@@ -6615,14 +6686,17 @@
 				84BF63452AF18631008A9995 /* RegionFile.cpp in Sources */,
 				84BF63462AF18631008A9995 /* TickNextTickData.cpp in Sources */,
 				84BF63472AF18631008A9995 /* BubbleParticle.cpp in Sources */,
+				84DED1B72F30970A004001C5 /* CraftingTableTile.cpp in Sources */,
 				84E7BF282F286A08002D3936 /* Slot.cpp in Sources */,
 				84BF63482AF18631008A9995 /* ExplodeParticle.cpp in Sources */,
 				8445E7A92D769329008DC834 /* SynchedEntityData.cpp in Sources */,
 				84BF63492AF18631008A9995 /* FlameParticle.cpp in Sources */,
 				84BF634A2AF18631008A9995 /* LavaParticle.cpp in Sources */,
+				84DED1B32F309611004001C5 /* SingleInputRecipe.cpp in Sources */,
 				84B1E03D2E04FD7900ED000A /* Spider.cpp in Sources */,
 				84BF634B2AF18631008A9995 /* Particle.cpp in Sources */,
 				84BF634C2AF18631008A9995 /* ParticleEngine.cpp in Sources */,
+				84DED1AD2F309611004001C5 /* Recipes.cpp in Sources */,
 				84BF634D2AF18631008A9995 /* RedDustParticle.cpp in Sources */,
 				84BF634E2AF18631008A9995 /* SmokeParticle.cpp in Sources */,
 				84BF634F2AF18631008A9995 /* TerrainParticle.cpp in Sources */,
@@ -6632,10 +6706,12 @@
 				84BF63532AF18631008A9995 /* BookshelfTile.cpp in Sources */,
 				84E7BF1C2F286A08002D3936 /* ContainerMenu.cpp in Sources */,
 				84BF63542AF18631008A9995 /* Bush.cpp in Sources */,
+				84DED1B12F309611004001C5 /* ShapelessRecipe.cpp in Sources */,
 				84BF63552AF18631008A9995 /* ClayTile.cpp in Sources */,
 				84BF63562AF18631008A9995 /* ClothTile.cpp in Sources */,
 				84BF63572AF18631008A9995 /* DirtTile.cpp in Sources */,
 				84E1C9DD2E7FDC26007D2F5D /* Web.cpp in Sources */,
+				84DED19C2F3095FD004001C5 /* CraftingMenu.cpp in Sources */,
 				84BF63582AF18631008A9995 /* DoorTile.cpp in Sources */,
 				84BF63592AF18631008A9995 /* FarmTile.cpp in Sources */,
 				84BF635A2AF18631008A9995 /* FireTile.cpp in Sources */,
