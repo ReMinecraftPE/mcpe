@@ -102,6 +102,7 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::treeTrunk->m_ID, 1);
 	addCreativeItem(Tile::treeTrunk->m_ID, 2);
 	addCreativeItem(Tile::cactus->m_ID);
+	addCreativeItem(Tile::tallGrass->m_ID);
 	addCreativeItem(Tile::deadBush->m_ID);
 	addCreativeItem(Tile::pumpkin->m_ID);
 	addCreativeItem(Tile::pumpkinLantern->m_ID);
@@ -109,6 +110,10 @@ IngameBlockSelectionScreen::IngameBlockSelectionScreen() :
 	addCreativeItem(Tile::soulSand->m_ID);
 	addCreativeItem(Tile::glowstone->m_ID);
 	addCreativeItem(Tile::web->m_ID);
+
+	// test
+	//addCreativeItem(Tile::info_updateGame1->m_ID);
+	//addCreativeItem(Tile::info_updateGame2->m_ID);
 
 }
 

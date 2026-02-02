@@ -42,7 +42,7 @@ public:
 	ItemStack& getSelectedItem();
 	int getSelectedItemId();
 
-	void setItem(int index, const ItemStack& item);
+	void setItem(int index, const ItemStack& item) override;
 	void setSelectedItem(ItemStack item);
 	ItemStack removeItem(int index, int count) override;
 	bool removeResource(int id);

@@ -10,6 +10,8 @@
 #include "world/level/Level.hpp"
 #include "client/renderer/PatchManager.hpp"
 
+const Color GrassTile::DEFAULT_COLOR = Color(0.25f, 0.60f, 0.25f);
+
 GrassTile::GrassTile(TileID id, Material* c) : Tile(id, c)
 {
 	m_TextureFrame = TEXTURE_GRASS_SIDE;

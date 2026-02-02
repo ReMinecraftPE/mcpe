@@ -16,7 +16,7 @@ std::string ResourceLoader::GetPath(ResourceLocation::FileSystem fileSystem, con
 	switch (fileSystem)
 	{
 	case ResourceLocation::APP_PACKAGE:  return platform.getAssetPath(path);
-	case ResourceLocation::EXTERNAL_DIR: return platform.getExternalStoragePath(path); // platform()->getExternalStoragePath("/resource_packs/")
+	case ResourceLocation::EXTERNAL_DIR: return platform.getExternalStoragePath(path);
 	case ResourceLocation::RAW_PATH:     return path;
 	default:
 		LOG_E("Unsupported Resource FileSystem: %d", fileSystem);

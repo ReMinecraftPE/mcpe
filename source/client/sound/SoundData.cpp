@@ -14,8 +14,9 @@
 #include "common/Logger.hpp"
 #include "client/resources/Resource.hpp"
 #include "client/resources/ResourcePackManager.hpp"
+#include "client/resources/ResourcePackRepository.hpp"
 
-std::string SoundDesc::dirs[] = {
+const std::string SoundDesc::DIRS[] = {
     "sound",
     "newsound",
     "sound3"
@@ -50,13 +51,14 @@ bool SoundDesc::_load(const char* category, const char *name)
     if (loader->m_pPacks)
     {
         // try to use the resource pack version of the sound
-        location.fileSystem = ResourceLocation::EXTERNAL_DIR;
         for (size_t i = 0; i < loader->m_pPacks->size(); ++i)
         {
-            packdir = "resource_packs/" + (*loader->m_pPacks)[i] + "/";
+            ResourcePack& pack = (*loader->m_pPacks)[i];
+            location.fileSystem = pack.m_fileSystem;
+            packdir = ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + pack.m_name + "/";
             for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
             {
-                location.path = packdir + dirs[i] + "/" + category + "/" + name + ".ogg";
+                location.path = packdir + DIRS[i] + "/" + category + "/" + name + ".ogg";
                 ret = _loadOgg(location);
                 if (ret)
                     return ret;
@@ -72,7 +74,7 @@ bool SoundDesc::_load(const char* category, const char *name)
     location.fileSystem = ResourceLocation::APP_PACKAGE;
     for (size_t i = 0; i < SOUND_DIRS_SIZE; ++i)
     {
-        location.path = dirs[i] + "/" + category + "/" + name + ".ogg";
+        location.path = DIRS[i] + "/" + category + "/" + name + ".ogg";
         ret = _loadOgg(location);
         if (ret)
             return ret;

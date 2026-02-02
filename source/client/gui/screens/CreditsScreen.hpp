@@ -6,7 +6,7 @@ class CreditsScreen : public Screen
 {
 public:
 	CreditsScreen();
-    ~CreditsScreen();
+	~CreditsScreen();
 
 private:
 	void _initCreditsText();

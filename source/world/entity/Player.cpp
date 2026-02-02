@@ -355,7 +355,15 @@ void Player::useItem(ItemStack& item) const
 
 bool Player::canDestroy(const Tile* pTile) const
 {
-	return true;
+	// If the tile's material does not need tool check then allow destroy regardless of equipped item
+	if (pTile->m_pMaterial->isMineable())
+		return true;
+
+	ItemStack& item = getSelectedItem();
+	if (!item.isEmpty())
+		return item.canDestroySpecial(pTile);
+
+	return false;
 }
 
 void Player::closeContainer()
@@ -366,6 +374,32 @@ void Player::closeContainer()
 void Player::displayClientMessage(const std::string& msg)
 {
 
+}
+
+float Player::getDestroySpeed(const Tile* tile) const
+{
+	float speed = 1.0f;
+	
+	ItemStack& item = getSelectedItem();
+	if (!item.isEmpty())
+	{
+		// Original multiplies but there's no need since you're just multiplying by 1 on the first check.
+		speed = item.getDestroySpeed(tile);
+	}
+
+	// Speed penalty for being underwater
+	if (isUnderLiquid(Material::water))
+	{
+		speed /= 5.0f;
+	}
+
+	// Speed penalty for jumping/falling
+	if (!m_bOnGround)
+	{
+		speed /= 5.0f;
+	}
+
+	return speed;
 }
 
 int Player::getInventorySlot(int x) const

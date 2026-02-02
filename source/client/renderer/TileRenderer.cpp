@@ -14,7 +14,9 @@
 #include "client/renderer/renderer/RenderMaterialGroup.hpp"
 #include "world/tile/BedTile.hpp"
 #include "world/tile/FireTile.hpp"
+#include "world/tile/GrassTile.hpp"
 #include "world/tile/LiquidTile.hpp"
+#include "world/tile/LeafTile.hpp"
 #include "GameMods.hpp"
 
 #define DEFAULT_LIGHT_COLOR 16711935
@@ -723,7 +725,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_fixedTexture < 0)
 		{
 			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderNorth(tile, pos, TEXTURE_NONE84);
+			renderNorth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 		}
 	}
 
@@ -742,7 +744,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_fixedTexture < 0)
 		{
 			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderSouth(tile, pos, TEXTURE_NONE84);
+			renderSouth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 		}
 	}
 
@@ -761,7 +763,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_fixedTexture < 0)
 		{
 			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderWest(tile, pos, TEXTURE_NONE84);
+			renderWest(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 		}
 	}
 
@@ -780,7 +782,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, const TilePos& pos, float r
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_fixedTexture < 0)
 		{
 			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderEast(tile, pos, TEXTURE_NONE84);
+			renderEast(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 		}
 	}
 
@@ -2779,9 +2781,9 @@ LABEL_102:
 	red = bright, grn = bright, blu = bright; \
 	if (GetPatchManager()->IsGrassTinted()) {           \
 		if (tileType->m_ID == Tile::leaves->m_ID)           \
-			red *= 0.35f, grn *= 0.65f, blu *= 0.25f;   \
+			red *= LeafTile::DEFAULT_COLOR.r, grn *= LeafTile::DEFAULT_COLOR.g, blu *= LeafTile::DEFAULT_COLOR.b;   \
 		if (tileType->m_ID == Tile::grass->m_ID) \
-			red *= 0.25f, grn *= 0.60f, blu *= 0.25f;   \
+			red *= GrassTile::DEFAULT_COLOR.r, grn *= GrassTile::DEFAULT_COLOR.g, blu *= GrassTile::DEFAULT_COLOR.b;   \
 	}                                                   \
 } while (0)
 
@@ -3154,22 +3156,22 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, cons
 			switch (dir) 
 			{
 				case Facing::DOWN:
-					renderFaceUp(tile, pos, TEXTURE_NONE84);
+					renderFaceUp(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 					break;
 				case Facing::UP:
-					renderFaceDown(tile, pos, TEXTURE_NONE84);
+					renderFaceDown(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 					break;
 				case Facing::NORTH:
-					renderNorth(tile, pos, TEXTURE_NONE84);
+					renderNorth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 					break;
 				case Facing::SOUTH:
-					renderSouth(tile, pos, TEXTURE_NONE84);
+					renderSouth(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 					break;
 				case Facing::WEST:
-					renderWest(tile, pos, TEXTURE_NONE84);
+					renderWest(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 					break;
 				case Facing::EAST:
-					renderEast(tile, pos, TEXTURE_NONE84);
+					renderEast(tile, pos, TEXTURE_GRASS_SIDE_OVERLAY);
 					break;
 			}
 		}

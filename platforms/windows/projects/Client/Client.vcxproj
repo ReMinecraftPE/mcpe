@@ -232,6 +232,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\ContainerScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\InventoryScreen.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePack.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -383,6 +386,9 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ContainerScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\InventoryScreen.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePack.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

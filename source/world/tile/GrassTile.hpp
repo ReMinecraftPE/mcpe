@@ -13,8 +13,12 @@
 class GrassTile : public Tile
 {
 public:
+	static const Color DEFAULT_COLOR;
+
+public:
 	GrassTile(TileID ID, Material*);
 
+public:
 	int getResource(TileData, Random*) const override;
 	int getColor(const LevelSource*, const TilePos& pos) const override;
 	int getTexture(Facing::Name face) const override;

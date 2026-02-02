@@ -18,6 +18,7 @@ protected:
 	class Materials
 	{
 	public:
+		mce::MaterialPtr item_entity;
 		mce::MaterialPtr ui_fill_color;
 		mce::MaterialPtr ui_textured;
 		mce::MaterialPtr ui_texture_and_color;

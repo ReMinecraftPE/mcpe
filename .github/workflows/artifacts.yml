@@ -1,0 +1,257 @@
+name: 'Build Artifacts'
+
+on:
+  push:
+    branches: [ 'master' ]
+
+jobs:
+    linux:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL 2
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    packages: 'libsdl2-dev'
+        name: Linux (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    libopenal-dev \
+                    zlib1g-dev \
+                    ${{ matrix.packages }}
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
+                cmake --build .
+                cp reminecraftpe reminecraftpe-unstripped
+                strip reminecraftpe
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Linux (${{ matrix.name }})
+              path: |
+                build/reminecraftpe
+                build/reminecraftpe-unstripped
+                build/assets
+
+    linux32:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL 2
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    packages: 'libsdl2-dev:i386'
+        name: Linux 32-bit (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo dpkg --add-architecture i386
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    gcc-multilib g++-multilib \
+                    libopenal-dev:i386 \
+                    zlib1g-dev:i386 \
+                    ${{ matrix.packages }}
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS='-m32' -DCMAKE_CXX_FLAGS='-m32' ${{ matrix.flags }} ..
+                cmake --build .
+                cp reminecraftpe reminecraftpe-unstripped
+                strip reminecraftpe
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Linux 32-bit (${{ matrix.name }})
+              path: |
+                build/reminecraftpe
+                build/reminecraftpe-unstripped
+                build/assets
+
+    macos:
+        strategy:
+            fail-fast: false
+            matrix: # TODO add PPC build
+                include:
+                  - name: SDL 2
+                    backend_name: 'SDL2'
+                    packages: 'libsdl2'
+        name: macOS (${{ matrix.name }})
+        runs-on: macos-15
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install MacPorts
+            uses: melusina-org/setup-macports@v1
+          - name: Install Dependencies
+            run: |
+                port selfupdate
+                port install ${{ matrix.packages }} +universal
+          - name: Build macOS Archive
+            run: |
+                cd platforms/macos/projects/Minecraft
+                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
+                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
+                -sdk macosx \
+                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
+                -destination generic/platform=macOS \
+                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
+                -quiet \
+                clean archive
+                mv $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ../../../../reminecraftpe
+                mv ../../../../game/assets ../../../..
+          - uses: actions/upload-artifact@v6
+            with:
+              name: macOS
+              path: |
+                reminecraftpe
+                assets
+
+    ios:
+        name: iOS
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                wget https://apt.llvm.org/llvm.sh
+                sudo bash llvm.sh 21
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    cmake \
+                    clang-21 \
+                    libplist-utils \
+                    libplist-dev \
+                    libssl-dev
+
+          - name: Build iOS binary
+            run: ./platforms/ios/build.sh
+            env:
+              CLANG: clang-21
+              AR: llvm-ar-21
+              RANLIB: llvm-ranlib-21
+              LLVM_CONFIG: llvm-config-21
+          - uses: actions/upload-artifact@v6
+            with:
+              name: iOS
+              path: platforms/ios/build/ReMCPE.ipa
+
+    android:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: Native
+                    directory: platforms/android/project
+        name: Android (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Setup JDK
+            uses: actions/setup-java@v4
+            with:
+                java-version: '17'
+                distribution: 'temurin'
+                cache: gradle
+          - name: Build
+            run: |
+                cd ${{ matrix.directory }}
+                ./gradlew assembleRelease
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Android (${{ matrix.name }})
+              path: platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk
+
+    mingw:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: Win32 (OGL)
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                  - name: Win32 (OGL + Shaders)
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                  - name: Win32 (OGL) 32-bit
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
+                  - name: Win32 (OGL + Shaders) 32-bit
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL_SHADERS -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
+        name: MinGW-w64 (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    mingw-w64
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
+                cmake --build .
+                cp reminecraftpe.exe reminecraftpe-unstripped.exe
+                x86_64-w64-mingw32-strip reminecraftpe.exe
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Windows (${{ matrix.name }})
+              path: |
+                build/reminecraftpe.exe
+                build/assets
+
+    switch:
+        name: Nintendo Switch
+        runs-on: ubuntu-24.04
+        container:
+            image: devkitpro/devkita64@sha256:7ca6fb93e8f576a65bbfe07b537b67664a974e06eabe4e94359e3e026a0f0b0c
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+            with:
+                submodules: true
+
+          - name: Build Switch binary
+            run: |
+                mkdir build
+                cd build
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
+          - uses: actions/upload-artifact@v6
+            with:
+              name: Nintendo Switch
+              path: |
+                build/platforms/sdl/sdl2/reminecraftpe.nro
+                build/reminecraftpe.elf
+                build/assets

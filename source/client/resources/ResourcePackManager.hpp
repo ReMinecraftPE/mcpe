@@ -3,13 +3,17 @@
 #include <vector>
 
 #include "ResourceLoader.hpp"
+#include "ResourcePack.hpp"
 
-typedef std::vector<std::string> ResourcePackStack;
+typedef std::vector<ResourcePack> ResourcePackStack;
 
 class ResourcePackManager : public ResourceLoader
 {
 public:
 	ResourcePackManager();
+
+private:
+	ResourceLocation _getLocationInPack(const ResourceLocation& location, const ResourcePack& pack) const;
 
 public:
 	bool hasResource(const ResourceLocation& location) const override;

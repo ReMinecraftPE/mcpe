@@ -8,7 +8,13 @@ struct PS_Input
     float4 light : LIGHT;
     float4 fogColor : PS_FOG_COLOR;
 
+#ifndef COLOR_BASED
     float2 uv : TEXCOORD_0;
+#endif
+
+#ifdef USE_VERTEX_COLORS
+	float4 color : COLOR;
+#endif
 
 #ifdef USE_OVERLAY
     float4 overlayColor : PS_OVERLAY_COLOR;
@@ -70,6 +76,8 @@ PS_MAIN_BEGIN
 #ifdef USE_EMISSIVE
         //make glowy stuff
         color *= lerp( float( 1.0 ).xxxx, PSInput.light, color.a );
+#elif defined(USE_VERTEX_COLORS)
+        color *= PSInput.color;
 #else
         color *= PSInput.light;
 #endif

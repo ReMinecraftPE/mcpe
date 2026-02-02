@@ -212,6 +212,7 @@
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\inventory\ChestMenu.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyeColor.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\ToolItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -368,6 +369,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\SimpleContainer.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\inventory\ChestMenu.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\DyeColor.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\Tool.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\ToolItem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">
