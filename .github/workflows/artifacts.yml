@@ -25,9 +25,7 @@ jobs:
               key: linux-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
               restore-keys: linux-artifact-${{ matrix.name }}-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -55,9 +53,7 @@ jobs:
                 build/reminecraftpe
                 build/assets
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     linux32:
         strategy:
@@ -79,9 +75,7 @@ jobs:
               key: linux32-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
               restore-keys: linux32-artifact-${{ matrix.name }}-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -111,9 +105,7 @@ jobs:
                 build/reminecraftpe
                 build/assets
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     macos:
         strategy:
@@ -169,9 +161,7 @@ jobs:
               key: ios-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: ios-artifact-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -201,9 +191,7 @@ jobs:
               name: iOS
               path: platforms/ios/build/ReMCPE.ipa
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     android:
         strategy:
@@ -259,9 +247,7 @@ jobs:
               key: mingw-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
               restore-keys: mingw-artifact-${{ matrix.name }}-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -287,9 +273,7 @@ jobs:
                 build/reminecraftpe.exe
                 build/assets
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     switch:
         name: Nintendo Switch
@@ -306,9 +290,7 @@ jobs:
               key: switch-artifact-${{ steps.get-time.outputs.time }}
               restore-keys: switch-artifact-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v6
             with:
@@ -330,6 +312,4 @@ jobs:
                 build/reminecraftpe.elf
                 build/assets
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache

@@ -27,11 +27,9 @@ jobs:
               key: linux-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
               restore-keys: linux-${{ matrix.name }}-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -51,9 +49,7 @@ jobs:
                 cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ${{ matrix.flags }} ..
                 cmake --build .
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     wasm:
         name: WASM
@@ -68,11 +64,9 @@ jobs:
               key: linux-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
               restore-keys: linux-${{ matrix.name }}-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -82,9 +76,7 @@ jobs:
           - name: Build
             run: ./build-wasm.sh -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     macos:
         strategy:
@@ -103,7 +95,7 @@ jobs:
         runs-on: macos-15
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install MacPorts
@@ -137,11 +129,9 @@ jobs:
               key: ios-${{ steps.get-time.outputs.time }}
               restore-keys: ios-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -166,9 +156,7 @@ jobs:
               REMCPE_NO_IPA: 1
               WERROR: ON
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     android:
         strategy:
@@ -183,7 +171,7 @@ jobs:
         runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Setup JDK
@@ -225,11 +213,9 @@ jobs:
               key: switch-${{ steps.get-time.outputs.time }}
               restore-keys: switch-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -247,9 +233,7 @@ jobs:
                 cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     switch:
         name: Nintendo Switch
@@ -266,11 +250,9 @@ jobs:
               key: switch-${{ steps.get-time.outputs.time }}
               restore-keys: switch-
           - name: Unpack cache
-            run: |
-                cd ~
-                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -282,6 +264,4 @@ jobs:
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ..
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
           - name: Pack cache
-            run: |
-                cd ~
-                tar cJf ccache.tar.xz .cache/ccache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
