@@ -10,7 +10,9 @@ case $0 in
     *)   cc="clang"   ;;
 esac
 
-exec "$cc" \
+command -v ccache > /dev/null && ccache=ccache
+
+exec $ccache "$cc" \
     -mlinker-version=762 \
     -stdlib=libstdc++ \
     "$@" \
