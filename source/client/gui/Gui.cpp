@@ -43,7 +43,7 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_24 = 0;
 	field_28 = 0;
 	field_2C = 0;
-	field_9FC = 0;
+	m_ticks = 0;
 	field_A00 = "";
 	field_A18 = 0;
 	field_A1C = false;
@@ -221,7 +221,7 @@ void Gui::tick()
 	if (field_A18 > 0)
 		field_A18--;
 
-	field_9FC++;
+	m_ticks++;
 
 	for (size_t i = 0; i < m_guiMessages.size(); i++)
 	{
@@ -455,6 +455,7 @@ void Gui::renderHearts(bool topLeft)
 
 	int playerHealth = player->m_health;
 
+	m_random.setSeed(static_cast<int32_t>(field_9FC * 312871));
 	for (int healthNo = 1; healthNo <= C_MAX_MOB_HEALTH; healthNo += 2)
 	{
 		int heartY = heartYStart;
