@@ -151,7 +151,9 @@ void Player::die(Entity* pCulprit)
 		if (m_name == "Notch")
 			drop(ItemStack(Item::apple), true);
 	}
+#if NETWORK_PROTOCOL_VERSION <= 3
 	m_pInventory->dropAll(m_pLevel->m_bIsClientSide);
+#endif
 
 	if (pCulprit)
 	{

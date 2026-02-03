@@ -6,11 +6,12 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <typeinfo>
 #include "MinecraftPackets.hpp"
 
-Packet* MinecraftPackets::createPacket(int type)
+Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 {
-	switch (type)
+	switch (id)
 	{
 		case PACKET_LOGIN:
 			return new LoginPacket;
@@ -28,6 +29,9 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new AddMobPacket;
 		case PACKET_ADD_PLAYER:
 			return new AddPlayerPacket;
+		case PACKET_REMOVE_PLAYER:
+			// Was never implemented
+			throw std::bad_cast();
 		case PACKET_REMOVE_ENTITY:
 			return new RemoveEntityPacket;
 		case PACKET_ADD_ITEM_ENTITY:
@@ -46,6 +50,9 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new RemoveBlockPacket;
 		case PACKET_UPDATE_BLOCK:
 			return new UpdateBlockPacket;
+		case PACKET_EXPLODE:
+			// Not implemented
+			throw std::bad_cast();
 		case PACKET_LEVEL_EVENT:
 			return new LevelEventPacket;
 		case PACKET_ENTITY_EVENT:
@@ -68,6 +75,10 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new AnimatePacket;
 		case PACKET_RESPAWN:
 			return new RespawnPacket;
+		case PACKET_SEND_INVENTORY:
+			return new SendInventoryPacket;
+		case PACKET_DROP_ITEM:
+			return new DropItemPacket;
 
 		case PACKET_LEVEL_DATA:
 			return new LevelDataPacket;

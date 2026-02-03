@@ -19,6 +19,8 @@ ItemStack::TAG_REPAIR_COST = "RepairCost",
 ItemStack::TAG_ENCHANTS = "ench";
 const ItemStack ItemStack::EMPTY;
 
+#define C_INVALID_ID -1
+
 void ItemStack::_init(int id, int count, int auxValue)
 {
 	m_count = count;
@@ -92,19 +94,19 @@ ItemStack::~ItemStack()
 
 bool ItemStack::_setItem(int id)
 {
-	if (id == -1)
+	if (id == C_INVALID_ID)
 	{
-		m_count = -1;
+		m_count = 0;
 		m_bValid = false;
 		m_pItem = nullptr;
 		m_pTile = nullptr;
-		m_auxValue = -1;
+		m_auxValue = 0;
 		return false;
 	}
 
 	if (id >= C_MAX_ITEMS)
 	{
-		return _setItem(-1);
+		return _setItem(C_INVALID_ID);
 	}
 
 	m_pItem = Item::items[id];
@@ -125,13 +127,13 @@ bool ItemStack::_setItem(int id)
 	if (m_bValid)
 		return true;
 	else
-		return _setItem(-1);
+		return _setItem(C_INVALID_ID);
 }
 
 int ItemStack::getId() const
 {
 	if (!m_bValid)
-		return -1;
+		return C_INVALID_ID;
 
 	const Item* item = getItem();
 	if (item)
@@ -350,8 +352,9 @@ void ItemStack::shrink(int count)
 
 ItemStack ItemStack::remove(int count)
 {
+	ItemStack result(getId(), count, m_auxValue);
 	shrink(count);
-	return ItemStack(getId(), count, m_auxValue);
+	return result;
 }
 
 void ItemStack::setDescriptionId(const std::string& str)

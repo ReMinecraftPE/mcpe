@@ -125,6 +125,12 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.hpp">
       <Filter>Header Files\Packets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SendInventoryPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\DropItemPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.cpp">
@@ -227,6 +233,12 @@
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\DropItemPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SendInventoryPacket.cpp">
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
   </ItemGroup>

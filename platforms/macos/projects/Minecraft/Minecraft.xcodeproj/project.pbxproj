@@ -1235,6 +1235,10 @@
 		84F948282F2F5CB700217B16 /* ResourcePackManifest.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F948222F2F5CB700217B16 /* ResourcePackManifest.hpp */; };
 		84F948292F2F5CB700217B16 /* ResourcePackRepository.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F948232F2F5CB700217B16 /* ResourcePackRepository.cpp */; };
 		84F9482A2F2F5CB700217B16 /* ResourcePackRepository.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84F948242F2F5CB700217B16 /* ResourcePackRepository.hpp */; };
+		84FD19572F31E7E500BCD51F /* DropItemPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84FD19532F31E7E500BCD51F /* DropItemPacket.cpp */; };
+		84FD19582F31E7E500BCD51F /* DropItemPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84FD19542F31E7E500BCD51F /* DropItemPacket.hpp */; };
+		84FD19592F31E7E500BCD51F /* SendInventoryPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84FD19552F31E7E500BCD51F /* SendInventoryPacket.cpp */; };
+		84FD195A2F31E7E500BCD51F /* SendInventoryPacket.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84FD19562F31E7E500BCD51F /* SendInventoryPacket.hpp */; };
 		84FFBE952ACA3415005A8CCF /* _FindFirst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73A2AC810620006A435 /* _FindFirst.cpp */; };
 		84FFBE962ACA3415005A8CCF /* Base64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD73E2AC810620006A435 /* Base64Encoder.cpp */; };
 		84FFBE972ACA3415005A8CCF /* BitStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 840DD7402AC810620006A435 /* BitStream.cpp */; };
@@ -2881,6 +2885,10 @@
 		84F948222F2F5CB700217B16 /* ResourcePackManifest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResourcePackManifest.hpp; sourceTree = "<group>"; };
 		84F948232F2F5CB700217B16 /* ResourcePackRepository.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourcePackRepository.cpp; sourceTree = "<group>"; };
 		84F948242F2F5CB700217B16 /* ResourcePackRepository.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResourcePackRepository.hpp; sourceTree = "<group>"; };
+		84FD19532F31E7E500BCD51F /* DropItemPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DropItemPacket.cpp; sourceTree = "<group>"; };
+		84FD19542F31E7E500BCD51F /* DropItemPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DropItemPacket.hpp; sourceTree = "<group>"; };
+		84FD19552F31E7E500BCD51F /* SendInventoryPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SendInventoryPacket.cpp; sourceTree = "<group>"; };
+		84FD19562F31E7E500BCD51F /* SendInventoryPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SendInventoryPacket.hpp; sourceTree = "<group>"; };
 		84FFBD7E2ACA2876005A8CCF /* libRakNet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRakNet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D3996262F10E9C6002945D3 /* CreditsScreen.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CreditsScreen.hpp; sourceTree = "<group>"; };
 		9D3996272F10E9C6002945D3 /* CreditsScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CreditsScreen.cpp; sourceTree = "<group>"; };
@@ -3354,6 +3362,8 @@
 				84F77A132EA1C01B0045C907 /* AnimatePacket.hpp */,
 				840DD6412AC810620006A435 /* ChunkDataPacket.cpp */,
 				84F77A142EA1C01B0045C907 /* ChunkDataPacket.hpp */,
+				84FD19532F31E7E500BCD51F /* DropItemPacket.cpp */,
+				84FD19542F31E7E500BCD51F /* DropItemPacket.hpp */,
 				84F77A152EA1C01B0045C907 /* EntityEventPacket.cpp */,
 				84F77A162EA1C01B0045C907 /* EntityEventPacket.hpp */,
 				84F77A172EA1C01C0045C907 /* InteractPacket.cpp */,
@@ -3388,6 +3398,8 @@
 				84F77A292EA1C01C0045C907 /* RequestChunkPacket.hpp */,
 				84F77A2A2EA1C01C0045C907 /* RespawnPacket.cpp */,
 				84F77A2B2EA1C01C0045C907 /* RespawnPacket.hpp */,
+				84FD19552F31E7E500BCD51F /* SendInventoryPacket.cpp */,
+				84FD19562F31E7E500BCD51F /* SendInventoryPacket.hpp */,
 				84F77A2C2EA1C01C0045C907 /* SetEntityDataPacket.cpp */,
 				84F77A2D2EA1C01C0045C907 /* SetEntityDataPacket.hpp */,
 				84F77A2E2EA1C01C0045C907 /* SetHealthPacket.cpp */,
@@ -5241,6 +5253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84F77A462EA1C01C0045C907 /* LoginPacket.hpp in Headers */,
+				84FD195A2F31E7E500BCD51F /* SendInventoryPacket.hpp in Headers */,
 				84F77A3E2EA1C01C0045C907 /* ChunkDataPacket.hpp in Headers */,
 				8406FD2C2AF1820700B09C1D /* MinecraftPackets.hpp in Headers */,
 				84F77A5B2EA1C01C0045C907 /* StartGamePacket.hpp in Headers */,
@@ -5261,6 +5274,7 @@
 				84F77A4C2EA1C01C0045C907 /* MoveEntityPacket.hpp in Headers */,
 				84F77A3B2EA1C01C0045C907 /* AddPlayerPacket.hpp in Headers */,
 				84F77A592EA1C01C0045C907 /* SetHealthPacket.hpp in Headers */,
+				84FD19582F31E7E500BCD51F /* DropItemPacket.hpp in Headers */,
 				84F77A572EA1C01C0045C907 /* SetEntityDataPacket.hpp in Headers */,
 				84F77A5E2EA1C01C0045C907 /* UpdateBlockPacket.hpp in Headers */,
 				84F77A602EA1C01C0045C907 /* UseItemPacket.hpp in Headers */,
@@ -6272,6 +6286,7 @@
 				8426106F2AE989720065905F /* MinecraftPackets.cpp in Sources */,
 				84F77A3C2EA1C01C0045C907 /* AnimatePacket.cpp in Sources */,
 				84F77A392EA1C01C0045C907 /* AddMobPacket.cpp in Sources */,
+				84FD19572F31E7E500BCD51F /* DropItemPacket.cpp in Sources */,
 				84F77A412EA1C01C0045C907 /* InteractPacket.cpp in Sources */,
 				842610702AE989720065905F /* NetEventCallback.cpp in Sources */,
 				84F77A562EA1C01C0045C907 /* SetEntityDataPacket.cpp in Sources */,
@@ -6286,6 +6301,7 @@
 				842610772AE989730065905F /* PlaceBlockPacket.cpp in Sources */,
 				842610782AE989730065905F /* PlayerEquipmentPacket.cpp in Sources */,
 				842610792AE989730065905F /* RemoveBlockPacket.cpp in Sources */,
+				84FD19592F31E7E500BCD51F /* SendInventoryPacket.cpp in Sources */,
 				8426107A2AE989730065905F /* RemoveEntityPacket.cpp in Sources */,
 				84F77A4B2EA1C01C0045C907 /* MoveEntityPacket.cpp in Sources */,
 				8426107B2AE989730065905F /* RequestChunkPacket.cpp in Sources */,

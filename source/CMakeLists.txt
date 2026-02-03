@@ -214,6 +214,8 @@ add_library(reminecraftpe-core STATIC
     network/packets/MessagePacket.cpp
     network/packets/AnimatePacket.cpp
     network/packets/RespawnPacket.cpp
+    network/packets/SendInventoryPacket.cpp
+    network/packets/DropItemPacket.cpp
     network/RakIO.cpp
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp

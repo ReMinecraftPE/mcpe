@@ -54,6 +54,15 @@ LocalPlayer::~LocalPlayer()
 {
 }
 
+void LocalPlayer::die(Entity* pCulprit)
+{
+#if NETWORK_PROTOCOL_VERSION >= 4
+	m_pInventory->dropAll();
+#endif
+
+	Player::die(pCulprit);
+}
+
 void LocalPlayer::aiStep()
 {
 	m_pMoveInput->tick(this);
@@ -69,18 +78,6 @@ void LocalPlayer::aiStep()
 
 	if (interpolateOnly())
 		updateAi();
-}
-
-void LocalPlayer::drop(const ItemStack& item, bool randomly)
-{
-	if (m_pMinecraft->isOnlineClient())
-	{
-		// @TODO: Replicate DropItemPacket to server
-	}
-	else
-	{
-		Player::drop(item, randomly);
-	}
 }
 
 void LocalPlayer::setPlayerGameType(GameType gameType)
@@ -274,7 +271,8 @@ void LocalPlayer::tick()
 		if (m_lastSelectedSlot != m_pInventory->m_selectedSlot)
 		{
 			m_lastSelectedSlot = m_pInventory->m_selectedSlot;
-			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, m_lastSelectedSlot));
+			const ItemStack& item = m_pInventory->getSelectedItem();
+			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, item.getId(), item.getAuxValue()));
 		}
 	}
 }
