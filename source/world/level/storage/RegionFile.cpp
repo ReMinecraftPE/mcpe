@@ -83,17 +83,27 @@ bool RegionFile::readChunk(const ChunkPos& pos, RakNet::BitStream** pBitStream)
 	int thing = (idx >> 8);
 
 	int length = 0;
-	fseek(m_pFile, thing * SECTOR_BYTES, SEEK_SET);
-	fread(&length, sizeof(int), 1, m_pFile);
+	if (fseek(m_pFile, thing * SECTOR_BYTES, SEEK_SET) != 0)
+		return false;
+	if (fread(&length, sizeof(int), 1, m_pFile) != 1)
+		return false;
 	
 	assert(length < ((idx & 0xff) * SECTOR_BYTES));
 
 	length -= 4;
 
 	uint8_t* data = new uint8_t[length];
+	if (!data)
+		return false;
 	READ(data, 1, length, m_pFile);
 
-	*pBitStream = new RakNet::BitStream(data, length, false);
+	RakNet::BitStream* stream = new RakNet::BitStream(data, length, false);
+	if (!stream)
+	{
+		delete[] data;
+		return false;
+	}
+	*pBitStream = stream;
 	return true;
 }
 
@@ -152,10 +162,12 @@ bool RegionFile::writeChunk(const ChunkPos& pos, RakNet::BitStream& bitStream)
 
 	if (bNeedWrite)
 	{
-		fseek(m_pFile, 0, SEEK_END);
+		if (fseek(m_pFile, 0, SEEK_END) != 0)
+			return false;
 		for (int j = 0; lowerIndex - i > j; j++)
 		{
-			fwrite(field_24, sizeof(int), 1024, m_pFile);
+			if (fwrite(field_24, sizeof(int), 1024, m_pFile) != 1024)
+				return false;
 			field_28[j + v22] = true;
 		}
 	}
@@ -167,8 +179,10 @@ bool RegionFile::writeChunk(const ChunkPos& pos, RakNet::BitStream& bitStream)
 	}
 
 	write(v22, bitStream);
-	fseek(m_pFile, sizeof(int) * (pos.x + 32 * pos.z), SEEK_SET);
-	fwrite(&field_20[pos.x + 32 * pos.z], sizeof(int), 1, m_pFile);
+	if (fseek(m_pFile, sizeof(int) * (pos.x + 32 * pos.z), SEEK_SET) != 0)
+		return false;
+	if (fwrite(&field_20[pos.x + 32 * pos.z], sizeof(int), 1, m_pFile) != 1)
+		return false;
 
 	return true;
 }
