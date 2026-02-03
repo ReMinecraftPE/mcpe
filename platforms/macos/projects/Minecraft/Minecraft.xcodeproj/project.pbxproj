@@ -709,6 +709,10 @@
 		84BF63D42AF186C9008A9995 /* TreeTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD72B2AC810620006A435 /* TreeTile.hpp */; };
 		84BF63D52AF186C9008A9995 /* WireTile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 840DD72D2AC810620006A435 /* WireTile.hpp */; };
 		84C0D8032B15A1D0007E1E76 /* PlatformDefinitions.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */; };
+		84C614282F323602008AC5BE /* BowItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84C614242F323602008AC5BE /* BowItem.hpp */; };
+		84C614292F323602008AC5BE /* WeaponItem.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84C614262F323602008AC5BE /* WeaponItem.hpp */; };
+		84C6142A2F323602008AC5BE /* BowItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C614252F323602008AC5BE /* BowItem.cpp */; };
+		84C6142B2F323602008AC5BE /* WeaponItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C614272F323602008AC5BE /* WeaponItem.cpp */; };
 		84C90EA52AF8861A008973F9 /* OptionList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C90EA32AF8861A008973F9 /* OptionList.cpp */; };
 		84C90EA62AF8861A008973F9 /* OptionList.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 84C90EA42AF8861A008973F9 /* OptionList.hpp */; };
 		84CCBC3F2E6183F300E251AF /* DataIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CCBC3D2E6183F300E251AF /* DataIO.cpp */; };
@@ -2381,6 +2385,10 @@
 		84C0D8002B159A0E007E1E76 /* GlobalSettings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = GlobalSettings.xcconfig; path = ../Configuration/GlobalSettings.xcconfig; sourceTree = "<group>"; };
 		84C0D8022B15A1D0007E1E76 /* PlatformDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlatformDefinitions.h; sourceTree = "<group>"; };
 		84C4D86E2A872C0100323E33 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		84C614242F323602008AC5BE /* BowItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BowItem.hpp; sourceTree = "<group>"; };
+		84C614252F323602008AC5BE /* BowItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BowItem.cpp; sourceTree = "<group>"; };
+		84C614262F323602008AC5BE /* WeaponItem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WeaponItem.hpp; sourceTree = "<group>"; };
+		84C614272F323602008AC5BE /* WeaponItem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WeaponItem.cpp; sourceTree = "<group>"; };
 		84C90EA32AF8861A008973F9 /* OptionList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OptionList.cpp; sourceTree = "<group>"; };
 		84C90EA42AF8861A008973F9 /* OptionList.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OptionList.hpp; sourceTree = "<group>"; };
 		84CCBC3D2E6183F300E251AF /* DataIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataIO.cpp; sourceTree = "<group>"; };
@@ -3623,6 +3631,10 @@
 		840DD66F2AC810620006A435 /* item */ = {
 			isa = PBXGroup;
 			children = (
+				84C614242F323602008AC5BE /* BowItem.hpp */,
+				84C614252F323602008AC5BE /* BowItem.cpp */,
+				84C614262F323602008AC5BE /* WeaponItem.hpp */,
+				84C614272F323602008AC5BE /* WeaponItem.cpp */,
 				84E1C9DF2E7FDC72007D2F5D /* AuxTileItem.cpp */,
 				84E1C9E02E7FDC72007D2F5D /* AuxTileItem.hpp */,
 				840DD6702AC810620006A435 /* CameraItem.cpp */,
@@ -5648,6 +5660,8 @@
 				84BF63C12AF186C9008A9995 /* LiquidTileDynamic.hpp in Headers */,
 				84BF63C22AF186C9008A9995 /* LiquidTileStatic.hpp in Headers */,
 				84BF63C32AF186C9008A9995 /* MetalTile.hpp in Headers */,
+				84C614282F323602008AC5BE /* BowItem.hpp in Headers */,
+				84C614292F323602008AC5BE /* WeaponItem.hpp in Headers */,
 				84BF63C42AF186C9008A9995 /* ObsidianTile.hpp in Headers */,
 				84DED1B42F309611004001C5 /* SingleInputRecipe.hpp in Headers */,
 				84BF63C52AF186C9008A9995 /* OreTile.hpp in Headers */,
@@ -6646,6 +6660,8 @@
 				84BF631E2AF18631008A9995 /* Dimension.cpp in Sources */,
 				84BF631F2AF18631008A9995 /* Explosion.cpp in Sources */,
 				84BF63202AF18631008A9995 /* Level.cpp in Sources */,
+				84C6142A2F323602008AC5BE /* BowItem.cpp in Sources */,
+				84C6142B2F323602008AC5BE /* WeaponItem.cpp in Sources */,
 				84BF63212AF18631008A9995 /* Biome.cpp in Sources */,
 				84BF63222AF18631008A9995 /* BiomeSource.cpp in Sources */,
 				84BF63232AF18631008A9995 /* ChunkCache.cpp in Sources */,
