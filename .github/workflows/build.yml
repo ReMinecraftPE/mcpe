@@ -273,7 +273,8 @@ jobs:
             uses: actions/checkout@v4
             with:
                 submodules: true
-
+          - name: Install Dependencies
+            run: apt-get install --no-install-recommends -y ccache
           - name: Build Switch binary
             run: |
                 mkdir build
