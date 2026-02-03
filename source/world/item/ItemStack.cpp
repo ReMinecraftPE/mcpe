@@ -352,8 +352,9 @@ void ItemStack::shrink(int count)
 
 ItemStack ItemStack::remove(int count)
 {
+	ItemStack result(getId(), count, m_auxValue);
 	shrink(count);
-	return ItemStack(getId(), count, m_auxValue);
+	return result;
 }
 
 void ItemStack::setDescriptionId(const std::string& str)

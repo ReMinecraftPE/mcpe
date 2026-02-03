@@ -57,26 +57,6 @@ LocalPlayer::~LocalPlayer()
 void LocalPlayer::die(Entity* pCulprit)
 {
 #if NETWORK_PROTOCOL_VERSION >= 4
-	if (m_pLevel->m_bIsClientSide)
-	{
-		SendInventoryPacket* pPkt = new SendInventoryPacket();
-		pPkt->m_entityId = m_EntityID;
-		pPkt->m_bDropAll = true;
-
-		uint16_t size = m_pInventory->getContainerSize();
-
-		// 0.3.0
-		if (size > 9)
-		{
-			for (int i = 0; i < size; i++)
-			{
-				pPkt->m_items.push_back(m_pInventory->getItem(i));
-			}
-		}
-
-		m_pMinecraft->m_pRakNetInstance->send(pPkt);
-	}
-
 	m_pInventory->dropAll();
 #endif
 
@@ -98,20 +78,6 @@ void LocalPlayer::aiStep()
 
 	if (interpolateOnly())
 		updateAi();
-}
-
-void LocalPlayer::drop(const ItemStack& item, bool randomly)
-{
-	if (m_pMinecraft->isOnlineClient())
-	{
-#if NETWORK_PROTOCOL_VERSION >= 4
-		m_pMinecraft->m_pRakNetInstance->send(new DropItemPacket(m_EntityID, item));
-#endif
-	}
-	else
-	{
-		Player::drop(item, randomly);
-	}
 }
 
 void LocalPlayer::setPlayerGameType(GameType gameType)

@@ -1,4 +1,5 @@
 #include "MultiplayerLocalPlayer.hpp"
+#include "client/app/Minecraft.hpp"
 #include "network/RakNetInstance.hpp"
 #include "world/level/Level.hpp"
 
@@ -86,6 +87,37 @@ void MultiplayerLocalPlayer::hurtTo(int newHealth)
         m_health = newHealth;
         m_flashOnSetHealth = true;
     }
+}
+
+void MultiplayerLocalPlayer::die(Entity* pCulprit)
+{
+#if NETWORK_PROTOCOL_VERSION >= 4
+    SendInventoryPacket* pPkt = new SendInventoryPacket();
+    pPkt->m_entityId = m_EntityID;
+    pPkt->m_bDropAll = true;
+
+    uint16_t size = m_pInventory->getContainerSize();
+
+    // 0.3.0
+    if (size > 9)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            pPkt->m_items.push_back(m_pInventory->getItem(i));
+        }
+    }
+
+    m_pMinecraft->m_pRakNetInstance->send(pPkt);
+#endif
+
+    LocalPlayer::die(pCulprit);
+}
+
+void MultiplayerLocalPlayer::drop(const ItemStack& item, bool randomly)
+{
+#if NETWORK_PROTOCOL_VERSION >= 4
+        m_pMinecraft->m_pRakNetInstance->send(new DropItemPacket(m_EntityID, item));
+#endif
 }
 
 void MultiplayerLocalPlayer::refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items)
