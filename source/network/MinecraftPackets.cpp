@@ -8,9 +8,9 @@
 
 #include "MinecraftPackets.hpp"
 
-Packet* MinecraftPackets::createPacket(int type)
+Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 {
-	switch (type)
+	switch (id)
 	{
 		case PACKET_LOGIN:
 			return new LoginPacket;
@@ -68,6 +68,10 @@ Packet* MinecraftPackets::createPacket(int type)
 			return new AnimatePacket;
 		case PACKET_RESPAWN:
 			return new RespawnPacket;
+		case PACKET_SEND_INVENTORY:
+			return new SendInventoryPacket;
+		case PACKET_DROP_ITEM:
+			return new DropItemPacket;
 
 		case PACKET_LEVEL_DATA:
 			return new LevelDataPacket;

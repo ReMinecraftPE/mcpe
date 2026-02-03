@@ -3,6 +3,7 @@
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
 #include "nbt/CompoundTag.hpp"
+#include "network/Packet.hpp"
 
 #include "Item.hpp"
 
@@ -40,8 +41,10 @@ void Inventory::prepareSurvivalInventory()
 	addTestItem(Tile::obsidian->m_ID, 64);
 	addTestItem(Tile::fire->m_ID, 64);*/
 
-	// 0.2.1 items
 #ifdef MOD_POCKET_SURVIVAL
+
+#if 1
+	// 0.2.1 items
 	addCreativeItem(ITEM_SHOVEL_STONE);
 	addCreativeItem(ITEM_PICKAXE_STONE);
 	addCreativeItem(ITEM_HATCHET_STONE);
@@ -99,6 +102,12 @@ void Inventory::prepareSurvivalInventory()
 	addCreativeItem(TILE_MUSHROOM_2);
 	addCreativeItem(TILE_CACTUS);
 	addCreativeItem(ITEM_REEDS);
+#else
+	// 0.3.0 items
+	addCreativeItem(ITEM_SHEARS);
+	addCreativeItem(TILE_BRICKS);
+	addCreativeItem(TILE_GLASS);
+#endif
 
 	for (size_t i = 0; i < m_items.size(); i++)
 	{
@@ -120,6 +129,11 @@ void Inventory::clear()
 {
 	std::fill(m_items.begin(), m_items.end(), ItemStack::EMPTY);
 	std::fill(m_armor.begin(), m_armor.end(), ItemStack::EMPTY);
+}
+
+void Inventory::replace(const std::vector<ItemStack>& items)
+{
+	m_items = items;
 }
 
 void Inventory::addCreativeItem(int itemID, int auxValue)

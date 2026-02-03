@@ -44,6 +44,7 @@ public:
     void setSynched(Player* player, bool isSynched);
 
 public:
+    virtual bool isResultSlot() const { return false; } // PE
     virtual bool stillValid(Player* player) const = 0;
     //Unused
     virtual bool isPauseScreen() const { return false; }

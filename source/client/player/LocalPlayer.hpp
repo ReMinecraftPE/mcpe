@@ -26,6 +26,7 @@ public:
 public:
 	void reset() override;
 	void animateRespawn() override;
+	void die(Entity* pCulprit) override;
 	void aiStep() override;
 	bool isSneaking() const override;
 	void move(const Vec3& pos) override;

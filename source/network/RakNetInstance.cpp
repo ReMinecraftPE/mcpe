@@ -146,7 +146,7 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 		// @NOTE: why -1?
 		if (packetType >= PACKET_LOGIN - 1)
 		{
-			Packet* pUserPacket = MinecraftPackets::createPacket(packetType);
+			Packet* pUserPacket = MinecraftPackets::createPacket((MinecraftPacketIds)packetType);
 			if (pUserPacket)
 			{
 				pUserPacket->read(*pBitStream);
@@ -173,6 +173,12 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 			}
 			case ID_CONNECTION_ATTEMPT_FAILED:
 			{
+				callback.onUnableToConnect();
+				break;
+			}
+			case ID_INCOMPATIBLE_PROTOCOL_VERSION:
+			{
+				LOG_E("Unable to connect, server has invalid RakNet protocol version!");
 				callback.onUnableToConnect();
 				break;
 			}

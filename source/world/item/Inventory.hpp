@@ -28,6 +28,7 @@ public:
 	uint16_t getContainerSize() const override;
 
 	void clear();
+	void replace(const std::vector<ItemStack>& items);
 
 	void addCreativeItem(int itemID, int auxValue = 0);
 	void addTestItem(int itemID, int amount, int auxValue = 0);

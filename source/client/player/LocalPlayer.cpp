@@ -54,6 +54,35 @@ LocalPlayer::~LocalPlayer()
 {
 }
 
+void LocalPlayer::die(Entity* pCulprit)
+{
+#if NETWORK_PROTOCOL_VERSION >= 4
+	if (m_pLevel->m_bIsClientSide)
+	{
+		SendInventoryPacket* pPkt = new SendInventoryPacket();
+		pPkt->m_entityId = m_EntityID;
+		pPkt->m_bDropAll = true;
+
+		uint16_t size = m_pInventory->getContainerSize();
+
+		// 0.3.0
+		if (size > 9)
+		{
+			for (int i = 0; i < size; i++)
+			{
+				pPkt->m_items.push_back(m_pInventory->getItem(i));
+			}
+		}
+
+		m_pMinecraft->m_pRakNetInstance->send(pPkt);
+	}
+
+	m_pInventory->dropAll();
+#endif
+
+	Player::die(pCulprit);
+}
+
 void LocalPlayer::aiStep()
 {
 	m_pMoveInput->tick(this);
@@ -75,7 +104,9 @@ void LocalPlayer::drop(const ItemStack& item, bool randomly)
 {
 	if (m_pMinecraft->isOnlineClient())
 	{
-		// @TODO: Replicate DropItemPacket to server
+#if NETWORK_PROTOCOL_VERSION >= 4
+		m_pMinecraft->m_pRakNetInstance->send(new DropItemPacket(m_EntityID, item));
+#endif
 	}
 	else
 	{
@@ -274,7 +305,8 @@ void LocalPlayer::tick()
 		if (m_lastSelectedSlot != m_pInventory->m_selectedSlot)
 		{
 			m_lastSelectedSlot = m_pInventory->m_selectedSlot;
-			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, m_lastSelectedSlot));
+			const ItemStack& item = m_pInventory->getSelectedItem();
+			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, item.getId(), item.getAuxValue()));
 		}
 	}
 }

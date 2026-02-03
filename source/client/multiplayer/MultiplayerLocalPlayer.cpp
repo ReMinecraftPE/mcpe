@@ -6,6 +6,8 @@ MultiplayerLocalPlayer::MultiplayerLocalPlayer(Minecraft* pMinecraft, Level* pLe
 	: LocalPlayer(pMinecraft, pLevel, pUser, gameType, dimensionId)
 {
 	m_flashOnSetHealth = false;
+
+    m_pInventoryMenu->addSlotListener(this);
 }
 
 void MultiplayerLocalPlayer::reallyDrop(ItemEntity* itemEntity)
@@ -84,4 +86,13 @@ void MultiplayerLocalPlayer::hurtTo(int newHealth)
         m_health = newHealth;
         m_flashOnSetHealth = true;
     }
+}
+
+void MultiplayerLocalPlayer::refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items)
+{
+}
+
+void MultiplayerLocalPlayer::slotChanged(ContainerMenu* menu, int index, ItemStack& item, bool isResultSlot)
+{
+    // @TODO: Replicate ContainerSetSlotPacket
 }

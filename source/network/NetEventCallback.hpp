@@ -55,6 +55,8 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, SetHealthPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, AnimatePacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, RespawnPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, SendInventoryPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, DropItemPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, LevelDataPacket*) {}
 
 	virtual void handle(Level&, const RakNet::RakNetGUID&, RespawnPacket*);

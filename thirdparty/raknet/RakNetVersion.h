@@ -20,8 +20,4 @@
 // ----- The version that RakNet actually implements.
 //#define RAKNET_PROTOCOL_VERSION 6
 // ----- The version that we fake in order to get actual MCPE clients to connect.
-#define RAKNET_PROTOCOL_VERSION 4
-
-// @TODO: Look for a version of RakNet that supports protocol version 4.
-// While changing this directly to version 4 will allow interop with official MCPE clients,
-// it's not a good solution long-term.
+#define RAKNET_PROTOCOL_VERSION 5

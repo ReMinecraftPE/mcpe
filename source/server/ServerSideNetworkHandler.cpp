@@ -18,7 +18,7 @@
 #define NETWORK_TIME_SEND_FREQUENCY 12
 
 // This lets you make the server shut up and not log events in the debug console.
-//#define VERBOSE_SERVER
+#define VERBOSE_SERVER
 
 #if defined(ORIGINAL_CODE) || defined(VERBOSE_SERVER)
 #define puts_ignorable(str) LOG_I(str)
@@ -395,7 +395,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, PlayerEqui
 		return;
 	}
 
-	pPlayer->m_pInventory->selectItem(packet->m_itemID, C_MAX_HOTBAR_ITEMS);
+	pPlayer->m_pInventory->pickItem(packet->m_itemID, packet->m_itemAuxValue, C_MAX_HOTBAR_ITEMS);
 
 	redistributePacket(packet, guid);
 }
@@ -538,6 +538,45 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RespawnPac
 	NetEventCallback::handle(*m_pLevel, guid, packet);
 
 	redistributePacket(packet, guid);
+}
+
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, SendInventoryPacket* packet)
+{
+	puts_ignorable("SendInventoryPacket");
+
+	if (!m_pLevel)
+		return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity)
+		return;
+
+	if (!pEntity->isPlayer())
+		return;
+	Player* pPlayer = (Player*)pEntity;
+
+	pPlayer->m_pInventory->replace(packet->m_items);
+
+	if (packet->m_bDropAll)
+		pPlayer->m_pInventory->dropAll();
+}
+
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, DropItemPacket* packet)
+{
+	puts_ignorable("DropItemPacket");
+
+	if (!m_pLevel)
+		return;
+
+	Entity* pEntity = m_pLevel->getEntity(packet->m_entityId);
+	if (!pEntity)
+		return;
+
+	if (!pEntity->isPlayer())
+		return;
+	Player* pPlayer = (Player*)pEntity;
+
+	pPlayer->drop(packet->m_item, packet->m_bRandomly);
 }
 
 void ServerSideNetworkHandler::tileBrightnessChanged(const TilePos& pos)
