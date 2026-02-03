@@ -19,7 +19,7 @@ ItemStack::TAG_REPAIR_COST = "RepairCost",
 ItemStack::TAG_ENCHANTS = "ench";
 const ItemStack ItemStack::EMPTY;
 
-#define C_INVALID_ID 0
+#define C_INVALID_ID -1
 
 void ItemStack::_init(int id, int count, int auxValue)
 {

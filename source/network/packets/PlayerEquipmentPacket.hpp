@@ -11,9 +11,9 @@ public:
 		m_itemID = 0;
 		m_itemAuxValue = 0;
 	}
-	PlayerEquipmentPacket(int playerID, uint16_t itemID, uint16_t itemAuxValue)
+	PlayerEquipmentPacket(int playerID, int itemID, uint16_t itemAuxValue)
 		: m_playerID(playerID)
-		, m_itemID(itemID)
+		, m_itemID(itemID < 0 ? 0 : itemID)
 		, m_itemAuxValue(itemAuxValue)
 	{}
 	void handle(const RakNet::RakNetGUID&, NetEventCallback& callback) override;
