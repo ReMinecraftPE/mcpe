@@ -76,6 +76,7 @@ void ItemInHandRenderer::render(float a)
 	ItemStack* pItem = &m_selectedItem;
 	/*if (pLP->m_fishing != null)
     {
+        // We shouldn't do this, make this static or something
 		pItem = new ItemStack(Item::stick);
 	}*/
     
