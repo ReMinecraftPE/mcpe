@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include <typeinfo>
 #include "MinecraftPackets.hpp"
 
 Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
