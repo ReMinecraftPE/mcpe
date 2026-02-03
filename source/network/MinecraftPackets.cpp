@@ -28,6 +28,9 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 			return new AddMobPacket;
 		case PACKET_ADD_PLAYER:
 			return new AddPlayerPacket;
+		case PACKET_REMOVE_PLAYER:
+			// Was never implemented
+			throw std::bad_cast();
 		case PACKET_REMOVE_ENTITY:
 			return new RemoveEntityPacket;
 		case PACKET_ADD_ITEM_ENTITY:
@@ -46,6 +49,9 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 			return new RemoveBlockPacket;
 		case PACKET_UPDATE_BLOCK:
 			return new UpdateBlockPacket;
+		case PACKET_EXPLODE:
+			// Not implemented
+			throw std::bad_cast();
 		case PACKET_LEVEL_EVENT:
 			return new LevelEventPacket;
 		case PACKET_ENTITY_EVENT:
