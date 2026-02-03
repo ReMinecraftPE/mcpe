@@ -239,7 +239,8 @@ public: // static variables
 		* glowstone,
 		* web,
 		* fence,
-		* bed;
+		* bed,
+		* craftingTable;
 
 public:
 	int m_TextureFrame;

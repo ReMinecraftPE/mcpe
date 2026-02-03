@@ -19,10 +19,16 @@ void PlayerEquipmentPacket::write(RakNet::BitStream& bs)
 	bs.Write((unsigned char)PACKET_PLAYER_EQUIPMENT);
 	bs.Write(m_playerID);
 	bs.Write(m_itemID);
+#if NETWORK_PROTOCOL_VERSION >= 3
+	bs.Write(m_itemAuxValue);
+#endif
 }
 
 void PlayerEquipmentPacket::read(RakNet::BitStream& bs)
 {
 	bs.Read(m_playerID);
 	bs.Read(m_itemID);
+#if NETWORK_PROTOCOL_VERSION >= 3
+	bs.Read(m_itemAuxValue);
+#endif
 }

@@ -151,7 +151,7 @@ ItemStack PacketUtil::ReadItemStack(RakNet::BitStream* bs, bool doUserData)
     if (!bs->Read(itemId))
         return ItemStack();
 
-    if (itemId == -1)
+    if (itemId == ItemStack::EMPTY.getId())
         return ItemStack();
 
     uint8_t count;

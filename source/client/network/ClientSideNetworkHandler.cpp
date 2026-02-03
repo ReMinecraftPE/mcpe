@@ -301,6 +301,13 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, TakeIte
 				m_pLevel->playSound(pItemEntity, "random.pop", 0.3f,
 					((Entity::sharedRandom.nextFloat() - Entity::sharedRandom.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 			}
+			else
+			{
+				if (m_serverProtocolVersion >= 4)
+				{
+					m_pRakNetInstance->send(new DropItemPacket(pkt->m_sourceId, pItemEntity->m_itemStack));
+				}
+			}
 		}
 	}
 }	
@@ -558,7 +565,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, PlayerE
 		return;
 	}
 
-	pPlayer->m_pInventory->selectItem(pPlayerEquipmentPkt->m_itemID, C_MAX_HOTBAR_ITEMS);
+	pPlayer->m_pInventory->pickItem(pPlayerEquipmentPkt->m_itemID, pPlayerEquipmentPkt->m_itemAuxValue, C_MAX_HOTBAR_ITEMS);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, InteractPacket* pkt)

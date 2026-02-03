@@ -12,6 +12,7 @@
 #include "network/packets/MovePlayerPacket.hpp"
 #include "network/packets/PlayerEquipmentPacket.hpp"
 #include "network/packets/AnimatePacket.hpp"
+#include "client/gui/screens/inventory/CraftingScreen.hpp"
 
 int dword_250ADC, dword_250AE0;
 
@@ -55,6 +56,15 @@ LocalPlayer::~LocalPlayer()
 {
 }
 
+void LocalPlayer::die(Entity* pCulprit)
+{
+#if NETWORK_PROTOCOL_VERSION >= 4
+	m_pInventory->dropAll();
+#endif
+
+	Player::die(pCulprit);
+}
+
 void LocalPlayer::aiStep()
 {
 	m_pMoveInput->tick(this);
@@ -72,18 +82,6 @@ void LocalPlayer::aiStep()
 		updateAi();
 }
 
-void LocalPlayer::drop(const ItemStack& item, bool randomly)
-{
-	if (m_pMinecraft->isOnlineClient())
-	{
-		// @TODO: Replicate DropItemPacket to server
-	}
-	else
-	{
-		Player::drop(item, randomly);
-	}
-}
-
 void LocalPlayer::setPlayerGameType(GameType gameType)
 {
 	// @HACK: This info should be updated / stored in one place, and one place only.
@@ -98,6 +96,11 @@ void LocalPlayer::swing()
 	Player::swing();
 
 	m_pMinecraft->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::SWING));
+}
+
+void LocalPlayer::startCrafting(const TilePos& pos)
+{
+	m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
 }
 
 void LocalPlayer::reset()
@@ -275,7 +278,8 @@ void LocalPlayer::tick()
 		if (m_lastSelectedSlot != m_pInventory->m_selectedSlot)
 		{
 			m_lastSelectedSlot = m_pInventory->m_selectedSlot;
-			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, m_lastSelectedSlot));
+			const ItemStack& item = m_pInventory->getSelectedItem();
+			m_pMinecraft->m_pRakNetInstance->send(new PlayerEquipmentPacket(m_EntityID, item.getId(), item.getAuxValue()));
 		}
 	}
 }

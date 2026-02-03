@@ -214,6 +214,13 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\DyeColor.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\ToolItem.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\BedTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\inventory\CraftingMenu.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\Recipes.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\ShapedRecipe.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\SingleInputRecipe.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\tile\CraftingTableTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -373,6 +380,13 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\Tool.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\ToolItem.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\BedTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\Recipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\Recipes.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\ShapedRecipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\SingleInputRecipe.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\tile\CraftingTableTile.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

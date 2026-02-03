@@ -54,7 +54,7 @@
 #include "WireTile.hpp"
 #include "RocketLauncherTile.hpp"
 //#include "RedStoneDustTile.hpp"
-//#include "CraftingTableTile.hpp"
+#include "CraftingTableTile.hpp"
 //#include "FurnaceTile.hpp"
 #include "TallGrass.hpp"
 #include "DeadBush.hpp"
@@ -781,6 +781,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("web");
 
+	Tile::craftingTable = (new CraftingTableTile(TILE_WORKBENCH))
+		->init()
+		->setDestroyTime(2.5f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("workbench");
+
 	// Great
 	Item::items[Tile::cloth->m_ID] = (new ClothItem(Tile::cloth->m_ID - C_MAX_TILES))
 		->setDescriptionId("cloth");
@@ -1273,4 +1279,5 @@ Tile
 	*Tile::glowstone,
 	*Tile::web,
 	*Tile::fence,
-	*Tile::bed;
+	*Tile::bed,
+	*Tile::craftingTable;

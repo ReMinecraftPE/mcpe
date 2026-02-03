@@ -4,6 +4,7 @@
 #include "network/packets/AnimatePacket.hpp"
 #include "network/packets/MovePlayerPacket.hpp"
 #include "network/packets/InteractionPacket.hpp"
+#include "network/packets/SendInventoryPacket.hpp"
 #include "network/RakNetInstance.hpp"
 #include "world/level/Level.hpp"
 #include "world/tile/BedTile.hpp"
@@ -12,6 +13,8 @@ ServerPlayer::ServerPlayer(Level* pLevel, GameType playerGameType)
 	: Player(pLevel, playerGameType)
 {
 	m_lastHealth = -999; // -99999999 on Java
+
+	m_pInventoryMenu->addSlotListener(this);
 }
 
 void ServerPlayer::tick()
@@ -79,4 +82,23 @@ void ServerPlayer::stopSleepInBed(bool resetCounter, bool update, bool setSpawn)
 	{
 		m_pLevel->m_pRakNetInstance->send(new AnimatePacket(m_EntityID, AnimatePacket::WAKE_UP));
 	}
+}
+
+void ServerPlayer::refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items)
+{
+	/*m_pLevel->m_pRakNetInstance->send(new ContainerSetContentPacket(menu->m_containerId, items));
+	m_pLevel->m_pRakNetInstance->send(new ContainerSetSlotPacket(-1, -1, m_pInventory->getCarried()));*/
+}
+
+void ServerPlayer::slotChanged(ContainerMenu* menu, int index, ItemStack& item, bool isResultSlot)
+{
+	/*if (!isResultSlot)
+	{
+		m_pLevel->m_pRakNetInstance->send(new ContainerSetSlotPacket(menu->m_containerId, index, item));
+	}*/
+}
+
+void ServerPlayer::setContainerData(ContainerMenu* menu, int id, int value)
+{
+	//m_pLevel->m_pRakNetInstance->send(new ContainerSetDataPacket(menu->m_containerId, id, value));
 }

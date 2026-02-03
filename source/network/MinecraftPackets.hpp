@@ -38,11 +38,13 @@
 #include "packets/SetHealthPacket.hpp"
 #include "packets/AnimatePacket.hpp"
 #include "packets/RespawnPacket.hpp"
+#include "packets/SendInventoryPacket.hpp"
+#include "packets/DropItemPacket.hpp"
 #include "packets/LevelDataPacket.hpp"
 
 class MinecraftPackets
 {
 public:
-	static Packet* createPacket(int type);
+	static Packet* createPacket(MinecraftPacketIds id);
 };
 
