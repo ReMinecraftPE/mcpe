@@ -134,8 +134,8 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: ios-artifact-${{ steps.get-time.outputs.time }}
-              restore-keys: ios-artifact-
+              key: ios-${{ steps.get-time.outputs.time }}
+              restore-keys: ios-
           - name: Unpack cache
             run: |
                 cd ~
@@ -222,8 +222,8 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: switch-artifact-${{ steps.get-time.outputs.time }}
-              restore-keys: switch-artifact-
+              key: switch-${{ steps.get-time.outputs.time }}
+              restore-keys: switch-
           - name: Unpack cache
             run: |
                 cd ~
@@ -263,8 +263,8 @@ jobs:
           - uses: actions/cache@v5
             with:
               path: ~/ccache.tar.xz
-              key: switch-artifact-${{ steps.get-time.outputs.time }}
-              restore-keys: switch-artifact-
+              key: switch-${{ steps.get-time.outputs.time }}
+              restore-keys: switch-
           - name: Unpack cache
             run: |
                 cd ~
