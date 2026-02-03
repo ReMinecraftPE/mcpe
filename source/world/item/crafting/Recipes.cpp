@@ -87,11 +87,11 @@ public:
 Recipes::Recipes()
 {
     // WeaponRecipes & ToolRecipes
-    addTools(ItemStack(Tile::wood), Item::sword_wood, Item::pickAxe_wood, Item::hatchet_wood, Item::shovel_wood, Item::hoe_wood);
-    addTools(ItemStack(Tile::stoneBrick), Item::sword_stone, Item::pickAxe_stone, Item::hatchet_stone, Item::shovel_stone, Item::hoe_stone);
-    addTools(ItemStack(Item::ironIngot), Item::sword_iron, Item::pickAxe_iron, Item::hatchet_iron, Item::shovel_iron, Item::hoe_iron);
-    addTools(ItemStack(Item::goldIngot), Item::sword_stone, Item::pickAxe_gold, Item::hatchet_gold, Item::shovel_gold, Item::hoe_gold);
-    addTools(ItemStack(Item::emerald), Item::sword_emerald, Item::pickAxe_emerald, Item::hatchet_emerald, Item::shovel_emerald, Item::hoe_emerald);
+    addTools(ItemStack(Tile::wood),       Item::sword_wood,    Item::pickAxe_wood,    Item::hatchet_wood,    Item::shovel_wood,    Item::hoe_wood);
+    addTools(ItemStack(Tile::stoneBrick), Item::sword_stone,   Item::pickAxe_stone,   Item::hatchet_stone,   Item::shovel_stone,   Item::hoe_stone);
+    addTools(ItemStack(Item::ironIngot),  Item::sword_iron,    Item::pickAxe_iron,    Item::hatchet_iron,    Item::shovel_iron,    Item::hoe_iron);
+    addTools(ItemStack(Item::goldIngot),  Item::sword_stone,   Item::pickAxe_gold,    Item::hatchet_gold,    Item::shovel_gold,    Item::hoe_gold);
+    addTools(ItemStack(Item::emerald),    Item::sword_emerald, Item::pickAxe_emerald, Item::hatchet_emerald, Item::shovel_emerald, Item::hoe_emerald);
 
     add(ShapedRecipeBuilder(" #X",
                             "# X",
@@ -107,11 +107,11 @@ Recipes::Recipes()
         .add('#', Item::stick));
 
     // ArmorRecipes
-    addArmor(ItemStack(Item::leather), Item::helmet_cloth, Item::chestplate_cloth, Item::leggings_cloth, Item::boots_cloth);
-    addArmor(ItemStack(Tile::fire), Item::helmet_chain, Item::chestplate_chain, Item::leggings_chain, Item::boots_chain);
-    addArmor(ItemStack(Item::ironIngot), Item::helmet_iron, Item::chestplate_iron, Item::leggings_iron, Item::boots_iron);
-    addArmor(ItemStack(Item::goldIngot), Item::helmet_gold, Item::chestplate_gold, Item::leggings_gold, Item::boots_gold);
-    addArmor(ItemStack(Item::emerald), Item::helmet_diamond, Item::chestplate_diamond, Item::leggings_diamond, Item::boots_diamond);
+    addArmor(ItemStack(Item::leather),   Item::helmet_cloth,   Item::chestplate_cloth,   Item::leggings_cloth,   Item::boots_cloth);
+    addArmor(ItemStack(Tile::fire),      Item::helmet_chain,   Item::chestplate_chain,   Item::leggings_chain,   Item::boots_chain);
+    addArmor(ItemStack(Item::ironIngot), Item::helmet_iron,    Item::chestplate_iron,    Item::leggings_iron,    Item::boots_iron);
+    addArmor(ItemStack(Item::goldIngot), Item::helmet_gold,    Item::chestplate_gold,    Item::leggings_gold,    Item::boots_gold);
+    addArmor(ItemStack(Item::emerald),   Item::helmet_diamond, Item::chestplate_diamond, Item::leggings_diamond, Item::boots_diamond);
 
     // OreRecipes
     addOre(ItemStack(Item::ironIngot), Tile::ironBlock);

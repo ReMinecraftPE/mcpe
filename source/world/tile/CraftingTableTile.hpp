@@ -6,6 +6,6 @@ class CraftingTableTile : public Tile
 {
 public:
 	CraftingTableTile(TileID id);
-	virtual bool use(Level*, const TilePos& pos, Player*) override;
+	bool use(Level*, const TilePos& pos, Player*) override;
 	int getTexture(Facing::Name face) const override;
 };
