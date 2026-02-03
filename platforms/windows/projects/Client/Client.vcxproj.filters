@@ -613,6 +613,9 @@
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.hpp">
+      <Filter>Header Files\GUI\Screens\Inventory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\gui\components\AvailableGamesList.cpp">
@@ -1075,6 +1078,9 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp">
       <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

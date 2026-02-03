@@ -8,26 +8,33 @@
 
 #pragma once
 
+#include "RakNetVersion.h"
 #include "RakNetTypes.h"
 #include "BitStream.h"
 #include "MessageIdentifiers.h"
 
-#define NETWORK_PROTOCOL_VERSION_MIN 3 // 3 because the packet IDs changed completely between 2 and 3
+#define NETWORK_PROTOCOL_VERSION_MIN 4 // the packet IDs changed completely between 2, 3, and 4
 //#define NETWORK_PROTOCOL_VERSION 2   // 0.1.0 (actual client crashes with unrecognized tiles)
-#define NETWORK_PROTOCOL_VERSION 3	   // 0.2.0
+//#define NETWORK_PROTOCOL_VERSION 3   // 0.2.0 (actual client crashes with unrecognized entities)
+#define NETWORK_PROTOCOL_VERSION 4	   // 0.3.0
 
 class NetEventCallback;
 class Level;
 class LevelChunk;
 
 // RakNet requires this to be cast to an "unsigned char" before being written to the BitStream
-enum ePacketType
+enum MinecraftPacketIds
 #ifndef USE_OLD_CPP
 : uint8_t // this is compiled as a 32-bit integer in C++03 and earlier, and we obviously CANNOT afford a 24-bit inconsitency.
 // TODO: WritePacketType function that casts this down to a uint8_t / an unsigned 8-bit integer?
 #endif
 {
 #if NETWORK_PROTOCOL_VERSION <= 2
+
+#if RAKNET_PROTOCOL_VERSION != 4
+#error RAKNET_PROTOCOL_VERSION must be 4
+#endif
+
 	PACKET_LOGIN = ID_USER_PACKET_ENUM,
 	PACKET_MESSAGE,
 	PACKET_START_GAME,
@@ -62,7 +69,12 @@ enum ePacketType
 	PACKET_SET_HEALTH,
 	PACKET_ANIMATE,
 	PACKET_RESPAWN
-#else
+#elif NETWORK_PROTOCOL_VERSION <= 3
+
+#if RAKNET_PROTOCOL_VERSION != 4
+#error RAKNET_PROTOCOL_VERSION must be 4
+#endif
+
 	PACKET_LOGIN = ID_USER_PACKET_ENUM,
 	PACKET_LOGIN_STATUS,
 	PACKET_READY,
@@ -93,6 +105,46 @@ enum ePacketType
 	PACKET_SET_HEALTH,
 	PACKET_ANIMATE,
 	PACKET_RESPAWN,
+
+	PACKET_LEVEL_DATA = 200
+#else
+
+#if RAKNET_PROTOCOL_VERSION != 5
+#error RAKNET_PROTOCOL_VERSION must be 5
+#endif
+
+	PACKET_LOGIN = ID_USER_PACKET_ENUM - 4, // really Mojang?
+	PACKET_LOGIN_STATUS,
+	PACKET_READY,
+	PACKET_MESSAGE,
+	PACKET_SET_TIME,
+	PACKET_START_GAME,
+	PACKET_ADD_MOB,
+	PACKET_ADD_PLAYER,
+	PACKET_REMOVE_PLAYER,
+	PACKET_REMOVE_ENTITY = 140,
+	PACKET_ADD_ITEM_ENTITY,
+	PACKET_TAKE_ITEM_ENTITY,
+	PACKET_MOVE_ENTITY,
+	PACKET_MOVE_ENTITY_POS_ROT = 146, // not sure
+	PACKET_MOVE_PLAYER,
+	PACKET_PLACE_BLOCK,
+	PACKET_REMOVE_BLOCK,
+	PACKET_UPDATE_BLOCK,
+	PACKET_EXPLODE, // @TODO
+	PACKET_LEVEL_EVENT,
+	PACKET_ENTITY_EVENT,
+	PACKET_REQUEST_CHUNK,
+	PACKET_CHUNK_DATA,
+	PACKET_PLAYER_EQUIPMENT,
+	PACKET_INTERACT,
+	PACKET_USE_ITEM,
+	PACKET_SET_ENTITY_DATA,
+	PACKET_SET_HEALTH,
+	PACKET_ANIMATE,
+	PACKET_RESPAWN,
+	PACKET_SEND_INVENTORY,
+	PACKET_DROP_ITEM,
 
 	PACKET_LEVEL_DATA = 200
 #endif

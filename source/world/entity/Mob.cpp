@@ -832,6 +832,7 @@ void Mob::updateAi()
 		}
 	}
 
+	// @TODO: we get a crash here when a Player leaves
 	if (m_pEntLookedAt)
 	{
 		lookAt(m_pEntLookedAt, 10.0f, getMaxHeadXRot());

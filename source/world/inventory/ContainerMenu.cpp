@@ -32,8 +32,9 @@ ContainerMenu::ContainerMenu() :
 
 ContainerMenu::~ContainerMenu()
 {
-    for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
-        delete (*it);
+    // Why were we doing this? The Player can listen to its own Inventory in certain cases
+    /*for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
+        delete (*it);*/
 
     for (std::vector<Slot*>::iterator it = m_slots.begin(); it != m_slots.end(); ++it)
         delete (*it);
@@ -54,7 +55,7 @@ void ContainerMenu::broadcastChanges()
         {
             m_lastSlots[i] = ItemStack(current);
             for (std::vector<ContainerListener*>::iterator it = m_listeners.begin(); it != m_listeners.end(); ++it)
-                (*it)->slotChanged(this, i, m_lastSlots[i]);
+                (*it)->slotChanged(this, i, m_lastSlots[i], isResultSlot());
         }
     }
 }

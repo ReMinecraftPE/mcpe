@@ -237,6 +237,7 @@
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePack.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\client\app\App.cpp" />
@@ -393,6 +394,7 @@
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePack.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

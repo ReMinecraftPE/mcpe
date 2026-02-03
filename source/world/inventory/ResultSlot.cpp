@@ -46,8 +46,9 @@ void ResultSlot::onTake(ItemStack& item)
 		ItemStack& containerItem = m_pCraftSlots->getItem(i);
         if (!containerItem.isEmpty())
 		{
+			Item* item = containerItem.getItem();
             m_pCraftSlots->removeItem(i, 1);
-            Item* item = containerItem.getItem();
+
             if (item->hasCraftingRemainingItem())
                 m_pCraftSlots->setItem(i, ItemStack(item->getCraftingRemainingItem()));
         }

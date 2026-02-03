@@ -13,7 +13,7 @@
 //#define MOD_USE_BIGGER_SCREEN_SIZE // Use a bigger screen size instead of 854x480
 //#define MOD_DONT_COLOR_GRASS       // Don't give the top of grass tiles a different color. (like Classic) @TODO: This does not do shit anymore
 //#define MOD_POPOUT_CONSOLE         // Open a separate console aside from the game window. By default only the debugger can see our logs. Win32 Debug only.
-#define MOD_POCKET_SURVIVAL          // Has the survival inventory behave identically to that of legacy Pocket Edition, with some items being limited, and some unlimited.
+//#define MOD_POCKET_SURVIVAL        // Has the survival inventory behave identically to that of legacy Pocket Edition, with some items being limited, and some unlimited.
 
 // Tests
 //#define TEST_SURVIVAL_MODE      	 // Test survival mode.
