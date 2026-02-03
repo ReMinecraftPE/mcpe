@@ -1,7 +1,9 @@
 #include "CraftingContainer.hpp"
 
 CraftingContainer::CraftingContainer(ContainerMenu* menu, int width, int height) :
-    m_items(width * height), m_pMenu(menu), m_width(width)
+    m_items(width * height),
+    m_pMenu(menu),
+    m_width(width)
 {
 }
 
@@ -19,9 +21,14 @@ ItemStack& CraftingContainer::getItem(int index)
     return m_items[index];
 }
 
-ItemStack& CraftingContainer::getItem(int x, int y)
+const ItemStack& CraftingContainer::getItem(int x, int y)
 {
-    return getItem(x + y * m_width);
+    if (x >= 0 && x < m_width)
+    {
+        ItemStack* stack = tryGetItem(x + y * m_width);
+        return stack ? *stack : ItemStack::EMPTY;
+    }
+    return ItemStack::EMPTY;
 }
 
 std::string CraftingContainer::getName() const
@@ -72,5 +79,5 @@ void CraftingContainer::setChanged()
 
 bool CraftingContainer::stillValid(Player* player) const
 {
-    return false;
+    return true;
 }
