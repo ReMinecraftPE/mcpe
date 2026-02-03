@@ -18,6 +18,18 @@ jobs:
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: linux-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+              restore-keys: linux-${{ matrix.name }}-
+          - name: Unpack cache
+            run: |
+                cd ~
+                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v4
             with:
@@ -28,6 +40,7 @@ jobs:
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake ninja-build \
+                    ccache \
                     libopenal-dev \
                     zlib1g-dev \
                     ${{ matrix.packages }}
@@ -35,13 +48,29 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DWERROR=ON ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ${{ matrix.flags }} ..
                 cmake --build .
+          - name: Pack cache
+            run: |
+                cd ~
+                tar cJf ccache.tar.xz .cache/ccache
 
     wasm:
         name: WASM
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: linux-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+              restore-keys: linux-${{ matrix.name }}-
+          - name: Unpack cache
+            run: |
+                cd ~
+                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v4
             with:
@@ -49,9 +78,13 @@ jobs:
           - name: Install Dependencies
             run: |
                 sudo apt-get update
-                sudo apt-get install --no-install-recommends -y cmake ninja-build
+                sudo apt-get install --no-install-recommends -y cmake ninja-build ccache
           - name: Build
-            run: ./build-wasm.sh -DWERROR=ON
+            run: ./build-wasm.sh -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON
+          - name: Pack cache
+            run: |
+                cd ~
+                tar cJf ccache.tar.xz .cache/ccache
 
     macos:
         strategy:
@@ -95,6 +128,18 @@ jobs:
         name: iOS
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: ios-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: ios-artifact-
+          - name: Unpack cache
+            run: |
+                cd ~
+                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v4
             with:
@@ -106,11 +151,11 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y \
                     cmake \
+                    ccache \
                     clang-21 \
                     libplist-utils \
                     libplist-dev \
                     libssl-dev
-
           - name: Build iOS binary
             run: ./platforms/ios/build.sh
             env:
@@ -120,6 +165,10 @@ jobs:
               LLVM_CONFIG: llvm-config-21
               REMCPE_NO_IPA: 1
               WERROR: ON
+          - name: Pack cache
+            run: |
+                cd ~
+                tar cJf ccache.tar.xz .cache/ccache
 
     android:
         strategy:
@@ -167,6 +216,18 @@ jobs:
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: switch-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: switch-artifact-
+          - name: Unpack cache
+            run: |
+                cd ~
+                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v4
             with:
@@ -177,13 +238,18 @@ jobs:
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake ninja-build \
+                    ccache \
                     mingw-w64
           - name: Build
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake ${{ matrix.flags }} ..
                 cmake --build .
+          - name: Pack cache
+            run: |
+                cd ~
+                tar cJf ccache.tar.xz .cache/ccache
 
     switch:
         name: Nintendo Switch
@@ -191,6 +257,18 @@ jobs:
         container:
             image: devkitpro/devkita64@sha256:7ca6fb93e8f576a65bbfe07b537b67664a974e06eabe4e94359e3e026a0f0b0c
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: switch-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: switch-artifact-
+          - name: Unpack cache
+            run: |
+                cd ~
+                [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
             uses: actions/checkout@v4
             with:
@@ -200,5 +278,9 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DWERROR=ON ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DWERROR=ON ..
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
+          - name: Pack cache
+            run: |
+                cd ~
+                tar cJf ccache.tar.xz .cache/ccache
