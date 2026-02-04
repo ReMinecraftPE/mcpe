@@ -31,6 +31,7 @@ add_executable(reminecraftpe WIN32
     LoggerWin32.cpp
     AppPlatform_win32.cpp
     main.cpp
+    icon.rc
 )
 
 # Core
