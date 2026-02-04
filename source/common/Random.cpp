@@ -128,7 +128,7 @@ float Random::nextGaussian()
 		s = v1 * v1 + v2 * v2;
 	}
 	while (s >= 1 || s == 0);
-	float mult = sqrtf(-2 * log(s) / s);
+	float mult = sqrtf(-2 * logf(s) / s);
 	nextNextGaussian = v2 * mult;
 	return v1 * mult;
 }
