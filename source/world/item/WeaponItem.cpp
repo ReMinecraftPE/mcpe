@@ -4,7 +4,6 @@
 
 WeaponItem::WeaponItem(int id, Tier& tier) : ToolItem(id, Tool::SWORD, tier), m_attackDamage(4 + tier.m_damage)
 {
-    handEquipped();
 }
 
 float WeaponItem::getDestroySpeed(ItemStack* instance, const Tile* tile) const
