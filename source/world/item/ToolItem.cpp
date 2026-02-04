@@ -39,10 +39,10 @@ bool ToolItem::isHandEquipped() const
 
 bool ToolItem::canDestroySpecial(const Tile* tile) const
 {
-	if (tile->m_toolMask & m_toolType)
+	if (canDestroyTile(tile))
 		return m_tier.m_level >= tile->m_requiredToolLevel;
 
-	if (tile->m_pMaterial->m_toolMask & m_toolType)
+	if (canDestroyMaterial(tile->m_pMaterial))
 		return m_tier.m_level >= tile->m_pMaterial->m_requiredToolLevel;
 
 	return false;
