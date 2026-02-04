@@ -369,9 +369,9 @@ std::string ItemStack::toString() const
 	return ss.str();
 }
 
-ItemStack* ItemStack::use(Level* level, Player* player)
+ItemStack* ItemStack::use(Level* level, Mob* user)
 {
-	return getItem()->use(this, level, player);
+	return getItem()->use(this, level, user);
 }
 
 bool ItemStack::useOn(Player* player, Level* level, const TilePos& pos, Facing::Name face)

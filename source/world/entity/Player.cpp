@@ -324,8 +324,32 @@ void Player::animateRespawn(Player*, Level*)
 void Player::attack(Entity* pEnt)
 {
 	int atkDmg = m_pInventory->getAttackDamage(pEnt);
-	if (atkDmg > 0)
-		pEnt->hurt(this, atkDmg);
+	if (atkDmg <= 0)
+		return;
+
+	if (m_vel.y < 0.0f)
+		atkDmg++;
+
+	pEnt->hurt(this, atkDmg);
+	
+	ItemStack& item = getSelectedItem();
+	bool isMob = pEnt->getDescriptor().hasCategory(EntityCategories::MOB);
+	if (!item.isEmpty() && isMob)
+	{
+		item.hurtEnemy((Mob*)pEnt, this);
+		if (item.m_count <= 0) {
+			item.snap(this);
+			removeSelectedItem();
+		}
+	}
+
+	// Needs to be uncommented if/when wolves are implemented
+	/*
+	if (isMob && pEnt->isAlive())
+	{
+		alertWolves(static_cast<Mob*>(pEnt), true);
+	}
+	*/
 }
 
 void Player::useItem(ItemStack& item) const
