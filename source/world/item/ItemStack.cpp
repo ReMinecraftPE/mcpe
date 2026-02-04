@@ -221,11 +221,6 @@ void ItemStack::set(int inCount)
 		assert(!"stack too big!");
 
 	m_count = inCount;
-
-#ifndef MOD_POCKET_SURVIVAL
-	if (inCount == 0)
-		setEmpty();
-#endif
 }
 
 bool ItemStack::canDestroySpecial(const Tile* tile)
@@ -392,7 +387,8 @@ void ItemStack::onCraftedBy(Player* player, Level* level)
 void ItemStack::onCraftedBy(Player* player, Level* level, int amount)
 {
 	//player->awardStat(Stats::itemCrafted[getId()], amount);
-	getItem()->onCraftedBy(this, player, level);
+	if (getItem())
+		getItem()->onCraftedBy(this, player, level);
 }
 
 int ItemStack::getAttackDamage(Entity* pEnt) const

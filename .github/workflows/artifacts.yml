@@ -16,8 +16,18 @@ jobs:
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: linux-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+              restore-keys: linux-artifact-${{ matrix.name }}-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -26,6 +36,7 @@ jobs:
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake ninja-build \
+                    ccache \
                     libopenal-dev \
                     zlib1g-dev \
                     ${{ matrix.packages }}
@@ -33,7 +44,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache ${{ matrix.flags }} ..
                 cmake --build .
           - uses: actions/upload-artifact@v6
             with:
@@ -41,6 +52,8 @@ jobs:
               path: |
                 build/reminecraftpe
                 build/assets
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     linux32:
         strategy:
@@ -53,8 +66,18 @@ jobs:
         name: Linux 32-bit (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: linux32-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+              restore-keys: linux32-artifact-${{ matrix.name }}-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -64,6 +87,7 @@ jobs:
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake ninja-build \
+                    ccache \
                     gcc-multilib g++-multilib \
                     libopenal-dev:i386 \
                     zlib1g-dev:i386 \
@@ -72,7 +96,7 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS='-m32' -DCMAKE_CXX_FLAGS='-m32' ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_FLAGS='-m32' -DCMAKE_CXX_FLAGS='-m32' ${{ matrix.flags }} ..
                 cmake --build .
           - uses: actions/upload-artifact@v6
             with:
@@ -80,6 +104,8 @@ jobs:
               path: |
                 build/reminecraftpe
                 build/assets
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     macos:
         strategy:
@@ -93,7 +119,7 @@ jobs:
         runs-on: macos-15
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install MacPorts
@@ -126,8 +152,18 @@ jobs:
         name: iOS
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: ios-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: ios-artifact-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -137,6 +173,7 @@ jobs:
                 sudo apt-get update
                 sudo apt-get install --no-install-recommends -y \
                     cmake \
+                    ccache \
                     clang-21 \
                     libplist-utils \
                     libplist-dev \
@@ -153,6 +190,8 @@ jobs:
             with:
               name: iOS
               path: platforms/ios/build/ReMCPE.ipa
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     android:
         strategy:
@@ -165,7 +204,7 @@ jobs:
         runs-on: ubuntu-24.04
         steps:
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Setup JDK
@@ -199,8 +238,18 @@ jobs:
         name: MinGW-w64 (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: mingw-artifact-${{ matrix.name }}-${{ steps.get-time.outputs.time }}
+              restore-keys: mingw-artifact-${{ matrix.name }}-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
           - name: Install Dependencies
@@ -209,12 +258,13 @@ jobs:
                 sudo apt-get install --no-install-recommends -y \
                     build-essential \
                     cmake ninja-build \
+                    ccache \
                     mingw-w64
           - name: Build
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_BUILD_TYPE=Release ${{ matrix.flags }} ..
+                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache ${{ matrix.flags }} ..
                 cmake --build .
           - uses: actions/upload-artifact@v6
             with:
@@ -222,6 +272,8 @@ jobs:
               path: |
                 build/reminecraftpe.exe
                 build/assets
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     switch:
         name: Nintendo Switch
@@ -229,16 +281,27 @@ jobs:
         container:
             image: devkitpro/devkita64@sha256:7ca6fb93e8f576a65bbfe07b537b67664a974e06eabe4e94359e3e026a0f0b0c
         steps:
+          - name: Get Time
+            id: get-time
+            run: echo "time=$(date -u '+%Y-%m-%d-%H:%M:%S')" >> $GITHUB_OUTPUT
+          - uses: actions/cache@v5
+            with:
+              path: ~/ccache.tar.xz
+              key: switch-artifact-${{ steps.get-time.outputs.time }}
+              restore-keys: switch-artifact-
+          - name: Unpack cache
+            run: cd ~ && [ -f ccache.tar.xz ] && tar xf ccache.tar.xz || true
           - name: Checkout Repository
-            uses: actions/checkout@v4
+            uses: actions/checkout@v6
             with:
                 submodules: true
-
+          - name: Install Dependencies
+            run: apt-get install --no-install-recommends -y ccache
           - name: Build Switch binary
             run: |
                 mkdir build
                 cd build
-                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache ..
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
                 mv platforms/sdl/sdl2/reminecraftpe.nro .
           - uses: actions/upload-artifact@v6
@@ -248,3 +311,5 @@ jobs:
                 build/reminecraftpe.nro
                 build/reminecraftpe.elf
                 build/assets
+          - name: Pack cache
+            run: cd ~ && tar cJf ccache.tar.xz .cache/ccache

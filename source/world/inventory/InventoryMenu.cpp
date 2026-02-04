@@ -2,7 +2,7 @@
 #include "world/item/Inventory.hpp"
 #include "ResultSlot.hpp"
 #include "ArmorSlot.hpp"
-//#include "world/item/crafting/Recipes.hpp"
+#include "world/item/crafting/Recipes.hpp"
 
 InventoryMenu::InventoryMenu(Inventory* inventory, bool active) :
     m_pCraftSlots(nullptr),
@@ -47,7 +47,7 @@ InventoryMenu::~InventoryMenu()
 
 void InventoryMenu::slotsChanged(Container* container) 
 {
-    //m_pResultSlots->setItem(0, Recipes::singleton().getItemFor(m_pCraftSlots));
+    m_pResultSlots->setItem(0, Recipes::singleton().getItemFor(m_pCraftSlots));
 }
 
 void InventoryMenu::removed(Player* player) 
@@ -94,7 +94,7 @@ ItemStack InventoryMenu::quickMoveStack(int index)
         if (slotItem.m_count == item.m_count)
             return ItemStack::EMPTY;
 
-        slot->onTake(slotItem);
+        slot->onTake(item);
     }
 
     return item;

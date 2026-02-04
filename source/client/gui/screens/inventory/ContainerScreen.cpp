@@ -183,7 +183,11 @@ void ContainerScreen::slotClicked(Slot* slot, int index, MouseButtonType button,
 
 void ContainerScreen::keyPressed(int keyCode)
 {
-    if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
+    if (m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
+    {
+        m_pMinecraft->handleBack(false);
+    }
+    else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
     {
         // bad hack
         Slot* slot = _findSlot();
