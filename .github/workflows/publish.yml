@@ -37,7 +37,10 @@ jobs:
                 cmake --build .
                 strip reminecraftpe
           - name: Pack release
-            run: tar -C build -czf reminecraftpe-linux-x86_64.tar.gz reminecraftpe assets
+            run: |
+                mkdir reminecraftpe
+                mv game/assets build/reminecraftpe reminecraftpe
+                tar -czf reminecraftpe-linux-x86_64.tar.gz reminecraftpe
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
@@ -78,7 +81,10 @@ jobs:
                 cmake --build .
                 strip reminecraftpe
           - name: Pack release
-            run: tar -C build -czf reminecraftpe-linux-x86.tar.gz reminecraftpe assets
+            run: |
+                mkdir reminecraftpe
+                mv game/assets build/reminecraftpe reminecraftpe
+                tar -czf reminecraftpe-linux-x86.tar.gz reminecraftpe
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
@@ -117,11 +123,12 @@ jobs:
                 GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
                 -quiet \
                 clean archive
+                mkdir ../../../../reminecraftpe
                 mv $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ../../../../reminecraftpe
-                strip ../../../../reminecraftpe
-                mv ../../../../game/assets ../../../..
+                strip ../../../../reminecraftpe/reminecraftpe
+                mv ../../../../game/assets ../../../../reminecraftpe
           - name: Pack release
-            run: tar -czf reminecraftpe-macos.tar.gz reminecraftpe assets
+            run: tar -czf reminecraftpe-macos.tar.gz reminecraftpe
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
@@ -224,7 +231,10 @@ jobs:
                 cmake --build .
                 x86_64-w64-mingw32-strip reminecraftpe.exe
           - name: Pack release
-            run: tar -C build -czf reminecraftpe-${{ matrix.shortname }}.tar.gz reminecraftpe.exe assets
+            run: |
+                mkdir reminecraftpe
+                mv game/assets build/reminecraftpe.exe reminecraftpe
+                zip -r reminecraftpe-windows-${{ matrix.arch }}.zip reminecraftpe
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
@@ -249,7 +259,10 @@ jobs:
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
                 mv platforms/sdl/sdl2/reminecraftpe.nro .
           - name: Pack release
-            run: tar -C build -czf reminecraftpe-switch.tar.gz reminecraftpe.nro assets
+            run: |
+                mkdir reminecraftpe
+                mv game/assets build/reminecraftpe.nro reminecraftpe
+                zip -r reminecraftpe-switch.zip reminecraftpe
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
