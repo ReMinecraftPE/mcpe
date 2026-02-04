@@ -18,7 +18,7 @@ CameraItem::CameraItem(int id) : Item(id)
 {
 }
 
-ItemStack* CameraItem::use(ItemStack* inst, Level* level, Player* player) const
+ItemStack* CameraItem::use(ItemStack* inst, Level* level, Mob* user) const
 {
 #ifndef ORIGINAL_CODE
 	// prevent players from using this in multiplayer, to prevent a desync of entity IDs
@@ -26,19 +26,10 @@ ItemStack* CameraItem::use(ItemStack* inst, Level* level, Player* player) const
 		return inst;
 #endif
 
-	/*Mob* entity = new Pig(level);
-	entity->setPos(player->m_pos);
-	level->addEntity(entity);
-
- 	entity = new Chicken(level);
-	entity->setPos(player->m_pos);
-	level->addEntity(entity);
-
-	entity = new Cow(level);
-	entity->setPos(player->m_pos);
-	level->addEntity(entity);*/
+	if (!user->isPlayer())
+		return inst;
 	
-	
+	Player* player = static_cast<Player*>(user);
 	level->addEntity(new TripodCamera(level, player, player->m_pos));
 	return inst;
 }
