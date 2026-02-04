@@ -196,6 +196,7 @@ jobs:
               AR: llvm-ar-21
               RANLIB: llvm-ranlib-21
               LLVM_CONFIG: llvm-config-21
+              NOSTRIP: 1
           - uses: actions/upload-artifact@v6
             with:
               name: iOS
