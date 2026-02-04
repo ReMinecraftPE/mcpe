@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'lto-artifacts' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
