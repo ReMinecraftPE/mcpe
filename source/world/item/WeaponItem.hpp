@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Item.hpp"
+#include "ToolItem.hpp"
 
-class WeaponItem : public Item
+class WeaponItem : public ToolItem
 {
 public:
 	WeaponItem(int id, Tier& tier);
@@ -14,7 +14,4 @@ public:
 
 private:
 	int m_attackDamage;
-
-protected:
-	Tier& m_tier;
 };

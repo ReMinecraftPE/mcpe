@@ -16,8 +16,14 @@ public:
 	bool isHandEquipped() const override;
 	bool canDestroySpecial(const Tile* tile) const override;
 
+protected:
+	bool canDestroyTile(const Tile*) const;
+	bool canDestroyMaterial(const Material*) const;
+
 private:
 	float m_speed;
-	Tool::Type m_toolType;
 	Tier& m_tier;
+
+protected:
+	Tool::Type m_toolType;
 };
