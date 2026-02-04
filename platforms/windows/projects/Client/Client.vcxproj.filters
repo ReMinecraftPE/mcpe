@@ -599,11 +599,12 @@
     <ClInclude Include="$(MC_ROOT)\source\client\locale\Language.hpp">
       <Filter>Header Files\Locale</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\texture\TextureAtlas.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\texture\TextureAtlas.hpp">
       <Filter>Header Files\Renderer\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\client\renderer\LogoRenderer.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\client\renderer\LogoRenderer.hpp">
       <Filter>Header Files\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\client\resources\ResourcePackRepository.hpp">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
@@ -1062,14 +1063,18 @@
     <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\ChestScreen.cpp">
       <Filter>Source Files\GUI\Screens\Inventory</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.cpp">
+      <Filter>Source Files\GUI\Screens\Inventory</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\locale\Language.cpp">
       <Filter>Source Files\Locale</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\texture\TextureAtlas.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\texture\TextureAtlas.cpp">
       <Filter>Source Files\Renderer\Texture</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\client\renderer\LogoRenderer.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\client\renderer\LogoRenderer.cpp">
       <Filter>Source Files\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePack.cpp">
       <Filter>Source Files\Resources</Filter>
     </ClCompile>
@@ -1078,9 +1083,6 @@
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\client\resources\ResourcePackManifest.cpp">
       <Filter>Source Files\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MC_ROOT)\source\client\gui\screens\inventory\CraftingScreen.cpp">
-      <Filter>Source Files\GUI\Screens\Inventory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

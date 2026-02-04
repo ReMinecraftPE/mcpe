@@ -33,11 +33,10 @@ bool Screen::_isPanoramaAvailable = false;
 Screen::Screen()
 {
 	m_bLastPointerPressedState = false;
-	m_currentUpdateTime = 0.0;
-	m_lastUpdateTime = 0.0;
 	m_width = 1;
 	m_height = 1;
-	field_10 = false;
+	m_bPassEvents = false;
+	m_bDeletePrevious = false;
 	m_pMinecraft = nullptr;
 	m_elementListIndex = 0;
 	m_elementIndex = 0;
@@ -59,17 +58,17 @@ Screen::~Screen()
 	m_elements.clear();
 }
 
-void Screen::_controllerEvent(GameController::ID controllerId)
+void Screen::controllerEvent(GameController::StickID stickID, double deltaTime)
 {
 	// @TODO: this probably shouldn't be here
 	GameController::StickEvent event;
-	event.id = controllerId;
-	event.state = GameControllerManager::getDirection(controllerId);
+	event.id = stickID;
+	event.state = GameControllerManager::getDirection(stickID);
 	if (event.state != GameController::STICK_STATE_NONE)
 	{
-		event.x = GameControllerManager::getX(controllerId);
-		event.y = GameControllerManager::getY(controllerId);
-		handleControllerStickEvent(event);
+		event.x = GameControllerManager::getX(stickID);
+		event.y = GameControllerManager::getY(stickID);
+		handleControllerStickEvent(event, deltaTime);
 	}
 }
 
@@ -206,7 +205,10 @@ void Screen::_deselectCurrentElement()
 {
 	GuiElement* element = _getSelectedElement();
 	if (element)
+	{
 		element->setSelected(false);
+		element->setFocused(false);
+	}
 }
 
 void Screen::_playSelectSound()
@@ -225,11 +227,6 @@ void Screen::_centerMenuPointer()
 void Screen::_renderPointer()
 {
 	GameRenderer& gameRenderer = *m_pMinecraft->m_pGameRenderer;
-
-	double deltaTime = m_pMinecraft->m_fDeltaTime;
-	m_menuPointer.x = Mth::Lerp(m_menuPointer.x, m_targetMenuPointer.x, deltaTime * C_POINTER_FRICTION);
-	m_menuPointer.y = Mth::Lerp(m_menuPointer.y, m_targetMenuPointer.y, deltaTime * C_POINTER_FRICTION);
-
 	gameRenderer.renderPointer(m_menuPointer);
 }
 
@@ -271,16 +268,13 @@ bool Screen::_useController() const
 	return m_pMinecraft->useController();
 }
 
-void Screen::init(Minecraft* pMinecraft, int a3, int a4)
+void Screen::init(Minecraft* pMinecraft, int width, int height)
 {
-	m_width  = a3;
-	m_height = a4;
 	m_pMinecraft = pMinecraft;
 	m_pFont = pMinecraft->m_pFont;
 
+	setSize(width, height);
 	_centerMenuPointer();
-
-	init();
 	_updateTabButtonSelection();
 }
 
@@ -587,6 +581,9 @@ void Screen::tick()
 
 void Screen::setSize(int width, int height)
 {
+	if (width != m_width || height != m_height)
+		handlePointerLocation(m_menuPointer.x * width / m_width, m_menuPointer.y * height / m_height);
+
 	m_width = width;
 	m_height = height;
 
@@ -803,6 +800,7 @@ void Screen::_updateTabButtonSelection()
 
 	for (size_t i = 0; i < _getElementList().size(); i++)
 	{
+		_getElement(i)->setFocused(m_elementIndex == i);
 		_getElement(i)->setSelected(m_elementIndex == i);
 	}
 }
@@ -819,12 +817,7 @@ bool Screen::_prevTab()
 
 void Screen::updateEvents()
 {
-	if (field_10) return;
-
-	m_currentUpdateTime = getTimeS();
-
-	if (m_lastUpdateTime == 0.0)
-		m_lastUpdateTime = m_currentUpdateTime;
+	if (m_bPassEvents) return;
 
 	while (Mouse::next())
 		mouseEvent();
@@ -837,8 +830,6 @@ void Screen::updateEvents()
 		checkForPointerEvent(MOUSE_BUTTON_LEFT);
 		controllerEvent();
 	}
-
-	m_lastUpdateTime = m_currentUpdateTime;
 }
 
 void Screen::mouseEvent()
@@ -880,8 +871,7 @@ void Screen::controllerEvent()
 	_processControllerDirection(1);
 	_processControllerDirection(2);
 
-	_controllerEvent(1);
-	_controllerEvent(2);
+	controllerEvent(2);
 }
 
 void Screen::checkForPointerEvent(MouseButtonType button)
@@ -902,7 +892,6 @@ void Screen::handlePointerLocation(MenuPointer::Unit x, MenuPointer::Unit y)
 {
 	m_menuPointer.x = Mth::clamp(x, 0.0f, m_width);
 	m_menuPointer.y = Mth::clamp(y, 0.0f, m_height);
-	m_targetMenuPointer = m_menuPointer;
 }
 
 void Screen::handlePointerPressed(bool isPressed)
@@ -928,7 +917,7 @@ void Screen::handleScrollWheel(float force)
 {
 }
 
-void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
+void Screen::handleControllerStickEvent(const GameController::StickEvent& stick, double deltaTime)
 {
 	if (m_bRenderPointer && stick.id == 1)
 	{
@@ -936,9 +925,6 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 		float baseSensitivity = m_pMinecraft->getOptions()->m_fSensitivity;
 		float sensitivity = baseSensitivity * 2.0f;
 		float moveSensitivity = baseSensitivity * 2.0f;
-
-		if (m_uiTheme == UI_CONSOLE)
-			moveSensitivity *= 2;
 
 		//float affectY = Mth::clamp((sensitivity - 0.4f) * 1.67f, 0, 1);
 
@@ -959,21 +945,14 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick)
 		Vec2 targetVelocity(snap * speed * moveSensitivity);
 		targetVelocity.x = stickAbs.x < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.x) : targetVelocity.x;
 		targetVelocity.y = stickAbs.y < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.y) : targetVelocity.y; // * speedY;
+		targetVelocity *= 1 / Gui::InvGuiScale;
 
 		// Multiply by delta for smooth movement
-		double deltaTime = m_currentUpdateTime - m_lastUpdateTime;
-		if (deltaTime > 0.1f) deltaTime = 0.1f;
-		m_pointerVelocity.x = Mth::Lerp(m_pointerVelocity.x, targetVelocity.x, deltaTime * C_POINTER_FRICTION);
-		m_pointerVelocity.y = Mth::Lerp(m_pointerVelocity.y, targetVelocity.y, deltaTime * C_POINTER_FRICTION);
-		Vec2 move = m_pointerVelocity * deltaTime;
+		Vec2 move = targetVelocity * C_POINTER_FRICTION * deltaTime;
 
-		// Scale to our GUI
-		move *= m_height / Gui::InvGuiScale;
-
-		m_targetMenuPointer.x = Mth::clamp(m_menuPointer.x + move.x, 0.0f, m_width);
-		m_targetMenuPointer.y = Mth::clamp(m_menuPointer.y - move.y, 0.0f, m_height);
+		handlePointerLocation(m_menuPointer.x + move.x, m_menuPointer.y - move.y);
 	}
-	else if (stick.id == 2)
+	if (stick.id == 2)
 	{
 		if (stick.state == GameController::STICK_STATE_DOWN || stick.state == GameController::STICK_STATE_UP)
 		{

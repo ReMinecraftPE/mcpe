@@ -50,9 +50,6 @@ public:
 	Screen();
 	virtual ~Screen();
 
-private:
-	void _controllerEvent(GameController::ID controllerId);
-
 protected:
 	bool _nextElement();
 	bool _prevElement();
@@ -87,6 +84,7 @@ public:
 	int getYOffset() const;
 	unsigned int getCursorMoveThrottle() const { return 65; }
 	bool doElementTabbing() const;
+	void controllerEvent(GameController::StickID stickId, double deltaTime = 0.0);
 
 protected:
 	virtual void _processControllerDirection(GameController::StickID stickId);
@@ -112,7 +110,7 @@ public:
 	virtual void handlePointerPressed(bool isPressed);
 	virtual void handlePointerAction(const MenuPointer& pointer, MouseButtonType button);
 	virtual void handleScrollWheel(float force);
-	virtual void handleControllerStickEvent(const GameController::StickEvent& stick);
+	virtual void handleControllerStickEvent(const GameController::StickEvent& stick, double deltaTime = 0.0);
 	virtual void tick();
 	virtual void removed() {};
 	virtual void renderBackground(int vo);
@@ -139,16 +137,14 @@ public:
 protected:
 	Materials m_screenMaterials;
 	MenuPointer m_menuPointer;
-	MenuPointer m_targetMenuPointer;
-	Vec2 m_pointerVelocity;
 	bool m_bLastPointerPressedState;
-	double m_currentUpdateTime;
-	double m_lastUpdateTime;
 
 public:
 	int m_width;
 	int m_height;
-	bool field_10;
+	bool m_bPassEvents;
+	//@NOTE: This should be enabled only if the the actual screen handles the deletion of the previous screen, otherwise, there will be a memory leak!
+	bool m_bDeletePrevious;
 	Minecraft* m_pMinecraft;
 	GuiElementList m_elements;
 	std::vector<GuiElementList> m_elementTabLists; 

@@ -106,7 +106,15 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 
 	if (m_uiTheme == UI_CONSOLE)
 	{
-		blitSprite(texs, isSelected() ? "consolegui/Graphics/MainMenuButton_Over.png" : "consolegui/Graphics/MainMenuButton_Norm.png", m_xPos, m_yPos, m_width, m_height);
+		bool selected = isSelected() && !hasFocus();
+		blitSprite(texs, isSelected() && !hasFocus() ? "consolegui/Graphics/MainMenuButton_Over.png" : "consolegui/Graphics/MainMenuButton_Norm.png", m_xPos, m_yPos, m_width, m_height);
+		if (hasFocus())
+		{
+			float timer = (getTimeMs() % 1200) / 1200.0f;
+			currentShaderColor = Color(1.0f, 1.0f, 1.0f, 0.5f + (timer >= 0.5f ? 1 - timer : timer));
+			blitSprite(texs, "consolegui/Graphics/MainMenuButton_Over.png", m_xPos, m_yPos, m_width, m_height);
+			currentShaderColor = m_color;
+		}
 	}
 	else
 	{
@@ -118,21 +126,32 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 
 	renderBg(pMinecraft, xPos, yPos);
 
-	Color textColor;
-	if (!isEnabled())
-		textColor = Color(160, 160, 160, m_color.a); // 0xFFA0A0A0
-	else if (isSelected())
-		textColor = Color(255, 255, 160, m_color.a); // 0xFFFFA0U
-	else
-		textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
-
 	if (m_uiTheme == UI_CONSOLE)
 	{
+		Color textColor;
+		if (hasFocus())
+		{
+			float timer = (getTimeMs() % 1200) / 1200.0f;
+			textColor = Color(220, 220, Mth::round((0.5f - (timer >= 0.5f ? 1 - timer : timer)) * 220), m_color.a);
+		}
+		else if (isSelected())
+		{
+			textColor = Color(220, 220, 0, m_color.a); // 0xDCDC00
+		}
+		else
+			textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
 		int textWidth = font.width(m_text) * 2;
 		font.drawScalableShadow(m_text, m_xPos + (m_width - textWidth) / 2, m_yPos + (m_height - 16) / 2, textColor);
 	}
 	else
 	{
+		Color textColor;
+		if (!isEnabled())
+			textColor = Color(160, 160, 160, m_color.a); // 0xFFA0A0A0
+		else if (isSelected())
+			textColor = Color(255, 255, 160, m_color.a); // 0xFFFFA0U
+		else
+			textColor = Color(224, 224, 224, m_color.a); // 0xE0E0E0U
 		drawCenteredString(font, m_text, m_xPos + m_width / 2, m_yPos + (m_height - 8) / 2, textColor);
 	}
 }

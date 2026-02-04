@@ -152,6 +152,7 @@ Textures::Textures() :
 	addSprite("consolegui/Graphics/Armour_Slot_Body.png", m_guiAtlas);
 	addSprite("consolegui/Graphics/Armour_Slot_Legs.png", m_guiAtlas);
 	addSprite("consolegui/Graphics/Armour_Slot_Feet.png", m_guiAtlas);
+	addSprite("consolegui/Graphics/Arrow_Off.png", m_guiAtlas);
 	addSprite("consolegui/Graphics/MainMenuButton_Norm.png", m_filteredGuiAtlas);
 	addSprite("consolegui/Graphics/MainMenuButton_Over.png", m_filteredGuiAtlas);
 	addSprite("consolegui/scrolldown.png", m_guiAtlas);

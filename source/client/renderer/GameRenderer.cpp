@@ -658,7 +658,10 @@ void GameRenderer::render(float f)
 	}
 	else if (m_pMinecraft->useController())
 	{
-		// do nothing
+		if (m_pMinecraft->m_pScreen)
+		{
+			m_pMinecraft->m_pScreen->controllerEvent(1, f);
+		}
 	}
 	else
 	{
@@ -851,13 +854,13 @@ void GameRenderer::renderPointer(const MenuPointer& pointer)
 {
 	Textures& textures = *m_pMinecraft->m_pTextures;
 
-	Vec3 pos(pointer.x - (C_MENU_POINTER_WIDTH / 2), pointer.y - (C_MENU_POINTER_HEIGHT / 2), 0);
-
 	MatrixStack::Ref mtx = MatrixStack::World.push();
-	mtx->translate(pos);
+	mtx->translate(Vec3(pointer.x, pointer.y, 0));
 
 	if (m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiTheme == UI_CONSOLE)
 		mtx->scale(2.0f);
+
+	mtx->translate(Vec3(-(C_MENU_POINTER_WIDTH / 2), -(C_MENU_POINTER_HEIGHT / 2), 0));
 
 	textures.loadAndBindTexture("gui/pointer.png", true);
 	m_pointerMesh.render(ScreenRenderer::singleton().m_materials.ui_textured);

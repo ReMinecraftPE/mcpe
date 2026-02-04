@@ -12,7 +12,7 @@
 #define C_TITLE_PATH_FALLBACK "gui/title.png" // everyone should have this
 #define C_TITLE_PATH_POCKET   "gui/title_pe.png"
 #define C_TITLE_PATH_XBOX360  "gui/title_xbox360.png"
-#define C_TITLE_PATH_CONSOLE   "gui/title_console.png"
+#define C_TITLE_PATH_CONSOLE  "gui/title_console.png"
 
 const char gLogoLine1[] = "??? ??? #   # # #   # ### ### ### ### ### ### $$$ $$$";
 const char gLogoLine2[] = "? ? ?   ## ## # ##  # #   #   # # # # #    #  $ $ $  ";
@@ -120,7 +120,8 @@ void LogoRenderer::_build2dTitleMesh()
 	if (!pTex)
 		return;
 
-	bool isConsole = m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiTheme == UI_CONSOLE;
+	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->m_uiTheme;
+	bool isConsole = uiTheme == UI_CONSOLE;
 
 	switch (m_pMinecraft->getOptions()->getLogoTheme())
 	{
@@ -228,7 +229,8 @@ void LogoRenderer::render2D()
 
 void LogoRenderer::render3D(float f)
 {
-	bool isConsole = m_pMinecraft->m_pScreen && m_pMinecraft->m_pScreen->m_uiTheme == UI_CONSOLE;
+	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->m_uiTheme;
+	bool isConsole = uiTheme == UI_CONSOLE;
 
 	int Width = int(sizeof gLogoLine1 - 1);
 	int Height = int(sizeof gLogoLines / sizeof * gLogoLines);

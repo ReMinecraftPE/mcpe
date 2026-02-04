@@ -9,6 +9,7 @@
 #include "PauseScreen.hpp"
 #include "OptionsScreen.hpp"
 #include "server/ServerSideNetworkHandler.hpp"
+#include "client/renderer/LogoRenderer.hpp"
 
 PauseScreen::PauseScreen() :
 	//m_oPos(0),
@@ -25,70 +26,57 @@ PauseScreen::PauseScreen() :
 
 void PauseScreen::init()
 {
+	m_uiTheme = m_pMinecraft->getOptions()->m_uiTheme;
+
+	bool consoleUI = m_uiTheme == UI_CONSOLE;
+
 	bool bAddVisibleButton = m_pMinecraft->m_pRakNetInstance && m_pMinecraft->m_pRakNetInstance->m_bIsHost;
-	
-	int nButtons = 2;
 
-	if (bAddVisibleButton)
-		nButtons++;
+	std::vector<Button*> layoutButtons;
 
+	layoutButtons.push_back(&m_btnBack);
 #ifdef ENH_ADD_OPTIONS_PAUSE
-	nButtons++;
+	layoutButtons.push_back(&m_btnOptions);
 #endif
-
-	int currY = 48, inc = 32;
-
-	bool cramped = m_height < currY + inc * nButtons + 10; // also add some padding
-	if (cramped)
-		inc = 25;
-
-	m_btnQuit.m_width = 160;
-	m_btnBack.m_width = 160;
-	m_btnVisible.m_width = 160;
-	m_btnQuitAndCopy.m_width = 160;
-
-	m_btnBack.m_yPos = currY; currY += inc;
-	m_btnQuit.m_yPos = currY; currY += inc;
-	m_btnBack.m_xPos = (m_width - 160) / 2;
-	m_btnQuit.m_xPos = (m_width - 160) / 2;
-	m_btnVisible.m_xPos = (m_width - 160) / 2;
-	m_btnQuitAndCopy.m_xPos = (m_width - 160) / 2;
-
-	m_btnVisible.m_yPos =
-	m_btnQuitAndCopy.m_yPos = currY;
-
-#ifdef ENH_ADD_OPTIONS_PAUSE
-	// TODO: when visible or quit&copy are on, lower this
-	m_btnOptions.m_width = 160;
-	m_btnOptions.m_yPos = currY;
-	m_btnOptions.m_xPos = m_btnBack.m_xPos;
-#endif
-	currY += inc;
-
-	// add the buttons to the screen:
-	_addElement(m_btnBack);
-
-#ifdef ENH_ADD_OPTIONS_PAUSE
-	_addElement(m_btnOptions);
-#endif
-
 	if (bAddVisibleButton)
 	{
 		updateServerVisibilityText();
-		_addElement(m_btnVisible);
-#ifdef ENH_ADD_OPTIONS_PAUSE
-		m_btnOptions.m_yPos += inc;
-#endif
+		layoutButtons.push_back(&m_btnVisible);
+	}
+	layoutButtons.push_back(&m_btnQuit);
+
+	int buttonsWidth;
+	int buttonsHeight;
+	int y;
+	int ySpacing;
+
+	if (consoleUI)
+	{
+		buttonsWidth = 400;
+		buttonsHeight = 40;
+		y = m_height / 3 + 10;
+		ySpacing = 50;
+	}
+	else
+	{
+		buttonsWidth = 160;
+		buttonsHeight = 25;
+		y = 48;
+		ySpacing = 32;
+		bool cramped = m_height < y + ySpacing * layoutButtons.size() + 10; // also add some padding
+		if (cramped)
+			ySpacing = 25;
 	}
 
-	_addElement(m_btnQuit);
-	
-	//_addElement(m_btnQuitAndCopy);
-
-#ifdef ENH_ADD_OPTIONS_PAUSE
-	//swap the options and quit buttons around (??)
-	std::swap(m_btnOptions.m_yPos, m_btnQuit.m_yPos);
-#endif
+	for (size_t i = 0; i < layoutButtons.size(); ++i)
+	{
+		Button* button = layoutButtons[i];
+		button->m_width = buttonsWidth;
+		button->m_height = buttonsHeight;
+		button->m_xPos = (m_width - button->m_width) / 2;
+		button->m_yPos = y + ySpacing * i;
+		_addElement(*button);
+	}
 
 #ifndef FEATURE_NETWORKING
 	m_btnVisible.setEnabled(false);
@@ -117,7 +105,15 @@ void PauseScreen::render(float f)
 {
 	renderBackground();
 
-	drawCenteredString(*m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
+	if (m_uiTheme == UI_CONSOLE)
+	{
+		LogoRenderer::singleton().render(f);
+	}
+	else
+	{
+		drawCenteredString(*m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
+	}
+
 	Screen::render(f);
 }
 
@@ -145,6 +141,6 @@ void PauseScreen::_buttonClicked(Button* pButton)
 
 #ifdef ENH_ADD_OPTIONS_PAUSE
 	if (pButton->m_buttonId == m_btnOptions.m_buttonId)
-		m_pMinecraft->setScreen(new OptionsScreen);
+		m_pMinecraft->setScreen(new OptionsScreen(this));
 #endif
 }

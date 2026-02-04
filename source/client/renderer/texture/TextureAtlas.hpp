@@ -44,15 +44,6 @@ struct PendingSprite
     int height;
 };
 
-class SpriteSorter
-{
-public:
-    bool operator()(const PendingSprite& a, const PendingSprite& b)
-    {
-        return a.height > b.height;
-    }
-};
-
 class TextureAtlas
 {
 public:

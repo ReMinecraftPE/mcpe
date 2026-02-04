@@ -285,7 +285,8 @@ void Minecraft::setScreen(Screen* pScreen)
 	if (m_pScreen)
 	{
 		m_pScreen->removed();
-		delete m_pScreen;
+		if (pScreen && pScreen->m_bDeletePrevious)
+			delete m_pScreen;
 	}
 
 	Mouse::reset();
@@ -514,7 +515,7 @@ void Minecraft::tickInput()
 {
 	if (m_pScreen)
 	{
-		if (!m_pScreen->field_10)
+		if (!m_pScreen->m_bPassEvents)
 		{
 			m_bUsingScreen = true;
 			m_pScreen->updateEvents();

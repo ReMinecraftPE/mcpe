@@ -174,7 +174,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	_updateHudPositions();
 
-	if (mc.getOptions()->m_bFancyGraphics && isVignetteAvailable())
+	if (mc.getOptions()->m_bFancyGraphics && isVignetteAvailable() && !isConsole)
 	{
 		renderVignette(mc.m_pLocalPlayer->getBrightness(f), m_width, m_height);
 	}

@@ -437,7 +437,7 @@ void StartMenuScreen::_buttonClicked(Button* pButton)
 	}
 	else if (pButton->m_buttonId == m_optionsButton.m_buttonId)
 	{
-		m_pMinecraft->setScreen(new OptionsScreen);
+		m_pMinecraft->setScreen(new OptionsScreen(this));
 	}
 	else if (pButton->m_buttonId == m_creditsButton.m_buttonId)
 	{
@@ -523,7 +523,7 @@ void StartMenuScreen::init()
         _addElement(m_buyButton);
     }
 
-	_addElement(m_creditsButton);
+	_addElement(m_creditsButton, false);
 
 	m_watermarkText = "\xFFMojang AB";
 	m_watermarkX = m_width - 1 - m_pFont->width(m_watermarkText);

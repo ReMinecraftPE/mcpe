@@ -43,6 +43,15 @@ void TextureAtlas::addSprite(const std::string& name, const TextureData& texture
     addSprite(name, data, texture.m_imageData.m_width, texture.m_imageData.m_height);
 }
 
+class SpriteSorter
+{
+public:
+    bool operator()(const PendingSprite& a, const PendingSprite& b)
+    {
+        return a.height > b.height;
+    }
+};
+
 bool TextureAtlas::build()
 {
     std::sort(m_pendingSprites.begin(), m_pendingSprites.end(), SpriteSorter());

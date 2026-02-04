@@ -16,7 +16,8 @@
 #define MAX_CATEGORY_BUTTON_ID 4
 #define BACK_BUTTON_ID 100
 
-OptionsScreen::OptionsScreen() :
+OptionsScreen::OptionsScreen(Screen* parent) :
+	m_pParent(parent),
 	m_pList(nullptr),
 	m_currentCategory(OC_MIN),
 	m_videoButton(MIN_CATEGORY_BUTTON_ID, "Video"),
@@ -26,11 +27,13 @@ OptionsScreen::OptionsScreen() :
 	m_backButton(BACK_BUTTON_ID, "Done")
 {
 	m_bRenderPointer = true;
+	m_bDeletePrevious = false;
 }
 
 OptionsScreen::~OptionsScreen()
 {
 	SAFE_DELETE(m_pList);
+	SAFE_DELETE(m_pParent);
 }
 
 bool OptionsScreen::_nextTab()
@@ -159,10 +162,7 @@ bool OptionsScreen::handleBackEvent(bool b)
 {
 	if (!b)
 	{
-		if (m_pMinecraft->isLevelGenerated())
-			m_pMinecraft->setScreen(new PauseScreen);
-		else
-			m_pMinecraft->setScreen(new StartMenuScreen);
+		m_pMinecraft->setScreen(m_pParent);
 	}
 
 	return true;

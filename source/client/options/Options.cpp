@@ -72,7 +72,7 @@ void Options::_initDefaultValues()
 	m_b2dTitleLogo = false;
 	m_bMenuPanorama = true;
 	field_19 = 1;
-#if MC_PLATFORM_MOBILE
+#if MC_PLATFORM_XBOX360
 	m_uiTheme = UI_CONSOLE;
 #else
 	m_uiTheme = m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA;
