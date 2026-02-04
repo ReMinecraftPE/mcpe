@@ -63,7 +63,7 @@ void PauseScreen::init()
 		buttonsHeight = 25;
 		y = 48;
 		ySpacing = 32;
-		bool cramped = m_height < y + ySpacing * layoutButtons.size() + 10; // also add some padding
+		bool cramped = m_height < y + ySpacing * int(layoutButtons.size()) + 10; // also add some padding
 		if (cramped)
 			ySpacing = 25;
 	}
