@@ -128,12 +128,12 @@ jobs:
                 strip ../../../../reminecraftpe/reminecraftpe
                 mv ../../../../game/assets ../../../../reminecraftpe
           - name: Pack release
-            run: tar -czf reminecraftpe-macos.tar.gz reminecraftpe
+            run: zip -r reminecraftpe-macos.zip reminecraftpe
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["reminecraftpe-macos.tar.gz"]'
+              asset_paths: '["reminecraftpe-macos.zip"]'
 
     ios:
         name: iOS
@@ -239,7 +239,7 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["reminecraftpe-windows-${{ matrix.arch }}.tar.gz"]'
+              asset_paths: '["reminecraftpe-windows-${{ matrix.arch }}.zip"]'
 
     switch:
         name: Nintendo Switch
@@ -267,4 +267,4 @@ jobs:
             env:
               GITHUB_TOKEN: ${{ github.token }}
             with:
-              asset_paths: '["reminecraftpe-switch.tar.gz"]'
+              asset_paths: '["reminecraftpe-switch.zip"]'
