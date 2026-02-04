@@ -80,6 +80,13 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\DropItemPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\SendInventoryPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerAckPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerClosePacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerOpenPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetContentPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetDataPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetSlotPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetEntityMotionPacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -120,6 +127,13 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\TakeItemEntityPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\DropItemPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\SendInventoryPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerAckPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerClosePacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerOpenPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetContentPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetDataPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetSlotPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SetEntityMotionPacket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

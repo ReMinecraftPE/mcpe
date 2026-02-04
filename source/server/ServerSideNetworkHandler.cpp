@@ -579,6 +579,52 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, DropItemPa
 	pPlayer->drop(packet->m_item, packet->m_bRandomly);
 }
 
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerClosePacket* packet)
+{
+	puts_ignorable("ContainerClosePacket");
+
+	if (!m_pLevel)
+		return;
+	
+	Player* pPlayer = _findPlayer(*m_pLevel, guid);
+	if (!pPlayer)
+		return;
+
+	if (pPlayer != m_pMinecraft->m_pLocalPlayer)
+	{
+		ServerPlayer* pServerPlayer = (ServerPlayer*)pPlayer;
+		pServerPlayer->doCloseContainer();
+	}
+}
+
+void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetSlotPacket* packet)
+{
+	puts_ignorable("ContainerSetSlotPacket");
+
+	if (!m_pLevel)
+		return;
+	
+	Player* pPlayer = _findPlayer(*m_pLevel, guid);
+	if (!pPlayer)
+		return;
+
+	ContainerMenu* pContainerMenu = pPlayer->m_pContainerMenu;
+	if (!pContainerMenu)
+		return;
+
+	if (pContainerMenu->m_containerId == packet->m_containerId)
+	{
+		switch (pContainerMenu->m_containerType)
+		{
+		case Container::FURNACE:
+			pContainerMenu->setItem(packet->m_slot, packet->m_item);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 void ServerSideNetworkHandler::tileBrightnessChanged(const TilePos& pos)
 {
 }

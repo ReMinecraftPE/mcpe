@@ -39,11 +39,15 @@ public:
 	void setPlayerGameType(GameType gameType) override;
 	void swing() override;
 	void startCrafting(const TilePos&) override;
+	//void openFurnace(FurnaceTileEntity* furnace) override;
+	void openContainer(Container* container) override;
+	void closeContainer() override;
+	//void openTrap(DispenserTileEntity* tileEntity) override;
+	//void openTextEdit(SignTileEntity* tileEntity) override;
 
 	virtual void hurtTo(int newHealth);
 
 	void calculateFlight(const Vec3& pos);
-	void closeContainer(); //@HUH: oddly enough not a virtual/override
 	void respawn();
 	void sendPosition();
 

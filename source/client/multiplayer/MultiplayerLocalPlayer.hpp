@@ -18,6 +18,7 @@ public:
 	void hurtTo(int newHealth) override;
 	void die(Entity* pCulprit) override;
 	void drop(const ItemStack& item, bool randomly = false) override;
+	void closeContainer() override;
 
 	void refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items) override;
 	void slotChanged(ContainerMenu* menu, int index, ItemStack& item, bool isResultSlot) override;

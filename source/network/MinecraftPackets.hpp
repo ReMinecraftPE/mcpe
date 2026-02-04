@@ -34,11 +34,18 @@
 #include "packets/InteractPacket.hpp"
 #include "packets/UseItemPacket.hpp"
 #include "packets/SetEntityDataPacket.hpp"
+#include "packets/SetEntityMotionPacket.hpp"
 #include "packets/SetHealthPacket.hpp"
 #include "packets/AnimatePacket.hpp"
 #include "packets/RespawnPacket.hpp"
 #include "packets/SendInventoryPacket.hpp"
 #include "packets/DropItemPacket.hpp"
+#include "packets/ContainerOpenPacket.hpp"
+#include "packets/ContainerClosePacket.hpp"
+#include "packets/ContainerSetSlotPacket.hpp"
+#include "packets/ContainerSetDataPacket.hpp"
+#include "packets/ContainerSetContentPacket.hpp"
+#include "packets/ContainerAckPacket.hpp"
 #include "packets/LevelDataPacket.hpp"
 
 class MinecraftPackets

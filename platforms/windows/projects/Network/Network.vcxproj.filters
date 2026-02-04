@@ -131,6 +131,27 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\DropItemPacket.hpp">
       <Filter>Header Files\Packets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerAckPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerClosePacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerOpenPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetContentPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetDataPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetSlotPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\SetEntityMotionPacket.hpp">
+      <Filter>Header Files\Packets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\AddPlayerPacket.cpp">
@@ -239,6 +260,27 @@
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
     <ClCompile Include="$(MC_ROOT)\source\network\packets\SendInventoryPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerAckPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerClosePacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerOpenPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetContentPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetDataPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetSlotPacket.cpp">
+      <Filter>Source Files\Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\SetEntityMotionPacket.cpp">
       <Filter>Source Files\Packets</Filter>
     </ClCompile>
   </ItemGroup>

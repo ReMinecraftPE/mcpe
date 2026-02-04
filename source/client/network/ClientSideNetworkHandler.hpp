@@ -53,9 +53,15 @@ public:
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
 	void handle(const RakNet::RakNetGUID&, InteractPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) override;
+	void handle(const RakNet::RakNetGUID&, SetEntityMotionPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetHealthPacket*) override;
 	void handle(const RakNet::RakNetGUID&, AnimatePacket*) override;
 	void handle(const RakNet::RakNetGUID&, RespawnPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerOpenPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerClosePacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetSlotPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetDataPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetContentPacket*) override;
 	void handle(const RakNet::RakNetGUID&, LevelDataPacket*) override;
 	
 	bool areAllChunksLoaded();

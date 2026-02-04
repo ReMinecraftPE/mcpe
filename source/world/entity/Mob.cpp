@@ -11,6 +11,7 @@
 #include "nbt/CompoundTag.hpp"
 #include "network/RakNetInstance.hpp"
 #include "network/packets/MoveEntityPacket_PosRot.hpp"
+#include "network/packets/SetEntityMotionPacket.hpp"
 
 void Mob::_init()
 {
@@ -329,6 +330,14 @@ void Mob::baseTick()
 			m_lastSentPos = m_pos;
 			m_lastSentRot = m_rot;
 		}
+#if NETWORK_PROTOCOL_VERSION >= 5
+		float diff = fabsf(m_vel.x - m_lastSentVel.x) + fabsf(m_vel.y - m_lastSentVel.y) + fabsf(m_vel.z - m_lastSentVel.z);
+		if (diff > 0.1f || diff > 0.0f && m_vel == Vec3::ZERO)
+		{
+			m_pLevel->m_pRakNetInstance->send(new SetEntityMotionPacket(m_EntityID, m_vel));
+			m_lastSentVel = m_vel;
+		}
+#endif
 	}
 }
 

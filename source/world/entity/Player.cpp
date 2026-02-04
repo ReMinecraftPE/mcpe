@@ -35,7 +35,8 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	m_pInventory = new Inventory(this);
 
-	m_pContainerMenu = m_pInventoryMenu = new InventoryMenu(m_pInventory);
+	m_pContainerMenu = nullptr;
+	m_pInventoryMenu = new InventoryMenu(m_pInventory);
 
 	setDefaultHeadHeight();
 
@@ -345,11 +346,6 @@ bool Player::canDestroy(const Tile* pTile) const
 		return item.canDestroySpecial(pTile);
 
 	return false;
-}
-
-void Player::closeContainer()
-{
-
 }
 
 void Player::displayClientMessage(const std::string& msg)

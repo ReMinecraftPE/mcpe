@@ -62,6 +62,8 @@ public:
 	void handle(const RakNet::RakNetGUID&, RespawnPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SendInventoryPacket*) override;
 	void handle(const RakNet::RakNetGUID&, DropItemPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerClosePacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetSlotPacket*) override;
 
 	// Overridden from LevelListener
 	void tileBrightnessChanged(const TilePos& pos) override;
