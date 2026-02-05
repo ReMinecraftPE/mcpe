@@ -30,8 +30,8 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_ADD_PLAYER:
 			return new AddPlayerPacket;
 		case PACKET_REMOVE_PLAYER:
-			// Was never implemented
-			throw std::bad_cast();
+			// We never implemented this, but actual PE sends this instead of RemoveEntity
+			return nullptr;
 		case PACKET_REMOVE_ENTITY:
 			return new RemoveEntityPacket;
 		case PACKET_ADD_ITEM_ENTITY:
