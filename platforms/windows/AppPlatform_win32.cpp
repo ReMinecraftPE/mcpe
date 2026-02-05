@@ -12,7 +12,6 @@
 #include <shlobj.h>
 
 #include "AppPlatform_win32.hpp"
-#include "icon.h"
 
 #include "GameMods.hpp"
 #include "common/Logger.hpp"
@@ -365,7 +364,6 @@ HWND AppPlatform_win32::createWindow(HINSTANCE hInstance, WNDPROC wndProc, LPVOI
 	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = g_WindowClassName;
-	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APP_ICON));
 
 	RECT wr = { 0,0, getScreenWidth(), getScreenHeight() };
 	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);
