@@ -174,7 +174,7 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
 #	define ARGPATCH
 #endif
         
-        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand ARGPATCH);
+        m_tileRenderer.renderTile(FullTile(pTile, item.getAuxValue()), m_materials.item_in_hand_color ARGPATCH);
         
 #ifdef ARGPATCH
 #	undef ARGPATCH

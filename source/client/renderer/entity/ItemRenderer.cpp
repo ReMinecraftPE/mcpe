@@ -30,7 +30,6 @@ const uint8_t g_ItemFrames[C_MAX_TILES] =
 ItemRenderer::Materials::Materials()
 {
 	MATERIAL_PTR(switchable, item_entity);
-	MATERIAL_PTR(switchable, item_entity_color);
 	MATERIAL_PTR(common, ui_fill_color);
 	MATERIAL_PTR(common, ui_textured);
 	MATERIAL_PTR(common, ui_texture_and_color);
