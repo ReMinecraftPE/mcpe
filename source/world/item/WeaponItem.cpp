@@ -8,7 +8,7 @@ WeaponItem::WeaponItem(int id, Tier& tier) : ToolItem(id, Tool::SWORD, tier), m_
 
 float WeaponItem::getDestroySpeed(ItemStack* instance, const Tile* tile) const
 {
-	return (canDestroyTile(tile) || canDestroyMaterial(tile->m_pMaterial)) ? 15.0f : 1.5f;
+	return (_canDestroyTile(tile) || _canDestroyMaterial(tile->m_pMaterial)) ? 15.0f : 1.5f;
 }
 
 void WeaponItem::hurtEnemy(ItemStack* instance, Mob* mob) const

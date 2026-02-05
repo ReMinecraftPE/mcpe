@@ -12,9 +12,19 @@ ToolItem::ToolItem(int id, Tool::Type toolType, Tier& tier) :
 	m_maxDamage = tier.m_uses;
 }
 
+bool ToolItem::_canDestroyTile(const Tile* tile) const
+{
+	return tile->m_toolMask & m_toolType;
+}
+
+bool ToolItem::_canDestroyMaterial(const Material* material) const
+{
+	return material->m_toolMask & m_toolType;
+}
+
 float ToolItem::getDestroySpeed(ItemStack* instance, const Tile* tile) const
 {
-	return (canDestroyTile(tile) || canDestroyMaterial(tile->m_pMaterial)) ? m_speed : 1.0f;
+	return (_canDestroyTile(tile) || _canDestroyMaterial(tile->m_pMaterial)) ? m_speed : 1.0f;
 }
 
 void ToolItem::hurtEnemy(ItemStack* instance, Mob* mob) const
@@ -39,21 +49,11 @@ bool ToolItem::isHandEquipped() const
 
 bool ToolItem::canDestroySpecial(const Tile* tile) const
 {
-	if (canDestroyTile(tile))
+	if (_canDestroyTile(tile))
 		return m_tier.m_level >= tile->m_requiredToolLevel;
 
-	if (canDestroyMaterial(tile->m_pMaterial))
+	if (_canDestroyMaterial(tile->m_pMaterial))
 		return m_tier.m_level >= tile->m_pMaterial->m_requiredToolLevel;
 
 	return false;
-}
-
-bool ToolItem::canDestroyTile(const Tile* tile) const
-{
-	return tile->m_toolMask & m_toolType;
-}
-
-bool ToolItem::canDestroyMaterial(const Material* material) const
-{
-	return material->m_toolMask & m_toolType;
 }
