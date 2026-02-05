@@ -86,6 +86,7 @@ if [ -n "$outdated_toolchain" ]; then
     printf '\nBuilding ld64 and strip...\n\n'
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
+    rm -rf cctools-port-*
     wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
@@ -105,6 +106,7 @@ if [ -n "$outdated_toolchain" ]; then
         printf '\nBuilding ldid...\n\n'
 
         ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
+        rm -rf ldid-*
         wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
 
         cd "ldid-$ldid_commit"
