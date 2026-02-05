@@ -4,7 +4,7 @@ set -e
 
 ipaname='ReMCPE.ipa'
 # must be kept in sync with the cmake executable name
-bin='reminecraftpe'
+bin="${1:-build/reminecraftpe}"
 # must be kept in sync with the info.plist
 execname='minecraftpe'
 
@@ -17,8 +17,8 @@ apppath="$ipadir/Payload/minecraftpe.app"
 [ "${0%/*}" = "$0" ] && scriptroot="." || scriptroot="${0%/*}"
 cd "$scriptroot/../.."
 
-if ! [ -f "build/$bin" ]; then
-    printf 'Expected working binary at build/%s.\n' "$bin"
+if ! [ -f "$bin" ]; then
+    printf 'Expected working binary at %s.\n' "$bin"
     printf 'Please do a cmake build before running this script.\n'
     exit 1
 fi
@@ -30,7 +30,7 @@ fi
 
 rm -rf "$ipadir"
 mkdir -p "$apppath"
-cp "build/$bin" "$apppath/$execname"
+cp "$bin" "$apppath/$execname"
 sed -E -e "s|\\\$\{EXECUTABLE_NAME\}|$execname|" -e "s|\\\$\{PRODUCT_NAME(:rfc1034identifier)?\}|$execname|g" "$platformdir/minecraftpe-Info.plist" |
     plistutil -o "$apppath/Info.plist" -f bin
 cp -a \

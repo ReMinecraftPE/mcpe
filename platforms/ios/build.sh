@@ -15,12 +15,7 @@ entitlements="$platformdir/minecraftpe.entitlements"
 
 workdir="$PWD/build/work"
 sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
-[ -d "$sdk" ] && mv "$sdk" ios-sdk-backup
-[ -d "$workdir/bin" ] && mv "$workdir/bin" bin-backup
-rm -rf build
 mkdir -p "$workdir"
-[ -d ios-sdk-backup ] && mv ios-sdk-backup "$sdk"
-[ -d bin-backup ] && mv bin-backup "$workdir/bin"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
@@ -128,9 +123,6 @@ if [ -z "$DEBUG" ]; then
     rm -f "$workdir/testout"
 fi
 
-# go to the root of the project
-cd ../../../..
-
 if [ -n "$DEBUG" ]; then
     build=Debug
 else
@@ -141,11 +133,10 @@ for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
     export REMCPE_TARGET="$target"
 
-    rm -rf build
-    mkdir build
-    cd build
+    mkdir -p "build-$target"
+    cd "build-$target"
 
-    cmake .. \
+    cmake "$platformdir/../.." \
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM=ios \
@@ -159,17 +150,16 @@ for target in $targets; do
         -DWERROR="${WERROR:-OFF}" \
         $lto
     make -j"$ncpus"
-    mv "$bin" "$workdir/$bin-$target"
 
     cd ..
 done
 
-lipo -create "$workdir/$bin"-* -output "build/$bin"
-[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "build/$bin"
+lipo -create build-*/"$bin" -output "$bin"
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin"
 if command -v ldid >/dev/null; then
-    ldid -S"$entitlements" "build/$bin"
+    ldid -S"$entitlements" "$bin"
 else
-    codesign -s - --entitlements "$entitlements" "build/$bin"
+    codesign -s - --entitlements "$entitlements" "$bin"
 fi
 
-[ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
+[ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh" "$PWD/$bin"
