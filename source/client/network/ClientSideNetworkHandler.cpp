@@ -16,7 +16,7 @@
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
 #include "world/level/Explosion.hpp"
-#include "world/inventory/SimpleContainer.hpp""
+#include "world/inventory/SimpleContainer.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT
@@ -432,7 +432,15 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LevelEv
 	//puts_ignorable("LevelEventPacket");
 	if (!m_pLevel) return;
 
-	m_pLevel->levelEvent(nullptr, pkt->m_eventId, pkt->m_pos, pkt->m_data);
+	m_pLevel->levelEvent(LevelEvent(pkt->m_eventId, pkt->m_pos, pkt->m_data));
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, TileEventPacket* pkt)
+{
+	//puts_ignorable("TileEventPacket");
+	if (!m_pLevel) return;
+
+	m_pLevel->tileEvent(TileEvent(pkt->m_pos, pkt->m_b0, pkt->m_b1));
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, EntityEventPacket* pkt)

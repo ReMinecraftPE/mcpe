@@ -28,6 +28,7 @@
 #include "packets/UpdateBlockPacket.hpp"
 #include "packets/ExplodePacket.hpp"
 #include "packets/LevelEventPacket.hpp"
+#include "packets/TileEventPacket.hpp"
 #include "packets/EntityEventPacket.hpp"
 #include "packets/RequestChunkPacket.hpp"
 #include "packets/ChunkDataPacket.hpp"

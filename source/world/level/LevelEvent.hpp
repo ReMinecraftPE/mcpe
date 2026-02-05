@@ -1,12 +1,16 @@
 #pragma once
 
 #include <stdint.h>
+#include "compat/LegacyCPP.hpp"
+#include "world/level/TilePos.hpp"
 
-class LevelEvent
+class Player;
+
+struct LevelEvent
 {
-public:
 	typedef int16_t ID;
 	typedef int32_t Data;
+
 	// https://minecraft.wiki/w/Bedrock_Edition_protocol/Level_Events
 	enum Type
 	{
@@ -72,4 +76,17 @@ public:
 		SET_DATA                     = 4000,
 		PLAYERS_SLEEPING             = 9800
 	};
+
+	ID id;
+	TilePos pos;
+	Data data;
+	Player* pPlayer;
+
+	LevelEvent(ID id, const TilePos& pos, Data data = 0, Player* pPlayer = nullptr)
+		: id(id)
+		, pos(pos)
+		, data(data)
+		, pPlayer(pPlayer)
+	{
+	}
 };

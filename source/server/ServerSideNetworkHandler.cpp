@@ -672,18 +672,23 @@ void ServerSideNetworkHandler::entityRemoved(Entity* entity)
 	redistributePacket(&packet, m_pRakNetInstance->m_guid);
 }
 
-void ServerSideNetworkHandler::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data)
+void ServerSideNetworkHandler::levelEvent(const LevelEvent& event)
 {
-	LevelEventPacket pkt(eventId, pos, data);
+	LevelEventPacket pkt(event.id, event.pos, event.data);
 
-	if (pPlayer)
+	if (event.pPlayer)
 	{
-		redistributePacket(&pkt, pPlayer->m_guid);
+		redistributePacket(&pkt, event.pPlayer->m_guid);
 	}
 	else
 	{
 		redistributePacket(&pkt, m_pMinecraft->m_pLocalPlayer->m_guid);
 	}
+}
+
+void ServerSideNetworkHandler::tileEvent(const TileEvent& event)
+{
+	m_pRakNetInstance->send(new TileEventPacket(event.pos, event.b0, event.b1));
 }
 
 void ServerSideNetworkHandler::allowIncomingConnections(bool b)

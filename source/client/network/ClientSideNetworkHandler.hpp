@@ -49,6 +49,7 @@ public:
 	void handle(const RakNet::RakNetGUID&, UpdateBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, ExplodePacket*) override;
 	void handle(const RakNet::RakNetGUID&, LevelEventPacket*) override;
+	void handle(const RakNet::RakNetGUID&, TileEventPacket*) override;
 	void handle(const RakNet::RakNetGUID&, EntityEventPacket*) override;
 	void handle(const RakNet::RakNetGUID&, ChunkDataPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;

@@ -1976,9 +1976,9 @@ void LevelRenderer::skyColorChanged()
 	}
 }
 
-void LevelRenderer::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data)
+void LevelRenderer::levelEvent(const LevelEvent& event)
 {
-	switch (eventId)
+	switch (event.id)
 	{
 	case LevelEvent::SOUND_DOOR:
 		std::string snd;
@@ -1987,7 +1987,7 @@ void LevelRenderer::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const Ti
 		else
 			snd = "random.door_close";
 
-		m_pLevel->playSound(Vec3(pos) + 0.5f, snd, 1.0f, 0.9f + 0.1f * m_pLevel->m_random.nextFloat());
+		m_pLevel->playSound(Vec3(event.pos) + 0.5f, snd, 1.0f, 0.9f + 0.1f * m_pLevel->m_random.nextFloat());
 		break;
 	}
 }

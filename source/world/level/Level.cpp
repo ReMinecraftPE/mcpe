@@ -787,12 +787,25 @@ void Level::entityRemoved(Entity* pEnt)
 	}
 }
 
-void Level::levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data)
+void Level::levelEvent(const LevelEvent& event)
 {
 	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
 	{
 		LevelListener* pListener = *it;
-		pListener->levelEvent(pPlayer, eventId, pos, data);
+		pListener->levelEvent(event);
+	}
+}
+
+void Level::tileEvent(const TileEvent& event)
+{
+	TileID tile = getTile(event.pos);
+	if (tile > TILE_AIR)
+		Tile::tiles[tile]->triggerEvent(this, event);
+
+	for (std::vector<LevelListener*>::iterator it = m_levelListeners.begin(); it != m_levelListeners.end(); it++)
+	{
+		LevelListener* pListener = *it;
+		pListener->tileEvent(event);
 	}
 }
 

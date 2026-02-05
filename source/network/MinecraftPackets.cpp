@@ -54,6 +54,8 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 			return new ExplodePacket;
 		case PACKET_LEVEL_EVENT:
 			return new LevelEventPacket;
+		case PACKET_TILE_EVENT:
+			return new TileEventPacket;
 		case PACKET_ENTITY_EVENT:
 			return new EntityEventPacket;
 		case PACKET_REQUEST_CHUNK:

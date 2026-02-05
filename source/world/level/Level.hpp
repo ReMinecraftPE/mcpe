@@ -107,7 +107,8 @@ public:
 	void setTilesDirty(const TilePos& min, const TilePos& max);
 	void entityAdded(Entity* pEnt);
 	void entityRemoved(Entity* pEnt);
-	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data = 0);
+	void levelEvent(const LevelEvent& event);
+	void tileEvent(const TileEvent& event);
 	void lightColumnChanged(int x, int z, int y1, int y2);
 	bool containsFireTile(const AABB&);
 	bool containsAnyLiquid(const AABB&);
