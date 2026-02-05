@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'master' ]
+    branches: [ 'linux-shaders' ]
 
 jobs:
     linux:
@@ -10,8 +10,11 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  - name: SDL 2
+                  - name: SDL 2 (OGL)
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    packages: 'libsdl2-dev'
+                  - name: SDL 2 (OGL + Shaders)
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
                     packages: 'libsdl2-dev'
         name: Linux (${{ matrix.name }})
         runs-on: ubuntu-24.04
