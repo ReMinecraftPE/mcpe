@@ -517,7 +517,21 @@ void Player::touch(Entity* pEnt)
 
 void Player::interact(Entity* pEnt)
 {
-	pEnt->interact(this);
+	if (pEnt->interact(this))
+		return;
+
+	bool isMob = pEnt->getDescriptor().hasCategory(EntityCategories::MOB);
+	if (!isMob)
+		return;
+
+	ItemStack& item = getSelectedItem();
+	if (!item.isEmpty() && isMob) {
+		item.interactEnemy(static_cast<Mob*>(pEnt));
+		if (item.m_count <= 0) {
+			item.snap(this);
+			removeSelectedItem();
+		} 
+	} 
 }
 
 ItemStack& Player::getSelectedItem() const
