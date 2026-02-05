@@ -51,7 +51,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-#ifdef __WINDRES__
+#ifdef __GNUC__
 IDI_ICON               ICON                    "assets/icon.ico"
 #else
 IDI_ICON               ICON                    "..\\..\\game\\assets\\icon.ico"
