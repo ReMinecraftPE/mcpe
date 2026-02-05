@@ -67,8 +67,11 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  - name: SDL 2
+                  - name: SDL 2 (OGL)
                     flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    packages: 'libsdl2-dev:i386'
+                  - name: SDL 2 (OGL + Shaders)
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL_SHADERS'
                     packages: 'libsdl2-dev:i386'
         name: Linux 32-bit (${{ matrix.name }})
         runs-on: ubuntu-24.04
