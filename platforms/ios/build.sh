@@ -100,7 +100,7 @@ if [ -n "$outdated_toolchain" ]; then
     cp misc/strip ../../bin/cctools-strip
     cp misc/lipo ../../bin/lipo
     cd ../..
-    printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
+    rm -rf "cctools-port-$cctools_commit"
 
     if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
         printf '\nBuilding ldid...\n\n'
@@ -113,7 +113,9 @@ if [ -n "$outdated_toolchain" ]; then
         make CXX=clang++
         mv ldid ../bin
         cd ..
+        rm -rf "ldid-$ldid_commit"
     fi
+    printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
