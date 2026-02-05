@@ -248,6 +248,8 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 				m_horzInput -= 1.0f;
 				break;
 		}
+
+		IMoveInput::tick(pPlayer);
 	}
 
 	field_40 = bForwardPressed;

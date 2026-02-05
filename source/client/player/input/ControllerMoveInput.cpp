@@ -38,6 +38,8 @@ void ControllerMoveInput::tick(Player* player)
     m_keys[INPUT_LEFT] = m_keys[INPUT_FORWARD] || m_keys[INPUT_BACKWARD];
     if (m_keys[INPUT_LEFT])
         m_vertInput = 0.0f;
+
+    IMoveInput::tick(player);
 }
 
 void ControllerMoveInput::setKey(int eventKey, bool eventKeyState)
