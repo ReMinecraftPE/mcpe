@@ -632,10 +632,10 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.cpp">
       <Filter>Source Files\Item\Crafting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\BowItem.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\item\BowItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\source\world\item\WeaponItem.cpp">
+    <ClCompile Include="$(MC_ROOT)\source\world\item\WeaponItem.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1129,10 +1129,10 @@
     <ClInclude Include="$(MC_ROOT)\source\world\level\TileEvent.hpp">
       <Filter>Header Files\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\BowItem.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\item\BowItem.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\source\world\item\WeaponItem.hpp">
+    <ClInclude Include="$(MC_ROOT)\source\world\item\WeaponItem.hpp">
       <Filter>Header Files\Item</Filter>
     </ClInclude>
   </ItemGroup>
