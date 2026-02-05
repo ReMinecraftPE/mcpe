@@ -106,7 +106,6 @@ void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
 
 	if (m_uiTheme == UI_CONSOLE)
 	{
-		bool selected = isSelected() && !hasFocus();
 		blitSprite(texs, isSelected() && !hasFocus() ? "consolegui/Graphics/MainMenuButton_Over.png" : "consolegui/Graphics/MainMenuButton_Norm.png", m_xPos, m_yPos, m_width, m_height);
 		if (hasFocus())
 		{
