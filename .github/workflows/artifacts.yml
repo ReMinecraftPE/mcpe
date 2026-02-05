@@ -44,7 +44,11 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache ${{ matrix.flags }} ..
+                cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    ${{ matrix.flags }}
                 cmake --build .
           - uses: actions/upload-artifact@v6
             with:
@@ -96,7 +100,13 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_C_FLAGS='-m32' -DCMAKE_CXX_FLAGS='-m32' ${{ matrix.flags }} ..
+                cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    -DCMAKE_C_FLAGS='-m32' \
+                    -DCMAKE_CXX_FLAGS='-m32' \
+                    ${{ matrix.flags }}
                 cmake --build .
           - uses: actions/upload-artifact@v6
             with:
@@ -186,6 +196,7 @@ jobs:
               AR: llvm-ar-21
               RANLIB: llvm-ranlib-21
               LLVM_CONFIG: llvm-config-21
+              NOSTRIP: 1
           - uses: actions/upload-artifact@v6
             with:
               name: iOS
@@ -264,7 +275,11 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache ${{ matrix.flags }} ..
+                cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                    ${{ matrix.flags }}
                 cmake --build .
           - uses: actions/upload-artifact@v6
             with:
@@ -301,7 +316,10 @@ jobs:
             run: |
                 mkdir build
                 cd build
-                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache ..
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
                 mv platforms/sdl/sdl2/reminecraftpe.nro .
           - uses: actions/upload-artifact@v6
