@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'msvc-fix' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
