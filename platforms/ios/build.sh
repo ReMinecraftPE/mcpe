@@ -10,7 +10,7 @@ targets='armv7-apple-ios3.1 arm64-apple-ios7.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
-platformdir='platforms/ios'
+platformdir=$PWD
 entitlements="$platformdir/minecraftpe.entitlements"
 
 workdir="$PWD/build/work"
@@ -122,7 +122,7 @@ fi
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    if printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=armv7-apple-ios3.1 "$platformdir/ios-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
         lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
     fi
     rm -f "$workdir/testout"
@@ -153,8 +153,8 @@ for target in $targets; do
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
-        -DCMAKE_C_COMPILER="$PWD/../$platformdir/ios-cc" \
-        -DCMAKE_CXX_COMPILER="$PWD/../$platformdir/ios-c++" \
+        -DCMAKE_C_COMPILER="$platformdir/ios-cc" \
+        -DCMAKE_CXX_COMPILER="$platformdir/ios-c++" \
         -DCMAKE_FIND_ROOT_PATH="$sdk/usr" \
         -DWERROR="${WERROR:-OFF}" \
         $lto
