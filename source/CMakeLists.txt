@@ -349,6 +349,7 @@ add_library(reminecraftpe-core STATIC
     world/item/ItemStack.cpp
     world/item/RocketItem.cpp
     world/item/Item.cpp
+    world/item/DyePowderItem.cpp
     world/item/ToolItem.cpp
     world/item/WeaponItem.cpp
     world/item/BowItem.cpp
