@@ -326,7 +326,7 @@ void ContainerScreen::handlePointerPressed(bool isPressed)
     }
 }
 
-void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button)
+void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button, bool quick)
 {
     if (button == MOUSE_BUTTON_LEFT || button == MOUSE_BUTTON_RIGHT)
     {
@@ -336,7 +336,7 @@ void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button
         if (slot) index = slot->m_index;
         if (outside) index = -999;
         if (index != -1)
-            slotClicked(slot, index, button, index != -999 && m_pMinecraft->m_pPlatform->shiftPressed());
+            slotClicked(slot, index, button, index != -999 && quick);
     }
 }
 
@@ -346,35 +346,20 @@ void ContainerScreen::slotClicked(Slot* slot, int index, MouseButtonType button,
     m_pMinecraft->m_pGameMode->handleInventoryMouseClick(m_pMenu->m_containerId, index, button, quick, m_pMinecraft->m_pLocalPlayer);
 }
 
+void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button)
+{
+    slotClicked(mouseX, mouseY, button, m_pMinecraft->m_pPlatform->shiftPressed());
+}
+
 void ContainerScreen::keyPressed(int keyCode)
 {
     if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
     {
-        // bad hack
-        Slot* slot = _findSlot();
-        bool outside = m_menuPointer.x < m_leftPos || m_menuPointer.y < m_topPos || m_menuPointer.x >= m_leftPos + m_imageWidth || m_menuPointer.y >= m_topPos + m_imageHeight;
-        int index = -1;
-        if (slot) index = slot->m_index;
-        if (outside) index = -999;
-        if (index != -1)
-        {
-            _tryPlayInteractSound();
-            m_pMinecraft->m_pGameMode->handleInventoryMouseClick(m_pMenu->m_containerId, index, MOUSE_BUTTON_LEFT, true, m_pMinecraft->m_pLocalPlayer);
-        }
+        slotClicked(m_menuPointer.x, m_menuPointer.y, MOUSE_BUTTON_LEFT, true);
     }
     else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_SPLIT, keyCode) && _useController())
     {
-        // bad hack
-        Slot* slot = _findSlot();
-        bool outside = m_menuPointer.x < m_leftPos || m_menuPointer.y < m_topPos || m_menuPointer.x >= m_leftPos + m_imageWidth || m_menuPointer.y >= m_topPos + m_imageHeight;
-        int index = -1;
-        if (slot) index = slot->m_index;
-        if (outside) index = -999;
-        if (index != -1)
-        {
-            _tryPlayInteractSound();
-            m_pMinecraft->m_pGameMode->handleInventoryMouseClick(m_pMenu->m_containerId, index, MOUSE_BUTTON_RIGHT, false, m_pMinecraft->m_pLocalPlayer);
-        }
+        slotClicked(m_menuPointer.x, m_menuPointer.y, MOUSE_BUTTON_RIGHT, false);
     }
     else
     {

@@ -81,8 +81,9 @@ public:
 
 public:
     virtual void slotsChanged(Container* container);
-    virtual void slotClicked(int mouseX, int mouseY, MouseButtonType button);
+    virtual void slotClicked(int mouseX, int mouseY, MouseButtonType button, bool quick);
     virtual void slotClicked(Slot* slot, int index, MouseButtonType button, bool quick);
+    void slotClicked(int mouseX, int mouseY, MouseButtonType button);
 
 public:
     ContainerMenu* m_pMenu;
