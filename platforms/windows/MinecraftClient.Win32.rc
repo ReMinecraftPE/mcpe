@@ -51,10 +51,10 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-#ifdef _MSC_VER
-IDI_ICON               ICON                    "..\\..\\game\\assets\\icon.ico"
-#else
+#ifdef __WINDRES__
 IDI_ICON               ICON                    "assets/icon.ico"
+#else
+IDI_ICON               ICON                    "..\\..\\game\\assets\\icon.ico"
 #endif
 
 #endif    // English (United States) resources
