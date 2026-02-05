@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'master' ]
+    branches: [ 'ios-incremental-builds' ]
 
 jobs:
     linux:
