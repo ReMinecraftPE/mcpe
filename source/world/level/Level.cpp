@@ -15,6 +15,7 @@
 #include "network/RakNetInstance.hpp"
 #include "network/packets/EntityEventPacket.hpp"
 #include "network/packets/SetEntityDataPacket.hpp"
+#include "network/packets/ExplodePacket.hpp"
 #include "world/level/levelgen/chunk/ChunkCache.hpp"
 
 #include "Explosion.hpp"
@@ -1443,9 +1444,42 @@ bool Level::mayPlace(TileID tile, const TilePos& pos, bool b) const
 	return pTile->mayPlace(this, pos);
 }
 
+void Level::broadcastAll(Packet* packet)
+{
+	assert(!m_bIsClientSide);
+
+	if (m_pRakNetInstance)
+	{
+		m_pRakNetInstance->send(packet);
+	}
+}
+
+void Level::broadcastToAllInRange(Packet* packet, const Vec3& pos, float range, Player* avoid)
+{
+	assert(!m_bIsClientSide);
+
+	if (m_pRakNetInstance)
+	{
+		for (size_t i = 0; i < m_players.size(); i++)
+		{
+			Player* pPlayer = m_players[i];
+			if (!pPlayer)
+				continue;
+
+			if (pPlayer != avoid)
+			{
+				Vec3 diff = pos - pPlayer->m_pos;
+				if (diff.lengthSqr() < range * range)
+					m_pRakNetInstance->send(pPlayer->m_guid, *packet);
+			}
+		}
+	}
+	delete packet;
+}
+
 void Level::broadcastEntityEvent(const Entity& entity, Entity::EventType::ID eventId)
 {
-	if (m_bIsClientSide)
+	if (m_bIsClientSide || !m_pRakNetInstance)
 		return;
 
 	m_pRakNetInstance->send(new EntityEventPacket(entity.m_EntityID, eventId));
@@ -1853,6 +1887,13 @@ void Level::explode(Entity* entity, const Vec3& pos, float power, bool bIsFiery)
 	expl.setFiery(bIsFiery);
 	expl.explode();
 	expl.addParticles();
+
+#if NETWORK_PROTOCOL_VERSION >= 3
+	if (!m_bIsClientSide)
+	{
+		broadcastToAllInRange(new ExplodePacket(pos, power), pos, 64.0f);
+	}
+#endif
 }
 
 void Level::addEntities(const EntityVector& entities)

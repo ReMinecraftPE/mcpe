@@ -15,7 +15,8 @@
 #include "client/multiplayer/MultiplayerLocalPlayer.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
-#include "world/inventory/SimpleContainer.hpp"
+#include "world/level/Explosion.hpp"
+#include "world/inventory/SimpleContainer.hpp""
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT
@@ -416,6 +417,14 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateB
 	}
 
 	handleBlockUpdate(update);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ExplodePacket* pkt)
+{
+	if (!m_pLevel) return;
+
+	Explosion explosion(m_pLevel, nullptr, pkt->m_pos, pkt->m_range);
+	explosion.addParticles(); // @TODO: have addParticles pick random spots to throw particles
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LevelEventPacket* pkt)

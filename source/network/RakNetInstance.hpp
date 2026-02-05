@@ -34,6 +34,8 @@ public:
 	void runEvents(NetEventCallback&);
 	void send(Packet* packet);
 	void send(const RakNet::RakNetGUID& guid, Packet* packet);
+	void send(Packet& packet);
+	void send(const RakNet::RakNetGUID& guid, Packet& packet);
 	void stopPingForHosts();
 
 public:

@@ -46,6 +46,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, RemoveBlockPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, UpdateBlockPacket*) {}
+	virtual void handle(const RakNet::RakNetGUID&, ExplodePacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, LevelEventPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, EntityEventPacket*) {}
 	virtual void handle(const RakNet::RakNetGUID&, RequestChunkPacket*) {}

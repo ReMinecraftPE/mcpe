@@ -87,6 +87,7 @@
     <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetDataPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\ContainerSetSlotPacket.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\network\packets\SetEntityMotionPacket.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\network\packets\ExplodePacket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\network\MinecraftPackets.hpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetDataPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\ContainerSetSlotPacket.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\network\packets\SetEntityMotionPacket.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\network\packets\ExplodePacket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

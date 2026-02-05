@@ -26,6 +26,7 @@
 #include "packets/PlaceBlockPacket.hpp"
 #include "packets/RemoveBlockPacket.hpp"
 #include "packets/UpdateBlockPacket.hpp"
+#include "packets/ExplodePacket.hpp"
 #include "packets/LevelEventPacket.hpp"
 #include "packets/EntityEventPacket.hpp"
 #include "packets/RequestChunkPacket.hpp"

@@ -51,8 +51,7 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_UPDATE_BLOCK:
 			return new UpdateBlockPacket;
 		case PACKET_EXPLODE:
-			// Not implemented
-			throw std::bad_cast();
+			return new ExplodePacket;
 		case PACKET_LEVEL_EVENT:
 			return new LevelEventPacket;
 		case PACKET_ENTITY_EVENT:
