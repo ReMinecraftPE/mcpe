@@ -186,37 +186,46 @@ add_library(reminecraftpe-core STATIC
     nbt/NbtIo.cpp
     nbt/StringTag.cpp
     nbt/Tag.cpp
-    network/packets/UpdateBlockPacket.cpp
-    network/packets/RequestChunkPacket.cpp
-    network/packets/PlayerEquipmentPacket.cpp
-    network/packets/InteractPacket.cpp
-    network/packets/UseItemPacket.cpp
-    network/packets/SetEntityDataPacket.cpp
-    network/packets/SetHealthPacket.cpp
-    network/packets/ChunkDataPacket.cpp
-    network/packets/LevelDataPacket.cpp
-    network/packets/PlaceBlockPacket.cpp
-    network/packets/LoginPacket.cpp
-    network/packets/LoginStatusPacket.cpp
-    network/packets/ReadyPacket.cpp
-    network/packets/SetTimePacket.cpp
-    network/packets/StartGamePacket.cpp
-    network/packets/RemoveEntityPacket.cpp
-    network/packets/AddItemEntityPacket.cpp
-    network/packets/TakeItemEntityPacket.cpp
-    network/packets/AddPlayerPacket.cpp
-    network/packets/AddMobPacket.cpp
-    network/packets/RemoveBlockPacket.cpp
-    network/packets/MovePlayerPacket.cpp
-    network/packets/MoveEntityPacket.cpp
-    network/packets/MoveEntityPacket_PosRot.cpp
-    network/packets/LevelEventPacket.cpp
-    network/packets/EntityEventPacket.cpp
-    network/packets/MessagePacket.cpp
-    network/packets/AnimatePacket.cpp
-    network/packets/RespawnPacket.cpp
-    network/packets/SendInventoryPacket.cpp
-    network/packets/DropItemPacket.cpp
+    network/packets/LoginPacket.hpp
+    network/packets/LoginStatusPacket.hpp
+    network/packets/ReadyPacket.hpp
+    network/packets/MessagePacket.hpp
+    network/packets/SetTimePacket.hpp
+    network/packets/StartGamePacket.hpp
+    network/packets/AddMobPacket.hpp
+    network/packets/AddPlayerPacket.hpp
+    network/packets/RemoveEntityPacket.hpp
+    network/packets/AddItemEntityPacket.hpp
+    network/packets/TakeItemEntityPacket.hpp
+    network/packets/MoveEntityPacket.hpp
+    network/packets/MoveEntityPacket_PosRot.hpp
+    network/packets/MovePlayerPacket.hpp
+    network/packets/PlaceBlockPacket.hpp
+    network/packets/RemoveBlockPacket.hpp
+    network/packets/UpdateBlockPacket.hpp
+    network/packets/ExplodePacket.hpp
+    network/packets/LevelEventPacket.hpp
+    network/packets/TileEventPacket.hpp
+    network/packets/EntityEventPacket.hpp
+    network/packets/RequestChunkPacket.hpp
+    network/packets/ChunkDataPacket.hpp
+    network/packets/PlayerEquipmentPacket.hpp
+    network/packets/InteractPacket.hpp
+    network/packets/UseItemPacket.hpp
+    network/packets/SetEntityDataPacket.hpp
+    network/packets/SetEntityMotionPacket.hpp
+    network/packets/SetHealthPacket.hpp
+    network/packets/AnimatePacket.hpp
+    network/packets/RespawnPacket.hpp
+    network/packets/SendInventoryPacket.hpp
+    network/packets/DropItemPacket.hpp
+    network/packets/ContainerOpenPacket.hpp
+    network/packets/ContainerClosePacket.hpp
+    network/packets/ContainerSetSlotPacket.hpp
+    network/packets/ContainerSetDataPacket.hpp
+    network/packets/ContainerSetContentPacket.hpp
+    network/packets/ContainerAckPacket.hpp
+    network/packets/LevelDataPacket.hpp
     network/RakIO.cpp
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp
