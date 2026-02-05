@@ -5,20 +5,26 @@
 ToolItem::ToolItem(int id, Tool::Type toolType, Tier& tier) :
 	Item(id),
 	m_speed(tier.m_speed),
-	m_toolType(toolType),
-	m_tier(tier)
+	m_tier(tier),
+	m_toolType(toolType)
 {
 	m_maxStackSize = 1;
 	m_maxDamage = tier.m_uses;
 }
 
+bool ToolItem::_canDestroyTile(const Tile* tile) const
+{
+	return tile->m_toolMask & m_toolType;
+}
+
+bool ToolItem::_canDestroyMaterial(const Material* material) const
+{
+	return material->m_toolMask & m_toolType;
+}
 
 float ToolItem::getDestroySpeed(ItemStack* instance, const Tile* tile) const
 {
-	if ((tile->m_toolMask & m_toolType) || (tile->m_pMaterial->m_toolMask & m_toolType))
-		return m_speed;
-
-	return 1.0f;
+	return (_canDestroyTile(tile) || _canDestroyMaterial(tile->m_pMaterial)) ? m_speed : 1.0f;
 }
 
 void ToolItem::hurtEnemy(ItemStack* instance, Mob* mob) const
@@ -33,16 +39,7 @@ void ToolItem::mineBlock(ItemStack* instance, const TilePos& pos, Facing::Name f
 
 int ToolItem::getAttackDamage(Entity* entity) const
 {
-	int damage = m_tier.m_damage + 1; // Just add 1 extra damage here since all tools did the same.
-	/*
-	if ((Tool::HATCHET & m_toolType))
-		damage += 1;
-	else if ((Tool::PICKAXE & m_toolType))
-		damage += 1;
-	else if ((Tool::SHOVEL & m_toolType))
-		damage += 1;
-	*/
-	return damage;
+	return m_tier.m_damage + 1;
 }
 
 bool ToolItem::isHandEquipped() const
@@ -52,10 +49,10 @@ bool ToolItem::isHandEquipped() const
 
 bool ToolItem::canDestroySpecial(const Tile* tile) const
 {
-	if (tile->m_toolMask & m_toolType)
+	if (_canDestroyTile(tile))
 		return m_tier.m_level >= tile->m_requiredToolLevel;
 
-	if (tile->m_pMaterial->m_toolMask & m_toolType)
+	if (_canDestroyMaterial(tile->m_pMaterial))
 		return m_tier.m_level >= tile->m_pMaterial->m_requiredToolLevel;
 
 	return false;

@@ -2,16 +2,13 @@
 #include "world/entity/Mob.hpp"
 #include "world/entity/Player.hpp"
 
-WeaponItem::WeaponItem(int id, Tier& tier) : Item(id), m_attackDamage(4 + tier.m_damage), m_tier(tier)
+WeaponItem::WeaponItem(int id, Tier& tier) : ToolItem(id, Tool::SWORD, tier), m_attackDamage(4 + tier.m_damage)
 {
-    handEquipped();
-	m_maxStackSize = 1;
-	m_maxDamage = tier.m_uses;
 }
 
 float WeaponItem::getDestroySpeed(ItemStack* instance, const Tile* tile) const
 {
-	return (tile->m_ID == Tile::web->m_ID) ? 15.0f : 1.5f;
+	return (_canDestroyTile(tile) || _canDestroyMaterial(tile->m_pMaterial)) ? 15.0f : 1.5f;
 }
 
 void WeaponItem::hurtEnemy(ItemStack* instance, Mob* mob) const
