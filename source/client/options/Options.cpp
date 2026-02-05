@@ -163,7 +163,7 @@ void Options::_load()
 			readPackArray(value, m_resourcePacks);
 		else if (key == "gfx_uitheme")
 			m_uiTheme = (UITheme) readInt(value);
-		else if (key == "gfx_logotheme")
+		else if (key == "gfx_logotype")
 			m_logoType = (LogoType) readInt(value);
 		else if (key == "gfx_hudscale")
 			m_hudScale = (HUDScale)readInt(value);
@@ -390,7 +390,7 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
 	SO("misc_classiccrafting",		saveBool(m_bClassicCrafting));
 	SO("gfx_uitheme",				saveInt(m_uiTheme));
-	SO("gfx_logotheme",				saveInt(m_logoType));
+	SO("gfx_logotype",				saveInt(m_logoType));
 	SO("gfx_hudscale",				saveInt(m_hudScale));
 	SO("gfx_resourcepacks",		    savePackArray(m_resourcePacks));
 
@@ -610,7 +610,7 @@ void Options::loadControls()
 	}
 }
 
-LogoType Options::getLogoTheme() const
+LogoType Options::getLogoType() const
 {
 	if (m_logoType == LOGO_AUTO)
 	{

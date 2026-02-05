@@ -200,15 +200,18 @@ void ContainerScreen::_controllerDirectionChanged(GameController::StickID stickI
     }
 }
 
-void ContainerScreen::_initMenuPointer()
+void ContainerScreen::initMenuPointer()
 {
     //@NOTE: Calling this as a fallback, if for some reason, there isn't a slot available
-    Screen::_initMenuPointer();
+    Screen::initMenuPointer();
+
+    if (!_useController()) return;
 
     for (std::vector<Slot*>::iterator it = m_pMenu->m_slots.begin(); it != m_pMenu->m_slots.end(); ++it)
     {
         Slot* slot = *it;
-        if (slot->m_slot == 0 && (!m_pMinecraft->m_pLocalPlayer || slot->m_pContainer == m_pMinecraft->m_pLocalPlayer->m_pInventory))
+        //@NOTE: Selects the first hotbar slot
+        if (slot->m_slot == 0 && m_pMinecraft->m_pLocalPlayer && slot->m_pContainer == m_pMinecraft->m_pLocalPlayer->m_pInventory)
         {
             _selectSlot(slot);
             break;

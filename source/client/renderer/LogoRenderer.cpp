@@ -82,7 +82,7 @@ void LogoRenderer::_initTextures()
 	Textures* tx = m_pMinecraft->m_pTextures;
 	std::string path;
 
-	switch (m_pMinecraft->getOptions()->getLogoTheme())
+	switch (m_pMinecraft->getOptions()->getLogoType())
 	{
 	case LOGO_POCKET:
 		path = C_TITLE_PATH_POCKET;
@@ -123,7 +123,7 @@ void LogoRenderer::_build2dTitleMesh()
 	UITheme uiTheme = m_pMinecraft->m_pScreen ? m_pMinecraft->m_pScreen->m_uiTheme : m_pMinecraft->getOptions()->m_uiTheme;
 	bool isConsole = uiTheme == UI_CONSOLE;
 
-	switch (m_pMinecraft->getOptions()->getLogoTheme())
+	switch (m_pMinecraft->getOptions()->getLogoType())
 	{
 	case LOGO_POCKET:
 	{

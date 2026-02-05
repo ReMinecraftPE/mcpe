@@ -94,11 +94,11 @@ protected:
 	virtual void _updateTabButtonSelection();
 	virtual bool _nextTab();
 	virtual bool _prevTab();
-	virtual void _initMenuPointer();
 
 public:
 	virtual void render(float a);
 	virtual void init() {};
+	virtual void initMenuPointer();
 	virtual void updateEvents();
 	virtual void mouseEvent();
 	virtual void keyboardEvent();

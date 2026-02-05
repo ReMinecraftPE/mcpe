@@ -219,7 +219,7 @@ void Screen::_playSelectSound()
 	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_FOCUS, 1.0f, pitch);
 }
 
-void Screen::_initMenuPointer()
+void Screen::initMenuPointer()
 {
 	handlePointerLocation(m_width / 2, m_height / 2);
 }
@@ -274,7 +274,7 @@ void Screen::init(Minecraft* pMinecraft, int width, int height)
 	m_pFont = pMinecraft->m_pFont;
 
 	setSize(width, height);
-	_initMenuPointer();
+	initMenuPointer();
 	_updateTabButtonSelection();
 }
 

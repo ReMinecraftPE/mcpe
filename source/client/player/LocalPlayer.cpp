@@ -99,7 +99,15 @@ void LocalPlayer::swing()
 
 void LocalPlayer::startCrafting(const TilePos& pos)
 {
-	m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
+	switch (m_pMinecraft->getOptions()->m_uiTheme)
+	{
+	case UI_CONSOLE:
+		m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
+		break;
+	default:
+		m_pMinecraft->setScreen(new CraftingScreen(m_pInventory, pos, m_pLevel));
+		break;
+	}
 }
 
 void LocalPlayer::reset()

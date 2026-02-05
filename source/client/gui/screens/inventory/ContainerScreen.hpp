@@ -64,7 +64,6 @@ protected:
     virtual void _selectSlot(Slot*);
     virtual bool _selectSlotInDirection(ScreenDirection dir);
     virtual void _controllerDirectionChanged(GameController::StickID stickId, GameController::StickState stickState) override;
-    virtual void _initMenuPointer() override;
 
 public:
     void init() override;
@@ -80,6 +79,7 @@ public:
     const SlotDisplay& getSlotDisplay(const Slot&) const;
 
 public:
+    virtual void initMenuPointer() override;
     virtual void slotsChanged(Container* container);
     virtual void slotClicked(int mouseX, int mouseY, MouseButtonType button, bool quick);
     virtual void slotClicked(Slot* slot, int index, MouseButtonType button, bool quick);

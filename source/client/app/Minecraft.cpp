@@ -307,6 +307,8 @@ void Minecraft::setScreen(Screen* pScreen)
 	if (scale != lastScale)
 	{
 		sizeUpdate(Minecraft::width, Minecraft::height);
+		if (pScreen)
+			pScreen->initMenuPointer();
 	}
 
 	if (pScreen)

@@ -129,7 +129,7 @@ public:
 
 	void loadControls();
 
-	LogoType getLogoTheme() const;
+	LogoType getLogoType() const;
 
 private:
 	Minecraft* m_pMinecraft;
