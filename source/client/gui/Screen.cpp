@@ -219,7 +219,7 @@ void Screen::_playSelectSound()
 	m_pMinecraft->m_pSoundEngine->playUI(C_SOUND_UI_FOCUS, 1.0f, pitch);
 }
 
-void Screen::_centerMenuPointer()
+void Screen::_initMenuPointer()
 {
 	handlePointerLocation(m_width / 2, m_height / 2);
 }
@@ -274,7 +274,7 @@ void Screen::init(Minecraft* pMinecraft, int width, int height)
 	m_pFont = pMinecraft->m_pFont;
 
 	setSize(width, height);
-	_centerMenuPointer();
+	_initMenuPointer();
 	_updateTabButtonSelection();
 }
 
@@ -285,11 +285,11 @@ void Screen::keyPressed(int key)
 		m_pMinecraft->handleBack(false);
 	}
 
-	if (m_pMinecraft->getOptions()->isKey(KM_MENU_LEFT, key))
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_TAB_LEFT, key))
 	{
 		prevTab();
 	}
-	if (m_pMinecraft->getOptions()->isKey(KM_MENU_RIGHT, key))
+	if (m_pMinecraft->getOptions()->isKey(KM_MENU_TAB_RIGHT, key))
 	{
 		nextTab();
 	}
@@ -945,7 +945,7 @@ void Screen::handleControllerStickEvent(const GameController::StickEvent& stick,
 		Vec2 targetVelocity(snap * speed * moveSensitivity);
 		targetVelocity.x = stickAbs.x < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.x) : targetVelocity.x;
 		targetVelocity.y = stickAbs.y < C_POINTER_MINIMUM_SPEED ? C_POINTER_MINIMUM_SPEED * Mth::signum(targetVelocity.y) : targetVelocity.y; // * speedY;
-		targetVelocity *= 1 / Gui::InvGuiScale;
+		targetVelocity *= Gui::InvGuiScale;
 
 		// Multiply by delta for smooth movement
 		Vec2 move = targetVelocity * C_POINTER_FRICTION * deltaTime;

@@ -579,7 +579,7 @@ void Minecraft::tickInput()
 			{
 				getOptions()->m_bThirdPerson = !getOptions()->m_bThirdPerson;
 			}
-			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
+			else if (getOptions()->isKey(KM_MENU_PAUSE, keyCode))
 			{
 				handleBack(false);
 			}

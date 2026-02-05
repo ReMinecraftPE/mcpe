@@ -71,13 +71,15 @@ void Options::_initDefaultValues()
 	m_bDynamicHand = false;
 	m_b2dTitleLogo = false;
 	m_bMenuPanorama = true;
+	//@NOTE: True for now, as we don't have the Console Crafting screen yet
+	m_bClassicCrafting = true;
 	field_19 = 1;
 #if MC_PLATFORM_XBOX360
 	m_uiTheme = UI_CONSOLE;
 #else
 	m_uiTheme = m_pMinecraft->isTouchscreen() ? UI_POCKET : UI_JAVA;
 #endif
-	m_logoTheme = LOGO_AUTO;
+	m_logoType = LOGO_AUTO;
 	m_hudScale = HUD_SCALE_2;
 
 #ifdef ORIGINAL_CODE
@@ -155,12 +157,14 @@ void Options::_load()
 			m_b2dTitleLogo = readBool(value);
 		else if (key == "info_debugtext")
 			m_bDebugText = readBool(value);
+		else if (key == "misc_classiccrafting")
+			m_bClassicCrafting = readBool(value);
 		else if (key == "gfx_resourcepacks")
 			readPackArray(value, m_resourcePacks);
 		else if (key == "gfx_uitheme")
 			m_uiTheme = (UITheme) readInt(value);
 		else if (key == "gfx_logotheme")
-			m_logoTheme = (LogoTheme) readInt(value);
+			m_logoType = (LogoType) readInt(value);
 		else if (key == "gfx_hudscale")
 			m_hudScale = (HUDScale)readInt(value);
 		else if (key == "misc_menupano")
@@ -384,8 +388,9 @@ std::vector<std::string> Options::getOptionStrings()
 	SO("misc_oldtitle",             saveBool(m_b2dTitleLogo));
 	SO("info_debugtext",            saveBool(m_bDebugText));
 	SO("misc_menupano",			    saveBool(m_bMenuPanorama));
+	SO("misc_classiccrafting",		saveBool(m_bClassicCrafting));
 	SO("gfx_uitheme",				saveInt(m_uiTheme));
-	SO("gfx_logotheme",				saveInt(m_logoTheme));
+	SO("gfx_logotheme",				saveInt(m_logoType));
 	SO("gfx_hudscale",				saveInt(m_hudScale));
 	SO("gfx_resourcepacks",		    savePackArray(m_resourcePacks));
 
@@ -412,8 +417,11 @@ void Options::loadControls()
 	KM(KM_MENU_DOWN,    "key.menu.down",     0x28); // VK_DOWN
 	KM(KM_MENU_LEFT,    "key.menu.left",     0x25); // VK_LEFT
 	KM(KM_MENU_RIGHT,   "key.menu.right",    0x27); // VK_RIGHT
+	KM(KM_MENU_TAB_LEFT,"key.menu.tab.left", 0x25);	// VK_LEFT
+	KM(KM_MENU_TAB_RIGHT, "key.menu.tab.right", 0x27);// VK_RIGHT
 	KM(KM_MENU_OK,      "key.menu.ok",       0x0D); // VK_RETURN
 	KM(KM_MENU_CANCEL,  "key.menu.cancel",   0x1B); // VK_ESCAPE, was 0x08 = VK_BACK
+	KM(KM_MENU_PAUSE,	"key.menu.pause",	 0x1B); // VK_ESCAPE
 	KM(KM_SLOT_1,       "key.slot.1",        '1');
 	KM(KM_SLOT_2,       "key.slot.2",        '2');
 	KM(KM_SLOT_3,       "key.slot.3",        '3');
@@ -452,8 +460,11 @@ void Options::loadControls()
 	KM(KM_MENU_DOWN,     SDLVK_DOWN);
 	KM(KM_MENU_LEFT,     SDLVK_LEFT);
 	KM(KM_MENU_RIGHT,    SDLVK_RIGHT);
+	KM(KM_MENU_TAB_LEFT, SDLVK_LEFT);
+	KM(KM_MENU_TAB_RIGHT, SDLVK_RIGHT);
 	KM(KM_MENU_OK,       SDLVK_RETURN);
 	KM(KM_MENU_CANCEL,   SDLVK_ESCAPE);
+	KM(KM_MENU_PAUSE,	 SDLVK_ESCAPE);
 	KM(KM_DROP,          SDLVK_q);
 	KM(KM_CHAT,          SDLVK_t);
 	KM(KM_FOG,           SDLVK_f);
@@ -511,10 +522,13 @@ void Options::loadControls()
 	KM(KM_PLACE,         AKEYCODE_C);
 	KM(KM_MENU_UP,       AKEYCODE_DPAD_UP);
 	KM(KM_MENU_DOWN,     AKEYCODE_DPAD_DOWN);
-	KM(KM_MENU_LEFT,     AKEYCODE_BUTTON_L1);
-	KM(KM_MENU_RIGHT,    AKEYCODE_BUTTON_R1);
+	KM(KM_MENU_LEFT,     AKEYCODE_DPAD_LEFT);
+	KM(KM_MENU_RIGHT,    AKEYCODE_DPAD_RIGHT);
+	KM(KM_MENU_TAB_LEFT, AKEYCODE_BUTTON_L1);
+	KM(KM_MENU_TAB_RIGHT, AKEYCODE_BUTTON_R1);
 	KM(KM_MENU_OK,       AKEYCODE_ENTER);
-	KM(KM_MENU_CANCEL,	 AKEYCODE_BUTTON_START);
+	KM(KM_MENU_CANCEL,	 AKEYCODE_BUTTON_B);
+	KM(KM_MENU_PAUSE,	 AKEYCODE_BUTTON_START);
 	// custom
 	KM(KM_SLOT_L,		 AKEYCODE_BUTTON_L1);
 	KM(KM_SLOT_R,		 AKEYCODE_BUTTON_R1);
@@ -573,10 +587,13 @@ void Options::loadControls()
 		KM(KM_JUMP,          GameController::BUTTON_A);
 		KM(KM_MENU_UP,       GameController::BUTTON_DPAD_UP);
 		KM(KM_MENU_DOWN,     GameController::BUTTON_DPAD_DOWN);
-		KM(KM_MENU_LEFT,     GameController::BUTTON_LEFTSHOULDER);
-		KM(KM_MENU_RIGHT,    GameController::BUTTON_RIGHTSHOULDER);
+		KM(KM_MENU_LEFT,     GameController::BUTTON_DPAD_LEFT);
+		KM(KM_MENU_RIGHT,    GameController::BUTTON_DPAD_RIGHT);
+		KM(KM_MENU_TAB_LEFT, GameController::BUTTON_LEFTSHOULDER);
+		KM(KM_MENU_TAB_RIGHT, GameController::BUTTON_RIGHTSHOULDER);
 		KM(KM_MENU_OK,       GameController::BUTTON_A);
 		KM(KM_MENU_CANCEL,   GameController::BUTTON_B);
+		KM(KM_MENU_PAUSE,	 GameController::BUTTON_START);
 		KM(KM_DROP,          GameController::BUTTON_B);
 		KM(KM_CHAT,          GameController::BUTTON_BACK);
 		KM(KM_INVENTORY,     GameController::BUTTON_Y);
@@ -593,9 +610,9 @@ void Options::loadControls()
 	}
 }
 
-LogoTheme Options::getLogoTheme() const
+LogoType Options::getLogoTheme() const
 {
-	if (m_logoTheme == LOGO_AUTO)
+	if (m_logoType == LOGO_AUTO)
 	{
 		switch (m_uiTheme)
 		{
@@ -610,9 +627,9 @@ LogoTheme Options::getLogoTheme() const
 			return LOGO_CONSOLE;
 #endif
 		default:
-			return m_logoTheme;
+			return m_logoType;
 		}
 	}
 	else
-		return m_logoTheme;
+		return m_logoType;
 }

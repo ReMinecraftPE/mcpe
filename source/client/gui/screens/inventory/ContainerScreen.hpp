@@ -36,12 +36,22 @@ struct SlotDisplay
 class ContainerScreen : public Screen
 {
 public:
+    //@TODO: Make this be used for other elements other than slots
+    enum ScreenDirection
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    };
+
     ContainerScreen(ContainerMenu* menu);
 
 private:
     void _renderSlot(Slot& slot);
     Slot* _findSlot();
     Slot* _findSlot(int mouseX, int mouseY);
+    Slot* _findSlotInDirection(ScreenDirection dir, bool invert = false);
     bool _isHovering(const Slot& slot) const;
     bool _isHovering(const Slot& slot, int mouseX, int mouseY) const;
 
@@ -51,6 +61,10 @@ protected:
     virtual SlotDisplay _createSlotDisplay(const Slot&) = 0;
     virtual void _playInteractSound();
     virtual void _tryPlayInteractSound();
+    virtual void _selectSlot(Slot*);
+    virtual bool _selectSlotInDirection(ScreenDirection dir);
+    virtual void _controllerDirectionChanged(GameController::StickID stickId, GameController::StickState stickState) override;
+    virtual void _initMenuPointer() override;
 
 public:
     void init() override;

@@ -10,8 +10,6 @@ SoundStreamDS::SoundStreamDS(LPDIRECTSOUND ds) :
     m_totalBufferSize(0),
     m_isPlaying(false)
 {
-    _createSource();
-    _createBuffers();
     _setVolume(getVolume());
 }
 
@@ -41,8 +39,9 @@ void SoundStreamDS::_createSource()
     desc.dwFlags = DSBCAPS_CTRLVOLUME | DSBCAPS_LOCSOFTWARE | DSBCAPS_GETCURRENTPOSITION2 | DSBCAPS_GLOBALFOCUS;
     desc.dwBufferBytes = m_totalBufferSize; // Set in _open
     desc.lpwfxFormat = &m_waveFormat;
+    desc.guid3DAlgorithm = GUID_NULL;
 
-    HRESULT hr = m_directsound->CreateSoundBuffer(&desc, &m_source, nullptr);
+    HRESULT hr = m_directsound->CreateSoundBuffer(&desc, &m_source, NULL);
     DS_ERROR_CHECK(hr);
 }
 

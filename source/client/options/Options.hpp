@@ -33,8 +33,11 @@ enum eKeyMappingIndex
 	KM_MENU_DOWN,
 	KM_MENU_LEFT,
 	KM_MENU_RIGHT,
+	KM_MENU_TAB_LEFT,
+	KM_MENU_TAB_RIGHT,
 	KM_MENU_OK,
 	KM_MENU_CANCEL, KM_BACK = KM_MENU_CANCEL,
+	KM_MENU_PAUSE,
 	KM_SLOT_1,
 	KM_SLOT_2,
 	KM_SLOT_3,
@@ -75,7 +78,7 @@ enum UITheme
 	UI_CONSOLE
 };
 
-enum LogoTheme
+enum LogoType
 {
 	LOGO_AUTO,
 	LOGO_POCKET,
@@ -126,7 +129,7 @@ public:
 
 	void loadControls();
 
-	LogoTheme getLogoTheme() const;
+	LogoType getLogoTheme() const;
 
 private:
 	Minecraft* m_pMinecraft;
@@ -168,8 +171,9 @@ public:
 	bool m_bDynamicHand;
 	bool m_b2dTitleLogo;
 	bool m_bMenuPanorama;
+	bool m_bClassicCrafting;
 	UITheme m_uiTheme;
-	LogoTheme m_logoTheme;
+	LogoType m_logoType;
 	HUDScale m_hudScale;
 	ResourcePackStack m_resourcePacks;
 

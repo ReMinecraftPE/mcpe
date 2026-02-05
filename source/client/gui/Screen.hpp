@@ -61,7 +61,6 @@ protected:
 	void _selectCurrentElement();
 	void _deselectCurrentElement();
 	void _playSelectSound();
-	void _centerMenuPointer();
 	void _renderPointer();
 	GuiElement* _getInternalElement(unsigned int index);
 	GuiElement* _getElement(unsigned int index);
@@ -95,6 +94,7 @@ protected:
 	virtual void _updateTabButtonSelection();
 	virtual bool _nextTab();
 	virtual bool _prevTab();
+	virtual void _initMenuPointer();
 
 public:
 	virtual void render(float a);

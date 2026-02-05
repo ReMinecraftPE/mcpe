@@ -35,6 +35,8 @@ void InventoryScreen::_renderLabels()
     InventoryMenu* craftingMenu = (InventoryMenu*)m_pMenu;
     if (m_uiTheme == UI_CONSOLE)
     {
+        if (m_pMinecraft->getOptions()->m_bClassicCrafting)
+            m_pFont->drawScalable(craftingMenu->m_pCraftSlots->getName(), 220, 40, Color::GREY_TEXT);
         m_pFont->drawScalable(m_pMinecraft->m_pLocalPlayer->m_pInventory->getName(), 27, 207, Color::GREY_TEXT);
     }
     else
@@ -56,6 +58,14 @@ void InventoryScreen::_renderBg(float partialTick)
         blitNineSlice(*m_pMinecraft->m_pTextures, ScreenRenderer::PANEL_SLICES, m_leftPos, m_topPos, m_imageWidth, m_imageHeight, 32);
         int playerSlotX = m_leftPos + 180;
         int playerSlotY = m_topPos + 27;
+
+        if (m_pMinecraft->getOptions()->m_bClassicCrafting)
+        {
+            playerX -= 100;
+            playerSlotX -= 100;
+            blitSprite(*m_pMinecraft->m_pTextures, "consolegui/Graphics/Arrow_Small_Off.png", m_leftPos + 309, m_topPos + 89, 32, 32);
+        }
+
         //For some reason, TU0 didn't had a texture for the player slot, but we do!
         blitNineSlice(*m_pMinecraft->m_pTextures, "gui/container/entity_slot.png", playerSlotX, playerSlotY, 126, 168, 2);
         currentShaderColor = Color::WHITE;
@@ -124,13 +134,13 @@ SlotDisplay InventoryScreen::_createSlotDisplay(const Slot& slot)
         switch (slot.m_group)
         {
         case Slot::OUTPUT:
-            return SlotDisplay();
+            return m_pMinecraft->getOptions()->m_bClassicCrafting ? SlotDisplay(352, 83, 54, true) : SlotDisplay();
         case Slot::INPUT:
-            return SlotDisplay();
+            return m_pMinecraft->getOptions()->m_bClassicCrafting ? SlotDisplay(221 + (slot.m_slot % 2) * slotSize, 67 + (slot.m_slot / 2) * slotSize, slotSize, true) : SlotDisplay();
         case Slot::ARMOR:
         {
             const ArmorSlot& armorSlot = (const ArmorSlot&)slot;
-            return SlotDisplay(127, 29 + (Item::SLOT_HEAD - armorSlot.m_equipmentSlot) * slotSize, slotSize, true, -1, CONSOLE_ARMOR_SLOTS[armorSlot.m_equipmentSlot]);
+            return SlotDisplay(m_pMinecraft->getOptions()->m_bClassicCrafting ? 27 : 127, 29 + (Item::SLOT_HEAD - armorSlot.m_equipmentSlot) * slotSize, slotSize, true, -1, CONSOLE_ARMOR_SLOTS[armorSlot.m_equipmentSlot]);
         }
         case Slot::INVENTORY:
             return SlotDisplay(28 + (slot.m_slot % 9) * slotSize, 233 + ((slot.m_slot / 9) - 1) * slotSize, slotSize, true);
