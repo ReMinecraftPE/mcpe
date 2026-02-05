@@ -688,7 +688,9 @@ void ServerSideNetworkHandler::levelEvent(const LevelEvent& event)
 
 void ServerSideNetworkHandler::tileEvent(const TileEvent& event)
 {
+#if NETWORK_PROTOCOL_VERSION >= 5
 	m_pRakNetInstance->send(new TileEventPacket(event.pos, event.b0, event.b1));
+#endif
 }
 
 void ServerSideNetworkHandler::allowIncomingConnections(bool b)
