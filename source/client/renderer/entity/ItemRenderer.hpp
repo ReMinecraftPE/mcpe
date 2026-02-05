@@ -19,6 +19,7 @@ protected:
 	{
 	public:
 		mce::MaterialPtr item_entity;
+		mce::MaterialPtr item_entity_color;
 		mce::MaterialPtr ui_fill_color;
 		mce::MaterialPtr ui_textured;
 		mce::MaterialPtr ui_texture_and_color;

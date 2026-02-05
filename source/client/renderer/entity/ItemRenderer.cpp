@@ -30,6 +30,7 @@ const uint8_t g_ItemFrames[C_MAX_TILES] =
 ItemRenderer::Materials::Materials()
 {
 	MATERIAL_PTR(switchable, item_entity);
+	MATERIAL_PTR(switchable, item_entity_color);
 	MATERIAL_PTR(common, ui_fill_color);
 	MATERIAL_PTR(common, ui_textured);
 	MATERIAL_PTR(common, ui_texture_and_color);
@@ -83,8 +84,6 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 #if MCE_GFX_API_OGL && !defined(FEATURE_GFX_SHADERS)
 	glEnable(GL_RESCALE_NORMAL);
 #endif
-
-	_setupShaderParameters(entity, Color::NIL, a);
 
 	Tile* pTile = itemStack.getTile();
 	if (pTile && TileRenderer::canRender(pTile->getRenderShape()))
@@ -148,7 +147,8 @@ void ItemRenderer::render(const Entity& entity, const Vec3& pos, float rot, floa
 			t.vertexUV(+0.5f, -0.25f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16 + 1)) / 256.0f);
 			t.vertexUV(+0.5f, +0.75f, 0.0f, float(16 * (icon % 16 + 1)) / 256.0f, float(16 * (icon / 16))     / 256.0f);
 			t.vertexUV(-0.5f, +0.75f, 0.0f, float(16 * (icon % 16))     / 256.0f, float(16 * (icon / 16))     / 256.0f);
-
+            
+            _setupShaderParameters(entity, Color::NIL, a);
 			t.draw(m_itemMaterials.item_entity);
 		}
 	}

@@ -18,6 +18,7 @@ ItemInHandRenderer::Materials::Materials()
     MATERIAL_PTR(switchable, entity);
     MATERIAL_PTR(switchable, entity_alphatest);
     MATERIAL_PTR(switchable, item_in_hand);
+    MATERIAL_PTR(switchable, item_in_hand_color);
     MATERIAL_PTR(switchable, entity_glint);
     MATERIAL_PTR(switchable, entity_alphatest_glint);
     MATERIAL_PTR(switchable, item_in_hand_glint);
