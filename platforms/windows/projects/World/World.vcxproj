@@ -383,6 +383,7 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\SingleInputRecipe.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\CraftingTableTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileEvent.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

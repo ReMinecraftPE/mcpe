@@ -62,6 +62,8 @@ public:
 	void handle(const RakNet::RakNetGUID&, RespawnPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SendInventoryPacket*) override;
 	void handle(const RakNet::RakNetGUID&, DropItemPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerClosePacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetSlotPacket*) override;
 
 	// Overridden from LevelListener
 	void tileBrightnessChanged(const TilePos& pos) override;
@@ -69,7 +71,8 @@ public:
 	void timeChanged(uint32_t time) override;
 	void entityAdded(Entity* entity) override;
 	void entityRemoved(Entity* entity) override;
-	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data) override;
+	void levelEvent(const LevelEvent& event) override;
+	void tileEvent(const TileEvent& event) override;
 
 	void allowIncomingConnections(bool b);
 	Player* popPendingPlayer(const RakNet::RakNetGUID& guid);

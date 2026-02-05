@@ -15,6 +15,8 @@
 #include "client/multiplayer/MultiplayerLocalPlayer.hpp"
 #include "network/MinecraftPackets.hpp"
 #include "world/entity/MobFactory.hpp"
+#include "world/level/Explosion.hpp"
+#include "world/inventory/SimpleContainer.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 //#define VERBOSE_CLIENT
@@ -417,12 +419,28 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, UpdateB
 	handleBlockUpdate(update);
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, ExplodePacket* pkt)
+{
+	if (!m_pLevel) return;
+
+	Explosion explosion(m_pLevel, nullptr, pkt->m_pos, pkt->m_range);
+	explosion.addParticles(); // @TODO: have addParticles pick random spots to throw particles
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, LevelEventPacket* pkt)
 {
 	//puts_ignorable("LevelEventPacket");
 	if (!m_pLevel) return;
 
-	m_pLevel->levelEvent(nullptr, pkt->m_eventId, pkt->m_pos, pkt->m_data);
+	m_pLevel->levelEvent(LevelEvent(pkt->m_eventId, pkt->m_pos, pkt->m_data));
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, TileEventPacket* pkt)
+{
+	//puts_ignorable("TileEventPacket");
+	if (!m_pLevel) return;
+
+	m_pLevel->tileEvent(TileEvent(pkt->m_pos, pkt->m_b0, pkt->m_b1));
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, EntityEventPacket* pkt)
@@ -583,6 +601,16 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetEnti
 	pEntity->getEntityData().assignValues(pkt->getUnpackedData());
 }
 
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetEntityMotionPacket* pkt)
+{
+	if (!m_pLevel) return;
+
+	Entity* pEntity = m_pLevel->getEntity(pkt->m_entityId);
+	if (!pEntity) return;
+
+	pEntity->m_vel = pkt->m_vel;
+}
+
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, SetHealthPacket* pkt)
 {
 	puts_ignorable("SetHealthPacket");
@@ -638,6 +666,113 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RespawnPac
 		return;
 
 	NetEventCallback::handle(*m_pLevel, guid, packet);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerOpenPacket* packet)
+{
+	if (!m_pMinecraft)
+		return;
+
+	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+	if (!pLocalPlayer)
+		return;
+
+	switch (packet->m_type)
+	{
+	case Container::CONTAINER:
+		pLocalPlayer->openContainer(new SimpleContainer(packet->m_size, packet->m_title.C_String()));
+		break;
+	case Container::FURNACE:
+		//pLocalPlayer->openFurnace(new FurnaceTileEntity());
+		break;
+	case Container::DISPENSER:
+		//pLocalPlayer->openTrap(new DispenserTileEntity());
+		break;
+	case Container::CRAFTING:
+		pLocalPlayer->startCrafting(pLocalPlayer->m_pos);
+		break;
+	default:
+		return;
+	}
+
+	pLocalPlayer->m_pContainerMenu->m_containerId = packet->m_containerId;
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerClosePacket* packet)
+{
+	puts_ignorable("ContainerClosePacket");
+
+	if (!m_pMinecraft)
+		return;
+
+	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+	if (!pLocalPlayer)
+		return;
+
+	pLocalPlayer->closeContainer();
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetSlotPacket* packet)
+{
+	puts_ignorable("ContainerSetSlotPacket");
+
+	if (!m_pMinecraft)
+		return;
+
+	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+	if (!pLocalPlayer)
+		return;
+
+	ContainerMenu* pContainerMenu = pLocalPlayer->m_pContainerMenu;
+	if (!pContainerMenu)
+		return;
+
+	if (pContainerMenu->m_containerId != packet->m_containerId)
+		return;
+	
+	pContainerMenu->setItem(packet->m_slot, packet->m_item);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetDataPacket* packet)
+{
+	puts_ignorable("ContainerSetDataPacket");
+
+	if (!m_pMinecraft)
+		return;
+
+	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+	if (!pLocalPlayer)
+		return;
+
+	ContainerMenu* pContainerMenu = pLocalPlayer->m_pContainerMenu;
+	if (!pContainerMenu)
+		return;
+
+	if (pContainerMenu->m_containerId != packet->m_containerId)
+		return;
+
+	pContainerMenu->setData(packet->m_slot, packet->m_value);
+}
+
+void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, ContainerSetContentPacket* packet)
+{
+	puts_ignorable("ContainerSetContentPacket");
+
+	if (!m_pMinecraft)
+		return;
+
+	LocalPlayer* pLocalPlayer = m_pMinecraft->m_pLocalPlayer;
+	if (!pLocalPlayer)
+		return;
+
+	ContainerMenu* pContainerMenu = pLocalPlayer->m_pContainerMenu;
+	if (!pContainerMenu)
+		return;
+
+	if (pContainerMenu->m_containerId != packet->m_containerId)
+		return;
+
+	pContainerMenu->setAll(packet->m_items);
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LevelDataPacket* packet)

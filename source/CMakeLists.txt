@@ -186,37 +186,46 @@ add_library(reminecraftpe-core STATIC
     nbt/NbtIo.cpp
     nbt/StringTag.cpp
     nbt/Tag.cpp
+    network/packets/LoginPacket.cpp
+    network/packets/LoginStatusPacket.cpp
+    network/packets/ReadyPacket.cpp
+    network/packets/MessagePacket.cpp
+    network/packets/SetTimePacket.cpp
+    network/packets/StartGamePacket.cpp
+    network/packets/AddMobPacket.cpp
+    network/packets/AddPlayerPacket.cpp
+    network/packets/RemoveEntityPacket.cpp
+    network/packets/AddItemEntityPacket.cpp
+    network/packets/TakeItemEntityPacket.cpp
+    network/packets/MoveEntityPacket.cpp
+    network/packets/MoveEntityPacket_PosRot.cpp
+    network/packets/MovePlayerPacket.cpp
+    network/packets/PlaceBlockPacket.cpp
+    network/packets/RemoveBlockPacket.cpp
     network/packets/UpdateBlockPacket.cpp
+    network/packets/ExplodePacket.cpp
+    network/packets/LevelEventPacket.cpp
+    network/packets/TileEventPacket.cpp
+    network/packets/EntityEventPacket.cpp
     network/packets/RequestChunkPacket.cpp
+    network/packets/ChunkDataPacket.cpp
     network/packets/PlayerEquipmentPacket.cpp
     network/packets/InteractPacket.cpp
     network/packets/UseItemPacket.cpp
     network/packets/SetEntityDataPacket.cpp
+    network/packets/SetEntityMotionPacket.cpp
     network/packets/SetHealthPacket.cpp
-    network/packets/ChunkDataPacket.cpp
-    network/packets/LevelDataPacket.cpp
-    network/packets/PlaceBlockPacket.cpp
-    network/packets/LoginPacket.cpp
-    network/packets/LoginStatusPacket.cpp
-    network/packets/ReadyPacket.cpp
-    network/packets/SetTimePacket.cpp
-    network/packets/StartGamePacket.cpp
-    network/packets/RemoveEntityPacket.cpp
-    network/packets/AddItemEntityPacket.cpp
-    network/packets/TakeItemEntityPacket.cpp
-    network/packets/AddPlayerPacket.cpp
-    network/packets/AddMobPacket.cpp
-    network/packets/RemoveBlockPacket.cpp
-    network/packets/MovePlayerPacket.cpp
-    network/packets/MoveEntityPacket.cpp
-    network/packets/MoveEntityPacket_PosRot.cpp
-    network/packets/LevelEventPacket.cpp
-    network/packets/EntityEventPacket.cpp
-    network/packets/MessagePacket.cpp
     network/packets/AnimatePacket.cpp
     network/packets/RespawnPacket.cpp
     network/packets/SendInventoryPacket.cpp
     network/packets/DropItemPacket.cpp
+    network/packets/ContainerOpenPacket.cpp
+    network/packets/ContainerClosePacket.cpp
+    network/packets/ContainerSetSlotPacket.cpp
+    network/packets/ContainerSetDataPacket.cpp
+    network/packets/ContainerSetContentPacket.cpp
+    network/packets/ContainerAckPacket.cpp
+    network/packets/LevelDataPacket.cpp
     network/RakIO.cpp
     network/RakNetInstance.cpp
     network/MinecraftPackets.cpp

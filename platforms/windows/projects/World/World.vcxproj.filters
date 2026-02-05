@@ -1120,5 +1120,8 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.hpp">
       <Filter>Header Files\Item\Crafting</Filter>
     </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileEvent.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

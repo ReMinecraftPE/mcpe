@@ -61,6 +61,11 @@ public:
 	virtual void startStonecutting(const TilePos& pos);
 	virtual void startDestroying();
 	virtual void stopDestroying();
+	//virtual void openFurnace(FurnaceTileEntity* tileEntity);
+	virtual void openContainer(Container* container) {}
+	virtual void closeContainer() {}
+	//virtual void openTrap(DispenserTileEntity* tileEntity);
+	//virtual void openTextEdit(SignTileEntity* tileEntity);
 	virtual bool isLocalPlayer() const { return false; }
 	virtual void take(Entity* pEnt, int count) {}
 
@@ -69,7 +74,6 @@ public:
 	void attack(Entity* pEnt);
 	void useItem(ItemStack& item) const;
 	bool canDestroy(const Tile*) const;
-	void closeContainer();
 	void displayClientMessage(const std::string& msg);
 	float getDestroySpeed(const Tile* tile) const;
 	int getInventorySlot(int x) const;
