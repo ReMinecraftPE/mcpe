@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'linux-shaders' ]
+    branches: [ 'master' ]
 
 jobs:
     linux:
