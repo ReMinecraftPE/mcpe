@@ -643,7 +643,7 @@ bool LevelChunk::setTileAndData(const ChunkTilePos& pos, TileID tile, TileData d
 	tilePos.x += pos.x;
 	tilePos.z += pos.z;
 	m_pBlockData[index] = tile;
-	if (oldTile)
+	if (oldTile && Tile::tiles[oldTile])
 	{
 		Tile::tiles[oldTile]->onRemove(m_pLevel, tilePos);
 	}
