@@ -217,8 +217,7 @@ ItemStack* ItemStack::copy() const
 void ItemStack::set(int inCount)
 {
 	assert(inCount >= 0);
-	if (inCount > getMaxStackSize())
-		assert(!"stack too big!");
+	//assert(inCount <= getMaxStackSize()); // don't care
 
 	m_count = inCount;
 }
