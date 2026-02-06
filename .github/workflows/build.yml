@@ -275,6 +275,5 @@ jobs:
             with:
                 submodules: true
           - name: Build
-            run: |
-                msbuild projects\MinecraftClient.Win32\MinecraftClient.Win32.vcxproj /p:PlatformToolset=v143 /p:Configuration=Debug
+            run: ${{ '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat" && msbuild projects\MinecraftClient.Win32\MinecraftClient.Win32.vcxproj /p:PlatformToolset=v143 /p:Configuration=Debug' }}
             working-directory: platforms/windows
