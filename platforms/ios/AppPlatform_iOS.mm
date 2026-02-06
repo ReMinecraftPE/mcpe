@@ -194,6 +194,7 @@ void AppPlatform_iOS::showMessageModal(const MessageModal& msg)
 			break;
 	}
 
+	// this doesn't block the thread, it should
 	UIAlertView *alert = [[UIAlertView alloc]
 		initWithTitle:title
 		message:[NSString stringWithCString:msg.text.c_str()
