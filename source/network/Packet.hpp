@@ -104,7 +104,6 @@ enum MinecraftPacketIds
 	PACKET_SET_ENTITY_DATA,
 	PACKET_SET_HEALTH,
 	PACKET_ANIMATE,
-	PACKET_INTERACTION,
 	PACKET_RESPAWN,
 
 	PACKET_LEVEL_DATA = 200
@@ -147,7 +146,8 @@ enum MinecraftPacketIds
 	PACKET_SEND_INVENTORY,
 	PACKET_DROP_ITEM,
 
-	PACKET_LEVEL_DATA = 200
+	PACKET_LEVEL_DATA = 200,
+	PACKET_INTERACTION = 201 // temporary custom to keep this building before the packet is removed
 #endif
 };
 
