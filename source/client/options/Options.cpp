@@ -206,7 +206,7 @@ void Options::readPackArray(const std::string& str, ResourcePackStack& array)
 	{
 		// Search internally (within assets) first
 		location.fileSystem = ResourceLocation::APP_PACKAGE;
-		location.path = "/" + ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + fullarray[i];
+		location.path = ResourcePackRepository::RESOURCE_PACKS_PATH + "/" + fullarray[i];
 		std::string fullPath = location.getFullPath();
 		if (!isDirectory(fullPath.c_str()))
 		{

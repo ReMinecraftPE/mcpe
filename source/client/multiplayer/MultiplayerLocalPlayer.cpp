@@ -122,6 +122,15 @@ void MultiplayerLocalPlayer::drop(const ItemStack& item, bool randomly)
 #endif
 }
 
+void MultiplayerLocalPlayer::closeContainer()
+{
+#if NETWORK_PROTOCOL_VERSION >= 5
+    m_pMinecraft->m_pRakNetInstance->send(new ContainerClosePacket(m_pContainerMenu->m_containerId));
+#endif
+
+    LocalPlayer::closeContainer();
+}
+
 Player::BedSleepingProblem MultiplayerLocalPlayer::startSleepInBed(const TilePos& pos)
 {
 	// Client players receive sleep command from server via InteractionPacket

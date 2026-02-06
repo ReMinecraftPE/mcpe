@@ -38,7 +38,8 @@ Player::Player(Level* pLevel, GameType playerGameType) : Mob(pLevel)
 
 	m_pInventory = new Inventory(this);
 
-	m_pContainerMenu = m_pInventoryMenu = new InventoryMenu(m_pInventory);
+	m_pContainerMenu = nullptr;
+	m_pInventoryMenu = new InventoryMenu(m_pInventory);
 
 	setDefaultHeadHeight();
 
@@ -345,8 +346,32 @@ void Player::animateRespawn(Player*, Level*)
 void Player::attack(Entity* pEnt)
 {
 	int atkDmg = m_pInventory->getAttackDamage(pEnt);
-	if (atkDmg > 0)
-		pEnt->hurt(this, atkDmg);
+	if (atkDmg <= 0)
+		return;
+
+	if (m_vel.y < 0.0f)
+		atkDmg++;
+
+	pEnt->hurt(this, atkDmg);
+	
+	ItemStack& item = getSelectedItem();
+	bool isMob = pEnt->getDescriptor().hasCategory(EntityCategories::MOB);
+	if (!item.isEmpty() && isMob)
+	{
+		item.hurtEnemy((Mob*)pEnt, this);
+		if (item.m_count <= 0) {
+			item.snap(this);
+			removeSelectedItem();
+		}
+	}
+
+	// Needs to be uncommented if/when wolves are implemented
+	/*
+	if (isMob && pEnt->isAlive())
+	{
+		alertWolves(static_cast<Mob*>(pEnt), true);
+	}
+	*/
 }
 
 void Player::useItem(ItemStack& item) const
@@ -366,11 +391,6 @@ bool Player::canDestroy(const Tile* pTile) const
 		return item.canDestroySpecial(pTile);
 
 	return false;
-}
-
-void Player::closeContainer()
-{
-
 }
 
 void Player::displayClientMessage(const std::string& msg)
@@ -658,7 +678,21 @@ void Player::touch(Entity* pEnt)
 
 void Player::interact(Entity* pEnt)
 {
-	pEnt->interact(this);
+	if (pEnt->interact(this))
+		return;
+
+	bool isMob = pEnt->getDescriptor().hasCategory(EntityCategories::MOB);
+	if (!isMob)
+		return;
+
+	ItemStack& item = getSelectedItem();
+	if (!item.isEmpty()) {
+		item.interactEnemy(static_cast<Mob*>(pEnt));
+		if (item.m_count <= 0) {
+			item.snap(this);
+			removeSelectedItem();
+		} 
+	} 
 }
 
 ItemStack& Player::getSelectedItem() const

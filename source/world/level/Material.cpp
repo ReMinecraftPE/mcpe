@@ -115,6 +115,7 @@ void Material::initMaterials()
 	cake       = new Material();
 
 	web        = (new Material())
+		->setToolTypes(Tool::SWORD)
 		->setNotAlwaysDestroyable();
 }
 

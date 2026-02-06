@@ -5,28 +5,10 @@
 #include "world/Container.hpp"
 #include "world/ContainerListener.hpp"
 
-void ContainerMenu::addSlot(Slot* slot)
-{
-    slot->m_index = m_slots.size();
-    m_slots.push_back(slot);
-    m_lastSlots.push_back(ItemStack::EMPTY);
-}
-
-void ContainerMenu::addSlotListener(ContainerListener* listener)
-{
-    m_listeners.push_back(listener);
-
-    std::vector<ItemStack> snapshot;
-    for (std::vector<Slot*>::iterator it = m_slots.begin(); it != m_slots.end(); ++it)
-        snapshot.push_back((*it)->getItem());
-
-    listener->refreshContainer(this, snapshot);
-    broadcastChanges();
-}
-
-ContainerMenu::ContainerMenu() :
-    m_changeUid(0),
-    m_containerId(0)
+ContainerMenu::ContainerMenu(Container::Type containerType)
+    : m_changeUid(0)
+    , m_containerId(0)
+    , m_containerType(containerType)
 {
 }
 
@@ -38,6 +20,23 @@ ContainerMenu::~ContainerMenu()
 
     for (std::vector<Slot*>::iterator it = m_slots.begin(); it != m_slots.end(); ++it)
         delete (*it);
+}
+
+void ContainerMenu::addSlot(Slot* slot)
+{
+    slot->m_index = m_slots.size();
+    m_slots.push_back(slot);
+    m_lastSlots.push_back(ItemStack::EMPTY);
+}
+
+void ContainerMenu::addSlotListener(ContainerListener* listener)
+{
+    m_listeners.push_back(listener);
+
+    // Not done on PE
+    /*std::vector<ItemStack> snapshot = copyItems();
+    listener->refreshContainer(this, snapshot);
+    broadcastChanges();*/
 }
 
 void ContainerMenu::sendData(int id, int value)

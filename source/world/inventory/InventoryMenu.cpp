@@ -4,10 +4,11 @@
 #include "ArmorSlot.hpp"
 #include "world/item/crafting/Recipes.hpp"
 
-InventoryMenu::InventoryMenu(Inventory* inventory, bool active) :
-    m_pCraftSlots(nullptr),
-    m_pResultSlots(nullptr),
-    m_bActive(active) 
+InventoryMenu::InventoryMenu(Inventory* inventory, bool active)
+    : ContainerMenu(Container::CONTAINER)
+    , m_pCraftSlots(nullptr)
+    , m_pResultSlots(nullptr)
+    , m_bActive(active) 
 {
     m_pCraftSlots = new CraftingContainer(this, 2, 2);
     m_pResultSlots = new ResultContainer;

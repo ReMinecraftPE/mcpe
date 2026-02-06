@@ -221,6 +221,9 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\SingleInputRecipe.cpp" />
     <ClCompile Include="$(MC_ROOT)\source\world\tile\CraftingTableTile.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\BowItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\WeaponItem.cpp" />
+    <ClCompile Include="$(MC_ROOT)\source\world\item\DyePowderItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp" />
@@ -387,6 +390,10 @@
     <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\ShapelessRecipe.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\SingleInputRecipe.hpp" />
     <ClInclude Include="$(MC_ROOT)\source\world\tile\CraftingTableTile.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileEvent.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\BowItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\WeaponItem.hpp" />
+    <ClInclude Include="$(MC_ROOT)\source\world\item\DyePowderItem.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBT\NBT.vcxproj">

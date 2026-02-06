@@ -85,6 +85,9 @@
 	},
 
 	"item_in_hand:entity_alphatest_cull": {
+	},
+
+	"item_in_hand_color:item_in_hand": {
 		"defines": ["USE_VERTEX_COLORS"]
 	},
 

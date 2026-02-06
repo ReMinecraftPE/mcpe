@@ -50,7 +50,10 @@ bool Bush::canSurvive(const Level* level, const TilePos& pos) const
 void Bush::checkAlive(Level* level, const TilePos& pos)
 {
 	if (!canSurvive(level, pos))
+	{
+		spawnResources(level, pos, level->getData(pos));
 		level->setTile(pos, TILE_AIR);
+	}
 }
 
 void Bush::neighborChanged(Level* level, const TilePos& pos, TileID tile)

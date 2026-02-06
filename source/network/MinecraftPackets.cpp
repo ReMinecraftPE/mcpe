@@ -30,8 +30,8 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_ADD_PLAYER:
 			return new AddPlayerPacket;
 		case PACKET_REMOVE_PLAYER:
-			// Was never implemented
-			throw std::bad_cast();
+			// We never implemented this, but actual PE sends this instead of RemoveEntity
+			return nullptr;
 		case PACKET_REMOVE_ENTITY:
 			return new RemoveEntityPacket;
 		case PACKET_ADD_ITEM_ENTITY:
@@ -51,10 +51,11 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 		case PACKET_UPDATE_BLOCK:
 			return new UpdateBlockPacket;
 		case PACKET_EXPLODE:
-			// Not implemented
-			throw std::bad_cast();
+			return new ExplodePacket;
 		case PACKET_LEVEL_EVENT:
 			return new LevelEventPacket;
+		case PACKET_TILE_EVENT:
+			return new TileEventPacket;
 		case PACKET_ENTITY_EVENT:
 			return new EntityEventPacket;
 		case PACKET_REQUEST_CHUNK:
@@ -69,6 +70,8 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 			return new UseItemPacket;
 		case PACKET_SET_ENTITY_DATA:
 			return new SetEntityDataPacket;
+		case PACKET_SET_ENTITY_MOTION:
+			return new SetEntityMotionPacket;
 		case PACKET_SET_HEALTH:
 			return new SetHealthPacket;
 		case PACKET_ANIMATE:
@@ -81,6 +84,18 @@ Packet* MinecraftPackets::createPacket(MinecraftPacketIds id)
 			return new SendInventoryPacket;
 		case PACKET_DROP_ITEM:
 			return new DropItemPacket;
+		case PACKET_CONTAINER_OPEN:
+			return new ContainerOpenPacket;
+		case PACKET_CONTAINER_CLOSE:
+			return new ContainerClosePacket;
+		case PACKET_CONTAINER_SET_SLOT:
+			return new ContainerSetSlotPacket;
+		case PACKET_CONTAINER_SET_DATA:
+			return new ContainerSetDataPacket;
+		case PACKET_CONTAINER_SET_CONTENT:
+			return new ContainerSetContentPacket;
+		case PACKET_CONTAINER_ACK:
+			return new ContainerAckPacket;
 
 		case PACKET_LEVEL_DATA:
 			return new LevelDataPacket;

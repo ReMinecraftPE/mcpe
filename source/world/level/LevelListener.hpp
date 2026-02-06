@@ -11,6 +11,7 @@
 #include <string>
 #include "world/entity/TripodCamera.hpp"
 #include "world/level/LevelEvent.hpp"
+#include "world/level/TileEvent.hpp"
 
 class LevelListener
 {
@@ -28,7 +29,8 @@ public:
 	virtual void playStreamingMusic(const std::string&, int, int, int) {}
 	virtual void entityAdded(Entity*) {}
 	virtual void entityRemoved(Entity*) {}
-	virtual void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data) {}
+	virtual void levelEvent(const LevelEvent& event) {}
+	virtual void tileEvent(const TileEvent& event) {}
 	virtual void timeChanged(uint32_t time) {}
 };
 

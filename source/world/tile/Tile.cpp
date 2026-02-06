@@ -1077,7 +1077,7 @@ int Tile::getDirectSignal(const Level* pLevel, const TilePos& pos, Facing::Name 
 	return 0;
 }
 
-void Tile::triggerEvent(Level* pLevel, const TilePos& pos, int a, int b)
+void Tile::triggerEvent(Level* pLevel, const TileEvent& event)
 {
 
 }

@@ -19,12 +19,12 @@ void DropItemPacket::write(RakNet::BitStream& bs)
 	bs.Write((unsigned char)PACKET_DROP_ITEM);
 	bs.Write(m_entityId);
 	bs.Write<int8_t>(m_bRandomly);
-	PacketUtil::WriteItemStack(m_item, &bs, false);
+	PacketUtil::WriteItemStack(m_item, bs, false);
 }
 
 void DropItemPacket::read(RakNet::BitStream& bs)
 {
 	bs.Read(m_entityId);
 	bs.Read((int8_t&)m_bRandomly);
-	m_item = PacketUtil::ReadItemStack(&bs, false);
+	m_item = PacketUtil::ReadItemStack(bs, false);
 }

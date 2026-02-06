@@ -74,11 +74,12 @@ public: // Methods
 	virtual bool useOn(ItemStack*, Level*, const TilePos& pos, Facing::Name face) const;
 	virtual bool useOn(ItemStack*, Player*, Level*, const TilePos& pos, Facing::Name face) const;
 	virtual float getDestroySpeed(ItemStack*, const Tile*) const;
-	virtual ItemStack* use(ItemStack*, Level*, Player*) const;
+	virtual ItemStack* use(ItemStack*, Level*, Mob*) const;
 	virtual int getMaxStackSize() const;
 	virtual TileData getLevelDataForAuxValue(int x) const;
 	virtual bool isStackedByData() const;
 	virtual int getMaxDamage() const;
+	virtual Item* setMaxDamage(int);
 	virtual void hurtEnemy(ItemStack*, Mob*) const;
 	virtual void mineBlock(ItemStack*, const TilePos& pos, Facing::Name face, Mob* mob) const;
 	virtual int getAttackDamage(Entity*) const;

@@ -3,18 +3,18 @@
 #include <vector>
 #include <set>
 #include "world/item/ItemStack.hpp"
+#include "world/Container.hpp"
 #include "client/player/input/MouseDevice.hpp"
 
 class Player;
 class Inventory;
 class Slot;
-class Container;
 class ContainerListener;
 
 class ContainerMenu
 {
 public:
-    ContainerMenu();
+    ContainerMenu(Container::Type containerType);
     virtual ~ContainerMenu();
 
 public:
@@ -25,6 +25,7 @@ public:
     virtual void removed(Player* player);
     virtual void slotsChanged(Container* container);
 
+    // Called getItems in PE and Java
     std::vector<ItemStack> copyItems();
     Slot* getSlotFor(Container* container, int index);
     Slot* getSlot(int index);
@@ -57,5 +58,6 @@ protected:
 
 public:
     int m_containerId;
+    Container::Type m_containerType;
     std::vector<Slot*> m_slots;
 };

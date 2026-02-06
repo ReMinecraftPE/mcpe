@@ -23,9 +23,8 @@ const RenderContextOGL::VertexFieldFormat RenderContextOGL::vertexFieldFormats[]
     { GL_SHORT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1      : VERTEX_FIELD_TYPE_SINT16_2_N
 #endif // FEATURE_GFX_SHADERS
 #else
-    // @TODO: why are we normalizing these? what does this do in the glVertexAttribPointer call?
-    { GL_FLOAT,          2, GL_TRUE  }, // VERTEX_FIELD_UV0      : VERTEX_FIELD_TYPE_FLOAT32_2
-    { GL_FLOAT,          2, GL_TRUE  }  // VERTEX_FIELD_UV1      : VERTEX_FIELD_TYPE_FLOAT32_2
+    { GL_FLOAT,          2, GL_FALSE  }, // VERTEX_FIELD_UV0      : VERTEX_FIELD_TYPE_FLOAT32_2
+    { GL_FLOAT,          2, GL_FALSE  }  // VERTEX_FIELD_UV1      : VERTEX_FIELD_TYPE_FLOAT32_2
 #endif // ENH_GFX_COMPACT_UVS
 };
 

@@ -264,11 +264,23 @@ void RakNetInstance::runEvents(NetEventCallback& callback)
 	}
 }
 
-// this broadcasts a packet to all other connected peers
 void RakNetInstance::send(Packet* packet)
 {
+	send(*packet);
+	delete packet;
+}
+
+void RakNetInstance::send(const RakNet::RakNetGUID& guid, Packet* packet)
+{
+	send(guid, *packet);
+	delete packet;
+}
+
+// this broadcasts a packet to all other connected peers
+void RakNetInstance::send(Packet& packet)
+{
 	RakNet::BitStream bs;
-	packet->write(bs);
+	packet.write(bs);
 
     uint32_t result;
 	if (m_bIsHost)
@@ -293,20 +305,15 @@ void RakNetInstance::send(Packet* packet)
     {
         LOG_E("Failed to send packet!");
     }
-
-	delete packet;
 }
 
 // this sends a specific peer a message
-void RakNetInstance::send(const RakNet::RakNetGUID& guid, Packet* packet)
+void RakNetInstance::send(const RakNet::RakNetGUID& guid, Packet& packet)
 {
 	RakNet::BitStream bs;
-	packet->write(bs);
+	packet.write(bs);
 
 	m_pRakPeerInterface->Send(&bs, HIGH_PRIORITY, RELIABLE, 0, guid, false);
-
-	delete packet;
-	// return 1300; --- ida tells me this returns 1300. Huh
 }
 
 void RakNetInstance::stopPingForHosts()

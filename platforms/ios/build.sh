@@ -10,17 +10,12 @@ targets='armv7-apple-ios3.1 arm64-apple-ios7.0'
 # Must be kept in sync with the cmake executable name
 bin='reminecraftpe'
 
-platformdir='platforms/ios'
+platformdir=$PWD
 entitlements="$platformdir/minecraftpe.entitlements"
 
 workdir="$PWD/build/work"
 sdk="$workdir/ios-sdk" # must be kept in sync with the -isysroot arguement in ios-cc.sh
-[ -d "$sdk" ] && mv "$sdk" ios-sdk-backup
-[ -d "$workdir/bin" ] && mv "$workdir/bin" bin-backup
-rm -rf build
 mkdir -p "$workdir"
-[ -d ios-sdk-backup ] && mv ios-sdk-backup "$sdk"
-[ -d bin-backup ] && mv bin-backup "$workdir/bin"
 cd "$workdir"
 
 # Increase this if we ever make a change to the SDK, for example
@@ -91,6 +86,7 @@ if [ -n "$outdated_toolchain" ]; then
     printf '\nBuilding ld64 and strip...\n\n'
 
     cctools_commit=12e2486bc81c3b2be975d3e117a9d3ab6ec3970c
+    rm -rf cctools-port-*
     wget -O- "https://github.com/Un1q32/cctools-port/archive/$cctools_commit.tar.gz" | tar -xz
 
     cd "cctools-port-$cctools_commit/cctools"
@@ -104,32 +100,32 @@ if [ -n "$outdated_toolchain" ]; then
     cp misc/strip ../../bin/cctools-strip
     cp misc/lipo ../../bin/lipo
     cd ../..
-    printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
+    rm -rf "cctools-port-$cctools_commit"
 
     if [ "$(uname -s)" != "Darwin" ] && ! command -v ldid >/dev/null; then
         printf '\nBuilding ldid...\n\n'
 
         ldid_commit=ef330422ef001ef2aa5792f4c6970d69f3c1f478
+        rm -rf ldid-*
         wget -O- "https://github.com/ProcursusTeam/ldid/archive/$ldid_commit.tar.gz" | tar -xz
 
         cd "ldid-$ldid_commit"
         make CXX=clang++
         mv ldid ../bin
         cd ..
+        rm -rf "ldid-$ldid_commit"
     fi
+    printf '%s' "$toolchainver" > "$workdir/bin/toolchainver"
 fi
 
 # checks if the linker we build successfully linked with LLVM and supports LTO,
 # and enables LTO in the cmake build if it does.
 if [ -z "$DEBUG" ]; then
-    if printf 'int main(void) {return 0;}' | "$target-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
+    if printf 'int main(void) {return 0;}' | REMCPE_TARGET=armv7-apple-ios3.1 "$platformdir/ios-cc" -xc - -flto -o "$workdir/testout" >/dev/null 2>&1; then
         lto='-DCMAKE_C_FLAGS=-flto -DCMAKE_CXX_FLAGS=-flto'
     fi
     rm -f "$workdir/testout"
 fi
-
-# go to the root of the project
-cd ../../../..
 
 if [ -n "$DEBUG" ]; then
     build=Debug
@@ -141,11 +137,10 @@ for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
     export REMCPE_TARGET="$target"
 
-    rm -rf build
-    mkdir build
-    cd build
+    mkdir -p "build-$target"
+    cd "build-$target"
 
-    cmake .. \
+    cmake "$platformdir/../.." \
         -DCMAKE_BUILD_TYPE="$build" \
         -DCMAKE_SYSTEM_NAME=Darwin \
         -DREMCPE_PLATFORM=ios \
@@ -153,23 +148,22 @@ for target in $targets; do
         -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
         -DCMAKE_AR="$(command -v "$ar")" \
         -DCMAKE_RANLIB="$(command -v "$ranlib")" \
-        -DCMAKE_C_COMPILER="$PWD/../$platformdir/ios-cc" \
-        -DCMAKE_CXX_COMPILER="$PWD/../$platformdir/ios-c++" \
+        -DCMAKE_C_COMPILER="$platformdir/ios-cc" \
+        -DCMAKE_CXX_COMPILER="$platformdir/ios-c++" \
         -DCMAKE_FIND_ROOT_PATH="$sdk/usr" \
         -DWERROR="${WERROR:-OFF}" \
         $lto
     make -j"$ncpus"
-    mv "$bin" "$workdir/$bin-$target"
 
     cd ..
 done
 
-lipo -create "$workdir/$bin"-* -output "build/$bin"
-[ -z "$DEBUG" ] && "$strip" -no_code_signature_warning "build/$bin"
+lipo -create build-*/"$bin" -output "$bin"
+[ -z "$DEBUG" ] && [ -z "$NOSTRIP" ] && "$strip" -no_code_signature_warning "$bin"
 if command -v ldid >/dev/null; then
-    ldid -S"$entitlements" "build/$bin"
+    ldid -S"$entitlements" "$bin"
 else
-    codesign -s - --entitlements "$entitlements" "build/$bin"
+    codesign -s - --entitlements "$entitlements" "$bin"
 fi
 
-[ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh"
+[ -n "$REMCPE_NO_IPA" ] || "$workdir/../../build-ipa.sh" "$PWD/$bin"

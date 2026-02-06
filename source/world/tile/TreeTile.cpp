@@ -65,7 +65,7 @@ void TreeTile::onRemove(Level* level, const TilePos& pos)
 				if (data & 4)
 					continue;
 
-				level->setDataNoUpdate(pos + tp, data | 4);
+				level->setDataNoUpdate(pos + tp, data | 8);
 			}
 		}
 	}

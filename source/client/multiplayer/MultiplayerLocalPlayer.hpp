@@ -18,6 +18,7 @@ public:
 	void hurtTo(int newHealth) override;
 	void die(Entity* pCulprit) override;
 	void drop(const ItemStack& item, bool randomly = false) override;
+	void closeContainer() override;
 
 	BedSleepingProblem startSleepInBed(const TilePos& pos) override;
 	void stopSleepInBed(bool resetCounter, bool update, bool setSpawn) override;

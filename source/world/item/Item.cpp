@@ -17,10 +17,14 @@
 #include "TilePlanterItem.hpp"
 #include "RocketItem.hpp"
 #include "ToolItem.hpp"
+#include "BowItem.hpp"
+#include "DyePowderItem.hpp"
+#include "WeaponItem.hpp"
 
 #define ITEM(x) ((x) - 256)
 
 #define NEW_ITEM(id) (new Item(ITEM(id)))
+#define NEW_WEAPON_ITEM(id, tier) (new WeaponItem(ITEM(id), tier))
 #define NEW_TOOL_ITEM(id, toolType, tier) (new ToolItem(ITEM(id), toolType, tier))
 #define NEW_X_ITEM(Type, id, arg) (new Type(ITEM(id), arg))
 #define NEW_X_ITEMN(Type, id) (new Type(ITEM(id)))
@@ -113,18 +117,18 @@ void Item::initItems()
 	g_bInittedItems = true;
 
 	// @TODO: Add missing items
-	Item::bow = NEW_ITEM(ITEM_BOW)
+	Item::bow = NEW_X_ITEMN(BowItem, ITEM_BOW)
 		->setIcon(5, 1)
 		->setDescriptionId("bow");
 
-	Item::sword_wood = NEW_ITEM(ITEM_SWORD_WOOD)
+	Item::sword_wood = NEW_WEAPON_ITEM(ITEM_SWORD_WOOD, Tier::WOOD)
 		->setIcon(0, 4)
-		->setDescriptionId("swordWood")
-		->handEquipped();
+		->setDescriptionId("swordWood");
 
 	Item::pickAxe_wood = NEW_TOOL_ITEM(ITEM_PICKAXE_WOOD, Tool::PICKAXE, Tier::WOOD)
 		->setIcon(0, 6)
-		->setDescriptionId("pickaxeWood");
+		->setDescriptionId("pickaxeWood")
+		->handEquipped();
 
 	Item::hatchet_wood = NEW_TOOL_ITEM(ITEM_HATCHET_WOOD, Tool::HATCHET, Tier::WOOD)
 		->setIcon(0, 7)
@@ -141,10 +145,9 @@ void Item::initItems()
 		->setDescriptionId("hoeWood")
 		->handEquipped();
 
-	Item::sword_stone = NEW_ITEM(ITEM_SWORD_STONE)
+	Item::sword_stone = NEW_WEAPON_ITEM(ITEM_SWORD_STONE, Tier::STONE)
 		->setIcon(1, 4)
-		->setDescriptionId("swordStone")
-		->handEquipped();
+		->setDescriptionId("swordStone");
 
 	Item::pickAxe_stone = NEW_TOOL_ITEM(ITEM_PICKAXE_STONE, Tool::PICKAXE, Tier::STONE)
 		->setIcon(1, 6)
@@ -166,10 +169,9 @@ void Item::initItems()
 		->setDescriptionId("hoeStone")
 		->handEquipped();
 
-	Item::sword_iron = NEW_ITEM(ITEM_SWORD_IRON)
+	Item::sword_iron = NEW_WEAPON_ITEM(ITEM_SWORD_IRON, Tier::IRON)
 		->setIcon(2, 4)
-		->setDescriptionId("swordIron")
-		->handEquipped();
+		->setDescriptionId("swordIron");
 
 	Item::pickAxe_iron = NEW_TOOL_ITEM(ITEM_PICKAXE_IRON, Tool::PICKAXE, Tier::IRON)
 		->setIcon(2, 6)
@@ -191,10 +193,9 @@ void Item::initItems()
 		->setDescriptionId("hoeIron")
 		->handEquipped();
 
-	Item::sword_gold = NEW_ITEM(ITEM_SWORD_GOLD)
+	Item::sword_gold = NEW_WEAPON_ITEM(ITEM_SWORD_GOLD, Tier::GOLD)
 		->setIcon(4, 4)
-		->setDescriptionId("swordGold")
-		->handEquipped();
+		->setDescriptionId("swordGold");
 
 	Item::pickAxe_gold = NEW_TOOL_ITEM(ITEM_PICKAXE_GOLD, Tool::PICKAXE, Tier::GOLD)
 		->setIcon(4, 6)
@@ -216,10 +217,9 @@ void Item::initItems()
 		->setDescriptionId("hoeGold")
 		->handEquipped();
 
-	Item::sword_emerald = NEW_ITEM(ITEM_SWORD_EMERALD)
+	Item::sword_emerald = NEW_WEAPON_ITEM(ITEM_SWORD_EMERALD, Tier::EMERALD)
 		->setIcon(3, 4)
-		->setDescriptionId("swordDiamond")
-		->handEquipped();
+		->setDescriptionId("swordDiamond");
 
 	Item::pickAxe_emerald = NEW_TOOL_ITEM(ITEM_PICKAXE_EMERALD, Tool::PICKAXE, Tier::EMERALD)
 		->setIcon(3, 6)
@@ -497,7 +497,7 @@ void Item::initItems()
 		->setIcon(5, 4)
 		->setDescriptionId("fishingRod");
 
-	Item::dye_powder = NEW_ITEM(ITEM_DYE_POWDER)
+	Item::dye_powder = NEW_X_ITEMN(DyePowderItem, ITEM_DYE_POWDER)
 		->setIcon(14, 4)
 		->setDescriptionId("dyePowder");
 
@@ -602,7 +602,7 @@ float Item::getDestroySpeed(ItemStack* instance, const Tile* tile) const
 	return 1.0f;
 }
 
-ItemStack* Item::use(ItemStack* instance, Level* level, Player* player) const
+ItemStack* Item::use(ItemStack* instance, Level* level, Mob* user) const
 {
 	return instance;
 }
@@ -610,6 +610,12 @@ ItemStack* Item::use(ItemStack* instance, Level* level, Player* player) const
 int Item::getMaxStackSize() const
 {
 	return m_maxStackSize;
+}
+
+Item* Item::setMaxDamage(int damage)
+{
+	m_maxDamage = damage;
+	return this;
 }
 
 TileData Item::getLevelDataForAuxValue(int x) const

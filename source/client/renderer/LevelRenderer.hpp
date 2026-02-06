@@ -139,7 +139,7 @@ public:
 	void addParticle(const std::string&, const Vec3& pos, const Vec3& dir) override;
 	void playSound(const std::string& name, const Vec3& pos, float volume, float pitch) override;
 	void skyColorChanged() override;
-	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data) override;
+	void levelEvent(const LevelEvent& event) override;
 
 	void cull(Culler*, float);
 	void deleteChunks();

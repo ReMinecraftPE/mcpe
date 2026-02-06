@@ -97,6 +97,7 @@ private:
      int m_ambientSoundTime;
 	 Vec3 m_lastSentPos;
 	 Vec2 m_lastSentRot;
+	 Vec3 m_lastSentVel;
 
 public:
 	int m_invulnerableDuration;

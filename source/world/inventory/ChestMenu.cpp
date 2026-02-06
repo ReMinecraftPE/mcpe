@@ -2,7 +2,8 @@
 #include "Slot.hpp"
 
 ChestMenu::ChestMenu(Container* inventory, Container* container)
-    : m_pContainer(container)
+    : ContainerMenu(Container::CONTAINER)
+    , m_pContainer(container)
 {
     int rows = m_pContainer->getContainerSize() / 9;
     int verticalOffset = (rows - 4) * 18;

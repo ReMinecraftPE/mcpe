@@ -1,4 +1,6 @@
 // __multiversion__
+#include "ShaderConstants.h"
+
 
 uniform MAT4 WORLDVIEWPROJ;
 uniform vec4 FOG_COLOR;

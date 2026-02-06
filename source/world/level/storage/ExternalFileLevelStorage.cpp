@@ -238,16 +238,9 @@ LevelChunk* ExternalFileLevelStorage::load(Level* level, const ChunkPos& pos)
 	pBitStream->ResetReadPointer();
 
 	TileID* pData = new TileID[16 * 16 * 128];
-	if (!pData)
-		return nullptr;
 	pBitStream->Read((char*)pData, 16 * 16 * 128 * sizeof(TileID));
 
 	LevelChunk* pChunk = new LevelChunk(level, pData, pos);
-	if (!pChunk)
-	{
-		delete[] pData;
-		return nullptr;
-	}
 	pBitStream->Read((char*)pChunk->m_tileData.m_data, 16 * 16 * 128 / 2);
 
 	if (m_storageVersion >= 1)
@@ -312,11 +305,6 @@ void ExternalFileLevelStorage::loadEntities(Level* level, LevelChunk* chunk)
 	if (size <= (unsigned int)(v7 - v6) && size > 0)
 	{
 		uint8_t* data = new uint8_t[size];
-		if (!data)
-		{
-			fclose(pFile);
-			return;
-		}
 		if (fread(data, 1, size, pFile) != size)
 		{
 			fclose(pFile);

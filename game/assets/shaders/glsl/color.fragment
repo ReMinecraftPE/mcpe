@@ -1,4 +1,6 @@
 // __multiversion__
+#include "ShaderConstants.h"
+
 
 varying vec4 color;
 

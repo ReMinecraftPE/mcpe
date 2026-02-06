@@ -46,7 +46,7 @@ bool DoorTile::use(Level* level, const TilePos& pos, Player* player)
 		// @BUG: marking the wrong tiles as dirty? No problem because setData sends an update immediately anyways
 		level->setTilesDirty(pos.below(), pos);
 
-		level->levelEvent(player, LevelEvent::SOUND_DOOR, pos);
+		level->levelEvent(LevelEvent(LevelEvent::SOUND_DOOR, pos, 0, player));
 	}
 
 	return true;
