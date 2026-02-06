@@ -134,7 +134,7 @@ else
     build=Release
 fi
 
-# Delete old build files if we need to.
+# Delete old build files if build settings change or if the SDK changes.
 printf '%s\n%s\n' "$DEBUG" "$CLANG" > buildsettings
 if [ -n "$outdated_sdk" ] || ! cmp -s buildsettings lastbuildsettings; then
     rm -rf build-*
