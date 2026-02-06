@@ -269,7 +269,8 @@ void ShaderOGL::reflectShaderAttributes()
             attrList.push_back(attr);
 
             xglEnableVertexAttribArray(location);
-            xglVertexAttribPointer(0, 1, GL_UNSIGNED_BYTE, 0, 1, this);
+            // from 0.12.1, they removed this by 0.16.1, I have no idea what this is supposed to do, but it seems bad
+            //xglVertexAttribPointer(0, 1, GL_UNSIGNED_BYTE, 0, 1, this);
 
             //LOG_I("Reflected attribute: name=%s location=%d", name, location);
         }

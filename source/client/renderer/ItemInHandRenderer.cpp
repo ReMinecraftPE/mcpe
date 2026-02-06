@@ -267,7 +267,11 @@ void ItemInHandRenderer::renderItem(const Entity& entity, const ItemStack& item,
             t.vertexUV(1.0f, i * C_ONE_PIXEL, -C_ONE_PIXEL, texU_1, Mth::Lerp(texV_2, texV_1, i * C_ONE_PIXEL));
         }
         
+#ifdef ENH_SHADE_HELD_TILES
+        t.draw(m_materials.item_in_hand_color);
+#else
         t.draw(m_materials.item_in_hand);
+#endif
     }
 }
 

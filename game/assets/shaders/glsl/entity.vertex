@@ -1,45 +1,34 @@
 // __multiversion__
+#include "ShaderConstants.h"
+#include "entity.h"
+
 uniform MAT4 WORLDVIEWPROJ;
 uniform MAT4 WORLD;
 uniform vec4 TILE_LIGHT_COLOR;
+#ifdef USE_OVERLAY
 uniform vec4 OVERLAY_COLOR;
+#endif
+#ifdef USE_COLOR_MASK
 uniform vec4 CHANGE_COLOR;
+#endif
 uniform vec4 FOG_COLOR;
 uniform vec2 FOG_CONTROL;
 uniform float RENDER_DISTANCE;
+#ifdef USE_UV_ANIM
 uniform vec2 UV_ANIM;
+#endif
+#ifdef GLINT
 uniform vec2 UV_OFFSET;
 uniform vec2 UV_ROTATION;
 uniform vec2 GLINT_UV_SCALE;
+#endif
 
 attribute POS4 POSITION;
 attribute vec2 TEXCOORD_0;
-attribute vec2 TEXCOORD_1; // attribute padding (see PR #235)
 attribute vec4 NORMAL;
 
 #if defined(COLOR_BASED) || defined(USE_VERTEX_COLORS)
 	attribute vec4 COLOR;
-#endif
-
-varying vec2 uv;
-varying vec4 light;
-varying vec4 fogColor;
-
-#ifdef USE_VERTEX_COLORS
-	varying vec4 vertexColor;
-#endif
-
-#ifdef USE_OVERLAY
-	varying vec4 overlayColor;
-#endif
-
-#ifdef USE_COLOR_MASK
-	varying vec4 changeColor;
-#endif
-
-#ifdef GLINT
-	varying vec2 layer1UV;
-	varying vec2 layer2UV;
 #endif
 
 const float AMBIENT = 0.45;
@@ -81,7 +70,6 @@ vec2 calculateLayerUV(float offset, float rotation) {
 
 void main()
 {
-    vec2 _unused = TEXCOORD_1;
     POS4 pos = WORLDVIEWPROJ * POSITION;
     gl_Position = pos;
 
@@ -106,10 +94,9 @@ void main()
 	light *= COLOR;
 #else
     uv = TEXCOORD_0;
-#endif
-
 #ifdef USE_UV_ANIM
 	uv.xy += UV_ANIM.xy;
+#endif
 #endif
 
 #ifdef GLINT
