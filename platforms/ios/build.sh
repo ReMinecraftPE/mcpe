@@ -31,6 +31,7 @@ if ! [ -d "$sdk" ] || [ "$(cat "$sdk/sdkver" 2>/dev/null)" != "$sdkver" ]; then
     mv iPhoneOS8.0.sdk "$sdk"
     rm iPhoneOS8.0.sdk.tar.lzma
     printf '%s' "$sdkver" > "$sdk/sdkver"
+    outdated_sdk=1
 fi
 
 if command -v nproc >/dev/null; then
@@ -132,6 +133,13 @@ if [ -n "$DEBUG" ]; then
 else
     build=Release
 fi
+
+# Delete old build files if we need to.
+printf '%s\n%s\n' "$DEBUG" "$CLANG" > buildsettings
+if [ -n "$outdated_sdk" ] || ! cmp -s buildsettings lastbuildsettings; then
+    rm -rf build-*
+fi
+mv buildsettings lastbuildsettings
 
 for target in $targets; do
     printf '\nBuilding for %s\n\n' "$target"
