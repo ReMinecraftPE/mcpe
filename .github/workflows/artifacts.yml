@@ -243,7 +243,7 @@ jobs:
               signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
               keyStorePassword: 123456
               alias: alias_name
-              customArgs: --v1-signing-enabled,true,--v2-signing-enabled,true
+              # customArgs: --v1-signing-enabled,true,--v2-signing-enabled,true
             env:
               BUILD_TOOLS_VERSION: 33.0.1
           - uses: actions/upload-artifact@v6
