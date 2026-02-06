@@ -241,15 +241,16 @@ jobs:
             with:
               releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
               signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
-              keyStorePassword: 123456
-              alias: alias_name
-              # customArgs: --v1-signing-enabled,true,--v2-signing-enabled,true
+              keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+              alias: remcpe
             env:
               BUILD_TOOLS_VERSION: 33.0.1
+          - name: Rename APK
+            run: mv ${{ steps.sign_apk.outputs.signedReleaseFile }} ReMCPE.apk
           - uses: actions/upload-artifact@v6
             with:
               name: Android (${{ matrix.name }})
-              path: ${{steps.sign_apk.outputs.signedReleaseFile}}
+              path: ReMCPE.apk
 
     mingw:
         strategy:
