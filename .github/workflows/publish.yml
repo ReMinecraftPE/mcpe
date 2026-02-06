@@ -180,9 +180,11 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                include:
-                  - name: Native
-                    directory: platforms/android/project
+                include: # TODO: switch to exclusively native android once it's fixed.
+                  # - name: Native
+                  #   directory: platforms/android/project
+                  - name: SDL 2
+                    directory: platforms/sdl/sdl2/android
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -201,7 +203,8 @@ jobs:
                 cd ${{ matrix.directory }}
                 ./gradlew assembleRelease
                 cd $GITHUB_WORKSPACE
-                mv platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ReMCPE.apk
+                # mv platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ReMCPE.apk
+                mv platforms/sdl/sdl2/android/app/build/outputs/apk/release/app-release-unsigned.apk ReMCPE.apk
           - uses: alexellis/upload-assets@0.4.1
             env:
               GITHUB_TOKEN: ${{ github.token }}

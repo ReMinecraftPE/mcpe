@@ -214,7 +214,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                include:
+                include: # TODO: switch to exclusively native android once it's fixed.
                   # - name: Native
                   #   directory: platforms/android/project
                   - name: SDL 2
