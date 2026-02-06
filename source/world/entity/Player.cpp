@@ -525,7 +525,7 @@ void Player::interact(Entity* pEnt)
 		return;
 
 	ItemStack& item = getSelectedItem();
-	if (!item.isEmpty() && isMob) {
+	if (!item.isEmpty()) {
 		item.interactEnemy(static_cast<Mob*>(pEnt));
 		if (item.m_count <= 0) {
 			item.snap(this);
