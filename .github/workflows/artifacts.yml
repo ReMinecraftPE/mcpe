@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'master' ]
+    branches: [ 'android-artifact' ]
 
 jobs:
     linux:
@@ -215,8 +215,10 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                  - name: Native
-                    directory: platforms/android/project
+                  # - name: Native
+                  #   directory: platforms/android/project
+                  - name: SDL 2
+                    directory: platforms/sdl/sdl2/android
         name: Android (${{ matrix.name }})
         runs-on: ubuntu-24.04
         steps:
@@ -237,7 +239,8 @@ jobs:
           - uses: actions/upload-artifact@v6
             with:
               name: Android (${{ matrix.name }})
-              path: platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk
+              path: platforms/sdl/sdl2/android/app/build/outputs/apk/release/app-release-unsigned.apk
+              # path: platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk
 
     mingw:
         strategy:
