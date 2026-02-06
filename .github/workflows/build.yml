@@ -276,5 +276,5 @@ jobs:
                 submodules: true
           - uses: ilammy/msvc-dev-cmd@v1
           - name: Build
-            run: msbuild projects\MinecraftClient.Win32\MinecraftClient.Win32.vcxproj /p:PlatformToolset=v143 /p:Configuration=Debug'
+            run: msbuild projects\MinecraftClient.Win32\MinecraftClient.Win32.vcxproj /p:PlatformToolset=v143 /p:Configuration=Debug
             working-directory: platforms/windows
