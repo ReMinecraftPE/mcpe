@@ -87,7 +87,7 @@ public:
 	static bool GetMouseButtonState(UINT iMsg, WPARAM wParam);
 	static Keyboard::KeyState GetKeyState(UINT iMsg);
 
-	void showMessageModal(const struct MessageModal& msg) override;
+	void showMessageModal(const MessageModal& msg) override;
 
 private:
 	HICON m_cursor;

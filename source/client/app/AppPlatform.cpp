@@ -404,7 +404,7 @@ void AppPlatform::endProfileDataWrite(unsigned int playerId)
 {
 }
 
-void AppPlatform::showMessageModal(const struct MessageModal& msg)
+void AppPlatform::showMessageModal(const MessageModal& msg)
 {
 	FILE *stream;
 	switch(msg.type)

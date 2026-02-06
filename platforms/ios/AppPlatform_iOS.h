@@ -48,7 +48,7 @@ public:
 	// Also add these to allow saving options.
 	bool hasFileSystemAccess() override;
 
-	void showMessageModal(const struct MessageModal& msg) override;
+	void showMessageModal(const MessageModal& msg) override;
 private:
 	Logger* m_pLogger;
 	SoundSystem* m_pSoundSystem;
