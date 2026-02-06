@@ -409,13 +409,13 @@ void AppPlatform::showMessageModal(struct MessageModal msg)
 	FILE *stream;
 	switch(msg.type)
 	{
-		case MessageModal::ERROR:
+		case MessageModal::TYPE_ERROR:
 			stream = stderr;
 			break;
 		default:
 			LOG_W("Unhandled MessageModal type");
 			// fall through
-		case MessageModal::INFO:
+		case MessageModal::TYPE_INFO:
 			stream = stdout;
 			break;
 	}

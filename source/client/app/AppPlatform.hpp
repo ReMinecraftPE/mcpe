@@ -47,8 +47,8 @@ public:
 	{
 		enum Type
 		{
-			INFO,
-			ERROR
+			TYPE_INFO,
+			TYPE_ERROR
 		};
 
 		Type type;

@@ -200,14 +200,14 @@ void AppPlatform_sdl2::showMessageModal(struct MessageModal msg)
 
 	switch (msg.type)
 	{
-		case MessageModal::ERROR:
+		case MessageModal::TYPE_ERROR:
 			title = "Error";
 			flags = SDL_MESSAGEBOX_ERROR;
 			break;
 		default:
 			LOG_W("Unhandled MessageModal type");
 			// fall through
-		case MessageModal::INFO:
+		case MessageModal::TYPE_INFO:
 			title = "Info";
 			flags = SDL_MESSAGEBOX_INFORMATION;
 			break;
