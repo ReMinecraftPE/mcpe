@@ -404,10 +404,10 @@ void AppPlatform::endProfileDataWrite(unsigned int playerId)
 {
 }
 
-void AppPlatform::showMessageModal(struct MessageModal struct)
+void AppPlatform::showMessageModal(struct MessageModal msg)
 {
 	FILE *stream;
-	switch(struct.type)
+	switch(msg.type)
 	{
 		case MessageModal::ERROR:
 			stream = stderr;
@@ -420,5 +420,5 @@ void AppPlatform::showMessageModal(struct MessageModal struct)
 			break;
 	}
 
-	fputs(struct.test.c_str(), stream);
+	fputs(msg.text.c_str(), stream);
 }
