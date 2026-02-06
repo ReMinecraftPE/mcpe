@@ -265,3 +265,16 @@ jobs:
                 /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
           - name: Pack cache
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
+
+    windows:
+        name: MSVC
+        runs-on: windows-2025
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Build
+            run: |
+                msbuild projects\MinecraftClient.Win32\MinecraftClient.Win32.vcxproj /p:PlatformToolset=v143 /p:Configuration=Debug
+            working-directory: platforms/windows
