@@ -356,7 +356,11 @@ void ContainerScreen::slotClicked(int mouseX, int mouseY, MouseButtonType button
 
 void ContainerScreen::keyPressed(int keyCode)
 {
-    if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
+    if (m_pMinecraft->getOptions()->isKey(KM_INVENTORY, keyCode))
+    {
+        m_pMinecraft->handleBack(false);
+    }
+    else if (m_pMinecraft->getOptions()->isKey(KM_CONTAINER_QUICKMOVE, keyCode) && _useController())
     {
         slotClicked(m_menuPointer.x, m_menuPointer.y, MOUSE_BUTTON_LEFT, true);
     }

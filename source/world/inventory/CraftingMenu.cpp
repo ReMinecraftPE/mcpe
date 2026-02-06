@@ -4,9 +4,10 @@
 #include "world/item/crafting/Recipes.hpp"
 #include "world/level/Level.hpp"
 
-CraftingMenu::CraftingMenu(Inventory* inventory, const TilePos& tilePos, Level* level) :
-    m_pos(tilePos),
-    m_pLevel(level)
+CraftingMenu::CraftingMenu(Inventory* inventory, const TilePos& tilePos, Level* level)
+    : ContainerMenu(Container::CRAFTING)
+    , m_pos(tilePos)
+    , m_pLevel(level)
 {
     m_pCraftSlots = new CraftingContainer(this, 3, 3);
     m_pResultSlots = new ResultContainer();

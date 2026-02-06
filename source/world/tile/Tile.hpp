@@ -20,6 +20,7 @@
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
 #include "world/Facing.hpp"
 #include "world/level/TilePos.hpp"
+#include "world/level/TileEvent.hpp"
 #include "world/phys/Vec3.hpp"
 #include "world/phys/HitResult.hpp"
 
@@ -112,7 +113,7 @@ public: // virtual functions
 	virtual std::string getName() const;
 	virtual std::string getDescriptionId() const;
 	virtual Tile* setDescriptionId(std::string const&);
-	virtual void triggerEvent(Level*, const TilePos& pos, int, int);
+	virtual void triggerEvent(Level*, const TileEvent& event);
 	virtual Tile* setSoundType(Tile::SoundType const&);
 	virtual Tile* setLightBlock(int);
 	virtual Tile* setLightEmission(float);

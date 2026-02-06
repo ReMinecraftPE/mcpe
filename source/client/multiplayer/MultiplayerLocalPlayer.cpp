@@ -120,6 +120,15 @@ void MultiplayerLocalPlayer::drop(const ItemStack& item, bool randomly)
 #endif
 }
 
+void MultiplayerLocalPlayer::closeContainer()
+{
+#if NETWORK_PROTOCOL_VERSION >= 5
+    m_pMinecraft->m_pRakNetInstance->send(new ContainerClosePacket(m_pContainerMenu->m_containerId));
+#endif
+
+    LocalPlayer::closeContainer();
+}
+
 void MultiplayerLocalPlayer::refreshContainer(ContainerMenu* menu, const std::vector<ItemStack>& items)
 {
 }

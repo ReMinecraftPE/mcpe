@@ -12,6 +12,7 @@
 #include "network/packets/MovePlayerPacket.hpp"
 #include "network/packets/PlayerEquipmentPacket.hpp"
 #include "client/gui/screens/inventory/CraftingScreen.hpp"
+#include "client/gui/screens/inventory/ChestScreen.hpp"
 
 int dword_250ADC, dword_250AE0;
 
@@ -110,6 +111,35 @@ void LocalPlayer::startCrafting(const TilePos& pos)
 	}
 }
 
+/*void LocalPlayer::openFurnace(FurnaceTileEntity* furnace)
+{
+	// PE 0.3.2 doesn't let you cook in creative mode
+	m_pMinecraft->setScreen(new FurnaceScreen(m_pInventory, furnace));
+}*/
+
+void LocalPlayer::openContainer(Container* container)
+{
+	// PE 0.3.2 doesn't let you open chests in creative mode
+	m_pMinecraft->setScreen(new ChestScreen(m_pInventory, container));
+}
+
+void LocalPlayer::closeContainer()
+{
+	Player::closeContainer();
+	m_pMinecraft->m_pGameMode->handleCloseInventory(m_pContainerMenu->m_containerId, this);
+	m_pMinecraft->setScreen(nullptr);
+}
+
+/*void LocalPlayer::openTrap(DispenserTileEntity* tileEntity)
+{
+	m_pMinecraft->setScreen(new TrapScreen(m_pInventory, tileEntity));
+}*/
+
+/*void LocalPlayer::openTextEdit(SignTileEntity* tileEntity)
+{
+	m_pMinecraft->setScreen(new TextEditScreen(tileEntity));
+}*/
+
 void LocalPlayer::reset()
 {
 	Player::reset();
@@ -179,13 +209,6 @@ void LocalPlayer::calculateFlight(const Vec3& pos)
 		f8 = f7;
 	field_C18 += f8;
 	field_BF0.z = f8 * 10.0f;
-}
-
-void LocalPlayer::closeContainer()
-{
-	Player::closeContainer();
-	m_pMinecraft->m_pGameMode->handleCloseInventory(m_pContainerMenu->m_containerId, this);
-	m_pMinecraft->setScreen(nullptr);
 }
 
 void LocalPlayer::respawn()

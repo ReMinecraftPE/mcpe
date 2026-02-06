@@ -47,15 +47,23 @@ public:
 	void handle(const RakNet::RakNetGUID&, PlaceBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, RemoveBlockPacket*) override;
 	void handle(const RakNet::RakNetGUID&, UpdateBlockPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ExplodePacket*) override;
 	void handle(const RakNet::RakNetGUID&, LevelEventPacket*) override;
+	void handle(const RakNet::RakNetGUID&, TileEventPacket*) override;
 	void handle(const RakNet::RakNetGUID&, EntityEventPacket*) override;
 	void handle(const RakNet::RakNetGUID&, ChunkDataPacket*) override;
 	void handle(const RakNet::RakNetGUID&, PlayerEquipmentPacket*) override;
 	void handle(const RakNet::RakNetGUID&, InteractPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetEntityDataPacket*) override;
+	void handle(const RakNet::RakNetGUID&, SetEntityMotionPacket*) override;
 	void handle(const RakNet::RakNetGUID&, SetHealthPacket*) override;
 	void handle(const RakNet::RakNetGUID&, AnimatePacket*) override;
 	void handle(const RakNet::RakNetGUID&, RespawnPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerOpenPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerClosePacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetSlotPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetDataPacket*) override;
+	void handle(const RakNet::RakNetGUID&, ContainerSetContentPacket*) override;
 	void handle(const RakNet::RakNetGUID&, LevelDataPacket*) override;
 	
 	bool areAllChunksLoaded();

@@ -33,6 +33,7 @@ class Dimension;
 class Level;
 class LevelListener;
 class RakNetInstance;
+class Packet;
 
 typedef std::vector<Entity*> EntityVector;
 typedef std::vector<AABB> AABBVector;
@@ -106,7 +107,8 @@ public:
 	void setTilesDirty(const TilePos& min, const TilePos& max);
 	void entityAdded(Entity* pEnt);
 	void entityRemoved(Entity* pEnt);
-	void levelEvent(Player* pPlayer, LevelEvent::ID eventId, const TilePos& pos, LevelEvent::Data data = 0);
+	void levelEvent(const LevelEvent& event);
+	void tileEvent(const TileEvent& event);
 	void lightColumnChanged(int x, int z, int y1, int y2);
 	bool containsFireTile(const AABB&);
 	bool containsAnyLiquid(const AABB&);
@@ -140,6 +142,8 @@ public:
 	bool isUnobstructed(AABB*) const;
 	bool mayInteract(Player* player, const TilePos& pos) const;
 	bool mayPlace(TileID tid, const TilePos& pos, bool b) const;
+	void broadcastAll(Packet* packet);
+	void broadcastToAllInRange(Packet* packet, const Vec3& pos, float range, Player* avoid = nullptr);
 	void broadcastEntityEvent(const Entity& entity, Entity::EventType::ID eventId);
 	void removeListener(LevelListener*);
 	void addListener(LevelListener*);

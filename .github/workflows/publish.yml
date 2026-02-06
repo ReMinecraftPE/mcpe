@@ -1,0 +1,285 @@
+name: 'Build Artifacts'
+
+on:
+  release:
+    types: [created]
+
+jobs:
+    linux:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL 2
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    packages: 'libsdl2-dev'
+        name: Linux (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    libopenal-dev \
+                    zlib1g-dev \
+                    ${{ matrix.packages }}
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    ${{ matrix.flags }}
+                cmake --build .
+                strip reminecraftpe
+          - name: Pack release
+            run: |
+                mkdir ReMCPE
+                mv game/assets build/reminecraftpe ReMCPE
+                tar -czf ReMCPE-Linux-x86_64.tar.gz ReMCPE
+          - uses: alexellis/upload-assets@0.4.1
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
+            with:
+              asset_paths: '["ReMCPE-Linux-x86_64.tar.gz"]'
+
+    linux32:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: SDL 2
+                    flags: '-DREMCPE_PLATFORM=sdl2 -DREMCPE_GFX_API=OGL'
+                    packages: 'libsdl2-dev:i386'
+        name: Linux 32-bit (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo dpkg --add-architecture i386
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    gcc-multilib g++-multilib \
+                    libopenal-dev:i386 \
+                    zlib1g-dev:i386 \
+                    ${{ matrix.packages }}
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    -DCMAKE_C_FLAGS='-m32' \
+                    -DCMAKE_CXX_FLAGS='-m32' \
+                    ${{ matrix.flags }}
+                cmake --build .
+                strip reminecraftpe
+          - name: Pack release
+            run: |
+                mkdir ReMCPE
+                mv game/assets build/reminecraftpe ReMCPE
+                tar -czf ReMCPE-Linux-x86.tar.gz ReMCPE
+          - uses: alexellis/upload-assets@0.4.1
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
+            with:
+              asset_paths: '["ReMCPE-Linux-x86.tar.gz"]'
+
+    macos:
+        strategy:
+            fail-fast: false
+            matrix: # TODO add PPC build
+                include:
+                  - name: SDL 2
+                    backend_name: 'SDL2'
+                    packages: 'libsdl2'
+        name: macOS (${{ matrix.name }})
+        runs-on: macos-15
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Install MacPorts
+            uses: melusina-org/setup-macports@v1
+          - name: Install Dependencies
+            run: |
+                port selfupdate
+                port install ${{ matrix.packages }} +universal
+          - name: Build macOS Archive
+            run: |
+                cd platforms/macos/projects/Minecraft
+                xcodebuild -scheme "MinecraftClient.${{ matrix.backend_name }}" \
+                -archivePath $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive \
+                -sdk macosx \
+                -configuration "Release [${{ matrix.backend_name }}] (Default)" \
+                -destination generic/platform=macOS \
+                GCC_PREPROCESSOR_DEFINITIONS='$(GCC_PREPROCESSOR_DEFINITIONS)' \
+                -quiet \
+                clean archive
+                mkdir ../../../../ReMCPE
+                mv $RUNNER_TEMP/GitHubActions_MacOS_${{ matrix.backend_name }}.xcarchive/Products/usr/local/bin/MinecraftClient.${{ matrix.backend_name }} ../../../../ReMCPE/reminecraftpe
+                strip ../../../../ReMCPE/reminecraftpe
+                mv ../../../../game/assets ../../../../ReMCPE
+          - name: Pack release
+            run: zip -r ReMCPE-macOS.zip ReMCPE
+          - uses: alexellis/upload-assets@0.4.1
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
+            with:
+              asset_paths: '["ReMCPE-macOS.zip"]'
+
+    ios:
+        name: iOS
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                wget https://apt.llvm.org/llvm.sh
+                sudo bash llvm.sh 21
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    cmake \
+                    clang-21 \
+                    libplist-utils \
+                    libplist-dev \
+                    libssl-dev
+
+          - name: Build iOS binary
+            run: ./platforms/ios/build.sh
+            env:
+              CLANG: clang-21
+              AR: llvm-ar-21
+              RANLIB: llvm-ranlib-21
+              LLVM_CONFIG: llvm-config-21
+          - uses: alexellis/upload-assets@0.4.1
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
+            with:
+              asset_paths: '["platforms/ios/build/ReMCPE.ipa"]'
+
+    android:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: Native
+                    directory: platforms/android/project
+        name: Android (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Setup JDK
+            uses: actions/setup-java@v4
+            with:
+                java-version: '17'
+                distribution: 'temurin'
+                cache: gradle
+          - name: Build
+            run: |
+                cd ${{ matrix.directory }}
+                ./gradlew assembleRelease
+                cd $GITHUB_WORKSPACE
+                mv platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk ReMCPE.apk
+          - uses: alexellis/upload-assets@0.4.1
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
+            with:
+              asset_paths: '["ReMCPE.apk"]'
+
+    mingw:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                  - name: Win32 (OGL)
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain.cmake'
+                    arch: x86_64
+                  - name: Win32 (OGL) 32-bit
+                    flags: '-DREMCPE_PLATFORM=windows -DREMCPE_GFX_API=OGL -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64-toolchain-32bit.cmake'
+                    arch: x86
+        name: MinGW-w64 (${{ matrix.name }})
+        runs-on: ubuntu-24.04
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Install Dependencies
+            run: |
+                sudo apt-get update
+                sudo apt-get install --no-install-recommends -y \
+                    build-essential \
+                    cmake ninja-build \
+                    mingw-w64
+          - name: Build
+            run: |
+                mkdir build
+                cd build
+                cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+                    ${{ matrix.flags }}
+                cmake --build .
+                x86_64-w64-mingw32-strip reminecraftpe.exe
+          - name: Pack release
+            run: |
+                mkdir ReMCPE
+                mv game/assets build/reminecraftpe.exe ReMCPE
+                zip -r ReMCPE-Windows-${{ matrix.arch }}.zip ReMCPE
+          - uses: alexellis/upload-assets@0.4.1
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
+            with:
+              asset_paths: '["ReMCPE-Windows-${{ matrix.arch }}.zip"]'
+
+    switch:
+        name: Nintendo Switch
+        runs-on: ubuntu-24.04
+        container:
+            image: devkitpro/devkita64@sha256:7ca6fb93e8f576a65bbfe07b537b67664a974e06eabe4e94359e3e026a0f0b0c
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+            with:
+                submodules: true
+          - name: Build Switch binary
+            run: |
+                mkdir build
+                cd build
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake .. -GNinja \
+                    -DCMAKE_BUILD_TYPE=Release \
+                    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
+                /opt/devkitpro/portlibs/switch/bin/aarch64-none-elf-cmake --build .
+                mv platforms/sdl/sdl2/reminecraftpe.nro .
+          - name: Pack release
+            run: |
+                mkdir ReMCPE
+                mv game/assets build/reminecraftpe.nro ReMCPE
+                zip -r ReMCPE-Switch.zip ReMCPE
+          - uses: alexellis/upload-assets@0.4.1
+            env:
+              GITHUB_TOKEN: ${{ github.token }}
+            with:
+              asset_paths: '["ReMCPE-Switch.zip"]'

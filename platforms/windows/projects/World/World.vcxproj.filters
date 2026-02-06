@@ -632,6 +632,12 @@
     <ClCompile Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.cpp">
       <Filter>Source Files\Item\Crafting</Filter>
     </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\BowItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MC_ROOT)\source\world\item\WeaponItem.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MC_ROOT)\source\world\entity\Entity.hpp">
@@ -1119,6 +1125,15 @@
     </ClInclude>
     <ClInclude Include="$(MC_ROOT)\source\world\item\crafting\FurnaceRecipes.hpp">
       <Filter>Header Files\Item\Crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\level\TileEvent.hpp">
+      <Filter>Header Files\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\BowItem.hpp">
+      <Filter>Header Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MC_ROOT)\source\world\item\WeaponItem.hpp">
+      <Filter>Header Files\Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

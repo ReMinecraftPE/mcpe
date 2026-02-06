@@ -2,29 +2,37 @@
 #include "common/Logger.hpp"
 #include "world/level/Level.hpp"
 
-Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId, const RakNet::RakNetGUID* guid)
+Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId)
 {
-    if (entityId != -1)
+    Entity* pEntity = level.getEntity(entityId);
+    if (pEntity)
     {
-        Entity* pEntity = level.getEntity(entityId);
-        if (pEntity)
-        {
-            if (pEntity->isPlayer())
-                return (Player*)pEntity;
-        }
+        if (pEntity->isPlayer())
+            return (Player*)pEntity;
     }
+    
+    return nullptr;
+}
 
-    if (!guid || level.m_players.empty())
-        return nullptr;
-
+Player* NetEventCallback::_findPlayer(Level& level, const RakNet::RakNetGUID& guid)
+{
     for (size_t i = 0; i < level.m_players.size(); i++)
     {
         Player* pPlayer = level.m_players[i];
-        if (pPlayer && pPlayer->m_guid == *guid)
+        if (pPlayer && pPlayer->m_guid == guid)
             return pPlayer;
     }
     
     return nullptr;
+}
+
+Player* NetEventCallback::_findPlayer(Level& level, Entity::ID entityId, const RakNet::RakNetGUID& guid)
+{
+    Player* pPlayer = _findPlayer(level, entityId);
+    if (pPlayer)
+        return pPlayer;
+
+    return _findPlayer(level, guid);
 }
 
 void NetEventCallback::handle(Level& level, const RakNet::RakNetGUID& guid, RespawnPacket* pkt)
