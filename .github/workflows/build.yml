@@ -267,7 +267,7 @@ jobs:
             run: cd ~ && tar cJf ccache.tar.xz .cache/ccache
 
     windows:
-        name: MSVC
+        name: MSVC (Win32 (OGL))
         runs-on: windows-2025
         steps:
           - name: Checkout Repository
