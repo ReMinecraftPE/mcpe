@@ -2,7 +2,7 @@ name: 'Build Artifacts'
 
 on:
   push:
-    branches: [ 'master' ]
+    branches: [ 'android-signing' ]
 
 jobs:
     linux:
@@ -236,11 +236,20 @@ jobs:
             run: |
                 cd ${{ matrix.directory }}
                 ./gradlew assembleRelease
+          - uses: upup-company/apksigner-android@v1
+            id: sign_apk
+            with:
+              releaseDirectory: ${{ matrix.directory }}/app/build/outputs/apk/release
+              signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
+              keyStorePassword: 123456
+              alias: alias_name
+              customArgs: --v1-signing-enabled,true,--v2-signing-enabled,true
+            env:
+              BUILD_TOOLS_VERSION: 33.0.1
           - uses: actions/upload-artifact@v6
             with:
               name: Android (${{ matrix.name }})
-              path: platforms/sdl/sdl2/android/app/build/outputs/apk/release/app-release-unsigned.apk
-              # path: platforms/android/project/app/build/outputs/apk/release/app-release-unsigned.apk
+              path: ${{steps.sign_apk.outputs.signedReleaseFile}}
 
     mingw:
         strategy:
